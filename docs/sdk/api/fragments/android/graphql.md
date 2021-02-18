@@ -82,32 +82,55 @@ When prompted, select **GraphQL**. This will open the AWS AppSync console for yo
 
 ### Import SDK and Config
 
-To use AppSync in your Android studio project, modify the project's `build.gradle` with the following dependency in the build script:
+To use AppSync in your Android studio project, modify the project's `build.gradle` by adding the  Maven plugin repositories, and the AppSync Gradle plugin to `dependencies`. 
 
 ```groovy
-classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.9.+'
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+        // ...
+    }
+
+    dependencies {
+        classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:3.1.2'
+        // ...
+    }
+    // ...
+}
+
+allprojects {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+        // ...
+    }
+    // ...
+}
 ```
 
-Next, in the app's build.gradle add in a plugin of `apply plugin: 'com.amazonaws.appsync'` and a dependency of `implementation 'com.amazonaws:aws-android-sdk-appsync:2.9.+'`. For example:
+
+Next, in the app's build.gradle add in a plugin of `apply plugin: 'com.amazonaws.appsync'` and a dependency of `implementation 'com.amazonaws:aws-android-sdk-appsync:3.1.3'`. For example:
 
 
 ```groovy
-apply plugin: 'com.android.application'
-apply plugin: 'com.amazonaws.appsync' // REQUIRED
-
+plugins {
+    id 'com.android.application'
+    id 'com.amazonaws.appsync'    // REQUIRED
+}
 android {
     // Typical items
 }
 dependencies {
     // REQUIRED: Typical dependencies
-    implementation 'com.amazonaws:aws-android-sdk-appsync:2.9.+'
-    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
-    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+    implementation 'com.amazonaws:aws-android-sdk-appsync:3.1.3'
 }
 ```
 
 
-Finally, update your AndroidManifest.xml with updates to `<uses-permissions>` for network calls and offline state. Also, add a `<service>` entry under `<application>` for `MqttService` to use subscriptions:
+Finally, update your AndroidManifest.xml with updates to `<uses-permissions>` for network calls and offline state.
 
 ```xml
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -127,13 +150,12 @@ Finally, update your AndroidManifest.xml with updates to `<uses-permissions>` fo
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
 
-            <service android:name="org.eclipse.paho.android.service.MqttService" />
-
             <!--other code-->
         </application>
 ```
+### Build your Project
 
-**Build your project** ensuring there are no issues.
+Do not skip this step!  Run `gradlew build`, or build your application via Android Studio.  This will trigger the AppSync Gradle plugin that you added above to generate Java classes in your build folder based off of your schema files.   These classes will be needed before proceeding to the steps below.
 
 ### Client Initialization
 
