@@ -61,7 +61,7 @@ export function downloadBlob(blob, filename) {
 // usage
 async function download() {
   const result = await Storage.get(fileKey, { download: true });
-  downloadBlob(result.Body, 'somefilename');
+  downloadBlob(result.Body, 'filename');
 }
 ```
 
