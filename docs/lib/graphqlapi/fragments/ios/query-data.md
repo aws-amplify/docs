@@ -63,7 +63,7 @@ func getTodo() -> AnyCancellable {
 
 ## List Query
 
-You can get the list of items that match a condition that you specify using the `where` parameter in `Amplify.API.query`
+You can get the list of items using `.paginatedList` with optional parameters `limit` and `where` to specific the page size and condition. By default, the page size is 1000.
 
 <amplify-block-switcher>
 
@@ -73,7 +73,7 @@ You can get the list of items that match a condition that you specify using the 
 func listTodos() {
     let todo = Todo.keys
     let predicate = todo.name == "my first todo" && todo.description == "todo description"
-    Amplify.API.query(request: .paginatedList(Todo.self, where: predicate)) { event in
+    Amplify.API.query(request: .paginatedList(Todo.self, where: predicate, limit: 1000)) { event in
         switch event {
         case .success(let result):
             switch result {
@@ -97,7 +97,7 @@ func listTodos() {
 func listTodos() -> AnyCancellable {
     let todo = Todo.keys
     let predicate = todo.name == "my first todo" && todo.description == "todo description"
-    let sink = Amplify.API.query(request: .paginatedList(Todo.self, where: predicate))
+    let sink = Amplify.API.query(request: .paginatedList(Todo.self, where: predicate, limit: 1000))
         .resultPublisher
         .sink {
             if case let .failure(error) = $0 {
@@ -108,7 +108,6 @@ func listTodos() -> AnyCancellable {
         switch result {
             case .success(let todos):
                 print("Successfully retrieved list of todos: \(todos)")
-
             case .failure(let error):
                 print("Got failed result with \(error.errorDescription)")
             }
@@ -121,153 +120,86 @@ func listTodos() -> AnyCancellable {
 
 </amplify-block-switcher>
 
-> **Note**: This approach will only return up to the first 1,000 items.  To change this limit or make requests for additional results beyond this limit, use *pagination* as discussed below.
+### List subsequent pages of items
 
-## List subsequent pages of items
-
-A list query only returns the first 1,000 items by default, so for large data sets, you'll need to paginate through the results.  After receiving a page of results, you can check if there are subsequent pages and obtain the next page. The page size is configurable as well, as in the example below.
-
-<amplify-block-switcher>
-
-<amplify-block name="Listener (iOS 11+)">
+For large data sets, you'll need to paginate through the results. After receiving the first page of results, you can check if there is a subsequent page and obtain the next page.
 
 ```swift
-import class Amplify.List
+var todos: [Todo] = []
+var currentPage: List<Todo>?
 
-class TodosViewModel: ObservableObject {
-    @Published var todos = [Todo]()
-    var ref: List<Todo>?
-    
-    init() {
-        Amplify.API.query(request: .paginatedList(Todo.self, limit: 5)) { (result) in
+func listTodos() {
+    let todo = Todo.keys
+    let predicate = todo.name == "my first todo" && todo.description == "todo description"
+    Amplify.API.query(request: .paginatedList(Todo.self, where: predicate, limit: 1000)) { event in
+        switch event {
+        case .success(let result):
             switch result {
-            case .success(let graphQLResponse):
-                switch graphQLResponse {
-                case .success(let todos):
-                    self.ref = todos
-                    DispatchQueue.main.async {
-                        self.todos.append(contentsOf: todos.elements)
-                    }
-                case .failure(let error):
-                    print("\(error)")
-                }
+            case .success(let todos):
+                print("Successfully retrieved list of todos: \(todos)")
+                self.currentPage = todos
+                self.todos.append(contentsOf: todos)
             case .failure(let error):
-                print("\(error)")
+                print("Got failed result with \(error.errorDescription)")
             }
+        case .failure(let error):
+            print("Got failed event with error \(error)")
         }
     }
-    
-    func getNextPage() {
-        guard let ref = ref, ref.hasNextPage() else {
-            return
-        }
-        ref.getNextPage { (result) in
+}
+
+func loadMore() {
+    if let current = currentPage, current.hasNextPage() {
+        current.getNextPage { result in
             switch result {
-            case .success(let nextPage):
-                self.ref = nextPage
-                DispatchQueue.main.async {
-                    self.todos.append(contentsOf: nextPage.elements)
-                }
-            case .failure(let error):
-                print("\(error)")
-            }
-        }
-    }
-    
-    func getAllPages() {
-        guard let ref = ref else {
-            return
-        }
-        if ref.hasNextPage() {
-            ref.getNextPage { (result) in
-                switch result {
-                case .success(let nextPage):
-                    self.ref = nextPage
-                    DispatchQueue.main.async {
-                        self.todos.append(contentsOf: nextPage.elements)
-                    }
-                    self.getAllPages()
-                case .failure(let error):
-                    print("\(error)")
-                }
+            case .success(let todos):
+                self.todos.append(contentsOf: todos)
+                self.currentPage = todos
+            case .failure(let coreError):
+                print("Failed to get next page \(coreError)")
             }
         }
     }
 }
 ```
 
-</amplify-block>
+## List all pages
 
-<amplify-block name="Combine (iOS 13+)">
+If you want to get all pages, first get the initial page and then use it to recursively check if there is a subsequent page before retrieving the next page, aggregating the data from each page into the `todos` array.
 
 ```swift
-import class Amplify.List
-import Combine
+var todos: [Todo] = []
+var currentPage: List<Todo>?
 
-class TodosViewModel: ObservableObject {
-    @Published var todos = [Todo]()
-    var ref: List<Todo>?
-    var sink: AnyCancellable?
-    
-    init() {
-        sink = Amplify.API.query(request: .paginatedList(Todo.self, limit: 5))
-            .resultPublisher
-            .sink { (error) in
-                if case let .failure(error) = error {
-                    print("\(error)")
-                }
-            } receiveValue: { (result) in
+func getAllPages() {
+    if currentPage == nil {
+        Amplify.API.query(request: .paginatedList(Todo.self)) { event in
+            switch event {
+            case .success(let result):
                 switch result {
                 case .success(let todos):
-                    self.ref = todos
-                    DispatchQueue.main.async {
-                        self.todos.append(contentsOf: todos.elements)
-                    }
-                case .failure(let error):
-                    print("\(error)")
-                }
-            }
-    }
-
-    func getNextPage() {
-        guard let ref = ref, ref.hasNextPage() else {
-            return
-        }
-        ref.getNextPage { (result) in
-            switch result {
-            case .success(let nextPage):
-                self.ref = nextPage
-                DispatchQueue.main.async {
-                    self.todos.append(contentsOf: nextPage.elements)
-                }
-            case .failure(let error):
-                print("\(error)")
-            }
-        }
-    }
-    
-    func getAllPages() {
-        guard let ref = ref else {
-            return
-        }
-        if ref.hasNextPage() {
-            ref.getNextPage { (result) in
-                switch result {
-                case .success(let nextPage):
-                    self.ref = nextPage
-                    DispatchQueue.main.async {
-                        self.todos.append(contentsOf: nextPage.elements)
-                    }
+                    print("Successfully retrieved list of todos: \(todos)")
+                    self.currentPage = todos
+                    self.todos.append(contentsOf: todos)
                     self.getAllPages()
                 case .failure(let error):
-                    print("\(error)")
+                    print("Got failed result with \(error.errorDescription)")
                 }
+            case .failure(let error):
+                print("Got failed event with error \(error)")
+            }
+        }
+    } else if let current = currentPage, current.hasNextPage() {
+        current.getNextPage { result in
+            switch result {
+            case .success(let todos):
+                self.todos.append(contentsOf: todos)
+                self.currentPage = todos
+                self.getAllPages()
+            case .failure(let coreError):
+                print("Failed to get next page \(coreError)")
             }
         }
     }
 }
 ```
-
-</amplify-block>
-
-</amplify-block-switcher>
