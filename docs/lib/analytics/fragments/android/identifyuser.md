@@ -71,7 +71,7 @@ UserProfile profile = UserProfile.builder()
     .email("name@email.com")
     .build();
 
-String userId = Amplify.Auth.getCurrentUser().getUserId();
+String userId = RxAmplify.Auth.getCurrentUser().getUserId();
 
 RxAmplify.Analytics.identifyUser(userId, profile);
 ```
