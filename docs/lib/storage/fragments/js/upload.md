@@ -74,7 +74,7 @@ Storage.put('test.txt', 'My Content', {
 Upload an image in the browser:
 
 ```javascript
-function onChange(e) {
+async function onChange(e) {
   const file = e.target.files[0];
   try {
     await Storage.put(file.name, file, {
