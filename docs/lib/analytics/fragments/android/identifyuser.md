@@ -53,4 +53,28 @@ Amplify.Analytics.identifyUser(userId, profile)
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+```java
+UserProfile.Location location = UserProfile.Location.builder()
+    .latitude(47.606209)
+    .longitude(-122.332069)
+    .postalCode("98122")
+    .city("Seattle")
+    .region("WA")
+    .country("USA")
+    .build();
+
+UserProfile profile = UserProfile.builder()
+    .location(location)
+    .name("name")
+    .email("name@email.com")
+    .build();
+
+String userId = RxAmplify.Auth.getCurrentUser().getUserId();
+
+RxAmplify.Analytics.identifyUser(userId, profile);
+```
+
+</amplify-block>
 </amplify-block-switcher>
