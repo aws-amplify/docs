@@ -22,3 +22,4 @@ Amplify Flutter currently supports the following social sign-in providers:
   * Google
   * Facebook
   * Login With Amazon
+  * Apple
