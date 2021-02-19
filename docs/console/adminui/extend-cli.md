@@ -30,7 +30,8 @@ curl -sL https://aws-amplify.github.io/amplify-cli/install | bash && $SHELL
 
 ![autologin](~/images/console/cli-pull.png)
 
-2. Open a terminal window and run the following command, replacing the `xxx` values with your unique `appId` and `envName`. 
+2. Open a terminal window and navigate to the directory where you would like to have Amplify setup your project.
+3. To initialize Amplify in the current directory, run the following command. Replace the `xxx` values with your unique `appId` and `envName`. 
 ```bash
 amplify pull --appId xxx --envName xxx
 ```
