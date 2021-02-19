@@ -3,23 +3,17 @@ Delete stored data from the storage bucket.
 ## Public level remove
 
 ```javascript
-Storage.remove('test.txt')
-    .then(result => console.log(result))
-    .catch(err => console.log(err));
+await Storage.remove('test.txt');
 ```
 
 ## Protected level remove
 
 ```javascript
-Storage.remove('test.txt', { level: 'protected' })
-    .then(result => console.log(result))
-    .catch(err => console.log(err));
+await Storage.remove('test.txt', { level: 'protected' });
 ```
 
 ## Private level remove
 
 ```javascript
-Storage.remove('test.txt', { level: 'private' })
-    .then(result => console.log(result))
-    .catch(err => console.log(err));
+await Storage.remove('test.txt', { level: 'private' });
 ```

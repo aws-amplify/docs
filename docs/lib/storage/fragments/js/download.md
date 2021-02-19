@@ -9,14 +9,14 @@ await Storage.get(key: string, config: {
   download?: boolean, // defaults to false
   expires?: number, // validity of the URL, in seconds. defaults to 900 (15 minutes)
   contentType?: string // set return content type, eg "text/html"
-})
+});
 ```
 
 `Storage.get` returns a signed URL `string` to your file, if `download` is false, which is the default. You can use this to create a download link for people to click on. This is our recommended option. Note that this method **does not check if the file actually exists** as that would involve an extra API call.
 
 ```js
 // get the signed URL string
-const signedURL = await Storage.get(key) // get key from Storage.list
+const signedURL = await Storage.get(key); // get key from Storage.list
 
 // inside your template or JSX code. Note <a download> doesn't work here because it is not same origin
 <a href={signedURL} target="_blank">{fileName}</a>
@@ -29,12 +29,12 @@ If `download` is true, `Storage.get` returns an object with a `Body` field of ty
 The `download` option send you the object data for download or programmatic manipulation:
 
 ```javascript
-const data = await Storage.get(`filename.txt`, { download: true })
+const result = await Storage.get(`filename.txt`, { download: true });
 
 // data.Body is a Blob
-data.Body.text().then(string => { 
+result.Body.text().then(string => { 
   // handle the String data return String 
-})
+});
 ```
 
 Note that the `Blob` methods like `.text()` are not supported on [IE/Opera/Safari](https://developer.mozilla.org/en-US/docs/Web/API/Blob/text); in those cases you can [parse manually](https://developer.mozilla.org/en-US/docs/Web/API/Blob#JavaScript).
@@ -59,8 +59,10 @@ export function downloadBlob(blob, filename) {
 }
 
 // usage
-Storage.get(fileKey, { download: true })
-        .then(res => downloadBlob(res.Body, downloadFileName)) // derive downloadFileName from fileKey if you wish
+async function download() {
+  const result = await Storage.get(fileKey, { download: true });
+  downloadBlob(result.Body, 'filename');
+}
 ```
 
 The full return signature of `Storage.get(key, { download: true })` looks like this:
@@ -91,39 +93,36 @@ You can choose to configure access level ahead of time, or at the point of calli
 ```javascript
 // Option 1: configure access ahead of time
 Storage.configure({ level: 'private' });
-await Storage.get('welcome.png'); // Gets the welcome.png belonging to current user
-
+const result = await Storage.get('welcome.png'); // Gets the welcome.png belonging to current user
 
 // Option 2: configure access inside the call
-await Storage.get('welcome.png', { level: 'private' }); // same effect
+const result = await Storage.get('welcome.png', { level: 'private' }); // same effect
 ```
 
 Here is a quick guide to the access levels - [see the docs](https://docs.amplify.aws/lib/storage/configureaccess/q/platform/js) for more detail:
 
 - `public`: Accessible by all users of your app. Files are stored under the `public/` path in your S3 bucket.
 - `protected`: Readable by all users, but writable only by the creating user. Files are stored under `protected/{user_identity_id}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.
-    **:**
 
-    ```javascript
-    // To get current user's objects
-    await Storage.get('filename.txt', { level: 'protected' })
-    // To get other users' objects
-    await Storage.get('filename.txt', { 
-        level: 'protected', 
-        identityId: 'xxxxxxx' // the identityId of that user
-    })
-    ```
+```javascript
+// To get current user's objects
+const result = await Storage.get('filename.txt', { level: 'protected' });
+
+// To get other users' objects
+const result = await Storage.get('filename.txt', { 
+    level: 'protected', 
+    identityId: 'xxxxxxx' // the identityId of that user
+});
+```
 - `private`: **Only accessible for the signed in user**. Files are stored under `private/{user_identity_id}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.
-
 
 ### Download expiry
 
 You can use `expires` option to limit the availability of your URLs. This configuration returns the pre-signed URL that expires in 60 seconds:
 
 ```javascript
-await Storage.get('filename.txt', { expires: 60 })
+await Storage.get('filename.txt', { expires: 60 });
 ```
-
 
 ### Frequently Asked Questions
 
