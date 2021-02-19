@@ -62,4 +62,34 @@ class MyAmplifyApp : Application() {
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+```java
+RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
+RxAmplify.addPlugin(new AWSPinpointAnalyticsPlugin(this));
+```
+
+Your class will look like this:
+
+```java
+public class MyAmplifyApp extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        try {
+            // Add these lines to add the AWSCognitoAuthPlugin and AWSPinpointAnalyticsPlugin plugins
+            RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
+            RxAmplify.addPlugin(new AWSPinpointAnalyticsPlugin(this));
+            RxAmplify.configure(getApplicationContext());
+
+            Log.i("MyAmplifyApp", "Initialized Amplify");
+        } catch (AmplifyException error) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
+        }
+    }
+}
+```
+
+</amplify-block>
 </amplify-block-switcher>

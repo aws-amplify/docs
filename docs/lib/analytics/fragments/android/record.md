@@ -7,12 +7,12 @@ The Amplify analytics plugin also makes it easy to record custom events within t
 
 ```java
 AnalyticsEvent event = AnalyticsEvent.builder()
-        .name("PasswordReset")
-        .addProperty("Channel", "SMS")
-        .addProperty("Successful", true)
-        .addProperty("ProcessDuration", 792)
-        .addProperty("UserAge", 120.3)
-        .build();
+    .name("PasswordReset")
+    .addProperty("Channel", "SMS")
+    .addProperty("Successful", true)
+    .addProperty("ProcessDuration", 792)
+    .addProperty("UserAge", 120.3)
+    .build();
 
 Amplify.Analytics.recordEvent(event);
 ```
@@ -21,15 +21,30 @@ Amplify.Analytics.recordEvent(event);
 <amplify-block name="Kotlin">
 
 ```kotlin
-val event: AnalyticsEvent = AnalyticsEvent.builder()
-        .name("PasswordReset")
-        .addProperty("Channel", "SMS")
-        .addProperty("Successful", true)
-        .addProperty("ProcessDuration", 792)
-        .addProperty("UserAge", 120.3)
-        .build()
+val event = AnalyticsEvent.builder()
+    .name("PasswordReset")
+    .addProperty("Channel", "SMS")
+    .addProperty("Successful", true)
+    .addProperty("ProcessDuration", 792)
+    .addProperty("UserAge", 120.3)
+    .build()
 
 Amplify.Analytics.recordEvent(event)
+```
+
+</amplify-block>
+<amplify-block name="RxJava">
+
+```java
+AnalyticsEvent event = AnalyticsEvent.builder()
+    .name("PasswordReset")
+    .addProperty("Channel", "SMS")
+    .addProperty("Successful", true)
+    .addProperty("ProcessDuration", 792)
+    .addProperty("UserAge", 120.3)
+    .build();
+
+RxAmplify.Analytics.recordEvent(event);
 ```
 
 </amplify-block>
@@ -69,12 +84,18 @@ To manually flush events, call:
 Amplify.Analytics.flushEvents();
 ```
 
-
 </amplify-block>
 <amplify-block name="Kotlin">
 
 ```kotlin
 Amplify.Analytics.flushEvents()
+```
+
+</amplify-block>
+<amplify-block name="RxJava">
+
+```java
+RxAmplify.Analytics.flushEvents();
 ```
 
 </amplify-block>
@@ -90,9 +111,9 @@ You can register global properties which will be sent along with all invocations
 
 ```java
 Amplify.Analytics.registerGlobalProperties(
-        AnalyticsProperties.builder()
-                .add("AppStyle", "DarkMode")
-                .build());
+    AnalyticsProperties.builder()
+        .add("AppStyle", "DarkMode")
+        .build());
 ```
 
 </amplify-block>
@@ -100,10 +121,20 @@ Amplify.Analytics.registerGlobalProperties(
 
 ```kotlin
 Amplify.Analytics.registerGlobalProperties(
-        AnalyticsProperties.builder()
-                .add("AppStyle", "DarkMode")
-                .build()
+    AnalyticsProperties.builder()
+        .add("AppStyle", "DarkMode")
+        .build()
 )
+```
+
+</amplify-block>
+<amplify-block name="RxJava">
+
+```java
+RxAmplify.Analytics.registerGlobalProperties(
+    AnalyticsProperties.builder()
+        .add("AppStyle", "DarkMode")
+        .build());
 ```
 
 </amplify-block>
@@ -123,6 +154,13 @@ Amplify.Analytics.unregisterGlobalProperties("AppStyle", "OtherProperty");
 
 ```kotlin
 Amplify.Analytics.unregisterGlobalProperties("AppStyle", "OtherProperty")
+```
+
+</amplify-block>
+<amplify-block name="RxJava">
+
+```java
+RxAmplify.Analytics.unregisterGlobalProperties("AppStyle", "OtherProperty");
 ```
 
 </amplify-block>
@@ -147,6 +185,13 @@ Amplify.Analytics.disable()
 ```
 
 </amplify-block>
+<amplify-block name="RxJava">
+
+```java
+RxAmplify.Analytics.disable();
+```
+
+</amplify-block>
 </amplify-block-switcher>
 
 ## Enable Analytics
@@ -165,6 +210,13 @@ Amplify.Analytics.enable();
 
 ```kotlin
 Amplify.Analytics.enable()
+```
+
+</amplify-block>
+<amplify-block name="RxJava">
+
+```java
+RxAmplify.Analytics.enable();
 ```
 
 </amplify-block>
