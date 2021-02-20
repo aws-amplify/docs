@@ -5,12 +5,12 @@ To record an event, create an `AnalyticsEvent` and call `Amplify.Analytics.recor
 
 ```java
 AnalyticsEvent event = AnalyticsEvent.builder()
-        .name("PasswordReset")
-        .addProperty("Channel", "SMS")
-        .addProperty("Successful", true)
-        .addProperty("ProcessDuration", 792)
-        .addProperty("UserAge", 120.3)
-        .build();
+    .name("PasswordReset")
+    .addProperty("Channel", "SMS")
+    .addProperty("Successful", true)
+    .addProperty("ProcessDuration", 792)
+    .addProperty("UserAge", 120.3)
+    .build();
 
 Amplify.Analytics.recordEvent(event);
 ```
@@ -26,7 +26,23 @@ val event = AnalyticsEvent.builder()
     .addProperty("ProcessDuration", 792)
     .addProperty("UserAge", 120.3)
     .build()
+
 Amplify.Analytics.recordEvent(event)
+```
+
+</amplify-block>
+<amplify-block name="RxJava">
+
+```java
+AnalyticsEvent event = AnalyticsEvent.builder()
+    .name("PasswordReset")
+    .addProperty("Channel", "SMS")
+    .addProperty("Successful", true)
+    .addProperty("ProcessDuration", 792)
+    .addProperty("UserAge", 120.3)
+    .build();
+
+RxAmplify.Analytics.recordEvent(event);
 ```
 
 </amplify-block>

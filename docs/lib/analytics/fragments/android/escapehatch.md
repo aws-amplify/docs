@@ -4,9 +4,8 @@ For advanced use cases where Amplify does not provide the functionality, you can
 <amplify-block name="Java">
 
 ```java
-AWSPinpointAnalyticsPlugin plugin = (AWSPinpointAnalyticsPlugin) Amplify
-        .Analytics
-        .getPlugin("awsPinpointAnalyticsPlugin");
+AWSPinpointAnalyticsPlugin plugin = (AWSPinpointAnalyticsPlugin)
+    Amplify.Analytics.getPlugin("awsPinpointAnalyticsPlugin");
 AnalyticsClient analyticsClient = plugin.getEscapeHatch();
 ```
 
@@ -16,6 +15,15 @@ AnalyticsClient analyticsClient = plugin.getEscapeHatch();
 ```kotlin
 val plugin = Amplify.Analytics.getPlugin("awsPinpointAnalyticsPlugin")
 val analyticsClient = (plugin as AWSPinpointAnalyticsPlugin).escapeHatch
+```
+
+</amplify-block>
+<amplify-block name="RxJava">
+
+```java
+AWSPinpointAnalyticsPlugin plugin = (AWSPinpointAnalyticsPlugin)
+    RxAmplify.Analytics.getPlugin("awsPinpointAnalyticsPlugin");
+AnalyticsClient analyticsClient = plugin.getEscapeHatch();
 ```
 
 </amplify-block>
