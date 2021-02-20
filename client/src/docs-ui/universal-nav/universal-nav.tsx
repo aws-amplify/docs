@@ -21,6 +21,7 @@ export class DocsUniversalNav {
   @Prop() readonly brandIconBlend?: string;
 
   render() {
+    console.log(this.blend);
     return (
       <Host class={universalNavStyle}>
         <docs-container

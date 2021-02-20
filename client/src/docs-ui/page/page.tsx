@@ -197,6 +197,7 @@ export class DocsPage {
       Object.values(routeFiltersEntry).reduce((acc, curr) => {
         return [...acc, ...curr];
       }, []);
+    console.log(currentRoute);
     this.blendUniversalNav = currentRoute === "/";
 
     if (Build.isBrowser) {
