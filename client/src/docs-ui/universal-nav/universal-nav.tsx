@@ -30,12 +30,7 @@ export class DocsUniversalNav {
               this.blend === undefined || !this.blend,
           }}
         >
-          <div
-            class={
-              universalNavContentStyle +
-              (this.blend !== undefined && this.blend ? " blend" : "")
-            }
-          >
+          <div class={universalNavContentStyle + (this.blend ? " blend" : "")}>
             <stencil-route-link
               url="/"
               anchorTitle="Amplify Docs"
