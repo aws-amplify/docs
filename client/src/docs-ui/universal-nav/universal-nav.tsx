@@ -31,10 +31,10 @@ export class DocsUniversalNav {
           }}
         >
           <div
-            class={{
-              [universalNavContentStyle]: true,
-              blend: this.blend !== undefined && this.blend,
-            }}
+            class={
+              universalNavContentStyle +
+              (this.blend !== undefined && this.blend ? " blend" : "")
+            }
           >
             <stencil-route-link
               url="/"
