@@ -30,7 +30,7 @@ test("absolute md references", async () => {
     ["h1", {id: "hi"}, "Hi"],
     "\n",
     [
-      "p",
+      "div",
       null,
       [
         "div",
@@ -90,7 +90,7 @@ test("absolute md references", async () => {
     ["h1", {id: "hi"}, "Hi"],
     "\n",
     [
-      "p",
+      "div",
       null,
       [
         "div",
