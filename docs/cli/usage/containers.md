@@ -76,7 +76,7 @@ If you are unfamiliar with using a Dockerfile review the [Dockerizing a Node.js 
 
 A simple Dockerfile example is below, which would start a NodeJS application (`index.js`) in a built image by copying all the source files and installing dependencies. This example also shows how could can specify environment variables and use the `EXPOSE` statement for defining your container's communication port.
 
-```dockerfile
+```docker
 FROM public.ecr.aws/bitnami/node:14.15.1-debian-10-r8
 
 ENV PORT=8080
@@ -147,7 +147,7 @@ This `docker-compose.yml` file would be placed in your `./amplify/backend/api/<n
    Dockerfile
    package.json
    index.js
-/python
+ /python
    Dockerfile
    requirements.txt
    server.py
@@ -276,8 +276,10 @@ const password = process.env.DB_PASSWORD;
 
 ```python
 import os
+
 database = os.environ['DATABASE_NAME']
 password = os.environ['DB_PASSWORD']
+
 ```
 
 ## Client Configuration
