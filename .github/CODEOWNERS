@@ -3,4 +3,5 @@
 /docs/**/ios @aws-amplify/ios-team
 /docs/**/js  @aws-amplify/amplify-js
 /docs/cli @aws-amplify/amplify-cli
+/docs/console @aws-amplify/amplify-console
 /docs/guides @aws-amplify/developer-advocates
