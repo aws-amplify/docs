@@ -14,7 +14,7 @@ At a minimum the steps to add S3 Object support are as follows:
 
 **Create a GraphQL API via `amplify add api` and add the following type definition:**
 
-```
+```graphql
 type S3Object {
   bucket: String!
   region: String!
@@ -24,7 +24,7 @@ type S3Object {
 
 **Reference the S3Object type from some `@model` type:**
 
-```
+```graphql
 type Picture @model @auth(rules: [{allow: owner}]) {
   id: ID!
   name: String
@@ -39,7 +39,7 @@ The GraphQL Transform handles creating the relevant input types and will store p
 
 **Run a mutation with S3 objects from your client app:**
 
-```
+```graphql
 mutation ($input: CreatePictureInput!) {
   createPicture(input: $input) {
     id

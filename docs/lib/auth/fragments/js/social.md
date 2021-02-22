@@ -241,7 +241,7 @@ export default App;
 
 In order for Amplify to listen for data from Cognito when linking back to your app, you will need to setup the `Linking` module in `AppDelegate.m` (see [React Native docs](https://reactnative.dev/docs/linking#enabling-deep-links) for more information):
 
-```objective-c
+```objectivec
 #import <React/RCTLinkingManager.h>
 
 - (BOOL)application:(UIApplication *)application
