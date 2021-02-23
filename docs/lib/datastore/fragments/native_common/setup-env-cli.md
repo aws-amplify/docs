@@ -30,7 +30,7 @@ The CLI will prompt you to configure your API. Select **GraphQL** as the API typ
     `Yes, I want to make some additional changes.`
 ? Configure additional auth types?
     `No`
-? Configure conflict detection?
+? Enable conflict detection?
     `Yes`
 ? Select the default resolution strategy
     `Auto Merge`
