@@ -128,7 +128,7 @@ For large data sets, you'll need to paginate through the results. After receivin
 var todos: [Todo] = []
 var currentPage: List<Todo>?
 
-func listTodos() {
+func listFirstPage() {
     let todo = Todo.keys
     let predicate = todo.name == "my first todo" && todo.description == "todo description"
     Amplify.API.query(request: .paginatedList(Todo.self, where: predicate, limit: 1000)) { event in
@@ -148,7 +148,7 @@ func listTodos() {
     }
 }
 
-func loadMore() {
+func listNextPage() {
     if let current = currentPage, current.hasNextPage() {
         current.getNextPage { result in
             switch result {
@@ -165,37 +165,41 @@ func loadMore() {
 
 ## List all pages
 
-If you want to get all pages, first get the initial page and then use it to recursively check if there is a subsequent page before retrieving the next page, aggregating the data from each page into the `todos` array.
+If you want to get all pages, retrieve the subsequent page when you have successfully retrieved the first or next page.
 
 ```swift
 var todos: [Todo] = []
 var currentPage: List<Todo>?
 
-func getAllPages() {
-    if currentPage == nil {
-        Amplify.API.query(request: .paginatedList(Todo.self)) { event in
-            switch event {
-            case .success(let result):
-                switch result {
-                case .success(let todos):
-                    print("Successfully retrieved list of todos: \(todos)")
-                    self.currentPage = todos
-                    self.todos.append(contentsOf: todos)
-                    self.getAllPages()
-                case .failure(let error):
-                    print("Got failed result with \(error.errorDescription)")
-                }
+func listAllPages() {
+    let todo = Todo.keys
+    let predicate = todo.name == "my first todo" && todo.description == "todo description"
+    Amplify.API.query(request: .paginatedList(Todo.self, where: predicate, limit: 1000)) { event in
+        switch event {
+        case .success(let result):
+            switch result {
+            case .success(let todos):
+                print("Successfully retrieved list of todos: \(todos)")
+                self.currentPage = todos
+                self.todos.append(contentsOf: todos)
+                self.listNextPageRecursively()
             case .failure(let error):
-                print("Got failed event with error \(error)")
+                print("Got failed result with \(error.errorDescription)")
             }
+        case .failure(let error):
+            print("Got failed event with error \(error)")
         }
-    } else if let current = currentPage, current.hasNextPage() {
+    }
+}
+
+func listNextPageRecursively() {
+    if let current = currentPage, current.hasNextPage() {
         current.getNextPage { result in
             switch result {
             case .success(let todos):
                 self.todos.append(contentsOf: todos)
                 self.currentPage = todos
-                self.getAllPages()
+                self.listNextPageRecursively()
             case .failure(let coreError):
                 print("Failed to get next page \(coreError)")
             }
