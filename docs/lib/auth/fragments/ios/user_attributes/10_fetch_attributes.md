@@ -13,7 +13,7 @@ func fetchAttributes() {
                 attributesMap[attribute.key] = attribute.value
             }
             if let email = attributesMap[.email] {
-                print("Email is \(email)")
+                print("User email = \(email)")
             }
         case .failure(let error):
             print("Fetching user attributes failed with error \(error)")
