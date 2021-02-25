@@ -227,7 +227,7 @@
         ]
       },
       "retainCaseStyle": {
-        "description": "Retains the case style developer uses while naming the graphQL types in schema",
+        "description": "Retains the case style developer uses while naming the GraphQL types in schema",
         "type": "Feature",
         "valueType": "Boolean",
         "versionAdded": "4.40.0",
