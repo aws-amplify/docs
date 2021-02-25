@@ -6,7 +6,7 @@ To generate the `Todo` model, change directories to your project folder and **ex
 amplify codegen models
 ```
 
-The generated files will be under the `amplify/generated/models` directory. It is strongly advised not to put any hand written code in this directory as it gets re-generated each time codegen is run. 
+The generated files will be under the `amplify/generated/models` directory. It is strongly advised not to put any hand written code in `amplify/generated` directory as it gets re-generated each time codegen is run. 
 ```
 AmplifyModels.swift
 Todo.swift

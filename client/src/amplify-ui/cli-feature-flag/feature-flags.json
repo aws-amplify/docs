@@ -143,7 +143,7 @@
     "description": "Feature Flag related to Codegen",
     "features": {
       "useAppsyncModelgenPlugin": {
-        "description": "Allows to use the migrated DataStore model generator package at https://github.com/aws-amplify/amplify-codegen",
+        "description": "Use the migrated implementation of internal DataStore model generator package at https://github.com/aws-amplify/amplify-codegen",
         "type": "Feature",
         "valueType": "Boolean",
         "versionAdded": "4.40.0",
@@ -151,20 +151,20 @@
         "values": [
           {
             "value": "true",
-            "description": "Allows using newly migrated modelgen package.",
+            "description": "[Recommended] Use the migrated modelgen internal package which will be actively maintained",
             "defaultNewProject": true,
             "defaultExistingProject": false
           },
           {
             "value": "false",
-            "description": "Allows using older modelgen package",
+            "description": "Use the modelgen package implementation at https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-codegen-appsync-model-plugin. This package is set for deprecation. Please refer to the changelog https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-codegen-appsync-model-plugin/CHANGELOG.md to see the enhacements in migrated implementation.",
             "defaultNewProject": false,
             "defaultExistingProject": true
           }
         ]
       },
       "useDocsGeneratorPlugin": {
-        "description": "Allows to use the migrated graphQL documents generator package at https://github.com/aws-amplify/amplify-codegen",
+        "description": "Use the migrated implementation of internal GraphQL documents generator package at https://github.com/aws-amplify/amplify-codegen",
         "type": "Feature",
         "valueType": "Boolean",
         "versionAdded": "4.40.0",
@@ -172,20 +172,20 @@
         "values": [
           {
             "value": "true",
-            "description": "Allows using newly migrated docsgen package.",
+            "description": "[Recommended] Use the migrated document generator internal package which will be actively maintained",
             "defaultNewProject": true,
             "defaultExistingProject": false
           },
           {
             "value": "false",
-            "description": "Allows using older docsgen package",
+            "description": "Use the document generation package implementation at https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-graphql-docs-generator. This package is set for deprecation. Please refer to the changelog https://github.com/aws-amplify/amplify-codegen/blob/master/packages/graphql-docs-generator/CHANGELOG.md to see the enhacements in migrated implementation.",
             "defaultNewProject": false,
             "defaultExistingProject": true
           }
         ]
       },
       "useTypesGeneratorPlugin": {
-        "description": "Allows to use the migrated graphQL types generator package at https://github.com/aws-amplify/amplify-codegen",
+        "description": "Use the migrated implementation of internal GraphQL types generator package at https://github.com/aws-amplify/amplify-codegen",
         "type": "Feature",
         "valueType": "Boolean",
         "versionAdded": "4.40.0",
@@ -193,13 +193,13 @@
         "values": [
           {
             "value": "true",
-            "description": "Allows using newly migrated typesgen package.",
+            "description": "[Recommended] Use the migrated types generator internal package which will be actively maintained",
             "defaultNewProject": true,
             "defaultExistingProject": false
           },
           {
             "value": "false",
-            "description": "Allows using older typesgen package",
+            "description": "Use the types generation package implementation at https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-graphql-types-generator. This package is set for deprecation. Please refer to the changelog https://github.com/aws-amplify/amplify-codegen/blob/master/packages/graphql-types-generator/CHANGELOG.md to see the enhacements in migrated implementation.",
             "defaultNewProject": false,
             "defaultExistingProject": true
           }
@@ -220,7 +220,7 @@
           },
           {
             "value": "false",
-            "description": "Does not remove pre-existing files from the modelgen output folder.",
+            "description": "Does not remove pre-existing files from the modelgen output folder. This would retain the generated models even after the corresponding types are removed from the GraphQL schema.",
             "defaultNewProject": false,
             "defaultExistingProject": true
           }
@@ -241,7 +241,7 @@
           },
           {
             "value": "false",
-            "description": "Keeps the already generated variable names to avoid breaking changes",
+            "description": "Continue using the current approach to generate camleCase/PascalCase variable names for types irrespective of the case style used for naming the types. This will allow some time to make changes to the application to use the modified variables.",
             "defaultNewProject": false,
             "defaultExistingProject": true
           }
