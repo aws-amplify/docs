@@ -24,12 +24,7 @@ export class DocsUniversalNav {
     console.log(this.blend);
     return (
       <Host class={universalNavStyle}>
-        <docs-container
-          class={{
-            "background-color-orange-hv":
-              this.blend === undefined || !this.blend,
-          }}
-        >
+        <docs-container class={!this.blend ? "background-color-orange-hv" : ""}>
           <div class={universalNavContentStyle + (this.blend ? " blend" : "")}>
             <stencil-route-link
               url="/"
