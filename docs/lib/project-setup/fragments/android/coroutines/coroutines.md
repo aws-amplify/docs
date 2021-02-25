@@ -1,4 +1,4 @@
-Amplify provides an optional and separate API surface which is entirely focused on using Kotlin's [coroutines](https://developer.android.com/kotlin/coroutines?gclid=CjwKCAiAmrOBBhA0EiwArn3mfF_RLMKM4EoDx1LThVJsHbeJ4fwEYJuFJ6wr5WS35qbasipfG3g-GhoCFQsQAvD_BwE&gclsrc=aw.ds) and [flows](https://developer.android.com/kotlin/flow).
+Amplify provides an optional and separate API surface which is entirely focused on using Kotlin's [coroutines](https://developer.android.com/kotlin/coroutines) and [flows](https://developer.android.com/kotlin/flow).
 
 To use it, import **`Amplify`** facade from `core-kotlin` instead of from `core`.
 
