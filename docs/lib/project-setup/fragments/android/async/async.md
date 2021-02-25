@@ -23,7 +23,7 @@ Amplify.DataStore.save(post,
 
 This is a familiar pattern to many Android developers, and so is the default way of interacting with Amplify Android.
 
-However, this development model has some shortcomings. Let's say you need to wait for an operation to complete, so that you can perform additional logic that depends on its result. This can quickly become unmaintainable, resulting in a situation known as "callback hell":
+However, this development model has some challenges. Let's say you need to wait for an operation to complete, so that you can perform additional logic that depends on its result. This can quickly become unmaintainable, resulting in a situation known as "callback hell":
 
 Consider a relational model where the creation of a `Post` also requires the creation of a `User` for the editor, and a `PostEditor` object to link the two together:
 
