@@ -64,9 +64,8 @@ Amplify.DataStore.save(post,
 ```
 
 
-After three calls, we're no longer writing down the page, we're writing down-and-right. As our program grows, this won't scale.
+After three calls, we're no longer writing down the page, we're writing down-and-right. As our program grows, this may become difficult to scale.
 
 There are a variety of different technologies that aim to solve this particular problem: Promises/Futures, RxJava, Kotlin Coroutines, and more.
 
 Amplify Android includes optional support for **[Kotlin Coroutines](~/lib/project-setup/coroutines.md)** and **[RxJava](~/lib/project-setup/rxjava.md)**.
-
