@@ -77,7 +77,9 @@ A very common scenario is the need to set and use an environment variable in you
 
 There are two main approaches (other than manually adding values in the Lambda console):
 
-1. If your value is secret, you can use [Secrets Manager](https://aws.amazon.com/secrets-manager/).
+### 1. Configuring secret values
+
+If your value is secret, you can use [Secrets Manager](https://aws.amazon.com/secrets-manager/).
 
 To do so, you first need to create a secret in the [secrets manager](https://console.aws.amazon.com/secretsmanager) console.
 
