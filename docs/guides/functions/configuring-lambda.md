@@ -3,7 +3,7 @@ title: Configuring Lambda function settings
 description: How to configure custom settings for your Lambda function
 ---
 
-In this guide you will learn how to configure custom settings for a Lambda function.
+Learn how to configure custom settings (including runtime, memory, environment variables, and secrets) for a Lambda function.
 
 ### Overview
 
