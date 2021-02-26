@@ -145,4 +145,6 @@ And then use these parameters in `Environment` declaration:
 
 To view all configuration options available in AWS Lambda, check out the documentation [here])(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-lambda-function-environment.html)
 
+To learn more about extending the Amplify CLI with custom resources, check out the documentation [here](~/cli/usage/customcf.md)
+
 </amplify-callout>
