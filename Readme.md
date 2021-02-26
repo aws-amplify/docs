@@ -17,7 +17,7 @@ We welcome contributions to the documentation site! Please verify your changes l
 ### Branches 
 
 `master` - at parity with our production site https://docs.amplify.aws/
-`gh-pages` - used to handle redirects from v1 of the documentaiton site. This should not be deleted. 
+`gh-pages` - used to handle redirects from v1 of the documentation site. This should not be deleted. 
 
 ## Authoring Pages
 
