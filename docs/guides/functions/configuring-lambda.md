@@ -1,0 +1,148 @@
+---
+title: Configuring Lambda function settings
+description: How to configure custom settings for your Lambda function
+---
+
+In this guide you will learn how to configure custom settings for a Lambda function.
+
+### Overview
+
+When creating a function within an Amplify project, you are given several options to choose how you would like your function to be configured. You may find that your application requires a different configuration than the CLI set up for you.
+
+For example, when creating a `Node.js` function, the CLI will configure a version for you, also setting a default memory size among other things. There are a few things you may want to override or configure:
+
+1. Runtime
+2. Memory size
+3. Environment variables
+
+Let's look at how to update all of these things.
+
+### Updating the Runtime
+
+Depending on what version you are using, the CLI will set a default runtime version. You may want to tweak the version of the runtime to be either a newer or older version.
+
+Let's say we've deployed a Lambda function using a Node.js runtime and we want to modify the version of the runtime to be `14.x`.
+
+To do so, open __amplify/backend/function/function-name/function-name-cloudformation-template.json__ and set the `RunTime` property in the `LambdaFunction` resource:
+
+```json
+"Resources": {
+  "LambdaFunction": {
+      ...
+      "Runtime": "nodejs14.x", // Runtime now set to 14.x
+      "Layers": [],
+      ...
+    }
+  },
+}
+```
+
+Next, deploy the updates using the Amplify CLI:
+
+```sh
+amplify push
+```
+
+### Updating the default memory size
+
+When you deploy a function with Amplify, the default memory size will be set to a low setting (128MB). Often you will want to increase the default memory size in order to improve performance. A popular memory setting in Lambda is 1024MB as it speeds the function noticebly while usually keeping the cost the same or close to it.
+
+To update the memory size, open __amplify/backend/function/function-name/function-name-cloudformation-template.json__ and set the `MemorySize` property in the `LambdaFunction` resource:
+
+```json
+"Resources": {
+  "LambdaFunction": {
+      ...
+      "Runtime": "nodejs14.x",
+      "MemorySize": "1024", // Memory size now set to 1024 mb
+      "Layers": [],
+      ...
+    }
+  },
+}
+```
+
+Next, deploy the updates using the Amplify CLI:
+
+```sh
+amplify push
+```
+
+_To learn more about optimizing resources allocation for Lambda functions, check out [this](https://dev.to/aws/deep-dive-finding-the-optimal-resources-allocation-for-your-lambda-functions-35a6) blog post._
+
+
+### Setting an environment variable
+
+A very common scenario is the need to set and use an environment variable in your Lambda function.
+
+There are two main approaches (other than manually adding values in the Lambda console):
+
+1. If your value is secret, you can use [Secrets Manager](https://aws.amazon.com/secrets-manager/).
+
+To do so, you first need to create a secret in the [secrets manager](https://console.aws.amazon.com/secretsmanager) console.
+
+Next, add a statement to the `PolicyDocument` in __amplify/backend/function/function-name/function-name-cloudformation-template.json__ to give the Lambda function permission to use the secret:
+
+```json
+{
+  "Effect": "Allow",
+  "Action": [
+    "secretsmanager:GetSecretValue"
+  ],
+  "Resource": {
+    "Fn::Sub": [
+      "arn:aws:secretsmanager:${region}:${account}:secret:key_id",
+      {
+        "region": {
+          "Ref": "AWS::Region"
+        },
+        "account": {
+          "Ref": "AWS::AccountId"
+        }
+      }
+    ]
+  }
+}
+```
+
+Next, access the token in your function:
+
+```js
+const AWS = require('aws-sdk')
+
+const secretsManager = new AWS.SecretsManager()
+const secret = await secretsManager.getSecretValue({ SecretId: 'YOUR_KEY' }).promise()
+
+console.log(secret.SecretString)
+```
+
+2. If your value is just a configuration value you can configure the CloudFormation configuration locally to set the value - in __amplify/backend/function/function-name/function-name-cloudformation-template.json__
+
+For this purpose there is a section in the template - `Parameters` - that you can set.
+
+```json
+"Parameters" : {
+  "MyKey" : {
+    "Type" : "String",
+    "Default" : "my-environment-variable"
+  }
+}
+```
+
+And then use these parameters in `Environment` declaration:
+
+```json
+"Environment":{
+   "Variables":{
+      "MY_ENV_VAR":{
+         "Ref":"MyKey"
+      }
+   }
+}
+```
+
+<amplify-callout>
+
+To view all configuration options available in AWS Lambda, check out the documentation [here])(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-lambda-function-environment.html)
+
+</amplify-callout>
