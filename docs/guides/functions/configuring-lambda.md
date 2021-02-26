@@ -9,7 +9,7 @@ Learn how to configure custom settings (including runtime, memory, environment v
 
 You may want to override the Amplify CLI default configurations for your Lambda function or configure changes not available within the `amplify add function` workflow.
 
-For example, when creating a `Node.js` function, the CLI will configure a version for you, also setting a default memory size among other things. There are a few things you may want to override or configure:
+*Example*: When creating a `Node.js` function, the CLI will automatically configure a runtime version, a default memory size, and more. There are a few things you may want to override or configure:
 
 1. Runtime
 2. Memory size
