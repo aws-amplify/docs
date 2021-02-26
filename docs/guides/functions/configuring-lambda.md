@@ -45,7 +45,7 @@ amplify push
 
 ### Updating the default memory size
 
-When you deploy a function with Amplify, the default memory size will be set to a low setting (128MB). Often you will want to increase the default memory size in order to improve performance. A popular memory setting in Lambda is 1024MB as it speeds the function noticebly while usually keeping the cost the same or close to it.
+When you deploy a function with Amplify, the default memory size will be set to a low setting (128MB). Often you will want to increase the default memory size in order to improve performance. A popular memory setting in Lambda is 1024MB as it speeds the function noticeably while usually keeping the cost the same or close to it.
 
 To update the memory size, open __amplify/backend/function/function-name/function-name-cloudformation-template.json__ and set the `MemorySize` property in the `LambdaFunction` resource:
 
