@@ -165,13 +165,19 @@ func listNextPage() {
 
 ## List all pages
 
-If you want to get all pages, retrieve the subsequent page when you have successfully retrieved the first or next page.
+If you want to get all pages, retrieve the subsequent page when you have successfully retrieved the first or next page. 
 
+1. Update the above method `listFirstPage()` to `listAllPages()` 
+2. Call `listNextPageRecursively()` in the success block of the query in `listAllPages()`
+2. Update the `listNextPage()` to `listNextPageRecursively()`
+3. Call `listNextPageRecursively()` in the success block of the query in `listNextPageRecursively()`
+
+The completed changes should look like this
 ```swift
 var todos: [Todo] = []
 var currentPage: List<Todo>?
 
-func listAllPages() {
+func listAllPages() { // 1. Updated from `listFirstPage()`
     let todo = Todo.keys
     let predicate = todo.name == "my first todo" && todo.description == "todo description"
     Amplify.API.query(request: .paginatedList(Todo.self, where: predicate, limit: 1000)) { event in
@@ -182,7 +188,7 @@ func listAllPages() {
                 print("Successfully retrieved list of todos: \(todos)")
                 self.currentPage = todos
                 self.todos.append(contentsOf: todos)
-                self.listNextPageRecursively()
+                self.listNextPageRecursively() // 2. Added
             case .failure(let error):
                 print("Got failed result with \(error.errorDescription)")
             }
@@ -192,14 +198,14 @@ func listAllPages() {
     }
 }
 
-func listNextPageRecursively() {
+func listNextPageRecursively() { // 3. Updated from `listNextPage()`
     if let current = currentPage, current.hasNextPage() {
         current.getNextPage { result in
             switch result {
             case .success(let todos):
                 self.todos.append(contentsOf: todos)
                 self.currentPage = todos
-                self.listNextPageRecursively()
+                self.listNextPageRecursively() // 4. Added
             case .failure(let coreError):
                 print("Failed to get next page \(coreError)")
             }
