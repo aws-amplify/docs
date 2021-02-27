@@ -118,7 +118,9 @@ const secret = await secretsManager.getSecretValue({ SecretId: 'YOUR_KEY' }).pro
 console.log(secret.SecretString)
 ```
 
-2. If your value is just a configuration value you can configure the CloudFormation configuration locally to set the value - in __amplify/backend/function/function-name/function-name-cloudformation-template.json__
+### 2. Configuring non-secret values
+
+If your value is just a configuration value, you can configure the CloudFormation configuration locally to set the value - in __amplify/backend/function/function-name/function-name-cloudformation-template.json__
 
 For this purpose there is a section in the template - `Parameters` - that you can set.
 
