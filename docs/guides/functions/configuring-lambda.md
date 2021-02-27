@@ -75,7 +75,9 @@ _To learn more about optimizing resources allocation for Lambda functions, check
 
 A very common scenario is the need to set and use an environment variable in your Lambda function.
 
-There are two main approaches (other than manually adding values in the Lambda console):
+There are generally two types of environment variables:
+- Secret values (example: access keys, API keys etc.)
+- Non-secret values (example: endpoint information, locale information etc.)
 
 ### 1. Configuring secret values
 
