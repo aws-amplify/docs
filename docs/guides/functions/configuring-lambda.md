@@ -3,8 +3,6 @@ title: Configuring Lambda function settings
 description: How to configure custom settings for your Lambda function
 ---
 
-In this guide you will learn how to configure custom settings for a Lambda function.
-
 ### Overview
 
 When creating a function within an Amplify project, you are given several options to choose how you would like your function to be configured. You may find that your application requires a different configuration than the CLI set up for you.
@@ -17,7 +15,7 @@ For example, when creating a `Node.js` function, the CLI will configure a versio
 
 Let's look at how to update all of these things.
 
-### Updating the Runtime
+## Updating the Runtime
 
 Depending on what version you are using, the CLI will set a default runtime version. You may want to tweak the version of the runtime to be either a newer or older version.
 
@@ -43,7 +41,7 @@ Next, deploy the updates using the Amplify CLI:
 amplify push
 ```
 
-### Updating the default memory size
+## Updating the default memory size
 
 When you deploy a function with Amplify, the default memory size will be set to a low setting (128MB). Often you will want to increase the default memory size in order to improve performance. A popular memory setting in Lambda is 1024MB as it speeds the function noticeably while usually keeping the cost the same or close to it.
 
@@ -71,7 +69,7 @@ amplify push
 _To learn more about optimizing resources allocation for Lambda functions, check out [this](https://dev.to/aws/deep-dive-finding-the-optimal-resources-allocation-for-your-lambda-functions-35a6) blog post._
 
 
-### Setting an environment variable
+## Setting an environment variable
 
 A very common scenario is the need to set and use an environment variable in your Lambda function.
 
