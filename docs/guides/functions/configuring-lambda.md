@@ -5,9 +5,9 @@ description: How to configure custom settings for your Lambda function
 
 ### Overview
 
-When creating a function within an Amplify project, you are given several options to choose how you would like your function to be configured. You may find that your application requires a different configuration than the CLI set up for you.
+You may want to override the Amplify CLI default configurations for your Lambda function or configure changes not available within the `amplify add function` workflow.
 
-For example, when creating a `Node.js` function, the CLI will configure a version for you, also setting a default memory size among other things. There are a few things you may want to override or configure:
+*Example*: When creating a `Node.js` function, the CLI will automatically configure a runtime version, a default memory size, and more. There are a few things you may want to override or configure:
 
 1. Runtime
 2. Memory size
@@ -17,11 +17,11 @@ Let's look at how to update all of these things.
 
 ## Updating the Runtime
 
-Depending on what version you are using, the CLI will set a default runtime version. You may want to tweak the version of the runtime to be either a newer or older version.
+You may want to tweak the runtime version to be either a newer or older version than the Amplify-generated default.
 
 Let's say we've deployed a Lambda function using a Node.js runtime and we want to modify the version of the runtime to be `14.x`.
 
-To do so, open __amplify/backend/function/function-name/function-name-cloudformation-template.json__ and set the `RunTime` property in the `LambdaFunction` resource:
+To do so, open __amplify/backend/function/function-name/function-name-cloudformation-template.json__ and set the `Runtime` property in the `LambdaFunction` resource to:
 
 ```json
 "Resources": {
@@ -73,9 +73,13 @@ _To learn more about optimizing resources allocation for Lambda functions, check
 
 A very common scenario is the need to set and use an environment variable in your Lambda function.
 
-There are two main approaches (other than manually adding values in the Lambda console):
+There are generally two types of environment variables:
+- Secret values (example: access keys, API keys etc.)
+- Non-secret values (example: endpoint information, locale information etc.)
 
-1. If your value is secret, you can use [Secrets Manager](https://aws.amazon.com/secrets-manager/).
+### 1. Configuring secret values
+
+If your value is secret, you can use [Secrets Manager](https://aws.amazon.com/secrets-manager/).
 
 To do so, you first need to create a secret in the [secrets manager](https://console.aws.amazon.com/secretsmanager) console.
 
@@ -114,9 +118,11 @@ const secret = await secretsManager.getSecretValue({ SecretId: 'YOUR_KEY' }).pro
 console.log(secret.SecretString)
 ```
 
-2. If your value is just a configuration value you can configure the CloudFormation configuration locally to set the value - in __amplify/backend/function/function-name/function-name-cloudformation-template.json__
+### 2. Configuring non-secret values
 
-For this purpose there is a section in the template - `Parameters` - that you can set.
+If your value is just a configuration value, you can configure the CloudFormation configuration locally to set the value - in __amplify/backend/function/function-name/function-name-cloudformation-template.json__
+
+For this purpose, there is a section in the template - `Parameters` - that you can set.
 
 ```json
 "Parameters" : {
