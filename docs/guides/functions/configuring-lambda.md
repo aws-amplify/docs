@@ -23,7 +23,7 @@ You may want to tweak the runtime version to be either a newer or older version 
 
 Let's say we've deployed a Lambda function using a Node.js runtime and we want to modify the version of the runtime to be `14.x`.
 
-To do so, open __amplify/backend/function/function-name/function-name-cloudformation-template.json__ and set the `RunTime` property in the `LambdaFunction` resource:
+To do so, open __amplify/backend/function/function-name/function-name-cloudformation-template.json__ and set the `Runtime` property in the `LambdaFunction` resource to:
 
 ```json
 "Resources": {
