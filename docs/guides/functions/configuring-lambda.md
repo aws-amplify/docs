@@ -19,7 +19,7 @@ Let's look at how to update all of these things.
 
 ### Updating the Runtime
 
-Depending on what version you are using, the CLI will set a default runtime version. You may want to tweak the version of the runtime to be either a newer or older version.
+You may want to tweak the runtime version to be either a newer or older version than the Amplify-generated default.
 
 Let's say we've deployed a Lambda function using a Node.js runtime and we want to modify the version of the runtime to be `14.x`.
 
