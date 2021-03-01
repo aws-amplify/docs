@@ -168,9 +168,9 @@ export class DocsPage {
     }
   }
 
-  componentWillLoad() {
+  async componentWillLoad() {
     this.restoreBlockSwitcherState();
-    return this.getPageData();
+    return await this.getPageData();
   }
 
   async getPageData() {
