@@ -2,7 +2,8 @@ Amplify provides an optional and separate API surface which is entirely focused 
 
 To use it, import **`Amplify`** facade from `core-kotlin` instead of from `core`.
 
-With the Coroutines APIs, most Amplify functions are expressed as `suspend` functions:
+With the Coroutines APIs, most Amplify functions are expressed as `suspend` functions. Suspending functions can be launched using one of the [lifecycle-aware coroutine scopes](https://developer.android.com/topic/libraries/architecture/coroutines#lifecyclescope) in the Android Architecture components:
+
 
 ```kotlin
 import com.amplifyframework.kotlin.core.Amplify
