@@ -5,5 +5,5 @@ description: Learn how to apply authorization rules to your models with the @aut
 
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/native_common/setup-auth-rules.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/native_common/setup-auth-rules.md"></inline-fragment>
-<inline-fragment platform="flutter" src="~/lib/datastore/fragments/native_common/setup-auth-rules.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/datastore/fragments/flutter/setup-auth-rules.md"></inline-fragment>
 <inline-fragment platform="js" src="~/lib/datastore/fragments/native_common/setup-auth-rules.md"></inline-fragment>
