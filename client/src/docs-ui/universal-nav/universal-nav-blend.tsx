@@ -9,18 +9,18 @@ import {
   searchStyle,
 } from "./universal-nav.style";
 
-@Component({tag: "docs-universal-nav", shadow: false})
-export class DocsUniversalNav {
+@Component({tag: "docs-universal-nav-blend", shadow: false})
+export class DocsUniversalNavBlend {
   /*** what label should go next to the brand icon? */
   @Prop() readonly heading?: string;
-  /*** image url for brand icon */
+  /*** image url for brand icon when nav in blend mode */
   @Prop() readonly brandIcon?: string;
 
   render() {
     return (
       <Host class={universalNavStyle}>
-        <docs-container class="background-color-orange-hv">
-          <div class={universalNavContentStyle}>
+        <docs-container>
+          <div class={universalNavContentStyle + " blend"}>
             <stencil-route-link
               url="/"
               anchorTitle="Amplify Docs"
@@ -43,7 +43,7 @@ export class DocsUniversalNav {
               <amplify-external-link
                 href={links.MARKETING}
                 anchorTitle="AWS Amplify Homepage"
-                graphic={"white"}
+                graphic="black"
               >
                 <span>
                   About<span class={hideAboutLinkStyle}>{` Amplify`}</span>

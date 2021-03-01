@@ -275,12 +275,17 @@ export class DocsPage {
             setNewSelectedTabHeadings: this.setNewSelectedTabHeading,
           }}
         >
-          <docs-universal-nav
-            blend={this.blendUniversalNav}
-            heading="Amplify Docs"
-            brand-icon="/assets/logo-light.svg"
-            brand-icon-blend="/assets/logo-dark.svg"
-          />
+          {this.blendUniversalNav ? (
+            <docs-universal-nav-blend
+              heading="Amplify Docs"
+              brand-icon="/assets/logo-dark.svg"
+            ></docs-universal-nav-blend>
+          ) : (
+            <docs-universal-nav
+              heading="Amplify Docs"
+              brand-icon="/assets/logo-light.svg"
+            ></docs-universal-nav>
+          )}
           {this.pageData && this.pageData.noTemplate
             ? createVNodesFromHyperscriptNodes(this.pageData.body)
             : [
