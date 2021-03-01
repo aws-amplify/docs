@@ -103,6 +103,9 @@ export const trackExternalLink = (hrefTo: string): void => {
   // @ts-ignore
   if (Build.isBrowser && typeof s != "undefined") {
     // @ts-ignore
+    s.linkTrackVars =
+      "prop39,prop41,prop50,prop61,prop62,eVar39,eVar41,eVar50,eVar61,eVar62,eVar69";
+    // @ts-ignore
     s.tl(true, "e", hrefTo);
   }
 };
