@@ -55,7 +55,7 @@ Add the following line in `dependencies`:
 ```groovy
 dependencies {
     // Add the below line in `dependencies`
-    implementation 'com.amplifyframework:core-kotlin:0.1.0'
+    implementation 'com.amplifyframework:core-kotlin:0.1.1'
 }
 ```
 
