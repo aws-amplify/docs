@@ -197,7 +197,6 @@ export class DocsPage {
       Object.values(routeFiltersEntry).reduce((acc, curr) => {
         return [...acc, ...curr];
       }, []);
-    console.log(currentRoute);
     this.blendUniversalNav = currentRoute === "/";
 
     if (Build.isBrowser) {
@@ -264,6 +263,7 @@ export class DocsPage {
   };
 
   render() {
+    console.log(this.pageData);
     return (
       <Host class={pageStyle}>
         <pageContext.Provider

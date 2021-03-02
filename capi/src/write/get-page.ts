@@ -45,7 +45,7 @@ export async function getPage(config: t.Config, ctx: t.Ctx): Promise<void> {
 
         writer
           .writeLine("      default: {")
-          .writeLine('        console.warn(`No such page "${route}"`);')
+          .writeLine('        console.error(`No such page "${route}"`);')
           .writeLine("        return undefined;")
           .writeLine("      }");
 
