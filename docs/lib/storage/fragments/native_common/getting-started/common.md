@@ -77,9 +77,10 @@ Upon successfully executing this code, you should see a new folder in your bucke
 
 Congratulations! You've uploaded a file to an s3 bucket.  Check out the following links to see other Amplify Storage use cases:
 
-* [File access levels](~/lib/storage/configureaccess.md)
+* [Concepts](~/lib/storage/overview.md)
 * [Download files](~/lib/storage/download.md)
 * [List Files](~/lib/storage/list.md)
 * [Remove files](~/lib/storage/remove.md)
+* [File access levels](~/lib/storage/configureaccess.md)
 * [Using Lambda Triggers](~/lib/storage/triggers.md)
 * [Escape Hatch](~/lib/storage/escapehatch.md)
