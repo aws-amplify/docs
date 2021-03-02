@@ -208,6 +208,7 @@ export class DocsPage {
           referrer: document.referrer,
         },
       });
+      trackPageVisit();
     }
 
     try {
@@ -263,7 +264,6 @@ export class DocsPage {
   };
 
   render() {
-    console.log(this.pageData);
     return (
       <Host class={pageStyle}>
         <pageContext.Provider

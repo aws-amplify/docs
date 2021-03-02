@@ -1,5 +1,5 @@
 import * as links from "../../constants/links";
-import {Component, h, Host, Prop, Listen, State} from "@stencil/core";
+import {Component, h, Host, Prop} from "@stencil/core";
 import {
   universalNavStyle,
   universalNavContentStyle,
