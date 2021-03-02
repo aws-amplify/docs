@@ -217,14 +217,14 @@ The first step to using Amplify in the client is to install the necessary depend
 <amplify-block name="NPM">
 
 ```
-npm install aws-amplify @aws-amplify/ui-components
+npm install aws-amplify @aws-amplify/ui-vue
 ```
 
 </amplify-block>
 <amplify-block name="Yarn">
 
 ```
-yarn add aws-amplify @aws-amplify/ui-components
+yarn add aws-amplify @aws-amplify/ui-vue
 ```
 
 </amplify-block>
