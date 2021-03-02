@@ -78,7 +78,7 @@ Amplify.configure()
 
 ## Authentication requirements
 
-In order to issue an operation (`Datastore.save`, `Datastore.delete`) on a model that has fine grain controls defined, the user must be signed in using `Amplify.Auth.signIn`. A user's sign-in state may vary during the lifecycle of an app, so it is a common practice to check if the user has already been signed in by using `Amplify.Auth.fetchAuthSession` prior to attempting to update/delete a model that uses the @auth directive. The following are examples of how we recommend you handle auth state in your application:
+In order to issue an operation (`DataStore.save`, `DataStore.delete`) on a model that has fine grain controls defined, the user must be signed in using `Amplify.Auth.signIn`. A user's sign-in state may vary during the lifecycle of an app, so it is a common practice to check if the user has already been signed in by using `Amplify.Auth.fetchAuthSession` prior to attempting to update/delete a model that uses the @auth directive. The following are examples of how we recommend you handle auth state in your application:
 
 1. User's sign in state is known to be signed out, and the user needs to sign in, prior to making a call to `DataStore.save()`. 
 
@@ -95,7 +95,7 @@ Amplify.Auth.signIn {
 }
 ```
 
-2. User's sign in state is unknown (for example, app was terminated or transitioned from background to foreground) and you need to check prior to making a call to `Datastore.save()`. 
+2. User's sign in state is unknown (for example, app was terminated or transitioned from background to foreground) and you need to check prior to making a call to `DataStore.save()`. 
 
 ```swift
 _ = Amplify.Auth.fetchAuthSession {

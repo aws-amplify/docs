@@ -115,7 +115,7 @@ Next, you'll create a Todo and save it to DataStore.
       case .success(let savedItem):
           print("Saved item: \(savedItem.name)")
       case .failure(let error):
-          print("Could not save item to datastore: \(error)")
+          print("Could not save item to DataStore: \(error)")
       }    
   }
   ```
@@ -144,7 +144,7 @@ struct ContentView: View {
            case .success(let savedItem):
                print("Saved item: \(savedItem.name)")
            case .failure(let error):
-               print("Could not save item to datastore: \(error)")
+               print("Could not save item to DataStore: \(error)")
            }
         }
     }
@@ -272,7 +272,7 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
 ## Update a Todo
 
 You may want to change the contents of a record. Below, we'll query for a record, create a copy of it, modify it, and save it back to DataStore. 
-1. Edit your `performOnAppear()` method to remove anything related to datastore and **add the following** instead of it:
+1. Edit your `performOnAppear()` method to remove anything related to DataStore and **add the following** instead of it:
 
     ```swift
     Amplify.DataStore.query(Todo.self,
@@ -289,7 +289,7 @@ You may want to change the contents of a record. Below, we'll query for a record
                 case .success(let savedTodo):
                     print("Updated item: \(savedTodo.name)")
                 case .failure(let error):
-                    print("Could not update data in Datastore: \(error)")
+                    print("Could not update data in DataStore: \(error)")
                 }
             }
         case .failure(let error):
@@ -309,7 +309,7 @@ You may want to change the contents of a record. Below, we'll query for a record
 
 To round out our CRUD operations, we'll query for a record and delete it from DataStore.
 
-1. Edit your `performOnAppear()` method to remove anything related to datastore and **add the following** instead of it:
+1. Edit your `performOnAppear()` method to remove anything related to DataStore and **add the following** instead of it:
 
     ```swift
     Amplify.DataStore.query(Todo.self,
@@ -325,7 +325,7 @@ To round out our CRUD operations, we'll query for a record and delete it from Da
                 case .success:
                     print("Deleted item: \(toDeleteTodo.name)")
                 case .failure(let error):
-                    print("Could not update data in Datastore: \(error)")
+                    print("Could not update data in DataStore: \(error)")
                 }
             }
         case .failure(let error):
