@@ -7,7 +7,6 @@ The Amplify CLI requires the below IAM policies for performing actions across al
 
 ```json
 {
-{
     "Version": "2012-10-17",
     "Statement": [
         {
