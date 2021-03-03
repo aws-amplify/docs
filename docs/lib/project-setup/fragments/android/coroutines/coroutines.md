@@ -25,7 +25,7 @@ lifecycleScope.launch {
 
 Coroutines can greatly improve the readability of dependent, asynchronous calls. Moreover, you can use scopes, dispatchers, and other Kotlin coroutine primitives to get more control over your execution context.
 
-Let's consider what happens when we have three dependency operations. We want to save a `Post`, then an `Editor`, and finally a `PostEditor`. With Amplify's coroutines interface, we can write these operations sequentially:
+Let's consider what happens when we have three dependent operations. We want to save a `Post`, then an `Editor`, and finally a `PostEditor`. With Amplify's coroutines interface, we can write these operations sequentially:
 
 
 ```kotlin
@@ -121,4 +121,3 @@ lifecycleScope.async {
     }
 }
 ```
-
