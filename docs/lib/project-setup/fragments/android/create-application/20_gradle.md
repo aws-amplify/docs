@@ -16,7 +16,7 @@ android {
 
 dependencies {
     // Amplify core dependency
-    implementation 'com.amplifyframework:core:1.16.13'
+    implementation 'com.amplifyframework:core:1.16.15'
 
     // Support for Java 8 features
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.1'
@@ -27,7 +27,7 @@ dependencies {
 - Add Amplify Core and Desugaring libraries to the `dependencies` block
 
 <amplify-callout>
-Amplify Android supports API levels 16 and higher. If your are supporting a min SDK less than 21, follow [Android's documentation on adding multidex support](https://developer.android.com/studio/build/multidex#mdex-pre-l).
+Amplify Android supports API levels 16 and higher. If your are supporting a min SDK less than 21, follow <a href="https://developer.android.com/studio/build/multidex#mdex-pre-l">Android's documentation on adding multidex support</a>.
 </amplify-callout>
 
 Run **Gradle Sync**

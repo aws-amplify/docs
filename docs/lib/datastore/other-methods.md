@@ -1,6 +1,6 @@
 ---
 title: Other methods
-description: Other Amplify Datastore methods
+description: Other Amplify DataStore methods
 ---
 
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/other-methods.md"></inline-fragment>

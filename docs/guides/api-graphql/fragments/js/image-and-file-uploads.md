@@ -14,7 +14,7 @@ You typically would need a few things to make this work:
 
 Take for example the following schema for a product in an E-commerce app:
 
-```
+```graphql
 type Product {
   id: ID!
   name: String!

@@ -52,7 +52,7 @@ Note: You MUST grant the role permissions to perform CloudFormation actions and 
 2. Sign in to the AWS Management Console and open the [IAM](https://console.aws.amazon.com/iam/) console. (Assuming Dev corp has a separate AWS account).
 3. In the navigation pane of the console, choose `Policies` and then choose `Create policy`.
 4. Select the 'JSON' tab and paste the following contents in the pane, replacing `<biz_corp_rol_arn>` with the value previously noted.
-```
+```json
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -102,7 +102,7 @@ We are using a virtual MFA device, such as the Google Authenticator app, in this
   `~/.aws/credentials`<br/>
 2. Insert the following contents into the `~/.aws/config` file:
 
-```
+```ini
 [profile bizcorprole]
 role_arn=<role_arn_from_part#1>
 source_profile=devcorpuser
@@ -117,7 +117,8 @@ region=us-east-1
 `mfa_serial` and `external_id` are optional, leave them out if they are not configured.
 
 3. Insert the following contents into the `~/.aws/credentials` file:
-```
+
+```ini
 [devcorpuser]
 aws_access_key_id=<key_id_from_part_2.2>
 aws_secret_access_key=<secret_access_key_from_part_2.2>

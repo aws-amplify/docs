@@ -1,4 +1,4 @@
-* A Flutter application targeting Flutter SDK >= 1.20 with Amplify libraries integrated
+* A Flutter application targeting Flutter SDK >= 1.20 (stable version) with Amplify libraries integrated
     * An iOS configuration targeting at least iOS 11.0
     * An Android configuration targeting at least Android API level 21 (Android 5.0) or above
     * [Amplify Init](https://docs.amplify.aws/lib/project-setup/create-application/q/platform/flutter) and [Amplify Auth already set up](https://docs.amplify.aws/lib/auth/getting-started/q/platform/flutter)

@@ -20,7 +20,7 @@
 
 1. **Open Xcode.** From the menu bar, select **"File -> New -> Project..."**
 
-1. Select **Single View App**, and then select the **Next** button.
+2. Select **App**, and then select the **Next** button.
   ![](~/images/lib/getting-started/ios/set-up-ios-select-project-template.png)
 
 1. Fill in the following for your project:

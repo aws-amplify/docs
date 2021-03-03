@@ -49,7 +49,7 @@ To push your changes to the cloud, **execute the command**:
 amplify push
 ```
 
-Upon completion, your config file (either `amplifyconfiguration.dart` for Flutter or `amplifyconfiguration.json` for JavaScript) should be updated to reference provisioned backend storage resources. Note that these files should already be a part of your project if you followed the [Project setup walkthrough](~/lib/project-setup/create-application.md).
+Upon completion, your config file will reference a newly provisioned S3 bucket. In Amplify Flutter projects, the config file is named `amplifyconfiguration.dart`. In iOS & Android projects, the config file is called `amplifyconfiguration.json`. The config file should already be part of your project if you followed the [Project setup walkthrough](~/lib/project-setup/create-application.md).
 
 ## Install Amplify Libraries
 
