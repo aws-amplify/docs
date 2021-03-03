@@ -1,4 +1,4 @@
-Existing Amazon Cognito identity pools and user pools can be used with the Amplify Libraries by referencing them in your `amplifyconfiguration.json` file.
+Existing Amazon Cognito Identity Pool and User Pool can be used with the Amplify Libraries by referencing them in your `amplifyconfiguration.json` file.
 
 ```json
 {
@@ -47,4 +47,4 @@ Existing Amazon Cognito identity pools and user pools can be used with the Ampli
     
 Note that before you can add an AWS resource to your application, the application must have the Amplify libraries installed. If you need to perform this step, see [Install Amplify Libraries](~/lib/project-setup/create-application.md#n2-install-amplify-libraries). 
 
-If you are using Cognito user pool, without Cognito identity pool, you can omit the **CredentialsProvider** section in the configuration.
+If you are using a Cognito User Pool, without a Cognito Identity Pool, you can omit the **CredentialsProvider** section in the configuration.
