@@ -1,6 +1,6 @@
 Amplify provides an optional and separate API surface which is entirely focused on using Kotlin's [coroutines](https://developer.android.com/kotlin/coroutines) and [flows](https://developer.android.com/kotlin/flow).
 
-To use it, import **`Amplify`** facade from `core-kotlin` instead of from `core`.
+To use it, import **`Amplify`** facade from `core-kotlin` instead of from `core`. See the Installation notes below for more details.
 
 With the Coroutines APIs, most Amplify functions are expressed as `suspend` functions. Suspending functions can be launched using one of the [lifecycle-aware coroutine scopes](https://developer.android.com/topic/libraries/architecture/coroutines#lifecyclescope) in the Android Architecture components:
 
@@ -23,19 +23,16 @@ lifecycleScope.launch {
 }
 ```
 
-Compared to the traditional callback API, this doesn't make a big difference when used for a single method call.
+Coroutines can greatly improve the readability of dependent, asynchronous calls. Moreover, you can use scopes, dispatchers, and other Kotlin coroutine primitives to get more control over your execution context.
 
-However, it greatly improves readability when chaining asynchronous calls. Moreover, you can use scopes, dispatchers, and other Kotlin coroutine primitives to get more control over your execution context.
-
-Let's revisit our nested example where we saved `Post`, `Editor`, and `PostEditor`. With Amplify's coroutines interface, we can write these operations sequentially:
+Let's consider what happens when we have three dependent operations. We want to save a `Post`, then an `Editor`, and finally a `PostEditor`. With Amplify's coroutines interface, we can write these operations sequentially:
 
 
 ```kotlin
 lifecycleScope.launch {
     try {
-        Amplify.DataStore.save(post)
-        Amplify.DataStore.save(editor)
-        Amplify.DataStore.save(postEditor)
+        listOf(post, editor, postEditor)
+            .forEach { Amplify.DataStore.save(it) }
         Log.i("AmplifyKotlinDemo", "Post, Editor, and PostEditor saved")
     } catch (failure: DataStoreException) {
         Log.e("AmplifyKotlinDemo", "An item failed to save", failure)
@@ -43,7 +40,7 @@ lifecycleScope.launch {
 }
 ```
 
-Compared to nesting these dependent calls in callbacks, this provides a much more readable pattern.
+In Amplify's vanilla APIs, this would have created a large block of code with three nested callbacks.
 
 ## Installation
 
@@ -66,16 +63,16 @@ Amplify tries to map the behavior of our callback-based APIs to Kotlin primitive
 
 ## Special cases
 
-Some APIs return an operation which can be cancelled. Examples include subscribing to an API or uploading or downloading objects from Storage.
+Some APIs return an operation which can be cancelled. Examples include realtime subscriptions to an API, and uploading/downloading objects from Storage.
 
 ### API subscriptions
 
-The API category's `subscribe()` method exposes two `Flow`s: one for subscription data, and one for connection state. You can access these flows using the `connectionState()` and `subscriptionData()` accessor methods on the returned operation:
+The API category's `subscribe()` function uses both a suspend function _and_ a Flow. The function suspends until the API subscription is established. Then, it starts emitting values over the Flow.
 
 ```kotlin
 lifecycleScope.async {
     try {
-        Amplify.API.subscribe(request)
+        Amplify.API.subscribe(request) // Suspends until subscription established
             .catch { Log.e("AmplifyKotlinDemo", "Error on subscription", it) }
             .collect { Log.i("AmplifyKotlinDemo", "Data on subscription = $it") }
     } catch (error: ApiException) {
@@ -86,7 +83,7 @@ lifecycleScope.async {
 
 ### Storage upload & download operations
 
-The Storage category's `downloadFile()` and `uploadFile()` work largely the same way. `uploadFile()` and `downloadFile()` both return an operation that presents a suspending `result()` function alongside a `progress()` function that returns a `Flow`. The `result()` function can be used to obtain the result of the download, and `progress()`'s `Flow` can be used to monitor download/upload progress.
+The Storage category's `downloadFile()` and `uploadFile()` functions are bit more complex. These APIs allow you to observe transfer progress, and also to obtain a result. Progress results are delivered over a Flow, returned from the `progress()` function. Completion events are delivered by a suspending `result()` function.
 
 ```kotlin
 // Download
@@ -97,6 +94,7 @@ lifecycleScope.async {
         .progress()
         .collect { Log.i("AmplifyKotlinDemo", "Download progress = $it") }
 }
+
 lifecycleScope.async {
     try {
         val result = download.result()
@@ -123,4 +121,3 @@ lifecycleScope.async {
     }
 }
 ```
-
