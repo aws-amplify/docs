@@ -27,13 +27,13 @@ Amplify.Auth.fetchAuthSession(
 try {
     val session = Amplify.Auth.fetchAuthSession() as AWSCognitoAuthSession
     val id = session.identityId
-    if (id.type == SUCCESS) {
+    if (id.type == AuthSessionResult.Type.SUCCESS) {
         Log.i("AuthQuickStart", "IdentityId: ${id.value}")
-    } else if (id.type == FAILURE) {
+    } else if (id.type == AuthSessionResult.Type.FAILURE) {
         Log.i("AuthQuickStart", "IdentityId not present: ${id.error}")
     }
 } catch (error: AuthException) {
-    Log.e("AuthQuickStart", "Failed to fetch session" error)
+    Log.e("AuthQuickStart", "Failed to fetch session", error)
 }
 ```
 

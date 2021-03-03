@@ -10,8 +10,8 @@ Amplify.Auth.signUp(
     "username",
     "Password123",
     AuthSignUpOptions.builder().userAttributes(attributes).build(),
-    result -> Log.i("TAG", result.toString()),
-    error -> Log.e("TAG", error.toString())
+    result -> Log.i("AuthQuickstart", result.toString()),
+    error -> Log.e("AuthQuickstart", error.toString())
 );
 ```
 
@@ -28,9 +28,9 @@ val options = AuthSignUpOptions.builder()
     .build()
 try {
     val result = Amplify.Auth.signUp("username", "Password123", options)
-    Log.i("TAG", "Sign up OK: $result")
+    Log.i("AuthQuickstart", "Sign up OK: $result")
 } catch (error: AuthException) {
-    Log.e("TAG", "Sign up failed", error)
+    Log.e("AuthQuickstart", "Sign up failed", error)
 }
 ```
 
@@ -47,8 +47,8 @@ RxAmplify.Auth.signUp(
     "Password123",
     AuthSignUpOptions.builder().userAttributes(attributes).build())
     .subscribe(
-        result -> Log.i("TAG", result.toString()),
-        error -> Log.e("TAG", error.toString())
+        result -> Log.i("AuthQuickstart", result.toString()),
+        error -> Log.e("AuthQuickstart", error.toString())
     );
 ```
 

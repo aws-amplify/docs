@@ -61,9 +61,9 @@ Amplify.Auth.updateUserAttributes(
 ```kotlin
 try {
     val result = Amplify.Auth.updateUserAttributes(attributes)
-    Log.i("Updated user attributes = $result") 
+    Log.i("AuthDemo", "Updated user attributes = $result")
 } catch (error: AuthException) {
-    Log.e("Failed to update user attributes", error)
+    Log.e("AuthDemo", "Failed to update user attributes", error)
 }
 ```
 

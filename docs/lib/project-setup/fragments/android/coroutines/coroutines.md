@@ -88,7 +88,7 @@ lifecycleScope.async {
 
 The Storage category's `downloadFile()` and `uploadFile()` work largely the same way. `uploadFile()` and `downloadFile()` both return an operation that presents a suspending `result()` function alongside a `progress()` function that returns a `Flow`. The `result()` function can be used to obtain the result of the download, and `progress()`'s `Flow` can be used to monitor download/upload progress.
 
-```java
+```kotlin
 // Download
 val download = Amplify.Storage.downloadFile(remoteKey, localFile)
 

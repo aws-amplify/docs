@@ -25,7 +25,7 @@ Amplify.DataStore
             .and(Post.STATUS.eq(PostStatus.PUBLISHED)))
     )
     .catch { Log.e("MyAmplifyApp", "Query failed", it) }
-    .collect { Log.i("MyAmplifyApp", "Post: ${it.next()}")}
+    .collect { Log.i("MyAmplifyApp", "Post: $it") }
 ```
 
 </amplify-block>

@@ -51,10 +51,10 @@ public void detectEntities(Bitmap image) {
 ```kotlin
 suspend fun detectEntities(image: Bitmap) {
     try {
-        val result = Amplify.Predictions.identify(DETECT_ENTITIES, image)
+        val result = Amplify.Predictions.identify(IdentifyActionType.DETECT_ENTITIES, image)
         val identifyResult = result as IdentifyEntitiesResult
-        val metadata = identifyResult.entities[0]
-        Log.i("MyAmplifyApp", metadata.box!!.toShortString())
+        val value = identifyResult.entities.firstOrNull()?.box?.toShortString()
+        Log.i("MyAmplifyApp", "$value")
     } catch (error: PredictionsException) {
         Log.e("MyAmplifyApp", "Entity detection failed", error)
     }
@@ -142,10 +142,10 @@ public void detectEntities(Bitmap image) {
 ```kotlin
 suspend fun detectEntities(image: Bitmap) {
     try {
-        val result = Amplify.Predictions.identify(DETECT_ENTITIES, image)
+        val result = Amplify.Predictions.identify(IdentifyActionType.DETECT_ENTITIES, image)
         val identifyResult = result as IdentifyEntityMatchesResult
-        val match = identifyResult.entityMatches[0]
-        Log.i("MyAmplifyApp", match.externalImageId)
+        val imageId = identifyResult.entityMatches.firstOrNull()?.externalImageId
+        Log.i("MyAmplifyApp", "$imageId")
     } catch (error: PredictionsException) {
         Log.e("MyAmplifyApp", "Identify failed", error)
     }
@@ -200,10 +200,10 @@ public void detectCelebs(Bitmap image) {
 ```kotlin
 suspend fun detectCelebs(image: Bitmap) {
     try {
-        val result = Amplify.Predictions.identify(DETECT_CELEBRITIES, image)
+        val result = Amplify.Predictions.identify(IdentifyActionType.DETECT_CELEBRITIES, image)
         val identifyResult = result as IdentifyCelebritiesResult
-        val metadata = identifyResult.celebrities[0]
-        Log.i("MyAmplifyApp", metadata.celebrity.name)
+        val celebrityName = identifyResult.celebrities.firstOrNull()?.celebrity?.name
+        Log.i("MyAmplifyApp", "$celebrityName")
     } catch (error: PredictionsException) {
         Log.e("MyAmplifyApp", "Identify failed", error)
     }
