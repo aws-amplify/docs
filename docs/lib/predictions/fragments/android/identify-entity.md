@@ -49,19 +49,15 @@ public void detectEntities(Bitmap image) {
 <amplify-block name="Kotlin">
 
 ```kotlin
-fun detectEntities(image: Bitmap) {
-    Amplify.Predictions.identify(
-        IdentifyActionType.DETECT_ENTITIES,
-        image,
-        Consumer { result ->
-            val identifyResult = result as IdentifyEntitiesResult
-            val metadata = identifyResult.getEntities()[0]
-            Log.i("MyAmplifyApp", metadata.getBox()!!.toShortString())
-        },
-        Consumer { error ->
-            Log.e("MyAmplifyApp", "Entity detection failed", error)
-        }
-    )
+suspend fun detectEntities(image: Bitmap) {
+    try {
+        val result = Amplify.Predictions.identify(IdentifyActionType.DETECT_ENTITIES, image)
+        val identifyResult = result as IdentifyEntitiesResult
+        val value = identifyResult.entities.firstOrNull()?.box?.toShortString()
+        Log.i("MyAmplifyApp", "$value")
+    } catch (error: PredictionsException) {
+        Log.e("MyAmplifyApp", "Entity detection failed", error)
+    }
 }
 ```
 
@@ -144,19 +140,15 @@ public void detectEntities(Bitmap image) {
 <amplify-block name="Kotlin">
 
 ```kotlin
-fun detectEntities(image: Bitmap) {
-    Amplify.Predictions.identify(
-        IdentifyActionType.DETECT_ENTITIES,
-        image,
-        Consumer { result: IdentifyResult ->
-            val identifyResult = result as IdentifyEntityMatchesResult
-            val match = identifyResult.getEntityMatches()[0]
-            Log.i("AmplifyQuickstart", match.externalImageId)
-        },
-        Consumer { error: PredictionsException ->
-            Log.e("AmplifyQuickstart", "Identify failed", error)
-        }
-    )
+suspend fun detectEntities(image: Bitmap) {
+    try {
+        val result = Amplify.Predictions.identify(IdentifyActionType.DETECT_ENTITIES, image)
+        val identifyResult = result as IdentifyEntityMatchesResult
+        val imageId = identifyResult.entityMatches.firstOrNull()?.externalImageId
+        Log.i("MyAmplifyApp", "$imageId")
+    } catch (error: PredictionsException) {
+        Log.e("MyAmplifyApp", "Identify failed", error)
+    }
 }
 ```
 
@@ -206,19 +198,15 @@ public void detectCelebs(Bitmap image) {
 <amplify-block name="Kotlin">
 
 ```kotlin
-fun detectCelebs(image: Bitmap) {
-    Amplify.Predictions.identify(
-        IdentifyActionType.DETECT_CELEBRITIES,
-        image,
-        Consumer { result: IdentifyResult ->
-            val identifyResult = result as IdentifyCelebritiesResult
-            val metadata = identifyResult.getCelebrities()[0]
-            Log.i("MyAmplifyApp", metadata.getCelebrity().name)
-        },
-        Consumer { error: PredictionsException ->
-            Log.e("MyAmplifyApp", "Identify failed", error)
-        }
-    )
+suspend fun detectCelebs(image: Bitmap) {
+    try {
+        val result = Amplify.Predictions.identify(IdentifyActionType.DETECT_CELEBRITIES, image)
+        val identifyResult = result as IdentifyCelebritiesResult
+        val celebrityName = identifyResult.celebrities.firstOrNull()?.celebrity?.name
+        Log.i("MyAmplifyApp", "$celebrityName")
+    } catch (error: PredictionsException) {
+        Log.e("MyAmplifyApp", "Identify failed", error)
+    }
 }
 ```
 

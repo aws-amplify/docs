@@ -28,20 +28,23 @@ Amplify.Hub.subscribe(HubChannel.AUTH,
 );
 ```
 
- </amplify-block>
- <amplify-block name="Kotlin">
+</amplify-block>
+<amplify-block name="Kotlin">
 
- ```kotlin
-Amplify.Hub.subscribe(HubChannel.AUTH) { hubEvent: HubEvent<*> ->
-    if (hubEvent.name == InitializationStatus.SUCCEEDED.toString()) {
-        Log.i("AuthQuickstart", "Auth successfully initialized")
-    } else if (hubEvent.name == InitializationStatus.FAILED.toString()) {
-        Log.i("AuthQuickstart", "Auth failed to succeed")
-    } else {
-        when (AuthChannelEventName.valueOf(hubEvent.name)) {
-            AuthChannelEventName.SIGNED_IN -> Log.i("AuthQuickstart", "Auth just became signed in.")
-            AuthChannelEventName.SIGNED_OUT -> Log.i("AuthQuickstart", "Auth just became signed out.")
-            AuthChannelEventName.SESSION_EXPIRED -> Log.i("AuthQuickstart", "Auth session just expired.")
+```kotlin
+Amplify.Hub.subscribe(HubChannel.AUTH).collect {
+    when (it.name) {
+        InitializationStatus.SUCCEEDED.toString() ->
+            Log.i("AuthQuickstart", "Auth successfully initialized")
+        InitializationStatus.FAILED.toString() ->
+            Log.i("AuthQuickstart", "Auth failed to succeed")
+        else -> when (AuthChannelEventName.valueOf(it.name)) {
+            AuthChannelEventName.SIGNED_IN ->
+                Log.i("AuthQuickstart", "Auth just became signed in.")
+            AuthChannelEventName.SIGNED_OUT ->
+                Log.i("AuthQuickstart", "Auth just became signed out.")
+            AuthChannelEventName.SESSION_EXPIRED ->
+                Log.i("AuthQuickstart", "Auth session just expired.")
         }
     }
 }

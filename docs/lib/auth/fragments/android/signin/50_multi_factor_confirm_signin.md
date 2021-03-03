@@ -12,12 +12,13 @@ Amplify.Auth.confirmSignIn(
 </amplify-block>
 <amplify-block name="Kotlin">
 
- ```kotlin
-Amplify.Auth.confirmSignIn(
-    "confirmation code received via SMS",
-    { result: AuthSignInResult -> Log.i("AuthQuickstart", result.toString()) },
-    { error: AuthException -> Log.e("AuthQuickstart", error.toString()) }
-)
+```kotlin
+try {
+    val result = Amplify.Auth.confirmSignIn("code received via SMS")
+    Log.i("AuthQuickstart", "Confirmed signin: $result") 
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Failed to confirm signin", error)
+}
 ```
 
 </amplify-block>

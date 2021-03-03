@@ -10,26 +10,28 @@ Amplify.Auth.signUp(
     "username",
     "Password123",
     AuthSignUpOptions.builder().userAttributes(attributes).build(),
-    result -> Log.i("TAG", result.toString()),
-    error -> Log.e("TAG", error.toString())
+    result -> Log.i("AuthQuickstart", result.toString()),
+    error -> Log.e("AuthQuickstart", error.toString())
 );
 ```
 
 </amplify-block>
 <amplify-block name="Kotlin">
 
- ```kotlin
-val attributes: ArrayList<AuthUserAttribute> = ArrayList()
-attributes.add(AuthUserAttribute(AuthUserAttributeKey.email(), "my@email.com"))
-attributes.add(AuthUserAttribute(AuthUserAttributeKey.phoneNumber(), "+15551234567"))
-
-Amplify.Auth.signUp(
-    "username",
-    "Password123",
-    AuthSignUpOptions.builder().userAttributes(attributes).build(),
-    { result: AuthSignUpResult -> Log.i("TAG", result.toString()) },
-    { error: AuthException -> Log.e("TAG", error.toString()) }
+```kotlin
+val attrs = mapOf(
+    AuthUserAttributeKey.email() to "my@email.com",
+    AuthUserAttributeKey.phoneNumber() to "+15551234567"
 )
+val options = AuthSignUpOptions.builder()
+    .userAttributes(attrs.map { AuthUserAttribute(it.key, it.value) })
+    .build()
+try {
+    val result = Amplify.Auth.signUp("username", "Password123", options)
+    Log.i("AuthQuickstart", "Sign up OK: $result")
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Sign up failed", error)
+}
 ```
 
 </amplify-block>
@@ -45,8 +47,8 @@ RxAmplify.Auth.signUp(
     "Password123",
     AuthSignUpOptions.builder().userAttributes(attributes).build())
     .subscribe(
-        result -> Log.i("TAG", result.toString()),
-        error -> Log.e("TAG", error.toString())
+        result -> Log.i("AuthQuickstart", result.toString()),
+        error -> Log.e("AuthQuickstart", error.toString())
     );
 ```
 

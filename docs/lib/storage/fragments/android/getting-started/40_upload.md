@@ -26,17 +26,17 @@ private void uploadFile() {
 <amplify-block name="Kotlin">
 
 ```kotlin
-private fun uploadFile() {
+private suspend fun uploadFile() {
     val exampleFile = File(applicationContext.filesDir, "ExampleKey")
-
     exampleFile.writeText("Example file contents")
 
-    Amplify.Storage.uploadFile(
-        "ExampleKey",
-        exampleFile,
-        { result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()) },
-        { error -> Log.e("MyAmplifyApp", "Upload failed", error) }
-    )
+    val upload = Amplify.Storage.uploadFile("ExampleKey", exampleFile)
+    try {
+        val result = upload.result()
+        Log.i("MyAmplifyApp", "Successfully uploaded: ${result.key}")
+    } catch (error: StorageException) {
+        Log.e("MyAmplifyApp", "Upload failed", error)
+    }
 }
 ```
 

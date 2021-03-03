@@ -12,10 +12,12 @@ Amplify.Auth.fetchUserAttributes(
 <amplify-block name="Kotlin">
 
 ```kotlin
-Amplify.Auth.fetchUserAttributes(
-    { Log.i("AuthDemo", "User attributes = $it") },
-    { Log.e("AuthDemo", "Failed to fetch user attributes.", $it) }
-)
+try {
+    val attributes = Amplify.Auth.fetchUserAttributes()
+    Log.i("AuthDemo", "User attributes = $attributes")
+} catch (error: AuthException) {
+    Log.e("AuthDemo", "Failed to fetch user attributes", error)
+}
 ```
 
 </amplify-block>

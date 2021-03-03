@@ -12,11 +12,15 @@ Amplify.Auth.signOut(
 </amplify-block>
 <amplify-block name="Kotlin">
 
- ```kotlin
-Amplify.Auth.signOut(
-    AuthSignOutOptions.builder().globalSignOut(true).build(),
-    { Log.i("AuthQuickstart", "Signed out globally") },
-    { error -> Log.e("AuthQuickstart", error.toString()) }
+```kotlin
+val options = AuthSignOutOptions.builder()
+    .globalSignOut(true)
+    .build()
+try {
+    Amplify.Auth.signOut(options)
+    Log.i("AuthQuickstart", "Signed out globally") 
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Sign out failed", error)
 )
 ```
 

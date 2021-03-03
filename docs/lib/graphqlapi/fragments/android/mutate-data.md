@@ -22,14 +22,14 @@ Amplify.API.mutate(
 
 ```kotlin
 val todo = Todo.builder()
-        .name("My todo")
-        .build()
-
-Amplify.API.mutate(
-        ModelMutation.create(todo),
-        { response -> Log.i("MyAmplifyApp", "Todo with id: " + response.data.id) },
-        { error -> Log.e("MyAmplifyApp", "Create failed", error) }
-)
+    .name("My todo")
+    .build()
+try {
+    val response = Amplify.API.mutate(ModelMutation.create(todo))
+    Log.i("MyAmplifyApp", "Todo with id: ${response.data.id}")
+} catch (error: ApiException) {
+    Log.e("MyAmplifyApp", "Create failed", error)
+}
 ```
 
 </amplify-block>

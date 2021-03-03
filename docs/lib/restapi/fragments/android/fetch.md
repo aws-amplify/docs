@@ -22,15 +22,16 @@ void getTodo() {
 <amplify-block name="Kotlin">
 
 ```kotlin
-fun getTodo() {
-    val options = RestOptions.builder()
+private suspend fun getTodo() {
+    val request = RestOptions.builder()
         .addPath("/todo")
         .build()
-
-    Amplify.API.get(options,
-        { Log.i("MyAmplifyApp", "GET succeeded: ${it.data}") },
-        { Log.e("MyAmplifyApp", "GET failed", it) }
-    )
+    try {
+        val response = Amplify.API.get(request)
+        Log.i("MyAmplifyApp", "GET succeeded: ${response.data}")
+    } catch (error: ApiException) {
+        Log.e("MyAmplifyApp", "GET failed", error)
+    }
 }
 ```
 
@@ -111,15 +112,16 @@ Amplify.API.get(options,
 <amplify-block name="Kotlin">
 
 ```kotlin
-val options: RestOptions = RestOptions.builder()
+val request = RestOptions.builder()
     .addPath("/todo")
-    .addQueryParameters(Collections.singletonMap("q", "test"))
+    .addQueryParameters(mapOf("q", "test"))
     .build()
-
-Amplify.API.get(options,
-    { Log.i("MyAmplifyApp", "GET succeeded: $it.") },
-    { Log.e("MyAmplifyApp", "GET failed.", it) }
-)
+try {
+    val response = Amplify.API.get(request)
+    Log.i("MyAmplifyApp", "GET succeeded: $response.")
+} catch (error: ApiException) {
+    Log.e("MyAmplifyApp", "GET failed", error)
+}
 ```
 
 </amplify-block>

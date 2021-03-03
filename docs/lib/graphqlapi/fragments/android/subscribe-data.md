@@ -20,16 +20,18 @@ subscription.cancel();
 <amplify-block name="Kotlin">
 
 ```kotlin
-val subscription: ApiOperation<*>? = Amplify.API.subscribe(
-        ModelSubscription.onCreate(Todo::class.java),
-        { Log.i("ApiQuickStart", "Subscription established") },
-        { onCreated -> Log.i("ApiQuickStart", "Todo create subscription received: " + onCreated.data.name) },
-        { onFailure -> Log.e("ApiQuickStart", "Subscription failed", onFailure) },
-        { Log.i("ApiQuickStart", "Subscription completed") }
-)
+val job = activityScope.launch {
+    try {
+        Amplify.API.subscribe(ModelSubscription.onCreate(Todo::class.java))
+            .catch { Log.e("ApiQuickStart", "Error on subscription", it) }
+            .collect { Log.i("ApiQuickStart", "Todo created!  ${it.data.name}") }
+    } catch (notEstablished: ApiException) {
+        Log.e("ApiQuickStart", "Subscription not established", it)
+    }
+}
 
-// Cancel the subscription listener when you're finished with it
-subscription!!.cancel()
+// When done with subscription
+job.cancel()
 ```
 
 </amplify-block>

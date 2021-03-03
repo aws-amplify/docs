@@ -123,8 +123,7 @@ Amplify.Analytics.registerGlobalProperties(
 Amplify.Analytics.registerGlobalProperties(
     AnalyticsProperties.builder()
         .add("AppStyle", "DarkMode")
-        .build()
-)
+        .build())
 ```
 
 </amplify-block>

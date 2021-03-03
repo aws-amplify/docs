@@ -8,8 +8,9 @@ AWSMobileClient mobileClient = (AWSMobileClient) Amplify.Auth.getPlugin("awsCogn
  </amplify-block>
  <amplify-block name="Kotlin">
 
- ```kotlin
-val mobileClient = Amplify.Auth.getPlugin("awsCognitoAuthPlugin").escapeHatch as AWSMobileClient?
+```kotlin
+val cognitoAuthPlugin = Amplify.Auth.getPlugin("awsCognitoAuthPlugin")
+val mobileClient = cognitoAuthPlugin.escapeHatch as AWSMobileClient
 ```
 
  </amplify-block>

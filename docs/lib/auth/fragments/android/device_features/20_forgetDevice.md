@@ -10,10 +10,13 @@ Amplify.Auth.forgetDevice(
 </amplify-block>
 <amplify-block name="Kotlin">
 
- ```kotlin
-Amplify.Auth.forgetDevice(
-    { Log.i("AuthQuickStart", "Forget device succeeded") },
-    { error -> Log.e("AuthQuickStart", "Forget device failed with error: $error") })
+```kotlin
+try {
+    Amplify.Auth.forgetDevice()
+    Log.i("AuthQuickStart", "Forget device succeeded") 
+} catch (error: AuthException) {
+    Log.e("AuthQuickStart", "Forget device failed with error:", error)
+}
 ```
 
 </amplify-block>
