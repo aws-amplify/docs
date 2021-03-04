@@ -15,7 +15,21 @@ Amplify.API.delete(options,
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+val options = RestOptions.builder()
+    .addPath("/todo/1")
+    .build()
+
+Amplify.API.delete(options,
+    { Log.i("MyAmplifyApp", "DELETE succeeded: $it") },
+    { Log.e("MyAmplifyApp", "DELETE failed.", it) }
+)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 val request = RestOptions.builder()

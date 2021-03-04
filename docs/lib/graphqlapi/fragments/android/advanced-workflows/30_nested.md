@@ -64,12 +64,23 @@ Then query for the Post:
 
 ```java
 Amplify.API.query(getPostWithCommentsRequest("[TODO_ID]"),
-        response -> Log.d("MyAmplifyApp", "response" + response),
-        error -> Log.e("MyAmplifyApp", "error" + error));
+    response -> Log.d("MyAmplifyApp", "response" + response),
+    error -> Log.e("MyAmplifyApp", "error" + error)
+);
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.API.query(getPostWithCommentsRequest("[TODO_ID]"),
+    { Log.d("MyAmplifyApp", "Response = $response") },
+    { Log.e("MyAmplifyApp", "Error!", it) }
+)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 try {

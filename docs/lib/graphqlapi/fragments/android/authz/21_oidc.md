@@ -28,7 +28,7 @@ Amplify.addPlugin(new AWSApiPlugin(authProviders));
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
 
 This implementation uses `CompletableFuture<T>`, which requires `minSdkVersion >= 24`.
 
@@ -41,6 +41,21 @@ val authProviders = ApiAuthProviders.builder()
             { future.completeExceptionally(it) }
         )
         future.get()
+    }
+    .build()
+Amplify.addPlugin(AWSApiPlugin(authProviders))
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
+
+This implementation uses `CompletableFuture<T>`, which requires `minSdkVersion >= 24`.
+
+```kotlin
+val authProviders = ApiAuthProviders.builder()
+    .oidcAuthProvider {
+        val session = runBlocking { Amplify.Auth.fetchAuthSession() }
+        return (session as AWSCognitoAuthSession).userPoolTokens.value?.idToken
     }
     .build()
 Amplify.addPlugin(AWSApiPlugin(authProviders))
@@ -71,7 +86,7 @@ Amplify.addPlugin(new AWSApiPlugin(authProviders));
 ```
 
 </amplify-block>
-<amplify-block name="RxKotlin">
+<amplify-block name="Kotlin (with RxJava)">
 
 Using the `rxbindings` module can simplify this further.
 

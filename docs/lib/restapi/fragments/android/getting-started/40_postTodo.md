@@ -14,7 +14,22 @@ Amplify.API.post(options,
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+val options = RestOptions.builder()
+    .addPath("/todo")
+    .addBody("{\"name\":\"Mow the lawn\"}".getBytes())
+    .build()
+
+Amplify.API.post(options,
+    { Log.i("MyAmplifyApp", "POST succeeded: $it") },
+    { Log.e("MyAmplifyApp", "POST failed", it) }
+)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 val request = RestOptions.builder()

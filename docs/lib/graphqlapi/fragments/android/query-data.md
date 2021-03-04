@@ -7,16 +7,28 @@ Now that you were able to make a mutation, take the `Id` that was printed out an
 
 ```java
 private void getTodo(String id) {
-  Amplify.API.query(
-          ModelQuery.get(Todo.class, id),
-          response -> Log.i("MyAmplifyApp", ((Todo) response.getData()).getName()),
-          error -> Log.e("MyAmplifyApp", error.toString(), error)
-  );
+    Amplify.API.query(
+        ModelQuery.get(Todo.class, id),
+        response -> Log.i("MyAmplifyApp", ((Todo) response.getData()).getName()),
+        error -> Log.e("MyAmplifyApp", error.toString(), error)
+    );
 }
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+private fun getTodo(id: String) {
+    Amplify.API.query(ModelQuery.get(Todo::class.java, id),
+        { Log.i("MyAmplifyApp", "Query results = ${(it.data as Todo).name}") },
+        { Log.e("MyAmplifyApp", "Query failed", it) }
+    );
+}
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 suspend fun getTodo(id: String) {
@@ -54,18 +66,33 @@ You can get the list of items that match a condition that you specify in `Amplif
 
 ```java
 Amplify.API.query(
-        ModelQuery.list(Todo.class, Todo.NAME.contains("first")),
-        response -> {
-            for (Todo todo : response.getData()) {
-                Log.i("MyAmplifyApp", todo.getName());
-            }
-        },
-        error -> Log.e("MyAmplifyApp", "Query failure", error)
+    ModelQuery.list(Todo.class, Todo.NAME.contains("first")),
+    response -> {
+        for (Todo todo : response.getData()) {
+            Log.i("MyAmplifyApp", todo.getName());
+        }
+    },
+    error -> Log.e("MyAmplifyApp", "Query failure", error)
 );
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.API.query(
+    ModelQuery.list(Todo::class.java, Todo.NAME.contains("first")),
+    { response ->
+        response.data.forEach { todo ->
+            Log.i("MyAmplifyApp", todo.name)
+        }
+    },
+    { Log.e("MyAmplifyApp", "Query failure", it) }
+)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Flow (Beta)">
 
 ```kotlin
 try {
@@ -129,7 +156,32 @@ private static void query(GraphQLRequest<PaginatedResult<Todo>> request) {
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+fun queryFirstPage() {
+    query(ModelQuery.list(Todo::class.java, ModelPagination.limit(1_000)))
+}
+
+fun query(request: GraphQLRequest<PaginatedResult<Todo>>) {
+    Amplify.API.query(request,
+        { response ->
+            if (response.hasData()) {
+                response.data.items.forEach { todo ->
+                    Log.d("MyAmplifyApp", todo.name)
+                }
+                if (response.data.hasNextResult()) {
+                    query(response.data.requestForNextResult)
+                }
+            }
+        },
+        { Log.e("MyAmplifyApp", "Query failed", it) }
+    )
+}
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 suspend fun queryFirstPage() {
