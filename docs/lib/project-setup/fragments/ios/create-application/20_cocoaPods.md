@@ -1,4 +1,4 @@
-Before starting this step, please make sure that please **close Xcode.**
+Before starting this step, please make sure you **close Xcode.**
 
 **Open a terminal** and **change directories to your project**.  For example, if you created your project in the folder `~/Developer`, you can:
 ```bash
