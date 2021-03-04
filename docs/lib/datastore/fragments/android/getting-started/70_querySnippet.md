@@ -15,12 +15,28 @@ Amplify.DataStore.query(Post.class,
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.DataStore.query(Post::class.java,
+    { matches ->
+        if (matches.hasNext()) {
+            Log.i("MyAmplifyApp", "Successful query, found posts.")
+        } else {
+            Log.i("MyAmplifyApp", "Successful query, but no posts.")
+        }
+    },
+    { Log.e("MyAmplifyApp",  "Error retrieving posts", it) }
+)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Flow (Beta)">
 
 ```kotlin
 Amplify.DataStore.query(Post::class)
-    .collect { Log.i("MyAmplifyApp", "Post retrieved successfully") }
     .catch { Log.e("MyAmplifyApp",  "Error retrieving posts", it) }
+    .collect { Log.i("MyAmplifyApp", "Post retrieved successfully") }
 ```
 
 </amplify-block>

@@ -15,7 +15,23 @@ Amplify.DataStore.save(post,
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+val post = Post.builder()
+    .title("My First Post")
+    .rating(10)
+    .status(PostStatus.PUBLISHED)
+    .build()
+
+Amplify.DataStore.save(post,
+    { Log.i("MyAmplifyApp", "Saved a post") },
+    { Log.e("MyAmplifyApp", "Save failed", it) }
+)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Flow (Beta)">
 
 ```kotlin
 val post = Post.builder()

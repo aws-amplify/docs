@@ -14,7 +14,22 @@ Amplify.DataStore.query(Comment.class, Post.STATUS.eq(PostStatus.ACTIVE),
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.DataStore.query(Comment::class.java, Post.STATUS.eq(PostStatus.ACTIVE),
+    { matches ->
+        while (matches.hasNext()) {
+            val comment = matches.next()
+            Log.i("MyAmplifyApp", "Content: ${comment.content}")
+        }
+    },
+    { Log.e("MyAmplifyApp", "Query failed", it) }
+)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Flow (Beta)">
 
 ```kotlin
 Amplify.DataStore

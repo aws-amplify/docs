@@ -80,7 +80,33 @@ public void changeSync() {
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+var rating: Int = 5;
+
+fun initialize() {
+    Amplify.addPlugin(AWSDataStorePlugin(DataStoreConfiguration.builder()
+        .syncExpression(Post::class.java) { Post.RATING.gt(rating) }
+        .build()))
+}
+
+fun changeSync() {
+    rating = 1;
+    Amplify.DataStore.stop(
+        {
+            Amplify.DataStore.start(
+                { Log.i("MyAmplifyApp", "DataStore started") },
+                { Log.e("MyAmplifyApp", "Error starting DataStore", it) }
+            )
+        },
+        { Log.e("MyAmplifyApp", "Error stopping DataStore", it) }
+    )
+}
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 var rating = 5
@@ -158,7 +184,25 @@ public void changeSync() {
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+fun changeSync() {
+    rating = 8;
+    Amplify.DataStore.clear(
+        {
+            Amplify.DataStore.start(
+                { Log.i("MyAmplifyApp", "DataStore started") },
+                { Log.e("MyAmplifyApp", "Error starting DataStore", it) }
+            )
+        },
+        { Log.e("MyAmplifyApp", "Error clearing DataStore", it) }
+    )
+}
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 suspend fun changeSync() {
