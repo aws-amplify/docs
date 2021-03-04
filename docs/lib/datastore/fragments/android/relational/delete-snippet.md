@@ -35,7 +35,7 @@ Amplify.DataStore.query(Post::class.java, Where.id("123"),
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin - Flow (Beta)">
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 Amplify.DataStore.query(Post::class, Where.id("123"))

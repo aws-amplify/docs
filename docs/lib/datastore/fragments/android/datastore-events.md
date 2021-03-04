@@ -26,7 +26,7 @@ Amplify.Hub.subscribe(HubChannel.DATASTORE,
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin - Flow (Beta)">
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 Amplify.Hub.subscribe(DATASTORE)
