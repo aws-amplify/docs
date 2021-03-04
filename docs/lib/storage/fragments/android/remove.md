@@ -5,14 +5,24 @@ To delete an object uploaded to S3, use `Amplify.Storage.remove` and specify the
 
 ```java
 Amplify.Storage.remove(
-        "myUploadedFileName.txt",
-        result -> Log.i("MyAmplifyApp", "Successfully removed: " + result.getKey()),
-        error -> Log.e("MyAmplifyApp", "Remove failure", error)
+    "myUploadedFileName.txt",
+    result -> Log.i("MyAmplifyApp", "Successfully removed: " + result.getKey()),
+    error -> Log.e("MyAmplifyApp", "Remove failure", error)
 );
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Storage.remove("myUploadedFileName.txt",
+    { Log.i("MyAmplifyApp", "Successfully removed: ${it.key}") },
+    { Log.e("MyAmplifyApp", "Remove failure", it) }
+)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 try {
