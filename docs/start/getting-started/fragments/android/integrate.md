@@ -32,6 +32,7 @@ First, we'll add the DataStore plugin and configure Amplify by creating an Appli
   try {
       Amplify.addPlugin(AWSDataStorePlugin())
       Amplify.configure(applicationContext)
+
       Log.i("Tutorial", "Initialized Amplify")
   } catch (failure: AmplifyException) {
       Log.e("Tutorial", "Could not initialize Amplify", failure)
@@ -62,9 +63,9 @@ Next, you'll create a Todo and save it to DataStore.
 
   ```java
   Todo item = Todo.builder()
-          .name("Build Android application")
-          .description("Build an Android application using Amplify")
-          .build();
+      .name("Build Android application")
+      .description("Build an Android application using Amplify")
+      .build();
   ```
 
   </amplify-block>
@@ -89,10 +90,9 @@ Next, you'll create a Todo and save it to DataStore.
   <amplify-block name="Java">
 
   ```java
-    Amplify.DataStore.save(
-            item,
-            success -> Log.i("Tutorial", "Saved item: " + success.item().getName()),
-            error -> Log.e("Tutorial", "Could not save item to DataStore", error)
+    Amplify.DataStore.save(item,
+        success -> Log.i("Tutorial", "Saved item: " + success.item().getName()),
+        error -> Log.e("Tutorial", "Could not save item to DataStore", error)
     );
   ```
 
@@ -101,11 +101,9 @@ Next, you'll create a Todo and save it to DataStore.
   <amplify-block name="Kotlin">
 
   ```kotlin
-  try {
-      Amplify.DataStore.save(item)
-      Log.i("Tutorial", "Saved item: ${item.name}")
-  } catch (error: AmplifyException) {
-      Log.e("Tutorial", "Could not save item to DataStore", error)
+  Amplify.DataStore.save(item,
+      { Log.i("Tutorial", "Saved item: ${item.name}") },
+      { Log.e("Tutorial", "Could not save item to DataStore", it) }
   )
   ```
 
@@ -126,10 +124,10 @@ Next, you'll create a Todo and save it to DataStore.
 
   ```java
   Todo item = Todo.builder()
-          .name("Finish quarterly taxes")
-          .priority(Priority.HIGH)
-          .description("Taxes are due for the quarter next week")
-          .build();
+      .name("Finish quarterly taxes")
+      .priority(Priority.HIGH)
+      .description("Taxes are due for the quarter next week")
+      .build();
   ```
 
   </amplify-block>
@@ -166,25 +164,24 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
   <amplify-block name="Java">
 
   ```java
-  Amplify.DataStore.query(
-          Todo.class,
-          todos -> {
-              while (todos.hasNext()) {
-                  Todo todo = todos.next();
+  Amplify.DataStore.query(Todo.class,
+      todos -> {
+          while (todos.hasNext()) {
+              Todo todo = todos.next();
 
-                  Log.i("Tutorial", "==== Todo ====");
-                  Log.i("Tutorial", "Name: " + todo.getName());
+              Log.i("Tutorial", "==== Todo ====");
+              Log.i("Tutorial", "Name: " + todo.getName());
 
-                  if (todo.getPriority() != null) {
-                      Log.i("Tutorial", "Priority: " + todo.getPriority().toString());
-                  }
-
-                  if (todo.getDescription() != null) {
-                      Log.i("Tutorial", "Description: " + todo.getDescription());
-                  }
+              if (todo.getPriority() != null) {
+                  Log.i("Tutorial", "Priority: " + todo.getPriority().toString());
               }
-          },
-          failure -> Log.e("Tutorial", "Could not query DataStore", failure)
+
+              if (todo.getDescription() != null) {
+                  Log.i("Tutorial", "Description: " + todo.getDescription());
+              }
+          }
+      },
+      failure -> Log.e("Tutorial", "Could not query DataStore", failure)
   );
   ```
 
@@ -193,20 +190,18 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
   <amplify-block name="Kotlin">
 
   ```kotlin
-  Amplify.DataStore.query(Todo::class)
-      .catch { Log.e("Tutorial", "Could not query DataStore", it) }
-      .collect { todo ->
-          Log.i("Tutorial", "==== Todo ====")
-          Log.i("Tutorial", "Name: ${todo.name}")
-
-          if (todo.priority != null) {
+  Amplify.DataStore.query(Todo::class.java,
+      { todos ->
+          while (todos.hasNext()) {
+              val todo: Todo = todos.next()
+              Log.i("Tutorial", "==== Todo ====")
+              Log.i("Tutorial", "Name: ${todo.name}")
               Log.i("Tutorial", "Priority: ${todo.priority}")
-          }
-
-          if (todo.description != null) {
               Log.i("Tutorial", "Description: ${todo.description}")
           }
-      }
+      },
+      { Log.e("Tutorial", "Could not query DataStore", it)  }
+  )
   ```
 
   </amplify-block>
@@ -247,28 +242,25 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
   <amplify-block name="Java">
 
   ```java
-  Amplify.DataStore.query(
-          Todo.class,
-          Where.matches(
-              Todo.PRIORITY.eq(Priority.HIGH)
-          ),
-          todos -> {
-              while (todos.hasNext()) {
-                  Todo todo = todos.next();
+  Amplify.DataStore.query(Todo.class,
+      Where.matches(Todo.PRIORITY.eq(Priority.HIGH)),
+      todos -> {
+          while (todos.hasNext()) {
+              Todo todo = todos.next();
 
-                  Log.i("Tutorial", "==== Todo ====");
-                  Log.i("Tutorial", "Name: " + todo.getName());
+              Log.i("Tutorial", "==== Todo ====");
+              Log.i("Tutorial", "Name: " + todo.getName());
 
-                  if (todo.getPriority() != null) {
-                      Log.i("Tutorial", "Priority: " + todo.getPriority().toString());
-                  }
-
-                  if (todo.getDescription() != null) {
-                      Log.i("Tutorial", "Description: " + todo.getDescription());
-                  }
+              if (todo.getPriority() != null) {
+                  Log.i("Tutorial", "Priority: " + todo.getPriority().toString());
               }
-          },
-          failure -> Log.e("Tutorial", "Could not query DataStore", failure)
+
+              if (todo.getDescription() != null) {
+                  Log.i("Tutorial", "Description: " + todo.getDescription());
+              }
+          }
+      },
+      failure -> Log.e("Tutorial", "Could not query DataStore", failure)
   );
   ```
 
@@ -277,21 +269,19 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
   <amplify-block name="Kotlin">
 
   ```kotlin
-  Amplify.DataStore
-      .query(Todo::class, Where.matches(Todo.PRIORITY.eq(Priority.HIGH)))
-      .catch { Log.e("Tutorial", "Could not query DataStore", it) }
-      .collect { todo ->
-          Log.i("Tutorial", "==== Todo ====")
-          Log.i("Tutorial", "Name: ${todo.name}")
-
-          if (todo.priority != null) {
+  Amplify.DataStore.query(
+      Todo::class.java, Where.matches(Todo.PRIORITY.eq(Priority.HIGH)),
+      { todos ->
+          while (todos.hasNext()) {
+              val todo: Todo = todos.next()
+              Log.i("Tutorial", "==== Todo ====")
+              Log.i("Tutorial", "Name: ${todo.name}")
               Log.i("Tutorial", "Priority: ${todo.priority}")
-          }
-
-          if (todo.description != null) {
               Log.i("Tutorial", "Description: ${todo.description}")
           }
-      }
+      },
+      { failure -> Log.e("Tutorial", "Could not query DataStore", failure) }
+  )
   ```
 
   </amplify-block>
