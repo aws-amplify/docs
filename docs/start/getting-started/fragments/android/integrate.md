@@ -83,7 +83,7 @@ Next, you'll create a Todo and save it to DataStore.
 
   This code creates a Todo item with two properties: a name and a description. This is a plain object that isn't stored in DataStore yet.
 
-1. Below that, add the code to save the item to DataStore:
+1. Below that, add the code to save the item to DataStore. For Kotlin, you will notice the lifecycleScope.launch wrapper. This is because the save operation is a [suspending coroutine](https://kotlinlang.org/docs/composing-suspending-functions.html#concurrent-using-async) which is new with [Amplify's Kotlin Facade](https://docs.amplify.aws/lib/project-setup/coroutines/q/platform/android)
 
   <amplify-block-switcher>
   <amplify-block name="Java">
@@ -101,15 +101,14 @@ Next, you'll create a Todo and save it to DataStore.
   <amplify-block name="Kotlin">
 
   ```kotlin
-      try {
-        Amplify.DataStore.save(
-                item,
-                { success: DataStoreItemChange<Todo> -> Log.i("Tutorial", "Saved item: " + success.item().name) },
-                { error: DataStoreException? -> Log.e("Tutorial", "Could not save item to DataStore", error) }
-        )
-    } catch (error: AmplifyException) {
-        Log.e("Tutorial", "Could not save item to DataStore", error)
-    }
+    lifecycleScope.launch {
+          try {
+              Amplify.DataStore.save(item)
+              Log.i("Tutorial", "Saved a post")
+          } catch (failure: DataStoreException) {
+              Log.e("Tutorial", "Save failed", failure)
+          }
+      }
   ```
 
   </amplify-block>
@@ -196,20 +195,22 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
   <amplify-block name="Kotlin">
 
   ```kotlin
-  Amplify.DataStore.query(Todo::class)
+  lifecycleScope.launch {
+      Amplify.DataStore.query(Todo::class)
       .catch { Log.e("Tutorial", "Could not query DataStore", it) }
       .collect { todo ->
+      
           Log.i("Tutorial", "==== Todo ====")
           Log.i("Tutorial", "Name: ${todo.name}")
-
+          
           if (todo.priority != null) {
-              Log.i("Tutorial", "Priority: ${todo.priority}")
+            Log.i("Tutorial", "Priority: ${todo.priority}")
           }
-
           if (todo.description != null) {
-              Log.i("Tutorial", "Description: ${todo.description}")
+            Log.i("Tutorial", "Description: ${todo.description}")
           }
       }
+  }
   ```
 
   </amplify-block>
@@ -280,21 +281,23 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
   <amplify-block name="Kotlin">
 
   ```kotlin
-  Amplify.DataStore
-      .query(Todo::class, Where.matches(Todo.PRIORITY.eq(Priority.HIGH)))
-      .catch { Log.e("Tutorial", "Could not query DataStore", it) }
-      .collect { todo ->
-          Log.i("Tutorial", "==== Todo ====")
-          Log.i("Tutorial", "Name: ${todo.name}")
+  lifecycleScope.launch {
+    Amplify.DataStore
+        .query(Todo::class, Where.matches(Todo.PRIORITY.eq(Priority.HIGH)))
+        .catch { Log.e("Tutorial", "Could not query DataStore", it) }
+        .collect { todo ->
+            Log.i("Tutorial", "==== Todo ====")
+            Log.i("Tutorial", "Name: ${todo.name}")
 
-          if (todo.priority != null) {
-              Log.i("Tutorial", "Priority: ${todo.priority}")
-          }
+            if (todo.priority != null) {
+                Log.i("Tutorial", "Priority: ${todo.priority}")
+            }
 
-          if (todo.description != null) {
-              Log.i("Tutorial", "Description: ${todo.description}")
-          }
-      }
+            if (todo.description != null) {
+                Log.i("Tutorial", "Description: ${todo.description}")
+            }
+        }
+  }
   ```
 
   </amplify-block>
