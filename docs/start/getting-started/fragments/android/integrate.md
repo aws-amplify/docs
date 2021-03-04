@@ -101,12 +101,15 @@ Next, you'll create a Todo and save it to DataStore.
   <amplify-block name="Kotlin">
 
   ```kotlin
-  try {
-      Amplify.DataStore.save(item)
-      Log.i("Tutorial", "Saved item: ${item.name}")
-  } catch (error: AmplifyException) {
-      Log.e("Tutorial", "Could not save item to DataStore", error)
-  )
+      try {
+        Amplify.DataStore.save(
+                item,
+                { success: DataStoreItemChange<Todo> -> Log.i("Tutorial", "Saved item: " + success.item().name) },
+                { error: DataStoreException? -> Log.e("Tutorial", "Could not save item to DataStore", error) }
+        )
+    } catch (error: AmplifyException) {
+        Log.e("Tutorial", "Could not save item to DataStore", error)
+    }
   ```
 
   </amplify-block>
