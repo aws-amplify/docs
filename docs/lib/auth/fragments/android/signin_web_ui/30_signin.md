@@ -12,7 +12,17 @@ Amplify.Auth.signInWithWebUI(
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.signInWithWebUI(this,
+    { Log.i("AuthQuickStart", "Signin OK = $it") },
+    { Log.e("AuthQuickStart", "Signin failed", it) }
+)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 try {

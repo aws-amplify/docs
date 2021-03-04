@@ -13,7 +13,18 @@ Amplify.Auth.updateUserAttribute(userEmail,
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.updateUserAttribute(
+    AuthUserAttribute(AuthUserAttributeKey.email(), "email@email.com"),
+    { Log.i("AuthDemo", "Updated user attribute = $it") },
+    { Log.e("AuthDemo", "Failed to update user attribute.", it) }
+)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 val attribute =
@@ -56,7 +67,18 @@ Amplify.Auth.updateUserAttributes(
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.updateUserAttributes(
+    attributes, // attributes is a list of AuthUserAttribute
+    { Log.i("AuthDemo", "Updated user attributes = $it") },
+    { Log.e("AuthDemo", "Failed to update user attributes", it) }
+)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines">
 
 ```kotlin
 try {

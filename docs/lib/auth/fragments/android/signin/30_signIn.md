@@ -11,7 +11,23 @@ Amplify.Auth.signIn(
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.signIn("username", "password",
+    { result ->
+        if (result.isSignInComplete) {
+            Log.i("AuthQuickstart", "Sign in succeeded")
+        } else {
+            Log.i("AuthQuickstart", "Sign in not complete")
+        }
+    },
+    { Log.e("AuthQuickstart", "Failed to sign in", it) }
+)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 try {

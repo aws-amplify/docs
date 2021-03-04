@@ -10,7 +10,20 @@ Amplify.Auth.signOut(
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+val options = AuthSignOutOptions.builder()
+    .globalSignOut(true)
+    .build()
+Amplify.Auth.signOut(options,
+    { Log.i("AuthQuickstart", "Signed out globally") },
+    { Log.e("AuthQuickstart", "Sign out failed", it) }
+)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 val options = AuthSignOutOptions.builder()

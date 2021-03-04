@@ -10,7 +10,16 @@ Amplify.configure(getApplicationContext());
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+// Add this line, to include the Auth plugin.
+Amplify.addPlugin(AWSCognitoAuthPlugin())
+Amplify.configure(applicationContext)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 // Add this line, to include the Auth plugin.

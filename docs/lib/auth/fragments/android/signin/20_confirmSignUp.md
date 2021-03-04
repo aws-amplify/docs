@@ -11,7 +11,24 @@ Amplify.Auth.confirmSignUp(
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.confirmSignUp(
+    "username", "the code you received via email",
+    { result ->
+        if (result.isSignUpComplete) {
+            Log.i("AuthQuickstart", "Confirm signUp succeeded")
+        } else {
+            Log.i("AuthQuickstart","Confirm sign up not complete")
+        }
+    },
+    { Log.e("AuthQuickstart", "Failed to confirm sign up", it) }
+)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 try {

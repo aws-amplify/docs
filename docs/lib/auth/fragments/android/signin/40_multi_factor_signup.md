@@ -16,7 +16,24 @@ Amplify.Auth.signUp(
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+val attrs = mapOf(
+    AuthUserAttributeKey.email() to "my@email.com",
+    AuthUserAttributeKey.phoneNumber() to "+15551234567"
+)
+val options = AuthSignUpOptions.builder()
+    .userAttributes(attrs.map { AuthUserAttribute(it.key, it.value) })
+    .build()
+Amplify.Auth.signUp("username", "Password123", options,
+    { Log.i("AuthQuickstart", "Sign up result = $it") },
+    { Log.e("AuthQuickstart", "Sign up failed", it) }
+)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 val attrs = mapOf(
