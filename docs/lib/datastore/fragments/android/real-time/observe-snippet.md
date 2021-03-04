@@ -23,7 +23,7 @@ Amplify.DataStore.observe(Post::class.java,
         val post = postChanged.item()
         Log.i("MyAmplifyApp", "Post: $post")
     },
-    { Log.e("MyAmplifyApp", "Observation failed", it) }
+    { Log.e("MyAmplifyApp", "Observation failed", it) },
     { Log.i("MyAmplifyApp", "Observation complete") }
 )
 ```
