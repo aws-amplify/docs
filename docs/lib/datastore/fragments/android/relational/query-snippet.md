@@ -29,7 +29,7 @@ Amplify.DataStore.query(Comment::class.java, Post.STATUS.eq(PostStatus.ACTIVE),
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin - Flow (Beta)">
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 Amplify.DataStore

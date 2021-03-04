@@ -29,7 +29,7 @@ Amplify.DataStore.query(Post::class.java,
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin - Flow (Beta)">
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 Amplify.DataStore.query(Post::class)
