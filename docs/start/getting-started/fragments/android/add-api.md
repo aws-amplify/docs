@@ -31,10 +31,10 @@ Now that your have DataStore persisting data locally, in the next step you'll co
   }
 
   Amplify.DataStore.observe(Todo.class,
-          started -> Log.i("Tutorial", "Observation began."),
-          change -> Log.i("Tutorial", change.item().toString()),
-          failure -> Log.e("Tutorial", "Observation failed.", failure),
-          () -> Log.i("Tutorial", "Observation complete.")
+      started -> Log.i("Tutorial", "Observation began."),
+      change -> Log.i("Tutorial", change.item().toString()),
+      failure -> Log.e("Tutorial", "Observation failed.", failure),
+      () -> Log.i("Tutorial", "Observation complete.")
   );
   ```
 
@@ -53,10 +53,10 @@ Now that your have DataStore persisting data locally, in the next step you'll co
   }
 
   Amplify.DataStore.observe(Todo::class.java,
-          { Log.i("Tutorial", "Observation began.") },
-          { Log.i("Tutorial", it.item().toString()) },
-          { Log.e("Tutorial", "Observation failed.", it) },
-          { Log.i("Tutorial", "Observation complete.") }
+      { Log.i("Tutorial", "Observation began.") },
+      { Log.i("Tutorial", it.item().toString()) },
+      { Log.e("Tutorial", "Observation failed.", it) },
+      { Log.i("Tutorial", "Observation complete.") }
   )
   ```
 
