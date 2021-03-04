@@ -20,11 +20,25 @@ private void uploadInputStream() {
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
 
 ```kotlin
-private suspend fun uploadInputStream() {
-    val stream = getContentResolver().openInputStream(uri)
+private fun uploadInputStream(uri: Uri) {
+    val stream = contentResolver.openInputStream(uri)
+
+    Amplify.Storage.uploadInputStream("ExampleKey", stream,
+        { Log.i("MyAmplifyApp", "Successfully uploaded: ${it.key}") },
+        { Log.e("MyAmplifyApp", "Upload failed", it) }
+    )
+}
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+private suspend fun uploadInputStream(uri: Uri) {
+    val stream = contentResolver.openInputStream(uri)
 
     val upload = Amplify.Storage.uploadInputStream("ExampleKey", stream)
     try {
@@ -86,7 +100,22 @@ private void uploadFile() {
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+private fun uploadFile() {
+    val exampleFile = File(applicationContext.filesDir, "ExampleKey")
+    exampleFile.writeText("Example file contents")
+
+    Amplify.Storage.uploadFile("ExampleKey", exampleFile,
+        { Log.i("MyAmplifyApp", "Successfully uploaded: ${it.key}") },
+        { Log.e("MyAmplifyApp", "Upload failed", it) }
+    )
+}
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 private suspend fun uploadFile() {
@@ -162,7 +191,24 @@ private void uploadFile() {
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+private fun uploadFile() {
+    val exampleFile = File(applicationContext.filesDir, "ExampleKey")
+    exampleFile.writeText("Example file contents")
+
+    val options = StorageUploadFileOptions.defaultInstance()
+    Amplify.Storage.uploadFile("ExampleKey", exampleFile, options,
+        { Log.i("MyAmplifyApp", "Fraction completed: ${it.fractionCompleted}") },
+        { Log.i("MyAmplifyApp", "Successfully uploaded: ${it.key}") },
+        { Log.e("MyAmplifyApp", "Upload failed", it) }
+    )
+}
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 private suspend fun uploadFile() {

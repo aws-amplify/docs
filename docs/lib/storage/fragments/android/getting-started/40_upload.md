@@ -23,7 +23,22 @@ private void uploadFile() {
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+private fun uploadFile() {
+    val exampleFile = File(applicationContext.filesDir, "ExampleKey")
+    exampleFile.writeText("Example file contents")
+
+    Amplify.Storage.uploadFile("ExampleKey", exampleFile,
+        { Log.i("MyAmplifyApp", "Successfully uploaded: ${it.key}") },
+        { Log.e("MyAmplifyApp", "Upload failed", it) }
+    )
+}
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 private suspend fun uploadFile() {

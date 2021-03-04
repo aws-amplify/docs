@@ -13,7 +13,18 @@ Amplify.Storage.downloadFile(
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+val file = File("${applicationContext.filesDir}/download.txt")
+Amplify.Storage.downloadFile("ExampleKey", file,
+    { Log.i("MyAmplifyApp", "Successfully downloaded: ${it.file.name}") }
+    { Log.e("MyAmplifyApp",  "Download Failure", it) }
+)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 try {
@@ -66,7 +77,20 @@ Amplify.Storage.downloadFile(
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+val file = File("${applicationContext.filesDir}/download.txt")
+val options = StorageDownloadFileOptions.defaultInstance()
+Amplify.Storage.downloadFile("ExampleKey", file, options,
+    { Log.i("MyAmplifyApp", "Fraction completed: ${it.fractionCompleted}") },
+    { Log.i("MyAmplifyApp", "Successfully downloaded: ${it.file.name}") },
+    { Log.e("MyAmplifyApp", "Download Failure", it) }
+)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 val file = File("${applicationContext.filesDir}/download.txt")
