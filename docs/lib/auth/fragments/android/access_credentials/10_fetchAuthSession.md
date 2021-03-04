@@ -21,7 +21,25 @@ Amplify.Auth.fetchAuthSession(
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.fetchAuthSession(
+    {
+        val session = it as AWSCognitoAuthSession
+        when (session.identityId.type) {
+            AuthSessionResult.Type.SUCCESS ->
+                Log.i("AuthQuickStart", "IdentityId = ${session.identityId.value}")
+            AuthSessionResult.Type.FAILURE ->
+                Log.w("AuthQuickStart", "IdentityId not found", session.identityId.error)
+        }
+    },
+    { Log.e("AuthQuickStart", "Failed to fetch session", it) }
+)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 try {

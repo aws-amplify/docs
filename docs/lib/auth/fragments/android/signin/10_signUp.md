@@ -1,18 +1,31 @@
 <amplify-block-switcher>
 <amplify-block name="Java">
 
- ```java
-Amplify.Auth.signUp(
-        "username",
-        "Password123",
-        AuthSignUpOptions.builder().userAttribute(AuthUserAttributeKey.email(), "my@email.com").build(),
-        result -> Log.i("AuthQuickStart", "Result: " + result.toString()),
-        error -> Log.e("AuthQuickStart", "Sign up failed", error)
+```java
+AuthSignUpOptions options = AuthSignUpOptions.builder()
+    .userAttribute(AuthUserAttributeKey.email(), "my@email.com")
+    .build()
+Amplify.Auth.signUp("username", "Password123", options,
+    result -> Log.i("AuthQuickStart", "Result: " + result.toString()),
+    error -> Log.e("AuthQuickStart", "Sign up failed", error)
 );
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+val options = AuthSignUpOptions.builder()
+    .userAttribute(AuthUserAttributeKey.email(), "my@email.com")
+    .build()
+Amplify.Auth.signUp("username", "Password123", options,
+    { Log.i("AuthQuickStart", "Sign up succeeded: $it") },
+    { Log.e ("AuthQuickStart", "Sign up failed", it) }
+)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 val options = AuthSignUpOptions.builder()

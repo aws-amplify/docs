@@ -4,18 +4,29 @@
 ```java
 Amplify.Auth.rememberDevice(
     () -> Log.i("AuthQuickStart", "Remember device succeeded"),
-    error -> Log.e("AuthQuickStart", "Remember device failed with error " + error.toString()));
+    error -> Log.e("AuthQuickStart", "Remember device failed with error " + error.toString())
+);
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.rememberDevice(
+    { Log.i("AuthQuickStart", "Remember device succeeded") },
+    { Log.e("AuthQuickStart", "Remember device failed with error", it) }
+)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 try {
     Amplify.Auth.rememberDevice()
     Log.i("AuthQuickStart", "Remember device succeeded") 
 } catch (error: AuthException) {
-    Log.e("AuthQuickStart", "Remember device failed:", error)
+    Log.e("AuthQuickStart", "Remember device failed with error", error)
 }
 ```
 

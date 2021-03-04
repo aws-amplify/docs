@@ -9,7 +9,17 @@ Amplify.Auth.confirmUserAttribute(AuthUserAttributeKey.email(), "344299",
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.confirmUserAttribute(AuthUserAttributeKey.email(), "344299",
+    { Log.i("AuthDemo", "Confirmed user attribute with correct code.") },
+    { Log.e("AuthDemo", "Failed to confirm user attribute. Bad code?", it) }
+)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 try {
