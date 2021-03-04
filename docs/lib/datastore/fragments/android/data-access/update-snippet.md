@@ -20,7 +20,28 @@ Amplify.DataStore.query(Post.class, Where.id("123"),
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.DataStore.query(Post::class.java, Where.id("123"),
+    { matches ->
+        if (matches.hasNext()) {
+            val original = matches.next()
+            val edited = original.copyOfBuilder()
+                .title("New Title")
+                .build()
+            Amplify.DataStore.save(edited,
+                { Log.i("MyAmplifyApp", "Updated a post") },
+                { Log.e("MyAmplifyApp", "Update failed", it) }
+            )
+        }
+    },
+    { Log.e("MyAmplifyApp", "Query failed", it) }
+)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Flow (Beta)">
 
 ```kotlin
 Amplify.DataStore.query(Post::class, Where.id("123"))

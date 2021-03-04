@@ -9,7 +9,17 @@ Amplify.DataStore.save(post, Post.TITLE.beginsWith("[Amplify]"),
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.DataStore.save(post, Post.TITLE.beginsWith("[Amplify]"),
+    { Log.i("MyAmplifyApp", "Post updated successfully!") },
+    { Log.e("MyAmplifyApp", "Could not update post, maybe the title has been changed?", it) }
+)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines">
 
 ```kotlin
 try {

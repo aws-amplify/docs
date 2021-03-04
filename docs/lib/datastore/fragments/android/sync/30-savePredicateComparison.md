@@ -18,7 +18,26 @@ Amplify.DataStore.save(post, Post.TITLE.beginsWith("[Amplify]"),
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+// Tests only against the local state
+if (post.title.startsWith("[Amplify]")) {
+    Amplify.DataStore.save(post,
+        { /* handle result */ },
+        { /* handle failure */}
+    )
+}
+
+// Only applies the update if the data in the remote backend satisfies the criteria
+Amplify.DataStore.save(post, Post.TITLE.beginsWith("[Amplify]"),
+    { /* handle result */ },
+    { /* handle failure */ }
+)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 // Tests only against the local state

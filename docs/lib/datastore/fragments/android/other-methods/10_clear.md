@@ -10,7 +10,18 @@ Amplify.DataStore.clear(
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.DataStore.clear(
+    { Log.i("MyAmplifyApp", "DataStore cleared") },
+    { Log.e("MyAmplifyApp", "Error clearing DataStore", it) }
+)
+
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines">
 
 ```kotlin
 try {

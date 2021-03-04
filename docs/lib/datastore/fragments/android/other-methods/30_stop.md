@@ -9,7 +9,17 @@ Amplify.DataStore.stop(
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.DataStore.stop(
+    { Log.i("MyAmplifyApp", "DataStore stopped") },
+    { Log.e("MyAmplifyApp", "Error stopped DataStore", it) }
+)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 try {
