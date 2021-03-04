@@ -92,7 +92,7 @@ Amplify.API.query(
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin - Flow (Beta)">
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 try {
