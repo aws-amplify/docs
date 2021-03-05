@@ -7,7 +7,7 @@ The Amplify CLI provides GraphQL directives to enhance your schema with addition
 
 ## Amplify-provided directives
 
-- [`@model`: Defines a top level object type in your API that are backed by Amazon DynamoDB](~/cli/graphql-transformer/model.md)
+- [`@model`: Defines top level object types in your API that are backed by Amazon DynamoDB](~/cli/graphql-transformer/model.md)
 - [`@key`: Configures custom index structures for @model types](~/cli/graphql-transformer/key.md)
 - [`@auth`: Defines authorization rules for your @model types and fields](~/cli/graphql-transformer/auth.md)
 - [`@connection`: Defines 1:1, 1:M, and N:M relationships between @model types](~/cli/graphql-transformer/connection.md)
