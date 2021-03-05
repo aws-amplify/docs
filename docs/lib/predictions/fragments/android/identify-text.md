@@ -45,7 +45,22 @@ public void detectText(Bitmap image) {
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+fun detectText(image: Bitmap) {
+    Amplify.Predictions.identify(TextFormatType.PLAIN, image,
+        { result ->
+            val identifyResult = result as IdentifyTextResult
+            Log.i("MyAmplifyApp", "${identifyResult?.fullText}")
+        },
+        { Log.e("MyAmplifyApp", "Identify text failed", it) }
+    )
+}
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 suspend fun detectText(image: Bitmap) {
@@ -102,7 +117,22 @@ public void detectText(Bitmap image) {
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```java
+fun detectText(image: Bitmap) {
+    Amplify.Predictions.identify(TextFormatType.FORM, image,
+        { result ->
+            val identifyResult = result as IdentifyDocumentTextResult
+            Log.i("MyAmplifyApp", "${identifyResult.fullText}")
+        },
+        { Log.e("MyAmplifyApp", "Identify failed", it) }
+    )
+}
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 suspend fun detectText(image: Bitmap) {

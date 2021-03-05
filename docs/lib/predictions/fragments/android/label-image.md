@@ -46,7 +46,23 @@ public void detectLabels(Bitmap image) {
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+fun detectLabels(image: Bitmap) {
+    Amplify.Predictions.identify(LabelType.LABELS, image,
+        { result ->
+            val identifyResult = result as IdentifyLabelsResult
+            val label = identifyResult.labels.firstOrNull()
+            Log.i("MyAmplifyApp", ${label?.name}")
+        },
+        { Log.e("MyAmplifyApp", "Label detection failed", it) }
+    )
+}
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 suspend fun detectLabels(image: Bitmap) {
@@ -102,7 +118,22 @@ public void detectLabels(Bitmap image) {
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+fun detectLabels(image: Bitmap) {
+    Amplify.Predictions.identify(LabelType.MODERATION_LABELS, image,
+        { result ->
+            val identifyResult = result as IdentifyLabelsResult
+            Log.i("MyAmplifyApp", "${identifyResult.isUnsafeContent()}")
+        },
+        { Log.e("MyAmplifyApp", "Identify failed", it) }
+    )
+}
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 suspend fun detectLabels(image: Bitmap) {

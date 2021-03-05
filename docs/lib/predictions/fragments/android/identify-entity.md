@@ -33,20 +33,36 @@ Amplify will now detect general entity features when `IdentifyActionType.DETECT_
 ```java
 public void detectEntities(Bitmap image) {
     Amplify.Predictions.identify(
-            IdentifyActionType.DETECT_ENTITIES,
-            image,
-            result -> {
-                IdentifyEntitiesResult identifyResult = (IdentifyEntitiesResult) result;
-                EntityDetails metadata = identifyResult.getEntities().get(0);
-                Log.i("MyAmplifyApp", metadata.getBox().toShortString());
-            },
-            error -> Log.e("MyAmplifyApp", "Entity detection failed", error)
+        IdentifyActionType.DETECT_ENTITIES,
+        image,
+        result -> {
+            IdentifyEntitiesResult identifyResult = (IdentifyEntitiesResult) result;
+            EntityDetails metadata = identifyResult.getEntities().get(0);
+            Log.i("MyAmplifyApp", metadata.getBox().toShortString());
+        },
+        error -> Log.e("MyAmplifyApp", "Entity detection failed", error)
     );
 }
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+fun detectEntities(image: Bitmap) {
+    Amplify.Predictions.identify(IdentifyActionType.DETECT_ENTITIES, image,
+        { result ->
+            val identifyResult = result as IdentifyEntitiesResult
+            val metadata = identifyResult.entities.firstOrNull()
+            Log.i("MyAmplifyApp", "${metadata?.box?.toShortString()}")
+        },
+        { Log.e("MyAmplifyApp", "Entity detection failed", it) }
+    )
+}
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 suspend fun detectEntities(image: Bitmap) {
@@ -137,7 +153,23 @@ public void detectEntities(Bitmap image) {
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+fun detectEntities(image: Bitmap) {
+    Amplify.Predictions.identify(IdentifyActionType.DETECT_ENTITIES, image,
+        { result ->
+            val identifyResult = result as IdentifyEntityMatchesResult
+            val match = identifyResult.entityMatches.firstOrNull()
+            Log.i("AmplifyQuickstart", "${match?.externalImageId}");
+        },
+        { Log.e("AmplifyQuickstart", "Identify failed", it) }
+    )
+}
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 suspend fun detectEntities(image: Bitmap) {
@@ -195,7 +227,23 @@ public void detectCelebs(Bitmap image) {
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+fun detectCelebs(image: Bitmap) {
+    Amplify.Predictions.identify(IdentifyActionType.DETECT_CELEBRITIES, image,
+        { result ->
+            val identifyResult = result as IdentifyCelebritiesResult
+            val metadata = identifyResult.celebrities.firstOrNull()
+            Log.i("MyAmplifyApp", "${metadata?.celebrity?.name}")
+        },
+        { Log.e("MyAmplifyApp", "Identify failed", it) }
+    )
+}
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 suspend fun detectCelebs(image: Bitmap) {

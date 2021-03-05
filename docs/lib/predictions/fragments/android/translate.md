@@ -29,15 +29,26 @@ Run `amplify push` to create the resources in the cloud.
 Open `MainActivity.java` and add the following to the bottom of `onCreate()`:
 
 ```java
-Amplify.Predictions.translateText(
-        "I like to eat spaghetti",
-        result -> Log.i("MyAmplifyApp", result.getTranslatedText()),
-        error -> Log.e("MyAmplifyApp", "Translation failed", error)
+Amplify.Predictions.translateText("I like to eat spaghetti",
+    result -> Log.i("MyAmplifyApp", result.getTranslatedText()),
+    error -> Log.e("MyAmplifyApp", "Translation failed", error)
 );
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+Open `MainActivity.java` and add the following to the bottom of `onCreate()`:
+
+```kotlin
+Amplify.Predictions.translateText("I like to eat spaghetti",
+    { Log.i("MyAmplifyApp", it.translatedText) }
+    { Log.e("MyAmplifyApp", "Translation failed", it) }
+)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 Open `MainActivity.kt` and add the following to the bottom of `onCreate()`:
 
@@ -84,16 +95,25 @@ Add the `LanguageType` options as below:
 
 ```java
 Amplify.Predictions.translateText(
-        "I like to eat spaghetti",
-        LanguageType.ENGLISH,
-        LanguageType.RUSSIAN,
-        result -> Log.i("MyAmplifyApp", result.getTranslatedText()),
-        error -> Log.e("MyAmplifyApp", "Translation failed", error)
+    "I like to eat spaghetti", LanguageType.ENGLISH, LanguageType.RUSSIAN,
+    result -> Log.i("MyAmplifyApp", result.getTranslatedText()),
+    error -> Log.e("MyAmplifyApp", "Translation failed", error)
 );
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Predictions.translateText(
+    "I like to eat spaghetti", LanguageType.ENGLISH, LanguageType.RUSSIAN,
+    { Log.i("MyAmplifyApp", it.translatedText) }
+    { Log.e("MyAmplifyApp", "Translation failed", it) }
+)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 Open `MainActivity.kt` and add the following to the bottom of `onCreate()`:
 
