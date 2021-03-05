@@ -143,7 +143,7 @@
     "description": "Feature Flag related to Codegen",
     "features": {
       "useAppsyncModelgenPlugin": {
-        "description": "Choose between implementations of internal DataStore model generator package. Refer [link to FeatureFlags.md]",
+        "description": "Choose between implementations of internal DataStore model generator package. Refer https://github.com/aws-amplify/amplify-codegen/blob/master/FeatureFlags.md",
         "type": "Feature",
         "valueType": "Boolean",
         "versionAdded": "4.40.0",
@@ -164,7 +164,7 @@
         ]
       },
       "useDocsGeneratorPlugin": {
-        "description": "Choose between implementations of internal GraphQL documents generator package. Refer [link to FeatureFlags.md]",
+        "description": "Choose between implementations of internal GraphQL documents generator package. Refer https://github.com/aws-amplify/amplify-codegen/blob/master/FeatureFlags.md",
         "type": "Feature",
         "valueType": "Boolean",
         "versionAdded": "4.40.0",
@@ -185,7 +185,7 @@
         ]
       },
       "useTypesGeneratorPlugin": {
-        "description": "Choose between implementations of internal GraphQL types generator package. Refer [link to FeatureFlags.md]",
+        "description": "Choose between implementations of internal GraphQL types generator package. Refer https://github.com/aws-amplify/amplify-codegen/blob/master/FeatureFlags.md",
         "type": "Feature",
         "valueType": "Boolean",
         "versionAdded": "4.40.0",
