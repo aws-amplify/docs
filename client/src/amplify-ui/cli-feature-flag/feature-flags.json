@@ -151,13 +151,13 @@
         "values": [
           {
             "value": "true",
-            "description": "[Recommended] Use the models generator internal package implementation at https://github.com/aws-amplify/amplify-codegen, which will be actively maintained",
+            "description": "[Recommended] Use the models generator internal package implementation at https://github.com/aws-amplify/amplify-codegen",
             "defaultNewProject": true,
             "defaultExistingProject": false
           },
           {
             "value": "false",
-            "description": "Continue to use the models generator package implementation at https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-codegen-appsync-model-plugin. This package is set for deprecation.",
+            "description": "Use the deprecated models generator package implementation at https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-codegen-appsync-model-plugin",
             "defaultNewProject": false,
             "defaultExistingProject": true
           }
@@ -172,13 +172,13 @@
         "values": [
           {
             "value": "true",
-            "description": "[Recommended] Use the GraphQL documents generator internal package implementation at https://github.com/aws-amplify/amplify-codegen, which will be actively maintained",
+            "description": "[Recommended] Use the GraphQL documents generator internal package implementation at https://github.com/aws-amplify/amplify-codegen",
             "defaultNewProject": true,
             "defaultExistingProject": false
           },
           {
             "value": "false",
-            "description": "Continue to use the GraphQL documents generation package implementation at https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-graphql-docs-generator. This package is set for deprecation.",
+            "description": "Use the deprecated GraphQL documents generation package implementation at https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-graphql-docs-generator",
             "defaultNewProject": false,
             "defaultExistingProject": true
           }
@@ -193,13 +193,13 @@
         "values": [
           {
             "value": "true",
-            "description": "[Recommended] Use the types generator internal package implementation at https://github.com/aws-amplify/amplify-codegen, which will be actively maintained",
+            "description": "[Recommended] Use the types generator internal package implementation at https://github.com/aws-amplify/amplify-codegen",
             "defaultNewProject": true,
             "defaultExistingProject": false
           },
           {
             "value": "false",
-            "description": "Continue to use the types generation package implementation at https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-graphql-types-generator. This package is set for deprecation.",
+            "description": "Use the deprecated types generation package implementation at https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-graphql-types-generator",
             "defaultNewProject": false,
             "defaultExistingProject": true
           }
@@ -235,13 +235,13 @@
         "values": [
           {
             "value": "true",
-            "description": "Set true to retain the different case styles used for type names in the schema. Refer https://github.com/aws-amplify/amplify-codegen/pull/89",
+            "description": "Retain the different case styles used for type names in the schema. Refer https://github.com/aws-amplify/amplify-codegen/pull/89",
             "defaultNewProject": true,
             "defaultExistingProject": false
           },
           {
             "value": "false",
-            "description": "Continue using the current approach to generate camleCase/PascalCase variable names for types irrespective of the case style used for naming the types. This will allow some time to make changes to the application to use the modified variables.",
+            "description": "Generate camleCase/PascalCase variable names for types irrespective of the case style used for naming the types.",
             "defaultNewProject": false,
             "defaultExistingProject": true
           }
