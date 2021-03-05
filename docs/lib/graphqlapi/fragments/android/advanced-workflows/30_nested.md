@@ -74,7 +74,7 @@ Amplify.API.query(getPostWithCommentsRequest("[TODO_ID]"),
 
 ```kotlin
 Amplify.API.query(getPostWithCommentsRequest("[TODO_ID]"),
-    { Log.d("MyAmplifyApp", "Response = $response") },
+    { Log.d("MyAmplifyApp", "Response = $it") },
     { Log.e("MyAmplifyApp", "Error!", it) }
 )
 ```
