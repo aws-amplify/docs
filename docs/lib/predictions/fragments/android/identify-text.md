@@ -119,7 +119,7 @@ public void detectText(Bitmap image) {
 </amplify-block>
 <amplify-block name="Kotlin - Callbacks">
 
-```java
+```kotlin
 fun detectText(image: Bitmap) {
     Amplify.Predictions.identify(TextFormatType.FORM, image,
         { result ->
