@@ -235,7 +235,7 @@
         "values": [
           {
             "value": "true",
-            "description": "Retain the different case styles used for type names in the schema. Refer https://github.com/aws-amplify/amplify-codegen/pull/89",
+            "description": "Retain the case style used for naming the GraphQL types in the schema. Refer https://github.com/aws-amplify/amplify-codegen/pull/89",
             "defaultNewProject": true,
             "defaultExistingProject": false
           },
