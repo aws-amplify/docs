@@ -4,12 +4,12 @@ Subscribe to mutations for creating real-time clients:
 <amplify-block name="Java">
 
 ```java
- ApiOperation subscription = Amplify.API.subscribe(
-        ModelSubscription.onCreate(Todo.class),
-        onEstablished -> Log.i("ApiQuickStart", "Subscription established"),
-        onCreated -> Log.i("ApiQuickStart", "Todo create subscription received: " + ((Todo) onCreated.getData()).getName()),
-        onFailure -> Log.e("ApiQuickStart", "Subscription failed", onFailure),
-        () -> Log.i("ApiQuickStart", "Subscription completed")
+ApiOperation subscription = Amplify.API.subscribe(
+    ModelSubscription.onCreate(Todo.class),
+    onEstablished -> Log.i("ApiQuickStart", "Subscription established"),
+    onCreated -> Log.i("ApiQuickStart", "Todo create subscription received: " + ((Todo) onCreated.getData()).getName()),
+    onFailure -> Log.e("ApiQuickStart", "Subscription failed", onFailure),
+    () -> Log.i("ApiQuickStart", "Subscription completed")
 );
 
 // Cancel the subscription listener when you're finished with it
@@ -17,7 +17,23 @@ subscription.cancel();
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+val subscription = Amplify.API.subscribe(
+    ModelSubscription.onCreate(Todo::class.java),
+    { Log.i("ApiQuickStart", "Subscription established") },
+    { Log.i("ApiQuickStart", "Todo create subscription received: ${(it.data as Todo).name}") },
+    { Log.e("ApiQuickStart", "Subscription failed", it) },
+    { Log.i("ApiQuickStart", "Subscription completed") }
+)
+
+// Cancel the subscription listener when you're finished with it
+subscription.cancel();
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 val job = activityScope.launch {

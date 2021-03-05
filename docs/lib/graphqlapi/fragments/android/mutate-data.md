@@ -7,18 +7,31 @@ Now that the client is set up, you can run a GraphQL mutation with `Amplify.API.
 
 ```java
 Todo todo = Todo.builder()
-        .name("My todo")
-        .build();
+    .name("My todo")
+    .build();
 
-Amplify.API.mutate(
-        ModelMutation.create(todo),
-        response -> Log.i("MyAmplifyApp", "Todo with id: " + response.getData().getId()),
-        error -> Log.e("MyAmplifyApp", "Create failed", error)
+Amplify.API.mutate(ModelMutation.create(todo),
+    response -> Log.i("MyAmplifyApp", "Todo with id: " + response.getData().getId()),
+    error -> Log.e("MyAmplifyApp", "Create failed", error)
 );
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+val todo = Todo.builder()
+    .name("My todo")
+    .build()
+
+Amplify.API.mutate(ModelMutation.create(todo),
+    { Log.i("MyAmplifyApp", "Todo with id: ${it.data.id}") }
+    { Log.e("MyAmplifyApp", "Create failed", it) }
+)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 val todo = Todo.builder()

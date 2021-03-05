@@ -3,19 +3,34 @@
 
 ```java
 Todo todo = Todo.builder()
-        .name("My first todo")
-        .description("todo description")
-        .build();
+    .name("My first todo")
+    .description("todo description")
+    .build();
 
 Amplify.API.mutate(
-        ModelMutation.create(todo),
-        response -> Log.i("MyAmplifyApp", "Added Todo with id: " + response.getData().getId()),
-        error -> Log.e("MyAmplifyApp", "Create failed", error)
+    ModelMutation.create(todo),
+    response -> Log.i("MyAmplifyApp", "Added Todo with id: " + response.getData().getId()),
+    error -> Log.e("MyAmplifyApp", "Create failed", error)
 );
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+val todo = Todo.builder()
+    .name("My first todo")
+    .description("todo description")
+    .build()
+
+Amplify.API.mutate(ModelMutation.create(todo),
+    { Log.i("MyAmplifyApp", "Added Todo with id: ${it.data.id}") },
+    { Log.e("MyAmplifyApp", "Create failed", it) }
+)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 val todo = Todo.builder()
