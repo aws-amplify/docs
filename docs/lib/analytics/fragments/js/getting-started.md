@@ -8,7 +8,7 @@ To setup and configure your application with Amplify Analytics and record an ana
 * [Install and configure Amplify CLI](https://docs.amplify.aws/cli/start/install)
 
 ## Warnings
-Analytics data will be inaccurate when a user has more than 10 endpoints. In addition, endpoint details past the 10th endpoint will not be saved. Notifications will be limited to the first 10 endpoints. 
+Analytics data will be inaccurate when a user has more than 10 endpoints. In addition, endpoint details past the 10th endpoint will not be saved. Sending notifications is therefore limited to the first 10 endpoints attached to a user.
 
 ## Set up Analytics backend
 
