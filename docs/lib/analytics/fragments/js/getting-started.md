@@ -7,6 +7,9 @@ To setup and configure your application with Amplify Analytics and record an ana
 ## Prerequisites
 * [Install and configure Amplify CLI](https://docs.amplify.aws/cli/start/install)
 
+## Warnings
+Analytics may be inacurate when a user has more than 10 endpoints associated with them. In addition, it may not be possible to save associated endpoint information past the 10th endpoint.
+
 ## Set up Analytics backend
 
 Run the following command in your project's root folder. The CLI will prompt configuration options for the Analytics category such as Amazon Pinpoint resource name and analytics event settings.
