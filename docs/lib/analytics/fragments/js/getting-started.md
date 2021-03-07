@@ -8,7 +8,7 @@ To setup and configure your application with Amplify Analytics and record an ana
 * [Install and configure Amplify CLI](https://docs.amplify.aws/cli/start/install)
 
 ## Warnings
-Analytics may be inacurate when a user has more than 10 endpoints associated with them. In addition, it may not be possible to save associated endpoint information past the 10th endpoint.
+Analytics may be inaccurate when a user has more than 10 endpoints associated with them. In addition, it may not be possible to save associated endpoint information past the 10th endpoint.
 
 ## Set up Analytics backend
 
