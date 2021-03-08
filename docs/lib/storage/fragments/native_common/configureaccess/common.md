@@ -1,4 +1,4 @@
- When adding the Storage category, you configure the level of access authenticated and guest users have to your S3 bucket. Additionally, when uploading files using the Storage category, you can specify the access level for that file to be either guest(public), protected, or private.
+ When adding the Storage category, you configure the level of access authenticated and guest users have to your S3 bucket. Additionally, when uploading files using the Storage category, you can specify the access level for that file to be either guest, protected, or private.
 
 - **Guest** Accessible by all users of your application
 - **Protected** Readable by all users, but only writable by the creating user
