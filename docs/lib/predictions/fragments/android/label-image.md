@@ -46,22 +46,33 @@ public void detectLabels(Bitmap image) {
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
 
 ```kotlin
 fun detectLabels(image: Bitmap) {
-    Amplify.Predictions.identify(
-        LabelType.LABELS,
-        image,
-        Consumer { result: IdentifyResult ->
+    Amplify.Predictions.identify(LabelType.LABELS, image,
+        { result ->
             val identifyResult = result as IdentifyLabelsResult
-            val label: Label = identifyResult.getLabels()[0]
-            Log.i("MyAmplifyApp", label.getName())
+            val label = identifyResult.labels.firstOrNull()
+            Log.i("MyAmplifyApp", ${label?.name}")
         },
-        Consumer { error: PredictionsException ->
-            Log.e("MyAmplifyApp", "Label detection failed", error)
-        }
+        { Log.e("MyAmplifyApp", "Label detection failed", it) }
     )
+}
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+suspend fun detectLabels(image: Bitmap) {
+    try {
+        val result = Amplify.Predictions.identify(LABELS, image)
+        val identifyResult = result as IdentifyLabelsResult
+        Log.i("MyAmplifyApp", "${identifyResult.labels[0].name}")
+    } catch (error: PredictionsException) {
+        Log.e("MyAmplifyApp", "Label detection failed", error)
+    }
 }
 ```
 
@@ -107,21 +118,32 @@ public void detectLabels(Bitmap image) {
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
 
 ```kotlin
 fun detectLabels(image: Bitmap) {
-    Amplify.Predictions.identify(
-        LabelType.MODERATION_LABELS,
-        image,
-        Consumer { result: IdentifyResult ->
+    Amplify.Predictions.identify(LabelType.MODERATION_LABELS, image,
+        { result ->
             val identifyResult = result as IdentifyLabelsResult
-            Log.i("MyAmplifyApp", identifyResult.isUnsafeContent.toString())
+            Log.i("MyAmplifyApp", "${identifyResult.isUnsafeContent()}")
         },
-        Consumer { error: PredictionsException ->
-            Log.e("MyAmplifyApp", "Identify failed", error)
-        }
+        { Log.e("MyAmplifyApp", "Identify failed", it) }
     )
+}
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+suspend fun detectLabels(image: Bitmap) {
+    try {
+        val result = Amplify.Predictions.identify(MODERATION_LABELS, image)
+        val identifyResult = result as IdentifyLabelsResult
+        Log.i("MyAmplifyApp", identifyResult.isUnsafeContent)
+    } catch (error: PredictionsException) {
+        Log.e("MyAmplifyApp", "Identify failed", error)
+    }
 }
 ```
 

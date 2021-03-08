@@ -4,30 +4,41 @@ You can list all of the objects uploaded under a given prefix. This will list al
 <amplify-block name="Java">
 
 ```java
-Amplify.Storage.list(
-        "/",
-        result -> {
-            for (StorageItem item : result.getItems()) {
-                Log.i("MyAmplifyApp", "Item: " + item.getKey());
-            }
-        },
-        error -> Log.e("MyAmplifyApp", "List failure", error)
+Amplify.Storage.list("/",
+    result -> {
+        for (StorageItem item : result.getItems()) {
+            Log.i("MyAmplifyApp", "Item: " + item.getKey());
+        }
+    },
+    error -> Log.e("MyAmplifyApp", "List failure", error)
 );
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
 
 ```kotlin
-Amplify.Storage.list(
-    "/",
+Amplify.Storage.list("/",
     { result ->
-        result.getItems().forEach { item ->
-            Log.i("MyAmplifyApp", "Item: " + item.getKey())
+        result.items.forEach { item ->
+            Log.i("MyAmplifyApp", "Item: ${item.key}")
         }
     },
-    { error -> Log.e("MyAmplifyApp", "List failure", error) }
+    { Log.e("MyAmplifyApp", "List failure", it) }
 )
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+try {
+    Amplify.Storage.list("/").items.forEach {
+        Log.i("MyAmplifyApp", "Item: ${it.key}")
+    }
+} catch (error: StorageException) {
+    Log.e("MyAmplifyApp", "List failure", error)
+}
 ```
 
 </amplify-block>
@@ -35,14 +46,14 @@ Amplify.Storage.list(
 
 ```java
 RxAmplify.Storage.list("/")
-        .subscribe(
-            result -> {
-                for (StorageItem item : result.getItems()) {
-                    Log.i("MyAmplifyApp", "Item: " + item.getKey());
-                }
-            },
-            error -> Log.e("MyAmplifyApp", "List failure", error)
-        );
+    .subscribe(
+        result -> {
+            for (StorageItem item : result.getItems()) {
+                Log.i("MyAmplifyApp", "Item: " + item.getKey());
+            }
+        },
+        error -> Log.e("MyAmplifyApp", "List failure", error)
+    );
 ```
 
 </amplify-block>
@@ -55,41 +66,57 @@ You can also list private or protected files by passing options. For example, to
 
 ```java
 StorageListOptions options = StorageListOptions.builder()
-        .accessLevel(StorageAccessLevel.PROTECTED)
-        .targetIdentityId("otherUserID")
-        .build();
-
-Amplify.Storage.list(
-        "/",
-        options,
-        result -> {
-            for (StorageItem item : result.getItems()) {
-                Log.i("MyAmplifyApp", "Item: " + item.getKey());
-            }
-        },
-        error -> Log.e("MyAmplifyApp", "List failure", error)
-);
-```
-
-</amplify-block>
-<amplify-block name="Kotlin">
-
-```kotlin
-val options = StorageListOptions.builder()
-            .accessLevel(StorageAccessLevel.PROTECTED)
-            .targetIdentityId("otherUserID")
-            .build()
+    .accessLevel(StorageAccessLevel.PROTECTED)
+    .targetIdentityId("otherUserID")
+    .build();
 
 Amplify.Storage.list(
     "/",
     options,
-    { result ->
-        result.getItems().forEach { item ->
-            Log.i("AmplifyApplication", "Item: " + item)
+    result -> {
+        for (StorageItem item : result.getItems()) {
+            Log.i("MyAmplifyApp", "Item: " + item.getKey());
         }
     },
-    { error -> Log.e("MyAmplifyApp", "List failure", error) }
+    error -> Log.e("MyAmplifyApp", "List failure", error)
+);
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+val options = StorageListOptions.builder()
+    .accessLevel(StorageAccessLevel.PROTECTED)
+    .targetIdentityId("otherUserID")
+    .build()
+
+Amplify.Storage.list("/", options,
+    { result ->
+        result.items.forEach { item ->
+            Log.i("MyAmplifyApp", "Item: ${item.key}")
+        }
+    },
+    { Log.e("MyAmplifyApp", "List failure", it) }
 )
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+val options = StorageListOptions.builder()
+    .accessLevel(StorageAccessLevel.PROTECTED)
+    .targetIdentityId("otherUserID")
+    .build()
+
+try {
+    Amplify.Storage.list("/", options).items.forEach {
+        Log.i("AmplifyApplication", "Item: $it")
+    }
+} catch (error: StorageException) {
+    Log.e("MyAmplifyApp", "List failure", error)
+}
 ```
 
 </amplify-block>

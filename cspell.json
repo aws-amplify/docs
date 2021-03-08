@@ -654,6 +654,7 @@
     "IOPS",
     "ios",
     "IoT",
+    "IPHONEOS",
     "isAccelerateModeEnabled",
     "isLoggedIn",
     "isMuted",
@@ -1347,7 +1348,9 @@
     "Onetoone",
     "onetomany",
     "manytomany",
-    "datamodel"
+    "datamodel",
+    "secretsmanager",
+    "customcf"
   ],
   "flagWords": ["hte"]
 }

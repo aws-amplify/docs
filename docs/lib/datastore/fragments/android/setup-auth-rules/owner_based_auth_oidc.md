@@ -19,8 +19,8 @@ Amplify.configure(getApplicationContext());
 
 ```kotlin
 Amplify.addPlugin(AWSApiPlugin(ApiAuthProviders.builder()
-    .oidcAuthProvider({ "token-from-your-oidc-provider" })
-    .build()));
+    .oidcAuthProvider { "token-from-your-oidc-provider" }
+    .build()))
 Amplify.addPlugin(AWSDataStorePlugin());
 Amplify.configure(getApplicationContext());
 ```

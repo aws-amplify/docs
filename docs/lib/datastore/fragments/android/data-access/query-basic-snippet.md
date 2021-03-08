@@ -14,17 +14,27 @@ Amplify.DataStore.query(Post.class,
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callback">
 
 ```kotlin
 Amplify.DataStore.query(Post::class.java,
-    {
-        while (it.hasNext()) {
-            Log.i("MyAmplifyApp", "Title: ${it.next().title}")
+    { posts ->
+        while (posts.hasNext()) {
+            val post = allPosts.next()
+            Log.i("MyAmplifyApp", "Title: ${post.title}")
         }
     },
-    { Log.e("MyAmplifyApp", "Query failed.", it) }
+    { Log.e("MyAmplifyApp", "Query failed", it) }
 )
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+Amplify.DataStore.query(Post::class)
+    .catch { Log.e("MyAmplifyApp", "Query failed", it) }
+    .collect { Log.i("MyAmplifyApp", "Title: ${it.title}") }
 ```
 
 </amplify-block>

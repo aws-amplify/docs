@@ -35,14 +35,26 @@ Amplify.Predictions.interpret(
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
 
 ```kotlin
-Amplify.Predictions.interpret(
-    "I like to eat spaghetti",
-    { result -> Log.i("MyAmplifyApp", result.getSentiment()!!.getValue().toString()) },
-    { error -> Log.e("MyAmplifyApp", "Interpret failed", error) }
+Amplify.Predictions.interpret("I like to eat spaghetti",
+    { Log.i("MyAmplifyApp", "${it.sentiment.value}") }
+    { Log.e("MyAmplifyApp", "Interpret failed", it) }
 )
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+val text = "I like to eat spaghetti"
+try {
+    val result = Amplify.Predictions.interpret(text)
+    Log.i("MyAmplifyApp", "${result.sentiment?.value}")
+} catch (error: PredictionsException) {
+    Log.e("MyAmplifyApp", "Interpret failed", error)
+}
 ```
 
 </amplify-block>

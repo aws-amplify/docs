@@ -4,6 +4,8 @@
     "prereq",
     "create-application",
     "combine",
+    "async",
+    "coroutines",
     "rxjava",
     "use-existing-resources"
   ]

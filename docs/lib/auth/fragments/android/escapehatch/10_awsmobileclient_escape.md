@@ -1,18 +1,35 @@
 <amplify-block-switcher>
- <amplify-block name="Java">
+<amplify-block name="Java">
 
 ```java
 AWSMobileClient mobileClient = (AWSMobileClient) Amplify.Auth.getPlugin("awsCognitoAuthPlugin").getEscapeHatch();
 ```
 
- </amplify-block>
- <amplify-block name="Kotlin">
+</amplify-block>
+<amplify-block name="Kotlin - Callbacks">
 
- ```kotlin
-val mobileClient = Amplify.Auth.getPlugin("awsCognitoAuthPlugin").escapeHatch as AWSMobileClient?
+```kotlin
+val cognitoAuthPlugin = Amplify.Auth.getPlugin("awsCognitoAuthPlugin")
+val mobileClient = cognitoAuthPlugin.escapeHatch as AWSMobileClient
 ```
 
- </amplify-block>
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+val cognitoAuthPlugin = Amplify.Auth.getPlugin("awsCognitoAuthPlugin")
+val mobileClient = cognitoAuthPlugin.escapeHatch as AWSMobileClient
+```
+
+</amplify-block>
+<amplify-block name="RxJava">
+
+```java
+AWSMobileClient mobileClient =
+    (AWSMobileClient) RxAmplify.Auth.getPlugin("awsCognitoAuthPlugin").getEscapeHatch();
+```
+
+</amplify-block>
 </amplify-block-switcher>
 
 You can use the escape hatch to `federatedSignIn` with a valid token from other social providers. Find more details [here](https://docs.amplify.aws/sdk/auth/federated-identities/q/platform/android)

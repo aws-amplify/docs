@@ -13,15 +13,30 @@ Amplify.Storage.downloadFile(
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
 
 ```kotlin
-Amplify.Storage.downloadFile(
-    "ExampleKey",
-    File("${applicationContext.filesDir.toString()}/download.txt"),
-    { result -> Log.i("MyAmplifyApp", "Successfully downloaded: ${result.getFile().name}") },
-    { error -> Log.e("MyAmplifyApp", "Download Failure", error) }
+val file = File("${applicationContext.filesDir}/download.txt")
+Amplify.Storage.downloadFile("ExampleKey", file,
+    { Log.i("MyAmplifyApp", "Successfully downloaded: ${it.file.name}") }
+    { Log.e("MyAmplifyApp",  "Download Failure", it) }
 )
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+try {
+    val file = File("${applicationContext.filesDir}/download.txt")
+    val download = Amplify.Storage.downloadFile("ExampleKey", file)
+    try {
+        val fileName = download.result().file.name
+        Log.i("MyAmplifyApp", "Successfully downloaded: $fileName")
+    } catch (error: StorageException) {
+        Log.e("MyAmplifyApp", "Download Failure", error)
+    }
+}
 ```
 
 </amplify-block>
@@ -62,17 +77,37 @@ Amplify.Storage.downloadFile(
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
 
 ```kotlin
-Amplify.Storage.downloadFile(
-    "ExampleKey",
-    File("${applicationContext.filesDir.toString()}/download.txt"),
-    StorageDownloadFileOptions.defaultInstance(),
-    { progress -> Log.i("MyAmplifyApp", "Fraction completed: ${progress.fractionCompleted}") },
-    { result -> Log.i("MyAmplifyApp", "Successfully downloaded: ${result.getFile().name}") },
-    { error -> Log.e("MyAmplifyApp", "Download Failure", error) }
+val file = File("${applicationContext.filesDir}/download.txt")
+val options = StorageDownloadFileOptions.defaultInstance()
+Amplify.Storage.downloadFile("ExampleKey", file, options,
+    { Log.i("MyAmplifyApp", "Fraction completed: ${it.fractionCompleted}") },
+    { Log.i("MyAmplifyApp", "Successfully downloaded: ${it.file.name}") },
+    { Log.e("MyAmplifyApp", "Download Failure", it) }
 )
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+val file = File("${applicationContext.filesDir}/download.txt")
+val options = StorageDownloadFileOptions.defaultInstance()
+val download = Amplify.Storage.downloadFile("ExampleKey", file, options)
+val progressJob = activityScope.async {
+    download.progress().collect { progress ->
+        Log.i("MyAmplifyApp", "Fraction completed: ${progress.fractionCompleted}")
+    }
+}
+try {
+    val fileName = download.result().file.name
+    Log.i("MyAmplifyApp", "Successfully downloaded: $fileName")
+} catch (error: StorageException) {
+    Log.e("MyAmplifyApp", "Download Failure", error)
+}
+progressJob.cancel()
 ```
 
 </amplify-block>

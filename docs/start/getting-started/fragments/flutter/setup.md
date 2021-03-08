@@ -8,7 +8,7 @@
 
 ## Prerequisites
 
-- [Install Flutter](https://flutter.dev/docs/get-started/install) version 1.20.0 or higher
+- [Install Flutter](https://flutter.dev/docs/get-started/install) version 1.20.0 or higher (make sure you are using a stable version of flutter)
 
 - [Setup your IDE](https://flutter.dev/docs/get-started/editor?tab=androidstudio)
 
