@@ -21,7 +21,7 @@ const MyTheme = {
 <Authenticator theme={MyTheme} />
 ```
 
-For React Native, you must override properties defined in AmplifyTheme.js [here](https://github.com/aws-amplify/amplify-js/blob/main/packages/aws-amplify-react-native/src/AmplifyTheme.js)
+For React Native, you must override properties defined in AmplifyTheme.js [here](https://github.com/aws-amplify/amplify-js/blob/main/packages/aws-amplify-react-native/src/AmplifyTheme.ts)
 
 ```javascript
 import { AmplifyTheme } from 'aws-amplify-react-native';
