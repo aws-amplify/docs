@@ -31,7 +31,7 @@ var resultSink: AnyCancellable?
     
 func downloadData(key: String, userId: String) {
     let options = StorageDownloadDataRequest.Options(accessLevel: .protected,
-                                                        targetIdentityId: userId)
+                                                     targetIdentityId: userId)
     let storageOperation = Amplify.Storage.downloadData(key: key, options: options)
     progressSink = storageOperation.progressPublisher.sink { progress in print("Progress: \(progress)") }
     resultSink = storageOperation.resultPublisher.sink {
