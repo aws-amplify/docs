@@ -3,18 +3,14 @@
 
 ```java
 private void downloadFile(File file, String key, String otherUserId) {
-    StorageDownloadFileOptions options =
-            StorageDownloadFileOptions.builder()
-                    .accessLevel(StorageAccessLevel.PROTECTED)
-                    .targetIdentityId(otherUserId)
-                    .build();
+    StorageDownloadFileOptions options = StorageDownloadFileOptions.builder()
+        .accessLevel(StorageAccessLevel.PROTECTED)
+        .targetIdentityId(otherUserId)
+        .build();
 
-    Amplify.Storage.downloadFile(
-            key,
-            file,
-            options,
-            result -> Log.i("MyAmplifyApp", "Successfully downloaded: " + key),
-            error -> Log.e("MyAmplifyApp", "Download failed", error)
+    Amplify.Storage.downloadFile(key, file, options,
+        result -> Log.i("MyAmplifyApp", "Successfully downloaded: " + key),
+        error -> Log.e("MyAmplifyApp", "Download failed", error)
     );
 }
 ```

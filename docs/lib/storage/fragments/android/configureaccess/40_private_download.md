@@ -2,10 +2,9 @@
 <amplify-block name="Java">
 
 ```java
-StorageDownloadFileOptions options =
-    StorageDownloadFileOptions.builder()
-            .accessLevel(StorageAccessLevel.PRIVATE)
-            .build();
+StorageDownloadFileOptions options = StorageDownloadFileOptions.builder()
+    .accessLevel(StorageAccessLevel.PRIVATE)
+    .build();
 ```
 
 </amplify-block>
@@ -13,8 +12,8 @@ StorageDownloadFileOptions options =
 
 ```kotlin
 val options = StorageDownloadFileOptions.builder()
-        .accessLevel(StorageAccessLevel.PRIVATE)
-        .build()
+    .accessLevel(StorageAccessLevel.PRIVATE)
+    .build()
 ```
 
 </amplify-block>

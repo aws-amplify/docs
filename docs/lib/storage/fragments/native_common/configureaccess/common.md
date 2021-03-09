@@ -1,16 +1,16 @@
- When adding the Storage category, you configure the level of access authenticated and guest users have to your S3 bucket. Additionally, when uploading files using the Storage category, you can specify the access level for that file to be either guest, protected, or private.
+ When adding the Storage category, you configure the level of access users have to your S3 bucket. You can configure separate rules for authenticated vs. guest users. When using the Storage category to upload files, you can also specify an access level for each individual file: guest, protected, or private.
 
 - **Guest** Accessible by all users of your application
 - **Protected** Readable by all users, but only writable by the creating user
 - **Private** Readable and writable only by the creating user
 
-For guest access, the user of your application is not signed in, however you will still need [Authentication](~/lib/auth/getting-started.md) configured in your application to allow the user to assume an unauthenticated role from Cognito Identity Pool.
+Guest access does **not** mean that your files are totally public. A "guest" is a user of your application who has not yet signed in. To enable access at this level, you will still be required to configured [Authentication](~/lib/auth/getting-started.md) in your app. The user must be able to assume an unauthenticated role from your Cognito Identity Pool.
 
 For protected and private access, the `[USER_ID]` below corresponds to the unique ID of the user. Once the user has signed in, the `[USER_ID]` can be retrieved from the session by accessing the identity id. See [Accessing credentials](~/lib/auth/access_credentials.md) to retrieve the identity id, and use this as the unique ID of the authenticated user.
 
 <amplify-callout>
 
-The default access level for the Storage category is **guest**. Unless you specify otherwise, all uploaded files will be publicly available for all users of your application. This means a user that is using your application and is ot signed in will have access. A user that is not using your application will not be able to access your files.
+The default access level for the Storage category is **guest**. Unless you specify otherwise, all uploaded files will be available to all users of your application. This means that a user who is using your application but has not signed in will have access. Anyone else who is not using your application will _not_ be able to access your files.
 
 </amplify-callout>
 
@@ -45,4 +45,3 @@ For the user to read the file, specify the same access level (`private`) and key
 <inline-fragment platform="ios" src="~/lib/storage/fragments/ios/configureaccess/40_private_download.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/storage/fragments/android/configureaccess/40_private_download.md"></inline-fragment>
 <inline-fragment platform="flutter" src="~/lib/storage/fragments/flutter/configureaccess/40_private_download.md"></inline-fragment>
-
