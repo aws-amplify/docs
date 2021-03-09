@@ -11,7 +11,7 @@ struct CustomInterceptor: URLRequestInterceptor {
         return mutableRequest as URLRequest
     }
 }
-val apiPlugin = try AWSAPIPlugin()
+let apiPlugin = try AWSAPIPlugin()
 try Amplify.addPlugin(apiPlugin)
 try Amplify.configure()
 try apiPlugin.add(interceptor: CustomInterceptor(), for: "yourApiName")
