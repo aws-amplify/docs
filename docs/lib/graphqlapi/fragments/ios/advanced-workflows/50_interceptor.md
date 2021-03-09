@@ -12,7 +12,7 @@ struct CustomInterceptor: URLRequestInterceptor {
     }
 }
 val apiPlugin = try AWSAPIPlugin()
-try apiPlugin.add(interceptor: CustomInterceptor(), for: "yourApiName")
 try Amplify.addPlugin(apiPlugin)
+try Amplify.configure()
+try apiPlugin.add(interceptor: CustomInterceptor(), for: "yourApiName")
 ```
-
