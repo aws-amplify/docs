@@ -3,11 +3,11 @@
   "items": [
     "getting-started",
     "overview",
-    "configureaccess",
     "upload",
     "download",
     "list",
     "remove",
+    "configureaccess",
     "autotrack",
     "triggers",
     "escapehatch",
