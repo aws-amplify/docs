@@ -16,7 +16,7 @@ disableTOC: true
 
 ## Get started
 
-Access the following tools and services from the Amplify Console:
+The following tools and services are accessible from the Amplify Console, learn more about them here:
 
 <amplify-responsive-grid columns="2" class="margin-top-lg margin-bottom-lg">
       <docs-card external url="https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html" class="border-radius" container-tag="amplify-external-link">
