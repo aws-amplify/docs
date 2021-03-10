@@ -13,7 +13,7 @@ To select a different conflict resolution strategy, navigate into your project f
     `Yes, I want to make some additional changes.`
 ? Configure additional auth types? 
     `No`
-? Configure conflict detection? 
+? Enable conflict detection? 
     `Yes`
 ? Select the default resolution strategy
   Auto Merge 

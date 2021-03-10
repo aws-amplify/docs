@@ -13,7 +13,7 @@ The CLI prompts will help you to customize the options for your GraphQL API. Wit
 - Choose the default authorization type
 - If using an API key as the authorization type, choose the expiration date for the API key
 - Configure additional authorization types
-- Configure conflict detection (for use with [DataStore](~/lib/datastore/getting-started.md))
+- Enable conflict detection (for use with [DataStore](~/lib/datastore/getting-started.md))
 - Choose to either reference an existing GraphQL schema or be given starter GraphQL schema boilerplates
 
 After configuring your GraphQL API options, update your backend:
