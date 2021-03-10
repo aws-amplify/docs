@@ -21,8 +21,12 @@ import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_inte
 import 'amplifyconfiguration.dart';
 import 'models/ModelProvider.dart';
 
-class MyAmplifyApp extends StatefulWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
 
+class _MyAppState extends State<MyApp> {
     @override
     void initState() {
         super.initState();

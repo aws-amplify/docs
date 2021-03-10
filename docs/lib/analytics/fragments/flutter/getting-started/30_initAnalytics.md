@@ -21,8 +21,12 @@ import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 
 import 'amplifyconfiguration.dart';
 
-class MyAmplifyApp extends StatefulWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
 
+class _MyAppState extends State<MyApp> {
     @override
     void initState() {
         super.initState();
