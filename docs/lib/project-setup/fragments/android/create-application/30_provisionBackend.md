@@ -10,10 +10,12 @@ Enter the following when prompted:
 ? Enter a name for the environment
     `dev`
 ? Choose your default editor:
-    `IntelliJ IDEA`
-? Do you want to use an AWS profile?
-    `Yes`
-? Please choose the profile you want to use
+    `Android Studio`
+? Where is your Res directory:
+    `app/src/main/res`
+? Select the authentication method you want to use: 
+    `AWS profile`
+? Please choose the profile you want to use 
     `default`
 ```
 
