@@ -56,7 +56,8 @@
 
 Android Studio will open your project with a tab opened to *main.dart*
 
-1. Lastly, modify your Podfile to target iOS platform 11.0 or higher.  Within your project open `ios/Podfile` and change the second line to be `platform :ios, '11.0'. 
+1. Modify your Podfile to target iOS platform 11.0 or higher.  Within your project open `ios/Podfile` and change the second line to be `platform :ios, '11.0'. 
+2. Modify your AndroidManifest.xml to target minSDK 21 or higher.  Within your project open `android/app/src/main/AndroidManifest.xml` and change the line starting with `minSdkVersion` to be `minSdkVersion 21`. 
 
 You now have an empty Flutter project into which you’ll add Amplify in the next steps.
 
