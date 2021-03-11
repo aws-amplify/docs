@@ -31,7 +31,7 @@ git init
 git remote add origin git@github.com:username/reponame.git
 git add .
 git commit -m ‘initial commit’
-git push origin master
+git push origin main
 ```
 
 ## 4. Deploy your app to AWS Amplify
@@ -48,7 +48,7 @@ c. Select GitHub as the repository service and select Next.
 
 ![Select GitHub](~/images/hosting/git/4.png)
 
-d. Authenticate with GitHub and return to the Amplify Console. Choose the repository you created earlier and the master branch, then select Next.
+d. Authenticate with GitHub and return to the Amplify Console. Choose the repository you created earlier and the main branch, then select Next.
 
 ![Authenticate](~/images/hosting/git/5.png)
 
