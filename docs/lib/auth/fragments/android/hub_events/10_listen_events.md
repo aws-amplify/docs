@@ -36,7 +36,7 @@ Amplify.Hub.subscribe(HubChannel.AUTH) { event ->
     when (event.name) {
         InitializationStatus.SUCCEEDED.toString() ->
             Log.i("AuthQuickstart", "Auth successfully initialized")
-        InitializationStatus.toString() ->
+        InitializationStatus.FAILED.toString() ->
             Log.i("AuthQuickstart", "Auth failed to succeed")
         else -> when (AuthChannelEventName.valueOf(event.name)) {
             AuthChannelEventName.SIGNED_IN ->
