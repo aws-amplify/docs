@@ -241,7 +241,7 @@
           },
           {
             "value": "false",
-            "description": "Generate camleCase/PascalCase variable names for types irrespective of the case style used for naming the types.",
+            "description": "Generate camelCase/PascalCase variable names for types irrespective of the case style used for naming the types.",
             "defaultNewProject": false,
             "defaultExistingProject": true
           }
