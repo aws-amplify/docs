@@ -143,7 +143,7 @@
     "description": "Feature Flag related to Codegen",
     "features": {
       "useAppsyncModelgenPlugin": {
-        "description": "Allows to use migrated codegen package.",
+        "description": "Choose between implementations of internal DataStore model generator package. Refer https://github.com/aws-amplify/amplify-codegen/blob/master/FeatureFlags.md",
         "type": "Feature",
         "valueType": "Boolean",
         "versionAdded": "4.40.0",
@@ -151,13 +151,97 @@
         "values": [
           {
             "value": "true",
-            "description": "Allows using newly migrated codegen package.",
+            "description": "[Recommended] Use the models generator internal package implementation at https://github.com/aws-amplify/amplify-codegen",
             "defaultNewProject": true,
             "defaultExistingProject": false
           },
           {
             "value": "false",
-            "description": "Allows using older codegen package",
+            "description": "Use the deprecated models generator package implementation at https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-codegen-appsync-model-plugin",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      },
+      "useDocsGeneratorPlugin": {
+        "description": "Choose between implementations of internal GraphQL documents generator package. Refer https://github.com/aws-amplify/amplify-codegen/blob/master/FeatureFlags.md",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.40.0",
+        "deprecationDate": "May 1st 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "[Recommended] Use the GraphQL documents generator internal package implementation at https://github.com/aws-amplify/amplify-codegen",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "Use the deprecated GraphQL documents generation package implementation at https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-graphql-docs-generator",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      },
+      "useTypesGeneratorPlugin": {
+        "description": "Choose between implementations of internal GraphQL types generator package. Refer https://github.com/aws-amplify/amplify-codegen/blob/master/FeatureFlags.md",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.40.0",
+        "deprecationDate": "May 1st 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "[Recommended] Use the types generator internal package implementation at https://github.com/aws-amplify/amplify-codegen",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "Use the deprecated types generation package implementation at https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-graphql-types-generator",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      },
+      "cleanGeneratedModelsDirectory": {
+        "description": "Clears the generated models folder before they are re-generated.",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.40.0",
+        "deprecationDate": "May 1st 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "Recommended to be set true when there are no hand-written files in the modelgen output folder.",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "Does not remove pre-existing files from the modelgen output folder. This would retain the generated models even after the corresponding types are removed from the GraphQL schema.",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      },
+      "retainCaseStyle": {
+        "description": "Retains the case style developer uses while naming the GraphQL types in schema",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.40.0",
+        "deprecationDate": "May 1st 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "Retain the case style used for naming the GraphQL types in the schema. Refer https://github.com/aws-amplify/amplify-codegen/pull/89",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "Generate camelCase/PascalCase variable names for types irrespective of the case style used for naming the types.",
             "defaultNewProject": false,
             "defaultExistingProject": true
           }
