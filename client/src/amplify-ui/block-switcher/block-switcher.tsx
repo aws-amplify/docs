@@ -1,21 +1,21 @@
-import {Component, Host, h, Prop, State, Element, Watch} from "@stencil/core";
+import { Component, Host, h, Prop, State, Element, Watch } from "@stencil/core";
 import {
   hostStyle,
   activeTabStyle,
   tabStyle,
   tabContainerStyle,
-  contentStyle,
+  contentStyle
 } from "./block-switcher.style";
-import {css} from "emotion";
-import {pageContext} from "../../docs-ui/page/page.context";
+import { css } from "emotion";
+import { pageContext } from "../../docs-ui/page/page.context";
 import {
   SelectedTabHeadings,
-  SetNewSelectedTabHeadings,
+  SetNewSelectedTabHeadings
 } from "../../docs-ui/page/page.types";
 
 const BLOCK_TAG_NAME = "amplify-block";
 
-@Component({tag: "amplify-block-switcher", shadow: false})
+@Component({ tag: "amplify-block-switcher", shadow: false })
 export class AmplifyBlockSwitcher {
   @Element() el: HTMLElement;
 
@@ -40,7 +40,7 @@ export class AmplifyBlockSwitcher {
   recursivelyFindBlocks(el: HTMLElement) {
     if (el.matches(BLOCK_TAG_NAME)) {
       // somehow this doesn't cause a rerender each time a heading is pushed, just at the end
-      this.tabHeadings.push(((el as any) as {name: string}).name);
+      this.tabHeadings.push(((el as any) as { name: string }).name);
       return;
     }
     const children = Array.from(el.children);
@@ -96,20 +96,23 @@ export class AmplifyBlockSwitcher {
     `;
 
     return (
+      // @ts-ignore
       <Host
         class={{
           [hostStyle]: true,
-          [revealStyle]: true,
+          [revealStyle]: true
         }}
       >
+        {/* @ts-ignore */}
         <div class={tabContainerStyle}>
           {this.tabHeadings?.map((e, i) => {
             return (
               <button
+                // @ts-ignore
                 onClick={this.createActiveChildISetter(i)}
                 class={{
                   [activeTabStyle]: this.activeChildI === i,
-                  [tabStyle]: true,
+                  [tabStyle]: true
                 }}
                 key={e}
               >
@@ -118,6 +121,7 @@ export class AmplifyBlockSwitcher {
             );
           })}
         </div>
+        {/* @ts-ignore */}
         <div class={contentStyle}>
           <slot />
         </div>
@@ -129,5 +133,5 @@ export class AmplifyBlockSwitcher {
 pageContext.injectProps(AmplifyBlockSwitcher, [
   "alwaysRerenderBlockSwitcher",
   "selectedTabHeadings",
-  "setNewSelectedTabHeadings",
+  "setNewSelectedTabHeadings"
 ]);

@@ -1,8 +1,8 @@
-import {Component, h, Prop} from "@stencil/core";
-import {tableContainer, tableStyle, summaryRow} from "./feature-flag.style";
-import {FeatureFlag} from "./feature-flag.types";
+import { Component, h, Prop } from "@stencil/core";
+import { tableContainer, tableStyle, summaryRow } from "./feature-flag.style";
+import { FeatureFlag } from "./feature-flag.types";
 
-@Component({tag: "amplify-feature-flag-summary", shadow: false})
+@Component({ tag: "amplify-feature-flag-summary", shadow: false })
 export class AmplifyFeatureFlagSummary {
   /** name of the feature flag */
   @Prop() readonly name: string;
@@ -13,8 +13,10 @@ export class AmplifyFeatureFlagSummary {
   render() {
     return (
       <div>
+        {/* @ts-ignore */}
         <docs-in-page-link targetId={this.name}>
           <h3 id={this.name}>{this.name}</h3>
+          {/* @ts-ignore */}
         </docs-in-page-link>
 
         {this.feature.description ? (
@@ -22,9 +24,12 @@ export class AmplifyFeatureFlagSummary {
         ) : (
           undefined
         )}
+        {/* @ts-ignore */}
         <div class={tableContainer}>
+          {/* @ts-ignore */}
           <table class={tableStyle}>
             <thead>
+              {/* @ts-ignore */}
               <tr class={summaryRow}>
                 <th>Type</th>
                 <th>Added</th>
@@ -47,6 +52,7 @@ export class AmplifyFeatureFlagSummary {
           </table>
         </div>
 
+        {/* @ts-ignore */}
         <amplify-feature-flag-values values={this.feature.values} />
       </div>
     );

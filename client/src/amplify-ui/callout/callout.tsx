@@ -1,7 +1,7 @@
-import {Component, h, Prop, Host} from "@stencil/core";
-import {hostStyle, styleByType} from "./callout.style";
+import { Component, h, Prop, Host } from "@stencil/core";
+import { hostStyle, styleByType } from "./callout.style";
 
-@Component({tag: "amplify-callout", shadow: false})
+@Component({ tag: "amplify-callout", shadow: false })
 export class AmplifyCallout {
   /*** is it a warning? */
   @Prop() readonly warning?: boolean;
@@ -14,10 +14,11 @@ export class AmplifyCallout {
 
   render() {
     return (
+      // @ts-ignore
       <Host
         class={{
           [hostStyle]: true,
-          [styleByType[this.type || "info"]]: true,
+          [styleByType[this.type || "info"]]: true
         }}
       >
         <div>
