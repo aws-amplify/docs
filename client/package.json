@@ -1,0 +1,5 @@
+{
+  "private": true,
+  "name": "docs-ui",
+  "types": "dist/types/index.d.ts"
+}

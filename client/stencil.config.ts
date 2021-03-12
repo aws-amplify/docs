@@ -1,16 +1,17 @@
-import {Config} from "@stencil/core";
+import { Config } from "@stencil/core";
+import { reactOutputTarget } from "@stencil/react-output-target";
 import nodePolyfills from "rollup-plugin-node-polyfills";
-import {sass} from "@stencil/sass";
+import { sass } from "@stencil/sass";
 
 export const config: Config = {
   extras: {
-    initializeNextTick: false,
+    initializeNextTick: false
   },
   devServer: {
-    reloadStrategy: "pageReload",
+    reloadStrategy: "pageReload"
   },
   nodeResolve: {
-    browser: true,
+    browser: true
   },
   plugins: [nodePolyfills(), sass()],
   globalStyle: "src/styles/styles.scss",
@@ -19,11 +20,11 @@ export const config: Config = {
     namedExports: {
       "@aws-sdk/client-cognito-identity-browser": [
         "CognitoIdentityClient",
-        "GetIdCommand",
+        "GetIdCommand"
       ],
       "@aws-sdk/credential-provider-cognito-identity": [
         "fromCognitoIdentity",
-        "fromCognitoIdentityPool",
+        "fromCognitoIdentityPool"
       ],
       "@aws-crypto/sha256-js": ["Sha256"],
       uuid: ["v1", "v4"],
@@ -34,16 +35,16 @@ export const config: Config = {
       "@aws-sdk/util-uri-escape": ["escapeUri"],
       "@aws-sdk/config-resolver": [
         "resolveRegionConfig",
-        "resolveEndpointsConfig",
+        "resolveEndpointsConfig"
       ],
       "@aws-sdk/middleware-signing": [
         "resolveAwsAuthConfig",
-        "getAwsAuthPlugin",
+        "getAwsAuthPlugin"
       ],
       "@aws-sdk/middleware-retry": ["getRetryPlugin", "resolveRetryConfig"],
       "@aws-sdk/middleware-user-agent": [
         "getUserAgentPlugin",
-        "resolveUserAgentConfig",
+        "resolveUserAgentConfig"
       ],
       "@aws-sdk/smithy-client": [
         "Client",
@@ -53,7 +54,7 @@ export const config: Config = {
         "LazyJsonString",
         "dateToUtcString",
         "getArrayIfSingleItem",
-        "getValueFromTextNode",
+        "getValueFromTextNode"
       ],
       "@aws-sdk/protocol-http": ["HttpRequest", "HttpResponse"],
       "@aws-sdk/middleware-serde": ["getSerdePlugin"],
@@ -66,51 +67,55 @@ export const config: Config = {
       "@aws-sdk/eventstream-serde-browser": ["eventStreamSerdeProvider"],
       "@aws-sdk/middleware-bucket-endpoint": [
         "resolveBucketEndpointConfig",
-        "getBucketEndpointPlugin",
+        "getBucketEndpointPlugin"
       ],
       "@aws-sdk/middleware-sdk-s3": ["getValidateBucketNamePlugin"],
       "@aws-sdk/xml-builder": ["XmlText", "XmlNode"],
       "@aws-sdk/middleware-apply-body-checksum": [
-        "getApplyMd5BodyChecksumPlugin",
-      ],
-    },
+        "getApplyMd5BodyChecksumPlugin"
+      ]
+    }
   },
   outputTargets: [
+    reactOutputTarget({
+      componentCorePackage: "docs-ui",
+      proxiesFile: "../src/docs-ui/components.ts"
+    }),
     {
       type: "www",
       serviceWorker: {
-        unregister: true,
+        unregister: true
       },
       baseUrl: "https://docs.amplify.aws",
       prerenderConfig: "prerender.config.ts",
       copy: [
         {
           src: "sitemap.xml",
-          dest: "sitemap.xml",
+          dest: "sitemap.xml"
         },
         {
           src: "manifest.json",
-          dest: "manifest.json",
+          dest: "manifest.json"
         },
         {
           src: "browserconfig.xml",
-          dest: "browserconfig.xml",
+          dest: "browserconfig.xml"
         },
         {
-          src: "fonts",
+          src: "fonts"
         },
         {
           src: "assets",
-          keepDirStructure: false,
+          keepDirStructure: false
         },
         {
-          src: "api",
+          src: "api"
         },
         {
           src: "robots.txt",
-          dest: "robots.txt",
-        },
-      ],
-    },
-  ],
+          dest: "robots.txt"
+        }
+      ]
+    }
+  ]
 };

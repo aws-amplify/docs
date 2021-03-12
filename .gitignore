@@ -1,3 +1,5 @@
+.next
+src/docs-ui/react-component-lib
 dist/
 !www/favicon.ico
 www/

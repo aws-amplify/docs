@@ -1,0 +1,43 @@
+// import { readFileSync } from "fs";
+import matter from "gray-matter";
+import { camelCase, upperFirst } from "lodash";
+import renderToString from "next-mdx-remote/render-to-string";
+import hydrate from "next-mdx-remote/hydrate";
+import * as DocsComponents from "../docs-ui";
+import { DocsPage, DocsRouter } from "../docs-ui";
+
+const components = {
+  ...DocsComponents,
+  DocsPage
+};
+
+export default function TestPage({ source }) {
+  const content = hydrate(source, { components });
+
+  return <DocsPage>{content}</DocsPage>;
+
+  // return <DocsPage>{content}</DocsPage>;
+}
+
+export async function getStaticProps() {
+  const { content, data: scope } = matter(
+    `<docs-hero>Test hero</docs-hero>`
+      // readFileSync("../docs/docs/docs.md", "utf8")
+      .replace(
+        /(\<\/?)(docs-[\w-]+)/g,
+        (match, $1, $2) => `${$1}${upperFirst(camelCase($2))}`
+      )
+      // TODO Use babel plugin to support these
+
+      .split("class=")
+      .join("className=")
+      .split("allowfullscreen")
+      .join("allowFullScreen")
+      .split("frameborder")
+      .join("frameBorder")
+  );
+
+  const source = await renderToString(content, { components, scope });
+
+  return { props: { source, scope } };
+}
