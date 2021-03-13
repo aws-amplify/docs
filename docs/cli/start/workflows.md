@@ -19,6 +19,10 @@ The `init` command goes through the following steps:
 - Generate the project metadata files, with the outputs of the above-selected plugin(s)
 - Creates a cloud project in the [AWS Amplify Console](https://console.aws.amazon.com/amplify) to view and manage resources for all backend environments.
 
+The `init` command can determine defaults for the project based on the contents of the directory. To accept the defaults offered, answer yes to:
+
+`Initialize the project with the above configuration?`
+
 ## Clone sample Amplify project
 
 To clone a sample amplify fullstack project, execute the following command inside an empty directory:
