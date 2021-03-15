@@ -291,7 +291,16 @@ func optimisticCreateTodo(input: CreateTodoInput, query:ListTodosQuery){
         self.appSyncClient?.perform(mutation: createTodoMutation, optimisticUpdate: { (transaction) in
             do {
                 try transaction?.update(query: query) { (data: inout ListTodosQuery.Data) in
-                    data.listTodos?.items?.append(ListTodosQuery.Data.ListTodo.Item.init(id: UUID, name: input.name, description: input.description!))
+                    var listTodos = data.listTodos ?? ListTodosQuery.Data.ListTodo(items: [])
+                    var items = listTodos.items ?? []
+
+                    items.append(ListTodosQuery.Data.ListTodo.Item.init(id: UUID,
+                                                                        name: input.name,
+                                                                        description: input.description!,
+                                                                        createdAt: "",
+                                                                        updatedAt: ""))
+                    listTodos.items = items
+                    data.listTodos = listTodos
                 }
             } catch {
                 print("Error updating cache with optimistic response for \(createTodoInput)")
