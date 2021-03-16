@@ -16,12 +16,6 @@ npm install -g @aws-amplify/cli
 curl -sL https://aws-amplify.github.io/amplify-cli/install | bash && $SHELL
 ```
 
-<amplify-callout warning>
-
-**Troubleshooting:** Only the NPM version is currently supported on ARM-based platforms (*e.g.* Apple M1).
-
-</amplify-callout>
-
 </amplify-block>
 
 <amplify-block name="cURL (Windows)">
