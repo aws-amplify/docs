@@ -14,11 +14,14 @@ export const sidebarLayoutSidebarStyle = css`
     min-height: 100vh;
     height: 100%;
 
-    > div > div {
+    > div {
       position: sticky;
       display: flex;
       flex-direction: column;
       max-height: 100vh;
+      overflow-y: auto; /* for Firefox */
+      overflow-y: overlay; /* for Webkit browsers */
+      margin-bottom: 6rem;
     }
   }
 `;
