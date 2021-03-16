@@ -30,6 +30,11 @@ where the github url is a valid sample amplify project repository. Click [here](
 ## Common CLI commands
 
 ### amplify init
+
+The `init` command can determine defaults for the project based on the contents of the directory. To accept the defaults offered, answer yes to:
+
+`Initialize the project with the above configuration?`
+
 During the init process, the root stack is created with three resources:
 
 - IAM role for unauthenticated users
@@ -37,7 +42,6 @@ During the init process, the root stack is created with three resources:
 - S3 bucket, the deployment bucket, to support this provider's workflow
 
 The provider logs the information of the root stack and the resources into the project metadata file (amplify/backend/amplify-meta.json).
-
 
 ### amplify \<category\> add
 Once init is complete, run the command `amplify \<category\> add` to add resources of a category to the cloud. This will place a CloudFormation template for the resources of this category in the category's subdirectory `amplify/backend/\<category\>` and insert its reference into the above-mentioned root stack as the nested child stack. When working in teams, it is good practice to run an `amplify pull` before modifying the backend categories.
