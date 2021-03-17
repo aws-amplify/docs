@@ -4,7 +4,7 @@
 
 ```swift
 func postTodo() {
-    let message = "{\"message\": \"my new Todo\"}"
+    let message = #"{"message": "my new Todo"}"#
     let request = RESTRequest(path: "/todo", body: message.data(using: .utf8))
     Amplify.API.post(request: request) { result in
         switch result {
@@ -24,7 +24,7 @@ func postTodo() {
 
 ```swift
 func postTodo() -> AnyCancellable {
-    let message = "{\"message\": \"my new Todo\"}"
+    let message = #"{"message": "my new Todo"}"#
     let request = RESTRequest(path: "/todo", body: message.data(using: .utf8))
     let sink = Amplify.API.post(request: request)
         .resultPublisher
