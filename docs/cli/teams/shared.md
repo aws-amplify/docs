@@ -3,7 +3,7 @@ title: Share single environment
 description: Learn the recommended workflow for multiple team members sharing a single Amplify environment.
 ---
 
-You have two independent environments (master & dev) in the cloud and have corresponding git branches with your amplify backend infrastructure code on Git. Suppose all team members want to work on the same Amplify project and push backend related changes to the same dev environment to test their changes. Each team member would run the following:
+You have two independent environments (`main` & `dev`) in the cloud and have corresponding Git branches with your Amplify backend infrastructure code on Git. Suppose all team members want to work on the same Amplify project and push backend related changes to the same `dev` environment to test their changes. Each team member would run the following:
 
 ```bash
 cd <project-dir>
@@ -11,7 +11,11 @@ amplify init
 ```
 <amplify-callout warning>
 
-Ensure the root of your project has the `amplify` folder set up in order to be able to re-use existing environments.
+Ensure the root of your project has the `amplify` folder set up in order to be able to re-use existing environments. 
+
+If the **team-provider-info.json** file is missing: 
+1. Backup and remove the `amplify` folder 
+2. Pull the environment from the root of your project folder using the `amplify pull --appId <app-id> --envName <env-name>` command displayed in the Amplify Console for your application
 
 </amplify-callout>
 
@@ -25,14 +29,21 @@ master
 amplify push
 ```
 
-Since the team is sharing the same dev backend, periodically team members would need to pull in changes which their team members pushed for the dev environment to be in sync. Let's pull in the changes from the dev branch & environment.
+Since the team is sharing the same `dev` backend, periodically team members would need to pull in changes which their team members pushed for the `dev` environment to be in sync. Let's pull in the changes from the `dev` branch & environment.
 
 ```bash
 amplify pull
 ```
 
 ## Sharing projects within the team
-Inside the amplify/ dir file-structure you will observe a **team-provider-info.json** file which contains a structure similar to the following:
+
+<amplify-callout warning>
+
+Team members will only be able to push to a stack only if they have the [correct credentials (access key/secret keys)](https://docs.amplify.aws/cli/start/install#pre-requisites-for-installation) to do so.
+
+</amplify-callout>
+
+Inside the `amplify` directory file-structure, you will observe a **team-provider-info.json** file which contains a structure similar to the following:
 
 ```json
 {
@@ -65,6 +76,4 @@ Inside the amplify/ dir file-structure you will observe a **team-provider-info.j
 
 This file is to be shared between team members, so that they have the ability to push/provision resources to the same CloudFormation stack and that way teams can work in a push/pull way and can always be in sync with the latest state of the project in the cloud.
 
-Note: Team members would only be able to push to a stack only if they have the correct credentials (access key/secret keys) to do so.
-
-If you want to share a project publicly and open source your serverless infrastructure, you should remove or put the amplify/team-provider-info.json file in gitignore file.
+If you want to share a project publicly and open source your serverless infrastructure, you should remove or put the `amplify/team-provider-info.json` file in `.gitignore` file.
