@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`amplify-sidebar-layout-sidebar Render logic should render 1`] = `
-<amplify-sidebar-layout-sidebar class="css-6h8rct in-view">
+<amplify-sidebar-layout-sidebar class="css-kdiujo in-view">
   <!---->
   <div>
     <div style="top: initial;"></div>

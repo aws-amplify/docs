@@ -10,23 +10,25 @@ export class DocsVersionSwitch {
   @Prop() readonly rightOption: SwitchOption;
 
   render() {
-    return (
-      <Host class={switchStyle}>
-        <docs-internal-link
-          href={this.leftOption.href}
-          childActiveClass={activeSwitchStyle}
-        >
-          <span>{this.leftOption.title}</span>
-          <span class="subtitle">{this.leftOption.subTitle}</span>
-        </docs-internal-link>
-        <docs-internal-link
-          href={this.rightOption.href}
-          childActiveClass={activeSwitchStyle}
-        >
-          <span>{this.rightOption.title}</span>
-          <span class="subtitle">{this.rightOption.subTitle}</span>
-        </docs-internal-link>
-      </Host>
-    );
+    if (this.leftOption && this.rightOption) {
+      return (
+        <Host class={switchStyle}>
+          <docs-internal-link
+            href={this.leftOption.href}
+            childActiveClass={activeSwitchStyle}
+          >
+            <span>{this.leftOption.title}</span>
+            <span class="subtitle">{this.leftOption.subTitle}</span>
+          </docs-internal-link>
+          <docs-internal-link
+            href={this.rightOption.href}
+            childActiveClass={activeSwitchStyle}
+          >
+            <span>{this.rightOption.title}</span>
+            <span class="subtitle">{this.rightOption.subTitle}</span>
+          </docs-internal-link>
+        </Host>
+      );
+    }
   }
 }

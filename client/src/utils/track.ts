@@ -6,15 +6,13 @@ import {Build} from "@stencil/core";
 let configured = false;
 let firstPageOfVisit = true;
 if (!configured) {
-  Auth.configure(awsexports);
-  Analytics.configure(awsexports);
   if (Build.isBrowser) {
+    Auth.configure(awsexports);
+    Analytics.configure(awsexports);
     // @ts-ignore
     AWSCShortbread({
       domain: ".amplify.aws",
     }).checkForCookieConsent();
-  }
-  if (Build.isBrowser) {
     // @ts-ignore
     if (typeof s != "undefined") s.trackExternalLinks = false;
   }

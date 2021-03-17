@@ -25,8 +25,8 @@ const StencilBuildProcess = (flags: string[]) =>
     cwd: clientDir,
   });
 
-const DEV_FLAGS = ["--dev", "--watch", "--serve"];
-const PROD_FLAGS = ["--prod", "--prerender", "--debug"];
+const DEV_FLAGS = ["--dev", "--watch", "--serve", "--max-workers=0"];
+const PROD_FLAGS = ["--prod", "--prerender", "--debug", "--max-workers=0"];
 
 const onWatching = () => {
   StencilBuildProcess(DEV_FLAGS);

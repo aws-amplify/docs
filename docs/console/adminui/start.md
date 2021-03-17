@@ -8,12 +8,12 @@ The Admin UI provides a visual interface to develop app backends and manage app 
 You can get started with or without an AWS account. Without an AWS account, you can begin modeling data for your backend and testing it locally. If you choose to create an AWS account and deploy your backend to Amplify Console, an expanded set of features becomes available for configuring your backend environment. 
 
 <amplify-responsive-grid grid-gap="2" columns="2" class="margin-top-lg margin-bottom-lg">
-<docs-card external url="https://sandbox.amplifyapp.com/" container-tag="amplify-external-link" >
+<docs-card external url="https://sandbox.amplifyapp.com/" containertag="amplify-external-link" >
   <img slot="graphic" src="~/images/console/adminui.svg" />
   <h4 slot="heading">Launch Sandbox</h4>
   <p slot="description">Get started without an AWS account</p>
 </docs-card>
-<docs-card external url="https://console.aws.amazon.com/amplify/home?#/deploy-backend" container-tag="amplify-external-link" >
+<docs-card external url="https://console.aws.amazon.com/amplify/home?#/deploy-backend" containertag="amplify-external-link" >
   <img slot="graphic" src="~/assets/logo-dark.svg" />
   <h4 slot="heading">Launch Amplify Console</h4>
   <p slot="description">Get started with an AWS account</p>

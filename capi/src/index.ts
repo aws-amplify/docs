@@ -206,7 +206,7 @@ export async function API(c: t.Config): Promise<void> {
           if (Array.isArray(node)) {
             const [tag, , firstChild] = node;
             const filterChildTag = firstChild?.[0];
-            if (!(tag === "p" && filterChildTag === "docs-filter-target")) {
+            if (!(tag === "div" && filterChildTag === "docs-filter-target")) {
               return true;
             }
           }

@@ -4,6 +4,9 @@ import {routes as entryUrls} from "./src/api/routes";
 export const config: PrerenderConfig = {
   crawlUrls: false,
   entryUrls,
+  beforeHydrate(document: any, _) {
+    document.defaultView.navigator.product = "NS";
+  },
   hydrateOptions() {
     return {
       addModulePreloads: true,
@@ -20,6 +23,6 @@ export const config: PrerenderConfig = {
     };
   },
   filterUrl(url) {
-    return !!(url && entryUrls.includes(url.pathname) && url.pathname !== "/");
+    return !(url && url.toString().includes("authenticator"));
   },
 };

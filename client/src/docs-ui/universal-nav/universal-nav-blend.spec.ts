@@ -1,4 +1,4 @@
-import {DocsUniversalNav} from "./universal-nav";
+import {DocsUniversalNavBlend} from "./universal-nav-blend";
 import {newSpecPage} from "@stencil/core/testing";
 
 describe("docs-universal-nav", () => {
@@ -7,8 +7,8 @@ describe("docs-universal-nav", () => {
       expect(
         (
           await newSpecPage({
-            components: [DocsUniversalNav],
-            html: `<docs-universal-nav />`,
+            components: [DocsUniversalNavBlend],
+            html: `<docs-universal-nav-blend />`,
           })
         ).root,
       ).toMatchSnapshot();

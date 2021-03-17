@@ -7,7 +7,7 @@ description: Get started with the Admin UI
 
 In this example we will build a data model for a bookstore to maintain information about books, authors, and publishers with relationships and authorization rules. The schema template below is a starting point for the bookstore backend.
 
-<docs-card external url="https://sandbox.amplifyapp.com/schema-design/4f1a9f51-5783-4da5-9db1-60ce071e6539/clone" container-tag="amplify-external-link">
+<docs-card external url="https://sandbox.amplifyapp.com/schema-design/4f1a9f51-5783-4da5-9db1-60ce071e6539/clone" containertag="amplify-external-link">
         <img slot="graphic" src="~/images/console/adminui.svg" />
         <h4 slot="heading">Clone in Sandbox</h4>
         <p slot="description">A bookstore data model template with four models called Book, ISBN, Publisher, and Author</p>

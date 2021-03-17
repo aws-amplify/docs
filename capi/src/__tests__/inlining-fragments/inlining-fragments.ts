@@ -19,7 +19,7 @@ test("inlining-fragments", async () => {
     ["h1", {id: "title"}, "Title"],
     "\n",
     [
-      "p",
+      "div",
       null,
       [
         "div",
@@ -43,7 +43,7 @@ test("inlining-fragments", async () => {
     ["h1", {id: "title"}, "Title"],
     "\n",
     [
-      "p",
+      "div",
       null,
       [
         "div",
@@ -67,7 +67,7 @@ test("inlining-fragments", async () => {
     ["h1", {id: "title"}, "Title"],
     "\n",
     [
-      "p",
+      "div",
       null,
       [
         "div",
