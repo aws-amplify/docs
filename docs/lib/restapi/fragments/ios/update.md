@@ -8,7 +8,8 @@ Put data to the API endpoint:
 
 ```swift
 func putTodo() {
-    let request = RESTRequest(path: "/todo", body: "my updated Todo".data(using: .utf8))
+    let updatedMessage = "{\"message\": \"my new Todo\"}"
+    let request = RESTRequest(path: "/todo", body: updatedMessage.data(using: .utf8))
     Amplify.API.put(request: request) { result in
         switch result {
         case .success(let data):
@@ -27,7 +28,8 @@ func putTodo() {
 
 ```swift
 func putTodo() -> AnyCancellable {
-    let request = RESTRequest(path: "/todo", body: "my updated Todo".data(using: .utf8))
+    let updatedMessage = "{\"message\": \"my new Todo\"}"
+    let request = RESTRequest(path: "/todo", body: updatedMessage.data(using: .utf8))
     let sink = Amplify.API.put(request: request)
         .resultPublisher
         .sink {
