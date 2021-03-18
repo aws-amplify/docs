@@ -173,7 +173,7 @@ exports.handler = async (event) => {
         const httpRequest = https.request({ ...req, host: endpoint }, (result) => {
             result.on('data', (data) => {
                 if (data.errors.length > 0) {
-                    reject(JSON.parse(data.toString()))
+                    reject(JSON.parse(data.toString()));
                 };
                 resolve(JSON.parse(data.toString()));
             });
