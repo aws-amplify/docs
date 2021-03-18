@@ -230,7 +230,7 @@ yarn add aws-amplify @aws-amplify/ui-components
 </amplify-block>
 </amplify-block-switcher>
 
-The `@aws-amplify/ui-vue` package is a set of Vue-specific UI components that make it easy to integrate functionality like end-to-end authentication flows.
+The `@aws-amplify/ui-components` package is a set of web components that make it easy to integrate functionality like end-to-end authentication flows. If you are using Vue 2, please use `@aws-amplify/ui-vue` package and follow the Vue UI Components [documentation](https://docs.amplify.aws/ui/q/framework/vue).
 
 ## Set up frontend
 
