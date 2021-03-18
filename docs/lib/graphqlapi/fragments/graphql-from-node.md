@@ -174,7 +174,7 @@ exports.handler = async (event) => {
             result.on('data', (data) => {
                 if (data.errors.length > 0) {
                     reject(JSON.parse(data.toString()))
-                }
+                };
                 resolve(JSON.parse(data.toString()));
             });
         });
