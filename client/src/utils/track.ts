@@ -105,7 +105,7 @@ export const setSearchQuery = (query: string): void => {
 
 const triggerNoSearchResults = (query: string): void => {
   const queryBackup: string = s.eVar26;
-  const resultCountBackup: number = parseInt(s.eVar27);
+  const resultCountBackup: number = parseInt(s.eVar27, 10);
 
   s.eVar26 = query;
   s.eVar27 = "0"; // If it's the number 0, the variable won't be sent
