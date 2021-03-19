@@ -41,7 +41,7 @@ export class DocsLandingHeroCTA {
             />
           </docs-internal-link>
           <docs-internal-link
-            href="/start/"
+            href="/start"
             QSPs="?sc_icampaign=js-start&sc_ichannel=docs-home"
             class="scale-up-on-hover"
           >

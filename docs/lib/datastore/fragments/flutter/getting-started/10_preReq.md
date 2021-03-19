@@ -5,9 +5,12 @@
     * For a full example of please follow the [project setup walkthrough](~/lib/project-setup/create-application.md)
 
 <amplify-callout warning>
+
 If you are using Flutter v2 and encountering build errors involving minimum deployment targets, you may need to update your app's `Podfile` in the `ios` directory.
 
-You should update the post_install hook to include the following:
+You should update the `post_install` hook to include the following:
+
+</amplify-callout>
 
 ```diff
  post_install do |installer|
@@ -19,4 +22,3 @@ You should update the post_install hook to include the following:
    end
  end
 ```
-</amplify-callout>

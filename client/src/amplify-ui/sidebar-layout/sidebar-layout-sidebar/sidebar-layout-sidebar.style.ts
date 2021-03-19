@@ -19,6 +19,9 @@ export const sidebarLayoutSidebarStyle = css`
       display: flex;
       flex-direction: column;
       max-height: 100vh;
+      overflow-y: auto; /* for Firefox */
+      overflow-y: overlay; /* for Webkit browsers */
+      margin-bottom: 6rem;
     }
   }
 `;

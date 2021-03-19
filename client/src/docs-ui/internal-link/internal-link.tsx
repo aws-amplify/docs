@@ -1,4 +1,4 @@
-import {Component, h, Prop, Host, State, Watch} from "@stencil/core";
+import {Component, h, Prop, Host, State, Watch, Build} from "@stencil/core";
 import {filtersByRoute} from "../../api";
 import {SelectedFilters} from "../page/page.types";
 import {pageContext} from "../page/page.context";
@@ -29,6 +29,7 @@ export class DocsInternalLink {
   @Watch("selectedFilters")
   async componentWillLoad() {
     let selectedFilter: string | undefined;
+    if (Build.isBrowser && !this.href) return;
     const {path, hash, params} = await parseURL(this.href);
 
     if (Object.keys(params).length === 0) {

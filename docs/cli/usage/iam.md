@@ -198,6 +198,7 @@ The Amplify CLI requires the below IAM policies for performing actions across al
                 "s3:DeleteBucketPolicy",
                 "s3:DeleteBucketWebsite",
                 "s3:DeleteObject",
+                "s3:DeleteObjectVersion",
                 "s3:GetBucketLocation",
                 "s3:GetObject",
                 "s3:HeadBucket",
