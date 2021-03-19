@@ -1,6 +1,6 @@
 In this tutorial, you will integrate basic functionality for **Analytics**.
 
-**Note**: the code won't compile until after you have finished <b>*'Connect to the cloud'*</b> section of the tutorial.
+<amplify-callout> the code won't compile until after you have finished <b>*'Connect to the cloud'*</b> section of the tutorial. </amplify-callout> 
 
 First, delete the contents of your app's *main.dart* file and paste in this starter boilerplate UI code.   
 
