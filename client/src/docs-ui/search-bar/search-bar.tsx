@@ -17,7 +17,6 @@ export class DocsSearchBar {
       Build.isBrowser &&
       document.querySelector(UNINITIALIZED_SEARCH_INPUT_SELECTOR)
     ) {
-      // @ts-ignore
       docsearch({
         apiKey: ALGOLIA_API_KEY,
         indexName: ALGOLIA_INDEX_NAME,
