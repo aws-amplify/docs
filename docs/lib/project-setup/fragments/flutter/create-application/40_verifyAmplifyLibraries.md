@@ -46,3 +46,9 @@ class _MyHomePageState extends State<MyHomePage> {
 ```
 
 Note that all calls to `addPlugin()` or `addPlugins()` are made before `Amplify.configure()` is called.
+
+If you need to test whether Amplify has already been configured successfully, you can use the `isConfigured` getter:
+
+```dart
+ var isConfigured = Amplify.isConfigured;
+```
