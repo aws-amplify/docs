@@ -118,7 +118,6 @@ export class DocsSelectAnchor {
     }
   }
 
-  // @ts-ignore
   @Listen("click", {target: "window"})
   closeOnOuterClick(e: Event) {
     if (!(e && this.element.contains(e.target as HTMLElement))) {

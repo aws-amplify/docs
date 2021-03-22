@@ -232,7 +232,7 @@ yarn add aws-amplify @aws-amplify/ui-components
 
 <amplify-callout>
 
-If you are using Vue 2, please use the <code>@aws-amplify/ui-vue</code> package and follow the Vue UI Components 
+If you are using Vue 2, please use the `@aws-amplify/ui-vue` package and follow the Vue UI Components 
 [documentation](~/ui/ui.md).
 
 </amplify-callout>

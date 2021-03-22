@@ -22,7 +22,6 @@ export class AmplifyTOCProvider {
     }
   };
 
-  // @ts-ignore
   @Watch("content")
   bindToContent() {
     this.setElements();
