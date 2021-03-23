@@ -37,6 +37,7 @@ exports[`amplify-feature-flags Render logic should render 1`] = `
       Feature Flag related to auth
     </p>
     <amplify-feature-flag-summary name="enableCaseInsensitivity"></amplify-feature-flag-summary>
+    <amplify-feature-flag-summary name="useInclusiveTerminology"></amplify-feature-flag-summary>
   </div>
   <div>
     <docs-in-page-link targetid="codegen">

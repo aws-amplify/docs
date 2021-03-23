@@ -136,6 +136,27 @@
             "defaultExistingProject": true
           }
         ]
+      },
+      "useInclusiveTerminology": {
+        "description": "Toggles terminology used for allow and deny lists.",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.47.0",
+        "deprecationDate": "April 1st 2022",
+        "values": [
+          {
+            "value": "true",
+            "description": "The terms allowlist and denylist are used.",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "The legacy terms whitelist and blacklist are used.",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
       }
     }
   },
