@@ -84,6 +84,27 @@
             "defaultExistingProject": true
           }
         ]
+      },
+      "secondaryKeyAsGSI": {
+        "description": "Changes the behaviour of @key directive to always create GSIs.",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.41.x",
+        "deprecationDate": "May 1st 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "@key will always create GSIs for named keys.",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "@key create an LSI when the named key includes a primary field.",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
       }
     }
   },
