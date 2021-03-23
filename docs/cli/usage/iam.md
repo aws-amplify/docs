@@ -116,6 +116,7 @@ The Amplify CLI requires the below IAM policies for performing actions across al
                 "cognito-idp:DescribeUserPoolClient",
                 "cognito-idp:ListTagsForResource",
                 "cognito-idp:ListUserPoolClients",
+                "cognito-idp:UpdateGroup",
                 "cognito-idp:UpdateUserPool",
                 "cognito-idp:UpdateUserPoolClient",
                 "dynamodb:CreateTable",
