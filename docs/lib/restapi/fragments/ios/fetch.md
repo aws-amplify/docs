@@ -47,6 +47,19 @@ func getTodo() -> AnyCancellable {
 
 </amplify-block-switcher>
 
+## Handling non-2xx HTTP responses
+
+When your service returns a non-2xx HTTP status code in the response, the API call will result in a failure that you can handle in your app. The response body can be accessed from the `body: Data?` property. For example, when the `APIError` is an `.httpStatusError(StatusCode, HTTPURLResponse)`, then access the response body by type casting the response to an `AWSHTTPURLResponse` and retrieve the `body` field.
+
+```swift
+if case let .httpStatusError(statusCode, response) = error,
+    let awsResponse = response as? AWSHTTPURLResponse,
+    let responseBody = awsResponse.body
+{
+    print("Response contains a \(responseBody.count) byte long response body")
+}
+```
+
 ## Accessing query parameters & body in Lambda proxy function
 
 > To learn more about Lambda Proxy Integration, please visit [Amazon API Gateway Developer Guide](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-create-api-as-simple-proxy-for-lambda.html).
