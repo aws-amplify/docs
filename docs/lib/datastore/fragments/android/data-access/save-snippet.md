@@ -44,7 +44,7 @@ try {
     Log.i("MyAmplifyApp", "Saved a post.")
 } catch (error: DataStoreException) {
     Log.e("MyAmplifyApp", "Save failed.", error)
-)
+}
 ```
 
 </amplify-block>
