@@ -2,9 +2,9 @@
 title: Headless mode for CI/CD
 description: Several commands in the Amplify CLI support arguments which could potentially be used in your CI/CD flows.
 ---
-Several commands in the Amplify CLI support arguments which could potentially be used in your CI/CD flows. The Amplify CLI arguments are not just simple strings, but also JSON objects containing information that the CLI would otherwise gather through prompts. The CLI will not prompt for input (work non-interactively) if the information it seeks is provided by an argument.
+Several commands in the Amplify CLI support arguments which could be used in a CI/CD workflow or other non-interactive shell. The CLI will work non-interactively if the required information is provided by an argument.
 
-Arguments are used mostly for scripting so that the command execution flow is not interrupted by prompts. Examples for this could be found [here](https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-cli/sample-headless-scripts)
+Arguments are used mostly for scripting so that the command execution flow is not interrupted by prompts. Examples for this can be found [here](https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-cli/sample-headless-scripts)
 
 **`--yes` flag**
 
@@ -340,3 +340,84 @@ set -e
 
 amplify delete --force
 ```
+
+## Headless category payloads
+
+Some categories' headless mode work differently than above in that they expect a JSON payload on `stdin` rather than reading command parameters. The `--headless` flag is used to let Amplify CLI know that it should read the JSON payload in a single line from `stdin`. The input JSON is validated against the expected shape (described below). Once the validation passes, the operation is executed.
+
+> Because the CLI reads a single line from `stdin`, it is necessary to make sure the JSON does not contain any newlines. [jq](https://stedolan.github.io/jq/) can be used to accomplish this:
+```bash
+cat myAddApiRequest.json | jq -c | amplify add api --headless
+```
+
+### Supported commands
+The commands that currently support this method of supplying headless parameters are:
+- `amplify add auth --headless`
+- `amplify update auth --headless`
+- `amplify add api --headless`
+- `amplify update api --headless`
+
+### Payload structure
+The structure of the JSON objects supplied on `stdin` are defined in [amplify-headless-interface](https://www.npmjs.com/package/amplify-headless-interface). This package contains both JSON Schema and TypeScript definitions for:
+- [Add Auth Payload](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-headless-interface/src/interface/auth/add.ts)
+- [Update Auth Payload](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-headless-interface/src/interface/auth/update.ts)
+- [Add API Payload](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-headless-interface/src/interface/api/add.ts)
+- [Update API Payload](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-headless-interface/src/interface/api/update.ts)
+
+### (Optional) IDE setup for headless development
+To get started, install the interface package using `npm i amplify-headless-interface`. Then, if your editor supports it, configure your editor to know about the schemas in this package.
+
+In Visual Studio Code add the following to `settings.json` under the `json.schemas` block to associate the specified file extensions with the corresponding schemas:
+```json
+"json.schemas": [
+    {
+        "fileMatch": [
+            "*.addauth.json"
+        ],
+        "url": "./node_modules/amplify-headless-interface/schemas/auth/1/AddAuthRequest.schema.json"
+    },
+    {
+        "fileMatch": [
+            "*.updateauth.json"
+        ],
+        "url": "./node_modules/amplify-headless-interface/schemas/auth/1/UpdateAuthRequest.schema.json"
+    },
+    {
+        "fileMatch": [
+            "*.addapi.json"
+        ],
+        "url": "./node_modules/amplify-headless-interface/schemas/api/1/AddApiRequest.schema.json"
+    },
+    {
+        "fileMatch": [
+            "*.updateapi.json"
+        ],
+        "url": "./node_modules/amplify-headless-interface/schemas/api/1/UpdateApiRequest.schema.json"
+    }
+]
+```
+
+Create a file such as `MyAuthTemplate.addauth.json`. Once you start editing, Visual Studio Code will provide auto-completion and suggestions based on the schema.
+
+> If you prefer not to add this configuration, you can also specify a `$schema` block your JSON body to tell Visual Studio Code how to validate the JSON. See Visual Studio Code's [JSON schemas and settings](https://code.visualstudio.com/docs/languages/json#_json-schemas-and-settings) for more details on this configuration.
+
+### Example: "amplify add api" headless configuration
+This example showcases how to use headless mode to configure `amplify add api`.
+
+Create a file called `newHeadlessApi.addapi.json` and paste in the following contents:
+```json
+{
+  "version": 1,
+  "serviceConfiguration": {
+    "serviceName": "AppSync",
+    "apiName": "myNewHeadlessApi",
+    "transformSchema": "type Todo @model {\r\n  id: ID!\r\n  name: String!\r\n  description: String\r\n}",
+    "defaultAuthType": {
+      "mode": "API_KEY"
+    }
+  }
+}
+```
+Run `cat newHeadlessApi.addapi.json | jq -c | amplify add api --headless` to add the API resource.
+
+> If you don't have `jq` installed, see https://stedolan.github.io/jq/download/.
