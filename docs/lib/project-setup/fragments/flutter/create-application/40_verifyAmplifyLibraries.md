@@ -47,8 +47,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
 Note that all calls to `addPlugin()` or `addPlugins()` are made before `Amplify.configure()` is called.
 
-If you need to test whether Amplify has already been configured successfully, you can use the `isConfigured` getter:
+Currently Amplify cannot be configured more than once. You can use the `isConfigured` getter to check whether Amplify has already been configured successfully, which can be helpful if you are observing `AmplifyAlreadyConfiguredException` upon a hot restart.
 
 ```dart
- var isConfigured = Amplify.isConfigured;
+if (!Amplify.isConfigured) {
+  try {
+    await Amplify.configure(amplifyconfig);
+  } on AmplifyException {
+    print(
+        'Amplify configuration failed');
+  }
+}
 ```
