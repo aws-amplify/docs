@@ -16,4 +16,4 @@ Storage.configure({ track: true });
 Storage.get('welcome.png', { track: true });
 ```
 
-You can also use the track property directly on [React components](#analytics-for-s3-components).
+You can also use the track property directly on Amplify [UI Components](~/ui/storage/tracking-events.md).
