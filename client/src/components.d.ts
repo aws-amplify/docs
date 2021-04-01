@@ -786,6 +786,7 @@ declare namespace LocalJSX {
           * increments whenever the platform changes and we need to refresh the tabHeadings
          */
         "alwaysRerenderBlockSwitcher"?: number;
+        "onActive-codeblock-updated"?: (event: CustomEvent<string>) => void;
         /**
           * list of previously tab headings in order of priority, passed from global provider
          */

@@ -48,4 +48,8 @@ export const contentStyle = css`
       margin-bottom: 0;
     }
   }
+
+  .activeCodeBlock {
+    display: initial;
+  }
 `;
