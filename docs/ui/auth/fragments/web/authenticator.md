@@ -590,10 +590,10 @@ amplify-authenticator {
 
 ```jsx
 <AmplifyAuthenticator>
-  <AmplifyTOTPSetup
+  <AmplifyTotpSetup
     headerText="My Custom TOTP Setup Text"
     slot="totp-setup"
-  ></AmplifyTOTPSetup>
+  ></AmplifyTotpSetup>
 </AmplifyAuthenticator>
 ```
 
