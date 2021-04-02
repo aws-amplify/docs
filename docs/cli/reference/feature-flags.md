@@ -63,6 +63,9 @@ Example configuration file
     },
     "codegen": {
       "useAppSyncModelgenPlugin": true
+    },
+    "restAPI": {
+      "generateConsolidatedManagedPolicies": true
     }
   }
 }

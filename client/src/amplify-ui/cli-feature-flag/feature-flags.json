@@ -269,5 +269,31 @@
         ]
       }
     }
+  },
+  "restAPI": {
+    "description": "Feature Flags related to REST APIs",
+    "features": {
+      "generateConsolidatedManagedPolicies": {
+        "description": "Generates managed IAM policies instead of inline policies",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.47.0",
+        "deprecationDate": "May 1st 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "REST APIs use managed IAM policies.",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "REST APIs use inline IAM policies.",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      }
+    }
   }
 }
