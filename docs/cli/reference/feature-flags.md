@@ -59,7 +59,8 @@ Example configuration file
       "enableXcodeIntegration": true
     },
     "auth": {
-      "enableCaseInsensitivity": true
+      "enableCaseInsensitivity": true,
+      "useInclusiveTerminology": true
     },
     "codegen": {
       "useAppSyncModelgenPlugin": true
