@@ -101,8 +101,15 @@ export async function pages(ctx: t.Ctx): Promise<void> {
               // create and write the page-specific asset
               const bodyClone = clone(page.body);
               trimFiltered(bodyClone, {filterKey, filterValue});
+              // hash file name to deal with aggressive adblockers
+              const paths = filteredOutAsset.split("/");
+              let fileName = paths.pop();
+              if (!fileName) {
+                fileName = "";
+              }
+              const hashedFileName = Buffer.from(fileName).toString("base64");
               await fs.writeFile(
-                filteredOutAsset,
+                [...paths, hashedFileName].join("/"),
                 JSON.stringify({...page, body: bodyClone}),
                 {
                   encoding: "utf8",
@@ -135,9 +142,20 @@ export async function pages(ctx: t.Ctx): Promise<void> {
       }
 
       await fs.ensureDir(outDir);
-      await fs.writeFile(pathDeduction.destinationPath, JSON.stringify(page), {
-        encoding: "utf8",
-      });
+      // hash file name to deal with aggressive adblockers
+      const paths = pathDeduction.destinationPath.split("/");
+      let fileName = paths.pop();
+      if (!fileName) {
+        fileName = "";
+      }
+      const hashedFileName = Buffer.from(fileName).toString("base64");
+      await fs.writeFile(
+        [...paths, hashedFileName].join("/"),
+        JSON.stringify(page),
+        {
+          encoding: "utf8",
+        },
+      );
     }
   }
 }
