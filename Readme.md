@@ -1,3 +1,5 @@
+Just a random edit to make a fake PR
+
 # Amplify Framework Documentation
 
 [![DiscordChat](https://img.shields.io/discord/308323056592486420?logo=discord")](https://discord.gg/jWVbPfC)
@@ -10,14 +12,13 @@
 2. `yarn && yarn start`
 3. <http://localhost:3333/> should open automatically.
 
-## Contributing 
+## Contributing
 
-We welcome contributions to the documentation site! Please verify your changes locally followed by a PR against our `master` branch. After your PR is reviewed and all tests pass, it will be merged and the branch will be deleted. 
+We welcome contributions to the documentation site! Please verify your changes locally followed by a PR against our `master` branch. After your PR is reviewed and all tests pass, it will be merged and the branch will be deleted.
 
-### Branches 
+### Branches
 
-`master` - at parity with our production site https://docs.amplify.aws/
-`gh-pages` - used to handle redirects from v1 of the documentation site. This should not be deleted. 
+`master` - at parity with our production site https://docs.amplify.aws/ `gh-pages` - used to handle redirects from v1 of the documentation site. This should not be deleted.
 
 ## Authoring Pages
 
