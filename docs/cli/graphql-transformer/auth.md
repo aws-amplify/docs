@@ -132,7 +132,7 @@ Here's a table outlining which users are permitted to execute which operations. 
 |       | getTodo | listTodos | createTodo | updateTodo | deleteTodo |
 |:------|:-------:|:---------:|:----------:|:----------:|:----------:|
 | owner |    ✅   |     ✅    |     ✅     |      ✅   |     ✅     |
-| other |    ❌   |     ❌    |     ✅    |      ❌   |     ❌     |
+| other |    ❌   |     ❌    |     ✅     |      ❌   |     ❌     |
 
 Next, let's say that you wanted to modify the schema to allow only the owner of the object to be able to update or delete, but allow any authenticated user to read the objects.
 
