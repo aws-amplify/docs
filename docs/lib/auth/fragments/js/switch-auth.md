@@ -60,7 +60,7 @@ Auth.configure({
 
 let challengeResponse = "the answer for the challenge";
 
-Auth.signIn(username, password)
+Auth.signIn(username)
     .then(user => {
         if (user.challengeName === 'CUSTOM_CHALLENGE') {
             // to send the answer of the custom challenge
