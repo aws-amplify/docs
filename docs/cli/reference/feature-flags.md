@@ -65,7 +65,7 @@ Example configuration file
       "useAppSyncModelgenPlugin": true
     },
     "restAPI": {
-      "generateConsolidatedManagedPolicies": true
+      "consolidateManagedPolicies": true
     }
   }
 }

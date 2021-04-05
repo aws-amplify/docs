@@ -273,7 +273,7 @@
   "restAPI": {
     "description": "Feature Flags related to REST APIs",
     "features": {
-      "generateConsolidatedManagedPolicies": {
+      "consolidateManagedPolicies": {
         "description": "Generates managed IAM policies instead of inline policies",
         "type": "Feature",
         "valueType": "Boolean",
