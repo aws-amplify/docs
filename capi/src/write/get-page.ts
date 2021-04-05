@@ -9,22 +9,6 @@ const project = new Project({
   },
 });
 
-// DELETE
-function base64(path: string): string {
-  const paths = path.split("/");
-  let fileName = paths.pop();
-  if (!fileName) {
-    fileName = "";
-  }
-  let hashedFileName;
-  if (typeof btoa === "undefined") {
-    hashedFileName = Buffer.from(fileName).toString("base64");
-  } else {
-    hashedFileName = btoa(path);
-  }
-  return [...paths, hashedFileName].join("/");
-}
-
 export async function getPage(config: t.Config, ctx: t.Ctx): Promise<void> {
   await fs.ensureDir(config.outDir);
   return project
