@@ -103,10 +103,7 @@ export async function pages(ctx: t.Ctx): Promise<void> {
               trimFiltered(bodyClone, {filterKey, filterValue});
               // hash file name to deal with aggressive adblockers
               const paths = filteredOutAsset.split("/");
-              let fileName = paths.pop();
-              if (!fileName) {
-                fileName = "";
-              }
+              const fileName = paths.pop() as string;
               const hashedFileName = Buffer.from(fileName).toString("base64");
               await fs.writeFile(
                 [...paths, hashedFileName].join("/"),
@@ -144,10 +141,7 @@ export async function pages(ctx: t.Ctx): Promise<void> {
       await fs.ensureDir(outDir);
       // hash file name to deal with aggressive adblockers
       const paths = pathDeduction.destinationPath.split("/");
-      let fileName = paths.pop();
-      if (!fileName) {
-        fileName = "";
-      }
+      const fileName = paths.pop() as string;
       const hashedFileName = Buffer.from(fileName).toString("base64");
       await fs.writeFile(
         [...paths, hashedFileName].join("/"),
