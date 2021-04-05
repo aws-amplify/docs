@@ -40,15 +40,6 @@ export async function getPage(config: t.Config, ctx: t.Ctx): Promise<void> {
 
         for (const [, pathDeduction] of ctx.pathDeductionBySrcPath) {
           if (pathDeduction.route) {
-            console.log("path: " + pathDeduction.route);
-            console.log(
-              base64(
-                `/api/${path.relative(
-                  config.outDir,
-                  pathDeduction.destinationPath as string,
-                )}`,
-              ),
-            );
             writer
               .writeLine(`      case "${pathDeduction.route}":`)
               .writeLine(
@@ -61,8 +52,6 @@ export async function getPage(config: t.Config, ctx: t.Ctx): Promise<void> {
         }
 
         for (const [filteredRoute, assetURI] of ctx.filteredPagePathByRoute) {
-          console.log("asset: " + assetURI);
-          console.log(base64(`/${assetURI}`));
           writer
             .writeLine(`      case "${filteredRoute}":`)
             .writeLine(`        return fetch(base64("/${assetURI}"));`);
