@@ -1,4 +1,5 @@
 import * as c from "../..";
+import {hashPath} from "../../utils";
 
 test("filter metadata generation", async () => {
   await c.API({
@@ -13,17 +14,21 @@ test("filter metadata generation", async () => {
     srcDir: "",
   });
 
-  // eslint-disable-next-line
-  // @ts-ignore
-  expect((await import("./api/product/product")).versions).toEqual({
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import(hashPath("./api/product/product.json"))).versions,
+  ).toEqual({
     android: "/product/q/platform/android",
     ios: "/product/q/platform/ios",
     js: "/product/q/platform/js",
   });
 
-  // eslint-disable-next-line
-  // @ts-ignore
-  expect((await import("./api/product/a/all-three")).versions).toEqual({
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import(hashPath("./api/product/a/all-three.json"))).versions,
+  ).toEqual({
     android: "/product/a/all-three/q/platform/android",
     ios: "/product/a/all-three/q/platform/ios",
     js: "/product/a/all-three/q/platform/js",
@@ -32,7 +37,7 @@ test("filter metadata generation", async () => {
   expect(
     // eslint-disable-next-line
     // @ts-ignore
-    (await import("./api/product/a/just-one")).versions,
+    (await import(hashPath("./api/product/a/just-one.json"))).versions,
   ).toEqual({
     android: "/product/q/platform/android",
     ios: "/product/q/platform/ios",
@@ -42,7 +47,7 @@ test("filter metadata generation", async () => {
   expect(
     // eslint-disable-next-line
     // @ts-ignore
-    (await import("./api/product/a/one-but-agnostic")).versions,
+    (await import(hashPath("./api/product/a/one-but-agnostic.json"))).versions,
   ).toEqual({
     android: "/product/a/one-but-agnostic/q/platform/android",
     ios: "/product/a/one-but-agnostic/q/platform/ios",

@@ -1,4 +1,5 @@
 import * as c from "../..";
+import {hashPath} from "../../utils";
 
 test("menu-generation", async () => {
   await c.API({
@@ -45,229 +46,273 @@ test("menu-generation", async () => {
 
   // eslint-disable-next-line
   // @ts-ignore
-  expect((await import("./api/lib/api/overview")).menu).toEqual(undefined);
-  expect(
-    // eslint-disable-next-line
-  // @ts-ignore
-    (await import("./api/lib/api/q/platform/android/overview")).menu,
-  ).toEqual(menu);
-  // eslint-disable-next-line
-  // @ts-ignore
-  expect((await import("./api/lib/api/q/platform/ios/overview")).menu).toEqual(
-    menu,
+  expect((await import(hashPath("./api/lib/api/overview.json"))).menu).toEqual(
+    undefined,
   );
+  expect(
+    // eslint-disable-next-line
+  // @ts-ignore
+    (await import(hashPath("./api/lib/api/q/platform/android/overview.json")))
+      .menu,
+  ).toEqual(menu);
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import(hashPath("./api/lib/api/q/platform/ios/overview.json"))).menu,
+  ).toEqual(menu);
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import(hashPath("./api/lib/api/q/platform/js/overview.json"))).menu,
+  ).toEqual(menu);
+
   // eslint-disable-next-line
   // @ts-ignore
-  expect((await import("./api/lib/api/q/platform/js/overview")).menu).toEqual(
-    menu,
+  expect((await import(hashPath("./api/lib/api/intro.json"))).menu).toEqual(
+    undefined,
   );
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import(hashPath("./api/lib/api/q/platform/android/intro.json")))
+      .menu,
+  ).toEqual(menu);
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import(hashPath("./api/lib/api/q/platform/ios/intro.json"))).menu,
+  ).toEqual(menu);
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import(hashPath("./api/lib/api/q/platform/js/intro.json"))).menu,
+  ).toEqual(menu);
 
   // eslint-disable-next-line
   // @ts-ignore
-  expect((await import("./api/lib/api/intro")).menu).toEqual(undefined);
-  // eslint-disable-next-line
-  // @ts-ignore
-  expect((await import("./api/lib/api/q/platform/android/intro")).menu).toEqual(
-    menu,
+  expect((await import(hashPath("./api/lib/api/setup.json"))).menu).toEqual(
+    undefined,
   );
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import(hashPath("./api/lib/api/q/platform/android/setup.json")))
+      .menu,
+  ).toEqual(menu);
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import(hashPath("./api/lib/api/q/platform/ios/setup.json"))).menu,
+  ).toEqual(menu);
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import(hashPath("./api/lib/api/q/platform/js/setup.json"))).menu,
+  ).toEqual(menu);
+
   // eslint-disable-next-line
   // @ts-ignore
-  expect((await import("./api/lib/api/q/platform/ios/intro")).menu).toEqual(
-    menu,
+  expect((await import(hashPath("./api/lib/api/goodbye.json"))).menu).toEqual(
+    undefined,
   );
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import(hashPath("./api/lib/api/q/platform/android/goodbye.json")))
+      .menu,
+  ).toEqual(menu);
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import(hashPath("./api/lib/api/q/platform/ios/goodbye.json"))).menu,
+  ).toEqual(menu);
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import(hashPath("./api/lib/api/q/platform/js/goodbye.json"))).menu,
+  ).toEqual(menu);
+
   // eslint-disable-next-line
   // @ts-ignore
-  expect((await import("./api/lib/api/q/platform/js/intro")).menu).toEqual(
-    menu,
+  expect((await import(hashPath("./api/lib/auth/overview.json"))).menu).toEqual(
+    undefined,
   );
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import(hashPath("./api/lib/auth/q/platform/android/overview.json")))
+      .menu,
+  ).toEqual(menu);
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import(hashPath("./api/lib/auth/q/platform/ios/overview.json")))
+      .menu,
+  ).toEqual(menu);
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import(hashPath("./api/lib/auth/q/platform/js/overview.json"))).menu,
+  ).toEqual(menu);
 
   // eslint-disable-next-line
   // @ts-ignore
-  expect((await import("./api/lib/api/setup")).menu).toEqual(undefined);
-  // eslint-disable-next-line
-  // @ts-ignore
-  expect((await import("./api/lib/api/q/platform/android/setup")).menu).toEqual(
-    menu,
+  expect((await import(hashPath("./api/lib/auth/intro.json"))).menu).toEqual(
+    undefined,
   );
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import(hashPath("./api/lib/auth/q/platform/android/intro.json")))
+      .menu,
+  ).toEqual(menu);
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import(hashPath("./api/lib/auth/q/platform/ios/intro.json"))).menu,
+  ).toEqual(menu);
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import(hashPath("./api/lib/auth/q/platform/js/intro.json"))).menu,
+  ).toEqual(menu);
+
   // eslint-disable-next-line
   // @ts-ignore
-  expect((await import("./api/lib/api/q/platform/ios/setup")).menu).toEqual(
-    menu,
+  expect((await import(hashPath("./api/lib/auth/setup.json"))).menu).toEqual(
+    undefined,
   );
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import(hashPath("./api/lib/auth/q/platform/android/setup.json")))
+      .menu,
+  ).toEqual(menu);
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import(hashPath("./api/lib/auth/q/platform/ios/setup.json"))).menu,
+  ).toEqual(menu);
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import(hashPath("./api/lib/auth/q/platform/js/setup.json"))).menu,
+  ).toEqual(menu);
+
   // eslint-disable-next-line
   // @ts-ignore
-  expect((await import("./api/lib/api/q/platform/js/setup")).menu).toEqual(
-    menu,
+  expect((await import(hashPath("./api/lib/auth/goodbye.json"))).menu).toEqual(
+    undefined,
   );
-
-  // eslint-disable-next-line
-  // @ts-ignore
-  expect((await import("./api/lib/api/goodbye")).menu).toEqual(undefined);
   expect(
     // eslint-disable-next-line
     // @ts-ignore
-    (await import("./api/lib/api/q/platform/android/goodbye")).menu,
+    (await import(hashPath("./api/lib/auth/q/platform/android/goodbye.json")))
+      .menu,
   ).toEqual(menu);
   expect(
     // eslint-disable-next-line
     // @ts-ignore
-    (await import("./api/lib/api/q/platform/ios/goodbye")).menu,
+    (await import(hashPath("./api/lib/auth/q/platform/ios/goodbye.json"))).menu,
   ).toEqual(menu);
   expect(
     // eslint-disable-next-line
     // @ts-ignore
-    (await import("./api/lib/api/q/platform/js/goodbye")).menu,
+    (await import(hashPath("./api/lib/auth/q/platform/js/goodbye.json"))).menu,
   ).toEqual(menu);
 
-  // eslint-disable-next-line
-  // @ts-ignore
-  expect((await import("./api/lib/auth/overview")).menu).toEqual(undefined);
   expect(
     // eslint-disable-next-line
     // @ts-ignore
-    (await import("./api/lib/auth/q/platform/android/overview")).menu,
+    (await import(hashPath("./api/lib/pubsub/overview.json"))).menu,
+  ).toEqual(undefined);
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    // eslint-disable-next-line
+    (await import(
+        hashPath("./api/lib/pubsub/q/platform/android/overview.json")
+      )
+    ).menu,
   ).toEqual(menu);
   expect(
     // eslint-disable-next-line
     // @ts-ignore
-    (await import("./api/lib/auth/q/platform/ios/overview")).menu,
+    (await import(hashPath("./api/lib/pubsub/q/platform/ios/overview.json")))
+      .menu,
   ).toEqual(menu);
   expect(
     // eslint-disable-next-line
     // @ts-ignore
-    (await import("./api/lib/auth/q/platform/js/overview")).menu,
-  ).toEqual(menu);
-
-  // eslint-disable-next-line
-  // @ts-ignore
-  expect((await import("./api/lib/auth/intro")).menu).toEqual(undefined);
-  expect(
-    // eslint-disable-next-line
-    // @ts-ignore
-    (await import("./api/lib/auth/q/platform/android/intro")).menu,
-  ).toEqual(menu);
-  expect(
-    // eslint-disable-next-line
-    // @ts-ignore
-    (await import("./api/lib/auth/q/platform/ios/intro")).menu,
-  ).toEqual(menu);
-  expect(
-    // eslint-disable-next-line
-    // @ts-ignore
-    (await import("./api/lib/auth/q/platform/js/intro")).menu,
+    (await import(hashPath("./api/lib/pubsub/q/platform/js/overview.json")))
+      .menu,
   ).toEqual(menu);
 
   // eslint-disable-next-line
   // @ts-ignore
-  expect((await import("./api/lib/auth/setup")).menu).toEqual(undefined);
+  expect((await import(hashPath("./api/lib/pubsub/intro.json"))).menu).toEqual(
+    undefined,
+  );
   expect(
     // eslint-disable-next-line
     // @ts-ignore
-    (await import("./api/lib/auth/q/platform/android/setup")).menu,
+    (await import(hashPath("./api/lib/pubsub/q/platform/android/intro.json")))
+      .menu,
   ).toEqual(menu);
   expect(
     // eslint-disable-next-line
     // @ts-ignore
-    (await import("./api/lib/auth/q/platform/ios/setup")).menu,
+    (await import(hashPath("./api/lib/pubsub/q/platform/ios/intro.json"))).menu,
   ).toEqual(menu);
   expect(
     // eslint-disable-next-line
     // @ts-ignore
-    (await import("./api/lib/auth/q/platform/js/setup")).menu,
-  ).toEqual(menu);
-
-  // eslint-disable-next-line
-  // @ts-ignore
-  expect((await import("./api/lib/auth/goodbye")).menu).toEqual(undefined);
-  expect(
-    // eslint-disable-next-line
-    // @ts-ignore
-    (await import("./api/lib/auth/q/platform/android/goodbye")).menu,
-  ).toEqual(menu);
-  expect(
-    // eslint-disable-next-line
-    // @ts-ignore
-    (await import("./api/lib/auth/q/platform/ios/goodbye")).menu,
-  ).toEqual(menu);
-  expect(
-    // eslint-disable-next-line
-    // @ts-ignore
-    (await import("./api/lib/auth/q/platform/js/goodbye")).menu,
+    (await import(hashPath("./api/lib/pubsub/q/platform/js/intro.json"))).menu,
   ).toEqual(menu);
 
   // eslint-disable-next-line
   // @ts-ignore
-  expect((await import("./api/lib/pubsub/overview")).menu).toEqual(undefined);
+  expect((await import(hashPath("./api/lib/pubsub/setup.json"))).menu).toEqual(
+    undefined,
+  );
   expect(
     // eslint-disable-next-line
     // @ts-ignore
-    (await import("./api/lib/pubsub/q/platform/android/overview")).menu,
+    (await import(hashPath("./api/lib/pubsub/q/platform/android/setup.json")))
+      .menu,
   ).toEqual(menu);
   expect(
     // eslint-disable-next-line
     // @ts-ignore
-    (await import("./api/lib/pubsub/q/platform/ios/overview")).menu,
+    (await import(hashPath("./api/lib/pubsub/q/platform/ios/setup.json"))).menu,
   ).toEqual(menu);
   expect(
     // eslint-disable-next-line
     // @ts-ignore
-    (await import("./api/lib/pubsub/q/platform/js/overview")).menu,
-  ).toEqual(menu);
-
-  // eslint-disable-next-line
-  // @ts-ignore
-  expect((await import("./api/lib/pubsub/intro")).menu).toEqual(undefined);
-  expect(
-    // eslint-disable-next-line
-    // @ts-ignore
-    (await import("./api/lib/pubsub/q/platform/android/intro")).menu,
-  ).toEqual(menu);
-  expect(
-    // eslint-disable-next-line
-    // @ts-ignore
-    (await import("./api/lib/pubsub/q/platform/ios/intro")).menu,
-  ).toEqual(menu);
-  expect(
-    // eslint-disable-next-line
-    // @ts-ignore
-    (await import("./api/lib/pubsub/q/platform/js/intro")).menu,
+    (await import(hashPath("./api/lib/pubsub/q/platform/js/setup.json"))).menu,
   ).toEqual(menu);
 
-  // eslint-disable-next-line
-  // @ts-ignore
-  expect((await import("./api/lib/pubsub/setup")).menu).toEqual(undefined);
   expect(
     // eslint-disable-next-line
     // @ts-ignore
-    (await import("./api/lib/pubsub/q/platform/android/setup")).menu,
+    (await import(hashPath("./api/lib/pubsub/goodbye.json"))).menu,
+  ).toEqual(undefined);
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import(hashPath("./api/lib/pubsub/q/platform/android/goodbye.json")))
+      .menu,
   ).toEqual(menu);
   expect(
     // eslint-disable-next-line
     // @ts-ignore
-    (await import("./api/lib/pubsub/q/platform/ios/setup")).menu,
+    (await import(hashPath("./api/lib/pubsub/q/platform/ios/goodbye.json")))
+      .menu,
   ).toEqual(menu);
   expect(
     // eslint-disable-next-line
     // @ts-ignore
-    (await import("./api/lib/pubsub/q/platform/js/setup")).menu,
-  ).toEqual(menu);
-
-  // eslint-disable-next-line
-  // @ts-ignore
-  expect((await import("./api/lib/pubsub/goodbye")).menu).toEqual(undefined);
-  expect(
-    // eslint-disable-next-line
-    // @ts-ignore
-    (await import("./api/lib/pubsub/q/platform/android/goodbye")).menu,
-  ).toEqual(menu);
-  expect(
-    // eslint-disable-next-line
-    // @ts-ignore
-    (await import("./api/lib/pubsub/q/platform/ios/goodbye")).menu,
-  ).toEqual(menu);
-  expect(
-    // eslint-disable-next-line
-    // @ts-ignore
-    (await import("./api/lib/pubsub/q/platform/js/goodbye")).menu,
+    (await import(hashPath("./api/lib/pubsub/q/platform/js/goodbye.json")))
+      .menu,
   ).toEqual(menu);
 });

@@ -3,6 +3,7 @@ import * as fs from "fs-extra";
 import * as path from "path";
 import clone from "clone-deep";
 import traverse from "traverse";
+import {hashPath} from "../utils";
 
 // gets rid of any filterable content that IS NOT of the provided filter key/value combo
 // returns the filtered hyperscript
@@ -101,12 +102,8 @@ export async function pages(ctx: t.Ctx): Promise<void> {
               // create and write the page-specific asset
               const bodyClone = clone(page.body);
               trimFiltered(bodyClone, {filterKey, filterValue});
-              // hash file name to deal with aggressive adblockers
-              const paths = filteredOutAsset.split("/");
-              const fileName = paths.pop() as string;
-              const hashedFileName = Buffer.from(fileName).toString("base64");
               await fs.writeFile(
-                [...paths, hashedFileName].join("/"),
+                hashPath(filteredOutAsset),
                 JSON.stringify({...page, body: bodyClone}),
                 {
                   encoding: "utf8",
@@ -139,12 +136,8 @@ export async function pages(ctx: t.Ctx): Promise<void> {
       }
 
       await fs.ensureDir(outDir);
-      // hash file name to deal with aggressive adblockers
-      const paths = pathDeduction.destinationPath.split("/");
-      const fileName = paths.pop() as string;
-      const hashedFileName = Buffer.from(fileName).toString("base64");
       await fs.writeFile(
-        [...paths, hashedFileName].join("/"),
+        hashPath(pathDeduction.destinationPath),
         JSON.stringify(page),
         {
           encoding: "utf8",
