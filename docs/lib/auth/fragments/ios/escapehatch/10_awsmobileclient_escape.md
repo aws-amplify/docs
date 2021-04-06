@@ -1,7 +1,26 @@
+<amplify-block-switcher>
+
+<amplify-block name="Swift Package Manager">
+
 ```swift
+import AWSCognitoAuthPlugin // Imports the Amplify plugin interface
+```
 
-import AmplifyPlugins
+</amplify-block>
 
+<amplify-block name="CocoaPods">
+
+```swift
+import AmplifyPlugins // Imports the Amplify plugin interface
+```
+
+</amplify-block>
+
+</amplify-block-switcher>
+
+Then retrieve the escape hatch with this code:
+
+```swift
 func getEscapeHatch() {
     do {
         let plugin = try Amplify.Auth.getPlugin(for: "awsCognitoAuthPlugin") as! AWSCognitoAuthPlugin
@@ -10,7 +29,6 @@ func getEscapeHatch() {
             return
         }
         print("Fetched escape hatch - \(awsmobileclient)")
-
     } catch {
         print("Error occurred while fetching the escape hatch \(error)")
     }
@@ -23,7 +41,7 @@ You can use the escape hatch to `federatedSignIn` with a valid token from other 
 
 ```swift
 awsmobileclient.federatedSignIn(providerName: IdentityProvider.apple.rawValue,
-                                            token: "<APPLE_TOKEN_HERE>") { (userState, error) in
+                                token: "<APPLE_TOKEN_HERE>") { (userState, error) in
         if let error = error {
             print("Error in federatedSignIn: \(error)")
             return
@@ -34,6 +52,5 @@ awsmobileclient.federatedSignIn(providerName: IdentityProvider.apple.rawValue,
             return
         }
         print("federatedSignIn successful: \(userState)")
-
 }
 ```        

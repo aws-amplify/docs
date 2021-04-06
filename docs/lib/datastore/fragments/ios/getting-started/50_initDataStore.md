@@ -2,10 +2,27 @@ To initialize the Amplify DataStore call `Amplify.add(plugin:)` method and add t
 
 **Add the following imports** to the top of your `AppDelegate.swift` file:
 
+<amplify-block-switcher>
+
+<amplify-block name="Swift Package Manager">
+
+```swift
+import Amplify
+import AWSDataStorePlugin
+```
+
+</amplify-block>
+
+<amplify-block name="CocoaPods">
+
 ```swift
 import Amplify
 import AmplifyPlugins
 ```
+
+</amplify-block>
+
+</amplify-block-switcher>
 
 **Add the following code** 
 

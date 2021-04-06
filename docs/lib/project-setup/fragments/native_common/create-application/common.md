@@ -12,7 +12,7 @@ Setup a skeleton project so that Amplify categories can be added to it
 
 ### 2. Install Amplify Libraries
 
-<inline-fragment platform="ios" src="~/lib/project-setup/fragments/ios/create-application/20_cocoaPods.md"></inline-fragment>
+<inline-fragment platform="ios" src="~/lib/project-setup/fragments/ios/create-application/20_install_libraries.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/project-setup/fragments/android/create-application/20_gradle.md"></inline-fragment>
 <inline-fragment platform="flutter" src="~/lib/project-setup/fragments/flutter/create-application/20_pubspec.md"></inline-fragment>
 

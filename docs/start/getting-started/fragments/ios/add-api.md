@@ -43,7 +43,7 @@ do {
     try Amplify.configure()
     print("Initialized Amplify");
 } catch {
-    print("Could not initialize Amplify: \(error)")
+    assert(false, "Could not initialize Amplify: \(error)")
 }
 ```
 
