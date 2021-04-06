@@ -4,11 +4,19 @@ description: Amplify has a console within AWS that is a control center for your 
 disableTOC: true
 ---
 
-The Amplify Console is accessible within the AWS console and  acts as the control center for your full-stack app deployments. From the Amplify Console, set up continuous deployment and hosting, create an app backend in the admin UI, and manage full-stack environments.
+<amplify-responsive-grid columns="1" class="margin-top-lg margin-bottom-lg">
+  <docs-card external url="https://console.aws.amazon.com/amplify/home" class="border-radius" container-tag="amplify-external-link">
+    <img slot="graphic" src="~/assets/logo-dark.svg" />
+    <h4 slot="heading">Amplify Console</h4>
+    <p slot="description">
+      Control center for your full-stack app deployments. Set up continuous deployment and hosting, create an app backend in the admin UI, and manage full-stack environments.
+    </p>
+  </docs-card>
+</amplify-responsive-grid>
 
 ## Get started
 
-Access the following tools and services from the Amplify Console:
+The following tools and services are accessible from the Amplify Console, learn more about them here:
 
 <amplify-responsive-grid columns="2" class="margin-top-lg margin-bottom-lg">
       <docs-card external url="https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html" class="border-radius" containertag="amplify-external-link">
