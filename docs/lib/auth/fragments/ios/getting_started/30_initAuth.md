@@ -2,10 +2,28 @@ To initialize the Amplify Auth category, pass in the AWSCognitoAuthPlugin to 'Am
 
 **Add the following imports** to the top of your `AppDelegate.swift` file:
 
+<amplify-block-switcher>
+
+<amplify-block name="Swift Package Manager">
+
+```swift
+import Amplify
+import AWSCognitoAuthPlugin
+```
+
+</amplify-block>
+
+<amplify-block name="CocoaPods">
+
 ```swift
 import Amplify
 import AmplifyPlugins
 ```
+
+</amplify-block>
+
+</amplify-block-switcher>
+
 
 **Add the following code** 
 
