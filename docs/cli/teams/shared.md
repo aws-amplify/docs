@@ -23,7 +23,7 @@ If the **team-provider-info.json** file is missing:
 Do you want to use an existing environment? Yes
 Choose the environment you would like to use:
 ❯ dev
-master
+main
 # The rest of init steps
 # amplify add/update 
 amplify push
@@ -59,7 +59,7 @@ Inside the `amplify` directory file-structure, you will observe a **team-provide
             "StackId": "arn:aws:cloudformation:us-east-1:132393967379:stack/multenvtest-20181115101929/fc7b1010-e902-11e8-a9bd-50fae97e0835"
         }
     },
-    "master": {
+    "main": {
         "awscloudformation": {
             "AuthRoleName": "multenvtest-20181115102119-authRole",
             "UnauthRoleArn": "arn:aws:iam::345090917734:role/multenvtest-20181115102119-unauthRole",
