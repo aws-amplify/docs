@@ -1,4 +1,5 @@
 import * as c from "../..";
+import {hashPath} from "../../utils";
 
 test("inlining-filterable-fragments", async () => {
   await c.API({
@@ -15,7 +16,7 @@ test("inlining-filterable-fragments", async () => {
 
   // eslint-disable-next-line
   // @ts-ignore
-  expect((await import("./api/product/a/aa")).body).toEqual([
+  expect((await import(hashPath("./api/product/a/aa.json"))).body).toEqual([
     [
       "docs-choose-anchor",
       {
@@ -34,7 +35,7 @@ test("inlining-filterable-fragments", async () => {
 
   // eslint-disable-next-line
   // @ts-ignore
-  expect((await import("./api/product/a/aa")).versions).toEqual({
+  expect((await import(hashPath("./api/product/a/aa.json"))).versions).toEqual({
     android: "/product/a/aa/q/platform/android",
     ios: "/product/a/aa/q/platform/ios",
     js: "/product/q/platform/js",
@@ -42,7 +43,7 @@ test("inlining-filterable-fragments", async () => {
 
   // eslint-disable-next-line
   // @ts-ignore
-  expect((await import("./api/product/a/ab")).body).toEqual([
+  expect((await import(hashPath("./api/product/a/ab.json"))).body).toEqual([
     [
       "docs-choose-anchor",
       {
@@ -61,7 +62,7 @@ test("inlining-filterable-fragments", async () => {
 
   // eslint-disable-next-line
   // @ts-ignore
-  expect((await import("./api/product/a/ab")).versions).toEqual({
+  expect((await import(hashPath("./api/product/a/ab.json"))).versions).toEqual({
     android: "/product/a/ab/q/platform/android",
     ios: "/product/a/ab/q/platform/ios",
     js: "/product/a/ab/q/platform/js",
