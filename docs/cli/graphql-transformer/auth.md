@@ -125,7 +125,7 @@ type Todo @model
 }
 ```
 
-In this schema, only the owner of the object has the authorization to perform read (`getTodo` and `listTodos`), update (`updateTodo`), and delete (`deleteTodo`) operations on the owner created object. However, any authenticated user can create the object (`createTodo`). This prevents the object from being updated or deleted by users other than the creator of the object.
+In this schema, only the owner of the object has the authorization to perform read (`getTodo` and `listTodos`), update (`updateTodo`), and delete (`deleteTodo`) operations on the owner created object. However, any authenticated user can create the object (`createTodo`). This prevents the object from being read, updated, or deleted by users other than the creator of the object.
 
 Here's a table outlining which users are permitted to execute which operations. **owner** refers to the user who created the object, **other** refers to all other authenticated users.
 
