@@ -158,14 +158,14 @@ Next, let's say that you wanted to modify the schema to allow only the owner of 
 
 ```graphql
 type Todo @model
-  @auth(rules: [{ allow: owner, operations: [delete] }]) {
+  @auth(rules: [{ allow: owner, operations: [create, delete] }]) {
   id: ID!
   updatedAt: AWSDateTime!
   content: String!
 }
 ```
 
-In this schema, only the owner of the object has the authorization to perform delete operations on the owner created object, but anyone can read or update them. This is because `read` and `update` aren't specified as owner-only actions, so all users are able to perform them. Since `delete` is specified as an owner only action, only the object's creator can delete the object.
+In this schema, only the owner of the object has the authorization to perform delete operations on the owner created object, but anyone can create, read or update them. This is because `read` and `update` aren't specified as owner-only actions, so all users are able to perform them. Since `delete` is specified as an owner only action, only the object's creator can delete the object.
 
 Here's a table outlining which users are permitted to execute which operations. **owner** refers to the user who created the object, **other** refers to all other authenticated users.
 
