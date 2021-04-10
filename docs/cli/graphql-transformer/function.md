@@ -284,6 +284,10 @@ When writing lambda functions that are connected via the `@function` directive, 
 | request   | The AppSync request object. Contains header information.  |
 | prev | When using pipeline resolvers, this contains the object returned by the previous function. You can return the previous value for auditing use cases. |
 
+Your function should follow the lambda handler guidelines for your specific language. See the developer guides from the
+[AWS Lambda](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html) documentation for your chosen language. If you choose to use structured types, your type should serialize
+the AWS Lambda event object outlined above. For example, if using Golang, you should define a struct with the above fields.
+
 ### Calling functions in different regions
 
 By default, you expect the function to be in the same region as the amplify project. If you need to call a function in a different (or static) region, you can provide the **region** argument.
