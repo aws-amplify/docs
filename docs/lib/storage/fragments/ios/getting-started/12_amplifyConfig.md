@@ -1,0 +1,1 @@
+Upon completion, `amplifyconfiguration.json` will be updated to reference provisioned S3 bucket.  Note that this file should already be a part of your project if you followed the [Project setup walkthrough](~/lib/project-setup/create-application.md).
