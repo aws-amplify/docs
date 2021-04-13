@@ -57,7 +57,7 @@ npm ls -all 2>$null |
 
 ## Upgrade Amplify packages
 
-If you want to know update all Amplify packages to the `latest` version from npm and will make sure that only one version of every Amplify package is installed.
+If you want to update all Amplify packages to the `latest` versions from npm, run the following command, it will also make sure that only one version of every Amplify package is installed.
 
 <amplify-block-switcher>
 
@@ -93,7 +93,7 @@ npx npm-check-updates -i '/@?aws-amplify/' && npm update
 
 ## View latest Amplify package versions
 
-Sometimes it is useful to know which set of Amplify package versions belong to a release.
+If you want to see which set of Amplify package versions were published to npm as part of the latest release, you can run the following command:
 
 <amplify-block-switcher>
 
@@ -102,7 +102,7 @@ Sometimes it is useful to know which set of Amplify package versions belong to a
 ```sh
 # Show latest versions of amplify packages
 curl -s "https://api.github.com/repos/aws-amplify/amplify-js/commits/$(\
-    npm info aws-amplify .gitHead\
+    npm info aws-amplify@latest .gitHead\
   )" | jq -r '.commit.message'
 ```
 
@@ -114,7 +114,7 @@ curl -s "https://api.github.com/repos/aws-amplify/amplify-js/commits/$(\
 # Show latest versions of amplify packages
 (ConvertFrom-Json (
   iwr "https://api.github.com/repos/aws-amplify/amplify-js/commits/$(
-    npm info aws-amplify .gitHead
+    npm info aws-amplify@latest .gitHead
   )"
 ).Content).commit.message
 ```
@@ -122,33 +122,3 @@ curl -s "https://api.github.com/repos/aws-amplify/amplify-js/commits/$(\
 </amplify-block>
 
 </amplify-block-switcher>
-
-The output of this command, would look similar to:
-
-```
-chore(release): Publish [ci skip] 
- - @aws-amplify/ui-angular@x.x.x
- - @aws-amplify/ui-components@x.x.x
- - @aws-amplify/ui-react@x.x.x
- - @aws-amplify/ui-storybook@x.x.x
- - @aws-amplify/ui-vue@x.x.x
- - @aws-amplify/analytics@x.x.x
- - @aws-amplify/api-graphql@x.x.x
- - @aws-amplify/api-rest@x.x.x
- - @aws-amplify/api@x.x.x
- - @aws-amplify/auth@x.x.x
- - aws-amplify-angular@x.x.x
- - aws-amplify-react@x.x.x
- - aws-amplify@x.x.x
- - @aws-amplify/cache@x.x.x
- - @aws-amplify/core@x.x.x
- - @aws-amplify/datastore@x.x.x
- - @aws-amplify/interactions@x.x.x
- - @aws-amplify/predictions@x.x.x
- - @aws-amplify/pubsub@x.x.x
- - @aws-amplify/pushnotification@x.x.x
- - @aws-amplify/storage@x.x.x
- - @aws-amplify/xr@x.x.x
-```
-
-All these versions were published as part of the same release, this means that if the versions you depend on are part of the same release, you won't have duplicated packages in your `node_modules`.
