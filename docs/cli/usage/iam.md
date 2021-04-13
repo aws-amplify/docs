@@ -156,6 +156,7 @@ The Amplify CLI requires the below IAM policies for performing actions across al
                 "iam:GetRole",
                 "iam:GetRolePolicy",
                 "iam:GetUser",
+                "iam:ListAttachedRolePolicies",
                 "iam:ListPolicyVersions",
                 "iam:PassRole",
                 "iam:PutRolePolicy",

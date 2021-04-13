@@ -80,7 +80,7 @@ const awsServerlessExpressMiddleware = require('aws-serverless-express/middlewar
 app.use(awsServerlessExpressMiddleware.eventContext());
 ```
 
-Accessing Query Parameters with Serverless Express
+## Accessing query parameters with Serverless Express
 
 In your request handler use `req.apiGateway.event` or `req.query`:
 
