@@ -1,5 +1,12 @@
-When upgrading Amplify packages, it is important to make sure that there are no duplicate versions of Amplify packages in the `node_modules` folder tree as a result of the upgrade. Having multiple versions of packages can yield unexpected behavior as modules imported in your code might point to versions not configured by Amplify when calling `Amplify.configure`. To prevent this situation, you can [Check for duplicate versions](#check-for-duplicate-versions), and if duplicate versions exists, then [Upgrade Amplify packages](#upgrade-amplify-packages).
+When upgrading Amplify packages, it is important to make sure that there are no duplicate versions of Amplify packages in the `node_modules` folder tree as a result of the upgrade. Having multiple versions of packages can yield unexpected behavior as modules imported in your code might point to versions not configured by Amplify when calling `Amplify.configure`.
 
+A likely scenario that could point to duplicate versions of packages is getting console messages like:
+- `Amplify has not been configured correctly`
+- `Please make sure the Auth module is configured with a valid Cognito User Pool ID`
+- `User pool is not configured`
+- `No Auth module registered in Amplify`
+
+To prevent this situation, you can [Check for duplicate versions](#check-for-duplicate-versions), and if duplicate versions exists, then [Upgrade Amplify packages](#upgrade-amplify-packages).
 ## Check for duplicate versions
 
 The following commands will show you Amplify packages that appear multiple times in your `node_modules` folder. If the output is empty, it means that you don't have duplicate versions of Amplify packages.
@@ -85,38 +92,6 @@ yarn upgrade --latest --pattern aws-amplify
 ```powershell
 # Using NPM
 npx npm-check-updates -i '/@?aws-amplify/' && npm update
-```
-
-</amplify-block>
-
-</amplify-block-switcher>
-
-## View latest Amplify package versions
-
-If you want to see which set of Amplify package versions were published to npm as part of the latest release, you can run the following command:
-
-<amplify-block-switcher>
-
-<amplify-block name="Mac and Linux">
-
-```sh
-# Show latest versions of amplify packages
-curl -s "https://api.github.com/repos/aws-amplify/amplify-js/commits/$(\
-    npm info aws-amplify@latest .gitHead\
-  )" | jq -r '.commit.message'
-```
-
-</amplify-block>
-
-<amplify-block name="Windows (PowerShell)">
-
-```powershell
-# Show latest versions of amplify packages
-(ConvertFrom-Json (
-  iwr "https://api.github.com/repos/aws-amplify/amplify-js/commits/$(
-    npm info aws-amplify@latest .gitHead
-  )"
-).Content).commit.message
 ```
 
 </amplify-block>
