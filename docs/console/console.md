@@ -5,7 +5,7 @@ disableTOC: true
 ---
 
 <amplify-responsive-grid columns="1" class="margin-top-lg margin-bottom-lg">
-  <docs-card external url="https://console.aws.amazon.com/amplify/home" class="border-radius" container-tag="amplify-external-link">
+  <docs-card external url="https://console.aws.amazon.com/amplify/home" class="border-radius" containertag="amplify-external-link">
     <img slot="graphic" src="~/assets/logo-dark.svg" />
     <h4 slot="heading">Amplify Console</h4>
     <p slot="description">
