@@ -1,4 +1,30 @@
 {
+  "appSync": {
+    "description": "Feature Flags related to AppSync backed APIs.",
+    "features": {
+      "generateGraphQLPermissions": {
+        "description": "Changes the permission format to grant access to graphql operations instead of appsync control plane operations",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.42.0",
+        "deprecationDate": "May 1st 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "Creates IAM policies to allow Query/Mutations",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "Uses previous policy format which allows control plane access to AppSync",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      }
+    }
+  },
   "graphQLTransformer": {
     "description": "Feature Flag related to GraphQL Transformer",
     "features": {
