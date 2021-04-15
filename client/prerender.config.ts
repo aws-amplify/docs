@@ -10,14 +10,15 @@ export const config: PrerenderConfig = {
   hydrateOptions() {
     return {
       addModulePreloads: true,
-      removeUnusedStyles: true,
-      minifyStyleElements: true,
+      excludeComponents: ["amplify-block-switcher"],
+      maxHydrateCount: 2000,
       minifyScriptElements: true,
+      minifyStyleElements: true,
       removeAttributeQuotes: true,
       removeBooleanAttributeQuotes: true,
       removeEmptyAttributes: true,
       removeHtmlComments: true,
-      maxHydrateCount: 2000,
+      removeUnusedStyles: true,
       runtimeLogging: true,
       timeout: 1000000,
     };
