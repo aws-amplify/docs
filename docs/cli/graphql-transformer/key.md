@@ -11,7 +11,7 @@ Amazon DynamoDB is a key-value and document database that delivers single-digit 
 
 When modeling your data during schema design there are common patterns that you may need to leverage. [We provide a fully working schema with 17 patterns related to relational designs](~/cli/graphql-transformer/dataaccess.md).
 
-### Definition
+## Definition
 
 ```graphql
 directive @key(fields: [String!]!, name: String, queryField: String) on OBJECT
@@ -25,7 +25,7 @@ directive @key(fields: [String!]!, name: String, queryField: String) on OBJECT
 | name  | When provided, specifies the name of the secondary index. When omitted, specifies that the `@key` is defining the primary index. You may have at most one primary key per table and therefore you may have at most one `@key` that does not specify a **name** per `@model` type.  |
 | queryField  | When defining a secondary index (by specifying the *name* argument), this specifies that a new top level query field that queries the secondary index should be generated with the given name.  |
 
-### How to use @key
+## How to use @key
 
 For an introduction to the `@key` directive, let's start by looking a basic `Todo` app schema with only an `@model` directive.
 
@@ -69,7 +69,7 @@ query todosByStatus {
 
 Next, let's take a closer look at how this works by examining a few more common data access patterns and how to model them.
 
-### Designing Data Models using @key
+## Designing Data Models using @key
 
 When designing data models using the `@key` directive, the first step should be to write down your application's expected access patterns. For example, let's say you were building an e-commerce application
 and needed to implement access patterns like:
@@ -81,7 +81,7 @@ and needed to implement access patterns like:
 
 Let's take a look at how you would define custom keys to implement these access patterns in your `schema.graphql`.
 
-#### Get customers by email.
+### Example: Get customers by email.
 
 ```graphql
 type Customer @model @key(fields: ["email"]) {
@@ -105,7 +105,7 @@ query GetCustomerById {
 
 This is great for simple lookup operations, but what if you need to perform slightly more complex queries?
 
-#### Get orders by customer email by createdAt.
+### Example: Get orders by customer email by createdAt.
 
 ```graphql
 type Order @model @key(fields: ["customerEmail", "createdAt"]) {
@@ -184,7 +184,7 @@ query ItemsByStatus {
 }
 ```
 
-### Evolving APIs with @key
+## Evolving APIs with @key
 
 There are a few important things to think about when making changes to APIs using `@key`. When you need to enable a new access pattern or change an existing access pattern you should follow these steps.
 
@@ -193,6 +193,22 @@ There are a few important things to think about when making changes to APIs usin
 3. Deploy your additive changes and update any downstream applications to use the new access pattern.
 4. Once you are certain that you do not need the old index, remove its `@key` and deploy the API again.
 
-### Combining @key with @connection
+## Deploying multiple secondary indices (GSI)
+
+You can make multiple global secondary index (GSI) updates on one "amplify push". Under the hood, Amplify CLI locally sequences multiple individual deployments to your DynamoDB table because each GSI change requires time to re-index. 
+
+### Troubleshooting
+
+If your deployment fails locally when updating multiple GSIs, you'll have the ability to run:
+- `amplify push --iterative-rollback` to rollback the last-known-good state
+- `amplify push --force` rollback the last-known-good state and try redeploying your changes again using.
+
+```console
+Attempting to mutate more than 1 global secondary index at the same time.
+```
+
+If you're running into the error above during `amplify push`, it is likely that you don't have this feature enabled. To enable multiple GSI updates, set the ["enableIterativeGsiUpdates" feature flag](~/cli/reference/feature-flags.md#enableIterativeGsiUpdates) to `true` in your `amplify/cli.json`.
+
+## Combining @key with @connection
 
 Secondary indexes created with the `@key` directive can be used to resolve connections when creating relationships between types. To learn how this works, check out [the documentation for @connection](~/cli/graphql-transformer/connection.md).
