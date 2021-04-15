@@ -195,7 +195,7 @@ There are a few important things to think about when making changes to APIs usin
 
 ## Deploying multiple secondary indices (GSI)
 
-You can make multiple global secondary index (GSI) updates on one "amplify push". Under the hood, Amplify CLI locally sequences multiple individual deployments to your DynamoDB table because each GSI change requires time to re-index. 
+You can make multiple global secondary index (`@key` with `name` parameter set) updates on one "amplify push". Under the hood, Amplify CLI needs to locally sequence multiple individual deployments to your DynamoDB table because each GSI change requires time to re-index. 
 
 ### Troubleshooting
 
