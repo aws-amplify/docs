@@ -1,6 +1,6 @@
 ### Customize UI theme
 
-For React, you can use CSS Variables as described [here](~/ui/customization/theming.md/q/framework/react).
+For web frameworks, you can use CSS Variables as described [here](~/ui/customization/theming.md).
 
 For React Native, you must override properties defined in AmplifyTheme.js [here](https://github.com/aws-amplify/amplify-js/blob/main/packages/aws-amplify-react-native/src/AmplifyTheme.ts)
 
@@ -166,4 +166,3 @@ If you would like to add custom styling to the UI components you can pass a cust
 ```javascript
 export default withAuthenticator(App, false, [], null, MyTheme);
 ```
-
