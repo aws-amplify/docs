@@ -37,7 +37,7 @@ If you want to configure a public REST API, you can set an API key in Amazon API
             "endpoint": "YOUR-REST-ENDPOINT",
             "region": "us-west-2",
             "authorizationType": "API_KEY",
-            "API_KEY": "YOUR_API_KEY"
+            "apiKey": "YOUR_API_KEY"
         }
     }
 }
