@@ -120,9 +120,11 @@ At this point you are almost ready to run your app.  In the next section, we wil
 
 Flutter offers [hot reload and hot restart](https://flutter.dev/docs/development/tools/hot-reload) functionality in order to aid the development process.
 
-A key difference between hot reload and restart is that hot restart destroys the state in dart, while hot reload does not.  Amplify-flutter should automatically re-configure your application and re-wire its plugins upon a hot restart, so there is no additional effort needed on your part.
+A key difference between hot reload and restart is that hot restart destroys the state in dart, while hot reload does not.
 
-Depending on how and when you are calling `Amplify.configure`, you may wish to check whether or not Amplify has already been configured because it should not be configured more than once.  
+Amplify-flutter should automatically re-configure your application and re-wire its plugins upon a hot restart, so there is no additional effort needed on your part.
+
+During **hot reload**, depending on how and when you are calling `Amplify.configure`, you may wish to check whether or not Amplify has already been configured using `Amplify.isConfigured` because it should not be configured more than once.  
 
 To do this, you can use Amplify-flutter's `isConfigured` getter:
 
