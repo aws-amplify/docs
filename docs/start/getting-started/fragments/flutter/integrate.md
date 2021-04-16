@@ -126,10 +126,10 @@ Amplify-flutter should automatically re-configure your application and re-wire i
 
 During **hot reload**, depending on how and when you are calling `Amplify.configure`, you may wish to check whether or not Amplify has already been configured using `Amplify.isConfigured` because it should not be configured more than once.  
 
-To do this, you can use Amplify-flutter's `Amplify.isConfigured` getter.
+To do this, you can use the `Amplify.isConfigured` getter.
 
 <amplify-callout warning>
 
-Note: Handling of hot restart was introduced with amplify-flutter version 0.1.2. If you have upgraded from a previous version, you may need to refresh your Amplify-related Pods in order to successfully leverage hot restart on the iOS platform. You should be able to do this by removing or modifying your `Podfile.lock` file in the `/ios` directory. When you rebuild your project, your Amplify pods should be at version 1.8.1 or above. 
+Note: Handling of hot restart was introduced with amplify-flutter version 0.1.2. If you have upgraded from a previous version, you may need to refresh your Amplify-related Pods in order to successfully leverage hot restart on the iOS platform. You should be able to do this by removing or modifying your `Podfile.lock` file in the `/ios` directory. When you rebuild your project, your Amplify pods should be at version 1.8.1 or above.
 
 </amplify-callout>
