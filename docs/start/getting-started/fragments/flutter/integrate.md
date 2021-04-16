@@ -115,3 +115,25 @@ void _recordEvent() async {
 ```
 
 At this point you are almost ready to run your app.  In the next section, we will use Amplify CLI to configure your backend AWS resources.
+
+## Using Flutter Hot Reload and Hot Restart
+
+Flutter offers [hot reload and hot restart](https://flutter.dev/docs/development/tools/hot-reload) functionality in order to aid the development process.
+
+A key difference between hot reload and restart is that hot restart destroys the state in dart, while hot reload does not.  Amplify-flutter should automatically re-configure your application and re-wire it's plugins upon a hot restart, so there is no additional effort needed on your part.
+
+Depending on how and when you are calling `Amplify.configure`, you may wish to check whether or not Amplify has already been configured because it should not be configured more than once.  
+
+To do this, you can use Amplify-flutter's `isConfigured` getter:
+
+```dart
+  void _isConfigured() {
+    var configurationStatus = Amplify.isConfigured;
+  }
+```
+
+<amplify-callout warning>
+
+Note: Handling of hot restart was introduced with amplify-flutter version 0.1.2. If you have upgraded from a previous version, you may need to refresh your Amplify-related Pods in order to successfully leverage hot restart on the iOS platform. You should be able to do this by removing or modifying your `Podfile.lock` file in the `/ios` directory.  
+
+</amplify-callout>
