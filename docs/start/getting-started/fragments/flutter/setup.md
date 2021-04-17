@@ -37,16 +37,16 @@
     flutter create todo
     ```
 
-1. Or using **Android Studio**. Select **+ Start a new Flutter project**.
+2. Or using **Android Studio**. Select **+ Start a new Flutter project**.
 
     ![](~/images/lib/getting-started/flutter/set-up-android-studio-welcome.png)
 
-1. In **Select a Project Template**, select **Flutter Application**. Press **Next**.
+3. In **Select a Project Template**, select **Flutter Application**. Press **Next**.
 
     ![](~/images/lib/getting-started/flutter/set-up-android-studio-select-project-template.png)
 
 
-1. Next, configure your project:
+Next, configure your project:
 
     - Enter *todo* in the **Name** field
     - Make sure your Flutter SDK path is set correctly to where it is installed on your machine 
@@ -78,7 +78,7 @@ dependencies:
   amplify_analytics_pinpoint: '<1.0.0'
 ```
 
-1. Run **Flutter Pub Get**
+2. Run **Flutter Pub Get**
 
     Android Studio requires you to sync your project with your new configuration. To do this, you can click **Flutter** in the notification bar above the file editor.  
 
