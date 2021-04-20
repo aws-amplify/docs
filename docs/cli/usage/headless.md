@@ -133,17 +133,15 @@ CATEGORIES="{\
 
 An Amplify project can have multiple DynamoDB storage resources imported and the parameters must be supplied to each of them.
 - `region`: The region of the DynamoDB table resources. Currently it must be the same region where the Amplify project was created.
-- `tables`: Array of objects where each item is an object where the key is the Amplify resource name and the value is the name of the DynamoDB table.
+- `tables`: An object where the key is the Amplify resource name and the value is the name of the DynamoDB table.
 
 ```bash
 STORAGECONFIG="{\
   \"region\": \"us-east-1\",
-  \"tables\": [\"
-    {\
-      \"posts\": \"myproject-posts-dev\",\
-      \"comments\": \"myproject-comments-dev\",\
-    },\
-  ]"\
+  \"tables\": {\"
+    \"posts\": \"myproject-posts-dev\",\
+    \"comments\": \"myproject-comments-dev\",\
+  }"\
 }"
 
 CATEGORIES="{\
