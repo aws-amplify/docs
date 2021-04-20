@@ -9,6 +9,7 @@
     "customcf",
     "iam",
     "iam-roles-mfa",
+    "permission-boundary",
     "headless",
     "upgrade"
   ]
