@@ -37,7 +37,7 @@ Select the explicit values below to enable **API key** (for public read access) 
 # Username
 ? Do you want to configure advanced settings?
 # No, I am done.
-? Configure conflict detection?
+? Enable conflict detection?
 # No
 ? Do you have an annotated GraphQL schema?
 # No

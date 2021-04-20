@@ -18,5 +18,3 @@ Buckets are the containers for objects. You can have one or more buckets. For ea
 With storage, it's important to understand user-level access to storage assets. While Amplify helps with abstraction with provisioning your S3 buckets, it is important to understand the right level of control for your customers.
 
 When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito Identity Pool Role. You will have the option of adding CRUD (Create, Update, Read and Delete) based permissions as well, so that Authenticated and Guest users will be granted limited permissions within these levels.
-
-To dive into this, read our [File Access Levels documentation](https://docs.amplify.aws/lib/storage/configureaccess/q/platform/js). 

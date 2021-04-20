@@ -9,7 +9,7 @@ Much of the behavior of the GraphQL Transform logic is configured by passing arg
 
 **Override the name of the generated AppSync API**
 
-```
+```json
 {
   "AppSyncApiName": "AppSyncAPI"
 }
@@ -27,7 +27,7 @@ Follow these two steps when you need to rotate an API Key
 
 **Delete the existing API Key**
 
-```
+```json
 {
   "CreateAPIKey": 0
 }
@@ -35,7 +35,7 @@ Follow these two steps when you need to rotate an API Key
 
 **Create new API Key**
 
-```
+```json
 {
   "CreateAPIKey": 1
 }
@@ -45,7 +45,7 @@ Follow these two steps when you need to rotate an API Key
 
 **Resets the API Key to expire 1 week after the next `amplify push`**
 
-```
+```json
 {
   "APIKeyExpirationEpoch": 0
 }
@@ -53,7 +53,7 @@ Follow these two steps when you need to rotate an API Key
 
 **Do not create an API key**
 
-```
+```json
 {
   "APIKeyExpirationEpoch": -1
 }
@@ -61,7 +61,7 @@ Follow these two steps when you need to rotate an API Key
 
 **Set a custom API key expiration date**
 
-```
+```json
 {
   "APIKeyExpirationEpoch": 1544745428
 }
@@ -73,7 +73,7 @@ Follow these two steps when you need to rotate an API Key
 
 **Set the DynamoDB billing mode for the API. One of "PROVISIONED" or "PAY_PER_REQUEST".**
 
-```
+```json
 {
   "DynamoDBBillingMode": "PAY_PER_REQUEST"
 }
@@ -85,7 +85,7 @@ Follow these two steps when you need to rotate an API Key
 
 **Only valid if the "DynamoDBBillingMode" is set to "PROVISIONED"**
 
-```
+```json
 {
   "DynamoDBModelTableReadIOPS": 5
 }
@@ -97,7 +97,7 @@ Follow these two steps when you need to rotate an API Key
 
 **Only valid if the "DynamoDBBillingMode" is set to "PROVISIONED"**
 
-```
+```json
 {
   "DynamoDBModelTableWriteIOPS": 5
 }
@@ -107,7 +107,7 @@ Follow these two steps when you need to rotate an API Key
 
 **Override the name of the AWS Lambda searchable streaming function**
 
-```
+```json
 {
   "ElasticSearchStreamingFunctionName": "CustomFunctionName"
 }
@@ -117,7 +117,7 @@ Follow these two steps when you need to rotate an API Key
 
 **Override the number of instances launched into the Elasticsearch domain created by @searchable**
 
-```
+```json
 {
   "ElasticSearchInstanceCount": 1
 }
@@ -127,7 +127,7 @@ Follow these two steps when you need to rotate an API Key
 
 **Override the type of instance launched into the Elasticsearch domain created by @searchable**
 
-```
+```json
 {
   "ElasticSearchInstanceType": "t2.small.elasticsearch"
 }
@@ -137,7 +137,7 @@ Follow these two steps when you need to rotate an API Key
 
 **Override the amount of disk space allocated to each instance in the Elasticsearch domain created by @searchable**
 
-```
+```json
 {
   "ElasticSearchEBSVolumeGB": 10
 }

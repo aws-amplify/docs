@@ -19,7 +19,7 @@ Amplify.DataStore.query(Post.class, Where.id("123"),
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
 
 ```kotlin
 Amplify.DataStore.query(Post::class.java, Where.id("123"),
@@ -34,6 +34,17 @@ Amplify.DataStore.query(Post::class.java, Where.id("123"),
     },
     { Log.e("MyAmplifyApp", "Query failed.", it) }
 )
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+Amplify.DataStore.query(Post::class, Where.id("123"))
+    .catch { Log.e("MyAmplifyApp", "Query failed", it) }
+    .onEach { Amplify.DataStore.delete(it) }
+    .catch { Log.e("MyAmplifyApp", "Delete failed", it) }
+    .collect { Log.i("MyAmplifyApp", "Deleted a post") }
 ```
 
 </amplify-block>

@@ -9,13 +9,25 @@ Amplify.DataStore.start(
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
 
 ```kotlin
 Amplify.DataStore.start(
     { Log.i("MyAmplifyApp", "DataStore started") },
     { Log.e("MyAmplifyApp", "Error starting DataStore", it) }
 )
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+try {
+    Amplify.DataStore.start()
+    Log.i("MyAmplifyApp", "DataStore started") 
+} catch (error: DataStoreException) {
+    Log.e("MyAmplifyApp", "Error starting DataStore", error)
+}
 ```
 
 </amplify-block>

@@ -1,4 +1,5 @@
 import * as c from "../..";
+import {hashPath} from "../../utils";
 
 test("next previous metadata generation", async () => {
   await c.API({
@@ -15,12 +16,15 @@ test("next previous metadata generation", async () => {
 
   // eslint-disable-next-line
   // @ts-ignore
-  expect((await import("./api/product/a/first")).next).toEqual(undefined);
+  expect((await import(hashPath("./api/product/a/first.json"))).next).toEqual(
+    undefined,
+  );
 
   expect(
     // eslint-disable-next-line
   // @ts-ignore
-    (await import("./api/product/a/q/platform/android/first")).next,
+    (await import(hashPath("./api/product/a/q/platform/android/first.json")))
+      .next,
   ).toEqual({
     android: {
       title: "Third",
@@ -42,13 +46,14 @@ test("next previous metadata generation", async () => {
   expect(
     // eslint-disable-next-line
     // @ts-ignore
-    (await import("./api/product/a/second")).previous,
+    (await import(hashPath("./api/product/a/second.json"))).previous,
   ).toEqual(undefined);
 
   expect(
     // eslint-disable-next-line
     // @ts-ignore
-    (await import("./api/product/a/q/platform/js/second")).previous,
+    (await import(hashPath("./api/product/a/q/platform/js/second.json")))
+      .previous,
   ).toEqual({
     android: {title: "First", route: "/product/a/first"},
     ios: {title: "First", route: "/product/a/first"},
@@ -58,13 +63,13 @@ test("next previous metadata generation", async () => {
   expect(
     // eslint-disable-next-line
     // @ts-ignore
-    (await import("./api/product/a/second")).next,
+    (await import(hashPath("./api/product/a/second.json"))).next,
   ).toEqual(undefined);
 
   expect(
     // eslint-disable-next-line
     // @ts-ignore
-    (await import("./api/product/a/q/platform/js/second")).next,
+    (await import(hashPath("./api/product/a/q/platform/js/second.json"))).next,
   ).toEqual({
     android: {
       title: "Third",
@@ -82,13 +87,14 @@ test("next previous metadata generation", async () => {
   expect(
     // eslint-disable-next-line
     // @ts-ignore
-    (await import("./api/product/a/third")).previous,
+    (await import(hashPath("./api/product/a/third.json"))).previous,
   ).toEqual(undefined);
 
   expect(
     // eslint-disable-next-line
     // @ts-ignore
-    (await import("./api/product/a/q/platform/android/third")).previous,
+    (await import(hashPath("./api/product/a/q/platform/android/third.json")))
+      .previous,
   ).toEqual({
     android: {title: "First", route: "/product/a/first"},
     ios: {title: "First", route: "/product/a/first"},
@@ -102,13 +108,14 @@ test("next previous metadata generation", async () => {
   expect(
     // eslint-disable-next-line
     // @ts-ignore
-    (await import("./api/product/a/third")).next,
+    (await import(hashPath("./api/product/a/third.json"))).next,
   ).toEqual(undefined);
 
   expect(
     // eslint-disable-next-line
     // @ts-ignore
-    (await import("./api/product/a/q/platform/android/third")).next,
+    (await import(hashPath("./api/product/a/q/platform/android/third.json")))
+      .next,
   ).toEqual({
     android: {title: "Overview", route: "/product/a/overview"},
     ios: {
@@ -122,13 +129,14 @@ test("next previous metadata generation", async () => {
   expect(
     // eslint-disable-next-line
     // @ts-ignore
-    (await import("./api/product/a/fourth")).previous,
+    (await import(hashPath("./api/product/a/fourth.json"))).previous,
   ).toEqual(undefined);
 
   expect(
     // eslint-disable-next-line
     // @ts-ignore
-    (await import("./api/product/a/q/platform/ios/fourth")).previous,
+    (await import(hashPath("./api/product/a/q/platform/ios/fourth.json")))
+      .previous,
   ).toEqual({
     android: {
       title: "Third",
@@ -146,13 +154,13 @@ test("next previous metadata generation", async () => {
   expect(
     // eslint-disable-next-line
     // @ts-ignore
-    (await import("./api/product/a/fourth")).next,
+    (await import(hashPath("./api/product/a/fourth.json"))).next,
   ).toEqual(undefined);
 
   expect(
     // eslint-disable-next-line
     // @ts-ignore
-    (await import("./api/product/a/q/platform/ios/fourth")).next,
+    (await import(hashPath("./api/product/a/q/platform/ios/fourth.json"))).next,
   ).toEqual({
     android: {title: "Overview", route: "/product/a/overview"},
     ios: {title: "Overview", route: "/product/a/overview"},
@@ -162,13 +170,14 @@ test("next previous metadata generation", async () => {
   expect(
     // eslint-disable-next-line
     // @ts-ignore
-    (await import("./api/product/a/overview")).previous,
+    (await import(hashPath("./api/product/a/overview.json"))).previous,
   ).toEqual(undefined);
 
   expect(
     // eslint-disable-next-line
     // @ts-ignore
-    (await import("./api/product/a/q/platform/android/overview")).previous,
+    (await import(hashPath("./api/product/a/q/platform/android/overview.json")))
+      .previous,
   ).toEqual({
     android: {
       title: "Third",

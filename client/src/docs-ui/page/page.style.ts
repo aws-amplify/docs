@@ -1,4 +1,13 @@
 import {css} from "emotion";
+import {MAX_WIDTH} from "../../amplify-ui/styles/media";
+
+export const sidebarLayoutDivStyle = css`
+  display: flex;
+  flex-direction: row;
+  max-width: ${MAX_WIDTH};
+  margin: 0 auto;
+  background-color: var(--bg-color);
+`;
 
 export const sidebarLayoutStyle = css`
   display: flex;
@@ -104,27 +113,6 @@ export const tocStyle = css`
       > div {
         padding-bottom: 3rem;
       }
-    }
-  }
-`;
-
-export const sidebarToggleClass = css`
-  width: 3rem;
-  height: 3rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  .ex-graphic {
-    display: none;
-  }
-
-  &.in-view {
-    .burger-graphic {
-      display: none;
-    }
-    .ex-graphic {
-      display: initial;
     }
   }
 `;

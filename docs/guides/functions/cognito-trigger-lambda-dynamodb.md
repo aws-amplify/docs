@@ -132,7 +132,7 @@ Your lambda function is now ready to use!
 
 To configure your AWS Cognito trigger to call the lambda function you just created, you should do the following :
 
-    - Go to your [AWS Console](https://console.aws.amazon.com/console/home)
-    - Navigate to AWS Cognito service, and choose 'Manage User Pools'
-    - Select the User Pool related to your application
-    - Go to 'Triggers' and look for Post Confirmation Trigger, then select your lambda function
+- Go to your [AWS Console](https://console.aws.amazon.com/console/home)
+- Navigate to AWS Cognito service, and choose 'Manage User Pools'
+- Select the User Pool related to your application
+- Go to 'Triggers' and look for Post Confirmation Trigger, then select your lambda function

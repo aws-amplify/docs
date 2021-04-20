@@ -30,6 +30,11 @@ where the github url is a valid sample amplify project repository. Click [here](
 ## Common CLI commands
 
 ### amplify init
+
+The `init` command can determine defaults for the project based on the contents of the directory. To accept the defaults offered, answer yes to:
+
+`Initialize the project with the above configuration?`
+
 During the init process, the root stack is created with three resources:
 
 - IAM role for unauthenticated users
@@ -37,7 +42,6 @@ During the init process, the root stack is created with three resources:
 - S3 bucket, the deployment bucket, to support this provider's workflow
 
 The provider logs the information of the root stack and the resources into the project metadata file (amplify/backend/amplify-meta.json).
-
 
 ### amplify \<category\> add
 Once init is complete, run the command `amplify \<category\> add` to add resources of a category to the cloud. This will place a CloudFormation template for the resources of this category in the category's subdirectory `amplify/backend/\<category\>` and insert its reference into the above-mentioned root stack as the nested child stack. When working in teams, it is good practice to run an `amplify pull` before modifying the backend categories.
@@ -56,6 +60,9 @@ The `amplify configure project` command is an advanced command and not commonly 
 
 `amplify configure project` is also used to enable **Serverless Container** options in your project with Amazon Elastic Container Service. When enabled, you will be able to build APIs with both AWS Lambda and AWS Fargate using a [Dockerfile](https://docs.docker.com/engine/reference/builder/) or a [Docker Compose file](https://docs.docker.com/compose/compose-file/). See [Serverless Containers](~/cli/usage/containers.md) for more information.
 
+### amplify logout --appId \<Amplify App Id\>
+When Amplify CLI is authenticated with the Amplify Admin UI, JSON Web Tokens (JWTs) are stored on the developer's machine. This command will remove the JWTs associated with a particular Amplify app. The CLI will also prompt if you want to logout from all sessions. 'Yes' will remove the JWTs and ensure they are invalidated globally. 'No' will still remove the locally-stored JWTs but the tokens will remain valid until they expire.
+
 ## List of commands
 
 - `amplify <category> <subcommand>`
@@ -70,6 +77,7 @@ The `amplify configure project` command is an advanced command and not commonly 
 - `amplify publish`
 - `amplify run`
 - `amplify status`
+- `amplify logout`
 
 ### Category commands
 

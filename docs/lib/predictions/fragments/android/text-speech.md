@@ -61,7 +61,7 @@ private void playAudio(InputStream data) {
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
 
 Open `MainActivity.kt` and add the following code:
 
@@ -71,11 +71,58 @@ private val mp = MediaPlayer()
 override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
-    Amplify.Predictions.convertTextToSpeech(
-        "I like to eat spaghetti!",
-        { result  -> playAudio(result.getAudioData()) },
-        { error -> Log.e("MyAmplifyApp", error.toString()) }
+    convertTextToSpeech()
+}
+
+private fun convertTextToSpeech() {
+    Amplify.Predictions.convertTextToSpeech("I like to eat spaghetti!",
+        { playAudio(it.audioData) },
+        { Log.e("MyAmplifyApp", "Failed to convert text to speech", it) }
     )
+}
+
+private fun playAudio(data: InputStream) {
+    val mp3File = File(cacheDir, "audio.mp3")
+    try {
+        FileOutputStream(mp3File).use { out ->
+            val buffer = ByteArray(8 * 1024)
+            var bytesRead: Int
+            while (data.read(buffer).also { bytesRead = it } != -1) {
+                out.write(buffer, 0, bytesRead)
+            }
+            mp.reset()
+            mp.setOnPreparedListener { obj: MediaPlayer -> obj.start() }
+            mp.setDataSource(FileInputStream(mp3File).fd)
+            mp.prepareAsync()
+        }
+    } catch (error: IOException) {
+        Log.e("MyAmplifyApp", "Error writing audio file.")
+    }
+}
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
+
+Open `MainActivity.kt` and add the following code:
+
+```kotlin
+private val mp = MediaPlayer()
+
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_main)
+    convertTextToSpeech()
+}
+
+private fun convertTextToSpeech() = activityScope.launch {
+    val text = "I like to eat spaghetti!"
+    try {
+        val result = Amplify.Predictions.convertTextToSpeech(text)
+        playAudio(result.audioData)
+    } catch (error: PredictionsException) {
+        Log.e("MyAmplifyApp", "Failed to convert text to speech", error)
+    }
 }
 
 private fun playAudio(data: InputStream) {

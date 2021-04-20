@@ -20,18 +20,33 @@ private void uploadInputStream() {
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
 
 ```kotlin
-private fun uploadInputStream() {
-    val exampleInputStream = getContentResolver().openInputStream(uri)
+private fun uploadInputStream(uri: Uri) {
+    val stream = contentResolver.openInputStream(uri)
 
-    Amplify.Storage.uploadInputStream(
-        "ExampleKey",
-        exampleInputStream,
-        { Log.i("MyAmplifyApp", "Successfully uploaded: ${it.getKey()}.") },
+    Amplify.Storage.uploadInputStream("ExampleKey", stream,
+        { Log.i("MyAmplifyApp", "Successfully uploaded: ${it.key}") },
         { Log.e("MyAmplifyApp", "Upload failed", it) }
     )
+}
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+private suspend fun uploadInputStream(uri: Uri) {
+    val stream = contentResolver.openInputStream(uri)
+
+    val upload = Amplify.Storage.uploadInputStream("ExampleKey", stream)
+    try {
+        val result = upload.result()
+        Log.i("MyAmplifyApp", "Successfully uploaded: ${result.key}.")
+    } catch (error: StorageException) {
+        Log.e("MyAmplifyApp", "Upload failed")
+    }
 }
 ```
 
@@ -85,20 +100,35 @@ private void uploadFile() {
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
 
 ```kotlin
 private fun uploadFile() {
     val exampleFile = File(applicationContext.filesDir, "ExampleKey")
-
     exampleFile.writeText("Example file contents")
 
-    Amplify.Storage.uploadFile(
-        "ExampleKey",
-        exampleFile,
-        { result -> Log.i("MyAmplifyApp", "Successfully uploaded: ${result.getKey()}") },
-        { error -> Log.e("MyAmplifyApp", "Upload failed", error) }
+    Amplify.Storage.uploadFile("ExampleKey", exampleFile,
+        { Log.i("MyAmplifyApp", "Successfully uploaded: ${it.key}") },
+        { Log.e("MyAmplifyApp", "Upload failed", it) }
     )
+}
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+private suspend fun uploadFile() {
+    val exampleFile = File(applicationContext.filesDir, "ExampleKey")
+    exampleFile.writeText("Example file contents")
+
+    val upload = Amplify.Storage.uploadFile("ExampleKey", exampleFile)
+    try {
+        val result = upload.result()
+        Log.i("MyAmplifyApp", "Successfully uploaded: ${result.key}")
+    } catch (error: StorageException) {
+        Log.e("MyAmplifyApp", "Upload failed", error)
+    }
 }
 ```
 
@@ -161,22 +191,44 @@ private void uploadFile() {
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
 
 ```kotlin
 private fun uploadFile() {
     val exampleFile = File(applicationContext.filesDir, "ExampleKey")
-
     exampleFile.writeText("Example file contents")
 
-    Amplify.Storage.uploadFile(
-            "ExampleKey",
-            exampleFile,
-            StorageUploadFileOptions.defaultInstance(),
-            { progress -> Log.i("MyAmplifyApp", "Fraction completed: ${progress.fractionCompleted}") },
-            { result -> Log.i("MyAmplifyApp", "Successfully uploaded: ${result.getKey()}") },
-            { error -> Log.e("MyAmplifyApp", "Upload failed", error) }
+    val options = StorageUploadFileOptions.defaultInstance()
+    Amplify.Storage.uploadFile("ExampleKey", exampleFile, options,
+        { Log.i("MyAmplifyApp", "Fraction completed: ${it.fractionCompleted}") },
+        { Log.i("MyAmplifyApp", "Successfully uploaded: ${it.key}") },
+        { Log.e("MyAmplifyApp", "Upload failed", it) }
     )
+}
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+private suspend fun uploadFile() {
+    val exampleFile = File(applicationContext.filesDir, "ExampleKey")
+    exampleFile.writeText("Example file contents")
+
+    val options = StorageUploadFileOptions.defaultInstance()
+    val upload = Amplify.Storage.uploadFile("ExampleKey", exampleFile, options)
+    val progressJob = activityScope.async {
+        upload.progress().collect {
+            Log.i("MyAmplifyApp", "Fraction completed: ${it.fractionCompleted}")
+        }
+    }
+    try {
+        val result = upload.result()
+        Log.i("MyAmplifyApp", "Successfully uploaded: ${result.key}")
+    } catch (error: StorageException) {
+        Log.e("MyAmplifyApp", "Upload failed", error)
+    }
+    progressJob.cancel()
 }
 ```
 

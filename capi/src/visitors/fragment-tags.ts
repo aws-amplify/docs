@@ -1,6 +1,15 @@
 import * as t from "../types";
 import clone from "clone-deep";
 
+const isPContainingFragments = function(node: t.HyperscriptNode): boolean {
+  if (!Array.isArray(node)) return false;
+  if (node[0] !== "p") return false;
+  if (node.length < 3) return false;
+  const firstChild = node[2];
+  if (!Array.isArray(firstChild)) return false;
+  return firstChild[0] === "inline-fragment";
+};
+
 export const fragmentTags: t.Transformer = ({
   node,
   srcPath,
@@ -8,6 +17,9 @@ export const fragmentTags: t.Transformer = ({
   ctx,
   page,
 }) => {
+  if (isPContainingFragments(node)) {
+    lexicalScope.update(["div", ...node.slice(1)]);
+  }
   if (Array.isArray(node) && node[0] === "inline-fragment") {
     const [, props] = node;
     if (!props || !props.src)

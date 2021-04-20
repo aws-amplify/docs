@@ -3,7 +3,7 @@ title: Authoring a new plugin
 description: Plugins enable you to add additional commands and functionality to existing Amplify CLI. Learn how to create, publish, consume a plugin package.
 ---  
 
-The Amplify CLI provides the command `amplify plugin init` (with alias `amplify plugin new`) for the development of plugins. This command first collects requirements, and then creates the skeleton of the plugin package for you to start the development. The newly created plugin is added to your local Amplify CLI plugin platform, so you can conveniently test its functionalities while it is being developed. It can be easily removed form the local plugin platform with the `amplify plugin remove` command, and added back with the `amplify plugin add` command.
+The Amplify CLI provides the command `amplify plugin init` (with alias `amplify plugin new`) for the development of plugins. This command first collects requirements, and then creates the skeleton of the plugin package for you to start the development. The newly created plugin is added to your local Amplify CLI plugin platform, so you can conveniently test its functionalities while it is being developed. It can be easily removed from the local plugin platform with the `amplify plugin remove` command, and added back with the `amplify plugin add` command.
 
 ### Step 1: Install Amplify CLI
 

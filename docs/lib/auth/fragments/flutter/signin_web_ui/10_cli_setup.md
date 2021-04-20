@@ -10,11 +10,11 @@ In terminal, navigate to your project, run `amplify add auth` (or if you've alre
 ? What domain name prefix you want us to create for you? 
     `(default)`
 ? Enter your redirect signin URI: 
-    `myapp://callback/`
+    `myapp://`
 ? Do you want to add another redirect signin URI 
     `No`
 ? Enter your redirect signout URI: 
-    `myapp://signout/`
+    `myapp://`
 ? Do you want to add another redirect signout URI 
     `No`
 ? Select the social providers you want to configure for your user pool: 

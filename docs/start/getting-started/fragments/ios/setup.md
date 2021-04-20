@@ -9,7 +9,6 @@
 
 - Install [Node.js](https://nodejs.org/en/) version 10 or higher
 - Install [Xcode](https://developer.apple.com/xcode/downloads/) version 11.4 or later
-- Install [Cocoapods](https://cocoapods.org/)
 - Install [Amplify CLI](~/cli/cli.md) version 4.22.0 or later by running:
 
   <inline-fragment src="~/fragments/cli-install-block.md"></inline-fragment>
@@ -20,7 +19,7 @@
 
 1. **Open Xcode.** From the menu bar, select **"File -> New -> Project..."**
 
-1. Select **Single View App**, and then select the **Next** button.
+2. Select **App**, and then select the **Next** button.
   ![](~/images/lib/getting-started/ios/set-up-ios-select-project-template.png)
 
 1. Fill in the following for your project:
@@ -38,45 +37,38 @@
 
 ### Add Amplify to your application
 
-Amplify for iOS is distributed through Cocoapods as a Pod. In this section, you'll setup Cocoapods and add the required Amplify packages.
+Amplify for iOS is distributed through Swift Package Manager, which is integrated into Xcode. In this section, you'll add the required Amplify packages.
 
-1. Before starting this step, **close Xcode**. Now **open a terminal window** and **change to the directory for your Todo project**. For example, if you created your project in the folder `~/Developer`, you can type the following:
+1. **Open a terminal window** and **change to the directory for your Todo project**. For example, if you created your project in the folder `~/Developer`, you can type the following:
   ```bash
   cd ~/Developer/Todo
   ```
 
-1. To create the Amplify app first you will need to use `amplify` CLI previously installed, **run the command**:
+1. To create the Amplify app first you will need to use the `amplify` CLI you previously installed. **Run the command**:
   ```bash
   amplify init --quickstart --frontend ios
   ```
 
-1. To initialize your project with the Cocoapods package manager, **run the command**:
-  ```bash
-  pod init
-  ```
+1. Switch back to Xcode. Select **File > Swift Packages > Add Package Dependency**.
 
-  After doing this, you should see a newly created file called `Podfile`. This file is used to describe the packages your project depends on.
+    ![Add package dependency](~/images/project-setup/20_4_add-package-dependency.png)
 
-1. Open `Podfile` in the file editing tool of your choice, and replace the contents of the file so that your `Podfile` looks like the following:
-  ```ruby
-  target 'Todo' do
-    use_frameworks!
-  
-    pod 'Amplify'
-    pod 'AmplifyPlugins/AWSAPIPlugin'
-    pod 'AmplifyPlugins/AWSDataStorePlugin'
-  
-  end
-  ```
+1. Enter the Amplify iOS GitHub repo URL (`https://github.com/aws-amplify/amplify-ios`) into the search bar and click Next.
 
-1. To download and install the Amplify pod into your project, **run the command**:
-  ```bash
-  pod install --repo-update
-  ```
+    ![Search for repo](~/images/project-setup/20_5_search-amplify-repo.png)
 
-1. After running the previous command, you should see the file named `Todo.xcworkspace` in your project directory. You are required to use this file from now on instead of the `.xcodeproj` file. To open your newly generated `Todo.xcworkspace` in Xcode, **run the command**:
-  ```bash
-  xed .
-  ```
+1. You'll see the Amplify iOS repository rules for which version of Amplify you want Swift Package Manager to install. Choose the first rule, **Version**, as it will use the latest compatible version of the dependency that can be detected from the `main` branch, then click **Next**.
+
+    ![Dependency version options](~/images/project-setup/20_6_dependency-version-options.png)
+
+1. Lastly, choose which of the libraries you want added to your project. For this tutorial, select **Amplify**, **AWSAPIPlugin**, and **AWSDataStorePlugin**, then click **Finish**.
+
+    ![Select dependencies](~/images/project-setup/20_7_select-dependencies.png)
+
+<amplify-callout>
+
+You can always go back and modify which SPM packages are included in your project by opening the Swift Packages tab for your project (`Project file > Project > Swift Packages`)
+
+</amplify-callout>
 
 You are ready to start building with Amplify! 🎉

@@ -1,4 +1,5 @@
 import * as c from "../..";
+import {hashPath} from "../../utils";
 
 test("inlining-filterable-content", async () => {
   await c.API({
@@ -13,9 +14,11 @@ test("inlining-filterable-content", async () => {
     srcDir: "",
   });
 
-  // eslint-disable-next-line
-  // @ts-ignore
-  expect((await import("./api/q/platform/android/content")).body).toEqual([
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import(hashPath("./api/q/platform/android/content.json"))).body,
+  ).toEqual([
     ["h1", {id: "title"}, "Title"],
     "\n",
     null,
@@ -26,9 +29,11 @@ test("inlining-filterable-content", async () => {
     "\n",
   ]);
 
-  // eslint-disable-next-line
-  // @ts-ignore
-  expect((await import("./api/q/platform/ios/content")).body).toEqual([
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import(hashPath("./api/q/platform/ios/content.json"))).body,
+  ).toEqual([
     ["h1", {id: "title"}, "Title"],
     "\n",
     null,
@@ -39,9 +44,11 @@ test("inlining-filterable-content", async () => {
     "\n",
   ]);
 
-  // eslint-disable-next-line
-  // @ts-ignore
-  expect((await import("./api/q/platform/js/content")).body).toEqual([
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import(hashPath("./api/q/platform/js/content.json"))).body,
+  ).toEqual([
     ["h1", {id: "title"}, "Title"],
     "\n",
     ["div", null, "\n\n", ["p", null, "JS-only content"], "\n"],

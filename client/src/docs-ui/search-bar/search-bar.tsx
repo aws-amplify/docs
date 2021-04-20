@@ -13,8 +13,10 @@ export class DocsSearchBar {
   @Element() element: HTMLElement;
 
   initDocSearch() {
-    if (Build.isBrowser) {
-      // @ts-ignore
+    if (
+      Build.isBrowser &&
+      document.querySelector(UNINITIALIZED_SEARCH_INPUT_SELECTOR)
+    ) {
       docsearch({
         apiKey: ALGOLIA_API_KEY,
         indexName: ALGOLIA_INDEX_NAME,

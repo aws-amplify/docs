@@ -102,10 +102,10 @@ Next, add the following dependencies to your **app** `build.gradle`:
 
 ```groovy
 dependencies {
-  implementation 'com.amplifyframework:aws-api:1.16.13'
+  implementation 'com.amplifyframework:aws-api:1.17.1'
 
   // Support for Java 8 features
-  coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.1'
+  coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 }
 ```
 Also in your **app** `build.gradle`, add this piece of code to support the Java 8 features Amplify uses:

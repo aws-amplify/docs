@@ -135,7 +135,7 @@ $ git init
 $ git remote add origin git@github.com:username/my-next-app.git
 $ git add .
 $ git commit -m 'initial commit'
-$ git push origin master
+$ git push origin main
 ```
 
 __4.__ Go to the [Amplify Console](https://console.aws.amazon.com/amplify) and click "Connect App"
@@ -154,7 +154,7 @@ To view the live site, click on the automatically generated URL given to you by 
 
 ### Kicking off a new build
 
-You can kick off a new build directly from the Amplify console or by pushing changes to master.
+You can kick off a new build directly from the Amplify console or by pushing changes to main.
 
 1. Make some changes to your code
 
@@ -163,7 +163,7 @@ You can kick off a new build directly from the Amplify console or by pushing cha
 ```sh
 $ git add .
 $ git commit -m 'updates'
-$ git push origin master
+$ git push origin main
 ```
 
 ## Dynamic routes

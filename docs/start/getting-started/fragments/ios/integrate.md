@@ -5,10 +5,27 @@ Next you'll use the generated model to create, update, query, and delete data. I
 First, we'll add the DataStore plugin and configure Amplify.
 
 1. Open the main file of the application - `AppDelegate.swift` or `TodoApp.swift` depending on the Life Cycle previously chosen - and **add the following** import statements at the top of the file:
+  <amplify-block-switcher>
+  
+  <amplify-block name="Swift Package Manager">
+
+  ```swift
+  import Amplify
+  import AWSDataStorePlugin
+  ```
+
+  </amplify-block>
+
+  <amplify-block name="CocoaPods">
+
   ```swift
   import Amplify
   import AmplifyPlugins
   ```
+
+  </amplify-block>
+  
+  </amplify-block-switcher>
 
 1. In the same file, **create a function** to configure Amplify:
   ```swift
@@ -27,35 +44,35 @@ First, we'll add the DataStore plugin and configure Amplify.
 
 1. Now **call the `configureAmplify()` function** in the starting point of your application.
   <amplify-block-switcher>
-    <amplify-block name="SwiftUI App">
-    
-    ```swift
-    @main
-    struct TodoApp: App {
-        // add a default initializer and configure Amplify
-        public init() {
-            configureAmplify()
-        }
-    }
-    ```
-    
-    </amplify-block>
-    <amplify-block name="UIKit App Delegate">
-    
-    ```swift
-    @UIApplicationMain
-    class AppDelegate: UIResponder, UIApplicationDelegate {
-        func application(_: UIApplication,
-                         didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?
-        ) -> Bool {
-            configureAmplify()
-            return true
-        }
-        // ...
-    }
-    ```
-    
-    </amplify-block>
+  <amplify-block name="SwiftUI App">
+  
+  ```swift
+  @main
+  struct TodoApp: App {
+      // add a default initializer and configure Amplify
+      public init() {
+          configureAmplify()
+      }
+  }
+  ```
+  
+  </amplify-block>
+  <amplify-block name="UIKit App Delegate">
+  
+  ```swift
+  @UIApplicationMain
+  class AppDelegate: UIResponder, UIApplicationDelegate {
+      func application(_: UIApplication,
+                        didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?
+      ) -> Bool {
+          configureAmplify()
+          return true
+      }
+      // ...
+  }
+  ```
+  
+  </amplify-block>
   </amplify-block-switcher>
 
 1. **Build and run** the application. In the Xcode console window, you'll see a log line indicating success:
@@ -83,7 +100,6 @@ Next, you'll create a Todo and save it to DataStore.
 1. Open `ContentView.swift` and **add the following** import statements at the top of the file:
   ```swift
   import Amplify
-  import AmplifyPlugins
   ```
 
 1. In the same file (`ContentView.swift`), **update the body view**  to call a function called `performOnAppear()`:
@@ -115,7 +131,7 @@ Next, you'll create a Todo and save it to DataStore.
       case .success(let savedItem):
           print("Saved item: \(savedItem.name)")
       case .failure(let error):
-          print("Could not save item to datastore: \(error)")
+          print("Could not save item to DataStore: \(error)")
       }    
   }
   ```
@@ -124,7 +140,6 @@ Next, you'll create a Todo and save it to DataStore.
 ```swift
 import SwiftUI
 import Amplify
-import AmplifyPlugins
 
 struct ContentView: View {
     
@@ -144,7 +159,7 @@ struct ContentView: View {
            case .success(let savedItem):
                print("Saved item: \(savedItem.name)")
            case .failure(let error):
-               print("Could not save item to datastore: \(error)")
+               print("Could not save item to DataStore: \(error)")
            }
         }
     }
@@ -272,7 +287,7 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
 ## Update a Todo
 
 You may want to change the contents of a record. Below, we'll query for a record, create a copy of it, modify it, and save it back to DataStore. 
-1. Edit your `performOnAppear()` method to remove anything related to datastore and **add the following** instead of it:
+1. Edit your `performOnAppear()` method to remove anything related to DataStore and **add the following** instead of it:
 
     ```swift
     Amplify.DataStore.query(Todo.self,
@@ -289,7 +304,7 @@ You may want to change the contents of a record. Below, we'll query for a record
                 case .success(let savedTodo):
                     print("Updated item: \(savedTodo.name)")
                 case .failure(let error):
-                    print("Could not update data in Datastore: \(error)")
+                    print("Could not update data in DataStore: \(error)")
                 }
             }
         case .failure(let error):
@@ -309,7 +324,7 @@ You may want to change the contents of a record. Below, we'll query for a record
 
 To round out our CRUD operations, we'll query for a record and delete it from DataStore.
 
-1. Edit your `performOnAppear()` method to remove anything related to datastore and **add the following** instead of it:
+1. Edit your `performOnAppear()` method to remove anything related to DataStore and **add the following** instead of it:
 
     ```swift
     Amplify.DataStore.query(Todo.self,
@@ -325,7 +340,7 @@ To round out our CRUD operations, we'll query for a record and delete it from Da
                 case .success:
                     print("Deleted item: \(toDeleteTodo.name)")
                 case .failure(let error):
-                    print("Could not update data in Datastore: \(error)")
+                    print("Could not update data in DataStore: \(error)")
                 }
             }
         case .failure(let error):

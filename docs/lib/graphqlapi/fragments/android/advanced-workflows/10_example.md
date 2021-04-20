@@ -3,23 +3,62 @@
 
 ```java
 Todo todo = Todo.builder()
-        .name("My first todo")
-        .description("todo description")
-        .build();
+    .name("My first todo")
+    .description("todo description")
+    .build();
 
-Amplify.API.mutate(ModelMutation.create(todo));
+Amplify.API.mutate(ModelMutation.create(todo),
+    result -> Log.i("ApiDemo", "Mutation succeeded."),
+    failure -> Log.e("ApiDemo", "Mutation failed.", failure)
+);
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
 
 ```kotlin
-val todo: Todo = Todo.builder()
-        .name("My first todo")
-        .description("todo description")
-        .build()
+val todo = Todo.builder()
+    .name("My first todo")
+    .description("todo description")
+    .build()
+
+Amplify.API.mutate(ModelMutation.create(todo),
+    { Log.i("ApiDemo", "Mutation succeeded") },
+    { Log.e("ApiDemo", "Mutation failed", it) }
+)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+val todo = Todo.builder()
+    .name("My first todo")
+    .description("todo description")
+    .build()
+
+try {
+    val result = Amplify.API.mutate(ModelMutation.create(todo))
+    Log.i("ApiDemo", "Mutation succeeded") 
+} catch (error: ApiException) {
+    Log.e("ApiDemo", "Mutation failed", error) 
+}
+```
+
+</amplify-block>
+<amplify-block name="RxJava">
+
+```java
+Todo todo = Todo.builder()
+    .name("My first todo")
+    .description("todo description")
+    .build();
 
 Amplify.API.mutate(ModelMutation.create(todo))
+    .subscribe(
+        result -> Log.i("ApiDemo", "Mutation succeeded"),
+        failure -> Log.e("ApiDemo", "Mutation failed", failure)
+    );
 ```
 
 </amplify-block>

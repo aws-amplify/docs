@@ -4,10 +4,10 @@ Add the following dependencies to your **app** build.gradle file and click "Sync
 
 ```groovy
 dependencies {
-    implementation 'com.amplifyframework:aws-datastore:1.16.13'
+    implementation 'com.amplifyframework:aws-datastore:1.17.1'
 
     // Support for Java 8 features
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.1'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 }
 ```
 

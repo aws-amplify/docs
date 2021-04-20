@@ -49,7 +49,9 @@ To push your changes to the cloud, **execute the command**:
 amplify push
 ```
 
-Upon completion, your config file (either `amplifyconfiguration.dart` for Flutter or `amplifyconfiguration.json` for JavaScript) should be updated to reference provisioned backend storage resources. Note that these files should already be a part of your project if you followed the [Project setup walkthrough](~/lib/project-setup/create-application.md).
+<inline-fragment platform="ios" src="~/lib/storage/fragments/ios/getting-started/12_amplifyConfig.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/storage/fragments/android/getting-started/12_amplifyConfig.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/storage/fragments/flutter/getting-started/12_amplifyConfig.md"></inline-fragment>
 
 ## Install Amplify Libraries
 
@@ -77,9 +79,10 @@ Upon successfully executing this code, you should see a new folder in your bucke
 
 Congratulations! You've uploaded a file to an s3 bucket.  Check out the following links to see other Amplify Storage use cases:
 
-* [File access levels](~/lib/storage/configureaccess.md)
+* [Concepts](~/lib/storage/overview.md)
 * [Download files](~/lib/storage/download.md)
 * [List Files](~/lib/storage/list.md)
 * [Remove files](~/lib/storage/remove.md)
+* [File access levels](~/lib/storage/configureaccess.md)
 * [Using Lambda Triggers](~/lib/storage/triggers.md)
 * [Escape Hatch](~/lib/storage/escapehatch.md)

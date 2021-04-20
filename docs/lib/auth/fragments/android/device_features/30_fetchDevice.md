@@ -12,16 +12,28 @@ Amplify.Auth.fetchDevices(
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
 
- ```kotlin
+```kotlin
 Amplify.Auth.fetchDevices(
     { devices ->
-        for (device in devices) {
-            Log.i("AuthQuickStart", "Device: $device")
-        }
+        devices.forEach { Log.i("AuthQuickStart", "Device: " + it) }
     },
-    { error -> Log.e("AuthQuickStart",  "Fetch devices failed with error: $error") })
+    { Log.e("AuthQuickStart", "Fetch devices failed with error", it) }
+)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+try {
+    Amplify.Auth.fetchDevices().forEach { device ->
+        Log.i("AuthQuickStart", "Device: $device")
+    }
+} catch (error: AuthException) {
+    Log.e("AuthQuickStart",  "Fetch devices failed with error", error)
+}
 ```
 
 </amplify-block>

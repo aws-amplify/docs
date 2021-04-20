@@ -14,9 +14,7 @@ export class DocsInPageLink {
 
   target?: HTMLElement;
 
-  // @ts-ignore
   @Watch("selectedFilters")
-  // @ts-ignore
   @Watch("targetId")
   componentDidRender() {
     if (this.targetId) {

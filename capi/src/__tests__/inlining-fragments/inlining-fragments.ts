@@ -1,4 +1,5 @@
 import * as c from "../..";
+import {hashPath} from "../../utils";
 
 test("inlining-fragments", async () => {
   await c.API({
@@ -15,11 +16,11 @@ test("inlining-fragments", async () => {
 
   // eslint-disable-next-line
   // @ts-ignore
-  expect((await import("./api/content")).body).toEqual([
+  expect((await import(hashPath("./api/content.json"))).body).toEqual([
     ["h1", {id: "title"}, "Title"],
     "\n",
     [
-      "p",
+      "div",
       null,
       [
         "div",
@@ -39,11 +40,11 @@ test("inlining-fragments", async () => {
 
   // eslint-disable-next-line
   // @ts-ignore
-  expect((await import("./api/product/product")).body).toEqual([
+  expect((await import(hashPath("./api/product/product.json"))).body).toEqual([
     ["h1", {id: "title"}, "Title"],
     "\n",
     [
-      "p",
+      "div",
       null,
       [
         "div",
@@ -61,13 +62,15 @@ test("inlining-fragments", async () => {
     "\n",
   ]);
 
-  // eslint-disable-next-line
-  // @ts-ignore
-  expect((await import("./api/product/yo/nested")).body).toEqual([
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import(hashPath("./api/product/yo/nested.json"))).body,
+  ).toEqual([
     ["h1", {id: "title"}, "Title"],
     "\n",
     [
-      "p",
+      "div",
       null,
       [
         "div",

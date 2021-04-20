@@ -31,7 +31,7 @@ Now that you have DataStore persisting data locally, in the next step you'll con
 
 ## Enable cloud syncing
 
-In order to enable cloud syncing you need to **configure your application to use the Amplify API category**. Open the `AppDelegate.swift` file and **update the amplify initialization code** to add the API plugin. The `application(_,didFinishLaunchingWithOptions:)` function should now call `Amplify.add(plugin:)` with a reference to an `AWSAPIPlugin` instance:
+In order to enable cloud syncing you need to **configure your application to use the Amplify API category**. Open the main file of the application - `AppDelegate.swift` or `TodoApp.swift` depending on the Life Cycle previously chosen - and **update the amplify initialization code** to add the API plugin. The `application(_,didFinishLaunchingWithOptions:)` function should now call `Amplify.add(plugin:)` with a reference to an `AWSAPIPlugin` instance:
   
 ```swift
 let models = AmplifyModels()
@@ -43,7 +43,7 @@ do {
     try Amplify.configure()
     print("Initialized Amplify");
 } catch {
-    print("Could not initialize Amplify: \(error)")
+    assert(false, "Could not initialize Amplify: \(error)")
 }
 ```
 

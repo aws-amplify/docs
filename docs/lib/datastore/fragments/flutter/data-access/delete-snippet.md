@@ -6,7 +6,7 @@ Below, we query for an instance with an `id` of `123`, and then delete it, if fo
   try {
     await Amplify.DataStore.delete(element);
     print('Deleted a post');
-  } on DatastoreException catch (e) {
+  } on DataStoreException catch (e) {
     print('Delete failed: $e');
   }
 });

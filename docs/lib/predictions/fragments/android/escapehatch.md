@@ -21,8 +21,8 @@ client.createCollection(request);
 
 ```kotlin
 // Obtain reference to the plugin
-val predictionsPlugin = Amplify.Predictions.getPlugin("awsPredictionsPlugin") as AWSPredictionsPlugin
-val escapeHatch = predictionsPlugin.escapeHatch
+val plugin = Amplify.Predictions.getPlugin("awsPredictionsPlugin")
+val escapeHatch = (plugin as AWSPredictionsPlugin).escapeHatch
 
 // Send a new request to the Rekognition endpoint directly using the client
 val client = escapeHatch.rekognitionClient

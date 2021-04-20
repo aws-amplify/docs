@@ -11,11 +11,12 @@ Follow the steps below to update to the latest version of the CLI:
     ```bash
     npm install -g @aws-amplify/cli
     ```
-2. Verify the successful installation of the latest CLI version by entering the following command in the CLI
+2. Verify the successful installation of the latest CLI version by entering the following command in the CLI:
     ```bash
     amplify -v
     ```
-    and confirm the installed version of the Amplify CLI. You can find the latest version of the CLI here - https://www.npmjs.com/package/@aws-amplify/cli
+    Confirm the installed version of the Amplify CLI. You can find the latest version of the CLI here - https://www.npmjs.com/package/@aws-amplify/cli.
+    
 3. Navigate to your Amplify project folder using the following command `cd <Project-Filepath>`. To verify if it is a valid Amplify project folder, enter the following command in the CLI:
     ```bash
     amplify status

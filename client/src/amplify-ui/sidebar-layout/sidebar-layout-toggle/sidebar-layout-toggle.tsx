@@ -20,10 +20,10 @@ export class AmplifySidebarLayoutToggle {
    * sidebar (mobile only)
    */
   getClass = () => {
-    return {
-      [sidebarLayoutSidebarToggleStyle]: true,
-      ...(this.inViewClass ? {[this.inViewClass]: !!this.inView} : {}),
-    };
+    return (
+      sidebarLayoutSidebarToggleStyle +
+      (this.inViewClass && this.inView ? " " + this.inViewClass : "")
+    );
   };
 
   /**

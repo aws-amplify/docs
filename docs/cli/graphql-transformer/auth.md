@@ -626,7 +626,7 @@ Dynamic groups have no impact to subscriptions. You will not get notified of any
 
 For example suppose you have the following schema:
 
-```
+```graphql
 type Post @model
 @auth(rules: [{allow: owner}])
 {
@@ -675,7 +675,7 @@ Finally, if you use both owner and group authorization then the username argumen
 
 You may disable authorization checks on subscriptions or completely turn off subscriptions as well by specifying either `public` or `off` in `@model`:
 
-```
+```graphql
 @model (subscriptions: { level: public })
 ```
 

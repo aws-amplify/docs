@@ -1,4 +1,5 @@
 import * as c from "../..";
+import {hashPath} from "../../utils";
 
 test("absolute md references", async () => {
   await c.API({
@@ -15,7 +16,7 @@ test("absolute md references", async () => {
 
   // eslint-disable-next-line
   // @ts-ignore
-  expect((await import("./api/content")).body).toEqual([
+  expect((await import(hashPath("./api/content.json"))).body).toEqual([
     ["p", null, "Root Page"],
     "\n",
     ["p", null, ["docs-internal-link", {href: "/product"}, "yo"]],
@@ -26,11 +27,11 @@ test("absolute md references", async () => {
 
   // eslint-disable-next-line
   // @ts-ignore
-  expect((await import("./api/product/product")).body).toEqual([
+  expect((await import(hashPath("./api/product/product.json"))).body).toEqual([
     ["h1", {id: "hi"}, "Hi"],
     "\n",
     [
-      "p",
+      "div",
       null,
       [
         "div",
@@ -84,13 +85,15 @@ test("absolute md references", async () => {
     "\n",
   ]);
 
-  // eslint-disable-next-line
-  // @ts-ignore
-  expect((await import("./api/product/subpages/a")).body).toEqual([
+  expect(
+    // eslint-disable-next-line
+    // @ts-ignore
+    (await import(hashPath("./api/product/subpages/a.json"))).body,
+  ).toEqual([
     ["h1", {id: "hi"}, "Hi"],
     "\n",
     [
-      "p",
+      "div",
       null,
       [
         "div",

@@ -19,18 +19,36 @@ void getTodo() {
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
 
 ```kotlin
-fun getTodo() {
-    val options = RestOptions.builder()
+private fun getTodo() {
+    val request = RestOptions.builder()
         .addPath("/todo")
         .build()
 
-    Amplify.API.get(options,
-        { Log.i("MyAmplifyApp", "GET succeeded: ${it.data}") },
-        { Log.e("MyAmplifyApp", "GET failed", it) }
+    Amplify.API.get(request,
+        { Log.i("MyAmplifyApp", "GET succeeded: $it") },
+        { Log.e("MyAmplifyApp", "GET failed.", it) }
     )
+}
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+private suspend fun getTodo() {
+    val request = RestOptions.builder()
+        .addPath("/todo")
+        .build()
+
+    try {
+        val response = Amplify.API.get(request)
+        Log.i("MyAmplifyApp", "GET succeeded: ${response.data}")
+    } catch (error: ApiException) {
+        Log.e("MyAmplifyApp", "GET failed", error)
+    }
 }
 ```
 
@@ -108,18 +126,35 @@ Amplify.API.get(options,
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
 
 ```kotlin
-val options: RestOptions = RestOptions.builder()
+val request = RestOptions.builder()
     .addPath("/todo")
-    .addQueryParameters(Collections.singletonMap("q", "test"))
+    .addQueryParameters(mapOf("q" to "test"))
     .build()
 
-Amplify.API.get(options,
-    { Log.i("MyAmplifyApp", "GET succeeded: $it.") },
-    { Log.e("MyAmplifyApp", "GET failed.", it) }
+Amplify.API.get(request,
+    { Log.i("MyAmplifyApp", "GET succeeded: $it") },
+    { Log.e("MyAmplifyApp", "GET failed", it) }
 )
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+val request = RestOptions.builder()
+    .addPath("/todo")
+    .addQueryParameters(mapOf("q" to "test"))
+    .build()
+
+try {
+    val response = Amplify.API.get(request)
+    Log.i("MyAmplifyApp", "GET succeeded: $response.")
+} catch (error: ApiException) {
+    Log.e("MyAmplifyApp", "GET failed", error)
+}
 ```
 
 </amplify-block>

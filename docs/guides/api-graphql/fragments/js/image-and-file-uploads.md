@@ -14,7 +14,7 @@ You typically would need a few things to make this work:
 
 Take for example the following schema for a product in an E-commerce app:
 
-```
+```graphql
 type Product {
   id: ID!
   name: String!
@@ -99,7 +99,7 @@ amplify add api
 ? Choose the additional authorization types you want to configure for the API: API key
 ? Enter a description for the API key: public
 ? After how many days from now the API key should expire (1-365): 365 (or your preferred expiration)
-? Configure conflict detection? No
+? Enable conflict detection? No
 ? Do you have an annotated GraphQL schema? No
 ? Choose a schema template: Single object with fields (e.g., “Todo” with ID, name, description)
 ? Do you want to edit the schema now? Yes
