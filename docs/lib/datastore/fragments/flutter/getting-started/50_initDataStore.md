@@ -3,7 +3,7 @@ To initialize the Amplify DataStore, use the `Amplify.addPlugin()` method to add
 ```dart
 import 'models/ModelProvider.dart';
 
-// Add the following line to your app initialization to add the DataStore plugin
+// Add the following lines to your app initialization to add the DataStore plugin
 AmplifyDataStore datastorePlugin =
     AmplifyDataStore(modelProvider: ModelProvider.instance);
 Amplify.addPlugin(datastorePlugin);
@@ -30,7 +30,7 @@ class MyAmplifyApp extends StatefulWidget {
     }
 
     void _configureAmplify() async {
-        // Add the following line to your app initialization to add the DataStore plugin
+        // Add the following lines to your app initialization to add the DataStore plugin
         AmplifyDataStore datastorePlugin =
             AmplifyDataStore(modelProvider: ModelProvider.instance);
         Amplify.addPlugin(datastorePlugin);
