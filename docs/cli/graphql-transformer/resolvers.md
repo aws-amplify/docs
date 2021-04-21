@@ -38,7 +38,7 @@ type Comment @model {
 
 This schema will generate resolvers for *Query.getTodo*, *Query.listTodos*, *Query.getComment*, and *Query.listComments* at the top level as well as for *Todo.comments*, and *Comment.todo* to implement the *@connection*. Under the hood, the transform will create a global secondary index on the Comment table in DynamoDB but it will not generate a top level query field that queries the GSI because you can fetch the comments for a given todo object via the *Query.getTodo.comments* query path. If you want to fetch all comments for a todo object via a top level query field i.e. *Query.commentsForTodo* then do the following:
 
-* Add the desired field to your *schema.graphql*.
+- Add the desired field to your *schema.graphql*.
 
 ```graphql
 # ... Todo and Comment types from above
@@ -52,7 +52,7 @@ type Query {
 }
 ```
 
-* Add a resolver resource to a stack in the *stacks/* directory. The `DataSourceName` is auto-generated. In most cases, it'll look like `{MODEL_NAME}Table`. To confirm the data source name, you can verify it from within the **AppSync Console** (`amplify console api`) and clicking on the **Data Sources** tab.
+- Add a resolver resource to a stack in the *stacks/* directory. The `DataSourceName` is auto-generated. In most cases, it'll look like `{MODEL_NAME}Table`. To confirm the data source name, you can verify it from within the **AppSync Console** (`amplify console api`) and clicking on the **Data Sources** tab.
 
 ```json
 {
@@ -99,7 +99,7 @@ type Query {
 }
 ```
 
-* Write the resolver templates.
+- Write the resolver templates.
 
 ```text
 ## Query.commentsForTodo.req.vtl **
@@ -136,9 +136,9 @@ $util.toJson($ctx.result)
 
 Velocity is useful as a fast, secure environment to run arbitrary code but when it comes to writing complex business logic you can just as easily call out to an AWS lambda function. Here is how:
 
-* First create a function by running `amplify add function`. The rest of the example assumes you created a function named "echofunction" via the `amplify add function` command. If you already have a function then you may skip this step.
+- First create a function by running `amplify add function`. The rest of the example assumes you created a function named "echofunction" via the `amplify add function` command. If you already have a function then you may skip this step.
 
-* Add a field to your schema.graphql that will invoke the AWS Lambda function.
+- Add a field to your schema.graphql that will invoke the AWS Lambda function.
 
 ```graphql
 type Query {
@@ -146,7 +146,7 @@ type Query {
 }
 ```
 
-* Add the function as an AppSync data source in the stack's *Resources* block.
+- Add the function as an AppSync data source in the stack's *Resources* block.
 
 ```json
 "EchoLambdaDataSource": {
@@ -175,7 +175,7 @@ type Query {
 }
 ```
 
-* Create an AWS IAM role that allows AppSync to invoke the lambda function on your behalf to the stack's *Resources* block.
+- Create an AWS IAM role that allows AppSync to invoke the lambda function on your behalf to the stack's *Resources* block.
 
 ```json
 "EchoLambdaDataSourceRole": {
@@ -227,7 +227,7 @@ type Query {
 }
 ```
 
-* Create an AppSync resolver in the stack's *Resources* block.
+- Create an AppSync resolver in the stack's *Resources* block.
 
 ```json
 "QueryEchoResolver": {
@@ -274,7 +274,7 @@ type Query {
 }
 ```
 
-* Create the resolver templates in the project's *resolvers* directory.
+- Create the resolver templates in the project's *resolvers* directory.
 
 **resolvers/Query.echo.req.vtl**
 
@@ -321,7 +321,7 @@ type Todo @model @searchable {
 
 The next time you run `amplify push`, an Amazon Elasticsearch domain will be created and configured such that data automatically streams from DynamoDB into Elasticsearch. The *@searchable* directive on the Todo type will generate a *Query.searchTodos* query field and resolver but it is not uncommon to want more specific search capabilities. You can write a custom search resolver by following these steps:
 
-* Add the relevant location and search fields to the schema.
+- Add the relevant location and search fields to the schema.
 
 ```graphql
 type Comment @model {
@@ -353,7 +353,7 @@ type Query {
 }
 ```
 
-* Create the resolver record in the stack's *Resources* block.
+- Create the resolver record in the stack's *Resources* block.
 
 ```json
 "QueryNearbyTodos": {
@@ -395,7 +395,7 @@ type Query {
 }
 ```
 
-* Write the resolver templates.
+- Write the resolver templates.
 
 ```
 ## Query.nearbyTodos.req.vtl
@@ -444,13 +444,13 @@ $util.toJson({
 })
 ```
 
-* Run `amplify push`
+- Run `amplify push`
 
 Amazon Elasticsearch domains can take a while to deploy. Take this time to read up on Elasticsearch to see what capabilities you are about to unlock.
 
 [Getting Started with Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started.html)
 
-* After the update is complete but before creating any objects, update your Elasticsearch index mapping.
+- After the update is complete but before creating any objects, update your Elasticsearch index mapping.
 
 An index mapping tells Elasticsearch how it should treat the data that you are trying to store. By default, if we create an object with field `"location": { "lat": 40, "lon": -40 }`, Elasticsearch will treat that data as an *object* type when in reality we want it to be treated as a *geo_point*. You use the mapping APIs to tell Elasticsearch how to do this.
 
@@ -471,7 +471,7 @@ PUT /todo/_mapping/doc
 }
 ```
 
-* Use your API to create objects and immediately search them.
+- Use your API to create objects and immediately search them.
 
 After updating the Elasticsearch index mapping, open the AWS AppSync console with `amplify api console` and try out these queries.
 

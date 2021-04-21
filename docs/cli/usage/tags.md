@@ -5,11 +5,11 @@ description: Learn how to stay organized with your Amplify-generated AWS resourc
 
 Tags are labels consisting of key-value pairs that make it easier to manage, search for, and filter resources. Some popular use cases include:
 
-* Resource organization
-* Cost allocation
-* Operations support
-* Access control
-* Security risk management
+- Resource organization
+- Cost allocation
+- Operations support
+- Access control
+- Security risk management
 
 You can learn more about how tags work [here](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html), as well as read about best practices for tagging [here](https://d1.awsstatic.com/whitepapers/aws-tagging-best-practices.pdf).
 
@@ -40,8 +40,8 @@ There are predefined tags that let you be more specific with information about t
 
 The 2 predefined tags are the following:
 
-* {project-env} - Refers to the project environment (e.g. prod, env, etc)
-* {project-name} - Refers to the current project name (e.g mytestproject)
+- {project-env} - Refers to the project environment (e.g. prod, env, etc)
+- {project-name} - Refers to the current project name (e.g mytestproject)
 
 There are many different cases in which these tag variables can be used. This is an example of how they can be used together and what the output would be:
 
@@ -85,9 +85,9 @@ To update the AWS resources from your Amplify project just run `amplify push`.
 
 ## Restrictions
 
-* You can only add up to 50 tags to the `amplify/backend/tags.json` file.
-* Tag keys and values are case sensitive.
-* Duplicate tag keys are not allowed.
+- You can only add up to 50 tags to the `amplify/backend/tags.json` file.
+- Tag keys and values are case sensitive.
+- Duplicate tag keys are not allowed.
 
 <amplify-callout>
 

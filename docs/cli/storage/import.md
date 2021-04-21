@@ -13,15 +13,15 @@ Make sure to run `amplify push` to complete the import process and deploy this b
 
 The `amplify import storage` command will:
 
-* automatically populate your Amplify Library configuration files (aws-exports.js, amplifyconfiguration.json) with your chosen S3 bucket information
-* provide your designated S3 bucket or DynamoDB table as a storage mechanism for all storage-dependent categories (API, Function, Predictions, and more)
-* enable Lambda functions to access the chosen S3 or DynamoDB resource if you permit it
+- automatically populate your Amplify Library configuration files (aws-exports.js, amplifyconfiguration.json) with your chosen S3 bucket information
+- provide your designated S3 bucket or DynamoDB table as a storage mechanism for all storage-dependent categories (API, Function, Predictions, and more)
+- enable Lambda functions to access the chosen S3 or DynamoDB resource if you permit it
 
 This feature is particularly useful if you're trying to:
 
-* enable Amplify categories (such as API and Function) to access your existing storage resources;
-* incrementally adopt Amplify for your application stack;
-* independently manage S3 and DynamoDB resources while working with Amplify.
+- enable Amplify categories (such as API and Function) to access your existing storage resources;
+- incrementally adopt Amplify for your application stack;
+- independently manage S3 and DynamoDB resources while working with Amplify.
 
 ## Import an existing S3 bucket
 
@@ -35,9 +35,9 @@ Run `amplify push` to complete the import procedure.
 
 By default, Amplify Libraries assumes that S3 buckets are configured with the following access patterns:
 
-* `public/` - Accessible by all users of your app
-* `protected/{user_identity_id}/` - Readable by all users, but writable only by the creating user
-* `private/{user_identity_id}/` - Only accessible for the individual user
+- `public/` - Accessible by all users of your app
+- `protected/{user_identity_id}/` - Readable by all users, but writable only by the creating user
+- `private/{user_identity_id}/` - Only accessible for the individual user
 
 You can either configure your IAM role to use the Amplify-recommended policies or in your Amplify libraries configuration [overwrite the default storage path behavior](~/lib/storage/configureaccess.md/q/platform/js#customize-object-key-path).
 
@@ -51,7 +51,7 @@ If you're using an imported S3 bucket with an imported Cognito resource, then yo
 
 #### Unauthenticated role policies
 
-* IAM policy statement for `public/`:
+- IAM policy statement for `public/`:
 
 ```json
 {
@@ -67,7 +67,7 @@ If you're using an imported S3 bucket with an imported Cognito resource, then yo
 }
 ```
 
-* IAM policy statement for read access to `public/`, `protected/`, and `private/`:
+- IAM policy statement for read access to `public/`, `protected/`, and `private/`:
 
 ```json
 {
@@ -102,7 +102,7 @@ If you're using an imported S3 bucket with an imported Cognito resource, then yo
 
 #### Authenticated role policies
 
-* IAM policy statement for `public/`:
+- IAM policy statement for `public/`:
 
 ```json
 {
@@ -118,7 +118,7 @@ If you're using an imported S3 bucket with an imported Cognito resource, then yo
 }
 ```
 
-* IAM policy statement for `protected/`:
+- IAM policy statement for `protected/`:
 
 ```json
 {
@@ -134,7 +134,7 @@ If you're using an imported S3 bucket with an imported Cognito resource, then yo
 }
 ```
 
-* IAM policy statement for `private/`:
+- IAM policy statement for `private/`:
 
 ```json
 {
@@ -150,7 +150,7 @@ If you're using an imported S3 bucket with an imported Cognito resource, then yo
 }
 ```
 
-* IAM policy statement for read access to `public/`, `protected/`, and `private/`:
+- IAM policy statement for read access to `public/`, `protected/`, and `private/`:
 
 ```json
 {

@@ -31,5 +31,5 @@ amplify configure --usage-data-on
 
 The usage data that's collected adheres to the AWS data privacy policies. For more information, see the following:
 
-* [AWS Service Terms](https://aws.amazon.com/service-terms/)
-* [Data Privacy](https://aws.amazon.com/compliance/data-privacy-faq/)
+- [AWS Service Terms](https://aws.amazon.com/service-terms/)
+- [Data Privacy](https://aws.amazon.com/compliance/data-privacy-faq/)

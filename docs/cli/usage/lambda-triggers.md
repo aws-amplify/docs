@@ -353,10 +353,10 @@ This trigger template allows you to define an email message with a link to a sta
 
 Please note that this trigger template will create an S3 resource.  The files that populate the static site are available for edit in `amplify/backend/auth/<your-resource-name>CustomMessage/assets`.  They consist of:
 
-* index.html
-* spinner.js (controls the spinner that appears on the page while users are awaiting confirmation)
-* style.css
-* verify.js (the script which performs the verification request)
+- index.html
+- spinner.js (controls the spinner that appears on the page while users are awaiting confirmation)
+- style.css
+- verify.js (the script which performs the verification request)
 
 #### React Sample
 
@@ -544,8 +544,8 @@ As you can see in the prompt above, you can either choose to use an existing Lam
 
 You can associate a Lambda trigger with a DynamoDB table, managed by the Amplify CLI. There are two ways by which DynamoDB is provisioned by the Amplify CLI
 
-* As a part of the [Storage category](~/cli/storage/overview.md#)
-* As a part of the [GraphQL API (types with @model annotation)](~/cli/graphql-transformer/model.md)
+- As a part of the [Storage category](~/cli/storage/overview.md#)
+- As a part of the [GraphQL API (types with @model annotation)](~/cli/graphql-transformer/model.md)
 
 ### As a part of the Storage category
 
