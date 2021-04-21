@@ -731,10 +731,10 @@ type Employee @model {
 }
 ```
 
-**Note** The `delete` operation, when used in @auth directives on field definitions, translates
+**Note:** The `delete` operation, when used in @auth directives on field definitions, translates
 to protecting the update mutation such that the field cannot be set to null unless authorized.
 
-**Note**: When specifying operations as a part of the @auth rule on a field, the operations not included in the operations list are not protected by default. For example, let's say you have the following schema:
+**Note:** When specifying operations as a part of the @auth rule on a field, the operations not included in the operations list are not protected by default. For example, let's say you have the following schema:
 
 ```graphql
 type Todo @model {

@@ -12,7 +12,7 @@ Amplify CLI's `storage` category enables you to create and manage cloud-connecte
 
 You can setup a new storage resource by running the following command:
 
-```sh
+```bash
 amplify add storage
 ```
 

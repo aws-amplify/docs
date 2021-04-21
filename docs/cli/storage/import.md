@@ -5,7 +5,7 @@ description: Configure the Amplify CLI to use existing S3 bucket or DynamoDB tab
 
 Import an existing S3 bucket or DynamoDB tables into your Amplify project. Get started by running `amplify import storage` command to search for & import an S3 or DynamoDB resource from your account.
 
-```sh
+```bash
 amplify import storage
 ```
 

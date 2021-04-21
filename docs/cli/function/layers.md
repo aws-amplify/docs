@@ -178,7 +178,7 @@ You've updated Lambda layers: layer1, layer2...
 Do you want functions using the layers to upgrade to the latest version? (y/N)
 ``` -->
 
-**Note**: When you update a layer's content, you also need to update the function's that use this layer to use the latest version.
+**Note:** When you update a layer's content, you also need to update the function's that use this layer to use the latest version.
 
 You also have the ability to manually set the layer version that is used by a function. Run `amplify update function` and follow the guided workflow within the `function` capability.
 

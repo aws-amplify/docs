@@ -73,7 +73,7 @@ mutation CreateProject {
 }
 ```
 
-> **Note** The **Project.team** resolver is configured to work with the defined connection. This is done with a query on the Team table where `teamID` is passed in as an argument.
+> **Note:** The **Project.team** resolver is configured to work with the defined connection. This is done with a query on the Team table where `teamID` is passed in as an argument.
 
 A Has One @connection can only reference the primary index of a model (ie. it cannot specify a "keyName" as described below in the Has Many section).
 
@@ -337,7 +337,7 @@ type Comment @model {
 
 In order to keep connection queries fast and efficient, the GraphQL transform manages global secondary indexes (GSIs) on the generated tables on your behalf when using @connection
 
-> **Note** After you have pushed a `@connection` directive you should not try to
+> **Note:** After you have pushed a `@connection` directive you should not try to
 change it. If you try to change it, the DynamoDB
 UpdateTable operation will fail. Should you need to change a `@connection`, you should add a new
 `@connection` that implements the new access pattern, update your application
