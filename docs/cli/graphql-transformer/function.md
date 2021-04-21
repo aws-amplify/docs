@@ -29,7 +29,7 @@ exports.handler =  async function(event, context){
 
 The Amplify CLI provides support for maintaining multiple environments out of the box. When you deploy a function via `amplify add function`, it will automatically add the environment suffix to your Lambda function name. For example if you create a function named **echofunction** using `amplify add function` in the **dev** environment, the deployed function will be named **echofunction-dev**. The `@function` directive allows you to use `${env}` to reference the current Amplify CLI environment.
 
-```
+```graphql
 type Query {
   echo(msg: String): String @function(name: "echofunction-${env}")
 }
@@ -39,7 +39,7 @@ type Query {
 
 If you deployed your API without amplify then you must provide the full Lambda function name. If you deployed the same function with the name **echofunction** then you would have:
 
-```
+```graphql
 type Query {
   echo(msg: String): String @function(name: "echofunction")
 }
@@ -54,24 +54,24 @@ For example purposes assume the function is named `GraphQLResolverFunction`:
 
 ```javascript
 const POSTS = [
-    { id: 1, title: "AWS Lambda: How To Guide." },
-    { id: 2, title: "AWS Amplify Launches @function and @key directives." },
-    { id: 3, title: "Serverless 101" }
+  { id: 1, title: "AWS Lambda: How To Guide." },
+  { id: 2, title: "AWS Amplify Launches @function and @key directives." },
+  { id: 3, title: "Serverless 101" }
 ];
 const COMMENTS = [
-    { postId: 1, content: "Great guide!" },
-    { postId: 1, content: "Thanks for sharing!" },
-    { postId: 2, content: "Can't wait to try them out!" }
+  { postId: 1, content: "Great guide!" },
+  { postId: 1, content: "Thanks for sharing!" },
+  { postId: 2, content: "Can't wait to try them out!" }
 ];
 
 // Get all posts. Write your own logic that reads from any data source.
 function getPosts() {
-    return POSTS;
+  return POSTS;
 }
 
 // Get the comments for a single post.
 function getCommentsForPost(postId) {
-    return COMMENTS.filter(comment => comment.postId === postId);
+  return COMMENTS.filter(comment => comment.postId === postId);
 }
 
 /**
@@ -188,16 +188,16 @@ You can connect this function to your AppSync API deployed via Amplify using thi
 
 ```graphql
 type Query {
-    posts: [Post] @function(name: "GraphQLResolverFunction")
+  posts: [Post] @function(name: "GraphQLResolverFunction")
 }
 type Post {
-    id: ID!
-    title: String!
-    comments: [Comment] @function(name: "GraphQLResolverFunction")
+  id: ID!
+  title: String!
+  comments: [Comment] @function(name: "GraphQLResolverFunction")
 }
 type Comment {
-    postId: ID!
-    content: String
+  postId: ID!
+  content: String
 }
 ```
 

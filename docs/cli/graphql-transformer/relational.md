@@ -30,16 +30,13 @@ amplify add api
 
 ![Database Settings](~/images/database-setting.png)
 
-
 **Select the Capacity Settings as shown below**
 
 ![Database Capacity](~/images/database-capacity.png)
 
-
 **Expand the "Additional connectivity configuration" and enable "Data API" and "Create New" if you do not have a VPC security group configured**
 
 ![Database Connectivity](~/images/database-connectivity.png)
-
 
 **Expand "Additional Configuration" and fill in "Initial Database Name" as MarketPlace**
 
@@ -49,9 +46,7 @@ amplify add api
 
 ![Database Connect ](~/images/connect-to-database.png)
 
-
 **After connecting, create a database and some tables.**
-
 
 ![Database details](~/images/query-editor.png)
 
@@ -72,9 +67,7 @@ CREATE TABLE Orders (
 );
 ```
 
-
 **Return to your command line and run `amplify api add-graphql-datasource` from the root of your amplify project.**
-
 
 ![Add GraphQL Data Source](~/images/add-graphql-datasource.png)
 
@@ -88,7 +81,7 @@ Your API is now configured to work with your serverless Amazon Aurora MySQL data
 
 Create a customer:
 
-```
+```graphql
 mutation CreateCustomer {
   createCustomers(createCustomersInput: {
     id: 1,

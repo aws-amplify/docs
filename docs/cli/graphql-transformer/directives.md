@@ -18,6 +18,7 @@ The Amplify CLI provides GraphQL directives to enhance your schema with addition
 - [`@versioned`: Defines the versioning and conflict resolution strategy for an @model type](~/cli/graphql-transformer/versioned.md)
 
 ## 3rd party directives
+
 - [`@ttl`: Enable DynamoDB's time-to-live feature to auto-delete old entries in your AWS Amplify API](https://github.com/flogy/graphql-ttl-transformer)
 
 > Looking to build your own transformers & directives? Check out the guide on [how to author your own transformer & directives](~/cli/plugins/authoring.md#authoring-custom-graphql-transformers--directives).

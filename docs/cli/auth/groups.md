@@ -63,31 +63,29 @@ The above example uses a combination of permissions where users in the "Admins" 
 
 ```json
 [
-    {
-        "groupName": "Admins",
-        "precedence": 1,
-        "customPolicies": [{
-          "PolicyName": "admin-group-policy",
-        	"PolicyDocument": {
-            "Version":"2012-10-17",
-            "Statement":[
-                {
-                  "Sid":"statement1",
-                  "Effect":"Allow",
-                  "Action":[
-                      "s3:CreateBucket"
-                  ],
-                  "Resource":[
-                      "arn:aws:s3:::*"
-                  ]
-                }
-             ]
-         	}
-        }]
-    },
-    {
-        "groupName": "Editors",
-        "precedence": 2
-    }
+  {
+    "groupName": "Admins",
+    "precedence": 1,
+    "customPolicies": [
+      {
+        "PolicyName": "admin-group-policy",
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Sid": "statement1",
+              "Effect": "Allow",
+              "Action": ["s3:CreateBucket"],
+              "Resource": ["arn:aws:s3:::*"]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "groupName": "Editors",
+    "precedence": 2
+  }
 ]
 ```

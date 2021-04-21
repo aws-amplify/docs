@@ -4,9 +4,10 @@ description: Learn more about the files and folders Amplify uses to maintain pro
 ---
 
 ## Folders
+
 The CLI places the following folder structure in the root directory of the project during `amplify init`:
 
-```
+```text
 amplify
   .config
   #current-cloud-backend
@@ -14,6 +15,7 @@ amplify
 ```
 
 ### amplify/.config
+
 > Manual edits okay: NO
 
 > Add to version control: YES
@@ -21,6 +23,7 @@ amplify
 Contains files that store cloud configuration and `settings/preferences`. Run `amplify configure` to change the project configuration.
 
 ### amplify/#current-cloud-backend
+
 > Manual edits okay: NO
 
 > Add to version control: NO
@@ -28,6 +31,7 @@ Contains files that store cloud configuration and `settings/preferences`. Run `a
 Contains the current cloud state of the checked out environment's resources. The contents of this folder should never be manually updated. It will be overwritten on operations such as `amplify push`, `amplify pull` or `amplify env checkout`.
 
 ### amplify/backend
+
 > Manual edits okay: YES
 
 > Add to version control: YES
@@ -36,16 +40,19 @@ Contains the latest local development state of the checked out environment's res
 Each plugin stores contents in its own subfolder within this folder.
 
 ### amplify/mock-data
+
 > Manual edits okay: NO
 
 > Add to version control: NO
 
 Only created after running `amplify mock api`. It contains the SQLite databases that are used to back the local API when mocking. The contents should not be modified but you can delete the folder if you want to wipe your local API state.
+
 ## Core Amplify Files
 
-These files work together to maintain the overall state of the Amplify project such as what resources are configured in the project, dependencies between resources, and when the last push was. 
+These files work together to maintain the overall state of the Amplify project such as what resources are configured in the project, dependencies between resources, and when the last push was.
 
 ### amplify-meta.json
+
 > Manual edits okay: NO
 
 > Add to version control: NO
@@ -58,20 +65,22 @@ Because one category might create multiple services within one project (e.g. the
 
 ```json
 {
-    "<category>": {
-        "<service1>": {
-            //service1 metadata
-        },
-        "<service2>": {
-            //service2 metadata
-        }
+  "<category>": {
+    "<service1>": {
+      //service1 metadata
+    },
+    "<service2>": {
+      //service2 metadata
     }
+  }
 }
 ```
+
 The metadata for each service is first logged into the meta file after the `amplify <category> add` command is executed, containing some general information that indicates one service of the category has been added locally.
 Then, on the successful execution of the `amplify push` command, the `output` object will be added/updated in the service's metadata with information that describes the actual cloud resources that have been created or updated.
 
 ### aws-exports.js
+
 > Manual edits okay: NO
 
 > Add to version control: NO
@@ -86,22 +95,24 @@ This file is consumed by the [Amplify](https://github.com/aws-amplify/amplify-js
 - [Are the Cognito User pool id and Client Id sensitive?](https://stackoverflow.com/a/47865747/194974)
 
 ### amplifyconfiguration.json
+
 > Manual edits okay: NO
 
 > Add to version control: NO
 
 This file is the same as `aws-exports.js` but for Android and iOS projects.
 
-It is consumed by the [iOS](https://github.com/aws/aws-sdk-ios/) and [Android](https://github.com/aws/aws-sdk-android) native SDKs for configuration. 
+It is consumed by the [iOS](https://github.com/aws/aws-sdk-ios/) and [Android](https://github.com/aws/aws-sdk-android) native SDKs for configuration.
 
 ### .gitignore
+
 > Manual edits okay: YES
 
 > Add to version control: YES
 
 When a new project is initialized from the Amplify CLI, Amplify will append the following to the .gitignore file in the root directory. A .gitignore file will be created if one does not exist.
 
-```sh
+```text
 #amplify
 amplify/\#current-cloud-backend
 amplify/.config/local-*
@@ -120,6 +131,7 @@ amplifytools.xcconfig
 ```
 
 ### team-provider-info.json
+
 > Manual edits okay: NO
 
 > Add to version control: ONLY IF REPOSITORY IS PRIVATE
@@ -127,6 +139,7 @@ amplifytools.xcconfig
 Used to share project info within your team. Learn more at [Share single environment](~/cli/teams/shared.md#sharing-projects-within-the-team).
 
 ### cli.json
+
 > Manual edits okay: YES
 
 > Add to version control: YES
@@ -138,6 +151,7 @@ Contains feature flag configuration for the project. If this file does not exist
 While each category plugin has some unique files, there are also some common files stored across all categories.
 
 ### \<category>-parameters.json
+
 > Manual edits okay: NO
 
 > Add to version control: YES
@@ -145,32 +159,38 @@ While each category plugin has some unique files, there are also some common fil
 Stores the parameters selected during `amplify add <category>` so they can be used to populate answers during `amplify update <category>`. This file does NOT change the underlying category configuration; it is only used to populate answers in the walkthrough.
 
 ### parameters.json
+
 > Manual edits okay: YES
 
 > Add to version control: YES
 
 Contains a JSON object that maps CloudFormation parameter names to values that will be passed to the CloudFormation template for the category. For example, if the CloudFormation template has the parameter:
+
 ```json
 {
-    "Parameters": {
-        "RoleArn": {
-            "Type": "String",
-            "Default": "<default role ARN>"
-        }
+  "Parameters": {
+    "RoleArn": {
+      "Type": "String",
+      "Default": "<default role ARN>"
     }
+  }
 }
 ```
+
 And `parameters.json` contains
+
 ```json
 {
-    "RoleArn": "<role ARN override>"
+  "RoleArn": "<role ARN override>"
 }
 ```
+
 Then the value of "RoleArn" when the template is pushed will be "\<role ARN override\>".
 
 ## Function Category Files
 
 ### amplify.state
+
 > Manual edits okay: NO
 
 > Add to version control: YES
@@ -180,6 +200,7 @@ Contains internal metadata about how the CLI should build and invoke the functio
 ## AppSync API Category Files
 
 ### transform.conf.json
+
 > Manual edits okay: NO
 
 > Add to version control: YES

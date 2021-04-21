@@ -4,6 +4,7 @@ description: Learn how to stay organized with your Amplify-generated AWS resourc
 ---
 
 Tags are labels consisting of key-value pairs that make it easier to manage, search for, and filter resources. Some popular use cases include:
+
 * Resource organization
 * Cost allocation
 * Operations support
@@ -17,6 +18,7 @@ You can learn more about how tags work [here](https://docs.aws.amazon.com/genera
 When running `amplify init`, a `tags.json` file is automatically generated in the `amplify/backend/` directory, containing predefined tags.
 
 The structure of the file is the following:
+
 ```json
 [
   {
@@ -29,6 +31,7 @@ The structure of the file is the following:
   }
 ]
 ```
+
 **Note:** For projects created before CLI version 4.28.0. Creating a `tags.json` file under `amplify/backend/` directory with the desired tags will ensure tags being applied to existing resources after invoking `amplify push`.
 
 ## Using predefined variables
@@ -40,7 +43,6 @@ The 2 predefined tags are the following:
 * {project-env} - Refers to the project environment (e.g. prod, env, etc)
 * {project-name} - Refers to the current project name (e.g mytestproject)
 
-
 There are many different cases in which these tag variables can be used. This is an example of how they can be used together and what the output would be:
 
 ```json
@@ -51,18 +53,20 @@ There are many different cases in which these tag variables can be used. This is
 ```
 
 When getting pushed, the resources would transform into:
+
 ```json
 [{
-    "Key": "myawesomekey",
-    "Value": "myvalue-myamplifyproject-dev"
+  "Key": "myawesomekey",
+  "Value": "myvalue-myamplifyproject-dev"
 }]
 ```
 
 Tag values are not required, thus they can be empty.
+
 ```json
 [{
-	"Key": "MY_TAG_KEY",
-	"Value": ""
+  "Key": "MY_TAG_KEY",
+  "Value": ""
 }]
 ```
 
@@ -72,8 +76,8 @@ You can update or add any additional tags in the `tags.json` file inside the `am
 
 ```json
 [{
-    "Key": “MY_TAG_KEY”,
-    "Value": “MY_TAG_VALUE"
+  "Key": “MY_TAG_KEY”,
+  "Value": “MY_TAG_VALUE"
 }]
 ```
 

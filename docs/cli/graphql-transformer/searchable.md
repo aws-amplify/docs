@@ -126,10 +126,10 @@ Here is a complete list of searchable operations per GraphQL type supported as o
 
 ### Known limitations
 
-- `@searchable` is not compatible with DataStore but you can use it with the API category.
-- `@searchable` is not compatible with Amazon ElasticSearch t2.micro instance as it only works with ElasticSearch version 1.5 and 2.3 and Amplify CLI only supports instances with ElasticSearch version >= 6.x.
-- `@searchable` is not compatible with the @connection directive
-- Support for adding the `@searchable` directive does not yet provide automatic indexing for any existing data to Elasticsearch. View the feature request [here](https://github.com/aws-amplify/amplify-cli/issues/98).
+* `@searchable` is not compatible with DataStore but you can use it with the API category.
+* `@searchable` is not compatible with Amazon ElasticSearch t2.micro instance as it only works with ElasticSearch version 1.5 and 2.3 and Amplify CLI only supports instances with ElasticSearch version >= 6.x.
+* `@searchable` is not compatible with the @connection directive
+* Support for adding the `@searchable` directive does not yet provide automatic indexing for any existing data to Elasticsearch. View the feature request [here](https://github.com/aws-amplify/amplify-cli/issues/98).
 
 ### Backfill your Elasticsearch index from your DynamoDB table
 

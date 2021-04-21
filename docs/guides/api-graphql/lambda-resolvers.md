@@ -138,7 +138,7 @@ amplify push
 
 Now, you can run the following queries and mutations to interact with the API:
 
-```sh
+```graphql
 query echo {
   echo(msg: "Hello world!")
 }

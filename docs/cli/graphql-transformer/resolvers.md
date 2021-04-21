@@ -41,7 +41,7 @@ This schema will generate resolvers for *Query.getTodo*, *Query.listTodos*, *Que
 * Add the desired field to your *schema.graphql*.
 
 ```graphql
-// ... Todo and Comment types from above
+# ... Todo and Comment types from above
 
 type CommentConnection {
   items: [Comment]
@@ -54,7 +54,7 @@ type Query {
 
 * Add a resolver resource to a stack in the *stacks/* directory. The `DataSourceName` is auto-generated. In most cases, it'll look like `{MODEL_NAME}Table`. To confirm the data source name, you can verify it from within the **AppSync Console** (`amplify console api`) and clicking on the **Data Sources** tab.
 
-```
+```json
 {
   // ... The rest of the template
   "Resources": {
@@ -101,7 +101,7 @@ type Query {
 
 * Write the resolver templates.
 
-```
+```text
 ## Query.commentsForTodo.req.vtl **
 
 #set( $limit = $util.defaultIfNull($context.args.limit, 10) )
@@ -126,7 +126,7 @@ type Query {
 }
 ```
 
-```
+```text
 ## Query.commentsForTodo.res.vtl **
 
 $util.toJson($ctx.result)
@@ -148,7 +148,7 @@ type Query {
 
 * Add the function as an AppSync data source in the stack's *Resources* block.
 
-```
+```json
 "EchoLambdaDataSource": {
   "Type": "AWS::AppSync::DataSource",
   "Properties": {
@@ -177,7 +177,7 @@ type Query {
 
 * Create an AWS IAM role that allows AppSync to invoke the lambda function on your behalf to the stack's *Resources* block.
 
-```
+```json
 "EchoLambdaDataSourceRole": {
   "Type": "AWS::IAM::Role",
   "Properties": {
@@ -229,7 +229,7 @@ type Query {
 
 * Create an AppSync resolver in the stack's *Resources* block.
 
-```
+```json
 "QueryEchoResolver": {
   "Type": "AWS::AppSync::Resolver",
   "Properties": {
@@ -278,17 +278,17 @@ type Query {
 
 **resolvers/Query.echo.req.vtl**
 
-```
+```text
 {
-    "version": "2017-02-28",
-    "operation": "Invoke",
-    "payload": {
-        "type": "Query",
-        "field": "echo",
-        "arguments": $utils.toJson($context.arguments),
-        "identity": $utils.toJson($context.identity),
-        "source": $utils.toJson($context.source)
-    }
+  "version": "2017-02-28",
+  "operation": "Invoke",
+  "payload": {
+    "type": "Query",
+    "field": "echo",
+    "arguments": $utils.toJson($context.arguments),
+    "identity": $utils.toJson($context.identity),
+    "source": $utils.toJson($context.source)
+  }
 }
 ```
 
@@ -300,7 +300,7 @@ $util.toJson($ctx.result)
 
 After running `amplify push` open the AppSync console with `amplify api console` and test your API with this simple query:
 
-```
+```graphql
 query {
   echo(msg:"Hello, world!")
 }
@@ -355,43 +355,43 @@ type Query {
 
 * Create the resolver record in the stack's *Resources* block.
 
-```
+```json
 "QueryNearbyTodos": {
-    "Type": "AWS::AppSync::Resolver",
-    "Properties": {
-        "ApiId": {
-            "Ref": "AppSyncApiId"
-        },
-        "DataSourceName": "ElasticSearchDomain",
-        "TypeName": "Query",
-        "FieldName": "nearbyTodos",
-        "RequestMappingTemplateS3Location": {
-            "Fn::Sub": [
-                "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.nearbyTodos.req.vtl",
-                {
-                    "S3DeploymentBucket": {
-                        "Ref": "S3DeploymentBucket"
-                    },
-                    "S3DeploymentRootKey": {
-                        "Ref": "S3DeploymentRootKey"
-                    }
-                }
-            ]
-        },
-        "ResponseMappingTemplateS3Location": {
-            "Fn::Sub": [
-                "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.nearbyTodos.res.vtl",
-                {
-                    "S3DeploymentBucket": {
-                        "Ref": "S3DeploymentBucket"
-                    },
-                    "S3DeploymentRootKey": {
-                        "Ref": "S3DeploymentRootKey"
-                    }
-                }
-            ]
+  "Type": "AWS::AppSync::Resolver",
+  "Properties": {
+    "ApiId": {
+      "Ref": "AppSyncApiId"
+    },
+    "DataSourceName": "ElasticSearchDomain",
+    "TypeName": "Query",
+    "FieldName": "nearbyTodos",
+    "RequestMappingTemplateS3Location": {
+      "Fn::Sub": [
+        "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.nearbyTodos.req.vtl",
+        {
+          "S3DeploymentBucket": {
+            "Ref": "S3DeploymentBucket"
+          },
+          "S3DeploymentRootKey": {
+            "Ref": "S3DeploymentRootKey"
+          }
         }
+      ]
+    },
+    "ResponseMappingTemplateS3Location": {
+      "Fn::Sub": [
+        "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.nearbyTodos.res.vtl",
+        {
+          "S3DeploymentBucket": {
+            "Ref": "S3DeploymentBucket"
+          },
+          "S3DeploymentRootKey": {
+            "Ref": "S3DeploymentRootKey"
+          }
+        }
+      ]
     }
+  }
 }
 ```
 
@@ -404,26 +404,26 @@ type Query {
 #set( $indexPath = "/todo/doc/_search" )
 #set( $distance = $util.defaultIfNull($ctx.args.km, 200) )
 {
-    "version": "2017-02-28",
-    "operation": "GET",
-    "path": "$indexPath.toLowerCase()",
-    "params": {
-        "body": {
-            "query": {
-                "bool" : {
-                    "must" : {
-                        "match_all" : {}
-                    },
-                    "filter" : {
-                        "geo_distance" : {
-                            "distance" : "${distance}km",
-                            "location" : $util.toJson($ctx.args.location)
-                        }
-                    }
-                }
+  "version": "2017-02-28",
+  "operation": "GET",
+  "path": "$indexPath.toLowerCase()",
+  "params": {
+    "body": {
+      "query": {
+        "bool": {
+          "must": {
+            "match_all": {}
+          },
+          "filter": {
+            "geo_distance": {
+              "distance": "${distance}km",
+              "location": $util.toJson($ctx.args.location)
             }
+          }
         }
+      }
     }
+  }
 }
 ```
 
@@ -456,18 +456,18 @@ An index mapping tells Elasticsearch how it should treat the data that you are t
 
 Make sure you tell Elasticsearch that your location field is a *geo_point* before creating objects in the index because otherwise you will need delete the index and try again. Go to the [Amazon Elasticsearch Console](https://console.aws.amazon.com/es/home) and find the Elasticsearch domain that contains this environment's GraphQL API ID. Click on it and open the kibana link. To get kibana to show up you need to install a browser extension such as [AWS Agent](https://addons.mozilla.org/en-US/firefox/addon/aws-agent/) and configure it with your AWS profile's public key and secret so the browser can sign your requests to kibana for security reasons. Once you have kibana open, click the "Dev Tools" tab on the left and run the commands below using the in browser console.
 
-```
+```text
 # Create the /todo index if it does not exist
 PUT /todo
 
 # Tell Elasticsearch that the location field is a geo_point
 PUT /todo/_mapping/doc
 {
-    "properties": {
-        "location": {
-            "type": "geo_point"
-        }
+  "properties": {
+    "location": {
+      "type": "geo_point"
     }
+  }
 }
 ```
 

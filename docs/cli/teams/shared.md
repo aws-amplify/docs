@@ -9,12 +9,14 @@ You have two independent environments (`main` & `dev`) in the cloud and have cor
 cd <project-dir>
 amplify init
 ```
+
 <amplify-callout warning>
 
-Ensure the root of your project has the `amplify` folder set up in order to be able to re-use existing environments. 
+Ensure the root of your project has the `amplify` folder set up in order to be able to re-use existing environments.
 
-If the **team-provider-info.json** file is missing: 
-1. Backup and remove the `amplify` folder 
+If the **team-provider-info.json** file is missing:
+
+1. Backup and remove the `amplify` folder
 2. Pull the environment from the root of your project folder using the `amplify pull --appId <app-id> --envName <env-name>` command displayed in the Amplify Console for your application
 
 </amplify-callout>
@@ -47,30 +49,30 @@ Inside the `amplify` directory file-structure, you will observe a **team-provide
 
 ```json
 {
-    "dev": {
-        "awscloudformation": {
-            "AuthRoleName": "multenvtest-20181115101929-authRole",
-            "UnauthRoleArn": "arn:aws:iam::132393967379:role/multenvtest-20181115101929-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::132393967379:role/multenvtest-20181115101929-authRole",
-            "Region": "us-east-1",
-            "DeploymentBucketName": "multenvtest-20181115101929-deployment",
-            "UnauthRoleName": "multenvtest-20181115101929-unauthRole",
-            "StackName": "multenvtest-20181115101929",
-            "StackId": "arn:aws:cloudformation:us-east-1:132393967379:stack/multenvtest-20181115101929/fc7b1010-e902-11e8-a9bd-50fae97e0835"
-        }
-    },
-    "main": {
-        "awscloudformation": {
-            "AuthRoleName": "multenvtest-20181115102119-authRole",
-            "UnauthRoleArn": "arn:aws:iam::345090917734:role/multenvtest-20181115102119-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::345090917734:role/multenvtest-20181115102119-authRole",
-            "Region": "us-east-1",
-            "DeploymentBucketName": "multenvtest-20181115102119-deployment",
-            "UnauthRoleName": "multenvtest-20181115102119-unauthRole",
-            "StackName": "multenvtest-20181115102119",
-            "StackId": "arn:aws:cloudformation:us-east-1:345090917734:stack/multenvtest-20181115102119/3e907b70-e903-11e8-a18b-503acac41e61"
-        }
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "multenvtest-20181115101929-authRole",
+      "UnauthRoleArn": "arn:aws:iam::132393967379:role/multenvtest-20181115101929-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::132393967379:role/multenvtest-20181115101929-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "multenvtest-20181115101929-deployment",
+      "UnauthRoleName": "multenvtest-20181115101929-unauthRole",
+      "StackName": "multenvtest-20181115101929",
+      "StackId": "arn:aws:cloudformation:us-east-1:132393967379:stack/multenvtest-20181115101929/fc7b1010-e902-11e8-a9bd-50fae97e0835"
     }
+  },
+  "main": {
+    "awscloudformation": {
+      "AuthRoleName": "multenvtest-20181115102119-authRole",
+      "UnauthRoleArn": "arn:aws:iam::345090917734:role/multenvtest-20181115102119-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::345090917734:role/multenvtest-20181115102119-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "multenvtest-20181115102119-deployment",
+      "UnauthRoleName": "multenvtest-20181115102119-unauthRole",
+      "StackName": "multenvtest-20181115102119",
+      "StackId": "arn:aws:cloudformation:us-east-1:345090917734:stack/multenvtest-20181115102119/3e907b70-e903-11e8-a18b-503acac41e61"
+    }
+  }
 }
 ```
 

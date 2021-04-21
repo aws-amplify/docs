@@ -14,17 +14,16 @@ The `@predictions` directive allows you to query an orchestration of AI/ML servi
 The supported actions in this directive are included in the definition.
 
 ```graphql
-  directive @predictions(actions: [PredictionsActions!]!) on FIELD_DEFINITION
-  enum PredictionsActions {
-    identifyText # uses Amazon Rekognition to detect text
-    identifyLabels # uses Amazon Rekognition to detect labels
-    convertTextToSpeech # uses Amazon Polly in a lambda to output a presigned url to synthesized speech
-    translateText # uses Amazon Translate to translate text from source to target language
-  }
+directive @predictions(actions: [PredictionsActions!]!) on FIELD_DEFINITION
+enum PredictionsActions {
+  identifyText # uses Amazon Rekognition to detect text
+  identifyLabels # uses Amazon Rekognition to detect labels
+  convertTextToSpeech # uses Amazon Polly in a lambda to output a presigned url to synthesized speech
+  translateText # uses Amazon Translate to translate text from source to target language
+}
 ```
 
 ### Usage
-
 
 Given the following schema a query operation is defined which will do the following with the provided image.
 
@@ -62,6 +61,7 @@ query SpeakTranslatedImageText($input: SpeakTranslatedImageTextInput!) {
 ```
 
 A code example of this using the JS Library:
+
 ```js
 import React, { useState } from 'react';
 import Amplify, { Storage, API, graphqlOperation } from 'aws-amplify';
@@ -130,6 +130,7 @@ export default App;
 ```
 
 ### How it works
+
 From example schema above, `@predictions` will create resources to communicate with Amazon Rekognition, Translate and Polly.
 For each action the following is created:
 
@@ -140,13 +141,14 @@ For each action the following is created:
 Finally a resolver is created for `speakTranslatedImageText` which is a pipeline resolver composed of AppSync functions which are defined by the action list provided in the directive.
 
 ### Actions
+
 Each of the actions described in the @predictions definition section can be used individually, as well as in a sequence. Sequence of actions supported today are as follows:
 
 - `identifyText -> translateText -> convertTextToSpeech`
 - `identifyLabels -> translateText -> convertTextToSpeech`
 - `translateText -> convertTextToSpeech`
 
-
 ### Action resources
+
 - [`translateText` Supported Language Codes](https://docs.aws.amazon.com/translate/latest/dg/what-is.html#what-is-languages)
 - [`convertTextToSpeech` Supported Voice IDs](https://docs.aws.amazon.com/polly/latest/dg/voicelist.html)

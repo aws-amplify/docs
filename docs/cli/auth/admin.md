@@ -5,7 +5,7 @@ description: Learn how to expose Administrative actions for your Cognito User Po
 
 Admin Actions allow you to execute queries and operations against users and groups in your Cognito user pool.
 
-For example, the ability to list all users in a Cognito User Pool may provide useful for the administrative panel of an app if the logged-in user is a member of a specific Group called "Admins". 
+For example, the ability to list all users in a Cognito User Pool may provide useful for the administrative panel of an app if the logged-in user is a member of a specific Group called "Admins".
 
 > This is an advanced feature that is not recommended without an understanding of the underlying architecture. The associated infrastructure which is created is a base designed for you to customize for your specific business needs. We recommend removing any functionality which your app does not require.
 
@@ -31,6 +31,7 @@ This will configure an API Gateway endpoint with a Cognito Authorizer that accep
 ## Admin Queries API
 
 The default routes and their functions, HTTP methods, and expected parameters are below
+
 - `addUserToGroup`: Adds a user to a specific Group. Expects `username` and `groupname` in the POST body.
 - `removeUserFromGroup`: Removes a user from a specific Group. Expects `username` and `groupname` in the POST body.
 - `confirmUserSignUp`: Confirms a users signup. Expects `username` in the POST body.

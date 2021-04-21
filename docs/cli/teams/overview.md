@@ -22,6 +22,7 @@ Multiple developers on a team can also share and manipulate the environment as w
 ![Image](~/images/AmplifyEnvMultDevelopers.jpg)
 
 You can alternatively, have developers setup their own isolated replica of these environments in different AWS account. To do this simply:
+
 1. Clone the existing project
 2. Run `amplify env add` and set up a new environment (e.g. "mydev") with that developer's account and AWS profile
 3. Deploy with `amplify push`
@@ -37,7 +38,7 @@ The Amplify CLI supports basic web application hosting with Amazon S3 and CloudF
 Create a Git repository for your project if you haven't already. It is recommended managing separate Git branches for different environments (try to have the same branch name as your environment name to avoid confusion).
 From the root of your project, execute the following commands:
 
-```
+```console
 $ amplify init
 ? Enter a name for the environment: prod
 // Provide AWS Profile info
@@ -53,7 +54,7 @@ $ git push -u origin prod
 
 Once you have your 'prod' branch setup in Git, set up a 'dev' environment in your Amplify project (which would be based on your 'prod' environment), and then walk through the following steps to create a corresponding git branch for it.
 
-```
+```console
 $ amplify env add
 ? Do you want to use an existing environment? No
 ? Enter a name for the environment dev
@@ -64,7 +65,7 @@ This will set up another environment for the project in the cloud. The backend-c
 
 Now push the changes to the 'prod' branch (you would just see changes to the team-provider-info.json file - when running a `git status` command, which has cumulative stack information for all the project environments which are useful when you want to share the same backend within a team). After this, let's create a new git branch - 'dev' corresponding to the new environment we just created.
 
-```
+```console
 $ git add .
 $ git commit -m "Creation of a dev amplify environment"
 $ git push -u origin prod

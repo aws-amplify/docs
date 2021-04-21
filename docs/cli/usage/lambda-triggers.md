@@ -44,7 +44,7 @@ $ Do you want to enable any of the following capabilities?
     ◯ Override ID Token Claims
 ```
 
-2.  In the manual Auth CLI workflow, you will be given the chance to select the options above, but will also be able to manually configure Lambda Trigger templates:
+2. In the manual Auth CLI workflow, you will be given the chance to select the options above, but will also be able to manually configure Lambda Trigger templates:
 
 ```console
 $ Do you want to configure Lambda Triggers for Cognito? Yes
@@ -166,6 +166,7 @@ The following code sample demonstrates how to create a custom ConfirmSignIn comp
 > Be sure to follow all instructions for [setting up an Angular application](~/start/start.md) with aws-amplify-angular, and [configure your Amplify instance](~/lib/auth/switch-auth.md) to use the CUSTOM_AUTH flow.
 
 app.module.ts:
+
 ```js
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -192,6 +193,7 @@ export class AppModule { }
 ```
 
 app.component.ts:
+
 ```js
 import { Component } from '@angular/core';
 import { AmplifyService } from 'aws-amplify-angular';
@@ -208,13 +210,13 @@ export class AppComponent {
   user: any;
   constructor( private amplifyService: AmplifyService ) {
     this.amplifyService.authStateChange$
-        .subscribe(authState => {
-            this.confirmSignIn = authState.state === 'customConfirmSignIn';
-            if (!authState.user) {
-                this.user = null;
-            } else {
-                this.user = authState.user;
-            }
+      .subscribe(authState => {
+        this.confirmSignIn = authState.state === 'customConfirmSignIn';
+        if (!authState.user) {
+          this.user = null;
+        } else {
+          this.user = authState.user;
+        }
     });
   }
   submitSignIn(e) {
@@ -227,10 +229,11 @@ export class AppComponent {
 ```
 
 app.component.html
+
 ```html
 <amplify-authenticator [hide]="['ConfirmSignIn']"></amplify-authenticator>
 <div  *ngIf="confirmSignIn">
-    <re-captcha (resolved)="submitSignIn($event)" siteKey="your-client-side-google-recaptcha-key"></re-captcha>
+  <re-captcha (resolved)="submitSignIn($event)" siteKey="your-client-side-google-recaptcha-key"></re-captcha>
 </div>
 ```
 
@@ -239,6 +242,7 @@ app.component.html
 The following code sample demonstrates how to create a custom ConfirmSignIn component in Vue using the vue-recaptcha npm package.
 
 App.vue
+
 ```javascript
 <template>
   <div id="app">
@@ -305,6 +309,7 @@ export default {
 ```
 
 main.js
+
 ```js
 import Vue from 'vue'
 import App from './App.vue'
@@ -329,6 +334,7 @@ new Vue({
 ```
 
 Finally, in public/index.html add the following script:
+
 ```html
 <script src="https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit" async defer></script>
 ```
@@ -363,7 +369,6 @@ import Amplify, { Auth, Hub } from 'aws-amplify';
 import awsconfig from './aws-exports';
 import { Authenticator, SignUp, SignIn, Greetings, AuthPiece } from 'aws-amplify-react';
 
-
 Amplify.configure(awsconfig);
 
 class MyCustomConfirmation extends AuthPiece {
@@ -378,10 +383,7 @@ class MyCustomConfirmation extends AuthPiece {
   }
 }
 
-
-
 class App extends React.Component {
-
   render() {
     return (
       <div className="App">
@@ -410,6 +412,7 @@ The following is an example of how to configure the aws-amplify-angular authenti
 Be sure to follow all instructions for [setting up an Angular application](~/start/start.md) with aws-amplify-angular.
 
 app.component.ts:
+
 ```js
 import { Component } from '@angular/core';
 import { AmplifyService } from 'aws-amplify-angular';
@@ -425,25 +428,25 @@ export class AppComponent {
   user: any;
   constructor( private amplifyService: AmplifyService ) {
     this.amplifyService.authStateChange$
-        .subscribe(authState => {
-            this.confirmSignUp = authState.state === 'confirmSignUp';
-            if (!authState.user) {
-                this.user = null;
-            } else {
-                this.user = authState.user;
-            }
+    .subscribe(authState => {
+      this.confirmSignUp = authState.state === 'confirmSignUp';
+      if (!authState.user) {
+        this.user = null;
+      } else {
+        this.user = authState.user;
+      }
     });
   }
 }
 ```
 
 app.component.html:
+
 ```html
 <amplify-authenticator [hide]="['ConfirmSignUp']"></amplify-authenticator>
 <div  *ngIf="confirmSignUp">
   Check your email account for a confirmation message!
 </div>
-
 ```
 
 #### Vue Sample
@@ -512,7 +515,6 @@ This trigger allows you to define a Cognito group to which a user will be added 
 
 The trigger will check for the existence of the group in your User Pool, and will create the group if it is not present.
 
-
 ### Email Domain Filtering (deny list) and Email Domain Filtering (allow list)
 
 These two templates allow you to define email domains which are allowed or disallowed (respectively). They can be used in tandem or individually.  
@@ -523,17 +525,17 @@ This template uses the Pre Token Generation trigger and allows you to add, overr
 
 You will need to manually edit the template to define the claims that you wish to manipulate. The template currently contains dummy values as examples.
 
-
 ## S3 Lambda Triggers
 
 You can associate a trigger to an S3 bucket managed by the Amplify CLI, by following the `amplify add/update storage` flows. When attempting to add/update an S3 storage resource, you would get the following CLI prompts to add a trigger for it.
 
-```bash
+```console
 ? Do you want to add a Lambda Trigger for your S3 Bucket? Yes
 ? Select from the following options
 ❯ Choose an existing function from the project
   Create a new function
 ```
+
 As you can see in the prompt above, you can either choose to use an existing Lambda function created using the CLI as a part of this project using `amplify add function` or create a new function with a base Lambda function to handle S3 events. We also auto-populate the IAM policies required by the Lambda execution role of the newly created function to access the S3 bucket.
 
 ***Note***: You can associate only one Lambda Function trigger to an S3 bucket.
@@ -542,15 +544,14 @@ As you can see in the prompt above, you can either choose to use an existing Lam
 
 You can associate a Lambda trigger with a DynamoDB table, managed by the Amplify CLI. There are two ways by which DynamoDB is provisioned by the Amplify CLI
 
-- As a part of the [Storage category](~/cli/storage/overview.md#)
-- As a part of the [GraphQL API (types with @model annotation)](~/cli/graphql-transformer/model.md)
-
+* As a part of the [Storage category](~/cli/storage/overview.md#)
+* As a part of the [GraphQL API (types with @model annotation)](~/cli/graphql-transformer/model.md)
 
 ### As a part of the Storage category
 
 You can add and manage a DynamoDB table to your Amplify project using the amplify add/update storage flows. When attempting to add/update a DynamoDB storage resource, you would get the following CLI prompts to add a trigger for it.
 
-```bash
+```console
 ? Do you want to add a Lambda Trigger for your Table? Yes
 ? Select from the following options (Use arrow keys)
 ❯ Choose an existing function from the project
@@ -566,12 +567,12 @@ As you can see in the prompt above, you can either choose to use an already exis
 You can also associate a Lambda trigger with any of the GraphQL transformer schema's DynamoDB backed @models which you can add via `amplify add api`. GraphQL mutations that result in DynamoDB item changes will in turn result in change records published to DynamoDB streams that can trigger a Lambda function. To create such a function, start with adding a new lambda function with:
 
 ```bash
-$ amplify add function
+amplify add function
 ```
 
 Proceed by providing a name and selecting a Lambda Trigger template:
 
-```bash
+```console
 ? Provide a friendly name for your resource to be used as a label for this category in the project: testtrigger
 ? Provide the AWS Lambda function name: mytrigger
 ? Choose the function template that you want to use:
@@ -591,12 +592,13 @@ Then select `Amazon DynamoDB Stream` when prompted with event source question.
 
 Now select `API category graphql @model backed DynamoDB table`.
 
-```
+```console
 ?
 > Use API category graphql @model backed DynamoDB table(s) in the current Amplify project
   Use storage category DynamoDB table configured in the current Amplify project
   Provide the ARN of DynamoDB stream directly
 ```
+
 After the above question, you can select one of the types annotated by @model for which you want to add a trigger for.
 
 On completion of the above mentioned flow, a boilerplate lambda function trigger will be created in your `amplify/backend/function` directory with the following template:
@@ -629,12 +631,12 @@ const records = event.Records.map(record => ({
 Amplify Analytics category Kinesis stream resource can be also used as an event source for Lambda triggers. Event published to Kinesis stream will trigger a lambda function. You can add a Kinesis stream to your Amplify project by going through the `amplify add analytics` flow. To create a Lambda trigger for the Kinesis Stream, start with adding a new lambda function:
 
 ```bash
-$ amplify add function
+amplify add function
 ```
 
 Proceed by providing a name and selecting a Lambda Trigger template:
 
-```bash
+```console
 ? Provide a friendly name for your resource to be used as a label for this category in the project: testtrigger
 ? Provide the AWS Lambda function name: mytrigger
 ? Choose the function template that you want to use:
@@ -646,7 +648,7 @@ Proceed by providing a name and selecting a Lambda Trigger template:
 
 Then select `Amazon Kinesis Stream` when prompted with event source question and select the resource.
 
-```bash
+```console
 ? What event source do you want to associate with Lambda trigger (Use arrow keys)
   Amazon DynamoDB Stream
 ❯ Amazon Kinesis Stream
@@ -654,6 +656,5 @@ Then select `Amazon Kinesis Stream` when prompted with event source question and
 ❯ Use Analytics category kinesis stream in the current Amplify project
   Provide the ARN of Kinesis stream directly
 ```
-
 
 After the completion of the above flow, a Lambda function will be created in your `amplify/backend/function` directory and will be invoked when a new event is pushed to a Kinesis stream. Please refer to [Working with the API](~/lib/analytics/getting-started.md) to learn more about publishing your events to Kinesis stream.
