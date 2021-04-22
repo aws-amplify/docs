@@ -61,7 +61,7 @@ amplify add api
   > Do you want to restrict API access (Y/n)    # Will use Amazon Cognito if Yes is selected
 ```
 
-Note the environment variables printed to the screen. If you choose a different database table name so that your variables are different from `STORAGE_POSTS_NAME` then update the `TableName` variable at the top of `./amplify/backend/api/<apiname>/src/DynamoDBActions.js` appropriately.
+Note the environment variables printed to the screen. If you choose a different database table name so that your variables are different from `STORAGE_POSTS_NAME` then update the `TableName` variable at the top of `amplify/backend/api/<apiname>/src/DynamoDBActions.js` appropriately.
 
 Finally run `amplify push` to deploy the backend:
 
@@ -98,7 +98,7 @@ You will need an [`EXPOSE` statement in your Dockerfile](https://docs.docker.com
 
 ### Local development and testing
 
-It is recommended to test your application locally first before deploying with `amplify push`, otherwise your Fargate Task may fail to start if there are application issues such as missing dependencies. With a Single Dockerfile you can do this by navigating to `./amplify/backend/api/<name>/src` and running `docker build -t` to build and tag your image followed by `docker run` to launch your container similar to the below example:
+It is recommended to test your application locally first before deploying with `amplify push`, otherwise your Fargate Task may fail to start if there are application issues such as missing dependencies. With a Single Dockerfile you can do this by navigating to `amplify/backend/api/<name>/src` and running `docker build -t` to build and tag your image followed by `docker run` to launch your container similar to the below example:
 
 ```console
 $ cd ./amplify/backend/api/<name>/src
@@ -107,11 +107,11 @@ $ docker run -p 8080:8080 -d node-app:1.0
 $ curl -i localhost:8080  ## Alternatively open in a web browser
 ```
 
-You can also run your application using standard tooling such as running `node index.js` or `python server.py` in Node or Python. Once you are satisfied with the Dockerfile and your application code, run `amplify push` and the `./amplify/backend/api/<name>/src` will be bundled for the build pipeline to run and deploy your image to Fargate. At the end of the deployment the endpoint URL will be printed and client configuration files will be updated.
+You can also run your application using standard tooling such as running `node index.js` or `python server.py` in Node or Python. Once you are satisfied with the Dockerfile and your application code, run `amplify push` and the `amplify/backend/api/<name>/src` directory will be bundled for the build pipeline to run and deploy your image to Fargate. At the end of the deployment the endpoint URL will be printed and client configuration files will be updated.
 
 ## Deploy multiple containers
 
-If you wish to deploy multiple containers into Fargate to define your API, Amplify will parse a Docker Compose file (`docker-compose.yml`) in your `./amplify/backend/api/<name>/src` directory to define the backend service. If you are unfamiliar with using a Docker Compose review the [Docker Compose getting started guide](https://docs.docker.com/compose/gettingstarted/) or or add an API with an Amplify-provided template.
+If you wish to deploy multiple containers into Fargate to define your API, Amplify will parse a Docker Compose file (`docker-compose.yml`) in your `amplify/backend/api/<name>/src` directory to define the backend service. If you are unfamiliar with using a Docker Compose review the [Docker Compose getting started guide](https://docs.docker.com/compose/gettingstarted/) or or add an API with an Amplify-provided template.
 
 A Compose file includes the logical container names, build & images settings, launch commands, ports, and more. An example Docker Compose file is below:
 
@@ -141,7 +141,7 @@ networks:
   private:
 ```
 
-This `docker-compose.yml` file would be placed in your `./amplify/backend/api/<name>/src` when using the "bring your own container" flow. It defines two containers called **express** and **python** which each have a Dockerfile in two sub directories along with the application source files
+This `docker-compose.yml` file would be placed in your `amplify/backend/api/<name>/src` when using the "bring your own container" flow. It defines two containers called **express** and **python** which each have a Dockerfile in two sub directories along with the application source files
 
 ```text
 ./amplify/backend/api/<name>/src
@@ -158,7 +158,7 @@ This `docker-compose.yml` file would be placed in your `./amplify/backend/api/<n
 
 ### Local development and testing
 
-As with the single container workflow, it is recommended to test your application locally first before deploying with `amplify push`, otherwise your Fargate Task may fail to start if there are application issues such as missing dependencies. Navigate to `./amplify/backend/api/<name>/src` and run `docker-compose up` which will build your images and start them locally.
+As with the single container workflow, it is recommended to test your application locally first before deploying with `amplify push`, otherwise your Fargate Task may fail to start if there are application issues such as missing dependencies. Navigate to `amplify/backend/api/<name>/src` and run `docker-compose up` which will build your images and start them locally.
 
 ```console
 $ cd ./amplify/backend/api/<name>/src
@@ -254,7 +254,7 @@ module.exports = {
 };
 ```
 
-`secrets` allow you to [pass sensitive data to your containers from AWS Secrets Manager](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data.html). Amplify will do this for you when you populate the `secrets` configuration at the root level of your `docker-compose.yml`. It must be a file name that starts with `.secret-` and cannot be in the `src` directory of `./amplify/backend/api/<name>`, but can be anywhere outside of it including a relative path. It is recommended to place your secrets in a `./amplify/backend/api/<name>/secrets` directory. Every `.secret-` file has only one string value and will referenced by the name you provide in the `docker-compose.yml` entry.
+`secrets` allow you to [pass sensitive data to your containers from AWS Secrets Manager](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data.html). Amplify will do this for you when you populate the `secrets` configuration at the root level of your `docker-compose.yml`. It must be a file name that starts with `.secret-` and cannot be in the `src` directory of `amplify/backend/api/<name>`, but can be anywhere outside of it including a relative path. It is recommended to place your secrets in a `amplify/backend/api/<name>/secrets` directory. Every `.secret-` file has only one string value and will referenced by the name you provide in the `docker-compose.yml` entry.
 
 When you perform an `amplify push` you will be prompted to store the secrets in the cloud or bypass (which may be the case in team workflows when one person controls secrets). The name of the secret will be available in your application code similar to if you specified other variables via the `environment` configuration:
 
@@ -323,17 +323,17 @@ Amplify creates APIs as an [ECS Service](https://docs.aws.amazon.com/AmazonECS/l
 
 #### Fully Managed
 
-The fully managed workflow does not require you to have a source control repository or even Docker installed on your local workstation in order to build and deploy a container to Fargate. Amplify will package the contents of `./amplify/backend/api/<name>/src` and place it onto an S3 deployment bucket. This will trigger a Code Pipeline process which builds your container(s), stores the results in ECR, and deploys them to Fargate.
+The fully managed workflow does not require you to have a source control repository or even Docker installed on your local workstation in order to build and deploy a container to Fargate. Amplify will package the contents of `amplify/backend/api/<name>/src` and place it onto an S3 deployment bucket. This will trigger a Code Pipeline process which builds your container(s), stores the results in ECR, and deploys them to Fargate.
 
 ![Fully Managed Pipeline](~/images/containers/build-workflow.png)
 
-Fore single containers only one ECR entry and deployment will take place. When using a Dockerfile, a build and push to ECR will take place for each container that has a corresponding `build` entry. For containers that only have an `image` entry no ECR push will take place and this image will be launched directly into the Fargate Task. As you make changes to your source code in `./amplify/backend/api/<name>/src`, Amplify will detect any changes when you run `amplify push`, package the new files together and place them on S3. This will start another run of the build and deploy pipeline automatically updating your Fargate Service.
+Fore single containers only one ECR entry and deployment will take place. When using a Dockerfile, a build and push to ECR will take place for each container that has a corresponding `build` entry. For containers that only have an `image` entry no ECR push will take place and this image will be launched directly into the Fargate Task. As you make changes to your source code in `amplify/backend/api/<name>/src`, Amplify will detect any changes when you run `amplify push`, package the new files together and place them on S3. This will start another run of the build and deploy pipeline automatically updating your Fargate Service.
 
 #### GitHub Source
 
 If you are using GitHub as your source repository for an Amplify project, you can use this to invoke the pipeline instead of having Amplify package and upload source to S3. In this use case you will need to provide a [GitHub personal access token](https://docs.github.com/en/enterprise/2.17/user/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) which will be stored in Secrets Manager as well as the full URL to your repository folder (or the branch). For instance if you push an Amplify project to GitHub called **MyFargateProject** you would use **<https://github.com/username/MyFargateProject/tree/main/amplify/backend/api/APINAME/src>**. `repo` and `admin:repo_hook` scopes will be needed. Please see the [Code Pipeline documentation for more details](https://docs.aws.amazon.com/codepipeline/latest/userguide/appendix-github-oauth.html).
 
-Code Pipeline will use this for accessing the GitHub repo of your choosing and invoke the build and deploy to your Fargate Service, just as with the Fully Managed flow. Your repository must have the same structure as you would have had locally in `./amplify/backend/api/APINAME/src`, that is to say:
+Code Pipeline will use this for accessing the GitHub repo of your choosing and invoke the build and deploy to your Fargate Service, just as with the Fully Managed flow. Your repository must have the same structure as you would have had locally in `amplify/backend/api/APINAME/src`, that is to say:
 
 - Single container needs to have a Dockerfile and all other required files (package.json, etc)
 - Multiple containers needs to have a `docker-compose.yml` and related file structure

@@ -41,14 +41,14 @@ o NodeJS
 o Python
 ```
 
-Next, you'll be guided through a workflow to provide a **layer name**, and select **supported runtimes**. Currently, Amplify CLI provides NodeJS, and Python runtime support for layers.
+Next, you'll be guided through a workflow to provide a **layer name**, and select **supported runtimes**. Currently Amplify CLI provides NodeJS and Python runtime support for layers.
 
 ```console
 ? The current AWS account will always have access to this layer.
   Optionally, configure who else can access this layer. (Hit <Enter> to skip)
- ◯ Specific AWS accounts
- ◯ Specific AWS organization
- ◯ Public (everyone on AWS can use this layer)
+◯ Specific AWS accounts
+◯ Specific AWS organization
+◯ Public (everyone on AWS can use this layer)
 ```
 
 After that, you'll be asked to configure your **layer's permission**.

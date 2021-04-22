@@ -126,7 +126,7 @@ You’ll see questions as before, but now it will also automatically ask you if 
 
 **Flow 2: Modify GraphQL schema, push, then automatically generate code**
 
-During development, you might wish to update your GraphQL schema and generated code as part of an iterative dev/test cycle. Modify & save your schema in `./amplify/backend/api/<apiname>/schema.graphql` then run:
+During development, you might wish to update your GraphQL schema and generated code as part of an iterative dev/test cycle. Modify & save your schema in `amplify/backend/api/<apiname>/schema.graphql` then run:
 
 ```bash
 amplify push

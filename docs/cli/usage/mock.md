@@ -58,7 +58,7 @@ amplify mock storage
 
 To use an iOS application with the local S3 endpoint you will need to [modify your Info.plist file](#ios-config). To use an Android application with the local S3 endpoint you will need an extra [configuration in your AndroidManifest.xml](#android-config).
 
-For DynamoDB storage, setup is automatically done when creating a GraphQL API with no action is needed on your part. Resources for the mocked data, such as the DynamoDB Local database or objects uploaded using the local S3 endpoint, inside your project under `./amplify/mock-data`.
+For DynamoDB storage, setup is automatically done when creating a GraphQL API with no action is needed on your part. Resources for the mocked data, such as the DynamoDB Local database or objects uploaded using the local S3 endpoint, inside your project under `amplify/mock-data`.
 
 ## Function mocking setup
 
@@ -282,7 +282,7 @@ When your API is configured to use Cognito User Pools, the local console provide
 
 ## GraphQL Resolver Debugging
 
-You can edit VTL templates locally to see if they contain errors, including the line numbers causing problems, before pushing to AppSync. With the local API running navigate to `./amplify/backend/api/APINAME/resolvers` where `APINAME` is the logical name that you used when running `$amplify add api`. You will see a list of resolver templates that the Transformer generated. Modify any of them and save, and they will be immediately loaded into the locally running API service with a message `Mapping template change detected. Reloading.`. If there is an error you will see something such as the following:
+You can edit VTL templates locally to see if they contain errors, including the line numbers causing problems, before pushing to AppSync. With the local API running navigate to `amplify/backend/api/APINAME/resolvers` where `APINAME` is the logical name that you used when running `$amplify add api`. You will see a list of resolver templates that the Transformer generated. Modify any of them and save, and they will be immediately loaded into the locally running API service with a message `Mapping template change detected. Reloading.`. If there is an error you will see something such as the following:
 
 ```console
 Reloading failed Error: Parse error on line 1:
@@ -294,7 +294,7 @@ If you stop the server locally, for instance to push your changes to the cloud, 
 
 ### Modify schema and test again
 
-As you are developing your app, you can always modify the GraphQL schema which lives in `./amplify/backend/api/APINAME/schema.graphql`. You can modify any types using any of the supported directives and save this file, while the local server is still running. The changes will be detected and if your schema is valid they will be hot reloaded into the local API. If there is an error in the schema an error will be printed to the terminal like so:
+As you are developing your app, you can always modify the GraphQL schema which lives in `amplify/backend/api/APINAME/schema.graphql`. You can modify any types using any of the supported directives and save this file, while the local server is still running. The changes will be detected and if your schema is valid they will be hot reloaded into the local API. If there is an error in the schema an error will be printed to the terminal like so:
 
 ```console
 Unknown directive "mode".

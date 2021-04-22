@@ -15,7 +15,7 @@ directive @function(name: String!, region: String) on FIELD_DEFINITION
 
 ### Usage
 
-The @function directive allows you to quickly connect lambda resolvers to an AppSync API. You may deploy the AWS Lambda functions via the Amplify CLI, AWS Lambda console, or any other tool. To connect an AWS Lambda resolver, add the `@function` directive to a field in your `schema.graphql`.
+The `@function` directive allows you to quickly connect lambda resolvers to an AppSync API. You may deploy the AWS Lambda functions via the Amplify CLI, AWS Lambda console, or any other tool. To connect an AWS Lambda resolver, add the `@function` directive to a field in your `schema.graphql`.
 
 Let's assume you have deployed an *echo* function with the following contents:
 
@@ -25,7 +25,7 @@ exports.handler =  async function(event, context){
 };
 ```
 
-**If you deployed your function using the 'amplify function' category**
+**If you deployed your function using the `function` category**
 
 The Amplify CLI provides support for maintaining multiple environments out of the box. When you deploy a function via `amplify add function`, it will automatically add the environment suffix to your Lambda function name. For example if you create a function named **echofunction** using `amplify add function` in the **dev** environment, the deployed function will be named **echofunction-dev**. The `@function` directive allows you to use `${env}` to reference the current Amplify CLI environment.
 

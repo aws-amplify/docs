@@ -27,7 +27,7 @@ Amplify CLI has support for multiple environments (e.g. dev, qa, and prod). When
 
 The AWS Amplify CLI uses AWS CloudFormation and nested stacks. This allows you to add or modify configurations locally before you push them for execution in your account. It also takes any “magic” away and allows full transparency in the process of customizing your resources. To see the status of the deployment at any time, run amplify status.
 
-For example, running `amplify add auth` will bootstrap a CloudFormation template in the `amplify>auth` folder. The infrastructure template can be re-used in CI/CD processes (either with the Amplify Console or your own build process), and can be used to replicate stacks.
+For example, running `amplify add auth` will bootstrap a CloudFormation template in the `amplify/backend/auth` folder. The infrastructure template can be re-used in CI/CD processes (either with the Amplify Console or your own build process), and can be used to replicate stacks.
 
 **Note:** We strongly advise against manually updating or deleting resources created by AWS CloudFormation; it may cause the stack to be stuck in a state that can no longer be updated. Among those operations, manually updating or deleting **Cognito** resources (created by the Amplify Auth category) are considered especially dangerous and you may lose user data or break auth-related functionalities in your app.
 

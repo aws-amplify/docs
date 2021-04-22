@@ -25,9 +25,9 @@ The `init` command goes through the following steps:
 
 To clone a sample amplify fullstack project, execute the following command inside an empty directory:
 
-`amplify init --app <github url>`
+`amplify init --app <github-url>`
 
-where the github url is a valid sample amplify project repository. Click [here](~/cli/usage/headless.md#--app) for more details.
+where `<github-url>` is a valid sample Amplify project repository. Click [here](~/cli/usage/headless.md#--app) for more details.
 
 ## Common CLI commands
 
@@ -47,7 +47,7 @@ The provider logs the information of the root stack and the resources into the p
 
 ### amplify \<category\> add
 
-Once init is complete, run the command `amplify \<category\> add` to add resources of a category to the cloud. This will place a CloudFormation template for the resources of this category in the category's subdirectory `amplify/backend/\<category\>` and insert its reference into the above-mentioned root stack as the nested child stack. When working in teams, it is good practice to run an `amplify pull` before modifying the backend categories.
+Once init is complete, run the command `amplify <category> add` to add resources of a category to the cloud. This will place a CloudFormation template for the resources of this category in the category's subdirectory `amplify/backend/<category>` and insert its reference into the above-mentioned root stack as the nested child stack. When working in teams, it is good practice to run an `amplify pull` before modifying the backend categories.
 
 ### amplify push
 
