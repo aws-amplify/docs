@@ -7,7 +7,7 @@ description: Use these Amplify CLI commands to manage a team workflow with multi
 
 Amplify environments help you manage your local and cloud environments to mimic your team workflows. Common tasks include:
 
-- Manage environments to support development processes. Eg: development, staging, production
+- Manage environments to support development processes (e.g., development, staging, production)
 - Test new features safely
 - Share environments between team members
 - Support team workflows

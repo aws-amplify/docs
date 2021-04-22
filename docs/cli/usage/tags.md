@@ -40,15 +40,15 @@ There are predefined tags that let you be more specific with information about t
 
 The 2 predefined tags are the following:
 
-- {project-env} - Refers to the project environment (e.g. prod, env, etc)
-- {project-name} - Refers to the current project name (e.g mytestproject)
+- {project-env} - Refers to the project environment (e.g., prod, env, etc)
+- {project-name} - Refers to the current project name (e.g., mytestproject)
 
 There are many different cases in which these tag variables can be used. This is an example of how they can be used together and what the output would be:
 
 ```json
 [{
-    "Key": "myawesomekey",
-    "Value": "myvalue-{project-name}-{project-env}"
+  "Key": "myawesomekey",
+  "Value": "myvalue-{project-name}-{project-env}"
 }]
 ```
 
@@ -72,7 +72,7 @@ Tag values are not required, thus they can be empty.
 
 ## Adding and updating tags
 
-You can update or add any additional tags in the `tags.json` file inside the `amplify/` folder by editing the file itself. The file must in a JSON format and should follow this structure:
+You can update or add any additional tags in the `tags.json` file inside the `amplify/backend/` folder by editing the file itself. The file must in a JSON format and should follow this structure:
 
 ```json
 [{

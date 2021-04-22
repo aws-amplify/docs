@@ -78,4 +78,4 @@ Inside the `amplify` directory file-structure, you will observe a **team-provide
 
 This file is to be shared between team members, so that they have the ability to push/provision resources to the same CloudFormation stack and that way teams can work in a push/pull way and can always be in sync with the latest state of the project in the cloud.
 
-If you want to share a project publicly and open source your serverless infrastructure, you should remove or put the `amplify/team-provider-info.json` file in `.gitignore` file.
+If you want to share a project publicly and open source your serverless infrastructure, you should remove or put the `amplify/team-provider-info.json` file in the `.gitignore` file.

@@ -5,7 +5,7 @@ description: Every Amplify backend environment is a container for the categories
 
 When you initialize a project, you create an Amplify backend environment. Every Amplify backend environment is a container for the categories added to your project. To deploy updates to an environment, run `amplify push`. In teams where multiple members are working on the same backend, it is good practice to run `amplify pull` to fetch changes from upstream before beginning work on new backend features. View the list of backend environments in your cloud project by visiting the [Amplify Console](https://console.aws.amazon.com/amplify).
 
-For multiple environments, Amplify matches the standard Git workflow where you switch between different branches using the `env checkout` command - similar to running `git checkout BRANCHNAME`, run `amplify env checkout ENVIRONMENT_NAME` to switch between environments. The diagram below shows a workflow of how to initialize new environments when creating new git branches.
+For multiple environments, Amplify matches the standard Git workflow where you switch between different branches using the `env checkout` command -- similar to running `git checkout BRANCHNAME`, run `amplify env checkout ENVIRONMENT_NAME` to switch between environments. The diagram below shows a workflow of how to initialize new environments when creating new git branches.
 
 ![Image](~/images/AmplifyEnvSwitching.jpg)
 
@@ -21,13 +21,13 @@ Multiple developers on a team can also share and manipulate the environment as w
 
 ![Image](~/images/AmplifyEnvMultDevelopers.jpg)
 
-You can alternatively, have developers setup their own isolated replica of these environments in different AWS account. To do this simply:
+You can alternatively, have developers setup their own isolated replica of these environments in a different AWS account. To do this simply:
 
 1. Clone the existing project
 2. Run `amplify env add` and set up a new environment (e.g. "mydev") with that developer's account and AWS profile
 3. Deploy with `amplify push`
 
-This workflow can be used to share complete Amplify projects with people outside of your organization as well by committing the project into a Git repository. If you are doing this remove (or add to the .gitignore) the **team-provider-info.json** which is located in the `amplify` directory. You can learn more about this file [here](~/cli/teams/shared.md#sharing-projects-outside-the-team).
+This workflow can be used to share complete Amplify projects with people outside of your organization as well by committing the project into a Git repository. If you are doing this remove (or add to the `.gitignore` file) the **team-provider-info.json** which is located in the `amplify` directory. You can learn more about this file [here](~/cli/teams/shared.md#sharing-projects-outside-the-team).
 
 ### Continuous deployment and Hosting
 
@@ -63,7 +63,7 @@ $ amplify env add
 
 This will set up another environment for the project in the cloud. The backend-configs and resources are now cloned from the 'prod' environment. Run `amplify push` to provision all the AWS resources for your new environment (dev).
 
-Now push the changes to the 'prod' branch (you would just see changes to the team-provider-info.json file - when running a `git status` command, which has cumulative stack information for all the project environments which are useful when you want to share the same backend within a team). After this, let's create a new git branch - 'dev' corresponding to the new environment we just created.
+Now push the changes to the 'prod' branch (you would just see changes to the team-provider-info.json file -- when running a `git status` command, which has cumulative stack information for all the project environments which are useful when you want to share the same backend within a team). After this, let's create a new git branch -- 'dev' corresponding to the new environment we just created.
 
 ```console
 $ git add .

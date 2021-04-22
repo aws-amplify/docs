@@ -29,17 +29,17 @@ amplify add storage
 ```
 
 ```console
-  > NoSQL Database # Name table “posts”
-  
-  > What would you like to name this column: id
-  
-  ? Please choose the data type: 
-    string 
-  > number 
-    binary
+> NoSQL Database # Name table “posts”
 
-  ? Please choose partition key for the table: (Use arrow keys)
-  > id 
+> What would you like to name this column: id
+
+? Please choose the data type: 
+  string 
+> number 
+  binary
+
+? Please choose partition key for the table: (Use arrow keys)
+> id 
 ```
 
 You can select **no** for all other questions. After this add an API using the REST (or GraphQL) default ExpressJS template and grant it access to this DynamoDB table.
@@ -49,16 +49,16 @@ amplify add api
 ```
 
 ```console
-  > REST
-  > API Gateway + AWS Fargate (Container-based) 
-  > ExpressJS - REST template 
-  ? Do you want to access other resources in this project from your api? Y   # select yes
-  > storage  # select posts table              # select post table and all permissions
-    ◉ create
-    ◉ read
-    ◉ update
-    ◉ delete
-  > Do you want to restrict API access (Y/n)    # Will use Amazon Cognito if Yes is selected
+> REST
+> API Gateway + AWS Fargate (Container-based) 
+> ExpressJS - REST template 
+? Do you want to access other resources in this project from your api? Y   # select yes
+> storage  # select posts table              # select post table and all permissions
+  ◉ create
+  ◉ read
+  ◉ update
+  ◉ delete
+> Do you want to restrict API access (Y/n)    # Will use Amazon Cognito if Yes is selected
 ```
 
 Note the environment variables printed to the screen. If you choose a different database table name so that your variables are different from `STORAGE_POSTS_NAME` then update the `TableName` variable at the top of `amplify/backend/api/<apiname>/src/DynamoDBActions.js` appropriately.
@@ -181,7 +181,7 @@ Using the `docker-compose.yml` example from earlier, you might have the followin
 ```js
 const options = {
   port: 5000,
-  host: 'localhost',  //Loopback interface communication
+  host: 'localhost',  // Loopback interface communication
   method: 'GET',
   path: '/images'
 };
@@ -196,7 +196,7 @@ When performing local development and testing with `docker-compose up` you will 
 ```js
 const options = {
   port: 5000,
-  host: 'python',   //Name of other container in docker-compose
+  host: 'python',   // Name of other container in docker-compose
   method: 'GET',
   path: '/images'
 };
@@ -335,7 +335,7 @@ If you are using GitHub as your source repository for an Amplify project, you ca
 
 Code Pipeline will use this for accessing the GitHub repo of your choosing and invoke the build and deploy to your Fargate Service, just as with the Fully Managed flow. Your repository must have the same structure as you would have had locally in `amplify/backend/api/APINAME/src`, that is to say:
 
-- Single container needs to have a Dockerfile and all other required files (package.json, etc)
+- Single container needs to have a Dockerfile and all other required files (package.json, etc.)
 - Multiple containers needs to have a `docker-compose.yml` and related file structure
 
 Code Pipeline will create a [webhook on the GitHub repository](https://docs.github.com/en/free-pro-team@latest/developers/webhooks-and-events/about-webhooks) which will trigger an invocation of the build and deployment pipeline to Fargate.
