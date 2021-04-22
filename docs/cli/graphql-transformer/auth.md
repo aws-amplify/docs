@@ -467,7 +467,7 @@ type Post @model @auth(rules: [{ allow: public, provider: iam }]) {
 }
 ```
 
-The @auth directive allows the override of the default provider for a given authorization mode. In the sample above iam is specified as the provider which allows you to use an "UnAuthenticated Role" from Cognito Identity Pools for public access, instead of an API Key. When used in conjunction with amplify add auth the CLI generates scoped down IAM policies for the "UnAuthenticated" role automatically.
+The `@auth` directive allows the override of the default provider for a given authorization mode. In the sample above `iam` is specified as the provider which allows you to use an "UnAuthenticated Role" from Cognito Identity Pools for public access instead of an API Key. When used in conjunction with amplify add auth the CLI generates scoped down IAM policies for the "UnAuthenticated" role automatically.
 
 ### `private` authorization
 
@@ -489,7 +489,7 @@ type Post @model @auth(rules: [{ allow: private, provider: iam }]) {
 }
 ```
 
-The @auth directive allows the override of the default provider for a given authorization mode. In the sample above iam is specified as the provider which allows you to use an "Authenticated Role" from Cognito Identity Pools for private access. When used in conjunction with amplify add auth the CLI generates scoped down IAM policies for the "Authenticated" role automatically.
+The `@auth` directive allows the override of the default provider for a given authorization mode. In the sample above `iam` is specified as the provider which allows you to use an "Authenticated Role" from Cognito Identity Pools for private access. When used in conjunction with amplify add auth the CLI generates scoped down IAM policies for the "Authenticated" role automatically.
 
 ### Authorization using an `oidc` provider
 
@@ -731,10 +731,10 @@ type Employee @model {
 }
 ```
 
-**Note:** The `delete` operation, when used in @auth directives on field definitions, translates
+**Note:** The `delete` operation, when used in `@auth` directives on field definitions, translates
 to protecting the update mutation such that the field cannot be set to null unless authorized.
 
-**Note:** When specifying operations as a part of the @auth rule on a field, the operations not included in the operations list are not protected by default. For example, let's say you have the following schema:
+**Note:** When specifying operations as a part of the `@auth` rule on a field, the operations not included in the operations list are not protected by default. For example, let's say you have the following schema:
 
 ```graphql
 type Todo @model {
@@ -780,8 +780,8 @@ type Todo @model
 ```
 
 In the above schema users in the `Admin` group have the authorization to create, read, delete and update (except the `content` field in the object of another owner) for the type Todo.
-An `owner` of an object, has the authorization to create Todo types and read all the objects of type Todo. In addition an `owner` can perform an update operation on the Todo object, only when the `content` field is present as a part of the input.
-Any other user - who isn't an owner of an object isn't authorized to update that object.
+An `owner` of an object has the authorization to create Todo types and read all the objects of type Todo. In addition, an `owner` can perform an update operation on the Todo object only when the `content` field is present as a part of the input.
+Any other user -- who isn't an owner of an object isn't authorized to update that object.
 
 #### Per-Field with subscriptions
 
@@ -836,7 +836,7 @@ The generated resolvers would be protected like so:
 - `Mutation.createX`: Verify the requesting user has a valid credential and automatically set the **owner** attribute to equal `$ctx.identity.username`.
 - `Mutation.updateX`: Update the condition expression so that the DynamoDB `UpdateItem` operation only succeeds if the record's **owner** attribute equals the caller's `$ctx.identity.username`.
 - `Mutation.deleteX`: Update the condition expression so that the DynamoDB `DeleteItem` operation only succeeds if the record's **owner** attribute equals the caller's `$ctx.identity.username`.
-- `Query.getX`: In the response mapping template verify that the result's **owner** attribute is the same as the `$ctx.identity.username`. If it is not return null.
+- `Query.getX`: In the response mapping template verify that the result's **owner** attribute is the same as the `$ctx.identity.username`. If it is not return `null`.
 - `Query.listX`: In the response mapping template filter the result's **items** such that only items with an **owner** attribute that is the same as the `$ctx.identity.username` are returned.
 - `@connection` resolvers: In the response mapping template filter the result's **items** such that only items with an **owner** attribute that is the same as the `$ctx.identity.username` are returned. This is not enabled when using the `queries` argument.
 
@@ -875,7 +875,5 @@ The generated resolvers would be protected like so:
 - `Mutation.updateX`: Update the condition expression so that the DynamoDB `UpdateItem` operation only succeeds if the record's **groups** attribute contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`.
 - `Mutation.deleteX`: Update the condition expression so that the DynamoDB `DeleteItem` operation only succeeds if the record's **groups** attribute contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`
 - `Query.getX`: In the response mapping template verify that the result's **groups** attribute contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`.
-- `Query.listX`: In the response mapping template filter the result's **items** such that only items with a
-**groups** attribute that contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`.
-- `@connection` resolver: In the response mapping template filter the result's **items** such that only items with a
-**groups** attribute that contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`. This is not enabled when using the `queries` argument.
+- `Query.listX`: In the response mapping template filter the result's **items** such that only items with a **groups** attribute that contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`.
+- `@connection` resolver: In the response mapping template filter the result's **items** such that only items with a **groups** attribute that contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`. This is not enabled when using the `queries` argument.
