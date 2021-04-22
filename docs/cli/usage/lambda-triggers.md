@@ -243,7 +243,7 @@ The following code sample demonstrates how to create a custom ConfirmSignIn comp
 
 App.vue
 
-```javascript
+```js
 <template>
   <div id="app">
     <amplify-authenticator></amplify-authenticator>
@@ -453,7 +453,7 @@ app.component.html:
 
 The following is an example of how to configure the aws-amplify-vue authenticator components so that your app displays a message telling the user to check their email, instead of showing the default 'ConfirmSignUp' component.
 
-```javascript
+```js
 <template>
   <div id="app">
     <amplify-sign-up v-if="signUp"></amplify-sign-up>

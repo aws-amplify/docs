@@ -178,7 +178,7 @@ The loopback interface has an IP of 127.0.0.1 and a hostname of `localhost` whic
 
 Using the `docker-compose.yml` example from earlier, you might have the following code in your NodeJS application. It references the *port* of the Redis container and a *host* using the loopback adapter with `localhost`:
 
-```javascript
+```js
 const options = {
   port: 5000,
   host: 'localhost',  //Loopback interface communication
@@ -193,7 +193,7 @@ http.get(options, data => {...})
 
 When performing local development and testing with `docker-compose up` you will use the logical container name defined in your `docker-compose.yaml` file.
 
-```javascript
+```js
 const options = {
   port: 5000,
   host: 'python',   //Name of other container in docker-compose
@@ -241,7 +241,7 @@ environment:
 
 Then your application code can switch between local and cloud deployment automatically and communicate with the `db` container:
 
-```javascript
+```js
 module.exports = {
   database: {
     host: process.env.DATABASE_HOST || "localhost",
@@ -275,7 +275,7 @@ secrets:
 
 **NodeJS example**
 
-```javascript
+```js
 const database = process.env.DATABASE_NAME;
 const password = process.env.DB_PASSWORD;
 ```

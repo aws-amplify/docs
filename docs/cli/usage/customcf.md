@@ -90,7 +90,7 @@ Reference an output value from any other Amplify-managed category CloudFormation
 
 Construct the following input parameter in your custom CloudFormation stack's `template.json` file to use the `UserPoolId` from the `auth` category. Amplify CLI passes this input automatically from the other nested stack.
 
-```javascript
+```js
 "Parameters": {
   // ... Rest of the parameters
 

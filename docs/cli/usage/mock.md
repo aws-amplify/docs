@@ -130,7 +130,7 @@ API_FLIGHTSTATS_AIRPLANETABLE_NAME=AirplaneTable
 
 2. Configure the DynamoDB client in your function as follows:
 
-```javascript
+```js
 const ddb = new aws.DynamoDB.DocumentClient({
   endpoint: process.env.DDB_ENDPOINT,
 });
@@ -159,7 +159,7 @@ IS_MOCK=true
 
 And configure the DynamoDB client with:
 
-```javascript
+```js
 const clientConfig = process.env.IS_MOCK ? {
   region: 'us-fake-1',
   endpoint: 'http://localhost:62224',
@@ -183,7 +183,7 @@ When performing operations against the local mock endpoint, the Amplify CLI will
 
 ### aws-exports.js example
 
-```javascript
+```js
 const awsmobile = {
   "aws_project_region": "us-east-1",
   "aws_appsync_graphqlEndpoint": "http://localhost:20002/graphql",

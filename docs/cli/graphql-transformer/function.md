@@ -19,7 +19,7 @@ The @function directive allows you to quickly connect lambda resolvers to an App
 
 Let's assume you have deployed an *echo* function with the following contents:
 
-```javascript
+```js
 exports.handler =  async function(event, context){
   return event.arguments.msg;
 };
@@ -52,7 +52,7 @@ You can use the `@function` directive to write custom business logic in an AWS L
 
 For example purposes assume the function is named `GraphQLResolverFunction`:
 
-```javascript
+```js
 const POSTS = [
   { id: 1, title: "AWS Lambda: How To Guide." },
   { id: 2, title: "AWS Amplify Launches @function and @key directives." },
@@ -118,7 +118,7 @@ When building applications, it is often useful to fetch information for the curr
 
 For example purposes assume the function is named `GraphQLResolverFunction`:
 
-```javascript
+```js
 /* Amplify Params - DO NOT EDIT
 You can access the following resource attributes as environment variables from your Lambda function
 var environment = process.env.ENV
