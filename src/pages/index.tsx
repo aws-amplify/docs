@@ -4,7 +4,7 @@ import LandingHeroCTA from "../components/LandingHeroCTA";
 const Page = () => {
   return (
     <Hero>
-      <h1>Amplify Framework Documentation</h1>
+      <h1 className="font-weight-300">Amplify Framework Documentation</h1>
       <p>
         Learn how to use Amplify to develop and deploy cloud-powered mobile and
         web apps
