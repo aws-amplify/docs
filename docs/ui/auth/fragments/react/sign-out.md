@@ -1,4 +1,4 @@
-<amplify-sign-out button-text="Custom Text"></amplify-sign-out>
+<amplify-sign-out buttonText="Custom Text"></amplify-sign-out>
 
 **Usage**
 
