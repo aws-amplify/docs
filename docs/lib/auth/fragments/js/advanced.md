@@ -301,7 +301,7 @@ const { token } = federatedInfo;
 By default, Amplify will automatically refresh the tokens for Google and Facebook, so that your AWS credentials will be valid at all times. But if you are using another federated provider, you will need to provide your own token refresh method:
 
 <amplify-callout>
-Note: Automatic token refresh is not supported in React Native.
+Note: Automatic token refresh for Google and Facebook is not supported in React Native. Automatic token refresh is supported when used with Cognito User pool.
 </amplify-callout>
 
 #### JWT Token Refresh sample
