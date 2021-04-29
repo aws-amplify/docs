@@ -1,10 +1,3 @@
-import Layout from "../../../../../../components/Layout";
-
-export const meta = {
-  title: "Getting started",
-  description: "The Amplify Framework uses Amazon Cognito as the main authentication provider. Learn how to handle user registration, authentication, account recovery & other operations."
-}
-
 > Prerequisite: [Install and configure](~/cli/start/install.md) the Amplify CLI
 
 ## Authentication with Amplify
@@ -201,5 +194,3 @@ To implement authentication flows using Amplify you can either use the Amplify U
 `Auth` has over 30 methods including [`signUp`](~/lib/auth/emailpassword.md#sign-up), [`signIn`](~/lib/auth/emailpassword.md#sign-in), [`forgotPassword`](~/lib/auth/manageusers.md#forgot-password), and [`signOut`](~/lib/auth/emailpassword.md#sign-out) that allow you full control over all aspects of the user authentication flow.
 
 Check out the complete API [here](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html).
-
-export default ({ children }) => <Layout meta={meta}>{children}</Layout>
