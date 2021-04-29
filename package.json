@@ -21,7 +21,8 @@
     "emotion": "^10.0.23",
     "next": "^10.2.0",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "theme-ui": "^0.7.5"
   },
   "devDependencies": {
     "@mdx-js/loader": "^1.6.22",
