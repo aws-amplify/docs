@@ -1,5 +1,6 @@
 import Layout from "../../../../../../components/Layout";
 import FilterContent from "../../../../../../components/FilterContent";
+import Fragments from "../../../../../../components/Fragments";
 
 export const meta = {
   title: "Getting started",
@@ -16,19 +17,6 @@ export const meta = {
 import js from "./fragments/_js.mdx";
 import native_common from "./fragments/_native_common.mdx";
 
-<FilterContent>
-  <div key="js">
-    {js([])}
-  </div>
-  <div key="ios">
-    {native_common([])}
-  </div>
-  <div key="android">
-    {native_common([])}
-  </div>
-  <div key="flutter">
-    {native_common([])}
-  </div>
-</FilterContent>
+<Fragments fragments={{js: js, ios: native_common, android: native_common, flutter: native_common}} />
 
 export default ({ children }) => <Layout meta={meta}>{children}</Layout>
