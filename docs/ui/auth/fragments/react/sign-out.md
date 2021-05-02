@@ -1,9 +1,9 @@
-<amplify-sign-out buttonText="Custom Text"></amplify-sign-out>
+<AmplifySignOut buttonText="Custom Text"></AmplifySignOut>
 
 **Usage**
 
 ```jsx
-<AmplifySignOut button-text="Custom Text"></AmplifySignOut>
+<AmplifySignOut buttonText="Custom Text"></AmplifySignOut>
 ```
 
 <ui-component-props tag="amplify-sign-out" prop-type="attr" use-table-headers></ui-component-props>
