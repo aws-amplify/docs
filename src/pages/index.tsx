@@ -25,7 +25,7 @@ const Page = () => {
           </h4>
         </div>
         <Grid columns={4}>
-          <Card>
+          <Card href="/lib/q/platform/js">
             <CardGraphic src="/lib.png" />
             <CardDetail>
               <h4>Amplify Libraries</h4>
@@ -35,14 +35,14 @@ const Page = () => {
               </p>
             </CardDetail>
           </Card>
-          <Card>
+          <Card href="/cli">
             <CardGraphic src="/cli.png" />
             <CardDetail>
               <h4>Amplify CLI</h4>
               <p>Configure an app backend with a guided CLI workflow.</p>
             </CardDetail>
           </Card>
-          <Card>
+          <Card href="/console">
             <CardGraphic src="/console.png" />
             <CardDetail>
               <h4>Amplify Console</h4>
@@ -52,7 +52,7 @@ const Page = () => {
               </p>
             </CardDetail>
           </Card>
-          <Card>
+          <Card href="/console/adminui/intro">
             <CardGraphic src="/console.png" />
             <CardDetail>
               <h4>NEW! Amplify Admin UI</h4>
@@ -65,7 +65,7 @@ const Page = () => {
       <Container backgroundColor="color-off-white">
         <h4 className="text-align-center">Explore Features</h4>
         <Grid gap={2} columns={3} className="margin-top-lg">
-          <Card url="~/lib/auth/getting-started.md" className="border-radius">
+          <Card href="/lib/auth/getting-started" className="border-radius">
             <CardGraphic src="/features/auth.svg" />
             <CardDetail>
               <h4 slot="heading">Authentication</h4>
@@ -75,10 +75,7 @@ const Page = () => {
               </p>
             </CardDetail>
           </Card>
-          <Card
-            url="~/lib/storage/getting-started.md"
-            className="border-radius"
-          >
+          <Card href="/lib/storage/getting-started" className="border-radius">
             <CardGraphic src="/features/storage.svg" />
             <CardDetail>
               <h4 slot="heading">Storage</h4>
@@ -89,7 +86,7 @@ const Page = () => {
             </CardDetail>
           </Card>
           <Card
-            url="~/lib/graphqlapi/getting-started.md"
+            href="/lib/graphqlapi/getting-started"
             className="border-radius"
           >
             <CardGraphic src="/features/api.svg" />
@@ -101,10 +98,7 @@ const Page = () => {
               </p>{" "}
             </CardDetail>
           </Card>
-          <Card
-            url="~/lib/datastore/getting-started.md"
-            className="border-radius"
-          >
+          <Card href="/lib/datastore/getting-started" className="border-radius">
             <CardGraphic src="/features/datastore.svg" />
             <CardDetail>
               <h4 slot="heading">DataStore</h4>
@@ -114,10 +108,7 @@ const Page = () => {
               </p>
             </CardDetail>
           </Card>
-          <Card
-            url="~/lib/restapi/getting-started.md"
-            className="border-radius"
-          >
+          <Card href="/lib/restapi/getting-started" className="border-radius">
             <CardGraphic src="/features/api.svg" />
             <CardDetail>
               <h4 slot="heading">REST API</h4>
@@ -127,10 +118,7 @@ const Page = () => {
               </p>
             </CardDetail>
           </Card>
-          <Card
-            url="~/lib/analytics/getting-started.md"
-            className="border-radius"
-          >
+          <Card href="/lib/analytics/getting-started" className="border-radius">
             <CardGraphic src="/features/analytics.svg" />
             <CardDetail>
               <h4 slot="heading">Analytics</h4>
@@ -141,7 +129,7 @@ const Page = () => {
             </CardDetail>
           </Card>
           <Card
-            url="~/lib/push-notifications/getting-started.md"
+            href="/lib/push-notifications/getting-started"
             className="border-radius"
           >
             <CardGraphic src="/features/push-notifications.svg" />
@@ -153,7 +141,7 @@ const Page = () => {
               </p>
             </CardDetail>
           </Card>
-          <Card url="~/lib/xr/getting-started.md" className="border-radius">
+          <Card href="/lib/xr/getting-started" className="border-radius">
             <CardGraphic src="/features/xr.svg" />
             <CardDetail>
               <h4 slot="heading">XR</h4>
@@ -163,7 +151,7 @@ const Page = () => {
               </p>
             </CardDetail>
           </Card>
-          <Card url="~/lib/pubsub/getting-started.md" className="border-radius">
+          <Card href="/lib/pubsub/getting-started" className="border-radius">
             <CardGraphic src="/features/pubsub.svg" />
             <CardDetail>
               <h4 slot="heading">PubSub</h4>
@@ -174,7 +162,7 @@ const Page = () => {
             </CardDetail>
           </Card>
           <Card
-            url="~/lib/interactions/getting-started.md"
+            href="/lib/interactions/getting-started"
             className="border-radius"
           >
             <CardGraphic src="/features/interactions.svg" />
@@ -187,7 +175,7 @@ const Page = () => {
             </CardDetail>
           </Card>
           <Card
-            url="~/lib/predictions/getting-started.md"
+            href="/lib/predictions/getting-started"
             className="border-radius"
           >
             <CardGraphic src="/features/predictions.svg" />

@@ -1,14 +1,24 @@
 import React from "react";
 import styled from "@emotion/styled";
+import Link from "next/link";
+
 import {MQFablet, MQDesktop} from "../media";
 
 type CardProps = {
   className?: string;
+  href?: string;
 };
 
-const docsCard: React.FC<CardProps> = ({children, className}) => (
-  <div className={className}>{children}</div>
-);
+const docsCard: React.FC<CardProps> = ({children, className, href}) => {
+  if (!href) return <div className={className}>{children}</div>;
+  return (
+    <Link href={href}>
+      <a>
+        <div className={className}>{children}</div>
+      </a>
+    </Link>
+  );
+};
 
 export const Card = styled(docsCard)`
   position: relative;
@@ -48,6 +58,18 @@ export const Card = styled(docsCard)`
     justify-content: space-around;
     text-align: center;
     padding: 2.5rem;
+  }
+
+  a {
+    &:hover,
+    & h2:hover,
+    & h3:hover {
+      text-decoration: none;
+    }
+  }
+
+  * {
+    cursor: pointer;
   }
 `;
 
