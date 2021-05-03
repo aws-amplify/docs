@@ -1,5 +1,3 @@
-import { Container } from "./styles";
+import { Hero } from "./styles";
 
-export default function Hero({ children }) {
-  return <Container>{children}</Container>;
-}
+export default Hero
