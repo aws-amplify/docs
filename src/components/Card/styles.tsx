@@ -1,7 +1,11 @@
 import styled from "@emotion/styled";
 import {MQFablet, MQDesktop} from "../media";
 
-export const Card = styled.div`
+const docsCard = ({children, className}) => (
+  <div className={className}>{children}</div>
+);
+
+export const Card = styled(docsCard)`
   position: relative;
   display: flex;
   background-color: var(--bg-color);
