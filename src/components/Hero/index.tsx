@@ -1,3 +1,3 @@
-import { Hero } from "./styles";
+import {Hero} from "./styles";
 
-export default Hero
+export default Hero;

@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { MQFablet } from "../media";
+import {MQFablet} from "../media";
 
 export const Host = styled.div`
   display: block;

@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { Host, Container } from "./styles";
+import {Host, Container} from "./styles";
 
-export default function InternalLinkButton({ href, children }) {
+export default function InternalLinkButton({href, children}) {
   return (
     <Host>
       <Container>

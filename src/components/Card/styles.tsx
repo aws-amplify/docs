@@ -61,7 +61,7 @@ export const CardGraphic = styled.img`
   img:hover {
     opacity: 0.8;
   }
-`
+`;
 
 export const CardDetail = styled.div`
   display: flex;
@@ -83,4 +83,4 @@ export const CardDetail = styled.div`
   h4:hover {
     opacity: 0.8;
   }
-`
+`;

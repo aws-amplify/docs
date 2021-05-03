@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { PlatformsGroup } from "./styles";
+import {PlatformsGroup} from "./styles";
 import InternalLinkButton from "../InternalLinkButton";
 
 export default function LandingHeroCTA() {
