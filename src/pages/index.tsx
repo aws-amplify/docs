@@ -3,7 +3,7 @@ import {Grid} from "theme-ui";
 import Hero from "../components/Hero";
 import LandingHeroCTA from "../components/LandingHeroCTA";
 import Container from "../components/Container";
-import Card, {CardDetail, CardGraphic} from "../components/Card";
+import {Card, CardDetail, CardGraphic} from "../components/Card";
 
 const Page = () => {
   return (
