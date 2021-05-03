@@ -1,7 +1,12 @@
+import React from "react";
 import styled from "@emotion/styled";
 import {MQFablet, MQDesktop} from "../media";
 
-const docsCard = ({children, className}) => (
+type CardProps = {
+  className?: string;
+};
+
+const docsCard: React.FC<CardProps> = ({children, className}) => (
   <div className={className}>{children}</div>
 );
 
