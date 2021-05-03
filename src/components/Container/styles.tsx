@@ -5,11 +5,7 @@ export const Container = styled.section(
   (props) => `
   display: block;
   width: 100%;
-  ${
-    props.backgroundColor
-      ? `background-color: var(--${props.backgroundColor});`
-      : ``
-  }
+  ${props.backgroundColor && `background-color: var(--${props.backgroundColor});`}
 
   > div {
     max-width: ${MAX_WIDTH};
