@@ -1,22 +1,13 @@
-import Layout from "../../../../../../components/Layout";
-import FilterContent from "../../../../../../components/FilterContent";
-import Fragments from "../../../../../../components/Fragments";
+import Layout from "/src/components/Layout";
+import Fragments from "/src/components/Fragments";
 
 export const meta = {
   title: "Getting started",
   description: "The Amplify Framework uses Amazon Cognito as the main authentication provider. Learn how to handle user registration, authentication, account recovery & other operations."
 }
 
-<FilterContent>
-  <div key="js">JS</div>
-  <div key="ios">iOS</div>
-  <div key="android">Android</div>
-  <div key="flutter">Flutter</div>
-</FilterContent>
-
 import js from "./fragments/_js.mdx";
 import native_common from "./fragments/_native_common.mdx";
-
-<Fragments fragments={{js: js, ios: native_common, android: native_common, flutter: native_common}} />
+<Fragments fragments={{js, ios: native_common, android: native_common, flutter: native_common}} />
 
 export default ({ children }) => <Layout meta={meta}>{children}</Layout>
