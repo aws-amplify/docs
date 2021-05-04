@@ -10,10 +10,10 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@main
-      - name: Setup Node.js 10.x
+      - name: Setup Node.js 14.x
         uses: actions/setup-node@main
         with:
-          node-version: 10.x
+          node-version: 14.x
       - name: Install Dependencies
         run: yarn
       - name: Run Test Script
