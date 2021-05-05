@@ -7,7 +7,7 @@
 
 ## Prerequisites
 
-- Install [Node.js](https://nodejs.org/en/) version 10 or higher
+- Install [Node.js](https://nodejs.org/en/) version 12.x or higher
 - Install [Xcode](https://developer.apple.com/xcode/downloads/) version 11.4 or later
 - Install [Amplify CLI](~/cli/cli.md) version 4.22.0 or later by running:
 
