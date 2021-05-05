@@ -193,11 +193,13 @@ class _AddTodoFormState extends State<AddTodoForm> {
 }
 ```
 
-Go ahead and run your code now and you should see an app with a progress indicator and a floating action button but not much else. Let’s next configure Amplify and give the app a reason to have a loading state at all.
+Go ahead and run your code now and you should see an app with a progress indicator and a floating action button but not much else. 
 
 ```bash
 flutter run
 ```
+
+Let’s next configure Amplify and give the app a reason to have a loading state at all.
 
 ## Configure Amplify
 
@@ -343,7 +345,7 @@ Future<void> _initializeApp() async {
 }
 ```
 
-Update the `_fetchTodos()` function in the `_TodosPageState` class. For the purposes of this tutorial, we will be querying for all stored **Todo** entries, but you can perform more advanced filtering, sorting or even pagination as well. You can [learn more](https://docs.amplify.aws/lib/datastore/data-access/q/platform/flutter#query-data) about DataStore data queries.
+Update the `_fetchTodos()` function in the `_TodosPageState` class. For the purposes of this tutorial, we will be querying for all stored **Todo** entries, but you can perform more advanced filtering, sorting or even pagination as well. You can [learn more](~/lib/datastore/data-access.md/q/platform/flutter#query-data) about DataStore data queries.
 
 ```dart
 Future<void> _fetchTodos() async {
