@@ -130,6 +130,30 @@ type Todo @model @auth (
 
 Create a Lambda function with `amplify add function` and make sure to give access to your GraphQL API when prompted for in the `amplify add function` flow.
 
+```bash
+amplify update function
+```
+```console
+? Select which capability you want to update: Lambda function (serverless function)
+? Select the Lambda function you want to update: MyFunction
+General information
+| Name: MyFunction
+| Runtime: nodejs
+...
+
+? Which setting do you want to update? Resource access permissions
+? Select the categories you want this function to have access to. (Select using <space>)
+> api
+? Select the operations you want to permit on riviandemo (Select using <space>)
+> Query, Mutation, Subscription
+
+You can access the following resource attributes as environment variables from your Lambda function
+	API_<YOUR_API_NAME>_GRAPHQLAPIENDPOINTOUTPUT
+	API_<YOUR_API_NAME>_GRAPHQLAPIIDOUTPUT
+	API_<YOUR_API_NAME>_GRAPHQLAPIKEYOUTPUT
+? Do you want to edit the local lambda function now? No
+```
+
 The CLI will automatically configure the Lambda execution IAM role required by the Lambda function to call the GraphQL API. The following function will sign the request and use environment variables for the AppSync and Region that `amplify add function` created for you.
 
 ```javascript
