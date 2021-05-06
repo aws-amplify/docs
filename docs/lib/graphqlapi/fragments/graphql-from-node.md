@@ -144,7 +144,7 @@ General information
 ? Which setting do you want to update? Resource access permissions
 ? Select the categories you want this function to have access to. (Select using <space>)
 > api
-? Select the operations you want to permit on riviandemo (Select using <space>)
+? Select the operations you want to permit on <YOUR_API_NAME> (Select using <space>)
 > Query, Mutation, Subscription
 
 You can access the following resource attributes as environment variables from your Lambda function
