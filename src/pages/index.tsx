@@ -25,7 +25,7 @@ const Page = () => {
             developers
           </h4>
         </div>
-        <Grid columns={4}>
+        <Grid columns={[1, null, null, 4]}>
           <Card href="/lib/q/platform/js">
             <CardGraphic src="/lib.png" />
             <CardDetail>
@@ -65,7 +65,7 @@ const Page = () => {
 
       <Container backgroundColor="color-off-white">
         <h4 className="text-align-center">Explore Features</h4>
-        <Grid gap={2} columns={3} className="margin-top-lg">
+        <Grid gap={2} columns={[1, null, null, 3]} className="margin-top-lg">
           <Card href="/lib/auth/getting-started" className="border-radius">
             <CardGraphic src="/features/auth.svg" />
             <CardDetail>
