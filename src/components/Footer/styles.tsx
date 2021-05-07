@@ -50,27 +50,38 @@ export const RightFooter = styled.div`
   ${MQLaptop} {
     margin-top: 0;
   }
+
+  a,
+  a:link,
+  a:visited,
+  a:hover,
+  a:focus,
+  a:active {
+    color: var(--color-anchor);
+  }
 `;
 
 export const Legal = styled.div`
-  display: flex;
-  flex-direction: row;
-
-  a {
-    margin-left: 0.75rem;
-  }
+  max-width: 24rem;
 
   img {
-    width: 1.5rem;
-    height: 1.5rem;
+    height: 0.5rem;
+    display: inline-block;
+    margin-right: 0.25rem;
   }
+
+  display: flex;
+  flex-direction: row;
+  text-align: right;
+  font-size: 0.75rem;
+  line-height: 1.125rem;
 `;
 
 export const Social = styled.div`
   display: flex;
   flex-direction: row;
 
-  amplify-external-link {
+  a {
     margin-left: 0.75rem;
   }
 

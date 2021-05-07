@@ -11,6 +11,7 @@ export default function DocsFooter() {
         <LeftFooter>
           <img src="/logo-light.svg" />
           <div>
+            <h3>Amplify</h3>
             <a href="/start">Getting Started</a>
             <ExternalLink href={links.DISCORD}>Support</ExternalLink>
           </div>
@@ -47,6 +48,7 @@ export default function DocsFooter() {
               <ExternalLink href={links.TERMS}>site terms</ExternalLink>
               and
               <ExternalLink href={links.PRIVACY}>privacy policy</ExternalLink>.
+              <br />
               Flutter and the related logo are trademarks of Google LLC. We are
               not endorsed by or affiliated with Google LLC.
             </span>
