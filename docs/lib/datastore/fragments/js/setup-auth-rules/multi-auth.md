@@ -23,16 +23,16 @@ With this configuration enabled, DataStore will attempt to synchronize data usin
 If there are multiple rules on a model, the rules will be ranked by priority (see below), and DataStore will attempt the synchronization with each authorization type until one succeeds (or they all fail).
 
 The priority will first be sorted by the `allow` property in the following order:
-- `owner`
-- `group`
-- `private`
-- `public`
+1. `owner`
+2. `group`
+3. `private`
+4. `public`
 
 If there are multiple rules with the same `allow` value, then the sorting is based on the `provider` property in the following order:
-- `userPools`
-- `oidc`
-- `iam`
-- `apiKey`
+1. `userPools`
+2. `oidc`
+3. `iam`
+4. `apiKey`
 
 If there is **not** an authenticated user in your application, DataStore will only attempt `public` rules, meaning that `owner`, `group` and `private` rules will be disregarded in order to not waste network requests that we know will fail.
 
@@ -43,7 +43,7 @@ As a fallback, if there are no valid rules for a model, DataStore will attempt s
 ```graphql
 type YourModel
   @model
-	@auth(
+  @auth(
 		rules: [
 			{ allow: owner }
 			{ allow: public, provider: apiKey, operations: [read] }
