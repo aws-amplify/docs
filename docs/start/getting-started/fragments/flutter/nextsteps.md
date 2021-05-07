@@ -9,4 +9,4 @@
 
 ### References
 
-Find the source code of the final Todo App built in this tutorial [on our GitHub repository]().
+Find the source code of the final Todo App built in this tutorial [on our GitHub repository](https://github.com/cshfang/amplify-flutter-datastore-starter/tree/main/amplified_todo).

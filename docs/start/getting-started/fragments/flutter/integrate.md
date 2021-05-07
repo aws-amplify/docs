@@ -1,4 +1,4 @@
-In this section you’ll integrate Amplify DataStore with your app, and learn to use the generated data model to create, update, query, and delete Todo items by building an app. You can find the source code of the final Todo App [on our GitHub repository]().
+In this section you’ll integrate Amplify DataStore with your app, and learn to use the generated data model to create, update, query, and delete Todo items by building an app. You can find the source code of the final Todo App [on our GitHub repository](https://github.com/cshfang/amplify-flutter-datastore-starter/tree/main/amplified_todo).
 
 First, replace the contents of your *main.dart* file with the following UI boilerplate code. Typically, you would break this file up into smaller modules but we've kept it as a single file here just for the tutorial. You might find your IDE complains about numerous unreferenced declarations but, don’t worry, we’ll get around to fixing those as we fill out our app with more functionality.
 
