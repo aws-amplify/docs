@@ -29,6 +29,10 @@ const Inner = styled(InnerContainer)`
     color: var(--font-color);
     border-radius: 0.25rem;
 
+    :hover {
+      box-shadow: 0 0.125rem 0.25rem var(--color-black);
+    }
+
     box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.5);
 
     &:hover {
