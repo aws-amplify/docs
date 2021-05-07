@@ -6,6 +6,7 @@ import {Container} from "../components/Container";
 import {Card, CardDetail, CardGraphic} from "../components/Card";
 import FeaturesGrid from "../components/FeaturesGrid";
 import LinkBanner from "../components/LinkBanner";
+import Footer from "../components/Footer";
 
 const Page = () => {
   return (
@@ -66,6 +67,7 @@ const Page = () => {
 
       <FeaturesGrid />
       <LinkBanner />
+      <Footer />
     </>
   );
 };

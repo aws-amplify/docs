@@ -19,6 +19,15 @@ const Inner = styled(InnerContainer)`
     color: var(--font-color);
     padding: 1rem 0;
     border-radius: 0.25rem;
+    display: flex;
+    flex: 1 1 0%;
+    position: relative;
+    background-color: var(--color-white);
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    color: var(--font-color);
+    border-radius: 0.25rem;
 
     box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.5);
 
