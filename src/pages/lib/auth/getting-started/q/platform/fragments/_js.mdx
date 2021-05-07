@@ -1,3 +1,6 @@
+import Fragments from "/src/components/Fragments";
+import basic_auth from "./js/_getting-started-steps-basic-auth.mdx";
+
 > Prerequisite: [Install and configure](~/cli/start/install.md) the Amplify CLI
 
 ## Authentication with Amplify
@@ -35,7 +38,7 @@ amplify console
 
 Add Amplify to your app:
 
-<inline-fragment src="~/lib/auth/fragments/js/getting-started-steps-basic-auth.md"></inline-fragment>
+<Fragments fragments={{js: basic_auth}} />
 
 In your app's entry point (i.e. __App.js__, __index.js__, or __main.js__), import and load the configuration file:
 
