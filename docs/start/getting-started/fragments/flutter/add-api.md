@@ -28,11 +28,11 @@ On the creation form:
 
 ## Add authentication
 
-Since our **Todo** model specifies an @auth directive, we do need to first add authentication.
+Since our **Todo** model specifies an `@auth` directive, we do need to first add authentication.
 
 ### Deploy authentication
 
-From the Amplify admin UI:
+From the Amplify Admin UI:
 1. Select **Authentication** from the sidebar
 
     ![Authentication](~/images/lib/getting-started/flutter/add-api-add-authentication-sidebar.png)
@@ -45,7 +45,7 @@ From the Amplify admin UI:
 
 ### Update local project with deployed environment
 
-1. After deployment of authentication, click on **Deployment successful - click for next steps** at the top of the admin UI
+1. After deployment of authentication, click on **Deployment successful - click for next steps** at the top of the Admin UI
 
     ![Deployment successful](~/images/lib/getting-started/flutter/add-api-add-authentication-deployment-successful.png)
 
@@ -113,13 +113,13 @@ Add the additional plugins to Amplify in the `_fetchTodos()` function of the `_T
 + await Amplify.addPlugins([_dataStorePlugin, _apiPlugin, _authPlugin]);
 ```
 
-Since Amplify can only be configured once, you will need to do a full restart (stop and restart the app) now instead of just a Hot Restart. But, believe it or not, you’re done! Amplify DataStore makes syncing to the cloud that easy. Spin up a second simulator/emulator and you should see that adding/updating/removing items on one device triggers an update in the other. We can also verify this on the AppSync Console or admin UI.
+Since Amplify can only be configured once, you will need to do a full restart (stop and restart the app) now instead of just a Hot Restart. But, believe it or not, you’re done! Amplify DataStore makes syncing to the cloud that easy. Spin up a second simulator/emulator and you should see that adding/updating/removing items on one device triggers an update in the other. We can also verify this in the Admin UI.
 
 ## Verifying cloud sync
 
 ### Inspect data
 
-From the Amplify admin UI, select **Content** from the sidebar. If you have added todos from your app, you should see them show up as part of the results!
+From the Amplify Admin UI, select **Content** from the sidebar. If you have added todos from your app, you should see them show up as part of the results!
 
 ![Content](~/images/lib/getting-started/flutter/add-api-verify-sync-sidebar.png)
 

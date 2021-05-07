@@ -2,13 +2,13 @@ With the basic setup complete, you can now model the data your application will 
 
 <amplify-callout>
 
-**Did you know?** You can get started with Amplify’s [admin UI](https://sandbox.amplifyapp.com/) without even creating an AWS Account.
+**Did you know?** You can get started with Amplify’s [Admin UI](https://sandbox.amplifyapp.com/) without even creating an AWS Account.
 
 </amplify-callout>
 
 ## Create data model
 
-1. Navigate to the [Data feature in AWS Amplify admin UI](https://sandbox.amplifyapp.com/start#datastore) and, with **To-do list schema** selected, click **Create new schema**.
+1. Navigate to the [Data feature in AWS Amplify Admin UI](https://sandbox.amplifyapp.com/start#datastore) and, with **To-do list schema** selected, click **Create new schema**.
 
     ![Create new schema](~/images/lib/getting-started/flutter/generate-model-admin-ui-create.png)
 
