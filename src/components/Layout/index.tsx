@@ -1,5 +1,6 @@
 import Head from "next/head";
 import {useRouter} from "next/router";
+import {ContentStyle} from "./styles";
 
 export default function Layout({meta, children}) {
   const router = useRouter();
@@ -45,7 +46,7 @@ export default function Layout({meta, children}) {
           key="twitter:image"
         />
       </Head>
-      {children}
+      <ContentStyle>{children}</ContentStyle>
       <script src="https://cdn.jsdelivr.net/npm/docsearch.js@2.6.3/dist/cdn/docsearch.min.js"></script>
     </>
   );
