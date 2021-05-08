@@ -50,7 +50,6 @@ const mdxTocPlugin = () => (tree) => {
     const id = slug(node.children[0].value);
     data.id = id;
     props.id = id;
-    node.depth++;
     heading.children = [node];
     heading.type = "link";
     heading.url = `#${id}`;
