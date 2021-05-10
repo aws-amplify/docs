@@ -198,11 +198,11 @@ exports.handler = async (event) => {
             let data = "";
 
             result.on("data", (chunk) => {
-              data += chunk;
+                data += chunk;
             });
 
             result.on("end", () => {
-              resolve(JSON.parse(data.toString()));
+                resolve(JSON.parse(data.toString()));
             });
         });
 
