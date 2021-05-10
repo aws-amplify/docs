@@ -5,7 +5,7 @@ export default function Layout({meta, children}) {
   const router = useRouter();
   const basePath = "docs.amplify.aws";
   return (
-    <div>
+    <>
       <Head>
         <meta property="og:title" content={meta.title} key="og:title" />
         <meta
@@ -46,6 +46,7 @@ export default function Layout({meta, children}) {
         />
       </Head>
       {children}
-    </div>
+      <script src="https://cdn.jsdelivr.net/npm/docsearch.js@2.6.3/dist/cdn/docsearch.min.js"></script>
+    </>
   );
 }
