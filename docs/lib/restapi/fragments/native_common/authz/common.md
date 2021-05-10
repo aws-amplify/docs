@@ -15,7 +15,7 @@ When your API is configured to use IAM as the authorization type, your requests 
 ```json
 {
     "awsAPIPlugin": {
-        "<YOUR-RESTENDPOINT-NAME>": {
+        "[YOUR-RESTENDPOINT-NAME]": {
             "endpointType": "REST",
             "endpoint": "YOUR-REST-ENDPOINT",
             "region": "us-west-2",
@@ -32,7 +32,7 @@ If you want to configure a public REST API, you can set an API key in Amazon API
 ```json
 {
     "awsAPIPlugin": {
-        "<YOUR-RESTENDPOINT-NAME>": {
+        "[YOUR-RESTENDPOINT-NAME]": {
             "endpointType": "REST",
             "endpoint": "YOUR-REST-ENDPOINT",
             "region": "us-west-2",
@@ -50,7 +50,7 @@ If you set up the API Gateway with a custom authorization with a Cognito User po
 ```json
 {
     "awsAPIPlugin": {
-        "<YOUR-RESTENDPOINT-NAME>": {
+        "[YOUR-RESTENDPOINT-NAME]": {
             "endpointType": "REST",
             "endpoint": "YOUR-REST-ENDPOINT",
             "region": "us-west-2",
@@ -93,8 +93,8 @@ If you are using a 3rd party OIDC provider you will need to configure it and man
 {
     ...
     "awsAPIPlugin": {
-        "<YOUR-RESTENDPOINT-NAME": {
-            "endpointType": "GraphQL",
+        "[YOUR-RESTENDPOINT-NAME]": {
+            "endpointType": "REST",
             "endpoint": "[REST-ENDPOINT]",
             "region": "[REGION]",
             "authorizationType": "OPENID_CONNECT",
@@ -116,6 +116,29 @@ If you are using Cognito's user pool as the authorization type, this will by def
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/authz/21_oidc.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/authz/21_oidc.md"></inline-fragment>
+
+## NONE
+You can also set authorization mode to `NONE` so that the library will not provide any request interception logic. You can use this when your API does not require any authorization or when you want to manipulate the request yourself, such as adding header values or authorization data.
+
+```json
+{
+    ...
+    "awsAPIPlugin": {
+        "<YOUR-RESTENDPOINT-NAME>": {
+            "endpointType": "REST",
+            "endpoint": "[REST-ENDPOINT]",
+            "region": "[REGION]",
+            "authorizationType": "NONE",
+        }
+    }
+}
+```
+
+<inline-fragment platform="ios" src="~/lib/restapi/fragments/ios/authz/22_none_headers.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/restapi/fragments/android/authz/22_none_headers.md"></inline-fragment>
+
+<inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/authz/22_none_interceptor.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/authz/22_none_interceptor.md"></inline-fragment>
 
 ## Customizing HTTP request headers
 

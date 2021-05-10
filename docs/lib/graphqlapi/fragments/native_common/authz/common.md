@@ -104,6 +104,26 @@ If you are using Cognito's user pool as the authorization type, this will by def
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/authz/21_oidc.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/authz/21_oidc.md"></inline-fragment>
 
+#### NONE
+You can also set authorization mode to `NONE` so that the library will not provide any request interception logic. You can use this when your API does not require any authorization or when you want to manipulate the request yourself, such as adding header values or authorization data.
+
+```json
+{
+    ...
+    "awsAPIPlugin": {
+        "<YOUR-GRAPHQLENDPOINT-NAME>": {
+            "endpointType": "GraphQL",
+            "endpoint": "[GRAPHQL-ENDPOINT]",
+            "region": "[REGION]",
+            "authorizationType": "NONE",
+        }
+    }
+}
+```
+
+<inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/authz/22_none_interceptor.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/authz/22_none_interceptor.md"></inline-fragment>
+
 #### Multi-Auth
 
 This section talks about the capability of AWS AppSync to configure multiple authorization modes for a single AWS AppSync endpoint and region. Follow the [AWS AppSync Multi-Auth](https://docs.aws.amazon.com/appsync/latest/devguide/security.html#using-additional-authorization-modes) to configure multiple authorization modes for your AWS AppSync endpoint.
