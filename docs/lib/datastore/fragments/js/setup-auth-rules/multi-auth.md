@@ -1,8 +1,10 @@
-## Multiple Authorization Types
+## Configure Multiple Authorization Types
 
-By default, DataStore will use the default authorization type, which is set as the `aws_appsync_authenticationType` key in your Amplify configuration, when synchronizing data with your AWS AppSync API. This means that every network request sent through DataStore will only use that authorization type, no matter what type of `@auth` rule exists on your models.
+For some use cases, you will want DataStore to use multiple authorization types. For example, an app might use `API Key` for public content and `Cognito User Pool` for personalized content once the user logs in.
 
-However, if you would like DataStore to infer what type of authorization to use for each model based on the `@auth` rules that exist on a model, you can enable **Multi-Auth** for DataStore by adding the following to your Amplify configuration:
+By default, DataStore uses your API's default authorization type listed in `aws_appsync_authenticationType` in your Amplify configuration. To change the default authorization type, run `amplify update api`. Every network request sent through DataStore uses that authorization type, regardless of the model's `@auth` rule. 
+
+To enable DataStore to use multiple authorization types based on the model's `@auth` rules, add `authModeStrategyType: AuthModeStrategyType.MULTI_AUTH` to your Amplify configuration:
 
 ```js
 import Amplify, { AuthModeStrategyType } from 'aws-amplify';
@@ -16,29 +18,28 @@ Amplify.configure({
 })
 ```
 
-With this configuration enabled, DataStore will attempt to synchronize data using the `@auth` rule provider for each model.
+This configuration enables DataStore to synchronize data using the model's `@auth` rule provider for each model.
 
-### Multi-Auth priority evaluation
+### Multiple authorization types priority order
 
-If there are multiple rules on a model, the rules will be ranked by priority (see below), and DataStore will attempt the synchronization with each authorization type until one succeeds (or they all fail).
+If there are multiple `@auth` rules on a model, the rules will be ranked by priority (see below), and DataStore will attempt the synchronization with each authorization type until one succeeds (or they all fail).
 
-The priority will first be sorted by the `allow` property in the following order:
-1. `owner`
-2. `group`
-3. `private`
-4. `public`
-
-If there are multiple rules with the same `allow` value, then the sorting is based on the `provider` property in the following order:
-1. `userPools`
-2. `oidc`
-3. `iam`
-4. `apiKey`
+| Priority | `allow`: AuthStrategy | `provider` |
+|:----------|:-----:|:------:|
+| 1 | `owner` | `userPools` |
+| 2 | `owner` | `oidc` |
+| 3 | `group` | `userPools` |
+| 4 | `group` | `oidc` |
+| 5 | `private` | `userPools` |
+| 6 | `private` | `iam` |
+| 7 | `public` | `iam` |
+| 8 | `public` | `apiKey` |
 
 If there is **not** an authenticated user in your application, DataStore will only attempt `public` rules, meaning that `owner`, `group` and `private` rules will be disregarded in order to not waste network requests that we know will fail.
 
 As a fallback, if there are no valid rules for a model, DataStore will attempt synchronization with the default authorization type.
 
-#### Multi-Auth example
+####  Example with multiple authorization types
 
 ```graphql
 type YourModel
