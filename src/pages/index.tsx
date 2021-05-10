@@ -7,10 +7,12 @@ import {Card, CardDetail, CardGraphic} from "../components/Card";
 import FeaturesGrid from "../components/FeaturesGrid";
 import LinkBanner from "../components/LinkBanner";
 import Footer from "../components/Footer";
+import UniversalNav from "../components/UniversalNav";
 
 const Page = () => {
   return (
     <>
+      <UniversalNav heading="Amplify Docs" brandIcon="/logo-dark.svg" />
       <Hero>
         <h1 className="font-weight-300">Amplify Framework Documentation</h1>
         <p>
