@@ -35,7 +35,7 @@ If there are multiple `@auth` rules on a model, the rules will be ranked by prio
 | 7 | `public` | `iam` |
 | 8 | `public` | `apiKey` |
 
-If there is **not** an authenticated user in your application, DataStore will only attempt `public` rules, meaning that `owner`, `group` and `private` rules will be disregarded in order to not waste network requests that we know will fail.
+If there is **not** an authenticated user session, DataStore will only attempt `public` rules.
 
 As a fallback, if there are no valid rules for a model, DataStore will attempt synchronization with the default authorization type.
 
