@@ -63,7 +63,7 @@ Provision the backend with `amplify push` command. Here is an example:
 ? Are you sure you want to continue? `Yes`
 ```
 Answer `No` to `? Do you want to generate code for your newly created GraphQL API`.
-Answering `Yes` will generate an `API.swift` file which is only necessary when AppSync is directly used. You'll use the `amplify codegen models` command to generate Swift models.
+Answering `Yes` will generate an `API.swift` file which is only necessary when directly using the AWSAppSync SDK. When you're using Amplify API or Amplify DataStore, you'll use the `amplify codegen models` command to generate Swift models.
 
 The example above creates a backend with the Todo schema. You can open the AWS Console for AppSync with 
 `amplify console api` to interact directly with the GraphQL service.  When your backend is successfully updated, there should be two newly created files: `amplifyconfiguration.json` and `awsconfiguration.json` in your project folder.
