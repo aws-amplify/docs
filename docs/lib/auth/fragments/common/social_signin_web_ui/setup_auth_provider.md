@@ -22,7 +22,14 @@
 <amplify-block name="Google Sign-In">
 
 1. Go to the [Google developer console](https://console.developers.google.com).
-2. On the left navigation bar, choose *Credentials*.
+2. On the top left corner, choose *Select a project*.
+![Image](~/images/cognitoHostedUI/google1.png)
+3. Create a new project by choosing *NEW PROJECT* on top right corner.
+![Image](~/images/cognitoHostedUI/google2.png)
+4. Enter your *Project name* and hit *Create*.
+5. Select the project you just created and choose *Go to APIs overview*
+![Image](~/images/cognitoHostedUI/google3.png)
+6. On the left navigation bar, choose *Credentials*.
 ![Image](~/images/cognitoHostedUI/google5.png)
 3. Create your OAuth2.0 credentials by choosing *OAuth client ID* from the *Create credentials* drop-down list.
 ![Image](~/images/cognitoHostedUI/google6.png).
