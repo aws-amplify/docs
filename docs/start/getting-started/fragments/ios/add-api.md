@@ -22,7 +22,7 @@ Now that you have DataStore persisting data locally, in the next step you'll con
     amplify push
     ```
 Answer `No` to `? Do you want to generate code for your newly created GraphQL API`.
-Answering `Yes` will generate an `API.swift` file which is only necessary when AppSync is directly used. You'll use the `amplify codegen models` command to generate DataStore Swift models.
+Answering `Yes` will generate an `API.swift` file which is only necessary when directly using the AWSAppSync SDK. When you're using Amplify API or Amplify DataStore, you'll use the `amplify codegen models` command to generate Swift models.
 
     <amplify-callout>
     
