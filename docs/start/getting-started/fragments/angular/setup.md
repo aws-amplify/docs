@@ -24,7 +24,7 @@ Currently, the newest versions of Angular (6+) do not include shims for 'global'
 
 ### Internet Explorer 11 (IE11) Support:
 
-In order for Angular apps to work on IE11, you need to add the follow to your `src/polyfills.ts` file as well:
+In order for Angular apps to work on IE11, you need to add the following to your `src/polyfills.ts` file as well:
 
 ```javascript
 import 'core-js/es6/typed';
