@@ -204,6 +204,27 @@
             "defaultExistingProject": true
           }
         ]
+      },
+      "breakCircularDependency": {
+        "description": "Toggles creation of Auth Triggers",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.51",
+        "deprecationDate": "Dec 1st 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "Creates Auth Trigger as Custom Lambda to be used with Api and Storage",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "Creates auth Triggers via Cognito CFN",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
       }
     }
   },
