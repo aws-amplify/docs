@@ -30,10 +30,10 @@ Dispatched when DataStore is about to perform its initial sync queries
 HubPayload `syncQueriesStartedEvent` contains:
 - `models` ([String]): an array of each model's `name`
 
-<inline-fragment platform="js" src="~/lib/datastore/fragments/js/datastore-events-model-synced.md"></inline-fragment>
-<inline-fragment platform="android" src="~/lib/datastore/fragments/native_common/datastore-events.md"></inline-fragment>
-<inline-fragment platform="flutter" src="~/lib/datastore/fragments/native_common/datastore-events.md"></inline-fragment>
-<inline-fragment platform="ios" src="~/lib/datastore/fragments/native_common/datastore-events.md"></inline-fragment>
+<inline-fragment platform="js" src="~/lib/datastore/fragments/js/datastore-events/model-synced.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/datastore/fragments/native_common/datastore-events/model-synced.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/datastore/fragments/native_common/datastore-events/model-synced.md"></inline-fragment>
+<inline-fragment platform="ios" src="~/lib/datastore/fragments/native_common/datastore-events/model-synced.md"></inline-fragment>
 
 ## syncQueriesReady
 
@@ -47,26 +47,15 @@ Dispatched when DataStore as a whole is ready, at this point all data is availab
 
 HubPayload: N/A
 
-## outboxMutationEnqueued
+<inline-fragment platform="js" src="~/lib/datastore/fragments/js/datastore-events/outbox-mutation-enqueued.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/datastore/fragments/native_common/datastore-events/outbox-mutation-enqueued.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/datastore/fragments/native_common/datastore-events/outbox-mutation-enqueued.md"></inline-fragment>
+<inline-fragment platform="ios" src="~/lib/datastore/fragments/native_common/datastore-events/outbox-mutation-enqueued.md"></inline-fragment>
 
-Dispatched when a local change has been newly staged for synchronization with the Cloud
-
-HubPayload `outboxMutationEvent` contains:
-- `modelName` (String): the name of the model that is awaiting publication to the Cloud
-- `element`: 
-    - `model` (Model): the model instance that will be published
-
-## outboxMutationProcessed
-
-Dispatched when a local change has finished synchronization with the Cloud and is updated locally
-
-HubPayload `outboxMutationEvent` contains:
-- `modelName` (String): the name of the model that has finished processing
-- `element`: 
-    - `model` (Model): the model instance that is processed
-    - `_version` (Int): version of the model instance
-    - `_lastChangedAt` (Int): last change time of model instance (unix time)
-    - `_deleted` (Bool): true if the model instance has been deleted in Cloud
+<inline-fragment platform="js" src="~/lib/datastore/fragments/js/datastore-events/outbox-mutation-processed.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/datastore/fragments/native_common/datastore-events/outbox-mutation-processed.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/datastore/fragments/native_common/datastore-events/outbox-mutation-processed.md"></inline-fragment>
+<inline-fragment platform="ios" src="~/lib/datastore/fragments/native_common/datastore-events/outbox-mutation-processed.md"></inline-fragment>
 
 ## outboxStatus
 
