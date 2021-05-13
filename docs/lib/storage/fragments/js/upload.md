@@ -95,15 +95,7 @@ async function onChange(e) {
 Upload an image in your React Native app:
 
 ```javascript
-const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-    console.log(result) 
-    async function pathToImageFile(data) {
+async function pathToImageFile(data) {
       try {
         const response = await fetch(data);
         const blob = await response.blob();
