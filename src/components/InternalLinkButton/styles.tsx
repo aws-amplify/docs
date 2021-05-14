@@ -4,6 +4,7 @@ import {MQFablet} from "../media";
 export const Host = styled.div`
   display: block;
   margin-bottom: 1.5rem;
+  margin-top: 2.5rem;
 `;
 
 export const Container = styled.div`

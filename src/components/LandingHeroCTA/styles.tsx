@@ -6,4 +6,10 @@ export const PlatformsGroup = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+
+  ${MQFablet} {
+    a {
+      padding: 0 1.25rem;
+    }
+  }
 `;
