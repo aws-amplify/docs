@@ -29,7 +29,6 @@ export class AppComponent {
         type: "phone_number",
         label: "Custom Phone Label",
         placeholder: "Custom phone placeholder",
-        inputProps: { required: true },
       },
     ];
   }
