@@ -34,7 +34,7 @@
 ![Image](~/images/cognitoHostedUI/google5.png)
 7. Click *CREATE*
 ![Image](~/images/cognitoHostedUI/google6.png)
-8. Type in *App Information* and *Developer contact information* which are required field and click *SAVE AND CONTINUE* three times to finish setting up consent screen
+8. Type in *App Information* and *Developer contact information* which are required field and click *SAVE AND CONTINUE* three times (OAuth consent screen -> Scopes -> Test Users) to finish setting up consent screen
 9. Back to *Credentials* tab, Create your OAuth2.0 credentials by choosing *OAuth client ID* from the *Create credentials* drop-down list.
 ![Image](~/images/cognitoHostedUI/google7.png).
 10. Choose *Web application* as *Application type* and name your OAuth Client.
