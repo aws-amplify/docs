@@ -83,9 +83,7 @@ _App.vue_
 
 </docs-filter>
 
-<amplify-callout warning>
 
-To enable password manager, you need to wrap the Authenticator component with `amplify-auth-container` component.
 
 <docs-filter framework="react">
 
@@ -110,8 +108,6 @@ To enable password manager, you need to wrap the Authenticator component with `a
 <inline-fragment src="~/ui/auth/fragments/angular/password-manager.md"></inline-fragment>
 
 </docs-filter>
-
-</amplify-callout>
 
 <ui-component-props tag="amplify-authenticator" prop-type='attr' use-table-headers></ui-component-props>
 
