@@ -29,7 +29,12 @@ const Page = () => {
             developers
           </h4>
 
-          <Grid columns={[1, null, null, 4]}>
+          <Grid
+            columns={[1, null, null, 4]}
+            sx={{
+              marginTop: "2rem",
+            }}
+          >
             <Card href="/lib/q/platform/js">
               <CardGraphic src="/lib.png" />
               <CardDetail>
