@@ -8,7 +8,13 @@ export default function FeaturesGrid() {
     <Container backgroundColor="color-off-white">
       <div className="padding-bottom-lg padding-top-lg padding-horizontal-md">
         <h4 className="text-align-center">Explore Features</h4>
-        <Grid gap={2} columns={[1, null, null, 3]} className="margin-top-lg">
+        <Grid
+          gap={2}
+          columns={[1, null, null, 3]}
+          sx={{
+            marginTop: "2rem",
+          }}
+        >
           <Card href="/lib/auth/getting-started" className="border-radius">
             <CardGraphic src="/features/auth.svg" />
             <CardDetail>
