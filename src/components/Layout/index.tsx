@@ -1,9 +1,13 @@
 import Head from "next/head";
 import {useRouter} from "next/router";
+import {traverseHeadings} from "../../utils/traverseHeadings";
+import TableOfContents from "../TableOfContents/index";
 import {ContentStyle} from "./styles";
 
 export default function Layout({meta, children}) {
   const router = useRouter();
+  const {platform} = router.query;
+  const headers = traverseHeadings(children, platform as string);
   const basePath = "docs.amplify.aws";
   return (
     <>
@@ -47,6 +51,7 @@ export default function Layout({meta, children}) {
         />
       </Head>
       <ContentStyle>{children}</ContentStyle>
+      <TableOfContents>{headers}</TableOfContents>
       <script src="https://cdn.jsdelivr.net/npm/docsearch.js@2.6.3/dist/cdn/docsearch.min.js"></script>
     </>
   );
