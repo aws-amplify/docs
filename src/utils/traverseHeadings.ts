@@ -25,7 +25,7 @@ export function traverseHeadings(tree, platform: string): string[] {
       if ("mdxType" in node.props) {
         const mdxType = node.props.mdxType;
         if (mdxType === "h2" || mdxType === "h3") {
-          headings.push(node.props.children);
+          headings.push([node.props.children, mdxType]);
         }
       }
     }
