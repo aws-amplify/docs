@@ -38,7 +38,7 @@ const editorsByPost = (await DataStore.query(PostEditor)).filter(
 
 // All editors of posts where title contains "first"
 const editorsOfFirstPosts = (await DataStore.query(PostEditor)).filter(
-    pe => pe.post.title.match(/first/i)
+    pe => pe.post.title.includes("first")
 ).map(pe => pe.editor);
 
 // All editors of posts where title is long
