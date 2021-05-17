@@ -21,15 +21,26 @@
 </amplify-block>
 <amplify-block name="Google Sign-In">
 
-1. Go to the [Google developer console](https://console.developers.google.com).
-2. On the left navigation bar, choose *Credentials*.
+1. Go to [Google developer console](https://console.developers.google.com).
+2. Click *Select a project*
+![Image](~/images/cognitoHostedUI/google1.png)
+3. Click *NEW PROJECT*
+![Image](~/images/cognitoHostedUI/google2.png)
+4. Type in project name and click *CREATE*
+![Image](~/images/cognitoHostedUI/google3.png)
+5. Once the project is created, from the left *Navigation menu*, select *APIs & Services*, then select *Credentials*
+![Image](~/images/cognitoHostedUI/google4.png)
+6. Click *CONFIGURE CONSENT SCREEN*
 ![Image](~/images/cognitoHostedUI/google5.png)
-3. Create your OAuth2.0 credentials by choosing *OAuth client ID* from the *Create credentials* drop-down list.
-![Image](~/images/cognitoHostedUI/google6.png).
-4. Choose *Web application*.
-5. Click *Create*.
-6. Note the *OAuth client ID* and *client secret*. You will need them for the next section in the CLI flow.
-7. Choose *OK*.
+7. Click *CREATE*
+![Image](~/images/cognitoHostedUI/google6.png)
+8. Type in *App Information* and *Developer contact information* which are required field and click *SAVE AND CONTINUE* three times (OAuth consent screen -> Scopes -> Test Users) to finish setting up consent screen
+9. Back to *Credentials* tab, Create your OAuth2.0 credentials by choosing *OAuth client ID* from the *Create credentials* drop-down list.
+![Image](~/images/cognitoHostedUI/google7.png).
+10. Choose *Web application* as *Application type* and name your OAuth Client.
+11. Click *Create*.
+12. Take note of *Your client ID* and *Your Client Secret*. You will need them for the next section in the CLI flow.
+13. Choose *OK*.
 
 </amplify-block>
 <amplify-block name="Login with Amazon">

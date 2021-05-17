@@ -61,8 +61,9 @@ Provision the backend with `amplify push` command. Here is an example:
 
 ```console
 ? Are you sure you want to continue? `Yes`
-? Do you want to generate code for your newly created GraphQL API `No`
 ```
+Answer `No` to `? Do you want to generate code for your newly created GraphQL API`.
+Answering `Yes` will generate an `API.swift` file which is only necessary when directly using the AWSAppSync SDK. When you're using Amplify API or Amplify DataStore, you'll use the `amplify codegen models` command to generate Swift models.
 
 The example above creates a backend with the Todo schema. You can open the AWS Console for AppSync with 
 `amplify console api` to interact directly with the GraphQL service.  When your backend is successfully updated, there should be two newly created files: `amplifyconfiguration.json` and `awsconfiguration.json` in your project folder.
@@ -89,7 +90,6 @@ If this is a new project, run `pod init` to create the `Podfile` to use CocoaPod
 target :'YOUR-APP-NAME' do
     use_frameworks!
     pod 'AmplifyPlugins/AWSAPIPlugin'
-    pod 'amplify-tools'
 end
 ```
 
@@ -162,22 +162,9 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 
 ## Running code generator
 
-1. In `amplifyxc.config`, enable model generation, and save the file.
-    ```ruby
-    modelgen=true
-    ```
-2. Build your project with **Product > Build** (`Cmd+b`). This will generate the Model files to be used with `Amplify.API` to query, mutate, and subscribe to you AppSync service. After build completes, the model files will be generated under `amplify/generated/models`. When you edit the schema under `amplify/backend/api/<APINAME>/schema.graphql` and build, it will regenerate the Model files.
+1. Run `amplify codegen models` using Amplify CLI.
+2. A new `AmplifyModels` group will be added to your Xcode project containing the generated model files.
 
-3. Alternatively, you can run `amplify codegen models` using Amplify CLI. Make sure you set `modelgen=false` if you are using the CLI instead of Amplify Tools.
-
-4. Drag the entire `models` directory over to your project. If you Build the project, the model files will be regenerated under the `amplify` folder. 
-
-5. Select each model file, and select the app under Target Membership, to make sure it gets added to the target when building the app.
-
-6. Register the models before initializing Amplify in your AppDelegate method.
-    ```
-    ModelRegistry.register(modelType: Todo.self)
-    ```
 Make sure it builds and runs (`Cmd+R`) successfully before moving onto the next section.
 
 ## API Reference   

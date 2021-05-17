@@ -123,3 +123,5 @@ type YourModel @model @auth(rules: [{ allow: groups
   ...
 }
 ```
+
+<inline-fragment platform="js" src="~/lib/datastore/fragments/js/setup-auth-rules/multi-auth.md"></inline-fragment>
