@@ -24,7 +24,7 @@ const mdxRenderer = `
 `;
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const [headingLinkPlugin, layoutPlugin] = require("./src/plugins/toc.tsx");
+const [headingLinkPlugin, layoutPlugin] = require("./src/plugins/headings.tsx");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const withMDX = require("@next/mdx")({
   options: {
