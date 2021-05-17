@@ -15,3 +15,8 @@ export const ContentStyle = styled.div`
     }
   }
 `;
+
+export const LayoutStyle = styled.div`
+  display: flex;
+  flex-direction: row;
+`;

@@ -1,19 +1,8 @@
+import {slug} from "../utils/slug";
+
 const headingLinkPlugin = () => (tree) => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const visit = require("unist-util-visit");
-  const slug = function(str) {
-    let slugged = "";
-    for (const c of str) {
-      if (c >= "A" && c <= "z") {
-        slugged += c.toLowerCase();
-      } else if (c >= "0" && c <= "9") {
-        slugged += c;
-      } else if (c === " " || c === "-") {
-        slugged += "-";
-      }
-    }
-    return slugged;
-  };
 
   visit(tree, "heading", (heading) => {
     const node = {...heading};
@@ -30,18 +19,4 @@ const headingLinkPlugin = () => (tree) => {
   });
 };
 
-const layoutPlugin = () => (tree) => {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const visit = require("unist-util-visit");
-  visit(tree, "export", (node, index) => {
-    if (node.value.includes("export const meta")) {
-      tree.children.splice(index + 1, 0, {
-        type: "export",
-        default: true,
-        value: `export default ({ children }) => <Layout meta={meta}>{children}</Layout>`,
-      });
-    }
-  });
-};
-
-module.exports = [headingLinkPlugin, layoutPlugin];
+module.exports = [headingLinkPlugin];

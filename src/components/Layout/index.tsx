@@ -2,7 +2,7 @@ import Head from "next/head";
 import {useRouter} from "next/router";
 import {traverseHeadings} from "../../utils/traverseHeadings";
 import TableOfContents from "../TableOfContents/index";
-import {ContentStyle} from "./styles";
+import {ContentStyle, LayoutStyle} from "./styles";
 
 export default function Layout({meta, children}) {
   const router = useRouter();
@@ -50,8 +50,10 @@ export default function Layout({meta, children}) {
           key="twitter:image"
         />
       </Head>
-      <ContentStyle>{children}</ContentStyle>
-      <TableOfContents>{headers}</TableOfContents>
+      <LayoutStyle>
+        <ContentStyle>{children}</ContentStyle>
+        <TableOfContents title={meta.title}>{headers}</TableOfContents>
+      </LayoutStyle>
       <script src="https://cdn.jsdelivr.net/npm/docsearch.js@2.6.3/dist/cdn/docsearch.min.js"></script>
     </>
   );
