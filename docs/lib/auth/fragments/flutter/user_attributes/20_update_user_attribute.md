@@ -1,3 +1,16 @@
-<amplify-callout>
-This functionality has not yet been implemented for Flutter, this section will be updated once it has been added. 
-</amplify-callout>
+```dart
+try {
+  var res = await Amplify.Auth.updateUserAttribute(
+    userAttributeKey: 'email',
+    value: 'email@email.com',
+  );
+  if (res.nextStep.updateAttributeStep == 'CONFIRM_ATTRIBUTE_WITH_CODE') {
+    var destination = res.nextStep.codeDeliveryDetails.destination;
+    print('Confirmation code sent to $destination');
+  } else {
+    print('Update completed');
+  }
+} on AmplifyException catch (e) {
+  print(e.message);
+}
+```
