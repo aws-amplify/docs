@@ -12,7 +12,11 @@ import UniversalNav from "../components/UniversalNav";
 const Page = () => {
   return (
     <>
-      <UniversalNav heading="Amplify Docs" brandIcon="/logo-dark.svg" />
+      <UniversalNav
+        heading="Amplify Docs"
+        brandIcon="/logo-dark.svg"
+        blend={true}
+      />
       <Hero>
         <h1 className="font-weight-300">Amplify Framework Documentation</h1>
         <p>

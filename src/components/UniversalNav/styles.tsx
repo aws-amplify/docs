@@ -1,12 +1,49 @@
 import styled from "@emotion/styled";
 import {MQFablet, MQTablet} from "../media";
 
+type NavProps = {
+  blend?: boolean;
+};
+
 export const Nav = styled.nav`
   display: block;
   background-color: var(--bg-color);
 `;
 
-export const NavContent = styled.div`
+export const NavContent = styled.div<NavProps>(({blend}) => {
+  if (blend) {
+    return `
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    transition: 0.25s ease all;
+    padding: 1.5rem;
+    flex-wrap: wrap;
+    background-color: transparent;
+  
+    > * {
+      flex: 1;
+    }
+  
+    span {
+      color: var(--color-white);
+      white-space: nowrap;
+    }
+
+    * {
+      color: var(--font-color);
+    }
+
+    a > span {
+      color: var(--color-orange-hv);
+    }
+  `;
+  }
+
+  return `
   display: flex;
   flex: 1;
   flex-direction: row;
@@ -25,19 +62,8 @@ export const NavContent = styled.div`
     color: var(--color-white);
     white-space: nowrap;
   }
-
-  &.blend {
-    background-color: transparent;
-
-    * {
-      color: var(--font-color);
-    }
-
-    a > span {
-      color: var(--color-orange-hv);
-    }
-  }
 `;
+});
 
 export const Branding = styled.div`
   order: 1;
@@ -93,7 +119,8 @@ export const SearchContainer = styled.div`
   }
 `;
 
-export const Links = styled.div`
+export const Links = styled.div<NavProps>(
+  ({blend}) => `
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -111,12 +138,17 @@ export const Links = styled.div`
     align-items: center;
     padding: 0 1rem;
     font-size: 0.875rem;
+    padding-right: 0;
 
-    &:last-child {
-      padding-right: 0;
+    ${blend &&
+      `
+    span {
+      color: var(--font-color);
     }
+    `}
   }
-`;
+`,
+);
 
 export const AboutInternalAmplifyLink = styled.span`
   display: none;
