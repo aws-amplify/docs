@@ -22,35 +22,36 @@ i {
 
 a {
   cursor: pointer;
+}
 
-  &,
-  &:link,
-  &:visited,
-  &:hover,
-  &:focus,
-  &:active {
-    color: var(--color-anchor);
-    text-decoration: none;
-  }
+a,
+a:link,
+a:visited,
+a:hover,
+a:focus,
+a:active {
+  color: var(--color-anchor);
+  text-decoration: none;
+  cursor: pointer;
+}
 
-  span,
-  p,
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    cursor: pointer;
-  }
+a span,
+a p,
+a h1,
+a h2,
+a h3,
+a h4,
+a h5,
+a h6 {
+  cursor: pointer;
 }
 
 svg {
   color: inherit;
+}
 
-  path {
-    color: inherit;
-  }
+svg path {
+  color: inherit;
 }
 
 span,
@@ -126,31 +127,29 @@ dl dt {
   margin: 1rem 0 0.25rem;
 }
 
-dl {
-  dt:first-child {
-    padding: 0;
-  }
+dt:first-child {
+  padding: 0;
+}
 
-  dt > :first-child {
-    margin-top: 0;
-  }
+dt > :first-child {
+  margin-top: 0;
+}
 
-  dt > :last-child {
-    margin-bottom: 0;
-  }
+dt > :last-child {
+  margin-bottom: 0;
+}
 
-  dd {
-    margin: 0 0 1rem;
-    padding: 0 1rem;
+dd {
+  margin: 0 0 1rem;
+  padding: 0 1rem;
+}
 
-    > :first-child {
-      margin-top: 0;
-    }
+dd > :first-child {
+  margin-top: 0;
+}
 
-    > :last-child {
-      margin-bottom: 0;
-    }
-  }
+dd > :last-child {
+  margin-bottom: 0;
 }
 
 pre {
@@ -163,14 +162,12 @@ blockquote {
   color: var(--color-grey-hv);
 }
 
-blockquote {
-  > :first-child {
-    margin-top: 0;
-  }
+blockquote > :first-child {
+  margin-top: 0;
+}
 
-  > :last-child {
-    margin-bottom: 0;
-  }
+blockquote > :last-child {
+  margin-bottom: 0;
 }
 
 div.table-container {
@@ -222,32 +219,32 @@ tt {
 }
 
 code {
-  &,
-  & * {
-    font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
-    font-size: 0.8125rem;
-  }
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  font-size: 0.8125rem;
 }
 
-table,
-td,
-blockquote,
-li,
-p,
-a,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-span {
-  > code {
-    display: inline-block;
-    padding: 0 0.5rem;
-    background-color: var(--color-grey-lt);
-    border-radius: 0.25rem;
-  }
+code * {
+  font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;
+  font-size: 0.8125rem;
+}
+
+table > code,
+t d > code,
+blockquote > code,
+li > code,
+p > code,
+a > code,
+h1 > code,
+h2 > code,
+h3 > code,
+h4 > code,
+h5 > code,
+h6 > code,
+span > code {
+  display: inline-block;
+  padding: 0 0.5rem;
+  background-color: var(--color-grey-lt);
+  border-radius: 0.25rem;
 }
 
 iframe {
