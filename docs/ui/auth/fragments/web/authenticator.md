@@ -83,6 +83,32 @@ _App.vue_
 
 </docs-filter>
 
+
+
+<docs-filter framework="react">
+
+<inline-fragment src="~/ui/auth/fragments/react/password-manager.md"></inline-fragment>
+
+</docs-filter>
+
+<docs-filter framework="angular">
+
+<inline-fragment src="~/ui/auth/fragments/angular/password-manager.md"></inline-fragment>
+
+</docs-filter>
+
+<docs-filter framework="ionic">
+
+<inline-fragment src="~/ui/auth/fragments/angular/password-manager.md"></inline-fragment>
+
+</docs-filter>
+
+<docs-filter framework="vue">
+
+<inline-fragment src="~/ui/auth/fragments/angular/password-manager.md"></inline-fragment>
+
+</docs-filter>
+
 <ui-component-props tag="amplify-authenticator" prop-type='attr' use-table-headers></ui-component-props>
 
 <ui-component-props tag="amplify-authenticator" prop-type='slots' use-table-headers></ui-component-props>
@@ -861,7 +887,7 @@ export default {
     return {
       user: undefined,
       authState: undefined,
-      unsubscribeAuth: undefined
+      unsubscribeAuth: undefined,
     };
   },
   beforeUnmount() {
@@ -888,7 +914,7 @@ export default {
     return {
       user: undefined,
       authState: undefined,
-      unsubscribeAuth: undefined
+      unsubscribeAuth: undefined,
     };
   },
   beforeDestroy() {

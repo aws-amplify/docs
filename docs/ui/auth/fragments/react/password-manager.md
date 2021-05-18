@@ -1,0 +1,16 @@
+<amplify-callout warning>
+
+To enable browser password manager, wrap the Authenticator component with an `AmplifyAuthContainer`.
+
+```jsx
+import {
+  AmplifyAuthContainer,
+  AmplifyAuthenticator,
+} from "@aws-amplify/ui-react";
+
+<AmplifyAuthContainer>
+  <AmplifyAuthenticator />
+</AmplifyAuthContainer>
+```
+
+</amplify-callout>
