@@ -7,20 +7,16 @@ export const TOCStyle = styled.div`
   font-size: 0.875rem;
   width: 16.875rem;
 
-  docs-in-page-link {
+  a {
     transition: 0.25s ease;
     transition-property: margin-left border;
     border-left: 0.05rem solid var(--border-color);
     display: flex;
-
-    a {
-      display: flex;
-      flex: 1;
-      padding-top: 0.25rem;
-      padding-bottom: 0.25rem;
-      padding-right: 1.5rem;
-      color: var(--font-color);
-    }
+    flex: 1;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    padding-right: 1.5rem;
+    color: var(--font-color);
 
     &:hover {
       background-color: var(--bg-color-hover);
