@@ -44,9 +44,10 @@ export default function DocsFooter() {
               <img src="/aws.svg" />
               Amplify open source, documentation and community are supported by
               Amazon Web Services © 2020, Amazon Web Services, Inc. and its
-              affiliates. All rights reserved. View the
-              <ExternalLink href={links.TERMS}>site terms</ExternalLink>
-              and
+              affiliates. All rights reserved. View the{" "}
+              <ExternalLink href={links.TERMS}>
+                site terms
+              </ExternalLink> and{" "}
               <ExternalLink href={links.PRIVACY}>privacy policy</ExternalLink>.
               <br />
               Flutter and the related logo are trademarks of Google LLC. We are
