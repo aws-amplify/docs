@@ -9,7 +9,7 @@ export default function FeaturesGrid() {
       <div className="padding-bottom-lg padding-top-lg padding-horizontal-md">
         <h4 className="text-align-center">Explore Features</h4>
         <Grid
-          gap={2}
+          gap={4}
           columns={[1, null, null, 3]}
           sx={{
             marginTop: "2rem",
