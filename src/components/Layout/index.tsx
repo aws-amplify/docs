@@ -54,7 +54,6 @@ export default function Layout({meta, children}) {
         <ContentStyle>{children}</ContentStyle>
         <TableOfContents title={meta.title}>{headers}</TableOfContents>
       </LayoutStyle>
-      <script src="https://cdn.jsdelivr.net/npm/docsearch.js@2.6.3/dist/cdn/docsearch.min.js"></script>
     </>
   );
 }
