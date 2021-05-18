@@ -1,4 +1,5 @@
-import {slug} from "../../utils/slug";
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const slug = require("../../utils/slug");
 import {TOCStyle, H2AnchorStyle, H3AnchorStyle, HeaderStyle} from "./styles";
 
 export default function TableOfContents({children, title}) {
