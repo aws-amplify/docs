@@ -1,12 +1,9 @@
 You've successfully built an Amplify app with Next.js! Now that you've built something, it's time to deploy it to the web with Amplify Console!
 
-> **Note**: Amplify Console is adding support for Server-Side Rendering (SSR).
-> [Vote & comment on this issue](https://github.com/aws-amplify/amplify-console/issues/412) to show your support!
-
 ## Add hosting to your app
 You can deploy Next.js SSR apps with AWS Amplify's CI/CD and hosting service. In this guide we'll cover how to deploy and host your SSR web apps to quickly share with others. If you want to learn more about continuous deployment, please see [this guide](https://docs.aws.amazon.com/amplify/latest/userguide/multi-environments.html#standard).
 
-### Set up continuous deployments for your app
+### Set up CI/CD for your app
 
 From the root of your project, run the following command and select the **bolded options**. 
 ```bash
@@ -26,8 +23,6 @@ Choose the **Frontend environments** tab, select a Git provider, then choose **C
 ![image](../../images/start-nextjs-deploy-2.png)
 
 Follow the steps in the Amplify console to choose the branch to connect, and deploy your app. 
-
-> **Note**: Your CloudFront Distribution may take several minutes to go from "In Progress" to "Active".  Visit your [CloudFront Console](https://console.aws.amazon.com/cloudfront/home) to monitor progress.
 
 After your site is successfully deployed, you'll see four green checkmarks. To view the live site, click on the automatically generated URL circled in red in the following screenshot.
 
