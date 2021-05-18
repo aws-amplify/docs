@@ -13,11 +13,11 @@ import ExternalLink from "../ExternalLink";
 import Link from "next/link";
 import {COMMUNITY, MARKETING} from "../../constants/links";
 
-export default function UniversalNav({heading, brandIcon}) {
+export default function UniversalNav({heading, brandIcon, blend}) {
   return (
     <Nav>
       <Container backgroundColor="orange-hv">
-        <NavContent>
+        <NavContent blend={blend}>
           <Branding>
             <Link href="/">
               <a>
@@ -31,14 +31,14 @@ export default function UniversalNav({heading, brandIcon}) {
             <SearchBar />
           </SearchContainer>
 
-          <Links>
+          <Links blend={blend}>
             <ExternalLink href={COMMUNITY}>
               <span>Community</span>
             </ExternalLink>
 
-            <ExternalLink href={MARKETING} graphic="white">
+            <ExternalLink href={MARKETING} graphic={blend ? "black" : "white"}>
               <span>
-                About
+                About{" "}
                 <AboutInternalAmplifyLink>Amplify</AboutInternalAmplifyLink>
               </span>
             </ExternalLink>
