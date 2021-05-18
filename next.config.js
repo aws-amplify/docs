@@ -24,7 +24,9 @@ const mdxRenderer = `
 `;
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const [headingLinkPlugin, layoutPlugin] = require("./src/plugins/headings.tsx");
+const headingLinkPlugin = require("./src/plugins/headings.tsx");
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const layoutPlugin = require("./src/plugins/layout.tsx");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const withMDX = require("@next/mdx")({
   options: {
