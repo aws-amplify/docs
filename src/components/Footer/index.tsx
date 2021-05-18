@@ -41,17 +41,21 @@ export default function DocsFooter() {
           </Social>
           <Legal>
             <span>
-              <img src="/aws.svg" />
-              Amplify open source, documentation and community are supported by
-              Amazon Web Services © 2020, Amazon Web Services, Inc. and its
-              affiliates. All rights reserved. View the{" "}
-              <ExternalLink href={links.TERMS}>
-                site terms
-              </ExternalLink> and{" "}
-              <ExternalLink href={links.PRIVACY}>privacy policy</ExternalLink>.
-              <br />
-              Flutter and the related logo are trademarks of Google LLC. We are
-              not endorsed by or affiliated with Google LLC.
+              <div>
+                <img src="/aws.svg" />
+                Amplify open source, documentation and community are supported
+                by Amazon Web Services © 2020, Amazon Web Services, Inc. and its
+                affiliates. All rights reserved. View the{" "}
+                <ExternalLink href={links.TERMS}>
+                  site terms
+                </ExternalLink> and{" "}
+                <ExternalLink href={links.PRIVACY}>privacy policy</ExternalLink>
+                .
+              </div>
+              <div className="margin-top-md">
+                Flutter and the related logo are trademarks of Google LLC. We
+                are not endorsed by or affiliated with Google LLC.
+              </div>
             </span>
           </Legal>
         </RightFooter>
