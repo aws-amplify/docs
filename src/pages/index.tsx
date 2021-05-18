@@ -35,6 +35,7 @@ const Page = () => {
 
           <Grid
             columns={[1, null, null, 4]}
+            gap={4}
             sx={{
               marginTop: "2rem",
             }}
