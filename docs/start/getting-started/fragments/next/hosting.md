@@ -24,8 +24,6 @@ Choose the **Frontend environments** tab, select a Git provider, then choose **C
 
 Follow the steps in the Amplify console to choose the branch to connect, and deploy your app. 
 
-> **Note**: Your CloudFront Distribution may take several minutes to go from "In Progress" to "Active".  Visit your [CloudFront Console](https://console.aws.amazon.com/cloudfront/home) to monitor progress.
-
 After your site is successfully deployed, you'll see four green checkmarks. To view the live site, click on the automatically generated URL circled in red in the following screenshot.
 
 ![image](../../images/start-nextjs-deploy-3.png)
