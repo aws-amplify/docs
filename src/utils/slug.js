@@ -1,4 +1,4 @@
-export const slug = function(str) {
+module.exports = function slug(str) {
   let slugged = "";
   for (const c of str) {
     if (c >= "A" && c <= "z") {

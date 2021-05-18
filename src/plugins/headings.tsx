@@ -1,4 +1,4 @@
-import {slug} from "../utils/slug";
+const slug = require("../utils/slug");
 
 const headingLinkPlugin = () => (tree) => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
