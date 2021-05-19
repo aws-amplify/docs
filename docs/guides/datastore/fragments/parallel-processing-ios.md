@@ -1,14 +1,14 @@
-Amplify DataStore provides APIs that allow you to create, read, update, and delete items individually. Sometimes you need to perform batch operations like creating and updating multiple objects or querying and deleting object by their IDs. In this guide, you will learn how to perform batch operations using Combine to extend the functionality of the Amplify DataStore APIs.
+Amplify DataStore provides APIs that allow you to create, read, update, and delete items individually. Sometimes you need to perform multiple operations in parallel, like creating and updating several objects or querying and deleting objects by their IDs. In this guide, you will learn how to perform parallel processing using the Combine framework to extend the functionality of the Amplify DataStore APIs.
 
 <amplify-callout warning>
 
-For simplicity, this Guide demonstrates how to perform batch operations using the Combine framework. To follow along, you must include `import Combine` at the top of your file.
+For simplicity, this Guide demonstrates how to perform parallel processing using the Combine framework. To follow along, you must include `import Combine` at the top of your file.
 
 </amplify-callout>
 
-## Batch create and update
+## Create and update in parallel
 
-To batch write data to the DataStore, pass an array of models to a Combine `Publishers.Sequence` and perform `Amplify.DataStore.save(_ model:)` on each object:
+To write data to the DataStore in parallel, pass an array of models to a Combine `Publishers.Sequence` and perform `Amplify.DataStore.save(_ model:)` on each object:
 
 ```swift
 let todos = [
@@ -33,9 +33,9 @@ let sink = Publishers.Sequence<[Todo], Never>(sequence: todos)
 
 `Publishers.Sequence` creates a `Publisher` where each model is passed to `.flatMap()` individually, allowing for each object to be saved to DataStore. `.collect()` emits a single array of all the elements collected, returning the saved models in `receiveValue`.
 
-## Batch delete
+## Delete in parallel
 
-To batch delete items, pass an array of IDs to `Publishers.Sequence` and perform `Amplify.DataStore.delete(_withId:)` for each ID:
+To delete items in parallel, pass an array of IDs to `Publishers.Sequence` and perform `Amplify.DataStore.delete(_withId:)` for each ID:
 
 ```swift
 let todoIds = ["123", "456", "789"]
@@ -54,11 +54,11 @@ let sink = Publishers.Sequence<[String], Never>(sequence: todoIds)
     }
 ```
 
-`Amplify.DataStore.delete(_withId:)` emits a `Void` when successful. The `receiveValue` of batch deletes will pass `[Void]`.
+`Amplify.DataStore.delete(_withId:)` emits a `Void` when successful. The `receiveValue` of parallel deletes will pass `[Void]`.
 
-## Batch query
+## Query in parallel
 
-To batch query items, pass an array of IDs to `Publishers.Sequence` and perform `Amplify.DataStore.query(_:byId:)` for each ID:
+To query items in parallel, pass an array of IDs to `Publishers.Sequence` and perform `Amplify.DataStore.query(_:byId:)` for each ID:
 
 ```swift
 let todoIds = ["123", "456", "789"]
