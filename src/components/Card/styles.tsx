@@ -77,6 +77,7 @@ export const CardGraphic = styled.img`
   margin-right: 0.75rem;
   width: 3rem;
   min-width: 3rem;
+  margin-top: -6px;
 
   &.vertical {
     margin-right: 0;
