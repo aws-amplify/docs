@@ -29,7 +29,7 @@ exports.handler =  async function(event, context){
 
 The Amplify CLI provides support for maintaining multiple environments out of the box. When you deploy a function via `amplify add function`, it will automatically add the environment suffix to your Lambda function name. For example if you create a function named **echofunction** using `amplify add function` in the **dev** environment, the deployed function will be named **echofunction-dev**. The `@function` directive allows you to use `${env}` to reference the current Amplify CLI environment.
 
-```
+```graphql
 type Query {
   echo(msg: String): String @function(name: "echofunction-${env}")
 }
@@ -39,7 +39,7 @@ type Query {
 
 If you deployed your API without amplify then you must provide the full Lambda function name. If you deployed the same function with the name **echofunction** then you would have:
 
-```
+```graphql
 type Query {
   echo(msg: String): String @function(name: "echofunction")
 }
