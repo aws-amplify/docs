@@ -84,6 +84,10 @@ function MyApp({Component, pageProps}) {
       </Head>
 
       <Component {...pageProps} />
+
+      <script src="https://cdn.jsdelivr.net/npm/docsearch.js@2.6.3/dist/cdn/docsearch.min.js"></script>
+      <script src="https://a0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"></script>
+      <script src="/scripts/shortbreadv1.js"></script>
     </>
   );
 }
