@@ -1,6 +1,5 @@
 import {Search} from "./styles";
 import {useEffect} from "react";
-import Head from "next/head";
 
 import {
   ALGOLIA_API_KEY,
@@ -28,9 +27,6 @@ export default function SearchBar() {
 
   return (
     <>
-      <Head>
-        <script src="https://cdn.jsdelivr.net/npm/docsearch.js@2.6.3/dist/cdn/docsearch.min.js"></script>
-      </Head>
       <Search>
         <div>
           <div>
