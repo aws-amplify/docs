@@ -4,7 +4,7 @@ async function forgetDevice() {
         const result = await Amplify.Auth.forgetDevice()
         console.log(result)
     }catch (error) {
-        console.log('Error forgeting device', error)
+        console.log('Error forgetting device', error)
     }
 }
 ```
