@@ -1,11 +1,11 @@
-These many-to-many relationship models can queried directly to return all models in the relationship:
+These many-to-many relationship models can be queried directly to return all models in the relationship:
 
 ```js
 // All post editor relationships
 const results = await DataStore.query(PostEditor);
 ```
 
-This will return an array of `PostEditor`'s with `Post` and `Editor` models attached. For example, without metadata, `results` from above would look like this:
+This will return an array of `PostEditor`s with `Post` and `Editor` model instances attached. For example, without metadata, `results` from above would look like this:
 
 ```json
 [
@@ -23,7 +23,7 @@ This will return an array of `PostEditor`'s with `Post` and `Editor` models atta
 ]
 ```
 
-Because this model contains both related models, finding records related to either model can be done with `filter()` and `map()`. For example:
+This model instance contains both related models. Use `filter()` or `map()` to retrieve the related model instances:
 
 ```js
 // All posts for a given editor
