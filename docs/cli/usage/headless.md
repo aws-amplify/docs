@@ -110,7 +110,7 @@ CATEGORIES="{\
 }"
 ```
 
-#### `storage``` category
+#### `storage` category
 
 Storage category supports the importing of S3 Buckets and DynamoDB tables. They require different parameter sets within the storage category.
 
