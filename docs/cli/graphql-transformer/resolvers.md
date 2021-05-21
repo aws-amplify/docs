@@ -18,6 +18,93 @@ and you want to change the behavior of request mapping template for the *Query.g
 
 ## Custom Resolvers
 
+GraphQL transformer supports adding custom `Query`, `Mutation` and `Subscription` when the generated ones do not cover your use-case. This is achieved by adding the required `Query`, `Mutation` or `Subscription` type to your schema and then adding resolvers to newly added field by creating a custom stack inside `<project-root>/amplify/backend/api/<api-name>/stacks` directory of your API. To add the custom fields add the following to your schema
+
+```graphql
+  # <project-root>amplify/backend/api/<api-name>/schema.graphql
+
+  type Query {
+    # Add all the custom queries here
+  }
+
+  type Mutation {
+    # Add all the custom mutations here
+  }
+
+  type Subscription {
+    # Add all the custom subscription here
+  }
+
+```
+
+Transformer by default creates a file called `CustomResources.json` inside `<project-root>/amplify/backend/api/<api-name>/stacks`, which can be used to add the custom resolvers for newly added `Query`, `Mutation` or `Subscription`. The custom stack gets the following arguments passed to it, allowing you to get details about API
+
+| Parameter                          | Type   | Possible values                    | Description                                                                                                                                                                       |
+| :--------------------------------- | :----- | ---------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| AppSyncApiId                       | String |                                    | The id of the AppSync API associated with this project                                                                                                                            |
+| AppSyncApiName                     | String |                                    | The name of the AppSync API                                                                                                                                                       |
+| env                                | String |                                    | Environment name                                                                                                                                                                  |
+| S3DeploymentBucket                 | String |                                    | The S3 bucket containing all deployment assets for the project                                                                                                                    |
+| S3DeploymentRootKey                | String |                                    | An S3 key relative to the S3DeploymentBucket that points to the root of the deployment directory.                                                                                 |
+| DynamoDBEnableServerSideEncryption | String | `true` or `false`                  | Enable server side encryption powered by KMS.                                                                                                                                     |
+| AuthCognitoUserPoolId              | String |                                    | The id of an existing User Pool to connect                                                                                                                                        |
+| DynamoDBModelTableReadIOPS         | Number |                                    | The number of read IOPS the table should support.                                                                                                                                 |
+| DynamoDBModelTableWriteIOPS        | Number |                                    | The number of write IOPS the table should support                                                                                                                                 |
+| DynamoDBBillingMode                | String | `PAY_PER_REQUEST` or `PROVISIONED` | Configure @model types to create DynamoDB tables with PAY_PER_REQUEST or PROVISIONED billing modes                                                                                |
+| DynamoDBEnablePointInTimeRecovery  | String | `true` or `false`                  | Whether to enable Point in Time Recovery on the table                                                                                                                             |
+| APIKeyExpirationEpoch              | Number |                                    | he epoch time in seconds when the API Key should expire                                                                                                                           |
+| CreateAPIKey                       | Number | `0` or `1`                         | The boolean value to control if an API Key will be created or not. The value of the property is automatically set by the CLI. If the value is set to 0 no API Key will be created |
+
+Any additional values added Custom Stacks will be exposed as parameter in the root stack, and value can be set by adding the value for it in `<project-root>/amplify/backend/api/<api-name>/parameters.json` file.
+
+To add a custom resolver, add the following in the resource section of `CustomResource.json`
+
+```json
+{
+    "Resources": {
+        "CustomQuery1": {
+            "Type": "AWS::AppSync::Resolver",
+            "Properties": {
+                "ApiId": {
+                    "Ref": "AppSyncApiId"
+                },
+                "DataSourceName": "CommentTable",
+                "TypeName": "Query",
+                "FieldName": "myCustomQuery",
+                "RequestMappingTemplateS3Location": {
+                    "Fn::Sub": [
+                        "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.myCustomQuery.req.vtl",
+                        {
+                            "S3DeploymentBucket": {
+                                "Ref": "S3DeploymentBucket"
+                            },
+                            "S3DeploymentRootKey": {
+                                "Ref": "S3DeploymentRootKey"
+                            }
+                        }
+                    ]
+                },
+                "ResponseMappingTemplateS3Location": {
+                    "Fn::Sub": [
+                        "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.myCustomQuery.res.vtl",
+                        {
+                            "S3DeploymentBucket": {
+                                "Ref": "S3DeploymentBucket"
+                            },
+                            "S3DeploymentRootKey": {
+                                "Ref": "S3DeploymentRootKey"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}
+```
+
+The request and response template should be placed inside `<project-root>/amplify/backend/api/<api-name>/resolvers` folder. Resolver templates are written using VTL. For more details refer to [AWS AppSync VTL documentation](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-mapping-template-reference.html)
+
 ### Add a custom resolver that targets a DynamoDB table from @model
 
 This is useful if you want to write a more specific query against a DynamoDB table that was created by *@model*. For example, assume you had this schema with two *@model* types and a pair of *@connection* directives.
