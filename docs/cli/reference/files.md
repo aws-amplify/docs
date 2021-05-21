@@ -43,7 +43,14 @@ Each plugin stores contents in its own subfolder within this folder.
 Only created after running `amplify mock api`. It contains the SQLite databases that are used to back the local API when mocking. The contents should not be modified but you can delete the folder if you want to wipe your local API state.
 ## Core Amplify Files
 
-These files work together to maintain the overall state of the Amplify project such as what resources are configured in the project, dependencies between resources, and when the last push was. 
+These files work together to maintain the overall state of the Amplify project such as what resources are configured in the project, dependencies between resources, and when the last push was.
+
+### backend-config.json
+> Manual edits okay: YES
+
+> Add to version control: YES
+
+Both the `amplify/backend` and `amplify/#current-cloud-backend` directories contain an `backend-config.json` file. The `backend-config.json` in the `backend` directory contains configuration about your project's backend, such as how connects to AWS resources (eg. Cognito for auth or AppSync for an API backend). Typically, this file is updated by the CLI when calling commands like `amplify add auth` or `amplify add api`, but it can also be [extended manually](~/cli/usage/customcf.md) to configure your backend beyond Amplify CLI's features.
 
 ### amplify-meta.json
 > Manual edits okay: NO
@@ -92,7 +99,7 @@ This file is consumed by the [Amplify](https://github.com/aws-amplify/amplify-js
 
 This file is the same as `aws-exports.js` but for Android and iOS projects.
 
-It is consumed by the [iOS](https://github.com/aws/aws-sdk-ios/) and [Android](https://github.com/aws/aws-sdk-android) native SDKs for configuration. 
+It is consumed by the [iOS](https://github.com/aws/aws-sdk-ios/) and [Android](https://github.com/aws/aws-sdk-android) native SDKs for configuration.
 
 ### .gitignore
 > Manual edits okay: YES
