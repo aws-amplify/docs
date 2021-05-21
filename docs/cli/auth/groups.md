@@ -59,7 +59,7 @@ What kind of access do you want for Admins users?
 ❯ create/update, read, delete
 ```
 
-The above example uses a combination of permissions where users in the "Admins" Group have full access, Guest users can only read, and users who are not a member of any specific Group are part of the "Authenticated" users who have create, update, and read access. Amplify will configure the corresponding IAM policy on your behalf. Advanced users can additionally set permissions by adding a `customPolicies` key to `./amplify/backend/auth/userPoolGroups/user-pool-group-precedence.json` with custom IAM policy for a Group. This will attach an inline policy on the IAM role associated to this Group during deployment. **Note**  this is an advanced feature and only suitable if you have an understanding of AWS resources. For instance perhaps you wanted users in the "Admins" group to have the ability to Create an S3 bucket:
+The above example uses a combination of permissions where users in the "Admins" Group have full access, Guest users can only read and Authenitcated users not a part of any group have create, update, and read access. Amplify will configure the corresponding IAM policy on your behalf. Advanced users can additionally set permissions by adding a `customPolicies` key to `./amplify/backend/auth/userPoolGroups/user-pool-group-precedence.json` with custom IAM policy for a Group. This will attach an inline policy on the IAM role associated to this Group during deployment. **Note**  this is an advanced feature and only suitable if you have an understanding of AWS resources. For instance perhaps you wanted users in the "Admins" group to have the ability to Create an S3 bucket:
 
 ```json
 [
