@@ -9,7 +9,7 @@ export default function DocsFooter() {
     <Container backgroundColor="color-ink-hv">
       <Footer>
         <LeftFooter>
-          <img src="/logo-light.svg" />
+          <img src="/assets/logo-light.svg" />
           <div>
             <h3>Amplify</h3>
             <a href="/start">Getting Started</a>
@@ -30,19 +30,19 @@ export default function DocsFooter() {
         <RightFooter>
           <Social>
             <ExternalLink anchorTitle="Twitter" href={links.TWITTER}>
-              <img src="/twitter.svg" />
+              <img src="/assets/twitter.svg" />
             </ExternalLink>
             <ExternalLink anchorTitle="Discord" href={links.DISCORD}>
               <img alt={img.DISCORD.alt} src={img.DISCORD.lightSrc} />
             </ExternalLink>
             <ExternalLink anchorTitle="GitHub" href={links.GITHUB}>
-              <img src="/github-light.svg" />
+              <img src="/assets/github-light.svg" />
             </ExternalLink>
           </Social>
           <Legal>
             <span>
               <div>
-                <img src="/aws.svg" />
+                <img src="/assets/aws.svg" />
                 Amplify open source, documentation and community are supported
                 by Amazon Web Services © 2020, Amazon Web Services, Inc. and its
                 affiliates. All rights reserved. View the{" "}
