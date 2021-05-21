@@ -36,7 +36,7 @@ export default function SearchBar() {
               type="search"
               placeholder="Search"
             />
-            <img src="/search.svg" alt="search" />
+            <img src="/assets/search.svg" alt="search" />
           </div>
         </div>
       </Search>

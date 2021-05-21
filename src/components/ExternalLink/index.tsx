@@ -14,7 +14,9 @@ const DocsExternalLink: React.FC<ExternalLinkProps> = ({
   return (
     <ExternalLink href={href} rel="noopener noreferrer" target="_blank">
       {children}
-      {graphic && <ExternalLinkGraphic src={`/external-link-${graphic}.svg`} />}
+      {graphic && (
+        <ExternalLinkGraphic src={`/assets/external-link-${graphic}.svg`} />
+      )}
     </ExternalLink>
   );
 };
