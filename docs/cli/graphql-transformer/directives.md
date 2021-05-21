@@ -17,9 +17,9 @@ The Amplify CLI provides GraphQL directives to enhance your schema with addition
 - [`@searchable`: Makes your data searchable by streaming it to Elasticsearch](~/cli/graphql-transformer/searchable.md)
 - [`@versioned`: Defines the versioning and conflict resolution strategy for an @model type](~/cli/graphql-transformer/versioned.md)
 
-## Amplify AppSync Service provided directives
+## AWS AppSync-provided directives
 
-The following directives are supported by the AppSync service and can be used within the GraphQL schemas. These will not be processed by Amplify CLI, but passed down to the service and will be present in the output schema. When the `@auth` directive is used in the schema the GraphQL transformer will add these directives under the hood to the output schema.
+The following directives are supported by the AppSync service and can be used within the Amplify GraphQL schemas. These will not be processed by Amplify CLI but passed through to the service as is and will be present in the output schema. For example, Amplify's `@auth` directive will add these directives under the hood to the output schema.
 
 - `@aws_api_key`
 - `@aws_iam`
