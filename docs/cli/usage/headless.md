@@ -115,6 +115,7 @@ CATEGORIES="{\
 Storage category supports the importing of S3 Buckets and DynamoDB tables. They require different parameter sets within the storage category.
 
 #### S3 Buckets
+
 - `region`: The region of the S3 bucket resource. S3 Buckets are global, but the CLI requires to storage of the region as a parameter, so it needs to be passed in. Currently it must be the same region where the Amplify project was created.
 - `bucketName`: The name of the imported S3 bucket.
 
