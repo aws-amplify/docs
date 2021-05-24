@@ -18,7 +18,9 @@ and you want to change the behavior of request mapping template for the *Query.g
 
 ## Custom Resolvers
 
-GraphQL transformer supports adding custom `Query`, `Mutation` and `Subscription` when the generated ones do not cover your use-case. This is achieved by adding the required `Query`, `Mutation` or `Subscription` type to your schema and then adding resolvers to newly added field by creating a custom stack inside `<project-root>/amplify/backend/api/<api-name>/stacks` directory of your API. To add the custom fields add the following to your schema
+You can add custom `Query`, `Mutation` and `Subscription` when the generated ones do not cover your use case. To do this, first add the required `Query`, `Mutation` or `Subscription` type to your schema. Then, add resolvers for the newly added fields by creating a custom stack inside `<project-root>/amplify/backend/api/<api-name>/stacks` directory of your API.
+
+To add the custom fields, add the following to your schema:
 
 ```graphql
   # <project-root>amplify/backend/api/<api-name>/schema.graphql
