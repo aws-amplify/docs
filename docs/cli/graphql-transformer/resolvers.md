@@ -37,7 +37,7 @@ GraphQL transformer supports adding custom `Query`, `Mutation` and `Subscription
 
 ```
 
-Transformer by default creates a file called `CustomResources.json` inside `<project-root>/amplify/backend/api/<api-name>/stacks`, which can be used to add the custom resolvers for newly added `Query`, `Mutation` or `Subscription`. The custom stack gets the following arguments passed to it, allowing you to get details about API
+The GraphQL Transformer by default creates a file called `CustomResources.json` inside `<project-root>/amplify/backend/api/<api-name>/stacks`, which can be used to add the custom resolvers for newly added `Query`, `Mutation` or `Subscription`. The custom stack gets the following arguments passed to it, allowing you to get details about API:
 
 | Parameter                          | Type   | Possible values                    | Description                                                                                                                                                                       |
 | :--------------------------------- | :----- | ---------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
