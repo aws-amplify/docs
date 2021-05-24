@@ -27,9 +27,9 @@ export const Card = styled(docsCard)`
   padding: 1.5rem;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: stretch;
   height: 100%;
-  justify-content: flex-start;
+  justify-content: center;
   box-shadow: rgba(0, 0, 0, 0.09) 0.3125rem 0.3125rem 0 -0.0625rem,
     0 0.25rem 0.5rem 0 rgba(0, 0, 0, 0.15);
   transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -78,6 +78,7 @@ export const CardGraphic = styled.img`
   width: 3rem;
   min-width: 3rem;
   margin-top: -6px;
+  align-self: center;
 
   &.vertical {
     margin-right: 0;
