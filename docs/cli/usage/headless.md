@@ -21,6 +21,7 @@ The `amplify init` command takes these parameters:
 - `--amplify`
 - `--frontend`
 - `--providers`
+- `--categories`
 - `--yes`
 - `--app`
 
@@ -31,8 +32,8 @@ Contains basic information of the project, it has these keys:
 - `envName`: the name of your first environment
 - `defaultEditor`: your default code editor
 
-The `appId` parameter is optional and it is used in two use cases. 
-- Amplify Service uses it internally when you initialize a project on Amplify web console. 
+The `appId` parameter is optional and it is used in two use cases.
+- Amplify Service uses it internally when you initialize a project on Amplify web console.
 - For project migrations. For projects initialized by Amplify CLI version prior to 4.0.0, no Amplify Service project is created online to track the backend environment's resources. The latest version of the Amplify CLI will create a new Amplify Service project for them in the post-push check. If you wanted to add the backend environment to an existing Amplify Service project instead of creating a new one, you can run `amplify init` again, and provide the `appId` inside the `--amplify` parameter, or explicitly as `amplify init --appId <Amplify-Service-Project-AppId>`.
 
 ### `--frontend`
@@ -80,6 +81,74 @@ The aws access key id if `useProfile` is set to false.
 The aws secret access key if `useProfile` is set to false.
 - `region`:
 The aws region if `useProfile` is set to false.
+
+### `--categories`
+Contains configuration settings for resources in the given categories. The key is the name of the category and the value is its configuration. There are resource parameters that are not persisted into configuration files and requires prompting for them during a headless CLI operation and to support headless workflows they are required to be passed in for each resource..
+
+#### Imported resources
+
+Currently `auth` and `storage` category resources can be imported to an Amplify CLI project.
+
+#### `auth` category
+
+- `userPoolId`: The Id of the Cognito User Pool that was imported into the project.
+- `webClientId`: The Id of the app client configured for the given Cognito User Pool to be used by web applications.
+- `nativeClientId`: The Id of the app client configured for the given Cognito User Pool to be used by Native applications.
+- `identityPoolId`: In case if an Cognito Identity Pool was also configured for the `auth` resource this parameter is the Id of that resource. If there is no associated Cognito Identity Pool was configured, this parameter should not be passed in.
+
+Sample `auth` category configuration:
+```bash
+AUTHCONFIG="{\
+\"userPoolId\": \"myproject-userpool-id\",\
+\"webClientId\": \"appid-web\",\
+\"nativeClientId\": \"appid-native\",\
+\"identityPoolId\": \"myproject-idp-poolid\"\
+}"
+
+CATEGORIES="{\
+\"auth\":$AUTHCONFIG\
+}"
+```
+
+#### `storage` category
+
+Storage category supports the importing of S3 Buckets and DynamoDB tables. They require different parameter sets within the storage category.
+
+#### S3 Buckets
+
+- `region`: The region of the S3 bucket resource. S3 Buckets are global, but the CLI requires to storage of the region as a parameter, so it needs to be passed in. Currently it must be the same region where the Amplify project was created.
+- `bucketName`: The name of the imported S3 bucket.
+
+```bash
+STORAGECONFIG="{\
+  \"region\": \"us-east-1\",\
+  \"bucketName\": \"my-project-bucket\"\
+}"
+
+CATEGORIES="{\
+  \"storage\":$STORAGECONFIG\
+}"
+```
+
+#### DynamoDB Tables
+
+An Amplify project can have multiple DynamoDB storage resources imported and the parameters must be supplied to each of them.
+- `region`: The region of the DynamoDB table resources. Currently it must be the same region where the Amplify project was created.
+- `tables`: An object where the key is the Amplify resource name and the value is the name of the DynamoDB table.
+
+```bash
+STORAGECONFIG="{\
+  \"region\": \"us-east-1\",
+  \"tables\": {\"
+    \"posts\": \"myproject-posts-dev\",\
+    \"comments\": \"myproject-comments-dev\",\
+  }"\
+}"
+
+CATEGORIES="{\
+  \"storage\":$STORAGECONFIG
+}"
+```
 
 ### `--app`
 
@@ -224,37 +293,37 @@ amplify push \
 ```
 
 ## `amplify pull` parameters
-The `amplify pull` command pulls down the latest backend environment to your local development. 
-It is used in two scenarios: 
-1. On projects already initialized by the Amplify CLI, it pulls down the latest from the Cloud and updates the contents in the `amplify/#current-cloud-backend` directory. The command does not take any parameters when used in this scenario. 
-2. On projects NOT yet initialized by the Amplify CLI, it pulls down a particular backend environment, and "attaches" it to the project. It will fully set up the `amplify` directory for the project.  The backend environment being pulled is specified by `appId` and `envName` in the `amplify` parameter (see below). The command takes the following parameters when used in this scenario. 
+The `amplify pull` command pulls down the latest backend environment to your local development.
+It is used in two scenarios:
+1. On projects already initialized by the Amplify CLI, it pulls down the latest from the Cloud and updates the contents in the `amplify/#current-cloud-backend` directory. The command does not take any parameters when used in this scenario.
+2. On projects NOT yet initialized by the Amplify CLI, it pulls down a particular backend environment, and "attaches" it to the project. It will fully set up the `amplify` directory for the project.  The backend environment being pulled is specified by `appId` and `envName` in the `amplify` parameter (see below). The command takes the following parameters when used in this scenario.
 - `--amplify`
 - `--frontend`
 - `--providers`
 - `--yes`
 
 ### `--amplify`
-Contains basic information of the project, it has these keys: 
+Contains basic information of the project, it has these keys:
 - `projectName`: the name of the project under development
 - `appId`: the Amplify Service project Id
 - `envName`: the name of the backend environment in the above mention Amplify Service that you want to pull down
-- `defaultEditor`: your default code editor 
+- `defaultEditor`: your default code editor
 
 ### `--frontend`
 Contains information for the CLI's frontend plugin, it has these keys:
 - `frontend`: the name of the chosen frontend plugin (without the `amplify-frontend-` prefix).
 - `framework`: the frontend framework used in the project, such as `react`. Only the `javascript` frontend handler takes it.
-- `config`: the configuration settings for the frontend plugin. 
+- `config`: the configuration settings for the frontend plugin.
 
-There are currently three official frontend plugins, and the following are the specifications of their respective `config` object: 
+There are currently three official frontend plugins, and the following are the specifications of their respective `config` object:
 **`config` for `javascript`**
 
 - `SourceDir`:
-The project's source directory. The CLI will place and update the `aws-exports.js` file in it, the `aws-exports.js` file is used to configure the `Amplify JS` library. 
+The project's source directory. The CLI will place and update the `aws-exports.js` file in it, the `aws-exports.js` file is used to configure the `Amplify JS` library.
 - `DistributionDir`:
-The project's distribution directory, where the build artifacts are stored. The CLI will upload the contents inside this directory to the S3 hosting buckets in the execution of the `amplify publish` command. 
+The project's distribution directory, where the build artifacts are stored. The CLI will upload the contents inside this directory to the S3 hosting buckets in the execution of the `amplify publish` command.
 - `BuildCommand`:
-The build command for the project. The CLI invokes the build command before uploading the contents in the distribution directory in the execution of the `amplify publish` command. 
+The build command for the project. The CLI invokes the build command before uploading the contents in the distribution directory in the execution of the `amplify publish` command.
 - `StartCommand`:
 The start command for the project, used for local testing. The CLI invokes the start command after it has pushed the latest development of the backend to the cloud in the execution of the `amplify run` command.
 
@@ -269,7 +338,7 @@ The `ios` frontend handler does NOT take the `config` object.
 ### `--providers`
 The pull command is tied to the official provider plugin: `amplify-provider-awscloudformation` to pull down and attach a backend environment to your frontend project.
 - `configLevel`:
-The configuration level is either `project` or `general`. Unless explicitly set to `general`, the `project` level is chosen. 
+The configuration level is either `project` or `general`. Unless explicitly set to `general`, the `project` level is chosen.
 `general` level means the CLI will not manage configuration at the project level, it instead relies on the AWS SDK to resolve aws credentials and region. To learn how it works, check the AWS SDK's documents on [credentials](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/setting-credentials-node.html) and [region](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/setting-region.html).
 `project` level means the configuration is managed at the project level by the CLI, each project gets its own independent configuration. The following attributes are used only when the configuration is at project level
 - `useProfile`:
@@ -278,9 +347,9 @@ A boolean indicating whether to use a profile defined in the shared config file 
 The name of the profile if `useProfile` is set to true.
 - `accessKeyId`:
 The aws access key id if `useProfile` is set to false.
-- `secretAccessKey`: 
+- `secretAccessKey`:
 The aws secret access key if `useProfile` is set to false.
-- `region`: 
+- `region`:
 The aws region if `useProfile` is set to false.
 
 ### Sample script
