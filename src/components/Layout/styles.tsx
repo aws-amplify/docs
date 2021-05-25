@@ -14,6 +14,13 @@ export const ContentStyle = styled.div`
       text-decoration: underline;
     }
   }
+
+  padding-left: 1em;
+  padding-bottom: 1em;
+
+  .searchable-code {
+    display: none;
+  }
 `;
 
 export const LayoutStyle = styled.div`
