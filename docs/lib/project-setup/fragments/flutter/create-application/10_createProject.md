@@ -14,6 +14,12 @@ Next, configure your project:
 
 Android Studio will open your project with a tab opened to *main.dart*
 
+<amplify-callout warning>
+
+If you are using Flutter (2.2.0), you need to disable sound null safety by following the instructions [here](https://dart.dev/null-safety/unsound-null-safety#testing-or-running-mixed-version-programs). Null safety support for Amplify Flutter is being worked on actively.
+
+</amplify-callout>
+
 If you use CocoaPods, modify your Podfile to target iOS platform 11.0 or higher.  Within your project open `ios/Podfile` and change the second line to be `platform :ios, '11.0'.
 
 ```bash
