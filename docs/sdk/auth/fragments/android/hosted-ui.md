@@ -162,7 +162,7 @@ whatever value you used for your redirect URI prefix:
 
   ```xml
   <activity
-      android:name="com.amazonaws.mobile.client.activities.CustomTabsRedirectActivity">
+      android:name="com.amazonaws.mobile.client.activities.HostedUIRedirectActivity">
       <intent-filter>
           <action android:name="android.intent.action.VIEW" />
           <category android:name="android.intent.category.DEFAULT" />
@@ -172,7 +172,7 @@ whatever value you used for your redirect URI prefix:
   </activity>
   ```
 
-2. If you previously setup HostedUI for versions between 2.18.0 and 2.23.0, then the only required change is to replace `CustomTabsRedirectActivity` with the updated version from mobile client package. You are no longer required to call the method `AWSMobileClient#handleAuthResponse(Intent)` in your app.
+2. If you previously setup HostedUI for versions between 2.18.0 and 2.23.0, then the only required change is to replace `com.amazonaws.mobileconnectors.cognitoauth.activities.CustomTabsRedirectActivity` with the updated version (`com.amazonaws.mobile.client.activities.HostedUIRedirectActivity`). You are no longer required to call the method `AWSMobileClient#handleAuthResponse(Intent)` in your app.
 
 </amplify-block>
 <amplify-block name="Version 2.18.0 - 2.23.0">
