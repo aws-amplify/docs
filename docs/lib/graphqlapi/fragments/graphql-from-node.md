@@ -195,7 +195,7 @@ exports.handler = async (event) => {
 
     const data = await new Promise((resolve, reject) => {
         const httpRequest = https.request({ ...req, host: endpoint }, (result) => {
-            var data = "";
+            let data = "";
             result.on("data", (chunk) => {
               data += chunk;
             });
