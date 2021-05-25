@@ -46,6 +46,33 @@ AWSMobileClient.default().addUserStateListener(self) { (userState, info) in
         }
 ```
 
+More detailed explanation of different states are given below:
+
+#### guest
+
+`AWSMobileClient` will be in `guest` state if you are not signed in to the app and unauthenticated access is enabled. Only Cognito Identity Pool related credentials will be available in `guest` state ie, identity id and aws temporary credentials for the unauthenticated role.
+
+#### signedIn
+
+User can invoke  different apis like `signIn`, `showSignIn`, `federatedSignIn` etc.. using `AWSMobileClient` which will sign them as either a Cognito User pool user or federate them to Cognito Identity Pool. If user has successfully signed in using any of these apis, `AWSMobileClient` will move to `signedIn` state. The available tokens/credentials depend on the signed in method and configuration. 
+If the user is signed in to Cognito User pool ie using `signIn` api or `showSignIn` with hostedUI, `getToken` will be available with Cognito User Pool tokens. They will also have access to identity id and aws credentials for authenticated role if Cognito Identity Pool is configured with the Cognito User Pool. On the other hand if the user is signed in via federated signIn to Cognito IdentityPool, only identity id and aws credentials for authenticated role will be available.
+
+#### signedOut
+
+User was signed out from the app by calling the signedOut api and the app is not configured to be in guest mode.
+
+#### signedOutFederatedTokensInvalid
+
+Only `signedIn` state can transition to `signedOutFederatedTokensInvalid` if the following condition are true: i) user was in `signedIn` by federating to Cognito Identity Pool ii) AWS credential fetch failed because the social provider token passed during sign in got invalid.
+
+#### signedOutUserPoolsTokenInvalid
+
+Only `signedIn` state can transition to `signedOutUserPoolsTokenInvalid` if the following condition are true: i) user was in `signedIn` by signing to Cognito User Pool ii) Cognito user pool token fetch failed because the JWT refresh token got invalid.
+
+#### unknown
+
+`unknown` should never occur, it is the initial state set when the app starts and after the `AWSMobileClient` initializes, it will transition to either `guest`, `signedOut` or `signedIn` state.
+
 ### Token Fetch and Refresh
 
 #### Cognito User Pools Tokens
