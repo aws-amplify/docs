@@ -2,6 +2,7 @@ import Head from "next/head";
 import {useRouter} from "next/router";
 import {traverseHeadings} from "../../utils/traverseHeadings";
 import TableOfContents from "../TableOfContents/index";
+import Footer from "../Footer/index";
 import {ContentStyle, LayoutStyle} from "./styles";
 
 export default function Layout({meta, children}) {
@@ -54,6 +55,8 @@ export default function Layout({meta, children}) {
         <ContentStyle>{children}</ContentStyle>
         <TableOfContents title={meta.title}>{headers}</TableOfContents>
       </LayoutStyle>
+      <Footer />
+      <script src="https://cdn.jsdelivr.net/npm/docsearch.js@2.6.3/dist/cdn/docsearch.min.js"></script>
     </>
   );
 }

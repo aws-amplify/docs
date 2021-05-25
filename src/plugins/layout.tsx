@@ -6,7 +6,8 @@ const layoutPlugin = () => (tree) => {
       tree.children.splice(index + 1, 0, {
         type: "export",
         default: true,
-        value: `export default ({ children }) => <Layout meta={meta}>{children}</Layout>`,
+        value:
+          "export default ({ children }) => <Layout meta={meta}>{children}</Layout>",
       });
     }
   });

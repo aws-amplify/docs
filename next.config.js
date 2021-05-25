@@ -28,9 +28,12 @@ const headingLinkPlugin = require("./src/plugins/headings.tsx");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const layoutPlugin = require("./src/plugins/layout.tsx");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
+const codeBlockPlugin = require("./src/plugins/code-block.tsx");
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const withMDX = require("@next/mdx")({
   options: {
     remarkPlugins: [headingLinkPlugin, layoutPlugin],
+    rehypePlugins: [codeBlockPlugin],
     renderer: mdxRenderer,
   },
 });
