@@ -108,7 +108,9 @@ To add a custom resolver, add the following in the resource section of `CustomRe
 }
 ```
 
-The request and response template should be placed inside `<project-root>/amplify/backend/api/<api-name>/resolvers` folder. Resolver templates are written using VTL. For more details refer to [AWS AppSync VTL documentation](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-mapping-template-reference.html)
+The request and response template should be placed inside `<project-root>/amplify/backend/api/<api-name>/resolvers` folder. Resolver templates are written in the [Apache Velocity Template Language](https://velocity.apache.org/engine/1.7/user-guide.html), commonly referred to as VTL. `Query.myCustomQuery.req.vtl` is a request mapping template, which receives an incoming AppSync request and transforms it into a JSON document that is subsequently passed to the GraphQL resolver. Similarly, `Query.myCustomQuery.res.vtl` is a response mapping template. These templates receive the GraphQL resolver's response and transform the data before returning it to the user.
+
+Several example VTL files are discussed later in this documentation. For more detailed information on VTL, including how it can be used in the context of GraphQL resolvers, see the official [AppSync Resolver Mapping Template Reference](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-mapping-template-reference.html).
 
 ### Add a custom resolver that targets a DynamoDB table from @model
 
