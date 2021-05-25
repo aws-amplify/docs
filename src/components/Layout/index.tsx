@@ -2,6 +2,7 @@ import Head from "next/head";
 import {useRouter} from "next/router";
 import {traverseHeadings} from "../../utils/traverseHeadings";
 import TableOfContents from "../TableOfContents/index";
+import UniversalNav from "../UniversalNav/index";
 import Footer from "../Footer/index";
 import {ContentStyle, LayoutStyle} from "./styles";
 
@@ -51,6 +52,11 @@ export default function Layout({meta, children}) {
           key="twitter:image"
         />
       </Head>
+      <UniversalNav
+        heading="Amplify Docs"
+        brandIcon="/assets/logo-dark.svg"
+        blend={true}
+      />
       <LayoutStyle>
         <ContentStyle>{children}</ContentStyle>
         <TableOfContents title={meta.title}>{headers}</TableOfContents>
