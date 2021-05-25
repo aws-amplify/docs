@@ -5,6 +5,6 @@
   
 <amplify-callout warning>
 
-If you are using Flutter (2.2.0), you need disable disable sound null safety for by following the instructions [here](https://dart.dev/null-safety/unsound-null-safety#testing-or-running-mixed-version-programs). Null safety support for Amplify Flutter is being worked on actively.
+If you are using Flutter (2.2.0), you need to disable sound null safety by following the instructions [here](https://dart.dev/null-safety/unsound-null-safety#testing-or-running-mixed-version-programs). Null safety support for Amplify Flutter is being worked on actively.
 
 </amplify-callout>
