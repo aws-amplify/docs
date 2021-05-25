@@ -27,8 +27,8 @@ Currently, the newest versions of Angular (6+) do not include shims for 'global'
 In order for Angular apps to work on IE11, you need to add the follow to your `src/polyfills.ts` file as well:
 
 ```javascript
-import 'core-js/es6/typed';
-import 'core-js/es7/object';
+import 'core-js/es/typed-array';
+import 'core-js/es/object';
 ```
 
 ## Create a new Amplify backend
