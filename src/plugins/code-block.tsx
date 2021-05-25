@@ -66,9 +66,7 @@ const highlight = (code, language) => {
     languageIsSet ? `-${language}` : ""
   }">${highlighted}</div>`;
 
-  const html = `<CodeBlock language="${language}" line-count="${String(
-    c.split(/\r\n|\r|\n/).length,
-  )}">${c}</CodeBlock>`;
+  const html = `${c}`;
 
   const lineCount = c.split(/\r\n|\r|\n/).length;
 
