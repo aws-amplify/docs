@@ -14,9 +14,10 @@ import Link from "next/link";
 import {COMMUNITY, MARKETING} from "../../constants/links";
 
 export default function UniversalNav({heading, brandIcon, blend}) {
+  const backgroundColor = blend ? "" : "color-orange-hv";
   return (
     <Nav>
-      <Container backgroundColor="orange-hv">
+      <Container backgroundColor={backgroundColor}>
         <NavContent blend={blend}>
           <Branding>
             <Link href="/">
