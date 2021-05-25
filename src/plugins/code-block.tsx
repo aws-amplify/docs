@@ -62,13 +62,11 @@ const highlight = (code, language) => {
     highlighted = entities.encode(code);
   }
 
-  const c = `<div slot="content" class="highlight highlight-source${
+  const html = `<div slot="content" class="highlight highlight-source${
     languageIsSet ? `-${language}` : ""
   }">${highlighted}</div>`;
 
-  const html = `${c}`;
-
-  const lineCount = c.split(/\r\n|\r|\n/).length;
+  const lineCount = html.split(/\r\n|\r|\n/).length;
 
   return [
     {

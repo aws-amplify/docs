@@ -54,8 +54,8 @@ export default function Layout({meta, children}) {
       </Head>
       <UniversalNav
         heading="Amplify Docs"
-        brandIcon="/assets/logo-dark.svg"
-        blend={true}
+        brandIcon="/assets/logo-light.svg"
+        blend={false}
       />
       <LayoutStyle>
         <ContentStyle>{children}</ContentStyle>
