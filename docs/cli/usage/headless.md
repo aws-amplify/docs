@@ -38,10 +38,7 @@ Contains basic information of the project, it has these keys:
 - `defaultEditor`: your default code editor
 
 The `appId` parameter is optional and it is used in two use cases.
-<<<<<<< HEAD
 
-=======
->>>>>>> main
 - Amplify Service uses it internally when you initialize a project on Amplify web console.
 - For project migrations. For projects initialized by Amplify CLI version prior to 4.0.0, no Amplify Service project is created online to track the backend environment's resources. The latest version of the Amplify CLI will create a new Amplify Service project for them in the post-push check. If you wanted to add the backend environment to an existing Amplify Service project instead of creating a new one, you can run `amplify init` again, and provide the `appId` inside the `--amplify` parameter, or explicitly as `amplify init --appId <Amplify-Service-Project-AppId>`.
 
