@@ -3,7 +3,7 @@ Amplify gives you the ability to limit which individuals or groups should have a
 Here's a high-level overview of the authorization scenarios we support in the Amplify libraries. Each scenario has options you can tune to fit the needs of your application.
 
 * [**Owner Based Authorization**](#owner-based-authorization): Limit a model instance's access to an "owner" and defines authorization rules for those owners. Backed by Cognito User Pool.
-* [**Static Group Authorization**](#static-group-authorization): Limit a model instance's access to a specific group of users and define authorization rules for that group. Backend by Cognito User Pool.
+* [**Static Group Authorization**](#static-group-authorization): Limit a model instance's access to a specific group of users and define authorization rules for that group. Backed by Cognito User Pool.
 * [**Owner and Static Group Combined**](#owner-and-static-group-combined): Uses a combination of both *Owner Based Authorization* and *Static Group Authorization* to control ownership and access.
 * [**Public Authorization**](#public-authorization): Allow public access to your model instances. Backed by an API Key or IAM.
 * [**Private Authorization**](#private-authorization): Allow any signed-in user to access your model instances. Backed by IAM or Cognito User Pool.

@@ -1,5 +1,5 @@
 
-Once you're happy with your application, you can start syncing with the cloud by provisioning a backend from your project. DataStore can connect to remote backend and automatically sync all locally saved data using GraphQL as a data protocol.
+Once you're happy with your application, you can start syncing with the cloud by provisioning a backend from your project. DataStore can connect to a remote backend and automatically sync all locally-saved data using GraphQL as a data protocol.
 
 <amplify-callout>
 
