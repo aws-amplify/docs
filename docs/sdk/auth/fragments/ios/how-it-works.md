@@ -71,7 +71,7 @@ Only `signedIn` state can transition to `signedOutUserPoolsTokenInvalid` if the 
 
 #### unknown
 
-`unknown` should never occur, it is the initial state set when the app starts and after the `AWSMobileClient` initializes, it will transition to either `guest`, `signedOut` or `signedIn` state.
+It is unlikely you will see the `unknown` state as it is the initial state set when the app starts. After the `AWSMobileClient` initializes, it will transition to either `guest`, `signedOut` or `signedIn` state.
 
 ### Token Fetch and Refresh
 
