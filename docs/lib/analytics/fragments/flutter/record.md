@@ -17,7 +17,7 @@ Amplify.Analytics.recordEvent(event: event);
 
 ## Flush events
 
-Events have default configuration to flush out to the network every 30 seconds. If you would like to change this, update `amplifyconfiguration.json` with the value in milliseconds you would like for `autoFlushEventsInterval`. This configuration will flush events every 10 seconds:
+Events have default configuration to flush out to the network every 30 seconds. If you would like to change this, update `amplifyconfiguration.dart` with the value in milliseconds you would like for `autoFlushEventsInterval`. This configuration will flush events every 10 seconds:
 
 ```json
 {

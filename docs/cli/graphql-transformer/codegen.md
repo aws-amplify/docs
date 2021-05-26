@@ -11,7 +11,7 @@ When a project is configured to generate code with codegen, it stores all the co
 
 ## Statement depth
 
-In the below schema there are connections between `Comment` -> `Post` -> `Blog` -> `Post` -> `Comments`. When generating statements codegen has a default limit of 2 for depth traversal. But if you need to go deeper than 2 levels you can change the max-depth parameter either when setting up your codegen or by passing  `--max-depth` parameter to `codegen`
+In the below schema there are connections between `Comment` -> `Post` -> `Blog` -> `Post` -> `Comments`. When generating statements codegen has a default limit of 2 for depth traversal. But if you need to go deeper than 2 levels you can change the `maxDepth` parameter either when setting up your codegen or by passing  `--maxDepth` parameter to `codegen`
 
 ```graphql
 type Blog @model {
@@ -89,7 +89,7 @@ The `amplify configure codegen` command allows you to update the codegen configu
 #### amplify codegen statements
 
 ```bash
-amplify codegen statements [--nodownload] [--max-depth <int>]
+amplify codegen statements [--nodownload] [--maxDepth <int>]
 ```
 
 The `amplify codegen statements` command  generates GraphQL statements(queries, mutation and subscription) based on your GraphQL schema. This command downloads introspection schema every time it is run, but it can be forced to use previously downloaded introspection schema by passing `--nodownload` flag.
@@ -105,7 +105,7 @@ The `amplify codegen types [--nodownload]` command generates GraphQL `types` for
 #### amplify codegen
 
 ```bash
-amplify codegen [--max-depth <int>]
+amplify codegen [--maxDepth <int>]
 ```
 
 The `amplify codegen [--nodownload]` generates GraphQL `statements` and `types`. This command downloads introspection schema every time it is run but it can be forced to use previously downloaded introspection schema by passing `--nodownload` flag. If you are running codegen outside of an initialized amplify project, the introspection schema named `schema.json` must be in the same directory that you run amplify codegen from. This command will not download the introspection schema when outside of an amplify project - it will only use the introspection schema provided.
@@ -685,3 +685,5 @@ public class MainActivity extends AppCompatActivity {
     };
 }
 ```
+
+

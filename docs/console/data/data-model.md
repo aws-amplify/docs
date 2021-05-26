@@ -22,6 +22,6 @@ The Admin UI data model designer provides a visual way to define your app's data
 
 ![datamodel](~/images/console/datamodel.gif)
 
-All data models built with Admin UI work with Amplify DataStore out-of-the-box. DataStore is an on-device storage engine that automatically synchronizes data between your mobile and web apps and your database in the AWS cloud to help you build real-time and offline apps faster. [Learn more](https://docs.awsamplifyconsole.com/lib/datastore/getting-started/)
+All data models built with Admin UI work with Amplify DataStore out-of-the-box. [DataStore](~/lib/datastore/getting-started.md) is an on-device storage engine that automatically synchronizes data between your mobile and web apps and your database in the AWS cloud to help you build real-time and offline apps faster. 
 
 The experience for modeling data is the same in the sandbox and in the Admin UI. With an AWS account, you will have real-time data synchronization capabilities and you will also be able to set authorization rules on your models. For more information, see [Authorization](~/console/authz/authorization.md). All data models are provisioned in your account as AWS AppSync GraphQL APIs and Amazon DynamoDB tables. As with every feature of the Admin UI, it can be further extended with the CLI.

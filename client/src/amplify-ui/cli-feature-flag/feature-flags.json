@@ -1,4 +1,30 @@
 {
+  "appSync": {
+    "description": "Feature Flags related to AppSync backed APIs.",
+    "features": {
+      "generateGraphQLPermissions": {
+        "description": "Changes the permission format to grant access to graphql operations instead of appsync control plane operations",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.42.0",
+        "deprecationDate": "May 1st 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "Creates IAM policies to allow Query/Mutations",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "Uses previous policy format which allows control plane access to AppSync",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      }
+    }
+  },
   "graphQLTransformer": {
     "description": "Feature Flag related to GraphQL Transformer",
     "features": {
@@ -84,6 +110,27 @@
             "defaultExistingProject": true
           }
         ]
+      },
+      "secondaryKeyAsGSI": {
+        "description": "Changes the behaviour of @key directive to always create GSIs.",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.41.x",
+        "deprecationDate": "May 1st 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "@key will always create GSIs for named keys.",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "@key create an LSI when the named key includes a primary field.",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
       }
     }
   },
@@ -132,6 +179,48 @@
           {
             "value": "false",
             "description": "Emails and usernames are case sensitive.",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      },
+      "useInclusiveTerminology": {
+        "description": "Toggles terminology used for allow and deny lists.",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.47.0",
+        "deprecationDate": "April 1st 2022",
+        "values": [
+          {
+            "value": "true",
+            "description": "The terms allowlist and denylist are used.",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "The legacy terms whitelist and blacklist are used.",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      },
+      "breakCircularDependency": {
+        "description": "Toggles the creation of auth triggers",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.51.0",
+        "deprecationDate": "December 1st 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "Creates auth triggers as custom Lambdas to be used with Apis and Storage.",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "Creates auth triggers via Cognito CloudFormation",
             "defaultNewProject": false,
             "defaultExistingProject": true
           }

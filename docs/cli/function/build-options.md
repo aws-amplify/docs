@@ -13,7 +13,7 @@ In some cases, it might be necessary to execute a script before a function is de
 
 Make sure you have the `tsc` command installed globally by running `npm install -g typescript` or locally by running `npm install --save-dev typescript`
 
-Let's say, a function resource has been created with `amplify function add` and it is called `generateReport`. The ES6 source code for this function is located in `amplify/backend/function/generateReport/lib` and the resource's `src` directory only contains the auto-generated `package.json` for this function. In order to run Babel, you have to add the following script definition to your project root's `package.json`:
+Let's say, a function resource has been created with `amplify function add` and it is called `generateReport`. The ES6 source code for this function is located in `amplify/backend/function/generateReport/lib` and the resource's `src` directory only contains the auto-generated `package.json` for this function. In order to compile TypeScript, you have to add the following script definition to your project root's `package.json`:
 
 ```json
 {

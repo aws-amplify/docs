@@ -80,7 +80,7 @@ async function onChange(e) {
     await Storage.put(file.name, file, {
       contentType: 'image/png' // contentType is optional
     });
-  } catch (err) {
+  } catch (error) {
     console.log('Error uploading file: ', error);
   }  
 }

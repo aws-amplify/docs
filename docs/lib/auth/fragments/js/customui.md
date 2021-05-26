@@ -1,25 +1,6 @@
 ### Customize UI theme
 
-For React, you can create your own theme and use it to render Amplify components:
-
-Your custom theme must use the selectors from the following [template](https://github.com/aws-amplify/amplify-js/blob/main/packages/aws-amplify-react/src/Amplify-UI/Amplify-UI-Theme.tsx).
-
-```javascript
-import MyTheme from './MyTheme';
-
-<Authenticator theme={MyTheme} />
-```
-
-Alternatively, you can change a few properties and pass in a theme object from the same file:
-
-```javascript
-const MyTheme = {
-    signInButtonIcon: { 'display': 'none' },
-    googleSignInButton: { 'backgroundColor': 'red', 'borderColor': 'red' }
-}
-
-<Authenticator theme={MyTheme} />
-```
+For web frameworks, you can use CSS Variables as described [here](~/ui/customization/theming.md).
 
 For React Native, you must override properties defined in AmplifyTheme.js [here](https://github.com/aws-amplify/amplify-js/blob/main/packages/aws-amplify-react-native/src/AmplifyTheme.ts)
 
@@ -185,4 +166,3 @@ If you would like to add custom styling to the UI components you can pass a cust
 ```javascript
 export default withAuthenticator(App, false, [], null, MyTheme);
 ```
-

@@ -1,15 +1,19 @@
 ---
 title: Upgrading the CLI
-description: Keep Amplify CLI up-to-date by running npm install -g @aws-amplify/cli
+description: Keep Amplify CLI up-to-date to get the latest features and fixes
 ---  
 
 The Amplify CLI team continuously pushes new features, enhancements and security improvements and it is recommended to update the Amplify CLI version which you or your team is using to the latest version. You can keep track of the latest releases of the Amplify CLI on npm - https://www.npmjs.com/package/@aws-amplify/cli
 
 Follow the steps below to update to the latest version of the CLI:
 
-1. Enter the following command in your terminal: 
+1. If you installed the CLI using NPM, run: 
     ```bash
     npm install -g @aws-amplify/cli
+    ```
+    If you installed the CLI using the binary install script, run:
+    ```bash
+    amplify upgrade
     ```
 2. Verify the successful installation of the latest CLI version by entering the following command in the CLI:
     ```bash

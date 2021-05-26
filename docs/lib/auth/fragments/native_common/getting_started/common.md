@@ -33,7 +33,9 @@ To push your changes to the cloud, **execute the command**:
 amplify push
 ```
 
-Upon completion, `amplifyconfiguration.json` should be updated to reference provisioned backend auth resources.  Note that these files should already be a part of your project if you followed the [Project setup walkthrough](~/lib/project-setup/create-application.md).
+<inline-fragment platform="ios" src="~/lib/auth/fragments/ios/getting_started/12_amplifyConfig.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/auth/fragments/android/getting_started/12_amplifyConfig.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/auth/fragments/flutter/getting_started/12_amplifyConfig.md"></inline-fragment>
 
 ## Install Amplify Libraries
 

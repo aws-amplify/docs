@@ -1,9 +1,9 @@
 To initialize the Amplify DataStore, use the `Amplify.addPlugin()` method to add the AWS DataStore Plugin. We also need to import the codegen dart file `ModelProvider.dart`
 
 ```dart
-import 'codegen/ModelProvider.dart';
+import 'models/ModelProvider.dart';
 
-// Add this in your app initialization
+// Add the following lines to your app initialization to add the DataStore plugin
 AmplifyDataStore datastorePlugin =
     AmplifyDataStore(modelProvider: ModelProvider.instance);
 Amplify.addPlugin(datastorePlugin);
@@ -30,9 +30,10 @@ class MyAmplifyApp extends StatefulWidget {
     }
 
     void _configureAmplify() async {
-        // Add the following line to add DataStore plugin to your app
-        Amplify.addPlugin(AmplifyDataStore(modelProvider: ModelProvider.instance));
-
+        // Add the following lines to your app initialization to add the DataStore plugin
+        AmplifyDataStore datastorePlugin =
+            AmplifyDataStore(modelProvider: ModelProvider.instance);
+        Amplify.addPlugin(datastorePlugin);
         try {
             await Amplify.configure(amplifyconfig);
         } on AmplifyAlreadyConfiguredException {

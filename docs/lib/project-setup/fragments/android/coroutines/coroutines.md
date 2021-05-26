@@ -44,18 +44,22 @@ In Amplify's vanilla APIs, this would have created a large block of code with th
 
 ## Installation
 
-Amplify's coroutine support is included in an optional module, `core-kotlin`. To start using the coroutine APIs, add the following dependency to your application's Gradle file:
+Amplify's coroutine support is included in an optional module, `core-kotlin`. 
 
-Under **Gradle Scripts**, open **build.gradle (Module: [YourApplicationName])**.
+1.  Under **Gradle Scripts**, open **build.gradle (Module: [YourApplicationName])**, and add the following line in `dependencies`:
 
-Add the following line in `dependencies`:
+    ```groovy
+    dependencies {
+        // Add the below line in `dependencies`
+        implementation 'com.amplifyframework:core-kotlin:0.1.5'
+    }
+    ```
 
-```groovy
-dependencies {
-    // Add the below line in `dependencies`
-    implementation 'com.amplifyframework:core-kotlin:0.1.1'
-}
-```
+2. Wherever you use the **`Amplify`** facade, import `com.amplifyframework.kotlin.core.Amplify` instead of `com.amplifyframework.core.Amplify`:
+
+    ```java
+    import com.amplifyframework.kotlin.core.Amplify
+    ```
 
 ## Usage
 
