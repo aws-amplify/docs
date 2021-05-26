@@ -99,7 +99,7 @@ async function pathToImageFile(data) {
       try {
         const response = await fetch(data);
         const blob = await response.blob();
-        await Storage.put(`customers/${name}`, blob, {
+        await Storage.put(`your key here`, blob, {
           contentType: 'image/jpeg', // contentType is optional
         });
       } catch (err) {
