@@ -3,6 +3,26 @@ const fs = require("fs");
 const mdxRenderer = `
   import { mdx } from "@mdx-js/react";
 
+  export async function getStaticProps ({params}) {
+    if(params.platform == 'js') {
+      return {
+        props: {},
+      };
+    }
+    else {
+      return {
+        props: {},
+        notFound: true,
+      };
+    }
+  }
+
+  export async function getStaticPaths ({params}) {
+    return {
+      paths: [],
+      fallback: false,
+    }
+  }
 `;
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
