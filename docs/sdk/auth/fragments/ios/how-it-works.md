@@ -56,9 +56,9 @@ More detailed explanation of different states are given below:
 
 You can invoke different `AWSMobileClient` methods like `signIn`, `showSignIn`, `federatedSignIn`, etc.,  which will sign in a user as either a Cognito User Pool user, or federate them to a Cognito Identity Pool. If user has successfully signed in using any of these apis, `AWSMobileClient` will move to `signedIn` state. The available tokens/credentials depend on the signed in method and configuration. 
 
-If the user is signed in to Cognito User Pool (i.e., using `signIn` or `showSignIn` with hostedUI), `getToken` will return Cognito User Pool tokens. If your Cognito User Pool is configured to federate into a Cognito Identity Pool, you will also have access to `identityId`, and AWS credentials for the authenticated role. If no Identity Pool is configured, both `identityId` and `getCredentials` will <Return null? Crash? Return garbage?>?
+If the user is signed in to Cognito User Pool (i.e., using `signIn` or `showSignIn` with hostedUI), `getToken` will return Cognito User Pool tokens. If your Cognito User Pool is configured to federate into a Cognito Identity Pool, you will also have access to `identityId`, and AWS credentials for the authenticated role. If no Identity Pool is configured, both `identityId` and `getCredentials` will return `AWSMobileClientError.cognitoIdentityPoolNotConfigured` error.
 
-On the other hand if the user is signed in via `federatedSignIn` to a Cognito IdentityPool, only `identityId` and AWS credentials for authenticated role will be available, and `getToken` will <Return null? Crash? Return garbage?>
+On the other hand if the user is signed in via `federatedSignIn` to a Cognito IdentityPool, only `identityId` and AWS credentials for authenticated role will be available, and `getToken` will return `AWSMobileClientError.notSignedIn` error.
 
 #### signedOut
 
