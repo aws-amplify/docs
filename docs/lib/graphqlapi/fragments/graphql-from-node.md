@@ -203,7 +203,6 @@ exports.handler = async (event) => {
 
             result.on("end", () => {
                 resolve(JSON.parse(data.toString()));
-
             });
         });
 
