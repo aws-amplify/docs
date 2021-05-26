@@ -24,21 +24,20 @@ export default {
       formFields: [
         {
           type: 'email',
-          label: 'Custom email Label',
-          placeholder: 'custom email placeholder',
-          required: true,
+          label: 'Custom Email Label',
+          placeholder: 'Custom email placeholder',
+          inputProps: { required: true, autocomplete: 'username' },
         },
         {
           type: 'password',
           label: 'Custom Password Label',
-          placeholder: 'custom password placeholder',
-          required: true,
+          placeholder: 'Custom password placeholder',
+          inputProps: { required: true, autocomplete: 'new-password' },
         },
         {
-          type: 'address',
-          label: 'Custom Address Label',
-          placeholder: 'Enter your address',
-          required: false,
+          type: 'phone_number',
+          label: 'Custom Phone Label',
+          placeholder: 'Custom phone placeholder',
         },
       ]
     }

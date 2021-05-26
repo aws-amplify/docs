@@ -51,6 +51,13 @@ Only created after running `amplify mock api`. It contains the SQLite databases 
 
 These files work together to maintain the overall state of the Amplify project such as what resources are configured in the project, dependencies between resources, and when the last push was.
 
+### backend-config.json
+> Manual edits okay: YES
+
+> Add to version control: YES
+
+The `backend-config.json` in the `backend` directory contains configuration about your project's backend, such as how connects to AWS resources (eg. Cognito for auth or AppSync for an API backend). Typically, this file is updated by the CLI commands like `amplify add auth` or `amplify add api`. It can also be [extended manually](~/cli/usage/customcf.md) to configure your backend beyond Amplify CLI's features. Both the `amplify/backend` and `amplify/#current-cloud-backend` directories contain an `backend-config.json` file. ```
+
 ### amplify-meta.json
 
 > Manual edits okay: NO

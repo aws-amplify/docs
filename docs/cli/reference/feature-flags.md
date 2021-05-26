@@ -61,7 +61,8 @@ Example configuration file
     },
     "auth": {
       "enableCaseInsensitivity": true,
-      "useInclusiveTerminology": true
+      "useInclusiveTerminology": true,
+      "breakCircularDependency": true
     },
     "codegen": {
       "useAppSyncModelgenPlugin": true

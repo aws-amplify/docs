@@ -6,7 +6,7 @@
 
 Guest access does **not** mean that your files are totally public. A "guest" is a user of your application who has not yet signed in. To enable access at this level, you will still be required to configured [Authentication](~/lib/auth/getting-started.md) in your app. The user must be able to assume an unauthenticated role from your Cognito Identity Pool.
 
-For protected and private access, the `[USER_ID]` below corresponds to the unique ID of the user. Once the user has signed in, the `[USER_ID]` can be retrieved from the session by accessing the identity id. See [Accessing credentials](~/lib/auth/access_credentials.md) to retrieve the identity id, and use this as the unique ID of the authenticated user.
+For protected and private access, the `[IDENTITY_ID]` below corresponds to the unique ID of the user. Once the user has signed in, the `[IDENTITY_ID]` can be retrieved from the session by accessing the identity id. See [Accessing credentials](~/lib/auth/access_credentials.md) to retrieve the identity id, and use this as the unique ID of the authenticated user.
 
 <amplify-callout>
 
@@ -22,7 +22,7 @@ After the user has signed in, create an options object specifying the `protected
 <inline-fragment platform="android" src="~/lib/storage/fragments/android/configureaccess/10_protected_upload.md"></inline-fragment>
 <inline-fragment platform="flutter" src="~/lib/storage/fragments/flutter/configureaccess/10_protected_upload.md"></inline-fragment>
 
-This will upload with the prefix `/protected/[USER_ID]/` followed by the key.
+This will upload with the prefix `/protected/[IDENTITY_ID]/` followed by the key.
 
 For other users to read the file, you must specify the user ID of the creating user in the passed options. 
 
@@ -38,7 +38,7 @@ Create an options object specifying the private access level to only allow an ob
 <inline-fragment platform="android" src="~/lib/storage/fragments/android/configureaccess/30_private_upload.md"></inline-fragment>
 <inline-fragment platform="flutter" src="~/lib/storage/fragments/flutter/configureaccess/30_private_upload.md"></inline-fragment>
 
-This will upload with the prefix `/private/[USER_ID]/`, followed by the key.
+This will upload with the prefix `/private/[IDENTITY_ID]/`, followed by the key.
 
 For the user to read the file, specify the same access level (`private`) and key you used to upload:
 

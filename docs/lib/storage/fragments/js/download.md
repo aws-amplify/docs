@@ -86,6 +86,19 @@ The full return signature of `Storage.get(key, { download: true })` looks like t
 }
 ```
 
+### Monitor progress of download
+
+To track the progress of your download, you can use `progressCallback`:
+
+```javascript
+Storage.get('filename.txt', {
+	download: true,
+	progressCallback(progress) {
+		console.log(`Downloaded: ${progress.loaded}/${progress.total}`);
+	}
+})
+```
+
 ### File Access Levels
 
 You can choose to configure access level ahead of time, or at the point of calling `Storage.get`:

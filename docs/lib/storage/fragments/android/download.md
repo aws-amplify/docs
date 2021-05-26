@@ -20,7 +20,7 @@ Amplify.Storage.downloadFile(
 ```kotlin
 val file = File("${applicationContext.filesDir}/download.txt")
 Amplify.Storage.downloadFile("ExampleKey", file,
-    { Log.i("MyAmplifyApp", "Successfully downloaded: ${it.file.name}") }
+    { Log.i("MyAmplifyApp", "Successfully downloaded: ${it.file.name}") },
     { Log.e("MyAmplifyApp",  "Download Failure", it) }
 )
 ```

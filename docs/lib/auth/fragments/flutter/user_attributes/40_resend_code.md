@@ -1,9 +1,11 @@
  ```dart
 try {
-  ResendSignUpCodeResult res = await Amplify.Auth.resendSignUpCode(
-    username: "myusername"
+  var res = await Amplify.Auth.resendUserAttributeConfirmationCode(
+    userAttributeKey: 'email',
   );
-} on AuthError catch (e) {
-  print(e);
+  var destination = res.codeDeliveryDetails.destination;
+  print('Confirmation code set to $destination');
+} on AmplifyException catch (e) {
+  print(e.message);
 }
 ```

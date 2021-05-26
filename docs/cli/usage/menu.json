@@ -10,6 +10,7 @@
     "iam",
     "iam-roles-mfa",
     "headless",
-    "upgrade"
+    "upgrade",
+    "uninstall"
   ]
 }

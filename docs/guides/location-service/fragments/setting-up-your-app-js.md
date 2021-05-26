@@ -137,7 +137,7 @@ amplify console auth
 
 10. Click on the Review policy button.
 11. In the Name field, enter `LocationTracker`.
-12. Click on the Create policy button. You have now successfully added authentication to your Android app.
+12. Click on the Create policy button. You have now successfully added authentication to your React app.
 
 ### Searching for places
 
@@ -153,3 +153,4 @@ client.searchPlaceIndexForText(params, (err, data) => {
   if (data) console.log(data);
 });
 ```
+

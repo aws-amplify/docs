@@ -6,3 +6,4 @@ filterKey: integration
 
 <inline-fragment integration="ios" src="~/start/getting-started/fragments/ios/generate-model.md"></inline-fragment>
 <inline-fragment integration="android" src="~/start/getting-started/fragments/android/generate-model.md"></inline-fragment>
+<inline-fragment integration="flutter" src="~/start/getting-started/fragments/flutter/generate-model.md"></inline-fragment>
