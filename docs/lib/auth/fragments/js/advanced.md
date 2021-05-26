@@ -248,9 +248,9 @@ To enable social sign-in in your app with Identity Pools, add `Google client_id`
 import { AmplifyAuthenticator } from '@aws-amplify/ui-react';
 
 const federated = {
-    googleClientId: '',
-    facebookAppId: '',
-    amazonClientId: ''
+    googleClientId: '', // Enter your googleClientId here
+    facebookAppId: '', // Enter your facebookAppId here
+    amazonClientId: '' // Enter your amazonClientId here
 };
 
 return (
