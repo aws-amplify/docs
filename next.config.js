@@ -18,7 +18,7 @@ const mdxRenderer = `
   export async function getStaticPaths ({params}) {
     return {
       paths: [],
-      fallback: true,
+      fallback: false,
     }
   }
 `;
