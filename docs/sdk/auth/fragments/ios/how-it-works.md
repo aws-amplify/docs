@@ -50,7 +50,7 @@ More detailed explanation of different states are given below:
 
 #### guest
 
-`AWSMobileClient` will be in `guest` state if you are not signed in to the app and unauthenticated access is enabled. Only Cognito Identity Pool related credentials will be available in `guest` state ie, identity id and aws temporary credentials for the unauthenticated role.
+`AWSMobileClient` will be in `guest` state if you are not signed in to the app and unauthenticated access is enabled. Only Cognito Identity Pool related credentials will be available in `guest` state ie, identity id and AWS temporary credentials for the unauthenticated role.
 
 #### signedIn
 
