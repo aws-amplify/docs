@@ -66,11 +66,11 @@ User was signed out from the app by calling the signedOut api and the app is not
 
 #### signedOutFederatedTokensInvalid
 
-Only `signedIn` state can transition to `signedOutFederatedTokensInvalid` if the following condition are true: i) user was in `signedIn` by federating to Cognito Identity Pool ii) AWS credential fetch failed because the social provider token passed during sign in got invalid.
+Only `signedIn` state can transition to `signedOutFederatedTokensInvalid` if the following condition are true: i) user was in `signedIn` by federating to Cognito Identity Pool ii) AWS credential fetch failed because the social provider token passed during sign in got invalid. You can now re-authenticate the user by calling `federatedSignIn` with a refreshed token. If you make a `getAWSCredentials` call it will wait till the user is signed in to return a result.
 
 #### signedOutUserPoolsTokenInvalid
 
-Only `signedIn` state can transition to `signedOutUserPoolsTokenInvalid` if the following condition are true: i) user was in `signedIn` by signing to Cognito User Pool ii) Cognito user pool token fetch failed because the JWT refresh token got invalid.
+Only `signedIn` state can transition to `signedOutUserPoolsTokenInvalid` if the following condition are true: i) user was in `signedIn` by signing to Cognito User Pool ii) Cognito user pool token fetch failed because the JWT refresh token got invalid. You can now re-authenticate the user by calling `signIn` or `showSignIn`. If you make a `getAWSCredentials` or `getToken` call it will wait till the user is signed in to return a result.
 
 #### unknown
 
