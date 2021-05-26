@@ -153,3 +153,4 @@ client.searchPlaceIndexForText(params, (err, data) => {
   if (data) console.log(data);
 });
 ```
+
