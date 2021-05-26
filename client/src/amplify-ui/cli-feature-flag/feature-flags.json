@@ -324,7 +324,7 @@
         "values": [
           {
             "value": "true",
-            "description": "[Recommended] Add read-only timestamp `createdAt` and `updatedAt` fields in modelgen",
+            "description": "[Recommended] Add read-only timestamp `createdAt` and `updatedAt` fields in modelgen. Minimum version for amplify library: amplify-ios@1.9.0, amplify-android@1.17.2",
             "defaultNewProject": true,
             "defaultExistingProject": false
           },
