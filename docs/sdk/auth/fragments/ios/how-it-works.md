@@ -54,8 +54,11 @@ More detailed explanation of different states are given below:
 
 #### signedIn
 
-User can invoke  different apis like `signIn`, `showSignIn`, `federatedSignIn` etc.. using `AWSMobileClient` which will sign them as either a Cognito User pool user or federate them to Cognito Identity Pool. If user has successfully signed in using any of these apis, `AWSMobileClient` will move to `signedIn` state. The available tokens/credentials depend on the signed in method and configuration. 
-If the user is signed in to Cognito User pool ie using `signIn` api or `showSignIn` with hostedUI, `getToken` will be available with Cognito User Pool tokens. They will also have access to identity id and aws credentials for authenticated role if Cognito Identity Pool is configured with the Cognito User Pool. On the other hand if the user is signed in via federated signIn to Cognito IdentityPool, only identity id and aws credentials for authenticated role will be available.
+You can invoke different `AWSMobileClient` methods like `signIn`, `showSignIn`, `federatedSignIn`, etc.,  which will sign in a user as either a Cognito User Pool user, or federate them to a Cognito Identity Pool. If user has successfully signed in using any of these apis, `AWSMobileClient` will move to `signedIn` state. The available tokens/credentials depend on the signed in method and configuration. 
+
+If the user is signed in to Cognito User Pool (i.e., using `signIn` or `showSignIn` with hostedUI), `getToken` will return Cognito User Pool tokens. If your Cognito User Pool is configured to federate into a Cognito Identity Pool, you will also have access to `identityId`, and AWS credentials for the authenticated role. If no Identity Pool is configured, both `identityId` and `getCredentials` will <Return null? Crash? Return garbage?>?
+
+On the other hand if the user is signed in via `federatedSignIn` to a Cognito IdentityPool, only `identityId` and AWS credentials for authenticated role will be available, and `getToken` will <Return null? Crash? Return garbage?>
 
 #### signedOut
 
