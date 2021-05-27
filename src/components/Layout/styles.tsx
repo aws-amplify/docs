@@ -15,8 +15,7 @@ export const ContentStyle = styled.div`
     }
   }
 
-  padding-left: 1em;
-  padding-bottom: 1em;
+  padding: 1em;
 
   .searchable-code {
     display: none;

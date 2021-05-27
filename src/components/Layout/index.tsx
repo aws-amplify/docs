@@ -58,7 +58,10 @@ export default function Layout({meta, children}) {
         blend={false}
       />
       <LayoutStyle>
-        <ContentStyle>{children}</ContentStyle>
+        <ContentStyle>
+          <h1>{meta.title}</h1>
+          {children}
+        </ContentStyle>
         <TableOfContents title={meta.title}>{headers}</TableOfContents>
       </LayoutStyle>
       <Footer />
