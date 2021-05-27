@@ -92,7 +92,7 @@ To unsubscribe from updates, you can call `cancel()` on the subscription
 ```swift
 func cancelSubscription() {
     // Cancel the subscription listener when you're finished with it
-    subscription?.cancel();
+    subscription?.cancel()
 }
 ```
 
