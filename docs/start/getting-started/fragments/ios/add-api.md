@@ -48,7 +48,7 @@ do {
 }
 ```
 
-Now when you run you application the data will be synced to your cloud backend automatically! 🎉
+Now when you run your application the data will be synced to your cloud backend automatically! 🎉
 
 ## Add a subscription
 
