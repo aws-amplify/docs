@@ -33,7 +33,7 @@ Initialize Amplify by adding an `onCreate` method with the following code:
 Configure the new class in **New Kotlin File/Class**:
 
 - Enter *MyAmplifyApp* in the **Name** field
-- Extend *MyAmplifyApp* from *android.app.Application* by adding `:Application()` to your class
+- Extend *MyAmplifyApp* from *android.app.Application* by adding `: Application()` to your class
 - Press enter
 
 Initialize Amplify by adding an `onCreate` method with the following code:
