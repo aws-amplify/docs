@@ -5,7 +5,7 @@ description: Learn how to enable sandbox environments for your Amplify project.
 
 Now you have two independent environments (main & dev) in the cloud and have corresponding git branches with your amplify backend infrastructure code on Git. Suppose a team member wants to work on the same Amplify project, add some features to it and then push changes to the dev environment to test some changes. They would perform the following steps:
 
-```
+```console
 $ git clone <git-repo>
 $ cd <project-dir>
 $ git checkout -b mysandbox
@@ -20,7 +20,7 @@ $ git push -u origin mysandbox
 
 Next, suppose the team-member wants to move these changes to dev and main environments/branches:
 
-```
+```console
 $ git checkout dev
 $ amplify env checkout dev
 $ git merge mysandbox
@@ -30,7 +30,7 @@ $ git push -u origin dev
 
 After testing that everything works fine in the dev stage, you could now merge dev to the main git branch:
 
-```
+```console
 $ git checkout main
 $ amplify env checkout main
 $ git merge dev

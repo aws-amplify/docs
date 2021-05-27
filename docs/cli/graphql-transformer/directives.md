@@ -3,7 +3,7 @@ title: Directives
 description: The Amplify CLI provides GraphQL directives to enhance your schema with additional capabilities, such as custom indexes, authorization rules, function triggers and more.
 ---
 
-The Amplify CLI provides GraphQL directives to enhance your schema with additional capabilities, such as custom indexes, authorization rules, function triggers and more.
+The Amplify CLI provides GraphQL directives to enhance your schema with additional capabilities such as custom indexes, authorization rules, function triggers, and more.
 
 ## Amplify-provided directives
 
@@ -31,6 +31,7 @@ The following directives are supported by the AppSync service and can be used wi
 Learn more about these directives in the [AWS AppSync Developer Guide](https://docs.aws.amazon.com/appsync/latest/devguide/security-authz.html).
 
 ## 3rd party directives
+
 - [`@ttl`: Enable DynamoDB's time-to-live feature to auto-delete old entries in your AWS Amplify API](https://github.com/flogy/graphql-ttl-transformer)
 
 > Looking to build your own transformers & directives? Check out the guide on [how to author your own transformer & directives](~/cli/plugins/authoring.md#authoring-custom-graphql-transformers--directives).

@@ -3,21 +3,24 @@ title: Add custom AWS resources
 description: The Amplify CLI provides escape hatches for modifying the backend configurations generated in the form of CloudFormation templates by the CLI. This allows you to use the CLI for common flows but also any advanced scenarios which aren't provided in the standard category workflows.
 ---
 
-The Amplify CLI provides escape hatches for modifying the backend configurations generated in the form of CloudFormation templates by the CLI. 
+The Amplify CLI provides escape hatches for modifying the backend configurations generated in the form of CloudFormation templates by the CLI.
 
 ## How to extend Amplify CLI
 
 The most common scenarios for extending your app beyond Amplify CLI's features are to:
-* customize your GraphQL API business logic by [overriding resolvers](~/cli/graphql-transformer/resolvers.md#overwriting-resolvers) or author your own [custom resolvers](~/cli/graphql-transformer/resolvers.md#custom-resolvers).
-* update the base configuration of an Amplify generated resource. Override Amplify CLI's generated CloudFormation by editing `amplify/backend/<category>/<cloudformation-template.json/yml>`. [Read more about Cloudformation](https://aws.amazon.com/cloudformation/)
-* add custom AWS resources that are not supported by the Amplify CLI currently, follow the steps below.
 
-## Add custom AWS resources 
+- customize your GraphQL API business logic by [overriding resolvers](~/cli/graphql-transformer/resolvers.md#overwriting-resolvers) or author your own [custom resolvers](~/cli/graphql-transformer/resolvers.md#custom-resolvers).
+- update the base configuration of an Amplify generated resource. Override Amplify CLI's generated CloudFormation by editing `amplify/backend/<category>/<cloudformation-template.json/yml>`. [Read more about Cloudformation](https://aws.amazon.com/cloudformation/)
+- add custom AWS resources that are not supported by the Amplify CLI currently, follow the steps below.
+
+## Add custom AWS resources
 
 Leverage CloudFormation to add an AWS resource to your Amplify project that isn't supported out-of-the-box. Amplify is partitioned into "categories" of use cases like `auth` or `function`. To add a custom stack, create a custom "category" and assign custom "resources" to it.
 
 ### 1. Configure backend configuration with custom resource
+
 Modify `amplify/backend/backend-config.json` in your project:
+
 ```json
 {
   "<custom-category-name>": {
@@ -35,9 +38,10 @@ Modify `amplify/backend/backend-config.json` in your project:
 }
 ```
 
-
 ### 2. Modify folder structure for custom resource
+
 Under `amplify/backend` folder, make a folder structure like the following:
+
 ```console
 amplify
   \backend
@@ -49,7 +53,8 @@ amplify
       parameters.json
       template.json
 ```
-`template.json` is a CloudFormation template, and `parameters.json` is parameters file that will be passed to the cloudformation template. Additionally, the `env` parameter will be passed in to your CloudFormation templates dynamically by the CLI. 
+
+`template.json` is a CloudFormation template, and `parameters.json` is parameters file that will be passed to the cloudformation template. Additionally, the `env` parameter will be passed in to your CloudFormation templates dynamically by the CLI.
 
 > **Note:** If you have multiple resources in the same category, the CloudFormation template files names must be unique but still contain `template`. For example: `template_<your_resource>.json` or `<your_resource>_template.yaml`.
 
@@ -85,15 +90,15 @@ Reference an output value from any other Amplify-managed category CloudFormation
 
 Construct the following input parameter in your custom CloudFormation stack's `template.json` file to use the `UserPoolId` from the `auth` category. Amplify CLI passes this input automatically from the other nested stack.
 
-```javascript
+```js
 "Parameters": {
   // ... Rest of the parameters
 
   // The format out here is `<category><resource-name><attribute-name>`
   // we have defined all of these in the `backend-config.json` file above
   "authmycognitoresourceUserPoolId": { 
-	 "Type": "String"
- }
+    "Type": "String"
+  }
 },
 ```
 
@@ -114,4 +119,5 @@ Place one parameter in `parameters.json` named `authmycognitoresourceUserPoolId`
 ```
 
 ### 4. Enable custom resources
+
 Run `amplify env checkout <current-env-name>` to populate the CLI runtime files and make it aware of the newly added custom resources

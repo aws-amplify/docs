@@ -29,6 +29,7 @@ Examples
 Experimental feature flags are to enable experimentation with given functionality, to provide feedback to the Amplify CLI team. Enabling these feature in production is highly discouraged.
 
 The outcome of experimental features can be:
+
 - The feature will make into the product so it will be turned into a Release type feature flag.
 - The experimental feature is not making into the product and removed from the codebase together with the code itself.
 

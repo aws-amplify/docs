@@ -3,9 +3,10 @@ title: Overview
 description: Plugins enable you to add additional commands and functionality to existing Amplify CLI. Learn how to create, publish, consume a plugin package.
 ---  
 
-Plugins are explicitly managed in the Amplify CLI pluggable platform. Plugins enable you to add additional commands and functionality to existing Amplify CLI. This section goes through the steps to create, publish, consume a plugin package, explains the folder structure, and key files in the plugin package. 
+Plugins are explicitly managed in the Amplify CLI pluggable platform. Plugins enable you to add additional commands and functionality to existing Amplify CLI. This section goes through the steps to create, publish, consume a plugin package, explains the folder structure, and key files in the plugin package.
 
 ## Official plugins
+
 - amplify-category-analytics
 - amplify-category-api
 - amplify-category-auth
@@ -24,19 +25,22 @@ Plugins are explicitly managed in the Amplify CLI pluggable platform. Plugins en
 
 ## Third-party plugins
 
-* [amplify-category-video](https://www.npmjs.com/package/amplify-category-video) - Make it easy to incorporate video streaming into your mobile and web applications powered by AWS Amplify and AWS Media Services
-* [amplify-category-docs](https://www.npmjs.com/package/amplify-category-docs) - An easy way to view the Amplify Docs from the Amplify CLI
-* [amplify-category-data-importer](https://www.npmjs.com/package/amplify-category-data-importer) - Automate the process of seeding, importing, and managing data for Amplify projects
-* [graphql-ttl-transformer](https://github.com/flogy/graphql-ttl-transformer) - Enable DynamoDB's time-to-live feature to auto-delete old entries in your AWS Amplify API
+- [amplify-category-video](https://www.npmjs.com/package/amplify-category-video) - Make it easy to incorporate video streaming into your mobile and web applications powered by AWS Amplify and AWS Media Services
+- [amplify-category-docs](https://www.npmjs.com/package/amplify-category-docs) - An easy way to view the Amplify Docs from the Amplify CLI
+- [amplify-category-data-importer](https://www.npmjs.com/package/amplify-category-data-importer) - Automate the process of seeding, importing, and managing data for Amplify projects
+- [graphql-ttl-transformer](https://github.com/flogy/graphql-ttl-transformer) - Enable DynamoDB's time-to-live feature to auto-delete old entries in your AWS Amplify API
 
 ## Plugin installation
 
 You can add a 3rd party plugin to the Amplify CLI with the following steps:
+
 - If the plugin author named the plugin package according to the [naming convention](~/cli/plugins/architecture.md#plugin-types).
+
 1. Run `npm install -g <plugin>` and install the plugin to the global node_modules directory.<br/>
 2. Run `amplify plugin scan` so the Amplify CLI plugin platform will pick up the newly added plugin.
 
 - If the plugin author did NOT name the plugin package according to the naming convention outlined above.
+
 1. Run `npm install -g <plugin>` and install the plugin to the global node_modules directory.<br/>
 2. Run `amplify plugin add` and provide the path to the plugin to explicitly add the plugin package into the Amplify CLI plugin platform.
 
@@ -44,22 +48,22 @@ You can add a 3rd party plugin to the Amplify CLI with the following steps:
 
 The following is the suite of the commands under the `amplify plugin`:
 
-* amplify plugin configure
-* amplify plugin scan
-* amplify plugin add
-* amplify plugin remove
-* amplify plugin list
-* amplify plugin init
-* amplify plugin verify
-* amplify plugin help
+- amplify plugin configure
+- amplify plugin scan
+- amplify plugin add
+- amplify plugin remove
+- amplify plugin list
+- amplify plugin init
+- amplify plugin verify
+- amplify plugin help
 
 ### configure
 
 `amplify plugin configure` is used to configure the following settings in the `plugins.json` file:
 
-* `plugin-directories` : contains the directories that plugin packages are searched for during a plugin scan.
-* `plugin-prefixes`: contains the plugin package name prefixes. A package named with such prefix is considered a plugin candidate and checked during a plugin scan. If `plugin-prefixes` is empty, all packages inside the scanned directories will be checked.
-* `max-scan-interval-in-seconds` : the Amplify CLI Core will scan again if the last scan time has passed for longer than `max-scan-interval-in-seconds`. Setting this value to 0 will result in fresh scan at the beginning of each Amplify CLI command execution. The default value is 1 day.
+- `plugin-directories` : contains the directories that plugin packages are searched for during a plugin scan.
+- `plugin-prefixes`: contains the plugin package name prefixes. A package named with such prefix is considered a plugin candidate and checked during a plugin scan. If `plugin-prefixes` is empty, all packages inside the scanned directories will be checked.
+- `max-scan-interval-in-seconds` : the Amplify CLI Core will scan again if the last scan time has passed for longer than `max-scan-interval-in-seconds`. Setting this value to 0 will result in fresh scan at the beginning of each Amplify CLI command execution. The default value is 1 day.
 
 ### scan
 
@@ -93,11 +97,10 @@ It can be easily removed from the platform with the `amplify plugin remove` comm
 
 The Amplify CLI provides the utility command `amplify plugin verify` to verify that:
 
-* The package implements the required interface methods for plugins.
-* The `commands` field contains all the required commands for the type of the plugin.
+- The package implements the required interface methods for plugins.
+- The `commands` field contains all the required commands for the type of the plugin.
 `amplify plugin verify` command treats the folder where it is executed as the root directory of the plugin package. The command can be executed manually. Its functionality is also invoked by the `amplify plugin scan` and `amplify plugin add` commands.
 
 ### help
 
 Prints out help information for the commands under `amplify plugin`.
-

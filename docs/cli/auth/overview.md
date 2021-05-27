@@ -11,7 +11,7 @@ The Amplify CLI supports configuring many different Authentication and Authoriza
 The easiest way to get started is to leverage the default configuration which is optimized for the most common use cases and choices.
 
 ```bash
-amplify add auth     ##"amplify update auth" if already configured
+amplify add auth  ## "amplify update auth" if already configured
 ```
 
 ```console
@@ -27,7 +27,7 @@ Do you want to use the default authentication and security configuration?
 Once your User Pool is functioning, you can enable more configurations such as federation with Facebook, Google, or Login with Amazon. You can also configure more advanced settings by selecting *Manual Configuration*.
 
 ```bash
-amplify add auth     ##"amplify update auth" if already configured
+amplify add auth  ## "amplify update auth" if already configured
 ```
 
 Select Default configuration with Social Provider (Federation):
