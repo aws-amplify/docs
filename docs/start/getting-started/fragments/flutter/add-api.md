@@ -70,6 +70,9 @@ From the Amplify Admin UI:
 Now we just need to configure our app with some additional plugins. This will ensure that DataStore has access to the API access it requires for communicating with the cloud. Let's start by modifying `pubspec.yaml` in your project root directory and add the Amplify plugins to the project dependencies.
 
 ```diff
+environment:
+  sdk: ">=2.11.0 <3.0.0"
+
   dependencies:
     flutter:
       sdk: flutter

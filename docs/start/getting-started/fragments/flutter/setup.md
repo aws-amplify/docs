@@ -15,6 +15,9 @@ Amplify for Flutter is distributed via **pub.dev**.
 1. From your project root directory, find and modify pubspec.yaml and add the Amplify plugins to the project dependencies.
 
     ```yaml
+    environment:
+      sdk: ">=2.11.0 <3.0.0"
+
     dependencies:
     flutter:
       sdk: flutter
