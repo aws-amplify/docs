@@ -8,62 +8,10 @@ import FeaturesGrid from "../components/FeaturesGrid";
 import LinkBanner from "../components/LinkBanner";
 import Footer from "../components/Footer";
 import UniversalNav from "../components/UniversalNav";
-import Head from "next/head";
 
 const Page = () => {
   return (
     <>
-      <Head>
-        <link
-          rel="prefetch"
-          href="/start/q/integration/js?sc_icampaign=start&sc_ichannel=docs-home"
-        />
-        [
-        <link
-          rel="prefetch"
-          href="/start?sc_icampaign=start&sc_ichannel=docs-home"
-        />
-        <link
-          rel="prefetch"
-          href="/start/q/integration/react?sc_icampaign=react-start&sc_ichannel=docs-home"
-        />
-        <link
-          rel="prefetch"
-          href="/start/q/integration/vue?sc_icampaign=vue-start&sc_ichannel=docs-home"
-        />
-        <link
-          rel="prefetch"
-          href="/start/q/integration/js?sc_icampaign=js-start&sc_ichannel=docs-home"
-        />
-        <link
-          rel="prefetch"
-          href="/start/q/integration/ios?sc_icampaign=ios-start&sc_ichannel=docs-home"
-        />
-        <link
-          rel="prefetch"
-          href="/start/q/integration/android?sc_icampaign=android-start&sc_ichannel=docs-home"
-        />
-        <link
-          rel="prefetch"
-          href="/start/q/integration/flutter?sc_icampaign=flutter-start&sc_ichannel=docs-home"
-        />
-        <link rel="prefetch" href="/lib/q/platform/js" />
-        <link rel="prefetch" href="/cli" />
-        <link rel="prefetch" href="/console" />
-        <link rel="prefetch" href="/console/adminui/intro" />
-        <link rel="prefetch" href="/lib/auth/getting-started" />
-        <link rel="prefetch" href="/lib/storage/getting-started" />
-        <link rel="prefetch" href="/lib/graphqlapi/getting-started" />
-        <link rel="prefetch" href="/lib/datastore/getting-started" />
-        <link rel="prefetch" href="/lib/restapi/getting-started" />
-        <link rel="prefetch" href="/lib/analytics/getting-started" />
-        <link rel="prefetch" href="/lib/push-notifications/getting-started" />
-        <link rel="prefetch" href="/lib/xr/getting-started" />
-        <link rel="prefetch" href="/lib/pubsub/getting-started" />
-        <link rel="prefetch" href="/lib/interactions/getting-started" />
-        <link rel="prefetch" href="/lib/predictions/getting-started" />
-        <link rel="prefetch" href="/start" />]
-      </Head>
       <UniversalNav
         heading="Amplify Docs"
         brandIcon="/assets/logo-dark.svg"
