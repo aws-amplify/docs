@@ -320,3 +320,5 @@ The `@function` directive generates these resources as necessary:
 2. An AWS AppSync data source that registers the new role and existing function with your AppSync API.
 3. An AWS AppSync pipeline function that prepares the lambda event and invokes the new data source.
 4. An AWS AppSync resolver that attaches to the GraphQL field and invokes the new pipeline functions.
+
+
