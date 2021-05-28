@@ -11,6 +11,3 @@ environment:
 Null safety support for Amplify Flutter is actively being worked on.
 
 </amplify-callout>
-
-
-/Users/malakamm/development/docs/docs/lib/project-setup/fragments/native_common/prereq/flutter_null_safety.md
