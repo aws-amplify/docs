@@ -8,10 +8,17 @@ import FeaturesGrid from "../components/FeaturesGrid";
 import LinkBanner from "../components/LinkBanner";
 import Footer from "../components/Footer";
 import UniversalNav from "../components/UniversalNav";
+import Head from "next/head";
 
 const Page = () => {
   return (
     <>
+      <Head>
+        <link
+          rel="prefetch"
+          href="/start/q/integration/js?sc_icampaign=start&sc_ichannel=docs-home"
+        />
+      </Head>
       <UniversalNav
         heading="Amplify Docs"
         brandIcon="/assets/logo-dark.svg"
