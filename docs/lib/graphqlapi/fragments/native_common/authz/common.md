@@ -12,7 +12,7 @@ Amazon Cognito User Pools is most commonly used with AWS AppSync when adding aut
 
 #### IAM
 
-Amazon Cognito identity pools allows you to use credentials from AWS IAM in a mobile application. The Amplify CLI can automatically configure this for you.
+Amazon Cognito Identity Pools allows you to use credentials from AWS IAM in your app. The Amplify CLI can automatically configure this for you.
 
 #### OIDC
 
