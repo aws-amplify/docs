@@ -7,7 +7,7 @@ export const Host = styled.div`
   margin-top: 2.5rem;
 `;
 
-export const Container = styled.div`
+export const Container = styled.a`
   display: flex;
   flex-direction: row;
   text-align: center;
