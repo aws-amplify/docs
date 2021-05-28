@@ -1,7 +1,8 @@
-/docs/**/android @aws-amplify/android-team
-/docs/**/flutter @aws-amplify/amplify-flutter
-/docs/**/ios @aws-amplify/ios-team
-/docs/**/js  @aws-amplify/amplify-js
-/docs/cli @aws-amplify/amplify-cli
-/docs/console @aws-amplify/amplify-console
-/docs/guides @aws-amplify/developer-advocates
+/docs/** @medelman17
+/docs/**/android @aws-amplify/android-team @medelman17
+/docs/**/flutter @aws-amplify/amplify-flutter @medelman17
+/docs/**/ios @aws-amplify/ios-team @medelman17
+/docs/**/js  @aws-amplify/amplify-js @medelman17
+/docs/cli @aws-amplify/amplify-cli @medelman17
+/docs/console @aws-amplify/amplify-console @medelman17
+/docs/guides @aws-amplify/developer-advocates @medelman17
