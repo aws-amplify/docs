@@ -81,6 +81,10 @@ function MyApp({Component, pageProps}) {
         />
         <link rel="apple-touch-icon" href="/icon/icon.png" />
         <link rel="icon" type="image/x-icon" href="/icon/favicon.ico" />
+        <link
+          rel="prefetch"
+          href="https://docs.amplify.aws/start/q/integration/js?sc_icampaign=start&sc_ichannel=docs-home"
+        />
       </Head>
 
       <Component {...pageProps} />
