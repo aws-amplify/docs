@@ -26,4 +26,5 @@ export const config: PrerenderConfig = {
   filterUrl(url) {
     return !(url && url.toString().includes("authenticator"));
   },
+  staticSite: true,
 };
