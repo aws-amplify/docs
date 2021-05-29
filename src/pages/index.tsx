@@ -1,4 +1,5 @@
 import {Grid} from "theme-ui";
+import Head from "next/head";
 
 import Hero from "../components/Hero";
 import LandingHeroCTA from "../components/LandingHeroCTA";
@@ -12,6 +13,9 @@ import UniversalNav from "../components/UniversalNav";
 const Page = () => {
   return (
     <>
+      <Head>
+        <title>Amplify Framework Docs</title>
+      </Head>
       <UniversalNav
         heading="Amplify Docs"
         brandIcon="/assets/logo-dark.svg"
