@@ -1,5 +1,5 @@
 ---
-title: Use existing AWS resources
+title: Use existing Amazon Cognito resources
 description: Configure the Amplify Libraries to use existing Amazon Cognito resources by referencing them in your configuration.
 ---
 

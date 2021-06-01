@@ -47,11 +47,14 @@ Navigate into `amplify/backend/function/generateReport` and create `tsconfig.jso
 
 <!-- // spell-checker: enable -->
 
-**NOTE:** It is important to note that if you are using `aws-sdk` in your TypeScript file, you will get a timeout if you attempt to import it with the following:
+**Note:** It is important to note that if you are using `aws-sdk` in your TypeScript file, you will get a timeout if you attempt to import it with the following:
+
 ```js
 import AWS from 'aws-sdk';
 ```
+
 Change to this:
+
 ```js
 import * as AWS from 'aws-sdk';
 ```

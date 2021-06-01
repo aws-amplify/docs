@@ -3,27 +3,29 @@ title: Use an existing S3 bucket or DynamoDB table
 description: Configure the Amplify CLI to use existing S3 bucket or DynamoDB table resources as a storage resource for other Amplify categories. (API, Function, and more)
 ---
 
-Import an existing S3 bucket or DynamoDB tables into your Amplify project. Get started by running `amplify import storage` command to search for & import an S3 or DynamoDB resource from your account. 
+Import an existing S3 bucket or DynamoDB tables into your Amplify project. Get started by running `amplify import storage` command to search for & import an S3 or DynamoDB resource from your account.
 
-```sh
+```bash
 amplify import storage
 ```
 
-Make sure to run `amplify push` to complete the import process and deploy this backend change to the cloud. 
+Make sure to run `amplify push` to complete the import process and deploy this backend change to the cloud.
 
 The `amplify import storage` command will:
-* automatically populate your Amplify Library configuration files (aws-exports.js, amplifyconfiguration.json) with your chosen S3 bucket information 
-* provide your designated S3 bucket or DynamoDB table as a storage mechanism for all storage-dependent categories (API, Function, Predictions, and more) 
-* enable Lambda functions to access the chosen S3 or DynamoDB resource if you permit it
+
+- automatically populate your Amplify Library configuration files (aws-exports.js, amplifyconfiguration.json) with your chosen S3 bucket information
+- provide your designated S3 bucket or DynamoDB table as a storage mechanism for all storage-dependent categories (API, Function, Predictions, and more)
+- enable Lambda functions to access the chosen S3 or DynamoDB resource if you permit it
 
 This feature is particularly useful if you're trying to:
-* enable Amplify categories (such as API and Function) to access your existing storage resources;
-* incrementally adopt Amplify for your application stack;
-* independently manage S3 and DynamoDB resources while working with Amplify.
+
+- enable Amplify categories (such as API and Function) to access your existing storage resources;
+- incrementally adopt Amplify for your application stack;
+- independently manage S3 and DynamoDB resources while working with Amplify.
 
 ## Import an existing S3 bucket
 
-Select the "S3 bucket - Content (Images, audio, video, etc.)" option when you've run `amplify import storage`. 
+Select the "S3 bucket - Content (Images, audio, video, etc.)" option when you've run `amplify import storage`.
 
 Run `amplify push` to complete the import procedure.
 
@@ -32,8 +34,9 @@ Run `amplify push` to complete the import procedure.
 ### Connect to an imported S3 bucket with Amplify Libraries
 
 By default, Amplify Libraries assumes that S3 buckets are configured with the following access patterns:
+
 - `public/` - Accessible by all users of your app
-- `protected/{user_identity_id}/` - Readable by all users, but writable only by the creating user 
+- `protected/{user_identity_id}/` - Readable by all users, but writable only by the creating user
 - `private/{user_identity_id}/` - Only accessible for the individual user
 
 You can either configure your IAM role to use the Amplify-recommended policies or in your Amplify libraries configuration [overwrite the default storage path behavior](~/lib/storage/configureaccess.md/q/platform/js#customize-object-key-path).
@@ -46,131 +49,139 @@ If you're using an imported S3 bucket with an imported Cognito resource, then yo
 
 > Make sure to replace `{YOUR_S3_BUCKET_NAME}` with your S3 bucket's name.
 
-#### Unauthenticated role policies:
+#### Unauthenticated role policies
+
 - IAM policy statement for `public/`:
+
 ```json
 {
-    "Action": [
-        "s3:PutObject",
-        "s3:GetObject",
-        "s3:DeleteObject"
-    ],
-    "Resource": [
-        "arn:aws:s3:::{YOUR_S3_BUCKET_NAME}/public/*"
-    ],
-    "Effect": "Allow"
+  "Action": [
+    "s3:PutObject",
+    "s3:GetObject",
+    "s3:DeleteObject"
+  ],
+  "Resource": [
+    "arn:aws:s3:::{YOUR_S3_BUCKET_NAME}/public/*"
+  ],
+  "Effect": "Allow"
 }
 ```
 
 - IAM policy statement for read access to `public/`, `protected/`, and `private/`:
+
 ```json
 {
-    "Action": [
-        "s3:GetObject"
-    ],
-    "Resource": [
-        "arn:aws:s3:::{YOUR_S3_BUCKET_NAME}/protected/*"
-    ],
-    "Effect": "Allow"
+  "Action": [
+    "s3:GetObject"
+  ],
+  "Resource": [
+    "arn:aws:s3:::{YOUR_S3_BUCKET_NAME}/protected/*"
+  ],
+  "Effect": "Allow"
 },
 {
-    "Condition": {
-        "StringLike": {
-            "s3:prefix": [
-                "public/",
-                "public/*",
-                "protected/",
-                "protected/*"
-            ]
-        }
-    },
-    "Action": [
-        "s3:ListBucket"
-    ],
-    "Resource": [
-        "arn:aws:s3:::{YOUR_S3_BUCKET_NAME}"
-    ],
-    "Effect": "Allow"
+  "Condition": {
+    "StringLike": {
+      "s3:prefix": [
+        "public/",
+        "public/*",
+        "protected/",
+        "protected/*"
+      ]
+    }
+  },
+  "Action": [
+    "s3:ListBucket"
+  ],
+  "Resource": [
+    "arn:aws:s3:::{YOUR_S3_BUCKET_NAME}"
+  ],
+  "Effect": "Allow"
 }
 ```
 
-#### Authenticated role policies:
+#### Authenticated role policies
+
 - IAM policy statement for `public/`:
+
 ```json
 {
-    "Action": [
-        "s3:PutObject",
-        "s3:GetObject",
-        "s3:DeleteObject"
-    ],
-    "Resource": [
-        "arn:aws:s3:::{YOUR_S3_BUCKET_NAME}/public/*"
-    ],
-    "Effect": "Allow"
+  "Action": [
+    "s3:PutObject",
+    "s3:GetObject",
+    "s3:DeleteObject"
+  ],
+  "Resource": [
+    "arn:aws:s3:::{YOUR_S3_BUCKET_NAME}/public/*"
+  ],
+  "Effect": "Allow"
 }
 ```
 
 - IAM policy statement for `protected/`:
+
 ```json
 {
-    "Action": [
-        "s3:PutObject",
-        "s3:GetObject",
-        "s3:DeleteObject"
-    ],
-    "Resource": [
-        "arn:aws:s3:::{YOUR_S3_BUCKET_NAME}/protected/${cognito-identity.amazonaws.com:sub}/*"
-    ],
-    "Effect": "Allow"
+  "Action": [
+    "s3:PutObject",
+    "s3:GetObject",
+    "s3:DeleteObject"
+  ],
+  "Resource": [
+    "arn:aws:s3:::{YOUR_S3_BUCKET_NAME}/protected/${cognito-identity.amazonaws.com:sub}/*"
+  ],
+  "Effect": "Allow"
 }
 ```
 
 - IAM policy statement for `private/`:
+
 ```json
 {
-    "Action": [
-        "s3:PutObject",
-        "s3:GetObject",
-        "s3:DeleteObject"
-    ],
-    "Resource": [
-        "arn:aws:s3:::{YOUR_S3_BUCKET_NAME}/private/${cognito-identity.amazonaws.com:sub}/*"
-    ],
-    "Effect": "Allow"
+  "Action": [
+    "s3:PutObject",
+    "s3:GetObject",
+    "s3:DeleteObject"
+  ],
+  "Resource": [
+    "arn:aws:s3:::{YOUR_S3_BUCKET_NAME}/private/${cognito-identity.amazonaws.com:sub}/*"
+  ],
+  "Effect": "Allow"
 }
 ```
 
 - IAM policy statement for read access to `public/`, `protected/`, and `private/`:
+
 ```json
 {
-    "Action": [
-        "s3:GetObject"
-    ],
-    "Resource": [
-        "arn:aws:s3:::{YOUR_S3_BUCKET_NAME}/protected/*"
-    ],
-    "Effect": "Allow"
+  "Action": [
+    "s3:GetObject"
+  ],
+  "Resource": [
+    "arn:aws:s3:::{YOUR_S3_BUCKET_NAME}/protected/*"
+  ],
+  "Effect": "Allow"
 },
 {
-    "Condition": {
-        "StringLike": {
-            "s3:prefix": [
-                "public/",
-                "public/*",
-                "protected/",
-                "protected/*",
-                "private/${cognito-identity.amazonaws.com:sub}/",
-                "private/${cognito-identity.amazonaws.com:sub}/*"
-            ]
-        }
-    },
-    "Action": [
-        "s3:ListBucket"
-    ],
-    "Resource": [
-        "arn:aws:s3:::{YOUR_S3_BUCKET_NAME}"
-    ],
-    "Effect": "Allow"
+  "Condition": {
+    "StringLike": {
+      "s3:prefix": [
+        "public/",
+        "public/*",
+        "protected/",
+        "protected/*",
+        "private/${cognito-identity.amazonaws.com:sub}/",
+        "private/${cognito-identity.amazonaws.com:sub}/*"
+      ]
+    }
+  },
+  "Action": [
+    "s3:ListBucket"
+  ],
+  "Resource": [
+    "arn:aws:s3:::{YOUR_S3_BUCKET_NAME}"
+  ],
+  "Effect": "Allow"
 }
 ```
 
@@ -190,6 +201,6 @@ If you want to have Amplify manage your storage resources in a new environment, 
 
 ## Unlink an existing S3 bucket or DynamoDB table
 
-In order to unlink your existing Cognito resource run `amplify remove storage`. This will only unlink the S3 bucket or DynamoDB table referenced from the Amplify project. It will not delete the S3 bucket or DynamoDB table itself. 
+In order to unlink your existing Cognito resource run `amplify remove storage`. This will only unlink the S3 bucket or DynamoDB table referenced from the Amplify project. It will not delete the S3 bucket or DynamoDB table itself.
 
 Run `amplify push` to complete the unlink procedure.

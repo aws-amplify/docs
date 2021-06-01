@@ -1359,6 +1359,9 @@
     "onetomany",
     "manytomany",
     "datamodel",
+    "AUTHCONFIG",
+    "myproject",
+    "STORAGECONFIG",
     "secretsmanager",
     "customcf"
   ],

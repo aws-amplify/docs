@@ -62,18 +62,18 @@ After it's transformed, you can create projects and query the connected team as 
 
 ```graphql
 mutation CreateProject {
-    createProject(input: { name: "New Project", teamID: "a-team-id"}) {
-        id
-        name
-        team {
-            id
-            name
-        }
+  createProject(input: { name: "New Project", teamID: "a-team-id"}) {
+    id
+    name
+    team {
+      id
+      name
     }
+  }
 }
 ```
 
-> **Note** The **Project.team** resolver is configured to work with the defined connection. This is done with a query on the Team table where `teamID` is passed in as an argument.
+> **Note:** The **Project.team** resolver is configured to work with the defined connection. This is done with a query on the Team table where `teamID` is passed in as an argument.
 
 A Has One @connection can only reference the primary index of a model (ie. it cannot specify a "keyName" as described below in the Has Many section).
 
@@ -234,30 +234,30 @@ You can first create a Post and a User, and then add a connection between them w
 
 ```graphql
 mutation CreateData {
-    p1: createPost(input: { id: "P1", title: "Post 1" }) {
-        id
-    }
-    p2: createPost(input: { id: "P2", title: "Post 2" }) {
-        id
-    }
-    u1: createUser(input: { id: "U1", username: "user1" }) {
-        id
-    }
-    u2: createUser(input: { id: "U2", username: "user2" }) {
-        id
-    }
+  p1: createPost(input: { id: "P1", title: "Post 1" }) {
+    id
+  }
+  p2: createPost(input: { id: "P2", title: "Post 2" }) {
+    id
+  }
+  u1: createUser(input: { id: "U1", username: "user1" }) {
+    id
+  }
+  u2: createUser(input: { id: "U2", username: "user2" }) {
+    id
+  }
 }
 
 mutation CreateLinks {
-    p1u1: createPostEditor(input: { id: "P1U1", postID: "P1", editorID: "U1" }) {
-        id
-    }
-    p1u2: createPostEditor(input: { id: "P1U2", postID: "P1", editorID: "U2" }) {
-        id
-    }
-    p2u1: createPostEditor(input: { id: "P2U1", postID: "P2", editorID: "U1" }) {
-        id
-    }
+  p1u1: createPostEditor(input: { id: "P1U1", postID: "P1", editorID: "U1" }) {
+    id
+  }
+  p1u2: createPostEditor(input: { id: "P1U2", postID: "P1", editorID: "U2" }) {
+    id
+  }
+  p2u1: createPostEditor(input: { id: "P2U1", postID: "P2", editorID: "U1" }) {
+    id
+  }
 }
 ```
 
@@ -267,17 +267,17 @@ You can query a given user with their posts:
 
 ```graphql
 query GetUserWithPosts {
-    getUser(id: "U1") {
-        id
-        username
-        posts {
-            items {
-                post {
-                    title
-                }
-            }
+  getUser(id: "U1") {
+    id
+    username
+    posts {
+      items {
+        post {
+          title
         }
+      }
     }
+  }
 }
 ```
 
@@ -285,24 +285,24 @@ Also you can query a given post with the editors of that post and can list the p
 
 ```graphql
 query GetPostWithEditorsWithPosts {
-    getPost(id: "P1") {
-        id
-        title
-        editors {
+  getPost(id: "P1") {
+    id
+    title
+    editors {
+      items {
+        editor {
+          username
+          posts {
             items {
-                editor {
-                    username
-                    posts {
-                        items {
-                            post {
-                                title
-                            }
-                        }
-                    }
-                }
+              post {
+                title
+              }
             }
+          }
         }
+      }
     }
+  }
 }
 ```
 
@@ -310,7 +310,7 @@ query GetPostWithEditorsWithPosts {
 
 The above definition is the recommended way to create relationships between model types in your API. This involves defining index structures using `@key` and connection resolvers using `@connection`. There is an older parameterization of `@connection` that creates indices and connection resolvers that is still functional for backwards compatibility reasons. It is recommended to use `@key` and the new `@connection` via the fields argument.
 
-```
+```graphql
 directive @connection(name: String, keyField: String, sortField: String, limit: Int) on FIELD_DEFINITION
 ```
 
@@ -337,7 +337,7 @@ type Comment @model {
 
 In order to keep connection queries fast and efficient, the GraphQL transform manages global secondary indexes (GSIs) on the generated tables on your behalf when using @connection
 
-> **Note** After you have pushed a `@connection` directive you should not try to
+> **Note:** After you have pushed a `@connection` directive you should not try to
 change it. If you try to change it, the DynamoDB
 UpdateTable operation will fail. Should you need to change a `@connection`, you should add a new
 `@connection` that implements the new access pattern, update your application
