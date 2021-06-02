@@ -155,7 +155,7 @@ If you've setup federation through third party providers, you would need to upda
 ### Setup Amazon Cognito Hosted UI in Android App
 
 <amplify-block-switcher>
-<amplify-block name="Version 2.23.1 and above">
+<amplify-block name="Version 2.24.0 and above">
 
 1. Add the following activity to your app's `AndroidManifest.xml` file, replacing `myapp` with
 whatever value you used for your redirect URI prefix:
@@ -177,7 +177,7 @@ whatever value you used for your redirect URI prefix:
 </amplify-block>
 <amplify-block name="Version 2.18.0 - 2.23.0">
 
-**Note:** These versions have known issues with the sign-out flow. Please use the SDK versions 2.23.1 and above.
+**Note:** These versions have known issues with the sign-out flow. Please use the SDK versions 2.24.0 and above.
 
 1. Add the following activity to your app's `AndroidManifest.xml` file, replacing `myapp` with
 whatever value you used for your redirect URI prefix:
