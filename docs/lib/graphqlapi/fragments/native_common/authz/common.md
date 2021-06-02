@@ -2,27 +2,27 @@ For client authorization AppSync supports API Keys, Amazon IAM credentials, Amaz
 
 ## Auth Modes
 
-#### API key
+### API key
 
-API Key is the easiest way to setup and prototype your application with AWS AppSync. This means it is also prone to abuse since anyone can easily discover the API Key and make requests to your public service. To have authorization checks, use the other auth modes such as Cognito user pool or AWS IAM. API Key will expiry according to the expiry time set when provisioning AWS AppSync and will require extending it or creating a new one if needed. 
+API Key is the easiest way to setup and prototype your application with AWS AppSync. This means it is also prone to abuse since anyone can easily discover the API Key and make requests to your public service. To have authorization checks, use the other auth modes such as Cognito user pool or AWS IAM. API Key will expiry according to the expiry time set when provisioning AWS AppSync and will require extending it or creating a new one if needed. Default API Key expiry time is 7 days.
 
-#### Amazon Cognito User Pools
+### Amazon Cognito User Pools
 
 Amazon Cognito's user pool is most commonly used with AWS AppSync when adding authorization check on your API calls. If your application needs to interact with other AWS services besides AWS AppSync, such as Amazon S3, you will need to use AWS IAM credentials with Amazon Cognito's identity pools. Amplify CLI can automatically configure this for you and will also automatically use the authenticated user from user pools to federate with the identity pools to provide the AWS IAM credentials in the application. [See this for more information about the differences](https://aws.amazon.com/premiumsupport/knowledge-center/cognito-user-pools-identity-pools/). This allows you to have both user pool credentials for AWS AppSync and AWS IAM credentials for other AWS resources. You can learn more about Amplify Auth outlined in the [Accessing credentials section](~/lib/auth/access_credentials.md). 
 
-#### IAM
+### IAM
 
 Amazon Cognito identity pools allows you to use credentials from AWS IAM in a mobile application. The Amplify CLI can automatically configure this for you.
 
-#### OIDC
+### OpenID Connect (OIDC)
 
 If you are using a 3rd party OIDC provider you will need to configure it and manage the details of token refreshes yourself. 
 
-## Using Amplify CLI
+## Use Amplify CLI to configure authorization modes
 
-Amplify CLI can automatically configure the auth modes for you when running `amplify add auth` or `amplify update auth` if you want to change the auth mode.
+Amplify CLI can automatically configure the auth modes for you when running `amplify add api` or `amplify update api` if you want to change the auth mode.
 
-After adding auth mode, you have to update API category to use the auth mode you just added by running:
+If you already have auth configured, then you need to run `amplify update api` to use this pre-configured auth mode and CLI will not ask for auth settings again.
 
 ```bash
 amplify update api
@@ -159,7 +159,7 @@ If you are using Cognito's user pool as the authorization type, this will by def
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/authz/21_oidc.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/authz/21_oidc.md"></inline-fragment>
 
-### Multi-Auth
+## Configure multiple authorization modes
 
 This section talks about the capability of AWS AppSync to configure multiple authorization modes for a single AWS AppSync endpoint and region. Follow the [AWS AppSync Multi-Auth](https://docs.aws.amazon.com/appsync/latest/devguide/security.html#using-additional-authorization-modes) to configure multiple authorization modes for your AWS AppSync endpoint.
 
