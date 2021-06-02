@@ -1,15 +1,14 @@
 If you would like to add request headers, you can add it directly to the request
 
-TODO: Android code snippets
-
 <amplify-block-switcher>
 <amplify-block name="Java">
 
 This implementation uses `CompletableFuture<T>`, which requires `minSdkVersion >= 24`.
 
 ```java
-let headers: [String: String] = ["headerField": "headerValue"]
-let request = RESTRequest(headers: headers)
+RestOptions options = RestOptions.builder()
+    .addHeaders(Collections.singletonMap("key", "value"))
+    .build();
 ```
 
 </amplify-block>
@@ -18,8 +17,9 @@ let request = RESTRequest(headers: headers)
 This implementation uses `CompletableFuture<T>`, which requires `minSdkVersion >= 24`.
 
 ```kotlin
-let headers: [String: String] = ["headerField": "headerValue"]
-let request = RESTRequest(headers: headers)
+val options = RestOptions.builder()
+    .addHeaders(mapOf("key" to "value"))
+    .build()
 ```
 
 </amplify-block>
@@ -28,23 +28,24 @@ let request = RESTRequest(headers: headers)
 This implementation uses `CompletableFuture<T>`, which requires `minSdkVersion >= 24`.
 
 ```kotlin
-let headers: [String: String] = ["headerField": "headerValue"]
-let request = RESTRequest(headers: headers)
+val request = RestOptions.builder()
+    .addHeaders(mapOf("key" to "value"))
+    .build()
 ```
 
 </amplify-block>
 <amplify-block name="RxJava">
 
 ```
-let headers: [String: String] = ["headerField": "headerValue"]
-let request = RESTRequest(headers: headers)
+RestOptions options = RestOptions.builder()
+    .addHeaders(Collections.singletonMap("key", "value"))
+    .build();
 ```
 </amplify-block>
 <amplify-block name="Kotlin (with RxJava)">
 
 ```
-let headers: [String: String] = ["headerField": "headerValue"]
-let request = RESTRequest(headers: headers)
+TODO: i think this can be removed
 ```
 
 </amplify-block>
