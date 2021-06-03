@@ -21,6 +21,9 @@ You may now skip the instructions below for adding a response handler to your ac
 
 </amplify-block>
 <amplify-block name="v1.17.7 and below">
+**Note:** These versions have known issues with sign-out after signing in via web UI.
+Please update to the latest version and follow the updated instructions for best results.
+
 Add the following activity to your app's `AndroidManifest.xml` file, replacing `myapp` with
 whatever value you used for your redirect URI prefix:
 
