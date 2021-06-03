@@ -263,7 +263,7 @@ This would return:
 }
 ```
 
-You can try to perform the same modification to **owner** but this will throw an **Unauthorized** exception because you are no longer the owner of the object you are trying to create.
+You can try to perform a modification to **owner** but this will throw an **Unauthorized** exception because you are no longer the owner of the object you are trying to create.
 
 ```graphql
 mutation CreateDraft {
