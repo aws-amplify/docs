@@ -1,5 +1,5 @@
 ---
-title: Create or update data
+title: Create, update, delete data
 description: Learn more about how to create and update data using GraphQL APIs in Amplify
 ---
 
