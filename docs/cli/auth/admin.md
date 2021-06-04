@@ -46,7 +46,11 @@ The default routes and their functions, HTTP methods, and expected parameters ar
 
 ## Example
 
-To leverage this functionality in your app you would call the appropriate route in your [JavaScript](~/lib/restapi/authz.md#cognito-user-pools-authorization), [iOS, or Android](~/sdk/api/rest.md#cognito-user-pools-authorization) application after signing in. For example to add a user "richard" to the Editors Group and then list all members of the Editors Group with a pagination limit of 10 you could use the following React code below:
+To leverage this functionality in your app you would call the appropriate route from `Amplify.API` after signing in. The following example adds the user "richard" to the Editors Group and then list all members of the Editors Group with a pagination limit of 10:
+
+<amplify-block-switcher>
+
+<amplify-block name="JS (React)">
 
 ```js
 import React from 'react'
@@ -104,3 +108,173 @@ function App() {
 
 export default withAuthenticator(App, true);
 ```
+
+</amplify-block>
+
+<amplify-block name="iOS">
+
+1. Configure Amplify. See [Getting started with Amplify.API for REST](~/lib/restapi/getting-started.md) to learn more.
+
+```swift
+try Amplify.add(plugin: AWSCognitoAuthPlugin())
+try Amplify.add(plugin: AWSAPIPlugin())
+try Amplify.configure()
+```
+
+2. Sign in using `Amplify.Auth`. See [Amplify.Auth](~/lib/auth/getting-started.md) to learn more about signing up and signing in a user.
+
+3. Use the following in your app to add a user to the Group.
+
+```swift
+func addToGroup(username: String, groupName: String) {
+    let path = "/addUserToGroup"
+    let body = "{\"username\":\"\(username)\",\"groupname\":\"\(groupName)\"}".data(using: .utf8)
+    let request = RESTRequest(path: path, body: body)
+    Amplify.API.post(request: request) { result in
+        switch result {
+        case .success(let data):
+            print("Response Body: \(String(decoding: data, as: UTF8.self))")
+        case .failure(let error):
+            if case let .httpStatusError(statusCode, response) = error,
+                let awsResponse = response as? AWSHTTPURLResponse,
+                let responseBody = awsResponse.body
+            {
+                print("StatusCode: \(statusCode) Response Body: \(String(decoding: responseBody, as: UTF8.self))")
+            }
+        }
+    }
+}
+
+addToGroup(username: "richard", groupName:  "Editors")
+```
+
+4. Use the following to list the users in the Group.
+
+```swift
+func listEditors(groupName: String, limit: Int, nextToken: String? = nil) {
+    let path = "/listUsersInGroup"
+    var query = ["groupname": groupName,
+                  "limit": String(limit)]
+    if let nextToken = nextToken {
+        query["token"] = nextToken
+    }
+    
+    let request = RESTRequest(path: path, queryParameters: query, body: nil)
+    Amplify.API.get(request: request) { result in
+        switch result {
+        case .success(let data):
+            print("Response Body: \(String(decoding: data, as: UTF8.self))")
+        case .failure(let error):
+            if case let .httpStatusError(statusCode, response) = error,
+                let awsResponse = response as? AWSHTTPURLResponse,
+                let responseBody = awsResponse.body
+            {
+                print("StatusCode: \(statusCode) Response Body: \(String(decoding: responseBody, as: UTF8.self))")
+            }
+        }
+    }
+}
+
+listEditors(groupName: "Editors", limit: 10)
+```
+
+**Note: Cognito User Pool with HostedUI** 
+
+The Admin Queries API configuration in **amplifyconfiguration.json** will have the endpoint's authorization type set to `AMAZON_COGNITO_USER_POOLS`. With this authorization type, `Amplify.API` will perform the request with the access token. However, when using HostedUI, the app may get unauthorized responses despite being signed in, and will require using the ID Token. Set the authorizationType to "NONE" and add a custom interceptor to return the ID Token. 
+
+```json
+{
+    "awsAPIPlugin": {
+        "[YOUR-RESTENDPOINT-NAME]": {
+            "endpointType": "REST",
+            "endpoint": "[YOUR-REST-ENDPOINT]",
+            "region": "[REGION]",
+            "authorizationType": "NONE"
+        }
+    }
+}
+```
+<amplify-callout warning>
+
+If you perform additional updates to your resources using Amplify CLI, the authorizationType will be reverted back to `AMAZON_COGNITO_USER_POOLS`. Make sure to update this back to `NONE`.
+
+</amplify-callout>
+
+Add a custom interceptor to the API
+```swift
+try Amplify.configure()
+try Amplify.API.add(interceptor: MyCustomInterceptor(), for: "[YOUR-RESTENDPOINT-NAME]")
+```
+
+Set up the custom interceptor to return the ID token for the request.
+
+```swift
+class MyCustomInterceptor: URLRequestInterceptor {
+    func getLatestAuthToken() -> Result<String, Error> {
+        let semaphore = DispatchSemaphore(value: 0)
+        var result: Result<String, Error> = .failure(AuthError.unknown("Could not retrieve Cognito token"))
+        Amplify.Auth.fetchAuthSession { (event) in
+            defer {
+                semaphore.signal()
+            }
+            switch event {
+            case .success(let session):
+                if let cognitoTokenResult = (session as? AuthCognitoTokensProvider)?.getCognitoTokens() {
+                    switch cognitoTokenResult {
+                    case .success(let tokens):
+                        result = .success(tokens.idToken)
+                    case .failure(let error):
+                        result = .failure(error)
+                    }
+                }
+            case .failure(let error):
+                result = .failure(error)
+            }
+        }
+        semaphore.wait()
+        return result
+    }
+    
+    func intercept(_ request: URLRequest) throws -> URLRequest {
+        guard let mutableRequest = (request as NSURLRequest).mutableCopy() as? NSMutableURLRequest else {
+            throw APIError.unknown("Could not get mutable request", "")
+        }
+        
+        let tokenResult = getLatestAuthToken()
+        guard case let .success(token) = tokenResult else {
+            if case let .failure(error) = tokenResult {
+                throw APIError.operationError("Failed to retrieve Cognito UserPool token.", "", error)
+            }
+
+            return mutableRequest as URLRequest
+        }
+        mutableRequest.setValue(token, forHTTPHeaderField: "authorization")
+        return mutableRequest as URLRequest
+    }
+}
+```
+
+</amplify-block>
+
+<amplify-block name="Android">
+
+For Amplify Android
+```java
+java code
+
+```
+
+</amplify-block>
+
+<amplify-block name="Flutter">
+
+For Amplify Flutter
+```dart
+dart code
+
+```
+
+</amplify-block>
+
+
+</amplify-block-switcher>
