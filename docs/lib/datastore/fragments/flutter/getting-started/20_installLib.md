@@ -10,3 +10,4 @@ dependencies:
   amplify_core: '<1.0.0'
   amplify_datastore: '<1.0.0'
 ```
+
