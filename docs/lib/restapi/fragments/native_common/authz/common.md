@@ -137,7 +137,7 @@ You can also set authorization mode to `NONE` so that the library will not provi
 <inline-fragment platform="ios" src="~/lib/restapi/fragments/ios/authz/22_none_headers.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/restapi/fragments/android/authz/22_none_headers.md"></inline-fragment>
 
-You can register your own request interceptor to intercept the request and perform an action or inject something into your request before it it performed. 
+You can register your own request interceptor to intercept the request and perform an action or inject something into your request before it is performed. 
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/advanced-workflows/50_interceptor.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/advanced-workflows/50_interceptor.md"></inline-fragment>
