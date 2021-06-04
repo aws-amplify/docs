@@ -9,7 +9,7 @@ You can download to in-memory buffer [Data](https://developer.apple.com/document
 <amplify-block name="Listener (iOS 11+)">
 
 ```swift
-Amplify.Storage.downloadData(
+let storageOperation = Amplify.Storage.downloadData(
     key: "myKey", 
     progressListener: { progress in
         print("Progress: \(progress)")
@@ -57,7 +57,7 @@ let downloadToFileName = FileManager.default.urls(for: .documentDirectory,
                                                   in: .userDomainMask)[0]
     .appendingPathComponent("myFile.txt")
 
-Amplify.Storage.downloadFile(
+let storageOperation = Amplify.Storage.downloadFile(
     key: "myKey",
     local: downloadToFileName,
     progressListener: { progress in
@@ -96,7 +96,26 @@ receiveValue: {
 
 </amplify-block-switcher>
 
-### Generate a download URL
+## Cancel, Pause, Resume
+
+After you call `downloadData` or `downloadFile` as above, your containing class retains a reference to the operation that is actually performing the download.
+
+To cancel the download (for example, in response to the user pressing a **Cancel** button), you simply call `cancel()` on the upload operation.
+
+```swift
+func cancelDownload() {
+    storageOperation.cancel()
+}
+```
+
+You can also pause then resume the operation.
+
+```swift
+storageOperation.pause()
+storageOperation.resume()
+```
+
+## Generate a download URL
 
 You can also retrieve a URL for the object in storage:
 
@@ -135,3 +154,4 @@ let sink = Amplify.Storage.getURL(key: "myKey")
 </amplify-block>
 
 </amplify-block-switcher>
+
