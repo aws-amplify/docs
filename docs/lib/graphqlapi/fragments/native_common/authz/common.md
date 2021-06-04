@@ -111,7 +111,7 @@ You can also set authorization mode to `NONE` so that the library will not provi
 {
     ...
     "awsAPIPlugin": {
-        "<YOUR-GRAPHQLENDPOINT-NAME>": {
+        "[yourApiName]": {
             "endpointType": "GraphQL",
             "endpoint": "[GRAPHQL-ENDPOINT]",
             "region": "[REGION]",
@@ -121,8 +121,10 @@ You can also set authorization mode to `NONE` so that the library will not provi
 }
 ```
 
-<inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/authz/22_none_interceptor.md"></inline-fragment>
-<inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/authz/22_none_interceptor.md"></inline-fragment>
+You can register your own request interceptor to intercept the request and perform an action or inject something into your request before it it performed. 
+
+<inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/advanced-workflows/50_interceptor.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/advanced-workflows/50_interceptor.md"></inline-fragment>
 
 #### Multi-Auth
 

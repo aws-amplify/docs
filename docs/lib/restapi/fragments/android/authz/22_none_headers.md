@@ -42,11 +42,4 @@ RestOptions options = RestOptions.builder()
     .build();
 ```
 </amplify-block>
-<amplify-block name="Kotlin (with RxJava)">
-
-```
-TODO: i think this can be removed
-```
-
-</amplify-block>
 </amplify-block-switcher>
