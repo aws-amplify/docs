@@ -23,7 +23,7 @@ async function signUp() {
 }
 ```
 
-The `Auth.signUp` promise returns a data object of type [`ISignUpResult`](https://github.com/aws-amplify/amplify-js/blob/4644b4322ee260165dd756ca9faeb235445000e3/packages/amazon-cognito-identity-js/index.d.ts#L136-L139) with a [`CognitoUser`](https://github.com/aws-amplify/amplify-js/blob/4644b4322ee260165dd756ca9faeb235445000e3/packages/amazon-cognito-identity-js/index.d.ts#L48). 
+The `Auth.signUp` promise returns a data object of type [`ISignUpResult`](https://github.com/aws-amplify/amplify-js/blob/4644b4322ee260165dd756ca9faeb235445000e3/packages/amazon-cognito-identity-js/index.d.ts#L136-L139) with a [`CognitoUser`](https://github.com/aws-amplify/amplify-js/blob/4644b4322ee260165dd756ca9faeb235445000e3/packages/amazon-cognito-identity-js/index.d.ts#L48) where the userSub is a universally unique identifier (UUID) of the authenticated user. This is not the same as username.
 
 ```js
 {
@@ -113,8 +113,7 @@ async function signOut() {
 
 ### Global sign-out
 
-By doing this, you are revoking all the auth tokens (id token, access token and refresh token) which means the user is signed out from all the devices
-Note: although the tokens are revoked, the AWS credentials will remain valid until they expire (which by default is 1 hour)
+By doing this, you sign out users from all devices. It also invalidates all refresh tokens issued to a user. The user's current access and Id tokens remain valid until their expiry. Access and Id tokens expire one hour after they are issued.
 
 ```js
 import { Auth } from 'aws-amplify';

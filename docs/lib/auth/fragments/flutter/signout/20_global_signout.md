@@ -1,9 +1,3 @@
-```dart
-try {
-  Amplify.Auth.signOut(
-    globalSignOut: true
-  );
-} on AuthError catch (e) {
-  print(e);
-}
-```
+<amplify-callout>
+This functionality has not yet been implemented for Flutter, this section will be updated once it has been added. 
+</amplify-callout>

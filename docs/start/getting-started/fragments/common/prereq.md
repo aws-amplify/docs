@@ -1,9 +1,12 @@
 Before we begin, make sure you have the following installed:
 
-- [Node.js](https://nodejs.org/) v10.x or later
+- [Node.js](https://nodejs.org/) v12.x or later
+
 - [npm](https://www.npmjs.com/) v5.x or later
+
 - [git](https://git-scm.com/) v2.14.1 or later
 
+<inline-fragment integration="flutter" src="~/start/getting-started/fragments/flutter/prereq.md"></inline-fragment>
 <inline-fragment integration="react" src="~/start/getting-started/fragments/react/prereq.md"></inline-fragment>
 <inline-fragment integration="react-native" src="~/start/getting-started/fragments/reactnative/prereq.md"></inline-fragment>
 
@@ -26,11 +29,8 @@ Watch the video below to learn how to install and configure the Amplify CLI or s
 <iframe src="https://www.youtube-nocookie.com/embed/fWbM5DLh25U" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ### Option 2: Follow the instructions
-```bash
-npm install -g @aws-amplify/cli
-```
-> Because we're installing the Amplify CLI globally, you might need to run the command above with `sudo`.
 
+<inline-fragment src="~/fragments/cli-install-block.md"></inline-fragment>
 
 Now it's time to setup the Amplify CLI. Configure Amplify by running the following command:
 

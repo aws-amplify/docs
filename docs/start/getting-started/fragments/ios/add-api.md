@@ -10,7 +10,7 @@ Now that you have DataStore persisting data locally, in the next step you'll con
 
    This command will open up a web browser to the AWS Management Console and guide you through creating a new IAM user. For step-by-step directions to set this up, refer to the [CLI installation guide](~/cli/start/install.md).
 
-1. Initialize the Amplify backend. To do this, **run the command**:
+1. Initialize the Amplify backend. To do this, **run the command** and follow the step-by-step instructions:
 
     ```bash
     amplify init
@@ -21,6 +21,8 @@ Now that you have DataStore persisting data locally, in the next step you'll con
     ```bash
     amplify push
     ```
+Answer `No` to `? Do you want to generate code for your newly created GraphQL API`.
+Answering `Yes` will generate an `API.swift` file which is only necessary when directly using the AWSAppSync SDK. When you're using Amplify API or Amplify DataStore, you'll use the `amplify codegen models` command to generate Swift models.
 
     <amplify-callout>
     
@@ -30,7 +32,7 @@ Now that you have DataStore persisting data locally, in the next step you'll con
 
 ## Enable cloud syncing
 
-In order to enable cloud syncing you need to **configure your application to use the Amplify API category**. Open the `AppDelegate.swift` file and **update the amplify initialization code** to add the API plugin. The `application(_,didFinishLaunchingWithOptions:)` function should now call `Amplify.add(plugin:)` with a reference to an `AWSAPIPlugin` instance:
+In order to enable cloud syncing you need to **configure your application to use the Amplify API category**. Open the main file of the application - `AppDelegate.swift` or `TodoApp.swift` depending on the Life Cycle previously chosen - and **update the amplify initialization code** to add the API plugin. The `application(_,didFinishLaunchingWithOptions:)` function should now call `Amplify.add(plugin:)` with a reference to an `AWSAPIPlugin` instance:
   
 ```swift
 let models = AmplifyModels()
@@ -42,11 +44,11 @@ do {
     try Amplify.configure()
     print("Initialized Amplify");
 } catch {
-    print("Could not initialize Amplify: \(error)")
+    assert(false, "Could not initialize Amplify: \(error)")
 }
 ```
 
-Now when you run you application the data will be synced to your cloud backend automatically! 🎉
+Now when you run your application the data will be synced to your cloud backend automatically! 🎉
 
 ## Add a subscription
 

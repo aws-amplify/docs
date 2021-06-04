@@ -5,4 +5,5 @@ description: Amplify DataStore provides a persistent on-device storage repositor
 
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/native_common/how-it-works.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/native_common/how-it-works.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/datastore/fragments/native_common/how-it-works.md"></inline-fragment>
 <inline-fragment platform="js" src="~/lib/datastore/fragments/native_common/how-it-works.md"></inline-fragment>

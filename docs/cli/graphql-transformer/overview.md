@@ -186,6 +186,7 @@ query ListBlogs {
   }
 }
 ```
+
 ## Update schema
 
 If you want to update your API, open your project's `backend/api/~apiname~/schema.graphql` file (NOT the one in the `backend/api/~apiname~/build` folder) and edit it in your favorite code editor. You can compile the `backend/api/~apiname~/schema.graphql` by running:

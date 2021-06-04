@@ -3,6 +3,7 @@ import * as fs from "fs-extra";
 import * as path from "path";
 import clone from "clone-deep";
 import traverse from "traverse";
+import {hashPath} from "../utils";
 
 // gets rid of any filterable content that IS NOT of the provided filter key/value combo
 // returns the filtered hyperscript
@@ -102,7 +103,7 @@ export async function pages(ctx: t.Ctx): Promise<void> {
               const bodyClone = clone(page.body);
               trimFiltered(bodyClone, {filterKey, filterValue});
               await fs.writeFile(
-                filteredOutAsset,
+                hashPath(filteredOutAsset),
                 JSON.stringify({...page, body: bodyClone}),
                 {
                   encoding: "utf8",
@@ -135,9 +136,13 @@ export async function pages(ctx: t.Ctx): Promise<void> {
       }
 
       await fs.ensureDir(outDir);
-      await fs.writeFile(pathDeduction.destinationPath, JSON.stringify(page), {
-        encoding: "utf8",
-      });
+      await fs.writeFile(
+        hashPath(pathDeduction.destinationPath),
+        JSON.stringify(page),
+        {
+          encoding: "utf8",
+        },
+      );
     }
   }
 }

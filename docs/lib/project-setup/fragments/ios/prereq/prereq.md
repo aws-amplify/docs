@@ -1,2 +1,4 @@
-- [Install Xcode](https://developer.apple.com/xcode/downloads/) version 10.2 or later.
-- [Install CocoaPods](https://guides.cocoapods.org/)
+- [Install Xcode](https://developer.apple.com/xcode/downloads/) version 11.4 or later.
+- (Optional) [Install CocoaPods](https://guides.cocoapods.org/)
+
+    Amplify can be installed through the Swift Package Manager, which is integrated into Xcode, or you can install it through CocoaPods.

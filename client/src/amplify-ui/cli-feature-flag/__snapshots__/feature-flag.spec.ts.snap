@@ -3,6 +3,17 @@
 exports[`amplify-feature-flags Render logic should render 1`] = `
 <amplify-feature-flags class="css-b9wf8u">
   <div>
+    <docs-in-page-link targetid="appSync">
+      <h2 id="appSync">
+        appSync
+      </h2>
+    </docs-in-page-link>
+    <p>
+      Feature Flags related to AppSync backed APIs.
+    </p>
+    <amplify-feature-flag-summary name="generateGraphQLPermissions"></amplify-feature-flag-summary>
+  </div>
+  <div>
     <docs-in-page-link targetid="graphQLTransformer">
       <h2 id="graphQLTransformer">
         graphQLTransformer
@@ -13,6 +24,49 @@ exports[`amplify-feature-flags Render logic should render 1`] = `
     </p>
     <amplify-feature-flag-summary name="addMissingOwnerFields"></amplify-feature-flag-summary>
     <amplify-feature-flag-summary name="validateTypeNameReservedWords"></amplify-feature-flag-summary>
+    <amplify-feature-flag-summary name="useExperimentalPipelinedTransformer"></amplify-feature-flag-summary>
+    <amplify-feature-flag-summary name="enableIterativeGsiUpdates"></amplify-feature-flag-summary>
+    <amplify-feature-flag-summary name="secondaryKeyAsGSI"></amplify-feature-flag-summary>
+  </div>
+  <div>
+    <docs-in-page-link targetid="frontend-ios">
+      <h2 id="frontend-ios">
+        frontend-ios
+      </h2>
+    </docs-in-page-link>
+    <p>
+      Feature Flag related to iOS projects
+    </p>
+    <amplify-feature-flag-summary name="enableXcodeIntegration"></amplify-feature-flag-summary>
+  </div>
+  <div>
+    <docs-in-page-link targetid="auth">
+      <h2 id="auth">
+        auth
+      </h2>
+    </docs-in-page-link>
+    <p>
+      Feature Flag related to auth
+    </p>
+    <amplify-feature-flag-summary name="enableCaseInsensitivity"></amplify-feature-flag-summary>
+    <amplify-feature-flag-summary name="useInclusiveTerminology"></amplify-feature-flag-summary>
+    <amplify-feature-flag-summary name="breakCircularDependency"></amplify-feature-flag-summary>
+  </div>
+  <div>
+    <docs-in-page-link targetid="codegen">
+      <h2 id="codegen">
+        codegen
+      </h2>
+    </docs-in-page-link>
+    <p>
+      Feature Flag related to Codegen
+    </p>
+    <amplify-feature-flag-summary name="useAppsyncModelgenPlugin"></amplify-feature-flag-summary>
+    <amplify-feature-flag-summary name="useDocsGeneratorPlugin"></amplify-feature-flag-summary>
+    <amplify-feature-flag-summary name="useTypesGeneratorPlugin"></amplify-feature-flag-summary>
+    <amplify-feature-flag-summary name="cleanGeneratedModelsDirectory"></amplify-feature-flag-summary>
+    <amplify-feature-flag-summary name="retainCaseStyle"></amplify-feature-flag-summary>
+    <amplify-feature-flag-summary name="addTimestampFields"></amplify-feature-flag-summary>
   </div>
 </amplify-feature-flags>
 `;

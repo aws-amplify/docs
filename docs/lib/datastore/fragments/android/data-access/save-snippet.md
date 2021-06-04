@@ -15,7 +15,7 @@ Amplify.DataStore.save(post,
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
 
 ```kotlin
 val post = Post.builder()
@@ -25,9 +25,26 @@ val post = Post.builder()
     .build()
 
 Amplify.DataStore.save(post,
-    { Log.i("MyAmplifyApp", "Saved a post.") },
-    { Log.e("MyAmplifyApp", "Save failed.", it) }
+    { Log.i("MyAmplifyApp", "Saved a post") },
+    { Log.e("MyAmplifyApp", "Save failed", it) }
 )
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+val post = Post.builder()
+    .title("My First Post")
+    .rating(10)
+    .status(PostStatus.PUBLISHED)
+    .build()
+try {
+    Amplify.DataStore.save(post)
+    Log.i("MyAmplifyApp", "Saved a post.")
+} catch (error: DataStoreException) {
+    Log.e("MyAmplifyApp", "Save failed.", error)
+}
 ```
 
 </amplify-block>

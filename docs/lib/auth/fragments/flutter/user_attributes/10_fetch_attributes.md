@@ -1,3 +1,11 @@
-<amplify-callout>
-This functionality has not yet been implemented for Flutter, this section will be updated once it has been added. 
-</amplify-callout>
+```dart
+try {
+  var res = await Amplify.Auth.fetchUserAttributes();
+  res.forEach((element) {
+    print('key: ${element.userAttributeKey}; value: ${element.value}');
+  });
+} on AuthException catch (e) {
+  print(e.message);
+}
+```
+

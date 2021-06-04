@@ -61,7 +61,16 @@ export class DocsSelectAnchor {
     }
   };
 
+  componentWillLoad() {
+    this.computeVersions();
+  }
+
   @Watch("page")
+  computeAll() {
+    this.computeOptionVNodes();
+    this.computeVersions();
+  }
+
   computeOptionVNodes() {
     const filterKey = this.page && getFilterKeyFromPage(this.page);
     this.selectedOption = filterKey && this.selectedFilters?.[filterKey];
@@ -100,7 +109,7 @@ export class DocsSelectAnchor {
       }) as VNode[] | undefined);
   }
 
-  componentWillLoad() {
+  computeVersions() {
     if (this.page?.versions) {
       const entries = Object.entries(this.page.versions);
       entries.sort(([a], [b]) => (a > b ? 1 : a < b ? -1 : 0));
@@ -109,7 +118,6 @@ export class DocsSelectAnchor {
     }
   }
 
-  // @ts-ignore
   @Listen("click", {target: "window"})
   closeOnOuterClick(e: Event) {
     if (!(e && this.element.contains(e.target as HTMLElement))) {

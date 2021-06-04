@@ -10,18 +10,18 @@ If you have asked for location access and received permission, you can also prov
 AnalyticsUserProfileLocation location = new AnalyticsUserProfileLocation();
     location.latitude = 47.606209;
     location.longitude = -122.332069;
-    location.postalCode = "98122";
-    location.city = "Seattle";
-    location.region = "WA";
-    location.country = "USA";
+    location.postalCode = '98122';
+    location.city = 'Seattle';
+    location.region = 'WA';
+    location.country = 'USA';
 
 AnalyticsProperties properties = new AnalyticsProperties();
-    properties.addStringProperty("phoneNumber", "+11234567890"); 
-    properties.addIntProperty("age", 25); 
+    properties.addStringProperty('phoneNumber', '+11234567890'); 
+    properties.addIntProperty('age', 25); 
 
 AnalyticsUserProfile userProfile = new AnalyticsUserProfile();
     userProfile.name = username;
-    userProfile.email = "name@example.com";
+    userProfile.email = 'name@example.com';
     userProfile.location = location; 
 
 Amplify.Analytics.identifyUser(userId: userId, userProfile: profile);

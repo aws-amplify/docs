@@ -1,6 +1,6 @@
 import {Component, Prop, h} from "@stencil/core";
 import {externalLinkStyle, graphicStyle} from "./external-link.style";
-import {track, AnalyticsEventType} from "../../utils/track";
+import {track, trackExternalLink, AnalyticsEventType} from "../../utils/track";
 
 @Component({tag: "amplify-external-link", shadow: false})
 export class AmplifyExternalLink {
@@ -19,6 +19,7 @@ export class AmplifyExternalLink {
         type: AnalyticsEventType.EXTERNAL_LINK_CLICK,
         attributes: {from: location.href, to: this.href},
       });
+      trackExternalLink(this.href);
     }
   };
 
@@ -27,6 +28,7 @@ export class AmplifyExternalLink {
       <a
         class={externalLinkStyle}
         {...(this.redirect ? {} : {target: "_blank"})}
+        onClick={this.onClick}
         href={this.href}
         title={this.anchorTitle}
         rel="noopener noreferrer"

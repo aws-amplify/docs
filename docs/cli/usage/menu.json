@@ -2,12 +2,15 @@
   "title": "Advanced workflows",
   "items": [
     "tags",
+    "monorepo",
     "lambda-triggers",
+    "containers",
     "mock",
     "customcf",
     "iam",
     "iam-roles-mfa",
     "headless",
-    "upgrade"
+    "upgrade",
+    "uninstall"
   ]
 }

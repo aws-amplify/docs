@@ -1,9 +1,9 @@
 import {Component, Host, h, State, Listen, Element, Build} from "@stencil/core";
 import {
   sidebarLayoutStyle,
+  sidebarLayoutDivStyle,
   pageStyle,
   tocStyle,
-  sidebarToggleClass,
   mainStyle,
   sectionHeaderStyle,
   sidebarHeaderStyle,
@@ -26,7 +26,12 @@ import {
   SetNewSelectedTabHeadings,
 } from "./page.types";
 import {pageContext} from "./page.context";
-import {track, AnalyticsEventType} from "../../utils/track";
+import {
+  track,
+  trackPageVisit,
+  trackPageFetchException,
+  AnalyticsEventType,
+} from "../../utils/track";
 import {ensureMenuScrolledIntoView} from "../../utils/ensure-menu-scrolled-into-view";
 import {getPage} from "../../cache.worker";
 import {getNavHeight} from "../../utils/get-nav-height";
@@ -96,7 +101,7 @@ export class DocsPage {
 
   @Listen("resize", {target: "window"})
   setSidebarStickyTop() {
-    if (this.pageData?.menu) {
+    if (Build.isBrowser && this.pageData?.menu) {
       this.sidebarStickyTop = getNavHeight("rem");
     }
   }
@@ -164,9 +169,9 @@ export class DocsPage {
     }
   }
 
-  componentWillLoad() {
+  async componentWillLoad() {
     this.restoreBlockSwitcherState();
-    return this.getPageData();
+    return await this.getPageData();
   }
 
   async getPageData() {
@@ -195,18 +200,24 @@ export class DocsPage {
       }, []);
     this.blendUniversalNav = currentRoute === "/";
 
-    track({
-      type: AnalyticsEventType.PAGE_VISIT,
-      attributes: {
-        url: currentRoute,
-        previousUrl: this.previousPathname,
-        referrer: document.referrer,
-      },
-    });
+    if (Build.isBrowser) {
+      track({
+        type: AnalyticsEventType.PAGE_VISIT,
+        attributes: {
+          url: currentRoute,
+          previousUrl: this.previousPathname,
+          referrer: document.referrer,
+        },
+      });
+      trackPageVisit();
+    }
 
     try {
       const pageData = await getPage(currentRoute);
-      if (pageData) {
+      if (!pageData) {
+        trackPageFetchException();
+        this.pageData = undefined;
+      } else {
         this.pageData = pageData;
         updateDocumentHead(pageData);
         this.filterKey = getFilterKeyFromPage(pageData);
@@ -238,14 +249,13 @@ export class DocsPage {
         } else {
           this.filterKey = undefined;
         }
-      } else {
-        this.pageData = undefined;
       }
     } catch (exception) {
       track({
         type: AnalyticsEventType.PAGE_DATA_FETCH_EXCEPTION,
         attributes: {url: location.href, exception},
       });
+      trackPageFetchException();
     }
   }
 
@@ -255,85 +265,87 @@ export class DocsPage {
   };
 
   render() {
-    if (Build.isBrowser || location.pathname === "/") {
-      return (
-        <Host class={pageStyle}>
-          <pageContext.Provider
-            state={{
-              alwaysRerenderBlockSwitcher: this.alwaysRerenderBlockSwitcher++,
-              selectedFilters: this.selectedFilters,
-              setSelectedFilters: this.setSelectedFilters,
-              selectedTabHeadings: this.selectedTabHeadings,
-              setNewSelectedTabHeadings: this.setNewSelectedTabHeading,
-            }}
-          >
+    return (
+      <Host class={pageStyle}>
+        <pageContext.Provider
+          state={{
+            alwaysRerenderBlockSwitcher: this.alwaysRerenderBlockSwitcher++,
+            selectedFilters: this.selectedFilters,
+            setSelectedFilters: this.setSelectedFilters,
+            selectedTabHeadings: this.selectedTabHeadings,
+            setNewSelectedTabHeadings: this.setNewSelectedTabHeading,
+          }}
+        >
+          {this.blendUniversalNav ? (
+            <docs-universal-nav-blend
+              heading="Amplify Docs"
+              brand-icon="/assets/logo-dark.svg"
+            ></docs-universal-nav-blend>
+          ) : (
             <docs-universal-nav
-              blend={this.blendUniversalNav}
               heading="Amplify Docs"
               brand-icon="/assets/logo-light.svg"
-              brand-icon-blend="/assets/logo-dark.svg"
-            />
-            {this.pageData && this.pageData.noTemplate
-              ? createVNodesFromHyperscriptNodes(this.pageData.body)
-              : [
-                  <docs-secondary-nav
-                    pageHasMenu={!!this.pageData && !!this.pageData.menu}
-                  />,
-                  this.pageData && this.validFilterValue ? (
-                    <div class={sidebarLayoutStyle}>
-                      <amplify-toc-provider>
-                        <amplify-sidebar-layout>
+            ></docs-universal-nav>
+          )}
+          {this.pageData && this.pageData.noTemplate
+            ? createVNodesFromHyperscriptNodes(this.pageData.body)
+            : [
+                <docs-secondary-nav
+                  pageHasMenu={!!this.pageData && !!this.pageData.menu}
+                />,
+                this.pageData && this.validFilterValue ? (
+                  <div class={sidebarLayoutStyle}>
+                    <amplify-toc-provider>
+                      <amplify-sidebar-layout>
+                        <div class={sidebarLayoutDivStyle}>
                           {this.showMenu() && (
                             <amplify-sidebar-layout-sidebar
-                              slot="sidebar"
                               top={this.sidebarStickyTop}
                             >
-                              <div class={sidebarHeaderStyle}>
-                                <amplify-sidebar-close-button />
-                                {this.pageData?.filterKey && (
-                                  <docs-select-anchor page={this.pageData} />
-                                )}
+                              <div>
+                                <div class={sidebarHeaderStyle}>
+                                  <amplify-sidebar-close-button />
+                                  {this.pageData?.filterKey && (
+                                    <docs-select-anchor page={this.pageData} />
+                                  )}
+                                </div>
+                                <docs-menu
+                                  filterKey={this.filterKey}
+                                  page={this.pageData}
+                                  key={this.pageData?.productRootLink?.route}
+                                />
                               </div>
-                              <docs-menu
-                                filterKey={this.filterKey}
-                                page={this.pageData}
-                                key={this.pageData?.productRootLink?.route}
-                              />
                             </amplify-sidebar-layout-sidebar>
                           )}
-                          <amplify-sidebar-layout-main
-                            slot="main"
-                            class={mainStyle}
-                          >
+                          <amplify-sidebar-layout-main class={mainStyle}>
                             <amplify-toc-contents>
-                              {this.pageData && [
-                                <h1
-                                  class={{
-                                    [sectionHeaderStyle]: true,
-                                    "category-heading": true,
-                                  }}
-                                >
-                                  {this.pageData.sectionTitle}
-                                </h1>,
-                                <h1 class="page-heading">
-                                  {this.pageData.title}
-                                </h1>,
-                                createVNodesFromHyperscriptNodes(
-                                  this.pageData.body,
-                                ),
-                                <docs-next-previous
-                                  key={this.pageData.route}
-                                  page={this.pageData}
-                                />,
-                              ]}
+                              <div>
+                                {this.pageData && [
+                                  <h1
+                                    class={{
+                                      [sectionHeaderStyle]: true,
+                                      "category-heading": true,
+                                    }}
+                                  >
+                                    {this.pageData.sectionTitle}
+                                  </h1>,
+                                  <h1 class="page-heading">
+                                    {this.pageData.title}
+                                  </h1>,
+                                  createVNodesFromHyperscriptNodes(
+                                    this.pageData.body,
+                                  ),
+                                  <docs-next-previous
+                                    key={this.pageData.route}
+                                    page={this.pageData}
+                                  />,
+                                ]}
+                              </div>
                             </amplify-toc-contents>
                             <amplify-sidebar-layout-toggle
                               onClick={ensureMenuScrolledIntoView}
                               in-view-class="in-view"
-                              class={{
-                                "three-dee-effect": true,
-                                [sidebarToggleClass]: true,
-                              }}
+                              class="three-dee-effect"
                             >
                               <img
                                 class="burger-graphic"
@@ -343,23 +355,23 @@ export class DocsPage {
                             </amplify-sidebar-layout-toggle>
                           </amplify-sidebar-layout-main>
                           {!this.pageData?.disableTOC && (
-                            <div slot="toc" class={tocStyle}>
+                            <div class={tocStyle}>
                               <div>
                                 <amplify-toc pageTitle={this.pageData?.title} />
                               </div>
                             </div>
                           )}
-                        </amplify-sidebar-layout>
-                      </amplify-toc-provider>
-                    </div>
-                  ) : (
-                    <docs-four-o-four />
-                  ),
-                  <docs-footer />,
-                ]}
-          </pageContext.Provider>
-        </Host>
-      );
-    }
+                        </div>
+                      </amplify-sidebar-layout>
+                    </amplify-toc-provider>
+                  </div>
+                ) : (
+                  <docs-four-o-four />
+                ),
+                <docs-footer />,
+              ]}
+        </pageContext.Provider>
+      </Host>
+    );
   }
 }

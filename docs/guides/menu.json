@@ -4,7 +4,9 @@
     "api-graphql",
     "api-rest",
     "authentication",
+    "datastore",
     "functions",
-    "hosting"
+    "hosting",
+    "location-service"
   ]
 }

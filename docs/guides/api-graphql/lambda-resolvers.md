@@ -112,8 +112,7 @@ amplify add api
 ? After how many days from now the API key should expire: 365 (or your preferred expiration)
 ? Do you want to configure advanced settings for the GraphQL API: N
 ? Do you have an annotated GraphQL schema? N
-? Do you want a guided schema creation? Y
-? What best describes your project: Single object with fields
+? Choose a schema template: Single object with fields (e.g., “Todo” with ID, name, description)
 ? Do you want to edit the schema now? Y
 ```
 
@@ -139,7 +138,7 @@ amplify push
 
 Now, you can run the following queries and mutations to interact with the API:
 
-```sh
+```graphql
 query echo {
   echo(msg: "Hello world!")
 }

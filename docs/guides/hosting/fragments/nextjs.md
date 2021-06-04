@@ -1,15 +1,25 @@
-In this guide you'll learn how to deploy a *static* [Next](https://nextjs.org/) app using Amplify Hosting.
+In this guide you'll learn how to deploy a [Next.js](https://nextjs.org/) app using Amplify Hosting. Amplify supports the hosting of static apps and apps with dynamic server-side rendered routes (SSR). 
 
-> Note: Next also supports pre-rendering for *dynamic* server-rendered routes. At this time, Amplify **does not** support the hosting of dynamic server-rendered routes with Next.
+## Prerequisites
 
-There are two options: One using the Amplify CLI, and the other using a Git repository. This will cover both.
+If you haven't already, install and configure the latest version of the Amplify CLI:
 
-1. [CLI workflow](#cli-workflow)
-2. [Git-based workflow](#git-based-deployments)
+<inline-fragment src="~/fragments/cli-install-block.md"></inline-fragment>
 
-## CLI workflow
+```bash
+amplify configure
+```
 
-To get started, create a new Next site:
+> To see a video walkthrough of how to configure the CLI, click [here](https://www.youtube.com/watch?v=fWbM5DLh25U).
+
+
+## Deploy and host an SSG only app
+
+You can deploy static (SSG) apps with manual deployments or with Git-based continuous deployments. This example demonstrates how to manually deploy an SSG app.
+
+### Getting started
+
+Create a new Next.js app:
 
 ```sh
 $ npm init next-app
@@ -18,7 +28,25 @@ $ npm init next-app
 ✔ Pick a template › Default starter app
 ```
 
-Next, change into the new directory and update __package.json__ to add the `export` script to the existing `build` script:
+Currently, Amplify doesn't fully support Image Component and Automatic Image Optimization available in Next.js 10. To manually deploy the `next-app` example, you must edit the **index.js** file to remove this feature. Navigate to `pages/index.js` and delete the following line near the top of the file:
+
+````html
+import Image from 'next/image'
+````
+
+ Next, locate the following `Image` tag:
+
+````html
+<Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
+````
+Edit the tag to use the HTML `img` tag as follows:
+````html
+<img src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
+````
+
+Next, change to the `my-app` directory to update the **package.json** file. When you deploy a Next.js app, Amplify inspects the app's build script in the **package.json** file to detect whether the app is static (SSG) or server-side rendered (SSR). 
+
+To deploy a static app, add the `export` script to the existing `build` script:
 
 ```json
 "scripts": {
@@ -27,22 +55,11 @@ Next, change into the new directory and update __package.json__ to add the `expo
   "start": "next start"
 },
 ```
-
-> `next export` allows you to export your app to static HTML, which can be run standalone without the need of a Node.js server.
+The build script `next build && next export` indicates that the app supports SSG pages only.`next export` allows you to export your app to static HTML, which can be run standalone without the need of a Node.js server.
 
 ### Adding Amplify hosting
 
-If you haven't already, install and configure the latest version of the Amplify CLI:
-
-```sh
-$ npm install -g @aws-amplify/cli
-
-$ amplify configure
-```
-
-> To see a video walkthrough of how to configure the CLI, click [here](https://www.youtube.com/watch?v=fWbM5DLh25U).
-
-Next, initialize a new Amplify project. __Make sure you set the Distribution Directory Path to `out`__.
+Initialize a new Amplify project. The `Distribution Directory Path` depends on whether you are deploying a static or SSR app. For a static app, set the `Distribution Directory Path` to `out`.
 
 ```sh
 $ amplify init
@@ -60,16 +77,17 @@ $ amplify init
 ? Please choose the profile you want to use: <your profile>
 ```
 
-Now, add hosing with the Amplify `add` command:
+Add hosting with the Amplify `add` command:
 
 ```sh
 $ amplify add hosting
 
-? Select the plugin module to execute: Hosting with Amplify Console
-? Choose a type: Manual deployment
+```console
+? Select the plugin module to execute: # Hosting with Amplify Console
+? Choose a type: # Manual deployment
 ```
 
-Next, deploy the app:
+Deploy the app with the Amplify `publish` command:
 
 ```sh
 $ amplify publish
@@ -79,7 +97,7 @@ $ amplify publish
 
 ⚡️ Congratulations, your app has now been successfully deployed! The URL for the app should be displayed in your terminal.
 
-![](https://dev-to-uploads.s3.amazonaws.com/i/bc06wo8unppp7am869ra.png)
+![CLI Output](~/images/hosting/next/cli-output.png)
 
 To see your app in the Amplify console at any time, run the following command:
 
@@ -103,13 +121,43 @@ To delete the app and the deployment, run the `delete` command:
 $ amplify delete
 ```
 
-## Git-based deployments
+### Dynamic routes
 
-Amplify also offers Git-based deployments with features like CI/CD and branch previews.
+Next.js also supports dynamic routes.
 
-To host using a Git-based deployment, follow these steps instead.
+Let's say you have a folder and file structure that looks like this:
 
-__1.__ Create your app
+```
+/pages/posts/[id].js
+```
+
+This component needs to read the ID from the URL and do something useful with it in the app. To make this happen, we can use `next/router`:
+
+```javascript
+// /pages/posts/[id].js
+import { useRouter } from 'next/router'
+
+const Post = () => {
+  const router = useRouter()
+  const { id } = router.query
+
+  return <p>Post: {id}</p>
+}
+
+export default Post
+```
+
+To enable this, you need to set up a rewrite for __/pages/posts/[id].html__ in the __Rewrites and redirects__ section of the Amplify Console:
+
+![Rewrites](~/images/hosting/next/rewrites.png)
+
+## Deploy and host a hybrid app (SSG and SSR)
+
+To deploy a hybrid (SSG and SSR) app, use Amplify's Git-based CI/CD and hosting service
+
+### Getting started
+
+Create a new Next.js app:
 
 ```sh
 $ npm init next-app
@@ -118,43 +166,83 @@ $ npm init next-app
 ✔ Pick a template › Default starter app
 ```
 
-__2.__ Set the following custom `build` script in your package.json:
+When you deploy a Next.js app, Amplify inspects the app's build script in the **package.json** file to detect whether the app is static (SSG) or server-side rendered (SSR). Change into the `my-app` directory to view the **package.json** file. The build script `next build` indicates that the app supports both SSG and SSR pages.
+
+To deploy an SSR app, keep the following default `build` script:
 
 ```json
 "scripts": {
   "dev": "next dev",
-  "build": "next build && next export",
+  "build": "next build",
   "start": "next start"
 },
 ```
 
-__3.__ Create a Git repository, then push your code to Git.
+
+### Creating the Git repository 
+
+Create a new Git repository for your project. For a Github repo, you can run the following commands in the root of your project to initialize the repo and push the code to Github:
 
 ```sh
 $ git init
 $ git remote add origin git@github.com:username/my-next-app.git
 $ git add .
 $ git commit -m 'initial commit'
-$ git push origin master
+$ git push origin main
 ```
 
-__4.__ Go to the [Amplify Console](https://console.aws.amazon.com/amplify) and click "Connect App"
+### Adding Amplify hosting
 
-__5.__ Follow the steps to choose your Git provider and your branch.
+Next, initialize a new Amplify project. The `Distribution Directory Path` that you set depends on whether you are deploying a static or SSR app.
 
-__6.__ Set the __baseDirectory__ to __out__:
+For an SSR app, set the `Distribution Directory Path` to `.next`.
 
-![Setting the baseDirectory property](https://dev-to-uploads.s3.amazonaws.com/i/edt8ccos33addseu2c06.png)
+```sh
+$ amplify init
 
-__7.__ Click __Next__ then __Save and deploy__.
+? Enter a name for the project: mynextapp
+? Enter a name for the environment: dev
+? Choose your default editor: Visual Studio Code (or your preferred editor)
+? Choose the type of app that youre building: javascript
+? What javascript framework are you using: react
+? Source Directory Path: src
+? Distribution Directory Path: .next
+? Build Command: npm run-script build
+? Start Command: npm run-script start
+? Do you want to use an AWS profile? Y
+? Please choose the profile you want to use: <your profile>
+```
 
-Once your site has successfully deployed, you should see three green checkmarks.
+Add hosting with the Amplify `add` command:
 
-To view the live site, click on the automatically generated URL given to you by the Amplify Console.
+```sh
+$ amplify add hosting
+
+```console
+? Select the plugin module to execute: # Hosting with Amplify Console (Managed hosting with custom domains, Continuous deployment)
+? Choose a type: # Continuous deployment (Git-based deployments)
+```
+The Amplify Console opens and displays your deployed backend environment. 
+
+![image](../../images/start-nextjs-deploy-1.png)
+
+Choose the **Frontend environments** tab, select your Git provider, then choose **Connect Branch**.
+
+![image](../../images/start-nextjs-deploy-2.png)
+
+Follow the steps in the Amplify console to choose the branch to connect, and deploy your app. 
+
+> **Note**: Your CloudFront Distribution may take several minutes to go from "In Progress" to "Active".  Visit your [CloudFront Console](https://console.aws.amazon.com/cloudfront/home) to monitor progress.
+
+After your site is successfully deployed, you'll see four green checkmarks. To view the live site, click on the automatically generated URL circled in red in the following screenshot.
+
+![image](../../images/start-nextjs-deploy-3.png)
+
+⚡️ Congratulations, your app has now been successfully deployed! 
 
 ### Kicking off a new build
 
-You can kick off a new build directly from the Amplify console or by pushing changes to master.
+You can kick off a new build directly from the Amplify console or by pushing changes to main.
 
 1. Make some changes to your code
 
@@ -163,11 +251,8 @@ You can kick off a new build directly from the Amplify console or by pushing cha
 ```sh
 $ git add .
 $ git commit -m 'updates'
-$ git push origin master
+$ git push origin main
 ```
 
-## Dynamic server-rendered routes
-
-In this guide you learned how to deploy a static __Next__ site using Amplify Hosting.
-
-Next also supports pre-rendering for dynamic server-rendered routes. At this time, Amplify does not support the hosting of dynamic server-rendered routes with Next.
+## API routes
+Amplify now supports API routes in Next.js apps. Any file inside the folder `pages/api` is mapped to `/api/*` and treated as an API endpoint instead of a page. You can use these APIs to interface with any backend service to fetch data.

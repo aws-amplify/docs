@@ -155,15 +155,3 @@ Here is the list of configuration parameters for the items in the cache :
 | priority|*number*| Priority of the item to be kept in cache. Higher priority means longer expiration time.|
 | expires |*number*|The expiration time of the cache item in milliseconds.|
 | callback | *function* | You can provide a callback function with getItem() to implement cache miss scenarios. The provided function will only be called if there is not a match for the cache key, and the return value from the function will be assigned as the new value for the key in cache. |
-
-## Using Modular Imports
-
-If you only need to use Cache, you can do: `npm install @aws-amplify/cache` which will only install the Cache module for you.
-
-Then in your code, you can import the Cache module by:
-```javascript
-import Cache from '@aws-amplify/cache';
-
-Cache.configure();
-
-```

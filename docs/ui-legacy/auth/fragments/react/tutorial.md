@@ -2,9 +2,10 @@ This tutorial walks you through how to use AWS Amplify to build a React applicat
 
 ## Installation
 
-```
-$ npm install -g @aws-amplify/cli
-$ amplify configure
+<inline-fragment src="~/fragments/cli-install-block.md"></inline-fragment>
+
+```bash
+amplify configure
 ```
 
 If you're using Windows, we recommend the [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10).

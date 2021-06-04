@@ -20,10 +20,10 @@ npx amplify-app@latest
 Start with the [React Native CLI](https://reactnative.dev/docs/getting-started):
 
 ```bash
-npx react-native init AmplifyDatastoreRN
-cd AmplifyDatastoreRN
+npx react-native init AmplifyDataStoreRN
+cd AmplifyDataStoreRN
 npx amplify-app@latest
-npm install @react-native-community/netinfo
+npm install @react-native-community/netinfo @react-native-async-storage/async-storage
 ```
 
 You will also need to install the pod dependencies for iOS:

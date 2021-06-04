@@ -3,11 +3,14 @@ Amplify for Flutter is distributed via **pub.dev**.
 Open your **app**'s `pubspec.yaml` and add the following 3 dependencies below the line "sdk:flutter". 
 
 ```yaml
+environment:
+  sdk: ">=2.11.0 <3.0.0"
+
 dependencies:
   flutter:
     sdk: flutter
 
-  amplify_core: '<1.0.0'
+  amplify_flutter: '<1.0.0'
   amplify_auth_cognito: '<1.0.0'
   amplify_analytics_pinpoint: '<1.0.0'
 ```

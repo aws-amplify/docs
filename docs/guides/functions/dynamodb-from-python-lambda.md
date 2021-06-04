@@ -7,6 +7,13 @@ The easiest way to interact with DynamoDB from Lambda in a Python environment is
 
 You will learn how to perform [put_item](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/dynamodb.html#DynamoDB.Client.put_item), [get_item](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/dynamodb.html#DynamoDB.Client.get_item), [scan](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/dynamodb.html#DynamoDB.Client.scan), and [query](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/dynamodb.html#DynamoDB.Client.query) operations.
 
+Note that the Amplify-generated Python Lambda functions use [Pipenv](https://pypi.org/project/pipenv/) for packaging. To install a dependency, such as `boto3`, first change into your function's Amplify folder, then enter the Pipenv virtual environment and install inside it.
+
+```sh
+$ cd amplify/backend/function/your-function-name
+$ pipenv shell
+$ pipenv install boto3
+```
 ### Creating an item in DynamoDB from Lambda
 
 To create an item in DynamoDB you can use the `put` method:

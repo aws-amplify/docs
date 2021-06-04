@@ -1,3 +1,1 @@
-```bash
-npm install -g @aws-amplify/cli@flutter-preview
-```
+<inline-fragment src="~/fragments/cli-install-block.md"></inline-fragment>

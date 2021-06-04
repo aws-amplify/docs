@@ -96,7 +96,7 @@ type YourModel @model @auth(rules: [{ allow: private, provider: iam }]) {
 ```
 
 ### Owner based Authorization with OIDC provider
-The following are commonly used patterns for owner based authorization using a 3rd party OIDC provider (e.g. Facebook, Google, etc...). For more information on how to tune these examples, please see the [CLI documentation on static group authorization](~/cli/graphql-transformer/auth.md#authorization-using-an-oidc-provider).
+The following are commonly used patterns for owner based authorization using a 3rd party OIDC provider (e.g. Facebook, Google, etc...). For more information on how to tune these examples, please see the [Authorization using an oidc provider](~/cli/graphql-transformer/auth.md#authorization-using-an-oidc-provider).
 
 * Using a 3rd party OIDC provider to achieve owner based authorization.
 ```graphql
@@ -123,3 +123,5 @@ type YourModel @model @auth(rules: [{ allow: groups
   ...
 }
 ```
+
+<inline-fragment platform="js" src="~/lib/datastore/fragments/js/setup-auth-rules/multi-auth.md"></inline-fragment>

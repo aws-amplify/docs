@@ -23,27 +23,7 @@ const App = () => (
 
 <docs-filter framework="angular">
 
-_app.module.ts_
-
-```js
-import {BrowserModule} from "@angular/platform-browser";
-import {NgModule} from "@angular/core";
-import {AppComponent} from "./app.component";
-
-import {AmplifyUIAngularModule} from "@aws-amplify/ui-angular";
-import Amplify from "aws-amplify";
-import awsconfig from "../aws-exports";
-
-Amplify.configure(awsconfig);
-
-@NgModule({
-  declarations: [AppComponent],
-  imports: [AmplifyUIAngularModule, BrowserModule],
-  providers: [],
-  bootstrap: [AppComponent],
-})
-export class AppModule {}
-```
+<inline-fragment src="~/ui/fragments/angular/configure-module.md"></inline-fragment>
 
 _app.component.html_
 
@@ -59,27 +39,7 @@ _app.component.html_
 
 <docs-filter framework="ionic">
 
-_app.module.ts_
-
-```js
-import {BrowserModule} from "@angular/platform-browser";
-import {NgModule} from "@angular/core";
-import {AppComponent} from "./app.component";
-
-import {AmplifyUIAngularModule} from "@aws-amplify/ui-angular";
-import Amplify from "aws-amplify";
-import awsconfig from "./aws-exports";
-
-Amplify.configure(awsconfig);
-
-@NgModule({
-  declarations: [AppComponent],
-  imports: [AmplifyUIAngularModule, BrowserModule],
-  providers: [],
-  bootstrap: [AppComponent],
-})
-export class AppModule {}
-```
+<inline-fragment src="~/ui/fragments/angular/configure-module.md"></inline-fragment>
 
 _app.component.html_
 
@@ -95,21 +55,7 @@ _app.component.html_
 
 <docs-filter framework="vue">
 
-_main.js_
-
-```js
-import Vue from "vue";
-import App from "./App.vue";
-import "@aws-amplify/ui-vue";
-import Amplify from "aws-amplify";
-import awsconfig from "./aws-exports";
-
-Amplify.configure(awsconfig);
-
-new Vue({
-  render: (h) => h(App),
-}).$mount("#app");
-```
+<inline-fragment src="~/ui/fragments/vue/configure-app.md"></inline-fragment>
 
 _App.vue_
 
@@ -161,6 +107,34 @@ function App() {
 
 <docs-filter framework="vue">
 
+<amplify-block-switcher>
+<amplify-block name="Vue 3">
+
+```html
+<script>
+  const handleChatComplete = (event) => {
+    const {data, err} = event.detail;
+    if (data) alert("success!\n" + JSON.stringify(data));
+    if (err) alert(err);
+  };
+
+  export default {
+    name: "App",
+    mounted() {
+      const chatbotElement = this.$el.querySelector("amplify-chatbot");
+      chatbotElement.addEventListener("chatCompleted", handleChatComplete);
+    },
+    beforeUnmount() {
+      const chatbotElement = this.$el.querySelector("amplify-chatbot");
+      chatbotElement.removeEventListener("chatCompleted", handleChatComplete);
+    },
+  };
+</script>
+```
+
+</amplify-block>
+<amplify-block name="Vue 2">
+
 ```html
 <script>
   const handleChatComplete = (event) => {
@@ -182,6 +156,8 @@ function App() {
   };
 </script>
 ```
+
+</amplify-block>
 
 </docs-filter>
 

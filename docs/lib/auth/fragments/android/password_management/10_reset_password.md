@@ -1,5 +1,5 @@
 <amplify-block-switcher>
- <amplify-block name="Java">
+<amplify-block name="Java">
 
 ```java
 Amplify.Auth.resetPassword(
@@ -9,19 +9,30 @@ Amplify.Auth.resetPassword(
 );
 ```
 
- </amplify-block>
- <amplify-block name="Kotlin">
+</amplify-block>
+<amplify-block name="Kotlin - Callbacks">
 
 ```kotlin
-Amplify.Auth.resetPassword(
-   "username",
-   { result -> Log.i("AuthQuickstart", result.toString()) },
-   { error -> Log.e("AuthQuickstart", error.toString()) }
+Amplify.Auth.resetPassword("username",
+    { Log.i("AuthQuickstart", "Password reset OK: $it") },
+    { Log.e("AuthQuickstart", "Password reset failed", error) }
 )
 ```
 
- </amplify-block>
- <amplify-block name="RxJava">
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+try {
+    val result = Amplify.Auth.resetPassword("username")
+    Log.i("AuthQuickstart", "Password reset OK: $result")
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Password reset failed", error)
+}
+```
+
+</amplify-block>
+<amplify-block name="RxJava">
 
 ```java
 RxAmplify.Auth.resetPassword("username")
@@ -31,5 +42,5 @@ RxAmplify.Auth.resetPassword("username")
     );
 ```
 
- </amplify-block>
+</amplify-block>
 </amplify-block-switcher>

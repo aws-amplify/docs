@@ -258,6 +258,7 @@ Your application code will interact with the AppSync client to perform GraphQL q
 Any data returned by a query is automatically written to the Apollo Cache (e.g. “Store”) that is persisted to disk via SQLite. The cache is structured as a key value store using a reference structure. There is a base “Root Query” where each subsequent query resides and then references their individual item results. You specify the reference key (normally “id”) in your application code. An example of the cache that has stored results from a “listPosts” query and “getPost(id:1)” query is below.
 
 | Key | Value |
+| --- | --- |
 | ROOT_QUERY | [ROOT_QUERY.listPosts, ROOT_QUERY.getPost(id:1)]
 | ROOT_QUERY.listPosts | {0, 1, …,N} |
 | Post:0 |{author:"Nadia", content:"ABC"} |
@@ -290,7 +291,16 @@ func optimisticCreateTodo(input: CreateTodoInput, query:ListTodosQuery){
         self.appSyncClient?.perform(mutation: createTodoMutation, optimisticUpdate: { (transaction) in
             do {
                 try transaction?.update(query: query) { (data: inout ListTodosQuery.Data) in
-                    data.listTodos?.items?.append(ListTodosQuery.Data.ListTodo.Item.init(id: UUID, name: input.name, description: input.description!))
+                    var listTodos = data.listTodos ?? ListTodosQuery.Data.ListTodo(items: [])
+                    var items = listTodos.items ?? []
+
+                    items.append(ListTodosQuery.Data.ListTodo.Item.init(id: UUID,
+                                                                        name: input.name,
+                                                                        description: input.description!,
+                                                                        createdAt: "",
+                                                                        updatedAt: ""))
+                    listTodos.items = items
+                    data.listTodos = listTodos
                 }
             } catch {
                 print("Error updating cache with optimistic response for \(createTodoInput)")

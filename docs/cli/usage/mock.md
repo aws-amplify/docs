@@ -18,6 +18,7 @@ Java is required on your development workstation to use Local Mocking in Amplify
 [Blog walk-through with sample app](https://aws.amazon.com/blogs/mobile/amplify-framework-local-mocking/).
 
 ## API mocking setup
+
 After running `amplify init` you can immediately add a GraphQL API and begin mocking without first pushing to the cloud. REST APIs are not yet supported. For example:
 
 ```bash
@@ -43,6 +44,7 @@ When defining a schema you can use directives from the GraphQL Transformer in lo
 > Note that `@searchable` is not supported at this time.
 
 ## Storage mocking setup
+
 For S3 storage mocking, after running `amplify init` you must first run through `amplify add auth`, either explicitly or implicitly if adding storage first, and then run an `amplify push`. This is because mocking storage in client libraries requires credentials for initial setup. Note however that S3 authorization rules, such as those placed on a bucket policy, are not checked by local mocking at this time.
 
 Once you have done an initial push you can run the mock server and hit the local endpoint:
@@ -56,49 +58,124 @@ amplify mock storage
 
 To use an iOS application with the local S3 endpoint you will need to [modify your Info.plist file](#ios-config). To use an Android application with the local S3 endpoint you will need an extra [configuration in your AndroidManifest.xml](#android-config).
 
-For DynamoDB storage, setup is automatically done when creating a GraphQL API with no action is needed on your part. Resources for the mocked data, such as the DynamoDB Local database or objects uploaded using the local S3 endpoint, inside your project under `./amplify/mock-data`.
+For DynamoDB storage, setup is automatically done when creating a GraphQL API with no action is needed on your part. Resources for the mocked data, such as the DynamoDB Local database or objects uploaded using the local S3 endpoint, inside your project under `amplify/mock-data`.
 
 ## Function mocking setup
-For Lambda function mocking, after running `amplify init` you can add a function to your project with `amplify add function` and either invoke it directly, or use the [@function](~/cli/graphql-transformer/function.md) directive as part of your GraphQL schema to mock the invocation as part of your API.
 
-To invoke the function directly:
+After adding a function to your project with `amplify add function` you can test it using `amplify mock function`.
 
-```bash
-amplify init
-amplify add function # Follow prompts
-amplify mock function <function_name>
-```
+`amplify mock function` supports the following arguments:
 
-This will ask you for the path to a JSON file that contains the event payload to pass to the event handler of your Lambda. It defaults to `src/event.json`. To avoid entering the path every time, you can also run
-```bash
-amplify mock function <function_name> --event "<path to event JSON file>"
-```
+- `<function name>` - The name of the function to mock. Must immediately follow `amplify mock function`, eg. `amplify mock function myFunctionName`
+- `--event "<path to event JSON file>"` - Use the specified JSON file as the event to pass to the Lambda handler
+- `--timeout <number of seconds>` - Override the default 10 second function response timeout with a custom timeout value
 
 ### Function mocking with GraphQL
 
-Alternatively, you can add a Lambda function and attach it as a GraphQL resolver with the `@function` directive. To do this, first add a function to your project:
+A GraphQL Lambda resolver connected to your schema using [@function](~/cli/graphql-transformer/function.md) can be mocked using [`amplify mock api`](#api-mocking-setup).
+For example, if you have a function named **quoteOfTheDay** and a schema like:
 
-```bash
-amplify init
-amplify add function # Follow prompts
-amplify add api # Select GraphQL, use API key
-```
-Then add the function as a resolver on a query or field in your schema. For example, if you named your function **quoteOfTheDay** your schema might have a query that looks like:
-
-```
+```graphql
 type Query {
-    getQuote: String @function(name: "quoteOfTheDay-${env}")
+  getQuote: String @function(name: "quoteOfTheDay-${env}")
 }
 ```
-Full instructions on how to use the @function directive can be found [here](~/cli/graphql-transformer/function.md).
 
-Then when running `amplify mock api`, the local GraphQL endpoint will invoke this function when running a GraphQL query such as:
+Then when running `amplify mock api`, the local GraphQL endpoint will invoke this function locally when running a GraphQL query such as:
 
-```
+```graphql
 query {
-    getQuote
+  getQuote
 }
 ```
+
+### Function mock environment variables
+
+`amplify mock function`populates environment variables that mimic what will be present when deployed in the cloud. Amplify parses the function's CloudFormation template and attempts to resolve any environment variables specified there (also review [function mock limitations](#function-mock-limitations)).
+
+CloudFormation parameters will be resolved by:
+
+- Resolving values specified in the `parameters.json` file for the function
+- Resolving values specified in `team-provider-info.json` within the `<env>.categories.function.<function name>` block, where `<env>` is the currently checked out environment and `<function name>` is the function being mocked
+- `AWS::Region`, `AWS::AccountID`, `AWS::StackName`, and `AWS::StackId` are resolved by parsing the `awscloudformation` configuration of the current environment in `team-provider-info.json`
+- Parameters constructed from dependencies on other resources in the project are resolved by parsing `amplify-meta.json`. Additionally, if a mock API is currently running and the function depends on the API, the local API URL will replace the cloud URL
+
+The mock environment will also populate [lambda runtime environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-runtime) in the following way:
+
+- `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `AWS_SESSION_TOKEN` will be populated using the AWS credentials that the Amplify project is currently configured to use
+- `_HANDLER`, `AWS_REGION`, `AWS_LAMBDA_FUNCTION_NAME`, `LAMBDA_TASK_ROOT`, and `LAMBDA_RUNTIME_DIR` will be set based on the function being mocked
+- Static defaults will be specified for all other runtime environment variables. The full list of static defaults can be found [here](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-util-mock/src/utils/lambda/populate-lambda-mock-env-vars.ts#L39)
+
+You can also override any mock environment variables in a `.env` file within the function directory (ie. `<project root>/amplify/backend/function/<function name>/.env`).
+
+### Connecting to a mock `@model` table
+
+Connect a mock function that operates on a table generated by `@model` to the mock table when running `amplify mock api` by:
+
+1. Create a `.env` file in the function directory with the following:
+
+```ini
+AWS_REGION=us-fake-1
+DDB_ENDPOINT=http://localhost:62224
+AWS_ACCESS_KEY_ID=fake
+AWS_SECRET_ACCESS_KEY=fake
+API_<api name>_<model>TABLE_NAME=<model>Table
+```
+
+Replace `<api name>` with the name of your API and `<model>` with the name of your model. The environment variable name should be all capitalized. For example, if you have an API named "FlightStats" and a model defined as `type Airplane @model {...}`, then then last line of the `.env` file should be:
+
+```ini
+API_FLIGHTSTATS_AIRPLANETABLE_NAME=AirplaneTable
+```
+
+2. Configure the DynamoDB client in your function as follows:
+
+```js
+const ddb = new aws.DynamoDB.DocumentClient({
+  endpoint: process.env.DDB_ENDPOINT,
+});
+const result = await ddb.put({
+  TableName: process.env.API_FLIGHTSTATS_AIRPLANETABLE_NAME,
+  Item: {
+    id: '1234567890',
+    name: 'F-22',
+    description: 'Cool fighter jet',
+  },
+}).promise();
+```
+
+3. Run `amplify mock api` to activate the local DynamoDB endpoint
+4. Run `amplify mock function` which will now connect to the mock DynamoDB table
+
+When running in the cloud, these environment variables will have valid values except `DDB_ENDPOINT` which will be `undefined`. In this case the DynamoDB client will use the default endpoint.
+
+When running locally, these environment variables will be populated using the local .env file which specifies the fake values required to connect to the local database.
+
+**Note:** While connected to the mock database, calls to other AWS resources within the mock function will not work because the AWS credential environment variables have been overwritten with fake credentials. To call a mock table as well as other AWS services, add logic to switch between the fake credentials and the real ones in the DynamoDB client configuration. In this case, you could configure your `.env` file with:
+
+```ini
+IS_MOCK=true
+```
+
+And configure the DynamoDB client with:
+
+```js
+const clientConfig = process.env.IS_MOCK ? {
+  region: 'us-fake-1',
+  endpoint: 'http://localhost:62224',
+  credentials: new aws.Credentials({
+    accessKeyId: 'fake',
+    secretAccessKey: 'fake',
+  }),
+} : undefined;
+const ddb = new aws.DynamoDB.DocumentClient(clientConfig);
+```
+
+### Function mock limitations
+
+`amplify mock function` does not attempt to fully simulate the Lambda runtime environment. There may be some cases where the behavior of your function when mocking differs from executing in the cloud.
+
+For example, mock runs on your local OS and does not attempt to emulate Amazon Linux which executes your function in the cloud. Testing with `amplify mock function` should be used to get quick feedback on the correctness of your function but should not be used as a substitute for testing in a cloud development environment.
 
 ## Config files
 
@@ -106,44 +183,44 @@ When performing operations against the local mock endpoint, the Amplify CLI will
 
 ### aws-exports.js example
 
-```javascript
+```js
 const awsmobile = {
-    "aws_project_region": "us-east-1",
-    "aws_appsync_graphqlEndpoint": "http://localhost:20002/graphql",
-    "aws_appsync_region": "us-east-1",
-    "aws_appsync_authenticationType": "AMAZON_COGNITO_USER_POOLS",
-    "aws_appsync_apiKey": "da2-fakeApiId123456",
-    "aws_appsync_dangerously_connect_to_http_endpoint_for_testing": true,
-    "aws_cognito_identity_pool_id": "us-east-1:270445b2-cc92-4d46-a937-e41e49bdb892",
-    "aws_cognito_region": "us-east-1",
-    "aws_user_pools_id": "us-east-1_excPT39ZN",
-    "aws_user_pools_web_client_id": "4a950rsq08d2gi68ogdt7sjqub",
-    "oauth": {},
-    "aws_user_files_s3_bucket": "local-testing-app-2fbf0a32d1896419b88f004c2755d084c-dev",
-    "aws_user_files_s3_bucket_region": "us-east-1",
-    "aws_user_files_s3_dangerously_connect_to_http_endpoint_for_testing": true
+  "aws_project_region": "us-east-1",
+  "aws_appsync_graphqlEndpoint": "http://localhost:20002/graphql",
+  "aws_appsync_region": "us-east-1",
+  "aws_appsync_authenticationType": "AMAZON_COGNITO_USER_POOLS",
+  "aws_appsync_apiKey": "da2-fakeApiId123456",
+  "aws_appsync_dangerously_connect_to_http_endpoint_for_testing": true,
+  "aws_cognito_identity_pool_id": "us-east-1:270445b2-cc92-4d46-a937-e41e49bdb892",
+  "aws_cognito_region": "us-east-1",
+  "aws_user_pools_id": "us-east-1_excPT39ZN",
+  "aws_user_pools_web_client_id": "4a950rsq08d2gi68ogdt7sjqub",
+  "oauth": {},
+  "aws_user_files_s3_bucket": "local-testing-app-2fbf0a32d1896419b88f004c2755d084c-dev",
+  "aws_user_files_s3_bucket_region": "us-east-1",
+  "aws_user_files_s3_dangerously_connect_to_http_endpoint_for_testing": true
 };
 ```
 
 ### awsconfiguration.json example
 
 ```json
-    "AppSync": {
-        "Default": {
-            "ApiUrl": "http://localhost:20002/graphql",
-            "Region": "us-east-1",
-            "AuthMode": "AMAZON_COGNITO_USER_POOLS",
-            "ClientDatabasePrefix": "deddd_AMAZON_COGNITO_USER_POOLS",
-            "DangerouslyConnectToHTTPEndpointForTesting": true
-        }
-    },
-    "S3TransferUtility": {
-        "Default": {
-            "Bucket": "local-testing-app-2fbf0a32d1896419b88f004c2755d084c-dev",
-            "Region": "us-east-1",
-            "DangerouslyConnectToHTTPEndpointForTesting": true
-        }
-    }
+"AppSync": {
+  "Default": {
+    "ApiUrl": "http://localhost:20002/graphql",
+    "Region": "us-east-1",
+    "AuthMode": "AMAZON_COGNITO_USER_POOLS",
+    "ClientDatabasePrefix": "deddd_AMAZON_COGNITO_USER_POOLS",
+    "DangerouslyConnectToHTTPEndpointForTesting": true
+  }
+},
+"S3TransferUtility": {
+  "Default": {
+    "Bucket": "local-testing-app-2fbf0a32d1896419b88f004c2755d084c-dev",
+    "Region": "us-east-1",
+    "DangerouslyConnectToHTTPEndpointForTesting": true
+  }
+}
 ```
 
 ## iOS config
@@ -159,7 +236,7 @@ For example, in your Android Studio project create `/src/debug/AndroidManifest.x
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <application android:networkSecurityConfig="@xml/network_security_config" />
+  <application android:networkSecurityConfig="@xml/network_security_config" />
 </manifest>
 ```
 
@@ -180,12 +257,12 @@ Alternatively, if you are running a non-production application and do not want t
 
 ```xml
 <application
-    android:icon="@mipmap/ic_launcher"
-    android:label="@string/app_name"
-    android:theme="@style/AppTheme"
-    android:usesClearTextTraffic="true" >
+  android:icon="@mipmap/ic_launcher"
+  android:label="@string/app_name"
+  android:theme="@style/AppTheme"
+  android:usesClearTextTraffic="true" >
 
-    <!--other code-->
+  <!--other code-->
 </application>
 ```
 
@@ -193,8 +270,8 @@ Alternatively, if you are running a non-production application and do not want t
 
 To start testing, before starting your JavaScript/Android/iOS application run the following command:
 
-```
-$ amplify mock
+```bash
+amplify mock
 ```
 
 Alternatively, you can run `amplify mock api` to only mock the API category. When prompted, ensure you select **YES** to automatically generate queries, mutations, and subscriptions if you are building a client application.
@@ -205,9 +282,9 @@ When your API is configured to use Cognito User Pools, the local console provide
 
 ## GraphQL Resolver Debugging
 
-You can edit VTL templates locally to see if they contain errors, including the line numbers causing problems, before pushing to AppSync. With the local API running navigate to `./amplify/backend/api/APINAME/resolvers` where `APINAME` is the logical name that you used when running `$amplify add api`. You will see a list of resolver templates that the Transformer generated. Modify any of them and save, and they will be immediately loaded into the locally running API service with a message `Mapping template change detected. Reloading.`. If there is an error you will see something such as the following:
+You can edit VTL templates locally to see if they contain errors, including the line numbers causing problems, before pushing to AppSync. With the local API running navigate to `amplify/backend/api/APINAME/resolvers` where `APINAME` is the logical name that you used when running `$amplify add api`. You will see a list of resolver templates that the Transformer generated. Modify any of them and save, and they will be immediately loaded into the locally running API service with a message `Mapping template change detected. Reloading.`. If there is an error you will see something such as the following:
 
-```
+```console
 Reloading failed Error: Parse error on line 1:
 ...son($context.result
 ----------------------^
@@ -217,9 +294,9 @@ If you stop the server locally, for instance to push your changes to the cloud, 
 
 ### Modify schema and test again
 
-As you are developing your app, you can always modify the GraphQL schema which lives in `./amplify/backend/api/APINAME/schema.graphql`. You can modify any types using any of the supported directives and save this file, while the local server is still running. The changes will be detected and if your schema is valid they will be hot reloaded into the local API. If there is an error in the schema an error will be printed to the terminal like so:
+As you are developing your app, you can always modify the GraphQL schema which lives in `amplify/backend/api/APINAME/schema.graphql`. You can modify any types using any of the supported directives and save this file, while the local server is still running. The changes will be detected and if your schema is valid they will be hot reloaded into the local API. If there is an error in the schema an error will be printed to the terminal like so:
 
-```
+```console
 Unknown directive "mode".
 
 GraphQL request (1:11)

@@ -10,7 +10,7 @@ npm install -g @vue/cli
 vue create myamplifyproject
 
 ? Please pick a preset: (Use arrow keys)
-❯ default (babel, eslint)   <--
+❯ Default (Vue 3 Preview) ([Vue 3] babel, eslint)  <--
   Manually select features
 
 cd myamplifyproject
@@ -217,20 +217,27 @@ The first step to using Amplify in the client is to install the necessary depend
 <amplify-block name="NPM">
 
 ```
-npm install aws-amplify @aws-amplify/ui-vue
+npm install aws-amplify @aws-amplify/ui-components
 ```
 
 </amplify-block>
 <amplify-block name="Yarn">
 
 ```
-yarn add aws-amplify @aws-amplify/ui-vue
+yarn add aws-amplify @aws-amplify/ui-components
 ```
 
 </amplify-block>
 </amplify-block-switcher>
 
-The `@aws-amplify/ui-vue` package is a set of Vue-specific UI components that make it easy to integrate functionality like end-to-end authentication flows.
+<amplify-callout>
+
+If you are using Vue 2, please use the `@aws-amplify/ui-vue` package and follow the Vue UI Components 
+[documentation](~/ui/ui.md).
+
+</amplify-callout>
+
+The `@aws-amplify/ui-components` package is a set of web components that make it easy to integrate functionality like end-to-end authentication flows. 
 
 ## Set up frontend
 
@@ -240,10 +247,22 @@ Open __src/main.js__ and add the following code below the last import:
 
 ```js
 import Amplify from 'aws-amplify';
-import '@aws-amplify/ui-vue';
 import aws_exports from './aws-exports';
+import {
+  applyPolyfills,
+  defineCustomElements,
+} from '@aws-amplify/ui-components/loader';
 
 Amplify.configure(aws_exports);
+applyPolyfills().then(() => {
+  defineCustomElements(window);
+});
 ```
 
 Now Amplify has been successfully configured. As you add or remove categories and make updates to your backend configuration using the Amplify CLI, the configuration in __aws-exports.js__ will update automatically.
+
+<amplify-callout>
+
+Console warnings: If you see "failed to resolve component" warnings, you can create `vue.config.js` from the app directory and use this <amplify-external-link href="https://gist.github.com/wlee221/3d47f9598d5ad85bfa7a138bad112c3c">gist</amplify-external-link> to remove them.
+
+</amplify-callout>

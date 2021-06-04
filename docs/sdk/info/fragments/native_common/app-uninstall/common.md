@@ -1,0 +1,1 @@
+<inline-fragment platform="ios" src="~/sdk/info/fragments/ios/app-uninstall.md"></inline-fragment>

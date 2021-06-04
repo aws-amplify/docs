@@ -55,18 +55,6 @@ import Amplify, { Analytics } from 'aws-amplify';
 Analytics.record({ name: 'albumVisit' });
 ```
 
-## Using Modular Imports
-
-You can import only specific categories into your app if you are only using specific features, analytics for example: `npm install @aws-amplify/analytics` which will only install the Analytics category. For working with AWS services you will also need to install and configure `@aws-amplify/auth`.
-
-Import only Analytics:
-
-```javascript
-import Analytics from '@aws-amplify/analytics';
-
-Analytics.record({ name: 'albumVisit' });
-```
-
 ## API Reference
 
 For a complete API reference visit the [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/analyticsclass.html)
@@ -179,14 +167,13 @@ Amazon Pinpoint service requires an IAM policy in order to use the `record` API:
     ]
 }
 ```
-If you get the error message: `Exceeded maximum endpoint per user count 10` when updating the endpoints, you can update the Policy with the Action: `mobiletargeting:GetUserEndpoints` which will allow the Analytics module to get the endpoints info and remove unused endpoints automatically.
 
 ## Update Endpoint
 
 An endpoint uniquely identifies your app within Pinpoint. In order to update your <a href="https://docs.aws.amazon.com/pinpoint/latest/apireference/rest-api-endpoints.html" target="_blank">endpoint</a> use the `updateEndpoint()` method:
 
 ```javascript
-import Analytics from '@aws-amplify/analytics';
+import { Analytics } from 'aws-amplify';
 
 Analytics.updateEndpoint({
     address: 'xxxxxxx', // The unique identifier for the recipient. For example, an address could be a device token, email address, or mobile phone number.

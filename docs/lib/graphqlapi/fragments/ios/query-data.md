@@ -63,7 +63,7 @@ func getTodo() -> AnyCancellable {
 
 ## List Query
 
-You can get the list of items that match a condition that you specify using the `where` parameter in `Amplify.API.query`
+You can get the list of items using `.paginatedList` with optional parameters `limit` and `where` to specify the page size and condition. By default, the page size is 1000.
 
 <amplify-block-switcher>
 
@@ -73,13 +73,12 @@ You can get the list of items that match a condition that you specify using the 
 func listTodos() {
     let todo = Todo.keys
     let predicate = todo.name == "my first todo" && todo.description == "todo description"
-    Amplify.API.query(request: .list(Todo.self, where: predicate)) { event in
+    Amplify.API.query(request: .paginatedList(Todo.self, where: predicate, limit: 1000)) { event in
         switch event {
         case .success(let result):
             switch result {
-            case .success(let todo):
-                print("Successfully retrieved list of todos: \(todo)")
-
+            case .success(let todos):
+                print("Successfully retrieved list of todos: \(todos)")
             case .failure(let error):
                 print("Got failed result with \(error.errorDescription)")
             }
@@ -98,7 +97,7 @@ func listTodos() {
 func listTodos() -> AnyCancellable {
     let todo = Todo.keys
     let predicate = todo.name == "my first todo" && todo.description == "todo description"
-    let sink = Amplify.API.query(request: .list(Todo.self, where: predicate))
+    let sink = Amplify.API.query(request: .paginatedList(Todo.self, where: predicate, limit: 1000))
         .resultPublisher
         .sink {
             if case let .failure(error) = $0 {
@@ -107,9 +106,8 @@ func listTodos() -> AnyCancellable {
         }
         receiveValue: { result in
         switch result {
-            case .success(let todo):
-                print("Successfully retrieved list of todos: \(todo)")
-
+            case .success(let todos):
+                print("Successfully retrieved list of todos: \(todos)")
             case .failure(let error):
                 print("Got failed result with \(error.errorDescription)")
             }
@@ -121,3 +119,97 @@ func listTodos() -> AnyCancellable {
 </amplify-block>
 
 </amplify-block-switcher>
+
+### List subsequent pages of items
+
+For large data sets, you'll need to paginate through the results. After receiving the first page of results, you can check if there is a subsequent page and obtain the next page.
+
+```swift
+var todos: [Todo] = []
+var currentPage: List<Todo>?
+
+func listFirstPage() {
+    let todo = Todo.keys
+    let predicate = todo.name == "my first todo" && todo.description == "todo description"
+    Amplify.API.query(request: .paginatedList(Todo.self, where: predicate, limit: 1000)) { event in
+        switch event {
+        case .success(let result):
+            switch result {
+            case .success(let todos):
+                print("Successfully retrieved list of todos: \(todos)")
+                self.currentPage = todos
+                self.todos.append(contentsOf: todos)
+            case .failure(let error):
+                print("Got failed result with \(error.errorDescription)")
+            }
+        case .failure(let error):
+            print("Got failed event with error \(error)")
+        }
+    }
+}
+
+func listNextPage() {
+    if let current = currentPage, current.hasNextPage() {
+        current.getNextPage { result in
+            switch result {
+            case .success(let todos):
+                self.todos.append(contentsOf: todos)
+                self.currentPage = todos
+            case .failure(let coreError):
+                print("Failed to get next page \(coreError)")
+            }
+        }
+    }
+}
+```
+
+## List all pages
+
+If you want to get all pages, retrieve the subsequent page when you have successfully retrieved the first or next page. 
+
+1. Update the above method `listFirstPage()` to `listAllPages()` 
+2. Call `listNextPageRecursively()` in the success block of the query in `listAllPages()`
+2. Update the `listNextPage()` to `listNextPageRecursively()`
+3. Call `listNextPageRecursively()` in the success block of the query in `listNextPageRecursively()`
+
+The completed changes should look like this
+```swift
+var todos: [Todo] = []
+var currentPage: List<Todo>?
+
+func listAllPages() { // 1. Updated from `listFirstPage()`
+    let todo = Todo.keys
+    let predicate = todo.name == "my first todo" && todo.description == "todo description"
+    Amplify.API.query(request: .paginatedList(Todo.self, where: predicate, limit: 1000)) { event in
+        switch event {
+        case .success(let result):
+            switch result {
+            case .success(let todos):
+                print("Successfully retrieved list of todos: \(todos)")
+                self.currentPage = todos
+                self.todos.append(contentsOf: todos)
+                self.listNextPageRecursively() // 2. Added
+            case .failure(let error):
+                print("Got failed result with \(error.errorDescription)")
+            }
+        case .failure(let error):
+            print("Got failed event with error \(error)")
+        }
+    }
+}
+
+func listNextPageRecursively() { // 3. Updated from `listNextPage()`
+    if let current = currentPage, current.hasNextPage() {
+        current.getNextPage { result in
+            switch result {
+            case .success(let todos):
+                self.todos.append(contentsOf: todos)
+                self.currentPage = todos
+                self.listNextPageRecursively() // 4. Added
+            case .failure(let coreError):
+                print("Failed to get next page \(coreError)")
+            }
+        }
+    }
+}
+```

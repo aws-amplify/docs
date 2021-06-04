@@ -22,7 +22,7 @@ export class DocsUIComponentProps {
 
   @State() component: JsonDocsComponent | undefined;
 
-  componentWillLoad() {
+  componentWillRender() {
     this.component = docs.components.find(
       (component) => component.tag === this.tag,
     );

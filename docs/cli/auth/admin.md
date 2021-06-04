@@ -3,7 +3,9 @@ title: Admin actions
 description: Learn how to expose Administrative actions for your Cognito User Pool to your end user applications.
 ---
 
-In some scenarios you may wish to expose Administrative actions to your end user applications. For example, the ability to list all users in a Cognito User Pool may provide useful for the administrative panel of an app if the logged-in user is a member of a specific Group called "Admins". 
+Admin Actions allow you to execute queries and operations against users and groups in your Cognito user pool.
+
+For example, the ability to list all users in a Cognito User Pool may provide useful for the administrative panel of an app if the logged-in user is a member of a specific Group called "Admins".
 
 > This is an advanced feature that is not recommended without an understanding of the underlying architecture. The associated infrastructure which is created is a base designed for you to customize for your specific business needs. We recommend removing any functionality which your app does not require.
 
@@ -24,21 +26,22 @@ amplify add auth
   Enter a custom group 
 ```
 
-This will configure an API Gateway endpoint with a Cognito Authorizer that accepts an Access Token, which is used by a Lambda function to perform actions against the User Pool. The function is example code which you can use to remove, add, or alter functionality based on your business case by editing it in the `./amplify/backend/function/AdminQueriesXXX/src` directory and running an `amplify push` to deploy your changes. If you choose to restrict actions to a specific Group, custom middleware in the function will prevent any actions unless the user is a member of that Group.
+This will configure an API Gateway endpoint with a Cognito Authorizer that accepts an Access Token, which is used by a Lambda function to perform actions against the User Pool. The function is example code which you can use to remove, add, or alter functionality based on your business case by editing it in the `amplify/backend/function/AdminQueriesXXX/src` directory and running an `amplify push` to deploy your changes. If you choose to restrict actions to a specific Group, custom middleware in the function will prevent any actions unless the user is a member of that Group.
 
 ## Admin Queries API
 
 The default routes and their functions, HTTP methods, and expected parameters are below
+
 - `addUserToGroup`: Adds a user to a specific Group. Expects `username` and `groupname` in the POST body.
 - `removeUserFromGroup`: Removes a user from a specific Group. Expects `username` and `groupname` in the POST body.
 - `confirmUserSignUp`: Confirms a users signup. Expects `username` in the POST body.
 - `disableUser`: Disables a user. Expects `username` in the POST body.
 - `enableUser`: Enables a user. Expects `username` in the POST body.
 - `getUser`: Gets specific user details. Expects `username` as a GET query string.
-- `listUsers`: Lists all users in the current Cognito User Pool. You can provide an OPTIONAL `limit` as a GET query string, which returns a `NextToken` that can be provided as a `token` query string for pagination.
-- `listGroups`: Lists all groups in the current Cognito User Pool. You can provide an OPTIONAL `limit` as a GET query string, which returns a `NextToken` that can be provided as a `token` query string for pagination.
-- `listGroupsForUser`: Lists groups to which current user belongs to. Expects `username` as a GET query string. You can provide an OPTIONAL `limit` as a GET query string, which returns a `NextToken` that can be provided as a `token` query string for pagination.
-- `listUsersInGroup`: Lists users that belong to a specific group. Expects `groupname` as a GET query string. You can provide an OPTIONAL `limit` as a GET query string, which returns a `NextToken` that can be provided as a `token` query string for pagination.
+- `listUsers`: Lists all users in the current Cognito User Pool. You can provide an OPTIONAL `limit` (between 0 and 60) as a GET query string, which returns a `NextToken` that can be provided as a `token` query string for pagination.
+- `listGroups`: Lists all groups in the current Cognito User Pool. You can provide an OPTIONAL `limit` (between 0 and 60) as a GET query string, which returns a `NextToken` that can be provided as a `token` query string for pagination.
+- `listGroupsForUser`: Lists groups to which current user belongs to. Expects `username` as a GET query string. You can provide an OPTIONAL `limit` (between 0 and 60) as a GET query string, which returns a `NextToken` that can be provided as a `token` query string for pagination.
+- `listUsersInGroup`: Lists users that belong to a specific group. Expects `groupname` as a GET query string. You can provide an OPTIONAL `limit` (between 0 and 60) as a GET query string, which returns a `NextToken` that can be provided as a `token` query string for pagination.
 - `signUserOut`: Signs a user out from User Pools, but only if the call is originating from that user. Expects `username` in the POST body.
 
 ## Example

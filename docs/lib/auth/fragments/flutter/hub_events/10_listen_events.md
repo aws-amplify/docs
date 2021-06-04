@@ -1,6 +1,6 @@
 ```dart
-auth.events.startListening((hubEvent) {
-  switch(hubEvent["eventName"]) {
+StreamSubscription hubSubscription = Amplify.Hub.listen([HubChannel.Auth], (hubEvent) {
+  switch(hubEvent.eventName) {
     case "SIGNED_IN": {
       print("USER IS SIGNED IN");
     }

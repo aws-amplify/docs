@@ -9,31 +9,31 @@ exports[`docs-choose-integration-anchor Render logic should render 1`] = `
     Web
   </h3>
   <amplify-responsive-grid class="border-radius margin-top-md" columns="5" gridgap="1">
-    <docs-card>
+    <docs-card qsps="?sc_icampaign=js-start&amp;sc_ichannel=choose-integration">
       <img alt="JavaScript Logo" slot="graphic" src="/assets/integrations/js.svg">
       <h4 slot="heading">
         JavaScript
       </h4>
     </docs-card>
-    <docs-card>
+    <docs-card qsps="?sc_icampaign=react-start&amp;sc_ichannel=choose-integration">
       <img alt="React Logo" slot="graphic" src="/assets/integrations/react.svg">
       <h4 slot="heading">
         React
       </h4>
     </docs-card>
-    <docs-card>
+    <docs-card qsps="?sc_icampaign=angular-start&amp;sc_ichannel=choose-integration">
       <img alt="Angular Logo" slot="graphic" src="/assets/integrations/angular.svg">
       <h4 slot="heading">
         Angular
       </h4>
     </docs-card>
-    <docs-card>
+    <docs-card qsps="?sc_icampaign=vue-start&amp;sc_ichannel=choose-integration">
       <img alt="Vue Logo" slot="graphic" src="/assets/integrations/vue.svg">
       <h4 slot="heading">
         Vue
       </h4>
     </docs-card>
-    <docs-card>
+    <docs-card qsps="?sc_icampaign=next-start&amp;sc_ichannel=choose-integration">
       <img alt="Next.js Logo" slot="graphic" src="/assets/integrations/next.svg">
       <h4 slot="heading">
         Next.js
@@ -44,34 +44,34 @@ exports[`docs-choose-integration-anchor Render logic should render 1`] = `
     Mobile
   </h3>
   <amplify-responsive-grid class="border-radius margin-top-md" columns="5" gridgap="1">
-    <docs-card>
+    <docs-card qsps="?sc_icampaign=android-start&amp;sc_ichannel=choose-integration">
       <img alt="Android Logo" slot="graphic" src="/assets/integrations/android.svg">
       <h4 slot="heading">
         Android
       </h4>
     </docs-card>
-    <docs-card>
+    <docs-card qsps="?sc_icampaign=ios-start&amp;sc_ichannel=choose-integration">
       <img alt="iOS Logo" slot="graphic" src="/assets/integrations/ios.svg">
       <h4 slot="heading">
         iOS
       </h4>
     </docs-card>
-    <docs-card>
+    <docs-card qsps="?sc_icampaign=react-native-start&amp;sc_ichannel=choose-integration">
       <img alt="React Native Logo" slot="graphic" src="/assets/integrations/react-native.svg">
       <h4 slot="heading">
         React Native
       </h4>
     </docs-card>
-    <docs-card>
+    <docs-card qsps="?sc_icampaign=ionic-start&amp;sc_ichannel=choose-integration">
       <img alt="Ionic Logo" slot="graphic" src="/assets/integrations/ionic.svg">
       <h4 slot="heading">
         Ionic
       </h4>
     </docs-card>
-    <docs-card>
-      <img alt="Flutter (Preview) Logo" slot="graphic" src="/assets/integrations/flutter.svg">
+    <docs-card qsps="?sc_icampaign=flutter-start&amp;sc_ichannel=choose-integration">
+      <img alt="Flutter Logo" slot="graphic" src="/assets/integrations/flutter.svg">
       <h4 slot="heading">
-        Flutter (Preview)
+        Flutter
       </h4>
     </docs-card>
   </amplify-responsive-grid>

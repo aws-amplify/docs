@@ -188,9 +188,13 @@ export namespace Components {
     }
     interface DocsCard {
         /**
+          * * query string parameters to attach to the link
+         */
+        "QSPs": string;
+        /**
           * * link tag to use
          */
-        "containerTag": string;
+        "containertag": string;
         /**
           * * whether or not to show external link graphic
          */
@@ -268,6 +272,10 @@ export namespace Components {
     }
     interface DocsInternalLink {
         /**
+          * * query string parameters to attach to the link
+         */
+        "QSPs": string;
+        /**
           * * class name to attach to link when active
          */
         "activeClass"?: string;
@@ -289,6 +297,10 @@ export namespace Components {
         "selectedFilters"?: SelectedFilters;
     }
     interface DocsInternalLinkButton {
+        /**
+          * * query string parameters to attach to the link
+         */
+        "QSPs": string;
         /**
           * * the path to redirect to (internal only!)
          */
@@ -386,17 +398,19 @@ export namespace Components {
     }
     interface DocsUniversalNav {
         /**
-          * * determines whether transparent background styles & starker text/logo colors are applied
-         */
-        "blend"?: boolean;
-        /**
           * * image url for brand icon
          */
         "brandIcon"?: string;
         /**
+          * * what label should go next to the brand icon?
+         */
+        "heading"?: string;
+    }
+    interface DocsUniversalNavBlend {
+        /**
           * * image url for brand icon when nav in blend mode
          */
-        "brandIconBlend"?: string;
+        "brandIcon"?: string;
         /**
           * * what label should go next to the brand icon?
          */
@@ -692,6 +706,12 @@ declare global {
         prototype: HTMLDocsUniversalNavElement;
         new (): HTMLDocsUniversalNavElement;
     };
+    interface HTMLDocsUniversalNavBlendElement extends Components.DocsUniversalNavBlend, HTMLStencilElement {
+    }
+    var HTMLDocsUniversalNavBlendElement: {
+        prototype: HTMLDocsUniversalNavBlendElement;
+        new (): HTMLDocsUniversalNavBlendElement;
+    };
     interface HTMLDocsVersionSwitchElement extends Components.DocsVersionSwitch, HTMLStencilElement {
     }
     var HTMLDocsVersionSwitchElement: {
@@ -749,6 +769,7 @@ declare global {
         "docs-secondary-nav": HTMLDocsSecondaryNavElement;
         "docs-select-anchor": HTMLDocsSelectAnchorElement;
         "docs-universal-nav": HTMLDocsUniversalNavElement;
+        "docs-universal-nav-blend": HTMLDocsUniversalNavBlendElement;
         "docs-version-switch": HTMLDocsVersionSwitchElement;
         "ui-component-props": HTMLUiComponentPropsElement;
     }
@@ -928,9 +949,13 @@ declare namespace LocalJSX {
     }
     interface DocsCard {
         /**
+          * * query string parameters to attach to the link
+         */
+        "QSPs"?: string;
+        /**
           * * link tag to use
          */
-        "containerTag"?: string;
+        "containertag"?: string;
         /**
           * * whether or not to show external link graphic
          */
@@ -1008,6 +1033,10 @@ declare namespace LocalJSX {
     }
     interface DocsInternalLink {
         /**
+          * * query string parameters to attach to the link
+         */
+        "QSPs"?: string;
+        /**
           * * class name to attach to link when active
          */
         "activeClass"?: string;
@@ -1029,6 +1058,10 @@ declare namespace LocalJSX {
         "selectedFilters"?: SelectedFilters;
     }
     interface DocsInternalLinkButton {
+        /**
+          * * query string parameters to attach to the link
+         */
+        "QSPs"?: string;
         /**
           * * the path to redirect to (internal only!)
          */
@@ -1126,17 +1159,19 @@ declare namespace LocalJSX {
     }
     interface DocsUniversalNav {
         /**
-          * * determines whether transparent background styles & starker text/logo colors are applied
-         */
-        "blend"?: boolean;
-        /**
           * * image url for brand icon
          */
         "brandIcon"?: string;
         /**
+          * * what label should go next to the brand icon?
+         */
+        "heading"?: string;
+    }
+    interface DocsUniversalNavBlend {
+        /**
           * * image url for brand icon when nav in blend mode
          */
-        "brandIconBlend"?: string;
+        "brandIcon"?: string;
         /**
           * * what label should go next to the brand icon?
          */
@@ -1211,6 +1246,7 @@ declare namespace LocalJSX {
         "docs-secondary-nav": DocsSecondaryNav;
         "docs-select-anchor": DocsSelectAnchor;
         "docs-universal-nav": DocsUniversalNav;
+        "docs-universal-nav-blend": DocsUniversalNavBlend;
         "docs-version-switch": DocsVersionSwitch;
         "ui-component-props": UiComponentProps;
     }
@@ -1263,6 +1299,7 @@ declare module "@stencil/core" {
             "docs-secondary-nav": LocalJSX.DocsSecondaryNav & JSXBase.HTMLAttributes<HTMLDocsSecondaryNavElement>;
             "docs-select-anchor": LocalJSX.DocsSelectAnchor & JSXBase.HTMLAttributes<HTMLDocsSelectAnchorElement>;
             "docs-universal-nav": LocalJSX.DocsUniversalNav & JSXBase.HTMLAttributes<HTMLDocsUniversalNavElement>;
+            "docs-universal-nav-blend": LocalJSX.DocsUniversalNavBlend & JSXBase.HTMLAttributes<HTMLDocsUniversalNavBlendElement>;
             "docs-version-switch": LocalJSX.DocsVersionSwitch & JSXBase.HTMLAttributes<HTMLDocsVersionSwitchElement>;
             "ui-component-props": LocalJSX.UiComponentProps & JSXBase.HTMLAttributes<HTMLUiComponentPropsElement>;
         }

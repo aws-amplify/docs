@@ -1,5 +1,5 @@
 <amplify-block-switcher>
- <amplify-block name="Java">
+<amplify-block name="Java">
 
 ```java
 Amplify.Auth.confirmResetPassword(
@@ -10,16 +10,37 @@ Amplify.Auth.confirmResetPassword(
 );
 ```
 
- </amplify-block>
- <amplify-block name="Kotlin">
+</amplify-block>
+<amplify-block name="Kotlin - Callbacks">
 
 ```kotlin
-Amplify.Auth.confirmResetPassword(
-   "NewPassword123",
-   "confirmation code you received",
+Amplify.Auth.confirmResetPassword("NewPassword123", "confirmation code",
    { Log.i("AuthQuickstart", "New password confirmed") },
-   { error -> Log.e("AuthQuickstart", error.toString()) }
+   { Log.e("AuthQuickstart", "Failed to confirm password reset", it) }
 )
 ```
- </amplify-block>
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+try {
+    Amplify.Auth.confirmResetPassword("NewPassword123", "code you received")
+    Log.i("AuthQuickstart", "New password confirmed") 
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Failed to confirm password reset", error)
+}
+```
+</amplify-block>
+<amplify-block name="RxJava">
+
+```java
+RxAmplify.Auth.confirmResetPassword("NewPassword123", "confirmation code")
+    .subscribe(
+        () -> Log.i("AuthQuickstart", "New password confirmed"),
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+```
+
+</amplify-block>
 </amplify-block-switcher>

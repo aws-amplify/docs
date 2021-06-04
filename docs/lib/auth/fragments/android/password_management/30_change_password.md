@@ -11,15 +11,25 @@ Amplify.Auth.updatePassword(
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
 
- ```kotlin
-Amplify.Auth.updatePassword(
-    "existingPassword",
-    "newPassword",
+```kotlin
+Amplify.Auth.updatePassword("existingPassword", "newPassword",
     { Log.i("AuthQuickstart", "Updated password successfully") },
-    { error -> Log.e("AuthQuickstart", error.toString()) }
+    { Log.e("AuthQuickstart", "Password update failed", it) }
 )
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+try {
+    Amplify.Auth.updatePassword("existingPassword", "newPassword")
+    Log.i("AuthQuickstart", "Updated password successfully")
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Password update failed", error)
+}
 ```
 
 </amplify-block>

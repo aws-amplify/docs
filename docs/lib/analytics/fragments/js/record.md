@@ -18,8 +18,6 @@ Analytics.record({
 });
 ```
 
-Attribute values must have the type `String` or be an array of strings.
-
 ## Record Engagement Metrics
 
 Data can also be added to an event:

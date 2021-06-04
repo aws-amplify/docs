@@ -2,10 +2,27 @@ For advanced use cases where Amplify does not provide the functionality, you can
 
 Add the following imports:
 
+<amplify-block-switcher>
+
+<amplify-block name="Swift Package Manager">
+
 ```swift
-import AmplifyPlugins
-import AWSPinpoint
+import AWSPinpointAnalyticsPlugin // Imports the Amplify plugin interface
+import AWSPinpoint                // Imports the AWSPinpoint client escape hatch
 ```
+
+</amplify-block>
+
+<amplify-block name="CocoaPods">
+
+```swift
+import AmplifyPlugins // Imports the Amplify plugin interface
+import AWSPinpoint    // Imports the AWSPinpoint client escape hatch
+```
+
+</amplify-block>
+
+</amplify-block-switcher>
 
 Then retrieve the escape hatch with this code:
 

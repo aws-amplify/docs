@@ -1,79 +1,146 @@
-### Setup AWS Cloud Resources with Amplify CLI 
+## Deploy your Amplify sandbox backend
 
-We will now use the Amplify CLI to configure the AWS Cloud Resources that will power your app. 
+Return to the sandbox link you kept handy from earlier. It should look something like the following.
 
-1. First ensure that you have installed the proper amplify cli version.  Within your terminal run: 
+```
+https://sandbox.amplifyapp.com/deploy/<UUID>
+```
 
-    ```bash
-    amplify --version 
+### Log in or create a new AWS account
+
+If you don’t have an AWS account, you will need to create one first:
+1. Select **Create an AWS account**
+2. Once you have an account, select **Login to deploy to AWS**
+3. When logged in, you will be taken to the Amplify Console
+
+### Create app backend
+On the creation form:
+<!-- // spell-checker: disable-next-line -->
+1. Give your app a name. We went with **amplifiedtodo**
+2. Select your preferred deployment region
+3. Click **Confirm deployment**
+
+    ![Create app backend](~/images/lib/getting-started/flutter/connect-to-cloud-create-app-backend.png)
+
+4. The on screen text should walk you through the deployment progress and, when the deployment status reads reaches **Deployment completed**, click **Open admin UI**.
+
+    ![Open admin UI](~/images/lib/getting-started/flutter/connect-to-cloud-open-admin-ui.png)
+
+## Add authentication
+
+Since our **Todo** model specifies an `@auth` directive, we do need to first add authentication.
+
+### Deploy authentication
+
+From the Amplify Admin UI:
+1. Select **Authentication** from the sidebar
+
+    ![Authentication](~/images/lib/getting-started/flutter/add-api-add-authentication-sidebar.png)
+
+2. Click **Save and deploy** with the default configuration
+
+    ![Save and deploy](~/images/lib/getting-started/flutter/add-api-add-authentication-deploy.png)
+
+2. Click **Confirm deployment** when prompted
+
+### Update local project with deployed environment
+
+1. After deployment of authentication, click on **Deployment successful - click for next steps** at the top of the Admin UI
+
+    ![Deployment successful](~/images/lib/getting-started/flutter/add-api-add-authentication-deployment-successful.png)
+
+2. Copy the command for pulling the updated environment and run it in your local project
+3. Answer on screen prompts to update your local project with the deployed environment
+
     ```
-    Your output should be a version with "-flutter-preview" appended at the end. 
+    amplify pull --appId <appId> —envName staging
 
-    If not, run:
-
-    ```bash
-    npm install -g @aws-amplify/cli@flutter-preview
-    ```
-
-2. Initialize Amplify CLI by running: 
-
-    ```bash
-    amplify init
-    ```
-
-    Enter the following when prompted:
-
-    ```console
-    ? Enter a name for the environment
-        `dev`
     ? Choose your default editor:
-        `IntelliJ IDEA`
-    ? Choose the type of app that you're building: 
-        'flutter'
-    ⚠️  Flutter project support in the Amplify CLI is in DEVELOPER PREVIEW.
-    Only the following categories are supported:
-     * Auth
-     * Analytics
-     * Storage
-    ? Where do you want to store your configuration file? 
-        ./lib/
-    ? Do you want to use an AWS profile?
-        `Yes`
-    ? Please choose the profile you want to use
-        `default`
-    ```
-
-3. Configure Amplify to manage cloud resources on your behalf. This step will configure a new AWS user in your account for Amplify. Open up a terminal window. You can use an external terminal or the integrated terminal in Android Studio. In the terminal, run:
-
-    ```bash
-    amplify configure
-    ```
-
-    This command will open up a web browser to the AWS Management Console and guide you through creating a new IAM user. For step-by-step directions to set this up, refer to the [CLI installation guide](~/cli/start/install.md).
-
-4. Add Analytics by typing in the following in terminal: 
-
-    ```
-    amplify add analytics
-    ```
-
-    You can just accept all of the default values: 
-
-    ```
-    ? Select an Analytics provider (Use arrow keys)
-        `Amazon Pinpoint`
-    ? Provide your pinpoint resource name: 
-        `yourPinpointResourceName`
-    ? Apps need authorization to send analytics events. Do you want to allow guests and unauthenticated users to send analytics events? (we recommend you allow this when getting started) 
+        `<your editor of choice>`
+    ? Choose the type of app that you're building
+        `flutter`
+    ? Where do you want to store your configuration file?
+        `./lib/`
+    ? Do you plan on modifying this backend?
         `Yes`
     ```
 
-5. To save all your changes and to create your AWS resources, run the following command last:
+## Add Api and Auth plugins
 
-    ``` 
-    amplify push 
-    ```
+Now we just need to configure our app with some additional plugins. This will ensure that DataStore has access to the API access it requires for communicating with the cloud. Let's start by modifying `pubspec.yaml` in your project root directory and add the Amplify plugins to the project dependencies.
 
-    After these steps, you should notice a `amplifyconfiguration.dart` file within your lib directory of your project.  Guard this file carefully!  It contains sensitive information that your app will use to establish a secure communication with your backend AWS resources.  If it is lost or corrupted, you can always regenerate it by repeating the above steps again with the Amplify CLI. 
+```diff
+environment:
+  sdk: ">=2.11.0 <3.0.0"
 
-At this point you are ready to run your app.  Go back to Android Studio and at the top bar click on the green play button to deploy.
+  dependencies:
+    flutter:
+      sdk: flutter
+
+    amplify_flutter: <1.0.0
+    amplify_datastore: <1.0.0
++   amplify_api: <1.0.0
++   amplify_auth_cognito: <1.0.0
+```
+
+Install the dependencies by running the following command. Depending on your development environment, you may perform this step via your IDE (or it may even be performed for you automatically).
+
+```bash
+flutter pub get
+```
+
+Update the `main.dart` file and import the new packages so that it's available to our app.
+
+```diff
+  import 'package:amplify_flutter/amplify.dart';
+  import 'package:amplify_datastore/amplify_datastore.dart';
++ import 'package:amplify_api/amplify_api.dart';
++ import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+```
+
+Declare the additional plugins at the top of the `_TodosPageState` class.
+
+```diff
+  // amplify plugins
+  final AmplifyDataStore _dataStorePlugin =
+      AmplifyDataStore(modelProvider: ModelProvider.instance);
++ final AmplifyAPI _apiPlugin = AmplifyAPI();
++ final AmplifyAuthCognito _authPlugin = AmplifyAuthCognito();
+```
+
+Add the additional plugins to Amplify in the `_fetchTodos()` function of the `_TodosPageState` class.
+
+```diff
+  // add Amplify plugins
+- await Amplify.addPlugins([_dataStorePlugin]);
++ await Amplify.addPlugins([_dataStorePlugin, _apiPlugin, _authPlugin]);
+```
+
+Since Amplify can only be configured once, you will need to do a full restart (stop and restart the app) now instead of just a Hot Restart. But, believe it or not, you’re done! Amplify DataStore makes syncing to the cloud that easy. Spin up a second simulator/emulator and you should see that adding/updating/removing items on one device triggers an update in the other. We can also verify this in the Admin UI.
+
+## Verifying cloud sync
+
+### Inspect data
+
+From the Amplify Admin UI, select **Content** from the sidebar. If you have added todos from your app, you should see them show up as part of the results!
+
+![Content](~/images/lib/getting-started/flutter/add-api-verify-sync-sidebar.png)
+
+![Inspect items](~/images/lib/getting-started/flutter/add-api-verify-sync-inspect-items.png)
+
+### Create data
+
+Synchronization is bi-directional. Try creating a Todo entry from the Content screen in the Admin UI:
+1. Click **Create todo**
+
+    ![Content](~/images/lib/getting-started/flutter/add-api-verify-sync-create-todo.png)
+
+2. Fill in the form
+  - **name**: Sync app to cloud
+  - **description**: This was created remotely!
+  - **isComplete**: false (unchecked)
+3. Click **Save Todo** on the form to save the new entry
+
+    ![Content](~/images/lib/getting-started/flutter/add-api-verify-sync-save-todo.png)
+
+You should see your app update with a newly created todo in real-time!

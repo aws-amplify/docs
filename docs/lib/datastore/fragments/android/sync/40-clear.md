@@ -16,21 +16,34 @@ Amplify.Hub.subscribe(HubChannel.AUTH,
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
 
 ```kotlin
-val signedOutEventName: String = AuthChannelEventName.SIGNED_OUT.toString()
-
 Amplify.Hub.subscribe(HubChannel.AUTH,
-    { anyAuthEvent -> signedOutEventName == anyAuthEvent.getName() },
-    { signedOutEvent ->
+    {
+        // Listen for sign out events.
+        it.name.equals(AuthChannelEventName.SIGNED_OUT.toString())
+    },
+    {
         // When one arrives, clear the DataStore.
         Amplify.DataStore.clear(
-            { Log.i("MyAmplifyApp", "DataStore is cleared.") },
-            { Log.e("MyAmplifyApp", "Failed to clear DataStore.", it) }
+            { Log.i("MyAmplifyApp", "DataStore is cleared") },
+            { Log.e("MyAmplifyApp", "Failed to clear DataStore") }
         )
     }
 )
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+Amplify.Hub.subscribe(HubChannel.AUTH)
+    { it.name == AuthChannelEventName.SIGNED_OUT.toString() }
+    // When sign out event arrives, clear the DataStore.
+    .onEach { Amplify.DataStore.clear() }
+    .catch { Log.e("MyAmplifyApp", "Failed to clear DataStore.", it) }
+    .collect { Log.i("MyAmplifyApp", "DataStore is cleared.") }
 ```
 
 </amplify-block>

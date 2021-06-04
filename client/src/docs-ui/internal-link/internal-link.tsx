@@ -1,4 +1,4 @@
-import {Component, h, Prop, Host, State, Watch} from "@stencil/core";
+import {Component, h, Prop, Host, State, Watch, Build} from "@stencil/core";
 import {filtersByRoute} from "../../api";
 import {SelectedFilters} from "../page/page.types";
 import {pageContext} from "../page/page.context";
@@ -11,6 +11,8 @@ export class DocsInternalLink {
   @Prop() readonly selectedFilters?: SelectedFilters;
   /*** the route to render out */
   @Prop() readonly href: string;
+  /*** query string parameters to attach to the link */
+  @Prop() readonly QSPs: string = "";
   /*** class name to attach to link when active */
   @Prop() readonly activeClass?: string;
   /*** class name to attach a subpage is active */
@@ -27,6 +29,7 @@ export class DocsInternalLink {
   @Watch("selectedFilters")
   async componentWillLoad() {
     let selectedFilter: string | undefined;
+    if (Build.isBrowser && !this.href) return;
     const {path, hash, params} = await parseURL(this.href);
 
     if (Object.keys(params).length === 0) {
@@ -74,7 +77,7 @@ export class DocsInternalLink {
     return (
       <Host>
         <stencil-route-link
-          url={this.url}
+          url={this.url + this.QSPs}
           class={{
             ...(this.activeClass ? {[this.activeClass]: !!this.isActive} : {}),
             ...(this.childActiveClass

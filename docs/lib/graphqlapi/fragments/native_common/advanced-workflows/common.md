@@ -2,6 +2,7 @@ This section describes different use cases for constructing your own custom Grap
 - retrieve only a subset of the data to reduce data transfer
 - retrieve nested objects at a depth that you choose
 - combine multiple operations into a single request
+- send custom headers to your AppSync endpoint
 
 A GraphQL request is automatically generated for you when using AWSAPIPlugin with the existing workflow. For example, if you have a Todo model, a mutation request to save the Todo will look like this:
 
@@ -108,9 +109,9 @@ When you want to perform more than one operation in a single request, you can pl
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/advanced-workflows/40_multiple.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/advanced-workflows/40_multiple.md"></inline-fragment>
 
+## Adding Headers to Outgoing Requests
 
+By default, the API plugin includes appropriate authorization headers on your outgoing requests. However, you may have an advanced use case where you wish to send additional request headers to AppSync.
 
-
-
-
-
+<inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/advanced-workflows/50_interceptor.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/advanced-workflows/50_interceptor.md"></inline-fragment>

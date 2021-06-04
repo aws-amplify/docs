@@ -3,13 +3,17 @@ title: Build options
 description: Use build options for Amplify's function category to execute a script before a function is deployed, e.g. to transpile Typescript or ES6 with Babel into a format that is supported by the AWS Lambda's node runtime.
 ---
 
+<amplify-block-switcher>
+
+<amplify-block name="NodeJS">
+
 In some cases, it might be necessary to execute a script before a function is deployed, e.g. to transpile Typescript or ES6 with Babel or with `tsc` into a format that is supported by the AWS Lambda's node runtime. `amplify push` will look for a `script` definition in the project root's `package.json` with the name `amplify:<resource_name>` and run it right after `npm install` is canned in the function resource's `src` directory.
 
 **Example: Transpiling Typescript code with TSC**
 
 Make sure you have the `tsc` command installed globally by running `npm install -g typescript` or locally by running `npm install --save-dev typescript`
 
-Let's say, a function resource has been created with `amplify function add` and it is called `generateReport`. The ES6 source code for this function is located in `amplify/backend/function/generateReport/lib` and the resource's `src` directory only contains the auto-generated `package.json` for this function. In order to run Babel, you have to add the following script definition to your project root's `package.json`:
+Let's say, a function resource has been created with `amplify function add` and it is called `generateReport`. The ES6 source code for this function is located in `amplify/backend/function/generateReport/lib` and the resource's `src` directory only contains the auto-generated `package.json` for this function. In order to compile TypeScript, you have to add the following script definition to your project root's `package.json`:
 
 ```json
 {
@@ -43,11 +47,14 @@ Navigate into `amplify/backend/function/generateReport` and create `tsconfig.jso
 
 <!-- // spell-checker: enable -->
 
-**NOTE:** It is important to note that if you are using `aws-sdk` in your TypeScript file, you will get a timeout if you attempt to import it with the following:
+**Note:** It is important to note that if you are using `aws-sdk` in your TypeScript file, you will get a timeout if you attempt to import it with the following:
+
 ```js
 import AWS from 'aws-sdk';
 ```
+
 Change to this:
+
 ```js
 import * as AWS from 'aws-sdk';
 ```
@@ -94,3 +101,17 @@ Babel needs to be configured properly so that the transpiled code can be run on 
 ```
 
 Once you run `amplify push`, the `amplify:generateReport` script will be executed, either by `yarn` or by `npm` depending on the existence of a `yarn.lock` file in the project root directory.
+
+</amplify-block>
+
+<amplify-block name="Python">
+
+There are no existing build options for Python functions. The process of building and packaging Python functions is in line with Amazon's [existing documentation](https://docs.aws.amazon.com/lambda/latest/dg/python-package.html#python-package-venv) for manually creating a Lambda deployment package which depends on a virtual environment.
+
+Amplify will run `pipenv install` in your function's source directory during builds using either Pipenv's default virtual environment, or whichever virtual environment happens to be active. Then, during the packaging stage, the contents of the `site-packages` directory for that virtual environment will be zipped up along with the function-specific files.
+
+The contents of the Python build can include local development dependencies (e.g. for testing) in addition to those necessary for your function to run. Packages installed as "editable" (using the `-e` flag) will not be  packaged, as they are represented as an `.egg-link` file pointing to the local, editable code of the dependency.
+
+</amplify-block>
+
+</amplify-block-switcher>

@@ -7,9 +7,12 @@ try {
   setState(() {
     isSignedIn = res.isSignedIn;
   });
-} on AuthError catch (e) {
-  print(e);
+} on AuthException catch (e) {
+  print(e.message);
 }
 ```
 
+<amplify-callout>
+Please note that you will be prevented from successfully calling `signIn` if a user has already signed in and a valid session is active.  You must first call `signOut` to remove the original session.  When running on the iOS platform, you will be able to call `signIn` if the session has expired, while on Android you must first call `signOut` regardless. 
+</amplify-callout>
 

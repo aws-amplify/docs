@@ -13,14 +13,28 @@ Amplify.Auth.updateUserAttribute(userEmail,
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
 
 ```kotlin
-val userEmail = AuthUserAttribute(AuthUserAttributeKey.email(), "email@email.com")
-Amplify.Auth.updateUserAttribute(userEmail,
+Amplify.Auth.updateUserAttribute(
+    AuthUserAttribute(AuthUserAttributeKey.email(), "email@email.com"),
     { Log.i("AuthDemo", "Updated user attribute = $it") },
-    { Log.e("AuthDemo", "Failed to update user attribute.", $it) }
+    { Log.e("AuthDemo", "Failed to update user attribute.", it) }
 )
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+val attribute =
+    AuthUserAttribute(AuthUserAttributeKey.email(), "email@email.com")
+try {
+    val result = Amplify.Auth.updateUserAttribute(attribute)
+    Log.i("AuthDemo", "Updated user attribute = $result")
+} catch (error: AuthException) {
+    Log.e("AuthDemo", "Failed to update user attribute.", error)
+}
 ```
 
 </amplify-block>
@@ -53,14 +67,26 @@ Amplify.Auth.updateUserAttributes(
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
 
 ```kotlin
 Amplify.Auth.updateUserAttributes(
     attributes, // attributes is a list of AuthUserAttribute
-    { Log.i("Updated user attributes = $it") },
-    { Log.e("Failed to update user attributes.", $it) }
+    { Log.i("AuthDemo", "Updated user attributes = $it") },
+    { Log.e("AuthDemo", "Failed to update user attributes", it) }
 )
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val result = Amplify.Auth.updateUserAttributes(attributes)
+    Log.i("AuthDemo", "Updated user attributes = $result")
+} catch (error: AuthException) {
+    Log.e("AuthDemo", "Failed to update user attributes", error)
+}
 ```
 
 </amplify-block>

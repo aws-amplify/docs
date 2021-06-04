@@ -24,7 +24,7 @@ whatever value you used for your redirect URI prefix:
 Add the following result handler to whichever `Activity` you are calling HostedUI from:
 
 <amplify-block-switcher>
- <amplify-block name="Java">
+<amplify-block name="Java">
 
 ```java
 @Override
@@ -37,8 +37,8 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 }
 ```
 
- </amplify-block>
- <amplify-block name="Kotlin">
+</amplify-block>
+<amplify-block name="Kotlin - Callbacks">
 
 ```kotlin
 override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -50,8 +50,21 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
 }
 ```
 
- </amplify-block>
- <amplify-block name="RxJava">
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    super.onActivityResult(requestCode, resultCode, data)
+
+    if (requestCode == AWSCognitoAuthPlugin.WEB_UI_SIGN_IN_ACTIVITY_CODE) {
+        Amplify.Auth.handleWebUISignInResponse(data)
+    }
+}
+```
+
+</amplify-block>
+<amplify-block name="RxJava">
 
 ```java
 @Override

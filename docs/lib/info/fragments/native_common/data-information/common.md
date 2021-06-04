@@ -1,0 +1,1 @@
+<inline-fragment platform="ios" src="~/lib/info/fragments/ios/data-information.md"></inline-fragment>

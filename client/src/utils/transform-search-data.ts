@@ -3,6 +3,7 @@ import {
   platformFilterMetadataByOption,
   frameworkFilterMetadataByOption,
 } from "./filter-data";
+import {setSearchResultCount} from "./track";
 
 const filterMetadataByOption = {
   ...platformFilterMetadataByOption,
@@ -43,6 +44,8 @@ export interface Item {
 }
 
 export function transformData(items: Item[]): Item[] {
+  setSearchResultCount(items.length);
+
   return items.map((item) => {
     const {params} = parseURL(item.url);
     const entries = Object.entries(params);

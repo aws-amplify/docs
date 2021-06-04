@@ -42,8 +42,10 @@ export class DocsCard {
   @Prop() readonly vertical?: boolean;
   /*** url */
   @Prop() readonly url?: string;
+  /*** query string parameters to attach to the link */
+  @Prop() readonly QSPs: string = "";
   /*** link tag to use */
-  @Prop() readonly containerTag: string = "docs-internal-link";
+  @Prop() readonly containertag: string = "docs-internal-link";
   /*** whether or not to show external link graphic */
   @Prop() readonly external?: boolean;
 
@@ -86,9 +88,10 @@ export class DocsCard {
     return (
       <Host class={hostStyle}>
         {createVNode(
-          this.containerTag,
+          this.containertag,
           {
             href,
+            QSPs: this.QSPs,
             ...(this.external ? {target: "_blank"} : {}),
           },
           <div class={{[cardStyle]: true, vertical: !!vertical}}>

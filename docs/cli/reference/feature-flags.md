@@ -29,6 +29,7 @@ Examples
 Experimental feature flags are to enable experimentation with given functionality, to provide feedback to the Amplify CLI team. Enabling these feature in production is highly discouraged.
 
 The outcome of experimental features can be:
+
 - The feature will make into the product so it will be turned into a Release type feature flag.
 - The experimental feature is not making into the product and removed from the codebase together with the code itself.
 
@@ -48,21 +49,25 @@ Example configuration file
 
 ```json
 {
-    "features": {
-        "graphQLTransformer": {
-            "transformerVersion": 5
-        },
-        "keyTransformer": {
-            "defaultQuery": true
-        },
-        "experimental": {
-            "feature1": true,
-            "feature2": false
-        },
-        "release": {
-            "lambdaLayers": true
-        }
+  "features": {
+    "graphQLTransformer": {
+      "addMissingOwnerFields": true,
+      "validateTypeNameReservedWords": true,
+      "useExperimentalPipelinedTransformer": false,
+      "enableIterativeGSIUpdates": false
+    },
+    "frontend-ios": {
+      "enableXcodeIntegration": true
+    },
+    "auth": {
+      "enableCaseInsensitivity": true,
+      "useInclusiveTerminology": true,
+      "breakCircularDependency": true
+    },
+    "codegen": {
+      "useAppSyncModelgenPlugin": true
     }
+  }
 }
 ```
 
@@ -89,7 +94,5 @@ Due to the multiple levels of configuration options and overrides, Amplify CLI d
 - CLI Environment level environment variables
 
 ## Feature flags
-
-Currently there are no feature flags defined.
 
 <amplify-feature-flags />

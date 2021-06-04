@@ -33,15 +33,68 @@ amplify push
 
 Next make a call using one of the HTTP verbs under `Amplify.API` such as a GET:
 
+<amplify-block-switcher>
+<amplify-block name="Java">
+
 ```java
-final Map parameters = new HashMap<>();
-parameters.put("lang", "en_US");
+RestOptions request = RestOptions.builder()
+    .addPath("/items")
+    .addQueryParameters(Collections.singletonMap("lang", "en_US"))
+    .build();
 
-RestOptions options = new RestOptions("/items", parameters);
-
-Amplify.API.get("myAPI",
-    options,
-    restResponse -> Log.i("ApiQuickStart", restResponse.toString()),
-    apiFailure -> Log.e("ApiQuickStart", apiFailure.getMessage(), apiFailure)
+Amplify.API.get("myAPI", request,
+    response -> Log.i("ApiQuickStart", "GET succeeded: " + response.toString()),
+    failure -> Log.e("ApiQuickStart", "GET failed", failure)
 );
 ```
+
+</amplify-block>
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+val request = RestOptions.builder()
+    .addPath("/items")
+    .addQueryParameters(mapOf("lang" to "en_US"))
+    .build()
+
+Amplify.API.get("myAPI", request,
+    { Log.i("ApiQuickStart", "GET succeeded: $it") },
+    { Log.e("ApiQuickStart", "GET failed", it) }
+)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+val request = RestOptions.builder()
+    .addPath("/items")
+    .addQueryParameters(mapOf("lang" to "en_US"))
+    .build()
+
+try {
+    val response = Amplify.API.get("myAPI", request)
+    Log.i("ApiQuickStart", "GET succeeded: $response")
+} catch (error: ApiException) {
+    Log.e("ApiQuickStart", "GET failed", error)
+}
+```
+
+</amplify-block>
+<amplify-block name="RxJava">
+
+```java
+RestOptions request = RestOptions.builder()
+    .addPath("/items")
+    .addQueryParameters(Collections.singletonMap("lang", "en_US"))
+    .build();
+
+RxAmplify.API.get("myAPI", request)
+    .subscribe(
+        response -> Log.i("ApiQuickStart", "GET succeeded: " + response.toString()),
+        failure -> Log.e("ApiQuickStart", "GET failed", failure)
+    );
+```
+
+</amplify-block>
+</amplify-block-switcher>

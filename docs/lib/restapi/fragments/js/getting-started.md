@@ -106,24 +106,6 @@ API: {
 
  </amplify-callout>
 
-## Modular imports
-
-<amplify-callout>
-
-If you only need to use API, you can run: `npm install @aws-amplify/api` which will only install the API module.
-If you're using Cognito Federated Identity Pool to get AWS credentials, please also install `@aws-amplify/auth`.
-If you're using Graphql, please also install `@aws-amplify/pubsub`.
-
-</amplify-callout>
-
-Then in your code, you can import the Api module by:
-
-```javascript
-import API, { graphqlOperation } from '@aws-amplify/api';
-
-API.configure();
-```
-
 ## API Reference   
 
 For the complete API documentation for API module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/apiclass.html).

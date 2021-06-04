@@ -13,7 +13,7 @@ To select a different conflict resolution strategy, navigate into your project f
     `Yes, I want to make some additional changes.`
 ? Configure additional auth types? 
     `No`
-? Configure conflict detection? 
+? Enable conflict detection? 
     `Yes`
 ? Select the default resolution strategy
   Auto Merge 
@@ -44,3 +44,4 @@ Note that this flow will also allow you to change the strategy on each individua
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/conflict.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/conflict.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/conflict.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/datastore/fragments/flutter/conflict.md"></inline-fragment>

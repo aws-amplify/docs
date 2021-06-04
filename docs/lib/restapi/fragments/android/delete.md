@@ -5,27 +5,42 @@
 
 ```java
 RestOptions options = RestOptions.builder()
-        .addPath("/todo/1")
-        .build();
+    .addPath("/todo/1")
+    .build();
 
 Amplify.API.delete(options,
-        response -> Log.i("MyAmplifyApp", response.getData().asString()),
-        error -> Log.e("MyAmplifyApp", "DELETE failed", error)
+    response -> Log.i("MyAmplifyApp", "DELETE succeeded: " + response),
+    error -> Log.e("MyAmplifyApp", "DELETE failed.", error)
 );
 ```
 
 </amplify-block>
-<amplify-block name="Kotlin">
+<amplify-block name="Kotlin - Callbacks">
 
 ```kotlin
-val options: RestOptions = RestOptions.builder()
+val options = RestOptions.builder()
     .addPath("/todo/1")
     .build()
 
 Amplify.API.delete(options,
-    { response -> Log.i("MyAmplifyApp", response.data.asString()) },
-    { error -> Log.e("MyAmplifyApp", "DELETE failed", error) }
+    { Log.i("MyAmplifyApp", "DELETE succeeded: $it") },
+    { Log.e("MyAmplifyApp", "DELETE failed.", it) }
 )
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+val request = RestOptions.builder()
+    .addPath("/todo/1")
+    .build()
+try {
+    val response = Amplify.API.delete(request)
+    Log.i("MyAmplifyApp", "DELETE succeeded: $response")
+} catch (error: ApiException) {
+    Log.e("MyAmplifyApp", "DELETE failed", error)
+}
 ```
 
 </amplify-block>
@@ -33,14 +48,14 @@ Amplify.API.delete(options,
 
 ```java
 RestOptions options = RestOptions.builder()
-        .addPath("/todo/1")
-        .build();
+    .addPath("/todo/1")
+    .build();
 
 RxAmplify.API.delete(options)
-        .subscribe(
-            response -> Log.i("MyAmplifyApp", response.getData().asString()),
-            error -> Log.e("MyAmplifyApp", "DELETE failed", error)
-        );
+    .subscribe(
+        response -> Log.i("MyAmplifyApp", "DELETE succeeded: " + response),
+        error -> Log.e("MyAmplifyApp", "DELETE failed.", error)
+    );
 ```
 
 </amplify-block>

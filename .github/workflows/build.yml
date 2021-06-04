@@ -1,0 +1,19 @@
+name: Test
+on: pull_request
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@main
+      - name: Setup Node.js 14.x
+        uses: actions/setup-node@main
+        with:
+          node-version: 14.x
+      - name: Install Dependencies
+        run: yarn
+      - name: Run Spellcheck
+        run: yarn spellcheck
+      - name: Run Build
+        run: yarn build

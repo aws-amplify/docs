@@ -1,41 +1,12 @@
 <amplify-authenticator></amplify-authenticator>
 
-## Installation
-
-<docs-filter framework="react">
-
-```
-yarn add aws-amplify @aws-amplify/ui-react
-```
-
-</docs-filter>
-<docs-filter framework="angular">
-
-```
-yarn add aws-amplify @aws-amplify/ui-angular
-```
-
-</docs-filter>
-<docs-filter framework="ionic">
-
-```
-yarn add aws-amplify @aws-amplify/ui-angular
-```
-
-</docs-filter>
-<docs-filter framework="vue">
-
-```
-yarn add aws-amplify @aws-amplify/ui-vue
-```
-
-</docs-filter>
+<inline-fragment src="~/ui/fragments/web/installation.md"></inline-fragment>
 
 ## Usage
 
-### Basic Usage
-
 <docs-filter framework="react">
+
+### Basic Usage
 
 ```jsx
 import React from "react";
@@ -77,66 +48,9 @@ In most cases you will need to manage the rendering and layout of the Authentica
   <inline-fragment src="~/ui/auth/fragments/vue/auth-state-management.md"></inline-fragment>
 </docs-filter>
 
-<docs-filter framework="angular">
-
-_app.module.ts_
-
-```js
-import {BrowserModule} from "@angular/platform-browser";
-import {NgModule} from "@angular/core";
-import {AppComponent} from "./app.component";
-
-import {AmplifyUIAngularModule} from "@aws-amplify/ui-angular";
-import Amplify from "aws-amplify";
-import awsconfig from "./aws-exports";
-
-Amplify.configure(awsconfig);
-
-@NgModule({
-  declarations: [AppComponent],
-  imports: [AmplifyUIAngularModule, BrowserModule],
-  providers: [],
-  bootstrap: [AppComponent],
-})
-export class AppModule {}
-```
-
-_app.component.html_
-
-```html
-<amplify-authenticator>
-  <div>
-    My App
-    <amplify-sign-out></amplify-sign-out>
-  </div>
-</amplify-authenticator>
-```
-
-</docs-filter>
-
 <docs-filter framework="ionic">
 
-_app.module.ts_
-
-```js
-import {BrowserModule} from "@angular/platform-browser";
-import {NgModule} from "@angular/core";
-import {AppComponent} from "./app.component";
-
-import {AmplifyUIAngularModule} from "@aws-amplify/ui-angular";
-import Amplify from "aws-amplify";
-import awsconfig from "./aws-exports";
-
-Amplify.configure(awsconfig);
-
-@NgModule({
-  declarations: [AppComponent],
-  imports: [AmplifyUIAngularModule, BrowserModule],
-  providers: [],
-  bootstrap: [AppComponent],
-})
-export class AppModule {}
-```
+<inline-fragment src="~/ui/fragments/angular/configure-module.md"></inline-fragment>
 
 _app.component.html_
 
@@ -152,21 +66,7 @@ _app.component.html_
 </docs-filter>
 <docs-filter framework="vue">
 
-_main.js_
-
-```js
-import Vue from "vue";
-import App from "./App.vue";
-import "@aws-amplify/ui-vue";
-import Amplify from "aws-amplify";
-import awsconfig from "./aws-exports";
-
-Amplify.configure(awsconfig);
-
-new Vue({
-  render: (h) => h(App),
-}).$mount("#app");
-```
+<inline-fragment src="~/ui/fragments/vue/configure-app.md"></inline-fragment>
 
 _App.vue_
 
@@ -180,6 +80,32 @@ _App.vue_
   </amplify-authenticator>
 </template>
 ```
+
+</docs-filter>
+
+
+
+<docs-filter framework="react">
+
+<inline-fragment src="~/ui/auth/fragments/react/password-manager.md"></inline-fragment>
+
+</docs-filter>
+
+<docs-filter framework="angular">
+
+<inline-fragment src="~/ui/auth/fragments/angular/password-manager.md"></inline-fragment>
+
+</docs-filter>
+
+<docs-filter framework="ionic">
+
+<inline-fragment src="~/ui/auth/fragments/angular/password-manager.md"></inline-fragment>
+
+</docs-filter>
+
+<docs-filter framework="vue">
+
+<inline-fragment src="~/ui/auth/fragments/angular/password-manager.md"></inline-fragment>
 
 </docs-filter>
 
@@ -690,10 +616,10 @@ amplify-authenticator {
 
 ```jsx
 <AmplifyAuthenticator>
-  <AmplifyTOTPSetup
+  <AmplifyTotpSetup
     headerText="My Custom TOTP Setup Text"
     slot="totp-setup"
-  ></AmplifyTOTPSetup>
+  ></AmplifyTotpSetup>
 </AmplifyAuthenticator>
 ```
 
@@ -802,7 +728,7 @@ amplify-authenticator {
 import React from "react";
 import "./App.css";
 import Amplify from "aws-amplify";
-import {AmplifyAuthenticator, AmplifySignOut} from "@aws-amplify/ui-react";
+import {AmplifyAuthenticator, AmplifyGreetings} from "@aws-amplify/ui-react";
 import {AuthState, onAuthUIStateChange} from "@aws-amplify/ui-components";
 import awsconfig from "./aws-exports";
 
@@ -834,25 +760,7 @@ export default GreetingsApp;
 </docs-filter>
 <docs-filter framework="angular">
 
-```js
-import {BrowserModule} from "@angular/platform-browser";
-import {NgModule} from "@angular/core";
-import {AppComponent} from "./app.component";
-
-import {AmplifyUIAngularModule} from "@aws-amplify/ui-angular";
-import Amplify from "aws-amplify";
-import awsconfig from "../aws-exports";
-
-Amplify.configure(awsconfig);
-
-@NgModule({
-  declarations: [AppComponent],
-  imports: [AmplifyUIAngularModule, BrowserModule],
-  providers: [],
-  bootstrap: [AppComponent],
-})
-export class AppModule {}
-```
+<inline-fragment src="~/ui/fragments/angular/configure-module.md"></inline-fragment>
 
 Replace the content inside of _app.component.ts_ with the following:
 
@@ -899,25 +807,7 @@ Replace the content inside of _app.component.html_ with the following:
 </docs-filter>
 <docs-filter framework="ionic">
 
-```js
-import {BrowserModule} from "@angular/platform-browser";
-import {NgModule} from "@angular/core";
-import {AppComponent} from "./app.component";
-
-import {AmplifyUIAngularModule} from "@aws-amplify/ui-angular";
-import Amplify from "aws-amplify";
-import awsconfig from "../aws-exports";
-
-Amplify.configure(awsconfig);
-
-@NgModule({
-  declarations: [AppComponent],
-  imports: [AmplifyUIAngularModule, BrowserModule],
-  providers: [],
-  bootstrap: [AppComponent],
-})
-export class AppModule {}
-```
+<inline-fragment src="~/ui/fragments/angular/configure-module.md"></inline-fragment>
 
 Replace the content inside of _app.component.ts_ with the following:
 
@@ -979,13 +869,16 @@ _App.vue_
 </template>
 ```
 
+<amplify-block-switcher>
+<amplify-block name="Vue 3">
+
 ```js
 import {onAuthUIStateChange} from "@aws-amplify/ui-components";
 
 export default {
   name: "AuthStateApp",
   created() {
-    onAuthUIStateChange((authState, authData) => {
+    this.unsubscribeAuth = onAuthUIStateChange((authState, authData) => {
       this.authState = authState;
       this.user = authData;
     });
@@ -994,13 +887,44 @@ export default {
     return {
       user: undefined,
       authState: undefined,
+      unsubscribeAuth: undefined,
     };
   },
-  beforeDestroy() {
-    return onAuthUIStateChange;
+  beforeUnmount() {
+    this.unsubscribeAuth();
   },
 };
 ```
+
+</amplify-block>
+<amplify-block name="Vue 2">
+
+```js
+import {onAuthUIStateChange} from "@aws-amplify/ui-components";
+
+export default {
+  name: "AuthStateApp",
+  created() {
+    this.unsubscribeAuth = onAuthUIStateChange((authState, authData) => {
+      this.authState = authState;
+      this.user = authData;
+    });
+  },
+  data() {
+    return {
+      user: undefined,
+      authState: undefined,
+      unsubscribeAuth: undefined,
+    };
+  },
+  beforeDestroy() {
+    this.unsubscribeAuth();
+  },
+};
+```
+
+</amplify-block>
+</amplify-block-switcher>
 
 </docs-filter>
 
@@ -1016,7 +940,7 @@ export default {
 
 <inline-fragment src="~/ui/auth/fragments/react/withauthenticator.md"></inline-fragment>
 
-You can also pass in any of the [AmplifyAuthenticator props](#props-amplify-authenticator):
+You can also pass in any of the [AmplifyAuthenticator props](#props-attr-amplify-authenticator):
 
 ```jsx
 export withAuthenticator(App, {initialAuthState: 'signup'});
@@ -1085,6 +1009,10 @@ onAuthUIStateChange((nextAuthState, authData) => {
 });
 ```
 
+<docs-filter framework="react">
+  <inline-fragment src="~/ui/auth/fragments/react/handleauthstatechange.md"></inline-fragment>
+</docs-filter>
+
 ## Use Cases
 
 ### Manage Auth State and Conditional app rendering
@@ -1144,38 +1072,7 @@ To achieve this, you first need to setup the userpool to allow email or phone nu
 
 To migrate from using the `aws-amplify-<framework>` library to the latest `@aws-amplify/ui-<framework>` library use the steps below:
 
-### Installation
-
-<docs-filter framework="react">
-
-```diff
-- yarn add aws-amplify-react
-+ yarn add @aws-amplify/ui-react
-```
-
-</docs-filter>
-<docs-filter framework="angular">
-
-```diff
-- yarn add aws-amplify-angular
-+ yarn add @aws-amplify/ui-angular
-```
-
-</docs-filter>
-<docs-filter framework="ionic">
-
-```diff
-- yarn add aws-amplify-angular
-+ yarn add @aws-amplify/ui-angular
-```
-
-</docs-filter>
-<docs-filter framework="vue">
-
-```diff
-- yarn add aws-amplify-vue
-+ yarn add @aws-amplify/ui-vue
-```
+<inline-fragment src="~/ui/fragments/web/installation-diff.md"></inline-fragment>
 
 </docs-filter>
 
@@ -1217,7 +1114,7 @@ export default withAuthenticator(App);
 
 <amplify-callout warning>
 
-We have deprecated some of the properties passed into `withAuthenticator`. If you were providing additional options to `withAuthenticator` (e.g. `includeGreetings`, `authenticatorComponents`, `federated`, `theme`), these have changed. Refer to the updated list of [Properties here](~/ui/auth/authenticator.md/q/framework/react#props-amplify-authenticator).
+We have deprecated some of the properties passed into `withAuthenticator`. If you were providing additional options to `withAuthenticator` (e.g. `includeGreetings`, `authenticatorComponents`, `federated`, `theme`), these have changed. Refer to the updated list of [Properties here](~/ui/auth/authenticator.md/q/framework/react#props-attr-amplify-authenticator).
 
 </amplify-callout>
 
@@ -1228,76 +1125,16 @@ The previous `withAuthenticator` component would render a Greetings and Sign Out
 </docs-filter>
 <docs-filter framework="angular">
 
-_app.module.ts_
-
-```diff
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { AppComponent } from './app.component';
-- import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
-+ import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
-import Amplify from 'aws-amplify';
-import awsconfig from './aws-exports';
-
-Amplify.configure(awsconfig);
-
-@NgModule({
-  declarations: [AppComponent],
-- imports: [AmplifyAngularModule, BrowserModule],
-+ imports: [AmplifyUIAngularModule, BrowserModule],
-- providers: [AmplifyService],
-+ providers: [],
-  bootstrap: [AppComponent],
-})
-export class AppModule {}
-```
+<inline-fragment src="~/ui/fragments/angular/configure-module-diff.md"></inline-fragment>
 
 </docs-filter>
 <docs-filter framework="ionic">
 
-_app.module.ts_
-
-```diff
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { AppComponent } from './app.component';
-- import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
-+ import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
-import Amplify from 'aws-amplify';
-import awsconfig from './aws-exports';
-
-Amplify.configure(awsconfig);
-
-@NgModule({
-  declarations: [AppComponent],
-- imports: [AmplifyAngularModule, BrowserModule],
-+ imports: [AmplifyUIAngularModule, BrowserModule],
-- providers: [AmplifyService],
-+ providers: [],
-  bootstrap: [AppComponent],
-})
-export class AppModule {}
-```
+<inline-fragment src="~/ui/fragments/angular/configure-module-diff.md"></inline-fragment>
 
 </docs-filter>
 <docs-filter framework="vue">
 
-_main.ts_
-
-```diff
-import Vue from 'vue';
-import App from "./App.vue";
-- import Amplify, * as AmplifyModules from 'aws-amplify'
-- import { AmplifyPlugin } from 'aws-amplify-vue'
-+ import '@aws-amplify/ui-vue';
-+ import Amplify from 'aws-amplify';
-+ import awsconfig from './aws-exports';
-
-Amplify.configure(awsconfig);
-
-new Vue({
-  render: h => h(App),
-}).$mount('#app');
-```
+<inline-fragment src="~/ui/fragments/vue/configure-app-diff.md"></inline-fragment>
 
 </docs-filter>

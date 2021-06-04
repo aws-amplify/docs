@@ -6,3 +6,4 @@ description: Learn more about how to create and update data using GraphQL APIs i
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/mutate-data.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/mutate-data.md"></inline-fragment>
 <inline-fragment platform="js" src="~/lib/graphqlapi/fragments/js/mutate-data.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/graphqlapi/fragments/flutter/mutate-data.md"></inline-fragment>

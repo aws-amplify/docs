@@ -62,8 +62,7 @@ type Post
   @auth(
     rules: [
       { allow: owner, ownerField: "owner", operations: [create, update, delete, read] },
-    ])
-{
+    ]) {
   id: ID!
   title: String!
   owner: String
@@ -112,7 +111,6 @@ type Post @model @auth(rules: [{ allow: owner, operations: [read] }]) {
 When specifying operations as a part of the `@auth` rule, the operations not included in the list are not protected by default.
 
 </amplify-callout>
-
 
 Let's take a look at a few examples:
 
@@ -174,10 +172,9 @@ Here's a table outlining which users are permitted to execute which operations. 
 | owner |    ✅   |     ✅    |     ✅     |      ✅   |     ✅     |
 | other |    ✅   |     ✅    |     ✅     |      ✅   |     ❌     |
 
-
 ### Multiple authorization rules
 
-You may also apply multiple ownership rules on a single `@model` type. 
+You may also apply multiple ownership rules on a single `@model` type.
 
 For example, imagine you have a type **Draft** that stores unfinished posts for a blog. You might want to allow the **Draft's** owner to `create`, `update`, `delete`, and `read` **Draft** objects. However, you might also want the **Draft's editors** to be able to update and read **Draft** objects.
 
@@ -470,7 +467,7 @@ type Post @model @auth(rules: [{ allow: public, provider: iam }]) {
 }
 ```
 
-The @auth directive allows the override of the default provider for a given authorization mode. In the sample above iam is specified as the provider which allows you to use an "UnAuthenticated Role" from Cognito Identity Pools for public access, instead of an API Key. When used in conjunction with amplify add auth the CLI generates scoped down IAM policies for the "UnAuthenticated" role automatically.
+The `@auth` directive allows the override of the default provider for a given authorization mode. In the sample above `iam` is specified as the provider which allows you to use an "UnAuthenticated Role" from Cognito Identity Pools for public access instead of an API Key. When used in conjunction with amplify add auth the CLI generates scoped down IAM policies for the "UnAuthenticated" role automatically.
 
 ### `private` authorization
 
@@ -492,7 +489,7 @@ type Post @model @auth(rules: [{ allow: private, provider: iam }]) {
 }
 ```
 
-The @auth directive allows the override of the default provider for a given authorization mode. In the sample above iam is specified as the provider which allows you to use an "Authenticated Role" from Cognito Identity Pools for private access. When used in conjunction with amplify add auth the CLI generates scoped down IAM policies for the "Authenticated" role automatically.
+The `@auth` directive allows the override of the default provider for a given authorization mode. In the sample above `iam` is specified as the provider which allows you to use an "Authenticated Role" from Cognito Identity Pools for private access. When used in conjunction with amplify add auth the CLI generates scoped down IAM policies for the "Authenticated" role automatically.
 
 ### Authorization using an `oidc` provider
 
@@ -505,7 +502,6 @@ type Profile @model @auth(rules: [{ allow: owner, provider: oidc, identityClaim:
 ```
 
 By using a configured `oidc` provider for the API, it is possible to authenticate the users against it. In the sample above, `oidc` is specified as the provider for the `owner` authorization on the type. The field `identityClaim: "sub"` specifies that the `"sub"` claim from your JWT token is used to provider ownership instead of the default `username` claim, which is used by the Amazon Cognito JWT.
-
 
 ### Combining multiple authorization types
 
@@ -582,13 +578,11 @@ Please note that `groups` is leveraging Cognito User Pools but no provider assig
 `@auth` supports using custom claims if you do not wish to use the default `username` or `cognito:groups` claims from your JWT token which are populated by Amazon Cognito. This can be helpful if you are using tokens from a 3rd party OIDC system or if you wish to populate a claim with a list of groups from an external system, such as when using a [Pre Token Generation Lambda Trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-token-generation.html) which reads from a database. To use custom claims specify `identityClaim` or `groupClaim` as appropriate like in the example below:
 
 ```graphql
-type Post
-@model
-@auth(rules: [
-	{ allow: owner, identityClaim: "user_id" },
-	{ allow: groups, groups: ["Moderator"], groupClaim: "user_groups" }
-])
-{
+type Post @model
+  @auth(rules: [
+    { allow: owner, identityClaim: "user_id" },
+    { allow: groups, groups: ["Moderator"], groupClaim: "user_groups" }
+  ]) {
   id: ID!
   owner: String
   postname: String
@@ -596,7 +590,7 @@ type Post
 }
 ```
 
-In this example the object owner will check against a `user_id` claim. Similarly if the `user_groups` claim contains a "Moderator" string then access will be granted.
+In this example the object owner will check against a `user_id` claim. Please note that this claim is not available by default if the token is generated by Cognito. Use `sub` instead if you are using Cognito generated token. Similarly if the `user_groups` claim contains a "Moderator" string then access will be granted.
 
 <amplify-callout>
 
@@ -626,10 +620,9 @@ Dynamic groups have no impact to subscriptions. You will not get notified of any
 
 For example suppose you have the following schema:
 
-```
+```graphql
 type Post @model
-@auth(rules: [{allow: owner}])
-{
+  @auth(rules: [{allow: owner}]) {
   id: ID!
   owner: String
   postname: String
@@ -654,8 +647,7 @@ In the case of groups if you define the following:
 
 ```graphql
 type Post @model
-@auth(rules: [{ allow: groups, groups: ["Admin"] }])
-{
+  @auth(rules: [{ allow: groups, groups: ["Admin"] }]) {
   id: ID!
   owner: String
   postname: String
@@ -672,10 +664,9 @@ Finally, if you use both owner and group authorization then the username argumen
 - If you pass the user in who IS the owner but is NOT a member of a group, the subscription will notify you of records added of which you are the owner.
 - If you pass the user in who is NOT the owner and is NOT a member of a group, the subscription will not notify you of anything as there are no records for which you own
 
-
 You may disable authorization checks on subscriptions or completely turn off subscriptions as well by specifying either `public` or `off` in `@model`:
 
-```
+```graphql
 @model (subscriptions: { level: public })
 ```
 
@@ -740,15 +731,13 @@ type Employee @model {
 }
 ```
 
-**Note** The `delete` operation, when used in @auth directives on field definitions, translates
+**Note:** The `delete` operation, when used in `@auth` directives on field definitions, translates
 to protecting the update mutation such that the field cannot be set to null unless authorized.
 
-**Note**: When specifying operations as a part of the @auth rule on a field, the operations not included in the operations list are not protected by default. For example, let's say you have the following schema:
+**Note:** When specifying operations as a part of the `@auth` rule on a field, the operations not included in the operations list are not protected by default. For example, let's say you have the following schema:
 
 ```graphql
-type Todo
-  @model
-{
+type Todo @model {
   id: ID!
   owner: String
   updatedAt: AWSDateTime!
@@ -759,21 +748,18 @@ type Todo
 In this schema, only the owner of the object has the authorization to perform update operations on the `content` field. But this does not prevent any other owner (any user other than the creator or owner of the object) to update some other field in the object owned by another user. If you want to prevent update operations on a field, the user would need to explicitly add auth rules to restrict access to that field. One of the ways would be to explicitly specify @auth rules on the fields that you would want to protect like the following:
 
 ```graphql
-type Todo
-  @model
-{
+type Todo @model {
   id: ID!
   owner: String
   updatedAt: AWSDateTime! @auth(rules: [{ allow: owner, operations: [update] }]) // or @auth(rules: [{ allow: groups, groups: ["Admins"] }])
   content: String! @auth(rules: [{ allow: owner, operations: [update] }])
 }
 ```
+
 You can also provide explicit deny rules to your field like the following:
 
 ```graphql
-type Todo
-  @model
-{
+type Todo @model {
   id: ID!
   owner: String
   updatedAt: AWSDateTime! @auth(rules: [{ allow: groups, groups: ["ForbiddenGroup"], operations: [] }])
@@ -784,18 +770,18 @@ type Todo
 You can also combine top-level @auth rules on the type with field level auth rules. For example, let's consider the following schema:
 
 ```graphql
-type Todo
-  @model @auth(rules: [{ allow: groups, groups: ["Admin"], operations:[update] }])
-{
+type Todo @model
+  @auth(rules: [{ allow: groups, groups: ["Admin"], operations:[update] }]) {
   id: ID!
   owner: String
   updatedAt: AWSDateTime!
   content: String! @auth(rules: [{ allow: owner, operations: [update] }])
 }
 ```
+
 In the above schema users in the `Admin` group have the authorization to create, read, delete and update (except the `content` field in the object of another owner) for the type Todo.
-An `owner` of an object, has the authorization to create Todo types and read all the objects of type Todo. In addition an `owner` can perform an update operation on the Todo object, only when the `content` field is present as a part of the input.
-Any other user - who isn't an owner of an object isn't authorized to update that object.
+An `owner` of an object has the authorization to create Todo types and read all the objects of type Todo. In addition, an `owner` can perform an update operation on the Todo object only when the `content` field is present as a part of the input.
+Any other user -- who isn't an owner of an object isn't authorized to update that object.
 
 #### Per-Field with subscriptions
 
@@ -804,13 +790,13 @@ When setting per-field `@auth` the Transformer will alter the response of mutati
 ```graphql
 type Employee @model
   @auth(rules: [
-	  { allow: owner },
-	  { allow: groups, groups: ["Admins"] }
+    { allow: owner },
+    { allow: groups, groups: ["Admins"] }
   ]) {
-	id: ID!
-	name: String!
-	address: String!
-	ssn: String @auth(rules: [{allow: owner}])
+  id: ID!
+  name: String!
+  address: String!
+  ssn: String @auth(rules: [{allow: owner}])
 }
 ```
 
@@ -850,7 +836,7 @@ The generated resolvers would be protected like so:
 - `Mutation.createX`: Verify the requesting user has a valid credential and automatically set the **owner** attribute to equal `$ctx.identity.username`.
 - `Mutation.updateX`: Update the condition expression so that the DynamoDB `UpdateItem` operation only succeeds if the record's **owner** attribute equals the caller's `$ctx.identity.username`.
 - `Mutation.deleteX`: Update the condition expression so that the DynamoDB `DeleteItem` operation only succeeds if the record's **owner** attribute equals the caller's `$ctx.identity.username`.
-- `Query.getX`: In the response mapping template verify that the result's **owner** attribute is the same as the `$ctx.identity.username`. If it is not return null.
+- `Query.getX`: In the response mapping template verify that the result's **owner** attribute is the same as the `$ctx.identity.username`. If it is not return `null`.
 - `Query.listX`: In the response mapping template filter the result's **items** such that only items with an **owner** attribute that is the same as the `$ctx.identity.username` are returned.
 - `@connection` resolvers: In the response mapping template filter the result's **items** such that only items with an **owner** attribute that is the same as the `$ctx.identity.username` are returned. This is not enabled when using the `queries` argument.
 
@@ -889,7 +875,5 @@ The generated resolvers would be protected like so:
 - `Mutation.updateX`: Update the condition expression so that the DynamoDB `UpdateItem` operation only succeeds if the record's **groups** attribute contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`.
 - `Mutation.deleteX`: Update the condition expression so that the DynamoDB `DeleteItem` operation only succeeds if the record's **groups** attribute contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`
 - `Query.getX`: In the response mapping template verify that the result's **groups** attribute contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`.
-- `Query.listX`: In the response mapping template filter the result's **items** such that only items with a
-**groups** attribute that contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`.
-- `@connection` resolver: In the response mapping template filter the result's **items** such that only items with a
-**groups** attribute that contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`. This is not enabled when using the `queries` argument.
+- `Query.listX`: In the response mapping template filter the result's **items** such that only items with a **groups** attribute that contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`.
+- `@connection` resolver: In the response mapping template filter the result's **items** such that only items with a **groups** attribute that contains at least one of the caller's claimed groups via `$ctx.identity.claims.get("cognito:groups")`. This is not enabled when using the `queries` argument.
