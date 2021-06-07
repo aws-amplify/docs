@@ -14,7 +14,7 @@ Amplify.Auth.confirmSignUp(
 <amplify-block name="Kotlin - Callbacks">
 
 ```kotlin
-    Amplify.Auth.signIn("user name", "old passwod",
+    Amplify.Auth.signIn("username", "old password",
         { result ->
             Log.i("AuthQuickstart", result.nextStep.toString())
             if(result.nextStep.signInStep == AuthSignInStep.CONFIRM_SIGN_IN_WITH_NEW_PASSWORD){
