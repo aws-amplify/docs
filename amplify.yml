@@ -4,6 +4,7 @@ frontend:
     preBuild:
       commands:
         - yarn install
+        - yarn global add ts-node
     build:
       commands:
         - yarn build
