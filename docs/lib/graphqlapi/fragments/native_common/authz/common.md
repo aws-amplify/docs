@@ -48,7 +48,7 @@ Add the following snippet to your `amplifyconfiguration.json` file, under the `a
 {
     ...
     "awsAPIPlugin": {
-        "apiwithkey": {
+        "[YOUR-GRAPHQLENDPOINT-NAME]": {
             "endpointType": "GraphQL",
             "endpoint": "[GRAPHQL-ENDPOINT]",
             "region": "[REGION]",
@@ -82,7 +82,7 @@ and under the `awsAPIPlugin`
 {
     ...
     "awsAPIPlugin": {
-        "<YOUR-GRAPHQLENDPOINT-NAME": {
+        "[YOUR-GRAPHQLENDPOINT-NAME]": {
             "endpointType": "GraphQL",
             "endpoint": "[GRAPHQL-ENDPOINT]",
             "region": "[REGION]",
@@ -121,7 +121,7 @@ and under the `awsAPIPlugin`
 {
     ...
     "awsAPIPlugin": {
-        "<YOUR-GRAPHQLENDPOINT-NAME": {
+        "[YOUR-GRAPHQLENDPOINT-NAME]": {
             "endpointType": "GraphQL",
             "endpoint": "[GRAPHQL-ENDPOINT]",
             "region": "[REGION]",
@@ -140,7 +140,7 @@ Update the `amplifyconfiguration.json` file and code snippet as follows:
 {
     ...
     "awsAPIPlugin": {
-        "<YOUR-GRAPHQLENDPOINT-NAME": {
+        "[YOUR-GRAPHQLENDPOINT-NAME]": {
             "endpointType": "GraphQL",
             "endpoint": "[GRAPHQL-ENDPOINT]",
             "region": "[REGION]",
@@ -159,14 +159,14 @@ If you are using Cognito's user pool as the authorization type, this will by def
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/authz/21_oidc.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/authz/21_oidc.md"></inline-fragment>
 
-#### NONE
+### NONE
 You can also set authorization mode to `NONE` so that the library will not provide any request interception logic. You can use this when your API does not require any authorization or when you want to manipulate the request yourself, such as adding header values or authorization data.
 
 ```json
 {
     ...
     "awsAPIPlugin": {
-        "[yourApiName]": {
+        "[YOUR-GRAPHQLENDPOINT-NAME]": {
             "endpointType": "GraphQL",
             "endpoint": "[GRAPHQL-ENDPOINT]",
             "region": "[REGION]",
