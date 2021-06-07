@@ -72,22 +72,17 @@ Like the initial setup, models can be generated either using the IDE integration
 
 ### Code generation: Amplify CLI
 
-Models can also be generated using the Amplify CLI directly.
-
-In your terminal, make sure you are in your project/root folder and **execute the codegen command**:
-
-```console
-amplify codegen models
-```
-    
-You can **find the generated files** at `amplify/generated/models/`.
+<inline-fragment platform="js" src="~/lib/datastore/fragments/native_common/codegen.md"></inline-fragment>
+<inline-fragment platform="ios" src="~/lib/datastore/fragments/native_common/codegen.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/datastore/fragments/native_common/codegen.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/datastore/fragments/flutter/getting-started/50_codegenCli.md"></inline-fragment>
 
 ## Initialize Amplify DataStore
 
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/getting-started/50_initDataStore.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/getting-started/50_initDataStore.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/getting-started/50_initDataStore.md"></inline-fragment>
-<inline-fragment platform="flutter" src="~/lib/datastore/fragments/flutter/getting-started/50_initDataStore.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/datastore/fragments/flutter/getting-started/60_initDataStore.md"></inline-fragment>
 
 ## Persistence operations
 
@@ -102,7 +97,7 @@ To write to the database, create an instance of the `Post` model and save it.
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/getting-started/60_saveSnippet.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/getting-started/60_saveSnippet.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/getting-started/60_saveSnippet.md"></inline-fragment>
-<inline-fragment platform="flutter" src="~/lib/datastore/fragments/flutter/getting-started/60_saveSnippet.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/datastore/fragments/flutter/getting-started/80_saveSnippet.md"></inline-fragment>
 
 ### Reading from the database
 
