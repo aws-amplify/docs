@@ -1,5 +1,6 @@
 import {Grid} from "theme-ui";
 import Head from "next/head";
+import fs from "fs";
 
 import Hero from "../components/Hero";
 import LandingHeroCTA from "../components/LandingHeroCTA";
@@ -10,34 +11,37 @@ import LinkBanner from "../components/LinkBanner";
 import Footer from "../components/Footer";
 import UniversalNav from "../components/UniversalNav";
 
-const Page = () => {
+const Page = ({buildFiles}) => {
   return (
     <>
       <Head>
         <title>Amplify Framework Docs</title>
-        <link rel="next" href="/start/q/integration/js" />
-        <link rel="next" href="/start" />
-        <link rel="next" href="/start/q/integration/react" />
-        <link rel="next" href="/start/q/integration/vue" />
-        <link rel="next" href="/start/q/integration/js" />
-        <link rel="next" href="/start/q/integration/ios" />
-        <link rel="next" href="/start/q/integration/android" />
-        <link rel="next" href="/start/q/integration/flutter" />
-        <link rel="next" href="/lib/q/platform/js" />
-        <link rel="next" href="/cli" />
-        <link rel="next" href="/console" />
-        <link rel="next" href="/console/adminui/intro" />
-        <link rel="next" href="/lib/auth/getting-started" />
-        <link rel="next" href="/lib/storage/getting-started" />
-        <link rel="next" href="/lib/graphqlapi/getting-started" />
-        <link rel="next" href="/lib/datastore/getting-started" />
-        <link rel="next" href="/lib/restapi/getting-started" />
-        <link rel="next" href="/lib/analytics/getting-started" />
-        <link rel="next" href="/lib/push-notifications/getting-started" />
-        <link rel="next" href="/lib/xr/getting-started" />
-        <link rel="next" href="/lib/pubsub/getting-started" />
-        <link rel="next" href="/lib/interactions/getting-started" />
-        <link rel="next" href="/lib/predictions/getting-started" />
+        <link rel="prefetch" href="/start/q/integration/js" />
+        <link rel="prefetch" href="/start" />
+        <link rel="prefetch" href="/start/q/integration/react" />
+        <link rel="prefetch" href="/start/q/integration/vue" />
+        <link rel="prefetch" href="/start/q/integration/js" />
+        <link rel="prefetch" href="/start/q/integration/ios" />
+        <link rel="prefetch" href="/start/q/integration/android" />
+        <link rel="prefetch" href="/start/q/integration/flutter" />
+        <link rel="prefetch" href="/lib/q/platform/js" />
+        <link rel="prefetch" href="/cli" />
+        <link rel="prefetch" href="/console" />
+        <link rel="prefetch" href="/console/adminui/intro" />
+        <link rel="prefetch" href="/lib/auth/getting-started" />
+        <link rel="prefetch" href="/lib/storage/getting-started" />
+        <link rel="prefetch" href="/lib/graphqlapi/getting-started" />
+        <link rel="prefetch" href="/lib/datastore/getting-started" />
+        <link rel="prefetch" href="/lib/restapi/getting-started" />
+        <link rel="prefetch" href="/lib/analytics/getting-started" />
+        <link rel="prefetch" href="/lib/push-notifications/getting-started" />
+        <link rel="prefetch" href="/lib/xr/getting-started" />
+        <link rel="prefetch" href="/lib/pubsub/getting-started" />
+        <link rel="prefetch" href="/lib/interactions/getting-started" />
+        <link rel="prefetch" href="/lib/predictions/getting-started" />
+        {buildFiles.map((file, key) => {
+          return <link rel="prefetch" href={`/build/${file}`} key={key} />;
+        })}
       </Head>
       <UniversalNav
         heading="Amplify Docs"
@@ -113,3 +117,16 @@ const Page = () => {
 };
 
 export default Page;
+
+export async function getStaticProps() {
+  const dir = fs.readdirSync("./client/www/build");
+  console.log(dir);
+
+  const buildFiles = dir.map((file) => file);
+
+  return {
+    props: {
+      buildFiles,
+    },
+  };
+}
