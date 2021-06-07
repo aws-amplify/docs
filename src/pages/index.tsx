@@ -15,6 +15,29 @@ const Page = () => {
     <>
       <Head>
         <title>Amplify Framework Docs</title>
+        <link rel="next" href="/start/q/integration/js" />
+        <link rel="next" href="/start" />
+        <link rel="next" href="/start/q/integration/react" />
+        <link rel="next" href="/start/q/integration/vue" />
+        <link rel="next" href="/start/q/integration/js" />
+        <link rel="next" href="/start/q/integration/ios" />
+        <link rel="next" href="/start/q/integration/android" />
+        <link rel="next" href="/start/q/integration/flutter" />
+        <link rel="next" href="/lib/q/platform/js" />
+        <link rel="next" href="/cli" />
+        <link rel="next" href="/console" />
+        <link rel="next" href="/console/adminui/intro" />
+        <link rel="next" href="/lib/auth/getting-started" />
+        <link rel="next" href="/lib/storage/getting-started" />
+        <link rel="next" href="/lib/graphqlapi/getting-started" />
+        <link rel="next" href="/lib/datastore/getting-started" />
+        <link rel="next" href="/lib/restapi/getting-started" />
+        <link rel="next" href="/lib/analytics/getting-started" />
+        <link rel="next" href="/lib/push-notifications/getting-started" />
+        <link rel="next" href="/lib/xr/getting-started" />
+        <link rel="next" href="/lib/pubsub/getting-started" />
+        <link rel="next" href="/lib/interactions/getting-started" />
+        <link rel="next" href="/lib/predictions/getting-started" />
       </Head>
       <UniversalNav
         heading="Amplify Docs"
