@@ -6,8 +6,8 @@ frontend:
         - yarn install
     build:
       commands:
-        - yarn build
-        - yarn export
+        - NODE_ENV=production yarn build
+        - NODE_ENV=production yarn export
   artifacts:
     # IMPORTANT - Please verify your build output directory
     baseDirectory: /client/www
