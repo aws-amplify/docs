@@ -181,7 +181,7 @@ You can register your own request interceptor to intercept the request and perfo
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/advanced-workflows/50_interceptor.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/advanced-workflows/50_interceptor.md"></inline-fragment>
 
-#### Multi-Auth
+## Configure multiple authorization modes
 
 This section talks about the capability of AWS AppSync to configure multiple authorization modes for a single AWS AppSync endpoint and region. Follow the [AWS AppSync Multi-Auth](https://docs.aws.amazon.com/appsync/latest/devguide/security.html#using-additional-authorization-modes) to configure multiple authorization modes for your AWS AppSync endpoint.
 
