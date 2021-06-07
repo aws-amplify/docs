@@ -1,4 +1,4 @@
-For client authorization AppSync supports API Keys, Amazon IAM credentials, Amazon Cognito User Pools, and 3rd party OIDC providers. This is inferred from the `amplifyconfiguration.json` file when you call `Amplify.configure()`. You can configure auth modes for API using Amplify CLI or manual configuration.
+For client authorization AppSync supports API Keys, Amazon IAM credentials, Amazon Cognito User Pools, and 3rd party OIDC providers. This is inferred from the `amplifyconfiguration.json` file when you call `Amplify.configure()`. You can configure auth modes for an API using the Amplify CLI or manual configuration.
 
 ## Auth Modes
 
