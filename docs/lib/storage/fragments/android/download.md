@@ -1,3 +1,5 @@
+### Download to file
+
 If you uploaded the data using the key `ExampleKey`, you can retrieve the data using `Amplify.Storage.downloadFile`.
 
 <amplify-block-switcher>
@@ -18,7 +20,7 @@ Amplify.Storage.downloadFile(
 ```kotlin
 val file = File("${applicationContext.filesDir}/download.txt")
 Amplify.Storage.downloadFile("ExampleKey", file,
-    { Log.i("MyAmplifyApp", "Successfully downloaded: ${it.file.name}") }
+    { Log.i("MyAmplifyApp", "Successfully downloaded: ${it.file.name}") },
     { Log.e("MyAmplifyApp",  "Download Failure", it) }
 )
 ```
@@ -59,6 +61,8 @@ download
 
 </amplify-block>
 </amplify-block-switcher>
+
+### Track download progress
 
 To track progress of the download, use the `downloadFile` API that includes a progress listener callback.
 
@@ -122,6 +126,57 @@ download
     .subscribe(
       progress -> Log.i("MyAmplifyApp", progress.getFractionCompleted())
     );
+```
+
+</amplify-block>
+</amplify-block-switcher>
+
+### Generate a download URL
+
+You can also retrieve a URL for the object in storage:
+
+<amplify-block-switcher>
+<amplify-block name="Java">
+
+```java
+Amplify.Storage.getUrl(
+    "ExampleKey",
+    result -> Log.i("MyAmplifyApp", "Successfully generated: " + result.getUrl()),
+    error -> Log.e("MyAmplifyApp", "URL generation failure", error)
+);
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Storage.getUrl(
+    "ExampleKey",
+    { Log.i("MyAmplifyApp", "Successfully generated: ${it.url}") }
+    { Log.e("MyAmplifyApp", "URL generation failure", it) }
+)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+try {
+    val url = Amplify.Storage.getUrl("ExampleKey").url
+    Log.i("MyAmplifyApp", "Successfully generated: $url")
+} catch (error: StorageException) {
+    Log.e("MyAmplifyApp", "URL generation failure", error)
+}
+```
+
+</amplify-block>
+<amplify-block name="RxJava">
+
+```java
+RxAmplify.Storage.getUrl("ExampleKey").subscribe(
+    result -> Log.i("MyAmplifyApp", "Successfully generated: " + result.getUrl()),
+    error -> Log.e("MyAmplifyApp", "URL generation failure", error)
+);
 ```
 
 </amplify-block>

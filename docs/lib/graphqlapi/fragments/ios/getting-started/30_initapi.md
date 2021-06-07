@@ -1,10 +1,28 @@
 To initialize the Amplify API category, we are required to use the `Amplify.add()` method for the plugin followed by calling `Amplify.configure()`.
 
 **Add the following imports** to the top of your `AppDelegate.swift` file:
+
+<amplify-block-switcher>
+
+<amplify-block name="Swift Package Manager">
+
+```swift
+import AWSAPIPlugin
+import AWSPinpointAnalyticsPlugin
+```
+
+</amplify-block>
+
+<amplify-block name="CocoaPods">
+
 ```swift
 import Amplify
 import AmplifyPlugins
 ```
+
+</amplify-block>
+
+</amplify-block-switcher>
 
 **Add the following code** 
 

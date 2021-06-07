@@ -15,21 +15,20 @@ export class AppComponent {
     this.formFields = [
       {
         type: "email",
-        label: "Custom email Label",
-        placeholder: "custom email placeholder",
-        required: true,
+        label: "Custom Email Label",
+        placeholder: "Custom email placeholder",
+        inputProps: { required: true, autocomplete: "username" },
       },
       {
         type: "password",
         label: "Custom Password Label",
-        placeholder: "custom password placeholder",
-        required: true,
+        placeholder: "Custom password placeholder",
+        inputProps: { required: true, autocomplete: "new-password" },
       },
       {
         type: "phone_number",
         label: "Custom Phone Label",
-        placeholder: "custom Phone placeholder",
-        required: false,
+        placeholder: "Custom phone placeholder",
       },
     ];
   }

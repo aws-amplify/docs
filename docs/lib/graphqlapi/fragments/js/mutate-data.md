@@ -15,7 +15,7 @@ const todoDetails = {
   description: 'Learn AWS AppSync'
 };
 
-const newTodo = await API.graphql({ query: mutations.createTodo, variables: {input: todoDetails}}));
+const newTodo = await API.graphql({ query: mutations.createTodo, variables: {input: todoDetails}});
 ```
 
 You do not have to pass in `createdAt` and `updatedAt` fields, AppSync manages this for you.
@@ -39,7 +39,7 @@ const todoDetails = {
   description: 'My updated description!'
 };
 
-const updatedTodo = await API.graphql({ query: mutations.updateTodo, variables: {input: todoDetails}}));
+const updatedTodo = await API.graphql({ query: mutations.updateTodo, variables: {input: todoDetails}});
 ```
 
 Notes:
@@ -57,7 +57,7 @@ const todoDetails = {
   id: 'some_id',
 };
 
-const deletedTodo = await API.graphql({ query: mutations.deleteTodo, variables: {input: todoDetails}}));
+const deletedTodo = await API.graphql({ query: mutations.deleteTodo, variables: {input: todoDetails}});
 ```
 
 Only an `id` is needed.

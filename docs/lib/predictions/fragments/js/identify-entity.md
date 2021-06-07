@@ -63,7 +63,7 @@ In the sample React application code ahead, you will see that to use this functi
 `Predictions.identify({entities: {...}}) => Promise<>`
 Detects entities from an image and potentially related information such as position, faces, and landmarks. Can also identify celebrities and entities that were previously added. This function returns a Promise that returns an object with the entities that was identified.  
 
-Input can be sent directly from the browser or an Amazon S3 key from project bucket.
+Input can be sent directly from the browser (using File object or ArrayBuffer object) or an Amazon S3 key from project bucket.
 
 Detect entities directly from image uploaded from the browser. (File object)
 
@@ -72,6 +72,21 @@ Predictions.identify({
   entities: {
     source: {
       file,
+    },
+  }
+})
+.then((response) => console.log({ response }))
+.catch(err => console.log({ err }));
+```
+
+Detect entities directly from image binary from the browser. (ArrayBuffer object)
+This technique is useful when you have base64 encoded binary image data, for example, from a webcam source.
+
+```javascript
+Predictions.identify({
+  entities: {
+    source: {
+      bytes: imageArrayBuffer,
     },
   }
 })

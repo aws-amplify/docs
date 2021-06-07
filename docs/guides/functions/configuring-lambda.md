@@ -3,8 +3,6 @@ title: Configuring Lambda function settings
 description: How to configure custom settings for your Lambda function
 ---
 
-### Overview
-
 You may want to override the Amplify CLI default configurations for your Lambda function or configure changes not available within the `amplify add function` workflow.
 
 *Example*: When creating a `Node.js` function, the CLI will automatically configure a runtime version, a default memory size, and more. There are a few things you may want to override or configure:
@@ -147,7 +145,7 @@ And then use these parameters in `Environment` declaration:
 
 <amplify-callout>
 
-To view all configuration options available in AWS Lambda, check out the documentation [here])(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-lambda-function-environment.html)
+To view all configuration options available in AWS Lambda, check out the documentation [here](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-lambda-function-environment.html)
 
 To learn more about extending the Amplify CLI with custom resources, check out the documentation [here](~/cli/usage/customcf.md)
 

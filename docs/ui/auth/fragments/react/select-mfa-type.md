@@ -11,4 +11,5 @@ const MFATypeOptions = {
 <AmplifySelectMfaType MFATypes={MFATypeOptions}></AmplifySelectMfaType>
 ```
 
-<ui-component-props tag="amplify-select-mfa-type" use-table-headers></ui-component-props>
+<ui-component-props tag="amplify-select-mfa-type" prop-type="attr" use-table-headers></ui-component-props>
+

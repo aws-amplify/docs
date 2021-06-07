@@ -46,6 +46,36 @@ AWSMobileClient.default().addUserStateListener(self) { (userState, info) in
         }
 ```
 
+More detailed explanation of different states are given below:
+
+#### guest
+
+`AWSMobileClient` will be in `guest` state if you are not signed in to the app and unauthenticated access is enabled. Only Cognito Identity Pool related credentials will be available in `guest` state ie, identity id and AWS temporary credentials for the unauthenticated role.
+
+#### signedIn
+
+You can invoke different `AWSMobileClient` methods like `signIn`, `showSignIn`, `federatedSignIn`, etc.,  which will sign in a user as either a Cognito User Pool user, or federate them to a Cognito Identity Pool. If user has successfully signed in using any of these apis, `AWSMobileClient` will move to `signedIn` state. The available tokens/credentials depend on the signed in method and configuration. 
+
+If the user is signed in to Cognito User Pool (i.e., using `signIn` or `showSignIn` with hostedUI), `getToken` will return Cognito User Pool tokens. If your Cognito User Pool is configured to federate into a Cognito Identity Pool, you will also have access to `identityId`, and AWS credentials for the authenticated role. If no Identity Pool is configured, both `identityId` and `getCredentials` will return `AWSMobileClientError.cognitoIdentityPoolNotConfigured` error.
+
+On the other hand if the user is signed in via `federatedSignIn` to a Cognito IdentityPool, only `identityId` and AWS credentials for authenticated role will be available, and `getToken` will return `AWSMobileClientError.notSignedIn` error.
+
+#### signedOut
+
+User was signed out from the app by calling the signedOut api and the app is not configured to be in guest mode.
+
+#### signedOutFederatedTokensInvalid
+
+Only `signedIn` state can transition to `signedOutFederatedTokensInvalid` if the following condition are true: i) user was in `signedIn` by federating to Cognito Identity Pool ii) AWS credential fetch failed because the social provider token passed during sign in got invalid. You can now re-authenticate the user by calling `federatedSignIn` with a refreshed token. If you make a `getAWSCredentials` call it will wait till the user is signed in to return a result.
+
+#### signedOutUserPoolsTokenInvalid
+
+Only `signedIn` state can transition to `signedOutUserPoolsTokenInvalid` if the following condition are true: i) user was in `signedIn` by signing to Cognito User Pool ii) Cognito user pool token fetch failed because the JWT refresh token got invalid. You can now re-authenticate the user by calling `signIn` or `showSignIn`. If you make a `getAWSCredentials` or `getToken` call it will wait till the user is signed in to return a result.
+
+#### unknown
+
+It is unlikely you will see the `unknown` state as it is the initial state set when the app starts. After the `AWSMobileClient` initializes, it will transition to either `guest`, `signedOut` or `signedIn` state.
+
 ### Token Fetch and Refresh
 
 #### Cognito User Pools Tokens

@@ -16,13 +16,13 @@ If Guest users have access to your REST API you can test it from the terminal us
 
 ### GET method example
 
-```console
+```bash
 curl https://a5b4c3d2e1.execute-api.eu-west-2.amazonaws.com/dev/todos
 ```
 
 ### POST method example
 
-```console
+```bash
 curl -H "Content-Type: application/json" -d '{"name":"todo-1"}' https://a5b4c3d2e1.execute-api.eu-west-2.amazonaws.com/dev/todos
 ```
 
@@ -31,13 +31,13 @@ curl -H "Content-Type: application/json" -d '{"name":"todo-1"}' https://a5b4c3d2
 
 ### GET method example
 
-```console
+```bash
 curl https://a5b4c3d2e1.execute-api.eu-west-2.amazonaws.com/dev/todos
 ```
 
 ### POST method example
 
-```console
+```bash
 curl -H "Content-Type: application/json" -d {\"name\":\"todo-1\"} https://a5b4c3d2e1.execute-api.eu-west-2.amazonaws.com/dev/todos
 ```
 
@@ -53,7 +53,7 @@ Amplify CLI allows you to quickly test your REST APIs by using the `amplify mock
 Let's test your new REST API using the route below with HTTP Method `GET` and path `/todos?limit=10` which includes a `limit` query string parameter.
 
 ```console
- GET /todos?limit=10
+GET /todos?limit=10
 ```
 
 > Important! Testing methods using production endpoints may result in changes to resources that cannot be undone.
@@ -95,16 +95,16 @@ Finished execution.
 Let's test your new REST API using the route below with HTTP Method `GET` and path `/todos?limit=10` which includes a `limit` query string parameter.
 
 ```console
- GET /todos?limit=10
+GET /todos?limit=10
 ```
 
 > Important! Testing methods with the API Gateway console may result in changes to resources that cannot be undone.
 
-- Sign in to the API Gateway console at https://console.aws.amazon.com/apigateway.
+- Sign in to the API Gateway console at <https://console.aws.amazon.com/apigateway>.
 - Choose the `todosApi` REST API.
-- In the Resources pane, choose the method you want to test. Pick `ANY` right under `/todos`. 
+- In the Resources pane, choose the method you want to test. Pick `ANY` right under `/todos`.
 
-```
+```console
 /                        
  |_ /todos               Main resource. Eg: /todos
    ANY                   Includes methods: DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT

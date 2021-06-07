@@ -35,7 +35,9 @@ To deploy your backend, run:
 amplify push
 ```
 
-Upon completion, `amplifyconfiguration.json` should be updated to reference provisioned backend analytics resources. Note that these files should already be a part of your project if you followed the [Project setup walkthrough](~/lib/project-setup/create-application.md).
+<inline-fragment platform="ios" src="~/lib/analytics/fragments/ios/getting-started/12_amplifyConfig.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/analytics/fragments/android/getting-started/12_amplifyConfig.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/analytics/fragments/flutter/getting-started/12_amplifyConfig.md"></inline-fragment>
 
 ## Install Amplify Libraries
 

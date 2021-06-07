@@ -11,7 +11,7 @@ When a project is configured to generate code with codegen, it stores all the co
 
 ## Statement depth
 
-In the below schema there are connections between `Comment` -> `Post` -> `Blog` -> `Post` -> `Comments`. When generating statements codegen has a default limit of 2 for depth traversal. But if you need to go deeper than 2 levels you can change the max-depth parameter either when setting up your codegen or by passing  `--max-depth` parameter to `codegen`
+In the below schema there are connections between `Comment` -> `Post` -> `Blog` -> `Post` -> `Comments`. When generating statements codegen has a default limit of 2 for depth traversal. But if you need to go deeper than 2 levels you can change the `maxDepth` parameter either when setting up your codegen or by passing  `--maxDepth` parameter to `codegen`
 
 ```graphql
 type Blog @model {
@@ -89,7 +89,7 @@ The `amplify configure codegen` command allows you to update the codegen configu
 #### amplify codegen statements
 
 ```bash
-amplify codegen statements [--nodownload] [--max-depth <int>]
+amplify codegen statements [--nodownload] [--maxDepth <int>]
 ```
 
 The `amplify codegen statements` command  generates GraphQL statements(queries, mutation and subscription) based on your GraphQL schema. This command downloads introspection schema every time it is run, but it can be forced to use previously downloaded introspection schema by passing `--nodownload` flag.
@@ -105,7 +105,7 @@ The `amplify codegen types [--nodownload]` command generates GraphQL `types` for
 #### amplify codegen
 
 ```bash
-amplify codegen [--max-depth <int>]
+amplify codegen [--maxDepth <int>]
 ```
 
 The `amplify codegen [--nodownload]` generates GraphQL `statements` and `types`. This command downloads introspection schema every time it is run but it can be forced to use previously downloaded introspection schema by passing `--nodownload` flag. If you are running codegen outside of an initialized amplify project, the introspection schema named `schema.json` must be in the same directory that you run amplify codegen from. This command will not download the introspection schema when outside of an amplify project - it will only use the introspection schema provided.
@@ -126,7 +126,7 @@ You’ll see questions as before, but now it will also automatically ask you if 
 
 **Flow 2: Modify GraphQL schema, push, then automatically generate code**
 
-During development, you might wish to update your GraphQL schema and generated code as part of an iterative dev/test cycle. Modify & save your schema in `./amplify/backend/api/<apiname>/schema.graphql` then run:
+During development, you might wish to update your GraphQL schema and generated code as part of an iterative dev/test cycle. Modify & save your schema in `amplify/backend/api/<apiname>/schema.graphql` then run:
 
 ```bash
 amplify push
@@ -141,6 +141,7 @@ One of the benefits of GraphQL is the client can define it's data fetching requi
 ```bash
 amplify codegen types
 ```
+
 A new updated Swift file will be created (or run Gradle Build on Android for the same). You can then use the updates in your application code.
 
 **Flow 4: Shared schema, modified elsewhere (e.g. console or team workflows)**
@@ -205,6 +206,7 @@ end
 Run `pod install` from your terminal and open up the `*.xcworkspace` Xcode project. Add the `API.swift` and `awsconfiguration.json` files to your project (_File->Add Files to ..->Add_) and then build your project ensuring there are no issues.
 
 ### Initialize the AppSync client
+
 Inside your application delegate is the best place to initialize the AppSync client. The `AWSAppSyncServiceConfig` represents the configuration information present in awsconfiguration.json file. By default, the information under the `Default` section will be used. You will need to create an `AWSAppSyncClientConfiguration` and `AWSAppSyncClient` like below:
 
 ```swift
@@ -251,6 +253,7 @@ class Todos: UIViewController{
 ```
 
 ### Queries
+
 Now that the backend is configured, you can run a GraphQL query. The syntax is `appSyncClient?.fetch(query: <NAME>Query() {(result, error)})` where `<NAME>` comes from the GraphQL statements that `amplify codegen types` created. For example, if you have a `ListTodos` query your code will look like the following:
 
 ```swift
@@ -273,6 +276,7 @@ appSyncClient?.fetch(query: ListTodosQuery(), cachePolicy: .returnCacheDataAndFe
 `returnCacheDataAndFetch` will pull results from the local cache first before retrieving data over the network. This gives a snappy UX as well as offline support.
 
 ### Mutations
+
 For adding data now you will need to run a GraphQL mutation. The syntax `appSyncClient?.perform(mutation: <NAME>Mutation() {(result, error)})` where `<NAME>` comes from the GraphQL statements that `amplify codegen types` created. However, most GraphQL schemas organize mutations with an `input` type for maintainability, which is what the Amplify CLI does as well. Therefore you'll pass this as a parameter called `input` as in the example below:
 
 ```swift
@@ -290,6 +294,7 @@ appSyncClient?.perform(mutation: CreateTodoMutation(input: mutationInput)) { (re
 ```
 
 ### Subscriptions
+
 Finally it's time to setup a subscription to realtime data. The syntax `appSyncClient?.subscribe(subscription: <NAME>Subscription() {(result, transaction, error)})` where `<NAME>` comes from the GraphQL statements that `amplify codegen types` created.
 
 ```swift
@@ -313,6 +318,7 @@ do {
 Subscriptions can also take `input` types like mutations, in which case they will be subscribing to particular events based on the input. Learn more about Subscription arguments in AppSync [here](https://docs.aws.amazon.com/appsync/latest/devguide/real-time-data.html).
 
 ### Complete Sample
+
 **AppDelegate.swift**
 
 ```swift
@@ -419,6 +425,7 @@ class ViewController: UIViewController {
 This section will walk through the steps needed to take an Android Studio project written in Java and add Amplify to it along with a GraphQL API using AWS AppSync. If you are a first time user, we recommend starting with a new Android Studio project and a single Activity class.
 
 ### Setup
+
 After completing the [Amplify Getting Started](~/start/start.md) navigate in your terminal to an Android Studio project directory and run the following:
 
 ```bash
@@ -432,6 +439,7 @@ The `add api` flow above will ask you some questions, like if you already have a
 Since you added an API the `amplify push` process will automatically enter the codegen process and prompt you for configuration. Accept the defaults and it will create a file named `awsconfiguration.json` in the `./app/src/main/res/raw`  directory that the AppSync client will use for initialization. To finish off the build process there are Gradle and permission updates needed.
 
 First, in the project's `build.gradle`, add the following dependency in the build script:
+
 ```gradle
 classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.6.+'
 ```
@@ -481,10 +489,10 @@ Finally, update your `AndroidManifest.xml` with updates to `<uses-permissions>`f
 Build your project ensuring there are no issues.
 
 ### Initialize the AppSync client
+
 Inside your application code, such as the `onCreate()` lifecycle method of your activity class, you can initialize the AppSync client using an instance of `AWSConfiguration()` in the `AWSAppSyncClient` builder. This reads configuration information present in the `awsconfiguration.json` file. By default, the information under the Default section will be used.
 
 ```java
-
     private AWSAppSyncClient mAWSAppSyncClient;
 
     @Override
@@ -499,6 +507,7 @@ Inside your application code, such as the `onCreate()` lifecycle method of your 
 ```
 
 ### Queries
+
 Now that the backend is configured, you can run a GraphQL query. The syntax of the callback is `GraphQLCall.Callback<{NAME>Query.Data>` where `{NAME}` comes from the GraphQL statements that `amplify codegen types` created. You will invoke this from an instance of the AppSync client with a similar syntax of `.query(<NAME>Query.builder().build())`. For example, if you have a `ListTodos` query your code will look like the following:
 
 ```java
@@ -524,6 +533,7 @@ Now that the backend is configured, you can run a GraphQL query. The syntax of t
 You can optionally change the cache policy on `AppSyncResponseFetchers` but we recommend leaving `CACHE_AND_NETWORK` as it will pull results from the local cache first before retrieving data over the network. This gives a snappy UX as well as offline support.
 
 ### Mutations
+
 For adding data now you will need to run a GraphQL mutation. The syntax of the callback is `GraphQLCall.Callback<{NAME}Mutation.Data>` where `{NAME}` comes from the GraphQL statements that `amplify codegen types` created. However, most GraphQL schemas organize mutations with an `input` type for maintainability, which is what the Amplify CLI does as well. Therefore you'll pass this as a parameter called `input` created with a second builder. You will invoke this from an instance of the AppSync client with a similar syntax of `.mutate({NAME}Mutation.builder().input({Name}Input).build())` like so:
 
 ```java
@@ -551,6 +561,7 @@ private GraphQLCall.Callback<CreateTodoMutation.Data> mutationCallback = new Gra
 ```
 
 ### Subscriptions
+
 Finally, it's time to set up a subscription to real-time data. The callback is just `AppSyncSubscriptionCall.Callback` and you invoke it with a client `.subscribe()` call and pass in a builder with the syntax of `{NAME}Subscription.builder()` where `{NAME}` comes from the GraphQL statements that `amplify codegen types` created. Note that the Amplify GraphQL transformer has a common nomenclature of putting the word `On` in front of a subscription like the below example:
 
 ```java
@@ -584,6 +595,7 @@ private AppSyncSubscriptionCall subscriptionWatcher;
 Subscriptions can also take `input` types like mutations, in which case they will be subscribing to particular events based on the input. Learn more about Subscription arguments in AppSync [here](https://docs.aws.amazon.com/appsync/latest/devguide/real-time-data.html).
 
 ### Sample
+
 **MainActivity.java**
 
 ```java
@@ -685,3 +697,5 @@ public class MainActivity extends AppCompatActivity {
     };
 }
 ```
+
+

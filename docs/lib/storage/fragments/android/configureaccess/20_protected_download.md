@@ -2,10 +2,10 @@
 <amplify-block name="Java">
 
 ```java
-private void downloadFile(File file, String key, String otherUserId) {
+private void downloadFile(File file, String key, String otherIdentityId) {
     StorageDownloadFileOptions options = StorageDownloadFileOptions.builder()
         .accessLevel(StorageAccessLevel.PROTECTED)
-        .targetIdentityId(otherUserId)
+        .targetIdentityId(otherIdentityId)
         .build();
 
     Amplify.Storage.downloadFile(key, file, options,
@@ -19,10 +19,10 @@ private void downloadFile(File file, String key, String otherUserId) {
 <amplify-block name="Kotlin - Callbacks">
 
 ```kotlin
-private fun downloadFile(file: File, key: String, otherUserId: String) {
+private fun downloadFile(file: File, key: String, otherIdentityId: String) {
     val options = StorageDownloadFileOptions.builder()
         .accessLevel(StorageAccessLevel.PROTECTED)
-        .targetIdentityId(otherUserId)
+        .targetIdentityId(otherIdentityId)
         .build()
     
     Amplify.Storage.downloadFile(key, file, options,
@@ -36,10 +36,10 @@ private fun downloadFile(file: File, key: String, otherUserId: String) {
 <amplify-block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
-private suspend fun downloadFile(file: File, key: String, otherUserId: String) {
+private suspend fun downloadFile(file: File, key: String, otherIdentityId: String) {
     val options = StorageDownloadFileOptions.builder()
         .accessLevel(StorageAccessLevel.PROTECTED)
-        .targetIdentityId(otherUserId)
+        .targetIdentityId(otherIdentityId)
         .build()
     
     val download = Amplify.Storage.downloadFile(key, file, options)

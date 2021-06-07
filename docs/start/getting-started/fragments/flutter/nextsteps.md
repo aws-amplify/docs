@@ -1,12 +1,12 @@
-👏 In this tutorial you created a simple app that uses Analytics.  You are now ready to start exploring additional Amplify categories to add to your application.
+👏  In this tutorial you created fully featured CRUD application using Amplify DataStore but your Amplify journey is just getting started! You can now explore DataStore more in depth or dive into other Amplify categories and add to your application.
 
 - [Authentication](~/lib/auth/getting-started.md)
-- [Storage](~/lib/storage/getting-started.md)
 - [Analytics](~/lib/analytics/getting-started.md)
 - [DataStore](~/lib/datastore/getting-started.md)
-- [REST API](~/lib/restapi/getting-started.md)
 - [GraphQL API](~/lib/graphqlapi/getting-started.md)
+- [REST API](~/lib/restapi/getting-started.md)
+- [Storage](~/lib/storage/getting-started.md)
 
-### Reference Sample App 
+### References
 
-For an end to end example application, check out the example available [in the GitHub repository](https://github.com/aws-amplify/amplify-flutter/tree/master/example).
+Find the source code of the final Todo App built in this tutorial [on our GitHub repository](https://github.com/cshfang/amplify-flutter-datastore-starter/tree/main/amplified_todo).

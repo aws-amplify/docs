@@ -3,9 +3,9 @@ title: Sandbox environments
 description: Learn how to enable sandbox environments for your Amplify project.
 ---
 
-Now you have two independent environments (master & dev) in the cloud and have corresponding git branches with your amplify backend infrastructure code on Git. Suppose a team member wants to work on the same Amplify project, add some features to it and then push changes to the dev environment to test some changes. They would perform the following steps:
+Now you have two independent environments (main & dev) in the cloud and have corresponding git branches with your amplify backend infrastructure code on Git. Suppose a team member wants to work on the same Amplify project, add some features to it and then push changes to the dev environment to test some changes. They would perform the following steps:
 
-```
+```console
 $ git clone <git-repo>
 $ cd <project-dir>
 $ git checkout -b mysandbox
@@ -18,9 +18,9 @@ $ amplify push
 $ git push -u origin mysandbox
 ```
 
-Next, suppose the team-member wants to move these changes to dev and master environments/branches:
+Next, suppose the team-member wants to move these changes to dev and main environments/branches:
 
-```
+```console
 $ git checkout dev
 $ amplify env checkout dev
 $ git merge mysandbox
@@ -28,14 +28,14 @@ $ amplify push
 $ git push -u origin dev
 ```
 
-After testing that everything works fine in the dev stage, you could now merge dev to the master git branch:
+After testing that everything works fine in the dev stage, you could now merge dev to the main git branch:
 
-```
-$ git checkout master
-$ amplify env checkout master
+```console
+$ git checkout main
+$ amplify env checkout main
 $ git merge dev
 $ amplify push
-$ git push -u origin master
+$ git push -u origin main
 ```
 
-In this approach, you can consider the git branches (dev & master) as the source of truth and all the team members should work off the branches and keep their workspaces in sync.
+In this approach, you can consider the git branches (dev & main) as the source of truth and all the team members should work off the branches and keep their workspaces in sync.

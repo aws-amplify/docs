@@ -1,10 +1,28 @@
 To initialize the Amplify API and Authentication categories, we are required to use the `Amplify.addPlugin()` method for each category we want.  When we are done calling `addPlugin()` on each category, we finish configuring Amplify by calling `Amplify.configure()`.
 
 **Add the following imports** to the top of your `AppDelegate.swift` file:
+
+<amplify-block-switcher>
+
+<amplify-block name="Swift Package Manager">
+
+```swift
+import Amplify
+import AWSAPIPlugin
+```
+
+</amplify-block>
+
+<amplify-block name="CocoaPods">
+
 ```swift
 import Amplify
 import AmplifyPlugins
 ```
+
+</amplify-block>
+
+</amplify-block-switcher>
 
 **Add the following code** 
 

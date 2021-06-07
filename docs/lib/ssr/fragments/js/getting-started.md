@@ -100,7 +100,7 @@ If your client-side code only reads from the server-side props and doesn't perfo
 However, if you receive models from the server and need to `DataStore.delete(model)` or `DataStore.save(...)` changes to them, you'll need the `deserializeModel` utility to convert them from server-friendly JSON back into model _instances_:
 
 ```js
-import { serializeModel } from '@aws-amplify/datastore/ssr';
+import { deserializeModel } from '@aws-amplify/datastore/ssr';
 import { Amplify, withSSRContext } from "aws-amplify";
 
 import { Post } from "../src/models";

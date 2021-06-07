@@ -39,7 +39,7 @@ git init
 git remote add origin git@github.com:username/project-name.git # or your git repository location
 git add .
 git commit -m 'initial commit'
-git push origin master
+git push origin main
 ```
 
 ### Deploying the site to Amplify Console Hosting

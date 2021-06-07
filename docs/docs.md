@@ -51,7 +51,6 @@ disableLinkification: true
         </p>
       </docs-card>
     </amplify-responsive-grid>
-    <iframe class="padding-horizontal-md justify-self-center" width="560" height="315" src="https://www.youtube-nocookie.com/embed/-Vm-4BbY58Y" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
   </amplify-responsive-grid>
 </docs-container>
 <docs-container

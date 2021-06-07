@@ -94,7 +94,7 @@ query post {
 
 which will send
 
-```
+```text
 GET /posts/POST_ID
 Host: www.example.com
 ```
@@ -140,7 +140,7 @@ query posts{
 
 which sends the following request:
 
-```
+```text
 GET /posts?sort=DESC&from=last-week&limit=5
 Host: www.example.com
 ```
@@ -188,7 +188,7 @@ mutation add {
 
 which will send
 
-```
+```text
 POST /post
 Host: www.example.com
 {
@@ -211,7 +211,7 @@ type Query {
 
 which, in the `DEV` environment, will send
 
-```
+```text
 GET /DEV/posts
 Host: www.example.com
 ```
@@ -272,7 +272,7 @@ mutation update {
 
 which, in the `DEV` environment, will send
 
-```
+```text
 PUT /DEV/posts/EXISTING_ID?withComments=true
 Host: www.example.com
 X-Header: X-Header-Value
@@ -286,7 +286,6 @@ X-Header: X-Header-Value
 **Advanced cases**
 
 In some cases, you may want to send a request based on existing field data. Take a scenario where you have a post and want to fetch comments associated with the post in a single query. Let's use the previous definition of `Post` and `Comment`.
-
 
 ```graphql
 type Post {
@@ -304,7 +303,6 @@ type Comment {
 ```
 
 A post can be fetched at `/posts/:id` and a post's comments at `/posts/:id/comments`. You can fetch the comments based on the post id with the following updated definition. `$ctx.source` is a map that contains the resolution of the parent field (`Post`) and gives access to `id`.
-
 
 ```graphql
 type Post {
@@ -344,7 +342,7 @@ query post {
 
 Assuming that `getPost` retrieves a post with the id `POST_ID`, the comments field is resolved by sending this request to the endpoint
 
-```
+```text
 GET /posts/POST_ID/comments
 Host: www.example.com
 ```

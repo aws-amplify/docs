@@ -1,3 +1,11 @@
-<amplify-callout>
-This functionality has not yet been implemented for Flutter, this section will be updated once it has been added. 
-</amplify-callout>
+```dart
+try {
+  await Amplify.Auth.confirmUserAttribute(
+    userAttributeKey: 'email',
+    confirmationCode: '390739',
+  );
+  print('Attribute verified');
+} on AmplifyException catch (e) {
+  print(e.message);
+}
+```

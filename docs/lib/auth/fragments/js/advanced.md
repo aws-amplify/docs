@@ -242,30 +242,31 @@ const SignInWithGoogle = () => {
 
 ### Using Amplify UI components
 
-To enable social sign-in in your app with Identity Pools, add `Google client_id`, `Facebook app_id` and/or `Amazon client_id` properties to `Authenticator` component. This will create a sign in button when rendering the `Authenticator` in your app.
+To enable social sign-in in your app with Identity Pools, add `Google client_id`, `Facebook app_id` and/or `Amazon client_id` properties to the `AmplifyAuthenticator` component. This will create a sign in button when rendering the `AmplifyAuthenticator` in your app.
 
 ```javascript
-import { Authenticator } from 'aws-amplify-react/dist/Auth';
+import { AmplifyAuthenticator } from '@aws-amplify/ui-react';
 
 const federated = {
-    google_client_id: '',
-    facebook_app_id: '',
-    amazon_client_id: ''
+    googleClientId: '', // Enter your googleClientId here
+    facebookAppId: '', // Enter your facebookAppId here
+    amazonClientId: '' // Enter your amazonClientId here
 };
 
 return (
-    <Authenticator federated={federated}>
+    <AmplifyAuthenticator federated={federated}>
 )
 ```
 
 Or you can use it with `withAuthenticator`:
 ```js
+import { withAuthenticator } from '@aws-amplify/ui-react';
 const AppWithAuth = withAuthenticator(App);
 
 const federated = {
-    google_client_id: '', // Enter your google_client_id here
-    facebook_app_id: '', // Enter your facebook_app_id here
-    amazon_client_id: '' // Enter your amazon_client_id here
+    googleClientId: '', // Enter your googleClientId here
+    facebookAppId: '', // Enter your facebookAppId here
+    amazonClientId: '' // Enter your amazonClientId here
 };
 
 ReactDOM.render(<AppWithAuth federated={federated}/>, document.getElementById('root'));
@@ -301,7 +302,7 @@ const { token } = federatedInfo;
 By default, Amplify will automatically refresh the tokens for Google and Facebook, so that your AWS credentials will be valid at all times. But if you are using another federated provider, you will need to provide your own token refresh method:
 
 <amplify-callout>
-Note: Automatic token refresh is not supported in React Native.
+Note: Automatic token refresh for Google and Facebook is not supported in React Native. Automatic token refresh is supported when used with Cognito User pool.
 </amplify-callout>
 
 #### JWT Token Refresh sample
