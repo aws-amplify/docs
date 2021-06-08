@@ -35,7 +35,7 @@ Amplify.Auth.confirmSignUp(
 ```kotlin
 try {
         val signInResult = Amplify.Auth.signIn("username", "old password")
-        if(signInResult.nextStep.signInStep == AuthSignInStep.CONFIRM_SIGN_IN_WITH_NEW_PASSWORD){
+        if (signInResult.nextStep.signInStep == AuthSignInStep.CONFIRM_SIGN_IN_WITH_NEW_PASSWORD) {
             val newPassword = "new password"
             val confirmSignInResult = Amplify.Auth.confirmSignIn(newPassword)
             if (confirmSignInResult.isSignInComplete) {
