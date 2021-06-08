@@ -3,6 +3,7 @@ import {useRouter} from "next/router";
 import {traverseHeadings} from "../../utils/traverseHeadings";
 import TableOfContents from "../TableOfContents/index";
 import UniversalNav from "../UniversalNav/index";
+import SecondaryNav from "../SecondaryNav/index";
 import Footer from "../Footer/index";
 import {ContentStyle, LayoutStyle} from "./styles";
 
@@ -57,6 +58,7 @@ export default function Layout({meta, children}) {
         brandIcon="/assets/logo-light.svg"
         blend={false}
       />
+      <SecondaryNav platform={platform} pageHasMenu={false} />
       <LayoutStyle>
         <ContentStyle>
           <h1>{meta.title}</h1>
