@@ -17,7 +17,10 @@ const mdxRenderer = `
 
   export async function getStaticPaths ({params}) {
     return {
-      paths: [],
+      paths: [
+        {params: {platform: "js"}},
+        {params: {platform: "ios"}},
+      ],
       fallback: false,
     }
   }
@@ -28,11 +31,13 @@ const headingLinkPlugin = require("./src/plugins/headings.tsx");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const layoutPlugin = require("./src/plugins/layout.tsx");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
+const importPlugin = require("./src/plugins/import.tsx");
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const codeBlockPlugin = require("./src/plugins/code-block.tsx");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const withMDX = require("@next/mdx")({
   options: {
-    remarkPlugins: [headingLinkPlugin, layoutPlugin],
+    remarkPlugins: [importPlugin, headingLinkPlugin, layoutPlugin],
     rehypePlugins: [codeBlockPlugin],
     renderer: mdxRenderer,
   },
