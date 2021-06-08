@@ -81,6 +81,7 @@ The Amplify CLI requires the below IAM policies for performing actions across al
         "cloudformation:DescribeStackSetOperation",
         "cloudformation:ExecuteChangeSet",
         "cloudformation:GetTemplate",
+        "cloudformation:ListStackResources",
         "cloudformation:UpdateStack",
         "cloudformation:UpdateStackSet",
         "cloudfront:CreateCloudFrontOriginAccessIdentity",
