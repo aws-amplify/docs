@@ -17,7 +17,7 @@ Amplify.Auth.confirmSignUp(
     Amplify.Auth.signIn("username", "old password",
         { result ->
             Log.i("AuthQuickstart", result.nextStep.toString())
-            if(result.nextStep.signInStep == AuthSignInStep.CONFIRM_SIGN_IN_WITH_NEW_PASSWORD){
+            if (result.nextStep.signInStep == AuthSignInStep.CONFIRM_SIGN_IN_WITH_NEW_PASSWORD) {
                 val newPassword = "new password"
                 Amplify.Auth.confirmSignIn(newPassword,
                     { Log.i("AuthQuickstart", "Confirmed signin: $it") },
