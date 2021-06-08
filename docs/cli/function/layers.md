@@ -158,7 +158,7 @@ Now, you've successfully added a layer to your function.
 
 Once you're ready with your changes in your layer and functions, you can deploy them by running `amplify push`.
 
-If a layer’s content has been updated and it has permissions associated, Amplify CLI will prompt you whether you want to carry the permissions forward to a newer version. 
+If a layer’s content has been updated and it has permissions associated, Amplify CLI will prompt you whether you want to carry the permissions forward to a newer version.
 
 ```console
 Content changes in Lambda layers detected.
