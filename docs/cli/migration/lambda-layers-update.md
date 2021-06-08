@@ -1,7 +1,8 @@
 ---
 title: Lambda layer behavior updates
-description: Starting from Amplify CLI version 5.0.0, the Lambda layers behavior in Amplify CLI has been updated significantly
+description: Amplify has updated the way Lambda layer versions are managed with Amplify CLI version 5.0.0.
 ---
+
 Amplify has updated the way [Lambda layer](~/cli/function/layers.md) versions are managed with Amplify CLI version 5.0.0. Amplify CLI enables you to configure Lambda layers to pull common code & assets for your Lambda functions into a centralized location. 
 
 In order to take advantage of the newest features and bug fixes, a one-way migration is required for layers created with an older Amplify CLI version. All developers working on a common Amplify project and any CI/CD pipelines should [upgrade to the latest version of Amplify CLI](~/cli/usage/upgrade.md).
