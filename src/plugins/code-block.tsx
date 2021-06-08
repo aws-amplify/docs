@@ -100,17 +100,6 @@ const codeBlockPlugin = () => (tree) => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const visit = require("unist-util-visit");
 
-  let addedCodeBlockImport = false;
-  visit(tree, (_, index) => {
-    if (!addedCodeBlockImport) {
-      tree.children.splice(index + 1, 0, {
-        type: "import",
-        value: `import CodeBlock from "/src/components/CodeBlock";`,
-      });
-      addedCodeBlockImport = true;
-    }
-  });
-
   visit(tree, (node) => {
     if (node.tagName === "code") {
       const code = node.children[0].value;
