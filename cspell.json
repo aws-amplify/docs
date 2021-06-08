@@ -1364,8 +1364,7 @@
     "myproject",
     "STORAGECONFIG",
     "secretsmanager",
-    "customcf",
-    "Pipfile"
+    "customcf"
   ],
   "flagWords": ["hte"]
 }
