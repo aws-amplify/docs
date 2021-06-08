@@ -1,6 +1,8 @@
 import {Search} from "./styles";
 import {useEffect} from "react";
 
+import {transformData} from "../../utils/transform-search-data";
+import {setSearchQuery, trackSearchQuery} from "../../utils/track";
 import {
   ALGOLIA_API_KEY,
   ALGOLIA_INDEX_NAME,
@@ -15,9 +17,9 @@ export default function SearchBar() {
         indexName: ALGOLIA_INDEX_NAME,
         inputSelector: UNINITIALIZED_SEARCH_INPUT_SELECTOR,
         debug: false,
-        // queryHook: setSearchQuery,
-        // handleSelected: trackSearchQuery,
-        // transformData,
+        queryHook: setSearchQuery,
+        handleSelected: trackSearchQuery,
+        transformData,
         algoliaOptions: {
           hitsPerPage: 10,
         },
