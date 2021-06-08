@@ -8,5 +8,4 @@ dependencies:
   flutter:
     sdk: flutter
   amplify_auth_cognito: '<1.0.0'
-}
 ```
