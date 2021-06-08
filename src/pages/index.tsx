@@ -1,6 +1,6 @@
 import {Grid} from "theme-ui";
 import Head from "next/head";
-import fs from "fs";
+import {useEffect} from "react";
 
 import Hero from "../components/Hero";
 import LandingHeroCTA from "../components/LandingHeroCTA";
@@ -11,7 +11,20 @@ import LinkBanner from "../components/LinkBanner";
 import Footer from "../components/Footer";
 import UniversalNav from "../components/UniversalNav";
 
+import {track, trackPageVisit, AnalyticsEventType} from "../utils/track";
+
 const Page = () => {
+  useEffect(() => {
+    track({
+      type: AnalyticsEventType.PAGE_VISIT,
+      attributes: {
+        url: "/",
+        referrer: document.referrer,
+      },
+    });
+    trackPageVisit();
+  }, []);
+
   return (
     <>
       <Head>
