@@ -4,7 +4,7 @@ export enum Breakpoint {
   TABLET = 48,
   LAPTOP = 64,
   DESKTOP = 75,
-  MONITOR = 100
+  MONITOR = 100,
 }
 
 export const createMQ = (device: number) =>
