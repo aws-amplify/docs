@@ -16,6 +16,7 @@
             },
             error -> Log.e("AuthQuickstart", error.toString())
         );
+
 ```
 
 </amplify-block>
@@ -25,7 +26,7 @@
     Amplify.Auth.signIn("username", "old password",
         { result ->
             Log.i("AuthQuickstart", result.nextStep.toString())
-            if(result.nextStep.signInStep == AuthSignInStep.CONFIRM_SIGN_IN_WITH_NEW_PASSWORD){
+            if (result.nextStep.signInStep == AuthSignInStep.CONFIRM_SIGN_IN_WITH_NEW_PASSWORD) {
                 val newPassword = "new password"
                 Amplify.Auth.confirmSignIn(newPassword,
                     { Log.i("AuthQuickstart", "Confirmed signin: $it") },
@@ -43,7 +44,7 @@
 ```kotlin
 try {
         val signInResult = Amplify.Auth.signIn("username", "old password")
-        if(signInResult.nextStep.signInStep == AuthSignInStep.CONFIRM_SIGN_IN_WITH_NEW_PASSWORD){
+        if (signInResult.nextStep.signInStep == AuthSignInStep.CONFIRM_SIGN_IN_WITH_NEW_PASSWORD) {
             val newPassword = "new password"
             val confirmSignInResult = Amplify.Auth.confirmSignIn(newPassword)
             if (confirmSignInResult.isSignInComplete) {
@@ -64,7 +65,7 @@ try {
  RxAmplify.Auth.signIn("username", "password")
             .subscribe(
                 result -> {
-                    if(result.getNextStep().getSignInStep()== AuthSignInStep.CONFIRM_SIGN_IN_WITH_NEW_PASSWORD){
+                    if (result.getNextStep().getSignInStep() == AuthSignInStep.CONFIRM_SIGN_IN_WITH_NEW_PASSWORD) {
                         Log.i("AuthQuickstart", "CONFIRM_SIGN_IN_WITH_NEW_PASSWORD");
                         RxAmplify.Auth.confirmSignIn("new password")
                                 .subscribe(
