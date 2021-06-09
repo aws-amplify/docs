@@ -1,6 +1,7 @@
 {
   "title": "Migration & Backwards Compatibility",
   "items": [
-    "lambda-node-version-update"
+    "lambda-node-version-update",
+    "list-nullability"
   ]
 }
