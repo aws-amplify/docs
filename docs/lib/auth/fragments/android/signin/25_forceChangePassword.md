@@ -3,12 +3,12 @@
 
 ```java
  Amplify.Auth.signIn(
-                "testforcereset",
-                "123456789",
+                "username",
+                "password",
                 result -> {
                   if (result.getNextStep().getSignInStep() == AuthSignInStep.CONFIRM_SIGN_IN_WITH_NEW_PASSWORD) {
                     Log.i("AuthQuickstart", "CONFIRM_SIGN_IN_WITH_NEW_PASSWORD");
-                    Amplify.Auth.confirmSignIn("234567891",
+                    Amplify.Auth.confirmSignIn("new password",
                     confirmSignInResult -> Log.i("AuthQuickstart", confirmSignInResult.toString()),
                     error -> Log.e("AuthQuickstart", error.toString())
                 );
