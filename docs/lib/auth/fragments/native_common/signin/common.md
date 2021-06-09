@@ -28,7 +28,7 @@ Confirm signUp succeeded
 ```
 
 ## Force change password
-If a user is required to change their password on first login, CONFIRM_SIGN_IN_WITH_NEW_PASSWORD AuthSignInStep will be returned when signIn is called. You need to provide a new password given by the user in that case. It can be done using confirmSignIn with the new password.
+If a user is required to change the password on the first login, CONFIRM_SIGN_IN_WITH_NEW_PASSWORD `AuthSignInStep` will be returned when `signIn` is called. A new password given by the user is needed in that case. It can be done using `confirmSignIn` with the new password.
 Implement a UI to change password on the first login. After the user enters the username and password you can start the force change password flow by calling the following method:
 
 <inline-fragment platform="ios" src="~/lib/auth/fragments/ios/signin/30_signIn.md"></inline-fragment>
