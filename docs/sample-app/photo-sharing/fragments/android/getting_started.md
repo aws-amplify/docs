@@ -1,5 +1,5 @@
 <amplify-callout>
 
-Under development
+**Note:** This sample app is under development and is not released.
 
 </amplify-callout>

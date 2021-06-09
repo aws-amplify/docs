@@ -1,8 +1,8 @@
 ---
-title: Amplify Sample App
-description: Sample App is a demonstration of building an App with [Amplify Libraries](https://docs.amplify.aws/lib/q/platform/ios).
+title: Amplify Sample Apps
+description: Amplify Sample Apps showcases best practices in building an app with [Amplify Libraries](https://docs.amplify.aws/lib/q/platform/ios).
 disableTOC: true
 filterKey: platform
 ---
 
-Sample App is a demonstration of building an App with [Amplify Libraries](~/lib/lib.md).
+PhotoSharing showcases how to build a social photo sharing app with [Amplify Libraries](~/lib/lib.md).
