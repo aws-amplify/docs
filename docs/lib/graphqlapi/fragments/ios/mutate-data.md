@@ -67,6 +67,10 @@ func updateTodo() -> AnyCancellable {
 }
 ```
 
+</amplify-block>
+
+</amplify-block-switcher>
+
 To create data, replace the request with `.create`
 ```swift
 Amplify.API.mutate(request: .create(todo))
@@ -75,6 +79,3 @@ To delete data, replace the request with `.delete`
 ```swift
 Amplify.API.mutate(request: .delete(todo))
 ```
-</amplify-block>
-
-</amplify-block-switcher>
