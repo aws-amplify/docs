@@ -1,8 +1,6 @@
 {
     "title": "Photo Sharing",
     "items": [
-        "getting-started",
-        "code-structure",
-        "sign-in-with-web-ui"
+        "getting_started"
     ]
 }
