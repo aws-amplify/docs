@@ -2,12 +2,20 @@
 <amplify-block name="Java">
 
 ```java
-Amplify.Auth.confirmSignUp(
-    "username",
-    "the code you received via email",
-    result -> Log.i("AuthQuickstart", result.isSignUpComplete() ? "Confirm signUp succeeded" : "Confirm sign up not complete"),
-    error -> Log.e("AuthQuickstart", error.toString())
-);
+ Amplify.Auth.signIn(
+                "testforcereset",
+                "123456789",
+                result -> {
+                  if (result.getNextStep().getSignInStep() == AuthSignInStep.CONFIRM_SIGN_IN_WITH_NEW_PASSWORD) {
+                    Log.i("AuthQuickstart", "CONFIRM_SIGN_IN_WITH_NEW_PASSWORD");
+                    Amplify.Auth.confirmSignIn("234567891",
+                    confirmSignInResult -> Log.i("AuthQuickstart", confirmSignInResult.toString()),
+                    error -> Log.e("AuthQuickstart", error.toString())
+                );
+              }
+            },
+            error -> Log.e("AuthQuickstart", error.toString())
+        );
 ```
 
 </amplify-block>
@@ -39,9 +47,9 @@ try {
             val newPassword = "new password"
             val confirmSignInResult = Amplify.Auth.confirmSignIn(newPassword)
             if (confirmSignInResult.isSignInComplete) {
-                Log.i("AuthQuickstart", "Signup confirmed")
+                Log.i("AuthQuickstart", "Confirmed signin")
             } else {
-                Log.i("AuthQuickstart", "Signup confirmation not yet complete")
+                Log.i("AuthQuickstart", "Sign in confirmation not yet complete")
             }
         }
     } catch (error: AuthException) {
