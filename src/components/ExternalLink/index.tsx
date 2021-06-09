@@ -17,7 +17,10 @@ const DocsExternalLink: React.FC<ExternalLinkProps> = ({
       href={href}
       rel="noopener noreferrer"
       target="_blank"
-      onClick={trackLink}
+      onClick={(e) => {
+        e.preventDefault();
+        trackLink(href);
+      }}
     >
       {children}
       {graphic && (
@@ -29,15 +32,12 @@ const DocsExternalLink: React.FC<ExternalLinkProps> = ({
 
 export default DocsExternalLink;
 
-function trackLink(e) {
-  e.preventDefault();
-  const href = e.target.getAttribute("href");
-
+function trackLink(href) {
   track({
     type: AnalyticsEventType.EXTERNAL_LINK_CLICK,
     attributes: {from: location.href, to: href},
   });
   trackExternalLink(href);
 
-  window.location.href = href;
+  window.open(href, "_blank");
 }
