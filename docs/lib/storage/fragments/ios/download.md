@@ -100,7 +100,7 @@ receiveValue: {
 
 After you call `downloadData` or `downloadFile` as above, your containing class retains a reference to the operation that is actually performing the download.
 
-To cancel the download (for example, in response to the user pressing a **Cancel** button), you simply call `cancel()` on the upload operation.
+To cancel the download (for example, in response to the user pressing a **Cancel** button), you simply call `cancel()` on the download operation.
 
 ```swift
 func cancelDownload() {
@@ -108,7 +108,7 @@ func cancelDownload() {
 }
 ```
 
-You can also pause then resume the operation.
+You can also pause and then resume the operation.
 
 ```swift
 storageOperation.pause()
@@ -154,4 +154,3 @@ let sink = Amplify.Storage.getURL(key: "myKey")
 </amplify-block>
 
 </amplify-block-switcher>
-
