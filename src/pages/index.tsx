@@ -19,6 +19,7 @@ const Page = () => {
       type: AnalyticsEventType.PAGE_VISIT,
       attributes: {
         url: "/",
+        previousUrl: document.referrer,
         referrer: document.referrer,
       },
     });
