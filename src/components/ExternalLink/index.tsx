@@ -18,7 +18,6 @@ const DocsExternalLink: React.FC<ExternalLinkProps> = ({
       rel="noopener noreferrer"
       target="_blank"
       onClick={(e) => {
-        e.preventDefault();
         trackLink(href);
       }}
     >
@@ -38,6 +37,4 @@ function trackLink(href) {
     attributes: {from: location.href, to: href},
   });
   trackExternalLink(href);
-
-  window.open(href, "_blank");
 }
