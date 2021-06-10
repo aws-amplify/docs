@@ -1,11 +1,23 @@
 import Head from "next/head";
 import {useRouter} from "next/router";
+import {createContext, useContext, useState} from "react";
 import {traverseHeadings} from "../../utils/traverseHeadings";
 import TableOfContents from "../TableOfContents/index";
 import UniversalNav from "../UniversalNav/index";
 import SecondaryNav from "../SecondaryNav/index";
 import Footer from "../Footer/index";
 import {ContentStyle, LayoutStyle} from "./styles";
+
+const Context = createContext({
+  activeTab: 0,
+  setActiveTab: (i) => i,
+});
+
+function CodeBlockProvider(children) {
+  const [activeTab, setActiveTab] = useState(0);
+  const value = {activeTab, setActiveTab};
+  return <Context.Provider value={value}>{children.children}</Context.Provider>;
+}
 
 export default function Layout({meta, children}) {
   const router = useRouter();
@@ -62,7 +74,7 @@ export default function Layout({meta, children}) {
       <LayoutStyle>
         <ContentStyle>
           <h1>{meta.title}</h1>
-          {children}
+          <CodeBlockProvider>{children}</CodeBlockProvider>
         </ContentStyle>
         <TableOfContents title={meta.title}>{headers}</TableOfContents>
       </LayoutStyle>
@@ -70,4 +82,9 @@ export default function Layout({meta, children}) {
       <script src="https://cdn.jsdelivr.net/npm/docsearch.js@2.6.3/dist/cdn/docsearch.min.js"></script>
     </>
   );
+}
+
+export function useAppContext() {
+  const context = useContext(Context);
+  return context;
 }
