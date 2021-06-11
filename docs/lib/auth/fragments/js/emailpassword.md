@@ -103,6 +103,8 @@ async function resendConfirmationCode() {
 
 Access and Id Tokens are short live (60 minutes is default but can be set from 5 minutes to 1 day). After revocation this tokens cannot be use with Cognito service anymore, however they are still valid when used with other services like AppSync or API Gateway.
 
+For limiting subsequent calls to these other services after invalidating tokens, we recommend lowering token expiration time for your app client in the Cognito User Pools console. If you are using the Amplify CLI this can be accessed by running amplify console auth.
+
 Token revocation is enabled automatically on new Amazon Cognito UserPools, however existing UserPools must enable this feature, [using the Cognito Console or AWS CLI](https://docs.aws.amazon.com/cognito/latest/developerguide/token-revocation.html) 
 
 ```javascript
