@@ -42,19 +42,18 @@ Amplify.Auth.signIn(
 
 ```kotlin
 try {
-        val signInResult = Amplify.Auth.signIn("username", "old password")
-        if (signInResult.nextStep.signInStep == AuthSignInStep.CONFIRM_SIGN_IN_WITH_NEW_PASSWORD) {
-            val newPassword = "new password"
-            val confirmSignInResult = Amplify.Auth.confirmSignIn(newPassword)
-            if (confirmSignInResult.isSignInComplete) {
-                Log.i("AuthQuickstart", "Confirmed signin")
-            } else {
-                Log.i("AuthQuickstart", "Sign in confirmation not yet complete")
-            }
+    val signInResult = Amplify.Auth.signIn("username", "old password")
+    if (signInResult.nextStep.signInStep == AuthSignInStep.CONFIRM_SIGN_IN_WITH_NEW_PASSWORD) {
+        val confirmSignInResult = Amplify.Auth.confirmSignIn("new password")
+        if (confirmSignInResult.isSignInComplete) {
+            Log.i("AuthQuickstart", "Confirmed sign in.")
+        } else {
+            Log.i("AuthQuickstart", "Sign in confirmation not yet complete.")
         }
-    } catch (error: AuthException) {
-        Log.e("AuthQuickstart", "Failed to confirm signup", error)
     }
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Failed to confirm sign in.", error)
+}
 ```
 
 </amplify-block>
