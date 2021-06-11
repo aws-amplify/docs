@@ -15,7 +15,7 @@ const CONSOLE = "console";
 type CodeBlockProps = {
   lineCount: string;
   language: string;
-  children: React.ReactNodeArray;
+  children: React.ReactElement[];
 };
 
 class CodeBlock extends React.Component<CodeBlockProps> {
