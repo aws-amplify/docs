@@ -20,8 +20,14 @@ export const InnerContainer = styled.div`
   margin: 0px auto;
 `;
 
-export const Container = ({children, backgroundColor}) => (
-  <OuterContainer backgroundColor={backgroundColor}>
+export const Container = ({
+  children,
+  backgroundColor,
+}: {
+  children: any;
+  backgroundColor?: string;
+}) => (
+  <OuterContainer backgroundColor={backgroundColor || null}>
     <InnerContainer>{children}</InnerContainer>
   </OuterContainer>
 );
