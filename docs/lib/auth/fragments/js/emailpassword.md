@@ -99,6 +99,13 @@ async function resendConfirmationCode() {
 
 ## Sign-out
 
+[Amazon Cognito now supports token revocation](https://aws.amazon.com/about-aws/whats-new/2021/06/amazon-cognito-now-supports-targeted-sign-out-through-refresh-token-revocation/)  and Amplify (from version 4.1.0) will revoke Amazon Cognito tokens if the application is online. This means Cognito refresh token cannot be used anymore to generate new Access and Id Tokens.
+
+Access and Id Tokens are short live (60 minutes is default but can be set from 5 minutes to 1 day). After revocation this tokens cannot be use with Cognito
+service anymore, however they are still valid when used with other services like AppSync or API Gateway.
+
+Token revocation is enabled automatically on new Amazon Cognito UserPools, however existing UserPools must enable this feature, [using the Cognito Console or AWS CLI](https://docs.aws.amazon.com/cognito/latest/developerguide/token-revocation.html) 
+
 ```javascript
 import { Auth } from 'aws-amplify';
 
