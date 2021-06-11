@@ -17,7 +17,7 @@ export const SecondaryNavStyle = styled.div`
     white-space: nowrap;
   }
 
-  > div {
+  section div {
     display: flex;
     flex-direction: row;
     align-items: center;
