@@ -61,20 +61,18 @@ try {
 <amplify-block name="RxJava">
 
 ```java
- RxAmplify.Auth.signIn("username", "password")
-            .subscribe(
-                result -> {
-                    if (result.getNextStep().getSignInStep() == AuthSignInStep.CONFIRM_SIGN_IN_WITH_NEW_PASSWORD) {
-                        Log.i("AuthQuickstart", "CONFIRM_SIGN_IN_WITH_NEW_PASSWORD");
-                        RxAmplify.Auth.confirmSignIn("new password")
-                                .subscribe(
-                                        confirmSignInResult -> Log.i("AuthQuickstart", confirmSignInResult.toString()),
-                                        error -> Log.e("AuthQuickstart", error.toString())
-                                );
-                    } },
-                error -> Log.e("AuthQuickstart", error.toString())
-            ); }
-
+RxAmplify.Auth.signIn("username", "password").subscribe(
+    result -> {
+        if (result.getNextStep().getSignInStep() == AuthSignInStep.CONFIRM_SIGN_IN_WITH_NEW_PASSWORD) {
+            Log.i("AuthQuickstart", "CONFIRM_SIGN_IN_WITH_NEW_PASSWORD");
+            RxAmplify.Auth.confirmSignIn("new password").subscribe(
+                    confirmSignInResult -> Log.i("AuthQuickstart", confirmSignInResult.toString()),
+                    error -> Log.e("AuthQuickstart", error.toString())
+            );
+        }
+    },
+    error -> Log.e("AuthQuickstart", error.toString())
+);
 ```
 
 </amplify-block>
