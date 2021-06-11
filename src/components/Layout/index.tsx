@@ -7,6 +7,7 @@ import UniversalNav from "../UniversalNav/index";
 import SecondaryNav from "../SecondaryNav/index";
 import Footer from "../Footer/index";
 import {ContentStyle, LayoutStyle} from "./styles";
+import {Container} from "../Container";
 
 const Context = createContext({
   activeTab: 0,
@@ -72,11 +73,13 @@ export default function Layout({meta, children}) {
       />
       <SecondaryNav platform={platform} pageHasMenu={false} />
       <LayoutStyle>
-        <ContentStyle>
-          <h1>{meta.title}</h1>
-          <CodeBlockProvider>{children}</CodeBlockProvider>
-        </ContentStyle>
-        <TableOfContents title={meta.title}>{headers}</TableOfContents>
+        <Container>
+          <ContentStyle>
+            <h1>{meta.title}</h1>
+            <CodeBlockProvider>{children}</CodeBlockProvider>
+          </ContentStyle>
+          <TableOfContents title={meta.title}>{headers}</TableOfContents>
+        </Container>
       </LayoutStyle>
       <Footer />
       <script src="https://cdn.jsdelivr.net/npm/docsearch.js@2.6.3/dist/cdn/docsearch.min.js"></script>

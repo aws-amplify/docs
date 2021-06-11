@@ -12,6 +12,7 @@ import {
 } from "../../constants/links";
 import Link from "next/link";
 import {useRouter} from "next/router";
+import {Container} from "../Container";
 
 export default function SecondaryNav({platform, pageHasMenu}) {
   const router = useRouter();
@@ -19,81 +20,83 @@ export default function SecondaryNav({platform, pageHasMenu}) {
 
   return (
     <SecondaryNavStyle id="secondary-nav">
-      <div>
-        {[
-          {
-            label: "Getting Started",
-            url: "/start",
-          },
-          {
-            label: "Libraries",
-            url: "/lib",
-            additionalActiveChildRoots: ["/lib", "/sdk"],
-          },
-          {
-            label: "UI Components",
-            url: "/ui",
-            additionalActiveChildRoots: ["/ui"],
-          },
-          {
-            label: "CLI",
-            url: "/cli",
-          },
-          {
-            label: "Console",
-            url: "/console",
-          },
-          {
-            label: "Guides",
-            url: "/guides",
-          },
-          ...(platform
-            ? [
-                {
-                  label: "API Reference",
-                  url: (() => {
-                    switch (platform) {
-                      case "ios": {
-                        return IOS_REFERENCE;
+      <Container>
+        <div>
+          {[
+            {
+              label: "Getting Started",
+              url: "/start",
+            },
+            {
+              label: "Libraries",
+              url: "/lib",
+              additionalActiveChildRoots: ["/lib", "/sdk"],
+            },
+            {
+              label: "UI Components",
+              url: "/ui",
+              additionalActiveChildRoots: ["/ui"],
+            },
+            {
+              label: "CLI",
+              url: "/cli",
+            },
+            {
+              label: "Console",
+              url: "/console",
+            },
+            {
+              label: "Guides",
+              url: "/guides",
+            },
+            ...(platform
+              ? [
+                  {
+                    label: "API Reference",
+                    url: (() => {
+                      switch (platform) {
+                        case "ios": {
+                          return IOS_REFERENCE;
+                        }
+                        case "android": {
+                          return ANDROID_REFERENCE;
+                        }
+                        case "js": {
+                          return JS_REFERENCE;
+                        }
                       }
-                      case "android": {
-                        return ANDROID_REFERENCE;
-                      }
-                      case "js": {
-                        return JS_REFERENCE;
-                      }
-                    }
-                  })(),
-                  external: true,
-                },
-              ]
-            : []),
-        ].map(({url, label, external, additionalActiveChildRoots}) => {
-          const matchingRoots =
-            additionalActiveChildRoots === undefined
-              ? [url]
-              : [url, ...additionalActiveChildRoots];
-          const active = matchingRoots.some((root) => {
-            return path.includes(root);
-          });
-          const LinkStyle = active ? LinkActiveStyle : LinkInactiveStyle;
-          if (external) {
-            return (
-              <Link href={url} key={label}>
-                <LinkStyle href={url}>{label}</LinkStyle>
-              </Link>
-            );
-          } else {
-            return (
-              <Link href={url} key={label}>
-                <LinkStyle href={url}>{label}</LinkStyle>
-              </Link>
-            );
-          }
-        })}
-        <ShadowStyle />
-      </div>
-      {pageHasMenu && <span>open button</span>}
+                    })(),
+                    external: true,
+                  },
+                ]
+              : []),
+          ].map(({url, label, external, additionalActiveChildRoots}) => {
+            const matchingRoots =
+              additionalActiveChildRoots === undefined
+                ? [url]
+                : [url, ...additionalActiveChildRoots];
+            const active = matchingRoots.some((root) => {
+              return path.includes(root);
+            });
+            const LinkStyle = active ? LinkActiveStyle : LinkInactiveStyle;
+            if (external) {
+              return (
+                <Link href={url} key={label}>
+                  <LinkStyle href={url}>{label}</LinkStyle>
+                </Link>
+              );
+            } else {
+              return (
+                <Link href={url} key={label}>
+                  <LinkStyle href={url}>{label}</LinkStyle>
+                </Link>
+              );
+            }
+          })}
+          <ShadowStyle />
+        </div>
+        {pageHasMenu && <span>open button</span>}
+      </Container>
     </SecondaryNavStyle>
   );
 }
