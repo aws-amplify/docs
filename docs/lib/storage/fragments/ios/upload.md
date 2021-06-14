@@ -112,7 +112,7 @@ receiveValue: { data in
 
 ## Cancel, Pause, Resume
 
-After you call `uploadFile` as above, your containing class retains a reference to the operation that is actually performing the upload.
+Calls to `uploadData` or `uploadFile` return a reference to the operation that is actually performing the upload.
 
 To cancel the upload (for example, in response to the user pressing a **Cancel** button), you simply call `cancel()` on the upload operation.
 

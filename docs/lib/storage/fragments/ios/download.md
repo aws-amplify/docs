@@ -98,7 +98,7 @@ receiveValue: {
 
 ## Cancel, Pause, Resume
 
-After you call `downloadData` or `downloadFile` as above, your containing class retains a reference to the operation that is actually performing the download.
+Calls to `downloadData` or `downloadFile` return a reference to the operation that is actually performing the download.
 
 To cancel the download (for example, in response to the user pressing a **Cancel** button), you simply call `cancel()` on the download operation.
 
