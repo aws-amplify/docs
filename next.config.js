@@ -2,17 +2,9 @@ const mdxRenderer = `
   import { mdx } from "@mdx-js/react";
 
   export async function getStaticProps ({params}) {
-    if(params.platform == 'js') {
-      return {
-        props: {},
-      };
-    }
-    else {
-      return {
-        props: {},
-        notFound: true,
-      };
-    }
+    return {
+      props: {},
+    };
   }
 
   export async function getStaticPaths ({params}) {
