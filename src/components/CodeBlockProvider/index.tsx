@@ -7,8 +7,23 @@ const CodeBlockContext = createContext({
   },
 });
 
+const SELECTED_TABS_LOCAL_STORAGE_KEY = `amplify-docs::selected-tabs`;
+
+const restoreBlockSwitcherState = function() {
+  if (typeof localStorage === "undefined") return [];
+  // Gather list of previously-selected tab headings (might be null)
+  const persistedSelectedTabsSerialized =
+    localStorage.getItem(SELECTED_TABS_LOCAL_STORAGE_KEY) || undefined;
+  if (persistedSelectedTabsSerialized) {
+    // save that selection array if it exists (otherwise, list is empty)
+    return JSON.parse(persistedSelectedTabsSerialized);
+  }
+  return [];
+};
+
 export default function CodeBlockProvider(children) {
-  const [tabOrder, setTabOrder] = useState([]);
+  const [tabOrder, setTabOrder] = useState(restoreBlockSwitcherState());
+
   const setActiveTab = function(tabName) {
     // Break out early to avoid rerendering if the currently active tab is clicked
     if (tabName === this.tabOrder[0]) return;
@@ -27,7 +42,13 @@ export default function CodeBlockProvider(children) {
 
     // Set the new priority list in state
     setTabOrder(nextSelectedTabHeadings);
+    // And serialize and save it to local storage
+    localStorage.setItem(
+      SELECTED_TABS_LOCAL_STORAGE_KEY,
+      JSON.stringify(this.tabOrder),
+    );
   };
+
   const value = {tabOrder, setActiveTab};
   return (
     <CodeBlockContext.Provider value={value}>

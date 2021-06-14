@@ -56,6 +56,7 @@ const getActiveIndex = function(
 
 export default function BlockSwitcher({children}) {
   const ctx = useCodeBlockContext();
+  console.log(ctx.tabOrder);
   useEffect(() => {
     // If we haven't seen these tab names before, just add the first one as top priority.
     if (!ctx.tabOrder.includes(children[0].props.name)) {
