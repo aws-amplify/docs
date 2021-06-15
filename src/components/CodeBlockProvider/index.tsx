@@ -21,18 +21,18 @@ const restoreBlockSwitcherState = function() {
   return [];
 };
 
-export default function CodeBlockProvider(children) {
+export default function CodeBlockProvider({children}) {
   const [tabOrder, setTabOrder] = useState(restoreBlockSwitcherState());
 
-  const setActiveTab = function(tabName) {
+  const setActiveTab = (tabName) => {
     // Break out early to avoid rerendering if the currently active tab is clicked
-    if (tabName === this.tabOrder[0]) return;
+    if (tabName === tabOrder[0]) return;
     // Create temp array with `tabHeading` (the new highest priority) as the first element
     const nextSelectedTabHeadings = new Array<string>();
     nextSelectedTabHeadings.push(tabName);
 
     // Iterate through previous `selectedTabHeadings`
-    this.tabOrder.forEach((e) => {
+    tabOrder.forEach((e) => {
       // No repeats allowed!
       if (tabName !== e) {
         // Ensure preexisting tab name priorities are preserved
@@ -43,16 +43,18 @@ export default function CodeBlockProvider(children) {
     // Set the new priority list in state
     setTabOrder(nextSelectedTabHeadings);
     // And serialize and save it to local storage
-    localStorage.setItem(
-      SELECTED_TABS_LOCAL_STORAGE_KEY,
-      JSON.stringify(this.tabOrder),
-    );
+    if (typeof localStorage !== "undefined") {
+      localStorage.setItem(
+        SELECTED_TABS_LOCAL_STORAGE_KEY,
+        JSON.stringify(tabOrder),
+      );
+    }
   };
 
   const value = {tabOrder, setActiveTab};
   return (
     <CodeBlockContext.Provider value={value}>
-      {children.children}
+      {children}
     </CodeBlockContext.Provider>
   );
 }
