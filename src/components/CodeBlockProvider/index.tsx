@@ -46,7 +46,7 @@ export default function CodeBlockProvider({children}) {
     if (typeof localStorage !== "undefined") {
       localStorage.setItem(
         SELECTED_TABS_LOCAL_STORAGE_KEY,
-        JSON.stringify(tabOrder),
+        JSON.stringify(nextSelectedTabHeadings),
       );
     }
   };
