@@ -17,13 +17,12 @@ const SwitcherButton: React.FC<SwitcherButtonProps> = ({
   name,
   isActive,
   ctx,
-}) => {
-  return (
-    <TabStyle active={isActive} onClick={() => ctx.setActiveTab(name)}>
-      {name}
-    </TabStyle>
-  );
-};
+}) => (
+  // eslint-disable-next-line react/jsx-no-bind
+  <TabStyle active={isActive} onClick={() => ctx.setActiveTab(name)}>
+    {name}
+  </TabStyle>
+);
 
 const getActiveIndex = function(
   children: React.ReactElement[],
@@ -44,7 +43,6 @@ const getActiveIndex = function(
 
 export default function BlockSwitcher({children}) {
   const ctx = useCodeBlockContext();
-  console.log(ctx.tabOrder);
   useEffect(() => {
     // If we haven't seen these tab names before, just add the first one as top priority.
     if (!ctx.tabOrder.includes(children[0].props.name)) {
@@ -69,7 +67,7 @@ export default function BlockSwitcher({children}) {
         })}
       </TabContainerStyle>
       {children?.map(
-        (node, index) => index === activeIndex && <div>{node}</div>,
+        (node, index) => index === activeIndex && <div key={index}>{node}</div>,
       )}
     </HostStyle>
   );
