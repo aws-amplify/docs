@@ -1,12 +1,6 @@
 import React, {useEffect} from "react";
 import {useCodeBlockContext} from "../CodeBlockProvider";
-import {
-  ActiveTabStyle,
-  BlockShowStyle,
-  HostStyle,
-  TabContainerStyle,
-  TabStyle,
-} from "./styles";
+import {HostStyle, TabContainerStyle, TabStyle} from "./styles";
 
 type ContextType = {
   tabOrder: string[];
@@ -19,23 +13,17 @@ type SwitcherButtonProps = {
   ctx: ContextType;
 };
 
-class SwitcherButton extends React.Component<SwitcherButtonProps> {
-  constructor(props) {
-    super(props);
-    // Following `react/jsx-no-bind` linter rule
-    this._onClick = this._onClick.bind(this);
-  }
-
-  _onClick() {
-    this.props.ctx.setActiveTab(this.props.name);
-  }
-
-  render() {
-    const Style = this.props.isActive ? ActiveTabStyle : TabStyle;
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    return <Style onClick={this._onClick}>{this.props.name}</Style>;
-  }
-}
+const SwitcherButton: React.FC<SwitcherButtonProps> = ({
+  name,
+  isActive,
+  ctx,
+}) => {
+  return (
+    <TabStyle active={isActive} onClick={() => ctx.setActiveTab(name)}>
+      {name}
+    </TabStyle>
+  );
+};
 
 const getActiveIndex = function(
   children: React.ReactElement[],
@@ -62,7 +50,7 @@ export default function BlockSwitcher({children}) {
     if (!ctx.tabOrder.includes(children[0].props.name)) {
       ctx.setActiveTab(children[0].props.name);
     }
-  });
+  }, []);
   const activeIndex = getActiveIndex(children, ctx.tabOrder);
 
   return (
@@ -75,11 +63,14 @@ export default function BlockSwitcher({children}) {
               key={index}
               isActive={index === activeIndex}
               ctx={ctx}
+              {...node.props}
             />
           );
         })}
       </TabContainerStyle>
-      <BlockShowStyle index={activeIndex}>{children}</BlockShowStyle>
+      {children?.map(
+        (node, index) => index === activeIndex && <div>{node}</div>,
+      )}
     </HostStyle>
   );
 }
