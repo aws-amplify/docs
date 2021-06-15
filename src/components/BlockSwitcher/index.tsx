@@ -4,7 +4,8 @@ import {HostStyle, TabContainerStyle, TabStyle} from "./styles";
 
 type ContextType = {
   tabOrder: string[];
-  setActiveTab: (_: any) => void;
+  setActiveTab: (_1: any, _2?: any) => void;
+  setFromLocalStorage: () => void;
 };
 
 type SwitcherButtonProps = {
@@ -46,8 +47,10 @@ export default function BlockSwitcher({children}) {
   useEffect(() => {
     // If we haven't seen these tab names before, just add the first one as top priority.
     if (!ctx.tabOrder.includes(children[0].props.name)) {
-      ctx.setActiveTab(children[0].props.name);
+      ctx.setActiveTab(children[0].props.name, false);
     }
+
+    ctx.setFromLocalStorage();
   }, []);
   const activeIndex = getActiveIndex(children, ctx.tabOrder);
 
