@@ -51,3 +51,41 @@ Map todoMap = result['createTodo'];
 final id = todoMap['id'];
 print('Todo id: $id');
 ```
+
+To update data, use the `updateTodo` mutation operation and pass in the `id` from the previous create mutation.
+
+```dart
+String graphQLDocument =
+    '''mutation UpdateTodo(\$id: ID!, \$name: String!, \$description: String) {
+          updateTodo(input: { id: \$id, name: \$name, description: \$description}) {
+            id
+            name
+            description
+          }
+    }''';
+
+var operation = Amplify.API.mutate(
+    request: GraphQLRequest<String>(document: graphQLDocument, variables: {
+  'id': id,
+  'name': 'my first todo',
+  'description': 'todo description',
+}));
+```
+
+To delete data, use the `deleteTodo` mutation operation.
+
+```dart
+String graphQLDocument =
+    '''mutation deleteTodo(\$id: ID!) {
+          deleteTodo(input: { id: \$id }) {
+            id
+            name
+            description
+          }
+    }''';
+
+var operation = Amplify.API.mutate(
+    request: GraphQLRequest<String>(document: graphQLDocument, variables: {
+  'id': id
+}));
+```
