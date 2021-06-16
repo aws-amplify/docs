@@ -11,6 +11,7 @@
     "iam-roles-mfa",
     "permissions-boundary",
     "headless",
-    "upgrade"
+    "upgrade",
+    "uninstall"
   ]
 }

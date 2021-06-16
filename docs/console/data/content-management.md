@@ -2,11 +2,6 @@
 title: Content management
 description: Get started with the Admin UI
 ---
-<amplify-callout warning>
-
-The content management experience is currently in preview. You may encounter issues while trying to save or update data.
-
-</amplify-callout>
 
 The Admin UI **Content** management view provides a tabular view of the backend data for an application. You can use this feature to test your models and to provide both technical and non-technical team members with the ability to create and update an application's data in real-time instead of building admin views.
 

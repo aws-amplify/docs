@@ -4,6 +4,7 @@ description: Use Amplify CLI to create and manage cloud-connected file & data st
 ---
 
 Amplify CLI's `storage` category enables you to create and manage cloud-connected file & data storage. Use the `storage` category when you need to store:
+
 1. app content (images, audio, video etc.) in an public, protected or private storage bucket or
 2. app data in a NoSQL database and access it with a REST API + Lambda
 
@@ -11,7 +12,7 @@ Amplify CLI's `storage` category enables you to create and manage cloud-connecte
 
 You can setup a new storage resource by running the following command:
 
-```sh
+```bash
 amplify add storage
 ```
 
@@ -29,10 +30,10 @@ Amplify allows you to either setup a app content storage (images, audio, video e
 > mybucket
 ```
 
-Follow the prompts to provide your content storage's resource name. 
+Follow the prompts to provide your content storage's resource name.
 Next, configure the access permissions for your Amazon S3 bucket. If you haven't set up the `auth` category already, the Amplify CLI will guide you through a workflow to enable the auth category.
 
-If you want to restrict this storage bucket to only authenticated users, then select "Auth users only". If you want unauthenticated users to access this storage bucket as well, then select "Auth and guest users". 
+If you want to restrict this storage bucket to only authenticated users, then select "Auth users only". If you want unauthenticated users to access this storage bucket as well, then select "Auth and guest users".
 
 ```console
 ? Who should have access:
@@ -40,7 +41,7 @@ Auth users only
 Auth and guest users
 ```
 
-Next, you'll be prompted to set the access scopes for your authenticated and (if selected prior) unauthenticated users. 
+Next, you'll be prompted to set the access scopes for your authenticated and (if selected prior) unauthenticated users.
 
 ```console
 ? What kind of access do you want for Authenticated users? (Press <space> to select, <a> to toggle all, <i> to invert selection)
@@ -52,7 +53,6 @@ Next, you'll be prompted to set the access scopes for your authenticated and (if
  ◯ read
  ◯ delete
 ```
-
 
 ```console
 ? Do you want to add a Lambda Trigger for your S3 Bucket? (y/N)

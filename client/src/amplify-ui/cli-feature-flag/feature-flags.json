@@ -204,6 +204,27 @@
             "defaultExistingProject": true
           }
         ]
+      },
+      "breakCircularDependency": {
+        "description": "Toggles the creation of auth triggers",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.51.0",
+        "deprecationDate": "December 1st 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "Creates auth triggers as custom Lambdas to be used with Apis and Storage.",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "Creates auth triggers via Cognito CloudFormation",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
       }
     }
   },
@@ -310,6 +331,27 @@
           {
             "value": "false",
             "description": "Generate camelCase/PascalCase variable names for types irrespective of the case style used for naming the types.",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      },
+      "addTimestampFields": {
+        "description": "Add read-only timestamp fields in modelgen. For more infomation please refer change logs of amplify repos",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.51.2",
+        "deprecationDate": "Nov 1st 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "[Recommended] Add read-only timestamp `createdAt` and `updatedAt` fields in modelgen. Minimum version for amplify library: amplify-ios@1.9.0, amplify-android@1.17.2",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "No read-only timestamp fields will be added",
             "defaultNewProject": false,
             "defaultExistingProject": true
           }

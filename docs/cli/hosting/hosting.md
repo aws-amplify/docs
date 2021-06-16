@@ -39,16 +39,16 @@ In order to change deployment types, you need to run `amplify remove hosting` an
 
 ### Custom domain, redirects, and more
 
-The `amplify configure hosting` command for the Amplify Console option, opens up the AWS Amplify Console browser tab for you where you can configure settings such as rewrite/redirect URL's, password protection, custom domain. 
+The `amplify configure hosting` command for the Amplify Console option, opens up the AWS Amplify Console browser tab for you where you can configure settings such as rewrite/redirect URL's, password protection, custom domain.
 These settings do not get replicated or cloned between environments and you'd have to configure them on a per-environment basis.
 
-**Note**: 
+**Note:**
 
 Amplify Console automatically handles cache invalidation and there is no additional configurations or commands/command-line parameters required for it.
 
 If you start from the Amplify Console's home page and connect your project's code repository (by clicking `Connect app` button), the frontend environment is created for your project once the workflow successfully completes. After setting up hosting in the Amplify Console, you cannot run the `amplify hosting add` command from your local installation of the Amplify CLI. To disable hosting, please visit the Amplify Console and disconnect the branch from the `App settings > General` page.
 
-If you're hosting a Single Page Web App (SPA) with routing such as [`react-router`](https://reactrouter.com/web/guides/quick-start), you'll need to add a [redirect](https://docs.aws.amazon.com/amplify/latest/userguide/redirects.html#redirects-for-single-page-web-apps-spa) in the Amplify console. 
+If you're hosting a Single Page Web App (SPA) with routing such as [`react-router`](https://reactrouter.com/web/guides/quick-start), you'll need to add a [redirect](https://docs.aws.amazon.com/amplify/latest/userguide/redirects.html#redirects-for-single-page-web-apps-spa) in the Amplify console.
 
 ![SPA redirect](~/images/hosting/spa-redirect.png)
 
@@ -57,7 +57,9 @@ If you're hosting a Single Page Web App (SPA) with routing such as [`react-route
 The Amplify CLI provides you the option to manage the hosting of your static website using Amazon S3 and Amazon Cloudfront directly as well. Following are the concepts you would encounter when adding S3 & Cloudfront as a hosting option for your Amplify app.
 
 ### Stages
+
 If you select Amazon S3 & Amazon Cloudfront for hosting your Amplify App in the `amplify add hosting` flow, there are two stages you can select from as a part of the flow:
+
 - DEV:  S3 static web hosting
 - PROD: S3 and CloudFront
 
@@ -70,10 +72,13 @@ For more  information of the Amazon S3 and Amazon CloudFront, check their docs:
 [CloudFront DEV Guide](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html)
 
 ### Cache Invalidation
+
 If you select Amazon S3 & Amazon Cloudfront for hosting your Amplify App in the `amplify add hosting` flow, the frontend build artifacts will be uploaded to the S3 hosting bucket, and then if Amazon CloudFront is enabled along with it, the `amplify publish` command executed with the `--invalidateCloudFront` or `-c` flag will send an invalidation request to the Amazon CloudFront service to invalidate its cache.
 
 ### Advanced Configurations
+
 The `amplify configure hosting` command walks through the steps to configure the different sections of the resources used when hosting through Amazon S3 & Amazon Cloudfront. Following are the available configurable options:
+
 - `Website`<br/>
 Configures the S3 bucket for static web hosting. You can set the index doc and error doc references by configuring this option. Both are set to be `index.html` by default.<br/><br/>
 - `CloudFront`<br/>

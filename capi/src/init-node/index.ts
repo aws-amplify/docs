@@ -88,54 +88,63 @@ export async function initNode(srcPath: string, ctx: t.Ctx): Promise<void> {
      * If it's a markdown file, we transform its body contents into Hyperscript.
      * Eventually, we also save it within the context.
      */
-    if (pathDeduction.extension === ".md") {
-      const contents = (await fs.readFile(srcPath)).toString();
-      const {body: markdownBody, attributes} = fm<t.Page>(contents);
-      const htmlBody = marked(markdownBody);
-      const body = htmlToHyperscript(ctx, htmlBody, srcPath, attributes);
-      // @ts-ignore
-      if (attributes.disableLinkification) {
+    try {
+      if (pathDeduction.extension === ".md") {
+        const contents = (await fs.readFile(srcPath)).toString();
+        const {body: markdownBody, attributes} = fm<t.Page>(contents);
+        const htmlBody = marked(markdownBody);
+        const body = htmlToHyperscript(ctx, htmlBody, srcPath, attributes);
         // @ts-ignore
-        delete attributes.disableLinkification;
-      }
+        if (attributes.disableLinkification) {
+          // @ts-ignore
+          delete attributes.disableLinkification;
+        }
 
-      /**
-       * If it's a page, it will have a route.
-       */
-      if (pathDeduction.route) {
         /**
-         * It it's a page, it must have a title and description.
+         * If it's a page, it will have a route.
          */
-        if (!attributes.title || !attributes.description) {
-          throw new Error(
-            [
-              "Page frontmatter must contain a `title` and `description` property (",
-              srcPath,
-              `")`,
-            ].join(""),
-          );
+        if (pathDeduction.route) {
+          /**
+           * It it's a page, it must have a title and description.
+           */
+          if (!attributes.title || !attributes.description) {
+            throw new Error(
+              [
+                "Page frontmatter must contain a `title` and `description` property (",
+                srcPath,
+                `")`,
+              ].join(""),
+            );
+          }
+          ctx.pageBySrcPath.set(srcPath, {
+            // @ts-ignore
+            route: pathDeduction.route,
+            // @ts-ignore
+            body,
+            ...attributes,
+          });
+        } else {
+          if (Object.keys(attributes).length > 0) {
+            throw new Error(
+              ["Fragments cannot contain frontmatter (", srcPath, `")`].join(
+                "",
+              ),
+            );
+          }
+          ctx.fragmentBySrcPath.set(srcPath, body);
         }
-        ctx.pageBySrcPath.set(srcPath, {
-          // @ts-ignore
-          route: pathDeduction.route,
-          // @ts-ignore
-          body,
-          ...attributes,
-        });
-      } else {
-        if (Object.keys(attributes).length > 0) {
-          throw new Error(
-            ["Fragments cannot contain frontmatter (", srcPath, `")`].join(""),
-          );
-        }
-        ctx.fragmentBySrcPath.set(srcPath, body);
+      } else if (pathDeduction.extension !== ".json") {
+        /**
+         * If it's not a markdown or json file, we copy it to the public dir.
+         */
+        await fs.ensureDir(
+          path.dirname(pathDeduction.destinationPath as string),
+        );
+        await fs.copyFile(srcPath, pathDeduction.destinationPath as string);
       }
-    } else if (pathDeduction.extension !== ".json") {
-      /**
-       * If it's not a markdown or json file, we copy it to the public dir.
-       */
-      await fs.ensureDir(path.dirname(pathDeduction.destinationPath as string));
-      await fs.copyFile(srcPath, pathDeduction.destinationPath as string);
+    } catch (e) {
+      console.error(e);
+      process.exit(1);
     }
   }
 }

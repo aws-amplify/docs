@@ -3,8 +3,8 @@
 <amplify-block name="Listener (iOS 11+)">
 
 ```swift
-func downloadData(key: String, userId: String) {
-    let options = StorageDownloadDataRequest.Options(accessLevel: .protected, targetIdentityId: userId)
+func downloadData(key: String, identityId: String) {
+    let options = StorageDownloadDataRequest.Options(accessLevel: .protected, targetIdentityId: identityId)
     Amplify.Storage.downloadData(
         key: key,
         options: options,
@@ -29,9 +29,9 @@ func downloadData(key: String, userId: String) {
 var progressSink: AnyCancellable?
 var resultSink: AnyCancellable?
     
-func downloadData(key: String, userId: String) {
+func downloadData(key: String, identityId: String) {
     let options = StorageDownloadDataRequest.Options(accessLevel: .protected,
-                                                     targetIdentityId: userId)
+                                                     targetIdentityId: identityId)
     let storageOperation = Amplify.Storage.downloadData(key: key, options: options)
     progressSink = storageOperation.progressPublisher.sink { progress in print("Progress: \(progress)") }
     resultSink = storageOperation.resultPublisher.sink {

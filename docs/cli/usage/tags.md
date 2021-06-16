@@ -4,11 +4,12 @@ description: Learn how to stay organized with your Amplify-generated AWS resourc
 ---
 
 Tags are labels consisting of key-value pairs that make it easier to manage, search for, and filter resources. Some popular use cases include:
-* Resource organization
-* Cost allocation
-* Operations support
-* Access control
-* Security risk management
+
+- Resource organization
+- Cost allocation
+- Operations support
+- Access control
+- Security risk management
 
 You can learn more about how tags work [here](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html), as well as read about best practices for tagging [here](https://d1.awsstatic.com/whitepapers/aws-tagging-best-practices.pdf).
 
@@ -17,6 +18,7 @@ You can learn more about how tags work [here](https://docs.aws.amazon.com/genera
 When running `amplify init`, a `tags.json` file is automatically generated in the `amplify/backend/` directory, containing predefined tags.
 
 The structure of the file is the following:
+
 ```json
 [
   {
@@ -29,6 +31,7 @@ The structure of the file is the following:
   }
 ]
 ```
+
 **Note:** For projects created before CLI version 4.28.0. Creating a `tags.json` file under `amplify/backend/` directory with the desired tags will ensure tags being applied to existing resources after invoking `amplify push`.
 
 ## Using predefined variables
@@ -37,43 +40,44 @@ There are predefined tags that let you be more specific with information about t
 
 The 2 predefined tags are the following:
 
-* {project-env} - Refers to the project environment (e.g. prod, env, etc)
-* {project-name} - Refers to the current project name (e.g mytestproject)
-
+- {project-env} - Refers to the project environment (e.g., prod, env, etc)
+- {project-name} - Refers to the current project name (e.g., mytestproject)
 
 There are many different cases in which these tag variables can be used. This is an example of how they can be used together and what the output would be:
 
 ```json
 [{
-    "Key": "myawesomekey",
-    "Value": "myvalue-{project-name}-{project-env}"
+  "Key": "myawesomekey",
+  "Value": "myvalue-{project-name}-{project-env}"
 }]
 ```
 
 When getting pushed, the resources would transform into:
+
 ```json
 [{
-    "Key": "myawesomekey",
-    "Value": "myvalue-myamplifyproject-dev"
+  "Key": "myawesomekey",
+  "Value": "myvalue-myamplifyproject-dev"
 }]
 ```
 
 Tag values are not required, thus they can be empty.
+
 ```json
 [{
-	"Key": "MY_TAG_KEY",
-	"Value": ""
+  "Key": "MY_TAG_KEY",
+  "Value": ""
 }]
 ```
 
 ## Adding and updating tags
 
-You can update or add any additional tags in the `tags.json` file inside the `amplify/` folder by editing the file itself. The file must in a JSON format and should follow this structure:
+You can update or add any additional tags in the `tags.json` file inside the `amplify/backend/` folder by editing the file itself. The file must in a JSON format and should follow this structure:
 
 ```json
 [{
-    "Key": “MY_TAG_KEY”,
-    "Value": “MY_TAG_VALUE"
+  "Key": “MY_TAG_KEY”,
+  "Value": “MY_TAG_VALUE"
 }]
 ```
 
@@ -81,9 +85,9 @@ To update the AWS resources from your Amplify project just run `amplify push`.
 
 ## Restrictions
 
-* You can only add up to 50 tags to the `amplify/backend/tags.json` file.
-* Tag keys and values are case sensitive.
-* Duplicate tag keys are not allowed.
+- You can only add up to 50 tags to the `amplify/backend/tags.json` file.
+- Tag keys and values are case sensitive.
+- Duplicate tag keys are not allowed.
 
 <amplify-callout>
 

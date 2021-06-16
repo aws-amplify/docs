@@ -11,6 +11,7 @@ The Amplify CLI has its own mechanism of caching temporary credentials, it does 
 If you only want to remove the cached temp credentials associated with a particular project, execute `amplify awscloudformation reset-cache` or it's alias `amplify aws reset-cache` in the project.
 
 ## Step by step guide to create and assume an IAM role
+
 The following is a step by step guide on how to create an IAM role and make it available for the Amplify CLI.
 
 The setup has three parts, we will use an example to demonstrate this capability.
@@ -18,6 +19,7 @@ The setup has three parts, we will use an example to demonstrate this capability
 Assume Biz Corp has decided to hire Dev Corp to develop its inventory management web portal, and Dev Corp is using the Amplify CLI to speed up the development process.
 
 ## 1. Set up the role (Biz Corp)
+
 1. Sign in to the AWS Management Console and open the [IAM](https://console.aws.amazon.com/iam/) console.
 2. In the navigation pane of the console, choose `Roles` and then choose `Create role`.
 3. Choose the `Another AWS account` role type.
@@ -27,6 +29,7 @@ Assume Biz Corp has decided to hire Dev Corp to develop its inventory management
 7. Choose `Next: Permissions`.
 8. Select permissions policies that you want the developers from Dev Corp to have when the role is assumed.
 Note: You MUST grant the role permissions to perform CloudFormation actions and create associated resources (depending on the categories you use in your project) such as:
+
 - Cognito User and Identity Pools
 - S3 buckets
 - DynamoDB tables
@@ -52,6 +55,7 @@ Note: You MUST grant the role permissions to perform CloudFormation actions and 
 2. Sign in to the AWS Management Console and open the [IAM](https://console.aws.amazon.com/iam/) console. (Assuming Dev corp has a separate AWS account).
 3. In the navigation pane of the console, choose `Policies` and then choose `Create policy`.
 4. Select the 'JSON' tab and paste the following contents in the pane, replacing `<biz_corp_rol_arn>` with the value previously noted.
+
 ```json
 {
     "Version": "2012-10-17",
@@ -64,6 +68,7 @@ Note: You MUST grant the role permissions to perform CloudFormation actions and 
     ]
 }
 ```
+
 5. Choose `Review policy`.
 6. Type in the policy Name, and optionally add the policy description.
 7. Choose `Create policy`.
@@ -77,10 +82,10 @@ Note: You MUST grant the role permissions to perform CloudFormation actions and 
 5. Choose `Next: Permissions`.
 6. On the Set Permissions Page, select `Attach existing policies directly`.
 7. Select the policy created in 2.1.
-9. Choose `Next: Tagging`, attach tags if you wish (optional).
-10. Choose `Next: Review`.
-11. Choose `Create User`.
-12. Click `Download .csv` to download a copy of the credentials. You can, optionally, copy paste the Access Key ID and Secret Access Key and store it in a safe location. These credentials would be used in a later section.
+8. Choose `Next: Tagging`, attach tags if you wish (optional).
+9. Choose `Next: Review`.
+10. Choose `Create User`.
+11. Click `Download .csv` to download a copy of the credentials. You can, optionally, copy paste the Access Key ID and Secret Access Key and store it in a safe location. These credentials would be used in a later section.
 
 ### 2.3 Assign MFA device (Optional)
 
@@ -92,11 +97,12 @@ We are using a virtual MFA device, such as the Google Authenticator app, in this
 3. Select the `Security Credentials` tab.
 4. Next to the `Assigned MFA device` label, choose the `Manage` option.
 5. In the Manage MFA Device wizard, choose `Virtual MFA device`, and then choose `Continue`.
-7. Choose `Show QR code` if the MFA app supports QR code, and scan the QR code from your virtual device(Google Authenticator app in our case), if not, choose `Show secret key` and type it into the MFA app.
-8. In the MFA code 1 box, type the one-time password that currently appears in the virtual MFA device. Wait for the device to generate a new one-time password. Then type the second one-time password into the MFA code 2 box. Then choose Assign MFA.
-9. Copy the MFA device arn next to `Assigned MFA device`, which will be used in part 3.
+6. Choose `Show QR code` if the MFA app supports QR code, and scan the QR code from your virtual device(Google Authenticator app in our case), if not, choose `Show secret key` and type it into the MFA app.
+7. In the MFA code 1 box, type the one-time password that currently appears in the virtual MFA device. Wait for the device to generate a new one-time password. Then type the second one-time password into the MFA code 2 box. Then choose Assign MFA.
+8. Copy the MFA device arn next to `Assigned MFA device`, which will be used in part 3.
 
 ## 3. Set up the local development environment (Dev Corp)
+
 1. On the local development system, create the following two files if they do not exist.<br/>
   `~/.aws/config`<br/>
   `~/.aws/credentials`<br/>
@@ -125,6 +131,5 @@ aws_secret_access_key=<secret_access_key_from_part_2.2>
 ```
 
 Now, when Dev Corp is trying to initialize an Amplify Project, the user can select the `bizcorprole` profile configured above, and based on the authentication method set up the user would be prompted with corresponding questions such as MFA codes. After this, the user would be able to successfully deploy/manage AWS resources in Biz corps account (based on the access policies set by the Biz corp).
-
 
 You can take a look at [AWS IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user.html) and the [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-role.html) documentation for more details on IAM role and its usage.
