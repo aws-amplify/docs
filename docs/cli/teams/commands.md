@@ -22,12 +22,12 @@ amplify env
 
 | Command  | Description  |
 |---|---|
-| [`amplify env add [--permissions-boundary]`](#add-a-new-environment) | Adds a new environment |
+| [`amplify env add [--permissions-boundary  <IAM Policy ARN>]`](#add-a-new-environment) | Adds a new environment |
 | [`amplify env pull [--restore]`](#pull-the-environment-from-the-cloud) | Pulls the current environment from the cloud |
 | [`amplify env checkout <env-name> [--restore]`](#checkout-an-environment) | Switches to the selected environment |
 | [`amplify env list [--details] [--json]`](#list-environments) | Displays a list of all the environments |
 | [`amplify env get --name <env-name>`](#show-environment-details) | Displays the environment details |
-| [`amplify env update [--permissions-boundary]`](~/cli/usage/permissions-boundary.md) | Updates the environment's IAM Permissions Boundary |
+| [`amplify env update [--permissions-boundary  <IAM Policy ARN>]`](~/cli/usage/permissions-boundary.md) | Updates the environment's IAM Permissions Boundary |
 | [`amplify env import --name <env-name> --config <provider-configs> [--awsInfo <aws-configs>]`](#import-an-environment) | Imports an environment |
 | [`amplify env remove <env-name>`](#remove-an-environment) | Removes an environment |
 
