@@ -22,19 +22,18 @@ Amplify.Auth.signIn(
 <amplify-block name="Kotlin - Callbacks">
 
 ```kotlin
-    Amplify.Auth.signIn("username", "old password",
-        { result ->
-            Log.i("AuthQuickstart", result.nextStep.toString())
-            if (result.nextStep.signInStep == AuthSignInStep.CONFIRM_SIGN_IN_WITH_NEW_PASSWORD) {
-                val newPassword = "new password"
-                Amplify.Auth.confirmSignIn(newPassword,
-                    { Log.i("AuthQuickstart", "Confirmed signin: $it") },
-                    { Log.e("AuthQuickstart", "Failed to confirm signin", it) }
-                )
-            }
-        },
-        { Log.e("AuthQuickstart", "Failed to sign in", it) }
-    )
+Amplify.Auth.signIn("username", "old password",
+            { result ->
+                Log.i("AuthQuickstart", result.nextStep.toString())
+                if (result.nextStep.signInStep == AuthSignInStep.CONFIRM_SIGN_IN_WITH_NEW_PASSWORD) {
+                    Amplify.Auth.confirmSignIn("new password",
+                        { Log.i("AuthQuickstart", "Confirmed signin: $it") },
+                        { Log.e("AuthQuickstart", "Failed to confirm signin", it) }
+                    )
+                }
+            },
+            { Log.e("AuthQuickstart", "Failed to sign in", it) }
+        )
 ```
 
 </amplify-block>
