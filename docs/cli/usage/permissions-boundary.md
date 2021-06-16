@@ -7,7 +7,7 @@ To set the maximum permissions that can be granted to IAM Roles created by Ampli
 
 The IAM Permissions Boundary will apply to all IAM Roles created by Amplify. This includes the "auth role" assumed by users that log into the app and the "unauth role" assumed by guest users. It also applies to Lambda execution roles, Cognito user group roles, and any role configured in a [custom resource stack](~/cli/usage/customcf.md).
 
-Amplify CLI does set up a new IAM Policy to use as a Permissions Boundary. A Permissions Boundary is an IAM Policy and can be created following the guide [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_create-console.html). This IAM Policy, to be used as a Permissions Boundary, must be configured outside of Amplify CLI. This is usually part of an AWS Organization rule or other coporate governance requirement. Once you have created an IAM Policy to use as a Permissions Boundary, copy the IAM Policy ARN for the next steps.
+Amplify CLI does set up a new IAM Policy to use as a Permissions Boundary. A Permissions Boundary is an IAM Policy and can be created following the guide [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_create-console.html). This IAM Policy, to be used as a Permissions Boundary, must be configured outside of Amplify CLI. This is usually part of an AWS Organization rule or other corporate governance requirement. Once you have created an IAM Policy to use as a Permissions Boundary, copy the IAM Policy ARN for the next steps.
 
 ## Set up a Permissions Boundary in a new project
 

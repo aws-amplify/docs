@@ -42,7 +42,7 @@ The `add` command goes through the following steps:
 - Creates S3 bucket for deployment
 - Creates a new backend environment in [AWS Amplify Console](https://console.aws.amazon.com/amplify) to view and manage resources.
 
-Optionally, you can configure an IAM Permissions Boundary for all Amplify-generated roles via the `--permissions-boundary` paramater. For more information about configuring IAM Permissions Boundary, see [IAM Permissions Boundary for Amplify-generated roles](~/cli/usage/permissions-boundary.md).
+Optionally, you can configure an IAM Permissions Boundary for all Amplify-generated roles via the `--permissions-boundary` parameter. For more information about configuring IAM Permissions Boundary, see [IAM Permissions Boundary for Amplify-generated roles](~/cli/usage/permissions-boundary.md).
  
 ### Pull the environment from the cloud
 ```
