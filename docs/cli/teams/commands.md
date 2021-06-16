@@ -22,7 +22,7 @@ amplify env
 
 | Command  | Description  |
 |---|---|
-| [`amplify env add [--permissions-boundary  <IAM Policy ARN>]`](#add-a-new-environment) | Adds a new environment |
+| [`amplify env add [--permissions-boundary <IAM Policy ARN>]`](#add-a-new-environment) | Adds a new environment |
 | [`amplify env pull [--restore]`](#pull-the-environment-from-the-cloud) | Pulls the current environment from the cloud |
 | [`amplify env checkout <env-name> [--restore]`](#checkout-an-environment) | Switches to the selected environment |
 | [`amplify env list [--details] [--json]`](#list-environments) | Displays a list of all the environments |
