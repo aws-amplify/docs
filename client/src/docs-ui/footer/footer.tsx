@@ -59,7 +59,7 @@ export class DocsFooter {
               <span>
                 <img src="/assets/aws.svg" />
                 {`Amplify open source, documentation and community are supported
-                by Amazon Web Services © 2020, Amazon Web Services, Inc. and its
+                by Amazon Web Services © ${new Date().getFullYear()}, Amazon Web Services, Inc. and its
                 affiliates. All rights reserved. View the `}
                 <amplify-external-link href={links.TERMS}>
                   site terms
