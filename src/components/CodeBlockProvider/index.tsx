@@ -50,7 +50,7 @@ export default function CodeBlockProvider({children}) {
   const setActiveTab = (tabName, saveToLocalStorage = true) => {
     setTabOrder((oldTabOrder) => {
       // Break out early to avoid rerendering if the currently active tab is clicked
-      if (tabName === oldTabOrder[0]) return;
+      if (tabName === oldTabOrder[0]) return oldTabOrder;
       // Create temp array with `tabHeading` (the new highest priority) as the first element
       const newTabOrder = new Array<string>();
       newTabOrder.push(tabName);
