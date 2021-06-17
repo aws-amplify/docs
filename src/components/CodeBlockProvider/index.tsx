@@ -10,18 +10,24 @@ const CodeBlockContext = createContext({
   },
 });
 
-const SELECTED_TABS_LOCAL_STORAGE_KEY = `amplify-docs::selected-tabs`;
+const TAB_ORDER_LOCAL_STORAGE_KEY = `amplify-docs::tab-order`;
 
 const restoreBlockSwitcherState = function() {
   if (typeof localStorage === "undefined") return [];
   // Gather list of previously-selected tab headings (might be null)
-  const persistedSelectedTabsSerialized =
-    localStorage.getItem(SELECTED_TABS_LOCAL_STORAGE_KEY) || undefined;
-  if (Array.isArray(persistedSelectedTabsSerialized)) {
-    // save that selection array if it exists (otherwise, list is empty)
-    return JSON.parse(persistedSelectedTabsSerialized);
+  const tabOrderSerialized =
+    localStorage.getItem(TAB_ORDER_LOCAL_STORAGE_KEY) || undefined;
+
+  // Load the order array if it exists (otherwise, list is empty)
+  try {
+    const tabOrder = JSON.parse(tabOrderSerialized);
+
+    if (!Array.isArray(tabOrder)) return [];
+
+    return tabOrder;
+  } catch {
+    return [];
   }
-  return [];
 };
 
 export default function CodeBlockProvider({children}) {
@@ -67,7 +73,7 @@ export default function CodeBlockProvider({children}) {
       // Serialize and save to local storage
       if (typeof localStorage !== "undefined" && saveToLocalStorage) {
         localStorage.setItem(
-          SELECTED_TABS_LOCAL_STORAGE_KEY,
+          TAB_ORDER_LOCAL_STORAGE_KEY,
           JSON.stringify(newTabOrder),
         );
       }
