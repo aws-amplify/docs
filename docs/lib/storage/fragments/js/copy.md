@@ -29,10 +29,6 @@ await Storage.copy(
 await Storage.copy({ key: 'src' }, { key: 'dest' }, {
 	acl?: string, // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#upload-property
 	cacheControl?: string, // Specifies caching behavior along the request/reply chain
-	contentDisposition?: string, // Specifies presentational information for the object 
-	contentEncoding?: string, // Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied  
-	contentLanguage?: string, // The language the content is in
-	contentType?: string, // A standard MIME type describing the format of the object data
 	expires?: Date; // The date at which the object is no longer cacheable
 	metadata?: [key: string]: string // A map of metadata to store with the object in S3
 })
@@ -116,21 +112,3 @@ const result = await Storage.copy('srcKey', 'destKey', {
 });
 ```
 
-### Monitor progress of copy
-
-To track the progress of your copy, you can use `progressCallback`:
-
-```typescript
-Storage.copy({ key: 'src' }, { key: 'dest' }, {
-	progressCallback(progress) {
-		console.log(`Copied: ${progress.loaded}/${progress.total}`);
-	}
-})
-```
-
-<amplify-callout>
-Since S3's javascript SDK does not directly expose the progress events, the
-tracker will only emit a progress event whenever a part is copied. If the source
-file is less than 5MB, it will only emit an event when the entire file is
-copied.
-</amplify-callout>
