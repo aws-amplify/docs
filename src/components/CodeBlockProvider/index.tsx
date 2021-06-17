@@ -17,7 +17,7 @@ const restoreBlockSwitcherState = function() {
   // Gather list of previously-selected tab headings (might be null)
   const persistedSelectedTabsSerialized =
     localStorage.getItem(SELECTED_TABS_LOCAL_STORAGE_KEY) || undefined;
-  if (persistedSelectedTabsSerialized) {
+  if (Array.isArray(persistedSelectedTabsSerialized)) {
     // save that selection array if it exists (otherwise, list is empty)
     return JSON.parse(persistedSelectedTabsSerialized);
   }
