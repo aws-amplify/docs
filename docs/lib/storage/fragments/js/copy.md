@@ -4,6 +4,10 @@
 
 It returns a `{key: new S3 Object key}` object on success:
 
+<amplify-callout>
+Storage.copy can copy an object up to 5 GB in a single operation.
+</amplify-callout
+
 ### Options
 
 ```typescript
