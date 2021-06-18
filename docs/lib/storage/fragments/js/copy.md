@@ -113,4 +113,3 @@ const result = await Storage.copy({ key: 'srcKey' }, { key: 'destKey' }, {
 		SSEKMSKeyId
 });
 ```
-
