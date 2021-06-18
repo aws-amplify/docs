@@ -23,7 +23,6 @@ await Storage.copy(
 	}, 
 	config?: {
 		track?: boolean, // if true, automatically send Storage Events to Amazon Pinpoint
-		progressCallback?: (progress) => any, // callback function on every successful part upload
 	}
 )
 ```
