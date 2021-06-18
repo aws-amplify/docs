@@ -70,7 +70,7 @@ console.log(await Storage.list('copied/', { level: 'private' })); // [ { ..., ke
 console.log(copied); // { key: 'copied/destKey' }
 ```
 
-## Copy protected file from another user
+## Copy protected files from another user
 
 You can also copy a protected file from another user by providing their identity id
 
