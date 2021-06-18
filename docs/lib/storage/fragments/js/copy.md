@@ -52,7 +52,7 @@ console.log(await Storage.list('copied/')); // [ { ..., key: 'copied/destKey' } 
 console.log(copied); // { key: 'copied/destKey' }
 ```
 
-## Copy file across access levels
+## Copy files across access levels
 
 To copy file across different access levels, you'll need to explicitly provide the source and destination access levels:
 
