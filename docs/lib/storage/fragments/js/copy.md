@@ -14,7 +14,7 @@ await Storage.copy(
 	src: { 
 		key: string,
 		level?: 'private' | 'protected' | 'public',
-		identityId?: string, // only required if you are copying from a protected file 
+		identityId?: string, // only required if you are copying a protected file from another user 
 	},
 	dest: { 
 		key: string,
