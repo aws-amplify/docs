@@ -27,7 +27,7 @@ await Storage.copy(
 )
 ```
 
-### Extra Options
+### Other Options
 ```typescript
 await Storage.copy({ key: 'src' }, { key: 'dest' }, {
 	acl?: string, // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#upload-property
@@ -114,4 +114,3 @@ const result = await Storage.copy('srcKey', 'destKey', {
 		SSEKMSKeyId
 });
 ```
-
