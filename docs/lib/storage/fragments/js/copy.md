@@ -1,14 +1,13 @@
-## Copy
-
-`Storage.copy` method copies an existing file to a different key.
-
-It returns a `{key: new S3 Object key}` object on success:
+`Storage.copy` method copies an existing file to a different key and returns a `{key: new S3 Object key}` object upon
+success.
 
 <amplify-callout>
-Storage.copy can copy an object up to 5 GB in a single operation.
-</amplify-callout
 
-### Options
+`Storage.copy` can copy an object up to 5 GB in a single operation.
+
+</amplify-callout>
+
+To copy a file, you need to provide a source key `src` and a destination key `dest`
 
 ```typescript
 await Storage.copy(
@@ -27,7 +26,8 @@ await Storage.copy(
 )
 ```
 
-### Extra Options
+In addition, you can configure advanced capabilities such as cache control, meta data, and more.
+
 ```typescript
 await Storage.copy({ key: 'src' }, { key: 'dest' }, {
 	acl?: string, // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#upload-property
@@ -37,10 +37,9 @@ await Storage.copy({ key: 'src' }, { key: 'dest' }, {
 })
 ```
 
-### Copy file
+## Copy files within the same access levels
 
-For the most basic use case, you can copy a file from the specified key to another key within the same [File Access
-Level](~/lib/storage/configureaccess.md) (Defaults to 'public').
+You can copy a file from the specified key to another key within the same [File Access Level](~/lib/storage/configureaccess.md) (Defaults to 'public').
 
 ```typescript
 console.log(await Storage.list('copied/')); // []
@@ -53,9 +52,9 @@ console.log(await Storage.list('copied/')); // [ { ..., key: 'copied/destKey' } 
 console.log(copied); // { key: 'copied/destKey' }
 ```
 
-### Copy file across access levels
+## Copy file across access levels
 
-Another use case of `copy` is to copy file across different access levels
+To copy file across different access levels, you'll need to explicitly provide the source and destination access levels:
 
 ```typescript
 console.log(await Storage.list('copied/', { level: 'private' })); // []
@@ -71,9 +70,9 @@ console.log(await Storage.list('copied/', { level: 'private' })); // [ { ..., ke
 console.log(copied); // { key: 'copied/destKey' }
 ```
 
-### Copy protected file from another identityId
+## Copy protected file from another user
 
-You can also copy a protected file from another identityId.
+You can also copy a protected file from another user by providing their identity id
 
 ```typescript
 console.log(await Storage.list('copied/', { level: 'private' })); // []
@@ -95,7 +94,7 @@ console.log(copied); // { key: 'copied/destKey' }
 Cross identity ID copying is only allowed if the source object's access level is set to 'protected'.
 </amplify-callout>
 
-### Encrypted copy
+## How to enable encrypted file copy
 
 To utilize Server-Side Encryption with AWS KMS, the following options can be passed in with the Copy API like so:
 
