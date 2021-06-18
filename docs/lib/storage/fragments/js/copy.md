@@ -13,13 +13,13 @@ Storage.copy can copy an object up to 5 GB in a single operation.
 ```typescript
 await Storage.copy(
 	src: { 
-		key: string;
-		level?: 'private' | 'protected' | 'public';
-		identityId?: string; // only works if you are copying from a protected file 
+		key: string,
+		level?: 'private' | 'protected' | 'public',
+		identityId?: string, // only works if you are copying from a protected file 
 	},
 	dest: { 
-		key: string;
-		level?: 'private' | 'protected' | 'public' 
+		key: string,
+		level?: 'private' | 'protected' | 'public',
 	}, 
 	config?: {
 		track?: boolean, // if true, automatically send Storage Events to Amazon Pinpoint
@@ -32,8 +32,8 @@ await Storage.copy(
 await Storage.copy({ key: 'src' }, { key: 'dest' }, {
 	acl?: string, // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#upload-property
 	cacheControl?: string, // Specifies caching behavior along the request/reply chain
-	expires?: Date; // The date at which the object is no longer cacheable
-	metadata?: [key: string]: string // A map of metadata to store with the object in S3
+	expires?: Date, // The date at which the object is no longer cacheable
+	metadata?: [key: string]: string, // A map of metadata to store with the object in S3
 })
 ```
 
