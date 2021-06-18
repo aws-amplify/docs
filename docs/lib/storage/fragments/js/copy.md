@@ -98,7 +98,7 @@ Cross identity ID copying is only allowed if the source object's access level is
 
 ## How to enable encrypted file copy
 
-To utilize Server-Side Encryption with AWS KMS, the following options can be passed in with the Copy API like so:
+To utilize Server-Side Encryption with AWS KMS, the following options can be passed in to `Storage.copy`:
 
 ```javascript
 const serverSideEncryption = AES256 | aws:kms;
