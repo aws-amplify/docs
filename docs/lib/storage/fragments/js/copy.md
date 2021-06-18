@@ -106,7 +106,7 @@ const SSECustomerKey = new Buffer('...') || 'string';
 const SSECustomerKeyMD5 = 'string';
 const SSEKMSKeyId = 'string';
 
-const result = await Storage.copy('srcKey', 'destKey', {
+const result = await Storage.copy({ key: 'srcKey' }, { key: 'destKey' }, {
 		serverSideEncryption,
 		SSECustomerAlgorithm,
 		SSECustomerKey,
