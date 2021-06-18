@@ -1,4 +1,4 @@
-`Storage.copy` method copies an existing file to a different key and returns a `{key: new S3 Object key}` object upon
+`Storage.copy` method copies an existing file to a different key and returns a `{key: 'new S3 Object key'}` object upon
 success.
 
 <amplify-callout>
