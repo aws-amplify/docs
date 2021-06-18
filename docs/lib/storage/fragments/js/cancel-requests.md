@@ -1,4 +1,4 @@
-You may cancel any `put` or `get` requests made by the Storage API by keeping a
+You may cancel any `put`, `get`, or `copy` requests made by the Storage API by keeping a
 reference to the promise returned.
 
 ```javascript
