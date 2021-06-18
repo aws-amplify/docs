@@ -93,6 +93,7 @@ console.log(copied); // { key: 'copied/destKey' }
 <amplify-callout>
 
 Cross identity ID copying is only allowed if the source object's access level is set to 'protected'.
+
 </amplify-callout>
 
 ## How to enable encrypted file copy
