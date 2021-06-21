@@ -16,7 +16,7 @@ You can setup a new storage resource by running the following command:
 amplify add storage
 ```
 
-Amplify allows you to either setup an app content storage (images, audio, video etc.) backed by Amazon S3 or a NoSQL database backed by Amazon DynamoDB.
+Amplify allows you to either setup app content storage (images, audio, video etc.) backed by Amazon S3 or a NoSQL database backed by Amazon DynamoDB.
 
 ### Adding S3 storage
 
