@@ -7,4 +7,4 @@
 <inline-fragment platform="flutter" src="~/lib/project-setup/fragments/native_common/prereq/flutter_null_safety.md"></inline-fragment>
     
 
-You can see [an example Amplify Auth + Flutter application here](https://github.com/aws-amplify/amplify-flutter/tree/master/packages/amplify_storage_s3/example).
+You can see [an example Amplify Storage + Flutter application here](https://github.com/aws-amplify/amplify-flutter/tree/master/packages/amplify_storage_s3/example).
