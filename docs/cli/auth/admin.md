@@ -214,20 +214,15 @@ class MyCustomInterceptor: URLRequestInterceptor {
         let semaphore = DispatchSemaphore(value: 0)
         var result: Result<String, Error> = .failure(AuthError.unknown("Could not retrieve Cognito token"))
         Amplify.Auth.fetchAuthSession { (event) in
-            defer {
-                semaphore.signal()
-            }
-            switch event {
-            case .success(let session):
-                if let cognitoTokenResult = (session as? AuthCognitoTokensProvider)?.getCognitoTokens() {
-                    switch cognitoTokenResult {
-                    case .success(let tokens):
-                        result = .success(tokens.idToken)
-                    case .failure(let error):
-                        result = .failure(error)
-                    }
+            do {
+                defer {
+                    semaphore.signal()
                 }
-            case .failure(let error):
+                let session = try event.get()
+                if let tokens = try (session as? AuthCognitoTokensProvider)?.getCognitoTokens().get() {
+                    result = .success(tokens.idToken)
+                }
+            } catch {
                 result = .failure(error)
             }
         }
@@ -241,40 +236,15 @@ class MyCustomInterceptor: URLRequestInterceptor {
         }
         
         let tokenResult = getLatestAuthToken()
-        guard case let .success(token) = tokenResult else {
-            if case let .failure(error) = tokenResult {
-                throw APIError.operationError("Failed to retrieve Cognito UserPool token.", "", error)
-            }
-
-            return mutableRequest as URLRequest
+        switch tokenResult {
+        case .success(let token):
+            mutableRequest.setValue(token, forHTTPHeaderField: "authorization")
+        case .failure(let error):
+            throw APIError.operationError("Failed to retrieve Cognito UserPool token.", "", error)
         }
-        mutableRequest.setValue(token, forHTTPHeaderField: "authorization")
         return mutableRequest as URLRequest
     }
 }
 ```
-
-</amplify-block>
-
-<amplify-block name="Android">
-
-For Amplify Android
-```java
-java code
-
-```
-
-</amplify-block>
-
-<amplify-block name="Flutter">
-
-For Amplify Flutter
-```dart
-dart code
-
-```
-
-</amplify-block>
-
 
 </amplify-block-switcher>
