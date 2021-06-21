@@ -5,7 +5,7 @@ description: Use Amplify CLI to create and manage cloud-connected file & data st
 
 Amplify CLI's `storage` category enables you to create and manage cloud-connected file & data storage. Use the `storage` category when you need to store:
 
-1. app content (images, audio, video etc.) in an public, protected or private storage bucket or
+1. app content (images, audio, video etc.) in a public, protected or private storage bucket or
 2. app data in a NoSQL database and access it with a REST API + Lambda
 
 ## Setup a new storage resource
@@ -16,7 +16,7 @@ You can setup a new storage resource by running the following command:
 amplify add storage
 ```
 
-Amplify allows you to either setup a app content storage (images, audio, video etc.) backed by Amazon S3 or a NoSQL database backed by Amazon DynamoDB.
+Amplify allows you to either setup an app content storage (images, audio, video etc.) backed by Amazon S3 or a NoSQL database backed by Amazon DynamoDB.
 
 ### Adding S3 storage
 
@@ -31,7 +31,7 @@ Amplify allows you to either setup a app content storage (images, audio, video e
 ```
 
 Follow the prompts to provide your content storage's resource name.
-Next, configure the access permissions for your Amazon S3 bucket. If you haven't set up the `auth` category already, the Amplify CLI will guide you through a workflow to enable the auth category.
+Next, configure the access permissions for your Amazon S3 bucket. If you haven't set up the `auth` category already, the Amplify CLI will guide you through a workflow to enable the `auth` category.
 
 If you want to restrict this storage bucket to only authenticated users, then select "Auth users only". If you want unauthenticated users to access this storage bucket as well, then select "Auth and guest users".
 
