@@ -94,7 +94,7 @@ export default function Page() {
                   <H4>iOS</H4>
                 </CardDetail>
               </Card>
-              <Card href="/lib/q/platform/reac-native">
+              <Card href="/lib/q/platform/react-native">
                 <CardGraphic src="/assets/integrations/react-native.svg" />
                 <CardDetail>
                   <H4>React Native</H4>
