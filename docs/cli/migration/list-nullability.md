@@ -11,18 +11,18 @@ _Schema example_
 
 ```
 type ListStringContainer @model {
-  stringList: [String!]!
-  stringNullableList: [String!]
-  nullableStringList: [String]!
-  nullableStringNullableList: [String]
+  requiredElementRequiredList: [String!]!
+  requiredElementOptionalList: [String!]
+  optionalElementRequiredList: [String]!
+  optionalElementOptionalList: [String]
 }
 ```
 
 In this example, there are four fields with different combinations of optionality:
-- `stringList` - the list component and the list is required
-- `stringNullableList` - the list component is required, the list is optional
-- `nullableStringList` - the list component is optional, the list is required
-- `nullableStringNullableList` - the list component and list is optional
+- `requiredElementRequiredList` - the list component and the list is required
+- `requiredElementOptionalList` - the list component is required, the list is optional
+- `optionalElementRequiredList` - the list component is optional, the list is required
+- `optionalElementOptionalList` - the list component and list is optional
 
 > The list component in this example is a String type, however, this applies for other types as well such as Int, Bool, and embedded types that you define yourself.
 
@@ -42,32 +42,32 @@ Developers building an iOS app with Amplify DataStore or Amplify API generates S
 
 ```swift
 public struct ListStringContainer: Model {
-  public var stringList: [String]
-  public var stringNullableList: [String]
+  public var requiredElementRequiredList: [String]
+  public var requiredElementOptionalList: [String]
   public var nullableStringList: [String]?
-  public var nullableStringNullableList: [String]?
+  public var optionalElementOptionalList: [String]?
   ...
 }
 ```
 
-_Current code generated Swift model_
+_Current code generated Swift code_
 
 ```swift
 public struct ListStringContainer: Model {
-  public var stringList: [String]
-  public var stringNullableList: [String]?
+  public var requiredElementRequiredList: [String]
+  public var requiredElementOptionalList: [String]?
   public var nullableStringList: [String?]
-  public var nullableStringNullableList: [String?]?
+  public var optionalElementOptionalList: [String?]?
   ...
 }
 ```
 
 The difference between the current and previous code:
 
-- `stringList` - No changes
-- `stringNullableList` - the list was required and is now optional.
-- `nullableStringList` - the list component was required and is now optional. The list was optional and is now required
-- `nullableStringNullableList` - the list component was required and is now optional. 
+- `requiredElementRequiredList` - No changes
+- `requiredElementOptionalList` - the list was required and is now optional.
+- `optionalElementRequiredList` - the list component was required and is now optional. The list was optional and is now required
+- `optionalElementOptionalList` - the list component was required and is now optional. 
 
 </amplify-block>
 
@@ -76,7 +76,7 @@ The difference between the current and previous code:
 
 ### **When do I have to upgrade?**
 
-This is behind a feature flag in Amplify CLI x.y.z and will be deprecated by [TODO: DATE]. Developers with existing apps should upgrade to the latest CLI, set the feature flag, and update their app code to account for the change in optionality of the types. Developers building a new app will automatically generate code with the latest changes and no action is required.
+This is behind a feature flag in Amplify CLI x.y.z and will be deprecated by [TODO: DATE]. Developers with existing apps should upgrade to the latest CLI, set the feature flag, and update their app code or their schema (see recommendations following) to account for the change in optionality of the types. Developers building a new app will automatically generate code with the latest changes and no action is required.
 
 ### **Where do I make these changes?**
 
@@ -89,34 +89,34 @@ amplify upgrade
 2. The version should be at least x.y.z
 
 ```
-amplify --v // at least x.y.z
+amplify --v # at least x.y.z
 ```
 
 3. If building an existing app, toggle the feature flag to true in TODO: PATH
 
 4. Run `amplify codegen models` to generate the latest models.
 
-5. Open the App and make sure the app compiles. Depending on your schema, you may be in the following scenarios.
+5. Open the App and make sure the app compiles with the latest generated models. Depending on your schema, you may be in the following scenarios.
 
 <amplify-block-switcher>
 
 <amplify-block name="iOS">
 
-Scenario 1. Schema: `stringNullableList: [String!]`
+Scenario 1. Schema: `requiredElementOptionalList: [String!]`
 
 ```swift
 // Previous - Swift type
 public var stringNullableList: [String]
 
 // Current - Swift type
-public var stringNullableList: [String]?
+public var requiredElementOptionalList: [String]?
 
 // Previous - Code 
-print(container.stringNullableList) // ["value1", "value2"]
+print(container.requiredElementOptionalList) // ["value1", "value2"]
 
 // Current - Code
-if let stringNullableList = container.stringNullableList { 
-    print(stringNullableList) // ["value1", "value2"]
+if let requiredElementList = container.requiredElementOptionalList { 
+    print(requiredElementList) // ["value1", "value2"]
 }
 ```
 
@@ -124,26 +124,26 @@ Since the list was required and is now optional, unwrap the optional to retrieve
 
 **Recommendation:** Update the type in the schema from `[String!]` to`[String!]!` to make the list required if you do not have an app use case for storing a null list. This will remove the need to unwrap the list in code.
 
- Scenario 2. Schema: `nullableStringList: [String]!`
+ Scenario 2. Schema: `optionalElementRequiredList: [String]!`
 
 ```swift
 // Previous - Swift type
-public var nullableStringList: [String]?
+public var optionalElementRequiredList: [String]?
 
 // Current - Swift type
-public var nullableStringList: [String?]
+public var optionalElementRequiredList: [String?]
 
 // Previous - Code
-if let nullableStringList = container.nullableStringList { 
-    print(nullableStringList) // ["value1", "value2"]
-    for value in nullableStringList {
+if let optionalElementRequiredList = container.optionalElementRequiredList { 
+    print(optionalElementRequiredList) // ["value1", "value2"]
+    for value in optionalElementRequiredList {
         print(value) // "value1", "value2
     }
 }
 
 // After
-print(container.nullableStringList) // [Optional("value1"), Optional("value2")]
-for value in container.nullableStringList {
+print(container.optionalElementRequiredList) // [Optional("value1"), Optional("value2")]
+for value in container.optionalElementRequiredList {
     if let value = value {
         print(value) // "value1", "value2
     }
@@ -154,27 +154,27 @@ Since the list component was required and is now optional, unwrap the optional v
 
 **Recommendation:** Update the type in the schema from `[String]!` to `[String!]!` to make the list component required if you do not store null values in the list. This will remove the need to unwrap the list component in code.
 
-Scenario 3. Schema: `nullableStringNullableList: [String]`
+Scenario 3. Schema: `optionalElementOptionalList: [String]`
 
 ```swift
 // Previous - Swift type
-public var nullableStringNullableList: [String]?
+public var optionalElementOptionalList: [String]?
 
 // Current - Swift type
-public var nullableStringNullableList: [String?]?
+public var optionalElementOptionalList: [String?]?
 
 // Previous - Code
-if let nullableStringNullableList = container.nullableStringNullableList { 
-    print(nullableStringList) // ["value1", "value2"]
-    for value in nullableStringList {
+if let optionalElementOptionalList = container.optionalElementOptionalList { 
+    print(optionalElementOptionalList) // ["value1", "value2"]
+    for value in optionalElementOptionalList {
         print(value) // "value1", "value2
     }
 }
 
 // After
-if let nullableStringNullableList = container.nullableStringNullableList { 
-    print(nullableStringList) // [Optional("value1"), Optional("value2")]
-    for value in nullableStringList {
+if let optionalElementList = container.optionalElementOptionalList { 
+    print(optionalElementList) // [Optional("value1"), Optional("value2")]
+    for value in optionalElementList {
         if let value = value {
             print(value) // "value1", "value2
         }
