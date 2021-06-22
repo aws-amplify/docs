@@ -5,7 +5,7 @@ If you are using the Amplify CLI, an existing Amazon Cognito User Pool and Ident
 amplify import auth
 ```
 
-Refer to [the related CLI documentation](~/cli/auth/import.md) for more details.
+For more details, see [the related CLI documentation](~/cli/auth/import.md).
 
 
 If you are not using the Amplify CLI, a Cognito User Pool and Identity Pool can be used by referencing them in your `amplifyconfiguration.json` file.
