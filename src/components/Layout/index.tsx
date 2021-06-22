@@ -1,6 +1,7 @@
 import Head from "next/head";
 import {useRouter} from "next/router";
 import {traverseHeadings} from "../../utils/traverseHeadings";
+import {gatherFilters} from "../../utils/gatherFilters";
 import CodeBlockProvider from "../CodeBlockProvider/index";
 import TableOfContents from "../TableOfContents/index";
 import UniversalNav from "../UniversalNav/index";
@@ -8,11 +9,16 @@ import SecondaryNav from "../SecondaryNav/index";
 import Footer from "../Footer/index";
 import {ContentStyle, LayoutStyle} from "./styles";
 import {Container} from "../Container";
+import Custom404 from "../../pages/404";
 
 export default function Layout({children, meta}: {children: any; meta?: any}) {
   const router = useRouter();
-  const {platform} = router.query;
-  const headers = traverseHeadings(children, platform as string);
+  const {platform} = router.query as {platform: string};
+  const headers = traverseHeadings(children, platform);
+  const filters = gatherFilters(children);
+  if (!filters.includes(platform)) {
+    return Custom404();
+  }
   const basePath = "docs.amplify.aws";
   return (
     <>
