@@ -1,5 +1,5 @@
 
-If you are using the Amplify CLI, an existing Amazon Cognito Identity Pool and User Pool can be used with the Amplify Libraries by running:
+If you are using the Amplify CLI, an existing Amazon Cognito User Pool and Identity Pool can be used with the Amplify Libraries by running:
 
 ```bash
 amplify import auth
