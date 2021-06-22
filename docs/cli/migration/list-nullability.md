@@ -44,7 +44,7 @@ Developers building an iOS app with Amplify DataStore or Amplify API generates S
 public struct ListStringContainer: Model {
   public var requiredElementRequiredList: [String]
   public var requiredElementOptionalList: [String]
-  public var nullableStringList: [String]?
+  public var optionalElementRequiredList: [String]?
   public var optionalElementOptionalList: [String]?
   ...
 }
@@ -56,7 +56,7 @@ _Current code generated Swift code_
 public struct ListStringContainer: Model {
   public var requiredElementRequiredList: [String]
   public var requiredElementOptionalList: [String]?
-  public var nullableStringList: [String?]
+  public var optionalElementRequiredList: [String?]
   public var optionalElementOptionalList: [String?]?
   ...
 }
@@ -106,7 +106,7 @@ Scenario 1. Schema: `requiredElementOptionalList: [String!]`
 
 ```swift
 // Previous - Swift type
-public var stringNullableList: [String]
+public var requiredElementOptionalList: [String]
 
 // Current - Swift type
 public var requiredElementOptionalList: [String]?
