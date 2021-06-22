@@ -113,7 +113,19 @@ export default withAuthenticator(App, true);
 
 <amplify-block name="iOS">
 
-1. Configure Amplify. See [Getting started with Amplify.API for REST](~/lib/restapi/getting-started.md) to learn more.
+1. Initialize Amplify API. Refer to [Getting Started with Amplify.API for REST](~/lib/restapi/getting-started.md) for more details. 
+
+You should have the initialization code including the imports:
+
+```swift
+import Amplify
+// If you are using Swift Package Manager
+import AWSAPIPlugin
+// If you are using Cocoapods
+import AmplifyPlugins
+```
+
+and code that adds `AWSCognitoAuthPlugin`, `AWSAPIPlugin`, and configures it.
 
 ```swift
 try Amplify.add(plugin: AWSCognitoAuthPlugin())
