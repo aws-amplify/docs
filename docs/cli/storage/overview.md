@@ -91,6 +91,7 @@ Then select the CRUD operations you want to permit for each selected Cognito use
 > ◉ delete
 ```
 > Note: CRUD operations selected here will apply to ALL objects in the bucket, not just objects under a particular prefix.
+
 > Note: If you combine `Auth/Guest user access` and `Individual Group access`, users who are members of a group will only be granted the permissions of the group, and not the authenticated user permissions.
 
 ### S3 Lambda trigger
