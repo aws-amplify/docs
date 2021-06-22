@@ -121,7 +121,7 @@ You should have the initialization code including the imports:
 import Amplify
 // If you are using Swift Package Manager
 import AWSAPIPlugin
-// If you are using Cocoapods
+// or if you are using Cocoapods
 import AmplifyPlugins
 ```
 
@@ -221,6 +221,13 @@ try Amplify.API.add(interceptor: MyCustomInterceptor(), for: "[YOUR-RESTENDPOINT
 Set up the custom interceptor to return the ID token for the request.
 
 ```swift
+// `URLRequestInterceptor` comes from AWSAPIPlugin, add the following imports
+import Amplify
+// If you are using Swift Package Manager
+import AWSAPIPlugin
+// or if you are using Cocoapods
+import AmplifyPlugins
+
 class MyCustomInterceptor: URLRequestInterceptor {
     func getLatestAuthToken() -> Result<String, Error> {
         let semaphore = DispatchSemaphore(value: 0)
