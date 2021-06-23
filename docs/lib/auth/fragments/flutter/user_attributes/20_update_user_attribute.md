@@ -1,4 +1,4 @@
-To update a single user attribute, call updateUserAttribute:
+To update a single user attribute, call `updateUserAttribute`:
 
 ```dart
 try {
@@ -17,7 +17,7 @@ try {
 }
 ```
 
-To update a single user attribute, call `updateUserAttribute`:
+To update multiple user attributes at a time, call `updateUserAttributes`:
 
 ```dart
 var attributes = [
