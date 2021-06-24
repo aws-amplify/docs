@@ -117,3 +117,9 @@ As a result, for testing purposes, you'll at least need an input field where you
 <inline-fragment platform="ios" src="~/lib/auth/fragments/ios/signin/50_multi_factor_confirm_signin.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/auth/fragments/android/signin/50_multi_factor_confirm_signin.md"></inline-fragment>
 <inline-fragment platform="flutter" src="~/lib/auth/fragments/flutter/signin/50_multi_factor_confirm_signin.md"></inline-fragment>
+
+## Check user sign-in state
+
+Invoke the following api to determine whether the current user is signed in or not.
+
+<inline-fragment platform="android" src="~/lib/auth/fragments/android/signin/60_check_sign_in_state.md"></inline-fragment>
