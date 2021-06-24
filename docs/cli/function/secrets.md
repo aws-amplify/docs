@@ -46,9 +46,22 @@ $ amplify update function
 > Note: Amplify CLI never stores secrets locally. All secret values are immediately stored in [AWS Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html) using the SecureString parameter type.
 
 ## Accessing the values in your function
-To access the secret values in your lambda function, use the [AWS SSM GetParameter API](https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_GetParameter.html). Amplify CLI will automatically supply the SSM parameter name of the secret as an environment variable to the function. This value can be passed into the API call as the "Name" to retrieve the value. Ensure that the API call has "WithDecryption" specified as `true`.
+To access the secret values in your Lambda function, use the [AWS SSM GetParameter API](https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_GetParameter.html). Amplify CLI will automatically supply the SSM parameter name of the secret as an environment variable to the function. This value can be passed into the API call as the "Name" to retrieve the value. Ensure that the API call has "WithDecryption" specified as `true`.
 
 If your Lambda function is using the NodeJS runtime, a comment block will be placed at the top of your `index.js` file with example code to retrieve the secret values.
+
+```js
+const aws = require('aws-sdk');
+
+const { Parameters } = await (new aws.SSM())
+  .getParameters({
+    Names: ["EXAMPLE_SECRET_1", "EXAMPLE_SECRET_2"].map(secretName => process.env[secretName]),
+    WithDecryption: true,
+  })
+  .promise();
+
+// Parameters will be of the form { Name: 'secretName', Value: 'secretValue', ... }[]
+```
 
 ## Multi-environment flows
 When creating a new Amplify environment using `amplify env add`, Amplify CLI asks if you want to apply all secret values to the new environment or modify them. If you choose to apply the existing values, you can still make edits anytime using `amplify update function`.
