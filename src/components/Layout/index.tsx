@@ -13,10 +13,11 @@ import Custom404 from "../../pages/404";
 
 export default function Layout({children, meta}: {children: any; meta?: any}) {
   const router = useRouter();
+  const {pathname} = router;
   const {platform} = router.query as {platform: string};
   const headers = traverseHeadings(children, platform);
   const filters = gatherFilters(children);
-  if (!filters.includes(platform)) {
+  if (!filters.includes(platform) && !pathname.includes("start")) {
     return Custom404();
   }
   const basePath = "docs.amplify.aws";
