@@ -6,6 +6,7 @@
     "upload",
     "download",
     "list",
+    "copy",
     "remove",
     "cancel-requests",
     "configureaccess",

@@ -5,6 +5,8 @@ description: Getting started with the Admin UI
 
 The Admin UI provides a visual interface to develop app backends and manage app content outside the AWS Management Console. To learn more, see the [Introduction to Admin UI](~/console/adminui/intro.md).
 
+The Admin UI is not available in every region where the Amplify Console is available. For a list of the regions where Admin UI is available, see the [Amplify service endpoints](https://docs.aws.amazon.com/general/latest/gr/amplify.html).
+
 You can get started with or without an AWS account. Without an AWS account, you can begin modeling data for your backend and testing it locally. If you choose to create an AWS account and deploy your backend to Amplify Console, an expanded set of features becomes available for configuring your backend environment. 
 
 <amplify-responsive-grid grid-gap="2" columns="2" class="margin-top-lg margin-bottom-lg">

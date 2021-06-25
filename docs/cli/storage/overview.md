@@ -4,6 +4,7 @@ description: Use Amplify CLI to create and manage cloud-connected file & data st
 ---
 
 Amplify CLI's `storage` category enables you to create and manage cloud-connected file & data storage. Use the `storage` category when you need to store:
+
 1. app content (images, audio, video etc.) in an public, protected or private storage bucket or
 2. app data in a NoSQL database and access it with a REST API + Lambda
 
@@ -11,7 +12,7 @@ Amplify CLI's `storage` category enables you to create and manage cloud-connecte
 
 You can setup a new storage resource by running the following command:
 
-```sh
+```bash
 amplify add storage
 ```
 
@@ -29,36 +30,78 @@ Amplify allows you to either setup a app content storage (images, audio, video e
 > mybucket
 ```
 
-Follow the prompts to provide your content storage's resource name. 
+Follow the prompts to provide your content storage's resource name.
+
+### S3 Access permissions
+
 Next, configure the access permissions for your Amazon S3 bucket. If you haven't set up the `auth` category already, the Amplify CLI will guide you through a workflow to enable the auth category.
 
-If you want to restrict this storage bucket to only authenticated users, then select "Auth users only". If you want unauthenticated users to access this storage bucket as well, then select "Auth and guest users". 
-
 ```console
+? Restrict access by?
+> Auth/Guest Users
+  Individual Groups
+  Both
+  Learn more
+```
+
+#### Auth/Guest Users access
+
+Select `Auth/Guest Users`, to scope permissions based on an individual user's authentication status. On the next question you'll be able to select if only authenticated users can access resources, or authenticated and guest users:
+
+```
 ? Who should have access:
-Auth users only
-Auth and guest users
+❯ Auth users only
+  Auth and guest users
 ```
 
-Next, you'll be prompted to set the access scopes for your authenticated and (if selected prior) unauthenticated users. 
+Then you'll be prompted to set the access scopes for your authenticated and (if selected prior) unauthenticated users.
 
 ```console
-? What kind of access do you want for Authenticated users? (Press <space> to select, <a> to toggle all, <i> to invert selection)
- ◯ create/update
-❯◯ read
- ◯ delete
+? What kind of access do you want for Authenticated users?
+> ◉ create/update
+  ◯ read
+  ◯ delete
 ? What kind of access do you want for Guest users?
-❯◯ create/update
- ◯ read
- ◯ delete
+  ◯ create/update
+> ◉ read
+  ◯ delete
 ```
 
+Granting access to authenticated users will allow the specified CRUD operations on objects in the bucket starting with the prefix `/public/`, `/protected/{cognito:sub}/`, and `/private/{cognito:sub}/`. `{cognito:sub}` is the sub of the Cognito identity of the authenticated user.
+
+Granting access to guest users will allow the specified CRUD operations on objects in the bucket starting with the prefix `/public/`.
+
+#### Individual Group access
+Select `Individual Groups` to scope access permissions based on [Cognito User Groups](~/cli/auth/groups.md)
+
+```console
+? Select groups:
+  ◉ EMPLOYEE
+> ◉ MANAGER
+```
+Then select the CRUD operations you want to permit for each selected Cognito user group
+```console
+? What kind of access do you want for EMPLOYEE users?
+  ◯ create/update
+> ◉ read
+  ◯ delete
+? What kind of access do you want for MANAGER users?
+  ◉ create/update
+  ◯ read
+> ◉ delete
+```
+> Note: CRUD operations selected here will apply to ALL objects in the bucket, not just objects under a particular prefix.
+
+> Note: If you combine `Auth/Guest user access` and `Individual Group access`, users who are members of a group will only be granted the permissions of the group, and not the authenticated user permissions.
+
+### S3 Lambda trigger
+Lastly, you have the option of configuring a Lambda function that can execute in response to S3 events.
 
 ```console
 ? Do you want to add a Lambda Trigger for your S3 Bucket? (y/N)
 ```
 
-If you want to configure a Lambda trigger for your S3 bucket, you'll have the option. Learn more about this workflow [here](~/cli/usage/lambda-triggers.md#s3-lambda-triggers).
+Learn more about this workflow [here](~/cli/usage/lambda-triggers.md#s3-lambda-triggers).
 
 That's it! Your content storage is set up! Head to the [library's storage docs](~/lib/storage/getting-started.md) to integrate this newly created S3 bucket into your app.
 

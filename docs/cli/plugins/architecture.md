@@ -19,45 +19,53 @@ The `plugins.json` file is stored at path `<os.homedir>/.amplify/plugins.json`. 
 
 The `plugins.json` file will be created or updated in the following situations:
 
-* If the `plugins.json` file is not found when the Amplify CLI Core tries to access it, the Amplify CLI Core will create this file and scan the local environment for plugins, and then store the information in the file.
-* If the last scan time was more than one day (configurable) ago, the Amplify CLI Core will scan again and update the information.
-* If inaccuracy is detected, e.g. a specified plugin cannot be loaded, the Amplify CLI Core will scan again and update the information.
-* After the execution of any of the `amplify plugin` commands that could change it, e.g. `amplify plugin scan`, `amplify plugin add/remove`.
+- If the `plugins.json` file is not found when the Amplify CLI Core tries to access it, the Amplify CLI Core will create this file and scan the local environment for plugins, and then store the information in the file.
+- If the last scan time was more than one day (configurable) ago, the Amplify CLI Core will scan again and update the information.
+- If inaccuracy is detected, e.g. a specified plugin cannot be loaded, the Amplify CLI Core will scan again and update the information.
+- After the execution of any of the `amplify plugin` commands that could change it, e.g. `amplify plugin scan`, `amplify plugin add/remove`.
 
 By default, the CLI core searches for plugins in its parent directory, its local `node_modules` directory, and the global `node_modules` directory. Plugins are recognized by the `amplify-` prefix in the package names.
 
 Plugins communicate with the CLI core and with each other through the project metadata. The CLI core provides the read and write access to the project metadata for the plugins. The project metadata is stored in file `amplify/backend/amplify-meta.json` in the user project.
 
 ## Plugin types
+
 ![Image](~/images/AmplifyCliConcept.jpg)
 
 There are four types of plugins
+
 - category
 - provider
 - frontend
 - util
 
 ### Category plugin
+
 Amplify maintained category plugins are recognized by the `amplify-category-` prefix in the package name.<br/>
 A category plugin wraps up the logic to create and manage one category of backend resources in the cloud. It defines the "shape" of the cloud resources based on user (the developer) input, constructs parameters to CRUD cloud resource, and exports relevant cloud resource information to the project metadata.
 
 Categories are managed by AWS and are a functional use case that a client engineer is building as part of their UX, rather than service implementations.
 
 ### Provider plugin
+
 Amplify maintained provider plugins are recognized by the `amplify-provider-` prefix in the package name.<br/>
 A provider plugin abstracts the actual cloud resource provider. It wraps up communication details such as access credentials, api invoke, wait logic, and response data parsing. It also exposes simple interface methods for the category plugins to CRUD cloud resource.
 
 #### AWS CloudFormation provider
+
 Currently, the only official provider plugin, amplify-provider-awscloudformation, uses the AWS CloudFormation to form and update the backend resources in the AWS for the amplify categories. For more information about  AWS CloudFormation, check its user guide:
 [AWS CloudFormation User Guide](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html). The `amplify-provider-awscloudformation` uses
 [nested stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html).
 
 ### Frontend plugin
+
 Amplify maintained frontend plugins are recognized by the `amplify-frontend-` prefix in the package name.<br/>
 A frontend plugin handles a specific type of frontend projects, such as Javascript, Android or iOS projects. Among other things, it provides the following functionalities:
+
 - Formats the cloud resource information and writes it to a file at the right location so it can be recognized and consumed by the frontend project
 - Builds and serves the frontend application locally with backend hot-wired to the cloud resources
 - Builds and publishes the application (frontend and backend) to its intended users
 
 ### util plugin
+
 Official util plugins are recognized by the `amplify-` prefix, without a plugin type decoration in the package name, a util purpose plugin does not manage any backend resources in the cloud, but provides certain CLI commands and/or certain functionalities for the CLI core, and other plugins.

@@ -1,7 +1,7 @@
 ```dart
 try {
   S3DownloadFileOptions options = S3DownloadFileOptions(
-    targetIdentityId: "[USER_ID]",
+    targetIdentityId: "[IDENTITY_ID]",
     accessLevel: StorageAccessLevel.protected
   );
   DownloadFileResult result = await Amplify.Storage.downloadFile(

@@ -124,16 +124,16 @@ query ListBlogs {
 ```
 
 ## Task App
+
 **Note: To use the @auth directive, the API must be configured to use Amazon Cognito user pools.**
 
 ```graphql
 type Task
   @model
   @auth(rules: [
-      {allow: groups, groups: ["Managers"], mutations: [create, update, delete], queries: null},
-      {allow: groups, groups: ["Employees"], mutations: null, queries: [get, list]}
-    ])
-{
+    {allow: groups, groups: ["Managers"], mutations: [create, update, delete], queries: null},
+    {allow: groups, groups: ["Employees"], mutations: null, queries: [get, list]}
+  ]) {
   id: ID!
   title: String!
   description: String
@@ -141,8 +141,7 @@ type Task
 }
 type PrivateNote
   @model
-  @auth(rules: [{allow: owner}])
-{
+  @auth(rules: [{allow: owner}]) {
   id: ID!
   content: String!
 }
@@ -246,6 +245,7 @@ mutation Delete($noteId: ID!) {
   }
 }
 ```
+
 ## Common Patterns for the API Category
 
 The Amplify CLI exposes the GraphQL Transform libraries to help create APIs with common
@@ -313,6 +313,7 @@ type Comment @model(subscriptions: null) {
   commentTodoId: String # This references the commentTodoId field in DynamoDB
 }
 ```
+
 2. You should run `amplify push` at this point, as running it after adding the Subscription type will throw an error, claiming you cannot have two Subscription definitions in your schema.
 
 3. After the push, you will need to add the Subscription type to your schema, including the `commentTodoId` as an optional argument:

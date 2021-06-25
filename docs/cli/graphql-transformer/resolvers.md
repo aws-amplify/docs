@@ -18,6 +18,100 @@ and you want to change the behavior of request mapping template for the *Query.g
 
 ## Custom Resolvers
 
+You can add custom `Query`, `Mutation` and `Subscription` when the generated ones do not cover your use case.
+1. Add the required `Query`, `Mutation` or `Subscription` type to your schema.
+2. Create resolvers for newly created `Query`, `Mutation` or `Subscription` by creating request and response template in `<project-root>/amplify/backend/api/<api-name>/resolvers` folder. Graphql Transformer follows `<TypeName>.<FieldName>.<req/res>.vlt` as convention to name the resolvers. So if you're adding a custom query name `myCustomQuery` the resolvers would be name `Query.myCustomQuery.req.vtl` and `Query.myCustomQuery.res.vtl`.
+3. Add resolvers resource by creating a custom stack inside `<project-root>/amplify/backend/api/<api-name>/stacks` directory of your API.
+
+To add the custom fields, add the following to your schema:
+
+```graphql
+  # <project-root>amplify/backend/api/<api-name>/schema.graphql
+
+  type Query {
+    # Add all the custom queries here
+  }
+
+  type Mutation {
+    # Add all the custom mutations here
+  }
+
+  type Subscription {
+    # Add all the custom subscription here
+  }
+
+```
+
+The GraphQL Transformer by default creates a file called `CustomResources.json` inside `<project-root>/amplify/backend/api/<api-name>/stacks`, which can be used to add the custom resolvers for newly added `Query`, `Mutation` or `Subscription`. The custom stack gets the following arguments passed to it, allowing you to get details about API:
+
+| Parameter                          | Type   | Possible values                    | Description                                                                                                                                                                       |
+| :--------------------------------- | :----- | ---------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| AppSyncApiId                       | String |                                    | The id of the AppSync API associated with this project                                                                                                                            |
+| AppSyncApiName                     | String |                                    | The name of the AppSync API                                                                                                                                                       |
+| env                                | String |                                    | Environment name                                                                                                                                                                  |
+| S3DeploymentBucket                 | String |                                    | The S3 bucket containing all deployment assets for the project                                                                                                                    |
+| S3DeploymentRootKey                | String |                                    | An S3 key relative to the S3DeploymentBucket that points to the root of the deployment directory.                                                                                 |
+| DynamoDBEnableServerSideEncryption | String | `true` or `false`                  | Enable server side encryption powered by KMS.                                                                                                                                     |
+| AuthCognitoUserPoolId              | String |                                    | The id of an existing User Pool to connect                                                                                                                                        |
+| DynamoDBModelTableReadIOPS         | Number |                                    | The number of read IOPS the table should support.                                                                                                                                 |
+| DynamoDBModelTableWriteIOPS        | Number |                                    | The number of write IOPS the table should support                                                                                                                                 |
+| DynamoDBBillingMode                | String | `PAY_PER_REQUEST` or `PROVISIONED` | Configure @model types to create DynamoDB tables with PAY_PER_REQUEST or PROVISIONED billing modes                                                                                |
+| DynamoDBEnablePointInTimeRecovery  | String | `true` or `false`                  | Whether to enable Point in Time Recovery on the table                                                                                                                             |
+| APIKeyExpirationEpoch              | Number |                                    | he epoch time in seconds when the API Key should expire                                                                                                                           |
+| CreateAPIKey                       | Number | `0` or `1`                         | The boolean value to control if an API Key will be created or not. The value of the property is automatically set by the CLI. If the value is set to 0 no API Key will be created |
+
+Any additional values added Custom Stacks will be exposed as parameter in the root stack, and value can be set by adding the value for it in `<project-root>/amplify/backend/api/<api-name>/parameters.json` file.
+
+To add a custom resolver, add the following in the resource section of `CustomResource.json`
+
+```json
+{
+    "Resources": {
+        "CustomQuery1": {
+            "Type": "AWS::AppSync::Resolver",
+            "Properties": {
+                "ApiId": {
+                    "Ref": "AppSyncApiId"
+                },
+                "DataSourceName": "CommentTable",
+                "TypeName": "Query",
+                "FieldName": "myCustomQuery",
+                "RequestMappingTemplateS3Location": {
+                    "Fn::Sub": [
+                        "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.myCustomQuery.req.vtl",
+                        {
+                            "S3DeploymentBucket": {
+                                "Ref": "S3DeploymentBucket"
+                            },
+                            "S3DeploymentRootKey": {
+                                "Ref": "S3DeploymentRootKey"
+                            }
+                        }
+                    ]
+                },
+                "ResponseMappingTemplateS3Location": {
+                    "Fn::Sub": [
+                        "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.myCustomQuery.res.vtl",
+                        {
+                            "S3DeploymentBucket": {
+                                "Ref": "S3DeploymentBucket"
+                            },
+                            "S3DeploymentRootKey": {
+                                "Ref": "S3DeploymentRootKey"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}
+```
+
+The request and response template should be placed inside `<project-root>/amplify/backend/api/<api-name>/resolvers` folder. Resolver templates are written in the [Apache Velocity Template Language](https://velocity.apache.org/engine/1.7/user-guide.html), commonly referred to as VTL. `Query.myCustomQuery.req.vtl` is a request mapping template, which receives an incoming AppSync request and transforms it into a JSON document that is subsequently passed to the GraphQL resolver. Similarly, `Query.myCustomQuery.res.vtl` is a response mapping template. These templates receive the GraphQL resolver's response and transform the data before returning it to the user.
+
+Several example VTL files are discussed later in this documentation. For more detailed information on VTL, including how it can be used in the context of GraphQL resolvers, see the official [AppSync Resolver Mapping Template Reference](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-mapping-template-reference.html).
+
 ### Add a custom resolver that targets a DynamoDB table from @model
 
 This is useful if you want to write a more specific query against a DynamoDB table that was created by *@model*. For example, assume you had this schema with two *@model* types and a pair of *@connection* directives.
@@ -38,10 +132,10 @@ type Comment @model {
 
 This schema will generate resolvers for *Query.getTodo*, *Query.listTodos*, *Query.getComment*, and *Query.listComments* at the top level as well as for *Todo.comments*, and *Comment.todo* to implement the *@connection*. Under the hood, the transform will create a global secondary index on the Comment table in DynamoDB but it will not generate a top level query field that queries the GSI because you can fetch the comments for a given todo object via the *Query.getTodo.comments* query path. If you want to fetch all comments for a todo object via a top level query field i.e. *Query.commentsForTodo* then do the following:
 
-* Add the desired field to your *schema.graphql*.
+- Add the desired field to your *schema.graphql*.
 
 ```graphql
-// ... Todo and Comment types from above
+# ... Todo and Comment types from above
 
 type CommentConnection {
   items: [Comment]
@@ -52,9 +146,9 @@ type Query {
 }
 ```
 
-* Add a resolver resource to a stack in the *stacks/* directory. The `DataSourceName` is auto-generated. In most cases, it'll look like `{MODEL_NAME}Table`. To confirm the data source name, you can verify it from within the **AppSync Console** (`amplify console api`) and clicking on the **Data Sources** tab.
+- Add a resolver resource to a stack in the *stacks/* directory. The `DataSourceName` is auto-generated. In most cases, it'll look like `{MODEL_NAME}Table`. To confirm the data source name, you can verify it from within the **AppSync Console** (`amplify console api`) and clicking on the **Data Sources** tab.
 
-```
+```json
 {
   // ... The rest of the template
   "Resources": {
@@ -99,9 +193,9 @@ type Query {
 }
 ```
 
-* Write the resolver templates.
+- Write the resolver templates.
 
-```
+```text
 ## Query.commentsForTodo.req.vtl **
 
 #set( $limit = $util.defaultIfNull($context.args.limit, 10) )
@@ -126,7 +220,7 @@ type Query {
 }
 ```
 
-```
+```text
 ## Query.commentsForTodo.res.vtl **
 
 $util.toJson($ctx.result)
@@ -136,9 +230,9 @@ $util.toJson($ctx.result)
 
 Velocity is useful as a fast, secure environment to run arbitrary code but when it comes to writing complex business logic you can just as easily call out to an AWS lambda function. Here is how:
 
-* First create a function by running `amplify add function`. The rest of the example assumes you created a function named "echofunction" via the `amplify add function` command. If you already have a function then you may skip this step.
+- First create a function by running `amplify add function`. The rest of the example assumes you created a function named "echofunction" via the `amplify add function` command. If you already have a function then you may skip this step.
 
-* Add a field to your schema.graphql that will invoke the AWS Lambda function.
+- Add a field to your schema.graphql that will invoke the AWS Lambda function.
 
 ```graphql
 type Query {
@@ -146,9 +240,9 @@ type Query {
 }
 ```
 
-* Add the function as an AppSync data source in the stack's *Resources* block.
+- Add the function as an AppSync data source in the stack's *Resources* block.
 
-```
+```json
 "EchoLambdaDataSource": {
   "Type": "AWS::AppSync::DataSource",
   "Properties": {
@@ -175,9 +269,9 @@ type Query {
 }
 ```
 
-* Create an AWS IAM role that allows AppSync to invoke the lambda function on your behalf to the stack's *Resources* block.
+- Create an AWS IAM role that allows AppSync to invoke the lambda function on your behalf to the stack's *Resources* block.
 
-```
+```json
 "EchoLambdaDataSourceRole": {
   "Type": "AWS::IAM::Role",
   "Properties": {
@@ -227,9 +321,9 @@ type Query {
 }
 ```
 
-* Create an AppSync resolver in the stack's *Resources* block.
+- Create an AppSync resolver in the stack's *Resources* block.
 
-```
+```json
 "QueryEchoResolver": {
   "Type": "AWS::AppSync::Resolver",
   "Properties": {
@@ -274,21 +368,21 @@ type Query {
 }
 ```
 
-* Create the resolver templates in the project's *resolvers* directory.
+- Create the resolver templates in the project's *resolvers* directory.
 
 **resolvers/Query.echo.req.vtl**
 
-```
+```text
 {
-    "version": "2017-02-28",
-    "operation": "Invoke",
-    "payload": {
-        "type": "Query",
-        "field": "echo",
-        "arguments": $utils.toJson($context.arguments),
-        "identity": $utils.toJson($context.identity),
-        "source": $utils.toJson($context.source)
-    }
+  "version": "2017-02-28",
+  "operation": "Invoke",
+  "payload": {
+    "type": "Query",
+    "field": "echo",
+    "arguments": $utils.toJson($context.arguments),
+    "identity": $utils.toJson($context.identity),
+    "source": $utils.toJson($context.source)
+  }
 }
 ```
 
@@ -300,7 +394,7 @@ $util.toJson($ctx.result)
 
 After running `amplify push` open the AppSync console with `amplify api console` and test your API with this simple query:
 
-```
+```graphql
 query {
   echo(msg:"Hello, world!")
 }
@@ -321,7 +415,7 @@ type Todo @model @searchable {
 
 The next time you run `amplify push`, an Amazon Elasticsearch domain will be created and configured such that data automatically streams from DynamoDB into Elasticsearch. The *@searchable* directive on the Todo type will generate a *Query.searchTodos* query field and resolver but it is not uncommon to want more specific search capabilities. You can write a custom search resolver by following these steps:
 
-* Add the relevant location and search fields to the schema.
+- Add the relevant location and search fields to the schema.
 
 ```graphql
 type Comment @model {
@@ -353,49 +447,49 @@ type Query {
 }
 ```
 
-* Create the resolver record in the stack's *Resources* block.
+- Create the resolver record in the stack's *Resources* block.
 
-```
+```json
 "QueryNearbyTodos": {
-    "Type": "AWS::AppSync::Resolver",
-    "Properties": {
-        "ApiId": {
-            "Ref": "AppSyncApiId"
-        },
-        "DataSourceName": "ElasticSearchDomain",
-        "TypeName": "Query",
-        "FieldName": "nearbyTodos",
-        "RequestMappingTemplateS3Location": {
-            "Fn::Sub": [
-                "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.nearbyTodos.req.vtl",
-                {
-                    "S3DeploymentBucket": {
-                        "Ref": "S3DeploymentBucket"
-                    },
-                    "S3DeploymentRootKey": {
-                        "Ref": "S3DeploymentRootKey"
-                    }
-                }
-            ]
-        },
-        "ResponseMappingTemplateS3Location": {
-            "Fn::Sub": [
-                "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.nearbyTodos.res.vtl",
-                {
-                    "S3DeploymentBucket": {
-                        "Ref": "S3DeploymentBucket"
-                    },
-                    "S3DeploymentRootKey": {
-                        "Ref": "S3DeploymentRootKey"
-                    }
-                }
-            ]
+  "Type": "AWS::AppSync::Resolver",
+  "Properties": {
+    "ApiId": {
+      "Ref": "AppSyncApiId"
+    },
+    "DataSourceName": "ElasticSearchDomain",
+    "TypeName": "Query",
+    "FieldName": "nearbyTodos",
+    "RequestMappingTemplateS3Location": {
+      "Fn::Sub": [
+        "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.nearbyTodos.req.vtl",
+        {
+          "S3DeploymentBucket": {
+            "Ref": "S3DeploymentBucket"
+          },
+          "S3DeploymentRootKey": {
+            "Ref": "S3DeploymentRootKey"
+          }
         }
+      ]
+    },
+    "ResponseMappingTemplateS3Location": {
+      "Fn::Sub": [
+        "s3://${S3DeploymentBucket}/${S3DeploymentRootKey}/resolvers/Query.nearbyTodos.res.vtl",
+        {
+          "S3DeploymentBucket": {
+            "Ref": "S3DeploymentBucket"
+          },
+          "S3DeploymentRootKey": {
+            "Ref": "S3DeploymentRootKey"
+          }
+        }
+      ]
     }
+  }
 }
 ```
 
-* Write the resolver templates.
+- Write the resolver templates.
 
 ```
 ## Query.nearbyTodos.req.vtl
@@ -404,26 +498,26 @@ type Query {
 #set( $indexPath = "/todo/doc/_search" )
 #set( $distance = $util.defaultIfNull($ctx.args.km, 200) )
 {
-    "version": "2017-02-28",
-    "operation": "GET",
-    "path": "$indexPath.toLowerCase()",
-    "params": {
-        "body": {
-            "query": {
-                "bool" : {
-                    "must" : {
-                        "match_all" : {}
-                    },
-                    "filter" : {
-                        "geo_distance" : {
-                            "distance" : "${distance}km",
-                            "location" : $util.toJson($ctx.args.location)
-                        }
-                    }
-                }
+  "version": "2017-02-28",
+  "operation": "GET",
+  "path": "$indexPath.toLowerCase()",
+  "params": {
+    "body": {
+      "query": {
+        "bool": {
+          "must": {
+            "match_all": {}
+          },
+          "filter": {
+            "geo_distance": {
+              "distance": "${distance}km",
+              "location": $util.toJson($ctx.args.location)
             }
+          }
         }
+      }
     }
+  }
 }
 ```
 
@@ -444,34 +538,34 @@ $util.toJson({
 })
 ```
 
-* Run `amplify push`
+- Run `amplify push`
 
 Amazon Elasticsearch domains can take a while to deploy. Take this time to read up on Elasticsearch to see what capabilities you are about to unlock.
 
 [Getting Started with Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started.html)
 
-* After the update is complete but before creating any objects, update your Elasticsearch index mapping.
+- After the update is complete but before creating any objects, update your Elasticsearch index mapping.
 
 An index mapping tells Elasticsearch how it should treat the data that you are trying to store. By default, if we create an object with field `"location": { "lat": 40, "lon": -40 }`, Elasticsearch will treat that data as an *object* type when in reality we want it to be treated as a *geo_point*. You use the mapping APIs to tell Elasticsearch how to do this.
 
 Make sure you tell Elasticsearch that your location field is a *geo_point* before creating objects in the index because otherwise you will need delete the index and try again. Go to the [Amazon Elasticsearch Console](https://console.aws.amazon.com/es/home) and find the Elasticsearch domain that contains this environment's GraphQL API ID. Click on it and open the kibana link. To get kibana to show up you need to install a browser extension such as [AWS Agent](https://addons.mozilla.org/en-US/firefox/addon/aws-agent/) and configure it with your AWS profile's public key and secret so the browser can sign your requests to kibana for security reasons. Once you have kibana open, click the "Dev Tools" tab on the left and run the commands below using the in browser console.
 
-```
+```text
 # Create the /todo index if it does not exist
 PUT /todo
 
 # Tell Elasticsearch that the location field is a geo_point
 PUT /todo/_mapping/doc
 {
-    "properties": {
-        "location": {
-            "type": "geo_point"
-        }
+  "properties": {
+    "location": {
+      "type": "geo_point"
     }
+  }
 }
 ```
 
-* Use your API to create objects and immediately search them.
+- Use your API to create objects and immediately search them.
 
 After updating the Elasticsearch index mapping, open the AWS AppSync console with `amplify api console` and try out these queries.
 

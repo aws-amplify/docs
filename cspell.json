@@ -115,6 +115,7 @@
     "apiname",
     "APIs",
     "APIService",
+    "apiwithkey",
     "APNs",
     "apolloapi",
     "apollographql",
@@ -1359,8 +1360,12 @@
     "onetomany",
     "manytomany",
     "datamodel",
+    "AUTHCONFIG",
+    "myproject",
+    "STORAGECONFIG",
     "secretsmanager",
-    "customcf"
+    "customcf",
+    "Pipfile"
   ],
   "flagWords": ["hte"]
 }

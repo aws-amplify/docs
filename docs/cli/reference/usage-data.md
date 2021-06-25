@@ -11,19 +11,17 @@ Amplify CLI sends anonymized information such as system metadata, usage metrics 
 
 **Disable usage data collection**
 
-
 Run the following command to turn off Amplify CLI usage data collection
 
-```
+```bash
 amplify configure --usage-data-off
 ```
 
 **Enable usage data collection**
 
-
 Run the following command to turn on Amplify CLI usage data collection
 
-```
+```bash
 amplify configure --usage-data-on
 ```
 
@@ -33,7 +31,5 @@ amplify configure --usage-data-on
 
 The usage data that's collected adheres to the AWS data privacy policies. For more information, see the following:
 
-*   [AWS Service Terms](https://aws.amazon.com/service-terms/)
-*   [Data Privacy](https://aws.amazon.com/compliance/data-privacy-faq/)
-
-
+- [AWS Service Terms](https://aws.amazon.com/service-terms/)
+- [Data Privacy](https://aws.amazon.com/compliance/data-privacy-faq/)

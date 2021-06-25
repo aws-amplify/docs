@@ -81,7 +81,7 @@ and needed to implement access patterns like:
 
 Let's take a look at how you would define custom keys to implement these access patterns in your `schema.graphql`.
 
-### Example: Get customers by email.
+### Example: Get customers by email
 
 ```graphql
 type Customer @model @key(fields: ["email"]) {
@@ -105,13 +105,13 @@ query GetCustomerById {
 
 This is great for simple lookup operations, but what if you need to perform slightly more complex queries?
 
-### Example: Get orders by customer email by createdAt.
+### Example: Get orders by customer email by createdAt
 
 ```graphql
 type Order @model @key(fields: ["customerEmail", "createdAt"]) {
-    customerEmail: String!
-    createdAt: String!
-    orderId: ID!
+  customerEmail: String!
+  createdAt: String!
+  orderId: ID!
 }
 ```
 
@@ -200,6 +200,7 @@ You can make multiple global secondary index (`@key` with `name` parameter set) 
 ### Troubleshooting
 
 If your deployment fails locally when updating multiple GSIs, you'll have the ability to run:
+
 - `amplify push --iterative-rollback` to rollback the last-known-good state
 - `amplify push --force` rollback the last-known-good state and try redeploying your changes again using.
 

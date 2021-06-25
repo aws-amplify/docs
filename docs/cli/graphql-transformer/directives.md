@@ -3,7 +3,7 @@ title: Directives
 description: The Amplify CLI provides GraphQL directives to enhance your schema with additional capabilities, such as custom indexes, authorization rules, function triggers and more.
 ---
 
-The Amplify CLI provides GraphQL directives to enhance your schema with additional capabilities, such as custom indexes, authorization rules, function triggers and more.
+The Amplify CLI provides GraphQL directives to enhance your schema with additional capabilities such as custom indexes, authorization rules, function triggers, and more.
 
 ## Amplify-provided directives
 
@@ -17,7 +17,23 @@ The Amplify CLI provides GraphQL directives to enhance your schema with addition
 - [`@searchable`: Makes your data searchable by streaming it to Elasticsearch](~/cli/graphql-transformer/searchable.md)
 - [`@versioned`: Defines the versioning and conflict resolution strategy for an @model type](~/cli/graphql-transformer/versioned.md)
 
+## AWS AppSync-provided directives
+
+The following directives are supported by the AppSync service and can be used within the Amplify GraphQL schemas. These will not be processed by Amplify CLI but passed through to the service as is and will be present in the output schema. For example, Amplify's `@auth` directive will add these directives under the hood to the output schema.
+
+- `@aws_api_key`
+- `@aws_iam`
+- `@aws_oidc`
+- `@aws_cognito_user_pools`
+- `@aws_auth`
+- `@aws_subscribe`
+
+Learn more about these directives in the [AWS AppSync Developer Guide](https://docs.aws.amazon.com/appsync/latest/devguide/security-authz.html).
+
 ## 3rd party directives
+
 - [`@ttl`: Enable DynamoDB's time-to-live feature to auto-delete old entries in your AWS Amplify API](https://github.com/flogy/graphql-ttl-transformer)
+- [`@firehose`: Add a simple interceptor to all of your Amplify API mutations and queries](https://github.com/LaugnaHealth/graphql-firehose-transformer)
+- [`@retain`: Enable the "Retain" deletion policy for your Amplify-generated DynamoDB tables](https://github.com/flogy/graphql-retain-transformer)
 
 > Looking to build your own transformers & directives? Check out the guide on [how to author your own transformer & directives](~/cli/plugins/authoring.md#authoring-custom-graphql-transformers--directives).

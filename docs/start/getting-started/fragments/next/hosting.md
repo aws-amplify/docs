@@ -1,49 +1,35 @@
-You've successfully built an Amplify app with Next.js! Now that you've built something, it's time to deploy it to the web!
+You've successfully built an Amplify app with Next.js! Now that you've built something, it's time to deploy it to the web with Amplify Console!
 
-> **Note**: Amplify Console is adding support for Server-Side Rendering (SSR).
-> [Vote & comment on this issue](https://github.com/aws-amplify/amplify-console/issues/412) to show your support!
+## Add hosting to your app
+You can deploy Next.js SSR apps with AWS Amplify's CI/CD and hosting service. In this guide we'll cover how to deploy and host your SSR web apps to quickly share with others. If you want to learn more about continuous deployment, please see [this guide](https://docs.aws.amazon.com/amplify/latest/userguide/multi-environments.html#standard).
 
-## Using [Serverless Next.js Component](https://github.com/serverless-nextjs/serverless-next.js)
+### Set up CI/CD for your app
 
-> _For more information, read the [Serverless Next.js Component announcement](https://www.serverless.com/blog/serverless-nextjs)_
-
-### Option 1: Watch the video guide
-
-Watch the video below to learn how to deploy a Next.js application with the Serverless framework, or skip to the next section to follow the step-by-step instructions.
-
-<iframe src="https://www.youtube-nocookie.com/embed/2SwlDpfGkXM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-### Options 2: Follow the instructions
-
-Create __serverless.yml__ with the following content:
-
-```yaml
-# serverless.yml
-nextamplified:
-  component: "@sls-next/serverless-component@1.17.0"
-```
-
-Finally, deploy with the following command:
-
+From the root of your project, run the following command and select the **bolded options**. 
 ```bash
-npx serverless
+amplify add hosting
 ```
-
-You'll see a link to your app in the output:
 
 ```console
-  nextamplified:
-    appUrl:         https://••••••••••.cloudfront.net
-    bucketName:     XXXXXX-XXXXXXX
-    distributionId: XXXXXXXXXXXXXX
+? Select the plugin module to execute: # Hosting with Amplify Console (Managed hosting with custom domains, Continuous deployment)
+? Choose a type: # Continuous deployment (Git-based deployments)
 ```
+The Amplify Console opens and displays your deployed backend environment. 
 
-> **Note**: Your CloudFront Distribution may take several minutes to go from "In Progress" to "Active".  Visit your [CloudFront Console](https://console.aws.amazon.com/cloudfront/home) to monitor progress.
+![image](../../images/start-nextjs-deploy-1.png)
+
+Choose the **Frontend environments** tab, select a Git provider, then choose **Connect Branch**.
+
+![image](../../images/start-nextjs-deploy-2.png)
+
+Follow the steps in the Amplify console to choose the branch to connect, and deploy your app. 
+
+After your site is successfully deployed, you'll see four green checkmarks. To view the live site, click on the automatically generated URL circled in red in the following screenshot.
+
+![image](../../images/start-nextjs-deploy-3.png)
+
+
 
 👏 Congratulations, your app is online!
 
-To delete the app, run the following:
 
-```bash
-npx serverless remove
-```

@@ -51,7 +51,7 @@ Amplify's coroutine support is included in an optional module, `core-kotlin`.
     ```groovy
     dependencies {
         // Add the below line in `dependencies`
-        implementation 'com.amplifyframework:core-kotlin:0.1.5'
+        implementation 'com.amplifyframework:core-kotlin:0.2.0'
     }
     ```
 

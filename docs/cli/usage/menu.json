@@ -9,7 +9,9 @@
     "customcf",
     "iam",
     "iam-roles-mfa",
+    "permissions-boundary",
     "headless",
-    "upgrade"
+    "upgrade",
+    "uninstall"
   ]
 }

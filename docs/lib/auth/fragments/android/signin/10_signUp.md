@@ -4,7 +4,7 @@
 ```java
 AuthSignUpOptions options = AuthSignUpOptions.builder()
     .userAttribute(AuthUserAttributeKey.email(), "my@email.com")
-    .build()
+    .build();
 Amplify.Auth.signUp("username", "Password123", options,
     result -> Log.i("AuthQuickStart", "Result: " + result.toString()),
     error -> Log.e("AuthQuickStart", "Sign up failed", error)

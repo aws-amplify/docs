@@ -15,21 +15,21 @@ directive @function(name: String!, region: String) on FIELD_DEFINITION
 
 ### Usage
 
-The @function directive allows you to quickly connect lambda resolvers to an AppSync API. You may deploy the AWS Lambda functions via the Amplify CLI, AWS Lambda console, or any other tool. To connect an AWS Lambda resolver, add the `@function` directive to a field in your `schema.graphql`.
+The `@function` directive allows you to quickly connect lambda resolvers to an AppSync API. You may deploy the AWS Lambda functions via the Amplify CLI, AWS Lambda console, or any other tool. To connect an AWS Lambda resolver, add the `@function` directive to a field in your `schema.graphql`.
 
 Let's assume you have deployed an *echo* function with the following contents:
 
-```javascript
+```js
 exports.handler =  async function(event, context){
   return event.arguments.msg;
 };
 ```
 
-**If you deployed your function using the 'amplify function' category**
+**If you deployed your function using the `function` category**
 
 The Amplify CLI provides support for maintaining multiple environments out of the box. When you deploy a function via `amplify add function`, it will automatically add the environment suffix to your Lambda function name. For example if you create a function named **echofunction** using `amplify add function` in the **dev** environment, the deployed function will be named **echofunction-dev**. The `@function` directive allows you to use `${env}` to reference the current Amplify CLI environment.
 
-```
+```graphql
 type Query {
   echo(msg: String): String @function(name: "echofunction-${env}")
 }
@@ -39,7 +39,7 @@ type Query {
 
 If you deployed your API without amplify then you must provide the full Lambda function name. If you deployed the same function with the name **echofunction** then you would have:
 
-```
+```graphql
 type Query {
   echo(msg: String): String @function(name: "echofunction")
 }
@@ -52,26 +52,26 @@ You can use the `@function` directive to write custom business logic in an AWS L
 
 For example purposes assume the function is named `GraphQLResolverFunction`:
 
-```javascript
+```js
 const POSTS = [
-    { id: 1, title: "AWS Lambda: How To Guide." },
-    { id: 2, title: "AWS Amplify Launches @function and @key directives." },
-    { id: 3, title: "Serverless 101" }
+  { id: 1, title: "AWS Lambda: How To Guide." },
+  { id: 2, title: "AWS Amplify Launches @function and @key directives." },
+  { id: 3, title: "Serverless 101" }
 ];
 const COMMENTS = [
-    { postId: 1, content: "Great guide!" },
-    { postId: 1, content: "Thanks for sharing!" },
-    { postId: 2, content: "Can't wait to try them out!" }
+  { postId: 1, content: "Great guide!" },
+  { postId: 1, content: "Thanks for sharing!" },
+  { postId: 2, content: "Can't wait to try them out!" }
 ];
 
 // Get all posts. Write your own logic that reads from any data source.
 function getPosts() {
-    return POSTS;
+  return POSTS;
 }
 
 // Get the comments for a single post.
 function getCommentsForPost(postId) {
-    return COMMENTS.filter(comment => comment.postId === postId);
+  return COMMENTS.filter(comment => comment.postId === postId);
 }
 
 /**
@@ -114,11 +114,11 @@ exports.handler = async (event) => {
 
 **Example: Get the logged in user from Amazon Cognito User Pools**
 
-When building applications, it is often useful to fetch information for the current user. You can use the `@function` directive to quickly add a resolver that uses AppSync identity information to fetch a user from Amazon Cognito User Pools. First make sure you have added Amazon Cognito User Pools enabled via `amplify add auth` and a GraphQL API via `amplify add api` to an amplify project. Once you have created the user pool, get the **UserPoolId** from **amplify-meta.json** in the **backend/** directory of your amplify project. You will provide this value as an environment variable in a moment. Next, using the Amplify function category, AWS console, or other tool, deploy a AWS Lambda function with the following contents.
+When building applications, it is often useful to fetch information for the current user. You can use the `@function` directive to quickly add a resolver that uses AppSync identity information to fetch a user from Amazon Cognito User Pools. First make sure you have added Amazon Cognito User Pools enabled via `amplify add auth` and a GraphQL API via `amplify add api` to an amplify project. Once you have created the user pool, get the **UserPoolId** from **amplify-meta.json** in the **backend/** directory of your amplify project. You will provide this value as an environment variable in a moment. Next, using the Amplify function category, AWS console, or some other tool, deploy an AWS Lambda function with the following contents.
 
 For example purposes assume the function is named `GraphQLResolverFunction`:
 
-```javascript
+```js
 /* Amplify Params - DO NOT EDIT
 You can access the following resource attributes as environment variables from your Lambda function
 var environment = process.env.ENV
@@ -188,16 +188,16 @@ You can connect this function to your AppSync API deployed via Amplify using thi
 
 ```graphql
 type Query {
-    posts: [Post] @function(name: "GraphQLResolverFunction")
+  posts: [Post] @function(name: "GraphQLResolverFunction")
 }
 type Post {
-    id: ID!
-    title: String!
-    comments: [Comment] @function(name: "GraphQLResolverFunction")
+  id: ID!
+  title: String!
+  comments: [Comment] @function(name: "GraphQLResolverFunction")
 }
 type Comment {
-    postId: ID!
-    content: String
+  postId: ID!
+  content: String
 }
 ```
 
@@ -284,6 +284,10 @@ When writing lambda functions that are connected via the `@function` directive, 
 | request   | The AppSync request object. Contains header information.  |
 | prev | When using pipeline resolvers, this contains the object returned by the previous function. You can return the previous value for auditing use cases. |
 
+Your function should follow the lambda handler guidelines for your specific language. See the developer guides from the
+[AWS Lambda](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html) documentation for your chosen language. If you choose to use structured types, your type should serialize
+the AWS Lambda event object outlined above. For example, if using Golang, you should define a struct with the above fields.
+
 ### Calling functions in different regions
 
 By default, you expect the function to be in the same region as the amplify project. If you need to call a function in a different (or static) region, you can provide the **region** argument.
@@ -316,3 +320,5 @@ The `@function` directive generates these resources as necessary:
 2. An AWS AppSync data source that registers the new role and existing function with your AppSync API.
 3. An AWS AppSync pipeline function that prepares the lambda event and invokes the new data source.
 4. An AWS AppSync resolver that attaches to the GraphQL field and invokes the new pipeline functions.
+
+

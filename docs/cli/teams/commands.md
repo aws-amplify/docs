@@ -4,87 +4,105 @@ description: Use these Amplify CLI commands to manage a team workflow with multi
 ---
  
 ## Team workflows
- 
+
 Amplify environments help you manage your local and cloud environments to mimic your team workflows. Common tasks include:
-- Manage environments to support development processes. Eg: development, staging, production
+
+- Manage environments to support development processes (e.g., development, staging, production)
 - Test new features safely
 - Share environments between team members
 - Support team workflows
- 
+
 To display all commands available for a new Amplify project, run the following command from the root directory.
-```
+
+```bash
 amplify env
 ```
- 
+
 ## Commands overview
- 
+
 | Command  | Description  |
 |---|---|
-| [`amplify env add`](#add-a-new-environment) | Adds a new environment |
+| [`amplify env add [--permissions-boundary <IAM Policy ARN>]`](#add-a-new-environment) | Adds a new environment |
 | [`amplify env pull [--restore]`](#pull-the-environment-from-the-cloud) | Pulls the current environment from the cloud |
 | [`amplify env checkout <env-name> [--restore]`](#checkout-an-environment) | Switches to the selected environment |
 | [`amplify env list [--details] [--json]`](#list-environments) | Displays a list of all the environments |
 | [`amplify env get --name <env-name>`](#show-environment-details) | Displays the environment details |
+| [`amplify env update [--permissions-boundary <IAM Policy ARN>]`](~/cli/usage/permissions-boundary.md) | Updates the environment's IAM Permissions Boundary |
 | [`amplify env import --name <env-name> --config <provider-configs> [--awsInfo <aws-configs>]`](#import-an-environment) | Imports an environment |
 | [`amplify env remove <env-name>`](#remove-an-environment) | Removes an environment |
- 
+
 ## Environment CLI commands
- 
+
 ### Add a new environment
-```
+
+```bash
 amplify env add
 ```
+
 The `add` command goes through the following steps:
+
 - Asks for a name for the new environment
 - Creates IAM role for unauthenticated users
 - Creates IAM role for authenticated users
 - Creates S3 bucket for deployment
 - Creates a new backend environment in [AWS Amplify Console](https://console.aws.amazon.com/amplify) to view and manage resources.
- 
+
+Optionally, you can configure an IAM Permissions Boundary for all Amplify-generated roles via the `--permissions-boundary` parameter. For more information about configuring IAM Permissions Boundary, see [IAM Permissions Boundary for Amplify-generated roles](~/cli/usage/permissions-boundary.md).
+
 ### Pull the environment from the cloud
-```
+
+```bash
 amplify env pull [--restore]
 ```
+
 Use this command to pull the current environment from the cloud. Add the `--restore` flag to overwrite your local changes like `amplify pull` command.
- 
+
 ### Checkout an environment
-```
+
+```bash
 amplify env checkout <env-name> [--restore]
 ```
+
 Use this command to checkout the \<env-name\> environment. Add the `--restore` flag to overwrite your local changes.
- 
+
 ### List environments
-```
+
+```bash
 amplify env list [--details] [--json]
 ```
+
 Use this command to list all the environments. Add the `--details` or `--json` flags to see more details and format the output. Details include the AWS Region, IAM roles, S3 bucket and stack information.
- 
+
 See the output below for an Amplify project with `dev` and `test` environments. The active environment is preceded with an asterisk.
- 
+
 ```bash
 amplify env list
 ```
- 
+
 ```console
 | Environments |
 | ------------ |
 | *dev         |
 | test         |
 ```
- 
+
 ### Show environment details
-```
+
+```bash
 amplify env get --name <env-name>
 ```
+
 Use this command to list all details for \<env-name\> environment. Details include the AWS Region, IAM roles, S3 bucket and stack information.
- 
+
 ### Import an environment
-```
+
+```bash
 amplify env import --name <env-name> --config <provider-configs> [--awsInfo <aws-configs>]
 ```
+
 Use this command to import an existing environment. Find below an example of a bash command.
- 
-```
+
+```bash
 #!/bin/bash
 set -e
 IFS='|'
@@ -117,11 +135,13 @@ amplify env import \
 --yes
  
 ```
- 
+
 You can get the `AWSCLOUDFORMATIONCONFIG` from the `team-provider-info.json` file from your existing Amplify project.
- 
+
 ### Remove an environment
-```
+
+```bash
 amplify env remove <env-name>
 ```
+
 Use this command to remove an environment. This will remove both the local and the cloud environments including all provisioned services and resources.

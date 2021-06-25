@@ -7,7 +7,7 @@ Make sure that you declare a dependency on the API plugin in your app-level `bui
 ```groovy
 dependencies {
     // Add this line.
-    implementation 'com.amplifyframework:aws-api:1.17.4'
+    implementation 'com.amplifyframework:aws-api:1.18.0'
 }
 ```
 
