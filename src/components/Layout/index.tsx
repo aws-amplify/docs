@@ -3,6 +3,7 @@ import {useRouter} from "next/router";
 import {traverseHeadings} from "../../utils/traverseHeadings";
 import {gatherFilters} from "../../utils/gatherFilters";
 import CodeBlockProvider from "../CodeBlockProvider/index";
+import Menu from "../Menu/index";
 import TableOfContents from "../TableOfContents/index";
 import UniversalNav from "../UniversalNav/index";
 import SecondaryNav from "../SecondaryNav/index";
@@ -72,7 +73,16 @@ export default function Layout({children, meta}: {children: any; meta?: any}) {
       <SecondaryNav platform={platform} pageHasMenu={false} />
       <Container>
         <LayoutStyle>
-          {meta ? metaContent({meta, headers, children}) : children}
+          {meta
+            ? metaContent({
+                meta,
+                headers,
+                children,
+                filters,
+                platform,
+                pathname: router.pathname,
+              })
+            : children}
         </LayoutStyle>
       </Container>
       <Footer />
@@ -81,9 +91,10 @@ export default function Layout({children, meta}: {children: any; meta?: any}) {
   );
 }
 
-function metaContent({meta, headers, children}) {
+function metaContent({meta, headers, children, filters, platform, pathname}) {
   return (
     <>
+      <Menu filters={filters} platform={platform} pathname={pathname}></Menu>
       <ContentStyle>
         <h1>{meta.title}</h1>
         <CodeBlockProvider>{children}</CodeBlockProvider>
