@@ -1,4 +1,4 @@
-*Authentication* is a process to validate **who you are** (abbreviated as *AuthN*). The system which does this validation is referred to as an **Identity Provider** or **IdP**. This can be your own self-hosted IdP or a cloud service. Oftentimes, this IdP is a social provider such as Facebook, Google, or Amazon.
+*Authentication* is a process to validate **who you are** (abbreviated as *AuthN*). The system which does this validation is referred to as an **Identity Provider** or **IdP**. This can be your own self-hosted IdP or a cloud service. Oftentimes, this IdP is a social provider such as Facebook, Google, Amazon, or Sign in with Apple.
 
 *Authorization* is the process of validating **what you can access** (abbreviated as *AuthZ*). This is sometimes done by looking at tokens with custom logic, predefined rules, or signed requests with policies.
 
@@ -23,7 +23,7 @@ For many apps, user sign-up and sign-in is all that is needed. Once authenticate
 	
 ## Social Provider Federation
 	
-Many apps also support login with social providers such as Facebook, Google Sign-In, or Login With Amazon. The preferred way to do this is via an OAuth redirect which lets users login using their social media account and a corresponding user is created in User Pools. With this design you do not need to include an SDK for the social provider in your app. Set this up by running `amplify add auth` and selecting the social provider  option. Upon completion you can use `Amplify.Auth.signInWithWebUI()` in your application to show a pre-built "Hosted UI". Or pass in a social provider name (e.g. `Amplify.Auth.signInWithSocialWebUI(AuthProvider.facebook()`) to interface directly with that provider's web UI.
+Many apps also support login with social providers such as Facebook, Google Sign-In, Login With Amazon, or Sign in with Apple. The preferred way to do this is via an OAuth redirect which lets users login using their social media account and a corresponding user is created in User Pools. With this design you do not need to include an SDK for the social provider in your app. Set this up by running `amplify add auth` and selecting the social provider  option. Upon completion you can use `Amplify.Auth.signInWithWebUI()` in your application to show a pre-built "Hosted UI". Or pass in a social provider name (e.g. `Amplify.Auth.signInWithSocialWebUI(AuthProvider.facebook()`) to interface directly with that provider's web UI.
 		
 ## Accessing AWS services
 
