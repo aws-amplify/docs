@@ -18,9 +18,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  public handleSignUp() {
-
-  const handleSignUp = (formData) => {
+  public handleSignUp(formData) {
     const param = {
       ...formData,
       attributes: {
