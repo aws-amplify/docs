@@ -1070,7 +1070,7 @@ To achieve this, you first need to setup the userpool to allow email or phone nu
 
 ### Override Sign Up
 
-`handleSignUp` property will enable you to override the call to `Auth.signUp` function. For example, you can add a [custom attribute](~/lib/auth/emailpassword.md) like so:
+You can override the call to [`signUp`](~/lib/auth/emailpassword.md) function with `handleSignUp` property. For example, you can add a [custom attribute](~/lib/auth/emailpassword.md) like so:
 
 
 <docs-filter framework="react">
