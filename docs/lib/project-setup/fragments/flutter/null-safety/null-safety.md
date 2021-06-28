@@ -3,11 +3,13 @@
 
 The Amplify Flutter library supports [Dart null safety](https://dart.dev/null-safety) beginning with version 0.2.0.  This means that:
 
+
+
 * Applications utilizing [sound null safety](https://dart.dev/null-safety) must use Amplify Flutter version 0.2.0 or greater.
 
 * Applications utilizing [unsound null safety](https://dart.dev/null-safety/unsound-null-safety) can use versions of Amplify Flutter above or below 0.2.0, but some application changes may be necessary to migrate to 0.2.0.
 
-* Applications that are not null safe must use a version of Amplify Flutter under 0.2.0.
+* Applications that are not using Flutter 2.0 or higher must use a version of Amplify Flutter lower than 0.2.0.
 
 
 **Using Generated Codegen Models with Null Safety**
