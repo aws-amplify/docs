@@ -110,7 +110,7 @@ This is great for simple lookup operations, but what if you need to perform slig
 ```graphql
 type Order @model @key(fields: ["customerEmail", "createdAt"]) {
   customerEmail: String!
-  createdAt: String!
+  createdAt: AWSDateTime!
   orderId: ID!
 }
 ```
