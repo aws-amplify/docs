@@ -59,7 +59,7 @@ Existing Amazon Cognito Identity Pool and User Pool can be used with the Amplify
     - **Region**: AWS Region where the resources are provisioned (e.g. `us-east-1`)
 - **Auth**:
   - **Default**:
-    - **authenticationFlowType**: The authentication flow type. Default is `USER_SRP_AUTH`.
+    - **authenticationFlowType**: The authentication flow type, takes values `USER_SRP_AUTH`, `CUSTOM_AUTH`. Default is `USER_SRP_AUTH`.
     - **OAuth**: Hosted UI Configuration (only include this if using the Hosted UI flow)
     
 Note that before you can add an AWS resource to your application, the application must have the Amplify libraries installed. If you need to perform this step, see [Install Amplify Libraries](~/lib/project-setup/create-application.md#n2-install-amplify-libraries). 
