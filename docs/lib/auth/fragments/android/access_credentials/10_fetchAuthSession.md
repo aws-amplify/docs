@@ -13,7 +13,7 @@ Amplify.Auth.fetchAuthSession(
                     Log.i("AuthQuickStart", "IdentityId: " + cognitoAuthSession.getIdentityId().getValue());
                     break;
                 case FAILURE:
-                    Log.i("AuthQuickStart", "IdentityId not present because: " + cognitoAuthSession.getIdentityId().getError().toString());
+                    Log.e("AuthQuickStart", "IdentityId not present because: " + cognitoAuthSession.getIdentityId().getError().toString());
             }
         },
         error -> Log.e("AuthQuickStart", error.toString())
@@ -31,7 +31,7 @@ Amplify.Auth.fetchAuthSession(
             AuthSessionResult.Type.SUCCESS ->
                 Log.i("AuthQuickStart", "IdentityId = ${session.identityId.value}")
             AuthSessionResult.Type.FAILURE ->
-                Log.w("AuthQuickStart", "IdentityId not found", session.identityId.error)
+                Log.e("AuthQuickStart", "IdentityId not found", session.identityId.error)
         }
     },
     { Log.e("AuthQuickStart", "Failed to fetch session", it) }
@@ -48,7 +48,7 @@ try {
     if (id.type == AuthSessionResult.Type.SUCCESS) {
         Log.i("AuthQuickStart", "IdentityId: ${id.value}")
     } else if (id.type == AuthSessionResult.Type.FAILURE) {
-        Log.i("AuthQuickStart", "IdentityId not present: ${id.error}")
+        Log.e("AuthQuickStart", "IdentityId not present: ${id.error}")
     }
 } catch (error: AuthException) {
     Log.e("AuthQuickStart", "Failed to fetch session", error)
@@ -69,7 +69,7 @@ RxAmplify.Auth.fetchAuthSession()
                     Log.i("AuthQuickStart", "IdentityId: " + cognitoAuthSession.getIdentityId().getValue());
                     break;
                 case FAILURE:
-                    Log.i("AuthQuickStart", "IdentityId not present because: " + cognitoAuthSession.getIdentityId().getError().toString());
+                    Log.e("AuthQuickStart", "IdentityId not present because: " + cognitoAuthSession.getIdentityId().getError().toString());
             }
         },
         error -> Log.e("AuthQuickStart", error.toString())
