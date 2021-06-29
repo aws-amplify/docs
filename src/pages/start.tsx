@@ -42,7 +42,7 @@ export default function Page() {
               <Card href="/lib/q/platform/js">
                 <CardGraphic src="/assets/integrations/js.svg" />
                 <CardDetail>
-                  <H4>JavScript</H4>
+                  <H4>JavaScript</H4>
                 </CardDetail>
               </Card>
               <Card href="/lib/q/platform/react">
