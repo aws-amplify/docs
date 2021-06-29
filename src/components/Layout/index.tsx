@@ -75,7 +75,7 @@ export default function Layout({children, meta}: {children: any; meta?: any}) {
         <LayoutStyle>
           {meta
             ? metaContent({
-                meta,
+                title: meta.title,
                 headers,
                 children,
                 filters,
@@ -91,15 +91,15 @@ export default function Layout({children, meta}: {children: any; meta?: any}) {
   );
 }
 
-function metaContent({meta, headers, children, filters, platform, pathname}) {
+function metaContent({title, headers, children, filters, platform, pathname}) {
   return (
     <>
       <Menu filters={filters} platform={platform} pathname={pathname}></Menu>
       <ContentStyle>
-        <h1>{meta.title}</h1>
+        <h1>{title}</h1>
         <CodeBlockProvider>{children}</CodeBlockProvider>
       </ContentStyle>
-      <TableOfContents title={meta.title}>{headers}</TableOfContents>
+      <TableOfContents title={title}>{headers}</TableOfContents>
     </>
   );
 }
