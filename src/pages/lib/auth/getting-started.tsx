@@ -51,7 +51,7 @@ export default function Page() {
               >
                 <CardGraphic src="/assets/integrations/js.svg" />
                 <CardDetail>
-                  <h4>JavScript</h4>
+                  <h4>JavaScript</h4>
                 </CardDetail>
               </Card>
               <Card
