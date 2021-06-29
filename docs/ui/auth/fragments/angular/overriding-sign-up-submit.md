@@ -26,8 +26,7 @@ export class AppComponent {
         'custom:favorite_flavor': 'Cookie Dough'
       }
     }
-    const data = await Auth.signUp(formData);
-    return data;
+    return Auth.signUp(param);
   }
 }
 ```

@@ -19,8 +19,14 @@ export default {
 	name: 'Authenticator',
 	methods: {
 		handleSignUp(data) {
-			console.log(data);
-			return Auth.signUp(data);
+			const param = {
+				...formData,
+				attributes: {
+					...formData.attributes,
+					'custom:favorite_flavor': 'Cookie Dough'
+				}
+			}
+			return Auth.signUp(param);
 		},
 	},
 };

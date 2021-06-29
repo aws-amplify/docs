@@ -1075,25 +1075,25 @@ You can override the call to [`signUp`](~/lib/auth/emailpassword.md) function wi
 
 <docs-filter framework="react">
 
-<inline-fragment src="~/ui/auth/fragments/react/overriding-handle-submit.md"></inline-fragment>
+<inline-fragment src="~/ui/auth/fragments/react/overriding-sign-up-submit.md"></inline-fragment>
 
 </docs-filter>
 
 <docs-filter framework="angular">
 
-<inline-fragment src="~/ui/auth/fragments/angular/overriding-handle-submit.md"></inline-fragment>
+<inline-fragment src="~/ui/auth/fragments/angular/overriding-sign-up-submit.md"></inline-fragment>
 
 </docs-filter>
 
 <docs-filter framework="ionic">
 
-<inline-fragment src="~/ui/auth/fragments/angular/overriding-handle-submit.md"></inline-fragment>
+<inline-fragment src="~/ui/auth/fragments/angular/overriding-sign-up-submit.md"></inline-fragment>
 
 </docs-filter>
 
 <docs-filter framework="vue">
 
-<inline-fragment src="~/ui/auth/fragments/vue/overriding-handle-submit.md"></inline-fragment>
+<inline-fragment src="~/ui/auth/fragments/vue/overriding-sign-up-submit.md"></inline-fragment>
 
 </docs-filter>
 
