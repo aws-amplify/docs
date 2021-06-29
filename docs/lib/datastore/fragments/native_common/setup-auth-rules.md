@@ -123,5 +123,50 @@ type YourModel @model @auth(rules: [{ allow: groups
   ...
 }
 ```
+## Configure Multiple Authorization Types
 
-<inline-fragment platform="js" src="~/lib/datastore/fragments/js/setup-auth-rules/multi-auth.md"></inline-fragment>
+For some use cases, you will want DataStore to use multiple authorization types. For example, an app might use `API Key` for public content and `Cognito User Pool` for personalized content once the user logs in.
+
+By default, DataStore uses your API's default authorization type specified in the `amplifyconfiguration.json` file. To change the default authorization type, run `amplify update api`. Every network request sent through DataStore uses that authorization type, regardless of the model's `@auth` rule. 
+
+To enable DataStore to use multiple authorization types based on the model's `@auth` rules, set the `authModeStrategy` property when creating the DataStore plugin:
+
+<inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/setup-auth-rules/10_multiauth-snippet.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/datastore/fragments/android/setup-auth-rules/10_multiauth-snippet.md"></inline-fragment>
+
+This configuration enables DataStore to synchronize data using the model's `@auth` rule provider for each model.
+
+### Multiple authorization types priority order
+
+If there are multiple `@auth` rules on a model, the rules will be ranked by priority (see below), and DataStore will attempt the synchronization with each authorization type until one succeeds (or they all fail).
+
+| Priority | `allow`: AuthStrategy | `provider` |
+|:----------|:-----:|:------:|
+| 1 | `owner` | `userPools` |
+| 2 | `owner` | `oidc` |
+| 3 | `group` | `userPools` |
+| 4 | `group` | `oidc` |
+| 5 | `private` | `userPools` |
+| 6 | `private` | `iam` |
+| 7 | `public` | `iam` |
+| 8 | `public` | `apiKey` |
+
+If there is **not** an authenticated user session, DataStore will only attempt `public` rules.
+
+If a model has no auth rules defined, DataStore will continue to use the default authorization type from `amplifyconfiguration.json`.
+
+####  Example with multiple authorization types
+
+```graphql
+type YourModel
+  @model
+  @auth(
+		rules: [
+			{ allow: owner }
+			{ allow: public, provider: apiKey, operations: [read] }
+		]
+	) {
+  ...
+}
+```
+DataStore will attempt to use owner-based authorization first when synchronizing data if there is an authenticated user. If that request fails for some reason, DataStore will attempt the request again with public authorization. If there is **no** authenticated user, public authorization will be used.
