@@ -57,3 +57,13 @@ export const DropdownStyle = styled.div<DropdownProps>`
 
   visibility: ${(props) => (props.shouldDisplay ? "visible" : "hidden")};
 `;
+
+export const MenuHeaderStyle = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin: 1.75rem 2.75rem 0 2.5rem;
+`;
+
+export const MenuStyle = styled.div`
+  border-right: 0.0625rem solid var(--border-color);
+`;

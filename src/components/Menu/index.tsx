@@ -5,8 +5,12 @@ import {
   PlatformSelectStyle,
   CurrentlySelectedStyle,
   DropdownStyle,
+  MenuHeaderStyle,
+  MenuStyle,
 } from "./styles";
 import React from "react";
+import MenuOpenButton from "./MenuOpenButton";
+import MenuCloseButton from "./MenuCloseButton";
 
 type PlatformSelectProps = {
   filters: string[];
@@ -14,8 +18,14 @@ type PlatformSelectProps = {
   pathname: string;
 };
 
-class PlatformSelect extends React.Component<PlatformSelectProps> {
-  visible = false;
+type PlatformSelectState = {
+  isOpen: boolean;
+};
+
+class PlatformSelect extends React.Component<
+  PlatformSelectProps,
+  PlatformSelectState
+> {
   wrapperRef: React.RefObject<HTMLDivElement>;
 
   constructor(props) {
@@ -23,6 +33,7 @@ class PlatformSelect extends React.Component<PlatformSelectProps> {
 
     this.wrapperRef = React.createRef();
     this.closeMenu = this.closeMenu.bind(this);
+    this.state = {isOpen: false};
   }
 
   componentDidMount() {
@@ -37,16 +48,18 @@ class PlatformSelect extends React.Component<PlatformSelectProps> {
     if (
       this.wrapperRef &&
       !this.wrapperRef.current.contains(event.target as Node) &&
-      this.visible
+      this.state.isOpen
     ) {
-      this.visible = false;
-      this.forceUpdate();
+      this.setState({
+        isOpen: false,
+      });
     }
   };
 
   toggleVis = () => {
-    this.visible = !this.visible;
-    this.forceUpdate();
+    this.setState((oldState) => {
+      return {isOpen: !oldState.isOpen};
+    });
   };
 
   render() {
@@ -64,7 +77,7 @@ class PlatformSelect extends React.Component<PlatformSelectProps> {
             {platformFilterMetadataByOption[this.props.platform].label}
           </a>
         </CurrentlySelectedStyle>
-        <DropdownStyle shouldDisplay={this.visible}>
+        <DropdownStyle shouldDisplay={this.state.isOpen}>
           {this.props.filters.map((name) => {
             if (name === this.props.platform) return;
             return (
@@ -92,12 +105,45 @@ class PlatformSelect extends React.Component<PlatformSelectProps> {
   }
 }
 
-export default function Menu({
-  filters,
-  platform,
-  pathname,
-}: PlatformSelectProps) {
-  return (
-    <PlatformSelect filters={filters} platform={platform} pathname={pathname} />
-  );
+type MenuState = {
+  isOpen: boolean;
+};
+export default class Menu extends React.Component<
+  PlatformSelectProps,
+  MenuState
+> {
+  constructor(props) {
+    super(props);
+    this.state = {isOpen: true};
+  }
+
+  closeMenu = () => {
+    this.setState({
+      isOpen: false,
+    });
+  };
+
+  openMenu = () => {
+    this.setState({
+      isOpen: true,
+    });
+  };
+
+  render() {
+    if (this.state.isOpen) {
+      return (
+        <MenuStyle>
+          <MenuHeaderStyle>
+            <MenuCloseButton closeMenu={this.closeMenu} />
+            <PlatformSelect
+              filters={this.props.filters}
+              platform={this.props.platform}
+              pathname={this.props.pathname}
+            />
+          </MenuHeaderStyle>
+        </MenuStyle>
+      );
+    }
+    return <MenuOpenButton openMenu={this.openMenu} />;
+  }
 }
