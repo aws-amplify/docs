@@ -29,6 +29,10 @@ class PlatformSelect extends React.Component<PlatformSelectProps> {
     document.addEventListener("mousedown", this.closeMenu);
   }
 
+  componentWillUnmount() {
+    document.removeEventListener("mousedown", this.closeMenu);
+  }
+
   closeMenu = (event: MouseEvent) => {
     if (
       this.wrapperRef &&
