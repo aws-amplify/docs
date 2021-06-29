@@ -45,25 +45,37 @@ export default function Page() {
                 marginTop: "1rem",
               }}
             >
-              <Card href="/lib/auth/getting-started/q/platform/js">
+              <Card
+                className="vertical"
+                href="/lib/auth/getting-started/q/platform/js"
+              >
                 <CardGraphic src="/assets/integrations/js.svg" />
                 <CardDetail>
                   <h4>JavScript</h4>
                 </CardDetail>
               </Card>
-              <Card href="/lib/auth/getting-started/q/platform/react">
+              <Card
+                className="vertical"
+                href="/lib/auth/getting-started/q/platform/react"
+              >
                 <CardGraphic src="/assets/integrations/android.svg" />
                 <CardDetail>
                   <h4>Android</h4>
                 </CardDetail>
               </Card>
-              <Card href="/lib/auth/getting-started/q/platform/angular">
+              <Card
+                className="vertical"
+                href="/lib/auth/getting-started/q/platform/angular"
+              >
                 <CardGraphic src="/assets/integrations/ios.svg" />
                 <CardDetail>
                   <h4>iOS</h4>
                 </CardDetail>
               </Card>
-              <Card href="/lib/auth/getting-started/q/platform/vue">
+              <Card
+                className="vertical"
+                href="/lib/auth/getting-started/q/platform/vue"
+              >
                 <CardGraphic src="/assets/integrations/flutter.svg" />
                 <CardDetail>
                   <h4>Flutter</h4>
