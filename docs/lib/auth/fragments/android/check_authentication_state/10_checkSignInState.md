@@ -11,6 +11,7 @@ Amplify.Auth.fetchAuthSession(
                     Log.i("AuthQuickStart", "Refresh token is valid.");
                     break;
                 case FAILURE:
+                    // User is no longer authenticated, display the login screen for the user to re-authenticate
                     Log.e("AuthQuickStart", "Refresh token expired. User must re-authenticate by signing in again.", cognitoAuthSession.getUserPoolTokens().getError());
             }
     },
@@ -30,6 +31,7 @@ Amplify.Auth.fetchAuthSession(
             AuthSessionResult.Type.SUCCESS ->
                 Log.i("AuthQuickStart", "Refresh token is valid.")
             AuthSessionResult.Type.FAILURE -> 
+                // User is no longer authenticated, display the login screen for the user to re-authenticate
                 Log.e(
                     "AuthQuickStart",
                     "Refresh token expired. User must re-authenticate by signing in again." + cognitoAuthSession.userPoolTokens.error
@@ -52,6 +54,7 @@ try {
         AuthSessionResult.Type.SUCCESS ->
             Log.i("AuthQuickStart", "Refresh token is valid.")
         AuthSessionResult.Type.FAILURE -> 
+                // User is no longer authenticated, display the login screen for the user to re-authenticate
                 Log.e(
                     "AuthQuickStart",
                     "Refresh token expired. User must re-authenticate by signing in again." + cognitoAuthSession.userPoolTokens.error
@@ -76,6 +79,7 @@ RxAmplify.Auth.fetchAuthSession()
                         Log.i("AuthQuickStart", "Refresh token is valid.");
                         break;
                     case FAILURE:
+                        // User is no longer authenticated, display the login screen for the user to re-authenticate
                         Log.e("AuthQuickStart", "Refresh token expired. User must re-authenticate by signing in again.", cognitoAuthSession.getUserPoolTokens().getError());
                 }
             },
