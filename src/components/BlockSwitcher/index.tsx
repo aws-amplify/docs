@@ -1,6 +1,11 @@
 import React, {useEffect} from "react";
 import {useCodeBlockContext} from "../CodeBlockProvider";
-import {HostStyle, SwitcherContentStyle, TabContainerStyle, TabStyle} from "./styles";
+import {
+  HostStyle,
+  SwitcherContentStyle,
+  TabContainerStyle,
+  TabStyle,
+} from "./styles";
 
 type ContextType = {
   tabOrder: string[];
