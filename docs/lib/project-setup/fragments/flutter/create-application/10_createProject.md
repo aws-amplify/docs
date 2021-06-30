@@ -14,6 +14,8 @@ Next, configure your project:
 
 Android Studio will open your project with a tab opened to *main.dart*
 
+<inline-fragment platform="flutter" src="~/lib/project-setup/fragments/native_common/prereq/flutter_null_safety.md"></inline-fragment>
+
 If you use CocoaPods, modify your Podfile to target iOS platform 11.0 or higher.  Within your project open `ios/Podfile` and change the second line to be `platform :ios, '11.0'.
 
 ```bash
