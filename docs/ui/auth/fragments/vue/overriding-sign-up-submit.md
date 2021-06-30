@@ -5,7 +5,6 @@ _App.vue_
 	<div>
         <amplify-authenticator>
             <amplify-sign-up
-                header-text="My Custom Sign Up Text"
                 slot="sign-up"
                 :handleSignUp.prop="handleSignUp"
             ></amplify-sign-up>
