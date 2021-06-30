@@ -2,14 +2,12 @@ _App.vue_
 
 ```html
 <template>
-	<div>
-        <amplify-authenticator>
-            <amplify-sign-up
-                slot="sign-up"
-                :handleSignUp.prop="handleSignUp"
-            ></amplify-sign-up>
-        </amplify-authenticator>
-	</div>
+    <amplify-authenticator>
+        <amplify-sign-up
+            slot="sign-up"
+            :handleSignUp.prop="handleSignUp"
+        ></amplify-sign-up>
+    </amplify-authenticator>
 </template>
 <script>
 import { Auth } from '@aws-amplify/auth';
