@@ -14,6 +14,6 @@ The Amplify Flutter library supports [Dart null safety](https://dart.dev/null-sa
 **Using Generated Codegen Models with Null Safety**
 
 
-The Amplify CLI's `codegen models` command can generate Dart models with or without null safety. To generate null safe models, make sure that the `pubspec.yaml` file at the root of your projects defines a Dart SDK version of 2.12.0 or greater, and make sure that the `enableDartNullSafety` [feature flag](https://docs.amplify.aws/cli/reference/feature-flags) is set to true in your `amplify/cli.json` file.
+The latest version of the Amplify CLI can generate Dart models with or without null safety using the `codegen models` command. To generate null safe models, make sure that the `pubspec.yaml` file at the root of your projects defines a Dart SDK version of 2.12.0 or greater, and make sure that the `enableDartNullSafety` [feature flag](https://docs.amplify.aws/cli/reference/feature-flags) is set to true in your `amplify/cli.json` file. You may need to update your Amplify CLI to version 5.1.0 or higher.
 
  If your app uses generated models from amplify, you will need to migrate these models to be null safe as part of migrating your app to be null safe. You should follow the [flutter null safety migration docs](https://dart.dev/null-safety/migration-guide) to migrate your application code, excluding the generated models. To migrate the models to be null safe, you can simply regenerate them following the instructions above.
