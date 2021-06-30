@@ -5,7 +5,6 @@ type CodeBlockProps = {
 };
 
 export const CodeBlockStyle = styled.div<CodeBlockProps>`
-  border: 1px solid black;
   position: relative;
   display: flex;
   flex-direction: row;
