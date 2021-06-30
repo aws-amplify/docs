@@ -2,12 +2,12 @@ Add the following dependency to your **app**'s `pubspec.yaml` along with others 
 
 ```yaml
 environment:
-  sdk: ">=2.11.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  amplify_storage_s3: '<1.0.0'
+  amplify_storage_s3: ^0.2.0
   # reminder: amplify_auth_cognito should also be installed
 ```
 
