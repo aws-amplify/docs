@@ -15,10 +15,17 @@ export const OuterContainer = styled.section<ContainerProps>(
 `,
 );
 
-export const InnerContainer = styled.div`
+export const InnerContainer = styled.div<ContainerProps>((props) => {
+  return `
   max-width: ${MAX_WIDTH};
   margin: 0px auto;
+  ${
+    props.backgroundColor === "bg-color-tertiary"
+      ? `background-color: #fff`
+      : ""
+  }
 `;
+});
 
 export const Container = ({
   children,
@@ -28,6 +35,8 @@ export const Container = ({
   backgroundColor?: string;
 }) => (
   <OuterContainer backgroundColor={backgroundColor || null}>
-    <InnerContainer>{children}</InnerContainer>
+    <InnerContainer backgroundColor={backgroundColor || null}>
+      {children}
+    </InnerContainer>
   </OuterContainer>
 );
