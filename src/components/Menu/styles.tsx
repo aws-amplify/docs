@@ -8,6 +8,7 @@ export const PlatformSelectStyle = styled.div`
   user-select: none;
 
   div > a {
+    width: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -64,6 +65,30 @@ export const MenuHeaderStyle = styled.div`
   margin: 1.75rem 2.75rem 0 2.5rem;
 `;
 
+export const DirectoryStyle = styled.div`
+  display: block;
+  padding: 0 2.5rem;
+`;
+
 export const MenuStyle = styled.div`
   border-right: 0.0625rem solid var(--border-color);
+  min-width: 20rem;
+
+  > div {
+    position: relative;
+    min-height: 100vh;
+    height: 100%;
+
+    > div {
+      position: sticky;
+      top: 3.375rem;
+
+      display: flex;
+      flex-direction: column;
+      max-height: 100vh;
+      overflow-y: auto; /* for Firefox */
+      overflow-y: overlay; /* for Webkit browsers */
+      margin-bottom: 6rem;
+    }
+  }
 `;

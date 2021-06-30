@@ -7,6 +7,7 @@ import {
   DropdownStyle,
   MenuHeaderStyle,
   MenuStyle,
+  DirectoryStyle,
 } from "./styles";
 import React from "react";
 import MenuOpenButton from "./MenuOpenButton";
@@ -145,14 +146,27 @@ export default class Menu extends React.Component<
     if (this.state.isOpen) {
       return (
         <MenuStyle>
-          <MenuHeaderStyle>
-            <MenuCloseButton closeMenu={this.closeMenu} />
-            <PlatformSelect
-              filters={this.props.filters}
-              platform={this.props.platform}
-              pathname={this.props.pathname}
-            />
-          </MenuHeaderStyle>
+          <div>
+            <div>
+              <MenuHeaderStyle>
+                <MenuCloseButton closeMenu={this.closeMenu} />
+                <PlatformSelect
+                  filters={this.props.filters}
+                  platform={this.props.platform}
+                  pathname={this.props.pathname}
+                />
+              </MenuHeaderStyle>
+              <DirectoryStyle>
+                directory goes here; see docs-ui/menu
+                <br />
+                <br />
+                adding extra height so that the framework switcher isn't cut off
+                <br />
+                <br />
+                more height
+              </DirectoryStyle>
+            </div>
+          </div>
         </MenuStyle>
       );
     }
