@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import {useCodeBlockContext} from "../CodeBlockProvider";
-import {HostStyle, TabContainerStyle, TabStyle} from "./styles";
+import {HostStyle, SwitcherContentStyle, TabContainerStyle, TabStyle} from "./styles";
 
 type ContextType = {
   tabOrder: string[];
@@ -69,9 +69,12 @@ export default function BlockSwitcher({children}) {
           );
         })}
       </TabContainerStyle>
-      {children?.map(
-        (node, index) => index === activeIndex && <div key={index}>{node}</div>,
-      )}
+      <SwitcherContentStyle>
+        {children?.map(
+          (node, index) =>
+            index === activeIndex && <div key={index}>{node}</div>,
+        )}
+      </SwitcherContentStyle>
     </HostStyle>
   );
 }
