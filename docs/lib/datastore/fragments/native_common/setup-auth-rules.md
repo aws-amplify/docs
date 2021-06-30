@@ -129,7 +129,7 @@ For some use cases, you will want DataStore to use multiple authorization types.
 
 By default, DataStore uses your API's default authorization type specified in the `amplifyconfiguration.json` file. To change the default authorization type, run `amplify update api`. Every network request sent through DataStore uses that authorization type, regardless of the model's `@auth` rule. 
 
-To enable DataStore to use multiple authorization types based on the model's `@auth` rules, set the `authModeStrategy` property when creating the DataStore plugin:
+To enable DataStore to use multiple authorization types based on the model's `@auth` rules, set the authModeStrategy property when initializing DataStore:
 
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/setup-auth-rules/10_multiauth-snippet.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/setup-auth-rules/10_multiauth-snippet.md"></inline-fragment>
