@@ -11,6 +11,7 @@ import {
 import React from "react";
 import MenuOpenButton from "./MenuOpenButton";
 import MenuCloseButton from "./MenuCloseButton";
+import {MQTablet} from "../media";
 
 type PlatformSelectProps = {
   filters: string[];
@@ -115,6 +116,17 @@ export default class Menu extends React.Component<
   constructor(props) {
     super(props);
     this.state = {isOpen: true};
+  }
+
+  componentDidMount() {
+    // We can't do this in the constructor because React will error that the prerendered version is different than live.
+    // Slice off the "@media " string at the start for use in JS instead of CSS
+    const MQTabletJS = MQTablet.substring(6);
+    // If the media query matches, then the user is on desktop and should see the menu by default
+    this.setState({
+      isOpen:
+        typeof window !== "undefined" && window.matchMedia(MQTabletJS).matches,
+    });
   }
 
   closeMenu = () => {
