@@ -71,7 +71,7 @@ export default function Layout({children, meta}: {children: any; meta?: any}) {
         blend={false}
       />
       <SecondaryNav platform={platform} pageHasMenu={false} />
-      <Container>
+      <Container backgroundColor="bg-color-tertiary">
         <LayoutStyle>
           {meta
             ? metaContent({
