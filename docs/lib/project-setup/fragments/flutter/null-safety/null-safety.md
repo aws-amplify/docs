@@ -23,10 +23,10 @@ To migrate to null safe models, you can simply regenerate them following the ins
 1. Make sure that the `pubspec.yaml` file at the root of your projects defines a Dart SDK version of 2.12.0 or greater.
 2. Update your Amplify CLI to version 5.1.0 or higher.(snippet for npm command)
 3. Make sure that the `enableDartNullSafety` [feature flag](https://docs.amplify.aws/cli/reference/feature-flags) is set to "true" in your `amplify/cli.json` file. 
-4. Re-run amplify codegen models if you have a schema defined.
+4. Re-run `amplify codegen models` for your schema.
 
 ***Opting-out of Null Safety***
 
 If you wish to continue using non-null safe models:
 1. Make sure that the `enableDartNullSafety` [feature flag](https://docs.amplify.aws/cli/reference/feature-flags) is set to "false".
-2. Re-run amplify codegen models for your schema 
+2. Re-run `amplify codegen models` for your schema 
