@@ -1,7 +1,9 @@
 _App.jsx_
 
 ```jsx
-const handleSignUp = (formData) => {
+import { Auth } from 'aws-amplify';
+
+const handleSignUp = async (formData) => {
     const param = {
         ...formData,
         attributes: {
@@ -9,7 +11,8 @@ const handleSignUp = (formData) => {
             'custom:favorite_flavor': 'Cookie Dough'
         }
     }
-    return Auth.signUp(param);
+    const data = await Auth.signUp(param);
+    return data;
 }
 
 <AmplifyAuthenticator>

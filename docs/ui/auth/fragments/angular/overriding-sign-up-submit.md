@@ -11,6 +11,7 @@ _app.component.ts_
 
 ```ts
 import { Component } from '@angular/core';
+import { Auth } from 'aws-amplify';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  public handleSignUp(formData) {
+  public async handleSignUp(formData) {
     const param = {
       ...formData,
       attributes: {
@@ -26,7 +27,8 @@ export class AppComponent {
         'custom:favorite_flavor': 'Cookie Dough'
       }
     }
-    return Auth.signUp(param);
+    const data = await Auth.signUp(param);
+    return data;
   }
 }
 ```

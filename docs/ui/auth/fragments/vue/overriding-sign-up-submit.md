@@ -10,7 +10,7 @@ _App.vue_
     </amplify-authenticator>
 </template>
 <script>
-import { Auth } from '@aws-amplify/auth';
+import { Auth } from 'aws-amplify';
 
 export default {
 	name: 'Authenticator',
