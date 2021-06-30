@@ -12,5 +12,4 @@ await Amplify.DataStore.save(editor);
 // then you save the mode that links a post with an editor
 await Amplify.DataStore.save(postEditor);
 print('Saved user, post and postEditor!');
-
 ```
