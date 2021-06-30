@@ -1,3 +1,5 @@
+Here we use the [path_provider](https://pub.dev/packages/path_provider) package to get a directory where we can create a temporary file for uploading.
+
 ```dart
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';

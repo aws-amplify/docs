@@ -6,15 +6,13 @@ To upload to S3 from a data object, specify the key and the file to be uploaded.
 
 <amplify-block name="Create File">
 
-Here we use the [path_provider](https://pub.dev/packages/path_provider) package to get a temporary directory where we can create our file.
-
 <inline-fragment platform="flutter" src="~/lib/storage/fragments/flutter/upload/upload-create-file.md"></inline-fragment>
 
 </amplify-block>
 
 <amplify-block name="With Options">
 
-Here we use the [path_provider](https://pub.dev/packages/path_provider) package to get a temporary directory where we can create our file.
+Here we use the [path_provider](https://pub.dev/packages/path_provider) package to get a directory where we can create a temporary file for uploading.
 
 ```dart
 import 'dart:io';
@@ -62,6 +60,7 @@ In S3, you should see the metadata attached to your file. You can learn more abo
 Make sure to follow the setup instructions on the image_picker [homepage](https://pub.dev/packages/image_picker).
 
 ```dart
+import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
 final picker = ImagePicker();
@@ -96,6 +95,7 @@ Future<void> uploadImage() async {
 The [file_picker](https://pub.dev/packages/file_picker) package can be used to retrieve arbitrary file types from the user's device.
 
 ```dart
+import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 
 Future<void> uploadFile() async {
