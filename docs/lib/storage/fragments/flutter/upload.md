@@ -42,7 +42,7 @@ Future<void> createAndUploadFileWithOptions() async {
       key: 'ExampleKey',
       options: options,
     );
-    print('Succesfully uploaded file: ${result.key}');
+    print('Successfully uploaded file: ${result.key}');
   } on StorageException catch (e) {
     print('Error uploading file: $e');
   }
@@ -81,7 +81,7 @@ Future<void> uploadImage() async {
   try {
     final UploadFileResult result =
         await Amplify.Storage.uploadFile(local: file, key: key);
-    print('Succesfully uploaded image: ${result.key}');
+    print('Successfully uploaded image: ${result.key}');
   } on StorageException catch (e) {
     print('Error uploading image: $e');
   }
@@ -115,7 +115,7 @@ Future<void> uploadFile() async {
   try {
     final UploadFileResult result =
         await Amplify.Storage.uploadFile(local: file, key: key);
-    print('Succesfully uploaded file: ${result.key}');
+    print('Successfully uploaded file: ${result.key}');
   } on StorageException catch (e) {
     print('Error uploading file: $e');
   }

@@ -18,7 +18,7 @@ Future<void> createAndUploadFile() async {
       local: exampleFile,
       key: 'ExampleKey',
     );
-    print('Succesfully uploaded file: ${result.key}');
+    print('Successfully uploaded file: ${result.key}');
   } on StorageException catch (e) {
     print('Error uploading file: $e');
   }

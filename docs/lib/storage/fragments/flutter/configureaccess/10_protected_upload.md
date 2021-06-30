@@ -24,7 +24,7 @@ Future<void> uploadProtected() async {
       key: 'ExampleKey',
       options: uploadOptions,
     );
-    print('Succesfully uploaded file: ${result.key}');
+    print('Successfully uploaded file: ${result.key}');
   } on StorageException catch (e) {
     print('Error uploading protected file: $e');
   }
