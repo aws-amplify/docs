@@ -58,6 +58,21 @@ export const Card = styled(docsCard)`
     justify-content: space-around;
     text-align: center;
     padding: 2.5rem;
+    height: 180px;
+
+    img {
+      margin-right: 0;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+
+    img:hover {
+      opacity: 0.8;
+    }
+
+    div {
+      justify-content: center;
+    }
   }
 
   a {
@@ -70,29 +85,6 @@ export const Card = styled(docsCard)`
 
   * {
     cursor: pointer;
-  }
-`;
-
-export const CardGraphic = styled.img`
-  margin-right: 0.75rem;
-  width: 3rem;
-  min-width: 3rem;
-  margin-top: -6px;
-  align-self: center;
-
-  &.vertical {
-    margin-right: 0;
-    text-align: center;
-    margin-bottom: 0.5rem;
-  }
-
-  img {
-    width: inherit;
-    height: 3rem;
-  }
-
-  img:hover {
-    opacity: 0.8;
   }
 `;
 
@@ -114,6 +106,23 @@ export const CardDetail = styled.div`
 
   p:hover,
   h4:hover {
+    opacity: 0.8;
+  }
+`;
+
+export const CardGraphic = styled.img`
+  margin-right: 0.75rem;
+  width: 3rem;
+  min-width: 3rem;
+  margin-top: -6px;
+  align-self: center;
+
+  &.vertical img {
+    width: inherit;
+    height: 3rem;
+  }
+
+  img:hover {
     opacity: 0.8;
   }
 `;
