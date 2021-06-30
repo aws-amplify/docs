@@ -15,7 +15,7 @@ import { Auth } from 'aws-amplify';
 export default {
 	name: 'Authenticator',
 	methods: {
-		handleSignUp(data) {
+		handleSignUp(formData) {
 			const param = {
 				...formData,
 				attributes: {
