@@ -17,10 +17,8 @@ export const PlatformSelectStyle = styled.div`
     border: 0.0625rem solid var(--border-color);
     color: var(--font-color);
 
-    img {
-      margin-right: 0.5rem;
-      width: 1.75rem;
-      height: 1.75rem;
+    span {
+      margin-left: 0.5rem;
     }
 
     &:hover {

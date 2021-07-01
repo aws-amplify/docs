@@ -73,10 +73,12 @@ class PlatformSelect extends React.Component<
               src={
                 platformFilterMetadataByOption[this.props.platform].graphicURI
               }
-              height="20px"
-              width="20px"
+              height="28px"
+              width="28px"
             />
-            {platformFilterMetadataByOption[this.props.platform].label}
+            <span>
+              {platformFilterMetadataByOption[this.props.platform].label}
+            </span>
           </a>
         </CurrentlySelectedStyle>
         <DropdownStyle shouldDisplay={this.state.isOpen}>
@@ -96,7 +98,7 @@ class PlatformSelect extends React.Component<
                     height="20px"
                     width="20px"
                   />
-                  {platformFilterMetadataByOption[name].label}
+                  <span>{platformFilterMetadataByOption[name].label}</span>
                 </a>
               </Link>
             );
