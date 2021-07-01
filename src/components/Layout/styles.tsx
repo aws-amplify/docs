@@ -1,6 +1,22 @@
 import styled from "@emotion/styled";
+import {MAX_WIDTH, MQFablet} from "../media";
 
 export const ContentStyle = styled.div`
+  padding: 1.5rem 1rem;
+  width: 100%;
+  overflow-x: hidden;
+
+  min-width: 100vw;
+
+  .searchable-code {
+    display: none;
+  }
+
+  ${MQFablet} {
+    min-width: initial;
+    padding: 0 2rem 0 4rem;
+  }
+
   a {
     & h2,
     & h3 {
@@ -15,8 +31,13 @@ export const ContentStyle = styled.div`
     }
   }
 
-  padding: 1em;
-  width: 100%;
+  h1 {
+    margin-top: 0.375rem;
+  }
+
+  p {
+    margin-bottom: 1rem;
+  }
 
   .searchable-code {
     display: none;
@@ -26,4 +47,5 @@ export const ContentStyle = styled.div`
 export const LayoutStyle = styled.div`
   display: flex;
   flex-direction: row;
+  max-width: ${MAX_WIDTH};
 `;
