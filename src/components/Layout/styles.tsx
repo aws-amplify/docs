@@ -6,8 +6,6 @@ export const ContentStyle = styled.div`
   width: 100%;
   overflow-x: hidden;
 
-  min-width: 100vw;
-
   .searchable-code {
     display: none;
   }
