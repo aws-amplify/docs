@@ -5,7 +5,7 @@
 Amplify.Hub.subscribe(HubChannel.AUTH,
         hubEvent -> {
             if (AuthChannelEventName.valueOf(hubEvent.getName()) == AuthChannelEventName.SESSION_EXPIRED) {
-                // User is no longer authenticated, navigate to the login screen for the user to re-authenticate
+                // User session is no longer valid, navigate to the login screen to re-authenticate the user.
                 Log.i("AuthQuickstart", "Auth session just expired.");
             }
         }
@@ -18,7 +18,7 @@ Amplify.Hub.subscribe(HubChannel.AUTH,
 ```kotlin
 Amplify.Hub.subscribe(HubChannel.AUTH) { event ->
     if (AuthChannelEventName.valueOf(event.name) == AuthChannelEventName.SESSION_EXPIRED) {
-        // User is no longer authenticated, navigate to the login screen for the user to re-authenticate
+        // User session is no longer valid, navigate to the login screen to re-authenticate the user.
         Log.i("AuthQuickstart", "Auth session just expired.")
     }
 }
@@ -30,7 +30,7 @@ Amplify.Hub.subscribe(HubChannel.AUTH) { event ->
 ```kotlin
 Amplify.Hub.subscribe(HubChannel.AUTH).collect {
     if (AuthChannelEventName.valueOf(it.name) == AuthChannelEventName.SESSION_EXPIRED) {
-        // User is no longer authenticated, navigate to the login screen for the user to re-authenticate
+        // User session is no longer valid, navigate to the login screen to re-authenticate the user.
         Log.i("AuthQuickstart", "Auth session just expired.")
     }
 }
@@ -44,7 +44,7 @@ RxAmplify.Hub.on(HubChannel.AUTH)
         .map(HubEvent::getName)
         .subscribe(name -> {
             if (AuthChannelEventName.valueOf(name) == AuthChannelEventName.SESSION_EXPIRED) {
-                // User is no longer authenticated, navigate to the login screen for the user to re-authenticate
+                // User session is no longer valid, navigate to the login screen to re-authenticate the user.
                 Log.i("AuthQuickstart", "Auth session just expired.");
             }
         }
