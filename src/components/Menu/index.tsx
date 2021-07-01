@@ -90,7 +90,7 @@ class PlatformSelect extends React.Component<
                 }}
                 key={name}
               >
-                <a>
+                <a onClick={this.toggleVis}>
                   <Image
                     src={platformFilterMetadataByOption[name].graphicURI}
                     height="20px"
