@@ -48,7 +48,7 @@ $ amplify update function
 ## Accessing the values in your function
 To access the secret values in your Lambda function, use the [AWS SSM GetParameter API](https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_GetParameter.html). Amplify CLI will automatically supply the SSM parameter name of the secret as an environment variable to the function. This value can be passed into the API call as the "Name" to retrieve the value. Ensure that the API call has "WithDecryption" specified as `true`.
 
-If your Lambda function is using the NodeJS runtime, a comment block will be placed at the top of your `index.js` file with example code to retrieve the secret values.
+If your Lambda function is using the Node.js runtime, a comment block will be placed at the top of your `index.js` file with example code to retrieve the secret values.
 
 ```js
 const aws = require('aws-sdk');
