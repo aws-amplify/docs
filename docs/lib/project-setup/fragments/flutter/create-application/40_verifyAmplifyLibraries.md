@@ -4,7 +4,6 @@ Before using any methods in the Amplify Flutter Library, it's important to add a
 Import the necessary dart dependencies at the top of main.dart: 
 
 ```dart
-// @dart=2.9
 // Amplify Flutter Packages
 import 'package:amplify_flutter/amplify.dart';
 import 'package:amplify_analytics_pinpoint/amplify_analytics_pinpoint.dart';
@@ -31,7 +30,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // Add Pinpoint and Cognito Plugins, or any other plugins you want to use
     AmplifyAnalyticsPinpoint analyticsPlugin = AmplifyAnalyticsPinpoint();
     AmplifyAuthCognito authPlugin = AmplifyAuthCognito();
-    Amplify.addPlugins([authPlugin, analyticsPlugin]);
+    await Amplify.addPlugins([authPlugin, analyticsPlugin]);
 
     // Once Plugins are added, configure Amplify
     // Note: Amplify can only be configured once.

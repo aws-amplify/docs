@@ -24,8 +24,8 @@ import 'models/ModelProvider.dart';
 ```dart
 AmplifyDataStore datastorePlugin =
     AmplifyDataStore(modelProvider: ModelProvider.instance);
-Amplify.addPlugin(datastorePlugin);
+await Amplify.addPlugin(datastorePlugin);
 // Add the following line
-Amplify.addPlugin(AmplifyAPI())
-Amplify.configure(amplifyconfig);
+await Amplify.addPlugin(AmplifyAPI())
+await Amplify.configure(amplifyconfig);
 ```
