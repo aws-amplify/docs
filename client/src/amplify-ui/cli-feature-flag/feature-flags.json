@@ -366,7 +366,7 @@
         "values": [
           {
             "value": "true",
-            "description": "[Recommended] Generate Dart models with null safety. Minimum version for Amplify library: amplify-flutter@0.2.0",
+            "description": "[Recommended] Generate Dart models with null safety. Minimum supported version for Amplify library: amplify-flutter is 0.2.0",
             "defaultNewProject": true,
             "defaultExistingProject": false
           },
