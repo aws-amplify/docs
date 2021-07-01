@@ -8,8 +8,8 @@ amplify codegen models
 
 You can **find the generated files** at `amplify/generated/models/`.
 
-<amplify-callout warning>
+<amplify-callout>
 
-If you are using Flutter (2.2.0 or greater), you need to add a language version comment `// @dart=2.9` to the top of each generated Dart file to disable sound null safety. Check [here](https://dart.dev/null-safety/unsound-null-safety#testing-or-running-mixed-version-programs) for more details. Null safety support for Amplify Flutter is being worked on actively.
+Codegen generates models using Dart null safety by default for a new Flutter project. It also provides a configurable feature flag to generate null safe models for existing Flutter projects. Check [here](~/lib/project-setup/null-safety.md/q/platform/flutter) for more details.
 
 </amplify-callout>
