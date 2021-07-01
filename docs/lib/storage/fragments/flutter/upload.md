@@ -1,7 +1,5 @@
 To upload to S3 from a data object, specify the key and the file to be uploaded. A file can be created locally, or retrieved from the user's device using a package such as [image_picker](https://pub.dev/packages/image_picker) or [file_picker](https://pub.dev/packages/file_picker).
 
-<inline-fragment platform="flutter" src="~/lib/storage/fragments/flutter/upload/no-upload-data.md"></inline-fragment>
-
 <amplify-block-switcher>
 
 <amplify-block name="Create File">
@@ -12,7 +10,7 @@ To upload to S3 from a data object, specify the key and the file to be uploaded.
 
 <amplify-block name="With Options">
 
-Here we use the [path_provider](https://pub.dev/packages/path_provider) package to get a directory where we can create a temporary file for uploading.
+<inline-fragment platform="flutter" src="~/lib/storage/fragments/flutter/path-provider.md"></inline-fragment>
 
 ```dart
 import 'dart:io';
