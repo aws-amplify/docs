@@ -1,11 +1,22 @@
 import styled from "@emotion/styled";
+import {MQTablet, MQDesktop} from "../media";
 
 export const TOCStyle = styled.div`
-  display: flex;
+  display: none;
   flex-direction: column;
   padding: 2rem 0;
   font-size: 0.875rem;
   width: 16.875rem;
+
+  ${MQTablet} {
+    &.more-width {
+      display: flex;
+    }
+  }
+
+  ${MQDesktop} {
+    display: flex;
+  }
 
   a {
     transition: 0.25s ease;
