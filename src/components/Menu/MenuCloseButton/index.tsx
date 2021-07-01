@@ -34,13 +34,15 @@ export default class MenuCloseButton extends React.Component<
       ? DESKTOP_CLOSE.darkSrc
       : DESKTOP_CLOSE.lightSrc;
     return (
-      <MenuCloseButtonStyle
-        onClick={this.onClick}
-        onMouseEnter={this.hover}
-        onMouseLeave={this.unhover}
-      >
-        <img alt={DESKTOP_CLOSE.alt} src={imgLink} />
-      </MenuCloseButtonStyle>
+      <div>
+        <MenuCloseButtonStyle
+          onClick={this.onClick}
+          onMouseEnter={this.hover}
+          onMouseLeave={this.unhover}
+        >
+          <img alt={DESKTOP_CLOSE.alt} src={imgLink} />
+        </MenuCloseButtonStyle>
+      </div>
     );
   }
 }
