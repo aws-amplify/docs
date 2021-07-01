@@ -1,7 +1,7 @@
 **Amplify Flutter and Null Safety**
 
 
-The Amplify Flutter library supports [Dart null safety](https://dart.dev/null-safety) beginning with version 0.2.0.  
+The Amplify Flutter library supports [Dart null safety](https://dart.dev/null-safety) starting with version 0.2.0.  
 
 |                                	                     | amplify-flutter 0.1.x   	| amplify-flutter 0.2.x  	|
 |-------------------------------	|---------------------------------	|---------------------------------	|
