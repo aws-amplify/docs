@@ -79,8 +79,6 @@ export const MenuStyle = styled.div`
 
     > div {
       position: sticky;
-      top: 3.375rem;
-
       display: flex;
       flex-direction: column;
       max-height: 100vh;
