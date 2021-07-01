@@ -9,7 +9,6 @@ export const OuterContainer = styled.section<ContainerProps>(
   (props) => `
   display: block;
   width: 100%;
-  overflow-x: hidden;
   ${props.backgroundColor &&
     `background-color: var(--${props.backgroundColor});`}
 

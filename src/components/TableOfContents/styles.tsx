@@ -6,7 +6,7 @@ export const TOCStyle = styled.div`
   flex-direction: column;
   padding: 2rem 0;
   font-size: 0.875rem;
-  width: 16.875rem;
+  min-width: 16.875rem;
 
   ${MQTablet} {
     &.more-width {
