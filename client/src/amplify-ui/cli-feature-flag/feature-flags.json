@@ -358,7 +358,7 @@
         ]
       },
       "enableDartNullSafety": {
-        "description": "Generate Dart models with null safety for Flutter applications using DataStore. Refer https://docs.amplify.aws/lib/project-setup/null-safety/q/platform/flutter for more information",
+        "description": "Generate Dart models with null safety for Flutter applications using DataStore. Refer to https://docs.amplify.aws/lib/project-setup/null-safety/q/platform/flutter for more information",
         "type": "Feature",
         "valueType": "Boolean",
         "versionAdded": "5.1.0",
@@ -366,7 +366,7 @@
         "values": [
           {
             "value": "true",
-            "description": "[Recommended] Generate Dart models with null safety. Minimum version for amplify library: amplify-flutter@0.2.0",
+            "description": "[Recommended] Generate Dart models with null safety. Minimum version for Amplify library: amplify-flutter@0.2.0",
             "defaultNewProject": true,
             "defaultExistingProject": false
           },
