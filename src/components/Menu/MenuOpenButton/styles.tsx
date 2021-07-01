@@ -1,17 +1,16 @@
 import styled from "@emotion/styled";
 import {MQTablet} from "../../media";
 
-// top: 4.375rem because secondary nav is 3.375rem tall.
+// top: 5.25rem because secondary nav is 3.375rem tall.
 // `top` - `margin-top` needs to equal `secondary-nav` height.
 export const MenuOpenButtonStyle = styled.button`
   position: sticky;
-  top: 4.375rem;
-  width: 2.75rem;
+  top: 5.25rem;
   height: 100%;
-  margin-top: 1rem;
-  margin-right: 0.75rem;
+  margin-top: 1.875rem;
+  margin-right: -3rem;
   padding: 0.75rem;
-  background-color: var(--amplify-background-color);
+  background-color: var(--bg-color);
 
   border-top: 0.0625rem solid var(--border-color);
   border-right: 0.0625rem solid var(--border-color);
@@ -21,6 +20,7 @@ export const MenuOpenButtonStyle = styled.button`
 
   &:hover {
     cursor: pointer;
+    background-color: var(--bg-color-hover);
   }
 
   display: none;
@@ -30,9 +30,8 @@ export const MenuOpenButtonStyle = styled.button`
     align-items: center;
   }
 
-  > a > img {
+  > img {
     width: 1.5rem;
-    height: 1.5rem;
-    float: right;
+    height: 1rem;
   }
 `;

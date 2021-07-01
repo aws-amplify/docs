@@ -18,9 +18,9 @@ export const MenuCloseButtonStyle = styled.button`
     align-items: center;
   }
 
-  > a > img {
-    width: 1.5rem;
-    height: 1.5rem;
+  > img {
+    width: 2rem;
+    height: 2rem;
     float: right;
   }
 `;
