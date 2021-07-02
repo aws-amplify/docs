@@ -15,6 +15,7 @@
     "signin_with_custom_flow",
     "signin_web_ui",
     "social_signin_web_ui",
+    "sms_flows",
     "signin_next_steps",
     "guest_access",
     "auth-events",
