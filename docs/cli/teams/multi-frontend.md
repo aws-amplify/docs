@@ -3,7 +3,7 @@ title: Multiple frontends
 description: Learn how to share the same Amplify backend across multiple frontends (e.g, a React and Android app).
 ---
 
-Use the `amplify pull` command to share the same Amplify backend across multiple frontends (e.g, a React and Android app). Users have an option to pull the entire backend definition (infrastructure templates and metadata) or only the metadata required to connect to the backend (e.g. `aws-exports.js` for JavaScript apps, or `amplifyconfiguration.json` for Android/iOS apps). If you’re building a mobile and web app in separate repositories, the recommended workflow is to keep the backend definition (the amplify folder) in only one of the repositories and pull the metadata (the `aws-exports.js` or `amplifyconfiguration.json` file) in the second repository to connect to the same backend.
+Use the `amplify pull` command to share the same Amplify backend across multiple frontends (e.g, a React and Android app). Users have an option to pull the entire backend definition (infrastructure templates and metadata) or only the metadata required to connect to the backend (e.g. `aws-exports.js` for JavaScript apps, or `amplifyconfiguration.json` for Android and iOS apps). If you’re building a mobile and web app in separate repositories, the recommended workflow is to keep the backend definition (the amplify folder) in only one of the repositories and pull the metadata (the `aws-exports.js` or `amplifyconfiguration.json` file) in the second repository to connect to the same backend.
 
 ## Workflow
 
