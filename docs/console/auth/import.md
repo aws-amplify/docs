@@ -16,7 +16,6 @@ In order to successfully import your User Pool, your User Pools require at least
 
 - At least one “Web app client”: an app client without a client secret
 - At least one “Native app client“: an app client with a client secret
-Run amplify push to complete the import procedure.
 
 [Learn more about getting started with User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/getting-started-with-cognito-user-pools.html)
 or 
@@ -34,7 +33,7 @@ These roles are usually automatically configured when you create a new Identity 
 
 ## Import and update your source code
 
-Click "Import" on the bottom of the page to complete the import procedure. Update your source code by running 
+Select "Import" on the bottom of the page to complete the import procedure. Update your source code by running 
 ```bash
 amplify pull
 ```
@@ -54,4 +53,4 @@ When you create a new environment, Amplify will assume by default that you’re 
 If you want to have Amplify manage your authorization resources in a new environment, unlink the imported Cognito resource and add authorization to your new environment. This will create new Amplify-managed authorization resources in the new environment.
   
 ## Unlink an existing Cognito User Pool or Identity Pool
-In order to unlink your existing Cognito resource, click "Unlink Cognito User Pool and Identity Pool" on the bottom of the Authentication page and follow the prompt. This will only unlink the Cognito resource referenced from the Amplify project. It will not delete the Cognito resource itself.
+In order to unlink your existing Cognito resource, select "Unlink Cognito User Pool and Identity Pool" on the bottom of the Authentication page and follow the prompt. This will only unlink the Cognito resource referenced from the Amplify project. It will not delete the Cognito resource itself.
