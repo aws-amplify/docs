@@ -1,6 +1,6 @@
 There are a few ways to integrate phone numbers into an Amplify app's sign-in and verification process. 
 - **As a username**: Users login with a username and password where their phone number acts as the username.
-- **As a verification method**: Users login by any means, but must verify their account with an OTP (one time passcode) sent to their phone.
+- **As a verification method**: Users login by any means, but must verify their account with an OTP (one time password) sent to their phone.
 - **MFA (Multi-Factor Authentication)**: Users must verify every login with an OTP sent to their phone.
 
 These methods may be combined with each other or used independently but they all require the same prerequisites for sending SMS messages via Amazon SNS, the notification service used by Amplify.
