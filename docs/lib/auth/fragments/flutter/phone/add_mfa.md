@@ -17,8 +17,6 @@ $ amplify add auth
 
 ... Answer as appropriate
 
-Successfully added auth resource phoneotp0c4b34fd locally
-
 Some next steps:
 "amplify push" will build all your local backend resources and provision it in the cloud
 "amplify publish" will build all your local backend and frontend resources (if you have hosting category added) and provision it in the cloud

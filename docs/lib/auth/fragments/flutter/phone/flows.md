@@ -44,7 +44,7 @@ After successfully requesting a toll-free number, you can return to SNS to verif
 
 Return to SNS, and scroll to the `Sandbox destination phone numbers` section. Click **Add phone number** and follow the instructions to verify your phone number.
 
-You are now ready to create users and send OTPs.
+You are now ready to setup auth for OTP.
 
 ## Setup
 

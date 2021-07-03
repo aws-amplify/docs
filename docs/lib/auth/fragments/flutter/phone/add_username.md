@@ -1,4 +1,4 @@
-By default, this will leave email verfication enabled. If you would also like to use phone numbers for verifying users' accounts, follow the steps for **As a verification method** and choose `Phone Number` for the sign-in method when prompted.
+By default, this will leave email verification enabled. If you would also like to use phone numbers for verifying users' accounts, follow the steps for **As a verification method** and choose `Phone Number` for the sign-in method when prompted.
 
 ```bash
 $ amplify add auth
@@ -10,8 +10,6 @@ Warning: you will not be able to edit these selections.
 # Phone Number
 ? Do you want to configure advanced settings?
 # No, I am done.
-
-Successfully added auth resource phoneotp0c4b34fd locally
 
 Some next steps:
 "amplify push" will build all your local backend resources and provision it in the cloud
