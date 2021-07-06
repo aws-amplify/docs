@@ -9,5 +9,4 @@ await Amplify.DataStore.save(post);
 print('Post saved');
 await Amplify.DataStore.save(comment);
 print('Comment saved');
-
 ```

@@ -7,7 +7,7 @@ try {
     value: 'email@email.com',
   );
   if (res.nextStep.updateAttributeStep == 'CONFIRM_ATTRIBUTE_WITH_CODE') {
-    var destination = res.nextStep.codeDeliveryDetails.destination;
+    var destination = res.nextStep.codeDeliveryDetails?.destination;
     print('Confirmation code sent to $destination');
   } else {
     print('Update completed');
@@ -26,12 +26,15 @@ var attributes = [
 ];
 try {
   var res = await Amplify.Auth.updateUserAttributes(attributes: attributes);
-  if (res.nextStep.updateAttributeStep == 'CONFIRM_ATTRIBUTE_WITH_CODE') {
-    var destination = res.nextStep.codeDeliveryDetails.destination;
-    print('Confirmation code sent to $destination');
-  } else {
-    print('Update completed');
-  }
+  res.forEach((key, value) {
+    if (value.nextStep.updateAttributeStep ==
+        'CONFIRM_ATTRIBUTE_WITH_CODE') {
+      var destination = value.nextStep.codeDeliveryDetails?.destination;
+      print('Confirmation code sent to $destination for $key');
+    } else {
+      print('Update completed for $key');
+    }
+  });
 } on AmplifyException catch (e) {
   print(e.message);
 }
