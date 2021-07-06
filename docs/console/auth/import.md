@@ -1,57 +1,57 @@
 ---
-title: Use an existing Cognito User Pool and Identity Pool
-description: Configure the Admin UI to use existing Amazon Cognito User Pool and Identity Pool resources as an authentication & authorization mechanism for other Amplify categories. (API, Storage, and more)
+title: Use an existing Amazon Cognito user pool and identity pool
+description: Configure the Admin UI to use existing Amazon Cognito user pool and identity pool resources as an authentication and authorization mechanism for other Amplify categories ( For example, API, Storage, and more).
 ---
 
-Import existing Amazon Cognito resources into your Amplify project in your Admin UI. Get started by going to the Authentication tab in your app's Admin UI and selecting "Reuse existing Amazon Cognito resources".
+You can import existing Amazon Cognito resources into your Amplify project using the Admin UI. To get started, choose **Authentication** from the **Set up** menu in your app's Admin UI. On the **Authentication** page, chose **Reuse existing Amazon Cognito resources**.
 
-This feature is particularly useful if you’re trying to:
+This feature is particularly useful if you’re trying to do the following:
 
-- enable Amplify categories (such as API, Storage, and function) for your existing user base;
-- incrementally adopt Amplify for your application stack;
-- independently manage Cognito resources while working with Amplify.
+- Enable Amplify categories (such as API, Storage, and function) for your existing user base
+- Incrementally adopt Amplify for your application stack
+- Independently manage Amazon Cognito resources while working with Amplify
 
-## Import an existing Cognito User Pool
-In order to successfully import your User Pool, your User Pools require at least two app clients with the following conditions:
+## Import an existing Cognito user pool
+To successfully import your user pool, your user pools require at least two app clients with the following conditions:
 
 - At least one “Web app client”: an app client without a client secret
 - At least one “Native app client“: an app client with a client secret
-Run amplify push to complete the import procedure.
+To complete the import procedure, run the `amplify push` command.
 
 [Learn more about getting started with User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/getting-started-with-cognito-user-pools.html)
 or 
 [configuring a User Pool App Client](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-client-apps.html)
 
-## Import an existing Identity Pool
-In order to successfully import your Identity Pool, it must have both of the User Pool app clients fulfilling the below requirements:
+## Import an existing identity pool
+In order to successfully import your identity pool, it must have both of the user pool app clients must meet the following requirements:
 
-- An Authenticated Role with a trust relationship to your Identity Pool
-- An optional Unauthenticated Role if you want to use any guest user access for your Amplify categories. (Example: Guest access for your S3 buckets or REST API endpoints)
+- An Authenticated Role with a trust relationship to your identity pool
+- An optional Unauthenticated Role if you want to use any guest user access for your Amplify categories (For example, guest access for your Amazon S3 buckets or REST API endpoints).
 
-These roles are usually automatically configured when you create a new Identity Pool enabling “Unauthenticated” access and have a Cognito User Pool as an authentication provider.
+These roles are usually automatically configured when you create a new identity pool enabling “Unauthenticated” access and have an Amazon Cognito user pool as an authentication provider.
 
 [Learn more about getting started with Identity Pools.](https://docs.aws.amazon.com/cognito/latest/developerguide/getting-started-with-identity-pools.html)
 
 ## Import and update your source code
 
-Click "Import" on the bottom of the page to complete the import procedure. Update your source code by running 
+Choose **Import** on the bottom of the page to complete the import procedure. Update your source code by running the following command: 
 ```bash
 amplify pull
 ```
-And generate the necessary GraphQL files by running
+Next, generate the necessary GraphQL files by running the following command:
 ```bash
 amplify codegen add
 ```
 
-This will
-- automatically populate your Amplify Library configuration files (aws-exports.js, amplifyconfiguration.json) with your chosen Amazon Cognito resource information
-- provide your designated existing Cognito resource as the authentication & authorization mechanism for all auth-dependent categories (API, Storage and more)
-- enable Lambda functions to access the chosen Cognito resource if you permit it
+After running this command, the following occurs:
+- Your Amplify Library configuration files (aws-exports.js, amplifyconfiguration.json) are automatically populated with your chosen Amazon Cognito resource information
+- Your designated existing Amazon Cognito resource is provided as the authentication and authorization mechanism for all auth-dependent categories (API, Storage and more)
+- Lambda functions are enabled to access the chosen Amazon Cognito resource if you permit it.
 
 ## Multi-environment support
-When you create a new environment, Amplify will assume by default that you’re managing your app’s Cognito resources outside of an Amplify project. You’ll be asked to either import a different Cognito resource or maintain the same Cognito resource for your app’s auth category.
+When you create a new environment, Amplify assumes, by default, that you’re managing your app’s Amazon Cognito resources outside of an Amplify project. You’ll be asked to either import a different Amazon Cognito resource or maintain the same Amazon Cognito resource for your app’s auth category.
 
 If you want to have Amplify manage your authorization resources in a new environment, unlink the imported Cognito resource and add authorization to your new environment. This will create new Amplify-managed authorization resources in the new environment.
   
-## Unlink an existing Cognito User Pool or Identity Pool
-In order to unlink your existing Cognito resource, click "Unlink Cognito User Pool and Identity Pool" on the bottom of the Authentication page and follow the prompt. This will only unlink the Cognito resource referenced from the Amplify project. It will not delete the Cognito resource itself.
+## Unlink an existing Amazon Cognito user pool or identity pool
+To order to unlink your existing Amazon Cognito resource, click **Unlink Cognito User Pool and Identity Pool** on the bottom of the **Authentication** page and follow the prompt to confirm this action. This only unlinks the Amazon Cognito resource referenced from the Amplify project. It does not delete the Amazon Cognito resource itself.
