@@ -49,7 +49,7 @@ After running this command, the following occurs:
 - Lambda functions are enabled to access the chosen Amazon Cognito resource if you permit it.
 
 ## Multi-environment support
-When you clon an environment or create a new one, you’ll be asked to either import a different Amazon Cognito resource or maintain the same Amazon Cognito resource for your app’s auth category.
+When you clone an environment or create a new one, you’ll be asked to either import a different Amazon Cognito resource or maintain the same Amazon Cognito resource for your app’s auth category.
 
 If you want to have Amplify manage your authorization resources in a new environment, unlink the imported Cognito resource and add authorization to your new environment. This will create new Amplify-managed authorization resources in the new environment.
   
