@@ -1,5 +1,5 @@
 ---
-title: Use an existing Amazon Cognito user pool and identity pool
+title: Import Amazon Cognito resources
 description: Configure the Admin UI to use existing Amazon Cognito user pool and identity pool resources as an authentication and authorization mechanism for other Amplify categories ( For example, API, Storage, and more).
 ---
 
@@ -7,9 +7,9 @@ You can import existing Amazon Cognito resources into your Amplify project using
 
 This feature is particularly useful if you’re trying to do the following:
 
-- Enable Amplify categories (such as API, Storage, and function) for your existing user base
-- Incrementally adopt Amplify for your application stack
-- Independently manage Amazon Cognito resources while working with Amplify
+- Authorize user access to fields/tables in the Admin UI's data model
+- Manage users and groups from the Admin UI (instead of having to login to the AWS console)
+- Reuse the imported auth resource across Amplify environments
 
 ## Import an existing Cognito user pool
 To successfully import your user pool, your user pools require at least two app clients with the following conditions:
@@ -49,9 +49,9 @@ After running this command, the following occurs:
 - Lambda functions are enabled to access the chosen Amazon Cognito resource if you permit it.
 
 ## Multi-environment support
-When you create a new environment, Amplify assumes, by default, that you’re managing your app’s Amazon Cognito resources outside of an Amplify project. You’ll be asked to either import a different Amazon Cognito resource or maintain the same Amazon Cognito resource for your app’s auth category.
+When you clon an environment or create a new one, you’ll be asked to either import a different Amazon Cognito resource or maintain the same Amazon Cognito resource for your app’s auth category.
 
 If you want to have Amplify manage your authorization resources in a new environment, unlink the imported Cognito resource and add authorization to your new environment. This will create new Amplify-managed authorization resources in the new environment.
   
 ## Unlink an existing Amazon Cognito user pool or identity pool
-To order to unlink your existing Amazon Cognito resource, click **Unlink Cognito User Pool and Identity Pool** on the bottom of the **Authentication** page and follow the prompt to confirm this action. This only unlinks the Amazon Cognito resource referenced from the Amplify project. It does not delete the Amazon Cognito resource itself.
+In order to unlink your existing Amazon Cognito resource, click **Unlink Cognito User Pool and Identity Pool** on the bottom of the **Authentication** page and follow the prompt to confirm this action. This only unlinks the Amazon Cognito resource referenced from the Amplify project. It does not delete the Amazon Cognito resource itself.
