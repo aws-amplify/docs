@@ -3,7 +3,7 @@ title: Use an existing Amazon Cognito user pool and identity pool
 description: Configure the Admin UI to use existing Amazon Cognito user pool and identity pool resources as an authentication and authorization mechanism for other Amplify categories ( For example, API, Storage, and more).
 ---
 
-You can import existing Amazon Cognito resources into your Amplify project using the Admin UI. To get started, choose **Authentication** from the **Set up** menu in your app's Admin UI. On the **Authentication** page, chose **Reuse existing Amazon Cognito resources**.
+You can import existing Amazon Cognito resources into your Amplify project using the Admin UI. To get started, choose **Authentication** from the **Set up** menu in your app's Admin UI. On the **Authentication** page, choose **Reuse existing Amazon Cognito resources**.
 
 This feature is particularly useful if you’re trying to do the following:
 
