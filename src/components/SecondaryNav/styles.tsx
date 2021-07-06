@@ -79,6 +79,6 @@ export const ShadowStyle = styled.div`
   );
 
   ${MQLaptop} {
-    display: none;
+    display: none !important;
   }
 `;
