@@ -13,6 +13,7 @@ import React from "react";
 import MenuOpenButton from "./MenuOpenButton";
 import MenuCloseButton from "./MenuCloseButton";
 import {MQTablet} from "../media";
+import Directory from "./Directory";
 
 type PlatformSelectProps = {
   filters: string[];
@@ -159,13 +160,10 @@ export default class Menu extends React.Component<
                 />
               </MenuHeaderStyle>
               <DirectoryStyle>
-                directory goes here; see docs-ui/menu
-                <br />
-                <br />
-                adding extra height so that the framework switcher isn't cut off
-                <br />
-                <br />
-                more height
+                <Directory
+                  pathname={this.props.pathname}
+                  filterKey={this.props.platform}
+                />
               </DirectoryStyle>
             </div>
           </div>
