@@ -5,18 +5,21 @@ import {track, trackExternalLink, AnalyticsEventType} from "../../utils/track";
 type ExternalLinkProps = {
   graphic?: string;
   href: string;
+  anchorTitle?: string;
 };
 
 const DocsExternalLink: React.FC<ExternalLinkProps> = ({
   children,
   graphic,
   href,
+  anchorTitle,
 }) => {
   return (
     <ExternalLink
       href={href}
       rel="noopener noreferrer"
       target="_blank"
+      title={anchorTitle}
       onClick={(e) => {
         trackLink(href);
       }}

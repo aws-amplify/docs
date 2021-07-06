@@ -7,13 +7,18 @@ import {
   DropdownStyle,
   MenuHeaderStyle,
   MenuStyle,
-  DirectoryStyle,
+  MenuBreakStyle,
+  DiscordLinkStyle,
+  MenuBodyStyle,
 } from "./styles";
 import React from "react";
 import MenuOpenButton from "./MenuOpenButton";
 import MenuCloseButton from "./MenuCloseButton";
 import {MQTablet} from "../media";
 import Directory from "./Directory";
+import ExternalLink from "../ExternalLink";
+import {DISCORD} from "../../constants/img";
+import RepoActions from "./RepoActions";
 
 type PlatformSelectProps = {
   filters: string[];
@@ -159,12 +164,23 @@ export default class Menu extends React.Component<
                   pathname={this.props.pathname}
                 />
               </MenuHeaderStyle>
-              <DirectoryStyle>
+              <MenuBodyStyle>
                 <Directory
-                  pathname={this.props.pathname}
                   filterKey={this.props.platform}
+                  pathname={this.props.pathname}
                 />
-              </DirectoryStyle>
+                <MenuBreakStyle />
+                <RepoActions path={this.props.pathname} />
+                <DiscordLinkStyle>
+                  <ExternalLink
+                    href="https://discord.gg/jWVbPfC"
+                    anchorTitle="Discord Community"
+                  >
+                    <img alt={DISCORD.alt} src={DISCORD.lightSrc} />
+                    Chat with us
+                  </ExternalLink>
+                </DiscordLinkStyle>
+              </MenuBodyStyle>
             </div>
           </div>
         </MenuStyle>
