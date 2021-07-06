@@ -16,6 +16,9 @@ To successfully import your user pool, your user pools require at least two app 
 
 - At least one “Web app client”: an app client without a client secret
 - At least one “Native app client“: an app client with a client secret
+
+The client secret is used by applications that have a server-side component that secure the client secret, which is why the native app client needs one.
+
 To complete the import procedure, run the `amplify push` command.
 
 [Learn more about getting started with User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/getting-started-with-cognito-user-pools.html)
@@ -49,7 +52,7 @@ After running this command, the following occurs:
 - Lambda functions are enabled to access the chosen Amazon Cognito resource if you permit it.
 
 ## Multi-environment support
-When you clone an environment or create a new one, you’ll be asked to either import a different Amazon Cognito resource or maintain the same Amazon Cognito resource for your app’s auth category.
+When you clone an environment or create a new one, you’ll be required to import your Amazon Cognito resources.
 
 If you want to have Amplify manage your authorization resources in a new environment, unlink the imported Cognito resource and add authorization to your new environment. This will create new Amplify-managed authorization resources in the new environment.
   
