@@ -65,15 +65,15 @@ Run `amplify add auth` to create a new Cognito Auth resource, and follow the pro
 
 ### As a username
 
-<inline-fragment platform="flutter" src="~/lib/auth/fragments/flutter/phone/add_username.md"></inline-fragment>
+<inline-fragment src="~/lib/auth/fragments/common/sms/add_username.md"></inline-fragment>
 
 ### As a verification method
 
-<inline-fragment platform="flutter" src="~/lib/auth/fragments/flutter/phone/add_verification.md"></inline-fragment>
+<inline-fragment src="~/lib/auth/fragments/common/sms/add_verification.md"></inline-fragment>
 
 ### MFA
 
-<inline-fragment platform="flutter" src="~/lib/auth/fragments/flutter/phone/add_mfa.md"></inline-fragment>
+<inline-fragment src="~/lib/auth/fragments/common/sms/add_mfa.md"></inline-fragment>
 
 </amplify-block>
 
@@ -83,15 +83,15 @@ Run `amplify update auth` and follow the prompts as guided below.
 
 ### As a username
 
-<inline-fragment platform="flutter" src="~/lib/auth/fragments/flutter/phone/update_username.md"></inline-fragment>
+<inline-fragment src="~/lib/auth/fragments/common/sms/update_username.md"></inline-fragment>
 
 ### As a verification method
 
-<inline-fragment platform="flutter" src="~/lib/auth/fragments/flutter/phone/update_verification.md"></inline-fragment>
+<inline-fragment src="~/lib/auth/fragments/common/sms/update_verification.md"></inline-fragment>
 
 ### MFA
 
-<inline-fragment platform="flutter" src="~/lib/auth/fragments/flutter/phone/update_mfa.md"></inline-fragment>
+<inline-fragment src="~/lib/auth/fragments/common/sms/update_mfa.md"></inline-fragment>
 
 </amplify-block>
 
@@ -99,8 +99,32 @@ Run `amplify update auth` and follow the prompts as guided below.
 
 ## Sign Up
 
-<inline-fragment platform="flutter" src="~/lib/auth/fragments/flutter/phone/sign_up.md"></inline-fragment>
+Sign up users normally with the chosen `Username` type and password. Certain attributes may be required in the `userAttributes` map depending on the options chosen above:
+
+- `"email"` is **required** if:
+    - One of the following are true:
+        - Email verification is enabled (default)
+        - Email was marked as a required attribute (default)
+    - **and** users sign up with a chosen username or phone number
+- `"phone_number"` is **required** if:
+    - One of the following are true:
+        - MFA is ON, or manually enabled for the user
+        - Phone number verification is enabled
+        - Phone number was marked as a required attribute
+    - **and** users sign up with a chosen username or email
+
+<inline-fragment platform="flutter" src="~/lib/auth/fragments/flutter/sms/sign_up.md"></inline-fragment>
+
+Verification of user accounts is done via the `confirmSignUp` method with the OTP sent to their phone or email.
+
+<inline-fragment platform="flutter" src="~/lib/auth/fragments/flutter/sms/confirm_sign_up.md"></inline-fragment>
 
 ## Sign In
 
-<inline-fragment platform="flutter" src="~/lib/auth/fragments/flutter/phone/sign_in.md"></inline-fragment>
+Sign in users normally with the chosen `Username` type and password.
+
+<inline-fragment platform="flutter" src="~/lib/auth/fragments/flutter/sms/sign_in.md"></inline-fragment>
+
+If MFA is **ON** or enabled for the user, you must call `confirmSignIn` with the OTP sent to their phone.
+
+<inline-fragment platform="flutter" src="~/lib/auth/fragments/flutter/sms/confirm_sign_in.md"></inline-fragment>
