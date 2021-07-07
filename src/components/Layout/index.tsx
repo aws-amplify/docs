@@ -81,6 +81,7 @@ export default function Layout({children, meta}: {children: any; meta?: any}) {
                 filters,
                 platform,
                 pathname: router.pathname,
+                href: router.asPath,
               })
             : children}
         </LayoutStyle>
@@ -91,10 +92,23 @@ export default function Layout({children, meta}: {children: any; meta?: any}) {
   );
 }
 
-function metaContent({title, headers, children, filters, platform, pathname}) {
+function metaContent({
+  title,
+  headers,
+  children,
+  filters,
+  platform,
+  pathname,
+  href,
+}) {
   return (
     <>
-      <Menu filters={filters} platform={platform} pathname={pathname}></Menu>
+      <Menu
+        filters={filters}
+        platform={platform}
+        pathname={pathname}
+        href={href}
+      ></Menu>
       <ContentStyle>
         <h1>{title}</h1>
         <CodeBlockProvider>{children}</CodeBlockProvider>

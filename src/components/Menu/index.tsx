@@ -115,13 +115,17 @@ class PlatformSelect extends React.Component<
   }
 }
 
+type MenuProps = {
+  filters: string[];
+  platform: string;
+  pathname: string;
+  href: string;
+};
+
 type MenuState = {
   isOpen: boolean;
 };
-export default class Menu extends React.Component<
-  PlatformSelectProps,
-  MenuState
-> {
+export default class Menu extends React.Component<MenuProps, MenuState> {
   constructor(props) {
     super(props);
     this.state = {isOpen: true};
@@ -170,7 +174,10 @@ export default class Menu extends React.Component<
                   pathname={this.props.pathname}
                 />
                 <MenuBreakStyle />
-                <RepoActions path={this.props.pathname} />
+                <RepoActions
+                  path={this.props.pathname}
+                  href={this.props.href}
+                />
                 <DiscordLinkStyle>
                   <ExternalLink
                     href="https://discord.gg/jWVbPfC"

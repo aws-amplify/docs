@@ -2,44 +2,37 @@ import React from "react";
 import ExternalLink from "../../ExternalLink";
 import {RepoActionsStyle} from "./styles";
 
-const getLabelForPath = () => {
-  const {pathname} = location;
-
-  if (pathname.startsWith("/cli")) {
+const getLabelForPath = (path) => {
+  if (path.startsWith("/cli")) {
     return "CLI";
-  } else if (pathname.startsWith("/ui") || pathname.startsWith("/ui-legacy")) {
+  } else if (path.startsWith("/ui") || path.startsWith("/ui-legacy")) {
     return "UI";
-  } else if (pathname.startsWith("/lib") && pathname.includes("platform/js")) {
+  } else if (path.startsWith("/lib") && path.includes("platform/js")) {
     return "JavaScript";
-  } else if (
-    pathname.startsWith("/lib") &&
-    pathname.includes("platform/android")
-  ) {
+  } else if (path.startsWith("/lib") && path.includes("platform/android")) {
     return "Android Lib";
-  } else if (pathname.startsWith("/lib") && pathname.includes("platform/ios")) {
+  } else if (path.startsWith("/lib") && path.includes("platform/ios")) {
     return "iOS Lib";
-  } else if (
-    pathname.startsWith("/sdk") &&
-    pathname.includes("platform/android")
-  ) {
+  } else if (path.startsWith("/sdk") && path.includes("platform/android")) {
     return "Android SDK";
-  } else if (pathname.startsWith("/sdk") && pathname.includes("platform/ios")) {
+  } else if (path.startsWith("/sdk") && path.includes("platform/ios")) {
     return "iOS SDK";
-  } else if (pathname.includes("start/")) {
+  } else if (path.includes("start/")) {
     return "Getting Started";
   } else {
     return "";
   }
 };
 
-function createIssueLink() {
+function createIssueLink(path, href) {
+  href = `docs.amplify.aws${href}`;
   const NEW_GITHUB_ISSUE_LINK =
     "https://github.com/aws-amplify/docs/issues/new";
   const params = [
     "title=[Feedback]FEEDBACK_TITLE_HERE",
-    `labels=${encodeURIComponent(getLabelForPath())}`,
+    `labels=${encodeURIComponent(getLabelForPath(path))}`,
     `body=${encodeURIComponent(
-      `**Page**: [\`${location.pathname}\`](${location.href})\n\n**Feedback**:\n\n<!-- your feedback here -->`,
+      `**Page**: [\`${path}\`](${href})\n\n**Feedback**:\n\n<!-- your feedback here -->`,
     )}`,
   ];
   return `${NEW_GITHUB_ISSUE_LINK}?${params.join("&")}`;
@@ -53,8 +46,8 @@ function createEditLink(path) {
   return `https://github.com/aws-amplify/docs/edit/main/src/pages${safePath}.mdx`;
 }
 
-export default function RepoActions({path}) {
-  const feedbackLink = createIssueLink();
+export default function RepoActions({path, href}) {
+  const feedbackLink = createIssueLink(path, href);
   const editLink = createEditLink(path);
   return (
     <RepoActionsStyle>

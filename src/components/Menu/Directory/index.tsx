@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import {getProductDirectory} from "../../../utils/getLocalDirectory";
 import {
   ArrowStyle,
   DirectoryGroupHeaderStyle,
@@ -94,58 +95,11 @@ type DirectoryProps = {
 
 export default class Directory extends React.Component<DirectoryProps> {
   render() {
-    const fakeDirectory = {
-      lib: {
-        productRoot: {
-          title: "Product Root",
-          route: "/lib",
-        },
-        items: {
-          notauth: {
-            title: "Not authentication",
-            items: [
-              {title: "not-getting-started", filters: ["js", "ios"]},
-              {title: "dont-start", filters: ["js", "ios"]},
-            ],
-          },
-          auth: {
-            title: "Authentication",
-            items: [
-              {
-                route: "/lib/auth/getting-started",
-                title: "Getting Started",
-                filters: ["js", "ios"],
-              },
-              {title: "start", filters: ["js", "ios"]},
-              {title: "emailpassword", filters: ["js", "ios"]},
-              {title: "social", filters: ["js", "ios"]},
-              {title: "mfa", filters: ["js", "ios"]},
-              {title: "manageusers", filters: ["js", "ios"]},
-              {title: "switch-auth", filters: ["js", "ios"]},
-              {title: "customui", filters: ["js", "ios"]},
-              {title: "advanced", filters: ["js", "ios"]},
-              {title: "signin", filters: ["js", "ios"]},
-              {title: "signin_with_custom_flow", filters: ["js", "ios"]},
-              {title: "signin_web_ui", filters: ["js", "ios"]},
-              {title: "social_signin_web_ui", filters: ["js", "ios"]},
-              {title: "signin_next_steps", filters: ["js", "ios"]},
-              {title: "guest_access", filters: ["js", "ios"]},
-              {title: "auth-events", filters: ["js", "ios"]},
-              {title: "user-attributes", filters: ["js", "ios"]},
-              {title: "device_features", filters: ["js", "ios"]},
-              {title: "password_management", filters: ["js", "ios"]},
-              {title: "signOut", filters: ["js", "ios"]},
-              {title: "access_credentials", filters: ["js", "ios"]},
-              {title: "escapehatch", filters: ["js", "ios"]},
-              {title: "overview", filters: ["js", "ios"]},
-              {title: "existing-resources", filters: ["js", "ios"]},
-            ],
-          },
-        },
-      },
+    const directory = getProductDirectory(this.props.pathname) as {
+      productRoot: {title: string; route: string};
+      items: {title: string; items: DirectoryItem[]}[];
     };
-
-    const productRoot = fakeDirectory.lib.productRoot;
+    const productRoot = directory.productRoot;
 
     return (
       <div>
@@ -156,7 +110,7 @@ export default class Directory extends React.Component<DirectoryProps> {
             Product Root
           </ProductRootLinkStyle>
         </Link>
-        {Object.entries(fakeDirectory.lib.items).map((folderName) => (
+        {Object.entries(directory.items).map((folderName) => (
           <DirectoryGroup
             title={folderName[1].title}
             items={folderName[1].items}
