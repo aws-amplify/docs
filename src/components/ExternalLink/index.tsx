@@ -1,5 +1,5 @@
 import React from "react";
-import {ExternalLink, ExternalLinkGraphic} from "./styles";
+import {ExternalLinkGraphic} from "./styles";
 import {track, trackExternalLink, AnalyticsEventType} from "../../utils/track";
 
 type ExternalLinkProps = {
@@ -8,14 +8,14 @@ type ExternalLinkProps = {
   anchorTitle?: string;
 };
 
-const DocsExternalLink: React.FC<ExternalLinkProps> = ({
+const ExternalLink: React.FC<ExternalLinkProps> = ({
   children,
   graphic,
   href,
   anchorTitle,
 }) => {
   return (
-    <ExternalLink
+    <a
       href={href}
       rel="noopener noreferrer"
       target="_blank"
@@ -28,11 +28,11 @@ const DocsExternalLink: React.FC<ExternalLinkProps> = ({
       {graphic && (
         <ExternalLinkGraphic src={`/assets/external-link-${graphic}.svg`} />
       )}
-    </ExternalLink>
+    </a>
   );
 };
 
-export default DocsExternalLink;
+export default ExternalLink;
 
 function trackLink(href) {
   track({
