@@ -18,7 +18,11 @@ export default function Layout({children, meta}: {children: any; meta?: any}) {
   const {platform} = router.query as {platform: string};
   const headers = traverseHeadings(children, platform);
   const filters = gatherFilters(children);
-  if (!filters.includes(platform) && !pathname.includes("start")) {
+  if (
+    !filters.includes(platform) &&
+    !pathname.includes("start") &&
+    !pathname.includes("404")
+  ) {
     return Custom404();
   }
   const basePath = "docs.amplify.aws";

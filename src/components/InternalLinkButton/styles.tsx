@@ -22,12 +22,14 @@ export const Container = styled.a`
   appearance: none;
   cursor: pointer;
   margin: 0 auto;
+  color: #fff;
 
   ${MQFablet} {
     max-width: 18rem;
   }
 
   &:hover {
+    color: #fff;
     text-decoration: none;
     box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.5);
   }
