@@ -1,4 +1,3 @@
-import React from "react";
 import ExternalLink from "../../ExternalLink";
 import {RepoActionsStyle} from "./styles";
 
