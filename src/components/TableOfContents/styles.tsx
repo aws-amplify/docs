@@ -42,10 +42,7 @@ export const TOCStyle = styled.div`
 
     &.active {
       border-left-color: var(--color-anchor);
-
-      a {
-        color: var(--color-anchor);
-      }
+      color: var(--color-anchor);
     }
   }
 `;
