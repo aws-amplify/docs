@@ -1,8 +1,45 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const slug = require("../../utils/slug");
+import getElementTop from "../../utils/get-element-top";
 import {TOCStyle, H2AnchorStyle, H3AnchorStyle, HeaderStyle} from "./styles";
+import {useEffect, useState} from "react";
 
 export default function TableOfContents({children, title}) {
+  const headers = [];
+  const stickyHeaderHeight = 54;
+  let activeLink = 0;
+  let previousLink = 0;
+  useEffect(() => {
+    const headerQueries = headers.map((header) => {
+      return document.querySelector(header);
+    });
+    document.addEventListener("scroll", () => {
+      if (headers) {
+        let i = headerQueries.findIndex(
+          (e) => getElementTop(e, stickyHeaderHeight) - 3 > window.scrollY,
+        );
+        if (i === -1) {
+          i = headers.length;
+        }
+        activeLink = i - 1;
+        if (activeLink !== previousLink) {
+          previousLink = activeLink;
+          if (activeLink >= 0) {
+            const activeElement = headers[activeLink];
+            if (activeElement) {
+              history.replaceState(undefined, document.title, activeElement);
+            }
+          } else {
+            history.replaceState(
+              undefined,
+              document.title,
+              window.location.href.split("#")[0],
+            );
+          }
+        }
+      }
+    });
+  }, []);
   return (
     <TOCStyle>
       <HeaderStyle>
@@ -10,6 +47,7 @@ export default function TableOfContents({children, title}) {
       </HeaderStyle>
       {children.map(([name, level], index) => {
         const slugged = `#${slug(name)}`;
+        headers.push(slugged);
         const anchor = <a href={slugged}>{name}</a>;
         if (level === "h2")
           return <H2AnchorStyle key={index}>{anchor}</H2AnchorStyle>;
