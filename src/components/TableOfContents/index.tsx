@@ -24,8 +24,18 @@ export default function TableOfContents({children, title}) {
         activeLink = i - 1;
         if (activeLink !== previousLink) {
           previousLink = activeLink;
+          headers.forEach((header) => {
+            document.querySelectorAll(`a[href="${header}"]`).forEach((aTag) => {
+              aTag.classList.remove("active");
+            });
+          });
           if (activeLink >= 0) {
             const activeElement = headers[activeLink];
+            document
+              .querySelectorAll(`a[href="${activeElement}"]`)
+              .forEach((aTag) => {
+                aTag.classList.add("active");
+              });
             if (activeElement) {
               history.replaceState(undefined, document.title, activeElement);
             }
