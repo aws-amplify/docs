@@ -123,6 +123,7 @@ type YourModel @model @auth(rules: [{ allow: groups
   ...
 }
 ```
+
 ## Configure Multiple Authorization Types
 
 For some use cases, you will want DataStore to use multiple authorization types. For example, an app might use `API Key` for public content and `Cognito User Pool` for personalized content once the user logs in.
