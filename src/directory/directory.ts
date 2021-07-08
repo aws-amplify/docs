@@ -20,7 +20,11 @@ const directory = {
             title: "Getting Started",
             filters: ["js", "ios"],
           },
-          {title: "start", filters: ["js", "ios"]},
+          {
+            route: "/lib/auth/start",
+            title: "Create or re-use existing backend",
+            filters: ["js", "ios"],
+          },
           {title: "emailpassword", filters: ["js", "ios"]},
           {title: "social", filters: ["js", "ios"]},
           {title: "mfa", filters: ["js", "ios"]},

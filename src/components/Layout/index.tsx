@@ -7,6 +7,7 @@ import Menu from "../Menu/index";
 import TableOfContents from "../TableOfContents/index";
 import UniversalNav from "../UniversalNav/index";
 import SecondaryNav from "../SecondaryNav/index";
+import NextPrevious from "../NextPrevious/index";
 import Footer from "../Footer/index";
 import {ContentStyle, LayoutStyle} from "./styles";
 import {Container} from "../Container";
@@ -115,7 +116,10 @@ function metaContent({
       ></Menu>
       <ContentStyle>
         <h1>{title}</h1>
-        <CodeBlockProvider>{children}</CodeBlockProvider>
+        <CodeBlockProvider>
+          {children}
+          <NextPrevious pathname={pathname} filterKey={platform} />
+        </CodeBlockProvider>
       </ContentStyle>
       <TableOfContents title={title}>{headers}</TableOfContents>
     </>
