@@ -9,9 +9,10 @@ import UniversalNav from "../UniversalNav/index";
 import SecondaryNav from "../SecondaryNav/index";
 import NextPrevious from "../NextPrevious/index";
 import Footer from "../Footer/index";
-import {ContentStyle, LayoutStyle} from "./styles";
+import {ContentStyle, LayoutStyle, ChapterTitleStyle} from "./styles";
 import {Container} from "../Container";
 import Custom404 from "../../pages/404";
+import {getChapterDirectory} from "../../utils/getLocalDirectory";
 
 export default function Layout({children, meta}: {children: any; meta?: any}) {
   const router = useRouter();
@@ -26,11 +27,15 @@ export default function Layout({children, meta}: {children: any; meta?: any}) {
   ) {
     return Custom404();
   }
+  const {title: chapterTitle} = getChapterDirectory(pathname) as {
+    title: string;
+  };
   const basePath = "docs.amplify.aws";
   return (
     <>
       {meta && (
         <Head>
+          <title>{`${chapterTitle} - ${meta.title} - Amplify Docs`}</title>
           <meta property="og:title" content={meta.title} key="og:title" />
           <meta
             property="og:description"
@@ -81,6 +86,7 @@ export default function Layout({children, meta}: {children: any; meta?: any}) {
           {meta
             ? metaContent({
                 title: meta.title,
+                chapterTitle,
                 headers,
                 children,
                 filters,
@@ -99,6 +105,7 @@ export default function Layout({children, meta}: {children: any; meta?: any}) {
 
 function metaContent({
   title,
+  chapterTitle,
   headers,
   children,
   filters,
@@ -115,6 +122,7 @@ function metaContent({
         href={href}
       ></Menu>
       <ContentStyle>
+        <ChapterTitleStyle>{chapterTitle}</ChapterTitleStyle>
         <h1>{title}</h1>
         <CodeBlockProvider>
           {children}

@@ -12,7 +12,7 @@ export const ContentStyle = styled.div`
 
   ${MQFablet} {
     min-width: initial;
-    padding: 0 2rem 1.5rem 4rem;
+    padding: 1.5rem 2rem 1.5rem 4rem;
   }
 
   a {
@@ -46,4 +46,13 @@ export const LayoutStyle = styled.div`
   display: flex;
   flex-direction: row;
   max-width: ${MAX_WIDTH};
+`;
+
+export const ChapterTitleStyle = styled.h1`
+  line-height: normal;
+  margin-bottom: 0px;
+  font-size: 1rem;
+  text-transform: uppercase;
+  color: var(--font-color-secondary);
+  font-weight: bold;
 `;
