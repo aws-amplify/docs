@@ -12,7 +12,7 @@ export const ContentStyle = styled.div`
 
   ${MQFablet} {
     min-width: initial;
-    padding: 0 2rem 0 4rem;
+    padding: 0 2rem 1.5rem 4rem;
   }
 
   a {
