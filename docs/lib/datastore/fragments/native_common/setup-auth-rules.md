@@ -128,12 +128,13 @@ type YourModel @model @auth(rules: [{ allow: groups
 
 For some use cases, you will want DataStore to use multiple authorization types. For example, an app might use `API Key` for public content and `Cognito User Pool` for personalized content once the user logs in.
 
-By default, DataStore uses your API's default authorization type specified in the `amplifyconfiguration.json` file. To change the default authorization type, run `amplify update api`. Every network request sent through DataStore uses that authorization type, regardless of the model's `@auth` rule. 
+By default, DataStore uses your API's default authorization type specified in the `amplifyconfiguration.json`/`aws-exports.js` file. To change the default authorization type, run `amplify update api`. Every network request sent through DataStore uses that authorization type, regardless of the model's `@auth` rule. 
 
-To enable DataStore to use multiple authorization types based on the model's `@auth` rules, set the authModeStrategy property when initializing DataStore:
+To enable DataStore to use multiple authorization types based on the model's `@auth` rules, configure the "auth mode strategy" when initializing DataStore:
 
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/setup-auth-rules/10_multiauth-snippet.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/setup-auth-rules/10_multiauth-snippet.md"></inline-fragment>
+<inline-fragment platform="js" src="~/lib/datastore/fragments/js/setup-auth-rules/10_multiauth-snippet.md"></inline-fragment>
 
 This configuration enables DataStore to synchronize data using the model's `@auth` rule provider for each model.
 
