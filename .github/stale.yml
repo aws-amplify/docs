@@ -5,12 +5,13 @@ exemptLabels:
   - security
   - feature-request
   - bug
-  - to-be-triaged
+  - pending-triage
   - pending-library-publish
   - JavaScript
   - CLI
   - iOS
   - Android
+only: issues
 staleLabel: pending-close-if-no-response
 markComment: >
   This issue has been automatically marked as stale because it has not had
