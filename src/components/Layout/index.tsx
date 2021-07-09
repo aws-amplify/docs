@@ -17,14 +17,17 @@ import {getChapterDirectory} from "../../utils/getLocalDirectory";
 export default function Layout({children, meta}: {children: any; meta?: any}) {
   const router = useRouter();
   const {pathname} = router;
-  const {platform} = router.query as {platform: string};
-  const headers = traverseHeadings(children, platform);
+  let filterKey = "";
+  if ("platform" in router.query) {
+    filterKey = router.query.platform as string;
+  } else if ("integration" in router.query) {
+    filterKey = router.query.integration as string;
+  } else {
+    filterKey = router.query.framework as string;
+  }
+  const headers = traverseHeadings(children, filterKey);
   const filters = gatherFilters(children);
-  if (
-    !filters.includes(platform) &&
-    !pathname.includes("start") &&
-    !pathname.includes("404")
-  ) {
+  if (!filters.includes(filterKey) && meta) {
     return Custom404();
   }
   const {title: chapterTitle} = getChapterDirectory(pathname) as {
@@ -80,7 +83,7 @@ export default function Layout({children, meta}: {children: any; meta?: any}) {
         brandIcon="/assets/logo-light.svg"
         blend={false}
       />
-      <SecondaryNav platform={platform} pageHasMenu={false} />
+      <SecondaryNav filterKey={filterKey} pageHasMenu={false} />
       <Container backgroundColor="bg-color-tertiary">
         <LayoutStyle>
           {meta
@@ -90,7 +93,7 @@ export default function Layout({children, meta}: {children: any; meta?: any}) {
                 headers,
                 children,
                 filters,
-                platform,
+                filterKey,
                 pathname: router.pathname,
                 href: router.asPath,
               })
@@ -109,7 +112,7 @@ function metaContent({
   headers,
   children,
   filters,
-  platform,
+  filterKey,
   pathname,
   href,
 }) {
@@ -117,7 +120,7 @@ function metaContent({
     <>
       <Menu
         filters={filters}
-        platform={platform}
+        filterKey={filterKey}
         pathname={pathname}
         href={href}
       ></Menu>
@@ -126,7 +129,7 @@ function metaContent({
         <h1>{title}</h1>
         <CodeBlockProvider>
           {children}
-          <NextPrevious pathname={pathname} filterKey={platform} />
+          <NextPrevious pathname={pathname} filterKey={filterKey} />
         </CodeBlockProvider>
       </ContentStyle>
       <TableOfContents title={title}>{headers}</TableOfContents>

@@ -1,4 +1,4 @@
-export function traverseHeadings(tree, platform: string): string[] {
+export function traverseHeadings(tree, filterKey: string): string[] {
   if (!Array.isArray(tree)) {
     tree = [tree];
   }
@@ -9,16 +9,16 @@ export function traverseHeadings(tree, platform: string): string[] {
     if (!("props" in node)) continue;
 
     if ("fragments" in node.props) {
-      // Recurse on the fragment corresponding to this page's platform
-      if (platform in node.props.fragments) {
-        const fragmentFunction = node.props.fragments[platform];
+      // Recurse on the fragment corresponding to this page's filterKey
+      if (filterKey in node.props.fragments) {
+        const fragmentFunction = node.props.fragments[filterKey];
         const fragment = fragmentFunction([]); // expand function into full tree
-        headings = headings.concat(traverseHeadings(fragment, platform));
+        headings = headings.concat(traverseHeadings(fragment, filterKey));
       }
     } else if ("children" in node.props) {
       // Recurse on the children
       headings = headings.concat(
-        traverseHeadings(node.props.children, platform),
+        traverseHeadings(node.props.children, filterKey),
       );
 
       // Is this a heading?  If so, "children" is actually the heading text

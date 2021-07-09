@@ -51,6 +51,24 @@ const directory = {
       },
     },
   },
+  ui: {
+    productRoot: {
+      title: "UI Components",
+      route: "/ui",
+    },
+    items: {
+      auth: {
+        title: "Authentication",
+        items: [
+          {
+            route: "/ui/auth/authenticator",
+            title: "Authenticator",
+            filters: ["react", "angular", "react-native"],
+          },
+        ],
+      },
+    },
+  },
 };
 
 export default directory;

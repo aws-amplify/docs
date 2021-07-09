@@ -103,7 +103,10 @@ const codeBlockPlugin = () => (tree) => {
   visit(tree, (node) => {
     if (node.tagName === "code") {
       const code = node.children[0].value;
-      const language = node.properties.className[0];
+      const language =
+        "className" in node.properties
+          ? node.properties.className[0]
+          : "markup";
       node.children = highlight(code, language);
     }
   });

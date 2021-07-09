@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-export const PlatformSelectStyle = styled.div`
+export const FilterSelectStyle = styled.div`
   position: relative;
   flex-grow: 2;
 
