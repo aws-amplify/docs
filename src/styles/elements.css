@@ -185,22 +185,22 @@ table {
   border-spacing: 0;
   font-size: 100%;
   font: inherit;
+}
 
-  th {
-    font-weight: bold;
-    border: 0.0625rem solid var(--color-grey-md);
-    padding: 0.5rem 1rem;
-  }
+th {
+  font-weight: bold;
+  border: 0.0625rem solid var(--color-grey-md);
+  padding: 0.5rem 1rem;
+}
 
-  td {
-    border: 0.0625rem solid var(--color-grey-md);
-    padding: 0.5rem 1rem;
-  }
+td {
+  border: 0.0625rem solid var(--color-grey-md);
+  padding: 0.5rem 1rem;
+}
 
-  tr {
-    border-top: 0.0625rem solid var(--color-grey-md);
-    background-color: var(--bg-color);
-  }
+tr {
+  border-top: 0.0625rem solid var(--color-grey-md);
+  background-color: var(--bg-color);
 }
 
 img {
