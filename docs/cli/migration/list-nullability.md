@@ -19,10 +19,10 @@ type ListStringContainer @model {
 ```
 
 In this example, there are four fields with different combinations of optionality:
-- `requiredElementRequiredList` - the list component and the list is required
-- `requiredElementOptionalList` - the list component is required, the list is optional
-- `optionalElementRequiredList` - the list component is optional, the list is required
-- `optionalElementOptionalList` - the list component and list is optional
+- `requiredElementRequiredList` - the list itself is required. Elements it contains must be non-null. Empty lists can only be represented as an empty array.
+- `requiredElementOptionalList` - the list itself is optional. If present, elements it contains must be non-null. Empty lists could be represented as either an empty array or a null field.
+- `optionalElementRequiredList` - the list itself is required. If present, elements it contains may be null.
+- `optionalElementOptionalList` - the list itself is optional. If present, elements it contains may be null.
 
 > The list component in this example is a String type, however, this applies for other types as well such as Int, Bool, and embedded types that you define yourself.
 
