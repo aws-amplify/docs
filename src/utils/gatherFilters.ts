@@ -15,10 +15,10 @@ export function gatherFilters(tree): string[] {
     if (!("props" in node)) continue;
 
     if ("fragments" in node.props) {
-      // Recurse on the fragment corresponding to this page's platform
-      for (const platform in node.props.fragments) {
-        const fragmentFunction = node.props.fragments[platform];
-        filters.push(platform);
+      // Recurse on the fragment corresponding to this page's filterKey
+      for (const filter in node.props.fragments) {
+        const fragmentFunction = node.props.fragments[filter];
+        filters.push(filter);
         const fragment = fragmentFunction([]); // expand function into full tree
         const newFilters = gatherFilters(fragment);
         addFilters(filters, newFilters);

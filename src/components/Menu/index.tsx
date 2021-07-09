@@ -1,8 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
-import {platformFilterMetadataByOption} from "../../utils/filter-data";
+import {filterMetadataByOption} from "../../utils/filter-data";
 import {
-  PlatformSelectStyle,
+  FilterSelectStyle,
   CurrentlySelectedStyle,
   DropdownStyle,
   MenuHeaderStyle,
@@ -19,20 +19,22 @@ import Directory from "./Directory";
 import ExternalLink from "../ExternalLink";
 import {DISCORD} from "../../constants/img";
 import RepoActions from "./RepoActions";
+import {withRouter, NextRouter} from "next/router";
 
-type PlatformSelectProps = {
+type FilterSelectProps = {
   filters: string[];
-  platform: string;
+  filterKey: string;
   pathname: string;
+  router: NextRouter;
 };
 
-type PlatformSelectState = {
+type FilterSelectState = {
   isOpen: boolean;
 };
 
-class PlatformSelect extends React.Component<
-  PlatformSelectProps,
-  PlatformSelectState
+class FilterSelect extends React.Component<
+  FilterSelectProps,
+  FilterSelectState
 > {
   wrapperRef: React.RefObject<HTMLDivElement>;
 
@@ -71,53 +73,61 @@ class PlatformSelect extends React.Component<
   };
 
   render() {
+    let filterKind = "";
+    if ("platform" in this.props.router.query) {
+      filterKind = "platform";
+    } else if ("integration" in this.props.router.query) {
+      filterKind = "integration";
+    } else {
+      filterKind = "framework";
+    }
+
     return (
-      <PlatformSelectStyle ref={this.wrapperRef}>
+      <FilterSelectStyle ref={this.wrapperRef}>
         <CurrentlySelectedStyle>
           <a onClick={this.toggleVis}>
             <Image
-              src={
-                platformFilterMetadataByOption[this.props.platform].graphicURI
-              }
+              src={filterMetadataByOption[this.props.filterKey].graphicURI}
               height="28px"
               width="28px"
             />
-            <span>
-              {platformFilterMetadataByOption[this.props.platform].label}
-            </span>
+            <span>{filterMetadataByOption[this.props.filterKey].label}</span>
           </a>
         </CurrentlySelectedStyle>
         <DropdownStyle shouldDisplay={this.state.isOpen}>
           {this.props.filters.map((name) => {
-            if (name === this.props.platform) return;
+            if (name === this.props.filterKey) return;
+            const query = {};
+            query[filterKind] = name;
             return (
               <Link
                 href={{
                   pathname: this.props.pathname,
-                  query: {platform: name},
+                  query: query,
                 }}
                 key={name}
               >
                 <a onClick={this.toggleVis}>
                   <Image
-                    src={platformFilterMetadataByOption[name].graphicURI}
+                    src={filterMetadataByOption[name].graphicURI}
                     height="28px"
                     width="28px"
                   />
-                  <span>{platformFilterMetadataByOption[name].label}</span>
+                  <span>{filterMetadataByOption[name].label}</span>
                 </a>
               </Link>
             );
           })}
         </DropdownStyle>
-      </PlatformSelectStyle>
+      </FilterSelectStyle>
     );
   }
 }
+const FilterSelectWithRouter = withRouter(FilterSelect);
 
 type MenuProps = {
   filters: string[];
-  platform: string;
+  filterKey: string;
   pathname: string;
   href: string;
 };
@@ -162,15 +172,15 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
             <div>
               <MenuHeaderStyle>
                 <MenuCloseButton closeMenu={this.closeMenu} />
-                <PlatformSelect
+                <FilterSelectWithRouter
                   filters={this.props.filters}
-                  platform={this.props.platform}
+                  filterKey={this.props.filterKey}
                   pathname={this.props.pathname}
                 />
               </MenuHeaderStyle>
               <MenuBodyStyle>
                 <Directory
-                  filterKey={this.props.platform}
+                  filterKey={this.props.filterKey}
                   pathname={this.props.pathname}
                 />
                 <MenuBreakStyle />

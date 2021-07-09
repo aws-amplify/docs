@@ -14,7 +14,7 @@ import Link from "next/link";
 import {useRouter} from "next/router";
 import {Container} from "../Container";
 
-export default function SecondaryNav({platform, pageHasMenu}) {
+export default function SecondaryNav({filterKey, pageHasMenu}) {
   const router = useRouter();
   const path = router.pathname;
 
@@ -49,19 +49,19 @@ export default function SecondaryNav({platform, pageHasMenu}) {
               label: "Guides",
               url: "/guides",
             },
-            ...(platform
+            ...(filterKey
               ? [
                   {
                     label: "API Reference",
                     url: (() => {
-                      switch (platform) {
+                      switch (filterKey) {
                         case "ios": {
                           return IOS_REFERENCE;
                         }
                         case "android": {
                           return ANDROID_REFERENCE;
                         }
-                        case "js": {
+                        default: {
                           return JS_REFERENCE;
                         }
                       }
