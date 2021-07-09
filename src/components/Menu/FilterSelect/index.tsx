@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import {filterMetadataByOption} from "../../../utils/filter-data";
 import {
   FilterSelectStyle,
@@ -74,7 +73,7 @@ class FilterSelect extends React.Component<
       <FilterSelectStyle ref={this.wrapperRef}>
         <CurrentlySelectedStyle>
           <a onClick={this.toggleVis}>
-            <Image
+            <img
               src={filterMetadataByOption[this.props.filterKey].graphicURI}
               height="28px"
               width="28px"
@@ -96,7 +95,7 @@ class FilterSelect extends React.Component<
                 key={name}
               >
                 <a onClick={this.toggleVis}>
-                  <Image
+                  <img
                     src={filterMetadataByOption[name].graphicURI}
                     height="28px"
                     width="28px"
