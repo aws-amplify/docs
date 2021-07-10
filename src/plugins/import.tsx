@@ -25,6 +25,10 @@ const importPlugin = () => (tree) => {
         type: "import",
         value: `import BlockSwitcher from "/src/components/BlockSwitcher";`,
       });
+      tree.children.splice(index + 1, 0, {
+        type: "import",
+        value: `import {AmplifyAuthenticator} from "@aws-amplify/ui-react";`,
+      });
       addedImports = true;
     }
   });
