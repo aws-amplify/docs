@@ -40,6 +40,11 @@ export const ContentStyle = styled.div`
   .searchable-code {
     display: none;
   }
+
+  amplify-authenticator {
+    --container-height: auto;
+    --container-display: inline;
+  }
 `;
 
 export const LayoutStyle = styled.div`
