@@ -45,8 +45,8 @@ class DirectoryGroup extends React.Component<
 
   constructor(props) {
     super(props);
-    this.itemsToDisplay = this.props.items.filter(this.shouldDisplay);
-    this.currentRoute = this.props.pathname.split("/q/").shift() as string;
+    this.initialize();
+
     if (
       this.itemsToDisplay &&
       this.itemsToDisplay.some(({route}) => route === this.currentRoute)
@@ -57,6 +57,11 @@ class DirectoryGroup extends React.Component<
     }
   }
 
+  initialize = () => {
+    this.itemsToDisplay = this.props.items.filter(this.shouldDisplay);
+    this.currentRoute = this.props.pathname.split("/q/").shift() as string;
+  };
+
   toggleOpen = () => {
     this.setState(({isExpanded}) => {
       return {isExpanded: !isExpanded};
@@ -64,6 +69,7 @@ class DirectoryGroup extends React.Component<
   };
 
   render() {
+    this.initialize();
     return (
       <div>
         <DirectoryGroupHeaderStyle onClick={this.toggleOpen}>
@@ -107,7 +113,7 @@ export default class Directory extends React.Component<DirectoryProps> {
           <ProductRootLinkStyle
             isActive={this.props.pathname === productRoot.route}
           >
-            Product Root
+            {productRoot.title}
           </ProductRootLinkStyle>
         </Link>
         {Object.entries(directory.items).map((folderName) => (

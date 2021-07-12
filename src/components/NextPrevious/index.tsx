@@ -49,9 +49,13 @@ export default function NextPrevious({pathname, filterKey}) {
     if (item.filters.includes(filterKey)) return true;
     return false;
   });
-  let itemIndex;
+  let itemIndex = -1;
   for (let i = 0; i < items.length; ++i) {
     if (pathname.startsWith(items[i].route)) itemIndex = i;
+  }
+
+  if (itemIndex === -1) {
+    return <></>;
   }
 
   return (

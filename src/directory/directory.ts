@@ -1,15 +1,53 @@
 const directory = {
   lib: {
     productRoot: {
-      title: "Product Root",
+      title: "Amplify Libraries",
       route: "/lib",
     },
     items: {
-      notauth: {
-        title: "Not authentication",
+      "project-setup": {
+        title: "Project Setup",
         items: [
-          {title: "not-getting-started", filters: ["js", "ios"]},
-          {title: "dont-start", filters: ["js", "ios"]},
+          {
+            title: "Prerequisites",
+            route: "lib/project-setup/prereq",
+            filters: ["android", "ios", "flutter"],
+          },
+          {
+            title: "Create your application",
+            route: "lib/project-setup/create-application",
+            filters: ["android", "ios", "flutter"],
+          },
+          {
+            title: "Null safety",
+            route: "lib/project-setup/null-safety",
+            filters: ["flutter"],
+          },
+          {
+            title: "Using Combine with Amplify",
+            route: "lib/project-setup/combine",
+            filters: ["ios"],
+          },
+          {
+            title: "Async Programming Model",
+            route: "lib/project-setup/async",
+            filters: ["android"],
+          },
+          {
+            title: "Kotlin Coroutines Support",
+            route: "lib/project-setup/coroutines",
+            filters: ["android"],
+          },
+          {
+            title: "Using RxJava with Amplify",
+            route: "lib/project-setup/rxjava",
+            filters: ["android"],
+          },
+          {
+            title: "Use existing AWS resources",
+            route: "lib/project-setup/use-existing-resources",
+            filters: ["android", "ios"],
+          },
         ],
       },
       auth: {
@@ -18,7 +56,7 @@ const directory = {
           {
             route: "/lib/auth/getting-started",
             title: "Getting Started",
-            filters: ["js", "ios"],
+            filters: ["js", "ios", "android", "flutter"],
           },
           {
             route: "/lib/auth/start",
