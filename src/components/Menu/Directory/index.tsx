@@ -70,6 +70,9 @@ class DirectoryGroup extends React.Component<
 
   render() {
     this.initialize();
+    if (this.itemsToDisplay.length === 0) {
+      return <></>;
+    }
     return (
       <div>
         <DirectoryGroupHeaderStyle onClick={this.toggleOpen}>
