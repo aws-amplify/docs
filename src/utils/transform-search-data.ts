@@ -1,14 +1,6 @@
 import {parseURL} from "./url/url";
-import {
-  platformFilterMetadataByOption,
-  frameworkFilterMetadataByOption,
-} from "./filter-data";
+import {filterMetadataByOption} from "./filter-data";
 import {setSearchResultCount} from "./track";
-
-const filterMetadataByOption = {
-  ...platformFilterMetadataByOption,
-  ...frameworkFilterMetadataByOption,
-} as const;
 
 type FilterMetadataKey = keyof typeof filterMetadataByOption;
 
