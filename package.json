@@ -78,7 +78,7 @@
     "test-capi": "cd capi && yarn test",
     "test": "yarn test-capi && yarn test-client",
     "dev": "next dev",
-    "export": "next build && next export -o client/www/next-build",
+    "export": "next build && next export -o next-build",
     "next-build": "next build",
     "next-start": "next start"
   }
