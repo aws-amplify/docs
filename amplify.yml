@@ -6,7 +6,6 @@ frontend:
         - yarn install
     build:
       commands:
-        - NODE_ENV=production yarn build
         - NODE_ENV=production yarn export
   artifacts:
     # IMPORTANT - Please verify your build output directory
