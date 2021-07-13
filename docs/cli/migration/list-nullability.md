@@ -1,11 +1,11 @@
 ---
 title: Amplify Codegen Models - List and list components nullability
-description: Generating Amplify models with Amplify CLI x.y.z
+description: Generating Amplify models with Amplify CLI 5.1.2
 ---
 
 ### **What is changing?** 
 
-Amplify CLI x.y.z has updated the codegen process to correctly set the optionality for types in models.
+Amplify CLI 5.1.2 has updated the codegen process to correctly set the optionality for types in models.
 
 _Schema example_
 
@@ -76,7 +76,7 @@ The difference between the current and previous code:
 
 ### **When do I have to upgrade?**
 
-This is behind a feature flag in Amplify CLI x.y.z and will be deprecated by [TODO: DATE]. Developers with existing apps should upgrade to the latest CLI, set the feature flag, and update their app code or their schema (see recommendations following) to account for the change in optionality of the types. Developers building a new app will automatically generate code with the latest changes and no action is required.
+This is behind a feature flag in Amplify CLI 5.1.2 and will be deprecated by November 1st, 2021. Developers with existing apps should upgrade to the latest CLI, set the feature flag, and update their app code or their schema (see recommendations following) to account for the change in optionality of the types. Developers building a new app will automatically generate code with the latest changes and no action is required.
 
 ### **Where do I make these changes?**
 
@@ -86,13 +86,13 @@ This is behind a feature flag in Amplify CLI x.y.z and will be deprecated by [TO
 amplify upgrade
 ```
 
-2. The version should be at least x.y.z
+2. The version should be at least 5.1.2
 
 ```
-amplify --v # at least x.y.z
+amplify --v # at least 5.1.2
 ```
 
-3. If building an existing app, toggle the feature flag to true in TODO: PATH
+3. If building an existing app, set the feature flag `handleListNullabilityTransparently` to `true` in `cli.json` at the amplify project root.
 
 4. Run `amplify codegen models` to generate the latest models.
 
