@@ -18,6 +18,7 @@ import {useRef} from "react";
 
 export default function Layout({children, meta}: {children: any; meta?: any}) {
   const router = useRouter();
+  if (!router.isReady) return <></>;
   const {pathname} = router;
   let filterKey = "";
   if ("platform" in router.query) {
@@ -29,10 +30,9 @@ export default function Layout({children, meta}: {children: any; meta?: any}) {
   }
   const headers = traverseHeadings(children, filterKey);
   const filters = gatherFilters(children);
-  // TODO: This seems to always call Custom404()
-  // if (!filters.includes(filterKey) && meta) {
-  //   return Custom404();
-  // }
+  if (!filters.includes(filterKey) && meta) {
+    return Custom404();
+  }
   let chapterTitle = undefined;
   if (meta) {
     const {title: chapTitle} = getChapterDirectory(pathname) as {
