@@ -13,6 +13,8 @@ import {ContentStyle, LayoutStyle, ChapterTitleStyle} from "./styles";
 import {Container} from "../Container";
 import Custom404 from "../../pages/404";
 import {getChapterDirectory} from "../../utils/getLocalDirectory";
+import SidebarLayoutToggle from "../SidebarLayoutToggle";
+import {useRef} from "react";
 
 export default function Layout({children, meta}: {children: any; meta?: any}) {
   const router = useRouter();
@@ -27,9 +29,10 @@ export default function Layout({children, meta}: {children: any; meta?: any}) {
   }
   const headers = traverseHeadings(children, filterKey);
   const filters = gatherFilters(children);
-  if (!filters.includes(filterKey) && meta) {
-    return Custom404();
-  }
+  // TODO: This seems to always call Custom404()
+  // if (!filters.includes(filterKey) && meta) {
+  //   return Custom404();
+  // }
   const {title: chapterTitle} = getChapterDirectory(pathname) as {
     title: string;
   };
@@ -116,6 +119,7 @@ function metaContent({
   pathname,
   href,
 }) {
+  const menuRef = useRef(null);
   return (
     <>
       <Menu
@@ -123,6 +127,7 @@ function metaContent({
         filterKey={filterKey}
         pathname={pathname}
         href={href}
+        ref={menuRef}
       ></Menu>
       <ContentStyle>
         <ChapterTitleStyle>{chapterTitle}</ChapterTitleStyle>
@@ -133,6 +138,10 @@ function metaContent({
         </CodeBlockProvider>
       </ContentStyle>
       <TableOfContents title={title}>{headers}</TableOfContents>
+      <SidebarLayoutToggle menuRef={menuRef}>
+        <img className="burger-graphic" src="/assets/burger.svg" />
+        <img className="ex-graphic" src="/assets/close.svg" />
+      </SidebarLayoutToggle>
     </>
   );
 }
