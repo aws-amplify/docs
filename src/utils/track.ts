@@ -4,6 +4,14 @@ import awsexports from "../aws-exports";
 
 let configured = false;
 let firstPageOfVisit = true;
+let AWSCShortbread;
+let s;
+
+if (typeof window !== "undefined") {
+  AWSCShortbread = window.AWSCShortbread;
+  s = window.s;
+}
+
 if (!configured) {
   if (typeof window !== "undefined") {
     Auth.configure(awsexports);
