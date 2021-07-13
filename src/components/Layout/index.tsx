@@ -33,9 +33,13 @@ export default function Layout({children, meta}: {children: any; meta?: any}) {
   // if (!filters.includes(filterKey) && meta) {
   //   return Custom404();
   // }
-  const {title: chapterTitle} = getChapterDirectory(pathname) as {
-    title: string;
-  };
+  let chapterTitle = undefined;
+  if (meta) {
+    const {title: chapTitle} = getChapterDirectory(pathname) as {
+      title: string;
+    };
+    chapterTitle = chapTitle;
+  }
   const basePath = "docs.amplify.aws";
   return (
     <>
