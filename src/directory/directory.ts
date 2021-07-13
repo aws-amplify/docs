@@ -792,6 +792,318 @@ const directory = {
       },
     },
   },
+  cli: {
+    productRoot: {
+      title: "Amplify CLI",
+      route: "/cli",
+    },
+    items: {
+      start: {
+        title: "Get started",
+        items: [
+          {title: "Installation", route: "/cli/start/install", filters: []},
+          {
+            title: "Typical workflows",
+            route: "/cli/start/workflows",
+            filters: [],
+          },
+        ],
+      },
+      "graphql-transformer": {
+        title: "API (GraphQL)",
+        items: [
+          {
+            title: "Overview",
+            route: "/cli/graphql-transformer/overview",
+            filters: [],
+          },
+          {
+            title: "Directives",
+            route: "/cli/graphql-transformer/directives",
+            filters: [],
+          },
+          {
+            title: "Define your model types",
+            route: "/cli/graphql-transformer/model",
+            filters: [],
+          },
+          {
+            title: "Index your data with keys",
+            route: "/cli/graphql-transformer/key",
+            filters: [],
+          },
+          {
+            title: "Setup authorization rules",
+            route: "/cli/graphql-transformer/auth",
+            filters: [],
+          },
+          {
+            title: "Add relationships between types",
+            route: "/cli/graphql-transformer/connection",
+            filters: [],
+          },
+          {
+            title: "Configure Lambda resolvers",
+            route: "/cli/graphql-transformer/function",
+            filters: [],
+          },
+          {
+            title: "Configure HTTP resolvers",
+            route: "/cli/graphql-transformer/http",
+            filters: [],
+          },
+          {
+            title: "Connect machine learning services",
+            route: "/cli/graphql-transformer/predictions",
+            filters: [],
+          },
+          {
+            title: "Make your data searchable",
+            route: "/cli/graphql-transformer/searchable",
+            filters: [],
+          },
+          {
+            title: "Versioning and conflict resolution",
+            route: "/cli/graphql-transformer/versioned",
+            filters: [],
+          },
+          {
+            title: "Data access patterns",
+            route: "/cli/graphql-transformer/dataaccess",
+            filters: [],
+          },
+          {
+            title: "GraphQL transform and Storage",
+            route: "/cli/graphql-transformer/storage",
+            filters: [],
+          },
+          {
+            title: "Relational Databases",
+            route: "/cli/graphql-transformer/relational",
+            filters: [],
+          },
+          {
+            title: "Client code generation",
+            route: "/cli/graphql-transformer/codegen",
+            filters: [],
+          },
+          {
+            title: "Overwrite & customize resolvers",
+            route: "/cli/graphql-transformer/resolvers",
+            filters: [],
+          },
+          {
+            title: "Configurable Parameters",
+            route: "/cli/graphql-transformer/config-params",
+            filters: [],
+          },
+          {
+            title: "Examples",
+            route: "/cli/graphql-transformer/examples",
+            filters: [],
+          },
+        ],
+      },
+      restapi: {
+        title: "API (REST)",
+        items: [
+          {title: "Overview", route: "/cli/restapi/restapi", filters: []},
+          {title: "Test", route: "/cli/restapi/testing", filters: []},
+        ],
+      },
+      auth: {
+        title: "Authentication",
+        items: [
+          {title: "Overview", route: "/cli/auth/overview", filters: []},
+          {title: "User groups", route: "/cli/auth/groups", filters: []},
+          {title: "Admin actions", route: "/cli/auth/admin", filters: []},
+          {
+            title: "Use an existing Cognito User Pool and Identity Pool",
+            route: "/cli/auth/import",
+            filters: [],
+          },
+        ],
+      },
+      storage: {
+        title: "Storage",
+        items: [
+          {title: "Overview", route: "/cli/storage/overview", filters: []},
+          {
+            title: "Use an existing S3 bucket or DynamoDB table",
+            route: "/cli/storage/import",
+            filters: [],
+          },
+        ],
+      },
+      function: {
+        title: "Functions",
+        items: [
+          {title: "Overview", route: "/cli/function/function", filters: []},
+          {
+            title: "Reuse code & assets using layers",
+            route: "/cli/function/layers",
+            filters: [],
+          },
+          {
+            title: "Environment variables",
+            route: "/cli/function/env-vars",
+            filters: [],
+          },
+          {
+            title: "Access secret values",
+            route: "/cli/function/secrets",
+            filters: [],
+          },
+          {
+            title: "Build options",
+            route: "/cli/function/build-options",
+            filters: [],
+          },
+        ],
+      },
+      hosting: {
+        title: "Hosting",
+        items: [
+          {title: "Overview", route: "/cli/hosting/hosting", filters: []},
+        ],
+      },
+      plugins: {
+        title: "Plugins",
+        items: [
+          {title: "Overview", route: "/cli/plugins/plugins", filters: []},
+          {
+            title: "Architecture",
+            route: "/cli/plugins/architecture",
+            filters: [],
+          },
+          {
+            title: "Authoring a new plugin",
+            route: "/cli/plugins/authoring",
+            filters: [],
+          },
+        ],
+      },
+      teams: {
+        title: "Team environments",
+        items: [
+          {title: "Overview", route: "/cli/teams/overview", filters: []},
+          {
+            title: "Share single environment",
+            route: "/cli/teams/shared",
+            filters: [],
+          },
+          {
+            title: "Sandbox environments",
+            route: "/cli/teams/sandbox",
+            filters: [],
+          },
+          {
+            title: "Multiple frontends",
+            route: "/cli/teams/multi-frontend",
+            filters: [],
+          },
+          {
+            title: "Continuous deployment",
+            route: "/cli/teams/cicd",
+            filters: [],
+          },
+          {title: "Commands", route: "/cli/teams/commands", filters: []},
+        ],
+      },
+      usage: {
+        title: "Advanced workflows",
+        items: [
+          {
+            title: "Apply tags to generated resources",
+            route: "/cli/usage/tags",
+            filters: [],
+          },
+          {
+            title: "Monorepo project structure",
+            route: "/cli/usage/monorepo",
+            filters: [],
+          },
+          {
+            title: "Lambda Triggers",
+            route: "/cli/usage/lambda-triggers",
+            filters: [],
+          },
+          {
+            title: "Serverless containers",
+            route: "/cli/usage/containers",
+            filters: [],
+          },
+          {title: "Mocking and testing", route: "/cli/usage/mock", filters: []},
+          {
+            title: "Add custom AWS resources",
+            route: "/cli/usage/customcf",
+            filters: [],
+          },
+          {title: "IAM Policy", route: "/cli/usage/iam", filters: []},
+          {
+            title: "IAM Roles & MFA",
+            route: "/cli/usage/iam-roles-mfa",
+            filters: [],
+          },
+          {
+            title: "IAM Permissions Boundary for Amplify-generated roles",
+            route: "/cli/usage/permissions-boundary",
+            filters: [],
+          },
+          {
+            title: "Headless mode for CI/CD",
+            route: "/cli/usage/headless",
+            filters: [],
+          },
+          {
+            title: "Upgrading the CLI",
+            route: "/cli/usage/upgrade",
+            filters: [],
+          },
+          {
+            title: "Uninstalling the CLI",
+            route: "/cli/usage/uninstall",
+            filters: [],
+          },
+        ],
+      },
+      migration: {
+        title: "Migration & Backwards Compatibility",
+        items: [
+          {
+            title: "Node Version Update",
+            route: "/lib/migration/lambda-node-version-update",
+            filters: [],
+          },
+          {
+            title: "Lambda layer behavior updates",
+            route: "/lib/migration/lambda-layers-update",
+            filters: [],
+          },
+        ],
+      },
+      reference: {
+        title: "Reference",
+        items: [
+          {
+            title: "Files and Folders",
+            route: "/lib/reference/files",
+            filters: [],
+          },
+          {
+            title: "Usage Data in Amplify CLI",
+            route: "/lib/reference/usage-data",
+            filters: [],
+          },
+          {
+            title: "Feature Flags",
+            route: "/lib/reference/feature-flags",
+            filters: [],
+          },
+        ],
+      },
+    },
+  },
 };
 
 export default directory;
