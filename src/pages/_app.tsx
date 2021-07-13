@@ -81,13 +81,18 @@ function MyApp({Component, pageProps}) {
         />
         <link rel="apple-touch-icon" href="/assets/icon/icon.png" />
         <link rel="icon" type="image/x-icon" href="/assets/icon/favicon.ico" />
+        <script
+          defer
+          src="https://a0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"
+        ></script>
+        <script defer src="/scripts/shortbreadv1.js"></script>
+        <script
+          defer
+          src="https://cdn.jsdelivr.net/npm/docsearch.js@2.6.3/dist/cdn/docsearch.min.js"
+        ></script>
       </Head>
 
       <Component {...pageProps} />
-
-      <script src="https://cdn.jsdelivr.net/npm/docsearch.js@2.6.3/dist/cdn/docsearch.min.js"></script>
-      <script src="https://a0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"></script>
-      <script src="/scripts/shortbreadv1.js"></script>
     </>
   );
 }
