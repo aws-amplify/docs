@@ -74,11 +74,11 @@ class FilterSelect extends React.Component<
         <CurrentlySelectedStyle>
           <a onClick={this.toggleVis}>
             <img
-              src={filterMetadataByOption[this.props.filterKey].graphicURI}
+              src={filterMetadataByOption[this.props.filterKey]?.graphicURI}
               height="28px"
               width="28px"
             />
-            <span>{filterMetadataByOption[this.props.filterKey].label}</span>
+            <span>{filterMetadataByOption[this.props.filterKey]?.label}</span>
           </a>
         </CurrentlySelectedStyle>
         <DropdownStyle shouldDisplay={this.state.isOpen}>
@@ -96,11 +96,11 @@ class FilterSelect extends React.Component<
               >
                 <a onClick={this.toggleVis}>
                   <img
-                    src={filterMetadataByOption[name].graphicURI}
+                    src={filterMetadataByOption[name]?.graphicURI}
                     height="28px"
                     width="28px"
                   />
-                  <span>{filterMetadataByOption[name].label}</span>
+                  <span>{filterMetadataByOption[name]?.label}</span>
                 </a>
               </Link>
             );
