@@ -6,13 +6,13 @@ Add Analytics by adding these libraries into your dependencies block:
 
 ```yaml 
 environment:
-  sdk: ">=2.11.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
 
   # Should already be added during Project Setup walkthrough 
-  amplify_flutter: '<1.0.0'
+  amplify_flutter: ^0.2.0
 
   # Add these lines in `dependencies` 
-  amplify_analytics_pinpoint: '<1.0.0'
+  amplify_analytics_pinpoint: ^0.2.0
 ```

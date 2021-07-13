@@ -6,7 +6,7 @@ try {
   setState(() {
     isPasswordReset = res.isPasswordReset;
   });
-} on AuthError catch (e) {
+} on AmplifyException catch (e) {
   print(e);
 }
 ```

@@ -765,6 +765,7 @@
     "myusername",
     "Mult",
     "multenvtest",
+    "multiauth",
     "multidex",
     "multienv",
     "Multifactor",
@@ -1364,7 +1365,8 @@
     "myproject",
     "STORAGECONFIG",
     "secretsmanager",
-    "customcf"
+    "customcf",
+    "Pipfile"
   ],
   "flagWords": ["hte"]
 }

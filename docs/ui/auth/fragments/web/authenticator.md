@@ -1068,6 +1068,35 @@ To achieve this, you first need to setup the userpool to allow email or phone nu
 
 </docs-filter>
 
+### Override Sign Up
+
+You can override the call to [`signUp`](~/lib/auth/emailpassword.md) function with `handleSignUp` property. For example, you can add a [custom attribute](~/lib/auth/emailpassword.md) like so:
+
+
+<docs-filter framework="react">
+
+<inline-fragment src="~/ui/auth/fragments/react/overriding-sign-up-submit.md"></inline-fragment>
+
+</docs-filter>
+
+<docs-filter framework="angular">
+
+<inline-fragment src="~/ui/auth/fragments/angular/overriding-sign-up-submit.md"></inline-fragment>
+
+</docs-filter>
+
+<docs-filter framework="ionic">
+
+<inline-fragment src="~/ui/auth/fragments/angular/overriding-sign-up-submit.md"></inline-fragment>
+
+</docs-filter>
+
+<docs-filter framework="vue">
+
+<inline-fragment src="~/ui/auth/fragments/vue/overriding-sign-up-submit.md"></inline-fragment>
+
+</docs-filter>
+
 ## Migration
 
 To migrate from using the `aws-amplify-<framework>` library to the latest `@aws-amplify/ui-<framework>` library use the steps below:

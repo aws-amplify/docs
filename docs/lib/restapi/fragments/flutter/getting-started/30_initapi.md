@@ -5,8 +5,14 @@ Your code should look like this:
 ```dart
 import 'package:amplify_flutter/amplify.dart';
 import 'package:amplify_api/amplify_api.dart';
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:flutter/material.dart';
 
 import 'amplifyconfiguration.dart';
+
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatefulWidget {
   @override
@@ -14,22 +20,38 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-    @override
-    void initState() {
-        super.initState();
-        _configureAmplify();
-    }
+  @override
+  void initState() {
+    super.initState();
+    _configureAmplify();
+  }
 
-    void _configureAmplify() async {
-        // Add the following line to add API plugin to your app
-        Amplify.addPlugin(AmplifyAPI());
+  void _configureAmplify() async {
+    // Add the following line to add API plugin to your app.
+    // Auth plugin needed for IAM authorization mode, which is default for REST API.
+    Amplify.addPlugins([AmplifyAPI(), AmplifyAuthCognito()]);
 
-        try {
-            await Amplify.configure(amplifyconfig);
-        } on AmplifyAlreadyConfiguredException {
-            print("Tried to reconfigure Amplify; this can occur when your app restarts on Android.");
-        }
+    try {
+      await Amplify.configure(amplifyconfig);
+    } on AmplifyAlreadyConfiguredException {
+      print(
+          "Tried to reconfigure Amplify; this can occur when your app restarts on Android.");
     }
+  }
+
+  void onTestApi() async {
+    // Edit this function with next steps.
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        home: Scaffold(
+            body: Padding(
+                padding: EdgeInsets.all(20.0),
+                child: ElevatedButton(
+                    child: const Text("Rest API"), onPressed: onTestApi))));
+  }
 }
 ```
 
