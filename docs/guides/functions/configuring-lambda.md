@@ -25,8 +25,10 @@ To do so, open __amplify/backend/function/function-name/function-name-cloudforma
 "Resources": {
   "LambdaFunction": {
       ...
-      "Runtime": "nodejs14.x", // Runtime now set to 14.x
-      "Layers": [],
+      "Properties": {
+        "Runtime": "nodejs14.x", // Runtime now set to 14.x
+        "Layers": [],
+      }
       ...
     }
   },
@@ -49,9 +51,11 @@ To update the memory size, open __amplify/backend/function/function-name/functio
 "Resources": {
   "LambdaFunction": {
       ...
-      "Runtime": "nodejs14.x",
-      "MemorySize": "1024", // Memory size now set to 1024 mb
-      "Layers": [],
+      "Properties": {
+        "Runtime": "nodejs14.x",
+        "MemorySize": "1024", // Memory size now set to 1024 mb
+        "Layers": [],
+      }
       ...
     }
   },
