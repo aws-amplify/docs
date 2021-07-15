@@ -1,4 +1,4 @@
-import FilterContent from "../FilterContent";
+import FilterChildren from "../FilterChildren";
 
 export default function Fragments({fragments}) {
   const children = [];
@@ -7,5 +7,5 @@ export default function Fragments({fragments}) {
     children.push(<div key={key}>{fragment}</div>);
   }
 
-  return <FilterContent>{children}</FilterContent>;
+  return <FilterChildren>{children}</FilterChildren>;
 }
