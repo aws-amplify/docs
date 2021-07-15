@@ -1,6 +1,6 @@
 import * as fs from "fs-extra";
 import fg from "fast-glob";
-console.log("migration");
+import mkdirp from "mkdirp";
 
 const grab = function() {
   let count = 0;
@@ -13,8 +13,8 @@ const grab = function() {
     let destination = chunk.slice(5); // slice off docs/
     let file = fs.readFileSync(chunk).toString();
     if (chunk.includes("fragments")) {
-      destination = destination.split("/fragments").join("");
-      destination = "src/fragments/" + destination + "x";
+      destination = destination.split("fragments").join("");
+      destination = "src/fragments" + destination + "x";
     } else {
       const frontMatter = file.split("---")[1].split("\n");
       file = file.split("---")[2];
@@ -100,9 +100,19 @@ const grab = function() {
     // docs-filter -> FilterContent
     file = file.split("docs-filter").join("FilterContent");
 
-    console.log(destination);
-    console.log(toWrite + file);
-    // fs.writeFileSync(destination, toWrite + file);
+    // links
+    file = file.split("(~").join("(");
+    file = file.split(".md)").join(")");
+
+    try {
+      mkdirp.sync(
+        destination
+          .split("/")
+          .slice(0, -1)
+          .join("/"),
+      );
+    } catch (e) {}
+    fs.writeFileSync(destination, toWrite + file);
   }
 };
 

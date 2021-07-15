@@ -4,7 +4,10 @@ import {
   NextPreviousTextStyle,
 } from "./styles";
 import Link from "next/link";
-import {getChapterDirectory} from "../../utils/getLocalDirectory";
+import {
+  getChapterDirectory,
+  isProductRoot,
+} from "../../utils/getLocalDirectory";
 
 type DirectoryItem = {
   filters: string[];
@@ -44,6 +47,9 @@ function Next(item: DirectoryItem) {
 }
 
 export default function NextPrevious({pathname, filterKey}) {
+  if (isProductRoot(pathname)) {
+    return <></>;
+  }
   let items = (getChapterDirectory(pathname) as Directory).items;
   items = items.filter((item) => {
     if (item.filters.includes(filterKey)) return true;

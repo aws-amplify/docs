@@ -12,7 +12,10 @@ import Footer from "../Footer/index";
 import {ContentStyle, LayoutStyle, ChapterTitleStyle} from "./styles";
 import {Container} from "../Container";
 import Custom404 from "../../pages/404";
-import {getChapterDirectory} from "../../utils/getLocalDirectory";
+import {
+  getChapterDirectory,
+  isProductRoot,
+} from "../../utils/getLocalDirectory";
 import SidebarLayoutToggle from "../SidebarLayoutToggle";
 import {useRef} from "react";
 
@@ -30,22 +33,22 @@ export default function Layout({children, meta}: {children: any; meta?: any}) {
   }
   const headers = traverseHeadings(children, filterKey);
   const filters = gatherFilters(children);
-  if (!filters.includes(filterKey) && meta) {
+  if (filters.length !== 0 && !filters.includes(filterKey) && meta) {
     return Custom404();
   }
-  let chapterTitle = undefined;
-  if (meta) {
+  let chapterTitle = "";
+  if (meta && !isProductRoot(pathname)) {
     const {title: chapTitle} = getChapterDirectory(pathname) as {
       title: string;
     };
-    chapterTitle = chapTitle;
+    chapterTitle = chapTitle + " - ";
   }
   const basePath = "docs.amplify.aws";
   return (
     <>
       {meta && (
         <Head>
-          <title>{`${chapterTitle} - ${meta.title} - Amplify Docs`}</title>
+          <title>{`${chapterTitle}${meta.title} - Amplify Docs`}</title>
           <meta property="og:title" content={meta.title} key="og:title" />
           <meta
             property="og:description"
