@@ -1,38 +1,6 @@
 const mdxRenderer = `
   import { mdx } from "@mdx-js/react";
 
-  export async function exportPathMap (
-    defaultPathMap,
-    { dev, dir, outDir, distDir, buildId }
-  ) {
-    return {
-      '/': { page: '/' },
-      '/getting-started': { page: '/getting-started' },
-      '/lib/auth/getting-started/q/platform/js': { page: '/lib/auth/getting-started/q/platform/[platform]', query: {platform: 'js'} },
-      '/lib/auth/getting-started/q/platform/ios': { page: '/lib/auth/getting-started/q/platform/[platform]', query: {platform: 'ios'} },
-      '/ui/auth/authenticator/q/framework/react': { page: '/ui/auth/authenticator/q/framework/[framework]', query: {framework: 'react'} },
-      '/ui/auth/authenticator/q/framework/react-native': { page: '/ui/auth/authenticator/q/framework/[framework]', query: {framework: 'react-native'} },
-    }
-  }
-
-    /*
-  export async function getStaticPaths ({params}) {
-    return {
-      paths: [],
-      fallback: false,
-    };
-    return {
-      paths: [
-        {params: {platform: "js"}},
-        {params: {platform: "ios"}},
-        {params: {framework: "react"}},
-        {params: {framework: "react-native"}},
-        {params: {framework: "angular"}},
-      ],
-      fallback: false,
-    }
-  }
-    */
 `;
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires

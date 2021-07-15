@@ -27,7 +27,35 @@ const importPlugin = () => (tree) => {
       });
       tree.children.splice(index + 1, 0, {
         type: "import",
+        value: `import Callout from "/src/components/Callout";`,
+      });
+      tree.children.splice(index + 1, 0, {
+        type: "import",
+        value: `import Card from "/src/components/Card";`,
+      });
+      tree.children.splice(index + 1, 0, {
+        type: "import",
+        value: `import InternalLinkButton from "/src/components/InternalLinkButton";`,
+      });
+      tree.children.splice(index + 1, 0, {
+        type: "import",
+        value: `import Hero from "/src/components/Hero";`,
+      });
+      tree.children.splice(index + 1, 0, {
+        type: "import",
+        value: `import Footer from "/src/components/Footer";`,
+      });
+      tree.children.splice(index + 1, 0, {
+        type: "import",
+        value: `import Container from "/src/components/Container";`,
+      });
+      tree.children.splice(index + 1, 0, {
+        type: "import",
         value: `import {AmplifyAuthenticator} from "@aws-amplify/ui-react";`,
+      });
+      tree.children.splice(index + 1, 0, {
+        type: "import",
+        value: `import {Grid} from "theme-ui";`,
       });
       addedImports = true;
     }
