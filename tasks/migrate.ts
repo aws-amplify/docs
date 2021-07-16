@@ -1,20 +1,33 @@
 import * as fs from "fs-extra";
 import fg from "fast-glob";
 import mkdirp from "mkdirp";
+import {createHash} from "crypto";
+
+const hash = function(str: string) {
+  return createHash("md5")
+    .update(str)
+    .digest("hex");
+};
+
+const replacer1 = function(_1, p1: string, p2: string, _2, _3) {
+  return `\n\nimport all${hash(p1 + p2)} from "/src/fragments/${p1}${p2}x";\n
+<Fragments fragments={{all: all${hash(p1 + p2)}}} />`;
+};
+const replacer2 = function(_1, p1: string, p2: string, p3: string, _2, _3) {
+  return `\n\nimport ${p1 + hash(p2 + p3)} from "/src/fragments/${p2}${p3}x";\n
+<Fragments fragments={{${p1}: ${p1 + hash(p2 + p3)}}} />`;
+};
 
 const grab = function() {
-  let count = 0;
   for (const chunk of fg.sync("docs/**/*.md", {
     cwd: "./",
   })) {
-    count += 1;
-    if (count > 15) break;
     let toWrite = "";
     let destination = chunk.slice(5); // slice off docs/
     let file = fs.readFileSync(chunk).toString();
     if (chunk.includes("fragments")) {
       destination = destination.split("fragments").join("");
-      destination = "src/fragments" + destination + "x";
+      destination = "src/fragments/" + destination + "x";
     } else {
       const frontMatter = file.split("---")[1].split("\n");
       file = file.split("---")[2];
@@ -28,26 +41,26 @@ const grab = function() {
         toWrite += `  ${key}: "${value}",\n`;
       }
 
+      destination = destination.slice(0, -3); // slice off .md
       if (filterKey === "") {
-        if (destination.includes("/start/")) {
+        if (destination.includes("start/")) {
           filterKey = "integration";
-        } else if (destination.includes("/lib/")) {
+        } else if (destination.includes("lib/")) {
           filterKey = "platform";
-        } else if (destination.includes("/sdk/")) {
+        } else if (destination.includes("sdk/")) {
           filterKey = "platform";
-        } else if (destination.includes("/ui/")) {
+        } else if (destination.includes("ui/")) {
           filterKey = "framework";
-        } else if (destination.includes("/guides/")) {
+        } else if (destination.includes("guides/")) {
           filterKey = "platform";
+        } else {
+          // /cli/ and /console/
+          destination = "src/pages/" + destination + ".mdx";
         }
       }
       toWrite += "};\n\n";
 
-      destination = destination.slice(0, -3); // slice off .md
-      if (filterKey === "") {
-        // /cli/ and /console/
-        destination = "src/pages/" + destination + ".mdx";
-      } else {
+      if (filterKey !== "") {
         destination =
           "src/pages/" + destination + `/q/${filterKey}/[${filterKey}].mdx`;
       }
@@ -58,18 +71,16 @@ const grab = function() {
     //   import all from "/src/fragments/{1}{2}x";
     //   <Fragments fragments={all: all} />
     file = file.replace(
-      /<inline-fragment src="~\/(.*?)\/fragments(.*?)"><\/inline-fragment>/g,
-      `\n\nimport all from "/src/fragments/$1$2x";\n
-<Fragments fragments={all: all} />`,
+      /<inline-fragment src="~\/(.*?)fragments\/(.*?)"><\/inline-fragment>/g,
+      replacer1,
     );
 
     // <inline-fragment platform/integration="{1}" src="~/{2}/fragments{3}"></inline-fragment> ->
     //   import {1} from "/src/fragments/{2}{3}x";
     //   <Fragments fragments={{1}: {1}} />
     file = file.replace(
-      /<inline-fragment .*?="(.*?)" src="~\/(.*?)\/fragments(.*?)"><\/inline-fragment>/g,
-      `\n\nimport $1 from "/src/fragments/$2$3x";\n
-<Fragments fragments={$1: $1} />`,
+      /<inline-fragment .*?="(.*?)" src="~\/(.*?)fragments\/(.*?)"><\/inline-fragment>/g,
+      replacer2,
     );
 
     // amplify-block + amplify-block-switcher -> CodeBlock + BlockSwitcher
