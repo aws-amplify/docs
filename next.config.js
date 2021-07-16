@@ -12,9 +12,16 @@ const importPlugin = require("./src/plugins/import.tsx");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const codeBlockPlugin = require("./src/plugins/code-block.tsx");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
+const internalLinkPlugin = require("./src/plugins/internal-link.tsx");
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const withMDX = require("@next/mdx")({
   options: {
-    remarkPlugins: [importPlugin, headingLinkPlugin, layoutPlugin],
+    remarkPlugins: [
+      importPlugin,
+      headingLinkPlugin,
+      layoutPlugin,
+      internalLinkPlugin,
+    ],
     rehypePlugins: [codeBlockPlugin],
     renderer: mdxRenderer,
   },

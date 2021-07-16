@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import {getProductDirectory} from "../../../utils/getLocalDirectory";
+import InternalLink from "../../InternalLink";
 import {
   ArrowStyle,
   DirectoryGroupHeaderStyle,
@@ -86,7 +87,7 @@ class DirectoryGroup extends React.Component<
                 isActive={this.currentRoute === item.route}
                 key={item.title}
               >
-                <Link href={`${item.route}`}>{item.title}</Link>
+                <InternalLink href={`${item.route}`}>{item.title}</InternalLink>
                 <br />
               </DirectoryGroupItemStyle>
             ))}

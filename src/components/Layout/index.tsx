@@ -24,13 +24,20 @@ export default function Layout({children, meta}: {children: any; meta?: any}) {
   if (!router.isReady) return <></>;
   const {pathname} = router;
   let filterKey = "";
+  const filterKeys =
+    JSON.parse(localStorage.getItem("filterKeys")) ||
+    ({} as {platform?: string; integration?: string; framework?: string});
   if ("platform" in router.query) {
     filterKey = router.query.platform as string;
+    filterKeys.platform = filterKey;
   } else if ("integration" in router.query) {
     filterKey = router.query.integration as string;
+    filterKeys.integration = filterKey;
   } else {
     filterKey = router.query.framework as string;
+    filterKeys.framework = filterKey;
   }
+  localStorage.setItem("filterKeys", JSON.stringify(filterKeys));
   const headers = traverseHeadings(children, filterKey);
   const filters = gatherFilters(children);
   if (filters.length !== 0 && !filters.includes(filterKey) && meta) {
