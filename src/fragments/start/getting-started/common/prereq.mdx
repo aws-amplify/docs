@@ -6,21 +6,19 @@ Before we begin, make sure you have the following installed:
 
 - [git](https://git-scm.com/) v2.14.1 or later
 
-
-
-import flutter925063123e9ac38647cc4692acdf691d07 from "/src/fragments/start/getting-started/flutter/prereq.mdx";
+import flutter925063123e9ac38647cc4692acdf691d6e from "/src/fragments/start/getting-started/flutter/prereq.mdx";
 
 <Fragments fragments={{flutter: flutter925063123e9ac38647cc4692acdf691d07}} />
 
-
-import react22645c46e6d8f63a8e3caab080d67e7e2e from "/src/fragments/start/getting-started/react/prereq.mdx";
+import react22645c46e6d8f63a8e3caab080d67e7e0c from "/src/fragments/start/getting-started/react/prereq.mdx";
 
 <Fragments fragments={{react: react22645c46e6d8f63a8e3caab080d67e7e2e}} />
 
+import react_natived0bbb6481062fe64409ebedeeff5bf4218 from "/src/fragments/start/getting-started/reactnative/prereq.mdx";
 
-import react-natived0bbb6481062fe64409ebedeeff5bf42c6 from "/src/fragments/start/getting-started/reactnative/prereq.mdx";
-
-<Fragments fragments={{react-native: react-natived0bbb6481062fe64409ebedeeff5bf42c6}} />
+<Fragments
+  fragments={{"react-native": react_natived0bbb6481062fe64409ebedeeff5bf4218}}
+/>
 
 ## Sign up for an AWS account
 
@@ -38,13 +36,16 @@ The Amplify Command Line Interface (CLI) is a unified toolchain to create AWS cl
 
 Watch the video below to learn how to install and configure the Amplify CLI or skip to the next section to follow the step-by-step instructions.
 
-<iframe src="https://www.youtube-nocookie.com/embed/fWbM5DLh25U" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe
+  src="https://www.youtube-nocookie.com/embed/fWbM5DLh25U"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowfullscreen
+></iframe>
 
 ### Option 2: Follow the instructions
 
-
-
-import allde508dbbe48d84391ad727bc6d10d0ea73 from "/src/fragments/cli-install-block.mdx";
+import allde508dbbe48d84391ad727bc6d10d0ea0d from "/src/fragments/cli-install-block.mdx";
 
 <Fragments fragments={{all: allde508dbbe48d84391ad727bc6d10d0ea73}} />
 
@@ -57,6 +58,7 @@ amplify configure
 `amplify configure` will ask you to sign into the AWS Console.
 
 Once you're signed in, Amplify CLI will ask you to create an IAM user.
+
 > Amazon IAM (Identity and Access Management) enables you to manage users and user permissions in AWS. You can learn more about Amazon IAM [here](https://aws.amazon.com/iam/).
 
 ```console
