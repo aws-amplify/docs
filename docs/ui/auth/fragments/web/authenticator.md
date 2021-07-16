@@ -1103,8 +1103,6 @@ To migrate from using the `aws-amplify-<framework>` library to the latest `@aws-
 
 <inline-fragment src="~/ui/fragments/web/installation-diff.md"></inline-fragment>
 
-</docs-filter>
-
 ### Usage
 
 <docs-filter framework="react">
