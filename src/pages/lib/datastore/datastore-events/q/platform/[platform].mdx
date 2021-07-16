@@ -1,0 +1,142 @@
+export const meta = {
+  title: "DataStore Events",
+  description: "Listening to DataStore events",
+};
+
+
+
+DataStore periodically publishes state notifications onto Amplify's Hub. You can subscribe to the Hub to gain insight into the internal state of the DataStore. Events are published when:
+* Your device loses or regains network connectivity;
+* Data is synchronized with the Cloud;
+* There are new, pending changes that have not yet been synchronized.
+
+The following nine DataStore events are defined:
+
+## networkStatus
+
+Dispatched when DataStore starts and every time network status changes
+
+HubPayload `NetworkStatusEvent` contains:
+- `active` (Bool): true if the DataStore is on a network that can connect the Cloud; false, otherwise
+
+## subscriptionsEstablished
+
+Dispatched when DataStore has finished establishing its subscriptions to all models
+
+HubPayload: N/A
+
+## syncQueriesStarted
+
+Dispatched when DataStore is about to perform its initial sync queries
+
+HubPayload `syncQueriesStartedEvent` contains:
+- `models` ([String]): an array of each model's `name`
+
+
+
+import js7573e6a4bfd2e33eb8b17f038a8e0b61 from "/src/fragments/lib/datastore/js/datastore-events/model-synced.mdx";
+
+<Fragments fragments={{js: js7573e6a4bfd2e33eb8b17f038a8e0b61}} />
+
+
+import android49bf416252ba32957b675ff785c00109 from "/src/fragments/lib/datastore/native_common/datastore-events/model-synced.mdx";
+
+<Fragments fragments={{android: android49bf416252ba32957b675ff785c00109}} />
+
+
+import flutter49bf416252ba32957b675ff785c00109 from "/src/fragments/lib/datastore/native_common/datastore-events/model-synced.mdx";
+
+<Fragments fragments={{flutter: flutter49bf416252ba32957b675ff785c00109}} />
+
+
+import ios49bf416252ba32957b675ff785c00109 from "/src/fragments/lib/datastore/native_common/datastore-events/model-synced.mdx";
+
+<Fragments fragments={{ios: ios49bf416252ba32957b675ff785c00109}} />
+
+## syncQueriesReady
+
+Dispatched when all models have been synced from the cloud
+
+HubPayload: N/A
+
+## ready
+
+Dispatched when DataStore as a whole is ready, at this point all data is available
+
+HubPayload: N/A
+
+
+
+import js0bcf1624f64a0efa0c1015ec1e22e8ba from "/src/fragments/lib/datastore/js/datastore-events/outbox-mutation-enqueued.mdx";
+
+<Fragments fragments={{js: js0bcf1624f64a0efa0c1015ec1e22e8ba}} />
+
+
+import androidaaf3d30a2183d36ba60882f3fa2688ed from "/src/fragments/lib/datastore/native_common/datastore-events/outbox-mutation-enqueued.mdx";
+
+<Fragments fragments={{android: androidaaf3d30a2183d36ba60882f3fa2688ed}} />
+
+
+import flutteraaf3d30a2183d36ba60882f3fa2688ed from "/src/fragments/lib/datastore/native_common/datastore-events/outbox-mutation-enqueued.mdx";
+
+<Fragments fragments={{flutter: flutteraaf3d30a2183d36ba60882f3fa2688ed}} />
+
+
+import iosaaf3d30a2183d36ba60882f3fa2688ed from "/src/fragments/lib/datastore/native_common/datastore-events/outbox-mutation-enqueued.mdx";
+
+<Fragments fragments={{ios: iosaaf3d30a2183d36ba60882f3fa2688ed}} />
+
+
+
+import js163df55e6cfa54b95a30e5ec10d757a9 from "/src/fragments/lib/datastore/js/datastore-events/outbox-mutation-processed.mdx";
+
+<Fragments fragments={{js: js163df55e6cfa54b95a30e5ec10d757a9}} />
+
+
+import android82089f4c28b3b76a9df2af351efde04e from "/src/fragments/lib/datastore/native_common/datastore-events/outbox-mutation-processed.mdx";
+
+<Fragments fragments={{android: android82089f4c28b3b76a9df2af351efde04e}} />
+
+
+import flutter82089f4c28b3b76a9df2af351efde04e from "/src/fragments/lib/datastore/native_common/datastore-events/outbox-mutation-processed.mdx";
+
+<Fragments fragments={{flutter: flutter82089f4c28b3b76a9df2af351efde04e}} />
+
+
+import ios82089f4c28b3b76a9df2af351efde04e from "/src/fragments/lib/datastore/native_common/datastore-events/outbox-mutation-processed.mdx";
+
+<Fragments fragments={{ios: ios82089f4c28b3b76a9df2af351efde04e}} />
+
+## outboxStatus
+
+Dispatched when:
+- the DataStore starts
+- each time a local mutation is enqueued into the outbox
+- each time a local mutation is finished processing
+
+HubPayload `OutboxStatusEvent` contains: 
+- `isEmpty` (Bool): a boolean value indicating that there are no local changes still pending upload to the Cloud
+
+## Usage
+To see if the network status is active, you could set up the following listener:
+
+
+
+import js69bb4d751dc6ac047cfb0d8449c79970 from "/src/fragments/lib/datastore/js/datastore-events.mdx";
+
+<Fragments fragments={{js: js69bb4d751dc6ac047cfb0d8449c79970}} />
+
+
+import android0bb17a52cf990e4e3223467e6bbb85a1 from "/src/fragments/lib/datastore/android/datastore-events.mdx";
+
+<Fragments fragments={{android: android0bb17a52cf990e4e3223467e6bbb85a1}} />
+
+
+import ios6f8e82b8e8f1d25551453b609ffb4ce6 from "/src/fragments/lib/datastore/ios/datastore-events.mdx";
+
+<Fragments fragments={{ios: ios6f8e82b8e8f1d25551453b609ffb4ce6}} />
+
+
+import flutter883ea375f9bb2b3319fecca9ddb2b869 from "/src/fragments/lib/datastore/flutter/datastore-events.mdx";
+
+<Fragments fragments={{flutter: flutter883ea375f9bb2b3319fecca9ddb2b869}} />

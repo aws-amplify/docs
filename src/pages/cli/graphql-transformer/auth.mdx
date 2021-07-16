@@ -1,0 +1,133 @@
+export const meta = {
+  title: "Setup authorization rules",
+  description: "Add authorization rules to your GraphQL schema to control access to your data.",
+};
+
+
+
+## @auth
+
+Authorization is required for applications to interact with your GraphQL API. **API Keys** are best used for public APIs (or parts of your schema which you wish to be public) or prototyping, and you must specify the expiration time before deploying. **IAM** authorization uses [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html) to make request with policies attached to Roles. OIDC tokens provided by **Amazon Cognito User Pools** or 3rd party OpenID Connect providers can also be used for authorization, and simply enabling this provides a simple access control requiring users to authenticate to be granted top level access to API actions. You can set finer grained access controls using `@auth` on your schema which leverages authorization metadata provided as part of these tokens or set on the database items themselves.
+
+`@auth` object types that are annotated with `@auth` are protected by a set of authorization rules giving you additional controls than the top level authorization on an API. You may use the `@auth` directive on object type definitions and field definitions in your project's schema.
+
+When using the `@auth` directive on object type definitions that are also annotated with
+`@model`, all resolvers that return objects of that type will be protected. When using the
+`@auth` directive on a field definition, a resolver will be added to the field that authorize access
+based on attributes found in the parent type.
+
+### Definition
+
+```graphql
+# When applied to a type, augments the application with
+# owner and group-based authorization rules.
+directive @auth(rules: [AuthRule!]!) on OBJECT | FIELD_DEFINITION
+input AuthRule {
+  allow: AuthStrategy!
+  provider: AuthProvider
+  ownerField: String # defaults to "owner" when using owner auth
+  identityClaim: String # defaults to "username" when using owner auth
+  groupClaim: String # defaults to "cognito:groups" when using Group auth
+  groups: [String]  # Required when using Static Group auth
+  groupsField: String # defaults to "groups" when using Dynamic Group auth
+  operations: [ModelOperation] # Required for finer control
+
+  # The following arguments are deprecated. It is encouraged to use the 'operations' argument.
+  queries: [ModelQuery]
+  mutations: [ModelMutation]
+}
+enum AuthStrategy { owner groups private public }
+enum AuthProvider { apiKey iam oidc userPools }
+enum ModelOperation { create update delete read }
+
+# The following objects are deprecated. It is encouraged to use ModelOperations.
+enum ModelQuery { get list }
+enum ModelMutation { create update delete }
+```
+
+> Note: The operations argument was added to replace the 'queries' and 'mutations' arguments. The 'queries' and 'mutations' arguments will continue to work but it is encouraged to move to 'operations'. If both are provided, the 'operations' argument takes precedence over 'queries'.
+
+### Owner authorization
+
+By default, enabling `owner` authorization allows any signed in user to create records.
+
+```graphql
+# The simplest case
+type Post @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  title: String!
+}
+
+# The long form way
+type Post
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "owner", operations: [create, update, delete, read] },
+    ]) {
+  id: ID!
+  title: String!
+  owner: String
+}
+```
+
+<Callout>
+
+Owner authorization requires an authentication type of **Amazon Cognito User Pools** to be enabled in your app.
+
+</Callout>
+
+Owner authorization specifies whether a user can access or operate against an object. To do so, each object will get an `ownerField` field (by default `owner` will be added to the object if not specified) that stores ownership information and is verified in various ways during resolver execution.
+
+You can use the `operations` argument to specify which operations are enabled as follows:
+
+- **read**: Allow the user to perform queries (`get` and `list` operations) against the API.
+- **create**: Inject the logged in user's identity as the `ownerField` automatically.
+- **update**: Add conditional update that checks the stored `ownerField` is the same as the signed in user.
+- **delete**: Add conditional update that checks the stored `ownerField` is the same as the signed in user.
+
+You must ensure that the `create` operations rule is specified explicitly or inferred from defaults to ensure that the owner's identity is stored with the record so it can be verified on subsequent requests.
+
+```graphql
+# owner identity inferred from defaults on every object
+type Post @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  title: String!
+}
+
+# owner identity specified explicitly on every object
+type Post @model @auth(rules: [{ allow: owner, operations: [create] }]) {
+  id: ID!
+  title: String!
+}
+
+# owner identity not stored on objects
+type Post @model @auth(rules: [{ allow: owner, operations: [read] }]) {
+  id: ID!
+  title: String!
+}
+```
+
+<Callout>
+
+When specifying operations as a part of the `@auth` rule, the operations not included in the list are not protected by default.
+
+</Callout>
+
+Let's take a look at a few examples:
+
+```graphql
+type Todo @model
+  @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  updatedAt: AWSDateTime!
+  content: String!
+}
+```
+
+In this schema, only the owner of the object has the authorization to perform read (`getTodo` and `listTodos`), update (`updateTodo`), and delete (`deleteTodo`) operations on the owner created object. This prevents the object from being updated or deleted by users other than the creator of the object.
+
+Here's a table outlining which users are permitted to execute which operations. **owner** refers to the user who created the object, **other** refers to all other authenticated users.
+
+|       | getTodo | listTodos | createTodo | updateTodo | deleteTodo |
+|:

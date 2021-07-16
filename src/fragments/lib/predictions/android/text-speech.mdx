@@ -1,0 +1,192 @@
+## Set up the backend
+
+Run `amplify add predictions`, then use the following answers:
+
+```console
+? Please select from one of the categories below
+  `Convert`
+? What would you like to convert? (Use arrow keys)
+  `Generate speech audio from text`
+? Provide a friendly name for your resource
+  `speechGenerator`
+? What is the source language? (Use arrow keys)
+  `US English`
+? Select a speaker (Use arrow keys)
+  `Joanna - Female`
+? Who should have access? (Use arrow keys)
+  `Auth and Guest users`
+```
+
+Run `amplify push` to create the resources in the cloud.
+
+## Working with the API
+
+<BlockSwitcher>
+<CodeBlock name="Java">
+
+Open `MainActivity.java` and add the following code:
+
+```java
+private final MediaPlayer mp = new MediaPlayer();
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+
+    Amplify.Predictions.convertTextToSpeech(
+            "I like to eat spaghetti",
+            result -> playAudio(result.getAudioData()),
+            error -> Log.e("MyAmplifyApp", "Conversion failed", error)
+    );
+}
+
+private void playAudio(InputStream data) {
+    File mp3File = new File(getCacheDir(), "audio.mp3");
+
+    try (OutputStream out = new FileOutputStream(mp3File)) {
+        byte[] buffer = new byte[8 * 1_024];
+        int bytesRead;
+        while ((bytesRead = data.read(buffer)) != -1) {
+            out.write(buffer, 0, bytesRead);
+        }
+        mp.reset();
+        mp.setOnPreparedListener(MediaPlayer::start);
+        mp.setDataSource(new FileInputStream(mp3File).getFD());
+        mp.prepareAsync();
+    } catch (IOException error) {
+        Log.e("MyAmplifyApp", "Error writing audio file", error);
+    }
+}
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Callbacks">
+
+Open `MainActivity.kt` and add the following code:
+
+```kotlin
+private val mp = MediaPlayer()
+
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_main)
+    convertTextToSpeech()
+}
+
+private fun convertTextToSpeech() {
+    Amplify.Predictions.convertTextToSpeech("I like to eat spaghetti!",
+        { playAudio(it.audioData) },
+        { Log.e("MyAmplifyApp", "Failed to convert text to speech", it) }
+    )
+}
+
+private fun playAudio(data: InputStream) {
+    val mp3File = File(cacheDir, "audio.mp3")
+    try {
+        FileOutputStream(mp3File).use { out ->
+            val buffer = ByteArray(8 * 1024)
+            var bytesRead: Int
+            while (data.read(buffer).also { bytesRead = it } != -1) {
+                out.write(buffer, 0, bytesRead)
+            }
+            mp.reset()
+            mp.setOnPreparedListener { obj: MediaPlayer -> obj.start() }
+            mp.setDataSource(FileInputStream(mp3File).fd)
+            mp.prepareAsync()
+        }
+    } catch (error: IOException) {
+        Log.e("MyAmplifyApp", "Error writing audio file.")
+    }
+}
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Coroutines (Beta)">
+
+Open `MainActivity.kt` and add the following code:
+
+```kotlin
+private val mp = MediaPlayer()
+
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_main)
+    convertTextToSpeech()
+}
+
+private fun convertTextToSpeech() = activityScope.launch {
+    val text = "I like to eat spaghetti!"
+    try {
+        val result = Amplify.Predictions.convertTextToSpeech(text)
+        playAudio(result.audioData)
+    } catch (error: PredictionsException) {
+        Log.e("MyAmplifyApp", "Failed to convert text to speech", error)
+    }
+}
+
+private fun playAudio(data: InputStream) {
+    val mp3File = File(cacheDir, "audio.mp3")
+    try {
+        FileOutputStream(mp3File).use { out ->
+            val buffer = ByteArray(8 * 1024)
+            var bytesRead: Int
+            while (data.read(buffer).also { bytesRead = it } != -1) {
+                out.write(buffer, 0, bytesRead)
+            }
+            mp.reset()
+            mp.setOnPreparedListener { obj: MediaPlayer -> obj.start() }
+            mp.setDataSource(FileInputStream(mp3File).fd)
+            mp.prepareAsync()
+        }
+    } catch (error: IOException) {
+        Log.e("MyAmplifyApp", "Error writing audio file.")
+    }
+}
+```
+
+</CodeBlock>
+<CodeBlock name="RxJava">
+
+Open `MainActivity.java` and add the following code:
+
+```java
+private final MediaPlayer mp = new MediaPlayer();
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+
+    RxAmplify.Predictions.convertTextToSpeech("I like to eat spaghetti")
+            .subscribe(
+                result -> playAudio(result.getAudioData()),
+                error -> Log.e("MyAmplifyApp", "Conversion failed", error)
+            );
+}
+
+private void playAudio(InputStream data) {
+    File mp3File = new File(getCacheDir(), "audio.mp3");
+
+    try (OutputStream out = new FileOutputStream(mp3File)) {
+        byte[] buffer = new byte[8 * 1_024];
+        int bytesRead;
+        while ((bytesRead = data.read(buffer)) != -1) {
+            out.write(buffer, 0, bytesRead);
+        }
+        mp.reset();
+        mp.setOnPreparedListener(MediaPlayer::start);
+        mp.setDataSource(new FileInputStream(mp3File).getFD());
+        mp.prepareAsync();
+    } catch (IOException error) {
+        Log.e("MyAmplifyApp", "Error writing audio file", error);
+    }
+}
+```
+
+</CodeBlock>
+</BlockSwitcher>
+
+This example works on all supported versions of Android. Android API 23 added support for [`MediaDataSource`](https://developer.android.com/reference/android/media/MediaDataSource), which allows for `InputStream` from Amplify to be read directly without writing to a file.
+
+As a result of running this code, you will hear audio of the text being emitted from your device.

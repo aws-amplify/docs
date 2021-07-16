@@ -1,0 +1,1 @@
+- [Flutter](https://flutter.dev/docs/get-started/install) v2.0.0 or later (Amplify Flutter supports v1.20.0 but you will need v2.0.0+ for this tutorial)

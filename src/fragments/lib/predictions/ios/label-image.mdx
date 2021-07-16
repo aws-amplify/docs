@@ -1,0 +1,121 @@
+The following APIs will enable you identify real world objects (chairs, desks, etc) in images.  These objects are referred to as "labels" from images.
+
+For labeling images on iOS we use both AWS backend services as well as Apple's on-device Core ML [Vision Framework](https://developer.apple.com/documentation/vision) to provide you with the most accurate results.  If your device is offline, we will return results only from Core ML.  On the other hand, if you are able to connect to AWS Services, we will return a unioned result from both the service and Core ML.  Switching between backend services and Core ML is done automatically without any additional configuration required.
+
+## Set up your backend
+
+If you haven't already done so, run `amplify init` inside your project and then `amplify add auth` (we recommend selecting the *default configuration*).
+
+Run `amplify add predictions`, then use the following answers:
+
+```console
+? Please select from one of the categories below (Use arrow keys)
+❯ Identify
+  Convert
+  Interpret
+  Infer
+  Learn More
+  
+? What would you like to identify?
+  Identify Text
+  Identify Entities
+❯ Identify Labels
+
+? Provide a friendly name for your resource
+  <Enter a friendly name here>
+
+? Would you like use the default configuration?
+❯ Default Configuration
+  Advanced Configuration
+
+? Who should have access?
+  Auth users only
+❯ Auth and Guest users  
+
+```
+
+The Advanced Configuration will allow you to select moderation for unsafe content or all of the identified labels. Default uses both.
+
+Run `amplify push` to create the resources in the cloud
+
+## Working with the API
+
+You can identify real world objects such as chairs, desks, etc. which are referred to as “labels” by using the following sample code:
+
+<BlockSwitcher>
+
+<CodeBlock name="Listener (iOS 11+)">
+
+```swift
+func detectLabels(_ image:URL) {
+    // For offline calls only to Core ML models replace `options` in the call below with this instance:
+    // let options = PredictionsIdentifyRequest.Options(defaultNetworkPolicy: .offline, pluginOptions: nil)
+    Amplify.Predictions.identify(type: .detectLabels(.labels), image: image) { event in
+        switch event {
+        case let .success(result):
+            let data = result as! IdentifyLabelsResult
+            print(data.labels)
+            // Use the labels in your app as you like or display them
+        case let .failure(error):
+            print(error)
+        }
+    }
+}
+
+// To identify labels with unsafe content
+func detectLabels(_ image:URL) {
+    Amplify.Predictions.identify(type: .detectLabels(.all), image: image) { event in
+        switch event {
+        case let .success(result):
+            let data = result as! IdentifyLabelsResult
+            print(data.labels)
+            // Use the labels in your app as you like or display them
+        case let .failure(error):
+            print(error)
+        }
+    }
+}
+```
+
+</CodeBlock>
+
+<CodeBlock name="Combine (iOS 13+)">
+
+```swift
+func detectLabels(_ image:URL) -> AnyCancellable {
+    // For offline calls only to Core ML models replace `options` in the call below with this instance:
+    // let options = PredictionsIdentifyRequest.Options(defaultNetworkPolicy: .offline, pluginOptions: nil)
+    Amplify.Predictions.identify(type: .detectLabels(.labels), image: image)
+        .resultPublisher
+        .sink {
+            if case let .failure(error) = $0 {
+                print(error)
+            }
+        }
+        receiveValue: { result in
+            let data = result as! IdentifyLabelsResult
+            print(data.labels)
+            // Use the labels in your app as you like or display them
+        }
+}
+
+// To identify labels with unsafe content
+func detectLabels(_ image:URL) -> AnyCancellable {
+    Amplify.Predictions.identify(type: .detectLabels(.all), image: image)
+        .resultPublisher
+        .sink {
+            if case let .failure(error) = $0 {
+                print(error)
+            }
+        }
+        receiveValue: { result in
+            let data = result as! IdentifyLabelsResult
+            print(data.labels)
+            // Use the labels in your app as you like or display them
+        }
+}
+```
+
+</CodeBlock>
+
+</BlockSwitcher>

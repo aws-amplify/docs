@@ -1,0 +1,121 @@
+The Amplify Auth category provides an interface for authenticating a user. Behind the scenes, it provides the necessary authorization to the other Amplify categories. It comes with default, built-in support for [Amazon Cognito](https://aws.amazon.com/cognito) User Pool and Identity Pool. The Amplify CLI helps you to create and configure the auth category with an authentication provider.
+
+## Goal
+To setup and configure your application with Amplify Auth and go through a simple api to check the current auth session
+
+## Prerequisites
+
+
+
+import ios5a163b656bb4aee1cd3a639ab4151286 from "/src/fragments/lib/auth/ios/getting_started/10_preReq.mdx";
+
+<Fragments fragments={{ios: ios5a163b656bb4aee1cd3a639ab4151286}} />
+
+
+import androida9494e56b3a1d45c993eb3d1a08201bb from "/src/fragments/lib/auth/android/getting_started/10_preReq.mdx";
+
+<Fragments fragments={{android: androida9494e56b3a1d45c993eb3d1a08201bb}} />
+
+
+import flutter5fe2c3fed167bfbef5ba70fc76901078 from "/src/fragments/lib/auth/flutter/getting_started/10_preReq.mdx";
+
+<Fragments fragments={{flutter: flutter5fe2c3fed167bfbef5ba70fc76901078}} />
+
+## Configure Auth Category
+
+To start provisioning auth resources in the backend, go to your project directory and **execute the command**:
+
+```bash
+amplify add auth
+```
+
+Enter the following when prompted:
+```console
+? Do you want to use the default authentication and security configuration?
+    `Default configuration`
+? How do you want users to be able to sign in?
+    `Username`
+? Do you want to configure advanced settings?
+    `No, I am done.`
+```
+
+To push your changes to the cloud, **execute the command**:
+
+```bash
+amplify push
+```
+
+
+
+import ios138489f23d04d41e2c1b6fc34136e382 from "/src/fragments/lib/auth/ios/getting_started/12_amplifyConfig.mdx";
+
+<Fragments fragments={{ios: ios138489f23d04d41e2c1b6fc34136e382}} />
+
+
+import androide616727caf4423651185bbc7d2259791 from "/src/fragments/lib/auth/android/getting_started/12_amplifyConfig.mdx";
+
+<Fragments fragments={{android: androide616727caf4423651185bbc7d2259791}} />
+
+
+import flutterc1d45ea360455df756baca31de3c9059 from "/src/fragments/lib/auth/flutter/getting_started/12_amplifyConfig.mdx";
+
+<Fragments fragments={{flutter: flutterc1d45ea360455df756baca31de3c9059}} />
+
+## Install Amplify Libraries
+
+
+
+import ios9247abbc7c134e49efe3473344737128 from "/src/fragments/lib/auth/ios/getting_started/20_installLib.mdx";
+
+<Fragments fragments={{ios: ios9247abbc7c134e49efe3473344737128}} />
+
+
+import android32b17a57282c453ebb9a530933a7cc32 from "/src/fragments/lib/auth/android/getting_started/20_installLib.mdx";
+
+<Fragments fragments={{android: android32b17a57282c453ebb9a530933a7cc32}} />
+
+
+import flutteref5d62d89d3f341719060e2b8ce77d2c from "/src/fragments/lib/auth/flutter/getting_started/20_installLib.mdx";
+
+<Fragments fragments={{flutter: flutteref5d62d89d3f341719060e2b8ce77d2c}} />
+
+## Initialize Amplify Auth
+
+
+import iosb67d2dccd64c2062c1e06de14edd8775 from "/src/fragments/lib/auth/ios/getting_started/30_initAuth.mdx";
+
+<Fragments fragments={{ios: iosb67d2dccd64c2062c1e06de14edd8775}} />
+
+
+import android826c3faa1dc4f87a157111bb88bec398 from "/src/fragments/lib/auth/android/getting_started/30_initAuth.mdx";
+
+<Fragments fragments={{android: android826c3faa1dc4f87a157111bb88bec398}} />
+
+
+import flutter41c1263073262bdce488776b55d6dfde from "/src/fragments/lib/auth/flutter/getting_started/30_initAuth.mdx";
+
+<Fragments fragments={{flutter: flutter41c1263073262bdce488776b55d6dfde}} />
+
+## Check the current auth session
+
+We can now check the current auth session.
+
+
+
+import ios3608a56b1859f1e3f6834c38341c9d6a from "/src/fragments/lib/auth/ios/getting_started/40_fetchSession.mdx";
+
+<Fragments fragments={{ios: ios3608a56b1859f1e3f6834c38341c9d6a}} />
+
+
+import android994d6c67264640968c6a9c3b7088adc0 from "/src/fragments/lib/auth/android/getting_started/40_fetchSession.mdx";
+
+<Fragments fragments={{android: android994d6c67264640968c6a9c3b7088adc0}} />
+
+The isSignedIn property of the authSession will be false since we haven't signed in to the category yet.
+
+## Next Steps
+Congratulations! You've successfully setup AWS Cognito Auth plugin.  Check out the following links to see other Amplify Auth use cases:
+
+* [Authenticate a user with username password](/lib/auth/signin)
+* [Authenticate a user using a web UI](/lib/auth/signin_web_ui)
+* [Authenticate a user with another auth provider](/lib/auth/social_signin_web_ui)

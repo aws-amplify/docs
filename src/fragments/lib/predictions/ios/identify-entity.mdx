@@ -1,0 +1,183 @@
+The following APIs will enable you to identify entities (faces and/or celebrities) from images.
+
+For identifying entities on iOS we use both AWS backend services as well as Apple's on-device Core ML [Vision Framework](https://developer.apple.com/documentation/vision) to provide you with the most accurate results. If your device is offline, we will return results only from Core ML. On the other hand, if you are able to connect to AWS Services, we will return a unioned result from both the service and Core ML. Switching between backend services and Core ML is done automatically without any additional configuration required.
+
+## Set up your backend
+
+If you haven't already done so, run `amplify init` inside your project and then `amplify add auth` (we recommend selecting the *default configuration*).
+
+Run `amplify add predictions`, then use the following answers:
+
+```console
+? Please select from one of the categories below (Use arrow keys)
+❯ Identify
+  Convert
+  Interpret
+  Infer
+  Learn More
+  
+? What would you like to identify?
+  Identify Text
+❯ Identify Entities
+  Identify Labels
+
+? Provide a friendly name for your resource
+    <Enter a friendly name here>
+
+? Would you like use the default configuration? (Use arrow keys)
+❯ Default Configuration
+  Advanced Configuration
+
+? Who should have access?
+  Auth users only
+❯ Auth and Guest users
+```
+
+Run `amplify push` to create the resources in the cloud
+
+
+## Working with the API
+
+In order to match entities from a pre-created [Amazon Rekognition Collection](https://docs.aws.amazon.com/rekognition/latest/dg/collections.html), ensure that both `collectionId` and `maxEntities` are set in your `amplifyconfiguration.json` file. The value of `collectionId` should be the name of your collection that you created either with the CLI or the SDK. The value of `maxEntities` should be a number greater than `0` or less than `51` (50 is the max number of entities Rekognition can detect from a collection). If both `collectionId` and `maxEntities` do not have valid values in the `amplifyconfiguration.json` file, then this call will just detect entities in general with facial features, landmarks, etc. Bounding boxes for entities are returned as ratios so make sure if you would like to place the bounding box of your entity on an image that you multiple the x by the width of the image, the y by the height of the image, and both height and width ratios by the image's respective height and width.
+
+You can identify entity matches from your Rekognition Collection in your app using the following code sample:
+
+<BlockSwitcher>
+
+<CodeBlock name="Listener (iOS 11+)">
+
+```swift
+func detectEntities(_ image: URL) {
+    Amplify.Predictions.identify(type: .detectEntities, image: image) { event in
+        switch event {
+        case let .success(result):
+            let data = result as! IdentifyEntityMatchesResult
+            print(data.entities)
+        case let .failure(error):
+            print(error)
+        }
+    }
+}
+```
+
+</CodeBlock>
+
+<CodeBlock name="Combine (iOS 13+)">
+
+```swift
+func detectEntities(_ image: URL) -> AnyCancellable {
+    Amplify.Predictions.identify(type: .detectEntities, image: image)
+        .resultPublisher
+        .sink {
+            if case let .failure(error) = $0 {
+                print(error)
+            }
+        }
+        receiveValue: { result in
+            let data = result as! IdentifyEntityMatchesResult
+            print(data.entities)
+        }
+}
+```
+
+</CodeBlock>
+
+</BlockSwitcher>
+
+To detect general entities like facial features, landmarks etc, you can use the following call pattern. Results are mapped to `IdentifyEntityResult`. For example:
+
+<BlockSwitcher>
+
+<CodeBlock name="Listener (iOS 11+)">
+
+```swift
+func detectEntities(_ image: URL) {
+    Amplify.Predictions.identify(type: .detectEntities, image: image) { event in
+        switch event {
+        case let .success(result):
+            let data = result as! IdentifyEntitiesResult
+            print(data.entities)
+        case let .failure(error):
+            print(error)
+        }
+    }
+}
+```
+
+</CodeBlock>
+
+<CodeBlock name="Combine (iOS 13+)">
+
+```swift
+func detectEntities(_ image: URL) -> AnyCancellable {
+    Amplify.Predictions.identify(type: .detectEntities, image: image)
+        .resultPublisher
+        .sink {
+            if case let .failure(error) = $0 {
+                print(error)
+            }
+        }
+        receiveValue: { result in
+            let data = result as! IdentifyEntitiesResult
+            print(data.entities)
+        }
+}
+```
+
+</CodeBlock>
+
+</BlockSwitcher>
+
+### Detecting Celebrities
+
+To detect celebrities you can pass in `.detectCelebrity` in the `type:` field. Results are mapped to `IdentifyCelebritiesResult`. For example:
+
+<BlockSwitcher>
+
+<CodeBlock name="Listener (iOS 11+)">
+
+```swift
+func detectCelebs(_ image: URL) {
+    Amplify.Predictions.identify(type: .detectCelebrity, image: image) { event in
+        switch event {
+        case let .success(result):
+            let data = result as! IdentifyCelebritiesResult
+            if let detectedCeleb = data.celebrities.first {
+                print("Celebrity Name: \(detectedCeleb.metadata.name)")
+            }
+            print(result)
+        case let .failure(error):
+            print(error)
+        }
+    }
+}
+```
+
+</CodeBlock>
+
+<CodeBlock name="Combine (iOS 13+)">
+
+```swift
+func detectCelebs(_ image: URL) -> AnyCancellable {
+    Amplify.Predictions.identify(type: .detectCelebrity, image: image)
+        .resultPublisher
+        .sink {
+            if case let .failure(error) = $0 {
+                print(error)
+            }
+        }
+        receiveValue: { result in
+            let data = result as! IdentifyCelebritiesResult
+            if let detectedCeleb = data.celebrities.first {
+                print("Celebrity Name: \(detectedCeleb.metadata.name)")
+            }
+            print(result)
+        }
+}
+```
+
+</CodeBlock>
+
+</BlockSwitcher>
+
+As a result of passing in a URL of an image of a well known celebrity, you will see the corresponding celebrity name printed to the screen along with additional metadata.

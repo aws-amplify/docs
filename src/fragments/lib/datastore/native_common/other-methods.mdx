@@ -1,0 +1,59 @@
+## Clear
+
+To clear local data from DataStore, use the `clear` method:
+
+
+
+import ios7c69a13245c47b5417e776f16711eabc from "/src/fragments/lib/datastore/ios/other-methods/10_clear.mdx";
+
+<Fragments fragments={{ios: ios7c69a13245c47b5417e776f16711eabc}} />
+
+
+import android9ea1cae9231ea463056c42a4b2f2b3ac from "/src/fragments/lib/datastore/android/other-methods/10_clear.mdx";
+
+<Fragments fragments={{android: android9ea1cae9231ea463056c42a4b2f2b3ac}} />
+
+<Callout>
+
+If your app uses authentication, it is recommended to call `DataStore.clear()` on sign-in or sign-out to remove any user-specific data. In scenarios where a mobile device can be shared by several users, calling `DataStore.clear()` will ensure that data does not leak from one user to another.
+
+</Callout>
+
+## Start
+
+
+
+import ios013b326c87c116ccab826d9a063da68c from "/src/fragments/lib/datastore/ios/other-methods/15_start.mdx";
+
+<Fragments fragments={{ios: ios013b326c87c116ccab826d9a063da68c}} />
+
+
+import android8ccfe25f9f5c278601d5fd6b4d6b68d0 from "/src/fragments/lib/datastore/android/other-methods/15_start.mdx";
+
+<Fragments fragments={{android: android8ccfe25f9f5c278601d5fd6b4d6b68d0}} />
+
+
+
+import ios8ff21363df7180fffaeccf908711dd36 from "/src/fragments/lib/datastore/ios/other-methods/20_start.mdx";
+
+<Fragments fragments={{ios: ios8ff21363df7180fffaeccf908711dd36}} />
+
+
+import androidee7b5e054773d9cda23d198c7b7421a3 from "/src/fragments/lib/datastore/android/other-methods/20_start.mdx";
+
+<Fragments fragments={{android: androidee7b5e054773d9cda23d198c7b7421a3}} />
+
+## Stop
+
+To stop the DataStore sync process, you can use `DataStore.stop()`.  This will close the real time subscription connection when your app is no longer interested in updates. You will typically call `DataStore.stop()` just before your application is closed.  You can also force your [DataStore sync expressions](/lib/datastore/sync) to be re-evaluated at runtime by calling `stop()` followed by `start()`.
+
+
+
+import ios2ff379641ed102fea8befa93ee6f8c7d from "/src/fragments/lib/datastore/ios/other-methods/30_stop.mdx";
+
+<Fragments fragments={{ios: ios2ff379641ed102fea8befa93ee6f8c7d}} />
+
+
+import android3a6bb051c0bc9585c116b8d0e6c2cac3 from "/src/fragments/lib/datastore/android/other-methods/30_stop.mdx";
+
+<Fragments fragments={{android: android3a6bb051c0bc9585c116b8d0e6c2cac3}} />

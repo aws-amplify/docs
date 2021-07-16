@@ -1,0 +1,135 @@
+The Analytics category enables you to collect analytics data for your App. The Analytics category comes with built-in support for [Amazon Pinpoint](https://aws.amazon.com/pinpoint) and [Amazon Kinesis](https://aws.amazon.com/kinesis) (Kinesis support is currently only available in the Amplify JavaScript library).
+
+## Goal
+
+To setup and configure your application with Amplify Analytics and record an analytics event.
+
+## Prerequisites
+
+
+
+import ios97d12edf1be4248a3f186f779b0b63ad from "/src/fragments/lib/analytics/ios/getting-started/10_preReq.mdx";
+
+<Fragments fragments={{ios: ios97d12edf1be4248a3f186f779b0b63ad}} />
+
+
+import android49b4b3423ccdb7f40a2faf4ae446e61e from "/src/fragments/lib/analytics/android/getting-started/10_preReq.mdx";
+
+<Fragments fragments={{android: android49b4b3423ccdb7f40a2faf4ae446e61e}} />
+
+
+import flutter8658d16f24d92c1afdde978f0766729c from "/src/fragments/lib/analytics/flutter/getting-started/10_preReq.mdx";
+
+<Fragments fragments={{flutter: flutter8658d16f24d92c1afdde978f0766729c}} />
+
+## Set up Analytics backend
+
+Run the following command in your project's root folder. The CLI will prompt configuration options for the Analytics category such as Amazon Pinpoint resource name and analytics event settings.
+
+> The Analytics category utilizes the Authentication category behind the scenes to authorize your app to send analytics events.
+
+```bash
+amplify add analytics
+```
+
+```console
+? Select an Analytics provider (Use arrow keys)
+    `Amazon Pinpoint`
+? Provide your pinpoint resource name: 
+    `yourPinpointResourceName`
+? Apps need authorization to send analytics events. Do you want to allow guests and unauthenticated users to send analytics events? (we recommend you allow this when getting started) 
+    `Yes`
+```
+
+To deploy your backend, run:
+
+```bash
+amplify push
+```
+
+
+
+import iosb56c91222f7932ff02e64d877dc6d97f from "/src/fragments/lib/analytics/ios/getting-started/12_amplifyConfig.mdx";
+
+<Fragments fragments={{ios: iosb56c91222f7932ff02e64d877dc6d97f}} />
+
+
+import android4ed397e4805f9d576b879679544f6a64 from "/src/fragments/lib/analytics/android/getting-started/12_amplifyConfig.mdx";
+
+<Fragments fragments={{android: android4ed397e4805f9d576b879679544f6a64}} />
+
+
+import flutterf4cc76385c2641d7440bfb26c26f6e77 from "/src/fragments/lib/analytics/flutter/getting-started/12_amplifyConfig.mdx";
+
+<Fragments fragments={{flutter: flutterf4cc76385c2641d7440bfb26c26f6e77}} />
+
+## Install Amplify Libraries
+
+
+
+import iosc6cab923fa52f3d487284098cc15d58a from "/src/fragments/lib/analytics/ios/getting-started/20_installLib.mdx";
+
+<Fragments fragments={{ios: iosc6cab923fa52f3d487284098cc15d58a}} />
+
+
+import android30697afdf0f90281a06b61092aae37fc from "/src/fragments/lib/analytics/android/getting-started/20_installLib.mdx";
+
+<Fragments fragments={{android: android30697afdf0f90281a06b61092aae37fc}} />
+
+
+import flutterf6fffb5f80024eaed6dec87a1e9157e2 from "/src/fragments/lib/analytics/flutter/getting-started/20_installLib.mdx";
+
+<Fragments fragments={{flutter: flutterf6fffb5f80024eaed6dec87a1e9157e2}} />
+
+## Initialize Amplify Analytics
+
+
+
+import ios0926ea6d82678821c50225a105c4d49c from "/src/fragments/lib/analytics/ios/getting-started/30_initAnalytics.mdx";
+
+<Fragments fragments={{ios: ios0926ea6d82678821c50225a105c4d49c}} />
+
+
+import androidb322bac8853dfe5d575100271c97a7ed from "/src/fragments/lib/analytics/android/getting-started/30_initAnalytics.mdx";
+
+<Fragments fragments={{android: androidb322bac8853dfe5d575100271c97a7ed}} />
+
+
+import flutter68c81d3f46f6df26118e3eb0d9397c02 from "/src/fragments/lib/analytics/flutter/getting-started/30_initAnalytics.mdx";
+
+<Fragments fragments={{flutter: flutter68c81d3f46f6df26118e3eb0d9397c02}} />
+
+## Record events
+
+
+
+import ioseb65689e366be94b7fe88aa86722d226 from "/src/fragments/lib/analytics/ios/getting-started/40_record.mdx";
+
+<Fragments fragments={{ios: ioseb65689e366be94b7fe88aa86722d226}} />
+
+
+import androidb64426bc455fec8df0d92506afc87d4f from "/src/fragments/lib/analytics/android/getting-started/40_record.mdx";
+
+<Fragments fragments={{android: androidb64426bc455fec8df0d92506afc87d4f}} />
+
+
+import flutter168e22e2a5185dc7107b1bce54a02da0 from "/src/fragments/lib/analytics/flutter/getting-started/40_record.mdx";
+
+<Fragments fragments={{flutter: flutter168e22e2a5185dc7107b1bce54a02da0}} />
+
+## View Analytics console
+
+From the terminal run the following command. Navigate to the Analytics tab, and then choose View in Pinpoint.
+
+```console
+amplify console analytics
+```
+
+Next Steps:
+
+Congratulations! Now that you have Analytics' backend provisioned and Analytics library installed.  Check out the following links to see Amplify Analytics use cases:
+
+* [Record Events](/lib/analytics/record)
+* [Track Sessions](/lib/analytics/autotrack)
+* [Identify User](/lib/analytics/identifyuser)
+* [Escape Hatch](/lib/analytics/escapehatch)

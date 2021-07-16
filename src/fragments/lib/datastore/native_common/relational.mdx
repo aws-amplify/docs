@@ -1,0 +1,171 @@
+
+DataStore has the capability to handle relationships between Models, such as *has one*, *has many*, *belongs to*. In GraphQL this is done with the `@connection` and `@key` directives as defined in the [GraphQL Transformer documentation](/cli/graphql-transformer/connection).
+
+<Callout warning>
+
+When using the `@key` directive with DataStore, as long as you specify a `name` you can use any value(s) in `fields`. However, if the `name` property is omitted, the first item in the `fields` array must be `"id"`. E.g., `@key(fields: ["id", "content"])`.
+
+</Callout>
+
+## Updated schema
+
+
+
+import jse37669a9736eda60ed0a868a3236b3f9 from "/src/fragments/lib/datastore/js/relational/updated-schema.mdx";
+
+<Fragments fragments={{js: jse37669a9736eda60ed0a868a3236b3f9}} />
+
+
+import ios1ef673be324bfb8534bfeea93e1fed90 from "/src/fragments/lib/datastore/ios/relational/updated-schema.mdx";
+
+<Fragments fragments={{ios: ios1ef673be324bfb8534bfeea93e1fed90}} />
+
+
+import android8377d58370a7fcf2900da178a87a5962 from "/src/fragments/lib/datastore/android/relational/updated-schema.mdx";
+
+<Fragments fragments={{android: android8377d58370a7fcf2900da178a87a5962}} />
+
+
+import flutter9cad44a712ca29d3ce72a9b010289d6b from "/src/fragments/lib/datastore/flutter/relational/updated-schema.mdx";
+
+<Fragments fragments={{flutter: flutter9cad44a712ca29d3ce72a9b010289d6b}} />
+
+## Saving relations
+
+In order to save connected models you will create an instance of the model you wish to connect and pass it's ID to `DataStore.save`:
+
+
+
+import js2cc35cbad57e924851f61970fab1b359 from "/src/fragments/lib/datastore/js/relational/save-snippet.mdx";
+
+<Fragments fragments={{js: js2cc35cbad57e924851f61970fab1b359}} />
+
+
+import ios3b2eaf533246dd53e9ab5d95e78432c3 from "/src/fragments/lib/datastore/ios/relational/save-snippet.mdx";
+
+<Fragments fragments={{ios: ios3b2eaf533246dd53e9ab5d95e78432c3}} />
+
+
+import android0883f019702275376eee05c743ebd01f from "/src/fragments/lib/datastore/android/relational/save-snippet.mdx";
+
+<Fragments fragments={{android: android0883f019702275376eee05c743ebd01f}} />
+
+
+import flutter2c5e579ceee462a7fb2de4af32f78bdc from "/src/fragments/lib/datastore/flutter/relational/save-snippet.mdx";
+
+<Fragments fragments={{flutter: flutter2c5e579ceee462a7fb2de4af32f78bdc}} />
+
+## Querying relations
+
+
+
+import js41bd32c77d301ea9b604a8da7959d026 from "/src/fragments/lib/datastore/js/relational/query-snippet.mdx";
+
+<Fragments fragments={{js: js41bd32c77d301ea9b604a8da7959d026}} />
+
+
+import iosbd4513e70553a144f4e5e04c5ffff8f5 from "/src/fragments/lib/datastore/ios/relational/query-snippet.mdx";
+
+<Fragments fragments={{ios: iosbd4513e70553a144f4e5e04c5ffff8f5}} />
+
+
+import androidda4602d675cd7897fedb8a43bc584f64 from "/src/fragments/lib/datastore/android/relational/query-snippet.mdx";
+
+<Fragments fragments={{android: androidda4602d675cd7897fedb8a43bc584f64}} />
+
+
+import flutter345f59cd9bb42ebb9e0dd66e9c8a3604 from "/src/fragments/lib/datastore/flutter/relational/query-snippet.mdx";
+
+<Fragments fragments={{flutter: flutter345f59cd9bb42ebb9e0dd66e9c8a3604}} />
+
+## Deleting relations
+
+When you delete a parent object in a one to many relationship, the children will also be removed from the DataStore and mutations for this deletion will be sent over the network. For example the following operation would remove the Post with id *123* as well as any related comments:
+
+
+
+import js8d49531cf205a9a10a68ac9e3933c868 from "/src/fragments/lib/datastore/js/relational/delete-snippet.mdx";
+
+<Fragments fragments={{js: js8d49531cf205a9a10a68ac9e3933c868}} />
+
+
+import ios334cd5b729622d32f18f46726f409d9d from "/src/fragments/lib/datastore/ios/relational/delete-snippet.mdx";
+
+<Fragments fragments={{ios: ios334cd5b729622d32f18f46726f409d9d}} />
+
+
+import android31b3e5e51fc5a089b4fc8e9894c88004 from "/src/fragments/lib/datastore/android/relational/delete-snippet.mdx";
+
+<Fragments fragments={{android: android31b3e5e51fc5a089b4fc8e9894c88004}} />
+
+
+import flutter38de783c81ffbb3f31826427fd368f7d from "/src/fragments/lib/datastore/flutter/relational/delete-snippet.mdx";
+
+<Fragments fragments={{flutter: flutter38de783c81ffbb3f31826427fd368f7d}} />
+
+However, in a many to many relationship the children are not removed and you must explicitly delete them.
+
+### Many-to-many
+
+The above example shows how to use a *one-to-many* schema and save connected models. You can also define *many-to-many* relationships, such as the relationship shown in the [@connection examples](/cli/graphql-transformer/connection.md#many-to-many-connections).
+
+For many-to-many relationships, you save instances of models from each side of the relationship and then join them together by connecting type on a field defined with `@connection`. Consider the following schema:
+
+```graphql
+enum PostStatus {
+  ACTIVE
+  INACTIVE
+}
+
+type Post @model {
+  id: ID!
+  title: String!
+  rating: Int
+  status: PostStatus
+  editors: [PostEditor] @connection(keyName: "byPost", fields: ["id"])
+}
+
+type PostEditor
+  @model(queries: null)
+  @key(name: "byPost", fields: ["postID", "editorID"])
+  @key(name: "byEditor", fields: ["editorID", "postID"]) {
+  id: ID!
+  postID: ID!
+  editorID: ID!
+  post: Post! @connection(fields: ["postID"])
+  editor: User! @connection(fields: ["editorID"])
+}
+
+type User @model {
+  id: ID!
+  username: String!
+  posts: [PostEditor] @connection(keyName: "byEditor", fields: ["id"])
+}
+```
+
+
+
+import js138a61edfbec95b7de753d0193fb3273 from "/src/fragments/lib/datastore/js/relational/save-many-snippet.mdx";
+
+<Fragments fragments={{js: js138a61edfbec95b7de753d0193fb3273}} />
+
+
+import iosa4fb48446489086b976ed8dac5841c54 from "/src/fragments/lib/datastore/ios/relational/save-many-snippet.mdx";
+
+<Fragments fragments={{ios: iosa4fb48446489086b976ed8dac5841c54}} />
+
+
+import android8dcab42dc684d2302cc1997e652041cb from "/src/fragments/lib/datastore/android/relational/save-many-snippet.mdx";
+
+<Fragments fragments={{android: android8dcab42dc684d2302cc1997e652041cb}} />
+
+
+import fluttered2054782766ecf0c578a8d6f8b1428f from "/src/fragments/lib/datastore/flutter/relational/save-many-snippet.mdx";
+
+<Fragments fragments={{flutter: fluttered2054782766ecf0c578a8d6f8b1428f}} />
+
+
+
+import js185cca7386e5a803fb095d161ff9841e from "/src/fragments/lib/datastore/js/relational/query-many-snippet.mdx";
+
+<Fragments fragments={{js: js185cca7386e5a803fb095d161ff9841e}} />

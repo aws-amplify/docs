@@ -1,0 +1,362 @@
+When using the Amplify CLI, the __aws-exports.js__ file gets created and updated automatically for you based upon the resources you have added and configured.
+
+If you are not using the Amplify CLI or need to override these settings, this documentation shows the available configuration properties for each category.
+
+## General configuration
+
+```js
+Amplify.configure({
+  "aws_project_region": "us-east-1" // (optional) Default region for project
+})
+```
+## Authentication (Amazon Cognito)
+
+### Top level configuration
+
+```js
+Amplify.configure({
+  aws_cognito_region: "us-east-1", // (required) - Region where Amazon Cognito project was created   
+  aws_user_pools_id:  "us-east-1_6AfQ6", // (optional) -  Amazon Cognito User Pool ID   
+  aws_user_pools_web_client_id: "5t3le8878kgc72", // (optional) - Amazon Cognito App Client ID (App client secret needs to be disabled)
+  aws_cognito_identity_pool_id: "us-east-1:f602c14b-0fde-409c-9a7e-0baccbfd87d0", // (optional) - Amazon Cognito Identity Pool ID   
+  aws_mandatory_sign_in: "enable" // (optional) - Users are not allowed to get the aws credentials unless they are signed in   
+})
+```
+
+### Scoped configuration
+
+```js
+Amplify.configure({
+  Auth: {
+    // (required) only for Federated Authentication - Amazon Cognito Identity Pool ID
+    identityPoolId: 'XX-XXXX-X:XXXXXXXX-XXXX-1234-abcd-1234567890ab',
+
+    // (required)- Amazon Cognito Region
+    region: 'XX-XXXX-X',
+
+    // (optional) - Amazon Cognito Federated Identity Pool Region 
+    // Required only if it's different from Amazon Cognito Region
+    identityPoolRegion: 'XX-XXXX-X',
+
+    // (optional) - Amazon Cognito User Pool ID
+    userPoolId: 'XX-XXXX-X_abcd1234',
+
+    // (optional) - Amazon Cognito Web Client ID (26-char alphanumeric string, App client secret needs to be disabled)
+    userPoolWebClientId: 'a1b2c3d4e5f6g7h8i9j0k1l2m3',
+
+    // (optional) - Enforce user authentication prior to accessing AWS resources or not
+    mandatorySignIn: false,
+
+    // (optional) - Configuration for cookie storage
+    // Note: if the secure flag is set to true, then the cookie transmission requires a secure protocol
+    cookieStorage: {
+    // - Cookie domain (only required if cookieStorage is provided)
+      domain: '.yourdomain.com',
+    // (optional) - Cookie path
+      path: '/',
+    // (optional) - Cookie expiration in days
+      expires: 365,
+    // (optional) - See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite
+      sameSite: "strict" | "lax",
+                // (optional) - Cookie secure flag
+    // Either true or false, indicating if the cookie transmission requires a secure protocol (https).
+      secure: true
+    },
+
+    // (optional) - customized storage object
+    storage: MyStorage,
+
+    // (optional) - Manually set the authentication flow type. Default is 'USER_SRP_AUTH'
+    authenticationFlowType: 'USER_PASSWORD_AUTH',
+
+    // (optional) - Manually set key value pairs that can be passed to Cognito Lambda Triggers
+    clientMetadata: { myCustomKey: 'myCustomValue' },
+
+      // (optional) - Hosted UI configuration
+    oauth: {
+      domain: 'your_cognito_domain',
+      scope: ['phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin'],
+      redirectSignIn: 'http://localhost:3000/',
+      redirectSignOut: 'http://localhost:3000/',
+      clientId: "1g0nnr4h99a3sd0vfs9",
+      responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
+    }
+}
+});
+```
+
+## Storage (Amazon S3)
+
+### Top level configuration
+
+```js
+Amplify.configure({
+  aws_user_files_s3_bucket_region: "us-east-1", // (required) - Amazon S3 bucket region   
+  aws_user_files_s3_bucket: "testappa321fb103f1f2ae6a4d25d8cd2161728123152-dev" // (required) - Amazon S3 bucket URI   
+})
+```
+
+### Scoped configuration - `Storage`
+
+```js
+Amplify.configure({
+  Auth: {
+    identityPoolId: 'XX-XXXX-X:XXXXXXXX-XXXX-1234-abcd-1234567890ab', // (required) - Amazon Cognito Identity Pool ID
+    region: 'XX-XXXX-X', // (required) - Amazon Cognito Region
+    userPoolId: 'XX-XXXX-X_abcd1234', // (optional) - Amazon Cognito User Pool ID
+    userPoolWebClientId: 'XX-XXXX-X_abcd1234', // (optional) - Amazon Cognito Web Client ID (App client secret needs to be disabled)
+  },
+  Storage: {
+    AWSS3: {
+      bucket: "testappa321fb906f7f4ae6a4d25d8cd2134338123152-dev", // (required) -  Amazon S3 bucket name
+      region: 'us-east-1', // (optional) -  Amazon service region
+    }
+  }
+});
+```
+
+## GraphQL API (AWS AppSync)
+
+### Top level configuration
+
+```js
+Amplify.configure({
+  aws_appsync_region: "us-east-1", // (optional) - AWS AppSync region
+  aws_appsync_graphqlEndpoint: "https://<app-id>.appsync-api.<region>.amazonaws.com/graphql", // (optional) - AWS AppSync endpoint
+  aws_appsync_authenticationType: "AMAZON_COGNITO_USER_POOLS", // (optional) - Primary AWS AppSync authentication type
+  graphql_endpoint: "https://www.yourdomain.com/graphql", // (optional) - Custom GraphQL endpoint 
+  aws_appsync_apiKey: "da2-xxxxxxxxxxxxxxxxxxxxxxxxxx", // (optional) - AWS AppSync API Key
+  graphql_endpoint_iam_region: "us-east-1" // (optional) - Custom IAM region 
+});
+
+// Authentication type options are API_KEY, AWS_IAM, AMAZON_COGNITO_USER_POOLS and OPENID_CONNECT
+```
+
+### Scoped configuration - `GraphQL API`
+
+```js
+Amplify.configure({
+  API: {
+    graphql_endpoint: 'https:/www.example.com/my-graphql-endpoint',
+    graphql_headers: async () => ({
+      'My-Custom-Header': 'my value' // Set Custom Request Headers for non-AppSync GraphQL APIs
+    })
+  }
+});
+```
+
+## REST API (Amazon API Gateway)
+
+```js
+Amplify.configure({
+  aws_cloud_logic_custom:  [
+    {
+      name: "your-api-name", // (required) - API Name (This name is used used in the client app to identify the API - API.get('your-api-name', '/path'))
+      endpoint: "https://gfz59k9rlj.execute-api.us-east-1.amazonaws.com/dev", // (required) -API Gateway URL + environment
+      region: "us-east-1" // (required) - API Gateway region
+    }
+  ]
+})
+```
+
+## Predictions 
+
+### Top level configuration
+
+```js
+Amplify.configure({
+    "Auth": {
+        "identityPoolId": "us-east-1:xxx-xxx-xxx-xxx-xxx", // (required) - Amazon Cognito Identity Pool ID
+        "region": "us-east-1" // (required)- Amazon Cognito Region
+    },
+    "predictions": {
+        "convert": {
+            "translateText": {
+                "region": "us-east-1",
+                "proxy": false,
+                "defaults": {
+                    "sourceLanguage": "en",
+                    "targetLanguage": "zh"
+                }
+            },
+            "speechGenerator": {
+                "region": "us-east-1",
+                "proxy": false,
+                "defaults": {
+                    "VoiceId": "Ivy",
+                    "LanguageCode": "en-US"
+                }
+            },
+            "transcription": {
+                "region": "us-east-1",
+                "proxy": false,
+                "defaults": {
+                    "language": "en-US"
+                }
+            }
+        },
+        "identify": {
+            "identifyText": {
+                "proxy": false,
+                "region": "us-east-1",
+                "defaults": {
+                    "format": "PLAIN"
+                }
+            },
+            "identifyEntities": {
+                "proxy": false,
+                "region": "us-east-1",
+                "celebrityDetectionEnabled": true,
+                "defaults": {
+                    "collectionId": "identifyEntities8b89c648-test",
+                    "maxEntities": 50
+                }
+            },
+            "identifyLabels": {
+                "proxy": false,
+                "region": "us-east-1",
+                "defaults": {
+                    "type": "LABELS"
+                }
+            }
+        },
+        "interpret": {
+            "interpretText": {
+                "region": "us-east-1",
+                "proxy": false,
+                "defaults": {
+                    "type": "ALL"
+                }
+            }
+        }
+    }
+});
+```
+
+## Analytics (Amazon Pinpoint)
+
+### Top level configuration
+
+```js
+Amplify.configure({
+  aws_mobile_analytics_app_region: "us-east-1", // (required) Amazon Pinpoint Project region
+  aws_mobile_analytics_app_id: "34876218b9df404a847857a94a0e7e9f" // (required) Amazon Pinpoint Project ID
+});
+```
+
+### Scoped configuration `Analytics`
+
+```js
+Amplify.configure({
+  Analytics: {
+    // - disable Analytics if true
+    disabled: false,
+    // (optional) - Allow recording session events. Default is true.
+    autoSessionRecord: true,
+
+    AWSPinpoint: {
+      // (optional) -  Amazon Pinpoint App Client ID
+      appId: 'XXXXXXXXXXabcdefghij1234567890ab',
+      // (optional) -  Amazon service region
+      region: 'XX-XXXX-X',
+      // (optional) -  Customized endpoint
+      endpointId: 'XXXXXXXXXXXX',
+      // (optional) - Default Endpoint Information
+      endpoint: {
+        address: 'xxxxxxx', // The unique identifier for the recipient. For example, an address could be a device token, email address, or mobile phone number.
+        attributes: {
+          // Custom attributes that your app reports to Amazon Pinpoint. You can use these attributes as selection criteria when you create a segment.
+          hobbies: ['piano', 'hiking'],
+        },
+        channelType: 'APNS', // The channel type. Valid values: APNS, GCM
+        demographic: {
+          appVersion: 'xxxxxxx', // The version of the application associated with the endpoint.
+          locale: 'xxxxxx', // The endpoint locale in the following format: The ISO 639-1 alpha-2 code, followed by an underscore, followed by an ISO 3166-1 alpha-2 value
+          make: 'xxxxxx', // The manufacturer of the endpoint device, such as Apple or Samsung.
+          model: 'xxxxxx', // The model name or number of the endpoint device, such as iPhone.
+          modelVersion: 'xxxxxx', // The model version of the endpoint device.
+          platform: 'xxxxxx', // The platform of the endpoint device, such as iOS or Android.
+          platformVersion: 'xxxxxx', // The platform version of the endpoint device.
+          timezone: 'xxxxxx' // The timezone of the endpoint. Specified as a tz database value, such as Americas/Los_Angeles.
+        },
+        location: {
+          city: 'xxxxxx', // The city where the endpoint is located.
+          country: 'xxxxxx', // The two-letter code for the country or region of the endpoint. Specified as an ISO 3166-1 alpha-2 code, such as "US" for the United States.
+          latitude: 0, // The latitude of the endpoint location, rounded to one decimal place.
+          longitude: 0, // The longitude of the endpoint location, rounded to one decimal place.
+          postalCode: 'xxxxxx', // The postal code or zip code of the endpoint.
+          region: 'xxxxxx' // The region of the endpoint location. For example, in the United States, this corresponds to a state.
+        },
+          metrics: {
+            // Custom metrics that your app reports to Amazon Pinpoint.
+        },
+        /** Indicates whether a user has opted out of receiving messages with one of the following values:
+         * ALL - User has opted out of all messages.
+         * NONE - Users has not opted out and receives all messages.
+         */
+        optOut: 'ALL',
+        // Customized userId
+        userId: 'XXXXXXXXXXXX',
+        // User attributes
+        userAttributes: {
+          interests: ['football', 'basketball', 'AWS']
+            // ...
+        }
+      },
+
+      // Buffer settings used for reporting analytics events.
+      // (optional) - The buffer size for events in number of items.
+      bufferSize: 1000,
+
+      // (optional) - The interval in milliseconds to perform a buffer check and flush if necessary.
+      flushInterval: 5000, // 5s 
+
+      // (optional) - The number of events to be deleted from the buffer when flushed.
+      flushSize: 100,
+
+      // (optional) - The limit for failed recording retries.
+      resendLimit: 5
+    }
+  }
+})
+```
+
+## Interactions
+
+### Top level configuration
+
+
+```js
+Amplify.configure({
+  Auth: {
+    identityPoolId: 'us-east-1:xxx-xxx-xxx-xxx-xxx', // (required) Identity Pool ID
+    region: 'us-east-1' // (required) Identity Pool region
+  },
+  Interactions: {
+    bots: {
+      "BookTrip": {
+        "name": "BookTrip",
+        "alias": "$LATEST",
+        "region": "us-east-1",
+      },
+    }
+  }
+});
+```
+
+## XR
+
+### Top level configuration
+
+```js
+Amplify.configure({
+  XR: {
+    region: 'us-west-2', // Sumerian region
+    scenes: { 
+      "scene1": { // Friendly scene name
+        sceneConfig: scene1Config // Scene configuration from Sumerian
+      }
+    }
+  }
+});
+```

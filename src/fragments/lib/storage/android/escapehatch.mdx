@@ -1,0 +1,20 @@
+For advanced use cases where Amplify does not provide the functionality, you can retrieve the escape hatch to access the `AmazonS3Client` instance:
+
+<BlockSwitcher>
+<CodeBlock name="Java">
+
+```java
+AWSS3StoragePlugin plugin = (AWSS3StoragePlugin) Amplify.Storage.getPlugin("awsS3StoragePlugin");
+AmazonS3Client client = plugin.getEscapeHatch();
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin">
+
+```kotlin
+val plugin = Amplify.Storage.getPlugin("awsS3StoragePlugin") as AWSS3StoragePlugin
+val client = plugin.escapeHatch
+```
+
+</CodeBlock>
+</BlockSwitcher>

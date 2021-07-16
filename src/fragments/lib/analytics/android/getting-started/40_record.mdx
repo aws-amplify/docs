@@ -1,0 +1,49 @@
+To record an event, create an `AnalyticsEvent` and call `Amplify.Analytics.recordEvent()` to send it:
+
+<BlockSwitcher>
+<CodeBlock name="Java">
+
+```java
+AnalyticsEvent event = AnalyticsEvent.builder()
+    .name("PasswordReset")
+    .addProperty("Channel", "SMS")
+    .addProperty("Successful", true)
+    .addProperty("ProcessDuration", 792)
+    .addProperty("UserAge", 120.3)
+    .build();
+
+Amplify.Analytics.recordEvent(event);
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin">
+
+```kotlin
+val event = AnalyticsEvent.builder()
+    .name("PasswordReset")
+    .addProperty("Channel", "SMS")
+    .addProperty("Successful", true)
+    .addProperty("ProcessDuration", 792)
+    .addProperty("UserAge", 120.3)
+    .build()
+
+Amplify.Analytics.recordEvent(event)
+```
+
+</CodeBlock>
+<CodeBlock name="RxJava">
+
+```java
+AnalyticsEvent event = AnalyticsEvent.builder()
+    .name("PasswordReset")
+    .addProperty("Channel", "SMS")
+    .addProperty("Successful", true)
+    .addProperty("ProcessDuration", 792)
+    .addProperty("UserAge", 120.3)
+    .build();
+
+RxAmplify.Analytics.recordEvent(event);
+```
+
+</CodeBlock>
+</BlockSwitcher>

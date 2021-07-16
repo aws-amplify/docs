@@ -1,0 +1,78 @@
+The following API allows you to analyze text for language, entities (places, people), key phrases, sentiment (positive, neutral, negative), and syntax (pronouns, verbs, adjectives).
+
+## Set up your backend
+
+Run `amplify add predictions`, then use the following answers:
+
+```console
+? Please select from one of the categories below (Use arrow keys)
+  `Interpret`
+? What would you like to interpret? (Use arrow keys)
+  `Interpret Text`
+? Provide a friendly name for your resource
+  `interpretText`
+? What kind of interpretation would you like? (Use arrow keys)
+  `All`
+? Who should have access? (Use arrow keys)
+  `Auth and Guest users`
+```
+
+Run `amplify push` to create the resources in the cloud.
+
+## Working with the API
+
+Here is an example of sending text for interpretation such as sentiment analysis or natural language characteristics.
+
+<BlockSwitcher>
+<CodeBlock name="Java">
+
+```java
+Amplify.Predictions.interpret(
+        "I like to eat spaghetti",
+        result -> Log.i("MyAmplifyApp", result.getSentiment().getValue().toString()),
+        error -> Log.e("MyAmplifyApp", "Interpret failed", error)
+);
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Predictions.interpret("I like to eat spaghetti",
+    { Log.i("MyAmplifyApp", "${it.sentiment.value}") }
+    { Log.e("MyAmplifyApp", "Interpret failed", it) }
+)
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+val text = "I like to eat spaghetti"
+try {
+    val result = Amplify.Predictions.interpret(text)
+    Log.i("MyAmplifyApp", "${result.sentiment?.value}")
+} catch (error: PredictionsException) {
+    Log.e("MyAmplifyApp", "Interpret failed", error)
+}
+```
+
+</CodeBlock>
+<CodeBlock name="RxJava">
+
+```java
+RxAmplify.Predictions.interpret("I like to eat spaghetti")
+        .subscribe(
+            result -> Log.i("MyAmplifyApp", result.getSentiment().getValue().toString()),
+            error -> Log.e("MyAmplifyApp", "Interpret failed", error)
+        );
+```
+
+</CodeBlock>
+</BlockSwitcher>
+
+As a result of running this code, you will see the sentiment of the text printed to the console.
+
+```console
+I/MyAmplifyApp: POSITIVE
+```

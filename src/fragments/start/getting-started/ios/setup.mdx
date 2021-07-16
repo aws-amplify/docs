@@ -1,0 +1,78 @@
+
+👋 Welcome! In this tutorial, you will:
+
+- Set up an iOS application configured with Amplify
+- Create a data model and persist data to Amplify DataStore
+- Connect your local data to synchronize to a cloud backend
+
+## Prerequisites
+
+- Install [Node.js](https://nodejs.org/en/) version 12.x or higher
+- Install [Xcode](https://developer.apple.com/xcode/downloads/) version 11.4 or later
+- Install [Amplify CLI](/cli/cli) version 4.22.0 or later by running:
+
+  
+
+import allde508dbbe48d84391ad727bc6d10d0ea from "/src/fragments/cli-install-block.mdx";
+
+<Fragments fragments={{all: allde508dbbe48d84391ad727bc6d10d0ea}} />
+
+## Set up your application
+
+### Create a new iOS application
+
+1. **Open Xcode.** From the menu bar, select **"File -> New -> Project..."**
+
+2. Select **App**, and then select the **Next** button.
+  ![](/images/lib/getting-started/ios/set-up-ios-select-project-template.png)
+
+1. Fill in the following for your project:
+  * Product Name: **Todo**
+  * Interface: **SwiftUI**
+  * Life Cycle: **SwiftUI App** (only relevant if Xcode 12 is being used)
+  * Language: **Swift**
+  * Select the **Next** button
+
+  ![](/images/lib/getting-started/ios/set-up-ios-studio-configure-your-project.png)
+
+1. After selecting **Next**, **select where you would like to save your project**, and then select **Create**.
+
+  You should now have an empty iOS project without Amplify.
+
+### Add Amplify to your application
+
+Amplify for iOS is distributed through Swift Package Manager, which is integrated into Xcode. In this section, you'll add the required Amplify packages.
+
+1. **Open a terminal window** and **change to the directory for your Todo project**. For example, if you created your project in the folder `~/Developer`, you can type the following:
+  ```bash
+  cd ~/Developer/Todo
+  ```
+
+1. To create the Amplify app first you will need to use the `amplify` CLI you previously installed. **Run the command**:
+  ```bash
+  amplify init --quickstart --frontend ios
+  ```
+
+1. Switch back to Xcode. Select **File > Swift Packages > Add Package Dependency**.
+
+    ![Add package dependency](/images/project-setup/20_4_add-package-dependency.png)
+
+1. Enter the Amplify iOS GitHub repo URL (`https://github.com/aws-amplify/amplify-ios`) into the search bar and click Next.
+
+    ![Search for repo](/images/project-setup/20_5_search-amplify-repo.png)
+
+1. You'll see the Amplify iOS repository rules for which version of Amplify you want Swift Package Manager to install. Choose the first rule, **Version**, as it will use the latest compatible version of the dependency that can be detected from the `main` branch, then click **Next**.
+
+    ![Dependency version options](/images/project-setup/20_6_dependency-version-options.png)
+
+1. Lastly, choose which of the libraries you want added to your project. For this tutorial, select **Amplify**, **AWSAPIPlugin**, and **AWSDataStorePlugin**, then click **Finish**.
+
+    ![Select dependencies](/images/project-setup/20_7_select-dependencies.png)
+
+<Callout>
+
+You can always go back and modify which SPM packages are included in your project by opening the Swift Packages tab for your project (`Project file > Project > Swift Packages`)
+
+</Callout>
+
+You are ready to start building with Amplify! 🎉

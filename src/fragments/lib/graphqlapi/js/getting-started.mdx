@@ -1,0 +1,220 @@
+> Prerequisite: [Install, configure and init an Amplify project](/cli/start/install) with Amplify CLI
+
+In this section, you'll learn how to deploy an AWS AppSync GraphQL API and connect to it from a JavaScript client application.
+
+## Create the GraphQL API
+
+To create a GraphQL API, use the Amplify `add` command:
+
+```bash
+amplify add api
+```
+
+```console
+? Please select from one of the below mentioned services: GraphQL
+? Provide API name: myapi
+? Choose the default authorization type for the API: API Key
+? Enter a description for the API key: demo
+? After how many days from now the API key should expire: 7 (or your preferred expiration)
+? Do you want to configure advanced settings for the GraphQL API: No
+? Do you have an annotated GraphQL schema? No
+? Choose a schema template: Single object with fields (e.g., “Todo” with ID, name, description)
+? Do you want to edit the schema now?  Yes
+```
+
+The CLI should open this GraphQL schema in your text editor.
+
+__amplify/backend/api/myapi/schema.graphql__
+
+```graphql
+type Todo @model {
+  id: ID!
+  name: String!
+  description: String
+}
+```
+
+To deploy the API, you can use the Amplify `push` command:
+
+```bash
+amplify push
+```
+
+```console
+? Are you sure you want to continue? Y
+
+? Do you want to generate code for your newly created GraphQL API? Y
+? Choose the code generation language target: javascript (or your preferred language target)
+? Enter the file name pattern of graphql queries, mutations and subscriptions src/graphql/**/*.js
+? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions? Y
+? Enter maximum statement depth [increase from default if your schema is deeply nested]: 2
+```
+
+Now the API has been deployed and you can start using it.
+
+Because the `Todo` type was decorated with an `@model` directive of the [GraphQL Transform](/cli/graphql-transformer/model) library, the CLI created the additional schema and resolvers for queries, mutations, and subscriptions as well as a DynamoDB table to hold the Todos.
+
+To view the deployed services in your project at any time, go to Amplify Console by running the Amplify `console` command:
+
+```bash
+amplify console
+```
+
+## Configure your application
+
+Add Amplify to your app with `yarn` or `npm`:
+
+```bash
+npm install aws-amplify
+```
+
+In your app's entry point i.e. App.js, import and load the configuration file:
+
+```javascript
+import Amplify, { API, graphqlOperation } from 'aws-amplify';
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
+```
+
+## Enable queries, mutations, and subscriptions
+
+Now that the GraphQL API has deployed, it’s time to learn how to interact with it from a JavaScript client application. With GraphQL, you typically have the following types of operations:
+
+- __Mutations__ - write data to the API (create, update, delete operations)
+
+```js
+import { API, graphqlOperation } from 'aws-amplify';
+import { createTodo, updateTodo, deleteTodo } from './graphql/mutations';
+
+const todo = { name: "My first todo", description: "Hello world!" };
+
+/* create a todo */
+await API.graphql(graphqlOperation(createTodo, {input: todo}));
+
+/* update a todo */
+await API.graphql(graphqlOperation(updateTodo, { input: { id: todoId, name: "Updated todo info" }}));
+
+/* delete a todo */
+await API.graphql(graphqlOperation(deleteTodo, { input: { id: todoId }}));
+```
+- __Queries__ - read data from the API (list, get operations)
+
+```js
+import { API, graphqlOperation } from 'aws-amplify';
+import { listTodos } from './graphql/queries';
+
+const todos = await API.graphql(graphqlOperation(listTodos));
+```
+
+- __Subscriptions__ - subscribe to changes in data for real-time functionality (onCreate, onUpdate, onDelete)
+
+```js
+import { API, graphqlOperation } from 'aws-amplify';
+import { onCreateTodo } from './graphql/subscriptions';
+
+// Subscribe to creation of Todo
+const subscription = API.graphql(
+    graphqlOperation(onCreateTodo)
+).subscribe({
+    next: (todoData) => {
+      console.log(todoData);
+      // Do something with the data
+    }
+});
+
+// Stop receiving data updates from the subscription
+subscription.unsubscribe();
+```
+
+### Updating Your GraphQL Schema
+
+When you create a GraphQL backend with the CLI, the schema definition for your backend data structure is saved in one of two places:
+
+1. By default, schemas are saved in *amplify/backend/api/YOUR-API-NAME/schema.graphql*. If the `schema.graphql` file exists, it will take precedence over option 2.
+2. Optionally, schemas may be saved as a set of `.graphql` files stored in the *amplify/backend/api/YOUR-API-NAME/schema/* directory. E.g. you might have files `Query.graphql`, `User.graphql`, and `Post.graphql`.
+
+Once your API is deployed, updating the schema is easy with the CLI. You can edit the schema file(s) and run *amplify push* command to update your GraphQL backend.
+
+For example, a sample GraphQL schema will look like this:
+
+```graphql
+type Todo @model {
+  id: ID!
+  name: String!
+  description: String
+}
+```
+
+Add a *priority* field to your Todo type:
+
+```graphql
+type Todo @model {
+  id: ID!
+  name: String!
+  description: String
+  priority: String
+}
+```
+
+Save your schema file and update your GraphQL backend:
+
+```bash
+amplify push
+```
+
+When you run the *push* command, you will notice that your schema change is automatically detected, and your backend will be updated respectively.
+
+```console
+| Category | Resource name   | Operation | Provider plugin   |
+| -------- | --------------- | --------- | ----------------- |
+| Api      | myapi           | Update    | awscloudformation |
+```
+
+When the update is complete, you can see the changes to your backend by running the following command and select GraphQL option.
+
+```bash
+amplify api console
+? Please select from one of the below mentioned services: (Use arrow keys)
+❯ GraphQL
+  REST
+```
+
+### Using GraphQL Transformers
+
+As you can notice in the sample schema file above, the schema has a `@model` directive. The `@model` directive leverages a set of libraries that can help simplify the process of bootstrapping highly scalable, serverless GraphQL APIs on AWS. The `@model` directive tells the GraphQL Transform that we would like to store Todo objects in an Amazon DynamoDB table and configure CRUD operations for it. When you create or update your backend with *push* command, the CLI will automatically create and configure a new DynamoDB table that works with your AppSync API. The `@model` directive is just one of multiple transformers that can be used by annotating your *schema.graphql*.
+
+The following directives are available to be used when defining your schema:  
+
+| Directive | Description |
+| --- | --- |
+| [@model](/cli/graphql-transformer/model) on Object | Store objects in DynamoDB and configure CRUD resolvers. |
+| [@auth](/cli/graphql-transformer/auth) on Object | Define authorization strategies for your API. |
+| [@connection](/cli/graphql-transformer/connection) on Field | Specify relationships between @model object types. |
+| [@searchable](/cli/graphql-transformer/searchable) on Object | Stream data of an @model object type to Amazon Elasticsearch Service. |
+| [@versioned](/cli/graphql-transformer/versioned) on Object | Add object versioning and conflict detection to a @model. |
+| [@key](/cli/graphql-transformer/key) on Object | Index your data with keys. |
+| [@function](/cli/graphql-transformer/function) on Field | Connect Lambda resolvers to your API. |
+| [@predictions](/cli/graphql-transformer/predictions) on Field | Connect machine learning services. |
+| [@http](/cli/graphql-transformer/http) on Field | Configure HTTP resolvers within your API. |
+
+You may also write your own transformers to implement reproducible patterns that you find useful.
+
+### Mocking and Local Testing
+
+Amplify supports running a local mock server for testing your application with AWS AppSync, including debugging of resolvers, before pushing to the cloud. Please see the [CLI Toolchain documentation](/cli/usage/mock) for more details.
+
+### Generate client types from a GraphQL schema
+
+When working with GraphQL data it is useful to import types from your schema for type safety. You can do this with the Amplify CLI's automated code generation feature. The CLI automatically downloads GraphQL Introspection Schemas from the defined GraphQL endpoint and generates TypeScript or Flow classes for you. Every time you push your GraphQL API, the CLI will provide you the option to generate types and statements.
+
+If you want to generate your GraphQL statements and types, run:
+
+```bash
+amplify codegen
+```
+
+A TypeScript or Flow type definition file will be generated in your target folder.  
+
+### API configuration in the amplify folder
+
+The Amplify CLI will create an `amplify/backend/api` folder that will hold the existing GraphQL schema, resolvers, and additional configuration around the API. To learn more about how the CLI manages this configuration, check out the documentation [here](/cli/graphql-transformer/overview). To learn how to configure custom GraphQL resolvers, check out the documentation [here](/cli/graphql-transformer/resolvers).

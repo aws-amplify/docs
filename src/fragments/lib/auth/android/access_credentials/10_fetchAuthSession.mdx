@@ -1,0 +1,80 @@
+However, if you need to access them in relation to working with an API outside Amplify or want access to AWS specific identifying information (e.g. IdentityId),
+you can access these implementation details by casting the result of fetchAuthSession as follows:  
+
+<BlockSwitcher>
+<CodeBlock name="Java">
+
+```java
+Amplify.Auth.fetchAuthSession(
+    result -> {
+        AWSCognitoAuthSession cognitoAuthSession = (AWSCognitoAuthSession) result;
+            switch(cognitoAuthSession.getIdentityId().getType()) {
+                case SUCCESS:
+                    Log.i("AuthQuickStart", "IdentityId: " + cognitoAuthSession.getIdentityId().getValue());
+                    break;
+                case FAILURE:
+                    Log.i("AuthQuickStart", "IdentityId not present because: " + cognitoAuthSession.getIdentityId().getError().toString());
+            }
+        },
+        error -> Log.e("AuthQuickStart", error.toString())
+);
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.fetchAuthSession(
+    {
+        val session = it as AWSCognitoAuthSession
+        when (session.identityId.type) {
+            AuthSessionResult.Type.SUCCESS ->
+                Log.i("AuthQuickStart", "IdentityId = ${session.identityId.value}")
+            AuthSessionResult.Type.FAILURE ->
+                Log.w("AuthQuickStart", "IdentityId not found", session.identityId.error)
+        }
+    },
+    { Log.e("AuthQuickStart", "Failed to fetch session", it) }
+)
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+try {
+    val session = Amplify.Auth.fetchAuthSession() as AWSCognitoAuthSession
+    val id = session.identityId
+    if (id.type == AuthSessionResult.Type.SUCCESS) {
+        Log.i("AuthQuickStart", "IdentityId: ${id.value}")
+    } else if (id.type == AuthSessionResult.Type.FAILURE) {
+        Log.i("AuthQuickStart", "IdentityId not present: ${id.error}")
+    }
+} catch (error: AuthException) {
+    Log.e("AuthQuickStart", "Failed to fetch session", error)
+}
+```
+
+</CodeBlock>
+<CodeBlock name="RxJava">
+
+```java
+RxAmplify.Auth.fetchAuthSession()
+    .subscribe(
+        result -> {
+            AWSCognitoAuthSession cognitoAuthSession = (AWSCognitoAuthSession) result;
+
+            switch (cognitoAuthSession.getIdentityId().getType()) {
+                case SUCCESS:
+                    Log.i("AuthQuickStart", "IdentityId: " + cognitoAuthSession.getIdentityId().getValue());
+                    break;
+                case FAILURE:
+                    Log.i("AuthQuickStart", "IdentityId not present because: " + cognitoAuthSession.getIdentityId().getError().toString());
+            }
+        },
+        error -> Log.e("AuthQuickStart", error.toString())
+    );
+```
+
+</CodeBlock>
+</BlockSwitcher>

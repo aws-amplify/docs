@@ -1,0 +1,41 @@
+Invoke the `signOut` api to sign out a user from the Auth category. You can only have one user signed in at a given time.
+
+
+
+import android4c65e928a291b176236fcd977dad6ecb from "/src/fragments/lib/auth/android/signout/10_local_signout.mdx";
+
+<Fragments fragments={{android: android4c65e928a291b176236fcd977dad6ecb}} />
+
+
+import ios8d8fa894eb1a8ad3296f528550bbefa4 from "/src/fragments/lib/auth/ios/signout/10_local_signout.mdx";
+
+<Fragments fragments={{ios: ios8d8fa894eb1a8ad3296f528550bbefa4}} />
+
+
+import fluttercedba2a9cbd49e120c7c51ebfe97192c from "/src/fragments/lib/auth/flutter/signout/10_local_signout.mdx";
+
+<Fragments fragments={{flutter: fluttercedba2a9cbd49e120c7c51ebfe97192c}} />
+
+Calling signOut without any options will just delete the local cache and keychain of the user. If you would like to sign out of all devices, invoke the signOut api with advanced options.
+
+
+
+import android466f47ba571b1d79ac4230c35f5c179d from "/src/fragments/lib/auth/android/signout/20_global_signout.mdx";
+
+<Fragments fragments={{android: android466f47ba571b1d79ac4230c35f5c179d}} />
+
+
+import ios725869db1e516915e39896a1b213f497 from "/src/fragments/lib/auth/ios/signout/20_global_signout.mdx";
+
+<Fragments fragments={{ios: ios725869db1e516915e39896a1b213f497}} />
+
+
+import flutterab207ea2d9180e164564f70524b3646e from "/src/fragments/lib/auth/flutter/signout/20_global_signout.mdx";
+
+<Fragments fragments={{flutter: flutterab207ea2d9180e164564f70524b3646e}} />
+
+Calling signout with `globalSignOut = true` will invalidate all the Cognito User Pool tokens of the signed in user. If the user is signed into a device, they won't be authorized to perform a task that requires a valid token when a global signout is called from some other device. They need to sign in again to get valid tokens.
+
+<Callout warning>
+Global signout functionality does not work if you use one of the web UI sign in methods.
+</Callout>

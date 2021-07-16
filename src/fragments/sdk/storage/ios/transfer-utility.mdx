@@ -1,0 +1,377 @@
+To make it easy to upload and download objects from Amazon S3, we provide a TransferUtility component with built-in support for background transfers, progress tracking, and MultiPart uploads. This section explains how to implement upload and download functionality and a number of additional storage use cases.
+
+<Callout>
+
+**Note:** If you use the transfer utility MultiPart upload feature, take advantage of automatic cleanup features by setting up the [AbortIncompleteMultipartUpload](https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html) action in your Amazon S3 bucket life cycle configuration.
+
+</Callout>
+
+## Transfer Utility Options
+
+You can use the `AWSS3TransferUtilityConfiguration` object to configure the operations of the `TransferUtility`.
+
+### isAccelerateModeEnabled
+The isAccelerateModeEnabled option allows you to upload and download content from a S3 bucket that has Transfer Acceleration enabled. This option is set to false by default. See [Transfer Acceleration](https://docs.aws.amazon.com/AmazonS3/latest/dev/transfer-acceleration.html) for information on how to enable transfer acceleration for your bucket. 
+
+_The code sample below manually sets up credentials for the TransferUtility. The best practice is to use the AWSMobileClient. See [Authentication](/sdk/auth/how-it-works) for more details_
+
+```swift
+//Setup credentials, see your awsconfiguration.json for the "YOUR-IDENTITY-POOL-ID"
+let credentialProvider = AWSCognitoCredentialsProvider(regionType: YOUR-IDENTITY-POOL-REGION, identityPoolId: "YOUR-IDENTITY-POOL-ID")
+
+//Setup the service configuration
+let configuration = AWSServiceConfiguration(region: .USEast1, credentialsProvider: credentialProvider)
+
+//Setup the transfer utility configuration
+let tuConf = AWSS3TransferUtilityConfiguration()
+tuConf.isAccelerateModeEnabled = true
+
+//Register a transfer utility object asynchronously
+AWSS3TransferUtility.register(
+    with: configuration!,
+    transferUtilityConfiguration: tuConf,
+    forKey: "transfer-utility-with-advanced-options"
+) { (error) in
+     if let error = error {
+         //Handle registration error.
+     }
+}
+
+//Look up the transfer utility object from the registry to use for your transfers.
+let transferUtility:(AWSS3TransferUtility?) = AWSS3TransferUtility.s3TransferUtility(forKey: "transfer-utility-with-advanced-options")
+```
+
+### retryLimit
+The retryLimit option allows you to specify the number of times the TransferUtility will retry a transfer when it encounters an error. By default it is set to `0`.
+
+```swift
+tuConf.retryLimit = 5
+```
+
+### multiPartConcurrencyLimit
+The multiPartConcurrencyLimit option allows you to specify the number of parts that will be uploaded in parallel for a MultiPart upload request. By default, this is set to `5`.
+
+```swift
+tuConf.multiPartConcurrencyLimit = 3
+```
+
+### timeoutIntervalForResource 
+The timeoutIntervalForResource parameter allows you to specify the maximum duration the transfer will run. The default value for this parameter is `50` minutes. This value is important if you use Amazon Cognito temporary credential because it aligns with the maximum span of time that those credentials are valid.
+
+```swift
+tuConf.timeoutIntervalForResource = 15*60 //15 minutes
+```
+
+## Upload a File 
+
+ The transfer utility provides methods for both single-part and multipart uploads. When a transfer uses multipart upload, the data is chunked into a number of 5 MB parts which are transferred in parallel for increased speed.
+
+ The following example shows how to upload a file to an S3 bucket.
+
+```swift
+func uploadData() {
+
+  let data: Data = Data() // Data to be uploaded
+
+  let expression = AWSS3TransferUtilityUploadExpression()
+     expression.progressBlock = {(task, progress) in
+        DispatchQueue.main.async(execute: {
+          // Do something e.g. Update a progress bar.
+       })
+  }
+
+  var completionHandler: AWSS3TransferUtilityUploadCompletionHandlerBlock?
+  completionHandler = { (task, error) -> Void in
+     DispatchQueue.main.async(execute: {
+        // Do something e.g. Alert a user for transfer completion.
+        // On failed uploads, `error` contains the error object.
+     })
+  }
+
+  let transferUtility = AWSS3TransferUtility.default()
+
+  transferUtility.uploadData(data,
+       bucket: "YourBucket",
+       key: "YourFileName",
+       contentType: "text/plain",
+       expression: expression,
+       completionHandler: completionHandler).continueWith {
+          (task) -> AnyObject? in
+              if let error = task.error {
+                 print("Error: \(error.localizedDescription)")
+              }
+
+              if let _ = task.result {
+                 // Do something with uploadTask.
+              }
+              return nil;
+      }
+}
+```
+
+The following example shows how to upload a file to an S3 bucket using multipart uploads.
+
+```swift
+func uploadData() {
+
+   let data: Data = Data() // Data to be uploaded
+
+   let expression = AWSS3TransferUtilityMultiPartUploadExpression()
+      expression.progressBlock = {(task, progress) in
+         DispatchQueue.main.async(execute: {
+           // Do something e.g. Update a progress bar.
+        })
+   }
+
+   var completionHandler: AWSS3TransferUtilityMultiPartUploadCompletionHandlerBlock
+   completionHandler = { (task, error) -> Void in
+      DispatchQueue.main.async(execute: {
+         // Do something e.g. Alert a user for transfer completion.
+         // On failed uploads, `error` contains the error object.
+      })
+   }
+
+   let transferUtility = AWSS3TransferUtility.default()
+
+   transferUtility.uploadUsingMultiPart(data:data,
+        bucket: "YourBucket",
+        key: "YourFileName",
+        contentType: "text/plain",
+        expression: expression,
+        completionHandler: completionHandler).continueWith {
+           (task) -> AnyObject! in
+               if let error = task.error {
+                  print("Error: \(error.localizedDescription)")
+               }
+
+               if let _ = task.result {
+                  // Do something with uploadTask.
+               }
+               return nil;
+       }
+}
+```
+
+## Download a File 
+
+The following example shows how to download a file from an S3 bucket.
+
+```swift
+func downloadData() {
+   let expression = AWSS3TransferUtilityDownloadExpression()
+   expression.progressBlock = {(task, progress) in DispatchQueue.main.async(execute: {
+      // Do something e.g. Update a progress bar.
+      })
+   }
+
+   var completionHandler: AWSS3TransferUtilityDownloadCompletionHandlerBlock?
+   completionHandler = { (task, URL, data, error) -> Void in
+      DispatchQueue.main.async(execute: {
+      // Do something e.g. Alert a user for transfer completion.
+      // On failed downloads, `error` contains the error object.
+      })
+   }
+
+   let transferUtility = AWSS3TransferUtility.default()
+   transferUtility.downloadData(
+         fromBucket: "YourBucket",
+         key: "YourFileName",
+         expression: expression,
+         completionHandler: completionHandler
+         ).continueWith {
+            (task) -> AnyObject! in if let error = task.error {
+               print("Error: \(error.localizedDescription)")
+            }
+
+            if let _ = task.result {
+              // Do something with downloadTask.
+
+            }
+            return nil;
+        }
+}
+```
+
+## Track Transfer Progress
+
+Implement progress and completion actions for transfers by passing a `progressBlock` and `completionHandler` blocks to the call to `AWSS3TransferUtility` that initiates the transfer.
+
+The following example of initiating a data upload, shows how progress and completion handling is typically done for all transfers. The `AWSS3TransferUtilityUploadExpression`, `AWSS3TransferUtilityMultiPartUploadExpression` and `AWSS3TransferUtilityDownloadExpression` contains the `progressBlock` that gives you the progress of the transfer which you can use to update the progress bar.
+
+```swift
+// For example, create a progress bar
+let progressView: UIProgressView! = UIProgressView()
+progressView.progress = 0.0;
+
+let data = Data() // The data to upload
+
+let expression = AWSS3TransferUtilityUploadExpression()
+expression.progressBlock = {(task, progress) in DispatchQueue.main.async(execute: {
+        // Update a progress bar.
+        progressView.progress = Float(progress.fractionCompleted)
+    })
+}
+
+let completionHandler: AWSS3TransferUtilityUploadCompletionHandlerBlock = { (task, error) -> Void in DispatchQueue.main.async(execute: {
+        if let error = error {
+            NSLog("Failed with error: \(error)")
+        }
+        else if(self.progressView.progress != 1.0) {
+            NSLog("Error: Failed.")
+        } else {
+            NSLog("Success.")
+        }
+    })
+}
+
+var refUploadTask: AWSS3TransferUtilityTask?
+let transferUtility = AWSS3TransferUtility.default()
+transferUtility.uploadData(data,
+           bucket: "S3BucketName",
+           key: "S3UploadKeyName",
+           contentType: "text/plain",
+           expression: expression,
+           completionHandler: completionHandler).continueWith { (task) -> AnyObject! in
+                if let error = task.error {
+                    print("Error: \(error.localizedDescription)")
+                }
+
+                if let uploadTask = task.result {
+                    // Do something with uploadTask.
+                    // The uploadTask can be used to pause/resume/cancel the operation, retrieve task specific information
+                    refUploadTask = uploadTask
+                }
+
+                return nil;
+            }
+```
+
+## Pause a Transfer
+
+To pause a transfer, retain references to `AWSS3TransferUtilityUploadTask`, `AWSS3TransferUtilityMultiPartUploadTask` or `AWSS3TransferUtilityDownloadTask` .
+
+As described in the previous section :ref:`native-track-progress-and-completion-of-a-transfer`, the variable `refUploadTask` is a reference to the `UploadTask` object that is retrieved from the `continueWith` block of an upload operation that is invoked through `transferUtility.uploadData`.
+
+To pause a transfer, use the `suspend` method:
+
+```swift
+refUploadTask.suspend()
+```
+
+## Resume a Transfer
+
+To resume a transfer, use the `resume` method:
+
+```swift
+refUploadTask.resume()
+```
+
+## Cancel a Transfer
+
+To cancel a transfer, use the `cancel` method:
+
+```swift
+refUploadTask.cancel()
+```
+
+## Background Transfers
+
+All transfers performed by TransferUtility for iOS happen in the background using NSURLSession background sessions. Once a transfer is initiated, it will continue regardless of whether the initiating app moves to the foreground, moves to the background, is suspended, or is terminated by the system. Note that this doesn't apply when the app is force-closed. Transfers initiated by apps that are force-closed are terminated by the operating system at the NSURLSession level. For regular uploads and downloads you will have to re-initiate the transfer. For multi-part uploads, the TransferUtility will resume automatically and will continue the transfer.  
+
+To wake an app that is suspended or in the background when a transfer is completed, implement the handleEventsForBackgroundURLSession method in the AppDelegate and have it call the interceptApplication method of AWSS3TransferUtility as follows. 
+
+```swift
+func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
+    // Store the completion handler.
+    AWSS3TransferUtility.interceptApplication(application, handleEventsForBackgroundURLSession: identifier, completionHandler: completionHandler)
+}
+```
+
+## Managing Transfers When an App Restarts
+
+When an app that has initiated a transfer restarts (if it has been terminated by the system and not force-closed), it is possible that the transfer may still be in progress or completed. To make the restarting app aware of the status of transfers, instantiate the transfer utility using the ``AWSS3TransferUtility.s3TransferUtility(forKey: "YOUR_KEY")`` method. AWSS3TransferUtility uses the key to uniquely identify the NSURLSession of the transfers initiated by the app, so it is important to always use the same identifier. AWSS3TransferUtility will automatically reconnect to the transfers that were in progress the last time the app was running.
+
+Though it can be called anywhere in the app, we recommend that you instantiate the AWSS3TransferUtility in the ``appDidFinishLaunching`` lifecycle method. 
+
+## Manage a Transfer when a Suspended App Returns to the Foreground
+
+When an app that has initiated a transfer becomes suspended and then returns to the foreground, the transfer may still be in progress or may have completed. In both cases, use the following code to re-establish the progress and completion handler blocks of the app.
+
+```swift
+let uploadTasks = transferUtility.getUploadTasks().result
+  for task in uploadTasks! {
+       task.setCompletionHandler(completionHandler!)
+       task.setProgressBlock(progressBlock!)
+}
+
+
+let downloadTasks = transferUtility.getDownloadTasks().result
+   for task in downloadTasks! {
+       task.setCompletionHandler(completionHandler!)
+       task.setProgressBlock(progressBlock!)
+    }
+}
+
+
+let multiPartUploadTasks = transferUtility.getMultiPartUploadTasks().result
+    for task in multiPartUploadTasks! {
+        task.setCompletionHandler(completionHandler!)
+        task.setProgressBlock(progressBlock!)
+
+ }
+```
+
+## Transfer with Object Metadata
+
+The `AWSS3TransferUtilityUploadExpression` and `AWSS3TransferUtilityMultiPartUploadExpression` classes contain the method `setValue:forRequestHeader` where you can pass in metadata to Amazon S3. This example demonstrates passing in the Server-side Encryption Algorithm as a request header in uploading data to S3 using MultiPart. See [Object Key and Metadata](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html) for more information.
+
+```swift
+
+let data: Data = Data() // The data to upload
+
+let uploadExpression = AWSS3TransferUtilityMultiPartUploadExpression()
+uploadExpression.setValue("AES256", forRequestHeader: "x-amz-server-side-encryption-customer-algorithm")
+uploadExpression.progressBlock = {(task, progress) in DispatchQueue.main.async(execute: {
+        // Do something e.g. Update a progress bar.
+    })
+}
+
+let transferUtility = AWSS3TransferUtility.default()
+
+transferUtility.uploadUsingMultiPart(data:data,
+            bucket: "S3BucketName",
+            key: "S3UploadKeyName",
+            contentType: "text/plain",
+            expression: uploadExpression,
+            completionHandler: nil).continueWith { (task) -> AnyObject! in
+                if let error = task.error {
+                    print("Error: \(error.localizedDescription)")
+                }
+
+                return nil;
+            }
+```
+
+## Working with access levels in your app code
+
+All Amazon S3 resources are private by default. If you want your users to have access to S3 buckets or objects, you can assign appropriate permissions with an [IAM policy](http://docs.aws.amazon.com/IAM/latest/UserGuide/PoliciesOverview.html).
+
+### IAM Policy Based Permissions
+
+When you upload objects to the S3 bucket the Amplify CLI creates, you must manually prepend the appropriate access-level information to the `key`. The correct prefix - `public/`, `protected/` or `private/` - will depend on the access level of the object as documented in the [Storage Access section](/sdk/storage/getting-started.md#storage-access).
+
+## Transfer Utility and Pre-Signed URLS 
+
+The TransferUtility generates Amazon S3 pre-signed URLs to use for background data transfer. The best practice is to use Amazon Cognito for credentials with Transfer Utility. With Amazon Cognito Identity, you receive AWS temporary credentials that are valid for up to 60 minutes. The pre-signed URLs built using these credentials are bound by the same time limit, after which the URLs will expire. 
+
+Because of this limitation, when you use TransferUtility with Amazon Cognito, the expiry on the Pre-Signed URLs generated internally is set to **50 minutes**. Transfers that run longer than the 50 minutes will fail.  If you are transferring a large enough file where this becomes a constraint, you should create static credentials using AWSStaticCredentialsProvider ( _see [Authentication](/sdk/auth/how-it-works) for more details on how to do this_)  and increase the expiry time on the Pre-Signed URLs by increasing the value for the `timeoutIntervalForResource` in the Transfer Utility Options.  Note that the max allowed expiry value for a Pre-Signed URL is 7 days. 
+
+
+## Additional Resources
+
+* [Amazon Simple Storage Service Getting Started Guide](http://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html)
+* [Amazon Simple Storage Service API Reference](http://docs.aws.amazon.com/AmazonS3/latest/API/Welcome.html)
+* [Amazon Simple Storage Service Developer Guide](http://docs.aws.amazon.com/AmazonS3/latest/dev/Welcome.html)
+* [Identity and Access Management Console](https://console.aws.amazon.com/iam/home)
+* [Granting Access to an Amazon S3 Bucket](http://blogs.aws.amazon.com/security/post/Tx3VRSWZ6B3SHAV/Writing-IAM-Policies-How-to-grant-access-to-an-Amazon-S3-bucket)
+* [Protecting data using customer provided encryption keys](https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html)

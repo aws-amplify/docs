@@ -1,0 +1,45 @@
+<BlockSwitcher>
+<CodeBlock name="Java">
+
+```java
+Amplify.Auth.confirmUserAttribute(AuthUserAttributeKey.email(), "344299",
+    () -> Log.i("AuthDemo", "Confirmed user attribute with correct code."),
+    error -> Log.e("AuthDemo", "Failed to confirm user attribute. Bad code?", error)
+);
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.confirmUserAttribute(AuthUserAttributeKey.email(), "344299",
+    { Log.i("AuthDemo", "Confirmed user attribute with correct code.") },
+    { Log.e("AuthDemo", "Failed to confirm user attribute. Bad code?", it) }
+)
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+try {
+    Amplify.Auth.confirmUserAttribute(AuthUserAttributeKey.email(), "344299")
+    Log.i("AuthDemo", "Confirmed user attribute with correct code.") 
+} catch (error: AuthException) {
+    Log.e("AuthDemo", "Failed to confirm user attribute. Bade code?", error) 
+}
+```
+
+</CodeBlock>
+<CodeBlock name="RxJava">
+
+```java
+RxAmplify.Auth.confirmUserAttribute(AuthUserAttributeKey.email(), "344299")
+    .subscribe(
+        () -> Log.i("AuthDemo", "Confirmed user attribute using correct code."),
+        error -> Log.e("AuthDemo", "Failed to confirm user attribute. Bad code?", error)
+    );
+```
+
+</CodeBlock>
+</BlockSwitcher>

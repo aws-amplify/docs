@@ -1,0 +1,223 @@
+## Record event
+
+The Amplify analytics plugin also makes it easy to record custom events within the app. The plugin handles retry logic in the event the device loses network connectivity and automatically batches requests to reduce network bandwidth.
+
+<BlockSwitcher>
+<CodeBlock name="Java">
+
+```java
+AnalyticsEvent event = AnalyticsEvent.builder()
+    .name("PasswordReset")
+    .addProperty("Channel", "SMS")
+    .addProperty("Successful", true)
+    .addProperty("ProcessDuration", 792)
+    .addProperty("UserAge", 120.3)
+    .build();
+
+Amplify.Analytics.recordEvent(event);
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin">
+
+```kotlin
+val event = AnalyticsEvent.builder()
+    .name("PasswordReset")
+    .addProperty("Channel", "SMS")
+    .addProperty("Successful", true)
+    .addProperty("ProcessDuration", 792)
+    .addProperty("UserAge", 120.3)
+    .build()
+
+Amplify.Analytics.recordEvent(event)
+```
+
+</CodeBlock>
+<CodeBlock name="RxJava">
+
+```java
+AnalyticsEvent event = AnalyticsEvent.builder()
+    .name("PasswordReset")
+    .addProperty("Channel", "SMS")
+    .addProperty("Successful", true)
+    .addProperty("ProcessDuration", 792)
+    .addProperty("UserAge", 120.3)
+    .build();
+
+RxAmplify.Analytics.recordEvent(event);
+```
+
+</CodeBlock>
+</BlockSwitcher>
+
+## Flush events
+
+Events have default configuration to flush out to the network every 30 seconds. If you would like to change this, update `amplifyconfiguration.json` with the value in milliseconds you would like for `autoFlushEventsInterval`. This configuration will flush events every 10 seconds:
+
+```json
+{
+    "UserAgent": "aws-amplify-cli/2.0",
+    "Version": "1.0",
+    "analytics": {
+        "plugins": {
+            "awsPinpointAnalyticsPlugin": {
+                "pinpointAnalytics": {
+                    "appId": "AppID",
+                    "region": "Region"
+                },
+                "pinpointTargeting": {
+                    "region": "Region"
+                },
+                "autoFlushEventsInterval": 10000
+            }
+        }
+    }
+}
+```
+
+To manually flush events, call:
+
+<BlockSwitcher>
+<CodeBlock name="Java">
+
+```java
+Amplify.Analytics.flushEvents();
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin">
+
+```kotlin
+Amplify.Analytics.flushEvents()
+```
+
+</CodeBlock>
+<CodeBlock name="RxJava">
+
+```java
+RxAmplify.Analytics.flushEvents();
+```
+
+</CodeBlock>
+</BlockSwitcher>
+
+
+## Global Properties
+
+You can register global properties which will be sent along with all invocations of `Amplify.Analytics.recordEvent`.
+
+<BlockSwitcher>
+<CodeBlock name="Java">
+
+```java
+Amplify.Analytics.registerGlobalProperties(
+    AnalyticsProperties.builder()
+        .add("AppStyle", "DarkMode")
+        .build());
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin">
+
+```kotlin
+Amplify.Analytics.registerGlobalProperties(
+    AnalyticsProperties.builder()
+        .add("AppStyle", "DarkMode")
+        .build())
+```
+
+</CodeBlock>
+<CodeBlock name="RxJava">
+
+```java
+RxAmplify.Analytics.registerGlobalProperties(
+    AnalyticsProperties.builder()
+        .add("AppStyle", "DarkMode")
+        .build());
+```
+
+</CodeBlock>
+</BlockSwitcher>
+
+To unregister a global property, call `Amplify.Analytics.unregisterGlobalProperties()`:
+
+<BlockSwitcher>
+<CodeBlock name="Java">
+
+```java
+Amplify.Analytics.unregisterGlobalProperties("AppStyle", "OtherProperty");
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin">
+
+```kotlin
+Amplify.Analytics.unregisterGlobalProperties("AppStyle", "OtherProperty")
+```
+
+</CodeBlock>
+<CodeBlock name="RxJava">
+
+```java
+RxAmplify.Analytics.unregisterGlobalProperties("AppStyle", "OtherProperty");
+```
+
+</CodeBlock>
+</BlockSwitcher>
+
+## Disable Analytics
+
+To disable analytics, call:
+
+<BlockSwitcher>
+<CodeBlock name="Java">
+
+```java
+Amplify.Analytics.disable();
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin">
+
+```kotlin
+Amplify.Analytics.disable()
+```
+
+</CodeBlock>
+<CodeBlock name="RxJava">
+
+```java
+RxAmplify.Analytics.disable();
+```
+
+</CodeBlock>
+</BlockSwitcher>
+
+## Enable Analytics
+
+To re-enable, call:
+
+<BlockSwitcher>
+<CodeBlock name="Java">
+
+```java
+Amplify.Analytics.enable();
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin">
+
+```kotlin
+Amplify.Analytics.enable()
+```
+
+</CodeBlock>
+<CodeBlock name="RxJava">
+
+```java
+RxAmplify.Analytics.enable();
+```
+
+</CodeBlock>
+</BlockSwitcher>
+

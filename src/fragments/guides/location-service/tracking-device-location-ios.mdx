@@ -1,0 +1,571 @@
+## Create a tracker resource
+
+In order to start tracking, you create an Amazon Location Tracking resource to capture and store positions of your users. 
+
+1. Open the [Amazon Location Service console](https://console.aws.amazon.com/location/tracking/home#/create) to create a tracker.
+1. Enter **MyTracker** in **Name**.
+1. Press **Create tracker**.
+
+      ![Amazon Location Service - Create tracker](/images/als/create-tracker.png)
+
+1. Note the Amazon Resource Name (ARN) of your tracker. This will start with **arn:aws:geo** as in the below screenshot.
+
+      ![Amazon Location Service - Tracker](/images/als/my-tracker.png)
+
+## Allow Guest users access to the tracker
+
+Now that you have created a tracker resource, you must create an inline policy to give users of your application access to the resource:
+
+1. Navigate to the root of your project and run the following command:
+
+    ```bash
+    amplify console auth
+    ```
+
+1. Select **Identity Pool** from **Which console?** when prompted.
+1. You will be navigated to the Amazon Cognito console. Click on **Edit identity pool** in the top right corner of the page.
+1. Open the drop down for **Unauthenticated identities**, choose **Enable access to unauthenticated identities**, and then press **Save Changes**.
+1. Click on **Edit identity pool** once more. Make a note of the name of the Unauthenticated role. For example, `amplify-<project_name>-<env_name>-<id>-unauthRole`.
+1. Open the [AWS Identity and Access Management (IAM) console](https://console.aws.amazon.com/iam/home#/roles) to manage roles.
+1. In the **Search** field, enter the name of your unauthRole noted above and click on it.
+1. Click **+Add inline policy**, then click on the **JSON** tab.
+1. Fill in the **[ARN]** placeholder with the ARN of your tracker which you noted above and replace the contents of the policy with the below.
+
+    ```json
+{
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "Action": "geo:BatchUpdateDevicePosition",
+                "Resource": "[ARN]"
+            }
+        ]
+}
+    ```
+
+1. Click on the **Review policy** button.
+2. In the **Name** field, enter **LocationTracker**.
+3. Click on the **Create policy** button.  
+
+You have now successfully added authentication to your iOS app.
+
+## Set up Core Location services
+
+In order for your app to get the location of the device, you will first set up your app to use [Core Location](https://developer.apple.com/documentation/corelocation) services. Follow the following steps to request for permission and retrieve location updates.
+
+1. In your **Info.plist** file, set the `Privacy - Location When In Use Description` as well as a description message. This message will be displayed to your user when the app requests authorization to access their location.
+2. Create a new file called `LocationManagement.swift` with the following contents:
+
+    <BlockSwitcher>
+    <CodeBlock name="Deployment target iOS 14">
+
+    ```swift
+    import CoreLocation
+
+    class LocationManagement: NSObject, ObservableObject, CLLocationManagerDelegate {
+    let locationManager = CLLocationManager()
+
+    override init() {
+      super.init()
+      requestUserLocation()
+    }
+
+    func requestUserLocation() {
+      // Set delegate before requesting for authorization
+      locationManager.delegate = self
+      // You can request for `WhenInUse` or `Always` depending on your use case
+      locationManager.requestWhenInUseAuthorization()
+    }
+
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        switch manager.authorizationStatus {
+        case .authorizedWhenInUse:
+            print("Received authorization of user location, requesting for location")
+            locationManager.startUpdatingLocation()
+        default:
+            print("Failed to authorize")
+        }
+    }
+
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+          print("Got locations: \(locations)")           
+    }
+
+    // Error handling is required as part of developing using CLLocation
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+          if let clErr = error as? CLError {
+              switch clErr {
+              case CLError.locationUnknown:
+                  print("location unknown")
+              case CLError.denied:
+                  print("denied")
+              default:
+                  print("other Core Location error")
+              }
+          } else {
+              print("other error:", error.localizedDescription)
+          }
+      }
+    }
+    ```
+
+    </CodeBlock>
+    <CodeBlock name="Deployment target iOS 13">
+
+    ```swift
+    import CoreLocation
+
+    class LocationManagement: NSObject, CLLocationManagerDelegate {
+        let locationManager = CLLocationManager()
+        
+        override init() {
+            super.init()
+            requestUserLocation()
+        }
+        
+        func requestUserLocation() {
+            // Set delegate before requesting for authorization
+            locationManager.delegate = self
+            // You can request for `WhenInUse` or `Always` depending on your use case
+            locationManager.requestWhenInUseAuthorization()
+        }
+        
+        func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+            switch status {
+            case .authorizedWhenInUse:
+                print("Received authorization of user location, requesting for location")
+                locationManager.startUpdatingLocation()
+            default:
+                print("Failed to authorize")
+            }
+        }
+        
+        func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+            print("Got locations: \(locations)")
+        }
+        
+        // Error handling is required as part of developing using CLLocation
+        func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+            if let clErr = error as? CLError {
+                switch clErr {
+                case CLError.locationUnknown:
+                    print("location unknown")
+                case CLError.denied:
+                    print("denied")
+                default:
+                    print("other Core Location error")
+                }
+            } else {
+                print("other error:", error.localizedDescription)
+            }
+        }
+    }
+    ```
+
+    </CodeBlock>
+    </BlockSwitcher>
+
+1. Create an instance of `LocationManagement` in the view you would like to prompt the user for permission to retrieve their device location. For example:
+
+    <BlockSwitcher>
+
+    <CodeBlock name="ViewController">
+
+    ```swift
+    class ViewController: UIViewController {
+      let locationManagement = LocationManagement()
+    }
+    ```
+
+    </CodeBlock>
+    <CodeBlock name="SwiftUI">
+
+    ```swift
+    struct ContentView: View {
+      let locationManagement = LocationManagement()
+    }
+    ```
+
+    </CodeBlock>
+    </BlockSwitcher>
+
+1. Build (⌘B) and run the app (⌘R). The UI will prompt you with a modal to request location permissions. 
+
+1. Choose **Allow While Using App**. Ensure the debug logs show `Received authorization of user location`.
+
+You’ve successfully set up your app to retrieve location data. When you click on the simulate location button, the location update will be sent from Core Location service to your app in the `locationManager(_:didUpdateLocations)` delegate method.
+
+## Sending device location data to Amazon Location Service
+
+The below steps describe how you can pass device location to the tracker resource you have created with Amazon Location Service:
+
+1. Add the following imports to the `LocationManagement.swift` file:
+
+    ```swift
+    import AWSLocation
+    import AWSMobileClient
+    ```
+
+1. Create an instance of `AWSLocationTracker`, and add conformance to `AWSLocationTrackerDelegate`, as in the following example:
+
+    ```swift
+    class LocationManagement: NSObject, 
+                              ObservableObject, 
+                              CLLocationManagerDelegate, 
+                              AWSLocationTrackerDelegate {  // Add AWSLocationTrackerDelegate conformance
+        let locationTracker = AWSLocationTracker(trackerName: "MyTracker",
+                                                region: AWSRegionType.[UPDATE_ME],
+                                                credentialsProvider: AWSMobileClient.default())
+    }
+    ```
+
+1. By conforming to `AWSLocationTrackerDelegate`, the `requestUserLocation` method will be added. You can leave this empty for now, as in the following example:
+
+    ```swift
+    func requestLocation() {
+    }
+    ```
+
+1. Start tracking the device’s location with `AWSLocationTracker`. Inside `locationManagerDidChangeAuthorization(_)` add the following code in the authorized status scenario:
+
+    ```swift
+    case .authorizedWhenInUse:
+        print("Received authorization of user location, requesting for location")
+        let result = locationTracker.startTracking(
+            delegate: self,
+            options: TrackerOptions(
+                customDeviceId: "12345",
+                retrieveLocationFrequency: TimeInterval(30),
+                emitLocationFrequency: TimeInterval(120)))
+        switch result {
+        case .success:
+            print("Tracking started successfully")
+        case .failure(let trackingError):
+            switch trackingError.errorType {
+            case .invalidTrackerName, .trackerAlreadyStarted, .unauthorized:
+                print("onFailedToStart \(trackingError)")
+            case .serviceError(let serviceError):
+                print("onFailedToStart serviceError: \(serviceError)")
+            }
+        }
+    ```
+
+    **Note:** Make sure to update the `customDeviceId` to an assigned deviceId or remove the parameter to have a random device ID assigned for this device. The assigned `deviceId` will be persisted across app restarts. 
+
+    **Note:** The example configures the tracking to retrieve location data every 30 seconds and send the location updates to Amazon Location Service every 120 seconds. The default values are 30 seconds for `retrieveLocationFrequency` and 300 seconds for `emitLocationFrequency`.
+
+    **Note:** `startTracking` should be called after the user has authorized the app to retrieve device location data. Make sure to remove the call to `startUpdatingLocation()` as that will continuously retrieve a stream of location updates, rather than tracking the location at an interval.
+
+1. Update the body of `requestLocation` method by calling `locationManager.requestLocation()`, as in the following example:
+
+    ```swift
+    class LocationManagement: NSObject, ObservableObject, CLLocationManagerDelegate, AWSLocationTrackerDelegate  { 
+      // ...
+      func requestLocation() {
+        locationManager.requestLocation()
+      }
+      // ...
+    }
+    ```
+
+    **Note:** `requestLocation` will be called on the `retrieveLocationFrequency` interval.
+
+1. When your app retrieves location updates, pass the data for location tracking to update your tracker and continue performing your app logic, as in the following example:
+
+      ```swift
+      class LocationManagement: NSObject, ObservableObject, CLLocationManagerDelegate, AWSLocationTrackerDelegate  { 
+        // ...
+        func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+          print("Got locations: \(locations)")
+          locationTracker.interceptLocationsRetrieved(locations)
+        }
+        // ...
+      }
+      ```
+
+1. (Optional) Listen for tracking events to be notified when the tracker sends data to Amazon Location Service and when the tracker has stopped. The following example shows how this can be implemented:
+
+    ```swift
+    func onTrackingEvent(event: TrackingListener) {
+        switch event {
+        case .onDataPublished(let trackingPublishedEvent):
+            print("onDataPublished: \(trackingPublishedEvent)")
+        case .onDataPublicationError(let error):
+            switch error.errorType {
+            case .invalidTrackerName, .trackerAlreadyStarted, .unauthorized:
+                print("onDataPublicationError \(error)")
+            case .serviceError(let serviceError):
+                print("onDataPublicationError serviceError: \(serviceError)")
+            }
+        case .onStop:
+            print("tracker stopped")
+        }
+    }
+    ```
+    Pass `onTrackingEvent` to `startTracking()`
+    ```swift
+    let result = locationTracker.startTracking(
+                    delegate: self,
+                    options: TrackerOptions(
+                        customDeviceId: "12345",
+                        retrieveLocationFrequency: TimeInterval(30),
+                        emitLocationFrequency: TimeInterval(120)),
+                    listener: onTrackingEvent)
+      ```
+    
+      **Note**: `onDataPublished` will be triggered for each successful call to Amazon Location Service. The `trackingPublishedEvent` payload contains the request containing locations sent and the successful response from the service.
+
+      **Note**: `onDataPublicationError` will be triggered for each attempt made to send location data to Amazon Location Service and had failed with an error.
+
+      **Note**: `onStop` will be triggered when the tracker has been started and `stopTracking` was called.
+
+1. (Optional) To debug your app, you can enable verbose logging during development, when the app starts up:
+
+    ```swift
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+      // Override point for customization after application launch.
+      AWSDDLog.sharedInstance.logLevel = .verbose
+      AWSDDLog.add(AWSDDTTYLogger.sharedInstance)
+      
+      //...
+      return true
+    }
+    ```
+
+You have now successfully set up `AWSLocationTracker` in your app. 
+
+### Stop tracking
+
+When you want to prevent the tracker from continuing to store and emit location data, call the following method:
+
+```swift
+func stopTracking() {
+    locationTracker.stopTracking()
+}
+```
+
+### Tracking status
+
+You can also check if the tracker is currently tracking by calling the following method:
+
+```swift
+func isTracking() -> Bool {
+    locationTracker.isTracking()
+}
+```
+
+## Complete code sample
+
+As a reference, here is the full code sample we created throughout these sections and procedures.
+
+
+<BlockSwitcher>
+
+<CodeBlock name="Deployment target iOS 14">
+
+```swift
+import CoreLocation
+import AWSLocation
+import AWSMobileClient
+
+class LocationManagement: NSObject, CLLocationManagerDelegate, AWSLocationTrackerDelegate {
+    func requestLocation() {
+        locationManager.requestLocation()
+    }
+    
+    let locationManager = CLLocationManager()
+    let locationTracker = AWSLocationTracker(trackerName: "MyTracker",
+                                             region: AWSRegionType.[UPDATE_ME],
+                                             credentialsProvider: AWSMobileClient.default())
+    
+    override init() {
+        super.init()
+        requestUserLocation()
+    }
+    
+    func requestUserLocation() {
+        // Set delegate before requesting for authorization
+        locationManager.delegate = self
+        // You can request for `WhenInUse` or `Always` depending on your use case
+        locationManager.requestWhenInUseAuthorization()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status {
+        case .authorizedWhenInUse:
+            print("Received authorization of user location, requesting for location")
+            let result = locationTracker.startTracking(
+                delegate: self,
+                options: TrackerOptions(
+                    customDeviceId: "12345",
+                    retrieveLocationFrequency: TimeInterval(30),
+                    emitLocationFrequency: TimeInterval(120)),
+                listener: onTrackingEvent)
+            switch result {
+            case .success:
+                print("Tracking started successfully")
+            case .failure(let trackingError):
+                switch trackingError.errorType {
+                case .invalidTrackerName, .trackerAlreadyStarted, .unauthorized:
+                    print("onFailedToStart \(trackingError)")
+                case .serviceError(let serviceError):
+                    print("onFailedToStart serviceError: \(serviceError)")
+                }
+            }
+        default:
+            print("Failed to authorize")
+        }
+    }
+    func onTrackingEvent(event: TrackingListener) {
+        switch event {
+        case .onDataPublished(let trackingPublishedEvent):
+            print("onDataPublished: \(trackingPublishedEvent)")
+        case .onDataPublicationError(let error):
+            switch error.errorType {
+            case .invalidTrackerName, .trackerAlreadyStarted, .unauthorized:
+                print("onDataPublicationError \(error)")
+            case .serviceError(let serviceError):
+                print("onDataPublicationError serviceError: \(serviceError)")
+            }
+        case .onStop:
+            print("tracker stopped")
+        }
+    }
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("Got locations: \(locations)")
+        locationTracker.interceptLocationsRetrieved(locations)
+    }
+    
+    // Error handling is required as part of developing using CLLocation
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        if let clErr = error as? CLError {
+            switch clErr {
+            case CLError.locationUnknown:
+                print("location unknown")
+            case CLError.denied:
+                print("denied")
+            default:
+                print("other Core Location error")
+            }
+        } else {
+            print("other error:", error.localizedDescription)
+        }
+    }
+    func stopTracking() {
+        locationTracker.stopTracking()
+    }
+    
+    func isTracking() -> Bool {
+        locationTracker.isTracking()
+    }
+}
+```
+
+</CodeBlock>
+<CodeBlock name="Deployment target iOS 13">
+
+```swift
+import CoreLocation
+import AWSLocation
+import AWSMobileClient
+
+class LocationManagement: NSObject,
+                          ObservableObject,
+                          CLLocationManagerDelegate,
+                          AWSLocationTrackerDelegate {
+    func requestLocation() {
+        locationManager.requestLocation()
+    }
+    
+    let locationManager = CLLocationManager()
+    let locationTracker = AWSLocationTracker(trackerName: "TrackerExample",
+                                             region: AWSRegionType.USEast1,
+                                             credentialsProvider: AWSMobileClient.default())
+    override init() {
+        super.init()
+        requestUserLocation()
+    }
+    
+    func requestUserLocation() {
+        // Set delegate before requesting for authorization
+        locationManager.delegate = self
+        // You can request for `WhenInUse` or `Always` depending on your use case
+        locationManager.requestWhenInUseAuthorization()
+    }
+    
+    func onTrackingEvent(event: TrackingListener) {
+        switch event {
+        case .onDataPublished(let trackingPublishedEvent):
+            print("onDataPublished: \(trackingPublishedEvent)")
+        case .onDataPublicationError(let error):
+            switch error.errorType {
+            case .invalidTrackerName, .trackerAlreadyStarted, .unauthorized:
+                print("onDataPublicationError \(error)")
+            case .serviceError(let serviceError):
+                print("onDataPublicationError serviceError: \(serviceError)")
+            }
+        case .onStop:
+            print("tracker stopped")
+        }
+    }
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        switch manager.authorizationStatus {
+        case .authorizedWhenInUse:
+            print("Received authorization of user location, requesting for location")
+            let result = locationTracker.startTracking(
+                delegate: self,
+                options: TrackerOptions(
+                    customDeviceId: "12345",
+                    retrieveLocationFrequency: TimeInterval(30),
+                    emitLocationFrequency: TimeInterval(120)),
+                listener: onTrackingEvent)
+            switch result {
+            case .success:
+                print("Tracking started successfully")
+            case .failure(let trackingError):
+                switch trackingError.errorType {
+                case .invalidTrackerName, .trackerAlreadyStarted, .unauthorized:
+                    print("onFailedToStart \(trackingError)")
+                case .serviceError(let serviceError):
+                    print("onFailedToStart serviceError: \(serviceError)")
+                }
+            }
+        default:
+            print("Failed to authorize")
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("Got locations: \(locations)")
+        locationTracker.interceptLocationsRetrieved(locations)
+    }
+    
+    // Error handling is required as part of developing using CLLocation
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        if let clErr = error as? CLError {
+            switch clErr {
+            case CLError.locationUnknown:
+                print("location unknown")
+            case CLError.denied:
+                print("denied")
+            default:
+                print("other Core Location error")
+            }
+        } else {
+            print("other error:", error.localizedDescription)
+        }
+    }
+    func stopTracking() {
+        locationTracker.stopTracking()
+    }
+    
+    func isTracking() -> Bool {
+        locationTracker.isTracking()
+    }
+}
+```
+
+</CodeBlock>
+</BlockSwitcher>

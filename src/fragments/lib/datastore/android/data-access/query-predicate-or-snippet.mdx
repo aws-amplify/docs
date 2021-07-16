@@ -1,0 +1,64 @@
+<BlockSwitcher>
+<CodeBlock name="Java">
+
+```java
+Amplify.DataStore.query(
+    Post.class,
+    Where.matches(Post.RATING.gt(4).or(Post.STATUS.eq(PostStatus.PUBLISHED))),
+    posts -> {
+        while (posts.hasNext()) {
+            Post post = posts.next();
+            Log.i("MyAmplifyApp", "Post: " +  post);
+        }
+    },
+    failure -> Log.e("MyAmplifyApp", "Query failed.", failure)
+);
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.DataStore.query(
+    Post.class, Where.matches(
+        Post.RATING.gt(4)
+            .or(Post.STATUS.eq(PostStatus.PUBLISHED))
+    ),
+    { posts ->
+        while (posts.hasNext()) {
+            val post = posts.next()
+            Log.i("MyAmplifyApp", "Post: $post")
+        }
+    },
+    { Log.e("MyAmplifyApp", "Query failed", it) }
+)
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+Amplify.DataStore
+    .query(Post::class,
+        Where.matches(Post.RATING.gt(4)
+            .or(Post.STATUS.eq(PostStatus.PUBLISHED)))
+    )
+    .catch { Log.e("MyAmplifyApp", "Query failed", it) }
+    .collect { Log.i("MyAmplifyApp", "Post: $it") }
+```
+
+</CodeBlock>
+<CodeBlock name="RxJava">
+
+```java
+RxAmplify.DataStore.query(
+    Post.class,
+    Where.matches(Post.RATING.gt(4).or(Post.STATUS.eq(PostStatus.PUBLISHED))))
+    .subscribe(
+        post -> Log.i("MyAmplifyApp", "Post: " +  post),
+        failure -> Log.e("MyAmplifyApp", "Query failed.", failure)
+    );
+```
+
+</CodeBlock>
+</BlockSwitcher>

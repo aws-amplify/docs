@@ -1,0 +1,73 @@
+## Migration
+
+To migrate from the legacy chatbot component to the latest chatbot component, use the steps below:
+
+
+
+import all3a865f14dc96f1c80167f6bc6c6f9f66 from "/src/fragments/ui/web/installation-diff.mdx";
+
+<Fragments fragments={{all: all3a865f14dc96f1c80167f6bc6c6f9f66}} />
+
+### Usage
+
+<FilterContent framework="react">
+
+```diff
+- import { ChatBot } from 'aws-amplify-react';
++ import { AmplifyChatbot } from '@aws-amplify/ui-react';
+
+const App = () => (
+
++ <AmplifyChatbot botName="yourBotName" />
+- <ChatBot botName="yourBotName" />
+
+);
+```
+
+If you were using `onComplete` prop previously, you need to use `eventListener` [described above](/ui/interactions/chatbot.md#listening-to-chat-fulfillment).
+
+</FilterContent>
+
+<FilterContent framework="angular">
+
+
+
+import allb7d733eac6e1bfeb9862d62c8d1bed3f from "/src/fragments/ui/angular/configure-module-diff.mdx";
+
+<Fragments fragments={{all: allb7d733eac6e1bfeb9862d62c8d1bed3f}} />
+
+_app.component.html_
+
+```diff
++ <amplify-chatbot bot-name="yourBotName"></amplify-chatbot>
+- <amplify-interactions bot="yourBotName"/></amplify-interactions>
+```
+
+</FilterContent>
+
+<FilterContent framework="ionic">
+
+
+
+import allb7d733eac6e1bfeb9862d62c8d1bed3f from "/src/fragments/ui/angular/configure-module-diff.mdx";
+
+<Fragments fragments={{all: allb7d733eac6e1bfeb9862d62c8d1bed3f}} />
+
+_app.component.html_
+
+```diff
++ <amplify-chatbot bot-name="yourBotName"></amplify-chatbot>
+- <amplify-interactions framework="Ionic" bot="yourBotName"></amplify-interactions>
+```
+
+</FilterContent>
+
+<FilterContent framework="vue">
+
+
+
+import alle3645ab5cca774f21a99a2642c334466 from "/src/fragments/ui/vue/configure-app-diff.mdx";
+
+<Fragments fragments={{all: alle3645ab5cca774f21a99a2642c334466}} />
+
+</FilterContent>

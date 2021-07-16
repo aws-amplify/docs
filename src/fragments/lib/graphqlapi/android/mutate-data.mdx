@@ -1,0 +1,64 @@
+## Run a mutation
+
+Now that the client is set up, you can run a GraphQL mutation with `Amplify.API.mutate` to create, update, and delete your data.
+
+<BlockSwitcher>
+<CodeBlock name="Java">
+
+```java
+Todo todo = Todo.builder()
+    .name("My todo")
+    .build();
+
+Amplify.API.mutate(ModelMutation.create(todo),
+    response -> Log.i("MyAmplifyApp", "Todo with id: " + response.getData().getId()),
+    error -> Log.e("MyAmplifyApp", "Create failed", error)
+);
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Callbacks">
+
+```kotlin
+val todo = Todo.builder()
+    .name("My todo")
+    .build()
+
+Amplify.API.mutate(ModelMutation.create(todo),
+    { Log.i("MyAmplifyApp", "Todo with id: ${it.data.id}") }
+    { Log.e("MyAmplifyApp", "Create failed", it) }
+)
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+val todo = Todo.builder()
+    .name("My todo")
+    .build()
+try {
+    val response = Amplify.API.mutate(ModelMutation.create(todo))
+    Log.i("MyAmplifyApp", "Todo with id: ${response.data.id}")
+} catch (error: ApiException) {
+    Log.e("MyAmplifyApp", "Create failed", error)
+}
+```
+
+</CodeBlock>
+<CodeBlock name="RxJava">
+
+```java
+Todo todo = Todo.builder()
+        .name("My todo")
+        .build();
+
+RxAmplify.API.mutate(ModelMutation.create(todo))
+        .subscribe(
+            response -> Log.i("MyAmplifyApp", "Todo with id: " + response.getData().getId()),
+            error -> Log.e("MyAmplifyApp", "Create failed", error)
+        );
+```
+
+</CodeBlock>
+</BlockSwitcher>

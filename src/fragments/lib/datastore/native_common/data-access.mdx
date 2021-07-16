@@ -1,0 +1,237 @@
+
+
+
+import js43f312a7442daba0fd881ab6bccbd627 from "/src/fragments/lib/datastore/js/data-access/importing-datastore-snippet.mdx";
+
+<Fragments fragments={{js: js43f312a7442daba0fd881ab6bccbd627}} />
+
+## Create and update
+
+To write data to the DataStore, pass an instance of a model to `Amplify.DataStore.save()`:
+
+
+
+import js86472106df20147435d85c74eadd0a81 from "/src/fragments/lib/datastore/js/data-access/save-snippet.mdx";
+
+<Fragments fragments={{js: js86472106df20147435d85c74eadd0a81}} />
+
+
+import ios7f04b30f422d89c2eab2636ba7cb3b8d from "/src/fragments/lib/datastore/ios/data-access/save-snippet.mdx";
+
+<Fragments fragments={{ios: ios7f04b30f422d89c2eab2636ba7cb3b8d}} />
+
+
+import android51df8a091cd7e02fc1744335fe879a68 from "/src/fragments/lib/datastore/android/data-access/save-snippet.mdx";
+
+<Fragments fragments={{android: android51df8a091cd7e02fc1744335fe879a68}} />
+
+
+import flutter9daffe1e374888b69860554d2eed87c3 from "/src/fragments/lib/datastore/flutter/data-access/save-snippet.mdx";
+
+<Fragments fragments={{flutter: flutter9daffe1e374888b69860554d2eed87c3}} />
+
+The `save` method creates a new record, or in the event that one already exists in the local store, it updates the record.
+
+
+
+import js53e9e69b20a37ce6c65be449d8883f8a from "/src/fragments/lib/datastore/js/data-access/update-snippet.mdx";
+
+<Fragments fragments={{js: js53e9e69b20a37ce6c65be449d8883f8a}} />
+
+
+import ios6c21f7f97b55aa75dc0fc00d5fb30a1e from "/src/fragments/lib/datastore/ios/data-access/update-snippet.mdx";
+
+<Fragments fragments={{ios: ios6c21f7f97b55aa75dc0fc00d5fb30a1e}} />
+
+
+import androidb665fad2d5f015f5c1f284a6f877735f from "/src/fragments/lib/datastore/android/data-access/update-snippet.mdx";
+
+<Fragments fragments={{android: androidb665fad2d5f015f5c1f284a6f877735f}} />
+
+
+import flutter27c6c0d6eff6b2293acabe7e620194ab from "/src/fragments/lib/datastore/flutter/data-access/update-snippet.mdx";
+
+<Fragments fragments={{flutter: flutter27c6c0d6eff6b2293acabe7e620194ab}} />
+
+## Delete
+
+To delete an item simply pass in an instance.
+
+
+
+import jsa5e609f530b3020f07fd29d76318b443 from "/src/fragments/lib/datastore/js/data-access/delete-snippet.mdx";
+
+<Fragments fragments={{js: jsa5e609f530b3020f07fd29d76318b443}} />
+
+
+import ios5f6a5c880d6bc6e8adb6d4ef9b45ddd4 from "/src/fragments/lib/datastore/ios/data-access/delete-snippet.mdx";
+
+<Fragments fragments={{ios: ios5f6a5c880d6bc6e8adb6d4ef9b45ddd4}} />
+
+
+import android97ff682d1343490550eb7e90b15dd684 from "/src/fragments/lib/datastore/android/data-access/delete-snippet.mdx";
+
+<Fragments fragments={{android: android97ff682d1343490550eb7e90b15dd684}} />
+
+
+import flutterb2674857b6377b799e040c3e5448f814 from "/src/fragments/lib/datastore/flutter/data-access/delete-snippet.mdx";
+
+<Fragments fragments={{flutter: flutterb2674857b6377b799e040c3e5448f814}} />
+
+## Query Data
+
+Queries are performed against the _local store_. When cloud synchronization is enabled, the local store is updated in the background by the DataStore Sync Engine.
+
+For more advanced filtering, such as matching arbitrary field values on an object, you can supply a query predicate.
+
+
+
+import jsb808ad7136fdb78d17f59b46e9003cb4 from "/src/fragments/lib/datastore/js/data-access/query-basic-snippet.mdx";
+
+<Fragments fragments={{js: jsb808ad7136fdb78d17f59b46e9003cb4}} />
+
+
+import ios3ccbdc9735b4895a20fe026726061bf8 from "/src/fragments/lib/datastore/ios/data-access/query-basic-snippet.mdx";
+
+<Fragments fragments={{ios: ios3ccbdc9735b4895a20fe026726061bf8}} />
+
+
+import androide0af48bf7fe4e7ace0faa62bb1fc989b from "/src/fragments/lib/datastore/android/data-access/query-basic-snippet.mdx";
+
+<Fragments fragments={{android: androide0af48bf7fe4e7ace0faa62bb1fc989b}} />
+
+
+import flutter5f2d8bf3ca4b4c792828b5101dd55435 from "/src/fragments/lib/datastore/flutter/data-access/query-basic-snippet.mdx";
+
+<Fragments fragments={{flutter: flutter5f2d8bf3ca4b4c792828b5101dd55435}} />
+
+
+
+import jsc0acd0b13cb969fbcae8f5fd33a0a997 from "/src/fragments/lib/datastore/js/data-access/query-single-item-snippet.mdx";
+
+<Fragments fragments={{js: jsc0acd0b13cb969fbcae8f5fd33a0a997}} />
+
+### Predicates
+
+Predicates are filters that can be used to match items in the DataStore. When applied to a query(), they constrain the returned results. When applied to a save(), they act as a pre-requisite for updating the data. You can match against fields in your schema by using the following predicates:
+
+**Strings:** `eq | ne | le | lt | ge | gt | contains | notContains | beginsWith | between`
+
+**Numbers:** `eq | ne | le | lt | ge | gt | between`
+
+**Lists:** `contains | notContains`
+
+For example if you wanted a list of all `Post` Models that have a `rating` greater than 4:
+
+
+
+import js2ee8472c6f5a14e6eaf99c4c322b1a21 from "/src/fragments/lib/datastore/js/data-access/query-predicate-snippet.mdx";
+
+<Fragments fragments={{js: js2ee8472c6f5a14e6eaf99c4c322b1a21}} />
+
+
+import iosa78632864efc97f89d6280dd13d7452e from "/src/fragments/lib/datastore/ios/data-access/query-predicate-snippet.mdx";
+
+<Fragments fragments={{ios: iosa78632864efc97f89d6280dd13d7452e}} />
+
+
+import androida6a8d14afcd8282df471ebb2bfb5e149 from "/src/fragments/lib/datastore/android/data-access/query-predicate-snippet.mdx";
+
+<Fragments fragments={{android: androida6a8d14afcd8282df471ebb2bfb5e149}} />
+
+
+import fluttera91b6566263109e40b7d856753938be8 from "/src/fragments/lib/datastore/flutter/data-access/query-predicate-snippet.mdx";
+
+<Fragments fragments={{flutter: fluttera91b6566263109e40b7d856753938be8}} />
+
+Multiple conditions can also be used, like the ones defined in [GraphQL Transform condition statements](/cli/graphql-transformer/resolvers). For example, fetch all posts that has a rating greater than `4` and are `PUBLISHED`:
+
+
+
+import jsb8ed95706e4977e3b6f6a6e4300d386e from "/src/fragments/lib/datastore/js/data-access/query-predicate-multiple-snippet.mdx";
+
+<Fragments fragments={{js: jsb8ed95706e4977e3b6f6a6e4300d386e}} />
+
+
+import ios53d7a975ea8deb5be3cc7ef62a97ce28 from "/src/fragments/lib/datastore/ios/data-access/query-predicate-multiple-snippet.mdx";
+
+<Fragments fragments={{ios: ios53d7a975ea8deb5be3cc7ef62a97ce28}} />
+
+
+import android6124b010915e5871364e4703fded52c8 from "/src/fragments/lib/datastore/android/data-access/query-predicate-multiple-snippet.mdx";
+
+<Fragments fragments={{android: android6124b010915e5871364e4703fded52c8}} />
+
+
+import flutter3488540bcfa198365d31162942a58f34 from "/src/fragments/lib/datastore/flutter/data-access/query-predicate-multiple-snippet.mdx";
+
+<Fragments fragments={{flutter: flutter3488540bcfa198365d31162942a58f34}} />
+
+Alternatively, the `or` logical operator can also be used:
+
+
+
+import js58e3e2dfe1b358880741b287ca589559 from "/src/fragments/lib/datastore/js/data-access/query-predicate-or-snippet.mdx";
+
+<Fragments fragments={{js: js58e3e2dfe1b358880741b287ca589559}} />
+
+
+import iosfae5323f9856845f19018633c1c1d310 from "/src/fragments/lib/datastore/ios/data-access/query-predicate-or-snippet.mdx";
+
+<Fragments fragments={{ios: iosfae5323f9856845f19018633c1c1d310}} />
+
+
+import android616c4d9dbb23fcf1ef410bfaa5cc0c57 from "/src/fragments/lib/datastore/android/data-access/query-predicate-or-snippet.mdx";
+
+<Fragments fragments={{android: android616c4d9dbb23fcf1ef410bfaa5cc0c57}} />
+
+
+import flutteree07b4d5fbb4b8a1aad7ed54e2ae52ca from "/src/fragments/lib/datastore/flutter/data-access/query-predicate-or-snippet.mdx";
+
+<Fragments fragments={{flutter: flutteree07b4d5fbb4b8a1aad7ed54e2ae52ca}} />
+
+
+
+import jsf3b256dd019baa496d3806d56fb7dc2d from "/src/fragments/lib/datastore/native_common/sort.mdx";
+
+<Fragments fragments={{js: jsf3b256dd019baa496d3806d56fb7dc2d}} />
+
+
+import iosf3b256dd019baa496d3806d56fb7dc2d from "/src/fragments/lib/datastore/native_common/sort.mdx";
+
+<Fragments fragments={{ios: iosf3b256dd019baa496d3806d56fb7dc2d}} />
+
+
+import androidf3b256dd019baa496d3806d56fb7dc2d from "/src/fragments/lib/datastore/native_common/sort.mdx";
+
+<Fragments fragments={{android: androidf3b256dd019baa496d3806d56fb7dc2d}} />
+
+
+import flutterf3b256dd019baa496d3806d56fb7dc2d from "/src/fragments/lib/datastore/native_common/sort.mdx";
+
+<Fragments fragments={{flutter: flutterf3b256dd019baa496d3806d56fb7dc2d}} />
+
+### Pagination
+
+Query results can also be paginated by passing in a `page` number (starting at 0) and an optional `limit` (defaults to 100). This will return a list of the first 100 items:
+
+
+
+import js646bbb7d4ba39e48d00f66a221638a99 from "/src/fragments/lib/datastore/js/data-access/query-pagination-snippet.mdx";
+
+<Fragments fragments={{js: js646bbb7d4ba39e48d00f66a221638a99}} />
+
+
+import ios462fef74a43dda04b6e8a3595c825ab1 from "/src/fragments/lib/datastore/ios/data-access/query-pagination-snippet.mdx";
+
+<Fragments fragments={{ios: ios462fef74a43dda04b6e8a3595c825ab1}} />
+
+
+import android21abfacb2339836a49182555f0fe6e10 from "/src/fragments/lib/datastore/android/data-access/query-pagination-snippet.mdx";
+
+<Fragments fragments={{android: android21abfacb2339836a49182555f0fe6e10}} />
+
+
+import fluttera3dc3735261778ca96d8e7fb918fb752 from "/src/fragments/lib/datastore/flutter/data-access/query-pagination-snippet.mdx";
+
+<Fragments fragments={{flutter: fluttera3dc3735261778ca96d8e7fb918fb752}} />

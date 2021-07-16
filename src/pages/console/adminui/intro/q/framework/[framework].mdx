@@ -1,0 +1,53 @@
+export const meta = {
+  title: "Introduction",
+  description: "Introduction to Admin UI",
+};
+
+
+
+The Amplify Admin UI is a visual interface for frontend web and mobile developers to develop app backends and manage app content outside the AWS Management Console. Teams can use the Admin UI to create and manage enterprise-ready, scalable, and secure cloud backends for their apps. 
+
+<InternalLinkButton href="~/console/adminui/start.md">
+  <span slot="text">Get started with the Admin UI</span>
+</InternalLinkButton>
+
+## Key capabilities
+
+### Access outside the AWS Management Console
+
+The Admin UI provides a visual interface to manage your app backend that is hosted externally, outside the AWS Management Console. It provides a contextual view of your Amplify app backend and enables access to developers and non-developers (such as QA testers, and PMs) to manage app content and to users without creating AWS Identity and Access Management (IAM) users. Each Admin UI is hosted at `https://region.admin.amplifyapp.com/appid/envname`.
+
+![adminui](/images/console/adminui.png)
+
+### Admin UI and CLI access without an AWS account
+
+Only the *first* backend deployment to Amplify Console requires an AWS account. After that, you can invite team members to use the Admin UI and the Amplify Command Line Interface (CLI) via email. All Admin UI users with full access can use the Amplify CLI without an AWS account.
+
+![access](/images/console/access.png)
+
+### Visual data modeling
+
+The Admin UI's data model designer enables you to build a backend by focusing on your domain specifics (for example, a product with a descriptions and price), relationships (for example, products have many orders), and authorization rules (for example, only signed in users can order a product) instead of setting up database tables, and APIs.
+
+![datamodel](/images/console/datamodel.gif)
+
+### Content management
+
+After deploying your data model, all app data is available in the Admin UI's content management view. This enables app admins to manage content, for example, to update a product price or add a new blog post.
+
+![cms](/images/console/cms.png)
+
+### Authentication, authorization, and user management
+
+Set up authentication (powered by Amazon Cognito) by defining login methods and sign-up attributes. After you deploy authentication, you can create users, add users to groups, and view login activity. Use your Amazon Cognito user pool to define authorization rules on your data model.
+
+![auth](/images/console/auth.png)
+
+
+### Infrastructure-as-code that works with the Amplify CLI
+
+The Admin UI uses AWS CloudFormation and nested stacks to deploy backend resources. These AWS CloudFormation stacks enable you to keep your backend infrastructure definition as code. You can pull all stack definitions locally using the Amplify CLI. Changes made in the Admin UI can be made available in the CLI by running the `amplify pull` command. Similarly, changes made to the data model or auth using the Amplify CLI are visible in the Admin UI.
+
+
+
+

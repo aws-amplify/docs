@@ -1,0 +1,68 @@
+<BlockSwitcher>
+<CodeBlock name="Java">
+
+```java
+Post post = Post.builder()
+    .title("My First Post")
+    .rating(10)
+    .status(PostStatus.PUBLISHED)
+    .build();
+
+Amplify.DataStore.save(post,
+    saved -> Log.i("MyAmplifyApp", "Saved a post."),
+    failure -> Log.e("MyAmplifyApp", "Save failed.", failure)
+);
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Callbacks">
+
+```kotlin
+val post = Post.builder()
+    .title("My First Post")
+    .rating(10)
+    .status(PostStatus.PUBLISHED)
+    .build()
+
+Amplify.DataStore.save(post,
+    { Log.i("MyAmplifyApp", "Saved a post") },
+    { Log.e("MyAmplifyApp", "Save failed", it) }
+)
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+val post = Post.builder()
+    .title("My First Post")
+    .rating(10)
+    .status(PostStatus.PUBLISHED)
+    .build()
+try {
+    Amplify.DataStore.save(post)
+    Log.i("MyAmplifyApp", "Saved a post.")
+} catch (error: DataStoreException) {
+    Log.e("MyAmplifyApp", "Save failed.", error)
+}
+```
+
+</CodeBlock>
+<CodeBlock name="RxJava">
+
+```java
+Post post = Post.builder()
+    .title("My First Post")
+    .rating(10)
+    .status(PostStatus.PUBLISHED)
+    .build();
+
+RxAmplify.DataStore.save(post)
+    .subscribe(
+        () -> Log.i("MyAmplifyApp", "Saved a post."),
+        failure -> Log.e("MyAmplifyApp", "Save failed.", failure)
+    );
+```
+
+</CodeBlock>
+</BlockSwitcher>

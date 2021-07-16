@@ -1,0 +1,29 @@
+export const meta = {
+  title: "Overview",
+  description: "Use Amplify CLI's simple guided workflow to add REST APIs to cloud-based web and mobile apps.",
+};
+
+
+
+The Amplify CLI provides a guided workflow to easily add, develop, test and manage REST APIs to access your AWS resources from your web and mobile applications.
+
+A REST API or HTTP endpoint will be composed by one or more paths. Eg: `/items`. Each path will use a Lambda function to handle HTTP requests and responses. Amplify CLI creates a single resource in Amazon API Gateway so you can handle all routes, HTTP Methods and paths, with a single Lambda function via a Lambda Proxy integration. HTTP proxy integrations forward all requests and responses directly through to your HTTP endpoint.
+
+Amplify CLI let's you choose either an existing Lambda function or create a new one. To kickstart your implementation, you can choose between the following templates:
+
+- Serverless ExpressJS function
+- CRUD function for DynamoDB
+
+> Lambda templates use [serverless-express](https://github.com/awslabs/aws-serverless-express) and provide the building blocks to start your REST API development.
+
+> See the list of all [supported Lambda runtimes](/cli/function/function).
+
+Amplify CLI allows you to restrict REST API access to
+
+- Only authenticated users; or
+- Authenticated and Guest users
+
+See a description of these user types below
+
+| User type | Description |
+|

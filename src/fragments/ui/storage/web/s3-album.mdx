@@ -1,0 +1,157 @@
+
+
+import all1219ae6245488d553a275b2713267bbb from "/src/fragments/ui/web/installation.mdx";
+
+<Fragments fragments={{all: all1219ae6245488d553a275b2713267bbb}} />
+
+## Usage
+
+<FilterContent framework="react">
+
+```jsx
+import React from "react";
+import Amplify from "aws-amplify";
+import {AmplifyS3Album} from "@aws-amplify/ui-react";
+import awsconfig from "./aws-exports";
+
+Amplify.configure(awsconfig);
+
+const App = () => <AmplifyS3Album />;
+```
+
+</FilterContent>
+
+<FilterContent framework="angular">
+
+
+
+import all86f02cec13b39ea11ae8d99fe30dc194 from "/src/fragments/ui/angular/configure-module.mdx";
+
+<Fragments fragments={{all: all86f02cec13b39ea11ae8d99fe30dc194}} />
+
+_app.component.html_
+
+```html
+<amplify-s3-album></amplify-s3-album>
+```
+
+</FilterContent>
+
+<FilterContent framework="ionic">
+
+
+
+import all86f02cec13b39ea11ae8d99fe30dc194 from "/src/fragments/ui/angular/configure-module.mdx";
+
+<Fragments fragments={{all: all86f02cec13b39ea11ae8d99fe30dc194}} />
+
+_app.component.html_
+
+```html
+<amplify-s3-album></amplify-s3-album>
+```
+
+</FilterContent>
+
+<FilterContent framework="vue">
+
+
+
+import allfee60e7581f29c6e246c43c3b1b6218f from "/src/fragments/ui/vue/configure-app.mdx";
+
+<Fragments fragments={{all: allfee60e7581f29c6e246c43c3b1b6218f}} />
+
+_App.vue_
+
+```html
+<template>
+  <amplify-s3-album />
+</template>
+```
+
+</FilterContent>
+
+<ui-component-props tag="amplify-s3-album" prop-type="attr" use-table-headers></ui-component-props>
+
+<ui-component-props tag="amplify-s3-album" prop-type="css" use-table-headers></ui-component-props>
+
+## Migration
+
+To migrate from using the `aws-amplify-<framework>` library to the latest `@aws-amplify/ui-<framework>` library use the steps below:
+
+
+
+import all3a865f14dc96f1c80167f6bc6c6f9f66 from "/src/fragments/ui/web/installation-diff.mdx";
+
+<Fragments fragments={{all: all3a865f14dc96f1c80167f6bc6c6f9f66}} />
+
+### Usage
+
+<FilterContent framework="react">
+
+```diff
+- import { S3Album } from 'aws-amplify-react';
++ import { AmplifyS3Album } from '@aws-amplify/ui-react';
+
+const App = () => (
+
++ <AmplifyS3Album />
+- <S3Album />
+
+);
+```
+
+</FilterContent>
+
+<FilterContent framework="angular">
+
+
+
+import allb7d733eac6e1bfeb9862d62c8d1bed3f from "/src/fragments/ui/angular/configure-module-diff.mdx";
+
+<Fragments fragments={{all: allb7d733eac6e1bfeb9862d62c8d1bed3f}} />
+
+_app.component.html_
+
+```diff
++ <amplify-s3-album></amplify-s3-album>
+- <s3-album></s3-album>
+```
+
+</FilterContent>
+
+<FilterContent framework="ionic">
+
+
+
+import allb7d733eac6e1bfeb9862d62c8d1bed3f from "/src/fragments/ui/angular/configure-module-diff.mdx";
+
+<Fragments fragments={{all: allb7d733eac6e1bfeb9862d62c8d1bed3f}} />
+
+_app.component.html_
+
+```diff
++ <amplify-s3-album></amplify-s3-album>
+- <s3-album></s3-album>
+```
+
+</FilterContent>
+
+<FilterContent framework="vue">
+
+
+
+import alle3645ab5cca774f21a99a2642c334466 from "/src/fragments/ui/vue/configure-app-diff.mdx";
+
+<Fragments fragments={{all: alle3645ab5cca774f21a99a2642c334466}} />
+
+_App.vue_
+
+```diff
+ <template>
+- <s3-album />
++ <amplify-s3-album />
+ </template>
+```
+
+</FilterContent>

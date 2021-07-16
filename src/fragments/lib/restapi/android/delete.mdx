@@ -1,0 +1,62 @@
+## DELETE requests
+
+<BlockSwitcher>
+<CodeBlock name="Java">
+
+```java
+RestOptions options = RestOptions.builder()
+    .addPath("/todo/1")
+    .build();
+
+Amplify.API.delete(options,
+    response -> Log.i("MyAmplifyApp", "DELETE succeeded: " + response),
+    error -> Log.e("MyAmplifyApp", "DELETE failed.", error)
+);
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Callbacks">
+
+```kotlin
+val options = RestOptions.builder()
+    .addPath("/todo/1")
+    .build()
+
+Amplify.API.delete(options,
+    { Log.i("MyAmplifyApp", "DELETE succeeded: $it") },
+    { Log.e("MyAmplifyApp", "DELETE failed.", it) }
+)
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+val request = RestOptions.builder()
+    .addPath("/todo/1")
+    .build()
+try {
+    val response = Amplify.API.delete(request)
+    Log.i("MyAmplifyApp", "DELETE succeeded: $response")
+} catch (error: ApiException) {
+    Log.e("MyAmplifyApp", "DELETE failed", error)
+}
+```
+
+</CodeBlock>
+<CodeBlock name="RxJava">
+
+```java
+RestOptions options = RestOptions.builder()
+    .addPath("/todo/1")
+    .build();
+
+RxAmplify.API.delete(options)
+    .subscribe(
+        response -> Log.i("MyAmplifyApp", "DELETE succeeded: " + response),
+        error -> Log.e("MyAmplifyApp", "DELETE failed.", error)
+    );
+```
+
+</CodeBlock>
+</BlockSwitcher>

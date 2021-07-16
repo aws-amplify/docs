@@ -1,0 +1,147 @@
+When determining the authorization mode for your REST endpoint, there are a few built in options and customizations you can do.
+
+## IAM Authorization
+
+By default, the API will be using IAM authorization and the requests will be signed for you automatically. IAM authorization has two modes: one using an **unauthenticated** role, and one using an **authenticated** role. When the user has not signed in through `Amplify.Auth.signIn`, the unauthenticated role is used by default. Once the user has signed in, the authenticate role is used, instead.
+
+When you created your REST API with the Amplify CLI, you were asked if you wanted to restrict access. If you selected **no**, then the unauthenticated role will have access to the API. If you selected **yes**, you would have configured more fine grain access to your API.
+
+### Unauthenticated Requests
+
+You can use the API category to access API Gateway endpoints that don't require authentication. In this case, you need to allow unauthenticated identities in your Amazon Cognito Identity Pool settings. For more information, please visit [Amazon Cognito Developer Documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html#enable-or-disable-unauthenticated-identities).
+
+When your API is configured to use IAM as the authorization type, your requests will automatically have IAM credentials added to the headers of outgoing requests. You can verify that IAM is being used as the authorization type by inspecting the `authorizationType` associated with your API in `amplifyconfiguration.json`:
+
+```json
+{
+    "awsAPIPlugin": {
+        "<YOUR-RESTENDPOINT-NAME>": {
+            "endpointType": "REST",
+            "endpoint": "YOUR-REST-ENDPOINT",
+            "region": "us-west-2",
+            "authorizationType": "AWS_IAM"
+        }
+    }
+}
+```
+
+## API Key
+
+If you want to configure a public REST API, you can set an API key in Amazon API Gateway. Then, update your `amplifyconfiguration.json` to reference it.  The value associated to the `"authorizationType"` key should be `"API_KEY"`.  Also include a `"API_KEY"` as a key, and set its value to whatever your configured in API Gateway.
+
+```json
+{
+    "awsAPIPlugin": {
+        "<YOUR-RESTENDPOINT-NAME>": {
+            "endpointType": "REST",
+            "endpoint": "YOUR-REST-ENDPOINT",
+            "region": "us-west-2",
+            "authorizationType": "API_KEY",
+            "API_KEY": "YOUR_API_KEY"
+        }
+    }
+}
+```
+
+## Cognito User pool authorization
+
+If you set up the API Gateway with a custom authorization with a Cognito User pool, then you can set the `amplifyconfiguration.json` to use `AMAZON_COGNITO_USER_POOLS `. 
+
+```json
+{
+    "awsAPIPlugin": {
+        "<YOUR-RESTENDPOINT-NAME>": {
+            "endpointType": "REST",
+            "endpoint": "YOUR-REST-ENDPOINT",
+            "region": "us-west-2",
+            "authorizationType": "AMAZON_COGNITO_USER_POOLS"
+        }
+    }
+}
+```
+
+Your `amplifyconfiguration.json` should contain Cognito configuration in the `awsCognitoAuthPlugin` block, including details about your Cognito user pool:
+```json
+{
+    "CognitoUserPool": {
+        "Default": {
+            "PoolId": "YOUR-POOL-ID",
+            "AppClientId": "YOUR-APP-CLIENT-ID",
+            "AppClientSecret": "YOUR-APP-CLIENT-SECRET",
+            "Region": "us-east-1"
+        }
+    },
+    "CredentialsProvider": {
+        "CognitoIdentity": {
+            "Default": {
+                "PoolId": "YOUR-COGNITO-IDENTITY-POOLID",
+                "Region": "us-east-1"
+            }
+        }
+    }
+}
+```
+
+With this configuration, your access token will automatically be included in outbound requests to your API, as an `Authorization` header. For more details on how to configure the API Gateway with the custom authorization, see [this](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html)
+
+
+## OIDC
+
+If you are using a 3rd party OIDC provider you will need to configure it and manage the details of token refreshes yourself. Update the `amplifyconfiguration.json` file and code snippet as follows:
+
+```json
+{
+    ...
+    "awsAPIPlugin": {
+        "<YOUR-RESTENDPOINT-NAME": {
+            "endpointType": "GraphQL",
+            "endpoint": "[REST-ENDPOINT]",
+            "region": "[REGION]",
+            "authorizationType": "OPENID_CONNECT",
+        }
+    }
+}
+```
+
+
+
+import ios367317c2f5c3a3b899ca0728aaa5f2f3 from "/src/fragments/lib/graphqlapi/ios/authz/20_oidc.mdx";
+
+<Fragments fragments={{ios: ios367317c2f5c3a3b899ca0728aaa5f2f3}} />
+
+
+import android3d420ca8459326fcad7ca9aa11c04db6 from "/src/fragments/lib/graphqlapi/android/authz/20_oidc.mdx";
+
+<Fragments fragments={{android: android3d420ca8459326fcad7ca9aa11c04db6}} />
+
+### Note related to use Access Token or ID Token
+
+The Access Token contains scopes and groups and is used to grant access to authorized resources. [This is a tutorial for enabling custom scopes.](https://aws.amazon.com/premiumsupport/knowledge-center/cognito-custom-scopes-api-gateway/).
+
+The ID Token contains claims about the identity of the authenticated user such as name, email, and phone_number. It could have custom claims as well, for example using [Amplify CLI](https://docs.amplify.aws/cli/usage/lambda-triggers#override-id-token-claims).
+
+If you are using Cognito's user pool as the authorization type, this will by default retrieve and use the Access Token for your requests. If you would like to override this behavior and use the ID Token instead, you can treat Cognito user pool as your OIDC provider, set the authorization type to `OPENID_CONNECT` and use `Amplify.Auth` to retrieve the ID Token for your requests.
+
+
+
+import ios88754decf20a36e9e5615aab13981680 from "/src/fragments/lib/graphqlapi/ios/authz/21_oidc.mdx";
+
+<Fragments fragments={{ios: ios88754decf20a36e9e5615aab13981680}} />
+
+
+import androidf157de8f504092b5927338ffdfed6e82 from "/src/fragments/lib/graphqlapi/android/authz/21_oidc.mdx";
+
+<Fragments fragments={{android: androidf157de8f504092b5927338ffdfed6e82}} />
+
+## Customizing HTTP request headers
+
+To use custom headers on your HTTP request, you need to add these to Amazon API Gateway first. For more info about configuring headers, please visit [Amazon API Gateway Developer Guide](http://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-cors.html)
+
+If you used the Amplify CLI to create your API, you can enable custom headers by following these steps:  
+
+1. Visit [Amazon API Gateway console](https://aws.amazon.com/api-gateway/).
+3. On Amazon API Gateway console, click on the path you want to configure (e.g. /{proxy+})
+4. Then click the *Actions* dropdown menu and select **Enable CORS**
+5. Add your custom header (e.g. my-custom-header) on the text field Access-Control-Allow-Headers, separated by commas, like: 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,my-custom-header'.
+6. Click on 'Enable CORS and replace existing CORS headers' and confirm.
+7. Finally, similar to step 3, click the Actions drop-down menu and then select **Deploy API**. Select **Development** on deployment stage and then **Deploy**. (Deployment could take a couple of minutes).

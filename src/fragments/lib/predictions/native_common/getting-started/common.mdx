@@ -1,0 +1,129 @@
+The Predictions category enables you to integrate machine learning into your application without any prior machine learning experience. It supports translating text from one language to another, converting text to speech, text recognition from an image, entities recognition, labeling real world objects, interpretation of text, and uploading images for automatic training. This functionality is powered by AWS services including: [Amazon Translate](https://docs.aws.amazon.com/translate/latest/dg/what-is.html), [Amazon Polly](https://docs.aws.amazon.com/polly/latest/dg/what-is.html), [Amazon Transcribe](https://docs.aws.amazon.com/transcribe/latest/dg/what-is-transcribe.html), [Amazon Rekognition](https://docs.aws.amazon.com/rekognition/latest/dg/what-is.html), [Amazon Textract](https://docs.aws.amazon.com/textract/latest/dg/what-is.html), and [Amazon Comprehend](https://docs.aws.amazon.com/comprehend/latest/dg/what-is.html).
+
+
+
+import ios35e94aac68eb77df284a7c9387a0f8dc from "/src/fragments/lib/predictions/ios/getting-started/10_coreml.mdx";
+
+<Fragments fragments={{ios: ios35e94aac68eb77df284a7c9387a0f8dc}} />
+
+## Goal
+
+To setup and configure your application with Amplify Predictions and go through a simple example of translating text.
+
+## Prerequisites
+
+
+
+import ios4f4d933bc56b5b8a915f43c5c8a67e8b from "/src/fragments/lib/predictions/ios/getting-started/20_preReq.mdx";
+
+<Fragments fragments={{ios: ios4f4d933bc56b5b8a915f43c5c8a67e8b}} />
+
+
+import android64c05d2eae64054fd37e4159f5360f64 from "/src/fragments/lib/predictions/android/getting-started/20_preReq.mdx";
+
+<Fragments fragments={{android: android64c05d2eae64054fd37e4159f5360f64}} />
+
+## Provision Backend Services
+
+To use the predictions category we will need to setup the auth backend resources.  To provision auth resources in the backend, go to your project directory and **execute the command**:
+
+```bash
+amplify add predictions
+```
+
+Enter the following when prompted:
+
+```console
+? Please select from one of the categories below
+    `Convert`
+? You need to add auth (Amazon Cognito) to your project in order to add storage for user files. Do you want to add auth now? (Y/n) 
+    `Y`
+? Do you want to use the default authentication and security configuration?
+    `Default configuration`
+? How do you want users to be able to sign in?
+    `Email`
+? Do you want to configure advanced settings?
+    `No, I am done.`
+? What would you like to convert?
+    `Translate text into a different language`
+? Provide a friendly name for your resource
+    `transTextSample`
+? What is the source language?
+    `English`
+? What is the target language?
+    `Italian`
+? Who should have access?
+    ` Auth and Guest users`
+```
+
+Note that the languages selected during this stage will be the default language your app will translate to/from. These source and target languages can be overridden when we write the code in our application.
+
+To push your change to the cloud, **execute the command**:
+
+```bash
+amplify push
+```
+
+Upon completion, `amplifyconfiguration.json` will be updated to reference the newly provisioned backend resources.
+
+## Install Amplify Libraries
+
+
+
+import ios864b9cce44d1b60021cd2d9160404168 from "/src/fragments/lib/predictions/ios/getting-started/30_installLib.mdx";
+
+<Fragments fragments={{ios: ios864b9cce44d1b60021cd2d9160404168}} />
+
+
+import android408a519b96d891467c2303e6ddee664c from "/src/fragments/lib/predictions/android/getting-started/30_installLib.mdx";
+
+<Fragments fragments={{android: android408a519b96d891467c2303e6ddee664c}} />
+
+## Initialize Amplify Predictions
+
+
+
+import ios0fa3de99d3bf4d306e43ee54eb82729c from "/src/fragments/lib/predictions/ios/getting-started/40_init.mdx";
+
+<Fragments fragments={{ios: ios0fa3de99d3bf4d306e43ee54eb82729c}} />
+
+
+import android896c7ad94234e9da451dbda52fc22b4e from "/src/fragments/lib/predictions/android/getting-started/40_init.mdx";
+
+<Fragments fragments={{android: android896c7ad94234e9da451dbda52fc22b4e}} />
+
+## Translating text
+
+To translate text from one language to another, specify the text you want translated, a source language, and a target language. The source and target language parameters will override any choice you made while adding this resource using the Amplify CLI.
+
+
+
+import ios171e7f09dd06ba6e97e1effb9abd0482 from "/src/fragments/lib/predictions/ios/getting-started/50_translate.mdx";
+
+<Fragments fragments={{ios: ios171e7f09dd06ba6e97e1effb9abd0482}} />
+
+
+import android4d1d04820192d280f1f52405f6670290 from "/src/fragments/lib/predictions/android/getting-started/50_translate.mdx";
+
+<Fragments fragments={{android: android4d1d04820192d280f1f52405f6670290}} />
+
+As a result of executing this code, you will see the following printed to your console:
+
+```console
+Me gusta comer espaguetis
+```
+
+## Next steps
+
+Congratulations! You've translated text from one language to another. Check out the following links to explore other Amplify Predictions use cases:
+
+
+
+import ios90f53c537c9a3f6e1db5eef6d4e6202f from "/src/fragments/lib/predictions/ios/getting-started/60_nextSteps.mdx";
+
+<Fragments fragments={{ios: ios90f53c537c9a3f6e1db5eef6d4e6202f}} />
+
+
+import android1cdcf95ef474927f3c62398db8ca4ff4 from "/src/fragments/lib/predictions/android/getting-started/60_nextSteps.mdx";
+
+<Fragments fragments={{android: android1cdcf95ef474927f3c62398db8ca4ff4}} />

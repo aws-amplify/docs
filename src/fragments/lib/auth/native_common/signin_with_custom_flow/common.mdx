@@ -1,0 +1,61 @@
+The Auth category can be configured to perform a custom authentication flow defined by you. The following guide shows how to setup a simple passwordless authentication flow.
+
+## Prerequisites
+
+
+
+import ios5a163b656bb4aee1cd3a639ab4151286 from "/src/fragments/lib/auth/ios/getting_started/10_preReq.mdx";
+
+<Fragments fragments={{ios: ios5a163b656bb4aee1cd3a639ab4151286}} />
+
+## Configure Auth Category
+
+
+
+import ios046d65bcb98bd02fe9c0e9658757f817 from "/src/fragments/lib/auth/ios/signin_with_custom_flow/10_cli_setup.mdx";
+
+<Fragments fragments={{ios: ios046d65bcb98bd02fe9c0e9658757f817}} />
+
+## Register a user
+
+The CLI flow as mentioned above requires a username and a valid email id as parameters to register a user. Invoke the following api to initiate a sign up flow.
+
+
+
+import ios9c52b56018eb72418efb5a56908b32c6 from "/src/fragments/lib/auth/ios/signin_with_custom_flow/20_signup.mdx";
+
+<Fragments fragments={{ios: ios9c52b56018eb72418efb5a56908b32c6}} />
+
+The next step in the sign up flow is to confirm the user. A confirmation code will be sent to the email id provided during sign up. Enter the confirmation code received via email in the `confirmSignUp` call.
+
+
+
+import ios203bb36ccb2b8184261225565acff039 from "/src/fragments/lib/auth/ios/signin_with_custom_flow/30_confirmSignup.mdx";
+
+<Fragments fragments={{ios: ios203bb36ccb2b8184261225565acff039}} />
+
+## Sign in a user
+
+Implement a UI to get the username from the user. After the user enters the username you can start the sign in flow by calling the following method:
+
+
+
+import iosc87add4df6b20ba87bc6d27d5c689ec4 from "/src/fragments/lib/auth/ios/signin_with_custom_flow/40_signin.mdx";
+
+<Fragments fragments={{ios: iosc87add4df6b20ba87bc6d27d5c689ec4}} />
+
+## Confirm sign in with custom challenge
+
+Get the custom challenge (`1234` in this case) from the user and pass it to the `confirmSignin()` api. 
+
+
+
+import ios9580e0c9285703e487a0c09a5176210a from "/src/fragments/lib/auth/ios/signin_with_custom_flow/50_custom_challenge.mdx";
+
+<Fragments fragments={{ios: ios9580e0c9285703e487a0c09a5176210a}} />
+
+You will know the sign in flow is complete if you see the following in your console window:
+
+```console
+Sign in succeeded
+```

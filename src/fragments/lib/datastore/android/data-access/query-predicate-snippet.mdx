@@ -1,0 +1,62 @@
+<BlockSwitcher>
+<CodeBlock name="Java">
+
+```java
+Amplify.DataStore.query(Post.class, Where.matches(Post.RATING.gt(4)),
+    goodPosts -> {
+        while (goodPosts.hasNext()) {
+            Post post = goodPosts.next();
+            Log.i("MyAmplifyApp", "Post: " +  post);
+        }
+    },
+    failure -> Log.e("MyAmplifyApp", "Query failed.", failure)
+);
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.DataStore.query(Post::class.java,
+    Where.matches(Post.RATING.gt(4)),
+    { goodPosts ->
+        while (goodPosts.hasNext()) {
+            val post = goodPosts.next()
+            Log.i("MyAmplifyApp", "Post: $post")
+        }
+    },
+    { Log.e("MyAmplifyApp", "Query failed", it) }
+)
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+Amplify.DataStore
+    .query(Post::class, Where.matches(Post.RATING.gt(4)))
+    .catch { Log.e("MyAmplifyApp", "Query failed", it) }
+    .collect { Log.i("MyAmplifyApp", "Post: $it") }
+```
+
+</CodeBlock>
+<CodeBlock name="RxJava">
+
+```java
+RxAmplify.DataStore.query(
+    Post.class,
+    Where.matches(Post.RATING.gt(4)))
+    .subscribe(
+        post -> Log.i("MyAmplifyApp", "Post: " +  post),
+        failure -> Log.e("MyAmplifyApp", "Query failed.", failure)
+    );
+```
+
+</CodeBlock>
+</BlockSwitcher>
+
+<Callout warning>
+
+**Note:** when constructing predicates, static `QueryField` instances such as `Post.RATING` do not own any information about the model to which the field belongs. In order to avoid any ambiguity between field names which are used across multiple models, it is recommended to construct a custom instance of `QueryField` in the form of `QueryField.field("{model-name}.{field-name}")` (i.e. `field("post.rating")`).
+
+</Callout>
