@@ -11,6 +11,7 @@ import {
   JS_REFERENCE,
 } from "../../constants/links";
 import Link from "next/link";
+import InternalLink from "../InternalLink";
 import {useRouter} from "next/router";
 import {Container} from "../Container";
 
@@ -87,9 +88,9 @@ export default function SecondaryNav({filterKey, pageHasMenu}) {
               );
             } else {
               return (
-                <Link href={url} key={label}>
+                <InternalLink href={url} key={label}>
                   <LinkStyle href={url}>{label}</LinkStyle>
-                </Link>
+                </InternalLink>
               );
             }
           })}

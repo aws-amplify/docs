@@ -82,7 +82,7 @@ export const ProductRootLinkStyle = styled.a<ProductRootLinkProps>(
   width: 100%;
   padding: 0.5rem;
 
-  color: var(--color-dark-hv);
+  color: var(--color-dark-hv) !important;
   ${isActive ? "background-color: var(--bg-color-hover);" : ""});
   &:hover {
     color: var(--color-dark-hv);
