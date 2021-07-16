@@ -14,7 +14,7 @@ amplify add geo
 ```
 ```console
 ? Select which capability you want to add:
-  Map (visualize the geospatial data)
+  Map (visualize the GeoSpatial data)
 > Location search (search by places, addresses, coordinates)
 ```
 If you haven't set up the `auth` category already, the Amplify CLI will guide you through a workflow to enable the auth category.
@@ -70,10 +70,10 @@ Available advanced settings:
 #### Search data provider
 You can select a data provider as the source for geocoding, reverse geocoding and searches.
 Each provider gathers and curates their data using different means. They may also have varying expertise in different regions of the world.
-The available data providers of geospatial data are shown. To learn more about data providers, please refer this [location service doc](https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html).
+The available data providers of GeoSpatial data are shown. To learn more about data providers, please refer this [location service doc](https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html).
 
 ```console
-? Specify the data provider of geospatial data for this Search Index:
+? Specify the data provider of GeoSpatial data for this Search Index:
 ❯ Esri
   Here
 ```

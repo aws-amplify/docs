@@ -1,9 +1,9 @@
 ---
 title: Maps
-description: Use Amplify CLI to create and manage maps to visualize geospatial data in your app.
+description: Use Amplify CLI to create and manage maps to visualize GeoSpatial data in your app.
 ---
 
-Amplify CLI's `geo` category enables you to create and manage map resources used to visualize geospatial data in your application. 
+Amplify CLI's `geo` category enables you to create and manage map resources used to visualize GeoSpatial data in your application. 
 
 ## Setup a new Map
 
@@ -14,7 +14,7 @@ amplify add geo
 ```
 ```console
 ? Select which capability you want to add:
-> Map (visualize the geospatial data)
+> Map (visualize the GeoSpatial data)
   Location search (search by places, addresses, coordinates)
 ```
 If you haven't set up the `auth` category already, the Amplify CLI will guide you through a workflow to enable the auth category.
@@ -68,7 +68,7 @@ Available advanced settings:
 ```
 
 #### Map style & Map data provider
-You can pick a style for the map resource. The available map styles along with the data provider of geospatial data are shown. To learn more about each of these map styles, please refer this [location service doc](https://docs.aws.amazon.com/location-maps/latest/APIReference/API_MapConfiguration.html).
+You can pick a style for the map resource. The available map styles along with the data provider of GeoSpatial data are shown. To learn more about each of these map styles, please refer this [location service doc](https://docs.aws.amazon.com/location-maps/latest/APIReference/API_MapConfiguration.html).
 
 ```console
 ? Specify the map style:
