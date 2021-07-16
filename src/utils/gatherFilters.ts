@@ -1,6 +1,6 @@
 const addFilters = function(filters, newFilters) {
-  for (const filter in newFilters) {
-    if (!(filter in filters)) filters.push(filter);
+  for (const filter of newFilters) {
+    if (!filters.includes(filter)) filters.push(filter);
   }
 };
 
@@ -18,7 +18,9 @@ export function gatherFilters(tree): string[] {
       // Recurse on the fragment corresponding to this page's filterKey
       for (const filter in node.props.fragments) {
         const fragmentFunction = node.props.fragments[filter];
-        filters.push(filter);
+        if (!filters.includes(filter)) {
+          filters.push(filter);
+        }
         const fragment = fragmentFunction([]); // expand function into full tree
         const newFilters = gatherFilters(fragment);
         addFilters(filters, newFilters);
