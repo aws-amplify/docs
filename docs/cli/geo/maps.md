@@ -1,5 +1,5 @@
 ---
-title: Maps
+title: Maps (developer preview)
 description: Use Amplify CLI to create and manage maps to visualize GeoSpatial data in your app.
 ---
 

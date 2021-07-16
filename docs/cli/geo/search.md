@@ -1,5 +1,5 @@
 ---
-title: Search
+title: Search (developer preview)
 description: Use Amplify CLI to create and manage location search indices(or place indices) that are used to search for places in your application.
 ---
 
