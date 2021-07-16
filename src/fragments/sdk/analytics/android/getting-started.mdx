@@ -1,4 +1,4 @@
-Collecting analytics data for your app can be accomplished with [Amazon Pinpoint](#using-amazon-pinpoint) or [Amazon Kinesis](#using-amazon-kinesis). 
+Collecting analytics data for your app can be accomplished with [Amazon Pinpoint](#using-amazon-pinpoint) or [Amazon Kinesis](#using-amazon-kinesis).
 
 Amazon Pinpoint is a fully managed AWS service that you can use to engage with your customers across multiple messaging channels using analytics captured from the device. You can send push notifications, emails, or text messages (SMS), depending on the purpose of your campaign. Features include:
 
@@ -12,35 +12,38 @@ Amazon Pinpoint is a fully managed AWS service that you can use to engage with y
 
 The Amplify CLI helps setup and configure Pinpoint within your application and connect with the AWS Mobile SDK.
 
-<b>Prerequisite:</b> [Install and configure the Amplify CLI](/cli/start/install)<br />
-<b>Recommendation:</b> [Complete the Getting Started guide](/start/start)
+<b>
+  Prerequisite:
+</b> [Install and configure the Amplify CLI](/cli/start/install)\ <b>
+  Recommendation:
+</b> [Complete the Getting Started guide](/start/start)
 
 ## Set Up Your Backend
 
 1. Use the CLI to add analytics to your cloud-enabled backend and app.
 
-    In a terminal window, navigate to your project folder (the folder that typically contains your project level `build.gradle`), and add the SDK to your app.
+   In a terminal window, navigate to your project folder (the folder that typically contains your project level `build.gradle`), and add the SDK to your app.
 
-    ```bash
-    cd ./YOUR_PROJECT_FOLDER
-    amplify add analytics
-    ```
+   ```bash
+   cd ./YOUR_PROJECT_FOLDER
+   amplify add analytics
+   ```
 
 2. When configuration for analytics is complete, a message appears confirming that you have configured local CLI metadata for this category. You can confirm this by viewing status.
 
-    ```console
-    $ amplify status
-    | Category  | Resource name   | Operation | Provider plugin   |
-    | --------- | --------------- | --------- | ----------------- |
-    | Auth      | cognitoabcd0123 | Create    | awscloudformation |
-    | Analytics | yourprojectname | Create    | awscloudformation |
-    ```
+   ```console
+   $ amplify status
+   | Category  | Resource name   | Operation | Provider plugin   |
+   | --------- | --------------- | --------- | ----------------- |
+   | Auth      | cognitoabcd0123 | Create    | awscloudformation |
+   | Analytics | yourprojectname | Create    | awscloudformation |
+   ```
 
 3. To create your backend AWS resources run the following:
 
-    ```bash
-    amplify push
-    ```
+   ```bash
+   amplify push
+   ```
 
 ### Update your IAM Policy:
 
@@ -48,19 +51,14 @@ The Amazon Pinpoint service requires permissions defined in an IAM policy to use
 
 ```json
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "mobiletargeting:UpdateEndpoint",
-                "mobiletargeting:PutEvents"
-            ],
-            "Resource": [
-                "arn:aws:mobiletargeting:*:${accountID}:apps/${appId}*"
-            ]
-        }
-    ]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["mobiletargeting:UpdateEndpoint", "mobiletargeting:PutEvents"],
+      "Resource": ["arn:aws:mobiletargeting:*:${accountID}:apps/${appId}*"]
+    }
+  ]
 }
 ```
 
@@ -69,6 +67,7 @@ The Amazon Pinpoint service requires permissions defined in an IAM policy to use
 Use the following steps to add analytics to your mobile app and monitor the results through Amazon Pinpoint.
 
 ## Add Analytics
+
 1. Set up AWS Mobile SDK components by including the following libraries in your `app/build.gradle` dependencies list.
 
 ```groovy
@@ -78,10 +77,10 @@ dependencies {
 }
 ```
 
-* `aws-android-sdk-pinpoint` library enables sending analytics to Amazon Pinpoint.
-* `aws-android-sdk-mobile-client` library gives access to the AWS credentials provider and configurations.
+- `aws-android-sdk-pinpoint` library enables sending analytics to Amazon Pinpoint.
+- `aws-android-sdk-mobile-client` library gives access to the AWS credentials provider and configurations.
 
-2. Add required permissions to your app manifest.
+2.  Add required permissions to your app manifest.
 
     The AWS Mobile SDK requires the `INTERNET` and `ACCESS_NETWORK_STATE` permissions. These are defined in the `AndroidManifest.xml` file.
 
@@ -90,17 +89,17 @@ dependencies {
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     ```
 
-3. Add calls to capture session starts and stops. A session is one use of an app by the user. A session begins when an app is launched (or brought to the foreground), and ends when the app is terminated (or goes to the background). To accommodate for brief interruptions, like a text message, an inactivity period of up to 5 seconds is not counted as a new session. `Total daily sessions` shows the number of sessions your app has each day. `Average sessions per daily active user` shows the mean number of sessions per user per day.
+3.  Add calls to capture session starts and stops. A session is one use of an app by the user. A session begins when an app is launched (or brought to the foreground), and ends when the app is terminated (or goes to the background). To accommodate for brief interruptions, like a text message, an inactivity period of up to 5 seconds is not counted as a new session. `Total daily sessions` shows the number of sessions your app has each day. `Average sessions per daily active user` shows the mean number of sessions per user per day.
 
-   The following are typical places where you can instrument your app session start and stop:
+    The following are typical places where you can instrument your app session start and stop:
 
-   * Start a session in the `Application.onCreate()` method.
+    - Start a session in the `Application.onCreate()` method.
 
-   * Start a session in the `onCreate()` method of the app's first activity.
+    - Start a session in the `onCreate()` method of the app's first activity.
 
-   * Start or stop a session in the [ActivityLifecycleCallbacks](https://developer.android.com/reference/android/app/Application.ActivityLifecycleCallbacks) class.
+    - Start or stop a session in the [ActivityLifecycleCallbacks](https://developer.android.com/reference/android/app/Application.ActivityLifecycleCallbacks) class.
 
-   The following example shows how to start a session in the `OnCreate` event of `MainActivity`.
+    The following example shows how to start a session in the `OnCreate` event of `MainActivity`.
 
     ```java
     import android.support.v7.app.AppCompatActivity;
@@ -156,17 +155,17 @@ dependencies {
     }
     ```
 
-	To stop the session, use `stopSession()` and `submitEvents()` at the last point in the session you want to capture. In this example, we are using a single Activity, so the session will stop when the MainActivity is destroyed. `onDestroy()` is usually called when the back button is pressed while in the activity.
+        	To stop the session, use `stopSession()` and `submitEvents()` at the last point in the session you want to capture. In this example, we are using a single Activity, so the session will stop when the MainActivity is destroyed. `onDestroy()` is usually called when the back button is pressed while in the activity.
 
-	```java
-	@Override
-	protected void onDestroy() {
-	    super.onDestroy();
+        	```java
+        	@Override
+        	protected void onDestroy() {
+        	    super.onDestroy();
 
-	    pinpointManager.getSessionClient().stopSession();
-	    pinpointManager.getAnalyticsClient().submitEvents();
-	}
-	```
+        	    pinpointManager.getSessionClient().stopSession();
+        	    pinpointManager.getAnalyticsClient().submitEvents();
+        	}
+        	```
 
 ## Monitor Analytics
 
@@ -174,12 +173,12 @@ Build and run your app to see usage metrics in Amazon Pinpoint. When you run the
 
 1. To see visualizations of the analytics coming from your app, open your project in the Amazon Pinpoint console by running the following:
 
-    ```bash
-    amplify console analytics
-    ```
+   ```bash
+   amplify console analytics
+   ```
 
 2. Choose `Analytics` from the icons on the left of the console, and view the graphs of your app's usage. It may take up to 15 minutes for metrics to become visible.
 
-    ![getting-started-analytics](/images/getting-started-analytics.png)
+   ![getting-started-analytics](/images/getting-started-analytics.png)
 
 Analytics events can be grouped into segments, and you can engage your users more deeply by tying their app usage behavior to Push Notification, email, or SMS messaging campaigns. Read more about this in the [messaging section](/sdk/push-notifications/messaging-campaign) or [click here to learn more about Amazon Pinpoint](http://docs.aws.amazon.com/pinpoint/latest/developerguide/welcome.html).
