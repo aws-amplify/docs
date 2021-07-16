@@ -1,7 +1,7 @@
 import * as fs from "fs-extra";
 import fg from "fast-glob";
 import mkdirp from "mkdirp";
-import {createHash} from "crypto";
+import {createHash, randomBytes} from "crypto";
 
 const hash = function(str: string) {
   return createHash("md5")
@@ -10,12 +10,18 @@ const hash = function(str: string) {
 };
 
 const replacer1 = function(_1, p1: string, p2: string, _2, _3) {
-  return `\n\nimport all${hash(p1 + p2)} from "/src/fragments/${p1}${p2}x";\n
-<Fragments fragments={{all: all${hash(p1 + p2)}}} />`;
+  const salt = randomBytes(1).toString("hex");
+  return `\n\nimport all${hash(p1 + p2) +
+    salt} from "/src/fragments/${p1}${p2}x";\n
+<Fragments fragments={{all: all${hash(p1 + p2) + salt}}} />`;
 };
+
 const replacer2 = function(_1, p1: string, p2: string, p3: string, _2, _3) {
-  return `\n\nimport ${p1 + hash(p2 + p3)} from "/src/fragments/${p2}${p3}x";\n
-<Fragments fragments={{${p1}: ${p1 + hash(p2 + p3)}}} />`;
+  const salt = randomBytes(1).toString("hex");
+  return `\n\nimport ${p1 +
+    hash(p2 + p3) +
+    salt} from "/src/fragments/${p2}${p3}x";\n
+<Fragments fragments={{${p1}: ${p1 + hash(p2 + p3) + salt}}} />`;
 };
 
 const grab = function() {
@@ -70,10 +76,21 @@ const grab = function() {
     // <inline-fragment src="~/{1}/fragments{2}"></inline-fragment> ->
     //   import all from "/src/fragments/{1}{2}x";
     //   <Fragments fragments={all: all} />
-    file = file.replace(
-      /<inline-fragment src="~\/(.*?)fragments\/(.*?)"><\/inline-fragment>/g,
-      replacer1,
-    );
+    // file = file.replace(
+    //   /<inline-fragment src="~\/(.*?)fragments\/(.*?)"><\/inline-fragment>/g,
+    //   replacer1,
+    // );
+
+    while (
+      file.search(
+        /<inline-fragment src="~\/(.*?)fragments\/(.*?)"><\/inline-fragment>/,
+      ) > -1
+    ) {
+      file = file.replace(
+        /<inline-fragment src="~\/(.*?)fragments\/(.*?)"><\/inline-fragment>/,
+        replacer1,
+      );
+    }
 
     // <inline-fragment platform/integration="{1}" src="~/{2}/fragments{3}"></inline-fragment> ->
     //   import {1} from "/src/fragments/{2}{3}x";
@@ -82,6 +99,17 @@ const grab = function() {
       /<inline-fragment .*?="(.*?)" src="~\/(.*?)fragments\/(.*?)"><\/inline-fragment>/g,
       replacer2,
     );
+
+    while (
+      file.search(
+        /<inline-fragment .*?="(.*?)" src="~\/(.*?)fragments\/(.*?)"><\/inline-fragment>/,
+      ) > -1
+    ) {
+      file = file.replace(
+        /<inline-fragment .*?="(.*?)" src="~\/(.*?)fragments\/(.*?)"><\/inline-fragment>/,
+        replacer2,
+      );
+    }
 
     // amplify-block + amplify-block-switcher -> CodeBlock + BlockSwitcher
     file = file.split("amplify-block-switcher").join("BlockSwitcher");
