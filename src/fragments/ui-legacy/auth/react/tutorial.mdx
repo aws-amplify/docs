@@ -2,8 +2,6 @@ This tutorial walks you through how to use AWS Amplify to build a React applicat
 
 ## Installation
 
-
-
 import allde508dbbe48d84391ad727bc6d10d0ea from "/src/fragments/cli-install-block.mdx";
 
 <Fragments fragments={{all: allde508dbbe48d84391ad727bc6d10d0ea}} />
@@ -15,11 +13,11 @@ amplify configure
 If you're using Windows, we recommend the [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
 
 - Ensure you have [Create React App](https://github.com/facebook/create-react-app) installed.
-- Create a new project as follows:<br>
-  `npx create-react-app myapp`<br>
-  `cd myapp`<br>
+- Create a new project as follows:\
+  `npx create-react-app myapp`\
+  `cd myapp`\
 
-***Getting Started with the CLI*** 
+**_Getting Started with the CLI_**
 
 To get started, initialize your project in the new directory:
 
@@ -31,7 +29,7 @@ After you answer the provided questions, you can use `amplify help` at any time 
 
 The Amplify CLI uses AWS CloudFormation, and you can add or modify configurations locally before you push them for execution in your account. To see the status of the deployment at any time, run `amplify status`.
 
-***Publishing Your Web App***
+**_Publishing Your Web App_**
 
 Without making any changes to your React application, add web hosting as follows:
 
@@ -71,9 +69,9 @@ react-native link amazon-cognito-identity-js # DO NOT run this when using Expo o
 Edit `./src/App.js` to include the Amplify library, configurations, and [React HOC](https://reactjs.org/docs/higher-order-components.html). Then, initialize the library as follows:
 
 ```javascript
-import Amplify from 'aws-amplify';
-import awsconfig from './aws-exports';
-import { withAuthenticator } from 'aws-amplify-react'; // or 'aws-amplify-react-native';
+import Amplify from "aws-amplify";
+import awsconfig from "./aws-exports";
+import {withAuthenticator} from "aws-amplify-react"; // or 'aws-amplify-react-native';
 
 Amplify.configure(awsconfig);
 ```
@@ -92,11 +90,9 @@ You can now use `amplify publish` to build and publish your app again. This time
 
 The SignUp component provides your users with the ability to sign up. It is included as part of the `Authenticator` component.
 
-Usage:
-`<Authenticator signUpConfig={ signUpConfig }/>`
+Usage: `<Authenticator signUpConfig={ signUpConfig }/>`
 
-It can also be used as part of the authentication HOC:
-`export default withAuthenticator(App, { signUpConfig });`
+It can also be used as part of the authentication HOC: `export default withAuthenticator(App, { signUpConfig });`
 
 The SignUp Component accepts a 'signUpConfig' object which allows you to customize it.
 
@@ -135,16 +131,14 @@ If the user pool is set to allow email addresses/phone numbers as the username, 
 When you are using `email` as the username:
 
 ```js
-import { withAuthenticator, Authenticator } from 'aws-amplify-react';
+import {withAuthenticator, Authenticator} from "aws-amplify-react";
 
 // When using Authenticator
 class App {
   // ...
 
   render() {
-    return (
-      <Authenticator usernameAttributes='email'/>
-    );
+    return <Authenticator usernameAttributes="email" />;
   }
 }
 
@@ -155,21 +149,19 @@ class App2 {
   // ...
 }
 
-export default withAuthenticator(App2, { usernameAttributes: 'email' });
+export default withAuthenticator(App2, {usernameAttributes: "email"});
 ```
 
 When you are using `phone number` as the username:
 
 ```js
-import { Authenticator, withAuthenticator } from 'aws-amplify-react';
+import {Authenticator, withAuthenticator} from "aws-amplify-react";
 
 class App {
   // ...
 
   render() {
-    return (
-      <Authenticator usernameAttributes='phone_number'/>
-    );
+    return <Authenticator usernameAttributes="phone_number" />;
   }
 }
 
@@ -180,7 +172,7 @@ class App2 {
   // ...
 }
 
-export default withAuthenticator(App2, { usernameAttributes: 'phone_number' });
+export default withAuthenticator(App2, {usernameAttributes: "phone_number"});
 ```
 
 **Note:** If you are using custom signUpFields to customize the `username` field, then you need to make sure either the label of that field is the same value you set in `usernameAttributes` or the key of the field is `username`.
@@ -188,55 +180,55 @@ export default withAuthenticator(App2, { usernameAttributes: 'phone_number' });
 For example:
 
 ```js
-import React, { Component } from 'react';
-import Amplify from 'aws-amplify';
-import awsconfig from './aws-exports';
-import { withAuthenticator } from 'aws-amplify-react';
+import React, {Component} from "react";
+import Amplify from "aws-amplify";
+import awsconfig from "./aws-exports";
+import {withAuthenticator} from "aws-amplify-react";
 
 Amplify.configure(awsconfig);
 
 class App extends Component {}
 
 const signUpConfig = {
-  header: 'My Customized Sign Up',
+  header: "My Customized Sign Up",
   hideAllDefaults: true,
-  defaultCountryCode: '1',
+  defaultCountryCode: "1",
   signUpFields: [
     {
-      label: 'My user name',
-      key: 'username',
+      label: "My user name",
+      key: "username",
       required: true,
       displayOrder: 1,
-      type: 'string'
+      type: "string",
     },
     {
-      label: 'Password',
-      key: 'password',
+      label: "Password",
+      key: "password",
       required: true,
       displayOrder: 2,
-      type: 'password'
+      type: "password",
     },
     {
-      label: 'PhoneNumber',
-      key: 'phone_number',
+      label: "PhoneNumber",
+      key: "phone_number",
       required: true,
       displayOrder: 3,
-      type: 'string'
+      type: "string",
     },
     {
-      label: 'Email',
-      key: 'email',
+      label: "Email",
+      key: "email",
       required: true,
       displayOrder: 4,
-      type: 'string'
-    }
-  ]
+      type: "string",
+    },
+  ],
 };
-const usernameAttributes = 'My user name';
+const usernameAttributes = "My user name";
 
 export default withAuthenticator(App, {
   signUpConfig,
-  usernameAttributes
+  usernameAttributes,
 });
 ```
 
@@ -244,7 +236,7 @@ export default withAuthenticator(App, {
 
 Next, we'll add some features, like tracking user behavior analytics and uploading/downloading images in the cloud.
 
-Before starting, to enable analytics in amplify, we need to associate user to an identity pool. Run `amplify add auth` and configure authentication with using manual configuration. 
+Before starting, to enable analytics in amplify, we need to associate user to an identity pool. Run `amplify add auth` and configure authentication with using manual configuration.
 
 Start by running `amplify add analytics` in your project. You can enable analytics for authenticated users only, or for users that aren't authenticated. You would be prompted to ask whether you want to allow guests and unauthenticated users to send analytics events, so you can choose `Yes`. You can also try a new project without authentication configured to test this feature.
 
@@ -253,8 +245,8 @@ Run `amplify add storage` and then select **Content (Images, audio, video, etc.)
 Edit your `App.js` file in the React project again and modify your imports so that the `Analytics` and `Storage` categories are included in addition to the `S3Album` component, which we'll use to upload and download photos.
 
 ```javascript
-import Amplify, { Analytics, Storage } from 'aws-amplify';
-import { withAuthenticator, S3Album } from 'aws-amplify-react';
+import Amplify, {Analytics, Storage} from "aws-amplify";
+import {withAuthenticator, S3Album} from "aws-amplify-react";
 ```
 
 The `Analytics` category automatically tracks user session data such as sign-in events. However, you can record custom events or metrics at any time. You can also use the `Storage` category to upload files to a private user location after someone has logged in. First, add the following line after `Amplify.configure()` has been called:
@@ -320,7 +312,7 @@ This is the GraphQL schema that you'll deploy to AWS AppSync. If you're familiar
 After the deployment is complete, open your `App.js` again and update the import to include both the `API` category and `graphqlOperation` method as follows:
 
 ```javascript
-import Amplify, { Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
+import Amplify, {Analytics, Storage, API, graphqlOperation} from "aws-amplify";
 ```
 
 Add the following query and mutations in your code, _before_ the `class App extends Component {...}` definition as follows:
@@ -353,8 +345,8 @@ Now, inside the `App` component add the following two methods before the `render
 ```javascript
 todoMutation = async () => {
   const todoDetails = {
-    name: 'Party tonight!',
-    description: 'Amplify CLI rocks!'
+    name: "Party tonight!",
+    description: "Amplify CLI rocks!",
   };
 
   const newTodo = await API.graphql(graphqlOperation(addTodo, todoDetails));
@@ -362,7 +354,7 @@ todoMutation = async () => {
 };
 
 listQuery = async () => {
-  console.log('listing todos');
+  console.log("listing todos");
   const allTodos = await API.graphql(graphqlOperation(listTodos));
   alert(JSON.stringify(allTodos));
 };
@@ -397,30 +389,30 @@ Next, for the API security type questions, choose **Yes** when prompted for Rest
 In the React project, edit your `App.js` file again and modify your imports so that the `API` category is included so that you can make API calls from the app.
 
 ```javascript
-import Amplify, { Analytics, Storage, API } from 'aws-amplify';
+import Amplify, {Analytics, Storage, API} from "aws-amplify";
 ```
 
 In `App.js`, add the following code before the `render()` method and update `myapi` if you used an alternative name during the setup:
 
 ```javascript
 post = async () => {
-  console.log('calling api');
-  const response = await API.post('myapi', '/items', {
+  console.log("calling api");
+  const response = await API.post("myapi", "/items", {
     body: {
-      id: '1',
-      name: 'hello amplify!'
-    }
+      id: "1",
+      name: "hello amplify!",
+    },
   });
   alert(JSON.stringify(response, null, 2));
 };
 get = async () => {
-  console.log('calling api');
-  const response = await API.get('myapi', '/items/object/1');
+  console.log("calling api");
+  const response = await API.get("myapi", "/items/object/1");
   alert(JSON.stringify(response, null, 2));
 };
 list = async () => {
-  console.log('calling api');
-  const response = await API.get('myapi', '/items/1');
+  console.log("calling api");
+  const response = await API.get("myapi", "/items/1");
   alert(JSON.stringify(response, null, 2));
 };
 ```
@@ -458,22 +450,22 @@ amplify add auth
 The `./src/aws-exports.js` file that's created has all of the appropriate cloud resources defined for your application. Edit `./src/App.js` to include the Amplify library and configurations. Then, initialize the library as follows:
 
 ```javascript
-import Amplify from 'aws-amplify';
-import awsconfig from './aws-exports';
-import { SumerianScene } from 'aws-amplify-react';
-import scene1Config from './sumerian_exports_<sceneId>'; // This file will be generated by the Sumerian AWS Console
+import Amplify from "aws-amplify";
+import awsconfig from "./aws-exports";
+import {SumerianScene} from "aws-amplify-react";
+import scene1Config from "./sumerian_exports_<sceneId>"; // This file will be generated by the Sumerian AWS Console
 
 Amplify.configure({
   ...awsconfig,
   XR: {
-    region: 'us-east-1', // Sumerian region
+    region: "us-east-1", // Sumerian region
     scenes: {
       scene1: {
         // Friendly scene name
-        sceneConfig: scene1Config // Scene configuration from Sumerian publish
-      }
-    }
-  }
+        sceneConfig: scene1Config, // Scene configuration from Sumerian publish
+      },
+    },
+  },
 });
 ```
 
