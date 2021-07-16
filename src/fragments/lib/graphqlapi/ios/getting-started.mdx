@@ -1,0 +1,176 @@
+You can integrate with Amplify framework using the following steps:
+
+1. Setup the API endpoint and authentication information in the client side configuration.
+2. Generate Swift Model classes from the API schema.
+3. Write app code to run queries, mutations and subscriptions.
+
+## Set up your backend
+
+**Prerequisites**
+* An iOS project targeting at least iOS 11.0.
+* Install and configure the Amplify CLI
+
+
+
+import allde508dbbe48d84391ad727bc6d10d0ea from "/src/fragments/cli-install-block.mdx";
+
+<Fragments fragments={{all: allde508dbbe48d84391ad727bc6d10d0ea}} />
+
+```bash
+amplify configure
+```
+
+**Steps**
+
+Go to your project directory and run the following commands to get a fully functioning AppSync backend with API category.
+
+Run `amplify init` command as shown:
+
+```bash
+amplify init
+```
+
+```console
+? Enter a name for the project AmplifAPI
+? Enter a name for the environment dev
+? Choose your default editor: Visual Studio Code
+? Choose the type of app that you're building ios
+? Do you want to use an AWS profile? Yes
+? Please choose the profile you want to use default
+```
+
+Add API using the command `amplify add api`. Here is an example:
+
+```console
+? Please select from one of the below mentioned services: `GraphQL`
+? Provide API name: `apiName`
+? Choose the default authorization type for the API: `API key`
+? Enter a description for the API key: 
+? After how many days from now the API key should expire (1-365): `30`
+? Do you want to configure advanced settings for the GraphQL API `No, I am done.`
+? Do you have an annotated GraphQL schema? `No`
+? Choose a schema template: Single object with fields (e.g., “Todo” with ID, name, description)
+? Do you want to edit the schema now? `Yes`
+```
+
+We'll be using this schema:
+```graphql
+type Todo @model {
+  id: ID!
+  name: String!
+  description: String
+}
+```
+Provision the backend with `amplify push` command. Here is an example:
+
+```console
+? Are you sure you want to continue? `Yes`
+```
+Answer `No` to `? Do you want to generate code for your newly created GraphQL API`.
+Answering `Yes` will generate an `API.swift` file which is only necessary when directly using the AWSAppSync SDK. When you're using Amplify API or Amplify DataStore, you'll use the `amplify codegen models` command to generate Swift models.
+
+The example above creates a backend with the Todo schema. You can open the AWS Console for AppSync with 
+`amplify console api` to interact directly with the GraphQL service.  When your backend is successfully updated, there should be two newly created files: `amplifyconfiguration.json` and `awsconfiguration.json` in your project folder.
+
+## Install Amplify libraries and tools
+
+<BlockSwitcher>
+
+<CodeBlock name="Swift Package Manager">
+If this is a new project, add Amplify via the Swift Package Manager:
+
+- Open your project in Xcode and select **File > Swift Packages > Add Package Dependency**.
+- Enter the Amplify iOS GitHub repo URL (`https://github.com/aws-amplify/amplify-ios`) into the search bar and click **Next**.
+- Choose the first rule, **Version**, as it will use the latest compatible version of the dependency that can be detected from the `main` branch, then click **Next**.
+- Choose the **Amplify** and **AWSAPIPlugin** libraries, then click **Finish**.
+
+</CodeBlock>
+
+<CodeBlock name="CocoaPods">
+
+If this is a new project, run `pod init` to create the `Podfile` to use CocoaPods to manage your dependencies. Add the following to the Podfile:
+
+```ruby
+target :'YOUR-APP-NAME' do
+    use_frameworks!
+    pod 'AmplifyPlugins/AWSAPIPlugin'
+end
+```
+
+Close out of the existing Xcode project if you have it open.
+
+Install the dependencies via CocoaPods
+```bash
+pod install --repo-update
+```
+
+Open the `.xcworkspace` file created by CocoaPods
+
+```bash
+open <YOURAPP>.xcworkspace
+```
+
+</CodeBlock>
+
+</BlockSwitcher>
+
+Build your project and you should see the `amplify` folder, `amplifyxc.config`, `awsconfiguration.json`, and `amplifyconfiguration.json`. 
+
+## Initialize Amplify
+
+Initialize Amplify and AWSAPIPlugin.
+
+Add the following imports to the top of your `AppDelegate.swift` file 
+
+<BlockSwitcher>
+
+<CodeBlock name="Swift Package Manager">
+```swift
+import Amplify
+import AWSAPIPlugin
+```
+</CodeBlock>
+
+<CodeBlock name="CocoaPods">
+```swift
+import Amplify
+import AmplifyPlugins
+```
+</CodeBlock>
+
+</BlockSwitcher>
+
+
+Add the follow code to your AppDelegate's `application:didFinishLaunchingWithOptions` method
+```swift
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    let apiPlugin = AWSAPIPlugin(modelRegistration: AmplifyModels())
+    do {
+        try Amplify.add(plugin: apiPlugin)
+        try Amplify.configure()
+        print("Amplify initialized")
+    } catch {
+        print("Failed to configure Amplify \(error)")
+    }
+    return true
+}
+```
+## Add configuration files
+
+3. Click on the top level project on the left panel.
+4. Click on your app under Targets in the left panel that contains Project and Targets.
+5. Click on Build Phases
+6. Expand the Copy Bundle Resources
+7. Click on the + button, and select `awsconfiguration.json` and `amplifyconfiguration.json` to add.
+8. Build and run (`Cmd+R`) the app and make sure Amplify is initialized.
+
+## Running code generator
+
+1. Run `amplify codegen models` using Amplify CLI.
+2. A new `AmplifyModels` group will be added to your Xcode project containing the generated model files.
+
+Make sure it builds and runs (`Cmd+R`) successfully before moving onto the next section.
+
+## API Reference   
+
+For the complete API documentation for API, visit our [API Reference](https://aws-amplify.github.io/amplify-ios/docs/Classes/AmplifyAPICategory.html)

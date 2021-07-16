@@ -1,0 +1,131 @@
+Now you can create a custom subscription for comment creation with a specific post id:
+
+<BlockSwitcher>
+<CodeBlock name="Java">
+
+```java
+private GraphQLRequest<Comment> onCreateCommentByPostId(String id) {
+    String document = "subscription onCreateCommentByPostId($id: ID!) { "
+        + "onCommentByPostId(postCommentsId: $id) { "
+            + "content "
+            + "id "
+            + "postCommentsId "
+        + "}"
+    + "}";
+    return new SimpleGraphQLRequest<>(
+        document,
+        Collections.singletonMap("id", id),
+        Comment.class,
+        new GsonVariablesSerializer()
+    );
+}
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin">
+
+```kotlin
+private fun onCreateCommentByPostId(id: String): GraphQLRequest<Comment> {
+    val document = """
+        subscription onCreateCommentByPostId(${'$'}id: ID!) {
+            onCommentByPostId(postCommentsId: ${'$'}id) {
+                content
+                id
+                postCommentsId
+            }
+         }
+    """.trimIndent()
+    return SimpleGraphQLRequest(
+        document,
+        mapOf("id" to id),
+        Comment::class.java,
+        GsonVariablesSerializer()
+    )
+}
+```
+
+</CodeBlock>
+</BlockSwitcher>
+
+To listen to creation updates with the specific post using the post id, you can use the following code sample:
+
+<BlockSwitcher>
+<CodeBlock name="Java">
+
+```java
+private void createSubscription() {
+    Amplify.API.subscribe(onCreateCommentByPostId("12345"),
+        subscriptionId -> Log.d("MyAmplifyApp", "Established subscription with id: " + subscriptionId),
+        response -> {
+            if (response.hasErrors()) {
+                Log.e("MyAmplifyApp", "Error receiving Comment: " + response.getErrors());
+            } else if(!response.hasData()) {
+                Log.e("MyAmplifyApp", "Error receiving Comment; no data in response.");
+            } else {
+                Log.d("MyAmplifyApp", "Got comment from subscription: " + response.getData());
+            }
+        },
+        failure -> Log.e("MyAmplifyApp", "Subscription terminated with error.", failure),
+        () -> Log.d("MyAmplifyApp", "Subscription has been closed successfully.")
+    );
+}
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin">
+
+```kotlin
+private suspend fun createSubscription() {
+    try {
+        Amplify.API.subscribe(onCreateCommentByPostId("12345"))
+            .catch { Log.e("MyAmplifyApp", "Subscription failure:", it) }
+            .collect { response ->
+                if (response.hasErrors()) {
+                    Log.e("MyAmplifyApp", "Error receiving Comment: ${response.errors}")
+                } else if (!response.hasData()) {
+                    Log.e("MyAmplifyApp", "Error receiving Comment; no data in response.")
+                } else {
+                    Log.i("MyAmplifyApp", "Got comment on subscription: ${response.data}")
+                }
+            }
+    } catch (error: ApiException) {
+        Log.e("MyAmplifyApp", "Failed to establish subscription", it)
+    }
+}
+```
+
+</CodeBlock>
+<CodeBlock name="RxJava">
+
+```java
+private void createSubscription() {
+    RxOperations.RxSubscriptionOperation<? extends GraphQLResponse<Comment>> subscription =
+        RxAmplify.API.subscribe(onCreateCommentByPostId("12345"));
+    subscription
+        .observeConnectionState()
+        .subscribe(connectionStateEvent -> 
+            Log.i("MyAmplifyApp", String.valueOf(connectionStateEvent))
+        );
+    subscription
+        .observeSubscriptionData()
+        .subscribe(
+            response -> {
+                if (response.hasErrors()) {
+                    Log.e("MyAmplifyApp", "Error receiving Comment: " + response.getErrors());
+                } else if (!response.hasData()) {
+                    Log.e("MyAmplifyApp", "Error receiving Comment; no data in response.");
+                } else {
+                    Log.d("MyAmplifyApp", "Got comment from subscription: " + response.getData());
+                }
+            },
+            failure -> Log.e("MyAmplifyApp", "Subscription failed", failure),
+            () -> Log.i("MyAmplifyApp", "Subscription completed.")
+        );
+    // Cancel the subscription listener when you're finished with it
+    subscription.cancel();
+}
+}
+```
+
+</CodeBlock>
+</BlockSwitcher>

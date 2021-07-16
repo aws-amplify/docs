@@ -1,0 +1,106 @@
+When determining the authorization mode for your REST endpoint, there are a few built in options and customizations you can use.
+
+## IAM Authorization
+
+By default, the API will be using IAM authorization and the requests will be signed for you automatically. IAM authorization has two modes: one using an **unauthenticated** role, and one using an **authenticated** role. When the user has not signed in through `Amplify.Auth.signIn`, the unauthenticated role is used by default. Once the user has signed in, the authenticate role is used, instead.
+
+When you created your REST API with the Amplify CLI, you were asked if you wanted to restrict access. If you selected **no**, then the unauthenticated role will have access to the API. If you selected **yes**, you would have configured more fine grain access to your API.
+
+### Unauthenticated Requests
+
+You can use the API category to access API Gateway endpoints that don't require authentication. In this case, you need to allow unauthenticated identities in your Amazon Cognito Identity Pool settings. For more information, please see the [Amazon Cognito developer documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html#enable-or-disable-unauthenticated-identities).
+
+When your API is configured to use IAM as the authorization type, your requests will automatically have IAM credentials added to the headers of outgoing requests. You can verify that IAM is being used as the authorization type by inspecting the `authorizationType` associated with your API in `amplifyconfiguration.dart`:
+
+```json
+{
+    "awsAPIPlugin": {
+        "<YOUR-RESTENDPOINT-NAME>": {
+            "endpointType": "REST",
+            "endpoint": "YOUR-REST-ENDPOINT",
+            "region": "us-west-2",
+            "authorizationType": "AWS_IAM"
+        }
+    }
+}
+```
+
+## API Key
+
+If you want to configure a public REST API, you can set an API key in Amazon API Gateway. Then, update your `amplifyconfiguration.dart` to reference it.  The value associated to the `"authorizationType"` key should be `"API_KEY"`.  Also include an `"API_KEY"` as a key, and set its value to whatever your configured in API Gateway.
+
+```json
+{
+    "awsAPIPlugin": {
+        "<YOUR-RESTENDPOINT-NAME>": {
+            "endpointType": "REST",
+            "endpoint": "YOUR-REST-ENDPOINT",
+            "region": "us-west-2",
+            "authorizationType": "API_KEY",
+            "apiKey": "YOUR_API_KEY"
+        }
+    }
+}
+```
+
+## Cognito User pool authorization
+
+If you set up the API Gateway with a custom authorization with a Cognito User pool, then you can set the `amplifyconfiguration.dart` to use `AMAZON_COGNITO_USER_POOLS `. 
+
+```json
+{
+    "awsAPIPlugin": {
+        "<YOUR-RESTENDPOINT-NAME>": {
+            "endpointType": "REST",
+            "endpoint": "YOUR-REST-ENDPOINT",
+            "region": "us-west-2",
+            "authorizationType": "AMAZON_COGNITO_USER_POOLS"
+        }
+    }
+}
+```
+
+Your `amplifyconfiguration.dart` should contain Cognito configuration in the `awsCognitoAuthPlugin` block, including details about your Cognito user pool:
+```json
+{
+    "CognitoUserPool": {
+        "Default": {
+            "PoolId": "YOUR-POOL-ID",
+            "AppClientId": "YOUR-APP-CLIENT-ID",
+            "AppClientSecret": "YOUR-APP-CLIENT-SECRET",
+            "Region": "us-east-1"
+        }
+    },
+    "CredentialsProvider": {
+        "CognitoIdentity": {
+            "Default": {
+                "PoolId": "YOUR-COGNITO-IDENTITY-POOLID",
+                "Region": "us-east-1"
+            }
+        }
+    }
+}
+```
+
+With this configuration, your access token will automatically be included in outbound requests to your API, as an `Authorization` header. For more details on how to configure the API Gateway with the custom authorization, see [this](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html)
+
+## OIDC
+
+
+
+import flutter50696f3b623cda3492bb91d2dcf3ca5e from "/src/fragments/lib/graphqlapi/flutter/authz/20_oidc.mdx";
+
+<Fragments fragments={{flutter: flutter50696f3b623cda3492bb91d2dcf3ca5e}} />
+
+## Customizing HTTP request headers
+
+To use custom headers on your HTTP request, you need to add these to Amazon API Gateway first. For more info about configuring headers, please visit [Amazon API Gateway Developer Guide](http://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-cors.html)
+
+If you used the Amplify CLI to create your API, you can enable custom headers by following these steps:  
+
+1. Visit [Amazon API Gateway console](https://aws.amazon.com/api-gateway/).
+3. In the Amazon API Gateway console, click on the path you want to configure (e.g. /{proxy+})
+4. Click the *Actions* dropdown menu and select **Enable CORS**
+5. Add your custom header (e.g. my-custom-header) on the text field Access-Control-Allow-Headers, separated by commas, like: 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,my-custom-header'.
+6. Click on 'Enable CORS and replace existing CORS headers' and confirm.
+7. Finally, similar to step 3, click the Actions drop-down menu and then select **Deploy API**. Select **Development** on deployment stage and then **Deploy**. (Deployment could take a couple of minutes).

@@ -1,0 +1,73 @@
+<BlockSwitcher>
+<CodeBlock name="Java">
+
+```java
+private void uploadFile(String key, File file) {
+    StorageUploadFileOptions options = StorageUploadFileOptions.builder()
+        .accessLevel(StorageAccessLevel.PROTECTED)
+        .build();
+
+    Amplify.Storage.uploadFile(key, file, options,
+        result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + key),
+        error -> Log.e("MyAmplifyApp", "Upload failed", error)
+    );
+}
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Callbacks">
+
+```kotlin
+private fun uploadFile(key: String, file: File) {
+    val options = StorageUploadFileOptions.builder()
+        .accessLevel(StorageAccessLevel.PROTECTED)
+        .build()
+    
+    Amplify.Storage.uploadFile(key, file, options,
+        { Log.i("MyAmplifyApp", "Successfully uploaded: $key" ) },
+        { error -> Log.e("MyAmplifyApp", "Upload failed", error) }
+    )
+}
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+private suspend fun uploadFile(key: String, file: File) {
+    val options = StorageUploadFileOptions.builder()
+        .accessLevel(StorageAccessLevel.PROTECTED)
+        .build()
+    val upload = Amplify.Storage.uploadFile(key, file, options)
+    try {
+        upload.result()
+        Log.i("MyAmplifyApp", "Successfully uploaded: $key")
+    } catch (error: StorageException) {
+        Log.e("MyAmplifyApp", "Upload failed", error)
+    }
+}
+```
+
+</CodeBlock>
+<CodeBlock name="RxJava">
+
+```java
+private void uploadFile(String key, File file) {
+    StorageUploadFileOptions options = StorageUploadFileOptions.builder()
+        .accessLevel(StorageAccessLevel.PROTECTED)
+        .build();
+
+    RxProgressAwareSingleOperation<StorageUploadFileResult> upload =
+        RxAmplify.Storage.uploadFile("ExampleKey", exampleFile, options);
+
+    upload
+        .observeResult()
+        .subscribe(
+            result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
+            error -> Log.e("MyAmplifyApp", "Upload failed", error)
+        );
+}
+```
+
+</CodeBlock>
+</BlockSwitcher>

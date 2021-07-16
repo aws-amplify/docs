@@ -1,0 +1,53 @@
+<BlockSwitcher>
+<CodeBlock name="Java">
+
+```java
+Amplify.DataStore.query(Comment.class, Post.STATUS.eq(PostStatus.ACTIVE),
+    matches -> {
+        while (matches.hasNext()) {
+            Comment comment = matches.next();
+            Log.i("MyAmplifyApp", "Content: " + comment.getContent());
+        }
+    },
+    failure -> Log.e("MyAmplifyApp", "Query failed.", failure)
+);
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.DataStore.query(Comment::class.java, Post.STATUS.eq(PostStatus.ACTIVE),
+    { matches ->
+        while (matches.hasNext()) {
+            val comment = matches.next()
+            Log.i("MyAmplifyApp", "Content: ${comment.content}")
+        }
+    },
+    { Log.e("MyAmplifyApp", "Query failed", it) }
+)
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+Amplify.DataStore
+    .query(Comment::class, Where.matches(Post.STATUS.eq(PostStatus.ACTIVE)))
+    .catch { Log.e("MyAmplifyApp", "Query failed", it) }
+    .collect { Log.i("MyAmplifyApp", "Content: ${it.content}") }
+```
+
+</CodeBlock>
+<CodeBlock name="RxJava">
+
+```java
+RxAmplify.DataStore.query(Comment.class, Post.STATUS.eq(PostStatus.ACTIVE))
+    .subscribe(
+        comment -> Log.i("MyAmplifyApp", "Content: " + comment.getContent()),
+        failure -> Log.e("MyAmplifyApp", "Query failed.", failure)
+    );
+```
+
+</CodeBlock>
+</BlockSwitcher>

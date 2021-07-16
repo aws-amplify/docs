@@ -1,0 +1,95 @@
+ When adding the Storage category, you configure the level of access users have to your S3 bucket. You can configure separate rules for authenticated vs. guest users. When using the Storage category to upload files, you can also specify an access level for each individual file: guest, protected, or private.
+
+- **Guest** Accessible by all users of your application
+- **Protected** Readable by all users, but only writable by the creating user
+- **Private** Readable and writable only by the creating user
+
+Guest access does **not** mean that your files are totally public. A "guest" is a user of your application who has not yet signed in. To enable access at this level, you will still be required to configured [Authentication](/lib/auth/getting-started) in your app. The user must be able to assume an unauthenticated role from your Cognito Identity Pool.
+
+For protected and private access, the `[IDENTITY_ID]` below corresponds to the unique ID of the user. Once the user has signed in, the `[IDENTITY_ID]` can be retrieved from the session by accessing the identity id. See [Accessing credentials](/lib/auth/access_credentials) to retrieve the identity id, and use this as the unique ID of the authenticated user.
+
+<Callout>
+
+The default access level for the Storage category is **guest**. Unless you specify otherwise, all uploaded files will be available to all users of your application. This means that a user who is using your application but has not signed in will have access. Anyone else who is not using your application will _not_ be able to access your files.
+
+</Callout>
+
+## Protected access
+
+After the user has signed in, create an options object specifying the `protected` access level to allow other users to read the object:
+
+
+
+import iosf014cd8ccfe2097deec46b34f1737082 from "/src/fragments/lib/storage/ios/configureaccess/10_protected_upload.mdx";
+
+<Fragments fragments={{ios: iosf014cd8ccfe2097deec46b34f1737082}} />
+
+
+import android9ee1c4a21536a869dc841e5f3a981df0 from "/src/fragments/lib/storage/android/configureaccess/10_protected_upload.mdx";
+
+<Fragments fragments={{android: android9ee1c4a21536a869dc841e5f3a981df0}} />
+
+
+import flutter70f89834865fe28513fdd262f09371f6 from "/src/fragments/lib/storage/flutter/configureaccess/10_protected_upload.mdx";
+
+<Fragments fragments={{flutter: flutter70f89834865fe28513fdd262f09371f6}} />
+
+This will upload with the prefix `/protected/[IDENTITY_ID]/` followed by the key.
+
+For other users to read the file, you must specify the user ID of the creating user in the passed options. 
+
+
+
+import ioseef3eb73d3c8cdea5a584446aeb7e095 from "/src/fragments/lib/storage/ios/configureaccess/20_protected_download.mdx";
+
+<Fragments fragments={{ios: ioseef3eb73d3c8cdea5a584446aeb7e095}} />
+
+
+import androide47155d7521313ca64a54e37803d0e34 from "/src/fragments/lib/storage/android/configureaccess/20_protected_download.mdx";
+
+<Fragments fragments={{android: androide47155d7521313ca64a54e37803d0e34}} />
+
+
+import flutter5c131f26245575f01555e84cab0e9176 from "/src/fragments/lib/storage/flutter/configureaccess/20_protected_download.mdx";
+
+<Fragments fragments={{flutter: flutter5c131f26245575f01555e84cab0e9176}} />
+
+## Private Access
+
+Create an options object specifying the private access level to only allow an object to be accessed by the creating user
+
+
+
+import iosc5b27d7007058064ebc7f3f4c35ecbd4 from "/src/fragments/lib/storage/ios/configureaccess/30_private_upload.mdx";
+
+<Fragments fragments={{ios: iosc5b27d7007058064ebc7f3f4c35ecbd4}} />
+
+
+import androidab1e53b47a15faffb670352b8774377b from "/src/fragments/lib/storage/android/configureaccess/30_private_upload.mdx";
+
+<Fragments fragments={{android: androidab1e53b47a15faffb670352b8774377b}} />
+
+
+import flutter30afcff5089e5e3442b1a9e8eefc3ce2 from "/src/fragments/lib/storage/flutter/configureaccess/30_private_upload.mdx";
+
+<Fragments fragments={{flutter: flutter30afcff5089e5e3442b1a9e8eefc3ce2}} />
+
+This will upload with the prefix `/private/[IDENTITY_ID]/`, followed by the key.
+
+For the user to read the file, specify the same access level (`private`) and key you used to upload:
+
+
+
+import ios019c65ffae320fff8084bfa337311d5e from "/src/fragments/lib/storage/ios/configureaccess/40_private_download.mdx";
+
+<Fragments fragments={{ios: ios019c65ffae320fff8084bfa337311d5e}} />
+
+
+import android7471fa18396e5772d3907d9b063052e8 from "/src/fragments/lib/storage/android/configureaccess/40_private_download.mdx";
+
+<Fragments fragments={{android: android7471fa18396e5772d3907d9b063052e8}} />
+
+
+import flutter6fd8a42460540881bd5fc99c0d2ebf7a from "/src/fragments/lib/storage/flutter/configureaccess/40_private_download.mdx";
+
+<Fragments fragments={{flutter: flutter6fd8a42460540881bd5fc99c0d2ebf7a}} />

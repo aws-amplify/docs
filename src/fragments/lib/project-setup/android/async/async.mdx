@@ -1,0 +1,71 @@
+Most functionalities in Amplify Android are exposed as asynchronous functions. These functions return immediately, returning a result at a later time:
+
+```kotlin
+val post = Post.builder()
+    .title("My First Post")
+    .build()
+
+// Time 0: save() is called.
+Amplify.DataStore.save(post,
+    {
+        // Time 2, later: a result or error is emitted
+        Log.i("MyAmplifyApp", "Saved a post")
+    },
+    {
+        // Time 2, later: a result of error is emitted
+        Log.e("MyAmplifyApp", "Save failed", it)
+    }
+)
+// Time 1: save() yields execution to following lines,
+// but no result available, yet.
+
+```
+
+This is a familiar pattern to many Android developers, and so is the default way of interacting with Amplify Android.
+
+However, this development model has some challenges. Let's say you need to wait for an operation to complete, so that you can perform additional logic that depends on its result. This can quickly become unmaintainable, resulting in a situation known as "callback hell":
+
+Consider a relational model where the creation of a `Post` also requires the creation of a `User` for the editor, and a `PostEditor` object to link the two together:
+
+```java
+Post post = Post.builder()
+    .title("My First Post")
+    .build();
+
+User editor = User.builder()
+    .username("Nadia")
+    .build();
+
+PostEditor postEditor = PostEditor.builder()
+    .post(post)
+    .editor(editor)
+    .build();
+```
+
+Using callbacks, you can save these objects via:
+
+```kotlin
+Amplify.DataStore.save(post,
+    {
+        Log.i("MyAmplifyApp", "Post saved")
+        Amplify.DataStore.save(editor,
+            {
+                Log.i("MyAmplifyApp", "Editor saved")
+                Amplify.DataStore.save(postEditor,
+                    { Log.i("MyAmplifyApp", "PostEditor saved") },
+                    { Log.e("MyAmplifyApp", "PostEditor not saved", it) }
+                )
+            },
+            { Log.e("MyAmplifyApp", "Editor not saved", it) }
+        )
+    },
+    { Log.e("MyAmplifyApp", "Post not saved", it) }
+)
+```
+
+
+After three calls, we're no longer writing down the page, we're writing down-and-right. As our program grows, this may become difficult to scale.
+
+There are a variety of different technologies that aim to solve this particular problem: Promises/Futures, RxJava, Kotlin Coroutines, and more.
+
+Amplify Android includes optional support for **[Kotlin Coroutines](/lib/project-setup/coroutines)** and **[RxJava](/lib/project-setup/rxjava)**.

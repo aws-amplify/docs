@@ -1,0 +1,43 @@
+You can use `onNotification`, `onRegister` and `onNotificationOpened` event handlers to work with push notifications in your app:
+
+```javascript
+// get the notification data when notification is received
+PushNotification.onNotification((notification) => {
+  // Note that the notification object structure is different from Android and IOS
+  console.log('in app notification', notification);
+
+  // required on iOS only (see fetchCompletionHandler docs: https://github.com/react-native-community/push-notification-ios#finish)
+  notification.finish(PushNotificationIOS.FetchResult.NoData);
+});
+
+// get the registration token
+// This will only be triggered when the token is generated or updated.
+PushNotification.onRegister((token) => {
+  console.log('in app registration', token);
+});
+
+// get the notification data when notification is opened
+PushNotification.onNotificationOpened((notification) => {
+    console.log('the notification is opened', notification);
+});
+```
+
+<Callout>
+
+The `onRegister` handler will only be triggered once when the token is generated or updated by the push provider i.e. Apple/Google (and when the app opened the first time). 
+
+</Callout>
+
+If you have configured your application not to automatically request iOS push notification permissions, you can use the `requestIOSPermissions` method to request them explicitly:
+
+```javascript
+// request iOS push notification permissions
+PushNotification.requestIOSPermissions();
+
+// request a subset of iOS push notification permissions
+PushNotification.requestIOSPermissions({
+  alert: true,
+  badge: true,
+  sound: false,
+});
+```

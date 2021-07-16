@@ -1,0 +1,57 @@
+<BlockSwitcher>
+<CodeBlock name="Java">
+
+```java
+private void downloadFile(File file, String key, String otherIdentityId) {
+    StorageDownloadFileOptions options = StorageDownloadFileOptions.builder()
+        .accessLevel(StorageAccessLevel.PROTECTED)
+        .targetIdentityId(otherIdentityId)
+        .build();
+
+    Amplify.Storage.downloadFile(key, file, options,
+        result -> Log.i("MyAmplifyApp", "Successfully downloaded: " + key),
+        error -> Log.e("MyAmplifyApp", "Download failed", error)
+    );
+}
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Callbacks">
+
+```kotlin
+private fun downloadFile(file: File, key: String, otherIdentityId: String) {
+    val options = StorageDownloadFileOptions.builder()
+        .accessLevel(StorageAccessLevel.PROTECTED)
+        .targetIdentityId(otherIdentityId)
+        .build()
+    
+    Amplify.Storage.downloadFile(key, file, options,
+        { Log.i("MyAmplifyApp", "Successfully downloaded: $key") },
+        { error -> Log.e("MyAmplifyApp", "Download failed", error) }
+    )
+}
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+private suspend fun downloadFile(file: File, key: String, otherIdentityId: String) {
+    val options = StorageDownloadFileOptions.builder()
+        .accessLevel(StorageAccessLevel.PROTECTED)
+        .targetIdentityId(otherIdentityId)
+        .build()
+    
+    val download = Amplify.Storage.downloadFile(key, file, options)
+    
+    try {
+        download.result()
+        Log.i("MyAmplifyApp", "Successfully downloaded: $key")
+    } catch (error: StorageException) {
+        Log.e("MyAmplifyApp", "Download failed", error)
+    }
+}
+```
+
+</CodeBlock>
+</BlockSwitcher>

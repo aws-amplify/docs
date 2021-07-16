@@ -1,0 +1,139 @@
+
+Once you're happy with your application, you can start syncing with the cloud by provisioning a backend from your project. DataStore can connect to remote backend and automatically sync all locally saved data using GraphQL as a data protocol.
+
+<Callout>
+
+**Best practice:** it is recommended to develop without cloud synchronization enabled initially so you can change the schema as your application takes shape without the impact of having to update the provisioned backend. Once you are satisfied with the stability of your data schema, setup cloud synchronization as described below and the data saved locally will be synchronized to the cloud automatically.
+
+</Callout>
+
+## Setup cloud sync
+
+Synchronization between offline and online data can be tricky. DataStore goal is to remove that burden from the application code and handle all data consistency and reconciliation between local and remote behind the scenes, while developers focus on their application logic. Up to this point the focus was to setup a local datastore that works offline and has all the capabilities you would expect from a data persistence framework.
+
+The next step is to make sure the local saved data is synchronized with a cloud backend powered by [AWS AppSync](https://aws.amazon.com/appsync/).
+
+
+
+import ios09190d566fc8bdf41010ee07e503a32d from "/src/fragments/lib/datastore/ios/sync/10-installPlugin.mdx";
+
+<Fragments fragments={{ios: ios09190d566fc8bdf41010ee07e503a32d}} />
+
+
+import androidb3a3e3aaf5d2c336bc76998013ca2e58 from "/src/fragments/lib/datastore/android/sync/10-installPlugin.mdx";
+
+<Fragments fragments={{android: androidb3a3e3aaf5d2c336bc76998013ca2e58}} />
+
+
+import flutter60f4a8cb25acdee0ddae97284e9f5f1d from "/src/fragments/lib/datastore/flutter/sync/10-installPlugin.mdx";
+
+<Fragments fragments={{flutter: flutter60f4a8cb25acdee0ddae97284e9f5f1d}} />
+
+### Push the backend to the cloud
+
+By now you should have a backend created with conflict detection enabled, as described in the [Getting started](/lib/datastore/getting-started) guide.
+
+**Check the status of the backend** to verify if it is already provisioned in the cloud.
+
+```console
+amplify status
+```
+
+You should see a table similar to this one.
+
+```plain
+| Category | Resource name     | Operation | Provider plugin   |
+| -------- | ----------------- | --------- | ----------------- |
+| Api      | amplifyDatasource | No Change | awscloudformation |
+```
+
+<Callout>
+
+**Troubleshooting:** if `amplify status` gives you an error saying *"You are not working inside a valid Amplify project"*, make sure you run `amplify init` before the next step.
+
+</Callout>
+
+In case `Operation` says `Create` or `Update` you need to **push the backend to the cloud**.
+
+```console
+amplify push
+```
+
+<Callout warning>
+
+**AWS credentials needed.** At this point an AWS account is required. If you have never run `amplify configure` before, do it so and follow the steps to configure Amplify with your AWS account. Details can be found in the [Configure the Amplify CLI](/cli/start/install.md#configure-the-amplify-cli) guide.
+
+</Callout>
+
+## Existing backend
+
+DataStore can connect to an existing AWS AppSync backend that has been deployed from another project, no matter the platform it was originally created in. In these workflows it is best to work with the CLI directly by running an `amplify pull` command from your terminal and then generating models afterwards, using the process described in the [Getting started](/lib/datastore/getting-started.md#idiomatic-persistence-models) guide.
+
+For more information on this workflow please see the [Multiple Frontends documentation](/cli/teams/multi-frontend).
+
+
+
+import jsd2bda95b54631e7678a9202741a53ef2 from "/src/fragments/lib/datastore/native_common/sync-distributed-data.mdx";
+
+<Fragments fragments={{js: jsd2bda95b54631e7678a9202741a53ef2}} />
+
+
+import iosd2bda95b54631e7678a9202741a53ef2 from "/src/fragments/lib/datastore/native_common/sync-distributed-data.mdx";
+
+<Fragments fragments={{ios: iosd2bda95b54631e7678a9202741a53ef2}} />
+
+
+import androidd2bda95b54631e7678a9202741a53ef2 from "/src/fragments/lib/datastore/native_common/sync-distributed-data.mdx";
+
+<Fragments fragments={{android: androidd2bda95b54631e7678a9202741a53ef2}} />
+
+## Clear local data
+
+`Amplify.DataStore.clear()` provides a way for you to clear all local data if needed. This is a destructive operation but the **remote data will remain intact**. When the next sync happens, data will be pulled into the local storage again and reconstruct the local data.
+
+One common use for `clear()` is to manage different users sharing the same device or even as a development-time utility.
+
+<Callout warning>
+
+**Note:** In case multiple users share the same device and your schema defines user-specific data, make sure you call `Amplify.DataStore.clear()` when switching users. Visit [Auth events](/lib/auth/auth-events) for all authentication related events.
+
+</Callout>
+
+
+
+import jsdbc79b8e96ec874da5bcbb683964b188 from "/src/fragments/lib/datastore/js/sync/40-clear.mdx";
+
+<Fragments fragments={{js: jsdbc79b8e96ec874da5bcbb683964b188}} />
+
+
+import iosb55ba94a74230607e69eb875920c6686 from "/src/fragments/lib/datastore/ios/sync/40-clear.mdx";
+
+<Fragments fragments={{ios: iosb55ba94a74230607e69eb875920c6686}} />
+
+
+import androidefbab35425be5807bccc0a53fd30b002 from "/src/fragments/lib/datastore/android/sync/40-clear.mdx";
+
+<Fragments fragments={{android: androidefbab35425be5807bccc0a53fd30b002}} />
+
+
+import flutter899837b5a769c26ea6cdc85d53b5a566 from "/src/fragments/lib/datastore/flutter/sync/40-clear.mdx";
+
+<Fragments fragments={{flutter: flutter899837b5a769c26ea6cdc85d53b5a566}} />
+
+This is a simple yet effective example. However, in a real scenario you might want to only call `clear()` when a different user is `signedIn` in order to avoid clearing the database for a repeated sign-in of the same user.
+
+
+
+import jsfdc82e596d858b6a3085b9192fefbf09 from "/src/fragments/lib/datastore/js/sync/50-selectiveSync.mdx";
+
+<Fragments fragments={{js: jsfdc82e596d858b6a3085b9192fefbf09}} />
+
+
+import androide561b4a0bcf218ea063435769ed47a5a from "/src/fragments/lib/datastore/android/sync/50-selectiveSync.mdx";
+
+<Fragments fragments={{android: androide561b4a0bcf218ea063435769ed47a5a}} />
+
+
+import iosf1b49a9a2b535e865a0a26dbad867c40 from "/src/fragments/lib/datastore/ios/sync/50-selectiveSync.mdx";
+
+<Fragments fragments={{ios: iosf1b49a9a2b535e865a0a26dbad867c40}} />

@@ -1,0 +1,1 @@
+- This tutorial assumes that you're familiar with both JavaScript/ES6 and React. If you need to brush up on React, we recommend going through the [official tutorial](https://reactjs.org/tutorial/tutorial.html).

@@ -1,0 +1,40 @@
+Add the Auth plugin before calling `Amplify.configure`. Update [the code you added](/lib/project-setup/create-application.md#n4-initialize-amplify-in-the-application) in **Prerequisites**: 
+
+<BlockSwitcher>
+<CodeBlock name="Java">
+  
+```java
+// Add this line, to include the Auth plugin.
+Amplify.addPlugin(new AWSCognitoAuthPlugin());
+Amplify.configure(getApplicationContext());
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Callbacks">
+
+```kotlin
+// Add this line, to include the Auth plugin.
+Amplify.addPlugin(AWSCognitoAuthPlugin())
+Amplify.configure(applicationContext)
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+// Add this line, to include the Auth plugin.
+Amplify.addPlugin(AWSCognitoAuthPlugin())
+Amplify.configure(applicationContext)
+```
+
+</CodeBlock>
+<CodeBlock name="RxJava">
+
+```java
+// Add this line, to include the Auth plugin.
+RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
+RxAmplify.configure(getApplicationContext());
+```
+
+</CodeBlock>
+</BlockSwitcher>

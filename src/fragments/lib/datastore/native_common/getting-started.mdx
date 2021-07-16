@@ -1,0 +1,232 @@
+
+## DataStore with Amplify
+
+Amplify DataStore provides a programming model for leveraging shared and distributed data without writing additional code for offline and online scenarios, which makes working with distributed, cross-user data just as simple as working with local-only data.
+
+<Callout>
+
+**Note:** this allows you to start persisting data locally to your device with DataStore, even without an AWS account.
+
+</Callout>
+
+## Goal
+To setup and configure your application with Amplify DataStore and use it to persist data locally on a device.
+
+## Prerequisites
+
+
+
+import js1aa639f84993f82f650e4ef5680246ae from "/src/fragments/lib/datastore/js/getting-started/10_preReq.mdx";
+
+<Fragments fragments={{js: js1aa639f84993f82f650e4ef5680246ae}} />
+
+
+import iosb29c78277dd6bc5759e0a3164f40cfc2 from "/src/fragments/lib/datastore/ios/getting-started/10_preReq.mdx";
+
+<Fragments fragments={{ios: iosb29c78277dd6bc5759e0a3164f40cfc2}} />
+
+
+import android02643fdbaaa832c1ad63c96a88e467db from "/src/fragments/lib/datastore/android/getting-started/10_preReq.mdx";
+
+<Fragments fragments={{android: android02643fdbaaa832c1ad63c96a88e467db}} />
+
+
+import flutter9f0291f557b900b74a932e2f5b42e6dc from "/src/fragments/lib/datastore/flutter/getting-started/10_preReq.mdx";
+
+<Fragments fragments={{flutter: flutter9f0291f557b900b74a932e2f5b42e6dc}} />
+
+
+
+import ios1d75d506b1b1b3d69491c3d1e6d2f71f from "/src/fragments/lib/datastore/ios/getting-started/20_installLib.mdx";
+
+<Fragments fragments={{ios: ios1d75d506b1b1b3d69491c3d1e6d2f71f}} />
+
+
+import android5308d4d979770edd0478a1a2769bf779 from "/src/fragments/lib/datastore/android/getting-started/20_installLib.mdx";
+
+<Fragments fragments={{android: android5308d4d979770edd0478a1a2769bf779}} />
+
+
+import flutter30e48db93cabfd3923dba603c97fd24c from "/src/fragments/lib/datastore/flutter/getting-started/20_installLib.mdx";
+
+<Fragments fragments={{flutter: flutter30e48db93cabfd3923dba603c97fd24c}} />
+
+## Setup local development environment
+
+
+
+import js1ee137d770fd782ecf43a87cd0daf514 from "/src/fragments/lib/datastore/native_common/setup-env.mdx";
+
+<Fragments fragments={{js: js1ee137d770fd782ecf43a87cd0daf514}} />
+
+
+import ios34e027390755c93e2abd7baa9bf73109 from "/src/fragments/lib/datastore/ios/getting-started/30_setupEnv.mdx";
+
+<Fragments fragments={{ios: ios34e027390755c93e2abd7baa9bf73109}} />
+
+
+import android1ee137d770fd782ecf43a87cd0daf514 from "/src/fragments/lib/datastore/native_common/setup-env.mdx";
+
+<Fragments fragments={{android: android1ee137d770fd782ecf43a87cd0daf514}} />
+
+
+import flutter1ee137d770fd782ecf43a87cd0daf514 from "/src/fragments/lib/datastore/native_common/setup-env.mdx";
+
+<Fragments fragments={{flutter: flutter1ee137d770fd782ecf43a87cd0daf514}} />
+
+## Idiomatic persistence
+
+DataStore relies on platform standard data structures to represent the data schema in an idiomatic way. The persistence language is composed by data types that satisfies the `Model` interface and operations defined by common verbs such as `save`, `query` and `delete`.
+
+### Data schema
+
+The first step to create an app backed by a persistent datastore is to **define a schema**. DataStore uses GraphQL schema files as the definition of the application data model. The schema contains data types and relationships that represent the app's functionality.
+
+### Sample schema
+
+For the next steps, let's start with a schema for a small blog application. Currently, it has only a single model. New types and constructs will be added to this base schema as more concepts are presented.
+
+Open the `schema.graphql` file located by default at `amplify/backend/{api_name}/` and **define a model** `Post` as follows.
+
+```graphql
+type Post @model {
+  id: ID!
+  title: String!
+  status: PostStatus!
+  rating: Int
+  content: String
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+}
+```
+
+Now you will to convert the platform-agnostic `schema.graphql` into platform-specific data structures. DataStore relies on code generation to guarantee schemas are correctly converted to platform code.
+
+Like the initial setup, models can be generated either using the IDE integration or Amplify CLI directly.
+
+### Code generation: Platform integration
+
+
+
+import jsfd7ded92ebbfdae096cb22f36da26071 from "/src/fragments/lib/datastore/js/getting-started/40_codegen.mdx";
+
+<Fragments fragments={{js: jsfd7ded92ebbfdae096cb22f36da26071}} />
+
+
+import iosc4065c94cf4405d3645129a7508fccef from "/src/fragments/lib/datastore/ios/getting-started/40_codegen.mdx";
+
+<Fragments fragments={{ios: iosc4065c94cf4405d3645129a7508fccef}} />
+
+
+import android70f0426c2ffdac29a7534675bb12e222 from "/src/fragments/lib/datastore/android/getting-started/40_codegen.mdx";
+
+<Fragments fragments={{android: android70f0426c2ffdac29a7534675bb12e222}} />
+
+
+import flutter620a4db837c316ba1c208169df2a06e3 from "/src/fragments/lib/datastore/flutter/getting-started/40_codegen.mdx";
+
+<Fragments fragments={{flutter: flutter620a4db837c316ba1c208169df2a06e3}} />
+
+### Code generation: Amplify CLI
+
+Models can also be generated using the Amplify CLI directly.
+
+In your terminal, make sure you are in your project/root folder and **execute the codegen command**:
+
+```console
+amplify codegen models
+```
+    
+You can **find the generated files** at `amplify/generated/models/`.
+
+## Initialize Amplify DataStore
+
+
+
+import jsf46b0a1a671ef212d1e2ee34851f249b from "/src/fragments/lib/datastore/js/getting-started/50_initDataStore.mdx";
+
+<Fragments fragments={{js: jsf46b0a1a671ef212d1e2ee34851f249b}} />
+
+
+import iosc3ed419f7ec2cd9e15a02b2c83b0a448 from "/src/fragments/lib/datastore/ios/getting-started/50_initDataStore.mdx";
+
+<Fragments fragments={{ios: iosc3ed419f7ec2cd9e15a02b2c83b0a448}} />
+
+
+import android139f1b8afc569c74362d8a0369f256c0 from "/src/fragments/lib/datastore/android/getting-started/50_initDataStore.mdx";
+
+<Fragments fragments={{android: android139f1b8afc569c74362d8a0369f256c0}} />
+
+
+import flutter48d84d30dc7fb4fb56553d8b8c3e32dc from "/src/fragments/lib/datastore/flutter/getting-started/50_initDataStore.mdx";
+
+<Fragments fragments={{flutter: flutter48d84d30dc7fb4fb56553d8b8c3e32dc}} />
+
+## Persistence operations
+
+Now the application is ready to execute persistence operations. The data will be persisted to a local database, enabling offline-first use cases by default.
+
+Even though a GraphQL API is already added to your project, the cloud synchronization will only be enabled when the API plugin is initialized and the backend provisioned. See the [Next steps](#next-steps) for more info.
+
+### Writing to the database
+
+To write to the database, create an instance of the `Post` model and save it.
+
+
+
+import jsceababdfd22313a52f15c35b41105644 from "/src/fragments/lib/datastore/js/getting-started/60_saveSnippet.mdx";
+
+<Fragments fragments={{js: jsceababdfd22313a52f15c35b41105644}} />
+
+
+import ios09bac510d96b859a82cbe38c34e015f1 from "/src/fragments/lib/datastore/ios/getting-started/60_saveSnippet.mdx";
+
+<Fragments fragments={{ios: ios09bac510d96b859a82cbe38c34e015f1}} />
+
+
+import androidb4d72d6452993930cdd85111c73bd935 from "/src/fragments/lib/datastore/android/getting-started/60_saveSnippet.mdx";
+
+<Fragments fragments={{android: androidb4d72d6452993930cdd85111c73bd935}} />
+
+
+import flutter5394b95450dea5e22a6681690f2cee09 from "/src/fragments/lib/datastore/flutter/getting-started/60_saveSnippet.mdx";
+
+<Fragments fragments={{flutter: flutter5394b95450dea5e22a6681690f2cee09}} />
+
+### Reading from the database
+
+To read from the database, the simplest approach is to query for all records of a given model type.
+
+
+
+import js275ab7a312f2afa67165b26ceeee65a7 from "/src/fragments/lib/datastore/js/getting-started/70_querySnippet.mdx";
+
+<Fragments fragments={{js: js275ab7a312f2afa67165b26ceeee65a7}} />
+
+
+import iosee8aafa75de8a966cf073db71bba82d1 from "/src/fragments/lib/datastore/ios/getting-started/70_querySnippet.mdx";
+
+<Fragments fragments={{ios: iosee8aafa75de8a966cf073db71bba82d1}} />
+
+
+import android3ef8525d7cf4c445b89eddcf58cbbb96 from "/src/fragments/lib/datastore/android/getting-started/70_querySnippet.mdx";
+
+<Fragments fragments={{android: android3ef8525d7cf4c445b89eddcf58cbbb96}} />
+
+
+import flutter42020092cf067f91800a9dbb38b2691e from "/src/fragments/lib/datastore/flutter/getting-started/70_querySnippet.mdx";
+
+<Fragments fragments={{flutter: flutter42020092cf067f91800a9dbb38b2691e}} />
+
+## Next steps
+
+Congratulations! You’ve created and retrieved data from the local database. Check out the following links to see other Amplify DataStore use cases and advanced concepts:
+
+- [Write data](/lib/datastore/data-access.md#create-and-update)
+- [Query data](/lib/datastore/data-access.md#query-data)
+- [Model associations](/lib/datastore/relational)
+- [Cloud synchronization](/lib/datastore/sync)
+- [Clear local data](/lib/datastore/sync.md#clear-local-data)

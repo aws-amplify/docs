@@ -1,0 +1,68 @@
+export const meta = {
+  title: "Getting started",
+  description: "Getting started with the Admin UI",
+};
+
+
+
+The Admin UI provides a visual interface to develop app backends and manage app content outside the AWS Management Console. To learn more, see the [Introduction to Admin UI](/console/adminui/intro).
+
+The Admin UI is not available in every region where the Amplify Console is available. For a list of the regions where Admin UI is available, see the [Amplify service endpoints](https://docs.aws.amazon.com/general/latest/gr/amplify.html).
+
+You can get started with or without an AWS account. Without an AWS account, you can begin modeling data for your backend and testing it locally. If you choose to create an AWS account and deploy your backend to Amplify Console, an expanded set of features becomes available for configuring your backend environment. 
+
+<Grid grid-gap="2" columns="2" class="margin-top-lg margin-bottom-lg">
+<Card external url="https://sandbox.amplifyapp.com/" containertag="amplify-external-link" >
+  <img slot="graphic" src="~/images/console/adminui.svg" />
+  <h4 slot="heading">Launch Sandbox</h4>
+  <p slot="description">Get started without an AWS account</p>
+</Card>
+<Card external url="https://console.aws.amazon.com/amplify/home?#/deploy-backend" containertag="amplify-external-link" >
+  <img slot="graphic" src="~/assets/logo-dark.svg" />
+  <h4 slot="heading">Launch Amplify Console</h4>
+  <p slot="description">Get started with an AWS account</p>
+</Card>
+</Grid>
+
+## Get started without an AWS account 
+
+If you are new to AWS, you don't need an AWS account to get started. You can still model and test your data before deploying to the cloud. After building your data model, you must connect an AWS account to deploy your backend environment to the Amplify Console using the Admin UI. The sandbox interface lets you perform the following tasks:
+  * Set up your data model. For instructions on creating models and setting relationships, see [Data modeling in the Admin UI](/console/data/data-model.md#Data-modeling-in-the-Admin-UI).
+  * Test your new data model locally.
+  * Deploy your backend to the cloud. This requires an AWS account.
+
+## Get started with your AWS account
+
+If you already have an AWS account and you want to skip the sandbox experience, deploy the Admin UI to start using all Amplify features, including DataStore, user authentication and authorization, and file storage. After you deploy a backend in Amplify Console, you can launch the Admin UI from your Amplify Console app. Your entire team can use the Admin UI to add new features, update app data, and manage users and groups.
+
+### To get started with a new Amplify app
+1. Sign in to the AWS Management Console and open AWS Amplify. Choose **Create app backend**.
+2. Enter a name for your app and choose **Confirm deployment**. This deploys a default **staging** backend environment.
+3. On the application information page, choose the **Backend environments** tab.
+4. Choose **Open Admin UI**. This automatically logs you in to the Admin UI.
+
+If you already have an existing backend environment, you can enable the Admin UI from the console.
+
+### To get started from an existing Amplify app
+
+1. Sign in to the AWS Management Console and open AWS Amplify. Or, enter `amplify console` from the Amplify Command Line Interface (CLI).
+2. In the navigation pane, choose **Admin UI management**
+3. Turn on **Enable Admin UI (All environments)**. 
+4. In the **Backend environments** section, choose **Open Admin UI**.  This automatically logs you in to the Admin UI where you can use all the Admin UI capabilities.
+
+## Next steps
+
+You are ready to start creating and managing your application's backend in the Admin UI. See the following topics to learn more about what you can do.
+  * [Manage team access](/console/adminui/access-management)
+  * [Access Admin UI on a custom domain](/console/adminui/custom-domain)
+  * [Extend with the Amplify CLI ](/console/adminui/extend-cli)
+  * [Data modeling](/console/data/data-model)
+  * [Content management](/console/data/content-management)
+  * [Authentication](/console/auth/authentication)
+  * [Manage authentication for users and groups](/console/auth/user-management)
+  * [Authorization](/console/authz/authorization)
+  
+  
+ 
+
+

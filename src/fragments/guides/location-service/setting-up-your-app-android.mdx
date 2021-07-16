@@ -1,0 +1,237 @@
+## Overview
+
+[Amazon Location Service](http://aws.amazon.com/location) is a geolocation service that lets you add location information to your applications. With Amazon Location Service, you can build applications that provide maps and points of interest, track resources, trigger actions based on location, and convert street addresses into geographic coordinates. This guide provides you with the following information:
+
+- How to setup and configure your Android app with the Amazon Location Service SDK
+- How to add authentication to your application
+- Example of how to access the Amazon Location Service APIs
+
+To learn more about the service, see the [Amazon Location Service Developer Guide](https://docs.aws.amazon.com/location/latest/developerguide/).
+
+## Prerequisites
+
+When using the Amazon Location Service within your Android app, your application must target API level 16 or later.
+
+## Installing dependencies
+
+The following procedure defines how to install the necessary Amazon Location Service SDK dependencies in your Android app.
+
+**To install dependencies:**
+
+1. In Android Studio, expand **Gradle Scripts** in the project viewer and open **build.gradle (Module: YourApp).**
+1. In the **dependencies** block, add the following lines:
+
+    ```groovy
+    implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.20.+'
+    implementation 'com.amazonaws:aws-android-sdk-location:2.20.+'
+    ```
+
+1. Click **Sync Now** in the notification bar above the file editor to update your project’s configuration. You have now successfully added the Amazon Location Service SDK dependencies to your Android app.
+
+## Adding authentication to your App using the Amplify CLI
+
+The Amplify Framework uses [Amazon Cognito](https://aws.amazon.com/cognito/) as its primary authentication provider. Amazon Cognito is a robust user directory service that handles user registration, authentication, account recovery, and other operations. Use the following procedure to add authentication to your app using Amazon Cognito and Amplify CLI. 
+
+1. Open a terminal window in Android Studio by clicking Terminal.
+1. Install the [Amplify CLI](https://docs.amplify.aws/cli/start/install) by running the following command:
+
+    
+
+import allde508dbbe48d84391ad727bc6d10d0ea from "/src/fragments/cli-install-block.mdx";
+
+<Fragments fragments={{all: allde508dbbe48d84391ad727bc6d10d0ea}} />
+
+1. Initialize a new Amplify project by running the following command from the root directory of your app:
+
+    ```bash
+    amplify init
+    ```
+
+1. Create a Cognito Identity Pool. It will be used to authenticate your app users and authorize their access to Amazon Location Service. To start provisioning authentication resources in the backend, go to your project directory and run the following command:
+
+    ```bash
+    amplify add auth
+    ```
+
+1. When prompted, provide the following information:
+
+    ```console
+    ? Do you want to use the default authentication and security configuration? 
+      `Default configuration`
+    ? How do you want users to be able to sign in? 
+      `Username`
+    ? Do you want to configure advanced settings? 
+      `No, I am done.`
+    ```
+
+1. Run the following command to push your changes to the cloud. When completed, the `awsconfiguration.json` file will be updated to reference your newly provisioned backend auth resources.
+
+    ```bash
+    amplify push
+    ```
+
+## Initializing the SDK
+
+To use your new Amazon Cognito identity pool, add the following code to initialize AWSMobileClient in your Activity's onCreate method:
+
+<BlockSwitcher>
+
+<CodeBlock name="Java">
+
+```java
+AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
+    @Override
+    public void onResult(UserStateDetails userStateDetails) {
+        Log.i("QuickStart", "onResult: " + userStateDetails.getUserState());
+    }
+
+    @Override
+    public void onError(Exception error) {
+        Log.e("QuickStart", "Initialization error: ", error);
+    }
+});
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin">
+
+```kotlin
+AWSMobileClient.getInstance().initialize(applicationContext, object : Callback<UserStateDetails> {
+    override fun onResult(userStateDetails: UserStateDetails) {
+        Log.i("QuickStart", "onResult: " + userStateDetails.userState)
+    }
+
+    override fun onError(error: Exception) {
+        Log.e("QuickStart", "Initialization error: ", error)
+    }
+})
+```
+
+</CodeBlock>
+</BlockSwitcher>
+
+This allows guest users access to your backend resources. 
+
+You have now successfully setup and configured your app to use Amazon Location Service!
+
+## Using the Amazon Location Service APIs
+
+In order to access Amazon Location Service APIs you will need to create resources. You can create resources using the [Amazon Location Service console](http://console.aws.amazon.com/location/home) or using the [AWS Command Line Interface (CLI)](https://aws.amazon.com/cli/). Once you have created the resources, you can use these resources by calling the [APIs](https://aws-amplify.github.io/aws-sdk-android/docs/reference/). 
+
+This section provides you an example of using the Amazon Location Service APIs. In this example, we will first create a Place Index in the Amazon Location Service console and use the APIs to search for places.  
+
+### Creating a new place index
+
+1. Open the [Amazon Location Service console](https://console.aws.amazon.com/location/places/home#/create) to create a place index.
+1. Enter **MyPlaceIndex** in **Name**.
+1. Press **Create place index**
+
+    ![Amazon Location Service - Create place index](/images/als/create-place-index.png)
+
+1. Note the Amazon Resource Name (ARN) of your place index. This will start with *arn:aws:geo* as in the below screenshot.
+
+    ![Amazon Location Service - Place index](/images/als/my-place-index.png)
+
+### Allow Guest users access to the place index
+
+Now create an inline policy that will give guest users of your application access to the Place Index resource you just created in Amazon Location Service.
+
+1. Navigate to the root of your project and run the following command:
+
+    ```bash
+    amplify console auth
+    ```
+
+1. Select **Identity Pool** for **Which console?** when prompted.
+1. You will be directed to the Amazon Cognito console. Click on **Edit identity pool** in the top right corner of the page.
+1. Open the drop down for **Unauthenticated identities**, choose **Enable access to unauthenticated identities**, and then press **Save Changes**.
+1. Click on **Edit identity pool** once more. Make a note of the name of the Unauthenticated role. For example, `amplify-<project_name>-<env_name>-<id>-unauthRole`.
+1. Open the [AWS Identity and Access Management (IAM) console](https://console.aws.amazon.com/iam/home#/roles) to manage Roles.
+1. In the **Search** field, enter the name of your Unauthenticated role noted above and click on it.
+1. Click **+Add inline policy**, then click on the **JSON** tab.
+1. Fill in the `[ARN]` placeholder with the ARN of your place index which you noted above and replace the contents of the policy with the below.
+
+    ```json
+{
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "Action": "geo:SearchPlaceIndexForText",
+                "Resource": "[ARN]"
+            }
+        ]
+}
+    ```
+
+1. Click on the **Review policy** button.
+1. In the **Name** field, enter *LocationTracker*.
+1. Click on the **Create policy** button. You have now successfully added authentication to your Android app.
+
+### Searching for places
+
+Here is how you can search for places using the place index you just created:
+
+<BlockSwitcher>
+
+<CodeBlock name="Java">
+
+```java
+AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
+    @Override
+    public void onResult(UserStateDetails userStateDetails) {
+        ExecutorService executorService = Executors.newFixedThreadPool(4);
+
+        executorService.execute(() -> {
+            AmazonLocationClient client = new AmazonLocationClient(AWSMobileClient.getInstance());
+            SearchPlaceIndexForTextRequest request = new SearchPlaceIndexForTextRequest();
+
+            request.setText("Space Needle");
+            request.setIndexName("MyPlaceIndex");
+
+            SearchPlaceIndexForTextResult response = client.searchPlaceIndexForText(request);
+
+            for (SearchForTextResult result : response.getResults()) {
+                Log.i("QuickStart", result.getPlace().toString());
+            }
+        });
+    }
+
+    @Override
+    public void onError(Exception error) {
+        Log.e("QuickStart", "Initialization error: ", error);
+    }
+});
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin">
+
+```kotlin
+AWSMobileClient.getInstance().initialize(applicationContext, object : Callback<UserStateDetails> {
+    override fun onResult(userStateDetails: UserStateDetails) {
+        val executorService = Executors.newFixedThreadPool(4)
+
+        executorService.execute {
+            val client = AmazonLocationClient(AWSMobileClient.getInstance())
+            val request = SearchPlaceIndexForTextRequest()
+
+            request.text = "Space Needle"
+            request.indexName = "MyPlaceIndex"
+
+            val response = client.searchPlaceIndexForText(request)
+
+            for (result in response.results) {
+                Log.i("QuickStart", result.place.toString())
+            }
+        }
+    }
+
+    override fun onError(error: Exception) {
+        Log.e("QuickStart", "Initialization error: ", error)
+    }
+})
+```
+
+</CodeBlock>
+</BlockSwitcher>

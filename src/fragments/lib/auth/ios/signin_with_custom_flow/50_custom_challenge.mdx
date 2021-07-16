@@ -1,0 +1,70 @@
+<BlockSwitcher>
+
+<CodeBlock name="Listener (iOS 11+)">
+
+```swift
+func customChallenge(response: String) {
+    Amplify.Auth.confirmSignIn(challengeResponse: response) { result in
+        switch result {
+        case .success:
+            print("Confirm sign in succeeded")   
+        case .failure(let error):
+            print("Confirm sign in failed \(error)")
+        }
+    }
+}
+```
+
+</CodeBlock>
+
+<CodeBlock name="Combine (iOS 13+)">
+
+```swift
+func customChallenge(response: String) -> AnyCancellable {
+    Amplify.Auth.confirmSignIn(challengeResponse: response)
+        .resultPublisher
+        .sink {
+            if case let .failure(authError) = $0 {
+                print("Confirm sign in failed \(authError)")
+            }
+        }
+        receiveValue: { _ in
+            print("Confirm sign in succeeded")
+        }
+}
+```
+
+</CodeBlock>
+
+</BlockSwitcher>
+
+### Lambda Trigger Setup
+
+The Amplify CLI can be used to generate triggers required by a custom authentication flow. See the [CLI Documentation](/cli/usage/lambda-triggers) for details. The CLI will create a custom auth flow skeleton that you can manually edit. 
+
+> More information on available triggers can be found in the [Cognito documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html).
+
+`AWSCognitoAuthPlugin` assumes the custom auth flow starts with username and password (SRP_A). If you want a passwordless authentication flow, modify your **Define Auth Challenge** Lambda trigger to bypass the initial username/password verification and proceed to the custom challenge:
+
+```javascript
+exports.handler = (event, context) => {
+  if (event.request.session.length === 1 && 
+    event.request.session[0].challengeName === 'SRP_A') {
+    event.response.issueTokens = false;
+    event.response.failAuthentication = false;
+    event.response.challengeName = 'CUSTOM_CHALLENGE';
+  } else if (
+    event.request.session.length === 2 &&
+    event.request.session[1].challengeName === 'CUSTOM_CHALLENGE' &&
+    event.request.session[1].challengeResult === true
+  ) {
+    event.response.issueTokens = true;
+    event.response.failAuthentication = false;
+  } else {
+    event.response.issueTokens = false;
+    event.response.failAuthentication = true;
+  }
+  context.done(null, event);
+};
+```
+You also need to pass a dummy password during the signup process as shown above.

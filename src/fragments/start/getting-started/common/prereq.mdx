@@ -1,0 +1,86 @@
+Before we begin, make sure you have the following installed:
+
+- [Node.js](https://nodejs.org/) v12.x or later
+
+- [npm](https://www.npmjs.com/) v5.x or later
+
+- [git](https://git-scm.com/) v2.14.1 or later
+
+
+
+import flutter925063123e9ac38647cc4692acdf691d from "/src/fragments/start/getting-started/flutter/prereq.mdx";
+
+<Fragments fragments={{flutter: flutter925063123e9ac38647cc4692acdf691d}} />
+
+
+import react22645c46e6d8f63a8e3caab080d67e7e from "/src/fragments/start/getting-started/react/prereq.mdx";
+
+<Fragments fragments={{react: react22645c46e6d8f63a8e3caab080d67e7e}} />
+
+
+import react-natived0bbb6481062fe64409ebedeeff5bf42 from "/src/fragments/start/getting-started/reactnative/prereq.mdx";
+
+<Fragments fragments={{react-native: react-natived0bbb6481062fe64409ebedeeff5bf42}} />
+
+## Sign up for an AWS account
+
+If you don't already have an AWS account, you'll need to create one in order to follow the steps outlined in this tutorial.
+
+[Create AWS Account](https://portal.aws.amazon.com/billing/signup?redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start)
+
+> There are no upfront charges or any term commitments to create an AWS account and signing up gives you immediate access to the AWS Free Tier.
+
+## Install and configure the Amplify CLI
+
+The Amplify Command Line Interface (CLI) is a unified toolchain to create AWS cloud services for your app. Let's go ahead and install the Amplify CLI.
+
+### Option 1: Watch the video guide
+
+Watch the video below to learn how to install and configure the Amplify CLI or skip to the next section to follow the step-by-step instructions.
+
+<iframe src="https://www.youtube-nocookie.com/embed/fWbM5DLh25U" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+### Option 2: Follow the instructions
+
+
+
+import allde508dbbe48d84391ad727bc6d10d0ea from "/src/fragments/cli-install-block.mdx";
+
+<Fragments fragments={{all: allde508dbbe48d84391ad727bc6d10d0ea}} />
+
+Now it's time to setup the Amplify CLI. Configure Amplify by running the following command:
+
+```bash
+amplify configure
+```
+
+`amplify configure` will ask you to sign into the AWS Console.
+
+Once you're signed in, Amplify CLI will ask you to create an IAM user.
+> Amazon IAM (Identity and Access Management) enables you to manage users and user permissions in AWS. You can learn more about Amazon IAM [here](https://aws.amazon.com/iam/).
+
+```console
+Specify the AWS Region
+? region:  # Your preferred region
+Specify the username of the new IAM user:
+? user name:  # User name for Amplify IAM user
+Complete the user creation using the AWS console
+```
+
+Create a user with `AdministratorAccess` to your account to provision AWS resources for you like AppSync, Cognito etc.
+
+![image](../../images/user-creation.gif)
+
+Once the user is created, Amplify CLI will ask you to provide the `accessKeyId` and the `secretAccessKey` to connect Amplify CLI with your newly created IAM user.
+
+```console
+Enter the access key of the newly created user:
+? accessKeyId:  # YOUR_ACCESS_KEY_ID
+? secretAccessKey:  # YOUR_SECRET_ACCESS_KEY
+This would update/create the AWS Profile in your local machine
+? Profile Name:  # (default)
+
+Successfully set up the new user.
+```
+
+Next, we'll set up the app and initialize Amplify!

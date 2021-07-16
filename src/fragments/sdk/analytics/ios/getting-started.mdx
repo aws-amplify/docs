@@ -1,0 +1,150 @@
+Collecting analytics data for your app can be accomplished with [Amazon Pinpoint](#using-amazon-pinpoint) and [Amazon Kinesis](#using-amazon-kinesis).
+
+Amazon Pinpoint is a fully managed AWS service that you can use to engage with your customers across multiple messaging channels using analytics captured from the device. You can send push notifications, emails, or text messages (SMS), depending on the purpose of your campaign. Features include:
+
+**Audience Segments** - You can define dynamic segments based on data that's reported by your application, such as operating system or mobile device type. You can also import static segments that you define outside of Amazon Pinpoint.
+
+**Messaging Campaigns** - A campaign sends tailored messages on a schedule that you define. You can create campaigns that send mobile push, email, or SMS messages. To experiment with alternative campaign strategies, set up your campaign as an A/B test, and analyze the results with Amazon Pinpoint analytics.
+
+**Transactional Messages** - Keep your customers informed by sending transactional mobile push and SMS messages—such as new account activation messages, order confirmations, and password reset notifications—to specific users.
+
+**Analyze User Behavior** - You can view trends about your users' level of engagement, purchase activity, and demographics. You can monitor your message traffic with metrics for messages sent and opened. Through the Amazon Pinpoint API, your application can report custom data, which Amazon Pinpoint makes available for analysis.
+
+The Amplify CLI helps setup and configure Pinpoint within your application and connect with the AWS Mobile SDK.
+
+ > **Prerequisite:** [Install and configure the Amplify CLI](/cli/start/install)
+
+## Set Up Your Backend
+
+1. Use the CLI to add analytics to your cloud-enabled backend and app.
+
+    In a terminal window, navigate to your project folder (the folder contains your app `.xcodeproj` file), and add the SDK to your app.
+
+    ```bash
+    cd ./YOUR_PROJECT_FOLDER
+    amplify add analytics
+    ```
+
+2. When configuration for analytics is complete, a message appears confirming that you have configured local CLI metadata for this category. You can confirm this by viewing status.
+
+    ```console
+    $ amplify status
+    | Category  | Resource name   | Operation | Provider plugin   |
+    | --------- | --------------- | --------- | ----------------- |
+    | Auth      | cognitoabcd0123 | Create    | awscloudformation |
+    | Analytics | yourprojectname | Create    | awscloudformation |
+    ```
+
+3. To create your backend AWS resources run the following:
+
+    ```bash
+    amplify push
+    ```
+
+### Manually Updating your IAM Policy:
+
+> **Note** The Amplify CLI adds the appropriate policies and permissions for you. The information provided here is provided if you are ***not*** using the Amplify CLI in your project.
+
+The Amazon Pinpoint service requires permissions defined in an IAM policy to use the `submitEvents` API. If you are using long-term AWS credentials attached to an `Amazon IAM` user, attach the following policies to the role of that `IAM` user. If you are using temporary AWS credentials vended by `Amazon Cognito Identity Pools`, then attach the following policies to the Unauthenticated and/or Authenticated `IAM` roles of your `Cognito Identity Pool`. The role you attach the policies to depends on the scope of your application. For example, if you only want events submitted when users login, attach to the authenticated role. Similarly, if you want events submitted regardless of authentication state, attach the policy to the unauthenticated role. For more information on Cognito Identities authenticated/unauthenticated roles see <a href="https://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html" target="_blank">here</a>.
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "mobiletargeting:UpdateEndpoint",
+                "mobiletargeting:PutEvents"
+            ],
+            "Resource": [
+                "arn:aws:mobiletargeting:*:${accountID}:apps/${appId}*"
+            ]
+        }
+    ]
+}
+```
+
+## Connect to Your Backend
+
+Use the following steps to add analytics to your mobile app and monitor the results through Amazon Pinpoint.
+
+### Add Analytics
+
+Set up AWS Mobile SDK components as follows.
+
+1. The `Podfile` that you configure to install the AWS Mobile SDK must contain:
+
+```ruby
+platform :ios, '9.0'
+target 'YourAppName' do
+    use_frameworks!
+
+    pod 'AWSPinpoint'
+    pod 'AWSMobileClient'
+
+    # other pods
+
+end
+```
+
+Run `pod install --repo-update` before you continue.
+
+If you encounter an error message that begins `[!] Failed to connect to GitHub to update the CocoaPods/Specs . . .`, and your internet connectivity is working, you may need to [update openssl and Ruby](https://stackoverflow.com/questions/38993527/cocoapods-failed-to-connect-to-github-to-update-the-cocoapods-specs-specs-repo/48962041#48962041).
+
+2. Classes that call Amazon Pinpoint APIs must use the following import statements:
+
+```swift
+/** start code copy **/
+import AWSPinpoint
+import AWSMobileClient
+/** end code copy **/
+```
+
+3. To send events with Amazon Pinpoint, you'll instantiate a Pinpoint instance. We recommend you do this during app startup, so you can use Pinpoint to record app launch analytics. Edit the `application(_:didFinishLaunchingWithOptions:)` method of your app's `AppDelegate.swift` by adding a `pinpoint` instance property, and initializing the Pinpoint client as shown below:
+
+```swift
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
+    /** start code copy **/
+    var pinpoint: AWSPinpoint?
+    /** end code copy **/
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+
+        // Other didFinishLaunching code...
+
+        /** start code copy **/
+        // Create AWSMobileClient to connect with AWS
+        AWSMobileClient.default().initialize { (userState, error) in
+          if let error = error {
+	    print("Error initializing AWSMobileClient: \(error.localizedDescription)")
+          } else if let userState = userState {
+	    print("AWSMobileClient initialized. Current UserState: \(userState.rawValue)")
+          }
+        }
+
+        // Initialize Pinpoint
+        let pinpointConfiguration = AWSPinpointConfiguration.defaultPinpointConfiguration(launchOptions: launchOptions)
+        pinpoint = AWSPinpoint(configuration: pinpointConfiguration)
+        /** end code copy **/
+        return true
+    }
+}
+```
+
+### Monitor Analytics
+
+Build and run your app to see usage metrics in Amazon Pinpoint. When you run the previous code samples, the console shows a logged Session.
+
+1. To see visualizations of the analytics coming from your app, open your project in the Amazon Pinpoint console by running the following:
+
+```bash
+amplify console analytics
+```
+
+2. Choose `Analytics` from the icons on the left of the console, and view the graphs of your app's usage. It may take up to 15 minutes for metrics to become visible.
+
+    ![getting-started-analytics](/images/getting-started-analytics.png)
+
+Analytics events can be grouped into segments, and you can engage your users more deeply by tying their app usage behavior to Push Notification, email, or SMS messaging campaigns. Read more about this in the [messaging section](/sdk/push-notifications/messaging-campaign) or [click here to learn more about Amazon Pinpoint](http://docs.aws.amazon.com/pinpoint/latest/developerguide/welcome.html).

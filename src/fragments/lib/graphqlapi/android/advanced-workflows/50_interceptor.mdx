@@ -1,0 +1,76 @@
+To specify your own headers, use the `configureClient()` configuration option on the `AWSApiPlugin`'s builder. Specify the name of one of the configured APIs in your **amplifyconfiguration.json**. Apply customizations to the underlying OkHttp instance by providing a lambda expression as below.
+
+<BlockSwitcher>
+<CodeBlock name="Java">
+
+```java
+AWSApiPlugin plugin = AWSApiPlugin.builder()
+    .configureClient("yourApiName", okHttpBuilder -> {
+        okHttpBuilder.addInterceptor(chain -> {
+            Request originalRequest = chain.request();
+            Request updatedRequest = originalRequest.newBuilder()
+                .addHeader("customHeader", "someValue")
+                .build();
+            return chain.proceed(updatedRequest);
+        });
+    })
+    .build();
+Amplify.addPlugin(plugin);
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Callbacks">
+
+```kotlin
+val plugin = AWSApiPlugin.builder()
+    .configureClient("yourApiName") { okHttpBuilder ->
+        okHttpBuilder.addInterceptor { chain ->
+            val originalRequest = chain.request()
+            val updatedRequest = originalRequest.newBuilder()
+                .addHeader("customHeader", "someValue")
+                .build()
+            chain.proceed(updatedRequest)
+        }
+    }
+    .build()
+Amplify.addPlugin(plugin)
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+val plugin = AWSApiPlugin.builder()
+    .configureClient("yourApiName") { okHttpBuilder ->
+        okHttpBuilder.addInterceptor { chain ->
+            val originalRequest = chain.request()
+            val updatedRequest = originalRequest.newBuilder()
+                .addHeader("customHeader", "someValue")
+                .build()
+            chain.proceed(updatedRequest)
+        }
+    }
+    .build()
+Amplify.addPlugin(plugin)
+```
+
+</CodeBlock>
+<CodeBlock name="RxJava">
+
+```java
+AWSApiPlugin plugin = AWSApiPlugin.builder()
+    .configureClient("yourApiName", okHttpBuilder -> {
+        okHttpBuilder.addInterceptor(chain -> {
+            Request originalRequest = chain.request();
+            Request updatedRequest = originalRequest.newBuilder()
+                .addHeader("customHeader", "someValue")
+                .build();
+            return chain.proceed(updatedRequest);
+        });
+    })
+    .build();
+RxAmplify.addPlugin(plugin);
+```
+
+</CodeBlock>
+</BlockSwitcher>

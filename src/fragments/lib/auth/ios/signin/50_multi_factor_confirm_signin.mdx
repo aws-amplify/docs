@@ -1,0 +1,39 @@
+<BlockSwitcher>
+
+<CodeBlock name="Listener (iOS 11+)">
+
+```swift
+func confirmSignIn() {
+    Amplify.Auth.confirmSignIn(challengeResponse: "<confirmation code received via SMS>") { result in
+        switch result {
+        case .success(let signInResult):
+            print("Confirm sign in succeeded. Next step: \(signInResult.nextStep)")
+        case .failure(let error):
+            print("Confirm sign in failed \(error)")
+        }
+    }
+}
+```
+
+</CodeBlock>
+
+<CodeBlock name="Combine (iOS 13+)">
+
+```swift
+func confirmSignIn() -> AnyCancellable {
+    Amplify.Auth.confirmSignIn(challengeResponse: "<confirmation code received via SMS>")
+        .resultPublisher
+        .sink {
+            if case let .failure(authError) = $0 {
+                print("Confirm sign in failed \(authError)")
+            }
+        }
+        receiveValue: { signInResult in
+            print("Confirm sign in succeeded. Next step: \(signInResult.nextStep)")
+        }
+}
+```
+
+</CodeBlock>
+
+</BlockSwitcher>

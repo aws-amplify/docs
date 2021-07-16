@@ -1,0 +1,45 @@
+<BlockSwitcher>
+<CodeBlock name="Java">
+
+```java
+Amplify.Auth.signOut(
+    () -> Log.i("AuthQuickstart", "Signed out successfully"),
+    error -> Log.e("AuthQuickstart", error.toString())
+);
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.signOut(
+    { Log.i("AuthQuickstart", "Signed out successfully") },
+    { Log.e("AuthQuickstart", "Sign out failed", it) }
+)
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+try {
+    Amplify.Auth.signOut()
+    Log.i("AuthQuickstart", "Signed out successfully")
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Sign out failed", error)
+}
+```
+
+</CodeBlock>
+<CodeBlock name="RxJava">
+
+```java
+RxAmplify.Auth.signOut()
+    .subscribe(
+        () -> Log.i("AuthQuickstart", "Signed out successfully"),
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+```
+
+</CodeBlock>
+</BlockSwitcher>

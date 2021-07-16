@@ -1,0 +1,7 @@
+## Getting started
+
+To get started, first import the `DataStore` API:
+
+```js
+import { DataStore } from 'aws-amplify';
+```

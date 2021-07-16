@@ -1,0 +1,66 @@
+export const meta = {
+  title: "Extend with the Amplify CLI",
+  description: "Install the CLI without npm and use the CLI without an AWS account",
+};
+
+
+
+All backends created in the Admin UI are deployed using AWS CloudFormation. AWS CloudFormation allows you store your backend configuration as code in your repository. This has three major benefits:
+
+1. Ability to extend a project with capabilities offered by individual services (e.g. Cognito, DynamoDB) that are not available in Amplify.
+2. Ability to easily replicate backend environments across AWS accounts and regions. 
+3. Ability to easily integrate with CI/CD pipelines such as the pipeline offered in the Amplify console. 
+
+All backend infrastructure-as-code definitions can be added to your project with the Amplify Command Line Interface (CLI). Use the Amplify CLI to extend your backend with functionality such as functions, storage, predictions, and analytics. 
+
+With the launch of the Admin UI, a new CLI feature is available that enables the use of the CLI without an AWS account. This allows you to use the Amplify CLI's features without the need to configure it with AWS Identity and Access Management (IAM). Changes made in the Admin UI can be made available in the CLI by running the `amplify pull` command. Similarly, CLI changes to the data model or auth will be visible in the Admin UI. For all other categories, the Admin UI provides links to the relevant service consoles in AWS.
+
+![autologin](/images/console/cli-autologin.gif)
+
+
+## To install the Amplify CLI
+1. Open a terminal window.
+2. To install a packaged version of the Amplify CLI that is not dependent on Node, run the following command:
+```bash
+curl -sL https://aws-amplify.github.io/amplify-cli/install | bash && $SHELL
+```
+3. After the Amplify CLI finishes installing, you can configure the CLI so that you can use it without an AWS account.
+
+## To configure the Amplify CLI for use without an AWS account
+
+1. Open the Admin UI for an app. Choose **Local setup instructions** in the header and copy the `amplify pull` command.
+
+![autologin](/images/console/cli-pull.png)
+
+2. Open a terminal window and navigate to the directory where you would like to have Amplify setup your project.
+3. To initialize Amplify in the current directory, run the following command. Replace the `xxx` values with your unique `appId` and `envName`. 
+```bash
+amplify pull --appId xxx --envName xxx
+```
+3. A browser window opens and prompts you to continue logging in to the Amplify CLI. Choose **Yes**. 
+![autologin](/images/console/cli-autologin.png)
+
+4. Return to the terminal window. You should see the following success statement:
+```bash
+Successfully received Amplify Admin tokens.
+```
+The Amplify CLI is now configured and you can use it to provision new cloud backend features. 
+
+
+## Adding features with the Amplify CLI
+
+The Admin UI **Set up** menu lists cloud backend features such as functions, storage, and APIs that you can add to your app using the CLI. For each backend resource, the Admin UI displays the CLI commands to run in your terminal window. 
+
+
+1. In the Admin UI, on the **Set up** menu, choose **Storage** or **Functions**.
+2. On the **Storage** page, under **Pull your Amplify project**, copy the following command and run it in your terminal window. 
+3. After your backend environment has been successfully pulled from the cloud, copy the following command under **Add storage capabilities** and paste it in your terminal window:
+```bash
+amplify add storage
+```
+4. Follow the prompts in the terminal window to configure storage with your desired settings.
+5. Run the following command in your terminal window to build your local backend resources and provision them in the cloud:
+```bash
+amplify push
+```
+6. Return to the Admin UI **Storage** page. Confirm that a link to your new storage resource is available in the **Deployed storage resources** section.

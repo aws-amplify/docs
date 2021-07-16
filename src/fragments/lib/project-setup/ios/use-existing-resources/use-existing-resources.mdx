@@ -1,0 +1,49 @@
+An application’s backend is built with cloud resources such as AWS AppSync GraphQL APIs, Amazon S3 storage, and Amazon Cognito authentication. The Amplify CLI simplifies the provisioning of new backend resources across these different categories. However, you can alternatively use the Amplify libraries to add or re-use existing AWS resources that you provisioned without the CLI. The Amplify libraries support configuration through the *amplifyconfiguration.json* file which defines all the regions and service endpoints for your backend AWS resources.  
+
+## Add an existing AWS resource to an iOS application 
+
+Before you can add an existing AWS resource to an iOS application, the application must have the Amplify libraries installed. For detailed instructions, see [Install Amplify Libraries](/lib/project-setup/create-application.md#n2-install-amplify-libraries). 
+
+### 1. Manually create the Amplify configuration file for your iOS project
+
+Create a file named `amplifyconfiguration.json` in your project’s main directory. At this point the contents of your `amplifyconfiguration.json` file can be an empty object, `{}`.
+
+For example, if the name of your project is *MyAmplifyApp*, you will create the configuration file in your main application directory, `MyAmplifyApp/amplifyconfiguration.json`, as follows:
+
+![GSA](/images/project-setup/1_useExistingResources.png)
+
+### 2. Initialize Amplify in the application
+
+To initialize Amplify in your iOS application, open the `AppDelegate.swift` file and add `import Amplify` at the top of the file.
+```swift
+import Amplify
+```
+
+Update the `application` function in the `AppDelegate.swift` file to verify that Amplify can be compiled into your project. The `application` function’s code should be the following:
+
+```swift
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+   do {
+     try Amplify.configure()
+   } catch {
+      print("An error occurred setting up Amplify: \(error)")
+   }
+   return true
+}
+```
+### 3. Edit the configuration file to use an existing AWS resource
+
+Now you’re ready to customize your application’s `amplifyconfiguration.json` file to specify an existing AWS resource to use. 
+
+Note that before you can add an AWS resource to your application, the application must have the Amplify libraries installed. If you need to perform this step, see [Install Amplify Libraries](/lib/project-setup/create-application.md#n2-install-amplify-libraries). 
+
+Select a category from the following list to view an example `amplifyconfiguration.json` file you can use as a template to author your own `amplifyconfiguration.json` file:
+
+* See the [Analytics category](/lib/analytics/existing-resources) to use existing AWS Pinpoint resources.
+* See the [API (GraphQL) category](/lib/graphqlapi/existing-resources) to use existing AWS AppSync resources.
+* See the [API (REST) category](/lib/restapi/existing-resources) to use existing Amazon API Gateway and AWS Lambda resources.
+* See the [Authentication category](/lib/auth/existing-resources) to use existing Amazon Cognito resources.
+* See the [Storage category](/lib/storage/existing-resources) to use existing Amazon S3 resources.
+
+
+

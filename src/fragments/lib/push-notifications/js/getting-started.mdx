@@ -1,0 +1,245 @@
+Setup instructions are provided for Android and iOS, and configuration for both platforms can be included on the same React Native project. 
+
+## Requirements
+1. In order to use Amazon Pinpoint you need to setup credentials (keys or certificates) for your targeted mobile platform, e.g. Android and/or iOS.
+2. Testing Push Notifications requires a physical device, because simulators or emulators won't be able to handle push notifications.
+
+<Callout>
+
+Push Notifications category is integrated with [AWS Amplify Analytics category](/lib/analytics/getting-started) to be able to track notifications. Make sure that you have configured the Analytics category in your app before configuring the Push Notifications category.
+
+</Callout>
+
+## Setup for Android
+
+1. Make sure you have a [Firebase Project](https://console.firebase.google.com) and app setup. 
+
+2. Get your push messaging credentials for Android in Firebase console. [Click here for instructions](/sdk/push-notifications/setup-push-service.md/q/platform/android).
+
+3. Install dependencies:
+
+    ```bash
+    npm install aws-amplify @aws-amplify/pushnotification
+    ```
+
+4. Add your push messaging credentials (Server key) with Amplify CLI by using the following commands:
+
+    ```bash
+    amplify add notifications
+    ```
+
+    Choose *FCM* when promoted: 
+
+    ```console
+    ? Choose the push notification channel to enable.
+    APNS
+    ❯ FCM
+    Email
+    SMS
+    ```
+
+    The CLI will prompt for your *Firebase credentials*, enter them respectively.
+    
+    
+    You can find said *Firebase credentials* by visiting https://console.firebase.google.com/project/[your-project-id]/settings/cloudmessaging or by navigating to (gear-next-to-project-name) > Project Settings > Cloud Messaging on the Firebase Console.
+
+    Alternatively, you can set up Android push notifications in Amazon Pinpoint Console. [Click here for instructions](https://docs.aws.amazon.com/pinpoint/latest/developerguide/mobile-push-android.html).
+
+5. Enable your app in Firebase. To do that, follow those steps:
+
+    <Callout>
+        If you don't have an existing Firebase project, you need to create one in order to continue.
+    </Callout>
+
+    * Visit the [Firebase console](https://console.firebase.google.com), and click the Gear icon next to **Project Overview** and click **Project Settings**. 
+    * Click **Add App**, if you have an existing app you can skip this step
+    * Choose **Add Firebase to your Android App**
+    * Add your package name i.e. **com.myProjectName** and click **Register App**
+    * Download  *google-services.json* file and copy it under your `android/app` project folder.
+    
+    <Callout warning>
+
+    Make sure you have *google-services.json* file in place or you won't pass the build process.
+    
+    </Callout>
+
+6. Open *android/build.gradle* file and perform following edits:
+
+    - Add `classpath("com.google.gms:google-services:4.3.3")` in the `dependencies` under `buildscript`:
+        
+    ```gradle
+    buildscript {
+        ...
+        dependencies {
+            ...
+            classpath("com.google.gms:google-services:4.3.3")
+            ...
+        }
+    }
+    ```
+
+7. Open *android/app/build.gradle* and perform following edits:
+
+    - Add firebase libs to the `dependencies` section:
+
+    ```gradle
+    dependencies {
+        ...
+        implementation "com.google.firebase:firebase-core:15.0.2"
+        implementation "com.google.firebase:firebase-messaging:15.0.2"
+        ...
+    }
+    ```
+    - Add following configuration to the bottom of the file:
+
+    ```gradle
+    apply plugin: "com.google.gms.google-services"
+    ``` 
+
+8. Open *android/gradle/wrapper/gradle-wrapper.properties* update the Gradle `distributionUrl`:
+
+    ```properties
+    distributionUrl=https\://services.gradle.org/distributions/gradle-6.3-all.zip
+    ```
+
+9. Open *android/app/src/main/AndroidManifest.xml* file and add the following configuration into `application` element.
+
+    ```xml
+    <application ... >
+
+        <!--[START Push notification config -->
+            <!-- [START firebase_service] -->
+            <service
+                android:name="com.amazonaws.amplify.pushnotification.RNPushNotificationMessagingService">
+                <intent-filter>
+                    <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                </intent-filter>
+            </service>
+            <!-- [END firebase_service] -->
+            <!-- [START firebase_iid_service] -->
+            <service
+                android:name="com.amazonaws.amplify.pushnotification.RNPushNotificationDeviceIDService">
+                <intent-filter>
+                    <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                </intent-filter>
+            </service>
+            <receiver
+                android:name="com.amazonaws.amplify.pushnotification.modules.RNPushNotificationBroadcastReceiver"
+                android:exported="false" >
+                <intent-filter>
+                    <action android:name="com.amazonaws.amplify.pushnotification.NOTIFICATION_OPENED"/>
+                </intent-filter>
+            </receiver>
+        <!-- [END Push notification config -->
+
+    </application>
+    ```
+
+10. Configure Push Notifications category for your app as shown in [Configure your App](#configure-your-app) section.
+
+11. Run your app:
+
+    ```bash
+    npx react-native run-android
+    ```
+
+## Setup for iOS
+
+1. For setting up iOS push notifications, you need to download and install Xcode from [Apple Developer Center](https://developer.apple.com/xcode/).
+
+2. Setup iOS Push Notifications and create a p12 certificate as instructed here in [Amazon Pinpoint Developer Guide](https://docs.aws.amazon.com/pinpoint/latest/developerguide/apns-setup.html).
+
+3. Install dependencies and CocoaPods:
+
+    ```bash
+    npm install aws-amplify @aws-amplify/pushnotification @react-native-community/push-notification-ios
+    ```
+    ```bash
+    npx pod-install
+    ```
+
+4. Enable notifications and add your p12 certificate with Amplify CLI by using the following commands:
+
+    ```bash
+    amplify add notifications
+    ```
+
+    Choose *APNS* when promoted:
+
+    ```console
+    ? Choose the push notification channel to enable.
+    > APNS
+    FCM
+    Email
+    SMS
+    ```
+
+    Choose *Certificate* when promoted:
+
+    ```console
+    ? Choose authentication method used for APNs
+    > Certificate
+    Key
+    ```
+
+    The CLI will prompt for your *p12 certificate path*, enter it respectively.
+
+5. Open project in Xcode and make updates for `@react-native-community/push-notification-ios`:
+    - [Add Capabilities : Background Mode - Remote Notifications](https://github.com/react-native-community/push-notification-ios#add-capabilities--background-mode---remote-notifications)
+    - [Augment `AppDelegate`](https://github.com/react-native-community/push-notification-ios#augment-appdelegate)
+
+6. Update General App settings:
+
+    - Set bundle identifier (with the one you create on your Apple Developer Account)
+    - Make sure you have logged in with your Apple Developer account on Xcode and have a Team selected for the target.
+
+7.  Configure Push Notification module for your app as shown in [Configure your App](#configure-your-app) section.
+
+8. Run your app:
+
+    ```bash
+    npx react-native run-ios --device
+    ```
+
+## Configure your App
+
+The Push Notifications category is integrated with `Analytics` module to be able to track notifications. Make sure that you have configured the Analytics module in your app before configuring Push Notification module.  
+
+<Callout>
+
+If you don't have Analytics already enabled, see our [Analytics Developer Guide](/lib/analytics/getting-started) to add Analytics to your app.
+
+</Callout>
+
+```javascript
+import Amplify from 'aws-amplify';
+import PushNotification from '@aws-amplify/pushnotification';
+import { PushNotificationIOS } from '@react-native-community/push-notification-ios';
+import awsconfig from './aws-exports';
+
+Amplify.configure(awsconfig);
+```
+
+### Configuration Options
+
+- `requestIOSPermissions` is an optional boolean flag which specifies whether or not to automatically request push notifications permissions in iOS when calling `PushNotification.configure` for the first time. If not provided, it defaults to `true`. When set to `false`, you may later call the method `PushNotification.requestIOSPermissions` at the explicit point in your application flow when you want to prompt the user for permissions.
+- `appId` is optional and *only* needed if `aws-exports` doesn't contain `aws_mobile_analytics_app_id` or you are manually configuring each category inside `Amplify.configure()`.
+
+```javascript
+Amplify.configure({
+    ...awsconfig,
+    PushNotification: {
+        requestIOSPermissions: false
+    }
+});
+```
+```javascript
+Amplify.configure({
+    Auth: { /* ... */ },
+    Analytics: { /* ... */ },
+    PushNotification: {
+        appId: 'XXXXXXXXXXabcdefghij1234567890ab',
+        requestIOSPermissions: false
+    }
+});
+```

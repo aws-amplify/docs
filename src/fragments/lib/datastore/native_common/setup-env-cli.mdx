@@ -1,0 +1,47 @@
+To use Amplify, you must first initialize it for use in your project. If you haven't already done so, run this command:
+```bash
+amplify init
+```
+
+The base structure for a DataStore app is created by adding a new GraphQL API to your app.
+
+```console
+# For new APIs
+amplify add api
+
+# For existing APIs
+amplify update api
+```
+
+The CLI will prompt you to configure your API. Select **GraphQL** as the API type and reply to the questions as shown below. When prompted to configure **advanced settings**, respond **Yes, I want to make some additional changes**, and ensure that **conflict detection** is enabled. Conflict detection is **required** when using the DataStore to sync data with the cloud.
+
+```console
+? Please select from one of the below mentioned services:
+    `GraphQL`
+? Provide API name:
+    `BlogAppApi`
+? Choose the default authorization type for the API
+    `API key`
+? Enter a description for the API key:
+    `BlogAPIKey`
+? After how many days from now the API key should expire (1-365):
+    `365`
+? Do you want to configure advanced settings for the GraphQL API
+    `Yes, I want to make some additional changes.`
+? Configure additional auth types?
+    `No`
+? Enable conflict detection?
+    `Yes`
+? Select the default resolution strategy
+    `Auto Merge`
+? Do you have an annotated GraphQL schema?
+    `No`
+? Choose a schema template
+    `Single object with fields (e.g., “Todo” with ID, name, description)`
+```
+
+<Callout warning>
+
+**Troubleshooting:** Cloud sync will fail without the **conflict detection** configuration. To enable it for an existing project, run `amplify update api` and choose **Enable DataStore for entire API**.
+
+</Callout>

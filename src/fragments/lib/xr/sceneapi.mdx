@@ -1,0 +1,75 @@
+## Using optional progress handlers and options
+
+To configure the appearance and the behavior of your Sumerian scene, you can use `sceneOptions` parameter in the method call:
+
+```javascript
+async loadAndStartScene() {
+    const progressCallback = (progress) => {
+        console.log(`Sumerian scene load progress: ${progress * 100}%`);
+    }
+
+    const sceneOptions = {
+        progressCallback
+    }
+    
+    await XR.loadScene("scene1", "sumerian-scene-dom-id", sceneOptions);
+    XR.start("scene1");
+}
+```
+
+## Retrieving the Scene Information
+
+You can check the loading status of the scene with *isSceneLoaded* method. Also, you can use *isMuted* method to retrieve audio information about the loaded scene:
+
+```javascript
+if (XR.isSceneLoaded('scene1')) {
+
+    if (XR.isMuted('scene1')) {
+        // The scene is muted
+        XR.setMuted('scene1', false) // Unmute
+    }
+
+}
+```
+
+## Entering VR mode
+
+For compatible devices, you can enable VR mode for your scene. When a user enters VR mode with a controller attached, the VR controller component tracks its location in 3D space. 
+
+<Callout>
+Entering VR requires user input i.e. button press or similar.
+</Callout>
+
+```javascript
+if (XR.isSceneLoaded('scene1')) {
+
+    if (XR.isVRCapable('scene1')) {
+        XR.enterVR('scene1')
+    }
+
+}
+```
+
+## Capturing Audio Events
+
+XR Category's scene controller emits audio-related events during scene playback. You can subscribe to those events with `XR.onSceneEvent` and provide audio controls in your app, e.g.: providing a *volume on* button when the browser audio is disabled.
+
+```javascript
+
+XR.onSceneEvent('scene1', 'AudioEnabled', () => console.log('Audio is enabled') );
+XR.onSceneEvent('scene1', 'AudioDisabled', () => console.log('Audio is disabled') ));
+
+```
+
+## Enabling Audio
+
+In some browsers, playback of audio is disabled until the user provides input. To reliably enable audio in your scene, wait until the user's first input, such as a mouse click or screen touch, and then call the `enableAudio()` method with the scene name.
+
+<Callout>
+If the browser is blocking autoplay, the Audio Disabled event will get thrown the first time the scene attempts to PLAY audio, if no user input has been given
+</Callout>
+
+```javascript
+XR.enableAudio('scene1')
+```
+

@@ -1,0 +1,97 @@
+List keys under a specified path, as well as `lastModified` timestamp.
+
+## Public level list
+
+```javascript
+Storage.list('photos/') // for listing ALL files without prefix, pass '' instead
+    .then(result => console.log(result))
+    .catch(err => console.log(err));
+```
+
+Note the trailing slash `/` - if we had requested `Storage.list('photos')` it would also match against files like `photos123.jpg` alongside `photos/123.jpg`.
+
+The format of the result looks like this:
+
+```js
+[
+  {
+    eTag: ""30074401292215403a42b0739f3b5262"",
+    key: "123.png",
+    lastModified: "Thu Oct 08 2020 23:59:31 GMT+0800 (Singapore Standard Time)",
+    size: 138256
+  },
+  // ...
+]
+```
+
+Manually created folders will show up as files with a `size` of 0, but you can also match keys against a regex like `file.key.match(/\.[0-9a-z]+$/i)` to distinguish files vs folders. Since "folders" are a virtual concept in S3, any file may declare any depth of folder just by having a `/` in its name. If you need to list all the folders, you'll have to parse them accordingly to get an authoritative list of files and folders:
+
+```js
+  function processStorageList(result) {
+    let files = []
+    let folders = new Set()
+    result.forEach(res => {
+      if (res.size) {
+        files.push(res)
+        // sometimes files declare a folder with a / within then
+        let possibleFolder = res.key.split('/').slice(0,-1).join('/')
+        if (possibleFolder) folders.add(possibleFolder)
+      } else {
+        folders.add(res.key)
+      }
+    })
+    return {files, folders}
+  }
+```
+
+If you need the files and folders in terms of a nested object instead (for example, to build an explorer UI), you could parse it recursively:
+
+```js
+  function processStorageList(results) {
+    const filesystem = {}
+    // https://stackoverflow.com/questions/44759750/how-can-i-create-a-nested-object-representation-of-a-folder-structure
+    const add = (source, target, item) => {
+      const elements = source.split("/");
+      const element = elements.shift();
+      if (!element) return // blank
+      target[element] = target[element] || {__data: item}// element;
+      if (elements.length) {
+        target[element] = typeof target[element] === "object" ? target[element] : {};
+        add(elements.join("/"), target[element], item);
+      }
+    };
+    results.forEach(item => add(item.key, filesystem, item));
+    return filesystem
+  }
+```
+
+This places each item's data inside a special `__data` key.
+
+## Protected level list
+
+To list current user's objects:
+
+```javascript
+Storage.list('photos/', { level: 'protected' })
+    .then(result => console.log(result))
+    .catch(err => console.log(err));
+```
+
+To get other users' objects:
+
+```javascript
+Storage.list('photos/', { 
+    level: 'protected', 
+    identityId: 'xxxxxxx' // the identityId of that user
+})
+.then(result => console.log(result))
+.catch(err => console.log(err));
+```
+
+## Private level list
+
+```javascript
+Storage.list('photos/', { level: 'private' })
+    .then(result => console.log(result))
+    .catch(err => console.log(err));
+```

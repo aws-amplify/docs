@@ -1,0 +1,37 @@
+To enable the developer menu, pass a custom configuration when configuring Amplify:
+
+<BlockSwitcher>
+<CodeBlock name="Java">
+
+```java
+AmplifyConfiguration config = AmplifyConfiguration.builder(getApplicationContext())
+    .devMenuEnabled(true)
+    .build();
+Amplify.configure(config, getApplicationContext());
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin">
+
+```kotlin
+val config = AmplifyConfiguration.builder(applicationContext)
+    .devMenuEnabled(true)
+    .build()
+Amplify.configure(config, applicationContext)
+```
+
+</CodeBlock>
+</BlockSwitcher>
+
+Next, run the following commands from the Android project directory to add a copy of the file `./amplify/.config/local-env-info.json` to the `./app/src/main/res/raw/` directory in your Android project and rename the copy to `localenvinfo.json`:
+
+```bash
+cp amplify/.config/local-env-info.json app/src/main/res/raw
+mv app/src/main/res/raw/local-env-info.json app/src/main/res/raw/localenvinfo.json
+```
+
+<Callout warning>
+
+If the `amplify` directory is not in your Android project folder, please follow the [project setup instructions](https://docs.amplify.aws/lib/project-setup/prereq/q/platform/android). The file `local-env-info.json` contains environment information that will be displayed on the developer menu.
+
+</Callout>

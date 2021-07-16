@@ -1,17 +1,23 @@
 export const meta = {
   title: "Getting started",
-  description:
-    "The Amplify Framework uses Amazon Cognito as the main authentication provider. Learn how to handle user registration, authentication, account recovery & other operations.",
+  description: "The Amplify Framework uses Amazon Cognito as the main authentication provider. Learn how to handle user registration, authentication, account recovery & other operations.",
 };
 
-import js from "/src/fragments/lib/auth/getting_started/js.mdx";
-import native_common from "/src/fragments/lib/auth/getting_started/native_common.mdx";
 
-<Fragments
-  fragments={{
-    js,
-    ios: native_common,
-    android: native_common,
-    flutter: native_common,
-  }}
-/>
+
+<inline-fragment platform="js" src="/fragments/js/getting-started.md"></inline-fragment>
+
+
+import iosae759031e3db6e8ab70b6804c92754ca from "/src/fragments/lib/auth/native_common/getting_started/common.mdx";
+
+<Fragments fragments={{ios: iosae759031e3db6e8ab70b6804c92754ca}} />
+
+
+import androidae759031e3db6e8ab70b6804c92754ca from "/src/fragments/lib/auth/native_common/getting_started/common.mdx";
+
+<Fragments fragments={{android: androidae759031e3db6e8ab70b6804c92754ca}} />
+
+
+import flutterae759031e3db6e8ab70b6804c92754ca from "/src/fragments/lib/auth/native_common/getting_started/common.mdx";
+
+<Fragments fragments={{flutter: flutterae759031e3db6e8ab70b6804c92754ca}} />

@@ -1,0 +1,84 @@
+export const meta = {
+  title: "Monorepo project structure",
+  description: "Learn how to set up monorepo workflows with Amplify CLI",
+};
+
+
+
+For a monorepo setup, it is recommended to have the Amplify CLI initialize a new backend at the root of on of your frontend projects. In a different frontend directory, you can run `amplify pull` and select the Amplify app you want to associate your frontend with.
+
+## Example
+
+In this guide, you will learn the recommended Amplify project setup for monorepo.
+
+### Step 1: Set up your monorepo project
+
+To get started, have a monorepo setup with a couple of frontends. For our example, we'll have a monorepo setup with a React and an Angular app.
+
+This project contains the frontend code for an angular and react Todo app. The repository has the following structure:
+
+```console
+> monorepo-amplify
+  > react
+  > angular
+```
+
+### Step 2: Set up the Amplify backend
+
+To set up a backend on AWS, we are going to use the Amplify CLI. The Amplify CLI is a command-line toolchain that simplifies provisioning AWS services.
+
+
+
+import allde508dbbe48d84391ad727bc6d10d0ea from "/src/fragments/cli-install-block.mdx";
+
+<Fragments fragments={{all: allde508dbbe48d84391ad727bc6d10d0ea}} />
+
+First, [configure the CLI](/cli/start/install.md#configure-the-amplify-cli) on your machine. Once configured, initialize a new backend project at the root of one of your frontend projects. While we could also initialize the project at the root level, the Amplify is best used attached to one of your projects. This allows you to set up continuous deployment pipelines of the frontend and backend together.
+
+```console
+> cd monorepo-amplify/react
+amplify init
+? Enter a name for the project todoreact
+? Enter a name for the environment dev
+? Choose your default editor: Visual Studio Code
+? Choose the type of app that you're building javascript
+Please tell us about your project
+? What javascript framework are you using react
+? Source Directory Path:  src
+? Distribution Directory Path: build
+? Build Command:  npm run-script build
+? Start Command: npm run-script start
+Using default provider  awscloudformation
+
+For more information on AWS Profiles, see:
+https://docs.aws.amazon.com/cli/latest/userguide/cli-multiple-profiles.html
+
+? Do you want to use an AWS profile? Yes
+? Please choose the profile you want to use #enter the profile you created
+```
+
+Add api and database
+
+```console
+> amplify add api
+? Please select from one of the below mentioned services: GraphQL
+? Provide API name: todo
+? Choose the default authorization type for the API: API key
+? Enter a description for the API key: 
+? After how many days from now the API key should expire (1-365): 7
+? Do you want to configure advanced settings for the GraphQL API: No, I am done.
+? Do you have an annotated GraphQL schema? No
+? Choose a schema template: Single object with fields (e.g., “Todo” with ID, name, description)
+? Do you want to edit the schema now? (Y/n) Y
+```
+
+Deploy to cloud
+
+```console
+amplify push
+✔ Successfully pulled backend environment dev from the cloud.
+
+Current Environment: dev
+
+| Category | Resource name | Operation | Provider plugin   |
+| 

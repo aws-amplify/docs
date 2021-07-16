@@ -1,0 +1,6 @@
+```js
+const posts = await DataStore.query(Post, Predicates.ALL, {
+  page: 0,
+  limit: 100
+});
+```

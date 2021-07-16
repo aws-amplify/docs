@@ -1,0 +1,148 @@
+The Amplify Storage category provides an interface for managing user content for your app in public, protected, or private storage buckets. The Storage category comes with default built-in support for Amazon Simple Storage Service (S3). The Amplify CLI helps you to create and configure the storage buckets for your app. The Amplify AWS S3 Storage plugin leverages [Amazon S3](https://aws.amazon.com/s3).
+
+## Goal
+To setup and configure your application with Amplify Storage and go through a simple upload file example
+
+## Prerequisites
+
+
+
+import ioseaa23146f8c5e91a3ad7942d441c86c1 from "/src/fragments/lib/storage/ios/getting-started/10_preReq.mdx";
+
+<Fragments fragments={{ios: ioseaa23146f8c5e91a3ad7942d441c86c1}} />
+
+
+import androidfb3f5c7e7f4a85145ed7831b6692f89a from "/src/fragments/lib/storage/android/getting-started/10_preReq.mdx";
+
+<Fragments fragments={{android: androidfb3f5c7e7f4a85145ed7831b6692f89a}} />
+
+
+import flutterbc24f855428eaa0fc64f3ffebddc1446 from "/src/fragments/lib/storage/flutter/getting-started/10_preReq.mdx";
+
+<Fragments fragments={{flutter: flutterbc24f855428eaa0fc64f3ffebddc1446}} />
+
+## Provision backend storage
+
+To start provisioning storage resources in the backend, go to your project directory and **execute the command**:
+
+```bash
+amplify add storage
+```
+
+Enter the following when prompted:
+```console
+? Please select from one of the below mentioned services:
+    `Content (Images, audio, video, etc.)`
+? You need to add auth (Amazon Cognito) to your project in order to add storage for user files. Do you want to add auth now?
+    `Yes`
+? Do you want to use the default authentication and security configuration?
+    `Default configuration`
+? How do you want users to be able to sign in?
+    `Username`
+? Do you want to configure advanced settings?
+    `No, I am done.`
+? Please provide a friendly name for your resource that will be used to label this category in the project:
+    `S3friendlyName`
+? Please provide bucket name:
+    `storagebucketname`
+? Who should have access:
+    `Auth and guest users`
+? What kind of access do you want for Authenticated users?
+    `create/update, read, delete`
+? What kind of access do you want for Guest users?
+    `create/update, read, delete`
+? Do you want to add a Lambda Trigger for your S3 Bucket?
+    `No`
+```
+
+To push your changes to the cloud, **execute the command**:
+
+```bash
+amplify push
+```
+
+
+
+import iosb01a98c282afd433513b7ca0184a7570 from "/src/fragments/lib/storage/ios/getting-started/12_amplifyConfig.mdx";
+
+<Fragments fragments={{ios: iosb01a98c282afd433513b7ca0184a7570}} />
+
+
+import android953e89d82e52bbdf079ae801c5aebfdb from "/src/fragments/lib/storage/android/getting-started/12_amplifyConfig.mdx";
+
+<Fragments fragments={{android: android953e89d82e52bbdf079ae801c5aebfdb}} />
+
+
+import flutterb5103f342bf9b47ab43aa06db8d24964 from "/src/fragments/lib/storage/flutter/getting-started/12_amplifyConfig.mdx";
+
+<Fragments fragments={{flutter: flutterb5103f342bf9b47ab43aa06db8d24964}} />
+
+## Install Amplify Libraries
+
+
+
+import iose96a09700d84bdf1a60a70afeae27350 from "/src/fragments/lib/storage/ios/getting-started/20_installLib.mdx";
+
+<Fragments fragments={{ios: iose96a09700d84bdf1a60a70afeae27350}} />
+
+
+import android3201b184afe1113059b3751543049b6e from "/src/fragments/lib/storage/android/getting-started/20_installLib.mdx";
+
+<Fragments fragments={{android: android3201b184afe1113059b3751543049b6e}} />
+
+
+import flutter8e15aab552a9d36038410d69158fe69d from "/src/fragments/lib/storage/flutter/getting-started/20_installLib.mdx";
+
+<Fragments fragments={{flutter: flutter8e15aab552a9d36038410d69158fe69d}} />
+
+## Initialize Amplify Storage
+
+
+
+import ios891240c725b2c86df000304308bfaeb1 from "/src/fragments/lib/storage/ios/getting-started/30_initStorage.mdx";
+
+<Fragments fragments={{ios: ios891240c725b2c86df000304308bfaeb1}} />
+
+
+import androida2cb473d669260f641f9e2cc063a078e from "/src/fragments/lib/storage/android/getting-started/30_initStorage.mdx";
+
+<Fragments fragments={{android: androida2cb473d669260f641f9e2cc063a078e}} />
+
+
+import flutter3a9be75d6aa9fa9799e5dd8883de0072 from "/src/fragments/lib/storage/flutter/getting-started/30_initStorage.mdx";
+
+<Fragments fragments={{flutter: flutter3a9be75d6aa9fa9799e5dd8883de0072}} />
+
+## Uploading data to your bucket
+
+To upload to S3 from a data object, specify the key and the data object to be uploaded.
+
+
+
+import ios0ace9e08da752d08da345e8a4c80be6d from "/src/fragments/lib/storage/ios/getting-started/40_upload.mdx";
+
+<Fragments fragments={{ios: ios0ace9e08da752d08da345e8a4c80be6d}} />
+
+
+import androiddf8c164006f5ce38db547468ebce7377 from "/src/fragments/lib/storage/android/getting-started/40_upload.mdx";
+
+<Fragments fragments={{android: androiddf8c164006f5ce38db547468ebce7377}} />
+
+
+import fluttera644bdfda516ecffd0baa7028005448a from "/src/fragments/lib/storage/flutter/getting-started/40_upload.mdx";
+
+<Fragments fragments={{flutter: fluttera644bdfda516ecffd0baa7028005448a}} />
+
+Upon successfully executing this code, you should see a new folder in your bucket, called `public`. It should contain a file called `ExampleKey`, whose contents is `Example file contents`.
+
+## Next Steps
+
+Congratulations! You've uploaded a file to an s3 bucket.  Check out the following links to see other Amplify Storage use cases:
+
+* [Concepts](/lib/storage/overview)
+* [Download files](/lib/storage/download)
+* [List Files](/lib/storage/list)
+* [Remove files](/lib/storage/remove)
+* [File access levels](/lib/storage/configureaccess)
+* [Using Lambda Triggers](/lib/storage/triggers)
+* [Escape Hatch](/lib/storage/escapehatch)

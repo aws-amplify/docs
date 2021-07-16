@@ -1,0 +1,107 @@
+The Amplify API category provides an interface for making requests to your backend. The Amplify CLI deploys REST APIs and handlers using [Amazon API Gateway](http://docs.aws.amazon.com/apigateway/latest/developerguide/) and [AWS Lambda](http://docs.aws.amazon.com/lambda/latest/dg/).
+
+## Goal
+To setup and configure your application with Amplify API to make requests to your API Gateway and trigger the lambda function using authorization provided by Amplify Auth.
+
+## Prerequisites
+
+
+
+import ios1dfd17a28c5977d4291f1db21030ddbd from "/src/fragments/lib/restapi/ios/getting-started/10_preReq.mdx";
+
+<Fragments fragments={{ios: ios1dfd17a28c5977d4291f1db21030ddbd}} />
+
+
+import android0e89ed215c320c01a1fae60e41ebb856 from "/src/fragments/lib/restapi/android/getting-started/10_preReq.mdx";
+
+<Fragments fragments={{android: android0e89ed215c320c01a1fae60e41ebb856}} />
+
+
+import flutter358927201c4ec158f291181de9570e33 from "/src/fragments/lib/restapi/flutter/getting-started/10_preReq.mdx";
+
+<Fragments fragments={{flutter: flutter358927201c4ec158f291181de9570e33}} />
+
+## Configure API
+
+
+
+import ios04c7bcc3e086c2f1ba78d9d96a37d538 from "/src/fragments/lib/restapi/ios/getting-started/11_amplifyInit.mdx";
+
+<Fragments fragments={{ios: ios04c7bcc3e086c2f1ba78d9d96a37d538}} />
+
+
+import android1f9f4126e757b661845e6bf82c5a2a16 from "/src/fragments/lib/restapi/android/getting-started/11_amplifyInit.mdx";
+
+<Fragments fragments={{android: android1f9f4126e757b661845e6bf82c5a2a16}} />
+
+
+import flutter6911b116d12fdcb303f08845b26cd4d1 from "/src/fragments/lib/restapi/flutter/getting-started/11_amplifyInit.mdx";
+
+<Fragments fragments={{flutter: flutter6911b116d12fdcb303f08845b26cd4d1}} />
+
+## Install Amplify Libraries
+
+
+
+import ios7c6f45c393d4cb051ee01b62dcab1d30 from "/src/fragments/lib/restapi/ios/getting-started/20_installLib.mdx";
+
+<Fragments fragments={{ios: ios7c6f45c393d4cb051ee01b62dcab1d30}} />
+
+
+import android00f62ef1a7eee5543de8d56106aa36f8 from "/src/fragments/lib/restapi/android/getting-started/20_installLib.mdx";
+
+<Fragments fragments={{android: android00f62ef1a7eee5543de8d56106aa36f8}} />
+
+
+import flutter88b67cd8228f0cf15d561223cf0906d5 from "/src/fragments/lib/restapi/flutter/getting-started/20_installLib.mdx";
+
+<Fragments fragments={{flutter: flutter88b67cd8228f0cf15d561223cf0906d5}} />
+
+## Initialize Amplify API
+
+
+
+import ios555b3e87fe503b4c2a69e40cebe3b973 from "/src/fragments/lib/restapi/ios/getting-started/30_initapi.mdx";
+
+<Fragments fragments={{ios: ios555b3e87fe503b4c2a69e40cebe3b973}} />
+
+
+import androidc6713d99a5753f2685e7d4963532874f from "/src/fragments/lib/restapi/android/getting-started/30_initapi.mdx";
+
+<Fragments fragments={{android: androidc6713d99a5753f2685e7d4963532874f}} />
+
+
+import flutter54a216d7aa47207f5c638607b57d2f5f from "/src/fragments/lib/restapi/flutter/getting-started/30_initapi.mdx";
+
+<Fragments fragments={{flutter: flutter54a216d7aa47207f5c638607b57d2f5f}} />
+
+## Make a POST Request
+
+Copy and paste the following code in your application so that it runs only once when the app starts:
+
+
+
+import ios9fc24e77eee7044f249b516f90146940 from "/src/fragments/lib/restapi/ios/getting-started/40_postTodo.mdx";
+
+<Fragments fragments={{ios: ios9fc24e77eee7044f249b516f90146940}} />
+
+
+import android0e2872b9ea7ebb279f9e74623c5a462c from "/src/fragments/lib/restapi/android/getting-started/40_postTodo.mdx";
+
+<Fragments fragments={{android: android0e2872b9ea7ebb279f9e74623c5a462c}} />
+
+
+import flutter16ce277f6304de512651b87ac8f013b9 from "/src/fragments/lib/restapi/flutter/getting-started/40_postTodo.mdx";
+
+<Fragments fragments={{flutter: flutter16ce277f6304de512651b87ac8f013b9}} />
+
+To navigate to your backend, go to the [API Gateway console](https://aws.amazon.com/apigateway) and select the API. The name of the API corresponds to the friendly name of the resource to be used as a label you specified earlier in the CLI steps.
+
+## Next steps
+
+Congratulations! You've made a call to your API Gateway and triggered your Lambda function. Check out the following links to see other Amplify API use cases:
+
+* [Fetching Data](/lib/restapi/fetch)
+* [Updating Data](/lib/restapi/update)
+* [Deleting Data](/lib/restapi/delete)
+* [Define authorization rules](/lib/restapi/authz)

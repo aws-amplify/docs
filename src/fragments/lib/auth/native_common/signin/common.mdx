@@ -1,0 +1,191 @@
+
+The Auth category can be used to register a user, confirm attributes like email/phone, and sign in with optional multi-factor authentication. It is set up to use Amazon Cognito User Pools which manages the users and their properties.
+
+## Prerequisites
+
+
+
+import ios5a163b656bb4aee1cd3a639ab4151286 from "/src/fragments/lib/auth/ios/getting_started/10_preReq.mdx";
+
+<Fragments fragments={{ios: ios5a163b656bb4aee1cd3a639ab4151286}} />
+
+
+import androidc09c08b2149285a0423d9cefbeb0219f from "/src/fragments/lib/auth/android/common_prereq.mdx";
+
+<Fragments fragments={{android: androidc09c08b2149285a0423d9cefbeb0219f}} />
+
+
+import flutter360c5bf26cb0b6174e0c9734d80e65dd from "/src/fragments/lib/auth/flutter/common_prereq.mdx";
+
+<Fragments fragments={{flutter: flutter360c5bf26cb0b6174e0c9734d80e65dd}} />
+
+## Register a user
+
+The default CLI flow as mentioned in the [getting started guide](/lib/auth/getting-started) requires a username, password and a valid email id as parameters to register a user. Invoke the following api to initiate a sign up flow.
+
+
+
+import iosa1ae6519f6825a832018c2ffdace6b48 from "/src/fragments/lib/auth/ios/signin/10_signUp.mdx";
+
+<Fragments fragments={{ios: iosa1ae6519f6825a832018c2ffdace6b48}} />
+
+
+import androidd7f53b6449b20efd34e13b2c3fc6244a from "/src/fragments/lib/auth/android/signin/10_signUp.mdx";
+
+<Fragments fragments={{android: androidd7f53b6449b20efd34e13b2c3fc6244a}} />
+
+
+import flutterb2bd1d654c09280d541ad7d74fa2f761 from "/src/fragments/lib/auth/flutter/signin/10_signUp.mdx";
+
+<Fragments fragments={{flutter: flutterb2bd1d654c09280d541ad7d74fa2f761}} />
+
+The next step in the sign up flow is to confirm the user. A confirmation code will be sent to the email id provided during sign up. Enter the confirmation code received via email in the `confirmSignUp` call.
+
+
+
+import ios159c117d893143242369a8d4ce0a3579 from "/src/fragments/lib/auth/ios/signin/20_confirmSignUp.mdx";
+
+<Fragments fragments={{ios: ios159c117d893143242369a8d4ce0a3579}} />
+
+
+import androida908920357cc2933df2ff04ae3012cc1 from "/src/fragments/lib/auth/android/signin/20_confirmSignUp.mdx";
+
+<Fragments fragments={{android: androida908920357cc2933df2ff04ae3012cc1}} />
+
+
+import flutter45cd41e0951b39be19cc70125fb63d84 from "/src/fragments/lib/auth/flutter/signin/20_confirmSignUp.mdx";
+
+<Fragments fragments={{flutter: flutter45cd41e0951b39be19cc70125fb63d84}} />
+
+You will know the sign up flow is complete if you see the following in your console window:
+
+```console
+Confirm signUp succeeded
+```
+
+## Sign in a user
+
+Implement a UI to get the username and password from the user. After the user enters the username and password you can start the sign in flow by calling the following method:
+
+
+
+import ios320161b884c0108b24ed7577e07b7933 from "/src/fragments/lib/auth/ios/signin/30_signIn.mdx";
+
+<Fragments fragments={{ios: ios320161b884c0108b24ed7577e07b7933}} />
+
+
+import android26fb14334ca0fbcb65aa1aa495baadfd from "/src/fragments/lib/auth/android/signin/30_signIn.mdx";
+
+<Fragments fragments={{android: android26fb14334ca0fbcb65aa1aa495baadfd}} />
+
+
+import flutterb51a61ac592c5733c9ca417ff55e4328 from "/src/fragments/lib/auth/flutter/signin/30_signIn.mdx";
+
+<Fragments fragments={{flutter: flutterb51a61ac592c5733c9ca417ff55e4328}} />
+
+You will know the sign in flow is complete if you see the following in your console window:
+
+```console
+Sign in succeeded
+```
+
+You have now successfully registered a user and authenticated with that user's username and password with Amplify. The Authentication category supports other mechanisms for authentication such as web UI based sign in, sign in using other providers etc that you can explore in the other sections.
+
+## Multi-factor authentication
+
+Some steps in setting up multi-factor authentication can only be chosen during the initial setup of Auth. If you have already added Auth via the CLI, navigate to your project directory in Terminal, run `amplify auth remove` and when that completes, `amplify push` to remove it.  
+
+Now, run `amplify add auth` and setup Auth with the following options:  
+
+```console
+? Do you want to use the default authentication and security configuration? 
+    `Manual configuration`
+? Select the authentication/authorization services that you want to use: 
+    `User Sign-Up, Sign-In, connected with AWS IAM controls (Enables per-user Storage features for images or other content, Analytics, and more)`
+? Please provide a friendly name for your resource that will be used to label this category in the project: 
+    `<default>`
+? Please enter a name for your identity pool. 
+    `<default>`
+? Allow unauthenticated logins? (Provides scoped down permissions that you can control via AWS IAM) 
+    `Yes`
+? Do you want to enable 3rd party authentication providers in your identity pool? 
+    `No`
+? Please provide a name for your user pool: 
+    `<default>`
+Warning: you will not be able to edit these selections.
+? How do you want users to be able to sign in? 
+    `Username`
+? Do you want to add User Pool Groups? 
+    `No`
+? Do you want to add an admin queries API? 
+    `No`
+? Multifactor authentication (MFA) user login options: 
+    `ON (Required for all logins, can not be enabled later)`
+? For user login, select the MFA types: 
+    `SMS Text Message`
+? Please specify an SMS authentication message: 
+    `Your authentication code is {####}`
+? Email based user registration/forgot password: 
+    `Enabled (Requires per-user email entry at registration)`
+? Please specify an email verification subject: 
+    `Your verification code`
+? Please specify an email verification message: 
+    `Your verification code is {####}`
+? Do you want to override the default password policy for this User Pool? 
+    `No`
+Warning: you will not be able to edit these selections.
+? What attributes are required for signing up? 
+    `Email, Phone Number (This attribute is not supported by Facebook, Login With Amazon.)`
+? Specify the app's refresh token expiration period (in days): 
+    `30`
+? Do you want to specify the user attributes this app can read and write? 
+    `No`
+? Do you want to enable any of the following capabilities?
+    `NA`
+? Do you want to use an OAuth flow? 
+    `No`
+? Do you want to configure Lambda Triggers for Cognito? 
+    `No`
+```
+
+When you sign up, be sure to include both email and phone attributes with the phone number formatted as follows:
+
+
+
+import iosb8e8fc07237c0c082324d9c35548368d from "/src/fragments/lib/auth/ios/signin/40_multi_factor_signup.mdx";
+
+<Fragments fragments={{ios: iosb8e8fc07237c0c082324d9c35548368d}} />
+
+
+import android87d70f2b42685e9df2b8bf2ed54d78eb from "/src/fragments/lib/auth/android/signin/40_multi_factor_signup.mdx";
+
+<Fragments fragments={{android: android87d70f2b42685e9df2b8bf2ed54d78eb}} />
+
+
+import fluttercfcccc688fbf77ff130be01e7e4544d1 from "/src/fragments/lib/auth/flutter/signin/40_multi_factor_signup.mdx";
+
+<Fragments fragments={{flutter: fluttercfcccc688fbf77ff130be01e7e4544d1}} />
+
+You'll then confirm signup, sign in, and get back a nextStep in the sign in result of type `CONFIRM_SIGN_IN_WITH_SMS_MFA_CODE`.
+A confirmation code will also be texted to the phone number provided above. Pass the code you received to the confirmSignIn api:
+
+<Callout>
+Note that you must call confirmSignIn in the same app session as you call signIn. If you close the app, you'll need to call signIn again.
+As a result, for testing purposes, you'll at least need an input field where you can enter the code sent via SMS and feed it to confirmSignIn.
+</Callout>
+
+
+
+import ios0ef5908ae7c81bab6b84f8db9e03fa16 from "/src/fragments/lib/auth/ios/signin/50_multi_factor_confirm_signin.mdx";
+
+<Fragments fragments={{ios: ios0ef5908ae7c81bab6b84f8db9e03fa16}} />
+
+
+import androidf98cf6447683f91791c7e44edf0eed8f from "/src/fragments/lib/auth/android/signin/50_multi_factor_confirm_signin.mdx";
+
+<Fragments fragments={{android: androidf98cf6447683f91791c7e44edf0eed8f}} />
+
+
+import flutter8ba0c39f3ff27fc4c89436c7dbe31bc2 from "/src/fragments/lib/auth/flutter/signin/50_multi_factor_confirm_signin.mdx";
+
+<Fragments fragments={{flutter: flutter8ba0c39f3ff27fc4c89436c7dbe31bc2}} />

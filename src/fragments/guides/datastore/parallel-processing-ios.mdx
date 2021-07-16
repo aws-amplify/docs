@@ -1,0 +1,81 @@
+Amplify DataStore provides APIs that allow you to create, read, update, and delete items individually. Sometimes you need to perform multiple operations in parallel, like creating and updating several objects or querying and deleting objects by their IDs. In this guide, you will learn how to perform parallel processing using the Combine framework to extend the functionality of the Amplify DataStore APIs.
+
+<Callout warning>
+
+For simplicity, this Guide demonstrates how to perform parallel processing using the Combine framework. To follow along, you must include `import Combine` at the top of your file.
+
+</Callout>
+
+## Create and update in parallel
+
+To write data to the DataStore in parallel, pass an array of models to a Combine `Publishers.Sequence` and perform `Amplify.DataStore.save(_ model:)` on each object:
+
+```swift
+let todos = [
+    Todo(name: "Learn Amplify"),
+    Todo(name: "Build app"),
+    Todo(name: "Profit")
+]
+
+let sink = Publishers.Sequence<[Todo], Never>(sequence: todos)
+    .flatMap { todo -> AnyPublisher<Todo, DataStoreError> in
+        Amplify.DataStore.save(todo)
+    }
+    .collect()
+    .sink {
+        if case let .failure(error) = $0 {
+            print("Error on save() for type Todo - \(error.localizedDescription)")
+        }
+    } receiveValue: { savedTodos in
+        print("Todos: \(savedTodos)")
+    }
+```
+
+`Publishers.Sequence` creates a `Publisher` where each model is passed to `.flatMap()` individually, allowing for each object to be saved to DataStore. `.collect()` emits a single array of all the elements collected, returning the saved models in `receiveValue`.
+
+## Delete in parallel
+
+To delete items in parallel, pass an array of IDs to `Publishers.Sequence` and perform `Amplify.DataStore.delete(_withId:)` for each ID:
+
+```swift
+let todoIds = ["123", "456", "789"]
+
+let sink = Publishers.Sequence<[String], Never>(sequence: todoIds)
+    .flatMap { todoId -> AnyPublisher<Void, DataStoreError> in
+        Amplify.DataStore.delete(Todo.self, withId: todoId)
+    }
+    .collect()
+    .sink {
+        if case let .failure(error) = $0 {
+            print("Error deleting post - \(error.localizedDescription)")
+        }
+    } receiveValue: { _ in
+        print("Posts deleted!")
+    }
+```
+
+`Amplify.DataStore.delete(_withId:)` emits a `Void` when successful. The `receiveValue` of parallel deletes will pass `[Void]`.
+
+## Query in parallel
+
+To query items in parallel, pass an array of IDs to `Publishers.Sequence` and perform `Amplify.DataStore.query(_:byId:)` for each ID:
+
+```swift
+let todoIds = ["123", "456", "789"]
+
+let sink = Publishers.Sequence<[String], Never>(sequence: todoIds)
+    .flatMap { itemId -> AnyPublisher<Todo?, DataStoreError> in
+        Amplify.DataStore.query(Todo.self, byId: itemId)
+    }
+    .compactMap { $0 }
+    .collect()
+    .sink {
+        if case let .failure(error) = $0 {
+            print("Error on query() for type Todo - \(error.localizedDescription)")
+        }
+    } receiveValue: { todos in
+        print("Todos: \(todos)")
+    }
+```
+
+`Amplify.DataStore.query(_:byId:)` emits an optional model in the event an object is not found with that ID. `compactMap()` prevents `receiveValue` from providing an array with `nil` values. To include `nil` values in the result, omit `compactMap { $0 }`.

@@ -1,0 +1,288 @@
+ When adding the Storage category, you configure the level of access authenticated and guest users have to your S3 bucket. Additionally, when uploading files using the Storage category, you can specify the access level for that file to be either public, protected, or private.
+
+- **Public** Accessible by all users
+- **Protected** Readable by all users, but only writable by the creating user
+- **Private** Readable and writable only by the creating user
+
+For protected and private access, the `user_id` in the prefix corresponds to the unique ID for the creating user.
+
+<Callout>
+
+The default access level for the Storage category is **public**. Unless you specify otherwise, all uploaded files will be publicly available for all users.
+
+</Callout>
+
+## Protected access
+
+Create an options object specifying the protected access level to allow other users to read the object:
+
+<BlockSwitcher>
+<CodeBlock name="Java">
+
+```java
+private void uploadFile(String key, File file) {
+    StorageUploadFileOptions options =
+            StorageUploadFileOptions.builder()
+                    .accessLevel(StorageAccessLevel.PROTECTED)
+                    .build();
+
+    Amplify.Storage.uploadFile(
+            key,
+            file,
+            options,
+            result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + key),
+            error -> Log.e("MyAmplifyApp", "Upload failed", error)
+    );
+}
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Callbacks">
+
+```kotlin
+private fun uploadFile(key: String, file: File) {
+    val options = StorageUploadFileOptions.builder()
+        .accessLevel(StorageAccessLevel.PROTECTED)
+        .build()
+
+    Amplify.Storage.uploadFile(key, file, options,
+        { Log.i("MyAmplifyApp", "Successfully uploaded: $key") }
+        { Log.e("MyAmplifyApp", "Upload failed", it) }
+    )
+}
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+private suspend fun uploadFile(key: String, file: File) {
+    val options = StorageUploadFileOptions.builder()
+        .accessLevel(StorageAccessLevel.PROTECTED)
+        .build()
+
+    val upload = Amplify.Storage.uploadFile(key, file, options)
+
+    try {
+        upload.result()
+        Log.i("MyAmplifyApp", "Successfully uploaded: $key")
+    } catch (error: StorageException) {
+        Log.e("MyAmplifyApp", "Upload failed", error)
+    }
+}
+```
+
+</CodeBlock>
+<CodeBlock name="RxJava">
+
+```java
+private void uploadFile(String key, File file) {
+    StorageUploadFileOptions options =
+            StorageUploadFileOptions.builder()
+                    .accessLevel(StorageAccessLevel.PROTECTED)
+                    .build();
+
+    RxProgressAwareSingleOperation<StorageUploadFileResult> upload =
+            RxAmplify.Storage.uploadFile("ExampleKey", exampleFile, options);
+
+    upload
+        .observeResult()
+        .subscribe(
+            result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
+            error -> Log.e("MyAmplifyApp", "Upload failed", error)
+        );
+}
+```
+
+</CodeBlock>
+</BlockSwitcher>
+
+For other users to read the file, you must specify the user ID of the creating user in the passed options:
+
+<BlockSwitcher>
+<CodeBlock name="Java">
+
+```java
+private void downloadFile(File file, String key, String otherUserId) {
+    StorageDownloadFileOptions options =
+            StorageDownloadFileOptions.builder()
+                    .accessLevel(StorageAccessLevel.PROTECTED)
+                    .targetIdentityId(otherUserId)
+                    .build();
+
+    Amplify.Storage.downloadFile(
+            key,
+            file,
+            options,
+            result -> Log.i("MyAmplifyApp", "Successfully downloaded: " + key),
+            error -> Log.e("MyAmplifyApp", "Download failed", error)
+    );
+}
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Callbacks">
+
+```kotlin
+private fun downloadFile(file: File, key: String, otherUserId: String) {
+    val options = StorageDownloadFileOptions.builder()
+        .accessLevel(StorageAccessLevel.PROTECTED)
+        .targetIdentityId(otherUserId)
+        .build()
+
+    Amplify.Storage.downloadFile(key, file, options,
+        { Log.i("MyAmplifyApp", "Successfully downloaded: $key") },
+        { Log.e("MyAmplifyApp", "Download failed", it) }
+    )
+}
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+private suspend fun downloadFile(file: File, key: String, otherUserId: String) {
+    val options = StorageDownloadFileOptions.builder()
+        .accessLevel(StorageAccessLevel.PROTECTED)
+        .targetIdentityId(otherUserId)
+        .build()
+    
+    val download = Amplify.Storage.downloadFile(key, file, options)
+
+    try {
+        download.result()
+        Log.i("MyAmplifyApp", "Successfully downloaded: $key")
+    } catch (error: StorageException) {
+        Log.e("MyAmplifyApp", "Download failed", error)
+    }
+}
+```
+
+</CodeBlock>
+</BlockSwitcher>
+
+## Private Access
+
+Create an options object specifying the private access level to only allow an object to be accessed by the creating user
+
+<BlockSwitcher>
+<CodeBlock name="Java">
+
+```java
+private void uploadFile(String key, File file) {
+    StorageUploadFileOptions options =
+            StorageUploadFileOptions.builder()
+                    .accessLevel(StorageAccessLevel.PRIVATE)
+                    .build();
+
+    Amplify.Storage.uploadFile(
+            key,
+            file,
+            options,
+            result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + key,
+            error -> Log.e("MyAmplifyApp", "Upload failed", error)
+    );
+}
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Callbacks">
+
+```kotlin
+private fun uploadFile(key: String, file: File) {
+    val options = StorageUploadFileOptions.builder()
+        .accessLevel(StorageAccessLevel.PRIVATE)
+        .build()
+    Amplify.Storage.uploadFile(key, file, options,
+        { Log.i("MyAmplifyApp", "Successfully uploaded: $key") },
+        { Log.e("MyAmplifyApp", "Upload failed", it) }
+    )
+}
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+private suspend fun uploadFile(key: String, file: File) {
+    val options = StorageUploadFileOptions.builder()
+        .accessLevel(StorageAccessLevel.PRIVATE)
+        .build()
+
+    val upload = Amplify.Storage.uploadFile(key, file, options)
+
+    try {
+        upload.result()
+        Log.i("MyAmplifyApp", "Successfully uploaded: $key")
+    } catch (error: StorageException) {
+        Log.e("MyAmplifyApp", "Upload failed", error)
+    }
+}
+```
+
+</CodeBlock>
+</BlockSwitcher>
+
+For the user to read the file, you must specify the user ID of the creating user in the passed options:
+
+<BlockSwitcher>
+<CodeBlock name="Java">
+
+```java
+private void downloadFile(File file, String key, String userId) {
+    StorageDownloadFileOptions options =
+            StorageDownloadFileOptions.builder()
+                    .accessLevel(StorageAccessLevel.PRIVATE)
+                    .targetIdentityId(userId)
+                    .build();
+
+    Amplify.Storage.downloadFile(
+            key,
+            file,
+            options,
+            result -> Log.i("MyAmplifyApp", "Successfully downloaded: " + key),
+            error -> Log.e("MyAmplifyApp", "Download failed", error)
+    );
+}
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Callbacks">
+
+```kotlin
+private fun downloadFile(file: File, key: String, userId: String) {
+    val options = StorageDownloadFileOptions.builder()
+        .accessLevel(StorageAccessLevel.PRIVATE)
+        .targetIdentityId(userId)
+        .build()
+
+    Amplify.Storage.downloadFile(key, file, options,
+        { Log.i("MyAmplifyApp", "Successfully downloaded: $key") }
+        { Log.e("MyAmplifyApp", "Download failed", it) }
+    )
+}
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+private suspend fun downloadFile(file: File, key: String, userId: String) {
+    val options = StorageDownloadFileOptions.builder()
+        .accessLevel(StorageAccessLevel.PRIVATE)
+        .targetIdentityId(userId)
+        .build()
+
+    val download = Amplify.Storage.downloadFile(key, file, options)
+
+    try {
+        download.result()
+        Log.i("MyAmplifyApp", "Successfully downloaded: $key")
+    } catch (error: StorageException) {
+        Log.e("MyAmplifyApp", "Download failed", error)
+    }
+}
+```
+
+</CodeBlock>
+</BlockSwitcher>

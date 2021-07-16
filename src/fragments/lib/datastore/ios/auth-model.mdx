@@ -1,0 +1,146 @@
+## Example schema
+
+The following schema is an example of a model named `Todo` that uses the `@auth` directive.
+
+```graphql
+type Todo
+    @model
+    @auth(rules: [
+        { allow: owner, ownerField: "owner", operations: [create, update, delete] },
+    ]) {
+    id: ID!
+    content: String!
+    owner: String
+}
+```
+
+By setting `allow:owner` with `operations` set to `create`, `update` and `delete`, we have effectively set permissions for both the user who created the model (owner) and everyone else (non-owners). For owners this means, they can update and delete their created instances. For non-owners, this means they can read instances that are not owned by them and are restricted from updating or deleting them.
+
+For example, if there are two users, UserA and UserB, where UserA creates a `Todo` instance named `todo123`, UserA can create, update, or delete `todo123`. UserB can read `todo123` but can not update or delete `todo123`.
+
+The `@auth` directive when used with Amplify DataStore supports the following fields:
+
+  - `allow` with "owner" and "groups"
+  - `ownerField`
+  - `groups`
+  - `operations`
+
+## Configure API with Amazon Cognito user pool
+
+While using the `@auth` directive in your schema to limit read/write access, we require authentication to be integrated into your app in order to differentiate who the owner is. To set this up issue the command:
+
+```console
+amplify update api
+```
+
+then follow the prompts:
+
+```console
+? Please select from one of the below mentioned services: 
+  `GraphQL`
+? Select from the options below 
+  `Update auth settings`
+? Choose the default authorization type for the API 
+  `Amazon Cognito User Pool`
+```
+
+Once finished, run `amplify push` to provision your services in the backend.
+
+## Configuration
+
+Upon successfully running `amplify push` per the last step, `amplifyconfiguration.json` will have a section under "awsAPIPlugins" and "awsCognitoAuthPlugin" with the corresponding API and Auth configurations. Your `amplifyconfiguration.json` may look like this:
+
+```json
+{
+    "api": {
+        "plugins": {
+            "awsAPIPlugin": {
+                // ...
+            }
+        }
+    },
+    "auth": {
+        "plugins": {
+            "awsCognitoAuthPlugin": {
+                // ...
+            }
+        }
+    }
+```
+
+Add "AWSCognitoAuthPlugin" and "AWSAPIPlugin" to Amplify before configuring
+
+```swift
+Amplify.add(plugin: AWSCognitoAuthPlugin())
+Amplify.add(plugin: AWSAPIPlugin())
+Amplify.configure()
+```
+
+## Authentication requirements
+
+In order to issue an operation (`DataStore.save`, `DataStore.delete`) on a model that has fine grain controls defined, the user must be signed in using `Amplify.Auth.signIn`. A user's sign-in state may vary during the lifecycle of an app, so it is a common practice to check if the user has already been signed in by using `Amplify.Auth.fetchAuthSession` prior to attempting to update/delete a model that uses the @auth directive. The following are examples of how we recommend you handle auth state in your application:
+
+1. User's sign in state is known to be signed out, and the user needs to sign in, prior to making a call to `DataStore.save()`. 
+
+```swift
+Amplify.Auth.signIn {
+    switch $0 {
+    case .success(let signInResult):
+        if signInResult.isSignedIn {
+            // Amplify.DataStore.save
+        }
+    case .failure(let error):
+        print("Sign in error \(error)")
+    }
+}
+```
+
+2. User's sign in state is unknown (for example, app was terminated or transitioned from background to foreground) and you need to check prior to making a call to `DataStore.save()`. 
+
+```swift
+_ = Amplify.Auth.fetchAuthSession {
+    switch $0 {
+    case .success(let authSession):
+        if authSession.isSignedIn {
+            // Amplify.DataStore.save
+        }
+    case .failure(let error):
+        print("failed to get auth session", error)
+    }
+}
+```
+
+3. During the lifecycle of the app, listen to Auth events to show different views based on the user's state. See [Auth Events](/lib/auth/auth-events) for more details.
+
+For more information on related topics:
+
+- [Auth.SignIn](/lib/auth/signin)
+- [Auth.fetchAuthSession](/lib/auth/getting-started.md#check-the-current-auth-session)
+- [Auth Events](/lib/auth/auth-events)
+
+## Model owner
+
+To check who the owner of the model is, call `DataStore.query` and check the user's username against the owner field. 
+```swift
+if let currentUser = Amplify.Auth.getCurrentUser() {
+    if currentUser.username == todo.owner {
+        print("This todo was created by the current user")
+    }
+}
+```
+
+If you attempt to call `DataStore.save` or `DataStore.delete` on a model that is not owned by the user, then a `conditionalSaveFailed` event will be emitted with the `MutationEvent` for you to immediately retrieve the current state of the model.
+
+```swift
+_ = Amplify.Hub.listen(to: .dataStore) { payload in
+    if payload.eventName == HubPayload.EventName.DataStore.conditionalSaveFailed {
+        if let mutationEvent = payload.data as? MutationEvent {
+            let modelName = mutationEvent.modelName
+            let id = mutationEvent.modelId
+            if modelName == YourModel.modelName {
+                // Amplify.DataStore.query(YourModel.self, id)
+            }
+        }
+    }
+}
+```

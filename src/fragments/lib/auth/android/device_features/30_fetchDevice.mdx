@@ -1,0 +1,51 @@
+<BlockSwitcher>
+<CodeBlock name="Java">
+
+```java
+Amplify.Auth.fetchDevices(
+    devices -> {
+        for (AuthDevice device : devices) {
+            Log.i("AuthQuickStart", "Device: " + device);
+        }
+    },
+    error -> Log.e("AuthQuickStart", "Fetch devices failed with error: " + error.toString()));
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.fetchDevices(
+    { devices ->
+        devices.forEach { Log.i("AuthQuickStart", "Device: " + it) }
+    },
+    { Log.e("AuthQuickStart", "Fetch devices failed with error", it) }
+)
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+try {
+    Amplify.Auth.fetchDevices().forEach { device ->
+        Log.i("AuthQuickStart", "Device: $device")
+    }
+} catch (error: AuthException) {
+    Log.e("AuthQuickStart",  "Fetch devices failed with error", error)
+}
+```
+
+</CodeBlock>
+<CodeBlock name="RxJava">
+
+```java
+Amplify.Auth.fetchDevices()
+    .subscribe(
+        device -> Log.i("AuthQuickStart", "Device: " + device);
+        error -> Log.e("AuthQuickStart", "Fetch devices failed with error: " + error.toString())
+    );
+```
+
+</CodeBlock>
+</BlockSwitcher>

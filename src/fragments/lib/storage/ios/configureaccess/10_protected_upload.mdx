@@ -1,0 +1,46 @@
+<BlockSwitcher>
+
+<CodeBlock name="Listener (iOS 11+)">
+
+```swift
+func uploadData(key: String, data: Data) {
+    let options = StorageUploadDataRequest.Options(accessLevel: .protected)
+    Amplify.Storage.uploadData(key: key, data: data, options: options) { progress in
+        print("Progress: \(progress)")
+    } resultListener: { event in
+        switch event {
+        case .success(let data):
+            print("Completed: \(data)")
+        case .failure(let storageError):
+            print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+        }
+    }
+}
+```
+
+</CodeBlock>
+
+<CodeBlock name="Combine (iOS 13+)">
+
+```swift
+var progressSink: AnyCancellable?
+var resultSink: AnyCancellable?
+
+func uploadData(key: String, data: Data) {
+    let options = StorageUploadDataRequest.Options(accessLevel: .protected)
+    let storageOperation = Amplify.Storage.uploadData(key: key, data: data, options: options)
+    progressSink = storageOperation.progressPublisher.sink { progress in print("Progress: \(progress)") }
+    resultSink = storageOperation.resultPublisher.sink {
+        if case let .failure(storageError) = $0 {
+            print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+        }
+    }
+    receiveValue: { data in
+        print("Completed: \(data)")
+    }
+}
+```
+
+</CodeBlock>
+
+</BlockSwitcher>

@@ -1,0 +1,181 @@
+
+
+import flutter033f3631819b5291918a7babb6044364 from "/src/fragments/lib/graphqlapi/flutter/getting-started/01_models_callout.mdx";
+
+<Fragments fragments={{flutter: flutter033f3631819b5291918a7babb6044364}} />
+
+The Amplify API category provides an interface for retrieving and persisting your model data. The API category comes with default built-in support for AWS AppSync. The Amplify CLI allows you to define your API and provision a GraphQL service with CRUD operations and real-time functionality. 
+
+## Goal
+
+To setup and configure your application with Amplify API to save items in the backend.
+
+## Prerequisites
+
+
+
+import iosb28c1cf605d340d8108b53fd747e2a6c from "/src/fragments/lib/graphqlapi/ios/getting-started/10_preReq.mdx";
+
+<Fragments fragments={{ios: iosb28c1cf605d340d8108b53fd747e2a6c}} />
+
+
+import android3c1881b6bac740d43f74a9d51e71c377 from "/src/fragments/lib/graphqlapi/android/getting-started/10_preReq.mdx";
+
+<Fragments fragments={{android: android3c1881b6bac740d43f74a9d51e71c377}} />
+
+
+import flutterde12507b7ed75419748b095384714d21 from "/src/fragments/lib/graphqlapi/flutter/getting-started/10_preReq.mdx";
+
+<Fragments fragments={{flutter: flutterde12507b7ed75419748b095384714d21}} />
+
+## Configure API
+
+To start provisioning API resources in the backend, go to your project directory and **execute the command**:
+
+```bash
+amplify add api
+```
+
+Enter the following when prompted:
+```console
+? Please select from one of the below mentioned services: 
+    `GraphQL`
+? Provide API name: 
+    `apiName`
+? Choose the default authorization type for the API:
+    `API key`
+? Enter a description for the API key:
+    `description`
+? After how many days from now the API key should expire (1-365): 
+    `7`
+? Do you want to configure advanced settings for the GraphQL API 
+    `No, I am done.`
+? Do you have an annotated GraphQL schema? 
+    `No`
+? Choose a schema template:
+    `Single object with fields (e.g., “Todo” with ID, name, description)`
+? Do you want to edit the schema now? 
+    `No`
+```
+
+<Callout warning>
+
+**Troubleshooting:** The AWS API plugins do not support conflict detection. If AppSync returns errors about missing `_version` and `_lastChangedAt` fields, or unhandled conflicts, disable **conflict detection**. Run `amplify update api`, and choose **Disable DataStore for entire API**.  If you started with the Getting Started guide, which introduces DataStore, this step is required.
+
+</Callout>
+
+The guided schema creation will output `amplify/backend/api/{api_name}/schema.graphql` containing the following:
+```graphql
+type Todo @model {
+  id: ID!
+  name: String!
+  description: String
+}
+```
+
+To push your changes to the cloud, **execute the command**:
+
+```bash
+amplify push
+```
+
+Enter the following when prompted:
+```console
+? Do you want to generate code for your newly created GraphQL API 
+    `No`
+```
+
+
+
+import iosbd02059c5031086b941f051fbe016de1 from "/src/fragments/lib/graphqlapi/ios/getting-started/12_amplifyConfig.mdx";
+
+<Fragments fragments={{ios: iosbd02059c5031086b941f051fbe016de1}} />
+
+
+import android232b0bc5017c84952fc4df41bc435533 from "/src/fragments/lib/graphqlapi/android/getting-started/12_amplifyConfig.mdx";
+
+<Fragments fragments={{android: android232b0bc5017c84952fc4df41bc435533}} />
+
+
+import flutter1ee54de0b770e9b5aa45c0e5eabbf9aa from "/src/fragments/lib/graphqlapi/flutter/getting-started/12_amplifyConfig.mdx";
+
+<Fragments fragments={{flutter: flutter1ee54de0b770e9b5aa45c0e5eabbf9aa}} />
+
+
+
+import ios0feea77747d361bf0f98b6e882a1bc6a from "/src/fragments/lib/graphqlapi/ios/getting-started/40_codegen.mdx";
+
+<Fragments fragments={{ios: ios0feea77747d361bf0f98b6e882a1bc6a}} />
+
+
+import android44153128f94ceeddd51b519a018f2997 from "/src/fragments/lib/graphqlapi/android/getting-started/40_codegen.mdx";
+
+<Fragments fragments={{android: android44153128f94ceeddd51b519a018f2997}} />
+
+## Install Amplify Libraries
+
+
+
+import iosabe715a86a8ccd8dc93173540aa05f8b from "/src/fragments/lib/graphqlapi/ios/getting-started/20_installLib.mdx";
+
+<Fragments fragments={{ios: iosabe715a86a8ccd8dc93173540aa05f8b}} />
+
+
+import androidf43c71bca9b21cab374325f45e8e3b33 from "/src/fragments/lib/graphqlapi/android/getting-started/20_installLib.mdx";
+
+<Fragments fragments={{android: androidf43c71bca9b21cab374325f45e8e3b33}} />
+
+
+import flutterc4d531fb727f2d235812e3b376c8740f from "/src/fragments/lib/graphqlapi/flutter/getting-started/20_installLib.mdx";
+
+<Fragments fragments={{flutter: flutterc4d531fb727f2d235812e3b376c8740f}} />
+
+## Initialize Amplify API
+
+
+
+import iosd3c2fb5733386a9c16f36e177f8ab487 from "/src/fragments/lib/graphqlapi/ios/getting-started/30_initapi.mdx";
+
+<Fragments fragments={{ios: iosd3c2fb5733386a9c16f36e177f8ab487}} />
+
+
+import android5c83aae7bd64621d01d31c48c92a3774 from "/src/fragments/lib/graphqlapi/android/getting-started/30_initapi.mdx";
+
+<Fragments fragments={{android: android5c83aae7bd64621d01d31c48c92a3774}} />
+
+
+import flutterecbea64ccfd75e5530675103ad19e9e3 from "/src/fragments/lib/graphqlapi/flutter/getting-started/30_initapi.mdx";
+
+<Fragments fragments={{flutter: flutterecbea64ccfd75e5530675103ad19e9e3}} />
+
+## Create a Todo
+
+
+
+import ios6dbdef90dd48288a96c610f7df344811 from "/src/fragments/lib/graphqlapi/ios/getting-started/50_createtodo.mdx";
+
+<Fragments fragments={{ios: ios6dbdef90dd48288a96c610f7df344811}} />
+
+
+import androida10222bcd5347e2a5b3eb671f9f3f906 from "/src/fragments/lib/graphqlapi/android/getting-started/50_createtodo.mdx";
+
+<Fragments fragments={{android: androida10222bcd5347e2a5b3eb671f9f3f906}} />
+
+
+import flutteree9abeccf377d1914fc6830bd30a1974 from "/src/fragments/lib/graphqlapi/flutter/getting-started/50_createtodo.mdx";
+
+<Fragments fragments={{flutter: flutteree9abeccf377d1914fc6830bd30a1974}} />
+
+Upon successfully executing this code, you should see an instance of `todo` persisted in your dynamoDB table. To navigate to your backend, run `amplify console api` and choose `GraphQL`. This will open the AppSync console to your GraphQL service. Select `Data Sources` and select the Resource link in your `TodoTable` to bring you to the DynamoDB Console. Select the `items` tab to see the `Todo` object that has been persisted in your database.
+
+## Next steps
+
+Congratulations! You've created a `Todo` object in your database. Check out the following links to see other Amplify API use cases:
+
+* [Fetch data](/lib/graphqlapi/query-data)
+* [Update data](/lib/graphqlapi/mutate-data)
+* [Subscribe to data](/lib/graphqlapi/subscribe-data)
+* [Concepts](/lib/graphqlapi/concepts)
+* [Configure authorization modes](/lib/graphqlapi/authz)
+
+<!-- TODO: * [Authorizing API calls with Cognito User Pool] -->

@@ -1,0 +1,89 @@
+Call `Amplify.addPlugin()` to initialize the Amplify API category followed by `Amplify.configure()`.
+
+Add the following code to your `onCreate()` method in your application class:
+
+<BlockSwitcher>
+<CodeBlock name="Java">
+
+```java
+Amplify.addPlugin(new AWSApiPlugin());
+```
+
+Your class will look like this:
+
+```java
+public class MyAmplifyApp extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        try {
+            // Add these lines to add the AWSApiPlugin plugins
+            Amplify.addPlugin(new AWSApiPlugin());
+            Amplify.configure(getApplicationContext());
+
+            Log.i("MyAmplifyApp", "Initialized Amplify");
+        } catch (AmplifyException error) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
+        }
+    }
+}
+```
+
+</CodeBlock>
+<CodeBlock name="Kotlin">
+
+```kotlin
+Amplify.addPlugin(AWSApiPlugin())
+```
+
+Your class will look like this:
+
+```kotlin
+class MyAmplifyApp : Application() {
+    override fun onCreate() {
+        super.onCreate()
+
+        try {
+            // Add these lines to add the AWSApiPlugin plugins
+            Amplify.addPlugin(AWSApiPlugin())
+            Amplify.configure(applicationContext)
+
+            Log.i("MyAmplifyApp", "Initialized Amplify")
+        } catch (error: AmplifyException) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
+        }
+    }
+}
+```
+
+</CodeBlock>
+<CodeBlock name="RxJava">
+
+```java
+RxAmplify.addPlugin(new AWSApiPlugin());
+```
+
+Your class will look like this:
+
+```java
+public class MyAmplifyApp extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        try {
+            // Add these lines to add the AWSApiPlugin plugins
+            RxAmplify.addPlugin(new AWSApiPlugin());
+            RxAmplify.configure(getApplicationContext());
+
+            Log.i("MyAmplifyApp", "Initialized Amplify");
+        } catch (AmplifyException error) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
+        }
+    }
+}
+```
+
+</CodeBlock>
+</BlockSwitcher>

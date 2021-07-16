@@ -1,0 +1,933 @@
+AWS AppSync helps you build data-driven apps with real-time and offline capabilities. The [AppSync iOS SDK](https://github.com/awslabs/aws-mobile-appsync-sdk-ios/) enables you to integrate your app with the AWS AppSync service and is based off of the Apollo project found [here](https://github.com/apollographql/apollo-ios). The SDK supports multiple authorization models, handles subscription handshake protocols for real-time updates to data, and has built-in capabilities for offline support that makes it easy to integrate into your app.
+
+You can integrate with AWS AppSync using the following steps:
+
+1. Setup the API endpoint and authentication information in the client side configuration.
+2. Generate Swift code from the API schema.
+3. Write app code to run queries, mutations and subscriptions.
+
+The Amplify CLI provides support for AppSync that make this process easy. Using the CLI, you can configure an AWS AppSync API, download required client side configuration files, and generate client side code within minutes by running a few simple commands on the command line.
+
+### Configuration
+
+The AWS SDKs support configuration through a centralized file called `awsconfiguration.json` that defines your AWS regions and service endpoints. You obtain this file in one of two ways, depending on whether you are creating your AppSync API in the AppSync console or using the Amplify CLI.
+
+* If you are creating your API in the console, navigate to the `Getting Started` page, and follow the steps in the `Integrate with your app` section. The `awsconfiguration.json` file you download is already populated for your specific API. Place the file in the root directory of your iOS project, and add it to your Xcode project.
+
+* If you are creating your API with the Amplify CLI (using `amplify add api`), the `awsconfiguration.json` file is automatically downloaded and updated each time you run `amplify push` to update your cloud resources. The file is placed in the root directory of your iOS project, and you need to add it to your Xcode project.
+
+
+### Code Generation
+
+To execute GraphQL operations in iOS you need to run a code generation process, which requires both the GraphQL schema and the statements (for example, queries, mutations, or subscriptions) that your client defines. The Amplify CLI toolchain helps you do this by automatically pulling down your schema and generating default GraphQL queries, mutations, and subscriptions before kicking off the code generation process. If your client requirements change, you can alter these GraphQL statements and regenerate your types.
+
+#### AppSync APIs Created in the Console
+
+After installing the Amplify CLI open a terminal, go to your Xcode project root, and then run the following:
+
+```bash
+amplify init
+amplify add codegen --apiId XXXXXX
+```
+
+The `XXXXXX` is the unique AppSync API identifier that you can find in the console in the root of your API's integration page. When you run this command you can accept the defaults, which create an `API.swift` file, and a `graphql` folder with your statements, in your root directory.
+
+#### AppSync APIs Created Using the CLI
+
+Navigate in your terminal to an Xcode project directory and run the following:
+
+```bash
+amplify init     ## Select iOS as your platform
+amplify add api  ## Select GraphQL, API key, "Single object with fields Todo application"
+```
+Select *GraphQL* when prompted for service type:
+
+```console
+? Please select from one of the below mentioned services (Use arrow keys)
+❯ GraphQL
+  REST
+```
+
+The `add api` flow above will ask you some questions, such as if you already have an annotated GraphQL schema. If this is your first time using the CLI select **No** and let it guide you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code examples below. Later on, you can always change it.
+
+Name your GraphQL endpoint and select authorization type:
+
+```console
+? Please select from one of the below mentioned services GraphQL
+? Provide API name: myTodosApi
+? Choose an authorization type for the API (Use arrow keys)
+❯ API key
+  Amazon Cognito User Pool
+```
+
+<Callout>
+AWS AppSync API keys expire seven days after creation, and using API KEY authentication is only suggested for development. To change AWS AppSync authorization type after the initial configuration, use the `$ amplify update api` command and select `GraphQL`.
+</Callout>
+
+When you update your backend with *push* command, you can go to [AWS AppSync Console](http://console.aws.amazon.com/appsync/home) and see that a new API is added under *APIs* menu item:
+
+```bash
+amplify push
+```
+
+The `amplify push` process will prompt you to enter the codegen process and walk through configuration options. Accept the defaults and it will create a file named `API.swift` in your root directory (unless you choose to name it differently) as well as a directory called `graphql` with your documents. You also will have an `awsconfiguration.json` file that the AppSync client will use for initialization. At any time you can open the AWS console for your new API directly by running the following command:
+
+```bash
+amplify console api
+```
+
+When prompted, select **GraphQL**. This will open the AWS AppSync console for you to run Queries, Mutations, or Subscriptions at the server and see the changes in your client app.
+
+### Import SDK and Config
+To use AppSync in your Xcode project, modify your Podfile with a dependency of the AWS AppSync SDK as follows:
+
+```ruby
+target 'PostsApp' do
+    use_frameworks!
+    pod 'AWSAppSync'
+end
+```
+
+Run `pod install` from your terminal and open up the `.xcworkspace` Xcode project. Add the `API.swift` and `awsconfiguration.json` files to your project **(File->Add Files to ..->Add)** and then build your project, ensuring there are no issues.
+
+### Client Initialization
+
+Initialize the AppSync client your application delegate by creating `AWSAppSyncClientConfiguration` and `AWSAppSyncClient` like the following:
+
+```swift
+import AWSAppSync
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
+var appSyncClient: AWSAppSyncClient?
+
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    do {
+	// You can choose the directory in which AppSync stores its persistent cache databases
+	let cacheConfiguration = try AWSAppSyncCacheConfiguration()
+
+	// AppSync configuration & client initialization
+	let appSyncServiceConfig = try AWSAppSyncServiceConfig()
+        let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: appSyncServiceConfig,
+	                                                      cacheConfiguration: cacheConfiguration)
+        appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
+        // Set id as the cache key for objects. See architecture section for details
+        appSyncClient?.apolloClient?.cacheKeyForObject = { $0["id"] }
+    } catch {
+        print("Error initializing appsync client. \(error)")
+    }
+    // other methods
+    return true
+}
+```
+
+`AWSAppSyncServiceConfig` represents the configuration information present in your `awsconfiguration.json` file.
+
+Next, in your application code, you reference this in an appropriate lifecycle method such as `viewDidLoad()` if you are using `UIKit`:
+
+```swift
+import AWSAppSync
+
+class Todos: UIViewController{
+    //Reference AppSync client
+    var appSyncClient: AWSAppSyncClient?
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        //Reference AppSync client from App Delegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appSyncClient = appDelegate.appSyncClient
+    }
+}
+```
+
+If you are using SwiftUI, you can add a reference to the shared AppSync client as `@State` to your View, and assign it in your view's initializer:
+
+```swift
+// Remember to import AWSAppSync
+import AWSAppSync
+
+struct ContentView: View {
+    
+    //Add an init method
+    @State var appSyncClient: AWSAppSyncClient?
+
+    init() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appSyncClient = appDelegate.appSyncClient
+    }
+}
+```
+
+### Run a Query
+
+Now that the client is set up, you can run a GraphQL query. The syntax is `appSyncClient?.fetch(query: <NAME>Query() {(result, error)})` where `<NAME>` comes from the GraphQL statements that `amplify codegen` created. For example, if you have a `ListTodos` query your code will look like the following:
+
+```swift
+//Run a query
+    appSyncClient?.fetch(query: ListTodosQuery())  { (result, error) in
+    if error != nil {
+        print(error?.localizedDescription ?? "")
+        return
+    }
+    result?.data?.listTodos?.items!.forEach { print(($0?.name)! + " " + ($0?.description)!) }
+}
+```
+
+Optionally, you can set a cache policy on the query as follows:
+
+```swift
+appSyncClient?.fetch(query: ListTodosQuery(), cachePolicy: .returnCacheDataAndFetch)  { (result, error) in
+```
+`returnCacheDataAndFetch` pulls results from the local cache first before retrieving data over the network. This gives a snappy UX and offline support.
+
+#### Considerations for SwiftUI
+
+When using `List` and `ForEach` for SwiftUI the structure needs to conform to `Identifiable`. The code generated for Swift does not make the structure `Identifiable` but as long as you have a unique id associated with the object then you can retroactively mark a field as unique. Here is some example code for `ListTodosQuery()`
+
+```swift
+ForEach(listTodosStore.listTodos.identified(by:\.id)){ todo in
+    TodoCell(todoDetail: todo)
+}
+
+```
+
+### Run a Mutation
+
+To add data you need to run a GraphQL mutation. The syntax is `appSyncClient?.perform(mutation: <NAME>Mutation() {(result, error)})` where `<NAME>` comes from the GraphQL statements that `amplify codegen` created. However, most GraphQL schemas organize mutations with an `input` type for maintainability, which is what the AppSync console and Amplify CLI do as well. Therefore, you need to pass this as a parameter called `input`, as in the following example:
+
+```swift
+let mutationInput = CreateTodoInput(name: "Use AppSync", description:"Realtime and Offline")
+
+appSyncClient?.perform(mutation: CreateTodoMutation(input: mutationInput)) { (result, error) in
+    if let error = error as? AWSAppSyncClientError {
+        print("Error occurred: \(error.localizedDescription )")
+    }
+    if let resultError = result?.errors {
+        print("Error saving the item on server: \(resultError)")
+        return
+    }
+}
+```
+
+#### Working with Complex Objects
+
+Sometimes you might want to create logical objects that have more complex data, such as images or videos, as part of their structure. For example, you might create a Person type with a profile picture or a Post type that has an associated image. You can use AWS AppSync to model these as GraphQL types and [automatically store them to S3](/sdk/storage/graphql-api).
+
+### Subscribe to Data
+
+Finally, it's time to set up a subscription to real-time data. The syntax `appSyncClient?.subscribe(subscription: <NAME>Subscription() {(result, transaction, error)})` where `<NAME>` comes from the GraphQL statements that `amplify codegen` created. Note that the AppSync console and Amplify GraphQL transformer have a common nomenclature that puts the word `On` in front of a subscription as in the following example:
+
+```swift
+// Set a variable to hold the subscription. E.g., this can be an instance variable on your view controller, or
+// a member variable in your AppSync setup code. Once you release this watcher, the subscription may be cancelled,
+// and your `resultHandler` will no longer be updated. If you wish to explicitly cancel the subscription, you can
+// invoke `subscriptionWatcher.cancel()`
+var subscriptionWatcher: Cancellable?
+
+// In your app code
+do {
+    subscriptionWatcher = try appSyncClient?.subscribe(subscription: OnCreateTodoSubscription()) { result, transaction, error in
+        if let onCreateTodo = result?.data?.onCreateTodo,  {
+            print(onCreateTodo.name + " " + onCreateTodo.description)
+        } else if let error = error {
+            print(error.localizedDescription)
+        }
+    }
+} catch {
+    print("Error starting subscription: \(error.localizedDescription)")
+}
+```
+
+Like mutations, subscriptions can also take input types, in which case they will be subscribing to particular events based on the input. To learn more about subscription arguments, see [AWS AppSync Subscription Arguments](https://docs.aws.amazon.com/appsync/latest/devguide/real-time-data.html#using-subscription-arguments).
+
+
+### Mocking and Local Testing
+
+Amplify supports running a local mock server for testing your application with AWS AppSync, including debugging of resolvers, before pushing to the cloud. Please see the [CLI Toolchain documentation](/cli/usage/mock) for more details.
+
+### Client Architecture
+
+The AppSync client supports offline scenarios with a programing model that provides a "write through cache". This allows you to both render data in the UI when offline as well as add/update through an "optimistic response". The below diagram shows how the AppSync client interfaces with the network GraphQL calls, its offline mutation queue, the Apollo cache, and your application code.
+
+![Image](/images/appsync-architecture.png)
+
+Your application code will interact with the AppSync client to perform GraphQL queries, mutations, or subscriptions. The AppSync client automatically performs the correct authorization methods when interfacing with the HTTP layer adding API Keys, tokens, or signing requests depending on how you have configured your setup. When you do a mutation, such as adding a new item (like a blog post) in your app the AppSync client adds this to a local queue (persisted to disk with SQLite) when the app is offline. When network connectivity is restored the mutations are sent to AppSync in serial allowing you to process the responses one by one. 
+
+Any data returned by a query is automatically written to the Apollo Cache (e.g. “Store”) that is persisted to disk via SQLite. The cache is structured as a key value store using a reference structure. There is a base “Root Query” where each subsequent query resides and then references their individual item results. You specify the reference key (normally “id”) in your application code. An example of the cache that has stored results from a “listPosts” query and “getPost(id:1)” query is below.
+
+| Key | Value |
+| --- | --- |
+| ROOT_QUERY | [ROOT_QUERY.listPosts, ROOT_QUERY.getPost(id:1)]
+| ROOT_QUERY.listPosts | {0, 1, …,N} |
+| Post:0 |{author:"Nadia", content:"ABC"} |
+| Post:1 | {author:"Shaggy", content:"DEF"} |
+| ... | ... |
+| Post:N | {author:"Pancho", content:"XYZ"} |
+| ROOT_QUERY.getPost(id:1) |ref: $Post:1 |
+
+Notice that the cache keys are normalized where the `getPost(id:1)` query references the same element that is part of the `listPosts` query. This only happens when you define a common cache key to uniquely identify the objects. This is done when you configure the AppSync client in your AppDelegate with:
+
+```swift
+//Use something other than "id" if your GraphQL type is different
+appSyncClient?.apolloClient?.cacheKeyForObject = { $0["id"] }
+```
+
+If you are performing a mutation, you can write an “optimistic response” anytime to this cache even if you are offline. You use the AppSync client to connect by passing in the query to update, reading the items off the cache. This normally returns a single item or list of items, depending on the GraphQL response type of the query to update. At this point you would add to the list, remove, or update it as appropriate and write back the response to the store persisting it to disk. When you reconnect to the network any responses from the service will overwrite the changes as the authoritative response.
+
+#### Offline Mutations
+
+As outlined in the architecture section, all query results are automatically persisted to disc with the AppSync client. For updating data through mutations when offline you will need to use an "optimistic response" with a transaction. This is done by passing an `optimisticUpdate` in the `appSyncClient?.perform()` mutation method using a `transaction`, where you pass in a query that will be updated in the cache. Inside of this transaction, you can write to the store via `appSyncClient?.store?.withinReadWriteTransaction`.
+
+For example, the below code shows how you would update the `CreateTodoMutation` mutation from earlier by adding a `optimisticUpdate: { (transaction) in do {...} catch {...}` argument with a closure. This adds an item to the cache with `transaction?.update()` using a locally generated unique identifier. This might be enough for your app, however if the AppSync response returns a different value for `ID` (which many times is the case as best practice is generation of IDs at the service layer) then you will need to replace the value locally when a response is received. This can be done in the `resultHandler` by using `appSyncClient?.store?.withinReadWriteTransaction()` and `transaction?.update()` again.
+
+```swift
+func optimisticCreateTodo(input: CreateTodoInput, query:ListTodosQuery){
+        let createTodoInput = CreateTodoInput(name: input.name, description: input.description)
+        let createTodoMutation = CreateTodoMutation(input: createTodoInput)
+        let UUID = NSUUID().uuidString
+        
+        self.appSyncClient?.perform(mutation: createTodoMutation, optimisticUpdate: { (transaction) in
+            do {
+                try transaction?.update(query: query) { (data: inout ListTodosQuery.Data) in
+                    var listTodos = data.listTodos ?? ListTodosQuery.Data.ListTodo(items: [])
+                    var items = listTodos.items ?? []
+
+                    items.append(ListTodosQuery.Data.ListTodo.Item.init(id: UUID,
+                                                                        name: input.name,
+                                                                        description: input.description!,
+                                                                        createdAt: "",
+                                                                        updatedAt: ""))
+                    listTodos.items = items
+                    data.listTodos = listTodos
+                }
+            } catch {
+                print("Error updating cache with optimistic response for \(createTodoInput)")
+            }
+        }, resultHandler: { (result, error) in
+            if let result = result {
+                print("Added Todo Response from service: \(String(describing: result.data?.createTodo?.name))")
+                //Now remove the outdated entry in cache from optimistic write
+                let _ = self.appSyncClient?.store?.withinReadWriteTransaction { transaction in
+                    try transaction.update(query: ListTodosQuery())
+                    { (data: inout ListTodosQuery.Data) in
+                        var pos = -1, counter = 0
+                        for item in (data.listTodos?.items!)! {
+                            if item?.id == UUID {
+                                pos = counter
+                                continue
+                            }; counter += 1
+                        }
+                        if pos != -1 { data.listTodos?.items?.remove(at: pos) }
+                    }
+                }
+            } else if let error = error {
+                print("Error adding Todo: \(error.localizedDescription)")
+            }
+        })
+    }
+```
+
+You might add similar code in your app for updating or deleting items using an optimistic response, it would look largely similar except that you might overwrite or remove an element from the `data.listTodos?.items` array.
+
+### Authorization Modes
+
+For client authorization AppSync supports API Keys, Amazon IAM credentials (we recommend using Amazon Cognito Identity Pools for this option), Amazon Cognito User Pools, and 3rd party OIDC providers. This is inferred from the `awsconfiguration.json` file when you call `AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig()`.
+
+#### API Key
+
+API Key is the easiest way to setup and prototype your application with AppSync. It's also a good option if your application is completely public. If your application needs to interact with other AWS services besides AppSync, such as S3, you will need to use IAM credentials provided by Cognito Identity Pools, which also supports "Guest" access. See [the authentication section for more details](/sdk/auth/how-it-works). For manual configuration, add the following snippet to your `awsconfiguration.json` file:
+
+```json
+{
+  "AppSync": {
+        "Default": {
+            "ApiUrl": "YOUR-GRAPHQL-ENDPOINT",
+            "Region": "us-east-1",
+            "ApiKey": "YOUR-API-KEY",
+            "AuthMode": "API_KEY"
+        }
+   }
+}
+```
+
+Add the following code to your app:
+
+```swift
+do {
+    // Initialize the AWS AppSync configuration
+    let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(), 
+                                                          cacheConfiguration: AWSAppSyncCacheConfiguration())
+    
+    // Initialize the AWS AppSync client
+    appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
+} catch {
+    print("Error initializing appsync client. \(error)")
+}
+```
+
+#### Cognito User Pools
+
+Amazon Cognito User Pools is the most common service to use with AppSync when adding user Sign-Up and Sign-In to your application. If your application needs to interact with other AWS services besides AppSync, such as S3, you will need to use IAM credentials with Cognito Identity Pools. The Amplify CLI can automatically configure this for you when running `amplify add auth` and can also automatically federate User Pools with Identity Pools. This allows you to have both User Pool credentials for AppSync and AWS credentials for S3. You can then use the `AWSMobileClient` for automatic credentials refresh [as outlined in the authentication section](/sdk/auth/how-it-works). For manual configuration, add the following snippet to your `awsconfiguration.json` file:
+
+```json
+{
+  "CognitoUserPool": {
+        "Default": {
+            "PoolId": "POOL-ID",
+            "AppClientId": "APP-CLIENT-ID",
+            "Region": "us-east-1"
+        }
+    },
+  "AppSync": {
+        "Default": {
+            "ApiUrl": "YOUR-GRAPHQL-ENDPOINT",
+            "Region": "us-east-1",
+            "AuthMode": "AMAZON_COGNITO_USER_POOLS"
+        }
+   }
+}
+```
+
+Add the following code to your app:
+
+```swift                                
+    func initializeAppSync() {
+        do {
+            // You can choose the directory in which AppSync stores its persistent cache databases
+	    let cacheConfiguration = try AWSAppSyncCacheConfiguration()
+
+            // Initialize the AWS AppSync configuration
+            let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
+                                                                  userPoolsAuthProvider: {
+                                                                    class MyCognitoUserPoolsAuthProvider : AWSCognitoUserPoolsAuthProviderAsync {
+                                                                        func getLatestAuthToken(_ callback: @escaping (String?, Error?) -> Void) {
+                                                                            AWSMobileClient.default().getTokens { (tokens, error) in
+                                                                                if error != nil {
+                                                                                    callback(nil, error)
+                                                                                } else {
+                                                                                    callback(tokens?.idToken?.tokenString, nil)
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                    return MyCognitoUserPoolsAuthProvider()}(),
+                                                                  cacheConfiguration: cacheConfiguration)
+            
+            // Initialize the AWS AppSync client
+            appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
+        } catch {
+            print("Error initializing appsync client. \(error)")
+        }
+    }
+```
+
+#### IAM
+
+When using AWS IAM in a mobile application you should leverage Amazon Cognito Identity Pools. The Amplify CLI can automatically configure this for you when running `amplify add auth`. You can then use the `AWSMobileClient` for automatic credentials refresh [as outlined in the authentication section](/sdk/auth/how-it-works) For manual configuration, add the following snippet to your `awsconfiguration.json` file:
+
+```json
+{
+  "CredentialsProvider": {
+      "CognitoIdentity": {
+          "Default": {
+              "PoolId": "YOUR-COGNITO-IDENTITY-POOLID",
+              "Region": "us-east-1"
+          }
+      }
+  },
+  "AppSync": {
+    "Default": {
+          "ApiUrl": "YOUR-GRAPHQL-ENDPOINT",
+          "Region": "us-east-1",
+          "AuthMode": "AWS_IAM"
+     }
+   }
+}
+```
+
+Add the following code to your app:
+
+```swift         
+do {
+    // Initialize the AWS AppSync configuration
+    let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
+							  credentialsProvider: AWSMobileClient.default(),
+							  cacheConfiguration: AWSAppSyncCacheConfiguration())
+    
+    // Initialize the AWS AppSync client
+    appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
+} catch {
+    print("Error initializing appsync client. \(error)")
+}
+```
+
+#### OIDC
+
+If you are using a 3rd party OIDC provider you will need to configure it and manage the details of token refreshes yourself. Update the `awsconfiguration.json` file and code snippet as follows:
+
+```json
+{
+  "AppSync": {
+        "Default": {
+            "ApiUrl": "YOUR-GRAPHQL-ENDPOINT",
+            "Region": "us-east-1",
+            "AuthMode": "OPENID_CONNECT"
+        }
+   }
+}
+```
+
+Add the following code to your app:
+
+```swift
+class MyOidcProvider: AWSOIDCAuthProvider {
+    func getLatestAuthToken() -> String {
+        // Fetch the JWT token string from OIDC Identity provider
+        // after the user is successfully signed-in
+        return "token"
+    }
+}
+
+do {
+    // Initialize the AWS AppSync configuration
+    let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(),
+                                                          oidcAuthProvider: MyOidcProvider(),
+                                                          cacheConfiguration: AWSAppSyncCacheConfiguration())
+    
+    appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
+} catch {
+    print("Error initializing appsync client. \(error)")
+}
+```
+
+#### Multi-Auth
+
+This section talks about the capability of AWS AppSync to configure multiple authorization modes for a single AWS AppSync endpoint and region. Follow the [AWS AppSync Multi-Auth](https://docs.aws.amazon.com/appsync/latest/devguide/security.html#using-additional-authorization-modes) to configure multiple authorization modes for your AWS AppSync endpoint.
+
+You can now configure a single GraphQL API to deliver private and public data. Private data requires authenticated access using authorization mechanisms such as IAM, Cognito User Pools, and OIDC. Public data does not require authenticated access and is delivered through authorization mechanisms such as API Keys. You can also configure a single GraphQL API to deliver private data using more than one authorization type. For example, you can configure your GraphQL API  to authorize some schema fields using OIDC, while other schema fields through Cognito User Pools and/or IAM.
+
+As discussed in the above linked documentation, certain fields may be protected by different authorization types. This can lead the same query, mutation, or subscription to have different responses based on the authorization sent with the request; Therefore, it is recommended to use different `AWSAppSyncClient` objects for each authorization type. Instantiation of multiple `AWSAppSyncClient` objects is enabled by passing `true` to the `useClientDatabasePrefix` flag. The `awsconfiguration.json` generated by the AWS AppSync console and Amplify CLI will add an entry called `ClientDatabasePrefix` in the "AppSync" section. This will be used to differentiate the databases used for operations such as queries, mutations, and subscriptions.
+
+**Important Note:** If you are an existing customer of AWS AppSync SDK for Android, the `useClientDatabasePrefix` has a default value of `false`. If you choose to use multiple `AWSAppSyncClient` objects, turning on `useClientDatabasePrefix` will change the location of the databases used by the client. The databases will not be automatically moved. You are responsible for migrating any data within the databases that you wish to keep and deleting the old databases on the device.
+
+The following snippets highlight the new values in the `awsconfiguration.json` and the client code configurations.
+
+The `friendly_name` illustrated here is created from Amplify CLI prompt. There are 4 clients in this configuration that connect to the same API except that they use different `AuthMode` and `ClientDatabasePrefix`.
+
+```
+{
+  "Version": "1.0",
+  "AppSync": {
+    "Default": {
+      "ApiUrl": "https://xyz.us-west-2.amazonaws.com/graphql",
+      "Region": "us-west-2",
+      "AuthMode": "API_KEY",
+      "ApiKey": "da2-xyz",
+      "ClientDatabasePrefix": "friendly_name_API_KEY"
+    },
+    "friendly_name_AWS_IAM": {
+      "ApiUrl": "https://xyz.us-west-2.amazonaws.com/graphql",
+      "Region": "us-west-2",
+      "AuthMode": "AWS_IAM",
+      "ClientDatabasePrefix": "friendly_name_AWS_IAM"
+    },
+    "friendly_name_AMAZON_COGNITO_USER_POOLS": {
+      "ApiUrl": "https://xyz.us-west-2.amazonaws.com/graphql",
+      "Region": "us-west-2",
+      "AuthMode": "AMAZON_COGNITO_USER_POOLS",
+      "ClientDatabasePrefix": "friendly_name_AMAZON_COGNITO_USER_POOLS"
+    },
+    "friendly_name_OPENID_CONNECT": {
+      "ApiUrl": "https://xyz.us-west-2.amazonaws.com/graphql",
+      "Region": "us-west-2",
+      "AuthMode": "OPENID_CONNECT",
+      "ClientDatabasePrefix": "friendly_name_OPENID_CONNECT"
+    }
+  }
+}
+```
+
+The `useClientDatabasePrefix` is added on the client builder which signals to the builder that the `ClientDatabasePrefix` should be used from the AWSConfiguration object (*awsconfiguration.json*).
+
+```swift
+let serviceConfig = try AWSAppSyncServiceConfig()
+let cacheConfig = AWSAppSyncCacheConfiguration(useClientDatabasePrefix: true,
+                                                  appSyncServiceConfig: serviceConfig)
+let clientConfig = AWSAppSyncClientConfiguration(appSyncServiceConfig: serviceConfig,
+                                                   cacheConfiguration: cacheConfig)
+
+let client = AWSAppSyncClient(appSyncConfig: clientConfig)
+```
+
+The following code creates a client factory to retrieve the client based on the authorization mode: public (`API_KEY`) or private (`AWS_IAM`).
+
+```swift
+public enum AppSyncClientMode {
+    case `public`
+    case `private`
+}
+
+public class ClientFactory {
+    static var clients: [AppSyncClientMode:AWSAppSyncClient] = [:]
+
+    class func getAppSyncClient(mode: AppSyncClientMode) -> AWSAppSyncClient? {
+        return clients[mode];
+    }
+
+    class func initClients() throws {
+        let serviceConfigAPIKey = try AWSAppSyncServiceConfig()
+        let cacheConfigAPIKey = try AWSAppSyncCacheConfiguration(useClientDatabasePrefix: true,
+                                                                    appSyncServiceConfig: serviceConfigAPIKey)
+        let clientConfigAPIKey = try AWSAppSyncClientConfiguration(appSyncServiceConfig: serviceConfigAPIKey,
+                                                                 cacheConfiguration: cacheConfigAPIKey)
+        clients[AppSyncClientMode.public] = try AWSAppSyncClient(appSyncConfig: clientConfigAPIKey)
+
+        let serviceConfigIAM = try AWSAppSyncServiceConfig(forKey: "friendly_name_AWS_IAM")
+        let cacheConfigIAM = try AWSAppSyncCacheConfiguration(useClientDatabasePrefix: true,
+                                                                 appSyncServiceConfig: serviceConfigIAM)
+        let clientConfigIAM = try AWSAppSyncClientConfiguration(appSyncServiceConfig: serviceConfigIAM,
+                                                                  cacheConfiguration: cacheConfigIAM)
+        clients[AppSyncClientMode.private] = try AWSAppSyncClient(appSyncConfig: clientConfigIAM)
+    }
+}
+```
+
+This is what the usage would look like.
+
+```swift
+ClientFactory.getAppSyncClient(AppSyncClientMode.private)?.fetch(query: ListPostsQuery())  { (result, error) in
+            if error != nil {
+                print(error?.localizedDescription ?? "")
+                return
+            }
+            self.postList = result?.data?.listPosts
+        };
+```
+
+The following example uses `API_KEY` as the default authorization mode and `AWS_IAM` as an additional authorization mode.
+
+```
+type Post @aws_api_key
+          @aws_iam {
+	id: ID!
+	author: String!
+	title: String
+	content: String
+	url: String @aws_iam
+	ups: Int @aws_iam
+	downs: Int @aws_iam
+	version: Int!
+}
+```
+
+1. Add a post (Mutation) through `ClientFactory.getAppSyncClient(AppSyncClientMode.private)` using `AWS_IAM` authorization mode.
+
+2. Query the post through `ClientFactory.getAppSyncClient(AppSyncClientMode.private)` using `AWS_IAM ` authorization mode.
+
+3. Query the post through `ClientFactory.getAppSyncClient(AppSyncClientMode.public)` using `API_KEY` authorization mode.
+
+```swift
+appSyncClient?.fetch(query: GetPostQuery())  { (result, error) in
+    if error != nil {
+        print(error?.localizedDescription ?? "")
+        return
+    }
+    var post = result?.data?.getPost?
+    post.id
+    post.author
+    post.title
+    post.content
+    post.version
+    post.url // Null - because it's not authorized
+    post.ups // Null - because it's not authorized
+    post.downs // Null - because it's not authorized
+    
+    result?.errors![0].message.contains("Not Authorized to access url on type Post")
+}
+```
+
+### Clear cache
+
+Clears the data cached by the `AWSAppSyncClient` object on the local device.
+
+```swift
+appSyncClient.clearCaches(); // clear the queries, mutations and delta sync cache.
+```
+
+Selectively clear caches `ClearCacheOptions`.
+
+```swift
+// Selectively clear caches, omit parameters to keep those caches
+let clearCacheOptions = ClearCacheOptions(clearQueries: true,
+                                        clearMutations: true,
+                                    clearSubscriptions: true)
+appSyncClient.clearCaches(options: clearCacheOptions)
+```
+
+### Delta Sync
+
+DeltaSync allows you to perform automatic synchronization with an AWS AppSync GraphQL server. The client will perform reconnection, exponential backoff, and retries when network errors take place for simplified data replication to devices. It does this by taking the results of a GraphQL query and caching it in the local Apollo cache.
+
+In the most basic form, you can use a single query with the API to replicate the state from the backend to the client. This is referred to as a "Base Query" and could be a list operation for a GraphQL type which might correspond to a DynamoDB table. For large tables where the content changes frequently and devices switch between offline and online frequently as well, pulling all changes for every network reconnect can result in poor performance on the client. In these cases you can provide the client API a second query called the "Delta Query" which will be merged into the cache. When you do this the Base Query is run an initial time to hydrate the cache with data, and on each network reconnect the Delta Query is run to just get the changed data. The Base Query is also run on a regular basis as a "catch-up" mechanism. By default this is every 24 hours however you can make it more or less frequent.
+
+By allowing clients to separate the base hydration of the cache using one query and incremental updates in another query, you can move the computation from your client application to the backend. This is substantially more efficient on the clients when regularly switching between online and offline states. This could be implemented in your AWS AppSync backend in different ways such as using a DynamoDB Query on an index along with a conditional expression. You can also leverage Pipeline Resolvers to partition your records to have the delta responses come from a second table acting as a journal. [A full sample with CloudFormation is available in the AppSync documentation](https://docs.aws.amazon.com/appsync/latest/devguide/tutorial-delta-sync.html). The rest of this documentation will focus on the client usage.
+
+You can also use Delta Sync functionality with GraphQL subscriptions, taking advantage of both only sending changes to the clients when they switch network connectivity but also when they are online. In this case you can pass a third query called the "Subscription Query" which is a standard GraphQL subscription statement. When the device is connected, these are processed as normal and the client API simply helps make setting up realtime data easy. However, when the device transitions from offline to online, to account for high velocity writes the client will execute the resubscription along with synchronization and message processing in the following order:
+
+1. Subscribe to any queries defined and store results in an incoming queue
+2. Run the appropriate query (If `baseRefreshIntervalInSeconds` has elapsed, run the Base Query otherwise only run the Delta Query)
+3. Update the cache with results from the appropriate query
+4. Drain the subscription queue and continue processing as normal
+
+Finally, you might have other queries which you wish to represent in your application other than the base cache hydration. For instance a `getItem(id:ID)` or other specific query. If your alternative query corresponds to items which are already in the normalized cache, you can point them at these cache entries with the `cacheUpdates` function which returns an array of queries and their variables. The DeltaSync client will then iterate through the items and populate a query entry for each item on your behalf. If you wish to use additional queries which don't correspond to items in your base query cache, you can always create another instance of the `appSyncClient?.sync()` process.
+
+**Usage**
+
+```swift
+  // instance variable in your view controller
+  var deltaWatcher: Cancellable?
+
+  // Start DeltaSync
+  // Provides the ability to sync using a baseQuery, subscription, deltaQuery, and a refresh interval
+  let allPostsBaseQuery = ListPostsQuery()
+  let allPostsDeltaQuery = ListPostsDeltaQuery()
+  let postsSubscription = OnDeltaPostSubscription()
+
+  deltaWatcher = appSyncClient?.sync(baseQuery: allPostsBaseQuery, baseQueryResultHandler: { (result, error) in
+    
+  }, subscription: postsSubscription, subscriptionResultHandler: { (result, transaction, error) in
+    
+  }, deltaQuery: allPostsDeltaQuery, deltaQueryResultHandler: { (result, transaction, error) in
+    
+  })
+        
+  //Stop DeltaSync
+  deltaWatcher.cancel();
+```
+
+**The method parameters**
+* *baseQuery* the base query to get the baseline state. (REQUIRED)
+* *baseQueryResultHandler* callback to handle the baseQuery results. (REQUIRED)
+* *subscription* subscription to get changes on the fly.
+* *subscriptionResultHandler* callback to handle the subscription messages. 
+* *deltaQuery* the catch-up query
+* *deltaQueryResultHandler* callback to handle the deltaQuery results. 
+* *syncConfiguration* time duration (specified in seconds) when the base query will be re-run to get an updated baseline state. Defaults to 24 hours.
+* *returnValue* returns a `Cancellable` object that can be used later to cancel the sync operation by calling the `cancel()` method.
+
+Note that above only the `baseQuery` and `baseQueryResultHandler` are required parameters. You can call the API in different ways such as:
+
+```swift
+//Performs sync only with base query
+appSyncClient?.sync(baseQuery: baseQuery, baseQueryResultHandler: baseQueryResultHandler) 
+
+//Performs sync with delta but no subscriptions
+appSyncClient?.sync(baseQuery: baseQuery, baseQueryResultHandler: baseQueryResultHandler, deltaQuery: deltaQuery, deltaQueryResultHandler: deltaQueryResultHandler)
+```
+
+**Example**
+
+The following section walks through the details of creating an app using Delta Sync. We will use a simple Posts App that has a view that displays a list of posts and keeps it synchronized using the Delta Sync functionality. We will use an array called `postList` to collect and manage the posts and a UIViewController to power the UI.
+
+**Create Sync Handler Function**
+
+Create a new method named `loadPostsWithSyncFeature` which will be called from the `viewDidLoad()` method of your view controller.
+
+```swift
+class YourAppViewController: UIViewController {
+
+    var appSyncClient: AWSAppSyncClient?
+    var deltaWatcher: Cancellable?
+    
+    @IBOutlet weak var tableView: UITableView!
+    var postList: [ListPostsQuery.Data.ListPost?]? = [] {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+
+    override func viewDidLoad() {
+      super.viewDidLoad()
+      
+      // Fetch AppSync client from AppDelegate or from the place where it was initialized.
+      let appDelegate = UIApplication.shared.delegate as! AppDelegate
+      appSyncClient = appDelegate.appSyncClient
+      
+      // Set table view delegate
+      self.tableView.dataSource = self
+      self.tableView.delegate = self
+      
+      // Call the new method which we just added.
+      loadPostsWithSyncFeature()
+    }
+
+    func loadPostsWithSyncFeature() {
+        // Sync operation will be added here.
+    }
+}
+```
+
+**Create Helpers to Add/ Update/ Delete Posts in Cache**
+
+*Helper function to load posts from cache:*
+
+```swift
+      func loadAllPostsFromCache() {
+        appSyncClient?.fetch(query: ListPostsQuery(), cachePolicy: .returnCacheDataDontFetch)  { (result, error) in
+            if error != nil {
+                print(error?.localizedDescription ?? "")
+                return
+            }
+            self.postList = result?.data?.listPosts
+        }
+    }
+```
+
+*Helper function to `Add` or `Update` a post:*
+
+```swift
+      func addOrUpdatePostInQuery(id: GraphQLID, title: String, author: String, content: String) {
+        // Create a new object for the desired query, where the new object content should reside
+        let postToAdd = ListPostsQuery.Data.ListPost(id: id,
+                                                     author: author,
+                                                     title: title,
+                                                    content: content)
+        print("App: Processing \(id) for add/ update")
+        let _ = appSyncClient?.store?.withinReadWriteTransaction({ (transaction) in
+            do {
+                // Update the local store with the newly received data
+                try transaction.update(query: ListPostsQuery()) { (data: inout ListPostsQuery.Data) in
+                    guard let items = data.listPosts else {
+                        return
+                    }
+                    var pos = -1
+                    var counter = 0
+                    for post in items {
+                        if post?.id == id {
+                            pos = counter
+                            continue
+                        }
+                        counter += 1
+                    }
+                    // Post is not present in query, add it.
+                    if pos == -1 {
+                        print("App: Adding \(id) now.")
+                        data.listPosts?.append(postToAdd)
+                    } else {
+                        // It was an update operation, post will be automatically updated in cache.
+                    }
+                }
+            } catch {
+                print("App: Error updating store")
+            }
+        })
+        self.loadAllPostsFromCache()
+    }
+```
+
+*Helper function to `Delete` a post:*
+
+```swift
+      func deletePostFromCache(uniqueId: GraphQLID) {
+        // Remove local object from cache.
+        print("App: Removing \(uniqueId) from cache.")
+        let _ = appSyncClient?.store?.withinReadWriteTransaction({ (transaction) in
+            do {
+                try transaction.update(query: ListPostsQuery(), { (data: inout ListPostsQuery.Data) in
+                    guard let items = data.listPosts else {
+                        return
+                    }
+                    var pos = -1
+                    var counter = 0
+                    for post in items {
+                        if post?.id == uniqueId {
+                            pos = counter
+                            continue
+                        }
+                        counter += 1
+                    }
+                    print("App: \(uniqueId) index: \(pos).")
+                    if pos != -1 {
+                        print("App: Removing now \(uniqueId)")
+                        data.listPosts?.remove(at: pos)
+                    }
+                })
+            } catch {
+                print("App: Error updating store")
+            }
+        })
+        self.loadAllPostsFromCache()
+    }
+```
+
+**Implement the new sync function**
+
+Now, update the `loadPostsWithSyncFeature` function with the calls to our helper methods to make sure all changes are updated in the UI.
+
+```swift
+    func loadPostsWithSyncFeature() {
+        let allPostsBaseQuery = ListPostsQuery()
+        let allPostsDeltaQuery = ListPostsDeltaQuery()
+        let postsSubscription = OnDeltaPostSubscription()
+        
+        deltaWatcher = appSyncClient?.sync(baseQuery: allPostsBaseQuery,
+                                           baseQueryResultHandler: { (result, error) in
+            if error != nil {
+                print(error?.localizedDescription ?? "")
+                return
+            }
+            self.postList = result?.data?.listPosts
+        }, subscription: postsSubscription,
+           subscriptionResultHandler: { (result, transaction, error) in
+            if let result = result {
+                guard result.data != nil, result.data?.onDeltaPost != nil else {
+                    return
+                }
+                // If the Post is to be deleted from the cache.
+                if(result.data?.onDeltaPost?.awsDs == DeltaAction.delete) {
+                    self.deletePostFromCache(uniqueId: result.data!.onDeltaPost!.id)
+                    return
+                }
+                // Store a reference to the new object
+                let newPost = result.data!.onDeltaPost!
+                self.addOrUpdatePostInQuery(id: newPost.id, title: newPost.title, author: newPost.author, content: newPost.content)
+            } else if let error = error {
+                print(error.localizedDescription)
+            }
+        }, deltaQuery: allPostsDeltaQuery,
+           deltaQueryResultHandler: { (result, transaction, error) in
+            if let result = result {
+                guard result.data != nil, result.data?.listPostsDelta != nil else {
+                    return
+                }
+                // Store a reference to the new updates
+                let deltas = result.data!.listPostsDelta!
+                
+                for deltaPost in deltas {
+                    print("App: Processing update on Post ID: \(deltaPost!.id)")
+                    if deltaPost?.awsDs == DeltaAction.delete {
+                        self.deletePostFromCache(uniqueId: deltaPost!.id)
+                        continue
+                    } else {
+                        self.addOrUpdatePostInQuery(id: deltaPost!.id, title: deltaPost!.title, author: deltaPost!.author, content: deltaPost!.content)
+                    }
+                }
+            } else if let error = error {
+                print(error.localizedDescription)
+            }
+            // Set a sync configuration of 5 minutes.
+        }, syncConfiguration: SyncConfiguration(baseRefreshIntervalInSeconds: 300))
+    }
+```
+
+Once we have all of these pieces in place, we will tie it all together by invoking the Delta Sync functionality as follows.
+
+**Delta Sync Lifecycle**
+
+The delta sync process runs at various times, in response to different conditions.
+- Runs immediately, when you make the call to `sync` as shown above. This will be the initial run and it will first execute the base query from the cache, setup the subscription and execute the base or delta Query based on when it was last run. It will always run the base query if running for the first time.
+- Runs when the device that is running the app transitions from offline to online. Depending on the duration for which the device was offline, either the deltaQuery or the baseQuery will be run.
+- Runs when the app transitions from background to foreground. Once again, depending on how long the app was in the background, either the deltaQuery or the baseQuery will be run.
+- Runs once every time based on the time specified in sync configuration as part of a periodic catch-up. 

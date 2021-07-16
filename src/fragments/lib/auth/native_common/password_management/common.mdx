@@ -1,0 +1,60 @@
+## Reset password
+In order to reset your password, use the resetPassword api - this will send a code to the user attribute configured to receive such a reset code (e.g. email or SMS):
+
+
+
+import ios677fad7845590ae6f684ce6eb3ee4fab from "/src/fragments/lib/auth/ios/password_management/10_reset_password.mdx";
+
+<Fragments fragments={{ios: ios677fad7845590ae6f684ce6eb3ee4fab}} />
+
+
+import androidf9dd2d3b59f38ef90b7c5140f360f25e from "/src/fragments/lib/auth/android/password_management/10_reset_password.mdx";
+
+<Fragments fragments={{android: androidf9dd2d3b59f38ef90b7c5140f360f25e}} />
+
+
+import flutterf9e10f4e1f235786122d72e3a6ca9db6 from "/src/fragments/lib/auth/flutter/password_management/10_reset_password.mdx";
+
+<Fragments fragments={{flutter: flutterf9e10f4e1f235786122d72e3a6ca9db6}} />
+
+To complete the password reset process, invoke the confirmResetPassword api with the code you were sent and the new password you want.
+
+<Callout>
+Note that you must call confirmResetPassword in the same app session as you call resetPassword. If you close the app, you'll need to call resetPassword again.
+As a result, for testing purposes, you'll at least need an input field where you can enter the code sent by the resetPassword api and feed it to confirmResetPassword.
+</Callout>
+
+
+
+import ios92d0e46cbd6f8d69d8372ccdc6b176de from "/src/fragments/lib/auth/ios/password_management/20_confirm_reset_password.mdx";
+
+<Fragments fragments={{ios: ios92d0e46cbd6f8d69d8372ccdc6b176de}} />
+
+
+import android7ff4421492603279051024e65169efe4 from "/src/fragments/lib/auth/android/password_management/20_confirm_reset_password.mdx";
+
+<Fragments fragments={{android: android7ff4421492603279051024e65169efe4}} />
+
+
+import flutter1e2f0f62a45b5291e31702d4737c3d3d from "/src/fragments/lib/auth/flutter/password_management/20_confirm_reset_password.mdx";
+
+<Fragments fragments={{flutter: flutter1e2f0f62a45b5291e31702d4737c3d3d}} />
+
+## Change password
+A signed in user can update their password using the updatePassword api:
+
+
+
+import ios3b692f41bab71aeaaa93dffaab8c75cf from "/src/fragments/lib/auth/ios/password_management/30_change_password.mdx";
+
+<Fragments fragments={{ios: ios3b692f41bab71aeaaa93dffaab8c75cf}} />
+
+
+import androidc67e2220b9392cd6bd5c28cd9f39f709 from "/src/fragments/lib/auth/android/password_management/30_change_password.mdx";
+
+<Fragments fragments={{android: androidc67e2220b9392cd6bd5c28cd9f39f709}} />
+
+
+import flutter550d6868b42044ab9b17fac4dc44147d from "/src/fragments/lib/auth/flutter/password_management/30_change_password.mdx";
+
+<Fragments fragments={{flutter: flutter550d6868b42044ab9b17fac4dc44147d}} />

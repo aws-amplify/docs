@@ -1,0 +1,50 @@
+export const meta = {
+  title: "Overwrite & customize resolvers",
+  description: "GraphQL resolvers connect the fields in a type’s schema to a data source. Resolvers are the mechanism by which requests are fulfilled. Learn how to overwrite or add custom resolvers with Amplify.",
+};
+
+
+## Overwriting Resolvers
+
+Let's say you have a simple *schema.graphql*...
+
+```graphql
+type Todo @model {
+  id: ID!
+  name: String!
+  description: String
+}
+```
+
+and you want to change the behavior of request mapping template for the *Query.getTodo* resolver that will be generated when the project compiles. To do this you would create a file named `Query.getTodo.req.vtl` in the *resolvers* directory of your API project. The next time you run `amplify push` or `amplify api gql-compile`, your resolver template will be used instead of the auto-generated template. You may similarly create a `Query.getTodo.res.vtl` file to change the behavior of the resolver's response mapping template.
+
+## Custom Resolvers
+
+You can add custom `Query`, `Mutation` and `Subscription` when the generated ones do not cover your use case.
+1. Add the required `Query`, `Mutation` or `Subscription` type to your schema.
+2. Create resolvers for newly created `Query`, `Mutation` or `Subscription` by creating request and response template in `<project-root>/amplify/backend/api/<api-name>/resolvers` folder. Graphql Transformer follows `<TypeName>.<FieldName>.<req/res>.vlt` as convention to name the resolvers. So if you're adding a custom query name `myCustomQuery` the resolvers would be name `Query.myCustomQuery.req.vtl` and `Query.myCustomQuery.res.vtl`.
+3. Add resolvers resource by creating a custom stack inside `<project-root>/amplify/backend/api/<api-name>/stacks` directory of your API.
+
+To add the custom fields, add the following to your schema:
+
+```graphql
+  # <project-root>amplify/backend/api/<api-name>/schema.graphql
+
+  type Query {
+    # Add all the custom queries here
+  }
+
+  type Mutation {
+    # Add all the custom mutations here
+  }
+
+  type Subscription {
+    # Add all the custom subscription here
+  }
+
+```
+
+The GraphQL Transformer by default creates a file called `CustomResources.json` inside `<project-root>/amplify/backend/api/<api-name>/stacks`, which can be used to add the custom resolvers for newly added `Query`, `Mutation` or `Subscription`. The custom stack gets the following arguments passed to it, allowing you to get details about API:
+
+| Parameter                          | Type   | Possible values                    | Description                                                                                                                                                                       |
+| :

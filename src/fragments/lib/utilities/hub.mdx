@@ -1,0 +1,204 @@
+Amplify has a local eventing system called Hub. It is a lightweight implementation of Publisher-Subscriber pattern, and is used to share data between modules and components in your app. Amplify uses Hub for different categories to communicate with one another when specific events occur, such as authentication events like a user sign-in or notification of a file download.
+
+## Installation
+```javascript
+import { Hub } from 'aws-amplify';
+```
+
+## Working with the API
+
+### Listening for messages
+
+`Hub.listen(channel: string | RegExp, callback)` is used to listen for messages that have been dispatched. You must provide either a named `channel` or a regular expression, along with a callback. In the case of a regular expression only dispatches which contain a `message` in their payload will be matched against your pattern. You can add multiple listeners to your application for different channels or patterns to listen for, or trap generic events and perform your own filtering.
+
+```javascript
+import { Hub } from 'aws-amplify';
+
+class MyClass {
+    constructor() {
+        Hub.listen('auth', (data) => {
+            const { payload } = data;
+            this.onAuthEvent(payload);           
+            console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event);
+        })
+    }
+
+    onAuthEvent(payload) {
+        // ... your implementation
+    }
+}
+```
+
+<Callout>
+
+In previous versions of Amplify capturing updates required you to implement an `onHubCapsule` handler function in your class and pass in `this` to the listen method. While still possible, this is no longer considered best practice and we have begun deprecating the method. Please define an explicit callback and pass it into the listen function (e.g. `Hub.listen('auth', this.myCallback)`) or use an anonymous function such as in the above example.
+
+</Callout>
+
+### Sending messages
+
+Sending events to different channels is done with the `dispatch` function:
+```javascript
+Hub.dispatch(
+    'DogsChannel', 
+    { 
+        event: 'buttonClick', 
+        data: {color:'blue'}, 
+        message:'' 
+});
+
+setTimeout(() => {
+  Hub.dispatch(
+      'CatsChannel', 
+      { 
+            event: 'drinkMilk', 
+            data: { 
+                breed: 'Persian',
+                age: 5
+            },
+            message: `The cat ${cat.name} has finished her milk`
+        });
+}, 5000)
+```
+`Hub.dispatch(channel: string, payload: HubPayload)` can be used to dispatch a `HubPayload` to a `channel`. The `channel` is a logical grouping for your organization while the `HubPayload` is a type defined as:
+```javascript
+export type HubPayload = {
+    event: string,
+    data?: any,
+    message?: string
+};
+```
+
+The `event` field is recommended to be a small string without spaces such as `signIn` or `hang_up` as it's useful for checking payload groupings. The `data` field is a freeform structure which many times is used for larger JSON objects or custom data types. Finally while `message` is optional, we encourage you to use it as it is required when using a `RegExp` filtering with `Hub.listen()`.
+
+### Stop Listening
+
+Hub provides a way to stop listening for messages with `Hub.remove(channel: string | RegExp, listener: callback)`. This may be useful if you no longer need to receive messages in your application flow, as well as to avoid any memory leaks on low powered devices when you are sending large amounts of data through Hub on multiple channels.
+
+
+### Channels
+A channel is a logical group name that you use to organize messages and listen on. These are strings and completely up to you as the developer to define for dispatching or listening. However, while you can dispatch to any channel, ***Amplify protects certain channels*** and will flag a warning as sending unexpected payloads could have undesirable side effects (such as impacting authentication flows). The protected channels are currently:
+
+* core
+* auth
+* api
+* analytics
+* interactions
+* pubsub
+* storage
+* xr
+* datastore
+
+### Listening for Regular Expressions
+
+The listener feature of Hub is a powerful way to perform filtering when you're unsure what the data across different channels will look like. Additionally it's also a nice realtime debugging feature. For instance, if you wanted to listen to all messages then you can just pass in a wildcard:
+
+```javascript
+Hub.listen(/.*/, (data) => {
+  console.log('Listening for all messages: ', data.payload.data)
+})
+```
+
+When using a "Capturing Group" (e.g. parenthesis grouping regular expressions) an array will be populated called `patternInfo` and returned as part of your callback:
+
+```javascript
+Hub.listen(/user(.*)/, (data) => {
+  console.log('A USER event has been found matching the pattern: ', data.payload.message);
+  console.log('patternInfo:', data.patternInfo);
+})
+```
+
+For example, this can be useful if you want to extract the text before and/or after a specific phrase:
+
+```javascript
+Hub.listen(/user ([^ ]+) ([^ ]+) (.*)/, (data) => {
+  console.log('A USER event has been found matching the pattern: ', data.payload.message);
+  console.log('patternInfo:', data.patternInfo);
+})
+```
+
+### State Management
+
+Hub can be used as part of a state management system such as [Redux](https://redux.js.org/) or [MobX](https://github.com/mobxjs/mobx) by updating the store when an event is seen by one or more listeners. You could also construct your own local store. For example, suppose you have the following in a React application's top level component:
+
+```javascript
+const store = (() => {
+  const listeners = [];
+
+  const theStore = {
+      subscribe(listener) {
+          listeners.push(listener);
+      }
+  };
+
+  return new Proxy(theStore, {
+      set(_obj, _prop, _value) {
+          listeners.forEach(l => l());
+          return Reflect.set(...arguments);
+      }
+  });
+})();
+
+Hub.listen(/.*/, (data) => {
+  console.log('Listening for all messages: ', data.payload.data)
+  if (data.payload.message){
+    store['message-' + Math.floor(Math.random() * 100)] = data.payload.message
+  }
+})
+
+class App extends Component {
+
+  addItem = () => {
+    Hub.dispatch('MyGroup', {
+      data : { a: 1},
+      event: 'clicked',
+      message: 'A user clicked a button'
+    })
+    console.log(store);
+  }
+
+  render() {
+    console.log('store: ', store)
+    return (
+      <div className="App">
+        <button onClick={this.addItem}>Add item</button>
+        <DogAlerts store={store}/>
+        <DogStatus store={store}/>
+      </div>
+    );
+  }
+}
+```
+
+This naive sample (which is for example purposes and not production ready) creates a `store` that is updated when events are received by `Hub.listen()` if there is a message present in the payload. We then create these messages with `Hub.dispatch()` upon a button click and pass the store down to two components called `<DogAlerts />` and `<DogStatus />`.  The first is a very simple stateless component that renders the current store value from props:
+
+```javascript
+const DogAlerts = (props) => {
+  return <pre>{JSON.stringify(props, null, 2)}</pre>
+}
+```
+
+While this is nice functionality, when the button is clicked the component will not be updated. In order to do that you can use a class component (or React Hooks) and call `store.subscribe` as part of the `componentDidMount()` lifecycle method:
+
+```javascript
+class DogStatus extends Component {
+  componentDidMount(){
+    this.props.store.subscribe(()=>{
+      this.forceUpdate();
+    })
+  }
+
+  render(){
+    return(<div>
+      <pre>Dog Status</pre>
+      <pre>{JSON.stringify(this.props, null, 2)}</pre>
+    </div>)
+  }
+}
+```
+
+Now when the store is updated the `<DogStatus />` component re-renders on the screen.
+
+## API Reference
+
+For the complete API documentation for Hub module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/hubclass.html)
