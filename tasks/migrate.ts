@@ -2,6 +2,7 @@ import * as fs from "fs-extra";
 import fg from "fast-glob";
 import mkdirp from "mkdirp";
 import {createHash, randomBytes} from "crypto";
+import {isProductRoot} from "../src/utils/getLocalDirectory";
 
 const hash = function(str: string) {
   return createHash("md5")
@@ -65,6 +66,13 @@ const grab = function() {
         }
       }
       toWrite += "};\n\n";
+
+      try {
+        if (isProductRoot(destination)) {
+          // lib/lib -> just lib
+          destination = destination.split("/")[0];
+        }
+      } catch {}
 
       if (filterKey !== "") {
         destination =

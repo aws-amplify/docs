@@ -2,17 +2,17 @@ import Link from "next/link";
 
 export default function InternalLink({href, children}) {
   let filterKind = "";
-  if (href.includes("cli/") || href.includes("console/")) {
+  if (href.includes("cli") || href.includes("console")) {
     filterKind = "";
-  } else if (href.includes("start/")) {
+  } else if (href.includes("start")) {
     filterKind = "integration";
-  } else if (href.includes("lib/")) {
+  } else if (href.includes("lib")) {
     filterKind = "platform";
-  } else if (href.includes("sdk/")) {
+  } else if (href.includes("sdk")) {
     filterKind = "platform";
-  } else if (href.includes("ui/")) {
+  } else if (href.includes("ui")) {
     filterKind = "framework";
-  } else if (href.includes("guides/")) {
+  } else if (href.includes("guides")) {
     filterKind = "platform";
   }
 
@@ -24,5 +24,9 @@ export default function InternalLink({href, children}) {
     }
   }
 
-  return <Link href={href}>{children}</Link>;
+  return (
+    <Link href={href} passHref>
+      {children}
+    </Link>
+  );
 }

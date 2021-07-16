@@ -113,13 +113,13 @@ export default class Directory extends React.Component<DirectoryProps> {
 
     return (
       <div>
-        <Link href={productRoot.route}>
+        <InternalLink href={productRoot.route}>
           <ProductRootLinkStyle
-            isActive={this.props.pathname === productRoot.route}
+            isActive={this.props.pathname.split("/q")[0] === productRoot.route}
           >
             {productRoot.title}
           </ProductRootLinkStyle>
-        </Link>
+        </InternalLink>
         {Object.entries(directory.items).map((folderName) => (
           <DirectoryGroup
             title={folderName[1].title}
