@@ -18,10 +18,20 @@ function generatePathMap(
     "/": {
       page: "/",
     },
+    "404": {
+      page: "/404",
+    },
   },
 ) {
   for (const [_, value] of Object.entries(obj)) {
-    const {items, filters, route} = value;
+    const {items, filters, route, productRoot} = value;
+
+    if (productRoot) {
+      const {route} = productRoot;
+      pathMap[route] = {
+        page: route,
+      };
+    }
 
     if (items) {
       generatePathMap(items, pathMap);
@@ -70,7 +80,6 @@ function generatePathMap(
       query[routeType] = filter;
       pathMap[route + "/q/" + routeType + "/" + filter] = {
         page: `${route}/q/${routeType}/[${routeType}]`,
-        query,
       };
     });
   }

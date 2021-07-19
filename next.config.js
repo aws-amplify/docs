@@ -67,7 +67,14 @@ function generatePathMap(
   },
 ) {
   for (const [_, value] of Object.entries(obj)) {
-    const {items, filters, route} = value;
+    const {items, filters, route, productRoot} = value;
+
+    if (productRoot) {
+      const {route} = productRoot;
+      pathMap[route] = {
+        page: route,
+      };
+    }
 
     if (items) {
       generatePathMap(items, pathMap);
