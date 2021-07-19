@@ -92,6 +92,7 @@ function generatePathMap(
       let page = "";
       let routeType = "";
       ["platform", "framework", "integration"].forEach((type) => {
+        const src = `${route}/q/${type}/[${type}].mdx`;
         const maybeFile = "./src/pages" + src;
         if (fs.existsSync(maybeFile)) {
           page = src;
@@ -102,6 +103,7 @@ function generatePathMap(
       if (!page || !routeType) {
         continue;
       }
+
       filters.forEach((filter) => {
         const query = {};
         query[routeType] = filter;
