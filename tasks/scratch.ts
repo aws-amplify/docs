@@ -8,17 +8,24 @@ import fs from "fs";
 const pathMap = generatePathMap(directory);
 
 console.log(pathMap);
+fs.writeFile("./path-map.json", JSON.stringify(pathMap, null, 2), (err) => {
+  if (err) console.error(err);
+});
 
 function generatePathMap(
   obj,
   pathMap = {
     "/": {
-      page: "index.tsx",
+      page: "/",
     },
   },
 ) {
   for (const [_, value] of Object.entries(obj)) {
     const {items, filters, route} = value;
+
+    if (items) {
+      generatePathMap(items, pathMap);
+    }
 
     if (!filters || !filters.length) {
       let page = "";
@@ -36,38 +43,36 @@ function generatePathMap(
 
       if (page.length) {
         pathMap[route] = {
-          page,
+          page: route,
         };
       }
+
+      continue;
     }
 
-    if (items) {
-      generatePathMap(items, pathMap);
-    } else {
-      let page = "";
-      let routeType = "";
-      ["platform", "framework", "integration"].forEach((type) => {
-        const src = `${route}/q/${type}/[${type}].mdx`;
-        const maybeFile = "./src/pages" + src;
-        if (fs.existsSync(maybeFile)) {
-          page = src;
-          routeType = type;
-        }
-      });
-
-      if (!page || !routeType) {
-        continue;
+    let page = "";
+    let routeType = "";
+    ["platform", "framework", "integration"].forEach((type) => {
+      const src = `${route}/q/${type}/[${type}].mdx`;
+      const maybeFile = "./src/pages" + src;
+      if (fs.existsSync(maybeFile)) {
+        page = src;
+        routeType = type;
       }
+    });
 
-      filters.forEach((filter) => {
-        const query = {};
-        query[routeType] = filter;
-        pathMap[route + "/q/" + routeType + "/" + filter] = {
-          page,
-          query,
-        };
-      });
+    if (!page || !routeType) {
+      continue;
     }
+
+    filters.forEach((filter) => {
+      const query = {};
+      query[routeType] = filter;
+      pathMap[route + "/q/" + routeType + "/" + filter] = {
+        page: `${route}/q/${routeType}/[${filter}]`,
+        query,
+      };
+    });
   }
   return pathMap;
 }
