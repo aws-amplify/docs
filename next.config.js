@@ -71,8 +71,12 @@ function generatePathMap(
 
     if (productRoot) {
       const {route} = productRoot;
+      let page = route;
+      if (route == "/cli") {
+        page = "/cli/cli";
+      }
       pathMap[route] = {
-        page: route,
+        page,
       };
     }
 
