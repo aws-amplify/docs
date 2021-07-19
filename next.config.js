@@ -56,36 +56,36 @@ async function exportPathMap(
 
 function generatePathMap(obj, pathMap = {}) {
   for (const [_, value] of Object.entries(obj)) {
-    const {items, filters, route, title} = value;
+    const {items, filters, route} = value;
 
-    // temporary fix until we rebase
-    if (title === "Null safety") continue;
+    if (!filters || !filters.length) {
+      continue;
+    }
 
     if (items) {
       generatePathMap(items, pathMap);
     } else {
-      if (filters) {
-        let page = "";
-        let routeType = "";
-        ["platform", "framework", "integration"].forEach((type) => {
-          const src = `${route}/q/${type}/[${type}].mdx`;
-          const maybeFile = "./src/pages" + src;
-          if (fs.existsSync(maybeFile)) {
-            page = src;
-            routeType = type;
-          }
-        });
+      let page = "";
+      let routeType = "";
+      ["platform", "framework", "integration"].forEach((type) => {
+        const maybeFile = "./src/pages" + src;
+        if (fs.existsSync(maybeFile)) {
+          page = src;
+          routeType = type;
+        }
+      });
 
-        if (!page || !routeType) continue;
-        filters.forEach((filter) => {
-          const query = {};
-          query[routeType] = filter;
-          pathMap[route + "/q/" + routeType + "/" + filter] = {
-            page,
-            query,
-          };
-        });
+      if (!page || !routeType) {
+        continue;
       }
+      filters.forEach((filter) => {
+        const query = {};
+        query[routeType] = filter;
+        pathMap[route + "/q/" + routeType + "/" + filter] = {
+          page,
+          query,
+        };
+      });
     }
   }
   return pathMap;
