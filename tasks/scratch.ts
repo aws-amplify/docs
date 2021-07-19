@@ -7,22 +7,43 @@ import fs from "fs";
 
 const pathMap = generatePathMap(directory);
 
-// console.log(pathMap);
+console.log(pathMap);
 
-function generatePathMap(obj, pathMap = {}) {
+function generatePathMap(
+  obj,
+  pathMap = {
+    "/": {
+      page: "index.tsx",
+    },
+  },
+) {
   for (const [_, value] of Object.entries(obj)) {
-    const {items, filters, route, title} = value;
+    const {items, filters, route} = value;
 
-    // temporary fix until we rebase
-    if (title === "Null safety") continue;
+    if (!filters || !filters.length) {
+      let page = "";
+      const mdxSrc = `${route}.mdx`;
+      const tsxSrc = `${route}.tsx`;
+
+      const maybeMDXFile = "./src/pages" + mdxSrc;
+      const maybeTSXFile = "./src/pages" + tsxSrc;
+
+      if (fs.existsSync(maybeTSXFile)) {
+        page = tsxSrc;
+      } else if (fs.existsSync(maybeMDXFile)) {
+        page = mdxSrc;
+      }
+
+      if (page.length) {
+        pathMap[route] = {
+          page,
+        };
+      }
+    }
 
     if (items) {
       generatePathMap(items, pathMap);
     } else {
-      if (!filters.length) {
-        continue;
-      }
-
       let page = "";
       let routeType = "";
       ["platform", "framework", "integration"].forEach((type) => {
