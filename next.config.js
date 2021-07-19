@@ -45,6 +45,7 @@ module.exports = withMDX({
     webpack5: true,
   },
   exportPathMap,
+  trailingSlash: true,
 });
 
 async function exportPathMap(
