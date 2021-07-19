@@ -1,8 +1,12 @@
+const fs = require("fs");
+
 const mdxRenderer = `
   import { mdx } from "@mdx-js/react";
 
 `;
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const directory = require("./src/directory/directory.js");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const headingLinkPlugin = require("./src/plugins/headings.tsx");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -39,4 +43,45 @@ module.exports = withMDX({
   future: {
     webpack5: true,
   },
+  exportPathMap,
 });
+
+async function exportPathMap(
+  defaultPathMap,
+  {dev, dir, outDir, distDir, buildId},
+) {
+  const pathMap = generatePathMap(directory);
+  return pathMap;
+}
+
+function generatePathMap(obj, pathMap = {}) {
+  for (const [_, value] of Object.entries(obj)) {
+    const {items, filters, route} = value;
+
+    if (items) {
+      generatePathMap(items, pathMap);
+    } else {
+      if (filters) {
+        let page = "";
+        let routeType = "";
+        ["platform", "framework", "integration"].forEach((type) => {
+          const src = `${route}/q/${type}/[${type}].mdx`;
+          const maybeFile = "./src/pages" + src;
+          if (fs.existsSync(maybeFile)) {
+            page = src;
+            routeType = type;
+          }
+        });
+        filters.forEach((filter) => {
+          const query = {};
+          query[routeType] = filter;
+          pathMap[route + "/q/" + routeType + "/" + filter] = {
+            page,
+            query,
+          };
+        });
+      }
+    }
+  }
+  return pathMap;
+}

@@ -1106,4 +1106,4 @@ const directory = {
   },
 };
 
-export default directory;
+module.exports = directory;
