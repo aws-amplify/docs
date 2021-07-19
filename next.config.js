@@ -75,6 +75,8 @@ function generatePathMap(obj, pathMap = {}) {
             routeType = type;
           }
         });
+
+        if (!page || !routeType) continue;
         filters.forEach((filter) => {
           const query = {};
           query[routeType] = filter;
