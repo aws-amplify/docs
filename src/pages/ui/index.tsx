@@ -34,7 +34,7 @@ export default function Page() {
       <Container>
         <InnerContainer>
           <section>
-            <H2>Guides</H2>
+            <H2>Amplify UI Components</H2>
 
             <Grid
               columns={[1, null, null, 4]}
@@ -43,28 +43,40 @@ export default function Page() {
                 marginTop: "1rem",
               }}
             >
-              <Card className="vertical" href="/lib/q/platform/js">
-                <CardGraphic src="/assets/integrations/js.svg" />
+              <Card className="vertical" href="/ui/q/framework/react">
+                <CardGraphic src="/assets/integrations/react.svg" />
                 <CardDetail>
-                  <h4>JavaScript</h4>
+                  <h4>React</h4>
                 </CardDetail>
               </Card>
-              <Card className="vertical" href="/lib/q/platform/android">
-                <CardGraphic src="/assets/integrations/android.svg" />
+              <Card className="vertical" href="/ui/q/framework/react-native">
+                <CardGraphic src="/assets/integrations/react-native.svg" />
                 <CardDetail>
-                  <h4>Android</h4>
+                  <h4>React Native</h4>
                 </CardDetail>
               </Card>
-              <Card className="vertical" href="/lib/q/platform/ios">
-                <CardGraphic src="/assets/integrations/ios.svg" />
+              <Card className="vertical" href="/ui/q/framework/Angular">
+                <CardGraphic src="/assets/integrations/sngular.svg" />
                 <CardDetail>
-                  <h4>iOS</h4>
+                  <h4>Angular</h4>
                 </CardDetail>
               </Card>
-              <Card className="vertical" href="/lib/q/platform/flutter">
-                <CardGraphic src="/assets/integrations/flutter.svg" />
+              <Card className="vertical" href="/ui/q/framework/vue">
+                <CardGraphic src="/assets/integrations/vue.svg" />
                 <CardDetail>
-                  <h4>Flutter</h4>
+                  <h4>Vue</h4>
+                </CardDetail>
+              </Card>
+              <Card className="vertical" href="/ui/q/framework/ionic">
+                <CardGraphic src="/assets/integrations/ionic.svg" />
+                <CardDetail>
+                  <h4>ionic</h4>
+                </CardDetail>
+              </Card>
+              <Card className="vertical" href="/ui/q/framework/next">
+                <CardGraphic src="/assets/integrations/next.svg" />
+                <CardDetail>
+                  <h4>Next.js</h4>
                 </CardDetail>
               </Card>
             </Grid>
