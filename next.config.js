@@ -112,7 +112,7 @@ function generatePathMap(
       const query = {};
       query[routeType] = filter;
       pathMap[route + "/q/" + routeType + "/" + filter] = {
-        page: `${route}/q/${routeType}/[${filter}]`,
+        page: `${route}/q/${routeType}/[${routeType}]`,
         query,
       };
     });
