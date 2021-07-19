@@ -55,8 +55,8 @@ export default function Page() {
                   <h4>React Native</h4>
                 </CardDetail>
               </Card>
-              <Card className="vertical" href="/ui/q/framework/Angular">
-                <CardGraphic src="/assets/integrations/sngular.svg" />
+              <Card className="vertical" href="/ui/q/framework/angular">
+                <CardGraphic src="/assets/integrations/angular.svg" />
                 <CardDetail>
                   <h4>Angular</h4>
                 </CardDetail>
