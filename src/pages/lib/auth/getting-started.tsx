@@ -56,7 +56,7 @@ export default function Page() {
               </Card>
               <Card
                 className="vertical"
-                href="/lib/auth/getting-started/q/platform/react"
+                href="/lib/auth/getting-started/q/platform/android"
               >
                 <CardGraphic src="/assets/integrations/android.svg" />
                 <CardDetail>
@@ -65,7 +65,7 @@ export default function Page() {
               </Card>
               <Card
                 className="vertical"
-                href="/lib/auth/getting-started/q/platform/angular"
+                href="/lib/auth/getting-started/q/platform/ios"
               >
                 <CardGraphic src="/assets/integrations/ios.svg" />
                 <CardDetail>
@@ -74,7 +74,7 @@ export default function Page() {
               </Card>
               <Card
                 className="vertical"
-                href="/lib/auth/getting-started/q/platform/vue"
+                href="/lib/auth/getting-started/q/platform/flutter"
               >
                 <CardGraphic src="/assets/integrations/flutter.svg" />
                 <CardDetail>
