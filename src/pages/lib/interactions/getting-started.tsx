@@ -54,7 +54,7 @@ export default function Page() {
                   <h4>JavaScript</h4>
                 </CardDetail>
               </Card>
-              <Card className="vertical" href="/lib/q/platform/anroid">
+              <Card className="vertical" href="/lib/q/platform/android">
                 <CardGraphic src="/assets/integrations/android.svg" />
                 <CardDetail>
                   <h4>Android</h4>

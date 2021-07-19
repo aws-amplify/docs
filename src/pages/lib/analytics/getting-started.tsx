@@ -56,7 +56,7 @@ export default function Page() {
               </Card>
               <Card
                 className="vertical"
-                href="/lib/analytics/getting-started/q/platform/anroid"
+                href="/lib/analytics/getting-started/q/platform/android"
               >
                 <CardGraphic src="/assets/integrations/android.svg" />
                 <CardDetail>
