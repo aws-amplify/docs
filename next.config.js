@@ -61,6 +61,9 @@ function generatePathMap(
     "/": {
       page: "/",
     },
+    "404": {
+      page: "/404",
+    },
   },
 ) {
   for (const [_, value] of Object.entries(obj)) {
