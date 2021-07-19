@@ -56,7 +56,10 @@ async function exportPathMap(
 
 function generatePathMap(obj, pathMap = {}) {
   for (const [_, value] of Object.entries(obj)) {
-    const {items, filters, route} = value;
+    const {items, filters, route, title} = value;
+
+    // temporary fix until we rebase
+    if (title === "Null safety") continue;
 
     if (items) {
       generatePathMap(items, pathMap);
