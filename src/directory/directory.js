@@ -1328,32 +1328,26 @@ const directory = {
           {
             title: "How to Manage Image & File Uploads & Downloads",
             route: "/guides/api-graphql/image-and-file-uploads",
-            filters: ["js"],
           },
           {
             title: "Building a Form API with GraphQL",
             route: "/guides/api-graphql/building-a-form-api",
-            filters: ["js"],
           },
           {
             title: "How to create GraphQL subscriptions by id",
             route: "/guides/api-graphql/subscriptions-by-id",
-            filters: ["js"],
           },
           {
             title: "GraphQL pagination",
             route: "/guides/api-graphql/graphql-pagination",
-            filters: ["js"],
           },
           {
             title: "GraphQL query with sorting by date",
             route: "/guides/api-graphql/query-with-sorting",
-            filters: ["js"],
           },
           {
             title: "How to use Lambda GraphQL Resolvers",
             route: "/guides/api-graphql/lambda-resolvers",
-            filters: ["js"],
           },
         ],
       },
@@ -1464,38 +1458,47 @@ const directory = {
           {
             title: "Git-based deployments",
             route: "/guides/hosting/git-based-deployments",
+            filters: ["js"],
           },
           {
             title: "Local deployments",
             route: "/guides/hosting/local-deployments",
+            filters: ["js"],
           },
           {
             title: "Custom Domains",
             route: "/guides/hosting/custom-domains",
+            filters: ["js"],
           },
           {
             title: "Password protected deployments",
             route: "/guides/hosting/password-protected-deployments",
+            filters: ["js"],
           },
           {
             title: "Pull-request previews",
             route: "/guides/hosting/pull-request-previews",
+            filters: ["js"],
           },
           {
             title: "Gatsby",
             route: "/guides/hosting/gatsby",
+            filters: ["js"],
           },
           {
             title: "Next.js",
             route: "guides/hosting/nextjs",
+            filters: ["js"],
           },
           {
             title: "Gridsome",
             route: "/guides/hosting/gridsome",
+            filters: ["js"],
           },
           {
             title: "Nuxt.js",
             route: "/guides/hosting/nuxt",
+            filters: ["js"],
           },
         ],
       },
@@ -1505,6 +1508,7 @@ const directory = {
           {
             title: "Accessing Amazon Location Service",
             route: "/guides/location-service/setting-up-your-app",
+            filters: ["js"],
           },
         ],
       },
