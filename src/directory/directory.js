@@ -790,6 +790,11 @@ const directory = {
           },
         ],
       },
+      ui: {
+        title: "Amplify UI Components",
+        routes: "/ui",
+        filters: ["react", "react-native", "angular", "vue", "next", "ionic"],
+      },
     },
   },
   cli: {
@@ -1099,6 +1104,36 @@ const directory = {
             title: "Feature Flags",
             route: "/lib/reference/feature-flags",
             filters: [],
+          },
+        ],
+      },
+    },
+  },
+  start: {
+    productRoot: {
+      title: "Getting started",
+      route: "/start",
+    },
+    items: {
+      start: {
+        title: "Get started",
+        items: [
+          {title: "Installation", route: "/cli/start/install", filters: []},
+          {
+            title: "Getting started",
+            route: "/start",
+            filters: [
+              "js",
+              "react",
+              "react-native",
+              "angular",
+              "vue",
+              "next",
+              "android",
+              "ios",
+              "ionic",
+              "flutter",
+            ],
           },
         ],
       },
