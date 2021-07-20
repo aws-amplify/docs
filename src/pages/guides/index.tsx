@@ -43,19 +43,19 @@ export default function Page() {
                 marginTop: "1rem",
               }}
             >
-              <Card className="vertical" href="/lib/q/platform/js">
+              <Card className="vertical" href="/guides/q/platform/js">
                 <CardGraphic src="/assets/integrations/js.svg" />
                 <CardDetail>
                   <h4>JavaScript</h4>
                 </CardDetail>
               </Card>
-              <Card className="vertical" href="/lib/q/platform/android">
+              <Card className="vertical" href="/guides/q/platform/android">
                 <CardGraphic src="/assets/integrations/android.svg" />
                 <CardDetail>
                   <h4>Android</h4>
                 </CardDetail>
               </Card>
-              <Card className="vertical" href="/lib/q/platform/ios">
+              <Card className="vertical" href="/guides/q/platform/ios">
                 <CardGraphic src="/assets/integrations/ios.svg" />
                 <CardDetail>
                   <h4>iOS</h4>
