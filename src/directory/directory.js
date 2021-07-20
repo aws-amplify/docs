@@ -1237,7 +1237,7 @@ const directory = {
       route: "/console",
     },
     items: {
-      "Admin UI Basics": {
+      adminui: {
         title: "Admin UI Basics",
         items: [
           {title: "Introduction", route: "/console/adminui/intro"},
