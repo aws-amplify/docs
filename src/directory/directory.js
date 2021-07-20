@@ -1290,7 +1290,10 @@ const directory = {
       auth: {
         title: "Authentication",
         items: [
-          {title: "Authentication", route: "/console/auth/authentication"},
+          {
+            title: "Authentication",
+            route: "/console/auth/authentication",
+          },
           {
             title: "Manage authentication for users and groups",
             route: "/console/auth/user-management",
@@ -1328,26 +1331,32 @@ const directory = {
           {
             title: "How to Manage Image & File Uploads & Downloads",
             route: "/guides/api-graphql/image-and-file-uploads",
+            filters: ["js"],
           },
           {
             title: "Building a Form API with GraphQL",
             route: "/guides/api-graphql/building-a-form-api",
+            filters: ["js"],
           },
           {
             title: "How to create GraphQL subscriptions by id",
             route: "/guides/api-graphql/subscriptions-by-id",
+            filters: ["js"],
           },
           {
             title: "GraphQL pagination",
             route: "/guides/api-graphql/graphql-pagination",
+            filters: ["js"],
           },
           {
             title: "GraphQL query with sorting by date",
             route: "/guides/api-graphql/query-with-sorting",
+            filters: ["js"],
           },
           {
             title: "How to use Lambda GraphQL Resolvers",
             route: "/guides/api-graphql/lambda-resolvers",
+            filters: ["js"],
           },
         ],
       },
