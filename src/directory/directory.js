@@ -1240,8 +1240,14 @@ const directory = {
       adminui: {
         title: "Admin UI Basics",
         items: [
-          {title: "Introduction", route: "/console/adminui/intro"},
-          {title: "Getting started", route: "/console/adminui/start"},
+          {
+            title: "Introduction",
+            route: "/console/adminui/intro",
+          },
+          {
+            title: "Getting started",
+            route: "/console/adminui/start",
+          },
           {
             title: "Extend with the Amplify CLI",
             route: "/console/adminui/extend-cli",
@@ -1250,7 +1256,10 @@ const directory = {
             title: "Manage team access",
             route: "/console/adminui/access-management",
           },
-          {title: "Custom domains", route: "/console/adminui/custom-domain"},
+          {
+            title: "Custom domains",
+            route: "/console/adminui/custom-domain",
+          },
         ],
       },
       data: {
@@ -1278,7 +1287,7 @@ const directory = {
           },
         ],
       },
-      authentication: {
+      auth: {
         title: "Authentication",
         items: [
           {title: "Authentication", route: "/console/auth/authentication"},
@@ -1292,7 +1301,7 @@ const directory = {
           },
         ],
       },
-      authorization: {
+      authz: {
         title: "Authorization",
         items: [
           {
