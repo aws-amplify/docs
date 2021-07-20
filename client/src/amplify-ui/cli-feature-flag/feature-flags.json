@@ -377,6 +377,27 @@
             "defaultExistingProject": true
           }
         ]
+      },
+      "handleListNullabilityTransparently": {
+        "description": "Configure the nullability of the List and List components in Datastore Models generation",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "5.1.2",
+        "deprecationDate": "Nov 1st 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "[Recommended] Respect the nullability of List types as specified in the GraphQL schema. Refer https://docs.amplify.aws/cli/migration/list-nullability for more information.",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "Use the nullability specification of list components to decide the nullability of List.",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
       }
     }
   }
