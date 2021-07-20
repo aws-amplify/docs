@@ -95,6 +95,18 @@ function generatePathMap(
     "/start/start/q/integration/flutter": {
       page: "/start/start/q/integration/[integration]",
     },
+    "/start/start/q/integration/js": {
+      page: "/start/start/q/integration/[integration]",
+    },
+    "/guides/guides/q/integration/android": {
+      page: "/guides/guides/q/integration/[integration]",
+    },
+    "/guides/guides/q/integration/ionic": {
+      page: "/guides/guides/q/integration/[integration]",
+    },
+    "/guides/guides/q/integration/ios": {
+      page: "/guides/guides/q/integration/[integration]",
+    },
     "/ui/q/framework/react": {
       page: "/ui/q/framework/[framework]",
     },
