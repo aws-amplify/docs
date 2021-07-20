@@ -1256,8 +1256,14 @@ const directory = {
       data: {
         title: "Data",
         items: [
-          {title: "Data modeling", route: "/console/data/data-model"},
-          {title: "Relationships", route: "/console/data/relationships"},
+          {
+            title: "Data modeling",
+            route: "/console/data/data-model",
+          },
+          {
+            title: "Relationships",
+            route: "/console/data/relationships",
+          },
           {
             title: "Content management",
             route: "/console/data/content-management",
@@ -1266,7 +1272,37 @@ const directory = {
             title: "Manage team access",
             route: "/console/adminui/access-management",
           },
-          {title: "Custom domains", route: "/console/adminui/custom-domain"},
+          {
+            title: "Custom domains",
+            route: "/console/adminui/custom-domain",
+          },
+        ],
+      },
+      authentication: {
+        title: "Authentication",
+        items: [
+          {title: "Authentication", route: "/console/auth/authentication"},
+          {
+            title: "Manage authentication for users and groups",
+            route: "/console/auth/user-management",
+          },
+          {
+            title: "Import Amazon Cognito resources",
+            route: "/console/auth/import",
+          },
+        ],
+      },
+      authorization: {
+        title: "Authorization",
+        items: [
+          {
+            title: "Overview",
+            route: "/console/authz/authorization",
+          },
+          {
+            title: "Access control",
+            route: "/console/authz/permissions",
+          },
         ],
       },
     },
