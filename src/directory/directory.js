@@ -790,11 +790,6 @@ const directory = {
           },
         ],
       },
-      ui: {
-        title: "Amplify UI Components",
-        routes: "/ui",
-        filters: ["react", "react-native", "angular", "vue", "next", "ionic"],
-      },
     },
   },
   cli: {
