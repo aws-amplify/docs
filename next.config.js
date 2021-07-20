@@ -66,34 +66,52 @@ function generatePathMap(
       page: "/404",
     },
     "/start/q/integration/js": {
-      page: "/start/q/integration/[integration]",
+      page: "/start/start/q/integration/[integration]",
     },
     "/start/q/integration/react": {
-      page: "/start/q/integration/[integration]",
+      page: "/start/start/q/integration/[integration]",
     },
     "/start/q/integration/angular": {
-      page: "/start/q/integration/[integration]",
+      page: "/start/start/q/integration/[integration]",
     },
     "/start/q/integration/vue": {
-      page: "/start/q/integration/[integration]",
+      page: "/start/start/q/integration/[integration]",
     },
     "/start/q/integration/next": {
-      page: "/start/q/integration/[integration]",
+      page: "/start/start/q/integration/[integration]",
     },
     "/start/q/integration/android": {
-      page: "/start/q/integration/[integration]",
+      page: "/start/start/q/integration/[integration]",
     },
     "/start/q/integration/react-native": {
-      page: "/start/q/integration/[integration]",
+      page: "/start/start/q/integration/[integration]",
     },
     "/start/q/integration/ionic": {
-      page: "/start/q/integration/[integration]",
+      page: "/start/start/q/integration/[integration]",
     },
     "/start/q/integration/ios": {
-      page: "/start/q/integration/[integration]",
+      page: "/start/start/q/integration/[integration]",
     },
     "/start/q/integration/flutter": {
-      page: "/start/q/integration/[integration]",
+      page: "/start/start/q/integration/[integration]",
+    },
+    "/ui/q/framework/react": {
+      page: "/ui/q/framework/[framework]",
+    },
+    "/ui/q/framework/react-native": {
+      page: "/ui/q/framework/[framework]",
+    },
+    "/ui/q/framework/angular": {
+      page: "/ui/q/framework/[framework]",
+    },
+    "/ui/q/framework/vue": {
+      page: "/ui/q/framework/[framework]",
+    },
+    "/ui/q/framework/ionic": {
+      page: "/ui/q/framework/[framework]",
+    },
+    "/ui/q/framework/next": {
+      page: "/ui/q/framework/[framework]",
     },
   },
 ) {
