@@ -65,34 +65,34 @@ function generatePathMap(
     "/404": {
       page: "/404",
     },
-    "/start/q/integration/js": {
+    "/start/start/q/integration/js": {
       page: "/start/start/q/integration/[integration]",
     },
-    "/start/q/integration/react": {
+    "/start/start/q/integration/react": {
       page: "/start/start/q/integration/[integration]",
     },
-    "/start/q/integration/angular": {
+    "/start/start/q/integration/angular": {
       page: "/start/start/q/integration/[integration]",
     },
-    "/start/q/integration/vue": {
+    "/start/start/q/integration/vue": {
       page: "/start/start/q/integration/[integration]",
     },
-    "/start/q/integration/next": {
+    "/start/start/q/integration/next": {
       page: "/start/start/q/integration/[integration]",
     },
-    "/start/q/integration/android": {
+    "/start/start/q/integration/android": {
       page: "/start/start/q/integration/[integration]",
     },
-    "/start/q/integration/react-native": {
+    "/start/start/q/integration/react-native": {
       page: "/start/start/q/integration/[integration]",
     },
-    "/start/q/integration/ionic": {
+    "/start/start/q/integration/ionic": {
       page: "/start/start/q/integration/[integration]",
     },
-    "/start/q/integration/ios": {
+    "/start/start/q/integration/ios": {
       page: "/start/start/q/integration/[integration]",
     },
-    "/start/q/integration/flutter": {
+    "/start/start/q/integration/flutter": {
       page: "/start/start/q/integration/[integration]",
     },
     "/ui/q/framework/react": {
