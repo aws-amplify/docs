@@ -18,8 +18,38 @@ function generatePathMap(
     "/": {
       page: "/",
     },
-    "404": {
+    "/404": {
       page: "/404",
+    },
+    "/start/q/integration/js": {
+      page: "/start/q/integration/[integration]",
+    },
+    "/start/q/integration/react": {
+      page: "/start/q/integration/[integration]",
+    },
+    "/start/q/integration/angular": {
+      page: "/start/q/integration/[integration]",
+    },
+    "/start/q/integration/vue": {
+      page: "/start/q/integration/[integration]",
+    },
+    "/start/q/integration/next": {
+      page: "/start/q/integration/[integration]",
+    },
+    "/start/q/integration/android": {
+      page: "/start/q/integration/[integration]",
+    },
+    "/start/q/integration/react-native": {
+      page: "/start/q/integration/[integration]",
+    },
+    "/start/q/integration/ionic": {
+      page: "/start/q/integration/[integration]",
+    },
+    "/start/q/integration/ios": {
+      page: "/start/q/integration/[integration]",
+    },
+    "/start/q/integration/flutter": {
+      page: "/start/q/integration/[integration]",
     },
   },
 ) {
@@ -80,8 +110,6 @@ function generatePathMap(
     }
 
     filters.forEach((filter) => {
-      const query = {};
-      query[routeType] = filter;
       pathMap[route + "/q/" + routeType + "/" + filter] = {
         page: `${route}/q/${routeType}/[${routeType}]`,
       };

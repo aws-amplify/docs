@@ -1116,25 +1116,19 @@ const directory = {
     },
     items: {
       start: {
-        title: "Get started",
-        items: [
-          {title: "Installation", route: "/cli/start/install", filters: []},
-          {
-            title: "Getting started",
-            route: "/start",
-            filters: [
-              "js",
-              "react",
-              "react-native",
-              "angular",
-              "vue",
-              "next",
-              "android",
-              "ios",
-              "ionic",
-              "flutter",
-            ],
-          },
+        title: "Getting started",
+        route: "/start",
+        filters: [
+          "js",
+          "react",
+          "react-native",
+          "angular",
+          "vue",
+          "next",
+          "android",
+          "ios",
+          "ionic",
+          "flutter",
         ],
       },
     },
