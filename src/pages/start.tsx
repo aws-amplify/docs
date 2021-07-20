@@ -39,31 +39,31 @@ export default function Page() {
                 marginTop: "1rem",
               }}
             >
-              <Card href="/start/q/integration/js">
+              <Card href="/start/start/q/integration/js">
                 <CardGraphic src="/assets/integrations/js.svg" />
                 <CardDetail>
                   <H4>JavaScript</H4>
                 </CardDetail>
               </Card>
-              <Card href="/start/q/integration/react">
+              <Card href="/start/start/q/integration/react">
                 <CardGraphic src="/assets/integrations/react.svg" />
                 <CardDetail>
                   <H4>React</H4>
                 </CardDetail>
               </Card>
-              <Card href="/start/q/integration/angular">
+              <Card href="/start/start/q/integration/angular">
                 <CardGraphic src="/assets/integrations/angular.svg" />
                 <CardDetail>
                   <H4>Angular</H4>
                 </CardDetail>
               </Card>
-              <Card href="/start/q/integration/vue">
+              <Card href="/start/start/q/integration/vue">
                 <CardGraphic src="/assets/integrations/vue.svg" />
                 <CardDetail>
                   <H4>Vue</H4>
                 </CardDetail>
               </Card>
-              <Card href="/start/q/integration/next">
+              <Card href="/start/start/q/integration/next">
                 <CardGraphic src="/assets/integrations/next.svg" />
                 <CardDetail>
                   <H4>Next.js</H4>
@@ -82,33 +82,33 @@ export default function Page() {
                 marginTop: "1rem",
               }}
             >
-              <Card href="/start/q/integration/andorid">
+              <Card href="/start/start/q/integration/andorid">
                 <CardGraphic src="/assets/integrations/android.svg" />
                 <CardDetail>
                   <H4>Android</H4>
                 </CardDetail>
               </Card>
-              <Card href="/start/q/integration/ios">
+              <Card href="/start/start/q/integration/ios">
                 <CardGraphic src="/assets/integrations/ios.svg" />
                 <CardDetail>
                   <H4>iOS</H4>
                 </CardDetail>
               </Card>
-              <Card href="/start/q/integration/react-native">
+              <Card href="/start/start/q/integration/react-native">
                 <CardGraphic src="/assets/integrations/react-native.svg" />
                 <CardDetail>
                   <H4>React Native</H4>
                 </CardDetail>
               </Card>
 
-              <Card href="/start/q/integration/ionic">
+              <Card href="/start/start/q/integration/ionic">
                 <CardGraphic src="/assets/integrations/ionic.svg" />
                 <CardDetail>
                   <H4>Ionic</H4>
                 </CardDetail>
               </Card>
 
-              <Card href="/start/q/integration/flutter">
+              <Card href="/start/start/q/integration/flutter">
                 <CardGraphic src="/assets/integrations/flutter.svg" />
                 <CardDetail>
                   <H4>Flutter</H4>
