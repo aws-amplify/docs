@@ -790,11 +790,6 @@ const directory = {
           },
         ],
       },
-      ui: {
-        title: "Amplify UI Components",
-        routes: "/ui",
-        filters: ["react", "react-native", "angular", "vue", "next", "ionic"],
-      },
     },
   },
   cli: {
@@ -1113,24 +1108,6 @@ const directory = {
     productRoot: {
       title: "Getting started",
       route: "/start",
-    },
-    items: {
-      start: {
-        title: "Getting started",
-        route: "/start",
-        filters: [
-          "js",
-          "react",
-          "react-native",
-          "angular",
-          "vue",
-          "next",
-          "android",
-          "ios",
-          "ionic",
-          "flutter",
-        ],
-      },
     },
   },
 };
