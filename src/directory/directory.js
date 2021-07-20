@@ -1363,25 +1363,151 @@ const directory = {
           {
             title: "NodeJS API",
             route: "/guides/api-rest/node-api",
+            filters: ["js"],
           },
           {
             title: "Express Server",
             route: "/guides/api-rest/express-server",
+            filters: ["js"],
           },
           {
             title: "Go API",
             route: "/guides/api-rest/go-api",
+            filters: ["js"],
           },
           {
             title: "Python API",
             route: "/guides/api-rest/python-api",
+            filters: ["js"],
           },
         ],
       },
-      // Authentication: {},
-      // Functions: {},
-      // Hosting: {},
-      // Location: {},
+      authentication: {
+        title: "authentication",
+        items: [
+          {
+            title: "Creating a custom authentication flow",
+            route: "/guides/authentication/custom-auth-flow",
+            filters: ["js"],
+          },
+          {
+            title: "Email-only sign up and sign in",
+            route: "/guides/authentication/email-only-authentication",
+            filters: ["js"],
+          },
+          {
+            title: "Listening for authentication events",
+            route: "/guides/authentication/listening-for-auth-events",
+            filters: ["js"],
+          },
+          {
+            title: "Managing user attributes",
+            route: "/guides/authentication/managing-user-attributes",
+            filters: ["js"],
+          },
+        ],
+      },
+      functions: {
+        title: "Functions",
+        items: [
+          {
+            title:
+              "Exporting AppSync operations to a Lambda layer for easy reuse",
+            route: "/guides/functions/appsync-operations-to-lambda-layer",
+            filters: ["js"],
+          },
+          {
+            title: "Connecting a REST API to a Lambda function",
+            route: "/guides/functions/connecting-a-rest-api",
+            filters: ["js"],
+          },
+          {
+            title: "Integrating DynamoDB with Lambda",
+            route: "/guides/functions/integrating-dynamodb-with-lambda",
+            filters: ["js"],
+          },
+          {
+            title: "Calling DynamoDB from Lambda in Node.js",
+            route: "/guides/functions/dynamodb-from-js-lambda",
+            filters: ["js"],
+          },
+          {
+            title: "Calling DynamoDB from a Lambda function in Python",
+            route: "/guides/functions/dynamodb-from-python-lambda",
+            filters: ["js"],
+          },
+          {
+            title: "Calling GraphQL API from a Lambda function",
+            route: "/guides/functions/graphql-from-lambda",
+            filters: ["js"],
+          },
+          {
+            title: "GraphQL Server in Lambda",
+            route: "/guides/functions/graphql-server-in-lambda",
+            filters: ["js"],
+          },
+          {
+            title: "Calling DynamoDB using AWS Cognito triggers",
+            route: "/guides/functions/cognito-trigger-lambda-dynamodb",
+            filters: ["js"],
+          },
+          {
+            title: "Configuring Lambda function settings",
+            route: "/guides/functions/configuring-lambda",
+            filters: ["js"],
+          },
+        ],
+      },
+      hosting: {
+        title: "Hosting",
+        items: [
+          {
+            title: "Git-based deployments",
+            route: "/guides/hosting/git-based-deployments",
+          },
+          {
+            title: "Local deployments",
+            route: "/guides/hosting/local-deployments",
+          },
+          {
+            title: "Custom Domains",
+            route: "/guides/hosting/custom-domains",
+          },
+          {
+            title: "Password protected deployments",
+            route: "/guides/hosting/password-protected-deployments",
+          },
+          {
+            title: "Pull-request previews",
+            route: "/guides/hosting/pull-request-previews",
+          },
+          {
+            title: "Gatsby",
+            route: "/guides/hosting/gatsby",
+          },
+          {
+            title: "Next.js",
+            route: "guides/hosting/nextjs",
+          },
+          {
+            title: "Gridsome",
+            route: "/guides/hosting/gridsome",
+          },
+          {
+            title: "Nuxt.js",
+            route: "/guides/hosting/nuxt",
+          },
+        ],
+      },
+      location: {
+        title: "Location",
+        items: [
+          {
+            title: "Accessing Amazon Location Service",
+            route: "/guides/location-service/setting-up-your-app",
+          },
+        ],
+      },
     },
   },
 };
