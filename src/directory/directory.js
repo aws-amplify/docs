@@ -1307,6 +1307,74 @@ const directory = {
       },
     },
   },
+  guides: {
+    productRoot: {
+      title: "Guides",
+      route: "/guides",
+    },
+    items: {
+      "api-graphql": {
+        title: "API (GraphQL)",
+        items: [
+          {
+            title: "How to Manage Image & File Uploads & Downloads",
+            route: "/guides/api-graphql/image-and-file-uploads",
+            filters: ["js"],
+          },
+          {
+            title: "Building a Form API with GraphQL",
+            route: "/guides/api-graphql/building-a-form-api",
+            filters: ["js"],
+          },
+          {
+            title: "How to create GraphQL subscriptions by id",
+            route: "/guides/api-graphql/subscriptions-by-id",
+            filters: ["js"],
+          },
+          {
+            title: "GraphQL pagination",
+            route: "/guides/api-graphql/graphql-pagination",
+            filters: ["js"],
+          },
+          {
+            title: "GraphQL query with sorting by date",
+            route: "/guides/api-graphql/query-with-sorting",
+            filters: ["js"],
+          },
+          {
+            title: "How to use Lambda GraphQL Resolvers",
+            route: "/guides/api-graphql/lambda-resolvers",
+            filters: ["js"],
+          },
+        ],
+      },
+      "api-rest": {
+        title: "API (REST)",
+        items: [
+          {
+            title: "NodeJS API",
+            route: "/guides/api-rest/node-api",
+          },
+          {
+            title: "Express Server",
+            route: "/guides/api-rest/express-server",
+          },
+          {
+            title: "Go API",
+            route: "/guides/api-rest/go-api",
+          },
+          {
+            title: "Python API",
+            route: "/guides/api-rest/python-api",
+          },
+        ],
+      },
+      // Authentication: {},
+      // Functions: {},
+      // Hosting: {},
+      // Location: {},
+    },
+  },
 };
 
 module.exports = directory;
