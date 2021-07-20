@@ -1231,6 +1231,46 @@ const directory = {
       },
     },
   },
+  console: {
+    productRoot: {
+      title: "Amplify Console",
+      route: "/console",
+    },
+    items: {
+      "Admin UI Basics": {
+        title: "Admin UI Basics",
+        items: [
+          {title: "Introduction", route: "/console/adminui/intro"},
+          {title: "Getting started", route: "/console/adminui/start"},
+          {
+            title: "Extend with the Amplify CLI",
+            route: "/console/adminui/extend-cli",
+          },
+          {
+            title: "Manage team access",
+            route: "/console/adminui/access-management",
+          },
+          {title: "Custom domains", route: "/console/adminui/custom-domain"},
+        ],
+      },
+      data: {
+        title: "Data",
+        items: [
+          {title: "Data modeling", route: "/console/data/data-model"},
+          {title: "Relationships", route: "/console/data/relationships"},
+          {
+            title: "Content management",
+            route: "/console/data/content-management",
+          },
+          {
+            title: "Manage team access",
+            route: "/console/adminui/access-management",
+          },
+          {title: "Custom domains", route: "/console/adminui/custom-domain"},
+        ],
+      },
+    },
+  },
 };
 
 module.exports = directory;
