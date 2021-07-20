@@ -1330,32 +1330,32 @@ const directory = {
         items: [
           {
             title: "How to Manage Image & File Uploads & Downloads",
-            route: "/guides/api-graphql/image-and-file-uploads",
+            route: "/guides/guides/api-graphql/image-and-file-uploads",
             filters: ["js"],
           },
           {
             title: "Building a Form API with GraphQL",
-            route: "/guides/api-graphql/building-a-form-api",
+            route: "/guides/guides/api-graphql/building-a-form-api",
             filters: ["js", "android", "ios"],
           },
           {
             title: "How to create GraphQL subscriptions by id",
-            route: "/guides/api-graphql/subscriptions-by-id",
+            route: "/guides/guides/api-graphql/subscriptions-by-id",
             filters: ["js", "android", "ios"],
           },
           {
             title: "GraphQL pagination",
-            route: "/guides/api-graphql/graphql-pagination",
+            route: "/guides/guides/api-graphql/graphql-pagination",
             filters: ["js", "android", "ios"],
           },
           {
             title: "GraphQL query with sorting by date",
-            route: "/guides/api-graphql/query-with-sorting",
+            route: "/guides/guides/api-graphql/query-with-sorting",
             filters: ["js", "android", "ios"],
           },
           {
             title: "How to use Lambda GraphQL Resolvers",
-            route: "/guides/api-graphql/lambda-resolvers",
+            route: "/guides/guides/api-graphql/lambda-resolvers",
             filters: ["js", "android", "ios"],
           },
         ],
@@ -1365,22 +1365,22 @@ const directory = {
         items: [
           {
             title: "NodeJS API",
-            route: "/guides/api-rest/node-api",
+            route: "/guides/guides/api-rest/node-api",
             filters: ["js", "android", "ios"],
           },
           {
             title: "Express Server",
-            route: "/guides/api-rest/express-server",
+            route: "/guides/guides/api-rest/express-server",
             filters: ["js", "android", "ios"],
           },
           {
             title: "Go API",
-            route: "/guides/api-rest/go-api",
+            route: "/guides/guides/api-rest/go-api",
             filters: ["js", "android", "ios"],
           },
           {
             title: "Python API",
-            route: "/guides/api-rest/python-api",
+            route: "/guides/guides/api-rest/python-api",
             filters: ["js", "android", "ios"],
           },
         ],
@@ -1390,22 +1390,22 @@ const directory = {
         items: [
           {
             title: "Creating a custom authentication flow",
-            route: "/guides/authentication/custom-auth-flow",
+            route: "/guides/guides/authentication/custom-auth-flow",
             filters: ["js"],
           },
           {
             title: "Email-only sign up and sign in",
-            route: "/guides/authentication/email-only-authentication",
+            route: "/guides/guides/authentication/email-only-authentication",
             filters: ["js"],
           },
           {
             title: "Listening for authentication events",
-            route: "/guides/authentication/listening-for-auth-events",
+            route: "/guides/guides/authentication/listening-for-auth-events",
             filters: ["js"],
           },
           {
             title: "Managing user attributes",
-            route: "/guides/authentication/managing-user-attributes",
+            route: "/guides/guides/authentication/managing-user-attributes",
             filters: ["js"],
           },
         ],
@@ -1415,7 +1415,7 @@ const directory = {
         items: [
           {
             title: "Parallel Processing",
-            route: "/guides/datastore/parallel-processing",
+            route: "/guides/guides/datastore/parallel-processing",
             filters: ["ios"],
           },
         ],
@@ -1426,47 +1426,48 @@ const directory = {
           {
             title:
               "Exporting AppSync operations to a Lambda layer for easy reuse",
-            route: "/guides/functions/appsync-operations-to-lambda-layer",
+            route:
+              "/guides/guides/functions/appsync-operations-to-lambda-layer",
             filters: ["js", "android", "ios"],
           },
           {
             title: "Connecting a REST API to a Lambda function",
-            route: "/guides/functions/connecting-a-rest-api",
+            route: "/guides/guides/functions/connecting-a-rest-api",
             filters: ["js", "android", "ios"],
           },
           {
             title: "Integrating DynamoDB with Lambda",
-            route: "/guides/functions/integrating-dynamodb-with-lambda",
+            route: "/guides/guides/functions/integrating-dynamodb-with-lambda",
             filters: ["js", "android", "ios"],
           },
           {
             title: "Calling DynamoDB from Lambda in Node.js",
-            route: "/guides/functions/dynamodb-from-js-lambda",
+            route: "/guides/guides/functions/dynamodb-from-js-lambda",
             filters: ["js", "android", "ios"],
           },
           {
             title: "Calling DynamoDB from a Lambda function in Python",
-            route: "/guides/functions/dynamodb-from-python-lambda",
+            route: "/guides/guides/functions/dynamodb-from-python-lambda",
             filters: ["js", "android", "ios"],
           },
           {
             title: "Calling GraphQL API from a Lambda function",
-            route: "/guides/functions/graphql-from-lambda",
+            route: "/guides/guides/functions/graphql-from-lambda",
             filters: ["js", "android", "ios"],
           },
           {
             title: "GraphQL Server in Lambda",
-            route: "/guides/functions/graphql-server-in-lambda",
+            route: "/guides/guides/functions/graphql-server-in-lambda",
             filters: ["js", "android", "ios"],
           },
           {
             title: "Calling DynamoDB using AWS Cognito triggers",
-            route: "/guides/functions/cognito-trigger-lambda-dynamodb",
+            route: "/guides/guides/functions/cognito-trigger-lambda-dynamodb",
             filters: ["js", "android", "ios"],
           },
           {
             title: "Configuring Lambda function settings",
-            route: "/guides/functions/configuring-lambda",
+            route: "/guides/guides/functions/configuring-lambda",
             filters: ["js", "android", "ios"],
           },
         ],
@@ -1476,47 +1477,47 @@ const directory = {
         items: [
           {
             title: "Git-based deployments",
-            route: "/guides/hosting/git-based-deployments",
+            route: "/guides/guides/hosting/git-based-deployments",
             filters: ["js"],
           },
           {
             title: "Local deployments",
-            route: "/guides/hosting/local-deployments",
+            route: "/guides/guides/hosting/local-deployments",
             filters: ["js"],
           },
           {
             title: "Custom Domains",
-            route: "/guides/hosting/custom-domains",
+            route: "/guides/guides/hosting/custom-domains",
             filters: ["js"],
           },
           {
             title: "Password protected deployments",
-            route: "/guides/hosting/password-protected-deployments",
+            route: "/guides/guides/hosting/password-protected-deployments",
             filters: ["js"],
           },
           {
             title: "Pull-request previews",
-            route: "/guides/hosting/pull-request-previews",
+            route: "/guides/guides/hosting/pull-request-previews",
             filters: ["js"],
           },
           {
             title: "Gatsby",
-            route: "/guides/hosting/gatsby",
+            route: "/guides/guides/hosting/gatsby",
             filters: ["js"],
           },
           {
             title: "Next.js",
-            route: "guides/hosting/nextjs",
+            route: "/guides/guides/hosting/nextjs",
             filters: ["js"],
           },
           {
             title: "Gridsome",
-            route: "/guides/hosting/gridsome",
+            route: "/guides/guides/hosting/gridsome",
             filters: ["js"],
           },
           {
             title: "Nuxt.js",
-            route: "/guides/hosting/nuxt",
+            route: "/guides/guides/hosting/nuxt",
             filters: ["js"],
           },
         ],
@@ -1526,12 +1527,12 @@ const directory = {
         items: [
           {
             title: "Accessing Amazon Location Service",
-            route: "/guides/location-service/setting-up-your-app",
+            route: "/guides/guides/location-service/setting-up-your-app",
             filters: ["js", "android", "ios"],
           },
           {
             title: "Tracking a Device Location",
-            route: "/guides/location-service/tracking-device-location",
+            route: "/guides/guides/location-service/tracking-device-location",
             filters: ["android", "ios"],
           },
         ],
