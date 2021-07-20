@@ -1336,27 +1336,27 @@ const directory = {
           {
             title: "Building a Form API with GraphQL",
             route: "/guides/api-graphql/building-a-form-api",
-            filters: ["js"],
+            filters: ["js", "android", "ios"],
           },
           {
             title: "How to create GraphQL subscriptions by id",
             route: "/guides/api-graphql/subscriptions-by-id",
-            filters: ["js"],
+            filters: ["js", "android", "ios"],
           },
           {
             title: "GraphQL pagination",
             route: "/guides/api-graphql/graphql-pagination",
-            filters: ["js"],
+            filters: ["js", "android", "ios"],
           },
           {
             title: "GraphQL query with sorting by date",
             route: "/guides/api-graphql/query-with-sorting",
-            filters: ["js"],
+            filters: ["js", "android", "ios"],
           },
           {
             title: "How to use Lambda GraphQL Resolvers",
             route: "/guides/api-graphql/lambda-resolvers",
-            filters: ["js"],
+            filters: ["js", "android", "ios"],
           },
         ],
       },
@@ -1366,22 +1366,22 @@ const directory = {
           {
             title: "NodeJS API",
             route: "/guides/api-rest/node-api",
-            filters: ["js"],
+            filters: ["js", "android", "ios"],
           },
           {
             title: "Express Server",
             route: "/guides/api-rest/express-server",
-            filters: ["js"],
+            filters: ["js", "android", "ios"],
           },
           {
             title: "Go API",
             route: "/guides/api-rest/go-api",
-            filters: ["js"],
+            filters: ["js", "android", "ios"],
           },
           {
             title: "Python API",
             route: "/guides/api-rest/python-api",
-            filters: ["js"],
+            filters: ["js", "android", "ios"],
           },
         ],
       },
@@ -1410,6 +1410,16 @@ const directory = {
           },
         ],
       },
+      datastore: {
+        title: "Datastore",
+        items: [
+          {
+            title: "Parallel Processing",
+            route: "/guides/datastore/parallel-processing",
+            filters: ["ios"],
+          },
+        ],
+      },
       functions: {
         title: "Functions",
         items: [
@@ -1417,47 +1427,47 @@ const directory = {
             title:
               "Exporting AppSync operations to a Lambda layer for easy reuse",
             route: "/guides/functions/appsync-operations-to-lambda-layer",
-            filters: ["js"],
+            filters: ["js", "android", "ios"],
           },
           {
             title: "Connecting a REST API to a Lambda function",
             route: "/guides/functions/connecting-a-rest-api",
-            filters: ["js"],
+            filters: ["js", "android", "ios"],
           },
           {
             title: "Integrating DynamoDB with Lambda",
             route: "/guides/functions/integrating-dynamodb-with-lambda",
-            filters: ["js"],
+            filters: ["js", "android", "ios"],
           },
           {
             title: "Calling DynamoDB from Lambda in Node.js",
             route: "/guides/functions/dynamodb-from-js-lambda",
-            filters: ["js"],
+            filters: ["js", "android", "ios"],
           },
           {
             title: "Calling DynamoDB from a Lambda function in Python",
             route: "/guides/functions/dynamodb-from-python-lambda",
-            filters: ["js"],
+            filters: ["js", "android", "ios"],
           },
           {
             title: "Calling GraphQL API from a Lambda function",
             route: "/guides/functions/graphql-from-lambda",
-            filters: ["js"],
+            filters: ["js", "android", "ios"],
           },
           {
             title: "GraphQL Server in Lambda",
             route: "/guides/functions/graphql-server-in-lambda",
-            filters: ["js"],
+            filters: ["js", "android", "ios"],
           },
           {
             title: "Calling DynamoDB using AWS Cognito triggers",
             route: "/guides/functions/cognito-trigger-lambda-dynamodb",
-            filters: ["js"],
+            filters: ["js", "android", "ios"],
           },
           {
             title: "Configuring Lambda function settings",
             route: "/guides/functions/configuring-lambda",
-            filters: ["js"],
+            filters: ["js", "android", "ios"],
           },
         ],
       },
@@ -1517,7 +1527,12 @@ const directory = {
           {
             title: "Accessing Amazon Location Service",
             route: "/guides/location-service/setting-up-your-app",
-            filters: ["js"],
+            filters: ["js", "android", "ios"],
+          },
+          {
+            title: "Tracking a Device Location",
+            route: "/guides/location-service/tracking-device-location",
+            filters: ["android", "ios"],
           },
         ],
       },
