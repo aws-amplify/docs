@@ -1104,6 +1104,440 @@ const directory = {
       },
     },
   },
+  start: {
+    productRoot: {
+      title: "Getting started",
+      route: "/start",
+    },
+    items: {
+      start: {
+        title: "Getting started",
+        route: "/start/start",
+        filters: [
+          "js",
+          "react",
+          "react-native",
+          "angular",
+          "vue",
+          "next",
+          "android",
+          "ios",
+          "ionic",
+          "flutter",
+        ],
+        items: [],
+      },
+      tutorial: {
+        title: "Tutorial",
+        items: [
+          {
+            title: "Prerequisites",
+            route: "start/getting-started/installation",
+            filters: [
+              "js",
+              "react",
+              "react-native",
+              "angular",
+              "vue",
+              "next",
+              "android",
+              "ios",
+              "ionic",
+              "flutter",
+            ],
+          },
+          {
+            title: "Set up full stack project",
+            route: "/start/getting-started/setup",
+            filters: [
+              "js",
+              "react",
+              "react-native",
+              "angular",
+              "vue",
+              "next",
+              "android",
+              "ios",
+              "ionic",
+              "flutter",
+            ],
+          },
+          {
+            title: "Generate model files",
+            route: "/start/getting-started/generate-model",
+            filters: ["android", "ios", "ionic", "flutter"],
+          },
+          {
+            title: "Integrate your app",
+            route: "/start/getting-started/integrate",
+            filters: ["android", "ios", "ionic", "flutter"],
+          },
+          {
+            title: "Connect to the cloud",
+            route: "/start/getting-started/add-api",
+            filters: ["android", "ios", "ionic", "flutter"],
+          },
+          {
+            title: "Connect API and database to the app",
+            route: "/start/getting-started/data-model",
+            filters: [
+              "js",
+              "react",
+              "react-native",
+              "angular",
+              "vue",
+              "next",
+              "android",
+              "ios",
+              "ionic",
+              "flutter",
+            ],
+          },
+          {
+            title: "Add authentication",
+            route: "/start/getting-started/auth",
+            filters: ["react", "react-native", "angular", "vue"],
+          },
+          {
+            title: "Deploy and host app",
+            route: "/start/getting-started/hosting",
+            filters: [
+              "js",
+              "react",
+              "react-native",
+              "angular",
+              "vue",
+              "next",
+              "ionic",
+            ],
+          },
+          {
+            title: "Next steps",
+            route: "/start/getting-started/nextsteps",
+            filters: [
+              "js",
+              "react",
+              "react-native",
+              "angular",
+              "vue",
+              "next",
+              "android",
+              "ios",
+              "ionic",
+              "flutter",
+            ],
+          },
+        ],
+      },
+    },
+  },
+  console: {
+    productRoot: {
+      title: "Amplify Console",
+      route: "/console",
+    },
+    items: {
+      adminui: {
+        title: "Admin UI Basics",
+        items: [
+          {
+            title: "Introduction",
+            route: "/console/adminui/intro",
+          },
+          {
+            title: "Getting started",
+            route: "/console/adminui/start",
+          },
+          {
+            title: "Extend with the Amplify CLI",
+            route: "/console/adminui/extend-cli",
+          },
+          {
+            title: "Manage team access",
+            route: "/console/adminui/access-management",
+          },
+          {
+            title: "Custom domains",
+            route: "/console/adminui/custom-domain",
+          },
+        ],
+      },
+      data: {
+        title: "Data",
+        items: [
+          {
+            title: "Data modeling",
+            route: "/console/data/data-model",
+          },
+          {
+            title: "Relationships",
+            route: "/console/data/relationships",
+          },
+          {
+            title: "Content management",
+            route: "/console/data/content-management",
+          },
+          {
+            title: "Manage team access",
+            route: "/console/adminui/access-management",
+          },
+          {
+            title: "Custom domains",
+            route: "/console/adminui/custom-domain",
+          },
+        ],
+      },
+      auth: {
+        title: "Authentication",
+        items: [
+          {
+            title: "Authentication",
+            route: "/console/auth/authentication",
+          },
+          {
+            title: "Manage authentication for users and groups",
+            route: "/console/auth/user-management",
+          },
+          {
+            title: "Import Amazon Cognito resources",
+            route: "/console/auth/import",
+          },
+        ],
+      },
+      authz: {
+        title: "Authorization",
+        items: [
+          {
+            title: "Overview",
+            route: "/console/authz/authorization",
+          },
+          {
+            title: "Access control",
+            route: "/console/authz/permissions",
+          },
+        ],
+      },
+    },
+  },
+  guides: {
+    productRoot: {
+      title: "Guides",
+      route: "/guides",
+    },
+    items: {
+      "api-graphql": {
+        title: "API (GraphQL)",
+        items: [
+          {
+            title: "How to Manage Image & File Uploads & Downloads",
+            route: "/guides/api-graphql/image-and-file-uploads",
+            filters: ["js"],
+          },
+          {
+            title: "Building a Form API with GraphQL",
+            route: "/guides/api-graphql/building-a-form-api",
+            filters: ["js", "android", "ios"],
+          },
+          {
+            title: "How to create GraphQL subscriptions by id",
+            route: "/guides/api-graphql/subscriptions-by-id",
+            filters: ["js", "android", "ios"],
+          },
+          {
+            title: "GraphQL pagination",
+            route: "/guides/api-graphql/graphql-pagination",
+            filters: ["js", "android", "ios"],
+          },
+          {
+            title: "GraphQL query with sorting by date",
+            route: "/guides/api-graphql/query-with-sorting",
+            filters: ["js", "android", "ios"],
+          },
+          {
+            title: "How to use Lambda GraphQL Resolvers",
+            route: "/guides/api-graphql/lambda-resolvers",
+            filters: ["js", "android", "ios"],
+          },
+        ],
+      },
+      "api-rest": {
+        title: "API (REST)",
+        items: [
+          {
+            title: "NodeJS API",
+            route: "/guides/api-rest/node-api",
+            filters: ["js", "android", "ios"],
+          },
+          {
+            title: "Express Server",
+            route: "/guides/api-rest/express-server",
+            filters: ["js", "android", "ios"],
+          },
+          {
+            title: "Go API",
+            route: "/guides/api-rest/go-api",
+            filters: ["js", "android", "ios"],
+          },
+          {
+            title: "Python API",
+            route: "/guides/api-rest/python-api",
+            filters: ["js", "android", "ios"],
+          },
+        ],
+      },
+      authentication: {
+        title: "authentication",
+        items: [
+          {
+            title: "Creating a custom authentication flow",
+            route: "/guides/authentication/custom-auth-flow",
+            filters: ["js"],
+          },
+          {
+            title: "Email-only sign up and sign in",
+            route: "/guides/authentication/email-only-authentication",
+            filters: ["js"],
+          },
+          {
+            title: "Listening for authentication events",
+            route: "/guides/authentication/listening-for-auth-events",
+            filters: ["js"],
+          },
+          {
+            title: "Managing user attributes",
+            route: "/guides/authentication/managing-user-attributes",
+            filters: ["js"],
+          },
+        ],
+      },
+      datastore: {
+        title: "Datastore",
+        items: [
+          {
+            title: "Parallel Processing",
+            route: "/guides/datastore/parallel-processing",
+            filters: ["ios"],
+          },
+        ],
+      },
+      functions: {
+        title: "Functions",
+        items: [
+          {
+            title:
+              "Exporting AppSync operations to a Lambda layer for easy reuse",
+            route: "/guides/functions/appsync-operations-to-lambda-layer",
+            filters: ["js", "android", "ios"],
+          },
+          {
+            title: "Connecting a REST API to a Lambda function",
+            route: "/guides/functions/connecting-a-rest-api",
+            filters: ["js", "android", "ios"],
+          },
+          {
+            title: "Integrating DynamoDB with Lambda",
+            route: "/guides/functions/integrating-dynamodb-with-lambda",
+            filters: ["js", "android", "ios"],
+          },
+          {
+            title: "Calling DynamoDB from Lambda in Node.js",
+            route: "/guides/functions/dynamodb-from-js-lambda",
+            filters: ["js", "android", "ios"],
+          },
+          {
+            title: "Calling DynamoDB from a Lambda function in Python",
+            route: "/guides/functions/dynamodb-from-python-lambda",
+            filters: ["js", "android", "ios"],
+          },
+          {
+            title: "Calling GraphQL API from a Lambda function",
+            route: "/guides/functions/graphql-from-lambda",
+            filters: ["js", "android", "ios"],
+          },
+          {
+            title: "GraphQL Server in Lambda",
+            route: "/guides/functions/graphql-server-in-lambda",
+            filters: ["js", "android", "ios"],
+          },
+          {
+            title: "Calling DynamoDB using AWS Cognito triggers",
+            route: "/guides/functions/cognito-trigger-lambda-dynamodb",
+            filters: ["js", "android", "ios"],
+          },
+          {
+            title: "Configuring Lambda function settings",
+            route: "/guides/functions/configuring-lambda",
+            filters: ["js", "android", "ios"],
+          },
+        ],
+      },
+      hosting: {
+        title: "Hosting",
+        items: [
+          {
+            title: "Git-based deployments",
+            route: "/guides/hosting/git-based-deployments",
+            filters: ["js"],
+          },
+          {
+            title: "Local deployments",
+            route: "/guides/hosting/local-deployments",
+            filters: ["js"],
+          },
+          {
+            title: "Custom Domains",
+            route: "/guides/hosting/custom-domains",
+            filters: ["js"],
+          },
+          {
+            title: "Password protected deployments",
+            route: "/guides/hosting/password-protected-deployments",
+            filters: ["js"],
+          },
+          {
+            title: "Pull-request previews",
+            route: "/guides/hosting/pull-request-previews",
+            filters: ["js"],
+          },
+          {
+            title: "Gatsby",
+            route: "/guides/hosting/gatsby",
+            filters: ["js"],
+          },
+          {
+            title: "Next.js",
+            route: "guides/hosting/nextjs",
+            filters: ["js"],
+          },
+          {
+            title: "Gridsome",
+            route: "/guides/hosting/gridsome",
+            filters: ["js"],
+          },
+          {
+            title: "Nuxt.js",
+            route: "/guides/hosting/nuxt",
+            filters: ["js"],
+          },
+        ],
+      },
+      location: {
+        title: "Location",
+        items: [
+          {
+            title: "Accessing Amazon Location Service",
+            route: "/guides/location-service/setting-up-your-app",
+            filters: ["js", "android", "ios"],
+          },
+          {
+            title: "Tracking a Device Location",
+            route: "/guides/location-service/tracking-device-location",
+            filters: ["android", "ios"],
+          },
+        ],
+      },
+    },
+  },
 };
 
 module.exports = directory;

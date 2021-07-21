@@ -45,6 +45,7 @@ module.exports = withMDX({
     webpack5: true,
   },
   exportPathMap,
+  trailingSlash: true,
 });
 
 async function exportPathMap(
@@ -61,10 +62,77 @@ function generatePathMap(
     "/": {
       page: "/",
     },
+    "/404": {
+      page: "/404",
+    },
+    "/start/start/q/integration/js": {
+      page: "/start/start/q/integration/[integration]",
+    },
+    "/start/start/q/integration/react": {
+      page: "/start/start/q/integration/[integration]",
+    },
+    "/start/start/q/integration/angular": {
+      page: "/start/start/q/integration/[integration]",
+    },
+    "/start/start/q/integration/vue": {
+      page: "/start/start/q/integration/[integration]",
+    },
+    "/start/start/q/integration/next": {
+      page: "/start/start/q/integration/[integration]",
+    },
+    "/start/start/q/integration/android": {
+      page: "/start/start/q/integration/[integration]",
+    },
+    "/start/start/q/integration/react-native": {
+      page: "/start/start/q/integration/[integration]",
+    },
+    "/start/start/q/integration/ionic": {
+      page: "/start/start/q/integration/[integration]",
+    },
+    "/start/start/q/integration/ios": {
+      page: "/start/start/q/integration/[integration]",
+    },
+    "/start/start/q/integration/flutter": {
+      page: "/start/start/q/integration/[integration]",
+    },
+    "/ui/q/framework/react": {
+      page: "/ui/q/framework/[framework]",
+    },
+    "/ui/q/framework/react-native": {
+      page: "/ui/q/framework/[framework]",
+    },
+    "/ui/q/framework/angular": {
+      page: "/ui/q/framework/[framework]",
+    },
+    "/ui/q/framework/vue": {
+      page: "/ui/q/framework/[framework]",
+    },
+    "/ui/q/framework/ionic": {
+      page: "/ui/q/framework/[framework]",
+    },
+    "/ui/q/framework/next": {
+      page: "/ui/q/framework/[framework]",
+    },
   },
 ) {
   for (const [_, value] of Object.entries(obj)) {
-    const {items, filters, route} = value;
+    const {items, filters, route, productRoot} = value;
+
+    if (productRoot) {
+      const {route} = productRoot;
+      let page = route;
+      if (route === "/cli") {
+        page = "/cli/cli";
+      }
+
+      if (route === "/console") {
+        page = "/console/console";
+      }
+
+      pathMap[route] = {
+        page,
+      };
+    }
 
     if (items) {
       generatePathMap(items, pathMap);
@@ -109,8 +177,6 @@ function generatePathMap(
     }
 
     filters.forEach((filter) => {
-      const query = {};
-      query[routeType] = filter;
       pathMap[route + "/q/" + routeType + "/" + filter] = {
         page: `${route}/q/${routeType}/[${routeType}]`,
       };

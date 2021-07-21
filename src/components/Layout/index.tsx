@@ -18,6 +18,7 @@ import {
 } from "../../utils/getLocalDirectory";
 import SidebarLayoutToggle from "../SidebarLayoutToggle";
 import {useRef} from "react";
+import {MQTablet} from "../media";
 
 export default function Layout({children, meta}: {children: any; meta?: any}) {
   const router = useRouter();
@@ -134,6 +135,10 @@ function metaContent({
   href,
 }) {
   const menuRef = useRef(null);
+  // Slice off the "@media " string at the start for use in JS instead of CSS
+  const MQTabletJS = MQTablet.substring(6);
+  // If the media query matches, then the user is on desktop and should not see the mobile toggle
+  const onDesktop = window.matchMedia(MQTabletJS).matches;
   return (
     <>
       <Menu
@@ -152,10 +157,12 @@ function metaContent({
         </CodeBlockProvider>
       </ContentStyle>
       <TableOfContents title={title}>{headers}</TableOfContents>
-      <SidebarLayoutToggle menuRef={menuRef}>
-        <img className="burger-graphic" src="/assets/burger.svg" />
-        <img className="ex-graphic" src="/assets/close.svg" />
-      </SidebarLayoutToggle>
+      {!onDesktop && (
+        <SidebarLayoutToggle menuRef={menuRef}>
+          <img className="burger-graphic" src="/assets/burger.svg" />
+          <img className="ex-graphic" src="/assets/close.svg" />
+        </SidebarLayoutToggle>
+      )}
     </>
   );
 }

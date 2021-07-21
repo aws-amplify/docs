@@ -71,16 +71,18 @@ class FilterSelect extends React.Component<
 
     return (
       <FilterSelectStyle ref={this.wrapperRef}>
-        <CurrentlySelectedStyle>
-          <a onClick={this.toggleVis}>
-            <img
-              src={filterMetadataByOption[this.props.filterKey]?.graphicURI}
-              height="28px"
-              width="28px"
-            />
-            <span>{filterMetadataByOption[this.props.filterKey]?.label}</span>
-          </a>
-        </CurrentlySelectedStyle>
+        {filterMetadataByOption[this.props.filterKey] && (
+          <CurrentlySelectedStyle>
+            <a onClick={this.toggleVis}>
+              <img
+                src={filterMetadataByOption[this.props.filterKey]?.graphicURI}
+                height="28px"
+                width="28px"
+              />
+              <span>{filterMetadataByOption[this.props.filterKey]?.label}</span>
+            </a>
+          </CurrentlySelectedStyle>
+        )}
         <DropdownStyle shouldDisplay={this.state.isOpen}>
           {this.props.filters.map((name) => {
             if (name === this.props.filterKey) return;
