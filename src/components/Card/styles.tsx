@@ -83,6 +83,21 @@ export const Card = styled(docsCard)`
     }
   }
 
+  h4 {
+    color: var(--font-color);
+  }
+
+  p {
+    margin-top: 0.25em;
+    color: var(--font-color-secondary);
+    font-size: 0.875rem;
+  }
+
+  p:hover,
+  h4:hover {
+    opacity: 0.8;
+  }
+
   * {
     cursor: pointer;
   }
