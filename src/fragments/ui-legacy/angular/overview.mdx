@@ -62,7 +62,6 @@ The 'aws-amplify-angular' package allows you to access the Amplify JS library as
 
 Option 1 is appropriate when you plan to use every Amplify JS module or if you are not concerned about bundle size.  Option 2 is appropriate when bundle size is a concern.  
 
-
 ### Option 1: Configuring the Amplify provider with every Amplify JS module
 
 Import the configuration file and load it in `main.ts`: 
@@ -72,7 +71,6 @@ import Amplify from 'aws-amplify';
 import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
 ```
-
 
 In your [app module](https://angular.io/guide/bootstrapping) `src/app/app.module.ts` import the Amplify Module and Service:
 

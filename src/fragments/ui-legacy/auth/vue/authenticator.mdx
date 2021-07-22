@@ -6,7 +6,6 @@ The Authenticator component provides basic login/logout functionality for your a
 * ConfirmSignUp
 * ForgotPassword
 
-
 Usage: ```<amplify-authenticator></amplify-authenticator>```
 
 Config: 
@@ -26,7 +25,6 @@ Config:
 
 &ast; The attributes above reference the config objects for the components that are nested inside Authenticator.  See the individual components for details. 
 
-
 Events: None
 
 ### SignIn
@@ -40,11 +38,9 @@ Config:
 <amplify-sign-in v-bind:signInConfig="signInConfig"></amplify-sign-in>
 ```
 
+import vue0 from "/src/fragments/ui-legacy/sign-in-attributes.mdx";
 
-
-import vue1e0c9eba855f29af98e75cb60252819603 from "/src/fragments/ui-legacy/sign-in-attributes.mdx";
-
-<Fragments fragments={{vue: vue1e0c9eba855f29af98e75cb60252819603}} />
+<Fragments fragments={{vue: vue0}} />
 
 Events: 
 
@@ -64,18 +60,14 @@ Config:
 <amplify-confirm-sign-in v-bind:confirmSignInConfig="confirmSignInConfig"></amplify-confirm-sign-in>
 ```
 
+import vue1 from "/src/fragments/ui-legacy/confirm-sign-in-attributes.mdx";
 
-
-import vueaa2959dab5a829f588ef3ac866e1f15fb8 from "/src/fragments/ui-legacy/confirm-sign-in-attributes.mdx";
-
-<Fragments fragments={{vue: vueaa2959dab5a829f588ef3ac866e1f15fb8}} />
-
+<Fragments fragments={{vue: vue1}} />
 
 Events: 
 
 * ```AmplifyEventBus.$emit('authState', 'signedIn')```: Emitted when a user successfully answers their MFA challenge.
 * ```AmplifyEventBus.$emit('authState', 'signIn');```: Emitted when a user clicks 'Back to Sign In'.
-
 
 ### SignUp
 
@@ -88,11 +80,9 @@ Config:
 <amplify-sign-up v-bind:signUpConfig="signUpConfig"></amplify-sign-up>
 ```
 
+import vue2 from "/src/fragments/ui-legacy/sign-up-attributes.mdx";
 
-
-import vued84d5282e6afc73d8b61bd02f4e18b4d0d from "/src/fragments/ui-legacy/sign-up-attributes.mdx";
-
-<Fragments fragments={{vue: vued84d5282e6afc73d8b61bd02f4e18b4d0d}} />
+<Fragments fragments={{vue: vue2}} />
 
 The signUpFields array in turn consist of an array of objects, each describing a field that will appear in sign up form that your users fill out (see below).
 
@@ -100,7 +90,6 @@ Events:
 
 * ```AmplifyEventBus.$emit('authState', 'confirmSignUp')```: Emitted when a user successfully enters their information but has not yet completed a required verification step.
 * ```AmplifyEventBus.$emit('authState', 'signIn')```: Emitted when a user successfully provides their information and does not need to complete a required verification step, or when they click 'Back to Sign In'.
-
 
 ### ConfirmSignUp
 
@@ -113,12 +102,9 @@ Config:
 <amplify-confirm-sign-up v-bind:confirmSignUpConfig="confirmSignUpConfig"></amplify-confirm-sign-up>
 ```
 
+import vue3 from "/src/fragments/ui-legacy/confirm-sign-up-attributes.mdx";
 
-
-import vue5fef4e2f61493bca1328cb89375df85be9 from "/src/fragments/ui-legacy/confirm-sign-up-attributes.mdx";
-
-<Fragments fragments={{vue: vue5fef4e2f61493bca1328cb89375df85be9}} />
-
+<Fragments fragments={{vue: vue3}} />
 
 Events: 
 
@@ -135,12 +121,9 @@ Config:
 <amplify-forgot-password v-bind:forgotPasswordConfig="forgotPasswordConfig"></amplify-forgot-password>
 ```
 
+import vue4 from "/src/fragments/ui-legacy/forgot-password-attributes.mdx";
 
-
-import vue8b4b3d74f6ae7f654e0652b160d8ded5d0 from "/src/fragments/ui-legacy/forgot-password-attributes.mdx";
-
-<Fragments fragments={{vue: vue8b4b3d74f6ae7f654e0652b160d8ded5d0}} />
-
+<Fragments fragments={{vue: vue4}} />
 
 Events: 
 
@@ -157,12 +140,9 @@ Config:
 <amplify-sign-out v-bind:signOutConfig="signOutConfig"></amplify-sign-out>
 ```
 
+import vue5 from "/src/fragments/ui-legacy/sign-out-attributes.mdx";
 
-
-import vuec06d73f20f1644cc5d7fd42925a937ff07 from "/src/fragments/ui-legacy/sign-out-attributes.mdx";
-
-<Fragments fragments={{vue: vuec06d73f20f1644cc5d7fd42925a937ff07}} />
-
+<Fragments fragments={{vue: vue5}} />
 
 Events: 
 
@@ -179,12 +159,9 @@ Config:
 <amplify-set-mfa v-bind:mfaConfig="mfaConfig"></amplify-set-mfa>
 ```
 
+import vue6 from "/src/fragments/ui-legacy/set-mfa-attributes.mdx";
 
-
-import vueb06889bd16e552dfcf21cbf82adf961b5c from "/src/fragments/ui-legacy/set-mfa-attributes.mdx";
-
-<Fragments fragments={{vue: vueb06889bd16e552dfcf21cbf82adf961b5c}} />
-
+<Fragments fragments={{vue: vue6}} />
 
 Events: None
 
@@ -200,10 +177,9 @@ Usage:
 
 #### SignUp Field Attributes
 
+import vue7 from "/src/fragments/ui-legacy/sign-up-fields.mdx";
 
-import vuea432702184b101b6a20f139025e147d010 from "/src/fragments/ui-legacy/sign-up-fields.mdx";
-
-<Fragments fragments={{vue: vuea432702184b101b6a20f139025e147d010}} />
+<Fragments fragments={{vue: vue7}} />
 
 The following example will replace all the default sign up fields with the ones defined in the `signUpFields` array. It will also indicate that the `Email` field will be used to sign up with.
 

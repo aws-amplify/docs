@@ -3,8 +3,6 @@ export const meta = {
   description: "Install the CLI without npm and use the CLI without an AWS account",
 };
 
-
-
 All backends created in the Admin UI are deployed using AWS CloudFormation. AWS CloudFormation allows you store your backend configuration as code in your repository. This has three major benefits:
 
 1. Ability to extend a project with capabilities offered by individual services (e.g. Cognito, DynamoDB) that are not available in Amplify.
@@ -16,7 +14,6 @@ All backend infrastructure-as-code definitions can be added to your project with
 With the launch of the Admin UI, a new CLI feature is available that enables the use of the CLI without an AWS account. This allows you to use the Amplify CLI's features without the need to configure it with AWS Identity and Access Management (IAM). Changes made in the Admin UI can be made available in the CLI by running the `amplify pull` command. Similarly, CLI changes to the data model or auth will be visible in the Admin UI. For all other categories, the Admin UI provides links to the relevant service consoles in AWS.
 
 ![autologin](/images/console/cli-autologin.gif)
-
 
 ## To install the Amplify CLI
 1. Open a terminal window.
@@ -46,11 +43,9 @@ Successfully received Amplify Admin tokens.
 ```
 The Amplify CLI is now configured and you can use it to provision new cloud backend features. 
 
-
 ## Adding features with the Amplify CLI
 
 The Admin UI **Set up** menu lists cloud backend features such as functions, storage, and APIs that you can add to your app using the CLI. For each backend resource, the Admin UI displays the CLI commands to run in your terminal window. 
-
 
 1. In the Admin UI, on the **Set up** menu, choose **Storage** or **Functions**.
 2. On the **Storage** page, under **Pull your Amplify project**, copy the following command and run it in your terminal window. 

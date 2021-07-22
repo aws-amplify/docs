@@ -3,8 +3,6 @@ export const meta = {
   description: "Lambda triggers are useful for adding functionality during certain lifecycles of the user's journey. Associate a Lambda trigger with an auth scenario, S3 bucket, DynamoDB table or Kinesis Stream managed through the Amplify CLI.",
 };
 
-
-
 Lambda triggers are useful for adding functionality during certain lifecycles of the user's journey. Amplify ships common trigger templates which you can enable and modify (if necessary) through a few simple questions.
 
 ## Cognito Lambda Triggers
@@ -96,7 +94,6 @@ import awsconfig from './aws-exports';
 import { Authenticator, SignUp, SignIn, Greetings, ConfirmSignUp, AuthPiece } from 'aws-amplify-react';
 import ReCAPTCHA from "react-google-recaptcha";
 
-
 Amplify.configure({
   Auth: {
     identityPoolId: awsconfig.aws_cognito_identity_pool_id,
@@ -176,7 +173,6 @@ import { AppComponent } from './app.component';
 import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
 import { RecaptchaModule } from 'ng-recaptcha';
 import { FormsModule } from '@angular/forms';
-
 
 @NgModule({
   declarations: [
@@ -263,7 +259,6 @@ App.vue
 import { components } from 'aws-amplify-vue'
 import { AmplifyEventBus } from 'aws-amplify-vue';
 import VueRecaptcha from 'vue-recaptcha';
-
 
 export default {
   name: 'app',
@@ -471,7 +466,6 @@ The following is an example of how to configure the aws-amplify-vue authenticato
 import { components } from 'aws-amplify-vue'
 import { AmplifyEventBus } from 'aws-amplify-vue';
 import VueRecaptcha from 'vue-recaptcha';
-
 
 export default {
   name: 'app',

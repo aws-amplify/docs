@@ -289,3 +289,24 @@ You can edit VTL templates locally to see if they contain errors, including the 
 ```console
 Reloading failed Error: Parse error on line 1:
 ...son($context.result
+----------------------^
+```
+
+If you stop the server locally, for instance to push your changes to the cloud, all of the templates in the `../APINAME/resolvers` directory will be removed except for any that you modified. When you subsequently push to the cloud these local changes will be merged with your AppSync API.
+
+### Modify schema and test again
+
+As you are developing your app, you can always modify the GraphQL schema which lives in `amplify/backend/api/APINAME/schema.graphql`. You can modify any types using any of the supported directives and save this file, while the local server is still running. The changes will be detected and if your schema is valid they will be hot reloaded into the local API. If there is an error in the schema an error will be printed to the terminal like so:
+
+```console
+Unknown directive "mode".
+
+GraphQL request (1:11)
+1: type Todo @mode{
+             ^
+2:   id: ID!
+
+    at GraphQLTransform.transform
+```
+
+Amplify libraries when configured for these categories can use the local mocked endpoints for testing your application. When a mock endpoint is running the CLI will update your `aws-exports.js` or `awsconfiguration.json` to use the mock server and once stopped they will be updated to use the cloud endpoint once you have run an `amplify push`.

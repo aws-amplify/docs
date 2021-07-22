@@ -3,8 +3,6 @@ export const meta = {
   description: "How to create a custom GraphQL subscription that will listen by id",
 };
 
-
-
 In this guide you will learn how to create a custom GraphQL subscription that will only by connected and triggered by a mutation containing a specific ID as an argument.
 
 When using the Amplify GraphQL transform library, there will often be times when you need to expand the GraphQL schema and operations created by the `@model` directive. A common use case is when fine grained control is needed for GraphQL subscriptions.
@@ -66,18 +64,14 @@ type Subscription {
 
 ```
 
+import ios0 from "/src/fragments/guides/api-graphql/ios/subscriptions-by-id.mdx";
 
+<Fragments fragments={{ios: ios0}} />
 
-import ioscc0c041d335e4232e1e260c8bb39b05220 from "/src/fragments/guides/api-graphql/ios/subscriptions-by-id.mdx";
+import js1 from "/src/fragments/guides/api-graphql/js/subscriptions-by-id.mdx";
 
-<Fragments fragments={{ios: ioscc0c041d335e4232e1e260c8bb39b05220}} />
+<Fragments fragments={{js: js1}} />
 
+import android2 from "/src/fragments/guides/api-graphql/android/subscriptions-by-id.mdx";
 
-import js639d13da749c28c0ef382bafae3793dcb0 from "/src/fragments/guides/api-graphql/js/subscriptions-by-id.mdx";
-
-<Fragments fragments={{js: js639d13da749c28c0ef382bafae3793dcb0}} />
-
-
-import android4276fcf560cf09724e76e61f1477ec6250 from "/src/fragments/guides/api-graphql/android/subscriptions-by-id.mdx";
-
-<Fragments fragments={{android: android4276fcf560cf09724e76e61f1477ec6250}} />
+<Fragments fragments={{android: android2}} />

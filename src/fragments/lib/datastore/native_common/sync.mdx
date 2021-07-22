@@ -13,21 +13,17 @@ Synchronization between offline and online data can be tricky. DataStore goal is
 
 The next step is to make sure the local saved data is synchronized with a cloud backend powered by [AWS AppSync](https://aws.amazon.com/appsync/).
 
+import ios0 from "/src/fragments/lib/datastore/ios/sync/10-installPlugin.mdx";
 
+<Fragments fragments={{ios: ios0}} />
 
-import ios09190d566fc8bdf41010ee07e503a32d7d from "/src/fragments/lib/datastore/ios/sync/10-installPlugin.mdx";
+import android1 from "/src/fragments/lib/datastore/android/sync/10-installPlugin.mdx";
 
-<Fragments fragments={{ios: ios09190d566fc8bdf41010ee07e503a32d7d}} />
+<Fragments fragments={{android: android1}} />
 
+import flutter2 from "/src/fragments/lib/datastore/flutter/sync/10-installPlugin.mdx";
 
-import androidb3a3e3aaf5d2c336bc76998013ca2e587d from "/src/fragments/lib/datastore/android/sync/10-installPlugin.mdx";
-
-<Fragments fragments={{android: androidb3a3e3aaf5d2c336bc76998013ca2e587d}} />
-
-
-import flutter60f4a8cb25acdee0ddae97284e9f5f1d28 from "/src/fragments/lib/datastore/flutter/sync/10-installPlugin.mdx";
-
-<Fragments fragments={{flutter: flutter60f4a8cb25acdee0ddae97284e9f5f1d28}} />
+<Fragments fragments={{flutter: flutter2}} />
 
 ### Push the backend to the cloud
 
@@ -71,21 +67,17 @@ DataStore can connect to an existing AWS AppSync backend that has been deployed 
 
 For more information on this workflow please see the [Multiple Frontends documentation](/cli/teams/multi-frontend).
 
+import js3 from "/src/fragments/lib/datastore/native_common/sync-distributed-data.mdx";
 
+<Fragments fragments={{js: js3}} />
 
-import jsd2bda95b54631e7678a9202741a53ef247 from "/src/fragments/lib/datastore/native_common/sync-distributed-data.mdx";
+import ios4 from "/src/fragments/lib/datastore/native_common/sync-distributed-data.mdx";
 
-<Fragments fragments={{js: jsd2bda95b54631e7678a9202741a53ef247}} />
+<Fragments fragments={{ios: ios4}} />
 
+import android5 from "/src/fragments/lib/datastore/native_common/sync-distributed-data.mdx";
 
-import iosd2bda95b54631e7678a9202741a53ef236 from "/src/fragments/lib/datastore/native_common/sync-distributed-data.mdx";
-
-<Fragments fragments={{ios: iosd2bda95b54631e7678a9202741a53ef236}} />
-
-
-import androidd2bda95b54631e7678a9202741a53ef260 from "/src/fragments/lib/datastore/native_common/sync-distributed-data.mdx";
-
-<Fragments fragments={{android: androidd2bda95b54631e7678a9202741a53ef260}} />
+<Fragments fragments={{android: android5}} />
 
 ## Clear local data
 
@@ -99,41 +91,32 @@ One common use for `clear()` is to manage different users sharing the same devic
 
 </Callout>
 
+import js6 from "/src/fragments/lib/datastore/js/sync/40-clear.mdx";
 
+<Fragments fragments={{js: js6}} />
 
-import jsdbc79b8e96ec874da5bcbb683964b18854 from "/src/fragments/lib/datastore/js/sync/40-clear.mdx";
+import ios7 from "/src/fragments/lib/datastore/ios/sync/40-clear.mdx";
 
-<Fragments fragments={{js: jsdbc79b8e96ec874da5bcbb683964b18854}} />
+<Fragments fragments={{ios: ios7}} />
 
+import android8 from "/src/fragments/lib/datastore/android/sync/40-clear.mdx";
 
-import iosb55ba94a74230607e69eb875920c668653 from "/src/fragments/lib/datastore/ios/sync/40-clear.mdx";
+<Fragments fragments={{android: android8}} />
 
-<Fragments fragments={{ios: iosb55ba94a74230607e69eb875920c668653}} />
+import flutter9 from "/src/fragments/lib/datastore/flutter/sync/40-clear.mdx";
 
-
-import androidefbab35425be5807bccc0a53fd30b0020c from "/src/fragments/lib/datastore/android/sync/40-clear.mdx";
-
-<Fragments fragments={{android: androidefbab35425be5807bccc0a53fd30b0020c}} />
-
-
-import flutter899837b5a769c26ea6cdc85d53b5a56626 from "/src/fragments/lib/datastore/flutter/sync/40-clear.mdx";
-
-<Fragments fragments={{flutter: flutter899837b5a769c26ea6cdc85d53b5a56626}} />
+<Fragments fragments={{flutter: flutter9}} />
 
 This is a simple yet effective example. However, in a real scenario you might want to only call `clear()` when a different user is `signedIn` in order to avoid clearing the database for a repeated sign-in of the same user.
 
+import js10 from "/src/fragments/lib/datastore/js/sync/50-selectiveSync.mdx";
 
+<Fragments fragments={{js: js10}} />
 
-import jsfdc82e596d858b6a3085b9192fefbf0952 from "/src/fragments/lib/datastore/js/sync/50-selectiveSync.mdx";
+import android11 from "/src/fragments/lib/datastore/android/sync/50-selectiveSync.mdx";
 
-<Fragments fragments={{js: jsfdc82e596d858b6a3085b9192fefbf0952}} />
+<Fragments fragments={{android: android11}} />
 
+import ios12 from "/src/fragments/lib/datastore/ios/sync/50-selectiveSync.mdx";
 
-import androide561b4a0bcf218ea063435769ed47a5afe from "/src/fragments/lib/datastore/android/sync/50-selectiveSync.mdx";
-
-<Fragments fragments={{android: androide561b4a0bcf218ea063435769ed47a5afe}} />
-
-
-import iosf1b49a9a2b535e865a0a26dbad867c4079 from "/src/fragments/lib/datastore/ios/sync/50-selectiveSync.mdx";
-
-<Fragments fragments={{ios: iosf1b49a9a2b535e865a0a26dbad867c4079}} />
+<Fragments fragments={{ios: ios12}} />
