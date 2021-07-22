@@ -180,7 +180,6 @@ subscription Subscription {
 }
 ```
 
-
 Define the queries from above in a `./graphql/DeltaSync.js` file to import in your app:
 
 ```javascript
@@ -225,7 +224,6 @@ export const DeltaSync = gql`query Delta($lastSync: AWSTimestamp!) {
   }
 }`;
 ```
-
 
 ```typescript
 import { AWSAppSyncClient, buildSync } from "aws-appsync";

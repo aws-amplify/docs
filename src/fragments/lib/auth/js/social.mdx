@@ -4,11 +4,9 @@
 
 OAuth support in Amplify uses Cognito User Pools and supports federation with social providers, which will automatically create a corresponding user in the User Pool after a login. [OIDC](https://en.wikipedia.org/wiki/OpenID_Connect) tokens are available in the app after the application has completed this process.
 
+import all0 from "/src/fragments/lib/auth/common/social_signin_web_ui/setup_auth_provider.mdx";
 
-
-import all2e70131c515d7c79b395ad55f158878b6d from "/src/fragments/lib/auth/common/social_signin_web_ui/setup_auth_provider.mdx";
-
-<Fragments fragments={{all: all2e70131c515d7c79b395ad55f158878b6d}} />
+<Fragments fragments={{all: all0}} />
 
 ## Configure Auth Category
 
@@ -124,11 +122,9 @@ For React Native applications, You need to define a custom URL scheme for your a
 </application>
 ```
 
+import all1 from "/src/fragments/lib/auth/common/social_signin_web_ui/configure_auth_category.mdx";
 
-
-import allad64a0db003752df441f9349f18f171516 from "/src/fragments/lib/auth/common/social_signin_web_ui/configure_auth_category.mdx";
-
-<Fragments fragments={{all: allad64a0db003752df441f9349f18f171516}} />
+<Fragments fragments={{all: all1}} />
 
 ### Known Limitations
 When using the federated OAuth flow with Cognito User Pools, the [device tracking and remembering](https://aws.amazon.com/blogs/mobile/tracking-and-remembering-devices-using-amazon-cognito-your-user-pools/) features are currently not available within the library. If you are looking for this feature within the library, please open a feature request [here](https://github.com/aws-amplify/amplify-js/issues/new?assignees=&labels=feature-request&template=feature_request.md&title=) and provide upvotes in order for us to take this into consideration for the future of the library.
@@ -340,11 +336,9 @@ function App() {
 export default App;
 ```
 
+import all2 from "/src/fragments/lib/auth/js/react-native-withoauth.mdx";
 
-
-import all60fb4bc0e1a2b325391d55bcb3b478061e from "/src/fragments/lib/auth/js/react-native-withoauth.mdx";
-
-<Fragments fragments={{all: all60fb4bc0e1a2b325391d55bcb3b478061e}} />
+<Fragments fragments={{all: all2}} />
 
 </CodeBlock>
 
@@ -427,11 +421,9 @@ export default App;
 
 ```
 
+import all3 from "/src/fragments/lib/auth/js/react-native-withoauth.mdx";
 
-
-import all60fb4bc0e1a2b325391d55bcb3b478062b from "/src/fragments/lib/auth/js/react-native-withoauth.mdx";
-
-<Fragments fragments={{all: all60fb4bc0e1a2b325391d55bcb3b478062b}} />
+<Fragments fragments={{all: all3}} />
 
 </CodeBlock>
 

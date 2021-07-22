@@ -37,7 +37,6 @@ Once the deployment completes a folder with the name of your API's resource name
 
 Add the following to your `app/build.gradle`:
 
-
 ```groovy
 	dependencies {
 		implementation 'com.amazonaws:aws-android-sdk-apigateway-core:2.15.+'
@@ -47,7 +46,6 @@ Add the following to your `app/build.gradle`:
 ```
 
 Build your project. Next, you will need to import the client that was generated in `./src/main/java` when you ran `amplify push`. For example, an app named `useamplify` with an API resource named `xyz123`, the path of the code file will be `./src/main/java/xyz123/useamplifyabcdClient.java`. The API client name will be `useamplifyabcdClient`. You would have the following entries in your code:
-
 
 ```java
 import YOUR_API_RESOURCE_NAME.YOUR_APP_NAME_XXXXClient;
@@ -64,7 +62,6 @@ Find the resource name of your API by running `amplify status`. Copy your API cl
 ### IAM authorization
 
 To invoke an API Gateway endpoint from your application, import the generated client as outlined in the last section and use the generated client class, model, and resource paths as in the below example with `YOUR_API_RESOURCE_NAME.YOUR_APP_NAME_XXXXClient`, `YOUR_APP_NAME_XXXXClient`, and `YOUR_API_CLIENT_NAME` replaced appropriately. For AWS IAM authorization use the `AWSMobileClient` as outlined in [the authentication section](/sdk/auth/getting-started).
-
 
 ```java
     import android.support.v7.app.AppCompatActivity;
@@ -106,7 +103,6 @@ To invoke an API Gateway endpoint from your application, import the generated cl
                     Log.d(TAG, "AWSMobileClient is instantiated and you are connected to AWS!");
                 }
             }).execute();
-
 
             // Create the client
             apiClient = new ApiClientFactory()

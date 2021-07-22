@@ -3,8 +3,6 @@ export const meta = {
   description: "How to deploy an Express server to AWS using AWS Amplify",
 };
 
-
-
 In this guide you'll learn how to deploy an [Express](https://expressjs.com/) web server complete with routing.
 
 ### Initializing the Amplify project
@@ -90,21 +88,17 @@ To deploy the API and function, we can run the `push` command:
 amplify push
 ```
 
+import js0 from "/src/fragments/guides/api-rest/js/express-api-call.mdx";
 
+<Fragments fragments={{js: js0}} />
 
-import jsb5c3ee1c155bd05618cb48467b051b5052 from "/src/fragments/guides/api-rest/js/express-api-call.mdx";
+import ios1 from "/src/fragments/guides/api-rest/ios/express-api-call.mdx";
 
-<Fragments fragments={{js: jsb5c3ee1c155bd05618cb48467b051b5052}} />
+<Fragments fragments={{ios: ios1}} />
 
+import android2 from "/src/fragments/guides/api-rest/android/express-api-call.mdx";
 
-import ios9857b854e26f031284fe7e4c92d1591215 from "/src/fragments/guides/api-rest/ios/express-api-call.mdx";
-
-<Fragments fragments={{ios: ios9857b854e26f031284fe7e4c92d1591215}} />
-
-
-import android18a0f0df371bea2a3c2a4baf24fe476e98 from "/src/fragments/guides/api-rest/android/express-api-call.mdx";
-
-<Fragments fragments={{android: android18a0f0df371bea2a3c2a4baf24fe476e98}} />
+<Fragments fragments={{android: android2}} />
 
 From here, you may want to add additional path. To do so, run the update command:
 

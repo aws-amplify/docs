@@ -30,7 +30,6 @@ async function makeAPICall() {
 }
 const promise = makeAPICall();
 
-
 // The following will NOT cancel the request.
 API.cancel(promise, "my error message");
 ```

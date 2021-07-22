@@ -38,8 +38,6 @@ On the Analytics page in the console, the Events tab displays metrics for all cu
 
 Use the following steps to implement Amazon Pinpoint custom analytics for your app.
 
-
-
 ```java
 import com.amazonaws.mobileconnectors.pinpoint.analytics.AnalyticsEvent;
 
@@ -58,7 +56,6 @@ public void logEvent() {
 ```
 
 Build, run, and use your app. Then, view your custom events on the Events tab of the Amazon Pinpoint console (choose Analytics>Events). Look for the name of your event in the Events menu.
-
 
 ## Monetization events
 
@@ -86,7 +83,6 @@ public void logMonetizationEvent() {
     pinpointManager.getAnalyticsClient().submitEvents();
 }
 ```
-
 
 ## Authentication events
 Indicate how frequently users authenticate with your application.
@@ -118,7 +114,6 @@ Amazon Cognito user pools are user directories that make it easier to add sign-u
 **Reporting authentication events by using the Amazon Pinpoint client that’s provided by the AWS Mobile SDK for Android.**
 
 If you don’t want to use Amazon Cognito user pools, you can use the Amazon Pinpoint client to record and submit authentication events, as shown in the following examples. In these examples, the event type is set to `_userauth.sign_in`, but you can substitute any authentication event type.
-
 
 ```java
 import com.amazonaws.mobileconnectors.pinpoint.analytics.AnalyticsEvent;
@@ -181,7 +176,6 @@ public void logMonetizationEvent() {
     pinpointManager.getAnalyticsClient().recordEvent(event);
 }
 ```
-
 
 ## Event Ingestion Limits
 

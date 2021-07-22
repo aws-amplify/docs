@@ -16,7 +16,6 @@ The AWS SDKs support configuration through a centralized file called `awsconfigu
 
 * If you are creating your API with the Amplify CLI (using `amplify add api`), the `awsconfiguration.json` file is automatically downloaded and updated each time you run `amplify push` to update your cloud resources. The file is placed in the root directory of your iOS project, and you need to add it to your Xcode project.
 
-
 ### Code Generation
 
 To execute GraphQL operations in iOS you need to run a code generation process, which requires both the GraphQL schema and the statements (for example, queries, mutations, or subscriptions) that your client defines. The Amplify CLI toolchain helps you do this by automatically pulling down your schema and generating default GraphQL queries, mutations, and subscriptions before kicking off the code generation process. If your client requirements change, you can alter these GraphQL statements and regenerate your types.
@@ -241,7 +240,6 @@ do {
 ```
 
 Like mutations, subscriptions can also take input types, in which case they will be subscribing to particular events based on the input. To learn more about subscription arguments, see [AWS AppSync Subscription Arguments](https://docs.aws.amazon.com/appsync/latest/devguide/real-time-data.html#using-subscription-arguments).
-
 
 ### Mocking and Local Testing
 

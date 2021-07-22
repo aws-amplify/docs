@@ -84,7 +84,6 @@ Your `amplifyconfiguration.json` should contain Cognito configuration in the `aw
 
 With this configuration, your access token will automatically be included in outbound requests to your API, as an `Authorization` header. For more details on how to configure the API Gateway with the custom authorization, see [this](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-integrate-with-cognito.html)
 
-
 ## OIDC
 
 If you are using a 3rd party OIDC provider you will need to configure it and manage the details of token refreshes yourself. Update the `amplifyconfiguration.json` file and code snippet as follows:
@@ -103,16 +102,13 @@ If you are using a 3rd party OIDC provider you will need to configure it and man
 }
 ```
 
+import ios0 from "/src/fragments/lib/graphqlapi/ios/authz/20_oidc.mdx";
 
+<Fragments fragments={{ios: ios0}} />
 
-import ios367317c2f5c3a3b899ca0728aaa5f2f3be from "/src/fragments/lib/graphqlapi/ios/authz/20_oidc.mdx";
+import android1 from "/src/fragments/lib/graphqlapi/android/authz/20_oidc.mdx";
 
-<Fragments fragments={{ios: ios367317c2f5c3a3b899ca0728aaa5f2f3be}} />
-
-
-import android3d420ca8459326fcad7ca9aa11c04db6ae from "/src/fragments/lib/graphqlapi/android/authz/20_oidc.mdx";
-
-<Fragments fragments={{android: android3d420ca8459326fcad7ca9aa11c04db6ae}} />
+<Fragments fragments={{android: android1}} />
 
 ### Note related to use Access Token or ID Token
 
@@ -122,16 +118,13 @@ The ID Token contains claims about the identity of the authenticated user such a
 
 If you are using Cognito's user pool as the authorization type, this will by default retrieve and use the Access Token for your requests. If you would like to override this behavior and use the ID Token instead, you can treat Cognito user pool as your OIDC provider, set the authorization type to `OPENID_CONNECT` and use `Amplify.Auth` to retrieve the ID Token for your requests.
 
+import ios2 from "/src/fragments/lib/graphqlapi/ios/authz/21_oidc.mdx";
 
+<Fragments fragments={{ios: ios2}} />
 
-import ios88754decf20a36e9e5615aab139816807a from "/src/fragments/lib/graphqlapi/ios/authz/21_oidc.mdx";
+import android3 from "/src/fragments/lib/graphqlapi/android/authz/21_oidc.mdx";
 
-<Fragments fragments={{ios: ios88754decf20a36e9e5615aab139816807a}} />
-
-
-import androidf157de8f504092b5927338ffdfed6e82a3 from "/src/fragments/lib/graphqlapi/android/authz/21_oidc.mdx";
-
-<Fragments fragments={{android: androidf157de8f504092b5927338ffdfed6e82a3}} />
+<Fragments fragments={{android: android3}} />
 
 ## Customizing HTTP request headers
 
