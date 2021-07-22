@@ -9,3 +9,7 @@ To begin your production application, continue to the [Project Setup](~/lib/proj
 - [API (REST)](~/lib/restapi/getting-started.md)
 - [Analytics](~/lib/analytics/getting-started.md)
 - [Predictions](~/lib/predictions/getting-started.md)
+
+### References
+
+Find the source code of the final Todo App built in this tutorial [on our GitHub repository](https://github.com/aws-amplify/amplify-android-samples/tree/main/getting-started/todo).
