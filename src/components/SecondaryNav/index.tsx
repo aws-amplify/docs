@@ -10,7 +10,7 @@ import {
   ANDROID_REFERENCE,
   JS_REFERENCE,
 } from "../../constants/links";
-import Link from "next/link";
+import ExternalLink from "../ExternalLink";
 import InternalLink from "../InternalLink";
 import {useRouter} from "next/router";
 import {Container} from "../Container";
@@ -82,9 +82,9 @@ export default function SecondaryNav({filterKey, pageHasMenu}) {
             const LinkStyle = active ? LinkActiveStyle : LinkInactiveStyle;
             if (external) {
               return (
-                <Link href={url} key={label}>
-                  <LinkStyle href={url}>{label}</LinkStyle>
-                </Link>
+                <ExternalLink href={url} key={label} graphic="black">
+                  <span>{label}</span>
+                </ExternalLink>
               );
             } else {
               return (
