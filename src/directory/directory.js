@@ -1325,6 +1325,11 @@ const directory = {
       route: "/guides",
     },
     items: {
+      guides: {
+        title: "Guides",
+        route: "/guides/guides",
+        filters: ["js", "android", "ios"],
+      },
       "api-graphql": {
         title: "API (GraphQL)",
         items: [
@@ -1506,7 +1511,7 @@ const directory = {
           },
           {
             title: "Next.js",
-            route: "guides/hosting/nextjs",
+            route: "/guides/hosting/nextjs",
             filters: ["js"],
           },
           {
