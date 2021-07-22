@@ -56,6 +56,15 @@ async function updateUser() {
 }
 ```
 
+You can also use the `deleteUserAttributes` method of the __Auth__ class to delete user attributes:
+
+```js
+async function updateUser() {
+  const user = await Auth.currentAuthenticatedUser();
+  await Auth.deleteUserAttributes(user, ['address']);
+}
+```
+
 ### Reading user attributes
 
 To read user attributes, you can use the `currentAuthenticatedUser` method of the Auth class:
@@ -106,5 +115,16 @@ async function updateUser() {
   await Auth.updateUserAttributes(user, {
     'custom:favorite_ice_cream': 'vanilla'
   });
+}
+```
+
+You can also use the `deleteUserAttributes` method of the __Auth__ class to delete custom user attributes:
+
+```js
+async function updateUser() {
+  const user = await Auth.currentAuthenticatedUser();
+  await Auth.deleteUserAttributes(user, [
+    'custom:favorite_ice_cream'
+  ]);
 }
 ```

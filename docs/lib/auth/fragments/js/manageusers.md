@@ -161,6 +161,17 @@ let result = await Auth.updateUserAttributes(user, {
 console.log(result); // SUCCESS
 ```
 
+You can delete user attributes:
+
+```javascript
+let user = await Auth.currentAuthenticatedUser();
+
+let result = await Auth.deleteUserAttributes(user, [
+    'family_name'
+]);
+console.log(result); // SUCCESS
+```
+
 > You can find a <a href="https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#cognito-user-pools-standard-attributes" target="_blank">list of all custom attributes here</a>.
 
 If you change the email address, the user will receive a confirmation code. In your app, you can confirm the verification code:
