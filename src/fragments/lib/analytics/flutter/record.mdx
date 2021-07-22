@@ -2,9 +2,6 @@
 
 The Amplify analytics plugin also makes it easy to record custom events within the app. The plugin handles retry logic in the event the device looses network connectivity and automatically batches requests to reduce network bandwidth.
 
-
-
-
 ```dart
 AnalyticsEvent event = AnalyticsEvent('PasswordReset');
 event.properties.addStringProperty('Channel', 'SMS'); 
@@ -42,19 +39,13 @@ Events have default configuration to flush out to the network every 30 seconds. 
 
 To manually flush events, call:
 
-
-
-
 ```dart
 Amplify.Analytics.flushEvents();
 ```
 
-
 ## Global Properties
 
 You can register global properties which will be sent along with all invocations of `Amplify.Analytics.recordEvent`.
-
-
 
 ```dart
 AnalyticsProperties properties = new AnalyticsProperties();
@@ -64,9 +55,6 @@ Amplify.Analytics.registerGlobalProperties(globalProperties: properties);
 
 To unregister a global property, call `Amplify.Analytics.unregisterGlobalProperties()`:
 
-
-
-
 ```dart
 Amplify.Analytics.unregisterGlobalProperties(propertyName: ['AppStyle', 'OtherProperty']);
 ```
@@ -75,20 +63,13 @@ Amplify.Analytics.unregisterGlobalProperties(propertyName: ['AppStyle', 'OtherPr
 
 To disable analytics, call:
 
-
-
-
 ```dart
 Amplify.Analytics.disable();
 ```
 
-
 ## Enable Analytics
 
 To re-enable, call:
-
-
-
 
 ```dart
 Amplify.Analytics.enable();

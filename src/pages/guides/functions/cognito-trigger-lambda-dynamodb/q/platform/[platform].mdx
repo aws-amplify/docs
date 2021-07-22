@@ -3,8 +3,6 @@ export const meta = {
   description: "How to add an entry in DynamoDB, with user's information after sign-up post-confirmation",
 };
 
-
-
 If you are using AWS Cognito to handle authentication in your application you can use triggers to handle authentication 
 events. For example, send a welcome email after the user signs up. The complete documentation on AWS Cognito triggers can be found [here](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html).
 
@@ -18,7 +16,6 @@ Using this approach you can link a Cognito Identity to an user profile in your a
 The main advantage of this method is that you don't have to manually create the user in your GraphQL API using a mutation, which is another alternative.
 
 The main issue of this solution is that if you remove an user from AWS Cognito, your application won't know about it.
-
 
 ### Scenario
 
@@ -55,7 +52,6 @@ type User
   email: String
 }
 ```
-
 
 ### Create the lambda function
 
@@ -120,7 +116,6 @@ exports.handler = async (event, context) => {
 ```
 
 You can access your table name by calling the environment variable API_{APP_NAME}_USERTABLE_NAME.
-
 
 Deploy the lambda function :
 
