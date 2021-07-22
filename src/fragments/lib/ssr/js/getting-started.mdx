@@ -21,7 +21,6 @@ By providing `ssr: true`, Amplify persists credentials on the client in cookies 
 
 > **Note**: Once [vercel/next.js#16977](https://github.com/vercel/next.js/issues/16977) is resolved, you can hoist `Amplify.configure` into **pages/_app.js**.  Until then, be sure that all **pages/*** run `Amplify.configure({ ...awsExports, ssr: true })`.
 
-
 ### withSSRContext
 
 Once an application has been configured with `ssr: true`, client-side credentials are passed to the server via cookies.

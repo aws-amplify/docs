@@ -107,16 +107,13 @@ type YourModel @model @auth(rules: [{ allow: owner,
 }
 ```
 
+import android0 from "/src/fragments/lib/datastore/android/setup-auth-rules/owner_based_auth_oidc.mdx";
 
+<Fragments fragments={{android: android0}} />
 
-import androidc279b2c21afa3f9d805b074ed4124b9eee from "/src/fragments/lib/datastore/android/setup-auth-rules/owner_based_auth_oidc.mdx";
+import ios1 from "/src/fragments/lib/datastore/ios/setup-auth-rules/owner_based_auth_oidc.mdx";
 
-<Fragments fragments={{android: androidc279b2c21afa3f9d805b074ed4124b9eee}} />
-
-
-import iosc12afcf918875d04c66d38f7a0b3937983 from "/src/fragments/lib/datastore/ios/setup-auth-rules/owner_based_auth_oidc.mdx";
-
-<Fragments fragments={{ios: iosc12afcf918875d04c66d38f7a0b3937983}} />
+<Fragments fragments={{ios: ios1}} />
 
 ### Static Group Authorization with OIDC provider
 The following are commonly used patterns for using `groupClaims` to achieve group based authorization using a 3rd party OIDC provider. For more information on how to tune these examples, please see the [CLI documentation on static group authorization](/cli/graphql-transformer/auth.md#custom-claims).
@@ -132,8 +129,6 @@ type YourModel @model @auth(rules: [{ allow: groups
 }
 ```
 
+import js2 from "/src/fragments/lib/datastore/js/setup-auth-rules/multi-auth.mdx";
 
-
-import js7725183029472714a694ec77d7881a7e82 from "/src/fragments/lib/datastore/js/setup-auth-rules/multi-auth.mdx";
-
-<Fragments fragments={{js: js7725183029472714a694ec77d7881a7e82}} />
+<Fragments fragments={{js: js2}} />
