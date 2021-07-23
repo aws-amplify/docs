@@ -11,7 +11,7 @@ export default function TableOfContents({children, title}) {
   let previousLink = 0;
   useEffect(() => {
     const headerQueries = headers.map((header) => {
-      return document.querySelector(header);
+      return document.querySelector(`[id="${header}"]`);
     });
     document.addEventListener("scroll", () => {
       if (headers) {
@@ -25,19 +25,25 @@ export default function TableOfContents({children, title}) {
         if (activeLink !== previousLink) {
           previousLink = activeLink;
           headers.forEach((header) => {
-            document.querySelectorAll(`a[href="${header}"]`).forEach((aTag) => {
-              aTag.classList.remove("active");
-            });
+            document
+              .querySelectorAll(`a[href="#${header}"]`)
+              .forEach((aTag) => {
+                aTag.classList.remove("active");
+              });
           });
           if (activeLink >= 0) {
             const activeElement = headers[activeLink];
             document
-              .querySelectorAll(`a[href="${activeElement}"]`)
+              .querySelectorAll(`a[href="#${activeElement}"]`)
               .forEach((aTag) => {
                 aTag.classList.add("active");
               });
             if (activeElement) {
-              history.replaceState(undefined, document.title, activeElement);
+              history.replaceState(
+                undefined,
+                document.title,
+                "#" + activeElement,
+              );
             }
           } else {
             history.replaceState(
@@ -57,7 +63,7 @@ export default function TableOfContents({children, title}) {
       </HeaderStyle>
       {children.map(([name, level], index) => {
         const slugged = `#${slug(name)}`;
-        headers.push(slugged);
+        headers.push(slug(name));
         const anchor = <a href={slugged}>{name}</a>;
         if (level === "h2")
           return <H2AnchorStyle key={index}>{anchor}</H2AnchorStyle>;
