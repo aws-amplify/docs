@@ -1,6 +1,7 @@
 export const meta = {
   title: "Client code generation",
-  description: "Amplify's codegen capabilities generates native code for iOS and Android, as well as the generation of types for Flow and TypeScript. It can also generate GraphQL statements(queries, mutations, and subscriptions).",
+  description:
+    "Amplify's codegen capabilities generates native code for iOS and Android, as well as the generation of types for Flow and TypeScript. It can also generate GraphQL statements(queries, mutations, and subscriptions).",
 };
 
 Codegen helps you generate native code for iOS and Android, as well as the generation of types for Flow and TypeScript. It can also generate GraphQL statements (queries, mutations, and subscriptions) so that you don't have to hand code them.
@@ -11,7 +12,7 @@ When a project is configured to generate code with codegen, it stores all the co
 
 ## Statement depth
 
-In the below schema there are connections between `Comment` -> `Post` -> `Blog` -> `Post` -> `Comments`. When generating statements codegen has a default limit of 2 for depth traversal. But if you need to go deeper than 2 levels you can change the `maxDepth` parameter either when setting up your codegen or by passing  `--maxDepth` parameter to `codegen`
+In the below schema there are connections between `Comment` -> `Post` -> `Blog` -> `Post` -> `Comments`. When generating statements codegen has a default limit of 2 for depth traversal. But if you need to go deeper than 2 levels you can change the `maxDepth` parameter either when setting up your codegen or by passing `--maxDepth` parameter to `codegen`
 
 ```graphql
 type Blog @model {
@@ -34,28 +35,36 @@ type Comment @model {
 
 ```graphql
 query GetComment($id: ID!) {
-  getComment(id: $id) { # depth level 1
+  getComment(id: $id) {
+    # depth level 1
     id
     content
-    post { # depth level 2
+    post {
+      # depth level 2
       id
       title
-      blog { # depth level 3
+      blog {
+        # depth level 3
         id
         name
-        posts { # depth level 4
-          items { # depth level 5
+        posts {
+          # depth level 4
+          items {
+            # depth level 5
             id
             title
           }
           nextToken
         }
       }
-      comments { # depth level 3
-        items { # depth level 4
+      comments {
+        # depth level 3
+        items {
+          # depth level 4
           id
           content
-          post { # depth level 5
+          post {
+            # depth level 5
             id
             title
           }
@@ -75,8 +84,7 @@ query GetComment($id: ID!) {
 amplify add codegen
 ```
 
-The `amplify add codegen` allows you to add AppSync API created using the AWS console. If you have your API is in a different region then that of your current region, the command asks you to choose the region. If you are adding codegen outside of an initialized amplify project, provide your introspection schema named `schema.json` in the same directory that you make the add codegen call from.
-__Note__: If you use the --apiId flag to add an externally created AppSync API, such as one created in the AWS console, you will not be able to manage this API from the Amplify CLI with commands such as amplify api update when performing schema updates. You cannot add an external AppSync API when outside of an initialized project.
+The `amplify add codegen` allows you to add AppSync API created using the AWS console. If you have your API is in a different region then that of your current region, the command asks you to choose the region. If you are adding codegen outside of an initialized amplify project, provide your introspection schema named `schema.json` in the same directory that you make the add codegen call from. **Note**: If you use the --apiId flag to add an externally created AppSync API, such as one created in the AWS console, you will not be able to manage this API from the Amplify CLI with commands such as amplify api update when performing schema updates. You cannot add an external AppSync API when outside of an initialized project.
 
 ### amplify configure codegen
 
@@ -92,7 +100,7 @@ The `amplify configure codegen` command allows you to update the codegen configu
 amplify codegen statements [--nodownload] [--maxDepth <int>]
 ```
 
-The `amplify codegen statements` command  generates GraphQL statements(queries, mutation and subscription) based on your GraphQL schema. This command downloads introspection schema every time it is run, but it can be forced to use previously downloaded introspection schema by passing `--nodownload` flag.
+The `amplify codegen statements` command generates GraphQL statements(queries, mutation and subscription) based on your GraphQL schema. This command downloads introspection schema every time it is run, but it can be forced to use previously downloaded introspection schema by passing `--nodownload` flag.
 
 #### amplify codegen types
 
@@ -182,7 +190,7 @@ This section will walk through the steps needed to take an iOS project written i
 
 ### Setup
 
-After completing the [Amplify Getting Started](/start/start) navigate in your terminal to an Xcode project directory and run the following:
+After completing the [Amplify Getting Started](/start) navigate in your terminal to an Xcode project directory and run the following:
 
 ```bash
 amplify init       ## Select iOS as your platform
@@ -426,7 +434,7 @@ This section will walk through the steps needed to take an Android Studio projec
 
 ### Setup
 
-After completing the [Amplify Getting Started](/start/start) navigate in your terminal to an Android Studio project directory and run the following:
+After completing the [Amplify Getting Started](/start) navigate in your terminal to an Android Studio project directory and run the following:
 
 ```bash
 amplify init       ## Select iOS as your platform
@@ -436,7 +444,7 @@ amplify push       ## Sets up backend and prompts you for codegen, accept the de
 
 The `add api` flow above will ask you some questions, like if you already have an annotated GraphQL schema. If this is your first time using the CLI select **No** and let it guide you through the default project **"Single object with fields (e.g., “Todo” with ID, name, description)"** as it will be used in the code generation examples below. Later on, you can always change it.
 
-Since you added an API the `amplify push` process will automatically enter the codegen process and prompt you for configuration. Accept the defaults and it will create a file named `awsconfiguration.json` in the `./app/src/main/res/raw`  directory that the AppSync client will use for initialization. To finish off the build process there are Gradle and permission updates needed.
+Since you added an API the `amplify push` process will automatically enter the codegen process and prompt you for configuration. Accept the defaults and it will create a file named `awsconfiguration.json` in the `./app/src/main/res/raw` directory that the AppSync client will use for initialization. To finish off the build process there are Gradle and permission updates needed.
 
 First, in the project's `build.gradle`, add the following dependency in the build script:
 
@@ -697,4 +705,3 @@ public class MainActivity extends AppCompatActivity {
     };
 }
 ```
-
