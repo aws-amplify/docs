@@ -4,8 +4,6 @@ export default function InternalLink({href, children}) {
   let filterKind = "";
   if (href.includes("cli") || href.includes("console")) {
     filterKind = "";
-  } else if (href.includes("start")) {
-    filterKind = "integration";
   } else if (href.includes("lib")) {
     filterKind = "platform";
   } else if (href.includes("sdk")) {
@@ -14,6 +12,8 @@ export default function InternalLink({href, children}) {
     filterKind = "framework";
   } else if (href.includes("guides")) {
     filterKind = "platform";
+  } else if (href.includes("start")) {
+    filterKind = "integration";
   }
 
   if (filterKind != "") {
