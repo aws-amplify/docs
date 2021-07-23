@@ -101,7 +101,7 @@ export default function Layout({children, meta}: {children: any; meta?: any}) {
         brandIcon="/assets/logo-light.svg"
         blend={false}
       />
-      <SecondaryNav filterKey={filterKey} pageHasMenu={false} />
+      <SecondaryNav />
       <Container backgroundColor="bg-color-tertiary">
         <LayoutStyle>
           {meta

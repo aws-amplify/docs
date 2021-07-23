@@ -15,9 +15,10 @@ import InternalLink from "../InternalLink";
 import {useRouter} from "next/router";
 import {Container} from "../Container";
 
-export default function SecondaryNav({filterKey, pageHasMenu}) {
+export default function SecondaryNav({pageHasMenu}) {
   const router = useRouter();
   const path = router.pathname;
+  const filterKeys = JSON.parse(localStorage.getItem("filterKeys"));
 
   return (
     <SecondaryNavStyle id="secondary-nav">
@@ -50,12 +51,12 @@ export default function SecondaryNav({filterKey, pageHasMenu}) {
               label: "Guides",
               url: "/guides",
             },
-            ...(filterKey
+            ...("platform" in filterKeys && filterKeys.platform
               ? [
                   {
                     label: "API Reference",
                     url: (() => {
-                      switch (filterKey) {
+                      switch (filterKeys.platform) {
                         case "ios": {
                           return IOS_REFERENCE;
                         }
@@ -96,7 +97,6 @@ export default function SecondaryNav({filterKey, pageHasMenu}) {
           })}
           <ShadowStyle />
         </div>
-        {pageHasMenu && <span>open button</span>}
       </Container>
     </SecondaryNavStyle>
   );
