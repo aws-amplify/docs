@@ -113,6 +113,9 @@ function generatePathMap(
     "/ui/q/framework/next": {
       page: "/ui/q/framework/[framework]",
     },
+    "/console": {
+      page: "/console",
+    },
   },
 ) {
   for (const [_, value] of Object.entries(obj)) {
