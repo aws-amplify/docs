@@ -1392,7 +1392,7 @@ const directory = {
         ],
       },
       authentication: {
-        title: "authentication",
+        title: "Authentication",
         items: [
           {
             title: "Creating a custom authentication flow",
