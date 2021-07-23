@@ -99,10 +99,6 @@ const grab = function() {
     //   import all from "/src/fragments/{1}{2}x";
     //   <Fragments fragments={all: all} />
     file = file.replace(
-      /<inline-fragment src="~\/(.*?)fragments\/(.*?)"><\/inline-fragment>/g,
-      replacer1,
-    );
-    file = file.replace(
       /<inline-fragment src="\/(.*?)fragments\/(.*?)"><\/inline-fragment>/g,
       replacer1,
     );
@@ -111,7 +107,7 @@ const grab = function() {
     //   import {1} from "/src/fragments/{2}{3}x";
     //   <Fragments fragments={{1}: {1}} />
     file = file.replace(
-      /<inline-fragment .*?="(.*?)" src="~\/(.*?)fragments\/(.*?)"><\/inline-fragment>/g,
+      /<inline-fragment .*?="(.*?)" src="\/(.*?)fragments\/(.*?)"><\/inline-fragment>/g,
       replacer2,
     );
 
