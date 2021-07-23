@@ -16,12 +16,12 @@ const internalLinkPlugin = () => (tree) => {
       ...[
         {
           type: "jsx",
-          value: `<InternalLink href="${url}">`,
+          value: `<InternalLink href="${url}"><a>`,
         },
         ...children,
         {
           type: "jsx",
-          value: "</InternalLink>",
+          value: "</a></InternalLink>",
         },
       ],
     );
