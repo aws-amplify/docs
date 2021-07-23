@@ -63,7 +63,11 @@ export default function TableOfContents({children, title}) {
       {children.map(([name, id, level], index) => {
         const slugged = `#${id}`;
         headers.push(id);
-        const anchor = <a href={slugged}>{name}</a>;
+        const anchor = (
+          <a href={slugged}>
+            <div>{name}</div>
+          </a>
+        );
         if (level === "h2")
           return <H2AnchorStyle key={index}>{anchor}</H2AnchorStyle>;
         else return <H3AnchorStyle key={index}>{anchor}</H3AnchorStyle>;
