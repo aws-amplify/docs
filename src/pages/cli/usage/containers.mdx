@@ -1,11 +1,12 @@
 export const meta = {
   title: "Serverless containers",
-  description: "Deploy containers to AWS. Serverless containers leverage AWS Fargate when building REST or GraphQL APIs in your account. containers can be deployed via a single Dockerfile definition or by using a Docker Compose file, with a build and deployment pipeline created inside your AWS account.",
+  description:
+    "Deploy containers to AWS. Serverless containers leverage AWS Fargate when building REST or GraphQL APIs in your account. containers can be deployed via a single Dockerfile definition or by using a Docker Compose file, with a build and deployment pipeline created inside your AWS account.",
 };
 
 Serverless containers provide the ability for you to deploy APIs and host websites using AWS Fargate. Customers with existing applications or those who require a lower level of control can bring Docker containers and deploy them into an Amplify project fully integrating with other resources.
 
-Amplify [libraries](/lib/lib) can be used with the [Auth category](/lib/auth/start) giving mobile and web applications secure connectivity and access controls to your Serverless containers. Additionally, existing GraphQL and REST services such as AWS AppSync and Amazon API Gateway can be used in the same project along with Fargate-backed APIs giving flexibility to mix and match for cost optimization and operational needs.
+Amplify [libraries](/lib) can be used with the [Auth category](/lib/auth/start) giving mobile and web applications secure connectivity and access controls to your Serverless containers. Additionally, existing GraphQL and REST services such as AWS AppSync and Amazon API Gateway can be used in the same project along with Fargate-backed APIs giving flexibility to mix and match for cost optimization and operational needs.
 
 Note that serverless containers do incur additional costs and operational overhead, as such we recommend using AWS AppSync with the [GraphQL Transform](/cli/graphql-transformer/overview) as a starting point when building mobile and web apps with Amplify.
 
@@ -33,13 +34,13 @@ amplify add storage
 
 > What would you like to name this column: id
 
-? Please choose the data type: 
-  string 
-> number 
+? Please choose the data type:
+  string
+> number
   binary
 
 ? Please choose partition key for the table: (Use arrow keys)
-> id 
+> id
 ```
 
 You can select **no** for all other questions. After this add an API using the REST (or GraphQL) default ExpressJS template and grant it access to this DynamoDB table.
@@ -50,8 +51,8 @@ amplify add api
 
 ```console
 > REST
-> API Gateway + AWS Fargate (Container-based) 
-> ExpressJS - REST template 
+> API Gateway + AWS Fargate (Container-based)
+> ExpressJS - REST template
 ? Do you want to access other resources in this project from your api? Y   # select yes
 > storage  # select posts table              # select post table and all permissions
   ◉ create
@@ -69,7 +70,7 @@ Finally run `amplify push` to deploy the backend:
 amplify push
 ```
 
-Once this completes your container will be built via an automated pipeline and deployed to Fargate Tasks on an ECS Cluster fronted by an Amazon API Gateway HTTP API using a direct Cloud Map integration to your VPC. If you selected *Yes* to protect your API with Authentication, an Amazon Cognito User Pool will be created with an Authorizer integration for that API.
+Once this completes your container will be built via an automated pipeline and deployed to Fargate Tasks on an ECS Cluster fronted by an Amazon API Gateway HTTP API using a direct Cloud Map integration to your VPC. If you selected _Yes_ to protect your API with Authentication, an Amazon Cognito User Pool will be created with an Authorizer integration for that API.
 
 ## Deploy a single container
 
@@ -170,13 +171,13 @@ If your application source changes for any of the images, you can rebuild them b
 
 ### Container networking
 
-Multiple containers are deployed as a single unit in Fargate (e.g. same Task Definition). This opinionated deployment allows ease of networking between containers on the local loopback interface and avoids extra configuration, costs, operations, and debugging.  
+Multiple containers are deployed as a single unit in Fargate (e.g. same Task Definition). This opinionated deployment allows ease of networking between containers on the local loopback interface and avoids extra configuration, costs, operations, and debugging.
 
 #### When container is deployed to Fargate
 
 The loopback interface has an IP of 127.0.0.1 and a hostname of `localhost` which you can use in one container's application code to communicate with another.
 
-Using the `docker-compose.yml` example from earlier, you might have the following code in your NodeJS application. It references the *port* of the Redis container and a *host* using the loopback adapter with `localhost`:
+Using the `docker-compose.yml` example from earlier, you might have the following code in your NodeJS application. It references the _port_ of the Redis container and a _host_ using the loopback adapter with `localhost`:
 
 ```js
 const options = {
@@ -185,7 +186,7 @@ const options = {
   method: 'GET',
   path: '/images'
 };
-  
+
 http.get(options, data => {...})
 ```
 
@@ -200,7 +201,7 @@ const options = {
   method: 'GET',
   path: '/images'
 };
-  
+
 http.get(options, data => {...})
 ```
 
@@ -221,7 +222,7 @@ Amplify will configure your Fargate infrastructure (ECS Service and Task Definit
 - secrets
 - replicas
 
-By default Amplify will use a single Availability Zone however if you choose the *High Availability* option it will spread Fargate Tasks across 3 Availability Zones. The [`replicas`](https://docs.docker.com/compose/compose-file/#replicas) value should be used to increase [the number of Fargate tasks running in your Cluster](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service_definition_parameters.html#sd-desiredcount) depending on your traffic requirements, however note that more running tasks will accrue more costs.
+By default Amplify will use a single Availability Zone however if you choose the _High Availability_ option it will spread Fargate Tasks across 3 Availability Zones. The [`replicas`](https://docs.docker.com/compose/compose-file/#replicas) value should be used to increase [the number of Fargate tasks running in your Cluster](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service_definition_parameters.html#sd-desiredcount) depending on your traffic requirements, however note that more running tasks will accrue more costs.
 
 When you have multiple container entries specifying a `port` Amplify will prompt you upon running `amplify push` to select an **Entrypoint Container**. Since all containers are deployed as a "unit" and fronted by an API Gateway HTTP endpoint for client applications to access, Amplify needs to know which container in the Cluster's Service to route requests. The answer to the Entrypoint question will use the first specified `ports` entry to perform this routing.
 
@@ -229,14 +230,14 @@ It is recommended that you define container settings early in the development pr
 
 ### Environment variables and secrets
 
-You can use environment variables in your application code that are specified in your Docker Compose file, but do not specify the hostname when deploying in `amplify push`. For example the `DATABASE_HOST` variable below might be specified locally when using `docker-compose up` with the  `environment` setting:
+You can use environment variables in your application code that are specified in your Docker Compose file, but do not specify the hostname when deploying in `amplify push`. For example the `DATABASE_HOST` variable below might be specified locally when using `docker-compose up` with the `environment` setting:
 
 ```yaml
 environment:
   - DATABASE_DB=amplify
   - DATABASE_USER=root
   - DATABASE_PASSWORD=/run/secrets/db-password
-  - DATABASE_HOST=db  #comment out before pushing
+  - DATABASE_HOST=db #comment out before pushing
 ```
 
 Then your application code can switch between local and cloud deployment automatically and communicate with the `db` container:
@@ -248,9 +249,9 @@ module.exports = {
     port: process.env.DATABASE_PORT || 3306,
     database: process.env.DATABASE_DB,
     user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD
+    password: process.env.DATABASE_PASSWORD,
   },
-  port: process.env.PORT || 8080
+  port: process.env.PORT || 8080,
 };
 ```
 
@@ -264,7 +265,7 @@ services:
   backend:
     build:
       args:
-      - NODE_ENV=development
+        - NODE_ENV=development
       context: backend
     environment:
       - DATABASE_NAME=mydb
@@ -315,7 +316,7 @@ If you are using a non-Route53 registrar, you will need two additional steps:
 
 For Route53 registered domains these steps are not needed and Amplify will register everything automatically. You can learn more about [registering a domain name in the Route53 documentation](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar.html).
 
-You can additionally restrict access to your hosted site using Amazon Cognito User Pools. The ALB will authorize requests by using the OAuth endpoint of the Cognito Hosted UI with an SSL-enabled HTTP listener. To do this run `amplify add auth` first and select *Default configuration with Social Provider (Federation)* to enable the Hosted UI (you don't need to select any of the 3rd party social providers if it's not needed in your application). After this select *Yes* when prompted *Do you want to automatically protect your web app using Amazon Cognito Hosted UI* in the `amplify add hosting` flow. Alternatively, you can first add hosting and later add auth to your project by running `amplify configure hosting` after this is completed.
+You can additionally restrict access to your hosted site using Amazon Cognito User Pools. The ALB will authorize requests by using the OAuth endpoint of the Cognito Hosted UI with an SSL-enabled HTTP listener. To do this run `amplify add auth` first and select _Default configuration with Social Provider (Federation)_ to enable the Hosted UI (you don't need to select any of the 3rd party social providers if it's not needed in your application). After this select _Yes_ when prompted _Do you want to automatically protect your web app using Amazon Cognito Hosted UI_ in the `amplify add hosting` flow. Alternatively, you can first add hosting and later add auth to your project by running `amplify configure hosting` after this is completed.
 
 ## Build Pipeline
 
