@@ -1,15 +1,23 @@
 export const meta = {
   title: "Amplify Console",
-  description: "Amplify has a console within AWS that is a control center for your full-stack app.",
+  description:
+    "Amplify has a console within AWS that is a control center for your full-stack app.",
   disableTOC: "true",
 };
 
 <Grid columns="1" class="margin-top-lg margin-bottom-lg">
-  <Card external url="https://console.aws.amazon.com/amplify/home" class="border-radius" containertag="amplify-external-link">
-    <img slot="graphic" src="~/assets/logo-dark.svg" />
+  <Card
+    external
+    url="https://console.aws.amazon.com/amplify/home"
+    class="border-radius"
+    containertag="amplify-external-link"
+  >
+    <img slot="graphic" src="/assets/logo-dark.svg" />
     <h4 slot="heading">Amplify Console</h4>
     <p slot="description">
-      Control center for your full-stack app deployments. Set up continuous deployment and hosting, create an app backend in the admin UI, and manage full-stack environments.
+      Control center for your full-stack app deployments. Set up continuous
+      deployment and hosting, create an app backend in the admin UI, and manage
+      full-stack environments.
     </p>
   </Card>
 </Grid>
@@ -19,20 +27,25 @@ export const meta = {
 The following tools and services are accessible from the Amplify Console, learn more about them here:
 
 <Grid columns="2" class="margin-top-lg margin-bottom-lg">
-      <Card external url="https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html" class="border-radius" containertag="amplify-external-link">
-        <img slot="graphic" src="~/assets/console.png" />
-        <h4 slot="heading">Amplify Hosting</h4>
-        <p slot="description">
-          Fully managed hosting with CI/CD for deploying static web apps.
-        </p>
-      </Card>
-      <Card url="~/console/adminui/start.md" class="border-radius">
-        <img slot="graphic" src="~/assets/cli.png" />
-        <h4 slot="heading">Admin UI</h4>
-        <p slot="description">
-        Configure and manage your app backend outside the AWS console.
-        </p>
-      </Card>
+  <Card
+    external
+    url="https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html"
+    class="border-radius"
+    containertag="amplify-external-link"
+  >
+    <img slot="graphic" src="/assets/console.png" />
+    <h4 slot="heading">Amplify Hosting</h4>
+    <p slot="description">
+      Fully managed hosting with CI/CD for deploying static web apps.
+    </p>
+  </Card>
+  <Card url="/console/adminui/start" class="border-radius">
+    <img slot="graphic" src="/assets/cli.png" />
+    <h4 slot="heading">Admin UI</h4>
+    <p slot="description">
+      Configure and manage your app backend outside the AWS console.
+    </p>
+  </Card>
 </Grid>
 
 ## Amplify Console app project
