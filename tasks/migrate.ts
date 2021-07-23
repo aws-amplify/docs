@@ -87,8 +87,10 @@ const grab = function() {
     // src=[path] -> src="[path]"
     // complicated regex because we don't want to surround strings
     // that already have quotes with more quotes
-    file = file.replace(/src=([^"](?:.*?)[^"])>/g, 'src="$1">');
-    file = file.replace(/src=~(.*?)>/g, "src=$1>");
+    file = file.replace(/src=([^"](?:.*?)[^"])>/g, `src="$1">`);
+    file = file.replace(/src="~(.*?)"/g, `src="$1"`);
+    file = file.replace(/url="~(.*?)"/g, `url="$1"`);
+    file = file.replace(/href="~(.*?)"/g, `href="$1"`);
 
     // reset counter
     counter = 0;
