@@ -33,12 +33,14 @@ Use the following steps to connect your app to the push notification backend ser
     ```groovy
     dependencies {
         // Overrides an auth dependency to ensure correct behavior
-        implementation 'com.google.android.gms:play-services-auth:15.0.1'
+        implementation 'com.google.android.gms:play-services-auth:19.2.0'
 
-        implementation 'com.google.firebase:firebase-messaging:17.3.0'
+        // Import the BoM for the Firebase platform
+        implementation platform('com.google.firebase:firebase-bom:28.2.1')
+        implementation 'com.google.firebase:firebase-messaging'
 
-        implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.15.+'
-        implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.15.+@aar') { transitive = true }
+        implementation 'com.amazonaws:aws-android-sdk-pinpoint:2.25.+'
+        implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.26.+@aar') { transitive = true }
     }
 
     apply plugin: 'com.google.gms.google-services'
@@ -86,14 +88,14 @@ Use the following steps to connect your app to the push notification backend ser
     import android.util.Log;
 
     import com.amazonaws.mobile.client.AWSMobileClient;
-    import com.amazonaws.mobile.client.AWSStartupHandler;
-    import com.amazonaws.mobile.client.AWSStartupResult;
+    import com.amazonaws.mobile.client.Callback;
+    import com.amazonaws.mobile.client.UserStateDetails;
+    import com.amazonaws.mobile.config.AWSConfiguration;
     import com.amazonaws.mobileconnectors.pinpoint.PinpointConfiguration;
     import com.amazonaws.mobileconnectors.pinpoint.PinpointManager;
     import com.google.android.gms.tasks.OnCompleteListener;
     import com.google.android.gms.tasks.Task;
-    import com.google.firebase.iid.FirebaseInstanceId;
-    import com.google.firebase.iid.InstanceIdResult;
+    import com.google.firebase.messaging.FirebaseMessaging;
 
     public class MainActivity extends AppCompatActivity {
         public static final String TAG = MainActivity.class.getSimpleName();
@@ -122,15 +124,15 @@ Use the following steps to connect your app to the push notification backend ser
 
                 pinpointManager = new PinpointManager(pinpointConfig);
 
-                FirebaseInstanceId.getInstance().getInstanceId()
-                        .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                FirebaseMessaging.getInstance().getToken()
+                        .addOnCompleteListener(new OnCompleteListener<String>() {
                             @Override
-                            public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                            public void onComplete(@NonNull Task<String> task) {
                                 if (!task.isSuccessful()) {
-                                    Log.w(TAG, "getInstanceId failed", task.getException());
+                                    Log.w(TAG, "Fetching FCM registration token failed", task.getException());
                                     return;
                                 }
-                                final String token = task.getResult().getToken();
+                                final String token = task.getResult();
                                 Log.d(TAG, "Registering push notifications token: " + token);
                                 pinpointManager.getNotificationClient().registerDeviceToken(token);
                             }
