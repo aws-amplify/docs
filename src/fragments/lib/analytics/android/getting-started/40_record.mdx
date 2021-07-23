@@ -1,7 +1,7 @@
 To record an event, create an `AnalyticsEvent` and call `Amplify.Analytics.recordEvent()` to send it:
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 AnalyticsEvent event = AnalyticsEvent.builder()
@@ -15,8 +15,8 @@ AnalyticsEvent event = AnalyticsEvent.builder()
 Amplify.Analytics.recordEvent(event);
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin">
+</Block>
+<Block name="Kotlin">
 
 ```kotlin
 val event = AnalyticsEvent.builder()
@@ -30,8 +30,8 @@ val event = AnalyticsEvent.builder()
 Amplify.Analytics.recordEvent(event)
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 AnalyticsEvent event = AnalyticsEvent.builder()
@@ -45,5 +45,5 @@ AnalyticsEvent event = AnalyticsEvent.builder()
 RxAmplify.Analytics.recordEvent(event);
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>

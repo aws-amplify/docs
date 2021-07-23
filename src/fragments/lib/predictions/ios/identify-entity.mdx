@@ -43,7 +43,7 @@ You can identify entity matches from your Rekognition Collection in your app usi
 
 <BlockSwitcher>
 
-<CodeBlock name="Listener (iOS 11+)">
+<Block name="Listener (iOS 11+)">
 
 ```swift
 func detectEntities(_ image: URL) {
@@ -59,9 +59,9 @@ func detectEntities(_ image: URL) {
 }
 ```
 
-</CodeBlock>
+</Block>
 
-<CodeBlock name="Combine (iOS 13+)">
+<Block name="Combine (iOS 13+)">
 
 ```swift
 func detectEntities(_ image: URL) -> AnyCancellable {
@@ -79,7 +79,7 @@ func detectEntities(_ image: URL) -> AnyCancellable {
 }
 ```
 
-</CodeBlock>
+</Block>
 
 </BlockSwitcher>
 
@@ -87,7 +87,7 @@ To detect general entities like facial features, landmarks etc, you can use the 
 
 <BlockSwitcher>
 
-<CodeBlock name="Listener (iOS 11+)">
+<Block name="Listener (iOS 11+)">
 
 ```swift
 func detectEntities(_ image: URL) {
@@ -103,9 +103,9 @@ func detectEntities(_ image: URL) {
 }
 ```
 
-</CodeBlock>
+</Block>
 
-<CodeBlock name="Combine (iOS 13+)">
+<Block name="Combine (iOS 13+)">
 
 ```swift
 func detectEntities(_ image: URL) -> AnyCancellable {
@@ -123,7 +123,7 @@ func detectEntities(_ image: URL) -> AnyCancellable {
 }
 ```
 
-</CodeBlock>
+</Block>
 
 </BlockSwitcher>
 
@@ -133,7 +133,7 @@ To detect celebrities you can pass in `.detectCelebrity` in the `type:` field. R
 
 <BlockSwitcher>
 
-<CodeBlock name="Listener (iOS 11+)">
+<Block name="Listener (iOS 11+)">
 
 ```swift
 func detectCelebs(_ image: URL) {
@@ -152,9 +152,9 @@ func detectCelebs(_ image: URL) {
 }
 ```
 
-</CodeBlock>
+</Block>
 
-<CodeBlock name="Combine (iOS 13+)">
+<Block name="Combine (iOS 13+)">
 
 ```swift
 func detectCelebs(_ image: URL) -> AnyCancellable {
@@ -175,7 +175,7 @@ func detectCelebs(_ image: URL) -> AnyCancellable {
 }
 ```
 
-</CodeBlock>
+</Block>
 
 </BlockSwitcher>
 

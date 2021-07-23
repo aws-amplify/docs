@@ -1,7 +1,7 @@
 ## DELETE requests
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 RestOptions options = RestOptions.builder()
@@ -14,8 +14,8 @@ Amplify.API.delete(options,
 );
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 val options = RestOptions.builder()
@@ -28,8 +28,8 @@ Amplify.API.delete(options,
 )
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 val request = RestOptions.builder()
@@ -43,8 +43,8 @@ try {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 RestOptions options = RestOptions.builder()
@@ -58,5 +58,5 @@ RxAmplify.API.delete(options)
     );
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>

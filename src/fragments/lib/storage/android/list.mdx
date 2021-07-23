@@ -1,7 +1,7 @@
 You can list all of the objects uploaded under a given prefix. This will list all public files:
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 Amplify.Storage.list("/",
@@ -14,8 +14,8 @@ Amplify.Storage.list("/",
 );
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 Amplify.Storage.list("/",
@@ -28,8 +28,8 @@ Amplify.Storage.list("/",
 )
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 try {
@@ -41,8 +41,8 @@ try {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 RxAmplify.Storage.list("/")
@@ -56,13 +56,13 @@ RxAmplify.Storage.list("/")
     );
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 You can also list private or protected files by passing options. For example, to list all protected files owned by a user identified by the ID `otherUserID`:
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 StorageListOptions options = StorageListOptions.builder()
@@ -82,8 +82,8 @@ Amplify.Storage.list(
 );
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 val options = StorageListOptions.builder()
@@ -101,8 +101,8 @@ Amplify.Storage.list("/", options,
 )
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 val options = StorageListOptions.builder()
@@ -119,8 +119,8 @@ try {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 StorageListOptions options = StorageListOptions.builder()
@@ -139,5 +139,5 @@ RxAmplify.Storage.list("/", options)
         );
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>

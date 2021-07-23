@@ -7,7 +7,7 @@ Once finished, run `amplify push` to publish your changes. Once finished, it wil
 You need to now inform your auth provider of this URL:
 
 <BlockSwitcher>
-<CodeBlock name="Facebook Login">
+<Block name="Facebook Login">
 
 1. [Sign In](https://developers.facebook.com/) with your Facebook credentials.
 2. From the *My Apps* menu, choose *Your App*.
@@ -38,8 +38,8 @@ You need to now inform your auth provider of this URL:
     ![Image](/images/cognitoHostedUI/facebook8.png)
 12. Save changes.
 
-</CodeBlock>
-<CodeBlock name="Google Sign-In">
+</Block>
+<Block name="Google Sign-In">
 
 1. Go to the [Google developer console](https://console.developers.google.com).
 2. On the left navigation bar, choose *Credentials*.
@@ -52,8 +52,8 @@ You need to now inform your auth provider of this URL:
     Note: If you saw an error message `Invalid Redirect: domain must be added to the authorized domains list before submitting.` when adding the endpoint, please go to the *authorized domains list* and add the domain.
 6. Click *Save*.
 
-</CodeBlock>
-<CodeBlock name="Login with Amazon">
+</Block>
+<Block name="Login with Amazon">
 
 1. [Sign in](https://developer.amazon.com/loginwithamazon/console/site/lwa/overview.html) with your Amazon credentials.
 2. Hover over the gear and choose Web Settings associated with the security profile you created in the previous step, and then choose Edit.
@@ -62,8 +62,8 @@ You need to now inform your auth provider of this URL:
 ![Image](/images/cognitoHostedUI/amazon5.png)
 5. Choose Save.
 
-</CodeBlock>
-<CodeBlock name="Sign in with Apple">
+</Block>
+<Block name="Sign in with Apple">
 
 1. [Sign In](https://developer.apple.com/account/) with your Apple developer credentials.
 2. On the main developer portal page, select **Certificates, IDs, & Profiles**.
@@ -95,5 +95,5 @@ You need to now inform your auth provider of this URL:
 5. Select the checkboxes under Capture next to the Apple attributes, and select the user pool attribute under User pool attribute that will receive the value from the Apple attribute and that you would like to receive in the tokens from Amazon Cognito.
 6. To enable your app client to allow federation through the Sign in with Apple IdP, under App Integration, select App client settings, find the App client that you want to allow Sign in with Apple, and select the Sign in with Apple check box.
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>

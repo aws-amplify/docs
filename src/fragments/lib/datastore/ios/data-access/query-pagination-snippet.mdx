@@ -1,6 +1,6 @@
 <BlockSwitcher>
 
-<CodeBlock name="Listener (iOS 11+)">
+<Block name="Listener (iOS 11+)">
 
 ```swift
 Amplify.DataStore.query(Post.self, paginate: .page(0, limit: 100)) {
@@ -8,9 +8,9 @@ Amplify.DataStore.query(Post.self, paginate: .page(0, limit: 100)) {
 }
 ```
 
-</CodeBlock>
+</Block>
 
-<CodeBlock name="Combine (iOS 13+)">
+<Block name="Combine (iOS 13+)">
 
 ```swift
 let sink = Amplify.DataStore.query(Post.self, paginate: .page(0, limit: 100)).sink {
@@ -18,7 +18,7 @@ let sink = Amplify.DataStore.query(Post.self, paginate: .page(0, limit: 100)).si
 }
 ```
 
-</CodeBlock>
+</Block>
 
 </BlockSwitcher>
 

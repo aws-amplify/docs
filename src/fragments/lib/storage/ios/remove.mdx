@@ -2,7 +2,7 @@ Delete an object uploaded to S3 by using `Amplify.Storage.remove` and specify th
 
 <BlockSwitcher>
 
-<CodeBlock name="Listener (iOS 11+)">
+<Block name="Listener (iOS 11+)">
 
 ```swift
 Amplify.Storage.remove(key: "myKey") { event in
@@ -15,9 +15,9 @@ Amplify.Storage.remove(key: "myKey") { event in
 }
 ```
 
-</CodeBlock>
+</Block>
 
-<CodeBlock name="Combine (iOS 13+)">
+<Block name="Combine (iOS 13+)">
 
 ```swift
 let sink = Amplify.Storage.remove(key: "myKey")
@@ -32,6 +32,6 @@ let sink = Amplify.Storage.remove(key: "myKey")
     }
 ```
 
-</CodeBlock>
+</Block>
 
 </BlockSwitcher>

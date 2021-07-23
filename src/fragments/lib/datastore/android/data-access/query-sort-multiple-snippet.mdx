@@ -1,6 +1,6 @@
 <BlockSwitcher>
 
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 Amplify.DataStore.query(Post.class,
@@ -15,8 +15,8 @@ Amplify.DataStore.query(Post.class,
 );
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 Amplify.DataStore.query(Post::class.java,
@@ -31,9 +31,9 @@ Amplify.DataStore.query(Post::class.java,
 )
 ```
 
-</CodeBlock>
+</Block>
 
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+<Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 Amplify.DataStore
@@ -44,9 +44,9 @@ Amplify.DataStore
     .collect { Log.i("MyAmplifyApp", "Title: ${it.title}") }
 ```
 
-</CodeBlock>
+</Block>
 
-<CodeBlock name="RxJava">
+<Block name="RxJava">
 
 ```java
 RxAmplify.DataStore.query(Post.class,
@@ -57,6 +57,6 @@ RxAmplify.DataStore.query(Post.class,
     );
 ```
 
-</CodeBlock>
+</Block>
 
 </BlockSwitcher>

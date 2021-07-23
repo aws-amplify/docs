@@ -34,7 +34,7 @@ amplify push
 Next make a call using one of the HTTP verbs under `Amplify.API` such as a GET:
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 RestOptions request = RestOptions.builder()
@@ -48,8 +48,8 @@ Amplify.API.get("myAPI", request,
 );
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 val request = RestOptions.builder()
@@ -63,8 +63,8 @@ Amplify.API.get("myAPI", request,
 )
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 val request = RestOptions.builder()
@@ -80,8 +80,8 @@ try {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 RestOptions request = RestOptions.builder()
@@ -96,5 +96,5 @@ RxAmplify.API.get("myAPI", request)
     );
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>

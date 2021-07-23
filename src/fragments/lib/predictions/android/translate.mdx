@@ -24,7 +24,7 @@ Run `amplify push` to create the resources in the cloud.
 ### Translate text as configured
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 Open `MainActivity.java` and add the following to the bottom of `onCreate()`:
 
@@ -35,8 +35,8 @@ Amplify.Predictions.translateText("I like to eat spaghetti",
 );
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 Open `MainActivity.java` and add the following to the bottom of `onCreate()`:
 
@@ -47,8 +47,8 @@ Amplify.Predictions.translateText("I like to eat spaghetti",
 )
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 Open `MainActivity.kt` and add the following to the bottom of `onCreate()`:
 
@@ -62,8 +62,8 @@ try {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 Open `MainActivity.java` and add the following to the bottom of `onCreate()`:
 
@@ -75,7 +75,7 @@ RxAmplify.Predictions.translateText("I like to eat spaghetti")
         );
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 As a result of running this code, you will see the translated text printed to the console.
@@ -91,7 +91,7 @@ In order to override any choices you made in regards to target or source languag
 Add the `LanguageType` options as below:
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 Amplify.Predictions.translateText(
@@ -101,8 +101,8 @@ Amplify.Predictions.translateText(
 );
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 Amplify.Predictions.translateText(
@@ -112,8 +112,8 @@ Amplify.Predictions.translateText(
 )
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 Open `MainActivity.kt` and add the following to the bottom of `onCreate()`:
 
@@ -127,8 +127,8 @@ try {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 RxAmplify.Predictions.translateText("I like to eat spaghetti",
@@ -140,7 +140,7 @@ RxAmplify.Predictions.translateText("I like to eat spaghetti",
         );
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 As a result of running this code, you will see the translated text printed to the console.

@@ -12,7 +12,7 @@ If Guest users have access to your REST API you can test it from the terminal us
 > Curl is available in many distributions including Mac, Windows and Linux. Follow the install instructions in the [docs](https://curl.haxx.se/docs/install.html).
 
 <BlockSwitcher>
-<CodeBlock name="Mac and Linux">
+<Block name="Mac and Linux">
 
 ### GET method example
 
@@ -26,8 +26,8 @@ curl https://a5b4c3d2e1.execute-api.eu-west-2.amazonaws.com/dev/todos
 curl -H "Content-Type: application/json" -d '{"name":"todo-1"}' https://a5b4c3d2e1.execute-api.eu-west-2.amazonaws.com/dev/todos
 ```
 
-</CodeBlock>
-<CodeBlock name="Windows">
+</Block>
+<Block name="Windows">
 
 ### GET method example
 
@@ -41,7 +41,7 @@ curl https://a5b4c3d2e1.execute-api.eu-west-2.amazonaws.com/dev/todos
 curl -H "Content-Type: application/json" -d {\"name\":\"todo-1\"} https://a5b4c3d2e1.execute-api.eu-west-2.amazonaws.com/dev/todos
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 > Important! Testing methods using production endpoints may result in changes to resources that cannot be undone.

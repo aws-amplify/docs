@@ -1,5 +1,5 @@
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 Todo todo = Todo.builder()
@@ -13,8 +13,8 @@ Amplify.API.mutate(ModelMutation.create(todo),
 );
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 val todo = Todo.builder()
@@ -28,8 +28,8 @@ Amplify.API.mutate(ModelMutation.create(todo),
 )
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 val todo = Todo.builder()
@@ -45,8 +45,8 @@ try {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 Todo todo = Todo.builder()
@@ -61,5 +61,5 @@ Amplify.API.mutate(ModelMutation.create(todo))
     );
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>

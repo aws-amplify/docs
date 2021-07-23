@@ -1,7 +1,7 @@
 To update a single user attribute, call `updateUserAttribute`:
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 AuthUserAttribute userEmail =
@@ -12,8 +12,8 @@ Amplify.Auth.updateUserAttribute(userEmail,
 );
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 Amplify.Auth.updateUserAttribute(
@@ -23,8 +23,8 @@ Amplify.Auth.updateUserAttribute(
 )
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 val attribute =
@@ -37,8 +37,8 @@ try {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 AuthUserAttribute userEmail =
@@ -50,13 +50,13 @@ RxAmplify.Auth.updateUserAttribute(userEmail)
     );
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 To update multiple user attributes at a time, call `updateUserAttributes`:
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 Amplify.Auth.updateUserAttributes(
@@ -66,8 +66,8 @@ Amplify.Auth.updateUserAttributes(
 );
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 Amplify.Auth.updateUserAttributes(
@@ -77,8 +77,8 @@ Amplify.Auth.updateUserAttributes(
 )
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines">
+</Block>
+<Block name="Kotlin - Coroutines">
 
 ```kotlin
 try {
@@ -89,8 +89,8 @@ try {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 // attributes is a list of AuthUserAttribute
@@ -101,5 +101,5 @@ RxAmplify.Auth.updateUserAttributes(attributes)
     );
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>

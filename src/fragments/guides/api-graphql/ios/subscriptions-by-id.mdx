@@ -25,22 +25,22 @@ Because the lifetime of the subscription will last longer than the lifetime of a
 
 <BlockSwitcher>
 
-<CodeBlock name="Listener (iOS 11+)">
+<Block name="Listener (iOS 11+)">
 
 ```swift
 var subscription: GraphQLSubscriptionOperation<Comment>?
 ```
 
-</CodeBlock>
+</Block>
 
-<CodeBlock name="Combine (iOS 13+)">
+<Block name="Combine (iOS 13+)">
 
 ```swift
 var subscription: GraphQLSubscriptionOperation<Comment>?
 var dataSink: AnyCancellable?
 ```
 
-</CodeBlock>
+</Block>
 
 </BlockSwitcher>
 
@@ -48,7 +48,7 @@ To listen to creation updates with the specific post using the post id, you can 
 
 <BlockSwitcher>
 
-<CodeBlock name="Listener (iOS 11+)">
+<Block name="Listener (iOS 11+)">
 
 ```swift
 func createSubscription() {
@@ -74,9 +74,9 @@ func createSubscription() {
     })
 }
 ```
-</CodeBlock>
+</Block>
 
-<CodeBlock name="Combine (iOS 13+)">
+<Block name="Combine (iOS 13+)">
 
 ```swift
 func createSubscription() {
@@ -99,6 +99,6 @@ func createSubscription() {
 }
 ```
 
-</CodeBlock>
+</Block>
 
 </BlockSwitcher>

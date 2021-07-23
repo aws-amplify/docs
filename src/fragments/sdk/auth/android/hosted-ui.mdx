@@ -8,7 +8,7 @@ Amazon Cognito provides a customizable user experience via the Hosted UI. The Ho
 You need to configure your identity providers(Google, Facebook or Login with Amazon) which you would like to use.
 
 <BlockSwitcher>
-<CodeBlock name="Facebook Login">
+<Block name="Facebook Login">
 
 1. Create a [developer account with Facebook](https://developers.facebook.com/docs/facebook-login).
 2. [Sign In](https://developers.facebook.com/) with your Facebook credentials.
@@ -20,8 +20,8 @@ You need to configure your identity providers(Google, Facebook or Login with Ama
 ![Image](/images/cognitoHostedUI/facebook3.png)
 6. Note the *App ID* and the *App Secret*. You will use them in the next section in the CLI flow.
 
-</CodeBlock>
-<CodeBlock name="Google Sign-In">
+</Block>
+<Block name="Google Sign-In">
 
 1. Go to [Google developer console](https://console.developers.google.com).
 2. Click *Select a project*
@@ -44,8 +44,8 @@ You need to configure your identity providers(Google, Facebook or Login with Ama
 12. Take note of *Your client ID* and *Your Client Secret*. You will need them for the next section in the CLI flow.
 13. Choose *OK*.
 
-</CodeBlock>
-<CodeBlock name="Login with Amazon">
+</Block>
+<Block name="Login with Amazon">
 
 1. Create a [developer account with Amazon](https://developer.amazon.com/login-with-amazon).
 2. [Sign in](https://developer.amazon.com/loginwithamazon/console/site/lwa/overview.html) with your Amazon credentials.
@@ -57,7 +57,7 @@ You need to configure your identity providers(Google, Facebook or Login with Ama
 6. Choose Client ID and Client Secret to show the client ID and secret. You will need them for the next section in the CLI flow.
 ![Image](/images/cognitoHostedUI/amazon3.png)
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 Run the following command in your project’s root folder:
@@ -88,7 +88,7 @@ After running the `amplify push` command, you will find a domain-name provisione
 If you've setup federation through third party providers, you would need to update the providers with the CLI provisioned domain-name.
 
 <BlockSwitcher>
-<CodeBlock name="Facebook Login">
+<Block name="Facebook Login">
 
 1. [Sign In](https://developers.facebook.com/) with your Facebook credentials.
 2. From the *My Apps* menu, choose *Your App*.
@@ -125,8 +125,8 @@ If you've setup federation through third party providers, you would need to upda
     ![Image](/images/cognitoHostedUI/facebook8.png)
 12. Save changes.
 
-</CodeBlock>
-<CodeBlock name="Google Sign-In">
+</Block>
+<Block name="Google Sign-In">
 
 1. Go to the [Google developer console](https://console.developers.google.com).
 2. On the left navigation bar, choose *Credentials*.
@@ -139,8 +139,8 @@ If you've setup federation through third party providers, you would need to upda
     Note: If you saw an error message `Invalid Redirect: domain must be added to the authorized domains list before submitting.` when adding the endpoint, please go to the *authorized domains list* and add the domain.
 6. Click *Save*.
 
-</CodeBlock>
-<CodeBlock name="Login with Amazon">
+</Block>
+<Block name="Login with Amazon">
 
 1. [Sign in](https://developer.amazon.com/loginwithamazon/console/site/lwa/overview.html) with your Amazon credentials.
 2. Hover over the gear and choose Web Settings associated with the security profile you created in the previous step, and then choose Edit.
@@ -149,13 +149,13 @@ If you've setup federation through third party providers, you would need to upda
 ![Image](/images/cognitoHostedUI/amazon5.png)
 5. Choose Save.
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 ### Setup Amazon Cognito Hosted UI in Android App
 
 <BlockSwitcher>
-<CodeBlock name="Version 2.18.0 and above">
+<Block name="Version 2.18.0 and above">
 
 1. Add the following activity to your app's `AndroidManifest.xml` file, replacing `myapp` with
 whatever value you used for your redirect URI prefix:
@@ -189,8 +189,8 @@ whatever value you used for your redirect URI prefix:
 3. If you previously setup HostedUI for version 2.17.1 or below, remove the intent filter
 you previously added to your activity in the `AndroidManifest.xml` file with the URI scheme (e.g. `myapp`) as well as the `onResume()` or `onNewIntent()` handler method you previously added to your `Activity`.
 
-</CodeBlock>
-<CodeBlock name="Version 2.17.1 and below">
+</Block>
+<Block name="Version 2.17.1 and below">
 
 1. Add `myapp://` to your app's Intent filters located in `AndroidManifest.xml`. The `your.package.YourAuthIntentHandlingActivity` will be referenced in the next step.
 
@@ -233,7 +233,7 @@ you previously added to your activity in the `AndroidManifest.xml` file with the
     }
     ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 ### Launching the Hosted UI

@@ -8,7 +8,7 @@ You can utilize selective sync to only persist a subset of your data instead.
 Selective sync works by applying predicates to the base and delta sync queries, as well as to incoming subscriptions.
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 Amplify.addPlugin(new AWSDataStorePlugin(DataStoreConfiguration.builder()
@@ -17,8 +17,8 @@ Amplify.addPlugin(new AWSDataStorePlugin(DataStoreConfiguration.builder()
     .build()));
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin">
+</Block>
+<Block name="Kotlin">
 
 ```kotlin
 Amplify.addPlugin(AWSDataStorePlugin(DataStoreConfiguration.builder()
@@ -27,8 +27,8 @@ Amplify.addPlugin(AWSDataStorePlugin(DataStoreConfiguration.builder()
     .build()))
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 RxAmplify.addPlugin(new AWSDataStorePlugin(DataStoreConfiguration.builder()
@@ -37,7 +37,7 @@ RxAmplify.addPlugin(new AWSDataStorePlugin(DataStoreConfiguration.builder()
     .build()));
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 When DataStore starts syncing, only Posts with `rating > 5` and Comments with `status` equal to `active` will be synced down to the user's local store.
@@ -55,7 +55,7 @@ In order to have your expressions reevaluated, you can execute `Amplify.DataStor
 If you have the following expression and you want to change the filter that gets applied at runtime, you can do the following:
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 public Integer rating = 5;
@@ -78,8 +78,8 @@ public void changeSync() {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 var rating: Int = 5;
@@ -104,8 +104,8 @@ fun changeSync() {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 var rating = 5
@@ -128,8 +128,8 @@ suspend fun changeSync() {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 public Integer rating = 5;
@@ -151,7 +151,7 @@ public void changeSync() {
 }
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 Each time DataStore starts (via `start` or any other operation: `query`, `save`, `delete`, or `observe`), DataStore will reevaluate the `syncExpressions`.
@@ -167,7 +167,7 @@ When applying a more restrictive filter, clear the local records first by runnin
 </Callout>
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 public void changeSync() {
@@ -182,8 +182,8 @@ public void changeSync() {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 fun changeSync() {
@@ -200,8 +200,8 @@ fun changeSync() {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 suspend fun changeSync() {
@@ -216,8 +216,8 @@ suspend fun changeSync() {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 public void changeSync() {
@@ -231,7 +231,7 @@ public void changeSync() {
 }
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 This will clear the contents of your local store, reevaluate your sync expressions and re-sync the data from the cloud, applying all of the specified predicates to the sync queries.
@@ -239,7 +239,7 @@ This will clear the contents of your local store, reevaluate your sync expressio
 You can also have your sync expression return `QueryPredicates.all()` in order to remove any filtering for that model. This will have the same effect as the default sync behavior.
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 public Integer rating = null;
@@ -256,8 +256,8 @@ public void initialize() {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin">
+</Block>
+<Block name="Kotlin">
 
 ```kotlin
 var rating = null
@@ -274,8 +274,8 @@ fun initialize() {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 public Integer rating = null;
@@ -292,7 +292,7 @@ public void initialize() {
 }
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 <Callout warning>
@@ -328,7 +328,7 @@ E.g., `User.LAST_NAME.eq("Doe").and(User.CREATED_AT.gt("2020-10-10")`.
 Both of these sync expressions will result in AWS AppSync retrieving records from Amazon DynamoDB via a query operation:
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 Amplify.addPlugin(new AWSDataStorePlugin(DataStoreConfiguration.builder()
@@ -342,8 +342,8 @@ Amplify.addPlugin(new AWSDataStorePlugin(DataStoreConfiguration.builder()
     .build()));
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin">
+</Block>
+<Block name="Kotlin">
 
 ```kotlin
 Amplify.addPlugin(AWSDataStorePlugin(DataStoreConfiguration.builder()
@@ -357,8 +357,8 @@ Amplify.addPlugin(AWSDataStorePlugin(DataStoreConfiguration.builder()
     .build()))
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 RxAmplify.addPlugin(new AWSDataStorePlugin(DataStoreConfiguration.builder()
@@ -372,5 +372,5 @@ RxAmplify.addPlugin(new AWSDataStorePlugin(DataStoreConfiguration.builder()
     .build()));
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>

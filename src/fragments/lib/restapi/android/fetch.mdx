@@ -3,7 +3,7 @@
 To make a GET request, first build a RestOptions object and then use the Amplify.API.get api to issue the request:
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 void getTodo() {
@@ -18,8 +18,8 @@ void getTodo() {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 private fun getTodo() {
@@ -34,8 +34,8 @@ private fun getTodo() {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 private suspend fun getTodo() {
@@ -52,8 +52,8 @@ private suspend fun getTodo() {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 void getTodo() {
@@ -69,7 +69,7 @@ void getTodo() {
 }
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 ## Accessing query parameters & body in Lambda proxy function
@@ -111,7 +111,7 @@ app.get('/todo', function(req, res) {
 Then you can use query parameters in your path as follows:
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 RestOptions options = RestOptions.builder()
@@ -125,8 +125,8 @@ Amplify.API.get(options,
 );
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 val request = RestOptions.builder()
@@ -140,8 +140,8 @@ Amplify.API.get(request,
 )
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 val request = RestOptions.builder()
@@ -157,8 +157,8 @@ try {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 RestOptions options = RestOptions.builder()
@@ -173,5 +173,5 @@ RxAmplify.API.get(options)
     );
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>

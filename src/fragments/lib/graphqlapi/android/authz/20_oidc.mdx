@@ -1,7 +1,7 @@
 Add the following code to your app:
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 ApiAuthProviders authProviders = ApiAuthProviders.builder()
@@ -10,8 +10,8 @@ ApiAuthProviders authProviders = ApiAuthProviders.builder()
 Amplify.addPlugin(new AWSApiPlugin(authProviders));
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin">
+</Block>
+<Block name="Kotlin">
 
 ```kotlin
 val authProviders = ApiAuthProviders.builder()
@@ -20,5 +20,5 @@ val authProviders = ApiAuthProviders.builder()
 Amplify.addPlugin(AWSApiPlugin(authProviders))
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>

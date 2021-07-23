@@ -1,7 +1,7 @@
 For now, just add this method to the `onCreate` method of MainActivity with whatever provider you're using (shown with Facebook below):
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 Amplify.Auth.signInWithSocialWebUI(AuthProvider.facebook(), this,
@@ -10,8 +10,8 @@ Amplify.Auth.signInWithSocialWebUI(AuthProvider.facebook(), this,
 );
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 Amplify.Auth.signInWithSocialWebUI(AuthProvider.facebook(), this,
@@ -20,8 +20,8 @@ Amplify.Auth.signInWithSocialWebUI(AuthProvider.facebook(), this,
 )
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 try {
@@ -32,8 +32,8 @@ try {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 RxAmplify.Auth.signInWithSocialWebUI(AuthProvider.facebook(), this)
@@ -43,5 +43,5 @@ RxAmplify.Auth.signInWithSocialWebUI(AuthProvider.facebook(), this)
     );
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>

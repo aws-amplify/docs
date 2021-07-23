@@ -3,7 +3,7 @@
 The Amplify analytics plugin also makes it easy to record custom events within the app. The plugin handles retry logic in the event the device loses network connectivity and automatically batches requests to reduce network bandwidth.
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 AnalyticsEvent event = AnalyticsEvent.builder()
@@ -17,8 +17,8 @@ AnalyticsEvent event = AnalyticsEvent.builder()
 Amplify.Analytics.recordEvent(event);
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin">
+</Block>
+<Block name="Kotlin">
 
 ```kotlin
 val event = AnalyticsEvent.builder()
@@ -32,8 +32,8 @@ val event = AnalyticsEvent.builder()
 Amplify.Analytics.recordEvent(event)
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 AnalyticsEvent event = AnalyticsEvent.builder()
@@ -47,7 +47,7 @@ AnalyticsEvent event = AnalyticsEvent.builder()
 RxAmplify.Analytics.recordEvent(event);
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 ## Flush events
@@ -78,27 +78,27 @@ Events have default configuration to flush out to the network every 30 seconds. 
 To manually flush events, call:
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 Amplify.Analytics.flushEvents();
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin">
+</Block>
+<Block name="Kotlin">
 
 ```kotlin
 Amplify.Analytics.flushEvents()
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 RxAmplify.Analytics.flushEvents();
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 ## Global Properties
@@ -106,7 +106,7 @@ RxAmplify.Analytics.flushEvents();
 You can register global properties which will be sent along with all invocations of `Amplify.Analytics.recordEvent`.
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 Amplify.Analytics.registerGlobalProperties(
@@ -115,8 +115,8 @@ Amplify.Analytics.registerGlobalProperties(
         .build());
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin">
+</Block>
+<Block name="Kotlin">
 
 ```kotlin
 Amplify.Analytics.registerGlobalProperties(
@@ -125,8 +125,8 @@ Amplify.Analytics.registerGlobalProperties(
         .build())
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 RxAmplify.Analytics.registerGlobalProperties(
@@ -135,33 +135,33 @@ RxAmplify.Analytics.registerGlobalProperties(
         .build());
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 To unregister a global property, call `Amplify.Analytics.unregisterGlobalProperties()`:
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 Amplify.Analytics.unregisterGlobalProperties("AppStyle", "OtherProperty");
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin">
+</Block>
+<Block name="Kotlin">
 
 ```kotlin
 Amplify.Analytics.unregisterGlobalProperties("AppStyle", "OtherProperty")
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 RxAmplify.Analytics.unregisterGlobalProperties("AppStyle", "OtherProperty");
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 ## Disable Analytics
@@ -169,27 +169,27 @@ RxAmplify.Analytics.unregisterGlobalProperties("AppStyle", "OtherProperty");
 To disable analytics, call:
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 Amplify.Analytics.disable();
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin">
+</Block>
+<Block name="Kotlin">
 
 ```kotlin
 Amplify.Analytics.disable()
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 RxAmplify.Analytics.disable();
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 ## Enable Analytics
@@ -197,26 +197,26 @@ RxAmplify.Analytics.disable();
 To re-enable, call:
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 Amplify.Analytics.enable();
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin">
+</Block>
+<Block name="Kotlin">
 
 ```kotlin
 Amplify.Analytics.enable()
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 RxAmplify.Analytics.enable();
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 

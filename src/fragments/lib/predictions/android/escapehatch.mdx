@@ -1,7 +1,7 @@
 If you need functionality in the AWS services used by the Amplify Predictions category that isn't available, we provide an escape hatch so you can get a reference to that service. For example, to get a reference to `AmazonRekognitionClient`:
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 // Obtain reference to the plugin
@@ -16,8 +16,8 @@ CreateCollectionRequest request = new CreateCollectionRequest()
 client.createCollection(request);
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin">
+</Block>
+<Block name="Kotlin">
 
 ```kotlin
 // Obtain reference to the plugin
@@ -31,7 +31,7 @@ val request = CreateCollectionRequest().withCollectionId("<new-collection-id-her
 client.createCollection(request)
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 **API Documentation Resources**

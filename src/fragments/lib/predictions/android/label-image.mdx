@@ -28,7 +28,7 @@ Run `amplify push` to create the resources in the cloud.
 You can identify real world objects such as chairs, desks, etc. which are referred to as “labels” by passing in `LabelType.LABELS` as the identify action. For example:
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 public void detectLabels(Bitmap image) {
@@ -45,8 +45,8 @@ public void detectLabels(Bitmap image) {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 fun detectLabels(image: Bitmap) {
@@ -61,8 +61,8 @@ fun detectLabels(image: Bitmap) {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 suspend fun detectLabels(image: Bitmap) {
@@ -76,8 +76,8 @@ suspend fun detectLabels(image: Bitmap) {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 public void detectLabels(Bitmap image) {
@@ -93,7 +93,7 @@ public void detectLabels(Bitmap image) {
 }
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 ### Label moderation tag in an image
@@ -101,7 +101,7 @@ public void detectLabels(Bitmap image) {
 You can also detect whether identified content inside the image is safe by enabling moderation by passing in `LabelType.MODERATION_LABELS`.
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 public void detectLabels(Bitmap image) {
@@ -117,8 +117,8 @@ public void detectLabels(Bitmap image) {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 fun detectLabels(image: Bitmap) {
@@ -132,8 +132,8 @@ fun detectLabels(image: Bitmap) {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 suspend fun detectLabels(image: Bitmap) {
@@ -147,5 +147,5 @@ suspend fun detectLabels(image: Bitmap) {
 }
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>

@@ -17,7 +17,7 @@ Now that your have DataStore persisting data locally, in the next step you'll co
 1. Modify your initialization code so that the DataStore can sync with the backend through an API. Open `MainActivity`, and remove all of the code you added to `onCreate`. Replace it with the following:
 
   <BlockSwitcher>
-  <CodeBlock name="Java">
+  <Block name="Java">
   
   ```java
   try {
@@ -38,9 +38,9 @@ Now that your have DataStore persisting data locally, in the next step you'll co
   );
   ```
 
-  </CodeBlock>
+  </Block>
 
-  <CodeBlock name="Kotlin">
+  <Block name="Kotlin">
 
   ```kotlin
   try {
@@ -60,7 +60,7 @@ Now that your have DataStore persisting data locally, in the next step you'll co
   )
   ```
 
-  </CodeBlock>
+  </Block>
   </BlockSwitcher>
 
 1. In the Gradle Task dropdown menu in the toolbar, select **app** and run the application. This will synchronize the existing local Todo items to the cloud. `DataStore.observe` will log a message when new items are synchronized locally.

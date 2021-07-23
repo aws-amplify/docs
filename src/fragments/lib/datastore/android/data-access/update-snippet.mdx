@@ -1,5 +1,5 @@
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 Amplify.DataStore.query(Post.class, Where.id("123"),
@@ -19,8 +19,8 @@ Amplify.DataStore.query(Post.class, Where.id("123"),
 );
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 Amplify.DataStore.query(Post::class.java, Where.id("123"),
@@ -40,8 +40,8 @@ Amplify.DataStore.query(Post::class.java, Where.id("123"),
 )
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 Amplify.DataStore.query(Post::class, Where.id("123"))
@@ -52,8 +52,8 @@ Amplify.DataStore.query(Post::class, Where.id("123"))
     .collect { Log.i("MyAmplifyApp", "Updated a post") }
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 RxAmplify.DataStore.query(Post.class, Where.id("123"))
@@ -68,7 +68,7 @@ RxAmplify.DataStore.query(Post.class, Where.id("123"))
     );
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 <Callout>

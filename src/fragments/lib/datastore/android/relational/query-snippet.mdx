@@ -1,5 +1,5 @@
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 Amplify.DataStore.query(Comment.class, Post.STATUS.eq(PostStatus.ACTIVE),
@@ -13,8 +13,8 @@ Amplify.DataStore.query(Comment.class, Post.STATUS.eq(PostStatus.ACTIVE),
 );
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 Amplify.DataStore.query(Comment::class.java, Post.STATUS.eq(PostStatus.ACTIVE),
@@ -28,8 +28,8 @@ Amplify.DataStore.query(Comment::class.java, Post.STATUS.eq(PostStatus.ACTIVE),
 )
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 Amplify.DataStore
@@ -38,8 +38,8 @@ Amplify.DataStore
     .collect { Log.i("MyAmplifyApp", "Content: ${it.content}") }
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 RxAmplify.DataStore.query(Comment.class, Post.STATUS.eq(PostStatus.ACTIVE))
@@ -49,5 +49,5 @@ RxAmplify.DataStore.query(Comment.class, Post.STATUS.eq(PostStatus.ACTIVE))
     );
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>

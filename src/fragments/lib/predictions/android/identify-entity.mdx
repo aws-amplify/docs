@@ -28,7 +28,7 @@ To detect general entities like facial features, landmarks etc, default configur
 Amplify will now detect general entity features when `IdentifyActionType.DETECT_ENTITIES` is passed in. Results are mapped to `IdentifyEntitiesResult`. For example:
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 public void detectEntities(Bitmap image) {
@@ -45,8 +45,8 @@ public void detectEntities(Bitmap image) {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 fun detectEntities(image: Bitmap) {
@@ -61,8 +61,8 @@ fun detectEntities(image: Bitmap) {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 suspend fun detectEntities(image: Bitmap) {
@@ -77,8 +77,8 @@ suspend fun detectEntities(image: Bitmap) {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 public void detectEntities(Bitmap image) {
@@ -94,7 +94,7 @@ public void detectEntities(Bitmap image) {
 }
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 As a result of passing in an image, the bounding box ([`android.graphics.RectF`](https://developer.android.com/reference/android/graphics/RectF)) that captures detected entity will be printed to the console.
@@ -135,7 +135,7 @@ The value of `collectionId` is the name of your collection, which can be created
 If both `collectionId` and `maxEntities` are properly configured, then Amplify will detect entity matches from the Rekognition Collection in your app. Results are mapped to `IdentifyEntityMatchesResult`. For example:
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 public void detectEntities(Bitmap image) {
@@ -152,8 +152,8 @@ public void detectEntities(Bitmap image) {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 fun detectEntities(image: Bitmap) {
@@ -168,8 +168,8 @@ fun detectEntities(image: Bitmap) {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 suspend fun detectEntities(image: Bitmap) {
@@ -184,8 +184,8 @@ suspend fun detectEntities(image: Bitmap) {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 public void detectEntities(Bitmap image) {
@@ -201,7 +201,7 @@ public void detectEntities(Bitmap image) {
 }
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 ### Detecting Celebrities
@@ -209,7 +209,7 @@ public void detectEntities(Bitmap image) {
 To detect celebrities you can pass in `IdentifyActionType.DETECT_CELEBRITIES`.  Results are mapped to `IdentifyCelebritiesResult`.  For example:
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 public void detectCelebs(Bitmap image) {
@@ -226,8 +226,8 @@ public void detectCelebs(Bitmap image) {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 fun detectCelebs(image: Bitmap) {
@@ -242,8 +242,8 @@ fun detectCelebs(image: Bitmap) {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 suspend fun detectCelebs(image: Bitmap) {
@@ -258,8 +258,8 @@ suspend fun detectCelebs(image: Bitmap) {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 public void detectCelebs(Bitmap image) {
@@ -275,7 +275,7 @@ public void detectCelebs(Bitmap image) {
 }
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 As a result of passing in an image, `identify` will return the name of a detected celebrity.

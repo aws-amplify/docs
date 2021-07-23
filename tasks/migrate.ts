@@ -115,7 +115,7 @@ const grab = function() {
 
     // amplify-block + amplify-block-switcher -> CodeBlock + BlockSwitcher
     file = file.split("amplify-block-switcher").join("BlockSwitcher");
-    file = file.split("amplify-block").join("CodeBlock");
+    file = file.split("amplify-block").join("Block");
 
     // amplify-callout -> Callout
     file = file.split("amplify-callout").join("Callout");

@@ -3,7 +3,7 @@ When using a 3rd party OIDC auth provider, you are required to provide an instan
 * Pass your `ApiAuthProviders` to the `AWSApiPlugin` constructor, and then call `Amplify.configure(...)`
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 Amplify.addPlugin(new AWSApiPlugin(ApiAuthProviders.builder()
@@ -13,9 +13,9 @@ Amplify.addPlugin(new AWSDataStorePlugin());
 Amplify.configure(getApplicationContext());
 ```
 
-</CodeBlock>
+</Block>
 
-<CodeBlock name="Kotlin">
+<Block name="Kotlin">
 
 ```kotlin
 Amplify.addPlugin(AWSApiPlugin(ApiAuthProviders.builder()
@@ -25,5 +25,5 @@ Amplify.addPlugin(AWSDataStorePlugin());
 Amplify.configure(getApplicationContext());
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
