@@ -31,7 +31,7 @@ const importPlugin = () => (tree) => {
       });
       tree.children.splice(index + 1, 0, {
         type: "import",
-        value: `import Card from "/src/components/Card";`,
+        value: `import {Card, CardDetail, CardGraphic} from "/src/components/Card";`,
       });
       tree.children.splice(index + 1, 0, {
         type: "import",
