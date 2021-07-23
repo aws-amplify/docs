@@ -65,35 +65,35 @@ function generatePathMap(
     "/404": {
       page: "/404",
     },
-    "/start/start/q/integration/js": {
-      page: "/start/start/q/integration/[integration]",
+    "/start/q/integration/js": {
+      page: "/start/q/integration/[integration]",
     },
-    "/start/start/q/integration/react": {
-      page: "/start/start/q/integration/[integration]",
+    "/start/q/integration/react": {
+      page: "/start/q/integration/[integration]",
     },
-    "/start/start/q/integration/angular": {
-      page: "/start/start/q/integration/[integration]",
+    "/start/q/integration/angular": {
+      page: "/start/q/integration/[integration]",
     },
-    "/start/start/q/integration/vue": {
-      page: "/start/start/q/integration/[integration]",
+    "/start/q/integration/vue": {
+      page: "/start/q/integration/[integration]",
     },
-    "/start/start/q/integration/next": {
-      page: "/start/start/q/integration/[integration]",
+    "/start/q/integration/next": {
+      page: "/start/q/integration/[integration]",
     },
-    "/start/start/q/integration/android": {
-      page: "/start/start/q/integration/[integration]",
+    "/start/q/integration/android": {
+      page: "/start/q/integration/[integration]",
     },
-    "/start/start/q/integration/react-native": {
-      page: "/start/start/q/integration/[integration]",
+    "/start/q/integration/react-native": {
+      page: "/start/q/integration/[integration]",
     },
-    "/start/start/q/integration/ionic": {
-      page: "/start/start/q/integration/[integration]",
+    "/start/q/integration/ionic": {
+      page: "/start/q/integration/[integration]",
     },
-    "/start/start/q/integration/ios": {
-      page: "/start/start/q/integration/[integration]",
+    "/start/q/integration/ios": {
+      page: "/start/q/integration/[integration]",
     },
-    "/start/start/q/integration/flutter": {
-      page: "/start/start/q/integration/[integration]",
+    "/start/q/integration/flutter": {
+      page: "/start/q/integration/[integration]",
     },
     "/ui/q/framework/react": {
       page: "/ui/q/framework/[framework]",
