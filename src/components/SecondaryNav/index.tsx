@@ -15,7 +15,7 @@ import InternalLink from "../InternalLink";
 import {useRouter} from "next/router";
 import {Container} from "../Container";
 
-export default function SecondaryNav({pageHasMenu}) {
+export default function SecondaryNav() {
   const router = useRouter();
   const path = router.pathname;
   const filterKeys = JSON.parse(localStorage.getItem("filterKeys"));
