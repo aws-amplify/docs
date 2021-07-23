@@ -1,20 +1,20 @@
 export const meta = {
   title: "Mocking and testing",
-  description: "Learn how to quickly test and debug without pushing all changes in your Amplify project to the cloud. Use local mocking and testing for certain categories including API (AWS AppSync), Storage (Amazon DynamoDB and Amazon S3), and Functions (AWS Lambda).",
+  description:
+    "Learn how to quickly test and debug without pushing all changes in your Amplify project to the cloud. Use local mocking and testing for certain categories including API (AWS AppSync), Storage (Amazon DynamoDB and Amazon S3), and Functions (AWS Lambda).",
 };
-
-  
 
 It is highly recommended that you complete the Getting Started section of Amplify setup before using local mocking.
 
-<InternalLinkButton href="~/start/start.md">
+<InternalLinkButton href="/start">
   <span slot="text">🚀 Get Started</span>
 </InternalLinkButton>
 
-In order to quickly test and debug without pushing all changes in your project to the cloud, Amplify supports *Local Mocking and Testing* for certain categories including API (AWS AppSync), Storage (Amazon DynamoDB and Amazon S3), and Functions (AWS Lambda). This includes using directives from the GraphQL Transformer, editing & debug resolvers, hot reloading, JWT mocking of authorization checks, and even performing S3 operations such as uploading and downloading content.
+In order to quickly test and debug without pushing all changes in your project to the cloud, Amplify supports _Local Mocking and Testing_ for certain categories including API (AWS AppSync), Storage (Amazon DynamoDB and Amazon S3), and Functions (AWS Lambda). This includes using directives from the GraphQL Transformer, editing & debug resolvers, hot reloading, JWT mocking of authorization checks, and even performing S3 operations such as uploading and downloading content.
 
 <Callout>
-Java is required on your development workstation to use Local Mocking in Amplify
+  Java is required on your development workstation to use Local Mocking in
+  Amplify
 </Callout>
 
 [Blog walk-through with sample app](https://aws.amazon.com/blogs/mobile/amplify-framework-local-mocking/).
@@ -74,8 +74,7 @@ After adding a function to your project with `amplify add function` you can test
 
 ### Function mocking with GraphQL
 
-A GraphQL Lambda resolver connected to your schema using [@function](/cli/graphql-transformer/function) can be mocked using [`amplify mock api`](#api-mocking-setup).
-For example, if you have a function named **quoteOfTheDay** and a schema like:
+A GraphQL Lambda resolver connected to your schema using [@function](/cli/graphql-transformer/function) can be mocked using [`amplify mock api`](#api-mocking-setup). For example, if you have a function named **quoteOfTheDay** and a schema like:
 
 ```graphql
 type Query {
@@ -136,14 +135,16 @@ API_FLIGHTSTATS_AIRPLANETABLE_NAME=AirplaneTable
 const ddb = new aws.DynamoDB.DocumentClient({
   endpoint: process.env.DDB_ENDPOINT,
 });
-const result = await ddb.put({
-  TableName: process.env.API_FLIGHTSTATS_AIRPLANETABLE_NAME,
-  Item: {
-    id: '1234567890',
-    name: 'F-22',
-    description: 'Cool fighter jet',
-  },
-}).promise();
+const result = await ddb
+  .put({
+    TableName: process.env.API_FLIGHTSTATS_AIRPLANETABLE_NAME,
+    Item: {
+      id: "1234567890",
+      name: "F-22",
+      description: "Cool fighter jet",
+    },
+  })
+  .promise();
 ```
 
 3. Run `amplify mock api` to activate the local DynamoDB endpoint
@@ -162,14 +163,16 @@ IS_MOCK=true
 And configure the DynamoDB client with:
 
 ```js
-const clientConfig = process.env.IS_MOCK ? {
-  region: 'us-fake-1',
-  endpoint: 'http://localhost:62224',
-  credentials: new aws.Credentials({
-    accessKeyId: 'fake',
-    secretAccessKey: 'fake',
-  }),
-} : undefined;
+const clientConfig = process.env.IS_MOCK
+  ? {
+      region: "us-fake-1",
+      endpoint: "http://localhost:62224",
+      credentials: new aws.Credentials({
+        accessKeyId: "fake",
+        secretAccessKey: "fake",
+      }),
+    }
+  : undefined;
 const ddb = new aws.DynamoDB.DocumentClient(clientConfig);
 ```
 
@@ -187,20 +190,22 @@ When performing operations against the local mock endpoint, the Amplify CLI will
 
 ```js
 const awsmobile = {
-  "aws_project_region": "us-east-1",
-  "aws_appsync_graphqlEndpoint": "http://localhost:20002/graphql",
-  "aws_appsync_region": "us-east-1",
-  "aws_appsync_authenticationType": "AMAZON_COGNITO_USER_POOLS",
-  "aws_appsync_apiKey": "da2-fakeApiId123456",
-  "aws_appsync_dangerously_connect_to_http_endpoint_for_testing": true,
-  "aws_cognito_identity_pool_id": "us-east-1:270445b2-cc92-4d46-a937-e41e49bdb892",
-  "aws_cognito_region": "us-east-1",
-  "aws_user_pools_id": "us-east-1_excPT39ZN",
-  "aws_user_pools_web_client_id": "4a950rsq08d2gi68ogdt7sjqub",
-  "oauth": {},
-  "aws_user_files_s3_bucket": "local-testing-app-2fbf0a32d1896419b88f004c2755d084c-dev",
-  "aws_user_files_s3_bucket_region": "us-east-1",
-  "aws_user_files_s3_dangerously_connect_to_http_endpoint_for_testing": true
+  aws_project_region: "us-east-1",
+  aws_appsync_graphqlEndpoint: "http://localhost:20002/graphql",
+  aws_appsync_region: "us-east-1",
+  aws_appsync_authenticationType: "AMAZON_COGNITO_USER_POOLS",
+  aws_appsync_apiKey: "da2-fakeApiId123456",
+  aws_appsync_dangerously_connect_to_http_endpoint_for_testing: true,
+  aws_cognito_identity_pool_id:
+    "us-east-1:270445b2-cc92-4d46-a937-e41e49bdb892",
+  aws_cognito_region: "us-east-1",
+  aws_user_pools_id: "us-east-1_excPT39ZN",
+  aws_user_pools_web_client_id: "4a950rsq08d2gi68ogdt7sjqub",
+  oauth: {},
+  aws_user_files_s3_bucket:
+    "local-testing-app-2fbf0a32d1896419b88f004c2755d084c-dev",
+  aws_user_files_s3_bucket_region: "us-east-1",
+  aws_user_files_s3_dangerously_connect_to_http_endpoint_for_testing: true,
 };
 ```
 

@@ -1,6 +1,7 @@
 export const meta = {
   title: "Lambda Triggers",
-  description: "Lambda triggers are useful for adding functionality during certain lifecycles of the user's journey. Associate a Lambda trigger with an auth scenario, S3 bucket, DynamoDB table or Kinesis Stream managed through the Amplify CLI.",
+  description:
+    "Lambda triggers are useful for adding functionality during certain lifecycles of the user's journey. Associate a Lambda trigger with an auth scenario, S3 bucket, DynamoDB table or Kinesis Stream managed through the Amplify CLI.",
 };
 
 Lambda triggers are useful for adding functionality during certain lifecycles of the user's journey. Amplify ships common trigger templates which you can enable and modify (if necessary) through a few simple questions.
@@ -9,9 +10,9 @@ Lambda triggers are useful for adding functionality during certain lifecycles of
 
 Certain AWS Services can [invoke Lambda functions](https://docs.aws.amazon.com/lambda/latest/dg/lambda-services.html) in response to lifecycle events. The Amplify CLI provides trigger templates for common use cases.
 
-If you wish to modify the functionality of these templates, you are able to do so locally before pushing them.  After selecting the templates via the CLI, your local copy of the templates are located in `amplify/backend/function/<function-name>/src`.
+If you wish to modify the functionality of these templates, you are able to do so locally before pushing them. After selecting the templates via the CLI, your local copy of the templates are located in `amplify/backend/function/<function-name>/src`.
 
-Amazon Cognito allows you to set up one Lambda trigger per event.  In order to create additional flexibility when configuring Cognito triggers via the CLI, the CLI will create an index file which loops through JavaScript modules.  Each template that you configure is its own JavaScript module. This allows you to attach multiple use cases and logical flows to a single lifecycle event.
+Amazon Cognito allows you to set up one Lambda trigger per event. In order to create additional flexibility when configuring Cognito triggers via the CLI, the CLI will create an index file which loops through JavaScript modules. Each template that you configure is its own JavaScript module. This allows you to attach multiple use cases and logical flows to a single lifecycle event.
 
 You have the opportunity to edit both the index file as well as each module. For example, when creating a email deny list [PreSignUp](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-sign-up.html) trigger, you will be asked
 
@@ -76,22 +77,29 @@ The CLI Auth workflow provides the following Lambda trigger templates:
 
 ### Custom Auth Challenge with Google reCaptcha
 
-Captchas allow front end applications to guard against bots or other unwanted page interactions by presenting a challenge that is designed to require human intervention. The Google reCaptcha service is a popular implementation of captcha.  
+Captchas allow front end applications to guard against bots or other unwanted page interactions by presenting a challenge that is designed to require human intervention. The Google reCaptcha service is a popular implementation of captcha.
 
 This template will configure three triggers: [CreateAuthChallenge](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-create-auth-challenge.html), [DefineAuthChallenge](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-define-auth-challenge.html), and [VerifyAuthChallengeResponse](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-verify-auth-challenge-response.html).
 
-The first two will essentially allow the standard username/password flow to execute unimpeded, while VerifyAuthChallengeResponse will run when the `Auth.sendCustomChallenge` function is called with the data that is returned when the user interacts with the Google reCaptcha component.  The VerifyAuthChallengeResponse Lambda function will subsequently execute a POST request to Google, and will pass the success or failure of the reCaptcha interaction back to Cognito.
+The first two will essentially allow the standard username/password flow to execute unimpeded, while VerifyAuthChallengeResponse will run when the `Auth.sendCustomChallenge` function is called with the data that is returned when the user interacts with the Google reCaptcha component. The VerifyAuthChallengeResponse Lambda function will subsequently execute a POST request to Google, and will pass the success or failure of the reCaptcha interaction back to Cognito.
 
 #### React Sample
 
 The following code sample demonstrates how to create a custom ConfirmSignIn component in React using the react-google-recaptcha npm package.
 
 ```js
-import React from 'react';
-import './App.css';
-import Amplify, { Auth, Hub } from 'aws-amplify';
-import awsconfig from './aws-exports';
-import { Authenticator, SignUp, SignIn, Greetings, ConfirmSignUp, AuthPiece } from 'aws-amplify-react';
+import React from "react";
+import "./App.css";
+import Amplify, {Auth, Hub} from "aws-amplify";
+import awsconfig from "./aws-exports";
+import {
+  Authenticator,
+  SignUp,
+  SignIn,
+  Greetings,
+  ConfirmSignUp,
+  AuthPiece,
+} from "aws-amplify-react";
 import ReCAPTCHA from "react-google-recaptcha";
 
 Amplify.configure({
@@ -100,8 +108,8 @@ Amplify.configure({
     region: awsconfig.aws_cognito_region,
     userPoolId: awsconfig.aws_user_pools_id,
     userPoolWebClientId: awsconfig.aws_user_pools_web_client_id,
-    authenticationFlowType: 'CUSTOM_AUTH'
-  }
+    authenticationFlowType: "CUSTOM_AUTH",
+  },
 });
 
 class MyCustomConfirmation extends AuthPiece {
@@ -111,83 +119,74 @@ class MyCustomConfirmation extends AuthPiece {
   }
 
   onChange(data) {
-    Auth.sendCustomChallengeAnswer(this.props.authData, data)
-    .then( (user) => {
-      console.log('user signed in!: ', user)
-      this.changeState('signedIn', user);
-    })
-
+    Auth.sendCustomChallengeAnswer(this.props.authData, data).then((user) => {
+      console.log("user signed in!: ", user);
+      this.changeState("signedIn", user);
+    });
   }
 
   render() {
-    if (this.props.authState === 'customConfirmSignIn') {
+    if (this.props.authState === "customConfirmSignIn") {
       return (
         <div>
           <ReCAPTCHA
-          sitekey="your-client-side-google-recaptcha-key"
-          onChange={this.onChange}
+            sitekey="your-client-side-google-recaptcha-key"
+            onChange={this.onChange}
           />
-        </div>  
-        );
-      } else {
-        return null;
-      }
-    }
-  }
-
-  class App extends React.Component {
-    render() {
-      return (
-        <div className="App">
-          <Authenticator hideDefault={true}>
-            <SignIn />
-            <SignUp />
-            <ConfirmSignUp />
-            <Greetings />
-            <MyCustomConfirmation override={'ConfirmSignIn'}/>
-            </Authenticator>
         </div>
       );
+    } else {
+      return null;
     }
   }
+}
 
-  function MyApp() {
-    return <App />
+class App extends React.Component {
+  render() {
+    return (
+      <div className="App">
+        <Authenticator hideDefault={true}>
+          <SignIn />
+          <SignUp />
+          <ConfirmSignUp />
+          <Greetings />
+          <MyCustomConfirmation override={"ConfirmSignIn"} />
+        </Authenticator>
+      </div>
+    );
   }
+}
 
-  export default MyApp;
+function MyApp() {
+  return <App />;
+}
+
+export default MyApp;
 ```
 
 #### Angular Sample
 
 The following code sample demonstrates how to create a custom ConfirmSignIn component in Angular using the ng-recaptcha npm package.
 
-> Be sure to follow all instructions for [setting up an Angular application](/start/start) with aws-amplify-angular, and [configure your Amplify instance](/lib/auth/switch-auth) to use the CUSTOM_AUTH flow.
+> Be sure to follow all instructions for [setting up an Angular application](/start) with aws-amplify-angular, and [configure your Amplify instance](/lib/auth/switch-auth) to use the CUSTOM_AUTH flow.
 
 app.module.ts:
 
 ```js
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { AppComponent } from './app.component';
-import { AmplifyAngularModule, AmplifyService } from 'aws-amplify-angular';
-import { RecaptchaModule } from 'ng-recaptcha';
-import { FormsModule } from '@angular/forms';
+import {BrowserModule} from "@angular/platform-browser";
+import {NgModule} from "@angular/core";
+import {AppComponent} from "./app.component";
+import {AmplifyAngularModule, AmplifyService} from "aws-amplify-angular";
+import {RecaptchaModule} from "ng-recaptcha";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    AmplifyAngularModule,
-    FormsModule,
-    RecaptchaModule,
-  ],
+  declarations: [AppComponent],
+  imports: [BrowserModule, AmplifyAngularModule, FormsModule, RecaptchaModule],
   providers: [AmplifyService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
 ```
 
 app.component.ts:
@@ -230,8 +229,11 @@ app.component.html
 
 ```html
 <amplify-authenticator [hide]="['ConfirmSignIn']"></amplify-authenticator>
-<div  *ngIf="confirmSignIn">
-  <re-captcha (resolved)="submitSignIn($event)" siteKey="your-client-side-google-recaptcha-key"></re-captcha>
+<div *ngIf="confirmSignIn">
+  <re-captcha
+    (resolved)="submitSignIn($event)"
+    siteKey="your-client-side-google-recaptcha-key"
+  ></re-captcha>
 </div>
 ```
 
@@ -299,7 +301,7 @@ export default {
           return AmplifyEventBus.$emit('localUser', user)
         })
         .catch(function (err) { console.log('challenge error: ', err) });
-    },           
+    },
   }
 }
 </script>
@@ -308,11 +310,11 @@ export default {
 main.js
 
 ```js
-import Vue from 'vue'
-import App from './App.vue'
-import Amplify, * as AmplifyModules from 'aws-amplify'
-import { AmplifyPlugin } from 'aws-amplify-vue'
-import awsconfig from './aws-exports'
+import Vue from "vue";
+import App from "./App.vue";
+import Amplify, * as AmplifyModules from "aws-amplify";
+import {AmplifyPlugin} from "aws-amplify-vue";
+import awsconfig from "./aws-exports";
 
 Amplify.configure({
   Auth: {
@@ -320,20 +322,24 @@ Amplify.configure({
     region: awsconfig.aws_cognito_region,
     userPoolId: awsconfig.aws_user_pools_id,
     userPoolWebClientId: awsconfig.aws_user_pools_web_client_id,
-    authenticationFlowType: 'CUSTOM_AUTH'
-  }
+    authenticationFlowType: "CUSTOM_AUTH",
+  },
 });
-Vue.use(AmplifyPlugin, AmplifyModules)
+Vue.use(AmplifyPlugin, AmplifyModules);
 
 new Vue({
-  render: h => h(App)
-}).$mount('#app')
+  render: (h) => h(App),
+}).$mount("#app");
 ```
 
 Finally, in public/index.html add the following script:
 
 ```html
-<script src="https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit" async defer></script>
+<script
+  src="https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit"
+  async
+  defer
+></script>
 ```
 
 ### Basic Scaffolding for a Custom Auth Challenge
@@ -348,7 +354,7 @@ Cognito allows you to configure your User Pool to send an email to your users wh
 
 This trigger template allows you to define an email message with a link to a static S3 bucket that you control, where the user's account will be confirmed and they can then be redirected to a URL of your choice (presumably your application). The URL will automatically contain the username as a query string parameters.
 
-Please note that this trigger template will create an S3 resource.  The files that populate the static site are available for edit in `amplify/backend/auth/<your-resource-name>CustomMessage/assets`.  They consist of:
+Please note that this trigger template will create an S3 resource. The files that populate the static site are available for edit in `amplify/backend/auth/<your-resource-name>CustomMessage/assets`. They consist of:
 
 - index.html
 - spinner.js (controls the spinner that appears on the page while users are awaiting confirmation)
@@ -360,20 +366,24 @@ Please note that this trigger template will create an S3 resource.  The files th
 The following is an example of how to configure the aws-amplify-react authenticator so that it displays a message telling the user to check their email, instead of showing the default 'ConfirmSignUp' component.
 
 ```js
-import React from 'react';
-import './App.css';
-import Amplify, { Auth, Hub } from 'aws-amplify';
-import awsconfig from './aws-exports';
-import { Authenticator, SignUp, SignIn, Greetings, AuthPiece } from 'aws-amplify-react';
+import React from "react";
+import "./App.css";
+import Amplify, {Auth, Hub} from "aws-amplify";
+import awsconfig from "./aws-exports";
+import {
+  Authenticator,
+  SignUp,
+  SignIn,
+  Greetings,
+  AuthPiece,
+} from "aws-amplify-react";
 
 Amplify.configure(awsconfig);
 
 class MyCustomConfirmation extends AuthPiece {
   render() {
-    if (this.props.authState === 'confirmSignUp') {
-      return (
-        <div>Check your email for a confirmation link.</div>
-      );
+    if (this.props.authState === "confirmSignUp") {
+      return <div>Check your email for a confirmation link.</div>;
     } else {
       return null;
     }
@@ -388,15 +398,15 @@ class App extends React.Component {
           <SignIn />
           <SignUp />
           <Greetings />
-          <MyCustomConfirmation override={'ConfirmSignUp'}/>
-          </Authenticator>
+          <MyCustomConfirmation override={"ConfirmSignUp"} />
+        </Authenticator>
       </div>
     );
   }
 }
 
 function MyApp() {
-  return <App />
+  return <App />;
 }
 
 export default MyApp;
@@ -406,7 +416,7 @@ export default MyApp;
 
 The following is an example of how to configure the aws-amplify-angular authenticator so that it displays a message telling the user to check their email, instead of showing the default 'ConfirmSignUp' component.
 
-Be sure to follow all instructions for [setting up an Angular application](/start/start) with aws-amplify-angular.
+Be sure to follow all instructions for [setting up an Angular application](/start) with aws-amplify-angular.
 
 app.component.ts:
 
@@ -441,7 +451,7 @@ app.component.html:
 
 ```html
 <amplify-authenticator [hide]="['ConfirmSignUp']"></amplify-authenticator>
-<div  *ngIf="confirmSignUp">
+<div *ngIf="confirmSignUp">
   Check your email account for a confirmation message!
 </div>
 ```
@@ -507,13 +517,13 @@ export default {
 
 ### Add User to Group
 
-This trigger allows you to define a Cognito group to which a user will be added upon registration.  
+This trigger allows you to define a Cognito group to which a user will be added upon registration.
 
 The trigger will check for the existence of the group in your User Pool, and will create the group if it is not present.
 
 ### Email Domain Filtering (deny list) and Email Domain Filtering (allow list)
 
-These two templates allow you to define email domains which are allowed or disallowed (respectively). They can be used in tandem or individually.  
+These two templates allow you to define email domains which are allowed or disallowed (respectively). They can be used in tandem or individually.
 
 ### Override ID Token Claims
 
@@ -600,25 +610,24 @@ After the above question, you can select one of the types annotated by @model fo
 On completion of the above mentioned flow, a boilerplate lambda function trigger will be created in your `amplify/backend/function` directory with the following template:
 
 ```js
-exports.handler = function (event, context) {
+exports.handler = function(event, context) {
   console.log(JSON.stringify(event, null, 2));
   event.Records.forEach((record) => {
     console.log(record.eventID);
     console.log(record.eventName);
-    console.log('DynamoDB Record: %j', record.dynamodb);
+    console.log("DynamoDB Record: %j", record.dynamodb);
   });
-  context.done(null, 'Successfully processed DynamoDB record');
+  context.done(null, "Successfully processed DynamoDB record");
 };
 ```
 
-`record.dynamodb` will contain a DynamoDB change json describing the item changed in DynamoDB table.
-Please note that it does not represent an original and new item as stored in DynamoDB table. To retrieve a original and new item you need to convert a DynamoDB json to original form:
+`record.dynamodb` will contain a DynamoDB change json describing the item changed in DynamoDB table. Please note that it does not represent an original and new item as stored in DynamoDB table. To retrieve a original and new item you need to convert a DynamoDB json to original form:
 
 ```js
-const AWS = require('aws-sdk');
-const records = event.Records.map(record => ({
+const AWS = require("aws-sdk");
+const records = event.Records.map((record) => ({
   new: AWS.DynamoDB.Converter.unmarshall(record.dynamodb.NewImage),
-  old: AWS.DynamoDB.Converter.unmarshall(record.dynamodb.OldImage)
+  old: AWS.DynamoDB.Converter.unmarshall(record.dynamodb.OldImage),
 }));
 ```
 
