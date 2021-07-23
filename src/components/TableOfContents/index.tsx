@@ -1,8 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const slug = require("../../utils/slug");
 import getElementTop from "../../utils/get-element-top";
 import {TOCStyle, H2AnchorStyle, H3AnchorStyle, HeaderStyle} from "./styles";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 
 export default function TableOfContents({children, title}) {
   const headers = [];
@@ -61,9 +60,9 @@ export default function TableOfContents({children, title}) {
       <HeaderStyle>
         <h4>{title}</h4>
       </HeaderStyle>
-      {children.map(([name, level], index) => {
-        const slugged = `#${slug(name)}`;
-        headers.push(slug(name));
+      {children.map(([name, id, level], index) => {
+        const slugged = `#${id}`;
+        headers.push(id);
         const anchor = <a href={slugged}>{name}</a>;
         if (level === "h2")
           return <H2AnchorStyle key={index}>{anchor}</H2AnchorStyle>;
