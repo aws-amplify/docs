@@ -1112,7 +1112,7 @@ const directory = {
     items: {
       start: {
         title: "Getting started",
-        route: "/start/start",
+        route: "/start",
         filters: [
           "js",
           "react",
