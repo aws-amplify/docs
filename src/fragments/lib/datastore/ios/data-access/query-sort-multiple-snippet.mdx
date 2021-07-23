@@ -1,6 +1,6 @@
 <BlockSwitcher>
 
-<CodeBlock name="Listener (iOS 11+)">
+<Block name="Listener (iOS 11+)">
 
 ```swift
 Amplify.DataStore.query(Post.self, sort: .by(.ascending(Post.keys.rating),
@@ -14,9 +14,9 @@ Amplify.DataStore.query(Post.self, sort: .by(.ascending(Post.keys.rating),
 }
 ```
 
-</CodeBlock>
+</Block>
 
-<CodeBlock name="Combine (iOS 13+)">
+<Block name="Combine (iOS 13+)">
 
 ```swift
 let sink = Amplify.DataStore.query(Post.self, sort: .by(.ascending(Post.keys.rating),
@@ -30,6 +30,6 @@ receiveValue: { result in
 }
 ```
 
-</CodeBlock>
+</Block>
 
 </BlockSwitcher>

@@ -73,26 +73,26 @@ The below steps describe how you can retrieve a device location and pass it to t
 1. First, add a new `AWSLocationTracker` to the Activity:
 
     <BlockSwitcher>
-    <CodeBlock name="Java">
+    <Block name="Java">
 
     ```java
     private AWSLocationTracker tracker;
     ```
 
-    </CodeBlock>
-    <CodeBlock name="Kotlin">
+    </Block>
+    <Block name="Kotlin">
 
     ```kotlin
     private lateinit var tracker: AWSLocationTracker
     ```
 
-    </CodeBlock>
+    </Block>
     </BlockSwitcher>
 
 1. Add helper methods to the class that will request location permission from the application user and start tracking.
 
     <BlockSwitcher>
-    <CodeBlock name="Java">
+    <Block name="Java">
 
     ```java
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -130,8 +130,8 @@ The below steps describe how you can retrieve a device location and pass it to t
     }
     ```
 
-    </CodeBlock>
-    <CodeBlock name="Kotlin">
+    </Block>
+    <Block name="Kotlin">
 
     ```kotlin
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
@@ -164,14 +164,14 @@ The below steps describe how you can retrieve a device location and pass it to t
     }
     ```
 
-    </CodeBlock>
+    </Block>
     </BlockSwitcher>
 
 1. Initialize `AWSMobileClient` in your `onCreate` method. This code will get credentials from Amazon Cognito, check to see if the application has location permissions, request them if necessary, and start the tracker.
 
     <BlockSwitcher>
 
-    <CodeBlock name="Java">
+    <Block name="Java">
 
     ```java
     AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
@@ -197,8 +197,8 @@ The below steps describe how you can retrieve a device location and pass it to t
     });
     ```
 
-    </CodeBlock>
-    <CodeBlock name="Kotlin">
+    </Block>
+    <Block name="Kotlin">
 
     ```kotlin
     AWSMobileClient.getInstance().initialize(applicationContext, object : Callback<UserStateDetails?>() {
@@ -222,5 +222,5 @@ The below steps describe how you can retrieve a device location and pass it to t
     })
     ```
 
-    </CodeBlock>
+    </Block>
     </BlockSwitcher>

@@ -1,5 +1,5 @@
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 Amplify.Auth.signOut(
@@ -9,8 +9,8 @@ Amplify.Auth.signOut(
 );
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 val options = AuthSignOutOptions.builder()
@@ -22,8 +22,8 @@ Amplify.Auth.signOut(options,
 )
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 val options = AuthSignOutOptions.builder()
@@ -37,8 +37,8 @@ try {
 )
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 RxAmplify.Auth.signOut(AuthSignOutOptions.builder().globalSignOut(true).build())
@@ -48,5 +48,5 @@ RxAmplify.Auth.signOut(AuthSignOutOptions.builder().globalSignOut(true).build())
     );
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher> 

@@ -6,7 +6,7 @@ You can download to in-memory buffer [Data](https://developer.apple.com/document
 
 <BlockSwitcher>
 
-<CodeBlock name="Listener (iOS 11+)">
+<Block name="Listener (iOS 11+)">
 
 ```swift
 Amplify.Storage.downloadData(
@@ -23,9 +23,9 @@ Amplify.Storage.downloadData(
 })
 ```
 
-</CodeBlock>
+</Block>
 
-<CodeBlock name="Combine (iOS 13+)">
+<Block name="Combine (iOS 13+)">
 
 ```swift
 let storageOperation = Amplify.Storage.downloadData(key: "myKey")
@@ -40,7 +40,7 @@ receiveValue: { data in
 }
 ```
 
-</CodeBlock>
+</Block>
 
 </BlockSwitcher>
 
@@ -50,7 +50,7 @@ You can download to a file [URL](https://developer.apple.com/documentation/found
 
 <BlockSwitcher>
 
-<CodeBlock name="Listener (iOS 11+)">
+<Block name="Listener (iOS 11+)">
 
 ```swift
 let downloadToFileName = FileManager.default.urls(for: .documentDirectory,
@@ -72,9 +72,9 @@ Amplify.Storage.downloadFile(
     })
 ```
 
-</CodeBlock>
+</Block>
 
-<CodeBlock name="Combine (iOS 13+)">
+<Block name="Combine (iOS 13+)">
 
 ```swift
 let downloadToFileName = FileManager.default.urls(for: .documentDirectory,
@@ -92,7 +92,7 @@ receiveValue: {
 }
 ```
 
-</CodeBlock>
+</Block>
 
 </BlockSwitcher>
 
@@ -102,7 +102,7 @@ You can also retrieve a URL for the object in storage:
 
 <BlockSwitcher>
 
-<CodeBlock name="Listener (iOS 11+)">
+<Block name="Listener (iOS 11+)">
 
 ```swift
 Amplify.Storage.getURL(key: "myKey") { event in
@@ -115,9 +115,9 @@ Amplify.Storage.getURL(key: "myKey") { event in
 }
 ```
 
-</CodeBlock>
+</Block>
 
-<CodeBlock name="Combine (iOS 13+)">
+<Block name="Combine (iOS 13+)">
 
 ```swift
 let sink = Amplify.Storage.getURL(key: "myKey")
@@ -132,6 +132,6 @@ let sink = Amplify.Storage.getURL(key: "myKey")
     }
 ```
 
-</CodeBlock>
+</Block>
 
 </BlockSwitcher>

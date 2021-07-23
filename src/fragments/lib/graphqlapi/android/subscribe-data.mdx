@@ -1,7 +1,7 @@
 Subscribe to mutations for creating real-time clients:
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 ApiOperation subscription = Amplify.API.subscribe(
@@ -16,8 +16,8 @@ ApiOperation subscription = Amplify.API.subscribe(
 subscription.cancel();
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 val subscription = Amplify.API.subscribe(
@@ -32,8 +32,8 @@ val subscription = Amplify.API.subscribe(
 subscription.cancel();
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 val job = activityScope.launch {
@@ -50,8 +50,8 @@ val job = activityScope.launch {
 job.cancel()
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 RxSubscriptionOperation<? extends GraphQLResponse<?>> subscription =
@@ -73,5 +73,5 @@ subscription
 subscription.cancel();
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>

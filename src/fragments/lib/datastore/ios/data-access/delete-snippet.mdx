@@ -1,6 +1,6 @@
 <BlockSwitcher>
 
-<CodeBlock name="Listener (iOS 11+)">
+<Block name="Listener (iOS 11+)">
 
 ```swift
 Amplify.DataStore.delete(post) {
@@ -13,9 +13,9 @@ Amplify.DataStore.delete(post) {
 }
 ```
 
-</CodeBlock>
+</Block>
 
-<CodeBlock name="Combine (iOS 13+)">
+<Block name="Combine (iOS 13+)">
 
 ```swift
 let sink = Amplify.DataStore.delete(post).sink {
@@ -28,7 +28,7 @@ receiveValue: {
 }
 ```
 
-</CodeBlock>
+</Block>
 
 </BlockSwitcher>
 
@@ -36,7 +36,7 @@ A delete can also be achieved by a `type` and its `id`.
 
 <BlockSwitcher>
 
-<CodeBlock name="Listener (iOS 11+)">
+<Block name="Listener (iOS 11+)">
 
 ```swift
 Amplify.DataStore.delete(Post.self, withId: "123") {
@@ -49,9 +49,9 @@ Amplify.DataStore.delete(Post.self, withId: "123") {
 }
 ```
 
-</CodeBlock>
+</Block>
 
-<CodeBlock name="Combine (iOS 13+)">
+<Block name="Combine (iOS 13+)">
 
 ```swift
 let sink = Amplify.DataStore.delete(Post.self, withId: "123").sink {
@@ -64,6 +64,6 @@ receiveValue: {
 }
 ```
 
-</CodeBlock>
+</Block>
 
 </BlockSwitcher>

@@ -1,5 +1,5 @@
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 // Listen for sign out events.
@@ -15,8 +15,8 @@ Amplify.Hub.subscribe(HubChannel.AUTH,
 );
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 Amplify.Hub.subscribe(HubChannel.AUTH,
@@ -34,8 +34,8 @@ Amplify.Hub.subscribe(HubChannel.AUTH,
 )
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 Amplify.Hub.subscribe(HubChannel.AUTH)
@@ -46,9 +46,9 @@ Amplify.Hub.subscribe(HubChannel.AUTH)
     .collect { Log.i("MyAmplifyApp", "DataStore is cleared.") }
 ```
 
-</CodeBlock>
+</Block>
 
-<CodeBlock name="RxJava">
+<Block name="RxJava">
 
 ```java
 // Listen for sign out events.
@@ -63,6 +63,6 @@ RxAmplify.Hub.on(HubChannel.AUTH)
     );
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 

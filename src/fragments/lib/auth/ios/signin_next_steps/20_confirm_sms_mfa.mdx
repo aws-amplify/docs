@@ -4,7 +4,7 @@ Note: the signin result also includes an `AuthCodeDeliveryDetails` member. It in
 
 <BlockSwitcher>
 
-<CodeBlock name="Listener (iOS 11+)">
+<Block name="Listener (iOS 11+)">
 
 ```swift
 func confirmSignIn(confirmationCodeFromUser: String) {
@@ -27,9 +27,9 @@ func confirmSignIn(confirmationCodeFromUser: String) {
 }
 ```
 
-</CodeBlock>
+</Block>
 
-<CodeBlock name="Combine (iOS 13+)">
+<Block name="Combine (iOS 13+)">
 
 ```swift
 func confirmSignIn(confirmationCodeFromUser: String) -> AnyCancellable {
@@ -54,6 +54,6 @@ func confirmSignIn(confirmationCodeFromUser: String) -> AnyCancellable {
 }
 ```
 
-</CodeBlock>
+</Block>
 
 </BlockSwitcher>

@@ -11,7 +11,7 @@ First, we'll add the DataStore plugin and configure Amplify by creating an Appli
 1. Add the following code in `onCreate` to initialize Amplify:
 
   <BlockSwitcher>
-  <CodeBlock name="Java">
+  <Block name="Java">
   
     ```java
     try {
@@ -24,9 +24,9 @@ First, we'll add the DataStore plugin and configure Amplify by creating an Appli
     }
     ```
 
-  </CodeBlock>
+  </Block>
 
-  <CodeBlock name="Kotlin">
+  <Block name="Kotlin">
 
   ```kotlin
   try {
@@ -39,7 +39,7 @@ First, we'll add the DataStore plugin and configure Amplify by creating an Appli
   }
   ```
 
-  </CodeBlock>
+  </Block>
   </BlockSwitcher>
 
 1. In the Gradle Task dropdown menu in the toolbar, select **app**, and run the application. In logcat, you'll see a log line indicating success:
@@ -59,7 +59,7 @@ Next, you'll create a Todo and save it to DataStore.
 1. Open `MainActivity` and add the following code to the bottom of the `onCreate()` method:
 
   <BlockSwitcher>
-  <CodeBlock name="Java">
+  <Block name="Java">
 
   ```java
   Todo item = Todo.builder()
@@ -68,9 +68,9 @@ Next, you'll create a Todo and save it to DataStore.
       .build();
   ```
 
-  </CodeBlock>
+  </Block>
 
-  <CodeBlock name="Kotlin">
+  <Block name="Kotlin">
 
   ```kotlin
   val item = Todo.builder()
@@ -79,7 +79,7 @@ Next, you'll create a Todo and save it to DataStore.
       .build()
   ```
 
-  </CodeBlock>
+  </Block>
   </BlockSwitcher>
 
   This code creates a Todo item with two properties: a name and a description. This is a plain object that isn't stored in DataStore yet.
@@ -87,7 +87,7 @@ Next, you'll create a Todo and save it to DataStore.
 1. Below that, add the code to save the item to DataStore:
 
   <BlockSwitcher>
-  <CodeBlock name="Java">
+  <Block name="Java">
 
   ```java
     Amplify.DataStore.save(item,
@@ -96,9 +96,9 @@ Next, you'll create a Todo and save it to DataStore.
     );
   ```
 
-  </CodeBlock>
+  </Block>
 
-  <CodeBlock name="Kotlin">
+  <Block name="Kotlin">
 
   ```kotlin
   Amplify.DataStore.save(item,
@@ -107,7 +107,7 @@ Next, you'll create a Todo and save it to DataStore.
   )
   ```
 
-  </CodeBlock>
+  </Block>
   </BlockSwitcher>
 
 1. Run the application. In logcat, you'll see an indication that the item was saved successfully:
@@ -120,7 +120,7 @@ Next, you'll create a Todo and save it to DataStore.
 1. Replace the item with a new Todo to save an additional item. Let's change the name and description, and add a priority:
 
   <BlockSwitcher>
-  <CodeBlock name="Java">
+  <Block name="Java">
 
   ```java
   Todo item = Todo.builder()
@@ -130,9 +130,9 @@ Next, you'll create a Todo and save it to DataStore.
       .build();
   ```
 
-  </CodeBlock>
+  </Block>
 
-  <CodeBlock name="Kotlin">
+  <Block name="Kotlin">
 
   ```kotlin
   val item = Todo.builder()
@@ -142,7 +142,7 @@ Next, you'll create a Todo and save it to DataStore.
       .build()
   ```
 
-  </CodeBlock>
+  </Block>
   </BlockSwitcher>
 
 1. Run the application. In logcat, you'll see an indication that the item was saved successfully:
@@ -161,7 +161,7 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
 1. Below the initialization code, add the following:
 
   <BlockSwitcher>
-  <CodeBlock name="Java">
+  <Block name="Java">
 
   ```java
   Amplify.DataStore.query(Todo.class,
@@ -185,9 +185,9 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
   );
   ```
 
-  </CodeBlock>
+  </Block>
 
-  <CodeBlock name="Kotlin">
+  <Block name="Kotlin">
 
   ```kotlin
   Amplify.DataStore.query(Todo::class.java,
@@ -204,7 +204,7 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
   )
   ```
 
-  </CodeBlock>
+  </Block>
   </BlockSwitcher>
 
 1. Run the application. In logcat, you'll see both items returned:
@@ -239,7 +239,7 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
   To use a predicate, pass an additional argument into your query. For example, the following code queries for all high priority items:
 
   <BlockSwitcher>
-  <CodeBlock name="Java">
+  <Block name="Java">
 
   ```java
   Amplify.DataStore.query(Todo.class,
@@ -264,9 +264,9 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
   );
   ```
 
-  </CodeBlock>
+  </Block>
 
-  <CodeBlock name="Kotlin">
+  <Block name="Kotlin">
 
   ```kotlin
   Amplify.DataStore.query(
@@ -284,7 +284,7 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
   )
   ```
 
-  </CodeBlock>
+  </Block>
   </BlockSwitcher>
 
   In the above code, notice the addition of the predicate parameter as the second argument.

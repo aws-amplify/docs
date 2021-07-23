@@ -13,7 +13,7 @@ The following commands will show you Amplify packages that appear multiple times
 
 <BlockSwitcher>
 
-<CodeBlock name="Mac and Linux">
+<Block name="Mac and Linux">
 
 ```sh
 # Using YARN
@@ -33,9 +33,9 @@ npm ls -all 2>/dev/null | \
   uniq -d | sort
 ```
 
-</CodeBlock>
+</Block>
 
-<CodeBlock name="Windows (PowerShell)">
+<Block name="Windows (PowerShell)">
 
 ```powershell
 # Using YARN
@@ -55,7 +55,7 @@ npm ls -all 2>$null |
   Sort-Object
 ```
 
-</CodeBlock>
+</Block>
 
 </BlockSwitcher>
 
@@ -67,7 +67,7 @@ If you want to update all Amplify packages to the `latest` versions from npm, ru
 
 <BlockSwitcher>
 
-<CodeBlock name="Mac and Linux">
+<Block name="Mac and Linux">
 
 ```sh
 # Using YARN
@@ -79,9 +79,9 @@ yarn upgrade --latest --pattern aws-amplify
 npx npm-check-updates -i '/@?aws-amplify/' && npm update
 ```
 
-</CodeBlock>
+</Block>
 
-<CodeBlock name="Windows (PowerShell)">
+<Block name="Windows (PowerShell)">
 
 ```powershell
 # Using YARN
@@ -93,6 +93,6 @@ yarn upgrade --latest --pattern aws-amplify
 npx npm-check-updates -i '/@?aws-amplify/' && npm update
 ```
 
-</CodeBlock>
+</Block>
 
 </BlockSwitcher>

@@ -3,7 +3,7 @@
 Use the Vue CLI to bootstrap a new Vue app (selecting the defaults will work for this project):
 
 <BlockSwitcher>
-<CodeBlock name="NPM">
+<Block name="NPM">
 
 ```bash
 npm install -g @vue/cli
@@ -29,8 +29,8 @@ npm run serve --open
 ```
 Press `Ctrl + C` to stop the server
 
-</CodeBlock>
-<CodeBlock name="Yarn">
+</Block>
+<Block name="Yarn">
 
 ```bash
 yarn global add @vue/cli
@@ -56,7 +56,7 @@ yarn serve --open
 ```
 Press `Ctrl + C` to stop the server
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 ## Initialize a new backend
@@ -128,7 +128,7 @@ When your project is ready to be hosted, Vue will generate your website, ready f
 ```
 
 <BlockSwitcher>
-<CodeBlock name="NPM">
+<Block name="NPM">
 
 Amplify's automated deployment needs to know what steps are needed to build your application for publishing. Here we will set that to be Vue CLI's default build script, found in the `package.json`
 ```console
@@ -139,8 +139,8 @@ If Amplify needs to run the application in development mode, it needs to know ho
 ```console
 ? Start Command:  npm run-script serve
 ```
-</CodeBlock>
-<CodeBlock name="Yarn">
+</Block>
+<Block name="Yarn">
 
 Amplify's automated deployment needs to know what steps are needed to build your application for publishing. Here we will set that to be Vue CLI's default build script, found in the `package.json`
 ```console
@@ -151,14 +151,14 @@ If Amplify needs to run the application in development mode, it needs to know ho
 ```console
 ? Start Command:  yarn serve
 ```
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 Finally, Amplify needs an AWS account to connect to so that I can begin creating the backend services.
 This is the profile you created with the `amplify configure` command in the introduction step. [introduction step](/start/getting-started/installation)
 
 <BlockSwitcher>
-<CodeBlock name="With A Profile">
+<Block name="With A Profile">
 
 Select "yes" by typing `y` and pressing `enter`.
 
@@ -167,8 +167,8 @@ Select "yes" by typing `y` and pressing `enter`.
 ```
 Proceed to select your profile from the list and press enter. Amplify will now begin deploying your backend framework.
 
-</CodeBlock>
-<CodeBlock name="Without A Profile">
+</Block>
+<Block name="Without A Profile">
 
 If you have not setup an AWS profile yet, select "no" by typing `n` and pressing `enter`.
 
@@ -199,7 +199,7 @@ AWS has multiple regions distributed around the world. Select the region that ma
 
 Amplify will now begin deploying your backend framework.
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 When you initialize a new Amplify project, a few things happen:
@@ -214,20 +214,20 @@ When you initialize a new Amplify project, a few things happen:
 The first step to using Amplify in the client is to install the necessary dependencies:
 
 <BlockSwitcher>
-<CodeBlock name="NPM">
+<Block name="NPM">
 
 ```
 npm install aws-amplify @aws-amplify/ui-components
 ```
 
-</CodeBlock>
-<CodeBlock name="Yarn">
+</Block>
+<Block name="Yarn">
 
 ```
 yarn add aws-amplify @aws-amplify/ui-components
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 <Callout>

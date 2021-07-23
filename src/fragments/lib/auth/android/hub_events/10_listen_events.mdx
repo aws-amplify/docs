@@ -1,5 +1,5 @@
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 Amplify.Hub.subscribe(HubChannel.AUTH,
@@ -28,8 +28,8 @@ Amplify.Hub.subscribe(HubChannel.AUTH,
 );
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 Amplify.Hub.subscribe(HubChannel.AUTH) { event ->
@@ -52,8 +52,8 @@ Amplify.Hub.subscribe(HubChannel.AUTH) { event ->
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 Amplify.Hub.subscribe(HubChannel.AUTH).collect {
@@ -74,8 +74,8 @@ Amplify.Hub.subscribe(HubChannel.AUTH).collect {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 RxAmplify.Hub.on(HubChannel.Auth)
@@ -105,6 +105,6 @@ RxAmplify.Hub.on(HubChannel.Auth)
     });
 ```
 
-</CodeBlock>
+</Block>
 
 </BlockSwitcher>

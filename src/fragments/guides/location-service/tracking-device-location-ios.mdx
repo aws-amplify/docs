@@ -58,7 +58,7 @@ In order for your app to get the location of the device, you will first set up y
 2. Create a new file called `LocationManagement.swift` with the following contents:
 
     <BlockSwitcher>
-    <CodeBlock name="Deployment target iOS 14">
+    <Block name="Deployment target iOS 14">
 
     ```swift
     import CoreLocation
@@ -110,8 +110,8 @@ In order for your app to get the location of the device, you will first set up y
     }
     ```
 
-    </CodeBlock>
-    <CodeBlock name="Deployment target iOS 13">
+    </Block>
+    <Block name="Deployment target iOS 13">
 
     ```swift
     import CoreLocation
@@ -163,14 +163,14 @@ In order for your app to get the location of the device, you will first set up y
     }
     ```
 
-    </CodeBlock>
+    </Block>
     </BlockSwitcher>
 
 1. Create an instance of `LocationManagement` in the view you would like to prompt the user for permission to retrieve their device location. For example:
 
     <BlockSwitcher>
 
-    <CodeBlock name="ViewController">
+    <Block name="ViewController">
 
     ```swift
     class ViewController: UIViewController {
@@ -178,8 +178,8 @@ In order for your app to get the location of the device, you will first set up y
     }
     ```
 
-    </CodeBlock>
-    <CodeBlock name="SwiftUI">
+    </Block>
+    <Block name="SwiftUI">
 
     ```swift
     struct ContentView: View {
@@ -187,7 +187,7 @@ In order for your app to get the location of the device, you will first set up y
     }
     ```
 
-    </CodeBlock>
+    </Block>
     </BlockSwitcher>
 
 1. Build (⌘B) and run the app (⌘R). The UI will prompt you with a modal to request location permissions. 
@@ -361,7 +361,7 @@ As a reference, here is the full code sample we created throughout these section
 
 <BlockSwitcher>
 
-<CodeBlock name="Deployment target iOS 14">
+<Block name="Deployment target iOS 14">
 
 ```swift
 import CoreLocation
@@ -461,8 +461,8 @@ class LocationManagement: NSObject, CLLocationManagerDelegate, AWSLocationTracke
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Deployment target iOS 13">
+</Block>
+<Block name="Deployment target iOS 13">
 
 ```swift
 import CoreLocation
@@ -566,5 +566,5 @@ class LocationManagement: NSObject,
 }
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>

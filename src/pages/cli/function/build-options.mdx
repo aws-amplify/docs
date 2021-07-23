@@ -5,7 +5,7 @@ export const meta = {
 
 <BlockSwitcher>
 
-<CodeBlock name="NodeJS">
+<Block name="NodeJS">
 
 In some cases, it might be necessary to execute a script before a function is deployed, e.g. to transpile Typescript or ES6 with Babel or with `tsc` into a format that is supported by the AWS Lambda's node runtime. `amplify push` will look for a `script` definition in the project root's `package.json` with the name `amplify:<resource_name>` and run it right after `npm install` is canned in the function resource's `src` directory.
 
@@ -102,9 +102,9 @@ Babel needs to be configured properly so that the transpiled code can be run on 
 
 Once you run `amplify push`, the `amplify:generateReport` script will be executed, either by `yarn` or by `npm` depending on the existence of a `yarn.lock` file in the project root directory.
 
-</CodeBlock>
+</Block>
 
-<CodeBlock name="Python">
+<Block name="Python">
 
 There are no existing build options for Python functions. The process of building and packaging Python functions is in line with Amazon's [existing documentation](https://docs.aws.amazon.com/lambda/latest/dg/python-package.html#python-package-venv) for manually creating a Lambda deployment package which depends on a virtual environment.
 
@@ -112,6 +112,6 @@ Amplify will run `pipenv install` in your function's source directory during bui
 
 The contents of the Python build can include local development dependencies (e.g. for testing) in addition to those necessary for your function to run. Packages installed as "editable" (using the `-e` flag) will not be  packaged, as they are represented as an `.egg-link` file pointing to the local, editable code of the dependency.
 
-</CodeBlock>
+</Block>
 
 </BlockSwitcher>

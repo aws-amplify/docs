@@ -1,7 +1,7 @@
 Now you can create a custom subscription for comment creation with a specific post id:
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 private GraphQLRequest<Comment> onCreateCommentByPostId(String id) {
@@ -21,8 +21,8 @@ private GraphQLRequest<Comment> onCreateCommentByPostId(String id) {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin">
+</Block>
+<Block name="Kotlin">
 
 ```kotlin
 private fun onCreateCommentByPostId(id: String): GraphQLRequest<Comment> {
@@ -44,13 +44,13 @@ private fun onCreateCommentByPostId(id: String): GraphQLRequest<Comment> {
 }
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 To listen to creation updates with the specific post using the post id, you can use the following code sample:
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 private void createSubscription() {
@@ -71,8 +71,8 @@ private void createSubscription() {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin">
+</Block>
+<Block name="Kotlin">
 
 ```kotlin
 private suspend fun createSubscription() {
@@ -94,8 +94,8 @@ private suspend fun createSubscription() {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 private void createSubscription() {
@@ -127,5 +127,5 @@ private void createSubscription() {
 }
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>

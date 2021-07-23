@@ -1,7 +1,7 @@
 To specify your own headers, use the `configureClient()` configuration option on the `AWSApiPlugin`'s builder. Specify the name of one of the configured APIs in your **amplifyconfiguration.json**. Apply customizations to the underlying OkHttp instance by providing a lambda expression as below.
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 AWSApiPlugin plugin = AWSApiPlugin.builder()
@@ -18,8 +18,8 @@ AWSApiPlugin plugin = AWSApiPlugin.builder()
 Amplify.addPlugin(plugin);
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 val plugin = AWSApiPlugin.builder()
@@ -36,8 +36,8 @@ val plugin = AWSApiPlugin.builder()
 Amplify.addPlugin(plugin)
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 val plugin = AWSApiPlugin.builder()
@@ -54,8 +54,8 @@ val plugin = AWSApiPlugin.builder()
 Amplify.addPlugin(plugin)
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 AWSApiPlugin plugin = AWSApiPlugin.builder()
@@ -72,5 +72,5 @@ AWSApiPlugin plugin = AWSApiPlugin.builder()
 RxAmplify.addPlugin(plugin);
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>

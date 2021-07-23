@@ -17,7 +17,7 @@ The default access level for the Storage category is **public**. Unless you spec
 Create an options object specifying the protected access level to allow other users to read the object:
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 private void uploadFile(String key, File file) {
@@ -36,8 +36,8 @@ private void uploadFile(String key, File file) {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 private fun uploadFile(key: String, file: File) {
@@ -52,8 +52,8 @@ private fun uploadFile(key: String, file: File) {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 private suspend fun uploadFile(key: String, file: File) {
@@ -72,8 +72,8 @@ private suspend fun uploadFile(key: String, file: File) {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 private void uploadFile(String key, File file) {
@@ -94,13 +94,13 @@ private void uploadFile(String key, File file) {
 }
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 For other users to read the file, you must specify the user ID of the creating user in the passed options:
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 private void downloadFile(File file, String key, String otherUserId) {
@@ -120,8 +120,8 @@ private void downloadFile(File file, String key, String otherUserId) {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 private fun downloadFile(file: File, key: String, otherUserId: String) {
@@ -137,8 +137,8 @@ private fun downloadFile(file: File, key: String, otherUserId: String) {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 private suspend fun downloadFile(file: File, key: String, otherUserId: String) {
@@ -158,7 +158,7 @@ private suspend fun downloadFile(file: File, key: String, otherUserId: String) {
 }
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 ## Private Access
@@ -166,7 +166,7 @@ private suspend fun downloadFile(file: File, key: String, otherUserId: String) {
 Create an options object specifying the private access level to only allow an object to be accessed by the creating user
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 private void uploadFile(String key, File file) {
@@ -185,8 +185,8 @@ private void uploadFile(String key, File file) {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 private fun uploadFile(key: String, file: File) {
@@ -200,8 +200,8 @@ private fun uploadFile(key: String, file: File) {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 private suspend fun uploadFile(key: String, file: File) {
@@ -220,13 +220,13 @@ private suspend fun uploadFile(key: String, file: File) {
 }
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 For the user to read the file, you must specify the user ID of the creating user in the passed options:
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 private void downloadFile(File file, String key, String userId) {
@@ -246,8 +246,8 @@ private void downloadFile(File file, String key, String userId) {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 private fun downloadFile(file: File, key: String, userId: String) {
@@ -263,8 +263,8 @@ private fun downloadFile(file: File, key: String, userId: String) {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 private suspend fun downloadFile(file: File, key: String, userId: String) {
@@ -284,5 +284,5 @@ private suspend fun downloadFile(file: File, key: String, userId: String) {
 }
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>

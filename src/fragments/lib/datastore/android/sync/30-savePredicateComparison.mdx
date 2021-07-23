@@ -1,5 +1,5 @@
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 // Tests only against the local state
@@ -17,8 +17,8 @@ Amplify.DataStore.save(post, Post.TITLE.beginsWith("[Amplify]"),
 );
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 // Tests only against the local state
@@ -36,8 +36,8 @@ Amplify.DataStore.save(post, Post.TITLE.beginsWith("[Amplify]"),
 )
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 // Tests only against the local state
@@ -56,8 +56,8 @@ Amplify.DataStore.save(post, Post.TITLE.beginsWith("[Amplify]"),
 )
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 // Tests only against the local state
@@ -76,5 +76,5 @@ RxAmplify.DataStore.save(post, Post.TITLE.beginsWith("[Amplify]"))
         failure -> { /* handle failure */ }
     );
 ```
-</CodeBlock>
+</Block>
 </BlockSwitcher>

@@ -1,6 +1,6 @@
 <BlockSwitcher>
 
-<CodeBlock name="Listener (iOS 11+)">
+<Block name="Listener (iOS 11+)">
 
 ```swift
 Amplify.DataStore.query(Post.self) { result in
@@ -13,9 +13,9 @@ Amplify.DataStore.query(Post.self) { result in
 }
 ```
 
-</CodeBlock>
+</Block>
 
-<CodeBlock name="Combine (iOS 13+)">
+<Block name="Combine (iOS 13+)">
 
 ```swift
 let querySink = Amplify.DataStore.query(Post.self).sink {
@@ -28,6 +28,6 @@ receiveValue: { posts in
 }
 ```
 
-</CodeBlock>
+</Block>
 
 </BlockSwitcher>

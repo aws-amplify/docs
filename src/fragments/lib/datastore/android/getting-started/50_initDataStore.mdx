@@ -3,7 +3,7 @@ To initialize the Amplify DataStore, use the `Amplify.addPlugin()` method to add
 Add the following code to the bottom of your MainActivity `onCreate` method. (Ideally, this code would live in an Application subclass. But, this works for getting started quickly.)
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 Amplify.addPlugin(new AWSDataStorePlugin());
@@ -29,8 +29,8 @@ public class MyAmplifyApp extends Application {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin">
+</Block>
+<Block name="Kotlin">
 
 ```kotlin
 Amplify.addPlugin(AWSDataStorePlugin())
@@ -55,8 +55,8 @@ class MyAmplifyApp : Application() {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 RxAmplify.addPlugin(new AWSDataStorePlugin());
@@ -82,7 +82,7 @@ public class MyAmplifyApp extends Application {
 }
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 Upon building and running this application you should see the following in your console window:

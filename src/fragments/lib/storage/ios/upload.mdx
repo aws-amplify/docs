@@ -2,7 +2,7 @@ To upload to S3 from a data object, specify the `key` and the `data` object to b
 
 <BlockSwitcher>
 
-<CodeBlock name="Listener (iOS 11+)">
+<Block name="Listener (iOS 11+)">
 
 ```swift
 let dataString = "My Data"
@@ -23,9 +23,9 @@ Amplify.Storage.uploadData(
 )
 ```
 
-</CodeBlock>
+</Block>
 
-<CodeBlock name="Combine (iOS 13+)">
+<Block name="Combine (iOS 13+)">
 
 ```swift
 let dataString = "My Data"
@@ -42,7 +42,7 @@ receiveValue: { data in
 }
 ```
 
-</CodeBlock>
+</Block>
 
 </BlockSwitcher>
 
@@ -50,7 +50,7 @@ When you have a file that you want to upload, you can specify the url to the fil
 
 <BlockSwitcher>
 
-<CodeBlock name="Listener (iOS 11+)">
+<Block name="Listener (iOS 11+)">
 
 ```swift
 let dataString = "My Data"
@@ -79,9 +79,9 @@ Amplify.Storage.uploadFile(
 )
 ```
 
-</CodeBlock>
+</Block>
 
-<CodeBlock name="Combine (iOS 13+)">
+<Block name="Combine (iOS 13+)">
 
 ```swift
 let dataString = "My Data"
@@ -106,6 +106,6 @@ receiveValue: { data in
 }
 ```
 
-</CodeBlock>
+</Block>
 
 </BlockSwitcher>

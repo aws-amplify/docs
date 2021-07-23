@@ -1,7 +1,7 @@
 To enable the developer menu, pass a custom configuration when configuring Amplify:
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 AmplifyConfiguration config = AmplifyConfiguration.builder(getApplicationContext())
@@ -10,8 +10,8 @@ AmplifyConfiguration config = AmplifyConfiguration.builder(getApplicationContext
 Amplify.configure(config, getApplicationContext());
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin">
+</Block>
+<Block name="Kotlin">
 
 ```kotlin
 val config = AmplifyConfiguration.builder(applicationContext)
@@ -20,7 +20,7 @@ val config = AmplifyConfiguration.builder(applicationContext)
 Amplify.configure(config, applicationContext)
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 Next, run the following commands from the Android project directory to add a copy of the file `./amplify/.config/local-env-info.json` to the `./app/src/main/res/raw/` directory in your Android project and rename the copy to `localenvinfo.json`:

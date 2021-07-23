@@ -4,7 +4,7 @@ Amplify allows you to upload `File`s and `InputStream`s.
 To upload data to S3 from an `InputStream`:
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 private void uploadInputStream() {
@@ -19,8 +19,8 @@ private void uploadInputStream() {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 private fun uploadInputStream(uri: Uri) {
@@ -33,8 +33,8 @@ private fun uploadInputStream(uri: Uri) {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 private suspend fun uploadInputStream(uri: Uri) {
@@ -50,8 +50,8 @@ private suspend fun uploadInputStream(uri: Uri) {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 private void uploadInputStream() {
@@ -69,14 +69,14 @@ private void uploadInputStream() {
 }
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 ## Upload files
 To upload to S3 from a data object, specify the key and the file to be uploaded. 
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 private void uploadFile() {
@@ -99,8 +99,8 @@ private void uploadFile() {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 private fun uploadFile() {
@@ -114,8 +114,8 @@ private fun uploadFile() {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 private suspend fun uploadFile() {
@@ -132,8 +132,8 @@ private suspend fun uploadFile() {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 private void uploadFile() {
@@ -159,13 +159,13 @@ private void uploadFile() {
 }
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 To track progress of the upload, use the `uploadFile` API that includes a progress listener callback.
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 private void uploadFile() {
@@ -190,8 +190,8 @@ private void uploadFile() {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 private fun uploadFile() {
@@ -207,8 +207,8 @@ private fun uploadFile() {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 private suspend fun uploadFile() {
@@ -232,8 +232,8 @@ private suspend fun uploadFile() {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 RxProgressAwareSingleOperation<StorageUploadFileResult> upload =
@@ -246,5 +246,5 @@ upload
     );
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>

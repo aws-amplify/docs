@@ -74,7 +74,7 @@ The example above creates a backend with the Todo schema. You can open the AWS C
 
 <BlockSwitcher>
 
-<CodeBlock name="Swift Package Manager">
+<Block name="Swift Package Manager">
 If this is a new project, add Amplify via the Swift Package Manager:
 
 - Open your project in Xcode and select **File > Swift Packages > Add Package Dependency**.
@@ -82,9 +82,9 @@ If this is a new project, add Amplify via the Swift Package Manager:
 - Choose the first rule, **Version**, as it will use the latest compatible version of the dependency that can be detected from the `main` branch, then click **Next**.
 - Choose the **Amplify** and **AWSAPIPlugin** libraries, then click **Finish**.
 
-</CodeBlock>
+</Block>
 
-<CodeBlock name="CocoaPods">
+<Block name="CocoaPods">
 
 If this is a new project, run `pod init` to create the `Podfile` to use CocoaPods to manage your dependencies. Add the following to the Podfile:
 
@@ -108,7 +108,7 @@ Open the `.xcworkspace` file created by CocoaPods
 open <YOURAPP>.xcworkspace
 ```
 
-</CodeBlock>
+</Block>
 
 </BlockSwitcher>
 
@@ -122,19 +122,19 @@ Add the following imports to the top of your `AppDelegate.swift` file
 
 <BlockSwitcher>
 
-<CodeBlock name="Swift Package Manager">
+<Block name="Swift Package Manager">
 ```swift
 import Amplify
 import AWSAPIPlugin
 ```
-</CodeBlock>
+</Block>
 
-<CodeBlock name="CocoaPods">
+<Block name="CocoaPods">
 ```swift
 import Amplify
 import AmplifyPlugins
 ```
-</CodeBlock>
+</Block>
 
 </BlockSwitcher>
 

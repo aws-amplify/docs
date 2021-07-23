@@ -1,5 +1,5 @@
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 private GraphQLRequest<Post> getPostWithCommentsRequest(String id) {
@@ -26,8 +26,8 @@ private GraphQLRequest<Post> getPostWithCommentsRequest(String id) {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin">
+</Block>
+<Block name="Kotlin">
 
 ```kotlin
 private fun getPostWithCommentsRequest(id: String): GraphQLRequest<Post> {
@@ -54,13 +54,13 @@ private fun getPostWithCommentsRequest(id: String): GraphQLRequest<Post> {
 }
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 Then query for the Post:
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 Amplify.API.query(getPostWithCommentsRequest("[TODO_ID]"),
@@ -69,8 +69,8 @@ Amplify.API.query(getPostWithCommentsRequest("[TODO_ID]"),
 );
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 Amplify.API.query(getPostWithCommentsRequest("[TODO_ID]"),
@@ -79,8 +79,8 @@ Amplify.API.query(getPostWithCommentsRequest("[TODO_ID]"),
 )
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 try {
@@ -91,5 +91,5 @@ try {
 }
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>

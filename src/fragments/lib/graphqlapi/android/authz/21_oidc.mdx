@@ -1,7 +1,7 @@
 Add the following code to your app to initialize API plugin with OIDC auth provider:
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 This implementation uses `CompletableFuture<T>`, which requires `minSdkVersion >= 24`.
 
@@ -27,8 +27,8 @@ ApiAuthProviders authProviders = ApiAuthProviders.builder()
 Amplify.addPlugin(new AWSApiPlugin(authProviders));
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 This implementation uses `CompletableFuture<T>`, which requires `minSdkVersion >= 24`.
 
@@ -46,8 +46,8 @@ val authProviders = ApiAuthProviders.builder()
 Amplify.addPlugin(AWSApiPlugin(authProviders))
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 This implementation uses `CompletableFuture<T>`, which requires `minSdkVersion >= 24`.
 
@@ -61,8 +61,8 @@ val authProviders = ApiAuthProviders.builder()
 Amplify.addPlugin(AWSApiPlugin(authProviders))
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 Using the `rxbindings` module can simplify this further.
 
@@ -85,8 +85,8 @@ ApiAuthProviders authProviders = ApiAuthProviders.builder()
 Amplify.addPlugin(new AWSApiPlugin(authProviders));
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin (with RxJava)">
+</Block>
+<Block name="Kotlin (with RxJava)">
 
 Using the `rxbindings` module can simplify this further.
 
@@ -109,5 +109,5 @@ val authProviders = ApiAuthProviders.builder()
 Amplify.addPlugin(AWSApiPlugin(authProviders))
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>

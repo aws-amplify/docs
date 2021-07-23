@@ -76,7 +76,7 @@ To use your new Amazon Cognito identity pool, add the following code to initiali
 
 <BlockSwitcher>
 
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
@@ -92,8 +92,8 @@ AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<U
 });
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin">
+</Block>
+<Block name="Kotlin">
 
 ```kotlin
 AWSMobileClient.getInstance().initialize(applicationContext, object : Callback<UserStateDetails> {
@@ -107,7 +107,7 @@ AWSMobileClient.getInstance().initialize(applicationContext, object : Callback<U
 })
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>
 
 This allows guest users access to your backend resources. 
@@ -174,7 +174,7 @@ Here is how you can search for places using the place index you just created:
 
 <BlockSwitcher>
 
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<UserStateDetails>() {
@@ -204,8 +204,8 @@ AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<U
 });
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin">
+</Block>
+<Block name="Kotlin">
 
 ```kotlin
 AWSMobileClient.getInstance().initialize(applicationContext, object : Callback<UserStateDetails> {
@@ -233,5 +233,5 @@ AWSMobileClient.getInstance().initialize(applicationContext, object : Callback<U
 })
 ```
 
-</CodeBlock>
+</Block>
 </BlockSwitcher>

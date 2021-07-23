@@ -24,7 +24,7 @@ whatever value you used for your redirect URI prefix:
 Add the following result handler to whichever `Activity` you are calling HostedUI from:
 
 <BlockSwitcher>
-<CodeBlock name="Java">
+<Block name="Java">
 
 ```java
 @Override
@@ -37,8 +37,8 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Callbacks">
+</Block>
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -50,8 +50,8 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="Kotlin - Coroutines (Beta)">
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
 override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -63,8 +63,8 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
 }
 ```
 
-</CodeBlock>
-<CodeBlock name="RxJava">
+</Block>
+<Block name="RxJava">
 
 ```java
 @Override
@@ -77,7 +77,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 }
 ```
 
- </CodeBlock>
+ </Block>
 </BlockSwitcher>
 
 <Callout>

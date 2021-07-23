@@ -42,7 +42,7 @@ If you are detecting text from an image you would send in `.plain` as your text 
 
 <BlockSwitcher>
 
-<CodeBlock name="Listener (iOS 11+)">
+<Block name="Listener (iOS 11+)">
 
 ```swift
 func detectText(_ image: URL, completion: @escaping ([IdentifiedWord]) -> Void) {
@@ -58,9 +58,9 @@ func detectText(_ image: URL, completion: @escaping ([IdentifiedWord]) -> Void) 
 }
 ```
 
-</CodeBlock>
+</Block>
 
-<CodeBlock name="Combine (iOS 13+)">
+<Block name="Combine (iOS 13+)">
 
 ```swift
 func detectText(_ image: URL) -> AnyCancellable {
@@ -78,7 +78,7 @@ func detectText(_ image: URL) -> AnyCancellable {
 }
 ```
 
-</CodeBlock>
+</Block>
 
 </BlockSwitcher>
 
@@ -119,7 +119,7 @@ Sending in `.form` or `.table` or `.all` will do document analysis as well as te
 
 <BlockSwitcher>
 
-<CodeBlock name="Listener (iOS 11+)">
+<Block name="Listener (iOS 11+)">
 
 ```swift
 func detectText(_ image: URL) {
@@ -135,9 +135,9 @@ func detectText(_ image: URL) {
 }
 ```
 
-</CodeBlock>
+</Block>
 
-<CodeBlock name="Combine (iOS 13+)">
+<Block name="Combine (iOS 13+)">
 
 ```swift
 func detectText(_ image: URL) -> AnyCancellable {
@@ -155,6 +155,6 @@ func detectText(_ image: URL) -> AnyCancellable {
 }
 ```
 
-</CodeBlock>
+</Block>
 
 </BlockSwitcher>

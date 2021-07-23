@@ -7,23 +7,23 @@ First, we'll add the DataStore plugin and configure Amplify.
 1. Open the main file of the application - `AppDelegate.swift` or `TodoApp.swift` depending on the Life Cycle previously chosen - and **add the following** import statements at the top of the file:
   <BlockSwitcher>
   
-  <CodeBlock name="Swift Package Manager">
+  <Block name="Swift Package Manager">
 
   ```swift
   import Amplify
   import AWSDataStorePlugin
   ```
 
-  </CodeBlock>
+  </Block>
 
-  <CodeBlock name="CocoaPods">
+  <Block name="CocoaPods">
 
   ```swift
   import Amplify
   import AmplifyPlugins
   ```
 
-  </CodeBlock>
+  </Block>
   
   </BlockSwitcher>
 
@@ -44,7 +44,7 @@ First, we'll add the DataStore plugin and configure Amplify.
 
 1. Now **call the `configureAmplify()` function** in the starting point of your application.
   <BlockSwitcher>
-  <CodeBlock name="SwiftUI App">
+  <Block name="SwiftUI App">
   
   ```swift
   @main
@@ -56,8 +56,8 @@ First, we'll add the DataStore plugin and configure Amplify.
   }
   ```
   
-  </CodeBlock>
-  <CodeBlock name="UIKit App Delegate">
+  </Block>
+  <Block name="UIKit App Delegate">
   
   ```swift
   @UIApplicationMain
@@ -72,7 +72,7 @@ First, we'll add the DataStore plugin and configure Amplify.
   }
   ```
   
-  </CodeBlock>
+  </Block>
   </BlockSwitcher>
 
 1. **Build and run** the application. In the Xcode console window, you'll see a log line indicating success:
