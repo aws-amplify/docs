@@ -1327,7 +1327,7 @@ const directory = {
     items: {
       guides: {
         title: "Guides",
-        route: "/guides/guides",
+        route: "/guides",
         filters: ["js", "android", "ios"],
       },
       "api-graphql": {
