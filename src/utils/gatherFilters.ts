@@ -18,7 +18,7 @@ export function gatherFilters(tree): string[] {
       // Recurse on the fragment corresponding to this page's filterKey
       for (const filter in node.props.fragments) {
         const fragmentFunction = node.props.fragments[filter];
-        if (!filters.includes(filter)) {
+        if (!filters.includes(filter) && filter !== "all") {
           filters.push(filter);
         }
         const fragment = fragmentFunction([]); // expand function into full tree
