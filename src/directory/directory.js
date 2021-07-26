@@ -711,7 +711,7 @@ const directory = {
         items: [
           {
             title: "Chatbot",
-            route: "/ui/auth/chatbot",
+            route: "/ui/interactions/chatbot",
             filters: ["angular", "ionic", "react", "react-native", "vue"],
           },
         ],
