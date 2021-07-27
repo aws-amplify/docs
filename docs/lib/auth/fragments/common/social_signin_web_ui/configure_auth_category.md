@@ -1,7 +1,3 @@
-<amplify-callout>
-Sign in with Apple is not yet added to the CLI, follow the steps below to enable it.
-</amplify-callout>
-
 Once finished, run `amplify push` to publish your changes. Once finished, it will display an auto generated URL for your web UI.
 
 You need to now inform your auth provider of this URL:
@@ -86,14 +82,6 @@ You need to now inform your auth provider of this URL:
 17. On **Register a New Key** click **Continue**, review the information, then select **Register**.
 18. On the page you are redirected to take note of the Key ID and download the .p8 file containing the private key.
 ![Image](~/images/cognitoHostedUI/apple5.png)
-
-### Amazon Cognito User pool setup
-1. In your terminal type `amplify auth console` and select `User Pool` to open the AWS console for the Amazon Cognito User Pool.
-2. Under Federation, under the Identity providers tab, select Sign in with Apple.
-3. Provide the Apple Services ID, Team ID, Key ID, and the downloaded private key for the Sign in with Apple application along with the desired scopes.
-4. Select the Attribute mapping tab, and then select the Apple tab.
-5. Select the checkboxes under Capture next to the Apple attributes, and select the user pool attribute under User pool attribute that will receive the value from the Apple attribute and that you would like to receive in the tokens from Amazon Cognito.
-6. To enable your app client to allow federation through the Sign in with Apple IdP, under App Integration, select App client settings, find the App client that you want to allow Sign in with Apple, and select the Sign in with Apple check box.
 
 </amplify-block>
 </amplify-block-switcher>
