@@ -1,7 +1,7 @@
 import Head from "next/head";
 import {useRouter} from "next/router";
 import {traverseHeadings} from "../../utils/traverseHeadings";
-import {gatherFilters} from "../../utils/gatherFilters";
+import {gatherAllFilters} from "../../utils/gatherFilters";
 import CodeBlockProvider from "../CodeBlockProvider/index";
 import Menu from "../Menu/index";
 import TableOfContents from "../TableOfContents/index";
@@ -24,23 +24,27 @@ export default function Layout({children, meta}: {children: any; meta?: any}) {
   const router = useRouter();
   if (!router.isReady) return <></>;
   const {pathname} = router;
-  let filterKey = "";
+  let filterKey = "",
+    filterKind = "";
   const filterKeys =
     JSON.parse(localStorage.getItem("filterKeys")) ||
     ({} as {platform?: string; integration?: string; framework?: string});
   if ("platform" in router.query) {
     filterKey = router.query.platform as string;
     filterKeys.platform = filterKey;
+    filterKind = "platform";
   } else if ("integration" in router.query) {
     filterKey = router.query.integration as string;
     filterKeys.integration = filterKey;
+    filterKind = "integration";
   } else {
     filterKey = router.query.framework as string;
     filterKeys.framework = filterKey;
+    filterKind = "framework";
   }
   localStorage.setItem("filterKeys", JSON.stringify(filterKeys));
   const headers = traverseHeadings(children, filterKey);
-  const filters = gatherFilters(children);
+  const filters = gatherAllFilters(children, filterKind);
   if (filters.length !== 0 && !filters.includes(filterKey) && meta) {
     return Custom404();
   }

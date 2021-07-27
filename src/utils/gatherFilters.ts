@@ -1,10 +1,36 @@
+import {filterOptionsByName} from "./filter-data";
+
+export function gatherAllFilters(tree, filterKind): string[] {
+  const filters = gatherFilters(tree);
+  if (treeHasAgnosticContent(tree)) {
+    addFilters(filters, filterOptionsByName[filterKind]);
+  }
+  return filters;
+}
+
+const treeHasAgnosticContent = function(tree): boolean {
+  // If the page has content that would show on every filter, we want to add all possible filters to the list
+  // ex: /guides
+  if (!Array.isArray(tree)) {
+    tree = [tree];
+  }
+
+  for (const node of tree) {
+    if (typeof node !== "object") continue;
+    if (!("props" in node)) continue;
+    if (!("mdxType" in node.props)) continue;
+    if (node.props.mdxType !== "Fragments") return true;
+  }
+  return false;
+};
+
 const addFilters = function(filters, newFilters) {
   for (const filter of newFilters) {
     if (!filters.includes(filter)) filters.push(filter);
   }
 };
 
-export function gatherFilters(tree): string[] {
+function gatherFilters(tree): string[] {
   if (!Array.isArray(tree)) {
     tree = [tree];
   }
