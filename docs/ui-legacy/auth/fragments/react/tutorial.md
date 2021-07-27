@@ -297,7 +297,7 @@ Now that your application is set up, it's time to add a backend API with data th
 - `@model` for storing types in Amazon DynamoDB.
 - `@auth` to define different authorization strategies.
 - `@connection` for specifying relationships between `@model` object types.
-- `@searchable` for streaming the data of an `@model` object type to Amazon Elasticsearch Service.
+- `@searchable` for streaming the data of an `@model` object type to the Amazon OpenSearch Service.
 
 To get started run `amplify add api` and select `GraphQL`. When prompted, choose `Amazon Cognito User Pool` and the project will leverage your existing authentication setup. For `annotated schema`, choose **No**. For `guided schema creation`, choose **Yes**.
 
