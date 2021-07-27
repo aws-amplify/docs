@@ -2,19 +2,29 @@
 
 <amplify-block-switcher>
 <amplify-block name="v1.17.8+">
-Add the following activity to your app's `AndroidManifest.xml` file, replacing `myapp` with
+Add the following activity and queries tag to your app's `AndroidManifest.xml` file, replacing `myapp` with
 your redirect URI prefix if necessary:
 
 ```xml
-<activity
-    android:name="com.amplifyframework.auth.cognito.activities.HostedUIRedirectActivity">
-    <intent-filter>
-        <action android:name="android.intent.action.VIEW" />
-        <category android:name="android.intent.category.DEFAULT" />
-        <category android:name="android.intent.category.BROWSABLE" />
-        <data android:scheme="myapp" />
-    </intent-filter>
-</activity>
+<queries>
+  <intent>
+      <action android:name=
+          "android.support.customtabs.action.CustomTabsService" />
+  </intent>
+</queries>
+<application ...>
+  ...
+  <activity
+      android:name="com.amplifyframework.auth.cognito.activities.HostedUIRedirectActivity">
+      <intent-filter>
+          <action android:name="android.intent.action.VIEW" />
+          <category android:name="android.intent.category.DEFAULT" />
+          <category android:name="android.intent.category.BROWSABLE" />
+          <data android:scheme="myapp" />
+      </intent-filter>
+  </activity>
+  ...
+</application>
 ```
 
 You may now skip the instructions below for adding a response handler to your activity.

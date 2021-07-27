@@ -68,6 +68,7 @@ exports[`amplify-feature-flags Render logic should render 1`] = `
     <amplify-feature-flag-summary name="retainCaseStyle"></amplify-feature-flag-summary>
     <amplify-feature-flag-summary name="addTimestampFields"></amplify-feature-flag-summary>
     <amplify-feature-flag-summary name="enableDartNullSafety"></amplify-feature-flag-summary>
+    <amplify-feature-flag-summary name="handleListNullabilityTransparently"></amplify-feature-flag-summary>
   </div>
 </amplify-feature-flags>
 `;
