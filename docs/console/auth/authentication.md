@@ -1,6 +1,6 @@
 ---
 title: Authentication
-description: Configure and deploy authentication for an app
+description: Getting started with authentication for an app
 ---
 
 Authentication is the process of verifying the identity of a user. Writing the code for an application's login flow can be difficult and time consuming. In Admin UI, you can easily add a complete [Amazon Cognito](https://aws.amazon.com/cognito/) authentication solution to your app. You simply specify the log-in method, such as email and password, Amazon, Google, Facebook, or Sign in with Apple, and you are provided with the authentication UI component for the entire authentication flow. 
