@@ -400,7 +400,7 @@ query {
 }
 ```
 
-### Add a custom geolocation search resolver that targets an Elasticsearch domain created by @searchable
+### Add a custom geolocation search resolver that targets an OpenSearch domain created by @searchable
 
 To add a geolocation search capabilities to an API add the *@searchable* directive to an *@model* type.
 
@@ -413,7 +413,7 @@ type Todo @model @searchable {
 }
 ```
 
-The next time you run `amplify push`, an Amazon Elasticsearch domain will be created and configured such that data automatically streams from DynamoDB into Elasticsearch. The *@searchable* directive on the Todo type will generate a *Query.searchTodos* query field and resolver but it is not uncommon to want more specific search capabilities. You can write a custom search resolver by following these steps:
+The next time you run `amplify push`, an Amazon OpenSearch domain will be created and configured such that data automatically streams from DynamoDB into OpenSearch. The *@searchable* directive on the Todo type will generate a *Query.searchTodos* query field and resolver but it is not uncommon to want more specific search capabilities. You can write a custom search resolver by following these steps:
 
 - Add the relevant location and search fields to the schema.
 
@@ -540,21 +540,21 @@ $util.toJson({
 
 - Run `amplify push`
 
-Amazon Elasticsearch domains can take a while to deploy. Take this time to read up on Elasticsearch to see what capabilities you are about to unlock.
+Amazon OpenSearch domains can take a while to deploy. Take this time to read up on OpenSearch to see what capabilities you are about to unlock.
 
-[Getting Started with Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started.html)
+[Getting Started with OpenSearch](https://opensearch.org/docs/opensearch/index/)
 
-- After the update is complete but before creating any objects, update your Elasticsearch index mapping.
+- After the update is complete but before creating any objects, update your OpenSearch index mapping.
 
-An index mapping tells Elasticsearch how it should treat the data that you are trying to store. By default, if we create an object with field `"location": { "lat": 40, "lon": -40 }`, Elasticsearch will treat that data as an *object* type when in reality we want it to be treated as a *geo_point*. You use the mapping APIs to tell Elasticsearch how to do this.
+An index mapping tells OpenSearch how it should treat the data that you are trying to store. By default, if we create an object with field `"location": { "lat": 40, "lon": -40 }`, OpenSearch will treat that data as an *object* type when in reality we want it to be treated as a *geo_point*. You use the mapping APIs to tell OpenSearch how to do this.
 
-Make sure you tell Elasticsearch that your location field is a *geo_point* before creating objects in the index because otherwise you will need delete the index and try again. Go to the [Amazon Elasticsearch Console](https://console.aws.amazon.com/es/home) and find the Elasticsearch domain that contains this environment's GraphQL API ID. Click on it and open the kibana link. To get kibana to show up you need to install a browser extension such as [AWS Agent](https://addons.mozilla.org/en-US/firefox/addon/aws-agent/) and configure it with your AWS profile's public key and secret so the browser can sign your requests to kibana for security reasons. Once you have kibana open, click the "Dev Tools" tab on the left and run the commands below using the in browser console.
+Make sure you tell OpenSearch that your location field is a *geo_point* before creating objects in the index because otherwise you will need delete the index and try again. Go to the [Amazon OpenSearch Console](https://console.aws.amazon.com/es/home) and find the OpenSearch domain that contains this environment's GraphQL API ID. Click on it and open the OpenSearch Dashboard link. To get the OpenSearch Dashboard to show up you need to install a browser extension such as [AWS Agent](https://addons.mozilla.org/en-US/firefox/addon/aws-agent/) and configure it with your AWS profile's public key and secret so the browser can sign your requests to the OpenSearch Dashboard for security reasons. Once you have the OpenSearch Dashboard open, click the "Dev Tools" tab on the left and run the commands below using the in browser console.
 
 ```text
 # Create the /todo index if it does not exist
 PUT /todo
 
-# Tell Elasticsearch that the location field is a geo_point
+# Tell OpenSearch that the location field is a geo_point
 PUT /todo/_mapping/doc
 {
   "properties": {
@@ -567,7 +567,7 @@ PUT /todo/_mapping/doc
 
 - Use your API to create objects and immediately search them.
 
-After updating the Elasticsearch index mapping, open the AWS AppSync console with `amplify api console` and try out these queries.
+After updating the OpenSearch index mapping, open the AWS AppSync console with `amplify api console` and try out these queries.
 
 ```graphql
 mutation CreateTodo {
@@ -606,4 +606,4 @@ query NearbyTodos {
 }
 ```
 
-When you run *Mutation.createTodo*, the data will automatically be streamed via AWS Lambda into Elasticsearch such that it nearly immediately available via *Query.nearbyTodos*.
+When you run *Mutation.createTodo*, the data will automatically be streamed via AWS Lambda into OpenSearch such that it nearly immediately available via *Query.nearbyTodos*.
