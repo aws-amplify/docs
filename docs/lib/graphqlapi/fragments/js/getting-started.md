@@ -190,7 +190,7 @@ The following directives are available to be used when defining your schema:
 | [@model](~/cli/graphql-transformer/model.md) on Object | Store objects in DynamoDB and configure CRUD resolvers. |
 | [@auth](~/cli/graphql-transformer/auth.md) on Object | Define authorization strategies for your API. |
 | [@connection](~/cli/graphql-transformer/connection.md) on Field | Specify relationships between @model object types. |
-| [@searchable](~/cli/graphql-transformer/searchable.md) on Object | Stream data of an @model object type to Amazon Elasticsearch Service. |
+| [@searchable](~/cli/graphql-transformer/searchable.md) on Object | Stream data of an @model object type to the Amazon OpenSearch Service. |
 | [@versioned](~/cli/graphql-transformer/versioned.md) on Object | Add object versioning and conflict detection to a @model. |
 | [@key](~/cli/graphql-transformer/key.md) on Object | Index your data with keys. |
 | [@function](~/cli/graphql-transformer/function.md) on Field | Connect Lambda resolvers to your API. |

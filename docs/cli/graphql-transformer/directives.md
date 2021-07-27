@@ -14,7 +14,7 @@ The Amplify CLI provides GraphQL directives to enhance your schema with addition
 - [`@function`: Configures a Lambda function resolvers for a field](~/cli/graphql-transformer/function.md)
 - [`@http`: Configures an HTTP resolver for a field](~/cli/graphql-transformer/http.md)
 - [`@predictions`: Queries an orchestration of AI/ML services such as Amazon Rekognition, Amazon Translate, and/or Amazon Polly](~/cli/graphql-transformer/predictions.md)
-- [`@searchable`: Makes your data searchable by streaming it to Elasticsearch](~/cli/graphql-transformer/searchable.md)
+- [`@searchable`: Makes your data searchable by streaming it to Amazon OpenSearch](~/cli/graphql-transformer/searchable.md)
 - [`@versioned`: Defines the versioning and conflict resolution strategy for an @model type](~/cli/graphql-transformer/versioned.md)
 
 ## AWS AppSync-provided directives
