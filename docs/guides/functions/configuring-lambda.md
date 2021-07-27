@@ -76,76 +76,8 @@ _To learn more about optimizing resources allocation for Lambda functions, check
 A very common scenario is the need to set and use an environment variable in your Lambda function.
 
 There are generally two types of environment variables:
-- Secret values (example: access keys, API keys etc.)
-- Non-secret values (example: endpoint information, locale information etc.)
-
-### 1. Configuring secret values
-
-If your value is secret, you can use [Secrets Manager](https://aws.amazon.com/secrets-manager/).
-
-To do so, you first need to create a secret in the [secrets manager](https://console.aws.amazon.com/secretsmanager) console.
-
-Next, add a statement to the `PolicyDocument` in __amplify/backend/function/function-name/function-name-cloudformation-template.json__ to give the Lambda function permission to use the secret:
-
-```json
-{
-  "Effect": "Allow",
-  "Action": [
-    "secretsmanager:GetSecretValue"
-  ],
-  "Resource": {
-    "Fn::Sub": [
-      "arn:aws:secretsmanager:${region}:${account}:secret:key_id",
-      {
-        "region": {
-          "Ref": "AWS::Region"
-        },
-        "account": {
-          "Ref": "AWS::AccountId"
-        }
-      }
-    ]
-  }
-}
-```
-
-Next, access the token in your function:
-
-```js
-const AWS = require('aws-sdk')
-
-const secretsManager = new AWS.SecretsManager()
-const secret = await secretsManager.getSecretValue({ SecretId: 'YOUR_KEY' }).promise()
-
-console.log(secret.SecretString)
-```
-
-### 2. Configuring non-secret values
-
-If your value is just a configuration value, you can configure the CloudFormation configuration locally to set the value - in __amplify/backend/function/function-name/function-name-cloudformation-template.json__
-
-For this purpose, there is a section in the template - `Parameters` - that you can set.
-
-```json
-"Parameters" : {
-  "MyKey" : {
-    "Type" : "String",
-    "Default" : "my-environment-variable"
-  }
-}
-```
-
-And then use these parameters in `Environment` declaration:
-
-```json
-"Environment":{
-   "Variables":{
-      "MY_ENV_VAR":{
-         "Ref":"MyKey"
-      }
-   }
-}
-```
+- [Secret values (example: access keys, API keys etc.)](~/cli/function/env-vars.md)
+- [Non-secret values (example: endpoint information, locale information etc.)](~/cli/function/secrets.md)
 
 <amplify-callout>
 
