@@ -76,8 +76,8 @@ _To learn more about optimizing resources allocation for Lambda functions, check
 A very common scenario is the need to set and use an environment variable in your Lambda function.
 
 There are generally two types of environment variables:
-- [Secret values (example: access keys, API keys etc.)](~/cli/function/env-vars.md)
-- [Non-secret values (example: endpoint information, locale information etc.)](~/cli/function/secrets.md)
+- [Secret values (example: access keys, API keys etc.)](~/cli/function/secrets.md)
+- [Non-secret values (example: endpoint information, locale information etc.)](~/cli/function/env-vars.md)
 
 <amplify-callout>
 
