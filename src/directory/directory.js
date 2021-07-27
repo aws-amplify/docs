@@ -663,6 +663,185 @@ const directory = {
       },
     },
   },
+  sdk: {
+    productRoot: {
+      title: "AWS Mobile SDK",
+      route: "/sdk",
+    },
+    items: {
+      api: {
+        title: "API",
+        items: [
+          {
+            title: "GraphQL - Realtime and Offline",
+            route: "/sdk/api/graphql",
+            filters: ["android", "ios"],
+          },
+          {
+            title: "REST API",
+            route: "/sdk/api/rest",
+            filters: ["android", "ios"],
+          },
+        ],
+      },
+      analytics: {
+        title: "Analytics",
+        items: [
+          {
+            title: "Getting Started",
+            route: "/sdk/analytics/getting-started",
+            filters: ["android", "ios"],
+          },
+          {
+            title: "Events",
+            route: "/sdk/analytics/events",
+            filters: ["android", "ios"],
+          },
+          {
+            title: "Endpoints",
+            route: "/sdk/analytics/endpoints",
+            filters: ["android", "ios"],
+          },
+          {
+            title: "Using Amazon Kinesis",
+            route: "/sdk/analytics/kinesis",
+            filters: ["android", "ios"],
+          },
+        ],
+      },
+      auth: {
+        title: "Authentication",
+        items: [
+          {
+            title: "Getting started",
+            route: "/sdk/auth/getting-started",
+            filters: ["android", "ios"],
+          },
+          {
+            title: "Overview",
+            route: "/sdk/auth/how-it-works",
+            filters: ["android", "ios"],
+          },
+          {
+            title: "Guest access",
+            route: "/sdk/auth/guest-access",
+            filters: ["android", "ios"],
+          },
+          {
+            title: "Drop-in auth",
+            route: "/sdk/auth/drop-in-auth",
+            filters: ["android", "ios"],
+          },
+          {
+            title: "Working with the API",
+            route: "/sdk/auth/working-with-api",
+            filters: ["android", "ios"],
+          },
+          {
+            title: "Federated identities",
+            route: "/sdk/auth/federated-identities",
+            filters: ["android", "ios"],
+          },
+          {
+            title: "Hosted UI",
+            route: "/sdk/auth/hosted-ui",
+            filters: ["android", "ios"],
+          },
+          {
+            title: "Custom auth flow",
+            route: "/sdk/auth/custom-auth-flow",
+            filters: ["android", "ios"],
+          },
+          {
+            title: "Device features",
+            route: "/sdk/auth/device-features",
+            filters: ["android", "ios"],
+          },
+        ],
+      },
+      "push-notifications": {
+        title: "Push notifications",
+        items: [
+          {
+            title: "Getting started",
+            route: "/sdk/push-notifications/getting-started",
+            filters: ["android", "ios"],
+          },
+          {
+            title: "Messaging campaigns",
+            route: "/sdk/push-notifications/messaging-campaign",
+            filters: ["android", "ios"],
+          },
+          {
+            title: "Setting up push notification services",
+            route: "/sdk/push-notifications/setup-push-service",
+            filters: ["android", "ios"],
+          },
+        ],
+      },
+      pubsub: {
+        title: "PubSub",
+        items: [
+          {
+            title: "Getting started",
+            route: "/sdk/pubsub/getting-started",
+            filters: ["android", "ios"],
+          },
+          {
+            title: "Working with the API",
+            route: "/sdk/pubsub/working-api",
+            filters: ["android", "ios"],
+          },
+        ],
+      },
+      storage: {
+        title: "Storage",
+        items: [
+          {
+            title: "Getting started",
+            route: "/sdk/storage/getting-started",
+            filters: ["android", "ios"],
+          },
+          {
+            title: "Using TransferUtility",
+            route: "/sdk/storage/transfer-utility",
+            filters: ["android", "ios"],
+          },
+          {
+            title: "Using GraphQL API",
+            route: "/sdk/storage/graphql-api",
+            filters: ["android", "ios"],
+          },
+          {
+            title: "Configure Access",
+            route: "/sdk/storage/configure-access",
+            filters: ["android", "ios"],
+          },
+        ],
+      },
+      configuration: {
+        title: "Configuration",
+        items: [
+          {
+            title: "SDK Setup Options",
+            route: "/sdk/configuration/setup-options",
+            filters: ["android", "ios"],
+          },
+        ],
+      },
+      info: {
+        title: "Info",
+        items: [
+          {title: "Data Information", route: "/overview", filters: ["android"]},
+          {
+            title: "Uninstalling the app",
+            route: "/sdk/info/app-uninstall",
+            filters: ["android"],
+          },
+        ],
+      },
+    },
+  },
   ui: {
     productRoot: {
       title: "Amplify UI Components",
