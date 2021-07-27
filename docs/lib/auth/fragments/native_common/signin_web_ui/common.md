@@ -9,7 +9,7 @@
 
 <amplify-callout>
 
-This library currently supports the [Authorization Code Grant](https://aws.amazon.com/blogs/mobile/understanding-amazon-cognito-user-pool-oauth-2-0-grants/) OAuth Flow.
+This library's Cognito plugin currently supports the [Authorization Code Grant](https://aws.amazon.com/blogs/mobile/understanding-amazon-cognito-user-pool-oauth-2-0-grants/) OAuth Flow.
 
 </amplify-callout>
 
