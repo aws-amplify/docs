@@ -1,9 +1,9 @@
 ---
 title: Authentication
-description: Configure and deploy authentication for an app
+description: Getting started with authentication for an app
 ---
 
-Authentication is the process of verifying the identity of a user. Writing the code for an application's login flow can be difficult and time consuming. In Admin UI, you can easily add a complete [Amazon Cognito](https://aws.amazon.com/cognito/) authentication solution to your app. You simply specify the log-in method, such as email and password, Amazon, Google, or Facebook, and you are provided with the authentication UI component for the entire authentication flow. 
+Authentication is the process of verifying the identity of a user. Writing the code for an application's login flow can be difficult and time consuming. In Admin UI, you can easily add a complete [Amazon Cognito](https://aws.amazon.com/cognito/) authentication solution to your app. You simply specify the log-in method, such as email and password, Amazon, Google, Facebook, or Sign in with Apple, and you are provided with the authentication UI component for the entire authentication flow. 
 
 If you choose to add one of the social sign-in login mechanisms, you will also need to specify an app ID, app secret, and redirect URIs. To learn more about how social sign-in works, see [Social sign-in (OAuth)](~/lib/auth/social.md).
 
@@ -16,7 +16,7 @@ Note that you must configure and deploy authentication for your application befo
 2. In the navigation pane, choose an application.
 3. On the application information page, choose the **Open Admin UI** tab.
 4. On the **Set up** menu, choose **Auth**.
-5. In the **Configure log in** section, choose a login mechanism to add from the **Add login mechanism** list. Valid options are *Username*, *Phone number*, *Facebook*, *Google*, and *Amazon*. If you choose one of the social sign-in mechanisms, *Facebook*, *Google*, or *Amazon*, you will also need to enter your *App ID*, *App Secret*, and redirect URLs.
+5. In the **Configure log in** section, choose a login mechanism to add from the **Add login mechanism** list. Valid options are *Username*, *Phone number*, *Facebook*, *Google*, *Amazon*, and *Sign in with Apple*. If you choose one of the social sign-in mechanisms, *Facebook*, *Google*, *Amazon*, or *Sign in with Apple* you will also need to enter your *App ID*, *App Secret*, and redirect URLs.
 6. (Optional) Add multi-factor authentication (MFA).  MFA is set to **Off** by default. To turn on MFA, do the following in the **Multi-factor authentication** section:
   * Choose **Enforced** to require MFA for all users or choose **Optional** to allow individual users to enable MFA. 
   * (Optional) Choose **SMS**, and enter your SMS message. 
