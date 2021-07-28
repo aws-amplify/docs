@@ -14,7 +14,96 @@ There are two ways to add storage with Amplify - manual and automated. Both meth
 
 ## Display location search box
 
+Add Amplify Geo to your app with `yarn` or `npm`:
+
+```bash
+npm install -S @aws-amplify/geo
+```
+
+Add maplibre-gl-js to your app with `yarn` or `npm`:
+
+```bash
+npm install -S maplibre-gl
+```
+
+In your app create an element for holding the search box. MaplibreGeocoder requires a geocoding API so define a geocodering API that wraps the Amplify Geo API. Pass this Geocoding API to a new MaplibreGeocoder and append it to the existing search element.
+```javascript
+import maplibregl, { Map } from "maplibre-gl";
+import { Geo } from "@aws-amplify/geo";
+
+// Remove this portion if you have already defined your own element to container the searchbox
+const el = document.createElement("div");
+el.setAttribute("id", "search");
+
+// Define a geocoderApi to be used by `MaplibreGeocoder` that wraps the Amplify Geo APIs
+const geocoderApi = {
+    forwardGeocode: async (config) => {
+        const data = await Geo.searchByText(config.query, {
+            biasPosition: config.proximity,
+            searchAreaConstraints: config.bbox,
+            countries: config.countries,
+            maxResults: config.limit,
+          });
+
+        const features = data.map((result) => {
+            const { geometry, ...otherResults } = result;
+            return {
+                type: "Feature",
+                geometry: { type: "Point", coordinates: geometry.point },
+                properties: { ...otherResults },
+                place_name: otherResults.label,
+                text: otherResults.label,
+                center: geometry.point,
+            };
+        });
+        return { features };
+    }
+};
+
+const geocoder = new MaplibreGeocoder(geocoderApi, {
+    maplibregl: maplibregl,
+    showResultMarkers: true,
+});
+document.getElementById("search").appendChild(geocoder.onAdd());
+```
+
 ## Display search box with a map
+As with the above approach the setup for a new MaplibreGeocoder will be the same but instead of adding the MaplibreGeocoder to the search element add it as a control to a maplibre-gl-js Map instead.
+```javascript
+import maplibregl, { Map } from "maplibre-gl";
+import { Geo } from "@aws-amplify/geo";
+
+// Define a geocoderApi to be used by `MaplibreGeocoder` that wraps the Amplify Geo APIs
+const geocoderApi = {
+    forwardGeocode: async (config) => {
+        const data = await Geo.searchByText(config.query, {
+            biasPosition: config.proximity,
+            searchAreaConstraints: config.bbox,
+            countries: config.countries,
+            maxResults: config.limit,
+          });
+
+        const features = data.map((result) => {
+            const { geometry, ...otherResults } = result;
+            return {
+                type: "Feature",
+                geometry: { type: "Point", coordinates: geometry.point },
+                properties: { ...otherResults },
+                place_name: otherResults.label,
+                text: otherResults.label,
+                center: geometry.point,
+            };
+        });
+        return { features };
+    }
+};
+
+const geocoder = new MaplibreGeocoder(geocoderApi, {
+    maplibregl: maplibregl,
+    showResultMarkers: true,
+});
+map.addControl(geocoder);
+```
 
 ## Use existing Amazon Location Service search resources
 
