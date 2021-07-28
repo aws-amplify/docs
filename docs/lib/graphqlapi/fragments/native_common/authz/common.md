@@ -18,6 +18,10 @@ Amazon Cognito Identity Pools allows you to use credentials from AWS IAM in your
 
 If you are using a 3rd party OIDC provider you will need to configure it and manage the details of token refreshes yourself. 
 
+### Lambda Authorizer
+
+You can implement your own API authorization logic using an AWS Lambda function. To add a Lambda authorizer as an authentication mode for you API, please see the Settings section of the AppSync console. You will need to manage the details of token refreshes in your application code yourself. 
+
 ## Use Amplify CLI to configure authorization modes
 
 Amplify CLI can automatically configure the auth modes for you when running `amplify add api` or `amplify update api` if you want to change the auth mode.
@@ -158,6 +162,26 @@ If you are using Cognito's user pool as the authorization type, this will by def
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/authz/21_oidc.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/authz/21_oidc.md"></inline-fragment>
+### Lambda Authorizer
+
+Update the `amplifyconfiguration.json` file and code snippet as follows:
+
+```json
+{
+    ...
+    "awsAPIPlugin": {
+        "[YOUR-GRAPHQLENDPOINT-NAME]": {
+            "endpointType": "GraphQL",
+            "endpoint": "[GRAPHQL-ENDPOINT]",
+            "region": "[REGION]",
+            "authorizationType": "AWS_LAMBDA",
+        }
+    }
+}
+```
+
+<inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/authz/22_lambda.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/authz/22_lambda.md"></inline-fragment>
 
 ### NONE
 You can also set authorization mode to `NONE` so that the library will not provide any request interception logic. You can use this when your API does not require any authorization or when you want to manipulate the request yourself, such as adding header values or authorization data.

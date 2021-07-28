@@ -172,3 +172,5 @@ type YourModel
 }
 ```
 DataStore will attempt to use owner-based authorization first when synchronizing data if there is an authenticated user. If that request fails for some reason, DataStore will attempt the request again with public authorization. If there is **no** authenticated user, public authorization will be used.
+
+<inline-fragment platform="js" src="~/lib/datastore/fragments/js/setup-auth-rules/20_function-auth-snippet.md"></inline-fragment>
