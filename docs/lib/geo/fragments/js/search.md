@@ -26,7 +26,7 @@ Add maplibre-gl-js to your app with `yarn` or `npm`:
 npm install -S maplibre-gl
 ```
 
-In your app create an element for holding the search box. MaplibreGeocoder requires a geocoding API so define a geocodering API that wraps the Amplify Geo API. Pass this Geocoding API to a new MaplibreGeocoder and append it to the existing search element.
+In your app create an element for holding the search box. MaplibreGeocoder requires a geocoding API so define a geocoding API that wraps the Amplify Geo API. Pass this Geocoding API to a new MaplibreGeocoder and append it to the existing search element.
 ```javascript
 import maplibregl, { Map } from "maplibre-gl";
 import { Geo } from "@aws-amplify/geo";
