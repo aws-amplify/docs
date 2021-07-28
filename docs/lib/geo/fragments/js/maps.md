@@ -2,24 +2,98 @@
 
 ## Maps with Amplify
 
-AWS Amplify Storage module provides a simple mechanism for managing user content for your app in public, protected or private storage buckets. The Storage category comes with built-in support for Amazon S3.
-
-There are two ways to add storage with Amplify - manual and automated. Both methods require the `auth` category with Amazon Cognito to also be enabled. If you are creating an S3 bucket from scratch, you should use the **Automated Setup**. However if you are reusing existing Cognito and S3 resources, you should opt for **Manual Setup**.
-
 ## Provision a map resource
+
+The primary way to provision Geo map resources is through the Amplify CLI. Currently, you need to install the CLI with the `@geo` tag in order to get the Geo functionality. You can use the following command to install this version globally.
+
+```bash
+npm i -g @aws-amplify/cli@geo
+```
+
+Once that is complete, you can run the following command from your project's root folder to add a `geo` resource:
+
+```bash
+amplify add geo
+```
+
+```
+? Select which capability you want to add: (Use arrow keys)
+❯ Map (visualize the geospatial data)
+  Location search (search by places, addresses, coordinates)
+```
+
+From here you can follow the prompts to generate your new Map resource.
+
+<!-- TODO: replace with proper link to CLI docs -->
+For more information, you can visit the full [Amplify CLI Geo Maps docs](~/lib/geo/maps.md).
+
+## Configure your application
+
+First, lets add the packages you need for Geo:
+
+```bash
+npm i -S aws-amplify @aws-amplify/geo
+```
+
+Now, we need to pull in the `Geo` class and `aws-exports` configuration into your project and configure Amplify
+
+```javascript
+import Amplify from "aws-amplify";
+import Geo from "@aws-amplify/geo";
+import awsconfig from "./aws-exports";
+
+Amplify.configure(awsconfig)
+
+const geo = new Geo();
+```
 
 ## Get Map Data
 
-### getAvailableMaps
+Currently, we have two APIs for getting data about what map resources are available.
 
-### getDefaultMap
+### Get the default map
+
+One map is always set as the default map. In order to quickly get information about that map, we have the `getDefaultMap` API.
+
+```javascript
+geo.getDefaultMap();
+```
+
+This will return a single map, which is set as the current default:
+
+```javascript
+// returns
+{
+  mapName: 'myAmplifyGeoErsiStreetMap',
+  style: 'VectorEsriStreets'
+}
+```
+
+### Get all available map resources
+
+The `getAvailableMaps` api will fetch information for all maps that are available to be displayed. In the context of Amazon Location Services maps, it will fetch the map name and the style of all maps that were generated using the Amplify CLI. This is useful is you would like to give your users a variety of maps styles to choose from.
+
+```javascript
+geo.getAvailableMaps();
+```
+
+This will return an array of maps that are available:
+
+```javascript
+//returns
+[
+  {
+    mapName: 'myAmplifyGeoErsiStreetMap',
+    style: 'VectorEsriStreets'
+  },
+  {
+    mapName: 'myAmplifyGeoErsiTopographicMap',
+    style: 'VectorEsriStreetsVectorEsriTopographic'
+  },
+]
+```
 
 ## Display a map
-Add Amplify to your app with `yarn` or `npm`:
-
-```bash
-npm install -S aws-amplify
-```
 
 Add maplibre-gl-js to your app with `yarn` or `npm`:
 
@@ -69,7 +143,7 @@ map.on("load", function () {
     const defaultMap = Geo.getDefaultMap();
 
     drawPoints("myPointData", // Arbitrary source name
-        [[-123.1187, 49.2819], [-122.849, 49.1913]], // Any coordinate or Feature data 
+        [[-123.1187, 49.2819], [-122.849, 49.1913]], // Any coordinate or Feature data
         map,
         {
             showCluster: true,
@@ -87,7 +161,8 @@ map.on("load", function () {
 ```
 
 ## Use existing Amazon Location Service Map resources
-
+<!-- TODO -->
 ## API Reference
 
-For the complete API documentation for Storage module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/storageclass.html).
+<!-- TODO: update with Geo link when finished -->
+For the complete API documentation for Geo module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/storageclass.html).

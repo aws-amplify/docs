@@ -1372,7 +1372,9 @@
     "customcf",
     "Pipfile",
     "maplibre",
-    "unclustered"
+    "unclustered",
+    "geospatial",
+    "Ersi"
   ],
   "flagWords": ["hte"]
 }
