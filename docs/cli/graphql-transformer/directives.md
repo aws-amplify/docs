@@ -32,6 +32,7 @@ Learn more about these directives in the [AWS AppSync Developer Guide](https://d
 
 ## 3rd party directives
 
+- [`@algolia`: Add serverless search to your Amplify API with Algolia](https://github.com/thefinnomenon/graphql-algolia-transformer)
 - [`@ttl`: Enable DynamoDB's time-to-live feature to auto-delete old entries in your AWS Amplify API](https://github.com/flogy/graphql-ttl-transformer)
 - [`@firehose`: Add a simple interceptor to all of your Amplify API mutations and queries](https://github.com/LaugnaHealth/graphql-firehose-transformer)
 - [`@retain`: Enable the "Retain" deletion policy for your Amplify-generated DynamoDB tables](https://github.com/flogy/graphql-retain-transformer)
