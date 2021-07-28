@@ -61,6 +61,10 @@ const importPlugin = () => (tree) => {
         type: "import",
         value: `import {Grid} from "theme-ui";`,
       });
+      tree.children.splice(index + 1, 0, {
+        type: "import",
+        value: `import UiComponentProps from "/src/components/UiComponentProps";`,
+      });
       addedImports = true;
     }
   });
