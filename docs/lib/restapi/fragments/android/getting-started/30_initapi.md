@@ -20,7 +20,7 @@ public class MyAmplifyApp extends Application {
         try {
             // Add these lines to add the AWSApiPlugin and Auth plugin
             Amplify.addPlugin(new AWSApiPlugin());
-            Amplify.addPlugin(AWSCognitoAuthPlugin());
+            Amplify.addPlugin(new AWSCognitoAuthPlugin());
             Amplify.configure(getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify.");
