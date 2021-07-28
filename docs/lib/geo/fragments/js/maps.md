@@ -111,7 +111,7 @@ Amplify.configure(awsconfig);
 
 ### Create a Maplibre map with Amplify
 
-In your app create an async function to load `Auth` credentials, then create an [AmplifyMapLibreRequest](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#amplifymaplibrerequest) object and pass the transformRequest as well as the map name to a new maplibre-gl-js [Map](https://maplibre.org/maplibre-gl-js-docs/api/map/).
+In your app create an async function to load `Auth` credentials. Create an [AmplifyMapLibreRequest](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#amplifymaplibrerequest) object using the credentials then pass the transformRequest and map name to a new maplibre-gl-js [Map](https://maplibre.org/maplibre-gl-js-docs/api/map/).
 ```javascript
 async function initializeMap() {
     const credentials = await Auth.currentCredentials();
@@ -121,12 +121,14 @@ async function initializeMap() {
     const map = new Map({
         container: "map",
         center: [-123.1187, 49.2819],
-        zoom: 13,
+        zoom: 11,
         style: defaultMap.mapName,
         transformRequest: amplifyMapLibreRequest.transformRequest,
     });
 }
 ```
+
+![A map centered on Vancouver](~/images/display-map.png)
 
 ## Display map with predefined places
 
@@ -159,6 +161,8 @@ map.on("load", function () {
 });
 
 ```
+
+![A map with points](~/images/display-map-with-points.png)
 
 ## Use existing Amazon Location Service Map resources
 <!-- TODO -->
