@@ -78,7 +78,7 @@ public class MyAmplifyApp extends Application {
         try {
             // Add these lines to add the `AWSApiPlugin` and `AWSCognitoAuthPlugin`
             RxAmplify.addPlugin(new AWSApiPlugin());
-            RxAmplify.addPlugin(AWSCognitoAuthPlugin());
+            RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
             RxAmplify.configure(getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify.");
