@@ -1367,7 +1367,9 @@
     "STORAGECONFIG",
     "secretsmanager",
     "customcf",
-    "Pipfile"
+    "Pipfile",
+    "maplibre",
+    "unclustered"
   ],
   "flagWords": ["hte"]
 }
