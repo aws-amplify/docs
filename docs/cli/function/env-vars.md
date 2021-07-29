@@ -50,3 +50,10 @@ When creating a new Amplify environment using `amplify env add --yes`, Amplify C
 
 In multi-environment workflows, you may have added a new environment variable in one Amplify environment and then checked out a different Amplify environment. In this case, on the next `amplify push`, Amplify CLI will detect that there is a new environment variable that does not have a value specified in the current environment and prompt for one.
 Running `amplify push --yes` in this case will fail with a message explaining the missing environment variable values.
+
+In **git-based** multi-environment workflows, you may run into errors during deployment. For example, this happens when you add an environment variable in `envA` (corresponding to a git branch `branchA`), then `amplify checkout envB` and `git checkout branchB` and `git merge` branchA into branchB. Upon pushing `envB`, Amplify CLI detects that a new environment variable has been added but can't infer a value for it. To resolve this issue, run the following commands in the terminal:
+
+1. `amplify env checkout <failing env name>`
+2. `amplify push` - when prompted, enter a new value for the environment variable(s)
+3. `git commit`
+4. `git push`
