@@ -8,7 +8,7 @@ import getElementTop from "../../utils/get-element-top";
 
 const stickyHeaderHeight = 54;
 
-const headerNames: Record<WebComponentProps, string> = {
+export const headerNames: Record<WebComponentProps, string> = {
   attr: ATTR_HEADER,
   css: CSS_HEADER,
   slots: SLOTS_HEADER,
@@ -102,4 +102,15 @@ function propsAreEmpty({propType, component}) {
     (propType === "css" && component?.styles.length === 0) ||
     (propType === "slots" && component?.slots.length === 0)
   );
+}
+
+export function propsAreEmptyByTag({propType, componentTag}) {
+  const component = docs.components.find(
+    (component) => component.tag === componentTag,
+  );
+
+  if (!component || !component.tag || propsAreEmpty({propType, component})) {
+    return true;
+  }
+  return false;
 }

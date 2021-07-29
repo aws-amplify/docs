@@ -1,3 +1,5 @@
+import {headerNames, propsAreEmptyByTag} from "../components/UiComponentProps";
+
 export function traverseHeadings(tree, filterKey: string): string[] {
   if (!Array.isArray(tree)) {
     tree = [tree];
@@ -28,6 +30,12 @@ export function traverseHeadings(tree, filterKey: string): string[] {
           headings.push([node.props.children, node.props.id, mdxType]);
         }
       }
+    } else if (node.props.mdxType === "UiComponentProps") {
+      // UiComponentProps is special -- just grab the generated headers from the propType
+      const {propType, tag} = node.props;
+      if (propsAreEmptyByTag({propType, componentTag: tag})) continue;
+      const sectionId = `props-${propType}-${tag}`;
+      headings.push([headerNames[propType], sectionId, "h2"]);
     }
   }
   return headings;
