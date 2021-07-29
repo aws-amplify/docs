@@ -153,21 +153,28 @@ function generatePathMap(
 
     if (productRoot) {
       const {route} = productRoot;
-      let page = route;
 
-      // // fix for cli
-      // if (route === "/cli") {
-      //   page = "/cli/cli";
-      // }
+      let filterKind = "";
+      if (route.includes("/cli") || route.includes("/console")) {
+        filterKind = "";
+      } else if (route.includes("/lib")) {
+        filterKind = "platform";
+      } else if (route.includes("/sdk")) {
+        filterKind = "platform";
+      } else if (route.includes("/ui")) {
+        filterKind = "framework";
+      } else if (route.includes("/guides")) {
+        filterKind = "platform";
+      } else if (route.includes("/start")) {
+        filterKind = "integration";
+      }
 
-      // // fix for console
-      // if (route === "/console") {
-      //   page = "/console/console";
-      // }
-
-      pathMap[route] = {
-        page,
-      };
+      if (filterKind !== "") {
+        pathMap[route] = {
+          page: "/ChooseFilterPage",
+          query: {href: route, filterKind: filterKind},
+        };
+      }
     }
 
     if (items) {
@@ -217,6 +224,10 @@ function generatePathMap(
         page: `${route}/q/${routeType}/[${routeType}]`,
       };
     });
+    pathMap[route] = {
+      page: "/ChooseFilterPage",
+      query: {href: route, filterKind: routeType},
+    };
   }
   return pathMap;
 }
