@@ -14,6 +14,7 @@ import {
 import SidebarLayoutToggle from "../SidebarLayoutToggle";
 import {useRef} from "react";
 import {MQTablet} from "../media";
+import {filterMetadataByOption} from "../../utils/filter-data";
 
 export default function Page({children, meta}: {children: any; meta?: any}) {
   const router = useRouter();
@@ -48,15 +49,19 @@ export default function Page({children, meta}: {children: any; meta?: any}) {
     );
   }
   localStorage.setItem("filterKeys", JSON.stringify(filterKeys));
+
   meta.chapterTitle = "";
   if (meta && !isProductRoot(pathname)) {
     const {title: chapTitle} = getChapterDirectory(pathname) as {
       title: string;
     };
-    meta.chapterTitle = chapTitle + " - ";
+    meta.chapterTitle = chapTitle;
   }
   const basePath = "docs.amplify.aws";
   meta.url = basePath + router.pathname;
+  if (filterKey !== "") {
+    meta.description += ` - ${filterMetadataByOption[filterKey].label}`;
+  }
 
   return (
     <Layout meta={meta}>

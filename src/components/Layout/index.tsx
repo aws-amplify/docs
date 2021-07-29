@@ -10,11 +10,17 @@ export default function Layout({children, meta}: {children: any; meta?: any}) {
   const router = useRouter();
   if (!router.isReady) return <></>;
 
+  const title = !meta
+    ? ""
+    : [meta.chapterTitle, meta.title, "Amplify Docs"]
+        .filter((s) => s !== "")
+        .join(" - ");
+
   return (
     <>
       {meta && (
         <Head>
-          <title>{`${meta.chapterTitle}${meta.title} - Amplify Docs`}</title>
+          <title>{`${title}`}</title>
           <meta property="og:title" content={meta.title} key="og:title" />
           <meta
             property="og:description"
