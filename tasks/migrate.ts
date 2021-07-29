@@ -54,7 +54,10 @@ const grab = function() {
 
       destination = destination.slice(0, -3); // slice off .md
       if (filterKey === "") {
-        if (destination.includes("start/")) {
+        if (destination.includes("cli/") || destination.includes("console/")) {
+          // deal with cli/start/install right at the top
+          destination = "src/pages/" + destination + ".mdx";
+        } else if (destination.includes("start/")) {
           filterKey = "integration";
         } else if (destination.includes("lib/")) {
           filterKey = "platform";
@@ -64,9 +67,6 @@ const grab = function() {
           filterKey = "framework";
         } else if (destination.includes("guides/")) {
           filterKey = "platform";
-        } else {
-          // /cli/ and /console/
-          destination = "src/pages/" + destination + ".mdx";
         }
       }
       frontMatterToWrite += "};\n\n";

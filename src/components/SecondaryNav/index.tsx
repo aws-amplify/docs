@@ -81,7 +81,7 @@ export default function SecondaryNav() {
                 ? [url]
                 : [url, ...additionalActiveChildRoots];
             const active = matchingRoots.some((root) => {
-              return path.includes(root);
+              return path.startsWith(root);
             });
             const LinkStyle = active ? LinkActiveStyle : LinkInactiveStyle;
             if (external) {
