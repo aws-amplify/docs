@@ -3,11 +3,15 @@ title: Maps
 description: Use Amplify CLI to create and manage maps to visualize GeoSpatial data in your app.
 ---
 
-Amplify CLI's `geo` category enables you to create and manage map resources used to visualize GeoSpatial data in your application. 
+Amplify CLI's `geo` category enables you to create and manage map resources used to visualize GeoSpatial data in your application.
+You need to install Amplify CLI with the `@geo` tag in order to get the Geo functionality. You can use the following command to install this version globally.
+```console
+npm i -g @aws-amplify/cli@geo
+```
 
 ## Setup a new Map
 
-You can setup a new map by running the following command:
+You can add a new map by running the following command from your project's root folder:
 
 ```bash
 amplify add geo

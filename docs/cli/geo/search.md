@@ -4,10 +4,14 @@ description: Use Amplify CLI to create and manage location search indices(or pla
 ---
 
 Amplify CLI's `geo` category enables you to create and manage place index resources used to search by places, addresses and coordinates in your application.
+You need to install Amplify CLI with the `@geo` tag in order to get the Geo functionality. You can use the following command to install this version globally.
+```console
+npm i -g @aws-amplify/cli@geo
+```
 
 ## Setup a new Search Index
 
-You can setup a new location search index by running the following command:
+You can add a new location search index by running the following command from your project's root folder:
 
 ```bash
 amplify add geo
