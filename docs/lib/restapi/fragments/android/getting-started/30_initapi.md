@@ -18,9 +18,9 @@ public class MyAmplifyApp extends Application {
         super.onCreate();
 
         try {
-            // Add these lines to add the AWSApiPlugin and Auth plugin
+            // Add these lines to add the `AWSApiPlugin` and `AWSCognitoAuthPlugin`
             Amplify.addPlugin(new AWSApiPlugin());
-            Amplify.addPlugin(AWSCognitoAuthPlugin());
+            Amplify.addPlugin(new AWSCognitoAuthPlugin());
             Amplify.configure(getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify.");
@@ -47,7 +47,7 @@ class MyAmplifyApp : Application() {
         super.onCreate()
 
         try {
-            // Add these lines to add the AWSApiPlugin and Auth plugin
+            // Add these lines to add the `AWSApiPlugin` and `AWSCognitoAuthPlugin`
             Amplify.addPlugin(AWSApiPlugin())
             Amplify.addPlugin(AWSCognitoAuthPlugin())
             Amplify.configure(applicationContext)
@@ -76,9 +76,9 @@ public class MyAmplifyApp extends Application {
         super.onCreate();
 
         try {
-            // Add these lines to add the AWSApiPlugin and Auth plugin
+            // Add these lines to add the `AWSApiPlugin` and `AWSCognitoAuthPlugin`
             RxAmplify.addPlugin(new AWSApiPlugin());
-            RxAmplify.addPlugin(AWSCognitoAuthPlugin());
+            RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
             RxAmplify.configure(getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify.");
