@@ -1,10 +1,10 @@
 ---
 title: Maps
-description: Use Amplify CLI to create and manage maps to visualize GeoSpatial data in your app.
+description: Use Amplify CLI to create and manage maps to visualize geospatial data in your app.
 ---
 
-Amplify CLI's `geo` category enables you to create and manage map resources used to visualize GeoSpatial data in your application.
-You need to install Amplify CLI with the `@geo` tag in order to get the Geo functionality. You can use the following command to install this version globally.
+Amplify's `geo` category enables you to create and manage map resources used to visualize geospatial data in your application.
+Since the `geo` category is in developer preview, you need to install Amplify CLI with the `@geo` tag in order to get the Geo functionality. You can use the following command to install this version globally.
 ```console
 npm i -g @aws-amplify/cli@geo
 ```
@@ -18,27 +18,21 @@ amplify add geo
 ```
 ```console
 ? Select which capability you want to add:
-> Map (visualize the GeoSpatial data)
+> Map (visualize the geospatial data)
   Location search (search by places, addresses, coordinates)
 ```
-If you haven't set up the `auth` category already, the Amplify CLI will guide you through a workflow to enable the auth category.
+If you haven't set up the `auth` category already, the Amplify CLI will guide you to enable the auth category.
 
-```console
-? You need to add auth (Amazon Cognito) to your project in order to add geo resources. Do you want to add auth now?
-> Yes
-
-Using service: Cognito, provided by: awscloudformation
-```
-
-Next, you can set a friendly name for the Map being provisioned. 
+Next, set a name for the map: 
 ```console
 ? Provide a name for the Map:
 > StreetsMap
 ```
 
-### Map Access permissions
+## Map Access permissions
 
-Next, configure the access permissions for your Map resource. You can scope permissions based on an individual user's authentication status.
+Next, configure the access permissions for your Map resource and authorize users to render the map.
+You can scope permissions based on an individual user's authentication status.
 
 ```console
 ? Who can access this Map?
@@ -46,21 +40,16 @@ Next, configure the access permissions for your Map resource. You can scope perm
   Authorized and Guest users
 ```
 
-Select `Authorized users only` if only authenticated users can have read-only permissions for the map.
+Select `Authorized users only` if only authenticated users are allowed to render the map.
 
-Select `Authorized and Guest users` if both authenticated and un-authenticated users can have read-only permissions for the map.
+Select `Authorized and Guest users` if both authenticated and unauthenticated users are allowed to render the map.
 
-These read-only permissions allow rendering of the Map in user's application:
-```
-geo:GetMapStyleDescriptor,
-geo:GetMapGlyphs,
-geo:GetMapSprites,
-geo:GetMapTile
-```
 For more information, refer [link to location service page](https://docs.aws.amazon.com/location/latest/developerguide/security_iam_id-based-policy-examples.html#security_iam_id-based-policy-examples-get-map-tiles).
 
-### Map Pricing Plan
-Amplify provides a set of questions to help you decide the pricing plan relevant to your application's use-case. 
+## Map Pricing Plan
+Amazon Location Service offers three pricing plans namely, `RequestBasedUsage`, `MobileAssetTracking` and `MobileAssetManagement` that require no up-front commitment, and no minimum fee.
+You select one of the following pricing plans for the Amazon Location Service resources you create for your application.
+Amplify helps you determine the best pricing plan for you by guiding you through a set of questions.
 These pricing plan related set of questions are presented to you when you add the first Geo resource to your application. 
 Once you chose the pricing plan, it will be automatically used for the subsequent Geo resources added to your application.
 
@@ -98,19 +87,11 @@ Successfully set MobileAssetManagement pricing plan for your Geo resources.
 
 We advice you to go through the [location service pricing](https://aws.amazon.com/location/pricing/) along with the [location service terms](https://aws.amazon.com/service-terms/) (_82.5 section_) to learn more about the pricing plan.
 
-### Advanced Settings
-You can optionally set additional properties of the Map. If you choose to skip, defaults will be set for these properties. 
+## Advanced Settings
+You can optionally configure the style and data provider for the map.
 
-```console
-Available advanced settings:
-- Map style & Map data provider (default: Streets provided by Esri)
-
-? Do you want to configure advanced settings? 
-> Yes
-```
-
-#### Map style & Map data provider
-You can pick a style for the map resource. The available map styles along with the data provider of GeoSpatial data are shown. To learn more about each of these map styles, please refer this [location service doc](https://docs.aws.amazon.com/location-maps/latest/APIReference/API_MapConfiguration.html).
+### Map style & Map data provider
+You can pick a style for the map resource. The available map styles along with the data provider of geospatial data are shown. To learn more about each of these map styles, please refer this [location service doc](https://docs.aws.amazon.com/location-maps/latest/APIReference/API_MapConfiguration.html).
 
 ```console
 ? Specify the map style:
@@ -124,8 +105,8 @@ You can pick a style for the map resource. The available map styles along with t
 
 `Streets (data provided by Esri) ` will be the default option that will be used to set Map style, if you do not want to explicitly set this property. 
 
-#### Set a default Map
-If your application uses more than one Map added using `amplify add geo`, the map that was added the latest will be the default. 
+### Set a default Map
+If you added more than one map via `amplify add geo`, the map that was added last will be the default. 
 However, you can choose if the current Map should be the default for your application:
 
 ```console

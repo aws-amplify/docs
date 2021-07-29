@@ -556,6 +556,7 @@
     "ge",
     "geo_point",
     "geolocation",
+    "geospatial",
     "getAllKeys",
     "getApplicationContext",
     "getCacheCurSize",
