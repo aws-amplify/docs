@@ -36,7 +36,7 @@ export default function Page({children, meta}: {children: any; meta?: any}) {
     filterKey = router.query.integration as string;
     filterKeys.integration = filterKey;
     filterKind = "integration";
-  } else {
+  } else if ("framework" in router.query) {
     filterKey = router.query.framework as string;
     filterKeys.framework = filterKey;
     filterKind = "framework";
