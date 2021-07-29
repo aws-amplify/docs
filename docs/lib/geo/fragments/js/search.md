@@ -97,13 +97,13 @@ npm install -S maplibre-gl
 Create a map onto which you can add the MaplibreGeocoder as a [control](https://maplibre.org/maplibre-gl-js-docs/api/markers/#icontrol). Documentation on creating and displaying [maps](~/lib/geo/maps.md)
 
 ```javascript
-const map = new Map({
+const map = await AmplifyMapLibreRequest.createMapLibreMap({
     container: "map",
     center: [-123.1187, 49.2819],
-    zoom: 13,
+    zoom: 11,
     style: defaultMap.mapName,
-    transformRequest: amplifyMapLibreRequest.transformRequest,
-});
+    region: "us-west-2"
+})
 ```
 
 As with the above approach the setup for a new MaplibreGeocoder will be the same but instead of adding the MaplibreGeocoder to the search element add it as a control to a maplibre-gl-js Map instead.
