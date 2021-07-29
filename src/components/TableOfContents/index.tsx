@@ -4,6 +4,9 @@ import {TOCStyle, H2AnchorStyle, H3AnchorStyle, HeaderStyle} from "./styles";
 import {useEffect} from "react";
 
 export default function TableOfContents({children, title}) {
+  if (children.length === 0) {
+    return <></>;
+  }
   const headers = [];
   const stickyHeaderHeight = 54;
   let activeLink = 0;

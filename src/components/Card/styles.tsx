@@ -64,6 +64,7 @@ export const Card = styled(docsCard)`
       margin-right: 0;
       text-align: center;
       margin-bottom: 0.5rem;
+      height: 3rem;
     }
 
     img:hover {
@@ -131,11 +132,6 @@ export const CardGraphic = styled.img`
   min-width: 3rem;
   margin-top: -6px;
   align-self: center;
-
-  &.vertical img {
-    width: inherit;
-    height: 3rem;
-  }
 
   img:hover {
     opacity: 0.8;

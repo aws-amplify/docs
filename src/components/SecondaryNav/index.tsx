@@ -18,7 +18,9 @@ import {Container} from "../Container";
 export default function SecondaryNav() {
   const router = useRouter();
   const path = router.pathname;
-  const filterKeys = JSON.parse(localStorage.getItem("filterKeys"));
+  let filterKeys = {};
+  if (typeof localStorage !== "undefined")
+    filterKeys = JSON.parse(localStorage.getItem("filterKeys"));
 
   return (
     <SecondaryNavStyle id="secondary-nav">
@@ -51,12 +53,13 @@ export default function SecondaryNav() {
               label: "Guides",
               url: "/guides",
             },
-            ...("platform" in filterKeys && filterKeys.platform
+            ...("platform" in filterKeys &&
+            (filterKeys as {platform: string}).platform
               ? [
                   {
                     label: "API Reference",
                     url: (() => {
-                      switch (filterKeys.platform) {
+                      switch ((filterKeys as {platform: string}).platform) {
                         case "ios": {
                           return IOS_REFERENCE;
                         }

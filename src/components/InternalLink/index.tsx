@@ -17,7 +17,9 @@ export default function InternalLink({href, children}) {
   }
 
   if (filterKind != "") {
-    const filterKeys = JSON.parse(localStorage.getItem("filterKeys"));
+    let filterKeys = {};
+    if (typeof localStorage !== "undefined")
+      filterKeys = JSON.parse(localStorage.getItem("filterKeys"));
     if (filterKind in filterKeys) {
       const filterKey = filterKeys[filterKind];
       href += `/q/${filterKind}/${filterKey}`;

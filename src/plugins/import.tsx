@@ -15,6 +15,10 @@ const importPlugin = () => (tree) => {
       });
       tree.children.splice(index + 1, 0, {
         type: "import",
+        value: `import FilterContent from "/src/components/FilterContent";`,
+      });
+      tree.children.splice(index + 1, 0, {
+        type: "import",
         value: `import CodeBlock from "/src/components/CodeBlock";`,
       });
       tree.children.splice(index + 1, 0, {

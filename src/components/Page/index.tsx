@@ -7,7 +7,6 @@ import Menu from "../Menu/index";
 import TableOfContents from "../TableOfContents/index";
 import NextPrevious from "../NextPrevious/index";
 import {ContentStyle, ChapterTitleStyle} from "./styles";
-import Custom404 from "../../pages/404";
 import {
   getChapterDirectory,
   isProductRoot,
@@ -18,7 +17,10 @@ import {MQTablet} from "../media";
 
 export default function Page({children, meta}: {children: any; meta?: any}) {
   const router = useRouter();
-  if (!router.isReady) return <></>;
+  if (!router.isReady) {
+    useRef(null);
+    return <></>;
+  }
   const {pathname} = router;
   let filterKey = "",
     filterKind = "";
@@ -38,7 +40,6 @@ export default function Page({children, meta}: {children: any; meta?: any}) {
     filterKeys.framework = filterKey;
     filterKind = "framework";
   }
-  localStorage.setItem("filterKeys", JSON.stringify(filterKeys));
   const headers = traverseHeadings(children, filterKey);
   const filters = gatherAllFilters(children, filterKind);
   if (filters.length !== 0 && !filters.includes(filterKey) && meta) {
@@ -46,6 +47,7 @@ export default function Page({children, meta}: {children: any; meta?: any}) {
       <Layout>Type-2 404: filter doesn't match our list of filters</Layout>
     );
   }
+  localStorage.setItem("filterKeys", JSON.stringify(filterKeys));
   meta.chapterTitle = "";
   if (meta && !isProductRoot(pathname)) {
     const {title: chapTitle} = getChapterDirectory(pathname) as {
@@ -74,7 +76,7 @@ export default function Page({children, meta}: {children: any; meta?: any}) {
   );
 }
 
-function metaContent({
+export function metaContent({
   title,
   chapterTitle,
   headers,
@@ -88,7 +90,10 @@ function metaContent({
   // Slice off the "@media " string at the start for use in JS instead of CSS
   const MQTabletJS = MQTablet.substring(6);
   // If the media query matches, then the user is on desktop and should not see the mobile toggle
-  const onDesktop = window.matchMedia(MQTabletJS).matches;
+  const onDesktop =
+    typeof window === "undefined"
+      ? false
+      : window.matchMedia(MQTabletJS).matches;
   return (
     <>
       <Menu
