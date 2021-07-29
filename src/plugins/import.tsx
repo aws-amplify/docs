@@ -7,7 +7,7 @@ const importPlugin = () => (tree) => {
     if (!addedImports) {
       tree.children.splice(index + 1, 0, {
         type: "import",
-        value: `import Layout from "/src/components/Layout";`,
+        value: `import Page from "/src/components/Page";`,
       });
       tree.children.splice(index + 1, 0, {
         type: "import",

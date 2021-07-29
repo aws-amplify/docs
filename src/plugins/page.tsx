@@ -1,4 +1,4 @@
-const layoutPlugin = () => (tree) => {
+const pagePlugin = () => (tree) => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const visit = require("unist-util-visit");
   visit(tree, "export", (node, index) => {
@@ -7,10 +7,10 @@ const layoutPlugin = () => (tree) => {
         type: "export",
         default: true,
         value:
-          "export default ({ children }) => <Layout meta={meta}>{children}</Layout>",
+          "export default ({ children }) => <Page meta={meta}>{children}</Page>",
       });
     }
   });
 };
 
-module.exports = [layoutPlugin];
+module.exports = [pagePlugin];

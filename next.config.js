@@ -10,7 +10,7 @@ const directory = require("./src/directory/directory.js");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const headingLinkPlugin = require("./src/plugins/headings.tsx");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const layoutPlugin = require("./src/plugins/layout.tsx");
+const pagePlugin = require("./src/plugins/page.tsx");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const importPlugin = require("./src/plugins/import.tsx");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -24,7 +24,7 @@ const withMDX = require("@next/mdx")({
     remarkPlugins: [
       importPlugin,
       headingLinkPlugin,
-      layoutPlugin,
+      pagePlugin,
       internalLinkPlugin,
     ],
     rehypePlugins: [codeBlockPlugin],

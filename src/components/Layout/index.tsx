@@ -1,77 +1,27 @@
 import Head from "next/head";
-import {useRouter} from "next/router";
-import {traverseHeadings} from "../../utils/traverseHeadings";
-import {gatherAllFilters} from "../../utils/gatherFilters";
-import CodeBlockProvider from "../CodeBlockProvider/index";
-import Menu from "../Menu/index";
-import TableOfContents from "../TableOfContents/index";
 import UniversalNav from "../UniversalNav/index";
 import SecondaryNav from "../SecondaryNav/index";
-import NextPrevious from "../NextPrevious/index";
 import Footer from "../Footer/index";
-import {ContentStyle, LayoutStyle, ChapterTitleStyle} from "./styles";
+import {LayoutStyle} from "./styles";
 import {Container} from "../Container";
-import Custom404 from "../../pages/404";
-import {
-  getChapterDirectory,
-  isProductRoot,
-} from "../../utils/getLocalDirectory";
-import SidebarLayoutToggle from "../SidebarLayoutToggle";
-import {useRef} from "react";
-import {MQTablet} from "../media";
+import {useRouter} from "next/router";
 
 export default function Layout({children, meta}: {children: any; meta?: any}) {
   const router = useRouter();
   if (!router.isReady) return <></>;
-  const {pathname} = router;
-  let filterKey = "",
-    filterKind = "";
-  const filterKeys =
-    JSON.parse(localStorage.getItem("filterKeys")) ||
-    ({} as {platform?: string; integration?: string; framework?: string});
-  if ("platform" in router.query) {
-    filterKey = router.query.platform as string;
-    filterKeys.platform = filterKey;
-    filterKind = "platform";
-  } else if ("integration" in router.query) {
-    filterKey = router.query.integration as string;
-    filterKeys.integration = filterKey;
-    filterKind = "integration";
-  } else {
-    filterKey = router.query.framework as string;
-    filterKeys.framework = filterKey;
-    filterKind = "framework";
-  }
-  localStorage.setItem("filterKeys", JSON.stringify(filterKeys));
-  const headers = traverseHeadings(children, filterKey);
-  const filters = gatherAllFilters(children, filterKind);
-  if (filters.length !== 0 && !filters.includes(filterKey) && meta) {
-    return Custom404();
-  }
-  let chapterTitle = "";
-  if (meta && !isProductRoot(pathname)) {
-    const {title: chapTitle} = getChapterDirectory(pathname) as {
-      title: string;
-    };
-    chapterTitle = chapTitle + " - ";
-  }
-  const basePath = "docs.amplify.aws";
+
   return (
     <>
       {meta && (
         <Head>
-          <title>{`${chapterTitle}${meta.title} - Amplify Docs`}</title>
+          <title>{`${meta.chapterTitle}${meta.title} - Amplify Docs`}</title>
           <meta property="og:title" content={meta.title} key="og:title" />
           <meta
             property="og:description"
             content={meta.description}
             key="og:description"
           />
-          <meta
-            property="og:url"
-            content={basePath + router.pathname}
-            key="og:url"
-          />
+          <meta property="og:url" content={meta.url} key="og:url" />
           <meta
             property="og:image"
             content="https://docs.amplify.aws/assets/ogp.jpg"
@@ -107,66 +57,10 @@ export default function Layout({children, meta}: {children: any; meta?: any}) {
       />
       <SecondaryNav />
       <Container backgroundColor="bg-color-tertiary">
-        <LayoutStyle>
-          {meta
-            ? metaContent({
-                title: meta.title,
-                chapterTitle,
-                headers,
-                children,
-                filters,
-                filterKey,
-                pathname: router.pathname,
-                href: router.asPath,
-              })
-            : children}
-        </LayoutStyle>
+        <LayoutStyle>{children}</LayoutStyle>
       </Container>
       <Footer />
       <script src="https://cdn.jsdelivr.net/npm/docsearch.js@2.6.3/dist/cdn/docsearch.min.js"></script>
-    </>
-  );
-}
-
-function metaContent({
-  title,
-  chapterTitle,
-  headers,
-  children,
-  filters,
-  filterKey,
-  pathname,
-  href,
-}) {
-  const menuRef = useRef(null);
-  // Slice off the "@media " string at the start for use in JS instead of CSS
-  const MQTabletJS = MQTablet.substring(6);
-  // If the media query matches, then the user is on desktop and should not see the mobile toggle
-  const onDesktop = window.matchMedia(MQTabletJS).matches;
-  return (
-    <>
-      <Menu
-        filters={filters}
-        filterKey={filterKey}
-        pathname={pathname}
-        href={href}
-        ref={menuRef}
-      ></Menu>
-      <ContentStyle>
-        <ChapterTitleStyle>{chapterTitle}</ChapterTitleStyle>
-        <h1>{title}</h1>
-        <CodeBlockProvider>
-          {children}
-          <NextPrevious pathname={pathname} filterKey={filterKey} />
-        </CodeBlockProvider>
-      </ContentStyle>
-      <TableOfContents title={title}>{headers}</TableOfContents>
-      {!onDesktop && (
-        <SidebarLayoutToggle menuRef={menuRef}>
-          <img className="burger-graphic" src="/assets/burger.svg" />
-          <img className="ex-graphic" src="/assets/close.svg" />
-        </SidebarLayoutToggle>
-      )}
     </>
   );
 }
