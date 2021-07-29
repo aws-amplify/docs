@@ -1,16 +1,10 @@
 > Prerequisite: [Install and configure](~/cli/start/install.md) the Amplify CLI
 
-## Maps with Amplify
-
 ## Provision a map resource
 
-The primary way to provision Geo map resources is through the Amplify CLI. Currently, you need to install the CLI with the `@geo` tag in order to get the Geo functionality. You can use the following command to install this version globally.
+The primary way to provision Geo map resources is through the Amplify CLI.
 
-```bash
-npm i -g @aws-amplify/cli@geo
-```
-
-Once that is complete, you can run the following command from your project's root folder to add a `geo` resource:
+Note: You will need the `@geo` release of the CLI for this. For more information, please see [Getting started](~/lib/geo/getting-started.md)
 
 ```bash
 amplify add geo
@@ -22,34 +16,17 @@ amplify add geo
   Location search (search by places, addresses, coordinates)
 ```
 
-From here you can follow the prompts to generate your new Map resource.
+From here you can follow the prompts to generate your new Map resource. Make sure to push your changes up after configuration:
+
+```
+amplify push
+```
 
 <!-- TODO: replace with proper link to CLI docs -->
 For more information, you can visit the full [Amplify CLI Geo Maps docs](~/lib/geo/maps.md).
-
-## Configure your application
-
-First, lets add the packages you need for Geo:
-
-```bash
-npm i -S aws-amplify @aws-amplify/geo
-```
-
-Now, we need to pull in the `Geo` class and `aws-exports` configuration into your project and configure Amplify
-
-```javascript
-import Amplify from "aws-amplify";
-import Geo from "@aws-amplify/geo";
-import awsconfig from "./aws-exports";
-
-Amplify.configure(awsconfig)
-
-const geo = new Geo();
-```
-
 ## Get Map Data
 
-Currently, we have two APIs for getting data about what map resources are available.
+Currently, we have two APIs for getting available map resource names and styles.
 
 ### Get the default map
 
@@ -71,7 +48,9 @@ This will return a single map, which is set as the current default:
 
 ### Get all available map resources
 
-The `getAvailableMaps` api will fetch information for all maps that are available to be displayed. In the context of Amazon Location Services maps, it will fetch the map name and the style of all maps that were generated using the Amplify CLI. This is useful is you would like to give your users a variety of maps styles to choose from.
+The `getAvailableMaps` api will fetch information for all maps that are available to be displayed.
+
+In the context of Amazon Location Service maps, it will fetch the map name and the style of all maps that were generated using the Amplify CLI. This is useful is you would like to give your users a variety of maps styles to choose from.
 
 ```javascript
 geo.getAvailableMaps();
