@@ -13,7 +13,12 @@ function getLocalDirectory(pathname: string, depth: number): object {
 export function isProductRoot(pathname: string): boolean {
   const path = pathname.split("/");
 
-  if (directory[path[1]].productRoot.route === "/" + path[1]) {
+  if (directory[path[1]].productRoot.route === pathname) {
+    // matches /ui, for example
+    return true;
+  }
+  if (path[2] === "q") {
+    // matches /ui/q/framework/react, for example
     return true;
   }
   return false;
