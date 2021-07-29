@@ -1,16 +1,128 @@
 > Prerequisite: [Install and configure](~/cli/start/install.md) the Amplify CLI
 
-## Search with Amplify
+## Provision a Search resource
 
-AWS Amplify Storage module provides a simple mechanism for managing user content for your app in public, protected or private storage buckets. The Storage category comes with built-in support for Amazon S3.
+The primary way to provision Geo resources is through the Amplify CLI. Currently, you need to install the CLI with the `@geo` tag in order to get the Geo functionality. You can use the following command to install this version globally.
 
-There are two ways to add storage with Amplify - manual and automated. Both methods require the `auth` category with Amazon Cognito to also be enabled. If you are creating an S3 bucket from scratch, you should use the **Automated Setup**. However if you are reusing existing Cognito and S3 resources, you should opt for **Manual Setup**.
+```bash
+npm i -g @aws-amplify/cli@geo
+```
 
-## Provision a place index
+Once that is complete, you can run the following command from your project's root folder to add a `geo` resource:
+
+```bash
+amplify add geo
+```
+
+```
+? Select which capability you want to add: (Use arrow keys)
+  Map (visualize the geospatial data)
+❯ Location search (search by places, addresses, coordinates)
+```
+
+From here you can follow the prompts to generate your new Place Index to be used for Search.
+
+<!-- TODO: replace with proper link to CLI docs -->
+For more information, you can visit the full [Amplify CLI Geo Search docs](~/lib/geo/search.md).
 
 ## Search by text
 
+The `geo.searchByText` API Geocodes free-form text, such as an address, name, city, or region to allow you to search for places or points of interest.
+
+```javascript
+geo.searchByText("Amazon Go Store")
+```
+
+We also include options to apply additional parameters to narrow your list of results.
+
+NOTE: You can search for places near a given position using `biasPosition`, or filter results within a bounding box using `searchAreaConstraints`. Providing both parameters simultaneously returns an error.
+
+```javascript
+const searchOptionsWithBiasPosition = {
+  countries: string[], // Alpha-3 country codes
+	maxResults: number, // 50 is the max and the default
+  biasPosition: [
+    latitude // number,
+    longitude // number
+  ], // Coordinates point to act as the center of the search
+}
+
+const searchOptionsWithSearchAreaConstraints = {
+  countries: ["USA"], // Alpha-3 country codes
+	maxResults: 25, // 50 is the max and the default
+  searchAreaConstraints: [SWLatitude, SWLongitude, NELatitude, NELongitude], // Bounding box to search inside of
+}
+
+geo.searchByText('Amazon Go Stores', searchOptionsWithBiasPosition)
+```
+
+This will return a list of places that match the search constraints.
+
+```javascript
+// returns
+[
+  {
+    addressNumber: "2131" // optional string for the address number alone
+    country: "USA" // optional Alpha-3 country code
+    geometry: {
+      point:
+        [
+          -122.34014899999994, // Latitude point
+          47.61609000000004 // Longitude point
+        ],
+      },
+    label: "Amazon Go, 2131 7th Ave, Seattle, WA, 98121, USA" // Optional string
+    municipality: "Seattle" // Optional string
+    neighborhood: undefined // Optional string
+    postalCode: "98121" // Optional string
+    region: "Washington" // Optional string
+    street: "7th Ave" // Optional string
+    subRegion: "King County" // Optional string
+  }
+]
+```
+
 ## Search by coordinates
+
+The `geo.searchByCoordinates` API is a reverse Geocoder that takes a coordinate point as it's input and will return information about what it finds at that point on the map.
+
+```javascript
+geo.serachByCoordinates([latitudePoint, longitudePoint])
+```
+
+We also include options to apply additional parameters to narrow your list of results.
+
+```javascript
+const searchOptionsWithBiasPosition = {
+	maxResults: number, // 50 is the max and the default
+}
+
+geo.searchByCoordinates([47.616179, -122.3399573], searchOptionsWithBiasPosition)
+```
+
+This will return a list of places that match the search constraints.
+
+```javascript
+// returns
+{
+  addressNumber: "2131" // optional string for the address number alone
+  country: "USA" // optional Alpha-3 country code
+  geometry: {
+    point:
+      [
+        -122.34014899999994, // Latitude point
+        47.61609000000004 // Longitude point
+      ],
+    },
+  label: "Amazon Go, 2131 7th Ave, Seattle, WA, 98121, USA" // Optional string
+  municipality: "Seattle" // Optional string
+  neighborhood: undefined // Optional string
+  postalCode: "98121" // Optional string
+  region: "Washington" // Optional string
+  street: "7th Ave" // Optional string
+  subRegion: "King County" // Optional string
+}
+```
 
 ## Display location search box
 
