@@ -2,7 +2,9 @@ import {filterOptionsByName} from "./filter-data";
 
 export function gatherAllFilters(tree, filterKind): string[] {
   const filters = gatherFilters(tree);
-  if (treeHasAgnosticContent(tree)) {
+  // if we have no filters, "filter-agnostic content" is just
+  // content
+  if (filters.length !== 0 && treeHasAgnosticContent(tree)) {
     addFilters(filters, filterOptionsByName[filterKind]);
   }
   return filters;
