@@ -39,6 +39,7 @@ class DirectoryGroup extends React.Component<
       this.props.filterKey === undefined ||
       // this page is available independent of filter
       filters === undefined ||
+      filters.length === 0 ||
       // this page is available in specific filtered versions (one of which is the globally-selected)
       (filters && filters.includes(this.props.filterKey))
     );
