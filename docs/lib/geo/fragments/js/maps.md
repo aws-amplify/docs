@@ -39,8 +39,7 @@ Add maplibre-gl-js-amplify to your app with `yarn` or `npm`:
 ```bash
 npm install -S maplibre-gl-js-amplify
 ```
-[maplibre-gl-js-amplify](https://github.com/aws-amplify/maplibre-gl-js-amplify) is a plugin for integrating a MapLibre map with Amplify Geo.
-
+[maplibre-gl-js-amplify](https://github.com/aws-amplify/maplibre-gl-js-amplify) is a library that makes it easy to integration MapLibre with Amplify Geo.
 
 In your app’s entry point i.e. `App.js`, import and load the configuration file `aws-exports.js` which has been created and replaced into `/src` folder in the previous step.
 ```javascript
