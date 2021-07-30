@@ -166,7 +166,7 @@ If you are using Cognito's user pool as the authorization type, this will by def
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/authz/21_oidc.md"></inline-fragment>
 ### AWS Lambda
 
-Update the `authorizationType` value in the `amplifyconfiguration.json` file and code snippet as follows:
+Amplify CLI does not currently allow you to configure Lambda as an authorization mode for your GraphQL API. To add a Lambda function as an authorization mode for your AppSync API, go to the **Settings** section of the **AppSync console**. Then, update the `authorizationType` value in the `amplifyconfiguration.json` file and code snippet as follows:
 
 ```json
 {
