@@ -24,10 +24,21 @@ amplify push
 
 <!-- TODO: replace with proper link to CLI docs -->
 For more information, you can visit the full [Amplify CLI Geo Maps docs](~/lib/geo/maps.md).
+
+## Set up your app with the AWS Amplify Geo category
+
+First, make sure to have the [Amplify configuration step](~/lib/geo/getting-started.md) done in your app's root entry point.
+
+Then, bring in the `Geo` category package where you need it:
+
+```javascript
+import { Geo } from 'aws-amplify';
+
+const geo = new Geo()
+```
 ## Get Map Data
 
 Currently, we have two APIs for getting available map resource names and styles.
-
 ### Get the default map
 
 One map is always set as the default map. In order to quickly get information about that map, we have the `getDefaultMap` API.
@@ -150,6 +161,7 @@ map.on("load", function () {
 
 ## Use existing Amazon Location Service Map resources
 <!-- TODO -->
+Coming soon...
 ## API Reference
 
 <!-- TODO: update with Geo link when finished -->

@@ -5,7 +5,7 @@
 The primary way to provision Geo resources is through the Amplify CLI. Currently, you need to install the CLI with the `@geo` tag in order to get the Geo functionality. You can use the following command to install this version globally.
 
 ```bash
-npm i -g @aws-amplify/cli@geo
+npm i -g @aws-amplify/geo@geo
 ```
 
 Once that is complete, you can run the following command from your project's root folder to add a `geo` resource:
@@ -24,6 +24,18 @@ From here you can follow the prompts to generate your new Place Index to be used
 
 <!-- TODO: replace with proper link to CLI docs -->
 For more information, you can visit the full [Amplify CLI Geo Search docs](~/lib/geo/search.md).
+
+## Set up your app with the AWS Amplify Geo category
+
+First, make sure to have the [Amplify configuration step](~/lib/geo/getting-started.md) done in your app's root entry point.
+
+Then, bring in the `Geo` category package where you need it:
+
+```javascript
+import { Geo } from 'aws-amplify';
+
+const geo = new Geo()
+```
 
 ## Search by text
 
@@ -87,7 +99,7 @@ This will return a list of places that match the search constraints.
 The `geo.searchByCoordinates` API is a reverse Geocoder that takes a coordinate point as it's input and will return information about what it finds at that point on the map.
 
 ```javascript
-geo.serachByCoordinates([latitudePoint, longitudePoint])
+geo.searchByCoordinates([latitudePoint, longitudePoint])
 ```
 
 We also include options to apply additional parameters to narrow your list of results.
@@ -129,7 +141,7 @@ This will return a list of places that match the search constraints.
 Add Amplify Geo to your app with `yarn` or `npm`:
 
 ```bash
-npm install -S @aws-amplify/geo
+npm install -S aws-amplify@geo
 ```
 
 Add maplibre-gl-geocoder to your app with `yarn` or `npm`:
@@ -140,7 +152,7 @@ npm install -S @maplibre/maplibre-gl-geocoder
 
 In your app create an element for holding the search box. MaplibreGeocoder requires a geocoding API so define a geocoding API that wraps the Amplify Geo API. Pass this Geocoding API to a new MaplibreGeocoder and append it to the existing search element.
 ```javascript
-import { Geo } from "@aws-amplify/geo";
+import { Geo } from "aws-amplify";
 import MaplibreGeocoder from "@maplibre/maplibre-gl-geocoder";
 import "@maplibre/maplibre-gl-geocoder/dist/maplibre-gl-geocoder.css";
 
@@ -270,7 +282,9 @@ initializeMap();
 ![A search box on the top right corner of a map](~/images/geocoder-search-box-map.png)
 
 ## Use existing Amazon Location Service search resources
+<!-- TODO -->
+Coming soon...
 
 ## API Reference
-
+<!-- TODO -->
 For the complete API documentation for Storage module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/storageclass.html).
