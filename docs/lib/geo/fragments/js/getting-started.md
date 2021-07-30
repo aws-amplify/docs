@@ -1,3 +1,5 @@
+TODO: Note for developer preview
+
 > Prerequisite: [Install and configure the Amplify CLI](~/cli/start/install.md)
 
 ## Provisioning resources
@@ -42,32 +44,13 @@ A configuration file called `aws-exports.js` will be copied to your configured s
 Install the necessary dependencies by running the following command:
 
 ```sh
-npm install aws-amplify@geo maplibre-gl maplibre-gl-js-amplify
+npm install aws-amplify@geo
 ```
 
 Import and load the configuration file generated in previous step using Amplify CLI in your app. It’s recommended you add the Amplify configuration step to your app’s root entry point. For example `App.js` in React or `main.ts` in Angular or Ionic.
 
 ```javascript
-import Amplify, { Auth } from 'aws-amplify';
+import Amplify from 'aws-amplify';
 import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
-```
-## Display a map in your app
-Import maplibre and maplibre-gl-js-amplify in your app and use the `createMapLibreMap` to initialize a maplibre Map instance.
-
-```javascript
-import Amplify, { Auth } from 'aws-amplify';
-import awsconfig from './aws-exports';
-import { Map } from "maplibre-gl";
-import { AmplifyMapLibreRequest } from "maplibre-gl-js-amplify";
-
-Amplify.configure(awsconfig);
-
-async function initializeMap() {
-    const map = await AmplifyMapLibreRequest.createMapLibreMap({
-        container: "map",
-        center: [-123.1187, 49.2819],
-        zoom: 11
-    });
-}
 ```
