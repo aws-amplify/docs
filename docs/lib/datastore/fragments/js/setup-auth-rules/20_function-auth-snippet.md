@@ -1,6 +1,6 @@
 ## Configure custom authorization logic with AWS Lambda
 
-You can implement your own API authorization logic using an AWS Lambda function. To add a Lambda authorizer as an authentication mode for you AppSync API, please see the Settings section of the AppSync console.
+You can implement your own custom API authorization logic using an AWS Lambda function. To add a Lambda as an authorization mode for you AppSync API, go to the **Settings** section of the **AppSync console**.
 
 You will need to manage the details of token refreshes in your application code yourself. 
 
