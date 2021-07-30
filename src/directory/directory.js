@@ -1544,14 +1544,6 @@ const directory = {
             title: "Content management",
             route: "/console/data/content-management",
           },
-          {
-            title: "Manage team access",
-            route: "/console/adminui/access-management",
-          },
-          {
-            title: "Custom domains",
-            route: "/console/adminui/custom-domain",
-          },
         ],
       },
       auth: {
