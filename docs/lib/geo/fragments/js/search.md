@@ -22,8 +22,7 @@ amplify add geo
 
 From here you can follow the prompts to generate your new Place Index to be used for Search.
 
-<!-- TODO: replace with proper link to CLI docs -->
-For more information, you can visit the full [Amplify CLI Geo Search docs](~/lib/geo/search.md).
+For more information, you can visit the full [Amplify CLI Geo Search docs](~/cli/geo/search.md).
 
 ## Set up your app with the AWS Amplify Geo category
 
@@ -49,7 +48,7 @@ If you haven't already add maplibre-gl-js and maplibre-gl-js-amplify to your app
 npm install -S maplibre-gl maplibre-gl-js-amplify
 ```
 
-Create a map onto which you can add the maplibre-gl-geocoder as a [control](https://maplibre.org/maplibre-gl-js-docs/api/markers/#icontrol). Documentation on creating and displaying [maps](~/lib/geo/maps.md). maplibre-gl-geocoder requires a geocoding API for exexuting the search requests. You can easily define a geocoding API that wraps the Amplify Geo APIs. Finally we add the geocoder control to the map.
+Create a map onto which you can add the maplibre-gl-geocoder as a [control](https://maplibre.org/maplibre-gl-js-docs/api/markers/#icontrol). Documentation on creating and displaying [maps](~/lib/geo/maps.md). maplibre-gl-geocoder requires a geocoding API for executing the search requests. You can easily define a geocoding API that wraps the Amplify Geo APIs. Finally we add the geocoder control to the map.
 
 ```javascript
 import Amplify, { Geo } from "aws-amplify";
@@ -257,5 +256,5 @@ This will return a list of places that match the search constraints.
 ```
 
 ## API Reference
-<!-- TODO -->
-For the complete API documentation for Geo module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/geoclass.html).
+<!-- TODO: update with Geo link when it is shipped to production -->
+<!-- For the complete API documentation for Geo module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/storageclass.html). -->

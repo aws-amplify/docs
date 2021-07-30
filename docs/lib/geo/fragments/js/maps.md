@@ -22,8 +22,7 @@ From here you can follow the prompts to generate your new Map resource. Make sur
 amplify push
 ```
 
-<!-- TODO: replace with proper link to CLI docs -->
-For more information, you can visit the full [Amplify CLI Geo Maps docs](~/lib/geo/maps.md).
+For more information, you can visit the full [Amplify CLI Geo Maps docs](~/cli/geo/maps.md).
 
 
 ## Display a map
@@ -150,10 +149,7 @@ This will return a single map, which is set as the current default:
 }
 ```
 
-## Use existing Amazon Location Service Map resources
-<!-- TODO -->
-Coming soon...
 ## API Reference
 
-<!-- TODO: update with Geo link when finished -->
-For the complete API documentation for Geo module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/storageclass.html).
+<!-- TODO: update with Geo link when it is shipped to production -->
+<!-- For the complete API documentation for Geo module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/storageclass.html). -->
