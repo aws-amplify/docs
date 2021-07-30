@@ -5,6 +5,7 @@ description: Use Amplify CLI to create and manage maps to visualize geospatial d
 
 Amplify's `geo` category enables you to create and manage map resources used to visualize geospatial data in your application.
 Since the `geo` category is in developer preview, you need to install Amplify CLI with the `@geo` tag in order to get the Geo functionality. You can use the following command to install this version globally.
+
 ```console
 npm i -g @aws-amplify/cli@geo
 ```
@@ -24,6 +25,7 @@ amplify add geo
 If you haven't set up the `auth` category already, the Amplify CLI will guide you to enable the auth category.
 
 Next, set a name for the map: 
+
 ```console
 ? Provide a name for the Map:
 > StreetsMap

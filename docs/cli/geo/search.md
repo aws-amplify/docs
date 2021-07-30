@@ -5,6 +5,7 @@ description: Use Amplify CLI to create and manage location search indices or pla
 
 Amplify's `geo` category enables you to search by places, addresses, and coordinates in your app with "place index" resources.
 Since the `geo` category is in developer preview, you need to install Amplify CLI with the `@geo` tag in order to get the Geo functionality. You can use the following command to install this version globally.
+
 ```console
 npm i -g @aws-amplify/cli@geo
 ```
@@ -105,10 +106,12 @@ The available data providers of geospatial data are shown. To learn more about d
 
 ### Location Search result storage location
 You can specify how the results of a search operation will be stored by the caller.
+
 ```console
 ? Do you want to cache or store the results of search operations?
 > No
 ```
+
 `No` will be chosen as default if the developer does not want to explicitly set this property.
 
 Refer [this location service doc](https://docs.aws.amazon.com/location-places/latest/APIReference/API_DataSourceConfiguration.html#locationplaces-Type-DataSourceConfiguration-IntendedUse) for more information. 
@@ -121,6 +124,7 @@ However, you can choose if the current search index should be the default one us
 ? Do you want to set this search index as default?
 > No
 ```
+
 Answering `No` will retain the previously set default.
 
 That's it! You can now search for places in your application. Follow the steps as listed [here]() for Javascript applications.
