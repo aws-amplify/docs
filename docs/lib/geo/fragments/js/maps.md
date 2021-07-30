@@ -101,10 +101,17 @@ Add maplibre-gl-js to your app with `yarn` or `npm`:
 npm install -S maplibre-gl
 ```
 
+Add maplibre-gl-js-amplify to your app with `yarn` or `npm`:
+
+```bash
+npm install -S maplibre-gl-js-amplify
+```
+
 In your app’s entry point i.e. `App.js`, import and load the configuration file `aws-exports.js` which has been created and replaced into `/src` folder in the previous step.
 ```javascript
 import { Map } from "maplibre-gl";
-import Amplify, { Auth } from 'aws-amplify';
+import Amplify from 'aws-amplify';
+import { AmplifyMapLibreRequest } from "maplibre-gl-js-amplify";
 import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
 ```
@@ -123,6 +130,7 @@ async function initializeMap() {
         region: "us-west-2"
     })
 }
+initializeMap();
 ```
 
 ![A map centered on Vancouver](~/images/display-map.png)

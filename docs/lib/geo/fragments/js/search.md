@@ -28,8 +28,9 @@ npm install -S @maplibre/maplibre-gl-geocoder
 
 In your app create an element for holding the search box. MaplibreGeocoder requires a geocoding API so define a geocoding API that wraps the Amplify Geo API. Pass this Geocoding API to a new MaplibreGeocoder and append it to the existing search element.
 ```javascript
-import MaplibreGeocoder from "@maplibre/maplibre-gl-geocoder";
 import { Geo } from "@aws-amplify/geo";
+import MaplibreGeocoder from "@maplibre/maplibre-gl-geocoder";
+import "@maplibre/maplibre-gl-geocoder/dist/maplibre-gl-geocoder.css";
 
 // Remove this portion if you have already defined your own element to container the searchbox
 const el = document.createElement("div");
@@ -93,54 +94,65 @@ Add maplibre-gl-js to your app with `yarn` or `npm`:
 npm install -S maplibre-gl
 ```
 
-### Create a maplibre-gl-js Map
-Create a map onto which you can add the MaplibreGeocoder as a [control](https://maplibre.org/maplibre-gl-js-docs/api/markers/#icontrol). Documentation on creating and displaying [maps](~/lib/geo/maps.md)
+Add maplibre-gl-js-amplify to your app with `yarn` or `npm`:
 
-```javascript
-const map = await AmplifyMapLibreRequest.createMapLibreMap({
-    container: "map",
-    center: [-123.1187, 49.2819],
-    zoom: 11,
-    style: defaultMap.mapName,
-    region: "us-west-2"
-})
+```bash
+npm install -S maplibre-gl-js-amplify
 ```
 
-As with the above approach the setup for a new MaplibreGeocoder will be the same but instead of adding the MaplibreGeocoder to the search element add it as a control to a maplibre-gl-js Map instead.
+Create a map onto which you can add the MaplibreGeocoder as a [control](https://maplibre.org/maplibre-gl-js-docs/api/markers/#icontrol). Documentation on creating and displaying [maps](~/lib/geo/maps.md). As with the above approach the setup for a new MaplibreGeocoder will be the same but instead of adding the MaplibreGeocoder to the search element add it as a control to a maplibre-gl-js Map instead.
 ```javascript
 import maplibregl, { Map } from "maplibre-gl";
+import { AmplifyMapLibreRequest, drawPoints } from "maplibre-gl-js-amplify";
 import { Geo } from "@aws-amplify/geo";
+import MaplibreGeocoder from "@maplibre/maplibre-gl-geocoder";
+import "@maplibre/maplibre-gl-geocoder/dist/maplibre-gl-geocoder.css";
+import Amplify from 'aws-amplify';
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
 
-// Define a geocoderApi to be used by `MaplibreGeocoder` that wraps the Amplify Geo APIs
-const geocoderApi = {
-    forwardGeocode: async (config) => {
-        const data = await Geo.searchByText(config.query, {
-            biasPosition: config.proximity,
-            searchAreaConstraints: config.bbox,
-            countries: config.countries,
-            maxResults: config.limit,
-          });
+async function initializeMap() {
+    const defaultMap = Geo.getDefaultMap();
+    const map = await AmplifyMapLibreRequest.createMapLibreMap({
+        container: "map",
+        center: [-123.1187, 49.2819],
+        zoom: 11,
+        style: defaultMap.mapName,
+        region: "us-west-2"
+    })
 
-        const features = data.map((result) => {
-            const { geometry, ...otherResults } = result;
-            return {
-                type: "Feature",
-                geometry: { type: "Point", coordinates: geometry.point },
-                properties: { ...otherResults },
-                place_name: otherResults.label,
-                text: otherResults.label,
-                center: geometry.point,
-            };
-        });
-        return { features };
-    }
-};
+    // Define a geocoderApi to be used by `MaplibreGeocoder` that wraps the Amplify Geo APIs
+    const geocoderApi = {
+        forwardGeocode: async (config) => {
+            const data = await Geo.searchByText(config.query, {
+                biasPosition: config.proximity,
+                searchAreaConstraints: config.bbox,
+                countries: config.countries,
+                maxResults: config.limit,
+            });
 
-const geocoder = new MaplibreGeocoder(geocoderApi, {
-    maplibregl: maplibregl,
-    showResultMarkers: true,
-});
-map.addControl(geocoder);
+            const features = data.map((result) => {
+                const { geometry, ...otherResults } = result;
+                return {
+                    type: "Feature",
+                    geometry: { type: "Point", coordinates: geometry.point },
+                    properties: { ...otherResults },
+                    place_name: otherResults.label,
+                    text: otherResults.label,
+                    center: geometry.point,
+                };
+            });
+            return { features };
+        }
+    };
+
+    const geocoder = new MaplibreGeocoder(geocoderApi, {
+        maplibregl: maplibregl,
+        showResultMarkers: true,
+    });
+    map.addControl(geocoder);
+}
+initializeMap();
 ```
 
 ![A search box on the top right corner of a map](~/images/geocoder-search-box-map.png)
