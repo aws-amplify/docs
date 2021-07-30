@@ -33,7 +33,7 @@ When using __AWS_IAM__ for public API access, unauthenticated logins must be ena
 
 </amplify-callout>
 
-### Lambda
+### AWS Lambda
 
 You can implement your own API authorization logic using an AWS Lambda function. Lambda authorizers can be configured via the settings section in the AppSync console.
 
