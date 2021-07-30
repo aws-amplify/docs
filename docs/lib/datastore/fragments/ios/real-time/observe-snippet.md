@@ -24,6 +24,13 @@ func unsubscribeFromPosts() {
 
 <amplify-callout>
 
+`DataStore.clear()` and `DataStore.stop()` will not remove any active subscriptions. The subscriber will be active and will continue to receive subscription events.
+
+</amplify-callout>
+
+
+<amplify-callout>
+
 This API is built on top of the [Combine framework](https://developer.apple.com/documentation/combine); therefore, it is only available on iOS 13 or higher.
 
 The `publisher(for:)` API returns a standard [AnyPublisher](https://developer.apple.com/documentation/combine/anypublisher).
