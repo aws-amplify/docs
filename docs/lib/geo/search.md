@@ -1,6 +1,6 @@
 ---
 title: Search
-description: The Amplify Geo category fixme fixme fixme fixme
+description: The Amplify Geo category
 ---
 
 <inline-fragment platform="js" src="~/lib/geo/fragments/js/search.md"></inline-fragment>
