@@ -32,14 +32,14 @@ Add maplibre-gl-js to your app with `yarn` or `npm`:
 ```bash
 npm install -S maplibre-gl
 ```
-TODO: Add context for this library
+[MapLibre GL](https://github.com/maplibre/maplibre-gl-js) is an open source map rendering library for javascript.
 
 Add maplibre-gl-js-amplify to your app with `yarn` or `npm`:
 
 ```bash
 npm install -S maplibre-gl-js-amplify
 ```
-TODO: Add context for this library
+[maplibre-gl-js-amplify](https://github.com/aws-amplify/maplibre-gl-js-amplify) is a plugin for integrating a MapLibre map with Amplify Geo.
 
 
 In your app’s entry point i.e. `App.js`, import and load the configuration file `aws-exports.js` which has been created and replaced into `/src` folder in the previous step.
@@ -51,8 +51,6 @@ import awsconfig from './aws-exports';
 
 Amplify.configure(awsconfig);
 ```
-
-### Create a Maplibre map with Amplify
 
 In your app create an async function to call [AmplifyMapLibreRequest's](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#amplifymaplibrerequest) function `createMapLibreMap` to create a new instance of maplibre-gl [Map](https://maplibre.org/maplibre-gl-js-docs/api/map/).
 ```javascript
