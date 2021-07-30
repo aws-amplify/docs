@@ -15,6 +15,7 @@ import SidebarLayoutToggle from "../SidebarLayoutToggle";
 import {useRef} from "react";
 import {MQTablet} from "../media";
 import {filterMetadataByOption} from "../../utils/filter-data";
+import ChooseFilterPage from "../../pages/ChooseFilterPage";
 
 export default function Page({children, meta}: {children: any; meta?: any}) {
   const router = useRouter();
@@ -45,7 +46,12 @@ export default function Page({children, meta}: {children: any; meta?: any}) {
   const filters = gatherAllFilters(children, filterKind);
   if (filters.length !== 0 && !filters.includes(filterKey) && meta) {
     return (
-      <Layout>Type-2 404: filter doesn't match our list of filters</Layout>
+      <ChooseFilterPage
+        href={pathname}
+        filterKind={filterKind}
+        filters={filters}
+        message={`${filterMetadataByOption[filterKey].label} is not supported on this page.  Please select one of the following:`}
+      />
     );
   }
   localStorage.setItem("filterKeys", JSON.stringify(filterKeys));

@@ -219,14 +219,31 @@ function generatePathMap(
       continue;
     }
 
-    filters.forEach((filter) => {
+    // generate for _all_ filters -- unsupported filters will just generate ChooseFilterPages, which is what we want
+    // ideally misspellings would also map to a ChooseFilterPage, but this doesn't work with SSG
+    let allFilters = filters;
+    if (routeType !== "") {
+      allFilters = [
+        "js",
+        "android",
+        "ios",
+        "flutter",
+        "react",
+        "react-native",
+        "angular",
+        "vue",
+        "ionic",
+        "next",
+      ];
+    }
+    allFilters.forEach((filter) => {
       pathMap[route + "/q/" + routeType + "/" + filter] = {
         page: `${route}/q/${routeType}/[${routeType}]`,
       };
     });
     pathMap[route] = {
       page: "/ChooseFilterPage",
-      query: {href: route, filterKind: routeType},
+      query: {href: route, filterKind: routeType, filters: filters},
     };
   }
   return pathMap;

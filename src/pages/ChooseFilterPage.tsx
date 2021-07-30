@@ -22,12 +22,20 @@ const H2 = styled.h2`
   margin-bottom: 1.5rem;
 `;
 
+const H3 = styled.h3`
+  margin-top: 0.375rem;
+  font-size: 1.715rem;
+  line-height: 2.75rem;
+  font-weight: 400;
+  margin-bottom: 1.5rem;
+`;
+
 const InnerContainer = styled.div`
   display: block;
   padding: 2rem 4rem 4rem 4rem;
 `;
 
-function ChooseFilterPage({href, filterKind}) {
+function ChooseFilterPage({href, filterKind, filters = [], message = ""}) {
   const [_, setHref] = useState("https://docs.amplify.aws");
   useEffect(() => {
     setHref(window.location.href);
@@ -47,13 +55,14 @@ function ChooseFilterPage({href, filterKind}) {
     }
   }
 
-  const filters = filterOptionsByName[filterKind];
+  if (filters.length === 0) filters = filterOptionsByName[filterKind];
 
   const children = (
     <Container>
       <InnerContainer>
         <section>
           <H2>{title}</H2>
+          {message && <H3>{message}</H3>}
 
           <Grid
             columns={[1, null, null, 4]}
