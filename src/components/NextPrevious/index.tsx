@@ -50,7 +50,13 @@ export default function NextPrevious({pathname, filterKey}) {
   if (isProductRoot(pathname)) {
     return <></>;
   }
-  let items = (getChapterDirectory(pathname) as Directory).items;
+
+  const chapterDirectory = getChapterDirectory(pathname) as Directory;
+  if (!chapterDirectory) {
+    return null;
+  }
+
+  let {items} = chapterDirectory;
   items = items.filter((item) => {
     if (item.filters.includes(filterKey)) return true;
     return false;
