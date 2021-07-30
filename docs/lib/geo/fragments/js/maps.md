@@ -25,39 +25,85 @@ amplify push
 <!-- TODO: replace with proper link to CLI docs -->
 For more information, you can visit the full [Amplify CLI Geo Maps docs](~/lib/geo/maps.md).
 
-## Set up your app with the AWS Amplify Geo category
 
-First, make sure to have the [Amplify configuration step](~/lib/geo/getting-started.md) done in your app's root entry point.
+## Display a map
 
-Then, bring in the `Geo` category package where you need it:
+Add maplibre-gl-js to your app with `yarn` or `npm`:
 
-```javascript
-import { Geo } from 'aws-amplify';
-
-const geo = new Geo()
+```bash
+npm install -S maplibre-gl
 ```
-## Get Map Data
+TODO: Add context for this library
 
-Currently, we have two APIs for getting available map resource names and styles.
-### Get the default map
+Add maplibre-gl-js-amplify to your app with `yarn` or `npm`:
 
-One map is always set as the default map. In order to quickly get information about that map, we have the `getDefaultMap` API.
+```bash
+npm install -S maplibre-gl-js-amplify
+```
+TODO: Add context for this library
 
+
+In your app’s entry point i.e. `App.js`, import and load the configuration file `aws-exports.js` which has been created and replaced into `/src` folder in the previous step.
 ```javascript
-geo.getDefaultMap();
+import Amplify from 'aws-amplify';
+import { AmplifyMapLibreRequest } from "maplibre-gl-js-amplify";
+import { Map } from "maplibre-gl";
+import awsconfig from './aws-exports';
+
+Amplify.configure(awsconfig);
 ```
 
-This will return a single map, which is set as the current default:
+### Create a Maplibre map with Amplify
 
+In your app create an async function to call [AmplifyMapLibreRequest's](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#amplifymaplibrerequest) function `createMapLibreMap` to create a new instance of maplibre-gl [Map](https://maplibre.org/maplibre-gl-js-docs/api/map/).
 ```javascript
-// returns
-{
-  mapName: 'myAmplifyGeoErsiStreetMap',
-  style: 'VectorEsriStreets'
+async function initializeMap() {
+    const map = await AmplifyMapLibreRequest.createMapLibreMap({
+        container: "map", // An HTML Element or HTML element ID to render the map in https://maplibre.org/maplibre-gl-js-docs/api/map/
+        center: [-123.1187, 49.2819],
+        zoom: 11,
+        region: "us-west-2"
+    })
 }
+
+initializeMap();
 ```
 
-### Get all available map resources
+![A map centered on Vancouver](~/images/display-map.png)
+
+## Display markers on map
+
+After initialization of a maplibre Map, call the utility function [drawPoints](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#drawpoints) by passing in a `sourceName`, coordinate data, a maplibre-gl-js Map, styling options, and the map style. For a full list of styling options check the `drawPoints` [documentation](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#drawpoints)
+
+<amplify-callout>
+
+The `drawPoints` method returns an object containing the string ids of the source and layers used to create the points on the map. These ids can be used to add any additional customizations through maplibre-gl-js [source](https://maplibre.org/maplibre-gl-js-docs/api/sources/), [paint](https://maplibre.org/maplibre-gl-js-docs/style-spec/layers/#paint-property), and [layer](https://maplibre.org/maplibre-gl-js-docs/style-spec/layers/) options.
+
+</amplify-callout>
+
+```javascript
+map.on("load", function () {
+    drawPoints("mySourceName", // Arbitrary source name
+        [[-123.1187, 49.2819], [-122.849, 49.1913]], // Any coordinate or Feature data
+        map,
+        {
+            showCluster: true,
+            unclusteredOptions: {
+                showMarkerPopup: true,
+            },
+            clusterOptions: {
+                showCount: true,
+            },
+        }
+    );
+});
+
+```
+![A map with points](~/images/display-map-with-points.png)
+
+## Display different map styles
+
+Todo: If you want to display different map styles use the following API and pass the map style to `map.setStyle()`.
 
 The `getAvailableMaps` api will fetch information for all maps that are available to be displayed.
 
@@ -83,86 +129,26 @@ This will return an array of maps that are available:
 ]
 ```
 
-## Display a map
 
-Add maplibre-gl-js to your app with `yarn` or `npm`:
 
-```bash
-npm install -S maplibre-gl
-```
+Currently, we have two APIs for getting available map resource names and styles.
+### Get the default map
 
-Add maplibre-gl-js-amplify to your app with `yarn` or `npm`:
+One map is always set as the default map. In order to quickly get information about that map, we have the `getDefaultMap` API.
 
-```bash
-npm install -S maplibre-gl-js-amplify
-```
-
-In your app’s entry point i.e. `App.js`, import and load the configuration file `aws-exports.js` which has been created and replaced into `/src` folder in the previous step.
 ```javascript
-import { Map } from "maplibre-gl";
-import Amplify from 'aws-amplify';
-import { AmplifyMapLibreRequest } from "maplibre-gl-js-amplify";
-import awsconfig from './aws-exports';
-Amplify.configure(awsconfig);
+geo.getDefaultMap();
 ```
 
-### Create a Maplibre map with Amplify
+This will return a single map, which is set as the current default:
 
-In your app create an async function to call [AmplifyMapLibreRequest's](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#amplifymaplibrerequest) function `createMapLibreMap` to create a new maplibre-gl-js [Map](https://maplibre.org/maplibre-gl-js-docs/api/map/).
 ```javascript
-async function initializeMap() {
-    const el = document.createElement("div");
-    el.setAttribute("id", "map");
-    document.body.appendChild(el);
-
-    const defaultMap = Geo.getDefaultMap();
-    const map = await AmplifyMapLibreRequest.createMapLibreMap({
-        container: "map", // An HTML Element or HTML element ID to render the map in https://maplibre.org/maplibre-gl-js-docs/api/map/
-        center: [-123.1187, 49.2819],
-        zoom: 11,
-        style: defaultMap.mapName,
-        region: "us-west-2"
-    })
+// returns
+{
+  mapName: 'myAmplifyGeoErsiStreetMap',
+  style: 'VectorEsriStreets'
 }
-
-initializeMap();
 ```
-
-![A map centered on Vancouver](~/images/display-map.png)
-
-## Display map with predefined places
-
-After initialization of a maplibre-gl-js Map, call the utility function [drawPoints](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#drawpoints) by passing in a `sourceName`, coordinate data, a maplibre-gl-js Map, styling options, and the map style. For a full list of styling options check the `drawPoints` [documentation](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#drawpoints)
-
-<amplify-callout>
-
-The `drawPoints` method returns an object containing the string ids of the source and layers used to create the points on the map. These ids can be used to add any additional customizations through maplibre-gl-js [source](https://maplibre.org/maplibre-gl-js-docs/api/sources/), [paint](https://maplibre.org/maplibre-gl-js-docs/style-spec/layers/#paint-property), and [layer](https://maplibre.org/maplibre-gl-js-docs/style-spec/layers/) options.
-
-</amplify-callout>
-
-```javascript
-map.on("load", function () {
-    const defaultMap = Geo.getDefaultMap();
-
-    drawPoints("myPointData", // Arbitrary source name
-        [[-123.1187, 49.2819], [-122.849, 49.1913]], // Any coordinate or Feature data
-        map,
-        {
-            showCluster: true,
-            unclusteredOptions: {
-                showMarkerPopup: true,
-            },
-            clusterOptions: {
-                showCount: true,
-            },
-        },
-        defaultMap.style
-    );
-});
-
-```
-
-![A map with points](~/images/display-map-with-points.png)
 
 ## Use existing Amazon Location Service Map resources
 <!-- TODO -->
