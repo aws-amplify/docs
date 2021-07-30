@@ -18,7 +18,7 @@ Amazon Cognito Identity Pools allows you to use credentials from AWS IAM in your
 
 If you are using a 3rd party OIDC provider you will need to configure it and manage the details of token refreshes yourself. 
 
-### Lambda Authorizer
+### Lambda
 
 You can implement your own API authorization logic using an AWS Lambda function. To add a Lambda authorizer as an authentication mode for you API, please see the Settings section of the AppSync console. You will need to manage the details of token refreshes in your application code yourself. 
 
@@ -162,9 +162,9 @@ If you are using Cognito's user pool as the authorization type, this will by def
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/authz/21_oidc.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/authz/21_oidc.md"></inline-fragment>
-### Lambda Authorizer
+### Lambda
 
-Update the `amplifyconfiguration.json` file and code snippet as follows:
+Update the `authorizationType` value in the `amplifyconfiguration.json` file and code snippet as follows:
 
 ```json
 {

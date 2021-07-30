@@ -1,4 +1,4 @@
-## Configure Lambda Authorizers with DataStore
+## Configure Lambda Auth Mode with DataStore
 
 You can implement your own API authorization logic using an AWS Lambda function. To add a Lambda authorizer as an authentication mode for you AppSync API, please see the Settings section of the AppSync console.
 
