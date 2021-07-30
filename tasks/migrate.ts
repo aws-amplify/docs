@@ -147,6 +147,9 @@ const grab = function() {
     file = file.split("<br>").join("<br/>");
     file = file.split("</br>").join("<br/>");
 
+    // hash URIs
+    file = file.split(".md#").join("#");
+
     file = frontMatterToWrite + file;
     // 2 blank lines
     while (file.match(/\n\n\n/g)) {
