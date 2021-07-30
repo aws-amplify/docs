@@ -125,29 +125,3 @@ This will return an array of maps that are available:
   },
 ]
 ```
-
-
-
-Currently, we have two APIs for getting available map resource names and styles.
-### Get the default map
-
-One map is always set as the default map. In order to quickly get information about that map, we have the `getDefaultMap` API.
-
-```javascript
-geo.getDefaultMap();
-```
-
-This will return a single map, which is set as the current default:
-
-```javascript
-// returns
-{
-  mapName: 'myAmplifyGeoErsiStreetMap',
-  style: 'VectorEsriStreets'
-}
-```
-
-## API Reference
-
-<!-- TODO: update with Geo link when it is shipped to production -->
-<!-- For the complete API documentation for Geo module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/storageclass.html). -->
