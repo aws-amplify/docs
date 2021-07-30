@@ -8,6 +8,19 @@ The primary way to provision Geo resources is through the Amplify CLI. Currently
 npm i -g @aws-amplify/cli@geo
 ```
 
+Now, let's make sure that the right version was installed:
+
+```sh
+amplify --version
+```
+
+That should show a version with the `-geo.x` tag, such as:
+
+```sh
+5.2.2-geo.0
+```
+
+
 Once that is complete, you can run the following command from your project's root folder to add a `geo` resource:
 
 ```sh
