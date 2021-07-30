@@ -3,7 +3,7 @@ title: Location Search
 description: Use Amplify CLI to create and manage location search indices or place indices that are used to search for places in your application.
 ---
 
-Amplify's `geo` category enables you to search by places, addresses and coordinates in your app with "place index" resources.
+Amplify's `geo` category enables you to search by places, addresses, and coordinates in your app with "place index" resources.
 Since the `geo` category is in developer preview, you need to install Amplify CLI with the `@geo` tag in order to get the Geo functionality. You can use the following command to install this version globally.
 ```console
 npm i -g @aws-amplify/cli@geo
