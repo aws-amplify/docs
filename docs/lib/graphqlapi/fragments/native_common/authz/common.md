@@ -18,7 +18,7 @@ Amazon Cognito Identity Pools allows you to use credentials from AWS IAM in your
 
 If you are using a 3rd party OIDC provider you will need to configure it and manage the details of token refreshes yourself. 
 
-### Lambda
+### AWS Lambda
 
 You can implement your own API authorization logic using an AWS Lambda function. To add a Lambda authorizer as an authentication mode for you API, please see the Settings section of the AppSync console. You will need to manage the details of token refreshes in your application code yourself. 
 
