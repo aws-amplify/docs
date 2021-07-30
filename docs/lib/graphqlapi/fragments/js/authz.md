@@ -35,7 +35,7 @@ When using __AWS_IAM__ for public API access, unauthenticated logins must be ena
 
 ### AWS Lambda
 
-You can implement your own API authorization logic using an AWS Lambda function. Lambda authorizers can be configured via the settings section in the AppSync console.
+You can implement your own custom API authorization logic using an AWS Lambda function. To add a Lambda as an authorization mode for your AppSync API, go to the **Settings** section of the **AppSync console**.
 
 If you are using a Lambda authorizer with your AppSync API, you will need to pass an authentication token with each API request and will need to manage token refresh in your application.
 
