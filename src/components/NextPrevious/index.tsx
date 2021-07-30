@@ -58,7 +58,7 @@ export default function NextPrevious({pathname, filterKey}) {
 
   let {items} = chapterDirectory;
   items = items.filter((item) => {
-    if (item.filters.includes(filterKey)) return true;
+    if (!("filters" in item) || item.filters.includes(filterKey)) return true;
     return false;
   });
   let itemIndex = -1;
