@@ -164,7 +164,7 @@ If you are using Cognito's user pool as the authorization type, this will by def
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/authz/21_oidc.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/authz/21_oidc.md"></inline-fragment>
-### Lambda
+### AWS Lambda
 
 Update the `authorizationType` value in the `amplifyconfiguration.json` file and code snippet as follows:
 
