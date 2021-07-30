@@ -4,7 +4,7 @@ You can implement your own custom API authorization logic using an AWS Lambda fu
 
 You will need to manage the details of token refreshes in your application code yourself. 
 
-When using Lambda authorizers with DataStore here's how you can specify a function for handling token refresh:
+Here's how you can specify a function for handling token refresh when using Lambda as an authorization mode with DataStore:
 
 ```js
 import { DataStore } from 'aws-amplify';
