@@ -163,12 +163,7 @@ el.setAttribute("id", "search");
 // Define a geocoderApi to be used by `MaplibreGeocoder` that wraps the Amplify Geo APIs
 const geocoderApi = {
     forwardGeocode: async (config) => {
-        const data = await Geo.searchByText(config.query, {
-            biasPosition: config.proximity,
-            searchAreaConstraints: config.bbox,
-            countries: config.countries,
-            maxResults: config.limit,
-          });
+        const data = await Geo.searchByText(config.query);
 
         const features = data.map((result) => {
             const { geometry, ...otherResults } = result;
@@ -181,7 +176,7 @@ const geocoderApi = {
                 center: geometry.point,
             };
         });
-        return { features };
+        return { features }; // Must return an object with an array of features
     }
 };
 
@@ -236,6 +231,10 @@ import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
 
 async function initializeMap() {
+    const el = document.createElement("div");
+    el.setAttribute("id", "map");
+    document.body.appendChild(el);
+
     const defaultMap = Geo.getDefaultMap();
     const map = await AmplifyMapLibreRequest.createMapLibreMap({
         container: "map",
@@ -248,12 +247,7 @@ async function initializeMap() {
     // Define a geocoderApi to be used by `MaplibreGeocoder` that wraps the Amplify Geo APIs
     const geocoderApi = {
         forwardGeocode: async (config) => {
-            const data = await Geo.searchByText(config.query, {
-                biasPosition: config.proximity,
-                searchAreaConstraints: config.bbox,
-                countries: config.countries,
-                maxResults: config.limit,
-            });
+            const data = await Geo.searchByText(config.query);
 
             const features = data.map((result) => {
                 const { geometry, ...otherResults } = result;
@@ -266,7 +260,7 @@ async function initializeMap() {
                     center: geometry.point,
                 };
             });
-            return { features };
+            return { features }; // Must return an object with an array of features
         }
     };
 
@@ -276,6 +270,7 @@ async function initializeMap() {
     });
     map.addControl(geocoder);
 }
+
 initializeMap();
 ```
 

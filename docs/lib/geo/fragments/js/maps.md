@@ -108,18 +108,23 @@ Amplify.configure(awsconfig);
 
 ### Create a Maplibre map with Amplify
 
-In your app create an async function to load `Auth` credentials. Use [AmplifyMapLibreRequest's](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#amplifymaplibrerequest) static function `createMapLibreMap` to create a new maplibre-gl-js [Map](https://maplibre.org/maplibre-gl-js-docs/api/map/).
+In your app create an async function to call [AmplifyMapLibreRequest's](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#amplifymaplibrerequest) function `createMapLibreMap` to create a new maplibre-gl-js [Map](https://maplibre.org/maplibre-gl-js-docs/api/map/).
 ```javascript
 async function initializeMap() {
+    const el = document.createElement("div");
+    el.setAttribute("id", "map");
+    document.body.appendChild(el);
+
     const defaultMap = Geo.getDefaultMap();
     const map = await AmplifyMapLibreRequest.createMapLibreMap({
-        container: "map",
+        container: "map", // An HTML Element or HTML element ID to render the map in https://maplibre.org/maplibre-gl-js-docs/api/map/
         center: [-123.1187, 49.2819],
         zoom: 11,
         style: defaultMap.mapName,
         region: "us-west-2"
     })
 }
+
 initializeMap();
 ```
 
