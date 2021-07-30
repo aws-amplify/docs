@@ -16,12 +16,7 @@ Now, let's make sure that the right version was installed:
 amplify --version
 ```
 
-That should show a version with the `-geo.x` tag, such as:
-
-```sh
-5.2.2-geo.0
-```
-
+That should show a version with the `-geo.x` tag, for example, `5.2.2-geo.0`
 
 Once that is complete, you can run the following command from your project's root folder to add a `geo` resource:
 
