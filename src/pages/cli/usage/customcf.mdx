@@ -1,6 +1,7 @@
 export const meta = {
   title: "Add custom AWS resources",
-  description: "The Amplify CLI provides escape hatches for modifying the backend configurations generated in the form of CloudFormation templates by the CLI. This allows you to use the CLI for common flows but also any advanced scenarios which aren't provided in the standard category workflows.",
+  description:
+    "The Amplify CLI provides escape hatches for modifying the backend configurations generated in the form of CloudFormation templates by the CLI. This allows you to use the CLI for common flows but also any advanced scenarios which aren't provided in the standard category workflows.",
 };
 
 The Amplify CLI provides escape hatches for modifying the backend configurations generated in the form of CloudFormation templates by the CLI.
@@ -9,7 +10,7 @@ The Amplify CLI provides escape hatches for modifying the backend configurations
 
 The most common scenarios for extending your app beyond Amplify CLI's features are to:
 
-- customize your GraphQL API business logic by [overriding resolvers](/cli/graphql-transformer/resolvers.md#overwriting-resolvers) or author your own [custom resolvers](/cli/graphql-transformer/resolvers.md#custom-resolvers).
+- customize your GraphQL API business logic by [overriding resolvers](/cli/graphql-transformer/resolvers#overwriting-resolvers) or author your own [custom resolvers](/cli/graphql-transformer/resolvers#custom-resolvers).
 - update the base configuration of an Amplify generated resource. Override Amplify CLI's generated CloudFormation by editing `amplify/backend/<category>/<cloudformation-template.json/yml>`. [Read more about Cloudformation](https://aws.amazon.com/cloudformation/)
 - add custom AWS resources that are not supported by the Amplify CLI currently, follow the steps below.
 
@@ -96,7 +97,7 @@ Construct the following input parameter in your custom CloudFormation stack's `t
 
   // The format out here is `<category><resource-name><attribute-name>`
   // we have defined all of these in the `backend-config.json` file above
-  "authmycognitoresourceUserPoolId": { 
+  "authmycognitoresourceUserPoolId": {
     "Type": "String"
   }
 },
@@ -111,7 +112,7 @@ Place one parameter in `parameters.json` named `authmycognitoresourceUserPoolId`
   "authmycognitoresourceUserPoolId": {
     "Fn::GetAtt": [
       // Reference the auth resource with this format <category><resource-name>
-      "authmycognitoresource",  
+      "authmycognitoresource",
       "Outputs.UserPoolId"
     ]
   }

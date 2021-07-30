@@ -1,6 +1,7 @@
 export const meta = {
   title: "Index your data with keys",
-  description: "The @key directive makes it simple to configure custom index structures for @model types.",
+  description:
+    "The @key directive makes it simple to configure custom index structures for @model types.",
 };
 
 ## @key
@@ -19,11 +20,11 @@ directive @key(fields: [String!]!, name: String, queryField: String) on OBJECT
 
 **Argument**
 
-| Argument  | Description  |
-|---|---|
-| fields  | A list of fields that should comprise the @key, used in conjunction with an `@model` type. The first field in the list will always be the **HASH** key. If two fields are provided the second field will be the **SORT** key. If more than two fields are provided, a single composite **SORT** key will be created from a combination of `fields[1...n]`. All generated GraphQL queries & mutations will be updated to work with custom `@key` directives. |
-| name  | When provided, specifies the name of the secondary index. When omitted, specifies that the `@key` is defining the primary index. You may have at most one primary key per table and therefore you may have at most one `@key` that does not specify a **name** per `@model` type.  |
-| queryField  | When defining a secondary index (by specifying the *name* argument), this specifies that a new top level query field that queries the secondary index should be generated with the given name.  |
+| Argument | Description |
+| --- | --- |
+| fields | A list of fields that should comprise the @key, used in conjunction with an `@model` type. The first field in the list will always be the **HASH** key. If two fields are provided the second field will be the **SORT** key. If more than two fields are provided, a single composite **SORT** key will be created from a combination of `fields[1...n]`. All generated GraphQL queries & mutations will be updated to work with custom `@key` directives. |
+| name | When provided, specifies the name of the secondary index. When omitted, specifies that the `@key` is defining the primary index. You may have at most one primary key per table and therefore you may have at most one `@key` that does not specify a **name** per `@model` type. |
+| queryField | When defining a secondary index (by specifying the _name_ argument), this specifies that a new top level query field that queries the secondary index should be generated with the given name. |
 
 ## How to use @key
 
@@ -45,7 +46,8 @@ By default, the `@model` directive will enable the following 2 data access patte
 You will often need additional data access patterns. For example in a Todo app you may want to fetch Todos by `status`. The `@key` directive would allow you to add this additional data access pattern with a single new line of code:
 
 ```graphql
-type Todo @model
+type Todo
+  @model
   @key(name: "todosByStatus", fields: ["status"], queryField: "todosByStatus") {
   id: ID!
   name: String!
@@ -71,8 +73,7 @@ Next, let's take a closer look at how this works by examining a few more common 
 
 ## Designing Data Models using @key
 
-When designing data models using the `@key` directive, the first step should be to write down your application's expected access patterns. For example, let's say you were building an e-commerce application
-and needed to implement access patterns like:
+When designing data models using the `@key` directive, the first step should be to write down your application's expected access patterns. For example, let's say you were building an e-commerce application and needed to implement access patterns like:
 
 1. Get customers by email.
 2. Get orders by customer by createdAt.
@@ -90,13 +91,13 @@ type Customer @model @key(fields: ["email"]) {
 }
 ```
 
-A `@key` without a *name* specifies the key for the DynamoDB table's primary index. You may only provide 1 `@key` without a *name* per `@model` type.
+A `@key` without a _name_ specifies the key for the DynamoDB table's primary index. You may only provide 1 `@key` without a _name_ per `@model` type.
 
-The example above shows the simplest case where you are specifying that the table's primary index should have a simple key where the hash key is *email*. This allows you to get unique customers by their *email*.
+The example above shows the simplest case where you are specifying that the table's primary index should have a simple key where the hash key is _email_. This allows you to get unique customers by their _email_.
 
 ```graphql
 query GetCustomerById {
-  getCustomer(email:"me@email.com") {
+  getCustomer(email: "me@email.com") {
     email
     username
   }
@@ -115,11 +116,11 @@ type Order @model @key(fields: ["customerEmail", "createdAt"]) {
 }
 ```
 
-This `@key` above allows you to efficiently query *Order* objects by both a *customerEmail* and the *createdAt* time stamp. The `@key` above creates a DynamoDB table where the primary index's hash key is *customerEmail* and the sort key is *createdAt*. This allows you to write queries like this:
+This `@key` above allows you to efficiently query _Order_ objects by both a _customerEmail_ and the _createdAt_ time stamp. The `@key` above creates a DynamoDB table where the primary index's hash key is _customerEmail_ and the sort key is _createdAt_. This allows you to write queries like this:
 
 ```graphql
 query ListOrdersForCustomerIn2019 {
-  listOrders(customerEmail:"me@email.com", createdAt: { beginsWith: "2019" }) {
+  listOrders(customerEmail: "me@email.com", createdAt: {beginsWith: "2019"}) {
     items {
       orderId
       customerEmail
@@ -134,9 +135,14 @@ The query above shows how you can use compound key structures to implement more 
 Given that DynamoDB limits you to query by at most two attributes at a time, the `@key` directive helps by streamlining the process of creating composite sort keys such that you can support querying by more than two attributes at a time. For example, you can implement “Get items by `orderId`, `status`, and `createdAt”` as well as “Get items by `status` and `createdAt”` for a single `@model` with this schema.
 
 ```graphql
-type Item @model
+type Item
+  @model
   @key(fields: ["orderId", "status", "createdAt"])
-  @key(name: "ByStatus", fields: ["status", "createdAt"], queryField: "itemsByStatus") {
+  @key(
+    name: "ByStatus"
+    fields: ["status", "createdAt"]
+    queryField: "itemsByStatus"
+  ) {
   orderId: ID!
   status: Status!
   createdAt: AWSDateTime!
@@ -150,14 +156,17 @@ enum Status {
 }
 ```
 
-The primary `@key` with 3 fields performs a bit more magic than the 1 and 2 field variants. The first field orderId will be the **HASH** key as expected, but the **SORT** key will be a new composite key named *status#createdAt* that is made of the *status* and *createdAt* fields on the @model. The `@key` directive creates the table structures and also generates resolvers that inject composite key values for you during queries and mutations.
+The primary `@key` with 3 fields performs a bit more magic than the 1 and 2 field variants. The first field orderId will be the **HASH** key as expected, but the **SORT** key will be a new composite key named _status#createdAt_ that is made of the _status_ and _createdAt_ fields on the @model. The `@key` directive creates the table structures and also generates resolvers that inject composite key values for you during queries and mutations.
 
 Using this schema, you can query the primary index to get IN_TRANSIT items created in 2019 for a given order.
 
 ```graphql
 # Get items for order by status by createdAt.
 query ListInTransitItemsForOrder {
-  listItems(orderId:"order1", statusCreatedAt: { beginsWith: { status: IN_TRANSIT, createdAt: "2019" }}) {
+  listItems(
+    orderId: "order1"
+    statusCreatedAt: {beginsWith: {status: IN_TRANSIT, createdAt: "2019"}}
+  ) {
     items {
       orderId
       status
@@ -168,11 +177,11 @@ query ListInTransitItemsForOrder {
 }
 ```
 
-The query above exposes the *statusCreatedAt* argument that allows you to configure DynamoDB key condition expressions without worrying about how the composite key is formed under the hood. Using the same schema, you can get all PENDING items created in 2019 by querying the secondary index "ByStatus" via the `Query.itemsByStatus` field.
+The query above exposes the _statusCreatedAt_ argument that allows you to configure DynamoDB key condition expressions without worrying about how the composite key is formed under the hood. Using the same schema, you can get all PENDING items created in 2019 by querying the secondary index "ByStatus" via the `Query.itemsByStatus` field.
 
 ```graphql
 query ItemsByStatus {
-  itemsByStatus(status: PENDING, createdAt: {beginsWith:"2019"}) {
+  itemsByStatus(status: PENDING, createdAt: {beginsWith: "2019"}) {
     items {
       orderId
       status
@@ -189,7 +198,7 @@ query ItemsByStatus {
 There are a few important things to think about when making changes to APIs using `@key`. When you need to enable a new access pattern or change an existing access pattern you should follow these steps.
 
 1. Create a new index that enables the new or updated access pattern.
-2. If adding an `@key` with 3 or more fields, you will need to back-fill the new composite sort key for existing data. With a `@key(fields: ["email", "status", "date"])`, you would need to backfill the `status#date` field with composite key values made up of each object's *status* and *date* fields joined by a `#`. You do not need to backfill data for `@key` directives with 1 or 2 fields.
+2. If adding an `@key` with 3 or more fields, you will need to back-fill the new composite sort key for existing data. With a `@key(fields: ["email", "status", "date"])`, you would need to backfill the `status#date` field with composite key values made up of each object's _status_ and _date_ fields joined by a `#`. You do not need to backfill data for `@key` directives with 1 or 2 fields.
 3. Deploy your additive changes and update any downstream applications to use the new access pattern.
 4. Once you are certain that you do not need the old index, remove its `@key` and deploy the API again.
 
@@ -208,7 +217,7 @@ If your deployment fails locally when updating multiple GSIs, you'll have the ab
 Attempting to mutate more than 1 global secondary index at the same time.
 ```
 
-If you're running into the error above during `amplify push`, it is likely that you don't have this feature enabled. To enable multiple GSI updates, set the ["enableIterativeGsiUpdates" feature flag](/cli/reference/feature-flags.md#enableIterativeGsiUpdates) to `true` in your `amplify/cli.json`.
+If you're running into the error above during `amplify push`, it is likely that you don't have this feature enabled. To enable multiple GSI updates, set the ["enableIterativeGsiUpdates" feature flag](/cli/reference/feature-flags#enableIterativeGsiUpdates) to `true` in your `amplify/cli.json`.
 
 ## Combining @key with @connection
 

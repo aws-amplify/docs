@@ -1,6 +1,7 @@
 export const meta = {
   title: "Overview",
-  description: "Use Amplify CLI to create and manage cloud-connected file & data storage for your app.",
+  description:
+    "Use Amplify CLI to create and manage cloud-connected file & data storage for your app.",
 };
 
 Amplify CLI's `storage` category enables you to create and manage cloud-connected file & data storage. Use the `storage` category when you need to store:
@@ -30,8 +31,7 @@ Amplify allows you to either setup a app content storage (images, audio, video e
 > mybucket
 ```
 
-Follow the prompts to provide your content storage's resource name.
-Next, configure the access permissions for your Amazon S3 bucket. If you haven't set up the `auth` category already, the Amplify CLI will guide you through a workflow to enable the auth category.
+Follow the prompts to provide your content storage's resource name. Next, configure the access permissions for your Amazon S3 bucket. If you haven't set up the `auth` category already, the Amplify CLI will guide you through a workflow to enable the auth category.
 
 If you want to restrict this storage bucket to only authenticated users, then select "Auth users only". If you want unauthenticated users to access this storage bucket as well, then select "Auth and guest users".
 
@@ -58,7 +58,7 @@ Next, you'll be prompted to set the access scopes for your authenticated and (if
 ? Do you want to add a Lambda Trigger for your S3 Bucket? (y/N)
 ```
 
-If you want to configure a Lambda trigger for your S3 bucket, you'll have the option. Learn more about this workflow [here](/cli/usage/lambda-triggers.md#s3-lambda-triggers).
+If you want to configure a Lambda trigger for your S3 bucket, you'll have the option. Learn more about this workflow [here](/cli/usage/lambda-triggers#s3-lambda-triggers).
 
 That's it! Your content storage is set up! Head to the [library's storage docs](/lib/storage/getting-started) to integrate this newly created S3 bucket into your app.
 
@@ -95,6 +95,6 @@ Then, you'll need to specify your indexes. The concept behind "indexes", "partit
 ? Do you want to add a Lambda Trigger for your Table? (y/N)
 ```
 
-If you want to configure a Lambda trigger for your Table, you'll have the option. Learn more about this workflow [here](/cli/usage/lambda-triggers.md#dynamodb-lambda-triggers).
+If you want to configure a Lambda trigger for your Table, you'll have the option. Learn more about this workflow [here](/cli/usage/lambda-triggers#dynamodb-lambda-triggers).
 
 That's it! Your NoSQL Database is set up!

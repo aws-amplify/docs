@@ -1,6 +1,7 @@
 export const meta = {
   title: "Overview",
-  description: "Every Amplify backend environment is a container for the categories added to your project. For multiple environments, Amplify matches the standard Git workflow where you switch between different branches using familiar commands.",
+  description:
+    "Every Amplify backend environment is a container for the categories added to your project. For multiple environments, Amplify matches the standard Git workflow where you switch between different branches using familiar commands.",
 };
 
 When you initialize a project, you create an Amplify backend environment. Every Amplify backend environment is a container for the categories added to your project. To deploy updates to an environment, run `amplify push`. In teams where multiple members are working on the same backend, it is good practice to run `amplify pull` to fetch changes from upstream before beginning work on new backend features. View the list of backend environments in your cloud project by visiting the [Amplify Console](https://console.aws.amazon.com/amplify).
@@ -27,7 +28,7 @@ You can alternatively, have developers setup their own isolated replica of these
 2. Run `amplify env add` and set up a new environment (e.g. "mydev") with that developer's account and AWS profile
 3. Deploy with `amplify push`
 
-This workflow can be used to share complete Amplify projects with people outside of your organization as well by committing the project into a Git repository. If you are doing this remove (or add to the `.gitignore` file) the **team-provider-info.json** which is located in the `amplify` directory. You can learn more about this file [here](/cli/teams/shared.md#sharing-projects-outside-the-team).
+This workflow can be used to share complete Amplify projects with people outside of your organization as well by committing the project into a Git repository. If you are doing this remove (or add to the `.gitignore` file) the **team-provider-info.json** which is located in the `amplify` directory. You can learn more about this file [here](/cli/teams/shared#sharing-projects-outside-the-team).
 
 ### Continuous deployment and Hosting
 
@@ -35,8 +36,7 @@ The Amplify CLI supports basic web application hosting with Amazon S3 and CloudF
 
 ### Setting up prod and dev environments
 
-Create a Git repository for your project if you haven't already. It is recommended managing separate Git branches for different environments (try to have the same branch name as your environment name to avoid confusion).
-From the root of your project, execute the following commands:
+Create a Git repository for your project if you haven't already. It is recommended managing separate Git branches for different environments (try to have the same branch name as your environment name to avoid confusion). From the root of your project, execute the following commands:
 
 ```console
 $ amplify init

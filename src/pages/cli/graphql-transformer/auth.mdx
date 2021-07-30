@@ -602,7 +602,7 @@ Note `identityField` is being deprecated for `identityClaim`.
 
 <Callout warning>
 
-Prior to version 2.0 of the CLI, `@auth` rules did not apply to subscriptions. Instead you were required to either turn them off or use [Custom Resolvers](/cli/graphql-transformer/resolvers.md#custom-resolvers) to manually add authorization checks. In the latest versions `@auth` protections have been added to subscriptions, however this can introduce different behavior into existing applications: First, `owner` is now a required argument for Owner-based authorization, as shown below. Second, the selection set will set `null` on fields when mutations are invoked if per-field `@auth` is set on that field. [Read more here](#per-field-with-subscriptions). If you wish to keep the previous behavior set `level: public` on your model as defined below.
+Prior to version 2.0 of the CLI, `@auth` rules did not apply to subscriptions. Instead you were required to either turn them off or use [Custom Resolvers](/cli/graphql-transformer/resolvers#custom-resolvers) to manually add authorization checks. In the latest versions `@auth` protections have been added to subscriptions, however this can introduce different behavior into existing applications: First, `owner` is now a required argument for Owner-based authorization, as shown below. Second, the selection set will set `null` on fields when mutations are invoked if per-field `@auth` is set on that field. [Read more here](#per-field-with-subscriptions). If you wish to keep the previous behavior set `level: public` on your model as defined below.
 
 </Callout>
 

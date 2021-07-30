@@ -5,21 +5,21 @@ export const meta = {
 
 <Callout warning>
 
-Clone the [example data model](/console/data/data-model.md#data-modeling-example) to follow along.
+Clone the [example data model](/console/data/data-model#data-modeling-example) to follow along.
 
 </Callout>
 
 We are going to define set up role-based authorization rules for each of the models that we created for our bookstore example. Authorization rules help in restricting who can query or update a table based on certain conditions. 
 
 ## To set an owner authorization rule
-1. Using the *Books* data model that we created in the [Create a data model example](/console/data/data-model.md#Create-a-data-model-example), set the authorization mode to **Cognito user pool**. 
+1. Using the *Books* data model that we created in the [Create a data model example](/console/data/data-model#Create-a-data-model-example), set the authorization mode to **Cognito user pool**. 
 2. In the **Model** pane on the right, expand the **Owners** window. 
 3. Choose **Create**, **Read**, **Update** and **Delete** to specify that *Owners* have create, read, update, and delete access. The settings look as follows.
 
 ![GSA](/images/console/10_ownersaccess.png)
 
 ## To set a private authorization rule
-1. Using the *Books* data model that we created in the [Create a data model example](/console/data/data-model.md#Create-a-data-model-example), set the authorization mode to **Cognito user pool**. 
+1. Using the *Books* data model that we created in the [Create a data model example](/console/data/data-model#Create-a-data-model-example), set the authorization mode to **Cognito user pool**. 
 2. In the **Model** pane on the right, expand the **Any signed-in users** window. 
 3. Choose **Create**, **Read**, and **Update** to specify that any signed-in authenticated user has create, read, and update, access. The settings look as follows.
 
@@ -28,8 +28,8 @@ We are going to define set up role-based authorization rules for each of the mod
 [\\]: * (is "user" defined as any user added via user-management in admin ui?)
 
 ## To set a group authorization rule
-1. Using the *Books* data model that we created in the [Create a data model example](/console/data/data-model.md#Create-a-data-model-example), set the authorization mode to **Cognito user pool**. 
-2. Create an *Editors* group using the instructions to [create a group](/console/auth/user-management.md#To-create-a-group). Alternately, you can create a new group from the **Add a new rule for...** menu.
+1. Using the *Books* data model that we created in the [Create a data model example](/console/data/data-model#Create-a-data-model-example), set the authorization mode to **Cognito user pool**. 
+2. Create an *Editors* group using the instructions to [create a group](/console/auth/user-management#To-create-a-group). Alternately, you can create a new group from the **Add a new rule for...** menu.
 3. In the **Model** pane on the right, select *Editors* from the **Add a new rule for...** menu. 
 
 ![GSA](/images/console/8_menudetaileditors.png)
@@ -42,7 +42,7 @@ We are going to define set up role-based authorization rules for each of the mod
 
 If you want your data model to be publicly accessible, switch to API_KEY or IAM based authorization.
 
-1. Using the *Books* data model that we created in the [Create a data model example](/console/data/data-model.md#Create-a-data-model-example), set the authorization mode to **API Key**. 
+1. Using the *Books* data model that we created in the [Create a data model example](/console/data/data-model#Create-a-data-model-example), set the authorization mode to **API Key**. 
 2. In the **Model** pane on the right, expand the **Anyone** window. Choose **Read** to specify that any signed in user has read access to the data in the *Book* model. The settings look as follows.
 
 ![GSA](/images/console/7_publicauthreadonly.png)

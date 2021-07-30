@@ -1,6 +1,7 @@
 export const meta = {
   title: "Overview",
-  description: "Use Amplify CLI to add powerful Lambda functions to your cloud-based mobile and web app with a simple guided workflow.",
+  description:
+    "Use Amplify CLI to add powerful Lambda functions to your cloud-based mobile and web app with a simple guided workflow.",
 };
 
 ## Set up a function
@@ -56,13 +57,13 @@ Behind the scenes, the CLI automates populating of the resource identifiers for 
 
 Amplify CLI enables you to create, test and deploy Lambda functions with the following runtimes:
 
-|Runtime|Default Version|Requirements|
-|-------|-----------------|------------|
-|NodeJS |12.x|- Install [NodeJS](https://nodejs.org/en/)|
-|Java   |11|- Install [Java 11 JDK](https://docs.aws.amazon.com/corretto/latest/corretto-11-ug/downloads-list.html) and [Gradle 5+](https://docs.gradle.org/current/userguide/installation.html)|
-|Go     |1.x|- Install [Go](https://golang.org/doc/install)|
-|.NET Core|3.1|- Install [.NET Core SDK](https://docs.microsoft.com/en-us/dotnet/core/install/sdk)|
-|Python |3.8.x|- Install [python3](https://www.python.org/downloads/) and [pipenv](https://pypi.org/project/pipenv/) <br/> - Ensure `python3` and `pipenv` commands are available in your `PATH`|
+| Runtime | Default Version | Requirements |
+| --- | --- | --- |
+| NodeJS | 12.x | - Install [NodeJS](https://nodejs.org/en/) |
+| Java | 11 | - Install [Java 11 JDK](https://docs.aws.amazon.com/corretto/latest/corretto-11-ug/downloads-list.html) and [Gradle 5+](https://docs.gradle.org/current/userguide/installation.html) |
+| Go | 1.x | - Install [Go](https://golang.org/doc/install) |
+| .NET Core | 3.1 | - Install [.NET Core SDK](https://docs.microsoft.com/en-us/dotnet/core/install/sdk) |
+| Python | 3.8.x | - Install [python3](https://www.python.org/downloads/) and [pipenv](https://pypi.org/project/pipenv/) <br/> - Ensure `python3` and `pipenv` commands are available in your `PATH` |
 
 In order to create and test Lambda functions locally, you need to have the runtime's requirements (table above) fulfilled. You'll be asked to `Choose the runtime you would like to use:` when running `amplify add function`.
 
@@ -70,7 +71,7 @@ Once a runtime is selected, you can select a function template for the runtime t
 
 ## Schedule recurring Lambda functions
 
-Amplify CLI allows you to schedule Lambda functions to be executed periodically (e.g every minute, hourly, daily, weekly, monthly or yearly). You can also formulate more complex schedules using AWS Cron Expressions such as: *“10:15 AM on the last Friday of every month”*. Review the [Schedule Expression for Rules documentation](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions) for more details.
+Amplify CLI allows you to schedule Lambda functions to be executed periodically (e.g every minute, hourly, daily, weekly, monthly or yearly). You can also formulate more complex schedules using AWS Cron Expressions such as: _“10:15 AM on the last Friday of every month”_. Review the [Schedule Expression for Rules documentation](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions) for more details.
 
 To schedule your Lambda function, answer **Yes** to `Do you want to invoke this function on a recurring schedule?` in the `amplify add function` flow. Once you deploy a function, it'll create a CloudWatch Rule to periodically execute the selected Lambda function.
 
@@ -80,4 +81,4 @@ import all0 from "/src/fragments/lib/graphqlapi/graphql-from-node.mdx";
 
 <Fragments fragments={{all: all0}} />
 
-For more information on files generated in the function resource folder, see [Function Category Files](/cli/reference/files.md#function-category-files).
+For more information on files generated in the function resource folder, see [Function Category Files](/cli/reference/files#function-category-files).
