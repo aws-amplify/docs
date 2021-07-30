@@ -1,9 +1,11 @@
 export const meta = {
-  title: "Manage team access",
-  description: "Manage team access to a project",
+  title: `Manage team access`,
+  description: `Manage team access to a project`,
 };
 
 With the Admin UI, team members with different job functions can collaborate on different aspects of a project deployed in the Amplify Console. Admin UI developers can create accounts with scoped access to resources and invite team members to join via email. Team members with *Full access* can create and manage AWS resources, while team members with *Manage only* access can edit application content and users.
+
+The Admin UI manages user access using an Amazon Cognito User Pool in your account. If you visit Cognito from the AWS console you should see a User Pool named *amplify_backend_manager_APPID*. This User Pool is managed by the Admin UI so please do not modify the settings for this resource. You can invite up to 50,000 monthly users to the Admin UI without cost.
 
 Follow these instructions to add and manage team members and their access to a project.
 
