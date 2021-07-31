@@ -165,7 +165,6 @@ Next, add a div element with id `map` anywhere in your webpage where you want to
         <script type="module">
             import awsconfig from "./aws-exports.js";
             const { Amplify } = aws_amplify_core;
-            const { Geo } = aws_amplify_geo;
             const { AmplifyMapLibreRequest } = maplibreAmplify;
             Amplify.configure(awsconfig);
             AmplifyMapLibreRequest.createMapLibreMap({
@@ -174,7 +173,6 @@ Next, add a div element with id `map` anywhere in your webpage where you want to
                 zoom: 13,
                 region: "us-west-2"
             });
-            Geo.searchByText("starbucks").then(res => console.log(res));
         </script>
     </body>
 </html>
