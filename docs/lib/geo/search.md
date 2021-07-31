@@ -1,5 +1,5 @@
 ---
-title: Search
+title: Location Search
 description: The Amplify Geo category
 ---
 
