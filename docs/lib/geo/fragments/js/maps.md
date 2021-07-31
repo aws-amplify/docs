@@ -8,7 +8,7 @@
 
 First, make sure you've provisioned a map resource by running `amplify add geo`, selecting the **Map (visualize the geospatial data)** option and running `amplify push` to deploy
 
-To render a map, the [MapLibre GL](https://github.com/maplibre/maplibre-gl-js) library and the `maplibre-gl-js-amplify` package is required. MapLibre GL is an open source map rendering library for JavaScript. `maplibre-gl-js-amplify` is a library that makes it easy to integration MapLibre with Amplify Geo.
+To render a map, the [MapLibre GL](https://github.com/maplibre/maplibre-gl-js) library and the `maplibre-gl-js-amplify` package are required. MapLibre GL is an open source map rendering library for JavaScript. `maplibre-gl-js-amplify` is a library that makes it easy to integrate MapLibre with Amplify Geo.
 
 Add the dependencies to your app:
 
@@ -16,7 +16,7 @@ Add the dependencies to your app:
 npm install -S maplibre-gl maplibre-gl-js-amplify
 ```
 
-Next, configure the Amplify library in your app. All geo-related configuration information is available within the aws-exports.js file. Add the following to your app's entry point (i.e. App.js):
+Next, configure the Amplify library in your app. All geo-related configuration information is available within the `aws-exports.js` file. Add the following to your app's entry point (i.e. App.js):
 
 ```javascript
 import Amplify from 'aws-amplify';
@@ -84,7 +84,7 @@ The `getAvailableMaps` API fetches information for all maps that are available t
 This is useful if you would like to give your users a variety of maps styles to choose from.
 
 ```javascript
-geo.getAvailableMaps();
+Geo.getAvailableMaps();
 ```
 
 The available maps are returned as an array with the following contents:
@@ -98,7 +98,7 @@ The available maps are returned as an array with the following contents:
   },
   {
     mapName: 'myAmplifyGeoErsiTopographicMap',
-    style: 'VectorEsriStreetsVectorEsriTopographic'
+    style: 'VectorEsriTopographic'
   },
 ]
 ```

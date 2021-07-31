@@ -4,33 +4,6 @@
 
 </amplify-callout>
 
-> Prerequisite: [Install and configure](~/cli/start/install.md) the Amplify CLI
-
-## Provision a Search resource
-
-The primary way to provision Geo resources is through the Amplify CLI. Currently, you need to install the CLI with the `@geo` tag in order to get the Geo functionality. You can use the following command to install this version globally.
-
-```bash
-npm i -g aws-amplify@geo
-```
-
-Once that is complete, you can run the following command from your project's root folder to add a `geo` resource:
-
-```bash
-amplify add geo
-```
-
-```
-? Select which capability you want to add: (Use arrow keys)
-  Map (visualize the geospatial data)
-❯ Location search (search by places, addresses, coordinates)
-```
-
-From here you can follow the prompts to generate your new Place Index to be used for Search.
-
-<!-- TODO: replace with proper link to CLI docs -->
-For more information, you can visit the full [Amplify CLI Geo Search docs](~/lib/geo/search.md).
-
 ## Set up your app with the Geo category
 
 First, make sure you've provisioned a "Location search" resource by running `amplify add geo`, selecting the **Location search (search by places, addresses, coordinates)** option and running `amplify push` to deploy.
@@ -45,7 +18,7 @@ import { Geo } from 'aws-amplify';
 
 ## Add location search functionality on map
 
-To add a location search UI component to your map, you need to use the [maplibre-gl-geocoder](https://github.com/maplibre/maplibre-gl-geocoder) library with Amplify Geo's `maplibre-gl-js-amplify` package. `maplibre-gl-js-amplify` is a library that makes it easy to integration MapLibre with Amplify Geo. 
+To add a location search UI component to your map, you need to use the [maplibre-gl-geocoder](https://github.com/maplibre/maplibre-gl-geocoder) library with Amplify Geo's `maplibre-gl-js-amplify` package. `maplibre-gl-js-amplify` makes it easy to integrate MapLibre with Amplify Geo.
 
 Install the necessary dependencies with the following command:
 
@@ -55,7 +28,7 @@ npm install -S @maplibre/maplibre-gl-geocoder maplibre-gl maplibre-gl-js-amplify
 
 First, create a map onto which you want to add the location search UI component. See the guide on [creating and displaying maps](~/lib/geo/maps.md). 
 
-The location search UI component (`maplibre-gl-geocoder`) requires a "geocoding API" to facilitate location-based search. To define a "geocoding API", use the sample below that leverages Amplify Geo's `searchByText` capability. (See `const geocodingAPI = ...`).
+The location search UI component (`maplibre-gl-geocoder`) requires a "geocoding API" to facilitate location-based search. To define a "geocoding API", use the sample below that leverages Amplify Geo's `searchByText()` capability. (See `const geocodingAPI = ...`).
 
 Finally, add the location search UI component (`MaplibreGeocoder`) to the map.
 
@@ -117,7 +90,7 @@ initializeMap();
 
 You can also use [maplibre-gl-geocoder](https://github.com/maplibre/maplibre-gl-geocoder) to display the location search UI component anywhere in your application, even outside the map.
 
-To do so, extract the html element using function `onAdd()` and attach it anywhere in your DOM instead of adding it via the map's `addControl` function.
+To do so, extract the html element using function `onAdd()` and attach it anywhere in your DOM instead of adding it via the map's `addControl()` function.
 
 ```javascript
 const geocoder = new MaplibreGeocoder(geocoderApi, {
@@ -132,7 +105,7 @@ document.getElementById("search").appendChild(geocoder.onAdd());
 
 Amplify Geo enables you to search for locations by text, addresses, or geo-coordinates.
 
-### Search by text, address, business names, city, and more 
+### Search by text, address, business names, cities, and more 
 
 The `Geo.searchByText()` API enables you to search for places or points of interest by free-form text, such as an address, name, city, or region.
 
@@ -210,8 +183,3 @@ const searchOptionsWithBiasPosition = {
 
 Geo.searchByCoordinates([47.616179, -122.3399573], searchOptionsWithBiasPosition)
 ```
-
-
-## API Reference
-<!-- TODO: update with Geo link when it is shipped to production -->
-<!-- For the complete API documentation for Geo module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/storageclass.html). -->
