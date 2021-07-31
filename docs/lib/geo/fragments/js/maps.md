@@ -69,7 +69,11 @@ initializeMap();
 
 ## Display markers on map
 
-After initialization of a maplibre Map, call the utility function [drawPoints](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#drawpoints) by passing in a `sourceName`, coordinate data, a maplibre-gl-js Map, styling options, and the map style. For a full list of styling options check the `drawPoints` [documentation](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#drawpoints)
+To display markers on a map, use the [drawPoints](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#drawpoints) function. `drawPoints` expects:
+
+- `sourceName` - specifies the layer on which the markers are rendered on. You can edit existing markers by passing the same `sourceName`
+- coordinate data - the coordinate data of the markers to be displayed
+- a maplibre-gl-js Map - the map object on which to render the markers
 
 <amplify-callout>
 
