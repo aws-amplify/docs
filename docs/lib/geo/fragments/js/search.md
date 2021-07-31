@@ -45,7 +45,7 @@ import { Geo } from 'aws-amplify';
 
 ## Add location search functionality on map
 
-You can use open source plugin [maplibre-gl-geocoder](https://github.com/maplibre/maplibre-gl-geocoder) with Amplify Geo to add fully functional search component on your map. Install maplibre-gl-geocoder with the following command:
+To add a location search UI component to your map, you need to use the [maplibre-gl-geocoder](https://github.com/maplibre/maplibre-gl-geocoder) library with Amplify Geo. Install `maplibre-gl-geocoder` with the following command:
 
 ```bash
 npm install -S @maplibre/maplibre-gl-geocoder
