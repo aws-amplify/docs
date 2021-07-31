@@ -119,7 +119,9 @@ initializeMap();
 
 ### Display the location search box outside the map
 
-You can also use [maplibre-gl-geocoder](https://github.com/maplibre/maplibre-gl-geocoder) to display the search box outside of the map and anywhere in your application. Instead of adding as a `control` on the maplibre map, extract the html element using function `onAdd()` and attach it anywhere in your DOM.
+You can also use [maplibre-gl-geocoder](https://github.com/maplibre/maplibre-gl-geocoder) to display the location search UI component anywhere in your application, even outside the map.
+
+To do so, extract the html element using function `onAdd()` and attach it anywhere in your DOM instead of adding it via the map's `addControl` function.
 
 ```javascript
 const geocoder = new MaplibreGeocoder(geocoderApi, {
