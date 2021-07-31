@@ -81,7 +81,7 @@ map.on("load", function () {
 
 The `getAvailableMaps` api will fetch information for all maps that are available to be displayed.
 
-In the context of Amazon Location Service maps, it will fetch the map name and the style of all maps that were generated using the Amplify CLI. This is useful is you would like to give your users a variety of maps styles to choose from.
+This is useful if you would like to give your users a variety of maps styles to choose from.
 
 ```javascript
 geo.getAvailableMaps();
