@@ -87,7 +87,7 @@ This is useful if you would like to give your users a variety of maps styles to 
 geo.getAvailableMaps();
 ```
 
-This will return an array of maps that are available:
+The available maps are returned as an array with the following contents:
 
 ```javascript
 //returns
