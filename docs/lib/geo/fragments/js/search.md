@@ -49,7 +49,7 @@ If you haven't already add maplibre-gl-js and maplibre-gl-js-amplify to your app
 npm install -S maplibre-gl maplibre-gl-js-amplify
 ```
 
-Create a map onto which you can add the maplibre-gl-geocoder as a [control](https://maplibre.org/maplibre-gl-js-docs/api/markers/#icontrol). See the [documentation]((~/lib/geo/maps.md)) on creating and displaying maps. 
+Create a map onto which you can add the maplibre-gl-geocoder as a [control](https://maplibre.org/maplibre-gl-js-docs/api/markers/#icontrol). See the [documentation](~/lib/geo/maps.md) on creating and displaying maps. 
 
 maplibre-gl-geocoder requires a geocoding API for executing the search requests. You can easily define a geocoding API that wraps the [Amplify Geo APIs](#search-apis). Finally add the geocoder control to the map.
 
