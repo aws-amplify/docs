@@ -99,8 +99,6 @@ map.on("load", function () {
 
 ## Display different map styles
 
-Todo: If you want to display different map styles use the following API and pass the map style to `map.setStyle()`.
-
 The `getAvailableMaps` api will fetch information for all maps that are available to be displayed.
 
 In the context of Amazon Location Service maps, it will fetch the map name and the style of all maps that were generated using the Amplify CLI. This is useful is you would like to give your users a variety of maps styles to choose from.
@@ -123,4 +121,11 @@ This will return an array of maps that are available:
     style: 'VectorEsriStreetsVectorEsriTopographic'
   },
 ]
+```
+
+Then given you have an existing maplibre-gl Map you can use the `setStyle` and `resize` functions to update the displayed map
+
+```javascript
+map.setStyle("myAmplifyGeoErsiTopographicMap"); // map name received from getAvailableMaps()
+map.resize(); // forces the map to re-render
 ```
