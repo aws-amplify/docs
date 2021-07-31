@@ -121,7 +121,6 @@ To display a map on your html website, add the following scripts to your html we
 <script src="https://cdn.amplify.aws/packages/auth/5.0.4-geo/aws-amplify-auth.min.js" integrity="sha384-rqyJfFR2070OQyXIQqomdGCYa6TaR/1asvv2oaz9wB6R8YSiIBC08mWwgVtr1NNk" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.amplify.aws/packages/geo/0.0.2-geo.6648/aws-amplify-geo.min.js" integrity="sha384-VBNaB4q1F3zSs1BgIf7mYogamWN2lITAmfVw3FyxuyFdyaKucigyjrJ6RmQvdbN2" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.amplify.aws/packages/maplibre-gl-js-amplify/1.0.2/maplibre-gl-js-amplify.umd.min.js" integrity="sha384-g2Tb3Pa8Gpt7OYj324blBhR91QsJeBhvwWqRwcjRHvWk8XE8rjiUs8E0aW/iDnPe" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
 ```
 
 Next, add a div element with id `map` anywhere in your webpage where you want to render the map. Next, include the following code snippet to configure Amplify (update the `aws_exports.js` file path accordingly) and instantiate the map. Use the same `region` that you chose in the `amplify-cli` setup.
@@ -140,7 +139,7 @@ Next, add a div element with id `map` anywhere in your webpage where you want to
     });
 </script>
 ```
-We a
+
 <!-- If you provisioned your location resources manually, you can use this [guide]() to configure Amplify.-->
 ### Sample application
 ```html
