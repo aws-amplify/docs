@@ -136,7 +136,7 @@ document.getElementById("search").appendChild(geocoder.onAdd());
 
 Amplify Geo enables you to search for locations by text, addresses, or geo-coordinates.
 
-### Search by text
+### Search by text, address, business names, city, and more 
 
 The `Geo.searchByText()` API Geocodes free-form text, such as an address, name, city, or region to allow you to search for places or points of interest.
 
