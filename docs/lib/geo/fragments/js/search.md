@@ -149,7 +149,7 @@ Additional parameters can be provided to narrow your list of results. For exampl
 ```javascript
 const searchOptionsWithBiasPosition = {
   countries: string[], // Alpha-3 country codes
-	maxResults: number, // 50 is the max and the default
+  maxResults: number, // 50 is the max and the default
   biasPosition: [
     latitude // number,
     longitude // number
@@ -158,7 +158,7 @@ const searchOptionsWithBiasPosition = {
 
 const searchOptionsWithSearchAreaConstraints = {
   countries: ["USA"], // Alpha-3 country codes
-	maxResults: 25, // 50 is the max and the default
+  maxResults: 25, // 50 is the max and the default
   searchAreaConstraints: [SWLatitude, SWLongitude, NELatitude, NELongitude], // Bounding box to search inside of
 }
 
@@ -203,7 +203,7 @@ You can optionally provide additional parameters to narrow your list of results.
 
 ```javascript
 const searchOptionsWithBiasPosition = {
-	maxResults: number, // 50 is the max and the default
+  maxResults: number, // 50 is the max and the default
 }
 
 Geo.searchByCoordinates([47.616179, -122.3399573], searchOptionsWithBiasPosition)
