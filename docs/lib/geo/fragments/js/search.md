@@ -31,7 +31,7 @@ From here you can follow the prompts to generate your new Place Index to be used
 <!-- TODO: replace with proper link to CLI docs -->
 For more information, you can visit the full [Amplify CLI Geo Search docs](~/lib/geo/search.md).
 
-## Set up your app with the AWS Amplify Geo category
+## Set up your app with the Geo category
 
 First, make sure you've provisioned a search resource by running `amplify add geo`, selecting the **Location search (search by places, addresses, coordinates)** option and running `amplify push` to deploy
 
