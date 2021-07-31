@@ -35,7 +35,7 @@ For more information, you can visit the full [Amplify CLI Geo Search docs](~/lib
 
 First, make sure you've provisioned a "Location search" resource by running `amplify add geo`, selecting the **Location search (search by places, addresses, coordinates)** option and running `amplify push` to deploy.
 
-Next ensure to have the [Amplify configuration step](~/lib/geo/getting-started.md) done in your app's root entry point.
+Next, ensure you have [installed and configured the Amplify library](~/lib/geo/getting-started.md).
 
 Then, bring in the `Geo` category package where you need it:
 
