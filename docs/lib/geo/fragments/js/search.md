@@ -51,12 +51,6 @@ To add a location search UI component to your map, you need to use the [maplibre
 npm install -S @maplibre/maplibre-gl-geocoder
 ```
 
-If you haven't already add maplibre-gl-js and maplibre-gl-js-amplify to your app with `yarn` or `npm`:
-
-```bash
-npm install -S maplibre-gl maplibre-gl-js-amplify
-```
-
 First, create a map onto which you want to add the location search UI component. See the guide on [creating and displaying maps](~/lib/geo/maps.md). 
 
 The location search UI component (`maplibre-gl-geocoder`) requires a "geocoding API" to facilitate location-based search. To define a "geocoding API", use the sample below that leverages Amplify Geo's `searchByText` capability. (See `const geocodingAPI = ...`).
