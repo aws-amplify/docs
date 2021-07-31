@@ -6,7 +6,7 @@
     "restapi",
     "auth",
     "datastore",
-    "geo (Developer Preview)",
+    "geo",
     "interactions",
     "predictions",
     "pubsub",
