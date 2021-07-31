@@ -144,7 +144,13 @@ The `Geo.searchByText()` function enables you to search by free-form text, such 
 Geo.searchByText("Amazon Go Store")
 ```
 
-Additional parameters can be provided to narrow your list of results. For example, you can search for places near a given position using `biasPosition`, or filter results within a bounding box using `searchAreaConstraints`. Providing both parameters simultaneously returns an error.
+Optimize your search results further by providing:
+- `countries` - to limit the search results to given countries (specified in [ISO Alpha-3 country codes](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3))
+- `maxResults` - to limit the maximum result set
+- `biasPosition` - to act as the search origination location
+- `searchAreaConstraints` - to limit the area to search inside of
+
+ **Note:** Providing both `biasPosition` and `searchAreaConstraints` parameters simultaneously returns an error.
 
 ```javascript
 const searchOptionsWithBiasPosition = {
