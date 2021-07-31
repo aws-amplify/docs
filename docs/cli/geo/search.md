@@ -132,4 +132,4 @@ However, you can choose if the current search index should be the default one us
 
 Answering `No` will retain the previously set default.
 
-That's it! You can now search for places in your application. Follow the steps as listed [here](~/lib/geo/search.md) for Javascript applications.
+That's it! You can now render maps in your application. Follow the library documentation as listed [here](~/lib/geo/search.md).

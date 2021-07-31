@@ -122,4 +122,4 @@ However, you can choose if the current Map should be the default for your applic
 ```
 Answering `No` will retain the previously set default.
 
-That's it! You can now render maps in your application. Follow the steps as listed [here](~/lib/geo/maps.md) for Javascript applications.
+That's it! You can now render maps in your application. Follow the library documentation as listed [here](~/lib/geo/maps.md).
