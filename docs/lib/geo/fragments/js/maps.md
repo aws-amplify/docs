@@ -27,7 +27,7 @@ import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
 ```
 
-In your app create an async function to call [AmplifyMapLibreRequest's](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#amplifymaplibrerequest) function `createMapLibreMap` to create a new instance of maplibre-gl [Map](https://maplibre.org/maplibre-gl-js-docs/api/map/).
+Next, create and render the [Map](https://maplibre.org/maplibre-gl-js-docs/api/map/) with the help of [AmplifyMapLibreRequest's](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#amplifymaplibrerequest).
 ```javascript
 async function initializeMap() {
     const map = await AmplifyMapLibreRequest.createMapLibreMap({
