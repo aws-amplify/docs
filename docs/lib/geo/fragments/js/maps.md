@@ -115,7 +115,13 @@ map.resize(); // forces the map to re-render
 To display a map on your html website, add the following scripts to your html webpage.
 
 ```html
-TBD
+<link href="https://cdn.amplify.aws/packages/maplibre-gl/1.14.0/maplibre-gl.css" rel="stylesheet" integrity="sha384-sZlnv03zeGbcXDiuZ98TrNVZFIfpsVhN0itUxRFONLo6lOZskJPIMlOwDy+nloRF" crossorigin="anonymous" referrerpolicy="no-referrer"></link>
+<script src="https://cdn.amplify.aws/packages/maplibre-gl/1.14.0/maplibre-gl.js" integrity="sha384-jWZKsznBFj0Nl3kUaRKmmk89Hew9zDhTnmOz0pOLceWY7iag+l/8QNPeD0cQYaVG" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.amplify.aws/packages/core/4.2.1-geo/aws-amplify-core.min.js" integrity="sha384-ZJ0BipyxRjDHPcTLilxOMRf9grNEwTTUOmr8l8MUprgnpAnpK4Fz20ndOQElCtWb" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.amplify.aws/packages/auth/5.0.4-geo/aws-amplify-auth.min.js" integrity="sha384-rqyJfFR2070OQyXIQqomdGCYa6TaR/1asvv2oaz9wB6R8YSiIBC08mWwgVtr1NNk" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.amplify.aws/packages/geo/0.0.2-geo.6648/aws-amplify-geo.min.js" integrity="sha384-VBNaB4q1F3zSs1BgIf7mYogamWN2lITAmfVw3FyxuyFdyaKucigyjrJ6RmQvdbN2" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.amplify.aws/packages/maplibre-gl-js-amplify/1.0.2/maplibre-gl-js-amplify.umd.min.js" integrity="sha384-g2Tb3Pa8Gpt7OYj324blBhR91QsJeBhvwWqRwcjRHvWk8XE8rjiUs8E0aW/iDnPe" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 ```
 
 Next, add a div element with id `map` anywhere in your webpage where you want to render the map. Next, include the following code snippet to configure Amplify (update the `aws_exports.js` file path accordingly) and instantiate the map. Use the same `region` that you chose in the `amplify-cli` setup.
@@ -134,9 +140,8 @@ Next, add a div element with id `map` anywhere in your webpage where you want to
     });
 </script>
 ```
-
-If you provisioned your location resources manually, you can use this [guide]() to configure Amplify.
-
+We a
+<!-- If you provisioned your location resources manually, you can use this [guide]() to configure Amplify.-->
 ### Sample application
 ```html
 <!DOCTYPE html>
@@ -145,12 +150,12 @@ If you provisioned your location resources manually, you can use this [guide]() 
         <meta charset="utf-8">
         <title>Display a map on a webpage</title>
         <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-        <script src="./maplibre-gl.js"></script>
-        <link href="./maplibre-gl.css" rel="stylesheet" />
-        <script src="https://main.d2s4izc5nm039l.amplifyapp.com/packages/core/4.2.1-geo/aws-amplify-core.min.js" integrity="sha384-ZJ0BipyxRjDHPcTLilxOMRf9grNEwTTUOmr8l8MUprgnpAnpK4Fz20ndOQElCtWb" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="https://main.d2s4izc5nm039l.amplifyapp.com/packages/auth/5.0.4-geo/aws-amplify-auth.js" integrity="sha384-Kwrt7Q7/5kzBJ5jBz/aXfWo4RXlbMz5WfnY6AdzUBC2O7Z+0IgSnANvs+9U4V0DW" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="https://main.d2s4izc5nm039l.amplifyapp.com/packages/geo/0.0.2-geo.6648/aws-amplify-geo.min.js" integrity="sha384-VBNaB4q1F3zSs1BgIf7mYogamWN2lITAmfVw3FyxuyFdyaKucigyjrJ6RmQvdbN2" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="https://main.d2s4izc5nm039l.amplifyapp.com/packages/maplibre/1.14.0/maplibre-gl-js-amplify.umd.min.js" integrity="sha384-g2Tb3Pa8Gpt7OYj324blBhR91QsJeBhvwWqRwcjRHvWk8XE8rjiUs8E0aW/iDnPe" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <link href="https://cdn.amplify.aws/packages/maplibre-gl/1.14.0/maplibre-gl.css" rel="stylesheet" integrity="sha384-sZlnv03zeGbcXDiuZ98TrNVZFIfpsVhN0itUxRFONLo6lOZskJPIMlOwDy+nloRF" crossorigin="anonymous" referrerpolicy="no-referrer"></link>
+        <script src="https://cdn.amplify.aws/packages/maplibre-gl/1.14.0/maplibre-gl.js" integrity="sha384-jWZKsznBFj0Nl3kUaRKmmk89Hew9zDhTnmOz0pOLceWY7iag+l/8QNPeD0cQYaVG" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.amplify.aws/packages/core/4.2.1-geo/aws-amplify-core.min.js" integrity="sha384-ZJ0BipyxRjDHPcTLilxOMRf9grNEwTTUOmr8l8MUprgnpAnpK4Fz20ndOQElCtWb" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.amplify.aws/packages/auth/5.0.4-geo/aws-amplify-auth.min.js" integrity="sha384-rqyJfFR2070OQyXIQqomdGCYa6TaR/1asvv2oaz9wB6R8YSiIBC08mWwgVtr1NNk" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.amplify.aws/packages/geo/0.0.2-geo.6648/aws-amplify-geo.min.js" integrity="sha384-VBNaB4q1F3zSs1BgIf7mYogamWN2lITAmfVw3FyxuyFdyaKucigyjrJ6RmQvdbN2" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.amplify.aws/packages/maplibre-gl-js-amplify/1.0.2/maplibre-gl-js-amplify.umd.min.js" integrity="sha384-g2Tb3Pa8Gpt7OYj324blBhR91QsJeBhvwWqRwcjRHvWk8XE8rjiUs8E0aW/iDnPe" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <style>
             body { margin: 0; padding: 0; }
             #map { position: absolute; top: 0; bottom: 0; width: 100%; }
@@ -161,6 +166,7 @@ If you provisioned your location resources manually, you can use this [guide]() 
         <script type="module">
             import awsconfig from "./aws-exports.js";
             const { Amplify } = aws_amplify_core;
+            const { Geo } = aws_amplify_geo;
             const { AmplifyMapLibreRequest } = maplibreAmplify;
             Amplify.configure(awsconfig);
             AmplifyMapLibreRequest.createMapLibreMap({
@@ -169,6 +175,7 @@ If you provisioned your location resources manually, you can use this [guide]() 
                 zoom: 13,
                 region: "us-west-2"
             });
+            Geo.searchByText("starbucks").then(res => console.log(res));
         </script>
     </body>
 </html>
