@@ -8,13 +8,12 @@
 
 First, make sure you've provisioned a map resource by running `amplify add geo`, selecting the **Map (visualize the geospatial data)** option and running `amplify push` to deploy
 
-Add maplibre-gl-js to your app with `yarn` or `npm`:
+To render a map, the [MapLibre GL](https://github.com/maplibre/maplibre-gl-js) library and the `maplibre-gl-js-amplify` package is required. MapLibre GL is an open source map rendering library for JavaScript. `maplibre-gl-js-amplify` is a library that makes it easy to integration MapLibre with Amplify Geo.
+
+Add the dependencies to your app:
 
 ```bash
-npm install -S maplibre-gl
-```
-[MapLibre GL](https://github.com/maplibre/maplibre-gl-js) is an open source map rendering library for javascript.
-
+npm install -S maplibre-gl maplibre-gl-js-amplify
 Add maplibre-gl-js-amplify to your app with `yarn` or `npm`:
 
 ```bash
