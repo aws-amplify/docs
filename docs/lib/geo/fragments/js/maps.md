@@ -123,7 +123,7 @@ To display a map on your html website, add the following scripts to your html we
 <script src="https://cdn.amplify.aws/packages/maplibre-gl-js-amplify/1.0.2/maplibre-gl-js-amplify.umd.min.js" integrity="sha384-g2Tb3Pa8Gpt7OYj324blBhR91QsJeBhvwWqRwcjRHvWk8XE8rjiUs8E0aW/iDnPe" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 ```
 
-Next, add a div element with id `map` anywhere in your webpage where you want to render the map. Next, include the following code snippet to configure Amplify (update the `aws_exports.js` file path accordingly) and instantiate the map. Use the same `region` that you chose in the `amplify-cli` setup.
+Next, add a div element with id `map` anywhere in your webpage where you want to render the map. Include the following code snippet to configure Amplify (update the `aws_exports.js` file path accordingly) and instantiate the map. Use the same `region` that you chose in the `amplify-cli` setup.
 
 ```html
 <script type="module">
