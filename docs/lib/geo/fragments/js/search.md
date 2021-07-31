@@ -167,7 +167,7 @@ const searchOptionsWithSearchAreaConstraints = {
 Geo.searchByText('Amazon Go Stores', searchOptionsWithBiasPosition)
 ```
 
-This will return a list of places with coordinates that match the search constraints. A place can have additional metadata returned as shown in the example below.
+This returns places and their coordinates that match the search constraints. A place can also have additional metadata as shown in the example below.
 
 ```javascript
 // returns
