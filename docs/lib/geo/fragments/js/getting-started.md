@@ -36,7 +36,7 @@ The add command automatically creates the backend configuration. Once all your c
 amplify push
 ```
 
-A configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`.
+A file called `aws-exports.js` that contains all geo-related configuration information is placed in your app's source directory.
 
 For more information, you can visit the full [Amplify CLI Geo Maps docs](~/cli/geo/maps.md).
 
