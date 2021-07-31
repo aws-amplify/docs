@@ -1,4 +1,8 @@
-TODO: Note for developer preview
+<amplify-callout>
+
+**Note:** Amplify Geo is in developer preview and is not intended to be used in production environments. Please reach out to us for any feedback and/or issues [here](https://github.com/aws-amplify/amplify-js/issues)
+
+</amplify-callout>
 
 > Prerequisite: [Install and configure the Amplify CLI](~/cli/start/install.md)
 
