@@ -38,6 +38,8 @@ amplify push
 
 A configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`.
 
+For more information, you can visit the full [Amplify CLI Geo Maps docs](~/cli/geo/maps.md).
+
 ## Configure your app
 
 Install the necessary dependencies by running the following command:

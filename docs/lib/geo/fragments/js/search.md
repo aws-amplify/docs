@@ -33,7 +33,9 @@ For more information, you can visit the full [Amplify CLI Geo Search docs](~/lib
 
 ## Set up your app with the AWS Amplify Geo category
 
-First, make sure to have the [Amplify configuration step](~/lib/geo/getting-started.md) done in your app's root entry point.
+First, make sure you've provisioned a search resource by running `amplify add geo`, selecting the **Location search (search by places, addresses, coordinates)** option and running `amplify push` to deploy
+
+Next ensure to have the [Amplify configuration step](~/lib/geo/getting-started.md) done in your app's root entry point.
 
 Then, bring in the `Geo` category package where you need it:
 

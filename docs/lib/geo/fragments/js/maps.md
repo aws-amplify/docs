@@ -4,35 +4,9 @@
 
 </amplify-callout>
 
-
-> Prerequisite: [Install and configure](~/cli/start/install.md) the Amplify CLI
-
-## Provision a map resource
-
-The primary way to provision Geo map resources is through the Amplify CLI.
-
-Note: You will need the `@geo` release of the CLI for this. For more information, please see [Getting started](~/lib/geo/getting-started.md)
-
-```bash
-amplify add geo
-```
-
-```
-? Select which capability you want to add: (Use arrow keys)
-❯ Map (visualize the geospatial data)
-  Location search (search by places, addresses, coordinates)
-```
-
-From here you can follow the prompts to generate your new Map resource. Make sure to push your changes up after configuration:
-
-```
-amplify push
-```
-
-For more information, you can visit the full [Amplify CLI Geo Maps docs](~/cli/geo/maps.md).
-
-
 ## Display a map
+
+First, make sure you've provisioned a map resource by running `amplify add geo`, selecting the **Map (visualize the geospatial data)** option and running `amplify push` to deploy
 
 Add maplibre-gl-js to your app with `yarn` or `npm`:
 
