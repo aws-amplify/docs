@@ -313,6 +313,7 @@
     "baseQueryCallback",
     "baseQueryResultHandler",
     "baseRefreshIntervalInSeconds",
+    "bbox",
     "bdpush",
     "bdservice",
     "beginsWith",
@@ -557,7 +558,9 @@
     "Gapi",
     "ge",
     "geo_point",
+    "Geocode",
     "geolocation",
+    "geospatial",
     "getAllKeys",
     "getApplicationContext",
     "getCacheCurSize",
@@ -739,6 +742,7 @@
     "makeToast",
     "manageusers",
     "mangiare",
+    "maplibregl",
     "master",
     "md",
     "mdash",
@@ -1369,7 +1373,12 @@
     "STORAGECONFIG",
     "secretsmanager",
     "customcf",
-    "Pipfile"
+    "Pipfile",
+    "maplibre",
+    "unclustered",
+    "geospatial",
+    "Ersi",
+    "Geocodes"
   ],
   "flagWords": ["hte"]
 }
