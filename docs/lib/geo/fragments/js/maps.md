@@ -16,7 +16,8 @@ Add the dependencies to your app:
 npm install -S maplibre-gl maplibre-gl-js-amplify
 ```
 
-In your app’s entry point i.e. `App.js`, import and load the configuration file `aws-exports.js` which has been created and replaced into `/src` folder in the previous step.
+Next, configure the Amplify library in your app. All geo-related configuration information is available within the aws-exports.js file. Add the following to your app's entry point (i.e. App.js):
+
 ```javascript
 import Amplify from 'aws-amplify';
 import { AmplifyMapLibreRequest } from "maplibre-gl-js-amplify";
