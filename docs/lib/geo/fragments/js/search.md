@@ -132,11 +132,13 @@ document.getElementById("search").appendChild(geocoder.onAdd());
 
 ![A search box](~/images/geocoder-search-box.png)
 
-## Search APIs
+## Location-based search capabilities
 
-### Search by text
+Amplify Geo enables you to search for locations by text, addresses, or geo-coordinates.
 
-The `Geo.searchByText()` API Geocodes free-form text, such as an address, name, city, or region to allow you to search for places or points of interest.
+### Search by text, address, business names, city, and more 
+
+The `Geo.searchByText()` function enables you to search by free-form text, such as an address, name, city, or region to allow you to search for places or points of interest.
 
 ```javascript
 Geo.searchByText("Amazon Go Store")
