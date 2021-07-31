@@ -134,7 +134,7 @@ Amplify Geo enables you to search for locations by text, addresses, or geo-coord
 
 ### Search by text, address, business names, city, and more 
 
-The `Geo.searchByText()` function enables you to search by free-form text, such as an address, name, city, or region to allow you to search for places or points of interest.
+The `Geo.searchByText()` API enables you to search for places or points of interest by free-form text, such as an address, name, city, or region.
 
 ```javascript
 Geo.searchByText("Amazon Go Store")
