@@ -201,7 +201,7 @@ The `Geo.searchByCoordinates()` API is a reverse Geocoder that takes a coordinat
 Geo.searchByCoordinates([latitudePoint, longitudePoint])
 ```
 
-You can optionally provide additional parameters to narrow your list of results.
+You can optionally limit your result set with the `maxResults` parameter.
 
 ```javascript
 const searchOptionsWithBiasPosition = {
