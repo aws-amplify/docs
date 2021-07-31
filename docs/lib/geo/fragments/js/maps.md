@@ -79,7 +79,7 @@ map.on("load", function () {
 
 ## Display different map styles
 
-The `getAvailableMaps` api will fetch information for all maps that are available to be displayed.
+The `getAvailableMaps` API fetches information for all maps that are available to be displayed.
 
 This is useful if you would like to give your users a variety of maps styles to choose from.
 
