@@ -103,7 +103,7 @@ The available maps are returned as an array with the following contents:
 ]
 ```
 
-Then given you have an existing maplibre-gl Map you can use the `setStyle` and `resize` functions to update the displayed map
+You can resize and customize a map with the `resize` and `setStyle` functions:
 
 ```javascript
 map.setStyle("myAmplifyGeoErsiTopographicMap"); // map name received from getAvailableMaps()
