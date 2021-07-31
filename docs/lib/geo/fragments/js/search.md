@@ -195,7 +195,7 @@ This returns places and their coordinates that match the search constraints. A p
 
 ### Search by coordinates
 
-The `Geo.searchByCoordinates()` API is a reverse Geocoder that takes a coordinate point as its input and will return information about what it finds at that point on the map. The returned object is same as in the `searchByText()` API above.
+The `Geo.searchByCoordinates()` API is a reverse Geocoder that takes a coordinate point and returns information about what it finds at that point on the map. The returned object is the same shape as `searchByText()` API above.
 
 ```javascript
 Geo.searchByCoordinates([latitudePoint, longitudePoint])
