@@ -37,7 +37,7 @@ First, make sure you've provisioned a "Location search" resource by running `amp
 
 Next, ensure you have [installed and configured the Amplify library](~/lib/geo/getting-started.md).
 
-Then, bring in the `Geo` category package where you need it:
+Then, import the `Geo` category package where you need it:
 
 ```javascript
 import { Geo } from 'aws-amplify';
