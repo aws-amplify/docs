@@ -109,3 +109,71 @@ You can resize and customize a map with the `resize` and `setStyle` functions:
 map.setStyle("myAmplifyGeoErsiTopographicMap"); // map name received from getAvailableMaps()
 map.resize(); // forces the map to re-render
 ```
+
+## Add map to html website
+
+To display a map on your html website, add the following scripts to your html webpage.
+
+```html
+<link href="https://cdn.amplify.aws/packages/maplibre-gl/1.14.0/maplibre-gl.css" rel="stylesheet" integrity="sha384-sZlnv03zeGbcXDiuZ98TrNVZFIfpsVhN0itUxRFONLo6lOZskJPIMlOwDy+nloRF" crossorigin="anonymous" referrerpolicy="no-referrer"></link>
+<script src="https://cdn.amplify.aws/packages/maplibre-gl/1.14.0/maplibre-gl.js" integrity="sha384-jWZKsznBFj0Nl3kUaRKmmk89Hew9zDhTnmOz0pOLceWY7iag+l/8QNPeD0cQYaVG" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.amplify.aws/packages/core/4.2.1-geo/aws-amplify-core.min.js" integrity="sha384-ZJ0BipyxRjDHPcTLilxOMRf9grNEwTTUOmr8l8MUprgnpAnpK4Fz20ndOQElCtWb" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.amplify.aws/packages/auth/5.0.4-geo/aws-amplify-auth.min.js" integrity="sha384-rqyJfFR2070OQyXIQqomdGCYa6TaR/1asvv2oaz9wB6R8YSiIBC08mWwgVtr1NNk" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.amplify.aws/packages/geo/0.0.2-geo.6648/aws-amplify-geo.min.js" integrity="sha384-VBNaB4q1F3zSs1BgIf7mYogamWN2lITAmfVw3FyxuyFdyaKucigyjrJ6RmQvdbN2" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.amplify.aws/packages/maplibre-gl-js-amplify/1.0.2/maplibre-gl-js-amplify.umd.min.js" integrity="sha384-g2Tb3Pa8Gpt7OYj324blBhR91QsJeBhvwWqRwcjRHvWk8XE8rjiUs8E0aW/iDnPe" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+```
+
+Next, add a div element with id `map` anywhere in your webpage where you want to render the map. Include the following code snippet to configure Amplify (update the `aws_exports.js` file path accordingly) and instantiate the map. Use the same `region` that you chose in the `amplify-cli` setup.
+
+```html
+<script type="module">
+    import awsconfig from "./aws-exports.js";
+    const { Amplify } = aws_amplify_core;
+    const { AmplifyMapLibreRequest } = maplibreAmplify;
+    Amplify.configure(awsconfig);
+    AmplifyMapLibreRequest.createMapLibreMap({
+        container: "map",
+        center: [-123.1187, 49.2819],
+        zoom: 13,
+        region: "us-west-2"
+    });
+</script>
+```
+
+<!-- If you provisioned your location resources manually, you can use this [guide]() to configure Amplify.-->
+### Sample application
+```html
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Display a map on a webpage</title>
+        <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+        <link href="https://cdn.amplify.aws/packages/maplibre-gl/1.14.0/maplibre-gl.css" rel="stylesheet" integrity="sha384-sZlnv03zeGbcXDiuZ98TrNVZFIfpsVhN0itUxRFONLo6lOZskJPIMlOwDy+nloRF" crossorigin="anonymous" referrerpolicy="no-referrer"></link>
+        <script src="https://cdn.amplify.aws/packages/maplibre-gl/1.14.0/maplibre-gl.js" integrity="sha384-jWZKsznBFj0Nl3kUaRKmmk89Hew9zDhTnmOz0pOLceWY7iag+l/8QNPeD0cQYaVG" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.amplify.aws/packages/core/4.2.1-geo/aws-amplify-core.min.js" integrity="sha384-ZJ0BipyxRjDHPcTLilxOMRf9grNEwTTUOmr8l8MUprgnpAnpK4Fz20ndOQElCtWb" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.amplify.aws/packages/auth/5.0.4-geo/aws-amplify-auth.min.js" integrity="sha384-rqyJfFR2070OQyXIQqomdGCYa6TaR/1asvv2oaz9wB6R8YSiIBC08mWwgVtr1NNk" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.amplify.aws/packages/geo/0.0.2-geo.6648/aws-amplify-geo.min.js" integrity="sha384-VBNaB4q1F3zSs1BgIf7mYogamWN2lITAmfVw3FyxuyFdyaKucigyjrJ6RmQvdbN2" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.amplify.aws/packages/maplibre-gl-js-amplify/1.0.2/maplibre-gl-js-amplify.umd.min.js" integrity="sha384-g2Tb3Pa8Gpt7OYj324blBhR91QsJeBhvwWqRwcjRHvWk8XE8rjiUs8E0aW/iDnPe" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <style>
+            body { margin: 0; padding: 0; }
+            #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+        </style>
+    </head>
+    <body>
+        <div id="map"></div>
+        <script type="module">
+            import awsconfig from "./aws-exports.js";
+            const { Amplify } = aws_amplify_core;
+            const { AmplifyMapLibreRequest } = maplibreAmplify;
+            Amplify.configure(awsconfig);
+            AmplifyMapLibreRequest.createMapLibreMap({
+                container: "map",
+                center: [-123.1187, 49.2819],
+                zoom: 13,
+                region: "us-west-2"
+            });
+        </script>
+    </body>
+</html>
+```
