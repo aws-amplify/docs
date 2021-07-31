@@ -110,9 +110,9 @@ map.setStyle("myAmplifyGeoErsiTopographicMap"); // map name received from getAva
 map.resize(); // forces the map to re-render
 ```
 
-## Add maps to html website
+## Add map to html website
 
-To display maps on your html website, add the following scripts to your html webpage.
+To display a map on your html website, add the following scripts to your html webpage.
 
 ```html
 TBD
