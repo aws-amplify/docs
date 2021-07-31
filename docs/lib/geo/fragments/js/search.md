@@ -132,7 +132,9 @@ document.getElementById("search").appendChild(geocoder.onAdd());
 
 ![A search box](~/images/geocoder-search-box.png)
 
-## Search APIs
+## Location-based search capabilities
+
+Amplify Geo enables you to search for locations by text, addresses, or geo-coordinates.
 
 ### Search by text
 
