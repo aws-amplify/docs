@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 export default function InternalLink({href, children}) {
   let filterKind = "";
   if (href.includes("/cli") || href.includes("/console")) {
@@ -26,9 +24,5 @@ export default function InternalLink({href, children}) {
     }
   }
 
-  return (
-    <Link href={href} passHref>
-      {children}
-    </Link>
-  );
+  return <a href={href}>{children}</a>;
 }
