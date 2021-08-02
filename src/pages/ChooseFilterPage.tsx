@@ -41,6 +41,8 @@ function ChooseFilterPage({href, filterKind, filters = [], message = ""}) {
     setHref(window.location.href);
   }, []);
 
+  href = href.split("/q/")[0];
+
   let title = (getProductDirectory(href) as {productRoot: {title: string}})
     .productRoot.title;
   const chapterDirectory = getChapterDirectory(href);
