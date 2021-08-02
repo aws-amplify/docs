@@ -24,7 +24,8 @@ func unsubscribeFromPosts() {
 
 <amplify-callout>
 
-`DataStore.clear()` and `DataStore.stop()` will not remove any active subscriptions. The subscriber will be active and will continue to receive subscription events.
+`DataStore.clear()` and `DataStore.stop()` will stop the DataStore sync engine and keep any subscriptions connected. There will not be any additional subscription events received by the subscriber until DataStore is started (`DataStore.start()`) or the sync engine is re-initiated upon performing a DataStore operation (query/save/delete/publisher()).
+
 
 </amplify-callout>
 
