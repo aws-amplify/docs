@@ -15,21 +15,21 @@ const Option = function({href, title, isActive}) {
 };
 
 export default function VersionSwitcher({href}) {
-  let leftActive = false;
+  let leftActive = true;
   let hrefEnd;
-  if (href.includes("/ui/")) {
-    leftActive = true;
-    hrefEnd = href.split("/ui/")[1];
+  if (href.includes("/ui-legacy")) {
+    leftActive = false;
+    hrefEnd = href.split("/ui-legacy")[1];
   } else {
-    hrefEnd = href.split("/ui-legacy/")[1];
+    hrefEnd = href.split("/ui")[1];
   }
   const leftOption = {
     title: "Latest",
-    href: "/ui/" + hrefEnd,
+    href: "/ui" + hrefEnd,
   };
   const rightOption = {
     title: "Legacy",
-    href: "/ui-legacy/" + hrefEnd,
+    href: "/ui-legacy" + hrefEnd,
   };
 
   return (
