@@ -1,3 +1,6 @@
+import Link from "next/link";
+import {useRouter} from "next/router";
+
 export default function InternalLink({href, children}) {
   let filterKind = "";
   if (href.includes("/cli") || href.includes("/console")) {
@@ -24,5 +27,15 @@ export default function InternalLink({href, children}) {
     }
   }
 
-  return <a href={href}>{children}</a>;
+  if (href[0] === "#") {
+    const router = useRouter();
+    const prevPath = router.asPath.split("#")[0];
+    href = prevPath + href;
+  }
+
+  return (
+    <Link href={href} passHref>
+      {children}
+    </Link>
+  );
 }
