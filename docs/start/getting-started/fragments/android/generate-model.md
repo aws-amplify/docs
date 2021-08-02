@@ -47,7 +47,7 @@ With the basic setup complete, you can now model the data your application will 
             ```
             
     4. Make a note of the sandbox id, just in case!
-    5. As the rest of the steps will be covered by the tutorial, you can skip the remaining steps and click **Deploy** on the top right
+    5. As the rest of the steps will be covered by the tutorial, you can skip the remaining steps on Admin UI and click **Deploy** on the top right
 3. In order to deploy a backend, you will need an AWS account. We will go over this in a later step when we’re ready to sync our app to the cloud. For now, keep the link to this page handy!
 
 At this point, Amplify should have generated several directories and configuration files in your project for you. Let’s take a look at the generated GraphQL schema.

@@ -1,5 +1,11 @@
 ## Deploy your Amplify sandbox backend
 
+Return to the sandbox link you kept handy from earlier. It should look something like the following.
+
+```
+https://sandbox.amplifyapp.com/deploy/<UUID>
+```
+
 ### Log in or create a new AWS account
 
 If you don’t have an AWS account, you will need to create one first:
@@ -20,11 +26,9 @@ On the creation form:
 
     ![Open admin UI](~/images/lib/getting-started/android/connect-to-cloud-open-admin-ui.png)
 
-1. Run the task. You can do this by pressing the **play button** or pressing **Control-R**.
+### Deploy environment and update local project
 
-### Update local project with deployed environment
-
-1. After deployment of authentication, click on **Local setup instructions** at the top of the Admin UI
+1. Click on **Local setup instructions** at the top of the Admin UI
 2. Copy the command for pulling the updated environment and run it in your local project
 3. Answer on screen prompts to update your local project with the deployed environment
 
@@ -40,6 +44,55 @@ On the creation form:
     ? Do you plan on modifying this backend?
         `Yes`
     ```
+   
+4. Modify your initialization code so that the DataStore can sync with the backend through an API. Open `MainActivity`, and remove all of the code you added to `onCreate`. Replace it with the following:
+
+   <amplify-block-switcher>
+  <amplify-block name="Java">
+
+   ```java
+  try {
+      Amplify.addPlugin(new AWSApiPlugin());
+      Amplify.addPlugin(new AWSDataStorePlugin());
+      Amplify.configure(getApplicationContext());
+       Log.i("Tutorial", "Initialized Amplify");
+  } catch (AmplifyException failure) {
+      Log.e("Tutorial", "Could not initialize Amplify", failure);
+  }
+   Amplify.DataStore.observe(Todo.class,
+      started -> Log.i("Tutorial", "Observation began."),
+      change -> Log.i("Tutorial", change.item().toString()),
+      failure -> Log.e("Tutorial", "Observation failed.", failure),
+      () -> Log.i("Tutorial", "Observation complete.")
+  );
+  ```
+
+   </amplify-block>
+
+   <amplify-block name="Kotlin">
+
+   ```kotlin
+  try {
+      Amplify.addPlugin(AWSApiPlugin())
+      Amplify.addPlugin(AWSDataStorePlugin())
+      Amplify.configure(applicationContext)
+      Log.i("Tutorial", "Initialized Amplify")
+  } catch (failure: AmplifyException) {
+      Log.e("Tutorial", "Could not initialize Amplify", failure)
+  }
+   Amplify.DataStore.observe(Todo::class.java,
+      { Log.i("Tutorial", "Observation began.") },
+      { Log.i("Tutorial", it.item().toString()) },
+      { Log.e("Tutorial", "Observation failed.", it) },
+      { Log.i("Tutorial", "Observation complete.") }
+  )
+  ```
+
+   </amplify-block>
+  </amplify-block-switcher>
+
+5. In the Gradle Task dropdown menu in the toolbar, select **app** and run the application. This will synchronize the existing local Todo items to the cloud. `DataStore.observe` will log a message when new items are synchronized locally.
+
 
 ## Verifying cloud sync
 
