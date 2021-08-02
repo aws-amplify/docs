@@ -4,6 +4,10 @@
 
 </amplify-callout>
 
+Amplify Geo provides APIs and map UI components for maps and location search for JavaScript-based web apps. You can add maps and location search functionality to your app in just a few lines of code. Amplify Geo APIs are powered by [Amazon Location Service](https://aws.amazon.com/location/) and the map UI components from MapLibre are already integrated with the Geo APIs. ou can quickly get started using [Amplify CLI](https://docs.amplify.aws/cli/geo/maps) to provision your map and location search resources.
+
+Follow this guide to get started with Amplify Geo.
+
 > Prerequisite: [Install and configure the Amplify CLI](~/cli/start/install.md)
 
 ## Provisioning resources
