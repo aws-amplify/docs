@@ -34,7 +34,7 @@ async function initializeMap() {
         container: "map", // An HTML Element or HTML element ID to render the map in https://maplibre.org/maplibre-gl-js-docs/api/map/
         center: [-123.1187, 49.2819],
         zoom: 11,
-        region: "us-west-2"
+        region: "<PUT_YOUR_REGION_HERE>"
     })
 }
 
@@ -135,7 +135,7 @@ Next, add a div element with id `map` anywhere in your webpage where you want to
         container: "map",
         center: [-123.1187, 49.2819],
         zoom: 13,
-        region: "us-west-2"
+        region: "<PUT_YOUR_REGION_HERE>"
     });
 </script>
 ```
@@ -171,7 +171,7 @@ Next, add a div element with id `map` anywhere in your webpage where you want to
                 container: "map",
                 center: [-123.1187, 49.2819],
                 zoom: 13,
-                region: "us-west-2"
+                region: "<PUT_YOUR_REGION_HERE>"
             });
         </script>
     </body>

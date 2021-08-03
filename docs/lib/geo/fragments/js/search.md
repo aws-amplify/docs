@@ -51,7 +51,7 @@ async function initializeMap() {
         container: "map",
         center: [-123.1187, 49.2819],
         zoom: 11,
-        region: "us-west-2"
+        region: "<PUT_YOUR_REGION_HERE>"
     })
 
     // Define a geocoderApi to be used by `MaplibreGeocoder` that wraps the Amplify Geo APIs
