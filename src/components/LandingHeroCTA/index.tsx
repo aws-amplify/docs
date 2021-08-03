@@ -5,7 +5,7 @@ import InternalLinkButton from "../InternalLinkButton";
 export default function LandingHeroCTA() {
   return (
     <div>
-      <InternalLinkButton href="/start?sc_icampaign=start&sc_ichannel=docs-home">
+      <InternalLinkButton href="/start/?sc_icampaign=start&sc_ichannel=docs-home">
         <span>Get started for free</span>
       </InternalLinkButton>
       <PlatformsGroup>
