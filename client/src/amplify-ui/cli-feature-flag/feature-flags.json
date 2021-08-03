@@ -74,18 +74,17 @@
         "type": "Feature",
         "valueType": "Boolean",
         "versionAdded": "4.32.4",
-        "deprecationDate": "May 1st 2021",
         "values": [
           {
             "value": "true",
             "description": "Enable pipeline resolver-based GraphQL Transformer (GraphQL Transformer vNext).",
-            "defaultNewProject": true,
+            "defaultNewProject": false,
             "defaultExistingProject": false
           },
           {
             "value": "false",
             "description": "Disables pipeline resolver-based GraphQL Transformer.",
-            "defaultNewProject": false,
+            "defaultNewProject": true,
             "defaultExistingProject": true
           }
         ]
