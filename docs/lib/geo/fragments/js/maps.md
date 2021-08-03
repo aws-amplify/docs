@@ -53,6 +53,7 @@ To display markers on a map, use the [drawPoints](https://github.com/aws-amplify
 - a maplibre-gl-js Map - the map object on which to render the markers
 
 First, import the `drawPoints` method in your app. Your import section should include look like this -
+
 ```javascript
 import Amplify from 'aws-amplify';
 import { AmplifyMapLibreRequest, drawPoints } from "maplibre-gl-js-amplify";
@@ -69,6 +70,7 @@ The `drawPoints` method returns ids of the source and layers used to display the
 </amplify-callout>
 
 Next, use the following code snippet when you want to display the markers on the map. Add it to the `initializeMap()` function if you want the markers to show up on map load.
+
 ```javascript
 map.on("load", function () {
     drawPoints("mySourceName", // Arbitrary source name
