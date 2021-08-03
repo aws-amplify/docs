@@ -15,10 +15,13 @@ private GraphQLRequest<String> getPostAndTodo(String postId, String todoId) {
             + "name "
         + "} "
     + "}";
+    Map<String, String> variables = new HashMap<>();
+    variables.put("postId", postId);
+    variables.put("todoId", todoId);
     return new SimpleGraphQLRequest<>(
-            document, 
-            Collections.singletonMap("id", id), 
-            Post.class, 
+            document,
+            variables,
+            String.class,
             new GsonVariablesSerializer());
 }
 ```
@@ -42,7 +45,7 @@ private fun getPostAndTodo(postId: String, todoId: String): GraphQLRequest<Strin
 
     return SimpleGraphQLRequest(
             document,
-            mapOf("postId" to "[POST_ID]", "todoId" to "[TODO_ID]"),
+            mapOf("postId" to postId, "todoId" to todoId),
             String::class.java,
             GsonVariablesSerializer())
 }
