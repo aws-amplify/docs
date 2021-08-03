@@ -55,7 +55,7 @@ On the creation form:
       Amplify.addPlugin(new AWSApiPlugin());
       Amplify.addPlugin(new AWSDataStorePlugin());
       Amplify.configure(getApplicationContext());
-       Log.i("Tutorial", "Initialized Amplify");
+      Log.i("Tutorial", "Initialized Amplify");
   } catch (AmplifyException failure) {
       Log.e("Tutorial", "Could not initialize Amplify", failure);
   }
