@@ -29,6 +29,7 @@ Amplify.configure(awsconfig);
 Next, create and render the [Map](https://maplibre.org/maplibre-gl-js-docs/api/map/) with the help of [AmplifyMapLibreRequest's](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#amplifymaplibrerequest).
 
 Use the same `region` that you chose in the `amplify-cli` setup. This can also be found in your `aws-exports.js` file
+
 ```javascript
 async function initializeMap() {
     const map = await AmplifyMapLibreRequest.createMapLibreMap({
