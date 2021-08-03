@@ -80,7 +80,7 @@ On the creation form:
   } catch (failure: AmplifyException) {
       Log.e("Tutorial", "Could not initialize Amplify", failure)
   }
-   Amplify.DataStore.observe(Todo::class.java,
+  Amplify.DataStore.observe(Todo::class.java,
       { Log.i("Tutorial", "Observation began.") },
       { Log.i("Tutorial", it.item().toString()) },
       { Log.e("Tutorial", "Observation failed.", it) },
