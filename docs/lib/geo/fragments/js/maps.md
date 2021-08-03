@@ -21,7 +21,6 @@ Next, configure the Amplify library in your app. All geo-related configuration i
 ```javascript
 import Amplify from 'aws-amplify';
 import { AmplifyMapLibreRequest } from "maplibre-gl-js-amplify";
-import { Map } from "maplibre-gl";
 import awsconfig from './aws-exports';
 
 Amplify.configure(awsconfig);
