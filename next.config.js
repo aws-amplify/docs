@@ -65,6 +65,9 @@ function generatePathMap(
     "/404": {
       page: "/404",
     },
+    "/start": {
+      page: "/start",
+    },
     "/start/q/integration/js": {
       page: "/start/q/integration/[integration]",
     },
