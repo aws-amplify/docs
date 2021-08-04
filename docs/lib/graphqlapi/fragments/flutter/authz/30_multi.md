@@ -3,7 +3,8 @@ When you have configured multiple APIs, you can specify the name of the API as a
 ```dart
 var operation = Amplify.API.mutate<String>(
     request: GraphQLRequest(
-        document: graphQLDocumentString, apiName: '[FRIENDLY-NAME-API-WITH-API-KEY]'));
+        document: graphQLDocumentString,
+        apiName: '[FRIENDLY-NAME-API-WITH-API-KEY]'));
 var response = await operation.response;
 var data = response.data;
 ```
