@@ -2,7 +2,7 @@ You can also use Amplify Geo with your existing Amazon Location Service resource
 
 ## Authorization permissions
 
-If you set up your Cognito resources manually, the roles will need to be given permission to access the map and place indices.
+If you set up your Cognito resources in any other way other than through the CLI or Admin UI, the roles will need to be given permission to access the map and place indices.
 
 There are two roles created by Cognito: an `Auth_Role` that grants signed-in-user-level access and an `Unauth_Role` that allows unauthenticated access to resources. Attach the corresponding policies to each role for proper access. Replace ```{account-id}``` and ```{enter Map/PlaceIndex name}``` with the correct ids and resource names.
 
