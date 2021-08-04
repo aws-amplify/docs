@@ -1394,7 +1394,7 @@ const directory = {
         ],
         items: [],
       },
-      tutorial: {
+      "getting-started": {
         title: "Tutorial",
         items: [
           {
