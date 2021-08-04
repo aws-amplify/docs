@@ -1786,7 +1786,7 @@ const directory = {
           },
         ],
       },
-      location: {
+      "location-service": {
         title: "Location",
         items: [
           {
