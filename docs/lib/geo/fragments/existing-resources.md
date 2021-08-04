@@ -1,6 +1,6 @@
 You can also use Amplify Geo with your existing Amazon Location Service resources if you'd like, there's just some manual setup that you need to do.
 
-### Authorization permissions
+## Authorization permissions
 
 If you set up your Cognito resources manually, the roles will need to be given permission to access the map and place indices.
 
