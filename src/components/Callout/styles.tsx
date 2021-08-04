@@ -31,6 +31,7 @@ export const CalloutInner = styled.div`
 `;
 
 const Callout: React.FC<CalloutProps> = ({info, warning, children}) => {
+  if (typeof warning === "undefined") info = true;
   return (
     <CalloutOuter info={info} warning={warning}>
       <CalloutInner>{children}</CalloutInner>
