@@ -3,7 +3,7 @@ import {
   NextPreviousLinkStyle,
   NextPreviousTextStyle,
 } from "./styles";
-import Link from "next/link";
+import InternalLink from "../InternalLink";
 import {
   getChapterDirectory,
   isProductRoot,
@@ -20,7 +20,7 @@ type Directory = {
 
 function Prev(item: DirectoryItem) {
   return (
-    <Link href={item.route} passHref>
+    <InternalLink href={item.route}>
       <NextPreviousLinkStyle>
         <img src="/assets/arrow-left.svg" alt="Previous Page" />
         <NextPreviousTextStyle isPrevious={true}>
@@ -28,13 +28,13 @@ function Prev(item: DirectoryItem) {
           <h4>{item.title}</h4>
         </NextPreviousTextStyle>
       </NextPreviousLinkStyle>
-    </Link>
+    </InternalLink>
   );
 }
 
 function Next(item: DirectoryItem) {
   return (
-    <Link href={item.route} passHref>
+    <InternalLink href={item.route}>
       <NextPreviousLinkStyle>
         <NextPreviousTextStyle isPrevious={false}>
           <span>next</span>
@@ -42,7 +42,7 @@ function Next(item: DirectoryItem) {
         </NextPreviousTextStyle>
         <img src="/assets/arrow-right.svg" alt="Next Page" />
       </NextPreviousLinkStyle>
-    </Link>
+    </InternalLink>
   );
 }
 
