@@ -9,24 +9,28 @@ The Admin UI is not available in every region where the Amplify Console is avail
 
 You can get started with or without an AWS account. Without an AWS account, you can begin modeling data for your backend and testing it locally. If you choose to create an AWS account and deploy your backend to Amplify Console, an expanded set of features becomes available for configuring your backend environment.
 
-<Grid grid-gap="2" columns="2" class="margin-top-lg margin-bottom-lg">
+<Grid grid-gap="2" columns={2} class="margin-top-lg margin-bottom-lg">
   <Card
     external
-    url="https://sandbox.amplifyapp.com/"
+    href="https://sandbox.amplifyapp.com/"
     containertag="amplify-external-link"
   >
-    <img slot="graphic" src="/images/console/adminui.svg" />
-    <h4 slot="heading">Launch Sandbox</h4>
-    <p slot="description">Get started without an AWS account</p>
+    <CardGraphic src="/images/console/adminui.svg" />
+    <CardDetail>
+      <h4>Launch Sandbox</h4>
+      <p>Get started without an AWS account</p>
+    </CardDetail>
   </Card>
   <Card
     external
     url="https://console.aws.amazon.com/amplify/home?#/deploy-backend"
     containertag="amplify-external-link"
   >
-    <img slot="graphic" src="/assets/logo-dark.svg" />
-    <h4 slot="heading">Launch Amplify Console</h4>
-    <p slot="description">Get started with an AWS account</p>
+    <CardGraphic src="/assets/logo-dark.svg" />
+    <CardDetail>
+      <h4>Launch Amplify Console</h4>
+      <p>Get started with an AWS account</p>
+    </CardDetail>
   </Card>
 </Grid>
 
