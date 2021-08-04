@@ -79,7 +79,7 @@ and under the `awsAPIPlugin`
 
 <inline-fragment platform="flutter" src="~/lib/graphqlapi/fragments/flutter/authz/20_oidc.md"></inline-fragment>
 
-#### Multi-Auth
+#### Configure multiple authorization modes
 
 This section talks about the capability of AWS AppSync to configure multiple authorization modes for a single AWS AppSync endpoint and region. Follow the [AWS AppSync Multi-Auth](https://docs.aws.amazon.com/appsync/latest/devguide/security.html#using-additional-authorization-modes) to configure multiple authorization modes for your AWS AppSync endpoint.
 
