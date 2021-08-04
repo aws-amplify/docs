@@ -108,11 +108,11 @@ The available maps are returned as an array with the following contents:
 //returns
 [
   {
-    mapName: 'myAmplifyGeoErsiStreetMap',
+    mapName: 'myAmplifyGeoEsriStreetMap',
     style: 'VectorEsriStreets'
   },
   {
-    mapName: 'myAmplifyGeoErsiTopographicMap',
+    mapName: 'myAmplifyGeoEsriTopographicMap',
     style: 'VectorEsriTopographic'
   },
 ]
@@ -121,7 +121,7 @@ The available maps are returned as an array with the following contents:
 You can resize and customize a map with the `resize` and `setStyle` functions:
 
 ```javascript
-map.setStyle("myAmplifyGeoErsiTopographicMap"); // map name received from getAvailableMaps()
+map.setStyle("myAmplifyGeoEsriTopographicMap"); // map name received from getAvailableMaps()
 map.resize(); // forces the map to re-render
 ```
 
