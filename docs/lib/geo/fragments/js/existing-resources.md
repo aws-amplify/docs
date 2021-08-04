@@ -12,8 +12,8 @@ Amplify.configure({
     userPoolId: 'XX-XXXX-X_abcd1234', // OPTIONAL - Amazon Cognito User Pool ID for authenticated user access
     userPoolWebClientId: 'XX-XXXX-X_abcd1234', // OPTIONAL - Amazon Cognito Web Client ID for authenticated user access
   },
-  Geo: {
-    AmazonLocationService: {
+  geo: {
+    AmazonLocationServices: {
       maps: {
         items: {
           "XXXXXXXXXXX": { // REQUIRED - Amazon Location Service Map resource name
