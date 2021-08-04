@@ -55,7 +55,7 @@ class DirectoryGroup extends React.Component<
     ) {
       this.state = {isExpanded: true};
     } else {
-      this.state = {isExpanded: this.props.pathname.includes("/integration")};
+      this.state = {isExpanded: this.props.pathname.startsWith("/start")};
     }
   }
 
