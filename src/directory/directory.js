@@ -1399,7 +1399,7 @@ const directory = {
         items: [
           {
             title: "Prerequisites",
-            route: "start/getting-started/installation",
+            route: "/start/getting-started/installation",
             filters: [
               "js",
               "react",
@@ -1432,7 +1432,7 @@ const directory = {
           {
             title: "Generate model files",
             route: "/start/getting-started/generate-model",
-            filters: ["android", "ios", "ionic", "flutter"],
+            filters: ["android", "ios", "flutter"],
           },
           {
             title: "Integrate your app",
