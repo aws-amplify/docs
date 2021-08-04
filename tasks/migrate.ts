@@ -54,18 +54,21 @@ const grab = function() {
 
       destination = destination.slice(0, -3); // slice off .md
       if (filterKey === "") {
-        if (destination.includes("cli/") || destination.includes("console/")) {
+        if (
+          destination.startsWith("cli/") ||
+          destination.startsWith("console/")
+        ) {
           // deal with cli/start/install right at the top
           destination = "src/pages/" + destination + ".mdx";
-        } else if (destination.includes("start/")) {
+        } else if (destination.startsWith("start/")) {
           filterKey = "integration";
-        } else if (destination.includes("lib/")) {
+        } else if (destination.startsWith("lib/")) {
           filterKey = "platform";
-        } else if (destination.includes("sdk/")) {
+        } else if (destination.startsWith("sdk/")) {
           filterKey = "platform";
-        } else if (destination.includes("ui/")) {
+        } else if (destination.startsWith("ui/")) {
           filterKey = "framework";
-        } else if (destination.includes("guides/")) {
+        } else if (destination.startsWith("guides/")) {
           filterKey = "platform";
         }
       }
@@ -164,7 +167,7 @@ const grab = function() {
           .join("/"),
       );
     } catch (e) {}
-    fs.writeFileSync(destination, file);
+    //fs.writeFileSync(destination, file);
   }
 };
 

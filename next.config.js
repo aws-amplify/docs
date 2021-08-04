@@ -173,17 +173,17 @@ function generatePathMap(
       const {route} = productRoot;
 
       let filterKind = "";
-      if (route.includes("/cli") || route.includes("/console")) {
+      if (route.startsWith("/cli") || route.startsWith("/console")) {
         filterKind = "";
-      } else if (route.includes("/lib")) {
+      } else if (route.startsWith("/lib")) {
         filterKind = "platform";
-      } else if (route.includes("/sdk")) {
+      } else if (route.startsWith("/sdk")) {
         filterKind = "platform";
-      } else if (route.includes("/ui")) {
+      } else if (route.startsWith("/ui")) {
         filterKind = "framework";
-      } else if (route.includes("/guides")) {
+      } else if (route.startsWith("/guides")) {
         filterKind = "platform";
-      } else if (route.includes("/start")) {
+      } else if (route.startsWith("/start")) {
         filterKind = "integration";
       }
 

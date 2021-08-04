@@ -3,17 +3,17 @@ import {useRouter} from "next/router";
 
 export default function InternalLink({href, children}) {
   let filterKind = "";
-  if (href.includes("/cli") || href.includes("/console")) {
+  if (href.startsWith("/cli") || href.startsWith("/console")) {
     filterKind = "";
-  } else if (href.includes("/lib")) {
+  } else if (href.startsWith("/lib")) {
     filterKind = "platform";
-  } else if (href.includes("/sdk")) {
+  } else if (href.startsWith("/sdk")) {
     filterKind = "platform";
-  } else if (href.includes("/ui")) {
+  } else if (href.startsWith("/ui")) {
     filterKind = "framework";
-  } else if (href.includes("/guides")) {
+  } else if (href.startsWith("/guides")) {
     filterKind = "platform";
-  } else if (href.includes("/start")) {
+  } else if (href.startsWith("/start")) {
     filterKind = "integration";
   }
 
