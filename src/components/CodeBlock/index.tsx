@@ -12,15 +12,25 @@ const COPIED = "copied";
 const FAILED = "failed to copy";
 const CONSOLE = "console";
 
+type CopyMessageType = typeof COPY | typeof COPIED | typeof FAILED;
+
 type CodeBlockProps = {
   lineCount: string;
   language: string;
   children: React.ReactElement[];
 };
 
-class CodeBlock extends React.Component<CodeBlockProps> {
-  copyMessage: typeof COPY | typeof COPIED | typeof FAILED = "copy";
+type CodeBlockState = {
+  copyMessage: CopyMessageType;
+};
+
+class CodeBlock extends React.Component<CodeBlockProps, CodeBlockState> {
   element?: HTMLDivElement;
+
+  constructor(props) {
+    super(props);
+    this.state = {copyMessage: COPY};
+  }
 
   lineNumbers = () => {
     const lineCount = parseInt(this.props.lineCount);
@@ -46,12 +56,12 @@ class CodeBlock extends React.Component<CodeBlockProps> {
   copyToClipboard = () => {
     if (this.element && this.element.textContent) {
       copy(this.element.textContent);
-      this.copyMessage = COPIED;
+      this.setState({copyMessage: COPIED});
     } else {
-      this.copyMessage = FAILED;
+      this.setState({copyMessage: FAILED});
     }
     setTimeout(() => {
-      this.copyMessage = COPY;
+      this.setState({copyMessage: COPY});
     }, 1500);
   };
 
@@ -59,7 +69,7 @@ class CodeBlock extends React.Component<CodeBlockProps> {
     if (this.props.language !== CONSOLE) {
       return (
         <CopyButtonStyle onClick={this.copyToClipboard}>
-          <span>{this.copyMessage}</span>
+          <span>{this.state.copyMessage}</span>
         </CopyButtonStyle>
       );
     }
