@@ -98,16 +98,16 @@ function generatePathMap(
     "/start/q/integration/flutter": {
       page: "/start/q/integration/[integration]",
     },
-    "lib/q/platform/flutter": {
+    "/lib/q/platform/flutter": {
       page: "/lib/q/platform/[platform]",
     },
-    "lib/q/platform/android": {
+    "/lib/q/platform/android": {
       page: "/lib/q/platform/[platform]",
     },
-    "lib/q/platform/ios": {
+    "/lib/q/platform/ios": {
       page: "/lib/q/platform/[platform]",
     },
-    "lib/q/platform/js": {
+    "/lib/q/platform/js": {
       page: "/lib/q/platform/[platform]",
     },
     "/ui/q/framework/react": {
