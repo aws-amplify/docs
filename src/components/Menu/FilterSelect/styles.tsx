@@ -25,6 +25,15 @@ export const FilterSelectStyle = styled.div`
       background-color: var(--bg-color-hover);
     }
   }
+
+  .unsupported > a {
+    background-color: var(--bg-color-hover);
+    opacity: 0.5;
+
+    &:hover {
+      background-color: var(--bg-color-secondary);
+    }
+  }
 `;
 
 export const CurrentlySelectedStyle = styled.div`

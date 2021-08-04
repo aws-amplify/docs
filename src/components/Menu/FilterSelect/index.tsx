@@ -1,5 +1,8 @@
 import Link from "next/link";
-import {filterMetadataByOption} from "../../../utils/filter-data";
+import {
+  filterMetadataByOption,
+  filterOptionsByName,
+} from "../../../utils/filter-data";
 import {
   FilterSelectStyle,
   CurrentlySelectedStyle,
@@ -23,11 +26,13 @@ class FilterSelect extends React.Component<
   FilterSelectProps,
   FilterSelectState
 > {
+  filterKind: string;
   wrapperRef: React.RefObject<HTMLDivElement>;
 
   constructor(props) {
     super(props);
 
+    this.filterKind = "";
     this.wrapperRef = React.createRef();
     this.closeMenu = this.closeMenu.bind(this);
     this.state = {isOpen: false};
@@ -35,6 +40,14 @@ class FilterSelect extends React.Component<
 
   componentDidMount() {
     document.addEventListener("mousedown", this.closeMenu);
+
+    if ("platform" in this.props.router.query) {
+      this.filterKind = "platform";
+    } else if ("integration" in this.props.router.query) {
+      this.filterKind = "integration";
+    } else {
+      this.filterKind = "framework";
+    }
   }
 
   componentWillUnmount() {
@@ -59,14 +72,40 @@ class FilterSelect extends React.Component<
     });
   };
 
+  renderFilter = (name) => {
+    if (name === this.props.filterKey) return;
+    const query = {};
+    query[this.filterKind] = name;
+    return (
+      <Link
+        href={{
+          pathname: this.props.pathname,
+          query: query,
+        }}
+        key={name}
+      >
+        <a onClick={this.toggleVis}>
+          <img
+            src={filterMetadataByOption[name]?.graphicURI}
+            height="28px"
+            width="28px"
+          />
+          <span>{filterMetadataByOption[name]?.label}</span>
+        </a>
+      </Link>
+    );
+  };
+
   render() {
-    let filterKind = "";
-    if ("platform" in this.props.router.query) {
-      filterKind = "platform";
-    } else if ("integration" in this.props.router.query) {
-      filterKind = "integration";
-    } else {
-      filterKind = "framework";
+    let allFilters = this.props.filters.slice();
+    if (this.filterKind in filterOptionsByName) {
+      allFilters = filterOptionsByName[this.filterKind];
+    }
+    const unsupportedFilters = [];
+    for (const filter of allFilters) {
+      if (!this.props.filters.includes(filter)) {
+        unsupportedFilters.push(filter);
+      }
     }
 
     return (
@@ -84,29 +123,10 @@ class FilterSelect extends React.Component<
           </CurrentlySelectedStyle>
         )}
         <DropdownStyle shouldDisplay={this.state.isOpen}>
-          {this.props.filters.map((name) => {
-            if (name === this.props.filterKey) return;
-            const query = {};
-            query[filterKind] = name;
-            return (
-              <Link
-                href={{
-                  pathname: this.props.pathname,
-                  query: query,
-                }}
-                key={name}
-              >
-                <a onClick={this.toggleVis}>
-                  <img
-                    src={filterMetadataByOption[name]?.graphicURI}
-                    height="28px"
-                    width="28px"
-                  />
-                  <span>{filterMetadataByOption[name]?.label}</span>
-                </a>
-              </Link>
-            );
-          })}
+          <div>{this.props.filters.map(this.renderFilter)}</div>
+          <div className="unsupported">
+            {unsupportedFilters.map(this.renderFilter)}
+          </div>
         </DropdownStyle>
       </FilterSelectStyle>
     );
