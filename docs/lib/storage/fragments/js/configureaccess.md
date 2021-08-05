@@ -88,4 +88,54 @@ If you want to have custom *private* path prefix like *myPrivatePrefix/*, you ne
     }
 ]
 ```
-This ensures only the authenticated users has the access to the objects under the path.
+This ensures only the authenticated users has the access to the objects under the path. 
+
+<amplify-callout>
+
+The Cognito Identity ID is automatically appended to the *protected* and *private* path prefix you define in `customPrefix`. 
+
+</amplify-callout>
+
+If you would like no prefix resolution logic, such as performing S3 operations at the root of the bucket, set *public* to `'/'`:
+
+```javascript
+Storage.configure({
+    customPrefix: {
+        public: '/',
+    },
+    // ...
+})
+```
+
+Use the `customPrefixResolver` if you want to control when and where the IdentityId is added. The following is an example of the default prefix resolver used by the plugin:
+
+```javascript
+Storage.configure({
+    customPrefixResolver: async (identityId, level) => {
+        if (level === "public") {
+            return "public/"
+        } else {  // protected or private
+            return level + "/" + identityId + "/"
+        }
+    }
+```
+
+The resolver will be called when performing each storage request to resolve the final prefix used by the request. The `identityId` is the current user's Identity ID, or the target Identity ID if passed in with the request. You can define your own resolver logic that matches what your custom IAM policies expect.
+
+You can perform any additional logic based on the access controls you have defined. For example, if you have defined Guests with no access then you can fail the request early by checking if the user is signed in:
+
+```javascript
+Storage.configure({
+    customPrefixResolver: async (level, identityId) => {
+        try {
+            const user = await Auth.currentAuthenticatedUser();
+            if (level === "public") {
+                return "public/"
+            } else {  // "protected" or "private"
+                return level + "/" + identityId + "/"
+            }
+        } catch (e) {
+            throws Error("User is not authenticated to perform S3 operations")
+        }        
+    }
+```
