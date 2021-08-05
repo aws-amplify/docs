@@ -59,7 +59,7 @@ const importPlugin = () => (tree) => {
       });
       tree.children.splice(index + 1, 0, {
         type: "import",
-        value: `import {AmplifyAuthenticator} from "@aws-amplify/ui-react";`,
+        value: `import {AmplifyAuthenticator, AmplifySignOut} from "@aws-amplify/ui-react";`,
       });
       tree.children.splice(index + 1, 0, {
         type: "import",
