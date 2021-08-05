@@ -1,6 +1,6 @@
 # Amplify Framework Documentation
 
-[![DiscordChat](https://img.shields.io/discord/308323056592486420?logo=discord")](https://discord.gg/jWVbPfC)
+[![DiscordChat](https://img.shields.io/discord/308323056592486420?logo=discord")](https://discord.gg/amplify)
 
 > https://docs.amplify.aws
 
