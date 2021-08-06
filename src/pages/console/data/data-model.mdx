@@ -7,20 +7,22 @@ export const meta = {
 
 In this example we will build a data model for a bookstore to maintain information about books, authors, and publishers with relationships and authorization rules. The schema template below is a starting point for the bookstore backend.
 
-<Card
-  external
-  href="https://sandbox.amplifyapp.com/schema-design/4f1a9f51-5783-4da5-9db1-60ce071e6539/clone"
-  containertag="amplify-external-link"
->
-  <CardGraphic slot="graphic" src="/images/console/adminui.svg" />
-  <CardDetail>
-    <h4>Clone in Sandbox</h4>
-    <p>
-      A bookstore data model template with four models called Book, ISBN,
-      Publisher, and Author
-    </p>
-  </CardDetail>
-</Card>
+<Grid grid-gap="2" columns={1} class="margin-top-lg margin-bottom-lg">
+  <Card
+    external
+    href="https://sandbox.amplifyapp.com/schema-design/4f1a9f51-5783-4da5-9db1-60ce071e6539/clone"
+    containertag="amplify-external-link"
+  >
+    <CardGraphic src="/images/console/adminui.svg" />
+    <CardDetail>
+      <h4>Clone in Sandbox</h4>
+      <p>
+        A bookstore data model template with four models called Book, ISBN,
+        Publisher, and Author
+      </p>
+    </CardDetail>
+  </Card>
+</Grid>
 <br />
 
 Skip ahead to [relationships](/console/data/relationships) or read below on how data modeling works in the Admin UI.
