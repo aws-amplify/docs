@@ -5,6 +5,21 @@ export const Host = styled.div`
   display: block;
   margin-bottom: 1.5rem;
   margin-top: 2.5rem;
+
+  a {
+    color: #fff;
+  }
+
+  a:hover {
+    color: #fff;
+    text-decoration: none;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.5);
+  }
+
+  a * {
+    color: var(--color-white);
+    cursor: pointer;
+  }
 `;
 
 export const Container = styled.a`
