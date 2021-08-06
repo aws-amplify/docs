@@ -9,7 +9,7 @@ The `@versioned` directive adds object versioning and conflict resolution to a t
 
 <amplify-callout>
 
-Note that **@versioned** is only supported in client code generated via AppSync [codegen](~/cli/graphql-transformer/codegen).
+Note that **@versioned** is only supported in client code (statement and types) generated via AppSync [codegen](~/cli/graphql-transformer/codegen).
 Versioning is not supported in models generated via `amplify codegen models`.
 [Amplify DataStore](~/lib/datastore/getting-started) provides conflict-resolution out of the box.
 
