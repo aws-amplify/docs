@@ -97,6 +97,9 @@ class FilterSelect extends React.Component<
   };
 
   render() {
+    if (typeof this.props.filterKey === "undefined") {
+      return <></>;
+    }
     let allFilters = this.props.filters.slice();
     if (this.filterKind in filterOptionsByName) {
       allFilters = filterOptionsByName[this.filterKind];
