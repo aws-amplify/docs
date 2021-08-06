@@ -7,15 +7,39 @@ import {MQFablet, MQDesktop} from "../media";
 type CardProps = {
   className?: string;
   href?: string;
+  external?: boolean;
 };
 
-const docsCard: React.FC<CardProps> = ({children, className, href}) => {
+const ExternalLinkGraphic = styled.img`
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 0.75rem;
+  z-index: 1;
+`;
+
+const Anchor = styled.a`
+  position: relative;
+`;
+
+const docsCard: React.FC<CardProps> = ({
+  children,
+  className,
+  href,
+  external,
+}) => {
   if (!href) return <div className={className}>{children}</div>;
   return (
     <Link href={href}>
-      <a>
+      <Anchor>
+        {external && (
+          <ExternalLinkGraphic
+            src="/assets/external-link-black.svg"
+            alt="External link"
+          />
+        )}
         <div className={className}>{children}</div>
-      </a>
+      </Anchor>
     </Link>
   );
 };
