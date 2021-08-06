@@ -1,12 +1,12 @@
-import Link from "next/link";
 import {Host, Container} from "./styles";
+import InternLink from "../InternalLink";
 
 export default function InternalLinkButton({href, children}) {
   return (
     <Host>
-      <Link href={href}>
+      <InternLink href={href}>
         <Container>{children}</Container>
-      </Link>
+      </InternLink>
     </Host>
   );
 }
