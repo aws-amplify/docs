@@ -1339,12 +1339,12 @@ const directory = {
         items: [
           {
             title: "Node Version Update",
-            route: "/lib/migration/lambda-node-version-update",
+            route: "/cli/migration/lambda-node-version-update",
             filters: [],
           },
           {
             title: "Lambda layer behavior updates",
-            route: "/lib/migration/lambda-layers-update",
+            route: "/cli/migration/lambda-layers-update",
             filters: [],
           },
         ],
@@ -1354,17 +1354,17 @@ const directory = {
         items: [
           {
             title: "Files and Folders",
-            route: "/lib/reference/files",
+            route: "/cli/reference/files",
             filters: [],
           },
           {
             title: "Usage Data in Amplify CLI",
-            route: "/lib/reference/usage-data",
+            route: "/cli/reference/usage-data",
             filters: [],
           },
           {
             title: "Feature Flags",
-            route: "/lib/reference/feature-flags",
+            route: "/cli/reference/feature-flags",
             filters: [],
           },
         ],
