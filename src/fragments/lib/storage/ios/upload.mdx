@@ -7,7 +7,7 @@ To upload to S3 from a data object, specify the `key` and the `data` object to b
 ```swift
 let dataString = "My Data"
 let data = dataString.data(using: .utf8)!
-Amplify.Storage.uploadData(
+let storageOperation = Amplify.Storage.uploadData(
     key: "ExampleKey",
     data: data,
     progressListener: { progress in
@@ -63,7 +63,7 @@ do {
     print("Failed to write to file \(error)")
 }
 
-Amplify.Storage.uploadFile(
+let storageOperation = Amplify.Storage.uploadFile(
     key: fileNameKey,
     local: filename,
     progressListener: { progress in
@@ -109,3 +109,27 @@ receiveValue: { data in
 </Block>
 
 </BlockSwitcher>
+
+## Cancel, Pause, Resume
+
+Calls to `uploadData` or `uploadFile` return a reference to the operation that is actually performing the upload.
+
+To cancel the upload (for example, in response to the user pressing a **Cancel** button), you simply call `cancel()` on the upload operation.
+
+```swift
+func cancelUpload() {
+    storageOperation.cancel()
+}
+```
+
+You can also pause then resume the operation.
+
+```swift
+storageOperation.pause()
+storageOperation.resume()
+```
+
+## MultiPart upload
+
+The upload will automatically perform a S3 multipart upload for files larger than 5MB. For more information about S3's multipart upload, see [Uploading and copying objects using multipart upload
+](https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html)

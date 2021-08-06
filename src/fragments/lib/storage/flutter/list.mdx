@@ -1,26 +1,13 @@
-You can list all of the objects uploaded under a given prefix. This will list all public files:
+You can list all of the objects uploaded under a given prefix. This will list all public files (i.e. those with `guest` access level):
 
 ```dart
-try {
-  ListResult res = await Amplify.Storage.list();
-} on StorageException catch (e) {
-  print(e.message);
-}
-```
-
-You can also list private or protected files by passing options. For example, to list all protected files owned by a user identified by the ID `otherUserID`:
-
-```dart
-try {
-  S3ListOptions options = S3ListOptions(
-    targetIdentityId: "otherUserID",
-    accessLevel: StorageAccessLevel.protected
-  );
-          
-  ListResult res = await Amplify.Storage.list(
-    options: options
-  );
-} on StorageException catch (e) {
-  print(e.message);
+Future<void> listItems() async {
+  try {
+    final ListResult result = await Amplify.Storage.list();
+    final List<StorageItem> items = result.items;
+    print('Got items: $items');
+  } on StorageException catch (e) {
+    print('Error listing items: $e');
+  }
 }
 ```

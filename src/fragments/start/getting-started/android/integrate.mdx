@@ -64,7 +64,7 @@ Next, you'll create a Todo and save it to DataStore.
   ```java
   Todo item = Todo.builder()
       .name("Build Android application")
-      .description("Build an Android application using Amplify")
+      .priority(Priority.NORMAL)
       .build();
   ```
 
@@ -75,14 +75,14 @@ Next, you'll create a Todo and save it to DataStore.
   ```kotlin
   val item = Todo.builder()
       .name("Build Android application")
-      .description("Build an Android application using Amplify")
+      .priority(Priority.NORMAL)
       .build()
   ```
 
   </Block>
   </BlockSwitcher>
 
-  This code creates a Todo item with two properties: a name and a description. This is a plain object that isn't stored in DataStore yet.
+  This code creates a Todo item with two properties: a name, and a priority. This is a plain object that isn't stored in DataStore yet.
 
 1. Below that, add the code to save the item to DataStore:
 
@@ -117,16 +117,20 @@ Next, you'll create a Todo and save it to DataStore.
   com.example.todo I/Tutorial: Saved item: Build application
   ```
 
-1. Replace the item with a new Todo to save an additional item. Let's change the name and description, and add a priority:
+1. Replace the item with a new Todo to save an additional item. Let's change the name and priority, and add a completedAt:
 
   <BlockSwitcher>
   <Block name="Java">
 
   ```java
+  Date date = new Date();
+  int offsetMillis = TimeZone.getDefault().getOffset(date.getTime());
+  int offsetSeconds = (int) TimeUnit.MILLISECONDS.toSeconds(offsetMillis);
+  Temporal.DateTime temporalDateTime = new Temporal.DateTime(date, offsetSeconds);
   Todo item = Todo.builder()
       .name("Finish quarterly taxes")
       .priority(Priority.HIGH)
-      .description("Taxes are due for the quarter next week")
+      .completedAt(temporalDateTime)
       .build();
   ```
 
@@ -135,10 +139,14 @@ Next, you'll create a Todo and save it to DataStore.
   <Block name="Kotlin">
 
   ```kotlin
+  val date = Date()
+  val offsetMillis = TimeZone.getDefault().getOffset(date.time).toLong()
+  val offsetSeconds = TimeUnit.MILLISECONDS.toSeconds(offsetMillis).toInt()
+  val temporalDateTime = Temporal.DateTime(date, offsetSeconds)
   val item = Todo.builder()
       .name("Finish quarterly taxes")
       .priority(Priority.HIGH)
-      .description("Taxes are due for the quarter next week")
+      .completedAt(temporalDateTime)
       .build()
   ```
 
@@ -176,8 +184,8 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
                   Log.i("Tutorial", "Priority: " + todo.getPriority().toString());
               }
 
-              if (todo.getDescription() != null) {
-                  Log.i("Tutorial", "Description: " + todo.getDescription());
+              if (todo.getCompletedAt() != null) {
+                  Log.i("Tutorial", "CompletedAt: " + todo.getCompletedAt().toString());
               }
           }
       },
@@ -197,7 +205,7 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
               Log.i("Tutorial", "==== Todo ====")
               Log.i("Tutorial", "Name: ${todo.name}")
               Log.i("Tutorial", "Priority: ${todo.priority}")
-              Log.i("Tutorial", "Description: ${todo.description}")
+              Log.i("Tutorial", "CompletedAt: ${todo.completedAt}")
           }
       },
       { Log.e("Tutorial", "Could not query DataStore", it)  }
@@ -213,11 +221,11 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
   com.example.todo I/Tutorial: Initialized Amplify
   com.example.todo I/Tutorial: ==== Todo ====
   com.example.todo I/Tutorial: Name: Build application
-  com.example.todo I/Tutorial: Description: Build an Android Application using Amplify
+  com.example.todo I/Tutorial: Priority: NORMAL
   com.example.todo I/Tutorial: ==== Todo ====
   com.example.todo I/Tutorial: Name: Finish quarterly taxes
-  com.example.todo I/Tutorial: Description: Taxes are due for the quarter next week
   com.example.todo I/Tutorial: Priority: HIGH
+  com.example.todo I/Tutorial: CompletedAt: <DateTime>
   ```
 
 1. Queries can also contain predicate filters. These will query for specific objects matching a certain condition.
@@ -255,8 +263,8 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
                   Log.i("Tutorial", "Priority: " + todo.getPriority().toString());
               }
 
-              if (todo.getDescription() != null) {
-                  Log.i("Tutorial", "Description: " + todo.getDescription());
+              if (todo.getCompletedAt() != null) {
+                  Log.i("Tutorial", "Description: " + todo.getCompletedAt.toString());
               }
           }
       },
@@ -277,7 +285,7 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
               Log.i("Tutorial", "==== Todo ====")
               Log.i("Tutorial", "Name: ${todo.name}")
               Log.i("Tutorial", "Priority: ${todo.priority}")
-              Log.i("Tutorial", "Description: ${todo.description}")
+              Log.i("Tutorial", "CompletedAt: ${todo.completedAt}")
           }
       },
       { failure -> Log.e("Tutorial", "Could not query DataStore", failure) }
@@ -295,6 +303,6 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
   com.example.todo I/Tutorial: Initialized Amplify
   com.example.todo I/Tutorial: ==== Todo ====
   com.example.todo I/Tutorial: Name: Finish quarterly taxes
-  com.example.todo I/Tutorial: Description: Taxes are due for the quarter next week
   com.example.todo I/Tutorial: Priority: HIGH
+  com.example.todo I/Tutorial: CompletedAt: <DateTime>
   ```

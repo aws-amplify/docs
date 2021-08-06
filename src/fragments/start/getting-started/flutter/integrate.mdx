@@ -89,7 +89,7 @@ class _TodosPageState extends State<TodosPage> {
 class TodosList extends StatelessWidget {
   final List<Todo> todos;
 
-  TodosList({this.todos});
+  TodosList({required this.todos});
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +105,7 @@ class TodoItem extends StatelessWidget {
   final double iconSize = 24.0;
   final Todo todo;
 
-  TodoItem({this.todo});
+  TodoItem({required this.todo});
 
   void _deleteTodo(BuildContext context) async {
     // to be filled in a later step
@@ -208,11 +208,11 @@ To the top of the `_TodosPageState` class, add the following.
 ```dart
 class _TodosPageState extends State<TodosPage> {
 
-  // for tracking loading ui state
-  bool _isLoading;
+  // loading ui state - initially set to a loading state
+  bool _isLoading = true;
 
-  // list of Todos
-  List<Todo> _todos;
+  // list of Todos - initially empty
+  List<Todo> _todos = [];
 
   // amplify plugins
   final AmplifyDataStore _dataStorePlugin =
@@ -224,13 +224,7 @@ Update the `initState()` function in the `_TodosPageState` class.
 ```dart
 @override
 void initState() {
-  
-  // initialize loading ui state to a loading state
-  _isLoading = true;
-  
-  // initialize Todos list as an empty list
-  _todos = [];
-  
+
   // kick off app initialization
   _initializeApp();
 
@@ -376,8 +370,8 @@ To the top of the `_TodosPageState` class, add a `StreamSubscription`.
 ```dart
 class _TodosPageState extends State<TodosPage> {
 
-  // subscription to Todo model update events
-  StreamSubscription _subscription;
+  // subscription to Todo model update events - to be initialized at runtime
+  late StreamSubscription _subscription;
 ```
 
 Update the `dispose()` function in the `_TodosPageState` class.

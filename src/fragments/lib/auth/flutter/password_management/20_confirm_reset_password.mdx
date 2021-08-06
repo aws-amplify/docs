@@ -5,7 +5,7 @@ try {
     newPassword: "mynewpassword",
     confirmationCode: "123456"
   );
-} on AuthError catch (e) {
+} on AmplifyException catch (e) {
   print(e);
 }
 ```

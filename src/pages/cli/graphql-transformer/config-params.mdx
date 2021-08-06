@@ -1,6 +1,6 @@
 export const meta = {
-  title: "Configurable Parameters",
-  description: "Additional configurable parameters for GraphQL Transform can be passed to the CloudFormation template itself. This provides escape hatches without leaking too many implementation details into the SDL definition",
+  title: `Configurable Parameters`,
+  description: `Additional configurable parameters for GraphQL Transform can be passed to the CloudFormation template itself. This provides escape hatches without leaking too many implementation details into the SDL definition`,
 };
 
 Much of the behavior of the GraphQL Transform logic is configured by passing arguments to the directives in the GraphQL SDL definition. However, certain other things are configured by passing parameters to the CloudFormation template itself. This provides escape hatches without leaking too many implementation details into the SDL definition. You can pass values to these parameters by adding them to the `parameters.json` file in the API directory of your amplify project.
@@ -116,7 +116,7 @@ Follow these two steps when you need to rotate an API Key
 
 ## ElasticSearchInstanceCount
 
-**Override the number of instances launched into the Elasticsearch domain created by @searchable**
+**Override the number of instances launched into the OpenSearch domain created by @searchable**
 
 ```json
 {
@@ -126,7 +126,7 @@ Follow these two steps when you need to rotate an API Key
 
 ## ElasticSearchInstanceType
 
-**Override the type of instance launched into the Elasticsearch domain created by @searchable**
+**Override the type of instance launched into the OpenSearch domain created by @searchable**
 
 ```json
 {
@@ -136,7 +136,7 @@ Follow these two steps when you need to rotate an API Key
 
 ## ElasticSearchEBSVolumeGB
 
-**Override the amount of disk space allocated to each instance in the Elasticsearch domain created by @searchable**
+**Override the amount of disk space allocated to each instance in the OpenSearch domain created by @searchable**
 
 ```json
 {

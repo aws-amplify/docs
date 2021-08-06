@@ -1,4 +1,12 @@
-An existing Amazon S3 bucket can be used with the Amplify Libraries by referencing it in your `amplifyconfiguration.json` file.
+If you are using the Amplify CLI, an existing Amazon S3 bucket can be used with the Amplify Libraries by running:
+
+```bash
+amplify import storage
+```
+
+For more details, see how to [Use an existing S3 bucket or DynamoDB table](/cli/storage/import).
+
+If you are not using the Amplify CLI, an existing Amazon S3 bucket can be used by referencing it in your `amplifyconfiguration.json` file.
 
 ```json
 {
@@ -16,4 +24,4 @@ An existing Amazon S3 bucket can be used with the Amplify Libraries by referenci
 - **bucket**: Name of the bucket to use for storage
 - **region**: AWS Region where the bucket is provisioned (e.g. *us-east-1*)
 
-Note that before you can add an AWS resource to your application, the application must have the Amplify libraries installed. If you need to perform this step, see [Install Amplify Libraries](/lib/project-setup/create-application.md#n2-install-amplify-libraries). 
+Note that before you can add an AWS resource to your application, the application must have the Amplify libraries installed. If you need to perform this step, see [Install Amplify Libraries](/lib/project-setup/create-application#n2-install-amplify-libraries). 

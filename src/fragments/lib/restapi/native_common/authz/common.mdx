@@ -15,7 +15,7 @@ When your API is configured to use IAM as the authorization type, your requests 
 ```json
 {
     "awsAPIPlugin": {
-        "<YOUR-RESTENDPOINT-NAME>": {
+        "[YOUR-RESTENDPOINT-NAME]": {
             "endpointType": "REST",
             "endpoint": "YOUR-REST-ENDPOINT",
             "region": "us-west-2",
@@ -32,7 +32,7 @@ If you want to configure a public REST API, you can set an API key in Amazon API
 ```json
 {
     "awsAPIPlugin": {
-        "<YOUR-RESTENDPOINT-NAME>": {
+        "[YOUR-RESTENDPOINT-NAME]": {
             "endpointType": "REST",
             "endpoint": "YOUR-REST-ENDPOINT",
             "region": "us-west-2",
@@ -50,7 +50,7 @@ If you set up the API Gateway with a custom authorization with a Cognito User po
 ```json
 {
     "awsAPIPlugin": {
-        "<YOUR-RESTENDPOINT-NAME>": {
+        "[YOUR-RESTENDPOINT-NAME]": {
             "endpointType": "REST",
             "endpoint": "YOUR-REST-ENDPOINT",
             "region": "us-west-2",
@@ -92,8 +92,8 @@ If you are using a 3rd party OIDC provider you will need to configure it and man
 {
     ...
     "awsAPIPlugin": {
-        "<YOUR-RESTENDPOINT-NAME": {
-            "endpointType": "GraphQL",
+        "[YOUR-RESTENDPOINT-NAME]": {
+            "endpointType": "REST",
             "endpoint": "[REST-ENDPOINT]",
             "region": "[REGION]",
             "authorizationType": "OPENID_CONNECT",
@@ -125,6 +125,41 @@ import ios2 from "/src/fragments/lib/graphqlapi/ios/authz/21_oidc.mdx";
 import android3 from "/src/fragments/lib/graphqlapi/android/authz/21_oidc.mdx";
 
 <Fragments fragments={{android: android3}} />
+
+## NONE
+You can also set authorization mode to `NONE` so that the library will not provide any request interception logic. You can use this when your API does not require any authorization or when you want to manipulate the request yourself, such as adding header values or authorization data.
+
+```json
+{
+    ...
+    "awsAPIPlugin": {
+        "[yourApiName]": {
+            "endpointType": "REST",
+            "endpoint": "[REST-ENDPOINT]",
+            "region": "[REGION]",
+            "authorizationType": "NONE",
+        }
+    }
+}
+```
+
+import ios4 from "/src/fragments/lib/restapi/ios/authz/22_none_headers.mdx";
+
+<Fragments fragments={{ios: ios4}} />
+
+import android5 from "/src/fragments/lib/restapi/android/authz/22_none_headers.mdx";
+
+<Fragments fragments={{android: android5}} />
+
+You can register your own request interceptor to intercept the request and perform an action or inject something into your request before it is performed. 
+
+import ios6 from "/src/fragments/lib/graphqlapi/ios/advanced-workflows/50_interceptor.mdx";
+
+<Fragments fragments={{ios: ios6}} />
+
+import android7 from "/src/fragments/lib/graphqlapi/android/advanced-workflows/50_interceptor.mdx";
+
+<Fragments fragments={{android: android7}} />
 
 ## Customizing HTTP request headers
 

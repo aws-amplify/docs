@@ -26,6 +26,11 @@ func createTodo() {
 
 <Block name="Combine (iOS 13+)">
 
+Make sure you have the additional import at the top of your file
+```swift
+import Combine
+```
+
 ```swift
 func createTodo() -> AnyCancellable {
     let todo = Todo(name: "my first todo", description: "todo description")

@@ -10,9 +10,9 @@ private GraphQLRequest<Todo> getTodoRequest(String id) {
         + "}"
     + "}";
     return new SimpleGraphQLRequest<>(
-            document, 
-            Collections.singletonMap("id", id), 
-            Todo.class, 
+            document,
+            Collections.singletonMap("id", id),
+            Todo.class,
             new GsonVariablesSerializer());
 }
 ```
@@ -45,7 +45,7 @@ Then, query for the Todo by a todo id
 <Block name="Java">
 
 ```java
-Amplify.API.query(getTodoQuery("[TODO_ID]"),
+Amplify.API.query(getTodoRequest("[TODO_ID]"),
     response -> Log.d("MyAmplifyApp", "response" + response),
     error -> Log.e("MyAmplifyApp", "error" + error)
 );
@@ -55,7 +55,7 @@ Amplify.API.query(getTodoQuery("[TODO_ID]"),
 <Block name="Kotlin - Callbacks">
 
 ```kotlin
-Amplify.API.query(getTodoQuery("[TODO_ID]"),
+Amplify.API.query(getTodoRequest("[TODO_ID]"),
     { Log.d("MyAmplifyApp", "Response = $it") },
     { Log.e("MyAmplifyApp", "Error!", it) }
 )
@@ -66,7 +66,7 @@ Amplify.API.query(getTodoQuery("[TODO_ID]"),
 
 ```kotlin
 try {
-    val response = Amplify.API.query(getTodoQuery("[TODO_ID]"))
+    val response = Amplify.API.query(getTodoRequest("[TODO_ID]"))
     Log.d("MyAmplifyApp", "Query response = $response")
 } catch (error: ApiException) {
     Log.e("MyAmplifyApp", "Query failed", error)

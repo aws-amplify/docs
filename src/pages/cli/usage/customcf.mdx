@@ -1,7 +1,6 @@
 export const meta = {
-  title: "Add custom AWS resources",
-  description:
-    "The Amplify CLI provides escape hatches for modifying the backend configurations generated in the form of CloudFormation templates by the CLI. This allows you to use the CLI for common flows but also any advanced scenarios which aren't provided in the standard category workflows.",
+  title: `Add custom AWS resources`,
+  description: `The Amplify CLI provides escape hatches for modifying the backend configurations generated in the form of CloudFormation templates by the CLI. This allows you to use the CLI for common flows but also any advanced scenarios which aren't provided in the standard category workflows.`,
 };
 
 The Amplify CLI provides escape hatches for modifying the backend configurations generated in the form of CloudFormation templates by the CLI.
@@ -97,7 +96,7 @@ Construct the following input parameter in your custom CloudFormation stack's `t
 
   // The format out here is `<category><resource-name><attribute-name>`
   // we have defined all of these in the `backend-config.json` file above
-  "authmycognitoresourceUserPoolId": {
+  "authmycognitoresourceUserPoolId": { 
     "Type": "String"
   }
 },
@@ -112,7 +111,7 @@ Place one parameter in `parameters.json` named `authmycognitoresourceUserPoolId`
   "authmycognitoresourceUserPoolId": {
     "Fn::GetAtt": [
       // Reference the auth resource with this format <category><resource-name>
-      "authmycognitoresource",
+      "authmycognitoresource",  
       "Outputs.UserPoolId"
     ]
   }

@@ -1,6 +1,6 @@
 export const meta = {
-  title: "Examples",
-  description: "Refer to these examples to learn about various sample application's GraphQL schemas.",
+  title: `Examples`,
+  description: `Refer to these examples to learn about various sample application's GraphQL schemas.`,
 };
 
 ## Simple Todo
@@ -321,9 +321,9 @@ type Comment @model(subscriptions: null) {
 
 ```graphql
 type Subscription {
-  onCreateComment(commentTodoId: String): Comment @aws_subscribe(mutations: "createComment")
-  onUpdateComment(id: ID, commentTodoId: String): Comment @aws_subscribe(mutations: "updateComment")
-  onDeleteComment(id: ID, commentTodoId: String): Comment @aws_subscribe(mutations: "deleteComment")
+  onCreateComment(commentTodoId: String): Comment @aws_subscribe(mutations: ["createComment"])
+  onUpdateComment(id: ID, commentTodoId: String): Comment @aws_subscribe(mutations: ["updateComment"])
+  onDeleteComment(id: ID, commentTodoId: String): Comment @aws_subscribe(mutations: ["deleteComment"])
 }
 ```
 

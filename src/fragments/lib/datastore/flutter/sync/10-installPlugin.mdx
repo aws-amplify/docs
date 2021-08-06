@@ -5,7 +5,7 @@ DataStore's cloud synchronization uses the [API category](/lib/graphqlapi/gettin
 Make sure you have the following plugin dependency in your `pubspec.yaml`.
 
 ```yaml
-amplify_api: '<1.0.0'
+amplify_api: ^0.2.0
 ```
 
 Locate your Amplify initialization code, and add an `AmplifyAPI()` plugin. Your initialization code should already include an `AmplifyDataStore()` plugin from previous steps. Note the new `import` statement for API towards the top of the file.
@@ -24,8 +24,8 @@ import 'models/ModelProvider.dart';
 ```dart
 AmplifyDataStore datastorePlugin =
     AmplifyDataStore(modelProvider: ModelProvider.instance);
-Amplify.addPlugin(datastorePlugin);
+await Amplify.addPlugin(datastorePlugin);
 // Add the following line
-Amplify.addPlugin(AmplifyAPI())
-Amplify.configure(amplifyconfig);
+await Amplify.addPlugin(AmplifyAPI())
+await Amplify.configure(amplifyconfig);
 ```

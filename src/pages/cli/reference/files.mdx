@@ -1,7 +1,6 @@
 export const meta = {
-  title: "Files and Folders",
-  description:
-    "Learn more about the files and folders Amplify uses to maintain project state.",
+  title: `Files and Folders`,
+  description: `Learn more about the files and folders Amplify uses to maintain project state.`,
 };
 
 ## Folders
@@ -37,7 +36,8 @@ Contains the current cloud state of the checked out environment's resources. The
 
 > Add to version control: YES
 
-Contains the latest local development state of the checked out environment's resources. The contents of this folder can be modified and running `amplify push` will push changes in this directory to the cloud. Each plugin stores contents in its own subfolder within this folder.
+Contains the latest local development state of the checked out environment's resources. The contents of this folder can be modified and running `amplify push` will push changes in this directory to the cloud.
+Each plugin stores contents in its own subfolder within this folder.
 
 ### amplify/mock-data
 
@@ -52,12 +52,11 @@ Only created after running `amplify mock api`. It contains the SQLite databases 
 These files work together to maintain the overall state of the Amplify project such as what resources are configured in the project, dependencies between resources, and when the last push was.
 
 ### backend-config.json
-
 > Manual edits okay: YES
 
 > Add to version control: YES
 
-The `backend-config.json` in the `backend` directory contains configuration about your project's backend, such as how connects to AWS resources (eg. Cognito for auth or AppSync for an API backend). Typically, this file is updated by the CLI commands like `amplify add auth` or `amplify add api`. It can also be [extended manually](/cli/usage/customcf) to configure your backend beyond Amplify CLI's features. Both the `amplify/backend` and `amplify/#current-cloud-backend` directories contain an `backend-config.json` file. ```
+The `backend-config.json` in the `backend` directory contains configuration about your project's backend, such as how connects to AWS resources (eg. Cognito for auth or AppSync for an API backend). Typically, this file is updated by the CLI commands like `amplify add auth` or `amplify add api`. It can also be [extended manually](/cli/usage/customcf) to configure your backend beyond Amplify CLI's features. Both the `amplify/backend` and `amplify/#current-cloud-backend` directories contain an `backend-config.json` file.
 
 ### amplify-meta.json
 
@@ -84,7 +83,8 @@ Because one category might create multiple services within one project (e.g. the
 }
 ```
 
-The metadata for each service is first logged into the meta file after the `amplify <category> add` command is executed, containing some general information that indicates one service of the category has been added locally. Then, on the successful execution of the `amplify push` command, the `output` object will be added/updated in the service's metadata with information that describes the actual cloud resources that have been created or updated.
+The metadata for each service is first logged into the meta file after the `amplify <category> add` command is executed, containing some general information that indicates one service of the category has been added locally.
+Then, on the successful execution of the `amplify push` command, the `output` object will be added/updated in the service's metadata with information that describes the actual cloud resources that have been created or updated.
 
 ### aws-exports.js
 
@@ -92,7 +92,8 @@ The metadata for each service is first logged into the meta file after the `ampl
 
 > Add to version control: NO
 
-This file is generated only for JavaScript projects. It contains the consolidated outputs from all the categories and is placed under the `src` directory specified during the `init` process. It is updated after `amplify push`.
+This file is generated only for JavaScript projects.
+It contains the consolidated outputs from all the categories and is placed under the `src` directory specified during the `init` process. It is updated after `amplify push`.
 
 This file is consumed by the [Amplify](https://github.com/aws-amplify/amplify-js) JavaScript library for configuration. It contains information which is non-sensitive and only required for external, unauthenticated actions from clients (such as user registration or sign-in flows in the case of Auth) or for constructing appropriate endpoint URLs after authorization has taken place. Please see the following more detailed explanations:
 
@@ -150,13 +151,13 @@ Used to share project info within your team. Learn more at [Share single environ
 
 > Add to version control: YES
 
-Contains feature flag configuration for the project. If this file does not exist, it is created by Amplify CLI during `amplify init`. Environment specific feature flag overrides can also be defined in `cli.<environment name>.json`. If an environment specific file exists for the currently checked out environment, during `amplify env add` command the same file will be copied for the newly created environment as well. Learn more at [Feature flags](/cli/reference/feature-flags).
+Contains feature flag configuration for the project. If this file does not exist, it is created by Amplify CLI during `amplify init`. Environment specific feature flag overrides can also be defined in `cli.<environment name>.json`.  If an environment specific file exists for the currently checked out environment, during `amplify env add` command the same file will be copied for the newly created environment as well. Learn more at [Feature flags](/cli/reference/feature-flags).
 
 ## General Category Files
 
 While each category plugin has some unique files, there are also some common files stored across all categories.
 
-### \[category]-parameters.json
+### <`category`>-parameters.json
 
 > Manual edits okay: NO
 

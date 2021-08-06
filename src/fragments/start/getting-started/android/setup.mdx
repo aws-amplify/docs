@@ -1,3 +1,4 @@
+
 👋 Welcome! In this tutorial, you will:
 
 - Set up an Android application configured with Amplify
@@ -20,22 +21,22 @@ import all0 from "/src/fragments/cli-install-block.mdx";
 
 1. Open **Android Studio**. Select **+ Start a new Android Studio project**.
 
-   ![](/images/lib/getting-started/android/set-up-android-studio-welcome.png)
+    ![](/images/lib/getting-started/android/set-up-android-studio-welcome.png)
 
 1. In **Select a Project Template**, select **Empty Activity**. Press **Next**.
 
-   ![](/images/lib/getting-started/android/set-up-android-studio-select-project-template.png)
+    ![](/images/lib/getting-started/android/set-up-android-studio-select-project-template.png)
 
 1. Next, configure your project:
 
-   - Enter _Todo_ in the **Name** field
-   - Select either _Java_ or _Kotlin_ from the **Language** dropdown menu
-   - Select _API 21: Android 5.0 (Lollipop)_ from the **Minimum SDK** dropdown menu
-   - Press **Finish**
+    - Enter *Todo* in the **Name** field
+    - Select either *Java* or *Kotlin* from the **Language** dropdown menu
+    - Select *API 21: Android 5.0 (Lollipop)* from the **Minimum SDK** dropdown menu
+    - Press **Finish**
 
-![](/images/lib/getting-started/android/set-up-android-studio-configure-your-project-todo.png)
+  ![](/images/lib/getting-started/android/set-up-android-studio-configure-your-project-todo.png)
 
-Android Studio will open your project with a tab opened to either _MainActivity.java_ or _MainActivity.kt_ depending upon if you created a Java or Kotlin project respectively.
+Android Studio will open your project with a tab opened to either *MainActivity.java* or *MainActivity.kt* depending upon if you created a Java or Kotlin project respectively.
 
 ![](/images/lib/getting-started/android/set-up-android-studio-successful-setup.png)
 
@@ -45,38 +46,37 @@ Amplify for Android is distributed as an Apache Maven package. In this section, 
 
 1. Expand **Gradle Scripts** in the project file viewer and open **build.gradle (Project: Todo)**.
 
-Make the following additions to the project-level `build.gradle` file:
+  Make the following additions to the project-level `build.gradle` file:
+  - Add the line `classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.2'` within the `dependencies` block.
+  - Add the line `apply plugin: 'com.amplifyframework.amplifytools'` at the end of the file.
 
-- Add the line `classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.2'` within the `dependencies` block.
-- Add the line `apply plugin: 'com.amplifyframework.amplifytools'` at the end of the file.
+  Your file should look like this:
 
-Your file should look like this:
+  ```groovy
+  buildscript {
+      repositories {
+          google()
+          jcenter()
+      }
 
-```groovy
-buildscript {
-    repositories {
-        google()
-        jcenter()
-    }
+      dependencies {
+          classpath 'com.android.tools.build:gradle:4.1.2'
 
-    dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.2'
+          // Add this line into `dependencies` in `buildscript`
+          classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.2'
+      }
+  }
 
-        // Add this line into `dependencies` in `buildscript`
-        classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.2'
-    }
-}
+  allprojects {
+      repositories {
+          google()
+          jcenter()
+      }
+  }
 
-allprojects {
-    repositories {
-        google()
-        jcenter()
-    }
-}
-
-// Add this line at the end of the file
-apply plugin: 'com.amplifyframework.amplifytools'
-```
+  // Add this line at the end of the file
+  apply plugin: 'com.amplifyframework.amplifytools'
+  ```
 
 2. Under **Gradle Scripts**, open **build.gradle (Module: app)**.
 
@@ -84,19 +84,19 @@ apply plugin: 'com.amplifyframework.amplifytools'
 
    ```groovy
    dependencies {
-       implementation 'com.amplifyframework:aws-api:1.17.4'
-       implementation 'com.amplifyframework:aws-datastore:1.17.4'
+       implementation 'com.amplifyframework:aws-api:1.18.0'
+       implementation 'com.amplifyframework:aws-datastore:1.18.0'
    }
    ```
 
 3. Run **Gradle Sync**
 
-   Android Studio requires you to sync your project with your new configuration. To do this, click **Sync Now** in the notification bar above the file editor.
+    Android Studio requires you to sync your project with your new configuration. To do this, click **Sync Now** in the notification bar above the file editor.
 
-   ![](/images/lib/getting-started/android/set-up-android-studio-sync-gradle.png)
+    ![](/images/lib/getting-started/android/set-up-android-studio-sync-gradle.png)
 
-   When complete, you will see _CONFIGURE SUCCESSFUL_ in the output in the _Build_ tab at the bottom of your screen.
+    When complete, you will see *CONFIGURE SUCCESSFUL* in the output in the *Build* tab at the bottom of your screen.
 
-   ![](/images/lib/getting-started/android/set-up-android-studio-configure-successful.png)
+    ![](/images/lib/getting-started/android/set-up-android-studio-configure-successful.png)
 
 You are ready to start building with Amplify! 🎉

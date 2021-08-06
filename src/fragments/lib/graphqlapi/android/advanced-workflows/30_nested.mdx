@@ -4,7 +4,7 @@
 ```java
 private GraphQLRequest<Post> getPostWithCommentsRequest(String id) {
     String document = "query getPost($id: ID!) { "
-        + "getTodo(id: $id) { "
+        + "getPost(id: $id) { "
             + "id "
             + "title "
             + "rating "
@@ -19,9 +19,9 @@ private GraphQLRequest<Post> getPostWithCommentsRequest(String id) {
         + "} "
     + "}";
     return new SimpleGraphQLRequest<>(
-            document, 
-            Collections.singletonMap("id", id), 
-            Post.class, 
+            document,
+            Collections.singletonMap("id", id),
+            Post.class,
             new GsonVariablesSerializer());
 }
 ```
@@ -32,7 +32,7 @@ private GraphQLRequest<Post> getPostWithCommentsRequest(String id) {
 ```kotlin
 private fun getPostWithCommentsRequest(id: String): GraphQLRequest<Post> {
     val document = ("query getPost(\$id: ID!) { "
-        + "getTodo(id: \$id) { "
+        + "getPost(id: \$id) { "
             + "id "
             + "title "
             + "rating "
@@ -63,7 +63,7 @@ Then query for the Post:
 <Block name="Java">
 
 ```java
-Amplify.API.query(getPostWithCommentsRequest("[TODO_ID]"),
+Amplify.API.query(getPostWithCommentsRequest("[POST_ID]"),
     response -> Log.d("MyAmplifyApp", "response" + response),
     error -> Log.e("MyAmplifyApp", "error" + error)
 );
@@ -73,7 +73,7 @@ Amplify.API.query(getPostWithCommentsRequest("[TODO_ID]"),
 <Block name="Kotlin - Callbacks">
 
 ```kotlin
-Amplify.API.query(getPostWithCommentsRequest("[TODO_ID]"),
+Amplify.API.query(getPostWithCommentsRequest("[POST_ID]"),
     { Log.d("MyAmplifyApp", "Response = $it") },
     { Log.e("MyAmplifyApp", "Error!", it) }
 )
@@ -84,10 +84,10 @@ Amplify.API.query(getPostWithCommentsRequest("[TODO_ID]"),
 
 ```kotlin
 try {
-    val response = Amplify.API.query(getPostWithCommentsRequest("[TODO_ID]"))
+    val response = Amplify.API.query(getPostWithCommentsRequest("[POST_ID]"))
     Log.d("MyAmplifyApp", "Query response = $response")
 } catch (error: ApiException) {
-    Log.e("MyAmplifyApp", "Query error", error) 
+    Log.e("MyAmplifyApp", "Query error", error)
 }
 ```
 

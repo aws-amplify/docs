@@ -113,33 +113,39 @@ import flutter14 from "/src/fragments/lib/datastore/flutter/getting-started/40_c
 
 ### Code generation: Amplify CLI
 
-Models can also be generated using the Amplify CLI directly.
-
-In your terminal, make sure you are in your project/root folder and **execute the codegen command**:
-
-```console
-amplify codegen models
-```
-    
-You can **find the generated files** at `amplify/generated/models/`.
-
-## Initialize Amplify DataStore
-
-import js15 from "/src/fragments/lib/datastore/js/getting-started/50_initDataStore.mdx";
+import js15 from "/src/fragments/lib/datastore/native_common/codegen.mdx";
 
 <Fragments fragments={{js: js15}} />
 
-import ios16 from "/src/fragments/lib/datastore/ios/getting-started/50_initDataStore.mdx";
+import ios16 from "/src/fragments/lib/datastore/native_common/codegen.mdx";
 
 <Fragments fragments={{ios: ios16}} />
 
-import android17 from "/src/fragments/lib/datastore/android/getting-started/50_initDataStore.mdx";
+import android17 from "/src/fragments/lib/datastore/native_common/codegen.mdx";
 
 <Fragments fragments={{android: android17}} />
 
-import flutter18 from "/src/fragments/lib/datastore/flutter/getting-started/50_initDataStore.mdx";
+import flutter18 from "/src/fragments/lib/datastore/flutter/getting-started/50_codegenCli.mdx";
 
 <Fragments fragments={{flutter: flutter18}} />
+
+## Initialize Amplify DataStore
+
+import js19 from "/src/fragments/lib/datastore/js/getting-started/50_initDataStore.mdx";
+
+<Fragments fragments={{js: js19}} />
+
+import ios20 from "/src/fragments/lib/datastore/ios/getting-started/50_initDataStore.mdx";
+
+<Fragments fragments={{ios: ios20}} />
+
+import android21 from "/src/fragments/lib/datastore/android/getting-started/50_initDataStore.mdx";
+
+<Fragments fragments={{android: android21}} />
+
+import flutter22 from "/src/fragments/lib/datastore/flutter/getting-started/60_initDataStore.mdx";
+
+<Fragments fragments={{flutter: flutter22}} />
 
 ## Persistence operations
 
@@ -151,48 +157,48 @@ Even though a GraphQL API is already added to your project, the cloud synchroniz
 
 To write to the database, create an instance of the `Post` model and save it.
 
-import js19 from "/src/fragments/lib/datastore/js/getting-started/60_saveSnippet.mdx";
+import js23 from "/src/fragments/lib/datastore/js/getting-started/60_saveSnippet.mdx";
 
-<Fragments fragments={{js: js19}} />
+<Fragments fragments={{js: js23}} />
 
-import ios20 from "/src/fragments/lib/datastore/ios/getting-started/60_saveSnippet.mdx";
+import ios24 from "/src/fragments/lib/datastore/ios/getting-started/60_saveSnippet.mdx";
 
-<Fragments fragments={{ios: ios20}} />
+<Fragments fragments={{ios: ios24}} />
 
-import android21 from "/src/fragments/lib/datastore/android/getting-started/60_saveSnippet.mdx";
+import android25 from "/src/fragments/lib/datastore/android/getting-started/60_saveSnippet.mdx";
 
-<Fragments fragments={{android: android21}} />
+<Fragments fragments={{android: android25}} />
 
-import flutter22 from "/src/fragments/lib/datastore/flutter/getting-started/60_saveSnippet.mdx";
+import flutter26 from "/src/fragments/lib/datastore/flutter/getting-started/80_saveSnippet.mdx";
 
-<Fragments fragments={{flutter: flutter22}} />
+<Fragments fragments={{flutter: flutter26}} />
 
 ### Reading from the database
 
 To read from the database, the simplest approach is to query for all records of a given model type.
 
-import js23 from "/src/fragments/lib/datastore/js/getting-started/70_querySnippet.mdx";
+import js27 from "/src/fragments/lib/datastore/js/getting-started/70_querySnippet.mdx";
 
-<Fragments fragments={{js: js23}} />
+<Fragments fragments={{js: js27}} />
 
-import ios24 from "/src/fragments/lib/datastore/ios/getting-started/70_querySnippet.mdx";
+import ios28 from "/src/fragments/lib/datastore/ios/getting-started/70_querySnippet.mdx";
 
-<Fragments fragments={{ios: ios24}} />
+<Fragments fragments={{ios: ios28}} />
 
-import android25 from "/src/fragments/lib/datastore/android/getting-started/70_querySnippet.mdx";
+import android29 from "/src/fragments/lib/datastore/android/getting-started/70_querySnippet.mdx";
 
-<Fragments fragments={{android: android25}} />
+<Fragments fragments={{android: android29}} />
 
-import flutter26 from "/src/fragments/lib/datastore/flutter/getting-started/70_querySnippet.mdx";
+import flutter30 from "/src/fragments/lib/datastore/flutter/getting-started/70_querySnippet.mdx";
 
-<Fragments fragments={{flutter: flutter26}} />
+<Fragments fragments={{flutter: flutter30}} />
 
 ## Next steps
 
 Congratulations! You’ve created and retrieved data from the local database. Check out the following links to see other Amplify DataStore use cases and advanced concepts:
 
-- [Write data](/lib/datastore/data-access.md#create-and-update)
-- [Query data](/lib/datastore/data-access.md#query-data)
+- [Write data](/lib/datastore/data-access#create-and-update)
+- [Query data](/lib/datastore/data-access#query-data)
 - [Model associations](/lib/datastore/relational)
 - [Cloud synchronization](/lib/datastore/sync)
-- [Clear local data](/lib/datastore/sync.md#clear-local-data)
+- [Clear local data](/lib/datastore/sync#clear-local-data)

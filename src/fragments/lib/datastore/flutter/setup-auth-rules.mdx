@@ -14,7 +14,7 @@ Here's a high-level overview of the authorization scenarios we support in the Am
 
 ### Owner Based Authorization
 
-The following are commonly used patterns for owner based authorization.  For more information on how to tune these examples, please see the [CLI documentation on owner based authorization](/cli/graphql-transformer/auth.md#owner-authorization).
+The following are commonly used patterns for owner based authorization.  For more information on how to tune these examples, please see the [CLI documentation on owner based authorization](/cli/graphql-transformer/auth#owner-authorization).
 
 * Create/Read/Update/Delete mutations are private to the owner.
 ```graphql
@@ -32,7 +32,7 @@ type YourModel @model @auth(rules: [{ allow: owner,
 ```
 
 ### Static Group Authorization
-The following are commonly used patterns for static group authorization.  For more information on how to tune these examples, please see the [CLI documentation on static group authorization](/cli/graphql-transformer/auth.md#static-group-authorization).
+The following are commonly used patterns for static group authorization.  For more information on how to tune these examples, please see the [CLI documentation on static group authorization](/cli/graphql-transformer/auth#static-group-authorization).
 
 * Users belonging to the "Admin" group can CRUD (create, read, update, and delete), others can not access anything.
 ```graphql
@@ -52,7 +52,7 @@ type YourModel @model @auth(rules: [{ allow: groups,
 ```
 
 ### Owner and Static Group Combined
-The following are commonly used patterns for combining owner and static group authorization.  For more information on how to tune these examples, please see the [CLI documentation on static group authorization](/cli/graphql-transformer/auth.md#static-group-authorization).
+The following are commonly used patterns for combining owner and static group authorization.  For more information on how to tune these examples, please see the [CLI documentation on static group authorization](/cli/graphql-transformer/auth#static-group-authorization).
 
 * Users have their own data, but users who belong to the `Admin` group have access to their data and anyone else in that group.  Users in the `Admin` group have the ability to make mutation on behalf of users not in the `Admin` group
 ```graphql
@@ -63,7 +63,7 @@ type YourModel @model @auth(rules: [{ allow: owner },
 ```
 
 ### Public Authorization
-The following are commonly used patterns for public CRUD authorization.  For more information on how to tune these examples, please see the [CLI documentation on static group authorization](/cli/graphql-transformer/auth.md#static-group-authorization#public-authorization).
+The following are commonly used patterns for public CRUD authorization.  For more information on how to tune these examples, please see the [CLI documentation on static group authorization](/cli/graphql-transformer/auth#static-group-authorization#public-authorization).
 
 * Auth provider is API Key, and all data is public CRUD
 ```graphql
@@ -80,7 +80,7 @@ type YourModel @model @auth(rules: [{ allow: public, provider: iam }]) {
 ```
 
 ### Private Authorization
-The following are commonly used patterns for private authorization. For more information on how to tune these examples, please see the [CLI documentation on static group authorization](/cli/graphql-transformer/auth.md#static-group-authorization#private-authorization).
+The following are commonly used patterns for private authorization. For more information on how to tune these examples, please see the [CLI documentation on static group authorization](/cli/graphql-transformer/auth#static-group-authorization#private-authorization).
 
 * Cognito user pool authenticated users can CRUD all posts, regardless of who created it. Guest users do not have access.
 ```graphql

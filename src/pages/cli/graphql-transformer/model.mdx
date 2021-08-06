@@ -1,6 +1,6 @@
 export const meta = {
-  title: "Define your model types",
-  description: "Specify the various types that make up your schema.",
+  title: `Define your model types`,
+  description: `Specify the various types that make up your schema.`,
 };
 
 ## @model
@@ -8,7 +8,7 @@ export const meta = {
 Object types that are annotated with `@model` are top-level entities in the
 generated API. Objects annotated with `@model` are stored in Amazon DynamoDB and are
 capable of being protected via `@auth`, related to other objects via `@connection`,
-and streamed into Amazon Elasticsearch via `@searchable`. You may also apply the
+and streamed into Amazon OpenSearch via `@searchable`. You may also apply the
 `@versioned` directive to instantly add a version field and conflict detection to a
 model type.
 

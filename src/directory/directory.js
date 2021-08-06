@@ -274,6 +274,11 @@ const directory = {
             filters: ["android", "flutter", "ios"],
           },
           {
+            title: "SMS flows",
+            route: "/lib/auth/sms_flows",
+            filters: ["flutter"],
+          },
+          {
             title: "Sign in next steps",
             route: "/lib/auth/signin_next_steps",
             filters: ["ios"],
@@ -391,6 +396,31 @@ const directory = {
           {
             title: "Examples",
             route: "/lib/datastore/examples",
+            filters: ["js"],
+          },
+        ],
+      },
+      geo: {
+        title: "Geo (Developer Preview)",
+        items: [
+          {
+            title: "Getting started",
+            route: "/lib/geo/getting-started",
+            filters: ["js"],
+          },
+          {
+            title: "Maps",
+            route: "/lib/geo/maps",
+            filters: ["js"],
+          },
+          {
+            title: "Location Search",
+            route: "/lib/geo/location-search",
+            filters: ["js"],
+          },
+          {
+            title: "Use existing AWS resources",
+            route: "/lib/geo/existing-resources",
             filters: ["js"],
           },
         ],
@@ -1228,6 +1258,21 @@ const directory = {
           },
         ],
       },
+      geo: {
+        title: "Geo (Developer Preview)",
+        items: [
+          {
+            item: "Maps",
+            route: "/cli/geo/maps",
+            filters: [],
+          },
+          {
+            item: "Location Search",
+            route: "/cli/geo/search",
+            filters: [],
+          },
+        ],
+      },
       hosting: {
         title: "Hosting",
         items: [
@@ -1345,6 +1390,12 @@ const directory = {
           {
             title: "Lambda layer behavior updates",
             route: "/cli/migration/lambda-layers-update",
+            filters: [],
+          },
+          {
+            title:
+              "Amplify Codegen Models - List and list components nullability",
+            route: "/cli/migration/list-nullability",
             filters: [],
           },
         ],

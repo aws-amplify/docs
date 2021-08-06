@@ -10,12 +10,13 @@ In order to use this feature with the Amplify GraphQL Client the `API.graphql({.
 - `AWS_IAM`
 - `OPENID_CONNECT`
 - `AMAZON_COGNITO_USER_POOLS`
+- `AWS_LAMBDA`
 
 <br />
 
 This is an example of using `AWS_IAM` as an authorization mode:
 
-```javascript
+```js
 // Creating a post is restricted to IAM 
 const createdTodo = await API.graphql({
   query: queries.createTodo,
@@ -31,6 +32,37 @@ Previous examples uses `graphqlOperation` function. That function only creates a
 When using __AWS_IAM__ for public API access, unauthenticated logins must be enabled. To enable unauthenticated logins, run `amplify update auth` from the command line and choose __Walkthrough all the auth configurations__.
 
 </Callout>
+
+### AWS Lambda
+
+You can implement your own custom API authorization logic using an AWS Lambda function. To add a Lambda as an authorization mode for your AppSync API, go to the **Settings** section of the **AppSync console**.
+
+If you are using a Lambda function as an authorization mode with your AppSync API, you will need to pass an authentication token with each API request and will need to manage token refresh in your application.
+
+The following example assumes `AWS_LAMBDA` is configured as the default authentication type for your API:
+```js
+const getAuthToken = () => 'myAuthToken';
+const lambdaAuthToken = getAuthToken();
+
+const createdTodo = await API.graphql({
+  query: queries.createTodo,
+  variables: {input: todoDetails},
+  authToken: lambdaAuthToken
+});
+```
+
+If you have a different default authentication type and would like to use `AWS_LAMBDA` with a request:
+```javascript
+const getAuthToken = () => 'myAuthToken';
+const lambdaAuthToken = getAuthToken();
+
+const createdTodo = await API.graphql({
+  query: queries.createTodo,
+  variables: {input: todoDetails},
+  authMode: 'AWS_LAMBDA',
+  authToken: lambdaAuthToken
+});
+```
 
 ## Using AWS AppSync SDK
 
@@ -131,6 +163,32 @@ const client = new AWSAppSyncClient({
   auth: {
     type: AUTH_TYPE.OPENID_CONNECT,
     jwtToken: () => getOIDCToken(),
+  },
+});
+```
+
+### AWS Lambda
+You can implement your own custom API authorization logic using an AWS Lambda function. To add a Lambda function as an authorization mode for your AppSync API, go to the **Settings** section of the **AppSync console**.
+
+You will need to manage the details of token refreshes in your application code yourself. 
+
+The following code snippet shows how to configure AWSAppSyncClient using AWS_LAMBDA
+
+```js
+import Amplify, { Auth } from 'aws-amplify';
+import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
+import awsconfig from './aws-exports';
+
+Amplify.configure(awsconfig);
+
+const getFunctionToken = async () => await 'token'; // Should be an async function that handles token refresh
+
+const client = new AWSAppSyncClient({
+  url: awsconfig.aws_appsync_graphqlEndpoint,
+  region: awsconfig.aws_appsync_region,
+  auth: {
+    type: AUTH_TYPE.AWS_LAMBDA,
+    authToken: () => getFunctionToken(),
   },
 });
 ```

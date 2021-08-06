@@ -1,6 +1,6 @@
 export const meta = {
-  title: "IAM Policy",
-  description: "The Amplify CLI requires several IAM policies for performing actions across all categories. You can grant or restrict category permissions by including or removing items from the `Action` section as appropriate.",
+  title: `IAM Policy`,
+  description: 'The Amplify CLI requires several IAM policies for performing actions across all categories. You can grant or restrict category permissions by including or removing items from the `Action` section as appropriate.',
 };
 
 The Amplify CLI requires the below IAM policies for performing actions across all categories. You can grant or restrict category permissions by including or removing items from the `Action` section as appropriate. For example, if you wish to restrict operations on the `Auth` category you can remove any of the lines starting with `cognito`.
@@ -21,6 +21,7 @@ The Amplify CLI requires the below IAM policies for performing actions across al
         "amplify:DeleteBranch",
         "amplify:GetApp",
         "amplify:GetBackendEnvironment",
+        "amplify:GetBranch",
         "amplify:ListApps",
         "amplify:ListBackendEnvironments",
         "amplify:ListBranches",
@@ -81,6 +82,7 @@ The Amplify CLI requires the below IAM policies for performing actions across al
         "cloudformation:DescribeStackSetOperation",
         "cloudformation:ExecuteChangeSet",
         "cloudformation:GetTemplate",
+        "cloudformation:ListStackResources",
         "cloudformation:UpdateStack",
         "cloudformation:UpdateStackSet",
         "cloudfront:CreateCloudFrontOriginAccessIdentity",
@@ -150,6 +152,7 @@ The Amplify CLI requires the below IAM policies for performing actions across al
         "iam:DeletePolicy",
         "iam:DeletePolicyVersion",
         "iam:DeleteRole",
+        "iam:DeleteRolePermissionsBoundary",
         "iam:DeleteRolePolicy",
         "iam:DetachRolePolicy",
         "iam:GetPolicy",
@@ -159,6 +162,7 @@ The Amplify CLI requires the below IAM policies for performing actions across al
         "iam:ListAttachedRolePolicies",
         "iam:ListPolicyVersions",
         "iam:PassRole",
+        "iam:PutRolePermissionsBoundary",
         "iam:PutRolePolicy",
         "iam:UpdateRole",
         "kinesis:AddTagsToStream",

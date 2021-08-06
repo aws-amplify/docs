@@ -1,6 +1,6 @@
 export const meta = {
-  title: "Commands",
-  description: "Use these Amplify CLI commands to manage a team workflow with multiple environments.",
+  title: `Commands`,
+  description: `Use these Amplify CLI commands to manage a team workflow with multiple environments.`,
 };
 
  
@@ -23,11 +23,12 @@ amplify env
 
 | Command  | Description  |
 |---|---|
-| [`amplify env add`](#add-a-new-environment) | Adds a new environment |
+| [`amplify env add [--permissions-boundary <IAM Policy ARN>]`](#add-a-new-environment) | Adds a new environment |
 | [`amplify env pull [--restore]`](#pull-the-environment-from-the-cloud) | Pulls the current environment from the cloud |
 | [`amplify env checkout <env-name> [--restore]`](#checkout-an-environment) | Switches to the selected environment |
 | [`amplify env list [--details] [--json]`](#list-environments) | Displays a list of all the environments |
 | [`amplify env get --name <env-name>`](#show-environment-details) | Displays the environment details |
+| [`amplify env update [--permissions-boundary <IAM Policy ARN>]`](/cli/usage/permissions-boundary) | Updates the environment's IAM Permissions Boundary |
 | [`amplify env import --name <env-name> --config <provider-configs> [--awsInfo <aws-configs>]`](#import-an-environment) | Imports an environment |
 | [`amplify env remove <env-name>`](#remove-an-environment) | Removes an environment |
 
@@ -46,6 +47,8 @@ The `add` command goes through the following steps:
 - Creates IAM role for authenticated users
 - Creates S3 bucket for deployment
 - Creates a new backend environment in [AWS Amplify Console](https://console.aws.amazon.com/amplify) to view and manage resources.
+
+Optionally, you can configure an IAM Permissions Boundary for all Amplify-generated roles via the `--permissions-boundary` parameter. For more information about configuring IAM Permissions Boundary, see [IAM Permissions Boundary for Amplify-generated roles](/cli/usage/permissions-boundary).
 
 ### Pull the environment from the cloud
 

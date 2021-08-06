@@ -1107,7 +1107,7 @@ import all26 from "/src/fragments/ui/auth/vue/auth-state-management.mdx";
 
 The `amplify-authenticator` component has the ability to sign in / sign up with `email` or `phone_number` instead of default `username`.
 
-To achieve this, you first need to setup the userpool to allow email or phone number as the username [using the cli workflow](/cli/auth/overview.md#configuring-auth-without-social-providers) or through the [Cognito Console](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-aliases-settings-option-2). To reflect this in the `amplify-authenticator` component, you can use the `usernameAlias` property. It can take one of the three values - `email`, `phone_number` or `username`. Default is set to `username`.
+To achieve this, you first need to setup the userpool to allow email or phone number as the username [using the cli workflow](/cli/auth/overview#configuring-auth-without-social-providers) or through the [Cognito Console](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-aliases-settings-option-2). To reflect this in the `amplify-authenticator` component, you can use the `usernameAlias` property. It can take one of the three values - `email`, `phone_number` or `username`. Default is set to `username`.
 
 <FilterContent framework="react">
 
@@ -1138,13 +1138,49 @@ To achieve this, you first need to setup the userpool to allow email or phone nu
 
 </FilterContent>
 
+### Override Sign Up
+
+You can override the call to [`signUp`](/lib/auth/emailpassword) function with `handleSignUp` property. For example, you can add a [custom attribute](/lib/auth/emailpassword) like so:
+
+<FilterContent framework="react">
+
+import all27 from "/src/fragments/ui/auth/react/overriding-sign-up-submit.mdx";
+
+<Fragments fragments={{all: all27}} />
+
+</FilterContent>
+
+<FilterContent framework="angular">
+
+import all28 from "/src/fragments/ui/auth/angular/overriding-sign-up-submit.mdx";
+
+<Fragments fragments={{all: all28}} />
+
+</FilterContent>
+
+<FilterContent framework="ionic">
+
+import all29 from "/src/fragments/ui/auth/angular/overriding-sign-up-submit.mdx";
+
+<Fragments fragments={{all: all29}} />
+
+</FilterContent>
+
+<FilterContent framework="vue">
+
+import all30 from "/src/fragments/ui/auth/vue/overriding-sign-up-submit.mdx";
+
+<Fragments fragments={{all: all30}} />
+
+</FilterContent>
+
 ## Migration
 
 To migrate from using the `aws-amplify-<framework>` library to the latest `@aws-amplify/ui-<framework>` library use the steps below:
 
-import all27 from "/src/fragments/ui/web/installation-diff.mdx";
+import all31 from "/src/fragments/ui/web/installation-diff.mdx";
 
-<Fragments fragments={{all: all27}} />
+<Fragments fragments={{all: all31}} />
 
 ### Usage
 
@@ -1195,22 +1231,22 @@ The previous `withAuthenticator` component would render a Greetings and Sign Out
 </FilterContent>
 <FilterContent framework="angular">
 
-import all28 from "/src/fragments/ui/angular/configure-module-diff.mdx";
+import all32 from "/src/fragments/ui/angular/configure-module-diff.mdx";
 
-<Fragments fragments={{all: all28}} />
+<Fragments fragments={{all: all32}} />
 
 </FilterContent>
 <FilterContent framework="ionic">
 
-import all29 from "/src/fragments/ui/angular/configure-module-diff.mdx";
+import all33 from "/src/fragments/ui/angular/configure-module-diff.mdx";
 
-<Fragments fragments={{all: all29}} />
+<Fragments fragments={{all: all33}} />
 
 </FilterContent>
 <FilterContent framework="vue">
 
-import all30 from "/src/fragments/ui/vue/configure-app-diff.mdx";
+import all34 from "/src/fragments/ui/vue/configure-app-diff.mdx";
 
-<Fragments fragments={{all: all30}} />
+<Fragments fragments={{all: all34}} />
 
 </FilterContent>

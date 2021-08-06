@@ -4,7 +4,7 @@ try {
     newPassword: "mynewpassword",
     oldPassword: "myoldpassword"
   );
-} on AuthError catch (e) {
+} on AmplifyException catch (e) {
   print(e);
 }
 ```

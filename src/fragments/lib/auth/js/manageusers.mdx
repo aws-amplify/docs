@@ -98,7 +98,7 @@ Auth.currentAuthenticatedUser({
 .catch(err => console.log(err));
 ```
 This method can be used to check if a user is logged in when the page is loaded. It will throw an error if there is no user logged in.
-This method should be called after the Auth module is configured or the user is logged in. To ensure that you can listen on the auth events `configured` or `signIn`. [Learn how to listen on auth events.](/lib/utilities/hub.md#authentication-events)
+This method should be called after the Auth module is configured or the user is logged in. To ensure that you can listen on the auth events `configured` or `signIn`. [Learn how to listen on auth events.](/lib/utilities/hub#authentication-events)
 
 ### Retrieve attributes for current authenticated user
 
@@ -157,6 +157,17 @@ let result = await Auth.updateUserAttributes(user, {
     'email': 'me@anotherdomain.com',
     'family_name': 'Lastname'
 });
+console.log(result); // SUCCESS
+```
+
+You can delete user attributes:
+
+```javascript
+let user = await Auth.currentAuthenticatedUser();
+
+let result = await Auth.deleteUserAttributes(user, [
+    'family_name'
+]);
 console.log(result); // SUCCESS
 ```
 

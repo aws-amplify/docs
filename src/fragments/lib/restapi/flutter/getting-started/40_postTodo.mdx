@@ -1,7 +1,9 @@
 ```dart
+import 'dart:typed_data';
+
 try {
     RestOptions options = RestOptions(
-        path: '/todo'
+        path: '/todo',
         body: Uint8List.fromList('{\'name\':\'Mow the lawn\'}'.codeUnits)
     );
     RestOperation restOperation = Amplify.API.post(

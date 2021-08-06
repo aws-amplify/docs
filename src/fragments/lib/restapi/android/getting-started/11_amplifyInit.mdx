@@ -29,7 +29,14 @@ Enter the following when prompted:
 ? Do you want to edit the local lambda function now?
     `No`
 ? Restrict API access 
-    `No`
+    `Yes`
+? Who should have access? 
+    `Authenticated and Guest users`
+? What kind of access do you want for Authenticated users? 
+    `create, read, update, delete`
+? What kind of access do you want for Guest users? 
+    `create, read, update, delete`
+Successfully added auth resource locally.
 ? Do you want to add another path? 
     `No`
 ```

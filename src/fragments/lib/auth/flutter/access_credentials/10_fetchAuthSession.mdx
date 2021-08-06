@@ -1,11 +1,11 @@
-However, if needed you can directly access the credentials as follows:
-
 ```dart
   void _fetchSession() async {
     try {
-      CognitoAuthSession res = await Amplify.Auth.fetchAuthSession(
-        options: CognitoSessionOptions(getAWSCredentials: true)
-      );    
+      AuthSession res = await Amplify.Auth.fetchAuthSession(
+        options: CognitoSessionOptions(getAWSCredentials: true),
+      );
+      String identityId = (res as CognitoAuthSession).identityId!;
+      print('identityId: $identityId');
     } on AuthException catch (e) {
       print(e.message);
     }
