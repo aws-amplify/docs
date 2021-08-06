@@ -162,6 +162,7 @@ const grab = function() {
     file = file.split("/ui/ui").join("/ui");
 
     file = frontMatterToWrite + file;
+
     // 2 blank lines
     while (file.match(/\n\n\n/g)) {
       file = file.replace(/\n\n\n/g, "\n\n");
