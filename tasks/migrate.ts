@@ -29,6 +29,7 @@ const grab = function() {
   for (const chunk of fg.sync("docs/**/*.md", {
     cwd: "./",
   })) {
+    console.log({chunk});
     let frontMatterToWrite = "";
     let destination = chunk.slice(5); // slice off docs/
     let file = fs.readFileSync(chunk).toString();
@@ -145,6 +146,7 @@ const grab = function() {
     // links
     file = file.split("(~").join("(");
     file = file.split(".md)").join(")");
+    file = file.split('.md"').join('"');
 
     // misformatted </br>s
     file = file.split("<br>").join("<br/>");
@@ -152,6 +154,12 @@ const grab = function() {
 
     // hash URIs
     file = file.split(".md#").join("#");
+
+    // double path links
+    file = file.split("/start/start").join("/start");
+    file = file.split("/lib/lib").join("/lib");
+    file = file.split("/cli/cli").join("/cli");
+    file = file.split("/ui/ui").join("/ui");
 
     file = frontMatterToWrite + file;
     // 2 blank lines
@@ -167,7 +175,7 @@ const grab = function() {
           .join("/"),
       );
     } catch (e) {}
-    //fs.writeFileSync(destination, file);
+    // fs.writeFileSync(destination, file);
   }
 };
 
