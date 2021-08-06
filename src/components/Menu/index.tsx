@@ -71,11 +71,13 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
             <div>
               <MenuHeaderStyle>
                 <MenuCloseButton closeMenu={this.closeMenu} />
-                <FilterSelect
-                  filters={this.props.filters}
-                  filterKey={this.props.filterKey}
-                  pathname={this.props.pathname}
-                />
+                {typeof this.props.filterKey !== "undefined" && (
+                  <FilterSelect
+                    filters={this.props.filters}
+                    filterKey={this.props.filterKey}
+                    pathname={this.props.pathname}
+                  />
+                )}
               </MenuHeaderStyle>
               <MenuBodyStyle>
                 {showVersionSwitcher && (
