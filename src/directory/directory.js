@@ -1262,12 +1262,12 @@ const directory = {
         title: "Geo (Developer Preview)",
         items: [
           {
-            item: "Maps",
+            title: "Maps",
             route: "/cli/geo/maps",
             filters: [],
           },
           {
-            item: "Location Search",
+            title: "Location Search",
             route: "/cli/geo/search",
             filters: [],
           },
