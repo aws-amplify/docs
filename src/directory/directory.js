@@ -686,7 +686,7 @@ const directory = {
         items: [
           {
             title: "Upgrading Amplify packages",
-            route: "/lib/upgrading",
+            route: "/lib/troubleshooting/upgrading",
             filters: ["flutter", "js"],
           },
         ],
