@@ -14,7 +14,6 @@ export const CodeBlockStyle = styled.div<CodeBlockProps>`
   padding: 1rem 0;
   width: 100%;
   color: var(--code-font-color);
-  margin-top: 1rem;
 
   .highlight {
     padding: 0 1rem 0 0;
