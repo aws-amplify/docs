@@ -48,6 +48,10 @@ const getActiveIndex = function(
 };
 
 export default function BlockSwitcher({children}) {
+  // a single child is not passed as an array
+  if (!Array.isArray(children)) {
+    children = [children];
+  }
   const ctx = useCodeBlockContext();
   useEffect(() => {
     // If we haven't seen these tab names before, just add the first one as top priority.
