@@ -1,5 +1,21 @@
 import Link from "next/link";
 import {ActiveSwitchStyle, SwitchStyle} from "./styles";
+import directory from "../../../directory/directory";
+
+const uiLegacy = directory["ui-legacy"];
+const {items} = uiLegacy;
+const uiLegacyPaths = [];
+
+for (const [_, value] of Object.entries(items)) {
+  const {items} = value;
+  items.forEach((item) => {
+    const {route, filters} = item;
+    filters.forEach((filter) => {
+      const path = route + "/q/framework/" + filter + "/";
+      uiLegacyPaths.push(path);
+    });
+  });
+}
 
 const Option = function({href, title, isActive}) {
   const SwitchStyle = isActive ? ActiveSwitchStyle : "a";
@@ -39,11 +55,13 @@ export default function VersionSwitcher({href}) {
         title={leftOption.title}
         isActive={leftActive}
       />
-      <Option
-        href={rightOption.href}
-        title={rightOption.title}
-        isActive={!leftActive}
-      />
+      {uiLegacyPaths.includes(rightOption.href) && (
+        <Option
+          href={rightOption.href}
+          title={rightOption.title}
+          isActive={!leftActive}
+        />
+      )}
     </SwitchStyle>
   );
 }
