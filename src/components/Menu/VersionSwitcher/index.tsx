@@ -5,6 +5,7 @@ import directory from "../../../directory/directory";
 const uiLegacy = directory["ui-legacy"];
 const {items} = uiLegacy;
 const uiLegacyPaths = [];
+const uiPaths = [];
 
 for (const [_, value] of Object.entries(items)) {
   const {items} = value;
@@ -13,6 +14,7 @@ for (const [_, value] of Object.entries(items)) {
     filters.forEach((filter) => {
       const path = route + "/q/framework/" + filter + "/";
       uiLegacyPaths.push(path);
+      uiPaths.push(path);
     });
   });
 }
@@ -33,19 +35,26 @@ const Option = function({href, title, isActive}) {
 export default function VersionSwitcher({href}) {
   let leftActive = true;
   let hrefEnd;
+  let filter = href.split("/framework")[1];
   if (href.includes("/ui-legacy")) {
     leftActive = false;
     hrefEnd = href.split("/ui-legacy")[1];
   } else {
     hrefEnd = href.split("/ui")[1];
   }
+
+  const leftHref = "/ui" + hrefEnd;
   const leftOption = {
     title: "Latest",
-    href: "/ui" + hrefEnd,
+    href: uiPaths.includes(leftHref) ? leftHref : "/ui/q/framework" + filter,
   };
+
+  const rightHref = "/ui-legacy" + hrefEnd;
   const rightOption = {
     title: "Legacy",
-    href: "/ui-legacy" + hrefEnd,
+    href: uiLegacyPaths.includes(rightHref)
+      ? rightHref
+      : "/ui-legacy/q/framework" + filter,
   };
 
   return (
@@ -55,13 +64,11 @@ export default function VersionSwitcher({href}) {
         title={leftOption.title}
         isActive={leftActive}
       />
-      {uiLegacyPaths.includes(rightOption.href) && (
-        <Option
-          href={rightOption.href}
-          title={rightOption.title}
-          isActive={!leftActive}
-        />
-      )}
+      <Option
+        href={rightOption.href}
+        title={rightOption.title}
+        isActive={!leftActive}
+      />
     </SwitchStyle>
   );
 }
