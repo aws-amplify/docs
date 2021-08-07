@@ -1,5 +1,6 @@
 import Link from "next/link";
 import {useRouter} from "next/router";
+import {parseLocalStorage} from "../../utils/parseLocalStorage";
 
 export default function InternalLink({href, children}) {
   let filterKind = "";
@@ -18,9 +19,7 @@ export default function InternalLink({href, children}) {
   }
 
   if (filterKind != "") {
-    let filterKeys = {};
-    if (typeof localStorage !== "undefined")
-      filterKeys = JSON.parse(localStorage.getItem("filterKeys"));
+    const filterKeys = parseLocalStorage("filterKeys", {});
     if (filterKind in filterKeys) {
       const filterKey = filterKeys[filterKind];
       href += `/q/${filterKind}/${filterKey}`;

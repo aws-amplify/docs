@@ -16,6 +16,7 @@ import {useRef} from "react";
 import {MQTablet} from "../media";
 import {filterMetadataByOption} from "../../utils/filter-data";
 import ChooseFilterPage from "../../pages/ChooseFilterPage";
+import {parseLocalStorage} from "../../utils/parseLocalStorage";
 
 export default function Page({children, meta}: {children: any; meta?: any}) {
   const router = useRouter();
@@ -26,9 +27,10 @@ export default function Page({children, meta}: {children: any; meta?: any}) {
   const {pathname} = router;
   let filterKey = "",
     filterKind = "";
-  const filterKeys =
-    JSON.parse(localStorage.getItem("filterKeys")) ||
-    ({} as {platform?: string; integration?: string; framework?: string});
+  const filterKeys = parseLocalStorage(
+    "filterKeys",
+    {} as {platform?: string; integration?: string; framework?: string},
+  );
   if ("platform" in router.query) {
     filterKey = router.query.platform as string;
     filterKeys.platform = filterKey;

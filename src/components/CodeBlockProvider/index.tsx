@@ -1,4 +1,5 @@
 import {createContext, useContext, useState} from "react";
+import {parseLocalStorage} from "../../utils/parseLocalStorage";
 
 const CodeBlockContext = createContext({
   tabOrder: [],
@@ -12,30 +13,15 @@ const CodeBlockContext = createContext({
 
 const TAB_ORDER_LOCAL_STORAGE_KEY = `amplify-docs::tab-order`;
 
-const restoreBlockSwitcherState = function() {
-  if (typeof localStorage === "undefined") return [];
-  // Gather list of previously-selected tab headings (might be null)
-  const tabOrderSerialized =
-    localStorage.getItem(TAB_ORDER_LOCAL_STORAGE_KEY) || undefined;
-
-  // Load the order array if it exists (otherwise, list is empty)
-  try {
-    const tabOrder = JSON.parse(tabOrderSerialized);
-
-    if (!Array.isArray(tabOrder)) return [];
-
-    return tabOrder;
-  } catch {
-    return [];
-  }
-};
-
 export default function CodeBlockProvider({children}) {
   const [tabOrder, setTabOrder] = useState([]);
 
   const setFromLocalStorage = () => {
     setTabOrder((oldTabOrder) => {
-      const localStorageTabOrder = restoreBlockSwitcherState();
+      const localStorageTabOrder = parseLocalStorage(
+        TAB_ORDER_LOCAL_STORAGE_KEY,
+        [],
+      );
       const newTabOrder = [];
       // First add the state from local storage
       for (const tabName of localStorageTabOrder) {

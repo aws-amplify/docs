@@ -14,13 +14,12 @@ import ExternalLink from "../ExternalLink";
 import InternalLink from "../InternalLink";
 import {useRouter} from "next/router";
 import {Container} from "../Container";
+import {parseLocalStorage} from "../../utils/parseLocalStorage";
 
 export default function SecondaryNav() {
   const router = useRouter();
   const path = router.pathname;
-  let filterKeys = {};
-  if (typeof localStorage !== "undefined")
-    filterKeys = JSON.parse(localStorage.getItem("filterKeys"));
+  const filterKeys = parseLocalStorage("filterKeys", {});
 
   return (
     <SecondaryNavStyle id="secondary-nav">
