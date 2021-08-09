@@ -82,8 +82,8 @@ Amplify for Android is distributed as an Apache Maven package. In this section, 
 
    ```groovy
    dependencies {
-       implementation 'com.amplifyframework:aws-api:1.18.0'
-       implementation 'com.amplifyframework:aws-datastore:1.18.0'
+       implementation 'com.amplifyframework:aws-api:1.24.0'
+       implementation 'com.amplifyframework:aws-datastore:1.24.0'
    }
    ```
 
