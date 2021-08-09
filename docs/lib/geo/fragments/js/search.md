@@ -30,13 +30,13 @@ First, create a map onto which you want to add the location search UI component.
 
 Use the same `region` that you chose in the `amplify-cli` setup. This can also be found in your `aws-exports.js` file
 
-The location search UI component (`maplibre-gl-geocoder`) requires a "geocoding API" to facilitate location-based search. To define a "geocoding API", use the sample below that leverages Amplify Geo's `searchByText()` capability. (See `const geocodingAPI = ...`).
+The location search UI component (`maplibre-gl-geocoder`) requires a "geocoding API" to facilitate location-based search. `AmplifyGeocoderAPI` is geocoding API that is integrated with Amplify Geo. To define your own "geocoding API", see [AmplifyGeocoderAPI](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/src/AmplifyMapLibreGeocoder.ts).
 
 Finally, add the location search UI component (`MaplibreGeocoder`) to the map.
 
 ```javascript
 import Amplify, { Geo } from "aws-amplify";
-import { AmplifyMapLibreRequest } from "maplibre-gl-js-amplify";
+import { AmplifyMapLibreRequest, AmplifyGeocoderAPI } from "maplibre-gl-js-amplify";
 import maplibregl, { Map } from "maplibre-gl";
 import MaplibreGeocoder from "@maplibre/maplibre-gl-geocoder";
 import "@maplibre/maplibre-gl-geocoder/dist/maplibre-gl-geocoder.css";
@@ -56,27 +56,7 @@ async function initializeMap() {
         region: "<PUT_YOUR_REGION_HERE>"
     })
 
-    // Define a geocoderApi to be used by `MaplibreGeocoder` that wraps the Amplify Geo APIs
-    const geocoderApi = {
-        forwardGeocode: async (config) => {
-            const data = await Geo.searchByText(config.query);
-
-            const features = data.map((result) => {
-                const { geometry, ...otherResults } = result;
-                return {
-                    type: "Feature",
-                    geometry: { type: "Point", coordinates: geometry.point },
-                    properties: { ...otherResults },
-                    place_name: otherResults.label,
-                    text: otherResults.label,
-                    center: geometry.point,
-                };
-            });
-            return { features }; // Must return an object with an array of features
-        }
-    };
-
-    const geocoder = new MaplibreGeocoder(geocoderApi, {
+    const geocoder = new MaplibreGeocoder(AmplifyGeocoderAPI, {
         maplibregl: maplibregl,
         showResultMarkers: true,
     });
@@ -95,7 +75,7 @@ You can also use [maplibre-gl-geocoder](https://github.com/maplibre/maplibre-gl-
 To do so, extract the html element using function `onAdd()` and attach it anywhere in your DOM instead of adding it via the map's `addControl()` function.
 
 ```javascript
-const geocoder = new MaplibreGeocoder(geocoderApi, {
+const geocoder = new MaplibreGeocoder(AmplifyGeocoderAPI, {
     showResultMarkers: true,
 });
 document.getElementById("search").appendChild(geocoder.onAdd());

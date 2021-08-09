@@ -58,7 +58,6 @@ First, import the `drawPoints` method in your app. Your import section should in
 ```javascript
 import Amplify from 'aws-amplify';
 import { AmplifyMapLibreRequest, drawPoints } from "maplibre-gl-js-amplify";
-import { Map } from "maplibre-gl";
 import awsconfig from './aws-exports';
 
 Amplify.configure(awsconfig);
