@@ -14,9 +14,10 @@ import {
 import SidebarLayoutToggle from "../SidebarLayoutToggle";
 import {useRef} from "react";
 import {MQTablet} from "../media";
-import {filterMetadataByOption} from "../../utils/filter-data";
+import {filterMetadataByOption, SelectedFilters} from "../../utils/filter-data";
 import ChooseFilterPage from "../../pages/ChooseFilterPage";
 import {parseLocalStorage} from "../../utils/parseLocalStorage";
+import {withFilterOverrides} from "../../utils/withFilterOverrides";
 
 export default function Page({children, meta}: {children: any; meta?: any}) {
   const router = useRouter();
@@ -27,25 +28,29 @@ export default function Page({children, meta}: {children: any; meta?: any}) {
   const {pathname} = router;
   let filterKey = "",
     filterKind = "";
-  const filterKeys = parseLocalStorage(
+  const filterKeysLoaded = parseLocalStorage(
     "filterKeys",
-    {} as {platform?: string; integration?: string; framework?: string},
+    {} as SelectedFilters,
   );
+  const filterKeyUpdates = {} as SelectedFilters;
   if ("platform" in router.query) {
     filterKey = router.query.platform as string;
-    filterKeys.platform = filterKey;
+    filterKeyUpdates.platform = filterKey;
     filterKind = "platform";
   } else if ("integration" in router.query) {
     filterKey = router.query.integration as string;
-    filterKeys.integration = filterKey;
+    filterKeyUpdates.integration = filterKey;
     filterKind = "integration";
   } else if ("framework" in router.query) {
     filterKey = router.query.framework as string;
-    filterKeys.framework = filterKey;
+    filterKeyUpdates.framework = filterKey;
     filterKind = "framework";
   }
   const headers = traverseHeadings(children, filterKey);
   const filters = gatherAllFilters(children, filterKind);
+
+  const filterKeys = withFilterOverrides(filterKeyUpdates, filterKeysLoaded);
+  localStorage.setItem("filterKeys", JSON.stringify(filterKeys));
   if (filters.length !== 0 && !filters.includes(filterKey) && meta) {
     return (
       <ChooseFilterPage
@@ -56,7 +61,6 @@ export default function Page({children, meta}: {children: any; meta?: any}) {
       />
     );
   }
-  localStorage.setItem("filterKeys", JSON.stringify(filterKeys));
 
   meta.chapterTitle = "";
   if (meta && !isProductRoot(pathname)) {

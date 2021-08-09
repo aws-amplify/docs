@@ -1,3 +1,9 @@
+export type SelectedFilters = {
+  platform?: string;
+  integration?: string;
+  framework?: string;
+};
+
 /**
  * so that we can be certain that our data is specified correctly below,
  * without losing any specificity in the inferred type
@@ -16,9 +22,9 @@ type FilterMetadataByOption<T extends readonly string[]> = Record<
 /**
  * filter constants
  */
-const PLATFORM_FILTER_OPTIONS = ["js", "android", "ios", "flutter"];
+export const PLATFORM_FILTER_OPTIONS = ["js", "android", "ios", "flutter"];
 
-const FRAMEWORK_FILTER_OPTIONS = [
+export const FRAMEWORK_FILTER_OPTIONS = [
   "react",
   "react-native",
   "angular",
