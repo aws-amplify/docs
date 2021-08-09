@@ -22,7 +22,7 @@ On the creation form:
 
     ![Create app backend](~/images/lib/getting-started/android/connect-to-cloud-create-app-backend.png)
 
-4. The on screen text should walk you through the deployment progress and, when the deployment status reads reaches **Deployment completed**, click **Open admin UI**.
+4. The on screen text should walk you through the deployment progress and, when the deployment status reads **Deployment completed**, click **Open admin UI**.
 
     ![Open admin UI](~/images/lib/getting-started/android/connect-to-cloud-open-admin-ui.png)
 
@@ -39,7 +39,7 @@ On the creation form:
         `<your editor of choice>`
     ? Choose the type of app that you're building
         `android`
-    ? Where do you want to store your configuration file?
+    ? Where is your Res directory?
         `(app/src/main/res)`
     ? Do you plan on modifying this backend?
         `Yes`
