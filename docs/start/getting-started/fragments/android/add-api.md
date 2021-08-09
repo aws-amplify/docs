@@ -39,7 +39,7 @@ On the creation form:
         `<your editor of choice>`
     ? Choose the type of app that you're building
         `android`
-    ? Where is your res directory?
+    ? Where is your Res directory?
         `(app/src/main/res)`
     ? Do you plan on modifying this backend?
         `Yes`
