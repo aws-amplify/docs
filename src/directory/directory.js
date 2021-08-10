@@ -1465,7 +1465,7 @@ const directory = {
             ],
           },
           {
-            title: "Set up full stack project",
+            title: "Set up fullstack project",
             route: "/start/getting-started/setup",
             filters: [
               "js",
