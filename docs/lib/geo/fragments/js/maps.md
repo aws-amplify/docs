@@ -6,7 +6,9 @@
 
 ## Display a map
 
-First, make sure you've provisioned a map resource by running `amplify add geo`, selecting the **Map (visualize the geospatial data)** option and running `amplify push` to deploy
+First, make sure you've provisioned a map resource by either
+- Running `amplify add geo`, selecting the **Map (visualize the geospatial data)** option and running `amplify push` to deploy, or
+- [Using existing Amazon Location resources](~/lib/geo/existing-resources.md)
 
 To render a map, the [MapLibre GL](https://github.com/maplibre/maplibre-gl-js) library and the `maplibre-gl-js-amplify` package are required. MapLibre GL is an open source map rendering library for JavaScript. `maplibre-gl-js-amplify` is a library that makes it easy to integrate MapLibre with Amplify Geo.
 
@@ -27,6 +29,8 @@ import awsconfig from './aws-exports';
 
 Amplify.configure(awsconfig);
 ```
+
+**Note:** If you are using existing Amazon Location resources, your `Amplify.configure` method will like [this](~/lib/geo/existing-resources/q/platform/js#in-your-application)
 
 Next, create and render the [Map](https://maplibre.org/maplibre-gl-js-docs/api/map/) with the help of [AmplifyMapLibreRequest's](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#amplifymaplibrerequest).
 
@@ -55,11 +59,7 @@ To display markers on a map, use the [drawPoints](https://github.com/aws-amplify
 First, import the `drawPoints` method in your app. Your import section should include look like this -
 
 ```javascript
-import Amplify from 'aws-amplify';
 import { AmplifyMapLibreRequest, drawPoints } from "maplibre-gl-js-amplify";
-import awsconfig from './aws-exports';
-
-Amplify.configure(awsconfig);
 ```
 
 <amplify-callout>

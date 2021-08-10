@@ -10,7 +10,7 @@ Follow this guide to get started with Amplify Geo.
 
 > Prerequisite: [Install and configure the Amplify CLI](~/cli/start/install.md)
 
-## Provisioning resources
+## Provisioning resources through CLI
 
 The primary way to provision Geo resources is through the Amplify CLI. Currently, Amplify Geo is in developer preview and you need to install the CLI with the `@geo` tag. You can use the following command to install this version globally.
 
