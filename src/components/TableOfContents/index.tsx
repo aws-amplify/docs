@@ -2,8 +2,10 @@
 import getElementTop from "../../utils/get-element-top";
 import {TOCStyle, H2AnchorStyle, H3AnchorStyle, HeaderStyle} from "./styles";
 import {useEffect} from "react";
+import {useRouter} from "next/router";
 
 export default function TableOfContents({children, title}) {
+  const router = useRouter();
   if (children.length === 0) {
     return <></>;
   }
@@ -41,17 +43,17 @@ export default function TableOfContents({children, title}) {
                 aTag.classList.add("active");
               });
             if (activeElement) {
-              history.replaceState(
-                undefined,
-                document.title,
-                "#" + activeElement,
+              router.replace(
+                window.location.href.split("#")[0],
+                window.location.href.split("#")[0] + "#" + activeElement,
+                {shallow: true, scroll: false},
               );
             }
           } else {
-            history.replaceState(
-              undefined,
-              document.title,
+            router.replace(
               window.location.href.split("#")[0],
+              window.location.href.split("#")[0],
+              {shallow: true, scroll: false},
             );
           }
         }
