@@ -1,4 +1,5 @@
 ## How It Works
+
 Sign-in with web UI will display the sign-in UI inside a webview. After the sign-in process is complete, the sign-in UI will redirect back to your app.
 
 ## Android Platform Setup
