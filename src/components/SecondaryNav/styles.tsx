@@ -17,7 +17,7 @@ export const SecondaryNavStyle = styled.div`
     white-space: nowrap;
   }
 
-  section div {
+  div {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -29,6 +29,7 @@ export const SecondaryNavStyle = styled.div`
 
       display: flex;
       flex-direction: row;
+      align-items: start;
       padding: 0 1rem;
     }
 
@@ -44,7 +45,9 @@ export const SecondaryNavStyle = styled.div`
       color: var(--font-color);
     }
   }
+`;
 
+export const HostStyle = styled.div`
   z-index: 1;
   display: block;
   position: sticky;
