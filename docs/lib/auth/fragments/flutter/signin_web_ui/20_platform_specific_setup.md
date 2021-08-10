@@ -5,6 +5,7 @@ Sign-in with web UI will display the sign-in UI inside a webview. After the sign
 
 <amplify-block-switcher>
 <amplify-block name="v0.16.0+">
+
 Add the following activity and queries tag to the `AndroidManifest.xml` file in your app's `android/app/src/main` directory, 
 replacing `myapp` with your redirect URI prefix if necessary:
 
@@ -32,6 +33,7 @@ replacing `myapp` with your redirect URI prefix if necessary:
 
 </amplify-block>
 <amplify-block name="v0.15.0 and below">
+
 **Note:** These versions have known issues with sign-out after signing in via web UI.
 Please update to the latest version and follow the updated instructions for best results.
 
