@@ -14,6 +14,15 @@ export default function TableOfContents({children, title}) {
   let activeLink = 0;
   let previousLink = 0;
   useEffect(() => {
+    if (router.asPath.includes("#")) {
+      const hash = router.asPath.split("#")[1];
+      const header = document.querySelector(`[id="${hash}"]`);
+      const top = getElementTop(header, stickyHeaderHeight);
+      if (top !== window.scrollY) {
+        window.scrollTo({top});
+      }
+    }
+
     const headerQueries = headers.map((header) => {
       return document.querySelector(`[id="${header}"]`);
     });
