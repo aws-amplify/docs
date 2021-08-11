@@ -24,7 +24,7 @@ Now, let's make sure that the right version was installed:
 amplify --version
 ```
 
-That should show a version with the `-geo.x` tag, for example, `5.2.2-geo.0`
+That should show a version with the `-geo.x` tag, for example, `5.2.2-geo.0`.
 
 Once that is complete, you can run the following command from your project's root folder to add a `geo` resource:
 
@@ -51,6 +51,8 @@ Install the necessary dependencies by running the following command:
 ```sh
 npm install aws-amplify@geo
 ```
+
+> **Note:** You'll want to make sure to use version `0.0.2-geo.6654` or above.
 
 Import and load the configuration file generated in previous step using Amplify CLI in your app. It’s recommended you add the Amplify configuration step to your app’s root entry point. For example `App.js` in React or `main.ts` in Angular or Ionic.
 
