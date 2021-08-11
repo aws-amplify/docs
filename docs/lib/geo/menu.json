@@ -2,8 +2,8 @@
   "title": "Geo (Developer Preview)",
   "items": [
     "getting-started",
-    "existing-resources",
     "maps",
-    "search"
+    "search",
+    "existing-resources"
   ]
 }
