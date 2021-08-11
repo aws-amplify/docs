@@ -6,7 +6,7 @@
 
 ## Add location search functionality on a map
 
-First, make sure you've provisioned a map resource and configured your app using the instructions in either [Getting started](~/lib/geo/getting-started.md) or [Use existing AWS resources](~/lib/geo/existing-resources.md) and you have already setup [displaying a map](~/lib/geo/maps.md) in your application.
+First, make sure you've provisioned a map resource and configured your app using the instructions in either [Getting started](~/lib/geo/getting-started.md) or [Use existing Amazon Location Service resources](~/lib/geo/existing-resources.md) and you have already setup [displaying a map](~/lib/geo/maps.md) in your application.
 
 To add a location search UI component to your map, you need to use the [maplibre-gl-geocoder](https://github.com/maplibre/maplibre-gl-geocoder) library with Amplify Geo's `maplibre-gl-js-amplify` package. `maplibre-gl-js-amplify` makes it easy to integrate MapLibre with Amplify Geo.
 
