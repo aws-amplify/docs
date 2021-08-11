@@ -154,7 +154,7 @@ If Amplify needs to run the application in development mode, it needs to know ho
 </amplify-block>
 </amplify-block-switcher>
 
-Finally, Amplify needs an AWS account to connect to so that I can begin creating the backend services.
+Finally, Amplify needs an AWS account to connect to so that it can begin creating the backend services.
 This is the profile you created with the `amplify configure` command in the introduction step. [introduction step](~/start/getting-started/installation.md)
 
 <amplify-block-switcher>
