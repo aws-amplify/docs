@@ -52,7 +52,7 @@ Install the necessary dependencies by running the following command:
 npm install aws-amplify@geo
 ```
 
-> **Note:** You'll want to make sure to use version `0.0.2-geo.6654` or above.
+> **Note:** Make sure that version `0.0.2-geo.6654` or above is installed.
 
 Import and load the configuration file generated in previous step using Amplify CLI in your app. It’s recommended you add the Amplify configuration step to your app’s root entry point. For example `App.js` in React or `main.ts` in Angular or Ionic.
 
