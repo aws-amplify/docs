@@ -4,23 +4,27 @@ import {TOCStyle, H2AnchorStyle, H3AnchorStyle, HeaderStyle} from "./styles";
 import {useEffect} from "react";
 import {useRouter} from "next/router";
 
+const stickyHeaderHeight = 54;
+function scroll(hash) {
+  const header = document.querySelector(`[id="${hash}"]`);
+  const top = getElementTop(header, stickyHeaderHeight);
+  if (top !== window.scrollY) {
+    window.scrollTo({top});
+  }
+}
+
 export default function TableOfContents({children, title}) {
   const router = useRouter();
   if (children.length === 0) {
     return <></>;
   }
   const headers = [];
-  const stickyHeaderHeight = 54;
   let activeLink = 0;
   let previousLink = 0;
   useEffect(() => {
     if (router.asPath.includes("#")) {
       const hash = router.asPath.split("#")[1];
-      const header = document.querySelector(`[id="${hash}"]`);
-      const top = getElementTop(header, stickyHeaderHeight);
-      if (top !== window.scrollY) {
-        window.scrollTo({top});
-      }
+      scroll(hash);
     }
 
     const headerQueries = headers.map((header) => {
@@ -78,7 +82,13 @@ export default function TableOfContents({children, title}) {
         const slugged = `#${id}`;
         headers.push(id);
         const anchor = (
-          <a href={slugged}>
+          <a
+            href={slugged} // and then return false in onClick
+            onClick={() => {
+              setTimeout(scroll.bind(undefined, id), 50);
+              return false;
+            }}
+          >
             <div>{name}</div>
           </a>
         );
