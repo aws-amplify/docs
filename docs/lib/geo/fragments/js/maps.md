@@ -6,7 +6,7 @@
 
 ## Display a map
 
-First, make sure you've provisioned a map resource and configured your app using the instructions in either [Getting started](~/lib/geo/getting-started.md) or [Use existing AWS resources](~/lib/geo/existing-resources.md).
+First, make sure you've provisioned a map resource and configured your app using the instructions in either [Getting started](~/lib/geo/getting-started.md) or [Use existing Amazon Location Service resources](~/lib/geo/existing-resources.md).
 
 To render a map, the [MapLibre GL](https://github.com/maplibre/maplibre-gl-js) library and the `maplibre-gl-js-amplify` package are required. MapLibre GL is an open source map rendering library for JavaScript. `maplibre-gl-js-amplify` is a library that makes it easy to integrate MapLibre with Amplify Geo.
 
