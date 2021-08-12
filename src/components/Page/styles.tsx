@@ -37,6 +37,14 @@ export const ContentStyle = styled.div`
     margin-bottom: 1rem;
   }
 
+  ul {
+    margin-bottom: 1rem;
+
+    li + li {
+      margin-top: 0.25rem;
+    }
+  }
+
   .searchable-code {
     display: none;
   }
