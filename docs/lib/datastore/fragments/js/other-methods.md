@@ -7,6 +7,7 @@ import { DataStore } from 'aws-amplify';
 
 await DataStore.clear();
 ```
+ `DataStore.clear()` will only clear local data if called after DataStore has started, which can be done either automatically or manually as detailed further below.
 
 <amplify-callout>
 
@@ -24,4 +25,4 @@ import { DataStore } from 'aws-amplify';
 await DataStore.start();
 ```
 
-Synchronization starts automatically whenever you run `DataStore.query()` however you can explicitly begin the process with `DataStore.start()`.
+Synchronization starts automatically whenever you run any of the following methods: `DataStore.query()`, `DataStore.save()`, `DataStore.delete()`, or `DataStore.observe()`.
