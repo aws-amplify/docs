@@ -3,11 +3,17 @@ const internalLinkPlugin = () => (tree) => {
   const visit = require("unist-util-visit");
 
   visit(tree, "link", (link, index, parent) => {
-    const {url} = link;
+    let {url} = link;
     const {children} = link;
 
     if (url.includes(":") && !url.includes("docs.amplify.aws")) {
       // external link
+
+      // fix for URLs ending with "
+      if (url.endsWith('"')) {
+        url = url.split('"').join("");
+      }
+
       parent.children.splice(
         index,
         1,
