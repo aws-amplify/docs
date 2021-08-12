@@ -26,9 +26,9 @@ Install the necessary dependencies with the following command:
 npm install -S @maplibre/maplibre-gl-geocoder maplibre-gl maplibre-gl-js-amplify
 ```
 
-First, create a map onto which you want to add the location search UI component. See the guide on [creating and displaying maps](~/lib/geo/maps.md).
+> **Note:** Make sure that `maplibre-gl-js-amplify` version `1.0.5` or above is installed.
 
-Use the same `region` that you chose in the `amplify-cli` setup. This can also be found in your `aws-exports.js` file
+First, create a map onto which you want to add the location search UI component. See the guide on [creating and displaying maps](~/lib/geo/maps.md).
 
 The location search UI component (`maplibre-gl-geocoder`) requires a "geocoding API" to facilitate location-based search. `AmplifyGeocoderAPI` is geocoding API that is integrated with Amplify Geo. To define your own "geocoding API", see [AmplifyGeocoderAPI](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/src/AmplifyMapLibreGeocoder.ts).
 
@@ -53,7 +53,6 @@ async function initializeMap() {
         container: "map",
         center: [-123.1187, 49.2819],
         zoom: 11,
-        region: "<PUT_YOUR_REGION_HERE>"
     })
 
     const geocoder = new MaplibreGeocoder(AmplifyGeocoderAPI, {

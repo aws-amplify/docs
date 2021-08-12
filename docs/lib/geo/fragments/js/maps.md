@@ -16,6 +16,8 @@ Add the dependencies to your app:
 npm install -S maplibre-gl maplibre-gl-js-amplify
 ```
 
+> **Note:** Make sure that `maplibre-gl-js-amplify` version `1.0.5` or above is installed.
+
 Next, configure the Amplify library in your app. All geo-related configuration information is available within the `aws-exports.js` file. Add the following to your app's entry point (i.e. App.js):
 
 ```javascript
@@ -28,15 +30,12 @@ Amplify.configure(awsconfig);
 
 Next, create and render the [Map](https://maplibre.org/maplibre-gl-js-docs/api/map/) with the help of [AmplifyMapLibreRequest's](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#amplifymaplibrerequest).
 
-Use the same `region` that you chose in the `amplify-cli` setup. This can also be found in your `aws-exports.js` file
-
 ```javascript
 async function initializeMap() {
     const map = await AmplifyMapLibreRequest.createMapLibreMap({
         container: "map", // An HTML Element or HTML element ID to render the map in https://maplibre.org/maplibre-gl-js-docs/api/map/
         center: [-123.1187, 49.2819],
         zoom: 11,
-        region: "<PUT_YOUR_REGION_HERE>"
     })
 }
 
@@ -137,9 +136,7 @@ To display a map on your html website, add the following scripts to your html we
 <script src="https://cdn.amplify.aws/packages/maplibre-gl-js-amplify/1.0.2/maplibre-gl-js-amplify.umd.min.js" integrity="sha384-g2Tb3Pa8Gpt7OYj324blBhR91QsJeBhvwWqRwcjRHvWk8XE8rjiUs8E0aW/iDnPe" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 ```
 
-Next, add a div element with id `map` anywhere in your webpage where you want to render the map. Include the following code snippet to configure Amplify (update the `aws_exports.js` file path accordingly) and instantiate the map. 
-
-Use the same `region` that you chose in the `amplify-cli` setup. This can also be found in your `aws-exports.js` file.
+Next, add a div element with id `map` anywhere in your webpage where you want to render the map. Include the following code snippet to configure Amplify (update the `aws_exports.js` file path accordingly) and instantiate the map.
 
 ```html
 <script type="module">
@@ -151,7 +148,6 @@ Use the same `region` that you chose in the `amplify-cli` setup. This can also b
         container: "map",
         center: [-123.1187, 49.2819],
         zoom: 13,
-        region: "<PUT_YOUR_REGION_HERE>"
     });
 </script>
 ```
@@ -187,7 +183,6 @@ Use the same `region` that you chose in the `amplify-cli` setup. This can also b
                 container: "map",
                 center: [-123.1187, 49.2819],
                 zoom: 13,
-                region: "<PUT_YOUR_REGION_HERE>"
             });
         </script>
     </body>
