@@ -1,10 +1,10 @@
 import Link from "next/link";
-import {PlatformsGroup} from "./styles";
+import {PlatformsGroup, CTAContainer} from "./styles";
 import InternalLinkButton from "../InternalLinkButton";
 
 export default function LandingHeroCTA() {
   return (
-    <div>
+    <CTAContainer>
       <InternalLinkButton href="/start/?sc_icampaign=start&sc_ichannel=docs-home">
         <span>Get started for free</span>
       </InternalLinkButton>
@@ -48,6 +48,6 @@ export default function LandingHeroCTA() {
           </a>
         </Link>
       </PlatformsGroup>
-    </div>
+    </CTAContainer>
   );
 }

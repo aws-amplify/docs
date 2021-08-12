@@ -1,7 +1,10 @@
 import styled from "@emotion/styled";
 
 export const Hero = styled.div`
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
   padding: 3rem 1.5rem 1.5rem;
   background-color: var(--bg-color);

@@ -4,7 +4,6 @@ import {MQFablet} from "../media";
 export const Host = styled.div`
   display: block;
   margin-bottom: 1.5rem;
-  margin-top: 2.5rem;
 
   a {
     color: #fff;
@@ -19,6 +18,12 @@ export const Host = styled.div`
   a * {
     color: var(--color-white);
     cursor: pointer;
+  }
+
+  width: 100%;
+
+  ${MQFablet} {
+    max-width: 18rem;
   }
 `;
 
