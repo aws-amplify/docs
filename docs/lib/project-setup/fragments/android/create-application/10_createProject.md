@@ -1,4 +1,4 @@
-**Open Android Studio.**  Select **+ Start a new Android Studio project.**
+**Open Android Studio.**  Select **+ Create New Project.**
 
 ![](~/images/lib/getting-started/android/set-up-android-studio-welcome.png)
 

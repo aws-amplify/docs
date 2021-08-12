@@ -17,7 +17,7 @@
 
 ### Create a new Android application
 
-1. Open **Android Studio**. Select **+ Start a new Android Studio project**.
+1. Open **Android Studio**. Select **+ Create New Project**.
 
     ![](~/images/lib/getting-started/android/set-up-android-studio-welcome.png)
 
