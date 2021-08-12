@@ -4,27 +4,43 @@ const internalLinkPlugin = () => (tree) => {
 
   visit(tree, "link", (link, index, parent) => {
     const {url} = link;
+    const {children} = link;
+
     if (url.includes(":") && !url.includes("docs.amplify.aws")) {
       // external link
-      return;
+      parent.children.splice(
+        index,
+        1,
+        ...[
+          {
+            type: "jsx",
+            value: `<ExternalLink href="${url}"><a>`,
+          },
+          ...children,
+          {
+            type: "jsx",
+            value: "</a></ExternalLink>",
+          },
+        ],
+      );
+    } else {
+      // internal link
+      parent.children.splice(
+        index,
+        1,
+        ...[
+          {
+            type: "jsx",
+            value: `<InternalLink href="${url}"><a>`,
+          },
+          ...children,
+          {
+            type: "jsx",
+            value: "</a></InternalLink>",
+          },
+        ],
+      );
     }
-    const children = link.children;
-
-    parent.children.splice(
-      index,
-      1,
-      ...[
-        {
-          type: "jsx",
-          value: `<InternalLink href="${url}"><a>`,
-        },
-        ...children,
-        {
-          type: "jsx",
-          value: "</a></InternalLink>",
-        },
-      ],
-    );
   });
 };
 

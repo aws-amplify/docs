@@ -39,6 +39,10 @@ const importPlugin = () => (tree) => {
       });
       tree.children.splice(index + 1, 0, {
         type: "import",
+        value: `import ExternalLink from "/src/components/ExternalLink";`,
+      });
+      tree.children.splice(index + 1, 0, {
+        type: "import",
         value: `import InternalLink from "/src/components/InternalLink";`,
       });
       tree.children.splice(index + 1, 0, {
