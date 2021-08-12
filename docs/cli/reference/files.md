@@ -141,7 +141,7 @@ amplifytools.xcconfig
 
 > Manual edits okay: NO
 
-> Add to version control: ONLY IF REPOSITORY IS PRIVATE
+> Add to version control: YES
 
 Used to share project info within your team. Learn more at [Share single environment](~/cli/teams/shared.md#sharing-projects-within-the-team).
 
