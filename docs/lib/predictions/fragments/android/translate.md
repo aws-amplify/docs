@@ -38,7 +38,7 @@ Amplify.Predictions.translateText("I like to eat spaghetti",
 </amplify-block>
 <amplify-block name="Kotlin - Callbacks">
 
-Open `MainActivity.java` and add the following to the bottom of `onCreate()`:
+Open `MainActivity.kt` and add the following to the bottom of `onCreate()`:
 
 ```kotlin
 Amplify.Predictions.translateText("I like to eat spaghetti",
@@ -86,7 +86,7 @@ I/MyAmplifyApp: Mi piace mangiare gli spaghetti
 
 ### Override configured language
 
-In order to override any choices you made in regards to target or source languages while adding this resource using the Amplify CLI, you can pass in them in directly as parameters as shown below.
+In order to override any choices you made in regards to target or source languages while adding this resource using the Amplify CLI, you can pass them in directly as parameters as shown below.
 
 Add the `LanguageType` options as below:
 

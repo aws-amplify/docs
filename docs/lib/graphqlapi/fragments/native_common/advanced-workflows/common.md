@@ -30,7 +30,7 @@ Underneath the covers, a request is generated with a GraphQL document and variab
 }
 ```
 
-The different parts of the document is described as follows
+The different parts of the document are described as follows
 - `mutation` - the operation type to be performed, other operation types are `query` and `subscription`
 - `createTodo($input: CreateTodoInput!)` - the name and input of the operation. 
 - `$input: CreateTodoInput!` - the input of type `CreateTodoInput!` referencing the variables containing JSON input

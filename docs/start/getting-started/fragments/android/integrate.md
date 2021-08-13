@@ -114,7 +114,7 @@ Next, you'll create a Todo and save it to DataStore.
 
   ```console
   com.example.todo I/Tutorial: Initialized Amplify
-  com.example.todo I/Tutorial: Saved item: Build application
+  com.example.todo I/Tutorial: Saved item: Build Android application
   ```
 
 1. Replace the item with a new Todo to save an additional item. Let's change the name and priority, and add a completedAt:
@@ -220,7 +220,7 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
   ```console
   com.example.todo I/Tutorial: Initialized Amplify
   com.example.todo I/Tutorial: ==== Todo ====
-  com.example.todo I/Tutorial: Name: Build application
+  com.example.todo I/Tutorial: Name: Build Android application
   com.example.todo I/Tutorial: Priority: NORMAL
   com.example.todo I/Tutorial: ==== Todo ====
   com.example.todo I/Tutorial: Name: Finish quarterly taxes

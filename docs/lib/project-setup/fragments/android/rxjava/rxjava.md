@@ -85,7 +85,7 @@ subscription
 
 ### Storage upload & download operations
 
-The Storage category's `downloadFile()` and `uploadFile()` work largely the same way. `uploadFile()` and `downloadFile()` both return an operation containing a `Single` and and `Observable`. The `Single` can be used to obtain the result of the download, and the `Observable` can be used to monitor download/upload progress.
+The Storage category's `downloadFile()` and `uploadFile()` work largely the same way. `uploadFile()` and `downloadFile()` both return an operation containing a `Single` and an `Observable`. The `Single` can be used to obtain the result of the download, and the `Observable` can be used to monitor download/upload progress.
 
 ```java
 // Download
