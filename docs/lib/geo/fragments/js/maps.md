@@ -8,7 +8,7 @@
 
 First, ensure you've provisioned an Amazon Location Service Map resource and configured your app using the instructions in either [Getting started](~/lib/geo/getting-started.md) or [Use existing resources](~/lib/geo/existing-resources.md) guide.
 
-To render a map, the [MapLibre GL](https://github.com/maplibre/maplibre-gl-js) and the `maplibre-gl-js-amplify` libraries are required. MapLibre GL is an open source map rendering library and`maplibre-gl-js-amplify` library makes it easy to integrate MapLibre with Amplify Geo and handles Authentication.
+To render a map, the [MapLibre GL](https://github.com/maplibre/maplibre-gl-js) and the `maplibre-gl-js-amplify` libraries are required. MapLibre GL is an open source map rendering library and `maplibre-gl-js-amplify` library makes it easy to integrate MapLibre with Amplify Geo and handles Authentication.
 
 Add the dependencies to your app:
 
