@@ -130,10 +130,10 @@ To display a map on your html website, add the following scripts to your html we
 ```html
 <link href="https://cdn.amplify.aws/packages/maplibre-gl/1.14.0/maplibre-gl.css" rel="stylesheet" integrity="sha384-sZlnv03zeGbcXDiuZ98TrNVZFIfpsVhN0itUxRFONLo6lOZskJPIMlOwDy+nloRF" crossorigin="anonymous" referrerpolicy="no-referrer"></link>
 <script src="https://cdn.amplify.aws/packages/maplibre-gl/1.14.0/maplibre-gl.js" integrity="sha384-jWZKsznBFj0Nl3kUaRKmmk89Hew9zDhTnmOz0pOLceWY7iag+l/8QNPeD0cQYaVG" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdn.amplify.aws/packages/core/4.2.1-geo/aws-amplify-core.min.js" integrity="sha384-ZJ0BipyxRjDHPcTLilxOMRf9grNEwTTUOmr8l8MUprgnpAnpK4Fz20ndOQElCtWb" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdn.amplify.aws/packages/auth/5.0.4-geo/aws-amplify-auth.min.js" integrity="sha384-rqyJfFR2070OQyXIQqomdGCYa6TaR/1asvv2oaz9wB6R8YSiIBC08mWwgVtr1NNk" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdn.amplify.aws/packages/geo/0.0.2-geo.6648/aws-amplify-geo.min.js" integrity="sha384-VBNaB4q1F3zSs1BgIf7mYogamWN2lITAmfVw3FyxuyFdyaKucigyjrJ6RmQvdbN2" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdn.amplify.aws/packages/maplibre-gl-js-amplify/1.0.2/maplibre-gl-js-amplify.umd.min.js" integrity="sha384-g2Tb3Pa8Gpt7OYj324blBhR91QsJeBhvwWqRwcjRHvWk8XE8rjiUs8E0aW/iDnPe" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.amplify.aws/packages/core/4.2.1-geo.20/aws-amplify-core.min.js" integrity="sha384-ZJ0BipyxRjDHPcTLilxOMRf9grNEwTTUOmr8l8MUprgnpAnpK4Fz20ndOQElCtWb" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.amplify.aws/packages/auth/4.1.3-geo.20/aws-amplify-auth.min.js" integrity="sha384-rqyJfFR2070OQyXIQqomdGCYa6TaR/1asvv2oaz9wB6R8YSiIBC08mWwgVtr1NNk" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.amplify.aws/packages/geo/0.0.2-geo.6654/aws-amplify-geo.min.js" integrity="sha384-3WpvDe5YSr8Xdmc31s/1cKXlG5DCmeQA2PZkuQUIgwPPwGNY/kbrTYYItxSO8JJJ" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.amplify.aws/packages/maplibre-gl-js-amplify/1.0.5/maplibre-gl-js-amplify.umd.min.js" integrity="sha384-mIlJ3nhWvPKhs796/34/EVG0obtz0tzOtxdIWctuJ6Rt7KUwDQQQG394mZ2Nv6WE" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 ```
 
 Next, add a div element with id `map` anywhere in your webpage where you want to render the map. Include the following code snippet to configure Amplify (update the `aws_exports.js` file path accordingly) and instantiate the map.
@@ -163,10 +163,10 @@ Next, add a div element with id `map` anywhere in your webpage where you want to
         <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
         <link href="https://cdn.amplify.aws/packages/maplibre-gl/1.14.0/maplibre-gl.css" rel="stylesheet" integrity="sha384-sZlnv03zeGbcXDiuZ98TrNVZFIfpsVhN0itUxRFONLo6lOZskJPIMlOwDy+nloRF" crossorigin="anonymous" referrerpolicy="no-referrer"></link>
         <script src="https://cdn.amplify.aws/packages/maplibre-gl/1.14.0/maplibre-gl.js" integrity="sha384-jWZKsznBFj0Nl3kUaRKmmk89Hew9zDhTnmOz0pOLceWY7iag+l/8QNPeD0cQYaVG" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="https://cdn.amplify.aws/packages/core/4.2.1-geo/aws-amplify-core.min.js" integrity="sha384-ZJ0BipyxRjDHPcTLilxOMRf9grNEwTTUOmr8l8MUprgnpAnpK4Fz20ndOQElCtWb" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="https://cdn.amplify.aws/packages/auth/5.0.4-geo/aws-amplify-auth.min.js" integrity="sha384-rqyJfFR2070OQyXIQqomdGCYa6TaR/1asvv2oaz9wB6R8YSiIBC08mWwgVtr1NNk" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="https://cdn.amplify.aws/packages/geo/0.0.2-geo.6648/aws-amplify-geo.min.js" integrity="sha384-VBNaB4q1F3zSs1BgIf7mYogamWN2lITAmfVw3FyxuyFdyaKucigyjrJ6RmQvdbN2" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="https://cdn.amplify.aws/packages/maplibre-gl-js-amplify/1.0.2/maplibre-gl-js-amplify.umd.min.js" integrity="sha384-g2Tb3Pa8Gpt7OYj324blBhR91QsJeBhvwWqRwcjRHvWk8XE8rjiUs8E0aW/iDnPe" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.amplify.aws/packages/core/4.2.1-geo.20/aws-amplify-core.min.js" integrity="sha384-ZJ0BipyxRjDHPcTLilxOMRf9grNEwTTUOmr8l8MUprgnpAnpK4Fz20ndOQElCtWb" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.amplify.aws/packages/auth/4.1.3-geo.20/aws-amplify-auth.min.js" integrity="sha384-rqyJfFR2070OQyXIQqomdGCYa6TaR/1asvv2oaz9wB6R8YSiIBC08mWwgVtr1NNk" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.amplify.aws/packages/geo/0.0.2-geo.6654/aws-amplify-geo.min.js" integrity="sha384-3WpvDe5YSr8Xdmc31s/1cKXlG5DCmeQA2PZkuQUIgwPPwGNY/kbrTYYItxSO8JJJ" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.amplify.aws/packages/maplibre-gl-js-amplify/1.0.5/maplibre-gl-js-amplify.umd.min.js" integrity="sha384-mIlJ3nhWvPKhs796/34/EVG0obtz0tzOtxdIWctuJ6Rt7KUwDQQQG394mZ2Nv6WE" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <style>
             body { margin: 0; padding: 0; }
             #map { position: absolute; top: 0; bottom: 0; width: 100%; }
