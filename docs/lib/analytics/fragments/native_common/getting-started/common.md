@@ -59,7 +59,7 @@ amplify push
 
 ## View Analytics console
 
-From the terminal run the following command. Navigate to the Analytics tab, and then choose View in Pinpoint.
+From the terminal run the following command.
 
 ```console
 amplify console analytics
