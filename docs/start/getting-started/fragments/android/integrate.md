@@ -264,7 +264,7 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
               }
 
               if (todo.getCompletedAt() != null) {
-                  Log.i("Tutorial", "Description: " + todo.getCompletedAt.toString());
+                  Log.i("Tutorial", "Description: " + todo.getCompletedAt().toString());
               }
           }
       },

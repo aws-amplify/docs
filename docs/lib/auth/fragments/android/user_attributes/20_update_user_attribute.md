@@ -62,7 +62,7 @@ To update multiple user attributes at a time, call `updateUserAttributes`:
 Amplify.Auth.updateUserAttributes(
     attributes, // attributes is a list of AuthUserAttribute
     result -> Log.i("AuthDemo", "Updated user attributes = " + result.toString()),
-    error -> Log.e("AuthDemo", "Failed to update user attributes.", error.)
+    error -> Log.e("AuthDemo", "Failed to update user attributes.", error)
 );
 ```
 

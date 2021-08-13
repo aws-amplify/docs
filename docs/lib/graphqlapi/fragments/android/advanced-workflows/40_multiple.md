@@ -15,7 +15,7 @@ private GraphQLRequest<String> getPostAndTodo(String postId, String todoId) {
             + "name "
         + "} "
     + "}";
-    Map<String, String> variables = new HashMap<>();
+    Map<String, Object> variables = new HashMap<>();
     variables.put("postId", postId);
     variables.put("todoId", todoId);
     return new SimpleGraphQLRequest<>(
