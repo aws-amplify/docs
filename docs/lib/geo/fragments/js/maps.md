@@ -24,7 +24,7 @@ Import the library into your application:
 import { AmplifyMapLibreRequest } from "maplibre-gl-js-amplify";
 ```
 
-Next, create and render the [Map](https://maplibre.org/maplibre-gl-js-docs/api/map/) with the help of [AmplifyMapLibreRequest's](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#amplifymaplibrerequest).
+Next, create and render the [Map](https://maplibre.org/maplibre-gl-js-docs/api/map/) with the help of [AmplifyMapLibreRequest](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#amplifymaplibrerequest).
 
 ```javascript
 async function initializeMap() {
