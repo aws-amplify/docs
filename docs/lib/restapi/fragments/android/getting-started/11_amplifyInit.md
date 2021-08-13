@@ -14,17 +14,23 @@ Enter the following when prompted:
     `/todo`
 ? Choose a Lambda source 
     `Create a new Lambda function`
-? Provide a friendly name for your resource to be used as a label for this category in the project: 
+? Provide an AWS Lambda function name: 
     `todo`
-? Provide the AWS Lambda function name: 
-    `todo`
-? Choose the function runtime that you want to use: 
+? Choose the runtime that you want to use: 
     `NodeJS`
 ? Choose the function template that you want to use: 
     `Serverless ExpressJS function (Integration with API Gateway)`
+? Do you want to configure advanced settings? 
+    `Yes`
 ? Do you want to access other resources created in this project from your Lambda function? 
     `No`
 ? Do you want to invoke this function on a recurring schedule? 
+    `No`
+? Do you want to enable Lambda layers for this function? 
+    `No`
+? Do you want to configure environment variables for this function? 
+    `No`
+? Do you want to configure secret values this function can access? 
     `No`
 ? Do you want to edit the local lambda function now?
     `No`

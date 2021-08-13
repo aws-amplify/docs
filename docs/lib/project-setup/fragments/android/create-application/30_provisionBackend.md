@@ -7,11 +7,17 @@ amplify init
 Enter the following when prompted:
 
 ```console
-? Enter a name for the environment
+? Enter a name for the project 
+    `MyAmplifyApp`
+? Initialize the project with the above configuration? 
+    `No`
+? Enter a name for the environment 
     `dev`
-? Choose your default editor:
+? Choose your default editor: 
     `Android Studio`
-? Where is your Res directory:
+? Choose the type of app that you're building 
+    `android`
+? Where is your Res directory: 
     `app/src/main/res`
 ? Select the authentication method you want to use: 
     `AWS profile`
