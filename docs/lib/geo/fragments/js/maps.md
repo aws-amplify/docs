@@ -18,6 +18,14 @@ npm install -S maplibre-gl maplibre-gl-js-amplify
 
 > **Note:** Make sure that `maplibre-gl-js-amplify` version `1.0.5` or above is installed.
 
+Add `maplibre-gl.css` and styles to display map in the `head` element of your html page. (In a new react app, it will be `index.html` in `public` folder)
+```html
+<link href="https://cdn.amplify.aws/packages/maplibre-gl/1.14.0/maplibre-gl.css" rel="stylesheet"
+  integrity="sha384-sZlnv03zeGbcXDiuZ98TrNVZFIfpsVhN0itUxRFONLo6lOZskJPIMlOwDy+nloRF" crossorigin="anonymous"
+  referrerpolicy="no-referrer">
+<style> #map { position: absolute; top: 0; bottom: 0; width: 100%; } </style>
+```
+
 Next, configure the Amplify library in your app. All geo-related configuration information is available within the `aws-exports.js` file. Add the following to your app's entry point (i.e. App.js):
 
 ```javascript
