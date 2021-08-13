@@ -34,7 +34,7 @@ type YourModel @model @auth(rules: [{ allow: owner,
 ### Static Group Authorization
 The following are commonly used patterns for static group authorization.  For more information on how to tune these examples, please see the [CLI documentation on static group authorization](~/cli/graphql-transformer/auth.md#static-group-authorization).
 
-* Users belonging to the "Admin" group can CRUD (create, read, update, and delete), others can not access anything.
+* Users belonging to the "Admin" group can CRUD (create, read, update, and delete), others cannot access anything.
 ```graphql
 type YourModel @model @auth(rules: [{ allow: groups,
                                       groups: ["Admin"] }]) {
