@@ -75,9 +75,9 @@ With the latest version of the Amplify CLI (> 4.7.0), when you execute any `ampl
 ## Node.js 10.x to Node.js latest version supported by AWS
 According to AWS Lambda [Runtime Support Policy](https://docs.aws.amazon.com/lambda/latest/dg/runtime-support-policy.html), AWS Lambda deprecates Node.js runtime Node.js 10.x on August 30th, 2021.
 
-The Amplify CLI code base has been updated to reflect this change. Amplify CLI replaces Node.js 10.x with Node.js latest version for all files that it creates for you. Migration will be done automatically by running `amplify push` command, this will prompt users to migrate from Node.js 10.x to latest Node.js runtimes as supported by AWS.List of changes are summarized below: 
+Amplify CLI has been updated to replace Node.js 10.x with Node.js latest version for all files that it creates for you. Migration will be done automatically by running `amplify push` command, this will prompt users to migrate from Node.js 10.x to latest Node.js runtimes as supported by AWS. List of changes are summarized below:
 - Change default project version to 3.1
-- Change minimum node version to 12 for CLI and amplify-app
+- Change minimum node version to 12.x for CLI and amplify-app
 - Lambda functions and triggers will use 14.x by default
-- Any functions/triggers/custom resource handlers using nodes.js <10.x will be migrated to 12.x(Cloudformation Custom Resource handlers does not support 14.x.)
+- Any functions, triggers, and custom resource handlers using Node.js <=10.x will be migrated to 12.x (Cloudformation Custom Resource handlers does not support 14.x)
 - Enhance project version handling for migration and node migration scenarios
