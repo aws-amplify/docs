@@ -100,6 +100,12 @@ Warning: you will not be able to edit these selections.
     `No`
 ```
 
+To push your changes to the cloud, **execute the command**:
+
+```bash
+amplify push
+```
+
 When you sign up, be sure to include both email and phone attributes with the phone number formatted as follows:
 
 <inline-fragment platform="ios" src="~/lib/auth/fragments/ios/signin/40_multi_factor_signup.md"></inline-fragment>

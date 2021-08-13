@@ -14,4 +14,10 @@ Allow unauthenticated logins? (Provides scoped down permissions that you can con
  [proceed through the rest of the steps choosing the values you want - default is usually "No"]
 ```
 
+To push your changes to the cloud, **execute the command**:
+
+```bash
+amplify push
+```
+
 That's it! Now as long as you are online, you will automatically gain guest credentials (which are then cached for offline use as well).

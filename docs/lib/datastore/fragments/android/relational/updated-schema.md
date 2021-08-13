@@ -24,3 +24,5 @@ type Comment @model
   content: String!
 }
 ```
+
+Generate the models for the updated schema using either the [`amplify-tools-gradle-plugin` Gradle plugin](~/lib/datastore/getting-started.md#code-generation-platform-integration) or [Amplify CLI](~/lib/datastore/getting-started.md#code-generation-amplify-cli).
