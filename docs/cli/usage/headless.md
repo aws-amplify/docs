@@ -51,24 +51,20 @@ Contains information for the CLI's frontend plugin, it has these keys:
 - `config`: the configuration settings for the frontend plugin.
 
 There are currently three official frontend plugins, and the following are the specifications of their respective `config` object:
-**`config` for `javascript`**
 
-- `SourceDir`:
-The project's source directory. The CLI will place and update the `aws-exports.js` file in it, the `aws-exports.js` file is used to configure the `Amplify JS` library.
-- `DistributionDir`:
-The project's distribution directory, where the build artifacts are stored. The CLI will upload the contents inside this directory to the S3 hosting buckets in the execution of the `amplify publish` command.
-- `BuildCommand`:
-The build command for the project. The CLI invokes the build command before uploading the contents in the distribution directory in the execution of the `amplify publish` command.
-- `StartCommand`:
-The start command for the project, used for local testing. The CLI invokes the start command after it has pushed the latest development of the backend to the cloud in the execution of the `amplify run` command.
-
-**`config` for `android`**
-
-- `ResDir`: The Android project's resource directory, such as `app/src/main/res`.
-
-**`config` for `ios`**
-
-The `ios` frontend handler does NOT take the `config` object.
+1. **`config` for `javascript`**
+    - `SourceDir`:
+    The project's source directory. The CLI will place and update the `aws-exports.js` file in it, the `aws-exports.js` file is used to configure the `Amplify JS` library.
+    - `DistributionDir`:
+    The project's distribution directory, where the build artifacts are stored. The CLI will upload the contents inside this directory to the S3 hosting buckets in the execution of the `amplify publish` command.
+    - `BuildCommand`:
+    The build command for the project. The CLI invokes the build command before uploading the contents in the distribution directory in the execution of the `amplify publish` command.
+    - `StartCommand`:
+    The start command for the project, used for local testing. The CLI invokes the start command after it has pushed the latest development of the backend to the cloud in the execution of the `amplify run` command.
+2. **`config` for `android`**
+    - `ResDir`: The Android project's resource directory, such as `app/src/main/res`.
+3. **`config` for `ios`**
+    - The `ios` frontend handler does NOT take the `config` object.
 
 ### `--providers`
 
@@ -339,24 +335,20 @@ Contains information for the CLI's frontend plugin, it has these keys:
 - `config`: the configuration settings for the frontend plugin.
 
 There are currently three official frontend plugins, and the following are the specifications of their respective `config` object:
-**`config` for `javascript`**
 
-- `SourceDir`:
-The project's source directory. The CLI will place and update the `aws-exports.js` file in it, the `aws-exports.js` file is used to configure the `Amplify JS` library.
-- `DistributionDir`:
-The project's distribution directory, where the build artifacts are stored. The CLI will upload the contents inside this directory to the S3 hosting buckets in the execution of the `amplify publish` command.
-- `BuildCommand`:
-The build command for the project. The CLI invokes the build command before uploading the contents in the distribution directory in the execution of the `amplify publish` command.
-- `StartCommand`:
-The start command for the project, used for local testing. The CLI invokes the start command after it has pushed the latest development of the backend to the cloud in the execution of the `amplify run` command.
-
-**`config` for `android`**
-
-- `ResDir`: The Android project's resource directory, such as `app/src/main/res`.
-
-**`config` for `ios`**
-
-The `ios` frontend handler does NOT take the `config` object.
+1. **`config` for `javascript`**
+    - `SourceDir`:
+    The project's source directory. The CLI will place and update the `aws-exports.js` file in it, the `aws-exports.js` file is used to configure the `Amplify JS` library.
+    - `DistributionDir`:
+    The project's distribution directory, where the build artifacts are stored. The CLI will upload the contents inside this directory to the S3 hosting buckets in the execution of the `amplify publish` command.
+    - `BuildCommand`:
+    The build command for the project. The CLI invokes the build command before uploading the contents in the distribution directory in the execution of the `amplify publish` command.
+    - `StartCommand`:
+    The start command for the project, used for local testing. The CLI invokes the start command after it has pushed the latest development of the backend to the cloud in the execution of the `amplify run` command.
+2. **`config` for `android`**
+    - `ResDir`: The Android project's resource directory, such as `app/src/main/res`.
+3. **`config` for `ios`**
+    - The `ios` frontend handler does NOT take the `config` object.
 
 ### `--providers`
 
