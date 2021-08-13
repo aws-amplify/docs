@@ -32,4 +32,4 @@ Amplify.configure({
 })
 ```
 
-Now you can proceed to [displaying a map](~/lib/geo/maps.md) or [setting up search](~/lib/geo/search.md).
+Now you can proceed to [displaying a map](~/lib/geo/maps.md) or [adding location search](~/lib/geo/search.md) to your app.
