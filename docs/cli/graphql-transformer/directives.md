@@ -32,7 +32,7 @@ Learn more about these directives in the [AWS AppSync Developer Guide](https://d
 
 ## 3rd party directives
 
-- [`@auto`: Allows for readonly access of the hidden fields on you models (createAt, updatedAt, owner, version, etc)]()
+- [`@auto`: Allows for readonly access of the hidden fields on you models (createAt, updatedAt, owner, version, etc)](https://github.com/hirochachacha/graphql-auto-transformer)
 - [`@algolia`: Add serverless search to your Amplify API with Algolia](https://github.com/thefinnomenon/graphql-algolia-transformer)
 - [`@default`: Set a field to a default value if none provided when creating/saving](https://github.com/trek10inc/graphql-default-value-transformer)
 - [`@firehose`: Add a simple interceptor to all of your Amplify API mutations and queries](https://github.com/LaugnaHealth/graphql-firehose-transformer)
