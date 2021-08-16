@@ -7,6 +7,10 @@ export const FilterSelectStyle = styled.div`
   display: block;
   user-select: none;
 
+  div {
+    width: 100%;
+  }
+
   div > a {
     width: 100%;
     display: flex;

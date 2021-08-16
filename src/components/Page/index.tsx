@@ -57,6 +57,7 @@ export default function Page({children, meta}: {children: any; meta?: any}) {
         href={pathname}
         filterKind={filterKind}
         filters={filters}
+        currentFilter={filterKey}
         message={`${filterMetadataByOption[filterKey].label} is not supported on this page.  Please select one of the following:`}
       />
     );

@@ -41,12 +41,20 @@ class FilterSelect extends React.Component<
   componentDidMount() {
     document.addEventListener("mousedown", this.closeMenu);
 
-    if ("platform" in this.props.router.query) {
-      this.filterKind = "platform";
-    } else if ("integration" in this.props.router.query) {
+    const path = this.props.router.asPath;
+    if (path.startsWith("/cli") || path.startsWith("/console")) {
+      // deal with cli/start/install right at the top
+      this.filterKind = undefined;
+    } else if (path.startsWith("/start")) {
       this.filterKind = "integration";
-    } else {
+    } else if (path.startsWith("/lib")) {
+      this.filterKind = "platform";
+    } else if (path.startsWith("/sdk")) {
+      this.filterKind = "platform";
+    } else if (path.startsWith("/ui")) {
       this.filterKind = "framework";
+    } else if (path.startsWith("/guides")) {
+      this.filterKind = "platform";
     }
   }
 
@@ -108,10 +116,20 @@ class FilterSelect extends React.Component<
       }
     }
 
-    return (
-      <FilterSelectStyle ref={this.wrapperRef}>
-        {filterMetadataByOption[this.props.filterKey] && (
-          <CurrentlySelectedStyle>
+    let CurrentlySelected = <></>;
+    if (this.props.filterKey === "all") {
+      CurrentlySelected = (
+        <CurrentlySelectedStyle>
+          <a onClick={this.toggleVis}>
+            <span>Click to choose a {this.filterKind} below.</span>
+          </a>
+        </CurrentlySelectedStyle>
+      );
+    } else if (this.props.filterKey in filterMetadataByOption) {
+      const supported = !unsupportedFilters.includes(this.props.filterKey);
+      CurrentlySelected = (
+        <CurrentlySelectedStyle>
+          <div className={!supported ? "unsupported" : ""}>
             <a onClick={this.toggleVis}>
               <img
                 src={filterMetadataByOption[this.props.filterKey]?.graphicURI}
@@ -120,8 +138,14 @@ class FilterSelect extends React.Component<
               />
               <span>{filterMetadataByOption[this.props.filterKey]?.label}</span>
             </a>
-          </CurrentlySelectedStyle>
-        )}
+          </div>
+        </CurrentlySelectedStyle>
+      );
+    }
+
+    return (
+      <FilterSelectStyle ref={this.wrapperRef}>
+        {CurrentlySelected}
         <DropdownStyle shouldDisplay={this.state.isOpen}>
           <div>{this.props.filters.map(this.renderFilter)}</div>
           <div className="unsupported">
