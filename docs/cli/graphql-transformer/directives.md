@@ -32,9 +32,12 @@ Learn more about these directives in the [AWS AppSync Developer Guide](https://d
 
 ## 3rd party directives
 
+- [`@auto`: Allows for readonly access of the hidden fields on you models (createAt, updatedAt, owner, version, etc)]()
 - [`@algolia`: Add serverless search to your Amplify API with Algolia](https://github.com/thefinnomenon/graphql-algolia-transformer)
-- [`@ttl`: Enable DynamoDB's time-to-live feature to auto-delete old entries in your AWS Amplify API](https://github.com/flogy/graphql-ttl-transformer)
+- [`@default`: Set a field to a default value if none provided when creating/saving](https://github.com/trek10inc/graphql-default-value-transformer)
 - [`@firehose`: Add a simple interceptor to all of your Amplify API mutations and queries](https://github.com/LaugnaHealth/graphql-firehose-transformer)
+- [`@lowercase`: Automatically converts the field with this directive applied to lowercase before saving them](https://github.com/hisham/graphql-lowercase-transformer)
 - [`@retain`: Enable the "Retain" deletion policy for your Amplify-generated DynamoDB tables](https://github.com/flogy/graphql-retain-transformer)
+- [`@ttl`: Enable DynamoDB's time-to-live feature to auto-delete old entries in your AWS Amplify API](https://github.com/flogy/graphql-ttl-transformer)
 
 > Looking to build your own transformers & directives? Check out the guide on [how to author your own transformer & directives](~/cli/plugins/authoring.md#authoring-custom-graphql-transformers--directives).
