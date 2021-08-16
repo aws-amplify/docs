@@ -21,6 +21,14 @@ Enter the following when prompted:
 ```console
 ? Please select from one of the below mentioned services:
     `Content (Images, audio, video, etc.)`
+? You need to add auth (Amazon Cognito) to your project in order to add storage for user files. Do you want to add auth now?
+    `Yes`
+? Do you want to use the default authentication and security configuration?
+    `Default configuration`
+? How do you want users to be able to sign in?
+    `Username`
+? Do you want to configure advanced settings?
+    `No, I am done.`
 ? Please provide a friendly name for your resource that will be used to label this category in the project:
     `S3friendlyName`
 ? Please provide bucket name:
