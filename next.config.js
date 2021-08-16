@@ -190,7 +190,11 @@ function generatePathMap(
       if (filterKind !== "") {
         pathMap[route] = {
           page: "/ChooseFilterPage",
-          query: {href: route, filterKind: filterKind},
+          query: {
+            href: route,
+            filterKind: filterKind,
+            message: `Choose a ${filterKind}.`,
+          },
         };
       }
     }
@@ -261,7 +265,12 @@ function generatePathMap(
     });
     pathMap[route] = {
       page: "/ChooseFilterPage",
-      query: {href: route, filterKind: routeType, filters: filters},
+      query: {
+        href: route,
+        filterKind: routeType,
+        filters: filters,
+        message: `Choose a ${routeType}.`,
+      },
     };
   }
   return pathMap;

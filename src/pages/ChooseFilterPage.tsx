@@ -12,15 +12,8 @@ import {
 import {
   getChapterDirectory,
   getProductDirectory,
+  isProductRoot,
 } from "../utils/getLocalDirectory";
-
-const H2 = styled.h2`
-  margin-top: 0.375rem;
-  font-size: 2.215rem;
-  line-height: 2.75rem;
-  font-weight: 400;
-  margin-bottom: 1.5rem;
-`;
 
 const H3 = styled.h3`
   margin-top: 0.375rem;
@@ -30,12 +23,13 @@ const H3 = styled.h3`
   margin-bottom: 1.5rem;
 `;
 
-const InnerContainer = styled.div`
-  display: block;
-  padding: 2rem 4rem 4rem 4rem;
-`;
-
-function ChooseFilterPage({href, filterKind, filters = [], message = ""}) {
+function ChooseFilterPage({
+  href,
+  filterKind,
+  filters = [],
+  currentFilter = "all",
+  message = "",
+}) {
   const [_, setHref] = useState("https://docs.amplify.aws");
   useEffect(() => {
     setHref(window.location.href);
@@ -43,17 +37,23 @@ function ChooseFilterPage({href, filterKind, filters = [], message = ""}) {
 
   href = href.split("/q/")[0];
 
-  let title = (getProductDirectory(href) as {productRoot: {title: string}})
-    .productRoot.title;
-  const chapterDirectory = getChapterDirectory(href);
-  if (typeof chapterDirectory !== "undefined") {
-    const {title: chapterTitle, items} = chapterDirectory as {
-      title: string;
-      items: {route: string; title: string}[];
-    };
-    title += " - " + chapterTitle;
-    for (const item of items) {
-      if (item.route === href) title += " - " + item.title;
+  let title = "",
+    chapterTitle = "";
+  if (isProductRoot(href)) {
+    title = (getProductDirectory(href) as {
+      productRoot: {title: string};
+    }).productRoot.title;
+  } else {
+    const chapterDirectory = getChapterDirectory(href);
+    if (typeof chapterDirectory !== "undefined") {
+      const {title: cTitle, items} = chapterDirectory as {
+        title: string;
+        items: {route: string; title: string}[];
+      };
+      chapterTitle = cTitle;
+      for (const item of items) {
+        if (item.route === href) title = item.title;
+      }
     }
   }
 
@@ -61,42 +61,39 @@ function ChooseFilterPage({href, filterKind, filters = [], message = ""}) {
 
   const children = (
     <Container>
-      <InnerContainer>
-        <section>
-          <H2>{title}</H2>
-          {message && <H3>{message}</H3>}
+      <section>
+        {message && <H3>{message}</H3>}
 
-          <Grid
-            columns={[1, null, null, 4]}
-            gap={3}
-            sx={{
-              marginTop: "1rem",
-            }}
-          >
-            {filters.map((filter) => (
-              <Card
-                className="vertical"
-                href={`${href}/q/${filterKind}/${filter}`}
-                key={filter}
-              >
-                <CardGraphic src={filterMetadataByOption[filter].graphicURI} />
-                <CardDetail>
-                  <h4>{filterMetadataByOption[filter].label}</h4>
-                </CardDetail>
-              </Card>
-            ))}
-          </Grid>
-        </section>
-      </InnerContainer>
+        <Grid
+          columns={[1, null, null, 4]}
+          gap={3}
+          sx={{
+            marginTop: "1rem",
+          }}
+        >
+          {filters.map((filter) => (
+            <Card
+              className="vertical"
+              href={`${href}/q/${filterKind}/${filter}`}
+              key={filter}
+            >
+              <CardGraphic src={filterMetadataByOption[filter].graphicURI} />
+              <CardDetail>
+                <h4>{filterMetadataByOption[filter].label}</h4>
+              </CardDetail>
+            </Card>
+          ))}
+        </Grid>
+      </section>
     </Container>
   );
   const meta = {
-    title: "",
-    chapterTitle: "",
+    title,
+    chapterTitle,
     headers: [],
     children,
     filters: filters,
-    filterKey: undefined,
+    filterKey: currentFilter,
     pathname: href,
     href: href,
   };
