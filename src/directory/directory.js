@@ -301,7 +301,7 @@ const directory = {
           {
             title: "Remember a device",
             route: "/lib/auth/device_features",
-            filters: ["android", "ios", "js"],
+            filters: ["android", "ios", "js", "flutter"],
           },
           {
             title: "Password management",
