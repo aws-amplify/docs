@@ -24,7 +24,10 @@ ApiAuthProviders authProviders = ApiAuthProviders.builder()
         return null;
     })
     .build();
-Amplify.addPlugin(new AWSApiPlugin(authProviders));
+AWSApiPlugin plugin = AWSApiPlugin.builder()
+    .apiAuthProviders(authProviders)
+    .build();
+Amplify.addPlugin(plugin);
 ```
 
 </amplify-block>
@@ -43,7 +46,10 @@ val authProviders = ApiAuthProviders.builder()
         future.get()
     }
     .build()
-Amplify.addPlugin(AWSApiPlugin(authProviders))
+val plugin = AWSApiPlugin.builder()
+    .apiAuthProviders(authProviders)
+    .build()
+Amplify.addPlugin(plugin)
 ```
 
 </amplify-block>
@@ -58,7 +64,10 @@ val authProviders = ApiAuthProviders.builder()
         return (session as AWSCognitoAuthSession).userPoolTokens.value?.idToken
     }
     .build()
-Amplify.addPlugin(AWSApiPlugin(authProviders))
+val plugin = AWSApiPlugin.builder()
+    .apiAuthProviders(authProviders)
+    .build()
+Amplify.addPlugin(plugin)
 ```
 
 </amplify-block>
@@ -82,7 +91,10 @@ ApiAuthProviders authProviders = ApiAuthProviders.builder()
             .getIdToken())
         .blockingGet())
     .build();
-Amplify.addPlugin(new AWSApiPlugin(authProviders));
+AWSApiPlugin plugin = AWSApiPlugin.builder()
+    .apiAuthProviders(authProviders)
+    .build();
+Amplify.addPlugin(plugin);
 ```
 
 </amplify-block>
@@ -106,7 +118,10 @@ val authProviders = ApiAuthProviders.builder()
             ?.idToken }
         .blockingGet() }
     .build()
-Amplify.addPlugin(AWSApiPlugin(authProviders))
+val plugin = AWSApiPlugin.builder()
+    .apiAuthProviders(authProviders)
+    .build()
+Amplify.addPlugin(plugin)
 ```
 
 </amplify-block>
