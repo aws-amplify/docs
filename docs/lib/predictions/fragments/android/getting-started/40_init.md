@@ -93,3 +93,5 @@ public class MyAmplifyApp extends Application {
 
 </amplify-block>
 </amplify-block-switcher>
+
+Note that because the predictions category requires auth, you will need to either configure [guest access](~/lib/auth/guest_access.md) or [sign in a user](~/lib/auth/signin.md) before using features in the predictions category.
