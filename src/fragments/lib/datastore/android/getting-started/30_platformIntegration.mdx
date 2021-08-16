@@ -27,7 +27,7 @@ apply plugin: 'com.amplifyframework.amplifytools'
 
 In Android Studio, go to the File menu and select **Sync Project with Gradle Files**.
 
-Once that completes, you see will see new run/debug configurations available in the top menu bar of Android Studio. Look to the left of the green **Run** button. In the drop-down, you will see:
+Once that completes, you will see new run/debug configurations available in the top menu bar of Android Studio. Look to the left of the green **Run** button. In the drop-down, you will see:
 
 - `modelgen`
 - `amplifyPush`

@@ -15,7 +15,8 @@ your redirect URI prefix if necessary:
 <application ...>
   ...
   <activity
-      android:name="com.amplifyframework.auth.cognito.activities.HostedUIRedirectActivity">
+      android:name="com.amplifyframework.auth.cognito.activities.HostedUIRedirectActivity"
+      android:exported="true">
       <intent-filter>
           <action android:name="android.intent.action.VIEW" />
           <category android:name="android.intent.category.DEFAULT" />

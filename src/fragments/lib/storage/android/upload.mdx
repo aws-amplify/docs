@@ -8,14 +8,18 @@ To upload data to S3 from an `InputStream`:
 
 ```java
 private void uploadInputStream() {
-    InputStream exampleInputStream = getContentResolver().openInputStream(uri);
-
-    Amplify.Storage.uploadInputStream(
-            "ExampleKey",
-            exampleInputStream,
-            result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
-            storageFailure -> Log.e("MyAmplifyApp", "Upload failed", storageFailure)
-    );
+    try {
+        InputStream exampleInputStream = getContentResolver().openInputStream(uri);
+        
+        Amplify.Storage.uploadInputStream(
+                "ExampleKey",
+                exampleInputStream,
+                result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
+                storageFailure -> Log.e("MyAmplifyApp", "Upload failed", storageFailure)
+        );
+    }  catch (FileNotFoundException error) {
+        Log.e("MyAmplifyApp", "Could not find file to open for input stream.", error);
+    }
 }
 ```
 
@@ -55,17 +59,21 @@ private suspend fun uploadInputStream(uri: Uri) {
 
 ```java
 private void uploadInputStream() {
-    InputStream exampleInputStream = getContentResolver().openInputStream(uri);
-
-    RxProgressAwareSingleOperation<StorageUploadInputStreamResult> rxUploadOperation =
-            RxAmplify.Storage.uploadInputStream("ExampleKey", exampleInputStream);
-
-    rxUploadOperation
-            .observeResult()
-            .subscribe(
-                result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
-                error -> Log.e("MyAmplifyApp", "Upload failed", error)
-            );
+    try {
+        InputStream exampleInputStream = getContentResolver().openInputStream(uri);
+        
+        RxProgressAwareSingleOperation<StorageUploadInputStreamResult> rxUploadOperation =
+                RxAmplify.Storage.uploadInputStream("ExampleKey", exampleInputStream);
+        
+        rxUploadOperation
+                .observeResult()
+                .subscribe(
+                    result -> Log.i("MyAmplifyApp", "Successfully uploaded: " + result.getKey()),
+                    error -> Log.e("MyAmplifyApp", "Upload failed", error)
+                );
+    } catch (FileNotFoundException error) {
+        Log.e("MyAmplifyApp", "Could not find file to open for input stream.", error);
+    }
 }
 ```
 
