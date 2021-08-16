@@ -21,16 +21,6 @@ Enter the following when prompted:
 ? Choose the function template that you want to use: 
     `Serverless ExpressJS function (Integration with API Gateway)`
 ? Do you want to configure advanced settings? 
-    `Yes`
-? Do you want to access other resources created in this project from your Lambda function? 
-    `No`
-? Do you want to invoke this function on a recurring schedule? 
-    `No`
-? Do you want to enable Lambda layers for this function? 
-    `No`
-? Do you want to configure environment variables for this function? 
-    `No`
-? Do you want to configure secret values this function can access? 
     `No`
 ? Do you want to edit the local lambda function now?
     `No`
