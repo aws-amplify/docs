@@ -84,14 +84,17 @@ class FilterSelect extends React.Component<
     if (name === this.props.filterKey) return;
     const query = {};
     query[this.filterKind] = name;
+
+    let href = {
+      pathname: this.props.pathname,
+      query: query,
+    } as object | string;
+    if (!this.props.pathname.includes("/q/")) {
+      href = this.props.pathname + `/q/${this.filterKind}/${name}`;
+    }
+
     return (
-      <Link
-        href={{
-          pathname: this.props.pathname,
-          query: query,
-        }}
-        key={name}
-      >
+      <Link href={href} key={name}>
         <a onClick={this.toggleVis}>
           <img
             src={filterMetadataByOption[name]?.graphicURI}
@@ -133,7 +136,7 @@ class FilterSelect extends React.Component<
       CurrentlySelected = (
         <CurrentlySelectedStyle>
           <a onClick={this.toggleVis}>
-            <span>Click to choose a {this.filterKind} below.</span>
+            <span>Click to choose a {this.filterKind}.</span>
           </a>
         </CurrentlySelectedStyle>
       );
