@@ -4,13 +4,15 @@
 
 </amplify-callout>
 
-Amplify Geo provides APIs and map UI components for maps and location search for JavaScript-based web apps. You can add maps and location search functionality to your app in just a few lines of code. Amplify Geo APIs are powered by [Amazon Location Service](https://aws.amazon.com/location/) and the map UI components from MapLibre are already integrated with the Geo APIs. You can quickly get started using [Amplify CLI](https://docs.amplify.aws/cli/geo/maps) to provision your map and location search resources.
+Amplify Geo provides APIs and map UI components for maps and location search for JavaScript-based web apps. You can add maps and location search functionality to your app in just a few lines of code. Amplify Geo APIs are powered by [Amazon Location Service](https://aws.amazon.com/location/) and the map UI components from MapLibre are already integrated with the Geo APIs. You can quickly get started using [Amplify CLI](~/cli/geo/maps.md) to provision your map and location search resources.
 
-Follow this guide to get started with Amplify Geo.
+Follow this guide to get started with Amplify Geo through the Amplify CLI.
+
+**Note:** If you want to use existing Amazon Location Service resources [follow this guide](~/lib/geo/existing-resources.md) instead.
+
+## Provisioning resources through CLI
 
 > Prerequisite: [Install and configure the Amplify CLI](~/cli/start/install.md)
-
-## Provisioning resources
 
 The primary way to provision Geo resources is through the Amplify CLI. Currently, Amplify Geo is in developer preview and you need to install the CLI with the `@geo` tag. You can use the following command to install this version globally.
 
@@ -26,13 +28,13 @@ amplify --version
 
 That should show a version with the `-geo.x` tag, for example, `5.2.2-geo.0`.
 
-Once that is complete, you can run the following command from your project's root folder to add a `geo` resource:
+Once that is complete, you can run the following command from your project's root folder to add a `geo` resource, such as map resources or a search index:
 
 ```sh
 amplify add geo
 ```
 
-The CLI will prompt configuration options for the Geo category such as what type of capability you want to add (maps and search) and default or advanced settings.
+The CLI will prompt configuration options for the Geo category for what type of capability you want to add (maps and search) and default or advanced settings.
 
 The add command automatically creates the backend configuration. Once all your configuration is complete run the following:
 
@@ -44,7 +46,7 @@ A file called `aws-exports.js` that contains all geo-related configuration infor
 
 For more information, you can visit the full [Amplify CLI Geo Maps docs](~/cli/geo/maps.md).
 
-## Configure your app
+## Configure your application
 
 Install the necessary dependencies by running the following command:
 
