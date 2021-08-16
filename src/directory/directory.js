@@ -415,7 +415,7 @@ const directory = {
           },
           {
             title: "Location Search",
-            route: "/lib/geo/location-search",
+            route: "/lib/geo/search",
             filters: ["js"],
           },
           {
