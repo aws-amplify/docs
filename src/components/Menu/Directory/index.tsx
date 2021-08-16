@@ -12,6 +12,7 @@ import {
 
 type DirectoryItem = {
   title: string;
+  route: string;
   filters: string[];
 };
 
@@ -37,6 +38,8 @@ class DirectoryGroup extends React.Component<
     return (
       // the filter key is undefined
       this.props.filterKey === undefined ||
+      // href doesn't have any q/[filter]/[filter]; via ChooseFilterPage
+      this.props.filterKey === "all" ||
       // this page is available independent of filter
       filters === undefined ||
       filters.length === 0 ||
@@ -50,8 +53,8 @@ class DirectoryGroup extends React.Component<
     this.initialize();
 
     if (
-      this.itemsToDisplay &&
-      this.itemsToDisplay.some(({route}) => route === this.currentRoute)
+      this.props.items &&
+      this.props.items.some(({route}) => route === this.currentRoute)
     ) {
       this.state = {isExpanded: true};
     } else {
