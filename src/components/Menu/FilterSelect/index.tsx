@@ -112,7 +112,19 @@ class FilterSelect extends React.Component<
     const unsupportedFilters = [];
     for (const filter of allFilters) {
       if (!this.props.filters.includes(filter)) {
-        unsupportedFilters.push(filter);
+        let shouldAdd = true;
+
+        // special cases
+        if (this.props.router.asPath.startsWith("/guides")) {
+          shouldAdd = filter !== "flutter";
+        }
+        if (this.props.router.asPath.startsWith("/sdk")) {
+          shouldAdd = filter !== "flutter" && filter !== "js";
+        }
+
+        if (shouldAdd) {
+          unsupportedFilters.push(filter);
+        }
       }
     }
 

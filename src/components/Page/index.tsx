@@ -25,7 +25,7 @@ export default function Page({children, meta}: {children: any; meta?: any}) {
     useRef(null);
     return <></>;
   }
-  const {pathname} = router;
+  const {pathname, asPath} = router;
   let filterKey = "",
     filterKind = "";
   const filterKeysLoaded = parseLocalStorage(
@@ -47,7 +47,16 @@ export default function Page({children, meta}: {children: any; meta?: any}) {
     filterKind = "framework";
   }
   const headers = traverseHeadings(children, filterKey);
-  const filters = gatherAllFilters(children, filterKind);
+  let filters = gatherAllFilters(children, filterKind);
+  // special cases
+  if (asPath.startsWith("/guides")) {
+    filters = filters.filter((filter) => filter !== "flutter");
+  }
+  if (asPath.startsWith("/sdk")) {
+    filters = filters.filter(
+      (filter) => filter !== "flutter" && filter !== "js",
+    );
+  }
 
   const filterKeys = withFilterOverrides(filterKeyUpdates, filterKeysLoaded);
   localStorage.setItem("filterKeys", JSON.stringify(filterKeys));
