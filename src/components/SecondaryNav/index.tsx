@@ -19,7 +19,7 @@ import {parseLocalStorage} from "../../utils/parseLocalStorage";
 
 export default function SecondaryNav() {
   const router = useRouter();
-  const path = router.pathname;
+  const path = router.asPath;
   const filterKeys = parseLocalStorage("filterKeys", {});
 
   return (
