@@ -6,7 +6,6 @@ import {
   ShadowStyle,
 } from "./styles";
 import {
-  AWS_USER_GUIDE,
   IOS_REFERENCE,
   ANDROID_REFERENCE,
   JS_REFERENCE,
