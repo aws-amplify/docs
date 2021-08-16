@@ -10,9 +10,12 @@ export const ContentStyle = styled.div`
     display: none;
   }
 
-  ${MQFablet} {
-    min-width: initial;
-    padding: 1.5rem 2rem 1.5rem 4rem;
+  > div {
+    min-width: 100vw;
+    ${MQFablet} {
+      min-width: initial;
+      padding: 1.5rem 2rem 1.5rem 4rem;
+    }
   }
 
   a {

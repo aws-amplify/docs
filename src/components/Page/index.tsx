@@ -131,12 +131,14 @@ export function metaContent({
         ref={menuRef}
       ></Menu>
       <ContentStyle>
-        <ChapterTitleStyle>{chapterTitle}</ChapterTitleStyle>
-        <h1>{title}</h1>
-        <CodeBlockProvider>
-          {children}
-          <NextPrevious pathname={pathname} filterKey={filterKey} />
-        </CodeBlockProvider>
+        <div>
+          <ChapterTitleStyle>{chapterTitle}</ChapterTitleStyle>
+          <h1>{title}</h1>
+          <CodeBlockProvider>
+            {children}
+            <NextPrevious pathname={pathname} filterKey={filterKey} />
+          </CodeBlockProvider>
+        </div>
       </ContentStyle>
       <TableOfContents title={title}>{headers}</TableOfContents>
       {!onDesktop && (
