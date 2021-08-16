@@ -197,7 +197,7 @@ import { createTodo } from './graphql/mutations';
 import { listTodos } from './graphql/queries';
 
 export default {
-  name: 'App',
+  name: 'app',
   async created() {
     this.getTodos();
   },
@@ -249,7 +249,7 @@ export default {
   },
   methods: {
     // other methods
-    subscribe() {
+    async subscribe() {
       API.graphql({ query: onCreateTodo })
         .subscribe({
           next: (eventData) => {
