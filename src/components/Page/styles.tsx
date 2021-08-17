@@ -1,12 +1,7 @@
 import styled from "@emotion/styled";
 import {MQFablet} from "../media";
 
-type ContentProps = {
-  menuIsOpen?: boolean;
-};
-
-export const ContentStyle = styled.div<ContentProps>(({menuIsOpen}) => {
-  return `
+export const ContentStyle = styled.div`
   padding: 1.5rem 1rem;
   width: 100%;
   overflow-x: hidden;
@@ -16,7 +11,7 @@ export const ContentStyle = styled.div<ContentProps>(({menuIsOpen}) => {
   }
 
   > div {
-    ${menuIsOpen && "min-width: 100vw;"}
+    min-width: 100vw;
     ${MQFablet} {
       min-width: initial;
       padding: 1.5rem 2rem 1.5rem 4rem;
@@ -61,8 +56,7 @@ export const ContentStyle = styled.div<ContentProps>(({menuIsOpen}) => {
     --container-height: auto;
     --container-display: inline;
   }
-  `;
-});
+`;
 
 export const ChapterTitleStyle = styled.h1`
   line-height: normal;
