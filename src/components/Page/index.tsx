@@ -24,6 +24,7 @@ export default function Page({children, meta}: {children: any; meta?: any}) {
 
   const router = useRouter();
   if (!router.isReady) {
+    const [menuIsOpen, setMenuIsOpen] = useState(false);
     useRef(null);
     return <></>;
   }
@@ -73,6 +74,7 @@ export default function Page({children, meta}: {children: any; meta?: any}) {
       />
     );
   }
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
 
   meta.chapterTitle = "";
   if (meta && !isProductRoot(pathname)) {
