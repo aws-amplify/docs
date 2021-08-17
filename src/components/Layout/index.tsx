@@ -22,6 +22,7 @@ export default function Layout({children, meta}: {children: any; meta?: any}) {
         <Head>
           <title>{`${title}`}</title>
           <meta property="og:title" content={meta.title} key="og:title" />
+          <meta name="description" content={meta.description} />
           <meta
             property="og:description"
             content={meta.description}
