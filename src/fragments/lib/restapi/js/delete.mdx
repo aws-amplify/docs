@@ -1,0 +1,47 @@
+## DELETE data
+
+```javascript
+const apiName = 'MyApiName'; // replace this with your api name.
+const path = '/path'; //replace this with the path you have configured on your API
+const myInit = { // OPTIONAL
+    headers: {}, // OPTIONAL
+};
+
+API
+  .del(apiName, path, myInit)
+  .then(response => {
+    // Add your code here
+  })
+  .catch(error => {
+    console.log(error.response);
+  });
+```
+
+Example with async/await
+
+```javascript
+async function deleteData() { 
+    const apiName = 'MyApiName';
+    const path = '/path';
+    const myInit = { // OPTIONAL
+        headers: {} // OPTIONAL
+    }
+    return await API.del(apiName, path, myInit);
+}
+
+deleteData();
+```
+
+Access body in the Lambda function
+
+```javascript
+// using a basic lambda handler
+exports.handler = (event, context) => {
+  console.log('body: ', event.body);
+}
+
+// using serverless express
+app.delete('/myendpoint', function(req, res) {
+  console.log('body: ', req.body);
+});
+```
