@@ -1,0 +1,1 @@
+- [Flutter](https://flutter.dev/docs/get-started/install) version 2.0.0 or higher (make sure you are using a stable version of flutter)

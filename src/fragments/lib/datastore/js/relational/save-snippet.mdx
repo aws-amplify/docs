@@ -1,0 +1,16 @@
+```js
+const post = await DataStore.save(
+  new Post({
+    title: "My Post with comments",
+    rating: 10,
+    status: PostStatus.ACTIVE
+  })
+);
+
+await DataStore.save(
+  new Comment({
+    content: "Loving Amplify DataStore!",
+    postID: post.id
+  })
+);
+```
