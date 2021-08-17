@@ -21,6 +21,7 @@ type MenuProps = {
   filterKey: string;
   pathname: string;
   href: string;
+  setMenuIsOpen?: any;
 };
 
 type MenuState = {
@@ -47,12 +48,20 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
     this.setState({
       isOpen: false,
     });
+
+    if (this.props.setMenuIsOpen) {
+      this.props.setMenuIsOpen(false);
+    }
   };
 
   openMenu = () => {
     this.setState({
       isOpen: true,
     });
+
+    if (this.props.setMenuIsOpen) {
+      this.props.setMenuIsOpen(true);
+    }
   };
 
   render() {

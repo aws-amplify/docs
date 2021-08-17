@@ -12,7 +12,7 @@ import {
   isProductRoot,
 } from "../../utils/getLocalDirectory";
 import SidebarLayoutToggle from "../SidebarLayoutToggle";
-import {useRef} from "react";
+import {useRef, useState} from "react";
 import {MQTablet} from "../media";
 import {filterMetadataByOption, SelectedFilters} from "../../utils/filter-data";
 import ChooseFilterPage from "../../pages/ChooseFilterPage";
@@ -20,6 +20,8 @@ import {parseLocalStorage} from "../../utils/parseLocalStorage";
 import {withFilterOverrides} from "../../utils/withFilterOverrides";
 
 export default function Page({children, meta}: {children: any; meta?: any}) {
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
+
   const router = useRouter();
   if (!router.isReady) {
     useRef(null);
@@ -97,6 +99,8 @@ export default function Page({children, meta}: {children: any; meta?: any}) {
             filterKey,
             pathname: router.pathname,
             href: router.asPath,
+            menuIsOpen,
+            setMenuIsOpen,
           })
         : children}
     </Layout>
@@ -112,6 +116,8 @@ export function metaContent({
   filterKey,
   pathname,
   href,
+  menuIsOpen,
+  setMenuIsOpen,
 }) {
   const menuRef = useRef(null);
   // Slice off the "@media " string at the start for use in JS instead of CSS
@@ -129,8 +135,9 @@ export function metaContent({
         pathname={pathname}
         href={href}
         ref={menuRef}
+        setMenuIsOpen={setMenuIsOpen}
       ></Menu>
-      <ContentStyle>
+      <ContentStyle menuIsOpen={menuIsOpen}>
         <div>
           <ChapterTitleStyle>{chapterTitle}</ChapterTitleStyle>
           <h1>{title}</h1>
