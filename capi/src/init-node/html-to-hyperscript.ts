@@ -129,9 +129,12 @@ export const htmlToHyperscript = (
 ): t.HyperscriptNode[] => {
   if (html.trim().length <= 0)
     throw new Error(`Markdown files cannot be empty ("${srcPath}")`);
-  return parse5
-    .parseFragment(html, {scriptingEnabled: true})
-    .childNodes?.map((node: HTMLNode) =>
-      Hyperscript(ctx, node, attributes, srcPath),
-    );
+  return (
+    parse5
+      .parseFragment(html, {scriptingEnabled: true})
+      // @ts-ignore
+      .childNodes?.map((node: HTMLNode) =>
+        Hyperscript(ctx, node, attributes, srcPath),
+      )
+  );
 };
