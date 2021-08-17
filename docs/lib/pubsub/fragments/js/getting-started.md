@@ -33,7 +33,7 @@ Find your `aws_pubsub_endpoint` by logging onto your **AWS Console**, choose **I
 
 To use PubSub with AWS IoT, you will need to create the necessary IAM policies in the AWS IoT Console, and attach them to your Amazon Cognito Identity. 
 
-Go to IoT Core and choose *Secure* from the left navigation pane. Then navigate to *Create Policy*. The following `myIoTPolicy` policy will allow full access to all the topics.
+Go to IoT Core and choose *Secure* from the left navigation pane, and then *Policies* from the dropdown menu. Next, click *Create*. The following `myIoTPolicy` policy will allow full access to all the topics.
 
 ![Alt text](~/images/create-iot-policy.png)
 
