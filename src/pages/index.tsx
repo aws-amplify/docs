@@ -30,6 +30,10 @@ const Page = () => {
     <>
       <Head>
         <title>Amplify Framework Docs</title>
+        <meta
+          name="description"
+          content="Amplify Framework documentation - Learn how to use Amplify to develop and deploy cloud-powered mobile and web apps."
+        />
       </Head>
       <UniversalNav
         heading="Amplify Docs"
