@@ -188,12 +188,13 @@ function generatePathMap(
       }
 
       if (filterKind !== "") {
+        const aOrAn = "aeiou".includes(filterKind[0]) ? "an" : "a";
         pathMap[route] = {
           page: "/ChooseFilterPage",
           query: {
             href: route,
             filterKind: filterKind,
-            message: `Choose a ${filterKind}.`,
+            message: `Choose ${aOrAn} ${filterKind}:`,
           },
         };
       }
@@ -263,13 +264,14 @@ function generatePathMap(
         page: `${route}/q/${routeType}/[${routeType}]`,
       };
     });
+    const aOrAn = "aeiou".includes(routeType[0]) ? "an" : "a";
     pathMap[route] = {
       page: "/ChooseFilterPage",
       query: {
         href: route,
         filterKind: routeType,
         filters: filters,
-        message: `Choose a ${routeType}.`,
+        message: `Choose ${aOrAn} ${routeType}:`,
       },
     };
   }

@@ -133,10 +133,13 @@ class FilterSelect extends React.Component<
 
     let CurrentlySelected = <></>;
     if (this.props.filterKey === "all") {
+      const aOrAn = "aeiou".includes(this.filterKind[0]) ? "an" : "a";
       CurrentlySelected = (
         <CurrentlySelectedStyle>
           <a onClick={this.toggleVis}>
-            <span>Click to choose a {this.filterKind}.</span>
+            <span>
+              Choose {aOrAn} {this.filterKind}:
+            </span>
           </a>
         </CurrentlySelectedStyle>
       );
