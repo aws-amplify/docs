@@ -7,7 +7,6 @@ Add the following code to your `onCreate()` method in your application class:
 
 ```java
 Amplify.addPlugin(new AWSApiPlugin());
-Amplify.addPlugin(new AWSCognitoAuthPlugin());
 ```
 
 Your class will look like this:
@@ -66,7 +65,6 @@ class MyAmplifyApp : Application() {
 
 ```java
 RxAmplify.addPlugin(new AWSApiPlugin());
-RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
 ```
 
 Your class will look like this:

@@ -9,5 +9,3 @@ dependencies {
     implementation 'com.amplifyframework:aws-auth-cognito:1.24.0'
 }
 ```
-
-Click **Sync Now**.
