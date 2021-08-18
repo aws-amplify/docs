@@ -8,7 +8,7 @@
 
 First, make sure you've provisioned a search index resource and configured your app using the instructions in either [Getting started](~/lib/geo/getting-started.md) or [Use existing Amazon Location Service resources](~/lib/geo/existing-resources.md) and you have already setup [displaying a map](~/lib/geo/maps.md) in your application.
 
-To add a location search UI component to your map, you can use the [maplibre-gl-geocoder](https://github.com/maplibre/maplibre-gl-geocoder) library. `maplibre-gl-js-amplify` package makes it easy to integrate `maplibre-gl-geocoder` with Amplify Geo by exporting a utility function `createAmplifyGeocoder()` that returns an instance of `maplibre-gl-geocoder` with some pre-defined settings and support all the [options](https://github.com/maplibre/maplibre-gl-geocoder/blob/main/API.md#parameters) for customizing the UI component.
+To add a location search UI component to your map, you can use the [maplibre-gl-geocoder](https://github.com/maplibre/maplibre-gl-geocoder) library. `maplibre-gl-js-amplify` package makes it easy to integrate `maplibre-gl-geocoder` with Amplify Geo by exporting a utility function `createAmplifyGeocoder()` that returns an instance of `maplibre-gl-geocoder` with some pre-defined settings and supports all the [options](https://github.com/maplibre/maplibre-gl-geocoder/blob/main/API.md#parameters) for customizing the UI component.
 
 Install the necessary dependencies with the following command:
 
