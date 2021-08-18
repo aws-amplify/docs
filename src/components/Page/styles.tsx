@@ -16,7 +16,7 @@ export const ContentStyle = styled.div<ContentProps>(({menuIsOpen}) => {
   }
 
   > div {
-    ${menuIsOpen && "min-width: 100vw;"}
+    ${menuIsOpen ? "min-width: 100vw;" : "min-width: initial;"}
     ${MQFablet} {
       min-width: initial;
       padding: 1.5rem 2rem 1.5rem 4rem;
