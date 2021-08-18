@@ -19,6 +19,7 @@ import VersionSwitcher from "./VersionSwitcher";
 type MenuProps = {
   filters: string[];
   filterKey: string;
+  filterKind: string;
   pathname: string;
   href: string;
 };
@@ -75,6 +76,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
                   <FilterSelect
                     filters={this.props.filters}
                     filterKey={this.props.filterKey}
+                    filterKind={this.props.filterKind}
                     pathname={this.props.pathname}
                   />
                 )}
