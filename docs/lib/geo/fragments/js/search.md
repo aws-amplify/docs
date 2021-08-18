@@ -22,10 +22,8 @@ First, create a map onto which you want to add the location search UI component.
 
 The location search UI component (`maplibre-gl-geocoder`) requires a "geocoding API" to facilitate location-based search. `AmplifyGeocoderAPI` is geocoding API that is integrated with Amplify Geo. To define your own "geocoding API", see [AmplifyGeocoderAPI](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/src/AmplifyMapLibreGeocoder.ts).
 
-Finally, add the location search UI component (`MaplibreGeocoder`) to the map.
-
 ```javascript
-import { AmplifyMapLibreRequest, AmplifyGeocoderAPI, createAmplifyGeocoder } from "maplibre-gl-js-amplify";
+import { createMap, createAmplifyGeocoder } from "maplibre-gl-js-amplify";
 import maplibregl from "maplibre-gl";
 
 async function initializeMap() {
@@ -33,14 +31,13 @@ async function initializeMap() {
     el.setAttribute("id", "map");
     document.body.appendChild(el);
 
-    const map = await AmplifyMapLibreRequest.createMapLibreMap({
+    const map = await createMap({
         container: "map",
         center: [-123.1187, 49.2819],
         zoom: 11,
     })
 
-    const geocoder = createAmplifyGeocoder());
-    map.addControl(geocoder);
+    map.addControl(createAmplifyGeocoder());
 }
 
 initializeMap();
@@ -55,7 +52,7 @@ You can also use [maplibre-gl-geocoder](https://github.com/maplibre/maplibre-gl-
 To do so, extract the html element using function `onAdd()` and attach it anywhere in your DOM instead of adding it via the map's `addControl()` function.
 
 ```javascript
-const geocoder = new MaplibreGeocoder(AmplifyGeocoderAPI);
+const geocoder = createAmplifyGeocoder();
 document.getElementById("search").appendChild(geocoder.onAdd());
 ```
 
