@@ -58,7 +58,7 @@ Amazon Location Service offers three pricing plans namely, `RequestBasedUsage`, 
 You select one of the following pricing plans for the Amazon Location Service resources you create for your application.
 Amplify helps you determine the best pricing plan for you by guiding you through a set of questions.
 These pricing plan related set of questions are presented to you when you add the first Geo resource to your application. 
-Once you chose the pricing plan, it will be automatically used for the subsequent Geo resources added to your application.
+Once you chose the pricing plan, it will be automatically used for the subsequent Geo resources added to your application. Review [Amazon Location Service Pricing](https://aws.amazon.com/location/pricing/) for more details.
 
 ```console
 The following choices determine the pricing plan for Geo resources.
