@@ -25,10 +25,8 @@ The location search UI component (`maplibre-gl-geocoder`) requires a "geocoding 
 Finally, add the location search UI component (`MaplibreGeocoder`) to the map.
 
 ```javascript
-import { AmplifyMapLibreRequest, AmplifyGeocoderAPI } from "maplibre-gl-js-amplify";
+import { AmplifyMapLibreRequest, AmplifyGeocoderAPI, createAmplifyGeocoder } from "maplibre-gl-js-amplify";
 import maplibregl from "maplibre-gl";
-import MaplibreGeocoder from "@maplibre/maplibre-gl-geocoder";
-import "@maplibre/maplibre-gl-geocoder/dist/maplibre-gl-geocoder.css";
 
 async function initializeMap() {
     const el = document.createElement("div");
@@ -41,10 +39,7 @@ async function initializeMap() {
         zoom: 11,
     })
 
-    const geocoder = new MaplibreGeocoder(AmplifyGeocoderAPI, {
-        maplibregl: maplibregl,
-        showResultMarkers: true,
-    });
+    const geocoder = createAmplifyGeocoder());
     map.addControl(geocoder);
 }
 
@@ -60,9 +55,7 @@ You can also use [maplibre-gl-geocoder](https://github.com/maplibre/maplibre-gl-
 To do so, extract the html element using function `onAdd()` and attach it anywhere in your DOM instead of adding it via the map's `addControl()` function.
 
 ```javascript
-const geocoder = new MaplibreGeocoder(AmplifyGeocoderAPI, {
-    showResultMarkers: true,
-});
+const geocoder = new MaplibreGeocoder(AmplifyGeocoderAPI);
 document.getElementById("search").appendChild(geocoder.onAdd());
 ```
 
