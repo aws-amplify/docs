@@ -109,6 +109,7 @@ type YourModel @model @auth(rules: [{ allow: owner,
 
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/setup-auth-rules/owner_based_auth_oidc.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/setup-auth-rules/owner_based_auth_oidc.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/datastore/fragments/flutter/setup-auth-rules/owner_based_auth_oidc.md"></inline-fragment>
 
 ### Static Group Authorization with OIDC provider
 The following are commonly used patterns for using `groupClaims` to achieve group based authorization using a 3rd party OIDC provider. For more information on how to tune these examples, please see the [CLI documentation on static group authorization](~/cli/graphql-transformer/auth.md#custom-claims).
@@ -128,13 +129,14 @@ type YourModel @model @auth(rules: [{ allow: groups
 
 For some use cases, you will want DataStore to use multiple authorization types. For example, an app might use `API Key` for public content and `Cognito User Pool` for personalized content once the user logs in.
 
-By default, DataStore uses your API's default authorization type specified in the `amplifyconfiguration.json`/`aws-exports.js` file. To change the default authorization type, run `amplify update api`. Every network request sent through DataStore uses that authorization type, regardless of the model's `@auth` rule. 
+By default, DataStore uses your API's default authorization type specified in the `amplifyconfiguration.json`/`.dart`/`aws-exports.js` file. To change the default authorization type, run `amplify update api`. Every network request sent through DataStore uses that authorization type, regardless of the model's `@auth` rule. 
 
 To enable DataStore to use multiple authorization types based on the model's `@auth` rules, configure the "auth mode strategy" when initializing DataStore:
 
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/setup-auth-rules/10_multiauth-snippet.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/setup-auth-rules/10_multiauth-snippet.md"></inline-fragment>
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/setup-auth-rules/10_multiauth-snippet.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/datastore/fragments/flutter/setup-auth-rules/10_multiauth-snippet.md"></inline-fragment>
 
 This configuration enables DataStore to synchronize data using the model's `@auth` rule provider for each model.
 
@@ -155,7 +157,7 @@ If there are multiple `@auth` rules on a model, the rules will be ranked by prio
 
 If there is **not** an authenticated user session, DataStore will only attempt `public` rules.
 
-If a model has no auth rules defined, DataStore will continue to use the default authorization type from `amplifyconfiguration.json`.
+If a model has no auth rules defined, DataStore will continue to use the default authorization type from `amplifyconfiguration.json`/`.dart`.
 
 ####  Example with multiple authorization types
 
