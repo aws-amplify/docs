@@ -7,7 +7,7 @@ In terminal, navigate to your project, run `amplify add auth`, and choose the fo
     `Username`
 ? Do you want to configure advanced settings? 
     `No, I am done.`
-? What domain name prefix do you want to use? 
+? What domain name prefix you want us to create for you? 
     `(default)`
 ? Enter your redirect signin URI: 
     `myapp://callback/`
