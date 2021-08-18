@@ -74,6 +74,9 @@ type Post @model(queries: { get: "post" }, mutations: null, subscriptions: null)
 }
 ```
 
+This would create and configure a single query field `post(id: ID!): Post` and
+no mutation fields.
+
 Model directive automatically adds createdAt and updatedAt timestamps to each entities. The timestamp field names can be changed by passing `timestamps` attribute to the directive
 
 ```graphql
@@ -107,9 +110,6 @@ type Post @model {
   updatedAt: AWSDateTime!
 }
 ```
-
-This would create and configure a single query field `post(id: ID!): Post` and
-no mutation fields.
 
 ### Generates
 
