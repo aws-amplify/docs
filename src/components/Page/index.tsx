@@ -20,8 +20,6 @@ import {parseLocalStorage} from "../../utils/parseLocalStorage";
 import {withFilterOverrides} from "../../utils/withFilterOverrides";
 
 export default function Page({children, meta}: {children: any; meta?: any}) {
-  const [menuIsOpen, setMenuIsOpen] = useState(false);
-
   const router = useRouter();
   if (!router.isReady) {
     const [menuIsOpen, setMenuIsOpen] = useState(false);
