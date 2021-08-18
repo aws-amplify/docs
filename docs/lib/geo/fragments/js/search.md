@@ -20,7 +20,7 @@ npm install -S @maplibre/maplibre-gl-geocoder maplibre-gl maplibre-gl-js-amplify
 
 First, create a map onto which you want to add the location search UI component. See the guide on [creating and displaying maps](~/lib/geo/maps.md).
 
-Then, using `createAmplifyGeocoder()` to get a new instance of `MaplibreGeocoder` and add the location search UI component to the map.
+Then, use `createAmplifyGeocoder()` to get a new instance of `MaplibreGeocoder` and add the location search UI component to the map.
 
 ```javascript
 import { createMap, createAmplifyGeocoder } from "maplibre-gl-js-amplify";
