@@ -65,7 +65,7 @@ Next, use the following code snippet when you want to display the markers on the
 ```javascript
 map.on("load", function () {
     drawPoints("mySourceName", // Arbitrary source name
-        [[-123.1187, 49.2819], [-122.849, 49.1913]], // Any coordinate or Feature data
+        [[-123.1187, 49.2819], [-122.849, 49.1913]], // An array of coordinate data or an array of Feature data
         map,
         {
             showCluster: true,
