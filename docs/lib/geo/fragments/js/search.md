@@ -8,7 +8,7 @@
 
 First, make sure you've provisioned a search index resource and configured your app using the instructions in either [Getting started](~/lib/geo/getting-started.md) or [Use existing Amazon Location Service resources](~/lib/geo/existing-resources.md) and you have already setup [displaying a map](~/lib/geo/maps.md) in your application.
 
-To add a location search UI component to your map, you need to use the [maplibre-gl-geocoder](https://github.com/maplibre/maplibre-gl-geocoder) library with Amplify Geo's `maplibre-gl-js-amplify` package. `maplibre-gl-js-amplify` makes it easy to integrate MapLibre with Amplify Geo.
+To add a location search UI component to your map, you need to use the [maplibre-gl-geocoder](https://github.com/maplibre/maplibre-gl-geocoder) library with Amplify Geo's `maplibre-gl-js-amplify` package. `maplibre-gl-js-amplify` makes it easy to integrate MapLibre with Amplify Geo by exporting `createAmplifyGeocoder()` a utility function that return an instance of `maplibre-gl-geocoder` with some pre-defined settings.
 
 Install the necessary dependencies with the following command:
 
@@ -20,9 +20,7 @@ npm install -S @maplibre/maplibre-gl-geocoder maplibre-gl maplibre-gl-js-amplify
 
 First, create a map onto which you want to add the location search UI component. See the guide on [creating and displaying maps](~/lib/geo/maps.md).
 
-Then, add the location search UI component (`MaplibreGeocoder`) to the map by using `createAmplifyGeocoder()`.
-
-To define your own "geocoding API" for `MaplibreGeocoder`, see [AmplifyGeocoderAPI](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/src/AmplifyMapLibreGeocoder.ts).
+Then, using `createAmplifyGeocoder()` to get a new instance of `MaplibreGeocoder` and add the location search UI component to the map.
 
 ```javascript
 import { createMap, createAmplifyGeocoder } from "maplibre-gl-js-amplify";
