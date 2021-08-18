@@ -676,7 +676,7 @@ const directory = {
         items: [
           {
             title: "Getting Started with Server-Side Rendering (SSR)",
-            route: "/lib/ssr",
+            route: "/lib/ssr/ssr",
             filters: ["js"],
           },
         ],
