@@ -11,7 +11,7 @@ Enter the following when prompted:
     `dev`
 ? Choose your default editor:
     `Android Studio`
-? Where is your Res directory: 
+? Where is your Res directory:
     `app/src/main/res`
 ? Select the authentication method you want to use: 
     `AWS profile`
