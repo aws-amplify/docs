@@ -122,6 +122,7 @@ export function metaContent({
   setMenuIsOpen,
 }) {
   console.log(children);
+  console.log(Array.isArray(children) ? children[0]._source : children._source);
   const menuRef = useRef(null);
   // Slice off the "@media " string at the start for use in JS instead of CSS
   const MQTabletJS = MQTablet.substring(6);
