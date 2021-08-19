@@ -14,6 +14,7 @@ import {NextRouter, withRouter} from "next/router";
 type FilterSelectProps = {
   filters: string[];
   filterKey: string;
+  filterKind: string;
   pathname: string;
   router: NextRouter;
 };
@@ -26,13 +27,11 @@ class FilterSelect extends React.Component<
   FilterSelectProps,
   FilterSelectState
 > {
-  filterKind: string;
   wrapperRef: React.RefObject<HTMLDivElement>;
 
   constructor(props) {
     super(props);
 
-    this.filterKind = "";
     this.wrapperRef = React.createRef();
     this.closeMenu = this.closeMenu.bind(this);
     this.state = {isOpen: false};
@@ -40,22 +39,6 @@ class FilterSelect extends React.Component<
 
   componentDidMount() {
     document.addEventListener("mousedown", this.closeMenu);
-
-    const path = this.props.router.asPath;
-    if (path.startsWith("/cli") || path.startsWith("/console")) {
-      // deal with cli/start/install right at the top
-      this.filterKind = undefined;
-    } else if (path.startsWith("/start")) {
-      this.filterKind = "integration";
-    } else if (path.startsWith("/lib")) {
-      this.filterKind = "platform";
-    } else if (path.startsWith("/sdk")) {
-      this.filterKind = "platform";
-    } else if (path.startsWith("/ui")) {
-      this.filterKind = "framework";
-    } else if (path.startsWith("/guides")) {
-      this.filterKind = "platform";
-    }
   }
 
   componentWillUnmount() {
@@ -83,14 +66,14 @@ class FilterSelect extends React.Component<
   renderFilter = (name) => {
     if (name === this.props.filterKey) return;
     const query = {};
-    query[this.filterKind] = name;
+    query[this.props.filterKind] = name;
 
     let href = {
       pathname: this.props.pathname,
       query: query,
     } as object | string;
     if (!this.props.pathname.includes("/q/")) {
-      href = this.props.pathname + `/q/${this.filterKind}/${name}`;
+      href = this.props.pathname + `/q/${this.props.filterKind}/${name}`;
     }
 
     return (
@@ -109,8 +92,8 @@ class FilterSelect extends React.Component<
 
   render() {
     let allFilters = this.props.filters.slice();
-    if (this.filterKind in filterOptionsByName) {
-      allFilters = filterOptionsByName[this.filterKind];
+    if (this.props.filterKind in filterOptionsByName) {
+      allFilters = filterOptionsByName[this.props.filterKind];
     }
     const unsupportedFilters = [];
     for (const filter of allFilters) {
@@ -133,12 +116,12 @@ class FilterSelect extends React.Component<
 
     let CurrentlySelected = <></>;
     if (this.props.filterKey === "all") {
-      const aOrAn = "aeiou".includes(this.filterKind[0]) ? "an" : "a";
+      const aOrAn = "aeiou".includes(this.props.filterKind[0]) ? "an" : "a";
       CurrentlySelected = (
         <CurrentlySelectedStyle>
           <a onClick={this.toggleVis}>
             <span>
-              Choose {aOrAn} {this.filterKind}:
+              Choose {aOrAn} {this.props.filterKind}:
             </span>
           </a>
         </CurrentlySelectedStyle>

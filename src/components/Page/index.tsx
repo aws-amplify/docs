@@ -97,6 +97,7 @@ export default function Page({children, meta}: {children: any; meta?: any}) {
             children,
             filters,
             filterKey,
+            filterKind,
             pathname: router.pathname,
             href: router.asPath,
             menuIsOpen,
@@ -114,6 +115,7 @@ export function metaContent({
   children,
   filters,
   filterKey,
+  filterKind,
   pathname,
   href,
   menuIsOpen,
@@ -132,6 +134,7 @@ export function metaContent({
       <Menu
         filters={filters}
         filterKey={filterKey}
+        filterKind={filterKind}
         pathname={pathname}
         href={href}
         ref={menuRef}
