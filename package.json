@@ -58,6 +58,9 @@
     "typescript": "^3.8.3",
     "workbox-build": "4.3.1"
   },
+  "resolutions": {
+    "**/trim": "0.0.3"
+  },
   "husky": {
     "hooks": {
       "pre-push": "yarn spellcheck"
