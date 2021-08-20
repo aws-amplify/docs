@@ -6,20 +6,20 @@ const ui = directory["ui"].items;
 const uiLegacy = directory["ui-legacy"].items;
 const uiLegacyPaths = [];
 const uiPaths = [];
-
-for (const [dirItems, paths] of [
+const itemsAndPaths: [object, string[]][] = [
   [ui, uiPaths],
   [uiLegacy, uiLegacyPaths],
-]) {
+];
+for (const [dirItems, paths] of itemsAndPaths) {
   for (const [_, value] of Object.entries(dirItems)) {
     const {items} = value;
     items.forEach((item) => {
       const {route, filters} = item;
       filters.forEach((filter) => {
         const path = route + "/q/framework/" + filter + "/";
-        (paths as any).push(path);
+        paths.push(path);
       });
-      (paths as any).push(route);
+      paths.push(route);
     });
   }
 }
