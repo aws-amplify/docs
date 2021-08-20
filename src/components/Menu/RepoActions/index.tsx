@@ -38,6 +38,10 @@ function createIssueLink(path, href) {
 }
 
 function createEditLink(path) {
+  // hardcoded links for pages that exist in the directory as .../index.mdx
+  if (path === "/cli") path = "/cli/index";
+  if (path === "/cli/function") path = "/cli/function/index";
+  if (path === "/console") path = "/console/index";
   const safePath = path
     .split("/")
     .map(encodeURIComponent)
