@@ -38,7 +38,7 @@ A configuration file called `aws-exports.js` will be copied to your configured s
 Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. For example `App.js` in React or `main.ts` in Angular.
 
 ```javascript
-import Amplify, { Analytics } from 'aws-am plify';
+import Amplify, { Analytics } from 'aws-amplify';
 import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
 console.log(Analytics)
