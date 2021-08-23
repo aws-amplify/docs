@@ -274,6 +274,11 @@ const directory = {
             filters: ["android", "flutter", "ios"],
           },
           {
+            title: "Check Authentication state",
+            route: "/lib/auth/check_auth_state",
+            filters: ["android", "flutter", "ios"],
+          },
+          {
             title: "SMS flows",
             route: "/lib/auth/sms_flows",
             filters: ["flutter"],
