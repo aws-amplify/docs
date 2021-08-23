@@ -5,7 +5,7 @@
 Amplify.Auth.fetchAuthSession(
     result -> {
         AWSCognitoAuthSession cognitoAuthSession = (AWSCognitoAuthSession) result;
-            // Check refresh token is valid or not
+            // Check if refresh token is valid. A valid refresh token indicates the session is still valid.
             switch (cognitoAuthSession.getUserPoolTokens().getType()) {
                 case SUCCESS:
                     Log.i("AuthQuickStart", "Refresh token is valid.");
@@ -26,7 +26,7 @@ Amplify.Auth.fetchAuthSession(
 Amplify.Auth.fetchAuthSession(
     {
         val cognitoAuthSession = it as AWSCognitoAuthSession
-        // Check refresh token is valid or not
+        // Check if refresh token is valid. A valid refresh token indicates the session is still valid.
         when (cognitoAuthSession.userPoolTokens.type) {
             AuthSessionResult.Type.SUCCESS ->
                 Log.i("AuthQuickStart", "Refresh token is valid.")
@@ -49,7 +49,7 @@ Amplify.Auth.fetchAuthSession(
 try {
     val result = Amplify.Auth.fetchAuthSession()
     val cognitoAuthSession = result as AWSCognitoAuthSession
-    // Check refresh token is valid or not
+    // Check if refresh token is valid. A valid refresh token indicates the session is still valid.
     when (cognitoAuthSession.userPoolTokens.type) {
         AuthSessionResult.Type.SUCCESS ->
             Log.i("AuthQuickStart", "Refresh token is valid.")
@@ -73,7 +73,7 @@ RxAmplify.Auth.fetchAuthSession()
     .subscribe(
             result -> {
                 AWSCognitoAuthSession cognitoAuthSession = (AWSCognitoAuthSession) result;
-                // Check refresh token is valid or not
+                // Check if refresh token is valid. A valid refresh token indicates the session is still valid.
                 switch (cognitoAuthSession.getUserPoolTokens().getType()) {
                     case SUCCESS:
                         Log.i("AuthQuickStart", "Refresh token is valid.");
