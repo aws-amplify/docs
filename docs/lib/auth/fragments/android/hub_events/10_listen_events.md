@@ -99,7 +99,7 @@ RxAmplify.Hub.on(HubChannel.Auth)
                 Log.i("AuthQuickstart", "Auth session just expired.");
                 break;
             default:
-                Log.i("AuthQuickstart", "Unhandled Auth Event: " + AuthChannelEventName.valueOf(name));
+                Log.w("AuthQuickstart", "Unhandled Auth Event: " + AuthChannelEventName.valueOf(name));
                 break;
         }
     });
