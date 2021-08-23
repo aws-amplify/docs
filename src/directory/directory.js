@@ -274,7 +274,7 @@ const directory = {
             filters: ["android", "flutter", "ios"],
           },
           {
-            title: "Check Authentication state",
+            title: "Check authentication state",
             route: "/lib/auth/check_auth_state",
             filters: ["android", "flutter", "ios"],
           },
