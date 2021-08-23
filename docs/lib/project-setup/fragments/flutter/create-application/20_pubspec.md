@@ -4,15 +4,15 @@ Open your **app**'s `pubspec.yaml` and add the following 3 dependencies below th
 
 ```yaml
 environment:
-  sdk: ">=2.11.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  amplify_flutter: '<1.0.0'
-  amplify_auth_cognito: '<1.0.0'
-  amplify_analytics_pinpoint: '<1.0.0'
+  amplify_flutter: ^0.2.0
+  amplify_auth_cognito: ^0.2.0
+  amplify_analytics_pinpoint: ^0.2.0
 ```
 
 Run **Flutter Pub Get**

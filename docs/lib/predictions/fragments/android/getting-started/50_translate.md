@@ -16,7 +16,7 @@ Amplify.Predictions.translateText(
 </amplify-block>
 <amplify-block name="Kotlin - Callbacks">
 
-Open `MainActivity.java` and add the following to the bottom of `onCreate()`:
+Open `MainActivity.kt` and add the following to the bottom of `onCreate()`:
 
 ```kotlin
 Amplify.Predictions.translateText(

@@ -1,6 +1,7 @@
 - [Authentication](~/lib/auth/getting-started.md)
 - [DataStore](~/lib/datastore/getting-started.md)
 - [User File Storage](~/lib/storage/getting-started.md)
+- [Geo (Developer Preview)](~/lib/geo/getting-started.md)
 - [Serverless APIs](~/lib/graphqlapi/getting-started.md)
 - [Analytics](~/lib/analytics/getting-started.md)
 - [AI/ML](~/lib/predictions/getting-started.md) 

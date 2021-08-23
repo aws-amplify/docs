@@ -85,3 +85,4 @@ This is a simple yet effective example. However, in a real scenario you might wa
 <inline-fragment platform="js" src="~/lib/datastore/fragments/js/sync/50-selectiveSync.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/datastore/fragments/android/sync/50-selectiveSync.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/datastore/fragments/ios/sync/50-selectiveSync.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/datastore/fragments/flutter/sync/50-selectiveSync.md"></inline-fragment>
