@@ -65,6 +65,9 @@ function generatePathMap(
     "/404": {
       page: "/404",
     },
+    "/sitemap.xml": {
+      page: "/sitemap.xml",
+    },
     "/start": {
       page: "/start",
     },
