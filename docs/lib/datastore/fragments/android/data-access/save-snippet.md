@@ -4,8 +4,8 @@
 ```java
 Post post = Post.builder()
     .title("My First Post")
-    .rating(10)
     .status(PostStatus.PUBLISHED)
+    .rating(10)
     .build();
 
 Amplify.DataStore.save(post,
@@ -20,8 +20,8 @@ Amplify.DataStore.save(post,
 ```kotlin
 val post = Post.builder()
     .title("My First Post")
-    .rating(10)
     .status(PostStatus.PUBLISHED)
+    .rating(10)
     .build()
 
 Amplify.DataStore.save(post,
@@ -36,8 +36,8 @@ Amplify.DataStore.save(post,
 ```kotlin
 val post = Post.builder()
     .title("My First Post")
-    .rating(10)
     .status(PostStatus.PUBLISHED)
+    .rating(10)
     .build()
 try {
     Amplify.DataStore.save(post)
@@ -53,8 +53,8 @@ try {
 ```java
 Post post = Post.builder()
     .title("My First Post")
-    .rating(10)
     .status(PostStatus.PUBLISHED)
+    .rating(10)
     .build();
 
 RxAmplify.DataStore.save(post)

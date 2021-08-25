@@ -6,3 +6,4 @@ description: You can use the device related features of Amazon Cognito UserPools
 <inline-fragment platform="js" src="~/lib/auth/fragments/common/device_features/common.md"></inline-fragment>
 <inline-fragment platform="ios" src="~/lib/auth/fragments/common/device_features/common.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/auth/fragments/common/device_features/common.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/auth/fragments/common/device_features/common.md"></inline-fragment>

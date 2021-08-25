@@ -8,7 +8,7 @@ description: Specify the various types that make up your schema.
 Object types that are annotated with `@model` are top-level entities in the
 generated API. Objects annotated with `@model` are stored in Amazon DynamoDB and are
 capable of being protected via `@auth`, related to other objects via `@connection`,
-and streamed into Amazon Elasticsearch via `@searchable`. You may also apply the
+and streamed into Amazon OpenSearch via `@searchable`. You may also apply the
 `@versioned` directive to instantly add a version field and conflict detection to a
 model type.
 
@@ -74,6 +74,9 @@ type Post @model(queries: { get: "post" }, mutations: null, subscriptions: null)
 }
 ```
 
+This would create and configure a single query field `post(id: ID!): Post` and
+no mutation fields.
+
 Model directive automatically adds createdAt and updatedAt timestamps to each entities. The timestamp field names can be changed by passing `timestamps` attribute to the directive
 
 ```graphql
@@ -107,9 +110,6 @@ type Post @model {
   updatedAt: AWSDateTime!
 }
 ```
-
-This would create and configure a single query field `post(id: ID!): Post` and
-no mutation fields.
 
 ### Generates
 

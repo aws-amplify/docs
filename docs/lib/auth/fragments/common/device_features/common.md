@@ -36,18 +36,21 @@ You can mark your device as remembered:
 <inline-fragment platform="ios" src="~/lib/auth/fragments/ios/device_features/10_rememberDevice.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/auth/fragments/android/device_features/10_rememberDevice.md"></inline-fragment>
 <inline-fragment platform="js" src="~/lib/auth/fragments/js/device_features/10_rememberDevice.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/auth/fragments/flutter/device_features/10_rememberDevice.md"></inline-fragment>
 
 ### Forget Device
 You can forget your device by using the following API.  Note that forgotten devices are still tracked.  See below for the difference between remembered, forgotten and tracked.
 <inline-fragment platform="ios" src="~/lib/auth/fragments/ios/device_features/20_forgetDevice.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/auth/fragments/android/device_features/20_forgetDevice.md"></inline-fragment>
 <inline-fragment platform="js" src="~/lib/auth/fragments/js/device_features/20_forgetDevice.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/auth/fragments/flutter/device_features/20_forgetDevice.md"></inline-fragment>
 
 ### Fetch Devices
 You can fetch a list of remembered devices by using the following:
 <inline-fragment platform="ios" src="~/lib/auth/fragments/ios/device_features/30_fetchDevice.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/auth/fragments/android/device_features/30_fetchDevice.md"></inline-fragment>
 <inline-fragment platform="js" src="~/lib/auth/fragments/js/device_features/30_fetchDevice.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/auth/fragments/flutter/device_features/30_fetchDevice.md"></inline-fragment>
 
 ## Terminology
 * **Tracked**

@@ -116,7 +116,7 @@ Follow these two steps when you need to rotate an API Key
 
 ## ElasticSearchInstanceCount
 
-**Override the number of instances launched into the Elasticsearch domain created by @searchable**
+**Override the number of instances launched into the OpenSearch domain created by @searchable**
 
 ```json
 {
@@ -126,7 +126,7 @@ Follow these two steps when you need to rotate an API Key
 
 ## ElasticSearchInstanceType
 
-**Override the type of instance launched into the Elasticsearch domain created by @searchable**
+**Override the type of instance launched into the OpenSearch domain created by @searchable**
 
 ```json
 {
@@ -136,7 +136,7 @@ Follow these two steps when you need to rotate an API Key
 
 ## ElasticSearchEBSVolumeGB
 
-**Override the amount of disk space allocated to each instance in the Elasticsearch domain created by @searchable**
+**Override the amount of disk space allocated to each instance in the OpenSearch domain created by @searchable**
 
 ```json
 {
