@@ -1,0 +1,47 @@
+## Clear
+
+To clear local data from DataStore, use the `clear` method:
+
+import ios0 from "/src/fragments/lib/datastore/ios/other-methods/10_clear.mdx";
+
+<Fragments fragments={{ios: ios0}} />
+
+import android1 from "/src/fragments/lib/datastore/android/other-methods/10_clear.mdx";
+
+<Fragments fragments={{android: android1}} />
+
+<Callout>
+
+If your app uses authentication, it is recommended to call `DataStore.clear()` on sign-in or sign-out to remove any user-specific data. In scenarios where a mobile device can be shared by several users, calling `DataStore.clear()` will ensure that data does not leak from one user to another.
+
+</Callout>
+
+## Start
+
+import ios2 from "/src/fragments/lib/datastore/ios/other-methods/15_start.mdx";
+
+<Fragments fragments={{ios: ios2}} />
+
+import android3 from "/src/fragments/lib/datastore/android/other-methods/15_start.mdx";
+
+<Fragments fragments={{android: android3}} />
+
+import ios4 from "/src/fragments/lib/datastore/ios/other-methods/20_start.mdx";
+
+<Fragments fragments={{ios: ios4}} />
+
+import android5 from "/src/fragments/lib/datastore/android/other-methods/20_start.mdx";
+
+<Fragments fragments={{android: android5}} />
+
+## Stop
+
+To stop the DataStore sync process, you can use `DataStore.stop()`.  This will close the real time subscription connection when your app is no longer interested in updates. You will typically call `DataStore.stop()` just before your application is closed.  You can also force your [DataStore sync expressions](/lib/datastore/sync) to be re-evaluated at runtime by calling `stop()` followed by `start()`.
+
+import ios6 from "/src/fragments/lib/datastore/ios/other-methods/30_stop.mdx";
+
+<Fragments fragments={{ios: ios6}} />
+
+import android7 from "/src/fragments/lib/datastore/android/other-methods/30_stop.mdx";
+
+<Fragments fragments={{android: android7}} />

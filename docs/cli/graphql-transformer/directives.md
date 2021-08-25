@@ -14,7 +14,7 @@ The Amplify CLI provides GraphQL directives to enhance your schema with addition
 - [`@function`: Configures a Lambda function resolvers for a field](~/cli/graphql-transformer/function.md)
 - [`@http`: Configures an HTTP resolver for a field](~/cli/graphql-transformer/http.md)
 - [`@predictions`: Queries an orchestration of AI/ML services such as Amazon Rekognition, Amazon Translate, and/or Amazon Polly](~/cli/graphql-transformer/predictions.md)
-- [`@searchable`: Makes your data searchable by streaming it to Elasticsearch](~/cli/graphql-transformer/searchable.md)
+- [`@searchable`: Makes your data searchable by streaming it to Amazon OpenSearch](~/cli/graphql-transformer/searchable.md)
 - [`@versioned`: Defines the versioning and conflict resolution strategy for an @model type](~/cli/graphql-transformer/versioned.md)
 
 ## AWS AppSync-provided directives
@@ -32,6 +32,7 @@ Learn more about these directives in the [AWS AppSync Developer Guide](https://d
 
 ## 3rd party directives
 
+- [`@algolia`: Add serverless search to your Amplify API with Algolia](https://github.com/thefinnomenon/graphql-algolia-transformer)
 - [`@ttl`: Enable DynamoDB's time-to-live feature to auto-delete old entries in your AWS Amplify API](https://github.com/flogy/graphql-ttl-transformer)
 - [`@firehose`: Add a simple interceptor to all of your Amplify API mutations and queries](https://github.com/LaugnaHealth/graphql-firehose-transformer)
 - [`@retain`: Enable the "Retain" deletion policy for your Amplify-generated DynamoDB tables](https://github.com/flogy/graphql-retain-transformer)

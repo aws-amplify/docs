@@ -10,7 +10,7 @@ export const config: PrerenderConfig = {
   hydrateOptions() {
     return {
       addModulePreloads: true,
-      excludeComponents: ["amplify-block-switcher"],
+      excludeComponents: ["amplify-block-switcher", "ui-component-props"],
       maxHydrateCount: 2000,
       minifyScriptElements: true,
       minifyStyleElements: true,

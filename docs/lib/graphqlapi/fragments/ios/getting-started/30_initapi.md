@@ -7,8 +7,8 @@ To initialize the Amplify API category, we are required to use the `Amplify.add(
 <amplify-block name="Swift Package Manager">
 
 ```swift
+import Amplify
 import AWSAPIPlugin
-import AWSPinpointAnalyticsPlugin
 ```
 
 </amplify-block>

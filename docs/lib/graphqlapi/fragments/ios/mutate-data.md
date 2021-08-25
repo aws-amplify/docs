@@ -6,6 +6,12 @@ Now that the client is set up, you can run a GraphQL mutation with `Amplify.API.
 
 <amplify-block name="Listener (iOS 11+)">
 
+Make sure you have the following imports at the top of your file
+```swift
+import Amplify
+import AWSPluginsCore
+```
+
 ```swift
 func updateTodo() {
     // Retrieve your Todo using Amplify.API.query
@@ -29,6 +35,13 @@ func updateTodo() {
 </amplify-block>
 
 <amplify-block name="Combine (iOS 13+)">
+
+Make sure you have the following imports at the top of your file
+```swift
+import Amplify
+import AWSPluginsCore
+import Combine
+```
 
 ```swift
 func updateTodo() -> AnyCancellable {
@@ -57,3 +70,12 @@ func updateTodo() -> AnyCancellable {
 </amplify-block>
 
 </amplify-block-switcher>
+
+To create data, replace the request with `.create`
+```swift
+Amplify.API.mutate(request: .create(todo))
+```
+To delete data, replace the request with `.delete`
+```swift
+Amplify.API.mutate(request: .delete(todo))
+```

@@ -62,3 +62,5 @@ RxAmplify.API.mutate(ModelMutation.create(todo))
 
 </amplify-block>
 </amplify-block-switcher>
+
+To update data, use `ModelMutation.update(todo)` instead. To delete data, use `ModelMutation.delete(todo)`.

@@ -47,7 +47,7 @@ private fun getPostAndTodo(postId: String, todoId: String): GraphQLRequest<Strin
 
     return SimpleGraphQLRequest(
             document,
-            mapOf("postId" to "[POST_ID]", "todoId" to "[TODO_ID]"),
+            mapOf("postId" to postId, "todoId" to todoId),
             String::class.java,
             GsonVariablesSerializer())
 }

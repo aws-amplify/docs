@@ -7,7 +7,10 @@ Add the following code to your app:
 ApiAuthProviders authProviders = ApiAuthProviders.builder()
     .oidcAuthProvider(() -> "[OPEN-ID-CONNECT-TOKEN]")
     .build();
-Amplify.addPlugin(new AWSApiPlugin(authProviders));
+AWSApiPlugin plugin = AWSApiPlugin.builder()
+    .apiAuthProviders(authProviders)
+    .build();
+Amplify.addPlugin(plugin);
 ```
 
 </amplify-block>
@@ -17,7 +20,10 @@ Amplify.addPlugin(new AWSApiPlugin(authProviders));
 val authProviders = ApiAuthProviders.builder()
     .oidcAuthProvider { "[OPEN-ID-CONNECT-TOKEN]" }
     .build()
-Amplify.addPlugin(AWSApiPlugin(authProviders))
+val plugin = AWSApiPlugin.builder()
+    .apiAuthProviders(authProviders)
+    .build()
+Amplify.addPlugin(plugin)
 ```
 
 </amplify-block>

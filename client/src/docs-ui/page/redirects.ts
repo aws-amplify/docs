@@ -55,7 +55,9 @@ export const redirects = {
   "#usage-4": "/searchable#usage",
   "#known-limitations": "/searchable#known-limitations",
   "#backfill-your-elasticsearch-index-from-your-dynamodb-table":
-    "/searchable#backfill-your-elasticsearch-index-from-your-dynamodb-table",
+    "/searchable#backfill-your-opensearch-index-from-your-dynamodb-table",
+  "/searchable#backfill-your-elasticsearch-index-from-your-dynamodb-table":
+    "/searchable#backfill-your-opensearch-index-from-your-dynamodb-table",
   "#predictions": "/predictions",
   "#definition-7": "/predictions#definition",
   "#usage-5": "/predictions#usage",

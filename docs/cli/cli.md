@@ -17,7 +17,7 @@ The Amplify Command Line Interface (CLI) is a unified toolchain to create, integ
 
 At the core of most applications is one thing - the data. Easily being able to model and access data in your app allows you to focus on delivering core features and business value instead of architecting and re-architecting your back end.
 
-The GraphQL Transform library allows you to deploy AWS AppSync GraphQL APIs with features like NoSQL databases, authentication, elasticsearch engines, lambda function resolvers, relationships, authorization, and more using GraphQL schema directives. [Learn more](~/cli/graphql-transformer/overview.md)
+The GraphQL Transform library allows you to deploy AWS AppSync GraphQL APIs with features like NoSQL databases, authentication, OpenSearch engines, lambda function resolvers, relationships, authorization, and more using GraphQL schema directives. [Learn more](~/cli/graphql-transformer/overview.md)
 
 ### Multiple environments
 
