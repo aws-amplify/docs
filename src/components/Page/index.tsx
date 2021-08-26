@@ -59,7 +59,12 @@ export default function Page({children, meta}: {children: any; meta?: any}) {
     );
   }
 
-  const filterKeys = withFilterOverrides(filterKeyUpdates, filterKeysLoaded);
+  const overrides = withFilterOverrides(filterKeyUpdates, filterKeysLoaded);
+  const filterKeys = {
+    ...filterKeysLoaded,
+    ...overrides,
+  };
+
   localStorage.setItem("filterKeys", JSON.stringify(filterKeys));
   if (filters.length !== 0 && !filters.includes(filterKey) && meta) {
     return (
