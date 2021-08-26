@@ -192,7 +192,8 @@ function generatePathMap(
         pathMap[route] = {
           page: "/ChooseFilterPage",
           query: {
-            href: route,
+            address: route,
+            directoryPath: "/ChooseFilterPage",
             filterKind: filterKind,
             message: `Choose ${aOrAn} ${filterKind}:`,
           },
@@ -268,7 +269,8 @@ function generatePathMap(
     pathMap[route] = {
       page: "/ChooseFilterPage",
       query: {
-        href: route,
+        address: route,
+        directoryPath: "/ChooseFilterPage",
         filterKind: routeType,
         filters: filters,
         message: `Choose ${aOrAn} ${routeType}:`,

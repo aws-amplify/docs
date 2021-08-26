@@ -4,8 +4,8 @@ import directory from "../../../directory/directory";
 
 const uiLegacy = directory["ui-legacy"];
 const {items} = uiLegacy;
-const uiLegacyPaths = [];
-const uiPaths = [];
+const uiLegacyPaths = [] as string[];
+const uiPaths = [] as string[];
 
 for (const [_, value] of Object.entries(items)) {
   const {items} = value;
@@ -32,24 +32,24 @@ const Option = function({href, title, isActive}) {
   );
 };
 
-export default function VersionSwitcher({href}) {
+export default function VersionSwitcher({url}) {
   let leftActive = true;
-  let hrefEnd;
-  let filter = href.split("/framework")[1];
-  if (href.includes("/ui-legacy")) {
+  let urlEnd;
+  const filter = url.split("/framework")[1];
+  if (url.includes("/ui-legacy")) {
     leftActive = false;
-    hrefEnd = href.split("/ui-legacy")[1];
+    urlEnd = url.split("/ui-legacy")[1];
   } else {
-    hrefEnd = href.split("/ui")[1];
+    urlEnd = url.split("/ui")[1];
   }
 
-  const leftHref = "/ui" + hrefEnd;
+  const leftHref = "/ui" + urlEnd;
   const leftOption = {
     title: "Latest",
     href: uiPaths.includes(leftHref) ? leftHref : "/ui/q/framework" + filter,
   };
 
-  const rightHref = "/ui-legacy" + hrefEnd;
+  const rightHref = "/ui-legacy" + urlEnd;
   const rightOption = {
     title: "Legacy",
     href: uiLegacyPaths.includes(rightHref)

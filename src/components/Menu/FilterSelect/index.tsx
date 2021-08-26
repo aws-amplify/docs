@@ -15,7 +15,7 @@ type FilterSelectProps = {
   filters: string[];
   filterKey: string;
   filterKind: string;
-  pathname: string;
+  url: string;
   router: NextRouter;
 };
 
@@ -48,7 +48,7 @@ class FilterSelect extends React.Component<
   closeMenu = (event: MouseEvent) => {
     if (
       this.wrapperRef &&
-      !this.wrapperRef.current.contains(event.target as Node) &&
+      !this.wrapperRef.current?.contains(event.target as Node) &&
       this.state.isOpen
     ) {
       this.setState({
@@ -69,11 +69,11 @@ class FilterSelect extends React.Component<
     query[this.props.filterKind] = name;
 
     let href = {
-      pathname: this.props.pathname,
+      url: this.props.url,
       query: query,
     } as object | string;
-    if (!this.props.pathname.includes("/q/")) {
-      href = this.props.pathname + `/q/${this.props.filterKind}/${name}`;
+    if (!this.props.url.includes("/q/")) {
+      href = this.props.url + `/q/${this.props.filterKind}/${name}`;
     }
 
     return (
@@ -95,7 +95,7 @@ class FilterSelect extends React.Component<
     if (this.props.filterKind in filterOptionsByName) {
       allFilters = filterOptionsByName[this.props.filterKind];
     }
-    const unsupportedFilters = [];
+    const unsupportedFilters = [] as string[];
     for (const filter of allFilters) {
       if (!this.props.filters.includes(filter)) {
         let shouldAdd = true;

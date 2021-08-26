@@ -24,12 +24,15 @@ const H3 = styled.h3`
 `;
 
 function ChooseFilterPage({
-  href,
+  directoryPath,
+  address,
   filterKind,
-  filters = [],
+  filters = [] as string[],
   currentFilter = "all",
   message = "",
 }) {
+  // "url" cannot be a CFP prop for legacy reasons
+  let url = address;
   const [_, setHref] = useState("https://docs.amplify.aws");
   const [menuIsOpen, setMenuIsOpen] = useState(false);
 
@@ -37,16 +40,16 @@ function ChooseFilterPage({
     setHref(window.location.href);
   }, []);
 
-  href = href.split("/q/")[0];
+  url = url.split("/q/")[0];
 
   let title = "",
     chapterTitle = "";
-  if (isProductRoot(href)) {
-    title = (getProductDirectory(href) as {
+  if (isProductRoot(url)) {
+    title = (getProductDirectory(url) as {
       productRoot: {title: string};
     }).productRoot.title;
   } else {
-    const chapterDirectory = getChapterDirectory(href);
+    const chapterDirectory = getChapterDirectory(url);
     if (typeof chapterDirectory !== "undefined") {
       const {title: cTitle, items} = chapterDirectory as {
         title: string;
@@ -54,7 +57,7 @@ function ChooseFilterPage({
       };
       chapterTitle = cTitle;
       for (const item of items) {
-        if (item.route === href) title = item.title;
+        if (item.route === url) title = item.title;
       }
     }
   }
@@ -76,7 +79,7 @@ function ChooseFilterPage({
           {filters.map((filter) => (
             <Card
               className="vertical"
-              href={`${href}/q/${filterKind}/${filter}`}
+              href={`${url}/q/${filterKind}/${filter}`}
               key={filter}
             >
               <CardGraphic src={filterMetadataByOption[filter].graphicURI} />
@@ -97,8 +100,8 @@ function ChooseFilterPage({
     filters: filters,
     filterKey: currentFilter,
     filterKind,
-    pathname: href,
-    href: href,
+    directoryPath,
+    url,
     menuIsOpen,
     setMenuIsOpen,
   };

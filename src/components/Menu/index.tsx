@@ -20,8 +20,8 @@ type MenuProps = {
   filters: string[];
   filterKey: string;
   filterKind: string;
-  pathname: string;
-  href: string;
+  url: string;
+  directoryPath: string;
   setMenuIsOpen?: any;
 };
 
@@ -68,8 +68,8 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
   render() {
     let showVersionSwitcher = false;
     if (
-      (this.props.href.includes("/ui") ||
-        this.props.href.includes("/ui-legacy")) &&
+      (this.props.url.includes("/ui") ||
+        this.props.url.includes("/ui-legacy")) &&
       this.props.filterKey !== "react-native"
     ) {
       showVersionSwitcher = true;
@@ -86,22 +86,22 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
                     filters={this.props.filters}
                     filterKey={this.props.filterKey}
                     filterKind={this.props.filterKind}
-                    pathname={this.props.pathname}
+                    url={this.props.url}
                   />
                 )}
               </MenuHeaderStyle>
               <MenuBodyStyle>
                 {showVersionSwitcher && (
-                  <VersionSwitcher href={this.props.href} />
+                  <VersionSwitcher url={this.props.url} />
                 )}
                 <Directory
                   filterKey={this.props.filterKey}
-                  pathname={this.props.pathname}
+                  url={this.props.url}
                 />
                 <MenuBreakStyle />
                 <RepoActions
-                  path={this.props.pathname}
-                  href={this.props.href}
+                  url={this.props.url}
+                  directoryPath={this.props.directoryPath}
                 />
                 <DiscordLinkStyle>
                   <ExternalLink

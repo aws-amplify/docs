@@ -23,45 +23,48 @@ const getLabelForPath = (path) => {
   }
 };
 
-function createIssueLink(path, href) {
-  href = `docs.amplify.aws${href}`;
+function createIssueLink(directoryPath, url) {
+  url = `https://docs.amplify.aws${url}`;
   const NEW_GITHUB_ISSUE_LINK =
     "https://github.com/aws-amplify/docs/issues/new";
   const params = [
     "title=[Feedback]FEEDBACK_TITLE_HERE",
-    `labels=${encodeURIComponent(getLabelForPath(path))}`,
+    `labels=${encodeURIComponent(getLabelForPath(directoryPath))}`,
     `body=${encodeURIComponent(
-      `**Page**: [\`${path}\`](${href})\n\n**Feedback**:\n\n<!-- your feedback here -->`,
+      `**Page**: [\`${directoryPath}\`](${url})\n\n**Feedback**:\n\n<!-- your feedback here -->`,
     )}`,
   ];
   return `${NEW_GITHUB_ISSUE_LINK}?${params.join("&")}`;
 }
 
-function createEditLink(path) {
+function createEditLink(directoryPath) {
   // hardcoded links for pages that exist in the directory as .../index.mdx
-  if (path === "/cli") path = "/cli/index";
-  if (path === "/cli/function") path = "/cli/function/index";
-  if (path === "/console") path = "/console/index";
-  const safePath = path
+  if (directoryPath === "/cli") directoryPath = "/cli/index";
+  if (directoryPath === "/cli/function") directoryPath = "/cli/function/index";
+  if (directoryPath === "/console") directoryPath = "/console/index";
+  const safePath = directoryPath
     .split("/")
     .map(encodeURIComponent)
     .join("/");
   return `https://github.com/aws-amplify/docs/edit/main/src/pages${safePath}.mdx`;
 }
 
-export default function RepoActions({path, href}) {
-  const feedbackLink = createIssueLink(path, href);
-  const editLink = createEditLink(path);
+export default function RepoActions({directoryPath, url}) {
+  const feedbackLink = createIssueLink(directoryPath, url);
+  const shouldShowEditLink = directoryPath !== "/ChooseFilterPage";
+  const editLink = createEditLink(directoryPath);
   return (
     <RepoActionsStyle>
       <ExternalLink href={feedbackLink}>
         <img src="/assets/flag.svg" alt="Feedback" />
         Feedback
       </ExternalLink>
-      <ExternalLink href={editLink}>
-        <img src="/assets/github.svg" alt="Edit" />
-        Edit
-      </ExternalLink>
+      {shouldShowEditLink && (
+        <ExternalLink href={editLink}>
+          <img src="/assets/github.svg" alt="Edit" />
+          Edit
+        </ExternalLink>
+      )}
     </RepoActionsStyle>
   );
 }
