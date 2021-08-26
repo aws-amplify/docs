@@ -19,8 +19,10 @@ import VersionSwitcher from "./VersionSwitcher";
 type MenuProps = {
   filters: string[];
   filterKey: string;
+  filterKind: string;
   pathname: string;
   href: string;
+  setMenuIsOpen?: any;
 };
 
 type MenuState = {
@@ -47,12 +49,20 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
     this.setState({
       isOpen: false,
     });
+
+    if (this.props.setMenuIsOpen) {
+      this.props.setMenuIsOpen(false);
+    }
   };
 
   openMenu = () => {
     this.setState({
       isOpen: true,
     });
+
+    if (this.props.setMenuIsOpen) {
+      this.props.setMenuIsOpen(true);
+    }
   };
 
   render() {
@@ -75,6 +85,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
                   <FilterSelect
                     filters={this.props.filters}
                     filterKey={this.props.filterKey}
+                    filterKind={this.props.filterKind}
                     pathname={this.props.pathname}
                   />
                 )}
