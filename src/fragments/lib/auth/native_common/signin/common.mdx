@@ -137,6 +137,8 @@ To push your changes to the cloud, **execute the command**:
 amplify push
 ```
 
+In order to send SMS authentication codes, you must [request an origination number](https://docs.aws.amazon.com/pinpoint/latest/userguide/settings-request-number.html). Authentication codes will be sent from the origination number. If your AWS account is in the SMS sandbox, you must also add a destination phone number, which can be done by going to the [Amazon Pinpoint Console](https://console.aws.amazon.com/pinpoint/), selecting SMS and voice in the navigation pane, and selecting Add phone number in the Destination phone numbers tab. To check if your AWS account is in the SMS sandbox, go to the [SNS console](https://console.aws.amazon.com/sns/), select the Text messaging (SMS) tab from the navigation pane, and check the status under the Account information section.
+
 When you sign up, be sure to include both email and phone attributes with the phone number formatted as follows:
 
 import ios12 from "/src/fragments/lib/auth/ios/signin/40_multi_factor_signup.mdx";
