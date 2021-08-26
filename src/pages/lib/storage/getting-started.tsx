@@ -47,7 +47,7 @@ export default function Page() {
             >
               <Card
                 className="vertical"
-                href="/lib/xr/getting-started/q/platform/js"
+                href="/lib/storage/getting-started/q/platform/js"
               >
                 <CardGraphic src="/assets/integrations/js.svg" />
                 <CardDetail>
