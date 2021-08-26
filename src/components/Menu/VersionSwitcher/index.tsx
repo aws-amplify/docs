@@ -2,22 +2,29 @@ import Link from "next/link";
 import {ActiveSwitchStyle, SwitchStyle} from "./styles";
 import directory from "../../../directory/directory";
 
-const uiLegacy = directory["ui-legacy"];
-const {items} = uiLegacy;
+const ui = directory["ui"].items;
+const uiLegacy = directory["ui-legacy"].items;
 const uiLegacyPaths = [] as string[];
 const uiPaths = [] as string[];
-
-for (const [_, value] of Object.entries(items)) {
-  const {items} = value;
-  items.forEach((item) => {
-    const {route, filters} = item;
-    filters.forEach((filter) => {
-      const path = route + "/q/framework/" + filter + "/";
-      uiLegacyPaths.push(path);
-      uiPaths.push(path);
+const itemsAndPaths: [object, string[]][] = [
+  [ui, uiPaths],
+  [uiLegacy, uiLegacyPaths],
+];
+for (const [dirItems, paths] of itemsAndPaths) {
+  for (const [_, value] of Object.entries(dirItems)) {
+    const {items} = value;
+    items.forEach((item) => {
+      const {route, filters} = item;
+      filters.forEach((filter) => {
+        const path = route + "/q/framework/" + filter + "/";
+        paths.push(path);
+      });
+      paths.push(route);
     });
-  });
+  }
 }
+uiLegacyPaths.push("/ui-legacy");
+uiPaths.push("/ui");
 
 const Option = function({href, title, isActive}) {
   const SwitchStyle = isActive ? ActiveSwitchStyle : "a";
@@ -35,7 +42,9 @@ const Option = function({href, title, isActive}) {
 export default function VersionSwitcher({url}) {
   let leftActive = true;
   let urlEnd;
-  const filter = url.split("/framework")[1];
+  const filter = url.includes("/framework")
+    ? "q/framework" + url.split("/framework")[1]
+    : "";
   if (url.includes("/ui-legacy")) {
     leftActive = false;
     urlEnd = url.split("/ui-legacy")[1];
@@ -46,7 +55,7 @@ export default function VersionSwitcher({url}) {
   const leftHref = "/ui" + urlEnd;
   const leftOption = {
     title: "Latest",
-    href: uiPaths.includes(leftHref) ? leftHref : "/ui/q/framework" + filter,
+    href: uiPaths.includes(leftHref) ? leftHref : "/ui/" + filter,
   };
 
   const rightHref = "/ui-legacy" + urlEnd;
@@ -54,7 +63,7 @@ export default function VersionSwitcher({url}) {
     title: "Legacy",
     href: uiLegacyPaths.includes(rightHref)
       ? rightHref
-      : "/ui-legacy/q/framework" + filter,
+      : "/ui-legacy/" + filter,
   };
 
   return (
