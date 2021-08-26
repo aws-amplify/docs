@@ -8,7 +8,7 @@ DataStore periodically publishes state notifications onto Amplify's Hub. You can
 * Data is synchronized with the Cloud;
 * There are new, pending changes that have not yet been synchronized.
 
-The following nine DataStore events are defined:
+The following DataStore events are defined:
 
 ## networkStatus
 
@@ -90,6 +90,10 @@ import ios11 from "/src/fragments/lib/datastore/native_common/datastore-events/o
 
 <Fragments fragments={{ios: ios11}} />
 
+import android12 from "/src/fragments/lib/datastore/android/datastore-events/outbox-mutation-failed.mdx";
+
+<Fragments fragments={{android: android12}} />
+
 ## outboxStatus
 
 Dispatched when:
@@ -97,24 +101,24 @@ Dispatched when:
 - each time a local mutation is enqueued into the outbox
 - each time a local mutation is finished processing
 
-HubPayload `OutboxStatusEvent` contains: 
+HubPayload `OutboxStatusEvent` contains:
 - `isEmpty` (Bool): a boolean value indicating that there are no local changes still pending upload to the Cloud
 
 ## Usage
 To see if the network status is active, you could set up the following listener:
 
-import js12 from "/src/fragments/lib/datastore/js/datastore-events.mdx";
+import js13 from "/src/fragments/lib/datastore/js/datastore-events.mdx";
 
-<Fragments fragments={{js: js12}} />
+<Fragments fragments={{js: js13}} />
 
-import android13 from "/src/fragments/lib/datastore/android/datastore-events.mdx";
+import android14 from "/src/fragments/lib/datastore/android/datastore-events.mdx";
 
-<Fragments fragments={{android: android13}} />
+<Fragments fragments={{android: android14}} />
 
-import ios14 from "/src/fragments/lib/datastore/ios/datastore-events.mdx";
+import ios15 from "/src/fragments/lib/datastore/ios/datastore-events.mdx";
 
-<Fragments fragments={{ios: ios14}} />
+<Fragments fragments={{ios: ios15}} />
 
-import flutter15 from "/src/fragments/lib/datastore/flutter/datastore-events.mdx";
+import flutter16 from "/src/fragments/lib/datastore/flutter/datastore-events.mdx";
 
-<Fragments fragments={{flutter: flutter15}} />
+<Fragments fragments={{flutter: flutter16}} />
