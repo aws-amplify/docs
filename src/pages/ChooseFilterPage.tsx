@@ -31,6 +31,8 @@ function ChooseFilterPage({
   message = "",
 }) {
   const [_, setHref] = useState("https://docs.amplify.aws");
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
+
   useEffect(() => {
     setHref(window.location.href);
   }, []);
@@ -94,8 +96,11 @@ function ChooseFilterPage({
     children,
     filters: filters,
     filterKey: currentFilter,
+    filterKind,
     pathname: href,
     href: href,
+    menuIsOpen,
+    setMenuIsOpen,
   };
   return (
     <Layout
