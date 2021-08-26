@@ -18,17 +18,25 @@ npm install -S maplibre-gl maplibre-gl-js-amplify
 
 > **Note:** Make sure that `maplibre-gl-js-amplify` version `1.0.5` or above is installed.
 
+Add [maplibre-gl.css](https://maplibre.org/maplibre-gl-js-docs/api/#mapbox-css) and styles in the `head` element of your html page. (In a new react app, it will be `index.html` in `public` folder)
+```html
+<link href="https://cdn.amplify.aws/packages/maplibre-gl/1.14.0/maplibre-gl.css" rel="stylesheet"
+  integrity="sha384-sZlnv03zeGbcXDiuZ98TrNVZFIfpsVhN0itUxRFONLo6lOZskJPIMlOwDy+nloRF" crossorigin="anonymous"
+  referrerpolicy="no-referrer">
+<style> #map { position: absolute; top: 0; bottom: 0; width: 100%; } </style>
+```
+
 Import the library into your application:
 
 ```javascript
-import { AmplifyMapLibreRequest } from "maplibre-gl-js-amplify";
+import { createMap } from "maplibre-gl-js-amplify";
 ```
 
-Next, create and render the [Map](https://maplibre.org/maplibre-gl-js-docs/api/map/) with the help of [AmplifyMapLibreRequest](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#amplifymaplibrerequest).
+Next, create and render the [Map](https://maplibre.org/maplibre-gl-js-docs/api/map/) with the help of [createMap](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#createmap).
 
 ```javascript
 async function initializeMap() {
-    const map = await AmplifyMapLibreRequest.createMapLibreMap({
+    const map = await createMap({
         container: "map", // An HTML Element or HTML element ID to render the map in https://maplibre.org/maplibre-gl-js-docs/api/map/
         center: [-123.1187, 49.2819],
         zoom: 11,
@@ -134,9 +142,9 @@ Next, add a div element with id `map` anywhere in your webpage where you want to
 <script type="module">
     import awsconfig from "./aws-exports.js";
     const { Amplify } = aws_amplify_core;
-    const { AmplifyMapLibreRequest } = maplibreAmplify;
+    const { createMap } = maplibreAmplify;
     Amplify.configure(awsconfig);
-    AmplifyMapLibreRequest.createMapLibreMap({
+    createMap({
         container: "map",
         center: [-123.1187, 49.2819],
         zoom: 13,
@@ -169,9 +177,9 @@ Next, add a div element with id `map` anywhere in your webpage where you want to
         <script type="module">
             import awsconfig from "./aws-exports.js";
             const { Amplify } = aws_amplify_core;
-            const { AmplifyMapLibreRequest } = maplibreAmplify;
+            const { createMap } = maplibreAmplify;
             Amplify.configure(awsconfig);
-            AmplifyMapLibreRequest.createMapLibreMap({
+            createMap({
                 container: "map",
                 center: [-123.1187, 49.2819],
                 zoom: 13,

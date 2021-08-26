@@ -155,6 +155,39 @@ If you've setup federation through third party providers, you would need to upda
 ### Setup Amazon Cognito Hosted UI in Android App
 
 <BlockSwitcher>
+<Block name="Version 2.27.0 and above">
+
+Add the following activity and queries tag to your app's `AndroidManifest.xml` file, replacing `myapp` with
+whatever value you used for your redirect URI prefix:
+
+```xml
+<queries>
+  <intent>
+    <action android:name="android.intent.action.VIEW" />
+    <data android:scheme="https" />
+  </intent>
+  <intent>
+    <action android:name=
+        "android.support.customtabs.action.CustomTabsService" />
+  </intent>
+</queries>
+<application ...>
+  ...
+  <activity
+      android:name="com.amplifyframework.auth.cognito.activities.HostedUIRedirectActivity"
+      android:exported="true">
+      <intent-filter>
+          <action android:name="android.intent.action.VIEW" />
+          <category android:name="android.intent.category.DEFAULT" />
+          <category android:name="android.intent.category.BROWSABLE" />
+          <data android:scheme="myapp" />
+      </intent-filter>
+  </activity>
+  ...
+</application>
+```
+
+</Block>
 <Block name="Version 2.24.0 and above">
 
 1. Add the following activity to your app's `AndroidManifest.xml` file, replacing `myapp` with
