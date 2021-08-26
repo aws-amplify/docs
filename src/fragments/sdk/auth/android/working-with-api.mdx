@@ -253,7 +253,7 @@ AWSMobileClient.getInstance().forgotPassword("username", new Callback<ForgotPass
     }
 });
 
-AWSMobileClient.getInstance().confirmForgotPassword("NEW_PASSWORD_HERE", "CONFIRMATION_CODE", new Callback<ForgotPasswordResult>() {
+AWSMobileClient.getInstance().confirmForgotPassword("username", "NEW_PASSWORD_HERE", "CONFIRMATION_CODE", new Callback<ForgotPasswordResult>() {
     @Override
     public void onResult(final ForgotPasswordResult result) {
         runOnUiThread(new Runnable() {
