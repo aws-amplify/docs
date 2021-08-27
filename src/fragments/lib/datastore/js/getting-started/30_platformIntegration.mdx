@@ -31,5 +31,30 @@ You will also need to install the pod dependencies for iOS:
 ```sh
 npx pod-install
 ```
+
+**Using SQLite (optional)**
+
+React Native CLI apps can now use SQLite with DataStore. SQLite offers considerable performance advantages over AsyncStorage, the default database.
+
+At this time, SQLite is an opt-in feature, and you can enable it with the following steps:
+
+```
+npx react-native init AmplifyDataStoreRN
+cd AmplifyDataStoreRN
+npm install aws-amplify @aws-amplify/datastore-storage-adapter react-native-sqlite-storage aws-amplify-react-native amazon-cognito-identity-js @react-native-community/netinfo @react-native-async-storage/async-storage
+npx pod-install
+```
+
+Then pass the SQLite storage adapter to DataStore in your app:
+
+```js
+import { DataStore } from 'aws-amplify';
+import { SQLiteAdapter } from '@aws-amplify/datastore-storage-adapter';
+
+DataStore.configure({
+  storageAdapter: SQLiteAdapter
+});
+```
+
 </Block>
 </BlockSwitcher>
