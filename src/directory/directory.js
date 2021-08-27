@@ -1235,7 +1235,7 @@ const directory = {
       function: {
         title: "Functions",
         items: [
-          {title: "Overview", route: "/cli/function/function", filters: []},
+          {title: "Overview", route: "/cli/function", filters: []},
           {
             title: "Reuse code & assets using layers",
             route: "/cli/function/layers",

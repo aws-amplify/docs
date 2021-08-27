@@ -4,7 +4,7 @@ You can list all of the objects uploaded under a given prefix. This will list al
 <Block name="Java">
 
 ```java
-Amplify.Storage.list("/",
+Amplify.Storage.list("",
     result -> {
         for (StorageItem item : result.getItems()) {
             Log.i("MyAmplifyApp", "Item: " + item.getKey());
@@ -18,7 +18,7 @@ Amplify.Storage.list("/",
 <Block name="Kotlin - Callbacks">
 
 ```kotlin
-Amplify.Storage.list("/",
+Amplify.Storage.list("",
     { result ->
         result.items.forEach { item ->
             Log.i("MyAmplifyApp", "Item: ${item.key}")
@@ -33,7 +33,7 @@ Amplify.Storage.list("/",
 
 ```kotlin
 try {
-    Amplify.Storage.list("/").items.forEach {
+    Amplify.Storage.list("").items.forEach {
         Log.i("MyAmplifyApp", "Item: ${it.key}")
     }
 } catch (error: StorageException) {
@@ -45,7 +45,7 @@ try {
 <Block name="RxJava">
 
 ```java
-RxAmplify.Storage.list("/")
+RxAmplify.Storage.list("")
     .subscribe(
         result -> {
             for (StorageItem item : result.getItems()) {
@@ -71,7 +71,7 @@ StorageListOptions options = StorageListOptions.builder()
     .build();
 
 Amplify.Storage.list(
-    "/",
+    "",
     options,
     result -> {
         for (StorageItem item : result.getItems()) {
@@ -91,7 +91,7 @@ val options = StorageListOptions.builder()
     .targetIdentityId("otherUserID")
     .build()
 
-Amplify.Storage.list("/", options,
+Amplify.Storage.list("", options,
     { result ->
         result.items.forEach { item ->
             Log.i("MyAmplifyApp", "Item: ${item.key}")
@@ -111,7 +111,7 @@ val options = StorageListOptions.builder()
     .build()
 
 try {
-    Amplify.Storage.list("/", options).items.forEach {
+    Amplify.Storage.list("", options).items.forEach {
         Log.i("AmplifyApplication", "Item: $it")
     }
 } catch (error: StorageException) {
@@ -128,7 +128,7 @@ StorageListOptions options = StorageListOptions.builder()
         .targetIdentityId("otherUserID")
         .build();
 
-RxAmplify.Storage.list("/", options)
+RxAmplify.Storage.list("", options)
         .subscribe(
             result -> {
                 for (StorageItem item : result.getItems()) {

@@ -164,6 +164,9 @@ function generatePathMap(
     "/cli": {
       page: "/cli",
     },
+    "/cli/function": {
+      page: "/cli/function",
+    },
   },
 ) {
   for (const [_, value] of Object.entries(obj)) {

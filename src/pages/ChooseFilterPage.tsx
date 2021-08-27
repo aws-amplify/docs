@@ -96,6 +96,7 @@ function ChooseFilterPage({
     children,
     filters: filters,
     filterKey: currentFilter,
+    filterKind,
     pathname: href,
     href: href,
     menuIsOpen,

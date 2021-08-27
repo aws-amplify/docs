@@ -20,10 +20,9 @@ import {parseLocalStorage} from "../../utils/parseLocalStorage";
 import {withFilterOverrides} from "../../utils/withFilterOverrides";
 
 export default function Page({children, meta}: {children: any; meta?: any}) {
-  const [menuIsOpen, setMenuIsOpen] = useState(false);
-
   const router = useRouter();
   if (!router.isReady) {
+    const [menuIsOpen, setMenuIsOpen] = useState(false);
     useRef(null);
     return <></>;
   }
@@ -60,7 +59,12 @@ export default function Page({children, meta}: {children: any; meta?: any}) {
     );
   }
 
-  const filterKeys = withFilterOverrides(filterKeyUpdates, filterKeysLoaded);
+  const overrides = withFilterOverrides(filterKeyUpdates, filterKeysLoaded);
+  const filterKeys = {
+    ...filterKeysLoaded,
+    ...overrides,
+  };
+
   localStorage.setItem("filterKeys", JSON.stringify(filterKeys));
   if (filters.length !== 0 && !filters.includes(filterKey) && meta) {
     return (
@@ -73,6 +77,7 @@ export default function Page({children, meta}: {children: any; meta?: any}) {
       />
     );
   }
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
 
   meta.chapterTitle = "";
   if (meta && !isProductRoot(pathname)) {
@@ -97,6 +102,7 @@ export default function Page({children, meta}: {children: any; meta?: any}) {
             children,
             filters,
             filterKey,
+            filterKind,
             pathname: router.pathname,
             href: router.asPath,
             menuIsOpen,
@@ -114,6 +120,7 @@ export function metaContent({
   children,
   filters,
   filterKey,
+  filterKind,
   pathname,
   href,
   menuIsOpen,
@@ -132,6 +139,7 @@ export function metaContent({
       <Menu
         filters={filters}
         filterKey={filterKey}
+        filterKind={filterKind}
         pathname={pathname}
         href={href}
         ref={menuRef}
