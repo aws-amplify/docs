@@ -18,10 +18,13 @@ npm install -S maplibre-gl maplibre-gl-js-amplify
 
 > **Note:** Make sure that `maplibre-gl-js-amplify` version `1.0.5` or above is installed.
 
+> **Note:** Ensure that your package bundler (webpack, rollup, etc) is configured to handle css files. Check out the webpack documentation [here](https://webpack.js.org/loaders/css-loader/).
+
 Import the library into your application:
 
 ```javascript
 import { createMap } from "maplibre-gl-js-amplify";
+import "maplibre-gl/dist/maplibre-gl.css";
 ```
 
 Next, create and render the [Map](https://maplibre.org/maplibre-gl-js-docs/api/map/) with the help of [createMap](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#createmap).
