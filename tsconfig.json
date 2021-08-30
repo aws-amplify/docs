@@ -1,10 +1,16 @@
 {
   "compilerOptions": {
     "downlevelIteration": true,
-    "lib": ["es2017", "dom"],
+    "lib": [
+      "es2017",
+      "dom"
+    ],
     "module": "commonjs",
     "resolveJsonModule": true,
-    "typeRoots": ["node_modules/@types", "capi/node_modules/@types"],
+    "typeRoots": [
+      "node_modules/@types",
+      "capi/node_modules/@types"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
@@ -13,5 +19,9 @@
     "jsx": "preserve"
   },
   "extends": "./tsconfig.base.json",
-  "include": ["src", "tasks"]
+  "include": [
+    "capi",
+    "client",
+    "tasks"
+  ]
 }

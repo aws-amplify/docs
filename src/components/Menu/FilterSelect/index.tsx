@@ -48,7 +48,7 @@ class FilterSelect extends React.Component<
   closeMenu = (event: MouseEvent) => {
     if (
       this.wrapperRef &&
-      !this.wrapperRef.current?.contains(event.target as Node) &&
+      !this.wrapperRef.current.contains(event.target as Node) &&
       this.state.isOpen
     ) {
       this.setState({
@@ -95,7 +95,7 @@ class FilterSelect extends React.Component<
     if (this.props.filterKind in filterOptionsByName) {
       allFilters = filterOptionsByName[this.props.filterKind];
     }
-    const unsupportedFilters = [] as string[];
+    const unsupportedFilters = [];
     for (const filter of allFilters) {
       if (!this.props.filters.includes(filter)) {
         let shouldAdd = true;

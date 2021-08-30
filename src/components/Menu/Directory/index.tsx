@@ -30,7 +30,7 @@ class DirectoryGroup extends React.Component<
   DirectoryGroupProps,
   DirectoryGroupState
 > {
-  itemsToDisplay = [] as DirectoryItem[];
+  itemsToDisplay = [];
   currentRoute = "";
 
   shouldDisplay = ({filters}): boolean => {
