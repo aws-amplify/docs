@@ -11,6 +11,12 @@ function getLocalDirectory(pathname: string, depth: number): object {
 }
 
 export function isProductRoot(pathname: string): boolean {
+  // remove trailing slash.  this is important on pages like /cli/index.mdx
+  // or /console/index.mdx where router.asPath has a trailing slash and
+  // router.pathname doesn't.
+  if (pathname.endsWith("/")) {
+    pathname = pathname.slice(0, -1);
+  }
   const path = pathname.split("/");
 
   if (directory[path[1]].productRoot.route === pathname) {
