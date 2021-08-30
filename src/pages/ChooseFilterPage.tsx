@@ -27,7 +27,7 @@ function ChooseFilterPage({
   directoryPath,
   address,
   filterKind,
-  filters = [],
+  filters = [] as string[],
   currentFilter = "all",
   message = "",
 }) {

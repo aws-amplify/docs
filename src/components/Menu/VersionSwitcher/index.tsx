@@ -4,8 +4,8 @@ import directory from "../../../directory/directory";
 
 const ui = directory["ui"].items;
 const uiLegacy = directory["ui-legacy"].items;
-const uiLegacyPaths = [];
-const uiPaths = [];
+const uiLegacyPaths = [] as string[];
+const uiPaths = [] as string[];
 const itemsAndPaths: [object, string[]][] = [
   [ui, uiPaths],
   [uiLegacy, uiLegacyPaths],
