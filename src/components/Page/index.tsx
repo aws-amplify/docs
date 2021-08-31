@@ -26,7 +26,13 @@ export default function Page({children, meta}: {children: any; meta?: any}) {
     useRef(null);
     return <></>;
   }
-  const url = router.asPath;
+  let url = router.asPath;
+  // remove trailing slash.  this is important on pages like /cli/index.mdx
+  // or /console/index.mdx where router.asPath has a trailing slash and
+  // router.pathname doesn't.
+  if (url.endsWith("/")) {
+    url = url.slice(0, -1);
+  }
   const directoryPath = router.pathname;
   let filterKey = "",
     filterKind = "";
