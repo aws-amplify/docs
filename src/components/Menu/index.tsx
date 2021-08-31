@@ -96,7 +96,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
                 )}
                 <Directory
                   filterKey={this.props.filterKey}
-                  directoryPath={this.props.directoryPath}
+                  url={this.props.url}
                 />
                 <MenuBreakStyle />
                 <RepoActions
