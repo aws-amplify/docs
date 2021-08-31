@@ -16,4 +16,4 @@ jobs:
       - name: Run Spellcheck
         run: yarn spellcheck
       - name: Run Build
-        run: yarn next-build
+        run: yarn export
