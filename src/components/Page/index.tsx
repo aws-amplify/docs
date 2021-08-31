@@ -76,7 +76,7 @@ export default function Page({children, meta}: {children: any; meta?: any}) {
   if (filters.length !== 0 && !filters.includes(filterKey) && meta) {
     return (
       <ChooseFilterPage
-        directoryPath={directoryPath}
+        directoryPath="/ChooseFilterPage"
         address={url}
         filterKind={filterKind}
         filters={filters}
