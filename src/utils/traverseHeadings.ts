@@ -16,12 +16,32 @@ export function traverseHeadings(tree, filterKey: string): string[] {
         const fragmentFunction = node.props.fragments[filterKey];
         const fragment = fragmentFunction([]); // expand function into full tree
         headings = headings.concat(traverseHeadings(fragment, filterKey));
+      } else if ("all" in node.props.fragments) {
+        // "all" includes every filterKey, so recurse
+        const fragmentFunction = node.props.fragments.all;
+        const fragment = fragmentFunction([]); // expand function into full tree
+        headings = headings.concat(traverseHeadings(fragment, filterKey));
       }
     } else if ("children" in node.props) {
-      // Recurse on the children
-      headings = headings.concat(
-        traverseHeadings(node.props.children, filterKey),
-      );
+      // Recurse on the children, _unless_ this is a FilterContent with a
+      // filter that doesn't match the current filterKey
+      if (node.props.mdxType === "FilterContent") {
+        let filterContentFilter;
+        if ("framework" in node.props)
+          filterContentFilter = node.props.framework;
+        if ("integration" in node.props)
+          filterContentFilter = node.props.integration;
+        if ("platform" in node.props) filterContentFilter = node.props.platform;
+        if (filterContentFilter === filterKey) {
+          headings = headings.concat(
+            traverseHeadings(node.props.children, filterKey),
+          );
+        }
+      } else {
+        headings = headings.concat(
+          traverseHeadings(node.props.children, filterKey),
+        );
+      }
 
       // Is this a heading?  If so, "children" is actually the heading text
       if ("mdxType" in node.props) {
