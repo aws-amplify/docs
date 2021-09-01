@@ -41,6 +41,30 @@ async function initializeMap() {
 initializeMap();
 ```
 
+Finally include required CSS styling to get the maplibre-gl canvas to render itself appropriately.
+
+To make a fullscreen map:
+
+```css
+#map { /* The id of the container you passed to createMap */
+  height: 100vh;
+}
+```
+
+To render a map using percentage based height you need to ensure that all ancestor elements to the map container have a height:
+
+```css
+html,
+body,
+#root { /* The ancestors of the map element */
+  height: 100%;
+}
+
+#map {
+  height: 50%;
+}
+```
+
 ![A map centered on Vancouver](/images/display-map.png)
 
 ## Display markers on map
@@ -51,7 +75,7 @@ To display markers on a map, use the [drawPoints](https://github.com/aws-amplify
 - coordinate data - the coordinate data of the markers to be displayed
 - a maplibre-gl-js Map - the map object on which to render the markers
 
-First, import the `drawPoints` method in your app. Your import section should include look like this -
+First, import the `drawPoints` method in your app. Your import section should include look like this
 
 ```javascript
 import { AmplifyMapLibreRequest, drawPoints } from "maplibre-gl-js-amplify";
