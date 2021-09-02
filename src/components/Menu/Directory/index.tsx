@@ -18,7 +18,7 @@ type DirectoryItem = {
 type DirectoryGroupProps = {
   title: string;
   items: DirectoryItem[];
-  pathname: string;
+  url: string;
   filterKey: string;
 };
 
@@ -57,13 +57,13 @@ class DirectoryGroup extends React.Component<
     ) {
       this.state = {isExpanded: true};
     } else {
-      this.state = {isExpanded: this.props.pathname.startsWith("/start")};
+      this.state = {isExpanded: this.props.url.startsWith("/start")};
     }
   }
 
   initialize = () => {
     this.itemsToDisplay = this.props.items.filter(this.shouldDisplay);
-    this.currentRoute = this.props.pathname.split("/q/").shift() as string;
+    this.currentRoute = this.props.url.split("/q/").shift() as string;
   };
 
   toggleOpen = () => {
@@ -102,13 +102,13 @@ class DirectoryGroup extends React.Component<
 }
 
 type DirectoryProps = {
-  pathname: string;
+  url: string;
   filterKey: string;
 };
 
 export default class Directory extends React.Component<DirectoryProps> {
   render() {
-    const directory = getProductDirectory(this.props.pathname) as {
+    const directory = getProductDirectory(this.props.url) as {
       productRoot: {title: string; route: string};
       items: {title: string; items: DirectoryItem[]}[];
     };
@@ -118,7 +118,7 @@ export default class Directory extends React.Component<DirectoryProps> {
       <div>
         <InternalLink href={productRoot.route}>
           <ProductRootLinkStyle
-            isActive={this.props.pathname.split("/q")[0] === productRoot.route}
+            isActive={this.props.url.split("/q")[0] === productRoot.route}
           >
             {productRoot.title}
           </ProductRootLinkStyle>
@@ -127,7 +127,7 @@ export default class Directory extends React.Component<DirectoryProps> {
           <DirectoryGroup
             title={folderName[1].title}
             items={folderName[1].items}
-            pathname={this.props.pathname}
+            url={this.props.url}
             filterKey={this.props.filterKey}
             key={folderName[1].title}
           />

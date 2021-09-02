@@ -9,21 +9,19 @@ import {
   DropdownStyle,
 } from "./styles";
 import React from "react";
-import {NextRouter, withRouter} from "next/router";
 
 type FilterSelectProps = {
   filters: string[];
   filterKey: string;
   filterKind: string;
-  pathname: string;
-  router: NextRouter;
+  url: string;
 };
 
 type FilterSelectState = {
   isOpen: boolean;
 };
 
-class FilterSelect extends React.Component<
+export default class FilterSelect extends React.Component<
   FilterSelectProps,
   FilterSelectState
 > {
@@ -69,11 +67,11 @@ class FilterSelect extends React.Component<
     query[this.props.filterKind] = name;
 
     let href = {
-      pathname: this.props.pathname,
+      url: this.props.url,
       query: query,
     } as object | string;
-    if (!this.props.pathname.includes("/q/")) {
-      href = this.props.pathname + `/q/${this.props.filterKind}/${name}`;
+    if (!this.props.url.includes("/q/")) {
+      href = this.props.url + `/q/${this.props.filterKind}/${name}`;
     }
 
     return (
@@ -101,10 +99,10 @@ class FilterSelect extends React.Component<
         let shouldAdd = true;
 
         // special cases
-        if (this.props.router.asPath.startsWith("/guides")) {
+        if (this.props.url.startsWith("/guides")) {
           shouldAdd = filter !== "flutter";
         }
-        if (this.props.router.asPath.startsWith("/sdk")) {
+        if (this.props.url.startsWith("/sdk")) {
           shouldAdd = filter !== "flutter" && filter !== "js";
         }
 
@@ -157,5 +155,3 @@ class FilterSelect extends React.Component<
     );
   }
 }
-
-export default withRouter(FilterSelect);

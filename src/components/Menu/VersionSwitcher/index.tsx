@@ -39,26 +39,26 @@ const Option = function({href, title, isActive}) {
   );
 };
 
-export default function VersionSwitcher({href}) {
+export default function VersionSwitcher({url}) {
   let leftActive = true;
-  let hrefEnd;
-  const filter = href.includes("/framework")
-    ? "q/framework" + href.split("/framework")[1]
+  let urlEnd;
+  const filter = url.includes("/framework")
+    ? "q/framework" + url.split("/framework")[1]
     : "";
-  if (href.includes("/ui-legacy")) {
+  if (url.includes("/ui-legacy")) {
     leftActive = false;
-    hrefEnd = href.split("/ui-legacy")[1];
+    urlEnd = url.split("/ui-legacy")[1];
   } else {
-    hrefEnd = href.split("/ui")[1];
+    urlEnd = url.split("/ui")[1];
   }
 
-  const leftHref = "/ui" + hrefEnd;
+  const leftHref = "/ui" + urlEnd;
   const leftOption = {
     title: "Latest",
     href: uiPaths.includes(leftHref) ? leftHref : "/ui/" + filter,
   };
 
-  const rightHref = "/ui-legacy" + hrefEnd;
+  const rightHref = "/ui-legacy" + urlEnd;
   const rightOption = {
     title: "Legacy",
     href: uiLegacyPaths.includes(rightHref)

@@ -46,12 +46,12 @@ function Next(item: DirectoryItem) {
   );
 }
 
-export default function NextPrevious({pathname, filterKey}) {
-  if (isProductRoot(pathname)) {
+export default function NextPrevious({url, filterKey}) {
+  if (isProductRoot(url)) {
     return <></>;
   }
 
-  const chapterDirectory = getChapterDirectory(pathname) as Directory;
+  const chapterDirectory = getChapterDirectory(url) as Directory;
   if (!chapterDirectory) {
     return null;
   }
@@ -63,7 +63,7 @@ export default function NextPrevious({pathname, filterKey}) {
   });
   let itemIndex = -1;
   for (let i = 0; i < items.length; ++i) {
-    if (pathname.startsWith(items[i].route)) itemIndex = i;
+    if (url.startsWith(items[i].route)) itemIndex = i;
   }
 
   if (itemIndex === -1) {

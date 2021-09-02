@@ -26,7 +26,14 @@ export default function Page({children, meta}: {children: any; meta?: any}) {
     useRef(null);
     return <></>;
   }
-  const {pathname, asPath} = router;
+  let url = router.asPath;
+  // remove trailing slash.  this is important on pages like /cli/index.mdx
+  // or /console/index.mdx where router.asPath has a trailing slash and
+  // router.pathname doesn't.
+  if (url.endsWith("/")) {
+    url = url.slice(0, -1);
+  }
+  const directoryPath = router.pathname;
   let filterKey = "",
     filterKind = "";
   const filterKeysLoaded = parseLocalStorage(
@@ -50,10 +57,10 @@ export default function Page({children, meta}: {children: any; meta?: any}) {
   const headers = traverseHeadings(children, filterKey);
   let filters = gatherAllFilters(children, filterKind);
   // special cases
-  if (asPath.startsWith("/guides")) {
+  if (url.startsWith("/guides")) {
     filters = filters.filter((filter) => filter !== "flutter");
   }
-  if (asPath.startsWith("/sdk")) {
+  if (url.startsWith("/sdk")) {
     filters = filters.filter(
       (filter) => filter !== "flutter" && filter !== "js",
     );
@@ -69,7 +76,8 @@ export default function Page({children, meta}: {children: any; meta?: any}) {
   if (filters.length !== 0 && !filters.includes(filterKey) && meta) {
     return (
       <ChooseFilterPage
-        href={pathname}
+        directoryPath="/ChooseFilterPage"
+        address={url}
         filterKind={filterKind}
         filters={filters}
         currentFilter={filterKey}
@@ -80,8 +88,8 @@ export default function Page({children, meta}: {children: any; meta?: any}) {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
 
   meta.chapterTitle = "";
-  if (meta && !isProductRoot(pathname)) {
-    const {title: chapTitle} = getChapterDirectory(pathname) as {
+  if (meta && !isProductRoot(url)) {
+    const {title: chapTitle} = getChapterDirectory(url) as {
       title: string;
     };
     meta.chapterTitle = chapTitle;
@@ -103,8 +111,8 @@ export default function Page({children, meta}: {children: any; meta?: any}) {
             filters,
             filterKey,
             filterKind,
-            pathname: router.pathname,
-            href: router.asPath,
+            url,
+            directoryPath,
             menuIsOpen,
             setMenuIsOpen,
           })
@@ -121,8 +129,8 @@ export function metaContent({
   filters,
   filterKey,
   filterKind,
-  pathname,
-  href,
+  url,
+  directoryPath,
   menuIsOpen,
   setMenuIsOpen,
 }) {
@@ -140,8 +148,8 @@ export function metaContent({
         filters={filters}
         filterKey={filterKey}
         filterKind={filterKind}
-        pathname={pathname}
-        href={href}
+        url={url}
+        directoryPath={directoryPath}
         ref={menuRef}
         setMenuIsOpen={setMenuIsOpen}
       ></Menu>
@@ -151,7 +159,7 @@ export function metaContent({
           <h1>{title}</h1>
           <CodeBlockProvider>
             {children}
-            <NextPrevious pathname={pathname} filterKey={filterKey} />
+            <NextPrevious url={url} filterKey={filterKey} />
           </CodeBlockProvider>
         </div>
       </ContentStyle>
