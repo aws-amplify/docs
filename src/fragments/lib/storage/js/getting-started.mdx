@@ -303,6 +303,20 @@ Storage.configure({
 
 ```
 
+You can pass in your custom provider class to the Storage call to get Typescript support:
+```javascript
+class MyStorageProvider implements StorageProvider {
+	...
+	get(key: string, config: { config1: boolean; config2: number; });
+}
+
+Storage.get<MyStorageProvider>('key', {
+	provider: 'MyStorageProvider',
+	config1: true,
+	config2: 123,
+})
+```
+
 The default provider (Amazon S3) is in use when you call `Storage.put( )` unless you specify a different provider: `Storage.put(key, object, {provider: 'MyStorageProvider'})`. 
 
 ## Mocking and Local Testing with Amplify CLI
