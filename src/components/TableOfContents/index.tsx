@@ -18,18 +18,17 @@ export default function TableOfContents({children, title}) {
   if (children.length === 0) {
     return <></>;
   }
-  const headers = [];
+  window.onload = (_) => {
+    if (window.location.href.includes("#")) {
+      const hash = window.location.href.split("#")[1];
+      scroll(hash);
+    }
+  };
+  let headers = [];
+  let headerQueries = [];
   let activeLink = 0;
   let previousLink = 0;
   useEffect(() => {
-    if (router.asPath.includes("#")) {
-      const hash = router.asPath.split("#")[1];
-      scroll(hash);
-    }
-
-    const headerQueries = headers.map((header) => {
-      return document.querySelector(`[id="${header}"]`);
-    });
     document.addEventListener("scroll", () => {
       if (headers) {
         let i = headerQueries.findIndex(
@@ -72,23 +71,49 @@ export default function TableOfContents({children, title}) {
         }
       }
     });
+
+    const idSet = new Set();
+    const headings = document.querySelectorAll("a > h2, a > h3");
+    const headings2 = document.getElementById("toc").querySelectorAll("a");
+    for (let i = 0; i < headings.length; ++i) {
+      const id = headings[i].id;
+      let counter = 0;
+      let uniqueId = id;
+      while (idSet.has(uniqueId)) {
+        counter++;
+        uniqueId = id + "-" + counter.toString();
+      }
+      idSet.add(uniqueId);
+
+      headings[i].id = uniqueId;
+      if (counter !== 0) {
+        (headings[i].parentElement as HTMLAnchorElement).href = `#${uniqueId}`;
+        headings2[i].href = `#${uniqueId}`;
+      }
+      (headings[i].parentElement as HTMLAnchorElement).onclick = () => {
+        setTimeout(scroll.bind(undefined, uniqueId), 50);
+        return false;
+      };
+      headings2[i].onclick = () => {
+        setTimeout(scroll.bind(undefined, uniqueId), 50);
+        return false;
+      };
+    }
+    headers = Array.from(headings).map((heading) => heading.id);
+    headerQueries = headers.map((header) => {
+      return document.querySelector(`[id="${header}"]`);
+    });
   }, []);
+
   return (
-    <TOCStyle>
+    <TOCStyle id="toc">
       <HeaderStyle>
         <h4>{title}</h4>
       </HeaderStyle>
       {children.map(([name, id, level], index) => {
         const slugged = `#${id}`;
-        headers.push(id);
         const anchor = (
-          <a
-            href={slugged} // and then return false in onClick
-            onClick={() => {
-              setTimeout(scroll.bind(undefined, id), 50);
-              return false;
-            }}
-          >
+          <a href={slugged}>
             <div>{name}</div>
           </a>
         );
