@@ -4,9 +4,6 @@ import docs from "@aws-amplify/ui-components/dist/docs";
 import {tableGeneratorMap} from "../TableGenerator";
 import {WebComponentProps} from "../../utils/ui-component-props.types";
 import {ATTR_HEADER, CSS_HEADER, SLOTS_HEADER} from "../../constants/strings";
-import getElementTop from "../../utils/get-element-top";
-
-const stickyHeaderHeight = 54;
 
 export const headerNames: Record<WebComponentProps, string> = {
   attr: ATTR_HEADER,
