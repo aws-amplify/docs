@@ -21,6 +21,11 @@ export function isProductRoot(pathname: string): boolean {
     // matches /ui/q/framework/react, for example
     return true;
   }
+
+  if (path[2].startsWith(`#`)) {
+    // matches /cli/#key-capabilities, for examle
+    return true;
+  }
   return false;
 }
 
