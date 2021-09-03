@@ -42,20 +42,7 @@ export default function UiComponentProps({
 function Header({useTableHeaders = false, propType = "attr", component}) {
   const sectionId = `props-${propType}-${component?.tag}`;
   return useTableHeaders ? (
-    <a
-      href={"#" + sectionId}
-      onClick={(e) => {
-        e.preventDefault();
-        const top = getElementTop(
-          document.getElementById(sectionId),
-          stickyHeaderHeight,
-        );
-        if (top !== window.scrollY) {
-          window.scrollTo({top});
-          history.replaceState(undefined, document.title, `#${sectionId}`);
-        }
-      }}
-    >
+    <a href={"#" + sectionId}>
       <h2 id={sectionId}>{headerNames[propType]}</h2>
     </a>
   ) : (
