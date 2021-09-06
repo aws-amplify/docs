@@ -13,7 +13,7 @@ function getLocalDirectory(pathname: string, depth: number): object {
 export function isProductRoot(pathname: string): boolean {
   const path = pathname.split("/");
 
-  if (directory[path[1]].productRoot.route === pathname) {
+  if (directory[path[1]]?.productRoot?.route === pathname) {
     // matches /ui, for example
     return true;
   }
@@ -22,7 +22,7 @@ export function isProductRoot(pathname: string): boolean {
     return true;
   }
 
-  if (path[2].startsWith(`#`)) {
+  if (path[2]?.startsWith(`#`)) {
     // matches /cli/#key-capabilities, for examle
     return true;
   }
