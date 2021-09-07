@@ -67,7 +67,6 @@ export default function Layout({children, meta}: {children: any; meta?: any}) {
         <LayoutStyle>{children}</LayoutStyle>
       </Container>
       <Footer />
-      <script src="https://cdn.jsdelivr.net/npm/docsearch.js@2.6.3/dist/cdn/docsearch.min.js"></script>
     </>
   );
 }
