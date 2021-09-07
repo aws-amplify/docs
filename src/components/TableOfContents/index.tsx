@@ -29,7 +29,39 @@ export default function TableOfContents({children, title}) {
   let activeLink = 0;
   let previousLink = 0;
   useEffect(() => {
-    document.addEventListener("scroll", () => {
+    const idSet = new Set();
+    const headings = document.querySelectorAll("a > h2, a > h3");
+    const headings2 = document.getElementById("toc").querySelectorAll("a");
+    for (let i = 0; i < headings.length; ++i) {
+      const id = headings[i].id;
+      let counter = 0;
+      let uniqueId = id;
+      while (idSet.has(uniqueId)) {
+        counter++;
+        uniqueId = id + "-" + counter.toString();
+      }
+      idSet.add(uniqueId);
+
+      headings[i].id = uniqueId;
+      if (counter !== 0) {
+        (headings[i].parentElement as HTMLAnchorElement).href = `#${uniqueId}`;
+        headings2[i].href = `#${uniqueId}`;
+      }
+      (headings[i].parentElement as HTMLAnchorElement).onclick = () => {
+        setTimeout(scroll.bind(undefined, uniqueId), 50);
+        return false;
+      };
+      headings2[i].onclick = () => {
+        setTimeout(scroll.bind(undefined, uniqueId), 50);
+        return false;
+      };
+    }
+    headers = Array.from(headings).map((heading) => heading.id);
+    headerQueries = headers.map((header) => {
+      return document.querySelector(`[id="${header}"]`);
+    });
+
+    const scrollHandler = () => {
       if (headers) {
         let i = headerQueries.findIndex(
           (e) => getElementTop(e, stickyHeaderHeight) - 3 > window.scrollY,
@@ -70,39 +102,11 @@ export default function TableOfContents({children, title}) {
           }
         }
       }
-    });
-
-    const idSet = new Set();
-    const headings = document.querySelectorAll("a > h2, a > h3");
-    const headings2 = document.getElementById("toc").querySelectorAll("a");
-    for (let i = 0; i < headings.length; ++i) {
-      const id = headings[i].id;
-      let counter = 0;
-      let uniqueId = id;
-      while (idSet.has(uniqueId)) {
-        counter++;
-        uniqueId = id + "-" + counter.toString();
-      }
-      idSet.add(uniqueId);
-
-      headings[i].id = uniqueId;
-      if (counter !== 0) {
-        (headings[i].parentElement as HTMLAnchorElement).href = `#${uniqueId}`;
-        headings2[i].href = `#${uniqueId}`;
-      }
-      (headings[i].parentElement as HTMLAnchorElement).onclick = () => {
-        setTimeout(scroll.bind(undefined, uniqueId), 50);
-        return false;
-      };
-      headings2[i].onclick = () => {
-        setTimeout(scroll.bind(undefined, uniqueId), 50);
-        return false;
-      };
-    }
-    headers = Array.from(headings).map((heading) => heading.id);
-    headerQueries = headers.map((header) => {
-      return document.querySelector(`[id="${header}"]`);
-    });
+    };
+    document.addEventListener("scroll", scrollHandler);
+    return function cleanup() {
+      document.removeEventListener("scroll", scrollHandler);
+    };
   }, []);
 
   return (
