@@ -97,7 +97,16 @@ Next, use the following code snippet when you want to display the markers on the
 ```javascript
 map.on("load", function () {
     drawPoints("mySourceName", // Arbitrary source name
-        [[-123.1187, 49.2819], [-122.849, 49.1913]], // An array of coordinate data or an array of Feature data
+        [
+            {
+              coordinates: [-122.483696, 37.833818],
+              title: "Golden Gate Bridge",
+              address: "A suspension bridge spanning the Golden Gate",
+            },
+            {
+              coordinates: [- 122.4770, 37.8105],
+            },
+        ], // An array of coordinate data, an array of Feature data, or an array of [NamedLocations](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/src/types.ts#L8)
         map,
         {
             showCluster: true,
