@@ -1,7 +1,14 @@
-<amplify-callout>
+To start, create a provider class inheriting from `OIDCAuthProvider`.
 
-OIDC mode is not yet supported for Flutter. We are actively working on this. 
+```dart
+import 'package:amplify_api/amplify_api.dart';
 
-We have created a [Github Issue](https://github.com/aws-amplify/amplify-flutter/issues/308) to track this missing feature. 
+class CustomOIDCProvider extends OIDCAuthProvider {
+  const CustomOIDCProvider();
 
-</amplify-callout>
+  @override
+  Future<String?> getLatestAuthToken() async => '[OPEN-ID-CONNECT-TOKEN]';
+}
+```
+
+<inline-fragment platform="flutter" src="~/lib/graphqlapi/fragments/flutter/authz/2X_add_plugin.md"></inline-fragment>
