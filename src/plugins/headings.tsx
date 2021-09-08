@@ -35,3 +35,4 @@ const headingLinkPlugin = () => (tree) => {
 };
 
 module.exports = [headingLinkPlugin];
+export {};

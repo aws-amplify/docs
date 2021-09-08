@@ -48,10 +48,7 @@ module.exports = withMDX({
   trailingSlash: true,
 });
 
-async function exportPathMap(
-  defaultPathMap,
-  {dev, dir, outDir, distDir, buildId},
-) {
+async function exportPathMap(defaultPathMap, props) {
   const pathMap = generatePathMap(directory);
   return pathMap;
 }

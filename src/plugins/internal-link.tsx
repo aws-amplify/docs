@@ -51,3 +51,4 @@ const internalLinkPlugin = () => (tree) => {
 };
 
 module.exports = internalLinkPlugin;
+export {};
