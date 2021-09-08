@@ -33,7 +33,7 @@ export default function Page() {
     <Layout>
       <Container>
         <InnerContainer>
-          <H1>Authentication</H1>
+          <H1>Analytics</H1>
 
           <section>
             <H2>Getting started</H2>
