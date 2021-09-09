@@ -82,3 +82,30 @@ Amplify.addPluggable(new MqttOverWSProvider({
 ```
 
 You can integrate any MQTT Over WebSocket provider with your app. Click [here](https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html#mqtt-ws) to learn more about MQTT Over WebSocket.
+
+## Removing a Provider
+
+The `removePluggable(providerName: string)` function allows you to remove a PubSub provider by supplying the name of the provider.
+
+This is useful for: working with multiple concurrent PubSub providers, reconfiguring PubSub providers when changing authentication states, and changing the IoT connection region.
+
+```javascript
+import Amplify, { PubSub } from 'aws-amplify';
+import { AWSIoTProvider } from '@aws-amplify/pubsub';
+
+const pubsub = new PubSub({});
+
+// Apply plugin with configuration
+pubsub.addPluggable(new AWSIoTProvider({
+  aws_pubsub_region: '<YOUR-IOT-REGION>',
+  aws_pubsub_endpoint: 'wss://xxxxxxxxxxxxx.iot.<YOUR-IOT-REGION>.amazonaws.com/mqtt',
+}));
+
+// Apply second plugin with configuration
+pubsub.addPluggable(new MqttOverWSProvider({
+    aws_pubsub_endpoint: 'wss://iot.eclipse.org:443/mqtt',
+}));
+
+// Remove second plugin
+pubsub.removePluggable('MqttOverWSProvider');
+```
