@@ -127,6 +127,10 @@ console.log(parameters.data, parameters.error)
 ```
 
 ### How to access command hook parameters in Bash
+
+First, install a JSON parser like [`jq`](https://stedolan.github.io/jq/download/).
+
+Then, parse the parameters:
 ```bash
 parameters=`cat`
 data=$(jq -r '.data' <<< "$parameters")
