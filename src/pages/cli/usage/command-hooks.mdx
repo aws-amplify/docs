@@ -34,17 +34,15 @@ if (currentCLIMajorVersion < MINIMUM_MAJOR_AMPLIFY_CLI_VERSION) {
 ```
 
 Next, let's run `amplify push`:
+```bash
+amplify push
 ```
-> amplify push
-
-...
-
+```console
 ----- 🪝 pre-push execution start -----
 Amplify CLI major version: 5
 Minimum required Amplify CLI major version: 5
 Mininum CLI version requirement met.
 ----- 🪝 pre-push execution end -----
-
 ```
 
 ## How to name command hook scripts
@@ -192,10 +190,23 @@ An example showcasing python runtime support and different runtime settings base
 Packages from external package managers like `npm` can be used in command hooks scripts. In this example, we'll showcase how to install `axios` as a dependency for our Node.js hooks.
 
 First, go to the hooks folder and install the `axios` dependency.
+```bash
+cd amplify/hooks
+npm init
+npm install axios
 ```
-> cd amplify/hooks
-> npm init
-> npm install axios
+
+*Note*: If you use command hooks with Amplify Hosting's CI/CD pipeline, you also need to have a `preBuild` step configured to install the hook dependencies:
+
+```yaml
+backend:
+  phases:
+    preBuild:
+    commands:
+      - cd amplify/hooks
+      - npm install
+frontend:
+...
 ```
 
 Dependency directories and files, such as `node_modules`, should be added to `ignore` in `hooks-config.json`. 
@@ -220,30 +231,30 @@ To use scripting runtimes other than Node.js and Bash, see [Adding a custom scri
 In this example, we'll add a `python` hook script running in the Amplify Console's CI/CD pipeline:
 
 1. Add the python hook script along with `hooks-config.json` to the hooks directory. 
-    ```
-    $ ls amplify/hooks
-    hooks-config.json       pre-push.py
+    ```bash
+    touch amplify/hooks/hooks-config.json
     ```
 
 2. Add `python3` to `hooks-config.json` and run `amplify push` to upload the command hooks.
-    ```
-    $ cat amplify/hooks/hooks-config.json
+    ```json
     {
         "extensions": {
             "py": { "runtime": "python3" }
         }
     }
-    $ amplify push
+    ```
+    ```bash
+    amplify push
     ```
 3. Navigate to your app in the Amplify Console and select **App settings** > **Build settings** to update the `preBuild` phase to install python.
-    ```
+    ```yaml
     ...
-        backend:
-        phases:
-            preBuild:
-            commands:
-                - yum install -y python3
-        frontend:
+    backend:
+    phases:
+        preBuild:
+        commands:
+            - yum install -y python3
+    frontend:
     ...
     ```
 
