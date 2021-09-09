@@ -12,7 +12,6 @@
     "permissions-boundary",
     "headless",
     "upgrade",
-    "uninstall",
-    "runtime-hooks"
+    "uninstall"
   ]
 }
