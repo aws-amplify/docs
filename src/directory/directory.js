@@ -1331,8 +1331,8 @@ const directory = {
             filters: [],
           },
           {
-            title: "Monorepo project structure",
-            route: "/cli/usage/monorepo",
+            title: "Command Hooks",
+            route: "/cli/usage/command-hooks",
             filters: [],
           },
           {
@@ -1340,18 +1340,31 @@ const directory = {
             route: "/cli/usage/lambda-triggers",
             filters: [],
           },
-          {
-            title: "Serverless containers",
-            route: "/cli/usage/containers",
-            filters: [],
+          { 
+            title: "Mocking and testing",
+            route: "/cli/usage/mock",
+            filters: []
           },
-          {title: "Mocking and testing", route: "/cli/usage/mock", filters: []},
           {
             title: "Add custom AWS resources",
             route: "/cli/usage/customcf",
             filters: [],
           },
-          {title: "IAM Policy", route: "/cli/usage/iam", filters: []},
+          {
+            title: "Serverless containers",
+            route: "/cli/usage/containers",
+            filters: [],
+          },
+          {
+            title: "Monorepo project structure",
+            route: "/cli/usage/monorepo",
+            filters: [],
+          },
+          {
+            title: "IAM Policy",
+            route: "/cli/usage/iam",
+            filters: []
+          },
           {
             title: "IAM Roles & MFA",
             route: "/cli/usage/iam-roles-mfa",
