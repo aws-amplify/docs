@@ -99,8 +99,8 @@ pubsub.addPluggable(new AWSIoTProvider({
   aws_pubsub_endpoint: 'wss://xxxxxxxxxxxxx.iot.<ORIGINAL-IOT-REGION>.amazonaws.com/mqtt',
 }));
 
-// Remove plugin
-pubsub.removePluggable('MqttOverWSProvider');
+// Remove plugin using the provider name
+pubsub.removePluggable('AWSIoTProvider');
 
 // Apply plugin with new configuration
 pubsub.addPluggable(new AWSIoTProvider({
