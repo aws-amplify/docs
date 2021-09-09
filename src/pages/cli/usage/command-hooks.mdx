@@ -13,8 +13,8 @@ For this example, let's create a hook to ensure that a minimum major Amplify CLI
 Let's add `pre-push.js` in the `amplify/hooks` drectory with the following contents. *Note: You need to create a `amplify/hooks` folder if your Amplify project was created prior to Amplify CLI version 5.5.0*
 
 ```js
-const fs = require("fs");
-const parameters = JSON.parse(fs.readFileSync(0, { encoding: "utf8" }));
+const fs = require('fs');
+const parameters = JSON.parse(fs.readFileSync(0, { encoding: 'utf8' }));
 
 // Get the running Amplify CLI major verison number
 const currentCLIMajorVersion = parameters.data.amplify.version.split('.')[0]
