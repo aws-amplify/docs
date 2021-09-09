@@ -121,8 +121,8 @@ Command hooks receive two paramaters, `data` and `error`. Amplify CLI passes par
 
 ### How to access command hook parameters in Node.js
 ```javascript
-const fs = require("fs");
-const parameters = JSON.parse(fs.readFileSync(0, { encoding: "utf8" }));
+const fs = require('fs');
+const parameters = JSON.parse(fs.readFileSync(0, { encoding: 'utf8' }));
 console.log(parameters.data, parameters.error)
 ```
 
