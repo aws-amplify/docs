@@ -14,4 +14,3 @@ const pagePlugin = () => (tree) => {
 };
 
 module.exports = [pagePlugin];
-export {};

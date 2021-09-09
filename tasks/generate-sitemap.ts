@@ -2,8 +2,8 @@
 
 import * as fs from "fs-extra";
 import {execSync} from "child_process";
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const {exportPathMap} = require("../next.config.js");
+import directory from "../src/directory/directory";
+import {generatePathMap} from "../generatePathMap.esm";
 
 const formatDate = (date) => `${date.toISOString().split(".")[0]}+0:00`;
 const getPriority = (_) => 0.5;
@@ -59,7 +59,7 @@ const xmlUrlNode = (pageUrl, pagePath) => {
 
 const writeSitemap = async () => {
   const sitemapPath = "./public/sitemap.xml";
-  const pathmap = await exportPathMap();
+  const pathmap = generatePathMap(directory);
   let xmlUrlNodes = "";
   for (const pageUrl in pathmap) {
     const pagePath = pathmap[pageUrl].page;

@@ -113,4 +113,3 @@ const codeBlockPlugin = () => (tree) => {
 };
 
 module.exports = codeBlockPlugin;
-export {};
