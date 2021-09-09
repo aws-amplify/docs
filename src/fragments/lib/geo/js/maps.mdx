@@ -72,7 +72,7 @@ body,
 
 ## Display markers on map
 
-To display markers on a map, use the [drawPoints](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#drawpoints) function. `drawPoints` expects:
+To display markers on a map, use the `drawPoints` function. `drawPoints` expects:
 
 - `sourceName` - specifies the layer on which the markers are rendered on. You can edit existing markers by passing the same `sourceName`
 - coordinate data - the coordinate data of the markers to be displayed
@@ -88,6 +88,8 @@ import { AmplifyMapLibreRequest, drawPoints } from "maplibre-gl-js-amplify";
 
 The `drawPoints` method returns ids of the source and layers used to display the markers on the map. These ids can be used for further customization through maplibre-gl-js [source](https://maplibre.org/maplibre-gl-js-docs/api/sources/), [paint](https://maplibre.org/maplibre-gl-js-docs/style-spec/layers/#paint-property), and [layer](https://maplibre.org/maplibre-gl-js-docs/style-spec/layers/) options.
 
+For more information about the parameters and options that can be used with `drawPoints` check the documentation [here](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#drawpoints).
+
 </Callout>
 
 Next, use the following code snippet when you want to display the markers on the map. Add it to the `initializeMap()` function if you want the markers to show up on map load.
@@ -95,7 +97,16 @@ Next, use the following code snippet when you want to display the markers on the
 ```javascript
 map.on("load", function () {
     drawPoints("mySourceName", // Arbitrary source name
-        [[-123.1187, 49.2819], [-122.849, 49.1913]], // An array of coordinate data or an array of Feature data
+        [
+            {
+              coordinates: [-122.483696, 37.833818],
+              title: "Golden Gate Bridge",
+              address: "A suspension bridge spanning the Golden Gate",
+            },
+            {
+              coordinates: [- 122.4770, 37.8105],
+            },
+        ], // An array of coordinate data, an array of Feature data, or an array of [NamedLocations](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/src/types.ts#L8)
         map,
         {
             showCluster: true,
