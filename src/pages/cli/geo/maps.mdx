@@ -61,21 +61,25 @@ Amplify helps you determine the best pricing plan for you by guiding you through
 These pricing plan related set of questions are presented to you when you add the first Geo resource to your application. 
 Once you chose the pricing plan, it will be automatically used for the subsequent Geo resources added to your application.
 
+We advice you to go through the [location service pricing](https://aws.amazon.com/location/pricing/) along with the [location service terms](https://aws.amazon.com/service-terms/) (_82.5 section_) to learn more about the pricing plan.
+
 ```console
 The following choices determine the pricing plan for Geo resources.
 
 ? Are you tracking commercial assets for your business in your app?
-❯ No, I only need to track consumers personal mobile devices 
+❯ No, I do not track devices or I only need to track consumers' personal devices 
   Yes, I track commercial assets (For example, any mobile object that is tracked by a company in support of its business)
+  Learn More
 
 Successfully set RequestBasedUsage pricing plan for your Geo resources.
 ```
 
 ```console
 ? Are you tracking commercial assets for your business in your app?
-  No, I only need to track consumers personal mobile devices 
+  No, I do not track devices or I only need to track consumers' personal devices 
 ❯ Yes, I track commercial assets (For example, any mobile object that is tracked by a company in support 
   of its business)
+  Learn More
 
 ? Does your app provide routing or route optimization for commercial assets? (y/N) no
 
@@ -84,16 +88,15 @@ Successfully set MobileAssetTracking pricing plan for your Geo resources.
 
 ```console
 ? Are you tracking commercial assets for your business in your app?
-  No, I only need to track consumers personal mobile devices 
+  No, I do not track devices or I only need to track consumers' personal devices 
 ❯ Yes, I track commercial assets (For example, any mobile object that is tracked by a company in support 
   of its business)
+  Learn More
 
 ? Does your app provide routing or route optimization for commercial assets? (y/N) yes
 
 Successfully set MobileAssetManagement pricing plan for your Geo resources.
 ```
-
-We advice you to go through the [location service pricing](https://aws.amazon.com/location/pricing/) along with the [location service terms](https://aws.amazon.com/service-terms/) (_82.5 section_) to learn more about the pricing plan.
 
 ## Advanced Settings
 You can optionally configure the style and data provider for the map.
@@ -104,7 +107,7 @@ You can pick a style for the map resource. The available map styles along with t
 ```console
 ? Specify the map style:
 ❯ Streets (data provided by Esri) 
-  Berlin (data provided by Here) 
+  Berlin (data provided by HERE) 
   Topographic (data provided by Esri) 
   Navigation (data provided by Esri) 
   LightGrayCanvas (data provided by Esri) 
