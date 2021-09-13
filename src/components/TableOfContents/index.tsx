@@ -1,6 +1,12 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 import getElementTop from "../../utils/get-element-top";
-import {TOCStyle, H2AnchorStyle, H3AnchorStyle, HeaderStyle} from "./styles";
+import {
+  TOCStyle,
+  TOCInnerStyle,
+  H2AnchorStyle,
+  H3AnchorStyle,
+  HeaderStyle,
+} from "./styles";
 import {useEffect} from "react";
 import {useRouter} from "next/router";
 
@@ -111,20 +117,22 @@ export default function TableOfContents({children, title}) {
 
   return (
     <TOCStyle id="toc">
-      <HeaderStyle>
-        <h4>{title}</h4>
-      </HeaderStyle>
-      {children.map(([name, id, level], index) => {
-        const slugged = `#${id}`;
-        const anchor = (
-          <a href={slugged}>
-            <div>{name}</div>
-          </a>
-        );
-        if (level === "h2")
-          return <H2AnchorStyle key={index}>{anchor}</H2AnchorStyle>;
-        else return <H3AnchorStyle key={index}>{anchor}</H3AnchorStyle>;
-      })}
+      <TOCInnerStyle>
+        <HeaderStyle>
+          <h4>{title}</h4>
+        </HeaderStyle>
+        {children.map(([name, id, level], index) => {
+          const slugged = `#${id}`;
+          const anchor = (
+            <a href={slugged}>
+              <div>{name}</div>
+            </a>
+          );
+          if (level === "h2")
+            return <H2AnchorStyle key={index}>{anchor}</H2AnchorStyle>;
+          else return <H3AnchorStyle key={index}>{anchor}</H3AnchorStyle>;
+        })}
+      </TOCInnerStyle>
     </TOCStyle>
   );
 }

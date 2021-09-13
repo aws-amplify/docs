@@ -1,6 +1,11 @@
 import styled from "@emotion/styled";
 import {MQTablet, MQDesktop} from "../media";
 
+export const TOCInnerStyle = styled.div`
+  overflow: scroll;
+  padding-bottom: 3rem;
+`;
+
 export const TOCStyle = styled.div`
   display: none;
   flex-direction: column;
@@ -10,6 +15,7 @@ export const TOCStyle = styled.div`
   position: sticky;
   align-self: flex-start;
   top: 3.375rem;
+  max-height: 100vh;
 
   ${MQTablet} {
     &.more-width {
