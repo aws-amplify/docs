@@ -184,6 +184,11 @@ import ios6 from "/src/fragments/lib/graphqlapi/ios/authz/21_oidc.mdx";
 import android7 from "/src/fragments/lib/graphqlapi/android/authz/21_oidc.mdx";
 
 <Fragments fragments={{android: android7}} />
+
+import flutter6 from "/src/fragments/lib/graphqlapi/flutter/authz/21_oidc.mdx";
+
+<Fragments fragments={{flutter: flutter6}} />
+
 ### AWS Lambda
 
 Amplify CLI does not currently allow you to configure Lambda as an authorization mode for your GraphQL API. To add a Lambda function as an authorization mode for your AppSync API, go to the **Settings** section of the **AppSync console**. Then, update the `authorizationType` value in the `amplifyconfiguration.json` file and code snippet as follows:
@@ -209,6 +214,10 @@ import ios8 from "/src/fragments/lib/graphqlapi/ios/authz/22_lambda.mdx";
 import android9 from "/src/fragments/lib/graphqlapi/android/authz/22_lambda.mdx";
 
 <Fragments fragments={{android: android9}} />
+
+import flutter8 from "/src/fragments/lib/graphqlapi/flutter/authz/22_lambda.mdx";
+
+<Fragments fragments={{flutter: flutter8}} />
 
 ### NONE
 You can also set authorization mode to `NONE` so that the library will not provide any request interception logic. You can use this when your API does not require any authorization or when you want to manipulate the request yourself, such as adding header values or authorization data.
@@ -236,6 +245,10 @@ import ios10 from "/src/fragments/lib/graphqlapi/ios/advanced-workflows/50_inter
 import android11 from "/src/fragments/lib/graphqlapi/android/advanced-workflows/50_interceptor.mdx";
 
 <Fragments fragments={{android: android11}} />
+
+import flutter10 from "/src/fragments/lib/graphqlapi/flutter/advanced-workflows/50_interceptor.mdx";
+
+<Fragments fragments={{flutter: flutter10}} />
 
 ## Configure multiple authorization modes
 
