@@ -381,7 +381,7 @@ const directory = {
           {
             title: "Other methods",
             route: "/lib/datastore/other-methods",
-            filters: ["android", "ios", "js"],
+            filters: ["android", "flutter", "ios", "js"],
           },
           {
             title: "Schema updates",
@@ -1340,10 +1340,10 @@ const directory = {
             route: "/cli/usage/lambda-triggers",
             filters: [],
           },
-          { 
+          {
             title: "Mocking and testing",
             route: "/cli/usage/mock",
-            filters: []
+            filters: [],
           },
           {
             title: "Add custom AWS resources",
@@ -1363,7 +1363,7 @@ const directory = {
           {
             title: "IAM Policy",
             route: "/cli/usage/iam",
-            filters: []
+            filters: [],
           },
           {
             title: "IAM Roles & MFA",
