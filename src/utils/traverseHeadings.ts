@@ -55,6 +55,8 @@ export function traverseHeadings(tree, filterKey: string): string[] {
       // UiComponentProps is special -- just grab the generated headers from the propType
       const {propType, tag} = node.props;
       if (propsAreEmptyByTag({propType, componentTag: tag})) continue;
+      if (!("useTableHeaders" in node.props) || !node.props.useTableHeaders)
+        continue;
       const sectionId = `props-${propType}-${tag}`;
       headings.push([headerNames[propType], sectionId, "h2"]);
     } else if (node.props.mdxType === "FeatureFlags") {
