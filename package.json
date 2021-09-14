@@ -85,7 +85,7 @@
     "refresh": "yarn clean && yarn",
     "task": "ts-node tasks",
     "test": "jest",
-    "spellcheck": "cspell 'docs/**/*.md'",
+    "spellcheck": "cspell 'src/**/*.mdx'",
     "dev": "next dev",
     "export": "yarn task patch-next-scrolling && next build && next export -o client/www/next-build",
     "next-build": "next build",
