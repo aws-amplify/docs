@@ -203,6 +203,27 @@ You can then push updated changes with:
 amplify push
 ```
 
+The following schema updates require replacement of the underlying DynamoDB table:
+1. Removing or renaming a model
+2. Modifying the [primary key](/cli/graphql-transformer/key) of a model
+3. Modifying a Local Secondary Index of a model (only applies to projects with [secondaryKeyAsGSI](/cli/reference/feature-flags/#secondaryKeyAsGSI) turned off)
+
+When trying to push a schema change with one or more of these updates you will see an error message explaining that you will lose ALL DATA in any table that requires replacement. To confirm you want to continue with the deployment, run:
+```bash
+amplify push --allow-destructive-graphql-schema-updates
+```
+This command should NEVER be used in a production environment. You will not be able to recover data from replaced tables.
+
+## Rebuild GraphQL API
+
+> Note: Rebuild should NEVER be used in a production environment!
+
+When in development, sometimes test data gets in a bad state or you want to make many changes to your schema all at once. In these cases, you may wish to "rebuild" all of the tables backing your schema. To do this, run:
+```bash
+amplify reset api
+```
+This will recreate ALL of the tables backing models in your schema. ALL DATA in ALL TABLES will be deleted.
+
 ## API Category Project Structure
 
 At a high level, the transform libraries take a schema defined in the GraphQL Schema Definition Language (SDL) and converts it into a set of AWS CloudFormation templates and other assets that are deployed as part of `amplify push`. The full set of assets uploaded can be found at *amplify/backend/api/YOUR-API-NAME/build*.
