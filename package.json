@@ -87,7 +87,7 @@
     "test": "jest",
     "spellcheck": "cspell 'src/**/*.mdx'",
     "dev": "next dev",
-    "export": "yarn task patch-next-scrolling && next build && next export -o client/www/next-build",
+    "export": "NODE_OPTIONS=\"--max_old_space_size=4096\" yarn task patch-next-scrolling && next build && next export -o client/www/next-build",
     "next-build": "next build",
     "next-start": "next start"
   }
