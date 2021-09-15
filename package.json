@@ -86,10 +86,10 @@
     "task": "ts-node tasks",
     "test": "jest",
     "spellcheck": "cspell 'src/**/*.mdx'",
-    "patch": "yarn task patch-next-scrolling"
+    "patch": "yarn task patch-next-scrolling",
     "dev": "yarn patch && NODE_OPTIONS=\"--max_old_space_size=4096\" next dev",
     "next-build": "NODE_OPTIONS=\"--max_old_space_size=4096\" next build",
     "next-export": "NODE_OPTIONS=\"--max_old_space_size=4096\" next export -o client/www/next-build",
-    "export": "yarn patch && yarn next-build && yarn next-export",
+    "export": "yarn patch && yarn next-build && yarn next-export"
   }
 }
