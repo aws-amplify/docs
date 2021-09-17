@@ -12,7 +12,7 @@ export default function Layout({children, meta}: {children: any; meta?: any}) {
 
   const title = !meta
     ? ""
-    : [meta.chapterTitle, meta.title, "Amplify Docs"]
+    : [meta.chapterTitle, meta.title, "AWS Amplify Docs"]
         .filter((s) => s !== "")
         .join(" - ");
 
@@ -21,7 +21,7 @@ export default function Layout({children, meta}: {children: any; meta?: any}) {
       {meta && (
         <Head>
           <title>{`${title}`}</title>
-          <meta property="og:title" content={meta.title} key="og:title" />
+          <meta property="og:title" content={title} key="og:title" />
           <meta name="description" content={meta.description} />
           <meta
             property="og:description"
@@ -40,11 +40,7 @@ export default function Layout({children, meta}: {children: any; meta?: any}) {
             key="description"
           />
           <meta property="twitter:card" content="summary" key="twitter:card" />
-          <meta
-            property="twitter:title"
-            content={meta.title}
-            key="twitter:title"
-          />
+          <meta property="twitter:title" content={title} key="twitter:title" />
           <meta
             property="twitter:description"
             content={meta.description}
