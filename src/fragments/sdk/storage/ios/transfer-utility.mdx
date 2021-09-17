@@ -258,6 +258,12 @@ To pause a transfer, use the `suspend` method:
 refUploadTask.suspend()
 ```
 
+<Callout>
+
+Note that pause internally uses the `suspend` api of `NSURLSessionTask`, which suspends the task temporarily and does not fully pause the transfer. Complete pausing of task is tracked in this Github issue - https://github.com/aws-amplify/aws-sdk-ios/issues/3668
+
+</Callout>
+
 ## Resume a Transfer
 
 To resume a transfer, use the `resume` method:
