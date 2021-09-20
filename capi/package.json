@@ -15,7 +15,7 @@
     "html-entities": "^1.2.1",
     "marked": "0.8.0",
     "parse5": "^5.1.1",
-    "prismjs": "^1.21.0",
+    "prismjs": "^1.25.0",
     "traverse": "^0.6.6",
     "ts-morph": "^6.0.2",
     "typescript": "^3.7.4"
