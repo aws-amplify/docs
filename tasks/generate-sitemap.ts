@@ -3,7 +3,7 @@
 import * as fs from "fs-extra";
 import {execSync} from "child_process";
 import directory from "../src/directory/directory";
-import {generatePathMap} from "../generatePathMap.esm";
+const generatePathMap = require("../generatePathMap.cjs");
 
 const formatDate = (date) => `${date.toISOString().split(".")[0]}+0:00`;
 const getPriority = (_) => 0.5;
@@ -36,6 +36,7 @@ const lastModified = (path) => {
   console.log(`${path} doesn't exist`);
   return formatDate(new Date());
 };
+
 const xmlHeader = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">`;
 const xmlUrlWrapper = (nodes) => `${xmlHeader}
