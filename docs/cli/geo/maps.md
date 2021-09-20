@@ -2,18 +2,8 @@
 title: Maps
 description: Use Amplify CLI to create and manage maps to visualize geospatial data in your app.
 ---
-<amplify-callout>
-
-**Note:** Amplify Geo is in developer preview and is not intended to be used in production environments. Please reach out to us for any feedback and/or issues [here](https://github.com/aws-amplify/amplify-cli/issues)
-
-</amplify-callout>
 
 Amplify's `geo` category enables you to create and manage map resources used to visualize geospatial data in your application.
-Since the `geo` category is in developer preview, you need to install Amplify CLI with the `@geo` tag in order to get the Geo functionality. You can use the following command to install this version globally.
-
-```console
-npm i -g @aws-amplify/cli@geo
-```
 
 ## Setup a new Map
 
@@ -118,7 +108,7 @@ If you added more than one map via `amplify add geo`, the map that was added las
 However, you can choose if the current Map should be the default for your application:
 
 ```console
-? Do you want to set this map as default?
+? Set this Map as the default? It will be used in Amplify Map API calls if no explicit reference is provided.
 > No
 ```
 Answering `No` will retain the previously set default.
