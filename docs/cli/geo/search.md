@@ -117,7 +117,7 @@ If you added more than one location search index via `amplify add geo`, the inde
 However, you can choose if the current search index should be the default one used in your application:
 
 ```console
-Set this search index as the default? It will be used in Amplify search API calls if no explicit reference is provided.
+Set this search index as the default? It will be used in Amplify Search API calls if no explicit reference is provided.
 > No
 ```
 
