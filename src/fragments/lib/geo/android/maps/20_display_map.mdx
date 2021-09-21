@@ -1,0 +1,218 @@
+### Add the layout for the map
+
+1. Navigate to your app's `src/main/res/layout` directory in Android Studio
+
+2. Create a new layout named `activity_main.xml` and add the following
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <!--Add map view to main activity layout-->
+    <com.mapbox.mapboxsdk.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
+
+### Initialize Map View
+
+<BlockSwitcher>
+<Block name="Java">
+
+1. Navigate to your app's `MainActivity.java`
+
+2. Declare a `MapView` instance variable at top-level of the activity
+
+```java
+private MapView mapView;
+```
+
+3. Add the following code to the `onCreate` method
+
+```java
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+
+    // Initialize Amplify
+    try {
+        Amplify.addPlugin(new AWSCognitoAuthPlugin());
+        Amplify.addPlugin(new AWSLocationGeoPlugin());
+        Amplify.configure(getApplicationContext());
+        Log.i("MyAmplifyApp", "Initialized Amplify.");
+    } catch (AmplifyException error) {
+        Log.e("MyAmplifyApp", "Failed to configure Amplify.", error);
+    }
+
+    // Initialize MapLibre SDK and the adapter
+    AmplifyMapLibreAdapter.getInstance(getApplicationContext());
+
+    // Must be called after initializing MapLibre SDK
+    setContentView(R.layout.activity_main);
+
+    mapView = findViewById(R.id.mapView);
+    mapView.onCreate(savedInstanceState);
+    mapView.getMapAsync(map ->
+        AmplifyMapLibreAdapter.setStyle(map, style ->
+            map.setCameraPosition(new CameraPosition.Builder()
+                    .target(new LatLng(47.6153,-122.3382))
+                    .zoom(13.0)
+                    .build()
+            )
+        )
+    );
+}
+```
+
+</Block>
+<Block name="Kotlin">
+
+1. Navigate to your app's `MainActivity.kt`
+
+2. Declare a `MapView` variable at top-level of the activity
+
+```kotlin
+private var mapView: MapView? = null
+```
+
+3. Add the following code to the `onCreate` method
+
+```kotlin
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+
+    // Initialize Amplify
+    try {
+        Amplify.addPlugin(AWSCognitoAuthPlugin())
+        Amplify.addPlugin(AWSLocationGeoPlugin())
+        Amplify.configure(applicationContext)
+        Log.i("MyAmplifyApp", "Initialized Amplify.")
+    } catch (error: AmplifyException) {
+        Log.e("MyAmplifyApp", "Failed to configure Amplify.", error)
+    }
+
+    // Initialize MapLibre SDK and the adapter
+    AmplifyMapLibreAdapter.getInstance(applicationContext)
+
+    // Must be called after initializing MapLibre SDK
+    setContentView(R.layout.activity_main)
+
+    mapView = findViewById(R.id.mapView)
+    mapView?.onCreate(savedInstanceState)
+    mapView?.getMapAsync { map ->
+        AmplifyMapLibreAdapter.setStyle(map) {
+            map.cameraPosition = CameraPosition.Builder()
+                .target(LatLng(47.6153,-122.3382))
+                .zoom(13.0)
+                .build()
+        }
+    }
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+### Handle application lifecycle events
+
+Add the following overrides to `MainActivity` to handle application lifecycle events
+
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+@Override
+protected void onStart() {
+    super.onStart();
+    mapView.onStart();
+}
+
+@Override
+protected void onResume() {
+    super.onResume();
+    mapView.onResume();
+}
+
+@Override
+protected void onPause() {
+    super.onPause();
+    mapView.onPause();
+}
+
+@Override
+protected void onStop() {
+    super.onStop();
+    mapView.onStop();
+}
+
+@Override
+protected void onSaveInstanceState(@NotNull Bundle outState) {
+    super.onSaveInstanceState(outState);
+    mapView.onSaveInstanceState(outState);
+}
+
+@Override
+protected void onDestroy() {
+    super.onDestroy();
+    mapView.onDestroy();
+}
+
+@Override
+public void onLowMemory() {
+    super.onLowMemory();
+    mapView.onLowMemory();
+}
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+override fun onStart() {
+    super.onStart()
+    mapView?.onStart()
+}
+
+override fun onResume() {
+    super.onResume()
+    mapView?.onResume()
+}
+
+override fun onPause() {
+    super.onPause()
+    mapView?.onPause()
+}
+
+override fun onStop() {
+    super.onStop()
+    mapView?.onStop()
+}
+
+override fun onSaveInstanceState(outState: Bundle) {
+    super.onSaveInstanceState(outState)
+    mapView?.onSaveInstanceState(outState)
+}
+
+override fun onDestroy() {
+    super.onDestroy()
+    mapView?.onDestroy()
+}
+
+override fun onLowMemory() {
+    super.onLowMemory()
+    mapView?.onLowMemory()
+}
+```
+
+</Block>
+</BlockSwitcher>
