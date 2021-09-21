@@ -12,7 +12,7 @@ Amplify.Geo.getAvailableMaps(
             Log.i("MyAmplifyApp", style.toString());
         }
     },
-    error -> Log.e("MyAmplifyApp", "Failed to get available maps.")
+    error -> Log.e("MyAmplifyApp", "Failed to get available maps.", error)
 );
 ```
 
