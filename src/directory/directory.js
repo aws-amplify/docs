@@ -1526,7 +1526,6 @@ const directory = {
               "android",
               "ios",
               "ionic",
-              "flutter",
             ],
           },
           {
