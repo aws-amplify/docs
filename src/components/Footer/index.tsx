@@ -23,7 +23,7 @@ export default function DocsFooter() {
               Members
             </ExternalLink>
             <ExternalLink href={links.COMMUNITY_NEWSLETTERS}>
-              Newsletters (test)
+              Newsletters
             </ExternalLink>
           </div>
         </LeftFooter>
