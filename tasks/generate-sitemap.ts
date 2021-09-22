@@ -58,7 +58,7 @@ const xmlUrlNode = (pageUrl, pagePath) => {
 </url>`;
 };
 
-const writeSitemap = function () => {
+const writeSitemap = () => {
   const sitemapPath = "./public/sitemap.xml";
   const pathmap = generatePathMap(directory);
   let xmlUrlNodes = "";
