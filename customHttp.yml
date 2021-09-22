@@ -1,0 +1,9 @@
+customHeaders:
+  - pattern: "/*.js"
+    headers:
+      - key: "Cache-Control"
+        value: "public, max-age=960000, immutable"
+  - pattern: "*.html"
+    headers:
+      - key: "Cache-Control"
+        value: "public, max-age=60000, immutable"
