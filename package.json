@@ -87,7 +87,7 @@
     "test": "jest",
     "spellcheck": "cspell 'src/**/*.mdx'",
     "dev": "next dev",
-    "export": "yarn task patch-next-scrolling && next build && next export -o client/www/next-build",
+    "export": "yarn task patch-next-scrolling && yarn task generate-sitemap && next build && next export -o client/www/next-build",
     "next-build": "next build",
     "next-start": "next start"
   }

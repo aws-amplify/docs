@@ -166,8 +166,16 @@ export function metaContent({
       <TableOfContents title={title}>{headers}</TableOfContents>
       {!onDesktop && (
         <SidebarLayoutToggle menuRef={menuRef}>
-          <img className="burger-graphic" src="/assets/burger.svg" />
-          <img className="ex-graphic" src="/assets/close.svg" />
+          <img
+            alt="Open menu"
+            className="burger-graphic"
+            src="/assets/burger.svg"
+          />
+          <img
+            alt="Close menu"
+            className="ex-graphic"
+            src="/assets/close.svg"
+          />
         </SidebarLayoutToggle>
       )}
     </>

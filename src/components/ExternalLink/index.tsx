@@ -26,7 +26,10 @@ const ExternalLink: React.FC<ExternalLinkProps> = ({
     >
       {children}
       {graphic && (
-        <ExternalLinkGraphic src={`/assets/external-link-${graphic}.svg`} />
+        <ExternalLinkGraphic
+          alt="External link"
+          src={`/assets/external-link-${graphic}.svg`}
+        />
       )}
     </a>
   );

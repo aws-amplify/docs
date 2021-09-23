@@ -78,6 +78,7 @@ export default class FilterSelect extends React.Component<
       <Link href={href} key={name}>
         <a onClick={this.toggleVis}>
           <img
+            alt={filterMetadataByOption[name]?.label + " icon"}
             src={filterMetadataByOption[name]?.graphicURI}
             height="28px"
             width="28px"
@@ -131,6 +132,9 @@ export default class FilterSelect extends React.Component<
           <div className={!supported ? "unsupported" : ""}>
             <a onClick={this.toggleVis}>
               <img
+                alt={
+                  filterMetadataByOption[this.props.filterKey]?.label + " icon"
+                }
                 src={filterMetadataByOption[this.props.filterKey]?.graphicURI}
                 height="28px"
                 width="28px"
