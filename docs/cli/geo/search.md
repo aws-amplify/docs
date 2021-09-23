@@ -5,6 +5,12 @@ description: Use Amplify CLI to create and manage location search indices or pla
 
 Amplify's `geo` category enables you to search by places, addresses, and coordinates in your app with "place index" resources.
 
+<amplify-callout>
+
+**Note:** Amplify Geo is available in US East (N. Virginia), US East (Ohio), US West (Oregon), Europe (Frankfurt), Europe (Ireland), Europe (Stockholm), Asia Pacific (Singapore), Asia Pacific (Sydney) Region, and Asia Pacific (Tokyo) regions.
+
+</amplify-callout>
+
 ## Setup a new Location Search Index
 
 You can add a new location search index by running the following command from your project's root folder:

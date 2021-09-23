@@ -5,6 +5,12 @@ description: Use Amplify CLI to create and manage maps to visualize geospatial d
 
 Amplify's `geo` category enables you to create and manage map resources used to visualize geospatial data in your application.
 
+<amplify-callout>
+
+**Note:** Amplify Geo is available in US East (N. Virginia), US East (Ohio), US West (Oregon), Europe (Frankfurt), Europe (Ireland), Europe (Stockholm), Asia Pacific (Singapore), Asia Pacific (Sydney) Region, and Asia Pacific (Tokyo) regions.
+
+</amplify-callout>
+
 ## Setup a new Map
 
 You can add a new map by running the following command from your project's root folder:
