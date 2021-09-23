@@ -130,6 +130,40 @@ Here is a complete list of searchable operations per GraphQL type supported as o
 - `@searchable` is not compatible with Amazon ElasticSearch t2.micro instance as it only works with ElasticSearch version 1.5 and 2.3 and Amplify CLI only supports instances with ElasticSearch version >= 6.x.
 - `@searchable` is not compatible with the @connection directive
 - Support for adding the `@searchable` directive does not yet provide automatic indexing for any existing data to OpenSearch. View the feature request [here](https://github.com/aws-amplify/amplify-cli/issues/98).
+- `t2.small` OpenSearch instance type is not recommended to be used in a production environment.
+
+### Configure environment OpenSearch instance type
+
+By default Amplify CLI will configure a `t2.small` instance type. This is great for getting started and prototyping BUT not recommended to be used in the production environment per the OpenSearch [best practices](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/bp.html).
+You can configure the OpenSearch instance type per environment as follows:
+
+1. Run `amplify env add` to create a new environment (e.g. "prod")
+2. Edit the `amplify/team-provider-info.json` file and set `ElasticSearchInstanceType` to the instance type that works for your application
+```json
+  {
+    "dev": {
+      "categories": {
+        "api": {
+          "<your-api-name>" : {
+            "ElasticSearchInstanceType": "t2.small.elasticsearch"
+          }
+        }
+      }
+    },
+    "prod": {
+      "categories": {
+        "api": {
+          "<your-api-name>" : {
+            "ElasticSearchInstanceType": "t2.medium.elasticsearch"
+          }
+        }
+      }
+    }
+  }
+```
+3. Deploy your changes with `amplify push`
+
+Learn more about Amazon OpenSearch Service instance types [here](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/supported-instance-types.html).
 
 ### Backfill your OpenSearch index from your DynamoDB table
 
