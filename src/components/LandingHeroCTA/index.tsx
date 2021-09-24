@@ -1,6 +1,7 @@
 import Link from "next/link";
 import {PlatformsGroup, CTAContainer} from "./styles";
 import InternalLinkButton from "../InternalLinkButton";
+import * as img from "../../constants/img";
 
 export default function LandingHeroCTA() {
   return (
@@ -11,39 +12,46 @@ export default function LandingHeroCTA() {
       <PlatformsGroup>
         <Link href="/start/q/integration/react?sc_icampaign=react-start&sc_ichannel=docs-home">
           <a>
-            <img height={40} width={40} src="/assets/integrations/react.svg" />
+            <img
+              alt={img.REACT.alt}
+              height={40}
+              width={40}
+              src={img.REACT.src}
+            />
           </a>
         </Link>
         <Link href="/start/q/integration/vue?sc_icampaign=vue-start&sc_ichannel=docs-home">
           <a>
-            <img height={40} width={40} src="/assets/integrations/vue.svg" />
+            <img alt={img.VUE.alt} height={40} width={40} src={img.VUE.src} />
           </a>
         </Link>
         <Link href="/start/q/integration/js?sc_icampaign=js-start&sc_ichannel=docs-home">
           <a>
-            <img height={40} width={40} src="/assets/integrations/js.svg" />
+            <img alt={img.JS.alt} height={40} width={40} src={img.JS.src} />
           </a>
         </Link>
         <Link href="/start/q/integration/ios?sc_icampaign=ios-start&sc_ichannel=docs-home">
           <a>
-            <img height={40} width={40} src="/assets/integrations/ios.svg" />
+            <img alt={img.IOS.alt} height={40} width={40} src={img.IOS.src} />
           </a>
         </Link>
         <Link href="/start/q/integration/android?sc_icampaign=android-start&sc_ichannel=docs-home">
           <a>
             <img
+              alt={img.ANDROID.alt}
               height={40}
               width={40}
-              src="/assets/integrations/android.svg"
+              src={img.ANDROID.src}
             />
           </a>
         </Link>
         <Link href="/start/q/integration/flutter?sc_icampaign=flutter-start&sc_ichannel=docs-home">
           <a>
             <img
+              alt={img.FLUTTER.alt}
               height={40}
               width={40}
-              src="/assets/integrations/flutter.svg"
+              src={img.FLUTTER.src}
             />
           </a>
         </Link>

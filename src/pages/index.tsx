@@ -64,7 +64,7 @@ const Page = () => {
             }}
           >
             <Card href="/lib/q/platform/js">
-              <CardGraphic src="/assets/lib.png" />
+              <CardGraphic alt="Libraries icon" src="/assets/lib.png" />
               <CardDetail>
                 <h4>Amplify Libraries</h4>
                 <p>
@@ -74,14 +74,14 @@ const Page = () => {
               </CardDetail>
             </Card>
             <Card href="/cli">
-              <CardGraphic src="/assets/cli.png" />
+              <CardGraphic alt="CLI icon" src="/assets/cli.png" />
               <CardDetail>
                 <h4>Amplify CLI</h4>
                 <p>Configure an app backend with a guided CLI workflow.</p>
               </CardDetail>
             </Card>
             <Card href="/console">
-              <CardGraphic src="/assets/console.png" />
+              <CardGraphic alt="Console icon" src="/assets/console.png" />
               <CardDetail>
                 <h4>Amplify Console</h4>
                 <p>
@@ -91,7 +91,7 @@ const Page = () => {
               </CardDetail>
             </Card>
             <Card href="/console/adminui/intro">
-              <CardGraphic src="/assets/console.png" />
+              <CardGraphic alt="Admin UI icon" src="/assets/console.png" />
               <CardDetail>
                 <h4>NEW! Amplify Admin UI</h4>
                 <p>Visually configure and manage your app backend.</p>

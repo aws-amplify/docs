@@ -110,6 +110,12 @@ func cancelDownload() {
 
 You can also pause and then resume the operation.
 
+<Callout>
+
+Note that pause internally uses the `suspend` api of `NSURLSessionTask`, which suspends the task temporarily and does not fully pause the transfer. Complete pausing of task is tracked in this Github issue - https://github.com/aws-amplify/aws-sdk-ios/issues/3668
+
+</Callout>
+
 ```swift
 storageOperation.pause()
 storageOperation.resume()

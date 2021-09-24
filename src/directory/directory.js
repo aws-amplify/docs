@@ -1406,6 +1406,11 @@ const directory = {
             filters: [],
           },
           {
+            title: "CLI Auth Signup Changes",
+            route: "/cli/migration/cli-auth-signup-changes",
+            filters: [],
+          },
+          {
             title:
               "Amplify Codegen Models - List and list components nullability",
             route: "/cli/migration/list-nullability",

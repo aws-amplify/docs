@@ -19,3 +19,5 @@ jobs:
         run: yarn test
       - name: Run Build
         run: yarn export
+          env:
+            NODE_OPTIONS: --max_old_space_size=4096

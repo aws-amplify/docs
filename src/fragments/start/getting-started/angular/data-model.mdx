@@ -40,13 +40,13 @@ type Restaurant @model {
 }
 ```
 
- You'll notice a directive on the `Restaurant` type of `@model`. This directive is part of Amplify's [GraphQL transformer](/cli/graphql-transformer/model) functionality.
+You'll notice a directive on the `Restaurant` type of `@model`. This directive is part of Amplify's [GraphQL transformer](/cli/graphql-transformer/model) functionality.
 
 The GraphQL Transform Library provides custom directives you can use in your schema that allow you to do things like define data models, set up authentication and authorization rules, configure serverless functions as resolvers, and more.
 
 A type decorated with the `@model` directive will scaffold out the database table for the type (Restaurant table), the schema for CRUD (create, read, update, delete) and list operations, and the GraphQL resolvers needed to make everything work together.
 
-From the command line, press __enter__ to accept the schema and continue to the next steps.
+From the command line, press **enter** to accept the schema and continue to the next steps.
 
 ## Creating the API with database
 
@@ -98,69 +98,82 @@ When prompted, select **GraphQL**. This will open the AWS AppSync console for yo
 
 Open `src/main.ts` and add the following code to configure the Angular project with Amplify:
 
-```javascript
+```typescript
 import Amplify from "aws-amplify";
 import aws_exports from "./aws-exports";
 Amplify.configure(aws_exports);
 ```
 
-Update `tsconfig.app.json` to include the "node" compiler option in *types*:
+<Callout>
+  On Angular 12+, Typescript{" "}
+  <a href="https://www.typescriptlang.org/tsconfig#strict" target="_blank">
+    strict mode
+  </a>{" "}
+  is enabled by default, which has a known issue with importing `aws-exports.js`.
+  You can resolve this by adding an <code>aws-exports.d.ts</code> to <code>src/</code> (
+  <a
+    href="https://gist.github.com/wlee221/1b02f519e6e0ce25d3643cf2948f4467"
+    target="_blank"
+  >
+    gist
+  </a>
+  ).
+</Callout>
+
+Update `tsconfig.app.json` to include the "node" compiler option in _types_:
 
 ```json
 "compilerOptions": {
-    "types" : ["node"]
+  "types" : ["node"]
 }
 ```
 
-<Callout>Depending on your TypeScript version you may need to rename `aws-exports.js` to `aws-exports.ts` prior to importing, or enable the `allowJs` <a href="https://www.typescriptlang.org/docs/handbook/compiler-options.html" target="_blank">compiler option</a> in your tsconfig.</Callout>
-
-Next, define a `Restaurant` type. Create a new file at `src/types/restaurant.ts`:
-
-```ts
-export type Restaurant = {
-  id : string,
-  name : string,
-  description : string,
-  city: string
-};
-```
+<Callout>
+  Depending on your TypeScript version you may need to rename `aws-exports.js`
+  to `aws-exports.ts` prior to importing, or enable the `allowJs`{" "}
+  <a
+    href="https://www.typescriptlang.org/docs/handbook/compiler-options.html"
+    target="_blank"
+  >
+    compiler option
+  </a>{" "}
+  in your tsconfig.
+</Callout>
 
 In your `src/app/app.component.ts` file, use the following code to add data to your database with a mutation by using the `API.service` file which was generated when you ran `amplify add api`:
 
-```javascript
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { APIService } from './API.service';
-import { Restaurant } from '../types/restaurant';
+```typescript
+import {Component} from "@angular/core";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {APIService, Restaurant} from "./API.service";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"],
 })
-
-export class AppComponent implements OnInit {
-  title = 'amplify-angular-app';
+export class AppComponent {
+  title = "amplify-angular-app";
   public createForm: FormGroup;
 
-  constructor(private api: APIService, private fb: FormBuilder) { }
-
-  async ngOnInit() {
+  constructor(private api: APIService, private fb: FormBuilder) {
     this.createForm = this.fb.group({
-      'name': ['', Validators.required],
-      'description': ['', Validators.required],
-      'city': ['', Validators.required]
+      name: ["", Validators.required],
+      description: ["", Validators.required],
+      city: ["", Validators.required],
     });
   }
 
   public onCreate(restaurant: Restaurant) {
-    this.api.CreateRestaurant(restaurant).then(event => {
-      console.log('item created!');
-      this.createForm.reset();
-    })
-    .catch(e => {
-      console.log('error creating restaurant...', e);
-    });
+    this.api
+      .CreateRestaurant(restaurant)
+      .then((event) => {
+        console.log("item created!");
+        this.createForm.reset();
+      })
+      .catch((e) => {
+        console.log("error creating restaurant...", e);
+      });
   }
 }
 ```
@@ -168,50 +181,52 @@ export class AppComponent implements OnInit {
 Next, enable the Angular forms modules in `src/app/app.module.ts`:
 
 ```js
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
+import {BrowserModule} from "@angular/platform-browser";
+import {NgModule} from "@angular/core";
+import {AmplifyUIAngularModule} from "@aws-amplify/ui-angular";
 
 /* new form imports */
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import {AppRoutingModule} from "./app-routing.module";
+import {AppComponent} from "./app.component";
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     AmplifyUIAngularModule,
     /* configuring form modules */
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
 ```
 
 Next, add a form that will be used for creating restaurants. Add the following to your `src/app/app.component.html`:
 
 ```html
 <div class="form-body">
-  <form autocomplete="off" [formGroup]="createForm" (ngSubmit)="onCreate(createForm.value)">
+  <form
+    autocomplete="off"
+    [formGroup]="createForm"
+    (ngSubmit)="onCreate(createForm.value)"
+  >
     <div>
       <label>Name: </label>
-      <input type="text" formControlName="name" autocomplete="off">
+      <input type="text" formControlName="name" autocomplete="off" />
     </div>
     <div>
       <label>Description: </label>
-      <input type="text" formControlName="description" autocomplete="off">
+      <input type="text" formControlName="description" autocomplete="off" />
     </div>
     <div>
       <label>City: </label>
-      <input type="text" formControlName="city" autocomplete="off">
+      <input type="text" formControlName="city" autocomplete="off" />
     </div>
     <button type="submit">Submit</button>
   </form>
@@ -220,11 +235,10 @@ Next, add a form that will be used for creating restaurants. Add the following t
 
 Next, update your `AppComponent` class so that it will list all restaurants in the database when the app starts. To do so, implement [OnInit](https://angular.io/api/core/OnInit) add a `ListRestaurants` query in `src/app/app.component.ts`. Store the query results in an array.
 
-```javascript
+```typescript
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { APIService } from './API.service';
-import { Restaurant } from '../types/restaurant';
+import { APIService, Restaurant } from './API.service';
 
 @Component({
   selector: 'app-root',
@@ -237,20 +251,20 @@ export class AppComponent implements OnInit {
   public createForm: FormGroup;
 
   /* declare restaurants variable */
-  restaurants: Array<Restaurant>;
+  public restaurants: Array<Restaurant> = [];
 
-  constructor(private api: APIService, private fb: FormBuilder) { }
-
-  async ngOnInit() {
+  constructor(private api: APIService, private fb: FormBuilder) {
     this.createForm = this.fb.group({
       'name': ['', Validators.required],
       'description': ['', Validators.required],
       'city': ['', Validators.required]
     });
+  }
 
+  async ngOnInit() {
     /* fetch restaurants when app loads */
     this.api.ListRestaurants().then(event => {
-      this.restaurants = event.items;
+      this.restaurants = event.items as Restaurant[];
     });
   }
 
@@ -276,25 +290,39 @@ Add the following to your `src/app/app.component.html` to display any of the res
 </div>
 ```
 
-Finally, to subscribe to realtime data, update `ngOnInit` in `src/app/app.component.ts`. When the app starts, this code will set up a subscription. The subscription will update the `restaurants` array when new events are received (when a new restaurant is created):
+To subscribe to realtime data, declare a subscription class variable and update `ngOnInit` in `src/app/app.component.ts`. When the app starts, this code will set up a subscription. The subscription will update the `restaurants` array when new events are received (when a new restaurant is created):
 
-```javascript
+```typescript
+private subscription: Subscription | null = null;
+
 async ngOnInit() {
-  this.createForm = this.fb.group({
-    'name': ['', Validators.required],
-    'description': ['', Validators.required],
-    'city': ['', Validators.required]
-  });
   this.api.ListRestaurants().then(event => {
     this.restaurants = event.items;
   });
 
   /* subscribe to new restaurants being created */
-  this.api.OnCreateRestaurantListener.subscribe( (event: any) => {
-    const newRestaurant = event.value.data.onCreateRestaurant;
-    this.restaurants = [newRestaurant, ...this.restaurants];
-  });
+  this.subscription = <Subscription>(
+    this.api.OnCreateRestaurantListener.subscribe((event: any) => {
+      const newRestaurant = event.value.data.onCreateRestaurant;
+      this.restaurants = [newRestaurant, ...this.restaurants];
+    })
+  );
 }
+```
+
+Finally, unsubscribe from the subscription when the component is destroyed. Import and add `OnDestroy` in `src/app/app.component.ts`:
+
+```typescript
+import { Component, OnDestroy, OnInit } from '@angular/core';
+
+export class AppComponent implements OnInit, OnDestroy {
+  // ...
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+    this.subscription = null;
+  }
 ```
 
 Next, run the app:
@@ -302,5 +330,13 @@ Next, run the app:
 ```sh
 npm start
 ```
+
+<Callout>
+  If you have strict mode enabled, you might see a typescript error "Could not find a declaration file for module 'graphql/error/GraphQLError'". Please add a declaration file with the following{" "}
+  <a
+    href="https://gist.github.com/wlee221/72666db6b66bae74cfb059130f7f406d"
+    target="_blank"
+  >content</a>.
+</Callout>
 
 Now, open the app in 2 browser windows (both at http://localhost:4200/) so that you have your app running side by side. When creating a new item in one window, you should see it come through in the other window in real-time.
