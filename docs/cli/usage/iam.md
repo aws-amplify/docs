@@ -181,7 +181,6 @@ The Amplify CLI requires the below IAM policies for performing actions across al
         "lambda:GetFunction",
         "lambda:GetFunctionConfiguration",
         "lambda:GetLayerVersion",
-        "lambda:GetLayerVersionByArn",
         "lambda:InvokeAsync",
         "lambda:InvokeFunction",
         "lambda:ListEventSourceMappings",
