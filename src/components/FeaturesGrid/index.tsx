@@ -79,6 +79,18 @@ export default function FeaturesGrid() {
             </CardDetail>
           </Card>
           <Card
+            href="/lib/geo/getting-started/q/platform/js/"
+            className="border-radius"
+          >
+            <CardGraphic src="/assets/features/geo.svg" />
+            <CardDetail>
+              <h4>Geo</h4>
+              <p>
+                Add modern, interactive maps with location markers and location search to your JavaScript-based web projects.
+              </p>
+            </CardDetail>
+          </Card>
+          <Card
             href="/lib/push-notifications/getting-started"
             className="border-radius"
           >
