@@ -1,0 +1,45 @@
+> Prerequisite: [Install and configure the Amplify CLI](/cli/start/install)
+
+The primary way to provision Geo resources is through the Amplify CLI. Currently, Amplify Geo is in developer preview and you need to install the CLI with the `@geo` tag. You can use the following command to install this version globally.
+
+```sh
+npm i -g @aws-amplify/cli@geo
+```
+
+Now, let's make sure that the right version was installed:
+
+```sh
+amplify --version
+```
+
+That should show a version with the `-geo.x` tag, for example, `6.0.1-geo.0`.
+
+> **Note:** Make sure that version `6.0.1-geo.0` or above is installed.
+
+Once that is complete, you can run the following command from your project's root folder to initialize Amplify in your repo:
+
+```sh
+amplify init
+```
+
+Now you are able to add a `geo` resource, such as map resources or a search index:
+
+```sh
+amplify add geo
+```
+
+The CLI will prompt configuration options for the Geo category for what type of capability you want to add and default or advanced settings.
+
+<Callout>
+
+Amplify Android will be proceeding with developer preview for Geo in incremental releases. The current version of Amplify Android does not support the search APIs.
+
+</Callout>
+
+The `add` command automatically creates the backend configuration. Once all your configuration is complete run the following:
+
+```sh
+amplify push
+```
+
+A file named `amplifyconfiguration.json` that contains all geo-related configuration information will be created in your app's `src/main/res/raw` directory.

@@ -406,12 +406,12 @@ const directory = {
           {
             title: "Getting started",
             route: "/lib/geo/getting-started",
-            filters: ["js"],
+            filters: ["android", "js"],
           },
           {
             title: "Maps",
             route: "/lib/geo/maps",
-            filters: ["js"],
+            filters: ["android", "js"],
           },
           {
             title: "Location Search",
@@ -421,7 +421,7 @@ const directory = {
           {
             title: "Use existing AWS resources",
             route: "/lib/geo/existing-resources",
-            filters: ["js"],
+            filters: ["android", "js"],
           },
         ],
       },
