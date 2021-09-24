@@ -21,8 +21,14 @@ Future<void> subscribe() async {
   );
 
   try {
+    // Retrieve the first 5 events from the subscription
+    var i = 0;
     await for (var event in operation) {
+      i++;
       print('Subscription event data received: ${event.data}');
+      if (i == 5) {
+        break;
+      }
     }
   } on Exception catch (e) {
     print('Error in subscription stream: $e');
