@@ -401,7 +401,7 @@ const directory = {
         ],
       },
       geo: {
-        title: "Geo (Developer Preview)",
+        title: "Geo",
         items: [
           {
             title: "Getting started",
@@ -1259,7 +1259,7 @@ const directory = {
         ],
       },
       geo: {
-        title: "Geo (Developer Preview)",
+        title: "Geo",
         items: [
           {
             title: "Maps",
