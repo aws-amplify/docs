@@ -49,8 +49,6 @@ In terminal, navigate to your project, run `amplify add auth`, and choose the fo
     `Custom Auth Challenge Scaffolding (Definition)`
 ? What functionality do you want to use for Verify Auth Challenge Response? 
     `Custom Auth Challenge Scaffolding (Verification)`
-? Enter the answer to your custom auth challenge 
-    `1234`
 
 ? Do you want to edit your boilerplate-create-challenge function now? 
     `Yes`
@@ -59,20 +57,46 @@ In terminal, navigate to your project, run `amplify add auth`, and choose the fo
 The boilerplate for Create Auth Challenge opens in your favorite code editor. Enter the following code to this file:
 
 ```js
-function createAuthChallenge(event) {
-    if (event.request.challengeName === 'CUSTOM_CHALLENGE') {
-        event.response.publicChallengeParameters = {};
-        event.response.privateChallengeParameters = {};
-        event.response.privateChallengeParameters.answer = process.env.CHALLENGEANSWER;
-    }
+//crypto-secure-random-digit is used here to get random challenge code - https://github.com/ottokruse/crypto-secure-random-digit
+const digitGenerator = require('crypto-secure-random-digit');
+
+function sendChallengeCode(emailAddress, secretCode) {
+  // Use SES or custome logic to send the secret code to the user.
 }
 
-exports.handler = (event, context, callback) => {
-    createAuthChallenge(event);
-    callback(null, event);
+function createAuthChallenge(event) {
+
+  if (event.request.challengeName === 'CUSTOM_CHALLENGE') {
+    
+      // Generate a random code for the custom challenge
+      const challengeCode = digitGenerator.randomDigits(6).join('');
+      
+      // Send the custom challenge to the user
+      sendChallengeCode(event.request.userAttributes.email, challengeCode);
+      
+      event.response.privateChallengeParameters = {};
+      event.response.privateChallengeParameters.answer = challengeCode;
+  }
+}
+
+exports.handler = async event => {
+  createAuthChallenge(event);
 };
 ```
+
+<Callout>
+Note that the  `sendChallengeCode` method is empty, you can use AWS service like SES to setup email delivery and populate the function `sendChallengeCode` to send the challenge code to the user.
+</Callout>
+
 Amazon Cognito invokes the Create Auth Challenge trigger after Define Auth Challenge to create a custom challenge. In this lambda trigger we define the challenge to present to the user. `privateChallengeParameters` contains all the information to validate the response from the user.
+Save and close the file, now open the file under "<your_xcode_project>/amplify/backend/function/<project_code>CreateAuthChallenge/src/package.json" and add the following:
+
+```js
+"dependencies": {
+    "crypto-secure-random-digit": "^1.0.9"
+}
+```
+
 Save and close the file, then switch back to the terminal and follow the instructions:
 
 ```
@@ -86,20 +110,19 @@ Save and close the file, then switch back to the terminal and follow the instruc
 The boilerplate for Define Auth Challenge opens in your favorite code editor. Enter the following code to this file:
 
 ```js
-exports.handler = function(event, context) {
-if (event.request.session.length == 1 && event.request.session[0].challengeName == 'SRP_A') {
-    event.response.issueTokens = false;
-    event.response.failAuthentication = false;
-    event.response.challengeName = 'CUSTOM_CHALLENGE';
-} else if (event.request.session.length == 2 && event.request.session[1].challengeName == 'CUSTOM_CHALLENGE' && event.request.session[1].challengeResult == true) {
-    event.response.issueTokens = true;
-    event.response.failAuthentication = false;
-    event.response.challengeName = 'CUSTOM_CHALLENGE';
-} else {
-    event.response.issueTokens = false;
-    event.response.failAuthentication = true;
-}
-    context.done(null, event);
+exports.handler = async function(event) {
+  if (event.request.session.length == 1 && event.request.session[0].challengeName == 'SRP_A') {
+      event.response.issueTokens = false;
+      event.response.failAuthentication = false;
+      event.response.challengeName = 'CUSTOM_CHALLENGE';
+  } else if (event.request.session.length == 2 && event.request.session[1].challengeName == 'CUSTOM_CHALLENGE' && event.request.session[1].challengeResult == true) {
+      event.response.issueTokens = true;
+      event.response.failAuthentication = false;
+      event.response.challengeName = 'CUSTOM_CHALLENGE';
+  } else {
+      event.response.issueTokens = false;
+      event.response.failAuthentication = true;
+  }
 }
 ```
 Amazon Cognito invokes the Define Auth Challenge trigger to initiate the custom authentication flow.
@@ -120,16 +143,15 @@ The boilerplate for Verify Auth Challenge opens in your favorite code editor. En
 
 ```js
 function verifyAuthChallengeResponse(event) {
-    if (event.request.privateChallengeParameters.answer === event.request.challengeAnswer) {
-        event.response.answerCorrect = true;
-    } else {
-        event.response.answerCorrect = false;
-    }
+  if (event.request.privateChallengeParameters.answer === event.request.challengeAnswer) {
+      event.response.answerCorrect = true;
+  } else {
+      event.response.answerCorrect = false;
+  }
 }
 
-exports.handler = (event, context, callback) => {
-    verifyAuthChallengeResponse(event);
-    callback(null, event);
+exports.handler = async (event) => {
+  verifyAuthChallengeResponse(event);
 };
 ```
 Amazon Cognito invokes the Verify Auth Challenge trigger to verify if the response from the end user for a custom challenge is valid or not. The response from the user will be available in `event.request.challengeAnswer`. The code above compares that with `privateChallengeParameters` value set in the Create Auth Challenge trigger.
