@@ -13,10 +13,10 @@ Follow this guide to get started with Amplify Geo through the Amplify CLI.
 
 > Prerequisite: [Install and configure the Amplify CLI](/cli/start/install)
 
-The primary way to provision Geo resources is through the Amplify CLI. Currently, Amplify Geo is in developer preview and you need to install the CLI with the `@geo` tag. You can use the following command to install this version globally.
+The primary way to provision Geo resources is through the Amplify CLI. You can use the following command to install this globally.
 
 ```sh
-npm i -g @aws-amplify/cli@geo
+npm i -g @aws-amplify/cli
 ```
 
 Now, let's make sure that the right version was installed:
@@ -25,9 +25,7 @@ Now, let's make sure that the right version was installed:
 amplify --version
 ```
 
-That should show a version with the `-geo.x` tag, for example, `5.2.2-geo.0`.
-
-> **Note:** Make sure that version `5.6.0-geo.0` or above is installed.
+> **Note:** Make sure that version `6.1.0` or above is installed.
 
 Once that is complete, you can run the following command from your project's root folder to initialize Amplify in your repo:
 
@@ -45,7 +43,7 @@ amplify add geo
 
 The CLI will let you configure the Geo category based on the capabilities you want to add (maps and/or search). You can either choose to stick with the defaults or configure advanced settings. Please refer to [Amplify CLI Geo docs](/cli/geo/maps/) for more details on these configurations.
 
-The add command automatically creates the backend configuration. Once all your configuration is complete run the following (this might take a few minutes):
+The add command automatically creates the backend configuration. Once all your configuration is complete, run the following (this might take a few minutes):
 
 ```sh
 amplify push
