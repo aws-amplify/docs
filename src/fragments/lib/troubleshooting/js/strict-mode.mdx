@@ -30,14 +30,3 @@ Create a `aws-exports.d.ts` file on the same level as `aws-exports` with the fol
 declare const awsmobile: Record<string, any>
 export default awsmobile; 
 ```
-
-## Storage Type Error
-
-If you see the error
-
-```
-TS2344: Type 'T[U]' does not satisfy the constraint '(...args: any) => any'
-TS2344: Type 'T[api]' does not satisfy the constraint '(...args: any) => any'.
-```
-
-You can resolve this by setting [`strictNullChecks`](https://www.typescriptlang.org/tsconfig#strictNullChecks) to false within your `tsconfig.json`.
