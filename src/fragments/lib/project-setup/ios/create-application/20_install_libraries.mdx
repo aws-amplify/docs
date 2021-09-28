@@ -2,17 +2,15 @@
 
 <Block name="Swift Package Manager">
 
-To start adding the Amplify Libraries to your iOS project, open your project in Xcode and select **File > Swift Packages > Add Package Dependency**.
+To start adding the Amplify Libraries to your iOS project, open your project in Xcode and select **File > Add Packages...**
 
 ![Add package dependency](/images/project-setup/20_4_add-package-dependency.png)
 
-Enter the Amplify iOS GitHub repo URL (`https://github.com/aws-amplify/amplify-ios`) into the search bar and click **Next**.
+Enter the Amplify iOS GitHub repo URL (`https://github.com/aws-amplify/amplify-ios`) into the search bar and wait for the result to load.
+
+You'll see the Amplify iOS repository rules for which version of Amplify you want Swift Package Manager to install. Choose the dependency rule as , **Up to Next Major Version**, as it will use the latest compatible version of the dependency that can be detected from the `main` branch, then click **Add Package**.
 
 ![Search for repo](/images/project-setup/20_5_search-amplify-repo.png)
-
-You'll see the Amplify iOS repository rules for which version of Amplify you want Swift Package Manager to install. Choose the first rule, **Version**, as it will use the latest compatible version of the dependency that can be detected from the `main` branch, then click **Next**.
-
-![Dependency version options](/images/project-setup/20_6_dependency-version-options.png)
 
 Lastly, choose which of the libraries you want added to your project. Always select the **Amplify** library. The "Plugin" to install depends on which categories you are using:
 
@@ -26,9 +24,9 @@ Lastly, choose which of the libraries you want added to your project. Always sel
 
 ![Select dependencies](/images/project-setup/20_7_select-dependencies.png)
 
-Select all that are appropriate, then click **Finish**.
+Select all that are appropriate, then click **Add Package**.
 
-You can always go back and modify which SPM packages are included in your project by opening the Swift Packages tab for your project: Click on the Project file in the Xcode navigator, then click on your project's icon, then select the **Swift Packages** tab.
+You can always go back and modify which SPM packages are included in your project by opening the Package Dependencies tab for your project: Click on the Project file in the Xcode navigator, then click on your project's icon, then select the **Package Dependencies** tab.
 
 <Callout>
 
