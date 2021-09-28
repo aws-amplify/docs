@@ -689,6 +689,11 @@ const directory = {
             route: "/lib/troubleshooting/upgrading",
             filters: ["flutter", "js"],
           },
+          {
+            title: "TypeScript strict mode",
+            route: "/lib/troubleshooting/strict-mode",
+            filters: ["js"],
+          },
         ],
       },
     },
