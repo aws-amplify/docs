@@ -2,18 +2,16 @@
 title: Location Search
 description: Use Amplify CLI to create and manage location search indices or place indices that are used to search for places in your application.
 ---
-<amplify-callout>
-
-**Note:** Amplify Geo is in developer preview and is not intended to be used in production environments. Please reach out to us for any feedback and/or issues [here](https://github.com/aws-amplify/amplify-cli/issues)
-
-</amplify-callout>
 
 Amplify's `geo` category enables you to search by places, addresses, and coordinates in your app with "place index" resources.
-Since the `geo` category is in developer preview, you need to install Amplify CLI with the `@geo` tag in order to get the Geo functionality. You can use the following command to install this version globally.
 
-```console
-npm i -g @aws-amplify/cli@geo
-```
+<amplify-callout>
+
+**Note:** Amplify Geo is available in US East (N. Virginia), US East (Ohio), US West (Oregon), Europe (Frankfurt), Europe (Ireland), Europe (Stockholm), Asia Pacific (Singapore), Asia Pacific (Sydney) Region, and Asia Pacific (Tokyo) regions.
+
+Please reach out to us for any feedback and/or issues [here](https://github.com/aws-amplify/amplify-cli/issues)
+
+</amplify-callout>
 
 ## Setup a new Location Search Index
 
@@ -127,7 +125,7 @@ If you added more than one location search index via `amplify add geo`, the inde
 However, you can choose if the current search index should be the default one used in your application:
 
 ```console
-? Do you want to set this search index as default?
+Set this search index as the default? It will be used in Amplify Search API calls if no explicit reference is provided.
 > No
 ```
 
