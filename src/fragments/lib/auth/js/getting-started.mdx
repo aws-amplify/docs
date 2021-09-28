@@ -79,7 +79,46 @@ import all1 from "/src/fragments/ui/auth/react/withauthenticator.mdx";
 <Fragments fragments={{all: all1}} />
 
 </Block>
-<Block name="Vue">
+<Block name="Vue 3">
+
+First, install the `@aws-amplify/ui-components` library as well as `aws-amplify` if you have not already:
+
+```bash
+npm install aws-amplify @aws-amplify/ui-components
+```
+
+Now open __src/main.js__ and add the following below your last import:
+
+```js
+import {
+  applyPolyfills,
+  defineCustomElements,
+} from '@aws-amplify/ui-components/loader';
+
+applyPolyfills().then(() => {
+  defineCustomElements(window);
+});
+```
+
+Next, open __src/App.js__ and add the `amplify-authenticator` component.
+
+**amplify-authenticator**
+
+The `amplify-authenticator` component offers a simple way to add authentication flows into your app. This component encapsulates an authentication workflow in the framework of your choice and is backed by the cloud resources set up in your Auth cloud resources. You’ll also notice the `amplify-sign-out` component. This is an optional component if you’d like to render a sign out button.
+
+```html
+<template>
+  <amplify-authenticator>
+    <div>
+      My App
+      <amplify-sign-out></amplify-sign-out>
+    </div>
+  </amplify-authenticator>
+</template>
+```
+
+</Block>
+<Block name="Vue 2">
 
 First, install the `@aws-amplify/ui-vue` library as well as `aws-amplify` if you have not already:
 
