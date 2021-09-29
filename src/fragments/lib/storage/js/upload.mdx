@@ -96,11 +96,12 @@ const upload = await Storage.put(file.name, file, {
   resumable: true,
 });
 
-//
-
+// This duplicate uploads will resume the original upload.
 const duplicateUpload = await Storage.put(file.name, file, {
   resumable: true,
 });
+
+// Caveat: Original uploads that started over one hour ago will be cleared and duplicate uploads will begin from the beginning.
 ```
 
 ## Browser uploads
