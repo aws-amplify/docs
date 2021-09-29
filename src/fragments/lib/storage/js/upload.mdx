@@ -101,7 +101,7 @@ const duplicateUpload = await Storage.put(file.name, file, {
   resumable: true,
 });
 
-// Caveat: Original uploads that started over one hour ago will be cleared and duplicate uploads will begin from the beginning.
+// Caveat: Original uploads that were initiated over one hour ago will be cleared and duplicate uploads will begin from the beginning.
 ```
 
 ## Browser uploads
