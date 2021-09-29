@@ -16,7 +16,7 @@ Add the dependencies to your app:
 npm install -S maplibre-gl@1 maplibre-gl-js-amplify
 ```
 
-> **Note:** Make sure that `maplibre-gl-js-amplify` version `1.0.5` or above is installed.
+> **Note:** Make sure that `maplibre-gl-js-amplify` version `1.1.0` or above is installed.
 
 > **Note:** Ensure that your package bundler (webpack, rollup, etc) is configured to handle css files. Check out the webpack documentation [here](https://webpack.js.org/loaders/css-loader/).
 
@@ -75,7 +75,7 @@ body,
 To display markers on a map, use the `drawPoints` function. `drawPoints` expects:
 
 - `sourceName` - specifies the layer on which the markers are rendered on. You can edit existing markers by passing the same `sourceName`
-- coordinate data - the coordinate data of the markers to be displayed
+- coordinate data - (longitude, latitude) the coordinate data of the markers to be displayed
 - a maplibre-gl-js Map - the map object on which to render the markers
 
 First, import the `drawPoints` method in your app. Your import section should include look like this
