@@ -39,9 +39,9 @@ By default, Amplify Libraries assumes that S3 buckets are configured with the fo
 - `protected/{user_identity_id}/` - Readable by all users, but writable only by the creating user
 - `private/{user_identity_id}/` - Only accessible for the individual user
 
-You can either configure your IAM role to use the Amplify-recommended policies or in your Amplify libraries configuration [overwrite the default storage path behavior](/lib/storage/configureaccess.md/q/platform/js#customize-object-key-path).
+You can either configure your IAM role to use the Amplify-recommended policies or in your Amplify libraries configuration [overwrite the default storage path behavior](https://docs.amplify.aws/lib/storage/configureaccess/q/platform/js#customize-object-key-path).
 
-It is highly recommended to review your S3 bucket's CORS settings. Review the [recommendation guide here](/lib/storage/getting-started.md/q/platform/js#amazon-s3-bucket-cors-policy-setup).
+It is highly recommended to review your S3 bucket's CORS settings. Review the [recommendation guide here](https://docs.amplify.aws/lib/storage/getting-started/q/platform/js#amazon-s3-bucket-cors-policy-setup).
 
 ### Configuring IAM role to use Amplify-recommended policies
 
