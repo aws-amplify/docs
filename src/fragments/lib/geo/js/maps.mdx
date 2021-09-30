@@ -1,6 +1,6 @@
 <Callout>
 
-**Note:** Amplify Geo is in developer preview and is not intended to be used in production environments. Please reach out to us for any feedback and/or issues [here](https://github.com/aws-amplify/amplify-js/issues)
+**Note:** Please reach out to us for any feedback and/or issues [here](https://github.com/aws-amplify/amplify-js/issues)
 
 </Callout>
 
@@ -16,7 +16,7 @@ Add the dependencies to your app:
 npm install -S maplibre-gl@1 maplibre-gl-js-amplify
 ```
 
-> **Note:** Make sure that `maplibre-gl-js-amplify` version `1.0.5` or above is installed.
+> **Note:** Make sure that `maplibre-gl-js-amplify` version `1.1.0` or above is installed.
 
 > **Note:** Ensure that your package bundler (webpack, rollup, etc) is configured to handle css files. Check out the webpack documentation [here](https://webpack.js.org/loaders/css-loader/).
 
@@ -28,6 +28,10 @@ import "maplibre-gl/dist/maplibre-gl.css";
 ```
 
 Next, create and render the [Map](https://maplibre.org/maplibre-gl-js-docs/api/map/) with the help of [createMap](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#createmap).
+
+> **Note:** There must be a `<div>` with `id="map"` on the DOM before making the call to `createMap`.
+>
+> Example: In React, you can put this inside of a `useEffect` hook or `componentDidMount` call.
 
 ```javascript
 async function initializeMap() {
@@ -75,7 +79,7 @@ body,
 To display markers on a map, use the `drawPoints` function. `drawPoints` expects:
 
 - `sourceName` - specifies the layer on which the markers are rendered on. You can edit existing markers by passing the same `sourceName`
-- coordinate data - the coordinate data of the markers to be displayed
+- coordinate data - (longitude, latitude) the coordinate data of the markers to be displayed
 - a maplibre-gl-js Map - the map object on which to render the markers
 
 First, import the `drawPoints` method in your app. Your import section should include look like this
@@ -161,12 +165,12 @@ map.resize(); // forces the map to re-render
 To display a map on your html website, add the following scripts to your html webpage.
 
 ```html
-<link href="https://cdn.amplify.aws/packages/maplibre-gl/1.14.0/maplibre-gl.css" rel="stylesheet" integrity="sha384-sZlnv03zeGbcXDiuZ98TrNVZFIfpsVhN0itUxRFONLo6lOZskJPIMlOwDy+nloRF" crossorigin="anonymous" referrerpolicy="no-referrer"></link>
-<script src="https://cdn.amplify.aws/packages/maplibre-gl/1.14.0/maplibre-gl.js" integrity="sha384-jWZKsznBFj0Nl3kUaRKmmk89Hew9zDhTnmOz0pOLceWY7iag+l/8QNPeD0cQYaVG" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdn.amplify.aws/packages/core/4.2.1-geo.20/aws-amplify-core.min.js" integrity="sha384-ZJ0BipyxRjDHPcTLilxOMRf9grNEwTTUOmr8l8MUprgnpAnpK4Fz20ndOQElCtWb" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdn.amplify.aws/packages/auth/4.1.3-geo.20/aws-amplify-auth.min.js" integrity="sha384-rqyJfFR2070OQyXIQqomdGCYa6TaR/1asvv2oaz9wB6R8YSiIBC08mWwgVtr1NNk" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdn.amplify.aws/packages/geo/0.0.2-geo.6654/aws-amplify-geo.min.js" integrity="sha384-3WpvDe5YSr8Xdmc31s/1cKXlG5DCmeQA2PZkuQUIgwPPwGNY/kbrTYYItxSO8JJJ" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdn.amplify.aws/packages/maplibre-gl-js-amplify/1.0.6/maplibre-gl-js-amplify.umd.min.js" integrity="sha384-h4uihKkY1mV98z0/BVWOVfqkiADfi3KaKoeXgxYqMrNbCU43IQi4PIxZzTLZvPQ+" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link href="https://cdn.amplify.aws/packages/maplibre-gl/1.15.2/maplibre-gl.css" rel="stylesheet" integrity="sha384-DrPVD9GufrxGb7kWwRv0CywpXTmfvbKOZ5i5pN7urmIThew0zXKTME+gutUgtpeD" crossorigin="anonymous" referrerpolicy="no-referrer"></link>
+<script src="https://cdn.amplify.aws/packages/maplibre-gl/1.15.2/maplibre-gl.js" integrity="sha384-rwYfkmAOpciZS2bDuwZ/Xa/Gog6jXem8D/whm3wnsZSVFemDDlprcUXHnDDUcrNU" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.amplify.aws/packages/core/4.3.0/aws-amplify-core.min.js" integrity="sha384-7Oh+5w0l7XGyYvSqbKi2Q7SA5K640V5nyW2/LEbevDQEV1HMJqJLA1A00z2hu8fJ" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.amplify.aws/packages/auth/4.3.8/aws-amplify-auth.min.js" integrity="sha384-jfkXCEfYyVmDXYKlgWNwv54xRaZgk14m7sjeb2jLVBtUXCD2p+WU8YZ2mPZ9Xbdw" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.amplify.aws/packages/geo/1.1.0/aws-amplify-geo.min.js" integrity="sha384-TFMTyWuCbiptXTzvOgzJbV8TPUupG1rA1AVrznAhCSpXTIdGw82bGd8RTk5rr3nP" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.amplify.aws/packages/maplibre-gl-js-amplify/1.1.0/maplibre-gl-js-amplify.umd.min.js" integrity="sha384-7/RxWonKW1nM9zCKiwU9x6bkQTjldosg0D1vZYm0Zj+K/vUSnA3sOMhlRRWAtHPi" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 ```
 
 Next, add a div element with id `map` anywhere in your webpage where you want to render the map. Include the following code snippet to configure Amplify (update the `aws_exports.js` file path accordingly) and instantiate the map.
@@ -175,7 +179,7 @@ Next, add a div element with id `map` anywhere in your webpage where you want to
 <script type="module">
     import awsconfig from "./aws-exports.js";
     const { Amplify } = aws_amplify_core;
-    const { createMap } = maplibreAmplify;
+    const { createMap } = AmplifyMapLibre;
     Amplify.configure(awsconfig);
     createMap({
         container: "map",
@@ -194,12 +198,12 @@ Next, add a div element with id `map` anywhere in your webpage where you want to
         <meta charset="utf-8">
         <title>Display a map on a webpage</title>
         <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-        <link href="https://cdn.amplify.aws/packages/maplibre-gl/1.14.0/maplibre-gl.css" rel="stylesheet" integrity="sha384-sZlnv03zeGbcXDiuZ98TrNVZFIfpsVhN0itUxRFONLo6lOZskJPIMlOwDy+nloRF" crossorigin="anonymous" referrerpolicy="no-referrer"></link>
-        <script src="https://cdn.amplify.aws/packages/maplibre-gl/1.14.0/maplibre-gl.js" integrity="sha384-jWZKsznBFj0Nl3kUaRKmmk89Hew9zDhTnmOz0pOLceWY7iag+l/8QNPeD0cQYaVG" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="https://cdn.amplify.aws/packages/core/4.2.1-geo.20/aws-amplify-core.min.js" integrity="sha384-ZJ0BipyxRjDHPcTLilxOMRf9grNEwTTUOmr8l8MUprgnpAnpK4Fz20ndOQElCtWb" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="https://cdn.amplify.aws/packages/auth/4.1.3-geo.20/aws-amplify-auth.min.js" integrity="sha384-rqyJfFR2070OQyXIQqomdGCYa6TaR/1asvv2oaz9wB6R8YSiIBC08mWwgVtr1NNk" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="https://cdn.amplify.aws/packages/geo/0.0.2-geo.6654/aws-amplify-geo.min.js" integrity="sha384-3WpvDe5YSr8Xdmc31s/1cKXlG5DCmeQA2PZkuQUIgwPPwGNY/kbrTYYItxSO8JJJ" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="https://cdn.amplify.aws/packages/maplibre-gl-js-amplify/1.0.7/maplibre-gl-js-amplify.umd.js" integrity="sha384-90lGbzue/bkUYbE7sDTv1v5jWB4q01gyv9lXF9xnD4APVLFEa12eu9KkjqGF1BGF" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <link href="https://cdn.amplify.aws/packages/maplibre-gl/1.15.2/maplibre-gl.css" rel="stylesheet" integrity="sha384-DrPVD9GufrxGb7kWwRv0CywpXTmfvbKOZ5i5pN7urmIThew0zXKTME+gutUgtpeD" crossorigin="anonymous" referrerpolicy="no-referrer"></link>
+        <script src="https://cdn.amplify.aws/packages/maplibre-gl/1.15.2/maplibre-gl.js" integrity="sha384-rwYfkmAOpciZS2bDuwZ/Xa/Gog6jXem8D/whm3wnsZSVFemDDlprcUXHnDDUcrNU" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.amplify.aws/packages/core/4.3.0/aws-amplify-core.min.js" integrity="sha384-7Oh+5w0l7XGyYvSqbKi2Q7SA5K640V5nyW2/LEbevDQEV1HMJqJLA1A00z2hu8fJ" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.amplify.aws/packages/auth/4.3.8/aws-amplify-auth.min.js" integrity="sha384-jfkXCEfYyVmDXYKlgWNwv54xRaZgk14m7sjeb2jLVBtUXCD2p+WU8YZ2mPZ9Xbdw" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.amplify.aws/packages/geo/1.1.0/aws-amplify-geo.min.js" integrity="sha384-TFMTyWuCbiptXTzvOgzJbV8TPUupG1rA1AVrznAhCSpXTIdGw82bGd8RTk5rr3nP" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.amplify.aws/packages/maplibre-gl-js-amplify/1.1.0/maplibre-gl-js-amplify.umd.min.js" integrity="sha384-7/RxWonKW1nM9zCKiwU9x6bkQTjldosg0D1vZYm0Zj+K/vUSnA3sOMhlRRWAtHPi" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <style>
             body { margin: 0; padding: 0; }
             #map { position: absolute; top: 0; bottom: 0; width: 100%; }
@@ -210,7 +214,7 @@ Next, add a div element with id `map` anywhere in your webpage where you want to
         <script type="module">
             import awsconfig from "./aws-exports.js";
             const { Amplify } = aws_amplify_core;
-            const { createMap } = MapLibreAmplify;
+            const { createMap } = AmplifyMapLibre;
             Amplify.configure(awsconfig);
             createMap({
                 container: "map",
