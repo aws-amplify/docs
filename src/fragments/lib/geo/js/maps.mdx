@@ -29,6 +29,10 @@ import "maplibre-gl/dist/maplibre-gl.css";
 
 Next, create and render the [Map](https://maplibre.org/maplibre-gl-js-docs/api/map/) with the help of [createMap](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#createmap).
 
+> **Note:** There must be a `<div>` with `id="map"` on the DOM before making the call to `createMap`.
+>
+> Example: In React, you can put this inside of a `useEffect` hook or `componentDidMount` call.
+
 ```javascript
 async function initializeMap() {
     const map = await createMap({
