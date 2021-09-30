@@ -104,20 +104,15 @@ import aws_exports from "./aws-exports";
 Amplify.configure(aws_exports);
 ```
 
-<Callout>
+<Callout warning={true}>
   On Angular 12+, Typescript{" "}
   <a href="https://www.typescriptlang.org/tsconfig#strict" target="_blank">
     strict mode
   </a>{" "}
-  is enabled by default, which has a known issue with importing `aws-exports.js`.
-  You can resolve this by adding an <code>aws-exports.d.ts</code> to <code>src/</code> (
-  <a
-    href="https://gist.github.com/wlee221/1b02f519e6e0ce25d3643cf2948f4467"
-    target="_blank"
-  >
-    gist
-  </a>
-  ).
+  is enabled by default, which will introduce some type errors when you run the application. Please see the TypeScript strict mode {' '}
+  <a href="/lib/troubleshooting/strict-mode/q/platform/js/">
+    troubleshooting guide{' '}
+  </a>to resolve them.
 </Callout>
 
 Update `tsconfig.app.json` to include the "node" compiler option in _types_:
@@ -236,18 +231,17 @@ Next, add a form that will be used for creating restaurants. Add the following t
 Next, update your `AppComponent` class so that it will list all restaurants in the database when the app starts. To do so, implement [OnInit](https://angular.io/api/core/OnInit) add a `ListRestaurants` query in `src/app/app.component.ts`. Store the query results in an array.
 
 ```typescript
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { APIService, Restaurant } from './API.service';
+import {Component, OnInit} from "@angular/core";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {APIService, Restaurant} from "./API.service";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"],
 })
-
 export class AppComponent implements OnInit {
-  title = 'amplify-angular-app';
+  title = "amplify-angular-app";
   public createForm: FormGroup;
 
   /* declare restaurants variable */
@@ -255,27 +249,29 @@ export class AppComponent implements OnInit {
 
   constructor(private api: APIService, private fb: FormBuilder) {
     this.createForm = this.fb.group({
-      'name': ['', Validators.required],
-      'description': ['', Validators.required],
-      'city': ['', Validators.required]
+      name: ["", Validators.required],
+      description: ["", Validators.required],
+      city: ["", Validators.required],
     });
   }
 
   async ngOnInit() {
     /* fetch restaurants when app loads */
-    this.api.ListRestaurants().then(event => {
+    this.api.ListRestaurants().then((event) => {
       this.restaurants = event.items as Restaurant[];
     });
   }
 
   public onCreate(restaurant: Restaurant) {
-    this.api.CreateRestaurant(restaurant).then(event => {
-      console.log('item created!');
-      this.createForm.reset();
-    })
-    .catch(e => {
-      console.log('error creating restaurant...', e);
-    });
+    this.api
+      .CreateRestaurant(restaurant)
+      .then((event) => {
+        console.log("item created!");
+        this.createForm.reset();
+      })
+      .catch((e) => {
+        console.log("error creating restaurant...", e);
+      });
   }
 }
 ```
@@ -330,13 +326,5 @@ Next, run the app:
 ```sh
 npm start
 ```
-
-<Callout>
-  If you have strict mode enabled, you might see a typescript error "Could not find a declaration file for module 'graphql/error/GraphQLError'". Please add a declaration file with the following{" "}
-  <a
-    href="https://gist.github.com/wlee221/72666db6b66bae74cfb059130f7f406d"
-    target="_blank"
-  >content</a>.
-</Callout>
 
 Now, open the app in 2 browser windows (both at http://localhost:4200/) so that you have your app running side by side. When creating a new item in one window, you should see it come through in the other window in real-time.
