@@ -400,18 +400,38 @@ const directory = {
           },
         ],
       },
+      geopreview: {
+        title: "Geo (Developer Preview)",
+        items: [
+          {
+            title: "Getting started",
+            route: "/lib/geo/getting-started",
+            filters: ["android"],
+          },
+          {
+            title: "Maps",
+            route: "/lib/geo/maps",
+            filters: ["android"],
+          },
+          {
+            title: "Use existing AWS resources",
+            route: "/lib/geo/existing-resources",
+            filters: ["android"],
+          },
+        ],
+      },
       geo: {
         title: "Geo",
         items: [
           {
             title: "Getting started",
             route: "/lib/geo/getting-started",
-            filters: ["android", "js"],
+            filters: ["js"],
           },
           {
             title: "Maps",
             route: "/lib/geo/maps",
-            filters: ["android", "js"],
+            filters: ["js"],
           },
           {
             title: "Location Search",
@@ -421,7 +441,7 @@ const directory = {
           {
             title: "Use existing AWS resources",
             route: "/lib/geo/existing-resources",
-            filters: ["android", "js"],
+            filters: ["js"],
           },
         ],
       },
