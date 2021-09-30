@@ -20,8 +20,8 @@ Set up AWS Mobile SDK components by including the following libraries in your `a
 
 ```groovy
 dependencies {
-  implementation 'com.amazonaws:aws-android-sdk-kinesis:2.15.+'
-  implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.15.+@aar') { transitive = true }
+  implementation 'com.amazonaws:aws-android-sdk-kinesis:2.33.0'
+  implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.33.0'
 }
 ```
 
@@ -85,7 +85,7 @@ AWSMobileClient.getInstance().initialize(getApplicationContext(), new Callback<U
 );
 ```
 
-Once you have credentials, you can use `KinesisRecorder` with Amazon Kinesis. The following snippet creates a directory and instantiates the `KinesisRecorder` client: 
+Once you have credentials, you can use `KinesisRecorder` with Amazon Kinesis. The following snippet creates a directory and instantiates the `KinesisRecorder` client:
 
 ```java
 String kinesisDirectory = "YOUR_UNIQUE_DIRECTORY";
@@ -102,7 +102,7 @@ To use `KinesisFirehoseRecorder`, you need to pass the object in a directory whe
 
 ```java
 KinesisFirehoseRecorder firehoseRecorder = new KinesisFirehoseRecorder(
-    context.getCachedDir(), 
+    context.getCachedDir(),
     Regions.<YOUR-AWS-REGION>,
     AWSMobileClient.getInstance());
 ```

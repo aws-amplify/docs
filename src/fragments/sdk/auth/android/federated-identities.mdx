@@ -16,14 +16,14 @@ AWSMobileClient.getInstance().federatedSignIn(IdentityProvider.FACEBOOK.toString
 });
 ```
 
-`federatedSignIn()` can be used to obtain federated "Identity ID" using external providers like Google, Facebook or Twitter. If the tokens are expired and new tokens are needed, a notification will be dispatched on the `AWSMobileClient` listener with the user state `SIGNED_OUT_FEDERATED_TOKENS_INVALID`. You can give the updated tokens via the same `federatedSignIn()` method. 
+`federatedSignIn()` can be used to obtain federated "Identity ID" using external providers like Google, Facebook or Twitter. If the tokens are expired and new tokens are needed, a notification will be dispatched on the `AWSMobileClient` listener with the user state `SIGNED_OUT_FEDERATED_TOKENS_INVALID`. You can give the updated tokens via the same `federatedSignIn()` method.
 
 The API calls to get AWS credentials will be asynchronously blocked until you fetch the social provider's token and give it to `AWSMobileClient`. Once you pass the tokens, the `AWSMobileClient` will fetch AWS Credentials using the new tokens and unblock all waiting calls. It will then use the new credentials.
 
 #### SAML with Cognito Identity
 
-To federate your SAML sign-in provider as a user sign-in provider for AWS services called in your app, you will pass tokens to `AWSMobileClient.getInstance().federatedSignIn()`. 
-You must first register your SAML application with AWS IAM by using the following [instructions](https://docs.aws.amazon.com/cognito/latest/developerguide/saml-identity-provider.html). 
+To federate your SAML sign-in provider as a user sign-in provider for AWS services called in your app, you will pass tokens to `AWSMobileClient.getInstance().federatedSignIn()`.
+You must first register your SAML application with AWS IAM by using the following [instructions](https://docs.aws.amazon.com/cognito/latest/developerguide/saml-identity-provider.html).
 
 Once you retrieve the SAML tokens from your sign-in, you can call the `federatedSignIn` API in `AWSMobileClient`:
 
@@ -116,9 +116,9 @@ Note that the CLI allows you to select more than one identity provider for your 
 
 To federate Google as a user sign-in provider for AWS services called in your app, you will pass tokens to `AWSMobileClient.getInstance().federatedSignIn()`. You must first register your application with Google Sign-In in the Google Developers Console, and then configure this with Amazon Cognito Identity Pools.
 
-To implement Google Sign-in into your iOS app, you need two things: 
+To implement Google Sign-in into your iOS app, you need two things:
 
-1. OAuth Web Client ID 
+1. OAuth Web Client ID
 2. Android Client ID
 
 These Client IDs are part of your Google Developers project. The Web Client ID will be used by Cognito Identity Pools to manage the OAuth flow between Cognito and Google on the server side. The Android Client ID will be used in your Android app to authorize the OAuth flow directly with Google allowing your users to authenticate with Google using their Google login credentials.
@@ -141,7 +141,7 @@ amplify add auth # or `amplify update auth`
 ```
 
 ```console
-❯ Manual Configuration  
+❯ Manual Configuration
 ❯ User Sign-Up, Sign-In, connected with AWS IAM controls
 ```
 
@@ -227,15 +227,15 @@ Add the following dependencies to your `app/build.gradle` file:
 ```groovy
 dependencies {
     // Mobile Client for initializing the SDK
-    implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.15.+@aar') { transitive = true }
+    implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.33.0'
 
     // Facebook SignIn
     implementation 'com.android.support:support-v4:28.+'
-    implementation ('com.amazonaws:aws-android-sdk-auth-facebook:2.15.+@aar') { transitive = true }
+    implementation 'com.amazonaws:aws-android-sdk-auth-facebook:2.33.0'
 
     // Sign in UI
     implementation 'com.android.support:appcompat-v7:28.+'
-    implementation ('com.amazonaws:aws-android-sdk-auth-ui:2.15.+@aar') { transitive = true }
+    implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.33.0'
 }
 ```
 
@@ -324,15 +324,15 @@ Add the following dependencies to your `app/build.gradle` file:
 ```groovy
 dependencies {
     // Mobile Client for initializing the SDK
-    implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.15.+@aar') { transitive = true }
+    implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.33.0'
 
     // Google SignIn
     implementation 'com.android.support:support-v4:28.+'
-    implementation ('com.amazonaws:aws-android-sdk-auth-google:2.15.+@aar') { transitive = true }
+    implementation 'com.amazonaws:aws-android-sdk-auth-google:2.33.0'
 
     // Sign in UI Library
     implementation 'com.android.support:appcompat-v7:28.+'
-    implementation ('com.amazonaws:aws-android-sdk-auth-ui:2.15.+@aar') { transitive = true }
+    implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.33.0'
 }
 ```
 
