@@ -179,7 +179,7 @@ Next, add a div element with id `map` anywhere in your webpage where you want to
 <script type="module">
     import awsconfig from "./aws-exports.js";
     const { Amplify } = aws_amplify_core;
-    const { createMap } = maplibreAmplify;
+    const { createMap } = AmplifyMapLibre;
     Amplify.configure(awsconfig);
     createMap({
         container: "map",
