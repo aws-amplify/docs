@@ -4,14 +4,14 @@ After initialization in your project directory with `amplify init`, update your 
 
 ```groovy
 //For AWSMobileClient only:
-implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.16.+'
+implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.33.0'
 
 //For the drop-in UI also:
-implementation 'com.amazonaws:aws-android-sdk-auth-userpools:2.16.+'
-implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.16.+'
+implementation 'com.amazonaws:aws-android-sdk-auth-userpools:2.33.0'
+implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.33.0'
 
 //For hosted UI also:
-implementation 'com.amazonaws:aws-android-sdk-cognitoauth:2.16.+'
+implementation 'com.amazonaws:aws-android-sdk-cognitoauth:2.33.0'
 ```
 
 For the `AWSMobileClient` alone you can have a minimum SDK version of **15**, but for the drop-in UI you will need a minimum of **23** set in your `build.gradle`:
@@ -40,7 +40,7 @@ amplify add auth
 If you have previously enabled an Amplify category that uses Auth behind the scenes, e.g. API category, you may already have an Auth configuration. In such a case, run `amplify auth update` command to edit your configuration.
 
 The CLI prompts will help you to customize your auth flow for your app. With the provided options, you can:
-- Customize sign-in/registration flow 
+- Customize sign-in/registration flow
 - Customize email and SMS messages for Multi-Factor Authentication
 - Customize attributes for your users, e.g. name, email
 - Enable 3rd party authentication providers, e.g. Facebook, Twitter, Google and Amazon

@@ -8,7 +8,7 @@ See [the authentication section for more details](/sdk/auth/getting-started) for
 
 ## Set Up Your Backend
 
-In a terminal window, navigate to your project folder (the folder that typically contains your project level `build.gradle`), and add the SDK to your app. 
+In a terminal window, navigate to your project folder (the folder that typically contains your project level `build.gradle`), and add the SDK to your app.
 
 ```bash
 cd ./YOUR_PROJECT_FOLDER
@@ -31,7 +31,7 @@ When configuration of your API is complete, the CLI displays a message confirmin
 amplify push
 ```
 
-Once the deployment completes a folder with the name of your API's resource name will be created in `./src/main/java`. This is the client SDK with the models you will import and use in the `ApiClientFactory()` builder from your code in the following sections. 
+Once the deployment completes a folder with the name of your API's resource name will be created in `./src/main/java`. This is the client SDK with the models you will import and use in the `ApiClientFactory()` builder from your code in the following sections.
 
 ## Connect to Your Backend
 
@@ -39,9 +39,9 @@ Add the following to your `app/build.gradle`:
 
 ```groovy
 	dependencies {
-		implementation 'com.amazonaws:aws-android-sdk-apigateway-core:2.15.+'
-		implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.15.+@aar') { transitive = true }
-		implementation ('com.amazonaws:aws-android-sdk-auth-userpools:2.15.+@aar') { transitive = true }
+		implementation 'com.amazonaws:aws-android-sdk-apigateway-core:2.33.0'
+		implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.33.0'
+		implementation 'com.amazonaws:aws-android-sdk-auth-userpools:2.33.0'
 	}
 ```
 
