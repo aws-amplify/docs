@@ -68,6 +68,68 @@ In order to create and test Lambda functions locally, you need to have the runti
 
 Once a runtime is selected, you can select a function template for the runtime to help bootstrap your Lambda function.
 
+## Access existing AWS resource from Lambda Function
+
+You can grant your Lambda function  access to your existing resources.  After running `amplify add function`, the CLI generates a `custom-policies.json` under the folder `amplify/backend/function/<function-name>/custom-policies.json`. The file is where you can specify the resources and actions that grant Lambda Function access.
+
+
+### File Structure
+
+```json
+[
+    {
+        "Action": ["s3:CreateBucket"],
+        "Resource": ["arn:aws:s3:::*"]`
+    }
+]
+```
+
+**Action:** Specify **** the actions that are required to be granted to your Amplify resource. Wild characters ‘*’ is accepted. 
+**Resource**: Specify resources that the Amplify resource needs access. The resource accepts multiple Arns for a service and wild card character ‘*’ is accepted.
+
+
+> Note: Specifying resource as ‘*’ is not recommended as best practice. This grants access your Amplify resources access to all the resources that are created in your deployment account.
+
+
+If your Amplify resource requires access to multiple services you can create another block to grant access to additional services. 
+
+```json
+[
+    {
+        "Action": ["s3:CreateBucket"],
+        "Resource": ["arn:aws:s3:::*"]
+    },
+    {
+        "Action": ["iam:GetPolicy"],
+        "Resource": ["arn:aws:iam:::policy/*"]
+    }
+]
+```
+
+
+Optionally, the `Effect` field can be specified to use ‘Allow’ or ‘Deny’ if not specified the field defaults to ‘Allow’
+
+```json
+{
+    "Action": ["s3:CreateBucket"],
+    "Resource": ["arn:aws:s3:::*"],
+    "Effect": "Allow"
+}
+```
+
+### Multi-Environment Workflow
+
+You can specify which environment for the custom policies by adding '\$\{env\}' to the resource ARN optionally, the '${env}' will be mapped to the current environment name. 
+
+``` json
+"Resource": ["arn:aws:s3:::${env}my-bucket"]
+```
+
+### Next Step
+
+On invoking `amplify push` the attributes specified in the `custom-policies.json` file will be incorporated into a role and attached to the Lambda Function. 
+
+
 ## Schedule recurring Lambda functions
 
 Amplify CLI allows you to schedule Lambda functions to be executed periodically (e.g every minute, hourly, daily, weekly, monthly or yearly). You can also formulate more complex schedules using AWS Cron Expressions such as: *“10:15 AM on the last Friday of every month”*. Review the [Schedule Expression for Rules documentation](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions) for more details.
