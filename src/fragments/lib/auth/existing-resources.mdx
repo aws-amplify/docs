@@ -28,6 +28,7 @@ import flutter0 from "/src/fragments/lib/auth/flutter/existing_resources/10_exis
   - **Default**:
     - **authenticationFlowType**: The authentication flow type, takes values `USER_SRP_AUTH`, `CUSTOM_AUTH`. Default is `USER_SRP_AUTH`.
     - **OAuth**: Hosted UI Configuration (only include this if using the Hosted UI flow)
+      - **Scopes:** Scopes should match the scopes enables in Cognito under "App client settings"
     
 Note that before you can add an AWS resource to your application, the application must have the Amplify libraries installed. If you need to perform this step, see [Install Amplify Libraries](/lib/project-setup/create-application#n2-install-amplify-libraries). 
 
