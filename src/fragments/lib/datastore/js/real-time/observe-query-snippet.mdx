@@ -1,0 +1,83 @@
+```js
+const subscription = DataStore.observeQuery(Post).subscribe(snapshot => {
+  const { items, isSynced } = snapshot;
+  // update the UI, display the 'synced' status, etc.
+});
+```
+
+### Predicates
+
+The `observeQuery` method accepts the same predicates which can be passed to the `query` and `observe` methods.
+
+For example, if you wanted to simultaneously query and observe changes to a list of all `Post` Models which have a status of `'PUBLISHED'`:
+
+```js
+const subscription = DataStore.observeQuery(
+  Post,
+  p => p.status("eq", "PUBLISHED")
+).subscribe(snapshot => {
+  const { items, isSynced } = snapshot;
+  console.log({items, isSynced});
+});
+```
+
+### Sorting
+
+Items returned in `observeQuery` snapshots can also be sorted by one or more fields.
+
+For example, to sort all Post objects by rating in ascending order and title in descending order:
+
+```js
+const subscription = DataStore.observeQuery(
+  Post,
+  Predicates.ALL,
+  {
+    sort: s => s.rating(SortDirection.ASCENDING).title(SortDirection.DESCENDING)
+  }
+).subscribe(snapshot => {
+  const { items, isSynced } = snapshot;
+  console.log({items, isSynced});
+});
+```
+
+### Canceling observeQuery & closing a subscription
+
+The subscription will continue to send snapshots of accumulated data until the sync process is complete, though the subscription can be cancelled at any time.
+
+For example, in a React app, the subscription could be canceled when the component unmounts.
+
+```js
+import { useState, useEffect } from "react";
+
+// store the Observable in state, to unsubscribe later
+const [postSubscription, setPostSubscription] = useState();
+
+useEffect(() => {
+  let subscription = DataStore.observeQuery(
+    Post,
+    Predicates.ALL
+  ).subscribe(snapshot => {
+    const { items, isSynced } = snapshot;
+    console.log({items, isSynced});
+  });
+
+  setPostSubscription(subscription);
+
+  // called when the component unmounts
+  return () => {
+    postSubscription.unsubscribe();
+  }
+}, [postSubscription]);
+```
+
+<Callout>
+
+The `observeQuery` function is asynchronous; however, you should not use `await` like the other DataStore API methods since it is a long running task and you should make it non-blocking (i.e. code after the `DataStore.observeQuery()` call should not wait for its execution to finish).
+
+</Callout>
+
+<Callout>
+
+`DataStore.clear()` will remove any active subscriptions. You'll need to re-establish them manually by calling `DataStore.observeQuery()` again after you clear.
+
+</Callout>

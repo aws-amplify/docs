@@ -1,0 +1,15 @@
+```swift
+self.sink = Amplify.DataStore.observeQuery(for: Post.self)
+    .sink { completed in
+        switch completed {
+        case .finished:
+            print("Received `finished` event")
+        case .failure(let error):
+            print("Received Error \(error)")
+        }
+    } receiveValue: { querySnapshot in
+        print("Received snapshot")
+        print("Number of records: \(querySnapshot.items.count)")
+        print("Sync status: \(querySnapshot.isSynced)")
+    }
+```
