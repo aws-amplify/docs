@@ -92,7 +92,7 @@ You can grant your Fargate Task access to your existing resources.  After runnin
 **Resource**: Specify resources that the AWS resource needs access. The resource accepts multiple Arns for a service and wild card character ‘*’ is accepted.
 
 
-> Note: Specifying resource as ‘*’ is not recommended as best practice. This gives the Amplify api resource Administrative privileges which should be avoided.
+> Note: Specifying resource or action as ‘*’ is not recommended as best practice. This gives the Amplify api resource Administrative privileges which should be avoided.
 
 
 If your Amplify resource requires access to multiple services create another block to grant access to additional services. 
@@ -111,7 +111,7 @@ If your Amplify resource requires access to multiple services create another blo
 ```
 
 
-Optionally, the `Effect` field can be specified to use ‘Allow’ or ‘Deny’ if not specified the field defaults to ‘Allow’
+Optionally, the `Effect` field can be specified to use ‘Allow’ or ‘Deny’. If not specified the field defaults to ‘Allow’
 
 ```json
 {
@@ -123,9 +123,7 @@ Optionally, the `Effect` field can be specified to use ‘Allow’ or ‘Deny’
 
 ### Multi-Environment Workflow
 
-You can specify which environment for the custom policies by adding '\$\{env\}' to the resource AWS resource ARN optionally, the '${env}' will be mapped to the current deployment environment name. 
-
-
+ To specify AWS ARN resources across environments, an optional ‘\${env}’ parameter can be used. The ‘\${env}’ parameter in the AWS ARN resource will get populated with the current Amplify environment name at deployment.
 
 ``` json
 "Resource": ["arn:aws:s3:::${env}my-bucket"]
