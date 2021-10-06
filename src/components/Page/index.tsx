@@ -98,6 +98,7 @@ export default function Page({children, meta}: {children: any; meta?: any}) {
   meta.url = basePath + router.pathname;
   if (filterKey !== "") {
     meta.description += ` - ${filterMetadataByOption[filterKey].label}`;
+    meta.title += ` - ${filterMetadataByOption[filterKey].label}`;
   }
 
   return (
