@@ -71,69 +71,6 @@ amplify push
 
 Once this completes your container will be built via an automated pipeline and deployed to Fargate Tasks on an ECS Cluster fronted by an Amazon API Gateway HTTP API using a direct Cloud Map integration to your VPC. If you selected *Yes* to protect your API with Authentication, an Amazon Cognito User Pool will be created with an Authorizer integration for that API.
 
-## Access existing AWS resource from container
-
-
-You can grant your Fargate Task access to your existing resources.  After running or `amplify add api`, the CLI generates a `custom-policies.json` under the folder `amplify/backend/api/<api-name>/custom-policies.json`. The file is where you can specify the resources and actions that grant Lambda Function or Fargate Task access.
-
-
-### File Structure
-
-```json
-[
-    {
-        `"Action": ["s3:CreateBucket"],
-        "Resource": ["arn:aws:s3:::*"]`
-    }
-]
-```
-
-**Action:** Specify **** the actions that are required to be granted to your Amplify resource. Wild characters ‘*’ is accepted. 
-
-**Resource**: Specify resources that the Amplify resource needs access. The resource accepts multiple Arns for a service and wild card character ‘*’ is accepted.
-
-
-> Note: Specifying resource as ‘*’ is not recommended as best practice. This grants access your Amplify resources access to all the resources that are created in your deployment account.
-
-
-If your Amplify resource requires access to multiple services you can create another block to grant access to additional services. 
-
-```json
-[
-    {
-        "Action": ["s3:CreateBucket"],
-        "Resource": ["arn:aws:s3:::*"]
-    },
-    {
-        "Action": ["iam:GetPolicy"],
-        "Resource": ["arn:aws:iam:::policy/*"]
-    }
-]
-```
-
-
-Optionally, the `Effect` field can be specified to use ‘Allow’ or ‘Deny’ if not specified the field defaults to ‘Allow’
-
-```json
-{
-    "Action": ["s3:CreateBucket"],
-    "Resource": ["arn:aws:s3:::*"],
-    "Effect": "Allow"
-}
-```
-
-### Multi-Environment Workflow
-
-You can specify which environment for the custom policies by adding '\${env}' to the resource ARN optionally, the '\${env}' will be mapped to the current environment name. 
-
-```json
-"Resource": ["arn:aws:s3:::${env}my-bucket"]
-```
-
-### Next Steps
-
-On invoking `amplify push` the attributes specified in the `custom-policies.json` file will be incorporated into a role and attached to the Fargate Task. 
-
 
 ## Deploy a single container
 
