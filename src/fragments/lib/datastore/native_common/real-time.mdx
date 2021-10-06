@@ -53,7 +53,7 @@ DataStore.configure({
 
 The first snapshot returned from observe query will contain the same results as calling `query` directly on your Model - a collection of all the locally-available records. Subsequent snapshots will contain all of the `items` synced so far and will continue sending snapshots until `isSynced` is `true`.
 
-`observeQuery` still reacts dynamically to updates of data after the sync process is complete, sending a singular snapshot for every change occuring to the observed Model (just as `observe` does) as long as the subscription is maintained.
+`observeQuery` still reacts dynamically to updates of data after the sync process is complete, sending a singular snapshot for every change occurring to the observed Model (just as `observe` does) as long as the subscription is maintained.
 
 import js1 from "/src/fragments/lib/datastore/js/real-time/observe-query-snippet.mdx";
 
