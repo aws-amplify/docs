@@ -20,7 +20,9 @@ export default function Layout({
   const router = useRouter();
   if (!router.isReady) return <></>;
 
-  const filterMetadata = filterKey ? filterMetadataByOption : "";
+  const filterMetadata = filterKey
+    ? filterMetadataByOption[filterKey].label
+    : "";
 
   const title = !meta
     ? ""
