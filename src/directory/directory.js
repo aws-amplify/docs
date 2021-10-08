@@ -1548,10 +1548,7 @@ const directory = {
               "angular",
               "vue",
               "next",
-              "android",
-              "ios",
               "ionic",
-              "flutter",
             ],
           },
           {
