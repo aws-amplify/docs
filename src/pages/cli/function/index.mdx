@@ -70,7 +70,7 @@ Once a runtime is selected, you can select a function template for the runtime t
 
 ## Access existing AWS resource from Lambda Function
 
-You can grant your Lambda function  access to your existing resources.  After running `amplify add function`, the CLI generates a `custom-policies.json` under the folder `amplify/backend/function/<function-name>/`. The file is where you can specify the [resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_resource.html) and [actions](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_action.html) that grant Lambda Function access.
+You can grant your Lambda function  access to your existing resources. After running `amplify add function`, the CLI generates a `custom-policies.json` file under the folder `amplify/backend/function/<function-name>/`. The file is where you can specify the [resources](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_resource.html) and [actions](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_action.html) that grant Lambda Function access to the specified AWS resources.
 
 
 ### File Structure
@@ -120,7 +120,7 @@ Optionally, the `Effect` field can be specified to use ‘Allow’ or ‘Deny’
 
 ### Multi-Environment Workflow
 
- To specify AWS ARN resources across environments, an optional ‘\${env}’ parameter can be used. The ‘\${env}’ parameter in the AWS ARN resource will get populated with the current Amplify environment name at deployment.
+To specify AWS ARN resources across environments, an optional ‘\${env}’ parameter can be used for resources. The ‘\${env}’ parameter in the AWS ARN resource will get populated with the current Amplify environment name at deployment.
 
 ``` json
 "Resource": ["arn:aws:s3:::${env}my-bucket"]
@@ -128,7 +128,7 @@ Optionally, the `Effect` field can be specified to use ‘Allow’ or ‘Deny’
 
 ### Next Step
 
-On running `amplify push` commands the attributes specified in the `custom-policies.json` file will be appended to the existing IAM policy list tied to the Lambda Function's execution role.
+On running `amplify push` commands, the IAM policies specified in the `custom-policies.json` file will be appended to the existing IAM policy list tied to the Lambda Function's execution role.
 
 ## Schedule recurring Lambda functions
 
