@@ -32,6 +32,17 @@ Analytics.record({
 
 Metric values must be a `Number` type such as a float or integer.
 
+## Record Events Immediately
+
+Amazon Pinpoint provider send events in batch to optimize network bandwith, however events can be send immediately using `immediate` flag.
+
+```javascript
+Analytics.record({
+    name: 'albumVisit', 
+    immediate: true
+});
+```
+
 ## Disable Analytics
 
 You can also disable or re-enable Analytics:
