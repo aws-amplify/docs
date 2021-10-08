@@ -96,13 +96,13 @@ export default function Page({children, meta}: {children: any; meta?: any}) {
   }
   const basePath = "docs.amplify.aws";
   meta.url = basePath + router.asPath;
-  if (filterKey !== "") {
-    meta.description += ` - ${filterMetadataByOption[filterKey].label}`;
-    meta.title += ` - ${filterMetadataByOption[filterKey].label}`;
-  }
 
   return (
-    <Layout meta={meta}>
+    <Layout
+      meta={meta}
+      filterKey={filterKey}
+      filterMetadataByOption={filterMetadataByOption}
+    >
       {meta
         ? metaContent({
             title: meta.title,
