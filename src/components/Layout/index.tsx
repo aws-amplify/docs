@@ -6,13 +6,33 @@ import {LayoutStyle} from "./styles";
 import {Container} from "../Container";
 import {useRouter} from "next/router";
 
-export default function Layout({children, meta}: {children: any; meta?: any}) {
+export default function Layout({
+  children,
+  meta,
+  filterKey,
+  filterMetadataByOption,
+}: {
+  children: any;
+  meta?: any;
+  filterKey?: string;
+  filterMetadataByOption?: any;
+}) {
   const router = useRouter();
   if (!router.isReady) return <></>;
 
+  const filterMetadata = filterKey
+    ? filterMetadataByOption[filterKey].label
+    : "";
+
   const title = !meta
     ? ""
-    : [meta.chapterTitle, meta.title, "AWS Amplify Docs"]
+    : [meta.chapterTitle, meta.title, filterMetadata, "AWS Amplify Docs"]
+        .filter((s) => s !== "")
+        .join(" - ");
+
+  const description = !meta
+    ? ""
+    : [meta.description, filterMetadata, "AWS Amplify Docs"]
         .filter((s) => s !== "")
         .join(" - ");
 
@@ -22,10 +42,10 @@ export default function Layout({children, meta}: {children: any; meta?: any}) {
         <Head>
           <title>{`${title}`}</title>
           <meta property="og:title" content={title} key="og:title" />
-          <meta name="description" content={meta.description} />
+          <meta name="description" content={description} />
           <meta
             property="og:description"
-            content={meta.description}
+            content={description}
             key="og:description"
           />
           <meta property="og:url" content={meta.url} key="og:url" />
@@ -36,14 +56,14 @@ export default function Layout({children, meta}: {children: any; meta?: any}) {
           />
           <meta
             property="description"
-            content={meta.description}
+            content={description}
             key="description"
           />
           <meta property="twitter:card" content="summary" key="twitter:card" />
           <meta property="twitter:title" content={title} key="twitter:title" />
           <meta
             property="twitter:description"
-            content={meta.description}
+            content={description}
             key="twitter:description"
           />
           <meta

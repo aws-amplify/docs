@@ -13,6 +13,13 @@ import UniversalNav from "../components/UniversalNav";
 
 import {track, trackPageVisit, AnalyticsEventType} from "../utils/track";
 
+const meta = {
+  title: "Amplify Framework Docs",
+  description:
+    "Amplify Framework documentation - Learn how to use Amplify to develop and deploy cloud-powered mobile and web apps.",
+  url: "https://docs.amplify.aws/",
+};
+
 const Page = () => {
   useEffect(() => {
     track({
@@ -29,10 +36,41 @@ const Page = () => {
   return (
     <>
       <Head>
-        <title>Amplify Framework Docs</title>
+        <title>{meta.title}</title>
+        <meta name="description" content={meta.description} />
+        <meta property="og:title" content={meta.title} key="og:title" />
+        <meta name="description" content={meta.description} />
         <meta
-          name="description"
-          content="Amplify Framework documentation - Learn how to use Amplify to develop and deploy cloud-powered mobile and web apps."
+          property="og:description"
+          content={meta.description}
+          key="og:description"
+        />
+        <meta property="og:url" content={meta.url} key="og:url" />
+        <meta
+          property="og:image"
+          content="https://docs.amplify.aws/assets/ogp.jpg"
+          key="og:image"
+        />
+        <meta
+          property="description"
+          content={meta.description}
+          key="description"
+        />
+        <meta property="twitter:card" content="summary" key="twitter:card" />
+        <meta
+          property="twitter:title"
+          content={meta.title}
+          key="twitter:title"
+        />
+        <meta
+          property="twitter:description"
+          content={meta.description}
+          key="twitter:description"
+        />
+        <meta
+          property="twitter:image"
+          content="https://docs.amplify.aws/assets/ogp.jpg"
+          key="twitter:image"
         />
       </Head>
       <UniversalNav
