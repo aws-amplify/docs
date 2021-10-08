@@ -146,7 +146,7 @@ class MyCustomConfirmation extends AuthPiece {
             <ConfirmSignUp />
             <Greetings />
             <MyCustomConfirmation override={'ConfirmSignIn'}/>
-            </Authenticator>
+          </Authenticator>
         </div>
       );
     }
