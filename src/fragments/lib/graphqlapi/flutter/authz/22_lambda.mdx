@@ -1,14 +1,5 @@
-To start, create a provider class inheriting from `FunctionAuthProvider`.
+<Callout>
 
-```dart
-class CustomFunctionProvider extends FunctionAuthProvider {
-    const CustomFunctionProvider();
+**Note**: Lambda Authorizers are not currently supported in Flutter pending a codegen update.
 
-    @override
-    Future<String?> getLatestAuthToken() async => '[AWS-LAMBDA-AUTH-TOKEN]';
-}
-```
-
-import warning from "/src/fragments/lib/graphqlapi/flutter/authz/2X_add_plugin.mdx";
-
-<Fragments fragments={{flutter: warning}} />
+</Callout>
