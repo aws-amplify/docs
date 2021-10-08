@@ -65,7 +65,7 @@ Example configuration file
       "breakCircularDependency": true
     },
     "codegen": {
-      "useAppSyncModelgenPlugin": true
+      "addTimestampFields": true
     }
   }
 }
