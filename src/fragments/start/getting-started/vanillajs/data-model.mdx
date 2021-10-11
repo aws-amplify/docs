@@ -55,66 +55,6 @@ A type decorated with the `@model` directive will scaffold out the database tabl
 
 From the command line, press **enter** to accept the schema and continue to the next steps.
 
-## Configuration of your API
-
-When you create your api using `amplify add api`, you will get asked questions how you would like to configure the API.
-
-Let's walk through the configuration options we have when adding the API by the CLI:
-
-```console
-? Please select from one of the below mentioned services
-```
-
-There are two services available for selection (GraphQL & REST).
-
-[GraphQL](/lib/graphqlapi/getting-started.md) – AWS AppSync service will be used to serve your GraphQL API.
-
-[REST](/lib/restapi/getting-started.md) – AWS API Gateway service will be used to serve your REST API.
-
-Provide API name
-
-How the application will be named in the AWS AppSync / AWS API Gateway service
-
-```console
-? Choose default authorization type for the API
-```
-
-You can choose 4 different authorization types for your API.
-
-API key – API Key is prone to abuse since anyone can easily discover the API Key and make requests to your public service. To have authorization checks, use the other auth modes such as Cognito user pool or AWS IAM.
-
-Amazon Cognito User Pool – Will provision an AWS Cognito User Pool. The user needs to authenticated to interact with your API and gives you fine-grained authorization control for your API.
-
-IAM – Allows other AWS services to interact with your API when the service has the right IAM permissions to your API. You can also use IAM to provide public access when you have allowed unauthenticated logins enabled to your API.
-
-OpenID Connect – Authorization using third party OIDC providers. Gives you fine-grained authorization control for your API.
-
-```console
-? Enter a description for the API key
-```
-
-Description for your API key
-
-```console
-? After how many days from now the API key should expire (1-365)
-```
-
-The API Key will expire according to the expiration time set when provisioning AWS AppSync and will require extending it or creating a new one if needed. Default API Key expiry time is 7 days.
-
-```console
-? Do you want to configure advanced settings for the GraphQL API
-```
-
-```console
-? Choose the additional authorization types you want to configure for the API
-```
-
-You can choose additional authorization types for the API. This allows you to have more authorization control. E.g you could configure Amazon Cognito User Pools as your default authorization type and additionally IAM to provide access for other AWS services and public access for unauthenticated users.
-
-```console
-? Enable conflict detection?
-```
-
 ## Deploy your GraphQL API
 
 Now that the API has been successfully created. We need to push our updated configuration to the cloud so our API can be deployed:
@@ -287,3 +227,93 @@ Now if you wish to subscribe to data, import the `onCreateTodo` subscription and
 ```
 
 After restarting your app using `npm start` go back to your browser and using dev tools you will see data being stored and retrieved in your backend from the console logs.
+
+## Configuration of your API in detail
+
+When you create your API using `amplify add api`, you will get asked questions about how you would like to configure the API.
+
+Let's walk through the configuration options we have when adding the API by the CLI:
+
+```console
+? Please select from one of the below-mentioned services
+```
+
+There are two services available for selection (GraphQL & REST).
+
+**[GraphQL](/lib/graphqlapi/getting-started.md)** – AWS AppSync service will be used to serve your GraphQL API.
+
+**[REST](/lib/restapi/getting-started.md)** – AWS API Gateway service will be used to serve your REST API.
+
+```console
+Provide API name
+```
+
+How the application will be named in the AWS AppSync / AWS API Gateway service
+
+```console
+? Choose default authorization type for the API
+```
+
+You can choose 4 different authorization types for your API.
+
+**API key** – API Key is prone to abuse since anyone can easily discover the API Key and make requests to your public service. To have authorization checks, use the other auth modes, such as Cognito user pool or AWS IAM.
+
+**Amazon Cognito User Pool** – Will provision an AWS Cognito User Pool. The user needs to authenticate to interact with your API and gives you fine-grained authorization control for your API.
+
+**IAM** – Allows other AWS services to interact with your API when the service has the right IAM permissions to your API. You can also use IAM to provide public access when you have allowed unauthenticated logins enabled to your API.
+
+**OpenID Connect** – Authorization using third-party OIDC providers. Gives you fine-grained authorization control for your API.
+
+```console
+? Enter a description for the API key
+```
+
+Description for your API key
+
+```console
+? After how many days from now the API key should expire (1-365)
+```
+
+The API Key will expire according to the expiration time set when provisioning AWS AppSync and will require extending it or creating a new one if needed. Default API Key expiry time is 7 days.
+
+```console
+? Do you want to configure advanced settings for the GraphQL API
+```
+
+When selecting yes, you can define further details for your GraphQL API, like additional authorization types and conflict detection.
+
+```console
+? Choose the additional authorization types you want to configure for the API
+```
+
+You can choose additional authorization types for the API. This allows you to have more authorization control. E.g. you could configure Amazon Cognito User Pools as your default authorization type and additionally IAM to provide access for other AWS services and public access for unauthenticated users.
+
+```console
+? Enable conflict detection?
+```
+
+Conflict detection (also called versioning) is helpful when multiple clients may update the same object. To prevent overwriting changes from different clients, conflict detection tries to resolve these conflicts.
+
+```console
+? Select the default resolution strategy
+```
+
+These are 3 different options as your resolution strategy:
+
+**Auto Merge** – Automerge is the default mechanism where GraphQL type information can be used to merge objects using the scalar type context as long as two fields in a type are not in conflict. When this happens the data is merged and AppSync will update the object version so that all clients are updated. This also functions on lists of scalars where the updates are concatenated.
+
+**Optimistic Concurrency** – Optimistic Concurrency Control accepts the latest committed write to the database. Other writers are rejected and must handle merges through other means, such as a client-side callback.
+
+**Custom Lambda** – Finally, you can also also configure a Lambda Function to resolve conflicts depending on your custom business need, such as letting specific users in a system have priority on making updates to data.
+
+```console
+? Do you have an annotated GraphQL schema?
+```
+
+If you already have a `schema.graphql` you want to use for your project, you can provide the file path to the CLI and it will take your annotated GraphQL schema as a starting point. When you don't have a GraphQL Schema yet, you can choose from a provided schema template. (e.g. Single object with fields or One-to-many relationship)
+
+```console
+? Do you want to edit the schema now?
+```
+
+If you select to edit your GraphQL Schema, it will open the the `schema.graphql` in your IDE.
