@@ -53,7 +53,7 @@ class DirectoryGroup extends React.Component<
 
     if (
       this.props.items &&
-      this.props.items.some(({route}) => route === this.currentRoute)
+      this.props.items.some(({route}) => this.currentRoute.startsWith(route))
     ) {
       this.state = {isExpanded: true};
     } else {
@@ -87,7 +87,7 @@ class DirectoryGroup extends React.Component<
           <DirectoryLinksStyle>
             {this.itemsToDisplay.map((item) => (
               <DirectoryGroupItemStyle
-                isActive={this.currentRoute === item.route}
+                isActive={this.currentRoute.startsWith(item.route)}
                 key={item.title}
               >
                 <InternalLink href={`${item.route}`}>{item.title}</InternalLink>
