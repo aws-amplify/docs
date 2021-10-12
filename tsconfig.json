@@ -20,8 +20,6 @@
   },
   "extends": "./tsconfig.base.json",
   "include": [
-    "capi",
-    "client",
     "tasks"
   ]
 }

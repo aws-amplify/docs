@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`amplify-toc-provider Render logic should render 1`] = `
-<amplify-toc-provider>
-  <!---->
-</amplify-toc-provider>
-`;
