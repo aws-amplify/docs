@@ -1,8 +1,8 @@
  ```dart
 try {
   Map<String, String> userAttributes = {
-    'email': 'email@domain.com',
-    'phone_number': '+15559101234',
+    CognitoUserAttributes.email: 'email@domain.com',
+    CognitoUserAttributes.phoneNumber: '+15559101234',
     // additional attributes as needed
   };
   SignUpResult res = await Amplify.Auth.signUp(
