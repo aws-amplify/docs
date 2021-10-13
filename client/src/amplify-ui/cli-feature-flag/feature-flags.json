@@ -241,13 +241,13 @@
             "value": "true",
             "description": "[Recommended] Use the models generator internal package implementation at https://github.com/aws-amplify/amplify-codegen",
             "defaultNewProject": true,
-            "defaultExistingProject": false
+            "defaultExistingProject": true
           },
           {
             "value": "false",
             "description": "Use the deprecated models generator package implementation at https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-codegen-appsync-model-plugin",
             "defaultNewProject": false,
-            "defaultExistingProject": true
+            "defaultExistingProject": false
           }
         ]
       },
@@ -262,13 +262,13 @@
             "value": "true",
             "description": "[Recommended] Use the GraphQL documents generator internal package implementation at https://github.com/aws-amplify/amplify-codegen",
             "defaultNewProject": true,
-            "defaultExistingProject": false
+            "defaultExistingProject": true
           },
           {
             "value": "false",
             "description": "Use the deprecated GraphQL documents generation package implementation at https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-graphql-docs-generator",
             "defaultNewProject": false,
-            "defaultExistingProject": true
+            "defaultExistingProject": false
           }
         ]
       },
@@ -283,13 +283,13 @@
             "value": "true",
             "description": "[Recommended] Use the types generator internal package implementation at https://github.com/aws-amplify/amplify-codegen",
             "defaultNewProject": true,
-            "defaultExistingProject": false
+            "defaultExistingProject": true
           },
           {
             "value": "false",
             "description": "Use the deprecated types generation package implementation at https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-graphql-types-generator",
             "defaultNewProject": false,
-            "defaultExistingProject": true
+            "defaultExistingProject": false
           }
         ]
       },
@@ -304,13 +304,13 @@
             "value": "true",
             "description": "Recommended to be set true when there are no hand-written files in the modelgen output folder.",
             "defaultNewProject": true,
-            "defaultExistingProject": false
+            "defaultExistingProject": true
           },
           {
             "value": "false",
             "description": "Does not remove pre-existing files from the modelgen output folder. This would retain the generated models even after the corresponding types are removed from the GraphQL schema.",
             "defaultNewProject": false,
-            "defaultExistingProject": true
+            "defaultExistingProject": false
           }
         ]
       },
@@ -325,13 +325,13 @@
             "value": "true",
             "description": "Retain the case style used for naming the GraphQL types in the schema. Refer https://github.com/aws-amplify/amplify-codegen/pull/89",
             "defaultNewProject": true,
-            "defaultExistingProject": false
+            "defaultExistingProject": true
           },
           {
             "value": "false",
             "description": "Generate camelCase/PascalCase variable names for types irrespective of the case style used for naming the types.",
             "defaultNewProject": false,
-            "defaultExistingProject": true
+            "defaultExistingProject": false
           }
         ]
       },
