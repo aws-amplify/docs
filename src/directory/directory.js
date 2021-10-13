@@ -1531,12 +1531,12 @@ const directory = {
           {
             title: "Integrate your app",
             route: "/start/getting-started/integrate",
-            filters: ["android", "ios", "ionic", "flutter"],
+            filters: ["android", "ios", "flutter"],
           },
           {
             title: "Connect to the cloud",
             route: "/start/getting-started/add-api",
-            filters: ["android", "ios", "ionic", "flutter"],
+            filters: ["android", "ios", "flutter"],
           },
           {
             title: "Connect API and database to the app",
@@ -1548,10 +1548,7 @@ const directory = {
               "angular",
               "vue",
               "next",
-              "android",
-              "ios",
               "ionic",
-              "flutter",
             ],
           },
           {
@@ -1562,15 +1559,7 @@ const directory = {
           {
             title: "Deploy and host app",
             route: "/start/getting-started/hosting",
-            filters: [
-              "js",
-              "react",
-              "react-native",
-              "angular",
-              "vue",
-              "next",
-              "ionic",
-            ],
+            filters: ["js", "react", "angular", "vue", "next", "ionic"],
           },
           {
             title: "Next steps",
