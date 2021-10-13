@@ -45,7 +45,7 @@ The next step is attaching the policy to your *Cognito Identity*.
 You can retrieve the `Cognito Identity Id` of a logged in user with Auth Module:
 ```javascript
     Auth.currentCredentials().then((info) => {
-      const cognitoIdentityId = info.data.IdentityId;
+      const cognitoIdentityId = info.IdentityId;
     });
 ```
 
