@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import {MQTablet, MQDesktop} from "../media";
 
 export const TOCInnerStyle = styled.div`
-  overflow: scroll;
+  overflow: auto;
   padding-bottom: 3rem;
 `;
 
