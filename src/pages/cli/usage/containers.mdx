@@ -353,6 +353,8 @@ Optionally, the `Effect` field can be specified to use ‘Allow’ or ‘Deny’
 }
 ```
 
+On running `amplify push` command, the IAM policies specified in the `custom-policies.json` file will be appended to the existing IAM policy list tied to the Fargate Task's execution role.
+
 ### Multi-Environment Workflow
 
 To specify AWS ARN resources across environments, an optional ‘\${env}’ parameter can be used within the resource string. The ‘\${env}’ parameter in the AWS ARN resource will get populated with the current Amplify environment name at deployment.
@@ -360,8 +362,6 @@ To specify AWS ARN resources across environments, an optional ‘\${env}’ para
 ``` json
 "Resource": ["arn:aws:s3:::${env}my-bucket"]
 ```
-
-On running `amplify push` command, the IAM policies specified in the `custom-policies.json` file will be appended to the existing IAM policy list tied to the Fargate Task's execution role.
 
 ## Hosting
 
