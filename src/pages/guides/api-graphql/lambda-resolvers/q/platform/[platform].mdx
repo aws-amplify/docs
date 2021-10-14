@@ -106,12 +106,14 @@ Now that the functions have been created, you can create the GraphQL API:
 amplify add api
 
 ? Please select from one of the below mentioned services: GraphQL
+? Here is the GraphQL API that we will create. Select a setting to edit or continue: Name
 ? Provide API name: gqllambda
+? Here is the GraphQL API that we will create. Select a setting to edit or continue: Authorization modes: API key (default, expiration time: 7 days from now)
 ? Choose the default authorization type for the API: API Key
 ? Enter a description for the API key: public (or some description)
 ? After how many days from now the API key should expire: 365 (or your preferred expiration)
-? Do you want to configure advanced settings for the GraphQL API: N
-? Do you have an annotated GraphQL schema? N
+? Configure additional auth types? No
+? Here is the GraphQL API that we will create. Select a setting to edit or continue: Continue
 ? Choose a schema template: Single object with fields (e.g., “Todo” with ID, name, description)
 ? Do you want to edit the schema now? Y
 ```
