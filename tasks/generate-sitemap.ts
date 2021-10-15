@@ -71,4 +71,19 @@ const writeSitemap = () => {
   console.log(`sitemap written to ${sitemapPath}`);
 };
 
+const writeRobots = () => {
+  let robotsContent = `User-agent: *\nDisallow:\n`;
+  if (
+    typeof process.env.NODE_ENV === "undefined" ||
+    process.env.NODE_ENV !== "production"
+  ) {
+    robotsContent = `User-agent: *\nDisallow: /\n`;
+  }
+
+  const robotsPath = "./public/robots.txt";
+  fs.writeFileSync(robotsPath, robotsContent);
+  console.log(`robots.txt written to ${robotsPath}`);
+};
+
 writeSitemap();
+writeRobots();
