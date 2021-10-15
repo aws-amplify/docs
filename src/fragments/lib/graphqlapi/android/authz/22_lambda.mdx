@@ -1,0 +1,24 @@
+Add the following code to your app:
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+ApiAuthProviders authProviders = ApiAuthProviders.builder()
+    .functionAuthProvider(() -> "[AWS-LAMBDA-AUTH-TOKEN]")
+    .build();
+Amplify.addPlugin(new AWSApiPlugin(authProviders));
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+val authProviders = ApiAuthProviders.builder()
+    .functionAuthProvider { "[AWS-LAMBDA-AUTH-TOKEN]" }
+    .build()
+Amplify.addPlugin(AWSApiPlugin(authProviders))
+```
+
+</Block>
+</BlockSwitcher>

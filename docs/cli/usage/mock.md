@@ -15,6 +15,10 @@ In order to quickly test and debug without pushing all changes in your project t
 Java is required on your development workstation to use Local Mocking in Amplify
 </amplify-callout>
 
+> **NOTE:** Currently, on Apple Silicon Macs, Amplify sometimes fails to start mocks when using certain JDK versions built for ARM processors. 
+>
+> If you encounter [this issue](https://github.com/aws-amplify/amplify-cli/issues/7411), please try using the official openJDK 16.0.1 from the Java website: [JDK Download](https://jdk.java.net/16/)
+
 [Blog walk-through with sample app](https://aws.amazon.com/blogs/mobile/amplify-framework-local-mocking/).
 
 ## API mocking setup

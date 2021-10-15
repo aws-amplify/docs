@@ -1,6 +1,6 @@
 ## Set up your application
 
-### Create a new Flutter application 
+### Create a new Flutter application
 
 Create a new project using Flutter CLI:
 
@@ -16,20 +16,20 @@ Amplify for Flutter is distributed via **pub.dev**.
 
     ```yaml
     environment:
-      sdk: ">=2.11.0 <3.0.0"
+      sdk: ">=2.12.0 <3.0.0"
 
     dependencies:
-    flutter:
-      sdk: flutter
+      flutter:
+        sdk: flutter
 
-    amplify_flutter: <1.0.0
-    amplify_datastore: <1.0.0
+      amplify_flutter: ^0.2.0
+      amplify_datastore: ^0.2.0
     ```
 
 2. Install the dependencies by running the following command. Depending on your development environment, you may perform this step via your IDE (or it may even be performed for you automatically).
 
     ```bash
-    flutter pub get 
+    flutter pub get
     ```
 
 ### Update target iOS platform

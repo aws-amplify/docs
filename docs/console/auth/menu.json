@@ -2,6 +2,7 @@
     "title": "Authentication",
     "items": [
       "authentication",
-      "user-management"
+      "user-management",
+      "import"
     ]
   }

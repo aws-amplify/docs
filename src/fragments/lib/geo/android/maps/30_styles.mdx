@@ -1,0 +1,63 @@
+The `getAvailableMaps` API fetches information for all maps that are available to be displayed.
+
+This is useful if you would like to give your users a variety of maps styles to choose from.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Geo.getAvailableMaps(
+    result -> {
+        for (final MapStyle style : result) {
+            Log.i("MyAmplifyApp", style.toString());
+        }
+    },
+    error -> Log.e("MyAmplifyApp", "Failed to get available maps.", error)
+);
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+Amplify.Geo.getAvailableMaps(
+    {
+        for (mapStyle in it) {
+            Log.i("MyAmplifyApp", mapStyle.toString())
+        }
+    },
+    { Log.e("MyAmplifyApp", "Failed to get available maps.", it) }
+)
+```
+
+</Block>
+</BlockSwitcher>
+
+You can set a different style to your map using `setStyle` method from the adapter:
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+mapView.getMapAsync(map -> {
+    MapStyle mapStyle = ...; // map style from getAvailableMaps()
+    AmplifyMapLibreAdapter.setStyle(map, mapStyle, style ->
+        Log.i("MyAmplifyApp", "Finished loading " + mapStyle.getStyle())
+    );
+});
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+mapView?.getMapAsync { map ->
+    val mapStyle: MapStyle = ... // map style from getAvailableMaps()
+    AmplifyMapLibreAdapter.setStyle(map, mapStyle) {
+        Log.i("MyAmplifyApp", "Finished loading ${mapStyle.style}.")
+    }
+}
+```
+
+</Block>
+</BlockSwitcher>

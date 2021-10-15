@@ -142,7 +142,7 @@ private static void query(GraphQLRequest<PaginatedResult<Todo>> request) {
         request,
         response -> {
             if (response.hasData()) {
-                for (Todo todo : response.getData())) {
+                for (Todo todo : response.getData()) {
                     Log.d("MyAmplifyApp", todo.getName());
                 }
                 if (response.getData().hasNextResult()) {

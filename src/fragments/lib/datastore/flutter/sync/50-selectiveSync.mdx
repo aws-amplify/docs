@@ -1,0 +1,25 @@
+## Selectively syncing a subset of your data
+
+By default, DataStore downloads the entire contents of your cloud data source to your local device.
+The max number of records that will be stored is configurable [here](/lib/datastore/conflict#custom-configuration).
+
+You can utilize selective sync to only persist a subset of your data instead.
+
+Selective sync works by applying predicates to the base and delta sync queries, as well as to incoming subscriptions.
+
+```dart
+Amplify.addPlugin(AmplifyDataStore(
+  modelProvider: ModelProvider.instance,
+  syncExpressions: [
+    DataStoreSyncExpression(Post.classType, () => Post.RATING.gt(5)),
+    DataStoreSyncExpression(Comment.classType, () => Comment.STATUS.eq('active'))
+  ]));
+```
+
+When DataStore starts syncing, only Posts with `rating > 5` and Comments with `status` equal to `active` will be synced down to the user's local store.
+
+<Callout>
+
+Developers should only specify a single `syncExpression` per model. Any subsequent expressions for the same model will be ignored.
+
+</Callout>

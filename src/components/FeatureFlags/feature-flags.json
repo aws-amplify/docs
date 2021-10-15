@@ -1,0 +1,403 @@
+{
+  "appSync": {
+    "description": "Feature Flags related to AppSync backed APIs.",
+    "features": {
+      "generateGraphQLPermissions": {
+        "description": "Changes the permission format to grant access to graphql operations instead of appsync control plane operations",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.42.0",
+        "deprecationDate": "May 1st 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "Creates IAM policies to allow Query/Mutations",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "Uses previous policy format which allows control plane access to AppSync",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      }
+    }
+  },
+  "graphQLTransformer": {
+    "description": "Feature Flag related to GraphQL Transformer",
+    "features": {
+      "addMissingOwnerFields": {
+        "description": "Automatically add owner field to type when owner fields are not in the type",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.30.0",
+        "values": [
+          {
+            "value": "true",
+            "description": "Inserts the owner field from auth rules when its missing in type",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "Doesn't insert the owner field automatically",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      },
+      "validateTypeNameReservedWords": {
+        "description": "Throw an error when compiling the GraphQL schema if a type name is a reserved word.",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.32.1",
+        "deprecationDate": "May 1st 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "Throws an error if a type name is a reserved word.",
+            "defaultNewProject": true,
+            "defaultExistingProject": true
+          },
+          {
+            "value": "false",
+            "description": "Allows compilation to pass with reserved words as type names. However, you may encounter downstream GraphQL errors.",
+            "defaultNewProject": false,
+            "defaultExistingProject": false
+          }
+        ]
+      },
+      "useExperimentalPipelinedTransformer": {
+        "description": "Use pipeline resolver-based GraphQL Transformer (GraphQL Transformer vNext).",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.32.4",
+        "values": [
+          {
+            "value": "true",
+            "description": "Enable pipeline resolver-based GraphQL Transformer (GraphQL Transformer vNext).",
+            "defaultNewProject": false,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "Disables pipeline resolver-based GraphQL Transformer.",
+            "defaultNewProject": true,
+            "defaultExistingProject": true
+          }
+        ]
+      },
+      "enableIterativeGsiUpdates": {
+        "description": "Enable multiple GSI updates through iterative incremental deployments.",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.38.0",
+        "deprecationDate": "May 1st 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "GraphQL schemas changes can contain multiple GSI changes.",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "Throws Error when mutating more than 1 GSIs in update flow. .",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      },
+      "secondaryKeyAsGSI": {
+        "description": "Changes the behaviour of @key directive to always create GSIs.",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.41.x",
+        "deprecationDate": "May 1st 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "@key will always create GSIs for named keys.",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "@key create an LSI when the named key includes a primary field.",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      }
+    }
+  },
+  "frontend-ios": {
+    "description": "Feature Flag related to iOS projects",
+    "features": {
+      "enableXcodeIntegration": {
+        "description": "Automatically add DataStore / API models to the Xcode project.",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.40.0",
+        "deprecationDate": "May 1st 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "All newly generated DataStore/API models are auto-added to the Xcode project",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "All newly generated DataStore/API models are NOT auto-added to the Xcode project.",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      }
+    }
+  },
+  "auth": {
+    "description": "Feature Flag related to auth",
+    "features": {
+      "enableCaseInsensitivity": {
+        "description": "Toggles case insensitivity for Cognito login mechanisms (username, email etc..)",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.40.0",
+        "deprecationDate": "May 1st 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "Emails and usernames are case insensitive",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "Emails and usernames are case sensitive.",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      },
+      "useInclusiveTerminology": {
+        "description": "Toggles terminology used for allow and deny lists.",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.47.0",
+        "deprecationDate": "April 1st 2022",
+        "values": [
+          {
+            "value": "true",
+            "description": "The terms allowlist and denylist are used.",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "The legacy terms whitelist and blacklist are used.",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      },
+      "breakCircularDependency": {
+        "description": "Toggles the creation of auth triggers",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.51.0",
+        "deprecationDate": "December 1st 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "Creates auth triggers as custom Lambdas to be used with Apis and Storage.",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "Creates auth triggers via Cognito CloudFormation",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      }
+    }
+  },
+  "codegen": {
+    "description": "Feature Flag related to Codegen",
+    "features": {
+      "useAppsyncModelgenPlugin": {
+        "description": "Choose between implementations of internal DataStore model generator package. Refer https://github.com/aws-amplify/amplify-codegen/blob/master/FeatureFlags.md",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.40.0",
+        "deprecationDate": "May 1st 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "[Recommended] Use the models generator internal package implementation at https://github.com/aws-amplify/amplify-codegen",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "Use the deprecated models generator package implementation at https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-codegen-appsync-model-plugin",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      },
+      "useDocsGeneratorPlugin": {
+        "description": "Choose between implementations of internal GraphQL documents generator package. Refer https://github.com/aws-amplify/amplify-codegen/blob/master/FeatureFlags.md",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.40.0",
+        "deprecationDate": "May 1st 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "[Recommended] Use the GraphQL documents generator internal package implementation at https://github.com/aws-amplify/amplify-codegen",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "Use the deprecated GraphQL documents generation package implementation at https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-graphql-docs-generator",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      },
+      "useTypesGeneratorPlugin": {
+        "description": "Choose between implementations of internal GraphQL types generator package. Refer https://github.com/aws-amplify/amplify-codegen/blob/master/FeatureFlags.md",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.40.0",
+        "deprecationDate": "May 1st 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "[Recommended] Use the types generator internal package implementation at https://github.com/aws-amplify/amplify-codegen",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "Use the deprecated types generation package implementation at https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-graphql-types-generator",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      },
+      "cleanGeneratedModelsDirectory": {
+        "description": "Clears the generated models folder before they are re-generated.",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.40.0",
+        "deprecationDate": "May 1st 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "Recommended to be set true when there are no hand-written files in the modelgen output folder.",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "Does not remove pre-existing files from the modelgen output folder. This would retain the generated models even after the corresponding types are removed from the GraphQL schema.",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      },
+      "retainCaseStyle": {
+        "description": "Retains the case style developer uses while naming the GraphQL types in schema",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.40.0",
+        "deprecationDate": "May 1st 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "Retain the case style used for naming the GraphQL types in the schema. Refer https://github.com/aws-amplify/amplify-codegen/pull/89",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "Generate camelCase/PascalCase variable names for types irrespective of the case style used for naming the types.",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      },
+      "addTimestampFields": {
+        "description": "Add read-only timestamp fields in modelgen. For more infomation please refer change logs of amplify repos",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.51.2",
+        "deprecationDate": "Nov 1st 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "[Recommended] Add read-only timestamp `createdAt` and `updatedAt` fields in modelgen. Minimum version for amplify library: amplify-ios@1.9.0, amplify-android@1.17.2",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "No read-only timestamp fields will be added",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      },
+      "enableDartNullSafety": {
+        "description": "Generate Dart models with null safety for Flutter applications using DataStore. Refer to https://docs.amplify.aws/lib/project-setup/null-safety/q/platform/flutter for more information",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "5.1.0",
+        "deprecationDate": "Jan 1st 2022",
+        "values": [
+          {
+            "value": "true",
+            "description": "[Recommended] Generate Dart models with null safety. Minimum supported version for Amplify library: amplify-flutter is 0.2.0",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "Generate Dart models without null safety",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      },
+      "handleListNullabilityTransparently": {
+        "description": "Configure the nullability of the List and List components in Datastore Models generation",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "5.1.2",
+        "deprecationDate": "Nov 1st 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "[Recommended] Respect the nullability of List types as specified in the GraphQL schema. Refer https://docs.amplify.aws/cli/migration/list-nullability for more information.",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "Use the nullability specification of list components to decide the nullability of List.",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      }
+    }
+  }
+}
