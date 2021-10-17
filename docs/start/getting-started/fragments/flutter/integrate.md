@@ -3,7 +3,6 @@ In this section you’ll integrate Amplify DataStore with your app, and learn to
 First, replace the contents of your *main.dart* file with the following UI boilerplate code. Typically, you would break this file up into smaller modules but we've kept it as a single file here just for the tutorial. You might find your IDE complains about numerous unreferenced declarations but, don’t worry, we’ll get around to fixing those as we fill out our app with more functionality.
 
 ```dart
-// @dart=2.9
 // dart async library we will refer to when setting up real time updates
 import 'dart:async';
 // flutter and ui libraries
@@ -90,7 +89,7 @@ class _TodosPageState extends State<TodosPage> {
 class TodosList extends StatelessWidget {
   final List<Todo> todos;
 
-  TodosList({this.todos});
+  TodosList({required this.todos});
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +105,7 @@ class TodoItem extends StatelessWidget {
   final double iconSize = 24.0;
   final Todo todo;
 
-  TodoItem({this.todo});
+  TodoItem({required this.todo});
 
   void _deleteTodo(BuildContext context) async {
     // to be filled in a later step
@@ -194,7 +193,7 @@ class _AddTodoFormState extends State<AddTodoForm> {
 }
 ```
 
-Go ahead and run your code now and you should see an app with a progress indicator and a floating action button but not much else. 
+Go ahead and run your code now and you should see an app with a progress indicator and a floating action button but not much else.
 
 ```bash
 flutter run
@@ -209,11 +208,11 @@ To the top of the `_TodosPageState` class, add the following.
 ```dart
 class _TodosPageState extends State<TodosPage> {
 
-  // for tracking loading ui state
-  bool _isLoading;
+  // loading ui state - initially set to a loading state
+  bool _isLoading = true;
 
-  // list of Todos
-  List<Todo> _todos;
+  // list of Todos - initially empty
+  List<Todo> _todos = [];
 
   // amplify plugins
   final AmplifyDataStore _dataStorePlugin =
@@ -225,13 +224,7 @@ Update the `initState()` function in the `_TodosPageState` class.
 ```dart
 @override
 void initState() {
-  
-  // initialize loading ui state to a loading state
-  _isLoading = true;
-  
-  // initialize Todos list as an empty list
-  _todos = [];
-  
+
   // kick off app initialization
   _initializeApp();
 
@@ -243,10 +236,10 @@ Update the `_initializeApp()` function in the `_TodosPageState` class.
 
 ```dart
 Future<void> _initializeApp() async {
-  
+
   // configure Amplify
   await _configureAmplify();
-  
+
   // after configuring Amplify, update loading ui state to loaded state
   setState(() {
     _isLoading = false;
@@ -264,7 +257,7 @@ Future<void> _configureAmplify() async {
     await Amplify.addPlugins([_dataStorePlugin]);
 
     // configure Amplify
-    // 
+    //
     // note that Amplify cannot be configured more than once!
     await Amplify.configure(amplifyconfig);
   } catch (e) {
@@ -351,11 +344,11 @@ Update the `_fetchTodos()` function in the `_TodosPageState` class. For the purp
 ```dart
 Future<void> _fetchTodos() async {
   try {
-  
+
     // query for all Todo entries by passing the Todo classType to
     // Amplify.DataStore.query()
     List<Todo> updatedTodos = await Amplify.DataStore.query(Todo.classType);
-    
+
     // update the ui state to reflect fetched todos
     setState(() {
       _todos = updatedTodos;
@@ -377,8 +370,8 @@ To the top of the `_TodosPageState` class, add a `StreamSubscription`.
 ```dart
 class _TodosPageState extends State<TodosPage> {
 
-  // subscription to Todo model update events
-  StreamSubscription _subscription;
+  // subscription to Todo model update events - to be initialized at runtime
+  late StreamSubscription _subscription;
 ```
 
 Update the `dispose()` function in the `_TodosPageState` class.
@@ -393,26 +386,26 @@ void dispose() {
 }
 ```
 
-Update the `_fetchTodos()` function in the `_TodosPageState` class.
+Update the `_initializeApp()` function in the `_TodosPageState` class.
 
 ```dart
 Future<void> _initializeApp() async {
 
   // configure Amplify
   await _configureAmplify();
-  
+
   // listen for updates to Todo entries by passing the Todo classType to
   // Amplify.DataStore.observe() and when an update event occurs, fetch the
   // todo list
-  // 
-  // note this strategy may not scale well with larger number of entries 
+  //
+  // note this strategy may not scale well with larger number of entries
   _subscription = Amplify.DataStore.observe(Todo.classType).listen((event) {
     _fetchTodos();
   });
 
   // fetch Todo entries from DataStore
   await _fetchTodos();
-  
+
   // after both configuring Amplify and fetching Todo entries, update loading
   // ui state to loaded state
   setState(() {
@@ -475,7 +468,7 @@ A key difference between hot reload and restart is that hot restart destroys the
 
 Amplify-flutter should automatically re-configure your application and re-wire its plugins upon a hot restart, so there is no additional effort needed on your part.
 
-During **hot reload**, depending on how and when you are calling `Amplify.configure`, you may wish to check whether or not Amplify has already been configured using `Amplify.isConfigured` because it should not be configured more than once.  
+During **hot reload**, depending on how and when you are calling `Amplify.configure`, you may wish to check whether or not Amplify has already been configured using `Amplify.isConfigured` because it should not be configured more than once.
 
 To do this, you can use the `Amplify.isConfigured` getter.
 

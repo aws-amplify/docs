@@ -96,7 +96,7 @@ export class DocsMenu {
           <docs-repo-actions page={this.page} />
           <amplify-external-link
             redirect={false}
-            href="https://discord.gg/jWVbPfC"
+            href="https://discord.gg/amplify"
             anchorTitle="Discord Community"
             class={discordLinkStyle}
           >

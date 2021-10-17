@@ -33,7 +33,7 @@ Find your `aws_pubsub_endpoint` by logging onto your **AWS Console**, choose **I
 
 To use PubSub with AWS IoT, you will need to create the necessary IAM policies in the AWS IoT Console, and attach them to your Amazon Cognito Identity. 
 
-Go to IoT Core and choose *Secure* from the left navigation pane. Then navigate to *Create Policy*. The following `myIoTPolicy` policy will allow full access to all the topics.
+Go to IoT Core and choose *Secure* from the left navigation pane, and then *Policies* from the dropdown menu. Next, click *Create*. The following `myIoTPolicy` policy will allow full access to all the topics.
 
 ![Alt text](~/images/create-iot-policy.png)
 
@@ -45,14 +45,14 @@ The next step is attaching the policy to your *Cognito Identity*.
 You can retrieve the `Cognito Identity Id` of a logged in user with Auth Module:
 ```javascript
     Auth.currentCredentials().then((info) => {
-      const cognitoIdentityId = info.data.IdentityId;
+      const cognitoIdentityId = info.IdentityId;
     });
 ```
 
 Then, you need to send your *Cognito Identity Id* to the AWS backend and attach `myIoTPolicy`. You can do this with the following [AWS CLI](https://aws.amazon.com/cli/) command:
 
 ```bash
-aws iot attach-principal-policy --policy-name 'myIoTPolicy' --principal '<YOUR_COGNITO_IDENTITY_ID>'
+aws iot attach-policy --policy-name 'myIoTPolicy' --target '<YOUR_COGNITO_IDENTITY_ID>'
 ```
 
 ### Step 3: Allow the Amazon Cognito Authenticated Role to access IoT Services
@@ -82,3 +82,30 @@ Amplify.addPluggable(new MqttOverWSProvider({
 ```
 
 You can integrate any MQTT Over WebSocket provider with your app. Click [here](https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html#mqtt-ws) to learn more about MQTT Over WebSocket.
+
+## How to reconfigure PubSub providers during runtime
+
+Sometimes you need to reconfigure your PubSub provider when working with multiple concurrent PubSub providers, reconfiguring authentication states, or changing the IoT connection region. To reconfigure the PubSub provider, remove the existing provider using `removePluggable` and add an updated PubSub provider using `addPluggable`.
+
+```javascript
+import Amplify, { PubSub } from 'aws-amplify';
+import { AWSIoTProvider } from '@aws-amplify/pubsub';
+
+const pubsub = new PubSub({});
+
+// Apply plugin with configuration
+pubsub.addPluggable(new AWSIoTProvider({
+  aws_pubsub_region: '<ORIGINAL-IOT-REGION>',
+  aws_pubsub_endpoint: 'wss://xxxxxxxxxxxxx.iot.<ORIGINAL-IOT-REGION>.amazonaws.com/mqtt',
+}));
+
+// Remove plugin using the provider name
+pubsub.removePluggable('AWSIoTProvider');
+
+// Apply plugin with new configuration
+pubsub.addPluggable(new AWSIoTProvider({
+  aws_pubsub_region: '<NEW-IOT-REGION>',
+  aws_pubsub_endpoint: 'wss://xxxxxxxxxxxxx.iot.<NEW-IOT-REGION>.amazonaws.com/mqtt',
+}));
+
+```

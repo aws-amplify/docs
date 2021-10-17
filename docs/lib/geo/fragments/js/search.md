@@ -1,0 +1,142 @@
+<amplify-callout>
+
+**Note:** Amplify Geo is in developer preview and is not intended to be used in production environments. Please reach out to us for any feedback and/or issues [here](https://github.com/aws-amplify/amplify-js/issues)
+
+</amplify-callout>
+
+## Add location search functionality on a map
+
+First, make sure you've provisioned a search index resource and configured your app using the instructions in either [Getting started](~/lib/geo/getting-started.md) or [Use existing Amazon Location Service resources](~/lib/geo/existing-resources.md) and you have already setup [displaying a map](~/lib/geo/maps.md) in your application.
+
+To add a location search UI component to your map, you can use the [maplibre-gl-geocoder](https://github.com/maplibre/maplibre-gl-geocoder) library. `maplibre-gl-js-amplify` package makes it easy to integrate `maplibre-gl-geocoder` with Amplify Geo by exporting a utility function `createAmplifyGeocoder()` that returns an instance of `maplibre-gl-geocoder` with some pre-defined settings and supports all the [options](https://github.com/maplibre/maplibre-gl-geocoder/blob/main/API.md#parameters) for customizing the UI component.
+
+Install the necessary dependencies with the following command:
+
+```bash
+npm install -S @maplibre/maplibre-gl-geocoder maplibre-gl maplibre-gl-js-amplify
+```
+
+> **Note:** Make sure that `maplibre-gl-js-amplify` version `1.0.5` or above is installed.
+
+First, create a map onto which you want to add the location search UI component. See the guide on [creating and displaying maps](~/lib/geo/maps.md).
+
+Then, use `createAmplifyGeocoder()` to get a new instance of `MaplibreGeocoder` and add the location search UI component to the map.
+
+```javascript
+import { createMap, createAmplifyGeocoder } from "maplibre-gl-js-amplify";
+import maplibregl from "maplibre-gl";
+
+async function initializeMap() {
+    const el = document.createElement("div");
+    el.setAttribute("id", "map");
+    document.body.appendChild(el);
+
+    const map = await createMap({
+        container: "map",
+        center: [-123.1187, 49.2819],
+        zoom: 11,
+    })
+
+    map.addControl(createAmplifyGeocoder());
+}
+
+initializeMap();
+```
+
+![A search box on the top right corner of a map](~/images/geocoder-search-box-map.png)
+
+### Display the location search box outside the map
+
+You can also use [maplibre-gl-geocoder](https://github.com/maplibre/maplibre-gl-geocoder) to display the location search UI component anywhere in your application, even outside the map.
+
+To do so, extract the html element using function `onAdd()` and attach it anywhere in your DOM instead of adding it via the map's `addControl()` function.
+
+```javascript
+const geocoder = createAmplifyGeocoder();
+document.getElementById("search").appendChild(geocoder.onAdd());
+```
+
+![A search box](~/images/geocoder-search-box.png)
+
+## Location-based search capabilities
+
+Amplify Geo enables you to search for locations by text, addresses, or geo-coordinates.
+
+### Search by text, address, business name, city, and more
+
+The `Geo.searchByText()` API enables you to search for places or points of interest by free-form text, such as an address, name, city, or region.
+
+```javascript
+Geo.searchByText("Amazon Go Store")
+```
+
+Optimize your search results further by providing:
+- `countries` - to limit the search results to given countries (specified in [ISO Alpha-3 country codes](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3))
+- `maxResults` - to limit the maximum result set
+- `biasPosition` - to act as the search origination location
+- `searchAreaConstraints` - to limit the area to search inside of
+
+ **Note:** Providing both `biasPosition` and `searchAreaConstraints` parameters simultaneously returns an error.
+
+```javascript
+const searchOptionsWithBiasPosition = {
+  countries: string[], // Alpha-3 country codes
+  maxResults: number, // 50 is the max and the default
+  biasPosition: [
+    longitude // number
+    latitude // number,
+  ], // Coordinates point to act as the center of the search
+}
+
+const searchOptionsWithSearchAreaConstraints = {
+  countries: ["USA"], // Alpha-3 country codes
+  maxResults: 25, // 50 is the max and the default
+  searchAreaConstraints: [SWLongitude, SWLatitude, NELongitude, NELatitude], // Bounding box to search inside of
+}
+
+Geo.searchByText('Amazon Go Stores', searchOptionsWithBiasPosition)
+```
+
+This returns places and their coordinates that match the search constraints. A place can also have additional metadata as shown in the example below.
+
+```javascript
+// returns
+[
+  {
+    geometry: {
+      point:
+        [
+          -122.34014899999994, // Longitude point
+          47.61609000000004 // Latitude point
+        ],
+    },
+    addressNumber: "2131" // optional string for the address number alone
+    country: "USA" // optional Alpha-3 country code
+    label: "Amazon Go, 2131 7th Ave, Seattle, WA, 98121, USA" // Optional string
+    municipality: "Seattle" // Optional string
+    neighborhood: undefined // Optional string
+    postalCode: "98121" // Optional string
+    region: "Washington" // Optional string
+    street: "7th Ave" // Optional string
+    subRegion: "King County" // Optional string
+  }
+]
+```
+
+### Search by coordinates
+
+The `Geo.searchByCoordinates()` API is a reverse Geocoder that takes a coordinate point and returns information about what it finds at that point on the map. The returned object is the same shape as `searchByText()` API above.
+
+```javascript
+Geo.searchByCoordinates([longitudePoint, latitudePoint])
+```
+
+You can optionally limit your result set with the `maxResults` parameter.
+
+```javascript
+const searchOptionsWithBiasPosition = {
+  maxResults: number, // 50 is the max and the default
+}
+
+Geo.searchByCoordinates([-122.3399573, 47.616179], searchOptionsWithBiasPosition)
+```

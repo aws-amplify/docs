@@ -15,6 +15,7 @@ export async function routes(config: t.Config, ctx: t.Ctx): Promise<void> {
   }
 
   const src = `export const routes = [\n${[...routes.keys()]
+    .filter((route) => route !== "/")
     .map((route) => `  "${route}",`)
     .join("\n")}\n];\n`;
 

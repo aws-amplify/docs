@@ -1,35 +1,64 @@
-Now that your have DataStore persisting data locally, in the next step you'll connect it to the cloud. With a couple of commands, you'll create an AWS AppSync API and configure DataStore to synchronize its data to it.
+## Deploy your Amplify sandbox backend
 
-1. Configure Amplify to manage cloud resources on your behalf. This step will configure a new AWS user in your account for Amplify. Open up a terminal window. You can use an external terminal or the integrated terminal in Android Studio. In the terminal, run:
+Return to the sandbox link you kept handy from earlier. It should look something like the following.
 
-    ```bash
-    amplify configure
+```
+https://sandbox.amplifyapp.com/deploy/<UUID>
+```
+
+### Log in or create a new AWS account
+
+If you don’t have an AWS account, you will need to create one first:
+1. Select **Create an AWS account**
+2. Once you have an account, select **Login to deploy to AWS**
+3. When logged in, you will be taken to the Amplify Console
+
+### Create app backend
+On the creation form:
+<!-- // spell-checker: disable-next-line -->
+1. Give your app a name. We went with **amplifiedtodo**
+2. Select your preferred deployment region
+3. Click **Confirm deployment**
+
+    ![Create app backend](~/images/lib/getting-started/android/connect-to-cloud-create-app-backend.png)
+
+4. The on screen text should walk you through the deployment progress and, when the deployment status reads **Deployment completed**, click **Open admin UI**.
+
+    ![Open admin UI](~/images/lib/getting-started/android/connect-to-cloud-open-admin-ui.png)
+
+### Deploy environment and update local project
+
+1. Click on **Local setup instructions** at the top of the Admin UI
+2. Copy the command for pulling the updated environment and run it in your local project
+3. Answer on screen prompts to update your local project with the deployed environment
+
     ```
+    amplify pull --appId <appId> —envName staging
 
-   This command will open up a web browser to the AWS Management Console and guide you through creating a new IAM user. For step-by-step directions to set this up, refer to the [CLI installation guide](~/cli/start/install.md).
+    ? Choose your default editor:
+        `<your editor of choice>`
+    ? Choose the type of app that you're building
+        `android`
+    ? Where is your Res directory?
+        `(app/src/main/res)`
+    ? Do you plan on modifying this backend?
+        `Yes`
+    ```
+   
+4. Modify your initialization code so that the DataStore can sync with the backend through an API. Open `MainActivity`, and remove all of the code you added to `onCreate`. Replace it with the following:
 
-1. Next, push your new API to AWS. In Android Studio, click the Gradle Task dropdown in the toolbar and select **amplifyPush**.
-
-  ![](~/images/lib/getting-started/android/set-up-android-studio-run-task-dropdown-amplifyPush.png)
-
-1. Run the task. You can do this by pressing the **play button** or pressing **Control-R**.
-
-1. Modify your initialization code so that the DataStore can sync with the backend through an API. Open `MainActivity`, and remove all of the code you added to `onCreate`. Replace it with the following:
-
-  <amplify-block-switcher>
+   <amplify-block-switcher>
   <amplify-block name="Java">
-  
-  ```java
+
+   ```java
   try {
       Amplify.addPlugin(new AWSApiPlugin());
       Amplify.addPlugin(new AWSDataStorePlugin());
       Amplify.configure(getApplicationContext());
-
       Log.i("Tutorial", "Initialized Amplify");
   } catch (AmplifyException failure) {
       Log.e("Tutorial", "Could not initialize Amplify", failure);
   }
-
   Amplify.DataStore.observe(Todo.class,
       started -> Log.i("Tutorial", "Observation began."),
       change -> Log.i("Tutorial", change.item().toString()),
@@ -38,11 +67,11 @@ Now that your have DataStore persisting data locally, in the next step you'll co
   );
   ```
 
-  </amplify-block>
+   </amplify-block>
 
-  <amplify-block name="Kotlin">
+   <amplify-block name="Kotlin">
 
-  ```kotlin
+   ```kotlin
   try {
       Amplify.addPlugin(AWSApiPlugin())
       Amplify.addPlugin(AWSDataStorePlugin())
@@ -51,7 +80,6 @@ Now that your have DataStore persisting data locally, in the next step you'll co
   } catch (failure: AmplifyException) {
       Log.e("Tutorial", "Could not initialize Amplify", failure)
   }
-
   Amplify.DataStore.observe(Todo::class.java,
       { Log.i("Tutorial", "Observation began.") },
       { Log.i("Tutorial", it.item().toString()) },
@@ -60,66 +88,30 @@ Now that your have DataStore persisting data locally, in the next step you'll co
   )
   ```
 
-  </amplify-block>
+   </amplify-block>
   </amplify-block-switcher>
 
-1. In the Gradle Task dropdown menu in the toolbar, select **app** and run the application. This will synchronize the existing local Todo items to the cloud. `DataStore.observe` will log a message when new items are synchronized locally.
+5. In the Gradle Task dropdown menu in the toolbar, select **app** and run the application. This will synchronize the existing local Todo items to the cloud. `DataStore.observe` will log a message when new items are synchronized locally.
 
-1. Open up a terminal window. You can use an external terminal or the integrated terminal in Android Studio. In the terminal, run:
 
-   ```bash
-   amplify console api
-   ```
+## Verifying cloud sync
 
-   ```console
-   ? Please select from one of the below mentioned services: (Use arrow keys)
-      `GraphQL`
-   ```
+### Inspect data
 
-1. The AWS Appsync service will open in the AWS Management Console. In the **Queries** window, paste the following query in the left pane:
+From the Amplify Admin UI, select **Content** from the sidebar. If you have added todos from your app, you should see them show up as part of the results!
 
-    ```graphql
-    query GetTodos {
-        listTodos {
-            items {
-                id
-                name
-                priority
-                description
-            }
-        }
-    }
-    ```
+![Content](~/images/lib/getting-started/android/add-api-verify-sync-sidebar.png)
 
-1. Press the **play button** to run the query. This will return all of the synchronized Todos in the right pane:
+![Inspect items](~/images/lib/getting-started/android/add-api-verify-sync-inspect-items.png)
 
-    ![](~/images/lib/getting-started/android/set-up-appsync-query.png)
+### Create data
 
-1. Synchronization will occur bi-directionally. Create an item in AWS AppSync by copying and pasting the following mutation:
+Synchronization is bi-directional. Try creating a Todo entry from the Content screen in the Admin UI:
+1. Click **Create todo**
+2. Fill in the form
+  - **name**: This was created remotely!
+  - **Priority**: Normal
+  - **completedAt**: (Can leave optional field blank!)
+3. Click **Save Todo** on the form to save the new entry
 
-    ```graphql
-    mutation CreateTodo {
-        createTodo(
-            input: {
-                name: "Tidy up the office"
-                description: "Organize books, vacuum, take out the trash"
-                priority: NORMAL
-            }
-        ) {
-            id
-            name
-            description
-            priority
-            _version
-            _lastChangedAt
-        }
-    }
-```
-
-    ![](~/images/lib/getting-started/android/set-up-appsync-create.png)
-
-1. In the logs of your running application, filter for **Tutorial**. You will see this item synchronize to your local storage:
-
-    ```console
-    com.example.todo I/Tutorial: Todo {id=b9fa0d33-873e-46f3-baa3-3148f6f47d44, name=Tidy up the office, priority=NORMAL, description=Organize books, vacuum, take out the trash}
-    ```
+You should see your app update with a newly created todo in real-time!

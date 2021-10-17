@@ -17,7 +17,7 @@
 
 ### Create a new Android application
 
-1. Open **Android Studio**. Select **+ Start a new Android Studio project**.
+1. Open **Android Studio**. Select **+ Create New Project**.
 
     ![](~/images/lib/getting-started/android/set-up-android-studio-welcome.png)
 
@@ -82,8 +82,8 @@ Amplify for Android is distributed as an Apache Maven package. In this section, 
 
    ```groovy
    dependencies {
-       implementation 'com.amplifyframework:aws-api:1.18.0'
-       implementation 'com.amplifyframework:aws-datastore:1.18.0'
+       implementation 'com.amplifyframework:aws-api:1.28.1'
+       implementation 'com.amplifyframework:aws-datastore:1.28.1'
    }
    ```
 

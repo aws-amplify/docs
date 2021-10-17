@@ -1,4 +1,4 @@
-For client authorization AppSync supports API Keys, Amazon IAM credentials, Amazon Cognito User Pools, and 3rd party OIDC providers. This is inferred from the `amplifyconfiguration.json` file when you call `Amplify.configure()`. You can configure auth modes for an API using the Amplify CLI or manual configuration.
+For client authorization AppSync supports API Keys, Amazon IAM credentials, Amazon Cognito User Pools, and 3rd party OIDC providers. This is inferred from the `amplifyconfiguration.json`/`.dart` file when you call `Amplify.configure()`. You can configure auth modes for an API using the Amplify CLI or manual configuration.
 
 ## Auth Modes
 
@@ -17,6 +17,12 @@ Amazon Cognito Identity Pools allows you to use credentials from AWS IAM in your
 ### OpenID Connect (OIDC)
 
 If you are using a 3rd party OIDC provider you will need to configure it and manage the details of token refreshes yourself. 
+
+### AWS Lambda
+
+You can implement your own custom API authorization logic using an AWS Lambda function. To add a Lambda function as an authorization mode for your AppSync API, go to the **Settings** section of the **AppSync console**.
+
+You will need to manage the details of token refreshes in your application code yourself. 
 
 ## Use Amplify CLI to configure authorization modes
 
@@ -42,7 +48,7 @@ amplify update api
 
 ### API Key
 
-Add the following snippet to your `amplifyconfiguration.json` file, under the `awsAPIPlugin`:
+Add the following snippet to your `amplifyconfiguration.json`/`.dart` file, under the `awsAPIPlugin`:
 
 ```json
 {
@@ -61,7 +67,7 @@ Add the following snippet to your `amplifyconfiguration.json` file, under the `a
 
 ### Amazon Cognito User Pools
 
-Add the following snippet to your `amplifyconfiguration.json` file, under the `awsCognitoAuthPlugin`:
+Add the following snippet to your `amplifyconfiguration.json`/`.dart` file, under the `awsCognitoAuthPlugin`:
 
 ```json
 {
@@ -99,7 +105,7 @@ and under the `awsAPIPlugin`
 
 ### IAM
 
-Add the following snippet to your `amplifyconfiguration.json` file:
+Add the following snippet to your `amplifyconfiguration.json`/`.dart` file:
 
 ```json
 {
@@ -134,7 +140,7 @@ and under the `awsAPIPlugin`
 
 ### OIDC
 
-Update the `amplifyconfiguration.json` file and code snippet as follows:
+Update the `amplifyconfiguration.json`/`.dart` file and code snippet as follows:
 
 ```json
 {
@@ -158,6 +164,29 @@ If you are using Cognito's user pool as the authorization type, this will by def
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/authz/21_oidc.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/authz/21_oidc.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/graphqlapi/fragments/flutter/authz/21_oidc.md"></inline-fragment>
+
+### AWS Lambda
+
+Amplify CLI does not currently allow you to configure Lambda as an authorization mode for your GraphQL API. To add a Lambda function as an authorization mode for your AppSync API, go to the **Settings** section of the **AppSync console**. Then, update the `authorizationType` value in the `amplifyconfiguration.json`/`.dart` file and code snippet as follows:
+
+```json
+{
+    ...
+    "awsAPIPlugin": {
+        "[YOUR-GRAPHQLENDPOINT-NAME]": {
+            "endpointType": "GraphQL",
+            "endpoint": "[GRAPHQL-ENDPOINT]",
+            "region": "[REGION]",
+            "authorizationType": "AWS_LAMBDA",
+        }
+    }
+}
+```
+
+<inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/authz/22_lambda.md"></inline-fragment>
+<inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/authz/22_lambda.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/graphqlapi/fragments/flutter/authz/22_lambda.md"></inline-fragment>
 
 ### NONE
 You can also set authorization mode to `NONE` so that the library will not provide any request interception logic. You can use this when your API does not require any authorization or when you want to manipulate the request yourself, such as adding header values or authorization data.
@@ -180,6 +209,7 @@ You can register your own request interceptor to intercept the request and perfo
 
 <inline-fragment platform="ios" src="~/lib/graphqlapi/fragments/ios/advanced-workflows/50_interceptor.md"></inline-fragment>
 <inline-fragment platform="android" src="~/lib/graphqlapi/fragments/android/advanced-workflows/50_interceptor.md"></inline-fragment>
+<inline-fragment platform="flutter" src="~/lib/graphqlapi/fragments/flutter/advanced-workflows/50_interceptor.md"></inline-fragment>
 
 ## Configure multiple authorization modes
 
@@ -189,7 +219,7 @@ You can now configure a single GraphQL API to deliver private and public data. P
 
 As discussed in the above linked documentation, certain fields may be protected by different authorization types. This can lead the same query, mutation, or subscription to have different responses based on the authorization sent with the request; Therefore, it is recommended to use the different `friendly_name_<AuthMode>` as the `apiName` parameter in the `Amplify.API` call to reference each authorization type.
 
-The following snippets highlight the new values in the `amplifyconfiguration.json` and the client code configurations.
+The following snippets highlight the new values in the `amplifyconfiguration.json`/`.dart` and the client code configurations.
 
 The `friendly_name` illustrated here is created from Amplify CLI prompt. There are 4 clients in this configuration that connect to the same API except that they use different `AuthMode`.
 
@@ -207,7 +237,7 @@ The `friendly_name` illustrated here is created from Amplify CLI prompt. There a
                     "authorizationType": "API_KEY",
                     "apiKey": "[API_KEY]"
                 },
-                "[FRIENDLY-NAME-API-WITH-IAM": {
+                "[FRIENDLY-NAME-API-WITH-IAM]": {
                     "endpointType": "GraphQL",
                     "endpoint": "[GRAPHQL-ENDPOINT]",
                     "region": "[REGION]",

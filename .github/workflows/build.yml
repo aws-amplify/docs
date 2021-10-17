@@ -15,5 +15,9 @@ jobs:
         run: yarn
       - name: Run Spellcheck
         run: yarn spellcheck
+      - name: Run tests
+        run: yarn test
       - name: Run Build
-        run: yarn build
+        run: yarn export
+        env:
+          NODE_OPTIONS: --max_old_space_size=4096
