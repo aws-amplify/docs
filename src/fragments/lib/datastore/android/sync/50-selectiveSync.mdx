@@ -25,7 +25,7 @@ Amplify.addPlugin(AWSDataStorePlugin.builder().dataStoreConfiguration(
 ```kotlin
 Amplify.addPlugin(AWSDataStorePlugin.builder().dataStoreConfiguration(
     DataStoreConfiguration.builder()
-        .syncExpression(Post::class.java) { Post.POSTED_BY.eq("") }
+        .syncExpression(Post::class.java) { Post.RATING.gt(5) }
         .syncExpression(Comment::class.java) { Comment.STATUS.eq("active") }
         .build())
     .build())
@@ -123,7 +123,7 @@ var rating = 5
 fun initialize() {
     Amplify.addPlugin(AWSDataStorePlugin.builder().dataStoreConfiguration(
         DataStoreConfiguration.builder()
-            .syncExpression(Post::class.java) { Post.RATING.gt(5) }
+            .syncExpression(Post::class.java) { Post.RATING.gt(rating) }
             .build())
         .build())
 }
@@ -262,7 +262,7 @@ public void initialize() {
     Amplify.addPlugin(AWSDataStorePlugin.builder().dataStoreConfiguration(
         DataStoreConfiguration.builder()
             .syncExpression(Post.class, () -> {
-                if(rating != null) {
+                if (rating != null) {
                     return () -> Post.RATING.gt(rating);
                 }
                 return QueryPredicates.all();
@@ -302,7 +302,7 @@ public void initialize() {
     RxAmplify.addPlugin(AWSDataStorePlugin.builder().dataStoreConfiguration(
         DataStoreConfiguration.builder()
             .syncExpression(Post.class, () -> {
-                if(rating != null) {
+                if (rating != null) {
                     return () -> Post.RATING.gt(rating);
                 }
                 return QueryPredicates.all();
@@ -397,7 +397,7 @@ RxAmplify.addPlugin(AWSDataStorePlugin.builder().dataStoreConfiguration(
 
 // OR
 
-RxAmplify.addPlugin(AWSDataStorePlugin..builder().dataStoreConfiguration(
+RxAmplify.addPlugin(AWSDataStorePlugin.builder().dataStoreConfiguration(
     DataStoreConfiguration.builder()
         .syncExpression(User.class, () -> User.LAST_NAME.eq("Doe").and(User.CREATED_AT.gt("2020-10-10")))
         .build())

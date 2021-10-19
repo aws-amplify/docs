@@ -2,13 +2,13 @@ DataStore has a few optional configurations, such as the ability to specify a cu
 
 Finally you can configure the number of records to sync as an upper bound on items (per-Model) which will be stored locally on the device, as well as a custom interval in minutes which is an override of the default 24 hour "base query" which runs as part of the Delta Sync process.
 
-### custom configuration fields
+### Custom configuration fields
 - `errorHandler` - adds a handler function to be applied when the DataStore encounters an unrecoverable error in one of its ongoing background operations (model synchronization).
 - `conflictHandler` - adds a handler that will be invoked whenever there is a conflict between two model instances, one in the local store, and one from the remote server, as received from a sync operation.
 - `syncMaxRecords` - sets the maximum number of records, from the server, to process from a sync operation.
 - `syncPageSize` - sets the number of items requested in each page of sync results.
 - `syncInterval` - sets the duration of time after which delta syncs will not be preferred over base syncs. Time unit is default as minute.
-- `doSyncRetry` - sets the retry enabled on datastore sync.
+- `doSyncRetry` - enables retry on sync failure.
 - `syncExpression` - sets a sync expression for a particular model to filter which data is synced locally.  The expression is evaluated each time DataStore is started.  The QueryPredicate is applied on both sync and subscriptions.
 
 ### Example
