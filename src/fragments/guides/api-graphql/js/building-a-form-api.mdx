@@ -55,7 +55,7 @@ async function submitNewContact() {
       variables: {
         input: {
           name: formState.name,
-          phone: formState,phone
+          phone: formState.phone
         }
       }
     })
