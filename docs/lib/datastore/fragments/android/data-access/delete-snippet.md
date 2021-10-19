@@ -61,3 +61,73 @@ RxAmplify.DataStore.query(Post.class, Where.id("123"))
 
 </amplify-block>
 </amplify-block-switcher>
+
+A delete can be achieved by passing an instance and a predicate into `Amplify.DataStore.delete()`. Only if the data being deleted meets the specific conditions will it be deleted.
+Below, we delete the post with a `rating` greater than `4`:
+
+<amplify-block-switcher>
+<amplify-block name="Java">
+
+```java
+Amplify.DataStore.query(Post.class,
+        matches -> {
+            if (matches.hasNext()) {
+                Post post = matches.next();
+                Amplify.DataStore.delete(post, Where.matches(Post.RATING.gt(4)).getQueryPredicate(),
+                        deleted -> Log.i("MyAmplifyApp", "Deleted a post."),
+                        failure -> Log.e("MyAmplifyApp", "Delete failed.", failure)
+                );
+            }
+        },
+        failure -> Log.e("MyAmplifyApp", "Query failed.", failure)
+);
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.DataStore.query(Post::class.java,
+    { matches ->
+        if (matches.hasNext()) {
+            val post = matches.next()
+            Amplify.DataStore.delete(post, Where.matches(Post.RATING.gt(4)).queryPredicate,
+                { Log.i("MyAmplifyApp", "Deleted a post.") },
+                { Log.e("MyAmplifyApp", "Delete failed.", it) }
+            )
+        }
+    },
+    { Log.e("MyAmplifyApp", "Query failed.", it) }
+)
+```
+
+</amplify-block>
+<amplify-block name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+Amplify.DataStore.query(Post::class)
+    .catch { Log.e("MyAmplifyApp", "Query failed", it) }
+    .onEach { Amplify.DataStore.delete(it, Where.matches(Post.RATING.gt(4)).queryPredicate) }
+    .catch { Log.e("MyAmplifyApp", "Delete failed", it) }
+    .collect { Log.i("MyAmplifyApp", "Deleted a post") }
+```
+
+</amplify-block>
+<amplify-block name="RxJava">
+
+```java
+RxAmplify.DataStore.query(
+    Post.class,
+    Where.matches(Post.RATING.gt(4)))
+    .subscribe(
+            post -> RxAmplify.DataStore.delete(post, Where.matches(Post.RATING.gt(4)).getQueryPredicate())
+                    .subscribe(
+                            () -> Log.i("MyAmplifyApp", "Deleted a post."),
+                            failure -> Log.e("MyAmplifyApp", "Delete failed.", failure)
+                    ),
+            failure -> Log.e("MyAmplifyApp", "Query failed.", failure)
+    );
+```
+
+</amplify-block>
+</amplify-block-switcher>
