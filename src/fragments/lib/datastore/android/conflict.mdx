@@ -11,23 +11,30 @@ The code below illustrates a conflict resolution handler for the `Post` model th
 
 ```java
 DataStoreConfiguration config = DataStoreConfiguration.builder()
-    .errorHandler(error -> Log.e("YourApp", "Error.", error))
-    .conflictHandler((conflictData, onDecision) -> {
-        if (conflictData.getRemote() instanceof Post) {
-            Post patched = ((Post) conflictData.getRemote())
-                .copyOfBuilder()
-                .title(((Post) conflictData.getLocal()).getTitle())
-                .build();
-            onDecision.accept(ConflictResolutionDecision.retry(patched));
-        } else {
-            onDecision.accept(ConflictResolutionDecision.applyRemote());
-        }
-    })
-    .syncInterval(1, TimeUnit.DAYS)
-    .syncMaxRecords(10_000)
-    .syncPageSize(1_000)
-    .build();
-AWSDataStorePlugin dataStorePlugin = new AWSDataStorePlugin(config);
+      .errorHandler(error -> {
+          // handle DataStore exception here
+          Log.e("YourApp", "Error.", error);
+      })
+      .conflictHandler((conflictData, onDecision) -> {
+          // retry mutation with the same title and the most recent remote data for other fields
+          if (conflictData.getRemote() instanceof Post) {
+              Post patched = ((Post) conflictData.getRemote())
+                      .copyOfBuilder()
+                      .title(((Post) conflictData.getLocal()).getTitle())
+                      .build();
+              onDecision.accept(ConflictResolutionDecision.retry(patched));
+          } else {
+              onDecision.accept(ConflictResolutionDecision.applyRemote());
+          }
+      })
+      // Set the duration of time after which delta syncs will not be preferred over base syncs
+      .syncInterval(1, TimeUnit.DAYS)
+      // Set the maximum number of records, from the server, to process from a sync operation
+      .syncMaxRecords(10_000)
+      // Set the number of items requested in each page of sync results
+      .syncPageSize(1_000)
+      .build();
+AWSDataStorePlugin dataStorePlugin = AWSDataStorePlugin.builder().dataStoreConfiguration(config).build();
 ```
 
 </Block>
@@ -35,8 +42,12 @@ AWSDataStorePlugin dataStorePlugin = new AWSDataStorePlugin(config);
 
 ```kotlin
 val config = DataStoreConfiguration.builder()
-    .errorHandler { Log.e("YourApp", "Error.", it) }
+    .errorHandler {
+        // handle DataStore exception here
+        Log.e("YourApp", "Error.", it)
+    }
     .conflictHandler { conflictData, onDecision ->
+        // retry mutation with the same title and the most recent remote data for other fields
         if (conflictData.remote is Post) {
             val patched = (conflictData.remote as Post)
                 .copyOfBuilder()
@@ -47,11 +58,14 @@ val config = DataStoreConfiguration.builder()
             onDecision.accept(ConflictResolutionDecision.applyRemote())
         }
     }
+    // Set the duration of time after which delta syncs will not be preferred over base syncs
     .syncInterval(1, TimeUnit.DAYS)
+    // Set the maximum number of records, from the server, to process from a sync operation
     .syncMaxRecords(10_000)
+    // Set the number of items requested in each page of sync results
     .syncPageSize(1_000)
     .build()
-val dataStorePlugin = AWSDataStorePlugin(config)
+val dataStorePlugin = AWSDataStorePlugin.builder().dataStoreConfiguration(config).build()
 ```
 
 </Block>
