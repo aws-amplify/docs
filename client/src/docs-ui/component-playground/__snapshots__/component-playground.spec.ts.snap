@@ -1,5 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`docs-component-playground Render logic should render empty 1`] = `<docs-component-playground></docs-component-playground>`;
-
-exports[`docs-component-playground Render logic should render with AuthenticatorWithSlots custom component 1`] = `<docs-component-playground component-name="AuthenticatorWithSlot"></docs-component-playground>`;
