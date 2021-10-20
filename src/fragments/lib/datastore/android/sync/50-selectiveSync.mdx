@@ -11,30 +11,36 @@ Selective sync works by applying predicates to the base and delta sync queries, 
 <Block name="Java">
 
 ```java
-Amplify.addPlugin(new AWSDataStorePlugin(DataStoreConfiguration.builder()
-    .syncExpression(Post.class, () -> Post.RATING.gt(5))
-    .syncExpression(Comment.class, () -> Comment.STATUS.eq("active"))
-    .build()));
+Amplify.addPlugin(AWSDataStorePlugin.builder().dataStoreConfiguration(
+    DataStoreConfiguration.builder()
+        .syncExpression(Post.class, () -> Post.RATING.gt(5))
+        .syncExpression(Comment.class, () -> Comment.STATUS.eq("active"))
+        .build())
+    .build());
 ```
 
 </Block>
 <Block name="Kotlin">
 
 ```kotlin
-Amplify.addPlugin(AWSDataStorePlugin(DataStoreConfiguration.builder()
-    .syncExpression(Post::class.java) { Post.RATING.gt(5) }
-    .syncExpression(Comment::class.java) { Comment.STATUS.eq("active") }
-    .build()))
+Amplify.addPlugin(AWSDataStorePlugin.builder().dataStoreConfiguration(
+    DataStoreConfiguration.builder()
+        .syncExpression(Post::class.java) { Post.RATING.gt(5) }
+        .syncExpression(Comment::class.java) { Comment.STATUS.eq("active") }
+        .build())
+    .build())
 ```
 
 </Block>
 <Block name="RxJava">
 
 ```java
-RxAmplify.addPlugin(new AWSDataStorePlugin(DataStoreConfiguration.builder()
-    .syncExpression(Post.class, () -> Post.RATING.gt(5))
-    .syncExpression(Comment.class, () -> Comment.STATUS.eq("active"))
-    .build()));
+RxAmplify.addPlugin(AWSDataStorePlugin.builder().dataStoreConfiguration(
+    DataStoreConfiguration.builder()
+        .syncExpression(Post.class, () -> Post.RATING.gt(5))
+        .syncExpression(Comment.class, () -> Comment.STATUS.eq("active"))
+        .build())
+    .build());
 ```
 
 </Block>
@@ -61,9 +67,11 @@ If you have the following expression and you want to change the filter that gets
 public Integer rating = 5;
 
 public void initialize() {
-    Amplify.addPlugin(new AWSDataStorePlugin(DataStoreConfiguration.builder()
-        .syncExpression(Post.class, () -> Post.RATING.gt(rating))
-        .build()));
+    Amplify.addPlugin(AWSDataStorePlugin.builder().dataStoreConfiguration(
+        DataStoreConfiguration.builder()
+            .syncExpression(Post.class, () -> Post.RATING.gt(rating))
+            .build())
+        .build());
 }
 
 public void changeSync() {
@@ -85,9 +93,11 @@ public void changeSync() {
 var rating: Int = 5;
 
 fun initialize() {
-    Amplify.addPlugin(AWSDataStorePlugin(DataStoreConfiguration.builder()
-        .syncExpression(Post::class.java) { Post.RATING.gt(rating) }
-        .build()))
+    Amplify.addPlugin(AWSDataStorePlugin.builder().dataStoreConfiguration(
+        DataStoreConfiguration.builder()
+            .syncExpression(Post::class.java) { Post.RATING.gt(rating) }
+            .build())
+        .build())
 }
 
 fun changeSync() {
@@ -111,9 +121,11 @@ fun changeSync() {
 var rating = 5
 
 fun initialize() {
-    Amplify.addPlugin(AWSDataStorePlugin(DataStoreConfiguration.builder()
-        .syncExpression(Post::class.java) { Post.RATING.gt(5) }
-        .build()))
+    Amplify.addPlugin(AWSDataStorePlugin.builder().dataStoreConfiguration(
+        DataStoreConfiguration.builder()
+            .syncExpression(Post::class.java) { Post.RATING.gt(rating) }
+            .build())
+        .build())
 }
 
 suspend fun changeSync() {
@@ -135,9 +147,11 @@ suspend fun changeSync() {
 public Integer rating = 5;
 
 public void initialize() {
-    RxAmplify.addPlugin(new AWSDataStorePlugin(DataStoreConfiguration.builder()
-        .syncExpression(Post.class, () -> Post.RATING.gt(rating))
-        .build()));
+    RxAmplify.addPlugin(AWSDataStorePlugin.builder().dataStoreConfiguration(
+        DataStoreConfiguration.builder()
+            .syncExpression(Post.class, () -> Post.RATING.gt(rating))
+            .build())
+        .build());
 }
 
 public void changeSync() {
@@ -245,14 +259,16 @@ You can also have your sync expression return `QueryPredicates.all()` in order t
 public Integer rating = null;
 
 public void initialize() {
-    Amplify.addPlugin(new AWSDataStorePlugin(DataStoreConfiguration.builder()
-        .syncExpression(Post.class, () -> {
-            if(rating != null) {
-                return () -> Post.RATING.gt(rating);
-            }
-            return QueryPredicates.all();
-        })
-        .build()));
+    Amplify.addPlugin(AWSDataStorePlugin.builder().dataStoreConfiguration(
+        DataStoreConfiguration.builder()
+            .syncExpression(Post.class, () -> {
+                if (rating != null) {
+                    return () -> Post.RATING.gt(rating);
+                }
+                return QueryPredicates.all();
+            })
+            .build())
+        .build());
 }
 ```
 
@@ -263,14 +279,16 @@ public void initialize() {
 var rating = null
 
 fun initialize() {
-    Amplify.addPlugin(AWSDataStorePlugin(DataStoreConfiguration.builder()
-        .syncExpression(Post::class.java) {
-            if (rating != null) {
-                Post.RATING.gt(rating)
+    Amplify.addPlugin(AWSDataStorePlugin.builder().dataStoreConfiguration(
+        DataStoreConfiguration.builder()
+            .syncExpression(Post::class.java) {
+                if (rating != null) {
+                    Post.RATING.gt(rating)
+                }
+                QueryPredicates.all()
             }
-            QueryPredicates.all()
-        }
-        .build()))
+            .build())
+        .build())
 }
 ```
 
@@ -281,14 +299,16 @@ fun initialize() {
 public Integer rating = null;
 
 public void initialize() {
-    RxAmplify.addPlugin(new AWSDataStorePlugin(DataStoreConfiguration.builder()
-        .syncExpression(Post.class, () -> {
-            if(rating != null) {
-                return () -> Post.RATING.gt(rating);
-            }
-            return QueryPredicates.all();
-        })
-        .build()));
+    RxAmplify.addPlugin(AWSDataStorePlugin.builder().dataStoreConfiguration(
+        DataStoreConfiguration.builder()
+            .syncExpression(Post.class, () -> {
+                if (rating != null) {
+                    return () -> Post.RATING.gt(rating);
+                }
+                return QueryPredicates.all();
+            })
+            .build())
+        .build());
 }
 ```
 
@@ -321,7 +341,7 @@ To construct a query expression, return a predicate with the primary key of the 
 
 For the schema defined above `User.LAST_NAME.eq("Doe")` is a valid query expression.
 
-Optionally, you can also chain the sort key to this expression, using any of the following operators: `eq | ne | le | lt | ge | gt | beginsWith | between`. 
+Optionally, you can also chain the sort key to this expression, using any of the following operators: `eq | ne | le | lt | ge | gt | beginsWith | between`.
 
 E.g., `User.LAST_NAME.eq("Doe").and(User.CREATED_AT.gt("2020-10-10")`.
 
@@ -331,45 +351,57 @@ Both of these sync expressions will result in AWS AppSync retrieving records fro
 <Block name="Java">
 
 ```java
-Amplify.addPlugin(new AWSDataStorePlugin(DataStoreConfiguration.builder()
-    .syncExpression(User.class, () -> User.LAST_NAME.eq("Doe"))
-    .build()));
+Amplify.addPlugin(AWSDataStorePlugin.builder().dataStoreConfiguration(
+    DataStoreConfiguration.builder()
+        .syncExpression(User.class, () -> User.LAST_NAME.eq("Doe"))
+        .build())
+    .build());
 
 // OR
 
-Amplify.addPlugin(new AWSDataStorePlugin(DataStoreConfiguration.builder()
-    .syncExpression(User.class, () -> User.LAST_NAME.eq("Doe").and(User.CREATED_AT.gt("2020-10-10")))
-    .build()));
+Amplify.addPlugin(AWSDataStorePlugin.builder().dataStoreConfiguration(
+    DataStoreConfiguration.builder()
+        .syncExpression(User.class, () -> User.LAST_NAME.eq("Doe").and(User.CREATED_AT.gt("2020-10-10")))
+        .build())
+    .build());
 ```
 
 </Block>
 <Block name="Kotlin">
 
 ```kotlin
-Amplify.addPlugin(AWSDataStorePlugin(DataStoreConfiguration.builder()
-    .syncExpression(User::class.java) { User.LAST_NAME.eq("Doe") }
-    .build()))
+Amplify.addPlugin(AWSDataStorePlugin.builder().dataStoreConfiguration(
+    DataStoreConfiguration.builder()
+        .syncExpression(User::class.java) { User.LAST_NAME.eq("Doe") }
+        .build())
+    .build())
 
 // OR
 
-Amplify.addPlugin(AWSDataStorePlugin(DataStoreConfiguration.builder()
-    .syncExpression(User::class.java) { User.LAST_NAME.eq("Doe").and(User.CREATED_AT.gt("2020-10-10")) }
-    .build()))
+Amplify.addPlugin(AWSDataStorePlugin.builder().dataStoreConfiguration(
+    DataStoreConfiguration.builder()
+        .syncExpression(User::class.java) { User.LAST_NAME.eq("Doe").and(User.CREATED_AT.gt("2020-10-10")) }
+        .build())
+    .build())
 ```
 
 </Block>
 <Block name="RxJava">
 
 ```java
-RxAmplify.addPlugin(new AWSDataStorePlugin(DataStoreConfiguration.builder()
-    .syncExpression(User.class, () -> User.LAST_NAME.eq("Doe"))
-    .build()));
+RxAmplify.addPlugin(AWSDataStorePlugin.builder().dataStoreConfiguration(
+    DataStoreConfiguration.builder()
+        .syncExpression(User.class, () -> User.LAST_NAME.eq("Doe"))
+        .build())
+    .build());
 
 // OR
 
-RxAmplify.addPlugin(new AWSDataStorePlugin(DataStoreConfiguration.builder()
-    .syncExpression(User.class, () -> User.LAST_NAME.eq("Doe").and(User.CREATED_AT.gt("2020-10-10")))
-    .build()));
+RxAmplify.addPlugin(AWSDataStorePlugin.builder().dataStoreConfiguration(
+    DataStoreConfiguration.builder()
+        .syncExpression(User.class, () -> User.LAST_NAME.eq("Doe").and(User.CREATED_AT.gt("2020-10-10")))
+        .build())
+    .build());
 ```
 
 </Block>
