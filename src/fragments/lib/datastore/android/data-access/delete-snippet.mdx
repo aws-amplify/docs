@@ -62,8 +62,8 @@ RxAmplify.DataStore.query(Post.class, Where.id("123"))
 </Block>
 </BlockSwitcher>
 
-Deletion can also be achieved by passing an instance and a predicate into `Amplify.DataStore.delete()`. The data will only be deleted if it meets the specific conditions.
-Below, we delete posts with a `rating` greater than `4`:
+To conditionally delete an instance, pass an instance and a predicate into `Amplify.DataStore.delete()`.
+In the example below, posts are deleted only if their `rating` is greater than `4`:
 
 <BlockSwitcher>
 <Block name="Java">
