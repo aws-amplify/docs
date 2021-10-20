@@ -73,10 +73,7 @@ const writeSitemap = () => {
 
 const writeRobots = () => {
   let robotsContent = `User-agent: *\nDisallow:\n`;
-  if (
-    typeof process.env.NODE_ENV === "undefined" ||
-    process.env.NODE_ENV !== "production"
-  ) {
+  if (typeof process.env.ALLOW_ROBOTS === "undefined") {
     robotsContent = `User-agent: *\nDisallow: /\n`;
   }
 
