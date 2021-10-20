@@ -102,8 +102,6 @@ const upload = Storage.put(file.name, file, {
 const duplicateUpload = Storage.put(file.name, file, {
   resumable: true,
 });
-
-// Caveat: Original uploads that were initiated over one hour ago will be cleared and duplicate uploads will begin from the beginning.
 ```
 <Callout>
 	Original uploads that were initiated over one hour ago will be cleared and duplicate uploads will begin from the beginning.
