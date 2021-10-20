@@ -75,7 +75,7 @@ Storage.put("test.txt", "My Content", {
 
 ## Pause and resume uploads
 
-Passing the `resumable: true` option to the Put API returns an object with the following methods: `pause` , `resume` , `abort`.
+Passing the `resumable: true` option to the Put API returns an object with the following methods: `pause` , `resume`.
 
 ```javascript
 const upload = await Storage.put(file.name, file, {
@@ -86,22 +86,44 @@ upload.pause();
 
 upload.resume();
 
-upload.abort();
+Storage.cancel(upload);
 ```
 
 When a page refresh occurs during the upload, re-initializing the upload with the same file will continue from previous progress point.
 
 ```javascript
-const upload = await Storage.put(file.name, file, {
+const upload = Storage.put(file.name, file, {
   resumable: true,
 });
 
+// Browser refreshes, tab crashed etc.
+
 // This duplicate uploads will resume the original upload.
-const duplicateUpload = await Storage.put(file.name, file, {
+const duplicateUpload = Storage.put(file.name, file, {
   resumable: true,
 });
 
 // Caveat: Original uploads that were initiated over one hour ago will be cleared and duplicate uploads will begin from the beginning.
+```
+<Callout>
+	Original uploads that were initiated over one hour ago will be cleared and duplicate uploads will begin from the beginning.
+</Callout>
+
+### Monitor events
+With the `resumable: true` flag, there are 3 callback functions available: `completeCallback`, `progressCallback` and `errorCallback`.
+```javascript
+const upload = Storage.put(file.name, file, {
+		resumable: true,
+		completeCallback: (event) => {
+			console.log(`Successfully uploaded ${event.key}`);
+		},
+		progressCallback: (progress) => {
+			console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
+		},
+		errorCallback: (err) => {
+			console.error('Unexpected error while uploading', err);
+		}
+})
 ```
 
 ## Browser uploads
