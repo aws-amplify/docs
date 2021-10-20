@@ -104,7 +104,7 @@ const duplicateUpload = Storage.put(file.name, file, {
 });
 ```
 <Callout>
-	Original uploads that were initiated over one hour ago will be cleared and duplicate uploads will begin from the beginning.
+	Uploads that were initiated over one hour ago will be cancelled automatically.
 </Callout>
 
 ### Monitor events
