@@ -78,7 +78,7 @@ Storage.put("test.txt", "My Content", {
 Passing the `resumable: true` option to the Put API returns an object with the following methods: `pause` , `resume`.
 
 ```javascript
-const upload = await Storage.put(file.name, file, {
+const upload = Storage.put(file.name, file, {
   resumable: true,
 });
 
