@@ -1,47 +1,49 @@
 ## Put
+
 The `Put` method uploads files into Amazon S3.
 
 It returns a `{key: S3 Object key}` object on success:
 
 ```javascript
-const result = await Storage.put('test.txt', 'Hello');
+const result = await Storage.put("test.txt", "Hello");
 ```
 
 ### Public level
 
 ```javascript
-const result = await Storage.put('test.txt', 'Hello');
+const result = await Storage.put("test.txt", "Hello");
 ```
 
 ### Protected level
 
 ```javascript
-const result = await Storage.put('test.txt', 'Protected Content', {
-    level: 'protected',
-    contentType: 'text/plain'
+const result = await Storage.put("test.txt", "Protected Content", {
+  level: "protected",
+  contentType: "text/plain",
 });
 ```
 
 ### Private level
 
 ```javascript
-const result = await Storage.put('test.txt', 'Private Content', {
-    level: 'private',
-    contentType: 'text/plain'
+const result = await Storage.put("test.txt", "Private Content", {
+  level: "private",
+  contentType: "text/plain",
 });
 ```
 
 ### Monitor progress of upload
 
-To track the progress of your upload, you can use the ```progressCallback```: 
+To track the progress of your upload, you can use the `progressCallback`:
 
 ```javascript
-Storage.put('test.txt', 'File content', {
-    progressCallback(progress) {
-        console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
+Storage.put("test.txt", "File content", {
+  progressCallback(progress) {
+    console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
   },
 });
 ```
+
 ### Encrypted uploads
 
 To utilize Server-Side Encryption with AWS KMS, the following options can be passed in with the Put API like so:
@@ -61,16 +63,71 @@ const result = await Storage.put('test.txt', 'File content', {
 Other options available are:
 
 ```javascript
-Storage.put('test.txt', 'My Content', {
-    acl: 'public-read', // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#upload-property
-    cacheControl: 'no-cache', // (String) Specifies caching behavior along the request/reply chain
-    contentDisposition: 'attachment', // (String) Specifies presentational information for the object
-    expires: new Date().now() + 60 * 60 * 24 * 7, // (Date) The date and time at which the object is no longer cacheable. ISO-8601 string, or a UNIX timestamp in seconds
-    metadata: { key: 'value' }, // (map<String>) A map of metadata to store with the object in S3.
+Storage.put("test.txt", "My Content", {
+  acl: "public-read", // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#upload-property
+  cacheControl: "no-cache", // (String) Specifies caching behavior along the request/reply chain
+  contentDisposition: "attachment", // (String) Specifies presentational information for the object
+  expires: new Date().now() + 60 * 60 * 24 * 7, // (Date) The date and time at which the object is no longer cacheable. ISO-8601 string, or a UNIX timestamp in seconds
+  metadata: {key: "value"}, // (map<String>) A map of metadata to store with the object in S3.
+  resumable: true, // (Boolean) Allows uploads to be paused and resumed
+});
+```
+
+## Pause and resume uploads
+
+Passing the `resumable: true` option to the Put API returns an object with the following methods: `pause` , `resume`.
+The `Storage.cancel` API is also available if you are looking to cancel the upload at any point of the upload
+
+```javascript
+const upload = Storage.put(file.name, file, {
+  resumable: true,
+});
+
+upload.pause();
+
+upload.resume();
+
+Storage.cancel(upload);
+```
+
+When a page refresh occurs during the upload, re-initializing the upload with the same file will continue from previous progress point.
+
+```javascript
+const upload = Storage.put(file.name, file, {
+  resumable: true,
+});
+
+
+// This duplicate uploads will resume the original upload.
+const duplicateUpload = Storage.put(file.name, file, {
+  resumable: true,
+});
+```
+<Callout>
+
+Uploads that were initiated over one hour ago will be cancelled automatically. There are instances (e.g device went offline, user logs out) where the incomplete file remains in your S3 account. It is recommended to [setup a s3 lifecycle rule](https://aws.amazon.com/blogs/aws-cloud-financial-management/discovering-and-deleting-incomplete-multipart-uploads-to-lower-amazon-s3-costs/) to automatically cleanup incomplete upload requests.
+
+</Callout>
+
+### Event handlers
+With the `resumable: true` flag, there are 3 callback functions available: `completeCallback`, `progressCallback` and `errorCallback`.
+```javascript
+const upload = Storage.put(file.name, file, {
+		resumable: true,
+		completeCallback: (event) => {
+			console.log(`Successfully uploaded ${event.key}`);
+		},
+		progressCallback: (progress) => {
+			console.log(`Uploaded: ${progress.loaded}/${progress.total}`);
+		},
+		errorCallback: (err) => {
+			console.error('Unexpected error while uploading', err);
+		}
 })
 ```
 
 ## Browser uploads
+
 Upload an image in the browser:
 
 ```javascript
@@ -78,20 +135,18 @@ async function onChange(e) {
   const file = e.target.files[0];
   try {
     await Storage.put(file.name, file, {
-      contentType: 'image/png' // contentType is optional
+      contentType: "image/png", // contentType is optional
     });
   } catch (error) {
-    console.log('Error uploading file: ', error);
-  }  
+    console.log("Error uploading file: ", error);
+  }
 }
 
-<input
-  type="file"
-  onChange={onChange}
-/>
+<input type="file" onChange={onChange} />;
 ```
 
 ## React Native uploads
+
 Upload an image in your React Native app:
 
 ```javascript
@@ -99,11 +154,11 @@ async function pathToImageFile() {
   try {
     const response = await fetch(pathToImageFile);
     const blob = await response.blob();
-    await Storage.put('yourKeyHere', blob, {
-      contentType: 'image/jpeg', // contentType is optional
+    await Storage.put("yourKeyHere", blob, {
+      contentType: "image/jpeg", // contentType is optional
     });
   } catch (err) {
-    console.log('Error uploading file:', err);
+    console.log("Error uploading file:", err);
   }
 }
 ```
