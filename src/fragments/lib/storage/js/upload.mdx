@@ -97,7 +97,6 @@ const upload = Storage.put(file.name, file, {
   resumable: true,
 });
 
-// Browser refreshes, tab crashed etc.
 
 // This duplicate uploads will resume the original upload.
 const duplicateUpload = Storage.put(file.name, file, {
