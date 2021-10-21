@@ -58,10 +58,17 @@ This is a simple To Do app that allows users to add and remove items in a To Do 
 ## App Features
 
 This app demonstrates the following features:
-- Create a ToDo task with priority
-- Sort ToDo tasks by date created, priority or alphabet
-- Complete a ToDo task
-- Delete a ToDo task
+- Create a task with priority
+- Sort tasks by date created, priority or alphabet
+- Complete a task
+- Delete a task
+
+These features are implemented by Amplify DataStore.
+- Create tasks and complete tasks are achieved by `Amplify.DataStore.save()`.
+- Sort tasks is achieved by `Amplify.DataStore.query()` and `Where.sorted()` as query predicate.
+- Delete a task is achieved by `Amplify.DataStore.delete()`.
+
+## UI experiences
 
 ![](/images/todo-app.png)
 
