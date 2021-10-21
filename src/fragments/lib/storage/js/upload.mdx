@@ -76,6 +76,7 @@ Storage.put("test.txt", "My Content", {
 ## Pause and resume uploads
 
 Passing the `resumable: true` option to the Put API returns an object with the following methods: `pause` , `resume`.
+The `Storage.cancel` API is also available if you are looking to cancel the upload at any point of the upload
 
 ```javascript
 const upload = Storage.put(file.name, file, {
