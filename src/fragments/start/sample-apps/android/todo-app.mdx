@@ -1,5 +1,5 @@
 
-This is a simple To Do app that allows users to add and remove items in a To Do list.
+This is a simple To Do app that allows users to add and remove items in a To Do list. Find the source code of [Todo app on our GitHub repository](https://github.com/aws-amplify/amplify-android-samples/tree/main/getting-started/todo).
 
 ## Run ToDo App locally
 
@@ -13,16 +13,55 @@ This is a simple To Do app that allows users to add and remove items in a To Do 
 
    Change directory to root folder of whichever language you want to use.
 
-   Java:
-   ```
-   cd getting-started/todo/java
+   <BlockSwitcher>
+   <Block name="Java">
+
+   ```java
+   $ cd getting-started/todo/java
    ```
 
-   Kotlin:
-   ```
-   cd getting-started/todo/kotlin
+   </Block>
+   <Block name="Kotlin">
+
+   ```kotlin
+   $ cd getting-started/todo/kotlin
    ```
 
-3. Follow the [instructions](https://docs.amplify.aws/start/getting-started/generate-model/q/integration/android/) to generate model files. Then follow the [instructions](https://docs.amplify.aws/start/getting-started/add-api/q/integration/android/#deploy-your-amplify-sandbox-backend) to connect the project to the cloud. (Skip any instructions that require code change)
+  </Block>
+  </BlockSwitcher>
 
-4. Build and run the ToDo app on an emulator or Android device in Android Studio.
+3. Follow the [instructions](https://docs.amplify.aws/start/getting-started/generate-model/q/integration/android/) to generate model files.
+
+4. Follow the [instructions](https://docs.amplify.aws/start/getting-started/add-api/q/integration/android/#deploy-your-amplify-sandbox-backend) to connect the project to the cloud. (Skip any instructions that require code change)
+
+   After this step, you will see the following in Terminal if the project is successfully connected to the cloud:
+
+   ```
+   GraphQL schema compiled successfully.
+
+   Edit your schema at amplify-android-samples/getting-started/todo/kotlin/amplify/backend/api/todoapp/schema.graphql or place .graphql files in a directory at amplify-android-samples/getting-started/todo/kotlin/amplify/backend/api/todoapp/schema
+   Successfully generated models. Generated models can be found in amplify-android-samples/getting-started/todo/kotlin/app/src/main/java
+   Post-pull status:
+
+       Current Environment: dev
+
+   ┌──────────┬───────────────┬───────────┬───────────────────┐
+   │ Category │ Resource name │ Operation │ Provider plugin   │
+   ├──────────┼───────────────┼───────────┼───────────────────┤
+   │ Api      │ todoapp       │ No Change │ awscloudformation │
+   └──────────┴───────────────┴───────────┴───────────────────┘
+
+   ```
+
+5. Build and run the ToDo app on an emulator or Android device in Android Studio.
+
+## App Features
+
+This app demonstrates the following features:
+- Create a ToDo task with priority
+- Sort ToDo tasks by date created, priority or alphabet
+- Complete a ToDo task
+- Delete a ToDo task
+
+![](/images/todo-app.png)
+
