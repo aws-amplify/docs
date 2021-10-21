@@ -108,7 +108,7 @@ const duplicateUpload = Storage.put(file.name, file, {
 	Uploads that were initiated over one hour ago will be cancelled automatically.
 </Callout>
 
-### Monitor events
+### Event handlers
 With the `resumable: true` flag, there are 3 callback functions available: `completeCallback`, `progressCallback` and `errorCallback`.
 ```javascript
 const upload = Storage.put(file.name, file, {
