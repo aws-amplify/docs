@@ -4,19 +4,19 @@
 ```java
 String tag = "ObserveQuery";
 Consumer<DataStoreQuerySnapshot<Blog>> onQuerySnapshot = value ->{
-    Log.d(tag, "success on snapshot");
-    Log.d(tag, "num records: " + value.getItems().size());
-    Log.d(tag, "sync status: " + value.getIsSynced());
+    Log.d(tag, "Success on snapshot");
+    Log.d(tag, "Number of records: " + value.getItems().size());
+    Log.d(tag, "Sync status: " + value.getIsSynced());
 };
 
 Consumer<Cancelable> observationStarted = value ->{
-        Log.d(tag, "success on cancelable");
+        Log.d(tag, "Success on cancelable");
 };
 Consumer<DataStoreException> onObservationError =value ->{
-        Log.d(tag, "error on snapshot$value");
+        Log.d(tag, "Snapshot with error: $value");
 };
 Action onObservationComplete = () ->{
-    Log.d(tag, "complete");
+    Log.d(tag, "Complete");
 };
 
 QueryPredicate predicate =
@@ -42,21 +42,21 @@ Amplify.DataStore.<Blog>observeQuery(
 val tag = "ObserveQuery"
 val onQuerySnapshot: Consumer<DataStoreQuerySnapshot<Car>> =
     Consumer<DataStoreQuerySnapshot<Car>> { value: DataStoreQuerySnapshot<Car> ->
-        Log.d(tag, "success on snapshot")
-        Log.d(tag, "num records: " + value.items.size)
-        Log.d(tag, "sync status: " + value.isSynced)
+        Log.d(tag, "Success on snapshot")
+        Log.d(tag, "Number of records: " + value.items.size)
+        Log.d(tag, "Sync status: " + value.isSynced)
     }
 
 val observationStarted =
     Consumer { _: Cancelable ->
-        Log.d(tag, "success on cancelable")
+        Log.d(tag, "Success on cancelable")
     }
 val onObservationError =
     Consumer { value: DataStoreException ->
-        Log.d(tag, "error on snapshot$value")
+        Log.d(tag, "Snapshot with error: $value")
     }
 val onObservationComplete = Action {
-    Log.d(tag, "complete")
+    Log.d(tag, "Complete")
 }
 
 // 1, 4, 5, 6
@@ -95,9 +95,9 @@ Amplify.DataStore.observeQuery(
 RxAmplify.DataStore.observeQuery(Model.class,
     new ObserveQueryOptions()).subscribe(
             modelDataStoreQuerySnapshot -> {
-                Log.d("mySampleApp", "success on snapshot");
-                Log.d("mySampleApp", "num records: " + modelDataStoreQuerySnapshot.getItems().size());
-                Log.d("mySampleApp", "sync status: " + modelDataStoreQuerySnapshot.getIsSynced());
+                Log.d("mySampleApp", "Success on snapshot");
+                Log.d("mySampleApp", "Number of records: " + modelDataStoreQuerySnapshot.getItems().size());
+                Log.d("mySampleApp", "Sync status: " + modelDataStoreQuerySnapshot.getIsSynced());
             });
 ```
 
