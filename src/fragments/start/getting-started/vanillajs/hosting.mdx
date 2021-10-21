@@ -30,3 +30,5 @@ After publishing, your terminal will display your app URL hosted on a `amplifyap
 If you get an "AccessDenied" error within an XML document, ensure that `DistributionDir` is set to the correct directory in `amplify/.config/project-config.json` and then re-run `amplify publish`
 
 To view your app and hosting configuration in the Amplify Console, run the `amplify console` command.
+
+Note: To remove the hosting resources locally from the backend run `amplify remove hosting` command. On your next `amplify push` the provisioned hosting resources will get removed from the cloud. Now, in order to observe the Amplify project resources run `amplify status` command.
