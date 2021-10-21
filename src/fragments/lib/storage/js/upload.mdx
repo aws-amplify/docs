@@ -105,7 +105,9 @@ const duplicateUpload = Storage.put(file.name, file, {
 });
 ```
 <Callout>
-	Uploads that were initiated over one hour ago will be cancelled automatically.
+
+Uploads that were initiated over one hour ago will be cancelled automatically. There are instances (e.g device went offline, user logs out) where the incomplete file remains in your S3 account. It is recommended to [setup a s3 lifecycle rule](https://aws.amazon.com/blogs/aws-cloud-financial-management/discovering-and-deleting-incomplete-multipart-uploads-to-lower-amazon-s3-costs/) to automatically cleanup incomplete upload requests.
+
 </Callout>
 
 ### Event handlers
