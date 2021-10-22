@@ -1,7 +1,7 @@
 
 This is a simple To Do app that allows users to add and remove items in a To Do list. Find the source code of [Todo app on our GitHub repository](https://github.com/aws-amplify/amplify-android-samples/tree/main/getting-started/todo).
 
-## Run ToDo App locally
+## Run ToDo App Locally
 
 1. Follow the steps in [Amplify Android Getting Started Tutorial](https://docs.amplify.aws/start/getting-started/installation/q/integration/android/#sign-up-for-an-aws-account) to sign up for an AWS account, install and configure Amplify CLI. Install all the [prerequisites](https://docs.amplify.aws/start/getting-started/setup/q/integration/android/#prerequisites) for setting up a full stack project.
 
@@ -34,7 +34,7 @@ This is a simple To Do app that allows users to add and remove items in a To Do 
 
 4. Follow the [instructions](https://docs.amplify.aws/start/getting-started/add-api/q/integration/android/#deploy-your-amplify-sandbox-backend) to connect the project to the cloud. (Skip any instructions that require code change)
 
-   After this step, you will see the following in Terminal if the project is successfully connected to the cloud:
+   After this step, you will see the following in the terminal if the project is successfully connected to the cloud:
 
    ```
    GraphQL schema compiled successfully.
@@ -52,6 +52,7 @@ This is a simple To Do app that allows users to add and remove items in a To Do 
    └──────────┴───────────────┴───────────┴───────────────────┘
 
    ```
+   Note: the paths for the schema and generated models shown above are when using the Kotlin version of the app. It will look similar for the Java version (replace "kotlin" with "java" in the file paths).
 
 5. Build and run the ToDo app on an emulator or Android device in Android Studio.
 
@@ -59,16 +60,16 @@ This is a simple To Do app that allows users to add and remove items in a To Do 
 
 This app demonstrates the following features:
 - Create a task with priority
-- Sort tasks by date created, priority or alphabet
+- Sort tasks by date created, priority, or alphabetically
 - Complete a task
 - Delete a task
 
-These features are implemented by Amplify DataStore.
-- Create tasks and complete tasks are achieved by `Amplify.DataStore.save()`.
-- Sort tasks is achieved by `Amplify.DataStore.query()` and `Where.sorted()` as query predicate.
-- Delete a task is achieved by `Amplify.DataStore.delete()`.
+These features are implemented using Amplify DataStore.
+- Creating tasks and completing tasks are achieved with `Amplify.DataStore.save()`.
+- Sorting tasks is achieved with `Amplify.DataStore.query()` and using `Where.sorted()` as the query predicate.
+- Deleting a task is achieved with `Amplify.DataStore.delete()`.
 
-## UI experiences
+## UI Experience
 
 ![](/images/todo-app.png)
 
