@@ -69,6 +69,24 @@ A type decorated with the `@model` directive will scaffold out the database tabl
 
 From the command line, press __enter__ to accept the schema and continue to the next steps.
 
+Now, to add authentication to your app run the following command:
+
+```bash
+amplify add auth
+```
+
+```console
+Using service: Cognito, provided by: awscloudformation
+
+The current configured provider is Amazon Cognito.
+
+? Do you want to use the default authentication and security configuration? Default configuration
+Warning: you will not be able to edit these selections.
+? How do you want users to be able to sign in? Username
+? Do you want to configure advanced settings? No, I am done.
+Successfully added auth resource nextamplifiedXXXXXXXX locally
+```
+
 ### Deploying the API
 
 To deploy this backend, run the `push` command:
