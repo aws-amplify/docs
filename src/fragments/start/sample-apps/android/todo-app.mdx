@@ -3,12 +3,12 @@ This is a simple To Do app that allows users to add and remove items in a To Do 
 
 ## Run ToDo App Locally
 
-1. Follow the steps in [Amplify Android Getting Started Tutorial](https://docs.amplify.aws/start/getting-started/installation/q/integration/android/#sign-up-for-an-aws-account) to sign up for an AWS account, install and configure Amplify CLI. Install all the [prerequisites](https://docs.amplify.aws/start/getting-started/setup/q/integration/android/#prerequisites) for setting up a full stack project.
+1. Follow the steps in [Amplify Android Getting Started Tutorial](/start/getting-started/installation/q/integration/android/#sign-up-for-an-aws-account) to sign up for an AWS account, install and configure Amplify CLI. Install all the [prerequisites](/start/getting-started/setup/q/integration/android/#prerequisites) for setting up a full stack project.
 
 2. Open Terminal and clone the project under your preferred directory using the following command:
 
    ```
-   $ git clone https://github.com/aws-amplify/amplify-android-samples.git
+   git clone https://github.com/aws-amplify/amplify-android-samples.git
    ```
 
    Change directory to root folder of whichever language you want to use.
@@ -17,24 +17,47 @@ This is a simple To Do app that allows users to add and remove items in a To Do 
    <Block name="Java">
 
    ```java
-   $ cd getting-started/todo/java
+   cd getting-started/todo/java
    ```
 
    </Block>
    <Block name="Kotlin">
 
    ```kotlin
-   $ cd getting-started/todo/kotlin
+   cd getting-started/todo/kotlin
    ```
 
   </Block>
   </BlockSwitcher>
 
-3. Follow the [instructions](https://docs.amplify.aws/start/getting-started/generate-model/q/integration/android/) to generate model files.
+3. Follow the [instructions](/start/getting-started/generate-model) to generate model files.
 
-4. Follow the [instructions](https://docs.amplify.aws/start/getting-started/add-api/q/integration/android/#deploy-your-amplify-sandbox-backend) to connect the project to the cloud. (Skip any instructions that require code change)
+4. Follow the [instructions](/start/getting-started/add-api/q/integration/android/#deploy-your-amplify-sandbox-backend) to connect the project to the cloud. (Skip any instructions that require code change)
 
    After this step, you will see the following in the terminal if the project is successfully connected to the cloud:
+
+   <BlockSwitcher>
+   <Block name="Java">
+
+   ```
+   GraphQL schema compiled successfully.
+
+   Edit your schema at amplify-android-samples/getting-started/todo/java/amplify/backend/api/todoapp/schema.graphql or place .graphql files in a directory at amplify-android-samples/getting-started/todo/java/amplify/backend/api/todoapp/schema
+   Successfully generated models. Generated models can be found in amplify-android-samples/getting-started/todo/java/app/src/main/java
+   Post-pull status:
+
+       Current Environment: dev
+
+   ┌──────────┬───────────────┬───────────┬───────────────────┐
+   │ Category │ Resource name │ Operation │ Provider plugin   │
+   ├──────────┼───────────────┼───────────┼───────────────────┤
+   │ Api      │ todoapp       │ No Change │ awscloudformation │
+   └──────────┴───────────────┴───────────┴───────────────────┘
+
+   ```
+
+   </Block>
+   <Block name="Kotlin">
 
    ```
    GraphQL schema compiled successfully.
@@ -52,7 +75,8 @@ This is a simple To Do app that allows users to add and remove items in a To Do 
    └──────────┴───────────────┴───────────┴───────────────────┘
 
    ```
-   Note: the paths for the schema and generated models shown above are when using the Kotlin version of the app. It will look similar for the Java version (replace "kotlin" with "java" in the file paths).
+   </Block>
+   </BlockSwitcher>
 
 5. Build and run the ToDo app on an emulator or Android device in Android Studio.
 
@@ -72,4 +96,3 @@ These features are implemented using Amplify DataStore.
 ## UI Experience
 
 ![](/images/todo-app.png)
-
