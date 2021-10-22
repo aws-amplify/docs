@@ -87,7 +87,7 @@ function MyApp({Component, pageProps}) {
 
       <script src="/scripts/docsearchv2_6_3.js"></script>
       <script src="https://a0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"></script>
-      <script src="/scripts/shortbreadv1.js"></script>
+      <script src="/scripts/shortbreadv2.js"></script>
     </>
   );
 }
