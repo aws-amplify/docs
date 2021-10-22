@@ -7,7 +7,7 @@ Finally you can configure the number of records to sync as an upper bound on ite
 - `conflictHandler` - handler function that decides how to resolve conflicts between local and remote model instances in a sync operation
 - `syncMaxRecords` - the maximum number of records to sync per execution
 - `syncPageSize` - the page size of each sync execution
-- `syncInterval` - the maximum interval (in seconds) fow which the system will continue to perform delta queries. After this interval expires, the system performs a base query to retrieve all data.
+- `syncInterval` - the maximum interval (in seconds) for which the system will continue to perform delta queries. After this interval expires, the system performs a base query to retrieve all data.
 - `syncExpression` - sets a sync expression for a particular model to filter which data is synced locally.  The expression is evaluated each time DataStore is started.
 - `authModeStrategyType` - the authorization mode strategy used to interface with AppSync backend
 
