@@ -3,30 +3,34 @@
 
 ```java
 String tag = "ObserveQuery";
-Consumer<DataStoreQuerySnapshot<Blog>> onQuerySnapshot = value ->{
-    Log.d(tag, "Success on snapshot");
-    Log.d(tag, "Number of records: " + value.getItems().size());
-    Log.d(tag, "Sync status: " + value.getIsSynced());
+Consumer<DataStoreQuerySnapshot<Post>> onQuerySnapshot = value ->{
+    Log.d(
+            "resultsObserveReceived",
+            "Receiving observe results in activity: " + Time.now()
+    );
+
+    Log.d(tag, "success on snapshot");
+    Log.d(tag, "number of records: " + value.getItems().size());
+    Log.d(tag, "sync status: " + value.getIsSynced());
 };
 
 Consumer<Cancelable> observationStarted = value ->{
-        Log.d(tag, "Success on cancelable");
+        Log.d(tag, "success on cancelable");
 };
 Consumer<DataStoreException> onObservationError =value ->{
-        Log.d(tag, "Snapshot with error: $value");
+        Log.d(tag, "error on snapshot$value");
 };
 Action onObservationComplete = () ->{
-    Log.d(tag, "Complete");
+    Log.d(tag, "complete");
 };
-
 QueryPredicate predicate =
-        NAME.contains("1").or(NAME.contains("2")).or(NAME.contains("3"));
-QuerySortBy querySortBy = new QuerySortBy("blog", "name", QuerySortOrder.ASCENDING);
+        Post.TITLE.beginsWith("post").and(Post.RATING > 10);
+QuerySortBy querySortBy = new QuerySortBy("post", "rating", QuerySortOrder.ASCENDING);
 List<QuerySortBy> sortByList = new ArrayList<QuerySortBy>();
 sortByList.add(querySortBy);
 ObserveQueryOptions options = new ObserveQueryOptions(predicate, sortByList);
-Amplify.DataStore.<Blog>observeQuery(
-        Blog.class,
+Amplify.DataStore.<Post>observeQuery(
+        Post.class,
         options,
         observationStarted,
         onQuerySnapshot,
@@ -40,33 +44,33 @@ Amplify.DataStore.<Blog>observeQuery(
 
 ```kotlin
 val tag = "ObserveQuery"
-val onQuerySnapshot: Consumer<DataStoreQuerySnapshot<Car>> =
-    Consumer<DataStoreQuerySnapshot<Car>> { value: DataStoreQuerySnapshot<Car> ->
-        Log.d(tag, "Success on snapshot")
-        Log.d(tag, "Number of records: " + value.items.size)
-        Log.d(tag, "Sync status: " + value.isSynced)
+val onQuerySnapshot: Consumer<DataStoreQuerySnapshot<Post>> =
+    Consumer<DataStoreQuerySnapshot<Post>> { value: DataStoreQuerySnapshot<Post> ->
+        Log.d(tag, "success on snapshot")
+        Log.d(tag, "number of records: " + value.items.size)
+        Log.d(tag, "sync status: " + value.isSynced)
     }
 
 val observationStarted =
     Consumer { _: Cancelable ->
-        Log.d(tag, "Success on cancelable")
+        Log.d(tag, "success on cancelable")
     }
 val onObservationError =
     Consumer { value: DataStoreException ->
-        Log.d(tag, "Snapshot with error: $value")
+        Log.d(tag, "error on snapshot $value")
     }
 val onObservationComplete = Action {
-    Log.d(tag, "Complete")
+    Log.d(tag, "complete")
 }
 
 // 1, 4, 5, 6
 val predicate: QueryPredicate =
-    NAME.contains("1").or(NAME.contains("2")).or(NAME.contains("3"))
-val querySortBy = QuerySortBy("car", "name", QuerySortOrder.ASCENDING)
+    Post.TITLE.beginsWith("post").and( Post.RATING > 10)
+val querySortBy = QuerySortBy("post", "rating", QuerySortOrder.ASCENDING)
 
 val options = ObserveQueryOptions(predicate, listOf(querySortBy))
 Amplify.DataStore.observeQuery(
-    Car::class.java,
+    Post::class.java,
     options,
     observationStarted,
     onQuerySnapshot,
@@ -79,26 +83,35 @@ Amplify.DataStore.observeQuery(
 <Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
-Amplify.DataStore.observeQuery(
-        Blog::class,
-        ObserveQueryOptions(Blog.NAME.contains("Susan"), null)
-    ).onStart { Log.i("MyAmplifyApp", "Observation began") }
-        .catch { Log.e("MyAmplifyApp", "Observation failed", it) }
-        .onCompletion { Log.i("MyAmplifyApp", "Observation complete") }
-        .collect { value -> Log.i("MyAmplifyApp", "Blog: ${value.items.size}") }
+val querySortBy = QuerySortBy("post", "rating", QuerySortOrder.ASCENDING)
+            Amplify.DataStore.observeQuery(
+                Blog::class,
+                ObserveQueryOptions(Post.TITLE.beginsWith("post").and( Post.RATING > 10),
+                    listOf(querySortBy))
+            ).onStart { Log.i("MyAmplifyApp", "Observation began") }
+                .catch { Log.e("MyAmplifyApp", "Observation failed", it) }
+                .onCompletion { Log.i("MyAmplifyApp", "Observation complete") }
+                .collect { value -> Log.i("MyAmplifyApp", "Blog: ${value.items.size}") }
 ```
 
 </Block>
 <Block name="RxJava">
 
 ```java
-RxAmplify.DataStore.observeQuery(Model.class,
-    new ObserveQueryOptions()).subscribe(
-            modelDataStoreQuerySnapshot -> {
-                Log.d("mySampleApp", "Success on snapshot");
-                Log.d("mySampleApp", "Number of records: " + modelDataStoreQuerySnapshot.getItems().size());
-                Log.d("mySampleApp", "Sync status: " + modelDataStoreQuerySnapshot.getIsSynced());
-            });
+QueryPredicate predicate =
+        Post.TITLE.beginsWith("post")
+                .and(Post.RATING > 10)
+        ;
+QuerySortBy querySortBy = new QuerySortBy("post", "rating", QuerySortOrder.ASCENDING);
+List<QuerySortBy> sortByList = new ArrayList<QuerySortBy>();
+sortByList.add(querySortBy);
+ObserveQueryOptions options = new ObserveQueryOptions(predicate, sortByList);
+rxDataStore.observeQuery(Model.class, options).subscribe(
+                modelDataStoreQuerySnapshot -> {
+                    Log.d("mySampleApp", "success on snapshot");
+                    Log.d("mySampleApp", "number of records: " + modelDataStoreQuerySnapshot.getItems().size());
+                    Log.d("mySampleApp", "sync status: " + modelDataStoreQuerySnapshot.getIsSynced());
+                });
 ```
 
 </Block>
