@@ -1,0 +1,9 @@
+```dart
+Amplify.DataStore.observeQuery(
+  Post.classType,
+  where: Post.TITLE.beginsWith('post') & (Post.RATING > 10),
+  sortBy: [Post.RATING.ascending()],
+).listen((snapshot) {
+  print( '[Snapshot] item count: ${snapshot.items.length}, isSynced: ${snapshot.isSynced}');
+});
+```
