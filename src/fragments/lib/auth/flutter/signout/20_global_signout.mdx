@@ -1,3 +1,7 @@
-<Callout>
-This functionality has not yet been implemented for Flutter, this section will be updated once it has been added. 
-</Callout>
+```dart
+try {
+  await Amplify.Auth.signOut(options: SignOutOptions(globalSignOut: true));
+} on AmplifyException catch (e) {
+  print(e.message);
+}
+```
