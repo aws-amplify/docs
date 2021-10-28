@@ -8,6 +8,8 @@ const Html5Entities = require("html-entities");
 const unified = require("unified");
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const rehypeParse = require("rehype-parse");
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const versions = require("../constants/versions.ts");
 
 const entities = new Html5Entities.Html5Entities();
 
@@ -96,13 +98,20 @@ const highlight = (code, language) => {
   ];
 };
 
+const addVersions = (code) => {
+  code = code.split("ANDROID_VERSION").join(versions.ANDROID_VERSION);
+  code = code.split("KOTLIN_VERSION").join(versions.KOTLIN_VERSION);
+  code = code.split("GEO_VERSION").join(versions.GEO_VERSION);
+  return code;
+};
+
 const codeBlockPlugin = () => (tree) => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const visit = require("unist-util-visit");
 
   visit(tree, (node) => {
     if (node.tagName === "code") {
-      const code = node.children[0].value;
+      const code = addVersions(node.children[0].value);
       const language =
         "className" in node.properties
           ? node.properties.className[0]
