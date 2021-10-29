@@ -70,7 +70,7 @@ You can customize the search icons used by the [maplibre-gl-geocoder](https://gi
 The following example puts an existing SVG icon into an HTMLElement before being passed to `createAmplifyGeocoder` which creates a [maplibre-gl-geocoder](https://github.com/maplibre/maplibre-gl-geocoder).
 
 ```javascript
-import myIcon from "./myIcon.svg"
+import myIcon from "./myIcon.svg" // relative path to your custom icon
 
 const icon = new Image(100, 100);
 icon.src = myIcon;
