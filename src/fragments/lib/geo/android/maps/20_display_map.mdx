@@ -64,7 +64,7 @@ protected void onCreate(Bundle savedInstanceState) {
     mapView.getMapAsync(map ->
         AmplifyMapLibreAdapter.setStyle(map, style ->
             map.setCameraPosition(new CameraPosition.Builder()
-                    .target(new LatLng(47.6153,-122.3382))
+                    .target(new LatLng(47.6153,-122.3384))
                     .zoom(13.0)
                     .build()
             )
@@ -111,7 +111,7 @@ override fun onCreate(savedInstanceState: Bundle?) {
     mapView?.getMapAsync { map ->
         AmplifyMapLibreAdapter.setStyle(map) {
             map.cameraPosition = CameraPosition.Builder()
-                .target(LatLng(47.6153,-122.3382))
+                .target(LatLng(47.6153,-122.3384))
                 .zoom(13.0)
                 .build()
         }

@@ -414,6 +414,11 @@ const directory = {
             filters: ["android"],
           },
           {
+            title: "Location Search",
+            route: "/lib/geo/search",
+            filters: ["android"],
+          },
+          {
             title: "Use existing AWS resources",
             route: "/lib/geo/existing-resources",
             filters: ["android"],

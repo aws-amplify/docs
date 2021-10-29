@@ -10,15 +10,21 @@ In order to manually configure Amplify Geo category, you must edit `amplifyconfi
     "geo": {
         "plugins": {
             "awsLocationGeoPlugin": {
+              "region": <YOUR_REGION>,
                 "maps": {
                     "items": {
                         <YOUR_MAP_NAME>: {
                             "style": <YOUR_MAP_STYLE>
                         }
-                    }
+                    },
+                    "default": <DEFAULT_MAP_NAME>
                 },
-                "default": <DEFAULT_MAP_NAME>,
-                "region": <YOUR_REGION>
+                "searchIndices": {
+                    "items": [
+                        <YOUR_INDEX_NAME>
+                    ],
+                    "default": <DEFAULT_INDEX_NAME>
+                }
             }
         }
     },
@@ -44,4 +50,4 @@ In order to manually configure Amplify Geo category, you must edit `amplifyconfi
 }
 ```
 
-Now you can proceed to [displaying a map](/lib/geo/maps) in your app.
+Now you can proceed to [displaying a map](/lib/geo/maps) or [adding location search](/lib/geo/search) to your app.
