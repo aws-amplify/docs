@@ -72,6 +72,8 @@ Amplify Geo enables you to search for locations by text, addresses, or geo-coord
 The `Geo.searchByText()` API enables you to search for places or points of interest by free-form text, such as an address, name, city, or region.
 
 ```javascript
+import { Geo } from "aws-amplify"
+
 Geo.searchByText("Amazon Go Store")
 ```
 
@@ -133,6 +135,8 @@ This returns places and their coordinates that match the search constraints. A p
 The `Geo.searchByCoordinates()` API is a reverse Geocoder that takes a coordinate point and returns information about what it finds at that point on the map. The returned object is the same shape as `searchByText()` API above.
 
 ```javascript
+import { Geo } from "aws-amplify";
+
 Geo.searchByCoordinates([longitudePoint, latitudePoint])
 ```
 
