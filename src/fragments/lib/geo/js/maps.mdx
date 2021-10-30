@@ -160,6 +160,15 @@ map.setStyle("myAmplifyGeoEsriTopographicMap"); // map name received from getAva
 map.resize(); // forces the map to re-render
 ```
 
+## Removing a map from the DOM
+
+When it's time to remove the map from the DOM, you can use the `.remove` method of the generated map. This will clean up and release all resources associated with the map (DOM elements, event bindings, web workers, and WebGL resources).
+Note: Afterwards, you must not call any other methods on the map.
+
+```javascript
+map.remove();
+```
+
 ## Add map to html website
 
 To display a map on your html website, add the following scripts to your html webpage.
