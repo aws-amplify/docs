@@ -45,6 +45,8 @@ To add the custom fields, add the following to your schema:
 
 The GraphQL Transformer by default creates a file called `CustomResources.json` inside `<project-root>/amplify/backend/api/<api-name>/stacks`, which can be used to add the custom resolvers for newly added `Query`, `Mutation` or `Subscription`. The custom stack gets the following arguments passed to it, allowing you to get details about API:
 
+<div class="table-wrapper" markdown="block">
+
 | Parameter                          | Type   | Possible values                    | Description                                                                                                                                                                       |
 | :--------------------------------- | :----- | ---------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | AppSyncApiId                       | String |                                    | The id of the AppSync API associated with this project                                                                                                                            |
@@ -60,6 +62,8 @@ The GraphQL Transformer by default creates a file called `CustomResources.json` 
 | DynamoDBEnablePointInTimeRecovery  | String | `true` or `false`                  | Whether to enable Point in Time Recovery on the table                                                                                                                             |
 | APIKeyExpirationEpoch              | Number |                                    | he epoch time in seconds when the API Key should expire                                                                                                                           |
 | CreateAPIKey                       | Number | `0` or `1`                         | The boolean value to control if an API Key will be created or not. The value of the property is automatically set by the CLI. If the value is set to 0 no API Key will be created |
+
+</div>
 
 Any additional values added Custom Stacks will be exposed as parameter in the root stack, and value can be set by adding the value for it in `<project-root>/amplify/backend/api/<api-name>/parameters.json` file.
 

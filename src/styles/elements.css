@@ -253,3 +253,7 @@ iframe {
   max-height: 37.5rem;
   max-width: 40rem;
 }
+
+.table-wrapper {
+  overflow-x: auto;
+}
