@@ -28,7 +28,7 @@ async function checkPages(server) {
   const page = await browser.newPage();
 
   page.on("response", (response) => {
-    if (response.status() !== 200) {
+    if (response.status() !== 200 && response.url().includes("localhost")) {
       console.warn(
         `Found broken link: ${response.url()} on page ${response
           .request()
