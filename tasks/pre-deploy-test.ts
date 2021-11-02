@@ -43,6 +43,7 @@ async function checkPages(server) {
     console.log("Testing: ", `http://localhost:3000${path}`);
 
     await page.goto(`http://localhost:3000${path}`);
+    await page.waitForTimeout(100);
 
     if (path !== "/404") {
       const content = await page.$eval("body", (el) => el.textContent.trim());
@@ -55,7 +56,9 @@ async function checkPages(server) {
       const errorRuntime = content.includes(textOnErrorPage);
       const buildError = error404 || errorRuntime;
 
-      if (buildError) {
+      const contentCheck = content.includes("Amplify Docs");
+
+      if (buildError || !contentCheck) {
         console.error("Found error on:", path);
         console.error("404:", error404);
         console.error("Error:", errorRuntime);
