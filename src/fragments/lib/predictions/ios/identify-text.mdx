@@ -95,11 +95,9 @@ func detectText(_ image: URL) -> AnyCancellable {
     detectText(imageURL!, completion: { words in
         let word = words.first!
         DispatchQueue.main.async {
-            let xBoundingBox = word.boundingBox.origin.x * imageView.frame.size.width
-            let yBoundingBox = word.boundingBox.origin.y * imageView.frame.size.height
-            let widthBoundingBox = word.boundingBox.size.width * imageView.frame.size.width
-            let heightBoundingBox = word.boundingBox.size.height * imageView.frame.size.height
-            let boundingBox = UIView(frame: CGRect(x: xBoundingBox, y: yBoundingBox, width: widthBoundingBox, height: heightBoundingBox))
+            let transform = CGAffineTransform(scaleX: imageView.frame.size.width, 
+                                              y: imageView.frame.size.height)
+            let boundingBox = UIView(frame: word.boundingBox.applying(transform))
             boundingBox.backgroundColor = .red
             imageView.addSubview(boundingBox)
         }
