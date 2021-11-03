@@ -339,8 +339,8 @@ Future<void> _initializeApp() async {
   // and will emit subsequent snapshots as updates are made
   //
   // each time a snapshot is received, the following will happen:
-  // isLoading is set to false if it is not already false
-  // todos is set to the value in the latest snapshot
+  // _isLoading is set to false if it is not already false
+  // _todos is set to the value in the latest snapshot
   _subscription = Amplify.DataStore.observeQuery(Todo.classType)
       .listen((QuerySnapshot<Todo> snapshot) {
     setState(() {
