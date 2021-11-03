@@ -29,10 +29,10 @@ Add the following to the `package.json` file:
     "aws-amplify": "latest"
   },
   "devDependencies": {
-    "webpack": "^4.17.1",
-    "webpack-cli": "^3.1.0",
-    "copy-webpack-plugin": "^6.1.0",
-    "webpack-dev-server": "^3.1.5"
+    "copy-webpack-plugin": "^9.0.1",
+    "webpack": "^5.61.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.4.0"
   },
   "scripts": {
     "start": "webpack && webpack-dev-server --mode development",
@@ -108,31 +108,33 @@ const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
-    mode: 'development',
-    entry: './src/app.js',
-    output: {
-        filename: '[name].bundle.js',
-        path: path.resolve(__dirname, 'dist')
-    },
-    module: {
-        rules: [
-            {
-                test: /\.js$/,
-                exclude: /node_modules/
-            }
-        ]
-    },
-    devServer: {
-        contentBase: './dist',
-        overlay: true,
-        hot: true
-    },
-    plugins: [
-        new CopyWebpackPlugin({
-            patterns: ['index.html']
-        }),
-        new webpack.HotModuleReplacementPlugin()
+  mode: 'development',
+  entry: './src/app.js',
+  output: {
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'dist')
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/
+      }
     ]
+  },
+  devServer: {
+    client: {
+      overlay: true
+    },
+    hot: true,
+    watchFiles: ['src/*', 'index.html']
+  },
+  plugins: [
+    new CopyWebpackPlugin({
+      patterns: ['index.html']
+    }),
+    new webpack.HotModuleReplacementPlugin()
+  ]
 };
 ```
 
