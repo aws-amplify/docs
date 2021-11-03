@@ -100,8 +100,11 @@ const highlight = (code, language) => {
 
 const addVersions = (code) => {
   code = code.replace("ANDROID_VERSION", versions.ANDROID_VERSION);
-  code = code.replace("KOTLIN_VERSION", versions.KOTLIN_VERSION);
-  code = code.replace("GEO_VERSION", versions.GEO_VERSION);
+  code = code.replace(
+    "ANDROID_KOTLIN_VERSION",
+    versions.ANDROID_KOTLIN_VERSION,
+  );
+  code = code.replace("ANDROID_GEO_VERSION", versions.ANDROID_GEO_VERSION);
   return code;
 };
 
