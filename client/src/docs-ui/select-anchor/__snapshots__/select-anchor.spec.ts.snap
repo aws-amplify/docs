@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`docs-select-anchor Render logic should render 1`] = `<docs-select-anchor></docs-select-anchor>`;

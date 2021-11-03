@@ -1,1 +1,0 @@
-Custom conflict resolution configuration is not available just yet for Flutter. We are actively working on this. Track our progress with this [issue](https://github.com/aws-amplify/amplify-flutter/issues/230)
