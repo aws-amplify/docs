@@ -23,6 +23,9 @@ Future<void> uploadProtected() async {
       local: exampleFile,
       key: 'ExampleKey',
       options: uploadOptions,
+      onProgress: (progress) {
+        print("Fraction completed: " + progress.getFractionCompleted().toString());
+      }
     );
     print('Successfully uploaded file: ${result.key}');
   } on StorageException catch (e) {
