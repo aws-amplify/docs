@@ -217,11 +217,22 @@ map.resize(); // forces the map to re-render
 ## Removing a map from the DOM
 
 When it's time to remove the map from the DOM, you can use the `.remove` method of the generated map. This will clean up and release all resources associated with the map (DOM elements, event bindings, web workers, and WebGL resources).
-Note: Afterwards, you must not call any other methods on the map.
 
 ```javascript
 map.remove();
 ```
+
+<Callout warning>
+After calling `.remove()`, you must not call any other methods on the map.
+</Callout>
+
+<Callout warning>
+
+**For React users:**
+
+Not removing the map on component unmount can cause memory leaks in your application. It's recommended to call `.remove()` in either the return function of a React `useEffect` hook or the `componentWillUnmount` lifecycle hook of a class component.
+
+</Callout>
 
 ## Add map to html website
 
