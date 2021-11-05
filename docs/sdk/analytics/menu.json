@@ -1,9 +1,0 @@
-{
-	"title": "Analytics",
-	"items": [
-		"getting-started",
-		"events",
-		"endpoints",
-		"kinesis"
-    ]
-}
