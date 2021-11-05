@@ -1,0 +1,432 @@
+Now that you’ve created and configured a Next.js app and initialized a new Amplify project, you can add a feature. The first feature you will add is an API.
+
+The Amplify CLI supports creating and interacting with two types of API categories: REST and GraphQL.
+
+The API you will be creating in this step is a GraphQL API using AWS AppSync (a managed GraphQL service) and the database will be Amazon DynamoDB (a NoSQL database).
+
+## Create a GraphQL API and database
+
+Add a [GraphQL API](https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html) to your app and automatically provision a database by running the following command from the root of your application directory:
+
+```bash
+amplify add api
+```
+
+Select the explicit values below to enable **API key** (for public read access) and **Cognito User Pools** (for authenticated access).
+
+```console
+? Please select from one of the below mentioned services:
+# GraphQL
+? Provide API name:
+# nextamplified
+? Choose the default authorization type for the API:
+# API key
+? Enter a description for the API key:
+#
+? After how many days from now the API key should expire (1-365):
+# 7
+? Do you want to configure advanced settings for the GraphQL API?
+#  Yes, I want to make some additional changes.
+? Configure additional auth types?
+# Yes
+? Choose the additional authorization types you want to configure for the API:
+# Amazon Cognito User Pool
+? Do you want to use the default authentication and security configuration?
+# Default configuration
+? How do you want users to be able to sign in?
+# Username
+? Do you want to configure advanced settings?
+# No, I am done.
+? Enable conflict detection?
+# No
+? Do you have an annotated GraphQL schema?
+# No
+? Choose a schema template:
+# Single object with fields (e.g., “Todo” with ID, name, description)
+? Do you want to edit the schema now?
+# Yes
+```
+
+The CLI should open this GraphQL schema in your text editor.
+
+__amplify/backend/api/nextamplified/schema.graphql__
+
+```graphql
+type Post
+@model
+@auth(rules: [{ allow: owner }, { allow: public, operations: [read] }]) {
+  id: ID!
+  title: String!
+  content: String!
+}
+```
+
+The schema generated is for a blog app. You'll notice a directive on the `Post` type of `@model`. This directive is part of the [GraphQL transform](/cli/graphql-transformer/model) library of Amplify. 
+
+The GraphQL Transform Library provides custom directives you can use in your schema that allow you to do things like define data models, set up authentication and authorization rules, configure serverless functions as resolvers, and more.
+
+A type decorated with the `@model` directive will scaffold out the database table for the type (Post table), the schema for CRUD (create, read, update, delete) and list operations, and the GraphQL resolvers needed to make everything work together.
+
+From the command line, press __enter__ to accept the schema and continue to the next steps.
+
+### Deploying the API
+
+To deploy this backend, run the `push` command:
+
+```bash
+amplify push
+```
+
+```console
+Current Environment: dev
+
+| Category | Resource name         | Operation | Provider plugin   |
+| -------- | --------------------- | --------- | ----------------- |
+| Auth     | nextamplifiedXXXXXXX  | Create    | awscloudformation |
+| Api      | nextamplified         | Create    | awscloudformation |
+? Are you sure you want to continue? Y
+
+# You will be walked through the following questions for GraphQL code generation
+? Do you want to generate code for your newly created GraphQL API? Y
+? Choose the code generation language target: javascript
+? Enter the file name pattern of graphql queries, mutations and subscriptions: src/graphql/**/*.js
+? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions? Y
+? Enter maximum statement depth [increase from default if your schema is deeply nested]: 2
+```
+
+Now the API is live and you can start interacting with it!
+
+The API you have deployed includes operations for creating, reading, updating, deleting, and listing posts.
+
+Next, run the following command to check Amplify's status:
+
+```bash
+amplify status
+```
+
+This will give us the current status of the Amplify project, including the current environment, any categories that have been created, and what state those categories are in. It should look similar to this:
+
+```console
+Current Environment: dev
+
+| Category | Resource name         | Operation | Provider plugin   |
+| -------- | --------------------- | --------- | ----------------- |
+| Auth     | nextamplifiedXXXXXXXX | No Change | awscloudformation |
+| Api      | nextamplified         | No Change | awscloudformation |
+```
+
+To view the GraphQL API in the AppSync console at any time, run the following command:
+
+```bash
+amplify console api
+```
+
+To view your entire app in the Amplify console at any time, run the following command:
+
+```bash
+amplify console
+```
+
+### (Optional) Test your API
+
+To test this out locally, you can run the `mock` command.
+
+> If you'd like to go ahead and connect the front end, you can [jump to the next step](#connect-frontend-to-api).
+
+```bash
+amplify mock api
+```
+
+*Note:* `amplify mock api` requires Java.
+
+```console
+# If you have not already deployed you API, you will be walked through the following steps for GraphQL code generation
+? Choose the code generation language target: javascript (or preferred target)
+? Enter the file name pattern of graphql queries, mutations and subscriptions: src/graphql/**/*.js
+? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions: Yes
+? Enter maximum statement depth [increase from default if your schema is deeply nested] 2
+```
+
+This will open the GraphiQL explorer on a local port. From the test environment you can try out different operations locally, like queries and mutations.
+
+In the GraphiQL toolbar, select __Use: User Pool__ and try creating a post:
+
+```graphql
+mutation CreatePost {
+  createPost(input: {title: "Test Post", content: "post content"}) {
+    id
+    owner
+    title
+    updatedAt
+    createdAt
+    content
+  }
+}
+```
+
+Next, update auth to __Use: API Key__ and try querying the list of posts:
+
+```graphql
+query ListPosts {
+  listPosts {
+    items {
+      content
+      createdAt
+      id
+      owner
+      title
+    }
+  }
+}
+```
+
+## API with Server-Side Rendering (SSR)
+
+In this section you will create a way to list and create posts from the Next.js application. To do this, you will fetch & render the latest posts from the server as well as create a new post on the client.
+
+Open __pages/index.js__ and replace it with the following code:
+
+```jsx
+// pages/index.js
+import { AmplifyAuthenticator } from "@aws-amplify/ui-react";
+import { Amplify, API, Auth, withSSRContext } from "aws-amplify";
+import Head from "next/head";
+import awsExports from "../src/aws-exports";
+import { createPost } from "../src/graphql/mutations";
+import { listPosts } from "../src/graphql/queries";
+import styles from "../styles/Home.module.css";
+
+Amplify.configure({ ...awsExports, ssr: true });
+
+export async function getServerSideProps({ req }) {
+  const SSR = withSSRContext({ req });
+  const response = await SSR.API.graphql({ query: listPosts });
+
+  return {
+    props: {
+      posts: response.data.listPosts.items,
+    },
+  };
+}
+
+async function handleCreatePost(event) {
+  event.preventDefault();
+
+  const form = new FormData(event.target);
+
+  try {
+    const { data } = await API.graphql({
+      authMode: "AMAZON_COGNITO_USER_POOLS",
+      query: createPost,
+      variables: {
+        input: {
+          title: form.get("title"),
+          content: form.get("content"),
+        },
+      },
+    });
+
+    window.location.href = `/posts/${data.createPost.id}`;
+  } catch ({ errors }) {
+    console.error(...errors);
+    throw new Error(errors[0].message);
+  }
+}
+
+export default function Home({ posts = [] }) {
+  return (
+    <div className={styles.container}>
+      <Head>
+        <title>Amplify + Next.js</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <main className={styles.main}>
+        <h1 className={styles.title}>Amplify + Next.js</h1>
+
+        <p className={styles.description}>
+          <code className={styles.code}>{posts.length}</code>
+          posts
+        </p>
+
+        <div className={styles.grid}>
+          {posts.map((post) => (
+            <a className={styles.card} href={`/posts/${post.id}`} key={post.id}>
+              <h3>{post.title}</h3>
+              <p>{post.content}</p>
+            </a>
+          ))}
+
+          <div className={styles.card}>
+            <h3 className={styles.title}>New Post</h3>
+
+            <AmplifyAuthenticator>
+              <form onSubmit={handleCreatePost}>
+                <fieldset>
+                  <legend>Title</legend>
+                  <input
+                    defaultValue={`Today, ${new Date().toLocaleTimeString()}`}
+                    name="title"
+                  />
+                </fieldset>
+
+                <fieldset>
+                  <legend>Content</legend>
+                  <textarea
+                    defaultValue="I built an Amplify app with Next.js!"
+                    name="content"
+                  />
+                </fieldset>
+
+                <button>Create Post</button>
+                <button type="button" onClick={() => Auth.signOut()}>
+                  Sign out
+                </button>
+              </form>
+            </AmplifyAuthenticator>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}
+```
+
+Let's walk through some of this file:
+
+- __Amplify.configure__ – For authenticated requests to work on the server, our client has to be configured with `ssr: true` to make credentials available on subsequent requests.
+
+- __getServerSideProps__ – For each request (`req`) on the server, we create a copy of Amplify (called `SSR` here from `withSSRContext({ req })`) that scopes credentials, data, and storage to _just one_ request. `API.graphql` queries for a list of posts, and returns them as the `posts` prop for the `Home` component.
+
+- __handleCreatePost__ – This function is called when a logged-in user submits our "New Post" form. `API.graphql` is called to create the new post's `title` and `content`. Once created, we redirect to `/posts/${post.id}`. Notice that we explicitly set `authMode` to `AMAZON_COGNITO_USER_POOLS`. This is because our `schema.graphql` explicitly requires an authorized user to create/delete/update our __Post__ model. Based on our configuration when we ran `amplify add api`, this value is defaulting to `API_KEY`.
+
+- __Home__ – This is a _functional component_ that renders the `posts` provided by `getServerSideProps`.
+
+## Testing SSR
+
+Next, run the app and you should see a landing page with `0 posts` with a login screen:
+
+```bash
+npm run dev
+```
+
+Once you create an account and login, you will be presented with the __New Post__ form.
+
+Submit that form to create a new post, and we'll build that page next!
+
+## API with Incremental Static Site Generation (SSG)
+
+Statically generating pages during the build process improves performance. But, dynamically created posts still need to not `404`.
+
+To solve this, create __pages/posts/[id].js__ and paste in the following content:
+
+```jsx
+import { Amplify, API, withSSRContext } from "aws-amplify";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import awsExports from "../../src/aws-exports";
+import { deletePost } from "../../src/graphql/mutations";
+import { getPost, listPosts } from "../../src/graphql/queries";
+import styles from "../../styles/Home.module.css";
+
+Amplify.configure({ ...awsExports, ssr: true });
+
+export async function getStaticPaths() {
+  const SSR = withSSRContext();
+  const { data } = await SSR.API.graphql({ query: listPosts });
+  const paths = data.listPosts.items.map((post) => ({
+    params: { id: post.id },
+  }));
+
+  return {
+    fallback: true,
+    paths,
+  };
+}
+
+export async function getStaticProps({ params }) {
+  const SSR = withSSRContext();
+  const { data } = await SSR.API.graphql({
+    query: getPost,
+    variables: {
+      id: params.id,
+    },
+  });
+
+  return {
+    props: {
+      post: data.getPost,
+    },
+  };
+}
+
+export default function Post({ post }) {
+  const router = useRouter();
+
+  if (router.isFallback) {
+    return (
+      <div className={styles.container}>
+        <h1 className={styles.title}>Loading&hellip;</h1>
+      </div>
+    );
+  }
+
+  async function handleDelete() {
+    try {
+      await API.graphql({
+        authMode: "AMAZON_COGNITO_USER_POOLS",
+        query: deletePost,
+        variables: {
+          input: { id: post.id },
+        },
+      });
+
+      window.location.href = "/";
+    } catch ({ errors }) {
+      console.error(...errors);
+      throw new Error(errors[0].message);
+    }
+  }
+
+  return (
+    <div className={styles.container}>
+      <Head>
+        <title>{post.title} – Amplify + Next.js</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <main className={styles.main}>
+        <h1 className={styles.title}>{post.title}</h1>
+
+        <p className={styles.description}>{post.content}</p>
+      </main>
+
+      <footer className={styles.footer}>
+        <button onClick={handleDelete}>💥 Delete post</button>
+      </footer>
+    </div>
+  );
+}
+```
+
+Let's walk through some of this file:
+
+- __Amplify.configure__ – For authenticated requests to work on the server, our client has to be configured with `ssr: true` to make credentials available on subsequent requests.
+
+- __getStaticPaths__ – Because the value of `[id]` isn't known at build-time, we need to provide all possible `paths` for Next.js to render pages for. We do this by querying all posts with `API.graphql`, and mapping each `post` into `{ params: { id: post.id }}`.  These `params` are passed to `getStaticProps` next.  Note that we return `fallback: true`.  If this value were `false`, then any _new_ posts would return a `404` because they didn't exist at build-time. With `true`, static pages are returned quickly, while any new `id`s are looked up once.
+
+- __getStaticProps__ – Because the `Post` components props aren't dynamic per-request, they're provided statically from `getStaticPaths` as `params`.  Here, we use `params.id` to query for that specific post with `API.graphql`.
+
+- __Post__ – `Post` is a functional component that renders the provided prop `post`. Because `fallback: true` was specified above, we have to account for a "loading" state while a new post may be fetched.
+
+- __handleDelete__ – This function is called when the "Delete post" button is clicked. Notice that we explicitly set `authMode` to `AMAZON_COGNITO_USER_POOLS`. This is because our `schema.graphql` explicitly requires an authorized user to create/delete/update our __Post__ model. Based on our configuration when we ran `amplify add api`, this value is defaulting to `API_KEY`.
+
+ For each request (`req`) on the server, we create a copy of Amplify (called `SSR` here from `withSSRContext({ req })`) that scopes credentials, data, and storage to _just one_ request. `API.graphql` queries for a list of posts, and returns them as the `posts` prop for the `Home` component.
+
+- __handleCreatePost__ – This function is called when a logged-in user submits our "New Post" form. `API.graphql` is called to create the new post's `title` and `content`. Once created, we redirect to `/posts/${post.id}`.
+
+- __Home__ – This is a _functional component_ that renders the `posts` provided by `getServerSideProps`.
+
+## Testing SSG
+
+With your server running (`npm run dev`), refresh the page (or go back home to http://localhost:3000/ and click into a post) and you'll see a page for this post!

@@ -1,0 +1,73 @@
+export const meta = {
+  title: "Amplify Console",
+  description:
+    "Amplify has a console within AWS that is a control center for your full-stack app.",
+  disableTOC: "true",
+};
+
+<Grid columns={1} class="margin-top-lg margin-bottom-lg">
+  <Card
+    external
+    href="https://console.aws.amazon.com/amplify/home"
+    class="border-radius"
+    containertag="amplify-external-link"
+  >
+    <CardGraphic alt="Amplify logo" src="/assets/logo-dark.svg" />
+    <CardDetail>
+      <h4>Amplify Console</h4>
+      <p>
+        Control center for your full-stack app deployments. Set up continuous
+        deployment and hosting, create an app backend in the admin UI, and manage
+        full-stack environments.
+      </p>
+    </CardDetail>
+  </Card>
+</Grid>
+
+## Get started
+
+The following tools and services are accessible from the Amplify Console, learn more about them here:
+
+<Grid columns={[1, null, 2]} className="margin-top-lg margin-bottom-lg">
+  <Card
+    external
+    href="https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html"
+    className="border-radius"
+    containertag="amplify-external-link"
+  >
+    <CardGraphic alt="Amplify Console logo" src="/assets/console.png" />
+    <CardDetail>
+      <h4>Amplify Hosting</h4>
+      <p>
+        Fully managed hosting with CI/CD for deploying static web apps.
+      </p>
+    </CardDetail>
+  </Card>
+
+  <Card href="/console/adminui/start" className="border-radius">
+    <CardGraphic alt="Amplify CLI logo" src="/assets/cli.png" />
+    <CardDetail>
+      <h4>Admin UI</h4>
+      <p>
+        Configure and manage your app backend outside the AWS console.
+      </p>
+    </CardDetail>
+  </Card>
+</Grid>
+
+
+## Amplify Console app project
+
+Every Amplify Console app project consists of frontend and backend environments. Environments allow you to build new features for your app without impacting production.
+
+### Frontend environments
+
+All frontend environments are managed by Amplify Hosting. A frontend environment corresponds to a Git branch for apps with CI/CD enabled. Each branch is deployed to a unique url (e.g. `https://main.appid.amplifyapp.com`). Launch your hosted web app from each frontend environment, or view your deployment details.
+
+![frontend-environments](/images/console/frontend-envs.gif)
+
+### Backend environments
+
+Each backend environment is a container for all of the cloud capabilities added to your app such as API, auth, and storage. Launch the Admin UI from each backend environment, or get to the underlying AWS service consoles.
+
+![frontend-environments](/images/console/backend-envs.gif)

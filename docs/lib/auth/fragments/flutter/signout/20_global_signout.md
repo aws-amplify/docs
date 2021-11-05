@@ -1,3 +1,0 @@
-<amplify-callout>
-This functionality has not yet been implemented for Flutter, this section will be updated once it has been added. 
-</amplify-callout>
