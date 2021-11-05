@@ -304,25 +304,26 @@ Though it can be called anywhere in the app, we recommend that you instantiate t
 When an app that has initiated a transfer becomes suspended and then returns to the foreground, the transfer may still be in progress or may have completed. In both cases, use the following code to re-establish the progress and completion handler blocks of the app.
 
 ```swift
-let uploadTasks = transferUtility.getUploadTasks().result
-  for task in uploadTasks! {
-       task.setCompletionHandler(completionHandler!)
-       task.setProgressBlock(progressBlock!)
+if let uploadTasks = transferUtility.getUploadTasks().result {
+   for task in uploadTasks {
+         task.setCompletionHandler(completionHandler)
+         task.setProgressBlock(progressBlock)
+   }
 }
 
-let downloadTasks = transferUtility.getDownloadTasks().result
-   for task in downloadTasks! {
-       task.setCompletionHandler(completionHandler!)
-       task.setProgressBlock(progressBlock!)
-    }
+if let downloadTasks = transferUtility.getDownloadTasks().result {
+   for task in downloadTasks {
+         task.setCompletionHandler(completionHandler)
+         task.setProgressBlock(progressBlock)
+   }
 }
 
-let multiPartUploadTasks = transferUtility.getMultiPartUploadTasks().result
-    for task in multiPartUploadTasks! {
-        task.setCompletionHandler(completionHandler!)
-        task.setProgressBlock(progressBlock!)
-
- }
+if let multiPartUploadTasks = transferUtility.getMultiPartUploadTasks().result {
+   for task in multiPartUploadTasks {
+         task.setCompletionHandler(completionHandler)
+         task.setProgressBlock(progressBlock)
+   }
+}
 ```
 
 ## Transfer with Object Metadata
