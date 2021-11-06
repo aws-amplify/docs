@@ -218,12 +218,12 @@ Host: www.example.com
 
 **Specifying the region**
 
-The `@http` directive allows you to use `${region}` to reference the AWS region of your environment.
+The `@http` directive allows you to use `${aws_region}` to reference the AWS region of your environment.
 
 ```graphql
 type Query {
  listPosts: Post @http(
-  url: "https://www.example.com/${region}/posts"
+  url: "https://www.example.com/${aws_region}/posts"
  )
 }
 ```
