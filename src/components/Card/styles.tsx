@@ -136,6 +136,9 @@ export const CardDetail = styled.div`
 
   > h4 {
     color: var(--font-color);
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
   }
 
   > p {
@@ -148,6 +151,11 @@ export const CardDetail = styled.div`
   h4:hover {
     opacity: 0.8;
   }
+`;
+
+export const CardNewIcon = styled.img`
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
 `;
 
 export const CardGraphic = styled.img`

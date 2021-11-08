@@ -1,7 +1,7 @@
 import {Grid} from "theme-ui";
 
 import {Container} from "../Container";
-import {Card, CardDetail, CardGraphic} from "../Card";
+import { Card, CardDetail, CardNewIcon, CardGraphic } from "../Card";
 
 export default function FeaturesGrid() {
   return (
@@ -70,7 +70,10 @@ export default function FeaturesGrid() {
           >
             <CardGraphic src="/assets/features/geo.svg" />
             <CardDetail>
-              <h4>Geo</h4>
+              <h4>
+                Geo
+                <CardNewIcon src="/assets/new.svg" alt="New" />
+              </h4>
               <p>
                 Add modern, interactive maps with location markers and location search to your JavaScript-based web projects.
               </p>
