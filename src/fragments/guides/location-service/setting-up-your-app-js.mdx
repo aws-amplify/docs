@@ -1,6 +1,14 @@
-[Amazon Location Service](https://aws.amazon.com/location/) is a new geolocation service that lets you add location information to your applications. With Amazon Location Service, you can build applications that provide maps and points of interest. You can also track resources, trigger actions based on location, and convert street addresses into geographic coordinates.  
+<Callout warning>
+
+You can now set up maps and location search using Amplify Geo. [Click here](/lib/geo/getting-started) to get started!
+
+</Callout>
+
+[Amazon Location Service](https://aws.amazon.com/location/) is a new geolocation service that lets you add location information to your applications. With Amazon Location Service, you can build applications that provide maps and points of interest. You can also track resources, trigger actions based on location, and convert street addresses into geographic coordinates.
 
 This tutorial topic outlines how to set up your app to use Amazon Location Service. To learn more about the service, see the [Amazon Location Service Developer Guide](https://docs.aws.amazon.com/location/latest/developerguide/).
+
+
 
 ## Overview
 
@@ -41,7 +49,7 @@ npm install aws-sdk aws-amplify
 
 ## Adding authentication
 
-The next feature you will be adding to your React app is authentication. The Amplify Framework uses [Amazon Cognito](https://aws.amazon.com/cognito/) as the main authentication provider. Amazon Cognito is a robust user directory service that handles user registration, authentication, account recovery & other operations. 
+The next feature you will be adding to your React app is authentication. The Amplify Framework uses [Amazon Cognito](https://aws.amazon.com/cognito/) as the main authentication provider. Amazon Cognito is a robust user directory service that handles user registration, authentication, account recovery & other operations.
 
 In the following procedure, you’ll add authentication to your React app using Amazon Cognito and support for username/password logins.
 
@@ -90,7 +98,7 @@ You’ve now successfully connected your React app to the Amazon Location Servic
 
 In order to access Amazon Location Service APIs you will need to create resources. You can create resources using the [Amazon Location Service console](http://console.aws.amazon.com/location/home) or using the [AWS Command Line Interface (CLI)](https://aws.amazon.com/cli/). Once you have created the resources, you can use these resources by calling the APIs.
 
-This section provides you an example of using the Amazon Location Service APIs. In this example, we will first create a Place Index in the Amazon Location Service console and use the APIs to search for places.  
+This section provides you an example of using the Amazon Location Service APIs. In this example, we will first create a Place Index in the Amazon Location Service console and use the APIs to search for places.
 
 ### Creating a new place index
 
@@ -141,7 +149,7 @@ amplify console auth
 
 ### Searching for places
 
-The following code details how to use the Amazon Location Service APIs to search for places using the Place Index you just created: 
+The following code details how to use the Amazon Location Service APIs to search for places using the Place Index you just created:
 
 ```javascript
 const params = {
@@ -153,4 +161,3 @@ client.searchPlaceIndexForText(params, (err, data) => {
   if (data) console.log(data);
 });
 ```
-
