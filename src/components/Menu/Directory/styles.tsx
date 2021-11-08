@@ -14,6 +14,9 @@ export const DirectoryGroupHeaderStyle = styled.button`
 
   h4 {
     cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
   }
 
   &:hover {
@@ -43,6 +46,11 @@ export const DirectoryLinksStyle = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 0.5rem;
+`;
+
+export const DirectoryNewIcon = styled.img`
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
 `;
 
 type DirectoryGroupItemProps = {

@@ -6,17 +6,20 @@ import {
   DirectoryGroupHeaderStyle,
   DirectoryGroupItemStyle,
   DirectoryLinksStyle,
-  ProductRootLinkStyle,
+  DirectoryNewIcon,
+  ProductRootLinkStyle
 } from "./styles";
 
 type DirectoryItem = {
   title: string;
+  isNew: boolean;
   route: string;
   filters: string[];
 };
 
 type DirectoryGroupProps = {
   title: string;
+  isNew: boolean;
   items: DirectoryItem[];
   url: string;
   filterKey: string;
@@ -80,7 +83,10 @@ class DirectoryGroup extends React.Component<
     return (
       <div>
         <DirectoryGroupHeaderStyle onClick={this.toggleOpen}>
-          <h4>{this.props.title}</h4>
+          <h4>
+            {this.props.title}
+            {this.props.isNew && <DirectoryNewIcon src="/assets/new.svg" />}
+          </h4>
           <ArrowStyle isUp={this.state.isExpanded} />
         </DirectoryGroupHeaderStyle>
         {this.state.isExpanded && (
@@ -110,7 +116,7 @@ export default class Directory extends React.Component<DirectoryProps> {
   render() {
     const directory = getProductDirectory(this.props.url) as {
       productRoot: {title: string; route: string};
-      items: {title: string; items: DirectoryItem[]}[];
+      items: {title: string; isNew: boolean; items: DirectoryItem[]}[];
     };
     const productRoot = directory.productRoot;
 
@@ -118,7 +124,7 @@ export default class Directory extends React.Component<DirectoryProps> {
       <div>
         <InternalLink href={productRoot.route}>
           <ProductRootLinkStyle
-            isActive={this.props.url.split("/q")[0] === productRoot.route}
+            isActive={this.props.url.split('/q')[0] === productRoot.route}
           >
             {productRoot.title}
           </ProductRootLinkStyle>
@@ -126,6 +132,7 @@ export default class Directory extends React.Component<DirectoryProps> {
         {Object.entries(directory.items).map((folderName) => (
           <DirectoryGroup
             title={folderName[1].title}
+            isNew={folderName[1].isNew}
             items={folderName[1].items}
             url={this.props.url}
             filterKey={this.props.filterKey}

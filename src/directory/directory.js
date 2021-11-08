@@ -422,6 +422,7 @@ const directory = {
       },
       geo: {
         title: "Geo",
+        isNew: true,
         items: [
           {
             title: "Getting started",
