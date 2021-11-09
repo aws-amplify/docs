@@ -52,8 +52,8 @@ We've provided several shortcuts to test your files in your code.
 
 ### Copy S3 key
 You can copy your file's S3 key either by:
-- Selecting **Actions**, and then **Copy S3 key**
-- Selecting the copy icon next to your S3 key in the right-hand inspector panel
+- Selecting **Actions**, and then **Copy S3 key**.
+- Selecting the copy icon next to your S3 key in the right-hand inspector panel.
 
 ### Copy get file code snippet
 We've provided code snippets for 'get file' in all Amplify supported languages in a code block in the right-hand inspector panel
