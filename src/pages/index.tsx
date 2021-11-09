@@ -11,7 +11,7 @@ import FeaturesGrid from "../components/FeaturesGrid";
 import LinkBanner from "../components/LinkBanner";
 import Footer from "../components/Footer";
 import UniversalNav from "../components/UniversalNav";
-import Content from "./index.content";
+import Content from "./index.content.json";
 
 import {track, trackPageVisit, AnalyticsEventType} from "../utils/track";
 
@@ -34,7 +34,7 @@ const Page = () => {
   return (
     <>
       <Head>
-        <title>{meta.title}</title>
+        <title>{content.title}</title>
         <meta name="description" content={content.description} />
         <meta property="og:title" content={content.title} key="og:title" />
         <meta name="description" content={content.description} />
