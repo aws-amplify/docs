@@ -15,7 +15,6 @@ export const DirectoryGroupHeaderStyle = styled.button`
   h4 {
     cursor: pointer;
     display: flex;
-    flex-direction: row;
     align-items: flex-start;
   }
 
