@@ -6,7 +6,7 @@
 
 ## Getting Started
 
-1. [Fork this repo](/fork).
+1. [Fork this repo](/fork)
 2. `yarn && yarn dev`
 3. <http://localhost:3000/> should open automatically.
 
@@ -38,9 +38,9 @@ The markdown body is parsed as [MDX](https://mdxjs.com/) and can include any val
 To inline fragments, and have them conditionally render based off selected platform, we add the condition to the `Fragments` tag:
 
 ```jsx
-import js from "/src/fragments/lib/datastore/js/conflict.mdx";
+import js from '/src/fragments/lib/datastore/js/conflict.mdx';
 
-<Fragments fragments={{js: js}} />;
+<Fragments fragments={{ js: js }} />;
 ```
 
 This fragment would exist in: `pages/src/fragments/lib/datastore/js/conflict.mdx`
@@ -55,7 +55,7 @@ This fragment would exist in: `pages/src/fragments/lib/datastore/js/conflict.mdx
 <Block name="JavaScript">
 
 ```js
-const a = "a";
+const a = 'a';
 ```
 
 </Block>
@@ -63,7 +63,7 @@ const a = "a";
 <Block name="TypeScript">
 
 ```ts
-const a: "a" = "a";
+const a: 'a' = 'a';
 ```
 
 </Block>
