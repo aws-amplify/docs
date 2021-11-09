@@ -1,0 +1,34 @@
+export default {
+  "en": {
+    head: {
+      title: "Amplify Framework Docs",
+      description: `Amplify Framework documentation - Learn how to use Amplify to develop and deploy cloud-powered mobile and web apps.`,
+    },
+    nav: {
+      heading: "Amplify Docs",
+    },
+    hero: {
+      h1: "Amplify Framework Documentation",
+      p: `Learn how to use Amplify to develop and deploy cloud-powered mobile and web apps`
+    },
+    container: {
+      h4: `Discover the end-to-end AWS solution for mobile and front-end web developers`
+    },
+  },
+  "ja": {
+    head: {
+      title: "Amplifyフレームワークドキュメント",
+      description: `Amplify Framework documentation - Learn how to use Amplify to develop and deploy cloud-powered mobile and web apps.`,
+    },
+    nav: {
+      heading: "Amplify Docs",
+    },
+    hero: {
+      h1: "Amplify Framework Documentation",
+      p: `Amplifyを使用した、クラウドを利用したモバイル・ウェブのアプリケーション開発およびデプロイについて学びましょう`,
+    },
+    container: {
+      h4: `モバイルおよびウェブ開発者向けの包括的なAWSソリューションをご覧ください`,
+    },
+  },
+};

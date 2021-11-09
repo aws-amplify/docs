@@ -44,6 +44,10 @@ module.exports = withMDX({
   },
   exportPathMap,
   trailingSlash: true,
+  i18n: {
+    locales: ["en", "ja"],
+    defaultLocale: "en",
+  },
 });
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
