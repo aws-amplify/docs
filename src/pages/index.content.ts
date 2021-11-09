@@ -1,4 +1,4 @@
-export default {
+const content = {
   "en": {
     url: "https://docs.amplify.aws/",
     head: {
@@ -34,3 +34,5 @@ export default {
     },
   },
 };
+
+export default content;
