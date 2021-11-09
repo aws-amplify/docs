@@ -1,5 +1,6 @@
 export default {
   "en": {
+    url: "https://docs.amplify.aws/",
     head: {
       title: "Amplify Framework Docs",
       description: `Amplify Framework documentation - Learn how to use Amplify to develop and deploy cloud-powered mobile and web apps.`,
@@ -16,6 +17,7 @@ export default {
     },
   },
   "ja": {
+    url: "https://docs.amplify.aws/ja/",
     head: {
       title: "Amplifyフレームワークドキュメント",
       description: `Amplify Framework documentation - Learn how to use Amplify to develop and deploy cloud-powered mobile and web apps.`,

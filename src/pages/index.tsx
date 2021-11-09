@@ -15,10 +15,6 @@ import Content from "./index.content";
 
 import {track, trackPageVisit, AnalyticsEventType} from "../utils/track";
 
-const meta = {
-  url: "https://docs.amplify.aws/",
-};
-
 const Page = () => {
   const {locale} = useRouter();
   const content = Content[locale];
@@ -47,7 +43,7 @@ const Page = () => {
           content={content.description}
           key="og:description"
         />
-        <meta property="og:url" content={meta.url} key="og:url" />
+        <meta property="og:url" content={content.url} key="og:url" />
         <meta
           property="og:image"
           content="https://docs.amplify.aws/assets/ogp.jpg"
