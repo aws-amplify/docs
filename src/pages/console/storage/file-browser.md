@@ -51,7 +51,7 @@ By default, your storage is created with the following 4 folders:
 We've provided several shortcuts to test your files in your code.
 
 ### Copy S3 key
-You can copy your file's S3 key either by
+You can copy your file's S3 key either by:
 - Selecting **Actions**, and then **Copy S3 key**
 - Selecting the copy icon next to your S3 key in the right-hand inspector panel
 
