@@ -99,12 +99,12 @@ const highlight = (code, language) => {
 };
 
 const addVersions = (code) => {
-  code = code.replace("ANDROID_VERSION", versions.ANDROID_VERSION);
+  code = code.replace(/ANDROID_VERSION/g, versions.ANDROID_VERSION);
   code = code.replace(
-    "ANDROID_KOTLIN_VERSION",
+    /ANDROID_KOTLIN_VERSION/g,
     versions.ANDROID_KOTLIN_VERSION,
   );
-  code = code.replace("ANDROID_GEO_VERSION", versions.ANDROID_GEO_VERSION);
+  code = code.replace(/ANDROID_GEO_VERSION/g, versions.ANDROID_GEO_VERSION);
   return code;
 };
 
