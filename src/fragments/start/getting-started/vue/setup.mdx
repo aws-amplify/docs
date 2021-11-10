@@ -232,8 +232,7 @@ yarn add aws-amplify @aws-amplify/ui-components
 
 <Callout>
 
-If you are using Vue 2, please use the `@aws-amplify/ui-vue` package and follow the Vue UI Components 
-[documentation](/ui).
+If you are using Vue 2, you can use the `@aws-amplify/ui-components` package as well. 
 
 </Callout>
 
@@ -263,6 +262,28 @@ Now Amplify has been successfully configured. As you add or remove categories an
 
 <Callout>
 
-Console warnings: If you see "failed to resolve component" warnings, you can create `vue.config.js` from the app directory and use this <amplify-external-link href="https://gist.github.com/wlee221/3d47f9598d5ad85bfa7a138bad112c3c">gist</amplify-external-link> to remove them.
+Console warnings: If you see "failed to resolve component" warnings, and you are on Vue 3 you can create a `vue.config.js` from the app directory and add this configuration:
+
+```js
+module.exports = {
+  chainWebpack: (config) => {
+    config.module
+      .rule("vue")
+      .use("vue-loader")
+      .tap((options) => ({
+        ...options,
+        compilerOptions: {
+          isCustomElement: (tag) => tag.startsWith("amplify-"),
+        },
+      }));
+  },
+};
+```
+
+If you are on Vue 2 you can add this snippet to your `main.js` file:
+
+```js
+	Vue.config.ignoredElements = [/amplify-\w*/];
+```
 
 </Callout>
