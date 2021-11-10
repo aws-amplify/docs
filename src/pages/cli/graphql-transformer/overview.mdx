@@ -212,11 +212,15 @@ When trying to push a schema change with one or more of these updates you will s
 ```bash
 amplify push --allow-destructive-graphql-schema-updates
 ```
+<Callout>
 This command should NEVER be used in a production environment. You will not be able to recover data from replaced tables.
+</Callout>
 
 ## Rebuild GraphQL API
 
-> Note: Rebuild should NEVER be used in a production environment!
+<Callout>
+Rebuild should NEVER be used in a production environment!
+</Callout>
 
 When in development, sometimes test data gets in a bad state or you want to make many changes to your schema all at once. In these cases, you may wish to "rebuild" all of the tables backing your schema. To do this, run:
 ```bash
