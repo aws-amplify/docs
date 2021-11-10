@@ -1,9 +1,0 @@
-{
-  "title": "Authentication",
-  "items": [
-    "custom-auth-flow",
-    "email-only-authentication",
-    "listening-for-auth-events",
-    "managing-user-attributes"
-  ]
-}

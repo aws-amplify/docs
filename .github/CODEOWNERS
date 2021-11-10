@@ -1,7 +1,12 @@
-/docs/**/android @aws-amplify/android-team
-/docs/**/flutter @aws-amplify/amplify-flutter
-/docs/**/ios @aws-amplify/ios-team
-/docs/**/js  @aws-amplify/amplify-js
-/docs/cli @aws-amplify/amplify-cli
-/docs/console @aws-amplify/amplify-console
-/docs/guides @aws-amplify/developer-advocates
+/src/pages/** @aws-amplify/amplify-sa
+/src/pages/cli @aws-amplify/amplify-cli @aws-amplify/amplify-sa
+/src/pages/console @aws-amplify/amplify-console @aws-amplify/amplify-sa
+/src/pages/guides @aws-amplify/developer-advocates @aws-amplify/amplify-sa
+/src/fragments/** @aws-amplify/amplify-sa
+/src/fragments/**/android @aws-amplify/android-team @aws-amplify/amplify-sa
+/src/fragments/**/flutter @aws-amplify/amplify-flutter @aws-amplify/amplify-sa
+/src/fragments/**/ios @aws-amplify/ios-team @aws-amplify/amplify-sa
+/src/fragments/**/js  @aws-amplify/amplify-js @aws-amplify/amplify-sa
+/src/fragments/cli @aws-amplify/amplify-cli @aws-amplify/amplify-sa
+/src/fragments/console @aws-amplify/amplify-console @aws-amplify/amplify-sa
+/src/fragments/guides @aws-amplify/developer-advocates @aws-amplify/amplify-sa
