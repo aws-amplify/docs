@@ -137,6 +137,7 @@ export const CardDetail = styled.div`
   > h4 {
     color: var(--font-color);
     display: flex;
+    flex-direction: column;
   }
 
   > p {
