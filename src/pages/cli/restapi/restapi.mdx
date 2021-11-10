@@ -35,11 +35,13 @@ For each user type you can further specify what actions it has access to.
 | Authenticated user | create, read, update, delete | POST, GET, PUT, PATCH, DELETE | Amazon Cognito |
 | Guest user | create, read, update, delete | POST, GET, PUT, PATCH, DELETE | Amazon Cognito |
 
-REST APIs have support for [multiple environments](/cli/teams/overview) (e.g. dev, qa, and prod). This means that you can easily isolate different versions of your REST API by using different environments:
+REST APIs have support for [multiple environments](~/cli/teams/overview.md) (e.g. dev, qa, and prod). This means that you can easily isolate different versions of your REST API by using different Amplify environments.
 
-```text
-https://a5b4c3d2e1.execute-api.eu-west-2.amazonaws.com/dev/items
-https://a5b4c3d2e1.execute-api.eu-west-2.amazonaws.com/prod/items
+Because Amplify environments could be in separate AWS accounts, we cannot use the environment feature of API Gateway. Each Amplify environment will have a separate API Gateway resource associated with it. For example:
+
+```console
+https://<API ID 1>.execute-api.eu-west-2.amazonaws.com/dev/items
+https://<API ID 2>.execute-api.eu-west-2.amazonaws.com/prod/items
 ```
 
 ## Create a REST API
