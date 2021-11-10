@@ -224,7 +224,7 @@ Rebuild should NEVER be used in a production environment!
 
 When in development, sometimes test data gets in a bad state or you want to make many changes to your schema all at once. In these cases, you may wish to "rebuild" all of the tables backing your schema. To do this, run:
 ```bash
-amplify reset api
+amplify rebuild api
 ```
 This will recreate ALL of the tables backing models in your schema. ALL DATA in ALL TABLES will be deleted.
 
