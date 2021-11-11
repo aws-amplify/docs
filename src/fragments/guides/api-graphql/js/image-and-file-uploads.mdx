@@ -90,18 +90,30 @@ Next you will be creating a GraphQL API with a type that has an image field. Thi
 ```sh
 amplify add api
 
-? Please select from one of the below mentioned services: GraphQL
-? Here is the GraphQL API that we will create. Select a setting to edit or continue: Name
-? Provide API name: gqls3
-? Here is the GraphQL API that we will create. Select a setting to edit or continue: Authorization modes: API key (default, expiration time: 7 days from now)
-? Choose the default authorization type for the API: Amazon Cognito User Pool
-? Configure additional auth types? Yes
-? Choose the additional authorization types you want to configure for the API: API key
-? Enter a description for the API key: public
-? After how many days from now the API key should expire (1-365): 365 (or your preferred expiration)
-? Here is the GraphQL API that we will create. Select a setting to edit or continue: Continue
-? Choose a schema template: Single object with fields (e.g., “Todo” with ID, name, description)
-? Do you want to edit the schema now? Yes
+? Please select from one of the below mentioned services:
+  > GraphQL
+? Here is the GraphQL API that we will create. Select a setting to edit or continue:
+  > Name
+? Provide API name:
+  > gqls3
+? Here is the GraphQL API that we will create. Select a setting to edit or continue: Authorization modes:
+  > API key (default, expiration time: 7 days from now)
+? Choose the default authorization type for the API:
+  > Amazon Cognito User Pool
+? Configure additional auth types?
+  > Yes
+? Choose the additional authorization types you want to configure for the API:
+  > API key
+? Enter a description for the API key:
+  > public
+? After how many days from now the API key should expire (1-365):
+  > 365 (or your preferred expiration)
+? Here is the GraphQL API that we will create. Select a setting to edit or continue:
+  > Continue
+? Choose a schema template:
+  > Single object with fields (e.g., “Todo” with ID, name, description)
+? Do you want to edit the schema now?
+  > Yes
 ```
 
 When prompted, update the schema located at __/amplify/backend/api/gqls3/schema.graphql__ with the following:

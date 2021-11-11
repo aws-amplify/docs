@@ -30,20 +30,29 @@ You can skip this part, if you already have a GraphQL API with an User model.
 ```sh
 amplify add api
 
-? Please select from one of the below mentioned services: GraphQL
-? Here is the GraphQL API that we will create. Select a setting to edit or continue: Name
-? Provide API name: myapi
-? Here is the GraphQL API that we will create. Select a setting to edit or continue: Authorization modes: API key (default, expiration time: 7 days from now)
-? Choose the default authorization type for the API: API Key
-? Enter a description for the API key: public (or some description)
-? After how many days from now the API key should expire: 365 (or your preferred expiration)
-? Configure additional auth types? No
-? Here is the GraphQL API that we will create. Select a setting to edit or continue: Continue
-? Choose a schema template: Single object with fields (e.g., “Todo” with ID, name, description)
-? Do you want to edit the schema now? Yes
+? Here is the GraphQL API that we will create. Select a setting to edit or continue:
+    > Name
+? Provide API name:
+    > contactapi
+? Here is the GraphQL API that we will create. Select a setting to edit or continue:
+    > Authorization modes: API key (default, expiration time: 7 days from now)
+? Choose the default authorization type for the API:
+    > API Key
+? Enter a description for the API key:
+    > public (or some description)
+? After how many days from now the API key should expire:
+    > 365 (or your preferred expiration)
+? Configure additional auth types?
+    > No
+? Here is the GraphQL API that we will create. Select a setting to edit or continue:
+    > Continue
+? Choose a schema template:
+    > Single object with fields (e.g., “Todo” with ID, name, description)
+? Do you want to edit the schema now?
+    > Yes
 ```
 
-The CLI should open the GraphQL schema, located at amplify/backend/api/myapi/schema.graphql, in your text editor. Update the schema with the following and save the file:
+The CLI should open the GraphQL schema, located at amplify/backend/api/contactapi/schema.graphql, in your text editor. Update the schema with the following and save the file:
 
 ```graphql
 type User
