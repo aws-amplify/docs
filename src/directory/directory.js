@@ -1659,6 +1659,19 @@ const directory = {
           },
         ],
       },
+      storage: {
+        title: "Storage",
+        items: [
+          {
+            title: "File Browser",
+            route: "/console/storage/file-browser",
+          },
+          {
+            title: "File Storage",
+            route: "/console/storage/file-storage",
+          },
+        ],
+      },
     },
   },
   guides: {
