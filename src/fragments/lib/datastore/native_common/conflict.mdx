@@ -3,18 +3,14 @@ If data synchronization is enabled via [AppSync](https://aws.amazon.com/appsync/
 
 ## Custom conflict resolution
 
-To select a different conflict resolution strategy, navigate into your project from a terminal and run `amplify update api`. Choose *Yes* when prompted to change the conflict detection and resolution strategies.
+To select a different conflict resolution strategy, navigate into your project from a terminal and run `amplify update api`. Choose *Conflict resolution strategy* to change the conflict detection and resolution strategies.
 
 ```console
 ? Please select from one of the below mentioned services: 
     `GraphQL`
 ...
-? Do you want to configure advanced settings for the GraphQL API 
-    `Yes, I want to make some additional changes.`
-? Configure additional auth types? 
-    `No`
-? Enable conflict detection? 
-    `Yes`
+? Select a setting to edit 
+    `Conflict resolution strategy`
 ? Select the default resolution strategy
   Auto Merge 
 ❯ Optimistic Concurrency 

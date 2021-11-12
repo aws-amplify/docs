@@ -23,15 +23,28 @@ Next, create a GraphQL API:
 ```sh
 amplify add api
 
-? Please select from one of the below mentioned services: GraphQL
-? Provide API name: contactapi
-? Choose the default authorization type for the API: API key
-? Enter a description for the API key: public
-? After how many days from now the API key should expire (1-365): 365
-? Do you want to configure advanced settings for the GraphQL API: No, I am done.
-? Do you have an annotated GraphQL schema? No
-? Choose a schema template: Single object with fields (e.g., “Todo” with ID, name, description)
-? Do you want to edit the schema now? Yes
+? Please select from one of the below mentioned services:
+  > GraphQL
+? Here is the GraphQL API that we will create. Select a setting to edit or continue:
+  > Name
+? Provide API name:
+  > contactapi
+? Here is the GraphQL API that we will create. Select a setting to edit or continue:
+  > Authorization modes: API key (default, expiration time: 7 days from now)
+? Choose the default authorization type for the API:
+  > API key
+? Enter a description for the API key:
+  > public
+? After how many days from now the API key should expire (1-365):
+  > 365
+? Configure additional auth types?
+  > No
+? Here is the GraphQL API that we will create. Select a setting to edit or continue:
+  > Continue
+? Choose a schema template:
+  > Single object with fields (e.g., “Todo” with ID, name, description)
+? Do you want to edit the schema now?
+  > Yes
 ```
 
 The CLI should open the GraphQL schema, located at __amplify/backend/api/contactapi/schema.graphql__, in your text editor. Update the schema with the following and save the file:
