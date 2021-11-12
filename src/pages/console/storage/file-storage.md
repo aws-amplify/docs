@@ -1,5 +1,5 @@
 export const meta = {
-  title: `Overview`,
+  title: `File storage`,
   description: `Get started with the Admin UI`,
 };
 
