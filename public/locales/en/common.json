@@ -1,0 +1,12 @@
+{
+  "nav": {
+    "heading": "Amplify Docs"
+  },
+  "hero": {
+    "h1": "Amplify Framework Documentation",
+    "p": "Learn how to use Amplify to develop and deploy cloud-powered mobile and web apps"
+  },
+  "container": {
+    "h4": "Discover the end-to-end AWS solution for mobile and front-end web developers"
+  }
+}

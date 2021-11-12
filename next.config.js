@@ -1,3 +1,4 @@
+const { i18n } = require('./next-i18next.config');
 const mdxRenderer = `
   import { mdx } from "@mdx-js/react";
 
@@ -31,6 +32,7 @@ const withMDX = require("@next/mdx")({
 });
 
 module.exports = withMDX({
+  i18n,
   pageExtensions: ["js", "jsx", "mdx", "tsx", "ts"],
   typescript: {
     // !! WARN !!
@@ -44,10 +46,6 @@ module.exports = withMDX({
   },
   exportPathMap,
   trailingSlash: true,
-  i18n: {
-    locales: ["en", "ja"],
-    defaultLocale: "en",
-  },
 });
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires

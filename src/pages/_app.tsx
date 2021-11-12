@@ -1,3 +1,4 @@
+import { appWithTranslation } from 'next-i18next';
 import "../styles/styles.css";
 import Head from "next/head";
 
@@ -92,4 +93,4 @@ function MyApp({Component, pageProps}) {
   );
 }
 
-export default MyApp;
+export default appWithTranslation(MyApp);

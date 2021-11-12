@@ -1,0 +1,12 @@
+{
+  "nav": {
+    "heading": "Amplify Docs"
+  },
+  "hero": {
+    "h1": "Amplify Framework Documentation",
+    "p": "Amplifyを使用した、クラウドを利用したモバイル・ウェブのアプリケーション開発およびデプロイについて学びましょう"
+  },
+  "container": {
+    "h4": "モバイルおよびウェブ開発者向けの包括的なAWSソリューションをご覧ください"
+  }
+}
