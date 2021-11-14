@@ -1244,6 +1244,11 @@ const directory = {
             route: "/cli/auth/import",
             filters: [],
           },
+          {
+            title: "Override Amplify-generated Cognito resources",
+            route: "/cli/auth/override",
+            filters: []
+          }
         ],
       },
       storage: {
@@ -1255,6 +1260,11 @@ const directory = {
             route: "/cli/storage/import",
             filters: [],
           },
+          {
+            title: "Override Amplify-generated S3 and DynamoDB resources",
+            route: "/cli/storage/override",
+            filters: []
+          }
         ],
       },
       function: {
@@ -1347,14 +1357,34 @@ const directory = {
           {title: "Commands", route: "/cli/teams/commands", filters: []},
         ],
       },
-      usage: {
-        title: "Advanced workflows",
+      project: {
+        title: "Project configuration",
         items: [
           {
             title: "Apply tags to generated resources",
-            route: "/cli/usage/tags",
+            route: "/cli/project/tags",
             filters: [],
           },
+          {
+            title: "IAM Permissions Boundary for Amplify-generated roles",
+            route: "/cli/project/permissions-boundary",
+            filters: [],
+          },
+          {
+            title: "Monorepo project structure",
+            route: "/cli/project/monorepo",
+            filters: [],
+          },
+          {
+            title: "Override Amplify-generated project-level IAM resources",
+            route: "/cli/auth/override",
+            filters: []
+          }
+        ]
+      },
+      usage: {
+        title: "Advanced workflows",
+        items: [
           {
             title: "Command Hooks",
             route: "/cli/usage/command-hooks",
@@ -1372,7 +1402,7 @@ const directory = {
           },
           {
             title: "Add custom AWS resources",
-            route: "/cli/usage/customcf",
+            route: "/cli/usage/add-custom-resources",
             filters: [],
           },
           {
@@ -1381,38 +1411,8 @@ const directory = {
             filters: [],
           },
           {
-            title: "Monorepo project structure",
-            route: "/cli/usage/monorepo",
-            filters: [],
-          },
-          {
-            title: "IAM Policy",
-            route: "/cli/usage/iam",
-            filters: [],
-          },
-          {
-            title: "IAM Roles & MFA",
-            route: "/cli/usage/iam-roles-mfa",
-            filters: [],
-          },
-          {
-            title: "IAM Permissions Boundary for Amplify-generated roles",
-            route: "/cli/usage/permissions-boundary",
-            filters: [],
-          },
-          {
             title: "Headless mode for CI/CD",
             route: "/cli/usage/headless",
-            filters: [],
-          },
-          {
-            title: "Upgrading the CLI",
-            route: "/cli/usage/upgrade",
-            filters: [],
-          },
-          {
-            title: "Uninstalling the CLI",
-            route: "/cli/usage/uninstall",
             filters: [],
           },
         ],
@@ -1420,6 +1420,11 @@ const directory = {
       migration: {
         title: "Migration & Backwards Compatibility",
         items: [
+          {
+            title: "Override feature enablement migration",
+            route: "/cli/migration/override",
+            filters: []
+          },
           {
             title: "Node Version Update",
             route: "/cli/migration/lambda-node-version-update",
@@ -1446,6 +1451,16 @@ const directory = {
       reference: {
         title: "Reference",
         items: [
+          {
+            title: "IAM Policy",
+            route: "/cli/reference/iam",
+            filters: [],
+          },
+          {
+            title: "IAM Roles & MFA",
+            route: "/cli/reference/iam-roles-mfa",
+            filters: [],
+          },
           {
             title: "Files and Folders",
             route: "/cli/reference/files",
