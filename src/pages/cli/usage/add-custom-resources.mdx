@@ -32,7 +32,7 @@ export class cdkStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps, amplifyResourceProps?: AmplifyHelpers.AmplifyResourceProps) {
     super(scope, id, props);
 
-    /* Do not remove - Amplify CLI automatically injects the current deployment environment in this input paramater */
+    /* Do not remove - Amplify CLI automatically injects the current deployment environment in this input parameter */
     new cdk.CfnParameter(this, 'env', {
       type: 'String',
       description: 'Current Amplify CLI env name',
@@ -107,7 +107,7 @@ const dependencies: AmplifyDependentResourcesAttributes = AmplifyHelpers.addReso
   amplifyResourceProps.resourceName,
   [{
     category: "function", // api, auth, storage, function, etc.
-    resourceName: "extensibilitytestffb3644c" // find the resource at "amplify/backend/<category>/<resourceName>"
+    resourceName: "<resource-name>" // find the resource at "amplify/backend/<category>/<resourceName>"
   } /* add more dependencies as needed */] 
 );
 ```
@@ -115,7 +115,7 @@ const dependencies: AmplifyDependentResourcesAttributes = AmplifyHelpers.addReso
 Then use the `cdk.Fn.ref` function to create a dynamic reference of the dependencies' outputs.
 
 ```ts
-const myFunctionArn = cdk.Fn.ref(dependencies.function.extensibilitytestffb3644c.Arn)
+const myFunctionArn = cdk.Fn.ref(dependencies.function.<resource-name>.Arn)
 ```
 
 The `dependencies` variable has the auto-generated `AmplifyDependentResourcesAttributes` type which includes all Amplify-generated resource output. Run `amplify build` to regenerate `AmplifyDependentResourcesAttributes` if you don't see your category, resource, or parameters.
@@ -187,7 +187,7 @@ Amplify CLI will automatically populate the `env` parameter in the top of your C
 ...
 ```
 
-To reference the parameter use the [`Ref`](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html) instrinic function:
+To reference the parameter use the [`Ref`](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html) intrinsic function:
 
 ```json
 ...
@@ -219,7 +219,7 @@ amplify update custom
 ❯ ...
 ```
 
-Once the resources are selected, you can reference the resources' output listed as parameters on the top of your CloudFormation template. To reference the parameter use the [`Ref`](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html) instrinic function:
+Once the resources are selected, you can reference the resources' output listed as parameters on the top of your CloudFormation template. To reference the parameter use the [`Ref`](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html) intrinsic function:
 
 ```json
 ...
@@ -233,7 +233,7 @@ Once the resources are selected, you can reference the resources' output listed 
     ...: {
       "Type": ...,
       "Properties": {
-        ...: { "Ref": "myFunctionArn" }
+        ...: { "Ref": "myFunctionArn"}
       }
     }
   }
