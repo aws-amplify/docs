@@ -17,7 +17,7 @@ import { AmplifyRootStackTemplate } from '@aws-amplify/cli-extensibility-helper'
 
 export function override(resources: AmplifyRootStackTemplate) {
   resources.deploymentBucket.bucketName = "my-new-deployment-bucket-name" // Must be globally unique    
-  resources.authRole.path = "/myorganization/" // Add a path value to the IAM role
+  resources.authRole.path = "/<my-organization>/" // Add a path value to the IAM role
 }
 ```
 
