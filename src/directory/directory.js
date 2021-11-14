@@ -1358,7 +1358,7 @@ const directory = {
         ],
       },
       project: {
-        title: "Project configuration",
+        title: "Project-level configurations",
         items: [
           {
             title: "Apply tags to generated resources",
@@ -1377,7 +1377,7 @@ const directory = {
           },
           {
             title: "Override Amplify-generated project-level IAM resources",
-            route: "/cli/auth/override",
+            route: "/cli/project/override",
             filters: []
           }
         ]

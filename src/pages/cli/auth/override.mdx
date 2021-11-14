@@ -1,0 +1,90 @@
+export const meta = {
+  title: `Override Amplify-generated Cognito resources`,
+  description: 'The "amplify override auth" command generates a developer-configurable "overrides" TypeScript file which provides Amplify-generated Cognito resources as CDK constructs. For example, developers can set auth settings that are not directly available in the Amplify CLI workflow, such as the number of valid days for a temporary password.',
+};
+
+```bash
+amplify override auth
+```
+
+Run the command above to override Amplify-generated auth resources including Amazon Cognito user pool, identity pool, user pool groups, and more.
+
+The command creates a new `overrides.ts` file under `amplify/backend/auth/<resource-name>/` which provides you the Amplify-generated resources as [CDK constructs](https://docs.aws.amazon.com/cdk/latest/guide/home.html).
+
+## Customize Amplify-generated Cognito auth resources
+
+Apply all the overrides in the `override(...)` function. For example to update the temporary password validity days for your Cognito user pool:
+```ts
+import { AmplifyAuthCognitoStackTemplate } from '@aws-amplify/cli-extensibility-helper';
+
+export function override(resources: AmplifyAuthCognitoStackTemplate) {
+  resources.userPool.policies = { // Set the user pool policies
+    passwordPolicy: {
+      ...resources.userPool.policies["passwordPolicy"], // Carry over existing settings
+      temporaryPasswordValidityDays: 3 // Add new setting not provided Amplify's default
+    }
+  }    
+}
+```
+
+You can override the following auth resources that Amplify generates:
+
+|Amplify-generated resource|Description|
+|-|-|
+|[customMessageConfirmationBucket](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html)||
+|[snsRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)||
+|[userPool](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpool.html)||
+|[userPoolClientWeb](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpoolclient.html)||
+|[userPoolClient](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpoolclient.html)||
+|[identityPool](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-identitypool.html)||
+|[identityPoolRoleMap](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-identitypoolroleattachment.html)||
+|[lambdaConfigPermissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-permission.html)||
+|[lambdaTriggerPermissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
+|[userPoolClientLambda](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html)||
+|[userPoolClientRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)||
+|[userPoolClientLambdaPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
+|[userPoolClientLogPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
+|[userPoolClientInputs](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-cloudformation.CustomResource.html)||
+|[hostedUICustomResource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html)||
+|[hostedUICustomResourcePolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
+|[hostedUICustomResourceLogPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
+|[hostedUICustomResourceInputs](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-cloudformation.CustomResource.html)||
+|[hostedUIProvidersCustomResource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html)||
+|[hostedUIProvidersCustomResourcePolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
+|[hostedUIProvidersCustomResourceLogPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
+|[hostedUIProvidersCustomResourceInputs](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-cloudformation.CustomResource.html)||
+|[oAuthCustomResource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html)||
+|[oAuthCustomResourcePolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
+|[oAuthCustomResourceLogPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
+|[oAuthCustomResourceInputs](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-cloudformation.CustomResource.html)||
+|[mfaLambda](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html)||
+|[mfaLogPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
+|[mfaLambdaPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
+|[mfaLambdaInputs](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-cloudformation.CustomResource.html)||
+|[mfaLambdaRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)||
+|[openIdLambda](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html)||
+|[openIdLogPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
+|[openIdLambdaIAMPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
+|[openIdLambdaInputs](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-cloudformation.CustomResource.html)||
+|[openIdLambdaRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)||
+
+## Customize Amplify-generated Cognito user group resources
+
+Apply all the overrides in the `override(...)` function. For example to add a path to the user pool groups' lambda execution role:
+```ts
+import { AmplifyUserPoolGroupStackTemplate } from '@aws-amplify/cli-extensibility-helper';
+
+export function override(resources: AmplifyUserPoolGroupStackTemplate) {
+  resources.lambdaExecutionRole.path = "/<my-path>/"
+}
+```
+
+You can override the following user pool group resources that Amplify generates:
+
+|Amplify-generated resource|Description|
+|-|-|
+|[userPoolGroup](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpoolgroup.html)||
+|[userPoolGroupRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)||
+|[roleMapCustomResource](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-cloudformation.CustomResource.html)||
+|[lambdaExecutionRole](iam.CfnRole)||
+|[roleMapLambdaFunction](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html)||
