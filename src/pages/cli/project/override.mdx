@@ -1,4 +1,30 @@
 export const meta = {
-  title: `Override Amplify-generated project-level IAM resources`,
-  description: `The "amplify override storage" command generates a developer-configurable "overrides" TypeScript file which provides Amplify-generated IAM roles for authenticated and unauthenticated access deployed as part of an Amplify backend's root CloudFormation stack. For example, developers can run "amplify override project" to change the authenticated and unauthenticated IAM role names to comply with organization-specific naming conventions.`,
+  title: `Override Amplify-generated project-level resources`,
+  description: `The "amplify override project" command generates a developer-configurable "overrides" TypeScript file which provides Amplify-generated IAM roles for authenticated and unauthenticated and the Amplify deployment bucket as CDK constructs. For example, developers can run "amplify override project" to change the authenticated and unauthenticated IAM role names to comply with organization-specific naming conventions.`,
 };
+
+```bash
+amplify override project
+```
+
+Run the command above to override Amplify-generated project-level resources including IAM roles for authenticated and unauthenticated and the Amplify deployment bucket.
+
+The command creates a new `overrides.ts` file under `amplify/backend/awscloudformation/` which provides you the Amplify-generated resources as [CDK constructs](https://docs.aws.amazon.com/cdk/latest/guide/home.html).
+
+Apply all the overrides in the `override(...)` function. For example to add a path for the role for authenticated users or rename the deployment bucket name:
+```ts
+import { AmplifyRootStackTemplate } from '@aws-amplify/cli-extensibility-helper';
+
+export function override(resources: AmplifyRootStackTemplate) {
+  resources.deploymentBucket.bucketName = "my-new-deployment-bucket-name" // Must be globally unique    
+  resources.authRole.path = "/myorganization/" // Add a path value to the IAM role
+}
+```
+
+You can override the following project-level resources that Amplify generates:
+
+|Amplify-generated resource|Description|
+|-|-|
+|[deploymentBucket](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html)|The S3 bucket that contains your Amplify project information|
+|[authRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)|The IAM role for authenticated access to your app backend|
+|[unauthRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)|The IAM role for authenticated or guest access to your app backend|
