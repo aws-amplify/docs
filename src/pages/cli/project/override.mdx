@@ -7,7 +7,12 @@ export const meta = {
 amplify override project
 ```
 
-Run the command above to override Amplify-generated project-level resources, such as IAM roles for authenticated and unauthenticated. Note: Due to the dependencies on auth and unauth roles, it is recommended to ONLY modify these resources at the beginning of your project, when no other resources are added yet.
+Run the command above to override Amplify-generated project-level resources, such as IAM roles for authenticated and unauthenticated.
+
+<Callout warning>
+
+**Warning:** Due to the deep dependencies on the authenticated and unauthenticated user roles, it is recommended to ONLY modify these resources at the beginning of your project, when no other resources are added yet.
+</Callout>
 
 The command creates a new `overrides.ts` file under `amplify/backend/awscloudformation/` which provides you the Amplify-generated resources as [CDK constructs](https://docs.aws.amazon.com/cdk/latest/guide/home.html).
 
