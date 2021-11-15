@@ -1244,6 +1244,11 @@ const directory = {
             route: "/cli/auth/import",
             filters: [],
           },
+          {
+            title: "Override Amplify-generated Cognito resources",
+            route: "/cli/auth/override",
+            filters: []
+          }
         ],
       },
       storage: {
@@ -1255,6 +1260,11 @@ const directory = {
             route: "/cli/storage/import",
             filters: [],
           },
+          {
+            title: "Override Amplify-generated S3 and DynamoDB resources",
+            route: "/cli/storage/override",
+            filters: []
+          }
         ],
       },
       function: {
@@ -1304,21 +1314,47 @@ const directory = {
           {title: "Overview", route: "/cli/hosting/hosting", filters: []},
         ],
       },
-      plugins: {
-        title: "Plugins",
+      custom: {
+        title: "Custom AWS resources",
+        items: [{
+          title: "Use CDK to add custom AWS resources",
+          route: "/cli/custom/cdk",
+          filters: []
+        }, {
+          title: "Use CloudFormation to add custom AWS resources",
+          route: "/cli/custom/cloudformation",
+          filters: []
+        }]
+      },
+      project: {
+        title: "Project-level configurations",
         items: [
-          {title: "Overview", route: "/cli/plugins/plugins", filters: []},
           {
-            title: "Architecture",
-            route: "/cli/plugins/architecture",
+            title: "Apply tags to generated resources",
+            route: "/cli/project/tags",
             filters: [],
           },
           {
-            title: "Authoring a new plugin",
-            route: "/cli/plugins/authoring",
+            title: "IAM Permissions Boundary for Amplify-generated roles",
+            route: "/cli/project/permissions-boundary",
             filters: [],
           },
-        ],
+          {
+            title: "Command Hooks",
+            route: "/cli/project/command-hooks",
+            filters: [],
+          },
+          {
+            title: "Monorepo project structure",
+            route: "/cli/project/monorepo",
+            filters: [],
+          },
+          {
+            title: "Override Amplify-generated project-level IAM resources",
+            route: "/cli/project/override",
+            filters: []
+          }
+        ]
       },
       teams: {
         title: "Team environments",
@@ -1351,16 +1387,6 @@ const directory = {
         title: "Advanced workflows",
         items: [
           {
-            title: "Apply tags to generated resources",
-            route: "/cli/usage/tags",
-            filters: [],
-          },
-          {
-            title: "Command Hooks",
-            route: "/cli/usage/command-hooks",
-            filters: [],
-          },
-          {
             title: "Lambda Triggers",
             route: "/cli/usage/lambda-triggers",
             filters: [],
@@ -1372,7 +1398,7 @@ const directory = {
           },
           {
             title: "Add custom AWS resources",
-            route: "/cli/usage/customcf",
+            route: "/cli/usage/add-custom-resources",
             filters: [],
           },
           {
@@ -1381,38 +1407,24 @@ const directory = {
             filters: [],
           },
           {
-            title: "Monorepo project structure",
-            route: "/cli/usage/monorepo",
-            filters: [],
-          },
-          {
-            title: "IAM Policy",
-            route: "/cli/usage/iam",
-            filters: [],
-          },
-          {
-            title: "IAM Roles & MFA",
-            route: "/cli/usage/iam-roles-mfa",
-            filters: [],
-          },
-          {
-            title: "IAM Permissions Boundary for Amplify-generated roles",
-            route: "/cli/usage/permissions-boundary",
-            filters: [],
-          },
-          {
             title: "Headless mode for CI/CD",
             route: "/cli/usage/headless",
             filters: [],
           },
+        ],
+      },
+      plugins: {
+        title: "Plugins",
+        items: [
+          {title: "Overview", route: "/cli/plugins/plugins", filters: []},
           {
-            title: "Upgrading the CLI",
-            route: "/cli/usage/upgrade",
+            title: "Architecture",
+            route: "/cli/plugins/architecture",
             filters: [],
           },
           {
-            title: "Uninstalling the CLI",
-            route: "/cli/usage/uninstall",
+            title: "Authoring a new plugin",
+            route: "/cli/plugins/authoring",
             filters: [],
           },
         ],
@@ -1420,6 +1432,11 @@ const directory = {
       migration: {
         title: "Migration & Backwards Compatibility",
         items: [
+          {
+            title: "Override feature enablement migration",
+            route: "/cli/migration/override",
+            filters: []
+          },
           {
             title: "Node Version Update",
             route: "/cli/migration/lambda-node-version-update",
@@ -1446,6 +1463,16 @@ const directory = {
       reference: {
         title: "Reference",
         items: [
+          {
+            title: "IAM Policy",
+            route: "/cli/reference/iam",
+            filters: [],
+          },
+          {
+            title: "IAM Roles & MFA",
+            route: "/cli/reference/iam-roles-mfa",
+            filters: [],
+          },
           {
             title: "Files and Folders",
             route: "/cli/reference/files",
