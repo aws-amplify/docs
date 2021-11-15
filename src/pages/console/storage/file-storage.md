@@ -22,6 +22,10 @@ When you create new file storage for your app, you can edit authorization rules.
 
 The authorization modes can always be edited under **Set up**, **Storage**.
 
+<Callout warning>
+To enable local development after setting up guest permissions, you must allow unauthenticated logins by updating your auth settings. <a href='/console/storage/develop'>Learn more</a>
+</Callout>
+
 ## To import file storage
 
 For default file access levels to work, your bucket needs to be configured accordingly:
