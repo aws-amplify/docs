@@ -1397,11 +1397,6 @@ const directory = {
             filters: [],
           },
           {
-            title: "Add custom AWS resources",
-            route: "/cli/usage/add-custom-resources",
-            filters: [],
-          },
-          {
             title: "Serverless containers",
             route: "/cli/usage/containers",
             filters: [],
