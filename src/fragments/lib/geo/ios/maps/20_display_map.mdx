@@ -1,0 +1,76 @@
+### Select your user interface
+
+There are two ways to display a map.  If you are using UIKit or have existing code using the MapLibre/MapBox SDK, you can simpley call `AmplifyMapLibre.createMap()` to create an instance of `MGLMapView` that is pre-wired for use with Amazon Location Service and Amplify.
+
+Alternatively, you can use the `AmplifyMaplibreUI` library to create an instance of AMLMapView, which is a SwiftUI wrapper for an MGLMapView.
+
+<BlockSwitcher>
+<Block name="MapLibre SDK / UIKit">
+
+```swift
+import AmplifyMapLibreAdapter
+import Mapbox
+import Amplify
+
+var mapView: MGLMapView?
+
+AmplifyMapLibre.createMap { result in
+    switch result {
+    case .failure(let error):
+        print(error)
+    case .success(let map):
+        mapView = map
+    }
+}
+```
+
+</Block>
+
+<Block name="AmplifyMaplibreUI / SwiftUI">
+
+```swift
+import SwiftUI
+import AmplifyMapLibreUI
+import AmplifyMapLibreAdapter
+import Mapbox
+import Amplify
+
+struct ContentView: View {
+    @State private var mapResult: Result<MGLMapView, Geo.Error>?
+    @State private var zoom = 5.0
+    @State private var bounds = MGLCoordinateBounds()
+    @State private var searchText = ""
+    @State private var attribution: String?
+    @State private var annotations = [MGLPointAnnotation]()
+    @State private var center = CLLocationCoordinate2D(latitude: 39.7392, longitude: -104.9903)
+    @State private var userLocation: CLLocationCoordinate2D?
+    
+    var body: some View {
+        ZStack {
+            switch mapResult {
+            case .success(let map):
+                AMLMapView(mapView: map,
+                           zoomLevel: $zoom,
+                           bounds: $bounds,
+                           center: $center,
+                           userLocation: $userLocation,
+                           attribution: $attribution)
+                    .showUserLocation(true)
+                    .edgesIgnoringSafeArea(.all)
+            case .failure(let error):
+                Text("Error loading map: \(error.errorDescription)")
+            case nil:
+                ProgressView()
+                    .onAppear {
+                        AmplifyMapLibre.createMap { result in
+                            mapResult = result
+                        }
+                    }
+            }
+        }
+    }
+}
+```
+
+</Block>
+</BlockSwitcher>
