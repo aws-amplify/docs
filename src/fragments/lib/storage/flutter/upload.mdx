@@ -43,6 +43,9 @@ Future<void> createAndUploadFileWithOptions() async {
       local: exampleFile,
       key: 'ExampleKey',
       options: options,
+      onProgress: (progress) {
+        print("Fraction completed: " + progress.getFractionCompleted().toString());
+      }
     );
     print('Successfully uploaded file: ${result.key}');
   } on StorageException catch (e) {
@@ -82,7 +85,13 @@ Future<void> uploadImage() async {
   final file = File(pickedFile.path);
   try {
     final UploadFileResult result =
-        await Amplify.Storage.uploadFile(local: file, key: key);
+        await Amplify.Storage.uploadFile(
+          local: file, 
+          key: key,
+          onProgress: (progress) {
+            print("Fraction completed: " + progress.getFractionCompleted().toString());
+          }
+        );
     print('Successfully uploaded image: ${result.key}');
   } on StorageException catch (e) {
     print('Error uploading image: $e');
@@ -116,7 +125,13 @@ Future<void> uploadFile() async {
   final file = File(path);
   try {
     final UploadFileResult result =
-        await Amplify.Storage.uploadFile(local: file, key: key);
+        await Amplify.Storage.uploadFile(
+          local: file, 
+          key: key
+          onProgress: (progress) {
+            print("Fraction completed: " + progress.getFractionCompleted().toString());
+          }
+        );
     print('Successfully uploaded file: ${result.key}');
   } on StorageException catch (e) {
     print('Error uploading file: $e');

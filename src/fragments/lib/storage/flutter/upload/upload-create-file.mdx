@@ -21,6 +21,9 @@ Future<void> createAndUploadFile() async {
     final UploadFileResult result = await Amplify.Storage.uploadFile(
       local: exampleFile,
       key: 'ExampleKey',
+      onProgress: (progress) {
+        print("Fraction completed: " + progress.getFractionCompleted().toString());
+      }
     );
     print('Successfully uploaded file: ${result.key}');
   } on StorageException catch (e) {

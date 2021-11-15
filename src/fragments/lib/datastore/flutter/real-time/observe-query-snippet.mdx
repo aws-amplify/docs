@@ -1,9 +1,21 @@
 ```dart
-Amplify.DataStore.observeQuery(
+// initialize a list for storing posts
+List<Post> posts = [];
+
+// initialize a boolean indicating if the sync process has completed
+bool isSynced = false;
+
+Stream<QuerySnapshot<Post>> stream = Amplify.DataStore.observeQuery(
   Post.classType,
   where: Post.TITLE.beginsWith('post') & (Post.RATING > 10),
   sortBy: [Post.RATING.ascending()],
-).listen((snapshot) {
-  print( '[Snapshot] item count: ${snapshot.items.length}, isSynced: ${snapshot.isSynced}');
+);
+
+// update local variables each time a new snapshot is received
+stream.listen((QuerySnapshot<Post> snapshot) {
+  setState(() {
+    posts = snapshot.items;
+    isSynced = snapshot.isSynced;
+  });
 });
 ```
