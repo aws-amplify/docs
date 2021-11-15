@@ -11,12 +11,15 @@ Run the command above to override Amplify-generated project-level resources, suc
 
 The command creates a new `overrides.ts` file under `amplify/backend/awscloudformation/` which provides you the Amplify-generated resources as [CDK constructs](https://docs.aws.amazon.com/cdk/latest/guide/home.html).
 
-Apply all the overrides in the `override(...)` function. For example to add a path for the role for authenticated users:
+Apply all the overrides in the `override(...)` function. For example to rename and add a path for authenticated users' IAM role:
 ```ts
 import { AmplifyRootStackTemplate } from '@aws-amplify/cli-extensibility-helper';
 
 export function override(resources: AmplifyRootStackTemplate) {
-  resources.authRole.path = "/<my-organization>/" // Add a path value to the IAM role
+  resources.authRole.roleName = "myCustomName"
+  resources.authRole.path = "/<my-organization>/"
+  // Note: CloudFormation limits you from updating the path if you don't recreate the resource.
+  // Changing the role name will recreate the resource.
 }
 ```
 

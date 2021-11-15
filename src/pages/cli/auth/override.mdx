@@ -31,13 +31,13 @@ You can override the following auth resources that Amplify generates:
 
 |Amplify-generated resource|Description|
 |-|-|
-|[customMessageConfirmationBucket](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html)||
-|[snsRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)||
-|[userPool](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpool.html)||
-|[userPoolClientWeb](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpoolclient.html)||
-|[userPoolClient](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpoolclient.html)||
-|[identityPool](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-identitypool.html)||
-|[identityPoolRoleMap](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-identitypoolroleattachment.html)||
+|[customMessageConfirmationBucket](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html)|S3 bucket used for custom message triggers|
+|[snsRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)|SNS role for sending authentication-related messages|
+|[userPool](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpool.html)|The Cognito user pool that enables user sign-up and sign-in|
+|[userPoolClientWeb](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpoolclient.html)|A Cognito user pool client for web apps|
+|[userPoolClient](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpoolclient.html)|A Cognito user pool client for mobile apps|
+|[identityPool](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-identitypool.html)|A Cognito identity pool to federate identities|
+|[identityPoolRoleMap](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-identitypoolroleattachment.html)|Identity pool to "IAM Role" mapping|
 |[lambdaConfigPermissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-permission.html)||
 |[lambdaTriggerPermissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
 |[userPoolClientLambda](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html)||
@@ -70,12 +70,12 @@ You can override the following auth resources that Amplify generates:
 
 ## Customize Amplify-generated Cognito user group resources
 
-Apply all the overrides in the `override(...)` function. For example to add a path to the user pool groups' lambda execution role:
+Apply all the overrides in the `override(...)` function. For example to add a path to the lambda execution role that facilitates the user pool group to role mapping:
 ```ts
 import { AmplifyUserPoolGroupStackTemplate } from '@aws-amplify/cli-extensibility-helper';
 
 export function override(resources: AmplifyUserPoolGroupStackTemplate) {
-  resources.lambdaExecutionRole.path = "/<my-path>/"
+  resources.lambdaExecutionRole.path = "/<my-path>/" // Note: CFN does not allow you to modify the path after creation
 }
 ```
 
@@ -83,8 +83,8 @@ You can override the following user pool group resources that Amplify generates:
 
 |Amplify-generated resource|Description|
 |-|-|
-|[userPoolGroup](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpoolgroup.html)|The list of user pool groups|
-|[userPoolGroupRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)|The list of user pool group roles|
-|[roleMapCustomResource](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-cloudformation.CustomResource.html)|A custom resource to map user pool groups to their roles|
-|[lambdaExecutionRole](iam.CfnRole)|Lambda execution role for the user pool group to role mapping function|
+|[userPoolGroup](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpoolgroup.html)|The map of user pool groups|
+|[userPoolGroupRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)|The map of user pool group roles|
+|[roleMapCustomResource](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-cloudformation.CustomResource.html)|A custom CloudFormation resource to map user pool groups to their roles|
+|[lambdaExecutionRole](iam.CfnRole)|Lambda execution role for the "user pool group"-to-role mapping function|
 |[roleMapLambdaFunction](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html)|The Lambda function that facilitates the user pool group to role mapping|
