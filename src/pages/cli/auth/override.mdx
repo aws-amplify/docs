@@ -37,36 +37,36 @@ You can override the following auth resources that Amplify generates:
 |[userPoolClientWeb](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpoolclient.html)|A Cognito user pool client for web apps|
 |[userPoolClient](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-userpoolclient.html)|A Cognito user pool client for mobile apps|
 |[identityPool](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-identitypool.html)|A Cognito identity pool to federate identities|
-|[identityPoolRoleMap](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-identitypoolroleattachment.html)|Identity pool to "IAM Role" mapping|
-|[lambdaConfigPermissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-permission.html)||
-|[lambdaTriggerPermissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
-|[userPoolClientLambda](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html)||
-|[userPoolClientRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)||
-|[userPoolClientLambdaPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
-|[userPoolClientLogPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
-|[userPoolClientInputs](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-cloudformation.CustomResource.html)||
-|[hostedUICustomResource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html)||
-|[hostedUICustomResourcePolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
-|[hostedUICustomResourceLogPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
-|[hostedUICustomResourceInputs](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-cloudformation.CustomResource.html)||
-|[hostedUIProvidersCustomResource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html)||
-|[hostedUIProvidersCustomResourcePolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
-|[hostedUIProvidersCustomResourceLogPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
-|[hostedUIProvidersCustomResourceInputs](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-cloudformation.CustomResource.html)||
-|[oAuthCustomResource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html)||
-|[oAuthCustomResourcePolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
-|[oAuthCustomResourceLogPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
-|[oAuthCustomResourceInputs](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-cloudformation.CustomResource.html)||
-|[mfaLambda](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html)||
-|[mfaLogPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
-|[mfaLambdaPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
-|[mfaLambdaInputs](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-cloudformation.CustomResource.html)||
-|[mfaLambdaRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)||
-|[openIdLambda](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html)||
-|[openIdLogPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
-|[openIdLambdaIAMPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
-|[openIdLambdaInputs](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-cloudformation.CustomResource.html)||
-|[openIdLambdaRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)||
+|[identityPoolRoleMap](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-cognito-identitypoolroleattachment.html)|Role mapping for authenticated and unauthenticated user roles|
+|[lambdaConfigPermissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-permission.html)|Permissions for Lambda function to access Cognito user pool and identity pool |
+|[lambdaTriggerPermissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)|IAM policy attached to Cognito Lambda triggers|
+|[userPoolClientLambda](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html)|Lambda function to fetch app client secret from user pool client|
+|[userPoolClientRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)|IAM Role for Lambda function to fetch app client secret from user pool client|
+|[userPoolClientLambdaPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)|IAM Policy for Lambda function to fetch app client secret from user pool client|
+|[userPoolClientLogPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)|IAM Policy to enable CloudWatch logging for Lambda function to fetch app client secret from user pool client|
+|[userPoolClientInputs](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-cloudformation.CustomResource.html)|Custom CloudFormation resource to fetch app client secret from user pool client|
+|[hostedUICustomResource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html)|Lambda function to enable Cognito user pool Hosted UI login|
+|[hostedUICustomResourcePolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)|IAM Policy for Lambda function to enable Cognito user pool Hosted UI login|
+|[hostedUICustomResourceLogPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)|IAM Policy to enable CloudWatch logging for Lambda function to enable Cognito user pool Hosted UI login|
+|[hostedUICustomResourceInputs](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-cloudformation.CustomResource.html)|Custom CloudFormation resource to enable Cognito user pool Hosted UI login|
+|[hostedUIProvidersCustomResource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html)|Lambda function to configure Hosted UI with 3rd party identity providers|
+|[hostedUIProvidersCustomResourcePolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)|IAM Policy for Lambda function to configure Hosted UI with 3rd party identity provider|
+|[hostedUIProvidersCustomResourceLogPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)|IAM Policy to enable CloudWatch logging for Lambda function to configure Hosted UI with 3rd party identity provider|
+|[hostedUIProvidersCustomResourceInputs](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-cloudformation.CustomResource.html)|Custom CloudFormation resource to configure Hosted UI with 3rd party identity provider|
+|[oAuthCustomResource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html)|Lambda function to enable OAuth|
+|[oAuthCustomResourcePolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)|IAM Policy for OAuth custom CloudFormation resource|
+|[oAuthCustomResourceLogPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)|IAM Policy to enable CloudWatch logging for OAuth Lambda function|
+|[oAuthCustomResourceInputs](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-cloudformation.CustomResource.html)|Custom CloudFormation resource to enable OAuth|
+|[mfaLambda](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html)|Lambda function to enable multi-factor authentication function|
+|[mfaLogPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)|IAM Policy to enable CloudWatch logging for multi-factor authentication Lambda function|
+|[mfaLambdaPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)|IAM Policy for multi-factor authentication Lambda function|
+|[mfaLambdaInputs](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-cloudformation.CustomResource.html)|Custom CloudFormation resource to enable multi-factor authentication|
+|[mfaLambdaRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)|IAM Execution Role for multi-factor authentication Lambda function|
+|[openIdLambda](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html)|Lambda function to enable OpenID Connect|
+|[openIdLogPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)|IAM Policy to enable CloudWatch logging for OpenID Connect Lambda function|
+|[openIdLambdaIAMPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)|IAM Policy to enable OpenID Connect Lambda function|
+|[openIdLambdaInputs](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-cloudformation.CustomResource.html)|Custom CloudFormation resource to enable OpenID Connect|
+|[openIdLambdaRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)|Lambda Execution Role for OpenID Connect Lambda function|
 
 ## Customize Amplify-generated Cognito user group resources
 
