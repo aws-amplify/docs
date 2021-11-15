@@ -1314,21 +1314,47 @@ const directory = {
           {title: "Overview", route: "/cli/hosting/hosting", filters: []},
         ],
       },
-      plugins: {
-        title: "Plugins",
+      custom: {
+        title: "Custom AWS resources",
+        items: [{
+          title: "Use CDK to add custom AWS resources",
+          route: "/cli/custom/cdk",
+          filters: []
+        }, {
+          title: "Use CloudFormation to add custom AWS resources",
+          route: "/cli/custom/cloudformation",
+          filters: []
+        }]
+      },
+      project: {
+        title: "Project-level configurations",
         items: [
-          {title: "Overview", route: "/cli/plugins/plugins", filters: []},
           {
-            title: "Architecture",
-            route: "/cli/plugins/architecture",
+            title: "Apply tags to generated resources",
+            route: "/cli/project/tags",
             filters: [],
           },
           {
-            title: "Authoring a new plugin",
-            route: "/cli/plugins/authoring",
+            title: "IAM Permissions Boundary for Amplify-generated roles",
+            route: "/cli/project/permissions-boundary",
             filters: [],
           },
-        ],
+          {
+            title: "Command Hooks",
+            route: "/cli/project/command-hooks",
+            filters: [],
+          },
+          {
+            title: "Monorepo project structure",
+            route: "/cli/project/monorepo",
+            filters: [],
+          },
+          {
+            title: "Override Amplify-generated project-level IAM resources",
+            route: "/cli/project/override",
+            filters: []
+          }
+        ]
       },
       teams: {
         title: "Team environments",
@@ -1357,39 +1383,9 @@ const directory = {
           {title: "Commands", route: "/cli/teams/commands", filters: []},
         ],
       },
-      project: {
-        title: "Project-level configurations",
-        items: [
-          {
-            title: "Apply tags to generated resources",
-            route: "/cli/project/tags",
-            filters: [],
-          },
-          {
-            title: "IAM Permissions Boundary for Amplify-generated roles",
-            route: "/cli/project/permissions-boundary",
-            filters: [],
-          },
-          {
-            title: "Monorepo project structure",
-            route: "/cli/project/monorepo",
-            filters: [],
-          },
-          {
-            title: "Override Amplify-generated project-level IAM resources",
-            route: "/cli/project/override",
-            filters: []
-          }
-        ]
-      },
       usage: {
         title: "Advanced workflows",
         items: [
-          {
-            title: "Command Hooks",
-            route: "/cli/usage/command-hooks",
-            filters: [],
-          },
           {
             title: "Lambda Triggers",
             route: "/cli/usage/lambda-triggers",
@@ -1413,6 +1409,22 @@ const directory = {
           {
             title: "Headless mode for CI/CD",
             route: "/cli/usage/headless",
+            filters: [],
+          },
+        ],
+      },
+      plugins: {
+        title: "Plugins",
+        items: [
+          {title: "Overview", route: "/cli/plugins/plugins", filters: []},
+          {
+            title: "Architecture",
+            route: "/cli/plugins/architecture",
+            filters: [],
+          },
+          {
+            title: "Authoring a new plugin",
+            route: "/cli/plugins/authoring",
             filters: [],
           },
         ],
