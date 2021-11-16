@@ -1659,6 +1659,23 @@ const directory = {
           },
         ],
       },
+      storage: {
+        title: "Storage",
+        items: [
+          {
+            title: "Develop locally with Admin UI file storage",
+            route: "/console/storage/develop",
+          },
+          {
+            title: "File Browser",
+            route: "/console/storage/file-browser",
+          },
+          {
+            title: "File Storage",
+            route: "/console/storage/file-storage",
+          },
+        ],
+      },
     },
   },
   guides: {
