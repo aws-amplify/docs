@@ -416,12 +416,7 @@ const directory = {
           {
             title: "Location Search",
             route: "/lib/geo/search",
-            filters: ["ios"],
-          },
-          {
-            title: "Location Search",
-            route: "/lib/geo/search",
-            filters: ["android"],
+            filters: ["android", "ios"],
           },
           {
             title: "Use existing AWS resources",

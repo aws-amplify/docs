@@ -1,0 +1,34 @@
+### Search for text
+
+The `Amplify.Geo.search(for text:)` API enables you to search for places or points of interest by free-form text, such as an address, name, city, or region.
+
+```swift
+Amplify.Geo.search(for: "coffee shops") { result in
+    switch result {
+    case .failure(let error):
+        print(error)
+    case .success(let places):
+        dump(places)
+    }
+}
+```
+
+You can refine your search by specifying following parameters inside `Geo.SearchForTextOptions`
+- `area`
+  - `.near` - to act as the search origination location.
+  - `.within` - to limit the area to search within.
+- `countries` - to limit the search results to given countries.
+- `maxResults` - to limit the maximum result set (defaults to 50).
+
+- `countries` -  Follows [ISO Alpha-3 country codes](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3). (defaults to "USA")
+- `maxResults` - 
+- `searchArea`
+  - `near` - 
+  - `within` - to limit the area to search inside of
+
+```swift
+let coordinates = Geo.Coordinates(latitude: 5.0, longitude: 5.0)
+let options = Geo.SearchForTextOptions(area: .near(coordinates),
+                                       countries: [.usa, .can],
+                                       maxResults: 25)
+```
