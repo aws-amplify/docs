@@ -7,12 +7,7 @@ The Admin UI **File browser** provides a view of the backend file storage for an
 
 ![Admin UI file browser](/images/console/fileBrowser.png)
 
-By default, your storage is created with the following 4 folders:
-
-- **private/** - Files here are nested under the user whom owns the file. Only the file owner can access or edit the files.
-- **protected/** - Files here are nested under the user whom owns the file. These files are accessible by all users, but editable only by the file owner.
-- **public/** - Files in here are accessible by all users of your app.
-- **upload/** - Contains files that were uploaded by users. Only the bucket owner has access to these files.
+By default, your storage is created with a **public/** folder, which contains files that are accessible by all users of your app. All your files will be uploaded into **public/** when using Amplify methods and UI components.
 
 ## To upload a file
 1. Open the Admin UI for an app.
