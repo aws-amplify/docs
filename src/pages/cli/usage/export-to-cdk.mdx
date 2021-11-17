@@ -1,3 +1,76 @@
-## Export an Amplify backend as a CDK project
+export const meta = {
+  title: `Export Amplify project to CDK`,
+  description: `Export Amplify CLI-generated backends as a Cloud Development Kit (CDK) stack and incorporate into existing CDK deployment pipelines. This capability allows frontend developers to build their app backend quickly and, each time it is ready to ship, hand it over to DevOps teams to deploy to production.`,
+};
 
-## How to integrate an Amplify backend as part of a CDK pipeline
+Export Amplify CLI-generated backends as a Cloud Development Kit (CDK) stack and incorporate into existing CDK deployment pipelines. This capability allows frontend developers to build their app backend quickly and, each time it is ready to ship, hand it over to DevOps teams to deploy to production. 
+
+```bash
+amplify export --out <your-cdk-project-location> 
+```
+
+The command above exports your Amplify projects with CDK-compatible CloudFormation files and assets. 
+
+> Note: `notifications` category is not supported for export.
+
+In the exported location you should see a file structure like this:
+
+```bash
+amplify-export-myAmplifyProject/
+├── <YOUR_AMPLIFY_CATEGORIES>/
+│   ├──...
+│   ├──...
+│   └──...
+├── amplify-export-manifest.json
+├── category-stack-mapping.json
+├── export-tags.json
+└── root-stack-template.json
+```
+
+## Use an exported Amplify backend in AWS Cloud Development Kit (CDK)
+
+The export uses the current state of the Amplify backend to build, package, and generate the CloudFormation files and assets to the provided path. Read more in detail about the purpose of the files and structure generated https://quip-amazon.com/DYpUAaa3odlO/Amplify-CLI-Export-Docs#temp:C:JTdd2d3d79fe2794b87ba8d58808 section.
+
+To integrate the Amplify backend into your CDK app, install the `AmplifyExportedBackend` CDK construct:
+
+```
+npm i @aws-amplify/cli-export-backend
+```
+
+Then, import and initialize a new `AmplifyExportedBackend` stack:
+
+```ts
+import { AmplifyExportedBackend } from '@aws-amplify/cdk-exported-backend'
+import * as path from 'path' // To resolve the path to your exported Amplify backend assets
+
+...
+
+const amplifyStack = new AmplifyExportedBackend(this, "amplifyExportedBackend", {
+  amplifyEnvironment: "dev", // Specify your Amplify environment
+  path: path.resolve(__dirname, 'amplify-export-<YOUR_AMPLFIY_PROJECT_NAME>')
+})
+```
+
+Specify the `amplifyEnvironment` parameter to return the Amplify stack for the corresponding backend environment created through (`amplify env add`).
+
+Deploy the CDK app:
+
+```bash
+npx cdk deploy
+```
+
+Remember: "export" is not an "eject" workflow in the sense that it can iteratively apply export Amplify CLI changes as they are ready to ship. Developers can use the Amplify CLI to iterate on their app backend quickly and, prior to each new production deployment, run "amplify export" to provide an exported Amplify backend for an existing deployment system. 
+
+## Retrieve frontend configuration files after a CDK deployment
+
+Amplify CLI also generates client-side configurations to make it easier for the frontend app to connect to the Amplify-generated backend using the Amplify libraries.
+
+Once the CDK app is deployed, run the following command to generate these client configurations for Android, iOS, Javascript, and Flutter apps.
+
+```bash
+amplify export pull --rootStackName <Amplify Root Stack Name> \
+                    --frontend <ios|android|javascript|flutter>\
+                    --out <location to generate the file>
+```
+
+This places the `aws-exports.js`, `amplifyconfiguration.json`, or `amplifyconfiguration.dart` files in the specified out directory.
