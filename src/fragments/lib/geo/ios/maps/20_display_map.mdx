@@ -1,11 +1,30 @@
 ### Select your user interface
 
-There are two ways to display a map.  If you are using UIKit or have existing code using the MapLibre/MapBox SDK, you can simpley call `AmplifyMapLibre.createMap()` to create an instance of `MGLMapView` that is pre-wired for use with Amazon Location Service and Amplify.
+There are two ways to display a map. The easiest way to get started is to use the `AmplifyMaplibreUI` library to create an instance of `AMLMapView`. This is the recommended approach for new projects or anyone who wants to use SwiftUI.
 
-Alternatively, you can use the `AmplifyMaplibreUI` library to create an instance of AMLMapView, which is a SwiftUI wrapper for an MGLMapView.
+Alternatively, if you are using UIKit or have existing code using the MapLibre/MapBox SDK, you can simpley call `AmplifyMapLibre.createMap()` to create an instance of `MGLMapView` that is pre-wired for use with Amazon Location Service and Amplify.
 
 <BlockSwitcher>
-<Block name="MapLibre SDK / UIKit">
+<Block name="SwiftUI">
+
+```swift
+import SwiftUI
+import AmplifyMapLibreUI
+import AmplifyMapLibreAdapter
+import Mapbox
+import Amplify
+
+struct ContentView: View {    
+    var body: some View {
+        AMLMapView()
+            .edgesIgnoringSafeArea(.all)
+    }
+}
+```
+
+</Block>
+
+<Block name="UIKit">
 
 ```swift
 import AmplifyMapLibreAdapter
@@ -25,52 +44,26 @@ AmplifyMapLibre.createMap { result in
 ```
 
 </Block>
+</BlockSwitcher>
 
-<Block name="AmplifyMaplibreUI / SwiftUI">
+## Customize the map and access state
+
+The `AMLMapView` can be customized through a number of view modifiers, and map state information can be set and access through an instance of `AMLMapViewState`, which can optionally be passed into `AMLMapView` to set initial values. The following example sets an inital zoom level and center location for the map and configures the map to show the user's location.
 
 ```swift
-import SwiftUI
-import AmplifyMapLibreUI
-import AmplifyMapLibreAdapter
-import Mapbox
-import Amplify
+@StateObject private var mapState = AMLMapViewState(
+    zoomLevel: 8,
+    center: CLLocationCoordinate2D(latitude: 39.7392, longitude: -104.9903))
 
-struct ContentView: View {
-    @State private var mapResult: Result<MGLMapView, Geo.Error>?
-    @State private var zoom = 5.0
-    @State private var bounds = MGLCoordinateBounds()
-    @State private var searchText = ""
-    @State private var attribution: String?
-    @State private var annotations = [MGLPointAnnotation]()
-    @State private var center = CLLocationCoordinate2D(latitude: 39.7392, longitude: -104.9903)
-    @State private var userLocation: CLLocationCoordinate2D?
-    
-    var body: some View {
-        ZStack {
-            switch mapResult {
-            case .success(let map):
-                AMLMapView(mapView: map,
-                           zoomLevel: $zoom,
-                           bounds: $bounds,
-                           center: $center,
-                           userLocation: $userLocation,
-                           attribution: $attribution)
-                    .showUserLocation(true)
-                    .edgesIgnoringSafeArea(.all)
-            case .failure(let error):
-                Text("Error loading map: \(error.errorDescription)")
-            case nil:
-                ProgressView()
-                    .onAppear {
-                        AmplifyMapLibre.createMap { result in
-                            mapResult = result
-                        }
-                    }
-            }
-        }
-    }
+var body: some View {
+    AMLMapView(mapState: mapState)
+        .showUserLocation(true)
+        .edgesIgnoringSafeArea(.all)
 }
 ```
 
-</Block>
-</BlockSwitcher>
+<Callout>
+
+For full details on `AMLMapView` usage and customization, see the [AmplifyMapLibre documentation](https://github.com/aws-amplify/amplify-ios-maplibre/blob/main/README.md).
+
+</Callout>
