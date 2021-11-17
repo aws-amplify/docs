@@ -61,16 +61,16 @@ npx cdk deploy
 
 Remember: "export" is not an "eject" workflow in the sense that it can iteratively apply export Amplify CLI changes as they are ready to ship. Developers can use the Amplify CLI to iterate on their app backend quickly and, prior to each new production deployment, run "amplify export" to provide an exported Amplify backend for an existing deployment system. 
 
-## Retrieve frontend configuration files after a CDK deployment
+<!-- ## Retrieve frontend configuration files after a CDK deployment
 
 Amplify CLI also generates client-side configurations to make it easier for the frontend app to connect to the Amplify-generated backend using the Amplify libraries.
 
-Once the CDK app is deployed, run the following command to generate these client configurations for Android, iOS, Javascript, and Flutter apps.
+Once the CDK app is deployed, run the following command within the frontend developer's local development, where the `amplify/` folder is located, to generate these client configurations for Android, iOS, Javascript, and Flutter apps.
 
 ```bash
-amplify export pull --rootStackName <Amplify Root Stack Name> \
+amplify export pull --rootStackName <Amplify Root Stack Name> \ # to be provided by DevOps team
                     --frontend <ios|android|javascript|flutter>\
                     --out <location to generate the file>
 ```
 
-This places the `aws-exports.js`, `amplifyconfiguration.json`, or `amplifyconfiguration.dart` files in the specified out directory.
+This places the `aws-exports.js`, `amplifyconfiguration.json`, or `amplifyconfiguration.dart` files in the specified out directory. -->
