@@ -38,7 +38,7 @@ Override component keys:
 
 ## Integrate Custom Style
 
-Custom component styling can be applied to the default In-App Messaging UI components by passing the `style` prop to the `InAppMessagingProvider`, these styles will take precedence over default and In-App message payload style.
+Custom component styling can be applied to the default In-App Messaging UI components by passing the `style` prop to the `InAppMessagingProvider`, these styles will take precedence over default and in-app message payload style.
 
 ```js
 import {
@@ -75,7 +75,7 @@ The following optional UI component style properties can be per component:
 
 ## Advanced UI
 
-In some use cases, you may want to forego the usage of the Amplify default UI handling altogether while still leveraging the Amplify provided In-App Messaging React context and provider component for In-App message context state. This can be achieved by wrapping your application in an `InAppMessagingProvider` and utilizing the `useInAppMessaging` hook to expose the values of the `InAppMessagingContext`.
+In some use cases, you may want to forego the usage of the Amplify default UI handling altogether while still leveraging the Amplify provided In-App Messaging React context and provider component for in-app message context state. This can be achieved by wrapping your application in an `InAppMessagingProvider` and utilizing the `useInAppMessaging` hook to expose the values of the `InAppMessagingContext`.
 
 ```js
 import {
@@ -102,8 +102,8 @@ const App = () => {
 
 `useInAppMessaging` exposes the following functions and values of the `InAppMessagingContext`:
 
-- `clearInAppMessage`: removes the current In-App message (if any) from context state
+- `clearInAppMessage`: removes the current in-app message (if any) from context state
 - `components`: custom UI components passed to the `InAppMessagingProvider`
-- `displayInAppMessage`: manually render a local In-App message
-- `inAppMessage`: current In-App message (if any) loaded in context state
+- `displayInAppMessage`: manually render a local in-app message
+- `inAppMessage`: current in-app message (if any) loaded in context state
 - `style`: custom style passed to the `InAppMessagingProvider`

@@ -1,8 +1,8 @@
-Your code can respond with additional behavior to your users interacting with In-App messages by adding interaction event listeners.
+Your code can respond with additional behavior to your users interacting with in-app messages by adding interaction event listeners.
 
 ## Message received
 
-Add `onMessageReceived` listeners to respond to an In-App message being received from the library as the result of an event matching the criteria of a synced In-App message. This is required if you are implementing a custom UI.
+Add `onMessageReceived` listeners to respond to an in-app message being received from the library as the result of an event matching the criteria of a synced in-app message. This is required if you are implementing a custom UI.
 
 ```js
 const myMessageReceivedHandler = (message) => {
@@ -16,7 +16,7 @@ listener.remove(); // Remember to remove the listener when it is no longer neede
 
 ## Message displayed
 
-Add `onMessageDisplayed` listeners to respond to an In-App message being displayed to your user.
+Add `onMessageDisplayed` listeners to respond to an in-app message being displayed to your user.
 
 ```js
 const myMessageDisplayedHandler = (message) => {
@@ -30,7 +30,7 @@ listener.remove(); // Remember to remove the listener when it is no longer neede
 
 ## Message dismissed
 
-Add `onMessageDismissed` listeners to respond to an In-App message being dismissed by your user.
+Add `onMessageDismissed` listeners to respond to an in-app message being dismissed by your user.
 
 ```js
 const myMessageDismissedHandler = (message) => {
@@ -44,7 +44,7 @@ listener.remove(); // Remember to remove the listener when it is no longer neede
 
 ## Message action taken
 
-Add `onMessageActionTaken` listeners to respond to an action being taken on an In-App message. Typically, this means that the user has tapped or clicked a button on an In-App message.
+Add `onMessageActionTaken` listeners to respond to an action being taken on an in-app message. Typically, this means that the user has tapped or clicked a button on an in-app message.
 
 ```js
 const myMessageActionTakenHandler = (message) => {
