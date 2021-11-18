@@ -19,7 +19,7 @@ npm i -g @aws-amplify/cli@geo
 ```
 
 ## Setup a new Geofence Collection
-Before you add a new Geofence Collection to your application, you need to have atleast one Cognito User Pool group added to your project.
+Before you add a new Geofence Collection to your application, you need to have at least one Cognito User Pool group added to your project.
 The permissions to perform `CRUD` operations on Geofences in the collection will be granted only to users belonging to a Cognito User Pool group that is responsible for managing these Geofences.
 
 If you haven't set up the `auth` category already, you can do so by running:
@@ -47,7 +47,7 @@ amplify update auth
 
 ```
 
-When you have atleast one Cognito User Pool group added, you can now provision a new Geofence Collection using:
+When you have at least one Cognito User Pool group added, you can now provision a new Geofence Collection using:
 ```bash
 amplify add geo
 ```
@@ -55,7 +55,7 @@ amplify add geo
 ? Select which capability you want to add: 
   Map (visualize the geospatial data) 
   Location search (search by places, addresses, coordinates) 
-❯ Geofecing (visualize virtual perimeters)
+❯ Geofencing (visualize virtual perimeters)
 ```
 
 Next, set a name for the Geofence Collection: 
