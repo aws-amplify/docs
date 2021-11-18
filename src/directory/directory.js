@@ -1407,6 +1407,10 @@ const directory = {
             filters: [],
           },
           {
+            title: "Export Amplify project to CDK",
+            route: "/cli/usage/export-to-cdk"
+          },
+          {
             title: "Headless mode for CI/CD",
             route: "/cli/usage/headless",
             filters: [],
