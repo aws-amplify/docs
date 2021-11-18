@@ -2,22 +2,24 @@ import {
   CodeBlockStyle,
   CodeHighlightStyle,
   CopyButtonStyle,
-  LineCountStyle,
-} from "./styles";
-import React from "react";
-import copy from "copy-to-clipboard";
+  LineCountStyle
+} from './styles';
+import React from 'react';
+import copy from 'copy-to-clipboard';
 
-const COPY = "copy";
-const COPIED = "copied";
-const FAILED = "failed to copy";
-const CONSOLE = "console";
+const COPY = 'copy';
+const COPIED = 'copied';
+const FAILED = 'failed to copy';
+const CONSOLE = 'console';
 
 type CopyMessageType = typeof COPY | typeof COPIED | typeof FAILED;
 
 type CodeBlockProps = {
   lineCount: string;
   language: string;
-  children: React.ReactElement[];
+  /** True to remove copy to clipboard button */
+  noCopy?: boolean;
+  children: any[];
 };
 
 type CodeBlockState = {
@@ -29,7 +31,8 @@ class CodeBlock extends React.Component<CodeBlockProps, CodeBlockState> {
 
   constructor(props) {
     super(props);
-    this.state = {copyMessage: COPY};
+    this.state = { copyMessage: COPY };
+    console.log('test');
   }
 
   lineNumbers = () => {
@@ -56,12 +59,12 @@ class CodeBlock extends React.Component<CodeBlockProps, CodeBlockState> {
   copyToClipboard = () => {
     if (this.element && this.element.textContent) {
       copy(this.element.textContent);
-      this.setState({copyMessage: COPIED});
+      this.setState({ copyMessage: COPIED });
     } else {
-      this.setState({copyMessage: FAILED});
+      this.setState({ copyMessage: FAILED });
     }
     setTimeout(() => {
-      this.setState({copyMessage: COPY});
+      this.setState({ copyMessage: COPY });
     }, 1500);
   };
 
@@ -78,15 +81,20 @@ class CodeBlock extends React.Component<CodeBlockProps, CodeBlockState> {
   render() {
     if (this.props.children === undefined) return <div></div>;
     const oneLine =
-      this.props.lineCount === "1" || this.props.language === CONSOLE;
+      this.props.lineCount === '1' || this.props.language === CONSOLE;
+
+    console.log(this.props.children);
 
     return (
       <CodeBlockStyle oneLine={oneLine}>
         {this.lineNumbers()}
-        <CodeHighlightStyle ref={this.setElement}>
-          {this.props.children}
-        </CodeHighlightStyle>
-        {this.copyButton()}
+        {this.props.children.map((child) => {
+          <CodeHighlightStyle ref={this.setElement}>
+            {child}
+          </CodeHighlightStyle>;
+          this.copyButton();
+        })}
+        {!this.props.noCopy && this.copyButton()}
       </CodeBlockStyle>
     );
   }

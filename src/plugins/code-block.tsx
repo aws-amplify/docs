@@ -1,61 +1,61 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const prism = require("prismjs");
+const prism = require('prismjs');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const loadLanguages = require("prismjs/components/");
+const loadLanguages = require('prismjs/components/');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const Html5Entities = require("html-entities");
+const Html5Entities = require('html-entities');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const unified = require("unified");
+const unified = require('unified');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const rehypeParse = require("rehype-parse");
+const rehypeParse = require('rehype-parse');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const versions = require("../constants/versions.ts");
+const versions = require('../constants/versions.ts');
 
 const entities = new Html5Entities.Html5Entities();
 
 const supportedLanguages = [
-  "markup",
-  "objectivec",
-  "html",
-  "xml",
-  "css",
-  "docker",
-  "go",
-  "ini",
-  "js",
-  "ts",
-  "bash",
-  "swift",
-  "kotlin",
-  "python",
-  "java",
-  "yaml",
-  "ruby",
-  "wasm",
-  "rust",
-  "json",
-  "typescript",
-  "javascript",
-  "graphql",
-  "diff",
-  "jsx",
-  "sql",
-  "groovy",
-  "dart",
+  'markup',
+  'objectivec',
+  'html',
+  'xml',
+  'css',
+  'docker',
+  'go',
+  'ini',
+  'js',
+  'ts',
+  'bash',
+  'swift',
+  'kotlin',
+  'python',
+  'java',
+  'yaml',
+  'ruby',
+  'wasm',
+  'rust',
+  'json',
+  'typescript',
+  'javascript',
+  'graphql',
+  'diff',
+  'jsx',
+  'sql',
+  'groovy',
+  'dart'
 ];
 
 loadLanguages(supportedLanguages);
 
 const highlight = (code, language) => {
-  language = language.replace("language-", "");
-  let highlighted = "";
+  language = language.replace('language-', '');
+  let highlighted = '';
   const languageIsSet = !!(language && language.trim().length > 0);
   code = code.trim();
 
   if (languageIsSet && prism.languages[language]) {
     if (!supportedLanguages.includes(language)) {
       throw new Error(
-        `No support for ${language} syntax highlighting. Contact Amplify JS team to request support.`,
+        `No support for ${language} syntax highlighting. Contact Amplify JS team to request support.`
       );
     }
 
@@ -65,36 +65,38 @@ const highlight = (code, language) => {
   }
 
   const html = `<div slot="content" class="highlight highlight-source${
-    languageIsSet ? `-${language}` : ""
+    languageIsSet ? `-${language}` : ''
   }">${highlighted}</div>`;
 
   const lineCount = html.split(/\r\n|\r|\n/).length;
 
+  // const noCopy = code.indexOf('###BEGIN_COPY###') > -1;
+
   return [
     {
-      type: "element",
-      tagName: "p",
+      type: 'element',
+      tagName: 'p',
       properties: {
-        class: "searchable-code",
+        class: 'searchable-code'
       },
       children: [
         {
-          type: "text",
-          value: `${entities.encode(code)}`,
-        },
-      ],
+          type: 'text',
+          value: `${entities.encode(code)}`
+        }
+      ]
     },
     {
-      type: "jsx",
-      value: `<CodeBlock language="${language}" lineCount="${lineCount}">`,
+      type: 'jsx',
+      value: `<CodeBlock language="${language}" lineCount="${lineCount}" noCopy="${false}" >`
     },
     ...unified()
-      .use(rehypeParse, {fragment: true})
+      .use(rehypeParse, { fragment: true })
       .parse(html).children,
     {
-      type: "jsx",
-      value: `</CodeBlock>`,
-    },
+      type: 'jsx',
+      value: `</CodeBlock>`
+    }
   ];
 };
 
@@ -102,24 +104,35 @@ const addVersions = (code) => {
   code = code.replace(/ANDROID_VERSION/g, versions.ANDROID_VERSION);
   code = code.replace(
     /ANDROID_KOTLIN_VERSION/g,
-    versions.ANDROID_KOTLIN_VERSION,
+    versions.ANDROID_KOTLIN_VERSION
   );
   code = code.replace(/ANDROID_GEO_VERSION/g, versions.ANDROID_GEO_VERSION);
+
+  return code;
+};
+
+const removeCopy = (code) => {
+  // code = code.replace(/###BEGIN_COPY###/g, '');
+  // code = code.replace(/###END_COPY###/g, '');
+  code = code.split('###BEGIN_COPY###');
+  // code = code.replace(/###END_COPY###/g, '');
   return code;
 };
 
 const codeBlockPlugin = () => (tree) => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const visit = require("unist-util-visit");
+  const visit = require('unist-util-visit');
 
   visit(tree, (node) => {
-    if (node.tagName === "code") {
-      const code = addVersions(node.children[0].value);
+    if (node.tagName === 'code') {
+      let code = addVersions(node.children[0].value);
+      code = removeCopy(code);
       const language =
-        "className" in node.properties
+        'className' in node.properties
           ? node.properties.className[0]
-          : "markup";
-      node.children = highlight(code, language);
+          : 'markup';
+      node.children = code.map((section) => highlight(section, language));
+      console.log(node.children);
     }
   });
 };
