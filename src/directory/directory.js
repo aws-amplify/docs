@@ -1311,6 +1311,11 @@ const directory = {
             route: "/cli/geo/search",
             filters: [],
           },
+          {
+            title: "Geofencing (Developer Preview)",
+            route: "/cli/geo/geofencing",
+            filters: [],
+          }
         ],
       },
       hosting: {
