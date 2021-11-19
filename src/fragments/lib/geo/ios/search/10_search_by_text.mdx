@@ -20,12 +20,6 @@ You can refine your search by specifying following parameters inside `Geo.Search
 - `countries` - to limit the search results to given countries.
 - `maxResults` - to limit the maximum result set (defaults to 50).
 
-- `countries` -  Follows [ISO Alpha-3 country codes](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3). (defaults to "USA")
-- `maxResults` - 
-- `searchArea`
-  - `near` - 
-  - `within` - to limit the area to search inside of
-
 ```swift
 let coordinates = Geo.Coordinates(latitude: 5.0, longitude: 5.0)
 let options = Geo.SearchForTextOptions(area: .near(coordinates),
