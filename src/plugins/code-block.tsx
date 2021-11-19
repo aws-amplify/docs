@@ -46,7 +46,9 @@ const supportedLanguages = [
 
 loadLanguages(supportedLanguages);
 
-const highlight = (code, language) => {
+let lineCountOffSet = 0;
+
+const highlight = (code, language, regions, idx) => {
   language = language.replace('language-', '');
   let highlighted = '';
   const languageIsSet = !!(language && language.trim().length > 0);
@@ -68,7 +70,13 @@ const highlight = (code, language) => {
     languageIsSet ? `-${language}` : ''
   }">${highlighted}</div>`;
 
-  const lineCount = html.split(/\r\n|\r|\n/).length;
+  let lineCount = html.split(/\r\n|\r|\n/).length;
+
+  if (regions > 1 && idx > 0) {
+    lineCountOffSet = lineCountOffSet + lineCount;
+  } else {
+    lineCountOffSet = 0;
+  }
 
   // const noCopy = code.indexOf('###BEGIN_COPY###') > -1;
 
@@ -88,7 +96,7 @@ const highlight = (code, language) => {
     },
     {
       type: 'jsx',
-      value: `<CodeBlock language="${language}" lineCount="${lineCount}" noCopy="${false}" >`
+      value: `<CodeBlock language="${language}" lineCount="${lineCount}" lineCountOffset="${lineCountOffSet}" noCopy="${false}" >`
     },
     ...unified()
       .use(rehypeParse, { fragment: true })
@@ -112,12 +120,12 @@ const addVersions = (code) => {
 };
 
 const removeCopy = (code) => {
-  // code = code.replace(/###BEGIN_COPY###/g, '');
-  // code = code.replace(/###END_COPY###/g, '');
   code = code.split('###BEGIN_COPY###');
-  // code = code.replace(/###END_COPY###/g, '');
   return code;
 };
+
+const reducer = (previousValue, currentValue) =>
+  previousValue.concat(currentValue);
 
 const codeBlockPlugin = () => (tree) => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -127,11 +135,15 @@ const codeBlockPlugin = () => (tree) => {
     if (node.tagName === 'code') {
       let code = addVersions(node.children[0].value);
       code = removeCopy(code);
+
       const language =
         'className' in node.properties
           ? node.properties.className[0]
           : 'markup';
-      node.children = code.map((section) => highlight(section, language));
+      node.children = code
+        .map((section, idx) => highlight(section, language, code.length, idx))
+        .reduce(reducer);
+
       console.log(node.children);
     }
   });

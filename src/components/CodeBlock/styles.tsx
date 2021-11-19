@@ -1,7 +1,8 @@
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
 
 type CodeBlockProps = {
   oneLine: boolean;
+  regionalCopy?: boolean;
 };
 
 export const CodeBlockStyle = styled.div<CodeBlockProps>`
@@ -10,7 +11,8 @@ export const CodeBlockStyle = styled.div<CodeBlockProps>`
   flex-direction: row;
   background-color: var(--code-bg-color);
   overflow-x: auto;
-  border-radius: 0.25rem;
+  border-radius: ${(props) =>
+    props.regionalCopy ? '0 0 .25rem .25rem' : ' 0.25rem'};
   padding: 1rem 0;
   width: 100%;
   color: var(--code-font-color);
@@ -20,7 +22,9 @@ export const CodeBlockStyle = styled.div<CodeBlockProps>`
     overflow: auto;
   }
 
-  padding-left: ${(props) => (props.oneLine ? "1rem" : "0")};
+  padding-left: ${(props) => (props.oneLine ? '1rem' : '0')};
+  padding-top: ${(props) => (props.regionalCopy ? '0' : '1rem')};
+  margin-top: ${(props) => (props.regionalCopy ? '-15px' : 'auto')};
 `;
 
 export const LineCountStyle = styled.div`
@@ -65,12 +69,12 @@ export const CodeHighlightStyle = styled.div`
   display: flex;
   flex: 1;
 
-  pre[class*="language-"],
-  code[class*="language-"] {
+  pre[class*='language-'],
+  code[class*='language-'] {
     color: #d4d4d4;
     font-size: 0.8125rem;
     text-shadow: none;
-    font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
     direction: ltr;
     text-align: left;
     white-space: pre;
@@ -81,27 +85,27 @@ export const CodeHighlightStyle = styled.div`
     hyphens: none;
   }
 
-  pre[class*="language-"]::selection,
-  code[class*="language-"]::selection {
+  pre[class*='language-']::selection,
+  code[class*='language-']::selection {
     text-shadow: none;
     background: #b3d4fc;
   }
 
   @media print {
-    pre[class*="language-"],
-    code[class*="language-"] {
+    pre[class*='language-'],
+    code[class*='language-'] {
       text-shadow: none;
     }
   }
 
-  pre[class*="language-"] {
+  pre[class*='language-'] {
     padding: 1em;
     margin: 0.5em 0;
     overflow: auto;
     background: #1e1e1e;
   }
 
-  :not(pre) > code[class*="language-"] {
+  :not(pre) > code[class*='language-'] {
     padding: 0.1em 0.3em;
     border-radius: 0.3em;
     color: #db4c69;
@@ -229,18 +233,18 @@ export const CodeHighlightStyle = styled.div`
     color: #4ec9b0;
   }
 
-  pre[class*="language-javascript"],
-  code[class*="language-javascript"] {
+  pre[class*='language-javascript'],
+  code[class*='language-javascript'] {
     color: #4ec9b0;
   }
 
-  pre[class*="language-css"],
-  code[class*="language-css"] {
+  pre[class*='language-css'],
+  code[class*='language-css'] {
     color: #ce9178;
   }
 
-  pre[class*="language-html"],
-  code[class*="language-html"] {
+  pre[class*='language-html'],
+  code[class*='language-html'] {
     color: #d4d4d4;
   }
 
@@ -252,7 +256,7 @@ export const CodeHighlightStyle = styled.div`
     position: relative;
   }
 
-  pre[class*="language-"] > code[class*="language-"] {
+  pre[class*='language-'] > code[class*='language-'] {
     position: relative;
     z-index: 1;
   }

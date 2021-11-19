@@ -16,6 +16,7 @@ type CopyMessageType = typeof COPY | typeof COPIED | typeof FAILED;
 
 type CodeBlockProps = {
   lineCount: string;
+  lineCountOffset?: number;
   language: string;
   /** True to remove copy to clipboard button */
   noCopy?: boolean;
@@ -32,7 +33,6 @@ class CodeBlock extends React.Component<CodeBlockProps, CodeBlockState> {
   constructor(props) {
     super(props);
     this.state = { copyMessage: COPY };
-    console.log('test');
   }
 
   lineNumbers = () => {
@@ -41,9 +41,12 @@ class CodeBlock extends React.Component<CodeBlockProps, CodeBlockState> {
       return (
         <LineCountStyle>
           <div>
-            {new Array(lineCount).fill(null).map((_, i) => (
-              <span key={String(i + 1)}>{String(i + 1)}</span>
-            ))}
+            {new Array(lineCount).fill(null).map((_, i) => {
+              const lineNumber =
+                i + 1 + Number(this.props.lineCountOffset) || 0;
+              console.log(lineNumber);
+              return <span key={lineNumber}>{lineNumber}</span>;
+            })}
           </div>
         </LineCountStyle>
       );
@@ -83,18 +86,15 @@ class CodeBlock extends React.Component<CodeBlockProps, CodeBlockState> {
     const oneLine =
       this.props.lineCount === '1' || this.props.language === CONSOLE;
 
-    console.log(this.props.children);
-
     return (
-      <CodeBlockStyle oneLine={oneLine}>
+      <CodeBlockStyle oneLine={oneLine} regionalCopy={this.props.noCopy}>
         {this.lineNumbers()}
-        {this.props.children.map((child) => {
-          <CodeHighlightStyle ref={this.setElement}>
-            {child}
-          </CodeHighlightStyle>;
-          this.copyButton();
-        })}
-        {!this.props.noCopy && this.copyButton()}
+
+        <CodeHighlightStyle ref={this.setElement}>
+          {this.props.children}
+        </CodeHighlightStyle>
+
+        {this.copyButton()}
       </CodeBlockStyle>
     );
   }

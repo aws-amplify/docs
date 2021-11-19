@@ -49,7 +49,6 @@ const getActiveIndex = function(
 
 export default function BlockSwitcher({ children }) {
   // a single child is not passed as an array
-  console.log('blockswitcher', children);
   if (!Array.isArray(children)) {
     children = [children];
   }
@@ -80,15 +79,10 @@ export default function BlockSwitcher({ children }) {
         })}
       </TabContainerStyle>
       <SwitcherContentStyle>
-        {children?.map((node, index) => {
-          console.log('blockswitcher node', node);
-          console.log('LENGTHHH', node.props.children.length);
-          return (
-            index === activeIndex && (
-              <div key={index}>{node.props.children}</div>
-            )
-          );
-        })}
+        {children?.map(
+          (node, index) =>
+            index === activeIndex && <div key={index}>{node}</div>
+        )}
       </SwitcherContentStyle>
     </HostStyle>
   );
