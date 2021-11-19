@@ -45,7 +45,7 @@ import * as path from 'path' // To resolve the path to your exported Amplify bac
 
 ...
 
-const amplifyStack = new AmplifyExportedBackend(this, "amplifyExportedBackend", {
+const amplifyBackend = new AmplifyExportedBackend(this, "amplifyExportedBackend", {
   amplifyEnvironment: "dev", // Specify your Amplify environment
   path: path.resolve(__dirname, 'amplify-export-<YOUR_AMPLIFY_PROJECT_NAME>')
 })
@@ -74,3 +74,27 @@ amplify export pull --rootStackName <Amplify Root Stack Name> \ # to be provided
 ```
 
 This places the `aws-exports.js`, `amplifyconfiguration.json`, or `amplifyconfiguration.dart` files in the specified out directory. -->
+
+## Use CDK for cross-account or cross-region Amplify backend deployments
+
+To deploy an Amplify backend across accounts or regions, you must ensure that the `amplifyEnvironment` parameter is globally unique across all of AWS. This is due to the underlying resources, such as S3 buckets and IAM roles, need to be globally unique.
+
+One way to ensure that is to use the AWS Account ID or Region as the Amplify environment identifier:
+
+```ts
+const amplifyBackend = new AmplifyExportedBackend(this, "amplifyExportedBackend", {
+  amplifyEnvironment: cdk.Stack.of(this).region + cdk.Stack.of(this).account, // <---------
+  path: path.resolve(__dirname, 'amplify-export-<YOUR_AMPLIFY_PROJECT_NAME>')
+})
+```
+
+In order to get the region and account ID strings to populate in CDK, you need to provide the `env` parameter on the parent stack. The `amplifyEnvironment` can't include a [CloudFormation `Ref`](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-ref.html).
+
+```ts
+const service = new MyAmplifyStack(this, 'AmplifyStack', {
+  env: {
+    account: process.env.CDK_DEFAULT_ACCOUNT, // or for example: "172387324923"
+    region: process.env.CDK_DEFAULT_REGION, // or "us-east-1"
+  }
+});
+```
