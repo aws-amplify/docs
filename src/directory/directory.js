@@ -464,7 +464,7 @@ const directory = {
             filters: ["js"],
           },
           {
-            title: "Create In-App Messaging Campaigns",
+            title: "Create In-App Messaging campaigns",
             route: "/lib/in-app-messaging/create-campaigns",
             filters: ["js"],
           },

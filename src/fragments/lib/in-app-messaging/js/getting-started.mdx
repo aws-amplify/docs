@@ -16,7 +16,10 @@ You will also need to install pod dependencies for `iOS`. Navigate the the ios d
 ```bash
 pod install
 ```
-
+The AWS SDK requires React Native applications to polyfill `crypto.getRandomValues` and `URL`. Import it at the top of your application's root entry point. For example, `index.js`.
+```js
+import 'react-native-get-random-values';
+import 'react-native-url-polyfill/auto';
 Next, you should import and load the `aws-exports.js` configuration file created and modified in an earlier step into your application. Add the Amplify configuration step to your application’s root entry point. For example, `index.js`.
 
 ```js
@@ -28,7 +31,7 @@ Amplify.configure(awsconfig);
 
 Finally, integrate the Amplify React Native UI components for In-App Messaging in your application’s root component. For example, `App.jsx`.
 
-```js
+```jsx
 import {
   InAppMessagingProvider,
   InAppMessageDisplay
@@ -56,7 +59,7 @@ const { InAppMessaging } = Notifications;
 
 Below is an example of what your `App.tsx` file should look like:
 
-```js
+```jsx
 import React, { useEffect } from 'react';
 import { SafeAreaView, Button } from 'react-native';
 import { Analytics, Notifications } from 'aws-amplify';
