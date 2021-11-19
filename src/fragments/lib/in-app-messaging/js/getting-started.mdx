@@ -8,9 +8,7 @@ Make sure you have completed the below steps:
 In your application directory, you should first Install necessary dependencies.Although Amplify In-App Messaging can be used as a standalone JavaScript library, the only UI integration currently available is only for _React Native_. The integrations steps here assume a React Native application as the implementation target.
 
 ```js
-npm install aws-amplify@in-app-messaging &&
-npm install aws-amplify-react-native@in-app-messaging &&
-npm install amazon-cognito-identity-js @react-native-community/netinfo @react-native-async-storage/async-storage @react-native-picker/picker
+npm install aws-amplify@in-app-messaging aws-amplify-react-native@in-app-messaging amazon-cognito-identity-js @react-native-community/netinfo @react-native-async-storage/async-storage @react-native-picker/picker
 ```
 
 You will also need to install pod dependencies for `iOS`. Navigate the the ios directory in your project and run the install command.
@@ -18,7 +16,10 @@ You will also need to install pod dependencies for `iOS`. Navigate the the ios d
 ```bash
 pod install
 ```
-
+The AWS SDK requires React Native applications to polyfill `crypto.getRandomValues` and `URL`. Import it at the top of your application's root entry point. For example, `index.js`.
+```js
+import 'react-native-get-random-values';
+import 'react-native-url-polyfill/auto';
 Next, you should import and load the `aws-exports.js` configuration file created and modified in an earlier step into your application. Add the Amplify configuration step to your application’s root entry point. For example, `index.js`.
 
 ```js
@@ -30,7 +31,7 @@ Amplify.configure(awsconfig);
 
 Finally, integrate the Amplify React Native UI components for In-App Messaging in your application’s root component. For example, `App.jsx`.
 
-```js
+```jsx
 import {
   InAppMessagingProvider,
   InAppMessageDisplay
@@ -58,7 +59,7 @@ const { InAppMessaging } = Notifications;
 
 Below is an example of what your `App.tsx` file should look like:
 
-```js
+```jsx
 import React, { useEffect } from 'react';
 import { SafeAreaView, Button } from 'react-native';
 import { Analytics, Notifications } from 'aws-amplify';

@@ -2,7 +2,7 @@
 
 Users may provide their own In-App Messaging UI components to override the default Amplify provided UI components by utilizing the `components` prop of `InAppMessagingProvider`.
 
-```js
+```jsx
 import {
   InAppMessageDisplay,
   InAppMessagingProvider
@@ -40,7 +40,7 @@ Override component keys:
 
 Custom component styling can be applied to the default In-App Messaging UI components by passing the `style` prop to the `InAppMessagingProvider`, these styles will take precedence over default and in-app message payload style.
 
-```js
+```jsx
 import {
   InAppMessageDisplay,
   InAppMessagingProvider
@@ -77,7 +77,7 @@ The following optional UI component style properties can be per component:
 
 In some use cases, you may want to forego the usage of the Amplify default UI handling altogether while still leveraging the Amplify provided In-App Messaging React context and provider component for in-app message context state. This can be achieved by wrapping your application in an `InAppMessagingProvider` and utilizing the `useInAppMessaging` hook to expose the values of the `InAppMessagingContext`.
 
-```js
+```jsx
 import {
   InAppMessagingProvider,
   useInAppMessaging
