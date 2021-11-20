@@ -77,8 +77,19 @@ Finally, you will need to grant your users access to Amazon Pinpoint’s GetInAp
 3. Select **Create policy**.
 4. On the **Visual editor** tab, select the following:
    1. Service: **Pinpoint**
-   2. Actions: **GetInAppMessages**
-   3. Resources: Your Pinpoint project ARN (You can specify this by selecting Add ARN and using the visual ARN editor)
+   2. Actions: **mobiletargeting:GetInAppMessages** (manually added, may be unrecognized)
+
+      - Click on “add actions“
+      ![In-App-Messaging](/images/lib/in-app-messaging/attach-a-policy.png)
+      - Enter **GetInAppMessages** into the popup.
+      ![In-App-Messaging](/images/lib/in-app-messaging/mobiletargeting-policy-attach.png)
+      
+   3. Resources: **arn:aws:mobiletargeting:\*:<account-id\>:apps/<pinpoint-project-id\>\***
+      - Click on "Specific" and then click on "Add ARN"
+      ![In-App-Messaging](/images/lib/in-app-messaging/add-resource-arn.png)
+      - The “account-id” will be populated by default.
+      - The pinpoint-project-id can be found from the pinpoint page, and then clicking on the “All Projects” button in the navigation menu.
+
 5. When you are finished, choose **Next: Tags**. Here you can optionally add metadata to the policy and when you are finished, choose **Next: Review**.
 6. On the **Review policy** page, type a **Name** for the policy that you are creating. Review the policy summary to make sure that you have granted the intended permissions, and then choose **Create policy** to save your new policy.
 
