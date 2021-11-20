@@ -1,0 +1,10 @@
+The first step to getting in-app messages in front of your app’s active users is to make sure all available In-App Messaging campaign messages are synced to their device, which would be triggered when an analytics or In-App Messaging event is triggered. Amplify In-App Messaging empowers you with the control of when and how often you perform this sync.
+
+```js
+await InAppMessaging.syncMessages();
+```
+
+<Callout informational>
+  NOTE: Syncing messages will always overwrite existing messages currently on
+  their device so they are always up to date when the sync is performed.
+</Callout>
