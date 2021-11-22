@@ -77,13 +77,7 @@ Finally, you will need to grant your users access to Amazon Pinpoint’s **GetIn
 3. Select **Create policy**.
 4. On the **Visual editor** tab, select the following:
    1. Service: **Pinpoint**
-   2. Actions: **mobiletargeting:GetInAppMessages** (manually added, may be unrecognized)
-
-      - Click on “add actions“
-      ![In-App-Messaging](/images/lib/in-app-messaging/attach-a-policy.png)
-      - Enter **GetInAppMessages** into the popup.
-      ![In-App-Messaging](/images/lib/in-app-messaging/mobiletargeting-policy-attach.png)
-      
+   2. Actions: **GetInAppMessages**.
    3. Resources: **arn:aws:mobiletargeting:<region\>:<account-id\>:apps/<pinpoint-project-id\>\***
       - Click on "Specific" and then click on "Add ARN"
       ![In-App-Messaging](/images/lib/in-app-messaging/add-resource-arn.png)
