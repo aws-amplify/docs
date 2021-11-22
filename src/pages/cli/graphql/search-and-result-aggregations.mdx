@@ -47,7 +47,7 @@ In the example above, the search result consists of students with the name "Rene
 |Int|ne, gt, lt, gte, lte, eq, range|
 |Float|ne, gt, lt, gte, lte, eq, range|
 |Boolean|eq, ne|
-|TODO LINK TO OPENSEARCH?|
+|Enum|ne, eq, match, matchPhrase, matchPhrasePrefix, multiMatch, exists, wildcard, regexp|
 
 ### Nested search conditions (and, or, not)
 Use the filter parameter to pass a nested `and`/`or`/`not` condition. 
@@ -125,9 +125,21 @@ In the example above, the search result is first sorted by `name` in a `desc`end
 
 ## Paginate over search results
 
-By default, the search result page size is 100. To customize the page size modify the `limit` parameter.
+By default, the search result page size is 100. To customize the page size modify the `limit` parameter. Query for the `nextToken` and use it in your subsequent pagination requests:
 
-TODO FROM vs NEXT TOKEN?
+```
+query MyQuery {
+  searchTodos(nextToken: "<YOUR_NEXT_TOKEN>") { # Pass in your nextToken in query
+    items {
+      description
+      id
+      name
+      createdAt
+    }
+    nextToken # Next token to paginate on
+  }
+}
+```
 
 ## Total count of search results
 

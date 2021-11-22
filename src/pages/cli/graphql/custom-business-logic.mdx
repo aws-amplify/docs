@@ -1,9 +1,9 @@
 export const meta = {
-  title: `Custom business logic (Lambda function, HTTP, VTL)`,
+  title: `Custom business logic (Lambda function, HTTP, and VTL resolvers)`,
   description: `Add authorization rules to your GraphQL schema to control access to your data.`,
 };
 
-Define your custom business logic in a Lambda function resolver, HTTP resolver, or VTL resolver and expose them in a GraphQL query or mutation. Extend or overwrite Amplify-generated GraphQL resolvers to optimize for your specific use cases.  
+Define your custom business logic in a Lambda function resolver, HTTP resolver, or VTL resolver and expose them in a GraphQL query or mutation. Extend or override Amplify-generated GraphQL resolvers to optimize for your specific use cases.  
 
 ## Create a custom query or mutation
 
@@ -474,14 +474,14 @@ The `@http` transformer will create one HTTP datasource for each identified base
 
 TODO
 
-## Overwrite Amplify-generated resolvers
+## Override Amplify-generated resolvers
 
 Amplify generates [AWS AppSync pipeline resolver](https://docs.aws.amazon.com/appsync/latest/devguide/pipeline-resolvers.html) for your queries and mutations. The resolvers are listed the following API resource's folder `amplify/backend/api/<resource_name>/build/resolvers/`. 
 
 ![Resolver folders structure in Amplify project folder](/images/cli/resolver_folder_structure.png)
 
-To overwrite an Amplify-generated resolver:
-1. Find the resolver file name you want to overwrite under `build/resolvers`
+To override an Amplify-generated resolver:
+1. Find the resolver file name you want to override under `build/resolvers`
 2. Place a `.vtl` with the same file name the resource's `resolvers/` (not under `build/`)
 3. Upon the next `amplify api gql-compile` or `amplify push` the Amplify-generated resolver file will be replaced with your overwritten resolver file
 
@@ -495,7 +495,7 @@ amplify/backend/api/<resource_name>
 │   │   └── ...
 |   ...
 ├── resolvers
-│   └── Query.searchTodos.req.vtl # Place overwrites with the same file name
+│   └── Query.searchTodos.req.vtl # Place resolver overrides with the same file name here
 ```
 
 The example above shows how the `Query.searchTodos.req.vtl` is overwritten with a custom resolver. 

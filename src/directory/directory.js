@@ -1036,7 +1036,7 @@ const directory = {
             filters: []
           },
           {
-            title: "Custom business logic",
+            title: "Custom business logic (Lambda function, HTTP, VTL resolvers)",
             route: "/cli/graphql/custom-business-logic",
             filters: []
           },
