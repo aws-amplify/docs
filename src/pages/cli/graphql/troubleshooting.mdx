@@ -48,5 +48,5 @@ python3 ddb_to_es.py \
 
 ## Index with multiple sort key fields
 
-When you add an `@index` with 2 or more sort key fields, you will need to backfill the new composite sort key for existing data. With a `@index(sortKeyfields: ["status", "date"])`, you would need to backfill the status#date field with composite key values made up of each object's status and date fields joined by a #. You do not need to backfill data for @index directives with none of one sort key fields.
+When you add an `@index` with 2 or more sort key fields, you will need to backfill the new composite sort key for existing data. With a `@index(sortKeyFields: ["status", "date"])`, you would need to backfill the status#date field with composite key values made up of each object's status and date fields joined by a #. You do not need to backfill data for @index directives with none of one sort key fields.
 
