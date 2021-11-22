@@ -109,7 +109,7 @@ The MapLibre SDK for Android relies on the [MapLibre Annotation Plugin](https://
 <Block name="Java">
 
 ```java
-mapView.onMapReady((map, style) -> {
+mapView.getStyle((map, style) -> {
     style.addImage("place", BitmapFactory.decodeResource(
             getResources(), R.drawable.place_marker));
     SymbolManager symbolManager = new SymbolManager(mapView, map, style);
@@ -129,7 +129,7 @@ mapView.onMapReady((map, style) -> {
 <Block name="Kotlin">
 
 ```kotlin
-mapView.onMapReady { map, style ->
+mapView.getStyle { map, style ->
     style.addImage("place", BitmapFactory.decodeResource(resources, R.drawable.place_marker))
     val symbolManager = SymbolManager(mapView, map, style)
 
