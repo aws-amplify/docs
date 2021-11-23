@@ -17,7 +17,7 @@ type Query {
 }
 ```
 
-In your GraphQL query, can pass in a S3 `key` for the image. At the moment, this directive works only with objects located within `public/` folder in your S3 bucket. The `public/` prefix is automatically added to the `key` input. For instance, in the example below, `public/myimage.jpg` will be used as the input. 
+In your GraphQL query, can pass in a S3 `key` for the image. At the moment, this directive works only with objects located within the `public/` folder of your S3 bucket. The `public/` prefix is automatically added to the `key` input. For instance, in the example below, `public/myimage.jpg` will be used as the input. 
 
 ```graphql
 query RecognizeTextFromImage($input: RecognizeTextFromImageInput!) {
@@ -39,7 +39,7 @@ type Query {
 }
 ```
 
-In your GraphQL query, can pass in a S3 `key` for the image. At the moment, this directive works only with objects located within `public/` folder in your S3 bucket. The `public/` prefix is automatically added to the `key` input. For instance, in the example below, `public/myimage.jpg` will be used as the input. 
+In your GraphQL query, you can pass in a S3 `key` for the image. At the moment, this directive works only with objects located within `public/` folder in your S3 bucket. The `public/` prefix is automatically added to the `key` input. For instance, in the example below, `public/myimage.jpg` will be used as the input. 
 
 The query below will return a list of identified labels. Review [Detecting Labels](https://docs.aws.amazon.com/rekognition/latest/dg/labels.html) in the Amazon Rekognition documentation for the full list of supported labels.
 
@@ -59,11 +59,11 @@ To configure text translation use the `identifyLabels` action in the `@predictio
 
 ```graphql
 type Query {
-  translate: String @predictions(actions: [ translateText ])
+  translate: String @predictions(actions: [translateText])
 }
 ```
 
-The query below will return the translated string. Populate the `sourceLanguage` and `targetLanguage` parameters with one of the [Supported Language Codes](https://docs.aws.amazon.com/translate/latest/dg/what-is.html#what-is-languages). Pass in the text you want to translate into the `text` parameter.
+The query below will return the translated string. Populate the `sourceLanguage` and `targetLanguage` parameters with one of the [Supported Language Codes](https://docs.aws.amazon.com/translate/latest/dg/what-is.html#what-is-languages). Pass in the text to translate via the `text` parameter.
 
 ```graphql
 query TranslateText($input: TranslateTextInput!) {
@@ -83,11 +83,11 @@ To configure Text-to-Speech synthesis use the `convertTextToSpeech` action in th
 
 ```graphql
 type Query {
-  textToSpeech: String @predictions(actions: [ convertTextToSpeech ])
+  textToSpeech: String @predictions(actions: [convertTextToSpeech])
 }
 ```
 
-The query below will return a presigned URL with the synthesized speech. Populate the `voiceID` parameter with one of the [Supported Voice IDs](https://docs.aws.amazon.com/polly/latest/dg/voicelist.htm). Pass in the text you want to synthesize into the `text` parameter.
+The query below will return a presigned URL with the synthesized speech. Populate the `voiceID` parameter with one of the [Supported Voice IDs](https://docs.aws.amazon.com/polly/latest/dg/voicelist.htm). Pass in the text to synthesize via the `text` parameter.
 
 ```graphql
 query ConvertTextToSpeech($input: ConvertTextToSpeechInput!) {
@@ -138,7 +138,7 @@ query SpeakTranslatedImageText($input: SpeakTranslatedImageTextInput!) {
 }
 ```
 
-A code example of this using the JS Library:
+A code example of this using the JS Library is shown below:
 
 ```js
 import React, { useState } from 'react';
@@ -150,7 +150,7 @@ import { speakTranslatedImageText } from './graphql/queries';
 Amplify.configure(awsconfig);
 
 function SpeakTranslatedImage() {
-  const [ src, setSrc ] = useState("");
+  const [src, setSrc] = useState("");
   const [ img, setImg ] = useState("");
 
   function putS3Image(event) {
