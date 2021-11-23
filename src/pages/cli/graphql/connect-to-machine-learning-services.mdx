@@ -87,7 +87,7 @@ type Query {
 }
 ```
 
-The query below will return a presigned URL with the synthesized speech. Populate the `voiceID` parameter with one of the [Supported Voice IDs](https://docs.aws.amazon.com/polly/latest/dg/voicelist.htm). Pass in the text you want to synthesize into the `text` parameter.
+The query below will return a presigned URL with the synthesized speech. Populate the `voiceID` parameter with one of the [Supported Voice IDs](https://docs.aws.amazon.com/polly/latest/dg/voicelist.htm). Pass in the text to synthesize via the `text` parameter.
 
 ```graphql
 query ConvertTextToSpeech($input: ConvertTextToSpeechInput!) {
