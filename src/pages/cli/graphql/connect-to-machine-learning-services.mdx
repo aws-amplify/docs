@@ -150,7 +150,7 @@ import { speakTranslatedImageText } from './graphql/queries';
 Amplify.configure(awsconfig);
 
 function SpeakTranslatedImage() {
-  const [ src, setSrc ] = useState("");
+  const [src, setSrc] = useState("");
   const [ img, setImg ] = useState("");
 
   function putS3Image(event) {
