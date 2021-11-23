@@ -491,7 +491,7 @@ cd amplify/backend/custom/MyCustomResolvers
 npm i @aws-cdk/aws-appsync@~1.124.0
 ```
 
-Finally, add your custom resolvers into the `cdk-stack.ts` file. You can either add the VTL inline into your `cdk-stack.ts` file or define them externally in another file.
+Finally, add your custom resolvers into the `cdk-stack.ts` file. You can either add the VTL inline into your `cdk-stack.ts` file or define them externally in another file. Review the [Resolver Mapping Template Programming Guide](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-mapping-template-reference-programming-guide.html) to learn more about the VTL template.
 
 ```ts
 import * as cdk from '@aws-cdk/core';
@@ -568,7 +568,7 @@ amplify/backend/api/<resource_name>
 │   └── Query.searchTodos.req.vtl # Place resolver overrides with the same file name here
 ```
 
-The example above shows how the `Query.searchTodos.req.vtl` is overwritten with a custom resolver. 
+The example above shows how the `Query.searchTodos.req.vtl` is overwritten with a custom resolver. Review the [Resolver Mapping Template Programming Guide](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-mapping-template-reference-programming-guide.html) to learn more about the VTL template.
 
 ## Extend Amplify-generated resolvers
 
@@ -599,7 +599,7 @@ amplify/backend/api/<resource_name>
 │   └── Query.createTodo.postAuth.2.req.vtl # Custom resolver slotted in after postAuth.1 resolver
 ```
 
-For example, the a resolver function file named `Mutation.createTodo.postAuth.2.req.vtl` will be slotted in right after the `Mutation.createTodo.postAuth.1.req.vtl` resolver.
+For example, the a resolver function file named `Mutation.createTodo.postAuth.2.req.vtl` will be slotted in right after the `Mutation.createTodo.postAuth.1.req.vtl` resolver. Review the [Resolver Mapping Template Programming Guide](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-mapping-template-reference-programming-guide.html) to learn more about the VTL template.
 
 ### Supported resolver slots
 
