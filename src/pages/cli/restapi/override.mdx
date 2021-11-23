@@ -1,0 +1,30 @@
+export const meta = {
+  title: `Override Amplify-generated API Gateway resources`,
+  description: `The "amplify override api" command generates a developer-configurable "overrides" TypeScript file which provides Amplify-generated API Gateway resources as CDK constructs. For example, developers can configure the minimum compression size of their REST API.`,
+};
+
+```bash
+amplify override api
+```
+
+Run the command above to override Amplify-generated Amazon API Gateway.
+
+The command creates a new `overrides.ts` file under `amplify/backend/auth/<resource-name>/` which provides you the Amplify-generated resources as [CDK constructs](https://docs.aws.amazon.com/cdk/latest/guide/home.html).
+
+Apply all the overrides in the `override(...)` function. For example to configure minimum compression size for the REST API:
+
+```ts
+// This file is used to override the REST API resources configuration
+import { AmplifyApiRestResourceStackTemplate } from '@aws-amplify/cli-extensibility-helper';
+
+export function override(resources: AmplifyApiRestResourceStackTemplate) {
+  resources.restApi.minimumCompressionSize = 1024
+}
+```
+
+You can override the following REST API resources that Amplify generates:
+|Amplify-generated resource|Description|
+|-|-|
+|[restApi](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-restapi.html)|The Amazon API Gateway REST API created by `amplify add api`|
+|[deploymentResource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-deployment.html)|The deployment resource that deploys the REST API above to a stage.|
+|[policies](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)|User pool group-related IAM policy. Example: `resources.policies["/items"].groups["Admin"]`

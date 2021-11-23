@@ -1080,8 +1080,9 @@ const directory = {
       restapi: {
         title: "API (REST)",
         items: [
-          {title: "Overview", route: "/cli/restapi/restapi", filters: []},
-          {title: "Test", route: "/cli/restapi/testing", filters: []},
+          { title: "Overview", route: "/cli/restapi/restapi", filters: [] },
+          { title: "Test", route: "/cli/restapi/testing", filters: [] },
+          { title: "Override Amplify-generated API Gateway resources", route: "/cli/restapi/override", filters: [] },
         ],
       },
       auth: {
