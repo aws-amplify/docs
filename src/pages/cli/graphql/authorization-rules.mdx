@@ -257,9 +257,7 @@ In the example above:
 
 ## Field-level authorization rules
 
-TODO ADD SUBSCRIPTION BEHAVIOR
-
-When an authorization rule is added to a field, it'll strictly define the authorization rules applied on the field. Field-level authorization rules **do not** inherit model-level authorization rules. Meaning, only the specified rule is always applied; nothing more, nothing less.
+When an authorization rule is added to a field, it'll strictly define the authorization rules applied on the field. Field-level authorization rules **do not** inherit model-level authorization rules. Meaning, only the specified rule is always applied. 
 
 ```graphql
 type Employee @model @auth(rules: [
@@ -271,6 +269,11 @@ type Employee @model @auth(rules: [
   ssn: String @auth(rules: [{ allow: owner }])
 }
 ```
+
+<Callout warning>
+
+To facilitate field-level authorization with subscriptions, you need to either apply field-level authorization rules to all **required** fields, make the other fields nullable, or disable subscriptions by setting it to public or off.
+</Callout>
 
 In the example above:
 - **any signed in user** is allowed to read the list of employees' `name` and `email` fields
@@ -336,6 +339,32 @@ type Post @model
 ```
 
 In this example the record owner will check against a `user_id` claim. Similarly, if the `user_groups` claim contains a "Moderator" string then access will be granted.
+
+### Grant Lambda function access to GraphQL API 
+<BlockSwitcher>
+
+<Block name="Function deployed using Amplify CLI">
+
+If you grant a Lambda function in your Amplify project access to the GraphQL API via `amplify update function`, then the Lambda function's IAM execution role is allow-listed to honor the permissions granted on the `Query`, `Mutation`, and `Subscription` types.
+
+Therefore, these functions have special access privileges that are scoped based on their IAM policy instead of any particular `@auth` rule.
+</Block>
+
+<Block name="Function deployed without Amplify CLI">
+
+To grant an external Lambda function or an IAM role access to this GraphQL API, you need to explicitly allow list the IAM role's name by adding them to `amplify/backend/api/<your-api-name>/custom-roles.json`. Append the `adminRoles` array with the IAM role names:
+
+```json
+{
+  "adminRoleNames": ["<YOUR_IAM_ROLE_NAME>"]
+}
+```
+
+These "Admin Roles" have special access privileges that are scoped based on their IAM policy instead of any particular `@auth` rule.
+
+</Block>
+
+</BlockSwitcher>
 
 ### How it works
 

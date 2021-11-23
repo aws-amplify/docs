@@ -472,7 +472,77 @@ The `@http` transformer will create one HTTP datasource for each identified base
 
 ## VTL resolver
 
-TODO
+You can use AWS Cloud Development Kit (CDK) to define custom VTL resolvers for your GraphQL API.
+```bash
+amplify add custom
+```
+```console
+? How do you want to define this custom resource?
+❯ AWS CDK
+? Provide a name for your custom resource
+❯ MyCustomResolvers
+```
+
+Next, install the AppSync dependencies for your custom resource:
+```bash
+cd amplify/backend/custom/MyCustomResolvers
+npm i @aws-cdk/aws-appsync@~1.124.0
+```
+
+Finally, add your custom resolvers into the `cdk-stack.ts` file. You can either add the VTL inline into your `cdk-stack.ts` file or define them externally in another file.
+
+```ts
+import * as cdk from '@aws-cdk/core';
+import * as AmplifyHelpers from '@aws-amplify/cli-extensibility-helper';
+import * as appsync from '@aws-cdk/aws-appsync';
+import { AmplifyDependentResourcesAttributes } from '../../types/amplify-dependent-resources-ref';
+
+const requestVTL =`
+<YOUR CUSTOM VTL REQUEST MAPPING TEMPLATE HERE>
+`
+const responseVTL =`
+<YOUR CUSTOM VTL RESPONSE MAPPING TEMPLATE HERE>
+`
+
+export class cdkStack extends cdk.Stack {
+  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps, amplifyResourceProps?: AmplifyHelpers.AmplifyResourceProps) {
+    super(scope, id, props);
+    /* Do not remove - Amplify CLI automatically injects the current deployment environment in this input parameter */
+    new cdk.CfnParameter(this, 'env', {
+      type: 'String',
+      description: 'Current Amplify CLI env name',
+    });
+    
+    // Access other Amplify Resources 
+    const retVal:AmplifyDependentResourcesAttributes = AmplifyHelpers.addResourceDependency(this, 
+      amplifyResourceProps.category, 
+      amplifyResourceProps.resourceName, 
+      [{
+        category: "api",
+        resourceName: "<YOUR-API-NAME>"
+      }]
+    );
+
+    const resolver = new appsync.CfnResolver(this, "custom-resolver", {
+      apiId: retVal.api.new.GraphQLAPIIdOutput,
+      fieldName: "querySomething", 
+      typeName: "Query", // Query | Mutation | Subscription
+      requestMappingTemplate: requestVTL,
+      responseMappingTemplate: responseVTL,
+      dataSourceName: "TodoTable" // DataSource name
+    })
+  }
+}
+```
+
+You can alternatively define the VTL templates in another file such as `Query.querySomething.req.vtl` or `Query.querySomething.res.vtl` in `amplify/backend/custom/MyCustomResolvers/`. Then use the following code snippets to retrieve them:
+
+```ts
+requestMappingTemplate: appsync.MappingTemplate.fromFile(path.join(__dirname, "..", "Query.testColin.req.vtl")).renderTemplate(),
+responseMappingTemplate: appsync.MappingTemplate.fromFile(path.join(__dirname, "..", "Query.testColin.res.vtl")).renderTemplate(),
+```
+
+> **Note:** the `..` is added to the path because the path is always relative to the `build` folder of the custom resource.
 
 ## Override Amplify-generated resolvers
 

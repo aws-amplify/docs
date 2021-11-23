@@ -258,7 +258,7 @@ query getEmployee($id: ID!) {
 
 ### 2. Query employee details by employee name
 
-The `@index` `byName` on the `Employee` type makes this access-pattern feasible because under the covers an index is created and a query is used to match against the name field. We can use this query:
+The `@index` `byName` on the `Employee` type makes this access-pattern feasible because under the hood an index is created and a query is used to match against the name field. We can use this query:
 
 ```graphql
 query employeeByName($name: String!) {

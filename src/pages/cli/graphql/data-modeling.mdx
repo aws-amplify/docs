@@ -413,7 +413,7 @@ If you create a new Todo and don't supply a `content` input, Amplify will ensure
 
 ## Advanced
 
-### Rename generated queries and mutations
+### Rename generated queries, mutations, and subscriptions
 
 You can override the names of any `@model`-generated GraphQL queries, mutations and subscriptions, or remove operations. Just supply the desired prefix for the queries, mutations, and subscriptions. To disable a certain operation, just assign their value to `null`
 
@@ -442,6 +442,16 @@ type Todo {
   content: String
   createdOn: AWSDateTime!
   updatedOn: AWSDateTime!
+}
+```
+
+### Modify subscriptions (real-time updates) access level
+
+By default, real-time updates are on for all `@model` types, which means customers receive real-time updates and authorization rules are applied during initial connection time. You can also turn off subscriptions for that model or make the real-time updates public, receivable by all subscribers.
+
+```graphql
+type Todo @model(subscriptions: { level: off }) { # or level: public
+  content: String!
 }
 ```
 
