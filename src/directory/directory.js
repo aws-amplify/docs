@@ -406,22 +406,22 @@ const directory = {
           {
             title: "Getting started",
             route: "/lib/geo/getting-started",
-            filters: ["android"],
+            filters: ["android", "ios"],
           },
           {
             title: "Maps",
             route: "/lib/geo/maps",
-            filters: ["android"],
+            filters: ["android", "ios"],
           },
           {
             title: "Location Search",
             route: "/lib/geo/search",
-            filters: ["android"],
+            filters: ["android", "ios"],
           },
           {
             title: "Use existing AWS resources",
             route: "/lib/geo/existing-resources",
-            filters: ["android"],
+            filters: ["android", "ios"],
           },
         ],
       },
@@ -985,24 +985,9 @@ const directory = {
             title: "Authenticator",
             route: "/ui/auth/authenticator",
             filters: [
-              "angular",
-              "ionic",
-              "next",
-              "react",
-              "react-native",
-              "vue",
+              "react-native"
             ],
-          },
-          {
-            title: "Sign Out",
-            route: "/ui/auth/sign-out",
-            filters: ["angular", "ionic", "react", "vue"],
-          },
-          {
-            title: "Select MFA Type",
-            route: "/ui/auth/select-mfa-type",
-            filters: ["angular", "ionic", "react", "vue"],
-          },
+          }
         ],
       },
       interactions: {
@@ -1011,7 +996,7 @@ const directory = {
           {
             title: "Chatbot",
             route: "/ui/interactions/chatbot",
-            filters: ["angular", "ionic", "react", "react-native", "vue"],
+            filters: [ "react-native"],
           },
         ],
       },
@@ -1021,32 +1006,17 @@ const directory = {
           {
             title: "S3 Album",
             route: "/ui/storage/s3-album",
-            filters: ["angular", "ionic", "react", "react-native", "vue"],
+            filters: ["react-native"],
           },
           {
             title: "S3 Image",
             route: "/ui/storage/s3-image",
-            filters: ["angular", "ionic", "react", "react-native", "vue"],
-          },
-          {
-            title: "S3 Image Picker",
-            route: "/ui/storage/s3-image-picker",
-            filters: ["angular", "ionic", "react", "vue"],
-          },
-          {
-            title: "S3 Text",
-            route: "/ui/storage/s3-text",
-            filters: ["angular", "ionic", "react", "vue"],
-          },
-          {
-            title: "S3 Text Picker",
-            route: "/ui/storage/s3-text-picker",
-            filters: ["angular", "ionic", "react", "vue"],
+            filters: [ "react-native"],
           },
           {
             title: "Tracking Events",
             route: "/ui/storage/tracking-events",
-            filters: ["angular", "ionic", "react", "react-native", "vue"],
+            filters: ["react-native"],
           },
           {
             title: "Customization",
@@ -1061,30 +1031,20 @@ const directory = {
           {
             title: "Theming",
             route: "/ui/customization/theming",
-            filters: ["angular", "ionic", "react", "react-native", "vue"],
+            filters: ["react-native"],
           },
           {
             title: "Customizing CSS",
             route: "/ui/customization/customizing-css",
             filters: [
-              "angular",
-              "ionic",
-              "next",
-              "react",
-              "react-native",
-              "vue",
+              "react-native"
             ],
           },
           {
             title: "Translations",
             route: "/ui/customization/translations",
             filters: [
-              "angular",
-              "ionic",
-              "next",
-              "react",
-              "react-native",
-              "vue",
+              "react-native"
             ],
           },
         ],
@@ -1097,86 +1057,7 @@ const directory = {
       route: "/ui-legacy",
     },
     items: {
-      auth: {
-        title: "Authentication",
-        items: [
-          {
-            title: "Authenticator",
-            route: "/ui-legacy/auth/authenticator",
-            filters: ["angular", "ionic", "react", "react-native", "vue"],
-          },
-        ],
-      },
-      api: {
-        title: "API",
-        items: [
-          {
-            title: "Connect",
-            route: "/ui-legacy/api/connect",
-            filters: ["react", "react-native", "vue"],
-          },
-        ],
-      },
-      storage: {
-        title: "Storage",
-        items: [
-          {
-            title: "Photo Picker",
-            route: "/ui-legacy/storage/photo-picker",
-            filters: ["angular", "ionic", "react", "vue"],
-          },
-          {
-            title: "S3 Album",
-            route: "/ui-legacy/storage/s3-album",
-            filters: ["angular", "ionic", "react", "react-native", "vue"],
-          },
-          {
-            title: "S3 Image",
-            route: "/ui-legacy/storage/s3-image",
-            filters: ["react", "react-native", "vue"],
-          },
-          {
-            title: "Tracking Events",
-            route: "/ui-legacy/storage/tracking-events",
-            filters: ["react", "react-native"],
-          },
-          {
-            title: "Customization",
-            route: "/ui-legacy/storage/customization",
-            filters: ["react", "react-native"],
-          },
-        ],
-      },
-      interactions: {
-        title: "Interactions",
-        items: [
-          {
-            title: "Chatbot",
-            route: "/ui-legacy/interactions/chatbot",
-            filters: ["angular", "ionic", "react", "react-native", "vue"],
-          },
-        ],
-      },
-      xr: {
-        title: "XR",
-        items: [
-          {
-            title: "Sumerian Scene",
-            route: "/ui-legacy/xr/sumerian-scene",
-            filters: ["angular", "ionic", "react", "vue"],
-          },
-        ],
-      },
-      customization: {
-        title: "Customization",
-        items: [
-          {
-            title: "Theming",
-            route: "/ui-legacy/customization/theming",
-            filters: ["react-native"],
-          },
-        ],
-      },
+      
     },
   },
   cli: {
