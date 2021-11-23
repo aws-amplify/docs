@@ -1045,11 +1045,11 @@ const directory = {
             route: "/cli/graphql/search-and-result-aggregations",
             filters: []
           },
-          {
-            title: "Offline data and conflict resolution (DataStore)",
-            route: "/cli/graphql/offline-data-access-and-conflict-resolution",
-            filters: []
-          },
+          // {
+          //   title: "Offline data and conflict resolution (DataStore)",
+          //   route: "/cli/graphql/offline-data-access-and-conflict-resolution",
+          //   filters: []
+          // },
           {
             title: "Connect to machine learning services",
             route: "/cli/graphql/connect-to-machine-learning-services",
@@ -1282,6 +1282,11 @@ const directory = {
       migration: {
         title: "Migration & Backwards Compatibility",
         items: [
+          {
+            title: "GraphQL Transformer v1 to v2 migration",
+            route: "/cli/migration/graphql-transformer-v1-to-v2",
+            filters: []
+          },
           {
             title: "Override feature enablement migration",
             route: "/cli/migration/override",

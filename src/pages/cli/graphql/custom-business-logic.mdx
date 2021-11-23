@@ -548,8 +548,6 @@ responseMappingTemplate: appsync.MappingTemplate.fromFile(path.join(__dirname, "
 
 Amplify generates [AWS AppSync pipeline resolver](https://docs.aws.amazon.com/appsync/latest/devguide/pipeline-resolvers.html) for your queries and mutations. The resolvers are listed the following API resource's folder `amplify/backend/api/<resource_name>/build/resolvers/`. 
 
-![Resolver folders structure in Amplify project folder](/images/cli/resolver_folder_structure.png)
-
 To override an Amplify-generated resolver:
 1. Find the resolver file name you want to override under `build/resolvers`
 2. Place a `.vtl` with the same file name the resource's `resolvers/` (not under `build/`)
