@@ -34,9 +34,9 @@ With the new GraphQL Transformer v2, table index configuration, authorization ru
 ### OpenSearch integration changes:
 
 * DataStore-enabled GraphQL APIs now support OpenSearch integrations.
-* Aggregation queries such as (min, max, sum, avg) and total counts are now avaiable and scoped based on the user access permissions
+* Aggregation queries such as (min, max, sum, avg) and total counts are now available and scoped based on the user access permissions
 * OpenSearch version 7.10 is now the new default version.
-* Backfilling batch size has been increased to 100 which will bring down the cost of backfill and allows faster backfilling of existing data.
+* Backfill batch size has been increased to 100 which will bring down the cost of backfill and allows faster backfill of existing data.
 * Customers can now sort their OpenSearch search results via multiple fields to better refine their search queries.
 
 ## What are the breaking changes and how do I migrate?
@@ -71,9 +71,9 @@ To help you migrate to the GraphQL transformer v2, `amplify migrate api` has bee
             * If sort keys are used: Provide the sort key field names as an array to the `@index`’s sortKeyFields parameter.
             * If a custom queryField is used: Provide the queryField name via the `@index`’s queryField parameter.
     * ![Screenshot visually showing the @key directive migration](/images/cli/graphql/key-migration.png)
-* The GraphQL API’s authorization is now “deny by default”, meaning that clients cannot access the stored data unless an authorization rule is specified.
+* The GraphQL API's authorization is now “deny by default”, meaning that clients cannot access the stored data unless an authorization rule is specified.
     * *_Migration:_*
-        * For `@model` types that don’t have an authorization rule configured based on your GraphQL API’s default authorization mode, you now have to explicitly set the `@auth` rule using the default authorization mode.
+        * For `@model` types that don’t have an authorization rule configured based on your GraphQL API's default authorization mode, you now have to explicitly set the `@auth` rule using the default authorization mode.
     * ![Screenshot visually showing the default authorization mode migration](/images/cli/graphql/default-auth-mode-migration.png)
 * `@auth`’s owner-based authorization will be configured with an “allow”-based model instead of a “deny-based” system
     * _*Migration:*_ First, identify if you have omitted any “operations” from the “operations” parameter. In transformer v1, the specified operations are the ones that “others“ are denied access to. In transformer v2, apply the omitted operations to the ”private“ rule. 
