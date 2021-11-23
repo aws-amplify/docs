@@ -1284,7 +1284,7 @@ const directory = {
         items: [
           {
             title: "GraphQL Transformer v1 to v2 migration",
-            route: "/cli/migration/graphql-transformer-v1-to-v2",
+            route: "/cli/migration/transformer-migration",
             filters: []
           },
           {

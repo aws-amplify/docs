@@ -2,4 +2,136 @@ export const meta = {
   title: `Override Amplify-generated AppSync resources`,
   description: `The "amplify override api" command generates a developer-configurable "overrides" TypeScript file which provides Amplify-generated AppSync resources as CDK constructs. For example, developers can set auth settings that are not directly available in the Amplify CLI workflow, such as X-Ray tracing.`,
 };
-TODO
+
+```bash
+amplify override api
+```
+
+Run the command above to override Amplify-generated GraphQL API resources including AWS AppSync API, Amazon DynamoDB table, Amazon OpenSearch domain, and more.
+
+<Callout>
+
+If you need to customize a specific Amplify-generated VTL resolver, review [Override Amplify-generated resolvers](/cli/graphql/custom-business-logic/#override-amplify-generated-resolvers) first.
+</Callout>
+
+The command creates a new `overrides.ts` file under `amplify/backend/auth/<resource-name>/` which provides you the Amplify-generated resources as [CDK constructs](https://docs.aws.amazon.com/cdk/latest/guide/home.html).
+
+## Customize Amplify-generated AppSync GraphQL API resources
+
+Apply all the overrides in the `override(...)` function. For example to enable X-Ray tracing for the AppSync GraphQL API:
+
+```ts
+import { AmplifyApiGraphQlResourceStackTemplate } from '@aws-amplify/cli-extensibility-helper';
+
+export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
+  resources.api.GraphQLAPI.xrayEnabled = true
+}
+```
+
+You can override the following GraphQL API resources that Amplify generates:
+
+|Amplify-generated resource|Description|
+|-|-|
+|[rootstack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-stack.html)||
+|[GraphQLAPI](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-graphqlapi.html)||
+|[GraphQLAPIDefaultApiKey](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-apikey.html)||
+|[GraphQLAPITransformerSchema](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-graphqlschema.html)||
+|[GraphQLAPINONEDS](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-datasource.html)||
+|[AmplifyDataStore](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html)||
+|[AmplifyDataStoreIAMRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)||
+|[DynamoDBAccess](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
+
+## Customize Amplify-generated resources for @model directive
+
+Apply all the overrides in the `override(...)` function. Pass in the @model type name into `resources.models[...]` to modify the resources generated for that particular @model type. For example, to enable time-to-live on the Todo `@model` type's DynamoDB table:
+
+```ts
+import { AmplifyApiGraphQlResourceStackTemplate } from '@aws-amplify/cli-extensibility-helper';
+
+export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
+  resources.models["Todo"].modelDDBTable.timeToLiveSpecification = {
+    attributeName: "ttl",
+    enabled: true
+  }
+}
+```
+
+You can override the following @model directive resources that Amplify generates:
+
+|Amplify-generated resource|Description|
+|-|-|
+[resolvers]?: Record<string, CfnResolver>;||
+[appsyncFunctions]?: Record<string, CfnFunctionConfiguration>;||
+[modelStack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-stack.html)||
+[modelDDBTable](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html)||
+[modelIamRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)||
+[modelIamRoleDefaultPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
+[dynamoDBAccess](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
+[modelDatasource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-datasource.html);||
+[invokeLambdaFunction](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
+
+## Customize Amplify-generated resources for @searchable (OpenSearch) directive
+
+Apply all the overrides in the `override(...)` function. For example, to modify the OpenSearch instance count:
+
+```ts
+import { AmplifyApiGraphQlResourceStackTemplate } from '@aws-amplify/cli-extensibility-helper';
+
+export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
+  resources.opensearch.OpenSearchDomain.elasticsearchClusterConfig = {
+    ...resources.opensearch.OpenSearchDomain.elasticsearchClusterConfig,
+    instanceCount: 6
+  }
+}
+```
+
+You can override the following @searchable directive resources that Amplify generates:
+
+|Amplify-generated resource|Description|
+|-|-|
+[resolvers]?: Record<string, CfnResolver>;||
+[appsyncFunctions]?: Record<string, CfnFunctionConfiguration>;||
+[OpenSearchDataSource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-datasource.html)||
+[OpenSearchAccessIAMRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)||
+[OpenSearchAccessIAMRoleDefaultPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
+[OpenSearchDomain](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticsearch-domain.html)||
+[OpenSearchStreamingLambdaIAMRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)||
+[OpenSearchStreamingLambdaIAMRoleDefaultPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
+[CloudwatchLogsAccess](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
+[OpenSearchStreamingLambdaFunction](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html)||
+[OpenSearchModelLambdaMapping](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-eventsourcemapping.html)||
+
+## Customize Amplify-generated resources for @predictions directive
+
+Apply all the overrides in the `override(...)` function. For example, to add a Path to IAM role that facilitates text translation:
+
+```ts
+import { AmplifyApiGraphQlResourceStackTemplate } from '@aws-amplify/cli-extensibility-helper';
+
+export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
+  resources.predictions.TranslateDataSourceServiceRole.path = "/myorganization/team/"
+}
+```
+
+You can override the following @predictions directive resources that Amplify generates:
+
+|Amplify-generated resource|Description|
+|-|-|
+|[resolvers]?: Record<string, CfnResolver>;||
+|[appsyncFunctions]?: Record<string, CfnFunctionConfiguration>;||
+|[RekognitionDataSource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-datasource.html)||
+|[RekognitionDataSourceServiceRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)||
+|[TranslateDataSource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-datasource.html)||
+|[translateTextAccess](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
+|[LambdaDataSource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-datasource.html)||
+|[LambdaDataSourceServiceRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)||
+|[LambdaDataSourceServiceRoleDefaultPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
+|[TranslateDataSourceServiceRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)||
+|[predictionsLambdaIAMRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)||
+|[predictionsLambdaFunction](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html)||
+|[PredictionsLambdaAccess](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)||
+|[predictionsIAMRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)||
+|[PredictionsStorageAccess](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
+|[identifyTextAccess](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
+|[identifyLabelsAccess](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)||
+
