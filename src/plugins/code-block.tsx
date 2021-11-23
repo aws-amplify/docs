@@ -71,14 +71,14 @@ const highlight = (code, language, regions, idx) => {
   }">${highlighted}</div>`;
 
   let lineCount = html.split(/\r\n|\r|\n/).length;
+  let regionalCopy = false;
 
   if (regions > 1 && idx > 0) {
     lineCountOffSet = lineCountOffSet + lineCount;
+    regionalCopy = true;
   } else {
     lineCountOffSet = 0;
   }
-
-  // const noCopy = code.indexOf('###BEGIN_COPY###') > -1;
 
   return [
     {
@@ -96,7 +96,7 @@ const highlight = (code, language, regions, idx) => {
     },
     {
       type: 'jsx',
-      value: `<CodeBlock language="${language}" lineCount="${lineCount}" lineCountOffset="${lineCountOffSet}" noCopy="${false}" >`
+      value: `<CodeBlock language="${language}" lineCount="${lineCount}" lineCountOffset="${lineCountOffSet}" regionalCopy="${regionalCopy}" >`
     },
     ...unified()
       .use(rehypeParse, { fragment: true })
@@ -143,8 +143,6 @@ const codeBlockPlugin = () => (tree) => {
       node.children = code
         .map((section, idx) => highlight(section, language, code.length, idx))
         .reduce(reducer);
-
-      console.log(node.children);
     }
   });
 };

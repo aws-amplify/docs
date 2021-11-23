@@ -15,7 +15,6 @@ const TAB_ORDER_LOCAL_STORAGE_KEY = `amplify-docs::tab-order`;
 
 export default function CodeBlockProvider({ children }) {
   const [tabOrder, setTabOrder] = useState([]);
-  console.log(children);
   const setFromLocalStorage = () => {
     setTabOrder((oldTabOrder) => {
       const localStorageTabOrder = parseLocalStorage(
@@ -70,7 +69,6 @@ export default function CodeBlockProvider({ children }) {
   };
 
   const value = { tabOrder, setActiveTab, setFromLocalStorage };
-  console.log('codeblock provider', children);
   return (
     <CodeBlockContext.Provider value={value}>
       {children}

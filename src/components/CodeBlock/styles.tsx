@@ -5,6 +5,14 @@ type CodeBlockProps = {
   regionalCopy?: boolean;
 };
 
+type CopyButtonProps = {
+  regionalCopy?: boolean;
+};
+
+type LineCountProps = {
+  regionalCopy?: boolean;
+};
+
 export const CodeBlockStyle = styled.div<CodeBlockProps>`
   position: relative;
   display: flex;
@@ -23,17 +31,25 @@ export const CodeBlockStyle = styled.div<CodeBlockProps>`
   }
 
   padding-left: ${(props) => (props.oneLine ? '1rem' : '0')};
+
   padding-top: ${(props) => (props.regionalCopy ? '0' : '1rem')};
   margin-top: ${(props) => (props.regionalCopy ? '-15px' : 'auto')};
+
+  &:hover,
+  &:hover > * {
+    cursor: pointer;
+    background-color: #1c466f;
+  }
 `;
 
-export const LineCountStyle = styled.div`
+export const LineCountStyle = styled.div<LineCountProps>`
   position: sticky;
   left: 0;
   background-color: var(--code-bg-color);
   color: var(--code-line-numbers-color);
   text-align: center;
   padding: 0 1rem;
+  padding-left: ${(props) => (props.regionalCopy ? '12px' : '1rem')};
   user-select: none;
   opacity: 0.8;
 
@@ -43,10 +59,10 @@ export const LineCountStyle = styled.div`
   }
 `;
 
-export const CopyButtonStyle = styled.button`
+export const CopyButtonStyle = styled.button<CopyButtonProps>`
   position: sticky;
   height: 1rem;
-  top: 0.25rem;
+  top: ${(props) => (props.regionalCopy ? '20px' : '0.25rem')};
   right: 0.5rem;
   opacity: 0.75;
   background-color: transparent;
