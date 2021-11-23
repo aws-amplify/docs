@@ -57,11 +57,11 @@ You will need to update `aws-exports.js` manually to configure In-App Messaging.
 ```js
 const awsmobile = {
   ...
-  Notifications: {
-    InAppMessaging: {
+  "Notifications": {
+    "InAppMessaging": {
       AWSPinpoint: {
-        appId: '<pinpoint-project-id>',
-        region: '<aws-region>',
+        "appId": "<pinpoint-project-id>",
+        "region": "<aws-region>",
       },
     },
   },
