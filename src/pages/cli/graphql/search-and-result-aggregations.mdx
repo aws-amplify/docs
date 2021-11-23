@@ -110,7 +110,8 @@ query SearchAndSort {
     filter: {name: {wildcard: "*Brandel"}},
     sort: [
       {field: name, direction: desc}, # Sort condition #1
-      {field: dateOfBirth, direction: asc}] # Sort condition #2
+      {field: dateOfBirth, direction: asc} # Sort condition #2
+    ]  
   ) {
     items {
       id
