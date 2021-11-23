@@ -158,7 +158,7 @@ The `@http` directive generates resolvers that can handle XML and JSON responses
 
 ```graphql
 type Query {
-  listPosts: Post
+  listPosts: [Post]
     @http(
       url: "https://www.example.com/posts"
       headers: [{ key: "X-Header", value: "X-Header-Value" }]
