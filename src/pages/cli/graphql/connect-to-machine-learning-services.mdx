@@ -63,7 +63,7 @@ type Query {
 }
 ```
 
-The query below will return the translated string. Populate the `sourceLanguage` and `targetLanguage` parameters with one of the [Supported Language Codes](https://docs.aws.amazon.com/translate/latest/dg/what-is.html#what-is-languages). Pass in the text you want to translate into the `text` parameter.
+The query below will return the translated string. Populate the `sourceLanguage` and `targetLanguage` parameters with one of the [Supported Language Codes](https://docs.aws.amazon.com/translate/latest/dg/what-is.html#what-is-languages). Pass in the text to translate via the `text` parameter.
 
 ```graphql
 query TranslateText($input: TranslateTextInput!) {
