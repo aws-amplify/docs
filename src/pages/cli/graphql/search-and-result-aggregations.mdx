@@ -56,10 +56,10 @@ Use the filter parameter to pass a nested `and`/`or`/`not` condition.
 query MyQuery {
   searchStudents(filter: {
     name: {wildcard: "*Brandel"}
-    or: {
-      dateOfBirth: { lt: "2000-01-01" }
-      email: { exists: true }
-    }
+    or: [
+      { dateOfBirth: { lt: "2000-01-01" } },
+      { email: { exists: true } }
+    ]
   }) {
     items {
       id
