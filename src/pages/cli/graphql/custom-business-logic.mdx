@@ -70,7 +70,7 @@ type Query {
 
 ### Structure of the function event
 
-When writing Lambda functions that are connected via the `@function` directive, you can expect the following structure for the AWS Lambda event object.
+When writing Lambda functions that are connected via the `@function` directive, you can expect the following structure for the AWS Lambda `event` object.
 
 | Key  | Description  |
 |---|---|
@@ -141,7 +141,7 @@ type Post {
 }
 
 type Query {
-  listPosts: Post @http(url: "https://www.example.com/posts")
+  listPosts: [Post] @http(url: "https://www.example.com/posts")
 }
 ```
 
@@ -149,7 +149,7 @@ Amplify generates the definition below that sends a request to the url when the 
 
 ```graphql
 type Query {
-  listPosts: Post
+  listPosts: [Post]
 }
 ```
 
@@ -158,7 +158,7 @@ The `@http` directive generates resolvers that can handle XML and JSON responses
 
 ```graphql
 type Query {
-  listPosts: Post
+  listPosts: [Post]
     @http(
       url: "https://www.example.com/posts"
       headers: [{ key: "X-Header", value: "X-Header-Value" }]
@@ -222,7 +222,7 @@ Amplify generates
 
 ```graphql
 type Query {
-  listPosts(query: QueryListPostsQueryInput!): Post
+  listPosts(query: QueryListPostsQueryInput!): [Post]
 }
 
 input QueryListPostsQueryInput {

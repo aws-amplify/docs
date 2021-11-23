@@ -57,10 +57,10 @@ Use the filter parameter to pass a nested `and`/`or`/`not` condition.
 query MyQuery {
   searchStudents(filter: {
     name: {wildcard: "*Brandel"}
-    or: {
-      dateOfBirth: { lt: "2000-01-01" }
-      email: { exists: true }
-    }
+    or: [
+      { dateOfBirth: { lt: "2000-01-01" } },
+      { email: { exists: true } }
+    ]
   }) {
     items {
       id
@@ -88,8 +88,8 @@ Use the `sort` parameter to sort your search results by a field in ascending or 
 ```graphql
 query SearchAndSort {
   searchStudents(
-    filter: {name: {wildcard: "*Brandel"}},
-    sort: {direction: desc, field: name}
+    filter: { name: { wildcard: "*Brandel" } },
+    sort: { direction: desc, field: name }
   ) {
     items {
       name
@@ -111,7 +111,8 @@ query SearchAndSort {
     filter: {name: {wildcard: "*Brandel"}},
     sort: [
       {field: name, direction: desc}, # Sort condition #1
-      {field: dateOfBirth, direction: asc}] # Sort condition #2
+      {field: dateOfBirth, direction: asc} # Sort condition #2
+    ]  
   ) {
     items {
       id
