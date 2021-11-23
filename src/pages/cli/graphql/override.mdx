@@ -62,10 +62,10 @@ You can override the following @model directive resources that Amplify generates
 [modelStack](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-stack.html)|The nested stack containing all resources for the @model type|
 [modelDDBTable](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html)|The DynamoDB table containing the data for this @model type|
 [modelIamRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)|IAM role to access the DynamoDB table for this @model type|
-[modelIamRoleDefaultPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)|Default policy associated with the IAM role to access the DynamoDB table for this @model type||
-[dynamoDBAccess](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)|TODO|
+[modelIamRoleDefaultPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)|IAM policy to access the delta sync table for this @model type in case DataStore is enabled|
+[dynamoDBAccess](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)|Default policy associated with the IAM role to access the DynamoDB table for this @model type|
 [modelDatasource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-appsync-datasource.html)|The AppSync DataSource to representing the DynamoDB table|
-[invokeLambdaFunction](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)|TODO|
+[invokeLambdaFunction](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)|IAM policy for Lambda-based conflict resolution function|
 
 ## Customize Amplify-generated resources for @searchable (OpenSearch) directive
 
@@ -122,8 +122,8 @@ You can override the following @predictions directive resources that Amplify gen
 |[TranslateDataSourceServiceRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)|AppSync service role to connect to Amazon Translate|
 |[predictionsLambdaIAMRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)|IAM role for Lambda function calling Amazon Polly|
 |[predictionsLambdaFunction](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html)|Lambda function calling Amazon Polly|
-|[PredictionsLambdaAccess](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)|TODO|
-|[predictionsIAMRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)|TODO|
+|[PredictionsLambdaAccess](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)|IAM policy for Lambda function to access Amazon Polly|
+|[predictionsIAMRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)|IAM role to access s3 bucket used by @predictions|
 |[PredictionsStorageAccess](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)|IAM policy to access S3 bucket used by @predictions|
 |[identifyTextAccess](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)|IAM policy to enable Identify Text|
 |[identifyLabelsAccess](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)|IAM policy to enable Identify Text|

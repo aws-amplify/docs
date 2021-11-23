@@ -54,6 +54,8 @@ With the new GraphQL Transformer v2, table index configuration, authorization ru
             * One of init, preAuth, auth, postAuth, preDataLoad for request mapping templates.
             * One of postDataLoad, finish for response mapping templates.
         * Review how to [extend Amplify-generated resolvers](/cli/graphql/custom-business-logic/#extend-amplify-generated-resolvers)
+* I have used `@searchable` in my GraphQL schema. When migrating to the new GraphQL Transformer, the OpenSearch domain will be replaced with OpenSearch version 7.10 which may result in data loss due to the breaking changes (https://docs.aws.amazon.com/opensearch-service/latest/developerguide/version-migration.html) in OpenSearch from version 6.x.x. 
+    *  To preserve the OpenSearch domain data, manually take a snapshot of the opensearch domain, migrate to v2 transformer and restore the snapshot as described [here](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-snapshots.html).
 
 ### Changes that Amplify CLI will auto-migrate for you
 
