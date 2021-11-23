@@ -451,7 +451,7 @@ const directory = {
         ],
       },
       "in-app-messaging": {
-        title: "In-App Messaging",
+        title: "In-App Messaging (Preview)",
         items: [
           {
             title: "Overview",
