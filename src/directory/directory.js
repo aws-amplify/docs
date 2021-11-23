@@ -450,6 +450,66 @@ const directory = {
           },
         ],
       },
+      "in-app-messaging": {
+        title: "In-App Messaging (Preview)",
+        items: [
+          {
+            title: "Overview",
+            route: "/lib/in-app-messaging/overview",
+            filters: ["js"],
+          },
+          {
+            title: "Prerequisites",
+            route: "/lib/in-app-messaging/prerequisites",
+            filters: ["js"],
+          },
+          {
+            title: "Create an In-App Messaging campaign",
+            route: "/lib/in-app-messaging/create-campaign",
+            filters: ["js"],
+          },
+          {
+            title: "Getting started",
+            route: "/lib/in-app-messaging/getting-started",
+            filters: ["js"],
+          },
+          {
+            title: "Sync messages",
+            route: "/lib/in-app-messaging/sync-messages",
+            filters: ["js"],
+          },
+          {
+            title: "Display message",
+            route: "/lib/in-app-messaging/display-message",
+            filters: ["js"],
+          },
+          {
+            title: "Clear messages",
+            route: "/lib/in-app-messaging/clear-messages",
+            filters: ["js"],
+          },
+          {
+            title: "Customize your UI",
+            route: "/lib/in-app-messaging/customize",
+            filters: ["js"],
+          },
+          {
+            title: "Identify a user",
+            route: "/lib/in-app-messaging/identify-user",
+            filters: ["js"],
+          },
+          {
+            title: "Respond to interaction events",
+            route: "/lib/in-app-messaging/respond-interaction-events",
+            filters: ["js"],
+          },
+          {
+            title: "Resolving conflicts",
+            route: "/lib/in-app-messaging/resolve-conflicts",
+            filters: ["js"],
+          },
+        ],
+      },
       interactions: {
         title: "Interactions",
         items: [
@@ -518,7 +578,7 @@ const directory = {
             route: "/lib/predictions/escapehatch",
             filters: ["android", "ios"],
           },
-          {title: "Example", route: "/lib/predictions/sample", filters: ["js"]},
+          { title: "Example", route: "/lib/predictions/sample", filters: ["js"] },
         ],
       },
       pubsub: {
@@ -534,7 +594,7 @@ const directory = {
             route: "/lib/pubsub/subunsub",
             filters: ["js"],
           },
-          {title: "Publish", route: "/lib/pubsub/publish", filters: ["js"]},
+          { title: "Publish", route: "/lib/pubsub/publish", filters: ["js"] },
         ],
       },
       "push-notifications": {
@@ -640,7 +700,7 @@ const directory = {
             route: "/lib/xr/getting-started",
             filters: ["js"],
           },
-          {title: "Scene API", route: "/lib/xr/sceneapi", filters: ["js"]},
+          { title: "Scene API", route: "/lib/xr/sceneapi", filters: ["js"] },
         ],
       },
       utilities: {
@@ -651,14 +711,14 @@ const directory = {
             route: "/lib/utilities/serviceworker",
             filters: ["js"],
           },
-          {title: "Cache", route: "/lib/utilities/cache", filters: ["js"]},
-          {title: "Hub", route: "/lib/utilities/hub", filters: ["js"]},
+          { title: "Cache", route: "/lib/utilities/cache", filters: ["js"] },
+          { title: "Hub", route: "/lib/utilities/hub", filters: ["js"] },
           {
             title: "Internationalization",
             route: "/lib/utilities/i18n",
             filters: ["js"],
           },
-          {title: "Logger", route: "/lib/utilities/logger", filters: ["js"]},
+          { title: "Logger", route: "/lib/utilities/logger", filters: ["js"] },
         ],
       },
       "client-configuration": {
@@ -892,7 +952,7 @@ const directory = {
       info: {
         title: "Info",
         items: [
-          {title: "Data Information", route: "/overview", filters: ["android"]},
+          { title: "Data Information", route: "/overview", filters: ["android"] },
           {
             title: "Uninstalling the app",
             route: "/sdk/info/app-uninstall",
@@ -1009,7 +1069,7 @@ const directory = {
       start: {
         title: "Get started",
         items: [
-          {title: "Installation", route: "/cli/start/install", filters: []},
+          { title: "Installation", route: "/cli/start/install", filters: [] },
           {
             title: "Typical workflows",
             route: "/cli/start/workflows",
@@ -1115,16 +1175,16 @@ const directory = {
       restapi: {
         title: "API (REST)",
         items: [
-          {title: "Overview", route: "/cli/restapi/restapi", filters: []},
-          {title: "Test", route: "/cli/restapi/testing", filters: []},
+          { title: "Overview", route: "/cli/restapi/restapi", filters: [] },
+          { title: "Test", route: "/cli/restapi/testing", filters: [] },
         ],
       },
       auth: {
         title: "Authentication",
         items: [
-          {title: "Overview", route: "/cli/auth/overview", filters: []},
-          {title: "User groups", route: "/cli/auth/groups", filters: []},
-          {title: "Admin actions", route: "/cli/auth/admin", filters: []},
+          { title: "Overview", route: "/cli/auth/overview", filters: [] },
+          { title: "User groups", route: "/cli/auth/groups", filters: [] },
+          { title: "Admin actions", route: "/cli/auth/admin", filters: [] },
           {
             title: "Use an existing Cognito User Pool and Identity Pool",
             route: "/cli/auth/import",
@@ -1140,7 +1200,7 @@ const directory = {
       storage: {
         title: "Storage",
         items: [
-          {title: "Overview", route: "/cli/storage/overview", filters: []},
+          { title: "Overview", route: "/cli/storage/overview", filters: [] },
           {
             title: "Use an existing S3 bucket or DynamoDB table",
             route: "/cli/storage/import",
@@ -1156,7 +1216,7 @@ const directory = {
       function: {
         title: "Functions",
         items: [
-          {title: "Overview", route: "/cli/function", filters: []},
+          { title: "Overview", route: "/cli/function", filters: [] },
           {
             title: "Reuse code & assets using layers",
             route: "/cli/function/layers",
@@ -1197,7 +1257,7 @@ const directory = {
       hosting: {
         title: "Hosting",
         items: [
-          {title: "Overview", route: "/cli/hosting/hosting", filters: []},
+          { title: "Overview", route: "/cli/hosting/hosting", filters: [] },
         ],
       },
       custom: {
@@ -1245,7 +1305,7 @@ const directory = {
       teams: {
         title: "Team environments",
         items: [
-          {title: "Overview", route: "/cli/teams/overview", filters: []},
+          { title: "Overview", route: "/cli/teams/overview", filters: [] },
           {
             title: "Share single environment",
             route: "/cli/teams/shared",
@@ -1266,7 +1326,7 @@ const directory = {
             route: "/cli/teams/cicd",
             filters: [],
           },
-          {title: "Commands", route: "/cli/teams/commands", filters: []},
+          { title: "Commands", route: "/cli/teams/commands", filters: [] },
         ],
       },
       usage: {
@@ -1301,7 +1361,7 @@ const directory = {
       plugins: {
         title: "Plugins",
         items: [
-          {title: "Overview", route: "/cli/plugins/plugins", filters: []},
+          { title: "Overview", route: "/cli/plugins/plugins", filters: [] },
           {
             title: "Architecture",
             route: "/cli/plugins/architecture",
