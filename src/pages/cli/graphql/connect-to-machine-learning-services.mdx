@@ -39,7 +39,7 @@ type Query {
 }
 ```
 
-In your GraphQL query, can pass in a S3 `key` for the image. At the moment, this directive works only with objects located within `public/` folder in your S3 bucket. The `public/` prefix is automatically added to the `key` input. For instance, in the example below, `public/myimage.jpg` will be used as the input. 
+In your GraphQL query, you can pass in a S3 `key` for the image. At the moment, this directive works only with objects located within `public/` folder in your S3 bucket. The `public/` prefix is automatically added to the `key` input. For instance, in the example below, `public/myimage.jpg` will be used as the input. 
 
 The query below will return a list of identified labels. Review [Detecting Labels](https://docs.aws.amazon.com/rekognition/latest/dg/labels.html) in the Amazon Rekognition documentation for the full list of supported labels.
 
