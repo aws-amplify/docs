@@ -3,7 +3,7 @@ export const meta = {
   description: `Add authorization rules to your GraphQL schema to control access to your data.`,
 };
 
-Amplify automatically creates Amazon DynamoDB database tables for GraphQL types with the `@model` directive in your GraphQL schema. Then, you can relate the data models via `@hasOne`, `@hasMany`, `@belongsTo`, and `@manyToMany` relationships.
+Amplify automatically creates Amazon DynamoDB database tables for GraphQL types annotated with the `@model` directive in your GraphQL schema. You can create relations between the data models via the `@hasOne`, `@hasMany`, `@belongsTo`, and `@manyToMany` directives.
 
 ## Setup database tables
 
@@ -15,9 +15,9 @@ type Todo @model {
 }
 ```
 
-Amplify CLI generates the Todo database table upon `amplify push` and generates a GraphQL API to perform create, read, update, delete, and list operations for the Todo model.
+The Amplify CLI generates the Todo database table upon `amplify push` and generates a GraphQL API to perform create, read, update, delete, and list operations for the Todo model.
 
-In addition, `@model` also adds helper fields like `createdAt` and `updatedAt` to your type. The values for those fields are read-only by clients unless explicitly overwritten. See [Customize creation and update timestamps](#customize-creation-and-update-timestamps) to learn more.
+In addition, `@model` also adds the helper fields `createdAt` and `updatedAt` to your type. The values for those fields are read-only by clients unless explicitly overwritten. See [Customize creation and update timestamps](#customize-creation-and-update-timestamps) to learn more.
 
 Try listing all the todos by executing the following query:
 ```graphql
@@ -37,9 +37,9 @@ query QueryAllTodos {
 
 ### Configure a primary key
 
-Every GraphQL type with the `@model` directive will automatically have a `id` field set as the primary key. You can override this behavior by marking another required field with the `@primaryKey` directive. 
+Every GraphQL type with the `@model` directive will automatically have an `id` field set as the primary key. You can override this behavior by marking another required field with the `@primaryKey` directive. 
 
-In the example below, `todoId` is the database's primary key and `id` field won't be created automatically anymore by the `@model` directive.
+In the example below, `todoId` is the database's primary key and an `id` field will no longer be created automatically anymore by the `@model` directive.
 ```graphql
 type Todo @model {
   todoId: ID! @primaryKey
@@ -47,11 +47,11 @@ type Todo @model {
 }
 ```
 
-Without any further configuration, you'll only be able to query for a Todo via a exact equality match of its primary key field. In the example above, the `todoId` field.
+Without any further configuration, you'll only be able to query for a Todo via an exact equality match of its primary key field. In the example above, this is the `todoId` field.
 
 > Note: After a primary key is configured and deployed, you can't change it without deleting and recreating your database table.
 
-You can also specify "sort keys" to use a combination of different fields as a primary key. This will also allow you to apply more advanced sorting and filtering conditions on the specified "sort key fields".
+You can also specify "sort keys" to use a combination of different fields as a primary key. This also allows you to apply more advanced sorting and filtering conditions on the specified "sort key fields".
 
 ```graphql
 type Inventory @model {
@@ -74,11 +74,11 @@ query QueryInventoryByProductAndWarehouse($productID: ID!, $warehouseID: ID!) {
 
 ### Configure a secondary index
 
-Amplify uses Amazon DynamoDB tables as the underlying data source for @model types. For key-value databases, it is critical to model your access patterns with "secondary indices". 
+Amplify uses Amazon DynamoDB tables as the underlying data source for @model types. For key-value databases, it is critical to model your access patterns with "secondary indexes". Use the `@index` directive to configure a secondary index. 
 
 > **Amazon DynamoDB** is a key-value and document database that delivers single-digit millisecond performance at any scale but making it work for your access patterns requires a bit of forethought. DynamoDB query operations may use at most two attributes to efficiently query data. The first query argument passed to a query (the hash key) must use strict equality and the second attribute (the sort key) may use gt, ge, lt, le, eq, beginsWith, and between. DynamoDB can effectively implement a wide variety of access patterns that are powerful enough for the majority of applications.
 
-A secondary index consists of a "hash key" and a "sort key". Use the "hash key" to perform strict equality and the "sort key" for greater than (gt), greater equals (ge), less than (lt), less equals (le), eq (equals), begins with, and between operations. 
+A secondary index consists of a "hash key" and a "sort key". Use the "hash key" to perform strict equality and the "sort key" for greater than (gt), greater than or equal to (ge), less than (lt), less than or equal to (le), equals (eq), begins with, and between operations. 
 
 ```graphql
 type Customer @model {
@@ -89,7 +89,7 @@ type Customer @model {
 }
 ```
 
-In the example above, you get the ability to query for "Customer" based on their "accountRepresentativeID":
+In the example above, you are able to query for "Customer" based on their "accountRepresentativeID":
 
 ```graphql
 query QueryCustomersForAccountRepresentative($representativeId: ID!) {
@@ -113,7 +113,7 @@ Create "has one", "has many", "belongs to", and "many to many" relationships bet
 |------------|--------|
 |`@hasOne`|Create a one-directional one-to-one relationship between two models. For example, a Project "has one" Team. This allows you to query the team from the project record.
 |`@hasMany`|Create a one-directional one-to-many relationship between two models. For example, a Post has many comments. This allows you to query all the comments from the post record.
-|`@belongsTo`|Use a "belongs to" relationship to make a "has one" or "has many" relationship bi-directional. For example, a Project has one Team and a Team belongs to a Project. This allows you to query the team from the project record and vice versa.|
+|`@belongsTo`|Use a "belongs to" relationship to make a "has one" or "has many" relationship bi-directional. For example, a Project has one Team and a Team belongs to a Project. This allows you to query the team from the project record and vice versa.
 |`@manyToMany`|Configures a "join table" between two models to facilitate a many-to-many relationship. For example, a Blog has many Tags and a Tag has many Blogs.  
 
 ### Has One relationship
@@ -353,7 +353,7 @@ type Comment @model {
 > Note: The `@belongsTo` directive requires that a `@hasOne` or `@hasMany` relationship already exists from parent to the related model. 
 
 ### Many-to-many relationship
-Create many-to-many relationship between two models with the `@manyToMany` directive. Provide a common `relationName` on both models to join them into a many-to-many relationship. 
+Create a many-to-many relationship between two models with the `@manyToMany` directive. Provide a common `relationName` on both models to join them into a many-to-many relationship. 
 
 ```graphql
 type Post @model {
@@ -415,7 +415,7 @@ If you create a new Todo and don't supply a `content` input, Amplify will ensure
 
 ### Rename generated queries, mutations, and subscriptions
 
-You can override the names of any `@model`-generated GraphQL queries, mutations and subscriptions, or remove operations. Just supply the desired prefix for the queries, mutations, and subscriptions. To disable a certain operation, just assign their value to `null`
+You can override the names of any `@model`-generated GraphQL queries, mutations, and subscriptions by supplying the desired name for the queries, mutations, and subscriptions. You can also disable specific operations by assigning their value to `null`.
 
 ```graphql
 type Todo @model(queries: { get: "queryFor" }, mutations: null, subscriptions: null) {
@@ -426,10 +426,10 @@ type Todo @model(queries: { get: "queryFor" }, mutations: null, subscriptions: n
 In the example above, you'll be able to run a `queryForTodo` query to get a single Todo element. Mutations (meaning create, update, and delete) as well as subscriptions are disabled for the Todo model above.
 
 ### Customize creation and update timestamps
-`@model` directive automatically adds `createdAt` and `updatedAt` timestamps to each entities. The timestamp field names can be changed by passing timestamps attribute to the directive.
+The `@model` directive automatically adds `createdAt` and `updatedAt` timestamps to each entity. The timestamp field names can be changed by passing timestamps attribute to the directive.
 
 ```graphql
-type Todo @model(timestamps:{createdAt: "createdOn", updatedAt: "updatedOn"}) {
+type Todo @model(timestamps: { createdAt: "createdOn", updatedAt: "updatedOn" }) {
   content: String
 }
 ```
