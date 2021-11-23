@@ -21,8 +21,17 @@ You can refine your search by specifying following parameters inside `Geo.Search
 - `maxResults` - to limit the maximum result set (defaults to 50).
 
 ```swift
-let coordinates = Geo.Coordinates(latitude: 5.0, longitude: 5.0)
+let coordinates = Geo.Coordinates(latitude: 47.62246, longitude: -122.336775)
 let options = Geo.SearchForTextOptions(area: .near(coordinates),
                                        countries: [.usa, .can],
                                        maxResults: 25)
+                                       
+Amplify.Geo.search(for: "coffee shops", options: options) { result in
+    switch result {
+    case .failure(let error):
+        print(error)
+    case .success(let places):
+        dump(places)
+    }
+}
 ```
