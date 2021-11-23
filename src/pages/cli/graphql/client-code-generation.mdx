@@ -3,6 +3,8 @@ export const meta = {
   description: `Amplify's codegen capabilities generates native code for iOS and Android, as well as the generation of types for Flow and TypeScript. It can also generate GraphQL statements(queries, mutations, and subscriptions).`,
 };
 
+<MigrationAlert url={"/cli-legacy/graphql-transformer/codegen"}/>
+
 "Codegen" generates native code for Swift (iOS), Java (Android), and JavaScript that represent your GraphQL API's data models. It can also generate GraphQL statements (queries, mutations, and subscriptions) so that you don't have to hand code them.
 
 The design of codegen functionality provides mechanisms to run at different points in your app development lifecycle, including when you create or update an API as well as independently when you want to just update the data fetching requirements of your app but leave your API alone. It additionally allows you to work in a team where the schema is updated or managed by another person. Finally, you can also include the codegen in your build process so that it runs automatically (such as from in Xcode).

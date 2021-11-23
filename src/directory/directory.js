@@ -1358,7 +1358,7 @@ const directory = {
         items: [
           {
             title: "Overview",
-            route: "/cli-graphql/graphql-transformer/overview",
+            route: "/cli-legacy/graphql-transformer/overview",
             filters: [],
           },
           {

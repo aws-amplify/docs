@@ -3,9 +3,11 @@ export const meta = {
   description: `Add authorization rules to your GraphQL schema to control access to your data.`,
 };
 
+<MigrationAlert url={"/cli-legacy/graphql-transformer/searchable"}/>
+
 Add the `@searchable` directive to an `@model` type to enable OpenSearch-based data search and result aggregations. This gives you the ability to:
 - search for data using advanced filters, such as substring matching, wildcards, regex, `and`/`or`/`not` conditions
-- get aggregation values, such as sum, average, min, max
+- get aggregation values, such as sum, average, min, max, terms
 - retrieve total search result count
 - sort the search results across one or multiple fields
 
@@ -333,9 +335,62 @@ In the example above, the response includes the sum of all "examsCompleted" valu
 ```
 
 </Block>
-</BlockSwitcher>
+<Block name="Terms">
 
-<!-- ## TERMS TODO -->
+Provide the `terms` value as the `aggregate` `type` and specify the `aggregateItems` in the response field.
+
+```graphql
+query MyQuery {
+  searchTodos(aggregates: {
+    field: description,
+    type: terms,
+    name: "descriptionTerms"
+  }) {
+    aggregateItems {
+      result {
+        ... on SearchableAggregateBucketResult {
+          __typename
+          buckets {
+            doc_count
+            key
+          }
+        }
+      }
+      name
+    }
+  }
+}
+
+```
+
+In the example above, the response includes the terms for the description and their count:
+
+```graphql
+{
+  "data": {
+    "searchTodos": {
+      "aggregateItems": [
+        {
+          "result": {
+            "__typename": "SearchableAggregateBucketResult",
+            "buckets": [{
+                "doc_count": 2,
+                "key": "Shopping list"
+              }, {
+                "doc_count": 1,
+                "key": "Me next todo"
+              }]
+          },
+          "name": "descriptionTerms"
+        }
+      ]
+    }
+  }
+}
+```
+
+</Block>
+</BlockSwitcher>
 
 ## Set up OpenSearch for production environments
 By default, Amplify CLI will configure a t2.small instance type. This is great for getting started and prototyping but not recommended to be used in the production environment per the [OpenSearch best practices](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/bp.html). 

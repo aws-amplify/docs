@@ -3,6 +3,8 @@ export const meta = {
   description: `Add authorization rules to your GraphQL schema to control access to your data.`,
 };
 
+<MigrationAlert url={"/cli-legacy/graphql-transformer/auth"}/>
+
 Use the `@auth` directive to configure authorization rules for public, sign-in user, per user, and per user group data access. **Authorization rules operate on the deny-by-default principle**. Meaning that if an authorization rule is not specifically configured, it is denied.
 
 ```graphql
