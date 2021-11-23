@@ -3,6 +3,8 @@ export const meta = {
   description: `Define relationships with other types in your schema.`,
 };
 
+<MigrationAlert isLegacy url={"/cli/graphql/data-modeling"}/>
+
 ## @connection
 
 The `@connection` directive enables you to specify relationships between `@model` types. Currently, this supports one-to-one, one-to-many, and many-to-one relationships. You may implement many-to-many relationships using two one-to-many connections and a joining `@model` type. See the usage section for details.

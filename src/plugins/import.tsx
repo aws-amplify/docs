@@ -77,6 +77,10 @@ const importPlugin = () => (tree) => {
         type: "import",
         value: `import UiComponentProps from "/src/components/UiComponentProps";`,
       });
+      tree.children.splice(index + 1, 0, {
+        type: "import",
+        value: `import MigrationAlert from "/src/components/MigrationAlert";`,
+      });
       addedImports = true;
     }
   });

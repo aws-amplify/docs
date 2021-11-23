@@ -186,7 +186,6 @@ table {
   font-size: 100%;
   font: inherit;
   width: 100%;
-  table-layout: fixed;
 }
 
 th {
