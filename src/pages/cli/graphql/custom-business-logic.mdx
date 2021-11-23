@@ -141,7 +141,7 @@ type Post {
 }
 
 type Query {
-  listPosts: Post @http(url: "https://www.example.com/posts")
+  listPosts: [Post] @http(url: "https://www.example.com/posts")
 }
 ```
 
