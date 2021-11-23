@@ -87,8 +87,8 @@ Use the `sort` parameter to sort your search results by a field in ascending or 
 ```graphql
 query SearchAndSort {
   searchStudents(
-    filter: {name: {wildcard: "*Brandel"}},
-    sort: {direction: desc, field: name}
+    filter: { name: { wildcard: "*Brandel" } },
+    sort: { direction: desc, field: name }
   ) {
     items {
       name
