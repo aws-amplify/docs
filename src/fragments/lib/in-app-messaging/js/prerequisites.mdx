@@ -1,10 +1,41 @@
+## Initialize the InAppMessagingSample project
+
+The first step is to initialize a new React Native project. This can be done using Expo or the React Native CLI.
+
+<BlockSwitcher>
+<Block name="Expo">
+
+> If this is your first time using Expo, complete the [Expo Getting Started guide](https://docs.expo.dev/) before running the below command.
+
+```bash
+expo init InAppMessagingSample
+```
+
+And select `blank` when prompted with `Choose a template`.
+
+</Block>
+<Block name="React Native CLI">
+
+> If this is your first time using React Native (without Expo), complete the [React Native Getting Started guide](https://reactnative.dev/docs/getting-started)  before running the below command.
+
+```bash
+npx react-native init InAppMessagingSample
+```
+
+</Block>
+</BlockSwitcher>
+
 ## Install and configure the Amplify CLI
 
 Learn how to install and configure [Amplify Command Line Interface (CLI)](/cli/start/install/), a unified toolchain to create AWS cloud services for your app.
 
 ## Initialize Amplify
 
-Bootstrap your project with Amplify by running the init command in your project’s root folder.
+Bootstrap your project with Amplify by navigating in to your project’s root folder and running the `init` command.
+
+```
+cd InAppMessagingSample
+```
 
 ```
 amplify init
