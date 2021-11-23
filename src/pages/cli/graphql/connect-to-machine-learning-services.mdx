@@ -151,12 +151,12 @@ Amplify.configure(awsconfig);
 
 function SpeakTranslatedImage() {
   const [src, setSrc] = useState("");
-  const [ img, setImg ] = useState("");
+  const [img, setImg] = useState("");
 
   function putS3Image(event) {
     const file = event.target.files[0];
     Storage.put(file.name, file)
-    .then (async (result) => {
+    .then(async (result) => {
       setSrc(await speakTranslatedImageTextOP(result.key))
       setImg(await Storage.get(result.key));
     })
@@ -168,17 +168,19 @@ function SpeakTranslatedImage() {
       <div>
         <h3>Upload Image</h3>
         <input
-              type = "file" accept='image/jpeg'
-              onChange = {(event) => {
-                putS3Image(event)
-              }}
+          type = "file" accept='image/jpeg'
+          onChange = {(event) => {
+            putS3Image(event)
+          }}
           />
         <br />
         { img && <img src = {img}></img>}
         { src &&
-          <div> <audio id="audioPlayback" controls>
+          <div> 
+            <audio id="audioPlayback" controls>
               <source id="audioSource" type="audio/mp3" src = {src}/>
-          </audio> </div>
+            </audio>
+          </div>
         }
       </div>
     </div>
@@ -188,7 +190,9 @@ function SpeakTranslatedImage() {
 async function speakTranslatedImageTextOP(key) {
   const inputObj = {
     translateText: {
-      sourceLanguage: "en", targetLanguage: "es" },
+      sourceLanguage: "en",
+      targetLanguage: "es"
+    },
     identifyText: { key },
     convertTextToSpeech: { voiceID: "Conchita" }
   };
@@ -199,8 +203,8 @@ async function speakTranslatedImageTextOP(key) {
 function App() {
   return (
     <div className="App">
-        <h1>Speak Translated Image</h1>
-        < SpeakTranslatedImage />
+      <h1>Speak Translated Image</h1>
+      <SpeakTranslatedImage />
     </div>
   );
 }
@@ -221,7 +225,7 @@ enum PredictionsActions {
 }
 ```
 
-`@predictions` creates resources to communicate with Amazon Rekognition, Translate and Polly.
+`@predictions` creates resources to communicate with Amazon Rekognition, Translate, and Polly.
 For each action the following is created:
 
 - IAM Policy for each service (e.g. Amazon Rekognition `detectText` Policy)
