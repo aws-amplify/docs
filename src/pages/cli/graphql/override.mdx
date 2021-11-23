@@ -109,7 +109,7 @@ Apply all the overrides in the `override(...)` function. For example, to add a P
 import { AmplifyApiGraphQlResourceStackTemplate } from '@aws-amplify/cli-extensibility-helper';
 
 export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
-  resources.predictions.TranslateDataSourceServiceRole.path = "/myorganization/team/"
+  resources.predictions.TranslateDataSourceServiceRole.path = "/my/organization/"
 }
 ```
 
