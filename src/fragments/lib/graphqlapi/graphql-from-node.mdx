@@ -152,7 +152,7 @@ You can access the following resource attributes as environment variables from y
 
 The CLI will automatically configure the Lambda execution IAM role required by the Lambda function to call the GraphQL API. The following function will sign the request and use environment variables for the AppSync and Region that `amplify add function` created for you.
 
-Next, you need to install two npm packages for your AWS Lambda function. To do so, open your terminal in the `amplify/backend/function/<YOUR_FUNCTION_NAME>/src` directory in your newly created AWS Lambda function and run the command `npm install appsync-client graphql-tag`. Once the packages are installed, edit your index.js as the following:
+Next, you need to install two npm packages for your AWS Lambda function. To do so, open your terminal in the `amplify/backend/function/<YOUR_FUNCTION_NAME>/src` directory in your newly created AWS Lambda function and run the command `npm install appsync-client graphql-tag`. Once the packages are installed, add this your index.js:
 
 ```javascript
 const AppSyncClient = require('appsync-client').default;
@@ -191,7 +191,7 @@ exports.handler = async (event) => {
 };
 ```
 
-Finally you can define the GraphQL operation you're running, in this case the `createTodo` mutation, in a separate `graphql.js` file:
+You can also define which GraphQL operation you're running. In this example, we are going to be creating a `createTodo` mutation within a separate `graphql.js` file.
 
 ```javascript
 exports.createTodo = /* GraphQL */ `
