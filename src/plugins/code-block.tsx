@@ -124,24 +124,26 @@ const removeCopy = (code) => {
   return code;
 };
 
-const reducer = (previousValue, currentValue) =>
-  previousValue.concat(currentValue);
-
 const codeBlockPlugin = () => (tree) => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const visit = require('unist-util-visit');
 
+  const reducer = (previousValue, currentValue) =>
+    previousValue.concat(currentValue);
+
   visit(tree, (node) => {
     if (node.tagName === 'code') {
-      let code = addVersions(node.children[0].value);
-      code = removeCopy(code);
+      const code = addVersions(node.children[0].value);
+      const codeSections = removeCopy(code);
 
       const language =
         'className' in node.properties
           ? node.properties.className[0]
           : 'markup';
-      node.children = code
-        .map((section, idx) => highlight(section, language, code.length, idx))
+      node.children = codeSections
+        .map((section, idx) =>
+          highlight(section, language, codeSections.length, idx)
+        )
         .reduce(reducer);
     }
   });

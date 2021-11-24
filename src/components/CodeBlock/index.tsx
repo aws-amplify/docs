@@ -34,9 +34,8 @@ type CodeBlockProps = {
   lineCount: string;
   lineCountOffset?: number;
   language: string;
-  /** True to remove copy to clipboard button */
-  regionalCopy?: boolean;
-  children: any[];
+  regionalCopy?: boolean; // True to remove copy to clipboard button
+  children: React.ReactElement[];
 };
 
 type CodeBlockState = {
