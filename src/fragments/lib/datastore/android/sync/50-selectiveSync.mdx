@@ -322,17 +322,16 @@ public void initialize() {
 </Callout>
 
 ### Advanced use case - Query instead of Scan
-You can configure selective sync to retrieve items from DynamoDB with a [query operation](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Query.html) against a GSI. By default, the base sync will perform a [scan](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html). Query operations enable a highly efficient and cost-effective data retrieval for customers running DynamoDB at scale. Learn about creating GSIs with the `@key` directive [here](https://docs.amplify.aws/cli/graphql-transformer/key).
+You can configure selective sync to retrieve items from DynamoDB with a [query operation](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Query.html) against a GSI. By default, the base sync will perform a [scan](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html). Query operations enable a highly efficient and cost-effective data retrieval for customers running DynamoDB at scale. Learn about creating GSIs with the `@index` directive [here](https://docs.amplify.aws/cli/graphql/data-modeling).
 
 In order to do that, your `syncExpression` should return a predicate that maps to a query expression.
 
 For example, for the following schema:
 ```graphql
-type User @model
-  @key(name: "byLastName", fields: ["lastName", "createdAt"]) {
+type User @model {
   id: ID!
   firstName: String!
-  lastName: String!
+  lastName: String! @index(name: "byLastName", sortKeyFields: ["createdAt"])
   createdAt: AWSDateTime!
 }
 ```

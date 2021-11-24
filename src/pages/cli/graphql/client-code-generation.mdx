@@ -126,18 +126,18 @@ In the below schema there are connections between `Comment` -> `Post` -> `Blog` 
 type Blog @model {
   id: ID!
   name: String!
-  posts: [Post] @connection(name: "BlogPosts")
+  posts: [Post] @hasMany
 }
 type Post @model {
   id: ID!
   title: String!
-  blog: Blog @connection(name: "BlogPosts")
-  comments: [Comment] @connection(name: "PostComments")
+  blog: Blog @belongsTo
+  comments: [Comment] @hasMany
 }
 type Comment @model {
   id: ID!
   content: String
-  post: Post @connection(name: "PostComments")
+  post: Post @belongsTo
 }
 ```
 

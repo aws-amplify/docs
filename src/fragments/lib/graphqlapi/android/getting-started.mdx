@@ -31,20 +31,20 @@ This will create the following schema for us to get started with:
 type Blog @model {
   id: ID!
   name: String!
-  posts: [Post] @connection(name: "BlogPosts")
+  posts: [Post] @hasMany
 }
 
 type Post @model {
   id: ID!
   title: String!
-  blog: Blog @connection(name: "BlogPosts")
-  comments: [Comment] @connection(name: "PostComments")
+  blog: Blog @hasOne
+  comments: [Comment] @hasMany
 }
 
 type Comment @model {
   id: ID!
   content: String
-  post: Post @connection(name: "PostComments")
+  post: Post @belongsTo
 }
 ```
 
@@ -76,7 +76,7 @@ The following types do not have '@auth' enabled. Consider using @auth with @mode
      - Blog
      - Post
      - Comment
-Learn more about [@auth here](/cli/graphql-transformer/auth).
+Learn more about [@auth here](/cli/graphql/authorization-rules).
 
 GraphQL schema compiled successfully.
 ```
