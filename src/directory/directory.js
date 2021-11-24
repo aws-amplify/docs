@@ -423,6 +423,11 @@ const directory = {
             route: "/lib/geo/existing-resources",
             filters: ["android", "ios"],
           },
+          {
+            title: "Escape hatch",
+            route: "/lib/geo/escapehatch",
+            filters: ["android"],
+          },
         ],
       },
       geo: {
@@ -1057,7 +1062,7 @@ const directory = {
       route: "/ui-legacy",
     },
     items: {
-      
+
     },
   },
   cli: {
