@@ -306,6 +306,17 @@ userPools:owner:owner
   └─────────┴────────┴──────┴────────┴────────┘
 ```
 
+### Use IAM authorization within the AppSync console
+IAM-based `@auth` rules are scoped down to only work with Amplify-generated IAM roles. To access the GraphQL API with IAM authorization within your AppSync console, you need to explicitly allow list the IAM user's name by adding them to `amplify/backend/api/<your-api-name>/custom-roles.json`. (Create the `custom-roles.json` file if it doesn't exist). Append the `adminRoleNames` array with the IAM role or user names:
+
+```json
+{
+  "adminRoleNames": ["<YOUR_IAM_USER_OR_ROLE_NAME>"]
+}
+```
+
+These "Admin Roles" have special access privileges that are scoped based on their IAM policy instead of any particular `@auth` rule.
+
 ### Using OIDC authorization provider
 `private`, `owner`, and `group` authorization can be configured with an OpenID Connect (OIDC) authorization mode. Add `provider: oidc` to the authorization rule. Upon the next `amplify push`, Amplify CLI prompts you for the *OpenID Connect provider domain*, *Client ID*, *Issued at TTL*, and *Auth Time TTL*.  
 
@@ -354,7 +365,7 @@ Therefore, these functions have special access privileges that are scoped based 
 
 <Block name="Function deployed without Amplify CLI">
 
-To grant an external Lambda function or an IAM role access to this GraphQL API, you need to explicitly allow list the IAM role's name by adding them to `amplify/backend/api/<your-api-name>/custom-roles.json`. Append the `adminRoles` array with the IAM role names:
+To grant an external Lambda function or an IAM role access to this GraphQL API, you need to explicitly allow list the IAM role's name by adding them to `amplify/backend/api/<your-api-name>/custom-roles.json`. (Create the `custom-roles.json` file if it doesn't exist). Append the `adminRoleNames` array with the IAM role names:
 
 ```json
 {
@@ -396,4 +407,4 @@ Authorization rules consists of:
 - **authorization provider** (`provider`): which mechanism is used to apply the authorization rule (API Key, IAM, Amazon Cognito user pool, OIDC)
 - **authorized operations** (`operations`): which operations are allowed for the given strategy and provider. If not specified, `create`, `read`, `update`, and `delete` operations are allowed.
 
-**API Keys** are best used for public APIs (or parts of your schema which you wish to be public) or prototyping, and you must specify the expiration time before deploying. **IAM** authorization uses [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html) to make request with policies attached to Roles. OIDC tokens provided by **Amazon Cognito user pool** or **3rd party OpenID Connect** providers can also be used for authorization, and simply enabling this provides a simple access control requiring users to authenticate to be granted top level access to API actions.
+**API Keys** are best used for public APIs (or parts of your schema which you wish to be public) or prototyping, and you must specify the expiration time before deploying. **IAM** authorization uses [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html) to make request with policies attached to Roles. OIDC tokens provided by **Amazon Cognito user pool** or **3rd party OpenID Connect** providers can also be used for authorization, and enabling this provides a simple access control requiring users to authenticate to be granted top level access to API actions.
