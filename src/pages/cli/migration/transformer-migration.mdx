@@ -79,8 +79,7 @@ To help you migrate to the GraphQL transformer v2, `amplify migrate api` has bee
     * ![Screenshot visually showing the default authorization mode migration](/images/cli/graphql/default-auth-mode-migration.png)
 * `@auth`’s owner-based authorization will be configured with an “allow”-based model instead of a “deny-based” system
     * _*Migration:*_ First, identify if you have omitted any “operations” from the “operations” parameter. In transformer v1, the specified operations are the ones that “others“ are denied access to. In transformer v2, apply the omitted operations to the ”private“ rule. 
-    * ![Screenshot visually showing the owner authorization rule migration](/images/cli/graphql/owner-auth-migration.png)
-    * ![Screenshot visually showing the owner authorization rule with deny fields migration](/images/cli/graphql/owner-auth-migration.png)
+    * ![Screenshot visually showing the original owner authorization rule and the migrated rule with deny by default](/images/cli/graphql/owner-auth-migration.png)
 * Field-level authorization rules need to be rewritten to explicitly specify who is granted which type of access for a given field. A field rule will override any existing object rules. To maintain the object rule it needs to be specified again on the field. If a rule is only listed on the field and not the object, access is denied to all other fields.
     * Some directives implicitly create fields. These fields cannot utilize field-level authorization because they are not specified in the input schema.
 * In v1 of the GraphQL Transformer, when combining `@searchable` with `@auth`, the total count in a search result contained records that the user was not authorized to access. In v2 of the GraphQL Transformer, the total count only contains results that the user is authorized to access. Similarly, to run an aggregation on a field, the user must have read access to that field.
