@@ -51,6 +51,17 @@ Next, create and render the [Map](https://maplibre.org/maplibre-gl-js-docs/api/m
   initializeMap();
   ```
 
+  To render a map using a className or something other than the ID you can pass in a reference to the HTML Element itself.
+
+  ```javascript
+  const element = document.getElementsByClassName("class")[0];
+
+  const map = await createMap({
+      container: element,
+      ...
+  })
+  ```
+
   </Block>
 
   <Block name="React">
