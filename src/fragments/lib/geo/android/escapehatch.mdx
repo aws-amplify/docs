@@ -1,0 +1,41 @@
+If you need functionality in the AWS services used by the Amplify Geo category that isn't available, we provide an escape hatch so you can get a reference to that service.
+
+Note: If you provisioned your Geo resources via Amplify CLI, then the IAM policy will be specifically scoped to only allow actions required by the library.
+Please [adjust your authorization permissions](/lib/geo/existing-resources) accordingly for your escape hatch use-cases.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+// Obtain reference to the plugin
+AWSLocationGeoPlugin geoPlugin = (AWSLocationGeoPlugin)
+        Amplify.Geo.getPlugin("awsLocationGeoPlugin");
+AmazonLocationClient locationClient = geoPlugin.getEscapeHatch();
+
+// Send a new request to the Location Maps endpoint directly using the client
+ListMapsRequest request = new ListMapsRequest();
+ListMapsResult response = locationClient.listMaps(request);
+Log.i("MyAmplifyApp", response.getEntries().toString());
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+// Obtain reference to the Amazon Location Service client
+val geoPlugin = Amplify.Geo.getPlugin("awsLocationGeoPlugin")
+val locationClient = (geoPlugin as AmazonLocationClient).escapeHatch
+
+// Send a new request to the Location Maps endpoint directly using the client
+val request = ListMapsRequest().withMaxResults(5)
+val response = locationClient.listMaps(listMapsRequest)
+Log.i("MyAmplifyApp", response.entries.toString())
+```
+
+</Block>
+</BlockSwitcher>
+
+**API Documentation Resources**
+
+* [Amazon Location Maps API Reference](https://docs.aws.amazon.com/location-maps/latest/APIReference/API_Operations.html)
+* [Amazon Location Places API Reference](https://docs.aws.amazon.com/location-places/latest/APIReference/API_Operations.html)
