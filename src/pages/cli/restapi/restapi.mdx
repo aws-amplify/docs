@@ -142,13 +142,13 @@ REST
 ```
 
 ## Create REST API and restrict specific routes to specific user groups
-If your app uses user-pool groups to manage different user types and would like to restrict access of specific routes to specifc user groups. We can accomplish this by the following flow: 
+If your app uses User Pool Groups to manage different user types and would like to restrict access of specific routes to specifc user groups. We can accomplish this by the following flow: 
 - Create API route. 
 - Add API route handler function.
 - Restrict-access to the API route to the user-group.
 
 >
-> The following example flow assumes the existence of two user pools AdminUsers, GuestUsers for a Book store.
+> The following example flow assumes the existence of two User Pools : AdminUsers and GuestUsers for a Book store.
 > The app would like to limit admin functionality like updating book records to the AdminUsers user-group, 
 > while borrowing and returning books would be limited to the GuestUsers user-group. 
 > - Path : /book/admin is restricted to AdminUsers and commands are handled by the bookAdminHandler lambda function
