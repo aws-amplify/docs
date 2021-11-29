@@ -28,7 +28,7 @@ See a description of these user types below
 |---|---|
 | Authenticated user | User needs to sign in to use the REST API |
 | Guest user | User doesn't need to sign in to use the REST API |
-| User Group | User needs to sign in and belong to the User Pool Group to use the REST API|
+| User Pool Group | User needs to sign in and belong to the User Pool Group to use the REST API|
 
 
 For each user type you can further specify what actions it has access to.
@@ -37,7 +37,7 @@ For each user type you can further specify what actions it has access to.
 |---|---|---|---|
 | Authenticated user | create, read, update, delete | POST, GET, PUT, PATCH, DELETE | Amazon Cognito |
 | Guest user | create, read, update, delete | POST, GET, PUT, PATCH, DELETE | Amazon Cognito |
-| User Group | create, read, update, delete | POST, GET, PUT, PATCH, DELETE | Amazon Cognito |
+| User Pool Group | create, read, update, delete | POST, GET, PUT, PATCH, DELETE | Amazon Cognito |
 
 REST APIs have support for [multiple environments](/cli/teams/overview) (e.g. dev, qa, and prod). This means that you can easily isolate different versions of your REST API by using different Amplify environments.
 
@@ -186,7 +186,7 @@ $> ✔ What permissions do you want to grant to GuestUsers users?  create, read,
 $> ✔ Do you want to add another path? (y/N) No
 ✅ Successfully added resource mybookapi locally
 ```
-At the end of this command you can verify the routes and their respective user group restrictions in the `cli-inputs.json` file at the following path.
+At the end of this command you can verify the routes and their respective User Pool Group restrictions in the `cli-inputs.json` file at the following path.
 ```bash
  <project-root>/amplify/backend/api/<api-resource-name>/cli-inputs.json
 ```
