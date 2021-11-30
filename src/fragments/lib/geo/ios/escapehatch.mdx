@@ -1,0 +1,53 @@
+If you need functionality in the AWS services used by the Amplify Geo category that isn't available, we provide an escape hatch so you can get a reference to that service.
+
+Note: If you provisioned your Geo resources via Amplify CLI, then the IAM policy will be specifically scoped to only allow actions required by the library.
+Please [adjust your authorization permissions](/lib/geo/existing-resources) accordingly for your escape hatch use-cases.
+
+<BlockSwitcher>
+
+<Block name="Swift Package Manager">
+
+```swift
+import AWSLocationXCF
+```
+
+</Block>
+
+<Block name="CocoaPods">
+
+```swift
+import AWSLocation
+```
+
+</Block>
+
+</BlockSwitcher>
+
+Then retrieve the escape hatch and call methods on `AWSLocation` directly:
+
+```swift
+do {
+    // Retrieve AWSLocationGeoPlugin
+    let plugin = try Amplify.Geo.getPlugin(for: "awsLocationGeoPlugin")
+    guard let locationPlugin = plugin as? AWSLocationGeoPlugin else {
+        return
+    }
+
+    // Retrieve reference to AWSLocation
+    let awsLocation = locationPlugin.getEscapeHatch()
+
+    // Make Request
+    let request = AWSLocationListMapsRequest()!
+    request.maxResults = 5
+    awsLocation.listMaps(request) { response, error in
+        // handle response ...
+    }
+} catch {
+    print("Error occurred while fetching the escape hatch \(error)")
+}
+```
+
+**API Documentation Resources**
+
+* [Amazon Location Maps API Reference](https://docs.aws.amazon.com/location-maps/latest/APIReference/API_Operations.html)
+* [Amazon Location Places API Reference](https://docs.aws.amazon.com/location-places/latest/APIReference/API_Operations.html)
