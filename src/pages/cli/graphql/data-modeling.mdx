@@ -80,28 +80,53 @@ Amplify uses Amazon DynamoDB tables as the underlying data source for @model typ
 
 > **Amazon DynamoDB** is a key-value and document database that delivers single-digit millisecond performance at any scale but making it work for your access patterns requires a bit of forethought. DynamoDB query operations may use at most two attributes to efficiently query data. The first query argument passed to a query (the hash key) must use strict equality and the second attribute (the sort key) may use gt, ge, lt, le, eq, beginsWith, and between. DynamoDB can effectively implement a wide variety of access patterns that are powerful enough for the majority of applications.
 
-A secondary index consists of a "hash key" and a "sort key". Use the "hash key" to perform strict equality and the "sort key" for greater than (gt), greater than or equal to (ge), less than (lt), less than or equal to (le), equals (eq), begins with, and between operations. 
+A secondary index consists of a "hash key" and, optionally, a "sort key". Use the "hash key" to perform strict equality and the "sort key" for greater than (gt), greater than or equal to (ge), less than (lt), less than or equal to (le), equals (eq), begins with, and between operations. 
 
 ```graphql
 type Customer @model {
   id: ID!
   name: String!
   phoneNumber: String
-  accountRepresentativeID: ID! @index(name: "byRepresentative", sortKeyFields: ["id"])
+  accountRepresentativeID: ID! @index(name: "byRepresentative", queryField: "customerByRepresentative")
 }
 ```
 
-In the example above, you are able to query for "Customer" based on their "accountRepresentativeID":
+The example client query below allows you to query for "Customer" based on their `accountRepresentativeID`:
 
 ```graphql
 query QueryCustomersForAccountRepresentative($representativeId: ID!) {
-  getAccountRepresentative(id: $representativeId) {
+  customerByRepresentative(accountRepresentativeID: $representativeId) {
     customers {
       items {
         id
         name
         phoneNumber
       }
+    }
+  }
+}
+```
+
+To optionally configure sort keys, provide the additional fields in the `sortKeyFields` parameter:
+
+```graphql
+type Customer @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  name: String! @index(name: "byNameAndPhoneNumber", sortKeyFields: ["phoneNumber"], queryField: "customerByNameAndPhone")
+  phoneNumber: String
+  accountRepresentativeID: ID! @index(name: "byRepresentative", queryField: "customerByRepresentative")
+}
+```
+
+The example client query below allows you to query for "Customer" based on their `name` and filter based on `phoneNumber`:
+
+```graphql
+query MyQuery {
+  customerByNameAndPhone(phoneNumber: {beginsWith: "+1"}, name: "Rene") {
+    items {
+      id
+      name
+      phoneNumber
     }
   }
 }
