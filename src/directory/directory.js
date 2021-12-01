@@ -426,7 +426,7 @@ const directory = {
           {
             title: "Escape hatch",
             route: "/lib/geo/escapehatch",
-            filters: ["android"],
+            filters: ["android", "ios"],
           },
         ],
       },
