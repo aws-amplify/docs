@@ -1633,17 +1633,13 @@ const directory = {
   },
   console: {
     productRoot: {
-      title: "Amplify Console",
+      title: "Amplify Studio",
       route: "/console",
     },
     items: {
       adminui: {
-        title: "Admin UI Basics",
+        title: "Basics",
         items: [
-          {
-            title: "Introduction",
-            route: "/console/adminui/intro",
-          },
           {
             title: "Getting started",
             route: "/console/adminui/start",
@@ -1659,6 +1655,52 @@ const directory = {
           {
             title: "Custom domains",
             route: "/console/adminui/custom-domain",
+          },
+        ],
+      },
+      tutorial: {
+        title: "Tutorial",
+        items: [
+          {
+            title: "Build UI",
+            route: "/console/tutorial/buildui",
+          },
+          {
+            title: "Model database",
+            route: "/console/tutorial/data",
+          },
+          {
+            title: "Bind UI to data",
+            route: "/console/tutorial/bindui",
+          },
+          {
+            title: "Collections",
+            route: "/console/tutorial/collections",
+          },
+          {
+            title: "Write React code",
+            route: "/console/tutorial/code",
+          },
+        ],
+      },
+      uibuilder: {
+        title: "UI development (React)",
+        items: [
+          {
+            title: "Figma to code",
+            route: "/console/uibuilder/figmatocode",
+          },
+          {
+            title: "Data binding",
+            route: "/console/uibuilder/databinding",
+          },
+          {
+            title: "Collections",
+            route: "/console/uibuilder/collections",
+          },
+          {
+            title: "Extend with code",
+            route: "/console/uibuilder/override",
           },
         ],
       },
@@ -1713,11 +1755,11 @@ const directory = {
         title: "Storage",
         items: [
           {
-            title: "File Browser",
+            title: "File browser",
             route: "/console/storage/file-browser",
           },
           {
-            title: "File Storage",
+            title: "File storage",
             route: "/console/storage/file-storage",
           },
         ],
