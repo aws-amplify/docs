@@ -1755,11 +1755,11 @@ const directory = {
         title: "Storage",
         items: [
           {
-            title: "File Browser",
+            title: "File browser",
             route: "/console/storage/file-browser",
           },
           {
-            title: "File Storage",
+            title: "File storage",
             route: "/console/storage/file-storage",
           },
         ],
