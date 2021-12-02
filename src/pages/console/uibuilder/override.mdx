@@ -1,0 +1,162 @@
+export const meta = {
+  title: `Extend via code`,
+  description: `Figma to React code with Amplify Studio`,
+};
+
+<Callout warning>
+
+All UI development capabilities are currently available under Public Preview.
+
+</Callout>
+
+When you run `amplify pull`, Amplify automatically generates JSX and TS versions of your Figma components. You cannot directly edit the code for these components as they will get overwritten on the next `pull`, but we have exposed mechanisms to extend the code. 
+
+## Extend generated code
+
+### Via component props
+When using Figma created components, you can use any exposed component props. The example code below shows how you can add pagination to a collection. The `isPaginated` prop is a property of the [`<Collection/>`](https://ui.docs.amplify.aws/components/collection) component. Similarly, you can use any prop such as `gap` or `isSearchable` to extend the collection.
+
+```
+import {AmpligramCollection} from './ui-components'
+...
+
+<AmpligramCollection isPaginated itemsPerPage={3}/>
+...
+
+```
+
+### Via overrides props
+All generated code exposes an `overrides` prop on all components and children to give you full control over extending generated code. The following example shows how to override the color of the title of the `FAQItem` component, that is part of the default Figma file, to red.
+
+1. In your IDE, navigate to `FAQItem.jsx` 
+2. Find the `<Text>` component for the title and copy the second parameter in the `getOverrideProps`. The highlighted text below is the key for the child component we will be overriding.
+![override](/images/console/ui-override.png)
+3. Wherever you are rendering the `FAQItem` add an `overrides` prop.
+
+```jsx
+import {FAQItem} from './ui-components'
+...
+
+<FAQItem overrides={{"Flex.Flex[0].Flex[0].Text[0]": { color: "red" } }}/>
+```
+
+
+## Modify generated code
+You can't directly customize all generated component code, as changes will be overwritten on the next `amplify pull`. However, the following workaround is available if you want to take control of component modifications.
+
+1. Duplicate the generated JSX and TS file inside `ui-components` (e.g. `Ampligram`)
+2. Change the name of the files to something else (e.g. `Ampligram2`) and update the function names to match as well.
+3. Update `index.js` to include the new export (e.g. `export { default as Ampligram2 } from "./Ampligram2";`)
+4. Import the duplicated component wherever you want.
+
+The next `amplify pull` will not overwrite this new file.
+
+## Example use cases
+The following code snippets show how you can handle specific scenarios in your app.
+
+### Add Pagination to a collection
+
+```
+import {AmpligramCollection} from './ui-components'
+...
+
+<AmpligramCollection isPaginated itemsPerPage={3}/>
+...
+
+```
+### Make a component responsive
+Figma components that use *Auto layout* are automatically mapped to responsive React components. However, some components may require further customizations. 
+
+Use breakpoints to define behavior:
+
+```jsx
+ <NavBar width={{ small: "300px", large: "600px", xl: "800px" }}/>
+```
+
+or 
+
+```jsx
+ <NavBar width={"100vw"}/>
+```
+
+### Set hover states on icons
+
+The following example shows how to override an icon with a CSS classname.
+
+```jsx
+// App.css
+.custom-icon:hover {
+   transform: scale(1.2);
+}
+
+// App.jsx
+const iconOverrides = {
+  "Flex.Flex[1].Flex[0].IconChatBubbleOutline[0]": {
+     className: "custom-icon"
+  }
+}
+
+<Ampligram overrides={iconOverrides} />
+```
+
+
+### Save form data
+
+```jsx
+const [name, setName] = useState("");
+const [location, setLocation] = useState("");
+const [email, setEmail] = useState("");
+  
+const profileOverrides = {
+  "Flex.Flex[0].Flex[2].TextField[0]": {
+    onChange: (event) => { setName(event.target.value) }
+  },
+  "Flex.Flex[0].Flex[2].TextField[1]": {
+    onChange: (event) => { setLocation(event.target.value) }
+  },
+  "Flex.Flex[0].Flex[2].TextField[2]": {
+    onChange: (event) => { setEmail(event.target.value) }
+  },
+  "Flex.Flex[0].Flex[3].Button[0]": {
+    onClick: () => alert(`Saving form ${name} ${location} ${email}`)
+  }
+}
+
+
+return (
+    ...
+    <EditProfile overrides={profileOverrides}/>
+    ...
+)
+```
+
+### Navigation from parent to detail views
+
+You might want to click on an item in a collection to get to detail views.
+
+```jsx
+const ampligramCollectionOverrides = {
+    'Collection.Ampligram[0]': {
+      overrides: {
+        'Flex.Flex[1].Flex[0].IconChatBubbleOutline[0]': { 
+          style: {
+            cursor: 'pointer'
+          },
+          onClick: (event) => {
+            // Ensure that id is bound to the IconChatBubble so that it exists
+            // on the element then redirect to something /event.target.id
+            
+            // The actual redirect can happen whichever way you want
+           } 
+          }
+      }
+    }
+  }
+
+  return (
+    <AmplifyProvider>
+      <EditProfile overrides={profileOverrides}/>
+      <AmpligramCollection overrides={ampligramCollectionOverrides} isPaginated itemsPerPage={1}/> 
+    </AmplifyProvider>
+  );
+  ```

@@ -68,8 +68,8 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
   render() {
     let showVersionSwitcher = false;
     if (
-      (this.props.url.includes("/ui") ||
-        this.props.url.includes("/ui-legacy")) &&
+      (this.props.url.startsWith("/ui") ||
+        this.props.url.startsWith("/ui-legacy")) &&
       this.props.filterKey !== "react-native"
     ) {
       showVersionSwitcher = true;

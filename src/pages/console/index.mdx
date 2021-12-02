@@ -1,73 +1,58 @@
 export const meta = {
-  title: "Amplify Console",
+  title: "Amplify Studio",
   description:
-    "Amplify has a console within AWS that is a control center for your full-stack app.",
+    "Amplify Studio is a visual development environment for building a full-stack app.",
   disableTOC: "true",
 };
 
-<Grid columns={1} class="margin-top-lg margin-bottom-lg">
-  <Card
-    external
-    href="https://console.aws.amazon.com/amplify/home"
-    class="border-radius"
-    containertag="amplify-external-link"
-  >
-    <CardGraphic alt="Amplify logo" src="/assets/logo-dark.svg" />
-    <CardDetail>
-      <h4>Amplify Console</h4>
-      <p>
-        Control center for your full-stack app deployments. Set up continuous
-        deployment and hosting, create an app backend in the admin UI, and manage
-        full-stack environments.
-      </p>
-    </CardDetail>
-  </Card>
-</Grid>
+<Callout warning>
 
-## Get started
+Amplify Admin UI is now Amplify Studio. [Learn more](amplify.aws)
 
-The following tools and services are accessible from the Amplify Console, learn more about them here:
+</Callout>
 
-<Grid columns={[1, null, 2]} className="margin-top-lg margin-bottom-lg">
-  <Card
-    external
-    href="https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html"
-    className="border-radius"
-    containertag="amplify-external-link"
-  >
-    <CardGraphic alt="Amplify Console logo" src="/assets/console.png" />
-    <CardDetail>
-      <h4>Amplify Hosting</h4>
-      <p>
-        Fully managed hosting with CI/CD for deploying static web apps.
-      </p>
-    </CardDetail>
-  </Card>
+AWS Amplify Studio is a visual development environment for building full-stack web and mobile apps. Studio builds on existing backend building capabilities in AWS Amplify, allowing you to accelerate your UI development as well. With Studio, you can quickly build an entire web app, front-to-back, with minimal coding, while still maintaining full control over your app design and behavior through code. Ship faster, scale effortlessly, and delight every user.
 
-  <Card href="/console/adminui/start" className="border-radius">
-    <CardGraphic alt="Amplify CLI logo" src="/assets/cli.png" />
-    <CardDetail>
-      <h4>Admin UI</h4>
-      <p>
-        Configure and manage your app backend outside the AWS console.
-      </p>
-    </CardDetail>
-  </Card>
-</Grid>
+<InternalLinkButton href="/console/adminui/start">
+  <span slot="text">Tutorial</span>
+</InternalLinkButton>
+
+## Key capabilities
+
+### Visual backend builder - works with Amplify CLI
+Build a well-architected app backend using our visual backend builder. All backend definitions are deployed following infrastructure-as-code best practices.
+- Use the data model designer to easily provision a GraphQL API with database tables.
+- Set up authentication with social providers and then define authorization rules to protect your data.
+- Set up file storage to easily upload/download files from your app.
+- Write Lambda functions to execute custom business logic.
+
+Amplify Studio generated backends can be accessed using the Amplify CLI by running the `amplify pull` command.
+
+![GIF showing data modeling](/images/console/datamodel.gif)
+
+### Accelerated UI development and Figma to React code
+To accelerate UI development, Amplify Studio uses the [Amplify UI library](https://ui.docs.amplify.aws/) to offer dozens of components such as newsfeeds, contact forms, and e-commerce cards and primitives such as buttons, textareas, and alerts. All UI components are fully customizable within Figma, giving designers complete control over the visual styling of components within tooling they are familiar with. All Figma components are imported into Studio as React components that are as good as hand-authored code.
+
+![Screenshot showing Figma to Code](/images/console/ui-figmatocode.png)
+
+### Bind UI to data
+Developers can use the component editor to visually connect the UI components to data from the app backend. Define component and child properties, create collections from a component, and shuffle preview data from the CMS.
+
+![Screenshot showing UI to data binding](/images/console/ui-front-to-back.png)
+
+### App backend management
+
+Manage your app backend data, files, and users/groups in Amplify Studio. The data browser provides a lightweight headless CMS to access/update data in your backend databases. 
+
+![Screenshot showing Amplify Studio's data manager](/images/console/studio-manage.png)
 
 
-## Amplify Console app project
+### No AWS account needed
 
-Every Amplify Console app project consists of frontend and backend environments. Environments allow you to build new features for your app without impacting production.
+Quickly give access to your teammates to manage the Amplify Studio environments. Choose between full access and manage-only access.
 
-### Frontend environments
+![Screenshot showing how to configure external access to Amplify Studio](/images/console/access.png)
 
-All frontend environments are managed by Amplify Hosting. A frontend environment corresponds to a Git branch for apps with CI/CD enabled. Each branch is deployed to a unique url (e.g. `https://main.appid.amplifyapp.com`). Launch your hosted web app from each frontend environment, or view your deployment details.
 
-![frontend-environments](/images/console/frontend-envs.gif)
 
-### Backend environments
 
-Each backend environment is a container for all of the cloud capabilities added to your app such as API, auth, and storage. Launch the Admin UI from each backend environment, or get to the underlying AWS service consoles.
-
-![frontend-environments](/images/console/backend-envs.gif)
