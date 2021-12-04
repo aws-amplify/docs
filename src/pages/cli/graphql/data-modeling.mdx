@@ -144,6 +144,11 @@ Create "has one", "has many", "belongs to", and "many to many" relationships bet
 |`@manyToMany`|Configures a "join table" between two models to facilitate a many-to-many relationship. For example, a Blog has many Tags and a Tag has many Blogs.  
 
 ### Has One relationship
+
+import gqlv2callout from "/src/fragments/cli/gqlv2callout.mdx";
+
+<Fragments fragments={{all: gqlv2callout}} />
+
 Create a one-directional one-to-one relationship between two models using the `@hasOne` directive.
 
 In the example below, a Project has a Team.
@@ -209,6 +214,9 @@ mutation CreateProject {
 A `@hasOne` relationship always uses a reference to the primary key of the related model, by default `id` unless overridden with the [`@primaryKey` directive](#configure-a-primary-key).
 
 ### Has Many relationship
+
+<Fragments fragments={{all: gqlv2callout}} />
+
 Create a one-directional one-to-many relationship between two models using the `@hasMany` directive.
 
 ```graphql
