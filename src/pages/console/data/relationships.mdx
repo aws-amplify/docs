@@ -10,6 +10,9 @@ Clone the [example data model](/console/data/data-model#data-modeling-example) t
 </Callout>
 
 ## Model data for a one to one relationship
+import gqlv2callout from "/src/fragments/cli/gqlv2callout.mdx";
+
+<Fragments fragments={{all: gqlv2callout}} />
 
  In this scenario, the bookstore maintains a list of ISBN numbers to track the books it sells. Each book has only one ISBN number and each ISBN number is assigned to only one book. This is an example of a one to one (1:1) data relationship between ISBN numbers and books. Use the following instructions to model the *Book* and *ISBN* data types and their relationship in Studio. 
 
@@ -21,6 +24,8 @@ Clone the [example data model](/console/data/data-model#data-modeling-example) t
 When you return to the **Data modeling** page, the `ISBN` model will be updated with the relationship information. Now repeat the same steps for the `Book` model - define a 1:1 relationship from Book to ISBN.
 
 ## Model data for a one to many relationship
+
+<Fragments fragments={{all: gqlv2callout}} />
 
 Now let's create a data model for publishers. Each book in the bookstore has only one publisher. However, each publisher can publish many books. This represents a one to many relationship (1:n) between publishers and books that we can model in our example.
 
