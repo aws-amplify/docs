@@ -80,6 +80,11 @@ return MaterialApp(
   darkTheme: ThemeData.dark(),
   home: Authenticator(
     useAmplifyTheme: true,
+    child: const Scaffold(
+    body: Center(
+        child: Text('You are logged in!')
+    ),
+),
   ),
 );
 ```
@@ -97,6 +102,12 @@ The Authenticator allows you to customize the `SignUp`, `SignIn` and `ConfirmSig
 To add a pre-defined form field, update your call to the Authenticator constructor:
 
 ```dart
+String? _validateUsername(UsernameInput? input) {
+  final username = input?.username;
+  if (username == null || username.isEmpty) {
+    return 'Username cannot be empty';
+  }
+
 final authenticator = Authenticator(
   signUpForm: SignUpForm.custom(
     fields: [
