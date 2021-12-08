@@ -114,6 +114,14 @@ String? _validateUsername(UsernameInput? input) {
     return 'Username cannot be empty';
   }
 
+  bool containsAmplify = username.contains('amplify');
+  if (!containsAmplify) {
+    return 'Username needs to include amplify';
+  }
+
+  return null;
+}
+
 final authenticator = Authenticator(
   signUpForm: SignUpForm.custom(
     fields: [
