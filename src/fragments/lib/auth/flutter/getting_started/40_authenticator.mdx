@@ -8,18 +8,18 @@ There are 2 options to add authentication capabilities to your application:
 
 <Callout>
 
-Authenticator for Flutter is in developer preview.
+Authenticator for `amplify-flutter` is in developer preview.
 
 </Callout>
 
-The Flutter Authenticator library allows you to quickly create an authentication/registration flow within your app. The experience generated within your app will be determined by the `amplifyconfiguration.dart` file that is automatically generated for you after initializing your app, and adding auth or other categories. Here is an [example app](https://github.com/aws-amplify/amplify-flutter/tree/main/packages/amplify_authenticator/example) that utilizes Authenticator.
+The amplify-flutter Authenticator UI library allows you to quickly create an authentication/registration flow within your app. The experience generated within your app will be determined by the `amplifyconfiguration.dart` file that is automatically generated for you after initializing your app, and adding auth or other categories. Here is an [example app](https://github.com/aws-amplify/amplify-flutter/tree/main/packages/amplify_authenticator/example) that utilizes Authenticator.
 
 First, you need to add Authenticator as a dependency in your `pubspec.yaml` file in your root folder of your app. 
-```dart
+```yaml
 dependencies:
   amplify_flutter: ^0.3.0
   amplify_auth_cognito: ^0.3.0
-  amplify_authenticator: *_NEED VERSION NUMBER_*
+  amplify_authenticator: ^0.1.0-rc.0
 ```
 Second, you will have to import the authenticator at the top of your `./lib/main.dart` file:
 ```dart
@@ -82,15 +82,13 @@ However, you can also use the a hand-crafted Amplify theme by setting `useAmplif
 ```dart
 return MaterialApp(
   title: 'Authenticator Demo',
-  theme: ThemeData.light(),
-  darkTheme: ThemeData.dark(),
   home: Authenticator(
     useAmplifyTheme: true,
     child: const Scaffold(
-    body: Center(
-        child: Text('You are logged in!')
+      body: Center(
+        child: Text('You are logged in!'),
+      ),
     ),
-),
   ),
 );
 ```
