@@ -215,7 +215,11 @@ const stringResolver = AuthStringResolver(
 
 final authenticator = Authenticator(
   stringResolver: stringResolver,
-  child: const Text('You are logged in!'),
+  child: const Scaffold(
+    body: Center(
+      child: Text('You are logged in!'),
+    ),
+  ),
 );
 ```
 
