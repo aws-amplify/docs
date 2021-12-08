@@ -198,7 +198,7 @@ export default withAuthenticator(MyApp);
 
 Let's walk through some of this file:
 
-1. **@aws-amplify/ui-react/styles.css`** – The Authenticator is unstyled by default, so this adds default styles.
+1. **@aws-amplify/ui-react/styles.css`** – The Authenticator is ships with a default theme that can be customized.
 2. **Amplify.configure** – For authenticated requests to work on the server, our client has to be configured with `ssr: true` to make credentials available on subsequent requests.
 3. **withAuthenticator** – This wraps the entire app in the Authenticator so only authenticated users get access.
 
