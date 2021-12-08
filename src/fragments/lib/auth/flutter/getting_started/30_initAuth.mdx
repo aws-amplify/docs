@@ -27,16 +27,15 @@ class _MyAppState extends State<MyApp> {
     _configureAmplify();
   }
 
-  void _configureAmplify() async {
-    // Add the following line to add Auth plugin to your app.
-    Amplify.addPlugins(AmplifyAuthCognito()]);
-
+  Future<void> _configureAmplify() async {
     try {
+      // Add the following line to add Auth plugin to your app.
+      await Amplify.addPlugin(AmplifyAuthCognito());
+
       // call Amplify.configure to use the initialized categories in your app
       await Amplify.configure(amplifyconfig);
-    } on AmplifyAlreadyConfiguredException {
-      print(
-          "Tried to reconfigure Amplify; this can occur when your app restarts on Android.");
+    } on Exception catch (e) {
+      print('An error occurred configuring Amplify: $e');
     }
   }
   
