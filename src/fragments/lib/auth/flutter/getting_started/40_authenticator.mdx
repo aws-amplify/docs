@@ -139,34 +139,22 @@ final authenticator = Authenticator(
       SignUpFormField.username(
         validator: _validateUsername,
       ),
+      SignUpFormField.password(),
+      SignUpFormField.passwordConfirmation(),
+
       // Example custom field
       SignUpFormField.custom(
           title: 'Favorite book',
           attributeKey:
               const CognitoUserAttributeKey.custom('favoritebook'),
-          hintText: 'Enter your favorite book'),
-      SignUpFormField.password(),
-      SignUpFormField.passwordConfirmation(),
+          hintText: 'Enter your favorite book',
+      ),
     ],
   ),
   child: const Scaffold(
     body: Center(child: Text('You are logged in!')),
   ),
 );
-
-String? _validateUsername(UsernameInput? input) {
-  final username = input?.username;
-  if (username == null || username.isEmpty) {
-    return 'Username cannot be empty';
-  }
-
-  bool containsAmplify = username.contains('amplify');
-  if (!containsAmplify) {
-    return 'Username needs to include amplify';
-  }
-
-  return null;
-}
 ```
 
 ### Text overrides and internationalization
