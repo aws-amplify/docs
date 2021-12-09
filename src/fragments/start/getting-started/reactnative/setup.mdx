@@ -9,7 +9,7 @@ To get started, initialize a new React Native project.
 
 ```bash
 npm install -g expo-cli  
-expo init RNAmplify
+expo init amplified_todo
 
 ? Choose a template: blank
 ```
@@ -18,46 +18,11 @@ expo init RNAmplify
 <Block name="React Native CLI">
 
 ```bash
-npx react-native init RNAmplify
+npx react-native init amplified_todo
 ```
 
 </Block>
 </BlockSwitcher>
-
-## Initialize a new backend
-
-You are now ready to initialize a new Amplify project. To do so, change into the project directory
-
-```bash
-cd RNAmplify
-```
-
-and use the Amplify CLI to create the project:
-
-```bash
-amplify init
-```
-
-```console
-? Enter a name for the project: rnamplify
-? Enter a name for the environment: demo
-? Choose your default editor: <Your favorite text editor>
-? Choose the type of app that you're building: javascript
-? What javascript framework are you using: react-native
-? Source Directory Path:  ./
-? Distribution Directory Path: ./
-? Build Command:  npm run-script build
-? Start Command: npm run-script start
-? Do you want to use an AWS profile? Y
-? Please choose the profile you want to use: <Your AWS profile from the configuration step>
-```
-
-When you initialize a new Amplify project, a few things happen:
-
-- It creates a top level directory called `amplify` that stores your backend definition. During the tutorial you'll add capabilities such as a GraphQL API and authentication. As you add features, the `amplify` folder will grow with infrastructure-as-code templates that define your backend stack. Infrastructure-as-code is a best practice way to create a replicable backend stack.
-- It creates a file called `aws-exports.js` in the `src` directory that holds all the configuration for the services you create with Amplify. This is how the Amplify client is able to get the necessary information about your backend services.
-- It modifies the `.gitignore` file, adding some generated files to the ignore list.
-- A cloud project is created for you in the AWS Amplify Console that can be accessed by running `amplify console`. The Console provides a list of backend environments, deep links to provisioned resources per Amplify category, status of recent deployments, and instructions on how to promote, clone, pull, and delete backend resources.
 
 ## Install Amplify libraries
 
@@ -67,12 +32,12 @@ import all0 from "/src/fragments/start/getting-started/reactnative/getting-start
 
 <Fragments fragments={{all: all0}} />
 
-Finally, open __App.js__ (Expo) or __index.js__ (React Native CLI) and add the following lines of code at the top of the file below the last import:
+Finally, open __App.js__ and add the following lines of code at the top of the file below the last import:
 
 ```javascript
 import Amplify from 'aws-amplify'
-import config from './src/aws-exports'
-Amplify.configure(config)
+import awsconfig from './src/aws-exports'
+Amplify.configure(awsconfig)
 ```
 
 Now your project is set up and you can begin adding new features.

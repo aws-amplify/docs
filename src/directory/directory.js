@@ -1001,7 +1001,7 @@ const directory = {
           {
             title: "Chatbot",
             route: "/ui/interactions/chatbot",
-            filters: [ "react-native"],
+            filters: ["react-native"],
           },
         ],
       },
@@ -1016,7 +1016,7 @@ const directory = {
           {
             title: "S3 Image",
             route: "/ui/storage/s3-image",
-            filters: [ "react-native"],
+            filters: ["react-native"],
           },
           {
             title: "Tracking Events",
@@ -1576,17 +1576,17 @@ const directory = {
           {
             title: "Generate model files",
             route: "/start/getting-started/generate-model",
-            filters: ["android", "ios", "flutter"],
+            filters: ["android", "ios", "flutter", "react-native"],
           },
           {
             title: "Integrate your app",
             route: "/start/getting-started/integrate",
-            filters: ["android", "ios", "flutter"],
+            filters: ["android", "ios", "flutter", "react-native"],
           },
           {
             title: "Connect to the cloud",
             route: "/start/getting-started/add-api",
-            filters: ["android", "ios", "flutter"],
+            filters: ["android", "ios", "flutter", "react-native"],
           },
           {
             title: "Connect API and database to the app",
@@ -1594,7 +1594,6 @@ const directory = {
             filters: [
               "js",
               "react",
-              "react-native",
               "angular",
               "vue",
               "next",
@@ -1604,7 +1603,7 @@ const directory = {
           {
             title: "Add authentication",
             route: "/start/getting-started/auth",
-            filters: ["react", "react-native", "angular", "vue"],
+            filters: ["react", "angular", "vue"],
           },
           {
             title: "Deploy and host app",
