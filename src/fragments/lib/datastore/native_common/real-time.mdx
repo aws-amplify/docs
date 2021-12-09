@@ -22,11 +22,9 @@ import flutter3 from "/src/fragments/lib/datastore/flutter/real-time/observe-sni
 
 `observeQuery(...)` returns an initial data set, similar to `query(...)`, and also automatically subscribes to subsequent changes to the query.
 
-The first snapshot returned from `observeQuery` will contain the same results as calling `query` directly on your Model - a collection of all the locally-available records.
-Subsequent snapshots will be emitted as updates to the dataset are received in the local store.
+The first snapshot returned from `observeQuery` will contain the same results as calling `query` directly on your Model - a collection of all the locally-available records. Subsequent snapshots will be emitted as updates to the dataset are received in the local store.
 
-While data is syncing from the cloud, snapshots will contain all of the items synced so far and a `isSynced` status of `false`.
-When the sync process is complete, a snapshot will be emitted with all the records in the local store and a `isSynced` status of `true`. 
+While data is syncing from the cloud, snapshots will contain all of the items synced so far and a `isSynced` status of `false`. When the sync process is complete, a snapshot will be emitted with all the records in the local store and a `isSynced` status of `true`. 
 
 In addition to typical real-time use cases, `observeQuery` can be used on app launch to show your customers an initial data set from the local store as new data is syncing.
 
