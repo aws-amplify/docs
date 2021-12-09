@@ -1,6 +1,6 @@
 export const meta = {
   title: `Override Amplify-generated AppSync resources`,
-  description: `The "amplify override api" command generates a developer-configurable "overrides" TypeScript file which provides Amplify-generated AppSync resources as CDK constructs. For example, developers can set auth settings that are not directly available in the Amplify CLI workflow, such as X-Ray tracing.`,
+  description: `The "amplify override api" command generates a developer-configurable "overrides" TypeScript file which provides Amplify-generated AppSync resources as CDK constructs. For example, developers can set api settings that are not directly available in the Amplify CLI workflow, such as X-Ray tracing.`,
 };
 
 ```bash
@@ -14,7 +14,7 @@ Run the command above to override Amplify-generated GraphQL API resources includ
 If you need to customize a specific Amplify-generated VTL resolver, review [Override Amplify-generated resolvers](/cli/graphql/custom-business-logic/#override-amplify-generated-resolvers) first.
 </Callout>
 
-The command creates a new `overrides.ts` file under `amplify/backend/auth/<resource-name>/` which provides you the Amplify-generated resources as [CDK constructs](https://docs.aws.amazon.com/cdk/latest/guide/home.html).
+The command creates a new `overrides.ts` file under `amplify/backend/api/<resource-name>/` which provides you the Amplify-generated resources as [CDK constructs](https://docs.aws.amazon.com/cdk/latest/guide/home.html).
 
 ## Customize Amplify-generated AppSync GraphQL API resources
 
