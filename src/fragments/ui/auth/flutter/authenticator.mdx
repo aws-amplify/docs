@@ -1,15 +1,15 @@
 ## Basic Integration
 
-The Amplify-Flutter Authenticator Widget is a Material-compatible sign-up and sign-in experience which reacts to your Amplify configuration. It automatically detects the authentication state and updates the UI. If the user is signed in, the underlying component (typically your app's home widget) is displayed; otherwise, signin/signup controls are displayed.
+The Amplify Authenticator Widget is a Material-compatible sign-up and sign-in experience which reacts to your Amplify configuration. It automatically detects the authentication state and updates the UI. If the user is signed in, the underlying component (typically your app's home widget) is displayed; otherwise, signin/signup controls are displayed.
 
-To begin, follow the steps for configuring the Amplify Auth category from the [getting started walkthrough](/lib/auth/getting-started). Be sure to also add the Amplify-Flutter Authenticator to your `pubspec.yaml` file:
+To begin, follow the steps for configuring the Amplify Auth category from the [getting started walkthrough](/lib/auth/getting-started). Be sure to also add the Amplify Authenticator to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
   amplify_authenticator: ^1.0.0-rc.0
 ```
 
-You will also need to import the Amplify-Flutter Authenticator into your app:
+You will also need to import the Amplify Authenticator into your app:
 
 ```dart
 import 'package:amplify_authenticator/amplify_authenticator.dart';
@@ -34,14 +34,14 @@ Widget build(BuildContext context) {
 }
 ```
 
-If you run your application, you should now see the Amplify-Flutter Authenticator Widget!
+If you run your application, you should now see the Amplify Authenticator Widget!
 
 
 ![Basic SignIn](/images/flutterAuthenticator/flutter_authenticator_signin_base.png)
 
 ## Customizable Forms
 
-Typically, the Amplify-Flutter Authenticator will use your Amplify configuration to determine which inputs are displayed in a form. It also offers the ability to override this default behavior and customize three of its UI forms:
+Typically, the Amplify Authenticator will use your Amplify configuration to determine which inputs are displayed in a form. It also offers the ability to override this default behavior and customize three of its UI forms:
 
 - SignInForm
 - SignUpForm
@@ -101,7 +101,7 @@ Run your app, and you will see the updated fields reflected in the Sign Up scree
 
 ## Theming/Styling
 
-By default, the Amplify-Flutter Authenticator uses your app's Material theme for its styling. Any customizations you make to colors, buttons, input widgets, etc. will be reflected in the Authenticator.
+By default, the Amplify Authenticator uses your app's Material theme for its styling. Any customizations you make to colors, buttons, input widgets, etc. will be reflected in the Authenticator.
 
 ```dart
 return MaterialApp(
@@ -154,7 +154,7 @@ return MaterialApp(
 
 ## Text Overrides and Localization
 
-Most of the text displayed in the Amplify-Flutter Authenticator is customizable and compatible with Flutter's out-of-the-box localization APIs. To customize text you can pass an `AuthStringResolver` class to the Authenticator API which dictates the text displayed within the widgets. This class is composed of five different subclasses, each controlling what is displayed in the Authenticator for different types of text.
+Most of the text displayed in the Amplify Authenticator is customizable and compatible with Flutter's out-of-the-box localization APIs. To customize text you can pass an `AuthStringResolver` class to the Authenticator API which dictates the text displayed within the widgets. This class is composed of five different subclasses, each controlling what is displayed in the Authenticator for different types of text.
 
 * **ButtonResolver**: The text displayed within buttons;
 * **CountryResolver**: The displayed country names when selecting a dial code for phone numbers;
@@ -166,14 +166,14 @@ The attributes available within each of these resolvers is documented in source 
 
 <Callout warning={true}>
 
-The Amplify-Flutter Authenticator does not yet support localization of error messages received from the Cognito service and client libraries.
+The Amplify Authenticator does not yet support localization of error messages received from the Cognito service and client libraries.
 
 </Callout>
 
 
 #### Simple text customization
 
-It is not necessary to do full fledged localization to customize components within the Amplify-Flutter Authenticator. 
+It is not necessary to do full fledged localization to customize components within the Amplify Authenticator. 
 
 For example, consider the case where you would like to customize *only* the text within the 'Sign In' button and the titles of the username, email and password fields:
 
@@ -238,7 +238,7 @@ final authenticator = Authenticator(
 
 #### Setting up localization
 
-In addition to the static customization detailed above, you can also fully localize the Amplify-Flutter Authenticator so that it responds to the device locale.
+In addition to the static customization detailed above, you can also fully localize the Amplify Authenticator so that it responds to the device locale.
 
 To use true localization, you should carefully follow the steps in the [Flutter Localization guide](https://flutter.dev/docs/development/accessibility-and-localization/internationalization). When the guide says to create an .arb file, enter the following into `lib/l10n/amplify_en.arb`:
 
@@ -259,7 +259,7 @@ Then, to add Spanish support, create another file at `lib/l10n/amplify_es.arb`, 
 }
 ```
 
-As you can see, this example only updates the 'Sign In' button. To find the full schema for Authenticator-compatible `.arb` file(s), you can check the default `.arb` files that come packaged with the Amplify-Flutter Authenticator in the [`/src/l10n/src/`](https://github.com/aws-amplify/amplify-flutter/tree/release-candidate/packages/amplify_authenticator/lib/src/l10n/src) directory.
+As you can see, this example only updates the 'Sign In' button. To find the full schema for Authenticator-compatible `.arb` file(s), you can check the default `.arb` files that come packaged with the Amplify Authenticator in the [`/src/l10n/src/`](https://github.com/aws-amplify/amplify-flutter/tree/release-candidate/packages/amplify_authenticator/lib/src/l10n/src) directory.
 
 Import the following in the `./lib/main.dart` file:
 
@@ -324,7 +324,7 @@ Your device, assuming it is set to English, should display 'Sign In - Localized'
 
 ## Under the Hood
 
-The  Amplify-Flutter Authenticator responds to values from your Amplify configuration. This is typically created by the Amplify CLI, but may also be hand written. The keys that are relevant for the Authenticator UI are contained under `auth.plugins.awsCognitoAuthPlugin.Auth.Default`.
+The  Amplify Authenticator responds to values from your Amplify configuration. This is typically created by the Amplify CLI, but may also be hand written. The keys that are relevant for the Authenticator UI are contained under `auth.plugins.awsCognitoAuthPlugin.Auth.Default`.
 
 * **socialProviders**: A list which determines the third party authentication providers for Cognito Hosted UI. Possible values include `AMAZON`, `APPLE`, `FACEBOOK` and `GOOGLE`.
 
