@@ -990,7 +990,8 @@ const directory = {
             title: "Authenticator",
             route: "/ui/auth/authenticator",
             filters: [
-              "react-native"
+              "react-native",
+              "flutter"
             ],
           }
         ],
