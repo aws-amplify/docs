@@ -19,19 +19,19 @@ Then, update your main app widget's `build` method:
 
 ```dart
 @override
-	Widget build(BuildContext context) {
-	  return MaterialApp(
-	    title: 'Authenticator Demo',
-	    // The Authenticator component should be a descendant of your MaterialApp.
-	    home: Authenticator(
-	      child: const Scaffold(
-	        body: Center(
-	          child: Text('You are logged in!'),
-	        ),
-	      ),
-	    ),
-	  );
-	}
+Widget build(BuildContext context) {
+  return MaterialApp(
+    title: 'Authenticator Demo',
+    // The Authenticator component should be a descendant of your MaterialApp.
+    home: Authenticator(
+      child: const Scaffold(
+        body: Center(
+          child: Text('You are logged in!'),
+        ),
+      ),
+    ),
+  );
+}
 ```
 
 If you run your application, you should now see the Amplify-Flutter Authenticator Widget!
@@ -67,23 +67,24 @@ String? _validateUsername(UsernameInput? input) {
 }
 
 final authenticator = Authenticator(
-    /// Pass a custom SignUpForm to override default fields
-    signUpForm: SignUpForm.custom(
-        fields: [
-            /// Pass a custom validator to the username field
-            SignUpFormField.username(
-                validator: _validateUsername,
-            ),
-            /// Mark an attribute as optional
-            SignUpFormField.address(
-                required: false,
-            ),
-            /// Create an input for a custom Cognito attribute
-            SignUpFormField.custom(
-                title: 'Favorite Food',
-                attributeKey:
-                  const CognitoUserAttributeKey.custom('favoritefood')),
-        ],
+  /// Pass a custom SignUpForm to override default fields
+  signUpForm: SignUpForm.custom(
+    fields: [
+      /// Pass a custom validator to the username field
+      SignUpFormField.username(
+        validator: _validateUsername,
+      ),
+      /// Mark an attribute as optional
+      SignUpFormField.address(
+        required: false,
+      ),
+      /// Create an input for a custom Cognito attribute
+      SignUpFormField.custom(
+        title: 'Favorite Food',
+        attributeKey: const CognitoUserAttributeKey.custom(
+          'favoritefood',
+        )),
+      ],
     ),
     child: const Scaffold(
       body: Center(
@@ -147,6 +148,9 @@ return MaterialApp(
   ),
 );
 ```
+
+![AmplifyTheme](/images/flutterAuthenticator/flutter_authenticator_amplify_theme.png)
+![AmplifyTheme Dark](/images/flutterAuthenticator/flutter_authenticator_amplify_theme_dark.png)
 
 ## Text Overrides and Localization
 
@@ -267,8 +271,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 You should then create a `ButtonResolver` and pass it to an `AuthStringResolver`, and in turn pass this to the Authenticator API:
 
 ```dart
-class CustomButtonResolver extends ButtonResolver {
-  const CustomButtonResolver();
+class LocalizedButtonResolver extends ButtonResolver {
+  const LocalizedButtonResolver();
 
   /// Override the signin function with a localized value
   @override
