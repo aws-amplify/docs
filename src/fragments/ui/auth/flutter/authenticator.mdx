@@ -2,7 +2,7 @@
 
 The Amplify Authenticator Widget is a Material-compatible sign-up and sign-in experience which reacts to your Amplify configuration. It automatically detects the authentication state and updates the UI. If the user is signed in, the underlying component (typically your app's home widget) is displayed; otherwise, signin/signup controls are displayed.
 
-To begin, follow the steps for configuring the Amplify Auth category from the [getting started walkthrough](/lib/auth/getting-started). Be sure to also add the Amplify Authenticator to your `pubspec.yaml` file:
+To begin, be sure to follow the steps for importing and configuring Amplify and the Amplify Auth category from the [getting started walkthrough](/lib/auth/getting-started). Be sure to also add the Amplify Authenticator to your `pubspec.yaml` file:
 
 ```yaml
 dependencies:
@@ -43,9 +43,9 @@ If you run your application, you should now see the Amplify Authenticator Widget
 
 Typically, the Amplify Authenticator will use your Amplify configuration to determine which inputs are displayed in a form. It also offers the ability to override this default behavior and customize three of its UI forms:
 
-- SignInForm
-- SignUpForm
-- ConfirmSignInNewPasswordForm
+- [SignInForm](https://pub.dev/documentation/amplify_authenticator/latest/amplify_authenticator/SignInForm-class.html)
+- [SignUpForm](https://pub.dev/documentation/amplify_authenticator/latest/amplify_authenticator/SignUpForm-class.html)
+- [ConfirmSignInNewPasswordForm](https://pub.dev/documentation/amplify_authenticator/latest/amplify_authenticator/ConfirmSignInNewPasswordForm-class.html)
 
 By leveraging this customization, you can control the input fields that are displayed in the form, the validation that is run against the field upon submission and whether or not the field is considered optional.
 
@@ -156,10 +156,10 @@ return MaterialApp(
 
 Most of the text displayed in the Amplify Authenticator is customizable and compatible with Flutter's out-of-the-box localization APIs. To customize text you can pass an `AuthStringResolver` class to the Authenticator API which dictates the text displayed within the widgets. This class is composed of five different subclasses, each controlling what is displayed in the Authenticator for different types of text.
 
-* **ButtonResolver**: The text displayed within buttons;
-* **CountryResolver**: The displayed country names when selecting a dial code for phone numbers;
-* **InputResolver**: The text displayed within input fields, including input titles, hints and various validation messages;
-* **TitleResolver**: The titles of widgets;
+* **[ButtonResolver](https://pub.dev/documentation/amplify_authenticator/latest/amplify_authenticator/ButtonResolver-class.html)**: The text displayed within buttons;
+* **[CountryResolver](https://pub.dev/documentation/amplify_authenticator/latest/amplify_authenticator/CountryResolver-class.html)**: The displayed country names when selecting a dial code for phone numbers;
+* **[InputResolver](https://pub.dev/documentation/amplify_authenticator/latest/amplify_authenticator/InputResolver-class.html)**: The text displayed within input fields, including input titles, hints and various validation messages;
+* **[TitleResolver](https://pub.dev/documentation/amplify_authenticator/latest/amplify_authenticator/TitleResolver-class.html)**: The titles of widgets;
 * **MessageResolver**: Various messages displayed to the user, such as the message informing a user that a verification email has been sent.
 
 The attributes available within each of these resolvers is documented in source code and should be available via your IDE.
