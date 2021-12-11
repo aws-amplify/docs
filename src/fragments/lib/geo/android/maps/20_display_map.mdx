@@ -176,9 +176,9 @@ mapView.getMapAsync { map ->
 
 </BlockSwitcher>
 
-The `cameraPosition` moves the camera do the passed configuration without any animation. If animation is needed, refer to the `map.animateCamera` instead. See the [official reference](https://docs.maptiler.com/maplibre-gl-native-android/com.mapbox.mapboxsdk.camera/) for more details.
+Updating `cameraPosition` moves the camera to the passed coordinates without any animation. If animation is needed, use `map.animateCamera()` instead. See the [official reference](https://docs.maptiler.com/maplibre-gl-native-android/com.mapbox.mapboxsdk.camera/) for more details.
 
-### Add a markers to your map
+### Add markers to your map
 
 The MapLibre SDK for Android relies on the [MapLibre Annotation Plugin](https://docs.maptiler.com/maplibre-gl-native-android/android-annotation/) in order to display markers on a map.
 
@@ -302,6 +302,6 @@ Example:
 </androidx.constraintlayout.widget.ConstraintLayout>
 ```
 
-The `MapLibreView` has quite a few configuration parameters not present in their official guides yet. Check the [MapboxGLAndroidSDK/attrs.xml source](https://github.com/maplibre/maplibre-gl-native/blob/master/platform/android/MapboxGLAndroidSDK/src/main/res/values/attrs.xml) for reference.
+The `MapLibreView` has several configuration parameters that are not present in the official guides yet. For a complete list, refer to the [source xml file](https://github.com/maplibre/maplibre-gl-native/blob/master/platform/android/MapboxGLAndroidSDK/src/main/res/values/attrs.xml).
 
 Last but not least, check the [official MapView API reference](https://docs.maptiler.com/maplibre-gl-native-android/com.mapbox.mapboxsdk.maps/#mapview) for the available public API documentation.
