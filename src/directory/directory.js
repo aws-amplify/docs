@@ -449,6 +449,11 @@ const directory = {
             filters: ["js"],
           },
           {
+            title: "Geofences",
+            route: "/lib/geo/geofences",
+            filters: ["js"],
+          },
+          {
             title: "Use existing AWS resources",
             route: "/lib/geo/existing-resources",
             filters: ["js"],
