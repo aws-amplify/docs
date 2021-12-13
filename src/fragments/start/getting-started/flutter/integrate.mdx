@@ -55,10 +55,6 @@ class _TodosPageState extends State<TodosPage> {
     // to be filled in a later step
   }
 
-  Future<void> _fetchTodos() async {
-    // to be filled in a later step
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -316,100 +312,41 @@ Future<void> _saveTodo() async {
 
 If you try to add todos using the form now, it should successfully close the form when pressing the *Save* button. But our Todo list is still empty even if you restart the app! After initializing our todos as an empty list, we aren't currently updating it again. We will remedy that in the next step.
 
-### Querying for Todos
+### Querying for Todos and Observing Updates in Real-Time
 
-Now that we have a way to add Todo items, we need a way to list them out.
+Now that we have a way to add Todo items, we need a way to list them out. We also want to observe updates to those items as they are added, updated, or removed.
 
-Update the `_initializeApp()` function in the `_TodosPageState` class.
+This can be achieved with `DataStore.observeQuery()`. ObserveQuery will return a Stream of query snapshots. Each snapshot will contain the current list of items, as well as boolean value to indicate if DataStore's sync process has completed.
 
-```dart
-Future<void> _initializeApp() async {
-
-  // configure Amplify
-  await _configureAmplify();
-
-  // fetch Todo entries from DataStore
-  await _fetchTodos();
-
-  // after both configuring Amplify and fetching Todo entries, update loading
-  // ui state to loaded state
-  setState(() {
-    _isLoading = false;
-  });
-}
-```
-
-Update the `_fetchTodos()` function in the `_TodosPageState` class. For the purposes of this tutorial, we will be querying for all stored **Todo** entries, but you can perform more advanced filtering, sorting or even pagination as well. You can [learn more](https://docs.amplify.aws/lib/datastore/data-access/q/platform/flutter#query-data) about DataStore data queries.
-
-```dart
-Future<void> _fetchTodos() async {
-  try {
-
-    // query for all Todo entries by passing the Todo classType to
-    // Amplify.DataStore.query()
-    List<Todo> updatedTodos = await Amplify.DataStore.query(Todo.classType);
-
-    // update the ui state to reflect fetched todos
-    setState(() {
-      _todos = updatedTodos;
-    });
-  } catch (e) {
-    print('An error occurred while querying Todos: $e');
-  }
-}
-```
-
-If you restart your app now, you should see your added todos start to show up on the list! However, if you add more entries, they don’t show up until you refresh the app. Let’s wire up the real-time data observation next.
-
-### Observing updates to Todos
-
-Amplify DataStore provides a way to subscribe to data updates to your model. We will use this to listen for change events and update our list accordingly.
-
-To the top of the `_TodosPageState` class, add a `StreamSubscription`.
+To the top of the `_TodosPageState` class, add a `StreamSubscription`. 
 
 ```dart
 class _TodosPageState extends State<TodosPage> {
 
-  // subscription to Todo model update events - to be initialized at runtime
-  late StreamSubscription _subscription;
-```
-
-Update the `dispose()` function in the `_TodosPageState` class.
-
-```dart
-@override
-void dispose() {
-
-  // cancel the subscription when the state is removed from the tree
-  _subscription.cancel();
-  super.dispose();
-}
+  // subscription of Todo QuerySnapshots - to be initialized at runtime
+  late StreamSubscription<QuerySnapshot<Todo>> _subscription;
 ```
 
 Update the `_initializeApp()` function in the `_TodosPageState` class.
 
 ```dart
 Future<void> _initializeApp() async {
-
   // configure Amplify
   await _configureAmplify();
 
-  // listen for updates to Todo entries by passing the Todo classType to
-  // Amplify.DataStore.observe() and when an update event occurs, fetch the
-  // todo list
+  // Query and Observe updates to Todo models. DataStore.observeQuery() will
+  // emit an initial QuerySnapshot with a list of Todo models in the local store,
+  // and will emit subsequent snapshots as updates are made
   //
-  // note this strategy may not scale well with larger number of entries
-  _subscription = Amplify.DataStore.observe(Todo.classType).listen((event) {
-    _fetchTodos();
-  });
-
-  // fetch Todo entries from DataStore
-  await _fetchTodos();
-
-  // after both configuring Amplify and fetching Todo entries, update loading
-  // ui state to loaded state
-  setState(() {
-    _isLoading = false;
+  // each time a snapshot is received, the following will happen:
+  // _isLoading is set to false if it is not already false
+  // _todos is set to the value in the latest snapshot
+  _subscription = Amplify.DataStore.observeQuery(Todo.classType)
+      .listen((QuerySnapshot<Todo> snapshot) {
+    setState(() {
+      if (_isLoading) _isLoading = false;
+      _todos = snapshot.items;
+    });
   });
 }
 ```

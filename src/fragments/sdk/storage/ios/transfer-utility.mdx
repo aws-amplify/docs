@@ -295,34 +295,56 @@ func application(_ application: UIApplication, handleEventsForBackgroundURLSessi
 
 ## Managing Transfers When an App Restarts
 
-When an app that has initiated a transfer restarts (if it has been terminated by the system and not force-closed), it is possible that the transfer may still be in progress or completed. To make the restarting app aware of the status of transfers, instantiate the transfer utility using the ``AWSS3TransferUtility.s3TransferUtility(forKey: "YOUR_KEY")`` method. AWSS3TransferUtility uses the key to uniquely identify the NSURLSession of the transfers initiated by the app, so it is important to always use the same identifier. AWSS3TransferUtility will automatically reconnect to the transfers that were in progress the last time the app was running.
+When an app that has initiated a transfer restarts (if it has been terminated by the system and not force-closed), it is possible that the transfer may still be in progress or completed. Tasks for uploads, downloads and multipart uploads can be monitored with progress and completion handlers. In the code below accessing the default instance of the Transfer Utility has a completion handler which is run once the recovery process has completed. Any network operations which were still running and were persisted by Transfer Utility are restored. Once the completion handler is done it is ready to attach handlers for progress and completion updates.
 
-Though it can be called anywhere in the app, we recommend that you instantiate the AWSS3TransferUtility in the ``appDidFinishLaunching`` lifecycle method. 
+```swift
+ init() {
+     transferUtility = AWSS3TransferUtility.default(completionHandler: { error in
+         if let error = error {
+             print("Error: \(error)")
+             return
+         }
+         self.reattachHandlers()
+     })
+ }
+ func reattachHandlers() {
+     let blocks = AWSS3TransferUtilityBlocks(uploadProgress: nil,
+                                             multiPartUploadProgress: handleProgress(task:progress:),
+                                             downloadProgress: nil,
+                                             uploadCompleted: nil,
+                                             multiPartUploadCompleted: handleCompletion(task:error:),
+                                             downloadCompleted: nil)
+     transferUtility.enumerateToAssign(blocks: blocks)
+ }
+ ```
+
+ This code is only attaching handlers for multipart uploads. The other handlers are left as `nil` but they could be defined as well depending on your needs. Handlers are given the `task` which includes the `transferID` property which can be used to associate with network operations. Place this initialization routine at the start of your app launch lifecycle.
 
 ## Manage a Transfer when a Suspended App Returns to the Foreground
 
 When an app that has initiated a transfer becomes suspended and then returns to the foreground, the transfer may still be in progress or may have completed. In both cases, use the following code to re-establish the progress and completion handler blocks of the app.
 
 ```swift
-let uploadTasks = transferUtility.getUploadTasks().result
-  for task in uploadTasks! {
-       task.setCompletionHandler(completionHandler!)
-       task.setProgressBlock(progressBlock!)
+if let uploadTasks = transferUtility.getUploadTasks().result {
+   for task in uploadTasks {
+         task.setCompletionHandler(completionHandler)
+         task.setProgressBlock(progressBlock)
+   }
 }
 
-let downloadTasks = transferUtility.getDownloadTasks().result
-   for task in downloadTasks! {
-       task.setCompletionHandler(completionHandler!)
-       task.setProgressBlock(progressBlock!)
-    }
+if let downloadTasks = transferUtility.getDownloadTasks().result {
+   for task in downloadTasks {
+         task.setCompletionHandler(completionHandler)
+         task.setProgressBlock(progressBlock)
+   }
 }
 
-let multiPartUploadTasks = transferUtility.getMultiPartUploadTasks().result
-    for task in multiPartUploadTasks! {
-        task.setCompletionHandler(completionHandler!)
-        task.setProgressBlock(progressBlock!)
-
- }
+if let multiPartUploadTasks = transferUtility.getMultiPartUploadTasks().result {
+   for task in multiPartUploadTasks {
+         task.setCompletionHandler(completionHandler)
+         task.setProgressBlock(progressBlock)
+   }
+}
 ```
 
 ## Transfer with Object Metadata

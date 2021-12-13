@@ -12,7 +12,7 @@ Amplify.Auth.fetchAuthSession { result in
             print("User sub - \(usersub) and identity id \(identityId)")
         }
 
-        // Get aws credentials
+        // Get AWS credentials
         if let awsCredentialsProvider = session as? AuthAWSCredentialsProvider {
             let credentials = try awsCredentialsProvider.getAWSCredentials().get()
             print("Access key - \(credentials.accessKey) ")
@@ -29,3 +29,28 @@ Amplify.Auth.fetchAuthSession { result in
     }
 }
 ```
+If you have enabled guest user in Cognito Identity Pool and no user is signed in, you will be able to access only identityId and AWS credentials. All other session details will give you an error.
+
+```swift
+import AWSPluginsCore
+
+Amplify.Auth.fetchAuthSession { result in
+    do {
+        let session = try result.get()
+
+        // Get identity id
+        if let identityProvider = session as? AuthCognitoIdentityProvider {
+            let identityId = try identityProvider.getIdentityId().get()
+            print("Identity id \(identityId)")
+        }
+
+        // Get AWS credentials
+        if let awsCredentialsProvider = session as? AuthAWSCredentialsProvider {
+            let credentials = try awsCredentialsProvider.getAWSCredentials().get()
+            print("Access key - \(credentials.accessKey) ")
+        }
+
+    } catch {
+        print("Fetch auth session failed with error - \(error)")
+    }
+}

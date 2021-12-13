@@ -399,5 +399,130 @@
         ]
       }
     }
+  },
+  "latestRegionSupport": {
+    "description": "Feature Flags related to region mapping support.",
+    "features": {
+      "comprehend": {
+        "description": "Controls Comprehend region mapping",
+        "type": "Feature",
+        "valueType": "Number",
+        "versionAdded": "6.1.0",
+        "values": [
+          {
+            "value": 0,
+            "description": "us-west-1, eu-west-3, eu-north-1, ap-northeast-1, ap-northeast-2, ap-south-1, me-south-1, and sa-east-1 are mapped to other regions.",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          },
+          {
+            "value": 1,
+            "description": "us-west-1, eu-west-3, eu-north-1, me-south-1, and sa-east-1 are mapped to other regions.",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          }
+        ]
+      },
+      "pinpoint": {
+        "description": "Controls Pinpoint region mapping",
+        "type": "Feature",
+        "valueType": "Number",
+        "versionAdded": "6.1.0",
+        "values": [
+          {
+            "value": 0,
+            "description": "ap-northeast-1, ap-northeast-2, ap-northeast-3, ap-south-1, ap-southeast-1, ap-southeast-2, ca-central-1, cn-north-1, cn-northwest-1, eu-north-1, eu-west-2, eu-west-3, me-south-1, sa-east-1, us-east-2, and us-west-1 are mapped to other regions.",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          },
+          {
+            "value": 1,
+            "description": "ap-northeast-3, cn-north-1, cn-northwest-1, eu-north-1, eu-west-3, me-south-1, sa-east-1, us-east-2, and us-west-1 are mapped to other regions.",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          }
+        ]
+      },
+      "rekognition": {
+        "description": "Controls Rekognition region mapping",
+        "type": "Feature",
+        "valueType": "Number",
+        "versionAdded": "6.1.0",
+        "values": [
+          {
+            "value": 0,
+            "description": "ca-central-1, eu-north-1, eu-west-3, me-south-1, and sa-east-1 are mapped to other regions.",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          },
+          {
+            "value": 1,
+            "description": "eu-north-1, eu-west-3, me-south-1, and sa-east-1 are mapped to other regions.",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          }
+        ]
+      },
+      "textract": {
+        "description": "Controls Textract region mapping",
+        "type": "Feature",
+        "valueType": "Number",
+        "versionAdded": "6.1.0",
+        "values": [
+          {
+            "value": 0,
+            "description": "ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, ca-central-1, eu-central-1, eu-north-1, eu-west-2, eu-west-3, me-south-1, and sa-east-1 are mapped to other regions.",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          },
+          {
+            "value": 1,
+            "description": "ap-northeast-1, eu-north-1, eu-west-3, me-south-1, and sa-east-1 are mapped to other regions.",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          }
+        ]
+      },
+      "transcribe": {
+        "description": "Controls Transcribe region mapping",
+        "type": "Feature",
+        "valueType": "Number",
+        "versionAdded": "6.1.0",
+        "values": [
+          {
+            "value": 0,
+            "description": "eu-north-1 and ap-northeast-1 are mapped to other regions.",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          },
+          {
+            "value": 1,
+            "description": "eu-north-1 is mapped to another region.",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          }
+        ]
+      },
+      "translate": {
+        "description": "Controls Translate region mapping",
+        "type": "Feature",
+        "valueType": "Number",
+        "versionAdded": "6.1.0",
+        "values": [
+          {
+            "value": 0,
+            "description": "ap-southeast-2, eu-west-2, me-south-1, sa-east-1, and us-east-2 are mapped to other regions.",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          },
+          {
+            "value": 1,
+            "description": "ap-southeast-2, eu-west-2, and us-east-2 are mapped to other regions.",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          }
+        ]
+      }
+    }
   }
 }

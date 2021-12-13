@@ -1,0 +1,5 @@
+module.exports = {
+  ANDROID_VERSION: "1.31.0",
+  ANDROID_KOTLIN_VERSION: "0.15.0",
+  ANDROID_GEO_VERSION: "0.3.0",
+};

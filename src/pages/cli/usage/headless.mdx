@@ -274,10 +274,12 @@ The `amplify publish` command internally executes `amplify push` so it takes the
 
 - `--codegen`
 - `--yes`
+- `--force`
+- `--allow-destructive-graphql-schema-updates`
 
 ### `--codegen`
 
-Contains configuration for AppSync [codegen](/cli/graphql-transformer/codegen), the following are the specifications:
+Contains configuration for AppSync [codegen](/cli/graphql/client-code-generation), the following are the specifications:
 
 - `generateCode`: <br/>
 A boolean indicating if to generate code for your GraphQL API.<br/>
@@ -289,6 +291,17 @@ The file name pattern of GraphQL queries, mutations and subscriptions.<br/>
 The file name for the generated code.<br/>
 - `generateDocs`:  <br/>
 A boolean indicating whether to generate GraphQL statements (queries, mutations and subscription) based on the GraphQL schema types. The generated version will overwrite the current GraphQL queries, mutations and subscriptions.<br/>
+
+### `--yes`
+Will skip all interactive prompts by selecting default options.
+
+### `--force`
+Pushes all resources regardless of update status and bypasses all guardrails to push the local state to the cloud. Only use this flag if you have tested the change in a non-production environment and fully understand the implications.
+
+It includes all of the behavior of `--allow-destructive-graphql-schema-updates`
+
+### `--allow-destructive-graphql-schema-updates`
+Pushes schema changes that require removal or replacement of underlying tables. See [update schema](/cli/graphql/overview/#update-schema).
 
 ### Sample script
 

@@ -1,0 +1,69 @@
+export const meta = {
+  title: "Figma to code",
+  description: "Figma to React code with Amplify Studio",
+};
+
+<Callout warning>
+
+All UI development capabilities are currently available under Public Preview.
+
+</Callout>
+
+Amplify Studio offers an integration with Figma, allowing you to generate clean React code by importing your Figma design file. [Figma](https://figma.com/) is a browser-based UI and UX design application that is used to build high-fidelity designs. In the standard product development lifecycle, UI or UX designers build mockups that get implemented as code by developers. Amplify Studio automatically converts any [Figma component](https://help.figma.com/hc/en-us/articles/360038662654-Guide-to-Components-in-Figma) in your Figma file to a [React component](https://reactjs.org/docs/components-and-props.html) that is then usable in your app. 
+
+
+## Step 1: Set up Figma file
+
+To get started, all you have to do is link your Studio project to a Figma file. While you can link any Figma file to Studio, for the best end to end experience, we recommend starting with our Figma file. To get started from scratch, **[duplicate our Figma UI file](https://www.figma.com/community/file/1047600760128127424)**.
+
+![figma](/images/console/ui-figma-file.png)
+
+This file contains the following pages:
+
+- **README**: The README page explains how to use the Figma file to create new components, theme primitives, and customize layout and styling.
+- **Primitives**: Primitives are building-block components such as alerts, buttons, and badges. These primitives correspond to the [Amplify UI primitives](https://ui.docs.amplify.aws/components) and get exported to code with all the primitive properties.
+- **My components**: This page contains all of the custom components built using the primitives. Amplify provides dozens of components such as news feed, social media, and marketing hero components to get you started. Customize these to match your needs or build your own components. 
+- **Examples**: This is for demonstration purposes only, to show designers how to use our components to build entire pages.
+
+Please follow the README in our Figma file to learn how to create your components to optimize for code quality.
+
+## Step 2: Link Figma file in Studio
+
+In Amplify Studio, enter the URL for the Figma file you just created (or duplicated). You will be asked to authenticate with Figma. 
+
+![figma](/images/console/ui-figma-to-studio.png)
+
+After authenticating with Figma, you will see a list of components that you can sync. Choose **Accept all** to import all components, or walkthrough them one-by-one to make sure they are visually acceptable. Once you complete the sync, you should see a list of components that have been imported. All previews of the components are live renders of the actual coded components. Open your dev tools inspector to check it out! 
+
+![figma](/images/console/ui-figma-sync.png)
+
+## Step 3: Pull UI components code in your project
+
+If you don't already have the Amplify CLI installed, use the following command to install it.
+
+import all0 from "/src/fragments/cli-install-block.mdx";
+
+<Fragments fragments={{all: all0}} />
+
+import all1 from "/src/fragments/pull-cli-studio.mdx";
+
+<Fragments fragments={{all: all1}} />
+
+Amplify generates all UI component code into `src/ui-components`, as JSX and TS files. All generated code is built with primitives from the Amplify UI library. Although you have access to inspect the component code, you cannot modify it directly as we will override any changes on the next `amplify pull`.
+
+## Step 4: Use components in your app
+
+Now that all of the code for the UI components has been pulled into your project, you can reference them when necessary. In Studio, go to the component you want to use in your app and choose **Get component code** at the bottom of the page.
+
+![figma](/images/console/ui-getcomponent-code.png)
+
+If this is the first time setting up your project, go to the **Initial project setup** tab and follow the setup instructions.
+
+![figma](/images/console/ui-getcomponent-code2.png)
+
+Once that is done, you can use the components anywhere in your app. Learn how to **[customize these UI components in code](/console/uibuilder/override)**.
+
+```
+import { ComponentA, ComponentB }  from './ui-components';
+
+```

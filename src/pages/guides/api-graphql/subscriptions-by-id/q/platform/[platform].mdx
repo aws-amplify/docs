@@ -14,7 +14,7 @@ type Post @model {
   id: ID!
   title: String!
   content: String
-  comments: [Comment] @connection
+  comments: [Comment] @hasMany
 }
 
 type Comment @model {
@@ -48,7 +48,7 @@ type Post @model {
   id: ID!
   title: String!
   content: String
-  comments: [Comment] @connection
+  comments: [Comment] @hasMany
 }
 
 type Comment @model {

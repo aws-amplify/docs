@@ -71,6 +71,101 @@ The `amplify configure project` command is an advanced command and not commonly 
 
 When Amplify CLI is authenticated with the Amplify Admin UI, JSON Web Tokens (JWTs) are stored on the developer's machine. This command will remove the JWTs associated with a particular Amplify app. The CLI will also prompt if you want to logout from all sessions. 'Yes' will remove the JWTs and ensure they are invalidated globally. 'No' will still remove the locally-stored JWTs but the tokens will remain valid until they expire.
 
+## Upgrade Amplify CLI
+
+The Amplify CLI team continuously pushes new features, enhancements and security improvements and it is recommended to update the Amplify CLI version which you or your team is using to the latest version. You can keep track of the latest releases of the Amplify CLI on npm - <https://www.npmjs.com/package/@aws-amplify/cli>
+
+<BlockSwitcher>
+<Block name="NPM">
+
+```bash
+npm install -g @aws-amplify/cli
+```
+
+**Note:** Because we're installing the Amplify CLI globally, you might need to run the command above with `sudo` depending on your system policies.
+</Block>
+<Block name="cURL (Mac and Linux)">
+
+```bash
+amplify upgrade
+```
+</Block>
+<Block name="cURL (Windows)">
+
+```bash
+amplify upgrade
+```
+</Block>
+</BlockSwitcher>
+
+### Verify Amplify CLI upgrade
+
+Verify the successful installation of the latest CLI version by entering the following command in the CLI:
+
+```bash
+amplify -v
+```
+
+Confirm the installed version of the Amplify CLI. You can find the latest version of the CLI here - <https://www.npmjs.com/package/@aws-amplify/cli>.
+
+### (Optional) Update projects using latest Amplify CLI
+Navigate to your Amplify project folder using the following command `cd <Project-Filepath>`. To verify if it is a valid Amplify project folder, enter the following command in the CLI:
+
+```bash
+amplify status
+```
+
+If it is a valid Amplify project folder, Amplify will display a list of the resources in the project folder that you have deployed to the AWS cloud.
+
+Update your backend resources with updated security configurations or improvements by entering the following command in the CLI:
+
+```bash
+amplify push --force
+```
+
+Hit Enter or type Y when prompted for confirmations. Look for the following result to validate the configuration updates have been applied.
+
+```console
+✔ All resources are updated in the cloud 
+```
+
+If you have multiple AWS Amplify project folders, repeat steps above for each project folder.
+
+<Callout warning>
+
+If you are receiving errors on push regarding unknown GraphQL directives and have not yet migrated your GraphQL resource to use GraphQL Transformer v2, please review the [migration documentation page](/cli/migration/transformer-migration/) for an in-depth guide to migrating the resource.
+  
+</Callout>
+
+## Uninstall Amplify CLI
+
+Use the following commands to completely remove Amplify CLI from your system. Removing the Amplify CLI will NOT delete any of your Amplify projects.
+To delete a project, run `amplify delete` within the project directory.
+
+<BlockSwitcher>
+<Block name="NPM">
+
+```bash
+npm uninstall -g @aws-amplify/cli
+```
+
+**Note:** The Amplify CLI is installed globally, you might need to run the command above with `sudo` depending on your system policies.
+</Block>
+<Block name="cURL (Mac and Linux)">
+
+```bash
+amplify uninstall
+```
+</Block>
+<Block name="cURL (Windows)">
+
+```bash
+amplify uninstall
+```
+</Block>
+</BlockSwitcher>
+
+
 ## List of commands
 
 - `amplify <category> <subcommand>`

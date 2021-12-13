@@ -185,6 +185,7 @@ table {
   border-spacing: 0;
   font-size: 100%;
   font: inherit;
+  width: 100%;
 }
 
 th {
