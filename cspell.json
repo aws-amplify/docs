@@ -1415,7 +1415,9 @@
     "geospatial",
     "Ersi",
     "Geocodes",
-    "gqlv"
+    "gqlv",
+    "geofence",
+    "geofences"
   ],
   "flagWords": ["hte"]
 }
