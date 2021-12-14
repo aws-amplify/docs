@@ -59,7 +59,7 @@ In addition, the customer can configure access for:
 - **Specific AWS accounts**: provide a comma-separated list of AWS Account IDs to provide access to them.
 - **Specific AWS organizations**: provide a comma-separated list of AWS Organization IDs to provide access to them. *AWS Organization IDs start with `o-`.*
 - **Public**: make this layer available for everyone AWS. Anyone in AWS can reference this layer using its ARN.
-
+ 
 ```console
 Next steps:
 Move your libraries to the following folder:
@@ -180,6 +180,10 @@ Any file changes within a layer's folder are automatically tracked by Amplify CL
 You can update any of the layer's settings like its name, runtimes, or permissions by running `amplify update function` and selecting `Lambda layer`.
 
 Next, you'll be prompted to select the layer for which you want to update the settings for.
+
+#### Note: Update Layer Permissions from Public to Specific
+  - To update a lambda layer from Public access to Specific (Account/Organization) access, please remember to remove Public access by **un-selecting** the option in the 'amplify update' CLI flow before selecting a specific AWS account/organization.
+  - If you have already selected 'Public' access, just adding additional 'specific' AWS accounts/organizations will not have any effect on the Lambda Layer configuration. It will not automatically remove Public access. 
 
 ## Remove a layer
 
