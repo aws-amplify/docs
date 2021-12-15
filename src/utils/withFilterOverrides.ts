@@ -1,6 +1,6 @@
 import {
   filterMetadataByOption,
-  FRAMEWORK_FILTER_OPTIONS,
+  JS_FRAMEWORKS,
   PLATFORM_FILTER_OPTIONS,
   SelectedFilters,
 } from "./filter-data";
@@ -18,7 +18,7 @@ export const withFilterOverrides = (
     }
 
     // if user sets integration to a framework, set platform to js and framework to whatever was selected
-    else if (FRAMEWORK_FILTER_OPTIONS.includes(updates.integration)) {
+    else if (JS_FRAMEWORKS.includes(updates.integration)) {
       overrides.platform = "js";
       overrides.framework = updates.integration as keyof typeof filterMetadataByOption;
     }
@@ -38,7 +38,7 @@ export const withFilterOverrides = (
       // and there is an integration currently selected
       if (currentSelection.integration) {
         // and the currently-selected integration is NOT a framework
-        if (!FRAMEWORK_FILTER_OPTIONS.includes(currentSelection.integration)) {
+        if (!JS_FRAMEWORKS.includes(currentSelection.integration)) {
           // override the integration as js
           overrides.integration = "js" as keyof typeof filterMetadataByOption;
         }
