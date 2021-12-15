@@ -15,6 +15,7 @@ export const withFilterOverrides = (
     // if user sets integration to js, set platform to js
     if (updates.integration === "js") {
       overrides.platform = "js";
+    // if user sets integration to flutter, set platform to flutter
     } else if (updates.integration === "flutter") {
       overrides.platform = "flutter"
     }
