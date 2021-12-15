@@ -15,16 +15,18 @@ export const withFilterOverrides = (
     // if user sets integration to js, set platform to js
     if (updates.integration === "js") {
       overrides.platform = "js";
+    } else if (updates.integration === "flutter") {
+      overrides.platform = "flutter"
     }
 
     // if user sets integration to a framework, set platform to js and framework to whatever was selected
-    else if (FRAMEWORK_FILTER_OPTIONS.includes(updates.integration)) {
+    else if (FRAMEWORK_FILTER_OPTIONS.includes(updates.integration) && updates.integration !== "flutter") {
       overrides.platform = "js";
       overrides.framework = updates.integration as keyof typeof filterMetadataByOption;
     }
 
     // if user sets integration state to a platform, set platform to whatever the option...
-    // won't apply to js, as we've already covered that condition above.
+    // won't apply to js or flutter, as we've already covered that condition above.
     // we can also reset framework, given that the user has selected a non-js platform for integration
     else if (PLATFORM_FILTER_OPTIONS.includes(updates.integration)) {
       overrides.platform = updates.integration as keyof typeof filterMetadataByOption;
@@ -48,18 +50,27 @@ export const withFilterOverrides = (
       else {
         updates.integration = updates.platform;
       }
+    // if platform has been set to flutter, then set it as integration and as framework
+    } else if (updates.platform === "flutter") {
+      updates.integration = updates.platform;
+      updates.framework = "flutter"
     }
 
-    // if the platform update is not js, then set it as the integration, and clear the selected framework
+    // if the platform update is not js nor flutter, then set it as the integration, and clear the selected framework
     else {
       updates.integration = updates.platform;
       updates.framework = undefined;
     }
   }
 
-  // if framework is set, update the integration state with it, and set platform to js
+  // if framework is set, update the integration state with it
   if (updates.framework) {
-    overrides.platform = "js";
+    if (updates.framework === "flutter") {
+      overrides.platform = "flutter";
+    // if the framework is not flutter, assume it is a js framework and set platform to js
+    } else {
+      overrides.platform = "js";
+    }
     overrides.integration = updates.framework as keyof typeof filterMetadataByOption;
   }
 
