@@ -2,7 +2,7 @@
 
 There are two ways to display a map. The easiest way to get started is to use the `AmplifyMaplibreUI` library to create an instance of `AMLMapView`. This is the recommended approach for new projects or anyone who wants to use SwiftUI.
 
-Alternatively, if you are using UIKit or have existing code using the MapLibre/MapBox SDK, you can simply call `AmplifyMapLibre.createMap(completionHandler:)` to create an instance of `MGLMapView` that is pre-wired for use with Amazon Location Service and Amplify.
+Alternatively, if you are using UIKit or have existing code using the MapLibre/MapBox SDK, you can simply call `AmplifyMapLibre.createMap(completionHandler:)` to create an instance of `MGLMapView` that is pre-wired for use with Amazon Location Service and Amplify. For more information on using `MGLMapView` directly, please see the [MapLibre Documentation](https://docs.maptiler.com/maplibre-gl-native-ios/)
 
 <BlockSwitcher>
 <Block name="SwiftUI">
@@ -10,9 +10,6 @@ Alternatively, if you are using UIKit or have existing code using the MapLibre/M
 ```swift
 import SwiftUI
 import AmplifyMapLibreUI
-import AmplifyMapLibreAdapter
-import Mapbox
-import Amplify
 
 struct ContentView: View {    
     var body: some View {

@@ -17,7 +17,7 @@ export const Toggle = styled.div<ToggleProps>((props) => {
 
     position: fixed;
     right: 1rem;
-    bottom: 1rem;
+    bottom: 0.5rem;
     background-color: var(--color-orange-hv);
     border-radius: 50%;
     width: 3.5rem;

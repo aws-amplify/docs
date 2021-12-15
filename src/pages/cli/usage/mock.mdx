@@ -41,11 +41,10 @@ When adding a schema use an API Key at first to ensure everything works, though 
 
 When defining a schema you can use directives from the GraphQL Transformer in local testing as well as local code generation from the schema for types. The following directives are currently supported in local testing:
 
-- [@auth](/cli/graphql-transformer/auth)
-- [@key](/cli/graphql-transformer/key)
-- [@connection](/cli/graphql-transformer/connection)
-- [@versioned](/cli/graphql-transformer/versioned)
-- [@function](/cli/graphql-transformer/function)
+- [@auth](/cli/graphql/authorization-rules)
+- [@primaryKey, @index](/cli/graphql/data-modeling)
+- [@hasOne, @hasMany, @belongsTo, @manyToMany](/cli/graphql/data-modeling)
+- [@function](/cli/graphql/custom-business-logic#lambda-function-resolver)
 
 > Note that `@searchable` is not supported at this time.
 
@@ -78,7 +77,7 @@ After adding a function to your project with `amplify add function` you can test
 
 ### Function mocking with GraphQL
 
-A GraphQL Lambda resolver connected to your schema using [@function](/cli/graphql-transformer/function) can be mocked using [`amplify mock api`](#api-mocking-setup).
+A GraphQL Lambda resolver connected to your schema using [@function](/cli/graphql/custom-business-logic#lambda-function-resolver) can be mocked using [`amplify mock api`](#api-mocking-setup).
 For example, if you have a function named **quoteOfTheDay** and a schema like:
 
 ```graphql
