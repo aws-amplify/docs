@@ -449,7 +449,7 @@ const directory = {
             filters: ["js"],
           },
           {
-            title: "Geofences",
+            title: "Geofences (Developer preview)",
             route: "/lib/geo/geofences",
             filters: ["js"],
           },
