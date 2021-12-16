@@ -6,9 +6,9 @@
 
 ## Provisioning geofence resources
 
-## Manage Geofences in Your Application
+The first thing needed is to provision a geofence collection resource and configured your app using the instructions in either [Amplify CLI - Geo - Geofence Collection](/cli/geo/geofences) or [Use existing Amazon Location Service resources](/lib/geo/existing-resources) and you have already setup [displaying a map](/lib/geo/maps) in your application.
 
-First, make sure you've provisioned a geofence collection resource and configured your app using the instructions in either [Amplify CLI - Geo - Geofence Collection](/cli/geo/geofences) or [Use existing Amazon Location Service resources](/lib/geo/existing-resources) and you have already setup [displaying a map](/lib/geo/maps) in your application.
+## Manage Geofences in Your Application
 
 To add a geofence management component to your map, you can use the [amplify-geofence-control](https://github.com/aws-amplify/maplibre-gl-js-amplify/) found in the `https://github.com/aws-amplify/maplibre-gl-js-amplify/` library.
 
@@ -32,18 +32,18 @@ import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 async function initializeMap() {
-    const el = document.createElement("div");
-    el.setAttribute("id", "map");
-    document.body.appendChild(el);
+  const el = document.createElement("div");
+  el.setAttribute("id", "map");
+  document.body.appendChild(el);
 
-    const map = await createMap({
-        container: "map",
-        center: [-123.1187, 49.2819], // [Longitude, Latitude]
-        zoom: 11,
-    })
+  const map = await createMap({
+    container: "map",
+    center: [-123.1187, 49.2819], // [Longitude, Latitude]
+    zoom: 11,
+  });
 
-    const control = new AmplifyGeofenceControl({})
-    map.addControl(control);
+  const control = new AmplifyGeofenceControl({});
+  map.addControl(control);
 }
 
 initializeMap();
@@ -52,3 +52,328 @@ initializeMap();
 ![A Geofences Management Application](/images/geofence-management-app.png)
 
 ## Geofence API
+
+If you are using a different mapping library or have a need for a more programmatic approach to managing geofences, the `@aws-amplify/geo` package provides methods for managing geofences, but not geofence collections.
+
+First, you need to import Geo from either the `@aws-amplify/geo` or `aws-amplify` packages.
+
+```javascript
+import { Geo } from "@aws-amplify/geo";
+// Or
+import { Geo } from "aws-amplify";
+```
+
+### saveGeofences
+
+`saveGeofences` is used to save geofences to your collection. It can take a single geofence or an array of geofences.
+
+#### API
+
+```javascript
+Geo.saveGeofences(geofences, options);
+```
+
+#### Parameters
+
+- `geofences` - can be a single geofence object, or an array of geofence objects to save to a collection.
+
+Geofence objects must have the following properties:
+
+- `geofenceId` - a opaque and unique identifier for the geofence.
+- `geometry` - a geometry object that defines the geofence.
+  - `polygon` - an array of arrays with [Longitude, Latitude] coordinates.
+
+<Callout>
+
+NOTE: Polygon arrays have a few requirements:
+
+- must have at least 4 vertices (i.e. 4 coordinate points)
+- the first and last point must be the same in order to complete the polygonal loop
+- vertices must be in counter-clockwise order
+
+</Callout>
+
+```json
+{
+  "geofenceId": "string",
+  "geometry": {
+    "polygon": [
+      [
+        [longitude, latitude],
+        [longitude, latitude],
+        [longitude, latitude],
+        [longitude, latitude]
+      ]
+    ]
+  }
+}
+```
+
+- `options` - optional options object for saving geofences
+  - `collectionName` - the name of the collection to save geofences to.
+    - Defaults to the default collection listed in your `aws-exports.js` file after provisioning a geofence collection resource.
+
+```js
+{
+  collectionName: "myCollection";
+}
+```
+
+#### Return
+
+The return from `saveGeofences` is a Promise that resolves to an object with both successes and errors for geofences that were successfully created or not.
+
+Each success object has the following properties:
+
+- `geofenceId` - the geofenceId of the geofence that was saved.
+- `createTime` - the time the geofence was created.
+- `updateTime` - the time the geofence was last updated.
+
+Each error object has the following properties:
+
+- `geofenceId` - the geofenceId of the geofence that failed to be saved.
+- `error` - an error object
+  - `code` - the error code
+  - `message` - the error message
+
+```js
+// Promise<SaveGeofenceResults>
+{
+  successes: [
+    {
+      geofenceId: "string",
+      createTime: Date,
+      updateTime: Date,
+    },
+  ],
+  errors: [
+    {
+      error: {
+        code: "string",
+        message: "string",
+      },
+      geofenceId: "string",
+    },
+  ],
+};
+```
+
+#### Example
+
+```js
+let saveGeofenceResults;
+try {
+  saveGeofenceResults = await Geo.createGeofence({
+    geofenceId: "my-geofence",
+    geometry: {
+      polygon: [
+        [-123.14695358276366, 49.290090146520434],
+        [-123.1358814239502, 49.294960279811974],
+        [-123.15021514892577, 49.29300108863353],
+        [-123.14909934997559, 49.29132171993048],
+        [-123.14695358276366, 49.290090146520434],
+      ],
+    },
+  });
+} catch (error) {
+  // error handling from logic and validation issues within `createGeofences`
+  throw error;
+}
+
+if (saveGeofenceResults.errors.length > 0) {
+  // error handling that are from the underlying API calls
+  throw new Error();
+}
+```
+
+### getGeofence
+
+`geoGeofence` is used to get a single geofence object from a collection.
+
+#### API
+
+```javascript
+Geo.getGeofence(geofenceId, options);
+```
+
+#### Parameters
+
+- `geofenceId` - the `geofenceId` of the geofence to get.
+
+- `options` - optional options object for saving geofences
+  - `collectionName` - the name of the collection to save geofences to.
+    - Defaults to the default collection listed in your `aws-exports.js` file after provisioning a geofence collection resource.
+
+```js
+{
+  collectionName: "myCollection";
+}
+```
+
+#### Return
+
+The return from `getGeofence` is a Promise that resolves to a geofence object.
+
+```javascript
+// Promise<Geofence>
+{
+  id: string;
+  createTime: Date;
+  updateTime: Date;
+  geometry: {
+    polygon: [
+      [
+        [longitude, latitude],
+        [longitude, latitude],
+        [longitude, latitude],
+        [longitude, latitude]
+      ]
+    ]
+  }};
+}
+```
+
+#### Example
+
+```javascript
+let responses;
+try {
+  response = await Geo.getGeofence("geofenceId");
+} catch (error) {
+  throw error;
+}
+```
+
+### listGeofences
+
+`listGeofences` is used to get a list of geofences from a collection. It has pagination built in and will return 100 geofences per page.
+
+#### API
+
+```javascript
+Geo.listGeofences(options);
+```
+
+#### Parameters
+
+- `options` - optional options object for saving geofences
+  - `nextToken` - the pagination token for the next page of geofences.
+    - if no token is given, it will return the first page of geofences.
+  - `collectionName` - the name of the collection to save geofences to.
+    - Defaults to the default collection listed in your `aws-exports.js` file after provisioning a geofence collection resource.
+
+```js
+{
+  nextToken: "string",
+  collectionName: "myCollection";
+}
+```
+
+#### Return
+
+Returns a Promise that resolves to an object with the following properties:
+
+- `entries` - an array of geofences
+- `nextToken` - the pagination token for the next page of geofences
+
+```javascript
+// Promise<ListGeofenceResults>
+{
+  entries: [
+    {
+      id: string;
+      createTime: Date;
+      updateTime: Date;
+      geometry: {
+        polygon: [
+          [longitude, latitude],
+          [longitude, latitude],
+          [longitude, latitude],
+          [longitude, latitude]
+        ]
+      }
+    },
+  ],
+  nextToken: string,
+}
+```
+
+#### Example
+
+```javascript
+let response;
+try {
+  response = await Geo.listGeofences();
+} catch (error) {
+  throw error;
+}
+```
+
+### deleteGeofences
+
+`deleteGeofences` is used to delete a geofences from a collection. It can delete a single or multiple geofences at once.
+
+#### API
+
+```js
+Geo.deleteGeofences(geofenceIds, options);
+```
+
+#### Parameters
+
+- `geofenceIds` - a single geofenceId or array of geofenceIds to delete
+- `options` - optional options object for saving geofences
+  - `collectionName` - the name of the collection to save geofences to.
+    - Defaults to the default collection listed in your `aws-exports.js` file after provisioning a geofence collection resource.
+
+#### Return
+
+The return from `deleteGeofences` is a Promise that resolves to an object with both successes and errors for geofences that were successfully deleted or not.
+
+- The success object is an array of geofenceIds that were successfully deleted.
+- The error object is an array of error objects that include the following properties:
+  - `geofenceId` - the geofenceId of the geofence that failed to be deleted.
+  - `error` - an error object
+    - `code` - the error code
+    - `message` - the error
+
+```js
+// Promise<DeleteGeofencesResults>
+{
+  errors: [
+    {
+      error: {
+        code: "string",
+        message: "string",
+      },
+      geofenceId: "string",
+    },
+  ],
+  successes: [
+    "string",
+  ],
+}
+```
+
+#### Example
+
+```js
+let response;
+try {
+  response = await Geo.deleteGeofences(
+    [
+      "geofence1",
+      "geofence2",
+      "geofence3",
+    ]
+  )
+catch (error) {
+  // error handling from logic and validation issues within `deleteGeofences`
+  throw error;
+}
+
+if(response.errors.length > 0){
+  // error handling that are from the underlying API calls
+  throw new Error();
+}
+```
