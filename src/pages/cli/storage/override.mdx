@@ -67,9 +67,9 @@ import { AmplifyS3ResourceTemplate } from '@aws-amplify/cli-extensibility-helper
 import * as s3 from '@aws-cdk/aws-s3';
 
 export function override(resources: AmplifyS3ResourceTemplate) {
-    const currentsettings  = resources.s3Bucket.notificationConfiguration as s3.CfnBucket.NotificationConfigurationProperty;
-    const previousLambdaConfig  = currentsettings.lambdaConfigurations as s3.CfnBucket.LambdaConfigurationProperty[];
-    const farn = currentsettings.lambdaConfigurations[0].function;
+    const currentSettings  = resources.s3Bucket.notificationConfiguration as s3.CfnBucket.NotificationConfigurationProperty;
+    const previousLambdaConfig  = currentSettings.lambdaConfigurations as s3.CfnBucket.LambdaConfigurationProperty[];
+    const functionArn = currentSettings.lambdaConfigurations[0].function;
     const newConfig = {
         event: "s3:ObjectCreated:*",
         filter:{
@@ -82,7 +82,7 @@ export function override(resources: AmplifyS3ResourceTemplate) {
                 ]
             }
         },
-        function: farn
+        function: functionArn
     } as s3.CfnBucket.LambdaConfigurationProperty;
     // here we append custom config with amplify generated config
     previousLambdaConfig.push(newConfig);
