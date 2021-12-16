@@ -62,7 +62,7 @@ You can override the following DynamoDB resources that Amplify generates:
 
 Override function can be used to get access to Amplify-generated values. E.g. to add a new notification rule for Lambda Trigger function defined using CLI, we need to access the ARN of the function:
 
-```
+```ts
 import { AmplifyS3ResourceTemplate } from '@aws-amplify/cli-extensibility-helper';
 import * as s3 from '@aws-cdk/aws-s3';
 
