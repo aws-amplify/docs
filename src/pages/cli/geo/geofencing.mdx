@@ -79,7 +79,9 @@ Next, configure the access permissions for your geofence collection resource and
  ✔ List geofences
 ```
 
-The above chosen permissions are granted to the users belonging the specified Cognito User Pool group.
+The above chosen permissions are granted to the users belonging the specified Cognito User Pool group. 
+Please note that these permissions apply to ALL Geofences in a collection. For example, If you chose `Read geofence` permission for say `storesInWashingtonGeofenceCollectionAdmin`
+Cognito group, ALL users added to that group will be able to read the properties of ALL Geofences in that Geofence collection.
 
 ## Geofence Collection Pricing Plan and Data Provider
 
