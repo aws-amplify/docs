@@ -188,3 +188,45 @@ However, you can choose if the current geofence collection should be the default
 Answering `No` will retain the previously set default.
 
 That's it! You can now create virtual perimeters around points of interest in your application. Follow the library documentation as listed [here](/lib/geo/getting-started).
+
+## Upload your own GeoJSON file to geofence collection
+After you have added geofence collection and provisioned the resource, you are able to upload your own GeoJSON file via the command: 
+```bash
+amplify geo populate
+```
+You can refer to [GeoJSON.IO](https://geojson.io/) where you can draw your own geofences and have GeoJSON file auto generated. After you get the GeoJSON file, you can provide the file path:
+```console
+? Provide the path to GeoJSON file containing the Geofences for ${your_geofence_collection} collection:
+> ${your_input_geojson_file_path}
+```
+For each geofence feature, it requires an unique identifier. According to the [RFC7946](https://datatracker.ietf.org/doc/html/rfc7946#section-3.2), There are two options for applying identifiers:
+
+### Root level ID
+
+This option will use auto-generated `id` field in the root level of Feature object as identifier.
+<Callout>
+
+**Note:** This option will UPDATE your GeoJSON file
+
+</Callout>
+
+```console
+? Do you have an identifier field in the Geofence(Feature) properties?
+> No I will use the root level "id" field on Feature type. Auto-Assign if missing (this will UPDATE the GeoJSON file)
+```
+
+### Custom properties
+
+This option allows you to choose your own fields inside `properties` of Feature object. The identifier field should have unique values among geofences.
+```console
+? Do you have an identifier field in the Geofence(Feature) properties?
+> Yes I want to use one of the Geofence(Feature) properties as an identifier
+? Provide the name of the property to use as a unique geofence identifier. Do not use Personal Identifiable Information such as email, username etc:
+> ${your_input_for_unique_identifier}
+```
+
+A validation of the GeoJSON file will be executed afterwards. The upload of geofences will be triggered upon the success of validation. For the regulation of GeoJSON, please refer to [RFC7946](https://datatracker.ietf.org/doc/html/rfc7946)
+```console
+✅ Successfully validated GeoJSON file.
+✅ Successfully added/updated Geofences in your collection
+```
