@@ -1132,6 +1132,11 @@ const directory = {
             filters: []
           },
           {
+            title: "Evolving GraphQL Schemas",
+            route: "/cli/graphql/schema-evolution",
+            filters: []
+          },
+          {
             title: "Troubleshooting",
             route: "/cli/graphql/troubleshooting",
             filters: []
