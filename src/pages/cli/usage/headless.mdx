@@ -177,6 +177,53 @@ Installs, initializes, and provisions resources for a sample amplify application
 If the repository contains a `yarn.lock` and/or `package.json` file, the sample will be installed with the corresponding package manager and started after resources have been provisioned.
 
 ### Sample script
+```javascript
+const shell = require('shelljs');
+const amplify = require('./amplify.json');
+
+const cmd =
+'amplify init --amplify "' +
+JSON.stringify(amplify.amplify).replaceAll('"', '\\"') +
+'" --frontend "' +
+JSON.stringify(amplify.frontend).replaceAll('"', '\\"') +
+'" --providers "' +
+JSON.stringify(amplify.providers).replaceAll('"', '\\"') +
+'" --yes';
+if (shell.exec(cmd).code !== 0) {
+shell.echo('Error amplify init');
+shell.exit(1);
+}
+```
+
+amplify.json content
+```json
+{
+"amplify": {
+"projectName": "headlessProjectName",
+"envName": "myenvname",
+"defaultEditor": "code"
+},
+"frontend": {
+"frontend": "javascript",
+"framework": "react",
+"config": {
+"SourceDir": "src",
+"DistributionDir": "build",
+"BuildCommand": "npm run-script build",
+"StartCommand": "npm run-script start"
+}
+},
+"providers": {
+"awscloudformation": {
+"configLevel": "project",
+"useProfile": false,
+"profileName": "default"
+}
+}
+}
+```
+
+#### Sample bash script for Unix platform
 
 ```bash
 #!/bin/bash
