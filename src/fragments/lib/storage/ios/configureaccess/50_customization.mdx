@@ -9,19 +9,21 @@ import Amplify
 import AmplifyPlugins
 
 // Define your own prefix resolver, that conforms to `AWSS3StoragePluginPrefixResolver`
-struct MyDeveloperDefinedPrefixResolver: AWSS3StoragePluginPrefixResolver {
+struct MyDeveloperDefinedPrefixResolver: AWSS3PluginPrefixResolver {
 
-    // This function is called whenever you call a Storage API to intercept the request.
-    public func resolvePrefix(for accessLevel: StorageAccessLevel,
-                              identityId: String?,
-                              completion: @escaping (Result<String, StorageError>) -> Void) {
+    // This function is called on every Storage API to modify the prefix of the request.
+    func resolvePrefix(for accessLevel: StorageAccessLevel,
+                       targetIdentityId: String?,
+                       completion: @escaping (Result<String, StorageError>) -> Void) {
         // Use "myPublicPrefix" for guest access levels
         if accessLevel == .guest {
             completion(.success("myPublicPrefix/"))
             return
         }
 
-        if let identityId = identityId {
+        // Use "myProtectedPrefix/{targetIdentityId}" and "myPrivatePrefix/{targetIdentityId}" respectively
+        // `targetIdentityId` is the value passed into the Storage request object,
+        if let identityId = targetIdentityId {
             if accessLevel == .protected {
                 completion(.success("myProtectedPrefix/" + identityId + "/"))
             } else if accessLevel == .private {
@@ -30,6 +32,8 @@ struct MyDeveloperDefinedPrefixResolver: AWSS3StoragePluginPrefixResolver {
             return
         }
 
+        // Use "myProtectedPrefix/{identityId}" and "myPrivatePrefix/{identityId}" respectively
+        // `identityId` is the identity id of the current user
         getIdentityId { result in
             switch result {
             case .failure(let error):
@@ -40,7 +44,6 @@ struct MyDeveloperDefinedPrefixResolver: AWSS3StoragePluginPrefixResolver {
                 } else if accessLevel == .private {
                     completion(.success("myPrivatePrefix/" + identityId + "/"))
                 }
-
             }
         }
     }
@@ -68,7 +71,7 @@ let storagePlugin = AWSS3StoragePlugin(configuration: .prefixResolver(MyDevelope
 Amplify.add(storagePlugin)
 ```
 
-For example, if you want to enable read, write and delete operation for all the objects under path *myPublicPrefix/*, declare it in your IAM policy:
+Add the IAM policy that corresponds with the prefixes defined above to enable read, write and delete operation for all the objects under path *myPublicPrefix/*:
 
 ```xml
 "Statement": [
@@ -104,20 +107,20 @@ If you want to have custom *private* path prefix like *myPrivatePrefix/*, you ne
 ```
 This ensures only the authenticated users has the access to the objects under the path. 
 
-#### Examples
+#### Passthrough PrefixResolver
 
-1. See [StorageAccessLevelAwarePrefixResolver](https://github.com/aws-amplify/amplify-ios/blob/main/AmplifyPlugins/Storage/AWSS3StoragePlugin/Configuration/AWSS3PluginPrefixResolver.swift#L26) and [StorageRequestUtils.getAccessLevelPrefix](https://github.com/aws-amplify/amplify-ios/blob/main/AmplifyPlugins/Storage/AWSS3StoragePlugin/Support/Utils/StorageRequestUtils+Getter.swift#L24) for an example of the prefix resolver used by the plugin. You do not have to add this yourself and is used by default if no prefix resolver is added to the configuration.
-
-2. If you would like no prefix resolution logic, such as performing S3 requests at the root of the bucket, create a prefix resolver that returns an empty string:
+If you would like no prefix resolution logic, such as performing S3 requests at the root of the bucket, create a prefix resolver that returns an empty string:
 
 ```swift
 public func resolvePrefix(for accessLevel: StorageAccessLevel,
-                          targetIdentityId: String?) -> Result<String, StorageError> {
+                            targetIdentityId: String?) -> Result<String, StorageError> {
     return .success("")
 }
 ```
 
-3. You can perform validation based on the access controls you have defined. For example, if you have defined Guests with no access then you can fail the request early by checking if the user is not signed in:
+#### Client validation
+
+You can also perform validation based on the access controls you have defined. For example, if you have defined Guests with no access then you can fail the request early by checking if the user is not signed in:
 
 <amplify-callout>
 
@@ -126,9 +129,9 @@ This will only stop your app from making a call with an unauthenticated user. Yo
 </amplify-callout>
 
 ```swift
-struct MyDeveloperDefinedPrefixResolver: AWSS3StoragePluginPrefixResolver {
+struct MyDeveloperDefinedPrefixResolver: AWSS3PluginPrefixResolver {
     public func resolvePrefix(for accessLevel: StorageAccessLevel,
-                              identityId: String?,
+                              targetIdentityId: String?,
                               completion: @escaping (Result<String, StorageError>) -> Void) {
         guard Amplify.Auth.getCurrentUser() != nil else {
             completion(.failure(.authError("User is not signed in", "", nil)))
