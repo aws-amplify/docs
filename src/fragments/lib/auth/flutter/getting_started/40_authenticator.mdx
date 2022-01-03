@@ -36,12 +36,22 @@ Widget build(BuildContext context) {
     ),
   );
 
-  return MaterialApp(
-    title: 'Authenticator Demo',
-    theme: ThemeData.light(),
-    darkTheme: ThemeData.dark(),
-    // The Authenticator component should be a descendant of your MaterialApp.
-    home: authenticator,
+  // Wrap your MaterialApp in an Authenticator component.
+  return Authenticator(
+    child: MaterialApp(
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+
+      // `builder` must be used with `AuthenticatorBody`.
+      builder: (context, child) {
+        return AuthenticatorBody(child: child);
+      },
+
+      // You can use any combination of `routes`, `home`,
+      // `onGenerateRoute`, etc. as long as `builder` is
+      // configured as shown above.
+      home: const LoggedInScreen(),
+    ),
   );
 }
 ```
