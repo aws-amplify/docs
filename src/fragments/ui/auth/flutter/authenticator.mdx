@@ -239,9 +239,17 @@ const stringResolver = AuthStringResolver(
 /// Pass the string resolver to the Authenticator API
 final authenticator = Authenticator(
   stringResolver: stringResolver,
-  child: const Scaffold(
-    body: Center(
-      child: Text('You are logged in!'),
+  child: MaterialApp(
+    title: 'Authenticator Demo',
+    theme: ThemeData.light(),
+    darkTheme: ThemeData.dark(),
+    builder: (context, child) {
+      return AuthenticatorBody(child: child);
+    },
+    home: const Scaffold(
+      body: Center(
+        child: Text('You are logged in!'),
+      ),
     ),
   ),
 );
@@ -322,6 +330,9 @@ return MaterialApp(
     Locale('en'), // English
     Locale('es'), // Spanish
   ],
+  builder: (context, child) {
+    return AuthenticatorBody(child: child);
+  },
   home: const Scaffold(
     body: Center(
       child: Text('You are logged in!'),
