@@ -189,6 +189,57 @@ Answering `No` will retain the previously set default.
 
 That's it! You can now create virtual perimeters around points of interest in your application. Follow the library documentation as listed [here](/lib/geo/getting-started).
 
+## Granting Maps and/or Search permissions to a group of users
+If you want to grant permissions to render a Map or Search for places to the users of a Cognito group,
+you can do so as shown below:
+
+```bash
+amplify update geo
+```
+
+```console
+? Select which capability you want to update: (Use arrow keys)
+❯ Map (visualize the geospatial data) 
+  Location search (search by places, addresses, coordinates) 
+  Geofencing (visualize virtual perimeters)
+
+? Select the Map you want to update:
+❯ EsriDarkCanvasMap
+
+? Restrict access by?
+  Auth/Guest Users
+  Individual Groups
+❯ Both
+  Learn more
+```
+
+#### Auth/Guest Users access
+
+Select `Auth/Guest Users`, to scope permissions based on an individual user's authentication status. 
+On the next question you'll be able to select if only authenticated users can access resources, or authenticated and guest users:
+
+```
+? Who can access this Map?
+❯ Authorized users only
+  Authorized and Guest users
+```
+
+Select `Authorized users only` if only authenticated users are allowed to render the map.
+
+Select `Authorized and Guest users` if both authenticated and unauthenticated users are allowed to render the map.
+
+For more information, refer [link to location service page](https://docs.aws.amazon.com/location/latest/developerguide/security_iam_id-based-policy-examples.html#security_iam_id-based-policy-examples-get-map-tiles).
+
+#### Individual Group access
+Select `Individual Groups` to scope access permissions based on [Cognito User Groups](/cli/auth/groups)
+
+```console
+? Select groups:
+  ✔ storesInWashingtonGeofenceCollectionAdmin
+```
+
+> Note: If you combine `Auth/Guest user access` and `Individual Group access`, users who are members of a group will only be granted the permissions of the group, and not the authenticated user permissions.
+
 ## Upload your own GeoJSON file to geofence collection
 After you have added geofence collection and provisioned the resource, you are able to upload your own GeoJSON file via the command: 
 ```bash
