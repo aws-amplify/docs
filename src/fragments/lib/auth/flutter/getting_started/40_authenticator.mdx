@@ -42,10 +42,8 @@ Widget build(BuildContext context) {
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
 
-      // `builder` must be used with `AuthenticatorBody`.
-      builder: (context, child) {
-        return AuthenticatorBody(child: child);
-      },
+      // `builder` must be specified with `Authenticator.builder()`.
+      builder: Authenticator.builder(),
 
       // You can use any combination of `routes`, `home`,
       // `onGenerateRoute`, etc. as long as `builder` is

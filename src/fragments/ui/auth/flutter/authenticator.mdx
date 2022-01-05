@@ -23,9 +23,7 @@ Widget build(BuildContext context) {
   return Authenticator(
     child: MaterialApp(
       title: 'Authenticator Demo',
-      builder: (context, child) {
-        return AuthenticatorBody(child: child);
-      },
+      builder: Authenticator.builder(),
       home: const Scaffold(
         body: Center(
           child: Text('You are logged in!'),
@@ -89,9 +87,7 @@ return Authenticator(
   ),
   child: MaterialApp(
     title: 'Authenticator Demo',
-    builder: (context, child) {
-      return AuthenticatorBody(child: child);
-    },
+    builder: Authenticator.builder(),
     home: const Scaffold(
       body: Center(
         child: Text('You are logged in!'),
@@ -129,9 +125,7 @@ return Authenticator(
         brightness: Brightness.dark,
       ),
     ),
-    builder: (context, child) {
-      return AuthenticatorBody(child: child);
-    },
+    builder: Authenticator.builder(),
     home: const SignedInScreen(),
   )
 );
@@ -152,9 +146,7 @@ return Authenticator(
     title: 'Authenticator Demo',
     theme: ThemeData.light(),
     darkTheme: ThemeData.dark(),
-    builder: (context, child) {
-      return AuthenticatorBody(child: child);
-    },
+    builder: Authenticator.builder(),
     home: const Scaffold(
       body: Center(
         child: Text('You are logged in!'),
@@ -243,9 +235,7 @@ final authenticator = Authenticator(
     title: 'Authenticator Demo',
     theme: ThemeData.light(),
     darkTheme: ThemeData.dark(),
-    builder: (context, child) {
-      return AuthenticatorBody(child: child);
-    },
+    builder: Authenticator.builder(),
     home: const Scaffold(
       body: Center(
         child: Text('You are logged in!'),
@@ -330,9 +320,7 @@ return MaterialApp(
     Locale('en'), // English
     Locale('es'), // Spanish
   ],
-  builder: (context, child) {
-    return AuthenticatorBody(child: child);
-  },
+  builder: Authenticator.builder(),
   home: const Scaffold(
     body: Center(
       child: Text('You are logged in!'),
