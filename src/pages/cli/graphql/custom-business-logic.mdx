@@ -526,7 +526,11 @@ export class cdkStack extends cdk.Stack {
     );
 
     const resolver = new appsync.CfnResolver(this, "custom-resolver", {
-      apiId: retVal.api.new.GraphQLAPIIdOutput,
+      // apiId: retVal.api.new.GraphQLAPIIdOutput,
+      // https://github.com/aws-amplify/amplify-cli/issues/9391#event-5843293887
+      // If you use Amplify you can access the paramater via Ref since it's a CDK paramater passed from the root stack.
+      // Previously the ApiId is the variable Name which is wrong , it should be variable value as below
+      apiId: cdk.Fn.ref(retVal.api.replaceWithAPIName.GraphQLAPIIdOutput),
       fieldName: "querySomething", 
       typeName: "Query", // Query | Mutation | Subscription
       requestMappingTemplate: requestVTL,
@@ -536,6 +540,7 @@ export class cdkStack extends cdk.Stack {
   }
 }
 ```
+> **Note:** Users moving from ElasticSearch to OpenSearch will need to change the datasource name from `ElasticSearchDomain` to `OpenSearchDataSource` if the upgrade process changes the source name. For new @searchable models the datasource name will default to `OpenSearchDataSource`.
 
 You can alternatively define the VTL templates in another file such as `Query.querySomething.req.vtl` or `Query.querySomething.res.vtl` in `amplify/backend/custom/MyCustomResolvers/`. Then use the following code snippets to retrieve them:
 
