@@ -34,10 +34,10 @@ const styles = StyleSheet.create({
 ```
 
 #### Home.js
-Next, we will create a Home component for our app which will implement most of the CRUD functionality for our app. Create a new file `Home.js` at location `src/Home.js`. Here, we have total four components defined :
+Next, we will create a Home component for our app which will implement most of the CRUD functionality for our app. Create a new file `Home.js` in the `src` folder. Here, we have total four components defined :
 
 1. **Header**: Simple Header component with Title.
-2. **AddModal**: Used for displaying a Modal when a new Todo needs to be added.
+2. **AddTodoModal**: Used for displaying a Modal when a new Todo needs to be added.
 3. **TodoList**: Used for displaying the list of Todos.
 4. **Home**: Default component that wraps all the above component and a Button for adding a new Todo item.
 
@@ -358,11 +358,11 @@ Update the `setComplete` function in the `TodoList` component.
   }
 ```
 
-That’s it! Restart your app and you should now be able to toggle a todo between completed and not completed states. We’re almost done here but what if you want to delete an item from your todo list? We’ll go over how to do that next.
+That’s it! Restart your app and you should now be able to toggle a todo between completed and not-completed states. We’re almost done here but what if you want to delete an item from your todo list? We’ll go over how to do that next.
 
 ### Deleting a Todo
 
-Deleting an existing data entry is even easier than updating one since you don’t need to copy the instance to delete it. It may not be the best user experience to do this but, for this app, we will trigger deletion of a todo item to a long press of the item.
+Deleting an existing data entry is even easier than updating one since you don’t need to copy the instance to delete it. It may not be the best user experience to do this but, for this app, we will trigger deletion of a todo item off of a long press of the item.
 
 Update the `deleteTodo()` function in the `TodoList` component.
 
