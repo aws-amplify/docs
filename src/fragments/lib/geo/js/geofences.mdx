@@ -5,7 +5,6 @@
 </Callout>
 
 ## Provisioning geofence resources
-
 First, make sure you've provisioned a geofence collection resource and configured your app using the instructions in either [Amplify CLI - Geo - Geofence Collection](/cli/geo/geofences) or [Use existing Amazon Location Service resources](/lib/geo/existing-resources) and you have already setup [displaying a map](/lib/geo/maps) in your application.
 
 ## Manage Geofences in Your Application
@@ -22,7 +21,9 @@ npm install -S maplibre-gl@1 maplibre-gl-js-amplify
 
 First, create a map onto which you want to add the geofence management component. See the guide on [creating and displaying maps](https://docs.amplify.aws/lib/geo/maps/q/platform/js/).
 
-Then, use `AmplifyGeofenceControl` to get a new instance of the control and add it to your MapLibre map.
+Then, import [AmplifyGeofenceControl](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/geo/API.md#amplifygeofencecontrol) from "maplibre-gl-js-amplify", create a new instance of this control and add it to your MapLibre map instance.
+
+Your app should look like the following
 
 > **Note:** Ensure that your package bundler (webpack, rollup, etc) is configured to handle css files. Check out the webpack documentation [here](https://webpack.js.org/loaders/css-loader/).
 
@@ -32,24 +33,26 @@ import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 async function initializeMap() {
-  const el = document.createElement("div");
-  el.setAttribute("id", "map");
-  document.body.appendChild(el);
+    const el = document.createElement("div");
+    el.setAttribute("id", "map");
+    document.body.appendChild(el);
 
-  const map = await createMap({
-    container: "map",
-    center: [-123.1187, 49.2819], // [Longitude, Latitude]
-    zoom: 11,
-  });
+    const map = await createMap({
+        container: "map",
+        center: [-123.1187, 49.2819], // [Longitude, Latitude]
+        zoom: 11,
+    })
 
-  const control = new AmplifyGeofenceControl({});
-  map.addControl(control);
+    const control = new AmplifyGeofenceControl()
+    map.addControl(control);
 }
 
 initializeMap();
 ```
 
-![A Geofences Management Application](/images/geofence-management-app.png)
+![Geofence Create](/images/geofence-create.png)
+
+![Geofence Edit](/images/geofence-edit.png)
 
 ## Geofence API
 
