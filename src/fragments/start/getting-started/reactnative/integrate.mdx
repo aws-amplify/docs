@@ -313,62 +313,33 @@ Update the `addTodo()` function in the **AddTodoModal** component.
 
 If you try to add todos using the form now, it should successfully close the form when pressing the *Save* button. But our Todo list is still empty even if you restart the app! After initializing our todos as an empty list, we aren't currently updating it again. We will remedy that in the next step.
 
-### Querying for Todos
+### Querying for Todos and Observing Updates in Real-Time
 
-Now that we have a way to add Todo items, we need a way to list them out.
+Now that we have a way to add Todo items, we need a way to list them out. We also want to observe updates to those items as they are added, updated, or removed.
 
-We will use the `useEffect()` hook of **TodoList** component to list the todo items. `useEffect()` can be used to initialize variables on the first render of the component. Add the below `useEffect()` in the **TodoList** component right after state initialization.
+This can be achieved with `DataStore.observeQuery()`. `observeQuery()` will return a Stream of query snapshots. Each snapshot will contain the current list of items, as well as boolean value to indicate if DataStore's sync process has completed. You can find more info about `observeQuery()` [here](/lib/datastore/real-time/q/platform/js#observe-query-results-in-real-time).
 
-```js
-  useEffect(() => {
-    const onQuery = async () => {
-      const todos_list = await DataStore.query(Todo);
-      setTodos(todos_list);
-    };
-
-    // load todos on first render
-    onQuery();
-
-  }, []);
-```
-You can find more about useEffect hook [here](https://reactjs.org/docs/hooks-effect.html).
-
-If you restart your app now, you should see your added todos start to show up on the list! However, if you add more entries, they don’t show up until you refresh the app. Let’s wire up the real-time data observation next.
-
-### Observing updates to Todos
-
-Amplify DataStore provides a way to subscribe to data updates to your model. We will use this to listen for change events and update our list accordingly.
-
-Inside our `useEffect()` hook, we will add a `subscription` to data updates.
+We will use the `useEffect()` hook of **TodoList** component to list the todo items. `useEffect()` can be used to perform side effects in function components. Add the below `useEffect()` in the **TodoList** component right after state initialization. You can find more about useEffect hook [here](https://reactjs.org/docs/hooks-effect.html).
 
 ```js
   useEffect(() => {
 
-    //function to query the todolist and store the todolist in state. 
-    const onQuery = async () => {
-      const todos_list = await DataStore.query(Todo);
-      setTodos(todos_list);
-    };
+    //query the initial todolist and subscribe to data updates
+    const subscription = DataStore.observeQuery(Todo).subscribe((snapshot) => {
 
-    //load todos on first render 
-    onQuery();
+    //isSynced can be used to show a loading spinner when the list is being loaded.
+    const { items, isSynced } = snapshot;
+    setTodos(items);
 
-    //subscribe to data updates and fetch the todos using onQuery().
-    //msg variable is the updated todo item and can be used for further customizations.
-    const subscription = DataStore.observe(Todo).subscribe((msg) => {
-      //onQuery will be called each time a data update subscription is received.
-      //onQuery will update the todos list with the latest data/
-      onQuery();
-    });
-
-    //unsubscribe to data updates so that we don’t introduce a memory leak.
+    //unsubscribe to data updates when component is destroyed so that we don’t introduce a memory leak.
     return function cleanup() {
       subscription.unsubscribe();
     }
+
   }, []);
 ```
 
-If you restart your app now, you should see that newly added todos will also start showing up on the list. The items look like they can be check off and marked as completed, but when pressed, they don’t seem to do anything right now. Let’s learn how to update existing data.
+If you restart your app now, you should see that newly added todos will be automatically start showing up on the list. The items look like they can be check off and marked as completed, but when pressed, they don’t seem to do anything right now. Let’s learn how to update existing data.
 
 ### Updating a Todo
 
