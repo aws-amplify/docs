@@ -20,11 +20,11 @@ Then, update your main app widget's `build` method:
 ```dart
 @override
 Widget build(BuildContext context) {
-  return MaterialApp(
-    title: 'Authenticator Demo',
-    // The Authenticator component should be a descendant of your MaterialApp.
-    home: Authenticator(
-      child: const Scaffold(
+  return Authenticator(
+    child: MaterialApp(
+      title: 'Authenticator Demo',
+      builder: Authenticator.builder(),
+      home: const Scaffold(
         body: Center(
           child: Text('You are logged in!'),
         ),
@@ -66,7 +66,7 @@ String? _validateUsername(UsernameInput? input) {
   return null;
 }
 
-final authenticator = Authenticator(
+return Authenticator(
   /// Pass a custom SignUpForm to override default fields
   signUpForm: SignUpForm.custom(
     fields: [
@@ -81,16 +81,19 @@ final authenticator = Authenticator(
       /// Create an input for a custom Cognito attribute
       SignUpFormField.custom(
         title: 'Favorite Food',
-        attributeKey: const CognitoUserAttributeKey.custom(
-          'favoritefood',
-        )),
-      ],
-    ),
-    child: const Scaffold(
+        attributeKey: const CognitoUserAttributeKey.custom('favoritefood'),
+      ),
+    ],
+  ),
+  child: MaterialApp(
+    title: 'Authenticator Demo',
+    builder: Authenticator.builder(),
+    home: const Scaffold(
       body: Center(
         child: Text('You are logged in!'),
       ),
     ),
+  ),
 );
 ```
 
@@ -104,24 +107,27 @@ Run your app, and you will see the updated fields reflected in the Sign Up scree
 By default, the Amplify Authenticator uses your app's Material theme for its styling. Any customizations you make to colors, buttons, input widgets, etc. will be reflected in the Authenticator.
 
 ```dart
-return MaterialApp(
-  title: 'Authenticator Demo',
-  theme: ThemeData.from(
-    colorScheme: ColorScheme.fromSwatch(
-      primarySwatch: Colors.red,
-      backgroundColor: Colors.white,
+return Authenticator(
+  child: MaterialApp(
+    title: 'Authenticator Demo',
+    theme: ThemeData.from(
+      colorScheme: ColorScheme.fromSwatch(
+        primarySwatch: Colors.red,
+        backgroundColor: Colors.white,
+      ),
+    ).copyWith(
+      indicatorColor: Colors.red,
     ),
-  ).copyWith(
-    indicatorColor: Colors.red,
-  ),
-  darkTheme: ThemeData.from(
-    colorScheme: ColorScheme.fromSwatch(
-      primarySwatch: Colors.red,
-      backgroundColor: Colors.black,
-      brightness: Brightness.dark,
+    darkTheme: ThemeData.from(
+      colorScheme: ColorScheme.fromSwatch(
+        primarySwatch: Colors.red,
+        backgroundColor: Colors.black,
+        brightness: Brightness.dark,
+      ),
     ),
-  ),
-  home: authenticator,
+    builder: Authenticator.builder(),
+    home: const SignedInScreen(),
+  )
 );
 
 ```
@@ -134,13 +140,14 @@ Reload your app, and you should see a red theme, which can also adjust to device
 Additionally, you can also use the a hand-crafted Amplify theme by setting useAmplifyTheme to true. This gives you a starting theme which is unique from the default Material theme.
 
 ```dart
-return MaterialApp(
-  title: 'Authenticator Demo',
-  theme: ThemeData.light(),
-  darkTheme: ThemeData.dark(),
-  home: Authenticator(
-    useAmplifyTheme: true,
-    child: const Scaffold(
+return Authenticator(
+  useAmplifyTheme: true,
+  child: MaterialApp(
+    title: 'Authenticator Demo',
+    theme: ThemeData.light(),
+    darkTheme: ThemeData.dark(),
+    builder: Authenticator.builder(),
+    home: const Scaffold(
       body: Center(
         child: Text('You are logged in!'),
       ),
@@ -224,9 +231,15 @@ const stringResolver = AuthStringResolver(
 /// Pass the string resolver to the Authenticator API
 final authenticator = Authenticator(
   stringResolver: stringResolver,
-  child: const Scaffold(
-    body: Center(
-      child: Text('You are logged in!'),
+  child: MaterialApp(
+    title: 'Authenticator Demo',
+    theme: ThemeData.light(),
+    darkTheme: ThemeData.dark(),
+    builder: Authenticator.builder(),
+    home: const Scaffold(
+      body: Center(
+        child: Text('You are logged in!'),
+      ),
     ),
   ),
 );
@@ -285,13 +298,9 @@ const stringResolver = AuthStringResolver(
   buttons: LocalizedButtonResolver(),
 );
 
-final authenticator = Authenticator(
+return Authenticator(
   stringResolver: stringResolver,
-  child: const Scaffold(
-    body: Center(
-      child: Text('You are logged in!'),
-    ),
-  ),
+  child: // ...
 );
 
 
@@ -311,7 +320,12 @@ return MaterialApp(
     Locale('en'), // English
     Locale('es'), // Spanish
   ],
-  home: authenticator,
+  builder: Authenticator.builder(),
+  home: const Scaffold(
+    body: Center(
+      child: Text('You are logged in!'),
+    ),
+  ),
 );
 ```
 
