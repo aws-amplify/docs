@@ -22,7 +22,9 @@ npm install -S maplibre-gl@1 maplibre-gl-js-amplify
 
 First, create a map onto which you want to add the geofence management component. See the guide on [creating and displaying maps](https://docs.amplify.aws/lib/geo/maps/q/platform/js/).
 
-Then, use `AmplifyGeofenceControl` to get a new instance of the control and add it to your MapLibre map.
+Then, import `AmplifyGeofenceControl` from "maplibre-gl-js-amplify", create a new instance of this control and add it to your MapLibre map instance.
+
+Your app should look like the following
 
 > **Note:** Ensure that your package bundler (webpack, rollup, etc) is configured to handle css files. Check out the webpack documentation [here](https://webpack.js.org/loaders/css-loader/).
 
