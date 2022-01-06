@@ -22,7 +22,7 @@ npm install -S maplibre-gl@1 maplibre-gl-js-amplify
 
 First, create a map onto which you want to add the geofence management component. See the guide on [creating and displaying maps](https://docs.amplify.aws/lib/geo/maps/q/platform/js/).
 
-Then, import `AmplifyGeofenceControl` from "maplibre-gl-js-amplify", create a new instance of this control and add it to your MapLibre map instance.
+Then, import [AmplifyGeofenceControl](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/geo/API.md#amplifygeofencecontrol) from "maplibre-gl-js-amplify", create a new instance of this control and add it to your MapLibre map instance.
 
 Your app should look like the following
 
@@ -44,13 +44,15 @@ async function initializeMap() {
         zoom: 11,
     })
 
-    const control = new AmplifyGeofenceControl({})
+    const control = new AmplifyGeofenceControl()
     map.addControl(control);
 }
 
 initializeMap();
 ```
 
-![A Geofences Management Application](/images/geofence-management-app.png)
+![Geofence Create](/images/geofence-create.png)
+
+![Geofence Edit](/images/geofence-edit.png)
 
 ## Geofence API
