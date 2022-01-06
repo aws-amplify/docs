@@ -121,7 +121,7 @@ NOTE: Polygon arrays have a few requirements:
 
 #### Return
 
-The return from `saveGeofences` is a Promise that resolves to an object with both successes and errors for geofences that were successfully created or not.
+The return from `saveGeofences` is a Promise that resolves to `SaveGeofenceResults` which contains both successes and errors for geofences that were successfully created or failed.
 
 Each success object has the following properties:
 
