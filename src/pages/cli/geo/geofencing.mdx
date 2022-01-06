@@ -18,6 +18,12 @@ Since the Geofencing feature is a developer preview, you need to update your Amp
 npm i -g @aws-amplify/cli@geo
 ```
 
+<Callout>
+
+**Note:** The version of Amplify CLI should be `7.3.2-geo.3` or later. You can check the version using `amplify -v`.
+
+</Callout>
+
 ## Setup a new Geofence Collection
 Before you add a new Geofence Collection to your application, you need to have at least one Cognito User Pool group added to your project.
 The permissions to perform `CRUD` operations on Geofences in the collection will be granted only to users belonging to a Cognito User Pool group that is responsible for managing these Geofences.
@@ -187,7 +193,7 @@ However, you can choose if the current geofence collection should be the default
 ```
 Answering `No` will retain the previously set default.
 
-That's it! You can now create virtual perimeters around points of interest in your application. Follow the library documentation as listed [here](/lib/geo/getting-started).
+That's it! You can now create virtual perimeters around points of interest in your application. Follow the library documentation as listed [here](/lib/geo/geofences).
 
 ## Granting Maps and/or Search permissions to a group of users
 If you want to grant permissions to render a Map or Search for places to the users of a Cognito group,
@@ -250,7 +256,7 @@ You can refer to [GeoJSON.IO](https://geojson.io/) where you can draw your own g
 ? Provide the path to GeoJSON file containing the Geofences for ${your_geofence_collection} collection:
 > ${your_input_geojson_file_path}
 ```
-For each geofence feature, it requires an unique identifier. According to the [RFC7946](https://datatracker.ietf.org/doc/html/rfc7946#section-3.2), There are two options for applying identifiers:
+For each geofence feature, it requires a unique identifier. According to the [RFC7946](https://datatracker.ietf.org/doc/html/rfc7946#section-3.2), There are two options for applying identifiers:
 
 ### Root level ID
 
