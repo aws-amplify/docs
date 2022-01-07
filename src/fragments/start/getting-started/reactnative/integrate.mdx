@@ -1,18 +1,20 @@
 In this section you’ll integrate Amplify DataStore with your app, and learn to use the generated data model to create, update, query, and delete Todo items by building an app. You can find the source code of the final Todo App [on our GitHub repository](https://github.com/chintannp/amplified_todo_rn).
 
 ## Boilerplate UI
-First, we will create some files and place the boilerplate UI code in it. You might find your IDE complains about unreferenced declarations but, don’t worry, we’ll get around to fixing those as we fill out our app with more functionality.
+First, we will create some files and place the boilerplate UI code in it. 
 
 #### App.js
-First, replace the contents of your `App.js` file with the following UI boilerplate code. Here, we are importing our Home component. Additionally, we are configuring Amplify using `Amplify.configure`. You might have already done this in previous step while setting up the project.
+First, replace the contents of your **App.js** file with the following UI boilerplate code. Here, we are importing our Home component. You have already configured Amplify using `Amplify.configure` in __App.js__ (Expo) or __index.js__ (React Native CLI). So, we don't need to configure Amplify in **App.js** for React Native CLI. 
+
+<BlockSwitcher>
+<Block name="Expo">
 
 ```js
 import React from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
 import Amplify from 'aws-amplify';
-import Home from './src/Home';
-
 import awsconfig from './src/aws-exports';
+import Home from './src/Home';
 
 Amplify.configure(awsconfig);
 
@@ -33,8 +35,36 @@ const styles = StyleSheet.create({
 });
 ```
 
+</Block>
+<Block name="React Native CLI">
+
+```js
+import React from 'react';
+import { StatusBar, StyleSheet, View } from 'react-native';
+import Home from './src/Home';
+
+export default function App() {
+  return (
+    <View style={styles.container}>
+      <StatusBar />
+      <Home />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#fff',
+    flex: 1,
+  },
+});
+```
+
+</Block>
+</BlockSwitcher>
+
 #### Home.js
-Next, we will create a Home component for our app which will implement most of the CRUD functionality for our app. Create a new file `Home.js` at location `src/Home.js`. Here, we have total four components defined :
+Next, we will create a Home component for our app which will implement most of the CRUD functionality for our app. Create a new file **Home.js** at location `src/Home.js`. Here, we have total four components defined :
 
 1. **Header**: Simple Header component with Title.
 2. **AddModal**: Used for displaying a Modal when a new Todo needs to be added.
@@ -68,6 +98,7 @@ const AddTodoModal = ({ modalVisible, setModalVisible }) => {
   const [description, setDescription] = useState('');
 
   async function addTodo() {
+    //to be filled in a later step
   }
 
   function closeModal() {
@@ -109,13 +140,15 @@ const TodoList = () => {
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
-
+    //to be filled in a later step
   }, []);
 
   async function deleteTodo(todo) {
+    //to be filled in a later step
   }
 
   async function setComplete(updateValue, todo) {
+    //to be filled in a later step
   }
 
   const TodoItem = ({ item }) => (
@@ -298,7 +331,7 @@ Let’s next manipulate the data and add more functionality to our app.
 ## Manipulating data
 
 ### Creating a Todo
-The *Add todo* button opens up a Modal to add todos. But, right now, the form does nothing when the *Save* button is pressed. Let’s fix that by having it save a **Todo** to DataStore.
+The *Add Todo* button opens up a Modal to add todos. But, right now, the form does nothing when the *Save* button is pressed. Let’s fix that by having it save a **Todo** to DataStore.
 
 Update the `addTodo()` function in the **AddTodoModal** component.
 
@@ -326,10 +359,10 @@ We will use the `useEffect()` hook of **TodoList** component to list the todo it
 
     //query the initial todolist and subscribe to data updates
     const subscription = DataStore.observeQuery(Todo).subscribe((snapshot) => {
-
-    //isSynced can be used to show a loading spinner when the list is being loaded.
-    const { items, isSynced } = snapshot;
-    setTodos(items);
+      //isSynced can be used to show a loading spinner when the list is being loaded.
+      const { items, isSynced } = snapshot;
+      setTodos(items);
+    });
 
     //unsubscribe to data updates when component is destroyed so that we don’t introduce a memory leak.
     return function cleanup() {
