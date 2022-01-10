@@ -1350,6 +1350,11 @@ const directory = {
         title: "Migration & Backwards Compatibility",
         items: [
           {
+            title: "Using previous CLI versions",
+            route: "/cli/migration/previous-versions",
+            filters: []
+          },
+          {
             title: "GraphQL Transformer v1 to v2 migration",
             route: "/cli/migration/transformer-migration",
             filters: []

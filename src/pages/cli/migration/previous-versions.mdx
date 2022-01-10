@@ -1,0 +1,26 @@
+export const meta = {
+  title: `Using previous CLI versions`,
+  description: `Resolve issues related to previous CLI versions`,
+};
+
+<Callout warning>
+
+#### If you are an existing Amplify CLI customer that installs the CLI using NPM, continue reading.
+
+On January 8th, 2022, a malicious commit was made to [colors.js](https://www.npmjs.com/package/colors/v/1.4.2) which is a dependency of Amplify CLI. This commit causes an infinite string of random characters to be printed to the terminal when running any CLI command. The issue has been patched in version 7.6.7 of the CLI. However, if you need to install a previous version of the CLI, it will not contain the patch. To install a previous version of the CLI, you can do one of the following:
+
+### Install Amplify CLI as a native binary:
+
+```bash
+curl -sL https://aws-amplify.github.io/amplify-cli/install | version=v<SEMVER_VERSION> bash
+```
+
+### Install Amplify CLI from NPM with a pinned version of colors.js:
+
+```bash
+npm uninstall -g @aws-amplify/cli # only required if the CLI is already installed
+npm i -g colors@1.4.0 @aws-amplify/cli@<SEMVER_VERSION>
+```
+
+Replace `<SEMVER_VERSION>` with the CLI version you want to install.
+</Callout>
