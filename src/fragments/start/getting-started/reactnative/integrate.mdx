@@ -151,7 +151,7 @@ const TodoList = () => {
     //to be filled in a later step
   }
 
-  const TodoItem = ({ item }) => (
+  const renderItem = ({ item }) => (
     <Pressable
       onLongPress={() => {
         deleteTodo(item);
@@ -177,7 +177,7 @@ const TodoList = () => {
     <FlatList
       data={todos}
       keyExtractor={({ id }) => id}
-      renderItem={TodoItem}
+      renderItem={renderItem}
     />
   );
 };
@@ -208,7 +208,7 @@ const Home = () => {
 const styles = StyleSheet.create({
   headerContainer: {
     backgroundColor: '#4696ec',
-    paddingTop: Platform.OS === 'ios' ? 44 : null,
+    paddingTop: Platform.OS === 'ios' ? 44 : 0,
   },
   headerTitle: {
     color: '#fff',
