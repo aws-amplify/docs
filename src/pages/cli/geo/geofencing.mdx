@@ -89,99 +89,10 @@ The above chosen permissions are granted to the users belonging the specified Co
 Please note that these permissions apply to ALL Geofences in a collection. For example, If you chose `Read geofence` permission for say `storesInWashingtonGeofenceCollectionAdmin`
 Cognito group, ALL users added to that group will be able to read the properties of ALL Geofences in that Geofence collection.
 
-## Geofence Collection Pricing Plan and Data Provider
+## Geofence Collection Pricing Plan
 
-Amazon Location Service offers three pricing plans namely, `RequestBasedUsage`, `MobileAssetTracking` and `MobileAssetManagement` that require no up-front commitment, and no minimum fee.
-You select one of the following pricing plans for the Amazon Location Service resources you create for your application.
-Amplify helps you determine the best pricing plan for you by guiding you through a set of questions.
-These pricing plan related set of questions are presented to you when you add the first Geofence Collection resource to your application and can be updated later if needed. 
-Once you chose the pricing plan, it will be automatically used for the ALL Geo resources added to your application.
-
+The pricing plan for the Geofence Collection will be set to `RequestBasedUsage`.
 We advice you to go through the [location service pricing](https://aws.amazon.com/location/pricing/) along with the [location service terms](https://aws.amazon.com/service-terms/) (_82.5 section_) to learn more about the pricing plan.
-
-```console
-The following choices will update the pricing plan for ALL Geo resources in the project.
-
-? Are you tracking or directing commercial assets for your business in your app?
-❯ No, I do not track or direct any assets
-  No, I only need to track or direct consumers' personal mobile devices
-  Yes, I track or direct commercial assets (For example, any mobile object that is tracked by a company in support of its business)
-  Learn More
-
-Successfully set RequestBasedUsage pricing plan for your Geo resources.
-```
-
-```console
-The following choices will update the pricing plan for ALL Geo resources in the project.
-
-? Are you tracking or directing commercial assets for your business in your app?
-  No, I do not track or direct any assets
-❯ No, I only need to track or direct consumers' personal mobile devices
-  Yes, I track or direct commercial assets (For example, any mobile object that is tracked by a company in support of its business)
-  Learn More
-
-Successfully set RequestBasedUsage pricing plan for your Geo resources.
-```
-
-```console
-The following choices will update the pricing plan for ALL Geo resources in the project.
-
-? Are you tracking or directing commercial assets for your business in your app?
-  No, I do not track or direct any assets
-  No, I only need to track or direct consumers' personal mobile devices
-❯ Yes, I track or direct commercial assets (For example, any mobile object that is tracked by a company in support of its business)
-  Learn More
-
-? Does your app need Maps, Location Search or Routing? (y/N) · yes
-
-? Does your app provide routing or route optimization for commercial assets? (y/N) . no
-
-Successfully set MobileAssetTracking pricing plan for your Geo resources.
-
-? Specify the data provider for geofence collection. This will be only used to calculate billing.
-❯ Esri
-  HERE
-```
-
-```console
-The following choices will update the pricing plan for ALL Geo resources in the project.
-
-? Are you tracking or directing commercial assets for your business in your app?
-  No, I do not track or direct any assets
-  No, I only need to track or direct consumers' personal mobile devices
-❯ Yes, I track or direct commercial assets (For example, any mobile object that is tracked by a company in support of its business)
-  Learn More
-
-? Does your app need Maps, Location Search or Routing? (y/N) · yes
-
-? Does your app provide routing or route optimization for commercial assets? (y/N) . yes
-
-Successfully set MobileAssetManagement pricing plan for your Geo resources.
-
-? Specify the data provider for geofence collection. This will be only used to calculate billing.
-❯ Esri
-  HERE
-```
-
-```console
-The following choices will update the pricing plan for ALL Geo resources in the project.
-
-? Are you tracking or directing commercial assets for your business in your app?
-  No, I do not track or direct any assets
-  No, I only need to track or direct consumers' personal mobile devices
-❯ Yes, I track or direct commercial assets (For example, any mobile object that is tracked by a company in support of its business)
-  Learn More
-
-? Does your app need Maps, Location Search or Routing? (y/N) · no
-
-? Based on your use case, you may use any of the pricing plans. Select the pricing plan for ALL your Geo resources in the project. We recommend you start with 'Request Based Usage' and then consider one of the other pricing plans as your usage scales
-❯ Request Based Usage
-  Mobile Asset Tracking
-  Mobile Asset Management
-  Learn More
-
-Successfully set RequestBasedUsage pricing plan for your Geo resources.
-```
 
 ## Set a default Geofence Collection
 If you added more than one geofence collection via `amplify add geo`, the geofence collection that was added last will be the default. 
