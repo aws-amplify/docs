@@ -14,7 +14,7 @@ To add a geofence management component to your map, you can use the [amplify-geo
 Install the necessary dependencies with the following command:
 
 ```bash
-npm install -S maplibre-gl@1 maplibre-gl-js-amplify@geo aws-amplify@geo
+npm install -S maplibre-gl@1 maplibre-gl-js-amplify@geo aws-amplify@geo @aws-amplify/ui-react --legacy-peer-deps
 ```
 
 > **Note:** Make sure that `maplibre-gl-js-amplify` version `1.2.5-geo` or above and `@aws-amplify/geo` version `1.1.11-geo.11` or above are installed.
@@ -27,29 +27,48 @@ Your app should look like the following
 
 > **Note:** Ensure that your package bundler (webpack, rollup, etc) is configured to handle css files. Check out the webpack documentation [here](https://webpack.js.org/loaders/css-loader/).
 
-> **Notes:** To use Geofence Controls the user will need to be authenticated with the administrative Cognito user associated with the Geofence Collection you created above. An easy way to add this to a React application for instance is to use the [Amplify Authenticator](https://ui.docs.amplify.aws/components/authenticator)
+> **Notes:** To use Geofence Controls the user will need to be authenticated with the administrative Cognito user associated with the Geofence Collection you created above. Below is an example using React and the [Amplify Authenticator](https://ui.docs.amplify.aws/components/authenticator) but for other use cases check the [Authentication documentation](/lib/auth/overview).
 
-```javascript
-import { createMap, AmplifyGeofenceControl } from "maplibre-gl-js-amplify";
-import maplibregl from "maplibre-gl";
+```diff
+import { useEffect, useRef } from "react";
+- import { createMap } from "maplibre-gl-js-amplify";
++ import { createMap, AmplifyGeofenceControl } from "maplibre-gl-js-amplify";
++ import { withAuthenticator } from "@aws-amplify/ui-react";
++ import "@aws-amplify/ui-react/styles.css";
 import "maplibre-gl/dist/maplibre-gl.css";
 
-async function initializeMap() {
-    const el = document.createElement("div");
-    el.setAttribute("id", "map");
-    document.body.appendChild(el);
+function Map() {
+  const mapRef = useRef(null); // Reference to the map DOM element
 
-    const map = await createMap({
-        container: "map",
-        center: [-123.1187, 49.2819], // [Longitude, Latitude]
-        zoom: 11,
-    })
+  // Wrapping our code in a useEffect allows us to run initializeMap after the div has been rendered into the DOM
+  useEffect(() => {
+    let map;
+    async function initializeMap() {
+      // We only want to initialize the underlying maplibre map after the div has been rendered
+      if (mapRef.current != null) {
+        map = await createMap({
+          container: mapRef.current,
+          center: [-122.431297, 37.773972],
+          zoom: 11,
+        });
+      }
 
-    const control = new AmplifyGeofenceControl()
-    map.addControl(control);
++     const control = new AmplifyGeofenceControl()
++     map.addControl(control);
+    }
+    initializeMap();
+
+    // Cleans up and maplibre DOM elements and other resources - https://maplibre.org/maplibre-gl-js-docs/api/map/#map#remove
+    return function cleanup() {
+      if (map != null) map.remove();
+    };
+  }, []);
+
+  return <div ref={mapRef} id="map" />;
 }
 
-initializeMap();
+- export default Map;
++ export default withAuthenticator(Map);
 ```
 
 ![Geofence Create](/images/geofence-create.png)
