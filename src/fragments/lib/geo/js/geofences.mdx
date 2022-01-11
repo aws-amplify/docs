@@ -23,11 +23,11 @@ First, create a map onto which you want to add the geofence management component
 
 Then, import [AmplifyGeofenceControl](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/geo/API.md#amplifygeofencecontrol) from "maplibre-gl-js-amplify", create a new instance of this control and add it to your MapLibre map instance.
 
-Your updated map application should look like the following
-
 > **Note:** Ensure that your package bundler (webpack, rollup, etc) is configured to handle css files. Check out the webpack documentation [here](https://webpack.js.org/loaders/css-loader/).
 
 > **Notes:** To use Geofence Controls the user will need to be authenticated with the administrative Cognito user associated with the Geofence Collection you created above. Below is an example using React and the [Amplify Authenticator](https://ui.docs.amplify.aws/components/authenticator) but for other use cases check the [Authentication documentation](/lib/auth/overview).
+
+Your updated map application should look like the following
 
 ```diff
 import { useEffect, useRef } from "react";
