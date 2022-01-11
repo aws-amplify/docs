@@ -468,18 +468,28 @@ cat myAddApiRequest.json | jq -c | amplify add api --headless
 The commands that currently support this method of supplying headless parameters are:
 
 - `amplify add auth --headless`
+- `amplify import auth --headless`
 - `amplify update auth --headless`
 - `amplify add api --headless`
 - `amplify update api --headless`
+- `amplify add storage --headless`
+- `amplify import storage --headless`
+- `amplify remove storage --headless`
+- `amplify update storage --headless`
 
 ### Payload structure
 
 The structure of the JSON objects supplied on `stdin` are defined in [amplify-headless-interface](https://www.npmjs.com/package/amplify-headless-interface). This package contains both JSON Schema and TypeScript definitions for:
 
 - [Add Auth Payload](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-headless-interface/src/interface/auth/add.ts)
+- [Import Auth Payload](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-headless-interface/src/interface/auth/import.ts)
 - [Update Auth Payload](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-headless-interface/src/interface/auth/update.ts)
 - [Add API Payload](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-headless-interface/src/interface/api/add.ts)
 - [Update API Payload](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-headless-interface/src/interface/api/update.ts)
+- [Add Storage Payload](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-headless-interface/src/interface/storage/add.ts)
+- [Import Storage Payload](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-headless-interface/src/interface/storage/import.ts)
+- [Remove Storage Payload](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-headless-interface/src/interface/storage/remove.ts)
+- [Update Storage Payload](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-headless-interface/src/interface/storage/update.ts)
 
 ### (Optional) IDE setup for headless development
 
