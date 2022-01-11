@@ -9,7 +9,7 @@ First, replace the contents of your **App.js** file with the following UI boiler
 <BlockSwitcher>
 <Block name="Expo">
 
-```js
+```jsx
 import React from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
 import Amplify from 'aws-amplify';
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
 </Block>
 <Block name="React Native CLI">
 
-```js
+```jsx
 import React from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
 import Home from './src/Home';
@@ -73,7 +73,7 @@ Next, we will create a Home component for our app which will implement most of t
 
 Copy the below boilerplate UI code into the newly create file.
 
-```js
+```jsx
 import React, { useState, useEffect } from 'react';
 import {
   FlatList,
@@ -335,7 +335,7 @@ The *Add Todo* button opens up a Modal to add todos. But, right now, the form do
 
 Update the `addTodo()` function in the **AddTodoModal** component.
 
-```js
+```jsx
   async function addTodo() {
     await DataStore.save(new Todo({ name, description, isComplete: false }));
     setModalVisible(false);
@@ -354,7 +354,7 @@ This can be achieved with `DataStore.observeQuery()`. `observeQuery()` will retu
 
 We will use the `useEffect()` hook of **TodoList** component to list the todo items. `useEffect()` can be used to perform side effects in function components. Add the below `useEffect()` in the **TodoList** component right after state initialization. You can find more about useEffect hook [here](https://reactjs.org/docs/hooks-effect.html).
 
-```js
+```jsx
   useEffect(() => {
 
     //query the initial todolist and subscribe to data updates
@@ -380,7 +380,7 @@ Updating an existing data entry looks a lot like creating a new one. Itâ€™s impo
 
 Update the `setComplete` function in the `TodoList` component.
 
-```js
+```jsx
   async function setComplete(updateValue, todo) {
     //update the todo item with updateValue
     await DataStore.save(
@@ -399,7 +399,7 @@ Deleting an existing data entry is even easier than updating one since you donâ€
 
 Update the `deleteTodo()` function in the `TodoList` component.
 
-```js
+```jsx
   async function deleteTodo(todo) {
     try {
       await DataStore.delete(todo);
