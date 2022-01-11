@@ -37,7 +37,7 @@ import { useEffect, useRef } from "react";
 + import "@aws-amplify/ui-react/styles.css";
 import "maplibre-gl/dist/maplibre-gl.css";
 
-function Map() {
+function Map({ signOut }) {
   const mapRef = useRef(null); // Reference to the map DOM element
 
   // Wrapping our code in a useEffect allows us to run initializeMap after the div has been rendered into the DOM
