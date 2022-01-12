@@ -70,6 +70,9 @@ function generatePathMap(
     "/ui/q/framework/ionic": {
       page: "/ui/q/framework/[framework]",
     },
+    "/ui/q/framework/flutter": {
+      page: "/ui/q/framework/[framework]",
+    },
     "/ui/q/framework/next": {
       page: "/ui/q/framework/[framework]",
     },

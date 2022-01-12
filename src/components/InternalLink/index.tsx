@@ -22,7 +22,12 @@ export default function InternalLink({href, children}) {
     const filterKeys = parseLocalStorage("filterKeys", {});
     if (filterKind in filterKeys) {
       const filterKey = filterKeys[filterKind];
-      href += `/q/${filterKind}/${filterKey}`;
+      if (href.includes("#")) {
+        const hrefParts = href.split("#");
+        href = `${hrefParts[0]}/q/${filterKind}/${filterKey}#${hrefParts[1]}`;
+      } else {
+        href += `/q/${filterKind}/${filterKey}`;
+      }
     }
   }
 

@@ -112,7 +112,7 @@ const Page = () => {
               </CardDetail>
             </Card>
             <Card href="/console">
-              <CardGraphic alt="Admin UI icon" src="/assets/console.png" />
+              <CardGraphic alt="Amplify Studio icon" src="/assets/console.png" />
               <CardDetail>
                 <h4>Amplify Studio</h4>
                 <p>Visual development environment to accelerate full-stack development.</p>

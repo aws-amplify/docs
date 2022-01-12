@@ -4,21 +4,15 @@ export const meta = {
   filterKey: `framework`,
 };
 
-<Callout warning={true}>
-  <b>Developer Preview</b>
-  <br />
-  <a
-    href="https://www.npmjs.com/package/@aws-amplify/ui/v/next"
-  >
-    <img
-      src="https://img.shields.io/badge/npm-%40next-blue.svg"
-    />
-  </a>  
-  <br />
-  Next versions of Amplify Authenticator is available for preview on <code>@next</code>.
-  <br />
-  Visit <a href="https://ui.docs.amplify.aws">https://ui.docs.amplify.aws</a> to get started.
-</Callout>
+import developerpreviewjs from '/src/fragments/ui/auth/developer-preview-callout-js.mdx';
+import developerpreviewflutter from '/src/fragments/ui/auth/developer-preview-callout-flutter.mdx';
+
+<Fragments fragments={{ react: developerpreviewjs }} />
+<Fragments fragments={{ angular: developerpreviewjs }} />
+<Fragments fragments={{ vue: developerpreviewjs }} />
+<Fragments fragments={{ ionic: developerpreviewjs }} />
+<Fragments fragments={{ 'react-native': developerpreviewjs }} />
+<Fragments fragments={{ flutter: developerpreviewflutter }} />
 
 A simple way to add authentication flows into your app is to use the Authenticator component. The Authenticator component encapsulates an authentication workflow in the framework of your choice and is backed by the cloud resources set up in your Auth cloud resources.
 
@@ -40,4 +34,8 @@ import ionic3 from "/src/fragments/ui/auth/web/authenticator.mdx";
 
 import react_native4 from "/src/fragments/ui/auth/react-native/authenticator.mdx";
 
-  <Fragments fragments={{"react-native": react_native4}} />
+<Fragments fragments={{"react-native": react_native4}} />
+
+import flutter5 from "/src/fragments/ui/auth/flutter/authenticator.mdx";
+
+<Fragments fragments={{flutter: flutter5}} />
