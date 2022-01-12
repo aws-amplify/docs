@@ -582,6 +582,10 @@
     "ge",
     "geo_point",
     "Geocode",
+    "geofence",
+    "Geofence",
+    "Geofences",
+    "Geofencing",
     "geolocation",
     "geospatial",
     "getAllKeys",
@@ -1422,7 +1426,9 @@
     "geospatial",
     "Ersi",
     "Geocodes",
-    "gqlv"
+    "gqlv",
+    "geofence",
+    "geofences"
   ],
   "flagWords": ["hte"]
 }
