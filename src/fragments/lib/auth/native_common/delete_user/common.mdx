@@ -1,0 +1,15 @@
+Invoke the `deleteUser` API to delete a user from the Auth category. This action will also sign your user out.
+
+If your application is using the default Amazon Cognito plugin, this action will delete the user from the Amazon Cognito User Pool. It will have no effect if you are federating with a Cognito Identity Pool alone.
+
+<Callout warning>
+  Depending on your application, data associated with your user may be stored in
+  other resources such as Amazon DynamoDB or AWS S3. It is recommended that you
+  carefully evaluate this data and implement code to remove or otherwise
+  sanitize it, if necessary, prior to giving users the ability to delete their
+  own user record.
+</Callout>
+
+import flutter0 from '/src/fragments/lib/auth/flutter/delete_user/10_delete_user.mdx';
+
+<Fragments fragments={{ flutter: flutter0 }} />;
