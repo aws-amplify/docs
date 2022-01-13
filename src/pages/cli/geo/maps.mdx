@@ -55,12 +55,15 @@ The pricing plan for Map will be set to `RequestBasedUsage`.
 We advice you to go through the [location service pricing](https://aws.amazon.com/location/pricing/) along with the [location service terms](https://aws.amazon.com/service-terms/) (_82.5 section_) to learn more about the pricing plan.
 
 <Callout>
-You can check the Amplify CLI version you are using by running `amplify -v`.
-If you are using Amplify CLI version `7.6.7` or older and have a Map added to your application with the pricing plan set to `MobileAssetTracking` or `MobileAssetManagement`,
+
+**Note:**
+You can check your Amplify CLI version using `amplify -v`. 
+If you are using Amplify CLI version `7.6.8` or older and have a Map added to your application with the pricing plan set to `MobileAssetTracking` or `MobileAssetManagement`,
 please follow these instructions to update the pricing plan:  
-1. Upgrade the Amplify CLI to version `7.6.8` or later.
+1. Upgrade the Amplify CLI to version `7.6.9` or later.
 2. Run `amplify update geo` and select the Map with Asset based pricing plan. Choose the same configuration for the Map that you already have.
 3. Run `amplify push` to update the backend resource.
+
 </Callout>
 
 ## Advanced Settings
@@ -68,6 +71,13 @@ You can optionally configure the style and data provider for the map.
 
 ### Map style & Map data provider
 You can pick a style for the map resource. The available map styles along with the data provider of geospatial data are shown. To learn more about each of these map styles, please refer this [location service doc](https://docs.aws.amazon.com/location-maps/latest/APIReference/API_MapConfiguration.html).
+
+<Callout>
+
+**Note:** If your application is tracking or routing assets you use in your business (such as delivery vehicles or employees), you may only use `HERE` as your geolocation provider. 
+See section 82 of the [AWS service terms](https://aws.amazon.com/service-terms/) for more details.
+
+</Callout>
 
 ```console
 ? Specify the map style:
