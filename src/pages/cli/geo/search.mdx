@@ -53,11 +53,28 @@ For more information, refer [link to location service page](https://docs.aws.ama
 The pricing plan for Search Index will be set to `RequestBasedUsage`.
 We advice you to go through the [location service pricing](https://aws.amazon.com/location/pricing/) along with the [location service terms](https://aws.amazon.com/service-terms/) (_82.5 section_) to learn more about the pricing plan.
 
+### Update Location Search Index pricing plan to `RequestBasedUsage`
+You can check the pricing Plan for your Search Index from `geo/<searchIndexID>/pricingPlan` attribute in your project metadata file located at `amplify/backend/amplify-meta.json` in your project.
+```bash
+"geo": {
+    "MyPlaceIndex": {
+      "isDefault": true,
+      "providerPlugin": "awscloudformation",
+      "service": "PlaceIndex",
+      "dataProvider": "Esri",
+      "dataSourceIntendedUse": "SingleUse",
+      "pricingPlan": "MobileAssetManagement",
+      "accessType": "AuthorizedUsers"
+    }
+}
+```
+
+You can check your Amplify CLI version using `amplify -v`.
+
+
 <Callout>
 
 **Note:** 
-You can check your Amplify CLI version using `amplify -v`.
-You can check the pricing plan for Geo resources from `geo/<resourceID>/pricingPlan` attribute in your project metadata file located at `amplify/backend/amplify-meta.json` in your project.
 If you are using Amplify CLI version `7.6.8` or older and have a Search Index added to your application with the pricing plan set to `MobileAssetTracking` or `MobileAssetManagement`,
 please follow these instructions to update the pricing plan:
 1. Upgrade the Amplify CLI to version `7.6.9` or later using `npm i -g @aws-amplify/cli`.
