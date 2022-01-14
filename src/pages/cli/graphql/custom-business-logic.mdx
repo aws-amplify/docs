@@ -28,7 +28,7 @@ type Query {
     - [HTTP resolver](#http-resolver): call an HTTP endpoint upon a query or mutation
     - [VTL resolver](#vtl-resolver) (most advanced): use VTL mapping templates to customize the query and mutation logic
 
-3. Optionally, secure your custom query or mutation with [field-level auth](/cli/graphql/authorization-rules/)]
+3. Secure your custom query or mutation with [field-level authorization rules](/cli/graphql/authorization-rules/)]
     - `@auth`on a custom query or mutation only supports static groups, iam, and apiKey. Owner and dynamic groups are currently mapped to the model generated operations since those dynamic fields are handled directly in the resolvers.
 
 ## Lambda function resolver

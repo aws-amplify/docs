@@ -445,7 +445,7 @@ type Todo @model {
 ```
 
 If you create a new Todo and don't supply a `content` input, Amplify will ensure that `My new Todo` is auto populated as a value. 
-Because the `@default` directive provides a value when none is provided on creation, a non-null assertion (i.e. `String!`) is disregarded by the transformer.
+When `@default` is applied, non-null assertions using `!` are disregarded. For example, `String!` is treated the same as `String`.
 
 ## Advanced
 
@@ -461,7 +461,7 @@ type Todo @model(queries: { get: "queryFor" }, mutations: null, subscriptions: n
 
 In the example above, you'll be able to run a `queryForTodo` query to get a single Todo element. Mutations (meaning create, update, and delete) as well as subscriptions are disabled for the Todo model above.
 
-The types for queries, mutations, and subscriptions are [found here](#type-definition-of-the-`@model`-directive) at the bottom of the page
+For the type definitions of queries, mutations, and subscriptions, see [Type Definitions of the `@model` Directive](#type-definition-of-the-`@model`-directive).
 
 ### Customize creation and update timestamps
 The `@model` directive automatically adds `createdAt` and `updatedAt` timestamps to each entity. The timestamp field names can be changed by passing timestamps attribute to the directive.

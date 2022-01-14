@@ -161,7 +161,7 @@ query MyQuery {
 ```
 
 In the example above, the response's `total` field contains the total search result count for "Students" whose name ends with "Brandel".
-This total will be calculated based on all records, in the case of pagination even if not all records can be returned at once the total will still be representative of all matching results.
+Note: `total` is calculated based on all records, irrespective of pagination configurations.
 
 ## Aggregate values for search result (minimum, maximum, average, sum, terms)
 
