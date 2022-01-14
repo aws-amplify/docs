@@ -28,6 +28,9 @@ type Query {
     - [HTTP resolver](#http-resolver): call an HTTP endpoint upon a query or mutation
     - [VTL resolver](#vtl-resolver) (most advanced): use VTL mapping templates to customize the query and mutation logic
 
+3. Optionally, secure your custom query or mutation with [field-level auth](/cli/graphql/authorization-rules/)]
+    - `@auth`on a custom query or mutation only supports static groups, iam, and apiKey. Owner and dynamic groups are currently mapped to the model generated operations since those dynamic fields are handled directly in the resolvers.
+
 ## Lambda function resolver
 The `@function` directive allows you to quickly & easily configure a AWS Lambda resolvers with your GraphQL API. You can use any AWS Lambda functions that was created with the Amplify CLI, AWS Lambda console, or any other tool.
 
@@ -103,6 +106,7 @@ Calling functions in different AWS accounts is not supported via the `@function`
 ### Chaining functions
 
 You can chain together multiple `@function` resolvers such that they are invoked in series when your field's resolver is invoked. To create a pipeline resolver that calls to multiple AWS Lambda functions in series, use multiple `@function` directives on the field.
+Similarly, `@function` can be combined with field-level `@auth`. When combining these field directives, the ordering in the schema matches the ordering in the pipeline resolver. You can choose to have functions before and/or after field level authorization is applied.
 
 ```graphql
 type Mutation {
