@@ -433,3 +433,164 @@ Type definition of the `@searchable` directive:
 directive @searchable(queries: SearchableQueryMap) on OBJECT
 input SearchableQueryMap { search: String }
 ```
+
+## Geo Queries
+Clients using OpenSearch or Elasticsearch may want to leverage the geo features to search locations or boundaries. OpenSearch and Elasticsearch both offer `geo_point` and `geo_shape` types to help clients perform these types of queries.
+
+Creating a geo query is straightforward. The first step is to create a custom resolver. For more information on creating custom resolvers check [here](https://docs.amplify.aws/cli/graphql/custom-business-logic/#how-it-works-1).
+
+```
+amplify add custom
+```
+
+```
+? How do you want to define this custom resource?
+❯ AWS CDK
+? Provide a name for your custom resource
+❯ MyCustomResolvers
+```
+
+Next, install the AppSync dependencies for your custom resource:
+
+```
+cd amplify/backend/custom/MyCustomResolvers
+npm i @aws-cdk/aws-appsync@~1.124.0
+```
+
+Finally, add your custom resolvers into the cdk-stack.ts file. You can either add the VTL inline into your cdk-stack.ts file or define them externally in another file. Review the [Resolver Mapping Template Programming Guide](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-mapping-template-reference-programming-guide.html) to learn more about the VTL template.
+
+```ts
+import * as cdk from '@aws-cdk/core';
+import * as AmplifyHelpers from '@aws-amplify/cli-extensibility-helper';
+import * as appsync from '@aws-cdk/aws-appsync';
+import { AmplifyDependentResourcesAttributes } from '../../types/amplify-dependent-resources-ref';
+
+export class cdkStack extends cdk.Stack {
+  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps, amplifyResourceProps?: AmplifyHelpers.AmplifyResourceProps) {
+    super(scope, id, props);
+    /* Do not remove - Amplify CLI automatically injects the current deployment environment in this input parameter */
+    new cdk.CfnParameter(this, 'env', {
+      type: 'String',
+      description: 'Current Amplify CLI env name',
+    });
+    
+    // Access other Amplify Resources 
+    const retVal:AmplifyDependentResourcesAttributes = AmplifyHelpers.addResourceDependency(this, 
+      amplifyResourceProps.category, 
+      amplifyResourceProps.resourceName, 
+      [{
+        category: "api",
+        resourceName: "<YOUR-API-NAME>"
+      }]
+    );
+
+    const resolver = new appsync.CfnResolver(this, "custom-resolver-name", {
+      // apiId: retVal.api.new.GraphQLAPIIdOutput,
+      // https://github.com/aws-amplify/amplify-cli/issues/9391#event-5843293887
+      // If you use Amplify you can access the parameter via Ref since it's a CDK parameter passed from the root stack.
+      // Previously the ApiId is the variable Name which is wrong , it should be variable value as below
+      apiId: cdk.Fn.ref(retVal.api.replaceWithAPIName.GraphQLAPIIdOutput),
+      fieldName: "nameOfQuery", 
+      typeName: "Query", // Query | Mutation | Subscription
+      // You can create your vtl templates in the root of the custom resolver pkg and import them here instead of writing them inside the class.
+      requestMappingTemplate: appsync.MappingTemplate.fromFile(
+        path.join(__dirname, '..', 'Query.nameOfQuery.req.vtl')
+      ).renderTemplate(),
+      responseMappingTemplate: appsync.MappingTemplate.fromFile(
+        path.join(__dirname, '..', 'Query.nameOfQuery.res.vtl')
+      ).renderTemplate(),
+      // If you are using Elasticsearch this will be ElasticSearchDataSource, and if you are using OpenSearch this will be OpenSearchDataSource
+      dataSourceName: "OpenSearchDataSource" // DataSource name
+    })
+  }
+}
+```
+
+Before you create the templates, make sure to create a location field on your model, and properly map the `geo_point` type to the location field. 
+OpenSearch and Elasticsearch will not infer the location value as a `geo_point` type, therefore before data is streamed to either service, ensure you map the `geo_point` type.
+
+If you already have existing data stored in OpenSearch or Elasticsearch, use the reindex feature to modify the doc mappings. This can be done by mapping the existing data
+to a new doc, removing the old doc, creating a new doc by the same name with the new mappings, and then moving the data from the temporary doc to the new doc. For more information about reindexing, check [here](https://opensearch.org/docs/latest/opensearch/reindex-data/).
+
+
+```ts
+type Location {
+  lat: Float
+  lon: Float
+}
+
+# Create a query that you can assign to the custom resolver.
+type Query {
+  nameOfQuery(
+    term: String
+    total: Int
+    nextToken: String
+  ): ModelNameConnection
+}
+
+```
+
+This should be done before data is streamed or if you have data use reindex.
+
+```ts
+PUT /my_locations
+{
+  "mappings": {
+    "properties": {
+      "location": {
+        "type": "geo_point"
+      }
+    }
+  }
+}
+```
+
+Next, create the VTL request and response templates with `geo_point`. 
+
+```ts
+#set( $items = [] )
+#foreach( $entry in $context.result.hits.hits )
+    #if( !$foreach.hasNext )
+        #set( $nextToken = "$entry.sort.get(0)" )
+    #end
+    $util.qr($items.add($entry.get("_source")))
+#end
+$util.toJson({
+"items": $items,
+  "total": $ctx.result.hits.total.value,
+  "nextToken": $nextToken
+})
+```
+
+The following query returns all results within a 200km range of lat 40 and lon -70.
+> **Note:** In versions of OpenSearch >= 1.1, you no longer need to use /doc in the index path. Doing so will result in errors when calling the query.
+
+```ts
+#set( $indexPath = "/docName/_search" )
+#set( $query = $util.defaultIfNull($ctx.args.query, "") )
+{
+    "version": "2017-02-28",
+    "operation": "GET",
+    "path": "$indexPath.toLowerCase()",
+    "params": {
+        "body": {
+            "query": {
+              "bool": {
+                "must": {
+                  "match_all": {}
+                },
+                "filter": {
+                  "geo_distance": {
+                    "distance": "200km",
+                    "pin.location": {
+                      "lat": 40,
+                      "lon": -70
+                    }
+                  }
+                }
+              }
+            }
+        }
+    }
+}
+```
