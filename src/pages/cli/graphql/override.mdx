@@ -131,6 +131,8 @@ You can override the following @predictions directive resources that Amplify gen
 ## Place AppSync Resolvers in Custom-named Stacks
 
 If you have a particularly large GraphQL schema, you may run into issues with too many resources defined in a stack. The most common case where this happens is in the ConnectionStack which contains the resolvers for all of the relational directives in the schema.
+
+Creating a stack mapping does not create an additional root stack for the Amplify environment. All mapped stacks will still be placed under the existing Amplify environment root stack.
 To map a resolver to a different stack, update `<project root>/amplify/api/<api name>/transform.conf.json` with a "StackMapping" block. The StackMapping defines a map from resolver logical ID to stack name.
 
 ```json
