@@ -493,7 +493,7 @@ type Todo @model(subscriptions: { level: off }) { # or level: public
 }
 ```
 
-### How it works
+## How it works
 The `@model` directive will generate:
 - An Amazon DynamoDB table with PAY_PER_REQUEST billing mode enabled by default.
 - An AWS AppSync DataSource configured to access the table above.
