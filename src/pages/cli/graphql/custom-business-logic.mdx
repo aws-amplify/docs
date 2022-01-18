@@ -29,7 +29,7 @@ type Query {
     - [VTL resolver](#vtl-resolver) (most advanced): use VTL mapping templates to customize the query and mutation logic
 
 3. Secure your custom query or mutation with [field-level authorization rules](/cli/graphql/authorization-rules/)]
-    - `@auth`on a custom query or mutation only supports static groups, iam, and apiKey. Owner and dynamic groups are currently mapped to the model generated operations since those dynamic fields are handled directly in the resolvers.
+    - Note: Only API Key, IAM, custom, and static group authorization rules are supported on a custom query or mutation.
 
 ## Lambda function resolver
 The `@function` directive allows you to quickly & easily configure a AWS Lambda resolvers with your GraphQL API. You can use any AWS Lambda functions that was created with the Amplify CLI, AWS Lambda console, or any other tool.
