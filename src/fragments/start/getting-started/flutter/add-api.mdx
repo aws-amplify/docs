@@ -77,10 +77,10 @@ environment:
     flutter:
       sdk: flutter
 
-    amplify_flutter: ^0.2.0
-    amplify_datastore: ^0.2.0
-+   amplify_api: ^0.2.0
-+   amplify_auth_cognito: ^0.2.0
+    amplify_flutter: ^0.3.0
+    amplify_datastore: ^0.3.0
++   amplify_api: ^0.3.0
++   amplify_auth_cognito: ^0.3.0
 ```
 
 Install the dependencies by running the following command. Depending on your development environment, you may perform this step via your IDE (or it may even be performed for you automatically).
@@ -92,7 +92,7 @@ flutter pub get
 Update the `main.dart` file and import the new packages so that it's available to our app.
 
 ```diff
-  import 'package:amplify_flutter/amplify.dart';
+  import 'package:amplify_flutter/amplify_flutter.dart';
   import 'package:amplify_datastore/amplify_datastore.dart';
 + import 'package:amplify_api/amplify_api.dart';
 + import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';

@@ -8,7 +8,7 @@ import 'dart:async';
 // flutter and ui libraries
 import 'package:flutter/material.dart';
 // amplify packages we will need to use
-import 'package:amplify_flutter/amplify.dart';
+import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:amplify_datastore/amplify_datastore.dart';
 // amplify configuration and models that should have been generated for you
 import 'amplifyconfiguration.dart';
@@ -409,8 +409,3 @@ During **hot reload**, depending on how and when you are calling `Amplify.config
 
 To do this, you can use the `Amplify.isConfigured` getter.
 
-<Callout warning>
-
-**Note**: Handling of hot restart was introduced with amplify-flutter version 0.1.2. If you have upgraded from a previous version, you may need to refresh your Amplify-related Pods in order to successfully leverage hot restart on the iOS platform. You should be able to do this by removing or modifying your `Podfile.lock` file in the `/ios` directory. When you rebuild your project, your Amplify pods should be at version 1.8.1 or above.
-
-</Callout>
