@@ -72,6 +72,7 @@ Next, create and render the [Map](https://maplibre.org/maplibre-gl-js-docs/api/m
   import { useEffect, useRef } from "react";
   import { createMap } from "maplibre-gl-js-amplify";
   import "maplibre-gl/dist/maplibre-gl.css";
+  import "maplibre-gl-js-amplify/dist/public/amplify-map.css";
 
   function Map() {
     const mapRef = useRef(null); // Reference to the map DOM element
@@ -97,7 +98,7 @@ Next, create and render the [Map](https://maplibre.org/maplibre-gl-js-docs/api/m
       };
     }, []);
 
-    return <div ref={mapRef} id="map" />;
+    return <div ref={mapRef} id="map" className="fullheight-map" />;
   }
 
   export default Map;
@@ -108,17 +109,14 @@ Next, create and render the [Map](https://maplibre.org/maplibre-gl-js-docs/api/m
 </BlockSwitcher>
 
 
-Finally include required CSS styling to get the maplibre-gl canvas to render itself appropriately.
+<Callout>
 
-To make a fullscreen map:
+The MapLibre canvas requires a defined height to display properly, otherwise you may end up with a blank screen where the map is supposed to be.
 
-```css
-#map { /* The id of the container you passed to createMap */
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 100%;
-}
+The [amplify-map.css](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/src/public/amplify-map.css) file has a few commonly used methods for setting the height of the map component.
+You can add some of the examples listed to your own styles or directly import `amplify-map.css` like so:
+```
+import "maplibre-gl-js-amplify/dist/public/amplify-map.css";
 ```
 
 To render a map using percentage based height you need to ensure that all ancestor elements to the map container have a height:
@@ -134,6 +132,7 @@ body,
   height: 50%;
 }
 ```
+</Callout>
 
 ![A map centered on Vancouver](/images/display-map.png)
 
