@@ -27,7 +27,7 @@ type YourModel @model @auth(rules: [{ allow: owner }]) {
 }
 ```
 
-* Owners can create and delete; other signed-in users can update and read (read includes query and subscription).
+* Owners can create and delete; other signed-in users can read and update.
 ```graphql
 type YourModel
   @model
@@ -52,7 +52,7 @@ type YourModel @model @auth(rules: [{ allow: groups,
 }
 ```
 
-* Users belonging to the "Admin" group can create and delete, other signed users can update and read (read includes query and subscription).
+* Users belonging to the "Admin" group can create and delete, other signed users can read and update.
 ```graphql
 type YourModel
   @model
