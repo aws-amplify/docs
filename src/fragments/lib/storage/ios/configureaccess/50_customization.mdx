@@ -122,11 +122,11 @@ public func resolvePrefix(for accessLevel: StorageAccessLevel,
 
 You can also perform validation based on the access controls you have defined. For example, if you have defined Guests with no access then you can fail the request early by checking if the user is not signed in:
 
-<amplify-callout>
+<Callout>
 
-This will only stop your app from making a call with an unauthenticated user. You must also set up your IAM policies to protect your resources. See [CLI Storage](~/cli/storage/import.md) for more details. 
+This will only stop your app from making a call with an unauthenticated user. You must also set up your IAM policies to protect your resources. See [CLI Storage](/cli/storage/import) for more details. 
 
-</amplify-callout>
+</Callout>
 
 ```swift
 struct MyDeveloperDefinedPrefixResolver: AWSS3PluginPrefixResolver {
