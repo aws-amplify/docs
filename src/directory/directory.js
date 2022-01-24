@@ -1281,6 +1281,11 @@ const directory = {
             title: "Override Amplify-generated project-level IAM resources",
             route: "/cli/project/override",
             filters: []
+          },
+          {
+            title: "Troubleshooting",
+            route: "/cli/project/troubleshooting",
+            filters: []
           }
         ]
       },
