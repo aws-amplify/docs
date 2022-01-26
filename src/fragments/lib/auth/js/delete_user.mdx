@@ -10,10 +10,13 @@ If your application uses a Cognito User Pool, which is the default configuration
   own user record.
 </Callout>
 
-import flutter0 from '/src/fragments/lib/auth/flutter/delete_user/10_delete_user.mdx';
-
-<Fragments fragments={{ flutter: flutter0 }} />
-
-import ios1 from '/src/fragments/lib/auth/ios/delete_user/10_delete_user.mdx';
-
-<Fragments fragments={{ ios: ios1 }} />
+```javascript
+async function deleteUser() {
+  try {
+    const result = await Auth.deleteUser();
+    console.log(result);
+  } catch (error) {
+    console.log('Error deleting user', error);
+  }
+}
+```
