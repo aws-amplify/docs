@@ -66,3 +66,5 @@ amplify/team-provider-info.json
 coverage
 .next
 public/sitemap.xml
+/src/plugins/page-classes.tsx
+/public/assets/copy_icon.svg
