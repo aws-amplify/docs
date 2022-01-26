@@ -8,6 +8,11 @@ If your application uses a Cognito User Pool, which is the default configuration
   carefully evaluate this data and implement code to remove or otherwise
   sanitize it, if necessary, prior to giving users the ability to delete their
   own user record.
+
+  <br/>
+  <br/>
+  Before invoking the “delete user” API, you can delete associated user data from the GraphQL API first. For example, if you are using Amplify CLI’s GraphQL transformer to persist user data via owner based access control, <a target = "_blank" href ="https://gist.github.com/elorzafe/250f23895f5ae520dc6f311977602264" >follow these instructions </a> to delete associated user data.
+This allows you to address common security guidelines requiring applications to delete data associated to a specific user, when the user deletes their account
 </Callout>
 
 ```javascript
