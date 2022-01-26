@@ -27,8 +27,8 @@ To change a field on a particular path, use `resources.restApi.body.paths[\<rout
 
 ```ts
 export function override(resources: AmplifyApiRestResourceStackTemplate) {
-  // Change the default CORS response header Access-Control-Allow-Origin from "'*'" to "'www.myurl.com'"
-  resources.restApi.body.paths['/items'].options['x-amazon-apigateway-integration'].responses.default.responseParameters['method.response.header.Access-Control-Allow-Origin'] = "'www.myurl.com'";
+  // Change the default CORS response header Access-Control-Allow-Origin from "'*'" to the API's domain
+  resources.restApi.body.paths['/items'].options['x-amazon-apigateway-integration'].responses.default.responseParameters['method.response.header.Access-Control-Allow-Origin'] = { 'Fn::Sub': "'https://{ApiId}.execute-api.{AWS::Region}.amazonaws.com'" };
 }
 ```
 
