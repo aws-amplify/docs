@@ -15,7 +15,7 @@ If your application uses a Cognito User Pool, which is the default configuration
 
 <Callout warning>
 
-  Before invoking the “delete user” API, you can delete associated user data from the GraphQL API first. For example, if you are using Amplify CLI's [GraphQL transformer](https://docs.amplify.aws/cli-legacy/graphql-transformer/overview/) to persist user data via [owner based access control](https://docs.amplify.aws/cli/graphql/authorization-rules/#per-user--owner-based-data-access), you could follow [these instructions](https://gist.github.com/elorzafe/250f23895f5ae520dc6f311977602264) to delete associated user data.
+  Before invoking the “delete user” API, you can delete associated user data from the GraphQL API first. For example, if you are using Amplify CLI's [GraphQL transformer](https://docs.amplify.aws/cli-legacy/graphql-transformer/overview/) to persist user data via [owner based access control](https://docs.amplify.aws/cli/graphql/authorization-rules/#per-user--owner-based-data-access), you could follow [these instructions](https://gist.github.com/aws-amplify-ops/27954c421bd72930874d48c15c284807) to delete associated user data.
 
   This allows you to address common security guidelines requiring applications to delete data associated to a specific user, when the user deletes their account.
 
