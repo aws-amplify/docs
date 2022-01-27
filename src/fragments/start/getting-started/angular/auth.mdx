@@ -34,12 +34,25 @@ Add the `amplify-authenticator` component to the top of `src/app/app.component.h
 
 ```html
 <amplify-authenticator>
-  <div>
-    Restaurants App
-    <amplify-sign-out></amplify-sign-out>
-  </div>
-  <!-- previous code -->
+  <ng-template
+    amplifySlot="authenticated"
+    let-user="user"
+    let-signOut="signOut"
+  >
+    <h1>Welcome {{ user.username }}!</h1>
+    <button (click)="signOut()">Sign Out</button>
+  </ng-template>
 </amplify-authenticator>
+```
+
+### Unhandled Promise Console Warnings
+
+If you see `Unhandled Promise rejection: [message] ; zone: <root> ; ...` errors on console, you can add the following code after you import zone.js inside `src/polyfills.ts` file:
+
+```ts
+import 'zone.js/dist/zone'; // Included with Angular CLI.
+
+(window as any).Zone['__zone_symbol__ignoreConsoleErrorUncaughtError'] = true;
 ```
 
 Run the app to see the new Authentication flow protecting the app:
