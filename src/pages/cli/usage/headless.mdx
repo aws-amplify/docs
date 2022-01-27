@@ -463,6 +463,7 @@ Some categories' headless mode work differently than above in that they expect a
 cat myAddApiRequest.json | jq -c | amplify add api --headless
 ```
 
+As an alternative to using `jq`, here's an example nodejs script that adds an api:
 ```javascript
 const amplify_api = require('./myAddApiRequest.json');
 const fs = require('fs');
