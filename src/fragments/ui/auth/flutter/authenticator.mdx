@@ -185,7 +185,7 @@ return Authenticator(
 
 In addition to customizing form fields and theming, you can also fully customize one or more of the screens for the authenticator. This can be used for simple use cases, such as adding a logo to the sign up and sign in screen, as well as far more complex use cases.
 
-This is done by providing an `authenticatorBuilder` method to the Authenticator. If you are familiar with widgets like `StreamBuilder`, `FutureBuilder`, or `LayoutBuilder`, this may feel familiar. `authenticatorBuilder` accepts a builder method that takes arguments for the current `BuildContext` and `AuthenticatorState`, which is a interactive representation of the state being managed by the authenticator.
+This is done by providing a builder to the `authenticatorBuilder` value of the Authenticator. If you are familiar with widgets like `StreamBuilder`, `FutureBuilder`, or `LayoutBuilder`, this may feel familiar. `authenticatorBuilder` is a builder method that takes arguments for the current `BuildContext` and `AuthenticatorState`, which is a representation of the state being managed by the authenticator.
 
 Below is an example of how you can use `authenticatorBuilder` to add a logo to both the sign up and sign in screen, as well as change the layout to remove the default tab structure.
 
