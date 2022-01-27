@@ -49,8 +49,14 @@ First, we'll add the DataStore plugin and configure Amplify.
   ```swift
   @main
   struct TodoApp: App {
+      var body: some Scene {
+          WindowGroup {
+              ContentView()
+          }
+      }
+
       // add a default initializer and configure Amplify
-      public init() {
+      init() {
           configureAmplify()
       }
   }
