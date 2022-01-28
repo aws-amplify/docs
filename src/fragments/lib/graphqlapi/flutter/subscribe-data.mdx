@@ -8,15 +8,9 @@ To listen to create mutations, you can use the following code sample:
 
 ```dart
 Future<void> subscribe() async {
-  final graphQLDocument = '''subscription MySubscription {
-    onCreateBlog {
-      id
-      name
-      createdAt
-    }
-  }''';
-  final Stream<GraphQLResponse<String>> operation = Amplify.API.subscribe(
-    GraphQLRequest<String>(document: graphQLDocument),
+  final subscriptionRequest = ModelSubscriptions.onCreate(Todo.classType);
+  final Stream<GraphQLResponse<Todo>> operation = Amplify.API.subscribe(
+    subscriptionRequest,
     onEstablished: () => print('Subscription established'),
   );
 
@@ -40,18 +34,12 @@ Alternatively, you can call [`Stream.listen`](https://api.dart.dev/stable/dart-a
 
 ```dart
 Future<void> subscribe() async {
-  final graphQLDocument = '''subscription MySubscription {
-    onCreateBlog {
-      id
-      name
-      createdAt
-    }
-  }''';
-  final Stream<GraphQLResponse<String>> operation = Amplify.API.subscribe(
-    GraphQLRequest<String>(document: graphQLDocument),
+  final subscriptionRequest = ModelSubscriptions.onCreate(Todo.classType);
+  final Stream<GraphQLResponse<Todo>> operation = Amplify.API.subscribe(
+    subscriptionRequest,
     onEstablished: () => print('Subscription established'),
   );
-  final StreamSubscription<GraphQLResponse<String>> subscription =
+  final StreamSubscription<GraphQLResponse<Todo>> subscription =
       operation.listen(
     (event) {
       print('Subscription event data received: ${event.data}');

@@ -156,7 +156,7 @@ const directory = {
           {
             title: "Advanced Workflows",
             route: "/lib/graphqlapi/advanced-workflows",
-            filters: ["android", "ios", "js"],
+            filters: ["android", "flutter", "ios", "js"],
           },
           {
             title: "Use existing AWS resources",
