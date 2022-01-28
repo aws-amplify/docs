@@ -6,7 +6,7 @@ To begin, be sure to follow the steps for importing and configuring Amplify and 
 
 ```yaml
 dependencies:
-  amplify_authenticator: ^1.0.0-rc.0
+  amplify_authenticator: ^1.0.0-rc.4
 ```
 
 You will also need to import the Amplify Authenticator into your app:
@@ -39,7 +39,29 @@ If you run your application, you should now see the Amplify Authenticator Widget
 
 ![Basic SignIn](/images/flutterAuthenticator/flutter_authenticator_signin_base.png)
 
-## Customizable Forms
+## Unauthenticated Routes
+
+The example above made authentication a requirement for the entire application. The Authenticator can also be used to protect a subset of routes, and leave other routes unauthenticated. 
+
+In the example below, the default route (route A) will not require authentication. When the app launches, this route will shown to authenticated and unauthenticated users. Route B returns an `AuthenticatedView` widget. This route will require authentication. If an unauthenticated user navigates to this route, they will see the authenticator. As soon as they authenticate, they will see `RouteB`.
+
+```dart
+return Authenticator(
+  child: MaterialApp(
+    initialRoute: '/routeA',
+    routes: {
+      '/routeA': (BuildContext context) => const RouteA(),
+      '/routeB': (BuildContext context) {
+        return const AuthenticatedView(
+          child: RouteB(),
+        );
+      },
+    },
+  ),
+);
+```
+
+## Customizing Forms Fields
 
 Typically, the Amplify Authenticator will use your Amplify configuration to determine which inputs are displayed in a form. It also offers the ability to override this default behavior and customize three of its UI forms:
 
@@ -158,6 +180,110 @@ return Authenticator(
 
 ![AmplifyTheme](/images/flutterAuthenticator/flutter_authenticator_amplify_theme.png)
 ![AmplifyTheme Dark](/images/flutterAuthenticator/flutter_authenticator_amplify_theme_dark.png)
+
+## Full UI Customization
+
+In addition to customizing form fields and theming, you can also fully customize the UI for one or more of the authentication steps (Sign In, Sign Up, Confirm Sign Up, Forgot Password). This can be used for simple use cases, such as adding a logo to the sign up and sign in screen, as well as far more complex use cases.
+
+This is done by providing a builder to the Authenticator's `authenticatorBuilder` value. If you are familiar with widgets like `StreamBuilder`, `FutureBuilder`, or `LayoutBuilder`, this may feel familiar. `authenticatorBuilder` is a builder method that takes arguments for the current `BuildContext` and `AuthenticatorState`, which is a representation of the state being managed by the authenticator.
+
+Below is an example of how you can use `authenticatorBuilder` to add a logo to both the sign up and sign in screen, as well as change the layout to remove the default tab structure.
+
+This example uses the `SignInForm()` and `SignUpForm()` widgets from the amplify_authenticator package. In addition to the available prebuilt forms, form fields (ex: `SignInFormField.username()`) and form buttons (ex: `SignInButton()`) are also available. All of the prebuilt widgets are fully integrated into the authenticator's state. 
+
+```dart
+return Authenticator(
+  // builder used to show a custom sign in and sign up experience
+  authenticatorBuilder: (BuildContext context, AuthenticatorState state) {
+    switch (state.currentStep) {
+      case AuthenticatorStep.signIn:
+        return Scaffold(
+          body: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 32,
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  // app logo
+                  const Center(child: FlutterLogo(size: 100)),
+                  // prebuilt sign in form from amplify_authenticator package
+                  SignInForm(),
+                ],
+              ),
+            ),
+          ),
+          // custom button to take the user to sign up
+          persistentFooterButtons: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('Don\'t have an account?'),
+                TextButton(
+                  onPressed: () => state.changeStep(
+                    AuthenticatorStep.signUp,
+                  ),
+                  child: const Text('Sign Up'),
+                ),
+              ],
+            ),
+          ],
+        );
+      case AuthenticatorStep.signUp:
+        return Scaffold(
+          body: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 32,
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  // app logo
+                  const Center(child: FlutterLogo(size: 100)),
+                  // prebuilt sign up form from amplify_authenticator package
+                  SignUpForm(),
+                ],
+              ),
+            ),
+          ),
+          // custom button to take the user to sign in
+          persistentFooterButtons: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('Already have an account?'),
+                TextButton(
+                  onPressed: () => state.changeStep(
+                    AuthenticatorStep.signIn,
+                  ),
+                  child: const Text('Sign In'),
+                ),
+              ],
+            ),
+          ],
+        );
+      default:
+        // returning null defaults to the prebuilt authenticator for all other steps
+        return null;
+    }
+  },
+  child: MaterialApp(
+    builder: Authenticator.builder(),
+    home: const Scaffold(
+      body: Center(
+        child: Text('You are logged in!'),
+      ),
+    ),
+  ),
+);
+```
+
+![Custom Sign In](/images/flutterAuthenticator/flutter_authenticator_custom_sign_in.png)
+![Custom Sign Up](/images/flutterAuthenticator/flutter_authenticator_custom_sign_up.png)
+
+
 
 ## Text Overrides and Localization
 
@@ -336,9 +462,17 @@ Your device, assuming it is set to English, should display 'Sign In - Localized'
 ![English Text Sign In](/images/flutterAuthenticator/flutter_authenticator_english.png)
 ![Spanish Text Sign Up](/images/flutterAuthenticator/flutter_authenticator_spanish.png)
 
-## Under the Hood
+## Configuration
 
-The  Amplify Authenticator responds to values from your Amplify configuration. This is typically created by the Amplify CLI, but may also be hand written. The keys that are relevant for the Authenticator UI are contained under `auth.plugins.awsCognitoAuthPlugin.Auth.Default`.
+### Zero Configuration
+
+The Amplify Authenticator responds to values from your Amplify configuration to determine required sign up attributes, login mechanism, and password requirements. This is typically created by the Amplify CLI and located at `lib/amplifyconfiguration.dart`, but may also be hand written.
+
+### Migration
+
+If your config was generated with the Amplify CLI prior to version 6.4.0, you will need to update to the latest version and regenerate the config. If your config is hand written, you will need to add several new fields manually. See below for the list of authenticator attributes.
+
+### Authenticator Config Attributes
 
 * **socialProviders**: A list which determines the third party authentication providers for Cognito Hosted UI. Possible values include `AMAZON`, `APPLE`, `FACEBOOK` and `GOOGLE`.
 
