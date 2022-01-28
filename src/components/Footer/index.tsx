@@ -1,8 +1,8 @@
-import {Footer, RightFooter, LeftFooter, Social, Legal} from "./styles";
-import {Container} from "../Container";
-import ExternalLink from "../ExternalLink";
-import * as links from "../../constants/links";
-import * as img from "../../constants/img";
+import { Footer, RightFooter, LeftFooter, Social, Legal } from './styles';
+import { Container } from '../Container';
+import ExternalLink from '../ExternalLink';
+import * as links from '../../constants/links';
+import * as img from '../../constants/img';
 
 export default function DocsFooter() {
   return (
@@ -44,11 +44,9 @@ export default function DocsFooter() {
               <div>
                 <img alt={img.AWS.alt} src={img.AWS.lightSrc} />
                 Amplify open source, documentation and community are supported
-                by Amazon Web Services © 2021, Amazon Web Services, Inc. and its
-                affiliates. All rights reserved. View the{" "}
-                <ExternalLink href={links.TERMS}>
-                  site terms
-                </ExternalLink> and{" "}
+                by Amazon Web Services © {new Date().getFullYear()}, Amazon Web
+                Services, Inc. and its affiliates. All rights reserved. View the{' '}
+                <ExternalLink href={links.TERMS}>site terms</ExternalLink> and{' '}
                 <ExternalLink href={links.PRIVACY}>privacy policy</ExternalLink>
                 .
               </div>
