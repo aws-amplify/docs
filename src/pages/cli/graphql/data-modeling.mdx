@@ -1,0 +1,541 @@
+export const meta = {
+  title: `Data modeling`,
+  description: `Add authorization rules to your GraphQL schema to control access to your data.`,
+};
+
+<MigrationAlert url={"/cli-legacy/graphql-transformer/key"}/>
+
+Amplify automatically creates Amazon DynamoDB database tables for GraphQL types annotated with the `@model` directive in your GraphQL schema. You can create relations between the data models via the `@hasOne`, `@hasMany`, `@belongsTo`, and `@manyToMany` directives.
+
+## Setup database tables
+
+The following GraphQL schema automatically creates a database table for "Todo". `@model` will also automatically add an `id` field as a primary key to the database table. *See [Configure a primary key](#configure-a-primary-key) to learn how to customize the primary key.*
+
+```graphql
+type Todo @model {
+  content: String
+}
+```
+
+The Amplify CLI generates the Todo database table upon `amplify push` and generates a GraphQL API to perform create, read, update, delete, and list operations for the Todo model.
+
+In addition, `@model` also adds the helper fields `createdAt` and `updatedAt` to your type. The values for those fields are read-only by clients unless explicitly overwritten. See [Customize creation and update timestamps](#customize-creation-and-update-timestamps) to learn more.
+
+Try listing all the todos by executing the following query:
+```graphql
+query QueryAllTodos {
+  listTodos() {
+    todos {
+      items {
+        id
+        content
+        createdAt
+        updatedAt
+      }
+    }
+  }
+}
+```
+
+### Configure a primary key
+
+Every GraphQL type with the `@model` directive will automatically have an `id` field set as the primary key. You can override this behavior by marking another required field with the `@primaryKey` directive. 
+
+In the example below, `todoId` is the database's primary key and an `id` field will no longer be created automatically anymore by the `@model` directive.
+```graphql
+type Todo @model {
+  todoId: ID! @primaryKey
+  content: String
+}
+```
+
+Without any further configuration, you'll only be able to query for a Todo via an exact equality match of its primary key field. In the example above, this is the `todoId` field.
+
+> Note: After a primary key is configured and deployed, you can't change it without deleting and recreating your database table.
+
+You can also specify "sort keys" to use a combination of different fields as a primary key. This also allows you to apply more advanced sorting and filtering conditions on the specified "sort key fields".
+
+```graphql
+type Inventory @model {
+  productID: ID! @primaryKey(sortKeyFields: ["warehouseID"])
+  warehouseID: ID!
+  InventoryAmount: Int!
+}
+```
+
+The schema above will allow you to pass different conditions to query the correct inventory item:
+```graphql
+query QueryInventoryByProductAndWarehouse($productID: ID!, $warehouseID: ID!) {
+  getInventory(productID: $productID, warehouseID: $warehouseID) {
+    productID
+    warehouseID
+    inventoryAmount
+  }
+}
+```
+
+### Configure a secondary index
+
+Amplify uses Amazon DynamoDB tables as the underlying data source for @model types. For key-value databases, it is critical to model your access patterns with "secondary indexes". Use the `@index` directive to configure a secondary index. 
+
+> **Amazon DynamoDB** is a key-value and document database that delivers single-digit millisecond performance at any scale but making it work for your access patterns requires a bit of forethought. DynamoDB query operations may use at most two attributes to efficiently query data. The first query argument passed to a query (the hash key) must use strict equality and the second attribute (the sort key) may use gt, ge, lt, le, eq, beginsWith, and between. DynamoDB can effectively implement a wide variety of access patterns that are powerful enough for the majority of applications.
+
+A secondary index consists of a "hash key" and, optionally, a "sort key". Use the "hash key" to perform strict equality and the "sort key" for greater than (gt), greater than or equal to (ge), less than (lt), less than or equal to (le), equals (eq), begins with, and between operations. 
+
+```graphql
+type Customer @model {
+  id: ID!
+  name: String!
+  phoneNumber: String
+  accountRepresentativeID: ID! @index(name: "byRepresentative", queryField: "customerByRepresentative")
+}
+```
+
+The example client query below allows you to query for "Customer" based on their `accountRepresentativeID`:
+
+```graphql
+query QueryCustomersForAccountRepresentative($representativeId: ID!) {
+  customerByRepresentative(accountRepresentativeID: $representativeId) {
+    customers {
+      items {
+        id
+        name
+        phoneNumber
+      }
+    }
+  }
+}
+```
+
+To optionally configure sort keys, provide the additional fields in the `sortKeyFields` parameter:
+
+```graphql
+type Customer @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  name: String! @index(name: "byNameAndPhoneNumber", sortKeyFields: ["phoneNumber"], queryField: "customerByNameAndPhone")
+  phoneNumber: String
+  accountRepresentativeID: ID! @index(name: "byRepresentative", queryField: "customerByRepresentative")
+}
+```
+
+The example client query below allows you to query for "Customer" based on their `name` and filter based on `phoneNumber`:
+
+```graphql
+query MyQuery {
+  customerByNameAndPhone(phoneNumber: {beginsWith: "+1"}, name: "Rene") {
+    items {
+      id
+      name
+      phoneNumber
+    }
+  }
+}
+```
+
+## Setup relationships between models
+
+Create "has one", "has many", "belongs to", and "many to many" relationships between `@model` types.
+
+|Relationship|Description|
+|------------|--------|
+|`@hasOne`|Create a one-directional one-to-one relationship between two models. For example, a Project "has one" Team. This allows you to query the team from the project record.
+|`@hasMany`|Create a one-directional one-to-many relationship between two models. For example, a Post has many comments. This allows you to query all the comments from the post record.
+|`@belongsTo`|Use a "belongs to" relationship to make a "has one" or "has many" relationship bi-directional. For example, a Project has one Team and a Team belongs to a Project. This allows you to query the team from the project record and vice versa.
+|`@manyToMany`|Configures a "join table" between two models to facilitate a many-to-many relationship. For example, a Blog has many Tags and a Tag has many Blogs.  
+
+### Has One relationship
+
+import gqlv2callout from "/src/fragments/cli/gqlv2callout.mdx";
+
+<Fragments fragments={{all: gqlv2callout}} />
+
+Create a one-directional one-to-one relationship between two models using the `@hasOne` directive.
+
+In the example below, a Project has a Team.
+```graphql
+type Project @model {
+  id: ID!
+  name: String
+  team: Team @hasOne
+}
+
+type Team @model {
+  id: ID!
+  name: String!
+}
+```
+
+This generates queries and mutations that allow you to retrieve the related record from the source record:
+
+```graphql
+mutation CreateProject {
+  createProject(input: {projectTeamId: "team-id", name: "Some Name"}) {
+    team {
+      name
+      id
+    }
+    name
+    id
+  }
+}
+```
+
+To customize the field to be used for storing the relationship information, set the `fields` array argument and matching it to a field on the type:
+
+```graphql
+type Project @model {
+  id: ID!
+  name: String
+  teamID: ID
+  team: Team @hasOne(fields: ["teamID"])
+}
+
+type Team @model {
+  id: ID!
+  name: String!
+}
+```
+
+In this case, the Project type has a `teamID` field added as an identifier for the team. @hasOne can then get the connected Team object by querying the Team table with this `teamID`:
+
+```graphql
+mutation CreateProject {
+  createProject(input: { name: "New Project", teamID: "a-team-id"}) {
+    id
+    name
+    team {
+      id
+      name
+    }
+  }
+}
+```
+
+A `@hasOne` relationship always uses a reference to the primary key of the related model, by default `id` unless overridden with the [`@primaryKey` directive](#configure-a-primary-key).
+
+### Has Many relationship
+
+<Fragments fragments={{all: gqlv2callout}} />
+
+Create a one-directional one-to-many relationship between two models using the `@hasMany` directive.
+
+```graphql
+type Post @model {
+  id: ID!
+  title: String!
+  comments: [Comment] @hasMany
+}
+
+type Comment @model {
+  id: ID!
+  content: String!
+}
+```
+
+This generates queries and mutations that allow you to retrieve the related Comment records from the source Post record:
+
+```graphql
+mutation CreatePost {
+  createPost(input: {title: "Hello World!!"}) {
+    title
+    id
+    comments {
+      items {
+        id
+        content
+      }
+    }
+  }
+}
+```
+
+Under the hood, `@hasMany` configures a secondary index on the related table to enable you to query the related model from the source model.
+
+You can customize the specific secondary index used for the "has many" relationship. First, configure a secondary index using `@index`. Then, pass in the secondary index name `indexName` parameter and the respective `fields`.
+
+```graphql
+type Post @model {
+  id: ID!
+  title: String!
+  comments: [Comment] @hasMany(indexName: "byPost", fields: ["id"])
+}
+
+type Comment @model {
+  id: ID!
+  postID: ID! @index(name: "byPost", sortKeyFields: ["content"])
+  content: String!
+}
+```
+
+In this case, the Comment type has a `postID` field added to store the reference of Post record. @hasMany can then get the connected Comment object by querying the Comment table's secondary index "byPost" with this `postID`:
+
+```graphql
+mutation CreatePost {
+  createPost(input: {title: "Hello world!"}) {
+    comments {
+      items {
+        postID
+        content
+        id
+      }
+    }
+    title
+    id
+  }
+}
+```
+
+### Belongs To relationship
+Make a "has one" or "has many" relationship bi-directional with the `@belongsTo` directive.
+
+<BlockSwitcher>
+
+<Block name='Bi-directional "has one" relationship'>
+
+```graphql
+type Project @model {
+  id: ID!
+  name: String
+  team: Team @hasOne
+}
+
+type Team @model {
+  id: ID!
+  name: String!
+  project: Project @belongsTo
+}
+```
+
+This generates queries and mutations that allow you to retrieve the related Comment records from the source Post record and vice versa:
+
+```graphql
+mutation CreateProject {
+  createProject(input: { name: "New Project", teamID: "a-team-id"}) {
+    id
+    name
+    team { # query team from project
+      id
+      name
+      project { # bi-directional query: team to project
+        id
+        name
+      }
+    }
+  }
+}
+```
+</Block>
+
+<Block name='Bi-directional "has many" relationship'>
+
+```graphql
+type Post @model {
+  id: ID!
+  title: String!
+  comments: [Comment] @hasMany
+}
+
+type Comment @model {
+  id: ID!
+  content: String!
+  post: Post @belongsTo
+}
+```
+
+This generates queries and mutations that allow you to retrieve the related Comment records from the source Post record and vice versa:
+
+```graphql
+mutation CreatePost {
+  createPost(input: {title: "Hello World!!"}) {
+    title
+    id
+    comments { # query comments from the post
+      items {
+        id
+        content
+        post { # bi-directional query: comment to post
+          id
+          title
+        }
+      }
+    }
+  }
+}
+```
+</Block>
+
+</BlockSwitcher>
+
+`@belongsTo` can be used without the `fields` argument. In those cases, a field is automatically generated to reference the parent’s primary key.
+
+Alternatively, you set up a custom field to store the reference of the parent object. An example bidirectional “has many” relationship is shown below.
+
+```graphql
+type Post @model {
+  id: ID!
+  title: String!
+  comments: [Comment] @hasMany(indexName: "byPost", fields: ["id"])
+}
+
+type Comment @model {
+  id: ID!
+  postID: ID! @index(name: "byPost", sortKeyFields: ["content"])
+  content: String!
+  post: Post @belongsTo(fields: ["postID"])
+}
+```
+
+> Note: The `@belongsTo` directive requires that a `@hasOne` or `@hasMany` relationship already exists from parent to the related model. 
+
+### Many-to-many relationship
+Create a many-to-many relationship between two models with the `@manyToMany` directive. Provide a common `relationName` on both models to join them into a many-to-many relationship. 
+
+```graphql
+type Post @model {
+  id: ID!
+  title: String!
+  content: String
+  tags: [Tag] @manyToMany(relationName: "PostTags")
+}
+
+type Tag @model {
+  id: ID!
+  label: String!
+  posts: [Post] @manyToMany(relationName: "PostTags")
+}
+```
+
+Under the hood, the `@manyToMany` directive will create a "join table" named after the `relationName` to facilitate the many-to-many relationship. This generates queries and mutations that allow you to retrieve the related Comment records from the source Post record and vice versa:
+
+```graphql
+mutation CreatePost {
+  createPost(input: {title: "Hello World!!"}) {
+    id
+    title
+    content
+    tags { # queries the "join table" PostTags
+      items {
+        tag { # related Tag records from Post
+          id
+          label
+          posts { # queries the "join table" PostTags
+            items {
+              post { # related Post records from Tag
+                id
+                title
+                content
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+## Assign default values for fields
+
+You can use the `@default` directive to specify a default value for optional [scalar type fields](https://docs.aws.amazon.com/appsync/latest/devguide/scalars.html) such as `Int`, `String`, and more. 
+
+```graphql
+type Todo @model {
+  content: String @default(value: "My new Todo")
+}
+```
+
+If you create a new Todo and don't supply a `content` input, Amplify will ensure that `My new Todo` is auto populated as a value. 
+
+## Advanced
+
+### Rename generated queries, mutations, and subscriptions
+
+You can override the names of any `@model`-generated GraphQL queries, mutations, and subscriptions by supplying the desired name for the queries, mutations, and subscriptions. You can also disable specific operations by assigning their value to `null`.
+
+```graphql
+type Todo @model(queries: { get: "queryFor" }, mutations: null, subscriptions: null) {
+  content: String!
+}
+```
+
+In the example above, you'll be able to run a `queryForTodo` query to get a single Todo element. Mutations (meaning create, update, and delete) as well as subscriptions are disabled for the Todo model above.
+
+### Customize creation and update timestamps
+The `@model` directive automatically adds `createdAt` and `updatedAt` timestamps to each entity. The timestamp field names can be changed by passing timestamps attribute to the directive.
+
+```graphql
+type Todo @model(timestamps: { createdAt: "createdOn", updatedAt: "updatedOn" }) {
+  content: String
+}
+```
+
+For example, the schema above will allow you to query for the following contents:
+
+```graphql
+type Todo {
+  id: ID!
+  content: String
+  createdOn: AWSDateTime!
+  updatedOn: AWSDateTime!
+}
+```
+
+### Modify subscriptions (real-time updates) access level
+
+By default, real-time updates are on for all `@model` types, which means customers receive real-time updates and authorization rules are applied during initial connection time. You can also turn off subscriptions for that model or make the real-time updates public, receivable by all subscribers.
+
+```graphql
+type Todo @model(subscriptions: { level: off }) { # or level: public
+  content: String!
+}
+```
+
+### How it works
+The `@model` directive will generate:
+- An Amazon DynamoDB table with PAY_PER_REQUEST billing mode enabled by default.
+- An AWS AppSync DataSource configured to access the table above.
+- An AWS IAM role attached to the DataSource that allows AWS AppSync to call the above table on your behalf.
+- Up to 8 resolvers (create, update, delete, get, list, onCreate, onUpdate, onDelete) but this is configurable via the queries, mutations, and subscriptions arguments on the @model directive.
+- Input objects for create, update, and delete mutations.
+- Filter input objects that allow you to filter objects in list queries and relationship fields.
+- For list queries the default number of objects returned is 100. You can override this behavior by setting the limit argument.
+
+Type definition of the `@model` directive:
+
+```graphql
+directive @model(
+  queries: ModelQueryMap
+  mutations: ModelMutationMap
+  subscriptions: ModelSubscriptionMap
+  timestamps: TimestampConfiguration
+) on OBJECT
+
+input ModelMutationMap {
+  create: String
+  update: String
+  delete: String
+}
+
+input ModelQueryMap {
+  get: String
+  list: String
+}
+
+input ModelSubscriptionMap {
+  onCreate: [String]
+  onUpdate: [String]
+  onDelete: [String]
+  level: ModelSubscriptionLevel
+}
+
+enum ModelSubscriptionLevel {
+  off
+  public
+  on
+}
+
+input TimestampConfiguration {
+  createdAt: String
+  updatedAt: String
+}
+```

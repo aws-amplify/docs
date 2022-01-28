@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`ui-component-props Render logic should render 1`] = `<ui-component-props></ui-component-props>`;
