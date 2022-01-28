@@ -1210,7 +1210,7 @@ const directory = {
             filters: [],
           },
           {
-            title: "Access secret values",
+            title: "Secrets",
             route: "/cli/function/secrets",
             filters: [],
           },
