@@ -1,6 +1,6 @@
 export const meta = {
   title: `Relationships`,
-  description: `Get started with the Admin UI`,
+  description: `Get started with Amplify Studio`,
 };
 
 <Callout warning>
@@ -10,8 +10,11 @@ Clone the [example data model](/console/data/data-model#data-modeling-example) t
 </Callout>
 
 ## Model data for a one to one relationship
+import gqlv2callout from "/src/fragments/cli/gqlv2callout.mdx";
 
- In this scenario, the bookstore maintains a list of ISBN numbers to track the books it sells. Each book has only one ISBN number and each ISBN number is assigned to only one book. This is an example of a one to one (1:1) data relationship between ISBN numbers and books. Use the following instructions to model the *Book* and *ISBN* data types and their relationship in Admin UI. 
+<Fragments fragments={{all: gqlv2callout}} />
+
+ In this scenario, the bookstore maintains a list of ISBN numbers to track the books it sells. Each book has only one ISBN number and each ISBN number is assigned to only one book. This is an example of a one to one (1:1) data relationship between ISBN numbers and books. Use the following instructions to model the *Book* and *ISBN* data types and their relationship in Studio. 
 
 1. In the cloned schema, define the one to one data relationship between `ISBN` and `Book`, as each book has a single ISBN number and each ISBN number is associated with a single book. On the ISBN type, choose **Add a relationship**. 
 1. In the **Add relationship** window, in the **Select related model** menu, choose `Book`. For the relationship type, choose **One ISBN to one Book**. For **Relationship name**, enter `Book`. Choose **Save**. The relationship should look like the following.
@@ -21,6 +24,8 @@ Clone the [example data model](/console/data/data-model#data-modeling-example) t
 When you return to the **Data modeling** page, the `ISBN` model will be updated with the relationship information. Now repeat the same steps for the `Book` model - define a 1:1 relationship from Book to ISBN.
 
 ## Model data for a one to many relationship
+
+<Fragments fragments={{all: gqlv2callout}} />
 
 Now let's create a data model for publishers. Each book in the bookstore has only one publisher. However, each publisher can publish many books. This represents a one to many relationship (1:n) between publishers and books that we can model in our example.
 
@@ -41,7 +46,7 @@ Let's add a final data model for authors to our example. A book can have a singl
 ![GSA](/images/console/6_manytomanyCardinality.png)
 
 <Callout warning>
-Admin UI does not support custom naming. Changing the auto-generated name will break the Admin UI.
+Studio does not support custom naming. Changing the auto-generated name will break Studio.
 </Callout>
 
 ## Test data model works as expected
@@ -52,6 +57,6 @@ When you are finished modeling your data and defining the data relationships, yo
 
 2. If you are working in the sandbox, on the **Deploy to AWS** page, either choose **Create an AWS account** or **Login to deploy AWS Account** and proceed with the deployment process.
 
-3. If you are working in the Admin UI from your AWS account, the deployment status displays in the upper right corner of the page.
+3. If you are working in Studio from your AWS account, the deployment status displays in the upper right corner of the page.
 
 4. Navigate to the **Content** tab and create data in the tables. You should be able to create and link records from different models. For more information, see [Manage content](/console/data/content-management).

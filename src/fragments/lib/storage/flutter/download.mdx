@@ -13,8 +13,11 @@ Future<void> downloadFile() async {
 
   try {
     await Amplify.Storage.downloadFile(
-      key: 'ExampleKey', 
-      local: file
+      key: 'ExampleKey',
+      local: file,
+      onProgress: (progress) {
+        print("Fraction completed: " + progress.getFractionCompleted().toString());
+      }
     );
     final String contents = file.readAsStringSync();
     print('Downloaded contents: $contents');

@@ -8,6 +8,7 @@ Add the following code to your `onCreate()` method in your application class:
 ```java
 Amplify.addPlugin(new AWSCognitoAuthPlugin());
 Amplify.addPlugin(new AWSLocationGeoPlugin());
+Amplify.configure(getApplicationContext());
 ```
 
 Your class will look like this:
@@ -36,6 +37,7 @@ public class MyAmplifyApp extends Application {
 ```kotlin
 Amplify.addPlugin(AWSCognitoAuthPlugin())
 Amplify.addPlugin(AWSLocationGeoPlugin())
+Amplify.configure(applicationContext)
 ```
 
 Your class will look like this:

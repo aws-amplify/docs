@@ -319,6 +319,11 @@ const directory = {
             filters: ["android", "flutter", "ios"],
           },
           {
+            title: "Delete user",
+            route: "/lib/auth/delete_user",
+            filters: ["flutter", "ios", "js"],
+          },
+          {
             title: "Escape hatch",
             route: "/lib/auth/escapehatch",
             filters: ["android", "ios"],
@@ -406,17 +411,27 @@ const directory = {
           {
             title: "Getting started",
             route: "/lib/geo/getting-started",
-            filters: ["android"],
+            filters: ["android", "ios"],
           },
           {
             title: "Maps",
             route: "/lib/geo/maps",
-            filters: ["android"],
+            filters: ["android", "ios"],
+          },
+          {
+            title: "Location Search",
+            route: "/lib/geo/search",
+            filters: ["android", "ios"],
           },
           {
             title: "Use existing AWS resources",
             route: "/lib/geo/existing-resources",
-            filters: ["android"],
+            filters: ["android", "ios"],
+          },
+          {
+            title: "Escape hatch",
+            route: "/lib/geo/escapehatch",
+            filters: ["android", "ios"],
           },
         ],
       },
@@ -439,8 +454,73 @@ const directory = {
             filters: ["js"],
           },
           {
+            title: "Geofences (Developer preview)",
+            route: "/lib/geo/geofences",
+            filters: ["js"],
+          },
+          {
             title: "Use existing AWS resources",
             route: "/lib/geo/existing-resources",
+            filters: ["js"],
+          },
+        ],
+      },
+      "in-app-messaging": {
+        title: "In-App Messaging (Preview)",
+        items: [
+          {
+            title: "Overview",
+            route: "/lib/in-app-messaging/overview",
+            filters: ["js"],
+          },
+          {
+            title: "Prerequisites",
+            route: "/lib/in-app-messaging/prerequisites",
+            filters: ["js"],
+          },
+          {
+            title: "Create an In-App Messaging campaign",
+            route: "/lib/in-app-messaging/create-campaign",
+            filters: ["js"],
+          },
+          {
+            title: "Getting started",
+            route: "/lib/in-app-messaging/getting-started",
+            filters: ["js"],
+          },
+          {
+            title: "Sync messages",
+            route: "/lib/in-app-messaging/sync-messages",
+            filters: ["js"],
+          },
+          {
+            title: "Display message",
+            route: "/lib/in-app-messaging/display-message",
+            filters: ["js"],
+          },
+          {
+            title: "Clear messages",
+            route: "/lib/in-app-messaging/clear-messages",
+            filters: ["js"],
+          },
+          {
+            title: "Customize your UI",
+            route: "/lib/in-app-messaging/customize",
+            filters: ["js"],
+          },
+          {
+            title: "Identify a user",
+            route: "/lib/in-app-messaging/identify-user",
+            filters: ["js"],
+          },
+          {
+            title: "Respond to interaction events",
+            route: "/lib/in-app-messaging/respond-interaction-events",
+            filters: ["js"],
+          },
+          {
+            title: "Resolving conflicts",
+            route: "/lib/in-app-messaging/resolve-conflicts",
             filters: ["js"],
           },
         ],
@@ -513,7 +593,7 @@ const directory = {
             route: "/lib/predictions/escapehatch",
             filters: ["android", "ios"],
           },
-          {title: "Example", route: "/lib/predictions/sample", filters: ["js"]},
+          { title: "Example", route: "/lib/predictions/sample", filters: ["js"] },
         ],
       },
       pubsub: {
@@ -529,7 +609,7 @@ const directory = {
             route: "/lib/pubsub/subunsub",
             filters: ["js"],
           },
-          {title: "Publish", route: "/lib/pubsub/publish", filters: ["js"]},
+          { title: "Publish", route: "/lib/pubsub/publish", filters: ["js"] },
         ],
       },
       "push-notifications": {
@@ -635,7 +715,7 @@ const directory = {
             route: "/lib/xr/getting-started",
             filters: ["js"],
           },
-          {title: "Scene API", route: "/lib/xr/sceneapi", filters: ["js"]},
+          { title: "Scene API", route: "/lib/xr/sceneapi", filters: ["js"] },
         ],
       },
       utilities: {
@@ -646,14 +726,14 @@ const directory = {
             route: "/lib/utilities/serviceworker",
             filters: ["js"],
           },
-          {title: "Cache", route: "/lib/utilities/cache", filters: ["js"]},
-          {title: "Hub", route: "/lib/utilities/hub", filters: ["js"]},
+          { title: "Cache", route: "/lib/utilities/cache", filters: ["js"] },
+          { title: "Hub", route: "/lib/utilities/hub", filters: ["js"] },
           {
             title: "Internationalization",
             route: "/lib/utilities/i18n",
             filters: ["js"],
           },
-          {title: "Logger", route: "/lib/utilities/logger", filters: ["js"]},
+          { title: "Logger", route: "/lib/utilities/logger", filters: ["js"] },
         ],
       },
       "client-configuration": {
@@ -887,7 +967,7 @@ const directory = {
       info: {
         title: "Info",
         items: [
-          {title: "Data Information", route: "/overview", filters: ["android"]},
+          { title: "Data Information", route: "/overview", filters: ["android"] },
           {
             title: "Uninstalling the app",
             route: "/sdk/info/app-uninstall",
@@ -920,24 +1000,10 @@ const directory = {
             title: "Authenticator",
             route: "/ui/auth/authenticator",
             filters: [
-              "angular",
-              "ionic",
-              "next",
-              "react",
               "react-native",
-              "vue",
+              "flutter"
             ],
-          },
-          {
-            title: "Sign Out",
-            route: "/ui/auth/sign-out",
-            filters: ["angular", "ionic", "react", "vue"],
-          },
-          {
-            title: "Select MFA Type",
-            route: "/ui/auth/select-mfa-type",
-            filters: ["angular", "ionic", "react", "vue"],
-          },
+          }
         ],
       },
       interactions: {
@@ -946,7 +1012,7 @@ const directory = {
           {
             title: "Chatbot",
             route: "/ui/interactions/chatbot",
-            filters: ["angular", "ionic", "react", "react-native", "vue"],
+            filters: ["react-native"],
           },
         ],
       },
@@ -956,32 +1022,17 @@ const directory = {
           {
             title: "S3 Album",
             route: "/ui/storage/s3-album",
-            filters: ["angular", "ionic", "react", "react-native", "vue"],
+            filters: ["react-native"],
           },
           {
             title: "S3 Image",
             route: "/ui/storage/s3-image",
-            filters: ["angular", "ionic", "react", "react-native", "vue"],
-          },
-          {
-            title: "S3 Image Picker",
-            route: "/ui/storage/s3-image-picker",
-            filters: ["angular", "ionic", "react", "vue"],
-          },
-          {
-            title: "S3 Text",
-            route: "/ui/storage/s3-text",
-            filters: ["angular", "ionic", "react", "vue"],
-          },
-          {
-            title: "S3 Text Picker",
-            route: "/ui/storage/s3-text-picker",
-            filters: ["angular", "ionic", "react", "vue"],
+            filters: ["react-native"],
           },
           {
             title: "Tracking Events",
             route: "/ui/storage/tracking-events",
-            filters: ["angular", "ionic", "react", "react-native", "vue"],
+            filters: ["react-native"],
           },
           {
             title: "Customization",
@@ -996,30 +1047,20 @@ const directory = {
           {
             title: "Theming",
             route: "/ui/customization/theming",
-            filters: ["angular", "ionic", "react", "react-native", "vue"],
+            filters: ["react-native"],
           },
           {
             title: "Customizing CSS",
             route: "/ui/customization/customizing-css",
             filters: [
-              "angular",
-              "ionic",
-              "next",
-              "react",
-              "react-native",
-              "vue",
+              "react-native"
             ],
           },
           {
             title: "Translations",
             route: "/ui/customization/translations",
             filters: [
-              "angular",
-              "ionic",
-              "next",
-              "react",
-              "react-native",
-              "vue",
+              "react-native"
             ],
           },
         ],
@@ -1032,86 +1073,7 @@ const directory = {
       route: "/ui-legacy",
     },
     items: {
-      auth: {
-        title: "Authentication",
-        items: [
-          {
-            title: "Authenticator",
-            route: "/ui-legacy/auth/authenticator",
-            filters: ["angular", "ionic", "react", "react-native", "vue"],
-          },
-        ],
-      },
-      api: {
-        title: "API",
-        items: [
-          {
-            title: "Connect",
-            route: "/ui-legacy/api/connect",
-            filters: ["react", "react-native", "vue"],
-          },
-        ],
-      },
-      storage: {
-        title: "Storage",
-        items: [
-          {
-            title: "Photo Picker",
-            route: "/ui-legacy/storage/photo-picker",
-            filters: ["angular", "ionic", "react", "vue"],
-          },
-          {
-            title: "S3 Album",
-            route: "/ui-legacy/storage/s3-album",
-            filters: ["angular", "ionic", "react", "react-native", "vue"],
-          },
-          {
-            title: "S3 Image",
-            route: "/ui-legacy/storage/s3-image",
-            filters: ["react", "react-native", "vue"],
-          },
-          {
-            title: "Tracking Events",
-            route: "/ui-legacy/storage/tracking-events",
-            filters: ["react", "react-native"],
-          },
-          {
-            title: "Customization",
-            route: "/ui-legacy/storage/customization",
-            filters: ["react", "react-native"],
-          },
-        ],
-      },
-      interactions: {
-        title: "Interactions",
-        items: [
-          {
-            title: "Chatbot",
-            route: "/ui-legacy/interactions/chatbot",
-            filters: ["angular", "ionic", "react", "react-native", "vue"],
-          },
-        ],
-      },
-      xr: {
-        title: "XR",
-        items: [
-          {
-            title: "Sumerian Scene",
-            route: "/ui-legacy/xr/sumerian-scene",
-            filters: ["angular", "ionic", "react", "vue"],
-          },
-        ],
-      },
-      customization: {
-        title: "Customization",
-        items: [
-          {
-            title: "Theming",
-            route: "/ui-legacy/customization/theming",
-            filters: ["react-native"],
-          },
-        ],
-      },
+
     },
   },
   cli: {
@@ -1123,7 +1085,7 @@ const directory = {
       start: {
         title: "Get started",
         items: [
-          {title: "Installation", route: "/cli/start/install", filters: []},
+          { title: "Installation", route: "/cli/start/install", filters: [] },
           {
             title: "Typical workflows",
             route: "/cli/start/workflows",
@@ -1131,136 +1093,112 @@ const directory = {
           },
         ],
       },
-      "graphql-transformer": {
+      "graphql": {
         title: "API (GraphQL)",
         items: [
           {
             title: "Overview",
-            route: "/cli/graphql-transformer/overview",
-            filters: [],
+            route: "/cli/graphql/overview",
+            filters: []
           },
           {
-            title: "Directives",
-            route: "/cli/graphql-transformer/directives",
-            filters: [],
+            title: "Data modeling",
+            route: "/cli/graphql/data-modeling",
+            filters: []
           },
           {
-            title: "Define your model types",
-            route: "/cli/graphql-transformer/model",
-            filters: [],
+            title: "Authorization rules",
+            route: "/cli/graphql/authorization-rules",
+            filters: []
           },
           {
-            title: "Index your data with keys",
-            route: "/cli/graphql-transformer/key",
-            filters: [],
+            title: "Custom business logic (Lambda function, HTTP, VTL resolvers)",
+            route: "/cli/graphql/custom-business-logic",
+            filters: []
           },
           {
-            title: "Setup authorization rules",
-            route: "/cli/graphql-transformer/auth",
-            filters: [],
+            title: "Search and result aggregations",
+            route: "/cli/graphql/search-and-result-aggregations",
+            filters: []
+          },
+          // {
+          //   title: "Offline data and conflict resolution (DataStore)",
+          //   route: "/cli/graphql/offline-data-access-and-conflict-resolution",
+          //   filters: []
+          // },
+          {
+            title: "Connect to machine learning services",
+            route: "/cli/graphql/connect-to-machine-learning-services",
+            filters: []
           },
           {
-            title: "Add relationships between types",
-            route: "/cli/graphql-transformer/connection",
-            filters: [],
+            title: "JavaScript, Java, Swift code generation",
+            route: "/cli/graphql/client-code-generation",
+            filters: []
           },
           {
-            title: "Configure Lambda resolvers",
-            route: "/cli/graphql-transformer/function",
-            filters: [],
+            title: "Override Amplify-generated AppSync resources",
+            route: "/cli/graphql/override",
+            filters: []
           },
           {
-            title: "Configure HTTP resolvers",
-            route: "/cli/graphql-transformer/http",
-            filters: [],
+            title: "Troubleshooting",
+            route: "/cli/graphql/troubleshooting",
+            filters: []
           },
           {
-            title: "Connect machine learning services",
-            route: "/cli/graphql-transformer/predictions",
-            filters: [],
-          },
-          {
-            title: "Make your data searchable",
-            route: "/cli/graphql-transformer/searchable",
-            filters: [],
-          },
-          {
-            title: "Versioning and conflict resolution",
-            route: "/cli/graphql-transformer/versioned",
-            filters: [],
-          },
-          {
-            title: "Data access patterns",
-            route: "/cli/graphql-transformer/dataaccess",
-            filters: [],
-          },
-          {
-            title: "GraphQL transform and Storage",
-            route: "/cli/graphql-transformer/storage",
-            filters: [],
-          },
-          {
-            title: "Relational Databases",
-            route: "/cli/graphql-transformer/relational",
-            filters: [],
-          },
-          {
-            title: "Client code generation",
-            route: "/cli/graphql-transformer/codegen",
-            filters: [],
-          },
-          {
-            title: "Overwrite & customize resolvers",
-            route: "/cli/graphql-transformer/resolvers",
-            filters: [],
-          },
-          {
-            title: "Configurable Parameters",
-            route: "/cli/graphql-transformer/config-params",
-            filters: [],
-          },
-          {
-            title: "Examples",
-            route: "/cli/graphql-transformer/examples",
-            filters: [],
-          },
-        ],
+            title: "Examples and solutions",
+            route: "/cli/graphql/examples-and-solutions",
+            filters: []
+          }
+        ]
       },
       restapi: {
         title: "API (REST)",
         items: [
-          {title: "Overview", route: "/cli/restapi/restapi", filters: []},
-          {title: "Test", route: "/cli/restapi/testing", filters: []},
+          { title: "Overview", route: "/cli/restapi/restapi", filters: [] },
+          { title: "Test", route: "/cli/restapi/testing", filters: [] },
+          { title: "Override Amplify-generated API Gateway resources", route: "/cli/restapi/override", filters: [] },
         ],
       },
       auth: {
         title: "Authentication",
         items: [
-          {title: "Overview", route: "/cli/auth/overview", filters: []},
-          {title: "User groups", route: "/cli/auth/groups", filters: []},
-          {title: "Admin actions", route: "/cli/auth/admin", filters: []},
+          { title: "Overview", route: "/cli/auth/overview", filters: [] },
+          { title: "User groups", route: "/cli/auth/groups", filters: [] },
+          { title: "Admin actions", route: "/cli/auth/admin", filters: [] },
           {
             title: "Use an existing Cognito User Pool and Identity Pool",
             route: "/cli/auth/import",
             filters: [],
           },
+          {
+            title: "Override Amplify-generated Cognito resources",
+            route: "/cli/auth/override",
+            filters: []
+          }
         ],
       },
       storage: {
         title: "Storage",
         items: [
-          {title: "Overview", route: "/cli/storage/overview", filters: []},
+          { title: "Overview", route: "/cli/storage/overview", filters: [] },
           {
             title: "Use an existing S3 bucket or DynamoDB table",
             route: "/cli/storage/import",
             filters: [],
           },
+          {
+            title: "Override Amplify-generated S3 and DynamoDB resources",
+            route: "/cli/storage/override",
+            filters: []
+          }
         ],
       },
       function: {
         title: "Functions",
         items: [
-          {title: "Overview", route: "/cli/function", filters: []},
+          { title: "Overview", route: "/cli/function", filters: [] },
           {
             title: "Reuse code & assets using layers",
             route: "/cli/function/layers",
@@ -1296,34 +1234,65 @@ const directory = {
             route: "/cli/geo/search",
             filters: [],
           },
+          {
+            title: "Geofencing (Developer Preview)",
+            route: "/cli/geo/geofencing",
+            filters: [],
+          }
         ],
       },
       hosting: {
         title: "Hosting",
         items: [
-          {title: "Overview", route: "/cli/hosting/hosting", filters: []},
+          { title: "Overview", route: "/cli/hosting/hosting", filters: [] },
         ],
       },
-      plugins: {
-        title: "Plugins",
+      custom: {
+        title: "Custom AWS resources",
+        items: [{
+          title: "Use CDK to add custom AWS resources",
+          route: "/cli/custom/cdk",
+          filters: []
+        }, {
+          title: "Use CloudFormation to add custom AWS resources",
+          route: "/cli/custom/cloudformation",
+          filters: []
+        }]
+      },
+      project: {
+        title: "Project-level configurations",
         items: [
-          {title: "Overview", route: "/cli/plugins/plugins", filters: []},
           {
-            title: "Architecture",
-            route: "/cli/plugins/architecture",
+            title: "Apply tags to generated resources",
+            route: "/cli/project/tags",
             filters: [],
           },
           {
-            title: "Authoring a new plugin",
-            route: "/cli/plugins/authoring",
+            title: "IAM Permissions Boundary for Amplify-generated roles",
+            route: "/cli/project/permissions-boundary",
             filters: [],
           },
-        ],
+          {
+            title: "Command Hooks",
+            route: "/cli/project/command-hooks",
+            filters: [],
+          },
+          {
+            title: "Monorepo project structure",
+            route: "/cli/project/monorepo",
+            filters: [],
+          },
+          {
+            title: "Override Amplify-generated project-level IAM resources",
+            route: "/cli/project/override",
+            filters: []
+          }
+        ]
       },
       teams: {
         title: "Team environments",
         items: [
-          {title: "Overview", route: "/cli/teams/overview", filters: []},
+          { title: "Overview", route: "/cli/teams/overview", filters: [] },
           {
             title: "Share single environment",
             route: "/cli/teams/shared",
@@ -1344,22 +1313,12 @@ const directory = {
             route: "/cli/teams/cicd",
             filters: [],
           },
-          {title: "Commands", route: "/cli/teams/commands", filters: []},
+          { title: "Commands", route: "/cli/teams/commands", filters: [] },
         ],
       },
       usage: {
         title: "Advanced workflows",
         items: [
-          {
-            title: "Apply tags to generated resources",
-            route: "/cli/usage/tags",
-            filters: [],
-          },
-          {
-            title: "Command Hooks",
-            route: "/cli/usage/command-hooks",
-            filters: [],
-          },
           {
             title: "Lambda Triggers",
             route: "/cli/usage/lambda-triggers",
@@ -1371,48 +1330,33 @@ const directory = {
             filters: [],
           },
           {
-            title: "Add custom AWS resources",
-            route: "/cli/usage/customcf",
-            filters: [],
-          },
-          {
             title: "Serverless containers",
             route: "/cli/usage/containers",
             filters: [],
           },
           {
-            title: "Monorepo project structure",
-            route: "/cli/usage/monorepo",
-            filters: [],
-          },
-          {
-            title: "IAM Policy",
-            route: "/cli/usage/iam",
-            filters: [],
-          },
-          {
-            title: "IAM Roles & MFA",
-            route: "/cli/usage/iam-roles-mfa",
-            filters: [],
-          },
-          {
-            title: "IAM Permissions Boundary for Amplify-generated roles",
-            route: "/cli/usage/permissions-boundary",
-            filters: [],
+            title: "Export Amplify project to CDK",
+            route: "/cli/usage/export-to-cdk"
           },
           {
             title: "Headless mode for CI/CD",
             route: "/cli/usage/headless",
             filters: [],
           },
+        ],
+      },
+      plugins: {
+        title: "Plugins",
+        items: [
+          { title: "Overview", route: "/cli/plugins/plugins", filters: [] },
           {
-            title: "Upgrading the CLI",
-            route: "/cli/usage/upgrade",
+            title: "Architecture",
+            route: "/cli/plugins/architecture",
             filters: [],
           },
           {
-            title: "Uninstalling the CLI",
-            route: "/cli/usage/uninstall",
+            title: "Authoring a new plugin",
+            route: "/cli/plugins/authoring",
             filters: [],
           },
         ],
@@ -1420,6 +1364,16 @@ const directory = {
       migration: {
         title: "Migration & Backwards Compatibility",
         items: [
+          {
+            title: "GraphQL Transformer v1 to v2 migration",
+            route: "/cli/migration/transformer-migration",
+            filters: []
+          },
+          {
+            title: "Override feature enablement migration",
+            route: "/cli/migration/override",
+            filters: []
+          },
           {
             title: "Node Version Update",
             route: "/cli/migration/lambda-node-version-update",
@@ -1447,6 +1401,16 @@ const directory = {
         title: "Reference",
         items: [
           {
+            title: "IAM Policy",
+            route: "/cli/reference/iam",
+            filters: [],
+          },
+          {
+            title: "IAM Roles & MFA",
+            route: "/cli/reference/iam-roles-mfa",
+            filters: [],
+          },
+          {
             title: "Files and Folders",
             route: "/cli/reference/files",
             filters: [],
@@ -1464,6 +1428,108 @@ const directory = {
         ],
       },
     },
+  },
+  "cli-legacy": {
+    productRoot: {
+      title: "Amplify CLI (Legacy)",
+      route: "/cli-legacy",
+    }, items: {
+      "graphql-transformer": {
+        title: "API (GraphQL)",
+        items: [
+          {
+            title: "Overview",
+            route: "/cli-legacy/graphql-transformer/overview",
+            filters: [],
+          },
+          {
+            title: "Directives",
+            route: "/cli-legacy/graphql-transformer/directives",
+            filters: [],
+          },
+          {
+            title: "Define your model types",
+            route: "/cli-legacy/graphql-transformer/model",
+            filters: [],
+          },
+          {
+            title: "Index your data with keys",
+            route: "/cli-legacy/graphql-transformer/key",
+            filters: [],
+          },
+          {
+            title: "Setup authorization rules",
+            route: "/cli-legacy/graphql-transformer/auth",
+            filters: [],
+          },
+          {
+            title: "Add relationships between types",
+            route: "/cli-legacy/graphql-transformer/connection",
+            filters: [],
+          },
+          {
+            title: "Configure Lambda resolvers",
+            route: "/cli-legacy/graphql-transformer/function",
+            filters: [],
+          },
+          {
+            title: "Configure HTTP resolvers",
+            route: "/cli-legacy/graphql-transformer/http",
+            filters: [],
+          },
+          {
+            title: "Connect machine learning services",
+            route: "/cli-legacy/graphql-transformer/predictions",
+            filters: [],
+          },
+          {
+            title: "Make your data searchable",
+            route: "/cli-legacy/graphql-transformer/searchable",
+            filters: [],
+          },
+          {
+            title: "Versioning and conflict resolution",
+            route: "/cli-legacy/graphql-transformer/versioned",
+            filters: [],
+          },
+          {
+            title: "Data access patterns",
+            route: "/cli-legacy/graphql-transformer/dataaccess",
+            filters: [],
+          },
+          {
+            title: "GraphQL transform and Storage",
+            route: "/cli-legacy/graphql-transformer/storage",
+            filters: [],
+          },
+          {
+            title: "Relational Databases",
+            route: "/cli-legacy/graphql-transformer/relational",
+            filters: [],
+          },
+          {
+            title: "Client code generation",
+            route: "/cli-legacy/graphql-transformer/codegen",
+            filters: [],
+          },
+          {
+            title: "Overwrite & customize resolvers",
+            route: "/cli-legacy/graphql-transformer/resolvers",
+            filters: [],
+          },
+          {
+            title: "Configurable Parameters",
+            route: "/cli-legacy/graphql-transformer/config-params",
+            filters: [],
+          },
+          {
+            title: "Examples",
+            route: "/cli-legacy/graphql-transformer/examples",
+            filters: [],
+          },
+        ],
+      },
+    }
   },
   start: {
     productRoot: {
@@ -1526,17 +1592,17 @@ const directory = {
           {
             title: "Generate model files",
             route: "/start/getting-started/generate-model",
-            filters: ["android", "ios", "flutter"],
+            filters: ["android", "ios", "flutter", "react-native"],
           },
           {
             title: "Integrate your app",
             route: "/start/getting-started/integrate",
-            filters: ["android", "ios", "flutter"],
+            filters: ["android", "ios", "flutter", "react-native"],
           },
           {
             title: "Connect to the cloud",
             route: "/start/getting-started/add-api",
-            filters: ["android", "ios", "flutter"],
+            filters: ["android", "ios", "flutter", "react-native"],
           },
           {
             title: "Connect API and database to the app",
@@ -1544,7 +1610,6 @@ const directory = {
             filters: [
               "js",
               "react",
-              "react-native",
               "angular",
               "vue",
               "next",
@@ -1554,7 +1619,7 @@ const directory = {
           {
             title: "Add authentication",
             route: "/start/getting-started/auth",
-            filters: ["react", "react-native", "angular", "vue"],
+            filters: ["react", "angular", "vue"],
           },
           {
             title: "Deploy and host app",
@@ -1583,17 +1648,13 @@ const directory = {
   },
   console: {
     productRoot: {
-      title: "Amplify Console",
+      title: "Amplify Studio",
       route: "/console",
     },
     items: {
       adminui: {
-        title: "Admin UI Basics",
+        title: "Basics",
         items: [
-          {
-            title: "Introduction",
-            route: "/console/adminui/intro",
-          },
           {
             title: "Getting started",
             route: "/console/adminui/start",
@@ -1609,6 +1670,52 @@ const directory = {
           {
             title: "Custom domains",
             route: "/console/adminui/custom-domain",
+          },
+        ],
+      },
+      tutorial: {
+        title: "Tutorial",
+        items: [
+          {
+            title: "Build UI",
+            route: "/console/tutorial/buildui",
+          },
+          {
+            title: "Model database",
+            route: "/console/tutorial/data",
+          },
+          {
+            title: "Bind UI to data",
+            route: "/console/tutorial/bindui",
+          },
+          {
+            title: "Collections",
+            route: "/console/tutorial/collections",
+          },
+          {
+            title: "Write React code",
+            route: "/console/tutorial/code",
+          },
+        ],
+      },
+      uibuilder: {
+        title: "UI development (React)",
+        items: [
+          {
+            title: "Figma to code",
+            route: "/console/uibuilder/figmatocode",
+          },
+          {
+            title: "Data binding",
+            route: "/console/uibuilder/databinding",
+          },
+          {
+            title: "Collections",
+            route: "/console/uibuilder/collections",
+          },
+          {
+            title: "Extend with code",
+            route: "/console/uibuilder/override",
           },
         ],
       },
@@ -1656,6 +1763,19 @@ const directory = {
           {
             title: "Access control",
             route: "/console/authz/permissions",
+          },
+        ],
+      },
+      storage: {
+        title: "Storage",
+        items: [
+          {
+            title: "File browser",
+            route: "/console/storage/file-browser",
+          },
+          {
+            title: "File storage",
+            route: "/console/storage/file-storage",
           },
         ],
       },

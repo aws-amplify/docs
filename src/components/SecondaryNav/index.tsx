@@ -9,6 +9,7 @@ import {
   IOS_REFERENCE,
   ANDROID_REFERENCE,
   JS_REFERENCE,
+  HOSTING_REFERENCE
 } from "../../constants/links";
 import ExternalLink from "../ExternalLink";
 import InternalLink from "../InternalLink";
@@ -46,8 +47,13 @@ export default function SecondaryNav() {
                 url: "/cli",
               },
               {
-                label: "Console",
+                label: "Studio",
                 url: "/console",
+              },
+              {
+                label: "Hosting",
+                url: HOSTING_REFERENCE,
+                external: true,
               },
               {
                 label: "Guides",

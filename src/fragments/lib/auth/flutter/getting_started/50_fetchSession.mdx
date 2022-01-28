@@ -1,0 +1,13 @@
+After implementing Authentication in your app, you can check if a user is logged in by using the below function:
+
+```dart
+final result = await Amplify.Auth.fetchAuthSession()
+```
+
+ `CognitoAuthSession` will be have the `isSignedIn` property set to `false` if the user has not signed in to your app.
+
+```dart
+final user = await Amplify.Auth.getCurrentUser();
+```
+
+`AuthUser` will have the `userId` and `username` will have the user details if they were logged in.

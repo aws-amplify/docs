@@ -274,10 +274,12 @@ The `amplify publish` command internally executes `amplify push` so it takes the
 
 - `--codegen`
 - `--yes`
+- `--force`
+- `--allow-destructive-graphql-schema-updates`
 
 ### `--codegen`
 
-Contains configuration for AppSync [codegen](/cli/graphql-transformer/codegen), the following are the specifications:
+Contains configuration for AppSync [codegen](/cli/graphql/client-code-generation), the following are the specifications:
 
 - `generateCode`: <br/>
 A boolean indicating if to generate code for your GraphQL API.<br/>
@@ -289,6 +291,17 @@ The file name pattern of GraphQL queries, mutations and subscriptions.<br/>
 The file name for the generated code.<br/>
 - `generateDocs`:  <br/>
 A boolean indicating whether to generate GraphQL statements (queries, mutations and subscription) based on the GraphQL schema types. The generated version will overwrite the current GraphQL queries, mutations and subscriptions.<br/>
+
+### `--yes`
+Will skip all interactive prompts by selecting default options.
+
+### `--force`
+Pushes all resources regardless of update status and bypasses all guardrails to push the local state to the cloud. Only use this flag if you have tested the change in a non-production environment and fully understand the implications.
+
+It includes all of the behavior of `--allow-destructive-graphql-schema-updates`
+
+### `--allow-destructive-graphql-schema-updates`
+Pushes schema changes that require removal or replacement of underlying tables. See [update schema](/cli/graphql/overview/#update-schema).
 
 ### Sample script
 
@@ -455,18 +468,28 @@ cat myAddApiRequest.json | jq -c | amplify add api --headless
 The commands that currently support this method of supplying headless parameters are:
 
 - `amplify add auth --headless`
+- `amplify import auth --headless`
 - `amplify update auth --headless`
 - `amplify add api --headless`
 - `amplify update api --headless`
+- `amplify add storage --headless`
+- `amplify import storage --headless`
+- `amplify remove storage --headless`
+- `amplify update storage --headless`
 
 ### Payload structure
 
 The structure of the JSON objects supplied on `stdin` are defined in [amplify-headless-interface](https://www.npmjs.com/package/amplify-headless-interface). This package contains both JSON Schema and TypeScript definitions for:
 
 - [Add Auth Payload](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-headless-interface/src/interface/auth/add.ts)
+- [Import Auth Payload](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-headless-interface/src/interface/auth/import.ts)
 - [Update Auth Payload](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-headless-interface/src/interface/auth/update.ts)
 - [Add API Payload](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-headless-interface/src/interface/api/add.ts)
 - [Update API Payload](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-headless-interface/src/interface/api/update.ts)
+- [Add Storage Payload](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-headless-interface/src/interface/storage/add.ts)
+- [Import Storage Payload](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-headless-interface/src/interface/storage/import.ts)
+- [Remove Storage Payload](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-headless-interface/src/interface/storage/remove.ts)
+- [Update Storage Payload](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-headless-interface/src/interface/storage/update.ts)
 
 ### (Optional) IDE setup for headless development
 

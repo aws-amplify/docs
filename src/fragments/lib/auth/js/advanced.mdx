@@ -244,6 +244,10 @@ const SignInWithGoogle = () => {
 
 To enable social sign-in in your app with Identity Pools, add `Google client_id`, `Facebook app_id` and/or `Amazon client_id` properties to the `AmplifyAuthenticator` component. This will create a sign in button when rendering the `AmplifyAuthenticator` in your app.
 
+```sh
+npm install @aws-amplify/ui-react@1.x.x
+```
+
 ```javascript
 import { AmplifyAuthenticator } from '@aws-amplify/ui-react';
 
@@ -462,7 +466,7 @@ If you have a Pre Sign-up or Pre Authentication Lambda trigger enabled, you can 
 Auth.signIn({
     username, // Required, the username
     password, // Optional, the password
-    validationData, // Optional, an array of key-value pairs which can contain any key and will be passed to your Lambda trigger as-is.
+    validationData, // Optional, an object of key-value pairs which can contain any key and will be passed to your Lambda trigger as-is.
 }).then(user => console.log(user))
   .catch(err => console.log(err));
 ```

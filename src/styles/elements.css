@@ -185,6 +185,7 @@ table {
   border-spacing: 0;
   font-size: 100%;
   font: inherit;
+  width: 100%;
 }
 
 th {
@@ -252,4 +253,8 @@ iframe {
   min-height: 20rem;
   max-height: 37.5rem;
   max-width: 40rem;
+}
+
+.table-wrapper {
+  overflow-x: auto;
 }

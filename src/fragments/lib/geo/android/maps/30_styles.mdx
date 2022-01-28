@@ -39,11 +39,9 @@ You can set a different style to your map using `setStyle` method from the adapt
 <Block name="Java">
 
 ```java
-mapView.getMapAsync(map -> {
-    MapStyle mapStyle = ...; // map style from getAvailableMaps()
-    AmplifyMapLibreAdapter.setStyle(map, mapStyle, style ->
-        Log.i("MyAmplifyApp", "Finished loading " + mapStyle.getStyle())
-    );
+// where mapStyle is a reference to the selected style from Amplify.Geo.getAvailableMaps
+mapView.setStyle(mapStyle, style -> {
+    Log.i("MyAmplifyApp", "Finished loading " + mapStyle.getStyle())
 });
 ```
 
@@ -51,11 +49,9 @@ mapView.getMapAsync(map -> {
 <Block name="Kotlin">
 
 ```kotlin
-mapView?.getMapAsync { map ->
-    val mapStyle: MapStyle = ... // map style from getAvailableMaps()
-    AmplifyMapLibreAdapter.setStyle(map, mapStyle) {
-        Log.i("MyAmplifyApp", "Finished loading ${mapStyle.style}.")
-    }
+// where mapStyle is a reference to the selected style from Amplify.Geo.getAvailableMaps
+mapView.setStyle(mapStyle) { style ->
+    Log.i("MyAmplifyApp", "Finished loading ${mapStyle.style}.")
 }
 ```
 

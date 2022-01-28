@@ -17,19 +17,22 @@ The Amplify Command Line Interface (CLI) is a unified toolchain to create, integ
 
 At the core of most applications is one thing - the data. Easily being able to model and access data in your app allows you to focus on delivering core features and business value instead of architecting and re-architecting your back end.
 
-The GraphQL Transform library allows you to deploy AWS AppSync GraphQL APIs with features like NoSQL databases, authentication, OpenSearch engines, lambda function resolvers, relationships, authorization, and more using GraphQL schema directives. [Learn more](/cli/graphql-transformer/overview)
+The GraphQL Transform library allows you to deploy AWS AppSync GraphQL APIs with features like NoSQL databases, authentication, OpenSearch engines, lambda function resolvers, relationships, authorization, and more using GraphQL schema directives. [Learn more](/cli/graphql/overview)
 
 ### Multiple environments
 
 Amplify CLI has support for multiple environments (e.g. dev, qa, and prod). When you initialize a project with the CLI, you create an Amplify backend environment. Every Amplify backend environment is a container for the categories added to your project. You can view all the backend environments as well as the categories added in the Amplify Console. [Learn more](/cli/teams/overview)
 
-### Infrastructure as code
+### Extensibility
 
-The AWS Amplify CLI uses AWS CloudFormation and nested stacks. This allows you to add or modify configurations locally before you push them for execution in your account. It also takes any “magic” away and allows full transparency in the process of customizing your resources. To see the status of the deployment at any time, run amplify status.
+Ship full-stack web and mobile apps that you’ll never outgrow, powered by AWS Amplify. AWS Amplify’s extensibility features give developers the flexibility to customize their AWS backend and deployment capabilities. Reconfigure Amplify-generated backend resources to optimize for specific use cases, or modify Amplify's deployment operations to comply with your enterprise DevOps guidelines as your needs evolve.
 
-For example, running `amplify add auth` will bootstrap a CloudFormation template in the `amplify/backend/auth` folder. The infrastructure template can be re-used in CI/CD processes (either with the Amplify Console or your own build process), and can be used to replicate stacks.
+1. [Override generated resources](/cli/auth/override) - Modify fine-grained backend resource settings and override via CDK. Amplify does the heavy lifting for you. For example, use Amplify to add new Cognito resources with default settings to your backend. Override just the settings you want with 'amplify override auth. Override [project-level (IAM roles)](/cli/project/override), [auth (Cognito)](/cli/auth/override), and [storage (S3 and DynamoDB)](/cli/storage/override) resources.
+2. [Add custom AWS resources](/cli/custom/cdk) - The Amplify CLI provides the ability to add custom AWS resources with [CDK](/cli/custom/cdk) or [CloudFormation](/cli/custom/cloudformation). Running the 'amplify add custom' command in your Amplify project provides CDK or CloudFormation starter files along with mechanisms to reference other Amplify-generated resources.
+3. [Import existing AWS resources](/cli/auth/import) - Integrate your existing resources, such as [Amazon Cognito user pool and federated identities (identity pool)](/cli/auth/import), or [Storage resources like DynamoDB + S3](/cli/storage/import), into an Amplify project. For example, use your existing Cognito resources as an authentication mechanism for your GraphQL API, Storage (S3), and more.
+4. [Command hooks](/cli/project/command-hooks) - Use Command Hooks to execute custom scripts before, during, and after Amplify CLI commands ('amplify push', 'amplify api gql-compile', and more). Trigger validation checks, run credential scans, or clean-up build artifacts during deployment. Extend Amplify’s best-practice defaults to meet your security guidelines and operational requirements.
+5. Export Amplify project to CDK - Use Amplify with existing DevOps tools or integrate into your existing deployment systems. Amplify’s export feature lets you export your Amplify project to your preferred tooling using CDK. Export Amplify CLI build artifacts, including CloudFormation templates, GraphQL API resolver code, Lambda function assets, and client-side code generation.
 
-**Note:** We strongly advise against manually updating or deleting resources created by AWS CloudFormation; it may cause the stack to be stuck in a state that can no longer be updated. Among those operations, manually updating or deleting **Cognito** resources (created by the Amplify Auth category) are considered especially dangerous and you may lose user data or break auth-related functionalities in your app.
 
 ### Local mocking
 

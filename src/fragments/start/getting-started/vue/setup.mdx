@@ -1,6 +1,6 @@
 ## Create a new Vue app
 
-Use the Vue CLI to bootstrap a new Vue app (selecting the defaults will work for this project):
+Use the Vue CLI to bootstrap a new Vue 3 app (selecting the defaults will work for this project):
 
 <BlockSwitcher>
 <Block name="NPM">
@@ -217,14 +217,14 @@ The first step to using Amplify in the client is to install the necessary depend
 <Block name="NPM">
 
 ```
-npm install aws-amplify @aws-amplify/ui-components
+npm install aws-amplify @aws-amplify/ui-vue
 ```
 
 </Block>
 <Block name="Yarn">
 
 ```
-yarn add aws-amplify @aws-amplify/ui-components
+yarn add aws-amplify @aws-amplify/ui-vue
 ```
 
 </Block>
@@ -232,37 +232,42 @@ yarn add aws-amplify @aws-amplify/ui-components
 
 <Callout>
 
-If you are using Vue 2, please use the `@aws-amplify/ui-vue` package and follow the Vue UI Components 
-[documentation](/ui).
+If you are using Vue 2, please check out our legacy [documentation](https://github.com/aws-amplify/amplify-ui/tree/legacy/legacy/amplify-ui-vue). For Vite installs check out this [documentation](https://ui.docs.amplify.aws/getting-started/installation?platform=vue#vite). 
 
 </Callout>
 
-The `@aws-amplify/ui-components` package is a set of web components that make it easy to integrate functionality like end-to-end authentication flows. 
+The `@aws-amplify/ui-vue` package is a set of components that make it easy to integrate functionality like end-to-end authentication flows. 
 
-## Set up frontend
+# Set up frontend
 
 Next, we need to configure Amplify on the client so that we can use it to interact with our backend services.
 
 Open __src/main.js__ and add the following code below the last import:
 
-```js
-import Amplify from 'aws-amplify';
-import aws_exports from './aws-exports';
-import {
-  applyPolyfills,
-  defineCustomElements,
-} from '@aws-amplify/ui-components/loader';
-
-Amplify.configure(aws_exports);
-applyPolyfills().then(() => {
-  defineCustomElements(window);
-});
+```javascript
+import Amplify from "aws-amplify";
+import awsExports from "./aws-exports";
+Amplify.configure(awsExports);
 ```
 
-Now Amplify has been successfully configured. As you add or remove categories and make updates to your backend configuration using the Amplify CLI, the configuration in __aws-exports.js__ will update automatically.
+And that's all it takes to configure Amplify. As you add or remove categories and make updates to your backend configuration using the Amplify CLI, the configuration in __aws-exports.js__ will update automatically.
 
-<Callout>
+Now that our Vue app is set up and Amplify is initialized, we're ready to add an API in the next step.
 
-Console warnings: If you see "failed to resolve component" warnings, you can create `vue.config.js` from the app directory and use this <amplify-external-link href="https://gist.github.com/wlee221/3d47f9598d5ad85bfa7a138bad112c3c">gist</amplify-external-link> to remove them.
 
-</Callout>
+## Install as a global plugin (Optional)
+
+We can configure Amplify on the client as a global plugin so that we can use `ui-vue` components anywhere without importing them in.
+
+Open __src/main.js__ and add the following code below the last import:
+
+```js
+import { createApp } from 'vue';
+import App from './App.vue';
+import AmplifyVue from '@aws-amplify/ui-vue';
+
+const app = createApp(App);
+app.use(AmplifyVue);
+app.mount('#app');
+```
+

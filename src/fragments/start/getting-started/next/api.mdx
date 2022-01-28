@@ -61,7 +61,7 @@ type Post
 }
 ```
 
-The schema generated is for a blog app. You'll notice a directive on the `Post` type of `@model`. This directive is part of the [GraphQL transform](/cli/graphql-transformer/model) library of Amplify. 
+The schema generated is for a blog app. You'll notice a directive on the `Post` type of `@model`. This directive is part of the [GraphQL transform](/cli/graphql/data-modeling) library of Amplify. 
 
 The GraphQL Transform Library provides custom directives you can use in your schema that allow you to do things like define data models, set up authentication and authorization rules, configure serverless functions as resolvers, and more.
 
@@ -185,6 +185,10 @@ query ListPosts {
 In this section you will create a way to list and create posts from the Next.js application. To do this, you will fetch & render the latest posts from the server as well as create a new post on the client.
 
 Open __pages/index.js__ and replace it with the following code:
+
+```sh
+npm install aws-amplify @aws-amplify/ui-react@1.x.x
+```
 
 ```jsx
 // pages/index.js
@@ -429,4 +433,4 @@ Let's walk through some of this file:
 
 ## Testing SSG
 
-With your server running (`npm run dev`), refresh the page (or go back home to http://localhost:3000/ and click into a post) and you'll see a page for this post!
+With your server running (`npm run dev`), refresh the page (or go back home to <http://localhost:3000/> and click into a post) and you'll see a page for this post!

@@ -1,10 +1,14 @@
-The Geo plugin is dependent on Cognito Auth.
-
 Add the following dependencies to your **app**'s build.gradle file and click "Sync Now" when prompted:
 
 ```groovy
 dependencies {
-    implementation 'com.amplifyframework:aws-auth-cognito:1.28.1'
-    implementation 'com.amplifyframework:aws-geo-location:0.1.0'
+    implementation 'com.amplifyframework:aws-auth-cognito:ANDROID_VERSION'
+    implementation 'com.amplifyframework:aws-geo-location:ANDROID_GEO_VERSION'
 }
 ```
+
+<Callout>
+
+**Note:** The Geo plugin has a dependency on Cognito Auth.
+
+</Callout>
