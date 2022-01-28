@@ -1215,8 +1215,18 @@ const directory = {
             filters: [],
           },
           {
-            title: "Build options",
-            route: "/cli/function/build-options",
+            title: "Using JavaScript",
+            route: "/cli/function/using-javascript",
+            filters: [],
+          },
+          {
+            title: "Using TypeScript",
+            route: "/cli/function/using-typescript",
+            filters: [],
+          },
+          {
+            title: "Using Python",
+            route: "/cli/function/using-python",
             filters: [],
           },
         ],
