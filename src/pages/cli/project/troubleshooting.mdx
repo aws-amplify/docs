@@ -114,7 +114,7 @@ Amplify CLI in this case generates one policy per route and applies it to the la
 |/items/paper| amplify generated policy2 |Execution Role Lambda| Lambda function |
 |/items/scissors|	amplify generated policy3 || |		
 
-However, if your application has many routes, one way to reduce the number of policies generated could be by creating a single resource and parameterizing the paths like so:
+However, if your application has many routes, one way to reduce the number of policies generated could be by creating a single resource with parameterization of the paths:
 `/items?item=rock, /items?item=paper, /items?item=scissors` 
 In this case the Amplify CLI creates only 1 policy for the /items resource.
 
@@ -126,7 +126,7 @@ In this case the Amplify CLI creates only 1 policy for the /items resource.
 Tag: “Schema validation failed”, “Unknown directive”, “invalid directive”
 After making any GraphQL schema changes, please run amplify api gql-compile to ensure that the schema is correctly formed and amplify is able to generate valid CloudFormation from the GraphQL schema. Please refer the [Amplify CLI GraphQL(v2) Documentation](https://docs.amplify.aws/cli-legacy/graphql-transformer/overview/) to understand the latest Amplify GraphQL directives.
 ###### Example:
-Assume your GraphQL schema has an error like so:
+Assume your GraphQL schema has an error where the directive @model is misspelt as @mode:
 ```graphql
 type Tag @mode { /** @mode is an invalid directive **/
   id : ID!
