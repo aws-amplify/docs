@@ -79,5 +79,10 @@ export default function CodeBlockProvider({children}) {
 
 export function useCodeBlockContext() {
   const context = useContext(CodeBlockContext);
+
+  if (!context) {
+    throw new Error(`'useCodeBlockContext' should be used within a 'CodeBlockProvider'`)
+  }
+
   return context;
 }
