@@ -16,6 +16,8 @@
     "@aws-amplify/ui-react": "^1.2.5",
     "@emotion/react": "^11.1.5",
     "@emotion/styled": "^11.3.0",
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^12.1.2",
     "array-flatten": "^3.0.0",
     "aws-amplify": "latest",
     "copy-to-clipboard": "^3.2.1",
@@ -74,13 +76,21 @@
       "<rootDir>/src"
     ],
     "transform": {
-      "^.+\\.(ts|tsx)$": "ts-jest"
+      "^.+\\.(ts|tsx|js)$": [
+        "babel-jest",
+        {
+          "presets": [
+            "next/babel"
+          ]
+        }
+      ]
     },
     "testPathIgnorePatterns": [
       "capi",
       ".next",
       "client"
-    ]
+    ],
+    "setupFilesAfterEnv": ["<rootDir>/jest.setup.js"]
   },
   "scripts": {
     "clean": "rm -rf node_modules yarn.lock",
