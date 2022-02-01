@@ -110,6 +110,7 @@ To identify if a push failure is because of exceeding [AWS Service level quotas]
 ###### Example 1: Optimizing REST API schema for reducing policy count:
 Assume you have deployed a REST API using Amplify CLI with 3 routes and one Lambda to handle all routes. 
 Amplify CLI in this case generates one policy per route and applies it to the Lambda execution role. A configuration with 20 or more routes may hit the “Max policies per role” limit per [AWS IAM limits](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-limits.html).
+
 |Resources	|Policies|	Role|	Handler|
 |-|-|-|-|
 |/items/rock|	amplify generated policy1	| | |
