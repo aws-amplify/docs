@@ -109,7 +109,7 @@ To identify if a push failure is because of exceeding [AWS Service level quotas]
 
 ##### Suggested Resolution: 
 1. If the bug is related to hitting service-quotas, you can use [AWS Service Quotas console](https://console.aws.amazon.com/servicequotas) to view and request increases for most AWS quotas.
-1. If your application uses Amplify DataStore, some resource limits may affect deployment. Referring the [Amplify DataStore Best Practices](https://docs.aws.amazon.com/whitepapers/latest/amplify-datastore-implementation/amplify-datastore-best-practices.html) document may provide insights into making the correct design decisions to help resolve these types of issues. 
+1. If your application uses Amplify DataStore, some resource limits may affect deployment. Refer to [Amplify DataStore Best Practices](https://docs.aws.amazon.com/whitepapers/latest/amplify-datastore-implementation/amplify-datastore-best-practices.html) for insights into making the correct design decisions to help resolve these types of issues. 
 1. If the service quotas cannot be increased, then this may require you to redesign some aspects of your application for sustainable running in a serverless environment. Referring to [AWS Knowledge Center](https://aws.amazon.com/premiumsupport/knowledge-center/) may help understand the different prescribed design changes. For example, a complex GraphQL schema could be simplified to reduce the number of GraphQL resources in use e.g collapsing models, composite keys, Lambda resolvers. Using escape hatches like overrides and export may help to scale the application beyond the CLI generated architecture. 
 
 #### Scenario 1: Optimizing REST API schema for reducing policy count:
