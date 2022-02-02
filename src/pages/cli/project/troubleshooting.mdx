@@ -76,7 +76,7 @@ These types of drift must be addressed on a case-by-case basis. In some cases, s
 1. Apply drift changes into code: If both the above methods to deploy CloudFormation have failed for you, the other option is to inspect the manual changes and to update them in the CLI input files. For example, you could update the GraphQL schema to reflect the same changes as performed manually in the cloud.
 
 ### Push failures in a multi-account multi-environment project (CI/CD errors)
-In a multi-account project with CI/CD, if you find that the application is deployed correctly in one environment, but fails in another environment, some of the probable causes are:
+In a multi-account project with CI/CD, some causes for an application deploying correctly in one environment but failing in another environment are:
 1. Some resource being referenced in the CloudFormation is missing from the failing account. 
 1. The failing account has no permission to access a particular resource used in the CloudFormation. 
 1. The application code relies on “secrets” and secrets are not correctly created or copied in the failing environment.
