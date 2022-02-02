@@ -49,7 +49,7 @@
         ]
       },
       "improvePluralization": {
-        "description": "Use the pluralize npm library instead of only appending an \"s\" to achieve pluralization.",
+        "description": "Use word specific pluralization instead of only appending an \"s\" to every word.",
         "type": "Feature",
         "valueType": "Boolean",
         "versionAdded": "5.0.2",
@@ -179,13 +179,13 @@
         "values": [
           {
             "value": "1",
-            "description": "The original V1 GraphQL Transformer will be used",
+            "description": "The GraphQL Transformer V1 will be used",
             "defaultNewProject": false,
             "defaultExistingProject": true
           },
           {
             "value": "2",
-            "description": "The V2 GraphQL Transformer will be used",
+            "description": "The GraphQL Transformer V2 will be used",
             "defaultNewProject": true,
             "defaultExistingProject": false
           }
@@ -200,13 +200,13 @@
         "values": [
           {
             "value": "true",
-            "description": "V1 GraphQL Transformer projects will not be prompted to migrate to V2",
+            "description": "GraphQL Transformer V1 projects will not be prompted to migrate to V2",
             "defaultNewProject": true,
             "defaultExistingProject": true
           },
           {
             "value": "false",
-            "description": "V1 GraphQL Transformer projects will be prompted to migrate to V2",
+            "description": "GraphQL Transformer V1 projects will be prompted to migrate to V2",
             "defaultNewProject": false,
             "defaultExistingProject": false
           }
@@ -347,7 +347,7 @@
         ]
       },
       "useEnabledMfas": {
-        "description": "Allows the use of only TOTP if only phone_number is configured, if another attribte is added SMS MFA is enabled",
+        "description": "Allows the use of only TOTP if only phone_number is configured, if another attribute is added SMS MFA is enabled",
         "type": "Feature",
         "valueType": "Boolean",
         "versionAdded": "5.3.1",
