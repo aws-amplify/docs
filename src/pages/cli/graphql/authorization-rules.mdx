@@ -260,7 +260,7 @@ In the example above:
 
 ## Field-level authorization rules
 
-When an authorization rule is added to a field, it'll strictly define the authorization rules applied on the field. Field-level authorization rules **do not** inherit model-level authorization rules. Meaning, only the specified rule is always applied. 
+When an authorization rule is added to a field, it'll strictly define the authorization rules applied on the field. Field-level authorization rules **do not** inherit model-level authorization rules. Meaning, only the specified field-level authorization rule is applied. 
 
 ```graphql
 type Employee @model @auth(rules: [
@@ -272,6 +272,11 @@ type Employee @model @auth(rules: [
   ssn: String @auth(rules: [{ allow: owner }])
 }
 ```
+
+In the example above:
+- Owners are allowed to create, read, update, and delete Employee records they own
+- Any signed in user has read access
+- Any signed in user can read data with the exception of the `ssn` field. This field only has owner auth applied, the field-level auth rule means that model-level auth rules are not applied
 
 <Callout warning>
 

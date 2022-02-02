@@ -13,7 +13,7 @@ export default function DocsFooter() {
           <div>
             <h3>Amplify</h3>
             <a href="/start">Getting Started</a>
-            <ExternalLink href={links.DISCORD}>Support</ExternalLink>
+            <ExternalLink href={links.DISCORD}>Community Chat</ExternalLink>
           </div>
           <div>
             <h3>Community</h3>
