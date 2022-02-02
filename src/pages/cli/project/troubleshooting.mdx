@@ -73,7 +73,7 @@ On deployment of this application, the Amplify generated CloudFormation template
 Assume you have an application with a GraphQL schema deployed to the cloud. 
 Amplify creates DynamoDB tables for all [@model]((/cli/graphql/data-modeling/)) types and GSIs for all [@index]((/cli/graphql/data-modeling/)) fields in the GraphQL schema. 
 "Drift" is introduced if you delete any of the GSIs using the DynamoDB console, instead of using the Amplify CLI.
-This may cause future changes to the GraphQL schema to fail deployment. 
+With drift, future changes to the GraphQL schema may fail to deploy. 
 As an example, if you change the names of some @models and @index fields in your GraphQL schema and perform `amplify push`with`—allow-destructive-graphql-schema-updates`flag enabled, Amplify will first remove all DynamoDB tables corresponding to the original model names. 
 However if any of the GSIs on these tables were already deleted manually from the console then the deployment will fail. This is because Amplify’s CloudFormation is attempting to update the state of a resource (the GSI) which doesn’t exist. 
 
