@@ -48,6 +48,26 @@
           }
         ]
       },
+      "improvePluralization": {
+        "description": "Use the pluralize npm library instead of only appending an \"s\" to achieve pluralization.",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "5.0.2",
+        "values": [
+          {
+            "value": "true",
+            "description": "When pluralizing values i.e. for list resolvers, 'Match' becomes 'Matches'",
+            "defaultNewProject": false,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "When pluralizing values i.e. for list resolvers, 'Match' becomes 'Matchs'",
+            "defaultNewProject": true,
+            "defaultExistingProject": true
+          }
+        ]
+      },
       "validateTypeNameReservedWords": {
         "description": "Throw an error when compiling the GraphQL schema if a type name is a reserved word.",
         "type": "Feature",
@@ -128,6 +148,87 @@
             "description": "@key create an LSI when the named key includes a primary field.",
             "defaultNewProject": false,
             "defaultExistingProject": true
+          }
+        ]
+      },
+      "skipOverrideMutationInputTypes": {
+        "description": "If a custom mutation is defined on a model, prevent the regeneration of that mutation",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "4.45.0",
+        "values": [
+          {
+            "value": "true",
+            "description": "If a custom create, update, or delete mutation is defined on a model, the input will not be regenerated",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "The GraphQL Transformer will recreate inputs for models even if they have the custom mutations specified",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      },
+      "transformerVersion": {
+        "description": "Sets which version of the GraphQL Transformer will be used",
+        "type": "Feature",
+        "valueType": "Number",
+        "versionAdded": "6.4.0",
+        "values": [
+          {
+            "value": "1",
+            "description": "The original V1 GraphQL Transformer will be used",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          },
+          {
+            "value": "2",
+            "description": "The V2 GraphQL Transformer will be used",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          }
+        ]
+      },
+      "suppressSchemaMigrationPrompt": {
+        "description": "Prevent the CLI from prompting for schema migration",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "6.4.0",
+        "deprecationDate": "November 10th 2021",
+        "values": [
+          {
+            "value": "true",
+            "description": "V1 GraphQL Transformer projects will not be prompted to migrate to V2",
+            "defaultNewProject": true,
+            "defaultExistingProject": true
+          },
+          {
+            "value": "false",
+            "description": "V1 GraphQL Transformer projects will be prompted to migrate to V2",
+            "defaultNewProject": false,
+            "defaultExistingProject": false
+          }
+        ]
+      },
+      "securityEnhancementNotification": {
+        "description": "Adds notification of @auth updates to improve security for @primaryKey and @index",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "7.6.12",
+        "values": [
+          {
+            "value": "true",
+            "description": "A notification with a prompt will appear, after which security updates are automatically applied and no further prompt will appear",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          },
+          {
+            "value": "false",
+            "description": "There is no notification of security updates",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
           }
         ]
       }
@@ -221,6 +322,46 @@
             "value": "false",
             "description": "Creates auth triggers via Cognito CloudFormation",
             "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      },
+      "forceAliasAttributes": {
+        "description": "Forces the use of aliasAttributes with Cognito rather than usernameAttributes",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "6.0.0",
+        "values": [
+          {
+            "value": "true",
+            "description": "Forces the CLI to use aliasAttributes when creating auth, allowing for a preferred_username",
+            "defaultNewProject": false,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "Continue to use usernameAttributes with Cognito",
+            "defaultNewProject": true,
+            "defaultExistingProject": true
+          }
+        ]
+      },
+      "useEnabledMfas": {
+        "description": "Allows the use of only TOTP if only phone_number is configured, if another attribte is added SMS MFA is enabled",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "5.3.1",
+        "values": [
+          {
+            "value": "true",
+            "description": "Allow TOTP to be configured for login by itself",
+            "defaultNewProject": false,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "TOTP cannot be used alone for login with Cognito",
+            "defaultNewProject": true,
             "defaultExistingProject": true
           }
         ]
@@ -397,6 +538,46 @@
             "defaultExistingProject": true
           }
         ]
+      },
+      "emitAuthProvider": {
+        "description": "Adds auth provider details to iOS models",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "5.0.2",
+        "values": [
+          {
+            "value": "true",
+            "description": "[Recommended] Adds auth provider details to iOS models",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "iOS models will not be able to access auth provider details",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      },
+      "generateIndexRules": {
+        "description": "Adds key/index details to iOS models",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "5.0.2",
+        "values": [
+          {
+            "value": "true",
+            "description": "[Recommended] Adds key/index details to iOS models",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "iOS models will not be able to access key/index details",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
       }
     }
   },
@@ -519,6 +700,31 @@
             "value": 1,
             "description": "ap-southeast-2, eu-west-2, and us-east-2 are mapped to other regions.",
             "defaultNewProject": true,
+            "defaultExistingProject": false
+          }
+        ]
+      }
+    }
+  },
+  "project": {
+    "description": "Feature Flags relating to Amplify project as a whole",
+    "features": {
+      "overrides": {
+        "description": "Enables support for overrides",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "7.3.0",
+        "values": [
+          {
+            "value": "true",
+            "description": "Enables the use of 'amplify override' on categories to support customization",
+            "defaultNewProject": true,
+            "defaultExistingProject": true
+          },
+          {
+            "value": "false",
+            "description": "Overrides will not be available on amplify categories",
+            "defaultNewProject": false,
             "defaultExistingProject": false
           }
         ]
