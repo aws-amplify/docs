@@ -55,7 +55,7 @@ This difference between the expected configuration of the resource in the Cloudf
 Currently there is no automated way to reverse a CloudFormation drift. Each resource must be inspected through the AWS console for drift in it's CloudFormation stack and the drift has to be resolved manually.
 
 Assume, using Amplify CLI you have created a GraphQL schema with multiple models, indexes and resolvers and deployed it to the cloud. 
-On deployment of this application, the Amplify generated Coudformation template provisions AppSync API models, resolvers and multiple DynamoDB tables and GSIs. 
+On deployment of this application, the Amplify generated CloudFormation template provisions AppSync API models, resolvers, multiple DynamoDB tables and GSIs. 
 
 #### Scenario 1: `amplify push` fails after manually updating DynamoDB tables and GSIs.
 Assume you have renamed GraphQL [@model](/cli/graphql/data-modeling/)s in your Amplify CLI project and updated their [@index](/cli/graphql/data-modeling/) parameters. 
