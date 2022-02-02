@@ -69,19 +69,22 @@ Currently there is no automated way to reverse a CloudFormation drift. Each reso
 Assume, using Amplify CLI you have created a GraphQL schema with multiple models, indexes and resolvers and deployed it to the cloud. 
 On deployment of this application, the Amplify generated CloudFormation template provisions AppSync API models, resolvers, multiple DynamoDB tables and GSIs. 
 
-#### Scenario 1: `amplify push` fails after manually updating DynamoDB tables and GSIs.
-Assume you have renamed GraphQL [@model](/cli/graphql/data-modeling/)s in your Amplify CLI project and updated their [@index](/cli/graphql/data-modeling/) parameters. 
-When you perform `amplify push` with `—allow-destructive-graphql-schema-updates` flag enabled, the Dynamo DB tables and GSIs corresponding to the original model names and index fields in the schema are removed, and then tables and GSIs corresponding to the new names are created.
-However, before performing an `amplify push` you use the DynamoDB console in your account to delete multiple [GSIs](/amazondynamodb/latest/developerguide/GSI.html) belonging to the project. 
-This action will introduce drift in the CloudFormation stack deployed by Amplify. Since the GSIs corresponding to the original DynamoDB tables are deleted, any change to index parameters in the schema will fail to deploy.
+#### Scenario 1: "amplify push" fails after manually updating DynamoDB tables and GSIs from the console.
+Assume you have an application with a GraphQL schema deployed to the cloud. 
+Amplify creates DynamoDB tables for all [@model]((/cli/graphql/data-modeling/)) annotations and GSIs for all [@index]((/cli/graphql/data-modeling/)) fields in the GraphQL schema. 
+Now, if you login into the DynamoDB console and delete any of these GSIs, this introduces a drift in the application. 
+This may cause future changes to the GraphQL schema to fail deployment. 
+As an example, if you change the names of some @models and @index fields in your GraphQL schema and perform `amplify push`with`—allow-destructive-graphql-schema-updates`flag enabled, Amplify will first remove all DynamoDB tables corresponding to the original model names. 
+However if any of the GSIs on these tables were already deleted manually from the console then the deployment will fail. This is because Amplify’s CloudFormation is attempting to update the state of a resource (the GSI) which doesn’t exist. 
+
 
 **Suggested Resolution:**
-To fix deployment failures due to drift, manually rollback the state of the drifted resource to match its state in CloudFormation. Then retry `amplify push`. 
+To fix deployment failures due to drift in DynamoDB tables, manually rollback the state of the drifted resource to match its state in CloudFormation. Then retry `amplify push`. 
 1. You can view the drift in the DynamoDB CloudFormation Stack per instructions in the [AWS drift detection documentation](/AWSCloudFormation/latest/UserGuide/detect-drift-stack.html)
 1. Revert every drift manually through the AWS console. In this particular scenario, re-create the GSIs and manually undo any renaming changes.
 1. Perform an `amplify push`.
 
-#### Scenario 2: `amplify push` fails after unmanaged updates to non-database resources in the cloud.
+#### Scenario 2: "amplify push" fails after unmanaged updates to non-database resources in the cloud.
 
 For example, you have:
 * updated your GraphQL schema using the AppSync console, or
@@ -89,10 +92,12 @@ For example, you have:
 * updated the code in Lambda functions which were originally deployed through Amplify.
 
 **Suggested Resolution:** 
-These types of drift must be addressed on a case-by-case basis. In some cases, such as a Lambda code change, forcing a redeployment of the function by making a minor change to the code may work. In other cases, like deleting user pools or updates to GraphQL schema from the AppSync console, try the following steps:
+These types of drifts must be addressed on a case-by-case basis. In some cases, such as a Lambda code change, forcing a redeployment of the function by making a minor change to the code will likely work. 
+In other cases, like deleting user-pools or updates to GraphQL schema from the AppSync console, follow the steps below:
 1. Forcible deployment of CloudFormation stack from the CLI - Run `amplify push --force` to force push the application’s resource stack to be deployed.
 1. Forcible deployment of CloudFormation stack from the Console - Fetch the CloudFormation stack from the application’s deployment bucket and selectively run the resource specific part of the stack through the CloudFormation console.
-1. Apply drift changes into code: If both the above methods to deploy CloudFormation have failed for you, the other option is to inspect the manual changes and to update them in the CLI input files. For example, you could update the GraphQL schema to reflect the same changes as performed manually in the cloud.
+1. Apply drift changes into code: If both the above methods to deploy CloudFormation have failed for you, the other option is to inspect the manual changes and to update them in the CLI input files. 
+For example, you could update the GraphQL schema to reflect the same changes as performed manually in the cloud and then perform `amplify push`.
 
 ### Push failures in a multi-account multi-environment project (CI/CD errors)
 <Callout>
@@ -109,7 +114,7 @@ In a multi-account project with CI/CD, some causes for an application deploying 
 1. The failing account has no permission to access a particular resource used in the CloudFormation. 
 1. The application code relies on “secrets” and secrets are not correctly created or copied in the failing environment.
 
-#### Scenario 1: Amplify push fails in one account/environment
+#### Scenario 1: "amplify push" fails in one account/environment
 Assume you created a project in a “dev” account and are planning to expand it to a full CI/CD pipeline with dev, beta and prod environments. 
 Your project likely follows a pattern specified in the [Amplify CLI team environments guide](/cli/teams/overview/#setting-up-prod-and-dev-environments). 
 However on completion of all steps you observe that Amplify Hosting console displays the “build” step of one of your stages ("beta") as failed and others as successfully deployed.
@@ -203,7 +208,7 @@ If `amplify push` fails while deploying any of the scenarios below, refer to the
 Practices which help developers avoid deployment errors and scaling problems.
 
 ### Overriding Amplify CLI Behavior 
-The Amplify CLI follows a unidirectional data flow. Any changes to your application must be performed only through the Amplify CLI and the associated configuration files or through Amplify Studio. Never manually edit any resources directly from the AWS console or using the AWS CLI/SDK, unless the Amplify documentation explains that it’s necessary to achieve something. To override the default behavior of Amplify CLI generated resources, you should follow the instructions in the [Amplify extensibility documentation](/cli/#extensibility) which details all the “escape hatches” available in the Amplify CLI framework. 
+The Amplify CLI follows a unidirectional data flow. Any changes to your application must be performed only through the Amplify CLI and the associated configuration files or through Amplify Studio. Never manually edit any resources directly from the AWS console or using the AWS CLI/SDK, unless the Amplify documentation explains that it’s necessary to achieve something. To override the default behavior of Amplify CLI generated resources, you must follow the instructions in the [Amplify extensibility documentation](/cli/#extensibility) which details all the “escape hatches” available in the Amplify CLI framework. 
 
 ### Understanding the impact of changing model names in the GraphQL Schema 
 <Callout>
@@ -216,7 +221,7 @@ The Amplify CLI follows a unidirectional data flow. Any changes to your applicat
 
 Amplify automatically creates DynamoDB database tables for GraphQL types annotated with the @model directive in your GraphQL schema. 
 Therefore if you rename models in the GraphQL Schema, to protect the application data from accidental deletion, the Amplify CLI will block subsequent `amplify push` operations and prompt you to explicitly pass the `—allow-destructive-graphql-schema-updates` flag. 
-This flag should only be used when the data in the original tables is not required. It will explicitly allow Amplify to delete the DynamoDB tables for the original model names and create the tables with the new model names in the schema. 
+This flag must only be used when the data in the original tables is not required. It will explicitly allow Amplify to delete the DynamoDB tables for the original model names and create the tables with the new model names in the schema. 
 Amplify currently doesn't support automatic data migration. If the data in the original tables is required, then you will need to backup the DynamoDB tables and migrate the data after the destructive deployment of the new tables. 
 
 ![Amplify GraphQL model deletion warning](/images/ts-guide-model-deletion-warning.png)
