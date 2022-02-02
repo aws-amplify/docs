@@ -44,7 +44,7 @@ With the new GraphQL Transformer v2, table index configuration, authorization ru
 ### Changes that Amplify CLI requires you to manually migrate
 
 * I use a Relational Database data source with the GraphQL API
-    * Currently, the new GraphQL Transformer does not support relational data sources. You can remain on the current GraphQL Transformer version and suppress further migration warnings by changing the `suppressschemamigrationprompt` feature flag in `amplify/backend/cli.json` to `true`.
+    * Currently, the new GraphQL Transformer does not support relational data sources. You can remain on the current GraphQL Transformer version and suppress further migration warnings by changing the `suppressschemamigrationprompt` feature flag in `amplify/cli.json` to `true`.
 * I use a custom resolver in my GraphQL API
     * To add a custom resolver in the new GraphQL Transformer follow the instructions [here](/cli/graphql/custom-business-logic/#vtl-resolver).
 * I have overwritten Amplify-generated resolvers by placing custom .vtl files in the resolvers/ folder.
