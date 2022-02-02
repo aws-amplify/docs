@@ -28,20 +28,21 @@ amplify console
 
 ## Create login UI
 
-Now that we have our authentication service deployed to AWS, it's time to add authentication to our React app. Creating the login flow can be quite difficult and time consuming to get right. Luckily Amplify Framework has an authentication UI component we can use that will provide the entire authentication flow for us, using our configuration specified in our __aws-exports.js__ file.
+Now that we have our authentication service deployed to AWS, it's time to add authentication to our React app. Creating the login flow can be quite difficult and time consuming to get right. Luckily Amplify Framework has an authentication UI component we can use that will provide the entire authentication flow for us, using our configuration specified in our **aws-exports.js** file.
 
-Open __src/App.js__ and make the following changes:
+Open **src/App.js** and make the following changes:
 
-1. Import the `withAuthenticator` component:
+1. Import the `withAuthenticator` component and styles:
 
 ```javascript
-import { withAuthenticator } from '@aws-amplify/ui-react'
+import { withAuthenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
 ```
 
 2. Change the default export to be the `withAuthenticator` wrapping the main component:
 
 ```javascript
-export default withAuthenticator(App)
+export default withAuthenticator(App);
 ```
 
 Run the app to see the new Authentication flow protecting the app:
@@ -58,6 +59,6 @@ You can also customize this component to add or remove fields, update styling, o
 
 In addition to the `withAuthenticator` you can build custom authentication flows using the `Auth` class.
 
-`Auth` has over 30 methods including `signUp`, `signIn`, `forgotPassword`, and `signOut` that allow you full control over all aspects of the user authentication flow. Check out the complete API [here](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html)
+`Auth` has over 30 methods including `signUp`, `signIn`, `forgotPassword`, and `signOut` that allow you full control over all aspects of the user authentication flow. Check out the complete API and docs [here](https://ui.docs.amplify.aws/components/authenticator)
 
 In the next section, you'll host your app on the Amplify Console, a hosting service complete with a globally available CDN, atomic deployments, easy custom domains, and CI / CD.
