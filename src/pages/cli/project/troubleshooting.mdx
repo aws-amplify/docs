@@ -85,7 +85,7 @@ In a multi-account project with CI/CD, some causes for an application deploying 
 Assume, you have created a project in a “Demo” account and are planning to expand it to a full CI/CD pipeline with Dev, Test and Prod environments, your project most probably follows a pattern specified in the [Amplify Teams guide](https://docs.amplify.aws/cli/teams/overview/#setting-up-prod-and-dev-environments). However on completion of all steps you observe that Amplify studio displays the “build” step of one of your stages as failed and others as successfully deployed.
 
 ##### Suggested Resolution: 
-If your application uses secrets, refer to https://docs.amplify.aws/cli/function/secrets/#accessing-the-values-in-your-function in the multi-env section to debug any issues related to secrets not being correctly copied across environments. 
+To debug any issues related to secrets not being correctly copied across environments, refer to [Multi-environment flows](https://docs.amplify.aws/cli/function/secrets/#multi-environment-flows) section in the [Access secret values](https://docs.amplify.aws/cli/function/secrets) documentation. 
 For debugging other problems, using Amplify CLI deploy the application in the failing account.
 1. `amplify pull --appId successfulEnvAppID --envName successfulEnv`
 1. `amplify env checkout failingEnv`
