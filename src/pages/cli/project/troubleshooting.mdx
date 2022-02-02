@@ -82,7 +82,7 @@ In a multi-account project with CI/CD, some causes for an application deploying 
 1. The application code relies on “secrets” and secrets are not correctly created or copied in the failing environment.
 
 #### Scenario 1: Amplify push fails in one account/environment
-Assume, you have created a project in a “Demo” account and are planning to expand it to a full CI/CD pipeline with Dev, Test and Prod environments, your project most probably follows a pattern specified in the [Amplify Teams guide](https://docs.amplify.aws/cli/teams/overview/#setting-up-prod-and-dev-environments). However on completion of all steps you observe that Amplify studio displays the “build” step of one of your stages as failed and others as successfully deployed.
+Assume you created a project in a “Demo” account and are planning to expand it to a full CI/CD pipeline with Dev, Test and Prod environments. Your project likely follows a pattern specified in the [Amplify CLI's team environments guide](https://docs.amplify.aws/cli/teams/overview/#setting-up-prod-and-dev-environments). However on completion of all steps you observe that Amplify Hosting console displays the “build” step of one of your stages as failed and others as successfully deployed.
 
 ##### Suggested Resolution: 
 To debug any issues related to secrets not being correctly copied across environments, refer to [Multi-environment flows](https://docs.amplify.aws/cli/function/secrets/#multi-environment-flows) section in the [Access secret values](https://docs.amplify.aws/cli/function/secrets) documentation. 
