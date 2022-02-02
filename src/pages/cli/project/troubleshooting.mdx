@@ -53,7 +53,7 @@ The Amplify CLI cannot track manual changes applied to deployed resources. This 
 Assume, you have created a GraphQL schema in Amplify with multiple models which results in the creation of AppSync API models, resolvers and multiple DynamoDB tables and GSIs. 
 
 #### Scenario 1: `amplify push` fails after manually updating DynamoDB tables and GSIs.
-Assume a situation where you have renamed GraphQL [@model](https://docs.amplify.aws/cli/graphql/data-modeling/)s in your Amplify CLI project and updated their [@index](https://docs.amplify.aws/cli/graphql/data-modeling/) parameters. 
+Assume you have renamed GraphQL [@model](https://docs.amplify.aws/cli/graphql/data-modeling/)s in your Amplify CLI project and updated their [@index](https://docs.amplify.aws/cli/graphql/data-modeling/) parameters. 
 However, at this point you use the DynamoDB console in your account to delete multiple [GSIs](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.html) belonging to the Amplify application which belonged to the older model names. 
 This action will introduce drift in the CloudFormation stack deployed by Amplify. Since the GSIs corresponding to the older DynamoDB tables are deleted, any change to index parameters will fail during deployment. 
 
