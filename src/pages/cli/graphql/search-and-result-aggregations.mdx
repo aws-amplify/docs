@@ -160,11 +160,13 @@ query MyQuery {
 }
 ```
 
-In the example above, the response's `total` field contains the total search result count for "Students" whose name ends with "Brandel". 
+In the example above, the response's `total` field contains the total search result count for "Students" whose name ends with "Brandel".
+Note: `total` is calculated based on all records, irrespective of pagination configurations.
 
 ## Aggregate values for search result (minimum, maximum, average, sum, terms)
 
-Use the `aggregates` parameter to get aggregate values such as "minimum", "maximum", "average", and "sum" returned in the `aggregateItems` field. 
+Use the `aggregates` parameter to get aggregate values such as "minimum", "maximum", "average", and "sum" returned in the `aggregateItems` field.
+Note: `aggregates` are calculated based on all records, irrespective of pagination configurations.
 
 <BlockSwitcher>
 <Block name="Minimum (min)">
