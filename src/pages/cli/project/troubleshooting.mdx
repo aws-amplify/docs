@@ -71,7 +71,7 @@ On deployment of this application, the Amplify generated CloudFormation template
 
 #### Scenario 1: "amplify push" fails after manually updating DynamoDB tables and GSIs from the console.
 Assume you have an application with a GraphQL schema deployed to the cloud. 
-Amplify creates DynamoDB tables for all [@model]((/cli/graphql/data-modeling/)) annotations and GSIs for all [@index]((/cli/graphql/data-modeling/)) fields in the GraphQL schema. 
+Amplify creates DynamoDB tables for all [@model]((/cli/graphql/data-modeling/)) types and GSIs for all [@index]((/cli/graphql/data-modeling/)) fields in the GraphQL schema. 
 Now, if you login into the DynamoDB console and delete any of these GSIs, this introduces a drift in the application. 
 This may cause future changes to the GraphQL schema to fail deployment. 
 As an example, if you change the names of some @models and @index fields in your GraphQL schema and perform `amplify push`with`—allow-destructive-graphql-schema-updates`flag enabled, Amplify will first remove all DynamoDB tables corresponding to the original model names. 
