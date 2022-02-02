@@ -44,7 +44,9 @@ The following section shows some examples on how to debug `amplify push` failure
 
 ### Push failures from manual changes to cloud resources - Drift 
 <Callout warning>
+
 **Warning:** Once an application is deployed to the cloud using Amplify CLI the cloud resources like DynamoDB tables, Cognito Roles, IAM policies must never be updated manually. 
+
 </Callout>
 
 The Amplify CLI cannot track manual changes applied to deployed resources. This state is called “CloudFormation drift” and may cause subsequent deployments to fail. Currently there is no automated way to fix CloudFormation drift. Each resource must be inspected through the AWS console for drift in its CloudFormation stack and the drift has to be resolved manually.
