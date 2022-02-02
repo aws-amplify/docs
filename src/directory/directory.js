@@ -1127,13 +1127,13 @@ const directory = {
             filters: []
           },
           {
-            title: "Override Amplify-generated AppSync resources",
-            route: "/cli/graphql/override",
+            title: "Evolving GraphQL schemas",
+            route: "/cli/graphql/schema-evolution",
             filters: []
           },
           {
-            title: "Evolving GraphQL Schemas",
-            route: "/cli/graphql/schema-evolution",
+            title: "Override Amplify-generated AppSync resources",
+            route: "/cli/graphql/override",
             filters: []
           },
           {
