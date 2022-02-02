@@ -707,7 +707,7 @@
     }
   },
   "project": {
-    "description": "Feature Flags relating to Amplify project as a whole",
+    "description": "Enables support for overrides, prevents using unsupported versions of the CLI with overridden resources",
     "features": {
       "overrides": {
         "description": "Enables support for overrides",
@@ -717,13 +717,13 @@
         "values": [
           {
             "value": "true",
-            "description": "Enables the use of 'amplify override' on categories to support customization",
+            "description": "The CLI ignores the value of this flag",
             "defaultNewProject": true,
             "defaultExistingProject": true
           },
           {
             "value": "false",
-            "description": "Overrides will not be available on amplify categories",
+            "description": "The CLI ignores the value of this flag",
             "defaultNewProject": false,
             "defaultExistingProject": false
           }
