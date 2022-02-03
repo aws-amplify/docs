@@ -115,7 +115,7 @@ In a multi-account project with CI/CD, you find that the application has deploye
 The following are some common causes:
 1. Some resource being referenced in the Amplify-generated CloudFormation is missing from the failing account. 
 1. The failing account is missing valid permissions to access a particular resource used in the CloudFormation. 
-1. The application code relies on “secrets” and secrets are not correctly created or copied in the failing environment.
+1. The application code relies on “secrets” that are not correctly created or copied in the failing environment.
 
 #### Scenario 1: "amplify push" fails in one account/environment
 Assume you created a project in a “dev” account and you extend your deployment environment to a full CI/CD pipeline with dev, beta and prod environments. 
