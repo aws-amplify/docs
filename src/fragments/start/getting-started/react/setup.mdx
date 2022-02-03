@@ -76,16 +76,6 @@ The first step to using Amplify in the client is to install the necessary depend
 npm install aws-amplify @aws-amplify/ui-react@1.x.x
 ```
 
-Note: Due to `@babel/core`'s latest upgrade to `7.17.0` there are some issues, please resolve `@babel/core` to `7.16.12` by adding the following config to your `package.json`
-```
-"overrides": { // for npm
-   "@babel/core": "7.16.12" 
-},
-"resolutions": { // for yarn
-    "@babel/core": "7.16.12"
-  }
-```
-
 The `aws-amplify` package is the main library for working with Amplify in your apps. The `@aws-amplify/ui-react` package includes React specific UI components we'll use as we build the app.
 
 ## Set up frontend
