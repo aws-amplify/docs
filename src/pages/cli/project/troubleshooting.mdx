@@ -66,7 +66,6 @@ The Amplify CLI cannot track such changes made outside of the Amplify-generated 
 This difference between the expected configuration of the resource in the Cloudformation versus the actual configuration of the service is called a “CloudFormation drift”. 
 Currently there is no automated way to reverse a CloudFormation drift. Each resource must be inspected through the AWS console for drift in its CloudFormation stack and the drift has to be resolved manually.
 
-Assume, using Amplify CLI you have created a GraphQL schema with multiple models, indexes and resolvers and deployed it to the cloud. 
 Upon deployment, the Amplify-generated CloudFormation templates provision an AppSync GraphQL API and multiple DynamoDB tables with their GSIs. 
 
 #### Scenario 1: "amplify push" fails after manually updating DynamoDB tables and GSIs from the console.
@@ -98,7 +97,7 @@ These types of drifts must be addressed on a case-by-case basis. In some cases, 
 In other cases, like deleting a user pool or updates to GraphQL schema from the AppSync console, follow the steps below:
 1. Force a new CloudFormation stack deployment - Run `amplify push --force` to force push the application's resources.
 1. Forcible deployment of CloudFormation stack from the Console - Fetch the CloudFormation stack from the "amplify-cfn-templates" folder in the application’s deployment bucket and selectively update the stack through the CloudFormation console as described in (AWS CloudFormation - updating stacks documentation)[https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-direct.html].
-1. Apply drift changes into code: If both the above methods to deploy CloudFormation have failed for you, the other option is to inspect the manual changes and to update them in the CLI input files. 
+1. Apply drift changes into code - If methods above failed, the other option is to inspect the manual changes and to update them in the CLI input files. 
 For example, you could update the GraphQL schema to reflect the same changes as performed manually in the cloud and then perform `amplify push`.
 
 ### Push failures in a multi-account multi-environment project (CI/CD errors)
@@ -118,14 +117,13 @@ The following are some common causes:
 1. The application code relies on “secrets” that are not correctly created or copied in the failing environment.
 
 #### Scenario 1: "amplify push" fails in one account/environment
-Assume you created a project in a “dev” account and you extend your deployment environment to a full CI/CD pipeline with dev, beta and prod environments. 
+Assume you created a project in a “dev” account and you extend your deployment environment to a full CI/CD pipeline with dev, beta, and prod environments. 
 Your project likely follows a pattern specified in the [Amplify CLI team environments guide](/cli/teams/overview/#setting-up-prod-and-dev-environments). 
 On completion of all steps, you observe that the Amplify Hosting console displays the “build” step of one of your environments, such as "beta", as failed and shows other environments as successfully deployed.
 
 **Suggested Resolution:** 
 Using Amplify CLI deploy the application in the failing account. In the above case, the dev environment has successfully deployed but the beta environment has failed. 
-Therefore you must first get the "appID" of your application from the dev stage account.  
-You will get the appID from the "Edit backend" section of your application's Amplify console page in the dev environment.
+First, get the App ID from your dev environment. You can find your App ID under the "Edit backend" section of your application's dev environment in the Amplify console.
 Perform the following steps to fetch the app from the dev environment and deploy it into the beta environment.
 
 1. `amplify pull --appId <YOUR_APP_ID> --envName dev`
