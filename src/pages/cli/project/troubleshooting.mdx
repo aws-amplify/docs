@@ -132,7 +132,7 @@ Perform the following steps to fetch the app from the dev environment and deploy
 1. `amplify env checkout beta`
 1. `amplify push` 
 
-If `amplify push` fails, check the CloudFormation event logs for the failing resource to get detailed information and use this to fix issues in the failing environment. 
+If `amplify push` fails, check the CloudFormation event logs for the failing resource to get detailed information to fix the issues in the failing environment. 
 In the AWS CloudFormation console, search for your application's stack name. For instance, if your application was named "lil" and deployed in your "dev" environment, 
 Amplify would have generated a CloudFormation stack named `amplify-lil-dev-{random chars}`.
 In the Cloudformation console, click on the application's stack name and then click on the "Resources" tab. 
