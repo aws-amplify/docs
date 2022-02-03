@@ -111,28 +111,33 @@ For example, you could update the GraphQL schema to reflect the same changes as 
 "!!! Non-Zero Exit Code detected"
 </Callout>
 
-In a multi-account project with CI/CD, some causes for an application deploying correctly in one environment but failing in another environment are:
-1. Some resource being referenced in the CloudFormation is missing from the failing account. 
-1. The failing account has no permission to access a particular resource used in the CloudFormation. 
+In a multi-account project with CI/CD, you find that the application has deployed successfuly in one account but has failed deployment in another account. 
+The following are some common causes:
+1. Some resource being referenced in the Amplify generated CloudFormation is missing from the failing account. 
+1. The failing account is missing valid permissions to access a particular resource used in the CloudFormation. 
 1. The application code relies on “secrets” and secrets are not correctly created or copied in the failing environment.
 
 #### Scenario 1: "amplify push" fails in one account/environment
-Assume you created a project in a “dev” account and are planning to expand it to a full CI/CD pipeline with dev, beta and prod environments. 
+Assume you created a project in a “dev” account and you extend your deployment environment to a full CI/CD pipeline with dev, beta and prod environments. 
 Your project likely follows a pattern specified in the [Amplify CLI team environments guide](/cli/teams/overview/#setting-up-prod-and-dev-environments). 
-However on completion of all steps you observe that Amplify Hosting console displays the “build” step of one of your stages ("beta") as failed and others as successfully deployed.
+On completion of all steps you observe that Amplify Hosting console displays the “build” step of one of your stages ("beta") as failed and shows other stages as successfully deployed.
 
 **Suggested Resolution:** 
-Using Amplify CLI deploy the application in the failing account.  
-You must first get the "appID" from the "Edit backend" section of your application's Amplify console page in the dev environment.
-Then perform the following steps to fetch the app from the dev environment and deploy it into the beta environment.
+Using Amplify CLI deploy the application in the failing account. In the above case, dev stage has successfully deployed and beta stage has failed. 
+Therefore you must first get the "appID" of your application from the dev stage account.  
+You will get the appID from the "Edit backend" section of your application's Amplify console page in the dev environment.
+Perform the following steps to fetch the app from the dev environment and deploy it into the beta environment.
 
 1. `amplify pull --appId devAppID --envName dev`
 1. `amplify env checkout beta`
 1. `amplify push` 
 
-If the push fails, check the CloudFormation event logs for the failing resource to get detailed information and use this to fix issues in the environment. 
-Visit the CloudFormation service console and search for you application name. For example, if your application was named "lil" and deployed in the "dev" environment, you would have a CloudFormation stack named `amplify-lil-dev-{random chars}`.
-In the AWS CloudFormation console, search for your application's stack name. Then click on the stack name and the "Resources" tab to view the deployment status of all the resources in the stack and the error reason.
+If `amplify push` fails, check the CloudFormation event logs for the failing resource to get detailed information and use this to fix issues in the failing environment. 
+In the AWS CloudFormation console, search for your application's stack name. For instance, if your application was named "lil" and deployed in your "dev" environment, 
+Amplify would have generated a CloudFormation stack named `amplify-lil-dev-{random chars}`.
+In the Cloudformation console, click on the application's stack name and then click on the "Resources" tab. 
+The "Resources" tab displays the deployment status of all the resources in the stack. It will also show the deployment error reason. 
+Refer the [CloudFormation troubleshooting document](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/troubleshooting.html#basic-ts-guide) to gain insight into the error messages.
 
 **Note:**
 To debug any issues related to secrets not being correctly copied across environments, refer to [Multi-environment flows](/cli/function/secrets/#multi-environment-flows) section in the [Access secret values](/cli/function/secrets) documentation. 
@@ -207,9 +212,9 @@ If `amplify push` fails while deploying any of the scenarios below, refer to the
 1.	[Index with Multi-Sort Key Fields](/cli/graphql/troubleshooting/#index-with-multiple-sort-key-fields)
 
 ## Deployment Best Practices
-Practices which help developers avoid deployment errors and scaling problems.
+This section describes the various best practices which help developers avoid deployment errors and scaling problems in their Amplify applications.
 
-### Overriding Amplify CLI Behavior 
+### Overriding Amplify CLI default behavior 
 The Amplify CLI follows a unidirectional data flow. Any changes to your application must be performed only through the Amplify CLI and the associated configuration files or through Amplify Studio. Never manually edit any resources directly from the AWS console or using the AWS CLI/SDK, unless the Amplify documentation explains that it’s necessary to achieve something. To override the default behavior of Amplify CLI generated resources, you must follow the instructions in the [Amplify extensibility documentation](/cli/#extensibility) which details all the “escape hatches” available in the Amplify CLI framework. 
 
 ### Understanding the impact of changing model names in the GraphQL Schema 
@@ -245,3 +250,14 @@ Test schema changes and business logic as much as you can prior to deployment. T
 |[Amplify DataStore best practices](https://docs.aws.amazon.com/whitepapers/latest/amplify-datastore-implementation/amplify-datastore-best-practices.html) | Learn the best practices to build your applications 'Offline First' using Amplify DataStore |
 |[AWS knowledge center](https://aws.amazon.com/premiumsupport/knowledge-center/) | Learn about the most frequent questions and requests for your AWS services |
 |[AWS CloudFormation drift](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-drift.html) | Detect and View Cloudformation Drift |
+
+## Contacting support
+Join us on the [Amplify discord channel]( https://discord.com/invite/amplify) 
+
+Search for similar issues or open new issues on Github 
+* [amplify-cli issues](https://github.com/aws-amplify/amplify-cli/issues)
+* [amplify-codegen issues](https://github.com/aws-amplify/amplify-codegen/issues)
+* [amplify-console issues](https://github.com/aws-amplify/amplify-console)
+
+Connect with [AWS Enterprise support](https://aws.amazon.com/premiumsupport/)
+
