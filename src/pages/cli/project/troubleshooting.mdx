@@ -114,7 +114,7 @@ For example, you could update the GraphQL schema to reflect the same changes as 
 In a multi-account project with CI/CD, you find that the application has deployed successfuly in one account but has failed deployment in another account. 
 The following are some common causes:
 1. Some resource being referenced in the Amplify-generated CloudFormation is missing from the failing account. 
-1. The failing account is missing valid permissions to access a particular resource used in the CloudFormation. 
+1. The failing account is missing permissions to access a particular resource used in the CloudFormation. 
 1. The application code relies on “secrets” that are not correctly created or copied in the failing environment.
 
 #### Scenario 1: "amplify push" fails in one account/environment
