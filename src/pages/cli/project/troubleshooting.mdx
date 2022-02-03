@@ -97,7 +97,7 @@ These types of unmanaged changes will introduce a drift for the affected resourc
 These types of drifts must be addressed on a case-by-case basis. In some cases, such as a Lambda code change, forcing a redeployment of the function by making a minor change to the code will likely work. 
 In other cases, like deleting a user pool or updates to GraphQL schema from the AppSync console, follow the steps below:
 1. Force a new CloudFormation stack deployment - Run `amplify push --force` to force push the application's resources.
-1. Forcible deployment of CloudFormation stack from the Console - Fetch the CloudFormation stack from the application’s deployment bucket and selectively run the resource specific part of the stack through the CloudFormation console.
+1. Forcible deployment of CloudFormation stack from the Console - Fetch the CloudFormation stack from the "amplify-cfn-templates" folder in the application’s deployment bucket and selectively update the stack through the CloudFormation console as described in (AWS CloudFormation - updating stacks documentation)[https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-direct.html].
 1. Apply drift changes into code: If both the above methods to deploy CloudFormation have failed for you, the other option is to inspect the manual changes and to update them in the CLI input files. 
 For example, you could update the GraphQL schema to reflect the same changes as performed manually in the cloud and then perform `amplify push`.
 
