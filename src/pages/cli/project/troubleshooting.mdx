@@ -123,7 +123,7 @@ Your project likely follows a pattern specified in the [Amplify CLI team environ
 On completion of all steps you observe that Amplify Hosting console displays the “build” step of one of your stages ("beta") as failed and shows other stages as successfully deployed.
 
 **Suggested Resolution:** 
-Using Amplify CLI deploy the application in the failing account. In the above case, dev stage has successfully deployed and beta stage has failed. 
+Using Amplify CLI deploy the application in the failing account. In the above case, the dev environment has successfully deployed but the beta environment has failed. 
 Therefore you must first get the "appID" of your application from the dev stage account.  
 You will get the appID from the "Edit backend" section of your application's Amplify console page in the dev environment.
 Perform the following steps to fetch the app from the dev environment and deploy it into the beta environment.
