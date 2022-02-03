@@ -215,7 +215,7 @@ If `amplify push` fails while deploying any of the scenarios below, refer to the
 This section describes the various best practices which help developers avoid deployment errors and scaling problems in their Amplify applications.
 
 ### Overriding Amplify CLI default behavior 
-The Amplify CLI follows a unidirectional data flow. Any changes to your application must be performed only through the Amplify CLI and the associated configuration files or through Amplify Studio. Never manually edit any resources directly from the AWS console or using the AWS CLI/SDK, unless the Amplify documentation explains that it’s necessary to achieve something. To override the default behavior of Amplify CLI generated resources, you must follow the instructions in the [Amplify extensibility documentation](/cli/#extensibility) which details all the “escape hatches” available in the Amplify CLI framework. 
+Any changes to your application must be performed only through the Amplify CLI and the associated configuration files or through Amplify Studio. Never manually edit any resources directly from the AWS console or using the AWS CLI/SDK, unless explicitly noted. To override the Amplify-generated resources beyond the customizations available within an Amplify CLI command, you must follow the instructions in the [Amplify extensibility documentation](/cli/#extensibility) which details all the “escape hatches” available in the Amplify CLI. 
 
 ### Understanding the impact of changing model names in the GraphQL Schema 
 <Callout>
