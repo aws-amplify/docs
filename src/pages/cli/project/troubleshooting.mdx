@@ -154,7 +154,7 @@ To debug any issues related to secrets not being correctly copied across environ
 </Callout>
 
 AWS maintains [service quotas](/general/latest/gr/aws-service-information.html) for various AWS services. If your application contains many resources, such as large GraphQL schemas with many resolvers or many REST APIs, you may hit a service limit.
-To identify if a push failure is because of exceeding [AWS Service level quotas](/general/latest/gr/aws-service-information.html) check the AWS console for the CloudFormation deployment/failure logs.
+To identify if exceeding an [AWS Service level quotas](/general/latest/gr/aws-service-information.html) caused a deployment failure, check the AWS console for the CloudFormation deployment/failure logs.
 
 **Suggested Resolution:** 
 1. If your application's resource requirements are impaired by AWS service quotas, you can use the [AWS Service Quotas console](https://console.aws.amazon.com/servicequotas) to view and request increases for most AWS quotas.
