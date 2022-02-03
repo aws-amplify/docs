@@ -66,7 +66,6 @@ The Amplify CLI cannot track such changes made outside of the Amplify-generated 
 This difference between the expected configuration of the resource in the Cloudformation versus the actual configuration of the service is called a “CloudFormation drift”. 
 Currently there is no automated way to reverse a CloudFormation drift. Each resource must be inspected through the AWS console for drift in its CloudFormation stack and the drift has to be resolved manually.
 
-Assume, using Amplify CLI you have created a GraphQL schema with multiple models, indexes and resolvers and deployed it to the cloud. 
 Upon deployment, the Amplify-generated CloudFormation templates provision an AppSync GraphQL API and multiple DynamoDB tables with their GSIs. 
 
 #### Scenario 1: "amplify push" fails after manually updating DynamoDB tables and GSIs from the console.
