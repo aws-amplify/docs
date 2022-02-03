@@ -124,8 +124,7 @@ On completion of all steps, you observe that the Amplify Hosting console display
 
 **Suggested Resolution:** 
 Using Amplify CLI deploy the application in the failing account. In the above case, the dev environment has successfully deployed but the beta environment has failed. 
-Therefore you must first get the "appID" of your application from the dev stage account.  
-You will get the appID from the "Edit backend" section of your application's Amplify console page in the dev environment.
+First, get the App ID from your dev environment. You can find your App ID under the "Edit backend" section of your application's dev environment in the Amplify console.
 Perform the following steps to fetch the app from the dev environment and deploy it into the beta environment.
 
 1. `amplify pull --appId <YOUR_APP_ID> --envName dev`
