@@ -228,7 +228,7 @@ Any changes to your application must be performed only through the Amplify CLI a
 
 Amplify automatically creates DynamoDB database tables for GraphQL types annotated with the @model directive in your GraphQL schema. 
 Therefore if you rename models in the GraphQL Schema, to protect the application data from accidental deletion, the Amplify CLI will block subsequent `amplify push` operations and prompt you to explicitly pass the `—allow-destructive-graphql-schema-updates` flag. 
-This flag must only be used when the data in the original tables is not required. It will explicitly allow Amplify to delete the DynamoDB tables for the original model names and create the tables with the new model names in the schema. 
+This flag grants Amplify CLI the ability to make destructive database changes, such as deleting the DynamoDB tables for the original model names and create new tables with the new model names specified in the schema. 
 Amplify currently doesn't support automatic data migration. If the data in the original tables is required, then you will need to backup the DynamoDB tables and migrate the data after the destructive deployment of the new tables. 
 
 ![Amplify GraphQL model deletion warning](/images/ts-guide-model-deletion-warning.png)
