@@ -4,13 +4,17 @@ Now that you were able to make a mutation, take the `id` from the created `Todo`
 
 ```dart
 try {
-    final request = ModelQueries.get(Todo.classType, createdTodo!.id);
-    final response = await Amplify.API.query(request: request).response;
-    Todo? todo = response.data;
-
-    print('Query result: ' + todo);
+  final request = ModelQueries.get(
+      Todo.classType, createdTodo.id);
+  final response = await Amplify.API.query(request: request).response;
+  Todo? todo = response.data;
+  if (todo == null) {
+    print('errors: ' + response.errors.toString());
+    return;
+  }
+  print('Query result: ' + todo.name);
 } on ApiException catch (e) {
-    print('Query failed: $e');
+  print('Query failed: $e');
 }
 ```
 
@@ -20,13 +24,17 @@ You can get the list of items in `Amplify.API.query`:
 
 ```dart
 try {
-    final request = ModelQueries.list(Todo.classType);
-    final response = await Amplify.API.query(request: request).response;
+  final request = ModelQueries.list(Todo.classType);
+  final response = await Amplify.API.query(request: request).response;
 
-    List<Todo>? todos = data?.items;
-    print('Query result: ' + todos);
+  List<Todo>? todos = response.data?.items;
+  if (todos == null) {
+    print('errors: ' + response.errors.toString());
+    return;
+  }
+  print('Query result: ' + todos.toString());
 } on ApiException catch (e) {
-    print('Query failed: $e');
+  print('Query failed: $e');
 }
 ```
 
