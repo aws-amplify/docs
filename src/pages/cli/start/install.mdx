@@ -68,8 +68,6 @@ Successfully set up the new user.
 
 ### Work within your frontend project
 
+It is recommended to create a new IAM user for every device that installs the Amplify CLI, rather than attempt to use an existing IAM user used on another device. Having a distinct user for each machine provides the best level of visibility and control without breaking the deployment of your app, allowing for the quick deactivation of an individual machine if needed.
+
 After you install the CLI, navigate to a JavaScript, iOS, or Android project root, initialize AWS Amplify in the new directory by running `amplify init`. After a few configuration questions, you can use amplify help at any time to see the overall command structure. When you’re ready to add a feature, run `amplify add <category>`.
-
-## Configuring the CLI when there is an existing IAM user
-
-It is recommended to create a new IAM user for every device that installs the Amplify CLI, rather than attempt to use an existing IAM user used on another device. Having a distinct user for each machine provides the best level of visibility and control without breaking the deployment of your app.
