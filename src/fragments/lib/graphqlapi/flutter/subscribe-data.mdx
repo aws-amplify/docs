@@ -53,3 +53,11 @@ Future<void> subscribe() async {
   subscription.cancel();
 }
 ```
+
+Note that in addition to an `onCreate` subscription, you can also call `.onUpdate()` or `.onDelete()`.
+
+```dart
+final onUpdateSubscriptionRequest = ModelSubscriptions.onUpdate(Todo.classType);
+// or
+final onDeleteSubscriptionRequest = ModelSubscriptions.onDelete(Todo.classType);
+```
