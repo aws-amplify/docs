@@ -123,3 +123,11 @@ Amplify.configure({
 // You can get the current config object
 const currentConfig = Auth.configure();
 ```
+
+### Note about OAuth configuration parameters
+This settings can be found on Cognito User Pools console on **App Integration** section
+- `domain`: This can be found on **Domain name** sub section
+- `scope`: Remember to have the scope allowed on the Cognito App client, this can be found on **App client settings** sub section
+- `redirectSignIn`: URL must be present on **Callback URL(s)** , check on **App client settings** sub section
+- `redirectSignOut`: URL must be present on **Sign out URL(s)**, check on **App client settings** sub section
+- `responseType`: Option must be enabled on the App client, look for **Allowed OAuth Flows** on **App client settings** sub section. *Authorization code grant* is for 'code' value and *Implicit grant* is for 'token' value.
