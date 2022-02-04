@@ -33,6 +33,24 @@ your redirect URI prefix if necessary:
 ```
 
 You may now skip the instructions below for adding a response handler to your activity.
+  
+If you want to add a redirect to an Activity when the user signs in or signs out, add an
+`<activity>` block like the following inside your `<application>`:
+  
+```xml
+  <activity android:name=".LogoutActivity" android:exported="true">
+      <intent-filter>
+          <action android:name="android.intent.action.VIEW" />
+          <category android:name="android.intent.category.DEFAULT" />
+          <category android:name="android.intent.category.BROWSABLE" />
+          <data android:scheme="myapp" android:host="signout" />
+      </intent-filter>
+  </activity>
+```
+
+This will connect the URI `myapp://signout` to a redirect to the Activity named `LogoutActivity`.
+You can also write a similar block to configure redirects for the sign in event, also using
+the URI you configured when setting up Auth.
 
 </Block>
 <Block name="v1.17.7 and below">
@@ -57,6 +75,24 @@ whatever value you used for your redirect URI prefix:
 <Callout>
 These instructions have been updated since version 1.2.0. If you set this up for a version of Amplify prior to 1.2.0, be sure to remove the `intent-filter` with `android:scheme` from your own activity as well as the `singleInstance` launch mode.
 </Callout>
+  
+If you want to add a redirect to an Activity when the user signs in or signs out, add an
+`<activity>` block like the following inside your `<application>`:
+  
+```xml
+  <activity android:name=".LogoutActivity" android:exported="true">
+      <intent-filter>
+          <action android:name="android.intent.action.VIEW" />
+          <category android:name="android.intent.category.DEFAULT" />
+          <category android:name="android.intent.category.BROWSABLE" />
+          <data android:scheme="myapp" android:host="signout" />
+      </intent-filter>
+  </activity>
+```
+
+This will connect the URI `myapp://signout` to a redirect to the Activity named `LogoutActivity`.
+You can also write a similar block to configure redirects for the sign in event, also using
+the URI you configured when setting up Auth.
 
 </Block>
 </BlockSwitcher>
