@@ -9,7 +9,7 @@ amplify override api
 
 Run the command above to override Amplify-generated Amazon API Gateway.
 
-The command creates a new `overrides.ts` file under `amplify/backend/auth/<resource-name>/` which provides you the Amplify-generated resources as [CDK constructs](https://docs.aws.amazon.com/cdk/latest/guide/home.html).
+The command creates a new `overrides.ts` file under `amplify/backend/api/<resource-name>/` which provides you the Amplify-generated resources as [CDK constructs](https://docs.aws.amazon.com/cdk/latest/guide/home.html).
 
 Apply all the overrides in the `override(...)` function. For example to configure minimum compression size for the REST API:
 
