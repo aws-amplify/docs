@@ -30,13 +30,24 @@ From the root of the project, run:
 amplify init
 ```
 
-When you initialize Amplify you'll be prompted for some information about the app:
+When you initialize Amplify you'll be prompted for some information about the app, with the option to accept recommended values:
 
 ```console
-Enter a name for the project (react-amplified)
+Enter a name for the project (amplified)
+The following configuration will be applied:
 
-# All AWS services you provision for your app are grouped into an "environment"
-# A common naming convention is dev, staging, and production
+Project information
+| Name: amplified
+| Environment: dev
+| Default editor: Visual Studio Code
+| App type: javascript
+| Javascript framework: react
+| Source Directory Path: src
+| Distribution Directory Path: build
+| Build Command: npm run-script build
+| Start Command: npm run-script start
+
+? Initialize the project with the above configuration? No
 Enter a name for the environment (dev)
 
 # Sometimes the CLI will prompt you to edit a file, it will use this editor to open those files.
@@ -51,12 +62,16 @@ Source directory path (src)
 
 Distribution directory path (build)
 
-Build command (npm run build)
+Build command (npm run-script build)
 
-Start command (npm start)
+Start command (npm run-script start)
+
+Select the authentication method you want to use: (Use arrow keys)
+❯ AWS profile 
+  AWS access keys
 
 # This is the profile you created with the `amplify configure` command in the introduction step.
-Do you want to use an AWS profile
+Please choose the profile you want to use (Use arrow keys)
 ```
 
 > Where possible the CLI will infer the proper configuration based on the type of project Amplify is being initialized in. In this case it knew we are using Create React App and provided the proper configuration for type of app, framework, source, distribution, build, and start options.
