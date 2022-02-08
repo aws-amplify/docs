@@ -232,7 +232,7 @@ Your Lambda authorization function needs to return the following JSON:
 {
   // required
   "isAuthorized": true, // if "false" then an UnauthorizedException is raised, access is denied
-  "resolverContext": { "banana":"very yellow" }, // JSON object visible as $ctx.identity.resolverContext in VTL resolver templates
+  "resolverContext": { "banana": "very yellow" }, // JSON object visible as $ctx.identity.resolverContext in VTL resolver templates
 
   // optional
   "deniedFields": ["TypeName.FieldName"], // Forces the fields to "null" when returned to the client
