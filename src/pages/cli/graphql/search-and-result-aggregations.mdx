@@ -399,14 +399,14 @@ By default, Amplify CLI will configure a t2.small instance type. This is great f
 
 To configure the OpenSearch instance type per environment:
 1. Run `amplify env add` to create a new environment (e.g. "prod")
-2. Edit the `amplify/team-provider-info.json` file and set `ElasticSearchInstanceType` to the instance type that works for your application
+2. Edit the `amplify/team-provider-info.json` file and set `OpenSearchInstanceType` to the instance type that works for your application
 ```json
 {
   "dev": {
     "categories": {
       "api": {
         "<your-api-name>" : {
-          "ElasticSearchInstanceType": "t2.small.elasticsearch"
+          "OpenSearchInstanceType": "t2.small.elasticsearch"
         }
       }
     }
@@ -415,7 +415,7 @@ To configure the OpenSearch instance type per environment:
     "categories": {
       "api": {
         "<your-api-name>" : {
-          "ElasticSearchInstanceType": "t2.medium.elasticsearch"
+          "OpenSearchInstanceType": "t2.medium.elasticsearch"
         }
       }
     }
