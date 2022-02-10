@@ -78,8 +78,8 @@ Amplify.Hub.subscribe(HubChannel.AUTH).collect {
 <Block name="RxJava">
 
 ```java
-RxAmplify.Hub.on(HubChannel.Auth)
-    .map(hubEvent::getName)
+RxAmplify.Hub.on(HubChannel.AUTH)
+    .map(HubEvent::getName)
     .subscribe(name -> {
         if (name.equals(InitializationStatus.SUCCEEDED.toString())) {
             Log.i("AuthQuickstart", "Auth successfully initialized");
