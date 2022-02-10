@@ -508,8 +508,8 @@ type Address @model {
   id: ID!
   homeIndividualID: ID @index(name: "homeIndex")
   shippingIndividualID: ID @index(name: "shipIndex")
-  #homeIndividual: Individual @belongsTo(fields: ["homeIndividualID"])
-  #shipIndividual: Individual @belongsTo(fields: ["shippingIndividualID"])
+  homeIndividual: Individual @belongsTo(fields: ["homeIndividualID"])
+  shipIndividual: Individual @belongsTo(fields: ["shippingIndividualID"])
 }
 ```
 
