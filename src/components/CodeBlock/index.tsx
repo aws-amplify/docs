@@ -6,8 +6,27 @@ import {
 } from './styles';
 import React from 'react';
 import copy from 'copy-to-clipboard';
+import rangeParser from 'parse-numeric-range';
 
 import Highlight, { defaultProps } from 'prism-react-renderer';
+
+import styled from '@emotion/styled';
+
+export const Line = styled.div`
+  display: table-row;
+`;
+
+export const LineNumber = styled.span`
+  display: table-cell;
+  text-align: right;
+  padding-right: 1em;
+  user-select: none;
+  opacity: 0.5;
+`;
+
+export const LineContent = styled.span`
+  display: table-cell;
+`;
 
 const COPY = 'copy';
 const COPIED = 'copied';
@@ -15,6 +34,17 @@ const FAILED = 'failed to copy';
 const CONSOLE = 'console';
 
 type CopyMessageType = typeof COPY | typeof COPIED | typeof FAILED;
+
+const calculateLinesToHighlight = (meta) => {
+  const RE = /{([\d,-]+)}/;
+  if (RE.test(meta)) {
+    const strlineNumbers = RE.exec(meta)[1];
+    const lineNumbers = rangeParser(strlineNumbers);
+    return (index) => lineNumbers.includes(index + 1);
+  } else {
+    return () => false;
+  }
+};
 
 export default function CodeBlock({ children, language }) {
   console.log(children);
@@ -24,12 +54,16 @@ export default function CodeBlock({ children, language }) {
         <pre className={className} style={{ ...style }}>
           {tokens.map((line, index) => {
             const lineProps = getLineProps({ line, key: index });
+            console.log(lineProps);
             return (
-              <div key={index} {...lineProps}>
-                {line.map((token, key) => (
-                  <span key={key} {...getTokenProps({ token, key })} />
-                ))}
-              </div>
+              <Line key={index} {...getLineProps({ line, key: index })}>
+                <LineNumber>{index + 1}</LineNumber>
+                <LineContent>
+                  {line.map((token, key) => (
+                    <span key={key} {...getTokenProps({ token, key })} />
+                  ))}
+                </LineContent>
+              </Line>
             );
           })}
         </pre>

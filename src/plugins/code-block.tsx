@@ -46,7 +46,7 @@ const supportedLanguages = [
 
 loadLanguages(supportedLanguages);
 
-const highlight = (code, language) => {
+const highlight = (code, language, metastring) => {
   language = language.replace('language-', '');
   let highlighted = '';
   const languageIsSet = !!(language && language.trim().length > 0);
@@ -73,7 +73,7 @@ const highlight = (code, language) => {
   return [
     {
       type: 'jsx',
-      value: `<CodeBlock language="${language}">`
+      value: `<CodeBlock language="${language}" metastring=${metastring}>`
     },
     { type: 'text', value: code },
     {
@@ -104,8 +104,9 @@ const codeBlockPlugin = () => (tree) => {
         'className' in node.properties
           ? node.properties.className[0]
           : 'markup';
-      const snippet = highlight(code, language);
-      console.log(snippet);
+
+      const metastring = node.properties.metastring;
+      const snippet = highlight(code, language, metastring);
       node.children = snippet;
     }
   });
