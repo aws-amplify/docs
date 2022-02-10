@@ -43,7 +43,7 @@ import '@aws-amplify/ui-react/styles.css';
 
 ```javascript
 return (
-  <Authenticator signUpAttributes={['email']}>
+  <Authenticator>
     {({ signOut, user }) => (
       <div style={styles.container}>
         <h1>Hello {user.username}</h1>
