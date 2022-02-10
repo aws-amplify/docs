@@ -606,6 +606,7 @@ import { stateManager } from 'amplify-cli-core';
 ```typescript
 const envName = stateManager.getCurrentEnvName();
 const apiIdValue = stateManager.getCurrentMeta().api.<API-NAME-HERE>.output.GraphQLAPIIdOutput;
+// Replace "Todo" with your model name 
 const tableName = `Todo-${apiIdValue}-${envName}`
 ```
 
@@ -620,7 +621,7 @@ $util.qr($ctx.stash.put("defaultValues", $util.defaultIfNull($ctx.stash.defaultV
   $util.qr($item.put("createdAt", $util.defaultIfNull($item.createdAt, $createdAt)))
   $util.qr($item.put("updatedAt", $util.defaultIfNull($item.updatedAt, $createdAt)))
   $util.qr($item.put("__typename", "Todo"))
-  $util.qr($todosdata.add($util.dynamodb.toMapValues($item)))
+  $util.qr($todosArray.add($util.dynamodb.toMapValues($item)))
 #end
 ## [End] Initialization default values. **
 $util.toJson( {
