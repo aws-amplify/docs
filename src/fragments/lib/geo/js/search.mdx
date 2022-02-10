@@ -243,3 +243,13 @@ const searchOptionsWithBiasPosition = {
 
 Geo.searchByCoordinates([-122.3399573, 47.616179], searchOptionsWithBiasPosition)
 ```
+
+### Search for suggestions
+
+`Geo.searchForSuggestions()` API will return a list of suggested search strings of points of interest or addresses based on the partial of misspelled free-form text.
+
+```javascript
+import { Geo } from "aws-amplify"
+
+Geo.searchForSuggestions("Amazon Go")
+```
