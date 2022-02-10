@@ -50,6 +50,82 @@ initializeMap();
 
 ![A search box on the top right corner of a map](/images/geocoder-search-box-map.png)
 
+### Autocomplete
+
+In order to help users find their query quickly, we provide several ways to accomplish autocomplete.
+
+By default, the Amplify search box will show search term suggestions while typing that the user can select from. These can be points of interest or addresses based on partial or misspelled free-form text.
+
+You can also show full location search results while typing by setting the `showResultsWhileTyping` option to `true`.
+
+```javascript
+createMaplibreGeocoder({
+    showResultsWhileTyping: true,
+});
+```
+
+To disable suggestions, set `showSuggestionsWhileTyping` to `false` in the options object passed to `createMaplibreGeocoder()`
+
+```javascript
+createMaplibreGeocoder({
+  showSuggestionsWhileTyping: false
+});
+```
+
+Working with these flags, you can customize the behavior of the search box while users are typing to your liking with four possible states:
+
+1. Nothing while typing
+
+```javascript
+{ showSuggestionsWhileTyping: false }
+```
+
+2. Suggestions only - Default
+
+3. Results and suggestions
+
+```javascript
+{ showResultsWhileTyping: true }
+```
+4. Results only
+
+```javascript
+{ showResultsWhileTyping: true, showSuggestionsWhileTyping: false }
+```
+
+
+When both results and suggestions are shown, they will be combined in the dropdown.
+
+Default order of items in the dropdown:
+
+- Suggestions will be filtered if they also are in the geocode results,
+- Suggestions are shown first, with geocode results shown after.
+- Based on the `limit` option set in the geocoder, the number of each will be divided evenly, with an extra geocode result being the remainder for an odd split (if a result exists).
+  - i.e. the default `limit` is 5 items, you will normally see 2 suggestions and 3 geocode results.
+
+If you would like to customize this behavior, you can use the `processResults` optional function to full take control of the functionality.
+
+```javascript
+function customProcessResultsFunction(searchResults, suggestionResults, limit) {
+  // searchResults is an array of place objects
+  // suggestionResults is an array of string suggestions
+  //   hint: you can match these strings on the searchResults place.Label for purposes of filtering duplicates
+
+  // Do something with the results
+
+  // Return an array of the results to be displayed
+  return [...suggestionResults, ...geocodeResults];
+}
+```
+
+Pass your custom function to the geocoder:
+
+```javascript
+createMaplibreGeocoder({
+  processResults: customProcessResultsFunction
+});
+```
+
 ### Display the location search box outside the map
 
 You can also use [maplibre-gl-geocoder](https://github.com/maplibre/maplibre-gl-geocoder) to display the location search UI component anywhere in your application, even outside the map.
