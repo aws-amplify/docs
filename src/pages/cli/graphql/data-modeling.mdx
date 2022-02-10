@@ -495,7 +495,7 @@ type Todo @model(subscriptions: { level: off }) { # or level: public
 
 ### Create multiple relationships between two models
 
-If relational directives are used to create two of the same type of connection between the same two models, the transformer is not able to disambiguate the connections. However, with some additional specification it is doable. This avoids ambiguity by naming the connection fields directly instead of allowing the auto generated fields to have the same name and collide.
+You need to explicitly specifying the connection field names, if relational directives are used to create two connections of the same type between the two models.
 
 ```graphql
 type Individual @model {
