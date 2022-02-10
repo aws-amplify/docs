@@ -16,7 +16,7 @@ Amplify.Auth.fetchAuthSession(
 ```kotlin
 Amplify.Auth.fetchAuthSession(
     { Log.i("AmplifyQuickstart", "Auth session = $it") },
-    { Log.e("AmplifyQuickstart", "Failed to fetch auth session", error) }
+    { error -> Log.e("AmplifyQuickstart", "Failed to fetch auth session", error) }
 )
 ```
 
