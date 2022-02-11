@@ -493,6 +493,26 @@ type Todo @model(subscriptions: { level: off }) { # or level: public
 }
 ```
 
+### Create multiple relationships between two models
+
+You need to explicitly specify the connection field names if relational directives are used to create two connections of the same type between the two models.
+
+```graphql
+type Individual @model {
+  id: ID!
+  homeAddress: Address @hasOne
+  shippingAddress: Address @hasOne
+}
+
+type Address @model {
+  id: ID!
+  homeIndividualID: ID
+  shippingIndividualID: ID
+  homeIndividual: Individual @belongsTo(fields: ["homeIndividualID"])
+  shipIndividual: Individual @belongsTo(fields: ["shippingIndividualID"])
+}
+```
+
 ## How it works
 The `@model` directive will generate:
 - An Amazon DynamoDB table with PAY_PER_REQUEST billing mode enabled by default.
