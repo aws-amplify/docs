@@ -58,6 +58,20 @@ Once you have made your category updates, run the command `amplify push` to upda
 The `amplify pull` command operates similar to a _git pull_, fetching upstream backend environment definition changes from the cloud* and update the local environment to match that definition. The command is particularly helpful in team scenarios when multiple team members are editing the same backend, pulling a backend into a new project, or when connecting to [multiple frontend projects](/cli/teams/multi-frontend) that share the same Amplify backend environment.
 > \* The CLI will use the S3 deployment bucket to retrieve your project information including the CloudFormation templates from the last successful `amplify push`.
 
+<Callout> 
+
+To generate `aws-exports.js` in an existing project (or checkout a back-end environment that exists in the console but does not show up locally):
+
+1. Log in to the AWS console
+2. Choose `AWS Amplify`
+3. Click your app
+4. Go to `Backend environments`
+5. Find the backend environment you wish to pull
+6. Click `Edit backend`
+7. Run the command that is listed (`amplify pull --appId YOUR_APP_ID --envName YOUR_ENV_NAME`)
+
+</Callout>
+
 ### amplify console
 
 The `amplify console` command launches the browser directing you to your cloud project in the AWS Amplify Console. The Amplify Console provides a central location for development teams to view and manage their backend environments, status of the backend deployment, deep-links to the backend resources by Amplify category, and instructions on how to pull, clone, update, or delete environments.
