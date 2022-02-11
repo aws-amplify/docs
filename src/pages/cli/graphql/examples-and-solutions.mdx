@@ -599,18 +599,9 @@ import * as cdk from '@aws-cdk/core';
 import * as AmplifyHelpers from '@aws-amplify/cli-extensibility-helper';
 import * as appsync from '@aws-cdk/aws-appsync';
 import { AmplifyDependentResourcesAttributes } from '../../types/amplify-dependent-resources-ref';
-import { stateManager } from 'amplify-cli-core';
 ```
 
-4. Use this snippet to get the DynamoDB table name (based on type name, API ID, and environment)
-```typescript
-const envName = stateManager.getCurrentEnvName();
-const apiIdValue = stateManager.getCurrentMeta().api.<API-NAME-HERE>.output.GraphQLAPIIdOutput;
-// Replace "Todo" with your model name 
-const tableName = `Todo-${apiIdValue}-${envName}`
-```
-
-5. The table name is used in the VTL to direct the data in the request VTL
+4. Your custom resolver will need the table name in it. To build the table name, you must instantiate the CDK references inside the template. Additionally, the template must be defined directly as an input when creating your resolver. If you create the resolver string as a template prior to passing it in as an argument, the CDK references will be evaluated to their parameter names rather than their parameter values.
 ```VTL
 ## [Start] Initialization default values. **
 $util.qr($ctx.stash.put("defaultValues", $util.defaultIfNull($ctx.stash.defaultValues, {})))
@@ -628,18 +619,18 @@ $util.toJson( {
   "version": "2018-05-29",
   "operation": "BatchPutItem",
   "tables": {
-    "<TABLE-NAME-HERE>": $todosArray
+    "<TYPE-NAME-HERE>-${cdk.Fn.ref(retVal.api.thing.GraphQLAPIIdOutput)}-${cdk.Fn.ref("env")}": $todosArray
   }
 } )
 ```
 
-6. The table name is also used to get the data in the response VTL
+5. The table name is also used to get the data in the response VTL
 ```VTL
 ## [Start] ResponseTemplate. **
 #if( $ctx.error )
   $util.error($ctx.error.message, $ctx.error.type)
 #else
-  $util.toJson($ctx.result.data.<TABLE-NAME-HERE>)
+  $util.toJson($ctx.result.data.<TYPE-NAME-HERE>-${cdk.Fn.ref(retVal.api.thing.GraphQLAPIIdOutput)}-${cdk.Fn.ref("env")})
 #end
 ## [End] ResponseTemplate. **
 ```
