@@ -572,9 +572,9 @@ query repsByPeriodAndTotal {
 
 Sometimes you need to create objects in bulk, rather than creating individual objects sequentially and waiting for all the requests to complete.
 
-1. Define your schema with a custom mutation (the custom mutation should not be deployed to AppSync beforehand if following these steps, the CLI will attach its own resolver preventing you from attaching a custom resource this way)
+1. Define your schema with a custom mutation. The custom mutation should not be deployed to AppSync beforehand if following these steps, the CLI will attach its own resolver preventing you from attaching a custom resource this way.
 ```graphql
-type Todo @model @auth(rules: [{allow: private, provider: iam}]) {
+type Todo @model {
   id: ID!
   name: String!
   description: String
