@@ -601,7 +601,13 @@ import * as appsync from '@aws-cdk/aws-appsync';
 import { AmplifyDependentResourcesAttributes } from '../../types/amplify-dependent-resources-ref';
 ```
 
-4. Your custom resolver will need the table name in it. To build the table name, you must instantiate the CDK references inside the template. Additionally, the template must be defined directly as an input when creating your resolver. If you create the resolver string as a template prior to passing it in as an argument, the CDK references will be evaluated to their parameter names rather than their parameter values.
+4. Use the following snipped to create references to the API ID and environment name
+```typescript
+const apiIdRef = cdk.Fn.ref(retVal.api.thing.GraphQLAPIIdOutput);
+const envRef = cdk.Fn.ref('env');
+```
+
+5. Your custom resolver will need the table name in it. To build the table name, you must use the CDK references inside the template.
 ```VTL
 ## [Start] Initialization default values. **
 $util.qr($ctx.stash.put("defaultValues", $util.defaultIfNull($ctx.stash.defaultValues, {})))
@@ -619,18 +625,18 @@ $util.toJson( {
   "version": "2018-05-29",
   "operation": "BatchPutItem",
   "tables": {
-    "<TYPE-NAME-HERE>-${cdk.Fn.ref(retVal.api.thing.GraphQLAPIIdOutput)}-${cdk.Fn.ref("env")}": $todosArray
+    "<TYPE-NAME-HERE>-${apiIdRef}-${envRef}": $todosArray
   }
 } )
 ```
 
-5. The table name is also used to get the data in the response VTL
+6. The table name is also used to get the data in the response VTL
 ```VTL
 ## [Start] ResponseTemplate. **
 #if( $ctx.error )
   $util.error($ctx.error.message, $ctx.error.type)
 #else
-  $util.toJson($ctx.result.data.<TYPE-NAME-HERE>-${cdk.Fn.ref(retVal.api.thing.GraphQLAPIIdOutput)}-${cdk.Fn.ref("env")})
+  $util.toJson($ctx.result.data.<TYPE-NAME-HERE>-${apiIdRef}-${envRef})
 #end
 ## [End] ResponseTemplate. **
 ```
