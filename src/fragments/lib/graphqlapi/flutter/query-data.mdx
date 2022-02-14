@@ -27,7 +27,7 @@ try {
   final request = ModelQueries.list(Todo.classType);
   final response = await Amplify.API.query(request: request).response;
 
-  List<Todo>? todos = response.data?.items;
+  List<Todo?>? todos = response.data?.items;
   if (todos == null) {
     print('errors: ' + response.errors.toString());
     return;
