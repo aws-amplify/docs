@@ -40,7 +40,7 @@ try {
 <Block name="RxJava">
 
 ```java
-Amplify.Auth.fetchDevices()
+RxAmplify.Auth.fetchDevices()
     .subscribe(
         device -> Log.i("AuthQuickStart", "Device: " + device);
         error -> Log.e("AuthQuickStart", "Fetch devices failed with error: " + error.toString())
