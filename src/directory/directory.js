@@ -463,6 +463,11 @@ const directory = {
             route: "/lib/geo/existing-resources",
             filters: ["js"],
           },
+          {
+            title: "Escape Hatch",
+            route: "/lib/geo/escapehatch",
+            filters: ["js"],
+          },
         ],
       },
       "in-app-messaging": {
