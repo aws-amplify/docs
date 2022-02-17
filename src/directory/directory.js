@@ -2005,7 +2005,12 @@ const directory = {
           {
             title: "Accessing Amazon Location Service",
             route: "/guides/location-service/setting-up-your-app",
-            filters: ["js", "android", "ios"],
+            filters: ["android", "ios"],
+          },
+          {
+            title: "Accessing Amazon Location Service",
+            route: "/lib/geo/escapehatch",
+            filters: ["js"],
           },
           {
             title: "Tracking a Device Location",

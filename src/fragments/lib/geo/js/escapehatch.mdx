@@ -51,45 +51,16 @@ You’ve now successfully connected your app to the Amazon Location Service.
 
 In order to access Amazon Location Service APIs, ensure you've provisioned resources and configured your app using the instructions in either [Amplify CLI Geo Maps docs](/cli/geo/maps) or the [Amazon Location Service console](https://console.aws.amazon.com/location/home#/create).
 
-Below we have provided two examples of using the Amazon Location Service APIs.
+You can check out the [Amazon Location API Reference documentation](https://docs.aws.amazon.com/location/index.html) for a complete list of supported features.
 
-### Searching for places
-
-This example requires you to have first provisioned a Search Index resource using the [Amplify CLI Location Search docs](/cli/geo/search/)
-
-The following code details how to use the Amazon Location Service APIs to search for places using the Place Index you just created:
-
-```javascript
-const client = await createClient();
-const params = {
-  IndexName: 'MyPlaceIndex',
-  Text: 'Indianapolis'
-};
-const command = new SearchPlaceIndexForTextCommand(params);
-client.send(command, (err, data) => {
-  if (err) console.error(err);
-  if (data) console.log(data);
-});
-```
-
-### Getting Device Position
+### Example: Getting Device Position
 
 This example requires you to have first provisioned a Tracker resource using the [Amazon Location Service console](https://console.aws.amazon.com/location/tracking/home#/create).
 
 The following code details how to use the Amazon Location Service APIs to update a device position and get a device position using the tracker you just created:
 
 ```javascript
-const client = await createClient();
-const params = {
-  TrackerName: 'trackerId',
-  DeviceId: 'deviceId'
-};
-const command = new GetDevicePositionCommand(params);
-client.send(command, (err, data) => {
-  if (err) console.error(err);
-  if (data) console.log(data);
-});
-
+// UpdateDevicePosition API
 const params = {
   TrackerName: 'trackerId',
   Updates: [
@@ -101,6 +72,18 @@ const params = {
   ]
 };
 const command = new BatchUpdateDevicePositionCommand(params);
+client.send(command, (err, data) => {
+  if (err) console.error(err);
+  if (data) console.log(data);
+});
+
+// GetDevicePosition API
+const client = await createClient();
+const params = {
+  TrackerName: 'trackerId',
+  DeviceId: 'deviceId'
+};
+const command = new GetDevicePositionCommand(params);
 client.send(command, (err, data) => {
   if (err) console.error(err);
   if (data) console.log(data);
