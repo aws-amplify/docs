@@ -5,6 +5,7 @@ Your code should look like this:
 ```dart
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:amplify_api/amplify_api.dart';
+import 'models/ModelProvider.dart';
 
 import 'amplifyconfiguration.dart';
 
@@ -22,7 +23,7 @@ class _MyAppState extends State<MyApp> {
 
     void _configureAmplify() async {
         // Add the following line to add API plugin to your app
-        Amplify.addPlugin(AmplifyAPI());
+        Amplify.addPlugin(AmplifyAPI(modelProvider: ModelProvider.instance));
 
         try {
             await Amplify.configure(amplifyconfig);

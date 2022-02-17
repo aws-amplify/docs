@@ -1,28 +1,20 @@
 ## Query item
 
-Now that you were able to make a mutation, take the `id` that was printed out and use it in your query to retrieve data.
+Now that you were able to make a mutation, take the `id` from the created `Todo` instance and use it to retrieve data.
 
 ```dart
 try {
-    String graphQLDocument = '''query GetTodo(\$id: ID!) {
-      getTodo(id: \$id) {
-        id
-        name
-        description
-      }
-    }''';
-
-    var operation = Amplify.API.query(
-        request: GraphQLRequest<String>(
-            document: graphQLDocument,
-            variables: {'id': '8e0dd2fc-2f4a-4dc4-b47f-2052eda10775'}));
-
-    var response = await operation.response;
-    var data = response.data;
-
-    print('Query result: ' + data);
+  final request = ModelQueries.get(
+      Todo.classType, createdTodo.id);
+  final response = await Amplify.API.query(request: request).response;
+  Todo? todo = response.data;
+  if (todo == null) {
+    print('errors: ' + response.errors.toString());
+    return;
+  }
+  print('Query result: ' + todo.name);
 } on ApiException catch (e) {
-    print('Query failed: $e');
+  print('Query failed: $e');
 }
 ```
 
@@ -32,27 +24,32 @@ You can get the list of items in `Amplify.API.query`:
 
 ```dart
 try {
-    String graphQLDocument = '''query ListTodos {
-      listTodos {
-        items {
-          id
-          name
-          description
-        }
-        nextToken
-      }
-    }''';
+  final request = ModelQueries.list(Todo.classType);
+  final response = await Amplify.API.query(request: request).response;
 
-    var operation = Amplify.API.query(
-        request: GraphQLRequest<String>(
-      document: graphQLDocument,
-    ));
-
-    var response = await operation.response;
-    var data = response.data;
-
-    print('Query result: ' + data);
+  List<Todo?>? todos = response.data?.items;
+  if (todos == null) {
+    print('errors: ' + response.errors.toString());
+    return;
+  }
+  print('Query result: ' + todos.toString());
 } on ApiException catch (e) {
-    print('Query failed: $e');
+  print('Query failed: $e');
+}
+```
+
+### List subsequent pages of items
+
+For large data sets, you'll need to paginate through the results. After receiving the first page of results, you can check if there is a subsequent page and obtain the next page.
+
+```dart
+const limit = 100;
+final firstReq = ModelQueries.list<Todo>(Todo.classType, limit: limit);
+final firstRes = await Amplify.API.query(request: firstReq).response;
+final firstPageData = firstRes.data;
+// Indicates there are > 100 todos and we can get the request for the next set.
+if (firstPageData?.hasNextResult == true) {
+  final secondReq = firstPageData!.requestForNextResult;
+  final secondRes = await Amplify.API.query(request: secondReq!).response;
 }
 ```
