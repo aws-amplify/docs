@@ -23,3 +23,104 @@ When DataStore starts syncing, only Posts with `rating > 5` and Comments with `s
 Developers should only specify a single `syncExpression` per model. Any subsequent expressions for the same model will be ignored.
 
 </Callout>
+
+### Reevaluate expressions at runtime
+Sync expressions get evaluated whenever DataStore starts.
+In order to have your expressions reevaluated, you can execute `Amplify.DataStore.clear()` or `Amplify.DataStore.stop()` followed by `Amplify.DataStore.start()`.
+
+If you have the following expression and you want to change the filter that gets applied at runtime, you can do the following:
+
+```dart
+var rating = 5
+
+Future<void> initialize() {
+  var dataStorePlugin = AmplifyDataStore(
+    modelProvider: ModelProvider.instance,
+    syncExpressions: [
+      DataStoreSyncExpression(
+        Post.classType,
+        () => Post.RATING.gt(rating),
+      ),
+    ],
+  );
+
+  await Amplify.add(dataStorePlugin);
+}
+
+Future<void> changeSync() {
+    rating = 1
+    try {
+      await Amplify.DataStore.stop();
+    } catch(error) {
+      print('Error stopping DataStore: $error');
+    }
+
+    try {
+      await Amplify.DataStore.start();
+    } catch(error) {
+      print('Error starting DataStore: $error');
+    }
+}
+```
+
+Each time DataStore starts (via `start` or any other operation: `query`, `save`, `delete`, or `observe`), DataStore will reevaluate the `syncExpressions`.
+
+In the above case, the predicate will contain the value `1`, so all Posts with `rating > 1` will get synced down.
+
+Keep in mind: `Amplify.DataStore.stop()` will retain the local store's existing content. Run `Amplify.DataStore.clear()` to clear the locally-stored contents.
+
+<Callout>
+
+When applying a more restrictive filter, clear the local records first by running `DataStore.clear()` instead:
+
+</Callout>
+
+```dart
+Future<void> changeSync() {
+    rating = 8
+    try {
+      await Amplify.DataStore.clear();
+    } catch(error) {
+      print('Error stopping DataStore: $error');
+    }
+
+    try {
+      await Amplify.DataStore.start();
+    } catch(error) {
+      print('Error starting DataStore: $error');
+    }
+```
+
+This will clear the contents of your local store, reevaluate your sync expressions and re-sync the data from the cloud, applying all of the specified predicates to the sync queries.
+
+You can also have your sync expression return `QueryPredicateConstant.all` in order to remove any filtering for that model. This will have the same effect as the default sync behavior.
+
+```dart
+Int? rating = 5
+
+Future<void> initialize() {
+  var dataStorePlugin = AmplifyDataStore(
+    modelProvider: ModelProvider.instance,
+    syncExpressions: [
+      DataStoreSyncExpression(
+        Post.classType,
+        () {
+          if (rating == null) {
+            return QueryPredicate.all;
+          }
+
+          return Post.RATING.gt(rating);
+        },
+      ),
+    ],
+  );
+
+  await Amplify.add(dataStorePlugin);
+}
+```
+
+<Callout warning>
+
+`DataStore.configure()` should only by called once.
+
+</Callout>
