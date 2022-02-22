@@ -3,7 +3,9 @@ export const meta = {
   description: `Use Amplify CLI to create and manage collections of Geofences`,
 };
 
-Amplify's `geo` category enables you to create and manage collections of Geofences used to setup virtual geographic perimeters.
+A Geofence is a virtual perimeter for a real-world geographic area. Geofences contain points and vertices that form a closed boundary, which defines an area of interest. 
+Geofence collections store and manage one or multiple Geofences.
+Amplify's `geo` category enables you to create and manage Geofence collections used to setup virtual geographic perimeters.
 
 <Callout>
 
@@ -55,6 +57,9 @@ amplify update auth
 
 If you want to grant access to previously created geo resources to the users of the Cognito group added above, 
 follow the instructions as mentioned [in the section below](#granting-maps-and-search-permissions-to-a-group-of-users).
+
+Additionally, if you want to add existing users to the Cognito group, 
+follow the instructions as mentioned [in the section below](#adding-users-to-a-cognito-user-pool-group).
 
 When you have at least one Cognito User Pool group added, you can now provision a new Geofence Collection using:
 ```bash
@@ -160,8 +165,32 @@ Select `Individual Groups` to scope access permissions based on [Cognito User Gr
 
 > Note: If you combine `Auth/Guest user access` and `Individual Group access`, users who are members of a group will only be granted the permissions of the group, and not the authenticated user permissions.
 
+## Adding users to a Cognito User Pool Group
+In order to add users to an existing Cognito user pool group created using Amplify CLI, follow the steps mentioned below:
+
+#### Using the AWS console
+Open the AWS console page corresponding to the user pool that is provisioned by Amplify CLI using
+```console
+amplify auth console
+
+? Which console 
+❯ User Pool 
+  Identity Pool 
+  User Pool and Identity Pool
+```
+
+From the user pool console page that opens in your default browser, choose `Users and groups` tab in `General settings`.
+Then, choose the corresponding Cognito group from the `Groups` tab on the right as shown 
+![cognito user pool console groups tab](/images/cli/geo/geo-cognito-groups-1.png)
+
+Then use the `Add users` button as shown that displays a window to select the users by their `username`, `email` etc. that you intend to add to the Cognito group.
+![cognito group add users button](/images/cli/geo/geo-cognito-groups-2.png)
+
+#### Using the AWS SDK for Javascript
+Alternatively, if you want to add users to an existing Cognito user pool group programmatically, you can use the AWS SDK for Javascript. Refer to the [API documentation](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CognitoIdentityServiceProvider.html#adminAddUserToGroup).
+
 ## Upload your own GeoJSON file to geofence collection
-After you have added geofence collection and provisioned the resource, you are able to upload your own GeoJSON file via the command: 
+After you have added geofence collection and provisioned the resource, you are able to upload your own GeoJSON file that defines the Geofences in a collection via the command: 
 ```bash
 amplify geo populate
 ```
@@ -201,3 +230,10 @@ A validation of the GeoJSON file will be executed afterwards. The upload of geof
 ✅ Successfully validated GeoJSON file.
 ✅ Successfully added/updated Geofences in your collection
 ```
+
+<Callout>
+
+**Note:** After you have added the Geofence Collection and provisioned the resource using Amplify CLI, depending on your application's use-case, you can also add Geofences to
+the provisioned Geofence Collection dynamically or programmatically. Refer this [API documentation](/lib/geo/geofences#savegeofences) for more information.
+
+</Callout>
