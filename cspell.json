@@ -1437,7 +1437,8 @@
     "gqlv",
     "Pressable",
     "geofence",
-    "geofences"
+    "geofences",
+    "savegeofences"
   ],
   "flagWords": ["hte"]
 }
