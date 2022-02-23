@@ -403,8 +403,8 @@ input AuthRule {
   operations: [ModelOperation] # Required for finer control
 }
 
-enum AuthStrategy { owner groups private public }
-enum AuthProvider { apiKey iam oidc userPools }
+enum AuthStrategy { owner groups private public custom }
+enum AuthProvider { apiKey iam oidc userPools function }
 enum ModelOperation { create update delete read }
 ```
 

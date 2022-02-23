@@ -156,7 +156,7 @@ const directory = {
           {
             title: "Advanced Workflows",
             route: "/lib/graphqlapi/advanced-workflows",
-            filters: ["android", "ios", "js"],
+            filters: ["android", "flutter", "ios", "js"],
           },
           {
             title: "Use existing AWS resources",
@@ -461,6 +461,11 @@ const directory = {
           {
             title: "Use existing AWS resources",
             route: "/lib/geo/existing-resources",
+            filters: ["js"],
+          },
+          {
+            title: "Escape Hatch",
+            route: "/lib/geo/escapehatch",
             filters: ["js"],
           },
         ],
@@ -2000,7 +2005,12 @@ const directory = {
           {
             title: "Accessing Amazon Location Service",
             route: "/guides/location-service/setting-up-your-app",
-            filters: ["js", "android", "ios"],
+            filters: ["android", "ios"],
+          },
+          {
+            title: "Accessing Amazon Location Service",
+            route: "/lib/geo/escapehatch",
+            filters: ["js"],
           },
           {
             title: "Tracking a Device Location",

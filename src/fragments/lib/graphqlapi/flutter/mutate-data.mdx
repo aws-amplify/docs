@@ -2,90 +2,26 @@
 
 Now that the client is set up, you can run a GraphQL mutation with `Amplify.API.mutate` to create, update, and delete your data.
 
-```dart
-try {
-    String graphQLDocument =
-        '''mutation CreateTodo(\$name: String!, \$description: String) {
-              createTodo(input: {name: \$name, description: \$description}) {
-                id
-                name
-                description
-              }
-        }''';
+import createTodo from "/src/fragments/lib/graphqlapi/flutter/getting-started/50_createtodo.mdx";
 
-    var operation = Amplify.API.mutate(
-        request: GraphQLRequest<String>(document: graphQLDocument, variables: {
-      'name': 'my first todo',
-      'description': 'todo description',
-    }));
+<Fragments fragments={{flutter: createTodo}} />
 
-    var response = await operation.response;
-    var data = response.data;
-    
-    print('Mutation result: ' + data);
-} on ApiException catch (e) {
-  print('Mutation failed: $e');
-}
-```
-
-The response data will be a JSON String that looks like this:
-
-```json
-{
-  "createTodo": {
-    "name": "my first todo",
-    "id": "4422c06e-3f93-4db1-87c4-571f87e656a0",
-    "description": "todo description"
-  }
-}
-```
-
-You can decode the data to a Map and access the attributes as needed:
+To update the `Todo` with a new name:
 
 ```dart
-// Decode the data into a Map
-Map result = json.decode(response.data);
-Map todoMap = result['createTodo'];
+final todoWithNewName = createdTodo.copyWith(name: 'new name');
 
-// Access the attributes
-final id = todoMap['id'];
-print('Todo id: $id');
+final request = ModelMutations.update(todoWithNewName);
+final response = await Amplify.API.mutate(request: request).response;
 ```
 
-To update data, use the `updateTodo` mutation operation and pass in the `id` from the previous create mutation.
+To delete the `Todo`:
 
 ```dart
-String graphQLDocument =
-    '''mutation UpdateTodo(\$id: ID!, \$name: String!, \$description: String) {
-          updateTodo(input: { id: \$id, name: \$name, description: \$description}) {
-            id
-            name
-            description
-          }
-    }''';
+final request = ModelMutations.delete(todoWithNewName);
+final response = await Amplify.API.mutate(request: request).response;
 
-var operation = Amplify.API.mutate(
-    request: GraphQLRequest<String>(document: graphQLDocument, variables: {
-  'id': id,
-  'name': 'my first todo',
-  'description': 'todo description',
-}));
-```
-
-To delete data, use the `deleteTodo` mutation operation.
-
-```dart
-String graphQLDocument =
-    '''mutation deleteTodo(\$id: ID!) {
-          deleteTodo(input: { id: \$id }) {
-            id
-            name
-            description
-          }
-    }''';
-
-var operation = Amplify.API.mutate(
-    request: GraphQLRequest<String>(document: graphQLDocument, variables: {
-  'id': id
-}));
+// or delete by ID, ideal if you do not have the instance in memory, yet
+final request = ModelMutations.deleteById(Todo.classType, '8e0dd2fc-2f4a-4dc4-b47f-2052eda10775');
+final response = await Amplify.API.mutate(request: request).response;
 ```
