@@ -3,8 +3,8 @@ export const meta = {
   description: `Use Amplify CLI to create and manage collections of Geofences`,
 };
 
-A Geofence is a virtual perimeter for a real-world geographic area. Geofences contain points and vertices that form a closed boundary, which defines an area of interest. 
-Geofence collections store and manage one or multiple Geofences.
+A Geofence is a virtual perimeter for a real-world geographic area. A Geofence contains points or vertices that form a closed boundary, defining an area of interest. 
+Geofence collections store one or multiple Geofences.
 Amplify's `geo` category enables you to create and manage Geofence collections used to setup virtual geographic perimeters.
 
 <Callout>
@@ -179,18 +179,18 @@ amplify auth console
   User Pool and Identity Pool
 ```
 
-From the user pool console page that opens in your default browser, choose `Users and groups` tab in `General settings`.
+From the Cognito user pool console page that opened in your default browser, choose `Users and groups` tab in `General settings`.
 Then, choose the corresponding Cognito group from the `Groups` tab on the right as shown 
 ![cognito user pool console groups tab](/images/cli/geo/geo-cognito-groups-1.png)
 
-Then use the `Add users` button as shown that displays a window to select the users by their `username`, `email` etc. that you intend to add to the Cognito group.
+Then click on the `Add users` button that displays a window to select the users by their `username`, `email` etc. that you intend to add to the Cognito group.
 ![cognito group add users button](/images/cli/geo/geo-cognito-groups-2.png)
 
 #### Using the AWS SDK for Javascript
 Alternatively, if you want to add users to an existing Cognito user pool group programmatically, you can use the AWS SDK for Javascript. Refer to the [API documentation](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CognitoIdentityServiceProvider.html#adminAddUserToGroup).
 
 ## Upload your own GeoJSON file to geofence collection
-After you have added geofence collection and provisioned the resource, you are able to upload your own GeoJSON file that defines the Geofences in a collection via the command: 
+After you have added geofence collection and provisioned the resource, you will be able to upload your own GeoJSON file that defines the Geofences in a collection via the command: 
 ```bash
 amplify geo populate
 ```
