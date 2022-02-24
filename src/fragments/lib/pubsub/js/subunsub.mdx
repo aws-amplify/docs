@@ -29,10 +29,11 @@ PubSub.subscribe('myTopic', { provider: 'MqttOverWSProvider' }).subscribe({
 
 Following events will be triggered with `subscribe()`
 
-Event | Description 
-`next` | Triggered every time a message is successfully received for the topic
-`error` | Triggered when subscription attempt fails 
-`complete` | Triggered when you unsubscribe from the topic
+| Event      | Description                                                           | 
+| :--------: | --------------------------------------------------------------------- |
+| `next`     | Triggered every time a message is successfully received for the topic |
+| `error`    | Triggered when subscription attempt fails                             |
+| `complete` | Triggered when you unsubscribe from the topic                         |
 
 ### Subscribe to multiple topics
 
