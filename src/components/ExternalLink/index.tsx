@@ -1,6 +1,6 @@
 import React from "react";
 import {ExternalLinkGraphic} from "./styles";
-import {track, trackExternalLink, AnalyticsEventType} from "../../utils/track";
+import {trackExternalLink} from "../../utils/track";
 
 type ExternalLinkProps = {
   graphic?: string;
@@ -38,9 +38,5 @@ const ExternalLink: React.FC<ExternalLinkProps> = ({
 export default ExternalLink;
 
 function trackLink(href) {
-  track({
-    type: AnalyticsEventType.EXTERNAL_LINK_CLICK,
-    attributes: {from: location.href, to: href},
-  });
   trackExternalLink(href);
 }

@@ -1,7 +1,3 @@
-import Auth from "@aws-amplify/auth";
-import Analytics from "@aws-amplify/analytics";
-import awsexports from "../aws-exports";
-
 let configured = false;
 let firstPageOfVisit = true;
 let AWSCShortbread;
@@ -14,8 +10,6 @@ if (typeof window !== "undefined") {
 
 if (!configured) {
   if (typeof window !== "undefined") {
-    Auth.configure(awsexports);
-    Analytics.configure(awsexports);
     AWSCShortbread({
       domain: ".amplify.aws",
     }).checkForCookieConsent();
@@ -69,16 +63,6 @@ type AnalyticsEvent =
   | AnalyticsEventInternalLinkClick
   | AnalyticsEventExternalLinkClick
   | AnalyticsEventPageDataFetchException;
-
-export const track = (event: AnalyticsEvent): Promise<unknown> | undefined => {
-  if (typeof window !== "undefined") {
-    try {
-      return Analytics.record(event.type, event.attributes);
-    } catch (e) {
-      console.error("Failed to execute track.");
-    }
-  }
-};
 
 export const trackPageVisit = (): void => {
   if (
