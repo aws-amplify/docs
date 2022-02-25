@@ -72,7 +72,33 @@ awsmobileclient.federatedSignIn(providerName: IdentityProvider.apple.rawValue,
 
 <Block name="Amplify iOS (Developer Preview)">
 
+The escape hatch provides access to the underlying `AWSCognitoIdentityProvider` instance.  Import the necessary types:
 
+```swift
+import AWSCognitoAuthPlugin
+import AWSCognitoIdentityProvider
+```
+
+Then retrieve the escape hatch with this code:
+
+```swift
+func getEscapeHatch() {
+    let client: CognitoIdentityProviderClient?
+    
+    // Get the instance of AWSCognitoAuthPlugin
+    let plugin = try? Amplify.Auth.getPlugin(for: "awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
+    
+    // Get the instance of CognitoIdentityProviderClient
+    if case .userPoolAndIdentityPool(let userPoolClient, _) = plugin?.getEscapeHatch() {
+        client = userPoolClient
+    } else if case .userPool(let userPoolClient) = plugin?.getEscapeHatch() {
+        client = userPoolClient
+    } else {
+        fatalError("No user pool configuration found")
+    }
+    print("Fetched escape hatch - \(String(describing: client))")
+}
+```
 
 </Block>
 
