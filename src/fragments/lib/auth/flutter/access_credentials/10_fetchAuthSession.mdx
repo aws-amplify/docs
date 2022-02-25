@@ -13,3 +13,19 @@
 ```
 
 If the `getAWSCredentials` option is true, the result will contain AWS credentials and tokens.  If it is set to false, the result will contain a simple `isSignedIn` flag. 
+
+### Setting a timeout for fetchAuthSession
+
+`fetchAuthSession` timeout can be controlled using the `timeout` function as shown in the below example.
+
+```dart
+
+try {
+  await Amplify.Auth.fetchAuthSession().timeout(
+    const Duration(seconds: 5),
+  );
+} on TimeoutException {
+  print('fetchAuthSession timed out');
+}
+```
+
