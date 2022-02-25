@@ -1,13 +1,15 @@
 For advanced use cases where Amplify does not provide the functionality you're looking for,
 you can retrieve the escape hatch to access the underlying SDK.
 
-<Callout>
-The return type and behavior of the escape hatch is an implementation detail and thus can change (and in fact we plan to change it) in the future.
+<Callout warning>
+
+If you are using the new [Amplify iOS (Developer Preview)](/lib/devpreview/getting-started), check the Developer Preview tab for how to access the Escape Hatch for the AWS SDK for Swift.
+
 </Callout>
 
 <BlockSwitcher>
 
-<Block name="Amplify iOS (Release)">
+<Block name="Stable Release">
 
 The escape hatch provides access to the underlying `AWSMobileClient` instance.
 
@@ -26,7 +28,6 @@ import AWSCognitoAuthPlugin // Imports the Amplify plugin interface
 ```swift
 import AmplifyPlugins // Imports the Amplify plugin interface
 ```
-
 </Block>
 
 </BlockSwitcher>
@@ -70,7 +71,7 @@ awsmobileclient.federatedSignIn(providerName: IdentityProvider.apple.rawValue,
 
 </Block>
 
-<Block name="Amplify iOS (Developer Preview)">
+<Block name="Developer Preview">
 
 The escape hatch provides access to the underlying `AWSCognitoIdentityProvider` instance.  Import the necessary types:
 
