@@ -1,3 +1,16 @@
+For advanced use cases where Amplify does not provide the functionality you're looking for,
+you can retrieve the escape hatch to access the underlying SDK.
+
+<Callout>
+The return type and behavior of the escape hatch is an implementation detail and thus can change (and in fact we plan to change it) in the future.
+</Callout>
+
+<BlockSwitcher>
+
+<Block name="Amplify iOS (Release)">
+
+The escape hatch provides access to the underlying `AWSMobileClient` instance.
+
 <BlockSwitcher>
 
 <Block name="Swift Package Manager">
@@ -53,4 +66,14 @@ awsmobileclient.federatedSignIn(providerName: IdentityProvider.apple.rawValue,
         }
         print("federatedSignIn successful: \(userState)")
 }
-```        
+```
+
+</Block>
+
+<Block name="Amplify iOS (Developer Preview)">
+
+
+
+</Block>
+
+</BlockSwitcher>
