@@ -16,7 +16,7 @@ If the `getAWSCredentials` option is true, the result will contain AWS credentia
 
 ### Setting a timeout for fetchAuthSession
 
-`fetchAuthSession` timeout can be controlled using the `timeout` function as shown in the below example.
+On spotty networks, the `fetchAuthSession` call can take upwards of a minute to either complete or fail due to internal retries. If this is too long, consider adding a custom timeout using the `timeout` function as shown in the below example.
 
 ```dart
 
