@@ -1,47 +1,66 @@
-import {Search} from "./styles";
-import {useEffect} from "react";
+import React from 'react';
+import { getAlgoliaResults } from '@algolia/autocomplete-js';
+import algoliasearch from 'algoliasearch';
 
-import {transformData} from "../../utils/transform-search-data";
-import {setSearchQuery, trackSearchQuery} from "../../utils/track";
-import {
-  ALGOLIA_API_KEY,
-  ALGOLIA_INDEX_NAME,
-  UNINITIALIZED_SEARCH_INPUT_SELECTOR,
-} from "../../constants/algolia";
+import { Autocomplete } from './Autocomplete';
+import { ProductItem } from './ProductItem';
+import { Search } from './styles';
 
-export default function SearchBar() {
-  useEffect(() => {
-    if (window.docsearch) {
-      window.docsearch({
-        apiKey: ALGOLIA_API_KEY,
-        indexName: ALGOLIA_INDEX_NAME,
-        inputSelector: UNINITIALIZED_SEARCH_INPUT_SELECTOR,
-        debug: false,
-        queryHook: setSearchQuery,
-        handleSelected: trackSearchQuery,
-        transformData,
-        algoliaOptions: {
-          hitsPerPage: 10,
-        },
-      });
-    }
-  }, []);
+import { useRouter } from 'next/router';
+
+const appId = 'W6Q5N5WUDV';
+const apiKey = 'a82ff7ed9cd894525d84229ba4a886db';
+const searchClient = algoliasearch(appId, apiKey);
+
+function App() {
+  const router = useRouter();
 
   return (
-    <>
-      <Search>
-        <div>
-          <div>
-            <input
-              id="amplify-docs-search-input"
-              className="three-dee-effect"
-              type="search"
-              placeholder="Search"
-            />
-            <img src="/assets/search.svg" alt="search" />
-          </div>
-        </div>
-      </Search>
-    </>
+    <Search>
+      <Autocomplete
+        openOnFocus={true}
+        getSources={({ query }) => [
+          {
+            sourceId: 'products',
+            getItemUrl({ item }) {
+              return item.slug;
+            },
+            getItems() {
+              return getAlgoliaResults({
+                searchClient,
+                queries: [
+                  {
+                    indexName: 'custom_search_staging',
+                    query
+                  }
+                ]
+              });
+            },
+            templates: {
+              item({ item, components }) {
+                console.log(item);
+                return <ProductItem hit={item} components={components} />;
+              }
+            }
+          }
+        ]}
+        navigator={{
+          navigate({ itemUrl }) {
+            // Pressing "enter"
+            router.push(itemUrl);
+          },
+          navigateNewTab({ itemUrl }) {
+            // Pressing "ctrl"/"cmd" + "enter"
+            window.open(window.location.origin + itemUrl, '_blank', 'noopener');
+          },
+          navigateNewWindow({ itemUrl }) {
+            // Pressing "shift" + "enter"
+            window.open(window.location.origin + itemUrl, '_blank', 'noopener');
+          }
+        }}
+      />
+    </Search>
   );
 }
+
+export default App;
