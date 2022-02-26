@@ -39,27 +39,15 @@ After authenticating with Figma, you will see a list of components that you can 
 
 ## Step 3: Pull UI components code in your project
 
-If you don't already have the Amplify CLI installed, use the following command to install it.
-
-import all0 from "/src/fragments/cli-install-block.mdx";
-
-<Fragments fragments={{all: all0}} />
-
-import all1 from "/src/fragments/pull-cli-studio.mdx";
-
-<Fragments fragments={{all: all1}} />
-
-Amplify generates all UI component code into `src/ui-components`, as JSX and TS files. All generated code is built with primitives from the Amplify UI library. Although you have access to inspect the component code, you cannot modify it directly as we will override any changes on the next `amplify pull`.
-
-## Step 4: Use components in your app
-
-Now that all of the code for the UI components has been pulled into your project, you can reference them when necessary. In Studio, go to the component you want to use in your app and choose **Get component code** at the bottom of the page.
+In Studio, pick a component and choose **Configure** to get to the component editor screen. Choose **Get component code** at the bottom of the page.
 
 ![figma](/images/console/ui-getcomponent-code.png)
 
-If this is the first time setting up your project, go to the **Initial project setup** tab and follow the setup instructions.
+Go to the **Initial project setup** tab and follow the setup instructions. 
 
 ![figma](/images/console/ui-getcomponent-code2.png)
+
+Amplify generates all UI component code into `src/ui-components`, as JSX and TS files. All generated code is built with primitives from the Amplify UI library. Although you have access to inspect the component code, you cannot modify it directly as we will override any changes on the next `amplify pull`.
 
 Once that is done, you can use the components anywhere in your app. Learn how to **[customize these UI components in code](/console/uibuilder/override)**.
 
