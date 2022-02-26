@@ -644,4 +644,5 @@ For example, the a resolver function file named `Mutation.createTodo.postAuth.2.
 | 2        | preAuth      | Resolvers that are intended to run before authorization rule checks are applied. |
 | 3        | auth         | Resolvers that implement authorization rule checks.                              |
 | 4        | postAuth     | Resolvers that are run after authorization rule checks.                          |
-| 5        | preSubscribe | Resolvers to configure values to make a request to the data source.              |
+| 5        | preSubscribe | Resolver slot that executes after auth but before the subscription returns       |
+
