@@ -13,7 +13,8 @@ The command creates a new `overrides.ts` file under `amplify/backend/auth/<resou
 
 ## Customize Amplify-generated Cognito auth resources
 
-Apply all the overrides in the `override(...)` function. For example to update the temporary password validity days for your Cognito user pool:
+Apply all the overrides in the `override(...)` function. For example, to update the temporary password validity days for your Cognito user pool:
+
 ```ts
 import { AmplifyAuthCognitoStackTemplate } from '@aws-amplify/cli-extensibility-helper';
 
@@ -24,6 +25,26 @@ export function override(resources: AmplifyAuthCognitoStackTemplate) {
       temporaryPasswordValidityDays: 3 // Add new setting not provided Amplify's default
     }
   }    
+}
+```
+
+Or add a custom attribute to your Cognito user pool:
+
+```ts
+import { AmplifyAuthCognitoStackTemplate } from '@aws-amplify/cli-extensibility-helper'
+
+export function override(resources: AmplifyAuthCognitoStackTemplate) {
+  const myCustomAttribute = {
+    attributeDataType: 'String',
+    developerOnlyAttribute: false,
+    mutable: true,
+    name: 'my_custom_attribute',
+    required: false,
+  }
+  resources.userPool.schema = [
+    ...(resources.userPool.schema as any[]), // Carry over existing attributes (example: email)
+    myCustomAttribute,
+  ]
 }
 ```
 
