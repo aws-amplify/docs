@@ -2008,11 +2008,6 @@ const directory = {
             filters: ["android", "ios"],
           },
           {
-            title: "Accessing Amazon Location Service",
-            route: "/lib/geo/escapehatch",
-            filters: ["js"],
-          },
-          {
             title: "Tracking a Device Location",
             route: "/guides/location-service/tracking-device-location",
             filters: ["android", "ios"],
