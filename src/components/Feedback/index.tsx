@@ -27,7 +27,7 @@ export default function Feedback() {
   useEffect(() => {
     // UUID of feedback if it exists.
     const id = window.localStorage.getItem('feedbackId');
-    if (isUUID(id)) {
+    if (id && isUUID(id)) {
       setFeedbackId(id);
     }
   }, []);
