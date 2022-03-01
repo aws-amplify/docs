@@ -15,6 +15,7 @@ import {DISCORD} from "../../constants/img";
 import RepoActions from "./RepoActions";
 import FilterSelect from "./FilterSelect";
 import VersionSwitcher from "./VersionSwitcher";
+import Feedback from "../Feedback";
 
 type MenuProps = {
   filters: string[];
@@ -104,6 +105,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
                   url={this.props.url}
                   directoryPath={this.props.directoryPath}
                 />
+                <Feedback />
                 <DiscordLinkStyle>
                   <ExternalLink
                     href="https://discord.gg/jWVbPfC"
