@@ -1,0 +1,14 @@
+{
+  "resourceName": "submissionsTable",
+  "tableName": "submissionsTable",
+  "partitionKey": {
+    "fieldName": "page_path",
+    "fieldType": "string"
+  },
+  "sortKey": {
+    "fieldName": "created",
+    "fieldType": "string"
+  },
+  "gsi": [],
+  "triggerFunctions": []
+}

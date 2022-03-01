@@ -1,0 +1,17 @@
+{
+  "providers": [
+    "awscloudformation"
+  ],
+  "projectName": "DocsStaging",
+  "version": "3.1",
+  "frontend": "javascript",
+  "javascript": {
+    "framework": "none",
+    "config": {
+      "SourceDir": "src",
+      "DistributionDir": "client/www",
+      "BuildCommand": "yarn export",
+      "StartCommand": "yarn start"
+    }
+  }
+}
