@@ -1,4 +1,5 @@
-import Amplify, { API } from 'aws-amplify';
+import Amplify from '@aws-amplify/core';
+import { API } from '@aws-amplify/api';
 import { useState } from 'react';
 import { FeedbackStyle, VoteButtonStyle, VoteButtonDivStyle } from './styles';
 import { useRouter } from 'next/router';
@@ -23,6 +24,8 @@ export default function Feedback() {
   const [state, setState] = useState<FeedbackState>(FeedbackState.START);
   const [feedbackId, setFeedbackId] = useState(undefined);
   const router = useRouter();
+  const feedbackQuestion = 'Was this page helpful?';
+  const feedbackAppreciation = 'Thank you for your feedback!';
 
   useEffect(() => {
     // UUID of feedback if it exists.
@@ -73,7 +76,7 @@ export default function Feedback() {
     <FeedbackStyle>
       {state === FeedbackState.START ? (
         <>
-          <p>Was this page helpful?</p>
+          <p>{feedbackQuestion}</p>
           <VoteButtonDivStyle>
             <VoteButtonStyle onClick={() => submitVote(true)}>
               <img src="/assets/thumbs-up.svg" alt="Thumbs up" />
@@ -86,7 +89,7 @@ export default function Feedback() {
           </VoteButtonDivStyle>
         </>
       ) : (
-        <p>Thank you for your feedback!</p>
+        <p>{feedbackAppreciation}</p>
       )}
     </FeedbackStyle>
   );
