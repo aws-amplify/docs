@@ -45,7 +45,7 @@ describe('Feedback', () => {
     expect(thumbsUp).toBeInTheDocument();
     expect(thumbsDown).toBeInTheDocument();
 
-    await userEvent.click(thumbsUp);
+    userEvent.click(thumbsUp);
 
     await waitFor(() => {
       expect(thumbsUp).not.toBeInTheDocument();
@@ -64,7 +64,7 @@ describe('Feedback', () => {
     expect(thumbsUp).toBeInTheDocument();
     expect(thumbsDown).toBeInTheDocument();
 
-    await userEvent.click(thumbsDown);
+    userEvent.click(thumbsDown);
 
     await waitFor(() => {
       expect(thumbsUp).not.toBeInTheDocument();
