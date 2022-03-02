@@ -1,0 +1,10 @@
+```dart
+try {
+  await Amplify.DataStore.save(
+    post,
+    where: Post.TITLE.beginsWith("[Amplify]"),
+  );
+} catch(e) {
+  print('Could not update post, maybe the title has been changed?);
+}
+```
