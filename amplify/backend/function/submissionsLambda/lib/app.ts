@@ -15,9 +15,7 @@ if (process.env.ENV && process.env.ENV !== 'NONE') {
 
 const userIdPresent = false; // TODO: update in case is required to use that definition
 const partitionKeyName: string = 'page_path';
-const partitionKeyType = 'S';
 const sortKeyName: string = 'created';
-const sortKeyType = 'S';
 const hasSortKey = sortKeyName !== '';
 const path = '/submissions';
 const UNAUTH = 'UNAUTH';
@@ -39,16 +37,6 @@ app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Headers', '*');
   next();
 });
-
-// convert url string param to expected Type
-const convertUrlType = (param: string, type: string) => {
-  switch (type) {
-    case 'N':
-      return Number.parseInt(param);
-    default:
-      return param;
-  }
-};
 
 /********************************
  * HTTP Get method for list objects *

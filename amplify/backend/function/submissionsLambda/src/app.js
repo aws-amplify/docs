@@ -15,9 +15,7 @@ if (process.env.ENV && process.env.ENV !== 'NONE') {
 }
 const userIdPresent = false;
 const partitionKeyName = 'page_path';
-const partitionKeyType = 'S';
 const sortKeyName = 'created';
-const sortKeyType = 'S';
 const hasSortKey = sortKeyName !== '';
 const path = '/submissions';
 const UNAUTH = 'UNAUTH';
@@ -32,14 +30,6 @@ app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Headers', '*');
     next();
 });
-const convertUrlType = (param, type) => {
-    switch (type) {
-        case 'N':
-            return Number.parseInt(param);
-        default:
-            return param;
-    }
-};
 app.get(path, function (req, res) {
     res.statusCode = 405;
     res.json({ error: 'Method is not allowed.' });
