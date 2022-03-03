@@ -5,6 +5,16 @@ const directory = {
       route: "/lib",
     },
     items: {
+      devpreview: {
+        title: "New! Amplify iOS (Developer Preview)",
+        items: [
+          {
+            title: "Getting started",
+            route: "/lib/devpreview/getting-started",
+            filters: ["ios"],
+          },
+        ],
+      },
       "project-setup": {
         title: "Project Setup",
         items: [
