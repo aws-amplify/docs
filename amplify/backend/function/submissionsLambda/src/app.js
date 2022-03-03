@@ -7,6 +7,7 @@ const serverless_express_1 = require("@vendia/serverless-express");
 const body_parser_1 = (0, tslib_1.__importDefault)(require("body-parser"));
 const express_1 = (0, tslib_1.__importDefault)(require("express"));
 const uuid_1 = require("uuid");
+const isUUID_1 = (0, tslib_1.__importDefault)(require("validator/lib/isUUID"));
 aws_sdk_1.default.config.update({ region: process.env.TABLE_REGION });
 const dynamodb = new aws_sdk_1.default.DynamoDB.DocumentClient();
 let tableName = 'submissionsTable';
@@ -52,7 +53,7 @@ function postCallback(req, res) {
     if (typeof req.body.vote === 'boolean' &&
         typeof req.body.page_path === 'string') {
         let id = (0, uuid_1.v4)();
-        if (req.body.id && typeof req.body.id === 'string') {
+        if (typeof req.body.id === 'string' && (0, isUUID_1.default)(req.body.id)) {
             id = req.body.id;
         }
         let putItemParams = {

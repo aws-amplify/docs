@@ -3,6 +3,7 @@ import { getCurrentInvoke } from '@vendia/serverless-express';
 import bodyParser from 'body-parser';
 import express from 'express';
 import { v4 as uuidv4 } from 'uuid';
+import isUUID from 'validator/lib/isUUID';
 
 AWS.config.update({ region: process.env.TABLE_REGION });
 
@@ -88,7 +89,7 @@ export function postCallback(req, res) {
   ) {
 
     let id = uuidv4();
-    if (req.body.id && typeof req.body.id === 'string') {
+    if (typeof req.body.id === 'string' && isUUID(req.body.id)) {
       id = req.body.id;
     }
 
