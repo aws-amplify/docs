@@ -85,7 +85,7 @@ Then retrieve the escape hatch with this code:
 
 ```swift
 func getEscapeHatch() {
-    let client: CognitoIdentityProviderClient?
+    let client: CognitoIdentityProviderClient
     
     // Get the instance of AWSCognitoAuthPlugin
     let plugin = try? Amplify.Auth.getPlugin(for: "awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
