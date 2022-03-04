@@ -131,7 +131,7 @@ By default, Datastore sync performs a [Scan](https://docs.aws.amazon.com/amazond
 
 You can enable Query during the sync by following the below steps:
 
-1. Create a [Global Secondary Index (GSI)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.html) for your schema, e.g. in below schema a GSI will be created using field `lastName` as the GSI primary key, and `createdAt` as the GSI sort key. Learn about creating GSIs with the `@index` directive [here](https://docs.amplify.aws/cli/graphql/data-modeling).
+1. Create a [Global Secondary Index (GSI)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.html) for your schema, e.g. in the below schema a GSI will be created using field `lastName` as the GSI primary key, and `createdAt` as the GSI sort key. Learn about creating GSIs with the `@index` directive [here](https://docs.amplify.aws/cli/graphql/data-modeling).
 
    ```graphql
    type User @model {
