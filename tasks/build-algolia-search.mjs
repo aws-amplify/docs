@@ -58,11 +58,11 @@ function readPages() {
   const page = pageValues.pop();
   const { filename, platform } = page;
   const doc = fs.readFileSync(filename, 'utf8');
-  tryParseImports(doc, filename);
+  tryParseImports(doc, filename, platform);
 }
 readPages();
 
-async function tryParseImports(source, filename = '') {
+async function tryParseImports(source, filename, platform) {
   try {
     const imports = [...(await parseImports(source))];
     const lines = source.split('\n');
@@ -83,7 +83,23 @@ async function tryParseImports(source, filename = '') {
         });
       }
     });
-    console.log(fragments);
+    // console.log(fragments, filename, platform);
+
+    // derive URL path
+    filename = filename.split('[');
+    filename[1] = platform + '.mdx';
+    filename = filename.join('');
+
+    // add platform specific fragments to source
+    fragments[platform].forEach((fragment) => {
+      const fragmentPath = path.join(__dirname, '..', fragment);
+      const fragmentFile = fs.readFileSync(fragmentPath, 'utf8');
+      source = source + '/n' + fragmentFile;
+    });
+
+    // TODO: remove remaining fragments and imports
+
+    console.log(source);
     readPages();
   } catch (e) {
     console.log('Pages remaing:', pageValues.length);
