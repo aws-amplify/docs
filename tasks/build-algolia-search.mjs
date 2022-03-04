@@ -94,11 +94,11 @@ async function tryParseImports(source, filename, platform) {
     fragments[platform].forEach((fragment) => {
       const fragmentPath = path.join(__dirname, '..', fragment);
       const fragmentFile = fs.readFileSync(fragmentPath, 'utf8');
-      source = source + '/n' + fragmentFile;
+      source = source + '\n' + fragmentFile;
     });
 
     // remove unused fragments and imports from markdown
-    source = source.split('/n');
+    source = source.split('\n');
     source = source.map((line) => {
       if (line.includes('<Fragments') || line.includes('/src/fragments/')) {
         line = '';
@@ -108,7 +108,7 @@ async function tryParseImports(source, filename, platform) {
 
     source = source.join('');
 
-    console.log(source);
+    console.log({ filename, source });
     readPages();
   } catch (e) {
     console.log('Pages remaing:', pageValues.length);
