@@ -97,7 +97,16 @@ async function tryParseImports(source, filename, platform) {
       source = source + '/n' + fragmentFile;
     });
 
-    // TODO: remove remaining fragments and imports
+    // remove unused fragments and imports from markdown
+    source = source.split('/n');
+    source = source.map((line) => {
+      if (line.includes('<Fragments') || line.includes('/src/fragments/')) {
+        line = '';
+      }
+      return line;
+    });
+
+    source = source.join('');
 
     console.log(source);
     readPages();
