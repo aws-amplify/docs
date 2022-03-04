@@ -124,3 +124,50 @@ Future<void> initialize() {
 `DataStore.configure()` should only by called once.
 
 </Callout>
+
+### Advanced use case - Query instead of Scan
+You can configure selective sync to retrieve items from DynamoDB with a [query operation](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Query.html) against a [Global Secondary Index (GSI)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.html) during the initial or delta sync. By default, the base sync will perform a [scan](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html). Query operations enable a highly efficient and cost-effective data retrieval for customers running DynamoDB at scale. Learn about creating GSIs with the `@index` directive [here](https://docs.amplify.aws/cli/graphql/data-modeling).
+
+In order to do that, your `syncExpression` should return a predicate that maps to a query expression.
+
+For example, for the following schema:
+```graphql
+type User @model {
+  id: ID!
+  firstName: String!
+  lastName: String! @index(name: "byLastName", sortKeyFields: ["createdAt"])
+  createdAt: AWSDateTime!
+}
+```
+
+To construct a query expression, return a predicate with the primary key of the GSI. You can only use the `eq` operator with this predicate.
+
+For the schema defined above `User.LASTNAME.eq("Doe")` is a valid query expression.
+
+Optionally, you can also chain the sort key to this expression, using any of the following operators: `eq | ne | le | lt | ge | gt | beginsWith | between`.
+
+E.g., `User.LASTNAME.eq("Doe").and(User.CREATEDAT.gt("2020-10-10"))`.
+
+Both of these sync expressions will result in AWS AppSync retrieving records from Amazon DynamoDB via a query operation:
+
+```dart
+Amplify.addPlugin(AmplifyDataStore(
+  modelProvider: ModelProvider.instance,
+  syncExpressions: [
+    DataStoreSyncExpression(
+      User.classType,
+      () => User.LASTNAME.eq("Doe")
+    ),
+  ]));
+
+// OR
+
+Amplify.addPlugin(AmplifyDataStore(
+  modelProvider: ModelProvider.instance,
+  syncExpressions: [
+    DataStoreSyncExpression(
+      User.classType,
+      () => User.LASTNAME.eq("Doe").and(User.CREATEDAT.gt("2020-10-10"))
+    ),
+  ]));
+```
