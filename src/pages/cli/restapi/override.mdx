@@ -24,8 +24,12 @@ export function override(resources: AmplifyApiRestResourceStackTemplate) {
 
 You can override the following REST API resources that Amplify generates:
 
+<div class="table-wrapper" markdown="block">
+
 |Amplify-generated resource|Description|
 |-|-|
 |[restApi](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-restapi.html)|The Amazon API Gateway REST API created by `amplify add api`|
 |[deploymentResource](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-apigateway-deployment.html)|The deployment resource that deploys the REST API above to a stage.|
 |[policies](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)|User pool group-related IAM policy. Example: `resources.policies["/items"].groups["Admin"]`
+
+</div>
