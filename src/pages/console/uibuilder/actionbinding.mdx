@@ -1,0 +1,280 @@
+export const meta = {
+  title: `Action binding`,
+  description: `Figma to React code with Amplify Studio`,
+};
+
+<Callout warning>
+
+All UI development capabilities are currently available under Public Preview.
+
+</Callout>
+
+Amplify Studio offers visual action binding capabilities to bind UI component events (`onClick`, `onChange`, and more) to actions to build interactive components. Use the UI component editor to map UI components' events to actions for navigation, data manipulation, authentication, and more. All data bindings get automatically included in generated code.
+
+1. Select an UI element such as a button
+2. Click `Set onClick action` on **Child properties** panel
+3. Select an action to bind it to the UI element
+
+## Bind UI to navigation actions
+
+You can bind UI elements to navigation actions. Navigation actions include the ability to go to a URL, open a URL in a new tab, scroll to an anchor, and refresh the page.
+
+### Go to URL
+
+The "Go to URL" action navigates the customer to the designated URL. You can also construct the URL with dynamic data provided by the component's top-level properties.
+
+1. Select the `Go to URL`
+2. Enter the target URL. For example: `https://support.example.com`
+
+|Studio interface to "Go to URL"|Live app navigating to the URL|
+|-|-|
+|![Studio configurator](/images/console/go_to_url_studio.png) | ![Interactive website](/images/console/go_to_url_app.gif)|
+
+3. Dynamically navigate to a specific item's URL in a collection by concatenating the item's id. In the example below, the URL is concatenated with `home`'s `id` field.
+
+![Studio configurator](/images/console/go_to_url_collection.png) 
+
+### Open URL in new tab
+
+Select "Open URL in new tab" to open the target URL in a new tab. Similar to [Go to URL](#go-to-url), you can also construct the URL with dynamic data provided by the component's top-level properties. 
+
+### Scroll to anchor
+
+You can bind an onClick action to scroll to a designated anchor (based on HTML's `id` attribute) on the page. For example, have a table of contents section that then navigates to a specific element in a UI.
+
+1. Select the `Scroll to anchor`
+2. Enter `lorem-ipsum` as the value
+3. In your app code add an HTML element with `id="lorem-ipsum"`
+
+<table>
+<tr>
+  <td>
+
+```jsx
+<div className="App">
+  <HeroLayout1 />
+  ...
+  <div id="lorem-ipsum">
+    <Heading level={2}>Lorem Ipsum</Heading>
+    <p>
+      Here is a description of my new feature.
+    </p>
+  </div>
+  ...
+</div>
+```
+
+</td>
+<td>
+
+![Scroll to a specific element's id](/images/console/scroll_to_anchor.gif) 
+
+</td>
+</tr>
+</table>
+
+
+### Refresh page
+
+Select "Refresh" to execute a browser refresh of the current page.
+
+## Bind UI to create, update, or delete a data record
+
+You can bind UI elements to data actions. Data actions include the ability to create, update, and delete records from your database. 
+
+<Callout warning>
+
+Make sure to mark the component as a `form` for accessibility.
+1. Select the top element from the element tree
+2. Add a new child property named `as`
+3. Set the value to `form`
+
+This will render the component within an HTML `<form />` element.
+
+</Callout>
+
+### Create a record in database
+
+You can create a new record based on the values provided by input fields. For example, you have a form to create a new "Home" for a rental listing site. The form contains inputs for the address, price, and an image URL.
+
+<table>
+<tr>
+<td>
+
+1. Select the "Submit" button element
+2. Add an onClick action to the element
+3. Choose the "Create" data action 
+4. Select the database model to create a record for
+5. Map the model fields to input values
+
+</td>
+<td>
+
+
+![Studio console experience to create a record](/images/console/create_data_studio.gif)
+
+</td>
+</tr>
+</table>
+
+Render the component with the "Create" data action. **Pro tip:** Amplify Studio's collection components synchronizes data in real-time. If a new record is available in the database, it will automatically sync to the app.
+
+```jsx
+<Flex>
+  <NewHomeInput />
+  <HomeCollection />
+</Flex>
+```
+
+![In app record create data action binding](/images/console/create_data_app.gif)
+
+### Update a record from database
+
+You can update an existing record using the "Update" data action. For example, users can click on a home in a collection and update its values with a form.
+
+<table>
+<tr>
+<td>
+
+1. Select the "Submit" button element
+2. Add an onClick action to the element
+3. Choose the "Update" data action 
+4. Select the database model to create a record for
+5. Enter the ID of the record to update
+6. Map the model fields to input values
+
+</td>
+<td>
+
+
+![Studio console experience to create a record](/images/console/update_data_studio.gif)
+
+</td>
+</tr>
+</table>
+
+Use the `overrideItems` property in collections to configure an `onClick` handler to select a home to update. Optionally, configure the form's placeholder values to be the current home value.
+
+**Pro tip:** Amplify Studio's collection components synchronizes data in real-time. If a record is updated in the database, it will automatically sync to the app.
+
+```jsx
+function App() {
+  const [updateHome, setUpdateHome] = useState()
+  return (
+    <Flex>
+      <UpdateHome home={updateHome}/>
+      <CardBCollection overrideItems={({ item }) => ({
+        onClick: () => setUpdateHome(item)
+      })} />
+    </Flex>
+  )
+}
+```
+
+![In app record update data action binding](/images/console/update_data_app.gif)
+
+### Delete a record from database
+
+You can delete a new record based on a model's ID field. For example, if you have a modal to delete a "Home" from a rental listing site.
+
+<table>
+<tr>
+<td>
+
+1. Select the "Delete" button element
+2. Add an onClick action to the element
+3. Choose the "Delete" data action 
+4. Select the database model to delete from
+5. Map the ID value to a property
+
+</td>
+<td>
+
+
+![Studio console experience to create a record](/images/console/delete_data_studio.gif)
+
+</td>
+</tr>
+</table>
+
+In your app code, you can set an onClick handler for Home collections to show the delete modal. Then, set the `DeleteHome` component's `home` property to configure which home to delete. You can also listen in to the `ui` Hub events to dismis the modal after the record is deleted. 
+
+```jsx
+function App() {
+  const [showDeleteHome, setShowDeleteHome] = useState()
+  useEffect(() => {
+    Hub.listen('ui', ({ payload }) => {
+      if (payload.event === 'actions:datastore:delete:finished') {
+        setShowDeleteHome()
+      }
+    })
+  }, [setShowDeleteHome])
+
+  return (
+    <div className="App">
+      <HomeCollection overrideItems={({ item }) => ({
+        onClick: () => setShowDeleteHome(item)
+      })} />
+      {showDeleteHome &&
+        <div className='modal'>
+          <DeleteHome home={showDeleteHome} />
+        </div>}
+    </div>
+  );
+}
+```
+
+![Delete a record in-app experience](/images/console/delete_data_app.gif) 
+
+## Bind UI event to modify another UI element
+
+Use the element modification action binding to introduce more UI-level interactivity for your components. For example, you can configure hover effects, trigger color changes when a user clicks on an element, or toggle visibility on other elements based on user interactions. To add a hover effect to an element:
+
+1. Set the "onMouseEnter" property
+2. Select "Modify element property"
+3. Select the component you want to modify
+4. Select the "backgroundColor" as an example
+5. Update the desired background color value
+6. Repeat with "onMouseLeave" property to reset the background value
+
+![Studio experience to configure hover effects](/images/console/modify_element_studio.gif) 
+
+## Bind UI to "sign out" actions
+
+Use the "Sign out" actions to sign out the user from the app. Choose to either sign out from the current device or across all devices, also known as global sign out. 
+
+<table>
+<tr>
+<td>
+
+1. Select the "Sign out" button element
+2. Add an onClick action to the element
+3. Choose the "Sign out from this device" data action 
+
+</td>
+<td>
+
+
+![Studio console experience to configure a sign out action](/images/console/sign_out_studio.gif)
+
+</td>
+</tr>
+</table>
+
+The sign out actions work in combination with the [`Authenticator` component](https://ui.docs.amplify.aws/components/authenticator). When you sign out, the Authenticator will appear to request the user to sign-in again.
+
+```jsx
+import { withAuthenticator } from '@aws-amplify/ui-react'
+
+function App() {
+  return <UserInfo />
+}
+
+export default withAuthenticator(App);
+```
+
+![Sign out experience in-app](/images/console/sign_out_app.gif) 
+
+## Handle UI changes after action execution
+
+TODO Hub.listen
