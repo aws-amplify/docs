@@ -1730,8 +1730,8 @@ const directory = {
             route: "/console/uibuilder/databinding",
           },
           {
-            title: "Action binding",
-            route: "/console/uibuilder/actionbinding",
+            title: "UI event handler",
+            route: "/console/uibuilder/eventhandling",
           },
           {
             title: "Collections",

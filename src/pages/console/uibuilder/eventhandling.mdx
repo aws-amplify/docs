@@ -1,5 +1,5 @@
 export const meta = {
-  title: `Action binding`,
+  title: `UI event handler`,
   description: `Figma to React code with Amplify Studio`,
 };
 
@@ -9,7 +9,7 @@ All UI development capabilities are currently available under Public Preview.
 
 </Callout>
 
-Amplify Studio offers visual action binding capabilities to bind UI component events (`onClick`, `onChange`, and more) to actions to build interactive components. Use the UI component editor to map UI components' events to actions for navigation, data manipulation, authentication, and more. All data bindings get automatically included in generated code.
+Amplify Studio offers the ability to bind UI component events (`onClick`, `onChange`, and more) to actions to build interactive components. Use the UI component editor to map UI components' events to actions for navigation, data manipulation, authentication, and more. All data bindings get automatically included in generated code.
 
 1. Select an UI element such as a button
 2. Click `Set onClick action` on **Child properties** panel
@@ -287,4 +287,4 @@ export default withAuthenticator(App);
 
 ## Handle UI changes after action execution
 
-TODO Hub.listen
+In case you want to add additional business logic after an action is executed, review [Add additional business logic before or after action execution](/console/uibuilder/override/#add-business-logic-during-or-after-action-execution). You can use this capability to dismiss a modal after a data record was created, send analytics event after action, or display loading indicators when a record is being created.

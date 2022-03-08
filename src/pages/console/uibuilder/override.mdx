@@ -67,6 +67,34 @@ The following example shows how to override each collection item to show a diffe
 
 ![Collection item shows a different color based on their index in the collection and alerts the user of which the clicked home](/images/console/collection-override.gif)
 
+### Add business logic during or after action execution
+Use the Amplify Hub to listen to actions that are executed via [UI event handlers](/console/uibuilder/eventhandling) and then add your custom business logic.
+
+```jsx
+import { Hub } from 'aws-amplify'
+
+...
+Hub.listen("ui", (capsule) => {
+  if (capsule.payload.event === "actions:auth:signout:finished") {
+    // Do something after signout
+  }
+});
+```
+
+In the example above, you can add your own custom business logic, when the customer clicks on a "Sign out" button. The Amplify `Hub` provides Studio-generated events on the `ui` channel. The format of action binding Hub events is `actions:[category]:[action_name]:[status]`:
+
+| Action name  | Description  |
+|---|---|
+| actions:core:navigate:started | [Navigate action](/console/uibuilder/eventhandling/#bind-ui-to-navigation-actions) started |
+| actions:core:navigate:finished | [Navigate action](/console/uibuilder/eventhandling/#bind-ui-to-navigation-actions) finished (possibly with errors) |
+| actions:datastore:create:started | [DataStore create action](/console/uibuilder/eventhandling/#create-a-record-in-database) started |
+| actions:datastore:create:finished | [DataStore create action](/console/uibuilder/eventhandling/#create-a-record-in-database) finished |
+| actions:datastore:update:started | [DataStore update action](/console/uibuilder/eventhandling/#update-a-record-from-database) started |
+| actions:datastore:update:finished | [DataStore update action](/console/uibuilder/eventhandling/#update-a-record-from-database) finished (possibly with errors) |
+| actions:datastore:delete:started | [DataStore delete action](/console/uibuilder/eventhandling/#delete-a-record-from-database) started |
+| actions:datastore:delete:finished | [DataStore delete action](/console/uibuilder/eventhandling/#delete-a-record-from-database) finished (possibly with errors) |
+| actions:auth:signout:started  | [SignOut action](/console/uibuilder/eventhandling/#bind-ui-to-sign-out-actions) started |
+| actions:auth:signout:finished | [SignOut action](/console/uibuilder/eventhandling/#bind-ui-to-sign-out-actions) finished (possibly with errors) |
 
 ## Modify generated code
 You can't directly customize all generated component code, as changes will be overwritten on the next `amplify pull`. However, the following workaround is available if you want to take control of component modifications.
