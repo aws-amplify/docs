@@ -28,11 +28,11 @@ The "Go to URL" action navigates the customer to the designated URL. You can als
 
 |Studio interface to "Go to URL"|Live app navigating to the URL|
 |-|-|
-|![Studio configurator](/images/console/go_to_url_studio.png) | ![Interactive website](/images/console/go_to_url_app.gif)|
+|![Studio interface to configure "Go to URL"](/images/console/go_to_url_studio.png) | ![Interactive website](/images/console/go_to_url_app.gif)|
 
 3. Dynamically navigate to a specific item's URL in a collection by concatenating the item's id. In the example below, the URL is concatenated with `home`'s `id` field.
 
-![Studio configurator](/images/console/go_to_url_collection.png) 
+![Studio interface to dynamically bind URL to element ID](/images/console/go_to_url_collection.png) 
 
 ### Open URL in new tab
 
@@ -205,7 +205,7 @@ You can delete a new record based on a model's ID field. For example, if you hav
 </tbody>
 </table>
 
-In your app code, you can set an onClick handler for Home collections to show the delete modal. Then, set the `DeleteHome` component's `home` property to configure which home to delete. You can also listen in to the `ui` Hub events to dismis the modal after the record is deleted. 
+In your app code, you can set an onClick handler for Home collections to show the delete modal. Then, set the `DeleteHome` component's `home` property to configure which home to delete. You can also listen in to the `ui` Hub events to dismiss the modal after the record is deleted. 
 
 ```jsx
 function App() {
