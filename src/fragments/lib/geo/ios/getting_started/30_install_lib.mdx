@@ -16,6 +16,12 @@ The Geo plugin is dependent on Cognito Auth.
 
 <Block name="CocoaPods">
 
+<Callout warning>
+
+**Troubleshooting:** If you intend on using the Amplify-MapLibre adapter to render maps, you **must** use Swift Package Manager to add Amplify. The adapter is incompatible with existing Amplify dependencies added via CocoaPods.
+
+</Callout>
+
 To install the Amplify Geo and Authentication to your application, **add both "AmplifyPlugins/AWSLocationGeoPlugin" and "AmplifyPlugins/AWSCognitoAuthPlugin" to your `Podfile`** (Because IAM credential is required to access Amazon Location Service, `"AWSCognitoAuthPlugin"` also needs to be installed). Your `Podfile` should look similar to:
 
 ```bash
