@@ -1,6 +1,7 @@
 import Feedback from '../index';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { API } from '@aws-amplify/api';
 
 jest.mock('next/router', () => ({
   useRouter() {
@@ -15,9 +16,7 @@ jest.mock('next/router', () => ({
 
 jest.mock('@aws-amplify/api', () => ({
   API: {
-    post: (apiName, path, init) => {
-      return Promise.resolve('success');
-    }
+    post: jest.fn().mockReturnValue(Promise.resolve())
   }
 }));
 
@@ -70,5 +69,17 @@ describe('Feedback', () => {
       expect(thumbsUp).not.toBeInTheDocument();
       expect(thumbsDown).not.toBeInTheDocument();
     });
+  });
+
+  it('should make Amplify POST request when either button is clicked', () => {
+    const component = <Feedback/>;
+
+    render(component);
+
+    const thumbsDown = screen.getByText('No');
+
+    userEvent.click(thumbsDown);
+
+    expect(API.post).toHaveBeenCalled();
   });
 });

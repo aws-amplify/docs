@@ -1,4 +1,4 @@
-import Amplify from '@aws-amplify/core';
+import { Amplify } from '@aws-amplify/core';
 import { API } from '@aws-amplify/api';
 import { useState } from 'react';
 import { FeedbackStyle, VoteButtonStyle, VoteButtonDivStyle } from './styles';
