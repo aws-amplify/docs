@@ -1,0 +1,57 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.postCallback = void 0;
+const tslib_1 = require("tslib");
+const aws_sdk_1 = require("aws-sdk");
+const serverless_express_1 = require("@vendia/serverless-express");
+const uuid_1 = require("uuid");
+const isUUID_1 = (0, tslib_1.__importDefault)(require("validator/lib/isUUID"));
+const dynamodb = new aws_sdk_1.DynamoDB.DocumentClient();
+let tableName = 'submissionsTable';
+if (process.env.ENV && process.env.ENV !== 'NONE') {
+    tableName = tableName + '-' + process.env.ENV;
+}
+const userIdPresent = false;
+const UNAUTH = 'UNAUTH';
+const currentInvoke = (0, serverless_express_1.getCurrentInvoke)();
+function postCallback(req, res) {
+    if (userIdPresent) {
+        req.body['userId'] =
+            currentInvoke.event.requestContext.identity.cognitoIdentityId || UNAUTH;
+    }
+    const timestamp = new Date().toISOString();
+    if (typeof req.body.vote === 'boolean' &&
+        typeof req.body.page_path === 'string') {
+        let id = (0, uuid_1.v4)();
+        if (typeof req.body.id === 'string' && (0, isUUID_1.default)(req.body.id)) {
+            id = req.body.id;
+        }
+        let putItemParams = {
+            TableName: tableName,
+            Item: {
+                id: id,
+                created: timestamp,
+                vote: req.body.vote,
+                page_path: req.body.page_path
+            }
+        };
+        dynamodb.put(putItemParams, (err, data) => {
+            if (err) {
+                res.statusCode = 500;
+                res.json({ error: err, url: req.url, body: req.body });
+            }
+            else {
+                res.json({
+                    url: req.url,
+                    data: JSON.stringify(putItemParams.Item)
+                });
+            }
+        });
+    }
+    else {
+        res.statusCode = 400;
+        const invalidBody = 'Invalid body for creating feedback: "vote" should be a boolean and "page_path" should be a string.';
+        res.json({ error: invalidBody, url: req.url, body: req.body });
+    }
+}
+exports.postCallback = postCallback;

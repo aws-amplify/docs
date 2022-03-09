@@ -1,5 +1,8 @@
-import {postCallback} from '../app';
-import httpMocks from '../../src/node_modules/node-mocks-http';
+import { postCallback } from '../SubmissionsController';
+import httpMocks from '../../../src/node_modules/node-mocks-http';
+import { DynamoDB } from '../__mocks__/aws-sdk';
+
+const db = new DynamoDB.DocumentClient();
 
 describe('Express app', () => {
   describe('Post feedback', () => {
@@ -8,16 +11,17 @@ describe('Express app', () => {
         method: 'POST',
         url: '/feedback',
         headers: {
-          "content-type": "application/json"
+          'content-type': 'application/json'
         },
         body: {
           vote: 1,
-          page_path: "path"
+          page_path: 'path'
         }
       });
 
       const response = httpMocks.createResponse();
-      postCallback(request, response)
+
+      postCallback(request, response);
 
       expect(response.statusCode).toBe(400);
     });
@@ -27,15 +31,16 @@ describe('Express app', () => {
         method: 'POST',
         url: '/feedback',
         headers: {
-          "content-type": "application/json"
+          'content-type': 'application/json'
         },
         body: {
-          page_path: "path"
+          page_path: 'path'
         }
       });
 
       const response = httpMocks.createResponse();
-      postCallback(request, response)
+
+      postCallback(request, response);
 
       expect(response.statusCode).toBe(400);
     });
@@ -45,7 +50,7 @@ describe('Express app', () => {
         method: 'POST',
         url: '/feedback',
         headers: {
-          "content-type": "application/json"
+          'content-type': 'application/json'
         },
         body: {
           vote: true,
@@ -54,7 +59,8 @@ describe('Express app', () => {
       });
 
       const response = httpMocks.createResponse();
-      postCallback(request, response)
+
+      postCallback(request, response);
 
       expect(response.statusCode).toBe(400);
     });
@@ -64,7 +70,7 @@ describe('Express app', () => {
         method: 'POST',
         url: '/feedback',
         headers: {
-          "content-type": "application/json"
+          'content-type': 'application/json'
         },
         body: {
           vote: true
@@ -72,9 +78,31 @@ describe('Express app', () => {
       });
 
       const response = httpMocks.createResponse();
-      postCallback(request, response)
+
+      postCallback(request, response);
 
       expect(response.statusCode).toBe(400);
+    });
+
+    it('Should call dynamodb put', async () => {
+      const request = httpMocks.createRequest({
+        method: 'POST',
+        url: '/feedback',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: {
+          vote: true,
+          page_path: '/path/to/page'
+        }
+      });
+
+      const response = httpMocks.createResponse();
+
+      await postCallback(request, response);
+
+      expect(response.statusCode).toBe(200);
+      expect(db.put).toHaveBeenCalled();
     });
   });
 });
