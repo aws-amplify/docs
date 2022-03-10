@@ -10,6 +10,7 @@ import extractMdxMeta from 'extract-mdx-metadata';
 import { remark } from 'remark';
 import mdx from 'remark-mdx';
 import searchable from 'remark-mdx-searchable';
+import { compile } from '@mdx-js/mdx';
 
 const platformMap = {
   js: {
@@ -62,18 +63,28 @@ const allFilters = [
   'next'
 ];
 
+const pagesToSkip = ['/', '/ChooseFilterPage', '/404'];
+const pagesWithIndex = ['/cli/function', '/cli', '/console'];
+
 const pageValues = [];
 Object.keys(pathmap).forEach(async (key) => {
   const value = pathmap[key];
-  const { page } = value;
-  if (page.includes('[')) {
-    console.log(key, page);
-    const platform = key.split('/').pop();
-    console.log(platform);
-    const filename = path.join(__dirname, '../src/pages', page) + '.mdx';
+  let { page } = value;
 
-    pageValues.push({ filename, platform });
+  if (pagesToSkip.includes(page)) {
+    return;
   }
+
+  if (pagesWithIndex.includes(page)) {
+    page += '/index';
+  }
+
+  const filename = path.join(__dirname, '../src/pages', page) + '.mdx';
+  let platform = '';
+  if (page.includes('[')) {
+    platform = key.split('/').pop();
+  }
+  pageValues.push({ filename, platform });
 });
 
 try {
@@ -87,9 +98,10 @@ try {
     throw new Error('ALGOLIA_SEARCH_ADMIN_KEY is not defined');
   }
 
+  console.log('Compiling index...');
+
   readPages(async function() {
     const transformed = transformPostsToSearchObjects(articles);
-    console.log(transformed);
     const client = algoliasearch(
       process.env.PUBLIC_ALGOLIA_APP_ID,
       process.env.ALGOLIA_SEARCH_ADMIN_KEY
@@ -98,11 +110,7 @@ try {
     const algoliaResponse = await index.saveObjects(transformed);
 
     console.log(
-      `Successfully added ${
-        algoliaResponse.objectIDs.length
-      } records to Algolia search! Object IDs:\n${algoliaResponse.objectIDs.join(
-        '\n'
-      )}`
+      `Successfully added ${algoliaResponse.objectIDs.length} records to Algolia search!`
     );
   });
 } catch (error) {
@@ -122,9 +130,11 @@ function readPages(cb) {
 }
 
 async function tryParseImports(source, filename, platform, cb) {
+  console.log('Compiling', filename);
   try {
-    const imports = [...(await parseImports(source))];
+    const compiled = String(await compile(source));
     const lines = source.split('\n');
+    const imports = [...(await parseImports(compiled))];
     const fragments = {};
     lines.forEach((line, lineNumber) => {
       if (line.includes('<Fragments')) {
@@ -134,7 +144,13 @@ async function tryParseImports(source, filename, platform, cb) {
               fragments[filter] = [];
             }
             imports.forEach((parsedImport) => {
-              if (parsedImport.importClause.default.includes(filter)) {
+              const isAbsolute = parsedImport.moduleSpecifier.isConstant;
+              const hasDefault = parsedImport.importClause.default;
+              const likelyFragment = isAbsolute && hasDefault;
+              if (
+                likelyFragment &&
+                parsedImport.importClause.default.includes(filter)
+              ) {
                 fragments[filter].push(parsedImport.moduleSpecifier.value);
               }
             });
@@ -142,7 +158,6 @@ async function tryParseImports(source, filename, platform, cb) {
         });
       }
     });
-    // console.log(fragments, filename, platform);
 
     // derive URL path
     filename = filename.split('[');
@@ -150,23 +165,25 @@ async function tryParseImports(source, filename, platform, cb) {
     filename = filename.join('');
     filename = filename.split('src/pages')[1];
 
-    // add platform specific fragments to source
-    fragments[platform].forEach((fragment) => {
-      const fragmentPath = path.join(__dirname, '..', fragment);
-      const fragmentFile = fs.readFileSync(fragmentPath, 'utf8');
-      source = source + '\n' + fragmentFile;
-    });
+    if (!Object.keys(fragments).length === 0) {
+      // add platform specific fragments to source
+      fragments[platform].forEach((fragment) => {
+        const fragmentPath = path.join(__dirname, '..', fragment);
+        const fragmentFile = fs.readFileSync(fragmentPath, 'utf8');
+        source = source + '\n' + fragmentFile;
+      });
 
-    // remove unused fragments and imports from markdown
-    source = source.split('\n');
-    source = source.map((line) => {
-      if (line.includes('<Fragments') || line.includes('/src/fragments/')) {
-        line = '';
-      }
-      return line;
-    });
+      // remove unused fragments and imports from markdown
+      source = source.split('\n');
+      source = source.map((line) => {
+        if (line.includes('<Fragments') || line.includes('/src/fragments/')) {
+          line = '';
+        }
+        return line;
+      });
 
-    source = source.join('\n');
+      source = source.join('\n');
+    }
 
     const meta = await extractMdxMeta(source);
 
@@ -190,6 +207,7 @@ async function tryParseImports(source, filename, platform, cb) {
   } catch (e) {
     console.log('Pages remaing:', pageValues.length);
     console.error(`cannot parse ES imports in '${filename}'`);
+    console.error(e);
     readPages(cb);
   }
 }
@@ -208,24 +226,3 @@ function transformPostsToSearchObjects(articles) {
 
   return transformed;
 }
-
-// const CONTENT_PATH = path.join(process.cwd(), 'content/articles');
-// const contentFilePaths = fs
-//   .readdirSync(CONTENT_PATH)
-//   // Only include md(x) files
-//   .filter((path) => /\.mdx?$/.test(path));
-
-// async function getAllBlogPosts() {
-//   const articles = contentFilePaths.map((filePath) => {
-//     const source = fs.readFileSync(path.join(CONTENT_PATH, filePath));
-//     const { content, data } = matter(source);
-
-//     return {
-//       content, // this is the .mdx content
-//       data, // this is the frontmatter
-//       filePath // this is the file path
-//     };
-//   });
-
-//   return articles;
-// }
