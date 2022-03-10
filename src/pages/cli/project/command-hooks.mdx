@@ -248,17 +248,17 @@ In this example, we'll add a `python` hook script running in the Amplify Console
     ```
 3. Navigate to your app in the Amplify Console and select **App settings** > **Build settings** to update the `preBuild` phase to install python.
     ```yaml
-    ...
+    # ...
     backend:
-    phases:
+      phases:
         preBuild:
-        commands:
+          commands:
             - yum install -y python3
     frontend:
-    ...
+    # ...
     ```
 
-4. You’re all set! The python command hooks will be executed in new CI/CD builds. 
+4. You're all set! The python command hooks will be executed in new CI/CD builds. 
 
 ## Command hook limitations with Amplify Studio
 
