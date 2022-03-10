@@ -2013,21 +2013,6 @@ const directory = {
           },
         ],
       },
-      "location-service": {
-        title: "Location",
-        items: [
-          {
-            title: "Accessing Amazon Location Service",
-            route: "/guides/location-service/setting-up-your-app",
-            filters: ["android", "ios"],
-          },
-          {
-            title: "Tracking a Device Location",
-            route: "/guides/location-service/tracking-device-location",
-            filters: ["android", "ios"],
-          },
-        ],
-      },
     },
   },
 };
