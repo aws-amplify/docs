@@ -14,11 +14,15 @@ Follow these instructions to add and manage team members and their access to a p
 1. Sign in to the AWS Management Console and open AWS Amplify.
 2. In the navigation pane, choose **Amplify Studio settings**.
 3. On the **Amplify Studio settings** page, in the **Access control settings** section, choose **Add team members**.
-4. For **Email**, enter the email address of the team member to invite. 
+4. For **Email**, enter the email address of the team member to invite.
 5. For **Access level**, choose the level of access to grant the team member.
   * **Full access** allows the team member to create and manage AWS resources.
   * **Manage only** access allows the team member to edit app content and users.
 6. To email the invitation, choose **Send invite**. The team member receives an email with temporary credentials and a link to access the project in Studio.
+
+<Callout warning>
+  Granting a user the <b>Full Access</b> level attaches the <b>AdministratorAccess-Amplify</b> policy. This policy is not scoped to a single application and grants the user access to all applications within the Account. See <a href="https://docs.aws.amazon.com/amplify/latest/userguide/security-iam-awsmanpol.html">here</a> for more details.
+</Callout>
 
 ## To edit team member access or delete a user
 1. Sign in to the AWS Management Console and open AWS Amplify.
