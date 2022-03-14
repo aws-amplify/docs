@@ -101,6 +101,37 @@ And your app CSS should be updated to show the sign out button
 
 ![Geofence Edit](/images/geofence-edit.png)
 
+### NextJS and Polyfills
+
+<Callout>
+
+**Note:** The current version of `maplibre-gl-draw-circle` that we depend on uses a slightly older version of `mapbox-gl-draw`. `mapbox-gl-draw` v1.1.1 will require some polyfills in NextJS to get your application to compile otherwise you will get an error like:
+
+`Uncaught ReferenceError: process is not defined`
+
+Follow the instructions below if you are using NextJS to resolve the error:
+
+1. Add node-polyfill-webpack-plugin as dev dependency: `npm install node-polyfill-webpack-plugin -D`
+
+2. Add the plugin to your next.config.js plugins list and include a [resolve fallback](https://webpack.js.org/configuration/resolve/#resolvefallback) for `fs`
+
+```
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
+
+module.exports = {
+  reactStrictMode: true,
+  webpack: (config) => {
+    config.plugins.push(new NodePolyfillPlugin());
+    config.resolve.fallback = {
+      fs: false,
+    };
+    return config;
+  },
+};
+```
+
+</Callout>
+
 ## Geofence API
 
 If you are using a different mapping library or need a programmatic approach to managing geofences, the `@aws-amplify/geo` package provides methods for managing geofences, but not geofence collections.
