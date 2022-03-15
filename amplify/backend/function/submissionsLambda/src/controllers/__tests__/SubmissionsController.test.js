@@ -38,7 +38,7 @@ describe('Express app', () => {
             (0, SubmissionsController_1.postCallback)(request, response);
             expect(response.statusCode).toBe(400);
         });
-        it('Should return 400 error when path is not a string', () => {
+        it('Should return 400 error when page_path is not a string', () => {
             const request = node_mocks_http_1.default.createRequest({
                 method: 'POST',
                 url: '/feedback',
@@ -54,7 +54,7 @@ describe('Express app', () => {
             (0, SubmissionsController_1.postCallback)(request, response);
             expect(response.statusCode).toBe(400);
         });
-        it('Should return 400 error when path is not in body', () => {
+        it('Should return 400 error when page_path is not in body', () => {
             const request = node_mocks_http_1.default.createRequest({
                 method: 'POST',
                 url: '/feedback',
@@ -63,6 +63,22 @@ describe('Express app', () => {
                 },
                 body: {
                     vote: true
+                }
+            });
+            const response = node_mocks_http_1.default.createResponse();
+            (0, SubmissionsController_1.postCallback)(request, response);
+            expect(response.statusCode).toBe(400);
+        });
+        it('Should return 400 error when page_path is not a path', () => {
+            const request = node_mocks_http_1.default.createRequest({
+                method: 'POST',
+                url: '/feedback',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: {
+                    vote: true,
+                    page_path: "/test>/test/path/"
                 }
             });
             const response = node_mocks_http_1.default.createResponse();

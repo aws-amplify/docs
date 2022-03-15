@@ -6,6 +6,7 @@ const aws_sdk_1 = require("aws-sdk");
 const serverless_express_1 = require("@vendia/serverless-express");
 const uuid_1 = require("uuid");
 const isUUID_1 = (0, tslib_1.__importDefault)(require("validator/lib/isUUID"));
+const isURL_1 = (0, tslib_1.__importDefault)(require("validator/lib/isURL"));
 const dynamodb = new aws_sdk_1.DynamoDB.DocumentClient();
 let tableName = 'submissionsTable';
 if (process.env.ENV && process.env.ENV !== 'NONE') {
@@ -20,8 +21,15 @@ function postCallback(req, res) {
             currentInvoke.event.requestContext.identity.cognitoIdentityId || UNAUTH;
     }
     const timestamp = new Date().toISOString();
+    const isUrlOptions = {
+        require_protocol: false,
+        require_tld: false,
+        require_host: false,
+        allow_query_components: false,
+        validate_length: true
+    };
     if (typeof req.body.vote === 'boolean' &&
-        typeof req.body.page_path === 'string') {
+        typeof req.body.page_path === 'string' && (0, isURL_1.default)(req.body.page_path, isUrlOptions)) {
         let id = (0, uuid_1.v4)();
         if (typeof req.body.id === 'string' && (0, isUUID_1.default)(req.body.id)) {
             id = req.body.id;
@@ -50,7 +58,7 @@ function postCallback(req, res) {
     }
     else {
         res.statusCode = 400;
-        const invalidBody = 'Invalid body for creating feedback: "vote" should be a boolean and "page_path" should be a string.';
+        const invalidBody = 'Invalid body for creating feedback';
         res.json({ error: invalidBody, url: req.url, body: req.body });
     }
 }

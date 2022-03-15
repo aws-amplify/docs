@@ -45,7 +45,7 @@ describe('Express app', () => {
       expect(response.statusCode).toBe(400);
     });
 
-    it('Should return 400 error when path is not a string', () => {
+    it('Should return 400 error when page_path is not a string', () => {
       const request = httpMocks.createRequest({
         method: 'POST',
         url: '/feedback',
@@ -65,7 +65,7 @@ describe('Express app', () => {
       expect(response.statusCode).toBe(400);
     });
 
-    it('Should return 400 error when path is not in body', () => {
+    it('Should return 400 error when page_path is not in body', () => {
       const request = httpMocks.createRequest({
         method: 'POST',
         url: '/feedback',
@@ -74,6 +74,26 @@ describe('Express app', () => {
         },
         body: {
           vote: true
+        }
+      });
+
+      const response = httpMocks.createResponse();
+
+      postCallback(request, response);
+
+      expect(response.statusCode).toBe(400);
+    });
+
+    it('Should return 400 error when page_path is not a path', () => {
+      const request = httpMocks.createRequest({
+        method: 'POST',
+        url: '/feedback',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: {
+          vote: true,
+          page_path: "/test>/test/path/"
         }
       });
 

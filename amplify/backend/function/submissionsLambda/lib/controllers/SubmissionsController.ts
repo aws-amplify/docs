@@ -2,6 +2,7 @@ import { DynamoDB } from 'aws-sdk';
 import { getCurrentInvoke } from '@vendia/serverless-express';
 import { v4 as uuidv4 } from 'uuid';
 import isUUID from 'validator/lib/isUUID';
+import isURL from 'validator/lib/isURL';
 
 const dynamodb = new DynamoDB.DocumentClient();
 
@@ -23,9 +24,17 @@ export function postCallback(req, res) {
 
   const timestamp = new Date().toISOString();
 
+  const isUrlOptions = {
+    require_protocol: false,
+    require_tld: false,
+    require_host: false,
+    allow_query_components: false,
+    validate_length: true
+  }
+
   if (
     typeof req.body.vote === 'boolean' &&
-    typeof req.body.page_path === 'string'
+    typeof req.body.page_path === 'string' && isURL(req.body.page_path, isUrlOptions)
   ) {
 
     let id = uuidv4();
@@ -57,7 +66,7 @@ export function postCallback(req, res) {
   } else {
     res.statusCode = 400;
     const invalidBody =
-      'Invalid body for creating feedback: "vote" should be a boolean and "page_path" should be a string.';
+      'Invalid body for creating feedback';
     res.json({ error: invalidBody, url: req.url, body: req.body });
   }
 }
