@@ -31,6 +31,7 @@ Amplify will update all of the GraphQL operations and types to use the name Task
 
 - `@mapsTo` cannot be used to point a model to an arbitrarily named table. It can only be used to point a renamed model to it's original name.
 - `@mapsTo` can only be used on @model GraphQL types that are backed by a DynamoDB table.
+
 </Callout>
 
 When renaming a model that has relationships with other models, Amplify will automatically map auto-generated foreign key fields to their original name. For example, given:
