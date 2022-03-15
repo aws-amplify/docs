@@ -128,7 +128,7 @@ module.exports = {
   webpack: (config) => {
     config.plugins.push(new NodePolyfillPlugin()); // Adds polyfills for aws-amplify
     config.resolve.fallback = {
-      fs: false, // Resolves fs issue from mapblibre-gl-draw-circle
+      fs: false, // Resolves fs issue from maplibre-gl-draw-circle
     };
     return config;
   },
