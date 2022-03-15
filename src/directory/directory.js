@@ -1146,6 +1146,11 @@ const directory = {
             route: "/cli/graphql/connect-to-machine-learning-services",
             filters: []
           },
+          {            
+            title: "Evolving GraphQL schemas",
+            route: "/cli/graphql/schema-evolution",
+            filters: []
+          },
           {
             title: "JavaScript, Java, Swift code generation",
             route: "/cli/graphql/client-code-generation",
