@@ -54,12 +54,12 @@ export function postCallback(req, res) {
 
     dynamodb.put(putItemParams, (err, data) => {
       if (err) {
-        res.statusCode = 500;
-        res.json({ error: err, url: req.url, body: req.body });
+        res.statusCode = 400;
+        const dbError = 'Error saving feedback';
+        res.json({ error: dbError });
       } else {
         res.json({
-          url: req.url,
-          data: JSON.stringify(putItemParams.Item)
+          data: JSON.stringify({id: putItemParams.Item.id})
         });
       }
     });
@@ -67,6 +67,6 @@ export function postCallback(req, res) {
     res.statusCode = 400;
     const invalidBody =
       'Invalid body for creating feedback';
-    res.json({ error: invalidBody, url: req.url, body: req.body });
+    res.json({ error: invalidBody });
   }
 }
