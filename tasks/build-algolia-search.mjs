@@ -12,6 +12,8 @@ import mdx from 'remark-mdx';
 import searchable from 'remark-mdx-searchable';
 import { compile } from '@mdx-js/mdx';
 
+import { visit } from 'unist-util-visit';
+
 const platformMap = {
   js: {
     label: 'JavaScript'
@@ -164,6 +166,7 @@ async function tryParseImports(source, filename, platform, cb) {
     filename[1] = platform;
     filename = filename.join('');
     filename = filename.split('src/pages')[1];
+    filename = filename.split('.mdx')[0];
 
     if (!Object.keys(fragments).length === 0) {
       // add platform specific fragments to source
@@ -197,12 +200,12 @@ async function tryParseImports(source, filename, platform, cb) {
 
     const result = remark()
       .use(mdx)
-      .use(searchable)
+      .use(makeSearchable)
       .processSync(source);
 
     const searchableText = result.data;
 
-    articles.push({ searchableText, source, meta });
+    articles.push({ searchableText, source, meta, filename });
     readPages(cb);
   } catch (e) {
     console.log('Pages remaing:', pageValues.length);
@@ -213,16 +216,66 @@ async function tryParseImports(source, filename, platform, cb) {
 }
 
 function transformPostsToSearchObjects(articles) {
-  const transformed = articles.map((article) => {
-    return {
-      objectID: article.meta.title,
-      title: article.meta.title,
-      description: article.meta.description,
-      slug: article.filename,
-      type: 'article',
-      content: article.searchableText
-    };
+  const transformed = [];
+  articles.forEach((article) => {
+    const { searchableText } = article;
+    searchableText.forEach((chunk, idx) => {
+      console.log('slug', article.filename);
+      const obj = {
+        objectID: article.meta.title + '-' + idx,
+        title: article.meta.title,
+        description: article.meta.description,
+        slug: article.filename,
+        type: 'article',
+        content: {
+          heading: chunk.heading,
+          depth: chunk.depth,
+          text: chunk.text
+        }
+      };
+
+      transformed.push(obj);
+    });
   });
 
   return transformed;
+}
+
+const textTypes = ['text', 'emphasis', 'strong', 'inlineCode'];
+const flattenNode = (node) => {
+  const p = [];
+  visit(node, (node) => {
+    if (!textTypes.includes(node.type)) return;
+    p.push(node.value);
+  });
+
+  return p.join(``);
+};
+
+function makeSearchable() {
+  return (tree, file) => {
+    file.data = [];
+    let heading = null;
+    let depth = null;
+
+    visit(
+      tree,
+      ({ type }) => {
+        return ['heading', 'paragraph'].includes(type);
+      },
+      (node) => {
+        if (node.type === 'heading') {
+          heading = flattenNode(node);
+          depth = node.depth;
+          return;
+        }
+
+        file.data.push({
+          heading,
+          depth,
+          text: flattenNode(node)
+        });
+      }
+    );
+  };
 }
