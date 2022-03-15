@@ -107,7 +107,12 @@ And your app CSS should be updated to show the sign out button
 
 **Note:** The current version of `maplibre-gl-draw-circle` that we depend on uses a slightly older version of `mapbox-gl-draw`. `mapbox-gl-draw` v1.1.1 will require some polyfills in NextJS to get your application to compile otherwise you will get an error like:
 
-`Uncaught ReferenceError: process is not defined`
+```
+Uncaught ReferenceError: fs is not defined
+```
+
+Additionally using `@aws-amplify/ui-react` with Webpack5 requires polyfills for `aws-amplify` as documented [here](https://ui.docs.amplify.aws/getting-started/installation#webpack-5).
+
 
 Follow the instructions below if you are using NextJS to resolve the error:
 
@@ -121,9 +126,9 @@ const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 module.exports = {
   reactStrictMode: true,
   webpack: (config) => {
-    config.plugins.push(new NodePolyfillPlugin());
+    config.plugins.push(new NodePolyfillPlugin()); // Adds polyfills for aws-amplify
     config.resolve.fallback = {
-      fs: false,
+      fs: false, // Resolves fs issue from mapblibre-gl-draw-circle
     };
     return config;
   },
