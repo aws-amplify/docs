@@ -47,7 +47,7 @@ function postCallback(req, res) {
             if (err) {
                 res.statusCode = 400;
                 const dbError = 'Error saving feedback';
-                res.json({ error: dbError });
+                res.json({ message: dbError });
             }
             else {
                 res.json({
@@ -59,7 +59,7 @@ function postCallback(req, res) {
     else {
         res.statusCode = 400;
         const invalidBody = 'Invalid body for creating feedback';
-        res.json({ error: invalidBody });
+        res.json({ message: invalidBody });
     }
 }
 exports.postCallback = postCallback;

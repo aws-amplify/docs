@@ -5,4 +5,10 @@ const tslib_1 = require("tslib");
 require("source-map-support/register");
 const serverless_express_1 = (0, tslib_1.__importDefault)(require("@vendia/serverless-express"));
 const app_1 = require("./app");
-exports.handler = (0, serverless_express_1.default)({ app: app_1.app });
+let serverlessExpressInstance;
+const handler = (event, context) => {
+    console.log(`EVENT: ${JSON.stringify(event)}`);
+    serverlessExpressInstance = (0, serverless_express_1.default)({ app: app_1.app });
+    return serverlessExpressInstance(event, context);
+};
+exports.handler = handler;
