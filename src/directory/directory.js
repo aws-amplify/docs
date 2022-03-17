@@ -1146,7 +1146,7 @@ const directory = {
             route: "/cli/graphql/connect-to-machine-learning-services",
             filters: []
           },
-          {            
+          {
             title: "Evolving GraphQL schemas",
             route: "/cli/graphql/schema-evolution",
             filters: []
@@ -1419,6 +1419,11 @@ const directory = {
               "Amplify Codegen Models - List and list components nullability",
             route: "/cli/migration/list-nullability",
             filters: [],
+          },
+          {
+            title: 'Migrate project to another AWS account',
+            route: '/cli/migration/cli-migrate-aws-account',
+            filters: []
           },
         ],
       },
