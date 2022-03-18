@@ -29,7 +29,13 @@ $ npm init next-app
 ✔ Pick a template › Default starter app
 ```
 
-Currently, Amplify doesn't fully support Image Component and Automatic Image Optimization available in Next.js 10. To manually deploy the `next-app` example, you must edit the **index.js** file to remove this feature. Navigate to `pages/index.js` and delete the following line near the top of the file:
+<Callout>
+
+Image Optimization using Next.js' default loader is not compatible with `next export`. To manually deploy the `next-app` example, you must edit the `index.js` file to remove this feature following the steps below. 
+
+</Callout>
+
+Navigate to `pages/index.js` and delete the following line near the top of the file:
 
 ````html
 import Image from 'next/image'
@@ -40,10 +46,13 @@ import Image from 'next/image'
 ````html
 <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
 ````
+
 Edit the tag to use the HTML `img` tag as follows:
 ````html
 <img src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
 ````
+
+
 
 Next, change to the `my-app` directory to update the **package.json** file. When you deploy a Next.js app, Amplify inspects the app's build script in the **package.json** file to detect whether the app is static (SSG) or server-side rendered (SSR). 
 
@@ -94,17 +103,33 @@ $ amplify init
 Add hosting with the Amplify `add` command:
 
 ```sh
-$ amplify add hosting
+amplify add hosting
+```
 
 ```console
-? Select the plugin module to execute: # Hosting with Amplify Console
-? Choose a type: # Manual deployment
+? Select the plugin module to execute Hosting with Amplify Console (Managed hosting with custom do
+mains, Continuous deployment)
+? Choose a type Manual deployment
+
+You can now publish your app using the following command:
+
+Command: amplify publish
 ```
 
 Deploy the app with the Amplify `publish` command:
 
 ```sh
-$ amplify publish
+amplify publish
+
+✔ Successfully pulled backend environment dev from the cloud.
+
+    Current Environment: dev
+
+┌──────────┬────────────────┬───────────┬───────────────────┐
+│ Category │ Resource name  │ Operation │ Provider plugin   │
+├──────────┼────────────────┼───────────┼───────────────────┤
+│ Hosting  │ amplifyhosting │ Create    │ awscloudformation │
+└──────────┴────────────────┴───────────┴───────────────────┘
 
 ? Are you sure you want to continue? Yes
 ```
@@ -167,7 +192,13 @@ To enable this, you need to set up a rewrite for __/pages/posts/[id].html__ in t
 
 ## Deploy and host a hybrid app (SSG and SSR)
 
-To deploy a hybrid (SSG and SSR) app, use Amplify's Git-based CI/CD and hosting service
+To deploy a hybrid (SSG and SSR) app, use Amplify's Git-based CI/CD and hosting service.
+
+<Callout>
+
+For reference, the current support for Next.js SSR in Amplify Hosting is outlined [here](https://docs.aws.amazon.com/amplify/latest/userguide/server-side-rendering-amplify.html#ssr-Amplify-support).
+
+</Callout>
 
 ### Getting started
 
