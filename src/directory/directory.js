@@ -5,6 +5,16 @@ const directory = {
       route: "/lib",
     },
     items: {
+      devpreview: {
+        title: "New! Amplify iOS (Developer Preview)",
+        items: [
+          {
+            title: "Getting started",
+            route: "/lib/devpreview/getting-started",
+            filters: ["ios"],
+          },
+        ],
+      },
       "project-setup": {
         title: "Project Setup",
         items: [
@@ -1136,6 +1146,11 @@ const directory = {
             route: "/cli/graphql/connect-to-machine-learning-services",
             filters: []
           },
+          {            
+            title: "Evolving GraphQL schemas",
+            route: "/cli/graphql/schema-evolution",
+            filters: []
+          },
           {
             title: "JavaScript, Java, Swift code generation",
             route: "/cli/graphql/client-code-generation",
@@ -1720,6 +1735,10 @@ const directory = {
             route: "/console/uibuilder/databinding",
           },
           {
+            title: "UI event handler",
+            route: "/console/uibuilder/eventhandling",
+          },
+          {
             title: "Collections",
             route: "/console/uibuilder/collections",
           },
@@ -1996,21 +2015,6 @@ const directory = {
             title: "Nuxt.js",
             route: "/guides/hosting/nuxt",
             filters: ["js"],
-          },
-        ],
-      },
-      "location-service": {
-        title: "Location",
-        items: [
-          {
-            title: "Accessing Amazon Location Service",
-            route: "/guides/location-service/setting-up-your-app",
-            filters: ["android", "ios"],
-          },
-          {
-            title: "Tracking a Device Location",
-            route: "/guides/location-service/tracking-device-location",
-            filters: ["android", "ios"],
           },
         ],
       },

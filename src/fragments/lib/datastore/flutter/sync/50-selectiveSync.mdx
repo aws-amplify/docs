@@ -124,3 +124,55 @@ Future<void> initialize() {
 `DataStore.configure()` should only by called once.
 
 </Callout>
+
+### Advanced use case - Query instead of Scan
+
+By default, Datastore sync performs a [Scan](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html) on DynamoDB tables, which is [less efficient](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-query-scan.html) when a table contains a large set of data. You can use `syncExpression` when configuring Datastore to filter synced data to improve performance using [Query](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Query.html) rather than Scan.
+
+You can enable Query during the sync by following the below steps:
+
+1. Create a [Global Secondary Index (GSI)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.html) for your schema, e.g. in the below schema a GSI will be created using field `lastName` as the GSI primary key, and `createdAt` as the GSI sort key. Learn about creating GSIs with the `@index` directive [here](https://docs.amplify.aws/cli/graphql/data-modeling).
+
+   ```graphql
+   type User @model {
+     id: ID!
+     firstName: String!
+     lastName: String! @index(name: "byLastName", sortKeyFields: ["createdAt"])
+     createdAt: AWSDateTime!
+   }
+   ```
+
+2. Configure DataStore with `syncExpression` returning a predicate that maps to a query expression.
+
+To construct a query expression, return a predicate with the primary key of the GSI. You can only use the `eq` operator with this predicate.
+
+For the schema defined above `User.LASTNAME.eq("Doe")` is a valid query expression.
+
+Optionally, you can also chain the sort key to this expression, using any of the following operators: `eq | ne | le | lt | ge | gt | beginsWith | between`.
+
+E.g., `User.LASTNAME.eq("Doe").and(User.CREATEDAT.gt("2020-10-10"))`.
+
+Both of these sync expressions will result in AWS AppSync retrieving records from Amazon DynamoDB via a query operation:
+
+```dart
+// Using eq operator with the primary key of the GSI
+Amplify.addPlugin(AmplifyDataStore(
+  modelProvider: ModelProvider.instance,
+  syncExpressions: [
+    DataStoreSyncExpression(
+      User.classType,
+      () => User.LASTNAME.eq("Doe")
+    ),
+  ]));
+
+// Using eq operator with the primary key of the GSI and
+// chaining the gt operator with the sort key
+Amplify.addPlugin(AmplifyDataStore(
+  modelProvider: ModelProvider.instance,
+  syncExpressions: [
+    DataStoreSyncExpression(
+      User.classType,
+      () => User.LASTNAME.eq("Doe").and(User.CREATEDAT.gt("2020-10-10"))
+    ),
+  ]));
+```
