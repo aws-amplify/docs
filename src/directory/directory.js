@@ -1255,7 +1255,7 @@ const directory = {
             filters: [],
           },
           {
-            title: "Geofencing (Developer Preview)",
+            title: "Geofencing",
             route: "/cli/geo/geofencing",
             filters: [],
           }
