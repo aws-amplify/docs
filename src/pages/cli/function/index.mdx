@@ -39,15 +39,15 @@ Please select the Lambda Function you would want to update: lambdafunction
  ◯ function
  ◯ storage
  ◯ auth
-? Select the operations you want to permit on betatest (Press <space> to select, <a> to toggle all, <i> to invert selection)
+? Select the operations you want to permit on <YOUR_API_NAME> (Press <space> to select, <a> to toggle all, <i> to invert selection)
 ❯◉ Query
  ◯ Mutation
  ◯ Subscription
 
 You can access the following resource attributes as environment variables from your Lambda function
-	API_BETATEST_GRAPHQLAPIENDPOINTOUTPUT
-	API_BETATEST_GRAPHQLAPIIDOUTPUT
-	API_BETATEST_GRAPHQLAPIKEYOUTPUT
+	API_<YOUR_API_NAME>_GRAPHQLAPIENDPOINTOUTPUT
+	API_<YOUR_API_NAME>_GRAPHQLAPIIDOUTPUT
+	API_<YOUR_API_NAME>_GRAPHQLAPIKEYOUTPUT
 ```
 
 Behind the scenes, the CLI automates populating of the resource identifiers for the selected resources as Lambda environment variables which you will see in your function code as well. This process additionally configures CRUD level IAM policies on the Lambda execution role to access these resources from the Lambda function. For instance, you might grant permissions to your Lambda function to read/write to a DynamoDB table in the Amplify project by using the above flow and the appropriate IAM policy would be set on that Lambda function's execution policy which is scoped to that table only.
