@@ -9,7 +9,7 @@ You can customize your key path by defining a prefix resolver:
 
 ```java
 // Define your own prefix resolver, that conforms to `AWSS3StoragePluginPrefixResolver`
-public class MyDeveloperPrefixResolver implements AWSS3PluginPrefixResolver{
+public class MyDeveloperPrefixResolver implements AWSS3PluginPrefixResolver {
 
     @Override
     public void resolvePrefix(@NonNull StorageAccessLevel accessLevel, @Nullable String targetIdentity,
@@ -19,10 +19,10 @@ public class MyDeveloperPrefixResolver implements AWSS3PluginPrefixResolver{
                 onSuccess.accept("myPublicPrefix/");
             }
             case PROTECTED: {
-                onSuccess.accept("myProtectedPrefix/$targetIdentity/");
+                onSuccess.accept("myProtectedPrefix/" + targetIdentity + "/");
             }
             case PRIVATE: {
-                onSuccess.accept("myPrivatePrefix/$targetIdentity/");
+                onSuccess.accept("myPrivatePrefix/" + targetIdentity + "/");
             }
         }
     }
@@ -127,7 +127,7 @@ If you would like no prefix resolution logic, such as performing S3 requests at 
 <Block name="Java">
 
 ```java
-public class MyDeveloperPrefixResolver implements AWSS3PluginPrefixResolver{
+public class PassThroughPrefixResolver implements AWSS3PluginPrefixResolver {
 
     @Override
     public void resolvePrefix(@NonNull StorageAccessLevel accessLevel, @Nullable String targetIdentity,
