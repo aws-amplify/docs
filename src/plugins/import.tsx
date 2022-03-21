@@ -1,85 +1,85 @@
-const importPlugin = () => (tree) => {
+const importPlugin = () => async (tree) => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const visit = require("unist-util-visit");
+  const { visit } = await import('unist-util-visit');
 
   let addedImports = false;
   visit(tree, (_, index) => {
     if (!addedImports) {
       tree.children.splice(index + 1, 0, {
-        type: "import",
-        value: `import Page from "/src/components/Page";`,
+        type: 'import',
+        value: `import Page from "/src/components/Page";`
       });
       tree.children.splice(index + 1, 0, {
-        type: "import",
-        value: `import Fragments from "/src/components/Fragments";`,
+        type: 'import',
+        value: `import Fragments from "/src/components/Fragments";`
       });
       tree.children.splice(index + 1, 0, {
-        type: "import",
-        value: `import FilterContent from "/src/components/FilterContent";`,
+        type: 'import',
+        value: `import FilterContent from "/src/components/FilterContent";`
       });
       tree.children.splice(index + 1, 0, {
-        type: "import",
-        value: `import CodeBlock from "/src/components/CodeBlock";`,
+        type: 'import',
+        value: `import CodeBlock from "/src/components/CodeBlock";`
       });
       tree.children.splice(index + 1, 0, {
-        type: "import",
-        value: `import Block from "/src/components/Block";`,
+        type: 'import',
+        value: `import Block from "/src/components/Block";`
       });
       tree.children.splice(index + 1, 0, {
-        type: "import",
-        value: `import BlockSwitcher from "/src/components/BlockSwitcher";`,
+        type: 'import',
+        value: `import BlockSwitcher from "/src/components/BlockSwitcher";`
       });
       tree.children.splice(index + 1, 0, {
-        type: "import",
-        value: `import Callout from "/src/components/Callout";`,
+        type: 'import',
+        value: `import Callout from "/src/components/Callout";`
       });
       tree.children.splice(index + 1, 0, {
-        type: "import",
-        value: `import {Card, CardDetail, CardGraphic} from "/src/components/Card";`,
+        type: 'import',
+        value: `import {Card, CardDetail, CardGraphic} from "/src/components/Card";`
       });
       tree.children.splice(index + 1, 0, {
-        type: "import",
-        value: `import ExternalLink from "/src/components/ExternalLink";`,
+        type: 'import',
+        value: `import ExternalLink from "/src/components/ExternalLink";`
       });
       tree.children.splice(index + 1, 0, {
-        type: "import",
-        value: `import InternalLink from "/src/components/InternalLink";`,
+        type: 'import',
+        value: `import InternalLink from "/src/components/InternalLink";`
       });
       tree.children.splice(index + 1, 0, {
-        type: "import",
-        value: `import InternalLinkButton from "/src/components/InternalLinkButton";`,
+        type: 'import',
+        value: `import InternalLinkButton from "/src/components/InternalLinkButton";`
       });
       tree.children.splice(index + 1, 0, {
-        type: "import",
-        value: `import Hero from "/src/components/Hero";`,
+        type: 'import',
+        value: `import Hero from "/src/components/Hero";`
       });
       tree.children.splice(index + 1, 0, {
-        type: "import",
-        value: `import Footer from "/src/components/Footer";`,
+        type: 'import',
+        value: `import Footer from "/src/components/Footer";`
       });
       tree.children.splice(index + 1, 0, {
-        type: "import",
-        value: `import Container from "/src/components/Container";`,
+        type: 'import',
+        value: `import Container from "/src/components/Container";`
       });
       tree.children.splice(index + 1, 0, {
-        type: "import",
-        value: `import FeatureFlags from "/src/components/FeatureFlags";`,
+        type: 'import',
+        value: `import FeatureFlags from "/src/components/FeatureFlags";`
       });
       tree.children.splice(index + 1, 0, {
-        type: "import",
-        value: `import {AmplifyAuthenticator, AmplifySignOut} from "@aws-amplify/ui-react";`,
+        type: 'import',
+        value: `import {AmplifyAuthenticator, AmplifySignOut} from "@aws-amplify/ui-react";`
       });
       tree.children.splice(index + 1, 0, {
-        type: "import",
-        value: `import {Grid} from "theme-ui";`,
+        type: 'import',
+        value: `import {Grid} from "theme-ui";`
       });
       tree.children.splice(index + 1, 0, {
-        type: "import",
-        value: `import UiComponentProps from "/src/components/UiComponentProps";`,
+        type: 'import',
+        value: `import UiComponentProps from "/src/components/UiComponentProps";`
       });
       tree.children.splice(index + 1, 0, {
-        type: "import",
-        value: `import MigrationAlert from "/src/components/MigrationAlert";`,
+        type: 'import',
+        value: `import MigrationAlert from "/src/components/MigrationAlert";`
       });
       addedImports = true;
     }

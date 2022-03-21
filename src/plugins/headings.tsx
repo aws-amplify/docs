@@ -1,16 +1,16 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const slug = require("../utils/slug");
+const slug = require('../utils/slug');
 
-const headingLinkPlugin = () => (tree) => {
+const headingLinkPlugin = () => async (tree) => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const visit = require("unist-util-visit");
+  const { visit } = await import('unist-util-visit');
 
-  visit(tree, "heading", (heading) => {
-    const node = {...heading};
+  visit(tree, 'heading', (heading) => {
+    const node = { ...heading };
     if (node.depth !== 2 && node.depth !== 3) return;
     const data = node.data || (node.data = {});
     const props = data.hProperties || (data.hProperties = {});
-    let title = "";
+    let title = '';
     for (const child of node.children) {
       title += child.value;
     }
@@ -19,7 +19,7 @@ const headingLinkPlugin = () => (tree) => {
     data.id = id;
     props.id = id;
     heading.children = [node];
-    heading.type = "link";
+    heading.type = 'link';
     heading.url = `#${id}`;
 
     return visit.SKIP;
