@@ -1,7 +1,7 @@
-import "../styles/styles.css";
-import Head from "next/head";
+import '../styles/styles.css';
+import Head from 'next/head';
 
-function MyApp({Component, pageProps}) {
+function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
@@ -81,6 +81,10 @@ function MyApp({Component, pageProps}) {
         />
         <link rel="apple-touch-icon" href="/assets/icon/icon.png" />
         <link rel="icon" type="image/x-icon" href="/assets/icon/favicon.ico" />
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/@algolia/autocomplete-theme-classic"
+        />
       </Head>
 
       <Component {...pageProps} />

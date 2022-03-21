@@ -12,6 +12,7 @@
     "capi"
   ],
   "dependencies": {
+    "@algolia/autocomplete-js": "^1.5.3",
     "@aws-amplify/ui-components": "latest",
     "@aws-amplify/ui-react": "^1.2.5",
     "@emotion/react": "^11.1.5",

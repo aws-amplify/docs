@@ -2,6 +2,35 @@
 # yarn lockfile v1
 
 
+"@algolia/autocomplete-core@1.5.3":
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-core/-/autocomplete-core-1.5.3.tgz#5acc772ffc26ed433229e8556e2669bd51b2d529"
+  integrity sha512-hl0DAT7kU3BItafYLx/O8Z0xPaDnU9PpEPP5n1CgmaUwT/CA3YAIILuk37aA2OyP6R3aCsCyQl4IWQJQzjZ6mA==
+  dependencies:
+    "@algolia/autocomplete-shared" "1.5.3"
+
+"@algolia/autocomplete-js@^1.5.3":
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-js/-/autocomplete-js-1.5.3.tgz#54d8db10edc2869b0b5102e764db1f451b142feb"
+  integrity sha512-PvwLkrC5R5KuFiIllGqiZUuPd/BDJRB24GmmX7s5qCdst/UlxnwllpcIOv+PMZCMpRwrCJ7yKblEB7KHuUMxfQ==
+  dependencies:
+    "@algolia/autocomplete-core" "1.5.3"
+    "@algolia/autocomplete-preset-algolia" "1.5.3"
+    "@algolia/autocomplete-shared" "1.5.3"
+    preact "^10.0.0"
+
+"@algolia/autocomplete-preset-algolia@1.5.3":
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-preset-algolia/-/autocomplete-preset-algolia-1.5.3.tgz#3ad8a5fbcd76a15d9d75067ab0e07bc3a679fb35"
+  integrity sha512-FGf1G3HGhxUQj7N/D82DGmFQ+TgqDM5ZcowzNFzWs/PpHuK8Ng6UJiOnR0cj7ixQ3SAaide0UMNMIXHcECDOXg==
+  dependencies:
+    "@algolia/autocomplete-shared" "1.5.3"
+
+"@algolia/autocomplete-shared@1.5.3":
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-shared/-/autocomplete-shared-1.5.3.tgz#c4c926ea2896622fc9c5eb033f2bf29aad8f00b0"
+  integrity sha512-9eQqd9Zu+7SdAxv9H58clcUEKtiKDEW9KLE3sY2e0MlFbRgWV1UrtF1PbXOk/v1cDe+NS/GOXPqrWuf7traDpw==
+
 "@algolia/cache-browser-local-storage@4.12.1":
   version "4.12.1"
   resolved "https://registry.yarnpkg.com/@algolia/cache-browser-local-storage/-/cache-browser-local-storage-4.12.1.tgz#23f4f219963b96918d0524acd09d4d646541d888"
@@ -8714,7 +8743,7 @@ postcss@8.2.13:
     nanoid "^3.1.22"
     source-map "^0.6.1"
 
-preact@^10.6.0:
+preact@^10.0.0, preact@^10.6.0:
   version "10.6.6"
   resolved "https://registry.yarnpkg.com/preact/-/preact-10.6.6.tgz#f1899bc8dab7c0788b858481532cb3b5d764a520"
   integrity sha512-dgxpTFV2vs4vizwKohYKkk7g7rmp1wOOcfd4Tz3IB3Wi+ivZzsn/SpeKJhRENSE+n8sUfsAl4S3HiCVT923ABw==
