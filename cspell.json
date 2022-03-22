@@ -537,11 +537,8 @@
     "EventBus",
     "eventType",
     "eventValue",
-<<<<<<< patch-1
     "execa",
-=======
     "eventhandling",
->>>>>>> main
     "execute",
     "expectedVersion",
     "FACEBOOK_TOKEN_HERE",
