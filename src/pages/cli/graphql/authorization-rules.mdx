@@ -13,9 +13,9 @@ type Todo @model @auth(rules: [{ allow: owner }]) {
 }
 ```
 
-In the example above, each signed-in user, or also known as "owner", of a Todo can create, read, update, and delete their own Todos. 
+In the example above, each signed-in user, or also known as "owner", of a Todo can create, read, update, and delete their own Todos.
 
-Amplify also allows you to restrict the allowed operations, combine multiple authorization rules, and apply fine-grained field-level authorization. 
+Amplify also allows you to restrict the allowed operations, combine multiple authorization rules, and apply fine-grained field-level authorization.
 
 ``` graphql
 type Todo @model @auth(rules: [
@@ -36,7 +36,7 @@ To help you get started, there's a global authorization rule defined when you cr
 input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }
 ```
 
-The global authorization rule (in this case `{ allow: public }` - allows anyone to create, read, update, and delete) is applied to every data model in the GraphQL schema. 
+The global authorization rule (in this case `{ allow: public }` - allows anyone to create, read, update, and delete) is applied to every data model in the GraphQL schema.
 
 <Callout warning>
 
@@ -78,7 +78,7 @@ type Post @model @auth(rules: [{ allow: public, provider: iam }]) {
 ```
 
 ### Per-user / owner-based data access
-To restrict a record's access to a specific user, use the `owner` authorization strategy. When `owner` authorization is configured, only the record's `owner` is allowed the specified operations. 
+To restrict a record's access to a specific user, use the `owner` authorization strategy. When `owner` authorization is configured, only the record's `owner` is allowed the specified operations.
 
 ```graphql
 # The "owner" of a Todo is allowed to create, read, update, and delete their own todos
@@ -120,7 +120,7 @@ In the example above, upon record creation, the `authors` list is populated with
 **Known limitation**: Real-time subscriptions are not supported when `owner` authorization is configured with a list of owners.
 
 ### Signed-in user data access
-To restrict a record's access to every signed-in user, use the `private` authorization strategy. 
+To restrict a record's access to every signed-in user, use the `private` authorization strategy.
 
 > If you want to restrict a record's access to a specific user, see [Per-user / owner-based data access](per-user--owner-based-data-access). `private` authorization applies the authorization rule to **every** signed-in user access.
 
@@ -201,7 +201,7 @@ Configure the GraphQL API with the Lambda authorization mode:
 amplify update api
 ```
 ```
-? Select a setting to edit: 
+? Select a setting to edit:
 > Authorization modes
 
 > Lambda
@@ -232,10 +232,10 @@ Your Lambda authorization function needs to return the following JSON:
 {
   // required
   "isAuthorized": true, // if "false" then an UnauthorizedException is raised, access is denied
-  
+  "resolverContext": { "banana": "very yellow" }, // JSON object visible as $ctx.identity.resolverContext in VTL resolver templates
+
   // optional
   "deniedFields": ["TypeName.FieldName"], // Forces the fields to "null" when returned to the client
-  "resolverContext": { "banana":"very yellow" }, // JSON object visible as $ctx.identity.resolverContext in VTL resolver templates
   "ttlOverride": 10 // The number of seconds that the response should be cached for. Overrides default specified in "amplify update api"
 }
 ```
@@ -243,7 +243,7 @@ Your Lambda authorization function needs to return the following JSON:
 Review the Amplify Library documentation to set the custom authorization token for [GraphQL API](/lib/graphqlapi/authz#aws-lambda) and [DataStore](/lib/datastore/setup-auth-rules#configure-custom-authorization-logic-with-aws-lambda).
 
 ## Configure multiple authorization rules
-When combining multiple authorization rules, they are "logically OR"-ed. 
+When combining multiple authorization rules, they are "logically OR"-ed.
 
 ```graphql
 type Post @model @auth(rules: [
@@ -260,7 +260,7 @@ In the example above:
 
 ## Field-level authorization rules
 
-When an authorization rule is added to a field, it'll strictly define the authorization rules applied on the field. Field-level authorization rules **do not** inherit model-level authorization rules. Meaning, only the specified field-level authorization rule is applied. 
+When an authorization rule is added to a field, it'll strictly define the authorization rules applied on the field. Field-level authorization rules **do not** inherit model-level authorization rules. Meaning, only the specified field-level authorization rule is applied.
 
 ```graphql
 type Employee @model @auth(rules: [
@@ -324,7 +324,7 @@ IAM-based `@auth` rules are scoped down to only work with Amplify-generated IAM 
 These "Admin Roles" have special access privileges that are scoped based on their IAM policy instead of any particular `@auth` rule.
 
 ### Using OIDC authorization provider
-`private`, `owner`, and `group` authorization can be configured with an OpenID Connect (OIDC) authorization mode. Add `provider: oidc` to the authorization rule. Upon the next `amplify push`, Amplify CLI prompts you for the *OpenID Connect provider domain*, *Client ID*, *Issued at TTL*, and *Auth Time TTL*.  
+`private`, `owner`, and `group` authorization can be configured with an OpenID Connect (OIDC) authorization mode. Add `provider: oidc` to the authorization rule. Upon the next `amplify push`, Amplify CLI prompts you for the *OpenID Connect provider domain*, *Client ID*, *Issued at TTL*, and *Auth Time TTL*.
 
 ```graphql
 type Todo
@@ -359,7 +359,7 @@ type Post @model
 
 In this example the record owner will check against a `user_id` claim. Similarly, if the `user_groups` claim contains a "Moderator" string then access will be granted.
 
-### Grant Lambda function access to GraphQL API 
+### Grant Lambda function access to GraphQL API
 <BlockSwitcher>
 
 <Block name="Function deployed using Amplify CLI">
