@@ -90,7 +90,11 @@ Command hooks receive two parameters, `data` and `error`. Amplify CLI passes par
 {
   "amplify": { 
     "version": String,
-    "environment": String,
+    "environment": {
+      "envName": String,
+      "projectPath": String,
+      "defaultEditor": String
+    },
     "command": String,
     "subCommand": String,
     "argv": [ String ]
@@ -101,6 +105,9 @@ Command hooks receive two parameters, `data` and `error`. Amplify CLI passes par
 - amplify
     - version - current Amplify CLI version
     - environment - current Amplify environment
+        - envName - current Amplify environment name
+        - projectPath - path to current Amplify project
+        - defaultEditor - chosen editor in init step. Example `vscode`
     - command - hooked Amplify CLI command. Example: `push`
     - subCommand - hooked Amplify CLI subcommand or plugin. Example `auth`, `env`. 
     - argv - list containing the arguments passed to Amplify CLI through the command line
@@ -260,6 +267,6 @@ In this example, we'll add a `python` hook script running in the Amplify Console
 
 4. You’re all set! The python command hooks will be executed in new CI/CD builds. 
 
-## Command hook limitations with Amplify Admin UI
+## Command hook limitations with Amplify Studio
 
-Command Hooks are not executed when updating a backend via the Amplify Admin UI.
+Command Hooks are not executed when updating a backend via Amplify Studio.

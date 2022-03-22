@@ -4,14 +4,14 @@ After initialization in your project directory with `amplify init`, update your 
 
 ```groovy
 //For AWSMobileClient only:
-implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.36.0'
+implementation 'com.amazonaws:aws-android-sdk-mobile-client:ANDROID_SDK_VERSION'
 
 //For the drop-in UI also:
-implementation 'com.amazonaws:aws-android-sdk-auth-userpools:2.36.0'
-implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.36.0'
+implementation 'com.amazonaws:aws-android-sdk-auth-userpools:ANDROID_SDK_VERSION'
+implementation 'com.amazonaws:aws-android-sdk-auth-ui:ANDROID_SDK_VERSION'
 
 //For hosted UI also:
-implementation 'com.amazonaws:aws-android-sdk-cognitoauth:2.36.0'
+implementation 'com.amazonaws:aws-android-sdk-cognitoauth:ANDROID_SDK_VERSION'
 ```
 
 For the `AWSMobileClient` alone you can have a minimum SDK version of **15**, but for the drop-in UI you will need a minimum of **23** set in your `build.gradle`:

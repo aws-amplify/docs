@@ -4,17 +4,17 @@ import {
   Branding,
   SearchContainer,
   Links,
-  AboutInternalAmplifyLink,
-} from "./styles";
-import {Container} from "../Container";
-import SearchBar from "../SearchBar";
-import ExternalLink from "../ExternalLink";
+  AboutInternalAmplifyLink
+} from './styles';
+import { Container } from '../Container';
+import SearchBar from '../SearchBar';
+import ExternalLink from '../ExternalLink';
 
-import Link from "next/link";
-import {COMMUNITY, MARKETING} from "../../constants/links";
+import Link from 'next/link';
+import { CONTRIBUTE, MARKETING } from '../../constants/links';
 
-export default function UniversalNav({heading, brandIcon, blend}) {
-  const backgroundColor = blend ? "" : "color-orange-hv";
+export default function UniversalNav({ heading, brandIcon, blend }) {
+  const backgroundColor = blend ? '' : 'color-orange-hv';
   return (
     <Nav>
       <Container backgroundColor={backgroundColor}>
@@ -33,13 +33,13 @@ export default function UniversalNav({heading, brandIcon, blend}) {
           </SearchContainer>
 
           <Links blend={blend}>
-            <ExternalLink href={COMMUNITY}>
-              <span>Community</span>
+            <ExternalLink href={CONTRIBUTE}>
+              <span>Contribute</span>
             </ExternalLink>
 
-            <ExternalLink href={MARKETING} graphic={blend ? "black" : "white"}>
+            <ExternalLink href={MARKETING} graphic={blend ? 'black' : 'white'}>
               <span>
-                About{" "}
+                About{' '}
                 <AboutInternalAmplifyLink>Amplify</AboutInternalAmplifyLink>
               </span>
             </ExternalLink>

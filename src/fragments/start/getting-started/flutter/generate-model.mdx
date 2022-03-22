@@ -2,17 +2,19 @@ With the basic setup complete, you can now model the data your application will 
 
 <Callout>
 
-**Did you know?** You can get started with Amplify’s [Admin UI](https://sandbox.amplifyapp.com/) without even creating an AWS Account.
+**Did you know?** You can get started with [Amplify Studio](https://sandbox.amplifyapp.com/) without even creating an AWS Account.
 
 </Callout>
 
 ## Create data model
 
-1. Navigate to the [Data feature in AWS Amplify Admin UI](https://sandbox.amplifyapp.com/start#datastore) and, with **To-do list schema** selected, click **Create new schema**.
+1. Navigate to the [Amplify Studio Quick Start](https://sandbox.amplifyapp.com/getting-started) and choose to build a **To-do list** with **Flutter**.
 
     ![Create new schema](/images/lib/getting-started/flutter/generate-model-admin-ui-create.png)
 
-2. On the Data modeling screen, you should see your Todo data model.  This is a good start but let’s take it a step further by adding a completion flag to our Todo items.
+2. Click on **Get started**
+
+3. On the Data modeling screen, you should see your Todo data model.  This is a good start but let’s take it a step further by adding a completion flag to our Todo items.
 
 ### Add the isComplete Boolean field
 
@@ -25,24 +27,17 @@ With the basic setup complete, you can now model the data your application will 
 
 ## Generate the models locally
 
-1. If you haven’t already done so, click **Next: Test locally in your app** on the Data modeling screen to proceed
-2. On the Test locally in your app screen, you will be prompted with on-screen instructions
-    1. **What type of app are you building?**
-        1. Platform: **Cross-platform**
-        2. Framework / Language: **Flutter**
-        3. Click **Next**
-    2. **(Optional) Create a new app**
-        1. You should have already created a new Flutter app in a previous step, so go ahead and click **Next**
-    3. **Install Amplify CLI to pull the data model**
-        1. You should have already installed the Amplify CLI in a previous step
-        2. Copy and run the command shown in your project root. This command will initialize your current project with Amplify as well as generate the data models you will be using locally
+1. Click **Next: Test locally in your app** on the Data modeling screen to proceed
+2. On the local setup instructions page, you will be prompted with on-screen instructions to pull the data model.
+    1. **Install Amplify CLI to pull the data model**
+        - You should have already installed the Amplify CLI in a previous step
+        - Copy and run the command shown in your project root. This command will initialize your current project with Amplify as well as generate the data models you will be using locally
             
             ```bash
             amplify pull --sandboxId <UUID>
             ```
-            
-    4. Make a note of the sandbox id, just in case!
-    5. As the rest of the steps will be covered by the tutorial, you can skip the remaining steps and click **Deploy** on the top right
+        - Make a note of the sandbox id, just in case!
+    2. As the rest of the steps will be covered by the tutorial, you can skip the remaining steps and just click **Deploy to AWS** on the top right
 3. In order to deploy a backend, you will need an AWS account. We will go over this in a later step when we’re ready to sync our app to the cloud. For now, keep the link to this page handy!
 
 At this point, Amplify should have generated several directories and configuration files in your project for you. Let’s take a look at the generated GraphQL schema.

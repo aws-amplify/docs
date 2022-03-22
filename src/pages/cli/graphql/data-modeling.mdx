@@ -251,7 +251,7 @@ mutation CreatePost {
 
 Under the hood, `@hasMany` configures a secondary index on the related table to enable you to query the related model from the source model.
 
-You can customize the specific secondary index used for the "has many" relationship. First, configure a secondary index using `@index`. Then, pass in the secondary index name `indexName` parameter and the respective `fields`.
+You can customize the specific secondary index used for the "has many" relationship. First, configure a secondary index using `@index`. Then, pass in the secondary index name `indexName` parameter and the respective `fields` which match the connected index.
 
 ```graphql
 type Post @model {
@@ -267,7 +267,7 @@ type Comment @model {
 }
 ```
 
-In this case, the Comment type has a `postID` field added to store the reference of Post record. @hasMany can then get the connected Comment object by querying the Comment table's secondary index "byPost" with this `postID`:
+In this case, the Comment type has a `postID` field added to store the reference of Post record. The `id` field referenced by `@hasMany` is the `id` on the `Post` type. `@hasMany` can then get the connected Comment object by querying the Comment table's secondary index "byPost" with this `postID`:
 
 ```graphql
 mutation CreatePost {
@@ -445,6 +445,7 @@ type Todo @model {
 ```
 
 If you create a new Todo and don't supply a `content` input, Amplify will ensure that `My new Todo` is auto populated as a value. 
+When `@default` is applied, non-null assertions using `!` are disregarded. For example, `String!` is treated the same as `String`.
 
 ## Advanced
 
@@ -459,6 +460,8 @@ type Todo @model(queries: { get: "queryFor" }, mutations: null, subscriptions: n
 ```
 
 In the example above, you'll be able to run a `queryForTodo` query to get a single Todo element. Mutations (meaning create, update, and delete) as well as subscriptions are disabled for the Todo model above.
+
+For the type definitions of queries, mutations, and subscriptions, see [Type Definitions of the `@model` Directive](#type-definition-of-the-`@model`-directive).
 
 ### Customize creation and update timestamps
 The `@model` directive automatically adds `createdAt` and `updatedAt` timestamps to each entity. The timestamp field names can be changed by passing timestamps attribute to the directive.
@@ -490,7 +493,27 @@ type Todo @model(subscriptions: { level: off }) { # or level: public
 }
 ```
 
-### How it works
+### Create multiple relationships between two models
+
+You need to explicitly specify the connection field names if relational directives are used to create two connections of the same type between the two models.
+
+```graphql
+type Individual @model {
+  id: ID!
+  homeAddress: Address @hasOne
+  shippingAddress: Address @hasOne
+}
+
+type Address @model {
+  id: ID!
+  homeIndividualID: ID
+  shippingIndividualID: ID
+  homeIndividual: Individual @belongsTo(fields: ["homeIndividualID"])
+  shipIndividual: Individual @belongsTo(fields: ["shippingIndividualID"])
+}
+```
+
+## How it works
 The `@model` directive will generate:
 - An Amazon DynamoDB table with PAY_PER_REQUEST billing mode enabled by default.
 - An AWS AppSync DataSource configured to access the table above.
@@ -500,7 +523,7 @@ The `@model` directive will generate:
 - Filter input objects that allow you to filter objects in list queries and relationship fields.
 - For list queries the default number of objects returned is 100. You can override this behavior by setting the limit argument.
 
-Type definition of the `@model` directive:
+### Type definition of the `@model` directive
 
 ```graphql
 directive @model(

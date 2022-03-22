@@ -33,13 +33,13 @@ amplify add storage
 
 > What would you like to name this column: id
 
-? Please choose the data type: 
-  string 
-> number 
+? Please choose the data type:
+  string
+> number
   binary
 
 ? Please choose partition key for the table: (Use arrow keys)
-> id 
+> id
 ```
 
 You can select **no** for all other questions. After this add an API using the REST (or GraphQL) default ExpressJS template and grant it access to this DynamoDB table.
@@ -50,8 +50,8 @@ amplify add api
 
 ```console
 > REST
-> API Gateway + AWS Fargate (Container-based) 
-> ExpressJS - REST template 
+> API Gateway + AWS Fargate (Container-based)
+> ExpressJS - REST template
 ? Do you want to access other resources in this project from your api? Y   # select yes
 > storage  # select posts table              # select post table and all permissions
   ◉ create
@@ -170,7 +170,7 @@ If your application source changes for any of the images, you can rebuild them b
 
 ### Container networking
 
-Multiple containers are deployed as a single unit in Fargate (e.g. same Task Definition). This opinionated deployment allows ease of networking between containers on the local loopback interface and avoids extra configuration, costs, operations, and debugging.  
+Multiple containers are deployed as a single unit in Fargate (e.g. same Task Definition). This opinionated deployment allows ease of networking between containers on the local loopback interface and avoids extra configuration, costs, operations, and debugging.
 
 #### When container is deployed to Fargate
 
@@ -185,7 +185,7 @@ const options = {
   method: 'GET',
   path: '/images'
 };
-  
+
 http.get(options, data => {...})
 ```
 
@@ -200,7 +200,7 @@ const options = {
   method: 'GET',
   path: '/images'
 };
-  
+
 http.get(options, data => {...})
 ```
 
@@ -268,6 +268,8 @@ services:
       context: backend
     environment:
       - DATABASE_NAME=mydb
+    secrets:
+      - DB_PASSWORD
 secrets:
   DB_PASSWORD:
     file: ../secrets/.secret-pass
@@ -327,7 +329,7 @@ You can grant your Fargate Task access to additional AWS resources and services.
 > Note: Specifying resource or action as ‘*’ is not recommended as best practice. This gives the Amplify api resource Administrative privileges which should be avoided.
 
 
-If your Amplify resource requires access to multiple AWS services and resources, create another block to grant access to these additional services and resources. 
+If your Amplify resource requires access to multiple AWS services and resources, create another block to grant access to these additional services and resources.
 
 ```json
 [
