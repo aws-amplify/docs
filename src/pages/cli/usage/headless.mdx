@@ -455,6 +455,27 @@ Some categories' headless mode work differently than above in that they expect a
 cat myAddApiRequest.json | jq -c | amplify add api --headless
 ```
 
+As an alternative to using `jq`, here's an example Node.js script that adds an API:
+```javascript
+const amplify_api = require('./myAddApiRequest.json');
+const fs = require('fs');
+const path = require('path');
+
+const schema = fs.readFileSync(
+  path.resolve(__dirname, './schema.graphql'),
+  'utf8',
+);
+
+import('execa').then((module) => {
+  amplify_api.serviceConfiguration.transformSchema = schema;
+  module
+    .execa('amplify', ['add', 'api', '--headless'], {
+      input: JSON.stringify(amplify_api),
+    })
+    .stdout.pipe(process.stdout);
+});
+```
+
 ### Supported commands
 
 The commands that currently support this method of supplying headless parameters are:
