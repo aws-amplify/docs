@@ -531,6 +531,7 @@
     "EventBus",
     "eventType",
     "eventValue",
+    "execa",
     "execute",
     "expectedVersion",
     "FACEBOOK_TOKEN_HERE",
