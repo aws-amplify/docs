@@ -43,7 +43,7 @@ amplify status
 
 You should see a table similar to this one.
 
-```plain
+```
 | Category | Resource name     | Operation | Provider plugin   |
 | -------- | ----------------- | --------- | ----------------- |
 | Api      | amplifyDatasource | No Change | awscloudformation |
@@ -73,17 +73,9 @@ DataStore can connect to an existing AWS AppSync backend that has been deployed 
 
 For more information on this workflow please see the [Multiple Frontends documentation](/cli/teams/multi-frontend).
 
-import js3 from "/src/fragments/lib/datastore/native_common/sync-distributed-data.mdx";
+import distributedDataFragment from "/src/fragments/lib/datastore/native_common/sync-distributed-data.mdx";
 
-<Fragments fragments={{js: js3}} />
-
-import ios4 from "/src/fragments/lib/datastore/native_common/sync-distributed-data.mdx";
-
-<Fragments fragments={{ios: ios4}} />
-
-import android5 from "/src/fragments/lib/datastore/native_common/sync-distributed-data.mdx";
-
-<Fragments fragments={{android: android5}} />
+<Fragments fragments={{all: distributedDataFragment}} />
 
 ## Clear local data
 

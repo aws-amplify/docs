@@ -28,6 +28,9 @@ type Query {
     - [HTTP resolver](#http-resolver): call an HTTP endpoint upon a query or mutation
     - [VTL resolver](#vtl-resolver) (most advanced): use VTL mapping templates to customize the query and mutation logic
 
+3. Secure your custom query or mutation with [field-level authorization rules](/cli/graphql/authorization-rules/)
+    - Note: Dynamic authorization rules are not supported on a custom query or mutation.
+
 ## Lambda function resolver
 The `@function` directive allows you to quickly & easily configure a AWS Lambda resolvers with your GraphQL API. You can use any AWS Lambda functions that was created with the Amplify CLI, AWS Lambda console, or any other tool.
 
@@ -103,6 +106,7 @@ Calling functions in different AWS accounts is not supported via the `@function`
 ### Chaining functions
 
 You can chain together multiple `@function` resolvers such that they are invoked in series when your field's resolver is invoked. To create a pipeline resolver that calls to multiple AWS Lambda functions in series, use multiple `@function` directives on the field.
+Similarly, `@function` can be combined with field-level `@auth`. When combining these field directives, the ordering in the schema matches the ordering in the pipeline resolver. You can choose to have functions before and/or after field level authorization is applied.
 
 ```graphql
 type Mutation {
@@ -526,7 +530,11 @@ export class cdkStack extends cdk.Stack {
     );
 
     const resolver = new appsync.CfnResolver(this, "custom-resolver", {
-      apiId: retVal.api.new.GraphQLAPIIdOutput,
+      // apiId: retVal.api.new.GraphQLAPIIdOutput,
+      // https://github.com/aws-amplify/amplify-cli/issues/9391#event-5843293887
+      // If you use Amplify you can access the parameter via Ref since it's a CDK parameter passed from the root stack.
+      // Previously the ApiId is the variable Name which is wrong , it should be variable value as below
+      apiId: cdk.Fn.ref(retVal.api.replaceWithAPIName.GraphQLAPIIdOutput),
       fieldName: "querySomething", 
       typeName: "Query", // Query | Mutation | Subscription
       requestMappingTemplate: requestVTL,
@@ -536,6 +544,7 @@ export class cdkStack extends cdk.Stack {
   }
 }
 ```
+> **Note:** Users moving from ElasticSearch to OpenSearch will need to change the datasource name from `ElasticSearchDomain` to `OpenSearchDataSource` if the upgrade process changes the source name. For new @searchable models the datasource name will default to `OpenSearchDataSource`.
 
 You can alternatively define the VTL templates in another file such as `Query.querySomething.req.vtl` or `Query.querySomething.res.vtl` in `amplify/backend/custom/MyCustomResolvers/`. Then use the following code snippets to retrieve them:
 
@@ -603,12 +612,37 @@ For example, the a resolver function file named `Mutation.createTodo.postAuth.2.
 
 ### Supported resolver slots
 
-|Sequence|Slot name|Description|
-|-|-|-|
-|1|init|Initial resolvers that are run. Usually used for initializing default values.|
-|2|preAuth|Resolvers that are intended to run before authorization rule checks are applied.|
-|3|auth|Resolvers that implement authorization rule checks.|
-|4|postAuth|Resolvers that are run after authorization rule checks.|
-|5|preDataLoad|Resolvers to configure values to make a request to the data source.|
-|6|postDataLoad|Resolvers for post-processing after request to data source.|
-|7|finish|Final set of resolvers before response is returned to client. Typically used for clean-up.|
+#### Query
+
+| Sequence | Slot name    | Description                                                                                |
+| -------- | ------------ | ------------------------------------------------------------------------------------------ |
+| 1        | init         | Initial resolvers that are run. Usually used for initializing default values.              |
+| 2        | preAuth      | Resolvers that are intended to run before authorization rule checks are applied.           |
+| 3        | auth         | Resolvers that implement authorization rule checks.                                        |
+| 4        | postAuth     | Resolvers that are run after authorization rule checks.                                    |
+| 5        | preDataLoad  | Resolvers to configure values to make a request to the data source.                        |
+| 6        | postDataLoad | Resolvers for post-processing after request to data source.                                |
+| 7        | finish       | Final set of resolvers before response is returned to client. Typically used for clean-up. |
+
+#### Mutation
+
+| Sequence | Slot name  | Description                                                                                |
+| -------- | ---------- | ------------------------------------------------------------------------------------------ |
+| 1        | init       | Initial resolvers that are run. Usually used for initializing default values.              |
+| 2        | preAuth    | Resolvers that are intended to run before authorization rule checks are applied.           |
+| 3        | auth       | Resolvers that implement authorization rule checks.                                        |
+| 4        | postAuth   | Resolvers that are run after authorization rule checks.                                    |
+| 5        | preUpdate  | Resolvers to configure values to make a request to the data source.                        |
+| 6        | postUpdate | Resolvers for post-processing after request to data source.                                |
+| 7        | finish     | Final set of resolvers before response is returned to client. Typically used for clean-up. |
+
+#### Subscription
+
+| Sequence | Slot name    | Description                                                                      |
+| -------- | ------------ | -------------------------------------------------------------------------------- |
+| 1        | init         | Initial resolvers that are run. Usually used for initializing default values.    |
+| 2        | preAuth      | Resolvers that are intended to run before authorization rule checks are applied. |
+| 3        | auth         | Resolvers that implement authorization rule checks.                              |
+| 4        | postAuth     | Resolvers that are run after authorization rule checks.                          |
+| 5        | preSubscribe | Resolver slot that executes after auth but before the subscription returns       |
+

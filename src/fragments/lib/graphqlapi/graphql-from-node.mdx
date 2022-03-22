@@ -33,7 +33,7 @@ const listTodos = gql`
 exports.handler = async (event) => {
   try {
     const graphqlData = await axios({
-      url: process.env.API_URL,
+      url: process.env.API_<YOUR_API_NAME>_GRAPHQLAPIENDPOINTOUTPUT,
       method: 'post',
       headers: {
         'x-api-key': process.env.API_<YOUR_API_NAME>_GRAPHQLAPIKEYOUTPUT
@@ -81,7 +81,7 @@ const createTodo = gql`
 exports.handler = async (event) => {
   try {
     const graphqlData = await axios({
-      url: process.env.API_URL,
+      url: process.env.API_<YOUR_API_NAME>_GRAPHQLAPIENDPOINTOUTPUT,
       method: 'post',
       headers: {
         'x-api-key': process.env.API_<YOUR_API_NAME>_GRAPHQLAPIKEYOUTPUT

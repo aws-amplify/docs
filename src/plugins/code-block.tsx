@@ -105,6 +105,7 @@ const addVersions = (code) => {
     versions.ANDROID_KOTLIN_VERSION,
   );
   code = code.replace(/ANDROID_GEO_VERSION/g, versions.ANDROID_GEO_VERSION);
+  code = code.replace(/ANDROID_SDK_VERSION/g, versions.ANDROID_SDK_VERSION);
   return code;
 };
 

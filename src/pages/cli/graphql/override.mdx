@@ -1,6 +1,6 @@
 export const meta = {
   title: `Override Amplify-generated AppSync resources`,
-  description: `The "amplify override api" command generates a developer-configurable "overrides" TypeScript file which provides Amplify-generated AppSync resources as CDK constructs. For example, developers can set auth settings that are not directly available in the Amplify CLI workflow, such as X-Ray tracing.`,
+  description: `The "amplify override api" command generates a developer-configurable "overrides" TypeScript file which provides Amplify-generated AppSync resources as CDK constructs. For example, developers can set api settings that are not directly available in the Amplify CLI workflow, such as X-Ray tracing.`,
 };
 
 ```bash
@@ -14,7 +14,7 @@ Run the command above to override Amplify-generated GraphQL API resources includ
 If you need to customize a specific Amplify-generated VTL resolver, review [Override Amplify-generated resolvers](/cli/graphql/custom-business-logic/#override-amplify-generated-resolvers) first.
 </Callout>
 
-The command creates a new `overrides.ts` file under `amplify/backend/auth/<resource-name>/` which provides you the Amplify-generated resources as [CDK constructs](https://docs.aws.amazon.com/cdk/latest/guide/home.html).
+The command creates a new `overrides.ts` file under `amplify/backend/api/<resource-name>/` which provides you the Amplify-generated resources as [CDK constructs](https://docs.aws.amazon.com/cdk/latest/guide/home.html).
 
 ## Customize Amplify-generated AppSync GraphQL API resources
 
@@ -128,3 +128,51 @@ You can override the following @predictions directive resources that Amplify gen
 |[identifyTextAccess](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)|IAM policy to enable Identify Text|
 |[identifyLabelsAccess](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html)|IAM policy to enable Identify Text|
 
+## Place AppSync Resolvers in Custom-named Stacks
+
+If you have a particularly large GraphQL schema, you may run into issues with too many resources defined in a stack. The most common case where this happens is in the ConnectionStack which contains the resolvers for all of the relational directives in the schema.
+
+Creating a stack mapping does not create an additional root stack for the Amplify environment. All mapped stacks will still be placed under the existing Amplify environment root stack.
+To map a resolver to a different stack, update `<project root>/amplify/api/<api name>/transform.conf.json` with a "StackMapping" block. The StackMapping defines a map from resolver logical ID to stack name.
+
+```json
+{
+  "Version": 5,
+  "ElasticsearchWarning": true,
+  "StackMapping": {
+    "<Resolver logical ID>": "Custom stack name",
+  }
+}
+```
+
+The easiest way to determine a resolver logical ID is to run `amplify api gql-compile` and note the resolver logical ID in the list of Resources in the generated CloudFormation stack.
+Resolvers for model operations will be of the form `<Get | List | Create | Update | Delete><model name>Resolver`. Resolvers for relational directives are of the form `<model name><field name>Resolver`.
+
+### Example
+
+Given the following schema:
+
+```graphql
+type Blog @model {
+  id: ID!
+  name: String!
+  posts: [Post] @hasMany
+}
+
+type Post @model {
+  id: ID!
+  title: String!
+  content: String
+  blog: Blog @belongsTo
+}
+```
+
+To map the CreatePostResolver and the relational resolvers to a stack named 'MyCustomStack', add the following in `transform.conf.json`:
+
+```json
+"StackMapping": {
+  "CreatePostResolver": "MyCustomStack",
+  "BlogpostsResolver": "MyCustomStack",
+  "PostblogResolver": "MyCustomStack",
+}
+```

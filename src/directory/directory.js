@@ -5,6 +5,16 @@ const directory = {
       route: "/lib",
     },
     items: {
+      devpreview: {
+        title: "New! Amplify iOS (Developer Preview)",
+        items: [
+          {
+            title: "Getting started",
+            route: "/lib/devpreview/getting-started",
+            filters: ["ios"],
+          },
+        ],
+      },
       "project-setup": {
         title: "Project Setup",
         items: [
@@ -156,7 +166,7 @@ const directory = {
           {
             title: "Advanced Workflows",
             route: "/lib/graphqlapi/advanced-workflows",
-            filters: ["android", "ios", "js"],
+            filters: ["android", "flutter", "ios", "js"],
           },
           {
             title: "Use existing AWS resources",
@@ -319,6 +329,11 @@ const directory = {
             filters: ["android", "flutter", "ios"],
           },
           {
+            title: "Delete user",
+            route: "/lib/auth/delete_user",
+            filters: ["flutter", "ios", "js"],
+          },
+          {
             title: "Escape hatch",
             route: "/lib/auth/escapehatch",
             filters: ["android", "ios"],
@@ -449,8 +464,18 @@ const directory = {
             filters: ["js"],
           },
           {
+            title: "Geofences (Developer preview)",
+            route: "/lib/geo/geofences",
+            filters: ["js"],
+          },
+          {
             title: "Use existing AWS resources",
             route: "/lib/geo/existing-resources",
+            filters: ["js"],
+          },
+          {
+            title: "Escape Hatch",
+            route: "/lib/geo/escapehatch",
             filters: ["js"],
           },
         ],
@@ -1002,7 +1027,7 @@ const directory = {
           {
             title: "Chatbot",
             route: "/ui/interactions/chatbot",
-            filters: [ "react-native"],
+            filters: ["react-native"],
           },
         ],
       },
@@ -1017,7 +1042,7 @@ const directory = {
           {
             title: "S3 Image",
             route: "/ui/storage/s3-image",
-            filters: [ "react-native"],
+            filters: ["react-native"],
           },
           {
             title: "Tracking Events",
@@ -1119,6 +1144,11 @@ const directory = {
           {
             title: "Connect to machine learning services",
             route: "/cli/graphql/connect-to-machine-learning-services",
+            filters: []
+          },
+          {            
+            title: "Evolving GraphQL schemas",
+            route: "/cli/graphql/schema-evolution",
             filters: []
           },
           {
@@ -1224,6 +1254,11 @@ const directory = {
             route: "/cli/geo/search",
             filters: [],
           },
+          {
+            title: "Geofencing (Developer Preview)",
+            route: "/cli/geo/geofencing",
+            filters: [],
+          }
         ],
       },
       hosting: {
@@ -1270,6 +1305,11 @@ const directory = {
           {
             title: "Override Amplify-generated project-level IAM resources",
             route: "/cli/project/override",
+            filters: []
+          },
+          {
+            title: "Troubleshooting",
+            route: "/cli/project/troubleshooting",
             filters: []
           }
         ]
@@ -1577,17 +1617,17 @@ const directory = {
           {
             title: "Generate model files",
             route: "/start/getting-started/generate-model",
-            filters: ["android", "ios", "flutter"],
+            filters: ["android", "ios", "flutter", "react-native"],
           },
           {
             title: "Integrate your app",
             route: "/start/getting-started/integrate",
-            filters: ["android", "ios", "flutter"],
+            filters: ["android", "ios", "flutter", "react-native"],
           },
           {
             title: "Connect to the cloud",
             route: "/start/getting-started/add-api",
-            filters: ["android", "ios", "flutter"],
+            filters: ["android", "ios", "flutter", "react-native"],
           },
           {
             title: "Connect API and database to the app",
@@ -1595,7 +1635,6 @@ const directory = {
             filters: [
               "js",
               "react",
-              "react-native",
               "angular",
               "vue",
               "next",
@@ -1605,7 +1644,7 @@ const directory = {
           {
             title: "Add authentication",
             route: "/start/getting-started/auth",
-            filters: ["react", "react-native", "angular", "vue"],
+            filters: ["react", "angular", "vue"],
           },
           {
             title: "Deploy and host app",
@@ -1694,6 +1733,10 @@ const directory = {
           {
             title: "Data binding",
             route: "/console/uibuilder/databinding",
+          },
+          {
+            title: "UI event handler",
+            route: "/console/uibuilder/eventhandling",
           },
           {
             title: "Collections",
@@ -1972,21 +2015,6 @@ const directory = {
             title: "Nuxt.js",
             route: "/guides/hosting/nuxt",
             filters: ["js"],
-          },
-        ],
-      },
-      "location-service": {
-        title: "Location",
-        items: [
-          {
-            title: "Accessing Amazon Location Service",
-            route: "/guides/location-service/setting-up-your-app",
-            filters: ["js", "android", "ios"],
-          },
-          {
-            title: "Tracking a Device Location",
-            route: "/guides/location-service/tracking-device-location",
-            filters: ["android", "ios"],
           },
         ],
       },
