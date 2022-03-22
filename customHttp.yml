@@ -10,4 +10,4 @@ customHeaders:
         value: "SAMEORIGIN"
       - key: "X-Content-Type-Options"
         value: "nosniff"
-      # CSP set in _document.page.tsx meta tag
+      # CSP set in _document.tsx meta tag
