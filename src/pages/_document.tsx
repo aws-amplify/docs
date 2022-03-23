@@ -19,8 +19,7 @@ const getCspContent = (context) => {
       font-src 'self' data:;
       frame-src 'self';
       img-src 'self' data: cm.everesttech.net amazonwebservices.d2.sc.omtrdc.net dpm.demdex.net;
-      connect-src 'self' *.shortbread.aws.dev amazonwebservices.d2.sc.omtrdc.net dpm.demdex.net
-      https://*.algolia.net https://*.algolianet.com https://ym8kdcu1hl.execute-api.us-west-2.amazonaws.com/feedback/submissions;
+      connect-src 'self' *.shortbread.aws.dev amazonwebservices.d2.sc.omtrdc.net dpm.demdex.net https://*.algolia.net https://*.algolianet.com https://ym8kdcu1hl.execute-api.us-west-2.amazonaws.com/feedback/submissions;
       script-src 'unsafe-eval' 'self' ${cspInlineScriptHash} a0.awsstatic.com;
     `;
   }
@@ -31,8 +30,7 @@ const getCspContent = (context) => {
     font-src 'self';
     frame-src 'self';
     connect-src 'self' *.shortbread.aws.dev amazonwebservices.d2.sc.omtrdc.net dpm.demdex.net;
-    img-src 'self' cm.everesttech.net amazonwebservices.d2.sc.omtrdc.net dpm.demdex.net
-    https://*.algolia.net https://*.algolianet.com https://ym8kdcu1hl.execute-api.us-west-2.amazonaws.com/feedback/submissions;
+    img-src 'self' cm.everesttech.net amazonwebservices.d2.sc.omtrdc.net dpm.demdex.net https://*.algolia.net https://*.algolianet.com https://ym8kdcu1hl.execute-api.us-west-2.amazonaws.com/feedback/submissions;
     script-src 'unsafe-eval' 'self' ${cspInlineScriptHash} a0.awsstatic.com;
   `;
 };
