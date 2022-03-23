@@ -34,3 +34,39 @@ You can override the following project-level resources that Amplify generates:
 |-|-|
 |[authRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)|The IAM role for authenticated access to your app backend|
 |[unauthRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)|The IAM role for authenticated or guest access to your app backend|
+
+
+## Customize UnAuth Role policies
+
+For example if we want to use project override to update unAuth policy for S3, we can use the following example:
+
+```ts
+import { AmplifyRootStackTemplate } from "@aws-amplify/cli-extensibility-helper";
+
+export function override(resources: AmplifyRootStackTemplate) {
+  const unauthRole = resources.unauthRole;
+
+  const basePolicies = Array.isArray(unauthRole.policies)
+    ? unauthRole.policies
+    : [unauthRole.policies];
+
+  unauthRole.policies = [
+    ...basePolicies,
+    {
+      policyName: "amplify-permissions-custom-resources",
+      policyDocument: {
+        Version: "2012-10-17",
+        Statement: [
+          {
+            Resource: "<ARN of resource>",
+            Action: ["s3:PutObject", "s3:GetObject", "s3:DeleteObject"],
+            Effect: "Allow",
+          },
+        ],
+      },
+    },
+  ];
+}
+
+
+```
