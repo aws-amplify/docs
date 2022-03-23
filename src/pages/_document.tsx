@@ -33,7 +33,7 @@ const getCspContent = (context) => {
     connect-src 'self' *.shortbread.aws.dev amazonwebservices.d2.sc.omtrdc.net dpm.demdex.net;
     img-src 'self' cm.everesttech.net amazonwebservices.d2.sc.omtrdc.net dpm.demdex.net
     https://*.algolia.net https://*.algolianet.com https://ym8kdcu1hl.execute-api.us-west-2.amazonaws.com/feedback/submissions;
-    script-src 'self' ${cspInlineScriptHash} a0.awsstatic.com;
+    script-src 'unsafe-eval' 'self' ${cspInlineScriptHash} a0.awsstatic.com;
   `;
 };
 
