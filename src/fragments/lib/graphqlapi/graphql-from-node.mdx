@@ -156,13 +156,13 @@ Next, you need to install two npm packages for your AWS Lambda function. To do s
 
 ```javascript
 const AppSyncClient = require('appsync-client').default;
-const gql = require('graphql-tag');
+const gql = require('graphql-tag'); /* To parse GraphQL strings into GraphQL AST */
 const config = {
   apiUrl: process.env.API_ < YOUR_API_NAME > _GRAPHQLAPIENDPOINTOUTPUT
 };
 const client = new AppSyncClient(config);
 
-const { createTodo } = require('./graphql.js');
+const { createTodo } = require('./graphql.js'); /* GraphQL mutation */
 
 exports.handler = async (event) => {
   try {
@@ -186,7 +186,7 @@ exports.handler = async (event) => {
       }
     };
   } catch (error) {
-    console.log('Something went wrong in the handler:', error);
+    console.error('Something went wrong in the handler:', error);
   }
 };
 ```
