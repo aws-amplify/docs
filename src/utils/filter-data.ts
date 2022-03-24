@@ -31,6 +31,7 @@ export const FRAMEWORK_FILTER_OPTIONS = [
   "vue",
   "ionic",
   "next",
+  "flutter"
 ];
 
 const INTEGRATION_FILTER_OPTIONS = [

@@ -30,7 +30,7 @@ let saveSink = Amplify.DataStore.save(existingPost).sink {
     }
 }
 receiveValue: {
-    print("Updated the existing post")
+    print("Updated the existing post: \($0)")
 }
 ```
 

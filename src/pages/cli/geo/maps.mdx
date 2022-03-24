@@ -51,54 +51,49 @@ Select `Authorized and Guest users` if both authenticated and unauthenticated us
 For more information, refer [link to location service page](https://docs.aws.amazon.com/location/latest/developerguide/security_iam_id-based-policy-examples.html#security_iam_id-based-policy-examples-get-map-tiles).
 
 ## Map Pricing Plan
-Amazon Location Service offers three pricing plans namely, `RequestBasedUsage`, `MobileAssetTracking` and `MobileAssetManagement` that require no up-front commitment, and no minimum fee.
-You select one of the following pricing plans for the Amazon Location Service resources you create for your application.
-Amplify helps you determine the best pricing plan for you by guiding you through a set of questions.
-These pricing plan related set of questions are presented to you when you add the first Geo resource to your application. 
-Once you chose the pricing plan, it will be automatically used for the subsequent Geo resources added to your application.
-
+The pricing plan for Map will be set to `RequestBasedUsage`.
 We advice you to go through the [location service pricing](https://aws.amazon.com/location/pricing/) along with the [location service terms](https://aws.amazon.com/service-terms/) (_82.5 section_) to learn more about the pricing plan.
 
-```console
-The following choices determine the pricing plan for Geo resources.
-
-? Are you tracking commercial assets for your business in your app?
-❯ No, I do not track devices or I only need to track consumers' personal devices 
-  Yes, I track commercial assets (For example, any mobile object that is tracked by a company in support of its business)
-  Learn More
-
-Successfully set RequestBasedUsage pricing plan for your Geo resources.
+### Update Map pricing plan to `RequestBasedUsage`
+You can check the pricing plan for your Map from `geo/<mapID>/pricingPlan` attribute in your project metadata file located at `amplify/backend/amplify-meta.json` in your project.
+```bash
+"geo": {
+    "StreetsMap": {
+      "isDefault": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Map",
+      "mapStyle": "VectorEsriStreets",
+      "pricingPlan": "MobileAssetManagement",
+      "accessType": "AuthorizedUsers"
+    }
+}
 ```
 
-```console
-? Are you tracking commercial assets for your business in your app?
-  No, I do not track devices or I only need to track consumers' personal devices 
-❯ Yes, I track commercial assets (For example, any mobile object that is tracked by a company in support 
-  of its business)
-  Learn More
+You can check your Amplify CLI version using `amplify -v`.
 
-? Does your app provide routing or route optimization for commercial assets? (y/N) no
+<Callout>
 
-Successfully set MobileAssetTracking pricing plan for your Geo resources.
-```
+**Note:**
+If you are using Amplify CLI version `7.6.8` or older and have a Map added to your application with the pricing plan set to `MobileAssetTracking` or `MobileAssetManagement`,
+please follow these instructions to update the pricing plan:  
+1. Upgrade the Amplify CLI to version `7.6.9` or later using `npm i -g @aws-amplify/cli`.
+2. Run `amplify update geo` and select the Map with Asset based pricing plan. Choose the same configuration for the Map that you already have.
+3. Run `amplify push` to update the backend resource.
 
-```console
-? Are you tracking commercial assets for your business in your app?
-  No, I do not track devices or I only need to track consumers' personal devices 
-❯ Yes, I track commercial assets (For example, any mobile object that is tracked by a company in support 
-  of its business)
-  Learn More
-
-? Does your app provide routing or route optimization for commercial assets? (y/N) yes
-
-Successfully set MobileAssetManagement pricing plan for your Geo resources.
-```
+</Callout>
 
 ## Advanced Settings
 You can optionally configure the style and data provider for the map.
 
 ### Map style & Map data provider
 You can pick a style for the map resource. The available map styles along with the data provider of geospatial data are shown. To learn more about each of these map styles, please refer this [location service doc](https://docs.aws.amazon.com/location-maps/latest/APIReference/API_MapConfiguration.html).
+
+<Callout>
+
+**Note:** If your application is tracking or routing assets you use in your business (such as delivery vehicles or employees), you may only use `HERE` as your geolocation provider. 
+See section 82 of the [AWS service terms](https://aws.amazon.com/service-terms/) for more details.
+
+</Callout>
 
 ```console
 ? Specify the map style:

@@ -1,6 +1,6 @@
 ## Clear
 
-To clear local data from DataStore, use the `clear` method:
+To stop DataStore sync process and to clear local data from DataStore, use the `clear` method:
 
 import ios0 from "/src/fragments/lib/datastore/ios/other-methods/10_clear.mdx";
 
@@ -14,11 +14,9 @@ import flutter1 from "/src/fragments/lib/datastore/flutter/other-methods/10_clea
 
 <Fragments fragments={{flutter: flutter1}} />
 
-<Callout>
+import datastoreClearCallout from '/src/fragments/lib/datastore/native_common/callout/datastore-clear-with-auth.mdx';
 
-If your app uses authentication, it is recommended to call `DataStore.clear()` on sign-in or sign-out to remove any user-specific data. In scenarios where a mobile device can be shared by several users, calling `DataStore.clear()` will ensure that data does not leak from one user to another.
-
-</Callout>
+<Fragments fragments={{ all: datastoreClearCallout }} />
 
 ## Start
 

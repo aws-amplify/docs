@@ -16,7 +16,7 @@ amplify add custom
   AWS CloudFormation
 ```
 
-A skeleton CDK stack is generated in the `amplify/backend/custom/<resource-name>` directory.Edit the `cdk-stack.ts` file to define the additional AWS resources. Add additional CDK constructs using the `package.json`. Run `amplify build` to download all NPM dependencies for this custom resource and synthesize the CDK stack.
+A skeleton CDK stack is generated in the `amplify/backend/custom/<resource-name>` directory. Edit the `cdk-stack.ts` file to define the additional AWS resources. Add additional CDK constructs using the `package.json`. Run `amplify build` to download all NPM dependencies for this custom resource and synthesize the CDK stack.
 
 The following example creates an SNS topic whose notification messages are forwarded via email:
 

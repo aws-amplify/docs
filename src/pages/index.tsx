@@ -11,7 +11,7 @@ import LinkBanner from "../components/LinkBanner";
 import Footer from "../components/Footer";
 import UniversalNav from "../components/UniversalNav";
 
-import {track, trackPageVisit, AnalyticsEventType} from "../utils/track";
+import {trackPageVisit} from "../utils/track";
 
 const meta = {
   title: "Amplify Framework Docs",
@@ -22,14 +22,6 @@ const meta = {
 
 const Page = () => {
   useEffect(() => {
-    track({
-      type: AnalyticsEventType.PAGE_VISIT,
-      attributes: {
-        url: "/",
-        previousUrl: document.referrer,
-        referrer: document.referrer,
-      },
-    });
     trackPageVisit();
   }, []);
 
@@ -112,7 +104,7 @@ const Page = () => {
               </CardDetail>
             </Card>
             <Card href="/console">
-              <CardGraphic alt="Admin UI icon" src="/assets/console.png" />
+              <CardGraphic alt="Amplify Studio icon" src="/assets/console.png" />
               <CardDetail>
                 <h4>Amplify Studio</h4>
                 <p>Visual development environment to accelerate full-stack development.</p>

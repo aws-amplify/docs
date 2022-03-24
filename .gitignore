@@ -66,3 +66,4 @@ amplify/team-provider-info.json
 coverage
 .next
 public/sitemap.xml
+public/robots.txt

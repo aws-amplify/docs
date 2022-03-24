@@ -44,7 +44,7 @@ With the new GraphQL Transformer v2, table index configuration, authorization ru
 ### Changes that Amplify CLI requires you to manually migrate
 
 * I use a Relational Database data source with the GraphQL API
-    * Currently, the new GraphQL Transformer does not support relational data sources. You can remain on the current GraphQL Transformer version and suppress further migration warnings by changing the `suppressschemamigrationprompt` feature flag in `amplify/backend/cli.json` to `true`.
+    * Currently, the new GraphQL Transformer does not support relational data sources. You can remain on the current GraphQL Transformer version and suppress further migration warnings by changing the `suppressschemamigrationprompt` feature flag in `amplify/cli.json` to `true`.
 * I use a custom resolver in my GraphQL API
     * To add a custom resolver in the new GraphQL Transformer follow the instructions [here](/cli/graphql/custom-business-logic/#vtl-resolver).
 * I have overwritten Amplify-generated resolvers by placing custom .vtl files in the resolvers/ folder.
@@ -89,6 +89,6 @@ To help you migrate to the GraphQL transformer v2, `amplify migrate api` has bee
         * To migrate “has many” relationships, replace the `@connection` directive with `@hasMany`. Provide the keyName and fields values from the `@connection` directive as the indexName and fields parameters in the `@hasMany` directive.
         * To migrate “belongs to” relationships, replace the `@connection` directive with `@belongsTo`. Specify the fields values from the `@connection` directive as the fields parameter in the `@belongsTo` directive.
         * An existing many-to-many relationship cannot use the new `@manyToMany` directive because the underlying join table and index names are not the same as the existing ones. The `@connection` directives composing a many-to-many relationship should be replaced with their `@hasMany` and `@belongsTo` complements based on the above rules. Newly created many-to-many relationships can leverage the `@manyToMany` directive to simplify the definition of this relationship type.
-* The `improvePluralization` feature flag is not respected by the new GraphQL Transformer. The new Transformer always uses improved pluralization to create list queries. If your project has this Feature Flag turned off and you have a list query that is affected by the flag (such as listCactuss vs listCacti), then you will need to migrate your application code to use the new list query names.
+* The `improvePluralization` feature flag is not respected by the new GraphQL Transformer. The new Transformer always uses improved pluralization to create list queries. If your project does not have this Feature Flag enabled and you have a list query that is affected by the flag (such as listCactuss vs listCacti), then you will need to migrate your application code to use the new list query names.
 * The `validateTypeNameReservedWords` feature flag is not respected by the new GraphQL Transformer. The new Transformer always throws an error if a type name is a reserved word.
 

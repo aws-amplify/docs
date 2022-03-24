@@ -191,7 +191,7 @@ suspend fun queryFirstPage() {
 
 suspend fun query(request: GraphQLRequest<PaginatedResult<Todo>>) {
     try {
-        val response = Amplify.API.query(request).response
+        val response = Amplify.API.query(request)
         response.data.items.forEach { todo ->
             Log.d("MyAmplifyApp", todo.name)
         }
@@ -199,7 +199,7 @@ suspend fun query(request: GraphQLRequest<PaginatedResult<Todo>>) {
             query(response.data.requestForNextResult)
         }
     } catch (error: ApiException) {
-        Log.e("MyAmplifyApp", "Query failed.", failure)
+        Log.e("MyAmplifyApp", "Query failed.", error)
     }
 }
 ```

@@ -22,6 +22,10 @@ override func viewDidLoad() {
             print("User signed out")
             // Update UI
 
+        case HubPayload.EventName.Auth.userDeleted:
+            print("User deleted")
+            // Update UI
+
         default:
             break
         }
@@ -53,6 +57,10 @@ override func viewDidLoad() {
 
             case HubPayload.EventName.Auth.signedOut:
                 print("User signed out")
+                // Update UI
+
+            case HubPayload.EventName.Auth.userDeleted:
+                print("User deleted")
                 // Update UI
 
             default:

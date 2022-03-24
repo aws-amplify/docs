@@ -78,3 +78,27 @@ let mut a = String::from("a");
 
 </BlockSwitcher>
 ````
+
+## Debug Client side code with browser developer tools
+
+### Prerequisites
+- [React Dev Tools](https://reactjs.org/tutorial/tutorial.html#developer-tools) 
+    - [Chrome](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en)
+    - [Firefox](https://addons.mozilla.org/en-US/firefox/addon/react-devtools/)
+
+### To debug
+1. Setup the repo and run it with the `dev` script mentioned above in the "Getting Started" section
+2. On your localhost page, go to the page with the React component you want to debug and open up the developer tools.
+3. To know which source file to breakpoint on, we need to find the name of the component first.
+    - Open up the dev tools and use the react dev tools to find the component. Do this by using the "Select an element on the page to inspect it" tool under the "Components" tab.
+
+    - Search for the variable/component name inside the source code to find the file you want to debug.
+
+    - Place the breakpoint inside the file under the "Sources" tab in the browser's dev tools.
+        - Note that since the Amplify Docs site is built with nextjs, file paths will start with "`webpack://_N_E/./`"
+4. Refresh your localhost site and the breakpoint should hit in the browser's dev tools. You should be able to debug the code.
+
+Another way to find which file you want to debug is to search for strings/paragraphs seen in Amplify docs site. Search for the strings in your code editor and you'll find that they will be in a `.mdx` file. You should see the components that are being rendered and be able to find the file name you want to debug.
+
+
+More info on debugging can be find here: https://nextjs.org/docs/advanced-features/debugging

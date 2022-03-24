@@ -1,6 +1,6 @@
 export const meta = {
   title: `Override Amplify-generated API Gateway resources`,
-  description: `The "amplify override api" command generates a developer-configurable "overrides" TypeScript file which provides Amplify-generated API Gateway resources as CDK constructs. For example, developers can configure the minimum compression size of their REST API.`,
+  description: `The "amplify override api" command generates a developer-configurable "overrides" TypeScript file which provides Amplify-generated API Gateway resources as CDK constructs. For example, developers can configure a custom description or the minimum compression size of their REST API.`,
 };
 
 ```bash
@@ -9,16 +9,26 @@ amplify override api
 
 Run the command above to override Amplify-generated Amazon API Gateway.
 
-The command creates a new `overrides.ts` file under `amplify/backend/auth/<resource-name>/` which provides you the Amplify-generated resources as [CDK constructs](https://docs.aws.amazon.com/cdk/latest/guide/home.html).
+The command creates a new `overrides.ts` file under `amplify/backend/api/<resource-name>/` which provides you the Amplify-generated resources as [CDK constructs](https://docs.aws.amazon.com/cdk/latest/guide/home.html).
 
-Apply all the overrides in the `override(...)` function. For example to configure minimum compression size for the REST API:
+Apply all the overrides in the `override(...)` function. For example:
 
 ```ts
 // This file is used to override the REST API resources configuration
 import { AmplifyApiRestResourceStackTemplate } from '@aws-amplify/cli-extensibility-helper';
 
 export function override(resources: AmplifyApiRestResourceStackTemplate) {
-  resources.restApi.minimumCompressionSize = 1024
+  resources.restApi.description = "Custom description";
+  resources.restApi.minimumCompressionSize = 1024;
+}
+```
+
+To change a field on a particular path, use `resources.restApi.body.paths[\<route-path\>]`:
+
+```ts
+export function override(resources: AmplifyApiRestResourceStackTemplate) {
+  // Change the default CORS response header Access-Control-Allow-Origin from "'*'" to the API's domain
+  resources.restApi.body.paths['/items'].options['x-amazon-apigateway-integration'].responses.default.responseParameters['method.response.header.Access-Control-Allow-Origin'] = { 'Fn::Sub': "'https://{ApiId}.execute-api.{AWS::Region}.amazonaws.com'" };
 }
 ```
 
