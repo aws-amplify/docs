@@ -192,7 +192,7 @@ Alternatively, if you want to add users to an existing Cognito user pool group p
 ## Upload your own GeoJSON file to geofence collection
 After you have added geofence collection and provisioned the resource, you will be able to upload your own GeoJSON file that defines the Geofences in a collection via the command: 
 ```bash
-amplify geo populate
+amplify geo import
 ```
 You can refer to [GeoJSON.IO](https://geojson.io/) where you can draw your own geofences and have GeoJSON file auto generated. After you get the GeoJSON file, you can provide the file path:
 ```console
@@ -211,18 +211,18 @@ This option will use auto-generated `id` field in the root level of Feature obje
 </Callout>
 
 ```console
-? Do you have an identifier field in the Geofence(Feature) properties?
-> No I will use the root level "id" field on Feature type. Auto-Assign if missing (this will UPDATE the GeoJSON file)
+? Select the property to use as the Geofence feature identifier:
+> Use root-level "id" field. (Auto-assigned if missing)
 ```
 
 ### Custom properties
 
-This option allows you to choose your own fields inside `properties` of Feature object. The identifier field should have unique values among geofences.
+This option allows you to choose your own fields inside `properties` of Feature object. Amplify CLI will help scan the candidate properties which exist in all feature objects and provide them as options in the walkthrough. The candidate properties are chosen based on the existance of all feature objects. The identifier field should have unique values among geofences and will be validated after being selected.
 ```console
-? Do you have an identifier field in the Geofence(Feature) properties?
-> Yes I want to use one of the Geofence(Feature) properties as an identifier
-? Provide the name of the property to use as a unique geofence identifier. Do not use Personal Identifiable Information such as email, username etc:
-> ${your_input_for_unique_identifier}
+? Select the property to use as the Geofence feature identifier:
+  Use root-level "id" field. (Auto-assigned if missing)
+> ${scanned_candidate_property_1}
+  ${scanned_candidate_property_2}
 ```
 
 A validation of the GeoJSON file will be executed afterwards. The upload of geofences will be triggered upon the success of validation. For the regulation of GeoJSON, please refer to [RFC7946](https://datatracker.ietf.org/doc/html/rfc7946)
