@@ -19,6 +19,9 @@ Amplify.Hub.subscribe(HubChannel.AUTH,
                   case SESSION_EXPIRED:
                       Log.i("AuthQuickstart", "Auth session just expired.");
                       break;
+                  case USER_DELETED:
+                      Log.i("AuthQuickstart", "User has been deleted.");
+                      break;
                   default:
                       Log.w("AuthQuickstart", "Unhandled Auth Event: " + AuthChannelEventName.valueOf(hubEvent.getName()));
                       break;
@@ -45,6 +48,8 @@ Amplify.Hub.subscribe(HubChannel.AUTH) { event ->
                 Log.i("AuthQuickstart", "Auth just became signed out")
             AuthChannelEventName.SESSION_EXPIRED ->
                 Log.i("AuthQuickstart", "Auth session just expired")
+            AuthChannelEventName.USER_DELETED ->
+                Log.i("AuthQuickstart", "User has been deleted")
             else ->
                 Log.w("AuthQuickstart", "Unhandled Auth Event: ${event.name}")
         }
@@ -69,6 +74,8 @@ Amplify.Hub.subscribe(HubChannel.AUTH).collect {
                 Log.i("AuthQuickstart", "Auth just became signed out.")
             AuthChannelEventName.SESSION_EXPIRED ->
                 Log.i("AuthQuickstart", "Auth session just expired.")
+            AuthChannelEventName.USER_DELETED ->
+                Log.i("AuthQuickstart", "User has been deleted.")
         }
     }
 }
@@ -97,6 +104,9 @@ RxAmplify.Hub.on(HubChannel.AUTH)
                 break;
             case SESSION_EXPIRED:
                 Log.i("AuthQuickstart", "Auth session just expired.");
+                break;
+            case USER_DELETED:
+                Log.i("AuthQuickstart", "User has been deleted.");
                 break;
             default:
                 Log.w("AuthQuickstart", "Unhandled Auth Event: " + AuthChannelEventName.valueOf(name));

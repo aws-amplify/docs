@@ -331,7 +331,7 @@ const directory = {
           {
             title: "Delete user",
             route: "/lib/auth/delete_user",
-            filters: ["flutter", "ios", "js"],
+            filters: ["android", "flutter", "ios", "js"],
           },
           {
             title: "Escape hatch",
