@@ -227,11 +227,9 @@ function transformPostsToSearchObjects(articles) {
         description: article.meta.description,
         slug: article.filename,
         type: 'article',
-        content: {
-          heading: chunk.heading,
-          depth: chunk.depth,
-          text: chunk.text
-        }
+        heading: chunk.heading,
+        depth: chunk.depth,
+        text: chunk.text
       };
 
       transformed.push(obj);
