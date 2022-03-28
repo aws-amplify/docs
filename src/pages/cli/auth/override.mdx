@@ -24,7 +24,7 @@ export function override(resources: AmplifyAuthCognitoStackTemplate) {
       ...resources.userPool.policies["passwordPolicy"], // Carry over existing settings
       temporaryPasswordValidityDays: 3 // Add new setting not provided Amplify's default
     }
-  }    
+  }
 }
 ```
 
@@ -109,3 +109,37 @@ You can override the following user pool group resources that Amplify generates:
 |[roleMapCustomResource](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-cloudformation.CustomResource.html)|A custom CloudFormation resource to map user pool groups to their roles|
 |[lambdaExecutionRole](iam.CfnRole)|Lambda execution role for the "user pool group"-to-role mapping function|
 |[roleMapLambdaFunction](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html)|The Lambda function that facilitates the user pool group to role mapping|
+
+
+## Customize Amplify-generated Cognito auth resources with social providers
+
+Apply all the overrides in the `override(...)` function. For example to add social providers to your Cognito user pool:
+
+```ts
+import { AmplifyAuthCognitoStackTemplate } from "@aws-amplify/cli-extensibility-helper";
+
+export function override(resources: AmplifyAuthCognitoStackTemplate) {
+  resources.addCfnResource(
+    {
+      type: "AWS::Cognito::UserPoolIdentityProvider",
+      properties: {
+        AttributeMapping: {
+          preferredUsername: "email",
+          email: "email"
+        },
+        ProviderDetails: {
+          client_id: "test",
+          client_secret: "test",
+          authorize_scopes: "test",
+        },
+        ProviderName: "LoginWithAmazon",
+        ProviderType: "LoginWithAmazon",
+        UserPoolId: {
+          Ref: "UserPool",
+        },
+      },
+    },
+    "amazon-social-provider"
+  );
+}
+```
