@@ -9,7 +9,7 @@ All UI development capabilities are currently available under Public Preview.
 
 </Callout>
 
-Amplify Studio offers an integration with Figma, allowing you to generate clean React code by importing your Figma design file. [Figma](https://figma.com/) is a browser-based UI and UX design application that is used to build high-fidelity designs. In the standard product development lifecycle, UI or UX designers build mockups that get implemented as code by developers. Amplify Studio automatically converts any [Figma component](https://help.figma.com/hc/en-us/articles/360038662654-Guide-to-Components-in-Figma) in your Figma file to a [React component](https://reactjs.org/docs/components-and-props.html) that is then usable in your app. 
+Amplify Studio offers an integration with Figma, allowing you to generate clean React code by importing your Figma design file. [Figma](https://figma.com/) is a browser-based UI and UX design application that is used to build high-fidelity designs. In the standard product development lifecycle, UI or UX designers build mockups that get implemented as code by developers. Amplify Studio automatically converts any [Figma component](https://help.figma.com/hc/en-us/articles/360038662654-Guide-to-Components-in-Figma) in your Figma file to a [React component](https://reactjs.org/docs/components-and-props.html) that is then usable in your app.
 
 
 ## Step 1: Set up Figma file
@@ -22,18 +22,18 @@ This file contains the following pages:
 
 - **README**: The README page explains how to use the Figma file to create new components, theme primitives, and customize layout and styling.
 - **Primitives**: Primitives are building-block components such as alerts, buttons, and badges. These primitives correspond to the [Amplify UI primitives](https://ui.docs.amplify.aws/components) and get exported to code with all the primitive properties.
-- **My components**: This page contains all of the custom components built using the primitives. Amplify provides dozens of components such as news feed, social media, and marketing hero components to get you started. Customize these to match your needs or build your own components. 
+- **My components**: This page contains all of the custom components built using the primitives. Amplify provides dozens of components such as news feed, social media, and marketing hero components to get you started. Customize these to match your needs or build your own components.
 - **Examples**: This is for demonstration purposes only, to show designers how to use our components to build entire pages.
 
 Please follow the README in our Figma file to learn how to create your components to optimize for code quality.
 
 ## Step 2: Link Figma file in Studio
 
-In Amplify Studio, enter the URL for the Figma file you just created (or duplicated). You will be asked to authenticate with Figma. 
+In Amplify Studio, enter the URL for the Figma file you just created (or duplicated). You will be asked to authenticate with Figma.
 
 ![figma](/images/console/ui-figma-to-studio.png)
 
-After authenticating with Figma, you will see a list of components that you can sync. Choose **Accept all** to import all components, or walkthrough them one-by-one to make sure they are visually acceptable. Once you complete the sync, you should see a list of components that have been imported. All previews of the components are live renders of the actual coded components. Open your dev tools inspector to check it out! 
+After authenticating with Figma, you will see a list of components that you can sync. Choose **Accept all** to import all components, or walkthrough them one-by-one to make sure they are visually acceptable. Once you complete the sync, you should see a list of components that have been imported. All previews of the components are live renders of the actual coded components. Open your dev tools inspector to check it out!
 
 ![figma](/images/console/ui-figma-sync.png)
 
@@ -43,7 +43,7 @@ In Studio, pick a component and choose **Configure** to get to the component edi
 
 ![figma](/images/console/ui-getcomponent-code.png)
 
-Go to the **Initial project setup** tab and follow the setup instructions. 
+Go to the **Initial project setup** tab and follow the setup instructions.
 
 ![figma](/images/console/ui-getcomponent-code2.png)
 
@@ -55,3 +55,23 @@ Once that is done, you can use the components anywhere in your app. Learn how to
 import { ComponentA, ComponentB }  from './ui-components';
 
 ```
+
+## Upgrading Figma files
+
+1. Duplicate the new [Figma community file](https://www.figma.com/community/file/1047600760128127424) into your Figma account.
+![Duplicate the new figma file](/images/console/ui-figma-file.png)
+1. (optional) Delete all the components in the 'My Components' page of the new Figma file.
+1. Copy everything in the 'My Components' page of your old Figma file and paste it into the 'My Components' page of the new Figma file.
+1. Go through each component on the 'My Components' page and update the broken component instances to point to the local components on the 'Primitives' page. Unfortunately, there is no easy way to bulk update component instances in Figma. **This is important because if you do not do this, your design might look ok, but the React code it generates won't use the [Amplify UI components](https://ui.docs.amplify.aws).**
+![Reattach figma components](/images/console/figma-upgrade-reattach.gif)
+
+
+### Figma file changelog
+
+#### 1.0.0: March 2 2022
+
+* Fixing primitive component layer names to map properly to React props.
+* Removing the Icon primitive and adding a custom Icon component. This change allows for easier icon customization.
+* Fixing visual discrepancies between Figma file and React components.
+* Re-organizing primitive component variants to make the default variant more expected. For example, default size and default variation of the button instead of the primary variation.
+* Adding version number to the Figma file

@@ -331,7 +331,7 @@ const directory = {
           {
             title: "Delete user",
             route: "/lib/auth/delete_user",
-            filters: ["flutter", "ios", "js"],
+            filters: ["android", "flutter", "ios", "js"],
           },
           {
             title: "Escape hatch",
@@ -1146,6 +1146,11 @@ const directory = {
             route: "/cli/graphql/connect-to-machine-learning-services",
             filters: []
           },
+          {            
+            title: "Evolving GraphQL schemas",
+            route: "/cli/graphql/schema-evolution",
+            filters: []
+          },
           {
             title: "JavaScript, Java, Swift code generation",
             route: "/cli/graphql/client-code-generation",
@@ -1664,6 +1669,18 @@ const directory = {
           },
         ],
       },
+      "sample-apps": {
+        title: "Sample Apps",
+        items: [
+          {
+            title: "ToDo App",
+            route: "/start/sample-apps/todo-app",
+            filters: [
+              "android"
+            ],
+          },
+        ],
+      },
     },
   },
   console: {
@@ -1728,6 +1745,10 @@ const directory = {
           {
             title: "Data binding",
             route: "/console/uibuilder/databinding",
+          },
+          {
+            title: "UI event handler",
+            route: "/console/uibuilder/eventhandling",
           },
           {
             title: "Collections",
@@ -2006,21 +2027,6 @@ const directory = {
             title: "Nuxt.js",
             route: "/guides/hosting/nuxt",
             filters: ["js"],
-          },
-        ],
-      },
-      "location-service": {
-        title: "Location",
-        items: [
-          {
-            title: "Accessing Amazon Location Service",
-            route: "/guides/location-service/setting-up-your-app",
-            filters: ["android", "ios"],
-          },
-          {
-            title: "Tracking a Device Location",
-            route: "/guides/location-service/tracking-device-location",
-            filters: ["android", "ios"],
           },
         ],
       },

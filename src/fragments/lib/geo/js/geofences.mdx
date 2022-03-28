@@ -17,7 +17,7 @@ Install the necessary dependencies with the following command:
 npm install maplibre-gl@1 maplibre-gl-js-amplify@geo aws-amplify@geo @aws-amplify/ui-react --legacy-peer-deps
 ```
 
-> **Note:** Make sure that `maplibre-gl-js-amplify` version `1.2.5-geo` or above and `@aws-amplify/geo` version `1.1.11-geo.11` or above are installed.
+> **Note:** Make sure that `maplibre-gl-js-amplify` version `1.2.9-geo` or above and `@aws-amplify/geo` version `1.2.2-geo.3` or above are installed.
 
 First, create a map onto which you want to add the geofence management component. See the guide on [creating and displaying maps](https://docs.amplify.aws/lib/geo/maps/q/platform/js/).
 
@@ -100,6 +100,42 @@ And your app CSS should be updated to show the sign out button
 ![Geofence Create](/images/geofence-create.png)
 
 ![Geofence Edit](/images/geofence-edit.png)
+
+### NextJS and Polyfills
+
+<Callout>
+
+**Note:** The current version of `maplibre-gl-draw-circle` that we depend on uses a slightly older version of `mapbox-gl-draw`. `mapbox-gl-draw` v1.1.1 will require some polyfills in NextJS to get your application to compile otherwise you will get an error like:
+
+```
+Uncaught ReferenceError: fs is not defined
+```
+
+Additionally using `@aws-amplify/ui-react` with Webpack5 requires polyfills for `aws-amplify` as documented [here](https://ui.docs.amplify.aws/getting-started/installation#webpack-5).
+
+
+Follow the instructions below if you are using NextJS to resolve the error:
+
+1. Add node-polyfill-webpack-plugin as dev dependency: `npm install node-polyfill-webpack-plugin -D`
+
+2. Add the plugin to your next.config.js plugins list and include a [resolve fallback](https://webpack.js.org/configuration/resolve/#resolvefallback) for `fs`
+
+```
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
+
+module.exports = {
+  reactStrictMode: true,
+  webpack: (config) => {
+    config.plugins.push(new NodePolyfillPlugin()); // Adds polyfills for aws-amplify
+    config.resolve.fallback = {
+      fs: false, // Resolves fs issue from maplibre-gl-draw-circle
+    };
+    return config;
+  },
+};
+```
+
+</Callout>
 
 ## Geofence API
 
