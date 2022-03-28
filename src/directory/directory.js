@@ -1669,6 +1669,18 @@ const directory = {
           },
         ],
       },
+      "sample-apps": {
+        title: "Sample Apps",
+        items: [
+          {
+            title: "ToDo App",
+            route: "/start/sample-apps/todo-app",
+            filters: [
+              "android"
+            ],
+          },
+        ],
+      },
     },
   },
   console: {
