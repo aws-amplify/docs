@@ -14,7 +14,8 @@ const getCspContent = (context) => {
 
   // Dev environment
   if (process.env.NODE_ENV !== 'production') {
-    return `default-src 'self';
+    return `upgrade-insecure-requests;
+      default-src 'none';
       style-src 'self' 'unsafe-inline';
       font-src 'self' data:;
       frame-src 'self';
@@ -26,7 +27,8 @@ const getCspContent = (context) => {
   }
 
   // Prod environment
-  return `default-src 'self';
+  return `upgrade-insecure-requests;
+    default-src 'none';
     style-src 'self' 'unsafe-inline';
     font-src 'self';
     frame-src 'self';
