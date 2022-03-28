@@ -251,39 +251,39 @@ var todos: [Todo] = []
 var currentPage: List<Todo>?
 
 func listFirstPage() {
-        let todo = Todo.keys
-        let predicate = todo.name == "my first todo" && todo.description == "todo description"
-        let request = GraphQLRequest<Todo>.list(Todo.self, where: predicate, limit: 1000)
-        Amplify.API.query(request: request) { event in
-            switch event {
-            case .success(let result):
-                switch result {
-                case .success(let todos):
-                    print("Successfully retrieved list of todos: \(todos)")
-                    self.currentPage = todos
-                    self.todos.append(contentsOf: todos)
-                case .failure(let error):
-                    print("Got failed result with \(error.errorDescription)")
-                }
+    let todo = Todo.keys
+    let predicate = todo.name == "my first todo" && todo.description == "todo description"
+    let request = GraphQLRequest<Todo>.list(Todo.self, where: predicate, limit: 1000)
+    Amplify.API.query(request: request) { event in
+        switch event {
+        case .success(let result):
+            switch result {
+            case .success(let todos):
+                print("Successfully retrieved list of todos: \(todos)")
+                self.currentPage = todos
+                self.todos.append(contentsOf: todos)
             case .failure(let error):
-                print("Got failed event with error \(error)")
+                print("Got failed result with \(error.errorDescription)")
             }
+        case .failure(let error):
+            print("Got failed event with error \(error)")
         }
     }
+}
 
-    func listNextPage() {
-        if let current = self.currentPage, current.hasNextPage() {
-            current.getNextPage { result in
-                switch result {
-                case .success(let todos):
-                    self.todos.append(contentsOf: todos)
-                    self.currentPage = todos
-                case .failure(let coreError):
-                    print("Failed to get next page \(coreError)")
-                }
+func listNextPage() {
+    if let current = self.currentPage, current.hasNextPage() {
+        current.getNextPage { result in
+            switch result {
+            case .success(let todos):
+                self.todos.append(contentsOf: todos)
+                self.currentPage = todos
+            case .failure(let coreError):
+                print("Failed to get next page \(coreError)")
             }
         }
     }
+}
 ```
 
 </Block>
