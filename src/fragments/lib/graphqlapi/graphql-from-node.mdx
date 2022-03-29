@@ -44,15 +44,15 @@ You can access the following resource attributes as environment variables from y
 <!-- due to placeholder text -->
 <!-- prettier-ignore -->
 ```js
-const { Amplify, API } = require('aws-amplify')
+const { Amplify, API } = require('aws-amplify');
 
 const amplifyConfig = {
   aws_appsync_graphqlEndpoint: process.env.API_<your-api-name>_GRAPHQLAPIENDPOINTOUTPUT,
   aws_appsync_authenticationType: 'API_KEY',
-  aws_appsync_apiKey: process.env.API_<your-api-name>_GRAPHQLAPIKEYOUTPUT,
+  aws_appsync_apiKey: process.env.API_<your-api-name>_GRAPHQLAPIKEYOUTPUT
 }
 
-Amplify.configure(amplifyConfig)
+Amplify.configure(amplifyConfig);
 
 const query = /* GraphQL */ `
   query {
@@ -64,25 +64,26 @@ const query = /* GraphQL */ `
       }
     }
   }
-`
+`;
 
 /**
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
 exports.handler = async (event) => {
-  console.log(`EVENT: ${JSON.stringify(event)}`)
+  console.log(`EVENT: ${JSON.stringify(event)}`);
   try {
     return {
       statusCode: 200,
-      body: JSON.stringify(await API.graphql({ query })),
-    }
+      body: JSON.stringify(await API.graphql({ query }))
+    };
   } catch (error) {
     return {
       statusCode: 500,
-      body: JSON.stringify(error),
-    }
+      body: JSON.stringify(error)
+    };
   }
-}
+};
+
 ```
 
 ## Mutation
@@ -92,15 +93,15 @@ In this example we create a mutation showing how to pass in variables as argumen
 <!-- due to placeholder text -->
 <!-- prettier-ignore -->
 ```js
-const { Amplify, API } = require('aws-amplify')
+const { Amplify, API } = require('aws-amplify');
 
 const amplifyConfig = {
   aws_appsync_graphqlEndpoint: process.env.API_<your-api-name>_GRAPHQLAPIENDPOINTOUTPUT,
   aws_appsync_authenticationType: 'API_KEY',
-  aws_appsync_apiKey: process.env.API_<your-api-name>_GRAPHQLAPIKEYOUTPUT,
+  aws_appsync_apiKey: process.env.API_<your-api-name>_GRAPHQLAPIKEYOUTPUT
 }
 
-Amplify.configure(amplifyConfig)
+Amplify.configure(amplifyConfig);
 
 const query = /* GraphQL */ `
   mutation createTodo($input: CreateTodoInput!) {
@@ -110,31 +111,31 @@ const query = /* GraphQL */ `
       description
     }
   }
-`
+`;
 
 /**
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
 exports.handler = async (event) => {
-  console.log(`EVENT: ${JSON.stringify(event)}`)
+  console.log(`EVENT: ${JSON.stringify(event)}`);
   const variables = {
     input: {
       name: 'Hello world!',
-      description: 'My first todo',
-    },
-  }
+      description: 'My first todo'
+    }
+  };
   try {
     return {
       statusCode: 200,
-      body: JSON.stringify(await API.graphql({ query, variables })),
-    }
+      body: JSON.stringify(await API.graphql({ query, variables }))
+    };
   } catch (error) {
     return {
       statusCode: 500,
-      body: JSON.stringify(error),
-    }
+      body: JSON.stringify(error)
+    };
   }
-}
+};
 ```
 
 ## IAM Authorization
@@ -154,14 +155,14 @@ The CLI will automatically configure the Lambda execution IAM role required by t
 <!-- due to placeholder text -->
 <!-- prettier-ignore -->
 ```js
-const { Amplify, API } = require('aws-amplify')
+const { Amplify, API } = require('aws-amplify');
 
 const amplifyConfig = {
   aws_appsync_graphqlEndpoint: process.env.API_<your-api-name>_GRAPHQLAPIENDPOINTOUTPUT,
-  aws_appsync_authenticationType: 'AWS_IAM',
+  aws_appsync_authenticationType: 'AWS_IAM'
 }
 
-Amplify.configure(amplifyConfig)
+Amplify.configure(amplifyConfig);
 
 const query = /* GraphQL */ `
   query {
@@ -173,23 +174,23 @@ const query = /* GraphQL */ `
       }
     }
   }
-`
+`;
 
 /**
  * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
  */
 exports.handler = async (event) => {
-  console.log(`EVENT: ${JSON.stringify(event)}`)
+  console.log(`EVENT: ${JSON.stringify(event)}`);
   try {
     return {
       statusCode: 200,
-      body: JSON.stringify(await API.graphql({ query })),
-    }
+      body: JSON.stringify(await API.graphql({ query }))
+    };
   } catch (error) {
     return {
       statusCode: 500,
-      body: JSON.stringify(error),
-    }
+      body: JSON.stringify(error)
+    };
   }
-}
+};
 ```
