@@ -41,14 +41,21 @@ You can access the following resource attributes as environment variables from y
 
 ## Query
 
+<!-- due to placeholder text -->
+<!-- prettier-ignore -->
 ```js
-const axios = require('axios');
-const gql = require('graphql-tag');
-const graphql = require('graphql');
-const { print } = graphql;
+const { Amplify, API } = require('aws-amplify')
 
-const listTodos = gql`
-  query listTodos {
+const amplifyConfig = {
+  aws_appsync_graphqlEndpoint: process.env.API_<your-api-name>_GRAPHQLAPIENDPOINTOUTPUT,
+  aws_appsync_authenticationType: 'API_KEY',
+  aws_appsync_apiKey: process.env.API_<your-api-name>_GRAPHQLAPIKEYOUTPUT,
+}
+
+Amplify.configure(amplifyConfig)
+
+const query = /* GraphQL */ `
+  query {
     listTodos {
       items {
         id
@@ -57,47 +64,45 @@ const listTodos = gql`
       }
     }
   }
-`;
+`
 
+/**
+ * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
+ */
 exports.handler = async (event) => {
+  console.log(`EVENT: ${JSON.stringify(event)}`)
   try {
-    const graphqlData = await axios({
-      url: process.env.API_ < YOUR_API_NAME > _GRAPHQLAPIENDPOINTOUTPUT,
-      method: 'post',
-      headers: {
-        'x-api-key': process.env.API_ < YOUR_API_NAME > _GRAPHQLAPIKEYOUTPUT
-      },
-      data: {
-        query: print(listTodos)
-      }
-    });
-    const body = {
-      graphqlData: graphqlData.data.data.listTodos
-    };
     return {
       statusCode: 200,
-      body: JSON.stringify(body),
-      headers: {
-        'Access-Control-Allow-Origin': '*'
-      }
-    };
-  } catch (err) {
-    console.log('error posting to appsync: ', err);
+      body: JSON.stringify(await API.graphql({ query })),
+    }
+  } catch (error) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify(error),
+    }
   }
-};
+}
 ```
 
 ## Mutation
 
 In this example we create a mutation showing how to pass in variables as arguments.
 
+<!-- due to placeholder text -->
+<!-- prettier-ignore -->
 ```js
-const axios = require('axios');
-const gql = require('graphql-tag');
-const graphql = require('graphql');
-const { print } = graphql;
+const { Amplify, API } = require('aws-amplify')
 
-const createTodo = gql`
+const amplifyConfig = {
+  aws_appsync_graphqlEndpoint: process.env.API_<your-api-name>_GRAPHQLAPIENDPOINTOUTPUT,
+  aws_appsync_authenticationType: 'API_KEY',
+  aws_appsync_apiKey: process.env.API_<your-api-name>_GRAPHQLAPIKEYOUTPUT,
+}
+
+Amplify.configure(amplifyConfig)
+
+const query = /* GraphQL */ `
   mutation createTodo($input: CreateTodoInput!) {
     createTodo(input: $input) {
       id
@@ -105,40 +110,31 @@ const createTodo = gql`
       description
     }
   }
-`;
+`
 
+/**
+ * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
+ */
 exports.handler = async (event) => {
+  console.log(`EVENT: ${JSON.stringify(event)}`)
+  const variables = {
+    input: {
+      name: 'Hello world!',
+      description: 'My first todo',
+    },
+  }
   try {
-    const graphqlData = await axios({
-      url: process.env.API_ < YOUR_API_NAME > _GRAPHQLAPIENDPOINTOUTPUT,
-      method: 'post',
-      headers: {
-        'x-api-key': process.env.API_ < YOUR_API_NAME > _GRAPHQLAPIKEYOUTPUT
-      },
-      data: {
-        query: print(createTodo),
-        variables: {
-          input: {
-            name: 'Hello world!',
-            description: 'My first todo'
-          }
-        }
-      }
-    });
-    const body = {
-      message: 'successfully created todo!'
-    };
     return {
       statusCode: 200,
-      body: JSON.stringify(body),
-      headers: {
-        'Access-Control-Allow-Origin': '*'
-      }
-    };
-  } catch (err) {
-    console.log('error creating todo: ', err);
+      body: JSON.stringify(await API.graphql({ query, variables })),
+    }
+  } catch (error) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify(error),
+    }
   }
-};
+}
 ```
 
 ## Signing a request from Lambda
