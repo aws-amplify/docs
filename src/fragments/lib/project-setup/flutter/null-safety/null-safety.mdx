@@ -1,6 +1,12 @@
 **Amplify Flutter and Null Safety**
 
-The Amplify Flutter library supports [Dart null safety](https://dart.dev/null-safety) starting with version 0.2.0.  
+<Callout warning>
+
+Amplify Flutter is planning to drop the support of non-null safe models in the near future. Please [migrate to Dart null safety](https://dart.dev/null-safety/migration-guide).
+
+</Callout>
+
+The Amplify Flutter library supports [Dart null safety](https://dart.dev/null-safety) starting with version 0.2.0.
 
 |                                	                     | amplify-flutter 0.1.x   	| amplify-flutter 0.2.x  	|
 |-------------------------------	|---------------------------------	|---------------------------------	|
@@ -18,7 +24,7 @@ If you have a null safe app, or are migrating to null safety and your app uses g
 
 To migrate to null safe models, you can simply regenerate them following the instructions:
 1. Make sure that the `pubspec.yaml` file at the root of your projects defines a Dart SDK version of 2.12.0 or greater.
-2. Update your Amplify CLI to version 5.1.0 or higher.  
+2. Update your Amplify CLI to version 5.1.0 or higher.
 ```js
 npm install -g @aws-amplify/cli
 ```
@@ -29,4 +35,4 @@ npm install -g @aws-amplify/cli
 
 If you wish to continue using non-null safe models:
 1. Make sure that the `enableDartNullSafety` [feature flag](https://docs.amplify.aws/cli/reference/feature-flags) is set to "false".
-2. Re-run `amplify codegen models` for your schema 
+2. Re-run `amplify codegen models` for your schema

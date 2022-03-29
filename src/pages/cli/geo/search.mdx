@@ -49,6 +49,16 @@ Select `Authorized and Guest users` if both authenticated and unauthenticated us
 
 For more information, refer [link to location service page](https://docs.aws.amazon.com/location/latest/developerguide/security_iam_id-based-policy-examples.html#security_iam_id-based-policy-examples-search-for-place).
 
+<Callout>
+
+**Note:** 
+If you are using Amplify CLI version `7.6.19` or older and have a Search Index added to your application, please follow these instructions to get the auto-complete suggestions for search:
+1. Upgrade the Amplify CLI to version `7.6.20` or later using `npm i -g @aws-amplify/cli`.
+2. Run `amplify update geo` and select the existing Search Index. Choose the same configuration for the Search Index that you already have.
+3. Run `amplify push` to update the backend resource.
+
+</Callout>
+
 ## Location Search Index Pricing Plan
 The pricing plan for Search Index will be set to `RequestBasedUsage`.
 We advice you to go through the [location service pricing](https://aws.amazon.com/location/pricing/) along with the [location service terms](https://aws.amazon.com/service-terms/) (_82.5 section_) to learn more about the pricing plan.
