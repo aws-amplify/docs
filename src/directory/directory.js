@@ -331,7 +331,7 @@ const directory = {
           {
             title: "Delete user",
             route: "/lib/auth/delete_user",
-            filters: ["flutter", "ios", "js"],
+            filters: ["android", "flutter", "ios", "js"],
           },
           {
             title: "Escape hatch",
@@ -1665,6 +1665,18 @@ const directory = {
               "ios",
               "ionic",
               "flutter",
+            ],
+          },
+        ],
+      },
+      "sample-apps": {
+        title: "Sample Apps",
+        items: [
+          {
+            title: "ToDo App",
+            route: "/start/sample-apps/todo-app",
+            filters: [
+              "android"
             ],
           },
         ],

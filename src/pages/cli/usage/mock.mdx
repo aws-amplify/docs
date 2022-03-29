@@ -46,7 +46,9 @@ When defining a schema you can use directives from the GraphQL Transformer in lo
 - [@hasOne, @hasMany, @belongsTo, @manyToMany](/cli/graphql/data-modeling)
 - [@function](/cli/graphql/custom-business-logic#lambda-function-resolver)
 
-> Note that `@searchable` is not supported at this time.
+> __Note__: IAM authorization rules in Mock get are treated as Auth role if the request is signed with AccessKey `ASIAVJKIAM-AuthRole`. Otherwise the request is treated as made by an unAuth user.
+
+> __Note__: that `@searchable` is not supported at this time.
 
 ## Storage mocking setup
 

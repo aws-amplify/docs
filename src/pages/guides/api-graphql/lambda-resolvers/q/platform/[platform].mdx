@@ -32,7 +32,7 @@ To get started, create the first Lambda function:
 ```sh
 amplify add function
 
-? Provide a friendly name for your resource to be used as a label for this category in the project: addingfunction
+? Provide a friendly name for your resource to be used as a label for this category in the project: echofunction
 ? Provide the AWS Lambda function name: echofunction
 ? Choose the function runtime that you want to use: NodeJS
 ? Choose the function template that you want to use: Hello World
@@ -137,7 +137,7 @@ type Query {
 }
 
 type Mutation {
-  add(number1: Int, number2: Int): Int @function(name: "addfunction-${env}")
+  add(number1: Int, number2: Int): Int @function(name: "addingfunction-${env}")
 }
 ```
 

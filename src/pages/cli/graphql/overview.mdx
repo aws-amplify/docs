@@ -259,6 +259,49 @@ Amplify.API.mutate(ModelMutation.create(todo),
 
 The result output should indicate to you that the record was successfully deleted!
 
+## Update schema
+
+If you want to update your API, open your project's `amplify/backend/api/<api-name>/schema.graphql` file (NOT the one in the `amplify/backend/api/<api-name>/build` folder) and edit it in your favorite code editor. You can compile the `amplify/backend/api/<api-name>/schema.graphql` file by running:
+
+```bash
+amplify api gql-compile
+```
+
+and view the compiled schema output in `backend/api/~apiname~/build/schema.graphql`.
+
+You can then push updated changes with:
+
+```bash
+amplify push
+```
+
+The following schema updates require replacement of the underlying DynamoDB table:
+1. Removing or renaming a model
+2. Modifying the [primary key](/cli/graphql/data-modeling/#configure-a-primary-key) of a model
+3. Modifying a Local Secondary Index of a model (only applies to projects with [secondaryKeyAsGSI](/cli/reference/feature-flags/#secondaryKeyAsGSI) turned off)
+
+When trying to push a schema change with one or more of these updates you will see an error message explaining that you will lose ALL DATA in any table that requires replacement. To confirm you want to continue with the deployment, run:
+```bash
+amplify push --allow-destructive-graphql-schema-updates
+```
+<Callout>
+This command should NEVER be used in a production environment. You will not be able to recover data from replaced tables.
+</Callout>
+
+## Rebuild GraphQL API
+
+<Callout>
+Rebuild should NEVER be used in a production environment!
+</Callout>
+
+When in development, sometimes test data gets in a bad state or you want to make many changes to your schema all at once. In these cases, you may wish to "rebuild" all of the tables backing your schema. To do this, run:
+```bash
+amplify rebuild api
+```
+This will recreate ALL of the tables backing models in your schema. ALL DATA in ALL TABLES will be deleted.
+
+
+
 ## Next steps
 
 Success! You've learned how to create a GraphQL API backed by a database table and also how to run queries and mutations from your app. 
