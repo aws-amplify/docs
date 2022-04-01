@@ -291,9 +291,9 @@ database = os.environ['DATABASE_NAME']
 password = os.environ['DB_PASSWORD']
 ```
 
-## Bring Your Own API Specification
+## Bring Your Own Container Specification For Your REST API
 
-When creating an API using containers, you have the option to bring in your own `Dockerfile`(s) and `docker-compose.yml`. When selecting the image you want to use for your REST API, choose `Custom`. Afterward, you can choose when you want to deploy changes to your container.
+When creating an API using containers, you have the option to bring in your own `Dockerfile`(s) and `docker-compose.yml`. When selecting the Docker image for your REST API, choose `Custom` and then select when to deploy code and configuration changes to your container.
 
 ```console
 ? What image would you like to use Custom (bring your own Dockerfile or docker-compose.yml)
@@ -303,7 +303,7 @@ When creating an API using containers, you have the option to bring in your own 
   Advanced: Self-managed (Learn more: docs.amplify.aws/cli/usage/containers) 
 ```
 
-The CLI will provide you with some next steps to follow, and you can take your existing specification and allow the CLI to bring it into your project by populating the `src` directory with your specification.
+The CLI will provide you with the next steps to bring your existing Docker specification and source files into your project by populating the `src` directory.
 
 ```console
 ✅ Next steps:
