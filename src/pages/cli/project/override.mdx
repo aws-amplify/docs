@@ -38,28 +38,29 @@ You can override the following project-level resources that Amplify generates:
 
 ## Customize unauthRole policies
 
-For example, to use the project override to update the unauthRole policy for S3, use the following:
+For example, to use the project override to update the unauthRole policy for Geo category, use the following:
 
 ```ts
 import { AmplifyRootStackTemplate } from "@aws-amplify/cli-extensibility-helper";
 
 export function override(resources: AmplifyRootStackTemplate) {
-  const unauthRole = resources.unauthRole;
+  const authRole = resources.authRole;
 
-  const basePolicies = Array.isArray(unauthRole.policies)
-    ? unauthRole.policies
-    : [unauthRole.policies];
+  const basePolicies = Array.isArray(authRole.policies)
+    ? authRole.policies
+    : [authRole.policies];
 
-  unauthRole.policies = [
+  authRole.policies = [
     ...basePolicies,
     {
       policyName: "amplify-permissions-custom-resources",
       policyDocument: {
         Version: "2012-10-17",
         Statement: [
+          //? Route calculator
           {
-            Resource: "<ARN of resource>",
-            Action: ["s3:PutObject", "s3:GetObject", "s3:DeleteObject"],
+            Resource: "<ARN of Geo>",
+            Action: ["geo:CalculateRoute*"],
             Effect: "Allow",
           },
         ],
@@ -67,6 +68,5 @@ export function override(resources: AmplifyRootStackTemplate) {
     },
   ];
 }
-
 
 ```
