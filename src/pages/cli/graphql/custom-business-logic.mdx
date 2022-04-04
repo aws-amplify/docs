@@ -494,6 +494,8 @@ Next, install the AppSync dependencies for your custom resource:
 cd amplify/backend/custom/MyCustomResolvers
 npm i @aws-cdk/aws-appsync@~1.124.0
 ```
+> **Note:** Installations using the '\~' character do not modify the package.json. To use '\~' for default npm configurations, make sure your package.json reflects the right dependency to avoid compatibility errors in CDK.
+
 
 Finally, add your custom resolvers into the `cdk-stack.ts` file. You can either add the VTL inline into your `cdk-stack.ts` file or define them externally in another file. Review the [Resolver Mapping Template Programming Guide](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-mapping-template-reference-programming-guide.html) to learn more about the VTL template.
 

@@ -1,7 +1,7 @@
 ```dart
 try {
   await Amplify.Auth.confirmUserAttribute(
-    userAttributeKey: 'email',
+    userAttributeKey: CognitoUserAttributeKey.email,
     confirmationCode: '390739',
   );
   print('Attribute verified');
