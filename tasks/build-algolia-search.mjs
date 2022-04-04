@@ -221,11 +221,18 @@ function transformPostsToSearchObjects(articles) {
     const { searchableText } = article;
     searchableText.forEach((chunk, idx) => {
       console.log('slug', article.filename);
+      let slug = article.filename;
+      let category = slug.split('/')[1];
+      let subcategory = slug.split('/')[2];
+      category = titleCase(category);
+      subcategory = titleCase(subcategory);
       const obj = {
         objectID: article.meta.title + '-' + idx,
         title: article.meta.title,
         description: article.meta.description,
-        slug: article.filename,
+        slug,
+        category,
+        subcategory,
         type: 'article',
         heading: chunk.heading,
         depth: chunk.depth,
@@ -276,4 +283,16 @@ function makeSearchable() {
       }
     );
   };
+}
+
+function titleCase(str) {
+  if (str === 'cli') return 'CLI';
+  if (str === 'uibuilder') return 'UI Builder';
+  if (str === 'adminui') return 'Admin UI';
+  if (str === 'graphql-transformer') return 'GraphQL Transformer';
+  if (str === 'CLI Legacy') return 'CLI Legacy';
+  let category = str.toLowerCase();
+  let titleCaseCategory =
+    category.charAt(0).toUpperCase() + category.substring(1, category.length);
+  return titleCaseCategory;
 }

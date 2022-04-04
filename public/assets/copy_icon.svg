@@ -1,0 +1,14 @@
+<svg
+  width="14"
+  height="14"
+  viewBox="0 0 14 14"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    d="M5 2H12V9H11V4C11 3.44772 10.5523 3 10 3H5V2ZM13 11H11V13C11 13.5523 10.5523 14 10 14H1C0.447715 14 0 13.5523 0 13V4C0 3.44772 0.447715 3 1 3H3V1C3 0.447715 3.44772 0 4 0H13C13.5523 0 14 0.447715 14 1V10C14 10.5523 13.5523 11 13 11ZM2 12V5H9V12H2Z"
+    fill="#545B64"
+  />
+</svg>

@@ -1,13 +1,55 @@
 import React, { createElement } from 'react';
 import { getAlgoliaResults } from '@algolia/autocomplete-js';
 import algoliasearch from 'algoliasearch';
+// import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions';
+
 import { Autocomplete } from './Autocomplete';
 import { ProductItem } from './ProductItem';
 import { Search } from './styles';
 
+import { pipe } from 'ramda';
+
+import { groupBy, limit, uniqBy } from './functions';
+import { productsPlugin } from './productsPlugin';
+
 const appId = 'W6Q5N5WUDV';
 const apiKey = 'a82ff7ed9cd894525d84229ba4a886db';
 const searchClient = algoliasearch(appId, apiKey);
+
+// const querySuggestionsPlugin = createQuerySuggestionsPlugin({
+//   searchClient,
+//   indexName: 'custom_search_staging',
+//   getSearchParams() {
+//     return {
+//       hitsPerPage: 10
+//     };
+//   }
+// });
+
+// const dedupeAndLimitSuggestions = pipe(
+//   uniqBy(({ source, item }) => source.sourceId === item.heading),
+//   limit(4)
+// );
+
+// const groupByCategory = groupBy((hit) => hit.heading, {
+//   getSource({ name, items }) {
+//     return {
+//       getItems() {
+//         return items.slice(0, 3);
+//       },
+//       templates: {
+//         header() {
+//           return (
+//             <>
+//               <span className="aa-SourceHeaderTitle">{name}</span>
+//               <div className="aa-SourceHeaderLine" />
+//             </>
+//           );
+//         }
+//       }
+//     };
+//   }
+// });
 
 function App() {
   return (
@@ -17,6 +59,7 @@ function App() {
         getSources={({ query }) => [
           {
             sourceId: 'products',
+
             getItems() {
               return getAlgoliaResults({
                 searchClient,
@@ -30,6 +73,7 @@ function App() {
             },
             templates: {
               item({ item, components }) {
+                console.log(item);
                 return <ProductItem hit={item} components={components} />;
               }
             }
