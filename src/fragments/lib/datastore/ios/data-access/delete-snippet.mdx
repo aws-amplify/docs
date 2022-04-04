@@ -1,3 +1,5 @@
+To delete an item, simply pass in an instance.
+
 <BlockSwitcher>
 
 <Block name="Listener (iOS 11+)">
@@ -67,3 +69,76 @@ receiveValue: {
 </Block>
 
 </BlockSwitcher>
+
+You can also delete models that only match a predicate. For example, this will delete all posts that is in draft status:
+
+<BlockSwitcher>
+
+<Block name="Listener (iOS 11+)">
+
+```swift
+Amplify.DataStore.delete(Post.self, where: Post.keys.status.eq(PostStatus.draft)) { result in
+    switch result {
+    case .success:
+        print("All posts in draft deleted")
+    case .failure(let error):
+        print("Error deleting posts - \(error.localizedDescription)")
+    }
+}
+```
+
+</Block>
+
+<Block name="Combine (iOS 13+)">
+
+```swift
+let sink = Amplify.DataStore.delete(Post.self, where: Post.keys.status.eq(PostStatus.draft)).sink {
+    if case let .failure(error) = $0 {
+        print("Error deleting post - \(error.localizedDescription)")
+    }
+}
+receiveValue: {
+    print("All posts in draft deleted!")
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+To delete all items of a model, you can pass in the `QueryPredicateConstant.all` predicate:
+
+<BlockSwitcher>
+
+<Block name="Listener (iOS 11+)">
+
+```swift
+Amplify.DataStore.delete(Post.self, where: QueryPredicateConstant.all) { result in
+    switch result {
+    case .success:
+        print("All posts deleted")
+    case .failure(let error):
+        print("Error deleting posts - \(error.localizedDescription)")
+    }
+}
+```
+
+</Block>
+
+<Block name="Combine (iOS 13+)">
+
+```swift
+let sink = Amplify.DataStore.delete(Post.self, where: QueryPredicateConstant.all).sink {
+    if case let .failure(error) = $0 {
+        print("Error deleting post - \(error.localizedDescription)")
+    }
+}
+receiveValue: {
+    print("All posts deleted!")
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+

@@ -1,4 +1,4 @@
-Below, we query for an instance with an `id` of `123`, and then delete it, if found:
+To delete an item, query for an instance and then delete it:
 
 ```dart
 (await Amplify.DataStore.query(Post.classType, where: Post.ID.eq('123')))
