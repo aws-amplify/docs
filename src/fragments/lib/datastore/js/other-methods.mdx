@@ -8,8 +8,6 @@ import { DataStore } from 'aws-amplify';
 await DataStore.clear();
 ```
 
-`DataStore.clear()` will only clear local data if called after DataStore has started, which can be done either automatically or manually as detailed further below.
-
 <Callout>
 
 If your app is has authentication implemented, it is recommended to call `DataStore.clear()` on signin/signout to remove any user-specific data. This method is often important to use for shared device scenarios or where you need to purge the local on-device storage of records for security/privacy concerns.
