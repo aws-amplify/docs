@@ -23,7 +23,7 @@ Accept the **default values** which are highlighted below:
 # No
 ? Do you have an annotated GraphQL schema?
 # No
-? Choose a schema template: 
+? Choose a schema template:
 # Single object with fields
 ? Do you want to edit the schema now?
 # Yes
@@ -31,7 +31,7 @@ Accept the **default values** which are highlighted below:
 
 The CLI should open this GraphQL schema in your text editor.
 
-__amplify/backend/api/myapi/schema.graphql__
+**amplify/backend/api/myapi/schema.graphql**
 
 ```graphql
 type Todo @model {
@@ -41,13 +41,13 @@ type Todo @model {
 }
 ```
 
-The schema generated is for a Todo app. You'll notice a directive on the `Todo` type of `@model`. This directive is part of the [GraphQL transform](/cli/graphql/data-modeling) library of Amplify. 
+The schema generated is for a Todo app. You'll notice a directive on the `Todo` type of `@model`. This directive is part of the [GraphQL transform](/cli/graphql/data-modeling) library of Amplify.
 
 The GraphQL Transform Library provides custom directives you can use in your schema that allow you to do things like define data models, set up authentication and authorization rules, configure serverless functions as resolvers, and more.
 
 A type decorated with the `@model` directive will scaffold out the database table for the type (Todo table), the schema for CRUD (create, read, update, delete) and list operations, and the GraphQL resolvers needed to make everything work together.
 
-From the command line, press __enter__ to accept the schema and continue to the next steps.
+From the command line, press **enter** to accept the schema and continue to the next steps.
 
 ## Create GraphQL API and database
 
@@ -89,16 +89,16 @@ When prompted, select **GraphQL**. This will open the AWS AppSync console for yo
 
 ## Connect frontend to API
 
-Update __src/main.ts__ to configure the library:
+Update **src/main.ts** to configure the library:
 
 ```javascript
-import Amplify from "aws-amplify";
-import aws_exports from "./aws-exports";
+import { Amplify } from 'aws-amplify';
+import aws_exports from './aws-exports';
 
 Amplify.configure(aws_exports);
 ```
 
-When working with underlying `aws-js-sdk`, the "node" package should be included in *types* compiler option. update your `src/tsconfig.app.json`:
+When working with underlying `aws-js-sdk`, the "node" package should be included in _types_ compiler option. update your `src/tsconfig.app.json`:
 
 ```json
 "compilerOptions": {
@@ -107,6 +107,7 @@ When working with underlying `aws-js-sdk`, the "node" package should be included
 ```
 
 Note: If you are using Angular 6 or above, you may need to add the following to the top of your `src/polyfills.ts` file:
+
 ```
 (window as any).global = window;
 
@@ -123,7 +124,7 @@ import { APIService } from './API.service';
 constructor(
     //other variables
     private apiService: APIService
-  ){  
+  ){
     this.initializeApp();
   }
 
@@ -163,7 +164,6 @@ Update the code in `src/app/app.component.html` with the following to display th
     </ion-item>
   </ion-list>
 </ion-app>
-
 ```
 
 Finally, to subscribe to realtime data, update `initializeApp()` to setup a subscription on app start and update the `todos` array when new events are received:
@@ -180,6 +180,6 @@ initializeApp() {
 }
 ```
 
-> The code above imports only the API and PubSub category. To import the entire Amplify library use `import Amplify from 'aws-amplify'`. However, importing only the required categories is recommended as it will greatly reduce the final bundle size.
+> The code above imports only the API and PubSub category. To import the entire Amplify library use `import { Amplify } from 'aws-amplify'`. However, importing only the required categories is recommended as it will greatly reduce the final bundle size.
 
 After restarting your app using `npm start` go back to your browser and using dev tools you will see data being stored and retrieved in your backend from the console logs.

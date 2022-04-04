@@ -1,13 +1,13 @@
 _app.module.ts_
 
 ```js
-import {BrowserModule} from "@angular/platform-browser";
-import {NgModule} from "@angular/core";
-import {AppComponent} from "./app.component";
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { AppComponent } from './app.component';
 
-import {AmplifyUIAngularModule} from "@aws-amplify/ui-angular";
-import Amplify from "aws-amplify";
-import awsconfig from "../aws-exports";
+import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
+import { Amplify } from 'aws-amplify';
+import awsconfig from '../aws-exports';
 
 Amplify.configure(awsconfig);
 
@@ -15,7 +15,7 @@ Amplify.configure(awsconfig);
   declarations: [AppComponent],
   imports: [AmplifyUIAngularModule, BrowserModule],
   providers: [],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}
 ```
