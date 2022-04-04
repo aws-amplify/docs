@@ -99,20 +99,22 @@ When prompted, select **GraphQL**. This will open the AWS AppSync console for yo
 Open `src/main.ts` and add the following code to configure the Angular project with Amplify:
 
 ```typescript
-import Amplify from "aws-amplify";
-import aws_exports from "./aws-exports";
+import { Amplify } from 'aws-amplify';
+import aws_exports from './aws-exports';
 Amplify.configure(aws_exports);
 ```
 
 <Callout warning={true}>
-  On Angular 12+, Typescript{" "}
+  On Angular 12+, Typescript{' '}
   <a href="https://www.typescriptlang.org/tsconfig#strict" target="_blank">
     strict mode
-  </a>{" "}
-  is enabled by default, which will introduce some type errors when you run the application. Please see the TypeScript strict mode {' '}
+  </a>{' '}
+  is enabled by default, which will introduce some type errors when you run the
+  application. Please see the TypeScript strict mode{' '}
   <a href="/lib/troubleshooting/strict-mode/q/platform/js/">
     troubleshooting guide{' '}
-  </a>to resolve them.
+  </a>
+  to resolve them.
 </Callout>
 
 Update `tsconfig.app.json` to include the "node" compiler option in _types_:
@@ -125,28 +127,28 @@ Update `tsconfig.app.json` to include the "node" compiler option in _types_:
 
 <Callout>
   Depending on your TypeScript version you may need to rename `aws-exports.js`
-  to `aws-exports.ts` prior to importing, or enable the `allowJs`{" "}
+  to `aws-exports.ts` prior to importing, or enable the `allowJs`{' '}
   <a
     href="https://www.typescriptlang.org/docs/handbook/compiler-options.html"
     target="_blank"
   >
     compiler option
-  </a>{" "}
+  </a>{' '}
   in your tsconfig.
 </Callout>
 
 First, enable the Angular forms modules in `src/app/app.module.ts`:
 
 ```js
-import {BrowserModule} from "@angular/platform-browser";
-import {NgModule} from "@angular/core";
-import {AmplifyUIAngularModule} from "@aws-amplify/ui-angular";
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
 
 /* new form imports */
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import {AppRoutingModule} from "./app-routing.module";
-import {AppComponent} from "./app.component";
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [AppComponent],
@@ -156,10 +158,10 @@ import {AppComponent} from "./app.component";
     AmplifyUIAngularModule,
     /* configuring form modules */
     FormsModule,
-    ReactiveFormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}
 ```
@@ -167,24 +169,24 @@ export class AppModule {}
 Next, in your `src/app/app.component.ts` file, add data to your database with a mutation by using the `API.service` file which was generated when you ran `amplify add api`:
 
 ```typescript
-import {Component} from "@angular/core";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {APIService, Restaurant} from "./API.service";
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { APIService, Restaurant } from './API.service';
 
 @Component({
-  selector: "app-root",
-  templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.css"],
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = "amplify-angular-app";
+  title = 'amplify-angular-app';
   public createForm: FormGroup;
 
   constructor(private api: APIService, private fb: FormBuilder) {
     this.createForm = this.fb.group({
-      name: ["", Validators.required],
-      description: ["", Validators.required],
-      city: ["", Validators.required],
+      name: ['', Validators.required],
+      description: ['', Validators.required],
+      city: ['', Validators.required]
     });
   }
 
@@ -192,11 +194,11 @@ export class AppComponent {
     this.api
       .CreateRestaurant(restaurant)
       .then((event) => {
-        console.log("item created!");
+        console.log('item created!');
         this.createForm.reset();
       })
       .catch((e) => {
-        console.log("error creating restaurant...", e);
+        console.log('error creating restaurant...', e);
       });
   }
 }
@@ -231,17 +233,17 @@ Next, add a form that will be used for creating restaurants. Add the following t
 Next, update your `AppComponent` class so that it will list all restaurants in the database when the app starts. To do so, implement [OnInit](https://angular.io/api/core/OnInit) add a `ListRestaurants` query in `src/app/app.component.ts`. Store the query results in an array.
 
 ```typescript
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {APIService, Restaurant} from "./API.service";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { APIService, Restaurant } from './API.service';
 
 @Component({
-  selector: "app-root",
-  templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.css"],
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = "amplify-angular-app";
+  title = 'amplify-angular-app';
   public createForm: FormGroup;
 
   /* declare restaurants variable */
@@ -249,9 +251,9 @@ export class AppComponent implements OnInit {
 
   constructor(private api: APIService, private fb: FormBuilder) {
     this.createForm = this.fb.group({
-      name: ["", Validators.required],
-      description: ["", Validators.required],
-      city: ["", Validators.required],
+      name: ['', Validators.required],
+      description: ['', Validators.required],
+      city: ['', Validators.required]
     });
   }
 
@@ -266,11 +268,11 @@ export class AppComponent implements OnInit {
     this.api
       .CreateRestaurant(restaurant)
       .then((event) => {
-        console.log("item created!");
+        console.log('item created!');
         this.createForm.reset();
       })
       .catch((e) => {
-        console.log("error creating restaurant...", e);
+        console.log('error creating restaurant...', e);
       });
   }
 }

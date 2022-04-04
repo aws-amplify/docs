@@ -1,4 +1,3 @@
-
 ## Create a new React App
 
 To set up the project, we'll first create a new React app with [create-react-app](https://reactjs.org/docs/create-a-new-react-app.html), a CLI tool used to bootstrap a React app using current best practices. We'll then add Amplify and initialize a new project.
@@ -67,7 +66,7 @@ Build command (npm run-script build)
 Start command (npm run-script start)
 
 Select the authentication method you want to use: (Use arrow keys)
-❯ AWS profile 
+❯ AWS profile
   AWS access keys
 
 # This is the profile you created with the `amplify configure` command in the introduction step.
@@ -97,14 +96,14 @@ The `aws-amplify` package is the main library for working with Amplify in your a
 
 Next, we need to configure Amplify on the client so that we can use it to interact with our backend services.
 
-Open __src/index.js__ and add the following code below the last import:
+Open **src/index.js** and add the following code below the last import:
 
 ```javascript
-import { Amplify } from "aws-amplify";
-import awsExports from "./aws-exports";
+import { Amplify } from 'aws-amplify';
+import awsExports from './aws-exports';
 Amplify.configure(awsExports);
 ```
 
-And that's all it takes to configure Amplify. As you add or remove categories and make updates to your backend configuration using the Amplify CLI, the configuration in __aws-exports.js__ will update automatically.
+And that's all it takes to configure Amplify. As you add or remove categories and make updates to your backend configuration using the Amplify CLI, the configuration in **aws-exports.js** will update automatically.
 
 Now that our React app is set up and Amplify is initialized, we're ready to add an API in the next step.
