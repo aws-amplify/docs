@@ -108,7 +108,7 @@
     "spellcheck": "cspell 'src/**/*.mdx'",
     "spellcheck-diff": "cspell --no-must-find-files $(git diff --cached --name-only | awk '/src.*\\.mdx/{print}' | cat - <(echo 'preventNoFilesPrintout'))",
     "dev": "next dev",
-    "build": "yarn task patch-next-scrolling && yarn task generate-sitemap && next build && next export -o client/www/next-build",
+    "build": "yarn task generate-sitemap && next build && next export -o client/www/next-build",
     "next-build": "next build",
     "next-start": "next start"
   }
