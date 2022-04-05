@@ -9,33 +9,34 @@ const mdxRenderer = `
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const directory = require('./src/directory/directory.js');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const headingLinkPlugin = require('./src/plugins/headings.tsx');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const pagePlugin = require('./src/plugins/page.tsx');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const importPlugin = require('./src/plugins/import.tsx');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const codeBlockPlugin = require('./src/plugins/code-block.tsx');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const internalLinkPlugin = require('./src/plugins/internal-link.tsx');
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const withMDX = require('@next/mdx')({
-  extension: /\.mdx$/,
-  options: {
-    remarkPlugins: [
-      importPlugin,
-      headingLinkPlugin,
-      pagePlugin,
-      internalLinkPlugin
-    ],
-    rehypePlugins: [codeBlockPlugin],
-    renderer: mdxRenderer
-  }
-});
 
-module.exports = withTM(
-  withMDX({
+module.exports = async (phase, { defaultConfig }) => {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const headingLinkPlugin = await require('./src/plugins/headings.tsx');
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const pagePlugin = await require('./src/plugins/page.tsx');
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const internalLinkPlugin = await require('./src/plugins/internal-link.tsx');
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const codeBlockPlugin = await require('./src/plugins/code-block.tsx');
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const importPlugin = await require('./src/plugins/import.tsx');
+
+  const withMDX = require('@next/mdx')({
+    extension: /\.mdx$/,
+    options: {
+      remarkPlugins: [
+        importPlugin,
+        headingLinkPlugin,
+        pagePlugin,
+        internalLinkPlugin
+      ],
+      rehypePlugins: [codeBlockPlugin],
+      renderer: mdxRenderer
+    }
+  });
+
+  const nextConfig = withTM(withMDX({
     pageExtensions: ['js', 'jsx', 'mdx', 'tsx', 'ts'],
     typescript: {
       // !! WARN !!
@@ -49,8 +50,10 @@ module.exports = withTM(
     },
     exportPathMap,
     trailingSlash: true
-  })
-);
+  }));
+
+  return nextConfig;
+};
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const generatePathMap = require('./generatePathMap.cjs');
