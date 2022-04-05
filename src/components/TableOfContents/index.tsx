@@ -33,7 +33,7 @@ export default function TableOfContents({ children, title }) {
   let headers = [];
   let headerQueries = [];
   let activeLink = 0;
-  let previousLink = 0;
+  let previousLink = -1;
   useEffect(() => {
     const idSet = new Set();
     const headings = document.querySelectorAll('a > h2, a > h3');
