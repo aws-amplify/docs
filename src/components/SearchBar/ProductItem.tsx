@@ -4,9 +4,9 @@ export function ProductItem({ hit, components }) {
       <div className="aa-ItemContent">
         <span className="aa-SourceHeaderTitle">{hit.subcategory}</span>
         <div className="aa-ItemContentBody">
-          <span className="aa-ItemContentTitle">{hit.title}</span>
+          <span className="aa-ItemContentTitle">{hit.description}</span>
           <div className="aa-ItemContentDescription">
-            <components.Highlight hit={hit} attribute="description" />
+            <components.Highlight hit={hit} attribute="text" />
           </div>
         </div>
       </div>

@@ -9,7 +9,7 @@
   dependencies:
     "@algolia/autocomplete-shared" "1.5.6"
 
-"@algolia/autocomplete-js@^1.5.3":
+"@algolia/autocomplete-js@1.5.6", "@algolia/autocomplete-js@^1.5.3":
   version "1.5.6"
   resolved "https://registry.npmjs.org/@algolia/autocomplete-js/-/autocomplete-js-1.5.6.tgz"
   integrity sha512-6E8HZ878lhiKHB4BjfLrAxDEdiI655oZTmg7Z06qwEDOpSfZlmyspebtm2SibYtdPzYk9IyWVcQQ8rh0JcG50g==
@@ -18,6 +18,26 @@
     "@algolia/autocomplete-preset-algolia" "1.5.6"
     "@algolia/autocomplete-shared" "1.5.6"
     preact "^10.0.0"
+
+"@algolia/autocomplete-plugin-query-suggestions@^1.5.6":
+  version "1.5.6"
+  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-plugin-query-suggestions/-/autocomplete-plugin-query-suggestions-1.5.6.tgz#97a294baa2ba915b8baff1399f071a34910b2181"
+  integrity sha512-7nd6fFcDIa+eBoSlqXFqvGQvnGQO8zkQxuEbZKoJPC1OQ5FU9GeBfZJKwdU/Ccn7nfqhcaVb/WIHKyvON5Srng==
+  dependencies:
+    "@algolia/autocomplete-core" "1.5.6"
+    "@algolia/autocomplete-js" "1.5.6"
+    "@algolia/autocomplete-preset-algolia" "1.5.6"
+    "@algolia/autocomplete-shared" "1.5.6"
+
+"@algolia/autocomplete-plugin-recent-searches@^1.5.6":
+  version "1.5.6"
+  resolved "https://registry.yarnpkg.com/@algolia/autocomplete-plugin-recent-searches/-/autocomplete-plugin-recent-searches-1.5.6.tgz#c9a9427bf6b9c8ea5dc29baf5b0ed71727d2984b"
+  integrity sha512-xVxHK0rWrv9ArneiuHasqYSMSX+bIMEuMm+JLUin9suMf4H6ru8Y+y5dSe4QvW3HzQyWDyq4AmG1wmVSwYlQgw==
+  dependencies:
+    "@algolia/autocomplete-core" "1.5.6"
+    "@algolia/autocomplete-js" "1.5.6"
+    "@algolia/autocomplete-preset-algolia" "1.5.6"
+    "@algolia/autocomplete-shared" "1.5.6"
 
 "@algolia/autocomplete-preset-algolia@1.5.6":
   version "1.5.6"
