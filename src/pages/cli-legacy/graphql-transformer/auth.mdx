@@ -346,7 +346,7 @@ type Post @model @auth(rules: [{ allow: groups, groupsField: "group" }]) {
 ```
 
 With dynamic group authorization, each record contains an attribute specifying
-what groups should be able to access it. Use the *groupsField* argument to
+what Cognito groups should be able to access it. Use the *groupsField* argument to
 specify which attribute in the underlying data store holds this group
 information. To specify that a single group should have access, use a field of
 type `String`. To specify that multiple groups should have access, use a field of
