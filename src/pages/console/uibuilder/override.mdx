@@ -67,7 +67,7 @@ The following example shows how to override each collection item to show a diffe
 
 ![Collection item shows a different color based on their index in the collection and alerts the user of which the clicked home](/images/console/collection-override.gif)
 
-If you want to override a prop for a specific element within a collection item, pass an override object to overrideItems.
+If you want to override a prop for a specific element within a collection item, pass an override object to `overrideItems`.
 
 ```jsx
 <HomeCollection overrideItems={(item, index) => ({ overrides: { Share: { fontWeight: 'bold'}}})}
