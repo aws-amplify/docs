@@ -14,6 +14,19 @@ If your app is has authentication implemented, it is recommended to call `DataSt
 
 </Callout>
 
+In cases where there are pending mutations (limited connection or offline), `DataStore.clear()` will erase any mutation events in the queue that have not been processed. A callback can be passed to `DataStore.clear()` to abort if there are mutation events in the outbox queue. Return `false` to abort or `true` to continue.
+
+```js
+import { DataStore } from 'aws-amplify';
+
+await DataStore.clear((pending) => {
+  if (pending.length > 0) {
+    return false;
+  }
+  return true;
+});
+```
+
 ## Start
 
 To manually start the sync process, use the `start` method:
