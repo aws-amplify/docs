@@ -345,19 +345,9 @@ type Post @model @auth(rules: [{ allow: groups, groupsField: "group" }]) {
 }
 ```
 
-With dynamic group authorization, each record contains an attribute specifying
-what groups should be able to access it. Use the *groupsField* argument to
-specify which attribute in the underlying data store holds this group
-information. To specify that a single group should have access, use a field of
-type `String`. To specify that multiple groups should have access, use a field of
-type `[String]`.
+With dynamic group authorization, each record contains an attribute specifying what Cognito groups should be able to access it. Use the `groupsField` argument to specify which attribute in the underlying data store holds this group information. To specify that a single group should have access, use a field of type `String`. To specify that multiple groups should have access, use a field of type `[String]`.
 
-Just as with the other auth rules, you can layer dynamic group rules on top of other rules.
-Let's again expand the **Draft** example from the **Owner Authorization** and **Static Group Authorization**
-sections above. When you last left off editors could update and read objects, owners had full
-access, and members of the admin group had full access to **Draft** objects. Now you have a new
-requirement where each record should be able to specify an optional list of groups that can read
-the draft. This would allow you to share an individual document with an external team, for example.
+Just as with the other auth rules, you can layer dynamic group rules on top of other rules. Let's again expand the **Draft** example from the **Owner Authorization** and **Static Group Authorization** sections above. When you last left off editors could update and read objects, owners had full access, and members of the admin group had full access to **Draft** objects. Now you have a new requirement where each record should be able to specify an optional list of groups that can read the draft. This would allow you to share an individual document with an external team, for example.
 
 ```graphql
 type Draft @model
