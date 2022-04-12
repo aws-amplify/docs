@@ -42,7 +42,7 @@ You can override the following S3-related resources that Amplify generates:
 
 <br />
 
-For example, to use storage override to update the S3 storage public Auth policy for S3 PUT and GET access while keeping existing policies, we can use the following example:
+For example, you can use `amplify override storage` to add additional PUT and GET access IAM policy statements to the S3 bucket's default public Auth policy:
 
 ```ts
 import { AmplifyS3ResourceTemplate } from '@aws-amplify/cli-extensibility-helper';
