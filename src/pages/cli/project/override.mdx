@@ -34,3 +34,39 @@ You can override the following project-level resources that Amplify generates:
 |-|-|
 |[authRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)|The IAM role for authenticated access to your app backend|
 |[unauthRole](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)|The IAM role for authenticated or guest access to your app backend|
+
+
+## Example: Modify unauthRole's IAM policies
+
+For example, use `amplify override project` to further modify the unauthRole policy for Geo category beyond the default policy statements:
+
+```ts
+import { AmplifyRootStackTemplate } from "@aws-amplify/cli-extensibility-helper";
+
+export function override(resources: AmplifyRootStackTemplate) {
+  const authRole = resources.authRole;
+
+  const basePolicies = Array.isArray(authRole.policies)
+    ? authRole.policies
+    : [authRole.policies];
+
+  authRole.policies = [
+    ...basePolicies,
+    {
+      policyName: "amplify-permissions-custom-resources",
+      policyDocument: {
+        Version: "2012-10-17",
+        Statement: [
+          //? Route calculator
+          {
+            Resource: "<ARN of Geo>",
+            Action: ["geo:CalculateRoute*"],
+            Effect: "Allow",
+          },
+        ],
+      },
+    },
+  ];
+}
+
+```
