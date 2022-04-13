@@ -43,7 +43,7 @@ const xmlUrlWrapper = (nodes) => `${xmlHeader}
   ${nodes}
 </urlset>`;
 
-const domain = 'http://localhost:3000';
+const domain = 'https://docs.amplify.aws';
 const xmlUrlNode = (pageUrl, pagePath) => {
   const lastmod = lastModified(pagePath);
   const url = `${pageUrl}${pageUrl === '/' ? '' : '/'}`;
