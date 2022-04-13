@@ -33,7 +33,7 @@ function App() {
                     indexName: 'custom_search_staging',
                     query,
                     params: {
-                      hitsPerPage: 10
+                      hitsPerPage: 6
                     }
                   }
                 ]
