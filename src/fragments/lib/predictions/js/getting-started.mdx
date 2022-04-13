@@ -25,8 +25,10 @@ A configuration file called `aws-exports.js` will be copied to your configured s
 Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. For example `App.js` in React or `main.ts` in Angular or Ionic.
 
 ```javascript
-import Amplify from 'aws-amplify';
-import Predictions, { AmazonAIPredictionsProvider } from '@aws-amplify/predictions';
+import { Amplify } from 'aws-amplify';
+import Predictions, {
+  AmazonAIPredictionsProvider
+} from '@aws-amplify/predictions';
 import awsconfig from './aws-exports';
 
 Amplify.configure(awsconfig);
@@ -38,76 +40,76 @@ Amplify.addPluggable(new AmazonAIPredictionsProvider());
 The manual setup enables you to use your existing Amazon AI and ML resources in your app.
 
 ```javascript
-import Amplify from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
 
 Amplify.configure({
-    // To get the AWS Credentials, you need to configure 
-    // the Auth module with your Cognito Federated Identity Pool
-    "Auth": {
-        "identityPoolId": "us-east-1:xxx-xxx-xxx-xxx-xxx",
-        "region": "us-east-1"
-    },
-    "predictions": {
-        "convert": {
-            "translateText": {
-                "region": "us-east-1",
-                "proxy": false,
-                "defaults": {
-                    "sourceLanguage": "en",
-                    "targetLanguage": "zh"
-                }
-            },
-            "speechGenerator": {
-                "region": "us-east-1",
-                "proxy": false,
-                "defaults": {
-                    "VoiceId": "Ivy",
-                    "LanguageCode": "en-US"
-                }
-            },
-            "transcription": {
-                "region": "us-east-1",
-                "proxy": false,
-                "defaults": {
-                    "language": "en-US"
-                }
-            }
-        },
-        "identify": {
-            "identifyText": {
-                "proxy": false,
-                "region": "us-east-1",
-                "defaults": {
-                    "format": "PLAIN"
-                }
-            },
-            "identifyEntities": {
-                "proxy": false,
-                "region": "us-east-1",
-                "celebrityDetectionEnabled": true,
-                "defaults": {
-                    "collectionId": "identifyEntities8b89c648-test",
-                    "maxEntities": 50
-                }
-            },
-            "identifyLabels": {
-                "proxy": false,
-                "region": "us-east-1",
-                "defaults": {
-                    "type": "LABELS"
-                }
-            }
-        },
-        "interpret": {
-            "interpretText": {
-                "region": "us-east-1",
-                "proxy": false,
-                "defaults": {
-                    "type": "ALL"
-                }
-            }
+  // To get the AWS Credentials, you need to configure
+  // the Auth module with your Cognito Federated Identity Pool
+  Auth: {
+    identityPoolId: 'us-east-1:xxx-xxx-xxx-xxx-xxx',
+    region: 'us-east-1'
+  },
+  predictions: {
+    convert: {
+      translateText: {
+        region: 'us-east-1',
+        proxy: false,
+        defaults: {
+          sourceLanguage: 'en',
+          targetLanguage: 'zh'
         }
+      },
+      speechGenerator: {
+        region: 'us-east-1',
+        proxy: false,
+        defaults: {
+          VoiceId: 'Ivy',
+          LanguageCode: 'en-US'
+        }
+      },
+      transcription: {
+        region: 'us-east-1',
+        proxy: false,
+        defaults: {
+          language: 'en-US'
+        }
+      }
+    },
+    identify: {
+      identifyText: {
+        proxy: false,
+        region: 'us-east-1',
+        defaults: {
+          format: 'PLAIN'
+        }
+      },
+      identifyEntities: {
+        proxy: false,
+        region: 'us-east-1',
+        celebrityDetectionEnabled: true,
+        defaults: {
+          collectionId: 'identifyEntities8b89c648-test',
+          maxEntities: 50
+        }
+      },
+      identifyLabels: {
+        proxy: false,
+        region: 'us-east-1',
+        defaults: {
+          type: 'LABELS'
+        }
+      }
+    },
+    interpret: {
+      interpretText: {
+        region: 'us-east-1',
+        proxy: false,
+        defaults: {
+          type: 'ALL'
+        }
+      }
     }
+  }
 });
 ```
 

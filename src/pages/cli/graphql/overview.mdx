@@ -285,7 +285,9 @@ When trying to push a schema change with one or more of these updates you will s
 amplify push --allow-destructive-graphql-schema-updates
 ```
 <Callout>
-This command should NEVER be used in a production environment. You will not be able to recover data from replaced tables.
+In general, this command should only be used during development.
+
+If you are making a breaking change to a production API but you want to retain the data in the affected table(s), you can [create a backup](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/CreateBackupAWS.html) before running `amplify push --allow-destructive-graphql-schema-updates`
 </Callout>
 
 ## Rebuild GraphQL API
@@ -312,6 +314,5 @@ There's so much more to discover with Amplify's GraphQL API capabilities. Learn 
 - [Create relationships between different database model](/cli/graphql/data-modeling/#setup-relationships-between-models)
 - [Add custom business logic to the GraphQL API](/cli/graphql/custom-business-logic)
 - [Run search and result aggregation queries](/cli/graphql/search-and-result-aggregations/)
-- [Enable offline access and conflict resolution](/cli/graphql/offline-data-access-and-conflict-resolution/)
 - [Connect to machine learning services](/cli/graphql/connect-to-machine-learning-services/)
 - [Examples and solutions](/cli/graphql/examples-and-solutions/)

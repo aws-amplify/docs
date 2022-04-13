@@ -331,7 +331,7 @@ const directory = {
           {
             title: "Delete user",
             route: "/lib/auth/delete_user",
-            filters: ["flutter", "ios", "js"],
+            filters: ["android", "flutter", "ios", "js"],
           },
           {
             title: "Escape hatch",
@@ -421,27 +421,27 @@ const directory = {
           {
             title: "Getting started",
             route: "/lib/geo/getting-started",
-            filters: ["android", "ios"],
+            filters: ["android"],
           },
           {
             title: "Maps",
             route: "/lib/geo/maps",
-            filters: ["android", "ios"],
+            filters: ["android"],
           },
           {
             title: "Location Search",
             route: "/lib/geo/search",
-            filters: ["android", "ios"],
+            filters: ["android"],
           },
           {
             title: "Use existing AWS resources",
             route: "/lib/geo/existing-resources",
-            filters: ["android", "ios"],
+            filters: ["android"],
           },
           {
             title: "Escape hatch",
             route: "/lib/geo/escapehatch",
-            filters: ["android", "ios"],
+            filters: ["android"],
           },
         ],
       },
@@ -451,17 +451,17 @@ const directory = {
           {
             title: "Getting started",
             route: "/lib/geo/getting-started",
-            filters: ["js"],
+            filters: ["js", "ios"],
           },
           {
             title: "Maps",
             route: "/lib/geo/maps",
-            filters: ["js"],
+            filters: ["js", "ios"],
           },
           {
             title: "Location Search",
             route: "/lib/geo/search",
-            filters: ["js"],
+            filters: ["js", "ios"],
           },
           {
             title: "Geofences (Developer preview)",
@@ -471,12 +471,12 @@ const directory = {
           {
             title: "Use existing AWS resources",
             route: "/lib/geo/existing-resources",
-            filters: ["js"],
+            filters: ["js", "ios"],
           },
           {
             title: "Escape Hatch",
             route: "/lib/geo/escapehatch",
-            filters: ["js"],
+            filters: ["js", "ios"],
           },
         ],
       },
@@ -1665,6 +1665,18 @@ const directory = {
               "ios",
               "ionic",
               "flutter",
+            ],
+          },
+        ],
+      },
+      "sample-apps": {
+        title: "Sample Apps",
+        items: [
+          {
+            title: "ToDo App",
+            route: "/start/sample-apps/todo-app",
+            filters: [
+              "android"
             ],
           },
         ],

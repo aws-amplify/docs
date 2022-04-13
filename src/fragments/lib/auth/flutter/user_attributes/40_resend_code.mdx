@@ -1,7 +1,7 @@
  ```dart
 try {
   var res = await Amplify.Auth.resendUserAttributeConfirmationCode(
-    userAttributeKey: 'email',
+    userAttributeKey: CognitoUserAttributeKey.email,
   );
   var destination = res.codeDeliveryDetails.destination;
   print('Confirmation code set to $destination');
