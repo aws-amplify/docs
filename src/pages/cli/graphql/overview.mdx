@@ -60,9 +60,6 @@ That's it! Your API and database tables are set up.
 ## Setup your app code
 
 Use Amplify libraries to connect your app with your GraphQL endpoint. 
-<!-- 
-<BlockSwitcher>
-<Block name="JavaScript"> -->
 
 Add the Amplify library to your app with `yarn` or `npm`:
 
@@ -76,28 +73,10 @@ import { Amplify, API, graphqlOperation } from 'aws-amplify';
 import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
 ```
-<!-- 
-</Block>
-<Block name="Android">
-
-Follow the app code setup instructions here: [Android - Project Setup](https://docs.amplify.aws/lib/project-setup/create-application/q/platform/android/)
-</Block>
-<Block name="iOS">
-
-Follow the app code setup instructions here: [iOS - Project Setup](https://docs.amplify.aws/lib/project-setup/create-application/q/platform/ios/)
-</Block>
-<Block name="Flutter">
-
-Follow the app code setup instructions here: [Flutter - Project Setup](https://docs.amplify.aws/lib/project-setup/create-application/q/platform/flutter/)
-</Block>
-</BlockSwitcher> -->
 
 ## Add your first record
 
 Next, let's try to query from the GraphQL API. Choose a platform below and follow along the steps:
-<!-- 
-<BlockSwitcher>
-<Block name="JavaScript"> -->
 
 ```js
 import { API } from 'aws-amplify'
@@ -114,79 +93,20 @@ const result = await API.graphql(createTodo, {
 })
 ```
 
-<!--
-</Block>
-<Block name="Android">
-
-```kotlin
-val todo = Todo.builder()
-    .name("My first todo!")
-    .build()
-
-Amplify.API.mutate(ModelMutation.create(todo),
-    { Log.i("MyAmplifyApp", "Created Todo with id: ${it.data.id}") }
-    { Log.e("MyAmplifyApp", "Create failed", it) }
-)
-```
-
-</Block>
-<Block name="iOS">
-
-</Block>
-<Block name="Flutter">
-
-</Block>
-</BlockSwitcher>  -->
-
-
 ## Query records from the table
 
 Use the GraphQL query statement to list all todos in your app:
-<!-- 
-<BlockSwitcher>
-<Block name="JavaScript"> -->
 
 ```js
 const result = await API.graphql(listTodos)
 console.log(result)
 ```
 
-<!-- 
-</Block>
-<Block name="Android">
-
-TODO
-
-```kotlin
-Amplify.API.query(
-    ModelQuery.list(Todo::class.java, Todo.NAME.contains("first")),
-    { response ->
-        response.data.forEach { todo ->
-            Log.i("MyAmplifyApp", todo.id)
-            Log.i("MyAmplifyApp", todo.name)
-        }
-    },
-    { Log.e("MyAmplifyApp", "Query failure", it) }
-)
-```
-
-</Block>
-<Block name="iOS">
-
-</Block>
-<Block name="Flutter">
-
-</Block>
-</BlockSwitcher>
--->
 You should see the record created above: `My first todo!`.
 
 ## Update the record
 
 To update the record use the GraphQL update mutation:
-<!-- 
-<BlockSwitcher>
-<Block name="JavaScript"> -->
 
 ```js
 const result = await API.graphql(updateTodo, {
@@ -198,34 +118,11 @@ const result = await API.graphql(updateTodo, {
 console.log(result)
 ```
 
-<!-- </Block>
-<Block name="Android">
-
-TODO
-
-```kotlin
-Amplify.API.mutate(ModelMutation.update(todo),
-    { Log.i("MyAmplifyApp", "Updated Todo with id: ${it.data.id}") }
-    { Log.e("MyAmplifyApp", "Update failed", it) }
-)
-```
-
-</Block>
-<Block name="iOS">
-
-</Block>
-<Block name="Flutter">
-
-</Block>
-</BlockSwitcher> -->
-
 The result should contain the updated value: `My first updated todo!`.
 
 ## Delete a record
 
 Let's clean up our database! Delete the todo by using the delete mutation:
-<!--<BlockSwitcher>
-<Block name="JavaScript"> -->
 
 ```js
 const result = await API.graphql(deleteTodo, {
@@ -235,28 +132,6 @@ const result = await API.graphql(deleteTodo, {
 })
 console.log(result)
 ```
-
-<!--</Block>
-<Block name="Android">
-
-TODO
-
-```kotlin
-Amplify.API.mutate(ModelMutation.create(todo),
-    { Log.i("MyAmplifyApp", "Deleted Todo with id: ${it.data.id}") }
-    { Log.e("MyAmplifyApp", "Delete failed", it) }
-)
-```
-
-</Block>
-<Block name="iOS">
-
-</Block>
-<Block name="Flutter">
-
-</Block>
-</BlockSwitcher>-->
-
 The result output should indicate to you that the record was successfully deleted!
 
 ## Next steps
