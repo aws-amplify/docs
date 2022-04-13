@@ -21,6 +21,7 @@ function App() {
         openOnFocus={true}
         getSources={({ query }) => [
           {
+            sourceId: 'products',
             getItemUrl({ item }) {
               return item.slug;
             },
