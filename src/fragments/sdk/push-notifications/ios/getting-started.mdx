@@ -136,9 +136,9 @@ Use the following steps to connect push notification backend services to your ap
     }
     ```
 
-1. Build and run the app. You should see the device token printed out. 
+1. Build and run the app. You should see the device token printed out.
 
-1. To handle push notifications, add [`application(_:didReceiveRemoteNotification:fetchCompletionHandler:)`](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623013-application). 
+1. To handle push notifications, add [`application(_:didReceiveRemoteNotification:fetchCompletionHandler:)`](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623013-application).
 
     ```swift
     func application(_ application: UIApplication,
@@ -167,7 +167,9 @@ Use the following steps to connect push notification backend services to your ap
         completionHandler(.newData)
     }
     ```
-    For iOS 10 and above, pass the notification event to pinpoint SDK in `userNotificationCenter(_:willPresent:withCompletionHandler:)` and `userNotificationCenter(_:didReceive:withCompletionHandler:)`
+
+    For iOS 10 and above, pass the notification event to pinpoint SDK in `userNotificationCenter(_:willPresent:withCompletionHandler:)` and `userNotificationCenter(_:didReceive:withCompletionHandler:)`.
+
     ```swift
     extension AppDelegate: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: (UNNotificationPresentationOptions) -> Void) {
@@ -187,7 +189,7 @@ Use the following steps to connect push notification backend services to your ap
         // See https://developer.apple.com/documentation/usernotifications/unusernotificationcenterdelegate/1649501-usernotificationcenter for more details
         completionHandler()
     }
-}
+    }
     ```
 
 1. (Optional) Enable verbose logging for AWSPinpoint SDK. The `endpointId` will be printed out when verbose logging is turned on. It will be useful when testing push notification events with AWS Pinpoint campaigns but not required.
@@ -262,7 +264,7 @@ For instance, you could email users that have not used the app in 30 days, or se
 
 The following steps show how to send push notifications targeted for your app.
 
-1. Go to https://developer.apple.com/account/ 
+1. Go to https://developer.apple.com/account/
 
 1. Under "Certificates, Identifiers & Profiles", on the left side click on "Keys", click +, type in a name like "Push Notification Key", check off Apple Push Notification Service (APNs). Register and download the file. It should be in the format of `AuthKey_<Key ID>.p8`
 
@@ -299,6 +301,6 @@ When a user receives an notification and taps on it, the AWS Pinpoint SDK will s
 
 `_campaign.received_foreground` when the app is received while it is in the foreground
 
-`_campaign.received_background` when the notification is tapped on while the app is in the background 
+`_campaign.received_background` when the notification is tapped on while the app is in the background
 
 If the developer never taps on the notification even though it was received on the device, the App will not submit an event for that since there is no way for the App to know that the notification was received by the device.
