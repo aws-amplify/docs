@@ -3,7 +3,7 @@ import { getAlgoliaResults } from '@algolia/autocomplete-js';
 import algoliasearch from 'algoliasearch';
 
 import { Autocomplete } from './Autocomplete';
-import { ProductItem } from './ProductItem';
+import { SearchItem } from './SearchItem';
 import { Search } from './styles';
 
 import { useRouter } from 'next/router';
@@ -21,7 +21,6 @@ function App() {
         openOnFocus={true}
         getSources={({ query }) => [
           {
-            sourceId: 'products',
             getItemUrl({ item }) {
               return item.slug;
             },
@@ -39,7 +38,7 @@ function App() {
             templates: {
               item({ item, components }) {
                 console.log(item);
-                return <ProductItem hit={item} components={components} />;
+                return <SearchItem hit={item} components={components} />;
               }
             }
           }

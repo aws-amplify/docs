@@ -1,4 +1,4 @@
-export function ProductItem({ hit, components }) {
+export function SearchItem({ hit, components }) {
   return (
     <a href={hit.slug} className="aa-ItemLink">
       <div className="aa-ItemContent">
