@@ -18,27 +18,29 @@ function App() {
   return (
     <Search>
       <Autocomplete
-        openOnFocus={true}
+        openOnFocus={false}
         getSources={({ query }) => [
           {
             sourceId: 'products',
             getItemUrl({ item }) {
               return item.slug;
             },
-            getItems() {
+            getItems({ query }) {
               return getAlgoliaResults({
                 searchClient,
                 queries: [
                   {
                     indexName: 'custom_search_staging',
-                    query
+                    query,
+                    params: {
+                      hitsPerPage: 6
+                    }
                   }
                 ]
               });
             },
             templates: {
               item({ item, components }) {
-                console.log(item);
                 return <SearchItem hit={item} components={components} />;
               }
             }
