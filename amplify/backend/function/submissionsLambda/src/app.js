@@ -2,9 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.app = void 0;
 const tslib_1 = require("tslib");
-const aws_sdk_1 = (0, tslib_1.__importDefault)(require("aws-sdk"));
-const body_parser_1 = (0, tslib_1.__importDefault)(require("body-parser"));
-const express_1 = (0, tslib_1.__importDefault)(require("express"));
+const aws_sdk_1 = tslib_1.__importDefault(require("aws-sdk"));
+const body_parser_1 = tslib_1.__importDefault(require("body-parser"));
+const express_1 = tslib_1.__importDefault(require("express"));
 const SubmissionsController_1 = require("./controllers/SubmissionsController");
 aws_sdk_1.default.config.update({ region: process.env.TABLE_REGION });
 const path = '/submissions';

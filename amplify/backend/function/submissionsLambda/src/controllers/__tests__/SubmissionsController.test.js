@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const SubmissionsController_1 = require("../SubmissionsController");
-const node_mocks_http_1 = (0, tslib_1.__importDefault)(require("../../../src/node_modules/node-mocks-http"));
+const node_mocks_http_1 = tslib_1.__importDefault(require("../../../src/node_modules/node-mocks-http"));
 const aws_sdk_1 = require("../__mocks__/aws-sdk");
 const db = new aws_sdk_1.DynamoDB.DocumentClient();
 describe('Express app', () => {

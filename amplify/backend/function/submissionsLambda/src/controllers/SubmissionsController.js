@@ -5,8 +5,8 @@ const tslib_1 = require("tslib");
 const aws_sdk_1 = require("aws-sdk");
 const serverless_express_1 = require("@vendia/serverless-express");
 const uuid_1 = require("uuid");
-const isUUID_1 = (0, tslib_1.__importDefault)(require("validator/lib/isUUID"));
-const isURL_1 = (0, tslib_1.__importDefault)(require("validator/lib/isURL"));
+const isUUID_1 = tslib_1.__importDefault(require("validator/lib/isUUID"));
+const isURL_1 = tslib_1.__importDefault(require("validator/lib/isURL"));
 const dynamodb = new aws_sdk_1.DynamoDB.DocumentClient();
 let tableName = 'submissionsTable';
 if (process.env.ENV && process.env.ENV !== 'NONE') {

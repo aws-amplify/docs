@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.handler = void 0;
 const tslib_1 = require("tslib");
 require("source-map-support/register");
-const serverless_express_1 = (0, tslib_1.__importDefault)(require("@vendia/serverless-express"));
+const serverless_express_1 = tslib_1.__importDefault(require("@vendia/serverless-express"));
 const app_1 = require("./app");
 let serverlessExpressInstance;
 const handler = (event, context) => {
