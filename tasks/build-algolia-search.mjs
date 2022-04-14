@@ -67,6 +67,9 @@ const allFilters = [
 const pagesToSkip = ['/', '/ChooseFilterPage', '/404'];
 const pagesWithIndex = ['/cli/function', '/cli', '/console'];
 
+const searchIndex = process.env.NEXT_PUBLIC_ALGOLIA_INDEX ? process.env.NEXT_PUBLIC_ALGOLIA_INDEX : 'custom_search_staging';
+const searchIndexTemp = `${searchIndex}_temp`;
+
 const pageValues = [];
 Object.keys(pathmap).forEach(async (key) => {
   const value = pathmap[key];
@@ -108,14 +111,14 @@ try {
         process.env.PUBLIC_ALGOLIA_APP_ID,
         process.env.ALGOLIA_SEARCH_ADMIN_KEY
       );
-      const index = client.initIndex('custom_search_staging');
-      const cleared = await index.clearObjects();
-      console.log('Index cleared:', cleared);
 
+      const index = client.initIndex(searchIndexTemp);
       const algoliaResponse = await index.saveObjects(transformed);
+      await client.moveIndex(searchIndexTemp, searchIndex);
       console.log(
         `Successfully added ${algoliaResponse.objectIDs.length} records to Algolia search!`
       );
+      await index.delete();
     } catch (error) {
       console.error(error);
     }
