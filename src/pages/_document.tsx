@@ -29,7 +29,7 @@ const getCspContent = (context) => {
   // Prod environment
   return `upgrade-insecure-requests;
     default-src 'none';
-    style-src 'self';
+    style-src 'self' 'unsafe-inline';
     font-src 'self';
     frame-src 'self';
     connect-src 'self' *.shortbread.aws.dev amazonwebservices.d2.sc.omtrdc.net dpm.demdex.net
