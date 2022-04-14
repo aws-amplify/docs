@@ -16,6 +16,7 @@ const getCspContent = (context) => {
   if (process.env.NODE_ENV !== 'production') {
     return `upgrade-insecure-requests;
       default-src 'none';
+      prefetch-src 'self';
       style-src 'self' 'unsafe-inline';
       font-src 'self' data:;
       frame-src 'self' https://www.youtube-nocookie.com;
@@ -29,6 +30,7 @@ const getCspContent = (context) => {
   // Prod environment
   return `upgrade-insecure-requests;
     default-src 'none';
+    prefetch-src 'self';
     style-src 'self' 'unsafe-inline';
     font-src 'self';
     frame-src 'self' https://www.youtube-nocookie.com;
