@@ -249,7 +249,6 @@ function transformPostsToSearchObjects(articles) {
         subcategory === 'undefined' ||
         subcategory === undefined ||
         text.startsWith('Learn more about how to use Amplify Framework') ||
-        description.length === 0 ||
         text.length === 0;
       if (!skip) {
         const obj = {
