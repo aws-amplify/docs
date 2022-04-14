@@ -19,7 +19,7 @@ Amplify also allows you to restrict the allowed operations, combine multiple aut
 
 ``` graphql
 type Todo @model @auth(rules: [
-  { allow: public, operations: [read]}
+  { allow: public, operations: [read]},
   { allow: owner }
 ]) {
   content: String

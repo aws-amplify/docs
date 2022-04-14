@@ -1,7 +1,8 @@
-import "../styles/styles.css";
-import Head from "next/head";
+import '@algolia/autocomplete-theme-classic';
+import '../styles/styles.css';
+import Head from 'next/head';
 
-function MyApp({Component, pageProps}) {
+function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
@@ -85,7 +86,6 @@ function MyApp({Component, pageProps}) {
 
       <Component {...pageProps} />
 
-      <script src="/scripts/docsearchv2_6_3.js"></script>
       <script src="https://a0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"></script>
       <script src="/scripts/shortbreadv2.js"></script>
     </>
