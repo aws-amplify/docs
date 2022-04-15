@@ -112,7 +112,26 @@ try {
         process.env.ALGOLIA_SEARCH_ADMIN_KEY
       );
 
+      const settings = {
+        distinct: true,
+        attributeForDistinct: 'title',
+        searcheableAttributes: [
+          'unordered(title)',
+          'unordered(text)',
+          'unordered(description)',
+          'unordered(slug)',
+          'unordered(heading)',
+          'unordered(category)',
+          'unordered(subcategory)'
+        ],
+        attributesToSnippet: [
+          'text:10', // limits the size of the snippet
+        ]
+      };
+
       const index = client.initIndex(searchIndexTemp);
+      await index.setSettings(settings);
+
       const algoliaResponse = await index.saveObjects(transformed);
       await client.moveIndex(searchIndexTemp, searchIndex);
       console.log(
