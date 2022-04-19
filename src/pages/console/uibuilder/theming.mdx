@@ -1,0 +1,64 @@
+export const meta = {
+  title: `Theming`,
+  description: `Configure your Amplify-generated UI components to match your brand using the Amplify Theme Editor Figma plugin`,
+};
+
+Use [Amplify Theme Editor](https://www.figma.com/community/plugin/1040722185526429545/AWS-Amplify-Theme-Editor) to customize the UI primitives in your Figma file to match your brand's look and feel. Amplify Studio allows you to visually configure the [Amplify UI theme](https://ui.docs.amplify.aws/theming) definition.
+
+## Amplify Theme Editor
+
+All theme edits in your Figma file are made with the [Amplify Theme Editor](https://www.figma.com/community/plugin/1040722185526429545/AWS-Amplify-Theme-Editor).
+
+### Install Amplify Theme Editor (Figma plugin)
+
+To install the Amplify Theme Editor:
+1. Go to the [Amplify Theme Editor Figma plugin page](https://www.figma.com/community/plugin/1040722185526429545/AWS-Amplify-Theme-Editor)
+2. Click "Install" on the top-right corner
+3. Go to your Figma file
+4. Right-click anywhere and select **Plugins** > **Amplify Theme Editor**
+
+### 1. Modify brand colors
+
+Select your own brand color or choose a preset. Your brand color affects almost every single UI primitive and allows you to quickly modify your components look and feel to match your brand.
+
+![Modify brand colors](/images/themes/brand-color.gif)
+
+Amplify Theme Editor will automatically cascade color levels 10 - 100. You can modify the auto-generated levels further by selecting the level and tweaking the HEX or HSL values to your exact specification.
+
+![Auto-cascading brand color levels](/images/themes/cascade-color.gif)
+
+### 2. Use brand colors in Figma
+
+Every color listed in the Amplify Theme Editor is also available as a Figma color style. In the example below, I can choose any frame and assign the fill to my brand color with level 10.
+
+![Use brand colors in Figma](/images/themes/reference-color.gif)
+
+### 3. Use space definitions in Figma
+
+Each Amplify UI theme contains definitions for spacing such as "small", "large", or "xl". You can define the spacing scale within the "Space" tab in the Amplify Theme Editor.
+
+To apply spacing tokens to your own components:
+1. Open the Amplify Theme Editor
+2. Click on the "Apply" tab
+3. Select a frame
+4. Configure it as a reference by entering `{space.<SPACING_TOKEN>}`. For example: `{space.small}`
+5. Click "Update theme"
+
+![Use space definitions in Figma](/images/themes/space.gif)
+
+### 3. Modify UI primitive colors
+
+Individual primitives such as Alerts have their own bindings for color to fine-tune their look and feel as well. This is especially useful as you start defining colors for states such as "sucess", "warning", "error", or "info".
+
+To change colors of UI primitives:
+1. Open the Amplify Theme Editor
+2. Click on the "Component" tab
+3. Select the value you want to edit. For example: `components.badge.error.backgroundColor`
+4. Choose a new color
+5. Click "Update theme"
+
+![Modify UI primitive colors](/images/themes/component-color.gif)
+
+### 4. Modify color palette
+
+Similar to brand colors, Amplify provides out-of-the-box a color palette that you can use as a starting point. You can reference all of these colors as well via color styles in Figma.
