@@ -415,53 +415,23 @@ const directory = {
           },
         ],
       },
-      geopreview: {
-        title: "Geo (Developer Preview)",
-        items: [
-          {
-            title: "Getting started",
-            route: "/lib/geo/getting-started",
-            filters: ["android"],
-          },
-          {
-            title: "Maps",
-            route: "/lib/geo/maps",
-            filters: ["android"],
-          },
-          {
-            title: "Location Search",
-            route: "/lib/geo/search",
-            filters: ["android"],
-          },
-          {
-            title: "Use existing AWS resources",
-            route: "/lib/geo/existing-resources",
-            filters: ["android"],
-          },
-          {
-            title: "Escape hatch",
-            route: "/lib/geo/escapehatch",
-            filters: ["android"],
-          },
-        ],
-      },
       geo: {
         title: "Geo",
         items: [
           {
             title: "Getting started",
             route: "/lib/geo/getting-started",
-            filters: ["js", "ios"],
+            filters: ["js", "ios", "android"],
           },
           {
             title: "Maps",
             route: "/lib/geo/maps",
-            filters: ["js", "ios"],
+            filters: ["js", "ios", "android"],
           },
           {
             title: "Location Search",
             route: "/lib/geo/search",
-            filters: ["js", "ios"],
+            filters: ["js", "ios", "android"],
           },
           {
             title: "Geofences (Developer preview)",
@@ -471,12 +441,12 @@ const directory = {
           {
             title: "Use existing AWS resources",
             route: "/lib/geo/existing-resources",
-            filters: ["js", "ios"],
+            filters: ["js", "ios", "android"],
           },
           {
             title: "Escape Hatch",
             route: "/lib/geo/escapehatch",
-            filters: ["js", "ios"],
+            filters: ["js", "ios", "android"],
           },
         ],
       },
@@ -1146,7 +1116,7 @@ const directory = {
             route: "/cli/graphql/connect-to-machine-learning-services",
             filters: []
           },
-          {            
+          {
             title: "Evolving GraphQL schemas",
             route: "/cli/graphql/schema-evolution",
             filters: []
