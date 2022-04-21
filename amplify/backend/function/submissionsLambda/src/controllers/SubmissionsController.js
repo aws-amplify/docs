@@ -21,15 +21,8 @@ function postCallback(req, res) {
             currentInvoke.event.requestContext.identity.cognitoIdentityId || UNAUTH;
     }
     const timestamp = new Date().toISOString();
-    const isUrlOptions = {
-        require_protocol: false,
-        require_tld: false,
-        require_host: false,
-        allow_query_components: false,
-        validate_length: true
-    };
     if (typeof req.body.vote === 'boolean' &&
-        typeof req.body.page_path === 'string' && (0, isURL_1.default)(req.body.page_path, isUrlOptions)) {
+        typeof req.body.page_path === 'string' && (0, isURL_1.default)(req.body.page_path)) {
         let id = (0, uuid_1.v4)();
         if (typeof req.body.id === 'string' && (0, isUUID_1.default)(req.body.id)) {
             id = req.body.id;
