@@ -50,8 +50,8 @@ Use the guide below to select the correct authorization strategy for your use ca
 
 | **Recommended use case** | **Strategy** | **Provider** |
 |---|---|---|
-| Public data access. Anyone with the AppSync API Key should have access. | [`public`]() | `apiKey` |
-| Recommended for production environment's public data access. Any user that is currently not signed in (verified by IAM) should have access. | [`public`]() | `iam` |
+| Public data access where users or devices are anonymous. Anyone with the AppSync API key is granted access. | [`public`]() | `apiKey` |
+| Recommended for production environment's public data access. Public data access where unauthenticated users or devices are granted permissions using AWS IAM controls. | [`public`]() | `iam` |
 | Per user data access. Access is restricted to the "owner" of a record. Leverages `amplify add auth` Cognito user pool by default. | [`owner`]() | `userPools` / `oidc` |
 | Any signed-in data access. Unlike owner-based access, **any** signed-in user has access. | [`private`]() | `userPools` / `oidc` / `iam` |
 | Per user group data access. A specific or dynamically configured group of users have access | [`group`]() | `userPools` / `oidc` |
