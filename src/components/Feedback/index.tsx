@@ -2,12 +2,22 @@ import { Amplify } from '@aws-amplify/core';
 import { API } from '@aws-amplify/api';
 import { useState } from 'react';
 import { FeedbackStyle, VoteButtonStyle, VoteButtonDivStyle } from './styles';
-import { useRouter } from 'next/router';
 import awsconfig from '../../aws-exports';
 import { useEffect } from 'react';
 import isUUID from 'validator/lib/isUUID';
 
 Amplify.configure(awsconfig);
+if (process.env.NEXT_PUBLIC_BUILD_ENV === 'prod') {
+  Amplify.configure({
+    aws_cloud_logic_custom: [
+      {
+        name: 'submissions',
+        endpoint: 'https://docs-backend.amplify.aws',
+        region: 'us-west-2'
+      }
+    ]
+  })
+}
 
 enum FeedbackState {
   START = 'START',
@@ -23,7 +33,6 @@ type Feedback = {
 export default function Feedback() {
   const [state, setState] = useState<FeedbackState>(FeedbackState.START);
   const [feedbackId, setFeedbackId] = useState(undefined);
-  const router = useRouter();
   const feedbackQuestion = 'Was this page helpful?';
   const feedbackAppreciation = 'Thank you for your feedback!';
 
