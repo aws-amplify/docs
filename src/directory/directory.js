@@ -1736,6 +1736,10 @@ const directory = {
             title: "Extend with code",
             route: "/console/uibuilder/override",
           },
+          {
+            title: "Figma-to-Code best practices",
+            route: "/console/uibuilder/bestpractices"
+          }
         ],
       },
       data: {
