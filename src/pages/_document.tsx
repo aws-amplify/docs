@@ -35,7 +35,7 @@ const getCspContent = (context) => {
     font-src 'self';
     frame-src 'self' aws.demdex.net https://www.youtube-nocookie.com;
     connect-src 'self' *.shortbread.aws.dev amazonwebservices.d2.sc.omtrdc.net dpm.demdex.net
-    https://*.algolia.net https://*.algolianet.com https://docs-backend.amplify.aws;
+    https://*.algolia.net https://*.algolianet.com *.amazonaws.com https://docs-backend.amplify.aws;
     img-src 'self' cm.everesttech.net amazonwebservices.d2.sc.omtrdc.net dpm.demdex.net;
     script-src 'self' ${cspInlineScriptHash} a0.awsstatic.com;
   `;
