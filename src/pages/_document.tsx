@@ -21,7 +21,7 @@ const getCspContent = (context) => {
       font-src 'self' data:;
       frame-src 'self' aws.demdex.net https://www.youtube-nocookie.com;
       connect-src 'self' *.shortbread.aws.dev amazonwebservices.d2.sc.omtrdc.net dpm.demdex.net
-      https://*.algolia.net https://*.algolianet.com https://ym8kdcu1hl.execute-api.us-west-2.amazonaws.com/feedback/submissions;
+      https://*.algolia.net https://*.algolianet.com *.amazonaws.com;
       img-src 'self' data: cm.everesttech.net amazonwebservices.d2.sc.omtrdc.net dpm.demdex.net;
       script-src 'unsafe-eval' 'self' ${cspInlineScriptHash} a0.awsstatic.com;
     `;
@@ -35,7 +35,7 @@ const getCspContent = (context) => {
     font-src 'self';
     frame-src 'self' aws.demdex.net https://www.youtube-nocookie.com;
     connect-src 'self' *.shortbread.aws.dev amazonwebservices.d2.sc.omtrdc.net dpm.demdex.net
-    https://*.algolia.net https://*.algolianet.com https://ym8kdcu1hl.execute-api.us-west-2.amazonaws.com/feedback/submissions;
+    https://*.algolia.net https://*.algolianet.com https://docs-backend.amplify.aws;
     img-src 'self' cm.everesttech.net amazonwebservices.d2.sc.omtrdc.net dpm.demdex.net;
     script-src 'self' ${cspInlineScriptHash} a0.awsstatic.com;
   `;
