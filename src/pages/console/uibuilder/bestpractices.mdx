@@ -1,6 +1,6 @@
 export const meta = {
-  title: `Gotchas and limitations`,
-  description: `Gotchas and limitations of the Figma-to-React capabilities of Amplify Studio`,
+  title: `Figma-to-Code best practices`,
+  description: `Constraints of Amplify Studio's Figma-to-React capabilities`,
 };
 
 We're constantly improving Amplify Studio to make Figma-to-React code conversion better but there are some limitations that you should be aware of.
@@ -25,6 +25,10 @@ Figma "Auto layout" can make a component significantly more responsive than used
 Learn more about how Figma's Auto layout works with the video below from the Figma team:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/PNJxeD29ZTg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+## Represent UI element states in code (hover, active)
+
+Amplify Studio currently doesn't support Figma-to-React code conversion of UI state. For example, if you want to add a hover effect to a button, you need to [override the component behavior in code](/console/uibuilder/override/#set-hover-states-on-icons) instead of creating a hover variant in Figma.
 
 ## Figma variants must have the same child elements
 

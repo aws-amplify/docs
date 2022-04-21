@@ -1737,8 +1737,8 @@ const directory = {
             route: "/console/uibuilder/override",
           },
           {
-            title: "Gotchas and limitations",
-            route: "/console/uibuilder/gotchas"
+            title: "Figma-to-Code best practices",
+            route: "/console/uibuilder/bestpractices"
           }
         ],
       },
