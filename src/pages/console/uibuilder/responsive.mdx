@@ -1,0 +1,61 @@
+export const meta = {
+  title: `Responsive Components`,
+  description: `Learn how to configure Figma-to-Code components in order for them to scale according to breakpoints`,
+};
+
+You can use Amplify Studio to dynamically toggle between different component variants based on your app's breakpoint. For example, you can have the navigation bar shrink to a smaller size as the window gets smaller.
+
+![GIF showing a responsive header design](/images/studio/responsive/responsive-header.gif)
+
+## 1. Setup Figma components with responsive variants
+
+By default, all Amplify UI provides the following [breakpoints as part of the Amplify UI theme](https://ui.docs.amplify.aws/theming/responsive#breakpoints):
+
+```
+{
+  base: '0',
+  small: '480px',
+  medium: '768px',
+  large: '992px',
+  xl: '1280px',
+  xxl: '1536px',
+}
+```
+
+Configure your Figma components with variants with names that match the breakpoint values. In the example below, our `TopBar` component has the following variants:
+- `variation: default`
+- `variation: small`
+
+The small variation should be shown when the screen size falls below the "small" breakpoint.
+
+<Callout warning>
+
+**IMPORTANT:** The variants are required to have the same component structure. If the variants don't have the same child elements, then Amplify Studio will not be able to import the component.
+
+![Image showing that the component structure needs to be the same](/images/studio/responsive/component-structure.png)
+
+</Callout>
+
+## 2. Render component variants in code based on breakpoints
+
+In your React code, use the `useBreakpoint` hook to dynamically toggle between the different variants of the component. In the example below, it should show the "default" variant when the breakpoint is medium and above and the "small" variant when it's "small" when the breakpoints of small and below are triggered:
+
+```js
+import { TopBar } from './ui-components'
+import { useBreakpointValue } from '@aws-amplify/ui-react'
+
+function App() {
+  const variant = useBreakpointValue({
+    small: 'small',
+    medium: 'default',
+  });
+  return (
+    <div className="App">
+      <TopBar
+        style={{ gridArea: 'nav' }}
+        width={'100vw'}
+        variation={variant}
+      />
+    </div>
+  )
+}
