@@ -39,8 +39,8 @@ export default function Feedback() {
     setState(FeedbackState.END);
 
     // Path without heading link
-    const pagePath = router.asPath.split('#')[0];
-
+    const pagePath = window.location.href.split('#')[0];
+    
     const body: Feedback = {
       page_path: pagePath,
       vote: vote

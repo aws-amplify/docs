@@ -24,17 +24,9 @@ export function postCallback(req, res) {
 
   const timestamp = new Date().toISOString();
 
-  const isUrlOptions = {
-    require_protocol: false,
-    require_tld: false,
-    require_host: false,
-    allow_query_components: false,
-    validate_length: true
-  }
-
   if (
     typeof req.body.vote === 'boolean' &&
-    typeof req.body.page_path === 'string' && isURL(req.body.page_path, isUrlOptions)
+    typeof req.body.page_path === 'string' && isURL(req.body.page_path)
   ) {
 
     let id = uuidv4();
