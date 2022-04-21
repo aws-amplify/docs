@@ -1,0 +1,43 @@
+export const meta = {
+  title: `Gotchas and limitations`,
+  description: `Gotchas and limitations of the Figma-to-React capabilities of Amplify Studio`,
+};
+
+We're constantly improving Amplify Studio to make Figma-to-React code conversion better but there are some limitations that you should be aware of.
+
+## Make sure to mark frames as components in Figma
+Amplify Studio only converts Figma components. If you only have a Figma "frame", Studio will ignore it because frames tend to be used to layout a set of components.
+
+Learn more about how Figma components work and how to create them with the video below from the Figma team:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/k74IrUNaJVk?start=40" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+## Fonts aren't automatically integrated
+
+By default, Amplify Studio doesn't automatically export the font from the Figma file and download it as part of your `src/ui-components/` folder. To workaround this, you can include the font like you'd usually do yourself in your React app. 
+
+Review the [Adding Fonts](https://create-react-app.dev/docs/adding-images-fonts-and-files/) documentation from the Create React App on how to configure this.
+
+## Try to use Figma Auto layout whenever possible
+
+Figma "Auto layout" can make a component significantly more responsive than used fixed position of elements. Think of Figma's Auto layout as "Flexboxes" (`display: flex`) in CSS. 
+
+Learn more about how Figma's Auto layout works with the video below from the Figma team:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/PNJxeD29ZTg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+## Figma variants must have the same child elements
+
+The Figma variants are required to have the same component structure. If the variants don't have the same child elements, then Amplify Studio will not be able to import the component.
+
+In the example below the "base" variant has the same child elements as the "small variant". You can still make changes to each individual element.
+
+![Image showing that the component structure needs to be the same](/images/studio/responsive/component-structure.png)
+
+## Use "Hug contents" and "Fill container" to ensure components resize correctly
+
+To ensure your components resize correctly when elements get assigned with real-world data, use Figma's "Constraints" feature. This is commonly the source of the issue if your text wraps unexpectedly or elements are cut-off unexpectedly. It allows you to specify whether an element should "Hug its contents" or "Fill the container its in" when resized.
+
+Learn more about how Figma's Constraints works with the video below from the Figma team:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/LHY9cm_2zwU?start=15" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

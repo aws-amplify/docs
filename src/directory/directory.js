@@ -1736,6 +1736,10 @@ const directory = {
             title: "Extend with code",
             route: "/console/uibuilder/override",
           },
+          {
+            title: "Gotchas and limitations",
+            route: "/console/uibuilder/gotchas"
+          }
         ],
       },
       data: {
