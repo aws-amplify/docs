@@ -1729,6 +1729,10 @@ const directory = {
             route: "/console/uibuilder/theming",
           },
           {
+            title: "Responsive components",
+            route: "/console/uibuilder/responsive"
+          },
+          {
             title: "Extend with code",
             route: "/console/uibuilder/override",
           },
