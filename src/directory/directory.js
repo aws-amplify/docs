@@ -1725,6 +1725,10 @@ const directory = {
             route: "/console/uibuilder/collections",
           },
           {
+            title: "Theming",
+            route: "/console/uibuilder/theming",
+          },
+          {
             title: "Extend with code",
             route: "/console/uibuilder/override",
           },
