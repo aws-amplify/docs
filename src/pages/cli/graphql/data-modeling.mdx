@@ -461,6 +461,24 @@ type Todo @model(queries: { get: "queryFor" }, mutations: null, subscriptions: n
 
 In the example above, you'll be able to run a `queryForTodo` query to get a single Todo element. Mutations (meaning create, update, and delete) as well as subscriptions are disabled for the Todo model above.
 
+### Overriding a Query
+
+```graphql
+type Todo @model(queries: { get: null, list: "listFor" }) {
+  id: ID!
+}
+```
+
+In the example above, you'll be able to run a `listForTodo` query to get a list of Todo elements. Query to get a single Item will be disabled. 
+
+On performing a `amplify push` we can override the query by adding in.
+
+```graphql
+type Query {
+   getTodo(id: ID!): Todo @function(name: "your function")
+}
+```
+
 For the type definitions of queries, mutations, and subscriptions, see [Type Definitions of the `@model` Directive](#type-definition-of-the-`@model`-directive).
 
 ### Customize creation and update timestamps
