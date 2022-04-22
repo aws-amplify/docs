@@ -1,6 +1,6 @@
 export const meta = {
   title: `Overview`,
-  description: `Use Amplify CLI to create and manage cloud-connected file & data storage for your app.`,
+  description: `Use Amplify CLI to create and manage cloud-connected file & data storage for your app.`
 };
 
 Amplify CLI's `storage` category enables you to create and manage cloud-connected file & data storage. Use the `storage` category when you need to store:
@@ -72,6 +72,7 @@ Granting access to authenticated users will allow the specified CRUD operations 
 Granting access to guest users will allow the specified CRUD operations on objects in the bucket starting with the prefix `/public/`.
 
 #### Individual Group access
+
 Select `Individual Groups` to scope access permissions based on [Cognito User Groups](/cli/auth/groups)
 
 ```console
@@ -79,7 +80,9 @@ Select `Individual Groups` to scope access permissions based on [Cognito User Gr
   ◉ EMPLOYEE
 > ◉ MANAGER
 ```
+
 Then select the CRUD operations you want to permit for each selected Cognito user group
+
 ```console
 ? What kind of access do you want for EMPLOYEE users?
   ◯ create/update
@@ -90,11 +93,13 @@ Then select the CRUD operations you want to permit for each selected Cognito use
   ◯ read
 > ◉ delete
 ```
+
 > Note: CRUD operations selected here will apply to ALL objects in the bucket, not just objects under a particular prefix.
 
 > Note: If you combine `Auth/Guest user access` and `Individual Group access`, users who are members of a group will only be granted the permissions of the group, and not the authenticated user permissions.
 
 ### S3 Lambda trigger
+
 Lastly, you have the option of configuring a Lambda function that can execute in response to S3 events.
 
 ```console
