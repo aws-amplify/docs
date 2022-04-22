@@ -620,6 +620,7 @@
     "getTodo",
     "getTokens",
     "getUsername",
+    "getmytodofunction",
     "github",
     "gitignore",
     "GitLab",
