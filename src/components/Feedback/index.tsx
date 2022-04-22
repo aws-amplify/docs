@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import isUUID from 'validator/lib/isUUID';
 
 Amplify.configure(awsconfig);
-if (process.env.NEXT_PUBLIC_BUILD_ENV === 'production') {
+if (process.env.PUBLIC_BUILD_ENV === 'production') {
   Amplify.configure({
     aws_cloud_logic_custom: [
       {
