@@ -10,6 +10,8 @@ const mdxRenderer = `
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const directory = require('./src/directory/directory.js');
 
+require('dotenv').config({ path: './.env.custom' });
+
 module.exports = async (phase, { defaultConfig }) => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const headingLinkPlugin = await require('./src/plugins/headings.tsx');
@@ -38,6 +40,9 @@ module.exports = async (phase, { defaultConfig }) => {
 
   const nextConfig = withTM(
     withMDX({
+      env: {
+        API_ENV: process.env.API_ENV
+      },
       pageExtensions: ['js', 'jsx', 'mdx', 'tsx', 'ts'],
       typescript: {
         // !! WARN !!
@@ -62,19 +67,19 @@ module.exports = async (phase, { defaultConfig }) => {
               // be kept in sync with customHttp.yml
               {
                 key: 'Strict-Transport-Security',
-                value: 'max-age=63072000; includeSubDomains',
+                value: 'max-age=63072000; includeSubDomains'
               },
               {
                 key: 'X-Frame-Options',
-                value: 'SAMEORIGIN',
+                value: 'SAMEORIGIN'
               },
               {
                 key: 'X-Content-Type-Options',
-                value: 'nosniff',
+                value: 'nosniff'
               }
             ]
           }
-        ]
+        ];
       }
     })
   );

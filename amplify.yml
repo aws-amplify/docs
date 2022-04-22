@@ -6,7 +6,7 @@ frontend:
         - yarn install
     build:
       commands:
-        - NEXT_PUBLIC_BUILD_ENV=${NEXT_PUBLIC_BUILD_ENV}
+        - echo "API_ENV=$API_ENV" >> .env.custom
         - NODE_ENV=production yarn build
         - node tasks/build-algolia-search.mjs
   artifacts:
