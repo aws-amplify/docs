@@ -449,17 +449,18 @@ When `@default` is applied, non-null assertions using `!` are disregarded. For e
 
 ## Advanced
 
-### Rename generated queries
+### Rename generated queries, mutations, and subscriptions
 
-You can override the names of any `@model`-generated GraphQL queries, mutations, and subscriptions by supplying the desired name for the queries, mutations, and subscriptions. You can also disable specific operations by assigning their value to `null`.
+You can override the names of any `@model`-generated GraphQL queries, mutations, and subscriptions by supplying the desired name.
 
 ```graphql
 type Todo @model(queries: { get: "queryFor" }) {
-  content: String!
+  name: String!
+  description: String
 }
 ```
 
-In the example above, you'll be able to run a `queryForTodo` query to get a single Todo element. 
+In the example above, we will be able to run a `queryForTodo` query to get a single Todo element.  
 
 ### Disable generated queries, mutations, and subscriptions
 
@@ -467,23 +468,24 @@ We can disable specific operations by assigning their value to `null`.
 
 ```graphql
 type Todo @model(queries: { get: null }, mutations: null, subscriptions: null) {
-  content: String!
+  name: String!
+  description: String
 }
 ```
 
-The example above, disables the mutations, subscriptions and the `getTodo` query specifically. While allowing us to run other queries such as `listTodo`.
+The example above disables the `getTodo` query, all mutations, and all subscriptions while allowing the generation of other queries such as `listTodo`.
 
 ### Creating a custom query
 
-We can create a custom query that enables us to retrieve a single Todo element even if the `queries: { get: null}` has been disabled.
+We can disable the `get` query and create a custom query that enables us to retrieve a single Todo model.
 
 ```graphql
 type Query {
-   getTodo(id: ID!): Todo @function(name: "your function")
+   getMyTodo(id: ID!): Todo @function(name: "getmytodofunction-${env}")
 }
 ```
 
-The example above creates a custom query that utilizes the `@function` directive to call a lambda function for this query.
+The example above creates a custom query that utilizes the `@function` directive to call a Lambda function for this query.
 
 For the type definitions of queries, mutations, and subscriptions, see [Type Definitions of the `@model` Directive](#type-definition-of-the-`@model`-directive).
 
