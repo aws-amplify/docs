@@ -108,6 +108,8 @@ Calling functions in different AWS accounts is not supported via the `@function`
 You can chain together multiple `@function` resolvers such that they are invoked in series when your field's resolver is invoked. To create a pipeline resolver that calls to multiple AWS Lambda functions in series, use multiple `@function` directives on the field.
 Similarly, `@function` can be combined with field-level `@auth`. When combining these field directives, the ordering in the schema matches the ordering in the pipeline resolver. You can choose to have functions before and/or after field level authorization is applied.
 
+> **Note:** Be careful when using @auth directives on a field in a root type. @auth directives on field definitions use the source object to perform authorization logic and the source will be an empty object for fields on root types. Static group authorization should perform as expected.
+
 ```graphql
 type Mutation {
   doSomeWork(msg: String): String @function(name: "worker-function") @function(name: "audit-function")
