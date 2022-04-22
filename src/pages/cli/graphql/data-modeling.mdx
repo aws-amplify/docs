@@ -449,17 +449,41 @@ When `@default` is applied, non-null assertions using `!` are disregarded. For e
 
 ## Advanced
 
-### Rename generated queries, mutations, and subscriptions
+### Rename generated queries
 
 You can override the names of any `@model`-generated GraphQL queries, mutations, and subscriptions by supplying the desired name for the queries, mutations, and subscriptions. You can also disable specific operations by assigning their value to `null`.
 
 ```graphql
-type Todo @model(queries: { get: "queryFor" }, mutations: null, subscriptions: null) {
+type Todo @model(queries: { get: "queryFor" }) {
   content: String!
 }
 ```
 
-In the example above, you'll be able to run a `queryForTodo` query to get a single Todo element. Mutations (meaning create, update, and delete) as well as subscriptions are disabled for the Todo model above.
+In the example above, you'll be able to run a `queryForTodo` query to get a single Todo element. 
+
+### Disable generated queries, mutations, and subscriptions
+
+We can disable specific operations by assigning their value to `null`.
+
+```graphql
+type Todo @model(queries: { get: null }, mutations: null, subscriptions: null) {
+  content: String!
+}
+```
+
+The example above, diables the mutations, subscriptions and the `getTodo` query specifically. While allowing us to run other queries such as `listTodo`.
+
+### Creating a custom query
+
+We can create a custom query that enables us to retrive a single Todo element even if the `queries: { get: null}` has been disabled.
+
+```graphql
+type Query {
+   getTodo(id: ID!): Todo @function(name: "your function")
+}
+```
+
+The example above creates a custom query that utilizes the `@function` directive to call a lambda function for this query.
 
 For the type definitions of queries, mutations, and subscriptions, see [Type Definitions of the `@model` Directive](#type-definition-of-the-`@model`-directive).
 
