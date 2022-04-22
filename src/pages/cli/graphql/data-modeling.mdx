@@ -471,11 +471,11 @@ type Todo @model(queries: { get: null }, mutations: null, subscriptions: null) {
 }
 ```
 
-The example above, diables the mutations, subscriptions and the `getTodo` query specifically. While allowing us to run other queries such as `listTodo`.
+The example above, disables the mutations, subscriptions and the `getTodo` query specifically. While allowing us to run other queries such as `listTodo`.
 
 ### Creating a custom query
 
-We can create a custom query that enables us to retrive a single Todo element even if the `queries: { get: null}` has been disabled.
+We can create a custom query that enables us to retrieve a single Todo element even if the `queries: { get: null}` has been disabled.
 
 ```graphql
 type Query {
