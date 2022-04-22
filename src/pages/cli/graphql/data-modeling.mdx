@@ -494,7 +494,8 @@ The `@model` directive automatically adds `createdAt` and `updatedAt` timestamps
 
 ```graphql
 type Todo @model(timestamps: { createdAt: "createdOn", updatedAt: "updatedOn" }) {
-  content: String
+  name: String!
+  description: String
 }
 ```
 
@@ -503,7 +504,8 @@ For example, the schema above will allow you to query for the following contents
 ```graphql
 type Todo {
   id: ID!
-  content: String
+  name: String!
+  description: String
   createdOn: AWSDateTime!
   updatedOn: AWSDateTime!
 }
@@ -515,7 +517,8 @@ By default, real-time updates are on for all `@model` types, which means custome
 
 ```graphql
 type Todo @model(subscriptions: { level: off }) { # or level: public
-  content: String!
+  name: String!
+  description: String
 }
 ```
 
