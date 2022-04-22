@@ -50,7 +50,32 @@ module.exports = async (phase, { defaultConfig }) => {
         webpack5: true
       },
       exportPathMap,
-      trailingSlash: true
+      trailingSlash: true,
+      async headers() {
+        return [
+          {
+            // Apply these headers to all routes in your application.
+            source: '/(.*)',
+            headers: [
+              // IMPORTANT:
+              // These are ONLY used for the Dev server and MUST
+              // be kept in sync with customHttp.yml
+              {
+                key: 'Strict-Transport-Security',
+                value: 'max-age=63072000; includeSubDomains',
+              },
+              {
+                key: 'X-Frame-Options',
+                value: 'SAMEORIGIN',
+              },
+              {
+                key: 'X-Content-Type-Options',
+                value: 'nosniff',
+              }
+            ]
+          }
+        ]
+      }
     })
   );
 
