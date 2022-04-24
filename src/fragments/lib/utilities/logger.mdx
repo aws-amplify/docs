@@ -60,3 +60,125 @@ Supported log levels:
 * `INFO`
 * `DEBUG`
 * `VERBOSE`
+
+## Using Cloudwatch
+
+You can setup logger to log to Cloudwatch: 
+### Extend IAM permissions (without roles)
+
+```
+amplify custom project
+```
+Edit the file amplify/backend/awscloudformation/override.ts, and set it to this:
+```javascript
+import { AmplifyRootStackTemplate } from "@aws-amplify/cli-extensibility-helper";
+
+export function override(resources: AmplifyRootStackTemplate) {
+  const authRole = resources.authRole;
+
+  const basePolicies = Array.isArray(authRole.policies) ? authRole.policies : [authRole.policies];
+  authRole.policies = [
+    ...basePolicies,
+    {
+      policyName: "amplify-permissions-custom-resources",
+      policyDocument: {
+        Version: "2012-10-17",
+        Statement: [
+          {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": "logs:PutLogEvents",
+            "Resource": "arn:aws:logs:*:508245000615:log-group:weblogs:log-stream:*"
+          },
+          {
+            "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": [
+              "logs:CreateLogStream",
+              "logs:DescribeLogGroups",
+              "logs:DescribeLogStreams",
+              "logs:CreateLogGroup"
+            ],
+            "Resource": "arn:aws:logs:*:508245000615:log-group:weblogs"
+          }
+        ]
+      }
+    }
+  ];
+}
+
+```
+
+### Extend Permissions (with roles)
+
+Run this command and select userPoolGroups
+```
+amplify auth override
+```
+
+Modify the file amplify/backend/auth/userPoolGroups/override.ts with this:
+```javascript
+import { AmplifyUserPoolGroupStackTemplate } from "@aws-amplify/cli-extensibility-helper";
+
+export function override(resources: AmplifyUserPoolGroupStackTemplate) {
+  const cfpol = {
+    policyName: "amplify-permissions-custom-resources",
+    policyDocument: {
+      Version: "2012-10-17",
+      Statement: [
+        {
+          "Sid": "VisualEditor0",
+          "Effect": "Allow",
+          "Action": "logs:PutLogEvents",
+          "Resource": "arn:aws:logs:*:508245000615:log-group:weblogs:log-stream:*"
+        },
+        {
+          "Sid": "VisualEditor1",
+          "Effect": "Allow",
+          "Action": [
+            "logs:CreateLogStream",
+            "logs:DescribeLogGroups",
+            "logs:DescribeLogStreams",
+            "logs:CreateLogGroup"
+          ],
+          "Resource": "arn:aws:logs:*:508245000615:log-group:weblogs"
+        }
+      ]
+    }
+  };
+  resources.userPoolGroupRole = Object.entries(resources.userPoolGroupRole).reduce((acc, cur) => {
+    const basePolicies = Array.isArray(cur[1].policies) ? cur[1].policies : [cur[1].policies];
+    cur[1].policies = [...basePolicies, cfpol];
+    acc[cur[0]] = cur[1];
+    return acc;
+  }, {});
+  
+}
+
+```
+
+### Update project settings
+
+Your logging setup should look like this:
+
+```javascript
+import awsconfig from "../aws-exports";
+
+Amplify.configure({
+  ...awsconfig,
+  Logging: {
+    logGroupName: "weblogs",
+    logStreamName: "<CHANGE STREAM NAME>"
+  }
+});
+export const CloudLogger = new Logger("app");
+Amplify.register(CloudLogger);
+CloudLogger.addPluggable(new AWSCloudWatchProvider());
+```
+
+Then you can use your new logger by running:
+```javascript
+CloudLogger.error("Test error");
+```
+
+
