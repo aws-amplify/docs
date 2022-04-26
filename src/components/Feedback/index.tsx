@@ -5,6 +5,7 @@ import { FeedbackStyle, VoteButtonStyle, VoteButtonDivStyle } from './styles';
 import awsconfig from '../../aws-exports';
 import { useEffect } from 'react';
 import isUUID from 'validator/lib/isUUID';
+import { trackFeedbackSubmission } from '../../utils/track';
 
 Amplify.configure(awsconfig);
 if (process.env.API_ENV === 'production') {
@@ -64,6 +65,8 @@ export default function Feedback() {
     }
 
     try {
+      trackFeedbackSubmission(vote);
+
       const result = await API.post('submissions', '/submissions', {
         headers,
         body

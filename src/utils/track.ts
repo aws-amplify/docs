@@ -148,3 +148,11 @@ export const trackSearchQuery = (
   }
   window.location.assign(suggestion.url);
 };
+
+export const trackFeedbackSubmission = (feedback: boolean) => {
+  if (typeof window !== "undefined" && typeof s != "undefined") {
+    s.evar39 = `${window.location.href.split('#')[0]}${feedback ? 'feedbackyes.html' : 'feedbackno.html'}`;
+    s.linkTrackVars = 'eVar39';
+    s.tl(true, 'o', 'feedback submission')
+  }
+}
