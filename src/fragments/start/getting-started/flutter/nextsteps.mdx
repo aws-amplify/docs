@@ -13,7 +13,7 @@ Find the source code of the final Todo App built in this tutorial [on our GitHub
 
 ## Escape Hatch
 
-As an alternative to the Amplify client libraries, or in situations where the libraries do not have the functionality you require, 
+As an alternative to the Amplify client libraries, or in situations where the libraries do not provide the functionality you require, 
 the underlying AWS services can be communicated with directly using an HTTP client and the AWS Signature V4 (SigV4) [package](https://pub.dev/packages/aws_signature_v4).
 
 ### Using the Signer
@@ -32,7 +32,7 @@ import 'package:aws_signature_v4/aws_signature_v4.dart';
 const signer = AWSSigV4Signer();
 ```
 
-Credentials are configured in the signer by overriding the credentialsProvider parameter of the constructor. By default, the signer 
+AWS credentials are configured in the signer by overriding the `credentialsProvider` parameter of the constructor. By default, the signer 
 pulls credentials from your environment via the `AWSCredentialsProvider.environment()` provider. On mobile and web, this means using 
 the Dart environment which is configured by passing the --dart-define flag to your flutter commands, e.g.
 
@@ -44,10 +44,10 @@ On Desktop, credentials are retrieved from the system's environment using [Platf
 
 ### Signing a Request
 
-The signer works by transforming HTTP request objects using your credentials to create signed HTTP requests which can be sent off in the
+The signer works by transforming HTTP requests using your credentials to create _signed_ HTTP requests which can be sent off in the
 same way as normal HTTP requests.
 
-As an example, here's how you would sign a request to Cognito to gather information about a User Pool.
+As an example, here's how you would sign a request to Cognito to gather information about a [User Pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools.html).
 
 ```dart
 import 'dart:convert';
