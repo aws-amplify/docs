@@ -43,7 +43,6 @@ export const VoteButton = styled.button`
 `;
 
 export const CommentContainer = styled.div`
-  padding-top: 10px;
   display: ${(props) => (props.hidden ? 'none' : 'flex')};
   flex-direction: column;
   text-align: center;
@@ -70,7 +69,7 @@ export const CommentButtonContainer = styled.div`
   width: 150px;
 `;
 
-export const CommentSubmitButton = styled.button`
+export const CommentButton = styled.button`
   width: 60px;
   height: 28px;
 

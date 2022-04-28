@@ -8,7 +8,7 @@ import {
   CommentContainer,
   CommentTextArea,
   CommentButtonContainer,
-  CommentSubmitButton,
+  CommentButton,
   CommentQuestionContainer
 } from './styles';
 import awsconfig from '../../aws-exports';
@@ -102,7 +102,7 @@ export default function Feedback() {
 
   return (
     <FeedbackContainer>
-      {state !== FeedbackState.END ? (
+      {state == FeedbackState.START ? (
         <>
           <p>{feedbackQuestion}</p>
           <VoteButtonsContainer>
@@ -112,18 +112,8 @@ export default function Feedback() {
                 setFeedbackVote(true);
                 submitVote(true);
               }}
-              selected={state === FeedbackState.YES ? true : false}
-              disabled={
-                [FeedbackState.YES, FeedbackState.NO].includes(state)
-                  ? true
-                  : false
-              }
             >
-              <img
-                src="/assets/thumbs-up.svg"
-                alt="Thumbs up"
-                style={state === FeedbackState.NO ? { opacity: 0.6 } : {}}
-              />
+              <img src="/assets/thumbs-up.svg" alt="Thumbs up" />
               Yes
             </VoteButton>
             <VoteButton
@@ -132,62 +122,55 @@ export default function Feedback() {
                 setFeedbackVote(false);
                 submitVote(false);
               }}
-              selected={state === FeedbackState.NO ? true : false}
-              disabled={
-                [FeedbackState.YES, FeedbackState.NO].includes(state)
-                  ? true
-                  : false
-              }
             >
-              <img
-                src="/assets/thumbs-down.svg"
-                alt="Thumbs up"
-                style={state === FeedbackState.YES ? { opacity: 0.6 } : {}}
-              />
+              <img src="/assets/thumbs-down.svg" alt="Thumbs up" />
               No
             </VoteButton>
           </VoteButtonsContainer>
-
-          <CommentContainer
-            hidden={
-              [FeedbackState.YES, FeedbackState.NO].includes(state)
-                ? false
-                : true
-            }
-          >
-            <CommentQuestionContainer>
-              <label htmlFor="feedback-comment">{reasonForVote}</label>
-              <span id="optional-feedback" style={{fontSize: "0.7rem", opacity: 0.8}}>Optional</span>
-            </CommentQuestionContainer>
-            <CommentTextArea
-              rows={2}
-              cols={30}
-              id="feedback-comment"
-              name="feedback-comment"
-              ref={feedbackComment}
-              aria-describedby="optional-feedback"
-            ></CommentTextArea>
-            <CommentButtonContainer>
-              <CommentSubmitButton
-                onClick={() => {
-                  setState(FeedbackState.END);
-                  submitVote(feedbackVote, feedbackComment.current.value);
-                }}
-              >
-                Submit
-              </CommentSubmitButton>
-              <CommentSubmitButton
-                onClick={() => {
-                  setState(FeedbackState.START);
-                }}
-              >
-                Cancel
-              </CommentSubmitButton>
-            </CommentButtonContainer>
-          </CommentContainer>
         </>
       ) : (
-        <p>{feedbackAppreciation}</p>
+        <>
+          {[FeedbackState.YES, FeedbackState.NO].includes(state) ? (
+            <CommentContainer>
+              <CommentQuestionContainer>
+                <label htmlFor="feedback-comment">{reasonForVote}</label>
+                <span
+                  id="optional-feedback"
+                  style={{ fontSize: '0.7rem', opacity: 0.8 }}
+                >
+                  Optional
+                </span>
+              </CommentQuestionContainer>
+              <CommentTextArea
+                rows={2}
+                cols={30}
+                id="feedback-comment"
+                name="feedback-comment"
+                ref={feedbackComment}
+                aria-describedby="optional-feedback"
+              ></CommentTextArea>
+              <CommentButtonContainer>
+                <CommentButton
+                  onClick={() => {
+                    setState(FeedbackState.END);
+                    submitVote(feedbackVote, feedbackComment.current.value);
+                  }}
+                >
+                  Submit
+                </CommentButton>
+                <CommentButton
+                  onClick={() => {
+                    setState(FeedbackState.START);
+                  }}
+                >
+                  Cancel
+                </CommentButton>
+              </CommentButtonContainer>
+            </CommentContainer>
+          ) : (
+            <p>{feedbackAppreciation}</p>
+          )}
+        </>
       )}
     </FeedbackContainer>
   );

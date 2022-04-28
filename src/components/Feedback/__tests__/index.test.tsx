@@ -2,7 +2,6 @@ import Feedback from '../index';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { API } from '@aws-amplify/api';
-import { trackFeedbackSubmission } from '../../../utils/track';
 
 jest.mock('next/router', () => ({
   useRouter() {
@@ -93,7 +92,7 @@ describe('Feedback', () => {
   });
 
   it('should make Amplify POST request when either button is clicked', () => {
-    const component = <Feedback/>;
+    const component = <Feedback />;
 
     render(component);
 
@@ -105,7 +104,7 @@ describe('Feedback', () => {
   });
 
   it('should make Amplify POST request when submit button is clicked', async () => {
-    const component = <Feedback/>;
+    const component = <Feedback />;
 
     render(component);
 
@@ -123,7 +122,7 @@ describe('Feedback', () => {
   });
 
   it('should hide the feedback textarea when cancel is clicked', async () => {
-    const component = <Feedback/>;
+    const component = <Feedback />;
 
     render(component);
 
@@ -131,7 +130,7 @@ describe('Feedback', () => {
 
     userEvent.click(thumbsDown);
 
-    await waitFor(() => {
+    await waitFor(async () => {
       const textAreaLabel = screen.getByLabelText('What can we do better?');
       const textArea = document.querySelector('#feedback-comment');
       const submitButton = screen.getByText('Submit');
@@ -139,10 +138,12 @@ describe('Feedback', () => {
 
       userEvent.click(cancelButton);
 
-      expect(textAreaLabel).not.toBeVisible();
-      expect(textArea).not.toBeVisible();
-      expect(submitButton).not.toBeVisible();
-      expect(cancelButton).not.toBeVisible();
+      await waitFor(() => {
+        expect(textAreaLabel).not.toBeInTheDocument();
+        expect(textArea).not.toBeInTheDocument();
+        expect(submitButton).not.toBeInTheDocument();
+        expect(cancelButton).not.toBeInTheDocument();
+      });
     });
   });
 });
