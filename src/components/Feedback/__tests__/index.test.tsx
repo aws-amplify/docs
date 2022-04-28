@@ -55,7 +55,7 @@ describe('Feedback', () => {
 
     await waitFor(() => {
       const textAreaLabel = screen.getByLabelText('What did we do well?');
-      const textArea = screen.getByPlaceholderText('Optional');
+      const textArea = document.querySelector('#feedback-comment');
       const submitButton = screen.getByText('Submit');
       const cancelButton = screen.getByText('Cancel');
 
@@ -81,7 +81,7 @@ describe('Feedback', () => {
 
     await waitFor(() => {
       const textAreaLabel = screen.getByLabelText('What can we do better?');
-      const textArea = screen.getByPlaceholderText('Optional');
+      const textArea = document.querySelector('#feedback-comment');
       const submitButton = screen.getByText('Submit');
       const cancelButton = screen.getByText('Cancel');
 
@@ -133,7 +133,7 @@ describe('Feedback', () => {
 
     await waitFor(() => {
       const textAreaLabel = screen.getByLabelText('What can we do better?');
-      const textArea = screen.getByPlaceholderText('Optional');
+      const textArea = document.querySelector('#feedback-comment');
       const submitButton = screen.getByText('Submit');
       const cancelButton = screen.getByText('Cancel');
 

@@ -50,6 +50,12 @@ export const CommentContainer = styled.div`
   align-items: center;
 `;
 
+export const CommentQuestionContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+`;
+
 export const CommentTextArea = styled.textarea`
   resize: vertical;
   border: 1px solid grey;

@@ -8,7 +8,8 @@ import {
   CommentContainer,
   CommentTextArea,
   CommentButtonContainer,
-  CommentSubmitButton
+  CommentSubmitButton,
+  CommentQuestionContainer
 } from './styles';
 import awsconfig from '../../aws-exports';
 import { useEffect } from 'react';
@@ -154,14 +155,17 @@ export default function Feedback() {
                 : true
             }
           >
-            <label htmlFor="feedback-comment">{reasonForVote}</label>
+            <CommentQuestionContainer>
+              <label htmlFor="feedback-comment">{reasonForVote}</label>
+              <span id="optional-feedback" style={{fontSize: "0.7rem", opacity: 0.8}}>Optional</span>
+            </CommentQuestionContainer>
             <CommentTextArea
               rows={2}
-              cols={24}
+              cols={30}
               id="feedback-comment"
               name="feedback-comment"
-              placeholder="Optional"
               ref={feedbackComment}
+              aria-describedby="optional-feedback"
             ></CommentTextArea>
             <CommentButtonContainer>
               <CommentSubmitButton
