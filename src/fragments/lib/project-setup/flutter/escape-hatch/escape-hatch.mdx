@@ -3,7 +3,7 @@ the underlying AWS services can be communicated with directly using an HTTP clie
 
 ### Using the Signer
 
-To get started using the signer, add it as a dependency in your pubspec.yaml and create an instance in your project.
+To get started using the signer, add it as a dependency in your `pubspec.yaml` and create an instance in your project.
 
 ```yaml
 dependencies:
@@ -40,29 +40,32 @@ import 'dart:convert';
 import 'package:aws_common/aws_common.dart';
 import 'package:aws_signature_v4/aws_signature_v4.dart';
 
+// Create the signer instance with credentials from the environment.
 const AWSSigV4Signer signer = AWSSigV4Signer(
   credentialsProvider: AWSCredentialsProvider.environment(),
 );
 
-const region = 'us-east-1';
-final AWSCredentialScope scope =
-    AWSCredentialScope(region: region, service: 'cognito-idp');
-
-final List<int> body = json.encode({
-  'UserPoolId': userPoolId,
-}).codeUnits;
-final AWSHttpRequest sigRequest = AWSHttpRequest.post(
-  Uri.https('cognito-idp.$region.amazonaws.com', '/'),
-  headers: {
+// Create the signing scope and HTTP request
+const region = '<YOUR-REGION>';
+final scope = AWSCredentialScope(
+  region: region,
+  service: AWSService.cognitoIdentityProvider,
+);
+final AWSHttpRequest request = AWSHttpRequest(
+  method: AWSHttpMethod.post,
+  uri: Uri.https('cognito-idp.$region.amazonaws.com', '/'),
+  headers: const {
     AWSHeaders.target: 'AWSCognitoIdentityProviderService.DescribeUserPool',
     AWSHeaders.contentType: 'application/x-amz-json-1.1',
-    AWSHeaders.contentLength: body.length.toString(),
   },
-  body: body,
+  body: json.encode({
+    'UserPoolId': '<YOUR-USER-POOL-ID>',
+  }).codeUnits,
 );
 
+// Sign and send the HTTP request
 final AWSSignedRequest signedRequest = await signer.sign(
-  sigRequest,
+  request,
   credentialScope: scope,
 );
 final AWSStreamedHttpResponse resp = await signedRequest.send();
