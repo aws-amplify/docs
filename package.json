@@ -126,6 +126,6 @@
     "build": "yarn task generate-sitemap && next build && next export -o client/www/next-build",
     "next-build": "next build",
     "next-start": "next start",
-    "amplify:submissionsLambda": "cd amplify/backend/function/submissionsLambda/src && yarn install && yarn build"
+    "amplify:submissionsLambda": "cd amplify/backend/function/submissionsLambda/src && yarn install && yarn build && yarn test"
   }
 }

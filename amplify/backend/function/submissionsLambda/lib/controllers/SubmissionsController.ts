@@ -26,9 +26,9 @@ export function postCallback(req, res) {
 
   if (
     typeof req.body.vote === 'boolean' &&
-    typeof req.body.page_path === 'string' && isURL(req.body.page_path)
+    typeof req.body.page_path === 'string' &&
+    isURL(req.body.page_path)
   ) {
-
     let id = uuidv4();
     if (typeof req.body.id === 'string' && isUUID(req.body.id)) {
       id = req.body.id;
@@ -40,7 +40,8 @@ export function postCallback(req, res) {
         id: id,
         created: timestamp,
         vote: req.body.vote,
-        page_path: req.body.page_path
+        page_path: req.body.page_path,
+        comment: req.body.comment ? req.body.comment : undefined
       }
     };
 
@@ -51,14 +52,13 @@ export function postCallback(req, res) {
         res.json({ message: dbError });
       } else {
         res.json({
-          data: JSON.stringify({id: putItemParams.Item.id})
+          data: JSON.stringify({ id: putItemParams.Item.id })
         });
       }
     });
   } else {
     res.statusCode = 400;
-    const invalidBody =
-      'Invalid body for creating feedback';
+    const invalidBody = 'Invalid body for creating feedback';
     res.json({ message: invalidBody });
   }
 }

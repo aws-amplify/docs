@@ -78,7 +78,7 @@ describe('Express app', () => {
                 },
                 body: {
                     vote: true,
-                    page_path: "/test>/test/path/"
+                    page_path: '/test>/test/path/'
                 }
             });
             const response = node_mocks_http_1.default.createResponse();
@@ -94,11 +94,12 @@ describe('Express app', () => {
                 },
                 body: {
                     vote: true,
-                    page_path: '/path/to/page'
+                    page_path: 'http://docs.amplify.aws/cli'
                 }
             });
             const response = node_mocks_http_1.default.createResponse();
             await (0, SubmissionsController_1.postCallback)(request, response);
+            console.log(response.statusCode);
             expect(response.statusCode).toBe(200);
             expect(db.put).toHaveBeenCalled();
         });
