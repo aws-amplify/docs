@@ -135,7 +135,7 @@ After configuring the OAuth endpoints (Cognito Hosted UI), you can integrate you
 
 ```javascript
 import React, { useEffect, useState } from 'react';
-import Amplify, { Auth, Hub } from 'aws-amplify';
+import { Amplify, Auth, Hub } from 'aws-amplify';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
 import awsconfig from './aws-exports';
 
@@ -189,7 +189,7 @@ To deploy your app to Amplify Console with continuous deployment of the frontend
 
 ```js
 import React, { useEffect, useState } from 'react';
-import Amplify, { Auth, Hub } from 'aws-amplify';
+import { Amplify, Auth, Hub } from 'aws-amplify';
 import awsconfig from './aws-exports';
 
 Amplify.configure(awsconfig);
@@ -268,7 +268,7 @@ By default, Amplify will open the Cognito Hosted UI in Safari/Chrome, but you ca
 ```js
 import React, { useEffect, useState } from 'react';
 import { Button, Linking, Text, View } from 'react-native';
-import Amplify, { Auth, Hub } from 'aws-amplify';
+import { Amplify, Auth, Hub } from 'aws-amplify';
 import InAppBrowser from 'react-native-inappbrowser-reborn';
 import awsconfig from './aws-exports';
 
@@ -356,7 +356,7 @@ By default, Amplify will open the Cognito Hosted UI in Safari/Chrome, but you ca
 import React, { useEffect, useState } from 'react';
 import { Button, Linking, Platform, Text, View } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
-import Amplify, { Auth, Hub } from 'aws-amplify';
+import { Amplify, Auth, Hub } from 'aws-amplify';
 import awsconfig from './aws-exports';
 
 async function urlOpener(url, redirectUrl) {
