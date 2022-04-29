@@ -331,7 +331,7 @@ const directory = {
           {
             title: "Delete user",
             route: "/lib/auth/delete_user",
-            filters: ["flutter", "ios", "js"],
+            filters: ["android", "flutter", "ios", "js"],
           },
           {
             title: "Escape hatch",
@@ -415,53 +415,23 @@ const directory = {
           },
         ],
       },
-      geopreview: {
-        title: "Geo (Developer Preview)",
-        items: [
-          {
-            title: "Getting started",
-            route: "/lib/geo/getting-started",
-            filters: ["android", "ios"],
-          },
-          {
-            title: "Maps",
-            route: "/lib/geo/maps",
-            filters: ["android", "ios"],
-          },
-          {
-            title: "Location Search",
-            route: "/lib/geo/search",
-            filters: ["android", "ios"],
-          },
-          {
-            title: "Use existing AWS resources",
-            route: "/lib/geo/existing-resources",
-            filters: ["android", "ios"],
-          },
-          {
-            title: "Escape hatch",
-            route: "/lib/geo/escapehatch",
-            filters: ["android", "ios"],
-          },
-        ],
-      },
       geo: {
         title: "Geo",
         items: [
           {
             title: "Getting started",
             route: "/lib/geo/getting-started",
-            filters: ["js"],
+            filters: ["js", "ios", "android"],
           },
           {
             title: "Maps",
             route: "/lib/geo/maps",
-            filters: ["js"],
+            filters: ["js", "ios", "android"],
           },
           {
             title: "Location Search",
             route: "/lib/geo/search",
-            filters: ["js"],
+            filters: ["js", "ios", "android"],
           },
           {
             title: "Geofences (Developer preview)",
@@ -471,12 +441,12 @@ const directory = {
           {
             title: "Use existing AWS resources",
             route: "/lib/geo/existing-resources",
-            filters: ["js"],
+            filters: ["js", "ios", "android"],
           },
           {
             title: "Escape Hatch",
             route: "/lib/geo/escapehatch",
-            filters: ["js"],
+            filters: ["js", "ios", "android"],
           },
         ],
       },
@@ -1425,6 +1395,12 @@ const directory = {
             route: '/cli/migration/cli-migrate-aws-account',
             filters: []
           },
+          {
+            title:
+              "GraphQL Transformer @auth identity claim changes",
+            route: "/cli/migration/identity-claim-changes",
+            filters: [],
+          },
         ],
       },
       reference: {
@@ -1674,6 +1650,18 @@ const directory = {
           },
         ],
       },
+      "sample-apps": {
+        title: "Sample Apps",
+        items: [
+          {
+            title: "ToDo App",
+            route: "/start/sample-apps/todo-app",
+            filters: [
+              "android"
+            ],
+          },
+        ],
+      },
     },
   },
   console: {
@@ -1748,9 +1736,21 @@ const directory = {
             route: "/console/uibuilder/collections",
           },
           {
+            title: "Theming",
+            route: "/console/uibuilder/theming",
+          },
+          {
+            title: "Responsive components",
+            route: "/console/uibuilder/responsive"
+          },
+          {
             title: "Extend with code",
             route: "/console/uibuilder/override",
           },
+          {
+            title: "Figma-to-Code best practices",
+            route: "/console/uibuilder/bestpractices"
+          }
         ],
       },
       data: {

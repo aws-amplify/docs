@@ -1,22 +1,6 @@
 > Prerequisite: [Install and configure the Amplify CLI](/cli/start/install)
 
-The primary way to provision Geo resources is through the Amplify CLI. You can use the following command to install this globally.
-
-```sh
-npm i -g @aws-amplify/cli@geo
-```
-
-Now, let's make sure that the right version was installed:
-
-```sh
-amplify version
-```
-
-That should show a version with the `-geo.x` tag, for example, `6.0.1-geo.0`.
-
-> **Note:** Make sure that version `6.0.1-geo.0` or above is installed.
-
-Once that is complete, you can run the following command from your project's root folder to initialize Amplify in your repo:
+To start provisioning Geo resources in the backend, go to your project directory and execute the command:
 
 ```sh
 amplify init
@@ -38,12 +22,6 @@ Please refer to [Amplify CLI Geo docs](/cli/geo/maps/) for more details on these
 <BlockSwitcher>
 <Block name="Maps">
 
-<Callout>
-
-Asset tracking feature is not yet available on Amplify Android Geo developer preview.
-
-</Callout>
-
 ```console
 ? Select which capability you want to add:
 ❯ Map (visualize the geospatial data)
@@ -61,13 +39,10 @@ Asset tracking feature is not yet available on Amplify Android Geo developer pre
 ❯ No, I am done.
 
 ? Provide a name for the Map:
-❯ map6bed22b1
+❯ mapResourceName
 
 ? Who can access this Map?
 ❯ Authorized and Guest users
-
-? Are you tracking commercial assets for your business in your app?
-❯ No, I do not track devices or I only need to track consumers' personal devices
 
 ? Do you want to configure advanced settings? (y/N)
 ❯ no
@@ -93,7 +68,7 @@ Asset tracking feature is not yet available on Amplify Android Geo developer pre
 ❯ No, I am done.
 
 ? Provide a name for the location search index (place index):
-❯ placeindex1935f727
+❯ placeIndexResourceName
 
 ? Who can access this search index?
 ❯ Authorized and Guest users

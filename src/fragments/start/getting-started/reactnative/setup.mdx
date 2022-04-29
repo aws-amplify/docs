@@ -1,18 +1,5 @@
 To start off, you'll need a React Native project. If you have an existing project, you can skip to [Generate model files](/start/getting-started/generate-model).
 
-## Initialize a new Amplify project
-
-An overview of project initialization is documented [here](https://docs.amplify.aws/cli/start/workflows/#initialize-new-project).
-
-From the root of the project, run:
-
-```
-amplify init
-```
-
-In addition to analyzing the project and confirming the frontend settings, this command will create a cloud project in the [AWS Amplify Console](https://console.aws.amazon.com/amplify) to view and manage resources for the backend environment.
-
-
 ##  Create a new React Native app
 
 To get started, initialize a new React Native project.
@@ -45,10 +32,22 @@ import all0 from "/src/fragments/start/getting-started/reactnative/getting-start
 
 <Fragments fragments={{all: all0}} />
 
+## Initialize a new Amplify project
+
+An overview of project initialization is documented [here](https://docs.amplify.aws/cli/start/workflows/#initialize-new-project).
+
+From the root of the project, run:
+
+```
+amplify init
+```
+
+In addition to analyzing the project and confirming the frontend settings, this command will create a cloud project in the [AWS Amplify Console](https://console.aws.amazon.com/amplify) to view and manage resources for the backend environment.
+
 Finally, open __App.js__(Expo) or __index.js__(React Native CLI) and add the following lines of code at the top of the file below the last import:
 
 ```javascript
-import Amplify from 'aws-amplify'
+import { Amplify } from 'aws-amplify'
 import awsconfig from './src/aws-exports'
 Amplify.configure(awsconfig)
 ```

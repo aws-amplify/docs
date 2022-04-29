@@ -10,7 +10,7 @@ Just add these two lines to your `App.js`:
 
 ```javascript
 import { withAuthenticator } from 'aws-amplify-react-native';
-import Amplify from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
 // Get the aws resources configuration parameters
 import awsconfig from './aws-exports'; // if you are using Amplify CLI
 
@@ -20,22 +20,24 @@ Amplify.configure(awsconfig);
 
 export default withAuthenticator(App);
 ```
+
 Now, your app has complete flows for user sign-in and registration. Since you have wrapped your **App** with `withAuthenticator`, only signed in users can access your app. The routing for login pages and giving access to your **App** Component will be managed automatically.
 
-`withAuthenticator` component renders your App component after a successful user signed in, and it prevents non-sign-in users to interact with your app. In this case, we need to display a *sign-out* button to trigger the related process.
+`withAuthenticator` component renders your App component after a successful user signed in, and it prevents non-sign-in users to interact with your app. In this case, we need to display a _sign-out_ button to trigger the related process.
 
-To display a sign-out button or customize other, set `includeGreetings = true` in the parameter object. It displays a *greetings section* on top of your app, and a sign-out button is displayed in the authenticated state. Other customization options are also available as properties to the HOC:
+To display a sign-out button or customize other, set `includeGreetings = true` in the parameter object. It displays a _greetings section_ on top of your app, and a sign-out button is displayed in the authenticated state. Other customization options are also available as properties to the HOC:
 
 ```jsx
 export default withAuthenticator(App, {
-                // Render a sign out button once logged in
-                includeGreetings: true, 
-                // Show only certain components
-                authenticatorComponents: [MyComponents],
-                // display federation/social provider buttons 
-                federated: {myFederatedConfig}, 
-                // customize the UI/styling
-                theme: {myCustomTheme}});
+  // Render a sign out button once logged in
+  includeGreetings: true,
+  // Show only certain components
+  authenticatorComponents: [MyComponents],
+  // display federation/social provider buttons
+  federated: { myFederatedConfig },
+  // customize the UI/styling
+  theme: { myCustomTheme }
+});
 ```
 
 ## Using the Authenticator Component
@@ -43,62 +45,59 @@ export default withAuthenticator(App, {
 The `withAuthenticator` HOC wraps an `Authenticator` component. Using `Authenticator` directly gives you more customization options for your UI.
 
 ```jsx
-
-<Authenticator 
-    // Optionally hard-code an initial state
-    authState="signIn"
-    // Pass in an already authenticated CognitoUser or FederatedUser object
-    authData={CognitoUser | 'username'} 
-    // Fired when Authentication State changes
-    onStateChange={(authState) => console.log(authState)} 
-    // An object referencing federation and/or social providers 
-    // The federation here means federation with the Cognito Identity Pool Service
-    // *** Only supported on React/Web (Not React Native) ***
-    // For React Native use the API Auth.federatedSignIn()
-    federated={myFederatedConfig}
-    // A theme object to override the UI / styling
-    theme={myCustomTheme} 
-    // Hide specific components within the Authenticator
-    // *** Only supported on React/Web (Not React Native)  ***
-    hide={ 
-        [
-            Greetings,
-            SignIn,
-            ConfirmSignIn,
-            RequireNewPassword,
-            SignUp,
-            ConfirmSignUp,
-            VerifyContact,
-            ForgotPassword,
-            TOTPSetup,
-            Loading
-        ]
-    }
-    // or hide all the default components
-    hideDefault={true}
-    // Pass in an aws-exports configuration
-    amplifyConfig={myAWSExports}
-    // Pass in a message map for error strings
-    errorMessage={myMessageMap}
+<Authenticator
+  // Optionally hard-code an initial state
+  authState="signIn"
+  // Pass in an already authenticated CognitoUser or FederatedUser object
+  authData={CognitoUser | 'username'}
+  // Fired when Authentication State changes
+  onStateChange={(authState) => console.log(authState)}
+  // An object referencing federation and/or social providers
+  // The federation here means federation with the Cognito Identity Pool Service
+  // *** Only supported on React/Web (Not React Native) ***
+  // For React Native use the API Auth.federatedSignIn()
+  federated={myFederatedConfig}
+  // A theme object to override the UI / styling
+  theme={myCustomTheme}
+  // Hide specific components within the Authenticator
+  // *** Only supported on React/Web (Not React Native)  ***
+  hide={[
+    Greetings,
+    SignIn,
+    ConfirmSignIn,
+    RequireNewPassword,
+    SignUp,
+    ConfirmSignUp,
+    VerifyContact,
+    ForgotPassword,
+    TOTPSetup,
+    Loading
+  ]}
+  // or hide all the default components
+  hideDefault={true}
+  // Pass in an aws-exports configuration
+  amplifyConfig={myAWSExports}
+  // Pass in a message map for error strings
+  errorMessage={myMessageMap}
 >
-    // Default components can be customized/passed in as child components. 
-    // Define them here if you used hideDefault={true}
-    <Greetings/>
-    <SignIn federated={myFederatedConfig}/>
-    <ConfirmSignIn/>
-    <RequireNewPassword/>
-    <SignUp/>
-    <ConfirmSignUp/>
-    <VerifyContact/>
-    <ForgotPassword/>
-    <TOTPSetup/>
-    <Loading/>
+  // Default components can be customized/passed in as child components. //
+  Define them here if you used hideDefault={true}
+  <Greetings />
+  <SignIn federated={myFederatedConfig} />
+  <ConfirmSignIn />
+  <RequireNewPassword />
+  <SignUp />
+  <ConfirmSignUp />
+  <VerifyContact />
+  <ForgotPassword />
+  <TOTPSetup />
+  <Loading />
 </Authenticator>
 ```
 
 ## Customize your own components
 
-You can provide custom components to the `Authenticator` as child components in React and React Native. 
+You can provide custom components to the `Authenticator` as child components in React and React Native.
 
 ```jsx
 import { Authenticator, SignIn } from 'aws-amplify-react-native';
@@ -106,8 +105,8 @@ import { Authenticator, SignIn } from 'aws-amplify-react-native';
 // The override prop tells the Authenticator that the SignUp component is not hidden but overridden
 <Authenticator hideDefault={true}>
   <SignIn />
-  <MyCustomSignUp override={'SignUp'}/> 
-</Authenticator>
+  <MyCustomSignUp override={'SignUp'} />
+</Authenticator>;
 
 class MyCustomSignUp extends Component {
   constructor() {
@@ -117,19 +116,19 @@ class MyCustomSignUp extends Component {
 
   gotoSignIn() {
     // to switch the authState to 'signIn'
-    this.props.onStateChange('signIn',{});
+    this.props.onStateChange('signIn', {});
   }
 
   render() {
     return (
       <div>
         {/* only render this component when the authState is 'signUp' */}
-        { this.props.authState === 'signUp' && 
-        <div>
-          My Custom SignUp Component
-          <button onClick={this.gotoSignIn}>Goto SignIn</button>
-        </div>
-        }
+        {this.props.authState === 'signUp' && (
+          <div>
+            My Custom SignUp Component
+            <button onClick={this.gotoSignIn}>Goto SignIn</button>
+          </div>
+        )}
       </div>
     );
   }
@@ -142,13 +141,13 @@ You can render the custom component (or not) based on the injected `authState` w
 if (props.onStateChange) props.onStateChange(state, data);
 ```
 
-> ***The withFederated and Federated components are not supported on React Native***. Use the API Auth.federatedSignIn() on React Native.
+> **_The withFederated and Federated components are not supported on React Native_**. Use the API Auth.federatedSignIn() on React Native.
 
 There is also `withGoogle`, `withFacebook`, `withAmazon` components, in case you need to customize a single provider.
 
 #### Wrapping your Component
 
-This will render your App component with *Authenticator*:
+This will render your App component with _Authenticator_:
 
 ```javascript
 import { Authenticator } from 'aws-amplify-react-native'; // or 'aws-amplify-react-native'
@@ -169,9 +168,10 @@ export default AppWithAuth;
 
 ## Show your App After Sign-in
 
-In the previous example, you'll see the App is rendered even before the user is signed-in. To change this behavior, you can use *Authenticator* properties. When inside `Authenticator`, the App component automatically receives those properties.
+In the previous example, you'll see the App is rendered even before the user is signed-in. To change this behavior, you can use _Authenticator_ properties. When inside `Authenticator`, the App component automatically receives those properties.
 
 **authState** is the current authentication state (a string):
+
 ```
  - signIn
  - signUp
@@ -181,39 +181,37 @@ In the previous example, you'll see the App is rendered even before the user is 
  - requireNewPassword
  - verifyContact
  - signedIn
- ```
+```
 
 **authData** - additional data within authState; when the state is `signedIn`, it will return a [`CognitoUser`](https://github.com/aws-amplify/amplify-js/blob/main/packages/amazon-cognito-identity-js/index.d.ts#L48) object.
 
-Using the options above, to control the condition for *Authenticator* to render App component, simply set `_validAuthStates` property:
+Using the options above, to control the condition for _Authenticator_ to render App component, simply set `_validAuthStates` property:
 
 ```javascript
 this._validAuthStates = ['signedIn'];
 ```
 
-Then, in the component's constructor,  implement `showComponent(theme) {}` in lieu of the typical `render() {}` method.
+Then, in the component's constructor, implement `showComponent(theme) {}` in lieu of the typical `render() {}` method.
 
 ## SignUp
 
 The SignUp component provides your users with the ability to sign up. It is included as part of the `Authenticator` component.
 
-Usage:
-`<Authenticator signUpConfig={ signUpConfig }/>`
+Usage: `<Authenticator signUpConfig={ signUpConfig }/>`
 
-It can also be used as part of the authentication HOC:
-`export default withAuthenticator(App, { signUpConfig });`
+It can also be used as part of the authentication HOC: `export default withAuthenticator(App, { signUpConfig });`
 
 The SignUp Component accepts a 'signUpConfig' object which allows you to customize it.
 
-import react0 from "/src/fragments/ui-legacy/auth/react/sign-up-attributes.mdx";
+import react0 from '/src/fragments/ui-legacy/auth/react/sign-up-attributes.mdx';
 
-<Fragments fragments={{react: react0}} />
+<Fragments fragments={{ react: react0 }} />
 
 The signUpFields array in turn consist of an array of objects, each describing a field that will appear in sign up form that your users fill out:
 
-import react1 from "/src/fragments/ui-legacy/auth/react/sign-up-fields.mdx";
+import react1 from '/src/fragments/ui-legacy/auth/react/sign-up-fields.mdx';
 
-<Fragments fragments={{react: react1}} />
+<Fragments fragments={{ react: react1 }} />
 
 A Sample signUpFields attribute would look like the following:
 
@@ -251,9 +249,7 @@ class App {
   // ...
 
   render() {
-    return (
-      <Authenticator usernameAttributes='email'/>
-    );
+    return <Authenticator usernameAttributes="email" />;
   }
 }
 
@@ -276,9 +272,7 @@ class App {
   // ...
 
   render() {
-    return (
-      <Authenticator usernameAttributes='phone_number'/>
-    );
+    return <Authenticator usernameAttributes="phone_number" />;
   }
 }
 
@@ -298,7 +292,7 @@ For example:
 
 ```js
 import React, { Component } from 'react';
-import Amplify from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
 import awsconfig from './aws-exports';
 import { withAuthenticator } from 'aws-amplify-react';
 

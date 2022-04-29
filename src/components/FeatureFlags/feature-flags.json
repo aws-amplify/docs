@@ -49,7 +49,7 @@
         ]
       },
       "improvePluralization": {
-        "description": "Use word specific pluralization instead of only appending an \"s\" to every word.",
+        "description": "Use word specific pluralization instead of only appending an \"s\" to every word. Note: this feature flag is only respected when using GraphQL Transformer v1.",
         "type": "Feature",
         "valueType": "Boolean",
         "versionAdded": "5.0.2",
@@ -231,9 +231,30 @@
             "defaultExistingProject": false
           }
         ]
+      },
+      "useSubUsernameForDefaultIdentityClaim": {
+        "description": "Changes the default identity claim to for owner-based @auth from 'username' to 'sub:username'",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "9.x",
+        "values": [
+          {
+            "value": "true",
+            "description": "Uses a default owner field format of '<sub>:<username>' to write records and reads both '<username>' and '<sub>:<username>'",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "Uses a default owner field format of '<username>' to write records and reads both '<username>' and '<sub>:<username>'",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
       }
-    }
-  },
+      }
+    },
+   
   "frontend-ios": {
     "description": "Feature Flag related to iOS projects",
     "features": {

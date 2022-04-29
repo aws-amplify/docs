@@ -6,6 +6,12 @@ The `Amplify.Geo.searchByText()` API enables you to search for places or points 
 <Block name="Java">
 
 ```java
+import android.util.Log;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.geo.models.Place;
+```
+
+```java
 String searchQuery = "Amazon Go";
 Amplify.Geo.searchByText(searchQuery,
     result -> {
@@ -19,6 +25,11 @@ Amplify.Geo.searchByText(searchQuery,
 
 </Block>
 <Block name="Kotlin">
+
+```kotlin
+import android.util.Log
+import com.amplifyframework.core.Amplify
+```
 
 ```kotlin
 val searchQuery = "Amazon Go"
@@ -46,6 +57,14 @@ Restrict your search results by specifying following parameters inside `GeoSearc
 <Block name="Java">
 
 ```java
+import com.amplifyframework.geo.models.Coordinates;
+import com.amplifyframework.geo.models.CountryCode;
+import com.amplifyframework.geo.models.SearchArea;
+import com.amplifyframework.geo.options.GeoSearchByTextOptions;
+import java.util.Collections;
+```
+
+```java
 Coordinates position = new Coordinates(47.6153, -122.3384);
 GeoSearchByTextOptions options = GeoSearchByTextOptions.builder()
     .maxResults(10)
@@ -56,6 +75,13 @@ GeoSearchByTextOptions options = GeoSearchByTextOptions.builder()
 
 </Block>
 <Block name="Kotlin">
+
+```kotlin
+import com.amplifyframework.geo.models.Coordinates
+import com.amplifyframework.geo.models.CountryCode
+import com.amplifyframework.geo.models.SearchArea
+import com.amplifyframework.geo.options.GeoSearchByTextOptions
+```
 
 ```kotlin
 val position = Coordinates(47.6153, -122.3384)

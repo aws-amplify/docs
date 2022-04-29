@@ -60,9 +60,6 @@ That's it! Your API and database tables are set up.
 ## Setup your app code
 
 Use Amplify libraries to connect your app with your GraphQL endpoint. 
-<!-- 
-<BlockSwitcher>
-<Block name="JavaScript"> -->
 
 Add the Amplify library to your app with `yarn` or `npm`:
 
@@ -76,28 +73,10 @@ import { Amplify, API, graphqlOperation } from 'aws-amplify';
 import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
 ```
-<!-- 
-</Block>
-<Block name="Android">
-
-Follow the app code setup instructions here: [Android - Project Setup](https://docs.amplify.aws/lib/project-setup/create-application/q/platform/android/)
-</Block>
-<Block name="iOS">
-
-Follow the app code setup instructions here: [iOS - Project Setup](https://docs.amplify.aws/lib/project-setup/create-application/q/platform/ios/)
-</Block>
-<Block name="Flutter">
-
-Follow the app code setup instructions here: [Flutter - Project Setup](https://docs.amplify.aws/lib/project-setup/create-application/q/platform/flutter/)
-</Block>
-</BlockSwitcher> -->
 
 ## Add your first record
 
 Next, let's try to query from the GraphQL API. Choose a platform below and follow along the steps:
-<!-- 
-<BlockSwitcher>
-<Block name="JavaScript"> -->
 
 ```js
 import { API } from 'aws-amplify'
@@ -114,79 +93,20 @@ const result = await API.graphql(createTodo, {
 })
 ```
 
-<!--
-</Block>
-<Block name="Android">
-
-```kotlin
-val todo = Todo.builder()
-    .name("My first todo!")
-    .build()
-
-Amplify.API.mutate(ModelMutation.create(todo),
-    { Log.i("MyAmplifyApp", "Created Todo with id: ${it.data.id}") }
-    { Log.e("MyAmplifyApp", "Create failed", it) }
-)
-```
-
-</Block>
-<Block name="iOS">
-
-</Block>
-<Block name="Flutter">
-
-</Block>
-</BlockSwitcher>  -->
-
-
 ## Query records from the table
 
 Use the GraphQL query statement to list all todos in your app:
-<!-- 
-<BlockSwitcher>
-<Block name="JavaScript"> -->
 
 ```js
 const result = await API.graphql(listTodos)
 console.log(result)
 ```
 
-<!-- 
-</Block>
-<Block name="Android">
-
-TODO
-
-```kotlin
-Amplify.API.query(
-    ModelQuery.list(Todo::class.java, Todo.NAME.contains("first")),
-    { response ->
-        response.data.forEach { todo ->
-            Log.i("MyAmplifyApp", todo.id)
-            Log.i("MyAmplifyApp", todo.name)
-        }
-    },
-    { Log.e("MyAmplifyApp", "Query failure", it) }
-)
-```
-
-</Block>
-<Block name="iOS">
-
-</Block>
-<Block name="Flutter">
-
-</Block>
-</BlockSwitcher>
--->
 You should see the record created above: `My first todo!`.
 
 ## Update the record
 
 To update the record use the GraphQL update mutation:
-<!-- 
-<BlockSwitcher>
-<Block name="JavaScript"> -->
 
 ```js
 const result = await API.graphql(updateTodo, {
@@ -198,34 +118,11 @@ const result = await API.graphql(updateTodo, {
 console.log(result)
 ```
 
-<!-- </Block>
-<Block name="Android">
-
-TODO
-
-```kotlin
-Amplify.API.mutate(ModelMutation.update(todo),
-    { Log.i("MyAmplifyApp", "Updated Todo with id: ${it.data.id}") }
-    { Log.e("MyAmplifyApp", "Update failed", it) }
-)
-```
-
-</Block>
-<Block name="iOS">
-
-</Block>
-<Block name="Flutter">
-
-</Block>
-</BlockSwitcher> -->
-
 The result should contain the updated value: `My first updated todo!`.
 
 ## Delete a record
 
 Let's clean up our database! Delete the todo by using the delete mutation:
-<!--<BlockSwitcher>
-<Block name="JavaScript"> -->
 
 ```js
 const result = await API.graphql(deleteTodo, {
@@ -235,29 +132,52 @@ const result = await API.graphql(deleteTodo, {
 })
 console.log(result)
 ```
+The result output should indicate to you that the record was successfully deleted!
 
-<!--</Block>
-<Block name="Android">
+## Update schema
 
-TODO
+If you want to update your API, open your project's `amplify/backend/api/<api-name>/schema.graphql` file (NOT the one in the `amplify/backend/api/<api-name>/build` folder) and edit it in your favorite code editor. You can compile the `amplify/backend/api/<api-name>/schema.graphql` file by running:
 
-```kotlin
-Amplify.API.mutate(ModelMutation.create(todo),
-    { Log.i("MyAmplifyApp", "Deleted Todo with id: ${it.data.id}") }
-    { Log.e("MyAmplifyApp", "Delete failed", it) }
-)
+```bash
+amplify api gql-compile
 ```
 
-</Block>
-<Block name="iOS">
+and view the compiled schema output in `backend/api/~apiname~/build/schema.graphql`.
 
-</Block>
-<Block name="Flutter">
+You can then push updated changes with:
 
-</Block>
-</BlockSwitcher>-->
+```bash
+amplify push
+```
 
-The result output should indicate to you that the record was successfully deleted!
+The following schema updates require replacement of the underlying DynamoDB table:
+1. Removing or renaming a model
+2. Modifying the [primary key](/cli/graphql/data-modeling/#configure-a-primary-key) of a model
+3. Modifying a Local Secondary Index of a model (only applies to projects with [secondaryKeyAsGSI](/cli/reference/feature-flags/#secondaryKeyAsGSI) turned off)
+
+When trying to push a schema change with one or more of these updates you will see an error message explaining that you will lose ALL DATA in any table that requires replacement. To confirm you want to continue with the deployment, run:
+```bash
+amplify push --allow-destructive-graphql-schema-updates
+```
+<Callout>
+In general, this command should only be used during development.
+
+If you are making a breaking change to a production API but you want to retain the data in the affected table(s), you can [create a backup](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/CreateBackupAWS.html) before running `amplify push --allow-destructive-graphql-schema-updates`
+</Callout>
+
+## Rebuild GraphQL API
+
+<Callout>
+Rebuild should NEVER be used in a production environment!
+</Callout>
+
+When in development, sometimes test data gets in a bad state or you want to make many changes to your schema all at once. In these cases, you may wish to "rebuild" all of the tables backing your schema. To do this, run:
+```bash
+amplify rebuild api
+```
+This will recreate ALL of the tables backing models in your schema. ALL DATA in ALL TABLES will be deleted.
+
+
 
 ## Next steps
 
@@ -269,6 +189,5 @@ There's so much more to discover with Amplify's GraphQL API capabilities. Learn 
 - [Create relationships between different database model](/cli/graphql/data-modeling/#setup-relationships-between-models)
 - [Add custom business logic to the GraphQL API](/cli/graphql/custom-business-logic)
 - [Run search and result aggregation queries](/cli/graphql/search-and-result-aggregations/)
-- [Enable offline access and conflict resolution](/cli/graphql/offline-data-access-and-conflict-resolution/)
 - [Connect to machine learning services](/cli/graphql/connect-to-machine-learning-services/)
 - [Examples and solutions](/cli/graphql/examples-and-solutions/)

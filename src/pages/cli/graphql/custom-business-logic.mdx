@@ -108,6 +108,8 @@ Calling functions in different AWS accounts is not supported via the `@function`
 You can chain together multiple `@function` resolvers such that they are invoked in series when your field's resolver is invoked. To create a pipeline resolver that calls to multiple AWS Lambda functions in series, use multiple `@function` directives on the field.
 Similarly, `@function` can be combined with field-level `@auth`. When combining these field directives, the ordering in the schema matches the ordering in the pipeline resolver. You can choose to have functions before and/or after field level authorization is applied.
 
+> **Note:** Be careful when using @auth directives on a field in a root type. @auth directives on field definitions use the source object to perform authorization logic and the source will be an empty object for fields on root types. Static group authorization should perform as expected.
+
 ```graphql
 type Mutation {
   doSomeWork(msg: String): String @function(name: "worker-function") @function(name: "audit-function")
@@ -494,6 +496,8 @@ Next, install the AppSync dependencies for your custom resource:
 cd amplify/backend/custom/MyCustomResolvers
 npm i @aws-cdk/aws-appsync@~1.124.0
 ```
+> **Note:** Installations using the '\~' character do not modify the package.json. To use '\~' for default npm configurations, make sure your package.json reflects the right dependency to avoid compatibility errors in CDK.
+
 
 Finally, add your custom resolvers into the `cdk-stack.ts` file. You can either add the VTL inline into your `cdk-stack.ts` file or define them externally in another file. Review the [Resolver Mapping Template Programming Guide](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-mapping-template-reference-programming-guide.html) to learn more about the VTL template.
 

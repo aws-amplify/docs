@@ -16,6 +16,7 @@ You will also need to install pod dependencies for `iOS`. Navigate to the `iOS` 
 ```bash
 pod install
 ```
+
 The AWS SDK requires React Native applications to polyfill `crypto.getRandomValues` and `URL`. Import it at the top of your application's root entry point (in most React Native apps this will be the top level `index.js`).
 
 ```js
@@ -33,7 +34,7 @@ AppRegistry.registerComponent(appName, () => App);
 Next, you should import and load the `aws-exports.js` configuration file created and modified in an earlier step into your application. Add the Amplify configuration step to your application’s root entry point. For example, `index.js`.
 
 ```js
-import Amplify from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
 import awsconfig from './src/aws-exports';
 
 Amplify.configure(awsconfig);

@@ -1,16 +1,16 @@
-import Head from "next/head";
-import UniversalNav from "../UniversalNav/index";
-import SecondaryNav from "../SecondaryNav/index";
-import Footer from "../Footer/index";
-import {LayoutStyle} from "./styles";
-import {Container} from "../Container";
-import {useRouter} from "next/router";
+import Head from 'next/head';
+import UniversalNav from '../UniversalNav/index';
+import SecondaryNav from '../SecondaryNav/index';
+import Footer from '../Footer/index';
+import { LayoutStyle } from './styles';
+import { Container } from '../Container';
+import { useRouter } from 'next/router';
 
 export default function Layout({
   children,
   meta,
   filterKey,
-  filterMetadataByOption,
+  filterMetadataByOption
 }: {
   children: any;
   meta?: any;
@@ -22,19 +22,19 @@ export default function Layout({
 
   const filterMetadata = filterKey
     ? filterMetadataByOption[filterKey].label
-    : "";
+    : '';
 
   const title = !meta
-    ? ""
-    : [meta.chapterTitle, meta.title, filterMetadata, "AWS Amplify Docs"]
-        .filter((s) => s !== "")
-        .join(" - ");
+    ? ''
+    : [meta.chapterTitle, meta.title, filterMetadata, 'AWS Amplify Docs']
+        .filter((s) => s !== '')
+        .join(' - ');
 
   const description = !meta
-    ? ""
-    : [meta.description, filterMetadata, "AWS Amplify Docs"]
-        .filter((s) => s !== "")
-        .join(" - ");
+    ? ''
+    : [meta.description, filterMetadata, 'AWS Amplify Docs']
+        .filter((s) => s !== '')
+        .join(' - ');
 
   return (
     <>

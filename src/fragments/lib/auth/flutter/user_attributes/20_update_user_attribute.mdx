@@ -3,7 +3,7 @@ To update a single user attribute, call `updateUserAttribute`:
 ```dart
 try {
   var res = await Amplify.Auth.updateUserAttribute(
-    userAttributeKey: 'email',
+    userAttributeKey: CognitoUserAttributeKey.email,
     value: 'email@email.com',
   );
   if (res.nextStep.updateAttributeStep == 'CONFIRM_ATTRIBUTE_WITH_CODE') {
@@ -21,8 +21,14 @@ To update multiple user attributes at a time, call `updateUserAttributes`:
 
 ```dart
 var attributes = [
-  AuthUserAttribute(userAttributeKey: 'email', value: 'email@email.com'),
-  AuthUserAttribute(userAttributeKey: 'last_name', value: 'MyLastName')
+  AuthUserAttribute(
+    userAttributeKey: CognitoUserAttributeKey.email,
+    value: 'email@email.com',
+  ),
+  AuthUserAttribute(
+    userAttributeKey: CognitoUserAttributeKey.familyName,
+    value: 'MyFamilyName',
+  ),
 ];
 try {
   var res = await Amplify.Auth.updateUserAttributes(attributes: attributes);
