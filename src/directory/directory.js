@@ -1390,6 +1390,12 @@ const directory = {
             route: "/cli/migration/list-nullability",
             filters: [],
           },
+          {
+            title:
+              "GraphQL Transformer @auth identity claim changes",
+            route: "/cli/migration/identity-claim-changes",
+            filters: [],
+          },
         ],
       },
       reference: {
