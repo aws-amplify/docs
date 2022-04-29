@@ -9,12 +9,16 @@ import {
   CommentTextArea,
   CommentButtonContainer,
   CommentButton,
-  CommentQuestionContainer
+  CommentQuestionContainer,
+  Toggle,
+  FeedbackMobileContainer,
+  ThankYouContainer
 } from './styles';
 import awsconfig from '../../aws-exports';
 import { useEffect } from 'react';
 import isUUID from 'validator/lib/isUUID';
 import { trackFeedbackSubmission } from '../../utils/track';
+import { propsAreEmptyByTag } from '../UiComponentProps';
 
 Amplify.configure(awsconfig);
 if (process.env.API_ENV === 'production') {
@@ -33,7 +37,8 @@ enum FeedbackState {
   START = 'START',
   YES = 'YES',
   NO = 'NO',
-  END = 'END'
+  END = 'END',
+  HIDDEN = 'HIDDEN'
 }
 
 type Feedback = {
@@ -101,7 +106,7 @@ export default function Feedback() {
   }
 
   return (
-    <FeedbackContainer>
+    <FeedbackContainer style={state === FeedbackState.HIDDEN ? {display: 'none'} : {} }>
       {state == FeedbackState.START ? (
         <>
           <p>{feedbackQuestion}</p>
@@ -123,7 +128,7 @@ export default function Feedback() {
                 submitVote(false);
               }}
             >
-              <img src="/assets/thumbs-down.svg" alt="Thumbs up" />
+              <img src="/assets/thumbs-down.svg" alt="Thumbs down" />
               No
             </VoteButton>
           </VoteButtonsContainer>
@@ -168,10 +173,78 @@ export default function Feedback() {
               </CommentButtonContainer>
             </CommentContainer>
           ) : (
-            <p>{feedbackAppreciation}</p>
+            <ThankYouContainer>
+              <div onClick={() => {setState(FeedbackState.HIDDEN)}} className="close-btn">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M14.364 3.05024L12.9497 1.63603L8 6.58577L3.05025 1.63603L1.63604 3.05024L6.58579 7.99999L1.63604 12.9497L3.05025 14.3639L8 9.4142L12.9497 14.3639L14.364 12.9497L9.41421 7.99999L14.364 3.05024Z"
+                    fill="#545B64"
+                  ></path>
+                </svg>
+              </div>
+              <p>{feedbackAppreciation}</p>
+            </ThankYouContainer>
           )}
         </>
       )}
     </FeedbackContainer>
+  );
+}
+
+export function FeedbackToggle() {
+  const [inView, setInView] = useState(false);
+  const feedbackContainer = useRef(null);
+
+  function toggleView() {
+    if (inView) {
+      setInView(false);
+    } else {
+      setInView(true);
+    }
+  }
+
+  function handleClickOutside(e) {
+    if (feedbackContainer.current.contains(e.target)) {
+      // inside click
+      return;
+    }
+    // outside click
+    setInView(false);
+  }
+
+  useEffect(() => {
+    if (inView) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [inView]);
+
+  return (
+    <div ref={feedbackContainer}>
+      <FeedbackMobileContainer style={inView ? {} : { display: 'none' }}>
+        <Feedback></Feedback>
+      </FeedbackMobileContainer>
+      <Toggle
+        onClick={() => {
+          toggleView();
+        }}
+      >
+        <img src="/assets/thumbs-up.svg" alt="Thumbs up" />
+        <img src="/assets/thumbs-down.svg" alt="Thumbs down" />
+      </Toggle>
+    </div>
   );
 }

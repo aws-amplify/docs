@@ -9,6 +9,7 @@ import {
 } from './styles';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Feedback from '../Feedback';
 
 const stickyHeaderHeight = 54;
 function scroll(hash) {
@@ -132,6 +133,7 @@ export default function TableOfContents({ children, title }) {
           else return <H3AnchorStyle key={index}>{anchor}</H3AnchorStyle>;
         })}
       </TOCInnerStyle>
+      <Feedback/>
     </TOCStyle>
   );
 }

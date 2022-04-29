@@ -1,14 +1,22 @@
 import styled from '@emotion/styled';
-
-type VoteButtonProps = {
-  selected?: boolean;
-};
+import { MQTablet, MQDesktop } from '../media';
 
 export const FeedbackContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
   align-items: center;
+  justify-content: center;
+  position: sticky;
+  bottom: 8px;
+  width: auto;
+  margin: 0px 8px 0px 8px;
+  padding: 10px 0px 10px 0px;
+
+  border: 0.05rem solid var(--border-color);
+  border-radius: 4px;
+  background-color: white;
+  box-shadow: 0px 0px 10.5px -7px rgba(0, 0, 0, 0.15),
+    0px 0px 30px -7px rgba(0, 0, 0, 0.3);
 `;
 
 export const VoteButtonsContainer = styled.div`
@@ -24,26 +32,16 @@ export const VoteButton = styled.button`
   justify-content: space-around;
   width: 60px;
   padding-right: 5px;
+  border-radius: 4px;
 
-  ${(props) =>
-    !props.disabled
-      ? `&:hover {
-            cursor: pointer;
-            opacity: 0.6;
-          }`
-      : ''}
-
-  ${(props: VoteButtonProps) =>
-    props.selected
-      ? `border: 1px black solid;
-         font-weight: bold;
-         color: black;
-        `
-      : ''}
+  &:hover {
+    cursor: pointer;
+    opacity: 0.6;
+  }
 `;
 
 export const CommentContainer = styled.div`
-  display: ${(props) => (props.hidden ? 'none' : 'flex')};
+  display: flex;
   flex-direction: column;
   text-align: center;
   align-items: center;
@@ -56,14 +54,15 @@ export const CommentQuestionContainer = styled.div`
 `;
 
 export const CommentTextArea = styled.textarea`
-  resize: vertical;
+  resize: none;
   border: 1px solid grey;
   padding: 8px;
   box-sizing: border-box;
+  overflow-y: scroll;
 `;
 
 export const CommentButtonContainer = styled.div`
-  padding-top: 10px;
+  padding-top: 5px;
   display: flex;
   justify-content: space-between;
   width: 150px;
@@ -72,9 +71,74 @@ export const CommentButtonContainer = styled.div`
 export const CommentButton = styled.button`
   width: 60px;
   height: 28px;
+  border-radius: 4px;
 
   &:hover {
     cursor: pointer;
     opacity: 0.6;
+  }
+`;
+
+export const Toggle = styled.div`
+  background-color: var(--color-orange-hv);
+  width: 3.5rem;
+  height: 3.5rem;
+  position: fixed;
+  right: 1rem;
+  bottom: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  img {
+    filter: brightness(0) invert(1);
+    height: 1.7rem;
+    width: auto;
+  }
+
+  ${MQDesktop} {
+    display: none;
+  }
+
+  ${MQTablet} {
+    right: 1rem;
+    bottom: 0.5rem;
+  }
+`;
+
+export const ThankYouContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0px 10px 5px 10px;
+  text-align: center;
+
+  .close-btn {
+    display: none;
+
+    ${MQDesktop} {
+      display: flex;
+      align-self: flex-end;
+      cursor: pointer;
+      width: 16px;
+      height: 16px;
+    }
+  }
+`;
+
+export const FeedbackMobileContainer = styled.div`
+  width: 300px;
+  position: fixed;
+  right: 1rem;
+  bottom: 9rem;
+  z-index: 1;
+
+  ${MQTablet} {
+    right: 1rem;
+    bottom: 5rem;
   }
 `;
