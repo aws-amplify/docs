@@ -45,6 +45,8 @@ export const CommentContainer = styled.div`
   flex-direction: column;
   text-align: center;
   align-items: center;
+  width: 100%;
+  padding: 0px 15px 0px 15px;
 `;
 
 export const CommentQuestionContainer = styled.div`
@@ -59,6 +61,7 @@ export const CommentTextArea = styled.textarea`
   padding: 8px;
   box-sizing: border-box;
   overflow-y: scroll;
+  width: 100%;
 `;
 
 export const CommentButtonContainer = styled.div`

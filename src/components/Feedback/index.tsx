@@ -147,8 +147,6 @@ export default function Feedback() {
                 </span>
               </CommentQuestionContainer>
               <CommentTextArea
-                rows={2}
-                cols={30}
                 id="feedback-comment"
                 name="feedback-comment"
                 ref={feedbackComment}
