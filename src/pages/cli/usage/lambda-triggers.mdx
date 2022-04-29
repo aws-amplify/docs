@@ -310,11 +310,11 @@ main.js
 ```js
 import Vue from 'vue'
 import App from './App.vue'
-import Amplify, * as AmplifyModules from 'aws-amplify'
+import * as AmplifyModules from 'aws-amplify'
 import { AmplifyPlugin } from 'aws-amplify-vue'
 import awsconfig from './aws-exports'
 
-Amplify.configure({
+AmplifyModules.Amplify.configure({
   Auth: {
     identityPoolId: awsconfig.aws_cognito_identity_pool_id,
     region: awsconfig.aws_cognito_region,
