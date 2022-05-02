@@ -76,7 +76,6 @@ export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
   resources.models["Todo"].modelDatasource.dynamoDbConfig['deltaSyncConfig']['baseTableTtl'] = '3600'
 }
 ```
-The example above modifies the default `baseTableTtl` parameter on a models DynamoDB as data source.
 
 ## Customize Amplify-generated resources for @searchable (OpenSearch) directive
 
