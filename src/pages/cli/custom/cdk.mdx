@@ -49,6 +49,13 @@ export class cdkStack extends cdk.Stack {
 
 > Note: Always append the Amplify environment name to a resource name to ensure correct behavior with Amplify's multi-environment workflows.
 
+<Callout warning>
+
+When creating custom resources using Amplify CLI, the CLI will require additional permissions outside the Amplify managed policy.
+Please refer to the Amplify [IAM Policy](/cli/reference/iam) documentation for additional information on Amplify managed Policy.
+
+</Callout>
+
 ## Reference Amplify project and environment name
 
 Amplify provides you helper functions to get Amplify project information such as the project name and the current Amplify environment name.
