@@ -3,6 +3,7 @@ import { getCurrentInvoke } from '@vendia/serverless-express';
 import { v4 as uuidv4 } from 'uuid';
 import isUUID from 'validator/lib/isUUID';
 import isURL from 'validator/lib/isURL';
+import escape from 'validator/lib/escape';
 
 const dynamodb = new DynamoDB.DocumentClient();
 
@@ -27,6 +28,8 @@ export function postCallback(req, res) {
   if (
     typeof req.body.vote === 'boolean' &&
     typeof req.body.page_path === 'string' &&
+    (typeof req.body.comment === 'string' ||
+      typeof req.body.comment === 'undefined') &&
     isURL(req.body.page_path)
   ) {
     let id = uuidv4();
@@ -41,7 +44,7 @@ export function postCallback(req, res) {
         created: timestamp,
         vote: req.body.vote,
         page_path: req.body.page_path,
-        comment: req.body.comment ? req.body.comment : undefined
+        comment: req.body.comment ? escape(req.body.comment) : undefined
       }
     };
 

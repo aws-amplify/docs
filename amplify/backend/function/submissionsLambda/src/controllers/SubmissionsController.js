@@ -7,6 +7,7 @@ const serverless_express_1 = require("@vendia/serverless-express");
 const uuid_1 = require("uuid");
 const isUUID_1 = tslib_1.__importDefault(require("validator/lib/isUUID"));
 const isURL_1 = tslib_1.__importDefault(require("validator/lib/isURL"));
+const escape_1 = tslib_1.__importDefault(require("validator/lib/escape"));
 const dynamodb = new aws_sdk_1.DynamoDB.DocumentClient();
 let tableName = 'submissionsTable';
 if (process.env.ENV && process.env.ENV !== 'NONE') {
@@ -23,6 +24,8 @@ function postCallback(req, res) {
     const timestamp = new Date().toISOString();
     if (typeof req.body.vote === 'boolean' &&
         typeof req.body.page_path === 'string' &&
+        (typeof req.body.comment === 'string' ||
+            typeof req.body.comment === 'undefined') &&
         (0, isURL_1.default)(req.body.page_path)) {
         let id = (0, uuid_1.v4)();
         if (typeof req.body.id === 'string' && (0, isUUID_1.default)(req.body.id)) {
@@ -35,7 +38,7 @@ function postCallback(req, res) {
                 created: timestamp,
                 vote: req.body.vote,
                 page_path: req.body.page_path,
-                comment: req.body.comment ? req.body.comment : undefined
+                comment: req.body.comment ? (0, escape_1.default)(req.body.comment) : undefined
             }
         };
         dynamodb.put(putItemParams, (err, data) => {
