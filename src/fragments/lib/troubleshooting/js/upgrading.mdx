@@ -1,5 +1,7 @@
 When upgrading Amplify packages, it is important to make sure that there are no duplicate versions of Amplify packages in the `node_modules` folder tree as a result of the upgrade. Having multiple versions of packages can yield unexpected behavior as modules imported in your code might point to versions not configured by Amplify when calling `Amplify.configure`.
 
+Recent versions of Amplify packages use peer dependencies to prevent multiple versions from being installed. Installing with `legacy-peer-deps` or `force` enabled may cause multiple versions to be installed.
+
 A likely scenario that could point to duplicate versions of packages is getting console messages like:
 - `Amplify has not been configured correctly`
 - `Please make sure the Auth module is configured with a valid Cognito User Pool ID`
@@ -40,8 +42,8 @@ npm ls -all 2>/dev/null | \
 ```powershell
 # Using YARN
 yarn list --pattern amplify |
-  Select-String -Pattern  '(@?aws\-amplify[^@]*).*(?<!deduped)$' | 
-  %{$_.Matches.Groups[1].value} | Group-Object | 
+  Select-String -Pattern  '(@?aws\-amplify[^@]*).*(?<!deduped)$' |
+  %{$_.Matches.Groups[1].value} | Group-Object |
   Where-Object { $_.Count -gt 1 } | Select-Object -ExpandProperty Name |
   Sort-Object
 ```
@@ -49,8 +51,8 @@ yarn list --pattern amplify |
 ```powershell
 # Using NPM
 npm ls -all 2>$null |
-  Select-String -Pattern  '(@?aws\-amplify[^@]*).*(?<!deduped)$' | 
-  %{$_.Matches.Groups[1].value} | Group-Object | 
+  Select-String -Pattern  '(@?aws\-amplify[^@]*).*(?<!deduped)$' |
+  %{$_.Matches.Groups[1].value} | Group-Object |
   Where-Object { $_.Count -gt 1 } | Select-Object -ExpandProperty Name |
   Sort-Object
 ```
