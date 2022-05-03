@@ -18,7 +18,6 @@ import awsconfig from '../../aws-exports';
 import { useEffect } from 'react';
 import isUUID from 'validator/lib/isUUID';
 import { trackFeedbackSubmission } from '../../utils/track';
-import { propsAreEmptyByTag } from '../UiComponentProps';
 
 Amplify.configure(awsconfig);
 if (process.env.API_ENV === 'production') {
