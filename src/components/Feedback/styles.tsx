@@ -6,17 +6,14 @@ export const FeedbackContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  position: sticky;
   bottom: 8px;
   width: auto;
-  margin: 0px 8px 0px 8px;
+  margin: 20px 8px 20px 8px;
   padding: 10px 0px 10px 0px;
 
-  border: 0.05rem solid var(--border-color);
+  border-top: 0.05rem solid var(--border-color);
   border-radius: 4px;
   background-color: white;
-  box-shadow: 0px 0px 10.5px -7px rgba(0, 0, 0, 0.15),
-    0px 0px 30px -7px rgba(0, 0, 0, 0.3);
 `;
 
 export const VoteButtonsContainer = styled.div`
