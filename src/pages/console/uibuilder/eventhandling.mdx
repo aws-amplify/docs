@@ -118,10 +118,13 @@ You can create a new record based on the values provided by input fields. For ex
 Render the component with the "Create" data action. **Pro tip:** Amplify Studio's collection components synchronizes data in real-time. If a new record is available in the database, it will automatically sync to the app.
 
 ```jsx
-<Flex>
+import { NewHomeInput, HomeCollection } from './ui-components'
+
+...
+<div>
   <NewHomeInput />
   <HomeCollection />
-</Flex>
+</div>
 ```
 
 ![In app record create data action binding](/images/console/create_data_app.gif)
@@ -158,15 +161,20 @@ Use the `overrideItems` property in collections to configure an `onClick` handle
 **Pro tip:** Amplify Studio's collection components synchronizes data in real-time. If a record is updated in the database, it will automatically sync to the app.
 
 ```jsx
+import { UpdateHome, CardBCollection } from './ui-components'
+import { useState } from 'react'
+
+...
+
 function App() {
   const [updateHome, setUpdateHome] = useState()
   return (
-    <Flex>
+    <div>
       <UpdateHome home={updateHome}/>
       <CardBCollection overrideItems={({ item }) => ({
         onClick: () => setUpdateHome(item)
       })} />
-    </Flex>
+    </div>
   )
 }
 ```
@@ -202,6 +210,12 @@ You can delete a new record based on a model's ID field. For example, if you hav
 In your app code, you can set an onClick handler for Home collections to show the delete modal. Then, set the `DeleteHome` component's `home` property to configure which home to delete. You can also listen in to the `ui` Hub events to dismiss the modal after the record is deleted. 
 
 ```jsx
+import { HomeCollection, DeleteHome } from './ui-components'
+import { Hub } from 'aws-amplify'
+import { useState, useEffect } from 'react'
+
+...
+
 function App() {
   const [showDeleteHome, setShowDeleteHome] = useState()
   useEffect(() => {
@@ -269,6 +283,7 @@ The sign out actions work in combination with the [`Authenticator` component](ht
 
 ```jsx
 import { withAuthenticator } from '@aws-amplify/ui-react'
+import { UserInfo } from './ui-components'
 
 function App() {
   return <UserInfo />
