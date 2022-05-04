@@ -34,6 +34,8 @@ The structure of the file is the following:
 
 **Note:** For projects created before CLI version 4.28.0. Creating a `tags.json` file under `amplify/backend/` directory with the desired tags will ensure tags being applied to existing resources after invoking `amplify push`.
 
+> The tag configuration file is created, when you run "amplify init" and the initial Amplify project resources are created. You can optionally also pre-create the `amplify/backend/tags.json` configuration file before "amplify init". This allows you to tag the initial Amplify project resources with your designated tags as well. 
+
 ## Using predefined variables
 
 There are predefined tags that let you be more specific with information about the current project, while giving you the opportunity of structuring the tags according to what feels right to you.
