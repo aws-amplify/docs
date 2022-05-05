@@ -506,7 +506,7 @@ export class cdkStack extends cdk.Stack {
 }
 ```
 
-Before you create the templates, make sure to create a location field on your model, and properly map the `geo_point` type to the location field. 
+Before you create the templates make sure to create a location field on your model, and properly map the `geo_point` type to the location field. 
 OpenSearch and Elasticsearch will not infer the location value as a `geo_point` type, therefore before data is streamed to either service, ensure you map the `geo_point` type.
 
 If you already have existing data stored in OpenSearch or Elasticsearch, use the reindex feature to modify the doc mappings. This can be done by mapping the existing data
