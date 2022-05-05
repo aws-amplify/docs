@@ -547,7 +547,7 @@ PUT /my_locations
 
 Next, create the VTL request and response templates with `geo_point`. 
 
-```ts
+```vtl
 #set( $items = [] )
 #foreach( $entry in $context.result.hits.hits )
     #if( !$foreach.hasNext )
