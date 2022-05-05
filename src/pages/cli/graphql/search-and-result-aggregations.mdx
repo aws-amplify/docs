@@ -565,7 +565,7 @@ $util.toJson({
 The following query returns all results within a 200km range of lat 40 and lon -70.
 > **Note:** In versions of OpenSearch >= 1.1, you no longer need to use /doc in the index path. Doing so will result in errors when calling the query.
 
-```ts
+```vtl
 #set( $indexPath = "/docName/_search" )
 #set( $query = $util.defaultIfNull($ctx.args.query, "") )
 {
