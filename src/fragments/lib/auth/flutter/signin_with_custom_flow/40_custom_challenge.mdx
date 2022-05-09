@@ -1,0 +1,11 @@
+```dart
+try {
+  SignInResult res = await Amplify.Auth.confirmSignIn(
+    confirmationValue: '1234,
+  );
+} on AuthException catch (e) {
+  print(e.message);
+}
+```
+
+One the user provides the correct response, they should be authenticated in your application.
