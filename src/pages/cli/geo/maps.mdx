@@ -26,7 +26,7 @@ amplify add geo
 If you haven't set up the `auth` category already, the Amplify CLI will guide you to enable the auth category.
 The `auth` category is required in your application so that the appropriate permissions to render the map can be given to Authorized and/or Guest users as described below.
 
-Next, set a name for the map: 
+Next, set a name for the map:
 
 ```console
 ? Provide a name for the Map:
@@ -75,7 +75,7 @@ You can check your Amplify CLI version using `amplify -v`.
 
 **Note:**
 If you are using Amplify CLI version `7.6.8` or older and have a Map added to your application with the pricing plan set to `MobileAssetTracking` or `MobileAssetManagement`,
-please follow these instructions to update the pricing plan:  
+please follow these instructions to update the pricing plan:
 1. Upgrade the Amplify CLI to version `7.6.9` or later using `npm i -g @aws-amplify/cli`.
 2. Run `amplify update geo` and select the Map with Asset based pricing plan. Choose the same configuration for the Map that you already have.
 3. Run `amplify push` to update the backend resource.
@@ -90,25 +90,28 @@ You can pick a style for the map resource. The available map styles along with t
 
 <Callout>
 
-**Note:** If your application is tracking or routing assets you use in your business (such as delivery vehicles or employees), you may only use `HERE` as your geolocation provider. 
+**Note:** If your application is tracking or routing assets you use in your business (such as delivery vehicles or employees), you may only use `HERE` as your geolocation provider.
 See section 82 of the [AWS service terms](https://aws.amazon.com/service-terms/) for more details.
 
 </Callout>
 
 ```console
 ? Specify the map style:
-❯ Streets (data provided by Esri) 
-  Berlin (data provided by HERE) 
-  Topographic (data provided by Esri) 
-  Navigation (data provided by Esri) 
-  LightGrayCanvas (data provided by Esri) 
+❯ Streets (data provided by Esri)
+  Berlin (data provided by HERE)
+  Explore (data provided by HERE)
+  ExploreTruck (data provided by HERE)
+  Topographic (data provided by Esri)
+  Navigation (data provided by Esri)
+  LightGrayCanvas (data provided by Esri)
   DarkGrayCanvas (data provided by Esri)
+  Imagery (data provided by Esri)
 ```
 
-`Streets (data provided by Esri) ` will be the default option that will be used to set Map style, if you do not want to explicitly set this property. 
+`Streets (data provided by Esri) ` will be the default option that will be used to set Map style, if you do not want to explicitly set this property.
 
 ### Set a default Map
-If you added more than one map via `amplify add geo`, the map that was added last will be the default. 
+If you added more than one map via `amplify add geo`, the map that was added last will be the default.
 However, you can choose if the current Map should be the default for your application:
 
 ```console
