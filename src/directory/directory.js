@@ -6,7 +6,7 @@ const directory = {
     },
     items: {
       devpreview: {
-        title: "New! Amplify (Developer Preview)",
+        title: "New! Amplify Mobile (Developer Preview)",
         items: [
           {
             title: "Getting started",
