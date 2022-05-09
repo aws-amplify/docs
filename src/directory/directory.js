@@ -1390,6 +1390,17 @@ const directory = {
             route: "/cli/migration/list-nullability",
             filters: [],
           },
+          {
+            title: 'Migrate project to another AWS account',
+            route: '/cli/migration/cli-migrate-aws-account',
+            filters: []
+          },
+          {
+            title:
+              "GraphQL Transformer @auth identity claim changes",
+            route: "/cli/migration/identity-claim-changes",
+            filters: [],
+          },
         ],
       },
       reference: {
