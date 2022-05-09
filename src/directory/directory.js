@@ -11,12 +11,7 @@ const directory = {
           {
             title: "Getting started",
             route: "/lib/devpreview/getting-started",
-            filters: ["ios"],
-          },
-          {
-            title: "Getting started",
-            route: "/lib/devpreview/getting-started",
-            filters: ["android"],
+            filters: ["ios", "android"],
           },
         ],
       },
