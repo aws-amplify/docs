@@ -163,7 +163,7 @@ Use the `overrideItems` property in collections to configure an `onClick` handle
 **Pro tip:** Amplify Studio's collection components synchronizes data in real-time. If a record is updated in the database, it will automatically sync to the app.
 
 ```jsx
-import { UpdateHome, CardBCollection } from './ui-components'
+import { UpdateHome, HomeCollection } from './ui-components'
 import { useState } from 'react'
 
 ...
@@ -173,7 +173,7 @@ function App() {
   return (
     <div>
       <UpdateHome home={updateHome}/>
-      <CardBCollection overrideItems={({ item }) => ({
+      <HomeCollection overrideItems={({ item }) => ({
         onClick: () => setUpdateHome(item)
       })} />
     </div>
