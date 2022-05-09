@@ -282,6 +282,22 @@ AWSMobileClient.getInstance().confirmForgotPassword("username", "NEW_PASSWORD_HE
 ## SignOut
 
 ```java
+AWSMobileClient.getInstance().signOut(SignOutOptions.builder().invalidateTokens(true).build(), new Callback<Void>() {
+    @Override
+    public void onResult(Void result) {
+        Log.d(TAG, "onResult: ");
+    }
+
+    @Override
+    public void onError(Exception e) {
+        Log.e(TAG, "onError: ", e);
+    }
+});
+```
+
+If you want to sign out locally by just deleting tokens, you can call `signOut` method:
+
+```java
 AWSMobileClient.getInstance().signOut();
 ```
 
