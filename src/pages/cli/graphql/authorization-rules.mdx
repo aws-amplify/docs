@@ -122,7 +122,7 @@ In the example above, upon record creation, the `authors` list is populated with
 ### Signed-in user data access
 To restrict a record's access to every signed-in user, use the `private` authorization strategy.
 
-> If you want to restrict a record's access to a specific user, see [Per-user / owner-based data access](per-user--owner-based-data-access). `private` authorization applies the authorization rule to **every** signed-in user access.
+> If you want to restrict a record's access to a specific user, see [Per-user / owner-based data access](#per-user--owner-based-data-access). `private` authorization applies the authorization rule to **every** signed-in user access.
 
 ```graphql
 type Todo @model @auth(rules: [{ allow: private }]) {
