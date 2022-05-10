@@ -87,6 +87,7 @@ function MyApp({ Component, pageProps }) {
       <Component {...pageProps} />
 
       <script src="https://a0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"></script>
+      <script src="/scripts/shortbreadv2.js"></script>
     </>
   );
 }
