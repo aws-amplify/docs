@@ -4,7 +4,7 @@ The custom authentication flow supported by Amazon Cognito uses a series of AWS 
 
 The custom authentication flow consists of the following triggers, invoked in order:
 
-- **Define Auth Challenge**: This trigger defines the sequential series of challenges that the user will need to complete in the flow. These challenges can be custom challenges, as well as traditional SRP_A verification.
+- **Define Auth Challenge**: This trigger defines the sequential series of challenges that the user will need to complete in the flow. These challenges can be custom challenges, as well as traditional SRP_A ] (with username/password verification).
 
 - **Create Auth Challenge**: This trigger defines the expected response for custom challenges, as well as key/value pairs that can be sent back to the client application to help guide your end users.
 
@@ -69,13 +69,26 @@ The Amplify CLI can help you setup the AWS Lambda triggers for you custom authen
 ? Please edit the file in your editor: <local file path>/src/boilerplate-create-challenge.js
 ```
 
-The boilerplate for Create Auth Challenge opens in your selected code editor. Enter the following code to this file:
+The boilerplate for Create Auth Challenge opens in your favorite code editor. Enter the following code to this file:
 
 ```js
+//crypto-secure-random-digit is used here to get random challenge code - https://github.com/ottokruse/crypto-secure-random-digit
+const digitGenerator = require('crypto-secure-random-digit');
+
+function sendChallengeCode(emailAddress, secretCode) {
+  // Use SES or custom logic to send the secret code to the user.
+}
+
 function createAuthChallenge(event) {
   if (event.request.challengeName === 'CUSTOM_CHALLENGE') {
+    // Generate a random code for the custom challenge
+    const challengeCode = digitGenerator.randomDigits(6).join('');
+
+    // Send the custom challenge to the user
+    sendChallengeCode(event.request.userAttributes.email, challengeCode);
+
     event.response.privateChallengeParameters = {};
-    event.response.privateChallengeParameters.answer = '1234';
+    event.response.privateChallengeParameters.answer = challengeCode;
     event.response.publicChallengeParameters = {
       hint: 'Enter the secret code'
     };
@@ -87,19 +100,19 @@ exports.handler = async (event) => {
 };
 ```
 
-The `createAuthChallenge` function is doing two things:
-
-1. Setting '1234' as the expected reply for the custom challenge. This is added to the `privateChallengeParameters` object, and is kept internal to the custom authentication flow.
-
-2. Appending a key/value pair to the `publicChallengeParameters` object, which is returned to your application and can be used to provide instructions to your user.
-
 <Callout>
-  This challenge is expecting a simple, arbitrary value for each authentication
-  attempt. This is not a secure authentication mechanism and is included for
-  demonstration purposes only. For production-ready applications, you would use
-  this challenge to create a more secure authentication mechanism, such as using
-  SES to deliver a randomly generated code.
+  Note that the `sendChallengeCode` method is empty, you can use AWS service
+  like SES to setup email delivery and populate the function `sendChallengeCode`
+  to send the challenge code to the user.
 </Callout>
+
+Amazon Cognito invokes the Create Auth Challenge trigger after Define Auth Challenge to create a custom challenge. In this lambda trigger we define the challenge to present to the user. `privateChallengeParameters` contains all the information to validate the response from the user. Save and close the file. Now open the file under "<your_xcode_project>/amplify/backend/function/<project_code>CreateAuthChallenge/src/package.json" and add the following:
+
+```js
+"dependencies": {
+    "crypto-secure-random-digit": "^1.0.9"
+}
+```
 
 Save and close the file, then switch back to the terminal and follow the instructions:
 
