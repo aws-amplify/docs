@@ -77,6 +77,13 @@ You have now successfully registered a user and authenticated with that user's u
 
 ## Multi-factor authentication
 
+<Callout>
+Note: If you create or update an SMS MFA configuration for your Cognito user pool, the Cognito service will send a test SMS message to an internal number in order to verify your configuration. You will be charged for these test messages by Amazon SNS. 
+
+For information about Amazon SNS pricing, see [Worldwide SMS Pricing](https://aws.amazon.com/sns/sms-pricing/).
+</Callout>
+
+
 Some steps in setting up multi-factor authentication can only be chosen during the initial setup of Auth. If you have already added Auth via the CLI, navigate to your project directory in Terminal, run `amplify auth remove` and when that completes, `amplify push` to remove it.
 
 Now, run `amplify add auth` and setup Auth with the following options:

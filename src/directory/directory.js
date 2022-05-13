@@ -6,12 +6,12 @@ const directory = {
     },
     items: {
       devpreview: {
-        title: "New! Amplify iOS (Developer Preview)",
+        title: "New! Amplify Mobile (Developer Preview)",
         items: [
           {
             title: "Getting started",
             route: "/lib/devpreview/getting-started",
-            filters: ["ios"],
+            filters: ["ios", "android"],
           },
         ],
       },
@@ -1388,6 +1388,17 @@ const directory = {
             title:
               "Amplify Codegen Models - List and list components nullability",
             route: "/cli/migration/list-nullability",
+            filters: [],
+          },
+          {
+            title: 'Migrate project to another AWS account',
+            route: '/cli/migration/cli-migrate-aws-account',
+            filters: []
+          },
+          {
+            title:
+              "GraphQL Transformer @auth identity claim changes",
+            route: "/cli/migration/identity-claim-changes",
             filters: [],
           },
         ],

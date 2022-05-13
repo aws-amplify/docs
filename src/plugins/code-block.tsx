@@ -104,6 +104,7 @@ module.exports = (async () => {
 
   const addVersions = (code) => {
     code = code.replace(/ANDROID_VERSION/g, versions.ANDROID_VERSION);
+    code = code.replace(/ANDROID_DEVPREVIEW/g, versions.ANDROID_DEVPREVIEW);
     code = code.replace(
       /ANDROID_KOTLIN_VERSION/g,
       versions.ANDROID_KOTLIN_VERSION
