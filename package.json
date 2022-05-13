@@ -19,7 +19,7 @@
     "@algolia/autocomplete-theme-classic": "^1.6.1",
     "@algolia/client-search": "^4.13.0",
     "@aws-amplify/ui-components": "latest",
-    "@aws-amplify/ui-react": "^1.2.5",
+    "@aws-amplify/ui-react": "^2.17.1",
     "@emotion/react": "^11.1.5",
     "@emotion/styled": "^11.3.0",
     "@mdx-js/mdx": "^2.0.0",
