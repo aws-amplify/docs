@@ -39,32 +39,6 @@ describe('Feedback', () => {
     expect(thumbsDown).toBeInTheDocument();
   });
 
-  it('should show textarea asking for more feedback', async () => {
-    const component = <Feedback />;
-
-    render(component);
-
-    const thumbsUp = screen.getByText('Yes');
-    const thumbsDown = screen.getByText('No');
-
-    expect(thumbsUp).toBeInTheDocument();
-    expect(thumbsDown).toBeInTheDocument();
-
-    userEvent.click(thumbsUp);
-
-    await waitFor(() => {
-      const textAreaLabel = screen.getByLabelText('What did we do well?');
-      const textArea = document.querySelector('#feedback-comment');
-      const submitButton = screen.getByText('Submit');
-      const cancelButton = screen.getByText('Cancel');
-
-      expect(textAreaLabel).toBeInTheDocument();
-      expect(textArea).toBeInTheDocument();
-      expect(submitButton).toBeInTheDocument();
-      expect(cancelButton).toBeInTheDocument();
-    });
-  });
-
   it('should hide buttons after user clicks No button', async () => {
     const component = <Feedback />;
 
@@ -79,15 +53,8 @@ describe('Feedback', () => {
     userEvent.click(thumbsDown);
 
     await waitFor(() => {
-      const textAreaLabel = screen.getByLabelText('What can we do better?');
-      const textArea = document.querySelector('#feedback-comment');
-      const submitButton = screen.getByText('Submit');
-      const cancelButton = screen.getByText('Cancel');
-
-      expect(textAreaLabel).toBeVisible();
-      expect(textArea).toBeVisible();
-      expect(submitButton).toBeVisible();
-      expect(cancelButton).toBeVisible();
+      expect(thumbsUp).not.toBeVisible();
+      expect(thumbsDown).not.toBeVisible();
     });
   });
 
@@ -101,49 +68,5 @@ describe('Feedback', () => {
     userEvent.click(thumbsDown);
 
     expect(API.post).toHaveBeenCalled();
-  });
-
-  it('should make Amplify POST request when submit button is clicked', async () => {
-    const component = <Feedback />;
-
-    render(component);
-
-    const thumbsDown = screen.getByText('No');
-
-    userEvent.click(thumbsDown);
-
-    await waitFor(() => {
-      const submitButton = screen.getByText('Submit');
-
-      userEvent.click(submitButton);
-
-      expect(API.post).toHaveBeenCalled();
-    });
-  });
-
-  it('should hide the feedback textarea when cancel is clicked', async () => {
-    const component = <Feedback />;
-
-    render(component);
-
-    const thumbsDown = screen.getByText('No');
-
-    userEvent.click(thumbsDown);
-
-    await waitFor(async () => {
-      const textAreaLabel = screen.getByLabelText('What can we do better?');
-      const textArea = document.querySelector('#feedback-comment');
-      const submitButton = screen.getByText('Submit');
-      const cancelButton = screen.getByText('Cancel');
-
-      userEvent.click(cancelButton);
-
-      await waitFor(() => {
-        expect(textAreaLabel).not.toBeInTheDocument();
-        expect(textArea).not.toBeInTheDocument();
-        expect(submitButton).not.toBeInTheDocument();
-        expect(cancelButton).not.toBeInTheDocument();
-      });
-    });
   });
 });

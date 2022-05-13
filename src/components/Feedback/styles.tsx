@@ -11,9 +11,14 @@ export const FeedbackContainer = styled.div`
   margin: 20px 8px 20px 8px;
   padding: 10px 0px 10px 0px;
 
-  border-top: 0.05rem solid var(--border-color);
+  border: 0.05rem solid var(--border-color);
   border-radius: 4px;
   background-color: white;
+
+  ${MQDesktop} {
+    border: none;
+    border-top: 0.05rem solid var(--border-color);
+  }  
 `;
 
 export const VoteButtonsContainer = styled.div`
@@ -29,48 +34,6 @@ export const VoteButton = styled.button`
   justify-content: space-around;
   width: 60px;
   padding-right: 5px;
-  border-radius: 4px;
-
-  &:hover {
-    cursor: pointer;
-    opacity: 0.6;
-  }
-`;
-
-export const CommentContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  align-items: center;
-  width: 100%;
-  padding: 0px 15px 0px 15px;
-`;
-
-export const CommentQuestionContainer = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-`;
-
-export const CommentTextArea = styled.textarea`
-  resize: none;
-  border: 1px solid grey;
-  padding: 8px;
-  box-sizing: border-box;
-  overflow-y: scroll;
-  width: 100%;
-`;
-
-export const CommentButtonContainer = styled.div`
-  padding-top: 5px;
-  display: flex;
-  justify-content: space-between;
-  width: 150px;
-`;
-
-export const CommentButton = styled.button`
-  width: 60px;
-  height: 28px;
   border-radius: 4px;
 
   &:hover {
@@ -113,21 +76,11 @@ export const Toggle = styled.div`
 export const ThankYouContainer = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   width: 100%;
   padding: 0px 10px 5px 10px;
   text-align: center;
-
-  .close-btn {
-    display: none;
-
-    ${MQDesktop} {
-      display: flex;
-      align-self: flex-end;
-      cursor: pointer;
-      width: 16px;
-      height: 16px;
-    }
-  }
+  height: 60px;
 `;
 
 export const FeedbackMobileContainer = styled.div`

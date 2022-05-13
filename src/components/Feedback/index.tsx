@@ -5,11 +5,6 @@ import {
   FeedbackContainer,
   VoteButton,
   VoteButtonsContainer,
-  CommentContainer,
-  CommentTextArea,
-  CommentButtonContainer,
-  CommentButton,
-  CommentQuestionContainer,
   Toggle,
   FeedbackMobileContainer,
   ThankYouContainer
@@ -34,8 +29,6 @@ if (process.env.API_ENV === 'production') {
 
 enum FeedbackState {
   START = 'START',
-  YES = 'YES',
-  NO = 'NO',
   END = 'END',
   HIDDEN = 'HIDDEN'
 }
@@ -50,12 +43,7 @@ type Feedback = {
 export default function Feedback() {
   const [state, setState] = useState<FeedbackState>(FeedbackState.START);
   const [feedbackId, setFeedbackId] = useState(undefined);
-  const [feedbackVote, setFeedbackVote] = useState(undefined);
-  const feedbackComment = useRef(null);
   const feedbackQuestion = 'Was this page helpful?';
-  const reasonForVote = feedbackVote
-    ? 'What did we do well?'
-    : 'What can we do better?';
   const feedbackAppreciation = 'Thank you for your feedback!';
 
   useEffect(() => {
@@ -112,8 +100,7 @@ export default function Feedback() {
           <VoteButtonsContainer>
             <VoteButton
               onClick={() => {
-                setState(FeedbackState.YES);
-                setFeedbackVote(true);
+                setState(FeedbackState.END);
                 submitVote(true);
               }}
             >
@@ -122,8 +109,7 @@ export default function Feedback() {
             </VoteButton>
             <VoteButton
               onClick={() => {
-                setState(FeedbackState.NO);
-                setFeedbackVote(false);
+                setState(FeedbackState.END);
                 submitVote(false);
               }}
             >
@@ -133,64 +119,9 @@ export default function Feedback() {
           </VoteButtonsContainer>
         </>
       ) : (
-        <>
-          {[FeedbackState.YES, FeedbackState.NO].includes(state) ? (
-            <CommentContainer>
-              <CommentQuestionContainer>
-                <label htmlFor="feedback-comment">{reasonForVote}</label>
-                <span
-                  id="optional-feedback"
-                  style={{ fontSize: '0.7rem', opacity: 0.8 }}
-                >
-                  Optional
-                </span>
-              </CommentQuestionContainer>
-              <CommentTextArea
-                id="feedback-comment"
-                name="feedback-comment"
-                ref={feedbackComment}
-                aria-describedby="optional-feedback"
-              ></CommentTextArea>
-              <CommentButtonContainer>
-                <CommentButton
-                  onClick={() => {
-                    setState(FeedbackState.END);
-                    submitVote(feedbackVote, feedbackComment.current.value);
-                  }}
-                >
-                  Submit
-                </CommentButton>
-                <CommentButton
-                  onClick={() => {
-                    setState(FeedbackState.START);
-                  }}
-                >
-                  Cancel
-                </CommentButton>
-              </CommentButtonContainer>
-            </CommentContainer>
-          ) : (
-            <ThankYouContainer>
-              <div onClick={() => {setState(FeedbackState.HIDDEN)}} className="close-btn">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M14.364 3.05024L12.9497 1.63603L8 6.58577L3.05025 1.63603L1.63604 3.05024L6.58579 7.99999L1.63604 12.9497L3.05025 14.3639L8 9.4142L12.9497 14.3639L14.364 12.9497L9.41421 7.99999L14.364 3.05024Z"
-                    fill="#545B64"
-                  ></path>
-                </svg>
-              </div>
-              <p>{feedbackAppreciation}</p>
-            </ThankYouContainer>
-          )}
-        </>
+          <ThankYouContainer>
+            <p>{feedbackAppreciation}</p>
+          </ThankYouContainer>
       )}
     </FeedbackContainer>
   );
