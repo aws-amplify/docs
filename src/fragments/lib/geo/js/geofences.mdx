@@ -25,7 +25,7 @@ Then, import [AmplifyGeofenceControl](https://github.com/aws-amplify/maplibre-gl
 
 > **Note:** Ensure that your package bundler (webpack, rollup, etc) is configured to handle css files. Check out the webpack documentation [here](https://webpack.js.org/loaders/css-loader/).
 
-> **Notes:** To use Geofence Controls the user will need to be authenticated with the administrative Cognito user associated with the Geofence Collection you created above. Below is an example using React and the [Amplify Authenticator](https://ui.docs.amplify.aws/components/authenticator) but for other use cases check the [Authentication documentation](/lib/auth/overview).
+> **Notes:** To use Geofence Controls the user will need to be authenticated with the administrative Cognito user associated with the Geofence Collection you created above. Below is an example using React and the [Amplify Authenticator](https://ui.docs.amplify.aws/react/components/authenticator) but for other use cases check the [Authentication documentation](/lib/auth/overview).
 
 Your updated map application should look like the following
 
@@ -111,7 +111,7 @@ And your app CSS should be updated to show the sign out button
 Uncaught ReferenceError: fs is not defined
 ```
 
-Additionally using `@aws-amplify/ui-react` with Webpack5 requires polyfills for `aws-amplify` as documented [here](https://ui.docs.amplify.aws/getting-started/installation#webpack-5).
+Additionally using `@aws-amplify/ui-react` with Webpack5 requires polyfills for `aws-amplify` as documented [here](https://ui.docs.amplify.aws/react/getting-started/installation#webpack-5).
 
 
 Follow the instructions below if you are using NextJS to resolve the error:
