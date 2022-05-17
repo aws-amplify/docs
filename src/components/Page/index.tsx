@@ -56,6 +56,7 @@ export default function Page({children, meta}: {children: any; meta?: any}) {
   }
   const headers = traverseHeadings(children, filterKey);
   let filters = gatherAllFilters(children, filterKind);
+  // special cases
   if (url.startsWith("/sdk")) {
     filters = filters.filter(
       (filter) => filter !== "flutter" && filter !== "js",
