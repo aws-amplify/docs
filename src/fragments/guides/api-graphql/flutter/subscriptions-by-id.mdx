@@ -2,9 +2,9 @@ Now you can create a custom subscription for comment creation with a specific po
 
 ```dart
 Future<void> subscribeByPostId(String postId) async {
-  String graphQLDocument = '''
-      subscription onCreateCommentByPostId(\$id:ID!) {
-        onCommentByPostId(postCommentsId: \$id) {
+  const graphQLDocument = r'''
+      subscription onCreateCommentByPostId($id: ID!) {
+        onCommentByPostId(postCommentsId: $id) {
           content
           id
           postCommentsId
