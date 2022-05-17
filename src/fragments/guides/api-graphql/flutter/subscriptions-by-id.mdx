@@ -13,7 +13,9 @@ Future<void> subscribeByPostId(String postId) async {
     ''';
   final Stream<GraphQLResponse<String>> operation = Amplify.API.subscribe(
     GraphQLRequest<String>(
-        document: graphQLDocument, variables: <String, String>{'id': postId}),
+      document: graphQLDocument, 
+      variables: <String, String>{'id': postId},
+    ),
     onEstablished: () => print('Subscription established'),
   );
 
