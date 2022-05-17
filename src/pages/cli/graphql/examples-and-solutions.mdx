@@ -593,52 +593,98 @@ input BatchCreateTodo {
 
 2. [Create a custom resource for your resolver](/cli/graphql/custom-business-logic/#vtl-resolver) and use the following code snippets as a guide to get started
 
-3. Use the following imports as a starting point for your custom CDK stack
-```typescript
+2. Follow the steps for creating a custom resolver:
+```bash
+amplify add custom
+```
+```console
+? How do you want to define this custom resource?
+❯ AWS CDK
+? Provide a name for your custom resource
+❯ MyCustomResolvers
+```
+
+Next, install the AppSync dependencies for your custom resource:
+```bash
+cd amplify/backend/custom/MyCustomResolvers
+npm i @aws-cdk/aws-appsync@~1.124.0
+```
+
+Use the following template as a starting point for your custom CDK stack, the resolvers must be templated with environment references
+
+```ts
 import * as cdk from '@aws-cdk/core';
 import * as AmplifyHelpers from '@aws-amplify/cli-extensibility-helper';
 import * as appsync from '@aws-cdk/aws-appsync';
 import { AmplifyDependentResourcesAttributes } from '../../types/amplify-dependent-resources-ref';
-```
 
-4. Use the following snipped to create references to the API ID and environment name
-```typescript
-const apiIdRef = cdk.Fn.ref(retVal.api.thing.GraphQLAPIIdOutput);
-const envRef = cdk.Fn.ref('env');
-```
+export class cdkStack extends cdk.Stack {
+  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps, amplifyResourceProps?: AmplifyHelpers.AmplifyResourceProps) {
+    super(scope, id, props);
+    /* Do not remove - Amplify CLI automatically injects the current deployment environment in this input parameter */
+    new cdk.CfnParameter(this, 'env', {
+      type: 'String',
+      description: 'Current Amplify CLI env name',
+    });
+    
+    // Access other Amplify Resources 
+    const retVal:AmplifyDependentResourcesAttributes = AmplifyHelpers.addResourceDependency(this, 
+      amplifyResourceProps.category, 
+      amplifyResourceProps.resourceName, 
+      [{
+        category: "api",
+        resourceName: "<YOUR-API-NAME>"
+      }]
+    );
 
-5. Your custom resolver will need the table name in it. To build the table name, you must use the CDK references inside the template.
-```VTL
-## [Start] Initialization default values. **
-$util.qr($ctx.stash.put("defaultValues", $util.defaultIfNull($ctx.stash.defaultValues, {})))
-#set( $createdAt = $util.time.nowISO8601() )
-#set($todosArray = [])
-#foreach($item in \${ctx.args.todos})
-  $util.qr($item.put("id", $util.defaultIfNullOrBlank($item.id, $util.autoId())))
-  $util.qr($item.put("createdAt", $util.defaultIfNull($item.createdAt, $createdAt)))
-  $util.qr($item.put("updatedAt", $util.defaultIfNull($item.updatedAt, $createdAt)))
-  $util.qr($item.put("__typename", "Todo"))
-  $util.qr($todosArray.add($util.dynamodb.toMapValues($item)))
-#end
-## [End] Initialization default values. **
-$util.toJson( {
-  "version": "2018-05-29",
-  "operation": "BatchPutItem",
-  "tables": {
-    "<TYPE-NAME-HERE>-${apiIdRef}-${envRef}": $todosArray
+    const requestVTL = `
+      ## [Start] Initialization default values. **
+      $util.qr($ctx.stash.put("defaultValues", $util.defaultIfNull($ctx.stash.defaultValues, {})))
+      #set( $createdAt = $util.time.nowISO8601() )
+      #set($todosArray = [])
+      #foreach($item in \${ctx.args.todos})
+        $util.qr($item.put("id", $util.defaultIfNullOrBlank($item.id, $util.autoId())))
+        $util.qr($item.put("createdAt", $util.defaultIfNull($item.createdAt, $createdAt)))
+        $util.qr($item.put("updatedAt", $util.defaultIfNull($item.updatedAt, $createdAt)))
+        $util.qr($item.put("__typename", "Todo"))
+        $util.qr($todosArray.add($util.dynamodb.toMapValues($item)))
+      #end
+      ## [End] Initialization default values. **
+      $util.toJson( {
+        "version": "2018-05-29",
+        "operation": "BatchPutItem",
+        "tables": {
+          "<TYPE-NAME-HERE>-${apiIdRef}-${envRef}": $todosArray
+        }
+      } )
+    `
+    const responseVTL = `
+      ## [Start] ResponseTemplate. **
+      #if( $ctx.error )
+        $util.error($ctx.error.message, $ctx.error.type)
+      #else
+        $util.toJson($ctx.result.data.<TYPE-NAME-HERE>-${apiIdRef}-${envRef})
+      #end
+      ## [End] ResponseTemplate. **
+    `;
+
+
+    const resolver = new appsync.CfnResolver(this, "custom-resolver", {
+      // apiId: retVal.api.new.GraphQLAPIIdOutput,
+      // https://github.com/aws-amplify/amplify-cli/issues/9391#event-5843293887
+      // If you use Amplify you can access the parameter via Ref since it's a CDK parameter passed from the root stack.
+      // Previously the ApiId is the variable Name which is wrong , it should be variable value as below
+      apiId: cdk.Fn.ref(retVal.api.replaceWithAPIName.GraphQLAPIIdOutput),
+      fieldName: "querySomething", 
+      typeName: "Query", // Query | Mutation | Subscription
+      requestMappingTemplate: requestVTL,
+      responseMappingTemplate: responseVTL,
+      dataSourceName: "TodoTable" // DataSource name
+    })
   }
-} )
+}
 ```
 
-6. The table name is also used to get the data in the response VTL
-```VTL
-## [Start] ResponseTemplate. **
-#if( $ctx.error )
-  $util.error($ctx.error.message, $ctx.error.type)
-#else
-  $util.toJson($ctx.result.data.<TYPE-NAME-HERE>-${apiIdRef}-${envRef})
-#end
-## [End] ResponseTemplate. **
-```
+By using CloudFormation parameters, you contextualize your custom resolvers to the environment you're working with.
 
-Further customization of the VTL can be made to implement authorization and/or relational capabilities. You may use the resolvers generated by the CLI as a starting point to see how some of these capabilities are implemented.
+3. The full documentation for custom resolvers [is available here](https://docs.amplify.aws/cli/graphql/custom-business-logic/#vtl-resolver)
