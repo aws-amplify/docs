@@ -99,10 +99,6 @@ export default class FilterSelect extends React.Component<
       if (!this.props.filters.includes(filter)) {
         let shouldAdd = true;
 
-        // special cases
-        if (this.props.url.startsWith("/guides")) {
-          shouldAdd = filter !== "flutter";
-        }
         if (this.props.url.startsWith("/sdk")) {
           shouldAdd = filter !== "flutter" && filter !== "js";
         }

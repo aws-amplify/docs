@@ -1829,7 +1829,7 @@ const directory = {
       guides: {
         title: "Guides",
         route: "/guides",
-        filters: ["js", "android", "ios"],
+        filters: ["js", "android", "ios", "flutter"],
         items: [],
       },
       "api-graphql": {
@@ -1848,7 +1848,7 @@ const directory = {
           {
             title: "How to create GraphQL subscriptions by id",
             route: "/guides/api-graphql/subscriptions-by-id",
-            filters: ["js", "android", "ios"],
+            filters: ["js", "android", "ios", "flutter"],
           },
           {
             title: "GraphQL pagination",

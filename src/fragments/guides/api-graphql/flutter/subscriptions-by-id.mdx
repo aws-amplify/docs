@@ -1,0 +1,28 @@
+Now you can create a custom subscription for comment creation with a specific post id:
+
+```dart
+Future<void> subscribeByPostId(String postId) async {
+  String graphQLDocument = '''
+      subscription onCreateCommentByPostId(\$id:ID!) {
+        onCommentByPostId(postCommentsId: \$id) {
+          content
+          id
+          postCommentsId
+        }
+      }
+    ''';
+  final Stream<GraphQLResponse<String>> operation = Amplify.API.subscribe(
+    GraphQLRequest<String>(
+        document: graphQLDocument, variables: <String, String>{'id': postId}),
+    onEstablished: () => print('Subscription established'),
+  );
+
+  try {
+    await for (var event in operation) {
+      print('Subscription event data received: ${event.data}');
+    }
+  } on Exception catch (e) {
+    print('Error in subscription stream: $e');
+  }
+}
+```
