@@ -34,6 +34,11 @@ const directory = {
             filters: ["flutter"],
           },
           {
+            title: "Escape hatch",
+            route: "/lib/project-setup/escape-hatch",
+            filters: ["flutter"],
+          },
+          {
             title: "Using Combine with Amplify",
             route: "/lib/project-setup/combine",
             filters: ["ios"],
