@@ -1,4 +1,18 @@
-In terminal, navigate to your project, run `amplify add auth`, and choose the following options:
+### How Custom Auth Works
+
+The custom authentication flow supported by Amazon Cognito uses a series of AWS Lambda triggers, which are serverless functions invoked when particular events occur in Cognito. Together, these triggers allow you to establish a series of 'challenges' to which your users must successfully respond in order to authenticate.
+
+The custom authentication flow consists of the following triggers, invoked in order:
+
+- **Define Auth Challenge**: This trigger defines the sequential series of challenges that the user will need to complete in the flow. These challenges can be custom challenges, as well as traditional SRP_A ] (with username/password verification).
+
+- **Create Auth Challenge**: This trigger defines the expected response for custom challenges, as well as key/value pairs that can be sent back to the client application to help guide your end users.
+
+- **Verify Auth Challenge**: This trigger is used to verify if the provided response for a given challenge is correct.
+
+### Setting-up custom auth flow with the Amplify CLI
+
+The Amplify CLI can help you setup the AWS Lambda triggers for you custom authentication flow. In the terminal, navigate to your project, run `amplify add auth`, and choose the following options:
 
 ```terminal
 ? Do you want to use the default authentication and security configuration? Manual configuration?
@@ -75,6 +89,9 @@ function createAuthChallenge(event) {
 
     event.response.privateChallengeParameters = {};
     event.response.privateChallengeParameters.answer = challengeCode;
+    event.response.publicChallengeParameters = {
+      hint: 'Enter the secret code'
+    };
   }
 }
 
@@ -89,7 +106,7 @@ exports.handler = async (event) => {
   to send the challenge code to the user.
 </Callout>
 
-Amazon Cognito invokes the Create Auth Challenge trigger after Define Auth Challenge to create a custom challenge. In this lambda trigger we define the challenge to present to the user. `privateChallengeParameters` contains all the information to validate the response from the user. Save and close the file. Now open the file under "<your_xcode_project>/amplify/backend/function/<project_code>CreateAuthChallenge/src/package.json" and add the following:
+Amazon Cognito invokes the Create Auth Challenge trigger after Define Auth Challenge to create a custom challenge. In this lambda trigger we define the challenge to present to the user. `privateChallengeParameters` contains all the information to validate the response from the user. Save and close the file. Now open the file under "<your_flutter_project>/amplify/backend/function/<project_code>CreateAuthChallenge/src/package.json" and add the following:
 
 ```js
 "dependencies": {
@@ -134,7 +151,7 @@ exports.handler = async function(event) {
 };
 ```
 
-Amazon Cognito invokes the Define Auth Challenge trigger to initiate the custom authentication flow.
+Note that each of these if/else blocks are referencing `event.request.session`. The session is a JS array in which each index represents a step in the custom authentication flow.
 
 The Amplify Auth library always starts with an SRP_A flow, so in the code above, we bypass SRP_A and return `CUSTOM_CHALLENGE` in the first step. In the second step, if `CUSTOM_CHALLENGE` returns with `challengeResult == true` we recognize the custom auth challenge is successful, and tell Cognito to issue tokens. In the last `else` block we tell Cognito to fail the authentication flow.
 
