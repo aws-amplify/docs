@@ -60,8 +60,7 @@ export default function Feedback() {
 
     const body: Feedback = {
       page_path: pagePath,
-      vote: vote,
-      comment: comment ? comment : ''
+      vote: vote
     };
 
     const headers = {
