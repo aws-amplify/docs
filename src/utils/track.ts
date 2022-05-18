@@ -2,9 +2,11 @@ let configured = false;
 let firstPageOfVisit = true;
 let AWSCShortbread;
 let s;
+let AWSMA;
 
 if (typeof window !== "undefined") {
   AWSCShortbread = window.AWSCShortbread;
+  AWSMA = window.AWSMA;
   s = window.s;
 }
 
@@ -150,9 +152,14 @@ export const trackSearchQuery = (
 };
 
 export const trackFeedbackSubmission = (feedback: boolean) => {
-  if (typeof window !== "undefined" && typeof s != "undefined") {
-    s.evar39 = `${window.location.href.split('#')[0]}${feedback ? 'feedbackyes.html' : 'feedbackno.html'}`;
-    s.linkTrackVars = 'eVar39';
-    s.tl(true, 'o', 'feedback submission')
+  const opt = {
+    event: {
+      type: 'click',
+      name: feedback ? 'YesVote' : 'NoVote'
+    }
   }
+
+  AWSMA.ready(() => {
+    document.dispatchEvent(new CustomEvent(AWSMA.TRIGGER_EVENT, {detail: opt}));
+  });
 }
