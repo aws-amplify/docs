@@ -6,7 +6,7 @@ From your projects directory, run the following commands:
 
 ```bash
 npm install -g ionic
-ionic start myAmplifyProject blank --type=angular 
+ionic start myAmplifyProject blank --type=angular
 cd myAmplifyProject
 npm start
 ```
@@ -24,30 +24,22 @@ amplify init
 When you initialize Amplify you'll be prompted for some information about the app:
 
 ```console
-Enter a name for the project (todo)
+Note: It is recommended to run this command from the root of your app directory
+? Enter a name for the project todo
+The following configuration will be applied:
 
-# All AWS services you provision for your app are grouped into an "environment"
-# A common naming convention is dev, staging, and production
-Enter a name for the environment (dev)
+Project information
+| Name: todo
+| Environment: dev
+| Default editor: Visual Studio Code
+| App type: javascript
+| Javascript framework: angular
+| Source Directory Path: src
+| Distribution Directory Path: www
+| Build Command: npm run-script build
+| Start Command: ng serve
 
-# Sometimes the CLI will prompt you to edit a file, it will use this editor to open those files.
-Choose your default editor
-
-# Amplify supports JavaScript (Web & React Native), iOS, and Android apps
-Choose the type of app that you're building (javascript)
-
-What JavaScript framework are you using (ionic)
-
-Source directory path (src)
-
-Distribution directory path (www)
-
-Build command (npm run-script build)
-
-Start command (ionic serve)
-
-# This is the profile you created with the `amplify configure` command in the introduction step.
-Do you want to use an AWS profile
+? Initialize the project with the above configuration? (Y/n) Y
 ```
 
 When you initialize a new Amplify project, a few things happen:
@@ -57,10 +49,10 @@ When you initialize a new Amplify project, a few things happen:
 - It modifies the `.gitignore` file, adding some generated files to the ignore list
 - A cloud project is created for you in the AWS Amplify Console that can be accessed by running `amplify console`. The Console provides a list of backend environments, deep links to provisioned resources per Amplify category, status of recent deployments, and instructions on how to promote, clone, pull, and delete backend resources
 
-## Install Amplify libraries
+## Install Amplify library
 
-In addition to `aws-amplify` core, install the Angular Ionic modules which provide a service provider, helpers, and components.
+Make sure to install the latest version of the `aws-amplify` core library.
 
 ```sh
-$ npm install aws-amplify @aws-amplify/ui-angular@1.x.x
+$ npm install aws-amplify
 ```
