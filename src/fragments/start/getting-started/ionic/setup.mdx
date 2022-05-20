@@ -49,10 +49,24 @@ When you initialize a new Amplify project, a few things happen:
 - It modifies the `.gitignore` file, adding some generated files to the ignore list
 - A cloud project is created for you in the AWS Amplify Console that can be accessed by running `amplify console`. The Console provides a list of backend environments, deep links to provisioned resources per Amplify category, status of recent deployments, and instructions on how to promote, clone, pull, and delete backend resources
 
-## Install Amplify library
+## Install Amplify libraries
 
-Make sure to install the latest version of the `aws-amplify` core library.
+Make sure to install the latest version of the `aws-amplify` core and the `@aws-amplify/ui-angular` library.
 
 ```sh
-$ npm install aws-amplify
+$ npm install aws-amplify @aws-amplify/ui-angular
 ```
+
+The `@aws-amplify/ui-angular` package is a set of Angular components and an Angular provider which helps integrate your application with the `aws-amplify` library.
+
+<Callout warning={true}>
+  If you run into any errors after installing the ui-angular package, including
+  any issues with unhandled promise rejections or TypeScript errors, please see
+  our{' '}
+  <a
+    href="https://ui.docs.amplify.aws/angular/getting-started/installation#troubleshooting"
+    target="_blank"
+  >
+    Angular Getting Started Troubleshooting Guide.
+  </a>
+</Callout>

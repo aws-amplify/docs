@@ -102,7 +102,41 @@ Note: If you are using Angular 6 or above, you may need to add the following to 
 };
 ```
 
-In your `src/app/app.component.ts` file, add the following imports and modifications to your class to to add data to your database with a mutation by using the `API.service` file which was generated when you ran `amplify add api`:
+First, enable the Angular forms modules in `src/app/app.module.ts`:
+
+```javascript
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { RouteReuseStrategy } from '@angular/router';
+
+import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+
+import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
+import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
+
+@NgModule({
+  declarations: [AppComponent],
+  entryComponents: [],
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    AmplifyAuthenticatorModule // UI Authenticator Module
+  ],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  bootstrap: [AppComponent]
+})
+export class AppModule {}
+```
+
+Then make sure to add the Authenticator styles into your `src/global.scss` file.
+
+```
+@import '~@aws-amplify/ui-angular/theme.css';
+```
+
+Next, in your `src/app/app.component.ts` file, add the following imports and modifications to your class to to add data to your database with a mutation by using the `API.service` file which was generated when you ran `amplify add api`:
 
 ```javascript
 import { Component, OnInit } from '@angular/core';
