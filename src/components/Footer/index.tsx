@@ -42,13 +42,23 @@ export default function DocsFooter() {
           <Legal>
             <span>
               <div>
-                <img alt={img.AWS.alt} src={img.AWS.lightSrc} />
-                Amplify open source, documentation and community are supported
-                by Amazon Web Services © {new Date().getFullYear()}, Amazon Web
-                Services, Inc. and its affiliates. All rights reserved. View the{' '}
-                <ExternalLink href={links.TERMS}>site terms</ExternalLink> and{' '}
-                <ExternalLink href={links.PRIVACY}>privacy policy</ExternalLink>
-                .
+                <p>
+                  <img alt={img.AWS.alt} src={img.AWS.lightSrc} />
+                  Amplify open source software, documentation and
+                  <br /> community are supported by Amazon Web Services.
+                </p>
+                <p>
+                  © {new Date().getFullYear()}, Amazon Web Services, Inc. and
+                  its affiliates.
+                </p>
+                <p>
+                  All rights reserved. View the{' '}
+                  <ExternalLink href={links.TERMS}>site terms</ExternalLink> and{' '}
+                  <ExternalLink href={links.PRIVACY}>
+                    privacy policy
+                  </ExternalLink>
+                  .
+                </p>
               </div>
               <div className="margin-top-md">
                 Flutter and the related logo are trademarks of Google LLC. We
