@@ -1458,7 +1458,8 @@
     "Pressable",
     "geofence",
     "geofences",
-    "savegeofences"
+    "savegeofences",
+    "myfunction"
   ],
   "flagWords": ["hte"]
 }
