@@ -439,7 +439,7 @@ const directory = {
             filters: ["js", "ios", "android"],
           },
           {
-            title: "Geofences (Developer preview)",
+            title: "Geofences",
             route: "/lib/geo/geofences",
             filters: ["js"],
           },
@@ -1230,7 +1230,7 @@ const directory = {
             filters: [],
           },
           {
-            title: "Geofencing (Developer Preview)",
+            title: "Geofencing",
             route: "/cli/geo/geofencing",
             filters: [],
           }
