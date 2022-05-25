@@ -1,75 +1,92 @@
-import {useRouter} from "next/router";
-import {traverseHeadings} from "../../utils/traverseHeadings";
-import {gatherAllFilters} from "../../utils/gatherFilters";
-import CodeBlockProvider from "../CodeBlockProvider/index";
-import Layout from "../Layout/index";
-import Menu from "../Menu/index";
-import TableOfContents from "../TableOfContents/index";
-import NextPrevious from "../NextPrevious/index";
-import {ContentStyle, ChapterTitleStyle} from "./styles";
+import { useRouter } from 'next/router';
+import { traverseHeadings } from '../../utils/traverseHeadings';
+import { gatherAllFilters } from '../../utils/gatherFilters';
+import CodeBlockProvider from '../CodeBlockProvider/index';
+import Layout from '../Layout/index';
+import Menu from '../Menu/index';
+import TableOfContents from '../TableOfContents/index';
+import NextPrevious from '../NextPrevious/index';
+import { ContentStyle, ChapterTitleStyle, LastUpdatedStyle } from './styles';
 import {
   getChapterDirectory,
-  isProductRoot,
-} from "../../utils/getLocalDirectory";
-import SidebarLayoutToggle from "../SidebarLayoutToggle";
-import {useRef, useState} from "react";
-import {MQTablet} from "../media";
-import {filterMetadataByOption, SelectedFilters} from "../../utils/filter-data";
-import ChooseFilterPage from "../../pages/ChooseFilterPage";
-import {parseLocalStorage} from "../../utils/parseLocalStorage";
-import {withFilterOverrides} from "../../utils/withFilterOverrides";
+  isProductRoot
+} from '../../utils/getLocalDirectory';
+import SidebarLayoutToggle from '../SidebarLayoutToggle';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { MQTablet } from '../media';
+import {
+  filterMetadataByOption,
+  SelectedFilters
+} from '../../utils/filter-data';
+import ChooseFilterPage from '../../pages/ChooseFilterPage';
+import { parseLocalStorage } from '../../utils/parseLocalStorage';
+import { withFilterOverrides } from '../../utils/withFilterOverrides';
+import LastUpdatedDatesProvider from '../LastUpdatedProvider';
 
-export default function Page({children, meta}: {children: any; meta?: any}) {
+export default function Page({
+  children,
+  meta,
+  frontmatter
+}: {
+  children: any;
+  meta?: any;
+  frontmatter?: any;
+}) {
   const router = useRouter();
   if (!router.isReady) {
     const [menuIsOpen, setMenuIsOpen] = useState(false);
+    // const [lastUpdatedDate, setLastUpdatedDate] = useState('');
     useRef(null);
     return <></>;
   }
+
+  // const [lastUpdatedDate, setLastUpdatedDate] = useState('');
+
   let url = router.asPath;
   // remove trailing slash.  this is important on pages like /cli/index.mdx
   // or /console/index.mdx where router.asPath has a trailing slash and
   // router.pathname doesn't.
-  if (url.endsWith("/")) {
+  if (url.endsWith('/')) {
     url = url.slice(0, -1);
   }
+
   const directoryPath = router.pathname;
-  let filterKey = "",
-    filterKind = "";
+  let filterKey = '',
+    filterKind = '';
   const filterKeysLoaded = parseLocalStorage(
-    "filterKeys",
-    {} as SelectedFilters,
+    'filterKeys',
+    {} as SelectedFilters
   );
   const filterKeyUpdates = {} as SelectedFilters;
-  if ("platform" in router.query) {
+  if ('platform' in router.query) {
     filterKey = router.query.platform as string;
     filterKeyUpdates.platform = filterKey;
-    filterKind = "platform";
-  } else if ("integration" in router.query) {
+    filterKind = 'platform';
+  } else if ('integration' in router.query) {
     filterKey = router.query.integration as string;
     filterKeyUpdates.integration = filterKey;
-    filterKind = "integration";
-  } else if ("framework" in router.query) {
+    filterKind = 'integration';
+  } else if ('framework' in router.query) {
     filterKey = router.query.framework as string;
     filterKeyUpdates.framework = filterKey;
-    filterKind = "framework";
+    filterKind = 'framework';
   }
   const headers = traverseHeadings(children, filterKey);
   let filters = gatherAllFilters(children, filterKind);
   // special cases
   if (url.startsWith("/sdk")) {
     filters = filters.filter(
-      (filter) => filter !== "flutter" && filter !== "js",
+      (filter) => filter !== 'flutter' && filter !== 'js'
     );
   }
 
   const overrides = withFilterOverrides(filterKeyUpdates, filterKeysLoaded);
   const filterKeys = {
     ...filterKeysLoaded,
-    ...overrides,
+    ...overrides
   };
 
-  localStorage.setItem("filterKeys", JSON.stringify(filterKeys));
+  localStorage.setItem('filterKeys', JSON.stringify(filterKeys));
   if (filters.length !== 0 && !filters.includes(filterKey) && meta) {
     return (
       <ChooseFilterPage
@@ -84,14 +101,14 @@ export default function Page({children, meta}: {children: any; meta?: any}) {
   }
   const [menuIsOpen, setMenuIsOpen] = useState(false);
 
-  meta.chapterTitle = "";
+  meta.chapterTitle = '';
   if (meta && !isProductRoot(url)) {
-    const {title: chapTitle} = getChapterDirectory(url) as {
+    const { title: chapTitle } = getChapterDirectory(url) as {
       title: string;
     };
     meta.chapterTitle = chapTitle;
   }
-  const basePath = "docs.amplify.aws";
+  const basePath = 'docs.amplify.aws';
   meta.url = basePath + router.asPath;
 
   return (
@@ -112,7 +129,7 @@ export default function Page({children, meta}: {children: any; meta?: any}) {
             url,
             directoryPath,
             menuIsOpen,
-            setMenuIsOpen,
+            setMenuIsOpen
           })
         : children}
     </Layout>
@@ -130,16 +147,58 @@ export function metaContent({
   url,
   directoryPath,
   menuIsOpen,
-  setMenuIsOpen,
+  setMenuIsOpen
+}: {
+  title: any;
+  chapterTitle: any;
+  headers: any;
+  children: any;
+  filters: any;
+  filterKey: any;
+  filterKind: any;
+  url: any;
+  directoryPath: any;
+  menuIsOpen: any;
+  setMenuIsOpen: any;
 }) {
   const menuRef = useRef(null);
   // Slice off the "@media " string at the start for use in JS instead of CSS
   const MQTabletJS = MQTablet.substring(6);
   // If the media query matches, then the user is on desktop and should not see the mobile toggle
   const onDesktop =
-    typeof window === "undefined"
+    typeof window === 'undefined'
       ? false
       : window.matchMedia(MQTabletJS).matches;
+
+  const [lastUpdatedDate, setLastUpdatedDate] = useState('');
+
+  function toReadableDate(date) {
+    const dateOptions: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    };
+
+    return new Date(date).toLocaleDateString('en-US', dateOptions);
+  }
+
+  function displayLastUpdatedString(date) {
+    if (date) {
+      return `Last Updated: ${toReadableDate(lastUpdatedDate)}`;
+    }
+
+    return '';
+  }
+
+  function updateLastUpdatedDate(date) {
+    const mostRecentDate =
+      new Date(date).getTime() >= new Date(lastUpdatedDate).getTime()
+        ? date
+        : lastUpdatedDate;
+    setLastUpdatedDate(mostRecentDate);
+    console.log('most recent date', mostRecentDate);
+  }
+
   return (
     <>
       <Menu
@@ -153,12 +212,19 @@ export function metaContent({
       ></Menu>
       <ContentStyle menuIsOpen={menuIsOpen}>
         <div>
-          <ChapterTitleStyle>{chapterTitle}</ChapterTitleStyle>
-          <h1>{title}</h1>
-          <CodeBlockProvider>
-            {children}
-            <NextPrevious url={url} filterKey={filterKey} />
-          </CodeBlockProvider>
+          <LastUpdatedDatesProvider
+            updateLastUpdatedDate={updateLastUpdatedDate}
+          >
+            <div>{displayLastUpdatedString(lastUpdatedDate)}</div>
+            <ChapterTitleStyle>{chapterTitle}</ChapterTitleStyle>
+            <div>
+              <h1>{title}</h1>
+            </div>
+            <CodeBlockProvider>
+              {children}
+              <NextPrevious url={url} filterKey={filterKey} />
+            </CodeBlockProvider>
+          </LastUpdatedDatesProvider>
         </div>
       </ContentStyle>
       <TableOfContents title={title}>{headers}</TableOfContents>
