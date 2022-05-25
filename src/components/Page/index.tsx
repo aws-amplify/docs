@@ -6,13 +6,13 @@ import Layout from '../Layout/index';
 import Menu from '../Menu/index';
 import TableOfContents from '../TableOfContents/index';
 import NextPrevious from '../NextPrevious/index';
-import { ContentStyle, ChapterTitleStyle } from './styles';
+import { ContentStyle, ChapterTitleStyle, LastUpdatedStyle } from './styles';
 import {
   getChapterDirectory,
   isProductRoot
 } from '../../utils/getLocalDirectory';
 import SidebarLayoutToggle from '../SidebarLayoutToggle';
-import { useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { MQTablet } from '../media';
 import {
   filterMetadataByOption,
@@ -22,20 +22,27 @@ import ChooseFilterPage from '../../pages/ChooseFilterPage';
 import { parseLocalStorage } from '../../utils/parseLocalStorage';
 import { withFilterOverrides } from '../../utils/withFilterOverrides';
 import { FeedbackToggle } from '../Feedback';
+import LastUpdatedDatesProvider from '../LastUpdatedProvider';
 
 export default function Page({
   children,
-  meta
+  meta,
+  frontmatter
 }: {
   children: any;
   meta?: any;
+  frontmatter?: any;
 }) {
   const router = useRouter();
   if (!router.isReady) {
     const [menuIsOpen, setMenuIsOpen] = useState(false);
+    // const [lastUpdatedDate, setLastUpdatedDate] = useState('');
     useRef(null);
     return <></>;
   }
+
+  // const [lastUpdatedDate, setLastUpdatedDate] = useState('');
+
   let url = router.asPath;
   // remove trailing slash.  this is important on pages like /cli/index.mdx
   // or /console/index.mdx where router.asPath has a trailing slash and
@@ -43,6 +50,7 @@ export default function Page({
   if (url.endsWith('/')) {
     url = url.slice(0, -1);
   }
+
   const directoryPath = router.pathname;
   let filterKey = '',
     filterKind = '';
@@ -67,7 +75,7 @@ export default function Page({
   const headers = traverseHeadings(children, filterKey);
   let filters = gatherAllFilters(children, filterKind);
   // special cases
-  if (url.startsWith("/sdk")) {
+  if (url.startsWith('/sdk')) {
     filters = filters.filter(
       (filter) => filter !== 'flutter' && filter !== 'js'
     );
@@ -141,6 +149,18 @@ export function metaContent({
   directoryPath,
   menuIsOpen,
   setMenuIsOpen
+}: {
+  title: any;
+  chapterTitle: any;
+  headers: any;
+  children: any;
+  filters: any;
+  filterKey: any;
+  filterKind: any;
+  url: any;
+  directoryPath: any;
+  menuIsOpen: any;
+  setMenuIsOpen: any;
 }) {
   const menuRef = useRef(null);
   // Slice off the "@media " string at the start for use in JS instead of CSS
@@ -150,7 +170,36 @@ export function metaContent({
     typeof window === 'undefined'
       ? false
       : window.matchMedia(MQTabletJS).matches;
-  
+
+  const [lastUpdatedDate, setLastUpdatedDate] = useState('');
+
+  function toReadableDate(date) {
+    const dateOptions: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    };
+
+    return new Date(date).toLocaleDateString('en-US', dateOptions);
+  }
+
+  function displayLastUpdatedString(date) {
+    if (date) {
+      return `Last Updated: ${toReadableDate(lastUpdatedDate)}`;
+    }
+
+    return '';
+  }
+
+  function updateLastUpdatedDate(date) {
+    const mostRecentDate =
+      new Date(date).getTime() >= new Date(lastUpdatedDate).getTime()
+        ? date
+        : lastUpdatedDate;
+    setLastUpdatedDate(mostRecentDate);
+    console.log('most recent date', mostRecentDate);
+  }
+
   return (
     <>
       <Menu
@@ -164,12 +213,19 @@ export function metaContent({
       ></Menu>
       <ContentStyle menuIsOpen={menuIsOpen}>
         <div>
-          <ChapterTitleStyle>{chapterTitle}</ChapterTitleStyle>
-          <h1>{title}</h1>
-          <CodeBlockProvider>
-            {children}
-            <NextPrevious url={url} filterKey={filterKey} />
-          </CodeBlockProvider>
+          <LastUpdatedDatesProvider
+            updateLastUpdatedDate={updateLastUpdatedDate}
+          >
+            <div>{displayLastUpdatedString(lastUpdatedDate)}</div>
+            <ChapterTitleStyle>{chapterTitle}</ChapterTitleStyle>
+            <div>
+              <h1>{title}</h1>
+            </div>
+            <CodeBlockProvider>
+              {children}
+              <NextPrevious url={url} filterKey={filterKey} />
+            </CodeBlockProvider>
+          </LastUpdatedDatesProvider>
         </div>
       </ContentStyle>
       <TableOfContents title={title}>{headers}</TableOfContents>
@@ -187,7 +243,7 @@ export function metaContent({
           />
         </SidebarLayoutToggle>
       )}
-      <FeedbackToggle/>
+      <FeedbackToggle />
     </>
   );
 }

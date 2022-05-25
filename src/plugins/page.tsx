@@ -8,7 +8,7 @@ module.exports = (async () => {
           type: 'export',
           default: true,
           value:
-            'export default ({ children }) => <Page meta={meta}>{children}</Page>'
+            'export default ({ children }) => <Page frontmatter={frontmatter} meta={meta}>{children}</Page>'
         });
       }
     });
