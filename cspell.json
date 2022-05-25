@@ -1,4 +1,5 @@
 {
+  "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
   "version": "0.1",
   "language": "en",
   "words": [
@@ -1460,6 +1461,10 @@
     "geofences",
     "savegeofences",
     "myfunction"
+  ],
+  "ignoreRegExpList": [
+    "^`{3}(?<language>[a-z].+)([^\n]*\n+)+`{3}$",
+    "^`{1}([^`\n]+)`{1}$"
   ],
   "flagWords": ["hte"]
 }
