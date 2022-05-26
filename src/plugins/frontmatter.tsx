@@ -35,12 +35,14 @@ module.exports = (async () => {
                   case 'export':
                   case 'code':
                   case 'jsx':
-                    return trimContent.indexOf(element.value) > -1;
+                  case 'list':
+                    // Return true because these element types should not exist in the frontmatter
+                    return true;
                   case 'thematicBreak':
                     // skip
                     break;
                   default:
-                    console.log('Found unhandled element type while trying to remove frontmatter: ', element.type)
+                    console.log('Found unhandled element type while trying to remove frontmatter: ', element.type);
                     break;
                 }
             });
