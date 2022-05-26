@@ -22,8 +22,6 @@ module.exports = async (phase, { defaultConfig }) => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const importPlugin = await require('./src/plugins/import.tsx');
 
-  const locateFragmentsPlugin = await require('./src/plugins/locate-fragments.tsx');
-
   const frontmatterPlugin = await require('./src/plugins/frontmatter.tsx');
 
   const withMDX = require('@next/mdx')({
