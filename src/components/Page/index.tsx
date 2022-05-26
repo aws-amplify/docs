@@ -216,10 +216,6 @@ export function metaContent({
         : lastUpdatedDate;
 
     setLastUpdatedDate(mostRecentDate);
-
-    console.log('\ndate', new Date(date));
-    console.log('lastUpdatedDate', new Date(lastUpdatedDate));
-    console.log('mostRecentDate', new Date(mostRecentDate));
   }
 
   return (
