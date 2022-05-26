@@ -33,6 +33,7 @@
     "gray-matter": "^4.0.3",
     "html-entities": "^1.2.1",
     "instantsearch.js": "^4.39.1",
+    "lint-staged": "12.4.1",
     "next": "^12.1.4",
     "next-transpile-modules": "^9.0.0",
     "parse-imports": "^1.1.0",
@@ -110,6 +111,7 @@
     "build": "yarn task generate-sitemap && next build && next export -o client/www/next-build",
     "next-build": "next build",
     "next-start": "next start",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint:staged": "lint-staged"
   }
 }
