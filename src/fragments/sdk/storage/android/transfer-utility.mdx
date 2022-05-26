@@ -1,3 +1,6 @@
+---
+lastUpdated: '2021-08-16T22:59:55.000Z'
+---
 To make it easy to upload and download objects from Amazon S3, we provide a TransferUtility component with built-in support for background transfers, progress tracking, and MultiPart uploads. The Transfer Utility component set includes a Service called the TransferService, which monitors network connectivity changes. When the device goes offline, the TransferService will pause all ongoing transfers; when the device is back online, the Transfer Service will resume paused transfers.
 
 Starting with version 2.7.0, the `TransferService` will not be automatically started or stopped by `TransferUtility`. You have to start `TransferService` manually from your application. A recommended way is to start the service upon Application startup, by including the following line in the `onCreate` method of your app's Application class.

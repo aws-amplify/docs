@@ -1,3 +1,6 @@
+---
+lastUpdated: '2021-08-16T22:59:55.000Z'
+---
 ```dart
 StreamSubscription hubSubscription = Amplify.Hub.listen([HubChannel.Auth], (hubEvent) {
   if (hubEvent.eventName == 'SIGNED_OUT') {

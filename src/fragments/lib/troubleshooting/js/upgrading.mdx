@@ -1,3 +1,6 @@
+---
+lastUpdated: '2021-08-16T22:59:55.000Z'
+---
 When upgrading Amplify packages, it is important to make sure that there are no duplicate versions of Amplify packages in the `node_modules` folder tree as a result of the upgrade. Having multiple versions of packages can yield unexpected behavior as modules imported in your code might point to versions not configured by Amplify when calling `Amplify.configure`.
 
 A likely scenario that could point to duplicate versions of packages is getting console messages like:
