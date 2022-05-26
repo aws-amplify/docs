@@ -36,6 +36,9 @@ module.exports = (async () => {
                   case 'code':
                   case 'jsx':
                     return trimContent.indexOf(element.value) > -1;
+                  case 'thematicBreak':
+                    // skip
+                    break;
                   default:
                     console.log('Found unhandled element type while trying to remove frontmatter: ', element.type)
                     break;
