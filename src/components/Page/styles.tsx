@@ -81,3 +81,7 @@ export const ChapterTitleStyle = styled.h1`
   color: var(--font-color-secondary);
   font-weight: bold;
 `;
+
+export const LastUpdatedStyle = styled.p`
+  font-style: italic;
+`;

@@ -12,7 +12,7 @@ import {
   isProductRoot
 } from '../../utils/getLocalDirectory';
 import SidebarLayoutToggle from '../SidebarLayoutToggle';
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { MQTablet } from '../media';
 import {
   filterMetadataByOption,
@@ -36,12 +36,11 @@ export default function Page({
   const router = useRouter();
   if (!router.isReady) {
     const [menuIsOpen, setMenuIsOpen] = useState(false);
-    // const [lastUpdatedDate, setLastUpdatedDate] = useState('');
+    const [lastUpdatedDate, setLastUpdatedDate] = useState(0);
+    const [prevFilterKey, setPrevFilterKey] = useState('');
     useRef(null);
     return <></>;
   }
-
-  // const [lastUpdatedDate, setLastUpdatedDate] = useState('');
 
   let url = router.asPath;
   // remove trailing slash.  this is important on pages like /cli/index.mdx
@@ -102,6 +101,20 @@ export default function Page({
   }
   const [menuIsOpen, setMenuIsOpen] = useState(false);
 
+  let pageLastUpdated = 0;
+  if (frontmatter && frontmatter.lastUpdated) {
+    pageLastUpdated = new Date(frontmatter.lastUpdated).getTime();
+  }
+
+  const [prevFilterKey, setPrevFilterKey] = useState('');
+  const [lastUpdatedDate, setLastUpdatedDate] = useState(pageLastUpdated);
+
+  if (filterKey !== prevFilterKey) {
+    // "Reset" the lastUpdated date when filterKey changes
+    setLastUpdatedDate(pageLastUpdated);
+    setPrevFilterKey(filterKey);
+  }
+
   meta.chapterTitle = '';
   if (meta && !isProductRoot(url)) {
     const { title: chapTitle } = getChapterDirectory(url) as {
@@ -130,7 +143,9 @@ export default function Page({
             url,
             directoryPath,
             menuIsOpen,
-            setMenuIsOpen
+            setMenuIsOpen,
+            lastUpdatedDate,
+            setLastUpdatedDate
           })
         : children}
     </Layout>
@@ -148,7 +163,9 @@ export function metaContent({
   url,
   directoryPath,
   menuIsOpen,
-  setMenuIsOpen
+  setMenuIsOpen,
+  lastUpdatedDate,
+  setLastUpdatedDate
 }: {
   title: any;
   chapterTitle: any;
@@ -161,6 +178,8 @@ export function metaContent({
   directoryPath: any;
   menuIsOpen: any;
   setMenuIsOpen: any;
+  lastUpdatedDate: number;
+  setLastUpdatedDate: any;
 }) {
   const menuRef = useRef(null);
   // Slice off the "@media " string at the start for use in JS instead of CSS
@@ -170,8 +189,6 @@ export function metaContent({
     typeof window === 'undefined'
       ? false
       : window.matchMedia(MQTabletJS).matches;
-
-  const [lastUpdatedDate, setLastUpdatedDate] = useState('');
 
   function toReadableDate(date) {
     const dateOptions: Intl.DateTimeFormatOptions = {
@@ -192,12 +209,18 @@ export function metaContent({
   }
 
   function updateLastUpdatedDate(date) {
+    const dateInTime = new Date(date).getTime();
+
     const mostRecentDate =
-      new Date(date).getTime() >= new Date(lastUpdatedDate).getTime()
-        ? date
+      dateInTime >= lastUpdatedDate
+        ? dateInTime
         : lastUpdatedDate;
+
     setLastUpdatedDate(mostRecentDate);
-    console.log('most recent date', mostRecentDate);
+
+    console.log('\ndate', new Date(date));
+    console.log('lastUpdatedDate', new Date(lastUpdatedDate));
+    console.log('mostRecentDate', new Date(mostRecentDate));
   }
 
   return (
@@ -216,10 +239,10 @@ export function metaContent({
           <LastUpdatedDatesProvider
             updateLastUpdatedDate={updateLastUpdatedDate}
           >
-            <div>{displayLastUpdatedString(lastUpdatedDate)}</div>
             <ChapterTitleStyle>{chapterTitle}</ChapterTitleStyle>
             <div>
               <h1>{title}</h1>
+              <LastUpdatedStyle>{displayLastUpdatedString(lastUpdatedDate)}</LastUpdatedStyle>
             </div>
             <CodeBlockProvider>
               {children}
