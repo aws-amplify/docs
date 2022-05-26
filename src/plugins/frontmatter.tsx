@@ -9,6 +9,8 @@ module.exports = (async () => {
       if (index === 0) {
         const { data: frontmatter, content } = matter(file.contents);
 
+        const trimContent = content.trim();
+        
         tree.children.push({
           type: 'export',
           value: `export const frontmatter = ${JSON.stringify(
@@ -19,14 +21,30 @@ module.exports = (async () => {
         });
 
         if (tree.children[0].type === 'thematicBreak') {
-          // Find the index of the closing thematicBreak to "remove" the frontmatter from the mdx tree
+          // Find the index of the first element after the "frontmatter"
           const closingThematicBreakIndex = tree.children.findIndex(
-            (element, currIndex) => currIndex > 0 && element.type === 'thematicBreak'
-          );
+              (element, currIndex) => {
+                switch (element.type) {
+                  case 'paragraph':
+                  case 'heading':
+                    if (element.children && element.children.length > 0) {
+                      return trimContent.indexOf(element.children[0].value) > -1;
+                    }
+                    break;
+                  case 'import':
+                  case 'export':
+                  case 'code':
+                  case 'jsx':
+                    return trimContent.indexOf(element.value) > -1;
+                  default:
+                    console.log('Found unhandled element type while trying to remove frontmatter: ', element.type)
+                    break;
+                }
+            });
 
           if (closingThematicBreakIndex !== -1) {
             // Remove the frontmatter
-            tree.children.splice(0, closingThematicBreakIndex + 1);
+            tree.children.splice(0, closingThematicBreakIndex);
           }
         }
       }

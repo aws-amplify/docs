@@ -21,7 +21,7 @@ module.exports = async (phase, { defaultConfig }) => {
   const codeBlockPlugin = await require('./src/plugins/code-block.tsx');
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const importPlugin = await require('./src/plugins/import.tsx');
-
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const frontmatterPlugin = await require('./src/plugins/frontmatter.tsx');
 
   const withMDX = require('@next/mdx')({
