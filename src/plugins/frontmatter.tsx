@@ -4,7 +4,6 @@ module.exports = (async () => {
 
   const frontmatterPlugin = () => (tree, file) => {
     // Goes through the markdown tree and builds the frontmatter
-    console.log("\ninside frontmatter plugin for file: ", file.path);
     visit(tree, 'thematicBreak', (node, index) => {
       // Only visit the 'thematicBreak' at index 0 because that's where the frontmatter will be
       if (index === 0) {
