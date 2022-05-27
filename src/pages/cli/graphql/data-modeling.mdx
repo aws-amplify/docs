@@ -388,6 +388,13 @@ type Comment @model {
 > Note: The `@belongsTo` directive requires that a `@hasOne` or `@hasMany` relationship already exists from parent to the related model. 
 
 ### Many-to-many relationship
+
+<Callout>
+
+Many to many relationships currently cannot be represented on iOS due to Swift language limitations.
+A solution is actively being worked on.
+</Callout>
+
 Create a many-to-many relationship between two models with the `@manyToMany` directive. Provide a common `relationName` on both models to join them into a many-to-many relationship. 
 
 ```graphql
