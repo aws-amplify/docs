@@ -212,61 +212,55 @@ export function metaContent({
     const dateInTime = new Date(date).getTime();
 
     const mostRecentDate =
-      dateInTime >= lastUpdatedDate
-        ? dateInTime
-        : lastUpdatedDate;
+      dateInTime >= lastUpdatedDate ? dateInTime : lastUpdatedDate;
 
     setLastUpdatedDate(mostRecentDate);
-
-    console.log('\ndate', new Date(date));
-    console.log('lastUpdatedDate', new Date(lastUpdatedDate));
-    console.log('mostRecentDate', new Date(mostRecentDate));
   }
 
   return (
     <>
-      <Menu
-        filters={filters}
-        filterKey={filterKey}
-        filterKind={filterKind}
-        url={url}
-        directoryPath={directoryPath}
-        ref={menuRef}
-        setMenuIsOpen={setMenuIsOpen}
-      ></Menu>
-      <ContentStyle menuIsOpen={menuIsOpen}>
-        <div>
-          <LastUpdatedDatesProvider
-            updateLastUpdatedDate={updateLastUpdatedDate}
-          >
+      <LastUpdatedDatesProvider updateLastUpdatedDate={updateLastUpdatedDate}>
+        <Menu
+          filters={filters}
+          filterKey={filterKey}
+          filterKind={filterKind}
+          url={url}
+          directoryPath={directoryPath}
+          ref={menuRef}
+          setMenuIsOpen={setMenuIsOpen}
+        ></Menu>
+        <ContentStyle menuIsOpen={menuIsOpen}>
+          <div>
             <ChapterTitleStyle>{chapterTitle}</ChapterTitleStyle>
             <div>
               <h1>{title}</h1>
-              <LastUpdatedStyle>{displayLastUpdatedString(lastUpdatedDate)}</LastUpdatedStyle>
+              <LastUpdatedStyle>
+                {displayLastUpdatedString(lastUpdatedDate)}
+              </LastUpdatedStyle>
             </div>
             <CodeBlockProvider>
               {children}
               <NextPrevious url={url} filterKey={filterKey} />
             </CodeBlockProvider>
-          </LastUpdatedDatesProvider>
-        </div>
-      </ContentStyle>
-      <TableOfContents title={title}>{headers}</TableOfContents>
-      {!onDesktop && (
-        <SidebarLayoutToggle menuRef={menuRef}>
-          <img
-            alt="Open menu"
-            className="burger-graphic"
-            src="/assets/burger.svg"
-          />
-          <img
-            alt="Close menu"
-            className="ex-graphic"
-            src="/assets/close.svg"
-          />
-        </SidebarLayoutToggle>
-      )}
-      <FeedbackToggle />
+          </div>
+        </ContentStyle>
+        <TableOfContents title={title}>{headers}</TableOfContents>
+        {!onDesktop && (
+          <SidebarLayoutToggle menuRef={menuRef}>
+            <img
+              alt="Open menu"
+              className="burger-graphic"
+              src="/assets/burger.svg"
+            />
+            <img
+              alt="Close menu"
+              className="ex-graphic"
+              src="/assets/close.svg"
+            />
+          </SidebarLayoutToggle>
+        )}
+        <FeedbackToggle />
+      </LastUpdatedDatesProvider>
     </>
   );
 }
