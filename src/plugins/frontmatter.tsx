@@ -36,13 +36,14 @@ module.exports = (async () => {
                   case 'code':
                   case 'jsx':
                   case 'list':
+                  case 'blockquote':
                     // Return true because these element types should not exist in the frontmatter
                     return true;
                   case 'thematicBreak':
                     // skip
-                    break;
+                    return false;
                   default:
-                    console.log('Found unhandled element type while trying to remove frontmatter: ', element.type);
+                    console.log('Found unhandled element type while trying to remove frontmatter: ', element.type, file.path);
                     break;
                 }
             });
