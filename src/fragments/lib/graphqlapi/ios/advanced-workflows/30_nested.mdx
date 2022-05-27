@@ -1,6 +1,6 @@
 ```swift
 extension GraphQLRequest {
-    static func getPostWithComments(byId id: String) -> GraphQLRequest<Post.self> {
+    static func getPostWithComments(byId id: String) -> GraphQLRequest<Post> {
         let document = """
         query getPost($id: ID!) {
           getPost(id: $id) {
@@ -18,9 +18,12 @@ extension GraphQLRequest {
           }
         }
         """
-        return GraphQLRequest<JSONValue>(document: document,
-                                         variables: ["id": id],
-                                         responseType: Post.self)
+        return GraphQLRequest<Post>(
+          document: document,
+          variables: ["id": id],
+          responseType: Post.self,
+          decodePath: "getPost"
+        )
     }
 }
 

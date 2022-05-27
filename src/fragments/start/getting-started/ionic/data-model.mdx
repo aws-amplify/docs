@@ -9,24 +9,10 @@ amplify add api
 Accept the **default values** which are highlighted below:
 
 ```console
-? Please select from one of the below mentioned services:
-# GraphQL
-? Provide API name:
-# myapi
-? Choose the default authorization type for the API:
-# API Key
-? Enter a description for the API key:
-# demo
-? After how many days from now the API key should expire:
-# 7 (or your preferred expiration)
-? Do you want to configure advanced settings for the GraphQL API:
-# No
-? Do you have an annotated GraphQL schema?
-# No
-? Choose a schema template:
-# Single object with fields
-? Do you want to edit the schema now?
-# Yes
+? Select from one of the below mentioned services: GraphQL
+? Here is the GraphQL API that we will create. Select a setting to edit or continue Continue
+? Choose a schema template: Single object with fields (e.g., “Todo” with ID, name, description)
+✔ Do you want to edit the schema now? (Y/n) · yes
 ```
 
 The CLI should open this GraphQL schema in your text editor.
@@ -116,41 +102,76 @@ Note: If you are using Angular 6 or above, you may need to add the following to 
 };
 ```
 
-In your `src/app/app.component.ts` file, add the following imports and modifications to your class to to add data to your database with a mutation by using the `API.service` file which was generated when you ran `amplify add api`:
+First, enable the `AmplifyAuthenticatorModule` in `src/app/app.module.ts`:
 
 ```javascript
-import { APIService } from './API.service';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { RouteReuseStrategy } from '@angular/router';
 
-constructor(
-    //other variables
-    private apiService: APIService
-  ){
-    this.initializeApp();
-  }
+import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+
+import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
+import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
+
+@NgModule({
+  declarations: [AppComponent],
+  entryComponents: [],
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    AmplifyAuthenticatorModule // UI Authenticator Module
+  ],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  bootstrap: [AppComponent]
+})
+export class AppModule {}
+```
+
+Then make sure to add the Authenticator styles into your `src/global.scss` file.
+
+```
+@import '~@aws-amplify/ui-angular/theme.css';
+```
+
+Next, in your `src/app/app.component.ts` file, add the following imports and modifications to your class to to add data to your database with a mutation by using the `API.service` file which was generated when you ran `amplify add api`:
+
+```javascript
+import { Component, OnInit } from '@angular/core';
+import { APIService, Todo } from './API.service';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: 'app.component.html',
+  styleUrls: ['app.component.scss'],
+})
+export class AppComponent implements OnInit {
+  public todos: Array<Todo>;
+
+  constructor(private apiService: APIService) {}
+
+  ngOnInit() {}
 
   createTodo() {
     this.apiService.CreateTodo({
-        name: 'ionic',
-        description: 'testing'
-    });
-  }
-```
-
-Next, update `initializeApp()` in `src/app/app.component.ts` to list all items in the database by running a query on start and populating a local variable called `todos`:
-
-```javascript
-export class AppComponent {
-  todos: Array<any>;
-
-  initializeApp() {
-    this.platform.ready().then(() => {
-      //other code
-      this.apiService.ListTodos().then((evt) => {
-        this.todos = evt.items;
-      });
+      name: 'ionic',
+      description: 'testing',
     });
   }
 }
+
+```
+
+Next, update `ngOnInit()` in `src/app/app.component.ts` to list all items in the database by running a query on start and populating a local variable called `todos`:
+
+```javascript
+  ngOnInit() {
+    this.apiService.ListTodos().then((evt) => {
+      this.todos = evt.items;
+    });
+  }
 ```
 
 Update the code in `src/app/app.component.html` with the following to display the list of todos:
@@ -166,18 +187,19 @@ Update the code in `src/app/app.component.html` with the following to display th
 </ion-app>
 ```
 
-Finally, to subscribe to realtime data, update `initializeApp()` to setup a subscription on app start and update the `todos` array when new events are received:
+Finally, to subscribe to realtime data, update `ngOnInit()` to setup a subscription on app start and update the `todos` array when new events are received:
 
 ```javascript
-initializeApp() {
-  this.platform.ready().then(() => {
-    //other code
+  ngOnInit() {
+    this.apiService.ListTodos().then((evt) => {
+      this.todos = evt.items;
+    });
+
     this.apiService.OnCreateTodoListener.subscribe((evt) => {
-      const data = (evt as any).value.data.onCreateTodo;
+      const data = evt.value.data.onCreateTodo;
       this.todos = [...this.todos, data];
     });
   }
-}
 ```
 
 > The code above imports only the API and PubSub category. To import the entire Amplify library use `import { Amplify } from 'aws-amplify'`. However, importing only the required categories is recommended as it will greatly reduce the final bundle size.
