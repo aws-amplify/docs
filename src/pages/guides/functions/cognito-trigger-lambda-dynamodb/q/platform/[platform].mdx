@@ -126,6 +126,27 @@ exports.handler = async (event, context) => {
 };
 ```
 
+<Callout>
+
+If you're using Amplify DataStore, likely set up through Amplify Studio, you'll also need to add the `_version` and `_lastChangedAt` field to your request to DynamoDB
+
+```js
+let params = {
+  Item: {
+    id: { S: event.request.userAttributes.sub },
+    __typename: { S: "User" },
+    email: { S: event.request.userAttributes.email },
+    createdAt: { S: date.toISOString() },
+    updatedAt: { S: date.toISOString() },
+    _version: { N: "1" },
+    _lastChangedAt: { N: Date.now().toString() },
+  },
+  TableName: process.env.API_{YOUR_APP_NAME}_USERTABLE_NAME,
+};
+```
+  
+<Callout />
+
 You can access your table name by calling the environment variable API_{APP_NAME}_USERTABLE_NAME.
 
 Deploy the lambda function :
