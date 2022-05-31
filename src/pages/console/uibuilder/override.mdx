@@ -3,18 +3,12 @@ export const meta = {
   description: `Figma to React code with Amplify Studio`,
 };
 
-<Callout warning>
-
-All UI development capabilities are currently available under Public Preview.
-
-</Callout>
-
 When you run `amplify pull`, Amplify automatically generates JSX and TS versions of your Figma components. You cannot directly edit the code for these components as they will get overwritten on the next `pull`, but we have exposed mechanisms to extend the code. 
 
 ## Extend generated code
 
 ### Extend generated code via component prop
-When using Figma created components, you can use any exposed component props. The example code below shows how you can add pagination to a collection. The `isPaginated` prop is a property of the [`<Collection/>`](https://ui.docs.amplify.aws/components/collection) component. Similarly, you can use any prop such as `gap` or `isSearchable` to extend the collection.
+When using Figma created components, you can use any exposed component props. The example code below shows how you can add pagination to a collection. The `isPaginated` prop is a property of the [`<Collection/>`](https://ui.docs.amplify.aws/react/components/collection) component. Similarly, you can use any prop such as `gap` or `isSearchable` to extend the collection.
 
 ```
 import {AmpligramCollection} from './ui-components'

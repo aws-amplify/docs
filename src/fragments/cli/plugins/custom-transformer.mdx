@@ -264,7 +264,7 @@ public transform(schema: string): DeploymentResources {
 
 ### The Transformer Context
 
-The transformer context serves like an accumulator that is manipulated by transformers. See the [code](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-graphql-transformer-core/src/transformer-context/index.ts) to see what methods are available
+The transformer context serves like an accumulator that is manipulated by transformers. See the [code](https://github.com/aws-amplify/amplify-category-api/blob/main/packages/amplify-graphql-transformer-core/src/transformer-context/index.ts) to see what methods are available
 to you.
 
 > For now, the transformer only support CloudFormation and uses [AWS CDK](https://aws.amazon.com/cdk) to create CloudFormation resources in code.
@@ -284,7 +284,7 @@ To add a custom GraphQL transformer to the list of transformers, they need to be
 
 ### Example
 
-As an example let's walk through how we implemented the [`@model`](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-graphql-model-transformer/src/graphql-model-transformer.ts) transformer. The first thing to do is to define a directive for our transformer.
+As an example let's walk through how we implemented the [`@model`](https://github.com/aws-amplify/amplify-category-api/blob/main/packages/amplify-graphql-model-transformer/src/graphql-model-transformer.ts) transformer. The first thing to do is to define a directive for our transformer.
 
 > Note: Some parts of the code will not be shown for brevity.
 
@@ -309,9 +309,9 @@ type Post @model {
 ```
 
 The next step after defining the directive is to implement the transformer's business logic. The `@aws-amplify/graphql-transformer-core` package makes this a little easier
-by exporting a common class through which we may define transformers. Users extend the [`TransformerPluginBase`](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-graphql-transformer-core/src/transformation/transformer-plugin-base.ts) class and implement the required functions.
+by exporting a common class through which we may define transformers. Users extend the [`TransformerPluginBase`](https://github.com/aws-amplify/amplify-category-api/blob/main/packages/amplify-graphql-transformer-core/src/transformation/transformer-plugin-base.ts) class and implement the required functions.
 
-> Note: In this example `@model` extended from a higher level class, [`TransformerModelBase`](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-graphql-transformer-core/src/transformation/transformer-plugin-base.ts).
+> Note: In this example `@model` extended from a higher level class, [`TransformerModelBase`](https://github.com/aws-amplify/amplify-category-api/blob/main/packages/amplify-graphql-transformer-core/src/transformation/transformer-plugin-base.ts).
 
 ```ts
 export class ModelTransformer extends TransformerModelBase implements TransformerModelProvider {
@@ -346,7 +346,7 @@ The following snippet shows the `prepare` method implementation which takes all 
   };
 ```
 
-For the full source code of the `@model` transformer, go [here](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-graphql-model-transformer/src/graphql-model-transformer.ts).
+For the full source code of the `@model` transformer, go [here](https://github.com/aws-amplify/amplify-category-api/blob/main/packages/amplify-graphql-model-transformer/src/graphql-model-transformer.ts).
 
 ## VS Code Extension
 

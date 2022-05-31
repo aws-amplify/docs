@@ -50,8 +50,8 @@ Use the guide below to select the correct authorization strategy for your use ca
 
 | **Recommended use case** | **Strategy** | **Provider** |
 |---|---|---|
-| Public data access. Anyone with the AppSync API Key should have access. | [`public`]() | `apiKey` |
-| Recommended for production environment's public data access. Anyone signed in or not (verified by IAM) should have access. | [`public`]() | `iam` |
+| Public data access where users or devices are anonymous. Anyone with the AppSync API key is granted access. | [`public`]() | `apiKey` |
+| Recommended for production environment's public data access. Public data access where unauthenticated users or devices are granted permissions using AWS IAM controls. | [`public`]() | `iam` |
 | Per user data access. Access is restricted to the "owner" of a record. Leverages `amplify add auth` Cognito user pool by default. | [`owner`]() | `userPools` / `oidc` |
 | Any signed-in data access. Unlike owner-based access, **any** signed-in user has access. | [`private`]() | `userPools` / `oidc` / `iam` |
 | Per user group data access. A specific or dynamically configured group of users have access | [`group`]() | `userPools` / `oidc` |
@@ -95,7 +95,7 @@ type Todo @model @auth(rules: [{ allow: owner, operations: [create, read, update
 
 Behind the scenes, Amplify will automatically add a `owner: String` field to each record which contains the record owner's identity information upon record creation.
 
-By default, the Cognito user pool's user information is populated into the `owner` field. You can alternatively configure [OpenID Connect as an authorization provider](#using-oidc-authorization-provider).
+By default, the Cognito user pool's user information is populated into the `owner` field. The value saved includes `sub` and `username` in the format `<sub>::<username>`. The API will authorize against the full value of `<sub>::<username>` or `sub` / `username` separately and return `username`. You can alternatively configure [OpenID Connect as an authorization provider](#using-oidc-authorization-provider).
 
 You can override the `owner` field to your own preferred field, by specifying a custom `ownerField` in the authorization rule.
 
@@ -122,7 +122,7 @@ In the example above, upon record creation, the `authors` list is populated with
 ### Signed-in user data access
 To restrict a record's access to every signed-in user, use the `private` authorization strategy.
 
-> If you want to restrict a record's access to a specific user, see [Per-user / owner-based data access](per-user--owner-based-data-access). `private` authorization applies the authorization rule to **every** signed-in user access.
+> If you want to restrict a record's access to a specific user, see [Per-user / owner-based data access](#per-user--owner-based-data-access). `private` authorization applies the authorization rule to **every** signed-in user access.
 
 ```graphql
 type Todo @model @auth(rules: [{ allow: private }]) {
@@ -280,7 +280,8 @@ In the example above:
 
 <Callout warning>
 
-To facilitate field-level authorization with subscriptions, you need to either apply field-level authorization rules to all **required** fields, make the other fields nullable, or disable subscriptions by setting it to public or off.
+To prevent sensitive data from being sent over subscriptions, the GraphQL Transformer needs to alter the response of mutations for those fields by setting them to null. Therefore, to facilitate field-level authorization with subscriptions, you need to either apply field-level authorization rules to all **required** fields, make the other fields nullable, or disable subscriptions by setting it to public or off. 
+  
 </Callout>
 
 In the example above:
@@ -342,7 +343,7 @@ The example above highlights the supported authorization strategies with `oidc` 
 
 ### Configure custom identity and group claims
 
-`@auth` supports using custom claims if you do not wish to use the default Amazon Cognito-provided "username" or "cognito:groups" claims from your JWT token. This can be helpful if you are using tokens from a 3rd party OIDC system or if you wish to populate a claim with a list of groups from an external system, such as when using a [Pre Token Generation Lambda Trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-token-generation.html) which reads from a database. To use custom claims specify `identityClaim` or `groupClaim` as appropriate like in the example below:
+`@auth` supports using custom claims if you do not wish to use the default Amazon Cognito-provided "cognito:groups" or the double-colon-delimited claims, "sub::username", from your JWT token. This can be helpful if you are using tokens from a 3rd party OIDC system or if you wish to populate a claim with a list of groups from an external system, such as when using a [Pre Token Generation Lambda Trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-token-generation.html) which reads from a database. To use custom claims specify `identityClaim` or `groupClaim` as appropriate like in the example below:
 
 ```graphql
 type Post @model
@@ -396,7 +397,7 @@ input AuthRule {
   allow: AuthStrategy!
   provider: AuthProvider
   ownerField: String # defaults to "owner" when using owner auth
-  identityClaim: String # defaults to "username" when using owner auth
+  identityClaim: String # defaults to "sub::username" when using owner auth
   groupClaim: String # defaults to "cognito:groups" when using Group auth
   groups: [String]  # Required when using Static Group auth
   groupsField: String # defaults to "groups" when using Dynamic Group auth

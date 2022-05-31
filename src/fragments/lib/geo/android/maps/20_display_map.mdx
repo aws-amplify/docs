@@ -1,5 +1,6 @@
+### Select your user interface
 
-There are two UI components available to render maps on an Android app, the `MapLibreView` and the `AmplifyMapView`. The former is an extension of the standard [Android MapLibre MapView](https://docs.maptiler.com/maplibre-gl-native-android/android-basic-get-started/) that is integrated with the `Amplify.Geo` APIs, while the latter is a wrapper with built-in location search, map controls, markers and a few standard UX interactions.
+There are two UI components available to render maps on an Android app, the `MapLibreView` and the `AmplifyMapView`. The `MapLibreView` is an extension of the standard [Android MapLibre MapView](https://docs.maptiler.com/maplibre-gl-native-android/android-basic-get-started/) that is integrated with the `Amplify.Geo` APIs, while the `AmplifyMapView` is a wrapper with built-in location search, map controls, markers and a few standard UX interactions.
 
 #### `MapLibreView` vs `AmplifyMapView`
 
@@ -7,67 +8,59 @@ If the goal is to customize the UI, the `MapLibreView` provides a plain map that
 
 Note that even though the extensibility of `AmplifyMapView` is limited, you have access to the wrapped `MapLibreView` through the `mapView` property (`getMapView()` on Java). So any API available to `MapLibreView` is also available on `AmplifyMapView`.
 
+## MapLibreView
+
+The `MapLibreView` is an extension of the standard `MapView` provided by the MapLibre library. The implementation adds the `Amplify.Geo` integration behind the scenes to enable developers to focus on their UI instead of the library integration. That also means all MapLibre APIs are available and will work as expected. Check the [official MapLibre SDK for Android documentation](https://docs.maptiler.com/maplibre-gl-native-android/android-basic-get-started/) for the API reference and guides.
+
 ### Add a map to your app
 
 1. Navigate to your app's `src/main/res/layout` directory in Android Studio
 
 2. Create a new layout named `activity_main.xml`, or use an existing layout of your choice, and add the following:
 
-  <BlockSwitcher>
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
 
-  <Block name="MapLibreView">
+    <com.amplifyframework.geo.maplibre.view.MapLibreView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+    />
 
-  ```xml
-  <?xml version="1.0" encoding="utf-8"?>
-  <androidx.constraintlayout.widget.ConstraintLayout
-      xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:tools="http://schemas.android.com/tools"
-      xmlns:mapbox="http://schemas.android.com/apk/res-auto"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      tools:context=".MainActivity">
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
 
-      <com.amplifyframework.geo.maplibre.view.MapLibreView
-          android:id="@+id/mapView"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-      />
-
-  </androidx.constraintlayout.widget.ConstraintLayout>
-  ```
-
-  </Block>
-
-  <Block name="AmplifyMapView">
-
-  ```xml
-  <?xml version="1.0" encoding="utf-8"?>
-  <androidx.constraintlayout.widget.ConstraintLayout
-      xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:tools="http://schemas.android.com/tools"
-      xmlns:map="http://schemas.android.com/apk/res-auto"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      tools:context=".MainActivity">
-
-      <com.amplifyframework.geo.maplibre.view.AmplifyMapView
-          android:id="@+id/mapView"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-      />
-
-  </androidx.constraintlayout.widget.ConstraintLayout>
-  ```
-
-  </Block>
-
-  </BlockSwitcher>
-
-### Initialize Map View
+### Initialize the MapLibreView
 
 1. Navigate to your app's activity (e.g. `MainActivity`)
 
-2. Declare the view instance variable at top-level of the activity:
+2. Add an import statement for MapLibreView at the top of your app's activity:
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+import com.amplifyframework.geo.maplibre.view.MapLibreView;
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+import com.amplifyframework.geo.maplibre.view.MapLibreView
+```
+
+</Block>
+</BlockSwitcher>
+
+3. Declare the view instance variable at top-level of the activity:
 
 <BlockSwitcher>
 <Block name="Java">
@@ -88,9 +81,7 @@ private val mapView by lazy {
 </Block>
 </BlockSwitcher>
 
-Replace `MapLibreView` with `AmplifyMapView` as needed.
-
-3. Interact with the map at Activity's `onCreate`
+4. Interact with the map in the Activity's `onCreate`:
 
 <BlockSwitcher>
 
@@ -102,8 +93,7 @@ protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
     // Note: make sure you configure Amplify before calling setContentView
-    // You must either do in your Application as per the Getting Started
-    // instructions or do it here, at the activity level
+    // See the Getting Started instructions
 
     setContentView(R.layout.activity_main);
     mapView = findViewById(R.id.mapView);
@@ -121,8 +111,7 @@ override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
 
     // Note: make sure you configure Amplify before calling setContentView
-    // You must either do in your Application as per the Getting Started
-    // instructions or do it here, at the activity level
+    // See the Getting Started instructions
 
     setContentView(R.layout.activity_main)
 
@@ -134,17 +123,20 @@ override fun onCreate(savedInstanceState: Bundle?) {
 
 </BlockSwitcher>
 
-The `com.amplifyframework.geo.maplibre.view.MapLibreView` is an extension of the standard `MapView` provided by the MapLibre library. The implementation adds the `Amplify.Geo` integration behind the scenes to enable developers to focus on their UI instead of the library integration. That also means all MapLibre APIs are available and will work as expected. Check the [official MapLibre SDK for Android documentation](https://docs.maptiler.com/maplibre-gl-native-android/android-basic-get-started/) for the API reference and guides.
-
 ### Interact with the map
 
-The map needs to be loaded in order to interact with it. You can use either `getMapAsync` that is called when the map is ready or `getStyle` that is called when both the map and its style are ready. Some APIs, like the `SymbolManager` requires the style to also be loaded so you can draw markers and other symbols on the map, that's when `getStyle` comes in handy.
+The map needs to be loaded in order to interact with it. You can use either `getMapAsync` that is called when the map is ready or `getStyle` that is called when both the map and its style are ready. Some APIs, like the `SymbolManager`, require the style to also be loaded so you can draw markers and other symbols on the map, that's when `getStyle` comes in handy.
 
 ### Update the map center
 
 <BlockSwitcher>
 
 <Block name="Java">
+
+```java
+import com.mapbox.mapboxsdk.camera.CameraPosition;
+import com.mapbox.mapboxsdk.geometry.LatLng;
+```
 
 ```java
 mapView.getMapAsync(map -> {
@@ -155,12 +147,17 @@ mapView.getMapAsync(map -> {
             .zoom(13.0)
             .build()
     );
-}
+});
 ```
 
 </Block>
 
 <Block name="Kotlin">
+
+```kotlin
+import com.mapbox.mapboxsdk.camera.CameraPosition
+import com.mapbox.mapboxsdk.geometry.LatLng
+```
 
 ```kotlin
 mapView.getMapAsync { map ->
@@ -187,6 +184,11 @@ The MapLibre SDK for Android relies on the [MapLibre Annotation Plugin](https://
 <Block name="Java">
 
 ```java
+import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
+import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions;
+```
+
+```java
 mapView.getStyle((map, style) -> {
     LatLng spaceNeedle = new LatLng(47.6205063, -122.3514661);
     mapView.symbolManager.create(
@@ -201,6 +203,11 @@ mapView.getStyle((map, style) -> {
 </Block>
 
 <Block name="Kotlin">
+
+```kotlin
+import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
+import com.mapbox.mapboxsdk.plugins.annotation.SymbolOptions
+```
 
 ```kotlin
 mapView.getStyle { map, style ->
@@ -223,9 +230,127 @@ mapView.getStyle { map, style ->
 - The `mapView.symbolManager` is a built-in reference of `SymbolManager` from the [MapLibre Annotation Plugin](https://docs.maptiler.com/maplibre-gl-native-android/android-annotation/) with some standard configuration.
 - If customized icons or render other types of shapes and layers are needed, an instance of `SymbolManager` can be created and used to manage the different types of custom use-cases.
 
-### Map with location search
+### MapLibreView configuration parameters
 
-The `AmplifyMapView` comes with a default search field, place markers, visualization modes (map or list) and map controls. It can be used to easily embed a place picker into any app.
+The `MapLibreView` has several configuration parameters that are not present in the official guides yet. For a complete list, refer to the [source xml file](https://github.com/maplibre/maplibre-gl-native/blob/main/platform/android/MapboxGLAndroidSDK/src/main/res/values/attrs.xml).
+
+Also, check the [official MapView API reference](https://docs.maptiler.com/maplibre-gl-native-android/com.mapbox.mapboxsdk.maps/#mapview) for the available public API documentation.
+
+
+## AmplifyMapView
+
+The `AmplifyMapView` provides a default search field, place markers, visualization modes (map or list) and map controls. It can be used to easily embed a place picker into any app. To use the search functionality of `AmplifyMapView`, provision a search index resource using the instructions in either [Amplify CLI - Geo - Location Search](/cli/geo/search) or [Use existing Amazon Location Service resources](/lib/geo/existing-resources).
+
+### Add a map to your app
+
+1. Navigate to your app's `src/main/res/layout` directory in Android Studio
+
+2. Create a new layout named `activity_main.xml`, or use an existing layout of your choice, and add the following:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <com.amplifyframework.geo.maplibre.view.AmplifyMapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+    />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+```
+
+### Initialize the AmplifyMapView
+
+1. Navigate to your app's activity (e.g. `MainActivity`)
+
+2. Add an import statement for AmplifyMapView at the top of your app's activity:
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+import com.amplifyframework.geo.maplibre.view.AmplifyMapView;
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+import com.amplifyframework.geo.maplibre.view.AmplifyMapView
+```
+
+</Block>
+</BlockSwitcher>
+
+3. Declare the view instance variable at top-level of the activity:
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+private AmplifyMapView amplifyMapView;
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+private val amplifyMapView by lazy {
+    findViewById<AmplifyMapView>(R.id.mapView)
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+4. Interact with the map in the Activity's `onCreate`:
+
+<BlockSwitcher>
+
+<Block name="Java">
+
+```java
+@Override
+protected void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+
+    // Note: make sure you configure Amplify before calling setContentView
+    // See the Getting Started instructions
+
+    setContentView(R.layout.activity_main);
+    amplifyMapView = findViewById(R.id.mapView);
+
+    // now you can interact with the mapView, see examples below
+}
+```
+
+</Block>
+
+<Block name="Kotlin">
+
+```kotlin
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+
+    // Note: make sure you configure Amplify before calling setContentView
+    // See the Getting Started instructions
+
+    setContentView(R.layout.activity_main)
+
+    // now you can interact with the mapView, see examples below
+}
+```
+
+</Block>
+
+</BlockSwitcher>
 
 ### Place select
 
@@ -234,6 +359,10 @@ The main API provided by `AmplifyMapView` is an event listener that is called wh
 <BlockSwitcher>
 
 <Block name="Java">
+
+```java
+import android.util.Log;
+```
 
 ```java
 amplifyMapView.setOnPlaceSelectListener((place, symbol) -> {
@@ -249,7 +378,11 @@ amplifyMapView.setOnPlaceSelectListener((place, symbol) -> {
 <Block name="Kotlin">
 
 ```kotlin
-mapView.onPlaceSelect { place, symbol ->
+import android.util.Log
+```
+
+```kotlin
+amplifyMapView.onPlaceSelect { place, symbol ->
     // place is an instance of AmazonLocationPlace
     // symbol is an instance of Symbol from MapLibre
     Log.i("MyAmplifyApp", "The selected place is ${place.label}")
@@ -301,7 +434,3 @@ Example:
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 ```
-
-The `MapLibreView` has several configuration parameters that are not present in the official guides yet. For a complete list, refer to the [source xml file](https://github.com/maplibre/maplibre-gl-native/blob/master/platform/android/MapboxGLAndroidSDK/src/main/res/values/attrs.xml).
-
-Last but not least, check the [official MapView API reference](https://docs.maptiler.com/maplibre-gl-native-android/com.mapbox.mapboxsdk.maps/#mapview) for the available public API documentation.

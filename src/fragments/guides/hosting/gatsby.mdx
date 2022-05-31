@@ -66,3 +66,13 @@ Once your site has successfully deployed, you should see three green checkmarks:
 ![Gatsby Hosting with Amplify Console - Deployment complete](/images/hosting/gatsby/6.png)
 
 To view the live site, click on the automatically generated URL given to you by the Amplify Console.
+
+### Setting up rewrites for SPAs
+
+Most SPA frameworks support HTML5 history.pushState() to change browser location without triggering a server request. This works for users who begin their journey from the root (or /index.html), but fails for users who navigate directly to any other page. Using regular expressions, the following example sets up a 200 rewrite for all files to index.html, except for the specific file extensions specified in the regular expression.
+
+To set up rewrites, follow the guide on AWS Amplify Hosting's [documentation](https://docs.aws.amazon.com/amplify/latest/userguide/redirects.html#redirects-for-single-page-web-apps-spa).
+
+<Callout>
+Make sure you list the file extensions used in your application (i.e. .manifest, .webp, etc.) in the regular expression.
+</Callout>

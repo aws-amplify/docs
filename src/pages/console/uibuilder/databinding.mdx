@@ -3,12 +3,6 @@ export const meta = {
   description: `Figma to React code with Amplify Studio`,
 };
 
-<Callout warning>
-
-All UI development capabilities are currently available under Public Preview.
-
-</Callout>
-
 Amplify Studio offers visual data binding capabilities to bind UI components to data to build dynamic components. Use the UI component editor to map fields to static values, or map fields to your backend data model. All data bindings get automatically included in generated code.
 
 ## UI component editor
@@ -18,7 +12,7 @@ The UI component editor allows you to bind elements in your component to actual 
 ![Screenshot showing UI component editor](/images/console/ui-component-editor.png)
 
 ### 1. Elements tree
-The elements tree shows the composition of the component in Figma. Each layer in Figma maps to a specific Amplify UI primitive. For example, a frame in Figma maps to a [`<Flex>`](https://ui.docs.amplify.aws/components/flex) component in the Amplify UI library. Clicking on a layer will highlight the element in the live preview.
+The elements tree shows the composition of the component in Figma. Each layer in Figma maps to a specific Amplify UI primitive. For example, a frame in Figma maps to a [`<Flex>`](https://ui.docs.amplify.aws/react/components/flex) component in the Amplify UI library. Clicking on a layer will highlight the element in the live preview.
 
 ### 2. Live component preview
 The live preview is a representation of the React component! If you inspect the component in the browser developer tools, you will see that each element in the component maps to real code. Click on any element within a component to select a specific child component. This will highlight the layer in the elements tree as well as bring up all relevant child properties for that component.
@@ -27,7 +21,7 @@ The live preview is a representation of the React component! If you inspect the 
 Just like in React, you can set props on your parent component. React components use props to communicate with each other. Every parent component can pass some information to its child components by giving them props. To learn more about React props visit their [documentation](https://beta.reactjs.org/learn/passing-props-to-a-component). Amplify Studio supports Scalar (String, Number, Boolean) and Data model component types. 
 
 ### 4. Child properties
-Clicking on any child elements within the live preview allows you to set child prop values. You can either set static values or pass prop values from the parent component. Child props will map to props available on the UI primitives. For example, if you select a [`<Button>`](https://ui.docs.amplify.aws/components/button) component, you will be able to set props such as `variation`, `size` and see the live preview update with the values. 
+Clicking on any child elements within the live preview allows you to set child prop values. You can either set static values or pass prop values from the parent component. Child props will map to props available on the UI primitives. For example, if you select a [`<Button>`](https://ui.docs.amplify.aws/react/components/button) component, you will be able to set props such as `variation`, `size` and see the live preview update with the values. 
 
 ### 5. Component controls
 You can perform the following actions on a component:

@@ -1,30 +1,11 @@
 export const meta = {
-  title: `Geofencing (Developer Preview)`,
+  title: `Geofencing`,
   description: `Use Amplify CLI to create and manage collections of Geofences`,
 };
 
 A Geofence is a virtual perimeter for a real-world geographic area. A Geofence contains points or vertices that form a closed boundary, defining an area of interest. 
 Geofence collections store one or multiple Geofences.
 Amplify's `geo` category enables you to create and manage Geofence collections used to setup virtual geographic perimeters.
-
-<Callout>
-
-**Note:** The Amplify Geo Geofencing feature is in developer preview and is not intended to be used in production environments. Please reach out to us for any feedback and/or issues [here](https://github.com/aws-amplify/amplify-cli/issues)
-
-</Callout>
-
-## Install Amplify CLI
-Since the Geofencing feature is a developer preview, you need to update your Amplify CLI to try it out:
-
-```bash
-npm i -g @aws-amplify/cli@geo
-```
-
-<Callout>
-
-**Note:** The version of Amplify CLI should be `7.6.8-geo.0` or later. You can check the version using `amplify -v`.
-
-</Callout>
 
 ## Setup a new Geofence Collection
 Before you add a new Geofence Collection to your application, you need to have at least one Cognito User Pool group added to your project.

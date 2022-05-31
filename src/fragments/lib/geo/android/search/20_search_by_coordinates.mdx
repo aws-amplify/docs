@@ -7,6 +7,13 @@ The returned object is the same shape as `Amplify.Geo.searchByText()` API.
 <Block name="Java">
 
 ```java
+import android.util.Log;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.geo.models.Coordinates;
+import com.amplifyframework.geo.models.Place;
+```
+
+```java
 Coordinates position = new Coordinates(47.6153, -122.3384);
 Amplify.Geo.searchByCoordinates(position,
     result -> {
@@ -20,6 +27,12 @@ Amplify.Geo.searchByCoordinates(position,
 
 </Block>
 <Block name="Kotlin">
+
+```kotlin
+import android.util.Log
+import com.amplifyframework.core.Amplify
+import com.amplifyframework.geo.models.Coordinates
+```
 
 ```kotlin
 val position = Coordinates(47.6153, -122.3384)
@@ -43,6 +56,10 @@ Restrict your search results by specifying following parameters inside `GeoSearc
 <Block name="Java">
 
 ```java
+import com.amplifyframework.geo.options.GeoSearchByCoordinatesOptions;
+```
+
+```java
 GeoSearchByCoordinatesOptions options = GeoSearchByCoordinatesOptions.builder()
     .maxResults(1)
     .build();
@@ -50,6 +67,10 @@ GeoSearchByCoordinatesOptions options = GeoSearchByCoordinatesOptions.builder()
 
 </Block>
 <Block name="Kotlin">
+
+```kotlin
+import com.amplifyframework.geo.options.GeoSearchByCoordinatesOptions
+```
 
 ```kotlin
 val options = GeoSearchByCoordinatesOptions.builder()

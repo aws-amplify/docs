@@ -1,9 +1,9 @@
 export const meta = {
   title: `Relational Databases`,
-  description: `The Amplify CLI currently supports importing serverless Amazon Aurora MySQL 5.6 databases running in the us-east-1 region. Learn how to create an Amazon Aurora Serverless database, import this database as a GraphQL data source and test it.`,
+  description: `The Amplify CLI currently supports importing serverless Amazon Aurora MySQL 5.6 databases running in the us-east-1 region. Learn how to create an Amazon Aurora Serverless database, import this database as a GraphQL data source and test it.`
 };
 
-<MigrationAlert isLegacy url={"/cli/graphql/data-modeling"}/>
+<MigrationAlert isLegacy url={'/cli/graphql/data-modeling'} />
 
 The Amplify CLI currently supports importing serverless Amazon Aurora MySQL 5.6 databases running in the us-east-1 region. The following instruction show how to create an Amazon Aurora Serverless database, import this database as a GraphQL data source and test it.
 
@@ -44,7 +44,7 @@ amplify add api
 
 ![Database Additional Configuration](/images/database-additional-configuration.png)
 
-**Click "Create Database" and dialog will open that will prompt you to connect select the cluster and fill in the credentials configured earlier**
+**Click _Create Database_. Once created, click _Query Editor_ on the side menu to open a connection prompt. To connect, select the cluster and fill in the credentials configured earlier.**
 
 ![Database Connect ](/images/connect-to-database.png)
 
@@ -85,12 +85,14 @@ Create a customer:
 
 ```graphql
 mutation CreateCustomer {
-  createCustomers(createCustomersInput: {
-    id: 1,
-    name: "Hello",
-    phone: "111-222-3333",
-    email: "customer1@mydomain.com"
-  }) {
+  createCustomers(
+    createCustomersInput: {
+      id: 1
+      name: "Hello"
+      phone: "111-222-3333"
+      email: "customer1@mydomain.com"
+    }
+  ) {
     id
     name
     phone
@@ -112,5 +114,4 @@ SELECT * FROM Customers;
 
 ### How does this work?
 
-The `add-graphql-datasource` will add a custom stack to your project that provides a basic set of functionality for working
-with an existing data source. You can find the new stack in the `stacks/` directory, a set of new resolvers in the `resolvers/` directory, and will also find a few additions to your `schema.graphql`. You may edit details in the custom stack and/or resolver files without worry. You may run `add-graphql-datasource` again to update your project with changes in the database but be careful as these will overwrite any existing templates in the `stacks/` or `resolvers/` directories. When using multiple environment with the Amplify CLI, you will be asked to configure the data source once per environment.
+The `add-graphql-datasource` will add a custom stack to your project that provides a basic set of functionality for working with an existing data source. You can find the new stack in the `stacks/` directory, a set of new resolvers in the `resolvers/` directory, and will also find a few additions to your `schema.graphql`. You may edit details in the custom stack and/or resolver files without worry. You may run `add-graphql-datasource` again to update your project with changes in the database but be careful as these will overwrite any existing templates in the `stacks/` or `resolvers/` directories. When using multiple environment with the Amplify CLI, you will be asked to configure the data source once per environment.

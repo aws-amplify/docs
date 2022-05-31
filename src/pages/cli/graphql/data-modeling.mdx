@@ -286,6 +286,12 @@ mutation CreatePost {
 ```
 
 ### Belongs To relationship
+
+<Callout>
+
+Bi-directional "has one" relationships currently cannot be represented on iOS due to Swift language limitations.
+</Callout>
+
 Make a "has one" or "has many" relationship bi-directional with the `@belongsTo` directive.
 
 <BlockSwitcher>
@@ -451,15 +457,41 @@ When `@default` is applied, non-null assertions using `!` are disregarded. For e
 
 ### Rename generated queries, mutations, and subscriptions
 
-You can override the names of any `@model`-generated GraphQL queries, mutations, and subscriptions by supplying the desired name for the queries, mutations, and subscriptions. You can also disable specific operations by assigning their value to `null`.
+You can override the names of any `@model`-generated GraphQL queries, mutations, and subscriptions by supplying the desired name.
 
 ```graphql
-type Todo @model(queries: { get: "queryFor" }, mutations: null, subscriptions: null) {
-  content: String!
+type Todo @model(queries: { get: "queryFor" }) {
+  name: String!
+  description: String
 }
 ```
 
-In the example above, you'll be able to run a `queryForTodo` query to get a single Todo element. Mutations (meaning create, update, and delete) as well as subscriptions are disabled for the Todo model above.
+In the example above, we will be able to run a `queryForTodo` query to get a single Todo element.  
+
+### Disable generated queries, mutations, and subscriptions
+
+We can disable specific operations by assigning their value to `null`.
+
+```graphql
+type Todo @model(queries: { get: null }, mutations: null, subscriptions: null) {
+  name: String!
+  description: String
+}
+```
+
+The example above disables the `getTodo` query, all mutations, and all subscriptions while allowing the generation of other queries such as `listTodo`.
+
+### Creating a custom query
+
+We can disable the `get` query and create a custom query that enables us to retrieve a single Todo model.
+
+```graphql
+type Query {
+   getMyTodo(id: ID!): Todo @function(name: "getmytodofunction-${env}")
+}
+```
+
+The example above creates a custom query that utilizes the `@function` directive to call a Lambda function for this query.
 
 For the type definitions of queries, mutations, and subscriptions, see [Type Definitions of the `@model` Directive](#type-definition-of-the-`@model`-directive).
 
@@ -468,7 +500,8 @@ The `@model` directive automatically adds `createdAt` and `updatedAt` timestamps
 
 ```graphql
 type Todo @model(timestamps: { createdAt: "createdOn", updatedAt: "updatedOn" }) {
-  content: String
+  name: String!
+  description: String
 }
 ```
 
@@ -477,7 +510,8 @@ For example, the schema above will allow you to query for the following contents
 ```graphql
 type Todo {
   id: ID!
-  content: String
+  name: String!
+  description: String
   createdOn: AWSDateTime!
   updatedOn: AWSDateTime!
 }
@@ -489,7 +523,8 @@ By default, real-time updates are on for all `@model` types, which means custome
 
 ```graphql
 type Todo @model(subscriptions: { level: off }) { # or level: public
-  content: String!
+  name: String!
+  description: String
 }
 ```
 

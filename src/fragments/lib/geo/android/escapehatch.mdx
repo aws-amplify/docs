@@ -7,6 +7,15 @@ Please [adjust your authorization permissions](/lib/geo/existing-resources) acco
 <Block name="Java">
 
 ```java
+import android.util.Log;
+import com.amazonaws.services.geo.AmazonLocationClient;
+import com.amazonaws.services.geo.model.ListMapsRequest;
+import com.amazonaws.services.geo.model.ListMapsResult;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.geo.location.AWSLocationGeoPlugin;
+```
+
+```java
 // Obtain reference to the plugin
 AWSLocationGeoPlugin geoPlugin = (AWSLocationGeoPlugin)
         Amplify.Geo.getPlugin("awsLocationGeoPlugin");
@@ -22,13 +31,20 @@ Log.i("MyAmplifyApp", response.getEntries().toString());
 <Block name="Kotlin">
 
 ```kotlin
+import android.util.Log
+import com.amazonaws.services.geo.AmazonLocationClient
+import com.amazonaws.services.geo.model.ListMapsRequest
+import com.amplifyframework.core.Amplify
+```
+
+```kotlin
 // Obtain reference to the Amazon Location Service client
 val geoPlugin = Amplify.Geo.getPlugin("awsLocationGeoPlugin")
-val locationClient = (geoPlugin as AmazonLocationClient).escapeHatch
+val locationClient = geoPlugin.escapeHatch as AmazonLocationClient
 
 // Send a new request to the Location Maps endpoint directly using the client
-val request = ListMapsRequest().withMaxResults(5)
-val response = locationClient.listMaps(listMapsRequest)
+val request = ListMapsRequest()
+val response = locationClient.listMaps(request)
 Log.i("MyAmplifyApp", response.entries.toString())
 ```
 

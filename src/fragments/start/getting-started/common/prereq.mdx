@@ -1,28 +1,22 @@
 Before we begin, make sure you have the following installed:
 
-- [Node.js](https://nodejs.org/) v12.x or later
+- [Node.js](https://nodejs.org/) v14.x or later
 
-- [npm](https://www.npmjs.com/) v5.x or later
+- [npm](https://www.npmjs.com/) v6.14.4 or later
 
 - [git](https://git-scm.com/) v2.14.1 or later
 
-<Callout> 
+import flutter1 from '/src/fragments/start/getting-started/flutter/prereq.mdx';
 
-Note: Node v14.x or later / npm v6.14.4 or later are required when using [Create React App](https://create-react-app.dev/docs/getting-started)
+<Fragments fragments={{ flutter: flutter1 }} />
 
-</Callout>
+import react2 from '/src/fragments/start/getting-started/react/prereq.mdx';
 
-import flutter1 from "/src/fragments/start/getting-started/flutter/prereq.mdx";
+<Fragments fragments={{ react: react2 }} />
 
-<Fragments fragments={{flutter: flutter1}} />
+import react_native3 from '/src/fragments/start/getting-started/reactnative/prereq.mdx';
 
-import react2 from "/src/fragments/start/getting-started/react/prereq.mdx";
-
-<Fragments fragments={{react: react2}} />
-
-import react_native3 from "/src/fragments/start/getting-started/reactnative/prereq.mdx";
-
-  <Fragments fragments={{"react-native": react_native3}} />
+<Fragments fragments={{ 'react-native': react_native3 }} />
 
 ## Sign up for an AWS account
 
@@ -40,13 +34,18 @@ The Amplify Command Line Interface (CLI) is a unified toolchain to create AWS cl
 
 Watch the video below to learn how to install and configure the Amplify CLI or skip to the next section to follow the step-by-step instructions.
 
-<iframe src="https://www.youtube-nocookie.com/embed/fWbM5DLh25U" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe
+  src="https://www.youtube-nocookie.com/embed/fWbM5DLh25U"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowfullscreen
+></iframe>
 
 ### Option 2: Follow the instructions
 
-import all0 from "/src/fragments/cli-install-block.mdx";
+import all0 from '/src/fragments/cli-install-block.mdx';
 
-<Fragments fragments={{all: all0}} />
+<Fragments fragments={{ all: all0 }} />
 
 Now it's time to setup the Amplify CLI. Configure Amplify by running the following command:
 
@@ -57,6 +56,7 @@ amplify configure
 `amplify configure` will ask you to sign into the AWS Console.
 
 Once you're signed in, Amplify CLI will ask you to create an IAM user.
+
 > Amazon IAM (Identity and Access Management) enables you to manage users and user permissions in AWS. You can learn more about Amazon IAM [here](https://aws.amazon.com/iam/).
 
 ```console
