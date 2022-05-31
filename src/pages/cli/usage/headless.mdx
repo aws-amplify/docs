@@ -582,7 +582,7 @@ Create a file called `authconfig.importauth.json` and paste in the following con
   "userPoolId": "myUserPoolId",
   "webClientId": "myWebAppClientId",
   "nativeClientId": "myNativeAppClientId",
-  "identityPoolId": "myidentitypoolId" //optional 
+  "identityPoolId": "myIdentityPoolId" //optional 
 ```
 
 Run `cat authconfig.importauth.json | jq -c | amplify import auth --headless` to import an Cognito resource.
