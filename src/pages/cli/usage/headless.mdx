@@ -571,4 +571,20 @@ Create a file called `newHeadlessApi.addapi.json` and paste in the following con
 
 Run `cat newHeadlessApi.addapi.json | jq -c | amplify add api --headless` to add the API resource.
 
+### Example: "amplify import auth" headless configuration
+
+This example showcases how to use headless mode to configure `amplify import auth`.
+
+Create a file called `authconfig.importauth.json` and paste in the following contents:
+
+```json
+  "version": 1,
+  "userPoolId": "myUserPoolId",
+  "webClientId": "myWebAppClientId",
+  "nativeClientId": "myNativeAppClientId",
+  "identityPoolId": "myidentitypoolId" //optional 
+```
+
+Run `cat authconfig.importauth.json | jq -c | amplify import auth --headless` to import an Cognito resource.
+
 > If you don't have `jq` installed, see [https://stedolan.github.io/jq/download](https://stedolan.github.io/jq/download).
