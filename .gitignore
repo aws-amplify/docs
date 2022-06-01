@@ -67,6 +67,8 @@ coverage
 .next
 public/sitemap.xml
 public/robots.txt
+amplify/backend/function/submissionsLambda/src/*.js
+amplify/backend/function/submissionsLambda/src/controllers
 
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
