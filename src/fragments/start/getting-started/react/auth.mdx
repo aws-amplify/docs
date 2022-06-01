@@ -35,7 +35,7 @@ Open **src/App.js** and make the following changes:
 1. Import the `withAuthenticator` component:
 
 ```javascript
-import { withAuthenticator } from '@aws-amplify/ui-react';
+import { withAuthenticator, Button, Heading } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 ```
 
@@ -49,8 +49,8 @@ function App({ signOut, user }) {
   return (
     <>
       {/* Add Todo JSX here  */}
-      <h1>Hello {user.username}</h1>
-      <button onClick={signOut}>Sign out</button>
+      <Heading level={1}>Hello {user.username}</Heading>
+      <Button onClick={signOut}>Sign out</Button>
     </>
   );
 }
