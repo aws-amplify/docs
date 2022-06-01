@@ -48,7 +48,7 @@ export default function Feedback() {
 
   useEffect(() => {
     // UUID of feedback if it exists.
-    const id = window.localStorage.getItem('feedbackId');
+    const id = window.localStorage?.getItem('feedbackId');
     if (id && isUUID(id)) {
       setFeedbackId(id);
     }
@@ -83,7 +83,7 @@ export default function Feedback() {
         const data = JSON.parse(result.data);
 
         if (data.id) {
-          window.localStorage.setItem('feedbackId', data.id);
+          window.localStorage?.setItem('feedbackId', data.id);
         }
       }
     } catch (err) {
