@@ -72,8 +72,6 @@ export default function Feedback() {
     }
 
     try {
-      trackFeedbackSubmission(vote);
-
       const result = await API.post('submissions', '/submissions', {
         headers,
         body
@@ -86,8 +84,11 @@ export default function Feedback() {
           window.localStorage?.setItem('feedbackId', data.id);
         }
       }
+
+      return true;
     } catch (err) {
       console.log(err);
+      return false
     }
   }
 
@@ -98,18 +99,26 @@ export default function Feedback() {
           <p>{feedbackQuestion}</p>
           <VoteButtonsContainer>
             <VoteButton
-              onClick={() => {
+              onClick={async () => {
+                const result = await submitVote(true);
+                if (result) {
+                  trackFeedbackSubmission(true);
+                }
+
                 setState(FeedbackState.END);
-                submitVote(true);
               }}
             >
               <img src="/assets/thumbs-up.svg" alt="Thumbs up" />
               Yes
             </VoteButton>
             <VoteButton
-              onClick={() => {
+              onClick={async () => {
+                const result = await submitVote(false);
+                if (result) {
+                  trackFeedbackSubmission(false);
+                }
+
                 setState(FeedbackState.END);
-                submitVote(false);
               }}
             >
               <img src="/assets/thumbs-down.svg" alt="Thumbs down" />
