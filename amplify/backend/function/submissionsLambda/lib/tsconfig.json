@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "../src/node_modules/",
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "importHelpers": true,
+    "lib": ["ES2020", "dom"],
+    "module": "CommonJS",
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "removeComments": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "target": "ES2020",
+    "typeRoots": ["../src/node_modules/@types"],
+    "types": ["node", "jest"],
+    "outDir": "../src/"
+  },
+  "include": ["."],
+  "exclude": ["../src/node_modules"]
+}

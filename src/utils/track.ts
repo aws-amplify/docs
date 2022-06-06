@@ -2,9 +2,11 @@ let configured = false;
 let firstPageOfVisit = true;
 let AWSCShortbread;
 let s;
+let AWSMA;
 
 if (typeof window !== "undefined") {
   AWSCShortbread = window.AWSCShortbread;
+  AWSMA = window.AWSMA;
   s = window.s;
 }
 
@@ -148,3 +150,16 @@ export const trackSearchQuery = (
   }
   window.location.assign(suggestion.url);
 };
+
+export const trackFeedbackSubmission = (feedback: boolean) => {
+  const opt = {
+    event: {
+      type: 'click',
+      name: feedback ? 'YesVote' : 'NoVote'
+    }
+  }
+
+  AWSMA.ready(() => {
+    document.dispatchEvent(new CustomEvent(AWSMA.TRIGGER_EVENT, {detail: opt}));
+  });
+}
