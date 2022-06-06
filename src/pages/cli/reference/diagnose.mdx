@@ -1,6 +1,6 @@
 export const meta = {
   title: `Diagnose`,
-  description: `More information about feature flags in Amplify CLI`,
+  description: `More information about diagnose command in Amplify CLI`,
 };
 
 Non-sensitive configurations of your Amplify backend can be securely shared with Amplify by running the command
@@ -43,7 +43,7 @@ and opt in by
 amplify diagnose --auto-send-on
 ``` 
 
-The CLI collects two extra files including the files the configuration files collected in send report
+The CLI collects two extra files including the files below and the files collected using `amplify diagnose --send-report`
 
 * Error details: Including the stack trace, message and error name.
 * CloudFormation updates when an `amplify push` is invoked.
