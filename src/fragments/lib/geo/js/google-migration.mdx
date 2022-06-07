@@ -87,23 +87,11 @@ This code imports the MapLibre GL JS library and CSS, one of the popular options
 
 In this step we will show you how to add code to display a map in your application.
 
-### Google
+<BlockSwitcher>
 
-With the Google Maps JS API you can display a map like so.
+  <Block name="Amplify">
 
-```js
-const map = new google.maps.Map(document.getElementById('map'), {
-  mapTypeId: 'roadmap',
-  center: { lat: 37.8199, lng: -122.4783 },
-  zoom: 13
-});
-```
-
-### Amplify
-
-With Amplify Geo and MapLibre you can instead do the following.
-
-Add the following code to your index.html file inside the `<script>` tags, after the `Amplify.configure` command:
+With Amplify Geo and MapLibre you can add the following code to your index.html file inside the `<script>` tags, after the `Amplify.configure` command:
 
 ```js
 const map = await createMap({
@@ -115,25 +103,33 @@ const map = await createMap({
 
 Save your HTML file and open it in a web browser to see your rendered map.
 
+  </Block>
+
+  <Block name="Google Maps">
+
+With the Google Maps JS API you can display a map like so.
+
+```js
+const map = new google.maps.Map(document.getElementById('map'), {
+  mapTypeId: 'roadmap',
+  center: { lat: 37.8199, lng: -122.4783 },
+  zoom: 13
+});
+```
+
+  </Block>
+
+</BlockSwitcher>
+
 ## Display a marker
 
 Here we will add a marker to your map
 
-### Google
+<BlockSwitcher>
 
-Using the Google Maps JS API you would add a marker as show below.
+  <Block name="Amplify">
 
-```js
-const marker = new google.maps.Marker({
-  center: { lat: 37.8199, lng: -122.4783 },
-  title: 'Golden Gate Bridge',
-  map: map
-});
-```
-
-### Amplify
-
-With Amplify Geo and MapLibre you can instead do the following.
+With Amplify Geo and MapLibre you can do the following.
 
 ```js
 const marker = new maplibregl.Marker().setLngLat([-122.4783, 37.8199]).addTo(map);
@@ -147,32 +143,33 @@ This example uses [MapLibre's marker component](https://maplibre.org/maplibre-gl
 
 </Callout>
 
+  </Block>
+
+  <Block name="Google Maps">
+
+Using the Google Maps JS API you would add a marker as show below.
+
+```js
+const marker = new google.maps.Marker({
+center: { lat: 37.8199, lng: -122.4783 },
+title: 'Golden Gate Bridge',
+map: map
+});
+```
+
+  </Block>
+
+</BlockSwitcher>
+
 ![A map with a marker](/images/map-marker.png)
 
 ## Add a Popup
 
 Now we can add a popup that displays information when a user clicks on a marker.
 
-### Google
+<BlockSwitcher>
 
-Using the Google Maps JS API you would add a marker as show below.
-
-```js
-const marker = new google.maps.Marker({
-  center: { lat: 37.8199, lng: -122.4783 },
-  map: map
-});
-
-const infowindow = new google.maps.InfoWindow({
-  content: `<h3>Golden Gate Bridge</h3><p>The hex code for the bridge's color is: #c0362c</p>`
-});
-
-marker.addListener('click', () => {
-  infowindow.open(map, marker);
-});
-```
-
-### Amplify
+  <Block name="Amplify">
 
 With Amplify Geo and MapLibre you can instead do the following.
 
@@ -193,5 +190,30 @@ Save your changes and refresh your page and now when you click on the icon a pop
 This example uses [MapLibre's popup component](https://maplibre.org/maplibre-gl-js-docs/api/markers/#popup) to create a marker popup. To see more examples with popups on from MapLibre check the examples [here](https://maplibre.org/maplibre-gl-js-docs/example/set-popup/).
 
 </Callout>
+
+  </Block>
+
+  <Block name="Google Maps">
+
+Using the Google Maps JS API you would add a marker as show below.
+
+```js
+const marker = new google.maps.Marker({
+  center: { lat: 37.8199, lng: -122.4783 },
+  map: map
+});
+
+const infowindow = new google.maps.InfoWindow({
+  content: `<h3>Golden Gate Bridge</h3><p>The hex code for the bridge's color is: #c0362c</p>`
+});
+
+marker.addListener('click', () => {
+  infowindow.open(map, marker);
+});
+```
+
+  </Block>
+
+</BlockSwitcher>
 
 ![A map with a marker popup](/images/map-marker-popup.png)
