@@ -1,30 +1,11 @@
 export const meta = {
-  title: `Geofencing (Developer Preview)`,
+  title: `Geofencing`,
   description: `Use Amplify CLI to create and manage collections of Geofences`,
 };
 
 A Geofence is a virtual perimeter for a real-world geographic area. A Geofence contains points or vertices that form a closed boundary, defining an area of interest. 
 Geofence collections store one or multiple Geofences.
 Amplify's `geo` category enables you to create and manage Geofence collections used to setup virtual geographic perimeters.
-
-<Callout>
-
-**Note:** The Amplify Geo Geofencing feature is in developer preview and is not intended to be used in production environments. Please reach out to us for any feedback and/or issues [here](https://github.com/aws-amplify/amplify-cli/issues)
-
-</Callout>
-
-## Install Amplify CLI
-Since the Geofencing feature is a developer preview, you need to update your Amplify CLI to try it out:
-
-```bash
-npm i -g @aws-amplify/cli@geo
-```
-
-<Callout>
-
-**Note:** The version of Amplify CLI should be `7.6.8-geo.0` or later. You can check the version using `amplify -v`.
-
-</Callout>
 
 ## Setup a new Geofence Collection
 Before you add a new Geofence Collection to your application, you need to have at least one Cognito User Pool group added to your project.
@@ -183,7 +164,7 @@ From the Cognito user pool console page that opened in your default browser, cho
 Then, choose the corresponding Cognito group from the `Groups` tab on the right as shown 
 ![cognito user pool console groups tab](/images/cli/geo/geo-cognito-groups-1.png)
 
-Then click on the `Add users` button that displays a window to select the users by their `username`, `email` etc. that you intend to add to the Cognito group.
+Then click on the `Add users` button that displays a window to select the users by their `username`, `email` etc. that you intend to add to the Cognito group. _Note: the user(s) added to the Cognito User Pool Group may need to be re-authenticated by signing out and signing in again._
 ![cognito group add users button](/images/cli/geo/geo-cognito-groups-2.png)
 
 #### Using the AWS SDK for Javascript
