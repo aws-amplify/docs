@@ -1459,7 +1459,10 @@
     "geofence",
     "geofences",
     "savegeofences",
-    "myfunction"
+    "myfunction",
+    "roadmap",
+    "infowindow",
+    "Libre's"
   ],
   "flagWords": ["hte"]
 }

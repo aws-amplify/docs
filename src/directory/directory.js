@@ -439,14 +439,19 @@ const directory = {
             filters: ['js', 'ios', 'android']
           },
           {
-            title: "Geofences",
-            route: "/lib/geo/geofences",
-            filters: ["js"],
+            title: 'Geofences',
+            route: '/lib/geo/geofences',
+            filters: ['js']
           },
           {
             title: 'Use existing AWS resources',
             route: '/lib/geo/existing-resources',
             filters: ['js', 'ios', 'android']
+          },
+          {
+            title: 'Migrating from Google Maps',
+            route: '/lib/geo/google-migration',
+            filters: ['js']
           },
           {
             title: 'Escape Hatch',
@@ -1234,9 +1239,9 @@ const directory = {
             filters: []
           },
           {
-            title: "Geofencing",
-            route: "/cli/geo/geofencing",
-            filters: [],
+            title: 'Geofencing',
+            route: '/cli/geo/geofencing',
+            filters: []
           }
         ]
       },
