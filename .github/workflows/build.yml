@@ -1,5 +1,7 @@
 name: Test
-on: pull_request
+on: 
+  pull_request_target:
+    branches: [main]
 permissions:
   id-token: write
   contents: read
@@ -10,6 +12,9 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@main
+          ref: ${{github.event.pull_request.head.ref}}
+          repository: ${{github.event.pull_request.head.repo.full_name}}
+          persist-credentials: false
       - name: Setup Node.js 14.x
         uses: actions/setup-node@main
         with:
