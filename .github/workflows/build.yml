@@ -13,6 +13,7 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@main
         with:
+          # For `pull_request_target`, we want to pull the PR and not the target branch
           ref: ${{github.event.pull_request.head.ref}}
           repository: ${{github.event.pull_request.head.repo.full_name}}
           persist-credentials: false
