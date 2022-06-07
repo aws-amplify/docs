@@ -1,7 +1,5 @@
 name: Test
-on: 
-  pull_request_target:
-    branches: [main]
+on: pull_request
 permissions:
   id-token: write
   contents: read
@@ -9,14 +7,10 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    environment: test-pr
     steps:
       - name: Checkout Repo
         uses: actions/checkout@main
-        with:
-          # For `pull_request_target`, we want to pull the PR and not the target branch
-          ref: ${{github.event.pull_request.head.ref}}
-          repository: ${{github.event.pull_request.head.repo.full_name}}
-          persist-credentials: false
       - name: Setup Node.js 14.x
         uses: actions/setup-node@main
         with:
@@ -31,6 +25,7 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ARN_ROLE }}
           aws-region: ${{ secrets.AWS_REGION }}
           app-id: ${{ secrets.APP_ID }}
+          env-name: ${{ secrets.ENV_NAME }}
       - name: Run tests
         run: yarn test
       - name: Run Build
