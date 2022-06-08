@@ -23,6 +23,9 @@ struct ContentView: View {
 
 <Block name="UIKit">
 
+<BlockSwitcher>
+<Block name="Stable Release">
+
 ```swift
 import AmplifyMapLibreAdapter
 import Mapbox
@@ -39,6 +42,25 @@ AmplifyMapLibre.createMap { result in
     }
 }
 ```
+
+</Block>
+
+<Block name="Developer Preview">
+
+```swift
+import AmplifyMapLibreAdapter
+import Mapbox
+import Amplify
+
+var mapView: MGLMapView?
+do {
+    mapView = try await AmplifyMapLibre.createMap()
+} catch {
+    print(error)
+}
+```
+</Block>
+</BlockSwitcher>
 
 </Block>
 </BlockSwitcher>
