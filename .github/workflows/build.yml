@@ -8,8 +8,8 @@ permissions:
   id-token: write
   contents: read
 jobs:
-  setup:
-    name: Setup
+  build:
+    name: Build
     runs-on: ubuntu-latest
     # We run tests only if it's:
     #   1) pull request not from a fork (ie. internal PR), or
@@ -27,11 +27,6 @@ jobs:
             const { issue: { number: issue_number }, repo: { owner, repo } } = context;
             const label = 'run-tests';
             github.issues.removeLabel({ owner, repo, issue_number, name: label });
-  build:
-    name: Build
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
       - name: Checkout Repo
         uses: actions/checkout@main
       - name: Setup Node.js 14.x
