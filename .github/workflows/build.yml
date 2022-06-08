@@ -1,13 +1,36 @@
 name: Test
-on: pull_request
+on:
+  pull_request_target:
+    branches: [main, feedback-merge-fixes]
+    types: [opened, synchronize, labeled]
 permissions:
+  pull-requests: write # used to remove label
   id-token: write
   contents: read
 jobs:
+  setup:
+    name: Setup
+    runs-on: ubuntu-latest
+    # We run tests only if it's:
+    #   1) pull request not from a fork (ie. internal PR), or
+    #   2) pull request from a fork (ie. external PR) that was added "run-tests" label
+    if: |
+      (github.event.pull_request.head.repo.full_name == github.repository) ||
+      (github.event.action == 'labeled' && github.event.label.name == 'run-tests')
+    steps:
+      - name: Remove run-tests label, if applicable
+        if: always() && github.event.label.name == 'run-tests'
+        uses: actions/github-script@0.3.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { issue: { number: issue_number }, repo: { owner, repo } } = context;
+            const label = 'run-tests';
+            github.issues.removeLabel({ owner, repo, issue_number, name: label });
   build:
     name: Build
+    needs: setup
     runs-on: ubuntu-latest
-    environment: test-pr
     steps:
       - name: Checkout Repo
         uses: actions/checkout@main
