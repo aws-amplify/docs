@@ -6,6 +6,21 @@ Amazon Pinpoint campaigns can take one of three actions when a user taps a notif
 
 By specifying this action, you can open the app when the user taps on the notification.
 
+**Adding a Receiver**
+
+This receiver is no longer necessary and should be removed as of `com.amazonaws:aws-android-sdk-pinpoint:2.x.x`
+
+The SDK provides `PinpointNotificationReceiver` which handles the notification to open your app. In order to use this action, you must register this receiver in your `AndroidManifest.xml` file. For example:
+
+```xml
+<receiver
+    android:name="com.amazonaws.mobileconnectors.pinpoint.targeting.notification.PinpointNotificationReceiver" android:exported="false" >
+    <intent-filter>
+        <action android:name="com.amazonaws.intent.fcm.NOTIFICATION_OPEN" />
+    </intent-filter>
+</receiver>
+```
+
 ### Open a deep link
 
 This action opens the app to a specified activity.
