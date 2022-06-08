@@ -1,7 +1,7 @@
 name: Test
 on:
   pull_request_target:
-    branches: [main, feedback-merge-fixes]
+    branches: [main]
     types: [opened, synchronize, labeled]
 permissions:
   pull-requests: write # used to remove label
