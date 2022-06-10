@@ -439,9 +439,9 @@ const directory = {
             filters: ['js', 'ios', 'android']
           },
           {
-            title: 'Geofences (Developer preview)',
-            route: '/lib/geo/geofences',
-            filters: ['js']
+            title: "Geofences",
+            route: "/lib/geo/geofences",
+            filters: ["js"],
           },
           {
             title: 'Use existing AWS resources',
@@ -1234,9 +1234,9 @@ const directory = {
             filters: []
           },
           {
-            title: 'Geofencing (Developer Preview)',
-            route: '/cli/geo/geofencing',
-            filters: []
+            title: "Geofencing",
+            route: "/cli/geo/geofencing",
+            filters: [],
           }
         ]
       },
