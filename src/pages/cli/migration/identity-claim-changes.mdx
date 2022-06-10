@@ -15,7 +15,7 @@ There are no breaking changes to your GraphQL API when using the new default ide
 
 While the other directives will work as they currently work (ie. `@searchable`, `@function`), using custom queries to your databases, such as OpenSearch, may need to be changed. For example, if you are using OpenSearch for a custom query like the one below, you will need your queries to account for the format of the stored owner field with a matching operation (https://docs.amplify.aws/cli/graphql/search-and-result-aggregations/#supported-search-operations). Here's an example of using the wildcard operation:
 
-```
+```graphql
 query SearchAndSort {
   searchStudents(filter:
     or: [{
