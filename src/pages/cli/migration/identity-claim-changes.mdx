@@ -1,6 +1,6 @@
 export const meta = {
   title: `Changing the default identity claim for owner-based auth`,
-  description: ``,
+  description: ``
 };
 
 The Amplify CLI is changing the default owner value in GraphQL APIs in v8.1.0. Previously, the API stored only the `username` by default. In this next release behind a feature flag, and in an upcoming major CLI release, the GraphQL Transformer will store a user's unique `sub` and `username`.
@@ -19,9 +19,9 @@ While the other directives will work as they currently work (ie. `@searchable`, 
 query SearchAndSort {
   searchStudents(filter:
     or: [{
-        owner: { wildcard: "*::user1" }
+      owner: { wildcard: "*::user1" }
     }, {
-        owner: { eq: "user1" }
+      owner: { eq: "user1" }
     }],
   ) {
     items {
@@ -41,10 +41,16 @@ If you are creating a new Amplify app, your app's GraphQL API will be created us
 If you would like to use username for the identity claim without storing sub, specify in your schema the following:
 
 ```graphql
-type Todo @model @auth(rules: [{
-    allow: owner,
-    identityClaim: "username" # explicit use of username
-}]) {
+type Todo
+  @model
+  @auth(
+    rules: [
+      {
+        allow: owner
+        identityClaim: "username" # explicit use of username
+      }
+    ]
+  ) {
   id: ID!
   title: String!
 }
@@ -55,9 +61,15 @@ type Todo @model @auth(rules: [{
 If you have an existing schema that uses owner-based `@auth` with an implicit identity claim rule on a type or field similar to this:
 
 ```graphql
-type Todo @model @auth(rules: [{
-    allow: owner, # no explicit identity claim
-}]) {
+type Todo
+  @model
+  @auth(
+    rules: [
+      {
+        allow: owner # no explicit identity claim
+      }
+    ]
+  ) {
   id: ID!
   title: String!
 }
@@ -66,10 +78,16 @@ type Todo @model @auth(rules: [{
 Your GraphQL schema is using the default identity claim `"username"` and the Amplify CLI GraphQL Transformer is using the default value to generate your VTL files. Therefore, your schema is read as:
 
 ```graphql
-type Todo @model @auth(rules: [{
-    allow: owner,
-    identityClaim: "username" # explicit identity claim
-}]) {
+type Todo
+  @model
+  @auth(
+    rules: [
+      {
+        allow: owner
+        identityClaim: "username" # explicit identity claim
+      }
+    ]
+  ) {
   id: ID!
   title: String!
 }
@@ -84,10 +102,16 @@ In the initial release, this functionality will be behind a feature flag, `useSu
 If you wish to migrate your VTL files before the changes in v9.0.0, set your `identityClaim` to `"sub::username"`.
 
 ```graphql
-type Todo @model @auth(rules: [{
-    allow: owner,
-    identityClaim: "sub::username" # set your identity claim
-}]) {
+type Todo
+  @model
+  @auth(
+    rules: [
+      {
+        allow: owner
+        identityClaim: "sub::username" # set your identity claim
+      }
+    ]
+  ) {
   id: ID!
   title: String!
 }
