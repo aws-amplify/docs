@@ -34,7 +34,7 @@ runs:
       env:
         APP_ID: ${{ inputs.app-id }}
         ENV_NAME: ${{ inputs.env-name }}
-        AWS_REGION: ${{ inputs.aws-region}}
+        AWS_REGION: ${{ inputs.aws-region }}
 
     - name: Delete AWS profile
       run: rm -rf ~/.aws
