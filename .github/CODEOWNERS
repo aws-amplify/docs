@@ -10,3 +10,5 @@
 /src/fragments/cli @aws-amplify/amplify-cli @aws-amplify/amplify-sa
 /src/fragments/console @aws-amplify/amplify-console @aws-amplify/amplify-sa
 /src/fragments/guides @aws-amplify/developer-advocates @aws-amplify/amplify-sa
+package.json @aws-amplify/documentation-team
+.github @aws-amplify/documentation-team
