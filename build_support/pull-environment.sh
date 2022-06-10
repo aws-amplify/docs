@@ -15,14 +15,14 @@ FRONTEND="{\
 }"
 AMPLIFY="{\
 \"appId\":\"$APP_ID\",\
-\"envName\":\"main\",\
+\"envName\":\"$ENV_NAME\",\
 \"defaultEditor\":\"code\",\
 }"
 AWSCLOUDFORMATIONCONFIG="{\
 \"configLevel\":\"project\",\
 \"useProfile\":true,\
 \"profileName\":\"default\",\
-\"region\":\"us-west-2\"\
+\"region\":\"$AWS_REGION\"\
 }"
 PROVIDERS="{\
 \"awscloudformation\":$AWSCLOUDFORMATIONCONFIG\
