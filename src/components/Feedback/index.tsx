@@ -100,12 +100,12 @@ export default function Feedback() {
           <VoteButtonsContainer>
             <VoteButton
               onClick={async () => {
+                setState(FeedbackState.END);
+
                 const result = await submitVote(true);
                 if (result) {
                   trackFeedbackSubmission(true);
                 }
-
-                setState(FeedbackState.END);
               }}
             >
               <img src="/assets/thumbs-up.svg" alt="Thumbs up" />
@@ -113,12 +113,12 @@ export default function Feedback() {
             </VoteButton>
             <VoteButton
               onClick={async () => {
+                setState(FeedbackState.END);
+
                 const result = await submitVote(false);
                 if (result) {
                   trackFeedbackSubmission(false);
                 }
-
-                setState(FeedbackState.END);
               }}
             >
               <img src="/assets/thumbs-down.svg" alt="Thumbs down" />

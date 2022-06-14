@@ -1438,6 +1438,11 @@ const directory = {
             filters: []
           },
           {
+            title: 'Diagnose',
+            route: '/cli/reference/diagnose',
+            filters: []
+          },
+          {
             title: 'Feature Flags',
             route: '/cli/reference/feature-flags',
             filters: []

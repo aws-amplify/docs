@@ -7,7 +7,7 @@ export const meta = {
 amplify override api
 ```
 
-Run the command above to override Amplify-generated Amazon API Gateway.
+Run the command above to override Amplify-generated Amazon API Gateway resources.
 
 The command creates a new `overrides.ts` file under `amplify/backend/api/<resource-name>/` which provides you the Amplify-generated resources as [CDK constructs](https://docs.aws.amazon.com/cdk/latest/guide/home.html).
 
@@ -44,4 +44,106 @@ You can override the following REST API resources that Amplify generates:
 
 
 </div>
+
+## Add a Cognito User Pool authorizer to your REST API
+
+Amazon Cognito User Pools is a common service to use alongside API Gateway when
+adding user Sign-Up and Sign-In to your application. If your application needs to
+interact with other AWS services, such as S3, on behalf of the user who invoked
+an endpoint, you will need to use IAM credentials with Cognito Identity Pools.
+
+Amplify CLI does not support Cognito User Pool authorizers out of the box. To
+implement this functionality, you must override your REST API and add a Cognito 
+User Pool authorizer yourself by adding the following code into the
+`override(...)` function, in order.
+
+First, assuming the Cognito User Pool you would like to use as an authorizer is
+the Auth resource configured with your Amplify Project, create a parameter that resolves
+to its User Pool ID:
+
+```ts
+// Add a parameter to your Cloud Formation Template for the User Pool's ID
+resources.addCfnParameter({
+    type: "String",
+    description: "The id of an existing User Pool to connect. If this is changed, a user pool will not be created for you.",
+    default: "NONE",
+  },
+  "AuthCognitoUserPoolId",
+  { "Fn::GetAtt": ["auth<your auth name here>", "Outputs.UserPoolId"], }
+);
+```
+
+<Callout warning>
+
+Make sure to replace `<your auth name here>` with the name of your auth resource.
+This is the name of the folder in `amplify/backend/auth` that was created when
+you added an Auth resource to your Amplify project.
+
+</Callout>
+
+Now, create a Cognito User Pool Authorizer corresponding to the User Pool
+by modifying the security definition of your REST API:
+
+```ts
+// Create the authorizer using the AuthCognitoUserPoolId parameter defined above
+resources.restApi.addPropertyOverride("Body.securityDefinitions", {
+  Cognito: {
+    type: "apiKey",
+    name: "Authorization",
+    in: "header",
+    "x-amazon-apigateway-authtype": "cognito_user_pools",
+    "x-amazon-apigateway-authorizer": {
+      type: "cognito_user_pools",
+      providerARNs: [
+        { 'Fn::Sub': 'arn:aws:cognito-idp:{AWS::Region}:{AWS::AccountId}:userpool/{AuthCognitoUserPoolId}' },
+      ],
+    },
+  },
+});
+```
+
+Finally, update the security methods for all of the paths in your REST API to
+use this new Cognito User Pool authorizer. We also add the `Authorization` header
+as a parameter on incoming requests for these paths as a place for users to provide
+their Cognito User ID Tokens. 
+
+```ts
+// For every path in our REST API
+for (const path in resources.restApi.body.paths) {
+  // Add the Authorization header as a parameter to requests
+  resources.restApi.addPropertyOverride(
+    `Body.paths.${path}.x-amazon-apigateway-any-method.parameters`,
+    [
+      ...resources.restApi.body.paths[path]["x-amazon-apigateway-any-method"]
+        .parameters,
+      {
+        name: "Authorization",
+        in: "header",
+        required: false,
+        type: "string",
+      },
+    ]
+  );
+  // Use our new Cognito User Pool authorizer for security
+  resources.restApi.addPropertyOverride(
+    `Body.paths.${path}.x-amazon-apigateway-any-method.security`,
+    [ { Cognito: [], }, ]
+  );
+}
+```
+
+<Callout>
+
+Note that you can add more advanced logic to only use the Cognito User Pool authorizer
+with some paths or methods.
+
+</Callout>
+
+When performing requests to your REST API, make sure to add the `Authorization`
+header with an ID Token provided by Cognito.
+
+Requests to endpoints are now populated with information from Cognito about the
+user who is invoking the
+endpoint, and you can reuse the verified ID Token in your endpoint resolvers to assume
+the identity of the user for accessing other services like AWS AppSync or S3.
 
