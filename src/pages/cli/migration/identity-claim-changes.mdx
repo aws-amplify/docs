@@ -19,7 +19,7 @@ While the other directives will work as they currently work (ie. `@searchable`, 
 query SearchAndSort {
   searchStudents(filter:
     or: [{
-      owner: { wildcard: "*::user1" }
+        owner: { match: "*::user1" }
     }, {
       owner: { eq: "user1" }
     }],
