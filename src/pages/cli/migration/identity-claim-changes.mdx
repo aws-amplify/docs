@@ -13,7 +13,7 @@ In the Amplify CLI >= v8.0.3 owner-based `@auth` rule uses `"username"` as the d
 
 There are no breaking changes to your GraphQL API when using the new default identity claim. The resolvers will store these values in your DynamoDB tables in the format of `<sub>::<username>`, and return `username` to the client code by default.
 
-While the other directives will work as they currently expected to function (i.e. `@searchable`, `@function`), using custom queries to your databases may need to be changed. For example, if you are performing a query with the `filter` parameter, you will need to change it from using the `filter` query with just 1 argument to using an `or` conditional statement like the following:
+While the other directives will work as they are currently expected to function (i.e. `@searchable`, `@function`), using custom queries to your databases may need to be changed. For example, if you are performing a query with the `filter` parameter, you will need to change it from using the `filter` query with just 1 argument to using an `or` conditional statement like the following:
 
 ```graphql
 query MyQuery {
