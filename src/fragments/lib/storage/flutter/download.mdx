@@ -12,14 +12,16 @@ Future<void> downloadFile() async {
   final file = File(filepath);
 
   try {
-    await Amplify.Storage.downloadFile(
+    final result = await Amplify.Storage.downloadFile(
       key: 'ExampleKey',
       local: file,
       onProgress: (progress) {
-        print("Fraction completed: " + progress.getFractionCompleted().toString());
-      }
+        print('Fraction completed: ${progress.getFractionCompleted()}');
+      },
     );
-    final String contents = file.readAsStringSync();
+    final contents = result.file.readAsStringSync();
+    // Or you can reference the file that is created above
+    // final contents = file.readAsStringSync();
     print('Downloaded contents: $contents');
   } on StorageException catch (e) {
     print('Error downloading file: $e');
@@ -29,13 +31,12 @@ Future<void> downloadFile() async {
 
 ### Generate a download URL
 
-You can also retrieve a URL for the object in storage:
+You can also retrieve a URL for the object in storage by its key:
 
 ```dart
 Future<void> getDownloadUrl() async {
   try {
-    final GetUrlResult result =
-      await Amplify.Storage.getUrl(key: 'ExampleKey');
+    final result = await Amplify.Storage.getUrl(key: 'ExampleKey');
     // NOTE: This code is only for demonstration
     // Your debug console may truncate the printed url string
     print('Got URL: ${result.url}');

@@ -1,16 +1,18 @@
 ```dart
-try {
-  Todo todo = Todo(name: 'my first todo', description: 'todo description');
-  final request = ModelMutations.create(todo);
-  final response = await Amplify.API.mutate(request: request).response;
+Future<void> createTodo() async {
+  try {
+    final todo = Todo(name: 'my first todo', description: 'todo description');
+    final request = ModelMutations.create(todo);
+    final response = await Amplify.API.mutate(request: request).response;
 
-  Todo? createdTodo = response.data;
-  if (createdTodo == null) {
-    print('errors: ' + response.errors.toString());
-    return;
+    final Todo? createdTodo = response.data;
+    if (createdTodo == null) {
+      debugPrint('errors: ${response.errors}');
+      return;
+    }
+    debugPrint('Mutation result: ${createdTodo.name}');
+  } on ApiException catch (e) {
+    debugPrint('Mutation failed: $e');
   }
-  print('Mutation result: ' + createdTodo.name);
-} on ApiException catch (e) {
-  print('Mutation failed: $e');
 }
 ```

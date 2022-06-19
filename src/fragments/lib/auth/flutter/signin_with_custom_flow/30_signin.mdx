@@ -1,15 +1,21 @@
 ```dart
-try {
-  SignInResult res = await Amplify.Auth.signIn(
-    username: usernameController.text.trim(),
-  );
-  setState(() {
-    isSignedIn = res.isSignedIn;
-    // Get the publicChallengeParameters from your Create Auth Challenge Lambda
-    challengeHint = res.nextStep?.additionalInfo?['hint']);
-  });
-} on AuthException catch (e) {
-  print(e.message);
+// Create a boolean for checking the sign in status and keep the status
+bool isSignedIn = false;
+String? challengeHint;
+
+...
+
+Future<void> signInCustomFlow(String username) async {
+  try {
+    final result = await Amplify.Auth.signIn(username: username);
+    setState(() {
+      isSignedIn = result.isSignedIn;
+      // Get the publicChallengeParameters from your Create Auth Challenge Lambda
+      challengeHint = result.nextStep?.additionalInfo?['hint'];
+    });
+  } on AuthException catch (e) {
+    debugPrint(e.message);
+  }
 }
 ```
 

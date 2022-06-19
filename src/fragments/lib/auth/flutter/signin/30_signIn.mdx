@@ -1,18 +1,25 @@
 ```dart
-try {
-  SignInResult res = await Amplify.Auth.signIn(
-    username: usernameController.text.trim(),
-    password: passwordController.text.trim(),
-  );
-  setState(() {
-    isSignedIn = res.isSignedIn;
-  });
-} on AuthException catch (e) {
-  print(e.message);
+// Create a boolean for checking the sign in status
+bool isSignedIn = false;
+
+Future<void> signInUser(String username, String password) async {
+  try {
+    final result = await Amplify.Auth.signIn(
+      username: username,
+      password: password,
+    );
+
+    setState(() {
+      isSignedIn = res.isSignedIn;
+    });
+
+  } on AuthException catch (e) {
+    debugPrint(e.message);
+  }
 }
 ```
 
 <Callout>
-Please note that you will be prevented from successfully calling `signIn` if a user has already signed in and a valid session is active.  You must first call `signOut` to remove the original session.  When running on the iOS platform, you will be able to call `signIn` if the session has expired, while on Android you must first call `signOut` regardless. 
+Please note that you will be prevented from successfully calling `signIn` if a user has already signed in and a valid session is active.  You must first call `signOut` to remove the original session.  When running on the iOS platform, you will be able to call `signIn` if the session has expired, while on Android you must first call `signOut` regardless.
 </Callout>
 

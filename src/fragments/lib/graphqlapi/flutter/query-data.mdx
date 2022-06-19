@@ -3,18 +3,19 @@
 Now that you were able to make a mutation, take the `id` from the created `Todo` instance and use it to retrieve data.
 
 ```dart
-try {
-  final request = ModelQueries.get(
-      Todo.classType, createdTodo.id);
-  final response = await Amplify.API.query(request: request).response;
-  Todo? todo = response.data;
-  if (todo == null) {
-    print('errors: ' + response.errors.toString());
-    return;
-  }
-  print('Query result: ' + todo.name);
-} on ApiException catch (e) {
-  print('Query failed: $e');
+Future<Todo?> queryItem(Todo queriedTodo) async {
+   try {
+      final request = ModelQueries.get(Todo.classType, queriedTodo.id);
+      final response = await Amplify.API.query(request: request).response;
+      final todo = response.data;
+      if (todo == null) {
+        print('errors: ${response.errors}');
+      }
+      return todo;
+   } on ApiException catch (e) {
+      print('Query failed: $e');
+      return null;
+   }
 }
 ```
 
@@ -23,18 +24,20 @@ try {
 You can get the list of items in `Amplify.API.query`:
 
 ```dart
-try {
-  final request = ModelQueries.list(Todo.classType);
-  final response = await Amplify.API.query(request: request).response;
+Future<List<Todo?>> queryListItems() async {
+  try {
+    final request = ModelQueries.list(Todo.classType);
+    final response = await Amplify.API.query(request: request).response;
 
-  List<Todo?>? todos = response.data?.items;
-  if (todos == null) {
-    print('errors: ' + response.errors.toString());
-    return;
+    final todos = response.data?.items;
+    if (todos == null) {
+      print('errors: ${response.errors}');
+    }
+    return todos;
+  } on ApiException catch (e) {
+    print('Query failed: $e');
   }
-  print('Query result: ' + todos.toString());
-} on ApiException catch (e) {
-  print('Query failed: $e');
+  return <Todo?>[];
 }
 ```
 
@@ -44,12 +47,16 @@ For large data sets, you'll need to paginate through the results. After receivin
 
 ```dart
 const limit = 100;
-final firstReq = ModelQueries.list<Todo>(Todo.classType, limit: limit);
-final firstRes = await Amplify.API.query(request: firstReq).response;
-final firstPageData = firstRes.data;
-// Indicates there are > 100 todos and we can get the request for the next set.
-if (firstPageData?.hasNextResult == true) {
-  final secondReq = firstPageData!.requestForNextResult;
-  final secondRes = await Amplify.API.query(request: secondReq!).response;
+
+Future<List<Todo?>> queryPaginatedListItems() async {
+  final firstRequest = ModelQueries.list<Todo>(Todo.classType, limit: limit);
+  final firstResult = await Amplify.API.query(request: firstRequest).response;
+  final firstPageData = firstResult.data;
+
+  // Indicates there are > 100 todos and we can get the request for the next set.
+  if (firstPageData?.hasNextResult == true) {
+    final secondRequest = firstPageData!.requestForNextResult;
+    final secondResult = await Amplify.API.query(request: secondRequest!).response;
+  }
 }
 ```

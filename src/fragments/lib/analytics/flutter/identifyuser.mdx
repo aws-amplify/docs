@@ -6,22 +6,22 @@ If you have asked for location access and received permission, you can also prov
 
 ```dart
 
-AnalyticsUserProfileLocation location = new AnalyticsUserProfileLocation();
-    location.latitude = 47.606209;
-    location.longitude = -122.332069;
-    location.postalCode = '98122';
-    location.city = 'Seattle';
-    location.region = 'WA';
-    location.country = 'USA';
+final location = AnalyticsUserProfileLocation()
+  ..latitude = 47.606209
+  ..longitude = -122.332069
+  ..postalCode = '98122'
+  ..city = 'Seattle'
+  ..region = 'WA'
+  ..country = 'USA';
 
-AnalyticsProperties properties = new AnalyticsProperties();
-    properties.addStringProperty('phoneNumber', '+11234567890'); 
-    properties.addIntProperty('age', 25); 
+final properties = AnalyticsProperties();
+properties.addStringProperty('phoneNumber', '+11234567890');
+properties.addIntProperty('age', 25);
 
-AnalyticsUserProfile userProfile = new AnalyticsUserProfile();
-    userProfile.name = username;
-    userProfile.email = 'name@example.com';
-    userProfile.location = location; 
+final userProfile = AnalyticsUserProfile();
+userProfile.name = '<username-of-the-current-client';
+userProfile.email = 'name@example.com';
+userProfile.location = location;
 
-Amplify.Analytics.identifyUser(userId: userId, userProfile: profile);
+Amplify.Analytics.identifyUser(userId: '<id-of-the-current-client', userProfile: userProfile);
 ```

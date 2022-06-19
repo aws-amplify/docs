@@ -1,23 +1,27 @@
  ```dart
-try {
-  Map<String, String> userAttributes = {
-    'email': 'email@domain.com',
-    'phone_number': '+15559101234',
-    // additional attributes as needed
-  };
-  SignUpResult res = await Amplify.Auth.signUp(
-    username: 'myusername',
-    password: 'mysupersecurepassword',
-    options: CognitoSignUpOptions(
-      userAttributes: userAttributes
-    )
-  );
-  setState(() {
-    isSignUpComplete = res.isSignUpComplete;
-  });
-} on AuthException catch (e) {
-  print(e.message);
-}
+// Create a boolean for checking the sign up status
+bool isSignUpComplete = false;
 
+...
+
+Future<void> signUpUser() async {
+  try {
+    final userAttributes = <CognitoUserAttributeKey, String>{
+      CognitoUserAttributeKey.email: 'email@domain.com',
+      CognitoUserAttributeKey.phoneNumber: '+15559101234',
+      // additional attributes as needed
+    };
+    final result = await Amplify.Auth.signUp(
+      username: 'myusername',
+      password: 'mysupersecurepassword',
+      options: CognitoSignUpOptions(userAttributes: userAttributes),
+    );
+    setState(() {
+      isSignUpComplete = result.isSignUpComplete;
+    });
+  } on AuthException catch (e) {
+    debugPrint(e.message);
+  }
+}
 ```
 

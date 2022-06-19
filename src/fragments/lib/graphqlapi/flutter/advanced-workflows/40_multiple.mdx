@@ -20,19 +20,25 @@ final multiOperationRequest = GraphQLRequest<String>(
     variables: <String, String>{
       'todoId': someTodoId,
       'postId': somePostId
-    });
+    },
+);
 ```
 Notice here that `modelType` and `decodePath` are omitted. When these decoding variables are omitted, the plugin simply returns the result as a raw `String` from the response.
 
 Once you have the response data in a `String`, you can parse it using `json.decode()` and pass the resulting `Map` to the model's `fromJson()` method to create an instance of the model.
 
 ```dart
-final response =
-    await Amplify.API.query(request: multiOperationRequest).response;
-String? data = response.data;
-if (data != null) {
-  Map<String, dynamic> jsonData = json.decode(data);
-  final post = Post.fromJson(jsonData[getPost]);
-  final todo = Todo.fromJson(jsonData[getTodo]);
+// Do not forget to add this to imports for json.decode
+import 'dart:convert';
+
+...
+
+Future<void> queryMultiOperationRequest(GraphQLRequest operation) async {
+  final response = await Amplify.API.query(request: multiOperationRequest).response;
+  if (response.data != null) {
+    Map<String, dynamic> jsonData = json.decode(response.data);
+    final post = Post.fromJson(jsonData[getPost]);
+    final todo = Todo.fromJson(jsonData[getTodo]);
+  }
 }
 ```

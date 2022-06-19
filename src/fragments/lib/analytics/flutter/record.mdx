@@ -3,10 +3,14 @@
 The Amplify analytics plugin also makes it easy to record custom events within the app. The plugin handles retry logic in the event the device looses network connectivity and automatically batches requests to reduce network bandwidth.
 
 ```dart
-AnalyticsEvent event = AnalyticsEvent('PasswordReset');
-event.properties.addStringProperty('Channel', 'SMS'); 
-event.properties.addBoolProperty('Successful', true);
-event.properties.addIntProperty('ProcessDuration', 792); 
+final event = AnalyticsEvent('PasswordReset');
+
+event.properties
+  ..addStringProperty('Channel', 'SMS')
+  ..addBoolProperty('Successful', true);
+
+// You can also add the properties one by one like the following
+event.properties.addIntProperty('ProcessDuration', 792);
 event.properties.addDoubleProperty('doubleKey', 120.3);
 
 Amplify.Analytics.recordEvent(event: event);
@@ -48,15 +52,15 @@ Amplify.Analytics.flushEvents();
 You can register global properties which will be sent along with all invocations of `Amplify.Analytics.recordEvent`.
 
 ```dart
-AnalyticsProperties properties = new AnalyticsProperties();
-properties.addStringProperty('AppStyle', 'DarkMode'); 
+final properties = AnalyticsProperties();
+properties.addStringProperty('AppStyle', 'DarkMode');
 Amplify.Analytics.registerGlobalProperties(globalProperties: properties);
 ```
 
 To unregister a global property, call `Amplify.Analytics.unregisterGlobalProperties()`:
 
 ```dart
-Amplify.Analytics.unregisterGlobalProperties(propertyName: ['AppStyle', 'OtherProperty']);
+Amplify.Analytics.unregisterGlobalProperties(propertyNames: ['AppStyle', 'OtherProperty']);
 ```
 
 ## Disable Analytics

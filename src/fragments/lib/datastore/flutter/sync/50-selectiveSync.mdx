@@ -8,15 +8,23 @@ You can utilize selective sync to only persist a subset of your data instead.
 Selective sync works by applying predicates to the base and delta sync queries, as well as to incoming subscriptions.
 
 ```dart
-Amplify.addPlugin(AmplifyDataStore(
-  modelProvider: ModelProvider.instance,
-  syncExpressions: [
-    DataStoreSyncExpression(Post.classType, () => Post.RATING.gt(5)),
-    DataStoreSyncExpression(Comment.classType, () => Comment.STATUS.eq('active'))
-  ]));
+void _configureAmplify() async {
+  // Update AmplifyDataStore instance like below
+  final datastorePlugin = AmplifyDataStore(
+    modelProvider: ModelProvider.instance,
+    syncExpressions: [
+      DataStoreSyncExpression(Post.classType, () => Post.RATING.gt(5)),
+      DataStoreSyncExpression(
+        Comment.classType,
+        () => Comment.POST.beginsWith('This'),
+      )
+    ],
+  );
+  ...
+}
 ```
 
-When DataStore starts syncing, only Posts with `rating > 5` and Comments with `status` equal to `active` will be synced down to the user's local store.
+When DataStore starts syncing, only Posts with `rating > 5` and Comments with `POST` id begins with `This` will be synced down to the user's local store.
 
 <Callout>
 
@@ -31,35 +39,35 @@ In order to have your expressions reevaluated, you can execute `Amplify.DataStor
 If you have the following expression and you want to change the filter that gets applied at runtime, you can do the following:
 
 ```dart
-var rating = 5
+int rating = 5;
 
-Future<void> initialize() {
-  var dataStorePlugin = AmplifyDataStore(
+Future<void> initialize() async {
+  final dataStorePlugin = AmplifyDataStore(
     modelProvider: ModelProvider.instance,
     syncExpressions: [
       DataStoreSyncExpression(
         Post.classType,
-        () => Post.RATING.gt(rating),
+            () => Post.RATING.gt(rating),
       ),
     ],
   );
 
-  await Amplify.add(dataStorePlugin);
+  await Amplify.addPlugin(dataStorePlugin);
 }
 
-Future<void> changeSync() {
-    rating = 1
-    try {
-      await Amplify.DataStore.stop();
-    } catch(error) {
-      print('Error stopping DataStore: $error');
-    }
+Future<void> changeSync() async {
+  rating = 1;
+  try {
+    await Amplify.DataStore.stop();
+  } catch(error) {
+    print('Error stopping DataStore: $error');
+  }
 
-    try {
-      await Amplify.DataStore.start();
-    } catch(error) {
-      print('Error starting DataStore: $error');
-    }
+  try {
+    await Amplify.DataStore.start();
+  } on Exception catch (error) {
+    print('Error starting DataStore: $error');
+  }
 }
 ```
 
@@ -76,19 +84,20 @@ When applying a more restrictive filter, clear the local records first by runnin
 </Callout>
 
 ```dart
-Future<void> changeSync() {
-    rating = 8
-    try {
-      await Amplify.DataStore.clear();
-    } catch(error) {
-      print('Error stopping DataStore: $error');
-    }
+Future<void> changeSync() async {
+  rating = 8;
+  try {
+    await Amplify.DataStore.clear();
+  } on Exception catch (error) {
+    print('Error clearing DataStore: $error');
+  }
 
-    try {
-      await Amplify.DataStore.start();
-    } catch(error) {
-      print('Error starting DataStore: $error');
-    }
+  try {
+    await Amplify.DataStore.start();
+  } on Exception catch (error) {
+    print('Error starting DataStore: $error');
+  }
+}
 ```
 
 This will clear the contents of your local store, reevaluate your sync expressions and re-sync the data from the cloud, applying all of the specified predicates to the sync queries.
@@ -96,16 +105,16 @@ This will clear the contents of your local store, reevaluate your sync expressio
 You can also have your sync expression return `QueryPredicateConstant.all` in order to remove any filtering for that model. This will have the same effect as the default sync behavior.
 
 ```dart
-Int? rating = 5
+int rating = 5;
 
-Future<void> initialize() {
+Future<void> initialize() async {
   var dataStorePlugin = AmplifyDataStore(
     modelProvider: ModelProvider.instance,
     syncExpressions: [
       DataStoreSyncExpression(
         Post.classType,
-        () {
-          if (rating == null) {
+            () {
+          if (rating > 0) {
             return QueryPredicate.all;
           }
 
@@ -115,7 +124,7 @@ Future<void> initialize() {
     ],
   );
 
-  await Amplify.add(dataStorePlugin);
+  await Amplify.addPlugin(dataStorePlugin);
 }
 ```
 
@@ -155,24 +164,30 @@ E.g., `User.LASTNAME.eq("Doe").and(User.CREATEDAT.gt("2020-10-10"))`.
 Both of these sync expressions will result in AWS AppSync retrieving records from Amazon DynamoDB via a query operation:
 
 ```dart
-// Using eq operator with the primary key of the GSI
-Amplify.addPlugin(AmplifyDataStore(
-  modelProvider: ModelProvider.instance,
-  syncExpressions: [
-    DataStoreSyncExpression(
-      User.classType,
-      () => User.LASTNAME.eq("Doe")
-    ),
-  ]));
+Future<void> initialize() async {
+  // Using eq operator with the primary key of the GSI
+  final singleEqualsStore = AmplifyDataStore(
+    modelProvider: ModelProvider.instance,
+    syncExpressions: [
+      DataStoreSyncExpression(
+        User.classType,
+        () => User.LASTNAME.eq("Doe"),
+      ),
+    ],
+  );
 
-// Using eq operator with the primary key of the GSI and
-// chaining the gt operator with the sort key
-Amplify.addPlugin(AmplifyDataStore(
-  modelProvider: ModelProvider.instance,
-  syncExpressions: [
-    DataStoreSyncExpression(
-      User.classType,
-      () => User.LASTNAME.eq("Doe").and(User.CREATEDAT.gt("2020-10-10"))
-    ),
-  ]));
+  // Using eq operator with the primary key of the GSI and
+  // chaining the gt operator with the sort key
+  final chainedEqualGtStore = AmplifyDataStore(
+    modelProvider: ModelProvider.instance,
+    syncExpressions: [
+      DataStoreSyncExpression(
+        User.classType,
+        () => User.LASTNAME.eq("Doe").and(User.CREATEDAT.gt("2020-10-10")),
+      ),
+    ],
+  );
+
+  await Amplify.addPlugins([singleEqualsStore, chainedEqualGtStore]);
+}
 ```

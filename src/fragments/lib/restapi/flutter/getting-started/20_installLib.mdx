@@ -1,13 +1,13 @@
-Add the following dependencies to your `pubspec.yaml` file and install dependencies when asked:
+Add the following dependencies to your `pubspec.yaml` file and install dependencies when asked. Please keep in mind that Auth plugin is needed for IAM authorization mode, which is default for REST API:
 
 ```yaml
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.17.3 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  amplify_flutter: ^0.5.0
-  amplify_api: ^0.5.0
-  amplify_auth_cognito: ^0.5.0
+  amplify_flutter: ^0.5.1
+  amplify_api: ^0.5.1
+  amplify_auth_cognito: ^0.5.1
 ```
