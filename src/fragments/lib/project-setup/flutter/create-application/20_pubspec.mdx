@@ -1,32 +1,45 @@
 Amplify for Flutter is distributed via **pub.dev**.
 
-Open your **app**'s `pubspec.yaml` and add the following 3 dependencies below the line "sdk:flutter". 
+1. From your project root directory, find and modify `pubspec.yaml` and add required Amplify plugins to the project dependencies. E.g.
 
-```yaml
-environment:
-  sdk: ">=2.12.0 <3.0.0"
+   ```yaml
+   environment:
+     sdk: '>=2.12.0 <3.0.0'
 
-dependencies:
-  flutter:
-    sdk: flutter
+   dependencies:
+     flutter:
+       sdk: flutter
 
-  amplify_flutter: ^0.4.0
-  amplify_auth_cognito: ^0.4.0
-  amplify_analytics_pinpoint: ^0.4.0
-```
+     amplify_flutter: ^0.5.0
+     amplify_auth_cognito: ^0.5.0
+     amplify_analytics_pinpoint: ^0.5.0
+   ```
 
-Run **Flutter Pub Get**
+2. Install the dependencies by running the following command. Depending on your development environment, you may perform this step via your IDE (or it may even be performed for you automatically).
 
-Android Studio requires you to sync your project with your new configuration. To do this, you can click **Flutter** in the notification bar above the file editor.  
+   ```bash
+   flutter pub get
+   ```
 
-![](/images/lib/getting-started/flutter/set-up-android-studio-pub-get.png)
+#### Update target iOS platform
 
-Alternatively, you can open a terminal window, cd into your project's root directory (where your pubspec.yaml is) and run: 
+From your project root, navigate to the `ios/` directory and modify the `Podfile` using a text editor of your choice and update the target iOS platform to 11.0 or higher.
 
 ```bash
-flutter pub get 
+platform :ios, '11.0'
 ```
 
-When complete, you will see *Process finished with exit code 0* in the output of the *Messages* tab at the bottom of your screen.
+<Callout>
 
-![](/images/lib/getting-started/flutter/set-up-android-studio-configure-successful.png)
+When preparing your application for deployment, you should also update your iOS Deployment Target to at least 11.0. See the [Flutter docs](https://docs.flutter.dev/deployment/ios) to learn more about building your iOS app for release.
+
+</Callout>
+
+
+#### Update target Android SDK version
+
+From your project root, navigate to the `android/app/` directory and modify `build.gradle` using a text editor of your choice and update the target Android SDK version to 21 or higher:
+
+```bash
+minSdkVersion 21
+```

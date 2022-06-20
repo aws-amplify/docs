@@ -115,7 +115,7 @@ try {
       const settings = {
         distinct: true,
         attributeForDistinct: 'title',
-        searcheableAttributes: [
+        searchableAttributes: [
           'unordered(title)',
           'unordered(text)',
           'unordered(description)',

@@ -214,30 +214,6 @@ The `amplify-authenticator` component offers a simple way to add authentication 
 ```
 
 </Block>
-<Block name="React Native">
-
-First, install the `aws-amplify-react-native` library as well as the other necessary dependencies if you have not already in the previous step. This step differs depending on if you're using Expo or React Native CLI.
-
-import all2 from "/src/fragments/start/getting-started/reactnative/getting-started-steps-ui.mdx";
-
-<Fragments fragments={{all: all2}} />
-
-**Integrate with the front end**
-
-Open __App.js__ and make the following changes:
-
-1. Import the `withAuthenticator` component:
-
-```javascript
-import { withAuthenticator } from 'aws-amplify-react-native'
-```
-
-2. Change the default export to be the `withAuthenticator` wrapping the main component:
-
-```javascript
-export default withAuthenticator(App)
-```
-</Block>
 </BlockSwitcher>
 
 ## Option 2: Call Authentication APIs manually

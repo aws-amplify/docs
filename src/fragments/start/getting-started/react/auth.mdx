@@ -28,53 +28,34 @@ amplify console
 
 ## Create login UI
 
-Now that we have our authentication service deployed to AWS, it's time to add authentication to our React app. Creating the login flow can be quite difficult and time consuming to get right. Luckily Amplify Framework has an authentication UI component we can use that will provide the entire authentication flow for us, using our configuration specified in our __aws-exports.js__ file.
+Now that we have our authentication service deployed to AWS, it's time to add authentication to our React app. Creating the login flow can be quite difficult and time consuming to get right. Luckily Amplify Framework has an [authentication](https://ui.docs.amplify.aws/react/components/authenticator) UI component we can use that will provide the entire authentication flow for us, using our configuration specified in our **aws-exports.js** file.
 
-Open __src/App.js__ and make the following changes:
+Open **src/App.js** and make the following changes:
 
-1. Import the `Authenticator` component:
+1. Import the `withAuthenticator` component:
 
 ```javascript
-import { Authenticator } from '@aws-amplify/ui-react';
+import { withAuthenticator, Button, Heading } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 ```
 
-2. Wrap your application with the `Authenticator` component. Once a user has created an account and signed in, the underlying component will be rendered with access to the `user`.
+2. Wrap your application with the `withAuthenticator` component.
 
 ```javascript
-return (
-  <Authenticator>
-    {({ signOut, user }) => (
-      <div style={styles.container}>
-        <h1>Hello {user.username}</h1>
-        <button style={styles.button} onClick={signOut}>Sign out</button>
-        <br />
-        <h2>Amplify Todos</h2>
-        <input
-          onChange={event => setInput('name', event.target.value)}
-          style={styles.input}
-          value={formState.name}
-          placeholder="Name"
-        />
-        <input
-          onChange={event => setInput('description', event.target.value)}
-          style={styles.input}
-          value={formState.description}
-          placeholder="Description"
-        />
-        <button style={styles.button} onClick={addTodo}>Create Todo</button>
-        {
-          todos.map((todo, index) => (
-            <div key={todo.id ? todo.id : index} style={styles.todo}>
-              <p style={styles.todoName}>{todo.name}</p>
-              <p style={styles.todoDescription}>{todo.description}</p>
-            </div>
-          ))
-        }
-      </div>
-    )}
-  </Authenticator>
-);
+/* src/App.js */
+function App({ signOut, user }) {
+  // Todo logic here
+
+  return (
+    <>
+      {/* Add Todo JSX here  */}
+      <Heading level={1}>Hello {user.username}</Heading>
+      <Button onClick={signOut}>Sign out</Button>
+    </>
+  );
+}
+
+export default withAuthenticator(App);
 ```
 
 Run the app to see the new Authentication flow protecting the app:
@@ -85,12 +66,12 @@ npm start
 
 Now you should see the app load with an authentication flow allowing users to sign up and sign in.
 
-In this example, you used the Amplify React UI library and the `Authenticator` component to quickly get up and running with a real-world authentication flow.
+In this example, you used the Amplify React UI library and the `withAuthenticator` component to quickly get up and running with a real-world authentication flow.
 
-You can also customize this component to add or remove fields, update styling, or other configurations.
+You can also [customize this component](https://ui.docs.amplify.aws/react/components/authenticator#customization) to add or remove fields, update styling, or other configurations. You can even [override function calls](https://ui.docs.amplify.aws/react/components/authenticator#override-function-calls) if needed.
 
-In addition to the `Authenticator`, you can build custom authentication flows using the `Auth` class from the JS library. The `Auth` class can be used in replacement of the `Authenticator`, except in the case of using [override function calls](https://ui.docs.amplify.aws/components/authenticator#override-function-calls)
+In addition to the `withAuthenticator`, you can build custom authentication flows using the `Auth` class from the JS library. The `Auth` class can be used in replacement of the `withAuthenticator`.
 
-`Auth` has over 30 methods including `signUp`, `signIn`, `forgotPassword`, and `signOut` that allow you full control over all aspects of the user authentication flow. Check out the complete API [here](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html)
+`Auth` has over 30 methods including `signUp`, `signIn`, `forgotPassword`, and `signOut` that allow you full control over all aspects of the user authentication flow. Check out the complete API [here](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html).
 
 In the next section, you'll host your app on the Amplify Console, a hosting service complete with a globally available CDN, atomic deployments, easy custom domains, and CI / CD.

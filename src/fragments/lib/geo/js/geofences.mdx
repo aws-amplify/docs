@@ -9,133 +9,126 @@ First, make sure you've provisioned a geofence collection resource and configure
 
 ## Manage Geofences in Your Application
 
-To add a geofence management component to your map, you can use the [amplify-geofence-control](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/geo/API.md#amplifygeofencecontrol) found in the `https://github.com/aws-amplify/maplibre-gl-js-amplify/` library.
+To add a geofence management component to your map, you can use the [amplify-geofence-control](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/geo/API.md#amplifygeofencecontrol).
 
 Install the necessary dependencies with the following command:
 
 ```bash
-npm install maplibre-gl@1 maplibre-gl-js-amplify@geo aws-amplify@geo @aws-amplify/ui-react --legacy-peer-deps
+npm install maplibre-gl@1 maplibre-gl-js-amplify aws-amplify @aws-amplify/ui-react
 ```
 
-> **Note:** Make sure that `maplibre-gl-js-amplify` version `1.2.9-geo` or above and `@aws-amplify/geo` version `1.2.2-geo.3` or above are installed.
+> **Note:** Make sure that `maplibre-gl-js-amplify` version `1.6.0` or above and `@aws-amplify/geo` version `1.3.0` or above are installed.
 
 First, create a map onto which you want to add the geofence management component. See the guide on [creating and displaying maps](https://docs.amplify.aws/lib/geo/maps/q/platform/js/).
 
 Then, import [AmplifyGeofenceControl](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/geo/API.md#amplifygeofencecontrol) from "maplibre-gl-js-amplify", create a new instance of this control and add it to your MapLibre map instance.
 
-> **Note:** Ensure that your package bundler (webpack, rollup, etc) is configured to handle css files. Check out the webpack documentation [here](https://webpack.js.org/loaders/css-loader/).
+<BlockSwitcher>
 
-> **Notes:** To use Geofence Controls the user will need to be authenticated with the administrative Cognito user associated with the Geofence Collection you created above. Below is an example using React and the [Amplify Authenticator](https://ui.docs.amplify.aws/components/authenticator) but for other use cases check the [Authentication documentation](/lib/auth/overview).
+  <Block name="Javascript">
 
-Your updated map application should look like the following
+  **Note:** When using the existing [maps implementation](/lib/geo/maps) you can add the Geofence control to an existing map
 
-```diff
-import { useEffect, useRef } from "react";
+  ```diff
+  import { useEffect, useRef } from "react";
 - import { createMap } from "maplibre-gl-js-amplify";
 + import { createMap, AmplifyGeofenceControl } from "maplibre-gl-js-amplify";
 + import { withAuthenticator } from "@aws-amplify/ui-react";
 + import "@aws-amplify/ui-react/styles.css";
++ import "maplibre-gl-js-amplify/dist/public/amplify-ctrl-geofence.css";
 import "maplibre-gl/dist/maplibre-gl.css";
 
-function Map({ signOut }) {
-  const mapRef = useRef(null); // Reference to the map DOM element
+  function Map() {
+    const mapRef = useRef(null); // Reference to the map DOM element
 
-  // Wrapping our code in a useEffect allows us to run initializeMap after the div has been rendered into the DOM
-  useEffect(() => {
-    let map;
-    async function initializeMap() {
-      // We only want to initialize the underlying maplibre map after the div has been rendered
-      if (mapRef.current != null) {
-        map = await createMap({
-          container: mapRef.current,
-          center: [-122.431297, 37.773972],
-          zoom: 11,
-        });
-      }
+    // Wrapping our code in a useEffect allows us to run initializeMap after the div has been rendered into the DOM
+    useEffect(() => {
+      let map;
+      async function initializeMap() {
+        // We only want to initialize the underlying maplibre map after the div has been rendered
+        if (mapRef.current != null) {
+          map = await createMap({
+            container: mapRef.current,
+            center: [-122.431297, 37.773972],
+            zoom: 11,
+          });
+        }
 
 +     const control = new AmplifyGeofenceControl()
 +     map.addControl(control);
     }
     initializeMap();
 
-    // Cleans up and maplibre DOM elements and other resources - https://maplibre.org/maplibre-gl-js-docs/api/map/#map#remove
-    return function cleanup() {
-      if (map != null) map.remove();
-    };
-  }, []);
+      // Cleans up and maplibre DOM elements and other resources - https://maplibre.org/maplibre-gl-js-docs/api/map/#map#remove
+      return function cleanup() {
+        if (map != null) map.remove();
+      };
+    }, []);
 
-- return <div ref={mapRef} id="map" />;
-+ return (
-+   <div className="App">
-+     <button id="signout" onClick={signOut}>
-+      Sign out
-+     </button>
-+     <div ref={mapRef} id="map" />
-+   </div>
-+ );
-}
+   return (
+     <div className="App">
+       <div ref={mapRef} id="map" />
+     </div>
+   );
+  }
 
-- export default Map;
-+ export default withAuthenticator(Map);
-```
+  export default withAuthenticator(Map);
+  ```
 
-And your app CSS should be updated to show the sign out button
+  </Block>
 
-```diff
-#map { /* The id of the container you passed to createMap */
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 100%;
-}
+  <Block name="React">
 
-+ #signout {
-+   position: absolute;
-+   top: 0;
-+   right: 0;
-+   z-index: 10;
-+ }
-```
+  **Note:** When using the [Amplify React MapView component](https://ui.docs.amplify.aws/react/components/geo) you can use the [`useControl` hook from react-map-gl](https://visgl.github.io/react-map-gl/docs/api-reference/use-control) to render the Geofence control component.
+
+  ```javascript
+  import React from "react";
+  import Amplify from "aws-amplify";
+  import { MapView, withAuthenticator } from "@aws-amplify/ui-react";
+  import { useControl } from "react-map-gl";
+  import { AmplifyGeofenceControl } from "maplibre-gl-js-amplify";
+  import "@aws-amplify/ui-react/styles.css";
+  import "maplibre-gl/dist/maplibre-gl.css";
+  import "maplibre-gl-js-amplify/dist/public/amplify-ctrl-geofence.css";
+  import awsconfig from "../src/aws-exports";
+  Amplify.configure(awsconfig);
+
+  function Geofence() {
+    useControl(() => new AmplifyGeofenceControl());
+
+    return null;
+  }
+
+  function App({ signOut }) {
+    return (
+      <div className="App">
+        <MapView
+          initialViewState={{
+            latitude: 37.8,
+            longitude: -122.4,
+            zoom: 14,
+          }}
+        >
+          <Geofence />
+        </MapView>
+      </div>
+    );
+  }
+
+  export default withAuthenticator(App);
+  ```
+
+  </Block>
+
+</BlockSwitcher>
+
+> **Note:** Ensure that your package bundler (webpack, rollup, etc) is configured to handle css files. Check out the webpack documentation [here](https://webpack.js.org/loaders/css-loader/).
+
+> **Notes:** To use Geofence Controls the user will need to be authenticated with the administrative Cognito user associated with the Geofence Collection you created above. Below is an example using React and the [Amplify Authenticator](https://ui.docs.amplify.aws/react/components/authenticator) but for other use cases check the [Authentication documentation](/lib/auth/overview).
 
 ![Geofence Create](/images/geofence-create.png)
 
 ![Geofence Edit](/images/geofence-edit.png)
-
-### NextJS and Polyfills
-
-<Callout>
-
-**Note:** The current version of `maplibre-gl-draw-circle` that we depend on uses a slightly older version of `mapbox-gl-draw`. `mapbox-gl-draw` v1.1.1 will require some polyfills in NextJS to get your application to compile otherwise you will get an error like:
-
-```
-Uncaught ReferenceError: fs is not defined
-```
-
-Additionally using `@aws-amplify/ui-react` with Webpack5 requires polyfills for `aws-amplify` as documented [here](https://ui.docs.amplify.aws/getting-started/installation#webpack-5).
-
-
-Follow the instructions below if you are using NextJS to resolve the error:
-
-1. Add node-polyfill-webpack-plugin as dev dependency: `npm install node-polyfill-webpack-plugin -D`
-
-2. Add the plugin to your next.config.js plugins list and include a [resolve fallback](https://webpack.js.org/configuration/resolve/#resolvefallback) for `fs`
-
-```
-const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
-
-module.exports = {
-  reactStrictMode: true,
-  webpack: (config) => {
-    config.plugins.push(new NodePolyfillPlugin()); // Adds polyfills for aws-amplify
-    config.resolve.fallback = {
-      fs: false, // Resolves fs issue from maplibre-gl-draw-circle
-    };
-    return config;
-  },
-};
-```
-
-</Callout>
 
 ## Geofence API
 

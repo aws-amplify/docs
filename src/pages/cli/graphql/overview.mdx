@@ -80,17 +80,18 @@ Next, let's try to query from the GraphQL API. Choose a platform below and follo
 
 ```js
 import { API } from 'aws-amplify'
-import { createTodo, listTodos, updateTodo, deleteTodo } from './graphql/todo'
+import { createTodo, updateTodo, deleteTodo } from './graphql/mutations'
+import { listTodos } from './graphql/queries'
 ```
 
 Then, create your first todo item with the a GraphQL API call:
 
 ```js
-const result = await API.graphql(createTodo, {
+const result = await API.graphql(graphqlOperation(createTodo, {
   input: {
     name: 'My first todo!'
   }
-})
+}))
 ```
 
 ## Query records from the table
@@ -98,7 +99,7 @@ const result = await API.graphql(createTodo, {
 Use the GraphQL query statement to list all todos in your app:
 
 ```js
-const result = await API.graphql(listTodos)
+const result = await API.graphql(graphqlOperation(listTodos))
 console.log(result)
 ```
 
@@ -109,12 +110,12 @@ You should see the record created above: `My first todo!`.
 To update the record use the GraphQL update mutation:
 
 ```js
-const result = await API.graphql(updateTodo, {
+const result = await API.graphql(graphqlOperation(updateTodo, {
   input: {
     id: "<...>",
     name: "My first updated todo!"
   }
-})
+}))
 console.log(result)
 ```
 
@@ -125,11 +126,11 @@ The result should contain the updated value: `My first updated todo!`.
 Let's clean up our database! Delete the todo by using the delete mutation:
 
 ```js
-const result = await API.graphql(deleteTodo, {
+const result = await API.graphql(graphqlOperation(deleteTodo, {
   input: {
     id: "<...>",
   }
-})
+}))
 console.log(result)
 ```
 The result output should indicate to you that the record was successfully deleted!

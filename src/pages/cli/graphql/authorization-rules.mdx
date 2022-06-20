@@ -122,7 +122,7 @@ In the example above, upon record creation, the `authors` list is populated with
 ### Signed-in user data access
 To restrict a record's access to every signed-in user, use the `private` authorization strategy.
 
-> If you want to restrict a record's access to a specific user, see [Per-user / owner-based data access](per-user--owner-based-data-access). `private` authorization applies the authorization rule to **every** signed-in user access.
+> If you want to restrict a record's access to a specific user, see [Per-user / owner-based data access](#per-user--owner-based-data-access). `private` authorization applies the authorization rule to **every** signed-in user access.
 
 ```graphql
 type Todo @model @auth(rules: [{ allow: private }]) {
@@ -280,7 +280,8 @@ In the example above:
 
 <Callout warning>
 
-To facilitate field-level authorization with subscriptions, you need to either apply field-level authorization rules to all **required** fields, make the other fields nullable, or disable subscriptions by setting it to public or off.
+To prevent sensitive data from being sent over subscriptions, the GraphQL Transformer needs to alter the response of mutations for those fields by setting them to null. Therefore, to facilitate field-level authorization with subscriptions, you need to either apply field-level authorization rules to all **required** fields, make the other fields nullable, or disable subscriptions by setting it to public or off. 
+  
 </Callout>
 
 In the example above:
@@ -412,5 +413,6 @@ Authorization rules consists of:
 - **authorization strategy** (`allow`): who the authorization rule applies to
 - **authorization provider** (`provider`): which mechanism is used to apply the authorization rule (API Key, IAM, Amazon Cognito user pool, OIDC)
 - **authorized operations** (`operations`): which operations are allowed for the given strategy and provider. If not specified, `create`, `read`, `update`, and `delete` operations are allowed.
+-- **read operation**: `read` operation can be replaced with `get`, `list`, `sync`, `search`, `list` for a more granular query access
 
 **API Keys** are best used for public APIs (or parts of your schema which you wish to be public) or prototyping, and you must specify the expiration time before deploying. **IAM** authorization uses [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html) to make request with policies attached to Roles. OIDC tokens provided by **Amazon Cognito user pool** or **3rd party OpenID Connect** providers can also be used for authorization, and enabling this provides a simple access control requiring users to authenticate to be granted top level access to API actions.
