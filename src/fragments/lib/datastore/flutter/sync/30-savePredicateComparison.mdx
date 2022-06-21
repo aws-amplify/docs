@@ -1,7 +1,7 @@
 ```dart
 // Tests only against the local state
 Future<void> savePredicateLocally(Post post) async {
-  if post.title.startsWith(with: "[Amplify]") {
+  if (post.title.startsWith('[Amplify]')) {
       await Amplify.DataStore.save(post);
   }
 }
@@ -11,7 +11,7 @@ Future<void> savePredicateRemotely(Post post) async {
   try {
     await Amplify.DataStore.save(
       post,
-      where: Post.TITLE.beginsWith("[Amplify]"),
+      where: Post.TITLE.beginsWith('[Amplify]'),
     );
   } catch (e) {
     ...

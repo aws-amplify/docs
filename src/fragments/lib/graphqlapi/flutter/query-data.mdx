@@ -32,6 +32,7 @@ Future<List<Todo?>> queryListItems() async {
     final todos = response.data?.items;
     if (todos == null) {
       print('errors: ${response.errors}');
+      return <Todo?>[];
     }
     return todos;
   } on ApiException catch (e) {
@@ -54,9 +55,12 @@ Future<List<Todo?>> queryPaginatedListItems() async {
   final firstPageData = firstResult.data;
 
   // Indicates there are > 100 todos and we can get the request for the next set.
-  if (firstPageData?.hasNextResult == true) {
+  if (firstPageData?.hasNextResult ?? false) {
     final secondRequest = firstPageData!.requestForNextResult;
     final secondResult = await Amplify.API.query(request: secondRequest!).response;
+    return secondResult.data?.items ?? <Todo?>[];
+  } else {
+    return firstPageData?.items ?? <Todo?>[];
   }
 }
 ```

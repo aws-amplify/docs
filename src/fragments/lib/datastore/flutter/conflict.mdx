@@ -43,8 +43,10 @@ Future<void> initializeDataStoreWithConflictResolution() async {
       syncPageSize: 1000,
     );
     await Amplify.addPlugin(datastorePlugin);
+
+    await Amplify.configure(amplifyconfig);
   } on Exception catch (e) {
-    print('Error configuring Amplify: $e');
+    safePrint('Error configuring Amplify: $e');
   }
 }
 ```

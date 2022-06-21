@@ -14,7 +14,7 @@ Future<void> signInCustomFlow(String username) async {
       challengeHint = result.nextStep?.additionalInfo?['hint'];
     });
   } on AuthException catch (e) {
-    debugPrint(e.message);
+    safePrint(e.message);
   }
 }
 ```

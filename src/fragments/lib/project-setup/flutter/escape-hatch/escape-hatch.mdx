@@ -69,12 +69,12 @@ Future<void> main() async {
   );
 
   // Sign and send the HTTP request
-  final AWSSignedRequest signedRequest = await signer.sign(
+  final signedRequest = await signer.sign(
     request,
     credentialScope: scope,
   );
-  final AWSStreamedHttpResponse resp = await signedRequest.send();
-  final String respBody = await resp.decodeBody();
+  final resp = await signedRequest.send();
+  final respBody = await resp.decodeBody();
   print(respBody);
 }
 ```

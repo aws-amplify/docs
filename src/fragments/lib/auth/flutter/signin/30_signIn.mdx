@@ -14,7 +14,7 @@ Future<void> signInUser(String username, String password) async {
     });
 
   } on AuthException catch (e) {
-    debugPrint(e.message);
+    safePrint(e.message);
   }
 }
 ```

@@ -11,26 +11,26 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  StreamSubscription<QuerySnapshot<Post>>? stream;
+  StreamSubscription<QuerySnapshot<Post>>? _stream;
 
   // Initialize a list for storing posts
-  List<Post> posts = [];
+  List<Post> _posts = [];
 
   // Initialize a boolean indicating if the sync process has completed
-  bool isSynced = false;
+  bool _isSynced = false;
 
   // Initialize the libraries
   ...
 
   void observeQuery() {
-    stream = Amplify.DataStore.observeQuery(
+    _stream = Amplify.DataStore.observeQuery(
       Post.classType,
       where: Post.TITLE.beginsWith('post') & (Post.RATING > 10),
       sortBy: [Post.RATING.ascending()],
     ).listen((QuerySnapshot<Post> snapshot) {
       setState(() {
-        posts = snapshot.items;
-        isSynced = snapshot.isSynced;
+        _posts = snapshot.items;
+        _isSynced = snapshot.isSynced;
       });
     });
   }
@@ -40,7 +40,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void dispose() {
-    stream?.cancel();
+    _stream?.cancel();
     super.dispose();
   }
 }

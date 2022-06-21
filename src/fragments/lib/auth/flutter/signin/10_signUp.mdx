@@ -20,7 +20,7 @@ Future<void> signUpUser() async {
       isSignUpComplete = result.isSignUpComplete;
     });
   } on AuthException catch (e) {
-    debugPrint(e.message);
+    safePrint(e.message);
   }
 }
 ```

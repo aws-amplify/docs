@@ -1,5 +1,5 @@
 ```dart
-Future<void> fetchPublishedOrMoreThanFourRatingPosts() async {
+Future<void> fetchPublishedOrWithRatingTwoPosts() async {
   final posts = await Amplify.DataStore.query(
     Post.classType,
     where: Post.RATING.eq(2).or(Post.STATUS.eq(PostStatus.PUBLISHED)),

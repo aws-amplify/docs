@@ -6,13 +6,14 @@ Future<void> deletePostsWithId() async {
     Post.classType,
     where: Post.ID.eq('123'),
   );
-  for (final oldPost in oldPosts) {
-    try {
-      await Amplify.DataStore.delete(oldPost);
-      print('Deleted a post');
-    } on DataStoreException catch (e) {
-      print('Delete failed: $e');
-    }
+  // Query can return more than one posts with a different predicate
+  // For this example, it is ensured that it will return one post
+  final oldPost = oldPosts.first;
+  try {
+    await Amplify.DataStore.delete(oldPost);
+    print('Deleted a post');
+  } on DataStoreException catch (e) {
+    print('Delete failed: $e');
   }
 }
 ```

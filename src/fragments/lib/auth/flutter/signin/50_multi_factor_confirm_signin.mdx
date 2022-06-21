@@ -13,7 +13,7 @@ Future<void> confirmMFAUser() async {
       isSignedIn = result.isSignedIn;
     });
   } on AuthException catch (e) {
-    debugPrint(e.message);
+    safePrint(e.message);
   }
 }
 ```

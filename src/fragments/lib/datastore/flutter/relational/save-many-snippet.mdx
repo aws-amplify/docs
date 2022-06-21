@@ -10,7 +10,7 @@ Once it is regenerated, save your posts with many-to-many mode like the followin
 Future<void> savePostAndEditor() async {
   final post = Post(title: 'My First Post');
   final editor = User(username: 'Nadia');
-  PostEditor postEditor = PostEditor(post: post, user: editor);
+  final postEditor = PostEditor(post: post, user: editor);
 
   // first you save the post
   await Amplify.DataStore.save(post);

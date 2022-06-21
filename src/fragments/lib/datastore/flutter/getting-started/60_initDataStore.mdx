@@ -22,7 +22,7 @@ class _MyAppState extends State<MyApp> {
     _configureAmplify();
   }
 
-  void _configureAmplify() async {
+  Future<void> _configureAmplify() async {
     // Add the following lines to your app initialization to add the DataStore plugin
     final datastorePlugin =
         AmplifyDataStore(modelProvider: ModelProvider.instance);
@@ -30,8 +30,8 @@ class _MyAppState extends State<MyApp> {
     try {
       await Amplify.configure(amplifyconfig);
     } on AmplifyAlreadyConfiguredException {
-      print(
-          "Tried to reconfigure Amplify; this can occur when your app restarts on Android.");
+      safePrint(
+          'Tried to reconfigure Amplify; this can occur when your app restarts on Android.');
     }
   }
 

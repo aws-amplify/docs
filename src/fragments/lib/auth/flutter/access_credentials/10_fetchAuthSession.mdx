@@ -25,11 +25,9 @@ Future<void> fetchAuthSessionWithTimeout() async {
       const Duration(seconds: 5),
     );
     String identityId = (result as CognitoAuthSession).identityId!;
-    print('identityId: $identityId');
-  } on TimeoutException {
-    print('fetchAuthSession timed out');
-  } on AuthException catch (e) {
-    print(e.message);
+    safePrint('identityId: $identityId');
+  } on Exception catch (e) {
+    safePrint('Something went wrong while fetching the session: $e');
   }
 }
 ```

@@ -36,9 +36,9 @@ import 'dart:convert';
 Future<void> queryMultiOperationRequest(GraphQLRequest operation) async {
   final response = await Amplify.API.query(request: multiOperationRequest).response;
   if (response.data != null) {
-    Map<String, dynamic> jsonData = json.decode(response.data);
-    final post = Post.fromJson(jsonData[getPost]);
-    final todo = Todo.fromJson(jsonData[getTodo]);
+    final jsonData = (json.decode(response.data) as Map).cast<String, Object?>();
+    final post = Post.fromJson((jsonData[getPost] as Map).cast<String, Object?>);
+    final todo = Todo.fromJson((jsonData[getTodo] as Map).cast<String, Object?>);
   }
 }
 ```

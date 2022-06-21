@@ -24,11 +24,12 @@ void _configureAmplify() async {
 }
 ```
 
-When DataStore starts syncing, only Posts with `rating > 5` and Comments with `POST` id begins with `This` will be synced down to the user's local store.
+When DataStore starts syncing, only Posts with `rating > 5` and Comments with `POST` id begins with `"This"` will be synced down to the user's local store.
 
 <Callout>
 
-Developers should only specify a single `syncExpression` per model. Any subsequent expressions for the same model will be ignored.
+  Developers should only specify a single `syncExpression` per model. Any subsequent expressions for the same model will
+  be ignored.
 
 </Callout>
 
@@ -47,7 +48,7 @@ Future<void> initialize() async {
     syncExpressions: [
       DataStoreSyncExpression(
         Post.classType,
-            () => Post.RATING.gt(rating),
+        () => Post.RATING.gt(rating),
       ),
     ],
   );
@@ -79,7 +80,7 @@ Keep in mind: `Amplify.DataStore.stop()` will retain the local store's existing 
 
 <Callout>
 
-When applying a more restrictive filter, clear the local records first by running `DataStore.clear()` instead:
+  When applying a more restrictive filter, clear the local records first by running `DataStore.clear()` instead:
 
 </Callout>
 
@@ -113,7 +114,7 @@ Future<void> initialize() async {
     syncExpressions: [
       DataStoreSyncExpression(
         Post.classType,
-            () {
+        () {
           if (rating > 0) {
             return QueryPredicate.all;
           }
@@ -130,7 +131,7 @@ Future<void> initialize() async {
 
 <Callout warning>
 
-`DataStore.configure()` should only by called once.
+  `DataStore.configure()` should only by called once.
 
 </Callout>
 
@@ -142,13 +143,13 @@ You can enable Query during the sync by following the below steps:
 
 1. Create a [Global Secondary Index (GSI)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GSI.html) for your schema, e.g. in the below schema a GSI will be created using field `lastName` as the GSI primary key, and `createdAt` as the GSI sort key. Learn about creating GSIs with the `@index` directive [here](https://docs.amplify.aws/cli/graphql/data-modeling).
 
-   ```graphql
-   type User @model {
-     id: ID!
-     firstName: String!
-     lastName: String! @index(name: "byLastName", sortKeyFields: ["createdAt"])
-     createdAt: AWSDateTime!
-   }
+```graphql
+type User @model {
+  id: ID!
+  firstName: String!
+  lastName: String! @index(name: "byLastName", sortKeyFields: ["createdAt"])
+  createdAt: AWSDateTime!
+}
    ```
 
 2. Configure DataStore with `syncExpression` returning a predicate that maps to a query expression.
@@ -164,7 +165,7 @@ E.g., `User.LASTNAME.eq("Doe").and(User.CREATEDAT.gt("2020-10-10"))`.
 Both of these sync expressions will result in AWS AppSync retrieving records from Amazon DynamoDB via a query operation:
 
 ```dart
-Future<void> initialize() async {
+Future<void> initializeSingleEquals() async {
   // Using eq operator with the primary key of the GSI
   final singleEqualsStore = AmplifyDataStore(
     modelProvider: ModelProvider.instance,
@@ -176,6 +177,10 @@ Future<void> initialize() async {
     ],
   );
 
+  await Amplify.addPlugin(singleEqualsStore);
+}
+
+Future<void> initializeChainedEquals() async {
   // Using eq operator with the primary key of the GSI and
   // chaining the gt operator with the sort key
   final chainedEqualGtStore = AmplifyDataStore(
@@ -188,6 +193,6 @@ Future<void> initialize() async {
     ],
   );
 
-  await Amplify.addPlugins([singleEqualsStore, chainedEqualGtStore]);
+  await Amplify.addPlugin(chainedEqualGtStore);
 }
 ```
