@@ -7,7 +7,7 @@ By default, DataStore uses your API's default authorization type listed in `aws_
 To enable DataStore to use multiple authorization types based on the model's `@auth` rules, add `authModeStrategyType: AuthModeStrategyType.MULTI_AUTH` to your Amplify configuration:
 
 ```js
-import Amplify, { AuthModeStrategyType } from 'aws-amplify';
+import { Amplify, AuthModeStrategyType } from 'aws-amplify';
 import awsconfig from './aws-exports'; 
 
 Amplify.configure({
