@@ -5,7 +5,7 @@ Future<void> createTodo() async {
     final request = ModelMutations.create(todo);
     final response = await Amplify.API.mutate(request: request).response;
 
-    final Todo? createdTodo = response.data;
+    final createdTodo = response.data;
     if (createdTodo == null) {
       safePrint('errors: ${response.errors}');
       return;
