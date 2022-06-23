@@ -1,5 +1,7 @@
 ```dart
-await Amplify.Auth.confirmSignIn(
-    confirmationValue: otp,
-);
+Future<void> confirmSignInPhoneVerification(String otpCode) async {
+  await Amplify.Auth.confirmSignIn(
+      confirmationValue: otp,
+  );
+}
 ```

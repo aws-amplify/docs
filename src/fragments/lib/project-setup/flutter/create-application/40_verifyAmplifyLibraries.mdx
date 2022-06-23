@@ -1,7 +1,7 @@
 
-Before using any methods in the Amplify Flutter Library, it's important to add all necessary plugins and to call configure once in your app.  The steps below will guide you through configuring Amplify Flutter at the root level of your flutter app. 
+Before using any methods in the Amplify Flutter Library, it's important to add all necessary plugins and to call configure once in your app.  The steps below will guide you through configuring Amplify Flutter at the root level of your flutter app.
 
-Import the necessary dart dependencies at the top of main.dart: 
+Add the necessary dart dependencies at the top of main.dart alongside to other imports:
 
 ```dart
 // Amplify Flutter Packages
@@ -9,11 +9,11 @@ import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:amplify_analytics_pinpoint/amplify_analytics_pinpoint.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 
-// Generated in previous step 
-import 'amplifyconfiguration.dart'; 
+// Generated in previous step
+import 'amplifyconfiguration.dart';
 ```
 
-Add the following code to your application's root Stateful Widget, for a blank Flutter app this should be the `class _MyHomePageState extends State<MyHomePage>`. 
+Add the following code to your application's root Stateful Widget, for the default Flutter app this should be the `class _MyHomePageState extends State<MyHomePage>`.
 
 ```dart
 
@@ -21,15 +21,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   initState() {
-    super.initState(); 
-    _configureAmplify(); 
+    super.initState();
+    _configureAmplify();
   }
 
-  void _configureAmplify() async {
+  Future<void> _configureAmplify() async {
 
-    // Add Pinpoint and Cognito Plugins, or any other plugins you want to use
-    AmplifyAnalyticsPinpoint analyticsPlugin = AmplifyAnalyticsPinpoint();
-    AmplifyAuthCognito authPlugin = AmplifyAuthCognito();
+    // Add any Amplify plugins you want to use
+    final analyticsPlugin = AmplifyAnalyticsPinpoint();
+    final authPlugin = AmplifyAuthCognito();
+    // You can use addPlugin if you are going to be adding only one plugin
+    // await Amplify.addPlugin(authPlugin);
     await Amplify.addPlugins([authPlugin, analyticsPlugin]);
 
     // Once Plugins are added, configure Amplify
@@ -37,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
     try {
       await Amplify.configure(amplifyconfig);
     } on AmplifyAlreadyConfiguredException {
-      print("Tried to reconfigure Amplify; this can occur when your app restarts on Android.");
+      safePrint("Tried to reconfigure Amplify; this can occur when your app restarts on Android.");
     }
   }
 

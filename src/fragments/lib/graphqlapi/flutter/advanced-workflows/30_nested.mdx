@@ -19,11 +19,14 @@ final getPostRequest = GraphQLRequest<Post>(
     document: graphQLDocument,
     modelType: Post.classType,
     variables: <String, String>{'id': somePostId},
-    decodePath: getPost);
+    decodePath: getPost,
+);
 ```
 
 Then, query for the `Post` with nested comments included in decoded response:
 ```dart
-final response =
-    await Amplify.API.query(request: getTodoRequest).response;
-```  
+Future<void> queryPostWithNestedComments(GraphQLRequest<Post> getPostRequest) async {
+  final response = await Amplify.API.query(request: getTodoRequest).response;
+  print('Response $response');
+}
+```
