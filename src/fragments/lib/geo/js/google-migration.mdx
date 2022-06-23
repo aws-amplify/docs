@@ -2,12 +2,24 @@ Are you using Google Maps or another similar Map Provider and would like to swit
 
 ## Getting Started
 
+Amplify Geo provides APIs for using location based functionality. Under the hood Amplify uses [Amazon Location Service](https://aws.amazon.com/location/) and is designed to work with open source mapping library [MapLibre](https://maplibre.org/).
+
 This guide assumes that you are already familiar with the Google Maps JavaScript API and with front-end web development concepts including HTML, CSS, and JavaScript.
 
 To complete this tutorial, you will need:
 
 - **Amplify Geo**
 - **A text editor**
+
+## Key differences between Amplify Geo and Google Maps
+
+### Coordinates Conventions
+
+A key difference to notice between using Amplify Geo and Google Maps is with Google Maps Platform their convention for specifying coordinates is `[lat, lng]`. When migrating over to Amplify Geo the order is swapped to be `[lng, lat]`. This was done to match to match the [geojson spec](https://geojson.org/) which is also used by MapLibre.
+
+### Authorization
+
+When using Google Maps Platform or other similar services like Mapbox you will first be prompted to go to the Google Cloud Console to set up APIs and create an API key where you will then use the API key when requesting the Google Maps JS API. With Amplify Geo you will instead setup Amplify Auth using Amplify CLI and the `MapView` component will read the auth configuration from the `aws-exports.js` file. Behind the scenes Amplify Auth uses Amazon Cognito to set up client credentials with access to Location Service and Geo will use those credentials when making any location related API calls. More information on setting Amplify Auth and Geo can be found below in the `Setting Up Amplify` section.
 
 ## Create a webpage
 
@@ -95,7 +107,7 @@ With Amplify Geo and MapLibre you can add the following code to your index.html 
 
 ```js
 const map = await createMap({
-  container: 'map', // div ID
+  container: document.getElementById('map'), // div ID
   center: [-122.4783, 37.8199], // initial coordinates [long, lat]
   zoom: 13 // initial zoom level, high number being more zoomed in
 });
@@ -111,7 +123,6 @@ With the Google Maps JS API you can display a map like so.
 
 ```js
 const map = new google.maps.Map(document.getElementById('map'), {
-  mapTypeId: 'roadmap',
   center: { lat: 37.8199, lng: -122.4783 },
   zoom: 13
 });
@@ -152,7 +163,6 @@ Using the Google Maps JS API you would add a marker as show below.
 ```js
 const marker = new google.maps.Marker({
 center: { lat: 37.8199, lng: -122.4783 },
-title: 'Golden Gate Bridge',
 map: map
 });
 ```
@@ -177,6 +187,7 @@ With Amplify Geo and MapLibre you can instead do the following.
 const popup = new maplibregl.Popup().setHTML(
   `<h3>Golden Gate Bridge</h3><p>The hex code for the bridge's color is: #c0362c</p>`
 );
+
 const marker = new maplibregl.Marker()
   .setLngLat([-122.4783, 37.8199])
   .setPopup(popup)
