@@ -77,8 +77,7 @@ Query for equality on a model's attribute.
 const blogTitle = 'Test Blog 1';
 final queryPredicate = Blog.NAME.eq(blogTitle);
 
-GraphQLRequest<PaginatedResult<Blog>> request =
-    ModelQueries.list<Blog>(Blog.classType, where: queryPredicate);
+final request = ModelQueries.list<Blog>(Blog.classType, where: queryPredicate);
 final response = await Amplify.API.query(request: request).response;
 Blog? BlogFromResponse = response.data?.items[0];
 ```
@@ -93,7 +92,7 @@ final blogId = blog.id;
 final request =
     ModelQueries.list(Post.classType, where: Post.BLOG.eq(blogId));
 final response = await Amplify.API.query(request: request).response;
-List<Post?> data = response.data?.items ?? [];
+final data = response.data?.items ?? <Post?>[];
 ```
 
 ### Less than
@@ -101,11 +100,10 @@ List<Post?> data = response.data?.items ?? [];
 Return Posts with a rating less than 5.
 
 ```dart
-    const rating = 5;
+const rating = 5;
     
-    GraphQLRequest<PaginatedResult<Post>> request =
-        ModelQueries.list(Post.classType, where: Post.RATING.lt(rating));
-    final response = await Amplify.API.query(request: request).response;
+final request = ModelQueries.list(Post.classType, where: Post.RATING.lt(rating));
+final response = await Amplify.API.query(request: request).response;
 
-    List<Post?> data = response.data?.items ?? [];
+final data = response.data?.items ?? <Post?>[];
 ```
