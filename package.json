@@ -122,11 +122,12 @@
     "test": "jest",
     "spellcheck": "cspell 'src/**/*.mdx'",
     "spellcheck-diff": "cspell --no-must-find-files $(git diff --cached --name-only | awk '/src.*\\.mdx/{print}' | cat - <(echo 'preventNoFilesPrintout'))",
-    "dev": "yarn build-support-config && next dev",
+    "dev": "next dev",
     "build": "yarn task generate-sitemap && next build && next export -o client/www/next-build",
     "next-build": "next build",
     "next-start": "next start",
     "amplify:submissionsLambda": "cd amplify/backend/function/submissionsLambda/src && yarn install && yarn build && yarn test",
-    "build-support-config": "chmod +x build_support/create-awsconfig.sh && ./build_support/create-awsconfig.sh"
+    "postinstall": "yarn setup",
+    "setup": "node build_support/create-awsconfig.mjs"
   }
 }
