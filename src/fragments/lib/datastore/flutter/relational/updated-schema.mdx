@@ -1,4 +1,4 @@
-For the examples below with DataStore, let's add a new model to the [sample schema](/lib/datastore/getting-started#sample-schema):
+For the examples below with DataStore, let's add a new model to the `schema.graphql` file located by default at `amplify/backend/{api_name}/`:
 
 ```graphql
 enum PostStatus {
@@ -22,4 +22,10 @@ type Comment @model {
   post: Post! @belongsTo(fields: ["postID"])
   content: String!
 }
+```
+
+After that, regenerate the models with the following console command:
+
+```console
+amplify codegen models
 ```

@@ -1,3 +1,9 @@
 ```dart
-List<Posts> = await Amplify.DataStore.query(Post.classType, where: Post.RATING.ge(4));
+Future<void> fetchPostsMoreThanFourRating() async {
+  final posts = await Amplify.DataStore.query(
+    Post.classType,
+    where: Post.RATING.ge(4),
+  );
+  print('Posts: $posts');
+}
 ```

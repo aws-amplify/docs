@@ -351,7 +351,7 @@ If you try to add todos using the form now, it should successfully close the for
 
 Now that we have a way to add Todo items, we need a way to list them out. We also want to observe updates to those items as they are added, updated, or removed.
 
-This can be achieved with `DataStore.observeQuery()`. `observeQuery()` will return a Stream of query snapshots. Each snapshot will contain the current list of items, as well as boolean value to indicate if DataStore's sync process has completed. You can find more info about `observeQuery()` [here](/lib/datastore/real-time/q/platform/js#observe-query-results-in-real-time).
+This can be achieved with `DataStore.observeQuery()`. `observeQuery()` will return a Stream of query snapshots. Each snapshot will contain the current list of items, as well as boolean value to indicate if DataStore's sync process has completed. You can find more info about `observeQuery()` [here](/lib/datastore/real-time/#observe-query-results-in-real-time).
 
 We will use the `useEffect()` hook of **TodoList** component to list the todo items. `useEffect()` can be used to perform side effects in function components. Add the below `useEffect()` in the **TodoList** component right after state initialization. You can find more about useEffect hook [here](https://reactjs.org/docs/hooks-effect.html).
 

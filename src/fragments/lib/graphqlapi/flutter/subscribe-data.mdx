@@ -2,55 +2,53 @@ Subscribe to mutations for creating real-time clients.
 
 ## Setup subscription with callbacks
 
-When creating subscriptions, a [`Stream`](https://api.dart.dev/stable/dart-async/Stream-class.html) object will be returned to you. This `Stream` will continue producing events until either the subscription encounters an error or you cancel the subscription. In the case of [`await for`](https://dart.dev/tutorials/language/streams), this cancellation occurs when breaking out of the loop.
-
-To listen to create mutations, you can use the following code sample:
+When creating subscriptions, a [`Stream`](https://api.dart.dev/stable/dart-async/Stream-class.html) object will be returned to you. This `Stream` will continue producing events until either the subscription encounters an error or you cancel the subscription. In the case of need for limiting the amount of data that is omitted, you can take advantage of the Stream's helper functions such as `take`. The cancellation occurs when the defined amount of event has occurred:
 
 ```dart
-Future<void> subscribe() async {
+Stream<GraphQLResponse<Todo>> subscribe() {
   final subscriptionRequest = ModelSubscriptions.onCreate(Todo.classType);
-  final Stream<GraphQLResponse<Todo>> operation = Amplify.API.subscribe(
-    subscriptionRequest,
-    onEstablished: () => print('Subscription established'),
+  final Stream<GraphQLResponse<Todo>> operation = Amplify.API
+      .subscribe(
+        subscriptionRequest,
+        onEstablished: () => print('Subscription established'),
+      )
+      // Listens to only 5 elements
+      .take(5)
+      .handleError(
+    (error) {
+      print('Error in subscription stream: $error');
+    },
   );
-
-  try {
-    // Retrieve 5 events from the subscription
-    var i = 0;
-    await for (var event in operation) {
-      i++;
-      print('Subscription event data received: ${event.data}');
-      if (i == 5) {
-        break;
-      }
-    }
-  } on Exception catch (e) {
-    print('Error in subscription stream: $e');
-  }
+  return operation;
 }
 ```
 
 Alternatively, you can call [`Stream.listen`](https://api.dart.dev/stable/dart-async/Stream/listen.html) to create a [`StreamSubscription`](https://api.dart.dev/stable/dart-async/StreamSubscription-class.html) object which can be programmatically canceled.
 
 ```dart
-Future<void> subscribe() async {
+// Be sure to import this
+import 'dart:async';
+
+...
+
+StreamSubscription<GraphQLResponse<Todo>>? subscription;
+
+void subscribe() {
   final subscriptionRequest = ModelSubscriptions.onCreate(Todo.classType);
   final Stream<GraphQLResponse<Todo>> operation = Amplify.API.subscribe(
     subscriptionRequest,
     onEstablished: () => print('Subscription established'),
   );
-  final StreamSubscription<GraphQLResponse<Todo>> subscription =
-      operation.listen(
+  subscription = operation.listen(
     (event) {
       print('Subscription event data received: ${event.data}');
     },
     onError: (Object e) => print('Error in subscription stream: $e'),
   );
+}
 
-  // ...
-
-  // Cancel the subscription and close the underlying stream.
-  subscription.cancel();
+void unsubscribe() {
+  subscription?.cancel();
 }
 ```
 

@@ -1,4 +1,12 @@
 ```dart
-List<Post> posts = await Amplify.DataStore.query(Post.classType,
-    sortBy: [Post.RATING.ascending(), Post.TITLE.descending()]);
+Future<void> fetchPostsFirstInAscendingRatingOrderThenDescendingTitleOrder() async {
+  final posts = await Amplify.DataStore.query(
+    Post.classType,
+    sortBy: [
+      Post.RATING.ascending(),
+      Post.TITLE.descending(),
+    ],
+  );
+  print('Posts: $posts');
+}
 ```

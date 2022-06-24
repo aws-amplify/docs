@@ -1,6 +1,6 @@
 
 
-The Amplify API category provides an interface for retrieving and persisting your model data. The API category comes with default built-in support for AWS AppSync. The Amplify CLI allows you to define your API and provision a GraphQL service with CRUD operations and real-time functionality. 
+The Amplify API category provides an interface for retrieving and persisting your model data. The API category comes with default built-in support for AWS AppSync. The Amplify CLI allows you to define your API and provision a GraphQL service with CRUD operations and real-time functionality.
 
 ## Goal
 
@@ -30,23 +30,15 @@ amplify add api
 
 Enter the following when prompted:
 ```console
-? Please select from one of the below mentioned services: 
+? Please select from one of the below mentioned services:
     `GraphQL`
-? Provide API name: 
-    `apiName`
-? Choose the default authorization type for the API:
-    `API key`
-? Enter a description for the API key:
-    `description`
-? After how many days from now the API key should expire (1-365): 
-    `7`
-? Do you want to configure advanced settings for the GraphQL API 
-    `No, I am done.`
-? Do you have an annotated GraphQL schema? 
-    `No`
+# The part below will show you some options you can change, if you wish to change any of them you can navigate with
+# your arrow keys and update any field, otherwise you can click on `Continue` to move on
+? Here is the GraphQL API that we will create. Select a setting to edit or continue
+    `Continue`
 ? Choose a schema template:
     `Single object with fields (e.g., “Todo” with ID, name, description)`
-? Do you want to edit the schema now? 
+? Do you want to edit the schema now?
     `No`
 ```
 
@@ -69,12 +61,6 @@ To push your changes to the cloud, **execute the command**:
 
 ```bash
 amplify push
-```
-
-Enter the following when prompted:
-```console
-? Do you want to generate code for your newly created GraphQL API 
-    `No`
 ```
 
 import ios4 from "/src/fragments/lib/graphqlapi/ios/getting-started/12_amplifyConfig.mdx";
@@ -143,7 +129,9 @@ import flutter17 from "/src/fragments/lib/graphqlapi/flutter/getting-started/50_
 
 <Fragments fragments={{flutter: flutter17}} />
 
-Upon successfully executing this code, you should see an instance of `todo` persisted in your dynamoDB table. To navigate to your backend, run `amplify console api` and choose `GraphQL`. This will open the AppSync console to your GraphQL service. Select `Data Sources` and select the Resource link in your `TodoTable` to bring you to the DynamoDB Console. Select the `items` tab to see the `Todo` object that has been persisted in your database.
+Upon successfully executing this code, you should see an instance of `todo` persisted in your dynamoDB table.
+
+To navigate to your backend, run `amplify console api` and choose `GraphQL`. This will open the AppSync console to your GraphQL service. Select `Data Sources` and select the Resource link in your `TodoTable` to bring you to the DynamoDB Console. Select the `items` tab to see the `Todo` object that has been persisted in your database.
 
 ## Next steps
 

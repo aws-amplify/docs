@@ -197,7 +197,7 @@ Each error object has the following properties:
 ```js
 let saveGeofenceResults;
 try {
-  saveGeofenceResults = await Geo.createGeofence({
+  saveGeofenceResults = await Geo.saveGeofences({
     geofenceId: "my-geofence",
     geometry: {
       polygon: [
@@ -210,7 +210,7 @@ try {
     },
   });
 } catch (error) {
-  // errors thrown by input validations of `createGeofence`
+  // errors thrown by input validations of `saveGeofences`
   throw error;
 }
 

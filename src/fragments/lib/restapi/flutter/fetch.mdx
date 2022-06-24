@@ -3,17 +3,15 @@
 To make a GET request, first build a `RestOptions` object and then use the `Amplify.API.get` API to issue the request:
 
 ```dart
-try {
-    RestOptions options = RestOptions(
-        path: '/todo'
-    );
-    RestOperation restOperation = Amplify.API.get(
-        restOptions: options
-    );
-    RestResponse response = await restOperation.response;
-    print('GET call succeeded');
-} on ApiException catch (e) {
-    print('GET call failed: $e');
+Future<void> getTodo() async {
+  try {
+    const options = RestOptions(path: '/todo');
+    final restOperation = Amplify.API.get(restOptions: options);
+    final response = await restOperation.response;
+    print('GET call succeeded: ${response.data}');
+  } on ApiException catch (e) {
+      print('GET call failed: $e');
+  }
 }
 ```
 
@@ -30,7 +28,7 @@ exports.handler = function(event, context, callback) {
 }
 ```
 
-Alternatively, you can update your backend file which is located at `amplify/backend/function/[your-lambda-function]/app.js` with the middleware:
+In case you do not have it already, alternatively, you can update your backend file which is located at `amplify/backend/function/[your-lambda-function]/src/app.js` with the middleware:
 
 ```javascript
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware');
@@ -56,20 +54,18 @@ app.get('/todo', function(req, res) {
 Then you can use query parameters in your path as follows:
 
 ```dart
-try {
-    RestOptions options = RestOptions(
+Future<void> getTodo() async {
+  try {
+    const options = RestOptions(
         path: '/todo',
-        queryParameters: {
-            'q' : 'test'
-        }
+        queryParameters: {'q' : 'test'},
     );
-    RestOperation restOperation = Amplify.API.get(
-        restOptions: options
-    );
-    RestResponse response = await restOperation.response;
-    print('GET call succeeded'); 
-    print(new String.fromCharCodes(response.data));
-} on ApiException catch (e) {
+    final restOperation = Amplify.API.get(restOptions: options);
+    final response = await restOperation.response;
+    print('GET call succeeded');
+    print(String.fromCharCodes(response.data));
+  } on ApiException catch (e) {
     print('GET call failed: $e');
-} 
+  }
+}
 ```
