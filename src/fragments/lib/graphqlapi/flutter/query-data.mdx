@@ -53,3 +53,59 @@ if (firstPageData?.hasNextResult == true) {
   final secondRes = await Amplify.API.query(request: secondReq!).response;
 }
 ```
+
+## Query Predicates
+
+Models also support the use of query predicates for comparison. These are accessible from the Model's attributes, for example `Blog["attribute"]["operator"]`. 
+
+Supported operators: 
+- `eq` - equal
+- `ne` - not equal 
+- `gt` - greater than 
+- `ge` - greater than or equal 
+- `lt` - less than 
+- `le` - less than or equal
+- `between` - Matches models where the given field begins with the provided value.
+- `beginsWith` - Matches models where the given field is between the provided start and end values.
+- `contains` - Matches models where the given field contains the provided value.
+
+### Basic Equality Operator
+
+Query for equality on a model's attribute.
+
+```dart
+const blogTitle = 'Test Blog 1';
+final queryPredicate = Blog.NAME.eq(blogTitle);
+
+GraphQLRequest<PaginatedResult<Blog>> request =
+    ModelQueries.list<Blog>(Blog.classType, where: queryPredicate);
+final response = await Amplify.API.query(request: request).response;
+Blog? BlogFromResponse = response.data?.items[0];
+```
+
+### Fetch by Parent ID
+
+Get all Posts by parent ID
+
+```dart
+final blogId = blog.id;
+
+final request =
+    ModelQueries.list(Post.classType, where: Post.BLOG.eq(blogId));
+final response = await Amplify.API.query(request: request).response;
+List<Post?> data = response.data?.items ?? [];
+```
+
+### Less than
+
+Return Posts with a rating less than 5.
+
+```dart
+    const rating = 5;
+    
+    GraphQLRequest<PaginatedResult<Post>> request =
+        ModelQueries.list(Post.classType, where: Post.RATING.lt(rating));
+    final response = await Amplify.API.query(request: request).response;
+
+    List<Post?> data = response.data?.items ?? [];
+```
