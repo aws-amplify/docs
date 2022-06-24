@@ -6,5 +6,8 @@ try {
   await access(awsExports);
 } catch (error) {
   // file does not exist, create it
-  await writeFile(awsExports, 'export default awsmobile;\n');
+  await writeFile(
+    awsExports,
+    `const awsmobile = {};\nexport default awsmobile;\n`
+  );
 }
