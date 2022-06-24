@@ -233,22 +233,22 @@
         ]
       },
       "useSubUsernameForDefaultIdentityClaim": {
-        "description": "Changes the default identity claim to for owner-based @auth from 'username' to 'sub:username'",
+        "description": "Changes the default identity claim to for owner-based @auth from 'username' to 'sub::username'",
         "type": "Feature",
         "valueType": "Boolean",
-        "versionAdded": "9.x",
+        "versionAdded": "8.x",
         "values": [
           {
             "value": "true",
-            "description": "Uses a default owner field format of '<sub>:<username>' to write records and reads both '<username>' and '<sub>:<username>'",
+            "description": "Uses a default owner field format of '<sub>::<username>' to write records and reads both '<username>' and '<sub>::<username>'",
             "defaultNewProject": true,
-            "defaultExistingProject": false
+            "defaultExistingProject": true
           },
           {
             "value": "false",
-            "description": "Uses a default owner field format of '<username>' to write records and reads both '<username>' and '<sub>:<username>'",
+            "description": "Uses a default owner field format of '<username>' to write records and reads '<username>'",
             "defaultNewProject": false,
-            "defaultExistingProject": true
+            "defaultExistingProject": false
           }
         ]
       },
@@ -274,7 +274,7 @@
       }
     }
   },
-   
+
   "frontend-ios": {
     "description": "Feature Flag related to iOS projects",
     "features": {
