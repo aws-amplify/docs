@@ -79,7 +79,7 @@ final queryPredicate = Blog.NAME.eq(blogTitle);
 
 final request = ModelQueries.list<Blog>(Blog.classType, where: queryPredicate);
 final response = await Amplify.API.query(request: request).response;
-Blog? BlogFromResponse = response.data?.items[0];
+final blogFromResponse = response.data?.items.first;
 ```
 
 ### Fetch by Parent ID
