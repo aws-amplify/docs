@@ -453,9 +453,9 @@ type Todo @model {
 If you create a new Todo and don't supply a `content` input, Amplify will ensure that `My new Todo` is auto populated as a value. 
 When `@default` is applied, non-null assertions using `!` are disregarded. For example, `String!` is treated the same as `String`.
 
-## Subscriptions Runtime Filtering
+## Server-side filtering for subscriptions
 
-You can filter the subscriptions server-side by passing a filter expression.
+A server-side subscription filter expression is automatically generated for any @model type.
 
 ```graphql
 type Task @model {
@@ -466,7 +466,7 @@ type Task @model {
 }
 ```
 
-If you want to subscribe to tasks of type `Security` and priority greater than `5`, you can set the `filter` argument accordingly.
+You can filter the subscriptions server-side by passing a filter expression. For example:
 
 ```graphql
 subscription OnCreateTask {
