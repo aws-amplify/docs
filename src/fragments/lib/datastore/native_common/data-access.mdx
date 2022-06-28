@@ -40,6 +40,14 @@ import flutter8 from "/src/fragments/lib/datastore/flutter/data-access/update-sn
 
 <Fragments fragments={{flutter: flutter8}} />
 
+<Callout warning>
+
+  **Avoid working with stale data!**
+
+  Model instances become stale when the original records are overwritten. Saving a record from a copy of a stale model instance can produce errors and/or unexpected states. Fetch records and make fresh copies as close to saving as possible. This can be aided by [observing](/lib/datastore/real-time) a model instance for changes.
+
+</Callout>
+
 ## Delete
 
 To delete an item, simply pass in an instance.
