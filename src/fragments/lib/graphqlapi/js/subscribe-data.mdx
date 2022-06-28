@@ -67,4 +67,19 @@ setTimeout(() => {
 
 Note that since `client.subscribe` returns an `Observable`, you can use `filter`, `map`, `forEach` and other stream related functions. When you subscribe, you'll get back a subscription object you can use to unsubscribe. 
 
+Subscriptions take an optional `filter` argument which provides an option to define and enable business logic for data filtering on the backend directly.
+
+```graphql
+// Subscribe to creation of Todo
+const subscription = API.graphql(
+    graphqlOperation(subscriptions.onCreateTodo, {
+      filter: {
+        type: { eq: "Personal" }
+      }
+    })
+).subscribe({
+    next: ({ provider, value }) => console.log({ provider, value }),
+    error: error => console.warn(error)
+});
+```
 Subscriptions can also take input types like mutations, in which case they will be subscribing to particular events based on the input. To learn more about subscription arguments, see [Real-Time data](https://docs.aws.amazon.com/appsync/latest/devguide/real-time-data.html).
