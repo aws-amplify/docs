@@ -466,7 +466,7 @@ type Task @model {
 }
 ```
 
-You can filter the subscriptions server-side by passing a filter expression. For example:
+You can filter the subscriptions server-side by passing a filter expression. For example: If you want to subscribe to tasks of type `Security` and priority greater than `5`, you can set the `filter` argument accordingly.
 
 ```graphql
 subscription OnCreateTask {
