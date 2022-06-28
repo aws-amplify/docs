@@ -1,26 +1,13 @@
 > Prerequisite: [Install and configure the Amplify CLI](/cli/start/install)
 
-The primary way to provision Geo resources is through the Amplify CLI. Currently, Amplify Geo is in developer preview and you need to install the CLI with the `@geo` tag. You can use the following command to install this version globally.
-
-```sh
-npm i -g @aws-amplify/cli@geo
-```
-
-Now, let's make sure that the right version was installed:
-
-```sh
-amplify --version
-```
-
-That should show a version with the `-geo.x` tag, for example, `6.0.1-geo.0`.
-
-> **Note:** Make sure that version `6.0.1-geo.0` or above is installed.
-
-Once that is complete, you can run the following command from your project's root folder to initialize Amplify in your repo:
+To start provisioning Geo resources in the backend, go to your project directory and execute the command:
 
 ```sh
 amplify init
 ```
+
+The above command will guide you through setting up your project name and preferred authentication profile.
+Refer to ["Create your application"](/lib/project-setup/create-application) section for detailed project setup guide.
 
 Now you are able to add a `geo` resource, such as map resources or a search index:
 
@@ -28,15 +15,72 @@ Now you are able to add a `geo` resource, such as map resources or a search inde
 amplify add geo
 ```
 
-The CLI will prompt configuration options for the Geo category for what type of capability you want to add and default or advanced settings.
+The CLI will let you configure the Geo category based on the capabilities you want to add (maps and/or search).
+You can either choose to stick with the defaults or configure advanced settings.
+Please refer to [Amplify CLI Geo docs](/cli/geo/maps/) for more details on these configurations.
 
-<Callout>
+<BlockSwitcher>
+<Block name="Maps">
 
-Amplify Android will be proceeding with developer preview for Geo in incremental releases. The current version of Amplify Android does not support the search APIs.
+```console
+? Select which capability you want to add:
+❯ Map (visualize the geospatial data)
 
-</Callout>
+? geo category resources require auth (Amazon Cognito). Do you want to add auth now? (Y/n)
+❯ yes
 
-The `add` command automatically creates the backend configuration. Once all your configuration is complete run the following:
+? Do you want to use the default authentication and security configuration?
+❯ Default configuration
+
+? How do you want users to be able to sign in?
+❯ Username
+
+? Do you want to configure advanced settings?
+❯ No, I am done.
+
+? Provide a name for the Map:
+❯ mapResourceName
+
+? Who can access this Map?
+❯ Authorized and Guest users
+
+? Do you want to configure advanced settings? (y/N)
+❯ no
+```
+
+</Block>
+<Block name="Search">
+
+```console
+? Select which capability you want to add:
+❯ Location search (search by places, addresses, coordinates)
+
+? geo category resources require auth (Amazon Cognito). Do you want to add auth now? (Y/n)
+❯ yes
+
+? Do you want to use the default authentication and security configuration?
+❯ Default configuration
+
+? How do you want users to be able to sign in?
+❯ Username
+
+? Do you want to configure advanced settings?
+❯ No, I am done.
+
+? Provide a name for the location search index (place index):
+❯ placeIndexResourceName
+
+? Who can access this search index?
+❯ Authorized and Guest users
+
+? Do you want to configure advanced settings? (y/N)
+❯ no
+```
+
+</Block>
+</BlockSwitcher>
+
+The `add` command automatically creates the backend configuration. Once all your configuration is complete, run the following (this might take a few minutes):
 
 ```sh
 amplify push

@@ -212,9 +212,9 @@ If you don't have Analytics already enabled, see our [Analytics Developer Guide]
 </Callout>
 
 ```javascript
-import Amplify from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
 import PushNotification from '@aws-amplify/pushnotification';
-import { PushNotificationIOS } from '@react-native-community/push-notification-ios';
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import awsconfig from './aws-exports';
 
 Amplify.configure(awsconfig);

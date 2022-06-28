@@ -14,7 +14,7 @@ type Post @model {
   id: ID!
   title: String!
   content: String
-  comments: [Comment] @connection
+  comments: [Comment] @hasMany
 }
 
 type Comment @model {
@@ -48,7 +48,7 @@ type Post @model {
   id: ID!
   title: String!
   content: String
-  comments: [Comment] @connection
+  comments: [Comment] @hasMany
 }
 
 type Comment @model {
@@ -75,3 +75,7 @@ import js1 from "/src/fragments/guides/api-graphql/js/subscriptions-by-id.mdx";
 import android2 from "/src/fragments/guides/api-graphql/android/subscriptions-by-id.mdx";
 
 <Fragments fragments={{android: android2}} />
+
+import flutter3 from "/src/fragments/guides/api-graphql/flutter/subscriptions-by-id.mdx";
+
+<Fragments fragments={{flutter: flutter3}} />

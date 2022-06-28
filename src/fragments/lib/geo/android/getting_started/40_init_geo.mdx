@@ -1,4 +1,31 @@
-To initialize the Amplify Geo, use the `Amplify.addPlugin()` method to add the AWS Location Geo plugin. Next, finish configuring the Amplify framework by calling `Amplify.configure()`.
+To initialize Amplify Geo, use the `Amplify.addPlugin()` method to add the AWS Location Geo plugin. Next, finish configuring the Amplify framework by calling `Amplify.configure()`.
+
+Add the following import statements at the top of your application class that you created during the project setup:
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+import android.util.Log;
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.geo.location.AWSLocationGeoPlugin;
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+import android.util.Log
+import com.amplifyframework.AmplifyException
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
+import com.amplifyframework.core.Amplify
+import com.amplifyframework.geo.location.AWSLocationGeoPlugin
+```
+
+</Block>
+</BlockSwitcher>
 
 Add the following code to your `onCreate()` method in your application class:
 
@@ -8,6 +35,7 @@ Add the following code to your `onCreate()` method in your application class:
 ```java
 Amplify.addPlugin(new AWSCognitoAuthPlugin());
 Amplify.addPlugin(new AWSLocationGeoPlugin());
+Amplify.configure(getApplicationContext());
 ```
 
 Your class will look like this:
@@ -36,6 +64,7 @@ public class MyAmplifyApp extends Application {
 ```kotlin
 Amplify.addPlugin(AWSCognitoAuthPlugin())
 Amplify.addPlugin(AWSLocationGeoPlugin())
+Amplify.configure(applicationContext)
 ```
 
 Your class will look like this:

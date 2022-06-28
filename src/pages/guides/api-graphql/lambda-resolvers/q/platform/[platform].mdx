@@ -3,7 +3,7 @@ export const meta = {
   description: `How to use Lambda GraphQL resolvers to interact with other services`,
 };
 
-The [GraphQL Transform Library](/cli/graphql-transformer/function) provides a `@function` directive that enables the configuration of AWS Lambda function resolvers within your GraphQL API. In this guide you will learn how to use Lambda functions as GraphQL resolvers to interact with other services and APIs using the `@function` directive.
+The [GraphQL Transform Library](/cli/graphql/custom-business-logic#lambda-function-resolver) provides a `@function` directive that enables the configuration of AWS Lambda function resolvers within your GraphQL API. In this guide you will learn how to use Lambda functions as GraphQL resolvers to interact with other services and APIs using the `@function` directive.
 
 ## Creating basic query and mutation Function resolvers
 
@@ -32,7 +32,7 @@ To get started, create the first Lambda function:
 ```sh
 amplify add function
 
-? Provide a friendly name for your resource to be used as a label for this category in the project: addingfunction
+? Provide a friendly name for your resource to be used as a label for this category in the project: echofunction
 ? Provide the AWS Lambda function name: echofunction
 ? Choose the function runtime that you want to use: NodeJS
 ? Choose the function template that you want to use: Hello World
@@ -105,15 +105,28 @@ Now that the functions have been created, you can create the GraphQL API:
 ```sh
 amplify add api
 
-? Please select from one of the below mentioned services: GraphQL
-? Provide API name: gqllambda
-? Choose the default authorization type for the API: API Key
-? Enter a description for the API key: public (or some description)
-? After how many days from now the API key should expire: 365 (or your preferred expiration)
-? Do you want to configure advanced settings for the GraphQL API: N
-? Do you have an annotated GraphQL schema? N
-? Choose a schema template: Single object with fields (e.g., “Todo” with ID, name, description)
-? Do you want to edit the schema now? Y
+? Please select from one of the below mentioned services:
+  > GraphQL
+? Here is the GraphQL API that we will create. Select a setting to edit or continue:
+  > Name
+? Provide API name:
+  > gqllambda
+? Here is the GraphQL API that we will create. Select a setting to edit or continue:
+  > Authorization modes: API key (default, expiration time: 7 days from now)
+? Choose the default authorization type for the API:
+  > API Key
+? Enter a description for the API key:
+  > public (or some description)
+? After how many days from now the API key should expire:
+  > 365 (or your preferred expiration)
+? Configure additional auth types?
+  > No
+? Here is the GraphQL API that we will create. Select a setting to edit or continue:
+  > Continue
+? Choose a schema template:
+  > Single object with fields (e.g., “Todo” with ID, name, description)
+? Do you want to edit the schema now?
+  > Y
 ```
 
 Next, update the base GraphQL schema (located at __amplify/backend/api/gqllambda/schema.graphql__) with the following code and press enter:
@@ -124,7 +137,7 @@ type Query {
 }
 
 type Mutation {
-  add(number1: Int, number2: Int): Int @function(name: "addfunction-${env}")
+  add(number1: Int, number2: Int): Int @function(name: "addingfunction-${env}")
 }
 ```
 
@@ -215,4 +228,4 @@ query getCoins {
 }
 ```
 
-To learn more about the `@function` directive, check out the GraphQL Transform documentation [here](/cli/graphql-transformer/function).
+To learn more about the `@function` directive, check out the GraphQL Transform documentation [here](/cli/graphql/custom-business-logic#lambda-function-resolver).

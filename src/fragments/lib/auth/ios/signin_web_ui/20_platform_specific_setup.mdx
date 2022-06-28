@@ -25,3 +25,5 @@ You have to enable this in your app's `Info.plist`. Right click Info.plist and t
      <!-- ... -->
      </dict>
 ```
+
+When creating a new SwiftUI app using Xcode 13 no longer require configuration files such as the Info.plist. If you are missing this file, click on the project target, under Info, Url Types, and click '+' to add a new URL Type. Add `myapp` to the URL Schemes. You should see the Info.plist file now with the entry for CFBundleURLSchemes.

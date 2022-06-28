@@ -13,7 +13,7 @@ cd amplify-app
 
 ### Angular 6+ Support
 
-Currently, the newest versions of Angular (6+) do not include shims for 'global' or 'process' as provided in previous versions. Add the following to your `src/polyfills.ts` file to recreate them: 
+Angular 6+ does not include shims for 'global' or 'process' as provided in previous versions. Add the following to your `src/polyfills.ts` file to recreate them: 
 
 ```javascript
 (window as any).global = window;
@@ -86,24 +86,38 @@ npm install --save aws-amplify @aws-amplify/ui-angular
 npm start
 ```
 
-The `@aws-amplify/ui-angular` package is a set of Angular components and an Angular provider which helps integrate your application with the AWS-Amplify library.  It supports Angular 5.0 and above.  It also includes a [supplemental module](#ionic-4-components) for Ionic-specific components.
+The `@aws-amplify/ui-angular` package is a set of Angular components and an Angular provider which helps integrate your application with the AWS-Amplify library.
 
 <Callout>
 
-Angular CLI output warnings: if you see CommonJS or AMD dependencies optimization bailouts warnings using Angular +9 you can use this [gist](https://gist.github.com/gsans/8982c126c4fef668c094ff288f04241b) to remove them. More details about these [here](https://angular.io/guide/build#configuring-commonjs-dependencies).
+Angular CLI output warnings: if you see CommonJS or AMD dependencies optimization bailouts warnings using Angular 9+, you can use this [gist](https://gist.github.com/wlee221/6d98d96740bea6f53327b4db4a432616) to remove them. More details about these [here](https://angular.io/guide/build#configuring-commonjs-dependencies).
 
 </Callout>
 
+### Strictly typing `aws-exports`
+
+If you have TypeScript [strict mode](https://www.typescriptlang.org/tsconfig/#strict) on and see the error
+
+```
+Could not find a declaration file for module './aws-exports'. 'aws-exports.js' implicitly has an 'any' type.
+```
+
+Create a `aws-exports.d.ts` file on the same level as aws-exports with the following content:
+
+```ts
+declare const awsmobile: Record<string, any>
+export default awsmobile;
+```
+
 ### Importing the Amplify Angular UI Module
 
-Add the **Amplify Angular UI Module** to `src/app/app.module.ts`:
+Add the **Amplify Authenticator UI Module** to `src/app/app.module.ts`:
 
 ```ts
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-/* import AmplifyUIAngularModule  */
-import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
+import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -115,8 +129,8 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    /* configure app with AmplifyUIAngularModule */
-    AmplifyUIAngularModule
+    /* configure App with AmplifyAuthenticatorModule */
+    AmplifyAuthenticatorModule
   ],
   providers: [],
   bootstrap: [AppComponent]

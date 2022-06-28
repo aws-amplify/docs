@@ -1,3 +1,10 @@
 ```dart
-await Amplify.DataStore.start();
+Future<void> startStore() async {
+  try {
+    await Amplify.DataStore.start();
+    print('DataStore is started.');
+  } on DataStoreException catch (e) {
+    print('Failed to start DataStore: $e');
+  }
+}
 ```

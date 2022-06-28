@@ -6,7 +6,13 @@
 
 ## Display a map
 
-First, ensure you've provisioned an Amazon Location Service Map resource and configured your app using the instructions in either [Getting started](/lib/geo/getting-started) or [Use existing resources](/lib/geo/existing-resources) guide.
+First, ensure you've provisioned an Amazon Location Service Map resource and configured your app using the instructions in either [Amplify CLI - Geo - Maps](/cli/geo/maps) or [Use existing resources](/lib/geo/existing-resources) guide.
+
+<Callout>
+
+**Note:** For React, you can use the [Amplify React MapView component](https://ui.docs.amplify.aws/react/components/geo)
+
+</Callout>
 
 To render a map, the [MapLibre GL](https://github.com/maplibre/maplibre-gl-js) and the `maplibre-gl-js-amplify` libraries are required. MapLibre GL is an open source map rendering library and `maplibre-gl-js-amplify` library makes it easy to integrate MapLibre with Amplify Geo and handles Authentication.
 
@@ -16,9 +22,13 @@ Add the dependencies to your app:
 npm install maplibre-gl@1 maplibre-gl-js-amplify
 ```
 
-> **Note:** Make sure that `maplibre-gl-js-amplify` version `1.1.0` or above is installed.
+<Callout>
 
-> **Note:** Ensure that your package bundler (webpack, rollup, etc) is configured to handle css files. Check out the webpack documentation [here](https://webpack.js.org/loaders/css-loader/).
+Verify the following:
+- `maplibre-gl-js-amplify` version `1.1.0` or above is installed
+- Any package bundlers (webpack, rollup, etc) are configured to handle css files. Check out the webpack documentation [here](https://webpack.js.org/loaders/css-loader/).
+
+</Callout>
 
 Import the library into your application:
 
@@ -29,15 +39,14 @@ import "maplibre-gl/dist/maplibre-gl.css";
 
 Next, create and render the [Map](https://maplibre.org/maplibre-gl-js-docs/api/map/) with the help of [createMap](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#createmap).
 
-> **Note:** There must be a `<div>` with `id="map"` on the DOM before making the call to `createMap`.
->
-> Example: In React, you can put this inside of a `useEffect` hook or `componentDidMount` call.
+
+**Note:** There must be a `div` with an `id="map"` on the DOM before making the call to `createMap` in this way.
 
 ```javascript
 async function initializeMap() {
     const map = await createMap({
         container: "map", // An HTML Element or HTML element ID to render the map in https://maplibre.org/maplibre-gl-js-docs/api/map/
-        center: [-123.1187, 49.2819],
+        center: [-123.1187, 49.2819], // [Longitude, Latitude]
         zoom: 11,
     })
 }
@@ -45,17 +54,25 @@ async function initializeMap() {
 initializeMap();
 ```
 
-Finally include required CSS styling to get the maplibre-gl canvas to render itself appropriately.
+To render a map using a className or something other than the ID you can pass in a reference to the HTML Element itself.
 
-To make a fullscreen map:
+```javascript
+const element = document.getElementsByClassName("class")[0];
 
-```css
-#map { /* The id of the container you passed to createMap */
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 100%;
-}
+const map = await createMap({
+    container: element,
+    ...
+})
+```
+
+<Callout>
+
+The MapLibre canvas requires a defined height to display properly, otherwise you may end up with a blank screen where the map is supposed to be.
+
+The [amplify-map.css](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/src/public/amplify-map.css) file has a few commonly used methods for setting the height of the map component.
+You can add some of the examples listed to your own styles or directly import `amplify-map.css` like so:
+```
+import "maplibre-gl-js-amplify/dist/public/amplify-map.css";
 ```
 
 To render a map using percentage based height you need to ensure that all ancestor elements to the map container have a height:
@@ -71,6 +88,7 @@ body,
   height: 50%;
 }
 ```
+</Callout>
 
 ![A map centered on Vancouver](/images/display-map.png)
 
@@ -103,12 +121,12 @@ map.on("load", function () {
     drawPoints("mySourceName", // Arbitrary source name
         [
             {
-              coordinates: [-122.483696, 37.833818],
+              coordinates: [-122.483696, 37.833818], // [Longitude, Latitude]
               title: "Golden Gate Bridge",
               address: "A suspension bridge spanning the Golden Gate",
             },
             {
-              coordinates: [- 122.4770, 37.8105],
+              coordinates: [- 122.4770, 37.8105], // [Longitude, Latitude]
             },
         ], // An array of coordinate data, an array of Feature data, or an array of [NamedLocations](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/src/types.ts#L8)
         map,
@@ -134,6 +152,8 @@ The `getAvailableMaps` API fetches information for all maps that are available t
 This is useful if you would like to give your users a variety of maps styles to choose from.
 
 ```javascript
+import { Geo } from "aws-amplify"
+
 Geo.getAvailableMaps();
 ```
 
@@ -160,6 +180,28 @@ map.setStyle("myAmplifyGeoEsriTopographicMap"); // map name received from getAva
 map.resize(); // forces the map to re-render
 ```
 
+## Removing a map from the DOM
+
+When it's time to remove the map from the DOM, you can use the `.remove` method of the generated map. This will clean up and release all resources associated with the map (DOM elements, event bindings, web workers, and WebGL resources).
+
+```javascript
+map.remove();
+```
+
+<Callout warning>
+
+After calling `.remove()`, you must not call any other methods on the map.
+
+</Callout>
+
+<Callout warning>
+
+**For React users:**
+
+Not removing the map on component unmount can cause memory leaks in your application. It's recommended to call `.remove()` in either the return function of a React `useEffect` hook or the `componentWillUnmount` lifecycle hook of a class component.
+
+</Callout>
+
 ## Add map to html website
 
 To display a map on your html website, add the following scripts to your html webpage.
@@ -183,7 +225,7 @@ Next, add a div element with id `map` anywhere in your webpage where you want to
     Amplify.configure(awsconfig);
     createMap({
         container: "map",
-        center: [-123.1187, 49.2819],
+        center: [-123.1187, 49.2819], // [Longitude, Latitude]
         zoom: 13,
     });
 </script>
@@ -218,7 +260,7 @@ Next, add a div element with id `map` anywhere in your webpage where you want to
             Amplify.configure(awsconfig);
             createMap({
                 container: "map",
-                center: [-123.1187, 49.2819],
+                center: [-123.1187, 49.2819], // [Longitude, Latitude]
                 zoom: 13,
             });
         </script>

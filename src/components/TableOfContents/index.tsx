@@ -1,50 +1,51 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-import getElementTop from "../../utils/get-element-top";
+import getElementTop from '../../utils/get-element-top';
 import {
   TOCStyle,
   TOCInnerStyle,
   H2AnchorStyle,
   H3AnchorStyle,
-  HeaderStyle,
-} from "./styles";
-import {useEffect} from "react";
-import {useRouter} from "next/router";
+  HeaderStyle
+} from './styles';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import Feedback from '../Feedback';
 
 const stickyHeaderHeight = 54;
 function scroll(hash) {
   const header = document.querySelector(`[id="${hash}"]`);
   const top = getElementTop(header, stickyHeaderHeight);
   if (top !== window.scrollY) {
-    window.scrollTo({top});
+    window.scrollTo({ top });
   }
 }
 
-export default function TableOfContents({children, title}) {
+export default function TableOfContents({ children, title }) {
   const router = useRouter();
   if (children.length === 0) {
     return <></>;
   }
   window.onload = (_) => {
-    if (window.location.href.includes("#")) {
-      const hash = window.location.href.split("#")[1];
+    if (window.location.href.includes('#')) {
+      const hash = window.location.href.split('#')[1];
       scroll(hash);
     }
   };
   let headers = [];
   let headerQueries = [];
   let activeLink = 0;
-  let previousLink = 0;
+  let previousLink = -1;
   useEffect(() => {
     const idSet = new Set();
-    const headings = document.querySelectorAll("a > h2, a > h3");
-    const headings2 = document.getElementById("toc").querySelectorAll("a");
+    const headings = document.querySelectorAll('a > h2, a > h3');
+    const headings2 = document.getElementById('toc').querySelectorAll('a');
     for (let i = 0; i < headings.length; ++i) {
       const id = headings[i].id;
       let counter = 0;
       let uniqueId = id;
       while (idSet.has(uniqueId)) {
         counter++;
-        uniqueId = id + "-" + counter.toString();
+        uniqueId = id + '-' + counter.toString();
       }
       idSet.add(uniqueId);
 
@@ -70,7 +71,7 @@ export default function TableOfContents({children, title}) {
     const scrollHandler = () => {
       if (headers) {
         let i = headerQueries.findIndex(
-          (e) => getElementTop(e, stickyHeaderHeight) - 3 > window.scrollY,
+          (e) => getElementTop(e, stickyHeaderHeight) - 3 > window.scrollY
         );
         if (i === -1) {
           i = headers.length;
@@ -82,7 +83,7 @@ export default function TableOfContents({children, title}) {
             document
               .querySelectorAll(`a[href="#${header}"]`)
               .forEach((aTag) => {
-                aTag.classList.remove("active");
+                aTag.classList.remove('active');
               });
           });
           if (activeLink >= 0) {
@@ -90,28 +91,27 @@ export default function TableOfContents({children, title}) {
             document
               .querySelectorAll(`a[href="#${activeElement}"]`)
               .forEach((aTag) => {
-                aTag.classList.add("active");
+                aTag.classList.add('active');
               });
             if (activeElement) {
-              router.replace(
-                window.location.href.split("#")[0],
-                window.location.href.split("#")[0] + "#" + activeElement,
-                {shallow: true, scroll: false},
-              );
+              // Update the url hash without updating the history.
+              history.replaceState(history.state, null, '#' + activeElement);
             }
           } else {
+            // Next router.replace updates "history.state" so keep using it here so
+            // "history.replaceState" works correctly with back and forward buttons.
             router.replace(
-              window.location.href.split("#")[0],
-              window.location.href.split("#")[0],
-              {shallow: true, scroll: false},
+              window.location.href.split('#')[0],
+              window.location.href.split('#')[0],
+              { shallow: true, scroll: false }
             );
           }
         }
       }
     };
-    document.addEventListener("scroll", scrollHandler);
+    document.addEventListener('scroll', scrollHandler);
     return function cleanup() {
-      document.removeEventListener("scroll", scrollHandler);
+      document.removeEventListener('scroll', scrollHandler);
     };
   }, []);
 
@@ -128,10 +128,11 @@ export default function TableOfContents({children, title}) {
               <div>{name}</div>
             </a>
           );
-          if (level === "h2")
+          if (level === 'h2')
             return <H2AnchorStyle key={index}>{anchor}</H2AnchorStyle>;
           else return <H3AnchorStyle key={index}>{anchor}</H3AnchorStyle>;
         })}
+        <Feedback/>
       </TOCInnerStyle>
     </TOCStyle>
   );

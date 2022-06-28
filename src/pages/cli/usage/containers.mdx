@@ -7,7 +7,7 @@ Serverless containers provide the ability for you to deploy APIs and host websit
 
 Amplify [libraries](/lib) can be used with the [Auth category](/lib/auth/start) giving mobile and web applications secure connectivity and access controls to your Serverless containers. Additionally, existing GraphQL and REST services such as AWS AppSync and Amazon API Gateway can be used in the same project along with Fargate-backed APIs giving flexibility to mix and match for cost optimization and operational needs.
 
-Note that serverless containers do incur additional costs and operational overhead, as such we recommend using AWS AppSync with the [GraphQL Transform](/cli/graphql-transformer/overview) as a starting point when building mobile and web apps with Amplify.
+Note that serverless containers do incur additional costs and operational overhead, as such we recommend using AWS AppSync with the [GraphQL Transform](/cli/graphql/overview) as a starting point when building mobile and web apps with Amplify.
 
 > **Billing warning**: When you deploy serverless containers with Amplify, it incurs additional costs when resources are not in use for services such as VPC, Fargate, ECR, Cloud Map, CodePipeline, and CodeBuild. For more information refer to [VPC pricing](https://aws.amazon.com/vpc/pricing/), [Fargate pricing](https://aws.amazon.com/fargate/pricing/), [ECR Pricing](https://aws.amazon.com/ecr/pricing/), [CodePipeline pricing](https://aws.amazon.com/codepipeline/pricing/), [CodeBuild pricing](https://aws.amazon.com/codebuild/pricing/), and [Cloud Map pricing](https://aws.amazon.com/cloud-map/pricing/).
 
@@ -33,13 +33,13 @@ amplify add storage
 
 > What would you like to name this column: id
 
-? Please choose the data type: 
-  string 
-> number 
+? Please choose the data type:
+  string
+> number
   binary
 
 ? Please choose partition key for the table: (Use arrow keys)
-> id 
+> id
 ```
 
 You can select **no** for all other questions. After this add an API using the REST (or GraphQL) default ExpressJS template and grant it access to this DynamoDB table.
@@ -50,8 +50,8 @@ amplify add api
 
 ```console
 > REST
-> API Gateway + AWS Fargate (Container-based) 
-> ExpressJS - REST template 
+> API Gateway + AWS Fargate (Container-based)
+> ExpressJS - REST template
 ? Do you want to access other resources in this project from your api? Y   # select yes
 > storage  # select posts table              # select post table and all permissions
   ◉ create
@@ -170,7 +170,7 @@ If your application source changes for any of the images, you can rebuild them b
 
 ### Container networking
 
-Multiple containers are deployed as a single unit in Fargate (e.g. same Task Definition). This opinionated deployment allows ease of networking between containers on the local loopback interface and avoids extra configuration, costs, operations, and debugging.  
+Multiple containers are deployed as a single unit in Fargate (e.g. same Task Definition). This opinionated deployment allows ease of networking between containers on the local loopback interface and avoids extra configuration, costs, operations, and debugging.
 
 #### When container is deployed to Fargate
 
@@ -185,7 +185,7 @@ const options = {
   method: 'GET',
   path: '/images'
 };
-  
+
 http.get(options, data => {...})
 ```
 
@@ -200,7 +200,7 @@ const options = {
   method: 'GET',
   path: '/images'
 };
-  
+
 http.get(options, data => {...})
 ```
 
@@ -268,6 +268,8 @@ services:
       context: backend
     environment:
       - DATABASE_NAME=mydb
+    secrets:
+      - DB_PASSWORD
 secrets:
   DB_PASSWORD:
     file: ../secrets/.secret-pass
@@ -287,6 +289,28 @@ import os
 
 database = os.environ['DATABASE_NAME']
 password = os.environ['DB_PASSWORD']
+```
+
+## Bring Your Own Container Specification For Your REST API
+
+When creating an API using containers, you have the option to bring in your own `Dockerfile`(s) and `docker-compose.yml`. When selecting the Docker image for your REST API, choose `Custom` and then select when to deploy code and configuration changes to your container.
+
+```console
+? What image would you like to use Custom (bring your own Dockerfile or docker-compose.yml)
+? When do you want to build & deploy the Fargate task 
+> On every "amplify push" (Fully managed container source) 
+  On every Github commit (Independently managed container source) 
+  Advanced: Self-managed (Learn more: docs.amplify.aws/cli/usage/containers) 
+```
+
+The CLI will provide you with the next steps to bring your existing Docker specification and source files into your project by populating the `src` directory.
+
+```console
+✅ Next steps:
+- Place your Dockerfile, docker-compose.yml and any related container source files in "amplify/backend/api/{API_NAME}/src"
+- Amplify CLI infers many configuration settings from the "docker-compose.yaml" file. Learn more: docs.amplify.aws/cli/usage/containers
+- To access AWS resources outside of this Amplify app, edit the amplify/local/test/amplify/backend/api/{API_NAME}/custom-policies.json
+- Run "amplify push" to build and deploy your image
 ```
 
 ## Client Configuration
@@ -327,7 +351,7 @@ You can grant your Fargate Task access to additional AWS resources and services.
 > Note: Specifying resource or action as ‘*’ is not recommended as best practice. This gives the Amplify api resource Administrative privileges which should be avoided.
 
 
-If your Amplify resource requires access to multiple AWS services and resources, create another block to grant access to these additional services and resources. 
+If your Amplify resource requires access to multiple AWS services and resources, create another block to grant access to these additional services and resources.
 
 ```json
 [
@@ -392,7 +416,7 @@ For single containers only one ECR entry and deployment will take place. When us
 
 #### GitHub Source
 
-If you are using GitHub as your source repository for an Amplify project, you can use this to invoke the pipeline instead of having Amplify package and upload source to S3. In this use case you will need to provide a [GitHub personal access token](https://docs.github.com/en/enterprise/2.17/user/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) which will be stored in Secrets Manager as well as the full URL to your repository folder (or the branch). For instance if you push an Amplify project to GitHub called **MyFargateProject** you would use **<https://github.com/username/MyFargateProject/tree/main/amplify/backend/api/APINAME/src>**. `repo` and `admin:repo_hook` scopes will be needed. Please see the [Code Pipeline documentation for more details](https://docs.aws.amazon.com/codepipeline/latest/userguide/appendix-github-oauth.html).
+If you are using GitHub as your source repository for an Amplify project, you can use this to invoke the pipeline instead of having Amplify package and upload source to S3. In this use case you will need to provide a [GitHub personal access token](https://docs.github.com/en/enterprise/2.17/user/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line) which will be stored in Secrets Manager as well as the full URL to your repository folder (or the branch). For instance if you push an Amplify project to GitHub called **MyFargateProject** you would use **`https://github.com/username/MyFargateProject/tree/main/amplify/backend/api/APINAME/src`**. `repo` and `admin:repo_hook` scopes will be needed. Please see the [Code Pipeline documentation for more details](https://docs.aws.amazon.com/codepipeline/latest/userguide/appendix-github-oauth.html).
 
 Code Pipeline will use this for accessing the GitHub repo of your choosing and invoke the build and deploy to your Fargate Service, just as with the Fully Managed flow. Your repository must have the same structure as you would have had locally in `amplify/backend/api/APINAME/src`, that is to say:
 

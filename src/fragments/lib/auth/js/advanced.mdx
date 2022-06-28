@@ -138,7 +138,7 @@ const SignInWithFacebook = () => {
 ```javascript
 import Expo from 'expo';
 import React from 'react';
-import Amplify, { Auth } from 'aws-amplify';
+import { Amplify, Auth } from 'aws-amplify';
 
 const App = () => {
   const signIn = async () => {
@@ -238,38 +238,6 @@ const SignInWithGoogle = () => {
         </div>
     );
 }
-```
-
-### Using Amplify UI components
-
-To enable social sign-in in your app with Identity Pools, add `Google client_id`, `Facebook app_id` and/or `Amazon client_id` properties to the `AmplifyAuthenticator` component. This will create a sign in button when rendering the `AmplifyAuthenticator` in your app.
-
-```javascript
-import { AmplifyAuthenticator } from '@aws-amplify/ui-react';
-
-const federated = {
-    googleClientId: '', // Enter your googleClientId here
-    facebookAppId: '', // Enter your facebookAppId here
-    amazonClientId: '' // Enter your amazonClientId here
-};
-
-return (
-    <AmplifyAuthenticator federated={federated}>
-)
-```
-
-Or you can use it with `withAuthenticator`:
-```js
-import { withAuthenticator } from '@aws-amplify/ui-react';
-const AppWithAuth = withAuthenticator(App);
-
-const federated = {
-    googleClientId: '', // Enter your googleClientId here
-    facebookAppId: '', // Enter your facebookAppId here
-    amazonClientId: '' // Enter your amazonClientId here
-};
-
-ReactDOM.render(<AppWithAuth federated={federated}/>, document.getElementById('root'));
 ```
 
 ### Retrieve JWT Tokens
@@ -394,60 +362,6 @@ Auth.configure({
         'your_auth0_domain': refreshToken
     }
 })
-```
-
-This feature is also integrated into `aws-amplify-react`:
-```js
-import { withAuthenticator } from 'aws-amplify-react';
-import { Auth } from 'aws-amplify';
-
-// auth0 configuration, more info in: https://auth0.com/docs/libraries/auth0js/v9#available-parameters
-Auth.configure({
-    auth0: {
-        domain: 'your auth0 domain', 
-        clientID: 'your client id',
-        redirectUri: 'your call back url',
-        audience: 'https://your_domain/userinfo',
-        responseType: 'token id_token', // for now we only support implicit grant flow
-        scope: 'openid profile email', // the scope used by your app
-        returnTo: 'your sign out url'
-    }
-});
-
-const App = () => { //... }
-
-export default withAuthenticator(App);
-```
-
-Note: The code grant flow is not supported when using Auth0 with `aws-amplify-react` per [Auth0 documentation](https://auth0.com/docs/api-auth/tutorials/authorization-code-grant#2-exchange-the-authorization-code-for-an-access-token).
-
-Alternatively you can use the `withAuth0` HOC:
-```js
-import { withAuth0 } from 'aws-amplify-react';
-import { Auth } from 'aws-amplify';
-
-Auth.configure({
-    auth0: {
-        domain: 'your auth0 domain', 
-        clientID: 'your client id',
-        redirectUri: 'your call back url',
-        audience: 'https://your_domain/userinfo',
-        responseType: 'token id_token', // for now we only support implicit grant flow
-        scope: 'openid profile email', // the scope used by your app
-        returnTo: 'your sign out url'
-    }
-});
-
-const Button = (props) => (
-    <div>
-        <img
-            onClick={props.auth0SignIn}
-            src={auth0_icon}
-        />
-    </div>
-);
-
-export default withAuth0(Button);
 ```
 
 ## Lambda Triggers

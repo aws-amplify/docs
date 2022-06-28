@@ -89,7 +89,7 @@ The following code sample demonstrates how to create a custom ConfirmSignIn comp
 ```js
 import React from 'react';
 import './App.css';
-import Amplify, { Auth, Hub } from 'aws-amplify';
+import { Amplify, Auth, Hub } from 'aws-amplify';
 import awsconfig from './aws-exports';
 import { Authenticator, SignUp, SignIn, Greetings, ConfirmSignUp, AuthPiece } from 'aws-amplify-react';
 import ReCAPTCHA from "react-google-recaptcha";
@@ -310,11 +310,11 @@ main.js
 ```js
 import Vue from 'vue'
 import App from './App.vue'
-import Amplify, * as AmplifyModules from 'aws-amplify'
+import * as AmplifyModules from 'aws-amplify'
 import { AmplifyPlugin } from 'aws-amplify-vue'
 import awsconfig from './aws-exports'
 
-Amplify.configure({
+AmplifyModules.Amplify.configure({
   Auth: {
     identityPoolId: awsconfig.aws_cognito_identity_pool_id,
     region: awsconfig.aws_cognito_region,
@@ -362,7 +362,7 @@ The following is an example of how to configure the aws-amplify-react authentica
 ```js
 import React from 'react';
 import './App.css';
-import Amplify, { Auth, Hub } from 'aws-amplify';
+import { Amplify, Auth, Hub } from 'aws-amplify';
 import awsconfig from './aws-exports';
 import { Authenticator, SignUp, SignIn, Greetings, AuthPiece } from 'aws-amplify-react';
 
@@ -541,7 +541,7 @@ As you can see in the prompt above, you can either choose to use an existing Lam
 You can associate a Lambda trigger with a DynamoDB table, managed by the Amplify CLI. There are two ways by which DynamoDB is provisioned by the Amplify CLI
 
 - As a part of the [Storage category](/cli/storage/overview#)
-- As a part of the [GraphQL API (types with @model annotation)](/cli/graphql-transformer/model)
+- As a part of the [GraphQL API (types with @model annotation)](/cli/graphql/data-modeling)
 
 ### As a part of the Storage category
 

@@ -1,4 +1,4 @@
-The Analytics category enables you to collect analytics data for your App. The Analytics category comes with built-in support for [Amazon Pinpoint](https://aws.amazon.com/pinpoint) and [Amazon Kinesis](https://aws.amazon.com/kinesis) (Kinesis support is currently only available in the Amplify JavaScript library).
+The Analytics category enables you to collect analytics data for your App. The Analytics category comes with built-in support for [Amazon Pinpoint](https://aws.amazon.com/pinpoint) and [Amazon Kinesis](https://aws.amazon.com/kinesis) (Kinesis support is currently only available in the Amplify JavaScript library). The Analytics category uses [Amazon Cognito Identity pools](https://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html) to identify users in your App. Cognito allows you to receive data from authenticated, and unauthenticated users in your App.
 
 ## Goal
 
@@ -83,8 +83,6 @@ import flutter11 from "/src/fragments/lib/analytics/flutter/getting-started/30_i
 
 <Fragments fragments={{flutter: flutter11}} />
 
-## Record events
-
 import ios12 from "/src/fragments/lib/analytics/ios/getting-started/40_record.mdx";
 
 <Fragments fragments={{ios: ios12}} />
@@ -93,13 +91,9 @@ import android13 from "/src/fragments/lib/analytics/android/getting-started/40_r
 
 <Fragments fragments={{android: android13}} />
 
-import flutter14 from "/src/fragments/lib/analytics/flutter/getting-started/40_record.mdx";
-
-<Fragments fragments={{flutter: flutter14}} />
-
 ## View Analytics console
 
-From the terminal run the following command.
+If you have not saved the link from before, you can still reach it from the terminal. Run the following command for opening the console.
 
 ```console
 amplify console analytics

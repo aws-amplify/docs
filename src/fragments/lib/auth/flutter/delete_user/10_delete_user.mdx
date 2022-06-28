@@ -1,0 +1,16 @@
+<Callout>
+  Amplify-flutter currently offers this API only on the iOS platform, in
+  accordance with iOS App Store policy changes. It is recommended that you
+  display widgets to call this API only on the the iOS platform.
+</Callout>
+
+```dart
+Future<void> deleteUser() async {
+  try {
+    await Amplify.Auth.deleteUser();
+    print('Delete user succeeded');
+  } on Exception catch (e) {
+    print('Delete user failed with error: $e');
+  }
+}
+```

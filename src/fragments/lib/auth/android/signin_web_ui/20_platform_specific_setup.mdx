@@ -33,6 +33,24 @@ your redirect URI prefix if necessary:
 ```
 
 You may now skip the instructions below for adding a response handler to your activity.
+  
+If you want to add a redirect to an Activity when the user signs in or signs out, add an
+`<activity>` block like the following inside your `<application>`:
+
+```xml
+<activity android:name=".LogoutActivity" android:exported="true">
+    <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data android:scheme="myapp" android:host="signout" />
+    </intent-filter>
+</activity>
+```
+
+This will connect the URI `myapp://signout` to a redirect to the Activity named `LogoutActivity`.
+You can also write a similar block to configure redirects for the sign in event, using
+the other URI you configured when setting up Auth.
 
 </Block>
 <Block name="v1.17.7 and below">
@@ -58,15 +76,69 @@ whatever value you used for your redirect URI prefix:
 These instructions have been updated since version 1.2.0. If you set this up for a version of Amplify prior to 1.2.0, be sure to remove the `intent-filter` with `android:scheme` from your own activity as well as the `singleInstance` launch mode.
 </Callout>
 
+If you want to add a redirect to an Activity when the user signs in or signs out, add an
+`<activity>` block like the following inside your `<application>`:
+
+```xml
+<activity android:name=".LogoutActivity" android:exported="true">
+    <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data android:scheme="myapp" android:host="signout" />
+    </intent-filter>
+</activity>
+```
+
+This will connect the URI `myapp://signout` to a redirect to the Activity named `LogoutActivity`.
+You can also write a similar block to configure redirects for the sign in event, using
+the other URI you configured when setting up Auth.
+
 </Block>
 </BlockSwitcher>
 
 ### Add Response Handler
+Add the following result handler to whichever `Activity` you are calling HostedUI from:
+
 <Callout>
-If you are using a version of Amplify 1.17.8 or above and have already declared HostedUIRedirectActivity in your manifest file, then you may skip this step.
+If you are using a version of Amplify 1.17.8 or above and have already declared HostedUIRedirectActivity in your manifest file, you only need to add the result handler if you need to capture sign in cancellations that occurred before the user submitted credentials.
 </Callout>
 
-Add the following result handler to whichever `Activity` you are calling HostedUI from:
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+
+    if (requestCode == AWSCognitoAuthPlugin.WEB_UI_SIGN_IN_ACTIVITY_CODE && 
+        resultCode == Activity.RESULT_CANCELLED) {
+        Log.i("AuthQuickStart", "User cancelled sign in");
+    }
+}
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    super.onActivityResult(requestCode, resultCode, data)
+
+    if (requestCode == AWSCognitoAuthPlugin.WEB_UI_SIGN_IN_ACTIVITY_CODE && 
+        resultCode == Activity.RESULT_CANCELLED) {
+        Log.i("AuthQuickStart", "User cancelled sign in")
+    }
+}
+```
+
+ </Block>
+</BlockSwitcher>
+
+<Callout>
+If you are using a version of Amplify below 1.17.8, you must add the following sign in result handler.
+</Callout>
 
 <BlockSwitcher>
 <Block name="Java">

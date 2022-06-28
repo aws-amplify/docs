@@ -3,7 +3,7 @@ export const meta = {
   description: `How to implement sorting in a GraphQL query`,
 };
 
-In this guide you will learn how to implement sorting in a GraphQL API. In our example, you will implement sorting results by date in either an ascending or descending order by implementing an additional data access pattern leveraging a DynamoDB Global Secondary Index using the `@key` GraphQL Transform directive.
+In this guide you will learn how to implement sorting in a GraphQL API. In our example, you will implement sorting results by date in either an ascending or descending order by implementing an additional data access pattern leveraging a DynamoDB Global Secondary Index using the `@index` GraphQL Transformer directive.
 
 ### Overview
 
@@ -36,7 +36,7 @@ type ModelTodoConnection {
 
 By default, the `listTodos` query will return the `items` array __unordered__. Many times you will need these items to be ordered by title, by creation date, or in some other way.
 
-To enable this, you can use the [@key](/cli/graphql-transformer/key) directive. This directive will allow you to set a custom `sortKey` on any field in your API.
+To enable this, you can use the [@index](/cli/graphql/data-modeling) directive. This directive will allow you to set a custom `sortKey` on any field in your API.
 
 ### Implementation
 
@@ -45,11 +45,10 @@ In this example, you will enable sorting by the `createdAt` field. By default, A
 To enable this, update your schema with the following:
 
 ```graphql
-type Todo @model
-  @key(name: "todosByDate", fields: ["type", "createdAt"], queryField: "todosByDate") {
+type Todo @model {
   id: ID!
   title: String!
-  type: String!
+  type: String! @index(name: "todosByDate", queryField: "todosByDate", sortKeyFields: ["createdAt"])
   createdAt: String!
 }
 ```
@@ -104,4 +103,4 @@ query todosByDateDescending {
 }
 ```
 
-To learn more about the `@key` directive, check out the documentation [here](/cli/graphql-transformer/key)
+To learn more about the `@index` directive, check out the documentation [here](/cli/graphql/data-modeling)

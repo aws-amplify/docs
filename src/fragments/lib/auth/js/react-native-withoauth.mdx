@@ -20,9 +20,27 @@ The following `props` are used for building a custom UI with buttons if you do n
 
 To use `withOAuth` in your React Native application first install the appropriate dependencies:
 
-```terminal
-yarn add aws-amplify-react-native aws-amplify 
+<BlockSwitcher>
+<Block name="Expo">
+
+```sh
+yarn add aws-amplify-react-native aws-amplify @react-native-picker/picker
 ```
+
+</Block>
+<Block name="React Native CLI">
+
+```sh
+yarn add aws-amplify-react-native aws-amplify @react-native-picker/picker
+```
+
+You will also need to install the pod dependencies for iOS:
+
+```sh
+npx pod-install
+```
+</Block>
+</BlockSwitcher>
 
 The following code snippet shows an example of its possible usage:
 
@@ -35,7 +53,7 @@ Although `urlOpener` is left out of this sample for brevity, it is still recomme
 ```javascript
 import React from 'react';
 import { Button, Text, View } from 'react-native';
-import Amplify, { Auth, Hub } from 'aws-amplify';
+import { Amplify, Auth, Hub } from 'aws-amplify';
 import { withOAuth } from "aws-amplify-react-native";
 import awsconfig from './aws-exports';
 

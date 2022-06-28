@@ -24,7 +24,7 @@ Amplify.Auth.forgetDevice(
 ```kotlin
 try {
     Amplify.Auth.forgetDevice()
-    Log.i("AuthQuickStart", "Forget device succeeded") 
+    Log.i("AuthQuickStart", "Forget device succeeded")
 } catch (error: AuthException) {
     Log.e("AuthQuickStart", "Forget device failed with error", error)
 }
@@ -34,7 +34,7 @@ try {
 <Block name="RxJava">
 
 ```java
-Amplify.Auth.forgetDevice()
+RxAmplify.Auth.forgetDevice()
     .subscribe(
       () -> Log.i("AuthQuickStart", "Forget device succeeded"),
       error -> Log.e("AuthQuickStart", "Forget device failed with error " + error.toString())

@@ -23,6 +23,8 @@ This feature is particularly useful if you're trying to:
 - incrementally adopt Amplify for your application stack;
 - independently manage Cognito resources while working with Amplify.
 
+> Note: Amplify does not manage the lifecycle of an imported resource.
+
 ## Import an existing Cognito User Pool
 
 Select the "Cognito User Pool only" option when you've run `amplify import auth`. In order to successfully import your User Pool, your User Pools require at least one app client with the following conditions:
@@ -57,3 +59,14 @@ If you want to have Amplify manage your auth resources in a new environment, run
 In order to unlink your existing Cognito resource run `amplify remove auth`. This will only unlink the Cognito resource referenced from the Amplify project. It will not delete the Cognito resource itself.
 
 Run `amplify push` to complete the unlink procedure.
+
+## Add Environmental Variables to Amplify Console Build
+
+In order to successfully build your application with Amplify Console add the following environmental variables to your build environment:
+
+|Environment Variable|Description|
+|-|-|
+|AMPLIFY_USERPOOL_ID|The ID for the Amazon Cognito user pool imported for auth|
+|AMPLIFY_WEBCLIENT_ID|The ID for the app client to be used by web applications. The app client must be configured with access to the Amazon Cognito user pool specified by the AMPLIFY_USERPOOL_ID environment variable.|
+|AMPLIFY_NATIVECLIENT_ID|The ID for the app client to be used by native applications. The app client must be configured with access to the Amazon Cognito user pool specified by the AMPLIFY_USERPOOL_ID environment variable.|
+|AMPLIFY_IDENTITYPOOL_ID|The ID for the Amazon Cognito identity pool|

@@ -11,7 +11,7 @@ import LinkBanner from "../components/LinkBanner";
 import Footer from "../components/Footer";
 import UniversalNav from "../components/UniversalNav";
 
-import {track, trackPageVisit, AnalyticsEventType} from "../utils/track";
+import {trackPageVisit} from "../utils/track";
 
 const meta = {
   title: "Amplify Framework Docs",
@@ -22,14 +22,6 @@ const meta = {
 
 const Page = () => {
   useEffect(() => {
-    track({
-      type: AnalyticsEventType.PAGE_VISIT,
-      attributes: {
-        url: "/",
-        previousUrl: document.referrer,
-        referrer: document.referrer,
-      },
-    });
     trackPageVisit();
   }, []);
 
@@ -111,6 +103,13 @@ const Page = () => {
                 </p>
               </CardDetail>
             </Card>
+            <Card href="/console">
+              <CardGraphic alt="Amplify Studio icon" src="/assets/console.png" />
+              <CardDetail>
+                <h4>Amplify Studio</h4>
+                <p>Visual development environment to accelerate full-stack development.</p>
+              </CardDetail>
+            </Card>
             <Card href="/cli">
               <CardGraphic alt="CLI icon" src="/assets/cli.png" />
               <CardDetail>
@@ -118,21 +117,13 @@ const Page = () => {
                 <p>Configure an app backend with a guided CLI workflow.</p>
               </CardDetail>
             </Card>
-            <Card href="/console">
+            <Card href="https://docs.aws.amazon.com/amplify/latest/userguide/getting-started.html">
               <CardGraphic alt="Console icon" src="/assets/console.png" />
               <CardDetail>
-                <h4>Amplify Console</h4>
+                <h4>Amplify Hosting</h4>
                 <p>
-                  AWS service for creating an app backend and hosting full-stack
-                  web apps.
+                Fully managed web hosting with full-stack CI/CD.
                 </p>
-              </CardDetail>
-            </Card>
-            <Card href="/console/adminui/intro">
-              <CardGraphic alt="Admin UI icon" src="/assets/console.png" />
-              <CardDetail>
-                <h4>NEW! Amplify Admin UI</h4>
-                <p>Visually configure and manage your app backend.</p>
               </CardDetail>
             </Card>
           </Grid>

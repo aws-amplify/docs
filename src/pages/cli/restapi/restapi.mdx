@@ -20,6 +20,7 @@ Amplify CLI allows you to restrict REST API access to
 
 - Only authenticated users; or
 - Authenticated and Guest users
+- User Pool Groups 
 
 See a description of these user types below
 
@@ -27,6 +28,8 @@ See a description of these user types below
 |---|---|
 | Authenticated user | User needs to sign in to use the REST API |
 | Guest user | User doesn't need to sign in to use the REST API |
+| User Pool Group | User needs to sign in and belong to the User Pool Group to use the REST API|
+
 
 For each user type you can further specify what actions it has access to.
 
@@ -34,12 +37,15 @@ For each user type you can further specify what actions it has access to.
 |---|---|---|---|
 | Authenticated user | create, read, update, delete | POST, GET, PUT, PATCH, DELETE | Amazon Cognito |
 | Guest user | create, read, update, delete | POST, GET, PUT, PATCH, DELETE | Amazon Cognito |
+| User Pool Group | create, read, update, delete | POST, GET, PUT, PATCH, DELETE | Amazon Cognito |
 
-REST APIs have support for [multiple environments](/cli/teams/overview) (e.g. dev, qa, and prod). This means that you can easily isolate different versions of your REST API by using different environments:
+REST APIs have support for [multiple environments](/cli/teams/overview) (e.g. dev, qa, and prod). This means that you can easily isolate different versions of your REST API by using different Amplify environments.
 
-```text
-https://a5b4c3d2e1.execute-api.eu-west-2.amazonaws.com/dev/items
-https://a5b4c3d2e1.execute-api.eu-west-2.amazonaws.com/prod/items
+Because Amplify environments could be in separate AWS accounts, we cannot use the environment feature of API Gateway. Each Amplify environment will have a separate API Gateway resource associated with it. For example:
+
+```console
+https://<API ID 1>.execute-api.eu-west-2.amazonaws.com/dev/items
+https://<API ID 2>.execute-api.eu-west-2.amazonaws.com/prod/items
 ```
 
 ## Create a REST API
@@ -105,6 +111,8 @@ DELETE /items/1    Delete an item by id
 - What kind of access do you want for Authenticated users? __create, read, update, delete__
 - What kind of access do you want for Guest users? __read__
 
+When configuration of your API is complete, the CLI displays a message confirming that you have configured local CLI metadata for this category. You can confirm this by running `amplify status`. Finally deploy your changes to the cloud:
+
 Amplify CLI restricts API access combining Amazon Cognito for authentication and AWS IAM (Identity and Access Management) for granting execution permissions on routes.
 
 - Do you want to add another path? __No__
@@ -131,6 +139,56 @@ REST
     |_ itemsApi (Amazon API Gateway) 
        |_ itemsLambda (AWS Lambda)
           |_ Logs (Amazon CloudWatch)
+```
+
+## Create REST API and restrict specific routes to specific User Pool Groups
+If your app uses User Pool Groups to manage different user types and would like to restrict access of specific routes to specific User Pool Groups. We can accomplish this by the following flow: 
+- Create API route. 
+- Add API route handler function.
+- Restrict-access to the API route to the User Pool Group.
+
+>
+> The following example flow assumes the existence of two User Pool Groups : AdminUsers and GuestUsers for a Book store.
+> The app would like to limit admin functionality like updating book records to the AdminUsers User Pool Group, 
+> while borrowing and returning books would be limited to the GuestUsers User Pool Group. 
+> - Path : /book/admin is restricted to AdminUsers and commands are handled by the bookAdminHandler lambda function
+> - Path : /book/guest is restricted to GuestUsers and commands are handled by the bookGuestHandler lambda function
+
+```bash
+amplify add api
+$> ? Select from one of the below mentioned services: REST
+$> ✔ Provide a friendly name for your resource to be used as a label for this category in the project: · mybookapi
+$> ✔ Provide a path (e.g., /book/{isbn}): · /book/admin
+$> ✔ Choose a Lambda source · Create a new Lambda function
+$> ? Provide an AWS Lambda function name: bookAdminHandler
+$> ? Choose the runtime that you want to use: NodeJS
+$> ? Choose the function template that you want to use: Hello World
+$> ? Do you want to configure advanced settings? No
+$> ? Do you want to edit the local lambda function now? No
+Successfully added resource bookAdminHandler locally.
+$> ✔ Restrict API access? (Y/n) · yes
+$> ✔ Restrict access by: · Individual Groups
+$> ✔ Select groups: AdminUsers
+$> ✔ What permissions do you want to grant to AdminUsers users? · create, read, update, delete
+$> ✔ Do you want to add another path? (y/N) · yes
+$> ✔ Provide a path (e.g., /book/{isbn}): · /book/guest
+$> ✔ Choose a Lambda source · Create a new Lambda function
+$> ? Provide an AWS Lambda function name: bookGuestHandler
+$> ? Choose the runtime that you want to use: NodeJS
+$> ? Choose the function template that you want to use: Hello World
+$> ? Do you want to configure advanced settings? No
+$> ? Do you want to edit the local lambda function now? No
+Successfully added resource bookGuestHandler locally.
+$> ✔ Restrict API access? (Y/n) · yes
+$> ✔ Restrict access by: Individual Groups
+$> ✔ Select groups: GuestUsers
+$> ✔ What permissions do you want to grant to GuestUsers users?  create, read, update
+$> ✔ Do you want to add another path? (y/N) No
+✅ Successfully added resource mybookapi locally
+```
+At the end of this command you can verify the routes and their respective User Pool Group restrictions in the `cli-inputs.json` file at the following path.
+```bash
+ <project-root>/amplify/backend/api/<api-resource-name>/cli-inputs.json
 ```
 
 ## REST endpoint that triggers new Lambda functions

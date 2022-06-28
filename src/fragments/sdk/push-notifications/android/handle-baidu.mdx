@@ -105,7 +105,7 @@ Under `<application>`, specify the following receivers and intent filters:
 <service android:name="com.baidu.android.pushservice.CommandService"
          android:exported="true" />
 
-<!-- Amazon Pinpoint Notification Receiver -->
+<!-- Amazon Pinpoint Notification Receiver (This receiver is no longer necessary and should be removed as of com.amazonaws:aws-android-sdk-pinpoint:2.48.0) -->
 <receiver android:name="com.amazonaws.mobileconnectors.pinpoint.targeting.notification.PinpointNotificationReceiver">
   <intent-filter>
   <action android:name="com.amazonaws.intent.baidu.NOTIFICATION_OPEN" />

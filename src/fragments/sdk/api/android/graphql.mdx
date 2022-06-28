@@ -82,7 +82,7 @@ When prompted, select **GraphQL**. This will open the AWS AppSync console for yo
 
 ### Import SDK and Config
 
-To use AppSync in your Android studio project, modify the project's `build.gradle` by adding the  Maven plugin repositories, and the AppSync Gradle plugin to `dependencies`. 
+To use AppSync in your Android studio project, modify the project's `build.gradle` by adding the  Maven plugin repositories, and the AppSync Gradle plugin to `dependencies`.
 
 ```groovy
 buildscript {
@@ -94,7 +94,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:3.1.2'
+        classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:3.2.1'
         // ...
     }
     // ...
@@ -111,7 +111,7 @@ allprojects {
 }
 ```
 
-Next, in the app's build.gradle add in a plugin of `apply plugin: 'com.amazonaws.appsync'` and a dependency of `implementation 'com.amazonaws:aws-android-sdk-appsync:3.1.3'`. For example:
+Next, in the app's build.gradle add in a plugin of `apply plugin: 'com.amazonaws.appsync'` and a dependency of `implementation 'com.amazonaws:aws-android-sdk-appsync:3.3.1'`. For example:
 
 ```groovy
 plugins {
@@ -123,7 +123,7 @@ android {
 }
 dependencies {
     // REQUIRED: Typical dependencies
-    implementation 'com.amazonaws:aws-android-sdk-appsync:3.1.3'
+    implementation 'com.amazonaws:aws-android-sdk-appsync:3.3.1'
 }
 ```
 
@@ -270,7 +270,7 @@ All GraphQL operations in the Android client are automatically run as asynchrono
 
 ```java
 final CountDownLatch mCountDownLatch = new CountDownLatch(1);
-        
+
 new Thread(new Runnable() {
     @Override
     public void run() {
@@ -302,7 +302,7 @@ new Thread(new Runnable() {
                     }
                 }
             });
-        
+
         Looper.loop();
 
     }
@@ -325,7 +325,7 @@ The AppSync client supports offline scenarios with a programing model that provi
 
 ![Image](/images/appsync-architecture.png)
 
-Your application code will interact with the AppSync client to perform GraphQL queries, mutations, or subscriptions. The AppSync client automatically performs the correct authorization methods when interfacing with the HTTP layer adding API Keys, tokens, or signing requests depending on how you have configured your setup. When you do a mutation, such as adding a new item (like a blog post) in your app the AppSync client adds this to a local queue (persisted to disk with SQLite) when the app is offline. When network connectivity is restored the mutations are sent to AppSync in serial allowing you to process the responses one by one. 
+Your application code will interact with the AppSync client to perform GraphQL queries, mutations, or subscriptions. The AppSync client automatically performs the correct authorization methods when interfacing with the HTTP layer adding API Keys, tokens, or signing requests depending on how you have configured your setup. When you do a mutation, such as adding a new item (like a blog post) in your app the AppSync client adds this to a local queue (persisted to disk with SQLite) when the app is offline. When network connectivity is restored the mutations are sent to AppSync in serial allowing you to process the responses one by one.
 
 Any data returned by a query is automatically written to the Apollo Cache (e.g. “Store”) that is persisted to disk via SQLite. The cache is structured as a key value store using a reference structure. There is a base “Root Query” where each subsequent query resides and then references their individual item results. You specify the reference key (normally “id”) in your application code. An example of the cache that has stored results from a “listPosts” query and “getPost(id:1)” query is below.
 
@@ -426,14 +426,14 @@ mAWSAppSyncClient.mutate(CreateTodoMutation.builder().input(createTodoInput).bui
 optimisticWrite(createTodoInput);
 ```
 
-You might add similar code in your app for updating or deleting items using an optimistic response, it would look largely similar except that you might overwrite or remove an element from the `response.data().listTodos().items()` array. A recommended best practice would be to create similar overloaded methods for `optimisticWrite(UpdateTodoInput updateTodoInput)` and `optimisticWrite(DeleteTodoInput deleteTodoInput)`. 
+You might add similar code in your app for updating or deleting items using an optimistic response, it would look largely similar except that you might overwrite or remove an element from the `response.data().listTodos().items()` array. A recommended best practice would be to create similar overloaded methods for `optimisticWrite(UpdateTodoInput updateTodoInput)` and `optimisticWrite(DeleteTodoInput deleteTodoInput)`.
 
 Offline mutations work by default and are available in memory, as well as through app restarts. The `onResponse` callback in mutations is received when the network is available and will be executed as long as the app wasn't closed. However if the app was closed or crashed, the `persistentMutationsCallback` will be called in the `AWSAppSyncClient` builder which has information about the mutation type and identifier. You should use this in your client initialization routine to protect against any unknown app behaviors such as application errors or user interference:
 
 ```java
 
     private AWSAppSyncClient mAWSAppSyncClient;
-    
+
     mAWSAppSyncClient = AWSAppSyncClient.builder()
       .context(getApplicationContext())
       .awsConfiguration(new AWSConfiguration(getApplicationContext()))
@@ -451,7 +451,7 @@ Offline mutations work by default and are available in memory, as well as throug
           }
         })
       .build();
-    
+
 ```
 
 ### Authorization Modes
@@ -556,7 +556,7 @@ When using AWS IAM in a mobile application you should leverage Amazon Cognito Id
 
 Then pass the `AWSMobileClient` to `credentialsProvider()` like so:
 
-```java         
+```java
 private AWSAppSyncClient mAWSAppSyncClient;
 
 mAWSAppSyncClient = AWSAppSyncClient.builder()
@@ -689,7 +689,7 @@ public class ClientFactory {
                                   .awsConfiguration(awsConfigPublic)
                                   .useClientDatabasePrefix(true)
                                   .build();
-        
+
         AWSConfiguration awsConfigPrivate = new AWSConfiguration(context);
         awsConfigPrivate.setConfiguration("friendly_name_AWS_IAM");
         CLIENTS[PRIVATE] = AWSAppSyncClient.builder()
@@ -742,11 +742,11 @@ apiKeyAppSyncClient.query(GetPostQuery.builder().id(id).build())
                 post.title();
                 post.content();
                 post.version();
-                
+
                 post.url(); // Null - because it's not authorized
                 post.ups(); // Null - because it's not authorized
                 post.downs(); // Null - because it's not authorized
-                
+
                 if (response.hasErrors()) {
 	                	Log.d(TAG, response.errors().get(0).message()); // "Not Authorized to access url on type Post"
 	                	Log.d(TAG, response.errors().get(1).message()); // "Not Authorized to access ups on type Post"
@@ -791,7 +791,7 @@ public class ClientFactory {
                               .clientDatabasePrefix("API_KEY")
                               .useClientDatabasePrefix(true)
                               .build();
- 
+
         CLIENTS[PRIVATE] = AWSAppSyncClient.builder()
                                .context(context)
                                .serverUrl(serverUrl)
@@ -863,11 +863,11 @@ Finally, you might have other queries which you wish to represent in your applic
 
 ```java
 // Provides the ability to sync using a baseQuery, subscription, deltaQuery, and a refresh interval
-Cancelable handle = client.sync(baseQuery, baseQueryCallback, 
-			  subscription, subscriptionCallback, 
-			  deltaQuery, deltaQueryCallback, 
+Cancelable handle = client.sync(baseQuery, baseQueryCallback,
+			  subscription, subscriptionCallback,
+			  deltaQuery, deltaQueryCallback,
 			  20 * 60 );
-        
+
 //Stop DeltaSync
 handle.cancel();
 ```
@@ -876,9 +876,9 @@ handle.cancel();
 * *baseQuery* the base query to get the baseline state. (REQUIRED)
 * *baseQueryCallback* callback to handle the baseQuery results. (REQUIRED)
 * *subscription* subscription to get changes on the fly.
-* *subscriptionCallback* callback to handle the subscription messages. 
+* *subscriptionCallback* callback to handle the subscription messages.
 * *deltaQuery* the catch-up query
-* *deltaQueryCallback* callback to handle the deltaQuery results. 
+* *deltaQueryCallback* callback to handle the deltaQuery results.
 * *baseRefreshIntervalInSeconds* time duration (specified in seconds) when the base query will be re-run to get an updated baseline state.
 * *returnValue* returns a `Cancelable` object that can be used later to cancel the sync operation by calling the `cancel()` method.
 
@@ -886,11 +886,11 @@ Note that above only the `baseQuery` and `baseQueryCallback` are required parame
 
 ```java
 //Performs sync only with base query
-client.sync(baseQuery, baseQueryCallback, baseRefreshIntervalInSeconds) 
+client.sync(baseQuery, baseQueryCallback, baseRefreshIntervalInSeconds)
 
 //Performs sync with delta but no subscriptions
-client.sync(baseQuery, baseQueryCallback, deltaQuery, deltaQueryCallback, 
-		baseRefreshIntervalInSeconds) 
+client.sync(baseQuery, baseQueryCallback, deltaQuery, deltaQueryCallback,
+		baseRefreshIntervalInSeconds)
 ```
 
 **Example**
@@ -898,13 +898,13 @@ client.sync(baseQuery, baseQueryCallback, deltaQuery, deltaQueryCallback,
 The following section walks through the details of creating an app using Delta Sync. We will use a simple Posts App that has a view that displays a list of posts and keeps it synchronized using the Delta Sync functionality. We will use a Map object called `allPosts` to collect and manage the posts and a RecyclerView to power the UI.
 
 **Base Query and BaseQuery Callback**
-In the Adapter object, create the BaseQuery and the BaseQuery Callback. We will use the `listPosts` query from the sample schema as our base query.  
+In the Adapter object, create the BaseQuery and the BaseQuery Callback. We will use the `listPosts` query from the sample schema as our base query.
 ```java
 //Setup the BaseQuery - we will use the ListPostsQuery as our base query
 Query listPostsQuery = ListPostsQuery.builder().build();
 ```
 
-In the `baseQueryCallback` we will receive and process the results of `listPosts`. We will update the allPosts Map object with the query results and trigger the RecyclerView to refresh the contents of the view. The `listPosts` query cache will be automatically updated by the SDK. 
+In the `baseQueryCallback` we will receive and process the results of `listPosts`. We will update the allPosts Map object with the query results and trigger the RecyclerView to refresh the contents of the view. The `listPosts` query cache will be automatically updated by the SDK.
 
 ```java
 GraphQLCall.Callback listPostsQueryCallback = new GraphQLCall.Callback<ListPostsQuery.Data>() {
@@ -945,10 +945,10 @@ GraphQLCall.Callback listPostsQueryCallback = new GraphQLCall.Callback<ListPosts
 ```
 
 **Subscription and Subscription callback**
-Next, we will create a subscription to get notified whenever a change (Add, Update or Delete) happens to a post. 
+Next, we will create a subscription to get notified whenever a change (Add, Update or Delete) happens to a post.
 
 ```java
-  //Setup Delta Post Subscription to get notified when a change 
+  //Setup Delta Post Subscription to get notified when a change
   //(add, update, delete) happens on a Post
   OnDeltaPostSubscription onDeltaPostSubscription =
       OnDeltaPostSubscription.builder().build();
@@ -1000,13 +1000,13 @@ AppSyncSubscriptionCall.Callback onDeltaPostSubscriptionCallback =
         public void onFailure(@Nonnull ApolloException e) {
             Log.e(TAG, "Error " + e.getLocalizedMessage());
         }
-        
+
         @Override
         public void onCompleted() {
             Log.d(TAG, "Received onCompleted on subscription");
         }
     };
-``` 
+```
 
 The `updateListPostsQueryCache` method will update the query cache of the `listPosts` query as shown below.
 
@@ -1081,15 +1081,15 @@ GraphQLCall.Callback listPostsDeltaQueryCallback = new GraphQLCall.Callback<List
 Once we have all of these pieces in place, we will tie it all together by invoking the Delta Sync functionality as follows.
 
 ```java
- Cancelable handle =  client.sync(listPostsQuery, listPostsQueryCallback, 
-                           onCreatePostSubscription, onCreatePostCallback, 
-			   listPostsDeltaQuery, listPostsDeltaQueryCallback, 
+ Cancelable handle =  client.sync(listPostsQuery, listPostsQueryCallback,
+                           onCreatePostSubscription, onCreatePostCallback,
+			   listPostsDeltaQuery, listPostsDeltaQueryCallback,
                            20 * 60 );
-        
+
 ```
 
 **Delta Sync Lifecycle**
-The delta sync process runs at various times, in response to different conditions: 
+The delta sync process runs at various times, in response to different conditions:
 - Runs immediately, when you make the call to `sync` as shown above. This will be the initial run and it will execute the baseQuery, setup the subscription and execute the delta Query.
 - Runs when the device that is running the app transitions from offline to online. Depending on the duration for which the device was offline ( i.e., > `baseRefreshIntervalInSeconds`), either the deltaQuery or the baseQuery will be run.
 - Runs when the app transitions from background to foreground. Once again, depending on how long the app was in the background, either the deltaQuery or the baseQuery will be run. To enable this, add the `AWSAppSyncAppLifecycleObserver` to the ProcessLifeCycle owner in the `onCreate` method of your main view as follows:
@@ -1104,4 +1104,4 @@ The delta sync process runs at various times, in response to different condition
 	ProcessLifecycleOwner.get().getLifecycle().
 		addObserver(new AWSAppSyncAppLifecycleObserver());
 ```
-- Runs once every `baseRefreshIntervalInSeconds` as part of a periodic catch-up. 
+- Runs once every `baseRefreshIntervalInSeconds` as part of a periodic catch-up.

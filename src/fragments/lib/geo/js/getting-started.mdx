@@ -7,7 +7,9 @@ Amplify Geo provides APIs and map UI components for maps and location search for
 
 Follow this guide to get started with Amplify Geo through the Amplify CLI.
 
-**Note:** If you want to use existing Amazon Location Service resources [follow this guide](/lib/geo/existing-resources) instead.
+**Notes:** 
+- If you want to use existing Amazon Location Service resources [follow this guide](/lib/geo/existing-resources) instead.
+- If you want to use Amazon Location Service APIs not directly supported by Geo, use the [escape hatch](/lib/geo/escapehatch) to access the Amazon Location Service SDK.
 
 ## Provisioning resources through CLI
 
@@ -66,7 +68,7 @@ npm install aws-amplify
 Import and load the configuration file generated in previous step using Amplify CLI in your app. It’s recommended you add the Amplify configuration step to your app’s root entry point. For example `src/index.js` in a `create-react-app` generated React application or `main.ts` in Angular or Ionic.
 
 ```javascript
-import Amplify from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
 import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
 ```
