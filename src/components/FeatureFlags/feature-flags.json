@@ -427,7 +427,7 @@
           },
           {
             "value": "false",
-            "description": "Use the deprecated models generator package implementation at https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-codegen-appsync-model-plugin",
+            "description": "Use the deprecated models generator package implementation at https://github.com/aws-amplify/amplify-cli/tree/main/packages/amplify-codegen-appsync-model-plugin",
             "defaultNewProject": false,
             "defaultExistingProject": true
           }
@@ -448,7 +448,7 @@
           },
           {
             "value": "false",
-            "description": "Use the deprecated GraphQL documents generation package implementation at https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-graphql-docs-generator",
+            "description": "Use the deprecated GraphQL documents generation package implementation at https://github.com/aws-amplify/amplify-cli/tree/main/packages/amplify-graphql-docs-generator",
             "defaultNewProject": false,
             "defaultExistingProject": true
           }
@@ -469,7 +469,7 @@
           },
           {
             "value": "false",
-            "description": "Use the deprecated types generation package implementation at https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-graphql-types-generator",
+            "description": "Use the deprecated types generation package implementation at https://github.com/aws-amplify/amplify-cli/tree/main/packages/amplify-graphql-types-generator",
             "defaultNewProject": false,
             "defaultExistingProject": true
           }
