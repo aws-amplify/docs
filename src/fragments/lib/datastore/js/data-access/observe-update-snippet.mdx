@@ -1,0 +1,55 @@
+```ts
+// Example showing how to observe the model and keep state updated before
+// performing a save. This uses the useEffect React hook, but you can
+// substitute for a similar mechanism in your application lifecycle with
+// other frameworks.
+
+function App() {
+  const [todo, setTodo] = useState<Todo>();
+
+  useEffect(() => {
+    /**
+     * This keeps `todo` fresh.
+     */
+    const sub = DataStore.observeQuery(Todo, (c) =>
+      c.id("eq", "e4dd1dc5-e85c-4566-8aaa-54a801396456")
+    ).subscribe(({ items }) => {
+      setTodo(items[0]);
+    });
+
+    return () => {
+      sub.unsubscribe();
+    };
+  }, []);
+
+  return (
+    <>
+      <h1>{todo?.name}</h1>
+      <input
+        type="text"
+        value={todo?.description ?? ""}
+        onChange={({ target: { value } }) => {
+          /**
+           * Each keypress updates the todo in local react state.
+           */
+          setTodo(
+            Todo.copyOf(todo!, (draft) => {
+              draft.description = value;
+            })
+          );
+        }}
+      />
+      <input
+        type="button"
+        value="Save"
+        onClick={async () => {
+          /**
+           * This todo is already up to date because observeQuery updated it.
+           */
+          await DataStore.save(todo!);
+          console.log("Todo saved");
+        }}
+      />
+    </>
+  );
+```

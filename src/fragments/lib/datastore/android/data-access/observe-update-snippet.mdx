@@ -1,0 +1,124 @@
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+String tag = "ObserveQuery";
+Post post;
+Consumer<DataStoreQuerySnapshot<Post>> onQuerySnapshot = value ->{
+    post = value.getItems().get(0);
+};
+Consumer<Cancelable> observationStarted = value ->{
+    Log.d(tag, "success on cancelable");
+};
+Consumer<DataStoreException> onObservationError = value ->{
+    Log.d(tag, "error on snapshot$value");
+};
+Action onObservationComplete = () ->{
+    Log.d(tag, "complete");
+};
+QueryPredicate predicate = Post.ID.eq("abc");
+ObserveQueryOptions options = new ObserveQueryOptions(predicate);
+Amplify.DataStore.<Post>observeQuery(
+        Post.class,
+        options,
+        observationStarted,
+        onQuerySnapshot,
+        onObservationError,
+        onObservationComplete
+);
+
+// called from UI event, for example:
+Amplify.DataStore.save(
+    post.copyOfBuilder()
+        .title("new title")
+        .build(),
+    updated -> Log.i(tag, "updated post"),
+    failure -> Log.e(tag, "update failed", failure)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val tag = "ObserveQuery"
+val post: Post;
+val onQuerySnapshot: Consumer<DataStoreQuerySnapshot<Post>> =
+        Consumer<DataStoreQuerySnapshot<Post>> { value: DataStoreQuerySnapshot<Post> ->
+            post = value.items.get(0)
+        }
+val observationStarted =
+        Consumer { _: Cancelable ->
+            Log.d(tag, "success on cancelable")
+        }
+val onObservationError =
+        Consumer { value: DataStoreException ->
+            Log.d(tag, "error on snapshot $value")
+        }
+val onObservationComplete = Action {
+    Log.d(tag, "complete")
+}
+val predicate: QueryPredicate = Post.ID.eq("abc");
+val options = ObserveQueryOptions(predicate)
+
+Amplify.DataStore.observeQuery(
+        Post::class.java,
+        options,
+        observationStarted,
+        onQuerySnapshot,
+        onObservationError,
+        onObservationComplete
+)
+
+// called from a UI event, for example:
+Amplify.DataStore.save(post.copyOfBuilder()
+    .title("new title")
+    .build()
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines (Beta)">
+
+```kotlin
+Post post;
+Amplify.DataStore.observeQuery(
+        Post::class,
+        ObserveQueryOptions(Post.ID.eq("abc")))
+).onStart { Log.i("MyAmplifyApp", "Observation began") }
+        .catch { Log.e("MyAmplifyApp", "Observation failed", it) }
+        .onCompletion { Log.i("MyAmplifyApp", "Observation complete") }
+        .collect { value -> 
+            post = value.items.get(0)
+        }
+
+// called from UI event, for example:
+Amplify.DataStore.save(
+    post.copyOfBuilder()
+        .title("new title")
+        .build()
+);
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+Post post;
+QueryPredicate predicate = Post.ID.eq("abc");
+ObserveQueryOptions options = new ObserveQueryOptions(predicate);
+rxDataStore.observeQuery(Model.class, options).subscribe(
+                modelDataStoreQuerySnapshot -> {
+                    post = modelDataStoreQuerySnapshot.getItems().get(0)
+                });
+
+// called from UI event, for example:
+Amplify.DataStore.save(
+    post.copyOfBuilder()
+        .title("new title")
+        .build()
+);
+```
+
+</Block>
+</BlockSwitcher>

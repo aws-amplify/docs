@@ -1,0 +1,55 @@
+```dart
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  StreamSubscription<QuerySnapshot<Post>>? _stream;
+
+  // A place to keep the post we care about
+  Post? _post;
+
+  // Initialize a boolean indicating if the sync process has completed
+  bool _isSynced = false;
+
+  // Initialize the libraries
+  ...
+
+  void observeQuery() {
+    _stream = Amplify.DataStore.observeQuery(
+      Post.classType,
+      where: Post.ID.eq('123')
+    ).listen((QuerySnapshot<Post> snapshot) {
+      setState(() {
+        _post = snapshot.items.first;
+        _isSynced = snapshot.isSynced;
+      });
+    });
+  }
+
+  Future<void> updatePost(newTitle) async {
+      final updatedPost = _post.copyWith(id: _post.id, title: "Updated Title");
+      await Amplify.DataStore.save(updatedPost);
+
+      // we do not need to explicitly set _post here; observeQuery will see
+      // the update and set the variable.
+  }
+
+  // Build function and UI elements
+  ...
+
+  @override
+  void dispose() {
+    _stream?.cancel();
+    super.dispose();
+  }
+}
+
+```
