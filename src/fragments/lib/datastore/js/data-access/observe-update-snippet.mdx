@@ -5,16 +5,16 @@
 // other frameworks.
 
 function App() {
-  const [todo, setTodo] = useState<Todo>();
+  const [post, setPost] = useState<Post>();
 
   useEffect(() => {
     /**
      * This keeps `todo` fresh.
      */
-    const sub = DataStore.observeQuery(Todo, (c) =>
+    const sub = DataStore.observeQuery(Post, (c) =>
       c.id("eq", "e4dd1dc5-e85c-4566-8aaa-54a801396456")
     ).subscribe(({ items }) => {
-      setTodo(items[0]);
+      setPost(items[0]);
     });
 
     return () => {
@@ -24,17 +24,17 @@ function App() {
 
   return (
     <>
-      <h1>{todo?.name}</h1>
+      <h1>{post?.title}</h1>
       <input
         type="text"
-        value={todo?.description ?? ""}
+        value={post?.title ?? ""}
         onChange={({ target: { value } }) => {
           /**
-           * Each keypress updates the todo in local react state.
+           * Each keypress updates the post in local react state.
            */
-          setTodo(
-            Todo.copyOf(todo!, (draft) => {
-              draft.description = value;
+          setPost(
+            Post.copyOf(post!, (draft) => {
+              draft.title = value;
             })
           );
         }}
@@ -44,10 +44,10 @@ function App() {
         value="Save"
         onClick={async () => {
           /**
-           * This todo is already up to date because observeQuery updated it.
+           * This post is already up to date because observeQuery updated it.
            */
-          await DataStore.save(todo!);
-          console.log("Todo saved");
+          await DataStore.save(post!);
+          console.log("Post saved");
         }}
       />
     </>
