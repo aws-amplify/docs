@@ -12,7 +12,16 @@ class _MyAppState extends State<MyApp> {
   // A reference to the retrieved post
   late Post _post;
 
-  // Initialize the Amplify libraries
+  @override
+  void initState() {
+    super.initState();
+    _configure();
+  }
+  
+  // Initialize the Amplify libraries and call `observeQuery`
+  Future<void> _configure() async {
+    // ...
+  }
   ...
 
   void observeQuery() {
@@ -26,8 +35,8 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  Future<void> updatePost(newTitle) async {
-      final updatedPost = _post.copyWith(id: _post.id, title: 'Updated Title');
+  Future<void> updatePost(String newTitle) async {
+      final updatedPost = _post.copyWith(title: newTitle);
       await Amplify.DataStore.save(updatedPost);
 
       // we do not need to explicitly set _post here; observeQuery will see
