@@ -206,3 +206,23 @@ If you want to have Amplify manage your storage resources in a new environment, 
 In order to unlink your existing Cognito resource run `amplify remove storage`. This will only unlink the S3 bucket or DynamoDB table referenced from the Amplify project. It will not delete the S3 bucket or DynamoDB table itself.
 
 Run `amplify push` to complete the unlink procedure.
+
+## Add Environmental Variables to Amplify Console Build
+
+In order to successfully build your application with Amplify Console add the following environmental variables to your build environment:
+
+| Environment Variable | Description |
+| --- | --- |
+| AMPLIFY_STORAGE_REGION | The region of the DynamoDB tables. |
+| AMPLIFY_STORAGE_TABLES | The names of storage resources and DynamoDB tables imported for storage. |
+
+The format of `AMPLIFY_STORAGE_TABLES` is as follows :
+
+```json
+{
+  "{YOUR_STORAGE_RESOURCE_NAME_1}": "{YOUR_DYNAMODB_TABLE_NAME_1}",
+  "{YOUR_STORAGE_RESOURCE_NAME_2}": "{YOUR_DYNAMODB_TABLE_NAME_2}" // If there are more than one imported tables
+}
+```
+
+> Make sure to replace `{YOUR_STORAGE_RESOURCE_NAME}` and `{YOUR_DYNAMODB_TABLE_NAME}`. You can find the names of storage resources and DynamoDB tables in your `amplify/team-provider-info.json` file.
