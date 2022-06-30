@@ -33,9 +33,7 @@ class PostViewModel: ObservableObject {
         Amplify.DataStore.save(post) { result in
             switch result {
             case .success(let updatedPost):
-                DispatchQueue.main.async {
-                    self.post = updatedPost
-                }
+                print("Updated post successfully: \(updatedPost)")
             case .failure(let error):
                 print("Failed to update post: \(error)")
             }
