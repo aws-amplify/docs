@@ -3,6 +3,10 @@ import SwiftUI
 import Amplify
 import Combine
 
+/*
+ Example showing how to observe the model and keep the state updated before performing a save. This uses the
+ `@Published` property for views to observe and re-render changes to the model.
+ */
 class PostViewModel: ObservableObject {
     @Published var post: Post?
     var subscription: AnyCancellable?
@@ -11,7 +15,6 @@ class PostViewModel: ObservableObject {
     }
     
     func observe(postId: String) {
-        self.post = post
         self.subscription = Amplify.DataStore.observeQuery(for: Post.self,
                                                            where: Post.keys.id == postId).sink { completion in
             print("Completion event: \(completion)")
