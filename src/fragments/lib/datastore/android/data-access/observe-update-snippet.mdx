@@ -62,7 +62,7 @@ class ObserveExampleKt {
         val onQuerySnapshot: Consumer<DataStoreQuerySnapshot<Post>> =
             Consumer<DataStoreQuerySnapshot<Post>> { value: DataStoreQuerySnapshot<Post> ->
                 Log.d(tag, "Post updated")
-                post = value.items.get(0)
+                post = value.items[0]
             }
         val observationStarted =
             Consumer { _: Cancelable ->
@@ -89,12 +89,14 @@ class ObserveExampleKt {
 
     fun save() {
         // called from a UI event, for example:
-        Amplify.DataStore.save(post!!.copyOfBuilder()
-            .title("new title")
-            .build(),
-            { Log.i(tag, "Post saved") },
-            { Log.i(tag, "Error saving post") }
-        )
+        post?.let {
+            Amplify.DataStore.save(it.copyOfBuilder()
+                .title("new title")
+                .build(),
+                { Log.i(tag, "Post saved") },
+                { Log.i(tag, "Error saving post") }
+            )
+        }
     }
 }
 ```
@@ -103,9 +105,9 @@ class ObserveExampleKt {
 <Block name="Kotlin - Coroutines (Beta)">
 
 ```kotlin
-
-// for coroutines, remember to `import com.amplifyframework.kotlin.core.Amplify`
+// For coroutines, remember to `import com.amplifyframework.kotlin.core.Amplify`
 // instead of `import com.amplifyframework.core.Amplify`
+// and add "implementation 'com.amplifyframework:core-kotlin:0.20.0'"  to gradle dependencies
 
 class ObserveExampleCoroutines {
 
@@ -134,17 +136,16 @@ class ObserveExampleCoroutines {
         }
     }
 }
-
 ```
 
 </Block>
 <Block name="RxJava">
 
 ```java
-public class ObserveExampleRx {
+// Remember to import import com.amplifyframework.rx.RxAmplify;
+// and add "implementation 'com.amplifyframework:rxbindings:1.36.1'" to gradle dependencies
 
-    // Need to import import com.amplifyframework.rx.RxAmplify;
-    // Need to add "implementation 'com.amplifyframework:rxbindings:1.36.1'" in gradle
+public class ObserveExampleRx {
 
     private Post post;
 
