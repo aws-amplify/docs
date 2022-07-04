@@ -11,15 +11,80 @@ In the Amplify CLI >= v8.0.3 owner-based `@auth` rule uses `"username"` as the d
 
 ## What are the breaking changes?
 
-There are no breaking changes to your GraphQL API when using the new default identity claim. The resolvers will store these values in your DynamoDB tables in the format of `<sub>::<username>`, and return `username` to the client code by default.
+The sort key fields for your `@primaryKey`s can no longer be part of an owner-based authorization's `ownerField`. This also applies to the auto-generated `owner` field when you add owner-based authorization `@auth(rules: [{ allow: owner }])`. Here are two primary examples that don't support this:
 
-While the other directives will work as they currently work (ie. `@searchable`, `@function`), using custom queries to your databases, such as OpenSearch, may need to be changed. For example, if you are using OpenSearch for a custom query like the one below, you will need your queries to account for the format of the stored owner field with a matching operation (https://docs.amplify.aws/cli/graphql/search-and-result-aggregations/#supported-search-operations). Here's an example of using the wildcard operation:
+```graphql
+## NOT supported schema example 1 ##
+type Item @auth(rules: [{ allow: owner }]) @model {
+   id: ID! @primaryKey(sortKeyFields: [ "owner" ])
+   owner: String ## "owner" is an auto-generated field of the owner-based authorization rule
+}
+```
+
+```graphql
+## NOT supported schema example 2 ##
+type Item @auth(rules: [{ allow: owner, ownerField: "user" }]) @model {
+   id: ID! @primaryKey(sortKeyFields: [ "owner" ])
+   user: String ## "user" is the designated "ownerField" of the owner-based authorization rule
+}
+```
+
+If your table requires this configuration, it is recommended to set the `identityClaim` to `username`.
+
+Additionally, if you want to continue making queries with the owner field as the secondary query parameter, consider using the `@index` directive instead. Using the mentioned example, you can set up a query as the following:
+
+```graphql
+type Todo @auth(rules: [
+  { allow: owner, ownerField: "user" }
+]) {
+  listId: ID! @primaryKey @index(name: "byUser", sortKeyFields: ["user"], queryField: "todoByUser")
+  user: String!
+}
+```
+
+You will be able to query your `Todo` by `user` with the following query:
+
+```
+query byUser($user: String!) {
+  todoByUser(user: $user) {
+    items {
+      listId
+      user
+    }
+    nextToken
+  }
+}
+```
+
+Learn more about [configuring the `@index` directive here](https://docs.amplify.aws/cli/graphql/data-modeling/#configure-a-secondary-index).
+
+There are no other breaking changes to your GraphQL API when using the new default identity claim. The resolvers will store these values in your DynamoDB tables in the format of `<sub>::<username>`, and return `username` to the client code by default.
+
+While the other directives will work as they are currently expected to function (i.e. `@searchable`, `@function`), using custom queries to your databases may need to be changed. For example, if you are performing a query with the `filter` parameter, you will need to change it from using the `filter` query with just 1 argument to using an `or` conditional statement like the following:
+
+```graphql
+query MyQuery {
+  listPrivateNotes(
+    filter: {
+      or: [{ owner: { contains: "::user1" } }, { owner: { eq: "user1" } }]
+    }
+  ) {
+    nextToken
+    items {
+      id
+      content
+    }
+  }
+}
+```
+
+Another example of changing your queries is if you are using OpenSearch for a custom query like the one below, you will need your queries to account for the format of the stored owner field with a matching operation (https://docs.amplify.aws/cli/graphql/search-and-result-aggregations/#supported-search-operations). Here's an example of using the `match` operation:
 
 ```graphql
 query SearchAndSort {
   searchStudents(filter:
     or: [{
-        owner: { match: "*::user1" }
+      owner: { match: "*::user1" }
     }, {
       owner: { eq: "user1" }
     }],

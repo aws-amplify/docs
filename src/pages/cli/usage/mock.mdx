@@ -111,7 +111,7 @@ The mock environment will also populate [lambda runtime environment variables](h
 
 - `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `AWS_SESSION_TOKEN` will be populated using the AWS credentials that the Amplify project is currently configured to use
 - `_HANDLER`, `AWS_REGION`, `AWS_LAMBDA_FUNCTION_NAME`, `LAMBDA_TASK_ROOT`, and `LAMBDA_RUNTIME_DIR` will be set based on the function being mocked
-- Static defaults will be specified for all other runtime environment variables. The full list of static defaults can be found [here](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-util-mock/src/utils/lambda/populate-lambda-mock-env-vars.ts#L39)
+- Static defaults will be specified for all other runtime environment variables. The full list of static defaults can be found [here](https://github.com/aws-amplify/amplify-cli/blob/main/packages/amplify-util-mock/src/utils/lambda/populate-lambda-mock-env-vars.ts#L39)
 
 You can also override any mock environment variables in a `.env` file within the function directory (ie. `<project root>/amplify/backend/function/<function name>/.env`).
 

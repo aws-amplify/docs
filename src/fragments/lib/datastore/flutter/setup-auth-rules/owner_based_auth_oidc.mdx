@@ -18,13 +18,20 @@ class CustomOIDCProvider extends OIDCAuthProvider {
 * Register your instance of `APIAuthProvider` prior to calling `Amplify.configure()`:
 
 ```dart
-final datastorePlugin =
-    AmplifyDataStore(modelProvider: ModelProvider.instance);
-await Amplify.addPlugin(datastorePlugin);
-await Amplify.addPlugin(AmplifyAPI(
-    authProviders: const [
+Future<void> initialize() async {
+  try {
+    final datastorePlugin = AmplifyDataStore(
+      modelProvider: ModelProvider.instance,
+    );
+    final api = AmplifyAPI(
+      authProviders: const [
         CustomOIDCProvider(),
-    ],
-));
-await Amplify.configure(amplifyconfig);
+      ],
+    );
+    await Amplify.addPlugins([datastorePlugin, api]);
+    await Amplify.configure(amplifyconfig);
+  } on Exception catch (e) {
+    print('Error configuring Amplify: $e');
+  }
+}
 ```

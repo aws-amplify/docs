@@ -1,13 +1,20 @@
 ```dart
 // Tests only against the local state
-if post.title.startsWith(with: "[Amplify]") {
-    await Amplify.DataStore.save(post);
+Future<void> savePredicateLocally(Post post) async {
+  if (post.title.startsWith('[Amplify]')) {
+      await Amplify.DataStore.save(post);
+  }
 }
 
 // Only applies the update if the data in the remote backend satisfies the criteria
-try {
-  await Amplify.DataStore.save(post, where: Post.TITLE.beginsWith("[Amplify]"))
-} catch(e) {
-  ...
+Future<void> savePredicateRemotely(Post post) async {
+  try {
+    await Amplify.DataStore.save(
+      post,
+      where: Post.TITLE.beginsWith('[Amplify]'),
+    );
+  } catch (e) {
+    ...
+  }
 }
 ```

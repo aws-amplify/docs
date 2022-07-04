@@ -8,7 +8,7 @@ import React, { useEffect } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
-import Amplify, { DataStore, Predicates } from "aws-amplify";
+import { Amplify, DataStore, Predicates } from "aws-amplify";
 import { Post, PostStatus } from "./models";
 
 //Use next two lines only if syncing with the cloud
@@ -204,7 +204,7 @@ export default {
 import React, { Component } from "react";
 import { Text, StyleSheet, ScrollView } from "react-native";
 
-import Amplify, { DataStore, Predicates } from "aws-amplify";
+import { Amplify, DataStore, Predicates } from "aws-amplify";
 import { Post, PostStatus, Comment } from "./src/models";
 
 import awsConfig from "./aws-exports";

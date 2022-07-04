@@ -1,13 +1,18 @@
 ```dart
-await Amplify.Auth.signUp(
+Future<void> signUpWithPhoneVerification(
+  String username,
+  String password,
+) async {
+  await Amplify.Auth.signUp(
     username: username,
     password: password,
     options: CognitoSignUpOptions(
-        userAttributes: {
-            // ... if required
-            'email': 'test@example.com',
-            'phone_number': '+18885551234',
-        },
+      userAttributes: <CognitoUserAttributeKey, String>{
+        // ... if required
+        CognitoUserAttributeKey.email: 'test@example.com',
+        CognitoUserAttributeKey.phoneNumber: '+18885551234',
+      },
     ),
-);
+  );
+}
 ```

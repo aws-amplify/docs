@@ -1,21 +1,48 @@
 ```dart
-// initialize a list for storing posts
-List<Post> posts = [];
+void main() {
+  runApp(MyApp());
+}
 
-// initialize a boolean indicating if the sync process has completed
-bool isSynced = false;
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
 
-Stream<QuerySnapshot<Post>> stream = Amplify.DataStore.observeQuery(
-  Post.classType,
-  where: Post.TITLE.beginsWith('post') & (Post.RATING > 10),
-  sortBy: [Post.RATING.ascending()],
-);
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
 
-// update local variables each time a new snapshot is received
-stream.listen((QuerySnapshot<Post> snapshot) {
-  setState(() {
-    posts = snapshot.items;
-    isSynced = snapshot.isSynced;
-  });
-});
+class _MyAppState extends State<MyApp> {
+  StreamSubscription<QuerySnapshot<Post>>? _stream;
+
+  // Initialize a list for storing posts
+  List<Post> _posts = [];
+
+  // Initialize a boolean indicating if the sync process has completed
+  bool _isSynced = false;
+
+  // Initialize the libraries
+  ...
+
+  void observeQuery() {
+    _stream = Amplify.DataStore.observeQuery(
+      Post.classType,
+      where: Post.TITLE.beginsWith('post') & (Post.RATING > 10),
+      sortBy: [Post.RATING.ascending()],
+    ).listen((QuerySnapshot<Post> snapshot) {
+      setState(() {
+        _posts = snapshot.items;
+        _isSynced = snapshot.isSynced;
+      });
+    });
+  }
+
+  // Build function and UI elements
+  ...
+
+  @override
+  void dispose() {
+    _stream?.cancel();
+    super.dispose();
+  }
+}
+
 ```

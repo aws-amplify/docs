@@ -721,7 +721,7 @@ const directory = {
             filters: ['js']
           },
           { title: 'Cache', route: '/lib/utilities/cache', filters: ['js'] },
-          { title: 'Hub', route: '/lib/utilities/hub', filters: ['js'] },
+          { title: 'Hub', route: '/lib/utilities/hub', filters: ['android', 'js'] },
           {
             title: 'Internationalization',
             route: '/lib/utilities/i18n',

@@ -40,6 +40,30 @@ import flutter8 from "/src/fragments/lib/datastore/flutter/data-access/update-sn
 
 <Fragments fragments={{flutter: flutter8}} />
 
+<Callout warning>
+
+  **Avoid working with stale data!**
+
+  Model instances which store values, such as those from the results of a `DataStore.Query` operation, can become stale and outdated when their properties are updated. This can be the result of a manual change or even a side effect of [real time data](/lib/datastore/sync#distributed-data) being received by the application. In order to ensure you are performing mutations on the latest committed state to the system, either perform a query directly before the `DataStore.save()` operation or observe the model to keep the state updated at all times and perform mutations on that latest state referencing the model instance. The preceding example demonstrates one approach. The following example demonstrates the `observeQuery` approach.
+
+</Callout>
+
+import js_observe_update from "/src/fragments/lib/datastore/js/data-access/observe-update-snippet.mdx";
+
+<Fragments fragments={{js: js_observe_update}} />
+
+import ios_observe_update from "/src/fragments/lib/datastore/ios/data-access/observe-update-snippet.mdx";
+
+<Fragments fragments={{ios: ios_observe_update}} />
+
+import android_observe_update from "/src/fragments/lib/datastore/android/data-access/observe-update-snippet.mdx";
+
+<Fragments fragments={{android: android_observe_update}} />
+
+import flutter_observe_update from "/src/fragments/lib/datastore/flutter/data-access/observe-update-snippet.mdx";
+
+<Fragments fragments={{flutter: flutter_observe_update}} />
+
 ## Delete
 
 To delete an item, simply pass in an instance.
