@@ -90,7 +90,8 @@ export const handler = async (event) => {
   const options = {
     method: 'POST',
     headers: {
-      'x-api-key': GRAPHQL_API_KEY
+      'x-api-key': GRAPHQL_API_KEY,
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({ query, variables })
   };
@@ -162,7 +163,8 @@ export const handler = async (event) => {
   const options = {
     method: 'POST',
     headers: {
-      'x-api-key': GRAPHQL_API_KEY
+      'x-api-key': GRAPHQL_API_KEY,
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({ query, variables })
   };
@@ -276,7 +278,8 @@ export const handler = async (event) => {
   const requestToBeSigned = new HttpRequest({
     method: 'POST',
     headers: {
-      host: endpoint.host
+      host: endpoint.host,
+      'Content-Type': 'application/json'
     },
     hostname: endpoint.host,
     body: JSON.stringify({ query }),
