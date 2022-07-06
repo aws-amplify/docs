@@ -1,0 +1,45 @@
+Amplify has a local eventing system called Hub. It is a lightweight implementation of Publisher-Subscriber pattern, and is used to share data between modules and components in your app. Amplify uses Hub for different categories to communicate with one another when specific events occur, such as authentication events like a user sign-in or notification of a file download.
+
+## Working with the API
+
+### Listening for messages
+
+`Hub.subscribe(HubChannel hubChannel, HubSubscriber hubSubscriber)` is used to listen for messages that have been dispatched. Additionally, you can pass a `HubEventFilter` in the overloaded `subscribe` method to further filter Hub events. You can add multiple listeners to your application for different combinations of channels/filters to listen for.
+
+import android0 from "/src/fragments/lib/auth/android/hub_events/10_listen_events.mdx";
+
+<Fragments fragments={{android: android0}} />
+
+### Stop Listening
+
+Hub provides a way to stop listening for messages. This is useful if you no longer need to receive messages in your application flow (ex: changing Activities or Fragments), as well as to avoid any memory leaks.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+// Subscribe to Hub Auth events and capture the returned SubscriptionToken
+SubscriptionToken subscriptionToken = Amplify.Hub.subscribe(HubChannel.AUTH, event -> {
+    handleAuthEvent(event);
+});
+
+// Unsubscribe by passing the captured SubscriptionToken
+Amplify.Hub.unsubscribe(subscriptionToken);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+// Subscribe to Hub Auth events and capture the returned SubscriptionToken
+val subscriptionToken = Amplify.Hub.subscribe(HubChannel.AUTH) { event ->
+    handleAuthEvent(event)
+}
+
+// Unsubscribe by passing the captured SubscriptionToken 
+Amplify.Hub.unsubscribe(subscriptionToken)
+```
+
+</Block>
+
+</BlockSwitcher>
