@@ -1,0 +1,13 @@
+### Update target iOS platform
+
+From your project root, navigate to the `ios/` directory and modify the `Podfile` using a text editor of your choice and update the target iOS platform to 13.0 or higher.
+
+```bash
+platform :ios, '13.0'
+```
+
+<Callout>
+
+When preparing your application for deployment, you should also update your iOS Deployment Target to at least 13.0. See the [Flutter docs](https://docs.flutter.dev/deployment/ios) to learn more about building your iOS app for release.
+
+</Callout>
