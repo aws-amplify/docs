@@ -34,6 +34,11 @@ const directory = {
             filters: ['flutter']
           },
           {
+            title: 'Platform Setup',
+            route: '/lib/project-setup/platform-setup',
+            filters: ['flutter']
+          },
+          {
             title: 'Escape hatch',
             route: '/lib/project-setup/escape-hatch',
             filters: ['flutter']

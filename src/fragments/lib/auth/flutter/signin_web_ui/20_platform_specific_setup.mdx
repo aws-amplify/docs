@@ -3,7 +3,7 @@
 Sign-in with web UI will display the sign-in UI inside a webview. After the sign-in process is complete, the sign-in UI will redirect back to your app.
 
 <BlockSwitcher>
-<Block name="Stable">
+<Block name="Stable (Mobile)">
 
 ## Android Platform Setup
 
@@ -91,7 +91,11 @@ Add the following entry to the URL scheme in the `Info.plist` file in your app's
 ```
 </Block>
 
-<Block name="Developer Preview">
+<Block name = "Developer Preview (Mobile, Web & Desktop)">
+
+## Web Platform Setup
+
+To use Hosted UI in your Flutter web application locally, you must run the app with the `--web-port=9000` argument.
 
 ## Android Platform Setup
 
@@ -121,13 +125,9 @@ Replace `myapp` with your redirect URI prefix if necessary:
 </application>
 ```
 
-## Web Platform Setup
-
-To use Hosted UI in your Flutter web application locally, you must run the app with the `--web-port=9000` argument.
-
 ## iOS, MacOS, Windows and Linux Setup
 
-No specific platform configuration is required.
+No specific platform configuration is required. However, please note that on Desktop applications an attempt by the user to cancel the sign in (for example, by closing their browser) will not automatically abort the operation. You may need to expose a 'cancel' operation in your UI to an appropriate interface and state.
 
 </Block>
 
