@@ -1,0 +1,272 @@
+## Custom Primary Keys
+
+By default, all DataStore models have an `id` field by default that is automatically populated on the client with a UUID v4, allowing DataStore to generate non-colliding globally unique identifiers in a scalable way.
+
+While UUIDs have desirable properties (they are large, non-sequential and opaque), there are times when a custom primary key is needed. For instance, to:
+
+
+* Have friendly/readable identifiers (surrogate/opaque vs. natural keys)
+* Define composite primary keys
+* Customize data partitioning to optimize for scale (especially important when planning to handle large amounts of data in short periods of time)
+* Selectively synchronize data to clients (e.g. by fields like `deviceId`, `userId` or similar)
+* Prioritize the sort order in which objects are returned by the sync queries
+* Make existing data consumable and syncable by DataStore
+
+### Schema
+
+A schema with the typical `id` field looks like this:
+
+```graphql
+type Todo4 @model {
+	id: ID!
+	name: String!
+	description: String
+}
+```
+
+With custom primary keys, you can provide a unique value using the `@primaryKey` directive:
+
+```graphql
+type Todo @model {
+	customId: ID! @primaryKey
+	name: String!
+	description: String
+}
+```
+
+With sort key:
+
+```graphql
+type Todo @model {
+	customId: ID! @primaryKey(sortKeyFields: ["createdAt"])
+	name: String!
+	description: String
+	createdAt: AWSDateTime!
+	updatedAt: AWSDateTime
+}
+```
+
+With name and query field:
+
+```graphql
+# Custom PK + sort key w/ name + query field
+type Todo @model {
+	id: ID!
+	customId: ID!
+		@index(
+			name: "byCustomIdAndCreated"
+			sortKeyFields: ["createdAt"]
+			queryField: "todoByCustomIdAndCreatedAt"
+		)
+	name: String!
+	description: String
+	createdAt: AWSDateTime!
+	updatedAt: AWSDateTime
+}
+```
+
+### Creating records:
+The following table explains when a value for the custom primary key must be provided:
+
+<table>
+<tbody>
+<tr>
+<th>
+Description
+</th>
+<th>
+Type
+</th>
+<th>
+Autopopulate with UUID
+</th>
+</tr>
+<tr>
+<td>
+no @primaryKey
+</td>
+<td>
+TODO: render type in td
+</td>
+<td>
+Yes
+</td>
+</tr>
+<tr>
+<td>
+no @primaryKey, explicit `id` field
+</td>
+<td>
+TODO: render type in td
+</td>
+<td>
+Yes
+</td>
+</tr>
+<tr>
+<td>
+@primaryKey on a custom field
+</td>
+<td>
+TODO: render type in td
+</td>
+<td>
+No
+</td>
+</tr>
+<tr>
+<td>
+explicit @primaryKey on `id` field
+</td>
+<td>
+TODO: render type in td
+</td>
+<td>
+If not provided in constructor/builder
+</td>
+</tr>
+<tr>
+<td>
+explicit @primaryKey on `id` field with sort key
+</td>
+<td>
+TODO: render type in td
+</td>
+<td>
+If not provided in constructor/builder
+</td>
+</tr>
+<tr>
+<td>
+explicit `id` field in sort key
+</td>
+<td>
+TODO: render type in td
+</td>
+<td>
+If not provided in constructor/builder
+</td>
+</tr>
+<tr>
+<td>
+@primaryKey with no `id` field
+</td>
+<td>
+TODO: render type in td
+</td>
+<td>
+No
+</td>
+</tr>
+</tbody>
+</table>
+
+### Querying records
+
+import android0 from "/src/fragments/lib/datastore/android/advanced-workflows/custom-primary-key/query-snippet.mdx";
+
+<Fragments fragments={{android: android0}} />
+
+import flutter0 from "/src/fragments/lib/datastore/flutter/advanced-workflows/custom-primary-key/query-snippet.mdx";
+
+<Fragments fragments={{flutter: flutter0}} />
+
+import ios0 from "/src/fragments/lib/datastore/ios/advanced-workflows/custom-primary-key/query-snippet.mdx";
+
+<Fragments fragments={{ios: ios0}} />
+
+import js0 from "/src/fragments/lib/datastore/js/advanced-workflows/custom-primary-key/query-snippet.mdx";
+
+<Fragments fragments={{js: js0}} />
+
+
+### Deleting records
+
+import android1 from "/src/fragments/lib/datastore/android/advanced-workflows/custom-primary-key/delete-snippet.mdx";
+
+<Fragments fragments={{android: android1}} />
+
+import flutter1 from "/src/fragments/lib/datastore/flutter/advanced-workflows/custom-primary-key/delete-snippet.mdx";
+
+<Fragments fragments={{flutter: flutter1}} />
+
+import ios1 from "/src/fragments/lib/datastore/ios/advanced-workflows/custom-primary-key/delete-snippet.mdx";
+
+<Fragments fragments={{ios: ios1}} />
+
+import js1 from "/src/fragments/lib/datastore/js/advanced-workflows/custom-primary-key/delete-snippet.mdx";
+
+<Fragments fragments={{js: js1}} />
+
+### Many-to-many
+
+A schema using custom primary keys with a `many-to-many` relationship is converted into a `hasMany` / `belongsTo` relationship with a join table.
+
+For instance, with the following schema:
+```graphql
+type Post @model {
+	customPostId: ID! @primaryKey(sortKeyFields: ["title"])
+	title: String!
+	content: String
+	tags: [Tag] @manyToMany(relationName: "PostTags")
+}
+
+type Tag @model {
+	customTagId: ID! @primaryKey(sortKeyFields: ["label"])
+	label: String!
+	posts: [Post] @manyToMany(relationName: "PostTags")
+}
+```
+
+Codegen will generate the following models (NOTE: if we keep this section, we will split this up and create snippets for each platform):
+```graphql
+export declare class Post {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Post, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly customPostId: string;
+  readonly title: string;
+  readonly content?: string | null;
+  readonly tags?: (PostTags | null)[] | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  constructor(init: ModelInit<Post>);
+  static copyOf(source: Post, mutator: (draft: MutableModel<Post>) => MutableModel<Post> | void): Post;
+}
+
+export declare class Tag {
+  readonly [__modelMeta__]: {
+    identifier: CompositeIdentifier<Tag, ['customTagId', 'label']>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly customTagId: string;
+  readonly label: string;
+  readonly posts?: (PostTags | null)[] | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  constructor(init: ModelInit<Tag>);
+  static copyOf(source: Tag, mutator: (draft: MutableModel<Tag>) => MutableModel<Tag> | void): Tag;
+}
+
+export declare class PostTags {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<PostTags, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly postID: string;
+  readonly tagID: string;
+  readonly taglabel: string;
+  readonly post: Post;
+  readonly tag: Tag;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  constructor(init: ModelInit<PostTags>);
+  static copyOf(source: PostTags, mutator: (draft: MutableModel<PostTags>) => MutableModel<PostTags> | void): PostTags;
+}
+```
+
+### Examples
+TODO: link to complete sample apps using CPK?
