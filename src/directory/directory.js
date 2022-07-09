@@ -427,6 +427,11 @@ const directory = {
             title: 'Examples',
             route: '/lib/datastore/examples',
             filters: ['js']
+          },
+          {
+            title: 'Advanced workflows',
+            route: '/lib/datastore/advanced-workflows',
+            filters: ['android', 'flutter', 'ios', 'js']
           }
         ]
       },
