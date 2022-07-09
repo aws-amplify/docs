@@ -1,31 +1,26 @@
-Hub provides a way to stop listening for messages. This is useful if you no longer need to receive messages in your application flow (ex: changing Activities or Fragments), as well as to avoid any memory leaks.
+Hub provides a way to stop listening for messages. This is useful if you no longer need to receive messages in your application flow.
 
 <BlockSwitcher>
-<Block name="Java">
 
-```java
-// Subscribe to Hub Auth events and capture the returned SubscriptionToken
-SubscriptionToken subscriptionToken = Amplify.Hub.subscribe(HubChannel.AUTH, event -> {
-    handleAuthEvent(event);
-});
+<Block name="Listener (iOS 11+)">
 
-// Unsubscribe by passing the captured SubscriptionToken
-Amplify.Hub.unsubscribe(subscriptionToken);
+```swift
+// Assumes `unsubscribeToken` references the token
+// returned by Amplify.Hub.listen(...)
+Amplify.Hub.removeListener(unsubscribeToken)
 ```
 
 </Block>
-<Block name="Kotlin - Callbacks">
 
-```kotlin
-// Subscribe to Hub Auth events and capture the returned SubscriptionToken
-val subscriptionToken = Amplify.Hub.subscribe(HubChannel.AUTH) { event ->
-    handleAuthEvent(event)
-}
+<Block name="Combine (iOS 13+)">
 
-// Unsubscribe by passing the captured SubscriptionToken 
-Amplify.Hub.unsubscribe(subscriptionToken)
+```swift
+// Assumes `sink` references the sink
+// returned by Amplify.Hub.publisher(...).sink
+sink.cancel()
 ```
 
 </Block>
 
 </BlockSwitcher>
+
