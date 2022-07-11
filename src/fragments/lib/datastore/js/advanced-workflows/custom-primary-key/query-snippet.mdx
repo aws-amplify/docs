@@ -1,35 +1,55 @@
 In addition to querying by the model type (or `Predicates.ALL`), a record with a custom primary key can be queried several ways.
 
 With the value of the primary key:
-```graphql
+```js
 const todo = await DataStore.query(Todo, '12345');
 ```
 
 With a predicate:
-```graphql
+
+<BlockSwitcher>
+<Block name="Custom Primary Key">
+
+```js
 const todo = await DataStore.query(Todo, t =>
     t.customId('eq', '12345')
 );
 ```
 
-With a predicate containing the primary key and sort key:
-```graphql
+</Block>
+<Block name="Composite Key">
+
+```js
 const todo = await DataStore.query(Todo, t =>
     t.customId('eq', '12345').title('eq', 'My Todo')
 );
 ```
 
+</Block>
+</BlockSwitcher>
+
 With an object literal:
-```graphql
+
+<BlockSwitcher>
+<Block name="Custom Primary Key">
+
+```js
 const todo = await DataStore.query(Todo, { 
     customId: '12345' 
 });
 ```
 
-With an object literal containing the primary key and sort key:
-```graphql
-    const todo = await DataStore.query(Todo, {
-        customId: '12345',
-        title: 'My Todo',
-    });
+</Block>
+<Block name="Composite Key">
+
+```js
+const todo = await DataStore.query(Todo, {
+    customId: '12345',
+    title: 'My Todo',
+});
 ```
+
+</Block>
+</BlockSwitcher>
+
+
