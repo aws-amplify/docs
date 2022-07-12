@@ -2,7 +2,7 @@ In addition to deleting by the model type (or `Predicates.ALL`), a record with a
 
 With the value of the primary key:
 ```js
-const todo = await DataStore.delete(Todo, '12345');
+const book = await DataStore.delete(Book, '12345');
 ```
 
 With a predicate:
@@ -11,8 +11,8 @@ With a predicate:
 <Block name="Custom Primary Key">
 
 ```js
-const todo = await DataStore.delete(Todo, t =>
-    t.customId('eq', '12345')
+const book = await DataStore.delete(Book, b =>
+    t.isbn('eq', '12345')
 );
 ```
 
@@ -20,8 +20,8 @@ const todo = await DataStore.delete(Todo, t =>
 <Block name="Composite Key">
 
 ```js
-const todo = await DataStore.delete(Todo, t =>
-    t.customId('eq', '12345').title('eq', 'My Todo')
+const book = await DataStore.delete(Book, b =>
+    t.isbn('eq', '12345').title('eq', 'My Book')
 );
 ```
 
@@ -34,8 +34,8 @@ With an object literal:
 <Block name="Custom Primary Key">
 
 ```js
-const todo = await DataStore.delete(Todo, { 
-    customId: '12345' 
+const book = await DataStore.delete(Book, { 
+    isbn: '12345' 
 });
 ```
 
@@ -43,9 +43,9 @@ const todo = await DataStore.delete(Todo, {
 <Block name="Composite Key">
 
 ```js
-const todo = await DataStore.delete(Todo, {
-    customId: '12345',
-    title: 'My Todo',
+const book = await DataStore.delete(Book, {
+    isbn: '12345',
+    title: 'My Book',
 });
 ```
 
