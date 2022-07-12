@@ -16,9 +16,9 @@ While UUIDs have desirable properties (they are large, non-sequential and opaque
 A schema with the typical `id` field looks like this:
 
 ```graphql
-type Todo4 @model {
+type Book @model {
   id: ID!
-  name: String!
+  title: String!
   description: String
 }
 ```
@@ -29,9 +29,9 @@ With custom primary keys, you can provide a unique value using the `@primaryKey`
 <Block name="Custom Primary Key">
 
 ```graphql
-type Todo @model {
-  customId: ID! @primaryKey
-  name: String!
+type Book @model {
+  isbn: ID! @primaryKey
+  title: String!
   description: String
 }
 ```
@@ -40,12 +40,10 @@ type Todo @model {
 <Block name="Composite Key">
 
 ```graphql
-type Todo @model {
-  customId: ID! @primaryKey(sortKeyFields: ["createdAt"])
-  name: String!
+type Book @model {
+  isbn: ID! @primaryKey(sortKeyFields: ["title"])
+  title: String!
   description: String
-  createdAt: AWSDateTime!
-  updatedAt: AWSDateTime
 }
 ```
 
