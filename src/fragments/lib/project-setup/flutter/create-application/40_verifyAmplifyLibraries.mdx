@@ -30,8 +30,8 @@ class _MyHomePageState extends State<MyHomePage> {
     final authPlugin = AmplifyAuthCognito();
     await Amplify.addPlugin(authPlugin);
 
-     // You can use addPlugins if you are going to be adding multiple plugins
-    //  await Amplify.addPlugins([authPlugin, analyticsPlugin]);
+    // You can use addPlugins if you are going to be adding multiple plugins
+    // await Amplify.addPlugins([authPlugin, analyticsPlugin]);
 
     // Once Plugins are added, configure Amplify
     // Note: Amplify can only be configured once.
