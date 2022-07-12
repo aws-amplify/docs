@@ -129,6 +129,24 @@ import all1 from "/src/fragments/lib/auth/common/social_signin_web_ui/configure_
 ### Known Limitations
 When using the federated OAuth flow with Cognito User Pools, the [device tracking and remembering](https://aws.amazon.com/blogs/mobile/tracking-and-remembering-devices-using-amazon-cognito-your-user-pools/) features are currently not available within the library. If you are looking for this feature within the library, please open a feature request [here](https://github.com/aws-amplify/amplify-js/issues/new?assignees=&labels=feature-request&template=feature_request.md&title=) and provide upvotes in order for us to take this into consideration for the future of the library.
 
+
+
+## Configure OAuth in AWS Cognito 
+Configure the App ID and App Secret we obtained from the [Setup Your Auth Provider](#setup-your-auth-provider) step in AWS Cognito to enable OAuth.
+
+Note: The below steps are using the old version of congnito console
+
+1. Log into your AWS console and navigate to Cognito
+2. Under `Manage User Pool -> <Your User Pool> -> Federation -> Identity providers` select the social provider you had previously created
+   * "Your User Pool" can be found by running `amplify status` in your application. Under the Auth category, you would find the resource name for the user pool
+3. Enter the `App ID` and `App Secret` we obtained from the [Setting Your Auth Provider](#setup-your-auth-provider). Enter the `Authorize scope` (profile email openid) and save the changes. Authorize scope refers to the user attributes, such as name and email you want to access with your app
+4. Go to `Federation -> Attribute Mapping` and select the particular social provider
+   * When configuring auth in [Configure Auth Category](#configure-auth-category) if you had chosen `username` as an option for users to sign in, we need to set the email attribute as the username
+      * In the Attribute Mapping page, enable `email` under attribute and set the User Pool Attribute to `Email`
+      * Towards the bottom, let's substitute this as Username. Enable the last item in the table, set the attribute to `sub` and User pool attribute to `Username`
+   * Similarly, if you had selected `Email` as the sign in option in the [Configure Auth Category](#configure-auth-category) section, make sure it's mapped to `email` in user pool attributes.
+5. Finally go to `App Integration -> App Client Settings`. Under `Enabled Identity Providers` enable your social provider
+
 ## Setup frontend
 
 After configuring the OAuth endpoints (Cognito Hosted UI), you can integrate your App by invoking `Auth.federatedSignIn()` function. Passing `LoginWithAmazon`, `Facebook`, `Google`, or `SignInWithApple` on the `provider` argument (e.g `Auth.federatedSign({ provider: 'LoginWithAmazon' })`), it will bypass the Hosted UI and federate immediately with the social provider as shown in the below React example. If you are looking to add a custom state, you are able to do so by passing a string (e.g. `Auth.federatedSignIn({ customState: 'xyz' })`) value and listening for the custom state via Hub.
