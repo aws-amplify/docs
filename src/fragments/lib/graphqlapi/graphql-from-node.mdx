@@ -38,7 +38,7 @@ You can access the following resource attributes as environment variables from y
 	REGION
 ```
 
-The examples on this page use [`node-fetch`](https://www.npmjs.com/package/node-fetch) to make a HTTP request to our GraphQL API. When the Node.js v18 runtime is released for Lambda this dependency can be removed in favor of [native `fetch`](https://nodejs.org/dist/latest-v18.x/docs/api/globals.html#fetch) To get started, add the `node-fetch` module as a dependency:
+The examples on this page use [`node-fetch`](https://www.npmjs.com/package/node-fetch) to make a HTTP request to our GraphQL API. When the Node.js v18 runtime is released for Lambda this dependency can be removed in favor of [native `fetch`](https://nodejs.org/dist/latest-v18.x/docs/api/globals.html#fetch). To get started, add the `node-fetch` module as a dependency:
 
 ```diff
 {
@@ -56,7 +56,7 @@ The examples on this page use [`node-fetch`](https://www.npmjs.com/package/node-
   }
 }
 ```
-NOTE: The examples bellow are using ES module syntax and currently not supported by amplify mock function. If you wish to use amplify mock please use commonjs syntax. 
+NOTE: The examples bellow are using ES module syntax and currently not supported by amplify mock function. If you wish to use amplify mock please use commonjs syntax with node-fetch v2.
 
 ## Query
 
