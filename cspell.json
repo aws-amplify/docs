@@ -755,7 +755,9 @@
     "Lastname",
     "lateinit",
     "le",
+    "libglib",
     "libs",
+    "libsecret",
     "lifecycle",
     "lifecycles",
     "lightgray",
@@ -1463,5 +1465,7 @@
     "savegeofences",
     "myfunction"
   ],
-  "flagWords": ["hte"]
+  "flagWords": [
+    "hte"
+  ]
 }
