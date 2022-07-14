@@ -160,7 +160,7 @@ type YourModel
 
 For some use cases, you will want DataStore to use multiple authorization types. For example, an app might use `API Key` for public content and `Cognito User Pool` for personalized content once the user logs in.
 
-By default, DataStore uses your API's default authorization type specified in the `amplifyconfiguration.json`/`.dart`/`aws-exports.js` file. To change the default authorization type, run `amplify update api`. Every network request sent through DataStore uses that authorization type, regardless of the model's `@auth` rule. 
+By default, DataStore uses your API's default authorization type specified in the `amplifyconfiguration.json`/`.dart`/`aws-exports.js` file. Every network request sent through DataStore uses that authorization type, regardless of the model's `@auth` rule. To change the default authorization type, run `amplify update api` and configure additional auth types.
 
 To enable DataStore to use multiple authorization types based on the model's `@auth` rules, configure the "auth mode strategy" when initializing DataStore:
 
