@@ -142,6 +142,12 @@ type Todo @model @auth(rules: [{ allow: private, provider: iam }]) {
 
 In addition, you can also use OpenID Connect with `private` authorization. See [OpenID Connect as an authorization provider](#using-oidc-authorization-provider).
 
+<Callout>
+
+**Note:** If you have a connected child model that allows `private` level access, any user authorized to fetch it from the parent model will be able to read the connected child model.
+
+</Callout>
+
 ### User group-based data access
 To restrict access based on user groups, use the `group` authorization strategy.
 
