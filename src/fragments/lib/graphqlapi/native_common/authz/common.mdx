@@ -254,6 +254,16 @@ import flutter14 from "/src/fragments/lib/graphqlapi/flutter/advanced-workflows/
 
 ## Configure multiple authorization modes
 
+<Callout warning>
+
+There is currently [a known issue](https://github.com/aws-amplify/amplify-flutter/issues/1867) where enabling multi-auth modes for the API plugin may break DataStore functionality if the DataStore plugin is also used in the same App.
+
+If you are planning to enable multi-auth for _only_ the DataStore plugin, please refer to the [configure multiple authorization types](/lib/datastore/setup-auth-rules/#configure-multiple-authorization-types) section in DataStore documentation.
+
+If you are planning to enable multi-auth for both the API and DataStore plugins, please monitor the aforementioned issue for the latest progress and updates.
+
+</Callout>
+
 This section talks about the capability of AWS AppSync to configure multiple authorization modes for a single AWS AppSync endpoint and region. Follow the [AWS AppSync Multi-Auth](https://docs.aws.amazon.com/appsync/latest/devguide/security.html#using-additional-authorization-modes) to configure multiple authorization modes for your AWS AppSync endpoint.
 
 You can now configure a single GraphQL API to deliver private and public data. Private data requires authenticated access using authorization mechanisms such as IAM, Cognito User Pools, and OIDC. Public data does not require authenticated access and is delivered through authorization mechanisms such as API Keys. You can also configure a single GraphQL API to deliver private data using more than one authorization type. For example, you can configure your GraphQL API  to authorize some schema fields using OIDC, while other schema fields through Cognito User Pools and/or IAM.
