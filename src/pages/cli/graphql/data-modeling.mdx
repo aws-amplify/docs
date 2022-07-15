@@ -549,13 +549,13 @@ type Address @model {
 ```
 
 ### Relational models with custom primary keys
-You can define custom primary keys for relational models. The transformer will handle the foreign key fields needed by queries and mutations, which allows you to retrieve data across different relations. 
+You can define custom primary keys for relational models. The foreign key fields needed by queries and mutations will be generated, which allows you to retrieve data across different relations. 
 
-You can choose the default relations with **implicit** fields. This will result in auto generation of additional foreign key fields refering its counterpart primary key and sort key fields.
+There are two options when you are defining the relational directives(`@hasOne`, `hasMany` and `@belongsTo`) depending on whether or not the `fields` argument is defined.
+- **Implicit fields**: `fields` argument defined
+- **Explicit fields**: `fields` argument undefined
 
-<Callout>
-In "has many" relations, the foreign key fields are only generated in child type.
-</Callout>
+You can choose the default relations with **implicit fields**. This will result in auto generation of additional foreign key fields refering its counterpart primary key and sort key fields.
 
 <BlockSwitcher>
 
@@ -771,10 +771,10 @@ input UpdateCommentInput {
 
 </BlockSwitcher>
 
-You can also customize the foreign key fields instead of the auto-generated ones in the schema by **explicitly** defining the `fields` parameter in relation directives.
+You can also customize the foreign key fields instead of the auto-generated ones in the schema by defining the **explicit `fields`**  argument in relation directives.
 
 <Callout>
-The order in "fields" parameter matters. The first element should refer the primary key field and the rest are sort key fields.
+The order of the elements in the value of `fields` argument matters. The first element should always be the primary key of the relational model. And remaining elements should match the `sortKeyFields` specified in the `@primaryKey` directive of the relational model.
 </Callout>
 
 <Callout>
@@ -802,7 +802,7 @@ type Team @model {
   projectName: String # customized foreign key for parent sort key
 }
 ```
-This will result in the following AppSync schema built by transformer.
+This will result in the following built AppSync schema .
 
 Model fields:
 ```graphql
@@ -874,7 +874,7 @@ type Team @model {
   name: String!
 }
 ```
-This will result in the following AppSync schema built by transformer.
+This will result in the following built AppSync schema.
 
 Model fields:
 ```graphql
@@ -923,7 +923,7 @@ type Comment @model {
   postTitle: String # customized foreign key for parent sort key
 }
 ```
-This will result in the following AppSync schema built by transformer.
+This will result in the following built AppSync schema.
 
 Model fields:
 ```graphql
@@ -971,7 +971,7 @@ type Comment @model {
   postTitle: String # customized foreign key for parent sort key
 }
 ```
-This will result in the following AppSync schema built by transformer.
+This will result in the following built AppSync schema.
 
 Model fields:
 ```graphql
@@ -1021,7 +1021,7 @@ type Tag @model {
 	posts: [Post] @manyToMany(relationName: "PostTags")
 }
 ```
-The transformer will automatically add both model's primary key and sort key fields in the joint table schema.
+Primary key and sort key fields of both models will be added in the joint table schema.
 
 ```graphql
 type PostTags {
