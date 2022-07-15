@@ -142,11 +142,21 @@ type Todo @model @auth(rules: [{ allow: private, provider: iam }]) {
 
 In addition, you can also use OpenID Connect with `private` authorization. See [OpenID Connect as an authorization provider](#using-oidc-authorization-provider).
 
-<Callout>
-
 **Note:** If you have a connected child model that allows `private` level access, any user authorized to fetch it from the parent model will be able to read the connected child model.
+For example,
+```graphql
+type Todo @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  name: String!
+  task: [Task] @hasMany
+}
 
-</Callout>
+type Task @model @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }]) {
+  id: ID!
+  description: String!
+}
+```
+In the above relationship, the owner of a `Todo` record can query all the tasks connected to it, since the `Task` model allows `private` read access.
 
 ### User group-based data access
 To restrict access based on user groups, use the `group` authorization strategy.
