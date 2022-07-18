@@ -15,7 +15,7 @@ To complete this tutorial, you will need:
 
 ### Coordinates Conventions
 
-A key difference to notice between using Amplify Geo and Google Maps is with Google Maps Platform their convention for specifying coordinates is `[lat, lng]`. When migrating over to Amplify Geo the order is swapped to be `[lng, lat]`. This was done to match to match the [geojson spec](https://geojson.org/) which is also used by MapLibre.
+A key difference to notice between using Amplify Geo and Google Maps is with Google Maps Platform their convention for specifying coordinates is `[lat, lng]`. When migrating over to Amplify Geo the order is swapped to be `[lng, lat]`. This was done to match the [geojson spec](https://geojson.org/) which is also used by MapLibre.
 
 ### Authorization
 
@@ -181,7 +181,7 @@ Now we can add a popup that displays information when a user clicks on a marker.
 
   <Block name="Amplify">
 
-With Amplify Geo and MapLibre you can instead do the following.
+With Amplify Geo and MapLibre you can do the following.
 
 ```js
 const popup = new maplibregl.Popup().setHTML(
@@ -206,7 +206,7 @@ This example uses [MapLibre's popup component](https://maplibre.org/maplibre-gl-
 
   <Block name="Google Maps">
 
-Using the Google Maps JS API you would add a marker as show below.
+Using the Google Maps JS API you would add a marker as shown below.
 
 ```js
 const marker = new google.maps.Marker({
