@@ -554,7 +554,494 @@ type Address @model {
 ```
 
 ### Relational models with custom primary keys
-TODO
+You can define custom primary keys for relational models. The foreign key fields needed by queries and mutations will be generated, which allows you to retrieve data across different relations. 
+
+There are two options when you are defining the relational directives(`@hasOne`, `hasMany` and `@belongsTo`) depending on whether or not the `fields` argument is defined.
+- **Implicit fields**: `fields` argument defined
+- **Explicit fields**: `fields` argument undefined
+
+You can choose the default relations with **implicit fields**. This will result in auto generation of additional foreign key fields refering its counterpart primary key and sort key fields.
+
+<BlockSwitcher>
+
+<Block name='Implicit Bi-directional "has one"'>
+
+```graphql
+type Project @model {
+  projectId: ID! @primaryKey(sortKeyFields:["name"])
+  name: String!
+  team: Team @hasOne
+}
+
+type Team @model {
+  teamId: ID! @primaryKey(sortKeyFields:["name"])
+  name: String!
+  project: Project @belongsTo
+}
+```
+
+This generates additional foreign key fields in both parent and child types.
+
+Model fields:
+```graphql
+type Project {
+  projectId: ID!
+  name: String!
+  team: Team
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  projectTeamTeamId: ID # auto generated child primary key reference
+  projectTeamName: String # auto generated child sort key reference
+}
+
+type Team {
+  teamId: ID!
+  name: String!
+  project: Project
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  teamProjectProjectId: ID # auto generated parent primary key reference
+  teamProjectName: String # auto generated parent sort key reference
+}
+```
+Input fields:
+```graphql
+input CreateProjectInput {
+  projectId: ID!
+  name: String!
+  projectTeamTeamId: ID # auto generated child primary key reference
+  projectTeamName: String # auto generated child sort key reference
+}
+
+input UpdateProjectInput {
+  projectId: ID!
+  name: String!
+  projectTeamTeamId: ID # auto generated child primary key reference
+  projectTeamName: String # auto generated child sort key reference
+}
+input CreateTeamInput {
+  teamId: ID!
+  name: String!
+  teamProjectProjectId: ID # auto generated parent primary key reference
+  teamProjectName: String # auto generated parent sort key reference
+}
+
+input UpdateTeamInput {
+  teamId: ID!
+  name: String!
+  teamProjectProjectId: ID # auto generated parent primary key reference
+  teamProjectName: String # auto generated parent sort key reference
+}
+```
+</Block>
+
+<Block name='Implicit Uni-directional "has one"'>
+
+```graphql
+type Project @model {
+  projectId: ID! @primaryKey(sortKeyFields:["name"])
+  name: String!
+  team: Team @hasOne
+}
+
+type Team @model {
+  teamId: ID! @primaryKey(sortKeyFields:["name"])
+  name: String!
+}
+```
+
+This generates additional foreign key fields only in parent type.
+
+Model fields:
+```graphql
+type Project {
+  projectId: ID!
+  name: String!
+  team: Team
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  projectTeamTeamId: ID # auto generated child primary key reference
+  projectTeamName: String # auto generated child sort key reference
+}
+```
+Input fields:
+```graphql
+input CreateProjectInput {
+  projectId: ID!
+  name: String!
+  projectTeamTeamId: ID # auto generated child primary key reference
+  projectTeamName: String # auto generated child sort key reference
+}
+
+input UpdateProjectInput {
+  projectId: ID!
+  name: String!
+  projectTeamTeamId: ID # auto generated child primary key reference
+  projectTeamName: String # auto generated child sort key reference
+}
+```
+</Block>
+
+<Block name='Implicit Bi-directional "has many"'>
+
+```graphql
+type Post @model {
+  postId: ID! @primaryKey(sortKeyFields:["title"])
+  title: String!
+  comments: [Comment] @hasMany
+}
+
+type Comment @model {
+  commentId: ID! @primaryKey(sortKeyFields:["content"])
+  content: String!
+  post: Post @belongsTo
+}
+```
+This generates additional foreign key fields only in child type.
+
+Model fields:
+```graphql
+type Comment {
+  commentId: ID!
+  content: String!
+  post: Post
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  postCommentsPostId: ID # auto generated parent primary key reference
+  postCommentsTitle: String # auto generated parent sort key reference
+}
+```
+Input fields:
+```graphql
+input CreateCommentInput {
+  commentId: ID!
+  content: String!
+  postCommentsPostId: ID # auto generated parent primary key reference
+  postCommentsTitle: String # auto generated parent sort key reference
+}
+
+input UpdateCommentInput {
+  commentId: ID!
+  content: String!
+  postCommentsPostId: ID # auto generated parent primary key reference
+  postCommentsTitle: String # auto generated parent sort key reference
+}
+```
+</Block>
+
+<Block name='Implicit Uni-directional "has many"'>
+
+```graphql
+type Post @model {
+  postId: ID! @primaryKey(sortKeyFields:["title"])
+  title: String!
+  comments: [Comment] @hasMany
+}
+
+type Comment @model {
+  commentId: ID! @primaryKey(sortKeyFields:["content"])
+  content: String!
+}
+```
+This generates additional foreign key fields only in child type.
+
+Model fields:
+```graphql
+type Comment {
+  commentId: ID!
+  content: String!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  postCommentsPostId: ID # auto generated parent primary key reference
+  postCommentsTitle: String # auto generated parent sort key reference
+}
+```
+Input fields:
+```graphql
+input CreateCommentInput {
+  commentId: ID!
+  content: String!
+  postCommentsPostId: ID # auto generated parent primary key reference
+  postCommentsTitle: String # auto generated parent sort key reference
+}
+
+input UpdateCommentInput {
+  commentId: ID!
+  content: String!
+  postCommentsPostId: ID # auto generated parent primary key reference
+  postCommentsTitle: String # auto generated parent sort key reference
+}
+```
+</Block>
+
+</BlockSwitcher>
+
+You can also customize the foreign key fields instead of the auto-generated ones in the schema by defining the **explicit `fields`**  argument in relation directives.
+
+<Callout>
+The order of the elements in the value of `fields` argument matters. The first element should always be the primary key of the relational model. And remaining elements should match the `sortKeyFields` specified in the `@primaryKey` directive of the relational model.
+</Callout>
+
+<Callout>
+When define explicit "has many" relation, the "@index" should be also defined on the child type.
+</Callout>
+
+<BlockSwitcher>
+
+<Block name='Explicit Bi-directional "has one"'>
+
+```graphql
+type Project @model {
+  projectId: ID! @primaryKey(sortKeyFields:["name"])
+  name: String!
+  team: Team @hasOne(fields:["teamId", "teamName"])
+  teamId: ID # customized foreign key for child primary key
+  teamName: String # customized foreign key for child sort key
+}
+
+type Team @model {
+  teamId: ID! @primaryKey(sortKeyFields:["name"])
+  name: String!
+  project: Project @belongsTo(fields:["projectId", "projectName"])
+  projectId: ID # customized foreign key for parent primary key
+  projectName: String # customized foreign key for parent sort key
+}
+```
+This will result in the following built AppSync schema .
+
+Model fields:
+```graphql
+type Project {
+  projectId: ID!
+  name: String!
+  team: Team
+  teamId: ID
+  teamName: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Team {
+  teamId: ID!
+  name: String!
+  project: Project
+  projectId: ID
+  projectName: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+```
+Input fields:
+```graphql
+input CreateProjectInput {
+  projectId: ID!
+  name: String!
+  teamId: ID
+  teamName: String
+}
+
+input UpdateProjectInput {
+  projectId: ID!
+  name: String!
+  teamId: ID
+  teamName: String
+}
+
+input CreateTeamInput {
+  teamId: ID!
+  name: String!
+  projectId: ID
+  projectName: String
+}
+
+input UpdateTeamInput {
+  teamId: ID!
+  name: String!
+  projectId: ID
+  projectName: String
+}
+```
+</Block>
+
+<Block name='Explicit Uni-directional "has one"'>
+
+```graphql
+type Project @model {
+  projectId: ID! @primaryKey(sortKeyFields:["name"])
+  name: String!
+  team: Team @hasOne(fields:["teamId", "teamName"])
+  teamId: ID # customized foreign key for child primary key
+  teamName: String # customized foreign key for child sort key
+}
+
+type Team @model {
+  teamId: ID! @primaryKey(sortKeyFields:["name"])
+  name: String!
+}
+```
+This will result in the following built AppSync schema.
+
+Model fields:
+```graphql
+type Project {
+  projectId: ID!
+  name: String!
+  team: Team
+  teamId: ID
+  teamName: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+```
+Input fields:
+```graphql
+input CreateProjectInput {
+  projectId: ID!
+  name: String!
+  teamId: ID
+  teamName: String
+}
+
+input UpdateProjectInput {
+  projectId: ID!
+  name: String!
+  teamId: ID
+  teamName: String
+}
+```
+</Block>
+
+<Block name='Explicit Bi-directional "has many"'>
+
+```graphql
+type Post @model {
+  postId: ID! @primaryKey(sortKeyFields:["title"])
+  title: String!
+  comments: [Comment] @hasMany(indexName:"byPost", fields:["postId", "title"])
+}
+
+type Comment @model {
+  commentId: ID! @primaryKey(sortKeyFields:["content"])
+  content: String!
+  post: Post @belongsTo(fields:["postId", "postTitle"])
+  postId: ID @index(name: "byPost", sortKeyFields:["postTitle"]) # customized foreign key for parent primary key
+  postTitle: String # customized foreign key for parent sort key
+}
+```
+This will result in the following built AppSync schema.
+
+Model fields:
+```graphql
+type Comment {
+  commentId: ID!
+  content: String!
+  post: Post
+  postId: ID
+  postTitle: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+```
+Input fields:
+```graphql
+input CreateCommentInput {
+  commentId: ID!
+  content: String!
+  postId: ID
+  postTitle: String
+}
+
+input UpdateCommentInput {
+  commentId: ID!
+  content: String!
+  postId: ID
+  postTitle: String
+}
+```
+</Block>
+
+<Block name='Explicit Uni-directional "has many"'>
+
+```graphql
+type Post @model {
+  postId: ID! @primaryKey(sortKeyFields:["title"])
+  title: String!
+  comments: [Comment] @hasMany(indexName:"byPost", fields:["postId", "title"])
+}
+
+type Comment @model {
+  commentId: ID! @primaryKey(sortKeyFields:["content"])
+  content: String!
+  postId: ID @index(name: "byPost", sortKeyFields:["postTitle"]) # customized foreign key for parent primary key
+  postTitle: String # customized foreign key for parent sort key
+}
+```
+This will result in the following built AppSync schema.
+
+Model fields:
+```graphql
+type Comment {
+  commentId: ID!
+  content: String!
+  postId: ID
+  postTitle: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+```
+Input fields:
+```graphql
+input CreateCommentInput {
+  commentId: ID!
+  content: String!
+  postId: ID
+  postTitle: String
+}
+
+input UpdateCommentInput {
+  commentId: ID!
+  content: String!
+  postId: ID
+  postTitle: String
+}
+```
+</Block>
+</BlockSwitcher>
+
+The custom primary key can also be applied to `@manyToMany` models. Take the following schema as an example.
+
+<Block name='"many to many" relation'>
+
+```graphql
+type Post @model {
+	customPostId: ID! @primaryKey(sortKeyFields: ["title"])
+	title: String!
+	content: String
+	tags: [Tag] @manyToMany(relationName: "PostTags")
+}
+
+type Tag @model {
+	customTagId: ID! @primaryKey(sortKeyFields: ["label"])
+	label: String!
+	posts: [Post] @manyToMany(relationName: "PostTags")
+}
+```
+Primary key and sort key fields of both models will be added in the joint table schema.
+
+```graphql
+type PostTags {
+  id: ID!
+  postCustomPostId: ID! # auto generated primary key field
+  posttitle: String! # auto generated sort key field
+  tagCustomTagId: ID! # auto generated primary key field
+  taglabel: String! # auto generated sort key field
+  post: Post!
+  tag: Tag!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+```
+</Block>
 
 ## How it works
 The `@model` directive will generate:
