@@ -106,6 +106,21 @@ type Todo @model @auth(rules: [{ allow: owner, ownerField: "author" }]) {
 }
 ```
 
+<Callout warning>
+
+  **By default, owners can reassign the owner of their existing record to another user.**
+
+  To prevent an owner from reassigning their record to another user, protect the owner field (by default `owner: String`) with a [field-level authorization rule](#field-level-authorization-rules). For example, in a social media app, you would want to prevent Alice from being able to reassign Alice's Post to Bob.
+
+  ```graphql
+  type Todo @model @auth(rules: [{ allow: owner }]) {
+    id: ID!
+    description: String
+    owner: String @auth(rules: [{ allow: owner, operations: [read, delete] }])
+  }
+  ```
+</Callout>
+
 By default, only one user can be an owner of a record. If you want to grant a set of users access to a record, you can override the `ownerField` to a list of owners. Use this if you want a dynamic set of users to have access to a record.
 
 ```graphql
