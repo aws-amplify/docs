@@ -28,7 +28,7 @@ Future<void> fetchAuthSessionWithTimeout() async {
     final result = await Amplify.Auth.fetchAuthSession().timeout(
       const Duration(seconds: 5),
     );
-    String identityId = (result as CognitoAuthSession).identityId!;
+    final identityId = (result as CognitoAuthSession).identityId!;
     safePrint('identityId: $identityId');
   } on Exception catch (e) {
     safePrint('Something went wrong while fetching the session: $e');
@@ -44,7 +44,7 @@ Future<void> fetchAuthSessionWithTimeout() async {
 Future<void> fetchAuthSession() async {
   try {
     final result = await Amplify.Auth.fetchAuthSession();
-    String identityId = (result as CognitoAuthSession).identityId!;
+    final identityId = (result as CognitoAuthSession).identityId!;
     safePrint('identityId: $identityId');
   } on AuthException catch (e) {
     safePrint(e.message);
@@ -64,7 +64,7 @@ Future<void> fetchAuthSessionWithTimeout() async {
     final result = await Amplify.Auth.fetchAuthSession().timeout(
       const Duration(seconds: 5),
     );
-    String identityId = (result as CognitoAuthSession).identityId!;
+    final identityId = (result as CognitoAuthSession).identityId!;
     safePrint('identityId: $identityId');
   } on Exception catch (e) {
     safePrint('Something went wrong while fetching the session: $e');

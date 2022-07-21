@@ -106,11 +106,13 @@ Replace `myapp` with your redirect URI scheme as necessary:
 
 ## macOS
 
-If you haven't already, open XCode and enable the App Sandbox capability and then select "Outgoing Connections (Client)" under "Network".
+Open XCode and enable the App Sandbox capability and then select "Incoming Connections (Server)" under "Network".
+
+![XCode Entitlements Screen](/images/project-setup/flutter/mac/xcode-entitlements.png)
 
 ## iOS, Windows and Linux Setup
 
-No specific platform configuration is required. However, please note that on Desktop applications an attempt by the user to cancel the sign in (for example, by closing their browser) will not automatically abort the operation. You may need to expose a 'cancel' operation in your UI to an appropriate interface and state.
+No specific platform configuration is required. 
 
 </Block>
 
