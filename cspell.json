@@ -973,6 +973,7 @@
     "postname",
     "posts.graphql",
     "PostsTable",
+    "posttitle",
     "pre-annotated",
     "pre-built",
     "pre-created",
