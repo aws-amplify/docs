@@ -179,6 +179,73 @@ If you change the email address, the user will receive a confirmation code. In y
 let result = await Auth.verifyCurrentUserAttributeSubmit('email', 'abc123');
 ```
 
+## Updating and verifying a Cognito user email address
+
+Updating an email address using `Auth.updateUserAttributes` will require a verification of the new email address.  The user will be emailed a verification code to the updated email address and your application will need to receive the verification code and send it to `Auth.verifyCurrentUserAttributeSubmit` before the email address will be updated in Cognito.
+
+The React application below implements this flow of updating the email address for the current user when the "Update Email" button is clicked, then provides a form to capture the verification code sent to the user.
+
+```javascript
+// App.js
+import { Authenticator } from "@aws-amplify/ui-react";
+import '@aws-amplify/ui-react/styles.css';
+import { Auth } from "aws-amplify";
+import { useState } from "react";
+
+async function updateUserEmail () {
+  const user = await Auth.currentAuthenticatedUser();
+
+  await Auth.updateUserAttributes(user, {
+      'email': 'updatedEmail@mydomain.com',
+  }).then(() => {
+     console.log('a verification code is sent');
+  }).catch((e) => {
+     console.log('failed with error', e);
+  });
+}
+
+async function verifyEmailValidationCode (code) {
+  await Auth.verifyCurrentUserAttributeSubmit('email', code)
+  .then(() => {
+     console.log('email verified');
+  }).catch((e) => {
+     console.log('failed with error', e);
+  });
+}
+
+function ValidationCodeForm() {
+  const [validationCode, setValidationCode] = useState(null)
+  return(
+    <div>
+      <label>
+        Verification Code (sent to the new email):
+        <input onChange={(e) => { setValidationCode(e.target.value)}} type="text" name="vc" />
+      </label>
+      <button onClick={() => verifyEmailValidationCode(validationCode)}>Send Code</button>
+    </div>
+  )
+}
+
+export default function App() {
+  const [showValidationCodeUI, setShowValidationCodeUI] = useState(false)
+
+  return (
+    <Authenticator>
+      {({ signOut, user }) => (
+        <div className="App">
+          <div>
+            <pre>{JSON.stringify(user.attributes, null, 2)}</pre>
+          </div>
+          {showValidationCodeUI === false && <button onClick={() => updateUserEmail() && setShowValidationCodeUI(true)}>Update Email</button>}
+          {showValidationCodeUI === true && <ValidationCodeForm />}
+          <button onClick={signOut}>Sign out</button>
+        </div>
+      )}
+    </Authenticator>
+  );
+}
+```
+
 ## Managing security tokens
 
 > When using Authentication with AWS Amplify, you don't need to refresh Amazon Cognito tokens manually. The tokens are automatically refreshed by the library when necessary.
