@@ -339,8 +339,8 @@ const directory = {
             filters: ['android', 'flutter', 'ios']
           },
           {
-            title: 'Credential storage',
-            route: '/lib/auth/credential_storage',
+            title: 'Managing credentials',
+            route: '/lib/auth/managing_credentials',
             filters: ['flutter']
           },
           {
