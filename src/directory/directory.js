@@ -339,14 +339,14 @@ const directory = {
             filters: ['android', 'flutter', 'ios']
           },
           {
-            title: 'Delete user',
-            route: '/lib/auth/delete_user',
-            filters: ['android', 'flutter', 'ios', 'js']
-          },
-          {
             title: 'Credential storage',
             route: '/lib/auth/credential_storage',
             filters: ['flutter']
+          },
+          {
+            title: 'Delete user',
+            route: '/lib/auth/delete_user',
+            filters: ['android', 'flutter', 'ios', 'js']
           },
           {
             title: 'Escape hatch',
