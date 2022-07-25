@@ -444,7 +444,7 @@ const directory = {
             filters: ['js']
           },
           {
-            title: 'Use existing AWS resources',
+            title: 'Use existing Amazon Location resources',
             route: '/lib/geo/existing-resources',
             filters: ['js', 'ios', 'android']
           },
