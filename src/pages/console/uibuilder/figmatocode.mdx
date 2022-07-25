@@ -1,6 +1,6 @@
 export const meta = {
-  title: 'Figma to code',
-  description: 'Figma to React code with Amplify Studio'
+  title: "Figma to code",
+  description: "Figma to React code with Amplify Studio",
 };
 
 Amplify Studio offers an integration with Figma, allowing you to generate clean React code by importing your Figma design file. [Figma](https://figma.com/) is a browser-based UI and UX design application that is used to build high-fidelity designs. In the standard product development lifecycle, UI or UX designers build mockups that get implemented as code by developers. Amplify Studio automatically converts any [Figma component](https://help.figma.com/hc/en-us/articles/360038662654-Guide-to-Components-in-Figma) in your Figma file to a [React component](https://reactjs.org/docs/components-and-props.html) that is then usable in your app.
@@ -51,22 +51,25 @@ import { ComponentA, ComponentB }  from './ui-components';
 
 ## Upgrading Figma files
 
-1. Duplicate the new [Figma community file](https://www.figma.com/community/file/1047600760128127424) into your Figma account. ![Duplicate the new figma file](/images/console/ui-figma-file.png)
+1. Duplicate the new [Figma community file](https://www.figma.com/community/file/1047600760128127424) into your Figma account.
+![Duplicate the new figma file](/images/console/ui-figma-file.png)
 1. (optional) Delete all the components in the 'My Components' page of the new Figma file.
 1. Copy everything in the 'My Components' page of your old Figma file and paste it into the 'My Components' page of the new Figma file.
-1. Go through each component on the 'My Components' page and update the broken component instances to point to the local components on the 'Primitives' page. Unfortunately, there is no easy way to bulk update component instances in Figma. **This is important because if you do not do this, your design might look ok, but the React code it generates won't use the [Amplify UI components](https://ui.docs.amplify.aws).** ![Reattach figma components](/images/console/figma-upgrade-reattach.gif)
+1. Go through each component on the 'My Components' page and update the broken component instances to point to the local components on the 'Primitives' page. Unfortunately, there is no easy way to bulk update component instances in Figma. **This is important because if you do not do this, your design might look ok, but the React code it generates won't use the [Amplify UI components](https://ui.docs.amplify.aws).**
+![Reattach figma components](/images/console/figma-upgrade-reattach.gif)
+
 
 ### Figma file changelog
 
 #### 1.2.0: July 25 2022
 
-- Add TextAreaField primitive component. For additional information on converting existing TextFields to TextAreaFields, see [here](/console/uibuilder/textfieldtoarea/).
-- Update supported Amplify UI React version to 3.1.0.
+* Add TextAreaField primitive component. For additional information on converting existing TextFields to TextAreaFields, see [here](/console/uibuilder/textfieldtoarea/).
+* Update supported Amplify UI React version to 3.1.0.
 
 #### 1.0.0: March 2 2022
 
-- Fixing primitive component layer names to map properly to React props.
-- Removing the Icon primitive and adding a custom Icon component. This change allows for easier icon customization.
-- Fixing visual discrepancies between Figma file and React components.
-- Re-organizing primitive component variants to make the default variant more expected. For example, default size and default variation of the button instead of the primary variation.
-- Adding version number to the Figma file
+* Fixing primitive component layer names to map properly to React props.
+* Removing the Icon primitive and adding a custom Icon component. This change allows for easier icon customization.
+* Fixing visual discrepancies between Figma file and React components.
+* Re-organizing primitive component variants to make the default variant more expected. For example, default size and default variation of the button instead of the primary variation.
+* Adding version number to the Figma file
