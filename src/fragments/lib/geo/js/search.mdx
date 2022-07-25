@@ -101,11 +101,12 @@ import { Geo } from "aws-amplify"
 Geo.searchByText("Amazon Go Store")
 ```
 
-Optimize your search results further by providing:
+Customize your search results further by providing:
 - `countries` - to limit the search results to given countries (specified in [ISO Alpha-3 country codes](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3))
 - `maxResults` - to limit the maximum result set
 - `biasPosition` - to act as the search origination location
 - `searchAreaConstraints` - to limit the area to search inside of
+- `searchIndexName` - to use a different Location Service search index resource than the default
 
  **Note:** Providing both `biasPosition` and `searchAreaConstraints` parameters simultaneously returns an error.
 
@@ -117,12 +118,14 @@ const searchOptionsWithBiasPosition = {
     longitude // number
     latitude // number,
   ], // Coordinates point to act as the center of the search
+  searchIndexName: string, // the string name of the search index
 }
 
 const searchOptionsWithSearchAreaConstraints = {
   countries: ["USA"], // Alpha-3 country codes
   maxResults: 25, // 50 is the max and the default
   searchAreaConstraints: [SWLongitude, SWLatitude, NELongitude, NELatitude], // Bounding box to search inside of
+  searchIndexName: string, // the string name of the search index
 }
 
 Geo.searchByText('Amazon Go Stores', searchOptionsWithBiasPosition)
@@ -164,11 +167,12 @@ import { Geo } from "aws-amplify";
 Geo.searchByCoordinates([longitudePoint, latitudePoint])
 ```
 
-You can optionally limit your result set with the `maxResults` parameter.
+You can optionally limit your result set with the `maxResults` parameter or override the default search index with the `searchIndexName` parameter.
 
 ```javascript
 const searchOptionsWithBiasPosition = {
   maxResults: number, // 50 is the max and the default
+  searchIndexName: string, // the string name of the search index
 }
 
 Geo.searchByCoordinates([-122.3399573, 47.616179], searchOptionsWithBiasPosition)
