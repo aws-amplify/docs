@@ -344,6 +344,11 @@ const directory = {
             filters: ['android', 'flutter', 'ios', 'js']
           },
           {
+            title: 'Credential storage',
+            route: '/lib/auth/credential_storage',
+            filters: ['flutter']
+          },
+          {
             title: 'Escape hatch',
             route: '/lib/auth/escapehatch',
             filters: ['android', 'ios']
