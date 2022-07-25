@@ -46,15 +46,15 @@ When defining a schema you can use directives from the GraphQL Transformer in lo
 - [@hasOne, @hasMany, @belongsTo, @manyToMany](/cli/graphql/data-modeling)
 - [@function](/cli/graphql/custom-business-logic#lambda-function-resolver)
 
-If you have any DynamoDB lambda triggers already setup on any of the `@model` types in your GraphQL schema, by following steps [listed here](/cli/usage/lambda-triggers/#as-a-part-of-the-graphql-api-types-with-model-annotation),
-you can test those lambda triggers locally via `amplify mock` or `amplify mock api` commands. 
+If you have DynamoDB Lambda triggers setup on `@model` types in your GraphQL schema, by following steps [listed here](/cli/usage/lambda-triggers/#as-a-part-of-the-graphql-api-types-with-model-annotation),
+then you can test those Lambda triggers locally via `amplify mock` or `amplify mock api` commands. 
 
-When a `CRUD` operation performed on the `@model` type using either the local DynamoDB endpoint (`http://localhost:62224`), or the local AppSync console (should be `http://localhost:20002`), 
-you can see that the connected lambda trigger in your project will be automatically invoked locally with the event data. The structure of the event that is sent to the lambda trigger 
-can be found [here](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_streams_GetRecords.html). 
+The connected Lambda triggers are automatically invoked locally if you perform a CRUD operation on the `@model` type using either the local DynamoDB endpoint (`http://localhost:62224`) or 
+the local AppSync console (should be `http://localhost:20002`). The structure of the event that is sent to the lambda trigger can be found [here](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_streams_GetRecords.html).
 
-The environment variables that are listed below in [Function mock environment variables](/cli/usage/mock/#function-mock-environment-variables), will be available for each invocation of the lambda trigger.
-In addition, if you wish to override some of the environment variables for local mocking, you can do so using a .env file within the function directory (ie. `<project root>/amplify/backend/function/<function name>/.env`)
+The environment variables that are listed below in [Function mock environment variables](/cli/usage/mock/#function-mock-environment-variables), are available for each invocation of the Lambda trigger.
+
+In addition, you can use a `.env` file within the function directory (ie. `<project root>/amplify/backend/function/<function name>/.env`) to override any environment variables for local mocking.
 
 
 > __Note__: IAM authorization rules in Mock get are treated as Auth role if the request is signed with AccessKey `ASIAVJKIAM-AuthRole`. Otherwise the request is treated as made by an unAuth user.
