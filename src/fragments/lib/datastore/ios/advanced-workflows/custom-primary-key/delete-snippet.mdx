@@ -13,10 +13,9 @@ Amplify.DataStore.delete(Book.self, withIdentifier: .identifier(isbn: "12345"), 
     case .success:
         print("Book deleted!")
     case .failure(let error):
-        print("Error deleting book with error \(error)")
+        print("Error deleting book: \(error)")
     }
 }
-
 ```
 
 </Block>
@@ -26,10 +25,9 @@ Amplify.DataStore.delete(Book.self, withIdentifier: .identifier(isbn: "12345"), 
 ```swift
 let sink = Amplify.DataStore.delete(Book.self, withIdentifier: .identifier(isbn: "12345")).sink {
     if case let .failure(error) = $0 {
-        print("Error deleting book with error \(error)")
+        print("Error deleting book: \(error)")
     }
-}
-receiveValue: {
+} receiveValue: {
     print("Book deleted!")
 }
 ```
@@ -37,7 +35,7 @@ receiveValue: {
 
 </BlockSwitcher>
 
-With the value of Predicate:
+With the value of QueryPredicate:
 
 <BlockSwitcher>
 
@@ -49,7 +47,7 @@ Amplify.DataStore.delete(Book.self, where: Book.keys.isbn == "12345" ) { result 
     case .success:
         print("Book deleted!")
     case .failure(let error):
-        print("Error deleting book - \(error)")
+        print("Error deleting book: \(error)")
     }
 }
 ```
@@ -60,10 +58,9 @@ Amplify.DataStore.delete(Book.self, where: Book.keys.isbn == "12345" ) { result 
 ```swift
 let sink = Amplify.DataStore.delete(Book.self, where: Book.keys.isbn == "12345").sink {
     if case let .failure(error) = $0 {
-        print("Error deleting book - \(error)")
+        print("Error deleting book: \(error)")
     }
-}
-receiveValue: {
+} receiveValue: {
     print("Book deleted!")
 }
 ```

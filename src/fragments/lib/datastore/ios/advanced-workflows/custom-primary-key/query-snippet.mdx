@@ -7,7 +7,7 @@ With the value of the primary key:
 <Block name="Listener (iOS 11+)">
 
 ```swift
-Amplify.DataStore.query(Book.self, byIdentifier: .identifier(isbn: "12345")) { result in 
+Amplify.DataStore.query(Book.self, byIdentifier: .identifier(isbn: "12345")) { result in
     switch result {
     case .success(let book):
         print("Query was successful, retrieved book: \(book)")
@@ -26,9 +26,12 @@ let sink = Amplify.DataStore.query(Book.self, byIdentifier: .identifier(isbn: "1
     if case let .failure(error) = $0 {
         print("Error on query() for type Book with error \(error)")
     }
-}
-receiveValue: { result in
-    print("Query was successful, retrieved book: \(result)")
+} receiveValue:{ book in
+    guard let book = book else {
+        print("Query was successful with empty result")
+        return
+    }
+    print("Query was successful, retrieved book: \(book)")
 }
 ```
 
@@ -36,7 +39,7 @@ receiveValue: { result in
 
 </BlockSwitcher>
 
-With the value of Predicate:
+With the value of QueryPredicate:
 
 <BlockSwitcher>
 
@@ -48,7 +51,7 @@ Amplify.DataStore.query(Book.self, where: Book.keys.isbn == "12345") { result in
     case .success(let book):
         print("Query was successful, retrieved book: \(book)")
     case .failure(let error):
-        print("Error on query() for type Book with error \(error)")     
+        print("Error on query() for type Book with error \(error)")
     }
 }
 ```
@@ -62,9 +65,8 @@ let sink = Amplify.DataStore.query(Book.self, where: Book.keys.isbn == "12345").
     if case let .failure(error) = $0 {
         print("Error on query() for type Book with error \(error)")
     }
-}
-receiveValue: { result in
-        print("Query was successful, retrieved book: \(result)")
+} receiveValue:{ books in
+    print("Query was successful, retrieved book: \(books)")
 }
 ```
 
