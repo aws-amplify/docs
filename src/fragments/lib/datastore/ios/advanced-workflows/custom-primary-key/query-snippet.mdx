@@ -7,13 +7,12 @@ With the value of the primary key:
 <Block name="Listener (iOS 11+)">
 
 ```swift
-Amplify.DataStore.query(Book.self,
-    byIdentifier: .identifier(isbn: "12345")) { result in
+Amplify.DataStore.query(Book.self, byIdentifier: .identifier(isbn: "12345")) { result in 
     switch result {
     case .success(let book):
-        print("Query successful with book id \(String(describing: book))")
+        print("Query was successful, retrieved book: \(book)")
     case .failure(let error):
-        print("Error querying with errors \(error)")
+        print("Error on query() for type Book with error \(error)")
     }
 }
 ```
@@ -23,14 +22,14 @@ Amplify.DataStore.query(Book.self,
 <Block name="Combine (iOS 13+)">
 
 ```swift
-let sink = Amplify.DataStore.query(Book.self,
-    byIdentifier: .identifier(isbn: "12345")).sink {
+let sink = Amplify.DataStore.query(Book.self, byIdentifier: .identifier(isbn: "12345")).sink {
     if case let .failure(error) = $0 {
-        print("Error querying with errors \(error.localizedDescription)")
-        }
-} receiveValue: { result in
-            print("Books: \(String(describing: result))")
-        }
+        print("Error on query() for type Book with error \(error)")
+    }
+}
+receiveValue: { result in
+    print("Query was successful, retrieved books: \(result)")
+}
 ```
 
 </Block>
@@ -44,13 +43,12 @@ With the value of Predicate:
 <Block name="Listener (iOS 11+)">
 
 ```swift
-Amplify.DataStore.query(Book.self,
-    where: Book.keys.isbn == "12345") { result in
+Amplify.DataStore.query(Book.self, where: Book.keys.isbn == "12345") { result in
     switch result {
     case .success(let book):
-        print("Query successful with book id \(book)")
+        print("Query was successful, retrieved book: \(book)")
     case .failure(let error):
-        print("Error querying with errors \(error)")
+        print("Error on query() for type Book with error \(error)")     
     }
 }
 ```
@@ -60,15 +58,14 @@ Amplify.DataStore.query(Book.self,
 <Block name="Combine (iOS 13+)">
 
 ```swift
-let sink = Amplify.DataStore.query(Book.self,
-    where: Book.keys.isbn == "12345").sink {
+let sink = Amplify.DataStore.query(Book.self, where: Book.keys.isbn == "12345").sink {
     if case let .failure(error) = $0 {
-        print("Error querying with errors\(error.localizedDescription)")
-        }
-} receiveValue: { result in
-            print("Books: \(result)")
-        }
-
+        print("Error on query() for type Book with error \(error)")
+    }
+}
+receiveValue: { result in
+        print("Query was successful, retrieved books: \(result)")
+}
 ```
 
 </Block>

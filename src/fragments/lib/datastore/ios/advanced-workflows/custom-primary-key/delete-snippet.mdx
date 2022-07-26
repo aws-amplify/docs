@@ -8,16 +8,15 @@ With the value of the primary key:
 <Block name="Listener (iOS 11+)">
 
 ```swift
-Amplify.DataStore.delete(Book.self,
-            withIdentifier: .identifier(isbn: "12345"),
-            where: nil) {
-            switch $0 {
-            case .success:
-                print("Book deleted!")
-            case .failure(let error):
-                print("Error deleting book with errors \(error)")
-            }
+Amplify.DataStore.delete(Book.self, withIdentifier: .identifier(isbn: "12345"), where: nil) { result in
+    switch result{
+    case .success:
+        print("Book deleted!")
+    case .failure(let error):
+        print("Error deleting book - \(error)")
+    }
 }
+
 ```
 
 </Block>
@@ -25,16 +24,14 @@ Amplify.DataStore.delete(Book.self,
 <Block name="Combine (iOS 13+)">
 
 ```swift
-let sink = Amplify.DataStore.delete(Book.self,
-    withIdentifier: .identifier(isbn: "12345")).sink {
-        if case let .failure(error) = $0 {
-            print("Error deleting book - \(error.localizedDescription)")
-            }
-        }
-        receiveValue: {
-            print("Book deleted!")
-        }
-
+let sink = Amplify.DataStore.delete(Book.self, withIdentifier: .identifier(isbn: "12345")).sink {
+    if case let .failure(error) = $0 {
+        print("Error deleting book - \(error.localizedDescription)")
+    }
+}
+receiveValue: {
+    print("Book deleted!")
+}
 ```
 </Block>
 
@@ -47,13 +44,12 @@ With the value of Predicate:
 <Block name="Listener (iOS 11+)">
 
 ```swift
-Amplify.DataStore.delete(Book.self, 
-    where: Book.keys.isbn == "12345" ) {
-    switch $0 {
+Amplify.DataStore.delete(Book.self, where: Book.keys.isbn == "12345" ) { result in
+    switch result {
     case .success:
         print("Book deleted!")
     case .failure(let error):
-        print("Error deleting book with errors \(error)")
+        print("Error deleting book - \(error)")
     }
 }
 ```
@@ -62,14 +58,14 @@ Amplify.DataStore.delete(Book.self,
 <Block name="Combine (iOS 13+)">
 
 ```swift
-let sink = Amplify.DataStore.delete(Book.self,
-    where: Book.keys.isbn == "12345").sink {
+let sink = Amplify.DataStore.delete(Book.self, where: Book.keys.isbn == "12345").sink {
     if case let .failure(error) = $0 {
         print("Error deleting book - \(error.localizedDescription)")
     }
-} receiveValue: { result in
-            print("books: \(result)")
-    }
+}
+receiveValue: {
+    print("Book deleted!")
+}
 ```
 </Block>
 
