@@ -162,6 +162,22 @@ Contains feature flag configuration for the project. If this file does not exist
 
 While each category plugin has some unique files, there are also some common files stored across all categories.
 
+### cli-inputs.json
+
+> Manual edits okay: YES
+
+> Add to version control: YES
+
+Stores the input parameters necessary to generate CloudFormation stacks for the associated resource.
+
+### override.ts
+
+> Manual edits okay: YES
+
+> Add to version control: YES
+
+TypeScript file that allows overriding the associated CloudFormation stack for categories that support it. To create this file, run `amplify override <category>`.
+
 ### &lt;category&gt;-parameters.json
 
 > Manual edits okay: NO
