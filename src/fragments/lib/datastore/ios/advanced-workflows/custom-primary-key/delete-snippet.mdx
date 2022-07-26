@@ -13,7 +13,7 @@ Amplify.DataStore.delete(Book.self, withIdentifier: .identifier(isbn: "12345"), 
     case .success:
         print("Book deleted!")
     case .failure(let error):
-        print("Error deleting book - \(error)")
+        print("Error deleting book with error \(error)")
     }
 }
 
@@ -26,7 +26,7 @@ Amplify.DataStore.delete(Book.self, withIdentifier: .identifier(isbn: "12345"), 
 ```swift
 let sink = Amplify.DataStore.delete(Book.self, withIdentifier: .identifier(isbn: "12345")).sink {
     if case let .failure(error) = $0 {
-        print("Error deleting book - \(error.localizedDescription)")
+        print("Error deleting book with error \(error)")
     }
 }
 receiveValue: {
@@ -60,7 +60,7 @@ Amplify.DataStore.delete(Book.self, where: Book.keys.isbn == "12345" ) { result 
 ```swift
 let sink = Amplify.DataStore.delete(Book.self, where: Book.keys.isbn == "12345").sink {
     if case let .failure(error) = $0 {
-        print("Error deleting book - \(error.localizedDescription)")
+        print("Error deleting book - \(error)")
     }
 }
 receiveValue: {

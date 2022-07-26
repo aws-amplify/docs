@@ -28,7 +28,7 @@ let sink = Amplify.DataStore.query(Book.self, byIdentifier: .identifier(isbn: "1
     }
 }
 receiveValue: { result in
-    print("Query was successful, retrieved books: \(result)")
+    print("Query was successful, retrieved book: \(result)")
 }
 ```
 
@@ -64,7 +64,7 @@ let sink = Amplify.DataStore.query(Book.self, where: Book.keys.isbn == "12345").
     }
 }
 receiveValue: { result in
-        print("Query was successful, retrieved books: \(result)")
+        print("Query was successful, retrieved book: \(result)")
 }
 ```
 
