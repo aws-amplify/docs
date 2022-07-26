@@ -1,1 +1,76 @@
-## TODO (see js snippet for examples)
+A record with a custom primary key can be queried for in the following ways:
+
+With the value of the primary key:
+
+<BlockSwitcher>
+
+<Block name="Listener (iOS 11+)">
+
+```swift
+Amplify.DataStore.query(Book.self,
+    byIdentifier: .identifier(isbn: "12345")) { result in
+    switch result {
+    case .success(let book):
+        print("Query successful with book id \(String(describing: book))")
+    case .failure(let error):
+        print("Error querying with errors \(error)")
+    }
+}
+```
+
+</Block>
+
+<Block name="Combine (iOS 13+)">
+
+```swift
+let sink = Amplify.DataStore.query(Book.self,
+    byIdentifier: .identifier(isbn: "12345")).sink {
+    if case let .failure(error) = $0 {
+        print("Error querying with errors \(error.localizedDescription)")
+        }
+} receiveValue: { result in
+            print("Books: \(String(describing: result))")
+        }
+```
+
+</Block>
+
+</BlockSwitcher>
+
+With the value of Predicate:
+
+<BlockSwitcher>
+
+<Block name="Listener (iOS 11+)">
+
+```swift
+Amplify.DataStore.query(Book.self,
+    where: Book.keys.isbn == "12345") { result in
+    switch result {
+    case .success(let book):
+        print("Query successful with book id \(book)")
+    case .failure(let error):
+        print("Error querying with errors \(error)")
+    }
+}
+```
+
+</Block>
+
+<Block name="Combine (iOS 13+)">
+
+```swift
+let sink = Amplify.DataStore.query(Book.self,
+    where: Book.keys.isbn == "12345").sink {
+    if case let .failure(error) = $0 {
+        print("Error querying with errors\(error.localizedDescription)")
+        }
+} receiveValue: { result in
+            print("Books: \(result)")
+        }
+
+```
+
+</Block>
+
+</BlockSwitcher>
