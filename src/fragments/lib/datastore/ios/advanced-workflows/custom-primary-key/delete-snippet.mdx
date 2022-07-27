@@ -8,7 +8,7 @@ With the value of the primary key:
 <Block name="Listener (iOS 11+)">
 
 ```swift
-Amplify.DataStore.delete(Book.self, withIdentifier: .identifier(isbn: "12345"), where: nil) { result in
+Amplify.DataStore.delete(Book.self, withIdentifier: .identifier(isbn: "12345")) { result in
     switch result{
     case .success:
         print("Book deleted!")
