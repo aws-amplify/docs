@@ -10,6 +10,10 @@ With the value of the primary key:
 Amplify.DataStore.query(Book.self, byIdentifier: .identifier(isbn: "12345")) { result in
     switch result {
     case .success(let book):
+        guard let book = book else {
+            print("Query was successful with empty result")
+            return
+        }
         print("Query was successful, retrieved book: \(book)")
     case .failure(let error):
         print("Error on query() for type Book with error \(error)")
@@ -48,8 +52,8 @@ With the value of QueryPredicate:
 ```swift
 Amplify.DataStore.query(Book.self, where: Book.keys.isbn == "12345") { result in
     switch result {
-    case .success(let book):
-        print("Query was successful, retrieved book: \(book)")
+    case .success(let books):
+        print("Query was successful, retrieved books: \(books)")
     case .failure(let error):
         print("Error on query() for type Book with error \(error)")
     }
@@ -66,7 +70,7 @@ let sink = Amplify.DataStore.query(Book.self, where: Book.keys.isbn == "12345").
         print("Error on query() for type Book with error \(error)")
     }
 } receiveValue:{ books in
-    print("Query was successful, retrieved book: \(books)")
+    print("Query was successful, retrieved books: \(books)")
 }
 ```
 

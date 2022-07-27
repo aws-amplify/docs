@@ -42,7 +42,7 @@ With the value of QueryPredicate:
 <Block name="Listener (iOS 11+)">
 
 ```swift
-Amplify.DataStore.delete(Book.self, where: Book.keys.isbn == "12345" ) { result in
+Amplify.DataStore.delete(Book.self, where: Book.keys.isbn == "12345") { result in
     switch result {
     case .success:
         print("Book deleted!")
