@@ -383,8 +383,10 @@ Auth.signIn({
 
 ### Auto Sign-in Lambda triggers
 
-If you have `autoSignIn` enabled, you can pass `validationData` and `clientMetadata` as properties for `AutoSignInOptions`. They are used
- to implement additional validations for the `authenticateUser` function.
+If you have `autoSignIn` enabled, you can pass `validationData` as property for `AutoSignInOptions`. It is used
+ to implement additional validations for authentication. For example, you might choose to allow or disallow
+  user sign-up based on the user's domain. The Lambda trigger receives the validation data and 
+  uses it in the validation process.
 
 ```js
 Auth.signUp({
@@ -397,7 +399,6 @@ Auth.signUp({
     },
     autoSignIn: { // optional - enables auto sign in after sign up
         enabled: true,
-        clientMetadata, // optional
         validationData, // optional
     }
 })
@@ -417,7 +418,7 @@ These functions include:
 - `Auth.resendSignUp`
 - `Auth.sendCustomChallengeAnswer`
 - `Auth.signIn`
-- `Auth.signUp`
+- `Auth.signUp` (as a function parameter and part of `AutoSignInOptions` object)
 - `Auth.updateUserAttributes`
 - `Auth.verifyUserAttribute`
 
