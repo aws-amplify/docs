@@ -249,7 +249,7 @@ mutation CreatePost {
 }
 ```
 
-Under the hood, `@hasMany` configures a secondary index on the related table to enable you to query the related model from the source model.
+Under the hood, `@hasMany` configures a default secondary index on the related table to enable you to query the related model from the source model.
 
 To customize the specific secondary index used for the "has many" relationship, create an `@index` directive on the field in the related table where you want to assign the secondary index. 
 
