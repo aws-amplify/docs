@@ -381,6 +381,28 @@ Auth.signIn({
   .catch(err => console.log(err));
 ```
 
+### Auto Sign-in Lambda triggers
+
+If you have `autoSignIn` enabled, you can pass `validationData` and `clientMetadata` as properties for `AutoSignInOptions`. They are used
+ to implement additional validations for the `authenticateUser` function.
+
+```js
+Auth.signUp({
+    username,
+    password,
+    attributes: {
+        email,          // optional
+        phone_number,   // optional - E.164 number convention
+        // other custom attributes 
+    },
+    autoSignIn: { // optional - enables auto sign in after sign up
+        enabled: true,
+        clientMetadata, // optional
+        validationData, // optional
+    }
+})
+```
+
 ### Passing metadata to other Lambda triggers
 
 Many Cognito Lambda Triggers also accept unsanitized key/value pairs in the form of a `clientMetadata` attribute.  To configure a static set of key/value pairs, you can define a `clientMetadata` key in the `Auth.configure` function.  You can also pass a `clientMetadata` parameter to the various `Auth` functions which result in Cognito Lambda Trigger execution.
