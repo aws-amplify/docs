@@ -23,6 +23,12 @@ const listener = (data) => {
         case 'tokenRefresh_failure':
             logger.error('token refresh failed');
             break;
+        case 'autoSignIn':
+            logger.info('Auto Sign after Sign Up succeeded');
+            break;
+        case 'autoSignIn_failure':
+            logger.error('Auto Sign after Sign Up failed');
+            break;
         case 'configured':
             logger.info('the Auth module is configured');
     }
