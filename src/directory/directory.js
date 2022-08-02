@@ -34,6 +34,11 @@ const directory = {
             filters: ['flutter']
           },
           {
+            title: 'Platform Setup',
+            route: '/lib/project-setup/platform-setup',
+            filters: ['flutter']
+          },
+          {
             title: 'Escape hatch',
             route: '/lib/project-setup/escape-hatch',
             filters: ['flutter']
@@ -332,6 +337,11 @@ const directory = {
             title: 'Accessing credentials',
             route: '/lib/auth/access_credentials',
             filters: ['android', 'flutter', 'ios']
+          },
+          {
+            title: 'Managing credentials',
+            route: '/lib/auth/managing_credentials',
+            filters: ['flutter']
           },
           {
             title: 'Delete user',

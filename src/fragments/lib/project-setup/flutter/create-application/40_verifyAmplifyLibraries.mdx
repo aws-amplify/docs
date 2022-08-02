@@ -6,7 +6,6 @@ Add the necessary dart dependencies at the top of main.dart alongside to other i
 ```dart
 // Amplify Flutter Packages
 import 'package:amplify_flutter/amplify_flutter.dart';
-import 'package:amplify_analytics_pinpoint/amplify_analytics_pinpoint.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 
 // Generated in previous step
@@ -28,11 +27,11 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<void> _configureAmplify() async {
 
     // Add any Amplify plugins you want to use
-    final analyticsPlugin = AmplifyAnalyticsPinpoint();
     final authPlugin = AmplifyAuthCognito();
-    // You can use addPlugin if you are going to be adding only one plugin
-    // await Amplify.addPlugin(authPlugin);
-    await Amplify.addPlugins([authPlugin, analyticsPlugin]);
+    await Amplify.addPlugin(authPlugin);
+
+    // You can use addPlugins if you are going to be adding multiple plugins
+    // await Amplify.addPlugins([authPlugin, analyticsPlugin]);
 
     // Once Plugins are added, configure Amplify
     // Note: Amplify can only be configured once.

@@ -757,7 +757,9 @@
     "Lastname",
     "lateinit",
     "le",
+    "libglib",
     "libs",
+    "libsecret",
     "lifecycle",
     "lifecycles",
     "lightgray",
@@ -1470,5 +1472,7 @@
     "infowindow",
     "Libre's"
   ],
-  "flagWords": ["hte"]
+  "flagWords": [
+    "hte"
+  ]
 }
