@@ -34,6 +34,11 @@ const directory = {
             filters: ['flutter']
           },
           {
+            title: 'Platform Setup',
+            route: '/lib/project-setup/platform-setup',
+            filters: ['flutter']
+          },
+          {
             title: 'Escape hatch',
             route: '/lib/project-setup/escape-hatch',
             filters: ['flutter']
@@ -334,6 +339,11 @@ const directory = {
             filters: ['android', 'flutter', 'ios']
           },
           {
+            title: 'Managing credentials',
+            route: '/lib/auth/managing_credentials',
+            filters: ['flutter']
+          },
+          {
             title: 'Delete user',
             route: '/lib/auth/delete_user',
             filters: ['android', 'flutter', 'ios', 'js']
@@ -439,14 +449,19 @@ const directory = {
             filters: ['js', 'ios', 'android']
           },
           {
-            title: "Geofences",
-            route: "/lib/geo/geofences",
-            filters: ["js"],
+            title: 'Geofences',
+            route: '/lib/geo/geofences',
+            filters: ['js']
           },
           {
-            title: 'Use existing AWS resources',
+            title: 'Use existing Amazon Location resources',
             route: '/lib/geo/existing-resources',
             filters: ['js', 'ios', 'android']
+          },
+          {
+            title: 'Migrating from Google Maps',
+            route: '/lib/geo/google-migration',
+            filters: ['js']
           },
           {
             title: 'Escape Hatch',
@@ -721,7 +736,7 @@ const directory = {
             filters: ['js']
           },
           { title: 'Cache', route: '/lib/utilities/cache', filters: ['js'] },
-          { title: 'Hub', route: '/lib/utilities/hub', filters: ['js'] },
+          { title: 'Hub', route: '/lib/utilities/hub', filters: ['android', 'ios', 'js'] },
           {
             title: 'Internationalization',
             route: '/lib/utilities/i18n',
@@ -1234,9 +1249,9 @@ const directory = {
             filters: []
           },
           {
-            title: "Geofencing",
-            route: "/cli/geo/geofencing",
-            filters: [],
+            title: 'Geofencing',
+            route: '/cli/geo/geofencing',
+            filters: []
           }
         ]
       },

@@ -203,12 +203,12 @@ In this section you will create a way to list and create posts from the Next.js 
 Open **pages/index.js** and replace it with the following code:
 
 ```sh
-npm install aws-amplify @aws-amplify/ui-react@1.x.x
+npm install aws-amplify @aws-amplify/ui-react
 ```
 
 ```jsx
 // pages/index.js
-import { AmplifyAuthenticator } from '@aws-amplify/ui-react-v1';
+import { Authenticator } from '@aws-amplify/ui-react';
 import { Amplify, API, Auth, withSSRContext } from 'aws-amplify';
 import Head from 'next/head';
 import awsExports from '../src/aws-exports';
@@ -280,7 +280,7 @@ export default function Home({ posts = [] }) {
           <div className={styles.card}>
             <h3 className={styles.title}>New Post</h3>
 
-            <AmplifyAuthenticator>
+            <Authenticator>
               <form onSubmit={handleCreatePost}>
                 <fieldset>
                   <legend>Title</legend>
@@ -303,7 +303,7 @@ export default function Home({ posts = [] }) {
                   Sign out
                 </button>
               </form>
-            </AmplifyAuthenticator>
+            </Authenticator>
           </div>
         </div>
       </main>

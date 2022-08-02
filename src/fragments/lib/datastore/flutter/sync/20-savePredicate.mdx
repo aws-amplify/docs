@@ -1,10 +1,12 @@
 ```dart
-try {
-  await Amplify.DataStore.save(
-    post,
-    where: Post.TITLE.beginsWith("[Amplify]"),
-  );
-} catch(e) {
-  print('Could not update post, maybe the title has been changed?);
+Future<void> savePredicate(Post post) async {
+  try {
+    await Amplify.DataStore.save(
+      post,
+      where: Post.TITLE.beginsWith("[Amplify]"),
+    );
+  } catch (e) {
+    print('Could not update post, maybe the title has been changed?');
+  }
 }
 ```

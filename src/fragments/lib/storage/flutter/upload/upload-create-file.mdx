@@ -10,7 +10,7 @@ import 'package:path_provider/path_provider.dart';
 
 Future<void> createAndUploadFile() async {
   // Create a dummy file
-  final exampleString = 'Example file contents';
+  const exampleString = 'Example file contents';
   final tempDir = await getTemporaryDirectory();
   final exampleFile = File(tempDir.path + '/example.txt')
     ..createSync()
@@ -19,11 +19,11 @@ Future<void> createAndUploadFile() async {
   // Upload the file to S3
   try {
     final UploadFileResult result = await Amplify.Storage.uploadFile(
-      local: exampleFile,
-      key: 'ExampleKey',
-      onProgress: (progress) {
-        print("Fraction completed: " + progress.getFractionCompleted().toString());
-      }
+        local: exampleFile,
+        key: 'ExampleKey',
+        onProgress: (progress) {
+          print('Fraction completed: ${progress.getFractionCompleted()}');
+        }
     );
     print('Successfully uploaded file: ${result.key}');
   } on StorageException catch (e) {

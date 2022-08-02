@@ -82,7 +82,7 @@ export default withAuthenticator(App, true);
 
 You can now use `amplify publish` to build and publish your app again. This time you'll be able to register a new user and sign in before opening the main application.
 
-> API & property details for the `Authenticator` and `withAuthenticator` HOC are available in the [Authentication Guide](/ui-legacy/auth/authentcator/q/framework/react).
+> API & property details for the `Authenticator` and `withAuthenticator` HOC are available in the [Authentication Guide](/ui-legacy/auth/authenticator/q/framework/react).
 
 #### SignUp Configuration
 
@@ -243,7 +243,7 @@ Run `amplify add storage` and then select **Content (Images, audio, video, etc.)
 Edit your `App.js` file in the React project again and modify your imports so that the `Analytics` and `Storage` categories are included in addition to the `S3Album` component, which we'll use to upload and download photos.
 
 ```javascript
-import Amplify, { Analytics, Storage } from 'aws-amplify';
+import { Amplify, Analytics, Storage } from 'aws-amplify';
 import { withAuthenticator, S3Album } from 'aws-amplify-react';
 ```
 
@@ -393,7 +393,7 @@ Next, for the API security type questions, choose **Yes** when prompted for Rest
 In the React project, edit your `App.js` file again and modify your imports so that the `API` category is included so that you can make API calls from the app.
 
 ```javascript
-import Amplify, { Analytics, Storage, API } from 'aws-amplify';
+import { Amplify, Analytics, Storage, API } from 'aws-amplify';
 ```
 
 In `App.js`, add the following code before the `render()` method and update `myapi` if you used an alternative name during the setup:

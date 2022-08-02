@@ -318,6 +318,7 @@
     "baseQueryResultHandler",
     "baseRefreshIntervalInSeconds",
     "bbox",
+    "bcfa",
     "bdpush",
     "bdservice",
     "beginsWith",
@@ -468,6 +469,7 @@
     "DataSources",
     "DataStore",
     "dd3f5b",
+    "deddd",
     "deduped",
     "deeplink",
     "Deeplink",
@@ -755,7 +757,9 @@
     "Lastname",
     "lateinit",
     "le",
+    "libglib",
     "libs",
+    "libsecret",
     "lifecycle",
     "lifecycles",
     "lightgray",
@@ -897,6 +901,7 @@
     "notificationclick",
     "npm",
     "npx",
+    "nsswamin",
     "NSAllowsLocalNetworking",
     "NSData",
     "NSURL",
@@ -984,6 +989,7 @@
     "presigned",
     "PreSignUp",
     "prev",
+    "printLn",
     "ProcessLifeCycle",
     "programmatically",
     "Project.team",
@@ -1197,6 +1203,7 @@
     "task.result",
     "taskIdentifier",
     "template.json",
+    "testappa",
     "testtable",
     "testtrigger",
     "textEnabled",
@@ -1460,7 +1467,12 @@
     "geofence",
     "geofences",
     "savegeofences",
-    "myfunction"
+    "myfunction",
+    "roadmap",
+    "infowindow",
+    "Libre's"
   ],
-  "flagWords": ["hte"]
+  "flagWords": [
+    "hte"
+  ]
 }

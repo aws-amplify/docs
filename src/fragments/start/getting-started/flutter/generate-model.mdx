@@ -32,7 +32,7 @@ With the basic setup complete, you can now model the data your application will 
     1. **Install Amplify CLI to pull the data model**
         - You should have already installed the Amplify CLI in a previous step
         - Copy and run the command shown in your project root. This command will initialize your current project with Amplify as well as generate the data models you will be using locally
-            
+
             ```bash
             amplify pull --sandboxId <UUID>
             ```
@@ -42,7 +42,7 @@ With the basic setup complete, you can now model the data your application will 
 
 At this point, Amplify should have generated several directories and configuration files in your project for you. Let’s take a look at the generated GraphQL schema.
 
-From your project root, navigate to the `amplify/backend/api/amplifyDatasource/` directory and open `schema.graphql` using a text editor of your choice. You should see the following.
+From your project root, navigate to the `amplify/backend/api/<api-name>/` directory and open `schema.graphql` using a text editor of your choice. You should see the following.
 
 ```graphql
 type Todo @model @auth(rules: [{ allow: public }]) {

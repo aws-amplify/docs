@@ -276,6 +276,7 @@ export const handler = async (event) => {
   const requestToBeSigned = new HttpRequest({
     method: 'POST',
     headers: {
+      'Content-Type': 'application/json',
       host: endpoint.host
     },
     hostname: endpoint.host,

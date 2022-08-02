@@ -5,9 +5,11 @@ Amplify Flutter uses the amplify-ios library on the iOS platform to facilitate W
 As noted in the amplify-ios documentation, it is possible to use a private session when calling `Auth.signInWithWebUI`. This will bypass the permissions dialog that is displayed to the end user, although it will also prevent reuse of existing sessions from the user's browser. For example, if the user is logged into Google in their browser and try to sign in using Google in your app, they would now need to re-enter their credentials.
 
 ```dart
-await Amplify.Auth.signInWithWebUI(
-  options: const CognitoSignInWithWebUIOptions(
-    isPreferPrivateSession: preferPrivateSession
-  )
-)
+Future<void> signInWithWebUIAndPrivateSession() async {
+  await Amplify.Auth.signInWithWebUI(
+    options: const CognitoSignInWithWebUIOptions(
+      isPreferPrivateSession: preferPrivateSession
+    )
+  );
+}
 ```
