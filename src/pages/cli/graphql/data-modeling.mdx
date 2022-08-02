@@ -249,9 +249,14 @@ mutation CreatePost {
 }
 ```
 
-Under the hood, `@hasMany` configures a secondary index on the related table to enable you to query the related model from the source model.
+Under the hood, `@hasMany` configures a default secondary index on the related table to enable you to query the related model from the source model.
 
-You can customize the specific secondary index used for the "has many" relationship. First, configure a secondary index using `@index`. Then, pass in the secondary index name `indexName` parameter and the respective `fields` which match the connected index.
+To customize the specific secondary index used for the "has many" relationship, create an `@index` directive on the field in the related table where you want to assign the secondary index. 
+
+Next, provide the secondary index with a `name` attribute and a value. Optionally, you can configure a “sort key” on the secondary index by providing a `sortKeyFields` attribute and a designated field as its value.
+
+On the `@hasMany` configuration, pass in the name value from your secondary index as the value for the `indexName` parameter. Then, pass in the respective `fields` that match the connected index.
+
 
 ```graphql
 type Post @model {
