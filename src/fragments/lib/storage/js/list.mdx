@@ -95,3 +95,19 @@ Storage.list('photos/', { level: 'private' })
     .then(result => console.log(result))
     .catch(err => console.log(err));
 ```
+
+## Access ALL files 
+
+To list ALL files from S3, you can set maxKeys to 'ALL'. 
+
+```javascript
+
+Storage.list('photos/', { maxKeys : 'ALL' })
+.then(result => console.log(result))
+.catch(err => console.log(err));;
+
+```
+
+<Callout>
+Note: The range of maxKeys can be from 0 - 1000 or 'ALL'
+</Callout>
