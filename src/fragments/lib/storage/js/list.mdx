@@ -98,7 +98,7 @@ Storage.list('photos/', { level: 'private' })
 
 ## Access all files 
 
-To get a list of all files in your S3 bucket under a specific prefix, you can set maxKeys to ALL.
+To get a list of all files in your S3 bucket under a specific prefix, you can set maxKeys to ALL. The default value of maxKeys is 1000.
 
 ```javascript
 
@@ -109,5 +109,5 @@ Storage.list('photos/', { maxKeys : 'ALL' })
 ```
 
 <Callout>
-Note: The range of maxKeys can be from 0 - 1000 or 'ALL'
+Note: The range of maxKeys can be from 0 - 1000 or 'ALL'.
 </Callout>
