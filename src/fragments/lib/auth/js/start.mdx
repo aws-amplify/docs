@@ -83,6 +83,10 @@ Amplify.configure({
 
         // OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
         mandatorySignIn: false,
+        
+        // OPTIONAL - This is used when autoSignIn is enabled for Auth.signUp
+        // 'code' is used for Auth.confirmSignUp, 'link' is used for email link verification
+        signUpVerificationMethod: 'code', // 'code' | 'link' 
 
         // OPTIONAL - Configuration for cookie storage
         // Note: if the secure flag is set to true, then the cookie transmission requires a secure protocol
