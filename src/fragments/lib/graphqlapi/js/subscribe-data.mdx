@@ -40,7 +40,7 @@ Amplify.configure({
 
 ### Subscription connection status updates
 
-While there are active subscription, the device is running your application and the network is healthy, your application will maintain a connection with AppSync. If you need to monitor the connection state, these states are made available via Hub.
+Now that your application is setup and using subscriptions, you may want to know when the subscription is finally up and running, or reflect to your users when the subscription isn't healthy. You can monitor the connection state for changes via Hub.
 
 ```typescript
 import { CONNECTION_STATE_CHANGE, ConnectionState } from '@aws-amplify/pubsub';
