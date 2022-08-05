@@ -8,13 +8,13 @@ With a predicate:
 
 ```java
 Amplify.DataStore.query(Book.class, Where.identifier(Book.class, "12345"),
-                matches -> {
-                    if (matches.hasNext()) {
-                        Book book = matches.next();
-                       Log.i("MyAmplifyApp", "Title: " + book.getTitle());
-                    }
-                },
-                failure -> Log.e("MyAmplifyApp", "Query failed.", failure));
+    matches -> {
+        if (matches.hasNext()) {
+            Book book = matches.next();
+            Log.i("MyAmplifyApp", "Title: " + book.getTitle());
+        }
+    },
+    failure -> Log.e("MyAmplifyApp", "Query failed.", failure));
 ```
 
 </Block>
