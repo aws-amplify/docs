@@ -23,7 +23,7 @@ type Book @model {
 }
 ```
 
-With custom primary keys, you can provide a unique value using the `@primaryKey` directive:
+With custom primary keys, you can provide a unique field name and/or value using the `@primaryKey` directive:
 
 <BlockSwitcher>
 <Block name="Custom Primary Key">
@@ -55,48 +55,121 @@ type Book @model {
 The following table explains when a value for the custom primary key must be provided:
 
 <table>
-  <tbody>
-    <tr>
-      <th>Description</th>
-      <th>Type</th>
-      <th>Autopopulated with UUID</th>
-    </tr>
-    <tr>
-      <td>Without @primaryKey</td>
-      <td>TODO: render type in td</td>
-      <td>✅ Yes</td>
-    </tr>
-    <tr>
-      <td>Without @primaryKey, explicit `id` field</td>
-      <td>TODO: render type in td</td>
-      <td>✅ Yes</td>
-    </tr>
-    <tr>
-      <td>@primaryKey on a custom field</td>
-      <td>TODO: render type in td</td>
-      <td>❌ No</td>
-    </tr>
-    <tr>
-      <td>Explicit @primaryKey on `id` field</td>
-      <td>TODO: render type in td</td>
-      <td>If not provided in constructor/builder</td>
-    </tr>
-    <tr>
-      <td>Explicit @primaryKey on `id` field with sort key</td>
-      <td>TODO: render type in td</td>
-      <td>If not provided in constructor/builder</td>
-    </tr>
-    <tr>
-      <td>Explicit `id` field in sort key</td>
-      <td>TODO: render type in td</td>
-      <td>If not provided in constructor/builder</td>
-    </tr>
-    <tr>
-      <td>@primaryKey with no `id` field</td>
-      <td>TODO: render type in td</td>
-      <td>❌ No</td>
-    </tr>
-  </tbody>
+<tbody>
+<tr>
+<th>Description</th>
+<th>Type</th>
+<th>Autopopulated with UUID</th>
+</tr>
+<tr>
+<td>Without @primaryKey</td>
+<td>
+
+```graphql
+type Customer @model {  
+  firstName: String
+  lastName: String
+}
+```
+
+</td>
+<td>✅ Yes</td>
+</tr>
+<tr>
+<td>Without @primaryKey, explicit `id` field</td>
+<td>
+
+```graphql
+type Customer @model {  
+  id: ID!  
+  firstName: String  
+  lastName: String
+}
+```
+
+</td>
+<td>✅ Yes</td>
+</tr>
+<tr>
+<td>@primaryKey on a custom field</td>
+<td>
+
+```graphql
+type Customer @model {  
+  customerId: ID! @primaryKey  
+  firstName: String  
+  lastName: String
+}
+```
+
+</td>
+<td>❌ No</td>
+</tr>
+<tr>
+<td>Explicit @primaryKey on `id` field</td>
+<td>
+
+```graphql
+type Customer@model {  
+  id: ID! @primaryKey  
+  dob: AWSDateTime!  
+  firstName: String  
+  lastName: String
+}
+```
+
+</td>
+<td>If not provided in constructor/builder</td>
+</tr>
+<tr>
+<td>Explicit @primaryKey on `id` field with sort key</td>
+<td>
+
+```graphql
+type Customer @model {  
+  id: ID! @primaryKey(sortKeyFields: ["dob"])  
+  dob: AWSDateTime!  
+  firstName: String  
+  lastName: String
+}
+```
+
+</td>
+<td>If not provided in constructor/builder</td>
+</tr>
+<tr>
+<td>Explicit `id` field in sort key</td>
+<td>
+
+```graphql
+type Customer@model {  
+  country: String! @primaryKey(sortKeyFields: ["id"])  
+  id: ID!  
+  firstName: String  
+  lastName: String
+}
+```
+
+</td>
+<td>If not provided in constructor/builder</td>
+</tr>
+<tr>
+<td>@primaryKey with no `id` field</td>
+<td>
+
+```graphql
+type Customer @model {  
+  country: String! @primaryKey(sortKeyFields: ["username"])  
+  username: String!  
+  firstName: String  
+  lastName: String
+}
+```
+
+</td>
+<td>❌ No</td>
+</tr>
+</tbody>
 </table>
 
 ### Querying records with Custom Primary Keys:
@@ -117,15 +190,9 @@ import js0 from '/src/fragments/lib/datastore/js/advanced-workflows/custom-prima
 
 <Fragments fragments={{ js: js0 }} />
 
-### Deleting records with Custom Primary Keys:
-
 import android1 from '/src/fragments/lib/datastore/android/advanced-workflows/custom-primary-key/delete-snippet.mdx';
 
 <Fragments fragments={{ android: android1 }} />
-
-import flutter1 from '/src/fragments/lib/datastore/flutter/advanced-workflows/custom-primary-key/delete-snippet.mdx';
-
-<Fragments fragments={{ flutter: flutter1 }} />
 
 import ios1 from '/src/fragments/lib/datastore/ios/advanced-workflows/custom-primary-key/delete-snippet.mdx';
 

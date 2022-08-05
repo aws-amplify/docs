@@ -42,7 +42,7 @@ Open `MainActivity.kt` and add the following to the bottom of `onCreate()`:
 
 ```kotlin
 Amplify.Predictions.translateText("I like to eat spaghetti",
-    { Log.i("MyAmplifyApp", it.translatedText) }
+    { Log.i("MyAmplifyApp", it.translatedText) },
     { Log.e("MyAmplifyApp", "Translation failed", it) }
 )
 ```
@@ -107,7 +107,7 @@ Amplify.Predictions.translateText(
 ```kotlin
 Amplify.Predictions.translateText(
     "I like to eat spaghetti", LanguageType.ENGLISH, LanguageType.RUSSIAN,
-    { Log.i("MyAmplifyApp", it.translatedText) }
+    { Log.i("MyAmplifyApp", it.translatedText) },
     { Log.e("MyAmplifyApp", "Translation failed", it) }
 )
 ```
