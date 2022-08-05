@@ -107,7 +107,7 @@ public void detectText(Bitmap image) {
             image,
             result -> {
                 IdentifyDocumentTextResult identifyResult = (IdentifyDocumentTextResult) result;
-                Log.i("MyAmplifyApp", identifyResult.getFullText())
+                Log.i("MyAmplifyApp", identifyResult.getFullText());
             },
             error -> Log.e("MyAmplifyApp", "Identify failed", error)
     );
@@ -153,7 +153,7 @@ public void detectText(Bitmap image) {
             .subscribe(
                 result -> {
                     IdentifyDocumentTextResult identifyResult = (IdentifyDocumentTextResult) result;
-                    Log.i("MyAmplifyApp", identifyResult.getFullText())
+                    Log.i("MyAmplifyApp", identifyResult.getFullText());
                 },
                 error -> Log.e("MyAmplifyApp", "Identify failed", error)
             );

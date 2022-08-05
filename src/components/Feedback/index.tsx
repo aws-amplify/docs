@@ -93,7 +93,7 @@ export default function Feedback() {
   }
 
   return (
-    <FeedbackContainer style={state === FeedbackState.HIDDEN ? {display: 'none'} : {} }>
+    <FeedbackContainer style={state === FeedbackState.HIDDEN ? { display: 'none' } : {}}>
       {state == FeedbackState.START ? (
         <>
           <p>{feedbackQuestion}</p>
@@ -127,9 +127,9 @@ export default function Feedback() {
           </VoteButtonsContainer>
         </>
       ) : (
-          <ThankYouContainer>
-            <p>{feedbackAppreciation}</p>
-          </ThankYouContainer>
+        <ThankYouContainer>
+          <p>{feedbackAppreciation}</p>
+        </ThankYouContainer>
       )}
     </FeedbackContainer>
   );
