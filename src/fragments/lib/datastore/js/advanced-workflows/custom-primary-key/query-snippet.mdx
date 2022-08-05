@@ -11,7 +11,7 @@ With a predicate:
 <Block name="Custom Primary Key">
 
 ```js
-const book = await DataStore.query(Book, b =>
+const books = await DataStore.query(Book, b =>
     t.isbn('eq', '12345')
 );
 ```
@@ -20,7 +20,7 @@ const book = await DataStore.query(Book, b =>
 <Block name="Composite Key">
 
 ```js
-const book = await DataStore.query(Book, b =>
+const books = await DataStore.query(Book, b =>
     t.isbn('eq', '12345').title('eq', 'My Book')
 );
 ```
