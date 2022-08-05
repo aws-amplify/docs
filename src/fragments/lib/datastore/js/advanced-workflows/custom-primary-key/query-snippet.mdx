@@ -43,6 +43,7 @@ const book = await DataStore.query(Book, {
 <Block name="Composite Key">
 
 ```js
+// Both keys are required for composite keys
 const book = await DataStore.query(Book, {
     isbn: '12345',
     title: 'My Book',
