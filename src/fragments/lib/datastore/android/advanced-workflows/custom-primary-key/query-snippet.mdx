@@ -22,13 +22,13 @@ Amplify.DataStore.query(Book.class, Where.identifier(Book.class, "12345"),
 
 ```kotlin
 Amplify.DataStore.query(Book::class.java, Where.identifier(Book::class.java, "12345"),
-          { allBooks: Iterator<Book> ->
-              while (allBooks.hasNext()) {
-                  val book = allBooks.next()
-                  Log.i("MyAmplifyApp", "Title: " + book.title)
-              }
-                                  },
-         { failure: DataStoreException? -> Log.e("MyAmplifyApp", "Query failed.", failure) })
+    { allBooks: Iterator<Book> ->
+        while (allBooks.hasNext()) {
+            val book = allBooks.next()
+            Log.i("MyAmplifyApp", "Title: " + book.title)
+        }
+                            },
+   { failure: DataStoreException? -> Log.e("MyAmplifyApp", "Query failed.", failure) })
 ```
 
 </Block>
@@ -60,14 +60,14 @@ RxAmplify.DataStore.query(Book.class, Where.identifier(Book::class.java, "12345"
 
 ```java
 Amplify.DataStore.query(Book.class, Where.identifier(Book.class,
-                new BookIdentifier( "12345", "My Title")),
-                matches -> {
-                    if (matches.hasNext()) {
-                        Book book = matches.next();
-                       Log.i("MyAmplifyApp", "Title: " + book.getTitle());
-                    }
-                },
-                failure -> Log.e("MyAmplifyApp", "Query failed.", failure));
+    new BookIdentifier( "12345", "My Title")),
+    matches -> {
+        if (matches.hasNext()) {
+            Book book = matches.next();
+           Log.i("MyAmplifyApp", "Title: " + book.getTitle());
+        }
+    },
+    failure -> Log.e("MyAmplifyApp", "Query failed.", failure));
 ```
 
 </Block>
@@ -76,13 +76,13 @@ Amplify.DataStore.query(Book.class, Where.identifier(Book.class,
 ```kotlin
 Amplify.DataStore.query(Book::class.java, Where.identifier(Book::class.java,
                                           BookIdentifier( "12345", "My Title")),
-          { allBooks: Iterator<Book> ->
-              while (allBooks.hasNext()) {
-                  val book = allBooks.next()
-                  Log.i("MyAmplifyApp", "Title: " + book.title)
-              }
-                                  },
-         { failure: DataStoreException? -> Log.e("MyAmplifyApp", "Query failed.", failure) })
+    { allBooks: Iterator<Book> ->
+        while (allBooks.hasNext()) {
+            val book = allBooks.next()
+            Log.i("MyAmplifyApp", "Title: " + book.title)
+        }
+                            },
+   { failure: DataStoreException? -> Log.e("MyAmplifyApp", "Query failed.", failure) })
 ```
 
 </Block>
@@ -90,9 +90,9 @@ Amplify.DataStore.query(Book::class.java, Where.identifier(Book::class.java,
 
 ```kotlin
 Amplify.DataStore.query(Book::class, Where.identifier(Book::class.java,
-          BookIdentifier( "12345", "My Title")))
-    .catch { Log.e("MyAmplifyApp", "Query failed", it) }
-    .collect { Log.i("MyAmplifyApp", "Title: ${it.title}") }
+        BookIdentifier( "12345", "My Title")))
+  .catch { Log.e("MyAmplifyApp", "Query failed", it) }
+  .collect { Log.i("MyAmplifyApp", "Title: ${it.title}") }
 ```
 
 </Block>
