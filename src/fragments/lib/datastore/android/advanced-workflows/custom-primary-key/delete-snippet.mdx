@@ -13,16 +13,16 @@ With a predicate:
 ```java
 Amplify.DataStore.query(Book.class, Where.identifier(Book.class,
                                                       Where.identifier(Book.class, "12345")),
-                matches -> {
-                    if (matches.hasNext()) {
-                        Book book = matches.next();
-                        Amplify.DataStore.delete(book,
-                                deleted -> Log.i("MyAmplifyApp", "Deleted a book."),
-                                failure -> Log.e("MyAmplifyApp", "Delete failed.", failure)
-                        );
-                    }
-                },
-                failure -> Log.e("MyAmplifyApp", "Query failed.", failure));
+    matches -> {
+        if (matches.hasNext()) {
+            Book book = matches.next();
+            Amplify.DataStore.delete(book,
+                    deleted -> Log.i("MyAmplifyApp", "Deleted a book."),
+                    failure -> Log.e("MyAmplifyApp", "Delete failed.", failure)
+            );
+        }
+    },
+    failure -> Log.e("MyAmplifyApp", "Query failed.", failure));
 
 ```
 
