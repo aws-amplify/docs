@@ -66,7 +66,7 @@ The following table explains when a value for the custom primary key must be pro
 <td>
 
 ```graphql
-type Customer @model {  
+type Customer @model {
   firstName: String
   lastName: String
 }
@@ -80,9 +80,9 @@ type Customer @model {
 <td>
 
 ```graphql
-type Customer @model {  
-  id: ID!  
-  firstName: String  
+type Customer @model {
+  id: ID!
+  firstName: String
   lastName: String
 }
 ```
@@ -95,9 +95,9 @@ type Customer @model {
 <td>
 
 ```graphql
-type Customer @model {  
-  customerId: ID! @primaryKey  
-  firstName: String  
+type Customer @model {
+  customerId: ID! @primaryKey
+  firstName: String
   lastName: String
 }
 ```
@@ -110,10 +110,10 @@ type Customer @model {
 <td>
 
 ```graphql
-type Customer@model {  
-  id: ID! @primaryKey  
-  dob: AWSDateTime!  
-  firstName: String  
+type Customer@model {
+  id: ID! @primaryKey
+  dob: AWSDateTime!
+  firstName: String
   lastName: String
 }
 ```
@@ -126,10 +126,11 @@ type Customer@model {
 <td>
 
 ```graphql
-type Customer @model {  
-  id: ID! @primaryKey(sortKeyFields: ["dob"])  
-  dob: AWSDateTime!  
-  firstName: String  
+type Customer @model {
+  id: ID! @primaryKey
+    (sortKeyFields: ["dob"])
+  dob: AWSDateTime!
+  firstName: String
   lastName: String
 }
 ```
@@ -143,9 +144,10 @@ type Customer @model {
 
 ```graphql
 type Customer@model {  
-  country: String! @primaryKey(sortKeyFields: ["id"])  
-  id: ID!  
-  firstName: String  
+  country: String! @primaryKey
+    (sortKeyFields: ["id"])
+  id: ID!
+  firstName: String
   lastName: String
 }
 ```
@@ -158,10 +160,11 @@ type Customer@model {
 <td>
 
 ```graphql
-type Customer @model {  
-  country: String! @primaryKey(sortKeyFields: ["username"])  
-  username: String!  
-  firstName: String  
+type Customer @model {
+  zip: String! @primaryKey
+    (sortKeyFields: ["username"])
+  username: String!
+  firstName: String
   lastName: String
 }
 ```
