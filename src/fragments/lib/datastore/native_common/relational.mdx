@@ -82,6 +82,12 @@ However, in a many-to-many relationship the children are not removed and you mus
 
 For many-to-many relationships, you can use the `@manyToMany` directive and specify a `relationName`. Under the hood, Amplify creates a join table and a one-to-many relationship from both models.
 
+<Callout warning>
+
+Join table records must be deleted prior to deleting the associated records
+
+</Callout>
+
 ```graphql
 enum PostStatus {
   ACTIVE
