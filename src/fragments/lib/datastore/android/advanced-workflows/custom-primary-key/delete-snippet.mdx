@@ -84,8 +84,8 @@ Amplify.DataStore.query(Book.class, Where.identifier(Book.class, Where.identifie
         if (matches.hasNext()) {
             Book book = matches.next();
             Amplify.DataStore.delete(book,
-                    deleted -> Log.i("MyAmplifyApp", "Deleted a book."),
-                    failure -> Log.e("MyAmplifyApp", "Delete failed.", failure)
+              deleted -> Log.i("MyAmplifyApp", "Deleted a book."),
+              failure -> Log.e("MyAmplifyApp", "Delete failed.", failure)
             );
         }
     },
