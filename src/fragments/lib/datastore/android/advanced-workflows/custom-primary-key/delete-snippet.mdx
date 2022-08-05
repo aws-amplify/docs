@@ -78,16 +78,16 @@ RxAmplify.DataStore.query(Book.class, Where.identifier(Book::class.java, "12345"
 ```java
 Amplify.DataStore.query(Book.class, Where.identifier(Book.class, Where.identifier(Book::class.java,
                                                       new BookIdentifier( "12345", "My Title")),
-                matches -> {
-                    if (matches.hasNext()) {
-                        Book book = matches.next();
-                        Amplify.DataStore.delete(book,
-                                deleted -> Log.i("MyAmplifyApp", "Deleted a book."),
-                                failure -> Log.e("MyAmplifyApp", "Delete failed.", failure)
-                        );
-                    }
-                },
-                failure -> Log.e("MyAmplifyApp", "Query failed.", failure));
+    matches -> {
+        if (matches.hasNext()) {
+            Book book = matches.next();
+            Amplify.DataStore.delete(book,
+                    deleted -> Log.i("MyAmplifyApp", "Deleted a book."),
+                    failure -> Log.e("MyAmplifyApp", "Delete failed.", failure)
+            );
+        }
+    },
+    failure -> Log.e("MyAmplifyApp", "Query failed.", failure));
 
 ```
 
