@@ -84,7 +84,7 @@ For many-to-many relationships, you can use the `@manyToMany` directive and spec
 
 <Callout warning>
 
-Join table records must be deleted prior to deleting the associated records
+Join table records must be deleted prior to deleting the associated records. For example, for a many-to-many relationship between Posts and Tags, delete the PostTags join record prior to deleting a Post or Tag.
 
 </Callout>
 
