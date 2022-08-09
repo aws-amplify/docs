@@ -2,7 +2,7 @@ To work well with server-rendered pages, Amplify JS requires slight modification
 
 <Callout>
 
-The SSR implementation from Amplify will only work with server side functions that have a `req` object such as `getServerSideProps` using NextJS. Server side functions such as `getStaticPaths` and `getStaticProps` will not work.
+You cannot use Amplify JS to run authenticated requests using server side functions that do not have a `req` object such as `getStaticPaths` or `getStaticProps` from NextJS.
 
 </Callout>
 
