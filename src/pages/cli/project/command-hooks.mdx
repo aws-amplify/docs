@@ -6,6 +6,12 @@ export const meta = {
 Use Command Hooks to execute custom scripts before, during, and after Amplify CLI commands (“amplify push”, “amplify api gql-compile”, and more). This allows you to extend Amplify’s best-practice defaults to meet your organization’s specific security guidelines and operational requirements.
 
 ## Adding a command hook
+<Callout>
+
+Hooks need to be checked into source control in order to be made available across machines. `amplify pull` will not re-create the hooks folder automatically as these are considered changes that need to be committed to the repository.
+
+</Callout>
+
 Place your custom scripts in the `amplify/hooks` directory and set the script file name to the desired command with a pre or post designation. For example `post-add-function.js` will execute the script after `amplify add function`. For more information about the script naming convention, see [How to name command hook scripts](#how-to-name-command-hook-scripts).
 
 For this example, let's create a hook to ensure that a minimum major Amplify CLI version is used before deployment (`amplify push`).
@@ -259,20 +265,20 @@ getParameters()
 ```
 
 ## Using command hooks in Amplify's CI/CD pipeline
-Command hooks are executed when [CI/CD builds are triggered on Amplify Console](https://docs.aws.amazon.com/amplify/latest/userguide/multi-environments.html). To execute hook scripts in the Amplify Console, add the hook scripts to the `amplify/hooks` directory and commit them to your source control.
+Command hooks are executed when [CI/CD builds are triggered on Amplify Hosting](https://docs.aws.amazon.com/amplify/latest/userguide/multi-environments.html). To execute hook scripts in the Amplify Hosting, add the hook scripts to the `amplify/hooks` directory and commit them to your source control.
 
-By default only `pre-push` and `post-push` hooks will be executed on builds in Amplify Console.
+By default only `pre-push` and `post-push` hooks will be executed on builds in Amplify Hosting.
 
-To use scripting runtimes other than Node.js and Bash, see [Adding a custom scripting runtime](#adding-a-custom-scripting-runtime) and also update the **Build Settings** in Amplify Console to include the runtime executable.
+To use scripting runtimes other than Node.js and Bash, see [Adding a custom scripting runtime](#adding-a-custom-scripting-runtime) and also update the **Build Settings** in Amplify Hosting to include the runtime executable.
 
-In this example, we'll add a `python` hook script running in the Amplify Console's CI/CD pipeline:
+In this example, we'll add a `python` hook script running in the Amplify Hosting's CI/CD pipeline:
 
 1. Add the python hook script along with `hooks-config.json` to the hooks directory.
     ```bash
     touch amplify/hooks/hooks-config.json
     ```
 
-2. Navigate to your app in the Amplify Console and select **App settings** > **Build settings** to update the `preBuild` phase to install python.
+2. Navigate to your app in the Amplify Hosting and select **App settings** > **Build settings** to update the `preBuild` phase to install python.
     ```yaml
     ...
     backend:
@@ -284,7 +290,7 @@ In this example, we'll add a `python` hook script running in the Amplify Console
     ...
     ```
 
-3. Add `python3` to `hooks-config.json` and push the change to your source control to trigger the Amplify Console build.
+3. Add `python3` to `hooks-config.json` and push the change to your source control to trigger the Amplify Hosting build.
     ```json
     {
         "extensions": {
