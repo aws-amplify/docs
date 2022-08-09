@@ -56,7 +56,11 @@ import { ComponentA, ComponentB }  from './ui-components';
 ![Duplicate the new figma file](/images/console/ui-figma-file.png)
 1. (optional) Delete all the components in the 'My Components' page of the new Figma file.
 1. Copy everything in the 'My Components' page of your old Figma file and paste it into the 'My Components' page of the new Figma file.
-1. Launch the [Amplify Theme Editor plugin](https://www.figma.com/community/plugin/1040722185526429545/AWS-Amplify-Theme-Editor) and click the update button. (optional) View which components are broken by examining the broken component links. ![figma](/images/console/figma-migration.gif)
+1. In the new Figma file, launch the [Amplify Theme Editor plugin](https://www.figma.com/community/plugin/1040722185526429545/AWS-Amplify-Theme-Editor) and click 
+the update button. (optional) View which component instances are outdated by clicking the 
+broken component links. Update the broken component instances to point to matching local 
+components on the 'Primitives' page. **This is important because if you do not do this, your design might look ok, but the React code it generates won't use
+ the [Amplify UI components](https://ui.docs.amplify.aws).**
 
 
 ### Figma file changelog
