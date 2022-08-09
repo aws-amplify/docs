@@ -33,7 +33,7 @@ your redirect URI prefix if necessary:
 ```
 
 You may now skip the instructions below for adding a response handler to your activity.
-  
+
 If you want to add a redirect to an Activity when the user signs in or signs out, add an
 `<activity>` block like the following inside your `<application>`:
 
@@ -62,7 +62,8 @@ whatever value you used for your redirect URI prefix:
 
 ```xml
 <activity
-    android:name="com.amazonaws.mobileconnectors.cognitoauth.activities.CustomTabsRedirectActivity">
+    android:name="com.amazonaws.mobileconnectors.cognitoauth.activities.CustomTabsRedirectActivity"
+    android:exported="true">
     <intent-filter>
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />
@@ -112,7 +113,7 @@ If you are using a version of Amplify 1.17.8 or above and have already declared 
 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
 
-    if (requestCode == AWSCognitoAuthPlugin.WEB_UI_SIGN_IN_ACTIVITY_CODE && 
+    if (requestCode == AWSCognitoAuthPlugin.WEB_UI_SIGN_IN_ACTIVITY_CODE &&
         resultCode == Activity.RESULT_CANCELLED) {
         Log.i("AuthQuickStart", "User cancelled sign in");
     }
@@ -126,7 +127,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     super.onActivityResult(requestCode, resultCode, data)
 
-    if (requestCode == AWSCognitoAuthPlugin.WEB_UI_SIGN_IN_ACTIVITY_CODE && 
+    if (requestCode == AWSCognitoAuthPlugin.WEB_UI_SIGN_IN_ACTIVITY_CODE &&
         resultCode == Activity.RESULT_CANCELLED) {
         Log.i("AuthQuickStart", "User cancelled sign in")
     }

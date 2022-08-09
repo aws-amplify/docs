@@ -7,7 +7,7 @@ Sign-in with web UI will display the sign-in UI inside a webview. After the sign
 
 ## Android Platform Setup
 
-Add the following `activity` and `queries` tag to the `AndroidManifest.xml` file in your app's `android/app/src/main` directory, 
+Add the following `activity` and `queries` tag to the `AndroidManifest.xml` file in your app's `android/app/src/main` directory,
 replacing `myapp` with your redirect URI prefix if necessary. Note that this differs from the amplify-flutter stable release, so you will need to make these changes even if you are transitioning an existing project.
 
 ```xml
@@ -20,7 +20,8 @@ replacing `myapp` with your redirect URI prefix if necessary. Note that this dif
 <application>
   ...
   <activity
-      android:name="com.amplifyframework.auth.cognito.activities.HostedUIRedirectActivity">
+      android:name="com.amplifyframework.auth.cognito.activities.HostedUIRedirectActivity"
+      android:exported="true">
       <intent-filter>
           <action android:name="android.intent.action.VIEW" />
           <category android:name="android.intent.category.DEFAULT" />
@@ -92,7 +93,7 @@ Replace `myapp` with your redirect URI scheme as necessary:
 <application>
   ...
   <activity
-        android:name=".MainActivity">
+        android:name=".MainActivity" android:exported="true">
         <intent-filter>
             <action android:name="android.intent.action.VIEW" />
             <category android:name="android.intent.category.DEFAULT" />
@@ -112,7 +113,7 @@ Open XCode and enable the App Sandbox capability and then select "Incoming Conne
 
 ## iOS, Windows and Linux Setup
 
-No specific platform configuration is required. 
+No specific platform configuration is required.
 
 </Block>
 
