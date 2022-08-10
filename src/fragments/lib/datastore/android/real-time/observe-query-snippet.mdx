@@ -3,34 +3,34 @@
 
 ```java
 String tag = "ObserveQuery";
-        Consumer<DataStoreQuerySnapshot<Post>> onQuerySnapshot = value ->{
-            Log.d(tag, "success on snapshot");
-            Log.d(tag, "number of records: " + value.getItems().size());
-            Log.d(tag, "sync status: " + value.getIsSynced());
-        };
-        Consumer<Cancelable> observationStarted = value ->{
-            Log.d(tag, "success on cancelable");
-        };
-        Consumer<DataStoreException> onObservationError = value ->{
-            Log.d(tag, "error on snapshot$value");
-        };
-        Action onObservationComplete = () ->{
-            Log.d(tag, "complete");
-        };
-        QueryPredicate predicate =
-                Post.TITLE.beginsWith("post").and(Post.RATING.gt(10));
-        QuerySortBy querySortBy = new QuerySortBy("post", "rating", QuerySortOrder.ASCENDING);
-        List<QuerySortBy> sortByList = new ArrayList<QuerySortBy>();
-        sortByList.add(querySortBy);
-        ObserveQueryOptions options = new ObserveQueryOptions(predicate, sortByList);
-        Amplify.DataStore.<Post>observeQuery(
-                Post.class,
-                options,
-                observationStarted,
-                onQuerySnapshot,
-                onObservationError,
-                onObservationComplete
-        );
+Consumer<DataStoreQuerySnapshot<Post>> onQuerySnapshot = value ->{
+        Log.d(tag, "success on snapshot");
+        Log.d(tag, "number of records: " + value.getItems().size());
+        Log.d(tag, "sync status: " + value.getIsSynced());
+};
+Consumer<Cancelable> observationStarted = value ->{
+        Log.d(tag, "success on cancelable");
+};
+Consumer<DataStoreException> onObservationError = value ->{
+        Log.d(tag, "error on snapshot$value");
+};
+Action onObservationComplete = () ->{
+        Log.d(tag, "complete");
+};
+QueryPredicate predicate =
+        Post.TITLE.beginsWith("post").and(Post.RATING.gt(10));
+QuerySortBy querySortBy = new QuerySortBy("post", "rating", QuerySortOrder.ASCENDING);
+List<QuerySortBy> sortByList = new ArrayList<QuerySortBy>();
+sortByList.add(querySortBy);
+ObserveQueryOptions options = new ObserveQueryOptions(predicate, sortByList);
+Amplify.DataStore.<Post>observeQuery(
+        Post.class,
+        options,
+        observationStarted,
+        onQuerySnapshot,
+        onObservationError,
+        onObservationComplete
+);
 ```
 
 </Block>

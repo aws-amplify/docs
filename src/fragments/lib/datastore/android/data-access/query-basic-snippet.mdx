@@ -18,8 +18,8 @@ Amplify.DataStore.query(Post.class,
 
 ```kotlin
 Amplify.DataStore.query(Post::class.java,
-    { posts ->
-        while (posts.hasNext()) {
+    { allPosts ->
+        while (allPosts.hasNext()) {
             val post = allPosts.next()
             Log.i("MyAmplifyApp", "Title: ${post.title}")
         }
