@@ -1,4 +1,7 @@
-Query by primary key value:
+A record of a model with custom primary key can be queried with query predicate in the following ways:
+
+<BlockSwitcher>
+<Block name="Query by primary key value">
 
 ```dart
 final book = (
@@ -8,28 +11,32 @@ final book = (
   ),
 )[0];
 ```
+</Block>
 
-Query by model identifier of the model:
+<Block name="Query by model identifier">
 
 You should always query by model identifier if the model has a composite primary key.
 
+If you know the value of each field of the composite primary key, you can create a instance of the model identifier by using codegen generated class to create a query predicate:
+
 ```dart
-// Create a query predicate with a new instance of the model identifier
 final book = (
   await Amplify.DataStore.query(
     Book.classType,
     where: Book.MODEL_IDENTIFIER.eq(
-      // BookModelIdentifier is a codegen generated class that is exported
-      // from ModelProvider.dart
+      // BookModelIdentifier is a codegen generated class
+      // that is exported from ModelProvider.dart
       BookModelIdentifier(
         isbn: '12345',
       ),
     ),
   ),
 )[0];
+```
 
-// Create a query predicate with model identifier of an existing instance
-// of the Book model
+If you have the reference of a model instance, you can use the getter `modelIdentifier` to get the identifier of this instance, and to create a query predicate with it.
+
+```dart
 final reQueriedBook = (
   await Amplify.DataStore.query(
     Book.classType,
@@ -39,3 +46,5 @@ final reQueriedBook = (
   ),
 )[0];
 ```
+</Block>
+</BlockSwitcher>
