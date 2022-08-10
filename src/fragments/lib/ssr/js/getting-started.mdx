@@ -71,8 +71,6 @@ export async function getServerSideProps({ req }) {
 }
 ```
 
-Server-side functions that _don't_ have a `req` object (e.g. Next.js' `getStaticProps` & `getStaticPaths`) should still use `withSSRContext()`.
-
 ## DataStore
 
 ### Serializing
