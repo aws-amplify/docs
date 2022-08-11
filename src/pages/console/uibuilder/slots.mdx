@@ -1,0 +1,127 @@
+export const meta = {
+  title: `Slots`,
+  description: `Add slots to Amplify Studio generated Figma-to-code components.  Used to support Nested Components or Collections in React code.`,
+};
+
+Slots are containers within your Studio UI components that can contain children, such as custom code, other components, and collections.  You can use slots to combine components without editing in Figma, or to create dynamically generated children, like Comments on a Post.  
+
+## Adding a slot
+First, navigate to the Amplify Studio UI Library, and select a Figma component that you've imported into Studio.  If you don't have any Figma components already, you can start with [Amplify's Figma UI file](/console/uibuilder/figmatocode/).  Then, configure that component by clicking the gear icon.  
+
+*(a .gif will be added here)*
+
+Next, select a Figma Element within your component.  On the right-hand bar, you will see the option to `Convert to a slot`.  Click this option, and give your slot a memorable name to use later - we'll name our slot `comments`.
+
+*(a .gif will be added here)*
+
+<Callout warning>
+
+Want to undo your slot creation?  Click `Delete` to remove the component, and then `Sync with Figma` to import the original component again.  
+
+Note, however, that this will also delete any collections created based on this component.
+
+</Callout>
+
+## Importing your component
+Once you've added a slot to your component, click the `</> Get component code` button to see instructions on the next steps.  
+1. First, copy the `amplify pull` command, and run it in your Terminal.  This will retrieve your new component.  
+2. Next, copy the import code and paste it in your App.js file
+3. Lastly, render the component by calling it in JSX
+
+```jsx
+/*Import your component*/
+import { 
+  Instagram 
+} from '.ui-components'
+
+function App() {
+  return (
+    /*Render your component*/
+    <div>
+      <Instagram />
+    </div>
+  );
+}
+
+export default App;
+
+```
+
+## Using your slot
+To use the slot within your component, call the slot name as a `prop` of the component.  Then, you can pass code, or even another component, into this prop, and it will be rendered as a child of the component.  
+
+
+```jsx
+import { 
+  Instagram 
+} from '.ui-components'
+
+function App() {
+  return (
+    <div>
+      <h1>Simple Slot Children</h1>
+      <Instagram comments={
+        /* Pass your content into the slot */
+        <div> 
+          <h1>Hi mom!</h1>
+          <p>Thanks for checking out my app</p>
+        </div>
+      }/>
+    </div>
+  );
+}
+
+export default App;
+
+```
+
+## Adding slots to collections
+Any component can be [converted to a collection](/console/uibuilder/collections/) and bound to data, and that includes components with slots.  With a collection, you can [extend your component via code](/console/uibuilder/override/) using the `overrideItems` prop to generate unique content within each component slot.  
+
+```jsx
+import { 
+  InstagramCollection 
+} from './ui-components'
+
+function App() {
+  return (
+    <div>
+       <h1>Collection with Slots</h1>
+      <InstagramCollection overrideItems={({ item, index }) => ({
+        comments: 'This is collection item number '+index+' with ID '+item.id
+      }) }/>
+    </div>
+  );
+}
+
+export default App;
+```
+
+## Nesting Collections
+Slots within collections become extremely useful when used to render additional nested collections.  This can be used to generate a collection of posts, each with its own collection of comments.  
+
+In this example, we have two collections: `InstagramCollection` and `CommentViewCollection`.  These are bound to the `Post` and `Comment` data models, which have a [single-to-many relationship](/console/data/relationships/).  
+
+By nesting the `CommentViewCollection` within the `comment` slot in the `InstagramCollection`, and using the `overrideItems` prop, we can render each Post with its related Comments.
+
+```jsx
+
+import { 
+  InstagramCollection, 
+  CommentViewCollection 
+} from './ui-components'
+
+function App() {
+  return (
+    <div>
+       <h1>Collection with Slots</h1>
+      <InstagramCollection overrideItems={({ item, index }) => ({
+        comments: <CommentViewCollection items={item.Comments} />
+      })} />
+    </div>
+  );
+}
+
+export default App;
+
+```
