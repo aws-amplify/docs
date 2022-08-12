@@ -46,8 +46,8 @@ When defining a schema you can use directives from the GraphQL Transformer in lo
 - [@hasOne, @hasMany, @belongsTo, @manyToMany](/cli/graphql/data-modeling)
 - [@function](/cli/graphql/custom-business-logic#lambda-function-resolver)
 
-If you have DynamoDB Lambda triggers setup on `@model` types in your GraphQL schema, by following steps [listed here](/cli/usage/lambda-triggers/#as-a-part-of-the-graphql-api-types-with-model-annotation),
-then you can test those Lambda triggers locally via `amplify mock` or `amplify mock api` commands. 
+If you have DynamoDB Lambda triggers set up on `@model` types in your GraphQL schema, by following steps [listed here](/cli/usage/lambda-triggers/#as-a-part-of-the-graphql-api-types-with-model-annotation),
+then you can test those Lambda triggers locally via `amplify mock` or `amplify mock api`. 
 
 The connected Lambda triggers are automatically invoked locally if you perform a CRUD operation on the `@model` type using either the local DynamoDB endpoint (`http://localhost:62224`) or 
 the local AppSync console (should be `http://localhost:20002`). The structure of the event that is sent to the lambda trigger can be found [here](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_streams_GetRecords.html).
