@@ -1,11 +1,5 @@
 To work well with server-rendered pages, Amplify JS requires slight modifications from how you would use it in a client-only environment.
 
-<Callout>
-
-You cannot use Amplify JS to run authenticated requests using server side functions that do not have a `req` object such as `getStaticPaths` or `getStaticProps` from NextJS.
-
-</Callout>
-
 ## Amplify
 
 ### Enabling SSR 
@@ -70,6 +64,12 @@ export async function getServerSideProps({ req }) {
   }
 }
 ```
+
+<Callout>
+
+Server-side functions that don't have a req object (e.g. Next.js' getStaticProps & getStaticPaths) should still use withSSRContext(). Please note that it's not possible to perform authenticated requests with Amplify when using these functions.
+
+</Callout>
 
 ## DataStore
 
