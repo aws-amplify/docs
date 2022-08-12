@@ -3,22 +3,31 @@ export const meta = {
   description: `Add slots to Amplify Studio generated Figma-to-code components.  Used to support Nested Components or Collections in React code.`,
 };
 
-Slots are containers within your Studio UI components that can contain children, such as custom code, other components, and collections.  You can use slots to combine components without editing in Figma, or to create dynamically generated children, like Comments on a Post.  
+Slots allow you to nest other components as React code within your Studio UI components.  You can use slots to create dynamically generated children, like Comments on a Post, or to replace a child element altogether.
 
 ## Adding a slot
-First, navigate to the Amplify Studio UI Library, and select a Figma component that you've imported into Studio.  If you don't have any Figma components already, you can start with [Amplify's Figma UI file](/console/uibuilder/figmatocode/).  Then, configure that component by clicking the gear icon.  
+First, you'll need a component.  
+1. Navigate to the Amplify Studio UI Library
 
-*(a .gif will be added here)*
+2. Select a Figma component that you've imported into Studio.  
+*If you don't have any Figma components already, you can start with [Amplify's Figma UI file](/console/uibuilder/figmatocode/).*
 
-Next, select a Figma Element within your component.  On the right-hand bar, you will see the option to `Convert to a slot`.  Click this option, and give your slot a memorable name to use later - we'll name our slot `comments`.
+3. Configure that component by clicking the gear icon.  
 
-*(a .gif will be added here)*
+![Open your slot and click the gear icon to configure](/images/console/slots-console1.gif)
+
+Next, you'll add a slot to this component.  
+1. Select a Figma Frame (![Figma frame icon](/images/console/figma-frame-icon.png)) within your component.  
+
+2. On the right-hand bar, you will see the option to `Convert to a slot`.  Click this option, and give your slot a memorable name to use later - we'll name our slot `comments`.
+
+![Select your frame and add a slot](/images/console/slots-console2.gif)
 
 <Callout warning>
 
-Want to undo your slot creation?  Click `Delete` to remove the component, and then `Sync with Figma` to import the original component again.  
+Want to undo your slot creation?  
 
-Note, however, that this will also delete any collections created based on this component.
+Locate your slot in the Component Properties, click the triple-dot icon, and select `Erase property` to remove the slot.
 
 </Callout>
 
@@ -31,38 +40,46 @@ Once you've added a slot to your component, click the `</> Get component code` b
 ```jsx
 /*Import your component*/
 import { 
-  Instagram 
-} from '.ui-components'
+  Ampligram 
+} from './ui-components'
 
 function App() {
   return (
     /*Render your component*/
-    <div>
-      <Instagram />
+    <div style={styles.post}>
+      <Ampligram />
     </div>
   );
+}
+
+const styles = {
+  post: { width: 400, margin: '0 auto', padding: 20},
 }
 
 export default App;
 
 ```
 
+Here's how the code above would render in your app.  We've added some minor styling as well.
+
+![Imported component with a slot](/images/console/slots-base.png)
+
 ## Using your slot
-To use the slot within your component, call the slot name as a `prop` of the component.  Then, you can pass code, or even another component, into this prop, and it will be rendered as a child of the component.  
+To use the slot, pass a child component as a `prop` of the parent component, using the prop name you picked earlier.  Then, whatever you pass will be rendered as a child of the component.  
 
 
 ```jsx
 import { 
-  Instagram 
+  Ampligram 
 } from '.ui-components'
 
 function App() {
   return (
-    <div>
+    <div style={styles.post}>
       <h1>Simple Slot Children</h1>
-      <Instagram comments={
+      <Ampligram comments={
         /* Pass your content into the slot */
-        <div> 
+        <div style={styles.comment}> 
           <h1>Hi mom!</h1>
           <p>Thanks for checking out my app</p>
         </div>
@@ -71,57 +88,55 @@ function App() {
   );
 }
 
+const styles = {
+  post: { width: 400, margin: '0 auto', padding: 20},
+  comment: { paddingLeft: 30, textAlign: 'left'},
+}
+
 export default App;
 
 ```
+
+Here's how the code above would render in your app.  We've added a little more styling to the comments to help with display.
+
+![Simple slot children](/images/console/slots-simple-children.png)
 
 ## Adding slots to collections
 Any component can be [converted to a collection](/console/uibuilder/collections/) and bound to data, and that includes components with slots.  With a collection, you can [extend your component via code](/console/uibuilder/override/) using the `overrideItems` prop to generate unique content within each component slot.  
 
+Here, we have our Ampligram collection mapped to a data model called Post.  The Post model has a field called Comment, which contains an array of all the Comments associated with this Post.  We are then mapping the Comments for this Post to the `comments` slot we created.  
+
+Creating dynamic child components is where Slots get very useful - you can even [pass another collection](/console/uibuilder/override/#nesting-collections) into this slot.  
+
 ```jsx
 import { 
-  InstagramCollection 
+  AmpligramCollection 
 } from './ui-components'
 
 function App() {
   return (
-    <div>
-       <h1>Collection with Slots</h1>
-      <InstagramCollection overrideItems={({ item, index }) => ({
-        comments: 'This is collection item number '+index+' with ID '+item.id
-      }) }/>
-    </div>
-  );
-}
-
-export default App;
-```
-
-## Nesting Collections
-Slots within collections become extremely useful when used to render additional nested collections.  This can be used to generate a collection of posts, each with its own collection of comments.  
-
-In this example, we have two collections: `InstagramCollection` and `CommentViewCollection`.  These are bound to the `Post` and `Comment` data models, which have a [single-to-many relationship](/console/data/relationships/).  
-
-By nesting the `CommentViewCollection` within the `comment` slot in the `InstagramCollection`, and using the `overrideItems` prop, we can render each Post with its related Comments.
-
-```jsx
-
-import { 
-  InstagramCollection, 
-  CommentViewCollection 
-} from './ui-components'
-
-function App() {
-  return (
-    <div>
-       <h1>Collection with Slots</h1>
-      <InstagramCollection overrideItems={({ item, index }) => ({
-        comments: <CommentViewCollection items={item.Comments} />
+    <div style={styles.post}>
+      <h1>Dynamic Slot Children</h1>
+      <AmpligramCollection overrideItems={({ item }) => ({
+        comments: 
+        <div style={styles.post}>
+          {item.Comments.map(comment => <div>{comment.content}</div>)}
+        </div>
       })} />
     </div>
   );
 }
 
-export default App;
+const styles = {
+  post: { width: 400, margin: '0 auto', padding: 20},
+  comment: { paddingLeft: 30, textAlign: 'left'},
+}
 
+export default App;
 ```
+
+The code above will render an `Ampligram` for each Post in the `AmpligramCollection`.  Then, the Comments for each Post will render in the `comments` slot.  
+
+In this example, the first Post has 2 comments, but the second post has none.
+
+![Component slot with dynamic children](/images/console/slots-dynamic-children.png)

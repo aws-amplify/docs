@@ -47,6 +47,35 @@ import {FAQItem} from './ui-components'
 </tbody>
 </table>
 
+### Nesting Collections
+Slots within collections become extremely useful when used to render additional nested collections.  This can be used to generate a collection of posts, each with its own collection of comments.  
+
+In this example, we have two collections: `AmpligramCollection` and `CommentViewCollection`.  These are bound to the `Post` and `Comment` data models, which have a [one-to-many relationship](/console/data/relationships/).  
+
+By nesting the `CommentViewCollection` within the `comment` slot in the `InstagramCollection`, and using the `overrideItems` prop, we can render each Post with its related Comments.
+
+```jsx
+
+import { 
+  AmpligramCollection, 
+  CommentViewCollection 
+} from './ui-components'
+
+function App() {
+  return (
+    <div>
+       <h1>Collection with Slots</h1>
+      <AmpligramCollection overrideItems={({ item, index }) => ({
+        comments: <CommentViewCollection items={item.Comments} />
+      })} />
+    </div>
+  );
+}
+
+export default App;
+
+```
+
 ### Extend generated collections via overrideItems prop
 All generated Collection code exposes an `overrideItems` prop to give you full control to extend each collection item with context its data item. `overrideItems` expects a function that accepts an `{ item, index }` parameter and returns the override props that should be applied to each collection item.
 
