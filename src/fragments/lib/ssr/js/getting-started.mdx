@@ -65,7 +65,11 @@ export async function getServerSideProps({ req }) {
 }
 ```
 
-Server-side functions that _don't_ have a `req` object (e.g. Next.js' `getStaticProps` & `getStaticPaths`) should still use `withSSRContext()`.
+<Callout>
+
+Server-side functions that don't have a req object (e.g. Next.js' getStaticProps & getStaticPaths) should still use withSSRContext(). Please note that it's not possible to perform authenticated requests with Amplify when using these functions.
+
+</Callout>
 
 ## DataStore
 
