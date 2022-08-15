@@ -66,7 +66,7 @@ export default App;
 
 Here's how the code above would render in your app. *Some minor styling has been added to help with visibility.*
 
-![Screenshot of an imported component with a slot](/images/console/slots-base.png)
+![Screenshot of an imported component with a slot](/images/console/slots1.png)
 
 ### Using your slot to replace individual child components
 To use the slot, pass a child component as a property of the parent component, using the prop name you picked earlier. Then, the content you pass will be rendered as a child of the component.  
@@ -97,7 +97,7 @@ export default App;
 
 Here's how the code above would render in your app. *Some styling has been added to the comments to help with display.*
 
-![Screenshot of a component with static text in the slot](/images/console/slots-simple-children.png)
+![Screenshot of a component with static text in the slot](/images/console/slots2.png)
 
 ### Adding slots to collections
 Any component can be [converted to a collection](/console/uibuilder/collections/) and bound to data, and that includes components with slots.  With a collection, you can [extend your component via code](/console/uibuilder/override/) using the `overrideItems` prop to generate unique content within each component slot.  
@@ -132,4 +132,4 @@ const styles = {
 export default App;
 ```
 
-![Screenshot of component with dynamic content in the slot](/images/console/slots-dynamic-children.png)
+![Screenshot of component with dynamic content in the slot](/images/console/slots3.png)
