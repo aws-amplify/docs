@@ -16,7 +16,7 @@ First, you'll need a component.
 
 4. Configure that component by clicking the **Configure** button in the upper right-hand corner.
 
-![Open your slot and click the gear icon to configure](/images/console/slots-console1.gif)
+![Animated image of opening a component and clicking the gear icon to configure](/images/console/slots-console1.gif)
 
 Next, you'll add a slot to this component.  
 1. On the left-hand side, you'll see the elements of your component. Select a Figma **Frame** (![Figma frame icon](/images/console/figma-frame-icon.png)) within your component.  
@@ -29,7 +29,7 @@ Next, you'll add a slot to this component.
 
   In this example, the property has been renamed "comments"
 
-![Select your frame and add a slot](/images/console/slots-console2.gif)
+![Animated image of selecting a frame and add a slot](/images/console/slots-console2.gif)
 
 <Callout warning>
 
@@ -66,7 +66,7 @@ export default App;
 
 Here's how the code above would render in your app. *Some minor styling has been added to help with visibility.*
 
-![Imported component with a slot](/images/console/slots-base.png)
+![Screenshot of an imported component with a slot](/images/console/slots-base.png)
 
 ### Using your slot to replace individual child components
 To use the slot, pass a child component as a property of the parent component, using the prop name you picked earlier. Then, the content you pass will be rendered as a child of the component.  
@@ -97,12 +97,12 @@ export default App;
 
 Here's how the code above would render in your app. *Some styling has been added to the comments to help with display.*
 
-![Simple slot children](/images/console/slots-simple-children.png)
+![Screenshot of a component with static text in the slot](/images/console/slots-simple-children.png)
 
 ### Adding slots to collections
 Any component can be [converted to a collection](/console/uibuilder/collections/) and bound to data, and that includes components with slots.  With a collection, you can [extend your component via code](/console/uibuilder/override/) using the `overrideItems` prop to generate unique content within each component slot.  
 
-Here, we have our Ampligram collection mapped to a data model called Post. The Post model has a field called Comment, which contains an array of all the Comments associated with this Post. We are then mapping the Comments for this Post to the "comments" slot we created.  
+Here, the Ampligram collection is mapped to a data model called Post. The Post model has a field called Comment, which contains an array of all the Comments associated with this Post. Each of these items in the Comment array is then mapped to the "comments" slot we created.  
 
 Dynamically rendering child components is where Slots get very useful - you can even [pass another collection](/console/uibuilder/override/#nesting-collections) into this slot. 
 
@@ -132,4 +132,4 @@ const styles = {
 export default App;
 ```
 
-![Component slot with dynamic children](/images/console/slots-dynamic-children.png)
+![Screenshot of component with dynamic content in the slot](/images/console/slots-dynamic-children.png)
