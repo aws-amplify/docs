@@ -7,19 +7,27 @@ Slots allow you to nest other components as React code within your Studio UI com
 
 ## Adding a slot
 First, you'll need a component.  
-1. Navigate to the Amplify Studio UI Library
+1. Log into Amplify and [navigate to Studio](/console/adminui/start/).
 
-2. Select a Figma component that you've imported into Studio.  
+2. On the left-hand navigation bar, click UI Library
+
+3. Select a Figma component from your UI Library that you've imported into Studio.  
 *If you don't have any Figma components already, you can start with [Amplify's Figma UI file](/console/uibuilder/figmatocode/).*
 
-3. Configure that component by clicking the gear icon.  
+4. Configure that component by clicking the Configure button in the upper right-hand corner.
 
 ![Open your slot and click the gear icon to configure](/images/console/slots-console1.gif)
 
 Next, you'll add a slot to this component.  
-1. Select a Figma Frame (![Figma frame icon](/images/console/figma-frame-icon.png)) within your component.  
+1. On the left-hand side, you'll see the Elements of your component.  Select a Figma Frame (![Figma frame icon](/images/console/figma-frame-icon.png)) within your component.  
 
-2. On the right-hand bar, you will see the option to `Convert to a slot`.  Click this option, and give your slot a memorable name to use later - we'll name our slot `comments`.
+  In this example, the "Area" frame is selected.
+
+2. On the right-hand bar action bar, click the "Convert to a slot" button.  This will add a new component under the "Component properties" header.
+
+3. Optionally, change your your property name.  
+
+  In this example, the property has been renamed "comments"
 
 ![Select your frame and add a slot](/images/console/slots-console2.gif)
 
@@ -27,14 +35,14 @@ Next, you'll add a slot to this component.
 
 Want to undo your slot creation?  
 
-Locate your slot in the Component Properties, click the triple-dot icon, and select `Erase property` to remove the slot.
+Locate your slot in the Component properties, click the triple-dot icon, and click "Erase property" to remove the slot.
 
 </Callout>
 
 ## Importing your component
-Once you've added a slot to your component, click the `</> Get component code` button to see instructions on the next steps.  
-1. First, copy the `amplify pull` command, and run it in your Terminal.  This will retrieve your new component.  
-2. Next, copy the import code and paste it in your App.js file
+Once you've added a slot to your component, click the "Get component code" button at the bottom of the screen to see instructions on the next steps.  
+1. Copy the `amplify pull` command, and run it in your Terminal
+2. Copy the import code and paste it in your App.js file
 3. Lastly, render the component by calling it in JSX
 
 ```jsx
@@ -45,9 +53,9 @@ import {
 
 function App() {
   return (
-    /*Render your component*/
+    /*Add your component below*/
     <div style={styles.post}>
-      <Ampligram />
+      <Ampligram  /> 
     </div>
   );
 }
@@ -60,15 +68,15 @@ export default App;
 
 ```
 
-Here's how the code above would render in your app.  We've added some minor styling as well.
+Here's how the code above would render in your app.  Some minor styling has been added to help with visibility.
 
 ![Imported component with a slot](/images/console/slots-base.png)
 
 ## Using your slot
-To use the slot, pass a child component as a `prop` of the parent component, using the prop name you picked earlier.  Then, whatever you pass will be rendered as a child of the component.  
+To use the slot, pass a child component as a property of the parent component, using the prop name you picked earlier.  Then, the content you pass will be rendered as a child of the component.  
 
 
-```jsx
+````jsx
 import { 
   Ampligram 
 } from '.ui-components'
@@ -95,7 +103,7 @@ const styles = {
 
 export default App;
 
-```
+````
 
 Here's how the code above would render in your app.  We've added a little more styling to the comments to help with display.
 
@@ -104,9 +112,13 @@ Here's how the code above would render in your app.  We've added a little more s
 ## Adding slots to collections
 Any component can be [converted to a collection](/console/uibuilder/collections/) and bound to data, and that includes components with slots.  With a collection, you can [extend your component via code](/console/uibuilder/override/) using the `overrideItems` prop to generate unique content within each component slot.  
 
-Here, we have our Ampligram collection mapped to a data model called Post.  The Post model has a field called Comment, which contains an array of all the Comments associated with this Post.  We are then mapping the Comments for this Post to the `comments` slot we created.  
+Here, we have our Ampligram collection mapped to a data model called Post.  The Post model has a field called Comment, which contains an array of all the Comments associated with this Post.  We are then mapping the Comments for this Post to the "comments" slot we created.  
 
-Creating dynamic child components is where Slots get very useful - you can even [pass another collection](/console/uibuilder/override/#nesting-collections) into this slot.  
+Creating dynamic child components is where Slots get very useful - you can even [pass another collection](/console/uibuilder/override/#nesting-collections) into this slot. 
+
+The code below will render an Ampligram for each Post in the AmpligramCollection.  Then, the Comments for each Post will render in the "comments" slot.  
+
+In this example, the first Post has 2 comments, but the second post has none.
 
 ```jsx
 import { 
@@ -134,9 +146,5 @@ const styles = {
 
 export default App;
 ```
-
-The code above will render an `Ampligram` for each Post in the `AmpligramCollection`.  Then, the Comments for each Post will render in the `comments` slot.  
-
-In this example, the first Post has 2 comments, but the second post has none.
 
 ![Component slot with dynamic children](/images/console/slots-dynamic-children.png)
