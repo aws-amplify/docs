@@ -4,7 +4,7 @@
 ```java
 Post post = Post.builder()
     .title("Create an Amplify DataStore app")
-    .status(PostStatus.PUBLISHED)
+    .status(PostStatus.ACTIVE)
     .build();
 
 Amplify.DataStore.save(post,
@@ -19,7 +19,7 @@ Amplify.DataStore.save(post,
 ```kotlin
 val post = Post.builder()
     .title("Create an Amplify DataStore app")
-    .status(PostStatus.PUBLISHED)
+    .status(PostStatus.ACTIVE)
     .build()
 
 Amplify.DataStore.save(post,
@@ -34,7 +34,7 @@ Amplify.DataStore.save(post,
 ```kotlin
 val post = Post.builder()
     .title("Create an Amplify DataStore app")
-    .status(PostStatus.PUBLISHED)
+    .status(PostStatus.ACTIVE)
     .build()
 
 try {
@@ -51,7 +51,7 @@ try {
 ```java
 Post post = Post.builder()
     .title("Create an Amplify DataStore app")
-    .status(PostStatus.PUBLISHED)
+    .status(PostStatus.ACTIVE)
     .build();
 
 RxAmplify.DataStore.save(post).subscribe(
