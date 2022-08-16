@@ -803,7 +803,7 @@ The relational directives are `@hasOne`, `@hasMany`, `@belongsTo` and `@manyToMa
 
 The `@hasOne` will generate:
 
-- Foreign key fields in parent type that refer the the primary key and sort key fields of the child model.
+- Foreign key fields in parent type that refer to the primary key and sort key fields of the child model.
 - Foreign key fields in parent input object of `create` and `update` mutations.
 
 <Callout>
@@ -820,13 +820,12 @@ directive @hasOne(fields: [String!]) on FIELD_DEFINITION
 
 The `@hasMany` will generate:
 
-- Foreign key fields in child type that refer the the primary key and sort key fields of the parent model.
+- Foreign key fields in child type that refer to the primary key and sort key fields of the parent model.
 - Foreign key fields in child input object of `create` and `update` mutations.
-- A global secondary index(GSI) in the child type Amazon DynamoDB table.
-- The default number of nested objects returned is 100. You can override this behavior by setting the limit argument.
+- A global secondary index (GSI) in the child type Amazon DynamoDB table.
 
 <Callout>
-In has many relation, the foreign keys are generated in the child type instead of parent.
+In a has many relation, the foreign keys are generated in the child type instead of the parent.
 </Callout>
 
 <Callout>
@@ -834,7 +833,7 @@ The `fields` attribute matches the parent fields to the child index fields respe
 </Callout>
 
 <Callout>
-When `fields` attribute is defined, the global secondary index will not be added and should be defined explicitly on child model via `@index`.
+When `fields` attribute is defined, the global secondary index will not be added and should be defined explicitly on the child model via `@index`.
 </Callout>
 
 **Type definition of the `@hasMany` directive**
@@ -842,16 +841,18 @@ When `fields` attribute is defined, the global secondary index will not be added
 ```graphql
 directive @hasMany(indexName: String, fields: [String!], limit: Int = 100) on FIELD_DEFINITION
 ```
+- The default number of nested objects returned is 100. You can override this behavior by setting the limit argument.
+
 </Block>
 <Block name="@belongsTo">
 
 The `@belongsTo` will generate:
 
-- Foreign key fields that refer the the primary key and sort key fields of the related model.
-- Foreign key fields in input object of `create` and `update` mutations.
+- Foreign key fields that refer to the primary key and sort key fields of the related model.
+- Foreign key fields in the input object of `create` and `update` mutations.
 
 <Callout>
-The foreign key fields can be customized by adding existing fields in `fields` attribute.
+The foreign key fields can be customized by adding existing fields in the `fields` attribute.
 </Callout>
 
 **Type definition of the `@belongsTo` directive**
@@ -864,15 +865,16 @@ directive @belongsTo(fields: [String!]) on FIELD_DEFINITION
 
 The `@manyToMany` will generate:
 
-- Joint table defining the intermediate model type with the name of `relationName`.
-- Foreign key fields in joint table that refer the the primary key and sort key fields of both models.
-- Foreign key fields in intermediate model input object of `create` and `update` mutations.
-- The default number of nested objects returned is 100. You can override this behavior by setting the limit argument.
+- A joint table defining the intermediate model type with the name of `relationName`.
+- Foreign key fields in the joint table that refer to the primary key and sort key fields of both models.
+- Foreign key fields in the intermediate model input object of `create` and `update` mutations.
 
 **Type definition of the `@manyToMany` directive**
 
 ```graphql
 directive @manyToMany(relationName: String!, limit: Int = 100) on FIELD_DEFINITION
 ```
+- The default number of nested objects returned is 100. You can override this behavior by setting the limit argument.
+
 </Block>
 </BlockSwitcher>
