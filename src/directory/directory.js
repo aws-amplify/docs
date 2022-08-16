@@ -1759,6 +1759,10 @@ const directory = {
             route: '/console/uibuilder/collections'
           },
           {
+              title: 'Slots',
+              route: '/console/uibuilder/slots'
+          },
+          {
             title: 'Theming',
             route: '/console/uibuilder/theming'
           },
