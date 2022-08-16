@@ -580,59 +580,6 @@ type Team @model {
 }
 ```
 
-This generates additional foreign key fields in both parent and child types.
-
-Model fields:
-```graphql
-type Project {
-  projectId: ID!
-  name: String!
-  team: Team
-  createdAt: AWSDateTime!
-  updatedAt: AWSDateTime!
-  projectTeamTeamId: ID # auto generated child primary key reference
-  projectTeamName: String # auto generated child sort key reference
-}
-
-type Team {
-  teamId: ID!
-  name: String!
-  project: Project
-  createdAt: AWSDateTime!
-  updatedAt: AWSDateTime!
-  teamProjectProjectId: ID # auto generated parent primary key reference
-  teamProjectName: String # auto generated parent sort key reference
-}
-```
-Input fields:
-```graphql
-input CreateProjectInput {
-  projectId: ID!
-  name: String!
-  projectTeamTeamId: ID # auto generated child primary key reference
-  projectTeamName: String # auto generated child sort key reference
-}
-
-input UpdateProjectInput {
-  projectId: ID!
-  name: String!
-  projectTeamTeamId: ID # auto generated child primary key reference
-  projectTeamName: String # auto generated child sort key reference
-}
-input CreateTeamInput {
-  teamId: ID!
-  name: String!
-  teamProjectProjectId: ID # auto generated parent primary key reference
-  teamProjectName: String # auto generated parent sort key reference
-}
-
-input UpdateTeamInput {
-  teamId: ID!
-  name: String!
-  teamProjectProjectId: ID # auto generated parent primary key reference
-  teamProjectName: String # auto generated parent sort key reference
-}
-```
 </Block>
 
 <Block name='Implicit Uni-directional "has one"'>
@@ -650,36 +597,6 @@ type Team @model {
 }
 ```
 
-This generates additional foreign key fields only in parent type.
-
-Model fields:
-```graphql
-type Project {
-  projectId: ID!
-  name: String!
-  team: Team
-  createdAt: AWSDateTime!
-  updatedAt: AWSDateTime!
-  projectTeamTeamId: ID # auto generated child primary key reference
-  projectTeamName: String # auto generated child sort key reference
-}
-```
-Input fields:
-```graphql
-input CreateProjectInput {
-  projectId: ID!
-  name: String!
-  projectTeamTeamId: ID # auto generated child primary key reference
-  projectTeamName: String # auto generated child sort key reference
-}
-
-input UpdateProjectInput {
-  projectId: ID!
-  name: String!
-  projectTeamTeamId: ID # auto generated child primary key reference
-  projectTeamName: String # auto generated child sort key reference
-}
-```
 </Block>
 
 <Block name='Implicit Bi-directional "has many"'>
@@ -697,36 +614,7 @@ type Comment @model {
   post: Post @belongsTo
 }
 ```
-This generates additional foreign key fields only in child type.
 
-Model fields:
-```graphql
-type Comment {
-  commentId: ID!
-  content: String!
-  post: Post
-  createdAt: AWSDateTime!
-  updatedAt: AWSDateTime!
-  postCommentsPostId: ID # auto generated parent primary key reference
-  postCommentsTitle: String # auto generated parent sort key reference
-}
-```
-Input fields:
-```graphql
-input CreateCommentInput {
-  commentId: ID!
-  content: String!
-  postCommentsPostId: ID # auto generated parent primary key reference
-  postCommentsTitle: String # auto generated parent sort key reference
-}
-
-input UpdateCommentInput {
-  commentId: ID!
-  content: String!
-  postCommentsPostId: ID # auto generated parent primary key reference
-  postCommentsTitle: String # auto generated parent sort key reference
-}
-```
 </Block>
 
 <Block name='Implicit Uni-directional "has many"'>
@@ -743,35 +631,7 @@ type Comment @model {
   content: String!
 }
 ```
-This generates additional foreign key fields only in child type.
 
-Model fields:
-```graphql
-type Comment {
-  commentId: ID!
-  content: String!
-  createdAt: AWSDateTime!
-  updatedAt: AWSDateTime!
-  postCommentsPostId: ID # auto generated parent primary key reference
-  postCommentsTitle: String # auto generated parent sort key reference
-}
-```
-Input fields:
-```graphql
-input CreateCommentInput {
-  commentId: ID!
-  content: String!
-  postCommentsPostId: ID # auto generated parent primary key reference
-  postCommentsTitle: String # auto generated parent sort key reference
-}
-
-input UpdateCommentInput {
-  commentId: ID!
-  content: String!
-  postCommentsPostId: ID # auto generated parent primary key reference
-  postCommentsTitle: String # auto generated parent sort key reference
-}
-```
 </Block>
 
 </BlockSwitcher>
@@ -780,10 +640,6 @@ You can also customize the foreign key fields instead of the auto-generated ones
 
 <Callout>
 The order of the elements in the value of `fields` argument matters. The first element should always be the primary key of the relational model. And remaining elements should match the `sortKeyFields` specified in the `@primaryKey` directive of the relational model.
-</Callout>
-
-<Callout>
-When defining an explicit "has many" relation, the "@index" should be also defined on the child type.
 </Callout>
 
 <BlockSwitcher>
@@ -807,60 +663,7 @@ type Team @model {
   projectName: String # customized foreign key for parent sort key
 }
 ```
-This will result in the following built AppSync schema .
 
-Model fields:
-```graphql
-type Project {
-  projectId: ID!
-  name: String!
-  team: Team
-  teamId: ID
-  teamName: String
-  createdAt: AWSDateTime!
-  updatedAt: AWSDateTime!
-}
-
-type Team {
-  teamId: ID!
-  name: String!
-  project: Project
-  projectId: ID
-  projectName: String
-  createdAt: AWSDateTime!
-  updatedAt: AWSDateTime!
-}
-```
-Input fields:
-```graphql
-input CreateProjectInput {
-  projectId: ID!
-  name: String!
-  teamId: ID
-  teamName: String
-}
-
-input UpdateProjectInput {
-  projectId: ID!
-  name: String!
-  teamId: ID
-  teamName: String
-}
-
-input CreateTeamInput {
-  teamId: ID!
-  name: String!
-  projectId: ID
-  projectName: String
-}
-
-input UpdateTeamInput {
-  teamId: ID!
-  name: String!
-  projectId: ID
-  projectName: String
-}
-```
 </Block>
 
 <Block name='Explicit Uni-directional "has one"'>
@@ -879,36 +682,7 @@ type Team @model {
   name: String!
 }
 ```
-This will result in the following built AppSync schema.
 
-Model fields:
-```graphql
-type Project {
-  projectId: ID!
-  name: String!
-  team: Team
-  teamId: ID
-  teamName: String
-  createdAt: AWSDateTime!
-  updatedAt: AWSDateTime!
-}
-```
-Input fields:
-```graphql
-input CreateProjectInput {
-  projectId: ID!
-  name: String!
-  teamId: ID
-  teamName: String
-}
-
-input UpdateProjectInput {
-  projectId: ID!
-  name: String!
-  teamId: ID
-  teamName: String
-}
-```
 </Block>
 
 <Block name='Explicit Bi-directional "has many"'>
@@ -928,36 +702,7 @@ type Comment @model {
   postTitle: String # customized foreign key for parent sort key
 }
 ```
-This will result in the following built AppSync schema.
 
-Model fields:
-```graphql
-type Comment {
-  commentId: ID!
-  content: String!
-  post: Post
-  postId: ID
-  postTitle: String
-  createdAt: AWSDateTime!
-  updatedAt: AWSDateTime!
-}
-```
-Input fields:
-```graphql
-input CreateCommentInput {
-  commentId: ID!
-  content: String!
-  postId: ID
-  postTitle: String
-}
-
-input UpdateCommentInput {
-  commentId: ID!
-  content: String!
-  postId: ID
-  postTitle: String
-}
-```
 </Block>
 
 <Block name='Explicit Uni-directional "has many"'>
@@ -976,35 +721,7 @@ type Comment @model {
   postTitle: String # customized foreign key for parent sort key
 }
 ```
-This will result in the following built AppSync schema.
 
-Model fields:
-```graphql
-type Comment {
-  commentId: ID!
-  content: String!
-  postId: ID
-  postTitle: String
-  createdAt: AWSDateTime!
-  updatedAt: AWSDateTime!
-}
-```
-Input fields:
-```graphql
-input CreateCommentInput {
-  commentId: ID!
-  content: String!
-  postId: ID
-  postTitle: String
-}
-
-input UpdateCommentInput {
-  commentId: ID!
-  content: String!
-  postId: ID
-  postTitle: String
-}
-```
 </Block>
 </BlockSwitcher>
 
@@ -1026,24 +743,11 @@ type Tag @model {
 	posts: [Post] @manyToMany(relationName: "PostTags")
 }
 ```
-Primary key and sort key fields of both models will be added in the joint table schema.
 
-```graphql
-type PostTags {
-  id: ID!
-  postCustomPostId: ID! # auto generated primary key field
-  posttitle: String! # auto generated sort key field
-  tagCustomTagId: ID! # auto generated primary key field
-  taglabel: String! # auto generated sort key field
-  post: Post!
-  tag: Tag!
-  createdAt: AWSDateTime!
-  updatedAt: AWSDateTime!
-}
-```
 </Block>
 
 ## How it works
+### Model directive
 The `@model` directive will generate:
 - An Amazon DynamoDB table with PAY_PER_REQUEST billing mode enabled by default.
 - An AWS AppSync DataSource configured to access the table above.
@@ -1053,8 +757,7 @@ The `@model` directive will generate:
 - Filter input objects that allow you to filter objects in list queries and relationship fields.
 - For list queries the default number of objects returned is 100. You can override this behavior by setting the limit argument.
 
-### Type definition of the `@model` directive
-
+**Type definition of the `@model` directive**
 ```graphql
 directive @model(
   queries: ModelQueryMap
@@ -1092,3 +795,84 @@ input TimestampConfiguration {
   updatedAt: String
 }
 ```
+
+### Relational directives
+The relational directives are `@hasOne`, `@hasMany`, `@belongsTo` and `@manyToMany`.
+<BlockSwitcher>
+<Block name="@hasOne">
+
+The `@hasOne` will generate:
+
+- Foreign key fields in parent type that refer the the primary key and sort key fields of the child model.
+- Foreign key fields in parent input object of `create` and `update` mutations.
+
+<Callout>
+The foreign key fields can be customized by adding existing fields in `fields` attribute.
+</Callout>
+
+**Type definition of the `@hasOne` directive**
+
+```graphql
+directive @hasOne(fields: [String!]) on FIELD_DEFINITION
+```
+</Block>
+<Block name="@hasMany">
+
+The `@hasMany` will generate:
+
+- Foreign key fields in child type that refer the the primary key and sort key fields of the parent model.
+- Foreign key fields in child input object of `create` and `update` mutations.
+- A global secondary index(GSI) in the child type Amazon DynamoDB table.
+- The default number of nested objects returned is 100. You can override this behavior by setting the limit argument.
+
+<Callout>
+In has many relation, the foreign keys are generated in the child type instead of parent.
+</Callout>
+
+<Callout>
+The `fields` attribute matches the parent fields to the child index fields respectively.
+</Callout>
+
+<Callout>
+When `fields` attribute is defined, the global secondary index will not be added and should be defined explicitly on child model via `@index`.
+</Callout>
+
+**Type definition of the `@hasMany` directive**
+
+```graphql
+directive @hasMany(indexName: String, fields: [String!], limit: Int = 100) on FIELD_DEFINITION
+```
+</Block>
+<Block name="@belongsTo">
+
+The `@belongsTo` will generate:
+
+- Foreign key fields that refer the the primary key and sort key fields of the related model.
+- Foreign key fields in input object of `create` and `update` mutations.
+
+<Callout>
+The foreign key fields can be customized by adding existing fields in `fields` attribute.
+</Callout>
+
+**Type definition of the `@belongsTo` directive**
+
+```graphql
+directive @belongsTo(fields: [String!]) on FIELD_DEFINITION
+```
+</Block>
+<Block name="@manyToMany">
+
+The `@manyToMany` will generate:
+
+- Joint table defining the intermediate model type with the name of `relationName`.
+- Foreign key fields in joint table that refer the the primary key and sort key fields of both models.
+- Foreign key fields in intermediate model input object of `create` and `update` mutations.
+- The default number of nested objects returned is 100. You can override this behavior by setting the limit argument.
+
+**Type definition of the `@manyToMany` directive**
+
+```graphql
+directive @manyToMany(relationName: String!, limit: Int = 100) on FIELD_DEFINITION
+```
+</Block>
+</BlockSwitcher>
