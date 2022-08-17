@@ -2,24 +2,24 @@ To work well with server-rendered pages, Amplify JS requires slight modification
 
 ## Amplify
 
-### Enabling SSR 
+### Enabling SSR
 
-When using the Amplify CLI, the __aws-exports.js__ file gets created and updated automatically for you based upon the resources you have added and configured.
+When using the Amplify CLI, the **aws-exports.js** file gets created and updated automatically for you based upon the resources you have added and configured.
 
-For client-only apps, `Amplify.configure(awsExports)` is all you need.
+For client-only apps, `Amplify.configure(awsExports)` is all you need .
 
 To enable SSR support, also provide `ssr: true`:
 
 ```js
-import { Amplify } from "aws-amplify";
-import awsExports from "../src/aws-exports";
+import { Amplify } from 'aws-amplify';
+import awsExports from '../src/aws-exports';
 
 Amplify.configure({ ...awsExports, ssr: true });
 ```
 
 By providing `ssr: true`, Amplify persists credentials on the client in cookies so that subsequent requests to the server have access to them.
 
-> **Note**: Once [vercel/next.js#16977](https://github.com/vercel/next.js/issues/16977) is resolved, you can hoist `Amplify.configure` into **pages/_app.js**.  Until then, be sure that all **pages/*** run `Amplify.configure({ ...awsExports, ssr: true })`.
+> **Note**: Once [vercel/next.js#16977](https://github.com/vercel/next.js/issues/16977) is resolved, you can hoist `Amplify.configure` into **pages/\_app.js**. Until then, be sure that all **pages/\*** run `Amplify.configure({ ...awsExports, ssr: true })`.
 
 ### withSSRContext
 
@@ -50,18 +50,18 @@ export default function HomePage({ posts = [] }) {
 When on the server, use `withSSRContext({ req?: ServerRequest })`:
 
 ```js
-import { Amplify, API, withSSRContext } from "aws-amplify";
+import { Amplify, API, withSSRContext } from 'aws-amplify';
 
 export async function getServerSideProps({ req }) {
   // 👇 Notice how the server uses `API` from `withSSRContext`, instead of the top-level `API`.
-  const SSR = withSSRContext({ req })
+  const SSR = withSSRContext({ req });
   const { data } = await SSR.API.graphql({ query: listPosts });
 
   return {
     props: {
       posts: data.listPosts.items
     }
-  }
+  };
 }
 ```
 
@@ -111,4 +111,3 @@ export default function HomePage(initialData) {
     ...
 }
 ```
-
