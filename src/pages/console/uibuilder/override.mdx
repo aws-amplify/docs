@@ -67,12 +67,12 @@ If you want to override a prop for a specific element within a collection item, 
 <HomeCollection overrideItems={(item, index) => ({ overrides: { Share: { fontWeight: 'bold'}}})}
 ```
 
-### Nesting Collections
-Slots within collections allow you to render additional nested collections. For example, use nested collections to generate a collection of posts, each with its own collection of comments.  
+### Nesting collections
+Component slots within collections allow you to render additional nested collections. For example, use nested collections to generate a collection of posts, each with its own collection of comments.  
 
 In this example, we have two collections: `AmpligramCollection` and `CommentViewCollection`.  These are bound to the `Post` and `Comment` data models, which have a [one-to-many relationship](/console/data/relationships/).  
 
-By nesting the `CommentViewCollection` within the `comment` slot in the `AmpligramCollection`, and using the `overrideItems` prop, we can render each Post with its related Comments.
+By nesting the `CommentViewCollection` within the `comment` component slot in the `AmpligramCollection`, and using the `overrideItems` prop, we can render each Post with its related Comments.
 
 ```jsx
 import { 
