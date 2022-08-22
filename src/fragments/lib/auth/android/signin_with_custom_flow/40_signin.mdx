@@ -1,0 +1,26 @@
+<BlockSwitcher>
+<Block name="Kotlin">
+
+```kotlin
+fun signIn(username: String) {
+    Amplify.Auth.signIn(username, "",
+        { result ->
+            if (result.nextStep.signInStep ==
+                AuthSignInStep.CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE) {
+                // Ask the user to enter the custom challenge.
+                Log.i("AuthQuickstart", "Complete custom challenge")
+            } else if (result.isSignInComplete){
+                Log.i("AuthQuickstart", "Sign in succeeded")
+            } else {
+                Log.i("AuthQuickstart", "Sign in not complete")
+            }
+        },
+        { Log.e("AuthQuickstart", "Failed to sign in", it) }
+    )
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+Since this is a custom authentication flow with a challenge, the result of the signin process has a next step `AuthSignInStep.CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE`. Implement a UI to allow the user to enter the custom challenge.

@@ -1,0 +1,28 @@
+<BlockSwitcher>
+<Block name="Kotlin">
+
+```kotlin
+fun signUp(username: String, email: String) {
+    val emailUserAttribute = AuthUserAttribute(AuthUserAttributeKey.email(), email)
+    val options = AuthSignUpOptions.builder().userAttributes(listOf(emailUserAttribute)).build()
+
+    Amplify.Auth.signUp(
+        username,
+        UUID.randomUUID().toString(),
+        options,
+        { result ->
+            if (result.nextStep.signUpStep == AuthSignUpStep.CONFIRM_SIGN_UP_STEP) {
+                Log.i("AuthQuickStart", "Sign up confirmation needed")
+            } else {
+                Log.i("AuthQuickStart", "Sign up succeeded")
+            }
+        },
+        {
+            Log.e("AuthQuickStart", "An error occurred while registering a user", it)
+        }
+    )
+}
+```
+
+</Block>
+</BlockSwitcher>

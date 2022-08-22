@@ -1,0 +1,28 @@
+<BlockSwitcher>
+<Block name="Kotlin">
+
+```kotlin
+fun confirmSignUp(username: String, code: String) {
+    Amplify.Auth.confirmSignUp(
+        username,
+        code,
+        { result ->
+            if (result.isSignUpComplete) {
+                Log.i("AuthQuickstart", "Confirm signUp succeeded")
+            } else {
+                Log.i("AuthQuickstart","Confirm sign up not complete")
+            }
+        },
+        { Log.e("AuthQuickstart", "Failed to confirm sign up", it) }
+    )
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+You will know the sign up flow is complete if you see the following in your Logcat:
+
+```console
+Confirm signUp succeeded
+```

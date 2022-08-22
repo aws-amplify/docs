@@ -2,6 +2,10 @@ The Auth category can be configured to perform a [custom authentication flow](ht
 
 ## Prerequisites
 
+import android0 from '/src/fragments/lib/auth/android/getting_started/10_preReq.mdx';
+
+<Fragments fragments={{ android: android0 }} />
+
 import ios0 from '/src/fragments/lib/auth/ios/getting_started/10_preReq.mdx';
 
 <Fragments fragments={{ ios: ios0 }} />
@@ -12,7 +16,11 @@ import flutter0 from '/src/fragments/lib/auth/flutter/getting_started/10_preReq.
 
 ## Configure Auth Category
 
-import ios1 from '/src/fragments/lib/auth/ios/signin_with_custom_flow/10_cli_setup.mdx';
+import android1 from '/src/fragments/lib/auth/common/signin_with_custom_flow/cli_setup.mdx';
+
+<Fragments fragments={{ android: android1 }} />
+
+import ios1 from '/src/fragments/lib/auth/common/signin_with_custom_flow/cli_setup.mdx';
 
 <Fragments fragments={{ ios: ios1 }} />
 
@@ -24,6 +32,10 @@ import flutter1 from '/src/fragments/lib/auth/flutter/signin_with_custom_flow/10
 
 The CLI flow as mentioned above requires a username and a valid email id as parameters to register a user. Invoke the following api to initiate a sign up flow.
 
+import android2 from '/src/fragments/lib/auth/android/signin_with_custom_flow/20_signup.mdx';
+
+<Fragments fragments={{ android: android2 }} />
+
 import ios2 from '/src/fragments/lib/auth/ios/signin_with_custom_flow/20_signup.mdx';
 
 <Fragments fragments={{ ios: ios2 }} />
@@ -33,6 +45,10 @@ import flutter2 from '/src/fragments/lib/auth/flutter/signin_with_custom_flow/20
 <Fragments fragments={{ flutter: flutter2 }} />
 
 The next step in the sign up flow is to confirm the user. A confirmation code will be sent to the email id provided during sign up. Enter the confirmation code received via email in the `confirmSignUp` call.
+
+import android3 from '/src/fragments/lib/auth/android/signin_with_custom_flow/30_confirmSignup.mdx';
+
+<Fragments fragments={{ android: android3 }} />
 
 import ios3 from '/src/fragments/lib/auth/ios/signin_with_custom_flow/30_confirmSignup.mdx';
 
@@ -46,6 +62,10 @@ import flutter3 from '/src/fragments/lib/auth/flutter/signin/20_confirmSignUp.md
 
 Implement a UI to get the username from the user. After the user enters the username you can start the sign in flow by calling the following method:
 
+import android4 from '/src/fragments/lib/auth/android/signin_with_custom_flow/40_signin.mdx';
+
+<Fragments fragments={{ android: android4 }} />
+
 import ios4 from '/src/fragments/lib/auth/ios/signin_with_custom_flow/40_signin.mdx';
 
 <Fragments fragments={{ ios: ios4 }} />
@@ -56,7 +76,11 @@ import flutter4 from '/src/fragments/lib/auth/flutter/signin_with_custom_flow/30
 
 ## Confirm sign in with custom challenge
 
-Get the custom challenge (`1234` in this case) from the user and pass it to the `confirmSignin()` api.
+Get the custom challenge from the user and pass it to the `confirmSignin()` api.
+
+import android5 from '/src/fragments/lib/auth/android/signin_with_custom_flow/50_custom_challenge.mdx';
+
+<Fragments fragments={{ android: android5 }} />
 
 import ios5 from '/src/fragments/lib/auth/ios/signin_with_custom_flow/50_custom_challenge.mdx';
 
