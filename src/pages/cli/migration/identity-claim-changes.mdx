@@ -191,10 +191,10 @@ v8.1.0 of the Amplify CLI is introducing the feature flag, `useSubUsernameForDef
 The Amplify CLI team will release v9.0.0, with the feature flag removed, and developers will need to manually set `"username"` to their schemas to maintain their former API contract, or the resolvers will start to store `sub::username` in their databases.
 
 ## Check for invalid owner identity claims
-In `v10.0.0`, Amplify CLI is adding stricter checks to ensure that valid owner identity claims exist in the customer's JWT token before storing these values transparently in the owner field.
-Previously, if the developer specified owner identity claim does not exist in the customer's JWT token, a default none value was stored in the owner field. 
+Amplify CLI `v10.0.0` is adding stricter checks to ensure that valid owner identity claims exist in the customer's JWT token before storing these values in the owner field.
+**Previously**, if the developer-specified owner identity claim does not exist in the customer's JWT token, a default none value was stored in the owner field. 
 
-With this change, if the developer specified identity claim does not exist in the customer's JWT token, the customer will be not be authorized to access the record. 
+**Amplify CLI `v10.0.0` and above**, if the developer-specified identity claim does not exist in the customer's JWT token, the customer will be not be authorized to access the record. 
 
 Since we cannot determine the owner from the previously stored default none value in the owner field, any requests to access these records will not be authorized.
 
@@ -217,7 +217,7 @@ type Todo
 }
 ```
 
-The developer specified owner identity claim i.e `userID` should be present in the customer's JWT token for them to be authorized. 
+The developer-specified owner identity claim i.e `userID` should be present in the customer's JWT token for them to be authorized. 
 
 Consider the following schema with default owner identity claim:
 
