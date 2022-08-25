@@ -437,13 +437,24 @@ input AuthRule {
 
 enum AuthStrategy { owner groups private public custom }
 enum AuthProvider { apiKey iam oidc userPools function }
-enum ModelOperation { create update delete read }
+enum ModelOperation {
+  create
+  update
+  delete
+  read # Short-hand to allow "get", "list", "sync", "listen", and "search"
+  
+  get # Retrieves an individual item
+  list # Retrieves a list of items
+  sync # Enables ability to sync offline/online changes (including via DataStore)
+  listen # Subscribes to real-time changes
+  search # Enables ability to search using @searchable directive
+}
 ```
 
 Authorization rules consists of:
 - **authorization strategy** (`allow`): who the authorization rule applies to
 - **authorization provider** (`provider`): which mechanism is used to apply the authorization rule (API Key, IAM, Amazon Cognito user pool, OIDC)
 - **authorized operations** (`operations`): which operations are allowed for the given strategy and provider. If not specified, `create`, `read`, `update`, and `delete` operations are allowed.
--- **read operation**: `read` operation can be replaced with `get`, `list`, `sync`, `search`, `list` for a more granular query access
+  - **`read` operation**: `read` operation can be replaced with `get`, `list`, `sync`, `listen`, and `search` for a more granular query access
 
 **API Keys** are best used for public APIs (or parts of your schema which you wish to be public) or prototyping, and you must specify the expiration time before deploying. **IAM** authorization uses [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html) to make request with policies attached to Roles. OIDC tokens provided by **Amazon Cognito user pool** or **3rd party OpenID Connect** providers can also be used for authorization, and enabling this provides a simple access control requiring users to authenticate to be granted top level access to API actions.
