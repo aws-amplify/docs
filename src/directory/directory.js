@@ -76,37 +76,47 @@ const directory = {
           {
             title: 'Getting started',
             route: '/lib/analytics/getting-started',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Record events',
             route: '/lib/analytics/record',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
+          },
+          {
+            title: 'Update Endpoint',
+            route: '/lib/analytics/update-endpoint',
+            filters: ['js', 'react-native']
           },
           {
             title: 'Automatically track sessions',
             route: '/lib/analytics/autotrack',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Identify user',
             route: '/lib/analytics/identifyuser',
-            filters: ['android', 'flutter', 'ios']
+            filters: ['android', 'flutter', 'ios', 'react-native', 'js']
           },
           {
             title: 'Streaming analytics data',
             route: '/lib/analytics/streaming',
-            filters: ['js']
+            filters: ['js', 'react-native']
+          },
+          {
+            title: 'Create a custom analytics plugin',
+            route: '/lib/analytics/create-custom-plugin',
+            filters: ['js', 'react-native']
           },
           {
             title: 'Storing analytics data',
             route: '/lib/analytics/storing',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Personalized recommendations',
             route: '/lib/analytics/personalize',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Escape hatch',
@@ -116,7 +126,7 @@ const directory = {
           {
             title: 'Use existing AWS resources',
             route: '/lib/analytics/existing-resources',
-            filters: ['android', 'flutter', 'ios']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           }
         ]
       },
@@ -697,7 +707,7 @@ const directory = {
           {
             title: 'Automatically track events',
             route: '/lib/storage/autotrack',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Lambda triggers',
@@ -736,7 +746,11 @@ const directory = {
             filters: ['js']
           },
           { title: 'Cache', route: '/lib/utilities/cache', filters: ['js'] },
-          { title: 'Hub', route: '/lib/utilities/hub', filters: ['android', 'ios', 'js'] },
+          {
+            title: 'Hub',
+            route: '/lib/utilities/hub',
+            filters: ['android', 'ios', 'js']
+          },
           {
             title: 'Internationalization',
             route: '/lib/utilities/i18n',
@@ -1759,8 +1773,8 @@ const directory = {
             route: '/console/uibuilder/collections'
           },
           {
-              title: 'Component slots',
-              route: '/console/uibuilder/slots'
+            title: 'Component slots',
+            route: '/console/uibuilder/slots'
           },
           {
             title: 'Theming',
