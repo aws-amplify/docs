@@ -141,62 +141,57 @@ const directory = {
           {
             title: 'Getting started',
             route: '/lib/graphqlapi/getting-started',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Concepts',
             route: '/lib/graphqlapi/concepts',
-            filters: ['android', 'flutter', 'ios', 'js']
-          },
-          {
-            title: 'Create or re-use existing backend',
-            route: '/lib/graphqlapi/create-or-re-use-existing-backend',
-            filters: ['js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Configure authorization modes',
             route: '/lib/graphqlapi/authz',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Create, update, delete data',
             route: '/lib/graphqlapi/mutate-data',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Fetch data',
             route: '/lib/graphqlapi/query-data',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Subscribe to data',
             route: '/lib/graphqlapi/subscribe-data',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Cancel API requests',
             route: '/lib/graphqlapi/cancel-request',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Offline scenarios',
             route: '/lib/graphqlapi/offline',
-            filters: ['js']
+            filters: ['js', 'react-native', 'flutter', 'android', 'ios']
           },
           {
             title: 'GraphQL from NodeJS',
             route: '/lib/graphqlapi/graphql-from-nodejs',
-            filters: ['js']
+            filters: ['js', 'react-native', 'react-native']
           },
           {
             title: 'Advanced Workflows',
             route: '/lib/graphqlapi/advanced-workflows',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Use existing AWS resources',
             route: '/lib/graphqlapi/existing-resources',
-            filters: ['android', 'flutter', 'ios']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           }
         ]
       },
@@ -667,57 +662,57 @@ const directory = {
           {
             title: 'Getting started',
             route: '/lib/storage/getting-started',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Concepts',
             route: '/lib/storage/overview',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Upload files',
             route: '/lib/storage/upload',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Download files',
             route: '/lib/storage/download',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'List files',
             route: '/lib/storage/list',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Copy files',
             route: '/lib/storage/copy',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Remove files',
             route: '/lib/storage/remove',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Cancel requests',
             route: '/lib/storage/cancel-requests',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'File access levels',
             route: '/lib/storage/configureaccess',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
-            title: 'Automatically track events',
+            title: 'Automatically track Storage events',
             route: '/lib/storage/autotrack',
             filters: ['js', 'react-native']
           },
           {
             title: 'Lambda triggers',
             route: '/lib/storage/triggers',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Escape hatch',

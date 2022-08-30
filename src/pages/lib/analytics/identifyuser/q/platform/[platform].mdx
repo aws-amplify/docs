@@ -1,16 +1,18 @@
 export const meta = {
   title: `Identify user`,
-  description: `Use the Amplify analytics plugin to inform Pinpoint about your users.`,
+  description: `Use the Amplify analytics plugin to inform Pinpoint about your users.`
 };
 
-import ios0 from "/src/fragments/lib/analytics/ios/identifyuser.mdx";
+<!-- TODO Find out how to identify a user with JS and RN -->
 
-<Fragments fragments={{ios: ios0}} />
+import ios0 from '/src/fragments/lib/analytics/ios/identifyuser.mdx';
 
-import android1 from "/src/fragments/lib/analytics/android/identifyuser.mdx";
+<Fragments fragments={{ ios: ios0 }} />
 
-<Fragments fragments={{android: android1}} />
+import android1 from '/src/fragments/lib/analytics/android/identifyuser.mdx';
 
-import flutter2 from "/src/fragments/lib/analytics/flutter/identifyuser.mdx";
+<Fragments fragments={{ android: android1 }} />
 
-<Fragments fragments={{flutter: flutter2}} />
+import flutter2 from '/src/fragments/lib/analytics/flutter/identifyuser.mdx';
+
+<Fragments fragments={{ flutter: flutter2 }} />

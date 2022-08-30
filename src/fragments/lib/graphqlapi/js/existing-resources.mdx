@@ -9,6 +9,7 @@ amplify add api
 When prompted, select **GraphQL**.
 
 The CLI prompts will help you to customize the options for your GraphQL API. With the provided options, you can:
+
 - Choose the API name
 - Choose the default authorization type
 - If using an API key as the authorization type, choose the expiration date for the API key
@@ -22,7 +23,7 @@ After configuring your GraphQL API options, update your backend:
 amplify push
 ```
 
-The `aws-exports.js` configuration file will be updated with the new API details, 
+The `aws-exports.js` configuration file will be updated with the new API details,
 
 ## Re-use existing AppSync GraphQL API
 
@@ -32,13 +33,14 @@ As an alternative to automatic configuration, you can manually enter AWS AppSync
 
 ```javascript
 const myAppConfig = {
-    // ...
-    'aws_appsync_graphqlEndpoint': 'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
-    'aws_appsync_region': 'us-east-1',
-    'aws_appsync_authenticationType': 'API_KEY',
-    'aws_appsync_apiKey': 'da2-xxxxxxxxxxxxxxxxxxxxxxxxxx',
-    // ...
-}
+  // ...
+  aws_appsync_graphqlEndpoint:
+    'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
+  aws_appsync_region: 'us-east-1',
+  aws_appsync_authenticationType: 'API_KEY',
+  aws_appsync_apiKey: 'da2-xxxxxxxxxxxxxxxxxxxxxxxxxx'
+  // ...
+};
 
 Amplify.configure(myAppConfig);
 ```
@@ -47,12 +49,13 @@ Amplify.configure(myAppConfig);
 
 ```javascript
 const myAppConfig = {
-    // ...
-    'aws_appsync_graphqlEndpoint': 'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
-    'aws_appsync_region': 'us-east-1',
-    'aws_appsync_authenticationType': 'AWS_IAM',
-    // ...
-}
+  // ...
+  aws_appsync_graphqlEndpoint:
+    'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
+  aws_appsync_region: 'us-east-1',
+  aws_appsync_authenticationType: 'AWS_IAM'
+  // ...
+};
 
 Amplify.configure(myAppConfig);
 ```
@@ -61,12 +64,13 @@ Amplify.configure(myAppConfig);
 
 ```javascript
 const myAppConfig = {
-    // ...
-    'aws_appsync_graphqlEndpoint': 'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
-    'aws_appsync_region': 'us-east-1',
-    'aws_appsync_authenticationType': 'AMAZON_COGNITO_USER_POOLS', // You have configured Auth with Amazon Cognito User Pool ID and Web Client Id
-    // ...
-}
+  // ...
+  aws_appsync_graphqlEndpoint:
+    'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
+  aws_appsync_region: 'us-east-1',
+  aws_appsync_authenticationType: 'AMAZON_COGNITO_USER_POOLS' // You have configured Auth with Amazon Cognito User Pool ID and Web Client Id
+  // ...
+};
 
 Amplify.configure(myAppConfig);
 ```
@@ -75,12 +79,13 @@ Amplify.configure(myAppConfig);
 
 ```javascript
 const myAppConfig = {
-    // ...
-    'aws_appsync_graphqlEndpoint': 'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
-    'aws_appsync_region': 'us-east-1',
-    'aws_appsync_authenticationType': 'OPENID_CONNECT', // Before calling API.graphql(...) is required to do Auth.federatedSignIn(...) check authentication guide for details.
-    // ...
-}
+  // ...
+  aws_appsync_graphqlEndpoint:
+    'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
+  aws_appsync_region: 'us-east-1',
+  aws_appsync_authenticationType: 'OPENID_CONNECT' // Before calling API.graphql(...) is required to do Auth.federatedSignIn(...) check authentication guide for details.
+  // ...
+};
 
 Amplify.configure(myAppConfig);
 ```
@@ -91,16 +96,15 @@ Amplify.configure(myAppConfig);
 
 ```javascript
 const myAppConfig = {
-    // ...
-    'aws_appsync_graphqlEndpoint': 'https://api.yourdomain.com/graphql',
-    'aws_appsync_region': 'us-east-1',
-    'aws_appsync_authenticationType': 'API_KEY' // All auth modes are supported
-    // ...
-}
+  // ...
+  aws_appsync_graphqlEndpoint: 'https://api.yourdomain.com/graphql',
+  aws_appsync_region: 'us-east-1',
+  aws_appsync_authenticationType: 'API_KEY' // All auth modes are supported
+  // ...
+};
 
 Amplify.configure(myAppConfig);
 ```
-
 
 ## Using a non-AppSync GraphQL Server
 
@@ -109,8 +113,8 @@ To access a non-AppSync GraphQL API with your app, you need to configure the end
 ```js
 import { Amplify, API } from 'aws-amplify';
 import awsconfig from './aws-exports';
- 
-// Considering you have an existing aws-exports.js configuration file 
+
+// Considering you have an existing aws-exports.js configuration file
 Amplify.configure(awsconfig);
 
 // Configure a custom GraphQL endpoint
@@ -129,7 +133,7 @@ When working with a non-AppSync GraphQL endpoint, you may need to set request he
 Amplify.configure({
   API: {
     graphql_headers: async () => ({
-        'My-Custom-Header': 'my value'
+      'My-Custom-Header': 'my value'
     })
   }
 });
