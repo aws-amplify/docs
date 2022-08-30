@@ -94,6 +94,11 @@ const directory = {
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
+            title: 'Enable/Disable Analytics',
+            route: '/lib/analytics/enable-disable',
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
+          },
+          {
             title: 'Identify user',
             route: '/lib/analytics/identifyuser',
             filters: ['android', 'flutter', 'ios', 'react-native', 'js']
