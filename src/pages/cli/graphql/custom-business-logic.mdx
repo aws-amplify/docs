@@ -567,7 +567,7 @@ In the example below, `myCustomMutation` can only be executed by signed-in custo
 
 ```graphql
 type Mutation {
-  myCustomMutation(args: String): String @auth(rules: [{ allow: private, provider: iam}])
+  myCustomMutation(args: String): String @auth(rules: [{ allow: private, provider: iam }])
 }
 ```
 
