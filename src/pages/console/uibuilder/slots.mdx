@@ -25,7 +25,7 @@ Next, you'll add a component slot to this component.
 
 2. On the right-hand panel, click the "Convert to a slot" button. This will add a new prop to your UI component. Any JSX element you pass into that prop will be rendered in the generated component slot.
 
-3. Optionally, change your your property name.  
+3. Optionally, change your property name.  
 
   In this example, the property has been renamed "comments"
 
@@ -105,6 +105,13 @@ Any component can be [converted to a collection](/console/uibuilder/collections/
 Here, the Ampligram collection is mapped to a data model called Post. The Post model has a field called Comment, which contains an array of all the Comments associated with this Post. Each of these items in the Comment array is then mapped to the "comments" component slot we created.  
 
 Dynamically rendering child components is where component slots get very useful - you can even [pass another collection](/console/uibuilder/override/#nesting-collections) into this component slot. 
+
+<Callout note>
+  <strong>Important Note</strong>
+  <p>
+    Currently, Component Slots only support one-to-many data relationships, like one Post to many Comments. Many-to-many relationships will be added in the future.
+  </p>
+</Callout>
 
 The code below will render an Ampligram for each Post in the AmpligramCollection. Then, the Comments for each Post will render in the "comments" component slot.  
 
