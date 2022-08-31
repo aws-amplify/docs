@@ -63,7 +63,7 @@ const deletedTodo = await API.graphql({ query: mutations.deleteTodo, variables: 
 Only an `id` is needed.
 
 <Callout>
-In a many-to-many relationship, the children are not removed and you must explicitly delete them.
+Join table records must be deleted prior to deleting the associated records. For example, for a many-to-many relationship between Posts and Tags, delete the PostTags join record prior to deleting a Post or Tag.
 </Callout>
 
 ### Custom authorization mode
