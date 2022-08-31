@@ -44,41 +44,7 @@ Android Studio will open your project with a tab opened to either *MainActivity.
 
 Amplify for Android is distributed as an Apache Maven package. In this section, you'll add the packages and other required directives to your build configuration.
 
-1. Expand **Gradle Scripts** in the project file viewer and open **build.gradle (Project: Todo)**.
-
-  Make the following additions to the project-level `build.gradle` file:
-  - Add the line `classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.2'` within the `dependencies` block.
-  - Add the line `apply plugin: 'com.amplifyframework.amplifytools'` at the end of the file.
-
-  Your file should look similar to this but may look slightly different depending on the version of Gradle you're using:
-
-  ```groovy
-  buildscript {
-      repositories {
-          google()
-          jcenter()
-      }
-
-      dependencies {
-          classpath 'com.android.tools.build:gradle:4.1.2'
-
-          // Add this line into `dependencies` in `buildscript`
-          classpath 'com.amplifyframework:amplify-tools-gradle-plugin:1.0.2'
-      }
-  }
-
-  allprojects {
-      repositories {
-          google()
-          jcenter()
-      }
-  }
-
-  // Add this line at the end of the file
-  apply plugin: 'com.amplifyframework.amplifytools'
-  ```
-
-2. Under **Gradle Scripts**, open **build.gradle (Module: app)**.
+1. Under **Gradle Scripts**, open **build.gradle (Module: app)**.
 
    Update the `dependencies` block in your file with the following lines:
 
@@ -89,7 +55,7 @@ Amplify for Android is distributed as an Apache Maven package. In this section, 
    }
    ```
 
-3. Run **Gradle Sync**
+2. Run **Gradle Sync**
 
     Android Studio requires you to sync your project with your new configuration. To do this, click **Sync Now** in the notification bar above the file editor.
 
