@@ -6,26 +6,30 @@ amplify import storage
 
 For more details, see how to [Use an existing S3 bucket or DynamoDB table](/cli/storage/import).
 
-If you are not using the Amplify CLI, an existing Amazon S3 bucket can be used by referencing it in your `amplifyconfiguration.json` file.
+If you are not using the Amplify CLI, an existing Amazon S3 bucket can be used by referencing it in your `amplifyconfiguration` file.
 
 <Callout warning>
-When you are not using Amplify CLI, adding existing Amazon S3 bucket to your application may require configuring bucket access permissions. e.g. Enabling read/write access to the cognito user pool that you are using with the Amplify Auth category.
+  When you are not using Amplify CLI, adding existing Amazon S3 bucket to your
+  application may require configuring bucket access permissions. e.g. Enabling
+  read/write access to the cognito user pool that you are using with the Amplify
+  Auth category.
 </Callout>
 
 ```json
 {
-    "storage": {
-        "plugins": {
-            "awsS3StoragePlugin": {
-                  "bucket": "[BUCKET NAME]",
-                  "region": "[REGION]"
-            }
-        }
+  "storage": {
+    "plugins": {
+      "awsS3StoragePlugin": {
+        "bucket": "[BUCKET NAME]",
+        "region": "[REGION]"
+      }
     }
+  }
 }
 ```
 
 - **bucket**: Name of the bucket to use for storage
-- **region**: AWS Region where the bucket is provisioned (e.g. *us-east-1*)
+- **region**: AWS Region where the bucket is provisioned (e.g. _us-east-1_)
+  <!-- TODO Rewrite need to add a section for configuring the Amplify libraries for JS+React Native -->
 
-Note that before you can add an AWS resource to your application, the application must have the Amplify libraries installed. If you need to perform this step, see [Install Amplify Libraries](/lib/project-setup/create-application#n2-install-amplify-libraries). 
+Note that before you can add an AWS resource to your application, the application must have the Amplify libraries installed. If you need to perform this step, see [Install Amplify Libraries](/lib/project-setup/create-application#n2-install-amplify-libraries).

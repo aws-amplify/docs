@@ -21,12 +21,12 @@ const directory = {
           {
             title: 'Prerequisites',
             route: '/lib/project-setup/prereq',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Create your application',
             route: '/lib/project-setup/create-application',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Null safety',
@@ -722,7 +722,7 @@ const directory = {
           {
             title: 'Use existing AWS resources',
             route: '/lib/storage/existing-resources',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           }
         ]
       },
