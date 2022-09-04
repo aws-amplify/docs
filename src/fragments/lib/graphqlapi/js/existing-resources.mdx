@@ -1,30 +1,3 @@
-## Create new AppSync GraphQL API
-
-To create a new GraphQL API, you can use the Amplify CLI `api` category:
-
-```bash
-amplify add api
-```
-
-When prompted, select **GraphQL**.
-
-The CLI prompts will help you to customize the options for your GraphQL API. With the provided options, you can:
-
-- Choose the API name
-- Choose the default authorization type
-- If using an API key as the authorization type, choose the expiration date for the API key
-- Configure additional authorization types
-- Enable conflict detection (for use with [DataStore](/lib/datastore/getting-started))
-- Choose to either reference an existing GraphQL schema or be given starter GraphQL schema boilerplates
-
-After configuring your GraphQL API options, update your backend:
-
-```bash
-amplify push
-```
-
-The `aws-exports.js` configuration file will be updated with the new API details,
-
 ## Re-use existing AppSync GraphQL API
 
 As an alternative to automatic configuration, you can manually enter AWS AppSync configuration parameters in your app. Authentication type options are `API_KEY`, `AWS_IAM`, `AMAZON_COGNITO_USER_POOLS` and `OPENID_CONNECT`.
