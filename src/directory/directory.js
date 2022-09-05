@@ -715,6 +715,11 @@ const directory = {
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
+            title: 'Custom Plugin',
+            route: '/lib/storage/custom-plugin',
+            filters: ['js', 'react-native']
+          },
+          {
             title: 'Escape hatch',
             route: '/lib/storage/escapehatch',
             filters: ['android', 'ios']

@@ -1,0 +1,78 @@
+You can create your custom pluggable for Storage. This may be helpful if you want to integrate your app with a custom storage backend.
+
+To create a plugin implement the `StorageProvider` interface:
+
+```typescript
+import { Storage, StorageProvider } from 'aws-amplify';
+
+export default class MyStorageProvider implements StorageProvider {
+    // category and provider name
+    static category = 'Storage';
+    static providerName = 'MyStorage';
+
+    // you need to implement these seven methods
+    // configure your provider
+    configure(config: object): object;
+
+    // copy object, optional
+    copy?(
+	    src: { key: string; identityId: string; level: 'public' | 'protected' | 'private' },
+	    dest: { key: string; level: 'public' | 'protected' | 'private' },
+	    options?
+    ): Promise<any>
+
+    // get object/pre-signed url from storage
+    get(key: string, options?): Promise<String|Object>
+
+    // upload storage object
+    put(key: string, object, options?): Promise<Object>
+
+    // remove object
+    remove(key: string, options?): Promise<any>
+
+    // list objects for the path
+    list(path, options?): Promise<any>
+
+    // return 'Storage';
+    getCategory(): string;
+
+    // return the name of you provider
+    getProviderName(): string;
+```
+
+You can now register your pluggable:
+
+```javascript
+// add the plugin
+Storage.addPluggable(new MyStorageProvider());
+
+// get the plugin
+Storage.getPluggable(MyStorageProvider.providerName);
+
+// remove the plugin
+Storage.removePluggable(MyStorageProvider.providerName);
+
+// send configuration into Amplify
+Storage.configure({
+  [MyStorageProvider.providerName]: {
+    // My Storage provider configuration
+  }
+});
+```
+
+You can pass in your custom provider class to the Storage function to get Typescript support:
+
+```javascript
+class MyStorageProvider implements StorageProvider {
+	...
+	get(key: string, config: { config1: number; }): Promise<{ key: string }>;
+}
+
+// will automatically use the return type from the provider's function signature
+const getResult: Promise<{ key: string }> = Storage.get<MyStorageProvider>('key', {
+	provider: 'MyStorageProvider',
+	config1: 123,
+});
+```
+
+The default provider (Amazon S3) is in use when you call `Storage.put( )` unless you specify a different provider: `Storage.put(key, object, {provider: 'MyStorageProvider'})`.
