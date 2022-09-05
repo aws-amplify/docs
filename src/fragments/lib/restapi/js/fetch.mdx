@@ -4,39 +4,41 @@ To invoke an endpoint, you need to set `apiName`, `path` and `headers` parameter
 
 ```javascript
 const apiName = 'MyApiName';
-const path = '/path'; 
-const myInit = { // OPTIONAL
-    headers: {}, // OPTIONAL
-    response: true, // OPTIONAL (return the entire Axios response object instead of only response.data)
-    queryStringParameters: {  // OPTIONAL
-        name: 'param',
-    },
+const path = '/path';
+const myInit = {
+  // OPTIONAL
+  headers: {}, // OPTIONAL
+  response: true, // OPTIONAL (return the entire Axios response object instead of only response.data)
+  queryStringParameters: {
+    // OPTIONAL
+    name: 'param'
+  }
 };
 
-API
-  .get(apiName, path, myInit)
-  .then(response => {
+API.get(apiName, path, myInit)
+  .then((response) => {
     // Add your code here
   })
-  .catch(error => {
+  .catch((error) => {
     console.log(error.response);
- });
+  });
 ```
 
 Example with async/await
 
 ```javascript
-function getData() { 
+function getData() {
   const apiName = 'MyApiName';
   const path = '/path';
-  const myInit = { // OPTIONAL
-    headers: {}, // OPTIONAL
+  const myInit = {
+    // OPTIONAL
+    headers: {} // OPTIONAL
   };
 
   return API.get(apiName, path, myInit);
 }
 
-(async function () {
+(async function() {
   const response = await getData();
 })();
 ```
@@ -47,42 +49,44 @@ To use query parameters with `get` method, you can pass them in `queryStringPara
 
 ```javascript
 const items = await API.get('myCloudApi', '/items', {
-  'queryStringParameters': {
-    'order': 'byPrice'
+  queryStringParameters: {
+    order: 'byPrice'
   }
 });
 ```
 
 ## HEAD
 
+<!-- TODO Rewrite What is this for? -->
+
 ```javascript
 const apiName = 'MyApiName'; // replace this with your api name.
 const path = '/path'; //replace this with the path you have configured on your API
-const myInit = { // OPTIONAL
-    headers: {}, // OPTIONAL
+const myInit = {
+  // OPTIONAL
+  headers: {} // OPTIONAL
 };
 
-API
- .head(apiName, path, myInit)
- .then(response => {
-    // Add your code here
- });
+API.head(apiName, path, myInit).then((response) => {
+  // Add your code here
+});
 ```
 
 Example with async/await:
 
 ```javascript
-function head() { 
+function head() {
   const apiName = 'MyApiName';
   const path = '/path';
-  const myInit = { // OPTIONAL
-      headers: {}, // OPTIONAL
+  const myInit = {
+    // OPTIONAL
+    headers: {} // OPTIONAL
   };
 
   return API.head(apiName, path, myInit);
 }
 
-(async function () {
+(async function() {
   const response = await head();
 })();
 ```
@@ -91,13 +95,13 @@ function head() {
 
 > To learn more about Lambda Proxy Integration, please visit [Amazon API Gateway Developer Guide](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-create-api-as-simple-proxy-for-lambda.html).
 
-If you are using a REST API which is generated with Amplify CLI, your backend is created with Lambda Proxy Integration, and you can access your query parameters & body within your Lambda function via the *event* object:
+If you are using a REST API which is generated with Amplify CLI, your backend is created with Lambda Proxy Integration, and you can access your query parameters & body within your Lambda function via the _event_ object:
 
 ```javascript
 exports.handler = function(event, context, callback) {
-    console.log(event.queryStringParameters);
-    console.log('body: ', event.body);
-}
+  console.log(event.queryStringParameters);
+  console.log('body: ', event.body);
+};
 ```
 
 Alternatively, you can update your backend file which is located at `amplify/backend/function/[your-lambda-function]/app.js` with the middleware:
@@ -135,7 +139,7 @@ By default, calling an API with AWS Amplify parses a JSON response. If you have 
 
 ```javascript
 let file = await API.get('myCloudApi', '/items', {
-  'responseType': 'blob',
+  responseType: 'blob'
 });
 ```
 

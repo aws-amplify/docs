@@ -6,16 +6,15 @@ Posts data to the API endpoint:
 const apiName = 'MyApiName'; // replace this with your api name.
 const path = '/path'; //replace this with the path you have configured on your API
 const myInit = {
-    body: {}, // replace this with attributes you need
-    headers: {}, // OPTIONAL
+  body: {}, // replace this with attributes you need
+  headers: {} // OPTIONAL
 };
 
-API
-  .post(apiName, path, myInit)
-  .then(response => {
+API.post(apiName, path, myInit)
+  .then((response) => {
     // Add your code here
   })
-  .catch(error => {
+  .catch((error) => {
     console.log(error.response);
   });
 ```
@@ -23,15 +22,16 @@ API
 Example with async/await
 
 ```javascript
-async function postData() { 
-    const apiName = 'MyApiName';
-    const path = '/path';
-    const myInit = { // OPTIONAL
-        body: {}, // replace this with attributes you need
-        headers: {}, // OPTIONAL
-    };
+async function postData() {
+  const apiName = 'MyApiName';
+  const path = '/path';
+  const myInit = {
+    // OPTIONAL
+    body: {}, // replace this with attributes you need
+    headers: {} // OPTIONAL
+  };
 
-    return await API.post(apiName, path, myInit);
+  return await API.post(apiName, path, myInit);
 }
 
 postData();
@@ -45,16 +45,15 @@ When used together with a REST API, `put()` method can be used to create or upda
 const apiName = 'MyApiName'; // replace this with your api name.
 const path = '/path'; // replace this with the path you have configured on your API
 const myInit = {
-    body: {}, // replace this with attributes you need
-    headers: {}, // OPTIONAL
+  body: {}, // replace this with attributes you need
+  headers: {} // OPTIONAL
 };
 
-API
-  .put(apiName, path, myInit)
-  .then(response => {
+API.put(apiName, path, myInit)
+  .then((response) => {
     // Add your code here
   })
-  .catch(error => {
+  .catch((error) => {
     console.log(error.response);
   });
 ```
@@ -62,15 +61,16 @@ API
 Example with async/await:
 
 ```javascript
-async function putData() { 
-    const apiName = 'MyApiName';
-    const path = '/path';
-    const myInit = { // OPTIONAL
-        body: {}, // replace this with attributes you need
-        headers: {}, // OPTIONAL
-    };
+async function putData() {
+  const apiName = 'MyApiName';
+  const path = '/path';
+  const myInit = {
+    // OPTIONAL
+    body: {}, // replace this with attributes you need
+    headers: {} // OPTIONAL
+  };
 
-    return await API.put(apiName, path, myInit);
+  return await API.put(apiName, path, myInit);
 }
 
 putData();
@@ -82,7 +82,7 @@ Access body in the Lambda function
 // using a basic lambda handler
 exports.handler = (event, context) => {
   console.log('body: ', event.body);
-}
+};
 
 // using serverless express
 app.put('/myendpoint', function(req, res) {
@@ -94,10 +94,10 @@ Update a record:
 
 ```javascript
 const params = {
-    body: {
-        itemId: '12345',
-        itemDesc: ' update description'
-    },
+  body: {
+    itemId: '12345',
+    itemDesc: ' update description'
+  }
 };
 
 const apiResponse = await API.put('MyTableCRUD', '/manage-items', params);
@@ -105,11 +105,13 @@ const apiResponse = await API.put('MyTableCRUD', '/manage-items', params);
 
 ## Access body in Lambda proxy function
 
+<!-- TODO Rewrite need to add more information here, this is not clear -->
+
 ```javascript
 // using a basic lambda handler
 exports.handler = (event, context) => {
   console.log('body: ', event.body);
-}
+};
 
 // using serverless express
 app.post('/myendpoint', function(req, res) {
