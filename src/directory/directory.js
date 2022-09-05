@@ -637,22 +637,22 @@ const directory = {
           {
             title: 'Overview',
             route: '/lib/push-notifications/overview',
-            filters: ['js']
+            filters: ['react-native']
           },
           {
             title: 'Getting started',
             route: '/lib/push-notifications/getting-started',
-            filters: ['js']
+            filters: ['react-native']
           },
           {
             title: 'Working with API',
             route: '/lib/push-notifications/working-with-api',
-            filters: ['js']
+            filters: ['react-native']
           },
           {
             title: 'Testing',
             route: '/lib/push-notifications/testing',
-            filters: ['js']
+            filters: ['react-native']
           }
         ]
       },
