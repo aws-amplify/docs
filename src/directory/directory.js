@@ -486,57 +486,57 @@ const directory = {
           {
             title: 'Overview',
             route: '/lib/in-app-messaging/overview',
-            filters: ['js']
+            filters: ['react-native']
           },
           {
             title: 'Prerequisites',
             route: '/lib/in-app-messaging/prerequisites',
-            filters: ['js']
+            filters: ['react-native']
           },
           {
             title: 'Create an In-App Messaging campaign',
             route: '/lib/in-app-messaging/create-campaign',
-            filters: ['js']
+            filters: ['react-native']
           },
           {
             title: 'Getting started',
             route: '/lib/in-app-messaging/getting-started',
-            filters: ['js']
+            filters: ['react-native']
           },
           {
             title: 'Sync messages',
             route: '/lib/in-app-messaging/sync-messages',
-            filters: ['js']
+            filters: ['react-native']
           },
           {
             title: 'Display message',
             route: '/lib/in-app-messaging/display-message',
-            filters: ['js']
+            filters: ['react-native']
           },
           {
             title: 'Clear messages',
             route: '/lib/in-app-messaging/clear-messages',
-            filters: ['js']
+            filters: ['react-native']
           },
           {
             title: 'Customize your UI',
             route: '/lib/in-app-messaging/customize',
-            filters: ['js']
+            filters: ['react-native']
           },
           {
             title: 'Identify a user',
             route: '/lib/in-app-messaging/identify-user',
-            filters: ['js']
+            filters: ['react-native']
           },
           {
             title: 'Respond to interaction events',
             route: '/lib/in-app-messaging/respond-interaction-events',
-            filters: ['js']
+            filters: ['react-native']
           },
           {
             title: 'Resolving conflicts',
             route: '/lib/in-app-messaging/resolve-conflicts',
-            filters: ['js']
+            filters: ['react-native']
           }
         ]
       },
