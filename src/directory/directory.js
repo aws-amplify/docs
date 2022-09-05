@@ -621,14 +621,18 @@ const directory = {
           {
             title: 'Getting started',
             route: '/lib/pubsub/getting-started',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Subscribe & Unsubscribe',
             route: '/lib/pubsub/subunsub',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
-          { title: 'Publish', route: '/lib/pubsub/publish', filters: ['js'] }
+          {
+            title: 'Publish',
+            route: '/lib/pubsub/publish',
+            filters: ['js', 'react-native']
+          }
         ]
       },
       'push-notifications': {
