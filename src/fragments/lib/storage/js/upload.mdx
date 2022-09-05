@@ -90,6 +90,8 @@ upload.resume();
 Storage.cancel(upload);
 ```
 
+<!-- TODO Rewrite why do we not have multi-part upload documented for JS? -->
+
 When a page refresh occurs during the upload, re-initializing the upload with the same file will continue from previous progress point.
 
 ```javascript
@@ -152,6 +154,8 @@ Note: 'contentType' is metadata (saved under the key 'Content-Type') for the S3 
 For example: uploading a file with the key "example.jpg" will result in the 'Type' being set as "jpg", but the 'contentType' in metadata will determine it's behavior so setting it as "text/html" will result in the file being treated as an HTML file regardless of displayed 'Type' in the S3 console.
 
 </Callout>
+
+<!-- TODO Rewrite - which is this differently shown? is it just for grabbing pathImageFile? I am confused why this section exists when it is almost a duplicate of the above -->
 
 ## React Native uploads
 
