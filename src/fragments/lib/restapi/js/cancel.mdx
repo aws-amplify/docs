@@ -1,5 +1,3 @@
-## CANCEL API requests
-
 You may cancel any request made through API category by keeping a reference to the promise returned.
 
 ```javascript
@@ -26,10 +24,10 @@ You need to ensure that the promise returned from `API.get()` or any other API c
 
 ```javascript
 async function makeAPICall() {
-    return API.get(myApiName, myPath, myInit);
+  return API.get(myApiName, myPath, myInit);
 }
 const promise = makeAPICall();
 
 // The following will NOT cancel the request.
-API.cancel(promise, "my error message");
+API.cancel(promise, 'my error message');
 ```

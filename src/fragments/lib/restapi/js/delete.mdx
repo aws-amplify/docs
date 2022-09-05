@@ -1,18 +1,20 @@
 ## DELETE data
 
+<!-- TODO Rewrite Need to add a bit more details -->
+
 ```javascript
 const apiName = 'MyApiName'; // replace this with your api name.
 const path = '/path'; //replace this with the path you have configured on your API
-const myInit = { // OPTIONAL
-    headers: {}, // OPTIONAL
+const myInit = {
+  // OPTIONAL
+  headers: {} // OPTIONAL
 };
 
-API
-  .del(apiName, path, myInit)
-  .then(response => {
+API.del(apiName, path, myInit)
+  .then((response) => {
     // Add your code here
   })
-  .catch(error => {
+  .catch((error) => {
     console.log(error.response);
   });
 ```
@@ -20,13 +22,14 @@ API
 Example with async/await
 
 ```javascript
-async function deleteData() { 
-    const apiName = 'MyApiName';
-    const path = '/path';
-    const myInit = { // OPTIONAL
-        headers: {} // OPTIONAL
-    }
-    return await API.del(apiName, path, myInit);
+async function deleteData() {
+  const apiName = 'MyApiName';
+  const path = '/path';
+  const myInit = {
+    // OPTIONAL
+    headers: {} // OPTIONAL
+  };
+  return await API.del(apiName, path, myInit);
 }
 
 deleteData();
@@ -34,11 +37,13 @@ deleteData();
 
 Access body in the Lambda function
 
+<!-- TODO Rewrite Need to add a bit more details -->
+
 ```javascript
 // using a basic lambda handler
 exports.handler = (event, context) => {
   console.log('body: ', event.body);
-}
+};
 
 // using serverless express
 app.delete('/myendpoint', function(req, res) {
