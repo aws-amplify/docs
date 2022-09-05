@@ -770,7 +770,7 @@ const directory = {
           {
             title: 'Configuring Amplify Categories',
             route: '/lib/client-configuration/configuring-amplify-categories',
-            filters: ['js']
+            filters: ['js', 'react-native']
           }
         ]
       },
