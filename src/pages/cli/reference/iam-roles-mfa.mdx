@@ -5,7 +5,7 @@ export const meta = {
 
  
 
-You can optionally configure the Amplify CLI to assume an IAM role by defining a profile for the role in the shared `~/.aws/config` file. This is similar to how the [AWS CLI](https://aws.amazon.com/cli/) functions, including short term credentials. This can be useful when you have multiple developers using one or more AWS accounts, including team workflows where you want to restrict the category updates they might be permitted to make.
+You can optionally configure the Amplify CLI to assume an IAM role by defining a [profile](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) for the role in the shared `~/.aws/config` file. This is similar to how the [AWS CLI](https://aws.amazon.com/cli/) functions, including short term credentials. This can be useful when you have multiple developers using one or more AWS accounts, including team workflows where you want to restrict the category updates they might be permitted to make. The AWS config and credentials files are shared between the Amplify CLI, AWS CLI, and other AWS SDKs; however, the Amplify CLI does not parse special characters such as `.`, unless they are properly escaped (`\.`). Additional information about the format of the config and credentials files can be found [here](https://docs.aws.amazon.com/sdkref/latest/guide/file-format.html).
 
 When prompted during the execution of `amplify init` or the `amplify configure project` command, you will select a configured profile for the role, and the Amplify CLI will handle the logic to retrieve, cache and refresh the temp credentials. If Multi-Factor Authentication (MFA) is enabled, the CLI will prompt you to enter the MFA token code when it needs to retrieve or refresh temporary credentials.
 
