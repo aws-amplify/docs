@@ -2,19 +2,16 @@ import {
   MenuHeaderStyle,
   MenuStyle,
   MenuBreakStyle,
-  DiscordLinkStyle,
-  MenuBodyStyle,
-} from "./styles";
-import React from "react";
-import MenuOpenButton from "./MenuOpenButton";
-import MenuCloseButton from "./MenuCloseButton";
-import {MQTablet} from "../media";
-import Directory from "./Directory";
-import ExternalLink from "../ExternalLink";
-import {DISCORD} from "../../constants/img";
-import RepoActions from "./RepoActions";
-import FilterSelect from "./FilterSelect";
-import VersionSwitcher from "./VersionSwitcher";
+  MenuBodyStyle
+} from './styles';
+import React from 'react';
+import MenuOpenButton from './MenuOpenButton';
+import MenuCloseButton from './MenuCloseButton';
+import { MQTablet } from '../media';
+import Directory from './Directory';
+import RepoActions from './RepoActions';
+import FilterSelect from './FilterSelect';
+import VersionSwitcher from './VersionSwitcher';
 
 type MenuProps = {
   filters: string[];
@@ -31,7 +28,7 @@ type MenuState = {
 export default class Menu extends React.Component<MenuProps, MenuState> {
   constructor(props) {
     super(props);
-    this.state = {isOpen: true};
+    this.state = { isOpen: true };
   }
 
   componentDidMount() {
@@ -41,13 +38,13 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
     // If the media query matches, then the user is on desktop and should see the menu by default
     this.setState({
       isOpen:
-        typeof window !== "undefined" && window.matchMedia(MQTabletJS).matches,
+        typeof window !== 'undefined' && window.matchMedia(MQTabletJS).matches
     });
   }
 
   closeMenu = () => {
     this.setState({
-      isOpen: false,
+      isOpen: false
     });
 
     if (this.props.setMenuIsOpen) {
@@ -57,7 +54,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
 
   openMenu = () => {
     this.setState({
-      isOpen: true,
+      isOpen: true
     });
 
     if (this.props.setMenuIsOpen) {
@@ -68,10 +65,10 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
   render() {
     let showVersionSwitcher = false;
     if (
-      (this.props.url.startsWith("/ui") ||
-        this.props.url.startsWith("/ui-legacy")) &&
-      this.props.filterKey !== "react-native" &&
-      this.props.filterKey !== "flutter"
+      (this.props.url.startsWith('/ui') ||
+        this.props.url.startsWith('/ui-legacy')) &&
+      this.props.filterKey !== 'react-native' &&
+      this.props.filterKey !== 'flutter'
     ) {
       showVersionSwitcher = true;
     }
@@ -82,7 +79,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
             <div>
               <MenuHeaderStyle>
                 <MenuCloseButton closeMenu={this.closeMenu} />
-                {typeof this.props.filterKey !== "undefined" && (
+                {typeof this.props.filterKey !== 'undefined' && (
                   <FilterSelect
                     filters={this.props.filters}
                     filterKey={this.props.filterKey}
@@ -104,15 +101,6 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
                   url={this.props.url}
                   directoryPath={this.props.directoryPath}
                 />
-                <DiscordLinkStyle>
-                  <ExternalLink
-                    href="https://discord.gg/jWVbPfC"
-                    anchorTitle="Discord Community"
-                  >
-                    <img alt={DISCORD.alt} src={DISCORD.lightSrc} />
-                    Chat with us
-                  </ExternalLink>
-                </DiscordLinkStyle>
               </MenuBodyStyle>
             </div>
           </div>

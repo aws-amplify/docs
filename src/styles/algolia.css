@@ -580,3 +580,31 @@
   height: 100%;
   display: block;
 }
+
+.aa-DetachedContainer {
+  top: 15%;
+}
+
+.aa-DetachedSearchButtonIcon {
+  align-items: center !important;
+  justify-content: flex-start;
+  width: 30px
+}
+
+.aa-DetachedSearchButton {
+  border-radius: 0.25rem;
+  align-items: center;
+  border: 0;
+  cursor: pointer;
+  display: flex;
+  font-weight: 500;
+  height: 36px;
+  user-select: none;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .aa-DetachedContainer {
+    top: 0px;
+  }
+}

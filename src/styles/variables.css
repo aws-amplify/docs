@@ -43,6 +43,8 @@
   --code-font-color: var(--color-white);
   --code-line-numbers-color: rgba(255, 255, 255, 0.3);
   --font-color-contrast: var(--color-white);
+
+  --docs-dev-center-nav: 5rem;
 }
 
 [data-theme="dark"] {

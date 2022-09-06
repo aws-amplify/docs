@@ -76,11 +76,6 @@ export default function Layout({
         </Head>
       )}
       <GlobalNav links={NAV_LINKS as NavMenuItem[]} currentSite={'Docs'} />
-      {/* <UniversalNav
-        heading="Amplify Docs"
-        brandIcon="/assets/logo-light.svg"
-        blend={false}
-      /> */}
       <SecondaryNav />
       <Container backgroundColor="bg-color-tertiary">
         <LayoutStyle>{children}</LayoutStyle>

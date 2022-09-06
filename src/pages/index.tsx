@@ -1,23 +1,24 @@
-import {Grid} from "theme-ui";
-import Head from "next/head";
-import {useEffect} from "react";
+import { Grid } from 'theme-ui';
+import Head from 'next/head';
+import { useEffect } from 'react';
 
-import Hero from "../components/Hero";
-import LandingHeroCTA from "../components/LandingHeroCTA";
-import {Container} from "../components/Container";
-import {Card, CardDetail, CardGraphic} from "../components/Card";
-import FeaturesGrid from "../components/FeaturesGrid";
-import LinkBanner from "../components/LinkBanner";
-import Footer from "../components/Footer";
-import UniversalNav from "../components/UniversalNav";
+import Hero from '../components/Hero';
+import LandingHeroCTA from '../components/LandingHeroCTA';
+import { Container } from '../components/Container';
+import { Card, CardDetail, CardGraphic } from '../components/Card';
+import FeaturesGrid from '../components/FeaturesGrid';
+import LinkBanner from '../components/LinkBanner';
+import Footer from '../components/Footer';
 
-import {trackPageVisit} from "../utils/track";
+import { trackPageVisit } from '../utils/track';
+import { NavMenuItem, GlobalNav } from '../components/GlobalNav';
+import { NAV_LINKS } from '../utils/globalnav';
 
 const meta = {
-  title: "Amplify Framework Docs",
+  title: 'Amplify Framework Docs',
   description:
-    "Amplify Framework documentation - Learn how to use Amplify to develop and deploy cloud-powered mobile and web apps.",
-  url: "https://docs.amplify.aws/",
+    'Amplify Framework documentation - Learn how to use Amplify to develop and deploy cloud-powered mobile and web apps.',
+  url: 'https://docs.amplify.aws/'
 };
 
 const Page = () => {
@@ -65,11 +66,7 @@ const Page = () => {
           key="twitter:image"
         />
       </Head>
-      <UniversalNav
-        heading="Amplify Docs"
-        brandIcon="/assets/logo-dark.svg"
-        blend={true}
-      />
+      <GlobalNav links={NAV_LINKS as NavMenuItem[]} currentSite={'Docs'} />
       <Hero>
         <h1 className="font-weight-300">Amplify Framework Documentation</h1>
         <p>
@@ -90,7 +87,7 @@ const Page = () => {
             columns={[1, null, null, 4]}
             gap={4}
             sx={{
-              marginTop: "2rem",
+              marginTop: '2rem'
             }}
           >
             <Card href="/lib/q/platform/js">
@@ -104,10 +101,16 @@ const Page = () => {
               </CardDetail>
             </Card>
             <Card href="/console">
-              <CardGraphic alt="Amplify Studio icon" src="/assets/console.png" />
+              <CardGraphic
+                alt="Amplify Studio icon"
+                src="/assets/console.png"
+              />
               <CardDetail>
                 <h4>Amplify Studio</h4>
-                <p>Visual development environment to accelerate full-stack development.</p>
+                <p>
+                  Visual development environment to accelerate full-stack
+                  development.
+                </p>
               </CardDetail>
             </Card>
             <Card href="/cli">
@@ -121,9 +124,7 @@ const Page = () => {
               <CardGraphic alt="Console icon" src="/assets/console.png" />
               <CardDetail>
                 <h4>Amplify Hosting</h4>
-                <p>
-                Fully managed web hosting with full-stack CI/CD.
-                </p>
+                <p>Fully managed web hosting with full-stack CI/CD.</p>
               </CardDetail>
             </Card>
           </Grid>

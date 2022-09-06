@@ -1,37 +1,28 @@
-import styled from "@emotion/styled";
-import {MQLaptop} from "../media";
+import styled from '@emotion/styled';
+import { MQLaptop, MQTablet } from '../media';
 
 export const SecondaryNavStyle = styled.div`
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
-  flex: 1;
   align-items: center;
-
-  ${MQLaptop} {
-    flex-direction: row;
-    padding-left: 1.5rem;
-  }
+  column-gap: 20px;
 
   * {
     white-space: nowrap;
   }
 
-  div {
+  .secondary-nav-links {
     display: flex;
     flex-direction: row;
     align-items: center;
     box-sizing: border-box;
 
-    &:first-child {
-      width: 100%;
-      overflow-x: auto;
+    width: 100%;
+    overflow-x: auto;
 
-      display: flex;
-      flex-direction: row;
-      align-items: start;
-      padding: 0 1rem;
-    }
+    display: flex;
+    flex-direction: row;
+    align-items: start;
 
     a {
       margin-left: 1.75rem;
@@ -51,15 +42,16 @@ export const HostStyle = styled.div`
   z-index: 1;
   display: block;
   position: sticky;
-  top: 0;
+  top: var(--docs-dev-center-nav);
   background-color: var(--bg-color-secondary);
+  padding: 0 20px;
 `;
 
 export const LinkActiveStyle = styled.a`
   font-weight: bold;
 
   ${MQLaptop} {
-    border-bottom: 0.125rem solid var(--font-color);
+    border-bottom: 0.125rem solid var(--color-orange-hv);
   }
 
   > span {
@@ -80,8 +72,14 @@ export const ShadowStyle = styled.div`
     rgba(0, 0, 0, 0),
     rgba(0, 0, 0, 0.1875)
   );
+  height: 52px;
 
-  ${MQLaptop} {
+  ${MQTablet} {
     display: none !important;
   }
+`;
+
+export const SearchBarContainer = styled.div`
+  // border: 1px solid red;
+  margin: 10px 0px;
 `;
