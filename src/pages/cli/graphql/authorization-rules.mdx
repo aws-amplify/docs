@@ -258,9 +258,7 @@ In the example above:
 - any user (signed in or not, verified by IAM) is allowed to read all posts
 - owners are allowed to create, read, update, and delete their own posts.
 
-If you are using datastore to automatically determine authorization mode, note that some requests could use multiple authorization modes 
-with the above schema. Have a look at the [priority order](/lib/datastore/setup-auth-rules/q/platform/js/#multiple-authorization-types-priority-order) for authorization 
-strategies to understand which mode will get used and decide if your schema needs more specific authorization rules.
+If you are using DataStore and have multiple authorization rules, you can let DataStore automatically determine the best authorization mode client-side. Review how to [Configure Multiple Authorization Types](https://docs.amplify.aws/lib/datastore/setup-auth-rules/q/platform/js/#configure-multiple-authorization-types) on DataStore for more details.
 
 ## Field-level authorization rules
 
