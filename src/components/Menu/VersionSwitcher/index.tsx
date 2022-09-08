@@ -39,7 +39,7 @@ const Option = function({href, title, isActive}) {
   );
 };
 
-export default function VersionSwitcher({url}) {
+export function VersionSwitcher({url}) {
   let leftActive = true;
   let urlEnd;
   const filter = url.includes("/framework")
@@ -64,6 +64,74 @@ export default function VersionSwitcher({url}) {
     href: uiLegacyPaths.includes(rightHref)
       ? rightHref
       : "/ui-legacy/" + filter,
+  };
+
+  return (
+    <SwitchStyle>
+      <Option
+        href={leftOption.href}
+        title={leftOption.title}
+        isActive={leftActive}
+      />
+      <Option
+        href={rightOption.href}
+        title={rightOption.title}
+        isActive={!leftActive}
+      />
+    </SwitchStyle>
+  );
+}
+
+
+const lib = directory["lib"].items;
+const libLegacy = directory["lib-legacy"].items;
+const libLegacyPaths = [];
+const libPaths = [];
+const libItemsAndPaths: [object, string[]][] = [
+  [lib, libPaths],
+  [libLegacy, libLegacyPaths],
+];
+for (const [dirItems, paths] of libItemsAndPaths) {
+  for (const [_, value] of Object.entries(dirItems)) {
+    const {items} = value;
+    items.forEach((item) => {
+      const {route, filters} = item;
+      filters.forEach((filter) => {
+        const path = route + "/q/framework/" + filter + "/";
+        paths.push(path);
+      });
+      paths.push(route);
+    });
+  }
+}
+libLegacyPaths.push("/lib-legacy");
+libPaths.push("/lib");
+
+export function LibVersionSwitcher({url}) {
+  let leftActive = true;
+  let urlEnd;
+  const filter = url.includes("/framework")
+    ? "q/framework" + url.split("/framework")[1]
+    : "";
+  if (url.includes("/lib-legacy")) {
+    leftActive = false;
+    urlEnd = url.split("/lib-legacy")[1];
+  } else {
+    urlEnd = url.split("/lib")[1];
+  }
+
+  const leftHref = "/lib" + urlEnd;
+  const leftOption = {
+    title: "Latest",
+    href: libPaths.includes(leftHref) ? leftHref : "/lib/" + filter,
+  };
+
+  const rightHref = "/lib-legacy" + urlEnd;
+  const rightOption = {
+    title: "Legacy",
+    href: libLegacyPaths.includes(rightHref)
+      ? rightHref
+      : "/lib-legacy/" + filter,
   };
 
   return (

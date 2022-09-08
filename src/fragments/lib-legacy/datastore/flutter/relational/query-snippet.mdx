@@ -1,0 +1,11 @@
+In order to retrieve all models that are related to a parent model, you can use query predicates with the query API:
+
+```dart
+Future<void> fetchAllCommentsForPostId(String postId) async {
+  final comments = await Amplify.DataStore.query(
+    Comment.classType,
+    where: Comment.POST.eq(postId),
+  );
+  print('Comments: $comments');
+}
+```
