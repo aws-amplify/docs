@@ -67,7 +67,6 @@ export function Autocomplete(props) {
     }
 
     const search = autocomplete({
-      detachedMediaQuery: '',
       container: containerRef.current,
       renderer: { createElement, Fragment },
       plugins: [recentSearchesPlugin, querySuggestionsPlugin],
@@ -99,7 +98,7 @@ export function Autocomplete(props) {
     return () => {
       search.destroy();
     };
-  }, [props]);
+  }, []);
 
   return <div ref={containerRef} />;
 }

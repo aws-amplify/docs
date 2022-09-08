@@ -9,10 +9,12 @@ import { Card, CardDetail, CardGraphic } from '../components/Card';
 import FeaturesGrid from '../components/FeaturesGrid';
 import LinkBanner from '../components/LinkBanner';
 import Footer from '../components/Footer';
+import UniversalNav from '../components/UniversalNav';
 
 import { trackPageVisit } from '../utils/track';
 import { NavMenuItem, GlobalNav } from '../components/GlobalNav';
 import { NAV_LINKS } from '../utils/globalnav';
+import React from 'react';
 
 const meta = {
   title: 'Amplify Framework Docs',
@@ -67,6 +69,7 @@ const Page = () => {
         />
       </Head>
       <GlobalNav links={NAV_LINKS as NavMenuItem[]} currentSite={'Docs'} />
+      <UniversalNav blend={true} />
       <Hero>
         <h1 className="font-weight-300">Amplify Framework Documentation</h1>
         <p>

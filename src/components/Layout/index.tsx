@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import UniversalNav from '../UniversalNav/index';
 import SecondaryNav from '../SecondaryNav/index';
 import Footer from '../Footer/index';
 import { LayoutStyle } from './styles';
@@ -7,6 +6,7 @@ import { Container } from '../Container';
 import { useRouter } from 'next/router';
 import { GlobalNav, NavMenuItem } from '../GlobalNav/GlobalNav';
 import { NAV_LINKS } from '../../utils/globalnav';
+import React from 'react';
 
 export default function Layout({
   children,

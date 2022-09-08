@@ -1,17 +1,24 @@
 import styled from '@emotion/styled';
-import { MQLaptop, MQTablet } from '../media';
+import { MQDesktop, MQLaptop, MQTablet, MQMobile } from '../media';
 
 export const SecondaryNavStyle = styled.div`
   display: flex;
+  flex-direction: column-reverse;
   justify-content: space-between;
   align-items: center;
   column-gap: 20px;
+
+  ${MQDesktop} {
+    flex-direction: row;
+    alignitems: flex-start;
+  }
 
   * {
     white-space: nowrap;
   }
 
   .secondary-nav-links {
+    padding: 8px 20px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -23,6 +30,12 @@ export const SecondaryNavStyle = styled.div`
     display: flex;
     flex-direction: row;
     align-items: start;
+
+    border-top: 1px solid #aab7b8;
+
+    ${MQDesktop} {
+      border-top: none;
+    }
 
     a {
       margin-left: 1.75rem;
@@ -44,7 +57,6 @@ export const HostStyle = styled.div`
   position: sticky;
   top: var(--docs-dev-center-nav);
   background-color: var(--bg-color-secondary);
-  padding: 0 20px;
 `;
 
 export const LinkActiveStyle = styled.a`
@@ -63,7 +75,7 @@ export const LinkInactiveStyle = styled.a``;
 
 export const ShadowStyle = styled.div`
   position: absolute;
-  top: 0;
+  top: 70px;
   right: 0;
   bottom: 0;
   width: 2rem;
@@ -72,7 +84,7 @@ export const ShadowStyle = styled.div`
     rgba(0, 0, 0, 0),
     rgba(0, 0, 0, 0.1875)
   );
-  height: 52px;
+  height: 66px;
 
   ${MQTablet} {
     display: none !important;
@@ -80,6 +92,11 @@ export const ShadowStyle = styled.div`
 `;
 
 export const SearchBarContainer = styled.div`
-  // border: 1px solid red;
-  margin: 10px 0px;
+  margin: 12px 0px;
+  width: 100%;
+  padding: 0px 20px;
+
+  ${MQDesktop} {
+    width: 850px;
+  }
 `;

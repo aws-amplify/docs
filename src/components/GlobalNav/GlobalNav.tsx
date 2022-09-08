@@ -34,7 +34,6 @@ interface NavProps {
   currentSite: string;
   secondaryNavDesktop?: JSX.Element;
   secondaryNavMobile?: JSX.Element;
-  setIsMobileState?: any;
 }
 
 type NavMobileContextType = {

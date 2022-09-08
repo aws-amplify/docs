@@ -19,78 +19,18 @@ import { Container } from '../Container';
 import { parseLocalStorage } from '../../utils/parseLocalStorage';
 
 import SearchBar from '../SearchBar';
-import { useBreakpointValue } from '@aws-amplify/ui-react';
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React from 'react';
 
 export default function SecondaryNav() {
   const router = useRouter();
   const path = router.asPath;
   const filterKeys = parseLocalStorage('filterKeys', {});
 
-  let windowInnerWidth;
-  if (typeof window === 'undefined') {
-    windowInnerWidth = 0;
-  } else {
-    windowInnerWidth = window.innerWidth;
-  }
-
-  const [isMobileState, setIsMobileState] = useState(false);
-  const [mobileNavBreakpoint, setMobileNavBreakpoint] = useState(0);
-  const [currentWindowInnerWidth, setCurrentWindowInnerWidth] = useState(
-    windowInnerWidth
-  );
-
-  const navLinksContainerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (navLinksContainerRef.current !== null) {
-      if (
-        navLinksContainerRef.current.scrollWidth >
-        navLinksContainerRef.current.clientWidth
-      ) {
-        setIsMobileState(true);
-        setMobileNavBreakpoint(window.innerWidth);
-      }
-    }
-
-    const handleWindowSizeChange = () => {
-      setCurrentWindowInnerWidth(window.innerWidth);
-
-      if (navLinksContainerRef.current !== null) {
-        if (
-          navLinksContainerRef.current.scrollWidth >
-          navLinksContainerRef.current.clientWidth
-        ) {
-          setIsMobileState(true);
-          setMobileNavBreakpoint(window.innerWidth);
-        }
-      }
-    };
-
-    window.addEventListener('resize', handleWindowSizeChange);
-
-    return () => {
-      window.removeEventListener('resize', handleWindowSizeChange);
-    };
-  }, []);
-
-  useLayoutEffect(() => {
-    if (currentWindowInnerWidth > mobileNavBreakpoint) {
-      setIsMobileState(false);
-    }
-  }, [currentWindowInnerWidth, mobileNavBreakpoint]);
-
   return (
     <HostStyle>
       <Container>
-        <SecondaryNavStyle
-          id="secondary-nav"
-          style={{
-            flexDirection: isMobileState ? 'column' : 'row',
-            alignItems: isMobileState ? 'flex-start' : 'center'
-          }}
-        >
-          <div className="secondary-nav-links" ref={navLinksContainerRef}>
+        <SecondaryNavStyle id="secondary-nav">
+          <div className="secondary-nav-links">
             {[
               {
                 label: 'Getting Started',
@@ -165,11 +105,7 @@ export default function SecondaryNav() {
             })}
             <ShadowStyle />
           </div>
-          <SearchBarContainer
-            style={{
-              width: isMobileState ? '100%' : '120px'
-            }}
-          >
+          <SearchBarContainer>
             <SearchBar />
           </SearchBarContainer>
         </SecondaryNavStyle>
