@@ -799,12 +799,12 @@ const directory = {
   },
   'lib-v1': {
     productRoot: {
-      title: 'Amplify Libraries (v1)',
+      title: 'Amplify Libraries',
       route: '/lib-v1'
     },
     items: {
       'project-setup': {
-        title: 'Project Setup (v1)',
+        title: 'Project Setup',
         items: [
           {
             title: 'Prerequisites',
@@ -829,7 +829,7 @@ const directory = {
         ]
       },
       analytics: {
-        title: 'Analytics (v1)',
+        title: 'Analytics',
         items: [
           {
             title: 'Getting started',
@@ -864,7 +864,7 @@ const directory = {
         ]
       },
       graphqlapi: {
-        title: 'API (GraphQL) (v1)',
+        title: 'API (GraphQL)',
         items: [
           {
             title: 'Getting started',
@@ -909,7 +909,7 @@ const directory = {
         ]
       },
       restapi: {
-        title: 'API (REST) (v1)',
+        title: 'API (REST)',
         items: [
           {
             title: 'Getting started',
@@ -944,7 +944,7 @@ const directory = {
         ]
       },
       auth: {
-        title: 'Authentication (v1)',
+        title: 'Authentication',
         items: [
           {
             title: 'Getting started',
@@ -1034,7 +1034,7 @@ const directory = {
         ]
       },
       datastore: {
-        title: 'DataStore (v1)',
+        title: 'DataStore',
         items: [
           {
             title: 'Getting started',
@@ -1094,7 +1094,7 @@ const directory = {
         ]
       },
       geo: {
-        title: 'Geo (v1)',
+        title: 'Geo',
         items: [
           {
             title: 'Getting started',
@@ -1124,7 +1124,7 @@ const directory = {
         ]
       },
       predictions: {
-        title: 'Predictions (v1)',
+        title: 'Predictions',
         items: [
           {
             title: 'Getting started',
@@ -1174,7 +1174,7 @@ const directory = {
         ]
       },
       storage: {
-        title: 'Storage (v1)',
+        title: 'Storage',
         items: [
           {
             title: 'Getting started',
@@ -1229,13 +1229,13 @@ const directory = {
         ]
       },
       utilities: {
-        title: 'Utilities (v1)',
+        title: 'Utilities',
         items: [
           { title: 'Hub', route: '/lib-v1/utilities/hub', filters: ['ios'] },
         ]
       },
       debugging: {
-        title: 'Debugging (v1)',
+        title: 'Debugging',
         items: [
           {
             title: 'Developer Menu',
@@ -1245,7 +1245,7 @@ const directory = {
         ]
       },
       info: {
-        title: 'Info (v1)',
+        title: 'Info',
         items: [
           {
             title: 'Data Information',

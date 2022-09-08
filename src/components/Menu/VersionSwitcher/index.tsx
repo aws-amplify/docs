@@ -122,7 +122,7 @@ export function LibVersionSwitcher({url}) {
 
   const leftHref = "/lib" + urlEnd;
   const leftOption = {
-    title: "V2 (latest)",
+    title: "v2 (latest)",
     href: libPaths.includes(leftHref) ? leftHref : "/lib/" + filter,
   };
 
