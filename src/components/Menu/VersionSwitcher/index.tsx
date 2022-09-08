@@ -84,7 +84,7 @@ export function VersionSwitcher({url}) {
 
 
 const lib = directory["lib"].items;
-const libLegacy = directory["lib-legacy"].items;
+const libLegacy = directory["lib-v1"].items;
 const libLegacyPaths = [];
 const libPaths = [];
 const libItemsAndPaths: [object, string[]][] = [
@@ -104,7 +104,7 @@ for (const [dirItems, paths] of libItemsAndPaths) {
     });
   }
 }
-libLegacyPaths.push("/lib-legacy");
+libLegacyPaths.push("/lib-v1");
 libPaths.push("/lib");
 
 export function LibVersionSwitcher({url}) {
@@ -113,25 +113,25 @@ export function LibVersionSwitcher({url}) {
   const filter = url.includes("/framework")
     ? "q/framework" + url.split("/framework")[1]
     : "";
-  if (url.includes("/lib-legacy")) {
+  if (url.includes("/lib-v1")) {
     leftActive = false;
-    urlEnd = url.split("/lib-legacy")[1];
+    urlEnd = url.split("/lib-v1")[1];
   } else {
     urlEnd = url.split("/lib")[1];
   }
 
   const leftHref = "/lib" + urlEnd;
   const leftOption = {
-    title: "Latest",
+    title: "V2 (latest)",
     href: libPaths.includes(leftHref) ? leftHref : "/lib/" + filter,
   };
 
-  const rightHref = "/lib-legacy" + urlEnd;
+  const rightHref = "/lib-v1" + urlEnd;
   const rightOption = {
-    title: "Legacy",
+    title: "v1",
     href: libLegacyPaths.includes(rightHref)
       ? rightHref
-      : "/lib-legacy/" + filter,
+      : "/lib-v1/" + filter,
   };
 
   return (

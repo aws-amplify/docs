@@ -797,428 +797,428 @@ const directory = {
       }
     }
   },
-  'lib-legacy': {
+  'lib-v1': {
     productRoot: {
-      title: 'Amplify Libraries (Legacy)',
-      route: '/lib-legacy'
+      title: 'Amplify Libraries (v1)',
+      route: '/lib-v1'
     },
     items: {
       'project-setup': {
-        title: 'Project Setup (Legacy)',
+        title: 'Project Setup (v1)',
         items: [
           {
             title: 'Prerequisites',
-            route: '/lib-legacy/project-setup/prereq',
+            route: '/lib-v1/project-setup/prereq',
             filters: ['ios']
           },
           {
             title: 'Create your application',
-            route: '/lib-legacy/project-setup/create-application',
+            route: '/lib-v1/project-setup/create-application',
             filters: ['ios']
           },
           {
             title: 'Using Combine with Amplify',
-            route: '/lib-legacy/project-setup/combine',
+            route: '/lib-v1/project-setup/combine',
             filters: ['ios']
           },
           {
             title: 'Use existing AWS resources',
-            route: '/lib-legacy/project-setup/use-existing-resources',
+            route: '/lib-v1/project-setup/use-existing-resources',
             filters: ['ios']
           }
         ]
       },
       analytics: {
-        title: 'Analytics (Legacy)',
+        title: 'Analytics (v1)',
         items: [
           {
             title: 'Getting started',
-            route: '/lib-legacy/analytics/getting-started',
+            route: '/lib-v1/analytics/getting-started',
             filters: ['ios']
           },
           {
             title: 'Record events',
-            route: '/lib-legacy/analytics/record',
+            route: '/lib-v1/analytics/record',
             filters: ['ios']
           },
           {
             title: 'Automatically track sessions',
-            route: '/lib-legacy/analytics/autotrack',
+            route: '/lib-v1/analytics/autotrack',
             filters: ['ios']
           },
           {
             title: 'Identify user',
-            route: '/lib-legacy/analytics/identifyuser',
+            route: '/lib-v1/analytics/identifyuser',
             filters: ['ios']
           },
           {
             title: 'Escape hatch',
-            route: '/lib-legacy/analytics/escapehatch',
+            route: '/lib-v1/analytics/escapehatch',
             filters: ['ios']
           },
           {
             title: 'Use existing AWS resources',
-            route: '/lib-legacy/analytics/existing-resources',
+            route: '/lib-v1/analytics/existing-resources',
             filters: ['ios']
           }
         ]
       },
       graphqlapi: {
-        title: 'API (GraphQL) (Legacy)',
+        title: 'API (GraphQL) (v1)',
         items: [
           {
             title: 'Getting started',
-            route: '/lib-legacy/graphqlapi/getting-started',
+            route: '/lib-v1/graphqlapi/getting-started',
             filters: ['ios']
           },
           {
             title: 'Concepts',
-            route: '/lib-legacy/graphqlapi/concepts',
+            route: '/lib-v1/graphqlapi/concepts',
             filters: ['ios']
           },
           {
             title: 'Configure authorization modes',
-            route: '/lib-legacy/graphqlapi/authz',
+            route: '/lib-v1/graphqlapi/authz',
             filters: ['ios']
           },
           {
             title: 'Create, update, delete data',
-            route: '/lib-legacy/graphqlapi/mutate-data',
+            route: '/lib-v1/graphqlapi/mutate-data',
             filters: ['ios']
           },
           {
             title: 'Fetch data',
-            route: '/lib-legacy/graphqlapi/query-data',
+            route: '/lib-v1/graphqlapi/query-data',
             filters: ['ios']
           },
           {
             title: 'Subscribe to data',
-            route: '/lib-legacy/graphqlapi/subscribe-data',
+            route: '/lib-v1/graphqlapi/subscribe-data',
             filters: ['ios']
           },
           {
             title: 'Advanced Workflows',
-            route: '/lib-legacy/graphqlapi/advanced-workflows',
+            route: '/lib-v1/graphqlapi/advanced-workflows',
             filters: ['ios']
           },
           {
             title: 'Use existing AWS resources',
-            route: '/lib-legacy/graphqlapi/existing-resources',
+            route: '/lib-v1/graphqlapi/existing-resources',
             filters: ['ios']
           }
         ]
       },
       restapi: {
-        title: 'API (REST) (Legacy)',
+        title: 'API (REST) (v1)',
         items: [
           {
             title: 'Getting started',
-            route: '/lib-legacy/restapi/getting-started',
+            route: '/lib-v1/restapi/getting-started',
             filters: ['ios']
           },
           {
             title: 'Fetching data',
-            route: '/lib-legacy/restapi/fetch',
+            route: '/lib-v1/restapi/fetch',
             filters: ['ios']
           },
           {
             title: 'Updating data',
-            route: '/lib-legacy/restapi/update',
+            route: '/lib-v1/restapi/update',
             filters: ['ios']
           },
           {
             title: 'Deleting data',
-            route: '/lib-legacy/restapi/delete',
+            route: '/lib-v1/restapi/delete',
             filters: ['ios']
           },
           {
             title: 'Define authorization rules',
-            route: '/lib-legacy/restapi/authz',
+            route: '/lib-v1/restapi/authz',
             filters: ['ios']
           },
           {
             title: 'Use existing AWS resources',
-            route: '/lib-legacy/restapi/existing-resources',
+            route: '/lib-v1/restapi/existing-resources',
             filters: ['ios']
           }
         ]
       },
       auth: {
-        title: 'Authentication (Legacy)',
+        title: 'Authentication (v1)',
         items: [
           {
             title: 'Getting started',
-            route: '/lib-legacy/auth/getting-started',
+            route: '/lib-v1/auth/getting-started',
             filters: ['ios']
           },
           {
             title: 'Sign in',
-            route: '/lib-legacy/auth/signin',
+            route: '/lib-v1/auth/signin',
             filters: ['ios']
           },
           {
             title: 'Sign in with custom flow',
-            route: '/lib-legacy/auth/signin_with_custom_flow',
+            route: '/lib-v1/auth/signin_with_custom_flow',
             filters: ['ios']
           },
           {
             title: 'Sign in with web UI',
-            route: '/lib-legacy/auth/signin_web_ui',
+            route: '/lib-v1/auth/signin_web_ui',
             filters: ['ios']
           },
           {
             title: 'Social sign-in (OAuth)',
-            route: '/lib-legacy/auth/social',
+            route: '/lib-v1/auth/social',
             filters: ['ios']
           },
           {
             title: 'Sign in next steps',
-            route: '/lib-legacy/auth/signin_next_steps',
+            route: '/lib-v1/auth/signin_next_steps',
             filters: ['ios']
           },
           {
             title: 'Guest access',
-            route: '/lib-legacy/auth/guest_access',
+            route: '/lib-v1/auth/guest_access',
             filters: ['ios']
           },
           {
             title: 'Auth events',
-            route: '/lib-legacy/auth/auth-events',
+            route: '/lib-v1/auth/auth-events',
             filters: ['ios']
           },
           {
             title: 'User attributes',
-            route: '/lib-legacy/auth/user-attributes',
+            route: '/lib-v1/auth/user-attributes',
             filters: ['ios']
           },
           {
             title: 'Remember a device',
-            route: '/lib-legacy/auth/device_features',
+            route: '/lib-v1/auth/device_features',
             filters: ['ios']
           },
           {
             title: 'Password management',
-            route: '/lib-legacy/auth/password_management',
+            route: '/lib-v1/auth/password_management',
             filters: ['ios']
           },
           {
             title: 'Sign out',
-            route: '/lib-legacy/auth/signOut',
+            route: '/lib-v1/auth/signOut',
             filters: ['ios']
           },
           {
             title: 'Accessing credentials',
-            route: '/lib-legacy/auth/access_credentials',
+            route: '/lib-v1/auth/access_credentials',
             filters: ['ios']
           },
           {
             title: 'Delete user',
-            route: '/lib-legacy/auth/delete_user',
+            route: '/lib-v1/auth/delete_user',
             filters: [ 'ios']
           },
           {
             title: 'Escape hatch',
-            route: '/lib-legacy/auth/escapehatch',
+            route: '/lib-v1/auth/escapehatch',
             filters: ['ios']
           },
           {
             title: 'Under the hood',
-            route: '/lib-legacy/auth/overview',
+            route: '/lib-v1/auth/overview',
             filters: ['ios']
           },
           {
             title: 'Use existing Amazon Cognito resources',
-            route: '/lib-legacy/auth/existing-resources',
+            route: '/lib-v1/auth/existing-resources',
             filters: ['ios']
           }
         ]
       },
       datastore: {
-        title: 'DataStore (Legacy)',
+        title: 'DataStore (v1)',
         items: [
           {
             title: 'Getting started',
-            route: '/lib-legacy/datastore/getting-started',
+            route: '/lib-v1/datastore/getting-started',
             filters: ['ios']
           },
           {
             title: 'Manipulating data',
-            route: '/lib-legacy/datastore/data-access',
+            route: '/lib-v1/datastore/data-access',
             filters: ['ios']
           },
           {
             title: 'Relational models',
-            route: '/lib-legacy/datastore/relational',
+            route: '/lib-v1/datastore/relational',
             filters: ['ios']
           },
           {
             title: 'Syncing data to cloud',
-            route: '/lib-legacy/datastore/sync',
+            route: '/lib-v1/datastore/sync',
             filters: ['ios']
           },
           {
             title: 'Setup authorization rules',
-            route: '/lib-legacy/datastore/setup-auth-rules',
+            route: '/lib-v1/datastore/setup-auth-rules',
             filters: ['ios']
           },
           {
             title: 'Conflict resolution',
-            route: '/lib-legacy/datastore/conflict',
+            route: '/lib-v1/datastore/conflict',
             filters: ['ios']
           },
           {
             title: 'Real time',
-            route: '/lib-legacy/datastore/real-time',
+            route: '/lib-v1/datastore/real-time',
             filters: ['ios']
           },
           {
             title: 'DataStore Events',
-            route: '/lib-legacy/datastore/datastore-events',
+            route: '/lib-v1/datastore/datastore-events',
             filters: ['ios']
           },
           {
             title: 'Other methods',
-            route: '/lib-legacy/datastore/other-methods',
+            route: '/lib-v1/datastore/other-methods',
             filters: ['ios']
           },
           {
             title: 'Schema updates',
-            route: '/lib-legacy/datastore/schema-updates',
+            route: '/lib-v1/datastore/schema-updates',
             filters: ['ios']
           },
           {
             title: 'How it works',
-            route: '/lib-legacy/datastore/how-it-works',
+            route: '/lib-v1/datastore/how-it-works',
             filters: ['ios']
           }
         ]
       },
       geo: {
-        title: 'Geo (Legacy)',
+        title: 'Geo (v1)',
         items: [
           {
             title: 'Getting started',
-            route: '/lib-legacy/geo/getting-started',
+            route: '/lib-v1/geo/getting-started',
             filters: [ 'ios']
           },
           {
             title: 'Maps',
-            route: '/lib-legacy/geo/maps',
+            route: '/lib-v1/geo/maps',
             filters: ['ios']
           },
           {
             title: 'Location Search',
-            route: '/lib-legacy/geo/search',
+            route: '/lib-v1/geo/search',
             filters: ['ios']
           },
           {
             title: 'Use existing Amazon Location resources',
-            route: '/lib-legacy/geo/existing-resources',
+            route: '/lib-v1/geo/existing-resources',
             filters: ['ios']
           },
           {
             title: 'Escape Hatch',
-            route: '/lib-legacy/geo/escapehatch',
+            route: '/lib-v1/geo/escapehatch',
             filters: ['ios']
           }
         ]
       },
       predictions: {
-        title: 'Predictions (Legacy)',
+        title: 'Predictions (v1)',
         items: [
           {
             title: 'Getting started',
-            route: '/lib-legacy/predictions/getting-started',
+            route: '/lib-v1/predictions/getting-started',
             filters: ['ios']
           },
           {
             title: 'Text to speech',
-            route: '/lib-legacy/predictions/text-speech',
+            route: '/lib-v1/predictions/text-speech',
             filters: ['ios']
           },
           {
             title: 'Transcribe audio to text',
-            route: '/lib-legacy/predictions/transcribe',
+            route: '/lib-v1/predictions/transcribe',
             filters: ['ios']
           },
           {
             title: 'Translate language',
-            route: '/lib-legacy/predictions/translate',
+            route: '/lib-v1/predictions/translate',
             filters: ['ios']
           },
           {
             title: 'Identify text',
-            route: '/lib-legacy/predictions/identify-text',
+            route: '/lib-v1/predictions/identify-text',
             filters: ['ios']
           },
           {
             title: 'Identify entities from images',
-            route: '/lib-legacy/predictions/identify-entity',
+            route: '/lib-v1/predictions/identify-entity',
             filters: ['ios']
           },
           {
             title: 'Label objects in image',
-            route: '/lib-legacy/predictions/label-image',
+            route: '/lib-v1/predictions/label-image',
             filters: ['ios']
           },
           {
             title: 'Interpret sentiment',
-            route: '/lib-legacy/predictions/interpret',
+            route: '/lib-v1/predictions/interpret',
             filters: ['ios']
           },
           {
             title: 'Escape hatch',
-            route: '/lib-legacy/predictions/escapehatch',
+            route: '/lib-v1/predictions/escapehatch',
             filters: ['ios']
           }
         ]
       },
       storage: {
-        title: 'Storage (Legacy)',
+        title: 'Storage (v1)',
         items: [
           {
             title: 'Getting started',
-            route: '/lib-legacy/storage/getting-started',
+            route: '/lib-v1/storage/getting-started',
             filters: ['ios']
           },
           {
             title: 'Concepts',
-            route: '/lib-legacy/storage/overview',
+            route: '/lib-v1/storage/overview',
             filters: ['ios']
           },
           {
             title: 'Upload files',
-            route: '/lib-legacy/storage/upload',
+            route: '/lib-v1/storage/upload',
             filters: ['ios']
           },
           {
             title: 'Download files',
-            route: '/lib-legacy/storage/download',
+            route: '/lib-v1/storage/download',
             filters: ['ios']
           },
           {
             title: 'List files',
-            route: '/lib-legacy/storage/list',
+            route: '/lib-v1/storage/list',
             filters: ['ios']
           },
           {
             title: 'Remove files',
-            route: '/lib-legacy/storage/remove',
+            route: '/lib-v1/storage/remove',
             filters: ['ios']
           },
           {
             title: 'File access levels',
-            route: '/lib-legacy/storage/configureaccess',
+            route: '/lib-v1/storage/configureaccess',
             filters: ['ios']
           },
           {
             title: 'Lambda triggers',
-            route: '/lib-legacy/storage/triggers',
+            route: '/lib-v1/storage/triggers',
             filters: ['ios']
           },
           {
             title: 'Escape hatch',
-            route: '/lib-legacy/storage/escapehatch',
+            route: '/lib-v1/storage/escapehatch',
             filters: ['ios']
           },
           {
@@ -1229,32 +1229,32 @@ const directory = {
         ]
       },
       utilities: {
-        title: 'Utilities (Legacy)',
+        title: 'Utilities (v1)',
         items: [
-          { title: 'Hub', route: '/lib-legacy/utilities/hub', filters: ['ios'] },
+          { title: 'Hub', route: '/lib-v1/utilities/hub', filters: ['ios'] },
         ]
       },
       debugging: {
-        title: 'Debugging (Legacy)',
+        title: 'Debugging (v1)',
         items: [
           {
             title: 'Developer Menu',
-            route: '/lib-legacy/debugging/dev-menu',
+            route: '/lib-v1/debugging/dev-menu',
             filters: ['ios']
           }
         ]
       },
       info: {
-        title: 'Info (Legacy)',
+        title: 'Info (v1)',
         items: [
           {
             title: 'Data Information',
-            route: '/lib-legacy/info/overview',
+            route: '/lib-v1/info/overview',
             filters: ['ios']
           },
           {
             title: 'Uninstalling the app',
-            route: '/lib-legacy/info/app-uninstall',
+            route: '/lib-v1/info/app-uninstall',
             filters: ['ios']
           }
         ]
