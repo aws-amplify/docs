@@ -71,7 +71,10 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
     if ((this.props.url.startsWith("/ui") || this.props.url.startsWith("/ui-legacy")) && this.props.filterKey !== "react-native" && this.props.filterKey !== "flutter"
     ) {
       showVersionSwitcher = true;
-    } else if ((this.props.url.startsWith("/lib") || this.props.url.startsWith("/lib-legacy")) && this.props.filterKey == 'ios') {
+    } 
+    
+    //TODO: add Android filterkey here to support Android version switcher
+    if ((this.props.url.startsWith("/lib") || this.props.url.startsWith("/lib-v1")) && this.props.filterKey == 'ios') {
       showLibVersionSwitcher = true;
     }
     if (this.state.isOpen) {
