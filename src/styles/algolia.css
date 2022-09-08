@@ -41,7 +41,7 @@
 }
 
 .aa-SubmitIcon {
-  color: var(--font-color) !important;
+  color: #545B64 !important;
 }
 
 .aa-Item:hover .page-subcategory,
@@ -579,4 +579,31 @@
   width: 100%;
   height: 100%;
   display: block;
+}
+
+.aa-Form {
+  border: 1px solid #AAB7B8;
+}
+
+.aa-Input::placeholder,
+.aa-DetachedSearchButtonPlaceholder {
+  color: #879596;
+}
+
+.aa-DetachedOverlay .aa-InputWrapper {
+  order: 1;
+  padding: 0px 12px;
+}
+
+.aa-DetachedOverlay .aa-InputWrapperSuffix {
+  order: 2;
+}
+
+.aa-DetachedOverlay .aa-InputWrapperPrefix {
+  order: 4;
+  border-left: 1px solid #aab7b8;
+}
+
+.aa-DetachedOverlay .aa-SubmitButton {
+  padding: 0px 11px;
 }

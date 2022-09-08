@@ -29,6 +29,8 @@
     -webkit-font-smoothing: auto !important;
     -moz-osx-font-smoothing: auto !important;
   }
+
+  --dev-center-nav-height: 60px;
 }
 
 .dev-center-logo {
@@ -39,17 +41,23 @@
 
 .nav-container {
   display: flex;
-  height: 80px;
+  height: var(--dev-center-nav-height);
   align-items: center;
   justify-content: space-between;
 }
 
 .mobile-nav-container {
   display: flex;
-  height: 80px;
+  height: var(--dev-center-nav-height);
   align-items: center;
   justify-content: space-between;
   padding: 0px 18px;
+}
+
+.nav-links-container {
+  height: var(--dev-center-nav-height);
+  align-items: center;
+  justify-content: space-between;
 }
 
 .mobile-nav-menu-container {

@@ -44,7 +44,7 @@
   --code-line-numbers-color: rgba(255, 255, 255, 0.3);
   --font-color-contrast: var(--color-white);
 
-  --docs-dev-center-nav: 5rem;
+  --docs-dev-center-nav: 60px;
 }
 
 [data-theme="dark"] {

@@ -19,6 +19,7 @@ import {
 import styles from './GlobalNav.module.scss';
 import { NavMenuLink } from './components/NavMenuLink';
 import { ChevronIcon } from './components/icons';
+import React from 'react';
 
 export interface NavMenuItem {
   type: 'DEFAULT' | 'EXTERNAL' | 'ICON';
@@ -259,10 +260,7 @@ export function GlobalNav({
     >
       <Flex
         ref={navLinksContainerRef}
-        id="nav-links-container"
-        height="80px"
-        alignItems="center"
-        justifyContent="space-between"
+        className={styles['nav-links-container']}
         padding={{
           base: '0px 18px',
           small: '0px 18px',
