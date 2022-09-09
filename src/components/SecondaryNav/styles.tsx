@@ -49,21 +49,21 @@ export const SecondaryNavStyle = styled.div`
       color: var(--font-color);
     }
 
-    background-image: linear-gradient(
+    background: linear-gradient(
         to right,
-        var(--bg-color-secondary),
-        var(--bg-color-secondary)
+        var(--bg-color-secondary) 20%,
+        rgba(255, 255, 255, 0)
       ),
       linear-gradient(
         to right,
-        var(--bg-color-secondary),
-        var(--bg-color-secondary)
+        rgba(255, 255, 255, 0),
+        var(--bg-color-secondary) 75%
       ),
       linear-gradient(to right, rgba(0, 0, 0, 0.25), rgba(255, 255, 255, 0)),
       linear-gradient(to left, rgba(0, 0, 0, 0.25), rgba(255, 255, 255, 0));
     background-position: left center, right center, left center, right center;
     background-repeat: no-repeat;
-    background-size: 20px 100%, 20px 100%, 10px 100%, 10px 100%;
+    background-size: 50px 100%, 50px 100%, 30px 100%, 30px 100%;
     background-attachment: local, local, scroll, scroll;
   }
 `;
