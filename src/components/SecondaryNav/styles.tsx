@@ -48,6 +48,23 @@ export const SecondaryNavStyle = styled.div`
       padding: 0.875rem 0 0.875rem;
       color: var(--font-color);
     }
+
+    background-image: linear-gradient(
+        to right,
+        var(--bg-color-secondary),
+        var(--bg-color-secondary)
+      ),
+      linear-gradient(
+        to right,
+        var(--bg-color-secondary),
+        var(--bg-color-secondary)
+      ),
+      linear-gradient(to right, rgba(0, 0, 0, 0.25), rgba(255, 255, 255, 0)),
+      linear-gradient(to left, rgba(0, 0, 0, 0.25), rgba(255, 255, 255, 0));
+    background-position: left center, right center, left center, right center;
+    background-repeat: no-repeat;
+    background-size: 20px 100%, 20px 100%, 20px 100%, 20px 100%;
+    background-attachment: local, local, scroll, scroll;
   }
 `;
 
@@ -72,24 +89,6 @@ export const LinkActiveStyle = styled.a`
 `;
 
 export const LinkInactiveStyle = styled.a``;
-
-export const ShadowStyle = styled.div`
-  position: absolute;
-  top: 70px;
-  right: 0;
-  bottom: 0;
-  width: 2rem;
-  background-image: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0),
-    rgba(0, 0, 0, 0.1875)
-  );
-  height: 66px;
-
-  ${MQTablet} {
-    display: none !important;
-  }
-`;
 
 export const SearchBarContainer = styled.div`
   margin: 12px 0px;

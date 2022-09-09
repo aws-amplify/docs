@@ -103,7 +103,7 @@ export default function SecondaryNav() {
                 );
               }
             })}
-            <ShadowStyle />
+            {/* <ShadowStyle /> */}
           </div>
           <SearchBarContainer>
             <SearchBar />
