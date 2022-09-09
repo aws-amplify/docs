@@ -3,8 +3,7 @@ import {
   LinkActiveStyle,
   LinkInactiveStyle,
   SecondaryNavStyle,
-  SearchBarContainer,
-  ShadowStyle
+  SearchBarContainer
 } from './styles';
 import {
   IOS_REFERENCE,
@@ -103,7 +102,6 @@ export default function SecondaryNav() {
                 );
               }
             })}
-            {/* <ShadowStyle /> */}
           </div>
           <SearchBarContainer>
             <SearchBar />
