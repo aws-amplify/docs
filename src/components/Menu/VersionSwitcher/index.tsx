@@ -108,30 +108,31 @@ libLegacyPaths.push("/lib-v1");
 libPaths.push("/lib");
 
 export function LibVersionSwitcher({url}) {
-  let leftActive = true;
+  let rightActive = true;
   let urlEnd;
   const filter = url.includes("/framework")
     ? "q/framework" + url.split("/framework")[1]
     : "";
   if (url.includes("/lib-v1")) {
-    leftActive = false;
+    rightActive = false;
     urlEnd = url.split("/lib-v1")[1];
   } else {
+    rightActive = true
     urlEnd = url.split("/lib")[1];
   }
 
-  const leftHref = "/lib" + urlEnd;
+  const leftHref = "/lib-v1" + urlEnd;
   const leftOption = {
-    title: "v2 (latest)",
-    href: libPaths.includes(leftHref) ? leftHref : "/lib/" + filter,
+    title: "v1",
+    href: libLegacyPaths.includes(leftHref)
+      ? leftHref
+      : "/lib-v1/" + filter,
   };
 
-  const rightHref = "/lib-v1" + urlEnd;
+  const rightHref = "/lib" + urlEnd;
   const rightOption = {
-    title: "v1",
-    href: libLegacyPaths.includes(rightHref)
-      ? rightHref
-      : "/lib-v1/" + filter,
+    title: "v2 (latest)",
+    href: libPaths.includes(rightHref) ? rightHref : "/lib/" + filter,
   };
 
   return (
@@ -139,12 +140,12 @@ export function LibVersionSwitcher({url}) {
       <Option
         href={leftOption.href}
         title={leftOption.title}
-        isActive={leftActive}
+        isActive={!rightActive}
       />
       <Option
         href={rightOption.href}
         title={rightOption.title}
-        isActive={!leftActive}
+        isActive={rightActive}
       />
     </SwitchStyle>
   );
