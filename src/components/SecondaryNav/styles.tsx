@@ -63,7 +63,7 @@ export const SecondaryNavStyle = styled.div`
       linear-gradient(to left, rgba(0, 0, 0, 0.25), rgba(255, 255, 255, 0));
     background-position: left center, right center, left center, right center;
     background-repeat: no-repeat;
-    background-size: 20px 100%, 20px 100%, 20px 100%, 20px 100%;
+    background-size: 20px 100%, 20px 100%, 10px 100%, 10px 100%;
     background-attachment: local, local, scroll, scroll;
   }
 `;
