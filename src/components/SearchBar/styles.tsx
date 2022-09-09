@@ -106,6 +106,7 @@ export const Search = styled.div`
       .aa-DetachedSearchButtonIcon {
         border-left: 1px solid #aab7b8;
         padding-left: 5px;
+        background-position-x: 12px;
       }
     }
   }
