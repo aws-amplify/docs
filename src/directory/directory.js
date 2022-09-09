@@ -381,62 +381,62 @@ const directory = {
           {
             title: 'Getting started',
             route: '/lib/datastore/getting-started',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Manipulating data',
             route: '/lib/datastore/data-access',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Relational models',
             route: '/lib/datastore/relational',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Syncing data to cloud',
             route: '/lib/datastore/sync',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Setup authorization rules',
             route: '/lib/datastore/setup-auth-rules',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Conflict resolution',
             route: '/lib/datastore/conflict',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Real time',
             route: '/lib/datastore/real-time',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'DataStore Events',
             route: '/lib/datastore/datastore-events',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Other methods',
             route: '/lib/datastore/other-methods',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Schema updates',
             route: '/lib/datastore/schema-updates',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'How it works',
             route: '/lib/datastore/how-it-works',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Examples',
             route: '/lib/datastore/examples',
-            filters: ['js']
+            filters: ['js', 'react-native']
           }
         ]
       },
