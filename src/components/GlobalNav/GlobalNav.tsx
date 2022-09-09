@@ -269,7 +269,6 @@ export function GlobalNav({
           xl: '0px 32px'
         }}
         style={{
-          overflowY: 'scroll',
           borderBottom: hasSecondaryNav
             ? '1px solid #d5dbdb'
             : '1px solid transparent'
