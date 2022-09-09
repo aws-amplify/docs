@@ -108,7 +108,7 @@ libLegacyPaths.push("/lib-v1");
 libPaths.push("/lib");
 
 export function LibVersionSwitcher({url}) {
-  let rightActive = true;
+  let rightActive;
   let urlEnd;
   const filter = url.includes("/framework")
     ? "q/framework" + url.split("/framework")[1]
