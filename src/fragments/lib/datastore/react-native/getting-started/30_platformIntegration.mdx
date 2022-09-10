@@ -1,0 +1,86 @@
+The fastest way to get started is using the `amplify-app` npx script.
+
+<iframe src="https://www.youtube-nocookie.com/embed/wH-UnQy1ltM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<br/>
+
+<BlockSwitcher>
+<Block name="React Native">
+
+Start with the [React Native CLI](https://reactnative.dev/docs/getting-started):
+
+```bash
+npx react-native@0.68.2 init AmplifyDataStoreRN --version 0.68.2
+cd AmplifyDataStoreRN
+npx amplify-app@latest
+npm install aws-amplify @react-native-community/netinfo @react-native-async-storage/async-storage
+```
+
+You will also need to install the pod dependencies for iOS:
+
+```sh
+npx pod-install
+```
+
+**Use SQLite for enhanced performance (optional)**
+
+React Native CLI apps can now use SQLite with DataStore. SQLite offers considerable performance advantages over the default "AsyncStorage" database.
+
+To enable SQLite with DataStore for enhanced local database performance, follow the steps below:
+
+```sh
+npx react-native@0.68.2 init AmplifyDataStoreRN --version 0.68.2
+cd AmplifyDataStoreRN
+npx amplify-app@latest
+npm install aws-amplify @aws-amplify/datastore-storage-adapter react-native-sqlite-storage @react-native-community/netinfo @react-native-async-storage/async-storage 
+npx pod-install
+```
+
+Then configure the SQLite storage adapter with DataStore in your app:
+
+```js
+import { DataStore } from 'aws-amplify';
+import { SQLiteAdapter } from '@aws-amplify/datastore-storage-adapter/SQLiteAdapter';
+
+DataStore.configure({
+  storageAdapter: SQLiteAdapter
+});
+```
+
+</Block>
+<Block name="Expo">
+
+Start with the [Expo](https://docs.expo.dev/):
+
+```bash
+expo init AmplifyDataStoreExpo
+cd AmplifyDataStoreExpo
+npx amplify-app@latest
+expo install aws-amplify @react-native-community/netinfo @react-native-async-storage/async-storage
+```
+
+**Use SQLite for enhanced performance (optional)**
+
+Expo built apps can now use SQLite with DataStore. SQLite offers considerable performance advantages over the default "AsyncStorage" database.
+
+To enable SQLite with DataStore for enhanced local database performance, follow the steps below:
+
+```sh
+expo init AmplifyDataStoreExpo
+cd AmplifyDataStoreExpo
+npx amplify-app@latest
+expo install aws-amplify @aws-amplify/datastore-storage-adapter expo-sqlite expo-file-system @react-native-community/netinfo @react-native-async-storage/async-storage 
+```
+
+Then configure the SQLite storage adapter with DataStore in your app:
+
+```js
+import { DataStore } from 'aws-amplify';
+import { ExpoSQLiteAdapter } from '@aws-amplify/datastore-storage-adapter/ExpoSQLiteAdapter';
+
+DataStore.configure({
+  storageAdapter: ExpoSQLiteAdapter
+});
+```
+
+</Block>
+</BlockSwitcher>
