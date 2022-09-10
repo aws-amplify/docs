@@ -58,13 +58,6 @@
   height: var(--dev-center-nav-height);
   align-items: center;
   justify-content: space-between;
-  overflow-y: scroll;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.nav-links-container::-webkit-scrollbar {
-  display: none;
 }
 
 .mobile-nav-menu-container {

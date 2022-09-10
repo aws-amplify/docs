@@ -75,32 +75,25 @@ export function GlobalNav({
   }
 
   const [isMobileState, setIsMobileState] = useState(false);
-  const [mobileNavBreakpoint, setMobileNavBreakpoint] = useState(0);
+  const [mobileNavBreakpoint, setMobileNavBreakpoint] = useState(
+    windowInnerWidth
+  );
   const [currentWindowInnerWidth, setCurrentWindowInnerWidth] = useState(
     windowInnerWidth
   );
 
   const navLinksContainerRef = useRef<HTMLDivElement>(null);
+  const navLinksRightRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (navLinksContainerRef.current !== null) {
-      if (
-        navLinksContainerRef.current.scrollWidth >
-        navLinksContainerRef.current.clientWidth
-      ) {
-        setIsMobileState(true);
-        setMobileNavBreakpoint(window.innerWidth);
-      }
-    }
-
     const handleWindowSizeChange = () => {
       setCurrentWindowInnerWidth(window.innerWidth);
 
-      if (navLinksContainerRef.current !== null) {
-        if (
-          navLinksContainerRef.current.scrollWidth >
-          navLinksContainerRef.current.clientWidth
-        ) {
+      if (navLinksContainerRef.current && navLinksRightRef.current) {
+        const navLinksContainerBCR = navLinksContainerRef.current.getBoundingClientRect();
+        const navLinksRightBCR = navLinksRightRef.current.getBoundingClientRect();
+
+        if (navLinksRightBCR.right >= navLinksContainerBCR.right) {
           setIsMobileState(true);
           setMobileNavBreakpoint(window.innerWidth);
         }
@@ -112,6 +105,18 @@ export function GlobalNav({
     return () => {
       window.removeEventListener('resize', handleWindowSizeChange);
     };
+  }, []);
+
+  useLayoutEffect(() => {
+    if (navLinksContainerRef.current && navLinksRightRef.current) {
+      const navLinksContainerBCR = navLinksContainerRef.current.getBoundingClientRect();
+      const navLinksRightBCR = navLinksRightRef.current.getBoundingClientRect();
+
+      if (navLinksRightBCR.right >= navLinksContainerBCR.right) {
+        setIsMobileState(true);
+        setMobileNavBreakpoint(window.innerWidth);
+      }
+    }
   }, []);
 
   useLayoutEffect(() => {
@@ -262,9 +267,6 @@ export function GlobalNav({
         ref={navLinksContainerRef}
         className={styles['nav-links-container']}
         padding={{
-          base: '0px 18px',
-          small: '0px 18px',
-          medium: '0px 18px',
           large: '0px 18px',
           xl: '0px 32px'
         }}
@@ -307,6 +309,7 @@ export function GlobalNav({
           ))}
         </Flex>
         <Flex
+          ref={navLinksRightRef}
           columnStart="3"
           columnGap="16px"
           alignItems="center"
