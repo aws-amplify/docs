@@ -754,6 +754,7 @@ const directory = {
       utilities: {
         title: 'Utilities',
         items: [
+          // TODO Rewrite do we have service workers for React native?
           {
             title: 'Service Worker',
             route: '/lib/utilities/serviceworker',
@@ -763,14 +764,18 @@ const directory = {
           {
             title: 'Hub',
             route: '/lib/utilities/hub',
-            filters: ['android', 'ios', 'js']
+            filters: ['android', 'ios', 'js', 'react-native']
           },
           {
             title: 'Internationalization',
             route: '/lib/utilities/i18n',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
-          { title: 'Logger', route: '/lib/utilities/logger', filters: ['js'] }
+          {
+            title: 'Logger',
+            route: '/lib/utilities/logger',
+            filters: ['js', 'react-native']
+          }
         ]
       },
       'client-configuration': {
