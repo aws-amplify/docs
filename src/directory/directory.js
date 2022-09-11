@@ -829,12 +829,12 @@ const directory = {
           {
             title: 'Upgrading Amplify packages',
             route: '/lib/troubleshooting/upgrading',
-            filters: ['flutter', 'js']
+            filters: ['flutter', 'js', 'react-native']
           },
           {
             title: 'TypeScript strict mode',
             route: '/lib/troubleshooting/strict-mode',
-            filters: ['js']
+            filters: ['js', 'react-native']
           }
         ]
       }
