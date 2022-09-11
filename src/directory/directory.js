@@ -546,12 +546,12 @@ const directory = {
           {
             title: 'Getting started',
             route: '/lib/interactions/getting-started',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Interact with bots',
             route: '/lib/interactions/chatbot',
-            filters: ['js']
+            filters: ['js', 'react-native']
           }
         ]
       },
