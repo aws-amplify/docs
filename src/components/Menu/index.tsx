@@ -14,7 +14,7 @@ import ExternalLink from "../ExternalLink";
 import {DISCORD} from "../../constants/img";
 import RepoActions from "./RepoActions";
 import FilterSelect from "./FilterSelect";
-import VersionSwitcher from "./VersionSwitcher";
+import { VersionSwitcher, LibVersionSwitcher } from "./VersionSwitcher";
 
 type MenuProps = {
   filters: string[];
@@ -67,13 +67,15 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
 
   render() {
     let showVersionSwitcher = false;
-    if (
-      (this.props.url.startsWith("/ui") ||
-        this.props.url.startsWith("/ui-legacy")) &&
-      this.props.filterKey !== "react-native" &&
-      this.props.filterKey !== "flutter"
+    let showLibVersionSwitcher = false
+    if ((this.props.url.startsWith("/ui") || this.props.url.startsWith("/ui-legacy")) && this.props.filterKey !== "react-native" && this.props.filterKey !== "flutter"
     ) {
       showVersionSwitcher = true;
+    } 
+    
+    //TODO: add Android filterkey here to support Android version switcher
+    if ((this.props.url.startsWith("/lib") || this.props.url.startsWith("/lib-v1")) && this.props.filterKey == 'ios') {
+      showLibVersionSwitcher = true;
     }
     if (this.state.isOpen) {
       return (
@@ -94,6 +96,9 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
               <MenuBodyStyle>
                 {showVersionSwitcher && (
                   <VersionSwitcher url={this.props.url} />
+                )}
+                {showLibVersionSwitcher && (
+                  <LibVersionSwitcher url={this.props.url} />
                 )}
                 <Directory
                   filterKey={this.props.filterKey}
