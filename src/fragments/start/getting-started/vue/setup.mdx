@@ -252,20 +252,3 @@ And that's all it takes to configure Amplify. As you add or remove categories an
 
 Now that our Vue app is set up and Amplify is initialized, we're ready to add an API in the next step.
 
-
-## Install as a global plugin (Optional)
-
-We can configure Amplify on the client as a global plugin so that we can use `ui-vue` components anywhere without importing them in.
-
-Open __src/main.js__ and add the following code below the last import:
-
-```js
-import { createApp } from 'vue';
-import App from './App.vue';
-import AmplifyVue from '@aws-amplify/ui-vue';
-
-const app = createApp(App);
-app.use(AmplifyVue);
-app.mount('#app');
-```
-
