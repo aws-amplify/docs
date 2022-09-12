@@ -1,16 +1,14 @@
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await (iOS 13+)">
 
 ```swift
-func confirmSignIn() {
-    Amplify.Auth.confirmSignIn(challengeResponse: "<confirmation code received via SMS>") { result in
-        switch result {
-        case .success(let signInResult):
-            print("Confirm sign in succeeded. Next step: \(signInResult.nextStep)")
-        case .failure(let error):
-            print("Confirm sign in failed \(error)")
-        }
+func confirmSignIn() async {
+    do {
+        let signInResult = try await Amplify.Auth.confirmSignIn(challengeResponse: "<confirmation code received via SMS>")
+        print("Confirm sign in succeeded. Next step: \(signInResult.nextStep)")
+    } catch {
+        print("Confirm sign in failed \(error)")
     }
 }
 ```
@@ -21,9 +19,9 @@ func confirmSignIn() {
 
 ```swift
 func confirmSignIn() -> AnyCancellable {
-    Amplify.Auth.confirmSignIn(challengeResponse: "<confirmation code received via SMS>")
-        .resultPublisher
-        .sink {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.confirmSignIn(challengeResponse: "<confirmation code received via SMS>")
+    }.sink {
             if case let .failure(authError) = $0 {
                 print("Confirm sign in failed \(authError)")
             }

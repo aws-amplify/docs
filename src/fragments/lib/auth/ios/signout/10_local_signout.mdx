@@ -1,17 +1,16 @@
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await (iOS 13+)">
 
 ```swift
-func signOutLocally() {
-    Amplify.Auth.signOut() { result in
-        switch result {
-        case .success:
-            print("Successfully signed out")
-        case .failure(let error):
-            print("Sign out failed with error \(error)")
+func signOutLocally() async {
+   let result = await Amplify.Auth.signOut()
+   guard let signOutResult = result as? AWSCognitoSignOutResult,
+              case .complete = signOutResult else {
+            print("Sign out failed to complete")
+            return
         }
-    }
+    print("Successfully signed out")
 }
 ```
 
@@ -21,9 +20,9 @@ func signOutLocally() {
 
 ```swift
 func signOutLocally() -> AnyCancellable {
-    Amplify.Auth.signOut()
-        .resultPublisher
-        .sink {
+    Amplify.Publisher.create {
+        await Amplify.Auth.signOut()
+        }.sink {
             if case let .failure(authError) = $0 {
                 print("Sign out failed with error \(authError)")
             }

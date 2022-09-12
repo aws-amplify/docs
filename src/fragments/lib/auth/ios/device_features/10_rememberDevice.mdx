@@ -1,16 +1,14 @@
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await (iOS 13+)">
 
 ```swift
-func rememberDevice() {
-    Amplify.Auth.rememberDevice() { result in
-        switch result {
-        case .success:
-            print("Remember device succeeded")
-        case .failure(let error):
-            print("Remember device failed with error \(error)")
-        }
+func rememberDevice() async {
+    do {
+        try await Amplify.Auth.rememberDevice()
+        print("Remember device succeeded")
+    } catch {
+        print("Remember device failed with error \(error)")
     }
 }
 ```
@@ -21,9 +19,9 @@ func rememberDevice() {
 
 ```swift
 func rememberDevice() -> AnyCancellable {
-    Amplify.Auth.rememberDevice()
-        .resultPublisher
-        .sink {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.rememberDevice()
+    }.sink {
             if case let .failure(authError) = $0 {
                 print("Remember device failed with error \(authError)")
             }

@@ -1,18 +1,16 @@
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await (iOS 13+)">
 
 ```swift
-func fetchDevices() {
-    Amplify.Auth.fetchDevices() { result in
-        switch result {
-        case .success(let fetchDeviceResult):
-            for device in fetchDeviceResult {
-                print(device.id)
-            }
-        case .failure(let error):
-            print("Fetch devices failed with error \(error)")
+func fetchDevices() async {
+    do {
+        let fetchDeviceResult = try await Amplify.Auth.fetchDevices()
+        for device in fetchDeviceResult {
+            print(device.id)
         }
+    } catch {
+        print("Fetch devices failed with error \(error)")
     }
 }
 ```
@@ -23,9 +21,9 @@ func fetchDevices() {
 
 ```swift
 func fetchDevices() -> AnyCancellable {
-    Amplify.Auth.fetchDevices()
-        .resultPublisher
-        .sink {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.fetchDevices()
+    }.sink {
             if case let .failure(authError) = $0 {
                 print("Fetch devices failed with error \(authError)")
             }
