@@ -742,12 +742,12 @@ const directory = {
           {
             title: 'Getting started',
             route: '/lib/xr/getting-started',
-            filters: ['js', 'react-native']
+            filters: ['js']
           },
           {
             title: 'Scene API',
             route: '/lib/xr/sceneapi',
-            filters: ['js', 'react-native']
+            filters: ['js']
           }
         ]
       },
