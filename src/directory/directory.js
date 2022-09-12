@@ -546,47 +546,47 @@ const directory = {
           {
             title: 'Getting started',
             route: '/lib/predictions/getting-started',
-            filters: ['android', 'ios', 'js']
+            filters: ['android', 'js']
           },
           {
             title: 'Text to speech',
             route: '/lib/predictions/text-speech',
-            filters: ['android', 'ios', 'js']
+            filters: ['android', 'js']
           },
           {
             title: 'Transcribe audio to text',
             route: '/lib/predictions/transcribe',
-            filters: ['ios', 'js']
+            filters: ['js']
           },
           {
             title: 'Translate language',
             route: '/lib/predictions/translate',
-            filters: ['android', 'ios', 'js']
+            filters: ['android', 'js']
           },
           {
             title: 'Identify text',
             route: '/lib/predictions/identify-text',
-            filters: ['android', 'ios', 'js']
+            filters: ['android', 'js']
           },
           {
             title: 'Identify entities from images',
             route: '/lib/predictions/identify-entity',
-            filters: ['android', 'ios', 'js']
+            filters: ['android', 'js']
           },
           {
             title: 'Label objects in image',
             route: '/lib/predictions/label-image',
-            filters: ['android', 'ios', 'js']
+            filters: ['android', 'js']
           },
           {
             title: 'Interpret sentiment',
             route: '/lib/predictions/interpret',
-            filters: ['android', 'ios', 'js']
+            filters: ['android', 'js']
           },
           {
             title: 'Escape hatch',
             route: '/lib/predictions/escapehatch',
-            filters: ['android', 'ios']
+            filters: ['android']
           },
           {
             title: 'Example',
