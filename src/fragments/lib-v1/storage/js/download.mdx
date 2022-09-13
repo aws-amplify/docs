@@ -1,6 +1,6 @@
 ## Get
 
-Get a presigned URL of a stored file. You can specify some options: mainly [file access `level`](https://docs.amplify.aws/lib/storage/configureaccess/q/platform/js) and whether to `download` the file:
+Get a presigned URL of a stored file. You can specify some options: mainly [file access `level`](https://docs.amplify.aws/lib-v1/storage/configureaccess/q/platform/js) and whether to `download` the file:
 
 ```typescript
 await Storage.get(key: string, config: {
@@ -112,7 +112,7 @@ const result = await Storage.get('welcome.png'); // Gets the welcome.png belongi
 const result = await Storage.get('welcome.png', { level: 'private' }); // same effect
 ```
 
-Here is a quick guide to the access levels - [see the docs](https://docs.amplify.aws/lib/storage/configureaccess/q/platform/js) for more detail:
+Here is a quick guide to the access levels - [see the docs](https://docs.amplify.aws/lib-v1/storage/configureaccess/q/platform/js) for more detail:
 
 - `public`: Accessible by all users of your app. Files are stored under the `public/` path in your S3 bucket.
 - `protected`: Readable by all users, but writable only by the creating user. Files are stored under `protected/{user_identity_id}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.

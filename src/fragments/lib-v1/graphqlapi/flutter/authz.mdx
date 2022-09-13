@@ -6,7 +6,7 @@ API Key is the simplest way to setup and prototype your application with AWS App
 
 #### Amazon Cognito User Pools
 
-Amazon Cognito's user pool is most commonly used with AWS AppSync when adding authorization check on your API calls. If your application needs to interact with other AWS services besides AWS AppSync, such as Amazon S3, you will need to use AWS IAM credentials with Amazon Cognito's identity pools. Amplify CLI can automatically configure this for you when running `amplify add auth` and will also automatically use the authenticated user from user pools to federate with the identity pools to provide the AWS IAM credentials in the application. [See this for more information about the differences](https://aws.amazon.com/premiumsupport/knowledge-center/cognito-user-pools-identity-pools/). This allows you to have both user pool credentials for AWS AppSync and AWS IAM credentials for other AWS resources. You can learn more about Amplify Auth outlined in the [Accessing credentials section](/lib/auth/access_credentials). For manual configuration, add the following snippet to your `amplifyconfiguration.dart` file, under the `awsCognitoAuthPlugin`:
+Amazon Cognito's user pool is most commonly used with AWS AppSync when adding authorization check on your API calls. If your application needs to interact with other AWS services besides AWS AppSync, such as Amazon S3, you will need to use AWS IAM credentials with Amazon Cognito's identity pools. Amplify CLI can automatically configure this for you when running `amplify add auth` and will also automatically use the authenticated user from user pools to federate with the identity pools to provide the AWS IAM credentials in the application. [See this for more information about the differences](https://aws.amazon.com/premiumsupport/knowledge-center/cognito-user-pools-identity-pools/). This allows you to have both user pool credentials for AWS AppSync and AWS IAM credentials for other AWS resources. You can learn more about Amplify Auth outlined in the [Accessing credentials section](/lib-v1/auth/access_credentials). For manual configuration, add the following snippet to your `amplifyconfiguration.dart` file, under the `awsCognitoAuthPlugin`:
 
 ```json
 {
@@ -38,7 +38,7 @@ and under the `awsAPIPlugin`
 
 ```
 
-import flutter0 from "/src/fragments/lib/graphqlapi/flutter/authz/10_userpool.mdx";
+import flutter0 from "/src/fragments/lib-v1/graphqlapi/flutter/authz/10_userpool.mdx";
 
 <Fragments fragments={{flutter: flutter0}} />
 
@@ -78,7 +78,7 @@ and under the `awsAPIPlugin`
 
 #### OIDC
 
-import flutter1 from "/src/fragments/lib/graphqlapi/flutter/authz/20_oidc.mdx";
+import flutter1 from "/src/fragments/lib-v1/graphqlapi/flutter/authz/20_oidc.mdx";
 
 <Fragments fragments={{flutter: flutter1}} />
 
@@ -134,6 +134,6 @@ The `friendly_name` illustrated here is created from Amplify CLI prompt. There a
 
 The `GRAPHQL-ENDPOINT` from AWS AppSync will look similar to `https://xyz.appsync-api.us-west-2.amazonaws.com/graphql`.
 
-import flutter2 from "/src/fragments/lib/graphqlapi/flutter/authz/30_multi.mdx";
+import flutter2 from "/src/fragments/lib-v1/graphqlapi/flutter/authz/30_multi.mdx";
 
 <Fragments fragments={{flutter: flutter2}} />
