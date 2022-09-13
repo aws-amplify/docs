@@ -7,7 +7,7 @@ The Amplify Framework uses [Amazon Cognito](https://aws.amazon.com/cognito/) as 
 ## Create authentication service
 To start from scratch, run the following command in your project's root folder:
 
-> If you want to re-use an existing authentication resource from AWS (e.g. Amazon Cognito UserPool or Identity Pool) refer to [this section](/lib/auth/start#re-use-existing-authentication-resource).
+> If you want to re-use an existing authentication resource from AWS (e.g. Amazon Cognito UserPool or Identity Pool) refer to [this section](/lib-v1/auth/start#re-use-existing-authentication-resource).
 
 ```bash
 amplify add auth
@@ -35,7 +35,7 @@ amplify console
 
 Add Amplify to your app:
 
-import all0 from "/src/fragments/lib/auth/js/getting-started-steps-basic-auth.mdx";
+import all0 from "/src/fragments/lib-v1/auth/js/getting-started-steps-basic-auth.mdx";
 
 <Fragments fragments={{all: all0}} />
 
@@ -218,12 +218,12 @@ The `amplify-authenticator` component offers a simple way to add authentication 
 
 ## Option 2: Call Authentication APIs manually
 
-Follow the instructions in the [Sign in, Sign up and Sign out](/lib/auth/emailpassword) to learn about how to integrate these authentication flows in your application with the Auth APIs.
+Follow the instructions in the [Sign in, Sign up and Sign out](/lib-v1/auth/emailpassword) to learn about how to integrate these authentication flows in your application with the Auth APIs.
 
 ## Summary
 
 To implement authentication flows using Amplify you can either use the Amplify UI libraries or call authentication methods directly on the `Auth` class.
 
-`Auth` has over 30 methods including [`signUp`](/lib/auth/emailpassword#sign-up), [`signIn`](/lib/auth/emailpassword#sign-in), [`forgotPassword`](/lib/auth/manageusers#forgot-password), and [`signOut`](/lib/auth/emailpassword#sign-out) that allow you full control over all aspects of the user authentication flow.
+`Auth` has over 30 methods including [`signUp`](/lib-v1/auth/emailpassword#sign-up), [`signIn`](/lib-v1/auth/emailpassword#sign-in), [`forgotPassword`](/lib-v1/auth/manageusers#forgot-password), and [`signOut`](/lib-v1/auth/emailpassword#sign-out) that allow you full control over all aspects of the user authentication flow.
 
 Check out the complete API [here](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html).

@@ -102,11 +102,11 @@ If you are using a 3rd party OIDC provider you will need to configure it and man
 }
 ```
 
-import ios0 from "/src/fragments/lib/graphqlapi/ios/authz/20_oidc.mdx";
+import ios0 from "/src/fragments/lib-v1/graphqlapi/ios/authz/20_oidc.mdx";
 
 <Fragments fragments={{ios: ios0}} />
 
-import android1 from "/src/fragments/lib/graphqlapi/android/authz/20_oidc.mdx";
+import android1 from "/src/fragments/lib-v1/graphqlapi/android/authz/20_oidc.mdx";
 
 <Fragments fragments={{android: android1}} />
 
@@ -118,11 +118,11 @@ The ID Token contains claims about the identity of the authenticated user such a
 
 If you are using Cognito's user pool as the authorization type, this will by default retrieve and use the Access Token for your requests. If you would like to override this behavior and use the ID Token instead, you can treat Cognito user pool as your OIDC provider, set the authorization type to `OPENID_CONNECT` and use `Amplify.Auth` to retrieve the ID Token for your requests.
 
-import ios2 from "/src/fragments/lib/graphqlapi/ios/authz/21_oidc.mdx";
+import ios2 from "/src/fragments/lib-v1/graphqlapi/ios/authz/21_oidc.mdx";
 
 <Fragments fragments={{ios: ios2}} />
 
-import android3 from "/src/fragments/lib/graphqlapi/android/authz/21_oidc.mdx";
+import android3 from "/src/fragments/lib-v1/graphqlapi/android/authz/21_oidc.mdx";
 
 <Fragments fragments={{android: android3}} />
 
@@ -143,21 +143,21 @@ You can also set authorization mode to `NONE` so that the library will not provi
 }
 ```
 
-import ios4 from "/src/fragments/lib/restapi/ios/authz/22_none_headers.mdx";
+import ios4 from "/src/fragments/lib-v1/restapi/ios/authz/22_none_headers.mdx";
 
 <Fragments fragments={{ios: ios4}} />
 
-import android5 from "/src/fragments/lib/restapi/android/authz/22_none_headers.mdx";
+import android5 from "/src/fragments/lib-v1/restapi/android/authz/22_none_headers.mdx";
 
 <Fragments fragments={{android: android5}} />
 
 You can register your own request interceptor to intercept the request and perform an action or inject something into your request before it is performed. 
 
-import ios6 from "/src/fragments/lib/graphqlapi/ios/advanced-workflows/50_interceptor.mdx";
+import ios6 from "/src/fragments/lib-v1/graphqlapi/ios/advanced-workflows/50_interceptor.mdx";
 
 <Fragments fragments={{ios: ios6}} />
 
-import android7 from "/src/fragments/lib/graphqlapi/android/advanced-workflows/50_interceptor.mdx";
+import android7 from "/src/fragments/lib-v1/graphqlapi/android/advanced-workflows/50_interceptor.mdx";
 
 <Fragments fragments={{android: android7}} />
 
