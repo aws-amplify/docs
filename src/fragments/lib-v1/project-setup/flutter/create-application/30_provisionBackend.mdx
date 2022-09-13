@@ -13,7 +13,7 @@ Project information
 | Environment: dev
 | Default editor: Visual Studio Code
 | App type: flutter
-| Configuration file location: ./lib/
+| Configuration file location: ./lib-v1/
 
 ? Initialize the project with the above configuration?
 ```
@@ -30,7 +30,7 @@ After that, Amplify CLI will take you through the installation process. Enter th
 ? Choose the type of app that you're building:
     'flutter'
 ? Where do you want to store your configuration file?
-    ./lib/
+    ./lib-v1/
 ```
 
 After the project information is filled, you will be prompted to select the AWS profile for you to host your information.
@@ -47,6 +47,6 @@ Please choose the profile you want to use (Use arrow keys)
 > Where possible the CLI will infer the proper configuration based on the type of project Amplify is being initialized in. In this case it knew we are using Create React App and provided the proper configuration for type of app, framework, source, distribution, build, and start options.
 
 
-Upon successfully running `amplify init`, you will see a configuration file created in `./lib/` called `amplifyconfiguration.dart`.
+Upon successfully running `amplify init`, you will see a configuration file created in `./lib-v1/` called `amplifyconfiguration.dart`.
 
 This file will be bundled into your application so that the Amplify libraries know how to reach your provisioned backend resources at runtime.

@@ -65,11 +65,6 @@ func getTodo() -> AnyCancellable {
 
 You can get the list of items using `.paginatedList` with optional parameters `limit` and `where` to specify the page size and condition. By default, the page size is 1000.
 
-
-<BlockSwitcher>
-
-<Block name="Stable Release">
-
 <BlockSwitcher>
 
 <Block name="Listener (iOS 11+)">
@@ -125,78 +120,10 @@ func listTodos() -> AnyCancellable {
 
 </BlockSwitcher>
 
-</Block>
-
-<Block name="Developer Preview">
-
-<BlockSwitcher>
-
-<Block name="Listener (iOS 11+)">
-
-```swift
-func listTodos() {
-    let todo = Todo.keys
-    let predicate = todo.name == "my first todo" && todo.description == "todo description"
-    let request = GraphQLRequest<Todo>.list(Todo.self, where: predicate, limit: 1000)
-    Amplify.API.query(request: request) { event in
-        switch event {
-        case .success(let result):
-            switch result {
-            case .success(let todos):
-                print("Successfully retrieved list of todos: \(todos)")
-            case .failure(let error):
-                print("Got failed result with \(error.errorDescription)")
-            }
-        case .failure(let error):
-            print("Got failed event with error \(error)")
-        }
-    }
-}
-```
-
-</Block>
-
-<Block name="Combine (iOS 13+)">
-
-```swift
-func listTodos() -> AnyCancellable {
-    let todo = Todo.keys
-    let predicate = todo.name == "my first todo" && todo.description == "todo description"
-    let request = GraphQLRequest<Todo>.list(Todo.self, where: predicate, limit: 1000)
-    let sink = Amplify.API.query(request: request)
-        .resultPublisher
-        .sink {
-            if case let .failure(error) = $0 {
-                print("Got failed event with error \(error)")
-            }
-        }
-        receiveValue: { result in
-        switch result {
-            case .success(let todos):
-                print("Successfully retrieved list of todos: \(todos)")
-            case .failure(let error):
-                print("Got failed result with \(error.errorDescription)")
-            }
-        }
-    return sink
-}
-```
-
-</Block>
-
-</BlockSwitcher>
-
-</Block>
-
-</BlockSwitcher>
-
 ### List subsequent pages of items
 
 For large data sets, you'll need to paginate through the results. After receiving the first page of results, you can check if there is a subsequent page and obtain the next page.
 
-<BlockSwitcher>
-
-<Block name="Stable Release">
 
 ```swift
 var todos: [Todo] = []
@@ -236,53 +163,6 @@ func listNextPage() {
     }
 }
 ```
-</Block>
-
-<Block name="Developer Preview">
-
-```swift
-var todos: [Todo] = []
-var currentPage: List<Todo>?
-
-func listFirstPage() {
-    let todo = Todo.keys
-    let predicate = todo.name == "my first todo" && todo.description == "todo description"
-    let request = GraphQLRequest<Todo>.list(Todo.self, where: predicate, limit: 1000)
-    Amplify.API.query(request: request) { event in
-        switch event {
-        case .success(let result):
-            switch result {
-            case .success(let todos):
-                print("Successfully retrieved list of todos: \(todos)")
-                self.currentPage = todos
-                self.todos.append(contentsOf: todos)
-            case .failure(let error):
-                print("Got failed result with \(error.errorDescription)")
-            }
-        case .failure(let error):
-            print("Got failed event with error \(error)")
-        }
-    }
-}
-
-func listNextPage() {
-    if let current = self.currentPage, current.hasNextPage() {
-        current.getNextPage { result in
-            switch result {
-            case .success(let todos):
-                self.todos.append(contentsOf: todos)
-                self.currentPage = todos
-            case .failure(let coreError):
-                print("Failed to get next page \(coreError)")
-            }
-        }
-    }
-}
-```
-
-</Block>
-
-</BlockSwitcher>
 
 ## List all pages
 
@@ -295,10 +175,6 @@ If you want to get all pages, retrieve the subsequent page when you have success
 
 The completed changes should look like this
 
-<BlockSwitcher>
-
-<Block name="Stable Release">
-
 ```swift
 var todos: [Todo] = []
 var currentPage: List<Todo>?
@@ -339,52 +215,3 @@ func listNextPageRecursively() { // 3. Updated from `listNextPage()`
     }
 }
 ```
-
-</Block>
-
-<Block name="Developer Preview">
-
-```swift
-var todos: [Todo] = []
-var currentPage: List<Todo>?
-
-func listAllPages() { // 1. Updated from `listFirstPage()`
-    let todo = Todo.keys
-    let predicate = todo.name == "my first todo" && todo.description == "todo description"
-    let request = GraphQLRequest<Todo>.list(Todo.self, where: predicate, limit: 1000)
-    Amplify.API.query(request: request) { event in
-        switch event {
-        case .success(let result):
-            switch result {
-            case .success(let todos):
-                print("Successfully retrieved list of todos: \(todos)")
-                self.currentPage = todos
-                self.todos.append(contentsOf: todos)
-                self.listNextPageRecursively() // 2. Added
-            case .failure(let error):
-                print("Got failed result with \(error.errorDescription)")
-            }
-        case .failure(let error):
-            print("Got failed event with error \(error)")
-        }
-    }
-}
-
-func listNextPageRecursively() { // 3. Updated from `listNextPage()`
-    if let current = currentPage, current.hasNextPage() {
-        current.getNextPage { result in
-            switch result {
-            case .success(let todos):
-                self.todos.append(contentsOf: todos)
-                self.currentPage = todos
-                self.listNextPageRecursively() // 4. Added
-            case .failure(let coreError):
-                print("Failed to get next page \(coreError)")
-            }
-        }
-    }
-}
-```
-</Block>
-
-</BlockSwitcher>
