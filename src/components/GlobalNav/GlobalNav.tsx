@@ -91,8 +91,6 @@ export function GlobalNav({
   const navLinksContainerRef = useRef<HTMLDivElement>(null);
   const navLinksRightRef = useRef<HTMLDivElement>(null);
 
-  const navLinksLeftRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => {
     const handleWindowSizeChange = () => {
       setCurrentWindowInnerWidth(window.innerWidth);
@@ -101,8 +99,6 @@ export function GlobalNav({
         const navLinksContainerBCR = navLinksContainerRef.current.getBoundingClientRect();
         const navLinksRightBCR = navLinksRightRef.current.getBoundingClientRect();
 
-        console.log('navLinksRightBCR.right ', navLinksRightBCR.right);
-        console.log('navLinksContainerBCR.right ', navLinksContainerBCR.right);
         if (navLinksRightBCR.right > navLinksContainerBCR.right) {
           setIsMobileState(true);
           setMobileNavBreakpoint(window.innerWidth);
@@ -118,18 +114,10 @@ export function GlobalNav({
   }, []);
 
   useLayoutEffect(() => {
-    if (
-      navLinksContainerRef.current &&
-      navLinksRightRef.current &&
-      navLinksLeftRef.current
-    ) {
+    if (navLinksContainerRef.current && navLinksRightRef.current) {
       const navLinksContainerBCR = navLinksContainerRef.current.getBoundingClientRect();
       const navLinksRightBCR = navLinksRightRef.current.getBoundingClientRect();
 
-      const navLinksLeftBCR = navLinksLeftRef.current.getBoundingClientRect();
-
-      console.log('navLinksRightBCR.right ', navLinksRightBCR.right);
-      console.log('navLinksContainerBCR.right ', navLinksContainerBCR.right);
       if (navLinksRightBCR.right >= navLinksContainerBCR.right) {
         setIsMobileState(true);
         setMobileNavBreakpoint(window.innerWidth);
@@ -138,8 +126,6 @@ export function GlobalNav({
   }, []);
 
   useLayoutEffect(() => {
-    console.log('currentWindowInnerWidth ', currentWindowInnerWidth);
-    console.log('mobileNavBreakpoint ', mobileNavBreakpoint);
     if (currentWindowInnerWidth > mobileNavBreakpoint) {
       setIsMobileState(false);
     }
@@ -293,13 +279,10 @@ export function GlobalNav({
         className={styles['nav-links-container']}
         padding="0px 32px"
         style={{
-          borderBottom: hasSecondaryNav
-            ? '1px solid #d5dbdb'
-            : '1px solid transparent'
+          borderBottom: hasSecondaryNav ? '1px solid #d5dbdb' : 'none'
         }}
       >
         <Flex
-          ref={navLinksLeftRef}
           columnStart="1"
           height="100%"
           columnGap="16px"

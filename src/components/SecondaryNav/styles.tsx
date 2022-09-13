@@ -18,7 +18,8 @@ export const SecondaryNavStyle = styled.div`
   }
 
   .secondary-nav-links {
-    padding: 8px 20px;
+    padding: 0px 20px;
+    padding-top: 8px;
     display: flex;
     flex-direction: row;
     align-items: center;
