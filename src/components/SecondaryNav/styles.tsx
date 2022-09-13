@@ -47,6 +47,7 @@ export const SecondaryNavStyle = styled.div`
 
       display: block;
       padding: 0.875rem 0 0.875rem;
+      padding-bottom: 1.375rem;
       color: var(--font-color);
     }
 
@@ -81,7 +82,7 @@ export const LinkActiveStyle = styled.a`
   font-weight: bold;
 
   ${MQLaptop} {
-    border-bottom: 0.125rem solid var(--color-orange-hv);
+    border-bottom: 2px solid var(--color-orange-hv);
   }
 
   > span {
