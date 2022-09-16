@@ -313,8 +313,8 @@ In the example above:
 
 <Callout warning>
 
-To prevent sensitive data from being sent over subscriptions, the GraphQL Transformer needs to alter the response of mutations for those fields by setting them to null. Therefore, to facilitate field-level authorization with subscriptions, you need to either apply field-level authorization rules to all **required** fields, make the other fields nullable, or disable subscriptions by setting it to public or off. 
-  
+To prevent sensitive data from being sent over subscriptions, the GraphQL Transformer needs to alter the response of mutations for those fields by setting them to null. Therefore, to facilitate field-level authorization with subscriptions, you need to either apply field-level authorization rules to all **required** fields, make the other fields nullable, or disable subscriptions by setting it to public or off.
+
 </Callout>
 
 In the example above:
@@ -413,6 +413,8 @@ To grant an external Lambda function or an IAM role access to this GraphQL API, 
 }
 ```
 
+You can use the symbol `${env}` to reference the current Amplify CLI environment.
+
 These "Admin Roles" have special access privileges that are scoped based on their IAM policy instead of any particular `@auth` rule.
 
 </Block>
@@ -444,7 +446,7 @@ enum ModelOperation {
   update
   delete
   read # Short-hand to allow "get", "list", "sync", "listen", and "search"
-  
+
   get # Retrieves an individual item
   list # Retrieves a list of items
   sync # Enables ability to sync offline/online changes (including via DataStore)
