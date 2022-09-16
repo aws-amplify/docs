@@ -1,2 +1,2 @@
-export { ExternalLink } from "./ExternalLink";
-export { IconLink } from "./IconLink";
+export { ExternalLink } from './ExternalLink';
+export { IconLink } from './IconLink';

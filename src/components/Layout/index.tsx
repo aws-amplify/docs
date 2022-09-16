@@ -5,7 +5,7 @@ import { LayoutStyle } from './styles';
 import { Container } from '../Container';
 import { useRouter } from 'next/router';
 import { GlobalNav, NavMenuItem } from '../GlobalNav/GlobalNav';
-import { NAV_LINKS } from '../../utils/globalnav';
+import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '../../utils/globalnav';
 import React from 'react';
 
 export default function Layout({
@@ -75,7 +75,11 @@ export default function Layout({
           />
         </Head>
       )}
-      <GlobalNav links={NAV_LINKS as NavMenuItem[]} currentSite={'Docs'} />
+      <GlobalNav
+        leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
+        rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
+        currentSite={'Docs'}
+      />
       <SecondaryNav />
       <Container backgroundColor="bg-color-tertiary">
         <LayoutStyle>{children}</LayoutStyle>

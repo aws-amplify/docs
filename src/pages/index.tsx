@@ -13,7 +13,7 @@ import UniversalNav from '../components/UniversalNav';
 
 import { trackPageVisit } from '../utils/track';
 import { NavMenuItem, GlobalNav } from '../components/GlobalNav';
-import { NAV_LINKS } from '../utils/globalnav';
+import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '../utils/globalnav';
 import React from 'react';
 
 const meta = {
@@ -68,7 +68,11 @@ const Page = () => {
           key="twitter:image"
         />
       </Head>
-      <GlobalNav links={NAV_LINKS as NavMenuItem[]} currentSite={'Docs'} />
+      <GlobalNav
+        leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
+        rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
+        currentSite={'Docs'}
+      />
       <UniversalNav blend={true} />
       <Hero>
         <h1 className="font-weight-300">Amplify Framework Documentation</h1>
