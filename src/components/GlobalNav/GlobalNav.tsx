@@ -1,35 +1,36 @@
+// Maybe put this somewhere else
+// At the moment Docs doesn't use Amplify UI anywhere else
 import '@aws-amplify/ui-react/styles.css';
+import React from 'react';
 
-import { Flex, Text, View } from '@aws-amplify/ui-react';
-import { useState, useLayoutEffect, useRef, useEffect, useMemo } from 'react';
+import { View } from '@aws-amplify/ui-react';
+import { useRef, useMemo } from 'react';
 import styles from './GlobalNav.module.scss';
-import { NavMenuLink } from './components/NavMenuLink';
 import { MobileNav } from './components/MobileNav';
-import { DevCenterLogo } from './components/icons';
+import { NavMenuIconType } from './components/IconLink';
+import { DesktopNav } from './components/DesktopNav';
+import { useNavLinksCollision } from './hooks/useNavLinksCollision';
+
+export enum NavMenuItemType {
+  DEFAULT = 'DEFAULT',
+  EXTERNAL = 'EXTERNAL',
+  ICON = 'ICON'
+}
 
 export interface NavMenuItem {
-  type: 'DEFAULT' | 'EXTERNAL' | 'ICON';
+  type: NavMenuItemType;
   label: string;
   url: string;
   order: number;
-  placement: 'LEFT' | 'RIGHT';
-  icon?: string;
+  icon?: NavMenuIconType | string;
 }
 
-interface NavProps {
+export interface NavProps {
   leftLinks: NavMenuItem[];
   rightLinks: NavMenuItem[];
   currentSite: string;
   secondaryNavDesktop?: JSX.Element;
   secondaryNavMobile?: JSX.Element;
-}
-
-function throttleResize(resizeFunction, throttle) {
-  let timeoutId;
-  return () => {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(resizeFunction, throttle);
-  };
 }
 
 export function GlobalNav({
@@ -43,63 +44,24 @@ export function GlobalNav({
     'UI Library': true
   };
 
-  const BEST_BREAKPOINT_GUESS = 1200;
   // This class will be added onto the sites that aren't using an Amplify UI theme provider, this will let those using a ThemeProvider use the variables
   // provided and the sites not using a ThemeProvider will have the needed variables added on
-  const themeClass = themeableSites[currentSite] ? '' : 'add-variables';
+  const themeClass = themeableSites[currentSite] ? '' : 'use-ui-theme';
 
-  let hasSecondaryNav = !!(secondaryNavDesktop && secondaryNavMobile);
-
-  let windowInnerWidth = 0;
-  if (typeof window !== 'undefined') {
-    windowInnerWidth = window.innerWidth;
-  }
-
-  const [isMobileState, setIsMobileState] = useState(
-    windowInnerWidth < BEST_BREAKPOINT_GUESS
-  );
-  const [mobileNavBreakpoint, setMobileNavBreakpoint] = useState(
-    windowInnerWidth
-  );
-  const [currentWindowInnerWidth, setCurrentWindowInnerWidth] = useState(
-    windowInnerWidth
-  );
-  const allLinks = useMemo(() => {
-    return [...leftLinks, ...rightLinks];
-  }, [leftLinks, rightLinks]);
+  let hasSecondaryNav =
+    secondaryNavDesktop && secondaryNavMobile ? true : false;
 
   const navLinksContainerRef = useRef<HTMLDivElement>(null);
   const navLinksRightRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleWindowSizeChange = () => {
-      setCurrentWindowInnerWidth(window.innerWidth);
+  const allLinks = useMemo(() => {
+    return [...leftLinks, ...rightLinks];
+  }, [leftLinks, rightLinks]);
 
-      if (navLinksContainerRef.current && navLinksRightRef.current) {
-        const navLinksContainerBCR = navLinksContainerRef.current.getBoundingClientRect();
-        const navLinksRightBCR = navLinksRightRef.current.getBoundingClientRect();
-
-        if (navLinksRightBCR.right > navLinksContainerBCR.right) {
-          setIsMobileState(true);
-          setMobileNavBreakpoint(window.innerWidth);
-        }
-      }
-    };
-
-    handleWindowSizeChange();
-    const throttledFunction = throttleResize(handleWindowSizeChange, 20);
-    window.addEventListener('resize', throttledFunction);
-
-    return () => {
-      window.removeEventListener('resize', throttledFunction);
-    };
-  }, []);
-
-  useLayoutEffect(() => {
-    if (currentWindowInnerWidth > mobileNavBreakpoint) {
-      setIsMobileState(false);
-    }
-  }, [currentWindowInnerWidth, mobileNavBreakpoint]);
+  const isMobileState = useNavLinksCollision(
+    navLinksContainerRef,
+    navLinksRightRef
+  );
 
   return (
     <View
@@ -116,56 +78,15 @@ export function GlobalNav({
           secondaryNavMobile={secondaryNavMobile}
         />
       ) : (
-        <>
-          <Flex
-            ref={navLinksContainerRef}
-            className={styles['nav-links-container']}
-            padding="0px 32px"
-            style={{
-              borderBottom: hasSecondaryNav ? '1px solid #d5dbdb' : 'none'
-            }}
-          >
-            <Flex
-              columnStart="1"
-              height="100%"
-              columnGap="16px"
-              alignItems="center"
-              id="left-nav"
-            >
-              {/* Left side of nav bar */}
-              <Flex height="100%" columnGap="8px" alignItems="center">
-                <DevCenterLogo />
-                <Text className={styles['dev-center-logo']}>
-                  <span style={{ fontWeight: '400' }}>Amplify</span>{' '}
-                  <span style={{ fontWeight: '300' }}>Dev Center</span>
-                </Text>
-              </Flex>
-              {leftLinks.map((link) => (
-                <NavMenuLink
-                  navMenuItem={link}
-                  currentMenuItem={currentSite}
-                  key={link.order}
-                />
-              ))}
-            </Flex>
-            <Flex
-              ref={navLinksRightRef}
-              columnStart="3"
-              columnGap="16px"
-              alignItems="center"
-              id="right-nav"
-            >
-              {rightLinks.map((link) => (
-                <NavMenuLink
-                  navMenuItem={link}
-                  currentMenuItem={currentSite}
-                  key={link.order}
-                />
-              ))}
-            </Flex>
-          </Flex>
-          {secondaryNavDesktop}
-        </>
+        <DesktopNav
+          currentSite={currentSite}
+          leftLinks={leftLinks}
+          rightLinks={rightLinks}
+          navLinksContainerRef={navLinksContainerRef}
+          navLinksRightRef={navLinksRightRef}
+          hasSecondaryNav={hasSecondaryNav}
+          secondaryNavDesktop={secondaryNavDesktop}
+        />
       )}
     </View>
   );

@@ -1,6 +1,6 @@
-import { Button } from "@aws-amplify/ui-react";
-import { Dispatch, SetStateAction } from "react";
-import styles from "../../GlobalNav.module.scss";
+import { Button } from '@aws-amplify/ui-react';
+import { Dispatch, SetStateAction } from 'react';
+import styles from '../../GlobalNav.module.scss';
 
 interface ShowSecondaryNavProps {
   label: string;
@@ -19,7 +19,7 @@ export function ShowSecondaryNav({
       border="none"
       borderRadius="0"
       padding="12px 22px"
-      className={styles["secondary-nav-button"]}
+      className={styles['secondary-nav-button']}
       onClick={() => setShowGlobalNav(false)}
       ariaLabel={`Show ${label} nav bar`}
     >
