@@ -28,5 +28,5 @@ let userProfile = AnalyticsUserProfile(name: "username",
                                        location: location,
                                        properties: properties)
 
-Amplify.Analytics.identifyUser(user.userId, withProfile: userProfile)
+Amplify.Analytics.identifyUser(userId: user.userId, userProfile: userProfile)
 ```
