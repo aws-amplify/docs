@@ -29,19 +29,9 @@ export function DesktopNav({
       <Flex
         ref={navLinksContainerRef}
         className={styles['nav-links-container']}
-        padding="0px 32px"
-        style={{
-          borderBottom: hasSecondaryNav ? '1px solid #d5dbdb' : 'none',
-        }}
       >
-        <Flex
-          columnStart="1"
-          height="100%"
-          columnGap="16px"
-          alignItems="center"
-          id="left-nav"
-        >
-          <Flex height="100%" columnGap="8px" alignItems="center">
+        <Flex height="100%" gap="medium" id="left-nav">
+          <Flex gap="xs" alignItems="center">
             <AmplifyLogo />
             <Text className={styles['dev-center-logo']}>
               <span style={{ fontWeight: '400' }}>Amplify</span>{' '}
@@ -58,8 +48,7 @@ export function DesktopNav({
         </Flex>
         <Flex
           ref={navLinksRightRef}
-          columnStart="3"
-          columnGap="16px"
+          gap="medium"
           alignItems="center"
           id="right-nav"
         >
