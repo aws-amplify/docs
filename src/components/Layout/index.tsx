@@ -1,10 +1,12 @@
 import Head from 'next/head';
-import UniversalNav from '../UniversalNav/index';
 import SecondaryNav from '../SecondaryNav/index';
 import Footer from '../Footer/index';
 import { LayoutStyle } from './styles';
 import { Container } from '../Container';
 import { useRouter } from 'next/router';
+import { GlobalNav, NavMenuItem } from '../GlobalNav/GlobalNav';
+import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '../../utils/globalnav';
+import React from 'react';
 
 export default function Layout({
   children,
@@ -73,10 +75,10 @@ export default function Layout({
           />
         </Head>
       )}
-      <UniversalNav
-        heading="Amplify Docs"
-        brandIcon="/assets/logo-light.svg"
-        blend={false}
+      <GlobalNav
+        leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
+        rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
+        currentSite={'Docs'}
       />
       <SecondaryNav />
       <Container backgroundColor="bg-color-tertiary">

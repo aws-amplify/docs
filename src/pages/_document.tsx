@@ -50,6 +50,20 @@ export default class MyDocument extends Document {
             httpEquiv="Content-Security-Policy"
             content={getCspContent(this.props)}
           />
+          <link
+            rel="preload"
+            href="/fonts/AmazonEmber_W_Rg.woff2"
+            as="font"
+            type="font/woff2"
+            crossOrigin="anonymous"
+          />
+          <link
+            rel="preload"
+            href="/fonts/AmazonEmber_W_Lt.woff2"
+            as="font"
+            type="font/woff2"
+            crossOrigin="anonymous"
+          />
         </Head>
         <body>
           <Main />
