@@ -3,71 +3,73 @@ import {
   LinkActiveStyle,
   LinkInactiveStyle,
   SecondaryNavStyle,
-  SearchBarContainer
-} from './styles';
+  ShadowStyle,
+} from "./styles";
 import {
   IOS_REFERENCE,
   ANDROID_REFERENCE,
   JS_REFERENCE,
   HOSTING_REFERENCE
-} from '../../constants/links';
-import ExternalLink from '../ExternalLink';
-import InternalLink from '../InternalLink';
-import { useRouter } from 'next/router';
-import { Container } from '../Container';
-import { parseLocalStorage } from '../../utils/parseLocalStorage';
-
-import SearchBar from '../SearchBar';
-import React from 'react';
+} from "../../constants/links";
+import ExternalLink from "../ExternalLink";
+import InternalLink from "../InternalLink";
+import {useRouter} from "next/router";
+import {Container} from "../Container";
+import {parseLocalStorage} from "../../utils/parseLocalStorage";
 
 export default function SecondaryNav() {
   const router = useRouter();
   const path = router.asPath;
-  const filterKeys = parseLocalStorage('filterKeys', {});
+  const filterKeys = parseLocalStorage("filterKeys", {});
 
   return (
     <HostStyle>
       <Container>
         <SecondaryNavStyle id="secondary-nav">
-          <div className="secondary-nav-links">
+          <div>
             {[
               {
-                label: 'Getting Started',
-                url: '/start'
+                label: "Getting Started",
+                url: "/start",
               },
               {
-                label: 'Libraries',
-                url: '/lib',
-                additionalActiveChildRoots: ['/lib', '/sdk']
+                label: "Libraries",
+                url: "/lib",
+                additionalActiveChildRoots: ["/lib", "/sdk"],
               },
               {
-                label: 'CLI',
-                url: '/cli'
+                label: "UI Components",
+                url: "/ui",
+                additionalActiveChildRoots: ["/ui"],
               },
               {
-                label: 'Studio',
-                url: '/console'
+                label: "CLI",
+                url: "/cli",
               },
               {
-                label: 'Hosting',
+                label: "Studio",
+                url: "/console",
+              },
+              {
+                label: "Hosting",
                 url: HOSTING_REFERENCE,
-                external: true
+                external: true,
               },
               {
-                label: 'Guides',
-                url: '/guides'
+                label: "Guides",
+                url: "/guides",
               },
-              ...('platform' in filterKeys &&
-              (filterKeys as { platform: string }).platform
+              ...("platform" in filterKeys &&
+              (filterKeys as {platform: string}).platform
                 ? [
                     {
-                      label: 'API Reference',
+                      label: "API Reference",
                       url: (() => {
-                        switch ((filterKeys as { platform: string }).platform) {
-                          case 'ios': {
+                        switch ((filterKeys as {platform: string}).platform) {
+                          case "ios": {
                             return IOS_REFERENCE;
                           }
-                          case 'android': {
+                          case "android": {
                             return ANDROID_REFERENCE;
                           }
                           default: {
@@ -75,11 +77,11 @@ export default function SecondaryNav() {
                           }
                         }
                       })(),
-                      external: true
-                    }
+                      external: true,
+                    },
                   ]
-                : [])
-            ].map(({ url, label, external, additionalActiveChildRoots }) => {
+                : []),
+            ].map(({url, label, external, additionalActiveChildRoots}) => {
               const matchingRoots =
                 additionalActiveChildRoots === undefined
                   ? [url]
@@ -102,10 +104,8 @@ export default function SecondaryNav() {
                 );
               }
             })}
+            <ShadowStyle />
           </div>
-          <SearchBarContainer>
-            <SearchBar />
-          </SearchBarContainer>
         </SecondaryNavStyle>
       </Container>
     </HostStyle>
