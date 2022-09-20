@@ -21,6 +21,17 @@ type FilterSelectState = {
   isOpen: boolean;
 };
 
+const convertToLatestUrl = (url: string) => {
+  if (url.startsWith('/lib-v')) {
+    return url.replace(/\/lib-v\d+/i, '/lib')
+  }
+  return url
+}
+
+const convertToRoutePath = (url: string, filter: {filterKey: string, filterKind: string}) => {
+  return url.replace(`/${filter.filterKey}`, `/[${filter.filterKind}]`)
+}
+
 export default class FilterSelect extends React.Component<
   FilterSelectProps,
   FilterSelectState
@@ -66,14 +77,15 @@ export default class FilterSelect extends React.Component<
     const query = {};
     query[this.props.filterKind] = name;
 
+    const latestUrl = convertToLatestUrl(this.props.url)
     let href = {
-      url: this.props.url,
+      pathname: convertToRoutePath(latestUrl, this.props),
       query: query,
     } as object | string;
-    if (!this.props.url.includes("/q/")) {
-      href = this.props.url + `/q/${this.props.filterKind}/${name}`;
+    if (!latestUrl.includes("/q/")) {
+      href = latestUrl + `/q/${this.props.filterKind}/${name}`;
     }
-
+    console.log(`filter ${name}, href ${JSON.stringify(href)}, filterKind: ${this.props.filterKey}`)
     return (
       <Link href={href} key={name}>
         <a onClick={this.toggleVis}>
