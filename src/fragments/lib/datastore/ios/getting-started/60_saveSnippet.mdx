@@ -1,17 +1,15 @@
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
 let post = Post(title: "Create an Amplify DataStore app")
 
-Amplify.DataStore.save(post) { result in
-    switch result {
-    case .success:
-        print("Post saved successfully!")
-    case .failure(let error):
-        print("Error saving post \(error)")
-    }
+do {
+    try await Amplify.DataStore.save(post)
+    print("Post saved successfully!")
+} catch {
+    print("Error saving post \(error)")
 }
 ```
 
@@ -20,7 +18,9 @@ Amplify.DataStore.save(post) { result in
 <Block name="Combine">
 
 ```swift
-let saveSink = Amplify.DataStore.save(post).sink {
+Amplify.Publisher.create {
+    try await Amplify.DataStore.save(post)
+}.sink {
     if case let .failure(error) = $0 {
         print("Error saving post \(error)")
     }
