@@ -110,7 +110,7 @@ Add a development team in the "Signing and Capabilities" section and enable sign
 No specific configuration steps are needed to begin using the Auth category on Windows; however, depending on how your Windows configuration and the method you use to run your Flutter app, you may need to change the file path length limitation.
 
 ## Linux
-To run the Amplify-Flutter developer preview on Linux, you must install two libraries:
+Amplify-Flutter developer preview depends on libsecret and glib when targetting Linux. To run and debug an app using Amplify-Flutter, you must install the following libraries:
 
 * libsecret-1-dev
 * libglib2.0-dev
@@ -124,6 +124,23 @@ sudo apt-get install -y libglib2.0-dev
 ```
 
 The command to install might vary slightly on other Linux distributions.
+
+### Packaging Your App
+To include the dependencies above when packaging your app with Snapscraft, include them in your snapcraft.yaml file.
+
+```yaml
+parts:
+  my-app:
+    plugin: flutter
+    source: .
+    flutter-target: lib/main.dart
+    build-packages:
+      - libsecret-1-dev
+      - libglib2.0-dev
+    stage-packages:
+      - libsecret-1-dev
+      - libglib2.0-dev
+```
 
 </Block>
 
