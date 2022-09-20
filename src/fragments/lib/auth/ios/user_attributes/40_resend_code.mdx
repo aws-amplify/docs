@@ -3,7 +3,7 @@
 <Block name="Async/Await">
 
 ```swift
-func resendCode() {
+func resendCode() async {
     do {
         let deliveryDetails = try await Amplify.Auth.resendConfirmationCode(for: .email)
         print("Resend code send to - \(deliveryDetails)")
