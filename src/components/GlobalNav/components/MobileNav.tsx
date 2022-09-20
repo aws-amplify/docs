@@ -61,7 +61,7 @@ export function MobileNav({
   return (
     <>
       <View className={styles['mobile-nav-container']} padding="0 large">
-        <Flex gap="xs" alignItems="center">
+        <Flex as="a" href="/" gap="xs" alignItems="center">
           <AmplifyLogo />
           <Text className={styles['dev-center-logo']}>
             <span style={{ fontWeight: '400' }}>Amplify</span>{' '}
