@@ -21,15 +21,33 @@ type FilterSelectState = {
   isOpen: boolean;
 };
 
-const convertToLatestUrl = (url: string) => {
-  if (url.startsWith('/lib-v')) {
-    return url.replace(/\/lib-v\d+/i, '/lib')
-  }
-  return url
+const getFirstPathSegment = (path: string): string | undefined => {
+  return path.split('/').filter(x => !!x)[0]
 }
 
-const convertToRoutePath = (url: string, filter: {filterKey: string, filterKind: string}) => {
-  return url.replace(`/${filter.filterKey}`, `/[${filter.filterKind}]`)
+const multiLibVersionPlatforms = ['ios']
+
+const convertToRouteHerf = (filter: FilterSelectProps, targetFilterKey: string) => {
+  let path = filter.url
+
+  const firstPathSegment = getFirstPathSegment(path)
+  if (firstPathSegment)
+    path = path.replace(`/${firstPathSegment}`, '/[firstPathSegment]')
+
+  let queryIndex = path.lastIndexOf('/q/')
+  if (queryIndex >= 0) {
+    path = path.substring(0, queryIndex)
+      + path.substring(queryIndex).replace(`/${filter.filterKey}`, `/[${filter.filterKind}]`)
+  }
+  return  {
+    pathname: path,
+    query: {
+      [filter.filterKind]: targetFilterKey,
+      firstPathSegment: multiLibVersionPlatforms.includes(targetFilterKey)
+                        ? firstPathSegment
+                        : firstPathSegment?.split('-')[0],
+    }
+  }
 }
 
 export default class FilterSelect extends React.Component<
@@ -74,16 +92,10 @@ export default class FilterSelect extends React.Component<
 
   renderFilter = (name) => {
     if (name === this.props.filterKey) return;
-    const query = {};
-    query[this.props.filterKind] = name;
 
-    const latestUrl = convertToLatestUrl(this.props.url)
-    let href = {
-      pathname: convertToRoutePath(latestUrl, this.props),
-      query: query,
-    } as object | string;
-    if (!latestUrl.includes("/q/")) {
-      href = latestUrl + `/q/${this.props.filterKind}/${name}`;
+    let href: object | string = convertToRouteHerf(this.props, name)
+    if (!this.props.url.includes("/q/")) {
+      href = this.props.url + `/q/${this.props.filterKind}/${name}`;
     }
 
     return (
