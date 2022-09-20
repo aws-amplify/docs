@@ -4,7 +4,7 @@
 ```java
 Amplify.DataStore.query(
     Post.class,
-    Where.matches(Post.RATING.gt(4).or(Post.STATUS.eq(PostStatus.PUBLISHED))),
+    Where.matches(Post.RATING.gt(4).or(Post.STATUS.eq(PostStatus.ACTIVE))),
     posts -> {
         while (posts.hasNext()) {
             Post post = posts.next();
@@ -22,7 +22,7 @@ Amplify.DataStore.query(
 Amplify.DataStore.query(
     Post.class, Where.matches(
         Post.RATING.gt(4)
-            .or(Post.STATUS.eq(PostStatus.PUBLISHED))
+            .or(Post.STATUS.eq(PostStatus.ACTIVE))
     ),
     { posts ->
         while (posts.hasNext()) {
@@ -41,7 +41,7 @@ Amplify.DataStore.query(
 Amplify.DataStore
     .query(Post::class,
         Where.matches(Post.RATING.gt(4)
-            .or(Post.STATUS.eq(PostStatus.PUBLISHED)))
+            .or(Post.STATUS.eq(PostStatus.ACTIVE)))
     )
     .catch { Log.e("MyAmplifyApp", "Query failed", it) }
     .collect { Log.i("MyAmplifyApp", "Post: $it") }
@@ -53,7 +53,7 @@ Amplify.DataStore
 ```java
 RxAmplify.DataStore.query(
     Post.class,
-    Where.matches(Post.RATING.gt(4).or(Post.STATUS.eq(PostStatus.PUBLISHED))))
+    Where.matches(Post.RATING.gt(4).or(Post.STATUS.eq(PostStatus.ACTIVE))))
     .subscribe(
         post -> Log.i("MyAmplifyApp", "Post: " +  post),
         failure -> Log.e("MyAmplifyApp", "Query failed.", failure)

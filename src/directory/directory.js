@@ -289,8 +289,8 @@ const directory = {
             filters: ['android', 'flutter', 'ios']
           },
           {
-            title: 'Social sign in with web UI',
-            route: '/lib/auth/social_signin_web_ui',
+            title: 'Social sign-in (OAuth)',
+            route: '/lib/auth/social',
             filters: ['android', 'flutter', 'ios']
           },
           {
@@ -1762,6 +1762,10 @@ const directory = {
           {
             title: 'Collections',
             route: '/console/uibuilder/collections'
+          },
+          {
+              title: 'Component slots',
+              route: '/console/uibuilder/slots'
           },
           {
             title: 'Theming',

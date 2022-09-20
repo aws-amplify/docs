@@ -2,7 +2,7 @@
 Future<void> fetchPublishedWithRatingTwoPosts() async {
   final posts = await Amplify.DataStore.query(
     Post.classType,
-    where: Post.RATING.eq(2).and(Post.STATUS.eq(PostStatus.PUBLISHED)),
+    where: Post.RATING.eq(2).and(Post.STATUS.eq(PostStatus.ACTIVE)),
   );
   print('Posts: $posts');
 }

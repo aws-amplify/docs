@@ -192,18 +192,18 @@ This option will use auto-generated `id` field in the root level of Feature obje
 </Callout>
 
 ```console
-? Do you have an identifier field in the Geofence(Feature) properties?
-> No I will use the root level "id" field on Feature type. Auto-Assign if missing (this will UPDATE the GeoJSON file)
+? Select the property to use as the Geofence feature identifier:
+> Use root-level "id" field. (Auto-assigned if missing)
 ```
 
 ### Custom properties
 
-This option allows you to choose your own fields inside `properties` of Feature object. The identifier field should have unique values among geofences.
+This option allows you to choose your own fields inside `properties` of Feature object. Amplify CLI will help scan the candidate properties and provide them as options in the walkthrough. The candidate properties are chosen based on the existence of all feature objects. The identifier field should have unique values among geofences and will be validated after being selected.
 ```console
-? Do you have an identifier field in the Geofence(Feature) properties?
-> Yes I want to use one of the Geofence(Feature) properties as an identifier
-? Provide the name of the property to use as a unique geofence identifier. Do not use Personal Identifiable Information such as email, username etc:
-> ${your_input_for_unique_identifier}
+? Select the property to use as the Geofence feature identifier:
+  Use root-level "id" field. (Auto-assigned if missing)
+> ${scanned_candidate_property_1}
+  ${scanned_candidate_property_2}
 ```
 
 A validation of the GeoJSON file will be executed afterwards. The upload of geofences will be triggered upon the success of validation. For the regulation of GeoJSON, please refer to [RFC7946](https://datatracker.ietf.org/doc/html/rfc7946)
