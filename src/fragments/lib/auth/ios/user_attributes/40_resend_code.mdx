@@ -5,17 +5,10 @@
 ```swift
 func resendCode() {
     do {
-        _ = try await Amplify.Auth.resendConfirmationCode(for: .email)
+        let deliveryDetails = try await Amplify.Auth.resendConfirmationCode(for: .email)
+        print("Resend code send to - \(deliveryDetails)")
     } catch {
         print("Resend code failed with error \(error)")
-    }
-     { result in
-        switch result {
-        case .success(let deliveryDetails):
-            print("Resend code send to - \(deliveryDetails)")
-        case .failure(let error):
-            
-        }
     }
 }
 ```
