@@ -1,23 +1,24 @@
 ## Record Event
 
-The Amplify Analytics plugin provides a simple interface to record custom events within your app. The plugin handles retry logic in the event the device looses network connectivity, and automatically batches requests to reduce network bandwidth.
+The Amplify Analytics plugin provides a simple interface to record custom events within your app:
 
 ```swift
-func recordEvents() {
-    let properties: AnalyticsProperties = [
-        "eventPropertyStringKey": "eventPropertyStringValue",
-        "eventPropertyIntKey": 123,
-        "eventPropertyDoubleKey": 12.34,
-        "eventPropertyBoolKey": true
-    ]
-    let event = BasicAnalyticsEvent(name: "eventName", properties: properties)
-    Amplify.Analytics.record(event: event)
-}
+let properties: AnalyticsProperties = [
+    "eventPropertyStringKey": "eventPropertyStringValue",
+    "eventPropertyIntKey": 123,
+    "eventPropertyDoubleKey": 12.34,
+    "eventPropertyBoolKey": true
+]
+let event = BasicAnalyticsEvent(name: "eventName", properties: properties)
+
+Amplify.Analytics.record(event: event)
 ```
 
 ## Flush Events
 
-Events have default configuration to flush out to the network every 60 seconds. If you would like to change this, update `amplifyconfiguration.json` with the value you would like for `autoFlushEventsInterval` like so:
+By default, events are automatically flushed out to the network every 60 seconds. 
+
+If you would like to change this, update `amplifyconfiguration.json` and set the value you would prefer under `autoFlushEventsInterval`, expressed in seconds:
 
 ```json
 {
@@ -40,23 +41,37 @@ Events have default configuration to flush out to the network every 60 seconds. 
 }
 ```
 
-> **Note**: If you set `autoFlushEventsInterval` to 0, you are responsible for calling `Amplify.Analytics.flushEvents()` to submit the recorded events to the backend.
+> **Note**
+>
+> Setting `autoFlushEventsInterval` to 0 will disable the automatic flush of events and you will be responsible for submitting them.
+
+
+To manually submit the recoded events to the backend, call:
+
+```swift
+Amplify.Analytics.flushEvents()
+```
+
+The plugin automatically batches requests in order to reduce network bandwidth and handles the retry logic if the device loses connectivity.
 
 ## Global Properties
 
-You can register properties which will be used across all `Amplify.Analytics.record(event:)` calls.
+You can register properties which will be included across all `Amplify.Analytics.record(event:)` calls.
 
 ```swift
-let globalProperties: AnalyticsProperties = ["globalPropertyKey": "value"]
+let globalProperties: AnalyticsProperties = [
+    "globalPropertyKey": "value"
+]
 Amplify.Analytics.registerGlobalProperties(globalProperties)
 ```
 
-To unregister global properties call `Amplify.Analytics.unregisterGlobalProperties()`:
+To unregister global properties, call `Amplify.Analytics.unregisterGlobalProperties()`:
 
 ```swift
-// when called with no arguments, it unregisters all global properties
+// When called with no arguments, it unregisters all global properties
 Amplify.Analytics.unregisterGlobalProperties()
 
-// or you can specify properties to unregister
-Amplify.Analytics.unregisterGlobalProperties(["globalPropertyKey1", "globalPropertyKey2"])
+// Or you can specify which properties to unregister
+let globalProperties = ["globalPropertyKey1", "globalPropertyKey2"]
+Amplify.Analytics.unregisterGlobalProperties(globalProperties)
 ```
