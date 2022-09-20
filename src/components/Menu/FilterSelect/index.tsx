@@ -85,7 +85,7 @@ export default class FilterSelect extends React.Component<
     if (!latestUrl.includes("/q/")) {
       href = latestUrl + `/q/${this.props.filterKind}/${name}`;
     }
-    console.log(`filter ${name}, href ${JSON.stringify(href)}, filterKind: ${this.props.filterKey}`)
+
     return (
       <Link href={href} key={name}>
         <a onClick={this.toggleVis}>
