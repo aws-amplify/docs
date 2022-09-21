@@ -1,36 +1,17 @@
 To initialize the Amplify API category, we are required to use the `Amplify.add()` method for the plugin followed by calling `Amplify.configure()`.
 
-**Add the following imports** to the top of your `AppDelegate.swift` file:
-
 <BlockSwitcher>
 
-<Block name="Swift Package Manager">
+<Block name="UIKit AppDelegate">
+
+Add the following imports to the top of your `AppDelegate.swift` file:
 
 ```swift
 import Amplify
 import AWSAPIPlugin
 ```
 
-</Block>
-
-<Block name="CocoaPods">
-
-```swift
-import Amplify
-import AmplifyPlugins
-```
-
-</Block>
-
-</BlockSwitcher>
-
-**Add the following code** 
-
-<BlockSwitcher>
-
-<Block name="UIKit AppDelegate">
-
-Add to your AppDelegate's `application:didFinishLaunchingWithOptions` method
+Add the following code to the AppDelegate's `application:didFinishLaunchingWithOptions` method
 
 ```swift
 func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -51,8 +32,12 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 
 <Block name="SwiftUI App">
 
-Create a custom `AppDelegate`, and add to your `application:didFinishLaunchingWithOptions` method
+Create a custom `AppDelegate` with the following imports and `application:didFinishLaunchingWithOptions` method:
+
 ```swift
+import Amplify
+import AWSAPIPlugin
+
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
@@ -69,7 +54,8 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 }
 ```
 
-Then in the `App` scene, use `UIApplicationDelegateAdaptor` property wrapper to use your custom `AppDelegate`
+Then in your `App` scene, use the `UIApplicationDelegateAdaptor` property wrapper to use your custom `AppDelegate`:
+
 ```swift
 @main
 struct MyAmplifyApp: App {
