@@ -1,46 +1,14 @@
-## DELETE data
-
-<BlockSwitcher>
-
-<Block name="Listener (iOS 11+)">
+## Delete data
 
 ```swift
-func deleteTodo() {
+func deleteTodo() async {
     let request = RESTRequest(path: "/todo")
-    Amplify.API.delete(request: request) { result in
-        switch result {
-        case .success(let data):
-            let str = String(decoding: data, as: UTF8.self)
-            print("Success \(str)")
-        case .failure(let apiError):
-            print("Failed", apiError)
-        }
+    do {
+        let data = try await Amplify.API.delete(request: request)
+        let str = String(decoding: data, as: UTF8.self)
+        print("Success: \(str)")
+    } catch(let error) {
+        print("Failed: ", error)
     }
 }
 ```
-
-</Block>
-
-<Block name="Combine">
-
-```swift
-func deleteTodo() -> AnyCancellable {
-    let request = RESTRequest(path: "/todo")
-    let sink = Amplify.API.delete(request: request)
-        .resultPublisher
-        .sink {
-            if case let .failure(apiError) = $0 {
-                print("Failed", apiError)
-            }
-        }
-        receiveValue: { data in
-            let str = String(decoding: data, as: UTF8.self)
-            print("Success \(str)")
-        }
-    return sink
-}
-```
-
-</Block>
-
-</BlockSwitcher>
