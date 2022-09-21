@@ -196,7 +196,7 @@ async function updateUserEmail () {
   const user = await Auth.currentAuthenticatedUser();
 
   await Auth.updateUserAttributes(user, {
-      'email': 'updatedEmail@mydomain.com',
+     'email': 'updatedEmail@mydomain.com',
   }).then(() => {
      console.log('a verification code is sent');
   }).catch((e) => {
