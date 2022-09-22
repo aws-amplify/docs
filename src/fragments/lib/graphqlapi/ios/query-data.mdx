@@ -2,6 +2,10 @@
 
 Now that you were able to make a mutation, take the `Id` that was printed out and use it in your query to retrieve data.
 
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
 ```swift
 func getTodo() async {
     do {
@@ -16,15 +20,56 @@ func getTodo() async {
         case .failure(let error):
             print("Got failed result with \(error.errorDescription)")
         }
-    } catch (let error) {
-        print("Got failed event with error \(error)")
+    }  catch(let error as APIError) {
+        print("Failed to query todo: ", error)
+    } catch {
+        print("Unexpected error: \(error)")
     }
 }
 ```
 
+</Block>
+
+<Block name="Combine">
+
+```swift
+func getTodo() -> AnyCancellable {
+    let sink = Amplify.Publisher.create {
+        try await Amplify.API.query(request: .get(Todo.self, byId: "9FCF5DD5-1D65-4A82-BE76-42CB438607A0"))
+    }
+    .sink {
+        if case let .failure(error) = $0 {
+            print("Got failed event with error \(error)")
+        }
+    }
+    receiveValue: { result in
+        switch result {
+        case .success(let todo):
+            guard let todo = todo else {
+                print("Could not find todo")
+                return
+            }
+            print("Successfully retrieved todo: \(todo)")
+        case .failure(let error):
+            print("Got failed result with \(error.errorDescription)")
+        }
+    }
+    return sink
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
 ## List Query
 
 You can get the list of items using `.paginatedList` with optional parameters `limit` and `where` to specify the page size and condition. By default, the page size is 1000.
+
+
+<BlockSwitcher>
+
+<Block name="Async/Await">
 
 ```swift
 func listTodos() async {
@@ -39,11 +84,44 @@ func listTodos() async {
         case .failure(let error):
             print("Got failed result with \(error.errorDescription)")
         }
-    } catch (let error) {
-        print("Got failed event with error \(error)")
+    } catch(let error as APIError) {
+            print("Failed to query list of todos: ", error)
+    } catch {
+        print("Unexpected error: \(error)")
     }
 }
 ```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+func listTodos() -> AnyCancellable {
+    let todo = Todo.keys
+    let predicate = todo.name == "my first todo" && todo.description == "todo description"
+    let sink = Amplify.API.query(request: .paginatedList(Todo.self, where: predicate, limit: 1000))
+        .resultPublisher
+        .sink {
+            if case let .failure(error) = $0 {
+                print("Got failed event with error \(error)")
+            }
+        }
+        receiveValue: { result in
+        switch result {
+            case .success(let todos):
+                print("Successfully retrieved list of todos: \(todos)")
+            case .failure(let error):
+                print("Got failed result with \(error.errorDescription)")
+            }
+        }
+    return sink
+}
+```
+
+</Block>
+
+</BlockSwitcher>
 
 ### List subsequent pages of items
 
@@ -67,8 +145,10 @@ func listFirstPage() async {
         case .failure(let error):
             print("Got failed result with \(error.errorDescription)")
         }
-    } catch (let error) {
-        print("Got failed event with error \(error)")
+    } catch(let error as APIError) {
+        print("Failed to query list of todos: ", error)
+    } catch {
+        print("Unexpected error: \(error)")
     }
 }
 
@@ -115,8 +195,10 @@ func listAllPages() async { // 1. Updated from `listFirstPage()`
         case .failure(let error):
             print("Got failed result with \(error.errorDescription)")
         }
-    } catch(let error) {
-        print("Got failed event with error \(error)")
+    } catch(let error as APIError) {
+            print("Failed to query list of todos: ", error)
+    } catch {
+        print("Unexpected error: \(error)")
     }
 }
 

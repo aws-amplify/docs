@@ -21,6 +21,6 @@ The decode path specifies which part of the response to deserialize to the `resp
 
 Then, query for the Todo by a todo id
 ```swift
-await Amplify.API.query(request: .getWithoutDescription(byId: "[UNIQUE_ID]")) { 
+try await Amplify.API.query(request: .getWithoutDescription(byId: "[UNIQUE_ID]")) { 
   // handle result
 ```  

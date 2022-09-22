@@ -43,8 +43,10 @@ do {
     case .failure(let errorResponse):
         print("Response contained errors: \(errorResponse)")
     }
-} catch (let error) {
+} catch (let error as APIError) {
     print("Failed with error: \(error)")
+} catch {
+    print("Unexpected error: \(error)")
 }
 ```
 
