@@ -1,16 +1,14 @@
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-Amplify.DataStore.query(Post.self) { result in
-    switch result {
-    case .success(let posts):
-        print("Posts retrieved successfully: \(posts)")
-    case .failure(let error):
-        print("Error retrieving posts \(error)")
-    }
-}
+do {
+    let posts = try await Amplify.DataStore.query(Post.self) 
+    print("Posts retrieved successfully: \(posts)")
+} catch {
+    print("Error retrieving posts \(error)")
+} 
 ```
 
 </Block>
@@ -18,7 +16,9 @@ Amplify.DataStore.query(Post.self) { result in
 <Block name="Combine">
 
 ```swift
-let querySink = Amplify.DataStore.query(Post.self).sink {
+Amplify.Publisher.create {
+    try await Amplify.DataStore.query(Post.self)
+}.sink {
     if case let .failure(error) = $0 {
         print("Error retrieving posts \(error)")
     }
