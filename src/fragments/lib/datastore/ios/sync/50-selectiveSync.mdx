@@ -79,21 +79,15 @@ When applying a more restrictive filter, clear the local records first by runnin
 ```swift
 func changeSync() {
     rating = 8
-    Amplify.DataStore.clear { (result) in
-        switch(result) {
-        case .success:
-            Amplify.DataStore.start { (result) in
-                switch(result) {
-                case .success:
-                    print("DataStore started")
-                case .failure(let error):
-                    print("Error starting DataStore:\(error)")
-                }
-            }
-        case .failure(let error):
-            print("Error clearing DataStore:\(error)")
-        }
-    }    
+    do {
+        try await Amplify.DataStore.stop()
+        print("DataStore stopped")
+        try await Amplify.DataStore.start()
+        print("DataStore started")
+    } catch let error as DataStoreError {
+        print("Unexpected Error :\(error)")
+    }
+}
 ```
 
 This will clear the contents of your local store, reevaluate your sync expressions and re-sync the data from the cloud, applying all of the specified predicates to the sync queries.

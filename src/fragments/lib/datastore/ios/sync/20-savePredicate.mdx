@@ -16,7 +16,7 @@ do {
 <Block name="Combine">
 
 ```swift
-Amplify.Publisher.create {
+let sink = Amplify.Publisher.create {
     try await Amplify.DataStore.save(post, where: Post.keys.title.beginsWith("[Amplify]"))
 }.sink {
     if case let .failure(error) = $0 {

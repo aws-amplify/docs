@@ -1,15 +1,13 @@
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-Amplify.DataStore.delete(post) {
-    switch $0 {
-    case .success:
-        print("Post deleted!")
-    case .failure(let error):
-        print("Error deleting post - \(error.localizedDescription)")
-    }
+do {
+    try await Amplify.DataStore.delete(post)
+    print("Post deleted!")
+} catch {
+    print("Error deleting post - \(error)")
 }
 ```
 
@@ -18,7 +16,9 @@ Amplify.DataStore.delete(post) {
 <Block name="Combine">
 
 ```swift
-let sink = Amplify.DataStore.delete(post).sink {
+let sink = Amplify.Publisher.create {
+    try await Amplify.DataStore.delete(post)
+}.sink {
     if case let .failure(error) = $0 {
         print("Fetch session failed with error \(error)")
     }
@@ -36,16 +36,14 @@ A delete can also be achieved by a `type` and its `id`.
 
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-Amplify.DataStore.delete(Post.self, withId: "123") {
-    switch $0 {
-    case .success:
-        print("Post deleted!")
-    case .failure(let error):
-        print("Error deleting post - \(error.localizedDescription)")
-    }
+do {
+    try await Amplify.DataStore.delete(Post.self, withId: "123")
+    print("Post deleted!")
+} catch {
+    print("Error deleting post - \(error)")
 }
 ```
 
@@ -54,7 +52,9 @@ Amplify.DataStore.delete(Post.self, withId: "123") {
 <Block name="Combine">
 
 ```swift
-let sink = Amplify.DataStore.delete(Post.self, withId: "123").sink {
+let sink = Amplify.Publisher.create {
+    try await Amplify.DataStore.delete(Post.self, withId: "123")
+}.sink {
     if case let .failure(error) = $0 {
         print("Error deleting post - \(error.localizedDescription)")
     }

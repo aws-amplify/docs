@@ -1,4 +1,3 @@
-```swift
 import SwiftUI
 import Amplify
 import Combine
@@ -9,14 +8,14 @@ import Combine
  */
 class PostViewModel: ObservableObject {
     @Published var post: Post?
-    var subscription: AnyCancellable?
     
     init() {
     }
     
-    func observe(postId: String) {
-        self.subscription = Amplify.DataStore.observeQuery(for: Post.self,
-                                                           where: Post.keys.id == postId).sink { completion in
+    func observe(postId: String) async throws {
+        let subscription = Amplify.DataStore.observeQuery(for: Post.self,
+                                                          where: Post.keys.id == postId)
+        let sink = Amplify.Publisher.create(subscription).sink { completion in
             print("Completion event: \(completion)")
         } receiveValue: { snapshot in
             guard let post = snapshot.items.first else {
@@ -28,18 +27,16 @@ class PostViewModel: ObservableObject {
         }
     }
     
-    func updateTitle(_ title: String) {
+    func updateTitle(_ title: String) async throws {
         guard var post = post else {
             return
         }
         post.title = title
-        Amplify.DataStore.save(post) { result in
-            switch result {
-            case .success(let updatedPost):
-                print("Updated post successfully: \(updatedPost)")
-            case .failure(let error):
-                print("Failed to update post: \(error)")
-            }
+        do {
+            let updatedPost = try await Amplify.DataStore.save(post)
+            print("Updated post successfully: \(updatedPost)")
+        } catch {
+            print("Failed to update post: \(error)")
         }
     }
 }
@@ -57,11 +54,10 @@ struct PostView: View {
             Text("Post's current title: \(vm.post?.title ?? "")")
             TextField("Enter new title", text: $title)
             Button("Click to update the title to '\(title)'") {
-                vm.updateTitle(title)
+                Task { try await vm.updateTitle(title) }
             }
         }.onAppear(perform: {
-            vm.observe(postId: postId)
+            Task { try await vm.observe(postId: postId) }
         })
     }
 }
-```
