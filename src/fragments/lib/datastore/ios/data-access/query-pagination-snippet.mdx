@@ -1,10 +1,13 @@
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-Amplify.DataStore.query(Post.self, paginate: .page(0, limit: 100)) {
-    // handle result
+do {
+    let posts = try await Amplify.DataStore.query(Post.self, paginate: .page(0, limit: 100))
+    print("Posts retrieved successfully: \(posts)")
+} catch {
+    print("Error retrieving posts \(error)")
 }
 ```
 
@@ -13,8 +16,13 @@ Amplify.DataStore.query(Post.self, paginate: .page(0, limit: 100)) {
 <Block name="Combine">
 
 ```swift
-let sink = Amplify.DataStore.query(Post.self, paginate: .page(0, limit: 100)).sink {
-    // handle result
+let sink = Amplify.Publisher.create {
+    try await Amplify.DataStore.query(Post.self, paginate: .page(0, limit: 100))
+}.sink {
+    //handle completion error
+}
+receiveValue: {
+    //handle result
 }
 ```
 

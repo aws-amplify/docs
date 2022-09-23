@@ -56,7 +56,7 @@ let sink = Amplify.Publisher.create {
     try await Amplify.DataStore.delete(Post.self, withId: "123")
 }.sink {
     if case let .failure(error) = $0 {
-        print("Error deleting post - \(error.localizedDescription)")
+        print("Error deleting post - \(error)")
     }
 }
 receiveValue: {

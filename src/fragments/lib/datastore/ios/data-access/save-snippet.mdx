@@ -1,19 +1,20 @@
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-Amplify.DataStore.save(
-    Post(title: "My first post",
-         description: "Amplify.DataStore is awesome!",
-         status: .draft)
-) {
-    switch $0 {
-    case .success:
-        print("Created a new post successfully")
-    case .failure(let error):
-        print("Error creating post - \(error.localizedDescription)")
-    }
+do {
+    try await Amplify.DataStore.save(
+        Post(
+            title: "My first post", 
+            content: "Amplify.DataStore is awesome!", 
+            createdAt: .now(),
+            status: .draft
+        )
+    )
+    print("Created a new post successfully")
+} catch {
+    print("Error creating post - \(error)")
 }
 ```
 
@@ -22,16 +23,18 @@ Amplify.DataStore.save(
 <Block name="Combine">
 
 ```swift
-let saveSink = Amplify.DataStore.save(
-    Post(
-        title: "My first post",
-        description: "Amplify.DataStore is awesome!",
-        status: .draft
+let saveSink = Amplify.Publisher.create {
+    try await Amplify.DataStore.save(
+        Post(
+            title: "My first post", 
+            content: "Amplify.DataStore is awesome!", 
+            createdAt: .now(),
+            status: .draft
+        )
     )
-)
-.sink {
+}.sink {
     if case let .failure(error) = $0 {
-        print("Error creating post - \(error.localizedDescription)")
+        print("Error creating post - \(error)")
     }
 }
 receiveValue: {

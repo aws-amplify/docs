@@ -1,18 +1,16 @@
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
 let p = Post.keys
-Amplify.DataStore.query(Post.self,
-                        where: p.rating > 4 && p.status == PostStatus.published) {
-    switch $0 {
-    case .success(let result):
-        // result of type [Post]
-        print("Published posts with rating greater than 4: \(result)")
-    case .failure(let error):
-        print("Error listing posts - \(error.localizedDescription)")
-    }
+do {
+    let result = try await Amplify.DataStore.query(Post.self,
+                                                   where: p.rating > 4 && p.status == PostStatus.published)
+    // result of type [Post]
+    print("Published posts with rating greater than 4: \(result)")
+} catch {
+    print("Error listing posts - \(error)")
 }
 ```
 
@@ -22,12 +20,12 @@ Amplify.DataStore.query(Post.self,
 
 ```swift
 let p = Post.keys
-let sink = Amplify.DataStore.query(
-    Post.self,
-    where: p.rating > 4 && p.status == PostStatus.published
-).sink {
+let sink = Amplify.Publisher.create {
+    try await Amplify.DataStore.query(Post.self,
+                                      where: p.rating > 4 && p.status == PostStatus.published)
+}.sink {
     if case let .failure(error) = $0 {
-        print("Error listing posts - \(error.localizedDescription)")
+        print("Error listing posts - \(error)")
     }
 }
 receiveValue: { result in
@@ -43,13 +41,15 @@ You can also write this in a compositional function manner by replacing the oper
 
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
 let p = Post.keys
-Amplify.DataStore.query(Post.self,
-                        where: p.rating.gt(4).and(p.status.eq(PostStatus.published))) {
-    // handle the callback like in the previous example
+do {
+    try await Amplify.DataStore.query(Post.self,
+                                      where: p.rating.gt(4).and(p.status.eq(PostStatus.published)))
+} catch {
+    print("Error listing posts - \(error)")
 }
 ```
 
@@ -59,11 +59,15 @@ Amplify.DataStore.query(Post.self,
 
 ```swift
 let p = Post.keys
-let sink = Amplify.DataStore.query(
-    Post.self,
-    where: p.rating > 4 && p.status == PostStatus.published
-).sink {
-    // handle the callback like in the previous example
+let sink = Amplify.Publisher.create {
+    try await Amplify.DataStore.query(
+        Post.self,
+        where: p.rating > 4 && p.status == PostStatus.published)
+}.sink {
+    // handle the error like in the previous example
+}
+receiveValue: {
+    //handle the result like in the previous example
 }
 ```
 

@@ -1,15 +1,13 @@
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-Amplify.DataStore.query(Post.self, sort: .ascending(Post.keys.rating)) {
-    switch $0 {
-    case .success(let result):
-        print("Posts: \(result)")
-    case .failure(let error):
-        print("Error listing posts - \(error.localizedDescription)")
-    }
+do {
+    let result = try await Amplify.DataStore.query(Post.self, sort: .ascending(Post.keys.rating))
+    print("Posts: \(result)")
+} catch {
+    print("Error listing posts - \(error)")
 }
 ```
 
@@ -18,9 +16,11 @@ Amplify.DataStore.query(Post.self, sort: .ascending(Post.keys.rating)) {
 <Block name="Combine">
 
 ```swift
-let sink = Amplify.DataStore.query(Post.self, sort: .ascending(Post.keys.rating)).sink {
+let sink = Amplify.Publisher.create {
+    try await Amplify.DataStore.query(Post.self, sort: .ascending(Post.keys.rating))
+}.sink {
     if case let .failure(error) = $0 {
-        print("Error listing posts - \(error.localizedDescription)")
+        print("Error listing posts - \(error)")
     }
 }
 receiveValue: { result in

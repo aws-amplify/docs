@@ -21,7 +21,7 @@ let sink = Amplify.Publisher.create {
     try await Amplify.DataStore.query(Post.self)
 }.sink {
     if case let .failure(error) = $0 {
-        print("Error on query() for type Post - \(error.localizedDescription)")
+        print("Error on query() for type Post - \(error)")
     }
 }
 receiveValue: { result in
