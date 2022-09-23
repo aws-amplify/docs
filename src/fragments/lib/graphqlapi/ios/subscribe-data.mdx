@@ -7,7 +7,7 @@ Because the lifetime of the subscription will last longer than the lifetime of a
 <Block name="Async/Await">
 
 ```swift
-var subscription: AmplifyAsyncThrowingSequence<GraphQLSubscriptionEvent<Todo>>?
+var subscription: AmplifyAsyncThrowingSequence<GraphQLSubscriptionEvent<Todo>>
 ```
 
 </Block>
@@ -15,7 +15,7 @@ var subscription: AmplifyAsyncThrowingSequence<GraphQLSubscriptionEvent<Todo>>?
 <Block name="Combine">
 
 ```swift
-var subscription: AmplifyAsyncThrowingSequence<GraphQLSubscriptionEvent<Todo>>?
+var subscription: AmplifyAsyncThrowingSequence<GraphQLSubscriptionEvent<Todo>>
 var dataSink: AnyCancellable?
 ```
 
@@ -31,12 +31,7 @@ To listen to creation updates, you can use the following code sample:
 
 ```swift
 func createSubscription() {
-    var subscription: AmplifyAsyncThrowingSequence<GraphQLSubscriptionEvent<Todo>>?
     subscription = Amplify.API.subscribe(request: .subscription(of: Todo.self, type: .onCreate))
-    guard let subscription = subscription else {
-        print("Error getting subscription")
-        return
-    }
     Task {
         do {
             for try await subscriptionEvent in subscription {
@@ -65,10 +60,6 @@ func createSubscription() {
 ```swift
 func createSubscription() {
     subscription = Amplify.API.subscribe(request: .subscription(of: Todo.self, type: .onCreate))
-    guard let subscription = subscription else {
-        print("Error getting subscription")
-        return
-    }
     dataSink = Amplify.Publisher.create(subscription)
         .sink {
         if case let .failure(apiError) = $0 {

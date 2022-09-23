@@ -64,7 +64,7 @@ func getTodo() -> AnyCancellable {
 
 ## List Query
 
-You can get the list of items using `.paginatedList` with optional parameters `limit` and `where` to specify the page size and condition. By default, the page size is 1000.
+You can get the list of items using `.list` with optional parameters `limit` and `where` to specify the page size and condition. By default, the page size is 1000.
 
 
 <BlockSwitcher>
@@ -100,21 +100,23 @@ func listTodos() async {
 func listTodos() -> AnyCancellable {
     let todo = Todo.keys
     let predicate = todo.name == "my first todo" && todo.description == "todo description"
-    let sink = Amplify.API.query(request: .paginatedList(Todo.self, where: predicate, limit: 1000))
-        .resultPublisher
-        .sink {
-            if case let .failure(error) = $0 {
-                print("Got failed event with error \(error)")
-            }
+    let request = GraphQLRequest<Todo>.list(Todo.self, where: predicate, limit: 1000)
+    let sink = Amplify.Publisher.create {
+        try await Amplify.API.query(request: request)
+    }
+    .sink {
+        if case let .failure(error) = $0 {
+            print("Got failed event with error \(error)")
         }
-        receiveValue: { result in
-        switch result {
-            case .success(let todos):
-                print("Successfully retrieved list of todos: \(todos)")
-            case .failure(let error):
-                print("Got failed result with \(error.errorDescription)")
-            }
+    }
+    receiveValue: { result in
+    switch result {
+        case .success(let todos):
+            print("Successfully retrieved list of todos: \(todos)")
+        case .failure(let error):
+            print("Got failed result with \(error.errorDescription)")
         }
+    }
     return sink
 }
 ```
