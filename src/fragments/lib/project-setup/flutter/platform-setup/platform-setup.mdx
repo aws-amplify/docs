@@ -49,7 +49,19 @@ minSdkVersion 24
 ```
 
 ## macOS
-To run the Amplify-Flutter developer preview on macOS, you will need to enable signing as well as networking and keychain [entitlements](https://developer.apple.com/documentation/bundleresources/entitlements).
+To run the Amplify-Flutter developer preview on macOS, you will need to update the minimum platform version to 10.15, and enable networking, keychain [entitlements](https://developer.apple.com/documentation/bundleresources/entitlements), and signing.
+
+### Update Minimum Version 
+
+From your project root, navigate to the `macos/` directory and modify the `Podfile` using a text editor of your choice and update the target macos platform to 10.15 or higher.
+
+```bash
+platform :osx, '10.15'
+```
+
+Open your project in Xcode and select "Runner" and then the "General" tab. Under the "Minimum Deployments" section, update the version to 10.15 or higher.
+
+![XCode Minimum Deployment Version](/images/project-setup/flutter/mac/min-deployment-version.png)
 
 ### Enable network calls
 
