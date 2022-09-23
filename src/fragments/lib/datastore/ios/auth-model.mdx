@@ -71,9 +71,9 @@ Upon successfully running `amplify push` per the last step, `amplifyconfiguratio
 Add "AWSCognitoAuthPlugin" and "AWSAPIPlugin" to Amplify before configuring
 
 ```swift
-Amplify.add(plugin: AWSCognitoAuthPlugin())
-Amplify.add(plugin: AWSAPIPlugin())
-Amplify.configure()
+try Amplify.add(plugin: AWSCognitoAuthPlugin())
+try Amplify.add(plugin: AWSAPIPlugin())
+try Amplify.configure()
 ```
 
 ## Authentication requirements
@@ -83,30 +83,24 @@ In order to issue an operation (`DataStore.save`, `DataStore.delete`) on a model
 1. User's sign in state is known to be signed out, and the user needs to sign in, prior to making a call to `DataStore.save()`. 
 
 ```swift
-Amplify.Auth.signIn {
-    switch $0 {
-    case .success(let signInResult):
-        if signInResult.isSignedIn {
-            // Amplify.DataStore.save
-        }
-    case .failure(let error):
-        print("Sign in error \(error)")
-    }
+do {
+    let signInResult = try await Amplify.Auth.signIn(username: username, password: password)
+    XCTAssertTrue(signInResult.isSignedIn, "SignIn should be complete")
+    // Amplify.DataStore.save
+} catch {
+    XCTFail("SignIn with a valid username/password should not fail \(error)")
 }
 ```
 
 2. User's sign in state is unknown (for example, app was terminated or transitioned from background to foreground) and you need to check prior to making a call to `DataStore.save()`. 
 
 ```swift
-_ = Amplify.Auth.fetchAuthSession {
-    switch $0 {
-    case .success(let authSession):
-        if authSession.isSignedIn {
-            // Amplify.DataStore.save
-        }
-    case .failure(let error):
-        print("failed to get auth session", error)
-    }
+do {
+    let session = try await Amplify.Auth.fetchAuthSession() 
+    print("Is user signed in - \(session.isSignedIn)")
+    // Amplify.DataStore.save
+} catch {
+    print("failed to get auth session \(error)")
 }
 ```
 
