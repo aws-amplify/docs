@@ -53,15 +53,19 @@ To run the Amplify-Flutter developer preview on macOS, you will need to update t
 
 ### Update Minimum Version 
 
-From your project root, navigate to the `macos/` directory and modify the `Podfile` using a text editor of your choice and update the target macos platform to 10.15 or higher.
+From your project root, navigate to the `macos/` directory and modify the `Podfile` using a text editor of your choice and update the target macOS platform to 10.15 or higher.
 
 ```bash
 platform :osx, '10.15'
 ```
 
-Open your project in Xcode and select "Runner" and then the "General" tab. Under the "Minimum Deployments" section, update the version to 10.15 or higher.
+Open your project in Xcode and select Runner, Target -> Runner and then the "General" tab. Under the "Minimum Deployments" section, update the version to 10.15 or higher.
 
-![XCode Minimum Deployment Version](/images/project-setup/flutter/mac/min-deployment-version.png)
+![XCode Minimum Deployment Version](/images/project-setup/flutter/mac/target-min-deployment-version.png)
+
+Select Runner, Project -> Runner and then the "Info" tab. Update "macOS Deployment Target" to 10.15 or higher.
+
+![XCode Minimum Deployment Version](/images/project-setup/flutter/mac/project-min-deployment-version.png)
 
 ### Enable network calls
 
