@@ -15,7 +15,7 @@ class MyAPIAuthProviderFactory: APIAuthProviderFactory {
 * Implement your class which conforms to `AmplifyFunctionAuthProvider`:
 ```swift
 class MyFunctionAuthProvider : AmplifyFunctionAuthProvider {
-    func getLatestAuthToken() -> Result<AuthToken, Error> {
+    func getLatestAuthToken() async throws -> String {
        ....
     }
 }
