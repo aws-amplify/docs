@@ -4,10 +4,10 @@ Because the lifetime of the subscription will last longer than the lifetime of a
 
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-var subscription: GraphQLSubscriptionOperation<Todo>?
+var subscription: AmplifyAsyncThrowingSequence<GraphQLSubscriptionEvent<Todo>>
 ```
 
 </Block>
@@ -15,8 +15,7 @@ var subscription: GraphQLSubscriptionOperation<Todo>?
 <Block name="Combine">
 
 ```swift
-var subscription: GraphQLSubscriptionOperation<Todo>?
-var dataSink: AnyCancellable?
+var subscription: AnyCancellable?
 ```
 
 </Block>
@@ -27,28 +26,28 @@ To listen to creation updates, you can use the following code sample:
 
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
 func createSubscription() {
-    subscription = Amplify.API.subscribe(request: .subscription(of: Todo.self, type: .onCreate), valueListener: { (subscriptionEvent) in
-        switch subscriptionEvent {
-        case .connection(let subscriptionConnectionState):
-            print("Subscription connect state is \(subscriptionConnectionState)")
-        case .data(let result):
-            switch result {
-            case .success(let createdTodo):
-                print("Successfully got todo from subscription: \(createdTodo)")
-            case .failure(let error):
-                print("Got failed result with \(error.errorDescription)")
+    subscription = Amplify.API.subscribe(request: .subscription(of: Todo.self, type: .onCreate))
+    Task {
+        do {
+            for try await subscriptionEvent in subscription {
+                switch subscriptionEvent {
+                case .connection(let subscriptionConnectionState):
+                    print("Subscription connect state is \(subscriptionConnectionState)")
+                case .data(let result):
+                    switch result {
+                    case .success(let createdTodo):
+                        print("Successfully got todo from subscription: \(createdTodo)")
+                    case .failure(let error):
+                        print("Got failed result with \(error.errorDescription)")
+                    }
+                }
             }
-        }
-    }) { result in
-        switch result {
-        case .success:
-            print("Subscription has been closed successfully")
-        case .failure(let apiError):
-            print("Subscription has terminated with \(apiError)")
+        } catch (let error) {
+            print("Subscription has terminated with \(error)")
         }
     }
 }
@@ -59,8 +58,9 @@ func createSubscription() {
 
 ```swift
 func createSubscription() {
-    subscription = Amplify.API.subscribe(request: .subscription(of: Todo.self, type: .onCreate))
-    dataSink = subscription?.subscriptionDataPublisher.sink {
+    let sequence = Amplify.API.subscribe(request: .subscription(of: Todo.self, type: .onCreate))
+    subscription = Amplify.Publisher.create(sequence)
+        .sink {
         if case let .failure(apiError) = $0 {
             print("Subscription has terminated with \(apiError)")
         } else {
@@ -69,10 +69,15 @@ func createSubscription() {
     }
     receiveValue: { result in
         switch result {
-        case .success(let createdTodo):
-            print("Successfully got todo from subscription: \(createdTodo)")
-        case .failure(let error):
-            print("Got failed result with \(error.errorDescription)")
+            case .connection(let subscriptionConnectionState):
+                print("Subscription connect state is \(subscriptionConnectionState)")
+            case .data(let result):
+                switch result {
+                case .success(let createdTodo):
+                    print("Successfully got todo from subscription: \(createdTodo)")
+                case .failure(let error):
+                    print("Got failed result with \(error.errorDescription)")
+            }
         }
     }
 }
@@ -84,7 +89,7 @@ func createSubscription() {
 
 ### Unsubscribing from updates
 
-#### Listener (iOS 11+)
+#### Async/Await
 
 To unsubscribe from updates, you can call `cancel()` on the subscription
 
@@ -103,12 +108,10 @@ Calling `cancel()` on the subscription will disconnect the subscription from the
 
 ```swift
 let subscription = Amplify.API.subscribe(...)
-let allUpdates = subscription.subscriptionDataPublisher.sink(...)
-let filteredUpdates = subscription.subscriptionDataPublisher.filter{...}.sink(...)
-
+let allUpdates = Amplify.Publisher.create(subscription).sink(...)
+let filteredUpdates = Amplify.Publisher.create(subscription).filter{...}.sink(...)
 allUpdates.cancel() // subscription is still connected,
                     // filteredUpdates will still receive data
-
-subscription.cancel() // subscription is now disconnected
-                      // filteredUpdates will no longer receive data
+subscription.cancel()   // subscription is now disconnected
+                        // filteredUpdates will no longer receive data
 ```
