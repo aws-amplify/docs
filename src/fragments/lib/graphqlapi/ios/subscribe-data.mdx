@@ -15,8 +15,7 @@ var subscription: AmplifyAsyncThrowingSequence<GraphQLSubscriptionEvent<Todo>>
 <Block name="Combine">
 
 ```swift
-var subscription: AmplifyAsyncThrowingSequence<GraphQLSubscriptionEvent<Todo>>
-var dataSink: AnyCancellable?
+var subscription: AnyCancellable?
 ```
 
 </Block>
@@ -59,8 +58,8 @@ func createSubscription() {
 
 ```swift
 func createSubscription() {
-    subscription = Amplify.API.subscribe(request: .subscription(of: Todo.self, type: .onCreate))
-    dataSink = Amplify.Publisher.create(subscription)
+    let sequence = Amplify.API.subscribe(request: .subscription(of: Todo.self, type: .onCreate))
+    subscription = Amplify.Publisher.create(sequence)
         .sink {
         if case let .failure(apiError) = $0 {
             print("Subscription has terminated with \(apiError)")
