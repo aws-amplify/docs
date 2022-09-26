@@ -33,20 +33,31 @@ Now that you have DataStore persisting data locally, in the next step you'll con
 
 ## Enable cloud syncing
 
-In order to enable cloud syncing you need to **configure your application to use the Amplify API category**. Open the main file of the application - `AppDelegate.swift` or `TodoApp.swift` depending on the Life Cycle previously chosen - and **update the amplify initialization code** to add the API plugin. The `application(_,didFinishLaunchingWithOptions:)` function should now call `Amplify.add(plugin:)` with a reference to an `AWSAPIPlugin` instance:
+In order to enable cloud syncing you need to **configure your application to use the Amplify API category**. 
+
+Open the `TodoApp.swift` file and **add the following** import statement:
+
+```swift
+import AWSAPIPlugin
+```
+
+Then **update the `configureAmplify()` function** to call `Amplify.add(plugin:)` with a reference to an `AWSAPIPlugin` instance:
   
 ```swift
-let models = AmplifyModels()
-let apiPlugin = AWSAPIPlugin(modelRegistration: models)
-let dataStorePlugin = AWSDataStorePlugin(modelRegistration: models)
-do {
-    try Amplify.add(plugin: apiPlugin)
-    try Amplify.add(plugin: dataStorePlugin)
-    try Amplify.configure()
-    print("Initialized Amplify");
-} catch {
-    assert(false, "Could not initialize Amplify: \(error)")
+func configureAmplify() {
+    let apiPlugin = AWSAPIPlugin(modelRegistration: AmplifyModels())
+    let dataStorePlugin = AWSDataStorePlugin(modelRegistration: AmplifyModels())
+    do {
+        try Amplify.add(plugin: apiPlugin)
+        try Amplify.add(plugin: dataStorePlugin)
+        try Amplify.configure()
+        print("Initialized Amplify");
+    } catch {
+        // simplified error handling for the tutorial
+        print("Could not initialize Amplify: \(error)")
+    }
 }
+
 ```
 
 Now when you run your application the data will be synced to your cloud backend automatically! 🎉
@@ -55,51 +66,40 @@ Now when you run your application the data will be synced to your cloud backend 
 
 We will now demonstrate how to add a subscription to the application, so that we can receive any updates to the `Todo` model.
 
-1. Open `ContentView.swift` and **add the following** import statement at the top of the file:
+1. Open `ContentView.swift` and **add the following** code to the body of the struct:
   ```swift
-  import Combine
+func subscribeTodos() async {
+    do {
+        let mutationEvents = Amplify.DataStore.observe(Todo.self)
+        for try await mutationEvent in mutationEvents {
+            print("Subscription got this value: \(mutationEvent)")
+            do {
+                let todo = try mutationEvent.decodeModel(as: Todo.self)
+                
+                switch mutationEvent.mutationType {
+                case "create":
+                    print("Created: \(todo)")
+                case "update":
+                    print("Updated: \(todo)")
+                case "delete":
+                    print("Deleted: \(todo)")
+                default:
+                    break
+                }
+            } catch {
+                print("Model could not be decoded: \(error)")
+            }
+        }
+    } catch {
+        print("Unable to observe mutation events")
+    }
+}
   ```
 
-1. In the same file (`ContentView.swift)`, **add a member variable** in the body of the struct:
+1. Then remove any existing code you may have in the `performOnAppear()` function, and replace it with code **calling the subscribeTodos() function**. Your `performOnAppear()` function may look like this:
   ```swift
-  @State var todoSubscription: AnyCancellable?
-  ```
-
-1. In the same file (`ContentView.swift`), **add the following** code to the body of the struct:
-  ```swift
-  func subscribeTodos() {
-      self.todoSubscription
-          = Amplify.DataStore.publisher(for: Todo.self)
-              .sink(receiveCompletion: { completion in
-                  print("Subscription has been completed: \(completion)")
-              }, receiveValue: { mutationEvent in
-                  print("Subscription got this value: \(mutationEvent)")
-
-                  do {
-                    let todo = try mutationEvent.decodeModel(as: Todo.self)
-
-                    switch mutationEvent.mutationType {
-                    case "create":
-                      print("Created: \(todo)")
-                    case "update":
-                      print("Updated: \(todo)")
-                    case "delete":
-                      print("Deleted: \(todo)")
-                    default:
-                      break
-                    }
-
-                  } catch {
-                    print("Model could not be decoded: \(error)")
-                  }
-              })
-  }
-  ```
-
-1. Finally, in the same file (`ContentView.swift`), remove any existing code you may have in the `performOnAppear()` function, and replace it with code **calling the subscribeTodos() function**. Your `performOnAppear()` function may look like this:
-  ```swift
-  func performOnAppear() {
-      subscribeTodos()
+  func performOnAppear() async {
+      await subscribeTodos()
   }
   ```
 
