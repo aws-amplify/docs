@@ -1,22 +1,26 @@
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-func uploadData() {
+func uploadData() async {
     let dataString = "Example file contents"
     let data = dataString.data(using: .utf8)!
-    Amplify.Storage.uploadData(key: "ExampleKey", data: data, 
-        progressListener: { progress in
-            print("Progress: \(progress)")
-        }, resultListener: { (event) in
-            switch event {
-            case .success(let data):
-                print("Completed: \(data)")
-            case .failure(let storageError):
-                print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+    do {
+        let uploadTask = try await Amplify.Storage.uploadData(key: "ExampleKey",
+                                                              data: data)
+        Task {
+            for await progress in await uploadTask.progress {
+                print("Progress: \(progress)")
+            }
         }
-    })
+        let data = try await uploadTask.value
+        print("Completed: \(data)")
+    } catch let error as StorageError {
+        print("Failed: \(error.errorDescription). \(error.recoverySuggestion)")
+    } catch {
+        print("Failed: \(error)")
+    }
 }
 ```
 
@@ -30,25 +34,34 @@ var resultSink: AnyCancellable?
 var progressSink: AnyCancellable?
 
 // ...
-
-func uploadData() {
+    
+func uploadData() async {
     let dataString = "Example file contents"
     let data = dataString.data(using: .utf8)!
-    let storageOperation = Amplify.Storage.uploadData(key: "ExampleKey", data: data)
-    progressSink = storageOperation
-        .progressPublisher
-        .sink { progress in print("Progress: \(progress)") }
-
-    resultSink = storageOperation
-        .resultPublisher
-        .sink {
-            if case let .failure(storageError) = $0 {
-                print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+    do {
+        let uploadTask = try await Amplify.Storage.uploadData(key: "ExampleKey",
+                                                              data: data)
+        progressSink = uploadTask
+            .inProcessPublisher
+            .sink { progress in
+                print("Progress: \(progress)")
             }
-        }
-        receiveValue: { data in
-            print("Completed: \(data)")
-        }
+        
+        resultSink = uploadTask
+            .resultPublisher
+            .sink {
+                if case let .failure(storageError) = $0 {
+                    print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+                }
+            }
+            receiveValue: { data in
+                print("Completed: \(data)")
+            }
+    } catch let error as StorageError {
+        print("Failed: \(error.errorDescription). \(error.recoverySuggestion)")
+    } catch {
+        print("Failed: \(error)")
+    }
 }
 ```
 
