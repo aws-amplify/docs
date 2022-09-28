@@ -1152,11 +1152,6 @@ const directory = {
             filters: []
           },
           {
-            title: 'Troubleshooting',
-            route: '/cli/graphql/troubleshooting',
-            filters: []
-          },
-          {
             title: 'Examples and solutions',
             route: '/cli/graphql/examples-and-solutions',
             filters: []
@@ -1302,11 +1297,6 @@ const directory = {
           {
             title: 'Override Amplify-generated project-level IAM resources',
             route: '/cli/project/override',
-            filters: []
-          },
-          {
-            title: 'Troubleshooting',
-            route: '/cli/project/troubleshooting',
             filters: []
           }
         ]
@@ -1460,6 +1450,21 @@ const directory = {
           {
             title: 'Feature Flags',
             route: '/cli/reference/feature-flags',
+            filters: []
+          }
+        ]
+      },
+      troubleshooting: {
+        title: 'Troubleshooting',
+        items: [
+          {
+            title: 'General CLI Troubleshooting',
+            route: '/cli/troubleshooting/general',
+            filters: []
+          },
+          {
+            title: '(GraphQL) API Troubleshooting',
+            route: '/cli/troubleshooting/graphql',
             filters: []
           }
         ]

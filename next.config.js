@@ -56,6 +56,7 @@ module.exports = async (phase, { defaultConfig }) => {
       },
       exportPathMap,
       trailingSlash: true,
+      redirects,
       async headers() {
         return [
           {
@@ -92,3 +93,21 @@ const generatePathMap = require('./generatePathMap.cjs');
 function exportPathMap(defaultPathMap, props) {
   return generatePathMap(directory);
 }
+
+/**
+ * Required to support old CLI versions pointing to nested troubleshooting guides.
+ */
+const redirects = () => {
+  return [
+    {
+      source: '/cli/graphql/troubleshooting/',
+      destination: '/cli/troubleshooting/graphql/',
+      permanent: false
+    },
+    {
+      source: '/cli/project/troubleshooting/',
+      destination: '/cli/troubleshooting/general/',
+      permanent: false
+    }
+  ];
+};
