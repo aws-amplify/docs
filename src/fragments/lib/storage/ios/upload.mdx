@@ -7,21 +7,15 @@ To upload to S3 from a data object, specify the `key` and the `data` object to b
 ```swift
 let dataString = "My Data"
 let data = dataString.data(using: .utf8)!
-do {
-    let uploadTask = try await Amplify.Storage.uploadData(key: "ExampleKey",
-                                                          data: data)
-    Task {
-        for await progress in await uploadTask.progress {
-            print("Progress: \(progress)")
-        }
+let uploadTask = try await Amplify.Storage.uploadData(key: "ExampleKey",
+                                                      data: data)
+Task {
+    for await progress in await uploadTask.progress {
+        print("Progress: \(progress)")
     }
-    let data = try await uploadTask.value
-    print("Completed: \(data)")
-} catch let error as StorageError {
-    print("Failed: \(error.errorDescription). \(error.recoverySuggestion)")
-} catch {
-    print("Failed: \(error)")
 }
+let data = try await uploadTask.value
+print("Completed: \(data)")
 ```
 
 </Block>
@@ -31,30 +25,24 @@ do {
 ```swift
 let dataString = "My Data"
 let data = dataString.data(using: .utf8)!
-do {
-    let uploadTask = try await Amplify.Storage.uploadData(key: "ExampleKey",
-                                                          data: data)
-    let progressSink = uploadTask
-        .inProcessPublisher
-        .sink { progress in
-            print("Progress: \(progress)")
+let uploadTask = try await Amplify.Storage.uploadData(key: "ExampleKey",
+                                                      data: data)
+let progressSink = uploadTask
+    .inProcessPublisher
+    .sink { progress in
+        print("Progress: \(progress)")
+    }
+
+let resultSink = uploadTask
+    .resultPublisher
+    .sink {
+        if case let .failure(storageError) = $0 {
+            print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
         }
-    
-    let resultSink = uploadTask
-        .resultPublisher
-        .sink {
-            if case let .failure(storageError) = $0 {
-                print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
-            }
-        }
-        receiveValue: { data in
-            print("Completed: \(data)")
-        }
-} catch let error as StorageError {
-    print("Failed: \(error.errorDescription). \(error.recoverySuggestion)")
-} catch {
-    print("Failed: \(error)")
-}
+    }
+    receiveValue: { data in
+        print("Completed: \(data)")
+    }
 ```
 
 </Block>
@@ -74,29 +62,20 @@ let filename = FileManager.default.urls(for: .documentDirectory,
                                         in: .userDomainMask)[0]
     .appendingPathComponent(fileNameKey)
 
-do {
-    try dataString.write(to: filename,
-                         atomically: true,
-                         encoding: .utf8)
-} catch {
-    print("Failed to write to file \(error)")
-}
+try dataString.write(to: filename,
+                     atomically: true,
+                     encoding: .utf8)
 
-do {
-    let uploadTask = try await Amplify.Storage.uploadFile(key: fileNameKey,
-                                                          local: filename)
-    Task {
-        for await progress in await uploadTask.progress {
-            print("Progress: \(progress)")
-        }
+let uploadTask = try await Amplify.Storage.uploadFile(key: fileNameKey,
+                                                      local: filename)
+Task {
+    for await progress in await uploadTask.progress {
+        print("Progress: \(progress)")
     }
-    let data = try await uploadTask.value
-    print("Completed: \(data)")
-} catch let error as StorageError {
-    print("Failed: \(error.errorDescription). \(error.recoverySuggestion)")
-} catch {
-    print("Failed: \(error)")
 }
+let data = try await uploadTask.value
+print("Completed: \(data)")
+
 ```
 
 </Block>
@@ -110,38 +89,28 @@ let filename = FileManager.default.urls(for: .documentDirectory,
                                         in: .userDomainMask)[0]
     .appendingPathComponent(fileNameKey)
 
-do {
-    try dataString.write(to: filename,
-                         atomically: true,
-                         encoding: .utf8)
-} catch {
-    print("Failed to write to file \(error)")
-}
+try dataString.write(to: filename,
+                     atomically: true,
+                     encoding: .utf8)
 
-do {
-    let uploadTask = try await Amplify.Storage.uploadFile(key: fileNameKey,
-                                                          local: filename)
-    progressSink = uploadTask
-        .inProcessPublisher
-        .sink { progress in
-            print("Progress: \(progress)")
+let uploadTask = try await Amplify.Storage.uploadFile(key: fileNameKey,
+                                                      local: filename)
+progressSink = uploadTask
+    .inProcessPublisher
+    .sink { progress in
+        print("Progress: \(progress)")
+    }
+
+resultSink = uploadTask
+    .resultPublisher
+    .sink {
+        if case let .failure(storageError) = $0 {
+            print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
         }
-    
-    resultSink = uploadTask
-        .resultPublisher
-        .sink {
-            if case let .failure(storageError) = $0 {
-                print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
-            }
-        }
-        receiveValue: { data in
-            print("Completed: \(data)")
-        }
-} catch let error as StorageError {
-    print("Failed: \(error.errorDescription). \(error.recoverySuggestion)")
-} catch {
-    print("Failed: \(error)")
-}
+    }
+    receiveValue: { data in
+        print("Completed: \(data)")
+    }
 ```
 
 </Block>

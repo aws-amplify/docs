@@ -5,16 +5,10 @@ You can list all of the objects uploaded:
 <Block name="Async/Await">
 
 ```swift
-do {
-    let listResult = try await Amplify.Storage.list()
-    print("Completed")
-    listResult.items.forEach { item in
-        print("Key: \(item.key)")
-    }
-} catch let error as StorageError {
-    print("Failed: \(error.errorDescription). \(error.recoverySuggestion)")
-} catch {
-    print("Failed: \(error)")
+let listResult = try await Amplify.Storage.list()
+print("Completed")
+listResult.items.forEach { item in
+    print("Key: \(item.key)")
 }
 ```
 

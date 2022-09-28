@@ -5,14 +5,8 @@ Delete an object uploaded to S3 by using `Amplify.Storage.remove` and specify th
 <Block name="Async/Await">
 
 ```swift
-do {
-    let removedKey = try await Amplify.Storage.remove(key: "myKey")
-    print("Completed: Deleted \(removedKey)")
-} catch let error as StorageError {
-    print("Failed: \(error.errorDescription). \(error.recoverySuggestion)")
-} catch {
-    print("Failed: \(error)")
-}
+let removedKey = try await Amplify.Storage.remove(key: "myKey")
+print("Completed: Deleted \(removedKey)")
 ```
 
 </Block>

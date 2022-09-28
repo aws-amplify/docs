@@ -9,20 +9,14 @@ You can download to in-memory buffer [Data](https://developer.apple.com/document
 <Block name="Async/Await">
 
 ```swift
-do {
-    let downloadTask = try await Amplify.Storage.downloadData(key: "myKey")
-    Task {
-        for await progress in await downloadTask.progress {
-            print("Progress: \(progress)")
-        }
+let downloadTask = try await Amplify.Storage.downloadData(key: "myKey")
+Task {
+    for await progress in await downloadTask.progress {
+        print("Progress: \(progress)")
     }
-    let data = try await downloadTask.value
-    print("Completed: \(data)")
-} catch let error as StorageError {
-    print("Failed: \(error.errorDescription). \(error.recoverySuggestion)")
-} catch {
-    print("Failed: \(error)")
 }
+let data = try await downloadTask.value
+print("Completed: \(data)")
 ```
 
 </Block>
@@ -30,29 +24,23 @@ do {
 <Block name="Combine">
 
 ```swift
-do {
-    let downloadTask = try await Amplify.Storage.downloadData(key: "myKey")
-    let progressSink = downloadTask
-        .inProcessPublisher
-        .sink { progress in
-            print("Progress: \(progress)")
+let downloadTask = try await Amplify.Storage.downloadData(key: "myKey")
+let progressSink = downloadTask
+    .inProcessPublisher
+    .sink { progress in
+        print("Progress: \(progress)")
+    }
+
+let resultSink = downloadTask
+    .resultPublisher
+    .sink {
+        if case let .failure(storageError) = $0 {
+            print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
         }
-    
-    let resultSink = downloadTask
-        .resultPublisher
-        .sink {
-            if case let .failure(storageError) = $0 {
-                print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
-            }
-        }
-        receiveValue: { data in
-            print("Completed: \(data)")
-        }
-} catch let error as StorageError {
-    print("Failed: \(error.errorDescription). \(error.recoverySuggestion)")
-} catch {
-    print("Failed: \(error)")
-}
+    }
+    receiveValue: { data in
+        print("Completed: \(data)")
+    }
 ```
 
 </Block>
@@ -69,25 +57,19 @@ You can download to a file [URL](https://developer.apple.com/documentation/found
 
 ```swift
 let downloadToFileName = FileManager.default.urls(for: .documentDirectory,
-                                        in: .userDomainMask)[0]
+                                                  in: .userDomainMask)[0]
     .appendingPathComponent("myFile.txt")
 
-do {
-    let downloadTask = try await Amplify.Storage.downloadFile(key: "myKey",
-                                                              local: downloadToFileName,
-                                                              options: nil)
-    Task {
-        for await progress in await downloadTask.progress {
-            print("Progress: \(progress)")
-        }
+let downloadTask = try await Amplify.Storage.downloadFile(key: "myKey",
+                                                          local: downloadToFileName,
+                                                          options: nil)
+Task {
+    for await progress in await downloadTask.progress {
+        print("Progress: \(progress)")
     }
-    try await downloadTask.value
-    print("Completed")
-} catch let error as StorageError {
-    print("Failed: \(error.errorDescription). \(error.recoverySuggestion)")
-} catch {
-    print("Failed: \(error)")
 }
+try await downloadTask.value
+print("Completed")
 ```
 
 </Block>
@@ -99,31 +81,25 @@ let downloadToFileName = FileManager.default.urls(for: .documentDirectory,
                                         in: .userDomainMask)[0]
     .appendingPathComponent("myFile.txt")
 
-do {
-    let downloadTask = try await Amplify.Storage.downloadFile(key: "myKey",
-                                                              local: downloadToFileName,
-                                                              options: nil)
-    let progressSink = downloadTask
-        .inProcessPublisher
-        .sink { progress in
-            print("Progress: \(progress)")
+let downloadTask = try await Amplify.Storage.downloadFile(key: "myKey",
+                                                          local: downloadToFileName,
+                                                          options: nil)
+let progressSink = downloadTask
+    .inProcessPublisher
+    .sink { progress in
+        print("Progress: \(progress)")
+    }
+
+let resultSink = downloadTask
+    .resultPublisher
+    .sink {
+        if case let .failure(storageError) = $0 {
+            print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
         }
-    
-    let resultSink = downloadTask
-        .resultPublisher
-        .sink {
-            if case let .failure(storageError) = $0 {
-                print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
-            }
-        }
-        receiveValue: {
-            print("Completed")
-        }
-} catch let error as StorageError {
-    print("Failed: \(error.errorDescription). \(error.recoverySuggestion)")
-} catch {
-    print("Failed: \(error)")
-}
+    }
+    receiveValue: {
+        print("Completed")
+    }
 ```
 
 </Block>
@@ -161,12 +137,6 @@ Download tasks are run using `URLSessionTask` instances internally. You can lear
 You can also retrieve a URL for the object in storage:
 
 ```swift
-do {
-    let url = try await Amplify.Storage.getURL(key: "myKey")
-    print("Completed: \(url)")
-} catch let error as StorageError {
-    print("Failed: \(error.errorDescription). \(error.recoverySuggestion)")
-} catch {
-    print("Failed: \(error)")
-}
+let url = try await Amplify.Storage.getURL(key: "myKey")
+print("Completed: \(url)")
 ```
