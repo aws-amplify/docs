@@ -97,7 +97,7 @@ for (const [dirItems, paths] of libItemsAndPaths) {
     items.forEach((item) => {
       const {route, filters} = item;
       filters.forEach((filter) => {
-        const path = route + "/q/framework/" + filter + "/";
+        const path = route + "/q/platform/" + filter;
         paths.push(path);
       });
       paths.push(route);
@@ -110,9 +110,10 @@ libPaths.push("/lib");
 export function LibVersionSwitcher({url}) {
   let rightActive;
   let urlEnd;
-  const filter = url.includes("/framework")
-    ? "q/framework" + url.split("/framework")[1]
+  const filter = url.includes("/platform")
+    ? "q/platform" + url.split("/platform")[1]
     : "";
+
   if (url.includes("/lib-v1")) {
     rightActive = false;
     urlEnd = url.split("/lib-v1")[1];
