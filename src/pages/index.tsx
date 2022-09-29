@@ -13,7 +13,11 @@ import UniversalNav from '../components/UniversalNav';
 
 import { trackPageVisit } from '../utils/track';
 import { NavMenuItem, GlobalNav } from '../components/GlobalNav';
-import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '../utils/globalnav';
+import {
+  LEFT_NAV_LINKS,
+  RIGHT_NAV_LINKS,
+  SOCIAL_LINKS
+} from '../utils/globalnav';
 import React from 'react';
 
 const meta = {
@@ -71,6 +75,7 @@ const Page = () => {
       <GlobalNav
         leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
         rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
+        socialLinks={SOCIAL_LINKS as NavMenuItem[]}
         currentSite={'Docs'}
       />
       <UniversalNav blend={true} />
