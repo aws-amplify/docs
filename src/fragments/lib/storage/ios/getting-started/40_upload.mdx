@@ -1,22 +1,20 @@
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-func uploadData() {
+func uploadData() async throws {
     let dataString = "Example file contents"
     let data = dataString.data(using: .utf8)!
-    Amplify.Storage.uploadData(key: "ExampleKey", data: data, 
-        progressListener: { progress in
+    let uploadTask = try await Amplify.Storage.uploadData(key: "ExampleKey",
+                                                          data: data)
+    Task {
+        for await progress in await uploadTask.progress {
             print("Progress: \(progress)")
-        }, resultListener: { (event) in
-            switch event {
-            case .success(let data):
-                print("Completed: \(data)")
-            case .failure(let storageError):
-                print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
         }
-    })
+    }
+    let data = try await uploadTask.value
+    print("Completed: \(data)")
 }
 ```
 
@@ -30,16 +28,19 @@ var resultSink: AnyCancellable?
 var progressSink: AnyCancellable?
 
 // ...
-
-func uploadData() {
+    
+func uploadData() async throws {
     let dataString = "Example file contents"
     let data = dataString.data(using: .utf8)!
-    let storageOperation = Amplify.Storage.uploadData(key: "ExampleKey", data: data)
-    progressSink = storageOperation
-        .progressPublisher
-        .sink { progress in print("Progress: \(progress)") }
-
-    resultSink = storageOperation
+    let uploadTask = try await Amplify.Storage.uploadData(key: "ExampleKey",
+                                                          data: data)
+    progressSink = uploadTask
+        .inProcessPublisher
+        .sink { progress in
+            print("Progress: \(progress)")
+        }
+    
+    resultSink = uploadTask
         .resultPublisher
         .sink {
             if case let .failure(storageError) = $0 {
