@@ -18,7 +18,7 @@ export const SecondaryNavStyle = styled.div`
   }
 
   .secondary-nav-links {
-    padding: 0px 20px;
+    padding: 0px 32px;
     padding-top: 8px;
     display: flex;
     flex-direction: row;
@@ -95,7 +95,7 @@ export const LinkInactiveStyle = styled.a``;
 export const SearchBarContainer = styled.div`
   margin: 12px 0px;
   width: 100%;
-  padding: 0px 20px;
+  padding: 0px 32px;
 
   ${MQDesktop} {
     width: 850px;
