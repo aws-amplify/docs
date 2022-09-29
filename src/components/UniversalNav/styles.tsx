@@ -26,7 +26,7 @@ export const SearchContainer = styled.div`
   ${MQTablet} {
     flex: 1 15rem;
     order: 2;
-    margin: 0;
+    margin-top: var(--docs-dev-center-nav);
   }
 
   ${MQLaptop} {
