@@ -25,12 +25,10 @@ do {
 ```swift
 let saveSink = Amplify.Publisher.create {
     try await Amplify.DataStore.save(
-        Post(
-            title: "My first post", 
+        Post(title: "My first post", 
             content: "Amplify.DataStore is awesome!", 
             createdAt: .now(),
-            status: .draft
-        )
+            status: .draft)
     )
 }.sink {
     if case let .failure(error) = $0 {

@@ -5,7 +5,7 @@
 ```swift
 let postWithComments = Post(id: "123", title: "My post with comments", 
                             content: "Amplify is Awesome!", 
-                            createdAt: .now(),rating: 5, status:.published)
+                            createdAt: .now(),rating: 5, status: .published)
         
 let comment = Comment(content: "Loving Amplify DataStore", createdAt: .now(), 
                       post: postWithComments)
@@ -25,8 +25,8 @@ do {
 
 ```swift
 let postWithComments = Post(title: "My post with comments",
-                            rating: 5,
-                            status: .active)
+                            content: "Amplify is Awesome!",
+                            createdAt: .now(),rating: 5, status:.published)
 
 let comment = Comment(content: "Loving Amplify DataStore", post: postWithComments)
 

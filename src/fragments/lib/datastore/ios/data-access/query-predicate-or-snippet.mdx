@@ -23,9 +23,8 @@ do {
 ```swift
 let p = Post.keys
 let sink = Amplify.Publisher.create {
-    try await Amplify.DataStore.query(
-        Post.self,
-        where: p.rating == nil || p.status == PostStatus.draft)
+    try await Amplify.DataStore.query(Post.self,
+                                      where: p.rating == nil || p.status == PostStatus.draft)
 }.sink {
     if case let .failure(error) = $0 {
         print("Error listing posts - \(error)")
