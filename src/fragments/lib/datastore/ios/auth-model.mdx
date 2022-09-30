@@ -138,7 +138,7 @@ _ = Amplify.Hub.listen(to: .dataStore) { payload in
             let modelName = mutationEvent.modelName
             let id = mutationEvent.modelId
             if modelName == YourModel.modelName {
-                // try await Amplify.DataStore.query(YourModel.self, withIdentifier)
+                // try await Amplify.DataStore.query(YourModel.self, byIdentifier)
             }
         }
     }

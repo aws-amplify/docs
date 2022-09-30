@@ -42,7 +42,7 @@ A delete can also be achieved by a `type` and its `id`.
 
 ```swift
 do {
-    try await Amplify.DataStore.delete(Post.self, withIdentifier: "123")
+    try await Amplify.DataStore.delete(Post.self, byIdentifier: "123")
     print("Post deleted!")
 } catch let error as DataStoreError {
     print("Error deleting post - \(error)")
@@ -57,7 +57,7 @@ do {
 
 ```swift
 let sink = Amplify.Publisher.create {
-    try await Amplify.DataStore.delete(Post.self, withIdentifier: "123")
+    try await Amplify.DataStore.delete(Post.self, byIdentifier: "123")
 }.sink {
     if case let .failure(error) = $0 {
         print("Error deleting post - \(error)")

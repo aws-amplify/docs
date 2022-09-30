@@ -14,9 +14,9 @@ class PostViewModel: ObservableObject {
     }
     
     func observe(postId: String) {
-        let subscription = Amplify.DataStore.observeQuery(for: Post.self,
-                                                          where: Post.keys.id == postId)
-        let sink = Amplify.Publisher.create(subscription).sink { completion in
+        self.subscription = Amplify.Publisher.create(Amplify.DataStore.observeQuery(for: Post.self,
+                                                                                    where: Post.keys.id == postId))
+        .sink { completion in
             print("Completion event: \(completion)")
         } receiveValue: { snapshot in
             guard let post = snapshot.items.first else {
