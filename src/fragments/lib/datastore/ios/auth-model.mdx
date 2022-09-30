@@ -85,10 +85,14 @@ In order to issue an operation (`DataStore.save`, `DataStore.delete`) on a model
 ```swift
 do {
     let signInResult = try await Amplify.Auth.signIn(username: username, password: password)
-    XCTAssertTrue(signInResult.isSignedIn, "SignIn should be complete")
+    if signInResult.isSignedIn {
+        print("Sign in succeeded")
+    }
     // Amplify.DataStore.save
+} catch let error as AuthError {
+    print("Sign in error \(error)")
 } catch {
-    XCTFail("SignIn with a valid username/password should not fail \(error)")
+    print("Unexpected error \(error)")
 }
 ```
 
@@ -98,9 +102,11 @@ do {
 do {
     let session = try await Amplify.Auth.fetchAuthSession() 
     print("Is user signed in - \(session.isSignedIn)")
-    // Amplify.DataStore.save
-} catch {
+    // try await Amplify.DataStore.save
+} catch let error as AuthError {
     print("failed to get auth session \(error)")
+} catch {
+    print("Unexpected error \(error)")
 }
 ```
 
@@ -116,9 +122,10 @@ For more information on related topics:
 
 To check who the owner of the model is, call `DataStore.query` and check the user's username against the owner field. 
 ```swift
-let currentUser = try await Amplify.Auth.getCurrentUser()
-if currentUser.username == todo.owner {
-    print("This todo was created by the current user")
+if let currentUser = try await Amplify.Auth.getCurrentUser() {
+    if currentUser.username == todo.owner {
+        print("This todo was created by the current user")
+    }
 }
 ```
 
@@ -131,7 +138,7 @@ _ = Amplify.Hub.listen(to: .dataStore) { payload in
             let modelName = mutationEvent.modelName
             let id = mutationEvent.modelId
             if modelName == YourModel.modelName {
-                // Amplify.DataStore.query(YourModel.self, id)
+                // try await Amplify.DataStore.query(YourModel.self, withIdentifier)
             }
         }
     }

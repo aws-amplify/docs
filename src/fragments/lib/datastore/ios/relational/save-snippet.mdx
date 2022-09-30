@@ -3,10 +3,9 @@
 <Block name="Async/Await">
 
 ```swift
-let postWithComments = Post(
-            id: "123", title: "My post with comments", content: "Amplify is Awesome!", 
-            createdAt: .now(),rating: 5, status:.published
-        )
+let postWithComments = Post(id: "123", title: "My post with comments", 
+                            content: "Amplify is Awesome!", 
+                            createdAt: .now(),rating: 5, status:.published)
         
 let comment = Comment(content: "Loving Amplify DataStore", createdAt: .now(), 
              post: postWithComments)

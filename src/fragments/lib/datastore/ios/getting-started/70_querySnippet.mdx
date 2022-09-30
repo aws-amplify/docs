@@ -6,9 +6,11 @@
 do {
     let posts = try await Amplify.DataStore.query(Post.self) 
     print("Posts retrieved successfully: \(posts)")
-} catch {
+} catch let error as DataStoreError {
     print("Error retrieving posts \(error)")
-} 
+} catch {
+    print("Unexpected error \(error)")
+}
 ```
 
 </Block>

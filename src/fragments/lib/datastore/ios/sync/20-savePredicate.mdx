@@ -6,8 +6,10 @@
 do {
     try await Amplify.DataStore.save(post, where: Post.keys.title.beginsWith("[Amplify]"))
     print("Post updated successfully!")
-} catch {
+} catch let error as DataStoreError {
     print("Could not update post, maybe the title has been changed?")
+} catch {
+    print("Unexpected error \(error)")
 }
 ```
 

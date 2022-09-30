@@ -5,16 +5,16 @@
 ```swift
 do {
     try await Amplify.DataStore.save(
-        Post(
-            title: "My first post", 
+        Post(title: "My first post", 
             content: "Amplify.DataStore is awesome!", 
             createdAt: .now(),
-            status: .draft
-        )
+            status: .draft)
     )
     print("Created a new post successfully")
-} catch {
+} catch let error as DataStoreError {
     print("Error creating post - \(error)")
+} catch {
+    print("Unexpected error \(error)")
 }
 ```
 

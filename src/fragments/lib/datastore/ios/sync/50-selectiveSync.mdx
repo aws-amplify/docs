@@ -47,21 +47,16 @@ func initialize() {
 
 func changeSync() {
     rating = 1
-    Amplify.DataStore.stop { (result) in
-        switch(result) {
-        case .success:
-            Amplify.DataStore.start { (result) in
-                switch(result) {
-                case .success:
-                    print("DataStore started")
-                case .failure(let error):
-                    print("Error starting DataStore:\(error)")
-                }
-            }
-        case .failure(let error):
-            print("Error stopping DataStore:\(error)")
-        }
-    }      
+    do {
+        try await Amplify.DataStore.stop()
+        print("DataStore stopped")
+        try await Amplify.DataStore.start()
+        print("DataStore started")
+    } catch let error as DataStoreError {
+        print("Failed with error \(error)")
+    } catch {
+        print("Unexpected error \(error)")
+    }    
 }
 ```
 Each time DataStore starts (via `start` or any other operation: `query`, `save`, `delete`, or `observe`), DataStore will reevaluate the `syncExpressions`.
@@ -85,7 +80,9 @@ func changeSync() {
         try await Amplify.DataStore.start()
         print("DataStore started")
     } catch let error as DataStoreError {
-        print("Unexpected Error :\(error)")
+        print("Failed with error \(error)")
+    } catch {
+        print("Unexpected error \(error)")
     }
 }
 ```

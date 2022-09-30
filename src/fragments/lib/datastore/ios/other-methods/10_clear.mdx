@@ -2,7 +2,9 @@
 do {
     try await Amplify.DataStore.clear()
     print("DataStore cleared")
-} catch {
+} catch let error as DataStoreError {
     print("Error clearing DataStore: \(error)")
+} catch {
+    print("Unexpected error \(error)")
 }
 ```

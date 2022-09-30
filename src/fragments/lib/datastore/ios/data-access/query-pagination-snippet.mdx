@@ -3,12 +3,8 @@
 <Block name="Async/Await">
 
 ```swift
-do {
-    let posts = try await Amplify.DataStore.query(Post.self, paginate: .page(0, limit: 100))
-    print("Posts retrieved successfully: \(posts)")
-} catch {
-    print("Error retrieving posts \(error)")
-}
+let posts = try await Amplify.DataStore.query(Post.self, paginate: .page(0, limit: 100))
+
 ```
 
 </Block>
@@ -19,11 +15,9 @@ do {
 let sink = Amplify.Publisher.create {
     try await Amplify.DataStore.query(Post.self, paginate: .page(0, limit: 100))
 }.sink {
-    //handle completion error
+    // handle result
 }
-receiveValue: {
-    //handle result
-}
+
 ```
 
 </Block>

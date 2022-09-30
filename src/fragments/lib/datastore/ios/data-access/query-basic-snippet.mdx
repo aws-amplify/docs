@@ -7,8 +7,10 @@ do {
     let result = try await Amplify.DataStore.query(Post.self)
     // result will be of type [Post]
     print("Posts: \(result)")
-} catch {
+} catch let error as DataStoreError {
     print("Error on query() for type Post - \(error)")
+} catch {
+    print("Unexpected error \(error)")
 }
 ```
 
@@ -33,9 +35,9 @@ receiveValue: { result in
 
 </BlockSwitcher>
 
-### Query by `id`
+### Query by `byIdentifier`
 
-Query has an alternative signature that allows to fetch a single item by its `id`:
+Query has an alternative signature that allows to fetch a single item by its `byIdentifier`:
 
 <BlockSwitcher>
 
@@ -43,9 +45,9 @@ Query has an alternative signature that allows to fetch a single item by its `id
 
 ```swift
 do {
-    let result = try await Amplify.DataStore.query(Post.self, byId: "123")
+    let result = try await Amplify.DataStore.query(Post.self, byIdentifier: "123")
     // result will be a single object of type Post?
-    print("Posts: \(result)")
+    print("Post: \(result)")
 } catch {
     print("Error on query() for type Post - \(error)")
 }
@@ -57,7 +59,7 @@ do {
 
 ```swift
 let sink = Amplify.Publisher.create {
-    try await Amplify.DataStore.query(Post.self, byId: "123")
+    try await Amplify.DataStore.query(Post.self, byIdentifier: "123")
 }.sink {
     if case let .failure(error) = $0 {
         print("Error on query() for type Post - \(error)")

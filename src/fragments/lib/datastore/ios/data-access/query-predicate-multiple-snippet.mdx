@@ -9,8 +9,10 @@ do {
                                                    where: p.rating > 4 && p.status == PostStatus.published)
     // result of type [Post]
     print("Published posts with rating greater than 4: \(result)")
-} catch {
+} catch let error as DataStoreError {
     print("Error listing posts - \(error)")
+} catch {
+    print("Unexpected error \(error)")
 }
 ```
 
@@ -45,12 +47,8 @@ You can also write this in a compositional function manner by replacing the oper
 
 ```swift
 let p = Post.keys
-do {
-    try await Amplify.DataStore.query(Post.self,
-                                      where: p.rating.gt(4).and(p.status.eq(PostStatus.published)))
-} catch {
-    print("Error listing posts - \(error)")
-}
+try await Amplify.DataStore.query(Post.self,
+                                  where: p.rating.gt(4).and(p.status.eq(PostStatus.published)))
 ```
 
 </Block>
@@ -64,10 +62,7 @@ let sink = Amplify.Publisher.create {
         Post.self,
         where: p.rating > 4 && p.status == PostStatus.published)
 }.sink {
-    // handle the error like in the previous example
-}
-receiveValue: {
-    //handle the result like in the previous example
+    // handle result
 }
 ```
 

@@ -9,8 +9,10 @@ existingPost.title = "[updated] My first post"
 do {
     try await Amplify.DataStore.save(existingPost)
     print("Updated the existing post")
-} catch {
+} catch let error as DataStoreError {
     print("Error updating post - \(error)")
+} catch {
+    print("Unexpected error \(error)")
 }
 ```
 

@@ -1,4 +1,4 @@
-```
+```swift
 import SwiftUI
 import Amplify
 import Combine
@@ -13,7 +13,7 @@ class PostViewModel: ObservableObject {
     init() {
     }
     
-    func observe(postId: String) async throws {
+    func observe(postId: String) {
         let subscription = Amplify.DataStore.observeQuery(for: Post.self,
                                                           where: Post.keys.id == postId)
         let sink = Amplify.Publisher.create(subscription).sink { completion in
@@ -28,7 +28,7 @@ class PostViewModel: ObservableObject {
         }
     }
     
-    func updateTitle(_ title: String) async throws {
+    func updateTitle(_ title: String) async {
         guard var post = post else {
             return
         }

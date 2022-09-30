@@ -9,8 +9,10 @@ do {
                                                    where: p.rating == nil || p.status == PostStatus.draft)
     // result of type [Post]
     print("Posts in draft or without rating: \(result)")
-} catch {
+} catch let error as DataStoreError {
     print("Error listing posts - \(error)")
+} catch {
+    print("Unexpected error \(error)")
 }
 ```
 
