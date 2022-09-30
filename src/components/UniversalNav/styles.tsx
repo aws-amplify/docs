@@ -22,11 +22,16 @@ export const SearchContainer = styled.div`
   grid-column-start: 1;
   width: 100%;
   flex: auto;
+  padding-top: var(--docs-dev-center-nav);
+
+  @media (min-width: 975px) {
+    padding: 0px;
+  }
 
   ${MQTablet} {
     flex: 1 15rem;
     order: 2;
-    margin-top: var(--docs-dev-center-nav);
+    margin: 0;
   }
 
   ${MQLaptop} {
