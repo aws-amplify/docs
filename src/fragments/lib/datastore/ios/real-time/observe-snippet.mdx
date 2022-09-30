@@ -4,10 +4,10 @@ var postsSubscription: AnyCancellable?
 
 // Then in the body of your code, subscribe to the publisher
 func subscribeToPosts() {
-    postsSubscription = Amplify.DataStore.publisher(for: Todo.self)
+    postsSubscription = Amplify.Publisher.create(Amplify.DataStore.observe(Todo.self))
         .sink {
             if case let .failure(error) = $0 {
-                print("Subscription received error - \(error.localizedDescription)")
+                print("Subscription received error - \(error)")
             }
         }
         receiveValue: { changes in

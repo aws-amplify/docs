@@ -2,10 +2,10 @@ Models with one-to-many connections are lazy-loaded when accessing the connected
 
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-Amplify.DataStore.query(Post.self, byId: "123") {
+Amplify.DataStore.query(Post.self, byIdentifier: "123") {
     switch $0 {
     case .success(let post):
         if let postWithComments = post {
@@ -28,7 +28,7 @@ Amplify.DataStore.query(Post.self, byId: "123") {
 <Block name="Combine">
 
 ```swift
-let sink = Amplify.DataStore.query(Post.self, byId: "123")
+let sink = Amplify.DataStore.query(Post.self, byIdentifier: "123")
     .compactMap { $0?.comments }
     .flatMap { $0.loadAsPublisher() }
     .sink {
