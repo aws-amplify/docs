@@ -6,7 +6,32 @@ export function AmplifyNavLink({ currentSite, isCollapsed, setIsCollapsed }) {
   const chevronRotation = isCollapsed ? '0' : '180';
   return (
     <Flex justifyContent={'space-between'} className={styles['logo-container']}>
-      <Flex gap="xs" alignItems="center" direction="row">
+      <Flex
+        className={styles['desktop-only']}
+        gap="xs"
+        alignItems="center"
+        direction="row"
+      >
+        <AmplifyLogo />
+        <Text className={styles['dev-center-logo']}>
+          <span style={{ fontWeight: '400' }}>Amplify</span>{' '}
+          <span style={{ fontWeight: '300' }}>Dev Center</span>
+          <span className={styles['mobile-only']}>
+            {' '}
+            <ChevronIcon rotateDeg="270" /> {currentSite}
+          </span>
+        </Text>
+      </Flex>
+
+      <Flex
+        className={styles['mobile-only']}
+        gap="xs"
+        alignItems="center"
+        direction="row"
+        as="a"
+        href="/"
+        style={{ textDecoration: 'none', cursor: 'pointer' }}
+      >
         <AmplifyLogo />
         <Text className={styles['dev-center-logo']}>
           <span style={{ fontWeight: '400' }}>Amplify</span>{' '}
