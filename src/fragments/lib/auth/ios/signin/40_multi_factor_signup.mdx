@@ -9,8 +9,8 @@ func signUp(username: String, password: String, email: String, phonenumber: Stri
 
     do {
         let signUpResult = try await Amplify.Auth.signUp(username: username, password: password, options: options)
-        if case let .confirmUser(deliveryDetails, _) = signUpResult.nextStep {
-            print("Delivery details \(String(describing: deliveryDetails))")
+        if case let .confirmUser(deliveryDetails, _, userId) = signUpResult.nextStep {
+            print("Delivery details \(String(describing: deliveryDetails) for userId: \(userId))")
         } else {
             print("SignUp Complete")
         }
@@ -36,8 +36,8 @@ func signUp(username: String, password: String, email: String, phonenumber: Stri
             }
         }
         receiveValue: { signUpResult in
-            if case let .confirmUser(deliveryDetails, _) = signUpResult.nextStep {
-                print("Delivery details \(String(describing: deliveryDetails))")
+            if case let .confirmUser(deliveryDetails, _, userId) = signUpResult.nextStep {
+                print("Delivery details \(String(describing: deliveryDetails) for userId: \(userId))")
             } else {
                 print("SignUp Complete")
             }

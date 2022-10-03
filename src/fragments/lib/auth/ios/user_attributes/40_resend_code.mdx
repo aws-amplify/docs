@@ -5,7 +5,7 @@
 ```swift
 func resendCode() async {
     do {
-        let deliveryDetails = try await Amplify.Auth.resendConfirmationCode(for: .email)
+        let deliveryDetails = try await Amplify.Auth.resendConfirmationCode(forUserAttributeKey: .email)
         print("Resend code send to - \(deliveryDetails)")
     } catch {
         print("Resend code failed with error \(error)")
@@ -20,7 +20,7 @@ func resendCode() async {
 ```swift
 func resendCode() -> AnyCancellable {
     Amplify.Publisher.create {
-        try await Amplify.Auth.resendConfirmationCode(for: .email)
+        try await Amplify.Auth.resendConfirmationCode(forUserAttributeKey: .email)
         }.sink {
             if case let .failure(authError) = $0 {
                 print("Resend code failed with error \(authError)")
