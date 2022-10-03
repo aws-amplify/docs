@@ -5,10 +5,8 @@ You can provide `name`, `email` and `plan`, as well as location information with
 If the user is signed in through [Amplify.Auth.signIn](/lib/auth/signin), then you can retrieve the current user's ID as shown below: 
 
 ```swift
-guard let user = Amplify.Auth.getCurrentUser() else {
-    print("Could not get user, perhaps the user is not signed in")
-    return
-}
+
+let user = try await Amplify.Auth.getCurrentUser()
 
 let location = AnalyticsUserProfile.Location(latitude: 47.606209,
                                              longitude: -122.332069,
