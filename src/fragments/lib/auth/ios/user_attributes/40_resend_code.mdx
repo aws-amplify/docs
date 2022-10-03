@@ -5,7 +5,7 @@
 ```swift
 func resendCode() async {
     do {
-        let deliveryDetails = try await Amplify.Auth.resendConfirmationCode(for: .email)
+        let deliveryDetails = try await Amplify.Auth.resendConfirmationCode(forUserAttributeKey: .email)
         print("Resend code send to - \(deliveryDetails)")
     } catch {
         print("Resend code failed with error \(error)")
