@@ -1,11 +1,11 @@
-import styled from "@emotion/styled";
-import {MQTablet} from "../../media";
+import styled from '@emotion/styled';
+import { MQTablet, MQDesktop } from '../../media';
 
 // top: 5.25rem because secondary nav is 3.375rem tall.
 // `top` - `margin-top` needs to equal `secondary-nav` height.
 export const MenuOpenButtonStyle = styled.button`
   position: sticky;
-  top: 5.25rem;
+  top: calc(5.25rem + var(--docs-dev-center-nav) + 5rem);
   height: 100%;
   margin-top: 1.875rem;
   margin-right: -3rem;
@@ -33,5 +33,9 @@ export const MenuOpenButtonStyle = styled.button`
   > img {
     width: 1.5rem;
     height: 1rem;
+  }
+
+  ${MQDesktop} {
+    top: calc(5.25rem + var(--docs-dev-center-nav));
   }
 `;

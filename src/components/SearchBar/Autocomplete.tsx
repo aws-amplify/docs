@@ -12,7 +12,9 @@ import { groupBy, limit, uniqBy } from './functions/index';
 
 const appId = 'W6Q5N5WUDV';
 const apiKey = '953b9e801f385c3c689fc8e94690ab43';
-const searchIndex = process.env.NEXT_PUBLIC_ALGOLIA_INDEX ? process.env.NEXT_PUBLIC_ALGOLIA_INDEX : 'custom_search_staging';
+const searchIndex = process.env.NEXT_PUBLIC_ALGOLIA_INDEX
+  ? process.env.NEXT_PUBLIC_ALGOLIA_INDEX
+  : 'custom_search_staging';
 const searchClient = algoliasearch(appId, apiKey);
 
 const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
@@ -96,7 +98,7 @@ export function Autocomplete(props) {
     return () => {
       search.destroy();
     };
-  }, [props]);
+  }, []);
 
   return <div ref={containerRef} />;
 }

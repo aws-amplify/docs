@@ -1,11 +1,5 @@
 export const DISCORD = 'https://discord.gg/amplify';
-export const COMMUNITY = 'https://amplify.aws/community';
-export const COMMUNITY_EVENTS = 'https://amplify.aws/community/events';
-export const COMMUNITY_POSTS = 'https://amplify.aws/community/posts';
-export const COMMUNITY_CONTRIBUTORS =
-  'https://amplify.aws/community/contributors';
-export const COMMUNITY_NEWSLETTERS =
-  'https://amplify.aws/community/newsletters';
+export const LEARN = 'https://amplify.aws/learn';
 export const CONTRIBUTE = 'https://contributetoamplify.com/';
 export const TWITTER = 'https://twitter.com/AWSAmplify';
 export const GITHUB = 'https://github.com/aws-amplify';
