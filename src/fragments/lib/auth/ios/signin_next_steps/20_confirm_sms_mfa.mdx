@@ -19,8 +19,10 @@ func confirmSignIn(confirmationCodeFromUser: String) async {
             // If `signInResult.isSignedIn` is true, the next step 
             // is 'done', and the user is now signed in.
         }
-    } catch {
+    } catch let error as AuthError {
         print("Confirm sign in failed \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
     }
 }
 ```

@@ -13,8 +13,10 @@ func signUp(username: String, email: String) async {
         } else {
             print("Signup Complete")
         }
-    } catch {
+    } catch let error as AuthError {
         print("An error occurred while registering a user \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
     }
 }
 ```

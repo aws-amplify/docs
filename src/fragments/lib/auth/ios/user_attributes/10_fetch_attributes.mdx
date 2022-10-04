@@ -7,8 +7,10 @@ func fetchAttributes() async {
     do {
         let attributes = try await Amplify.Auth.fetchUserAttributes()
         print("User attributes - \(attributes)")
-    } catch {
+    } catch let error as AuthError{
         print("Fetching user attributes failed with error \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
     }
 }
 ```
