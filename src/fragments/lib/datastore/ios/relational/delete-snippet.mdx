@@ -4,9 +4,11 @@
 
 ```swift
 do {
-    let postWithComments = try await Amplify.DataStore.query(Post.self, byId: "123")
-    // postWithComments might be nil, unwrap the optional appropriately
-    try await Amplify.DataStore.delete(postWithComments!)
+    guard let postWithComments = try await Amplify.DataStore.query(Post.self, byId: "123") else {
+        print("No post found")
+        return
+    }
+    try await Amplify.DataStore.delete(postWithComments)
     print("Post with id 123 deleted with success")
 } catch let error as DataStoreError {
     print("Failed with error \(error)")
