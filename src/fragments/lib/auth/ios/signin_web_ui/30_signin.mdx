@@ -11,8 +11,10 @@ func signInWithWebUI() async {
         if signInResult.isSignedIn {
             print("Sign in succeeded")
         }
-    } catch {
+    } catch let error as AuthError {
         print("Sign in failed \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
     }
 }
 ```

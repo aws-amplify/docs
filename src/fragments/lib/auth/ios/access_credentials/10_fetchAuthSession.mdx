@@ -22,8 +22,9 @@ do {
         let tokens = try cognitoTokenProvider.getCognitoTokens().get()
         print("Id token - \(tokens.idToken) ")
     }
-} catch {
+} catch let error as AuthError {
     print("Fetch auth session failed with error - \(error)")
+} catch {
 }
 ```
 If you have enabled guest user in Cognito Identity Pool and no user is signed in, you will be able to access only identityId and AWS credentials. All other session details will give you an error.
@@ -45,7 +46,9 @@ do {
         let credentials = try awsCredentialsProvider.getAWSCredentials().get()
         print("Access key - \(credentials.accessKey) ")
     }
-} catch {
+} catch let error as AuthError {
     print("Fetch auth session failed with error - \(error)")
+} catch {
+    print("Unexpected error: \(error)")
 }
 ```

@@ -9,8 +9,10 @@ func fetchDevices() async {
         for device in fetchDeviceResult {
             print(device.id)
         }
-    } catch {
+    } catch let error as AuthError {
         print("Fetch devices failed with error \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
     }
 }
 ```

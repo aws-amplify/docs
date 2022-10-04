@@ -7,14 +7,20 @@ func signUp(username: String, password: String, email: String) async {
     let userAttributes = [AuthUserAttribute(.email, value: email)]
     let options = AuthSignUpRequest.Options(userAttributes: userAttributes)
     do {
-        let signUpResult = try await Amplify.Auth.signUp(username: username, password: password, options: options)
+        let signUpResult = try await Amplify.Auth.signUp(
+            username: username, 
+            password: password, 
+            options: options
+            )
         if case let .confirmUser(deliveryDetails, _, userId) = signUpResult.nextStep {
             print("Delivery details \(String(describing: deliveryDetails) for userId: \(userId))")
         } else {
             print("SignUp Complete")
         }
-    } catch {
+    } catch let error as AuthError {
         print("An error occurred while registering a user \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
     }
 }
 ```
@@ -28,7 +34,11 @@ func signUp(username: String, password: String, email: String) -> AnyCancellable
     let userAttributes = [AuthUserAttribute(.email, value: email)]
     let options = AuthSignUpRequest.Options(userAttributes: userAttributes)
     Amplify.Publisher.create {
-        try await Amplify.Auth.signUp(username: username, password: password, options: options)
+        try await Amplify.Auth.signUp(
+            username: username, 
+            password: password, 
+            options: options
+            )
     }.sink {
             if case let .failure(authError) = $0 {
                 print("An error occurred while registering a user \(authError)")

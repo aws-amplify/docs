@@ -12,8 +12,10 @@ func updateAttribute() {
         case .done:
             print("Update completed")
         }
-    } catch {
+    } catch let error as AuthError {
         print("Update attribute failed with error \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
     }
 }
 ```

@@ -7,8 +7,10 @@ func customChallenge(response: String) async {
     do {
       _ = try await Amplify.Auth.confirmSignIn(challengeResponse: response)
       print("Confirm sign in succeeded") 
-    } catch {
+    } catch let error as AuthError {
       print("Confirm sign in failed \(error)")
+    } catch {
+      print("Unexpected error: \(error)")
     }
 }
 ```
