@@ -249,18 +249,16 @@ class MyCustomInterceptor: URLRequestInterceptor {
     }
     
     func intercept(_ request: URLRequest) throws -> URLRequest {
-        guard let mutableRequest = (request as NSURLRequest).mutableCopy() as? NSMutableURLRequest else {
-            throw APIError.unknown("Could not get mutable request", "")
-        }
-        
+        var request = request
+
         let tokenResult = getLatestAuthToken()
         switch tokenResult {
         case .success(let token):
-            mutableRequest.setValue(token, forHTTPHeaderField: "authorization")
+            request.setValue(token, forHTTPHeaderField: "authorization")
         case .failure(let error):
             throw APIError.operationError("Failed to retrieve Cognito UserPool token.", "", error)
         }
-        return mutableRequest as URLRequest
+        return request
     }
 }
 ```
