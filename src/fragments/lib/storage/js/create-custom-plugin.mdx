@@ -70,7 +70,7 @@ class MyStorageProvider implements StorageProvider {
 
 // will automatically use the return type from the provider's function signature
 const getResult: Promise<{ key: string }> = Storage.get<MyStorageProvider>('key', {
-	provider: 'MyStorageProvider',
+	provider: 'MyStorage',
 	config1: 123,
 });
 ```
