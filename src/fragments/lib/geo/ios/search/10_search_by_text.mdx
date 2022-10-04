@@ -25,6 +25,8 @@ let options = Geo.SearchForTextOptions(area: .near(coordinates),
 do {
     let places = try await Amplify.Geo.search(for: "coffee shops", options: options)
     dump(places)
+} catch let error as Geo.Error {
+    print("Failed to search: \(error)"
 } catch {
-    print(error)
+    print("Unexpected error: \(error)")
 }

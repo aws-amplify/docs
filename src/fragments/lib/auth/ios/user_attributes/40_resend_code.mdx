@@ -7,8 +7,10 @@ func resendCode() async {
     do {
         let deliveryDetails = try await Amplify.Auth.resendConfirmationCode(forUserAttributeKey: .email)
         print("Resend code send to - \(deliveryDetails)")
-    } catch {
+    } catch let error as AuthError {
         print("Resend code failed with error \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
     }
 }
 ```

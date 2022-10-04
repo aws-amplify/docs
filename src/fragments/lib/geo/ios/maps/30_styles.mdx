@@ -6,8 +6,10 @@ This is useful if you would like to give your users a variety of maps styles to 
 var maps = [Geo.MapStyle]()
 do {
     maps = try await Amplify.Geo.availableMaps()
+} catch let error as Geo.Error {
+    print("Failed to get available maps: \(error)")
 } catch {
-    print(error)
+    print("Unexpected error: \(error)")
 }
 ```
 
