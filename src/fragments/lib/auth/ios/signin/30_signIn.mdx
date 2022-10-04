@@ -5,12 +5,17 @@
 ```swift
 func signIn(username: String, password: String) async {
     do {
-        let signInResult = try await Amplify.Auth.signIn(username: username, password: password)
+        let signInResult = try await Amplify.Auth.signIn(
+            username: username, 
+            password: password
+            )
         if signInResult.isSignedIn {
             print("Sign in succeeded")
         }
-    } catch {
+    } catch let error as AuthError {
         print("Sign in failed \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
     }
 }
 ```
@@ -22,7 +27,10 @@ func signIn(username: String, password: String) async {
 ```swift
 func signIn(username: String, password: String) -> AnyCancellable {
     Amplify.Publisher.create {
-        try await try await Amplify.Auth.signIn(username: username, password: password)
+        try await try await Amplify.Auth.signIn(
+            username: username, 
+            password: password
+            )
     }.sink {
             if case let .failure(authError) = $0 {
                 print("Sign in failed \(authError)")

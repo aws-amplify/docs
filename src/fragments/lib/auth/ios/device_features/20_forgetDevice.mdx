@@ -7,9 +7,11 @@ func forgetDevice() async {
     do {
         try await Amplify.Auth.forgetDevice()
         print("Forget device succeeded")
-    } catch {
+    } catch let error as AuthError {
         print("Forget device failed with error \(error)")
-    }   
+    } catch {
+        print("Unexpected error: \(error)")
+    }  
 }
 ```
 

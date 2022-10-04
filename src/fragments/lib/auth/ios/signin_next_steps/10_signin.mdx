@@ -47,8 +47,10 @@ func signIn(username: String, password: String) async {
             // Use has successfully signed in to the app
             print("Signin complete")
         }
-    } catch {
+    } catch let error as AuthError{
         print ("Sign in failed \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
     }
 }
 ```

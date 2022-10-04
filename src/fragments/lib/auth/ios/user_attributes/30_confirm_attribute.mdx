@@ -7,8 +7,10 @@ func confirmAttribute() {
     do {
         try await Amplify.Auth.confirm(userAttribute: .email, confirmationCode: "390739")
         print("Attribute verified")
-    } catch {
+    } catch let error as AuthError {
         print("Update attribute failed with error \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
     }
 }
 ```

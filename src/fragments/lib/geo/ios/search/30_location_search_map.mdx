@@ -38,8 +38,10 @@ struct MyMapView: View {
                 await MainActor.run {
                     self.mapState.features = AmplifyMapLibre.createFeatures(places)
                 }
+            } catch let error as Geo.Error {
+                print("Failed to search: \(error)")
             } catch {
-                print(error)
+                print("Unexpected error: \(error)")
             }
         }
     }
