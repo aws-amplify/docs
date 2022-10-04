@@ -5,8 +5,10 @@
 ```swift
 let p = Post.keys
 do {
-    let result = try await Amplify.DataStore.query(Post.self,
-                                                   where: p.rating == nil || p.status == PostStatus.draft)
+    let result = try await Amplify.DataStore.query(
+        Post.self,
+        where: p.rating == nil || p.status == PostStatus.draft
+    )
     // result of type [Post]
     print("Posts in draft or without rating: \(result)")
 } catch let error as DataStoreError {
@@ -23,8 +25,10 @@ do {
 ```swift
 let p = Post.keys
 let sink = Amplify.Publisher.create {
-    try await Amplify.DataStore.query(Post.self,
-                                      where: p.rating == nil || p.status == PostStatus.draft)
+    try await Amplify.DataStore.query(
+        Post.self,
+        where: p.rating == nil || p.status == PostStatus.draft
+    )
 }.sink {
     if case let .failure(error) = $0 {
         print("Error listing posts - \(error)")

@@ -56,13 +56,16 @@ You can download to a file [URL](https://developer.apple.com/documentation/found
 <Block name="Async/Await">
 
 ```swift
-let downloadToFileName = FileManager.default.urls(for: .documentDirectory,
-                                                  in: .userDomainMask)[0]
-    .appendingPathComponent("myFile.txt")
+let downloadToFileName = FileManager.default.urls(
+    for: .documentDirectory,
+    in: .userDomainMask
+)[0].appendingPathComponent("myFile.txt")
 
-let downloadTask = try await Amplify.Storage.downloadFile(key: "myKey",
-                                                          local: downloadToFileName,
-                                                          options: nil)
+let downloadTask = try await Amplify.Storage.downloadFile(
+    key: "myKey",
+    local: downloadToFileName,
+    options: nil
+)
 Task {
     for await progress in await downloadTask.progress {
         print("Progress: \(progress)")
@@ -77,13 +80,16 @@ print("Completed")
 <Block name="Combine">
 
 ```swift
-let downloadToFileName = FileManager.default.urls(for: .documentDirectory,
-                                        in: .userDomainMask)[0]
-    .appendingPathComponent("myFile.txt")
+let downloadToFileName = FileManager.default.urls(
+    for: .documentDirectory,
+    in: .userDomainMask
+)[0].appendingPathComponent("myFile.txt")
 
-let downloadTask = try await Amplify.Storage.downloadFile(key: "myKey",
-                                                          local: downloadToFileName,
-                                                          options: nil)
+let downloadTask = try await Amplify.Storage.downloadFile(
+    key: "myKey",
+    local: downloadToFileName,
+    options: nil
+)
 let progressSink = downloadTask
     .inProcessPublisher
     .sink { progress in

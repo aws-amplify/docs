@@ -4,12 +4,13 @@
 
 ```swift
 func signOutLocally() async {
-   let result = await Amplify.Auth.signOut()
-   guard let signOutResult = result as? AWSCognitoSignOutResult,
-              case .complete = signOutResult else {
-            print("Sign out failed to complete")
-            return
-        }
+    let result = await Amplify.Auth.signOut()
+    guard let signOutResult = result as? AWSCognitoSignOutResult,
+          case .complete = signOutResult
+    else {
+        print("Sign out failed to complete")
+        return
+    }
     print("Successfully signed out")
 }
 ```
@@ -22,14 +23,14 @@ func signOutLocally() async {
 func signOutLocally() -> AnyCancellable {
     Amplify.Publisher.create {
         await Amplify.Auth.signOut()
-        }.sink {
-            if case let .failure(authError) = $0 {
-                print("Sign out failed with error \(authError)")
-            }
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("Sign out failed with error \(authError)")
         }
-        receiveValue: {
-            print("Successfully signed out")
-        }
+    }
+    receiveValue: {
+        print("Successfully signed out")
+    }
 }
 ```
 

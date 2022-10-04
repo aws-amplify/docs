@@ -3,11 +3,13 @@
 <Block name="Async/Await">
 
 ```swift
-let post = Post(title: "My first post",
-                content: "Amplify.DataStore is awesome!",
-                createdAt: .now(),
-                status: .published)
-        
+let post = Post(
+    title: "My first post",
+    content: "Amplify.DataStore is awesome!",
+    createdAt: .now(),
+    status: .published
+)
+
 let editor = User(name: "Nadia")
 
 do {
@@ -30,16 +32,24 @@ do {
 <Block name="Combine">
 
 ```swift
-let post = Post(title: "My first post",
-                content: "Amplify.DataStore is awesome!",
-                createdAt: .now(),
-                status: .published)
-        
+let post = Post(
+    title: "My first post",
+    content: "Amplify.DataStore is awesome!",
+    createdAt: .now(),
+    status: .published
+)
+
 let editor = User(name: "Nadia")
 
 let sink = Amplify.Publisher.create(try await Amplify.DataStore.save(post))
-    .flatMap { _ in Amplify.Publisher.create(try await Amplify.DataStore.save(editor)) }
-    .flatMap { _ in Amplify.Publisher.create(try await Amplify.DataStore.save(PostEditor(post: post, editor: editor))) }
+    .flatMap { _ in
+        Amplify.Publisher.create(try await Amplify.DataStore.save(editor))
+    }
+    .flatMap { _ in
+        Amplify.Publisher.create(try await Amplify.DataStore.save(
+            PostEditor(post: post, editor: editor)
+        ))
+    }
     .sink {
         if case let .failure(error) = $0 {
             print("Error saving post, user and postEditor: \(error.localizedDescription)")

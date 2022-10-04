@@ -14,9 +14,10 @@ let syncExpr1 = DataStoreSyncExpression.syncExpression(Post.schema) {
 let syncExpr2 = DataStoreSyncExpression.syncExpression(Comment.schema) {
     Comment.keys.status.eq("active")
 }
-try Amplify.add(plugin: AWSDataStorePlugin(modelRegistration: AmplifyModels(),
-                                           configuration: .custom(
-					    syncExpressions: [syncExpr1, syncExpr2])))
+try Amplify.add(plugin: AWSDataStorePlugin(
+    modelRegistration: AmplifyModels(),
+    configuration: .custom(syncExpressions: [syncExpr1, syncExpr2])
+))
 ```
 
 When DataStore starts syncing, only Posts with `rating > 5` and Comments with `status` equal to `active` will be synced down to the user's local store.
@@ -40,9 +41,10 @@ func initialize() {
     let variableSyncExpr = DataStoreSyncExpression.syncExpression(Post.schema) {
         Post.keys.rating.gt(self.rating)
     }
-    try Amplify.add(plugin: AWSDataStorePlugin(modelRegistration: AmplifyModels(),
-                                               configuration: .custom(
-                                                syncExpressions: [variableSyncExpr])))
+    try Amplify.add(plugin: AWSDataStorePlugin(
+        modelRegistration: AmplifyModels(),
+        configuration: .custom(syncExpressions: [variableSyncExpr])
+    ))
 }
 
 func changeSync() {
@@ -56,7 +58,7 @@ func changeSync() {
         print("Failed with error \(error)")
     } catch {
         print("Unexpected error \(error)")
-    }    
+    }
 }
 ```
 Each time DataStore starts (via `start` or any other operation: `query`, `save`, `delete`, or `observe`), DataStore will reevaluate the `syncExpressions`.
@@ -101,9 +103,10 @@ func initialize() {
         }
         return Post.keys.rating.gt(rating)
     }
-    try Amplify.add(plugin: AWSDataStorePlugin(modelRegistration: AmplifyModels(),
-                                               configuration: .custom(
-                                                syncExpressions: [syncExpr])))
+    try Amplify.add(plugin: AWSDataStorePlugin(
+        modelRegistration: AmplifyModels(),
+        configuration: .custom(syncExpressions: [syncExpr])
+    ))
 ```
 
 <Callout warning>
@@ -131,7 +134,7 @@ To construct a query expression, return a predicate with the primary key of the 
 
 For the schema defined above `User.keys.lastName.eq("Doe")` is a valid query expression.
 
-Optionally, you can also chain the sort key to this expression, using any of the following operators: `eq | ne | le | lt | ge | gt | beginsWith | between`. 
+Optionally, you can also chain the sort key to this expression, using any of the following operators: `eq | ne | le | lt | ge | gt | beginsWith | between`.
 
 E.g., `User.keys.lastName.eq("Doe").and(User.keys.createdAt.gt("2020-10-10")`.
 
@@ -141,13 +144,17 @@ Both of these sync expressions will result in AWS AppSync retrieving records fro
 let syncExpr = DataStoreSyncExpression.syncExpression(User.schema) {
     User.keys.lastName.eq("Doe")
 }
-try Amplify.add(plugin: AWSDataStorePlugin(modelRegistration: AmplifyModels(),
-                                           configuration: .custom(syncExpressions: [syncExpr])))
+try Amplify.add(plugin: AWSDataStorePlugin(
+    modelRegistration: AmplifyModels(),
+    configuration: .custom(syncExpressions: [syncExpr])
+))
 // OR
 
 let syncExpr = DataStoreSyncExpression.syncExpression(User.schema) {
     User.keys.lastName.eq("Doe").and(User.keys.createdAt.gt("2020-10-10"))
 }
-try Amplify.add(plugin: AWSDataStorePlugin(modelRegistration: AmplifyModels(),
-                                           configuration: .custom(syncExpressions: [syncExpr])))
+try Amplify.add(plugin: AWSDataStorePlugin(
+    modelRegistration: AmplifyModels(),
+    configuration: .custom(syncExpressions: [syncExpr])
+))
 ```

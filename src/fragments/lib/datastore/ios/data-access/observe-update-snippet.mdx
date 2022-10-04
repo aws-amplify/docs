@@ -13,10 +13,14 @@ class PostViewModel: ObservableObject {
 
     init() {
     }
-    
+
     func observe(postId: String) {
-        self.subscription = Amplify.Publisher.create(Amplify.DataStore.observeQuery(for: Post.self,
-                                                                                    where: Post.keys.id == postId))
+        self.subscription = Amplify.Publisher.create(
+            Amplify.DataStore.observeQuery(
+                for: Post.self,
+                where: Post.keys.id == postId
+            )
+        )
         .sink { completion in
             print("Completion event: \(completion)")
         } receiveValue: { snapshot in
@@ -28,7 +32,7 @@ class PostViewModel: ObservableObject {
             }
         }
     }
-    
+
     func updateTitle(_ title: String) async {
         guard var post = post else {
             return
@@ -48,11 +52,11 @@ struct PostView: View {
     @StateObject var vm = PostViewModel()
     @State private var title = ""
     let postId: String
-    
+
     init(postId: String) {
         self.postId = postId
     }
-    
+
     var body: some View {
         VStack {
             Text("Post's current title: \(vm.post?.title ?? "")")

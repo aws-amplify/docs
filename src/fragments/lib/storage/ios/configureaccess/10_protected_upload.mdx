@@ -5,9 +5,11 @@
 ```swift
 func uploadData(key: String, data: Data) async throws {
     let options = StorageUploadDataRequest.Options(accessLevel: .protected)
-    let uploadTask = try await Amplify.Storage.uploadData(key: key,
-                                                          data: data,
-                                                          options: options)
+    let uploadTask = try await Amplify.Storage.uploadData(
+        key: key,
+        data: data,
+        options: options
+    )
     Task {
         for await progress in await uploadTask.progress {
             print("Progress: \(progress)")
@@ -25,18 +27,20 @@ func uploadData(key: String, data: Data) async throws {
 ```swift
 var resultSink: AnyCancellable?
 var progressSink: AnyCancellable?
-    
+
 func uploadData(key: String, data: Data) async throws {
     let options = StorageUploadDataRequest.Options(accessLevel: .protected)
-    let uploadTask = try await Amplify.Storage.uploadData(key: key,
-                                                          data: data,
-                                                          options: options)
+    let uploadTask = try await Amplify.Storage.uploadData(
+        key: key,
+        data: data,
+        options: options
+    )
     progressSink = uploadTask
         .inProcessPublisher
         .sink { progress in
             print("Progress: \(progress)")
         }
-    
+
     resultSink = uploadTask
         .resultPublisher
         .sink {

@@ -1,6 +1,6 @@
 ## Customization
 
-### Customize Object Key Path 
+### Customize Object Key Path
 
 You can customize your key path by defining a prefix resolver:
 
@@ -11,10 +11,12 @@ import AWSS3StoragePlugin
 
 // Define your own prefix resolver, that conforms to `AWSS3StoragePluginPrefixResolver`
 struct MyDeveloperDefinedPrefixResolver: AWSS3PluginPrefixResolver {
-    
+
     // This function is called on every Storage API to modify the prefix of the request.
-    func resolvePrefix(for accessLevel: StorageAccessLevel,
-                       targetIdentityId: String?) async throws -> String {
+    func resolvePrefix(
+        for accessLevel: StorageAccessLevel,
+        targetIdentityId: String?
+    ) async throws -> String {
         // Use "myPublicPrefix" for guest access levels
         if accessLevel == .guest {
             return "myPublicPrefix/"
@@ -27,7 +29,7 @@ struct MyDeveloperDefinedPrefixResolver: AWSS3PluginPrefixResolver {
         } else {
             accessLevelPrefix = "myPrivatePrefix/"
         }
-        
+
         // `targetIdentityId` is the value passed into the Storage request object
         if let identityId = targetIdentityId {
             return accessLevelPrefix + identityId + "/"
@@ -37,7 +39,7 @@ struct MyDeveloperDefinedPrefixResolver: AWSS3PluginPrefixResolver {
         let identityId = try await getIdentityId()
         return accessLevelPrefix + identityId + "/"
     }
-    
+
     func getIdentityId() async throws -> String {
         let session = try await Amplify.Auth.fetchAuthSession()
         if let identityProvider = session as? AuthCognitoIdentityProvider {
@@ -90,15 +92,17 @@ If you want to have custom *private* path prefix like *myPrivatePrefix/*, you ne
     }
 ]
 ```
-This ensures only the authenticated users has the access to the objects under the path. 
+This ensures only the authenticated users has the access to the objects under the path.
 
 #### Passthrough PrefixResolver
 
 If you would like no prefix resolution logic, such as performing S3 requests at the root of the bucket, create a prefix resolver that returns an empty string:
 
 ```swift
-func resolvePrefix(for accessLevel: StorageAccessLevel,
-                       targetIdentityId: String?) async throws -> String {
+func resolvePrefix(
+    for accessLevel: StorageAccessLevel,
+    targetIdentityId: String?
+) async throws -> String {
     return ""
 }
 ```
@@ -109,14 +113,16 @@ You can also perform validation based on the access controls you have defined. F
 
 <Callout>
 
-This will only stop your app from making a call with an unauthenticated user. You must also set up your IAM policies to protect your resources. See [CLI Storage](/cli/storage/import) for more details. 
+This will only stop your app from making a call with an unauthenticated user. You must also set up your IAM policies to protect your resources. See [CLI Storage](/cli/storage/import) for more details.
 
 </Callout>
 
 ```swift
 struct MyDeveloperDefinedPrefixResolver: AWSS3PluginPrefixResolver {
-    func resolvePrefix(for accessLevel: StorageAccessLevel,
-                       targetIdentityId: String?) async throws -> String {
+    func resolvePrefix(
+        for accessLevel: StorageAccessLevel,
+        targetIdentityId: String?
+    ) async throws -> String {
         guard await Amplify.Auth.getCurrentUser() != nil else {
             throw StorageError.authError("User is not signed in", "", nil)
         }

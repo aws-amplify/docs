@@ -7,8 +7,10 @@ To upload to S3 from a data object, specify the `key` and the `data` object to b
 ```swift
 let dataString = "My Data"
 let data = Data(dataString.utf8)
-let uploadTask = try await Amplify.Storage.uploadData(key: "ExampleKey",
-                                                      data: data)
+let uploadTask = try await Amplify.Storage.uploadData(
+    key: "ExampleKey",
+    data: data
+)
 Task {
     for await progress in await uploadTask.progress {
         print("Progress: \(progress)")
@@ -25,8 +27,10 @@ print("Completed: \(data)")
 ```swift
 let dataString = "My Data"
 let data = Data(dataString.utf8)
-let uploadTask = try await Amplify.Storage.uploadData(key: "ExampleKey",
-                                                      data: data)
+let uploadTask = try await Amplify.Storage.uploadData(
+    key: "ExampleKey",
+    data: data
+)
 let progressSink = uploadTask
     .inProcessPublisher
     .sink { progress in
@@ -58,16 +62,22 @@ When you have a file that you want to upload, you can specify the url to the fil
 ```swift
 let dataString = "My Data"
 let fileNameKey = "myFile.txt"
-let filename = FileManager.default.urls(for: .documentDirectory,
-                                        in: .userDomainMask)[0]
-    .appendingPathComponent(fileNameKey)
+let filename = FileManager.default.urls(
+    for: .documentDirectory,
+    in: .userDomainMask
+)[0].appendingPathComponent(fileNameKey)
 
-try dataString.write(to: filename,
-                     atomically: true,
-                     encoding: .utf8)
+try dataString.write(
+    to: filename,
+    atomically: true,
+    encoding: .utf8
+)
 
-let uploadTask = try await Amplify.Storage.uploadFile(key: fileNameKey,
-                                                      local: filename)
+let uploadTask = try await Amplify.Storage.uploadFile(
+    key: fileNameKey,
+    local: filename
+)
+
 Task {
     for await progress in await uploadTask.progress {
         print("Progress: \(progress)")
@@ -85,16 +95,21 @@ print("Completed: \(data)")
 ```swift
 let dataString = "My Data"
 let fileNameKey = "myFile.txt"
-let filename = FileManager.default.urls(for: .documentDirectory,
-                                        in: .userDomainMask)[0]
-    .appendingPathComponent(fileNameKey)
+let filename = FileManager.default.urls(
+    for: .documentDirectory,
+    in: .userDomainMask
+)[0].appendingPathComponent(fileNameKey)
 
-try dataString.write(to: filename,
-                     atomically: true,
-                     encoding: .utf8)
+try dataString.write(
+    to: filename,
+    atomically: true,
+    encoding: .utf8
+)
 
-let uploadTask = try await Amplify.Storage.uploadFile(key: fileNameKey,
-                                                      local: filename)
+let uploadTask = try await Amplify.Storage.uploadFile(
+    key: fileNameKey,
+    local: filename
+)
 progressSink = uploadTask
     .inProcessPublisher
     .sink { progress in

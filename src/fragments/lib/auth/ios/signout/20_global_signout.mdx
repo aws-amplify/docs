@@ -6,21 +6,12 @@
 func signOutGlobally() async {
     let result = await Amplify.Auth.signOut(options: .init(globalSignOut: true))
     guard let signOutResult = result as? AWSCognitoSignOutResult,
-                case .complete = signOutResult else {
-                print("Sign out failed to complete")
-                return
-            }
-    print("Successfully signed out")
-
-
-     { result in
-        switch result {
-        case .success:
-            print("Successfully signed out")
-        case .failure(let error):
-            print("Sign out failed with error \(error)")
-        }
+          case .complete = signOutResult
+    else {
+        print("Sign out failed to complete")
+        return
     }
+    print("Successfully signed out")
 }
 ```
 
@@ -32,14 +23,14 @@ func signOutGlobally() async {
 func signOutGlobally() -> AnyCancellable {
     Amplify.Publisher.create {
         await Amplify.Auth.signOut(options: .init(globalSignOut: true))
-        }.sink {
-            if case let .failure(authError) = $0 {
-                print("Sign out failed with error \(authError)")
-            }
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("Sign out failed with error \(authError)")
         }
-        receiveValue: {
-            print("Successfully signed out")
-        }
+    }
+    receiveValue: {
+        print("Successfully signed out")
+    }
     return sink
 }
 ```

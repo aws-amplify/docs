@@ -6,8 +6,10 @@
 func uploadData() async throws {
     let dataString = "Example file contents"
     let data = Data(dataString.utf8)
-    let uploadTask = try await Amplify.Storage.uploadData(key: "ExampleKey",
-                                                          data: data)
+    let uploadTask = try await Amplify.Storage.uploadData(
+        key: "ExampleKey",
+        data: data
+    )
     Task {
         for await progress in await uploadTask.progress {
             print("Progress: \(progress)")
@@ -28,18 +30,20 @@ var resultSink: AnyCancellable?
 var progressSink: AnyCancellable?
 
 // ...
-    
+
 func uploadData() async throws {
     let dataString = "Example file contents"
     let data = Data(dataString.utf8)
-    let uploadTask = try await Amplify.Storage.uploadData(key: "ExampleKey",
-                                                          data: data)
+    let uploadTask = try await Amplify.Storage.uploadData(
+        key: "ExampleKey",
+        data: data
+    )
     progressSink = uploadTask
         .inProcessPublisher
         .sink { progress in
             print("Progress: \(progress)")
         }
-    
+
     resultSink = uploadTask
         .resultPublisher
         .sink {

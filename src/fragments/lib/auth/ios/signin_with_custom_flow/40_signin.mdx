@@ -9,8 +9,8 @@ func signIn(username: String) async {
         if case .confirmSignInWithCustomChallenge(_) = signInResult.nextStep {
             // Ask the user to enter the custom challenge.
         } else {
-            print("Sign in succeeded")   
-        }       
+            print("Sign in succeeded")
+        }
     } catch let error as AuthError {
         print("Sign in failed \(error)")
     } catch {
@@ -27,18 +27,18 @@ func signIn(username: String) async {
 func signIn(username: String, password: String) -> AnyCancellable {
     Amplify.Publisher.create {
         try await Amplify.Auth.signIn(username: username)
-        }.sink {
-            if case let .failure(authError) = $0 {
-                print("Sign in failed \(authError)")
-            }
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("Sign in failed \(authError)")
         }
-        receiveValue: { result in
-            if case .confirmSignInWithCustomChallenge(_) = result.nextStep {
-                // Ask the user to enter the custom challenge.
-            } else {
-                print("Sign in succeeded")
-            }
+    }
+    receiveValue: { result in
+        if case .confirmSignInWithCustomChallenge(_) = result.nextStep {
+            // Ask the user to enter the custom challenge.
+        } else {
+            print("Sign in succeeded")
         }
+    }
 }
 ```
 
