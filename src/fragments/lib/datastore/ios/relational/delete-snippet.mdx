@@ -4,7 +4,7 @@
 
 ```swift
 do {
-    let postWithComments = try await Amplify.DataStore.query(Post.self, byIdentifier: "123")
+    let postWithComments = try await Amplify.DataStore.query(Post.self, byId: "123")
     // postWithComments might be nil, unwrap the optional appropriately
     try await Amplify.DataStore.delete(postWithComments!)
     print("Post with id 123 deleted with success")
@@ -21,7 +21,7 @@ do {
 
 ```swift
 let sink = Amplify.Publisher.create {
-    let postWithComments = try await Amplify.DataStore.query(Post.self, byIdentifier: "123")
+    let postWithComments = try await Amplify.DataStore.query(Post.self, byId: "123")
     //Value of optional type 'Post?' must be unwrapped to a value of type 'Post'
     try await Amplify.DataStore.delete(postWithComments!)
 }.sink {

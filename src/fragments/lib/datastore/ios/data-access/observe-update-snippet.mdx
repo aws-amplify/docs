@@ -9,7 +9,8 @@ import Combine
  */
 class PostViewModel: ObservableObject {
     @Published var post: Post?
-    
+    var subscription: AnyCancellable?
+
     init() {
     }
     
@@ -36,8 +37,10 @@ class PostViewModel: ObservableObject {
         do {
             let updatedPost = try await Amplify.DataStore.save(post)
             print("Updated post successfully: \(updatedPost)")
-        } catch {
+        } catch let error as DataStoreError {
             print("Failed to update post: \(error)")
+        } catch {
+            print("Unexpected error \(error)")
         }
     }
 }

@@ -4,7 +4,6 @@
 
 ```swift
 do {
-    let p = Post.keys
     let result = try await Amplify.DataStore.query(Post.self,
                                                    sort: .by(.ascending(Post.keys.rating),
                                                              .descending(Post.keys.title)))

@@ -37,9 +37,9 @@ let post = Post(title: "My first post",
         
 let editor = User(name: "Nadia")
 
-let sink = Amplify.DataStore.save(post)
-    .flatMap { _ in Amplify.DataStore.save(editor) }
-    .flatMap { _ in Amplify.DataStore.save(PostEditor(post: post, editor: editor)) }
+let sink = Amplify.Publisher.create(try await Amplify.DataStore.save(post))
+    .flatMap { _ in Amplify.Publisher.create(try await Amplify.DataStore.save(editor)) }
+    .flatMap { _ in Amplify.Publisher.create(try await Amplify.DataStore.save(PostEditor(post: post, editor: editor))) }
     .sink {
         if case let .failure(error) = $0 {
             print("Error saving post, user and postEditor: \(error.localizedDescription)")

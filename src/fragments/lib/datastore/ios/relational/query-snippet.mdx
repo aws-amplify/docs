@@ -6,22 +6,23 @@ Models with one-to-many connections are lazy-loaded when accessing the connected
 
 ```swift
 do {
-    let postResult = try await Amplify.DataStore.save(postWithComments)
-    print("Post with Comment saved! \(postResult)")
-    // call fetch to lazy load the postResult before accessing it's result
-    try await postResult.comments?.fetch()
-    if let comments = postResult.comments {
-        for comment in comments {
-            print(comment.content)
-        }
-    } else {
-        print("Post not found")
+    let savedPost = try await Amplify.DataStore.save(postWithComments)
+    print("Post with Comment saved! \(savedPost)")
+    guard let comments = savedPost.comments else {
+        return
+    }
+    // call fetch to lazy load the postResult before accessing its result
+    try await comments.fetch()
+    for comment in comments {
+        print(comment.content)
     }
 } catch let error as DataStoreError {
-        print("Failed with error \(error)")
-    } catch {
-        print("Unexpected error \(error)")
-    }
+    print("Failed to save \(error)")
+} catch let coreError as CoreError {
+    print("Failed to fetch \(error)")
+} catch {
+    print("Unexpected error \(error)")
+}
 ```
 
 </Block>
@@ -29,7 +30,7 @@ do {
 <Block name="Combine">
 
 ```swift
-let sink = Amplify.DataStore.query(Post.self, byIdentifier: "123")
+let sink = Amplify.Publisher.create(try await Amplify.DataStore.query(Post.self, byId: "123"))
     .compactMap { $0?.comments }
     .flatMap { $0.loadAsPublisher() }
     .sink {
@@ -38,9 +39,19 @@ let sink = Amplify.DataStore.query(Post.self, byIdentifier: "123")
         }
     }
     receiveValue: {
-        for comment in $0 {
-            print(comment.content)
+        Task {
+            do {
+                try await $0.fetch()
+                for comment in $0 {
+                    print(comment.content)
+                }
+            } catch let error as CoreError {
+                print("Failed with fetch \(error)")
+            } catch {
+                print("Unexpected error \(error)")
+            }
         }
+        
     }
 ```
 
