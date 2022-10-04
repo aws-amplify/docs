@@ -2,17 +2,9 @@
 
 The Amplify Analytics plugin provides a simple interface to record custom events within your app:
 
-```swift
-let properties: AnalyticsProperties = [
-    "eventPropertyStringKey": "eventPropertyStringValue",
-    "eventPropertyIntKey": 123,
-    "eventPropertyDoubleKey": 12.34,
-    "eventPropertyBoolKey": true
-]
-let event = BasicAnalyticsEvent(name: "eventName", properties: properties)
+import ios0 from "/src/fragments/lib/analytics/ios/record-event-code.mdx";
 
-Amplify.Analytics.record(event: event)
-```
+<Fragments fragments={{ios: ios0}} />
 
 ## Flush Events
 
@@ -22,28 +14,25 @@ If you would like to change this, update `amplifyconfiguration.json` and set the
 
 ```json
 {
-  "UserAgent": "aws-amplify-cli/2.0",
-  "Version": "1.0",
-  "analytics": {
-    "plugins": {
-      "awsPinpointAnalyticsPlugin": {
-        "pinpointAnalytics": {
-          "appId": "AppID",
-          "region": "Region"
-        },
-        "pinpointTargeting": {
-          "region": "Region"
-        },
-        "autoFlushEventsInterval": 60
-      }
+    "UserAgent": "aws-amplify-cli/2.0",
+    "Version": "1.0",
+    "analytics": {
+        "plugins": {
+            "awsPinpointAnalyticsPlugin": {
+                "pinpointAnalytics": {
+                    "appId": "AppID",
+                    "region": "Region"
+                },
+                "autoFlushEventsInterval": 60
+            }
+        }
     }
-  }
 }
 ```
 
 > **Note**
 >
-> Setting `autoFlushEventsInterval` to 0 will disable the automatic flush of events and you will be responsible for submitting them.
+> Setting `autoFlushEventsInterval` to 0 will **disable** the automatic flush of events and you will be responsible for submitting them.
 
 
 To manually submit the recoded events to the backend, call:
