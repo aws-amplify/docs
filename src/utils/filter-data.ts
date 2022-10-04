@@ -57,7 +57,7 @@ export const filterMetadataByOption: FilterMetadataByOption<typeof FILTER_OPTION
     graphicURI: "/assets/integrations/android.svg",
   },
   ios: {
-    label: "iOS",
+    label: "Swift",
     graphicURI: "/assets/integrations/ios.svg",
   },
   flutter: {
