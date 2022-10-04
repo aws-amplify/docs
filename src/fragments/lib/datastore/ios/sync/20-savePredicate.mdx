@@ -1,15 +1,15 @@
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-Amplify.DataStore.save(post, where: Post.keys.title.beginsWith("[Amplify]")) {
-    switch $0 {
-    case .success:
-        print("Post updated successfully!")
-    case .failure(let error)
-        print("Could not update post, maybe the title has been changed?")
-    }
+do {
+    try await Amplify.DataStore.save(post, where: Post.keys.title.beginsWith("[Amplify]"))
+    print("Post updated successfully!")
+} catch let error as DataStoreError {
+    print("Could not update post, maybe the title has been changed?")
+} catch {
+    print("Unexpected error \(error)")
 }
 ```
 
@@ -18,15 +18,16 @@ Amplify.DataStore.save(post, where: Post.keys.title.beginsWith("[Amplify]")) {
 <Block name="Combine">
 
 ```swift
-let sink = Amplify.DataStore.save(post, where: Post.keys.title.beginsWith("[Amplify]"))
-    .sink {
-        if case let .failure(error) = $0 {
-            print("Could not update post, maybe the title has been changed?")
-        }
+let sink = Amplify.Publisher.create {
+    try await Amplify.DataStore.save(post, where: Post.keys.title.beginsWith("[Amplify]"))
+}.sink {
+    if case let .failure(error) = $0 {
+        print("Could not update post, maybe the title has been changed?")
     }
-    receiveValue: { _ in
-        print("Post updated successfully!")
-    }
+}
+receiveValue: { _ in 
+    print("Post updated successfully!")
+}
 ```
 
 </Block>

@@ -2,24 +2,26 @@ Models with one-to-many connections are lazy-loaded when accessing the connected
 
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-Amplify.DataStore.query(Post.self, byId: "123") {
-    switch $0 {
-    case .success(let post):
-        if let postWithComments = post {
-            if let comments = postWithComments.comments {
-                for comment in comments {
-                    print(comment.content)
-                }
-            }
-        } else {
-            print("Post not found")
-        }
-    case .failure(let error):
-        print("Post not found - \(error.localizedDescription)")
+do {
+    let savedPost = try await Amplify.DataStore.save(postWithComments)
+    print("Post with Comment saved! \(savedPost)")
+    guard let comments = savedPost.comments else {
+        return
     }
+    // call fetch to lazy load the postResult before accessing its result
+    try await comments.fetch()
+    for comment in comments {
+        print(comment.content)
+    }
+} catch let error as DataStoreError {
+    print("Failed to save \(error)")
+} catch let coreError as CoreError {
+    print("Failed to fetch \(error)")
+} catch {
+    print("Unexpected error \(error)")
 }
 ```
 
@@ -28,7 +30,7 @@ Amplify.DataStore.query(Post.self, byId: "123") {
 <Block name="Combine">
 
 ```swift
-let sink = Amplify.DataStore.query(Post.self, byId: "123")
+let sink = Amplify.Publisher.create(try await Amplify.DataStore.query(Post.self, byId: "123"))
     .compactMap { $0?.comments }
     .flatMap { $0.loadAsPublisher() }
     .sink {
@@ -37,9 +39,19 @@ let sink = Amplify.DataStore.query(Post.self, byId: "123")
         }
     }
     receiveValue: {
-        for comment in $0 {
-            print(comment.content)
+        Task {
+            do {
+                try await $0.fetch()
+                for comment in $0 {
+                    print(comment.content)
+                }
+            } catch let error as CoreError {
+                print("Failed with fetch \(error)")
+            } catch {
+                print("Unexpected error \(error)")
+            }
         }
+        
     }
 ```
 

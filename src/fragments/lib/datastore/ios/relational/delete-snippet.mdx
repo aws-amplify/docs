@@ -1,23 +1,17 @@
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-Amplify.DataStore.query(Post.self, byId: "123") {
-    switch $0 {
-    case .success(let postWithComments):
-        // postWithComments might be nil, unwrap the optional appropriately
-        Amplify.DataStore.delete(postWithComments!) { deleteResult in
-            switch deleteResult {
-            case .success:
-                print("Post with id 123 deleted with success")
-            case .failure(let error):
-                print("Error deleting post and comments - \(error.localizedDescription)")
-            }
-        }
-    case .failure(let error):
-        print("Error fetching post with id 123 - \(error.localizedDescription)")
-    }
+do {
+    let postWithComments = try await Amplify.DataStore.query(Post.self, byId: "123")
+    // postWithComments might be nil, unwrap the optional appropriately
+    try await Amplify.DataStore.delete(postWithComments!)
+    print("Post with id 123 deleted with success")
+} catch let error as DataStoreError {
+    print("Failed with error \(error)")
+} catch {
+    print("Unexpected error \(error)")
 }
 ```
 
@@ -26,20 +20,17 @@ Amplify.DataStore.query(Post.self, byId: "123") {
 <Block name="Combine">
 
 ```swift
-let sink = Amplify.DataStore.query(Post.self, byId: "123")
-    // postWithComments might be nil, unwrap the optional appropriately
-    .compactMap { $0 }
-    .flatMap { postWithComments in
-        Amplify.DataStore.delete(postWithComments)
+let sink = Amplify.Publisher.create {
+    let postWithComments = try await Amplify.DataStore.query(Post.self, byId: "123")
+    //Value of optional type 'Post?' must be unwrapped to a value of type 'Post'
+    try await Amplify.DataStore.delete(postWithComments!)
+}.sink {
+    if case let .failure(error) = $0 {
+        print("Error deleting post and comments - \(error)")
     }
-    .sink {
-        if case let .failure(error) = $0 {
-            print("Error deleting post and comments - \(error.localizedDescription)")
-        }
-    }
-    receiveValue: {
-        print("Post with id 123 deleted with success")
-    }
+} receiveValue: {
+    print("Post with id 123 deleted with success")
+}
 ```
 
 </Block>
