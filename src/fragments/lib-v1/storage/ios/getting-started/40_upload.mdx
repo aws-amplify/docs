@@ -5,7 +5,7 @@
 ```swift
 func uploadData() {
     let dataString = "Example file contents"
-    let data = dataString.data(using: .utf8)!
+    let data = Data(dataString.utf8)
     Amplify.Storage.uploadData(key: "ExampleKey", data: data, 
         progressListener: { progress in
             print("Progress: \(progress)")
@@ -33,7 +33,7 @@ var progressSink: AnyCancellable?
 
 func uploadData() {
     let dataString = "Example file contents"
-    let data = dataString.data(using: .utf8)!
+    let data = Data(dataString.utf8)
     let storageOperation = Amplify.Storage.uploadData(key: "ExampleKey", data: data)
     progressSink = storageOperation
         .progressPublisher
