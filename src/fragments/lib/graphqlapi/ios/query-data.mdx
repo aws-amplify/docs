@@ -9,7 +9,10 @@ Now that you were able to make a mutation, take the `Id` that was printed out an
 ```swift
 func getTodo() async {
     do {
-        let result = try await Amplify.API.query(request: .get(Todo.self, byId: "9FCF5DD5-1D65-4A82-BE76-42CB438607A0"))
+        let result = try await Amplify.API.query(
+           request: .get(Todo.self, byId: "9FCF5DD5-1D65-4A82-BE76-42CB438607A0")
+        )
+
         switch result {
         case .success(let todo):
             guard let todo = todo else {
@@ -20,7 +23,7 @@ func getTodo() async {
         case .failure(let error):
             print("Got failed result with \(error.errorDescription)")
         }
-    }  catch let error as APIError {
+    } catch let error as APIError {
         print("Failed to query todo: ", error)
     } catch {
         print("Unexpected error: \(error)")
@@ -35,7 +38,9 @@ func getTodo() async {
 ```swift
 func getTodo() -> AnyCancellable {
     let sink = Amplify.Publisher.create {
-        try await Amplify.API.query(request: .get(Todo.self, byId: "9FCF5DD5-1D65-4A82-BE76-42CB438607A0"))
+        try await Amplify.API.query(
+            request: .get(Todo.self, byId: "9FCF5DD5-1D65-4A82-BE76-42CB438607A0")
+        )
     }
     .sink {
         if case let .failure(error) = $0 {
@@ -85,7 +90,7 @@ func listTodos() async {
             print("Got failed result with \(error.errorDescription)")
         }
     } catch let error as APIError {
-            print("Failed to query list of todos: ", error)
+        print("Failed to query list of todos: ", error)
     } catch {
         print("Unexpected error: \(error)")
     }
@@ -132,7 +137,7 @@ For large data sets, you'll need to paginate through the results. After receivin
 ```swift
 var todos: [Todo] = []
 var currentPage: List<Todo>?
-    
+
 func listFirstPage() async {
     let todo = Todo.keys
     let predicate = todo.name == "my first todo" && todo.description == "todo description"
@@ -169,9 +174,9 @@ func listNextPage() async {
 
 ## List all pages
 
-If you want to get all pages, retrieve the subsequent page when you have successfully retrieved the first or next page. 
+If you want to get all pages, retrieve the subsequent page when you have successfully retrieved the first or next page.
 
-1. Update the above method `listFirstPage()` to `listAllPages()` 
+1. Update the above method `listFirstPage()` to `listAllPages()`
 2. Call `listNextPageRecursively()` in the success block of the query in `listAllPages()`
 2. Update the `listNextPage()` to `listNextPageRecursively()`
 3. Call `listNextPageRecursively()` in the success block of the query in `listNextPageRecursively()`
@@ -197,8 +202,8 @@ func listAllPages() async { // 1. Updated from `listFirstPage()`
         case .failure(let error):
             print("Got failed result with \(error.errorDescription)")
         }
-    } catch let error as APIError  {
-            print("Failed to query list of todos: ", error)
+    } catch let error as APIError {
+        print("Failed to query list of todos: ", error)
     } catch {
         print("Unexpected error: \(error)")
     }

@@ -15,7 +15,7 @@ func putTodo() async {
         let str = String(decoding: data, as: UTF8.self)
         print("Success: \(str)")
     } catch let error as APIError {
-            print("Failed due to API error: ", error)
+        print("Failed due to API error: ", error)
     } catch {
         print("Unexpected error: \(error)")
     }

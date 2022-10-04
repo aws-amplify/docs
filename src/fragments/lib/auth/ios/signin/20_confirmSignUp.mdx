@@ -5,7 +5,10 @@
 ```swift
 func confirmSignUp(for username: String, with confirmationCode: String) async {
     do {
-        try await Amplify.Auth.confirmSignUp(for: username, confirmationCode: confirmationCode)
+        try await Amplify.Auth.confirmSignUp(
+            for: username,
+            confirmationCode: confirmationCode
+        )
         print("Confirm signUp succeeded")
     } catch let error as AuthError {
         print("An error occurred while confirming sign up \(error)")
@@ -22,15 +25,18 @@ func confirmSignUp(for username: String, with confirmationCode: String) async {
 ```swift
 func confirmSignUp(for username: String, with confirmationCode: String) -> AnyCancellable {
     Amplify.Publisher.create {
-        try await Amplify.Auth.confirmSignUp(for: username, confirmationCode: confirmationCode)
+        try await Amplify.Auth.confirmSignUp(
+            for: username,
+            confirmationCode: confirmationCode
+        )
     }.sink {
-            if case let .failure(authError) = $0 {
-                print("An error occurred while confirming sign up \(authError)")
-            }
+        if case let .failure(authError) = $0 {
+            print("An error occurred while confirming sign up \(authError)")
         }
-        receiveValue: { _ in
-            print("Confirm signUp succeeded")
-        }
+    }
+    receiveValue: { _ in
+        print("Confirm signUp succeeded")
+    }
 }
 ```
 

@@ -4,9 +4,13 @@ var postsSubscription: AnyCancellable?
 
 func subscribeToPosts() {
     let post = Post.keys
-    self.postsSubscription = Amplify.Publisher.create(Amplify.DataStore.observeQuery(for: Post.self,
-                                where: post.title.beginsWith("post") && post.rating > 10.0,
-                                sort: .ascending(post.rating)))
+    self.postsSubscription = Amplify.Publisher.create(
+        Amplify.DataStore.observeQuery(
+            for: Post.self,
+            where: post.title.beginsWith("post") && post.rating > 10.0,
+            sort: .ascending(post.rating)
+        )
+    )
     .sink {
         if case .failure(let error) = $0 {
             print("Error \(error)")

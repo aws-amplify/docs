@@ -33,15 +33,18 @@ import AmplifyPlugins
 Create a custom `AppDelegate`, and add to your `application:didFinishLaunchingWithOptions` method
 ```swift
 class AppDelegate: NSObject, UIApplicationDelegate {
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
 
         do {
-        try Amplify.add(plugin: AWSAPIPlugin(modelRegistration: AmplifyModels()))
-        try Amplify.configure()
-        print("Amplify configured with API plugin")
-    } catch {
-        print("Failed to initialize Amplify with \(error)")
-    }
+            try Amplify.add(plugin: AWSAPIPlugin(modelRegistration: AmplifyModels()))
+            try Amplify.configure()
+            print("Amplify configured with API plugin")
+        } catch {
+            print("Failed to initialize Amplify with \(error)")
+        }
 
         return true
     }
@@ -69,7 +72,10 @@ struct MyAmplifyApp: App {
 Add to your AppDelegate's `application:didFinishLaunchingWithOptions` method
 
 ```swift
-func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+func application(
+    _ application: UIApplication,
+    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+) -> Bool {
 
     do {
         try Amplify.add(plugin: AWSAPIPlugin(modelRegistration: AmplifyModels()))

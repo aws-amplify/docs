@@ -141,10 +141,11 @@ Use the following steps to connect push notification backend services to your ap
 1. To handle push notifications, add [`application(_:didReceiveRemoteNotification:fetchCompletionHandler:)`](https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623013-application).
 
     ```swift
-    func application(_ application: UIApplication,
-                    didReceiveRemoteNotification userInfo: [AnyHashable: Any],
-                    fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult)
-                        -> Void) {
+    func application(
+        _ application: UIApplication,
+        didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+        fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
+    ) {
         // if the app is in the foreground, create an alert modal with the contents
         if application.applicationState == .active {
             let alert = UIAlertController(title: "Notification Received",

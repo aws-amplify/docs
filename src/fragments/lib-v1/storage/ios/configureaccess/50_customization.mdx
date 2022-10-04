@@ -1,6 +1,6 @@
 ## Customization
 
-### Customize Object Key Path 
+### Customize Object Key Path
 
 You can customize your key path by defining a prefix resolver:
 
@@ -12,9 +12,11 @@ import AmplifyPlugins
 struct MyDeveloperDefinedPrefixResolver: AWSS3PluginPrefixResolver {
 
     // This function is called on every Storage API to modify the prefix of the request.
-    func resolvePrefix(for accessLevel: StorageAccessLevel,
-                       targetIdentityId: String?,
-                       completion: @escaping (Result<String, StorageError>) -> Void) {
+    func resolvePrefix(
+        for accessLevel: StorageAccessLevel,
+        targetIdentityId: String?,
+        completion: @escaping (Result<String, StorageError>) -> Void
+    ) {
         // Use "myPublicPrefix" for guest access levels
         if accessLevel == .guest {
             completion(.success("myPublicPrefix/"))
@@ -105,15 +107,17 @@ If you want to have custom *private* path prefix like *myPrivatePrefix/*, you ne
     }
 ]
 ```
-This ensures only the authenticated users has the access to the objects under the path. 
+This ensures only the authenticated users has the access to the objects under the path.
 
 #### Passthrough PrefixResolver
 
 If you would like no prefix resolution logic, such as performing S3 requests at the root of the bucket, create a prefix resolver that returns an empty string:
 
 ```swift
-public func resolvePrefix(for accessLevel: StorageAccessLevel,
-                            targetIdentityId: String?) -> Result<String, StorageError> {
+public func resolvePrefix(
+    for accessLevel: StorageAccessLevel,
+    targetIdentityId: String?
+) -> Result<String, StorageError> {
     return .success("")
 }
 ```
@@ -124,15 +128,17 @@ You can also perform validation based on the access controls you have defined. F
 
 <Callout>
 
-This will only stop your app from making a call with an unauthenticated user. You must also set up your IAM policies to protect your resources. See [CLI Storage](/cli/storage/import) for more details. 
+This will only stop your app from making a call with an unauthenticated user. You must also set up your IAM policies to protect your resources. See [CLI Storage](/cli/storage/import) for more details.
 
 </Callout>
 
 ```swift
 struct MyDeveloperDefinedPrefixResolver: AWSS3PluginPrefixResolver {
-    public func resolvePrefix(for accessLevel: StorageAccessLevel,
-                              targetIdentityId: String?,
-                              completion: @escaping (Result<String, StorageError>) -> Void) {
+    public func resolvePrefix(
+        for accessLevel: StorageAccessLevel,
+        targetIdentityId: String?,
+        completion: @escaping (Result<String, StorageError>) -> Void
+    ) {
         guard Amplify.Auth.getCurrentUser() != nil else {
             completion(.failure(.authError("User is not signed in", "", nil)))
             return

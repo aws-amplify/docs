@@ -5,7 +5,10 @@ import Amplify
 
 **Update the following function** to verify that Amplify can be compiled into your project:
 ```swift
-func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+func application(
+    _ application: UIApplication,
+    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+) -> Bool {
     do {
         try Amplify.configure()
     } catch {
@@ -18,7 +21,10 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 
 ```swift
 class AppDelegate: NSObject, UIApplicationDelegate {
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
+    ) -> Bool {
         do {
             try Amplify.configure()
         } catch {
