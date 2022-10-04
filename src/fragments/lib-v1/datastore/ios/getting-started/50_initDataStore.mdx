@@ -24,35 +24,11 @@ import AmplifyPlugins
 
 </BlockSwitcher>
 
-**Add the following code** 
+**Add the following code**
 
 <BlockSwitcher>
 
-<Block name="UIKit AppDelegate">
-
-Add to your AppDelegate's `application:didFinishLaunchingWithOptions` method
-
-```swift
-func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-
-    do {
-        // AmplifyModels is generated in the previous step
-        let dataStorePlugin = AWSDataStorePlugin(modelRegistration: AmplifyModels())
-        try Amplify.add(plugin: dataStorePlugin)
-        try Amplify.configure()
-        print("Amplify configured with DataStore plugin")
-    } catch {
-        print("Failed to initialize Amplify with \(error)")
-        return false
-    }
-
-    return true
-}
-```
-
-</Block>
-
-<Block name="SwiftUI App">
+<Block name="SwiftUI">
 
 Create a custom `AppDelegate`, and add to your `application:didFinishLaunchingWithOptions` method
 ```swift
@@ -86,6 +62,30 @@ struct MyAmplifyApp: App {
             ContentView()
         }
     }
+}
+```
+
+</Block>
+
+<Block name="UIKit">
+
+Add to your AppDelegate's `application:didFinishLaunchingWithOptions` method
+
+```swift
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+
+    do {
+        // AmplifyModels is generated in the previous step
+        let dataStorePlugin = AWSDataStorePlugin(modelRegistration: AmplifyModels())
+        try Amplify.add(plugin: dataStorePlugin)
+        try Amplify.configure()
+        print("Amplify configured with DataStore plugin")
+    } catch {
+        print("Failed to initialize Amplify with \(error)")
+        return false
+    }
+
+    return true
 }
 ```
 
