@@ -1,13 +1,5 @@
 To record an event, create a `BasicAnalyticsEvent` and then call `Amplify.Analytics.record(event:)`
 
-```swift
-let properties: AnalyticsProperties = [
-    "eventPropertyStringKey": "eventPropertyStringValue",
-    "eventPropertyIntKey": 123,
-    "eventPropertyDoubleKey": 12.34,
-    "eventPropertyBoolKey": true
-]
-let event = BasicAnalyticsEvent(name: "eventName", properties: properties)
+import ios0 from "/src/fragments/lib/analytics/ios/record-event-code.mdx";
 
-Amplify.Analytics.record(event: event)
-```
+<Fragments fragments={{ios: ios0}} />
