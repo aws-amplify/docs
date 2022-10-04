@@ -1,11 +1,10 @@
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-Amplify.DataStore.query(Post.self, paginate: .page(0, limit: 100)) {
-    // handle result
-}
+let posts = try await Amplify.DataStore.query(Post.self, paginate: .page(0, limit: 100))
+
 ```
 
 </Block>
@@ -13,9 +12,12 @@ Amplify.DataStore.query(Post.self, paginate: .page(0, limit: 100)) {
 <Block name="Combine">
 
 ```swift
-let sink = Amplify.DataStore.query(Post.self, paginate: .page(0, limit: 100)).sink {
+let sink = Amplify.Publisher.create {
+    try await Amplify.DataStore.query(Post.self, paginate: .page(0, limit: 100))
+}.sink {
     // handle result
 }
+
 ```
 
 </Block>
