@@ -13,7 +13,7 @@ func getTodo() async {
         let data = try await Amplify.API.get(request: request)
         let str = String(decoding: data, as: UTF8.self)
         print("Success: \(str)")
-    } catch(let error as APIError) {
+    } catch let error as APIError {
             print("Failed due to API error: ", error)
     } catch {
         print("Unexpected error: \(error)")
@@ -110,7 +110,7 @@ func getTodo() async {
         let data = try await Amplify.API.get(request: request)
         let str = String(decoding: data, as: UTF8.self)
         print("Success: \(str)")
-    } catch(let error as APIError) {
+    } catch let error as APIError {
             print("Failed due to API error: ", error)
     } catch {
         print("Unexpected error: \(error)")
