@@ -6,7 +6,7 @@ To upload to S3 from a data object, specify the `key` and the `data` object to b
 
 ```swift
 let dataString = "My Data"
-let data = dataString.data(using: .utf8)!
+let data = Data(dataString.utf8)
 let uploadTask = try await Amplify.Storage.uploadData(key: "ExampleKey",
                                                       data: data)
 Task {
@@ -24,7 +24,7 @@ print("Completed: \(data)")
 
 ```swift
 let dataString = "My Data"
-let data = dataString.data(using: .utf8)!
+let data = Data(dataString.utf8)
 let uploadTask = try await Amplify.Storage.uploadData(key: "ExampleKey",
                                                       data: data)
 let progressSink = uploadTask
