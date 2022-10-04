@@ -20,7 +20,7 @@ func getTodo() async {
         case .failure(let error):
             print("Got failed result with \(error.errorDescription)")
         }
-    }  catch(let error as APIError) {
+    }  catch let error as APIError {
         print("Failed to query todo: ", error)
     } catch {
         print("Unexpected error: \(error)")
@@ -84,7 +84,7 @@ func listTodos() async {
         case .failure(let error):
             print("Got failed result with \(error.errorDescription)")
         }
-    } catch(let error as APIError) {
+    } catch let error as APIError {
             print("Failed to query list of todos: ", error)
     } catch {
         print("Unexpected error: \(error)")
@@ -147,7 +147,7 @@ func listFirstPage() async {
         case .failure(let error):
             print("Got failed result with \(error.errorDescription)")
         }
-    } catch(let error as APIError) {
+    } catch let error as APIError {
         print("Failed to query list of todos: ", error)
     } catch {
         print("Unexpected error: \(error)")
@@ -160,7 +160,7 @@ func listNextPage() async {
             let todos = try await current.getNextPage()
             self.todos.append(contentsOf: todos)
             self.currentPage = todos
-        } catch (let error) {
+        } catch {
             print("Failed to get next page \(error)")
         }
     }
@@ -197,7 +197,7 @@ func listAllPages() async { // 1. Updated from `listFirstPage()`
         case .failure(let error):
             print("Got failed result with \(error.errorDescription)")
         }
-    } catch(let error as APIError) {
+    } catch let error as APIError  {
             print("Failed to query list of todos: ", error)
     } catch {
         print("Unexpected error: \(error)")
@@ -211,7 +211,7 @@ func listNextPageRecursively() async { // 3. Updated from `listNextPage()`
             self.todos.append(contentsOf: todos)
             self.currentPage = todos
             await self.listNextPageRecursively() // 4. Added
-        } catch(let error) {
+        } catch {
             print("Failed to get next page \(error)")
         }
     }

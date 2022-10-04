@@ -14,7 +14,7 @@ func createTodo() async {
         case .failure(let graphQLError):
             print("Failed to create graphql \(graphQLError)")
         }
-    } catch(let error as APIError) {
+    } catch let error as APIError {
         print("Failed to create a todo: ", error)
     } catch {
         print("Unexpected error: \(error)")
