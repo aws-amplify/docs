@@ -32,15 +32,15 @@ func signIn(username: String, password: String) -> AnyCancellable {
             password: password
             )
     }.sink {
-            if case let .failure(authError) = $0 {
-                print("Sign in failed \(authError)")
-            }
+        if case let .failure(authError) = $0 {
+            print("Sign in failed \(authError)")
         }
-        receiveValue: { signInResult in
-            if signInResult.isSignedIn {
-                print("Sign in succeeded")
-            }
+    }
+    receiveValue: { signInResult in
+        if signInResult.isSignedIn {
+            print("Sign in succeeded")
         }
+    }
 }
 ```
 

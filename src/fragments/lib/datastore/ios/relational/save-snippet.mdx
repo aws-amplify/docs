@@ -3,12 +3,21 @@
 <Block name="Async/Await">
 
 ```swift
-let postWithComments = Post(id: "123", title: "My post with comments", 
-                            content: "Amplify is Awesome!", 
-                            createdAt: .now(),rating: 5, status: .published)
-        
-let comment = Comment(content: "Loving Amplify DataStore", createdAt: .now(), 
-                      post: postWithComments)
+let postWithComments = Post(
+    id: "123",
+    title: "My post with comments",
+    content: "Amplify is Awesome!",
+    createdAt: .now(),
+    rating: 5,
+    status: .published
+)
+
+let comment = Comment(
+  content: "Loving Amplify DataStore",
+  createdAt: .now(),
+  post: postWithComments
+)
+
 do {
     let postResult = try await Amplify.DataStore.save(postWithComments)
     print("Post with Comment saved! \(postResult)")
@@ -24,9 +33,13 @@ do {
 <Block name="Combine">
 
 ```swift
-let postWithComments = Post(title: "My post with comments",
-                            content: "Amplify is Awesome!",
-                            createdAt: .now(),rating: 5, status:.published)
+let postWithComments = Post(
+    title: "My post with comments",
+    content: "Amplify is Awesome!",
+    createdAt: .now(),
+    rating: 5,
+    status:.published
+)
 
 let comment = Comment(content: "Loving Amplify DataStore", post: postWithComments)
 

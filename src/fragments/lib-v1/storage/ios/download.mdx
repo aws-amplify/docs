@@ -10,7 +10,7 @@ You can download to in-memory buffer [Data](https://developer.apple.com/document
 
 ```swift
 let storageOperation = Amplify.Storage.downloadData(
-    key: "myKey", 
+    key: "myKey",
     progressListener: { progress in
         print("Progress: \(progress)")
     }, resultListener: { (event) in
@@ -29,7 +29,9 @@ let storageOperation = Amplify.Storage.downloadData(
 
 ```swift
 let storageOperation = Amplify.Storage.downloadData(key: "myKey")
-let progressSink = storageOperation.progressPublisher.sink { progress in print("Progress: \(progress)") }
+let progressSink = storageOperation.progressPublisher.sink { progress in
+    print("Progress: \(progress)")
+}
 let resultSink = storageOperation.resultPublisher.sink {
     if case let .failure(storageError) = $0 {
         print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
@@ -53,9 +55,10 @@ You can download to a file [URL](https://developer.apple.com/documentation/found
 <Block name="Listener (iOS 11+)">
 
 ```swift
-let downloadToFileName = FileManager.default.urls(for: .documentDirectory,
-                                                  in: .userDomainMask)[0]
-    .appendingPathComponent("myFile.txt")
+let downloadToFileName = FileManager.default.urls(
+    for: .documentDirectory,
+    in: .userDomainMask
+)[0].appendingPathComponent("myFile.txt")
 
 let storageOperation = Amplify.Storage.downloadFile(
     key: "myKey",
@@ -77,11 +80,20 @@ let storageOperation = Amplify.Storage.downloadFile(
 <Block name="Combine (iOS 13+)">
 
 ```swift
-let downloadToFileName = FileManager.default.urls(for: .documentDirectory,
-                                                  in: .userDomainMask)[0]
-    .appendingPathComponent("myFile.txt")
-let storageOperation = Amplify.Storage.downloadFile(key: "myKey", local: downloadToFileName)
-let progressSink = storageOperation.progressPublisher.sink { progress in print("Progress: \(progress)") }
+let downloadToFileName = FileManager.default.urls(
+    for: .documentDirectory,
+    in: .userDomainMask
+)[0].appendingPathComponent("myFile.txt")
+
+let storageOperation = Amplify.Storage.downloadFile(
+    key: "myKey",
+    local: downloadToFileName
+)
+
+let progressSink = storageOperation.progressPublisher.sink { progress in
+    print("Progress: \(progress)")
+}
+
 let resultSink = storageOperation.resultPublisher.sink {
     if case let .failure(storageError) = $0 {
         print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")

@@ -7,7 +7,12 @@ func signUp(username: String, email: String) async {
     let userAttributes = [AuthUserAttribute(.email, value: email)]
     let options = AuthSignUpRequest.Options(userAttributes: userAttributes)
     do {
-        let signUpResult = try await Amplify.Auth.signUp(username: username, password: UUID().uuidString, options: options)
+        let signUpResult = try await Amplify.Auth.signUp(
+            username: username,
+            password: UUID().uuidString,
+            options: options
+        )
+
         if case let .confirmUser(deliveryDetails, _, userId) = signUpResult.nextStep {
             print("Delivery details \(String(describing: deliveryDetails) for userId: \(userId))")
         } else {
@@ -30,20 +35,24 @@ func signUp(username: String, password: String, email: String) -> AnyCancellable
     let userAttributes = [AuthUserAttribute(.email, value: email)]
     let options = AuthSignUpRequest.Options(userAttributes: userAttributes)
     let sink = Amplify.Publisher.create {
-        try await Amplify.Auth.signUp(username: username, password: UUID().uuidString, options: options)
-        }.sink {
-            if case let .failure(authError) = $0 {
-                print("An error occurred while registering a user \(authError)")
-            }
+        try await Amplify.Auth.signUp(
+            username: username,
+            password: UUID().uuidString,
+            options: options
+        )
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("An error occurred while registering a user \(authError)")
         }
-        receiveValue: { signUpResult in
-            if case let .confirmUser(deliveryDetails, _, userId) = signUpResult.nextStep {
-                print("Delivery details \(String(describing: deliveryDetails) for userId: \(userId))")
-            } else {
-                print("Signup Complete")
-            }
+    }
+    receiveValue: { signUpResult in
+        if case let .confirmUser(deliveryDetails, _, userId) = signUpResult.nextStep {
+            print("Delivery details \(String(describing: deliveryDetails) for userId: \(userId))")
+        } else {
+            print("Signup Complete")
+        }
 
-        }
+    }
     return sink
 }
 ```

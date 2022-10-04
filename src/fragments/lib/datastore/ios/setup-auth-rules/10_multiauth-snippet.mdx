@@ -5,12 +5,16 @@ Create a custom `AppDelegate`, and add to your `application:didFinishLaunchingWi
 
 ```swift
 class AppDelegate: NSObject, UIApplicationDelegate {
-  func application(_ application: UIApplication,
-                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+  func application(
+      _ application: UIApplication,
+      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+  ) -> Bool {
     do {
         let datastoreConfiguration = DataStoreConfiguration.custom(authModeStrategy: .multiAuth)
-        let dataStorePlugin = AWSDataStorePlugin(modelRegistration: AmplifyModels(),
-                                                 configuration: datastoreConfiguration)
+        let dataStorePlugin = AWSDataStorePlugin(
+            modelRegistration: AmplifyModels(),
+            configuration: datastoreConfiguration
+        )
         try Amplify.configure()
         print("Amplify configured with DataStore plugin")
     } catch {
@@ -43,13 +47,17 @@ struct MyAmplifyApp: App {
 Add to your AppDelegate's `application:didFinishLaunchingWithOptions` method
 
 ```swift
-func application(_ application: UIApplication,
-                 didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+func application(
+    _ application: UIApplication,
+    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+) -> Bool {
 
     do {
         let datastoreConfiguration = DataStoreConfiguration.custom(authModeStrategy: .multiAuth)
-        let dataStorePlugin = AWSDataStorePlugin(modelRegistration: AmplifyModels(),
-                                                 configuration: datastoreConfiguration)
+        let dataStorePlugin = AWSDataStorePlugin(
+            modelRegistration: AmplifyModels(),
+            configuration: datastoreConfiguration
+        )
         try Amplify.configure()
         print("Amplify configured with DataStore plugin")
     } catch {
