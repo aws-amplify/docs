@@ -9,7 +9,8 @@ try {
     console.log(error);
     // If the error is because the request was cancelled we can confirm here.
     if(API.isCancel(error)) {
-        console.log(error.message); // "my message for cancellation"
+        // "my message for cancellation"
+        console.log(error.message);
         // handle user cancellation logic
     }
 }

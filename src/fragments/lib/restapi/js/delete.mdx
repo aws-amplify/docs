@@ -25,7 +25,8 @@ async function deleteData() {
   const apiName = 'MyApiName';
   const path = '/path';
   const myInit = {
-    headers: {} // OPTIONAL
+    // OPTIONAL
+    headers: {}
   };
   return await API.del(apiName, path, myInit);
 }
