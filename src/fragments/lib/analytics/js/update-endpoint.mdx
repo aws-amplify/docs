@@ -3,7 +3,7 @@ An endpoint uniquely identifies your app within Pinpoint. In order to update you
 ```javascript
 import { Analytics } from 'aws-amplify';
 
-Analytics.updateEndpoint({
+await Analytics.updateEndpoint({
   address: 'xxxxxxx', // The unique identifier for the recipient. For example, an address could be a device token, email address, or mobile phone number.
   attributes: {
     // Custom attributes that your app reports to Amazon Pinpoint. You can use these attributes as selection criteria when you create a segment.
