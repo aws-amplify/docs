@@ -33,7 +33,7 @@ Amplify.addPluggable(
 );
 ```
 
-Find your `aws_pubsub_endpoint` by logging onto your **AWS Console**, choose **IoT Core** from the list of services, then choose _Settings_ from the left navigation pane.
+Find your `aws_pubsub_endpoint` by logging onto your **AWS Console**, choosing **IoT Core** from the list of services and then choosing _Settings_ from the left navigation pane.
 
 ### Step 1: Create IAM policies for AWS IoT
 
@@ -68,7 +68,7 @@ One way of doing this is to log to your **AWS Console**, select **CloudFormation
 Select the **Resources** tab and tap on `AuthRole` **Physical ID**.  
 The IAM console will be opened in a new tab. Once there, tap on the button **Attach Policies**, then search `AWSIoTDataAccess` and `AWSIoTConfigAccess`, select them and tap on **Attach policy**.
 
-If you are using Cognito Groups the IAM role associated with that group also need the `AWSIoTDataAccess` and `AWSIoTConfigAccess` policies attached to it.
+If you are using Cognito Groups, the IAM role associated with that group also need the `AWSIoTDataAccess` and `AWSIoTConfigAccess` policies attached to it.
 
 > Failing to grant IoT related permissions to the Cognito Authenticated Role will result in errors similar to the following in your browser console: `errorCode: 8, errorMessage: AMQJS0008I Socket closed.`
 
