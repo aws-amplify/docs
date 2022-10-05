@@ -152,7 +152,7 @@ Amplify.Storage.getUrl(
 ```kotlin
 Amplify.Storage.getUrl(
     "ExampleKey",
-    { Log.i("MyAmplifyApp", "Successfully generated: ${it.url}") }
+    { Log.i("MyAmplifyApp", "Successfully generated: ${it.url}") },
     { Log.e("MyAmplifyApp", "URL generation failure", it) }
 )
 ```
