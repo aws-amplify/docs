@@ -3,7 +3,7 @@
 <Block name="Async/Await">
 
 ```swift
-func confirmAttribute() {
+func confirmAttribute() async {
     do {
         try await Amplify.Auth.confirm(userAttribute: .email, confirmationCode: "390739")
         print("Attribute verified")
