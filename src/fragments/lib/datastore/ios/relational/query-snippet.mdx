@@ -6,9 +6,9 @@ Models with one-to-many connections are lazy-loaded when accessing the connected
 
 ```swift
 do {
-    let savedPost = try await Amplify.DataStore.save(postWithComments)
-    print("Post with Comment saved! \(savedPost)")
-    guard let comments = savedPost.comments else {
+    let queriedPost = try await Amplify.DataStore.query(Post.self, byId: "123")
+    print("Post with Comment saved! \(queriedPost)")
+    guard let comments = queriedPost.comments else {
         return
     }
     // call fetch to lazy load the postResult before accessing its result
@@ -62,8 +62,7 @@ let sink = Amplify.Publisher.create(try await Amplify.DataStore.query(Post.self,
 The connected properties are of type `List<M>`, where `M` is the model type, and that type is a custom [Swift Collection](https://developer.apple.com/documentation/swift/collection), which means that you can `filter`, `map`, etc:
 
 ```swift
-let excitedComments = postWithComments
-    .comments?
+let excitedComments = comments
     .compactMap { $0.content }
     .filter { $0.contains("Wow!") }
 ```

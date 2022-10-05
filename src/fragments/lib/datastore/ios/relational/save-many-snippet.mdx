@@ -6,7 +6,6 @@
 let post = Post(
     title: "My first post",
     content: "Amplify.DataStore is awesome!",
-    createdAt: .now(),
     status: .published
 )
 
@@ -19,7 +18,7 @@ do {
     print("Successfully saved editor!")
     let postEditor = PostEditor(post: post, editor: editor)
     try await Amplify.DataStore.save(postEditor)
-    print("Saved user, post and postEditor!")
+    print("Saved postEditor!")
 } catch let error as DataStoreError {
     print("Failed with error \(error)")
 } catch {

@@ -7,7 +7,6 @@ do {
     try await Amplify.DataStore.save(
         Post(title: "My first post", 
             content: "Amplify.DataStore is awesome!", 
-            createdAt: .now(),
             status: .draft)
     )
     print("Created a new post successfully")
@@ -27,7 +26,6 @@ let saveSink = Amplify.Publisher.create {
     try await Amplify.DataStore.save(
         Post(title: "My first post", 
             content: "Amplify.DataStore is awesome!", 
-            createdAt: .now(),
             status: .draft)
     )
 }.sink {

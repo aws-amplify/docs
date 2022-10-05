@@ -12,6 +12,8 @@ do {
         )
     )
     print("Posts: \(result)")
+} catch let error as DataStoreError {
+    print("Failed with error \(error)")
 } catch {
     print("Error listing posts - \(error)")
 }
