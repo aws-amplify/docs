@@ -241,47 +241,47 @@ const directory = {
           {
             title: 'Getting started',
             route: '/lib/auth/getting-started',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Create or re-use existing backend',
             route: '/lib/auth/start',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Sign up, Sign in & Sign out',
             route: '/lib/auth/emailpassword',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Social sign-in (OAuth)',
             route: '/lib/auth/social',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Multi-factor authentication',
             route: '/lib/auth/mfa',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Password & user management',
             route: '/lib/auth/manageusers',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Switching authentication flows',
             route: '/lib/auth/switch-auth',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Customize UI components',
             route: '/lib/auth/customui',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Advanced workflows',
             route: '/lib/auth/advanced',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Sign in',
@@ -321,7 +321,7 @@ const directory = {
           {
             title: 'Auth events',
             route: '/lib/auth/auth-events',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'User attributes',
@@ -331,7 +331,7 @@ const directory = {
           {
             title: 'Remember a device',
             route: '/lib/auth/device_features',
-            filters: ['android', 'ios', 'js', 'flutter']
+            filters: ['android', 'ios', 'js', 'flutter', 'react-native']
           },
           {
             title: 'Password management',
@@ -356,7 +356,7 @@ const directory = {
           {
             title: 'Delete user',
             route: '/lib/auth/delete_user',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Escape hatch',
@@ -366,7 +366,7 @@ const directory = {
           {
             title: 'Under the hood',
             route: '/lib/auth/overview',
-            filters: ['android', 'ios', 'js']
+            filters: ['android', 'ios', 'js', 'react-native']
           },
           {
             title: 'Use existing Amazon Cognito resources',
