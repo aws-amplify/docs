@@ -6,9 +6,10 @@ To invoke an endpoint, you need to set `apiName`, `path` and `headers` parameter
 const apiName = 'MyApiName';
 const path = '/path';
 const myInit = {
-
-  headers: {}, // OPTIONAL
-  response: true, // OPTIONAL (return the entire Axios response object instead of only response.data)
+  // OPTIONAL
+  headers: {}, 
+  // OPTIONAL (return the entire Axios response object instead of only response.data)
+  response: true, 
   queryStringParameters: {
     // OPTIONAL
     name: 'param'
@@ -31,7 +32,8 @@ function getData() {
   const apiName = 'MyApiName';
   const path = '/path';
   const myInit = {
-    headers: {} // OPTIONAL
+    // OPTIONAL
+    headers: {} 
   };
 
   return API.get(apiName, path, myInit);
@@ -62,7 +64,8 @@ const items = await API.get('myCloudApi', '/items', {
 const apiName = 'MyApiName'; // replace this with your api name.
 const path = '/path'; //replace this with the path you have configured on your API
 const myInit = {
-  headers: {} // OPTIONAL
+  // OPTIONAL
+  headers: {} 
 };
 
 API.head(apiName, path, myInit).then((response) => {
@@ -77,7 +80,8 @@ function head() {
   const apiName = 'MyApiName';
   const path = '/path';
   const myInit = {
-    headers: {} // OPTIONAL
+    // OPTIONAL
+    headers: {} 
   };
 
   return API.head(apiName, path, myInit);
