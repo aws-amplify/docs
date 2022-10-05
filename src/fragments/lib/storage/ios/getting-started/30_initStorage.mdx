@@ -5,17 +5,21 @@ To use the Amplify Storage and Authentication categories in your app, you need t
 
 <Block name="SwiftUI">
 
-Create a custom `AppDelegate` with the following imports and `application:didFinishLaunchingWithOptions` method:
+Add the following imports to the top of your `App` scene and configure Amplify in the `init`:
 ```swift
 import Amplify
 import AWSCognitoAuthPlugin
 import AWSS3StoragePlugin
 
-class AppDelegate: NSObject, UIApplicationDelegate {
-    func application(
-        _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-    ) -> Bool {
+@main
+struct MyAmplifyApp: App {
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
+
+    init() { 
         do {
             try Amplify.add(plugin: AWSCognitoAuthPlugin())
             try Amplify.add(plugin: AWSS3StoragePlugin())
@@ -23,22 +27,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             print("Amplify configured with Auth and Storage plugins")
         } catch {
             print("Failed to initialize Amplify with \(error)")
-        }
-
-        return true
-    }
-}
-```
-
-Then in your `App` scene, use `UIApplicationDelegateAdaptor` property wrapper to use your custom `AppDelegate`:
-```swift
-@main
-struct MyAmplifyApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
         }
     }
 }
