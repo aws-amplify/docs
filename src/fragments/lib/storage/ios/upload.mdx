@@ -1,3 +1,5 @@
+## Upload data
+
 To upload to S3 from a data object, specify the `key` and the `data` object to be uploaded.
 
 <BlockSwitcher>
@@ -16,8 +18,8 @@ Task {
         print("Progress: \(progress)")
     }
 }
-let data = try await uploadTask.value
-print("Completed: \(data)")
+let value = try await uploadTask.value
+print("Completed: \(value)")
 ```
 
 </Block>
@@ -53,6 +55,8 @@ let resultSink = uploadTask
 
 </BlockSwitcher>
 
+## Upload file
+
 When you have a file that you want to upload, you can specify the url to the file in the `local` parameter.
 
 <BlockSwitcher>
@@ -62,10 +66,11 @@ When you have a file that you want to upload, you can specify the url to the fil
 ```swift
 let dataString = "My Data"
 let fileNameKey = "myFile.txt"
-let filename = FileManager.default.urls(
+guard let filename = FileManager.default.urls(
     for: .documentDirectory,
     in: .userDomainMask
-)[0].appendingPathComponent(fileNameKey)
+).first?.appendingPathComponent(fileNameKey)
+else { return }
 
 try dataString.write(
     to: filename,
@@ -95,10 +100,11 @@ print("Completed: \(data)")
 ```swift
 let dataString = "My Data"
 let fileNameKey = "myFile.txt"
-let filename = FileManager.default.urls(
+guard let filename = FileManager.default.urls(
     for: .documentDirectory,
     in: .userDomainMask
-)[0].appendingPathComponent(fileNameKey)
+).first?.appendingPathComponent(fileNameKey)
+else { return }
 
 try dataString.write(
     to: filename,
