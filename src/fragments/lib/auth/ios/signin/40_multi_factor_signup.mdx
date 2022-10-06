@@ -15,7 +15,7 @@ func signUp(username: String, password: String, email: String, phonenumber: Stri
         )
 
         if case let .confirmUser(deliveryDetails, _, userId) = signUpResult.nextStep {
-            print("Delivery details \(String(describing: deliveryDetails) for userId: \(userId))")
+            print("Delivery details \(String(describing: deliveryDetails)) for userId: \(String(describing: userId)))")
         } else {
             print("SignUp Complete")
         }
@@ -51,7 +51,7 @@ func signUp(username: String, password: String, email: String, phonenumber: Stri
     }
     receiveValue: { signUpResult in
         if case let .confirmUser(deliveryDetails, _, userId) = signUpResult.nextStep {
-            print("Delivery details \(String(describing: deliveryDetails) for userId: \(userId))")
+            print("Delivery details \(String(describing: deliveryDetails)) for userId: \(String(describing: userId)))")
         } else {
             print("SignUp Complete")
         }
