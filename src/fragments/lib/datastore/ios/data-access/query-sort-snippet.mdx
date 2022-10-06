@@ -4,7 +4,9 @@
 
 ```swift
 do {
-    let result = try await Amplify.DataStore.query(Post.self, sort: .ascending(Post.keys.rating))
+    let result = try await Amplify.DataStore.query(
+        Post.self,
+        sort: .ascending(Post.keys.rating))
     print("Posts: \(result)")
 } catch let error as DataStoreError {
     print("Error listing posts - \(error)")
@@ -19,7 +21,9 @@ do {
 
 ```swift
 let sink = Amplify.Publisher.create {
-    try await Amplify.DataStore.query(Post.self, sort: .ascending(Post.keys.rating))
+    try await Amplify.DataStore.query(
+        Post.self, 
+        sort: .ascending(Post.keys.rating))
 }.sink {
     if case let .failure(error) = $0 {
         print("Error listing posts - \(error)")

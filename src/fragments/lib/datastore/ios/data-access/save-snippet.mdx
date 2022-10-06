@@ -5,9 +5,9 @@
 ```swift
 do {
     try await Amplify.DataStore.save(
-        Post(title: "My first post", 
-            content: "Amplify.DataStore is awesome!", 
-            status: .draft)
+        Post(title: "My first post",
+             status: .active,
+             content: "Amplify.DataStore is awesome!")
     )
     print("Created a new post successfully")
 } catch let error as DataStoreError {
@@ -24,18 +24,16 @@ do {
 ```swift
 let saveSink = Amplify.Publisher.create {
     try await Amplify.DataStore.save(
-        Post(title: "My first post", 
-            content: "Amplify.DataStore is awesome!", 
-            status: .draft)
-    )
-}.sink {
-    if case let .failure(error) = $0 {
-        print("Error creating post - \(error)")
+        Post(title: "My first post",
+             status: .active,
+             content: "Amplify.DataStore is awesome!")
+    )}.sink {
+        if case let .failure(error) = $0 {
+            print("Error updating post - \(error.localizedDescription)")
+        }
+    } receiveValue: {
+        print("Updated the existing post: \($0)")
     }
-}
-receiveValue: {
-    print("Created a new post successfully: \($0)")
-}
 ```
 
 </Block>

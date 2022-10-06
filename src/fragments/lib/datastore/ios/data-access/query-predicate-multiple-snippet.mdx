@@ -7,7 +7,7 @@ let p = Post.keys
 do {
     let result = try await Amplify.DataStore.query(
         Post.self,
-        where: p.rating > 4 && p.status == PostStatus.published
+        where: p.rating > 4 && p.status == PostStatus.active
     )
     // result of type [Post]
     print("Published posts with rating greater than 4: \(result)")
@@ -27,7 +27,7 @@ let p = Post.keys
 let sink = Amplify.Publisher.create {
     try await Amplify.DataStore.query(
         Post.self,
-        where: p.rating > 4 && p.status == PostStatus.published
+        where: p.rating > 4 && p.status == PostStatus.active
     )
 }.sink {
     if case let .failure(error) = $0 {
@@ -53,7 +53,7 @@ You can also write this in a compositional function manner by replacing the oper
 let p = Post.keys
 try await Amplify.DataStore.query(
     Post.self,
-    where: p.rating.gt(4).and(p.status.eq(PostStatus.published))
+    where: p.rating.gt(4).and(p.status.eq(PostStatus.active))
 )
 ```
 
@@ -66,7 +66,7 @@ let p = Post.keys
 let sink = Amplify.Publisher.create {
     try await Amplify.DataStore.query(
         Post.self,
-        where: p.rating > 4 && p.status == PostStatus.published
+        where: p.rating > 4 && p.status == PostStatus.active
     )
 }.sink {
     // handle result

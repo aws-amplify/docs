@@ -3,24 +3,20 @@
 <Block name="Async/Await">
 
 ```swift
-let postWithComments = Post(
-    id: "123",
+let post = Post(
     title: "My post with comments",
-    content: "Amplify is Awesome!",
-    createdAt: .now(),
     rating: 5,
-    status: .published
+    status: .active
 )
 
-let comment = Comment(
-  content: "Loving Amplify DataStore",
-  createdAt: .now(),
-  post: postWithComments
+let commentWithPost = Comment(
+    content: "Loving Amplify DataStore",
+    post: post
 )
 
 do {
-    let postResult = try await Amplify.DataStore.save(postWithComments)
-    print("Post with Comment saved! \(postResult)")
+    let savedPost = try await Amplify.DataStore.save(post)
+    let savedCommentWithPost = try await Amplify.DataStore.save(commentWithPost)
 } catch let error as DataStoreError {
     print("Failed with error \(error)")
 } catch {
@@ -33,25 +29,26 @@ do {
 <Block name="Combine">
 
 ```swift
-let postWithComments = Post(
+let post = Post(
     title: "My post with comments",
-    content: "Amplify is Awesome!",
-    createdAt: .now(),
     rating: 5,
-    status:.published
+    status: .active
 )
 
-let comment = Comment(content: "Loving Amplify DataStore", post: postWithComments)
+let commentWithPost = Comment(
+    content: "Loving Amplify DataStore",
+    post: post)
 
-let sink = Amplify.Publisher.create {
-    try await Amplify.DataStore.save(postWithComments)
-}.sink {
-    if case let .failure(error) = $0 {
-        print("Error adding post and comments - \(error)")
+let sink = Amplify.Publisher.create { try await Amplify.DataStore.save(post) }
+    .flatMap { Amplify.Publisher.create { try await Amplify.DataStore.save(commentWithPost) } }
+    .sink {
+        if case let .failure(error) = $0 {
+            print("Error adding post and comment - \(error.localizedDescription)")
+        }
     }
-} receiveValue: {
-    print("Post and comment saved!")
-}
+    receiveValue: {
+        print("Post and comment saved!")
+    }
 ```
 
 </Block>
