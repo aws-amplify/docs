@@ -14,7 +14,7 @@ do {
     // Get AWS credentials
     if let awsCredentialsProvider = session as? AuthAWSCredentialsProvider {
         let credentials = try awsCredentialsProvider.getAWSCredentials().get()
-        print("Access key - \(credentials.accessKey) ")
+        print("Access key - \(credentials.secretAccessKey) ")
     }
 
     // Get cognito user pool token
@@ -44,7 +44,7 @@ do {
     // Get AWS credentials
     if let awsCredentialsProvider = session as? AuthAWSCredentialsProvider {
         let credentials = try awsCredentialsProvider.getAWSCredentials().get()
-        print("Access key - \(credentials.accessKey) ")
+        print("Access key - \(credentials.secretAccessKey) ")
     }
 } catch let error as AuthError {
     print("Fetch auth session failed with error - \(error)")

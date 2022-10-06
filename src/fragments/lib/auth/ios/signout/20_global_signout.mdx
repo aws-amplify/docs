@@ -3,6 +3,8 @@
 <Block name="Async/Await">
 
 ```swift
+import AWSCognitoAuthPlugin
+
 func signOutGlobally() async {
     let result = await Amplify.Auth.signOut(options: .init(globalSignOut: true))
     guard let signOutResult = result as? AWSCognitoSignOutResult,
