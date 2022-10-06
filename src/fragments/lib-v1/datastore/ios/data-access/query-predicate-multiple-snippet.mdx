@@ -5,7 +5,7 @@
 ```swift
 let p = Post.keys
 Amplify.DataStore.query(Post.self,
-                        where: p.rating > 4 && p.status == PostStatus.published) {
+                        where: p.rating > 4 && p.status == PostStatus.active) {
     switch $0 {
     case .success(let result):
         // result of type [Post]
@@ -24,7 +24,7 @@ Amplify.DataStore.query(Post.self,
 let p = Post.keys
 let sink = Amplify.DataStore.query(
     Post.self,
-    where: p.rating > 4 && p.status == PostStatus.published
+    where: p.rating > 4 && p.status == PostStatus.active
 ).sink {
     if case let .failure(error) = $0 {
         print("Error listing posts - \(error.localizedDescription)")
@@ -48,7 +48,7 @@ You can also write this in a compositional function manner by replacing the oper
 ```swift
 let p = Post.keys
 Amplify.DataStore.query(Post.self,
-                        where: p.rating.gt(4).and(p.status.eq(PostStatus.published))) {
+                        where: p.rating.gt(4).and(p.status.eq(PostStatus.active))) {
     // handle the callback like in the previous example
 }
 ```
@@ -61,7 +61,7 @@ Amplify.DataStore.query(Post.self,
 let p = Post.keys
 let sink = Amplify.DataStore.query(
     Post.self,
-    where: p.rating > 4 && p.status == PostStatus.published
+    where: p.rating > 4 && p.status == PostStatus.active
 ).sink {
     // handle the callback like in the previous example
 }

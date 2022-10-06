@@ -5,7 +5,7 @@
 ```swift
 let p = Post.keys
 Amplify.DataStore.query(Post.self,
-                        where: { p.rating == nil || p.status == PostStatus.draft }) {
+                        where: { p.rating == nil || p.status == PostStatus.active }) {
     switch $0 {
     case .success(let result):
         // result of type [Post]
@@ -24,7 +24,7 @@ Amplify.DataStore.query(Post.self,
 let p = Post.keys
 let sink = Amplify.DataStore.query(
     Post.self,
-    where: { p.rating == nil || p.status == PostStatus.draft }
+    where: { p.rating == nil || p.status == PostStatus.active }
 ).sink {
     if case let .failure(error) = $0 {
         print("Error listing posts - \(error.localizedDescription)")

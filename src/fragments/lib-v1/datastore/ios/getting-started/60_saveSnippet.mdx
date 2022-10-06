@@ -3,7 +3,8 @@
 <Block name="Listener (iOS 11+)">
 
 ```swift
-let post = Post(title: "Create an Amplify DataStore app")
+let post = Post(title: "Create an Amplify DataStore app",
+                status: .active)
 
 Amplify.DataStore.save(post) { result in
     switch result {
@@ -20,6 +21,8 @@ Amplify.DataStore.save(post) { result in
 <Block name="Combine (iOS 13+)">
 
 ```swift
+let post = Post(title: "Create an Amplify DataStore app",
+                status: .active)
 let saveSink = Amplify.DataStore.save(post).sink {
     if case let .failure(error) = $0 {
         print("Error saving post \(error)")
