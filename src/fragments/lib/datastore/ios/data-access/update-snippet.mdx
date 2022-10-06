@@ -23,7 +23,7 @@ do {
 ```swift
 var existingPost: Post = /* get an existing post */
 existingPost.title = "[updated] My first post"
-
+let postForUpdate = existingPost
 let saveSink = Amplify.Publisher.create {
     try await Amplify.DataStore.save(existingPost)
 }.sink {

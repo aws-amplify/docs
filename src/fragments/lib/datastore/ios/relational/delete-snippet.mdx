@@ -23,9 +23,10 @@ do {
 
 ```swift
 let sink = Amplify.Publisher.create {
-    let postWithComments = try await Amplify.DataStore.query(Post.self, byId: "123")
-    //Value of optional type 'Post?' must be unwrapped to a value of type 'Post'
-    try await Amplify.DataStore.delete(postWithComments!)
+    guard let postWithComments = try await Amplify.DataStore.query(Post.self, byId: "123") else {
+        return
+    }
+    try await Amplify.DataStore.delete(postWithComments)
 }.sink {
     if case let .failure(error) = $0 {
         print("Error deleting post and comments - \(error)")

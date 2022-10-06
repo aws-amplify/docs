@@ -3,8 +3,9 @@
 <Block name="Async/Await">
 
 ```swift
-let posts = try await Amplify.DataStore.query(Post.self, paginate: .page(0, limit: 100))
-
+let posts = try await Amplify.DataStore.query(
+    Post.self,
+    paginate: .page(0, limit: 100))
 ```
 
 </Block>
@@ -13,11 +14,12 @@ let posts = try await Amplify.DataStore.query(Post.self, paginate: .page(0, limi
 
 ```swift
 let sink = Amplify.Publisher.create {
-    try await Amplify.DataStore.query(Post.self, paginate: .page(0, limit: 100))
+    try await Amplify.DataStore.query(
+        Post.self, 
+        paginate: .page(0, limit: 100))
 }.sink {
     // handle result
 }
-
 ```
 
 </Block>

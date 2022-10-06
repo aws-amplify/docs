@@ -6,19 +6,18 @@ Models with one-to-many connections are lazy-loaded when accessing the connected
 
 ```swift
 do {
-    let queriedPost = try await Amplify.DataStore.query(Post.self, byId: "123")
-    print("Post with Comment saved! \(queriedPost)")
-    guard let comments = queriedPost.comments else {
+    guard let queriedPost = try await Amplify.DataStore.query(Post.self, byId: "123"),
+            let comments = queriedPost.comments else {
         return
     }
     // call fetch to lazy load the postResult before accessing its result
     try await comments.fetch()
     for comment in comments {
-        print(comment.content)
+        print("\(comment)")
     }
 } catch let error as DataStoreError {
-    print("Failed to save \(error)")
-} catch let coreError as CoreError {
+    print("Failed to query \(error)")
+} catch let error as CoreError {
     print("Failed to fetch \(error)")
 } catch {
     print("Unexpected error \(error)")
@@ -30,29 +29,29 @@ do {
 <Block name="Combine">
 
 ```swift
-let sink = Amplify.Publisher.create(try await Amplify.DataStore.query(Post.self, byId: "123"))
-    .compactMap { $0?.comments }
-    .flatMap { $0.loadAsPublisher() }
-    .sink {
-        if case let .failure(error) = $0 {
-            print("Error retrieving post \(error.localizedDescription)")
-        }
+let sink = Amplify.Publisher.create { try await Amplify.DataStore.query(Post.self, byId: "123") }.sink {
+    if case let .failure(error) = $0 {
+        print("Error retrieving post \(error.localizedDescription)")
     }
-    receiveValue: {
-        Task {
-            do {
-                try await $0.fetch()
-                for comment in $0 {
-                    print(comment.content)
-                }
-            } catch let error as CoreError {
-                print("Failed with fetch \(error)")
-            } catch {
-                print("Unexpected error \(error)")
+} receiveValue: { queriedPost in
+    guard let queriedPost = queriedPost,
+            let comments = queriedPost.comments else {
+        return
+    }
+    // call fetch to lazy load the postResult before accessing its result
+    Task {
+        do {
+            try await comments.fetch()
+            for comment in comments {
+                print("\(comment)")
             }
+        } catch let error as CoreError {
+            print("Failed to fetch \(error)")
+        } catch {
+            print("Unexpected error \(error)")
         }
-        
     }
+}
 ```
 
 </Block>
