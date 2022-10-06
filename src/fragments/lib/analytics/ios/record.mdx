@@ -61,7 +61,7 @@ To unregister global properties, call `Amplify.Analytics.unregisterGlobalPropert
 Amplify.Analytics.unregisterGlobalProperties()
 
 // Or you can specify which properties to unregister
-let globalProperties = ["globalPropertyKey1", "globalPropertyKey2"]
+let globalProperties: Set<String> = ["globalPropertyKey1", "globalPropertyKey2"]
 Amplify.Analytics.unregisterGlobalProperties(globalProperties)
 ```
 
