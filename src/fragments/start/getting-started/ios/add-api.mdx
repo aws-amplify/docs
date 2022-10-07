@@ -103,7 +103,7 @@ func subscribeTodos() async {
   }
   ```
 
-1. **Build and run** the application. In the console output, you will see that we are making a websocket connection to receive updates any time there is a mutation to the Todo model.
+1. **Build and run** the application. In the console output if `.info` logging is enabled, you will see that we are making a websocket connection to receive updates any time there is a mutation to the Todo model.
 
 Since this is the first time you are connecting to API, DataStore will sync any mutations that were previously made offline. If you have been following the guide, there should be one mutation that is synchronized to the backend that has an id of "Build iOS Application".
 
