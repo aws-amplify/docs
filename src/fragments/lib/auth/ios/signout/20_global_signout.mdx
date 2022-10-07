@@ -7,13 +7,24 @@ import AWSCognitoAuthPlugin
 
 func signOutGlobally() async {
     let result = await Amplify.Auth.signOut(options: .init(globalSignOut: true))
-    guard let signOutResult = result as? AWSCognitoSignOutResult,
-          case .complete = signOutResult
-    else {
-        print("Sign out failed to complete")
-        return
+    if let signOutResult = result as? AWSCognitoSignOutResult {
+        print("Local signout successful: \(signOutResult.signedOutLocally)")
+        switch signOutResult {
+        case .complete:
+            print("SignOut completed")
+        case .failed(let error):
+            print("SignOut failed with \(error)")
+        case let .partial(revokeTokenError, globalSignOutError, hostedUIError):
+            print(
+            """
+            SignOut is partial.
+            RevokeTokenError: \(String(describing: revokeTokenError))
+            GlobalSignOutError: \(String(describing: globalSignOutError))
+            HostedUIError: \(String(describing: hostedUIError))
+            """
+            )
+        }
     }
-    print("Successfully signed out")
 }
 ```
 
@@ -25,15 +36,33 @@ func signOutGlobally() async {
 func signOutGlobally() -> AnyCancellable {
     Amplify.Publisher.create {
         await Amplify.Auth.signOut(options: .init(globalSignOut: true))
-    }.sink {
-        if case let .failure(authError) = $0 {
-            print("Sign out failed with error \(authError)")
+    }.sink(
+        receiveCompletion: {
+            if case let .failure(authError) = $0 {
+                print("Sign out failed with error \(authError)")
+            }
+        },
+        receiveValue: { result in
+            if let signOutResult = result as? AWSCognitoSignOutResult {
+                print("Local signout successful: \(signOutResult.signedOutLocally)")
+                switch signOutResult {
+                case .complete:
+                    print("SignOut completed")
+                case .failed(let error):
+                    print("SignOut failed with \(error)")
+                case let .partial(revokeTokenError, globalSignOutError, hostedUIError):
+                    print(
+                    """
+                    SignOut is partial.
+                    RevokeTokenError: \(String(describing: revokeTokenError))
+                    GlobalSignOutError: \(String(describing: globalSignOutError))
+                    HostedUIError: \(String(describing: hostedUIError))
+                    """
+                    )
+                }
+            }
         }
-    }
-    receiveValue: {
-        print("Successfully signed out")
-    }
-    return sink
+    )
 }
 ```
 
