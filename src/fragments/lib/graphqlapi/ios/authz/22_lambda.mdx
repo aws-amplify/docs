@@ -6,7 +6,7 @@ Add the following code to your app:
 class MyAPIAuthProviderFactory: APIAuthProviderFactory {
     let myAuthProvider = MyFunctionAuthProvider()
 
-    open func functionAuthProvider() -> AmplifyFunctionAuthProvider? {
+    override func functionAuthProvider() -> AmplifyFunctionAuthProvider? {
         return MyFunctionAuthProvider()
     }
 }
