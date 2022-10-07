@@ -13,14 +13,21 @@ import AWSDataStorePlugin
 
 <Block name="SwiftUI">
 
-Create a custom `AppDelegate`, and add to your `application:didFinishLaunchingWithOptions` method
-```swift
-class AppDelegate: NSObject, UIApplicationDelegate {
-    func application(
-        _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-    ) -> Bool {
+In your `App` scene, configure Amplify in the initializer:
 
+```swift
+
+@main
+struct MyAmplifyApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
+
+    init() {
         do {
             // AmplifyModels is generated in the previous step
             let dataStorePlugin = AWSDataStorePlugin(modelRegistration: AmplifyModels())
@@ -29,23 +36,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             print("Amplify configured with DataStore plugin")
         } catch {
             print("Failed to initialize Amplify with \(error)")
-            return false
-        }
-
-        return true
-    }
-}
-```
-
-Then in the `App` scene, use `UIApplicationDelegateAdaptor` property wrapper to use your custom `AppDelegate`
-```swift
-@main
-struct MyAmplifyApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
         }
     }
 }

@@ -32,8 +32,8 @@ let dataStorePlugin = AWSDataStorePlugin(
             // always favor the title from the local post
             let mergedModel = Post(
                 title: localPost.title,
-                rating: remotePost.rating,
-                status: remotePost.status
+                status: remotePost.status,
+                rating: remotePost.rating
             )
             resolve(.retry(mergedModel))
         },
