@@ -1,4 +1,7 @@
 ```swift
+
+import AWSPluginsCore
+
 class MyOIDCAuthProvider : AmplifyOIDCAuthProvider {
     func getLatestAuthToken() async throws -> String {
         let session = try await Amplify.Auth.fetchAuthSession()
