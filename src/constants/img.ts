@@ -79,11 +79,6 @@ export const VUE = {
   alt: "Vue Icon",
 };
 
-export const IONIC = {
-  src: "/assets/integrations/ionic.svg",
-  alt: "Ionic Icon",
-};
-
 export const NEXT = {
   src: "/assets/integrations/next.svg",
   alt: "Next.js Icon",
