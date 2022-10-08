@@ -9,9 +9,10 @@ To get started, initialize a new React Native project.
 
 ```bash
 npm install -g expo-cli  
-expo init amplified_todo
 
-? Choose a template: blank
+npx create-expo-app amplified_todo
+
+cd my-app
 ```
 
 </Block>
@@ -38,6 +39,7 @@ Finally, open __App.js__(Expo) or __index.js__(React Native CLI) and add the fol
 ```javascript
 import { Amplify } from 'aws-amplify'
 import awsconfig from './src/aws-exports'
+
 Amplify.configure(awsconfig)
 ```
 
