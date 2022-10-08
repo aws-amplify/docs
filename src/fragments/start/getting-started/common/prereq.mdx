@@ -1,9 +1,7 @@
-Before we begin, make sure you have the following installed:
+Before you begin, make sure you have the following installed:
 
 - [Node.js](https://nodejs.org/) v14.x or later
-
 - [npm](https://www.npmjs.com/) v6.14.4 or later
-
 - [git](https://git-scm.com/) v2.14.1 or later
 
 import flutter1 from '/src/fragments/start/getting-started/flutter/prereq.mdx';
@@ -61,26 +59,26 @@ Once you're signed in, Amplify CLI will ask you to create an IAM user.
 
 ```console
 Specify the AWS Region
-? region:  # Your preferred region
+? region:  <Your preferred region>
 Specify the username of the new IAM user:
-? user name:  # User name for Amplify IAM user
-Complete the user creation using the AWS console
+? user name:  <User name for Amplify IAM user>
+Complete the user creation using the AWS console: <URL>
 ```
 
-Create a user with `AdministratorAccess-Amplify` to your account to provision AWS resources for you like AppSync, Cognito etc.
+Follow the `<URL>` and create a user with `AdministratorAccess-Amplify` to your account to provision AWS resources for you like AppSync, Cognito etc.
 
 ![image](/images/user-creation.gif)
 
-Once the user is created, Amplify CLI will ask you to provide the `accessKeyId` and the `secretAccessKey` to connect Amplify CLI with your newly created IAM user.
+Amplify CLI will then ask you to copy and past the `accessKeyId` and the `secretAccessKey` from your newly create IAM user to connect with Amplify CLI.
 
 ```console
 Enter the access key of the newly created user:
-? accessKeyId:  # YOUR_ACCESS_KEY_ID
-? secretAccessKey:  # YOUR_SECRET_ACCESS_KEY
+? accessKeyId:  <ACCESSKEYID>
+? secretAccessKey:  <ACCESSKEY>
 This would update/create the AWS Profile in your local machine
-? Profile Name:  # (default)
-
-Successfully set up the new user.
+? Profile Name: default
 ```
 
-Next, we'll set up the app and initialize Amplify!
+Successfully set up the new user.
+
+In the next section, you'll set up the app and initialize Amplify.
