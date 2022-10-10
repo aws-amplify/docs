@@ -15,8 +15,8 @@ func uploadData() async throws {
             print("Progress: \(progress)")
         }
     }
-    let data = try await uploadTask.value
-    print("Completed: \(data)")
+    let value = try await uploadTask.value
+    print("Completed: \(value)")
 }
 ```
 

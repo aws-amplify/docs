@@ -13,7 +13,7 @@ func signUp(username: String, password: String, email: String) async {
             options: options
         )
         if case let .confirmUser(deliveryDetails, _, userId) = signUpResult.nextStep {
-            print("Delivery details \(String(describing: deliveryDetails)) for userId: \(String(describing: userId)))")
+            print("Delivery details \(String(describing: deliveryDetails)) for userId: \(String(describing: userId))")
         } else {
             print("SignUp Complete")
         }
