@@ -12,7 +12,7 @@ let syncExpr1 = DataStoreSyncExpression.syncExpression(Post.schema) {
     Post.keys.rating.gt(5)
 }
 let syncExpr2 = DataStoreSyncExpression.syncExpression(Comment.schema) {
-    Comment.keys.status.eq("active")
+    Comment.keys.content.beginsWith("the")
 }
 try Amplify.add(plugin: AWSDataStorePlugin(
     modelRegistration: AmplifyModels(),
@@ -38,13 +38,17 @@ If you have the following expression and you want to change the filter that gets
 public var rating = 5
 
 func initialize() {
-    let variableSyncExpr = DataStoreSyncExpression.syncExpression(Post.schema) {
-        Post.keys.rating.gt(self.rating)
+    do {
+        let variableSyncExpr = DataStoreSyncExpression.syncExpression(Post.schema) {
+            Post.keys.rating.gt(self.rating)
+        }
+        try Amplify.add(plugin: AWSDataStorePlugin(
+            modelRegistration: AmplifyModels(),
+            configuration: .custom(syncExpressions: [variableSyncExpr])
+        ))
+    } catch {
+        print("Failed to initialize Amplify with \(error)")
     }
-    try Amplify.add(plugin: AWSDataStorePlugin(
-        modelRegistration: AmplifyModels(),
-        configuration: .custom(syncExpressions: [variableSyncExpr])
-    ))
 }
 
 func changeSync() {
@@ -103,10 +107,15 @@ func initialize() {
         }
         return Post.keys.rating.gt(rating)
     }
-    try Amplify.add(plugin: AWSDataStorePlugin(
-        modelRegistration: AmplifyModels(),
-        configuration: .custom(syncExpressions: [syncExpr])
-    ))
+    do {
+        try Amplify.add(plugin: AWSDataStorePlugin(
+            modelRegistration: AmplifyModels(),
+            configuration: .custom(syncExpressions: [syncExpr])
+        ))
+    } catch {
+        print("Failed to initialize Amplify with \(error)")
+    }
+}
 ```
 
 <Callout warning>
