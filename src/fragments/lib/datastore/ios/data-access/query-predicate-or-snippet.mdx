@@ -7,7 +7,7 @@ let p = Post.keys
 do {
     let result = try await Amplify.DataStore.query(
         Post.self,
-        where: p.rating == nil || p.status == PostStatus.draft
+        where: p.rating == nil || p.status == PostStatus.active
     )
     // result of type [Post]
     print("Posts in draft or without rating: \(result)")
@@ -27,7 +27,7 @@ let p = Post.keys
 let sink = Amplify.Publisher.create {
     try await Amplify.DataStore.query(
         Post.self,
-        where: p.rating == nil || p.status == PostStatus.draft
+        where: p.rating == nil || p.status == PostStatus.active
     )
 }.sink {
     if case let .failure(error) = $0 {

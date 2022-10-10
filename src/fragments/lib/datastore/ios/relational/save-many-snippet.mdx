@@ -5,20 +5,20 @@
 ```swift
 let post = Post(
     title: "My first post",
-    content: "Amplify.DataStore is awesome!",
-    status: .published
+    status: .active
 )
-
-let editor = User(name: "Nadia")
-
+let user = User(
+    username: "Nadia"
+)
+let postEditor = PostEditor(
+    post: post,
+    user: user
+)
 do {
     try await Amplify.DataStore.save(post)
-    print("Successfully saved post!")
-    try await Amplify.DataStore.save(editor)
-    print("Successfully saved editor!")
-    let postEditor = PostEditor(post: post, editor: editor)
+    try await Amplify.DataStore.save(user)
     try await Amplify.DataStore.save(postEditor)
-    print("Saved postEditor!")
+    print("Saved post, user, and postEditor!")
 } catch let error as DataStoreError {
     print("Failed with error \(error)")
 } catch {
@@ -33,21 +33,21 @@ do {
 ```swift
 let post = Post(
     title: "My first post",
-    content: "Amplify.DataStore is awesome!",
-    createdAt: .now(),
-    status: .published
+    status: .active
 )
-
-let editor = User(name: "Nadia")
-
-let sink = Amplify.Publisher.create(try await Amplify.DataStore.save(post))
+let user = User(
+    username: "Nadia"
+)
+let postEditor = PostEditor(
+    post: post,
+    user: user
+)
+let sink = Amplify.Publisher.create{ try await Amplify.DataStore.save(post) }
     .flatMap { _ in
-        Amplify.Publisher.create(try await Amplify.DataStore.save(editor))
+        Amplify.Publisher.create { try await Amplify.DataStore.save(user) }
     }
     .flatMap { _ in
-        Amplify.Publisher.create(try await Amplify.DataStore.save(
-            PostEditor(post: post, editor: editor)
-        ))
+        Amplify.Publisher.create { try await Amplify.DataStore.save(postEditor) }
     }
     .sink {
         if case let .failure(error) = $0 {

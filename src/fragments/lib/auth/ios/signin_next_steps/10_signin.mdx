@@ -4,29 +4,29 @@ When called successfully, the signin APIs will return an `AuthSignInResult`. Ins
 ```swift
 func signIn(username: String, password: String) async {
     do {
-        let signInResult = Amplify.Auth.signIn(username: username, password: password)
-        switch signinResult.nextStep {
+        let signInResult = try await Amplify.Auth.signIn(username: username, password: password)
+        switch signInResult.nextStep {
         case .confirmSignInWithSMSMFACode(let deliveryDetails, let info):
             print("SMS code send to \(deliveryDetails.destination)")
-            print("Additional info \(info)")
+            print("Additional info \(String(describing: info))")
 
             // Prompt the user to enter the SMSMFA code they received
             // Then invoke `confirmSignIn` api with the code
         
         case .confirmSignInWithCustomChallenge(let info):
-            print("Custom challenge, additional info \(info)")
+            print("Custom challenge, additional info \(String(describing: info))")
             
             // Prompt the user to enter custom challenge answer
             // Then invoke `confirmSignIn` api with the answer
         
         case .confirmSignInWithNewPassword(let info):
-            print("New password additional info \(info)")
+            print("New password additional info \(String(describing: info))")
             
             // Prompt the user to enter a new password
             // Then invoke `confirmSignIn` api with new password
         
         case .resetPassword(let info):
-            print("Reset password additional info \(info)")
+            print("Reset password additional info \(String(describing: info))")
             
             // User needs to reset their password.
             // Invoke `resetPassword` api to start the reset password
@@ -34,7 +34,7 @@ func signIn(username: String, password: String) async {
             // `signIn` api to trigger signin flow again.
         
         case .confirmSignUp(let info):
-            print("Confirm signup additional info \(info)")
+            print("Confirm signup additional info \(String(describing: info))")
             
             // User was not confirmed during the signup process.
             // Invoke `confirmSignUp` api to confirm the user if

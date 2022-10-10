@@ -22,11 +22,11 @@ The following examples show how to create Combine Publishers for the above API c
 let sink = Amplify.Publisher.create {
     try await Amplify.Geo.search(for "coffee")
 }
-    .sink { completion in
-        // handle completion
-    } receiveValue: { value in
-        // handle value
-    }
+.sink { completion in
+    // handle completion
+} receiveValue: { value in
+    // handle value
+}
 ```
 
 ```swift
