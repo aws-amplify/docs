@@ -38,36 +38,29 @@ func signOutLocally() async {
 func signOutLocally() -> AnyCancellable {
     Amplify.Publisher.create {
         await Amplify.Auth.signOut()
-    }.sink(
-        receiveCompletion: {
-            if case let .failure(error) = $0 {
-                print("Sign out failed with error \(error)")
-            }
-        },
-        receiveValue: { result in
-            guard let signOutResult = result as? AWSCognitoSignOutResult
-            else {
-                print("Signout failed")
-                return
-            }
-            print("Local signout successful: \(signOutResult.signedOutLocally)")
-            switch signOutResult {
-            case .complete:
-                print("SignOut completed")
-            case .failed(let error):
-                print("SignOut failed with \(error)")
-            case let .partial(revokeTokenError, globalSignOutError, hostedUIError):
-                print(
-                    """
-                    SignOut is partial.
-                    RevokeTokenError: \(String(describing: revokeTokenError))
-                    GlobalSignOutError: \(String(describing: globalSignOutError))
-                    HostedUIError: \(String(describing: hostedUIError))
-                    """
-                )
-            }
+    }.sink(receiveValue: { result in
+        guard let signOutResult = result as? AWSCognitoSignOutResult
+        else {
+            print("Signout failed")
+            return
         }
-    )
+        print("Local signout successful: \(signOutResult.signedOutLocally)")
+        switch signOutResult {
+        case .complete:
+            print("SignOut completed")
+        case .failed(let error):
+            print("SignOut failed with \(error)")
+        case let .partial(revokeTokenError, globalSignOutError, hostedUIError):
+            print(
+                """
+                SignOut is partial.
+                RevokeTokenError: \(String(describing: revokeTokenError))
+                GlobalSignOutError: \(String(describing: globalSignOutError))
+                HostedUIError: \(String(describing: hostedUIError))
+                """
+            )
+        }
+    })
 }
 ```
 
