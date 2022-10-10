@@ -27,14 +27,16 @@ let isSignedOut = HubFilters.forEventName(HubPayload.EventName.Auth.signedOut)
 let sink = Amplify.Hub.publisher(for: .auth)
     .setFailureType(to: DataStoreError.self)
     .filter { isSignedOut($0) }
-    .flatMap { _ in Amplify.Publisher.create(try await Amplify.DataStore.clear()) }
-    .sink {
-        if case let .failure(error) = $0 {
-            print("Local data not cleared \(error)")
+    .sink { _ in }
+    receiveValue: { _ in
+        Task {
+            do {
+                try await Amplify.DataStore.clear()
+                print("Local data cleared successfully.")
+            } catch {
+                print("Local data not cleared \(error)")
+            }
         }
-    }
-    receiveValue: {  in
-        print("Local data cleared successfully.")
     }
 ```
 

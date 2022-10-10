@@ -9,7 +9,7 @@ do {
         where: Post.keys.title.beginsWith("[Amplify]"))
     print("Post updated successfully!")
 } catch let error as DataStoreError {
-    print("Could not update post, maybe the title has been changed?")
+    print("Could not update post, maybe the title has been changed? - \(error)")
 } catch {
     print("Unexpected error \(error)")
 }
@@ -26,7 +26,7 @@ let sink = Amplify.Publisher.create {
         where: Post.keys.title.beginsWith("[Amplify]"))
 }.sink {
     if case let .failure(error) = $0 {
-        print("Could not update post, maybe the title has been changed?")
+        print("Could not update post, maybe the title has been changed? - \(error)")
     }
 }
 receiveValue: { _ in
