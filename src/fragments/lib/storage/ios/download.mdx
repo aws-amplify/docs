@@ -1,6 +1,6 @@
 There are three ways of getting data that was previously uploaded:
 
-### Download data
+## Download data
 
 You can download to in-memory buffer [Data](https://developer.apple.com/documentation/foundation/data) object with `Amplify.Storage.downloadData`:
 
@@ -9,7 +9,7 @@ You can download to in-memory buffer [Data](https://developer.apple.com/document
 <Block name="Async/Await">
 
 ```swift
-let downloadTask = try await Amplify.Storage.downloadData(key: "myKey")
+let downloadTask = try await Amplify.Storage.downloadData(key: "ExampleKey")
 Task {
     for await progress in await downloadTask.progress {
         print("Progress: \(progress)")
@@ -24,7 +24,7 @@ print("Completed: \(data)")
 <Block name="Combine">
 
 ```swift
-let downloadTask = try await Amplify.Storage.downloadData(key: "myKey")
+let downloadTask = try await Amplify.Storage.downloadData(key: "ExampleKey")
 let progressSink = downloadTask
     .inProcessPublisher
     .sink { progress in
@@ -47,7 +47,7 @@ let resultSink = downloadTask
 
 </BlockSwitcher>
 
-### Download to file
+## Download to file
 
 You can download to a file [URL](https://developer.apple.com/documentation/foundation/url) with `Amplify.Storage.downloadFile`:
 
@@ -112,6 +112,15 @@ let resultSink = downloadTask
 
 </BlockSwitcher>
 
+## Generate a download URL
+
+You can also retrieve a URL for the object in storage:
+
+```swift
+let url = try await Amplify.Storage.getURL(key: "ExampleKey")
+print("Completed: \(url)")
+```
+
 ## Cancel, Pause, Resume
 
 Calls to `downloadData` or `downloadFile` return a reference to the task that is actually performing the download.
@@ -137,12 +146,3 @@ downloadTask.resume()
 Download tasks are run using `URLSessionTask` instances internally. You can learn more about them in [Apple's official documentation](https://developer.apple.com/documentation/foundation/urlsessiontask).
 
 </Callout>
-
-## Generate a download URL
-
-You can also retrieve a URL for the object in storage:
-
-```swift
-let url = try await Amplify.Storage.getURL(key: "myKey")
-print("Completed: \(url)")
-```
