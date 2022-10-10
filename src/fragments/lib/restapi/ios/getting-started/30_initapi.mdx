@@ -4,17 +4,18 @@ To initialize the Amplify API and Authentication categories, we are required to 
 
 <Block name="SwiftUI">
 
-Create a custom `AppDelegate` with the following imports and `application:didFinishLaunchingWithOptions` method:
+In your `App` scene, configure Amplify in the initializer:
+
 ```swift
-import Amplify
-import AWSAPIPlugin
+@main
+struct MyAmplifyApp: App {
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
 
-class AppDelegate: NSObject, UIApplicationDelegate {
-    func application(
-        _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-    ) -> Bool {
-
+    init() {
         do {
             try Amplify.add(plugin: AWSCognitoAuthPlugin())
             try Amplify.add(plugin: AWSAPIPlugin())
@@ -22,22 +23,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             print("Amplify configured with API and Auth plugin")
         } catch {
             print("Failed to initialize Amplify with \(error)")
-        }
-
-        return true
-    }
-}
-```
-
-Then in your `App` scene, use the `UIApplicationDelegateAdaptor` property wrapper to use your custom `AppDelegate`:
-```swift
-@main
-struct MyAmplifyApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
         }
     }
 }
