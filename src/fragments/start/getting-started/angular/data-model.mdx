@@ -9,16 +9,16 @@ amplify add api
 Accept the **default values** which are highlighted below:
 
 ```console
-? Select from one of the below mentioned services:
+? Select from one of the below mentioned services: 
 # GraphQL
-? Here is the GraphQL API that we will create. Select a setting to edit or continue
+? Here is the GraphQL API that we will create. Select a setting to edit 
+or continue 
 # Continue
-# RestaurantAPI
-? Choose the default authorization type for the API:
 ? Choose a schema template:
-# Single object with fields (e.g., “Todo” with ID, name, description)
-✔ Do you want to edit the schema now?
-# Yes
+# Single object with fields (e.g., “Todo” with
+ ID, name, description)
+✔ Do you want to edit the schema now? (Y/n) 
+# yes
 ```
 
 The generated schema is for a Todo app. Replace the GraphQL schema at `amplify/backend/api/RestaurantAPI/schema.graphql` with the following:
@@ -48,12 +48,9 @@ Create required backend resources for your configured api with the following com
 amplify push
 
 ? Are you sure you want to continue? Y
-? Do you want to generate code for your newly created GraphQL API: Y
-? Choose the code generation language target: angular
-? Enter the file name pattern of graphql queries, mutations and subscriptions: src/graphql/**/*.graphql
-? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions: Y
-? Enter maximum statement depth: 2
-? Enter the file name for the generated code: src/app/API.service.ts
+? Do you want to update code for your updated GraphQL API Yes
+? Do you want to generate GraphQL statements (queries, mutations and subscription) based on your schema types?
+This will overwrite your current graphql queries, mutations and subscriptions: Yes
 ```
 
 ### Code generation
@@ -141,9 +138,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { RestaurantsComponent } from './restaurants/restaurants.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, RestaurantsComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -158,19 +156,19 @@ import { AppComponent } from './app.component';
 export class AppModule {}
 ```
 
-Next, create an `restaurants` Angular component.
+Next, create an `restaurants` Angular component:
 
 ```
-ng generate component restaurants
+npx ng generate component restaurants
 ```
 
-This will create `<app-restaurants>` that you will use to implement create and list APIs. First, update `src/app/app.component.html` to use the new Angular component:
+Open `src/app/app.component.html`, and replace the default content with the Angular component we created:
 
 ```html
 <app-restaurants></app-restaurants>
 ```
 
-In your `src/app/restaurants/restaurants/restaurants.component.ts` file, add data to your database with a mutation by using the `API.service` file which was generated when you ran `amplify add api`:
+In your `src/app/restaurants/restaurants.component.ts` file, add data to your database with a mutation by using the `API.service` file which was generated when you ran `amplify add api`:
 
 ```typescript
 import { Component } from '@angular/core';
@@ -183,7 +181,6 @@ import { APIService, Restaurant } from '../API.service';
   styleUrls: ['./restaurants.component.css']
 })
 export class RestaurantsComponent {
-  title = 'amplify-angular-app';
   public createForm: FormGroup;
 
   constructor(private api: APIService, private fb: FormBuilder) {
@@ -239,15 +236,14 @@ Next, update your `RestaurantsComponent` class so that it will list all restaura
 ```typescript
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { APIService, Restaurant } from './API.service';
+import { APIService, Restaurant } from '../API.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: 'app-restaurants',
+  templateUrl: './restaurants.component.html',
+  styleUrls: ['./restaurants.component.css']
 })
-export class AppComponent implements OnInit {
-  title = 'amplify-angular-app';
+export class RestaurantsComponent implements OnInit {
   public createForm: FormGroup;
 
   /* declare restaurants variable */
@@ -305,7 +301,7 @@ private subscription: ZenObservable.Subscription | null = null;
 
 async ngOnInit() {
   this.api.ListRestaurants().then(event => {
-    this.restaurants = event.items;
+    this.restaurants = event.items as Restaurant[];
   });
 
   /* subscribe to new restaurants being created */
