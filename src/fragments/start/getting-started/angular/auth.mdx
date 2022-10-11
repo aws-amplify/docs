@@ -30,7 +30,13 @@ amplify console
 
 Now that we have our authentication service deployed to AWS, it's time to add authentication to our Angular app. Creating the login flow can be quite difficult and time consuming to get right. Luckily Amplify Framework has an authentication UI component we can use that will provide the entire authentication flow for us, using our configuration specified in our `aws-exports.js` file.
 
-Add the `amplify-authenticator` component to the top of `src/app/app.component.html`
+First, import Authenticator style inside your stylesheet (e.g. `src/style.css`):
+
+```css
+@import '~@aws-amplify/ui-angular/theme.css';
+```
+
+Navigate to `src/app/app.component.html`, and wrap `app-restaurants` with `<amplify-authenticator>` to enable authentication:
 
 ```html
 <amplify-authenticator>
@@ -39,7 +45,7 @@ Add the `amplify-authenticator` component to the top of `src/app/app.component.h
     let-user="user"
     let-signOut="signOut"
   >
-    <h1>Welcome {{ user.username }}!</h1>
+    <app-restaurants></app-restaurants>
     <button (click)="signOut()">Sign Out</button>
   </ng-template>
 </amplify-authenticator>
