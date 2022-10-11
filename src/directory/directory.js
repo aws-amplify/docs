@@ -2427,7 +2427,7 @@ const directory = {
         ]
       },
       datastore: {
-        title: 'Datastore',
+        title: 'DataStore',
         items: [
           {
             title: 'Parallel Processing',
