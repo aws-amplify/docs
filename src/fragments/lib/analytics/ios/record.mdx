@@ -21,22 +21,22 @@ Events have default configuration to flush out to the network every 60 seconds. 
 
 ```json
 {
-    "UserAgent": "aws-amplify-cli/2.0",
-    "Version": "1.0",
-    "analytics": {
-        "plugins": {
-            "awsPinpointAnalyticsPlugin": {
-                "pinpointAnalytics": {
-                    "appId": "AppID",
-                    "region": "Region"
-                },
-                "pinpointTargeting": {
-                    "region": "Region"
-                },
-                "autoFlushEventsInterval": 60
-            }
-        }
+  "UserAgent": "aws-amplify-cli/2.0",
+  "Version": "1.0",
+  "analytics": {
+    "plugins": {
+      "awsPinpointAnalyticsPlugin": {
+        "pinpointAnalytics": {
+          "appId": "AppID",
+          "region": "Region"
+        },
+        "pinpointTargeting": {
+          "region": "Region"
+        },
+        "autoFlushEventsInterval": 60
+      }
     }
+  }
 }
 ```
 
@@ -59,20 +59,4 @@ Amplify.Analytics.unregisterGlobalProperties()
 
 // or you can specify properties to unregister
 Amplify.Analytics.unregisterGlobalProperties(["globalPropertyKey1", "globalPropertyKey2"])
-```
-
-## Disable Analytics
-
-Analytics are sent to the backend automatically (i.e. it's enabled by default). To disable it call:
-
-```swift
-Amplify.Analytics.disable()
-```
-
-## Enable Analytics
-
-To re-enable it call:
-
-```swift
-Amplify.Analytics.enable()
 ```
