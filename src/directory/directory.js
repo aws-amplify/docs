@@ -880,6 +880,11 @@ const directory = {
             filters: ['ios']
           },
           {
+            title: 'Enable/Disable Analytics',
+            route: '/lib-v1/analytics/enable-disable',
+            filters: ['ios']
+          },
+          {
             title: 'Identify user',
             route: '/lib-v1/analytics/identifyuser',
             filters: ['ios']
