@@ -60,3 +60,23 @@ Hub.listen('api', (data: any) => {
 import jsConnectionStates from '/src/fragments/lib/pubsub/js/connection-states.mdx';
 
 <Fragments fragments={{ js: jsConnectionStates }} />
+
+Subscriptions take an optional `filter` argument which provides an option to define and enable business logic for data filtering on the backend directly.
+
+```graphql
+// Subscribe to creation of Todo
+const subscription = API.graphql(
+    graphqlOperation(subscriptions.onCreateTodo, {
+      filter: {
+        type: { eq: "Personal" }
+      }
+    })
+).subscribe({
+    next: ({ provider, value }) => console.log({ provider, value }),
+    error: error => console.warn(error)
+});
+```
+
+<Callout warning>
+Generally, don’t pass the filter parameter if you want to get all subscription events. Important: passing an empty object {} is NOT recommended because it means “no filter” only when multiple owner authorization is used.
+</Callout>
