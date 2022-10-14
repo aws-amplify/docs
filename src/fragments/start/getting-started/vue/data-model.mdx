@@ -62,7 +62,7 @@ Select the default values which are highlighted below:
 
 The CLI should open this GraphQL schema in your text editor.
 
-__amplify/backend/api/myapi/schema.graphql__
+**amplify/backend/api/myapi/schema.graphql**
 
 ```graphql
 type Todo @model {
@@ -72,13 +72,13 @@ type Todo @model {
 }
 ```
 
-The schema generated is for a Todo app. You'll notice a directive on the `Todo` type of `@model`. This directive is part of the [GraphQL transform](/cli/graphql/data-modeling) library of Amplify. 
+The schema generated is for a Todo app. You'll notice a directive on the `Todo` type of `@model`. This directive is part of the [GraphQL transform](/cli/graphql/data-modeling) library of Amplify.
 
 The GraphQL Transform Library provides custom directives you can use in your schema that allow you to do things like define data models, set up authentication and authorization rules, configure serverless functions as resolvers, and more.
 
 A type decorated with the `@model` directive will scaffold out the database table for the type (Todo table), the schema for CRUD (create, read, update, delete) and list operations, and the GraphQL resolvers needed to make everything work together.
 
-From the command line, press __enter__ to accept the schema and continue to the next steps.
+From the command line, press **enter** to accept the schema and continue to the next steps.
 
 ## Deploy your GraphQL API
 
@@ -124,11 +124,11 @@ To view services deployed in your project at any time in the AWS Amplify Console
 amplify console
 ```
 
-This will open your Amplify app project in the AWS service console. Choose the **API** tab to view your AppSync API. Clicking on the API, will open the AWS AppSync console where you can run Queries, Mutations, or Subscriptions at the server and see the changes in your client app.
+This will open your Amplify project project in the AWS service console. Choose the **API** tab to view your AppSync API. Clicking on the API, will open the AWS AppSync console where you can run Queries, Mutations, or Subscriptions at the server and see the changes in your client app.
 
 ## Connect frontend to API
 
-Next, open __App.vue__.
+Next, open **App.vue**.
 
 ### Writing data with GraphQL mutations
 
@@ -138,38 +138,38 @@ To create a new todo in the database, use the `API.graphql()` operation with the
 <template>
   <div id="app">
     <h1>Todo App</h1>
-    <input type="text" v-model="name" placeholder="Todo name">
-    <input type="text" v-model="description" placeholder="Todo description">
+    <input type="text" v-model="name" placeholder="Todo name" />
+    <input type="text" v-model="description" placeholder="Todo description" />
     <button v-on:click="createTodo">Create Todo</button>
   </div>
 </template>
 
 <script>
-import { API } from 'aws-amplify';
-import { createTodo } from './graphql/mutations';
+  import { API } from 'aws-amplify';
+  import { createTodo } from './graphql/mutations';
 
-export default {
-  name: 'app',
-  data() {
-    return {
-      name: '',
-      description: ''
+  export default {
+    name: 'app',
+    data() {
+      return {
+        name: '',
+        description: ''
+      };
+    },
+    methods: {
+      async createTodo() {
+        const { name, description } = this;
+        if (!name || !description) return;
+        const todo = { name, description };
+        await API.graphql({
+          query: createTodo,
+          variables: { input: todo }
+        });
+        this.name = '';
+        this.description = '';
+      }
     }
-  },
-  methods: {
-    async createTodo() {
-      const { name, description } = this;
-      if (!name || !description) return;
-      const todo = { name, description };
-      await API.graphql({
-        query: createTodo,
-        variables: {input: todo},
-      });
-      this.name = '';
-      this.description = '';
-    }
-  }
-};
+  };
 </script>
 ```
 
@@ -181,8 +181,8 @@ To display the data, update `App.vue` to list all the items in the database by i
 <template>
   <div id="app">
     <h1>Todo App</h1>
-    <input type="text" v-model="name" placeholder="Todo name">
-    <input type="text" v-model="description" placeholder="Todo description">
+    <input type="text" v-model="name" placeholder="Todo name" />
+    <input type="text" v-model="description" placeholder="Todo description" />
     <button v-on:click="createTodo">Create Todo</button>
     <div v-for="item in todos" :key="item.id">
       <h3>{{ item.name }}</h3>
@@ -192,44 +192,44 @@ To display the data, update `App.vue` to list all the items in the database by i
 </template>
 
 <script>
-import { API } from 'aws-amplify';
-import { createTodo } from './graphql/mutations';
-import { listTodos } from './graphql/queries';
+  import { API } from 'aws-amplify';
+  import { createTodo } from './graphql/mutations';
+  import { listTodos } from './graphql/queries';
 
-export default {
-  name: 'App',
-  async created() {
-    this.getTodos();
-    this.subscribe();
-  },
-  data() {
-    return {
-      name: '',
-      description: '',
-      todos: []
-    }
-  },
-  methods: {
-    async createTodo() {
-      const { name, description } = this;
-      if (!name || !description) return;
-      const todo = { name, description };
-      this.todos = [...this.todos, todo];
-      await API.graphql({
-        query: createTodo,
-        variables: {input: todo},
-      });
-      this.name = '';
-      this.description = '';
+  export default {
+    name: 'App',
+    async created() {
+      this.getTodos();
+      this.subscribe();
     },
-    async getTodos() {
-      const todos = await API.graphql({
-        query: listTodos
-      });
-      this.todos = todos.data.listTodos.items;
+    data() {
+      return {
+        name: '',
+        description: '',
+        todos: []
+      };
+    },
+    methods: {
+      async createTodo() {
+        const { name, description } = this;
+        if (!name || !description) return;
+        const todo = { name, description };
+        this.todos = [...this.todos, todo];
+        await API.graphql({
+          query: createTodo,
+          variables: { input: todo }
+        });
+        this.name = '';
+        this.description = '';
+      },
+      async getTodos() {
+        const todos = await API.graphql({
+          query: listTodos
+        });
+        this.todos = todos.data.listTodos.items;
+      }
     }
-  }
-}
+  };
 </script>
 ```
 
@@ -239,28 +239,27 @@ Now if you wish to subscribe to data, import the `onCreateTodo` subscription and
 
 ```html
 <script>
-// other imports
-import { onCreateTodo } from './graphql/subscriptions';
+  // other imports
+  import { onCreateTodo } from './graphql/subscriptions';
 
-export default {
-  // other functions and properties
-  created(){
-    this.getTodos();
-    this.subscribe();
-  },
-  methods: {
-    // other methods
-    subscribe() {
-      API.graphql({ query: onCreateTodo })
-        .subscribe({
+  export default {
+    // other functions and properties
+    created() {
+      this.getTodos();
+      this.subscribe();
+    },
+    methods: {
+      // other methods
+      subscribe() {
+        API.graphql({ query: onCreateTodo }).subscribe({
           next: (eventData) => {
             let todo = eventData.value.data.onCreateTodo;
-            if (this.todos.some(item => item.name === todo.name)) return; // remove duplications
+            if (this.todos.some((item) => item.name === todo.name)) return; // remove duplications
             this.todos = [...this.todos, todo];
           }
         });
+      }
     }
-  }
-};
+  };
 </script>
 ```
