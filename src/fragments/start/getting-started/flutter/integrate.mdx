@@ -50,8 +50,8 @@ class _TodosPageState extends State<TodosPage> {
 
   @override
   void dispose() {
-    // to be filled in a later step
     super.dispose();
+    // to be filled in a later step
   }
 
   Future<void> _initializeApp() async {
@@ -172,8 +172,22 @@ class AddTodoForm extends StatefulWidget {
 }
 
 class _AddTodoFormState extends State<AddTodoForm> {
-  final _nameController = TextEditingController();
-  final _descriptionController = TextEditingController();
+  late final TextEditingController _nameController;
+  late final TextEditingController _descriptionController;
+
+  @override
+  void initState() {
+    _nameController = TextEditingController();
+    _descriptionController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _nameController.dispose();
+    _descriptionController.dispose();
+  }
 
   Future<void> _saveTodo() async {
     // to be filled in a later step
@@ -214,7 +228,7 @@ class _AddTodoFormState extends State<AddTodoForm> {
 }
 ```
 
-Go ahead and run your code now and you should see an app with a progress indicator and a floating action button but not much else.
+Go ahead and run your code now on an iOS or Android device and you should see an app with a progress indicator and a floating action button but not much else.
 
 ```bash
 flutter run
@@ -234,9 +248,6 @@ class _TodosPageState extends State<TodosPage> {
 
   // list of Todos - initially empty
   List<Todo> _todos = [];
-
-  // amplify plugins
-  final _dataStorePlugin = AmplifyDataStore(modelProvider: ModelProvider.instance);
 ```
 
 Update the `initState()` function in the `_TodosPageState` class.
@@ -273,6 +284,9 @@ Update the `_configureAmplify()` function in the `_TodosPageState` class.
 Future<void> _configureAmplify() async {
   try {
 
+    // amplify plugins
+    final _dataStorePlugin = AmplifyDataStore(modelProvider: ModelProvider.instance);
+
     // add Amplify plugins
     await Amplify.addPlugins([_dataStorePlugin]);
 
@@ -284,7 +298,7 @@ Future<void> _configureAmplify() async {
 
     // error handling can be improved for sure!
     // but this will be sufficient for the purposes of this tutorial
-    print('An error occurred while configuring Amplify: $e');
+    safePrint('An error occurred while configuring Amplify: $e');
   }
 }
 ```
@@ -292,9 +306,9 @@ Future<void> _configureAmplify() async {
 Find the `build()` function in the `_TodosPageState` class and update the `Scaffold` > `body` parameter. (For your convenience, we added the updated code as a comment in the boilerplate)
 
 ``` diff
-- body: Center(child: CircularProgressIndicator()),
+- body: const Center(child: CircularProgressIndicator()),
 + body: _isLoading                                  // if in a loading state
-+     ? Center(child: CircularProgressIndicator())  // display progress indicator
++     ? const Center(child: CircularProgressIndicator())  // display progress indicator
 +     : TodosList(todos: _todos),                   // or the todos list otherwise
 ```
 
@@ -309,28 +323,27 @@ Update the `_saveTodo()` function in the `_AddTodoFormState` class.
 
 ```dart
 Future<void> _saveTodo() async {
-
   // get the current text field contents
   final name = _nameController.text;
   final description = _descriptionController.text;
-
   // create a new Todo from the form values
   // `isComplete` is also required, but should start false in a new Todo
   final newTodo = Todo(
-      name: name,
-      description: description.isNotEmpty ? description : null,
-      isComplete: false,
+    name: name,
+    description: description.isNotEmpty ? description : null,
+    isComplete: false,
   );
-
   try {
     // to write data to DataStore, we simply pass an instance of a model to
     // Amplify.DataStore.save()
     await Amplify.DataStore.save(newTodo);
-
     // after creating a new Todo, close the form
-    Navigator.of(context).pop();
+    // Be sure the context at that moment is still valid and mounted
+    if (mounted) {
+      Navigator.of(context).pop();
+    }
   } catch (e) {
-    print('An error occurred while saving Todo: $e');
+    safePrint('An error occurred while saving Todo: $e');
   }
 }
 ```
@@ -376,6 +389,16 @@ Future<void> _initializeApp() async {
 }
 ```
 
+Lastly update the `dispose` function as follows to cancel the subscription when the UI is disposed.
+
+```dart
+@override
+void dispose() {
+  super.dispose();
+  _subscription.cancel();
+}
+```
+
 If you restart your app now, you should see that newly added todos will also start showing up on the list. The items look like they can be check off and marked as completed, but when pressed, they don’t seem to do anything right now. Let’s learn how to update existing data.
 
 ### Updating a Todo
@@ -395,7 +418,7 @@ Future<void> _toggleIsComplete() async {
     // Amplify.DataStore.save()
     await Amplify.DataStore.save(updatedTodo);
   } catch (e) {
-    print('An error occurred while saving Todo: $e');
+    safePrint('An error occurred while saving Todo: $e');
   }
 }
 ```
@@ -415,7 +438,7 @@ void _deleteTodo(BuildContext context) async {
     // Amplify.DataStore.delete()
     await Amplify.DataStore.delete(todo);
   } catch (e) {
-    print('An error occurred while deleting Todo: $e');
+    safePrint('An error occurred while deleting Todo: $e');
   }
 }
 ```
@@ -426,11 +449,9 @@ Reload your app once more and you should now be able to long press an item to de
 
 Flutter offers [hot reload and hot restart](https://flutter.dev/docs/development/tools/hot-reload) functionality in order to aid the development process.
 
-A key difference between hot reload and restart is that hot restart destroys the state in dart, while hot reload does not.
+A key difference between hot reload and hot restart is that hot restart disposes the current state, while hot reload does not.
 
 Amplify-flutter should automatically re-configure your application and re-wire its plugins upon a hot restart, so there is no additional effort needed on your part.
 
 During **hot reload**, depending on how and when you are calling `Amplify.configure`, you may wish to check whether or not Amplify has already been configured using `Amplify.isConfigured` because it should not be configured more than once.
-
-To do this, you can use the `Amplify.isConfigured` getter.
 
