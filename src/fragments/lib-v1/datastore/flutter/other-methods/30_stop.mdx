@@ -1,0 +1,10 @@
+```dart
+Future<void> stopStore() async {
+  try {
+    await Amplify.DataStore.stop();
+    print('DataStore is stopped.');
+  } on DataStoreException catch (e) {
+    print('Failed to stop DataStore: $e');
+  }
+}
+```

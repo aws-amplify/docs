@@ -1,0 +1,13 @@
+```dart
+Future<void> deletePostWithId(String id) async {
+  final postsWithId = await Amplify.DataStore.query(
+    Post.classType,
+    where: Post.ID.eq(id),
+  );
+
+  for (final element in postsWithId) {
+    await Amplify.DataStore.delete(element);
+    print('Deleted a post');
+  }
+}
+```
