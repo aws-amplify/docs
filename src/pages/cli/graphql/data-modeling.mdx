@@ -460,7 +460,7 @@ When `@default` is applied, non-null assertions using `!` are disregarded. For e
 
 ## Server-side filtering for subscriptions
 
-A server-side subscription filter expression is automatically generated for any @model type.
+A server-side subscription filter expression is automatically generated for any `@model` type.
 
 ```graphql
 type Task @model {
@@ -491,11 +491,11 @@ subscription OnCreateTask {
 }
 ```
 
-Generally, don’t pass the `filter` parameter if you want to get all subscription events.
+If you want to get all subscription events, don’t pass any `filter` parameters.
 
 <Callout>
 
-**Important**: Passing an empty object `{}` is NOT recommended because it means “no filter” only when multiple owner authorization is used.
+**Important**: Passing an empty object `{}` as a filter is NOT recommended because it means “no filter” only when multiple owner authorization is used.
 
 </Callout>
 

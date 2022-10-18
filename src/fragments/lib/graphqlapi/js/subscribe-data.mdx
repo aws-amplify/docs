@@ -40,10 +40,10 @@ Amplify.configure({
 });
 ```
 
-Subscriptions take an optional `filter` argument which provides an option to define and enable business logic for data filtering on the backend directly.
+Subscriptions take an optional `filter` argument to define service-side subscription filters:
 
 ```graphql
-// Subscribe to creation of Todo
+// Only subscribe to creation of Todo, if the todo "type" is "Personal"
 const subscription = API.graphql(
     graphqlOperation(subscriptions.onCreateTodo, {
       filter: {
@@ -56,11 +56,11 @@ const subscription = API.graphql(
 });
 ```
 
-Generally, don’t pass the `filter` parameter if you want to get all subscription events.
+If you want to get all subscription events, don’t pass any `filter` parameters.
 
 <Callout>
 
-**Important**: Passing an empty object `{}` is NOT recommended because it means “no filter” only when multiple owner authorization is used.
+**Important**: Passing an empty object `{}` as a filter is NOT recommended because it means “no filter” only when multiple owner authorization is used.
 
 </Callout>
 
