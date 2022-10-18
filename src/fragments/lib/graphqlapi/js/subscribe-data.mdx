@@ -40,6 +40,30 @@ Amplify.configure({
 });
 ```
 
+Subscriptions take an optional `filter` argument to define service-side subscription filters:
+
+```graphql
+// Only subscribe to creation of Todo, if the todo "type" is "Personal"
+const subscription = API.graphql(
+    graphqlOperation(subscriptions.onCreateTodo, {
+      filter: {
+        type: { eq: "Personal" }
+      }
+    })
+).subscribe({
+    next: ({ provider, value }) => console.log({ provider, value }),
+    error: error => console.warn(error)
+});
+```
+
+If you want to get all subscription events, don’t pass any `filter` parameters.
+
+<Callout>
+
+**Important**: Passing an empty object `{}` as a filter is NOT recommended because it means “no filter” only when multiple owner authorization is used.
+
+</Callout>
+
 ### Subscription connection status updates
 
 Now that your application is setup and using subscriptions, you may want to know when the subscription is finally established, or reflect to your users when the subscription isn't healthy. You can monitor the connection state for changes via Hub.
