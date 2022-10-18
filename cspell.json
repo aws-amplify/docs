@@ -75,6 +75,7 @@
     "amplify-s3-album",
     "amplify-totp-setup",
     "amplify-vue",
+    "Amplify",
     "Amplify's",
     "amplify’s",
     "AmplifyAngularModule",
@@ -1472,7 +1473,5 @@
     "infowindow",
     "Libre's"
   ],
-  "flagWords": [
-    "hte"
-  ]
+  "flagWords": ["hte"]
 }

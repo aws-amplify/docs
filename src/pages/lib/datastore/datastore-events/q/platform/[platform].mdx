@@ -1,12 +1,13 @@
 export const meta = {
   title: `DataStore Events`,
-  description: `Listening to DataStore events`,
+  description: `Listening to DataStore events`
 };
 
 DataStore periodically publishes state notifications onto Amplify's Hub. You can subscribe to the Hub to gain insight into the internal state of the DataStore. Events are published when:
-* Your device loses or regains network connectivity;
-* Data is synchronized with the Cloud;
-* There are new, pending changes that have not yet been synchronized.
+
+- Your device loses or regains network connectivity;
+- Data is synchronized with the Cloud;
+- There are new, pending changes that have not yet been synchronized.
 
 The following DataStore events are defined:
 
@@ -15,6 +16,7 @@ The following DataStore events are defined:
 Dispatched when DataStore starts and every time network status changes
 
 HubPayload `NetworkStatusEvent` contains:
+
 - `active` (Bool): true if the DataStore is on a network that can connect the Cloud; false, otherwise
 
 ## subscriptionsEstablished
@@ -28,23 +30,28 @@ HubPayload: N/A
 Dispatched when DataStore is about to perform its initial sync queries
 
 HubPayload `syncQueriesStartedEvent` contains:
+
 - `models` ([String]): an array of each model's `name`
 
-import js0 from "/src/fragments/lib/datastore/js/datastore-events/model-synced.mdx";
+import js0 from '/src/fragments/lib/datastore/js/datastore-events/model-synced.mdx';
 
-<Fragments fragments={{js: js0}} />
+<Fragments fragments={{ js: js0 }} />
 
-import android1 from "/src/fragments/lib/datastore/native_common/datastore-events/model-synced.mdx";
+import reactnative0 from '/src/fragments/lib/datastore/js/datastore-events/model-synced.mdx';
 
-<Fragments fragments={{android: android1}} />
+<Fragments fragments={{ 'react-native': reactnative0 }} />
 
-import flutter2 from "/src/fragments/lib/datastore/native_common/datastore-events/model-synced.mdx";
+import android1 from '/src/fragments/lib/datastore/native_common/datastore-events/model-synced.mdx';
 
-<Fragments fragments={{flutter: flutter2}} />
+<Fragments fragments={{ android: android1 }} />
 
-import ios3 from "/src/fragments/lib/datastore/native_common/datastore-events/model-synced.mdx";
+import flutter2 from '/src/fragments/lib/datastore/native_common/datastore-events/model-synced.mdx';
 
-<Fragments fragments={{ios: ios3}} />
+<Fragments fragments={{ flutter: flutter2 }} />
+
+import ios3 from '/src/fragments/lib/datastore/native_common/datastore-events/model-synced.mdx';
+
+<Fragments fragments={{ ios: ios3 }} />
 
 ## syncQueriesReady
 
@@ -58,67 +65,82 @@ Dispatched when DataStore as a whole is ready, at this point all data is availab
 
 HubPayload: N/A
 
-import js4 from "/src/fragments/lib/datastore/js/datastore-events/outbox-mutation-enqueued.mdx";
+import js4 from '/src/fragments/lib/datastore/js/datastore-events/outbox-mutation-enqueued.mdx';
 
-<Fragments fragments={{js: js4}} />
+<Fragments fragments={{ js: js4 }} />
 
-import android5 from "/src/fragments/lib/datastore/native_common/datastore-events/outbox-mutation-enqueued.mdx";
+import reactnative1 from '/src/fragments/lib/datastore/js/datastore-events/outbox-mutation-enqueued.mdx';
 
-<Fragments fragments={{android: android5}} />
+<Fragments fragments={{ 'react-native': reactnative1 }} />
 
-import flutter6 from "/src/fragments/lib/datastore/native_common/datastore-events/outbox-mutation-enqueued.mdx";
+import android5 from '/src/fragments/lib/datastore/native_common/datastore-events/outbox-mutation-enqueued.mdx';
 
-<Fragments fragments={{flutter: flutter6}} />
+<Fragments fragments={{ android: android5 }} />
 
-import ios7 from "/src/fragments/lib/datastore/native_common/datastore-events/outbox-mutation-enqueued.mdx";
+import flutter6 from '/src/fragments/lib/datastore/native_common/datastore-events/outbox-mutation-enqueued.mdx';
 
-<Fragments fragments={{ios: ios7}} />
+<Fragments fragments={{ flutter: flutter6 }} />
 
-import js8 from "/src/fragments/lib/datastore/js/datastore-events/outbox-mutation-processed.mdx";
+import ios7 from '/src/fragments/lib/datastore/native_common/datastore-events/outbox-mutation-enqueued.mdx';
 
-<Fragments fragments={{js: js8}} />
+<Fragments fragments={{ ios: ios7 }} />
 
-import android9 from "/src/fragments/lib/datastore/native_common/datastore-events/outbox-mutation-processed.mdx";
+import js8 from '/src/fragments/lib/datastore/js/datastore-events/outbox-mutation-processed.mdx';
 
-<Fragments fragments={{android: android9}} />
+<Fragments fragments={{ js: js8 }} />
 
-import flutter10 from "/src/fragments/lib/datastore/native_common/datastore-events/outbox-mutation-processed.mdx";
+import reactnative2 from '/src/fragments/lib/datastore/js/datastore-events/outbox-mutation-processed.mdx';
 
-<Fragments fragments={{flutter: flutter10}} />
+<Fragments fragments={{ 'react-native': reactnative2 }} />
 
-import ios11 from "/src/fragments/lib/datastore/native_common/datastore-events/outbox-mutation-processed.mdx";
+import android9 from '/src/fragments/lib/datastore/native_common/datastore-events/outbox-mutation-processed.mdx';
 
-<Fragments fragments={{ios: ios11}} />
+<Fragments fragments={{ android: android9 }} />
 
-import android12 from "/src/fragments/lib/datastore/android/datastore-events/outbox-mutation-failed.mdx";
+import flutter10 from '/src/fragments/lib/datastore/native_common/datastore-events/outbox-mutation-processed.mdx';
 
-<Fragments fragments={{android: android12}} />
+<Fragments fragments={{ flutter: flutter10 }} />
+
+import ios11 from '/src/fragments/lib/datastore/native_common/datastore-events/outbox-mutation-processed.mdx';
+
+<Fragments fragments={{ ios: ios11 }} />
+
+import android12 from '/src/fragments/lib/datastore/android/datastore-events/outbox-mutation-failed.mdx';
+
+<Fragments fragments={{ android: android12 }} />
 
 ## outboxStatus
 
 Dispatched when:
+
 - the DataStore starts
 - each time a local mutation is enqueued into the outbox
 - each time a local mutation is finished processing
 
 HubPayload `OutboxStatusEvent` contains:
+
 - `isEmpty` (Bool): a boolean value indicating that there are no local changes still pending upload to the Cloud
 
 ## Usage
+
 To see if the network status is active, you could set up the following listener:
 
-import js13 from "/src/fragments/lib/datastore/js/datastore-events.mdx";
+import js13 from '/src/fragments/lib/datastore/js/datastore-events.mdx';
 
-<Fragments fragments={{js: js13}} />
+<Fragments fragments={{ js: js13 }} />
 
-import android14 from "/src/fragments/lib/datastore/android/datastore-events.mdx";
+import reactnative3 from '/src/fragments/lib/datastore/js/datastore-events.mdx';
 
-<Fragments fragments={{android: android14}} />
+<Fragments fragments={{ 'react-native': reactnative3 }} />
 
-import ios15 from "/src/fragments/lib/datastore/ios/datastore-events.mdx";
+import android14 from '/src/fragments/lib/datastore/android/datastore-events.mdx';
 
-<Fragments fragments={{ios: ios15}} />
+<Fragments fragments={{ android: android14 }} />
 
-import flutter16 from "/src/fragments/lib/datastore/flutter/datastore-events.mdx";
+import ios15 from '/src/fragments/lib/datastore/ios/datastore-events.mdx';
 
-<Fragments fragments={{flutter: flutter16}} />
+<Fragments fragments={{ ios: ios15 }} />
+
+import flutter16 from '/src/fragments/lib/datastore/flutter/datastore-events.mdx';
+
+<Fragments fragments={{ flutter: flutter16 }} />

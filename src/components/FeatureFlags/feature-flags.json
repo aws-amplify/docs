@@ -421,7 +421,7 @@
         "values": [
           {
             "value": "true",
-            "description": "[Recommended] Use the models generator internal package implementation at https://github.com/aws-amplify/amplify-codegen",
+            "description": "[Recommended] Use the models generator internal package implementation at https://github.com/aws-amplify/amplify-codegen/tree/main/packages/appsync-modelgen-plugin",
             "defaultNewProject": true,
             "defaultExistingProject": false
           },
