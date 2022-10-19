@@ -1,28 +1,29 @@
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-func fetchCurrentAuthSession() {
-    _ = Amplify.Auth.fetchAuthSession { result in
-        switch result {
-        case .success(let session):
-            print("Is user signed in - \(session.isSignedIn)")
-        case .failure(let error):
-            print("Fetch session failed with error \(error)")
-        }
+func fetchCurrentAuthSession() async {
+    do {
+        let session = try await Amplify.Auth.fetchAuthSession() 
+        print("Is user signed in - \(session.isSignedIn)")
+    } catch let error as AuthError {
+        print("Fetch session failed with error \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
     }
 }
 ```
 
 </Block>
 
-<Block name="Combine (iOS 13+)">
+<Block name="Combine">
 
 ```swift
 func fetchCurrentAuthSession() -> AnyCancellable {
-    Amplify.Auth.fetchAuthSession().resultPublisher
-        .sink {
+    Amplify.Publisher.create {
+            try await Amplify.Auth.fetchAuthSession()
+        }.sink {
             if case let .failure(authError) = $0 {
                 print("Fetch session failed with error \(authError)")
             }

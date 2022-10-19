@@ -132,8 +132,6 @@ type Todo @model @auth(rules: [{ allow: owner, ownerField: "authors" }]) {
 
 In the example above, upon record creation, the `authors` list is populated with the creator of the record. The creator can then update the `authors` field with additional users. Any user listed in the `authors` field can access the record.
 
-**Known limitation**: Real-time subscriptions are not supported when `owner` authorization is configured with a list of owners.
-
 ### Signed-in user data access
 To restrict a record's access to every signed-in user, use the `private` authorization strategy.
 
@@ -288,6 +286,8 @@ type Post @model @auth(rules: [
 In the example above:
 - any user (signed in or not, verified by IAM) is allowed to read all posts
 - owners are allowed to create, read, update, and delete their own posts.
+
+If you are using DataStore and have multiple authorization rules, you can let DataStore automatically determine the best authorization mode client-side. Review how to [Configure Multiple Authorization Types](https://docs.amplify.aws/lib/datastore/setup-auth-rules/q/platform/js/#configure-multiple-authorization-types) on DataStore for more details.
 
 ## Field-level authorization rules
 

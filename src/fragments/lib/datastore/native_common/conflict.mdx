@@ -1,20 +1,19 @@
-
 If data synchronization is enabled via [AppSync](https://aws.amazon.com/appsync/), there can be different versions of the same object on the client and server. Multiple clients may have updated their respective copies of an object. DataStore will converge different object versions by applying conflict detection and resolution strategies. The default resolution is called `Auto Merge`. This strategy allows collections to grow, and prefers server-side versions of single-field data. Other strategies include `Optimistic Concurrency` control and `Custom Lambda` functions. For more information, see the [AWS AppSync documentation on conflict handling](https://docs.aws.amazon.com/appsync/latest/devguide/conflict-detection-and-sync.html).
 
 ## Custom conflict resolution
 
-To select a different conflict resolution strategy, navigate into your project from a terminal and run `amplify update api`. Choose *Conflict resolution strategy* to change the conflict detection and resolution strategies.
+To select a different conflict resolution strategy, navigate into your project from a terminal and run `amplify update api`. Choose _Conflict resolution strategy_ to change the conflict detection and resolution strategies.
 
 ```console
-? Please select from one of the below mentioned services: 
+? Please select from one of the below mentioned services:
     `GraphQL`
 ...
-? Select a setting to edit 
+? Select a setting to edit
     `Conflict resolution strategy`
 ? Select the default resolution strategy
-  Auto Merge 
-❯ Optimistic Concurrency 
-  Custom Lambda 
+  Auto Merge
+❯ Optimistic Concurrency
+  Custom Lambda
   Learn More
 ```
 
@@ -24,31 +23,35 @@ Note that this flow will also allow you to change the strategy on each individua
 
 ```
 ? Do you want to override default per model settings? Yes
-? Select the models from below: 
+? Select the models from below:
 ❯◉ Post
  ◯ PostEditor
  ◯ User
 
 ? Select the resolution strategy for Post model Custom Lambda
 ? Select from the options below (Use arrow keys)
-❯ Create a new Lambda Function 
-  Existing Lambda Function 
+❯ Create a new Lambda Function
+  Existing Lambda Function
 ```
 
 ## Custom configuration
 
-import js0 from "/src/fragments/lib/datastore/js/conflict.mdx";
+import js0 from '/src/fragments/lib/datastore/js/conflict.mdx';
 
-<Fragments fragments={{js: js0}} />
+<Fragments fragments={{ js: js0 }} />
 
-import ios1 from "/src/fragments/lib/datastore/ios/conflict.mdx";
+import reactnative0 from '/src/fragments/lib/datastore/js/conflict.mdx';
 
-<Fragments fragments={{ios: ios1}} />
+<Fragments fragments={{ 'react-native': reactnative0 }} />
 
-import android2 from "/src/fragments/lib/datastore/android/conflict.mdx";
+import ios1 from '/src/fragments/lib/datastore/ios/conflict.mdx';
 
-<Fragments fragments={{android: android2}} />
+<Fragments fragments={{ ios: ios1 }} />
 
-import flutter3 from "/src/fragments/lib/datastore/flutter/conflict.mdx";
+import android2 from '/src/fragments/lib/datastore/android/conflict.mdx';
 
-<Fragments fragments={{flutter: flutter3}} />
+<Fragments fragments={{ android: android2 }} />
+
+import flutter3 from '/src/fragments/lib/datastore/flutter/conflict.mdx';
+
+<Fragments fragments={{ flutter: flutter3 }} />

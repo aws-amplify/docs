@@ -1,7 +1,7 @@
-import {Logo, Container, ExternalLinkWrapper} from "./styles";
-import ExternalLink from "../ExternalLink";
-import * as links from "../../constants/links";
-import * as img from "../../constants/img";
+import { Logo, Container, ExternalLinkWrapper } from './styles';
+import ExternalLink from '../ExternalLink';
+import * as links from '../../constants/links';
+import * as img from '../../constants/img';
 
 export default function LinkBanner() {
   return (
@@ -25,9 +25,9 @@ export default function LinkBanner() {
         </ExternalLink>
       </ExternalLinkWrapper>
       <ExternalLinkWrapper>
-        <ExternalLink href={links.COMMUNITY} graphic="black">
+        <ExternalLink href={links.LEARN} graphic="black">
           <Logo alt={img.AMPLIFY.alt} src={img.AMPLIFY.darkSrc} />
-          Amplify Community
+          Amplify Learn
         </ExternalLink>
       </ExternalLinkWrapper>
     </Container>

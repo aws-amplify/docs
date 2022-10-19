@@ -1,16 +1,20 @@
 export const meta = {
   title: `Hub`,
-  description: `Amplify has a local eventing system called Hub. It is a lightweight implementation of Publisher-Subscriber pattern, and is used to share data between modules and components in your app. `,
+  description: `Amplify has a local eventing system called Hub. It is a lightweight implementation of Publisher-Subscriber pattern, and is used to share data between modules and components in your app. `
 };
 
-import js0 from "/src/fragments/lib/utilities/js/hub.mdx";
+import js0 from '/src/fragments/lib/utilities/js/hub.mdx';
 
-<Fragments fragments={{js: js0}} />
+<Fragments fragments={{ js: js0 }} />
 
-import android1 from "/src/fragments/lib/utilities/native_common/hub/common.mdx";
+import reactnative0 from '/src/fragments/lib/utilities/js/hub.mdx';
 
-<Fragments fragments={{android: android1}} />
+<Fragments fragments={{ 'react-native': reactnative0 }} />
 
-import ios2 from "/src/fragments/lib/utilities/native_common/hub/common.mdx";
+import android1 from '/src/fragments/lib/utilities/native_common/hub/common.mdx';
 
-<Fragments fragments={{ios: ios2}} />
+<Fragments fragments={{ android: android1 }} />
+
+import ios2 from '/src/fragments/lib/utilities/native_common/hub/common.mdx';
+
+<Fragments fragments={{ ios: ios2 }} />

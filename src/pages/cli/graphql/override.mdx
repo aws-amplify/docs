@@ -106,6 +106,18 @@ You can override the following @searchable directive resources that Amplify gene
 [OpenSearchStreamingLambdaFunction](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-function.html)|Lambda function to stream DynamoDB data to OpenSearch domain|
 [OpenSearchModelLambdaMapping](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-eventsourcemapping.html)|Event source mapping for DynamoDB table stream to Lambda function|
 
+### Example - Configure Runtime for Streaming Lambda
+
+You can define the runtime for the `@searchable` by setting the runtime value on the function object itself. This can be done to resolve a deprecated runtime in the event that you cannot upgrade your version of the Amplify CLI.
+
+```ts
+import { AmplifyApiGraphQlResourceStackTemplate } from '@aws-amplify/cli-extensibility-helper';
+
+export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
+  resources.opensearch.OpenSearchStreamingLambdaFunction.runtime = 'python3.9';
+}
+```
+
 ## Customize Amplify-generated resources for @predictions directive
 
 Apply all the overrides in the `override(...)` function. For example, to add a Path to IAM role that facilitates text translation:

@@ -75,6 +75,7 @@
     "amplify-s3-album",
     "amplify-totp-setup",
     "amplify-vue",
+    "Amplify",
     "Amplify's",
     "amplify’s",
     "AmplifyAngularModule",
@@ -1323,6 +1324,7 @@
     "versioning",
     "versionInput",
     "ViewController.swift",
+    "viewmodel",
     "vite",
     "voiceEnabled",
     "vue-recaptcha",
@@ -1471,9 +1473,8 @@
     "myfunction",
     "roadmap",
     "infowindow",
-    "Libre's"
+    "Libre's",
+    "Pinia"
   ],
-  "flagWords": [
-    "hte"
-  ]
+  "flagWords": ["hte"]
 }

@@ -46,7 +46,7 @@ export const JS = {
 
 export const IOS = {
   src: "/assets/integrations/ios.svg",
-  alt: "iOS Icon",
+  alt: "Swift Icon",
 };
 
 export const ANDROID = {
