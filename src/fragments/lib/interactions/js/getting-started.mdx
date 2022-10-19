@@ -39,7 +39,7 @@ Upon successful execution of the push command, a configuration file called `aws-
 
 ## Manual setup
 ### Lex V1 bot
-You can create Amazon Lex V1 chatbox in Amazon Lex console. To create your bot, follow the steps shown in [Amazon Lex V1 Developer Guide](https://docs.aws.amazon.com/lex/latest/dg/getting-started.html).
+You can create Amazon Lex V1 chatbot in Amazon Lex console. To create your bot, follow the steps shown in [Amazon Lex V1 Developer Guide](https://docs.aws.amazon.com/lex/latest/dg/getting-started.html).
 
 ![Interactions](/images/interactions_lex_console_edit_bot.jpg)
 
@@ -66,7 +66,7 @@ Amplify.configure({
 ```
 
 ### Lex V2 bot
-You can create Amazon Lex V2 chatbox in Amazon Lex console. To create your bot, follow the steps shown in [Amazon Lex V2 Developer Guide](https://docs.aws.amazon.com/lexv2/latest/dg/getting-started.html).
+You can create Amazon Lex V2 chatbot in Amazon Lex console. To create your bot, follow the steps shown in [Amazon Lex V2 Developer Guide](https://docs.aws.amazon.com/lexv2/latest/dg/getting-started.html).
 
 ![Interactions](/images/interactions_lex_v2_console_edit_bot.png)
 
@@ -85,13 +85,6 @@ const interactionsConfig = {
     },
     Interactions: {
         bots: {
-            // LexV1 Bot
-            <V1BotName>: {
-                name: "<V1BotName>",
-                alias: "<V1BotAliasName>",
-                region: "<V1BotRegion>",
-                // default provider "AWSLexProvider"
-            },
             // LexV2 Bot
             <V2BotName>: {
                 name: "<V2BotName>",
@@ -122,7 +115,3 @@ Amplify.configure(awsconfig);
 ## ChatBot UI component
 
 Use the `ChatBot` component to add conversational UI to your app. [Learn more](https://ui.docs.amplify.aws/react/legacy-components/chatbot).
-
-## API reference
-
-For the complete API documentation for Interactions module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/interactions.html).
