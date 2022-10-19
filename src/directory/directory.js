@@ -2254,7 +2254,7 @@ const directory = {
             title: 'Theming',
             route: '/console/uibuilder/theming'
           },
-           {
+          {
             title: 'Responsive components',
             route: '/console/uibuilder/responsive'
           }, 
