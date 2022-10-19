@@ -499,7 +499,7 @@
     "devpreview",
     "dflt",
     "Didfinishlaunchingwithoptions",
-    "displaymode",
+    "displayMode",
     "displayOrder",
     "DocSet",
     "DocSets",
@@ -1474,5 +1474,7 @@
     "Libre's",
     "Pinia"
   ],
-  "flagWords": ["hte"]
+  "flagWords": [
+    "hte"
+  ]
 }
