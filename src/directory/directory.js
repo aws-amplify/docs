@@ -1769,7 +1769,7 @@ const directory = {
           {
             title: 'Responsive components',
             route: '/console/uibuilder/responsive'
-          }, 
+          },
           {
             title: 'Extend with code',
             route: '/console/uibuilder/override'
