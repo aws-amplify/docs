@@ -140,7 +140,7 @@ const App = ({ signOut, user }) => {
   return (
     <div style={styles.container}>
       <Heading level={1}>Hello {user.username}</Heading>
-      <Button onClick={signOut}>Sign out</Button>
+      <Button onClick={signOut} style={styles.button}>Sign out</Button>
       <h2>Amplify Todos</h2>
       <input
         onChange={event => setInput('name', event.target.value)}
@@ -178,6 +178,49 @@ const styles = {
 
 export default withAuthenticator(App);
 ```
+
+### Bonus: Use Amplify UI Primitives
+
+You used two Amplify UI components, `Heading` and `Button`. You could also convert the rest of the app to Amplify UI components by replacing the `p` tags with `Text` and the `input`s with `TextField`s.
+
+1. Add the `Text` and `TextField` components to the imported components from Amplify UI:
+
+```javascript
+import { withAuthenticator, Button, Heading, Text, TextField } from '@aws-amplify/ui-react';
+```
+
+2. Replace the `p` tags with `Text` and the `input`s with `TextField`s in your `App` component:
+
+```javascript
+<div style={styles.container}>
+  <Heading level={1}>Hello {user.username}</Heading>
+  <Button style={styles.button}onClick={signOut}>Sign out</Button>
+  <Heading level={2}>Amplify Todos</Heading>
+  <TextField
+    placeholder="Name"
+    onChange={event => setInput('name', event.target.value)}
+    style={styles.input}
+    defaultValue={formState.name}
+  />
+  <TextField
+    placeholder="Description"
+    onChange={event => setInput('description', event.target.value)}
+    style={styles.input}
+    defaultValue={formState.description}
+  />
+  <Button style={styles.button} onClick={addTodo}>Create Todo</Button>
+  {
+    todos.map((todo, index) => (
+      <div key={todo.id ? todo.id : index} style={styles.todo}>
+        <Text style={styles.todoName}>{todo.name}</Text>
+        <Text style={styles.todoDescription}>{todo.description}</Text>
+      </div>
+    ))
+  }
+</div>
+```
+
+Using Amplify UI components together makes it easier to manage styling across your entire app.
 
 In this example, you used the Amplify React UI library and the `withAuthenticator` component to quickly get up and running with a real-world authentication flow.
 
