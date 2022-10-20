@@ -675,6 +675,11 @@ const directory = {
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
+            title: 'Query Transfers',
+            route: '/lib/storage/querytransfers',
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+          },
+          {
             title: 'List files',
             route: '/lib/storage/list',
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
