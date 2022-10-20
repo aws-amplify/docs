@@ -28,7 +28,8 @@ const getFirstPathSegment = (path: string): string | undefined => {
 const multiLibVersionPlatforms = ['ios']
 
 const convertToRouteHerf = (filter: FilterSelectProps, targetFilterKey: string) => {
-  let path = window.location.pathname
+  const url = filter.url.startsWith('/') ? `file://${filter.url}` : filter.url
+  let path = new URL(url).pathname
 
   const firstPathSegment = getFirstPathSegment(path)
   if (firstPathSegment)
