@@ -6,7 +6,7 @@ Add the following code to your app:
 class MyAPIAuthProviderFactory: APIAuthProviderFactory {
     let myAuthProvider = MyFunctionAuthProvider()
 
-    open func functionAuthProvider() -> AmplifyFunctionAuthProvider? {
+    override func functionAuthProvider() -> AmplifyFunctionAuthProvider? {
         return MyFunctionAuthProvider()
     }
 }
@@ -15,7 +15,7 @@ class MyAPIAuthProviderFactory: APIAuthProviderFactory {
 * Implement your class which conforms to `AmplifyFunctionAuthProvider`:
 ```swift
 class MyFunctionAuthProvider : AmplifyFunctionAuthProvider {
-    func getLatestAuthToken() -> Result<AuthToken, Error> {
+    func getLatestAuthToken() async throws -> String {
        ....
     }
 }

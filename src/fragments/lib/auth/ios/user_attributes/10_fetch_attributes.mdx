@@ -1,29 +1,29 @@
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-func fetchAttributes() {
-    Amplify.Auth.fetchUserAttributes() { result in
-        switch result {
-        case .success(let attributes):
-            print("User attributes - \(attributes)")
-        case .failure(let error):
-            print("Fetching user attributes failed with error \(error)")
-        }
+func fetchAttributes() async {
+    do {
+        let attributes = try await Amplify.Auth.fetchUserAttributes()
+        print("User attributes - \(attributes)")
+    } catch let error as AuthError{
+        print("Fetching user attributes failed with error \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
     }
 }
 ```
 
 </Block>
 
-<Block name="Combine (iOS 13+)">
+<Block name="Combine">
 
 ```swift
 func fetchAttributes() -> AnyCancellable {
-    Amplify.Auth.fetchUserAttributes()
-        .resultPublisher
-        .sink {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.fetchUserAttributes()
+        }.sink {
             if case let .failure(authError) = $0 {
                 print("Fetch user attributes failed with error \(authError)")
             }

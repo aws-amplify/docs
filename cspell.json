@@ -1323,6 +1323,7 @@
     "versioning",
     "versionInput",
     "ViewController.swift",
+    "viewmodel",
     "vite",
     "voiceEnabled",
     "vue-recaptcha",
@@ -1471,7 +1472,8 @@
     "myfunction",
     "roadmap",
     "infowindow",
-    "Libre's"
+    "Libre's",
+    "Pinia"
   ],
   "flagWords": ["hte"]
 }

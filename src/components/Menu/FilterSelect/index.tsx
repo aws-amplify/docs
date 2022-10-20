@@ -21,6 +21,35 @@ type FilterSelectState = {
   isOpen: boolean;
 };
 
+const getFirstPathSegment = (path: string): string | undefined => {
+  return path.split('/').filter(x => !!x)[0]
+}
+
+const multiLibVersionPlatforms = ['ios']
+
+const convertToRouteHerf = (filter: FilterSelectProps, targetFilterKey: string) => {
+  let path = filter.url
+
+  const firstPathSegment = getFirstPathSegment(path)
+  if (firstPathSegment)
+    path = path.replace(`/${firstPathSegment}`, '/[firstPathSegment]')
+
+  let queryIndex = path.lastIndexOf('/q/')
+  if (queryIndex >= 0) {
+    path = path.substring(0, queryIndex)
+      + path.substring(queryIndex).replace(`/${filter.filterKey}`, `/[${filter.filterKind}]`)
+  }
+  return  {
+    pathname: path,
+    query: {
+      [filter.filterKind]: targetFilterKey,
+      firstPathSegment: multiLibVersionPlatforms.includes(targetFilterKey)
+                        ? firstPathSegment
+                        : firstPathSegment?.split('-')[0],
+    }
+  }
+}
+
 export default class FilterSelect extends React.Component<
   FilterSelectProps,
   FilterSelectState
@@ -63,13 +92,8 @@ export default class FilterSelect extends React.Component<
 
   renderFilter = (name) => {
     if (name === this.props.filterKey) return;
-    const query = {};
-    query[this.props.filterKind] = name;
 
-    let href = {
-      url: this.props.url,
-      query: query,
-    } as object | string;
+    let href: object | string = convertToRouteHerf(this.props, name)
     if (!this.props.url.includes("/q/")) {
       href = this.props.url + `/q/${this.props.filterKind}/${name}`;
     }

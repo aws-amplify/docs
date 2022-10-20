@@ -3,12 +3,9 @@ To include custom headers in your outgoing requests, add an `URLRequestIntercept
 ```swift
 struct CustomInterceptor: URLRequestInterceptor {
     func intercept(_ request: URLRequest) throws -> URLRequest {
-        let nsUrlRequest = (request as NSURLRequest)
-        guard let mutableRequest = nsUrlRequest.mutableCopy() as? NSMutableURLRequest else {
-            throw APIError.unknown("Could not get mutable request", "")
-        }
-        mutableRequest.setValue("headerValue", forHTTPHeaderField: "headerKey")
-        return mutableRequest as URLRequest
+        var request = request
+        request.setValue("headerValue", forHTTPHeaderField: "headerKey")
+        return request
     }
 }
 let apiPlugin = try AWSAPIPlugin()
