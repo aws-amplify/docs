@@ -293,7 +293,7 @@
         ]
       },
       "populateOwnerFieldForStaticGroupAuth": {
-        "description": "Populates the owner field automatically if the user is already Authorized via static Authorization checks",
+        "description": "Populates the owner field automatically if the user is already authorized by static user pool authorization rules",
         "type": "Feature",
         "valueType": "Boolean",
         "versionAdded": "9.2.0",
@@ -306,7 +306,7 @@
           },
           {
             "value": "false",
-            "description": "If the user is Authorized via static cognito group access, the owner field needs to be explicitly set by the developer",
+            "description": "If the user is authorized by static user pool authorization rules, the owner field needs to be explicitly set by the developer",
             "defaultNewProject": true,
             "defaultExistingProject": false
           }
