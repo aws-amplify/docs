@@ -1,42 +1,39 @@
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-Amplify.DataStore.save(
-    Post(title: "My first post",
-         description: "Amplify.DataStore is awesome!",
-         status: .draft)
-) {
-    switch $0 {
-    case .success:
-        print("Created a new post successfully")
-    case .failure(let error):
-        print("Error creating post - \(error.localizedDescription)")
-    }
+do {
+    try await Amplify.DataStore.save(
+        Post(title: "My first post",
+             status: .active,
+             content: "Amplify.DataStore is awesome!")
+    )
+    print("Created a new post successfully")
+} catch let error as DataStoreError {
+    print("Error creating post - \(error)")
+} catch {
+    print("Unexpected error \(error)")
 }
 ```
 
 </Block>
 
-<Block name="Combine (iOS 13+)">
+<Block name="Combine">
 
 ```swift
-let saveSink = Amplify.DataStore.save(
-    Post(
-        title: "My first post",
-        description: "Amplify.DataStore is awesome!",
-        status: .draft
-    )
-)
-.sink {
-    if case let .failure(error) = $0 {
-        print("Error creating post - \(error.localizedDescription)")
+let saveSink = Amplify.Publisher.create {
+    try await Amplify.DataStore.save(
+        Post(title: "My first post",
+             status: .active,
+             content: "Amplify.DataStore is awesome!")
+    )}.sink {
+        if case let .failure(error) = $0 {
+            print("Error updating post - \(error.localizedDescription)")
+        }
+    } receiveValue: {
+        print("Updated the existing post: \($0)")
     }
-}
-receiveValue: {
-    print("Created a new post successfully: \($0)")
-}
 ```
 
 </Block>

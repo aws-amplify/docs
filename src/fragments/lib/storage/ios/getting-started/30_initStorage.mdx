@@ -1,45 +1,61 @@
-To initialize the Amplify Storage and Authentication categories, we are required to use the `Amplify.add()` method for each category we want.  When we are done calling `add()` on each category, we finish configuring Amplify by calling `Amplify.configure()`.
+To use the Amplify Storage and Authentication categories in your app, you need to create and configure their corresponding plugins by calling the `Amplify.add(plugin:)` and `Amplify.configure()` methods.
 
-**Add the following imports** to the top of your `AppDelegate.swift` file:
 
 <BlockSwitcher>
 
-<Block name="Swift Package Manager">
+<Block name="SwiftUI">
+
+Add the following imports to the top of your `App` scene and configure Amplify in the `init`:
+```swift
+import Amplify
+import AWSCognitoAuthPlugin
+import AWSS3StoragePlugin
+
+@main
+struct MyAmplifyApp: App {
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
+
+    init() { 
+        do {
+            try Amplify.add(plugin: AWSCognitoAuthPlugin())
+            try Amplify.add(plugin: AWSS3StoragePlugin())
+            try Amplify.configure()
+            print("Amplify configured with Auth and Storage plugins")
+        } catch {
+            print("Failed to initialize Amplify with \(error)")
+        }
+    }
+}
+```
+
+</Block>
+
+<Block name="UIKit">
+
+Add the following imports to the top of your `AppDelegate.swift` file:
 
 ```swift
 import Amplify
+import AWSCognitoAuthPlugin
 import AWSS3StoragePlugin
 ```
 
-</Block>
-
-<Block name="CocoaPods">
+Add the following code to the `application:didFinishLaunchingWithOptions` method:
 
 ```swift
-import Amplify
-import AmplifyPlugins
-```
-
-</Block>
-
-</BlockSwitcher>
-
-**Add the following code** 
-
-<BlockSwitcher>
-
-<Block name="UIKit AppDelegate">
-
-Add to your AppDelegate's `application:didFinishLaunchingWithOptions` method
-
-```swift
-func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-
+func application(
+    _ application: UIApplication,
+    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+) -> Bool {
     do {
         try Amplify.add(plugin: AWSCognitoAuthPlugin())
         try Amplify.add(plugin: AWSS3StoragePlugin())
         try Amplify.configure()
-        print("Amplify configured with storage plugin")
+        print("Amplify configured with Auth and Storage plugins")
     } catch {
         print("Failed to initialize Amplify with \(error)")
     }
@@ -50,47 +66,10 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 
 </Block>
 
-<Block name="SwiftUI App">
-
-Create a custom `AppDelegate`, and add to your `application:didFinishLaunchingWithOptions` method
-```swift
-class AppDelegate: NSObject, UIApplicationDelegate {
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-
-        do {
-            try Amplify.add(plugin: AWSCognitoAuthPlugin())
-            try Amplify.add(plugin: AWSS3StoragePlugin())
-            try Amplify.configure()
-            print("Amplify configured with storage plugin")
-        } catch {
-            print("Failed to initialize Amplify with \(error)")
-        }
-
-        return true
-    }
-}
-```
-
-Then in the `App` scene, use `UIApplicationDelegateAdaptor` property wrapper to use your custom `AppDelegate`
-```swift
-@main
-struct MyAmplifyApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
-    }
-}
-```
-
-</Block>
-
 </BlockSwitcher>
 
 Upon building and running this application you should see the following in your console window:
 
 ```console
-Amplify configured with storage plugin
+Amplify configured with Auth and Storage plugins
 ```

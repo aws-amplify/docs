@@ -1,29 +1,29 @@
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-func customChallenge(response: String) {
-    Amplify.Auth.confirmSignIn(challengeResponse: response) { result in
-        switch result {
-        case .success:
-            print("Confirm sign in succeeded")   
-        case .failure(let error):
-            print("Confirm sign in failed \(error)")
-        }
+func customChallenge(response: String) async {
+    do {
+      _ = try await Amplify.Auth.confirmSignIn(challengeResponse: response)
+      print("Confirm sign in succeeded") 
+    } catch let error as AuthError {
+      print("Confirm sign in failed \(error)")
+    } catch {
+      print("Unexpected error: \(error)")
     }
 }
 ```
 
 </Block>
 
-<Block name="Combine (iOS 13+)">
+<Block name="Combine">
 
 ```swift
 func customChallenge(response: String) -> AnyCancellable {
-    Amplify.Auth.confirmSignIn(challengeResponse: response)
-        .resultPublisher
-        .sink {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.confirmSignIn(challengeResponse: response)
+        }.sink {
             if case let .failure(authError) = $0 {
                 print("Confirm sign in failed \(authError)")
             }
