@@ -58,6 +58,9 @@ function generatePathMap(
     '/lib/q/platform/react-native': {
       page: '/lib/q/platform/[platform]'
     },
+    '/lib-v1/q/platform/android': {
+      page: '/lib-v1/q/platform/[platform]'
+    },
     '/ui/q/framework/react': {
       page: '/ui/q/framework/[framework]'
     },
