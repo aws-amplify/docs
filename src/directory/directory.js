@@ -5,6 +5,16 @@ const directory = {
       route: '/lib'
     },
     items: {
+      devpreview: {
+        title: 'New! Amplify Mobile (Developer Preview)',
+        items: [
+          {
+            title: 'Getting started',
+            route: '/lib/devpreview/getting-started',
+            filters: ['android']
+          }
+        ]
+      },
       'project-setup': {
         title: 'Project Setup',
         items: [
