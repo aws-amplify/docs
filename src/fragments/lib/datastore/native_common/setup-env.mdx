@@ -2,18 +2,28 @@ In order to setup your local development environment, you have two options.
 
 ### Option 1: Platform integration
 
-import js1 from "/src/fragments/lib/datastore/js/getting-started/30_platformIntegration.mdx";
+<!-- TODO Rewrite Why are we showing the use of the amplify-app NPX script? should we still do that?-->
 
-<Fragments fragments={{js: js1}} />
+import js1 from '/src/fragments/lib/datastore/js/getting-started/30_platformIntegration.mdx';
 
-import flutter3 from "/src/fragments/lib/datastore/flutter/getting-started/30_platformIntegration.mdx";
+<Fragments fragments={{ js: js1 }} />
 
-<Fragments fragments={{flutter: flutter3}} />
+import reactnative0 from '/src/fragments/lib/datastore/react-native/getting-started/30_platformIntegration.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative0 }} />
+
+import android2 from '/src/fragments/lib/datastore/android/getting-started/30_platformIntegration.mdx';
+
+<Fragments fragments={{ android: android2 }} />
+
+import flutter3 from '/src/fragments/lib/datastore/flutter/getting-started/30_platformIntegration.mdx';
+
+<Fragments fragments={{ flutter: flutter3 }} />
 
 ### Option 2: Use Amplify CLI
 
 Instead of using the platform integration, you can alternatively use the Amplify CLI on its own. This option is particularly **useful for existing projects** where Amplify is already configured and you want to add DataStore to it.
 
-import all0 from "/src/fragments/lib/datastore/native_common/setup-env-cli.mdx";
+import all0 from '/src/fragments/lib/datastore/native_common/setup-env-cli.mdx';
 
-<Fragments fragments={{all: all0}} />
+<Fragments fragments={{ all: all0 }} />

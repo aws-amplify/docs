@@ -1,11 +1,13 @@
 List keys under a specified path, as well as `lastModified` timestamp.
 
+<!-- TODO Rewrite the details about prefixes here appear to be things that need to be added to ioS/Android/Flutter? Or is that too much info? -->
+
 ## Public level list
 
 ```javascript
 Storage.list('photos/') // for listing ALL files without prefix, pass '' instead
-    .then(result => console.log(result))
-    .catch(err => console.log(err));
+  .then((result) => console.log(result))
+  .catch((err) => console.log(err));
 ```
 
 Note the trailing slash `/` - if we had requested `Storage.list('photos')` it would also match against files like `photos123.jpg` alongside `photos/123.jpg`.
@@ -27,42 +29,46 @@ The format of the result looks like this:
 Manually created folders will show up as files with a `size` of 0, but you can also match keys against a regex like `file.key.match(/\.[0-9a-z]+$/i)` to distinguish files vs folders. Since "folders" are a virtual concept in S3, any file may declare any depth of folder just by having a `/` in its name. If you need to list all the folders, you'll have to parse them accordingly to get an authoritative list of files and folders:
 
 ```js
-  function processStorageList(result) {
-    let files = []
-    let folders = new Set()
-    result.forEach(res => {
-      if (res.size) {
-        files.push(res)
-        // sometimes files declare a folder with a / within then
-        let possibleFolder = res.key.split('/').slice(0,-1).join('/')
-        if (possibleFolder) folders.add(possibleFolder)
-      } else {
-        folders.add(res.key)
-      }
-    })
-    return {files, folders}
-  }
+function processStorageList(result) {
+  let files = [];
+  let folders = new Set();
+  result.forEach((res) => {
+    if (res.size) {
+      files.push(res);
+      // sometimes files declare a folder with a / within then
+      let possibleFolder = res.key
+        .split('/')
+        .slice(0, -1)
+        .join('/');
+      if (possibleFolder) folders.add(possibleFolder);
+    } else {
+      folders.add(res.key);
+    }
+  });
+  return { files, folders };
+}
 ```
 
 If you need the files and folders in terms of a nested object instead (for example, to build an explorer UI), you could parse it recursively:
 
 ```js
-  function processStorageList(results) {
-    const filesystem = {}
-    // https://stackoverflow.com/questions/44759750/how-can-i-create-a-nested-object-representation-of-a-folder-structure
-    const add = (source, target, item) => {
-      const elements = source.split("/");
-      const element = elements.shift();
-      if (!element) return // blank
-      target[element] = target[element] || {__data: item}// element;
-      if (elements.length) {
-        target[element] = typeof target[element] === "object" ? target[element] : {};
-        add(elements.join("/"), target[element], item);
-      }
-    };
-    results.forEach(item => add(item.key, filesystem, item));
-    return filesystem
-  }
+function processStorageList(results) {
+  const filesystem = {};
+  // https://stackoverflow.com/questions/44759750/how-can-i-create-a-nested-object-representation-of-a-folder-structure
+  const add = (source, target, item) => {
+    const elements = source.split('/');
+    const element = elements.shift();
+    if (!element) return; // blank
+    target[element] = target[element] || { __data: item }; // element;
+    if (elements.length) {
+      target[element] =
+        typeof target[element] === 'object' ? target[element] : {};
+      add(elements.join('/'), target[element], item);
+    }
+  };
+  results.forEach((item) => add(item.key, filesystem, item));
+  return filesystem;
+}
 ```
 
 This places each item's data inside a special `__data` key.
@@ -73,41 +79,37 @@ To list current user's objects:
 
 ```javascript
 Storage.list('photos/', { level: 'protected' })
-    .then(result => console.log(result))
-    .catch(err => console.log(err));
+  .then((result) => console.log(result))
+  .catch((err) => console.log(err));
 ```
 
 To get other users' objects:
 
 ```javascript
-Storage.list('photos/', { 
-    level: 'protected', 
-    identityId: 'xxxxxxx' // the identityId of that user
+Storage.list('photos/', {
+  level: 'protected',
+  identityId: 'xxxxxxx' // the identityId of that user
 })
-.then(result => console.log(result))
-.catch(err => console.log(err));
+  .then((result) => console.log(result))
+  .catch((err) => console.log(err));
 ```
 
 ## Private level list
 
 ```javascript
 Storage.list('photos/', { level: 'private' })
-    .then(result => console.log(result))
-    .catch(err => console.log(err));
+  .then((result) => console.log(result))
+  .catch((err) => console.log(err));
 ```
 
-## Access all files 
+## Access all files
 
 To get a list of all files in your S3 bucket under a specific prefix, you can set maxKeys to ALL. The default value of maxKeys is 1000.
 
 ```javascript
-
-Storage.list('photos/', { maxKeys : 'ALL' })
-.then(result => console.log(result))
-.catch(err => console.log(err));
-
+Storage.list('photos/', { maxKeys: 'ALL' })
+  .then((result) => console.log(result))
+  .catch((err) => console.log(err));
 ```
 
-<Callout>
-Note: The range of maxKeys can be from 0 - 1000 or 'ALL'.
-</Callout>
+<Callout>Note: The range of maxKeys can be from 0 - 1000 or 'ALL'.</Callout>

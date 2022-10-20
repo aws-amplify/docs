@@ -15,7 +15,10 @@ The following steps show how to receive push notifications targeted for your app
     class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Other app delegate methods...
-        func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        func application(
+            _ application: UIApplication,
+            didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+        ) -> Bool {
             // Other didFinishLaunching code, including Pinpoint initialization...
 
             registerForPushNotifications()
@@ -34,20 +37,24 @@ The following steps show how to receive push notifications targeted for your app
         func application(
             _ application: UIApplication,
             didReceiveRemoteNotification userInfo: [AnyHashable: Any],
-                                        fetchCompletionHandler completionHandler:
-            @escaping (UIBackgroundFetchResult) -> Void) {
+            fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
+        ) {
 
             pinpoint!.notificationManager.interceptDidReceiveRemoteNotification(
-                userInfo, fetchCompletionHandler: completionHandler)
+              userInfo,
+              fetchCompletionHandler: completionHandler
+            )
 
             if (application.applicationState == .active) {
-                let alert = UIAlertController(title: "Notification Received",
-                                              message: userInfo.description,
-                                              preferredStyle: .alert)
+                let alert = UIAlertController(
+                    title: "Notification Received",
+                    message: userInfo.description,
+                    preferredStyle: .alert
+                )
                 alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
 
-                UIApplication.shared.keyWindow?.rootViewController?.present(
-                    alert, animated: true, completion:nil)
+                UIApplication.shared.keyWindow?
+                    .rootViewController?.present(alert, animated: true, completion:nil)
             }
         }
 

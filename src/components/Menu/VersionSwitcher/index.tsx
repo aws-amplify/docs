@@ -39,7 +39,7 @@ const Option = function({href, title, isActive}) {
   );
 };
 
-export default function VersionSwitcher({url}) {
+export function VersionSwitcher({url}) {
   let leftActive = true;
   let urlEnd;
   const filter = url.includes("/framework")
@@ -77,6 +77,76 @@ export default function VersionSwitcher({url}) {
         href={rightOption.href}
         title={rightOption.title}
         isActive={!leftActive}
+      />
+    </SwitchStyle>
+  );
+}
+
+
+const lib = directory["lib"].items;
+const libLegacy = directory["lib-v1"].items;
+const libLegacyPaths = [];
+const libPaths = [];
+const libItemsAndPaths: [object, string[]][] = [
+  [lib, libPaths],
+  [libLegacy, libLegacyPaths],
+];
+for (const [dirItems, paths] of libItemsAndPaths) {
+  for (const [_, value] of Object.entries(dirItems)) {
+    const {items} = value;
+    items.forEach((item) => {
+      const {route, filters} = item;
+      filters.forEach((filter) => {
+        const path = route + "/q/platform/" + filter;
+        paths.push(path);
+      });
+      paths.push(route);
+    });
+  }
+}
+libLegacyPaths.push("/lib-v1");
+libPaths.push("/lib");
+
+export function LibVersionSwitcher({url}) {
+  let rightActive;
+  let urlEnd;
+  const filter = url.includes("/platform")
+    ? "q/platform" + url.split("/platform")[1]
+    : "";
+
+  if (url.includes("/lib-v1")) {
+    rightActive = false;
+    urlEnd = url.split("/lib-v1")[1];
+  } else {
+    rightActive = true
+    urlEnd = url.split("/lib")[1];
+  }
+
+  const leftHref = "/lib-v1" + urlEnd;
+  const leftOption = {
+    title: "v1",
+    href: libLegacyPaths.includes(leftHref)
+      ? leftHref
+      : "/lib-v1/" + filter,
+  };
+
+  const rightHref = "/lib" + urlEnd;
+  const rightOption = {
+    title: "v2 (latest)",
+    href: libPaths.includes(rightHref) ? rightHref : "/lib/" + filter,
+  };
+
+  return (
+    <SwitchStyle>
+      <Option
+        href={leftOption.href}
+        title={leftOption.title}
+        isActive={!rightActive}
+      />
+      <Option
+        href={rightOption.href}
+        title={rightOption.title}
+        isActive={rightActive}
       />
     </SwitchStyle>
   );

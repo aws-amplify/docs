@@ -35,7 +35,7 @@ amplify add auth
 > If you have previously enabled an Amplify category that uses Auth behind the scenes, e.g. Storage category, you may already have an Auth configuration. In such a case, run `amplify auth update` command to edit your configuration.
 
 The Amplify CLI prompts will help you to customize your auth configuration:
-- Customize sign-in/registration flow 
+- Customize sign-in/registration flow
 - Customize email and SMS messages for Multi-Factor Authentication
 - Customize attributes for your users, e.g. name, email
 - Enable 3rd party authentication providers like Facebook, Twitter, Google and Amazon
@@ -89,7 +89,10 @@ import AWSMobileClient
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
 
             // Initialize AWSMobileClient singleton
             AWSMobileClient.default().initialize { (userState, error) in
@@ -112,7 +115,7 @@ Build and run your program to see the initialized client in Xcode messages. Sinc
     import AWSMobileClient
 
     ...
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         switch( AWSMobileClient.default().currentUserState) {
