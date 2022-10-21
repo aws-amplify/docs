@@ -5,7 +5,9 @@
 ```swift
 func signIn(username: String) async {
     do {
-        let signInResult = try await Amplify.Auth.signIn(username: username)
+        let options = AWSAuthSignInOptions(authFlowType: .customWithoutSRP)
+        let signInResult = try await Amplify.Auth.signIn(username: username,
+                                                        options: .init(pluginOptions: options))
         if case .confirmSignInWithCustomChallenge(_) = signInResult.nextStep {
             // Ask the user to enter the custom challenge.
         } else {
@@ -24,9 +26,11 @@ func signIn(username: String) async {
 <Block name="Combine">
 
 ```swift
-func signIn(username: String, password: String) -> AnyCancellable {
+func signIn(username: String) -> AnyCancellable {
     Amplify.Publisher.create {
-        try await Amplify.Auth.signIn(username: username)
+        let options = AWSAuthSignInOptions(authFlowType: .customWithoutSRP)
+        try await Amplify.Auth.signIn(username: username,
+                                    options: .init(pluginOptions: options))
     }.sink {
         if case let .failure(authError) = $0 {
             print("Sign in failed \(authError)")
