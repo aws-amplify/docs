@@ -300,7 +300,7 @@
         "values": [
           {
             "value": "true",
-            "description": "If the user is Authorized, the owner field is automatically populated",
+            "description": "If the user is authorized, the owner field is automatically populated",
             "defaultNewProject": false,
             "defaultExistingProject": true
           },
