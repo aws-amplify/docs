@@ -137,7 +137,7 @@ export function override(resources: AmplifyAuthCognitoStackTemplate) {
       type: "AWS::Cognito::UserPoolIdentityProvider",
       properties: {
         AttributeMapping: {
-          preferredUsername: "email",
+          preferred_username: "email",
           email: "email"
         },
         ProviderDetails: {

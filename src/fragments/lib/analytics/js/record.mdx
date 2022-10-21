@@ -8,13 +8,13 @@ Analytics.record({ name: 'albumVisit' });
 
 ## Record a Custom Event with Attributes
 
-The `record` method lets you add additional attributes to an event. For example, to record *artist* information with an *albumVisit* event:
+The `record` method lets you add additional attributes to an event. For example, to record _artist_ information with an _albumVisit_ event:
 
 ```javascript
 Analytics.record({
-    name: 'albumVisit', 
-    // Attribute values must be strings
-    attributes: { genre: '', artist: '' }
+  name: 'albumVisit',
+  // Attribute values must be strings
+  attributes: { genre: '', artist: '' }
 });
 ```
 
@@ -24,9 +24,9 @@ Data can also be added to an event:
 
 ```javascript
 Analytics.record({
-    name: 'albumVisit', 
-    attributes: {}, 
-    metrics: { minutesListened: 30 }
+  name: 'albumVisit',
+  attributes: {},
+  metrics: { minutesListened: 30 }
 });
 ```
 
@@ -38,18 +38,7 @@ Amazon Pinpoint provider sends events in batch to optimize network bandwidth, ho
 
 ```javascript
 Analytics.record({
-    name: 'albumVisit', 
-    immediate: true
+  name: 'albumVisit',
+  immediate: true
 });
-```
-
-## Disable Analytics
-
-You can also disable or re-enable Analytics:
-```javascript
-// to disable Analytics
-Analytics.disable();
-
-// to enable Analytics
-Analytics.enable();
 ```

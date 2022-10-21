@@ -42,6 +42,8 @@
     "AbortIncompleteMultipartUpload",
     "accesskey",
     "accessKey",
+    "ACCESSKEYID",
+    "ACCESSKEY",
     "AccessToken",
     "AccountRepresentative",
     "ACLs",
@@ -86,7 +88,6 @@
     "amplifyconfiguration",
     "AmplifyEventBus",
     "amplifyframework",
-    "AmplifyIonicModule",
     "amplifyjsapp",
     "amplifyMeta.json",
     "AmplifyModules",
@@ -500,6 +501,7 @@
     "devpreview",
     "dflt",
     "Didfinishlaunchingwithoptions",
+    "displayMode",
     "displayOrder",
     "DocSet",
     "DocSets",
@@ -713,7 +715,6 @@
     "Intelli",
     "interceptApplication",
     "Inventorys",
-    "Ionicons",
     "IOPS",
     "ios",
     "IoT",
@@ -843,6 +844,7 @@
     "myAmplifyProject",
     "myangularapp",
     "myapi",
+    "reactamplified",
     "myapp.xcodeproj",
     "myapp",
     "mybucket",
@@ -1323,6 +1325,7 @@
     "versioning",
     "versionInput",
     "ViewController.swift",
+    "viewmodel",
     "vite",
     "voiceEnabled",
     "vue-recaptcha",
@@ -1471,7 +1474,8 @@
     "myfunction",
     "roadmap",
     "infowindow",
-    "Libre's"
+    "Libre's",
+    "Pinia"
   ],
   "flagWords": ["hte"]
 }

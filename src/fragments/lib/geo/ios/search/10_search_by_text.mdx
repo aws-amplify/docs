@@ -2,23 +2,6 @@
 
 The `Amplify.Geo.search(for text:)` API enables you to search for places or points of interest by free-form text, such as an address, name, city, or region.
 
-<BlockSwitcher>
-<Block name="Stable Release">
-
-```swift
-Amplify.Geo.search(for: "coffee shops") { result in
-    switch result {
-    case .failure(let error):
-        print(error)
-    case .success(let places):
-        dump(places)
-    }
-}
-```
-</Block>
-
-<Block name="Developer Preview">
-
 ```swift
 do {
     let places = try await Amplify.Geo.search(for: "coffee shops")
@@ -27,9 +10,6 @@ do {
     print(error)
 }
 ```
-</Block>
-
-</BlockSwitcher>
 
 You can refine your search by specifying following parameters inside `Geo.SearchForTextOptions`
 - `area`
@@ -38,29 +18,6 @@ You can refine your search by specifying following parameters inside `Geo.Search
 - `countries` - to limit the search results to given countries.
 - `maxResults` - to limit the maximum result set (defaults to 50).
 
-<BlockSwitcher>
-<Block name="Stable Release">
-
-```swift
-let coordinates = Geo.Coordinates(latitude: 47.62246, longitude: -122.336775)
-let options = Geo.SearchForTextOptions(area: .near(coordinates),
-                                       countries: [.usa, .can],
-                                       maxResults: 25)
-                                       
-Amplify.Geo.search(for: "coffee shops", options: options) { result in
-    switch result {
-    case .failure(let error):
-        print(error)
-    case .success(let places):
-        dump(places)
-    }
-}
-```
-</Block>
-
-<Block name="Developer Preview">
-
-```swift
 let coordinates = Geo.Coordinates(latitude: 47.62246, longitude: -122.336775)
 let options = Geo.SearchForTextOptions(area: .near(coordinates),
                                                countries: [.usa, .can],
@@ -68,9 +25,8 @@ let options = Geo.SearchForTextOptions(area: .near(coordinates),
 do {
     let places = try await Amplify.Geo.search(for: "coffee shops", options: options)
     dump(places)
+} catch let error as Geo.Error {
+    print("Failed to search: \(error)"
 } catch {
-    print(error)
+    print("Unexpected error: \(error)")
 }
-```
-</Block>
-</BlockSwitcher>
