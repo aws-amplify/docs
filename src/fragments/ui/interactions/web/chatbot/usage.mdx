@@ -39,24 +39,6 @@ _app.component.html_
 
 </FilterContent>
 
-<FilterContent framework="ionic">
-
-import all1 from "/src/fragments/ui/angular/configure-module.mdx";
-
-<Fragments fragments={{all: all1}} />
-
-_app.component.html_
-
-```html
-<amplify-chatbot
-  bot-name="yourBotName"
-  bot-title="My ChatBot"
-  welcome-message="Hello, how can I help you?"
-></amplify-chatbot>
-```
-
-</FilterContent>
-
 <FilterContent framework="vue">
 
 import all2 from "/src/fragments/ui/vue/configure-app.mdx";
@@ -191,25 +173,3 @@ export class AppComponent implements OnInit, OnDestroy {
 
 </FilterContent>
 
-<FilterContent framework="ionic">
-
-```js
-const handleChatComplete = (event: Event) => {
-  const { data, err } = (event as any).detail;
-  if (data) console.log('Chat fulfilled!', JSON.stringify(data));
-  if (err) console.error('Chat failed:', err);
-};
-
-export class AppComponent implements OnInit, OnDestroy {
-  ngOnInit(): void {
-    const chatbotElement = document.querySelector('amplify-chatbot');
-    chatbotElement.addEventListener('chatCompleted', handleChatComplete);
-  }
-  ngOnDestroy(): void {
-    const chatbotElement = document.querySelector('amplify-chatbot');
-    chatbotElement.removeEventListener('chatCompleted', handleChatComplete);
-  }
-}
-```
-
-</FilterContent>

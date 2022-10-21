@@ -37,9 +37,6 @@ const platformMap = {
   vue: {
     label: 'Vue'
   },
-  ionic: {
-    label: 'Ionic'
-  },
   next: {
     label: 'Next.js'
   }
@@ -60,7 +57,6 @@ const allFilters = [
   'react-native',
   'angular',
   'vue',
-  'ionic',
   'next'
 ];
 

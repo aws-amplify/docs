@@ -2089,7 +2089,6 @@ const directory = {
           'next',
           'android',
           'ios',
-          'ionic',
           'flutter'
         ],
         items: []
@@ -2109,7 +2108,6 @@ const directory = {
               'next',
               'android',
               'ios',
-              'ionic',
               'flutter'
             ]
           },
@@ -2125,7 +2123,6 @@ const directory = {
               'next',
               'android',
               'ios',
-              'ionic',
               'flutter'
             ]
           },
@@ -2147,17 +2144,17 @@ const directory = {
           {
             title: 'Connect API and database to the app',
             route: '/start/getting-started/data-model',
-            filters: ['js', 'react', 'angular', 'vue', 'next', 'ionic']
+            filters: ['js', 'react', 'angular', 'vue', 'next']
           },
           {
             title: 'Add authentication',
             route: '/start/getting-started/auth',
-            filters: ['react', 'angular', 'vue', 'ionic']
+            filters: ['react', 'angular', 'vue']
           },
           {
             title: 'Deploy and host app',
             route: '/start/getting-started/hosting',
-            filters: ['js', 'react', 'angular', 'vue', 'next', 'ionic']
+            filters: ['js', 'react', 'angular', 'vue', 'next']
           },
           {
             title: 'Next steps',
@@ -2171,7 +2168,6 @@ const directory = {
               'next',
               'android',
               'ios',
-              'ionic',
               'flutter'
             ]
           }
