@@ -1,0 +1,16 @@
+## Auth flow types
+
+`AWSCognitoAuthPlugin` allows you to switch between different auth flows while initiating signIn. You can configure the flow in the `amplifyconfiguration.json` file or pass the `authFlowType` as a runtime parameter to the `signIn` api call.
+Supported auth flow types are:
+- `userSRP` - Authentication flow start with Secure Remote Password (SRP) flow
+- `customWithSRP` - Authentication flow start with Secure Remote Password (SRP) flow with custom lambda triggers
+- `customWithoutSRP` - Authentication flow start with custom lambda triggers
+- `userPassword` - Authentication flow start with migration flow
+
+```swift
+let options = AWSAuthSignInOptions(authFlowType: .customWithoutSRP)
+let result = try await Amplify.Auth.signIn(username: username,
+                                            options: .init(pluginOptions: options))
+```
+
+Read more about the different authentication flow supported by [Cognito User Pool here](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow.html).
