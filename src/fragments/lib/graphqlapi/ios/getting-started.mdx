@@ -43,7 +43,7 @@ Add API using the command `amplify add api`. Here is an example:
 ? Please select from one of the below mentioned services: `GraphQL`
 ? Provide API name: `apiName`
 ? Choose the default authorization type for the API: `API key`
-? Enter a description for the API key: 
+? Enter a description for the API key:
 ? After how many days from now the API key should expire (1-365): `30`
 ? Do you want to configure advanced settings for the GraphQL API `No, I am done.`
 ? Do you have an annotated GraphQL schema? `No`
@@ -67,7 +67,7 @@ Provision the backend with `amplify push` command. Here is an example:
 Answer `No` to `? Do you want to generate code for your newly created GraphQL API`.
 Answering `Yes` will generate an `API.swift` file which is only necessary when directly using the AWSAppSync SDK. When you're using Amplify API or Amplify DataStore, you'll use the `amplify codegen models` command to generate Swift models.
 
-The example above creates a backend with the Todo schema. You can open the AWS Console for AppSync with 
+The example above creates a backend with the Todo schema. You can open the AWS Console for AppSync with
 `amplify console api` to interact directly with the GraphQL service.  When your backend is successfully updated, there should be two newly created files: `amplifyconfiguration.json` and `awsconfiguration.json` in your project folder.
 
 ## Install Amplify libraries and tools
@@ -78,7 +78,7 @@ The example above creates a backend with the Todo schema. You can open the AWS C
 If this is a new project, add Amplify via the Swift Package Manager:
 
 - Open your project in Xcode and select **File > Swift Packages > Add Package Dependency**.
-- Enter the Amplify iOS GitHub repo URL (`https://github.com/aws-amplify/amplify-ios`) into the search bar and click **Next**.
+- Enter the Amplify iOS GitHub repo URL (`https://github.com/aws-amplify/amplify-swift`) into the search bar and click **Next**.
 - Choose the first rule, **Version**, as it will use the latest compatible version of the dependency that can be detected from the `main` branch, then click **Next**.
 - Choose the **Amplify** and **AWSAPIPlugin** libraries, then click **Finish**.
 
@@ -112,13 +112,13 @@ open <YOURAPP>.xcworkspace
 
 </BlockSwitcher>
 
-Build your project and you should see the `amplify` folder, `amplifyxc.config`, `awsconfiguration.json`, and `amplifyconfiguration.json`. 
+Build your project and you should see the `amplify` folder, `amplifyxc.config`, `awsconfiguration.json`, and `amplifyconfiguration.json`.
 
 ## Initialize Amplify
 
 Initialize Amplify and AWSAPIPlugin.
 
-Add the following imports to the top of your `AppDelegate.swift` file 
+Add the following imports to the top of your `AppDelegate.swift` file
 
 <BlockSwitcher>
 
@@ -140,7 +140,10 @@ import AmplifyPlugins
 
 Add the follow code to your AppDelegate's `application:didFinishLaunchingWithOptions` method
 ```swift
-func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+func application(
+    _ application: UIApplication,
+    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+) -> Bool {
     let apiPlugin = AWSAPIPlugin(modelRegistration: AmplifyModels())
     do {
         try Amplify.add(plugin: apiPlugin)
@@ -168,6 +171,6 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 
 Make sure it builds and runs (`Cmd+R`) successfully before moving onto the next section.
 
-## API Reference   
+## API Reference
 
-For the complete API documentation for API, visit our [API Reference](https://aws-amplify.github.io/amplify-ios/docs/Classes/AmplifyAPICategory.html)
+For the complete API documentation for API, visit our [API Reference](https://aws-amplify.github.io/amplify-swift/docs/Classes/AmplifyAPICategory.html)
