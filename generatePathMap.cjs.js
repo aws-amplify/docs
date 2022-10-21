@@ -34,19 +34,8 @@ function generatePathMap(
     '/start/q/integration/react-native': {
       page: '/start/q/integration/[integration]'
     },
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-    '/start/q/integration/ionic': {
-      page: '/start/q/integration/[integration]'
-    },
->>>>>>> a10880f96 (removes ionic)
-    '/start/q/integration/ios': {
-      page: '/start/q/integration/[integration]'
-=======
     "/start/q/integration/ios": {
       page: "/start/q/integration/[integration]",
->>>>>>> 7a9c0e8a6 (removes ionic)
     },
     '/start/q/integration/flutter': {
       page: '/start/q/integration/[integration]'
@@ -75,16 +64,11 @@ function generatePathMap(
     '/ui/q/framework/react-native': {
       page: '/ui/q/framework/[framework]'
     },
-<<<<<<< HEAD
     '/ui/q/framework/angular': {
       page: '/ui/q/framework/[framework]'
     },
     '/ui/q/framework/vue': {
       page: '/ui/q/framework/[framework]'
-=======
-    "/ui/q/framework/flutter": {
-      page: "/ui/q/framework/[framework]",
->>>>>>> 7a9c0e8a6 (removes ionic)
     },
     '/ui/q/framework/flutter': {
       page: '/ui/q/framework/[framework]'
@@ -98,16 +82,11 @@ function generatePathMap(
     '/ui-legacy/q/framework/react-native': {
       page: '/ui-legacy/q/framework/[framework]'
     },
-<<<<<<< HEAD
     '/ui-legacy/q/framework/angular': {
       page: '/ui-legacy/q/framework/[framework]'
     },
     '/ui-legacy/q/framework/vue': {
       page: '/ui-legacy/q/framework/[framework]'
-=======
-    "/ui-legacy/q/framework/next": {
-      page: "/ui-legacy/q/framework/[framework]",
->>>>>>> 7a9c0e8a6 (removes ionic)
     },
     '/ui-legacy/q/framework/next': {
       page: '/ui-legacy/q/framework/[framework]'
@@ -217,7 +196,6 @@ function generatePathMap(
     let allFilters = filters;
     if (routeType !== '') {
       allFilters = [
-<<<<<<< HEAD
         'js',
         'android',
         'ios',
@@ -227,17 +205,6 @@ function generatePathMap(
         'angular',
         'vue',
         'next'
-=======
-        "js",
-        "android",
-        "ios",
-        "flutter",
-        "react",
-        "react-native",
-        "angular",
-        "vue",
-        "next",
->>>>>>> 7a9c0e8a6 (removes ionic)
       ];
     }
     allFilters.forEach((filter) => {
