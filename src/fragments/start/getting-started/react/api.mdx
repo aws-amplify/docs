@@ -15,24 +15,9 @@ amplify add api
 Accept the **default values** which are highlighted below:
 
 ```console
-? Please select from one of the below mentioned services:
-# GraphQL
-? Provide API name:
-# myapi
-? Choose the default authorization type for the API:
-# API Key
-? Enter a description for the API key:
-# demo
-? After how many days from now the API key should expire:
-# 7 (or your preferred expiration)
-? Do you want to configure advanced settings for the GraphQL API:
-# No
-? Do you have an annotated GraphQL schema?
-# No
-? Choose a schema template:
-# Single object with fields (e.g., “Todo” with ID, name, description)
-? Do you want to edit the schema now?
-# Yes
+? Select from one of the below mentioned services: GraphQL
+? Here is the GraphQL API that we will create. Select a setting to edit or continue Continue
+? Choose a schema template: Single object with fields (e.g., “Todo” with ID, name, description)
 ```
 
 The CLI should open this GraphQL schema in your text editor.
@@ -72,6 +57,18 @@ amplify push
 ? Enter the file name pattern of graphql queries, mutations and subscriptions: src/graphql/**/*.js
 ? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions? Y
 ? Enter maximum statement depth [increase from default if your schema is deeply nested]: 2
+```
+
+```console
+? Are you sure you want to continue? Yes
+
+...
+
+? Do you want to generate code for your newly created GraphQL API Yes
+? Choose the code generation language target javascript
+? Enter the file name pattern of graphql queries, mutations and subscriptions src/graphql/**/*.js
+? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions Yes
+? Enter maximum statement depth [increase from default if your schema is deeply nested] 2
 ```
 
 Now the API is live and you can start interacting with it!
@@ -116,13 +113,13 @@ To test this out locally, you can run the `mock` command.
 amplify mock api
 ```
 
-*Note:* `amplify mock api` requires Java.
+*Note:* `amplify mock api` requires Java. If you have not already deployed your API with `amplify push`, you will be walked through the following steps for GraphQL code generation.
 
 ```console
-# If you have not already deployed you API, you will be walked through the following steps for GraphQL code generation
-? Choose the code generation language target: javascript (or preferred target)
-? Enter the file name pattern of graphql queries, mutations and subscriptions: src/graphql/**/*.js
-? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions: Yes
+? Do you want to generate code for your newly created GraphQL API Yes
+? Choose the code generation language target javascript
+? Enter the file name pattern of graphql queries, mutations and subscriptions src/graphql/**/*.js
+? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions Yes
 ? Enter maximum statement depth [increase from default if your schema is deeply nested] 2
 ```
 
@@ -245,7 +242,7 @@ export default App
 
 Let's walk through some of the functions:
 
-__useEffect__ - When the component loads, the `useEffect` hook is called and it invokes the `fetchTodos` function.
+__useEffect__ - After the component renders, the `useEffect` hook is called and it invokes the `fetchTodos` function.
 
 __fetchTodos__ - Uses the Amplify `API` category to call the AppSync GraphQL API with the `listTodos` query. Once the data is returned, the items array is passed in to the `setTodos` function to update the local state.
 
