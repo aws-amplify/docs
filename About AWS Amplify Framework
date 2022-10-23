@@ -1,0 +1,23 @@
+AWS Amplify is a JavaScript-based development framework that enables the creation and deployment of mobile (Android, iOS) and web applications. It includes libraries, UI components, and CLI interfaces.
+
+When discussing Amplify's features, there are some pretty fascinating things included.
+Authentication
+
+1.Push notification
+
+2.File Storage
+
+3.PubSub
+
+4.Data sync and security
+
+5.Datastore
+ 
+
+The three primary parts of Amplify are as follows:
+
+UI components: There are many prebuilt UI components that can be used, such as login forms, etc. The good thing about these is that they are all fully customisable. so that users can arrange those user interfaces for their programmes as desired.
+
+Libraries: assist in integrating and using AWS services. These aid in enhancing the application's features, such as push notification services, authentication, etc.
+
+Using CLI commands to configure AWS services makes it easier to manage your AWS managed backends.
