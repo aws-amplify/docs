@@ -1,0 +1,13 @@
+
+```swift
+func startTracking() async {
+    do {
+        let device = try await Geo.Device.tiedToUserAndDevice()
+        try await Amplify.Geo.startTracking(for: device, with: .init())
+    } catch let error as Geo.Error {
+        print("Failed to starting device tracking: \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
