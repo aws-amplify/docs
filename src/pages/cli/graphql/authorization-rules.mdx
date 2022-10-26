@@ -121,7 +121,9 @@ type Todo @model @auth(rules: [{ allow: owner, ownerField: "author" }]) {
   ```
 </Callout>
 
-By default, only one user can be an owner of a record. If you want to grant a set of users access to a record, you can override the `ownerField` to a list of owners. Use this if you want a dynamic set of users to have access to a record.
+### Multi-user data access
+
+If you want to grant a set of users access to a record, you can override the `ownerField` to a list of owners. Use this if you want a dynamic set of users to have access to a record.
 
 ```graphql
 type Todo @model @auth(rules: [{ allow: owner, ownerField: "authors" }]) {
