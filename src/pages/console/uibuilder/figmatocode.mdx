@@ -73,13 +73,13 @@ Go to the **Initial project setup** tab and follow the setup instructions.
 
 ## Step 4: Import and render your components
 
-In your project, run `amplify pull` to import React code generated from your Figma components. Then, import your components to use them in your application. Replace "ComponentA" and "ComponentB" with the names of your components:
+Navigate to the root directory of your project. In the project root directory, run `amplify pull` to import React code generated from your Figma components. Then, import your components to use them in your application. Replace "ComponentA" and "ComponentB" with the names of your components:
 ```jsx
 import { ComponentA, ComponentB }  from './ui-components';
 
 ```
 
-Amplify places all generated UI component code in the `src/ui-components` directory as JSX and TS files. All generated code is built with primitives from the Amplify UI library. 
+Amplify CLI places all generated UI component code in the `src/ui-components` directory as JSX and TS files. All generated code is built with primitives from the Amplify UI library. 
 
 Although you can inspect the component code, any changes to component code will be overwritten on the next `amplify pull`. Instead, you can update the source component in Figma and resync, or you can use overrides to customize individual components inline. **[Learn how to extend your components with code here](/console/uibuilder/override)**.
 
