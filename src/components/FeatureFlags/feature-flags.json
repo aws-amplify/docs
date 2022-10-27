@@ -271,6 +271,26 @@
             "defaultExistingProject": true
           }
         ]
+      },
+      "respectPrimaryKeyAttributesOnConnectionField": {
+        "description": "Changes the behaviour of relational directives on model type with custom primary key to generate connection fields, which respect the type of primary key and its sort key fields. In addition, this changes the code generation for datastore models of all platforms to enable the custom primary key feature.",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "10.0.0",
+        "values": [
+          {
+            "value": "false",
+            "description": "Only one connection field with type ID generated on connected models. Model-gen with custom primary key feature is disabled.",
+            "defaultNewProject": true,
+            "defaultExistingProject": true
+          },
+          {
+            "value": "true",
+            "description": "Connection field(s) are generated respecting the type of priamry key and sort key fields. Model-gen with custom primary key feature is enabled.",
+            "defaultNewProject": false,
+            "defaultExistingProject": false
+          }
+        ]
       }
     }
   },
