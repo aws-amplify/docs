@@ -92,12 +92,12 @@ To stop listening to a certain event, you need to wrap the listener function to 
 ```javascript
 
 /* start listening for messages */
-const hubEventListener = Hub.listen(/.*/, (data) => {
+const hubListenerCancelToken = Hub.listen(/.*/, (data) => {
   console.log('Listening for all messages: ', data.payload.data);
 });
 
 /* later */
-hubEventListener(); // stop listening for messages
+hubListenerCancelToken(); // stop listening for messages
 ```
 
 ### Listening for Regular Expressions
