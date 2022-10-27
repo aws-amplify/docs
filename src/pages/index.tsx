@@ -21,9 +21,9 @@ import {
 import React from 'react';
 
 const meta = {
-  title: 'Amplify Framework Docs',
+  title: 'Amplify Docs',
   description:
-    'Amplify Framework documentation - Learn how to use Amplify to develop and deploy cloud-powered mobile and web apps.',
+    'Amplify documentation - Learn how to use Amplify to develop and deploy cloud-powered mobile and web apps.',
   url: 'https://docs.amplify.aws/'
 };
 
@@ -80,7 +80,7 @@ const Page = () => {
       />
       <UniversalNav blend={true} />
       <Hero>
-        <h1 className="font-weight-300">Amplify Framework Documentation</h1>
+        <h1 className="font-weight-300">Amplify Documentation</h1>
         <p>
           Learn how to use Amplify to develop and deploy cloud-powered mobile
           and web apps
