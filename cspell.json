@@ -157,6 +157,7 @@
     "arraybuffer",
     "artifactID",
     "async",
+    "asyncawait",
     "AsyncStorage",
     "attribs",
     "attributes.put",
