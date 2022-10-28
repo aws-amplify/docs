@@ -274,11 +274,6 @@ const directory = {
             filters: ['js', 'react-native']
           },
           {
-            title: 'Customize UI components',
-            route: '/lib/auth/customui',
-            filters: ['js', 'react-native']
-          },
-          {
             title: 'Advanced workflows',
             route: '/lib/auth/advanced',
             filters: ['js', 'react-native']
@@ -1062,7 +1057,7 @@ const directory = {
           {
             title: 'Delete user',
             route: '/lib-v1/auth/delete_user',
-            filters: [ 'ios']
+            filters: ['ios']
           },
           {
             title: 'Escape hatch',
@@ -1147,7 +1142,7 @@ const directory = {
           {
             title: 'Getting started',
             route: '/lib-v1/geo/getting-started',
-            filters: [ 'ios']
+            filters: ['ios']
           },
           {
             title: 'Maps',
@@ -1279,7 +1274,7 @@ const directory = {
       utilities: {
         title: 'Utilities',
         items: [
-          { title: 'Hub', route: '/lib-v1/utilities/hub', filters: ['ios'] },
+          { title: 'Hub', route: '/lib-v1/utilities/hub', filters: ['ios'] }
         ]
       },
       debugging: {
