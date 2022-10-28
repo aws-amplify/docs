@@ -31,9 +31,8 @@ const convertToRouteHerf = (
   filter: FilterSelectProps,
   targetFilterKey: string
 ) => {
-  // remove search query string when switching between platforms/frameworks
-  let path =
-    filter.url && filter.url.split ? filter.url.split('?')[0] : filter.url;
+  const url = filter.url.startsWith('/') ? `file://${filter.url}` : filter.url;
+  let path = new URL(url).pathname;
 
   const firstPathSegment = getFirstPathSegment(path);
   if (firstPathSegment)
