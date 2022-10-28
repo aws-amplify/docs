@@ -120,7 +120,7 @@ const Page = () => {
               <CardDetail>
                 <h4>Amplify Studio</h4>
                 <p>
-                  Visual development environment to accelerate full-stack
+                  Visual development environment to accelerate fullstack
                   development.
                 </p>
               </CardDetail>
@@ -136,7 +136,7 @@ const Page = () => {
               <CardGraphic alt="Console icon" src="/assets/console.png" />
               <CardDetail>
                 <h4>Amplify Hosting</h4>
-                <p>Fully managed web hosting with full-stack CI/CD.</p>
+                <p>Fully managed web hosting with fullstack CI/CD.</p>
               </CardDetail>
             </Card>
           </Grid>

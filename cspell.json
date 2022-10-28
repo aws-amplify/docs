@@ -1477,5 +1477,10 @@
     "Libre's",
     "Pinia"
   ],
-  "flagWords": ["hte"]
+  "flagWords": [
+    "hte", 
+    "full-stack", 
+    "Full-stack", 
+    "Full-Stack"
+  ]
 }
