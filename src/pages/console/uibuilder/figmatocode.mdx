@@ -30,24 +30,60 @@ After authenticating with Figma, you will see a list of components that you can 
 
 ![figma](/images/console/ui-figma-sync.png)
 
-## Step 3: Pull UI components code in your project
+## Step 3: Configure your project
 
-In Studio, pick a component and choose **Configure** to get to the component editor screen. Choose **Get component code** at the bottom of the page.
+Before importing and using your components and theme, the project will need an initial setup. 
 
-![figma](/images/console/ui-getcomponent-code.png)
+1. Navigate to your application root directory and install the following npm dependencies
+
+```
+npm install -g @aws-amplify/cli
+```
+
+```
+npm install aws-amplify @aws-amplify/ui-react
+```
+
+2. In your application's `index.js` file, add the following imports and configuration
+
+```jsx
+import {ThemeProvider} from "@aws-amplify/ui-react";
+import { Amplify } from 'aws-amplify';
+import awsconfig from './aws-exports';
+import "@aws-amplify/ui-react/styles.css";
+import studioTheme from './ui-components/studioTheme';
+Amplify.configure(awsconfig);
+```
+3. In your application's `index.js` file, wrap the `<App />` with the following:
+
+```jsx
+<ThemeProvider theme={studioTheme}>
+    <App />
+</ThemeProvider>
+```
+
+
+Alternatively, initial project setup instructions can be found at any time within any component. In Studio, pick a component and choose **Configure** to get to the component editor screen. Choose **Get component code** at the bottom of the page.
+
+![A component in edit mode with the Get component code button visible at the bottom](/images/studio/ui-setup1.png)
 
 Go to the **Initial project setup** tab and follow the setup instructions.
 
-![figma](/images/console/ui-getcomponent-code2.png)
+![A pop up with the Initial Project Setup tab selected, showing code snippets needed to use Amplify Studio components](/images/studio/ui-setup2.png)
 
-Amplify generates all UI component code into `src/ui-components`, as JSX and TS files. All generated code is built with primitives from the Amplify UI library. Although you have access to inspect the component code, you cannot modify it directly as we will override any changes on the next `amplify pull`.
+## Step 4: Import and render your components
 
-Once that is done, you can use the components anywhere in your app. Learn how to **[customize these UI components in code](/console/uibuilder/override)**.
-
-```
+Navigate to the root directory of your project. In the project root directory, run `amplify pull` to import React code generated from your Figma components. Then, import your components to use them in your application. Replace "ComponentA" and "ComponentB" with the names of your components:
+```jsx
 import { ComponentA, ComponentB }  from './ui-components';
 
 ```
+
+Amplify CLI places all generated UI component code in the `src/ui-components` directory as JSX and TS files. All generated code is built with primitives from the Amplify UI library. 
+
+Although you can inspect the component code, any changes to component code will be overwritten on the next `amplify pull`. Instead, you can update the source component in Figma and resync, or you can use overrides to customize individual components inline. **[Learn how to extend your components with code here](/console/uibuilder/override)**.
+
+
 
 ## Upgrading Figma files
 

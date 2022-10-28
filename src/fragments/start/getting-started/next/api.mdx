@@ -145,7 +145,7 @@ amplify console
 
 ### (Optional) Test your API
 
-To test this out locally, you can run the `mock` command.
+To test this out locally, you can run the `mock` command. Note: Refer to the [instructions to setup mocking](https://docs.amplify.aws/cli/usage/mock/).
 
 > If you'd like to go ahead and connect the front end, you can [jump to the next step](#connect-frontend-to-api).
 
@@ -200,11 +200,19 @@ query ListPosts {
 
 In this section you will create a way to list and create posts from the Next.js application. To do this, you will fetch & render the latest posts from the server as well as create a new post on the client.
 
-Open **pages/index.js** and replace it with the following code:
+Ensure you have the following libraries installed:
 
 ```sh
 npm install aws-amplify @aws-amplify/ui-react
 ```
+
+Open **pages/\_app.js** and add the following code to import styles from [Amplify UI](https://ui.docs.amplify.aws):
+
+```jsx
+import '@aws-amplify/ui-react/styles.css';
+```
+
+Open **pages/index.js** and replace it with the following code:
 
 ```jsx
 // pages/index.js
