@@ -2112,7 +2112,7 @@ const directory = {
             ]
           },
           {
-            title: 'Set up fullstack project',
+            title: 'Set up full-stack project',
             route: '/start/getting-started/setup',
             filters: [
               'js',
