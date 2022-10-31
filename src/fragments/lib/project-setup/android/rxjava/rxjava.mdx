@@ -21,7 +21,7 @@ Compared to the traditional callback API, this doesn't make a big difference whe
 
 However, it greatly improves readability when chaining asynchronous calls. Moreover, you can use standard RxJava operators to compose other complex functionality into readable chunks.
 
-Let's revisit our nested example where we saved `Post`, `Editor`, and `PostEditor`. With Amplify's RxJava interface we can merge these operations together.
+Let's revisit our nested example where you saved `Post`, `Editor`, and `PostEditor`. With Amplify's RxJava interface you can merge these operations together.
 
 ```java
 Completable.mergeArray(

@@ -39,7 +39,7 @@ class _MyAppState extends State<MyApp> {
       final updatedPost = _post.copyWith(title: newTitle);
       await Amplify.DataStore.save(updatedPost);
 
-      // we do not need to explicitly set _post here; observeQuery will see
+      // you do not need to explicitly set _post here; observeQuery will see
       // the update and set the variable.
   }
 

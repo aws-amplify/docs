@@ -54,7 +54,7 @@ Future<List<Todo?>> queryPaginatedListItems() async {
   final firstResult = await Amplify.API.query(request: firstRequest).response;
   final firstPageData = firstResult.data;
 
-  // Indicates there are > 100 todos and we can get the request for the next set.
+  // Indicates there are > 100 todos and you can get the request for the next set.
   if (firstPageData?.hasNextResult ?? false) {
     final secondRequest = firstPageData!.requestForNextResult;
     final secondResult = await Amplify.API.query(request: secondRequest!).response;

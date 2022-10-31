@@ -88,7 +88,7 @@ const myFirstEvent = { name: 'my_first_event' };
 const App = () => {
   useEffect(() => {
     // Messages from your campaigns need to be synced from the backend before they
-    // can be displayed. You can trigger this anywhere in your app. Here we are
+    // can be displayed. You can trigger this anywhere in your app. Here you are
     // syncing just once when this component (your app) renders for the first time.
     InAppMessaging.syncMessages();
   }, []);

@@ -512,11 +512,11 @@ type Todo @model(queries: { get: "queryFor" }) {
 }
 ```
 
-In the example above, we will be able to run a `queryForTodo` query to get a single Todo element.  
+In the example above, you will be able to run a `queryForTodo` query to get a single Todo element.  
 
 ### Disable generated queries, mutations, and subscriptions
 
-We can disable specific operations by assigning their value to `null`.
+You can disable specific operations by assigning their value to `null`.
 
 ```graphql
 type Todo @model(queries: { get: null }, mutations: null, subscriptions: null) {
@@ -529,7 +529,7 @@ The example above disables the `getTodo` query, all mutations, and all subscript
 
 ### Creating a custom query
 
-We can disable the `get` query and create a custom query that enables us to retrieve a single Todo model.
+You can disable the `get` query and create a custom query that enables us to retrieve a single Todo model.
 
 ```graphql
 type Query {

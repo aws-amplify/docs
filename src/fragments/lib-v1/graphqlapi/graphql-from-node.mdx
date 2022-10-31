@@ -1,4 +1,4 @@
-We can call an AppSync GraphQL API from a Node.js app or a Lambda function. Take a basic `Todo` app as an example:
+You can call an AppSync GraphQL API from a Node.js app or a Lambda function. Take a basic `Todo` app as an example:
 
 ```graphql
 type Todo @model @auth(rules: [{ allow: public }]) {
@@ -59,7 +59,7 @@ The examples on this page use [`node-fetch`](https://www.npmjs.com/package/node-
 
 ## Query
 
-Using an API Key for authenticating our requests, we can query the GraphQL API to get a list of all `Todo`s.
+Using an API Key for authenticating our requests, you can query the GraphQL API to get a list of all `Todo`s.
 
 <!-- prettier-ignore -->
 ```js
@@ -127,7 +127,7 @@ export const handler = async (event) => {
 
 ## Mutation
 
-In this example we create a mutation showing how to pass in variables as arguments to create a `Todo` record.
+In this example you create a mutation showing how to pass in variables as arguments to create a `Todo` record.
 
 <!-- prettier-ignore -->
 ```js
@@ -208,7 +208,7 @@ type Todo @model @auth(rules: [{ allow: private, provider: iam }]) {
 }
 ```
 
-The CLI will automatically configure the Lambda execution IAM role to call the GraphQL API. Before writing our Lambda function we will first need to install the appropriate AWS SDK v3 dependencies:
+The CLI will automatically configure the Lambda execution IAM role to call the GraphQL API. Before writing our Lambda function you will first need to install the appropriate AWS SDK v3 dependencies:
 
 ```diff
 {
