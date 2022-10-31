@@ -289,6 +289,11 @@ const directory = {
             filters: ['android', 'flutter', 'ios']
           },
           {
+            title: 'Switching authentication flows',
+            route: '/lib/auth/switch-auth',
+            filters: ['ios']
+          },
+          {
             title: 'Sign in with custom flow',
             route: '/lib/auth/signin_with_custom_flow',
             filters: ['ios', 'flutter']
@@ -362,6 +367,11 @@ const directory = {
             title: 'Escape hatch',
             route: '/lib/auth/escapehatch',
             filters: ['android', 'ios']
+          },
+          {
+            title: 'Advanced workflows',
+            route: '/lib/auth/advanced',
+            filters: ['ios']
           },
           {
             title: 'Under the hood',
