@@ -1397,11 +1397,6 @@ const directory = {
             filters: []
           },
           {
-            title: 'Node Version Update',
-            route: '/cli/migration/lambda-node-version-update',
-            filters: []
-          },
-          {
             title: 'Lambda layer behavior updates',
             route: '/cli/migration/lambda-layers-update',
             filters: []
