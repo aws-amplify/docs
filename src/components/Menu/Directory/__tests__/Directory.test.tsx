@@ -2,8 +2,6 @@ import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import Directory from '../index';
 import directory from '../../../../directory/directory';
-import { isMainThread } from 'worker_threads';
-import { hasUncaughtExceptionCaptureCallback } from 'process';
 
 describe('Directory', () => {
   const directoryKeys = Object.keys(directory);
