@@ -1,6 +1,6 @@
 In this section you’ll integrate Amplify DataStore with your app, and learn to use the generated data model to create, update, query, and delete Todo items by building an app.
 
-First, replace the contents of your *main.dart* file with the following UI boilerplate code. Typically, you would break this file up into smaller modules but we've kept it as a single file here just for the tutorial. You might find your IDE complains about numerous unreferenced declarations but, don’t worry, we’ll get around to fixing those as you fill out our app with more functionality.
+First, replace the contents of your *main.dart* file with the following UI boilerplate code. Typically, you would break this file up into smaller modules but we've kept it as a single file here just for the tutorial. You might find your IDE complains about numerous unreferenced declarations but, don’t worry, you'll get around to fixing those as you fill out our app with more functionality.
 
 ```dart
 // dart async library you will refer to when setting up real time updates
@@ -443,7 +443,7 @@ void _deleteTodo(BuildContext context) async {
 }
 ```
 
-Reload your app once more and you should now be able to long press an item to delete it. Now you have a fully featured CRUD application that saves and retrieves data on the local device, which means this app **works without an AWS account or even an internet connection.** Next, we’ll connect it to AWS and make sure the data is available in the cloud but first, a note about Flutter Hot Reload and Hot Restart.
+Reload your app once more and you should now be able to long press an item to delete it. Now you have a fully featured CRUD application that saves and retrieves data on the local device, which means this app **works without an AWS account or even an internet connection.** Next, you'll connect it to AWS and make sure the data is available in the cloud but first, a note about Flutter Hot Reload and Hot Restart.
 
 ## Using Flutter Hot Reload and Hot Restart
 

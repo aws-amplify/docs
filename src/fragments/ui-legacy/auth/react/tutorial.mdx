@@ -232,7 +232,7 @@ export default withAuthenticator(App, {
 
 ## Add Analytics and Storage
 
-Next, we'll add some features, like tracking user behavior analytics and uploading/downloading images in the cloud.
+Next, you'll add some features, like tracking user behavior analytics and uploading/downloading images in the cloud.
 
 Before starting, to enable analytics in amplify, you need to associate user to an identity pool. Run `amplify add auth` and configure authentication with using manual configuration.
 
@@ -240,7 +240,7 @@ Start by running `amplify add analytics` in your project. You can enable analyti
 
 Run `amplify add storage` and then select **Content (Images, audio, video, etc.)**. You'll then be prompted for authorization related questions. Choose **Auth and guest users** to give both authorized and guest users access. In the next prompts, based on your previous selection you would be asked to configure read/write permissions for the authorized and guest users. When complete, run `amplify push` to create the cloud resources.
 
-Edit your `App.js` file in the React project again and modify your imports so that the `Analytics` and `Storage` categories are included in addition to the `S3Album` component, which we'll use to upload and download photos.
+Edit your `App.js` file in the React project again and modify your imports so that the `Analytics` and `Storage` categories are included in addition to the `S3Album` component, which you'll use to upload and download photos.
 
 ```javascript
 import { Amplify, Analytics, Storage } from 'aws-amplify';
