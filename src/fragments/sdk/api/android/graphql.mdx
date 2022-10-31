@@ -896,9 +896,9 @@ client.sync(baseQuery, baseQueryCallback, deltaQuery, deltaQueryCallback,
 The following section walks through the details of creating an app using Delta Sync. You will use a simple Posts App that has a view that displays a list of posts and keeps it synchronized using the Delta Sync functionality. You will use a Map object called `allPosts` to collect and manage the posts and a RecyclerView to power the UI.
 
 **Base Query and BaseQuery Callback**
-In the Adapter object, create the BaseQuery and the BaseQuery Callback. You will use the `listPosts` query from the sample schema as our base query.
+In the Adapter object, create the BaseQuery and the BaseQuery Callback. You will use the `listPosts` query from the sample schema as your base query.
 ```java
-//Setup the BaseQuery - you will use the ListPostsQuery as our base query
+//Setup the BaseQuery - you will use the ListPostsQuery as your base query
 Query listPostsQuery = ListPostsQuery.builder().build();
 ```
 

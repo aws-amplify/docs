@@ -38,7 +38,7 @@ You can access the following resource attributes as environment variables from y
 	REGION
 ```
 
-The examples on this page use [`node-fetch`](https://www.npmjs.com/package/node-fetch) to make a HTTP request to our GraphQL API. When the Node.js v18 runtime is released for Lambda this dependency can be removed in favor of [native `fetch`](https://nodejs.org/dist/latest-v18.x/docs/api/globals.html#fetch) To get started, add the `node-fetch` module as a dependency:
+The examples on this page use [`node-fetch`](https://www.npmjs.com/package/node-fetch) to make a HTTP request to your GraphQL API. When the Node.js v18 runtime is released for Lambda this dependency can be removed in favor of [native `fetch`](https://nodejs.org/dist/latest-v18.x/docs/api/globals.html#fetch) To get started, add the `node-fetch` module as a dependency:
 
 **CommonJS**:
 
@@ -81,7 +81,7 @@ For functions written using CommonJS, you will need to install version 2 of `nod
 
 ## Query
 
-Using an API Key for authenticating our requests, you can query the GraphQL API to get a list of all `Todo`s.
+Using an API Key for authenticating your requests, you can query the GraphQL API to get a list of all `Todo`s.
 
 <!-- prettier-ignore -->
 ```js
@@ -230,7 +230,7 @@ type Todo @model @auth(rules: [{ allow: private, provider: iam }]) {
 }
 ```
 
-The CLI will automatically configure the Lambda execution IAM role to call the GraphQL API. Before writing our Lambda function you will first need to install the appropriate AWS SDK v3 dependencies:
+The CLI will automatically configure the Lambda execution IAM role to call the GraphQL API. Before writing your Lambda function you will first need to install the appropriate AWS SDK v3 dependencies:
 
 ```diff
 {
@@ -359,7 +359,7 @@ When writing functions with CommonJS, you will need to install version 2 of `nod
 }
 ```
 
-Similar to the example above you can now write our handler. The difference here is the use of `require()` rather than `import ... from`
+Similar to the example above you can now write your handler. The difference here is the use of `require()` rather than `import ... from`
 
 ```js
 const { Sha256 } = require("@aws-crypto/sha256-js");

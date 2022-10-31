@@ -28,7 +28,7 @@ On the creation form:
 
 ## Add authentication
 
-Since our **Todo** model specifies an `@auth` directive, you do need to first add authentication.
+Since your **Todo** model specifies an `@auth` directive, you do need to first add authentication.
 
 ### Deploy authentication
 
@@ -67,7 +67,7 @@ From Amplify Studio:
 
 ## Add Api and Auth plugins
 
-Now you just need to configure our app with some additional plugins. This will ensure that DataStore has access to the API access it requires for communicating with the cloud. Let's start by modifying `pubspec.yaml` in your project root directory and add the Amplify plugins to the project dependencies.
+Now you just need to configure your app with some additional plugins. This will ensure that DataStore has access to the API access it requires for communicating with the cloud. Let's start by modifying `pubspec.yaml` in your project root directory and add the Amplify plugins to the project dependencies.
 
 ```diff
 environment:
@@ -89,7 +89,7 @@ Install the dependencies by running the following command. Depending on your dev
 flutter pub get
 ```
 
-Update the `main.dart` file and import the new packages so that it's available to our app.
+Update the `main.dart` file and import the new packages so that it's available to your app.
 
 ```diff
   import 'package:amplify_flutter/amplify_flutter.dart';
