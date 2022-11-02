@@ -297,10 +297,10 @@ When creating an API using containers, you have the option to bring in your own 
 
 ```console
 ? What image would you like to use Custom (bring your own Dockerfile or docker-compose.yml)
-? When do you want to build & deploy the Fargate task 
-> On every "amplify push" (Fully managed container source) 
-  On every Github commit (Independently managed container source) 
-  Advanced: Self-managed (Learn more: docs.amplify.aws/cli/usage/containers) 
+? When do you want to build & deploy the Fargate task
+> On every "amplify push" (Fully managed container source)
+  On every Github commit (Independently managed container source)
+  Advanced: Self-managed (Learn more: docs.amplify.aws/cli/usage/containers)
 ```
 
 The CLI will provide you with the next steps to bring your existing Docker specification and source files into your project by populating the `src` directory.
@@ -309,7 +309,7 @@ The CLI will provide you with the next steps to bring your existing Docker speci
 ✅ Next steps:
 - Place your Dockerfile, docker-compose.yml and any related container source files in "amplify/backend/api/{API_NAME}/src"
 - Amplify CLI infers many configuration settings from the "docker-compose.yaml" file. Learn more: docs.amplify.aws/cli/usage/containers
-- To access AWS resources outside of this Amplify app, edit the amplify/local/test/amplify/backend/api/{API_NAME}/custom-policies.json
+- To access AWS resources outside of this Amplify project, edit the amplify/local/test/amplify/backend/api/{API_NAME}/custom-policies.json
 - Run "amplify push" to build and deploy your image
 ```
 
