@@ -52,13 +52,13 @@ npm install aws-amplify @aws-amplify/ui-react uuid
 
 ## Creating the services
 
-To build this API, we need the following:
+To build this API, you need the following:
 
 1. S3 bucket to store the image
 2. GraphQL API to store the image reference and other data about the type
 3. Authentication service to authenticate users (only needed in order to upload files to S3)
 
-The first thing we will want to do is create the authentication service. To do so, we'll initialize an Amplify project and add authentication.
+The first thing you will want to do is create the authentication service. To do so, you'll initialize an Amplify project and add authentication.
 
 ```sh
 amplify init
@@ -72,7 +72,7 @@ amplify add auth
 ? Do you want to configure advanced settings?  No, I am done.
 ```
 
-Next, we'll create the storage service (Amazon S3):
+Next, you'll create the storage service (Amazon S3):
 
 ```sh
 amplify add storage
@@ -85,7 +85,7 @@ amplify add storage
 ? What kind of access do you want for Guest users? read
 ```
 
-Next you will be creating a GraphQL API with a type that has an image field. This image can only be accessed by someone using our app. If someone tries to fetch this image directly, they will not be able to view it.
+Next you will be creating a GraphQL API with a type that has an image field. This image can only be accessed by someone using your app. If someone tries to fetch this image directly, they will not be able to view it.
 
 ```sh
 amplify add api
@@ -149,9 +149,9 @@ amplify push --y
 
 ### Interacting with the API from a client application
 
-Now that the backend is created, how can we interact with it to save and read products and images from it?
+Now that the backend is created, how can you interact with it to save and read products and images from it?
 
-Here is the code that we could use to save a product and image to the API:
+Here is the code that you could use to save a product and image to the API:
 
 ```js
 import { Storage, API } from 'aws-amplify';
@@ -165,7 +165,7 @@ async function saveProduct() {
 }
 ```
 
-Here is the code that we could use to query a product and corresponding image from the API:
+Here is the code that you could use to query a product and corresponding image from the API:
 
 ```javascript
 import { Storage, API } from 'aws-amplify';
@@ -179,7 +179,7 @@ async function getProductById () {
 }
 ```
 
-Here is the code that we could use to query an array of products and images from the API:
+Here is the code that you could use to query an array of products and images from the API:
 
 ```javascript
 import { Storage, API } from 'aws-amplify';

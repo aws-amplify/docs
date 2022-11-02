@@ -108,7 +108,7 @@ exports.handler = async (event) => {
   to send the challenge code to the user.
 </Callout>
 
-Amazon Cognito invokes the Create Auth Challenge trigger after Define Auth Challenge to create a custom challenge. In this lambda trigger we define the challenge to present to the user. `privateChallengeParameters` contains all the information to validate the response from the user. Save and close the file. Now open the file under "<your_flutter_project>/amplify/backend/function/<project_code>CreateAuthChallenge/src/package.json" and add the following:
+Amazon Cognito invokes the Create Auth Challenge trigger after Define Auth Challenge to create a custom challenge. In this lambda trigger you define the challenge to present to the user. `privateChallengeParameters` contains all the information to validate the response from the user. Save and close the file. Now open the file under "<your_flutter_project>/amplify/backend/function/<project_code>CreateAuthChallenge/src/package.json" and add the following:
 
 ```js
 "dependencies": {
@@ -155,7 +155,7 @@ exports.handler = async function(event) {
 
 Note that each of these if/else blocks are referencing `event.request.session`. The session is a JS array in which each index represents a step in the custom authentication flow.
 
-The Amplify Auth library always starts with an SRP_A flow, so in the code above, we bypass SRP_A and return `CUSTOM_CHALLENGE` in the first step. In the second step, if `CUSTOM_CHALLENGE` returns with `challengeResult == true` we recognize the custom auth challenge is successful, and tell Cognito to issue tokens. In the last `else` block we tell Cognito to fail the authentication flow.
+The Amplify Auth library always starts with an SRP_A flow, so in the code above, you bypass SRP_A and return `CUSTOM_CHALLENGE` in the first step. In the second step, if `CUSTOM_CHALLENGE` returns with `challengeResult == true` you recognize the custom auth challenge is successful, and tell Cognito to issue tokens. In the last `else` block you tell Cognito to fail the authentication flow.
 
 Save and close the file, then switch back to the terminal and follow the instructions:
 

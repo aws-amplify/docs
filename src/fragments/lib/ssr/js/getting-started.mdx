@@ -75,7 +75,7 @@ Server-side functions that don't have a req object (e.g. Next.js' getStaticProps
 
 ### Serializing
 
-For Next.js, returned `props` from the server have to be valid JSON. Because `DataStore.query(Model)` returns _instances_ of `Model`, we need the `serializeModel` helper to convert it to JSON instead:
+For Next.js, returned `props` from the server have to be valid JSON. Because `DataStore.query(Model)` returns _instances_ of `Model`, you need the `serializeModel` helper to convert it to JSON instead:
 
 ```js
 import { serializeModel } from '@aws-amplify/datastore/ssr';

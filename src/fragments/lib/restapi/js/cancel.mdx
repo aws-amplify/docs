@@ -7,7 +7,7 @@ try {
     await promise;
 } catch (error) {
     console.log(error);
-    // If the error is because the request was cancelled we can confirm here.
+    // If the error is because the request was cancelled you can confirm here.
     if(API.isCancel(error)) {
         // "my message for cancellation"
         console.log(error.message);
