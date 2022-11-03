@@ -2237,11 +2237,40 @@ const directory = {
           }
         ]
       },
-      uibuilder: {
-        title: 'UI development (React)',
+      formbuilder: {
+        title: 'Form Builder (React)',
         items: [
           {
-            title: 'Figma to code',
+            title: 'Overview',
+            route: '/console/formbuilder/overview'
+          },
+          {
+            title: 'Customize form inputs',
+            route: '/console/formbuilder/customize'
+          },
+          {
+            title: 'Validate form data',
+            route: '/console/formbuilder/validations'
+          },
+          {
+            title: 'Manage form lifecycle',
+            route: '/console/formbuilder/lifecycle'
+          },
+          {
+            title: 'Customize action buttons (Submit, Cancel, Clear, Reset)',
+            route: '/console/formbuilder/call-to-action'
+          },
+          {
+            title: 'Extend input element in code',
+            route: '/console/formbuilder/overrides'
+          }
+        ]
+      },
+      uibuilder: {
+        title: 'Figma-to-Code (React)',
+        items: [
+          {
+            title: 'Overview',
             route: '/console/uibuilder/figmatocode'
           },
           {
