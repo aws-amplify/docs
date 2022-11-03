@@ -1,0 +1,42 @@
+export const meta = {
+  title: "Overview",
+  description: "Build React forms with Amplify Studio.",
+};
+
+Amplify Studio enables customers to build React forms based on their backend data model, JSON payload shape, or completely from scratch. (TK)
+
+## Build a new form
+
+To build a new form, go to **Amplify Studio** > **UI Library** > **Forms (new)**. 
+1. Enter the **Form name** - the form name needs to be PascalCase. The form name is also used as the component name, when you pull the form component to your local development environment. (TK)
+2. Select **form type**:
+  - **Create**: By default, the form is completely blank.
+  - **Update**: By default, the form expect you to pass in an existing record to pre-populate the form inputs with an existing value.
+3. Choose a starting point:
+  - **Blank**: Start from a blank slate. Add form inputs and, optionally, deploy a matching cloud database later.
+  - **Data model**: Generate a form based on an existing data model. Form inputs are inferred based on the data model's field names and types.
+  - **JSON object**: Generate a form based on a sample JSON object that you'd like the form to produce. Form inputs are inferred based on the JSON object's field names and types.
+
+## View form as end user (TK)
+
+## Get React form code (TK)
+
+## Auto-generate forms based on data model
+
+Amplify Studio can auto-generate form component for every data model in your Amplify project. These auto-generated forms are kept in-sync with updates to your data model as well.
+
+For example, if you deploy a **Home** data model with "address" and "price" fields, Amplify Studio automatically creates a "HomeCreateForm" and a "HomeUpdateForm" for you. If you deploy an update to the data model by adding a "description" field, then text input called "Description" is automatically added to the "HomeCreateForm" and "HomeUpdateForm" as well. (TK)
+
+[Graphic / animation TK]
+
+## Customize form component
+
+(TK)
+styling - theming
+onSubmit - customize the form submission handler
+onValidate - customize validation logic in code; also supports async validations
+onCancel - handle when the user clicks on the Cancel button
+onChange - handle user input events
+onError - handle form submission error if form is connected to a data model
+onSuccess - handle form submission success if form is connected to a data model
+overrides - customize DOM elements from the form
