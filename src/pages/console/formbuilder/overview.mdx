@@ -1,42 +1,136 @@
 export const meta = {
-  title: "Overview",
-  description: "Build React forms with Amplify Studio.",
+  title: `Form Builder - Overview`,
+  description: `Build custom, cloud-connected forms, powered by your data`,
 };
 
-Amplify Studio enables customers to build React forms based on their backend data model, JSON payload shape, or completely from scratch. (TK)
+Amplify Studio's Form Builder automatically generates cloud-connected forms as React code, either from your data model definitions, or from scratch. You can configure validation logic, adjust theming, and customize presentation all within the console. 
 
-## Build a new form
+Forms are also extensible, allowing full form lifecycle management, and supporting custom validation logic in code, including calling an external API or validating against another database.
 
-To build a new form, go to **Amplify Studio** > **UI Library** > **Forms (new)**. 
-1. Enter the **Form name** - the form name needs to be PascalCase. The form name is also used as the component name, when you pull the form component to your local development environment. (TK)
-2. Select **form type**:
-  - **Create**: By default, the form is completely blank.
-  - **Update**: By default, the form expect you to pass in an existing record to pre-populate the form inputs with an existing value.
-3. Choose a starting point:
-  - **Blank**: Start from a blank slate. Add form inputs and, optionally, deploy a matching cloud database later.
-  - **Data model**: Generate a form based on an existing data model. Form inputs are inferred based on the data model's field names and types.
-  - **JSON object**: Generate a form based on a sample JSON object that you'd like the form to produce. Form inputs are inferred based on the JSON object's field names and types.
+## Auto-Generated Forms
 
-## View form as end user (TK)
+The fastest and easiest way to use Amplify Form Builder is to use forms generated from your data model. To auto-generate forms:
 
-## Get React form code (TK)
+1. Deploy a data model in Amplify Studio - [Learn more](data/data-model/)
+2. Navigate to the **Studio Console > UI Library**
 
-## Auto-generate forms based on data model
+Your forms will be listed on the left-hand nav bar under the **Forms** header
 
-Amplify Studio can auto-generate form component for every data model in your Amplify project. These auto-generated forms are kept in-sync with updates to your data model as well.
+![Studio console showing auto-generated forms on the left-hand navigation bar](/images/console/formbuilder/overview1.png)
 
-For example, if you deploy a **Home** data model with "address" and "price" fields, Amplify Studio automatically creates a "HomeCreateForm" and a "HomeUpdateForm" for you. If you deploy an update to the data model by adding a "description" field, then text input called "Description" is automatically added to the "HomeCreateForm" and "HomeUpdateForm" as well. (TK)
+<Callout info>
 
-[Graphic / animation TK]
+**Missing Forms?**
 
-## Customize form component
+If you have a deployed data model, but have no forms, automatic form generation may be disabled. 
 
-(TK)
-styling - theming
-onSubmit - customize the form submission handler
-onValidate - customize validation logic in code; also supports async validations
-onCancel - handle when the user clicks on the Cancel button
-onChange - handle user input events
-onError - handle form submission error if form is connected to a data model
-onSuccess - handle form submission success if form is connected to a data model
-overrides - customize DOM elements from the form
+In the upper right-hand corner of the UI Library, select **UI Library settings**, and enable **Automatic form creation**
+
+</Callout>
+
+For each model in your data schema, Amplify Studio will generate two forms: a **Create** form, and an **Update** form. 
+
+Your forms will contain inputs for each field in your data model. Auto-generated forms are dynamic; as your data model changes, the forms' fields will update accordingly.
+
+### Customizing Auto-Generated Forms
+
+You can customize the style and presentation of your auto-generated forms in a number of ways. To make changes to a form:
+
+1. Navigate to **Studio Console > UI Library**
+2. In the left-hand nav bar, select your form
+3. In the upper right-hand corner, select **Configure**
+
+Here, you can make a number of modifications to your form. 
+
+- Select any input element to customize its attributes, like labels and placeholder values
+- Drag input elements to re-order them on your form, or set elements left-to-right to make rows
+- Select your **Submit**, **Cancel**, and **Clear** buttons to customize them
+- Adjust the spacing around and between input elements using the top bar
+
+![Screenshot of the top bar, showing padding adjustments to the form](/images/console/formbuilder/overview5.png)
+>Pro tip: you can use theme tags, like xs and xxl, or discrete values with units, like 150 px
+
+Once you are satisfied with your form, select **View as end user** to see and interact with your form as it would appear to a customer. Select **Back to edit** to continue customizing your form.
+
+<Callout info>
+
+**Fully Functional Forms**
+
+When you select **View as end user**, you are interacting with a fully functional form!
+
+Select **Submit** to actually create or update records in your data schema.
+
+</Callout>
+
+## Build a Basic Custom Form
+
+Alternatively, Amplify Studio allows you to build forms completely from scratch. To generate a basic, brand-new form:
+
+1. Navigate to **Studio Console > UI Library**
+2. In the left-hand nav bar, next to the **Forms** header, select **New**
+3. Give your form a name, leave the other options as default, and click **Create form**
+
+![New form page, showing the options available when creating a new form](/images/console/formbuilder/overview2.png)
+>Curious about the other options? Learn more about [building custom forms]()
+
+You will be directed to the Form Creation page. Select the **plus sign**, and select an input element to add to your form. 
+
+![Image of the Form Creation page with the blue bar and plus sign indicating the ability to add input elements to the form](/images/console/formbuilder/overview3.png)
+
+
+### Customizing input elements
+
+Like inputs in auto-generated forms, each input element can be customized to fit your needs. 
+
+All input elements allow you to customize their label, and some input elements have unique customization options, like default values, placeholder values, and even allowing multiple values. Explore different inputs to build the right form for your needs.
+
+![TextField form with customizations](/images/console/formbuilder/overview4.png)
+
+### Basic validation
+
+Validation rules prevent your form from accepting unwanted input from users. Form Builder contains three types of validation:
+
+- **Automatic Validation**: Some fields, like `EmailField` and `IPAddressField`, have built-in validation.   *[learn more]()*
+- **Validation Rules**: You can add validation rules using the **Add rule** button in the Validation rules menu.   *[learn more]()*
+- **Custom Validation**: You can use events in your form's lifecycle to trigger custom validation in code.   *[learn more]()*
+
+## Using Your Forms
+
+### Initial Setup
+
+To use a form in your application, you first need to configure your project to use Amplify Studio generated components. 
+
+1. Navigate to your application's root directory and install the following npm dependencies
+
+```
+npm install -g @aws-amplify/cli
+```
+
+```
+npm install aws-amplify @aws-amplify/ui-react
+```
+
+2. In your application's `index.js` file, add the following imports and configuration
+
+```jsx
+import {ThemeProvider} from "@aws-amplify/ui-react";
+import { Amplify } from 'aws-amplify';
+import awsconfig from './aws-exports';
+import "@aws-amplify/ui-react/styles.css";
+import studioTheme from './ui-components/studioTheme';
+Amplify.configure(awsconfig);
+```
+3. In your application's `index.js` file, wrap the `<App />` with the following:
+
+```jsx
+<ThemeProvider theme={studioTheme}>
+    <App />
+</ThemeProvider>
+```
+
+### Import and Render Your Form
+
+Next, your forms need to be pulled from the Amplify cloud to your project, and imported into your code. 
+
+1. Navigate to your application's root directory and run `amplify pull`
+2. 
