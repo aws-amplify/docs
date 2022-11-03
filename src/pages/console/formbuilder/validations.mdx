@@ -22,7 +22,7 @@ To validate the validation rules, select **View as end user**.
   <source src="/images/console/formbuilder/validations-visual.mp4"/>
 </video>
 
-### Available validation rules
+### Available validation rules within Studio
 
 By default, the following validation rules are available for you to configure:
 
@@ -74,6 +74,67 @@ type ValidationResponse = {
 };
 ```
 
-### Write validation functions for nested JSON data
+### Add validation rules for nested JSON data
+
+Amplify Studio Forms can also produce nested JSON object. For example, you can create a new `ProductForm` component based on the following JSON object:
+
+```json
+{
+  "name": "Piano",
+  "price": {
+    "maxDiscount": 0.15,
+    "default": 999,
+    "currency": "$"
+  }
+}
+```
+
+To add validation rules to the nested objects, pass in validation functions in the same nested structure as the data:
+
+```js
+<ProductForm
+  onValidate={{
+    price: {
+      currency: (value, validationResponse) => { // Pass validation function to match the nested object
+        const allowedCurrencies = ["$", "€", "￥", "₹"]
+        if (!allowedCurrencies.includes(value)) {
+          return {
+            hasError: true,
+            errorMessage: 'Currency must be either "$", "€", "￥", or "₹".'
+          }
+        }
+        return validationResponse
+      }
+    }
+  }}
+  onSubmit={(fields) => {/* handle form data submission */}}
+/>
+```
 
 ### Call external APIs for asynchronous form validation
+
+Sometimes your form needs to asynchronously validate an input with an external API or database before the form data is submitted.
+
+Return a Promise in the `onValidate` prop to run an asynchronous validation rule. In the following example, we check with an external API if a real estate agent exist based on a given license number:
+
+```jsx
+<AgentContactForm
+  onValidate={{
+    licenseNumber: (value, validationResponse) => {
+      // fetch calls an external API,
+      // which ultimately returns a Promise<ValidationResponse>
+      return fetch(`http://localhost:3000/api/agent/${value}`)
+        .then(response => {
+          if (response.status !== 200) {
+            return { // If the request failed, return a validation error
+              hasError: true,
+              errorMessage: "No agent was not found with that license number."
+            }
+          }
+          return validationResponse
+        })
+    }
+  }}
+  onSubmit={fields => { /* Handle form submission */ }}
+/>
+```
