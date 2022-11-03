@@ -9,7 +9,7 @@ Hook into the form's lifecycle events to customize user input before submission,
 
 |Event|Description|Use cases|
 |-|-|-|
-|1. Form is mounted|The inputs are either empty or pre-populated based on a default value provided by you.|If your user clicks on the **Clear** or **Reset** button, they'll be brought back to this state.|
+|1. Initial state|The inputs are either empty or pre-populated based on a default value provided by you.|If your user clicks on the **Clear** or **Reset** button, they'll be brought back to this state.|
 |2. [`onChange`](#get-form-data-as-your-user-inputs-data---onchange)|Event when form data is changed by the user.|Use this to get the form data after every user input.
 |3. [`onValidate`](#extend-validation-rules-in-code---onvalidate)| Event hook for custom validations. This event triggers after `onChange`.| Use this to extend validation rules via code. `onValidate` also supports asynchronous validation rules, which enable you to validate the form input against external APIs.|
 |4. [`onSubmit`](#handle-form-data-submissions---onsubmit)| Event when your user clicks the **Submit** button.|  - If your form is **not connected to a data model**, use set this event handler to retrieve the form data <br /> - If your form is **connected to a data model**, use this to customize the provided form data before they are saved to the cloud. |
