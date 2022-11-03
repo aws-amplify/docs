@@ -2240,16 +2240,20 @@ const directory = {
             route: '/console/formbuilder/overview'
           },
           {
-            title: 'Validate user inputs',
-            route: '/console/formbuilder/validations'
+            title: 'Customize form inputs',
+            route: '/console/formbuilder/customize'
           },
           {
-            title: 'Customize action buttons (Submit, Cancel, Clear, Reset)',
-            route: '/console/formbuilder/call-to-action'
+            title: 'Validate form data',
+            route: '/console/formbuilder/validations'
           },
           {
             title: 'Manage form lifecycle',
             route: '/console/formbuilder/lifecycle'
+          },
+          {
+            title: 'Customize action buttons (Submit, Cancel, Clear, Reset)',
+            route: '/console/formbuilder/call-to-action'
           },
           {
             title: 'Extend input element in code',

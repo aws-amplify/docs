@@ -1,6 +1,6 @@
 export const meta = {
   title: "Manage form lifecycle",
-  description: ""
+  description: "TK"
 }
 
 Hook into the form's lifecycle events to customize user input before submission, run validations, handle errors, or self-manage user input events. 
@@ -20,8 +20,6 @@ Hook into the form's lifecycle events to customize user input before submission,
 ## Get form data as your user inputs data - onChange
 
 In some cases, you want to get the form data in real-time as the user is filling the form. The `onChange` event provides you the form data in the `fields` parameter. We recommend you to use `onChange` if you opted to [hide all form action buttons](/console/formbuilder/call-to-action/#toggle-visibility-for-submit-cancel-clear-and-reset-buttons) (Submit, Cancel, Clear, Reset).
-
-**Note:** Usually, you only need to set the `onSubmit` to get the form data when the user clicks on **Submit**.
 
 ```jsx
 import { useState } from 'react'

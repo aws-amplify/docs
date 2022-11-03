@@ -1,6 +1,6 @@
 export const meta = {
-  title: "Validate user inputs",
-  description: "Configure..."
+  title: "Validate form data",
+  description: "Configure... TK"
 }
 
 Sanitize user input by adding validation rules to your form. By default, Amplify Studio infers a range of validation rules based on the data model. For example, given a data model with an `AWSEmail` field, the generated form input will automatically run an email validation rule.
@@ -45,7 +45,7 @@ For the types below, Amplify Studio automatically applies validation rules on fo
 
 Every form provides an `onValidate` event handler to provide additional validation rules via code. These validation rules are run after the rules you configured in the Studio console. 
 
-Return an object with validation functions for the fields you want to validate. In the example below, we enforce that `address` must start with a number, otherwise return any existing auto-generated validation responses.
+Return an object with validation functions for the fields you want to validate. In the example below, `address` must start with a number, otherwise return any existing auto-generated validation responses.
 
 
 ```jsx
