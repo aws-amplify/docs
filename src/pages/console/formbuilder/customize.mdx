@@ -43,7 +43,7 @@ Rearrange form inputs vertically or horizontally.
 
 If you want to quickly test your form customizations, select **View as end user** to view the customized form fully functioning within Studio.
 
-**Note:** If your form is connected to data model, then form data will be saved to the cloud upon clicking **Submit**. Careful to not accidentally add unintended records into a production database.
+**Note:** If your form is connected to a data model, then form data will be saved to the cloud upon clicking **Submit**. If this app is being used in production, the data you are saving may be visible to customers.
 
 <video autoPlay={true} muted={true} loop={true} width="100%">
   <source src="/images/console/formbuilder/customize-view-as-end-user.mp4"/>
@@ -76,11 +76,11 @@ Spacing values can either be a CSS length value (`px`, `rem`, `em`, `%`) or a re
 
 ## Enable list inputs
 
-Every form input can made to accept multiple values. The form input gets "wrapped" around by a "list input" component to allow your users to add, update, and remove items.
+Every form input can be made to accept multiple values. The form input gets "wrapped" around by a "list input" component to allow your users to add, update, and remove items.
 
 ![Screenshot of "Accept multiple values" checkbox](/images/console/formbuilder/customize-accept-multiple-values.png)
 
-1. Select a form input in a form that's not connected to a data model
+1. Select a form input that's not connected to a data model
 2. Go to **Data** 
 3. Select **Accept multiple values**
 
@@ -90,7 +90,7 @@ Every form input can made to accept multiple values. The form input gets "wrappe
 
 ## Add sectional elements
 
-Use sectional elements to divide your form up into multiple parts. This is useful to represent nested data and their designated form inputs into individual sections.
+Use sectional elements to divide your form up into multiple parts. This is useful to represent nested data and their designated form inputs in individual sections.
 
 1. Move your mouse onto the center form canvas.
 2. Hover in between, before, or after a form input until a blue bar with a (+) sign appears.
@@ -104,4 +104,5 @@ Use sectional elements to divide your form up into multiple parts. This is usefu
 
 ## Delete a form input
 
-Delete a form input by selecting the form input and then select **Action** > **Delete**.
+1. Selecting the form input.
+2. Select **Action** > **Delete**.

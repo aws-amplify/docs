@@ -3,19 +3,37 @@ export const meta = {
   description: "Hook into the form's lifecycle events to customize user input before submission, run validations, handle errors, or self-manage user input events."
 }
 
-Hook into the form's lifecycle events to customize user input before submission, run validations, handle errors, or self-manage user input events. 
+Hook into the form's lifecycle events to customize user input before submission, run validations, or handle errors. 
 
 ![Lifecycle diagram of the Amplify Forms](/images/console/formbuilder/lifecycle-diagram.png)
 
-|Event|Description|Use cases|
-|-|-|-|
-|1. Initial state|The inputs are either empty or pre-populated based on a default value provided by you.|If your user clicks on the **Clear** or **Reset** button, they'll be brought back to this state.|
-|2. [`onChange`](#get-form-data-as-your-user-inputs-data---onchange)|Event when form data is changed by the user.|Use this to get the form data after every user input.
-|3. [`onValidate`](#extend-validation-rules-in-code---onvalidate)| Event hook for custom validations. This event triggers after `onChange`.| Use this to extend validation rules via code. `onValidate` also supports asynchronous validation rules, which enable you to validate the form input against external APIs.|
-|4. [`onSubmit`](#handle-form-data-submissions---onsubmit)| Event when your user clicks the **Submit** button.|  - If your form is **not connected to a data model**, use set this event handler to retrieve the form data <br /> - If your form is **connected to a data model**, use this to customize the provided form data before they are saved to the cloud. |
-|5. [`onSuccess`](#handle-form-data-successfully-saving-to-the-cloud---onsuccess)| Event when saving form data to the cloud succeeds.| Use this to dismiss the form or reroute your user after a successful form submission. Only use this if your form is connected to a data model.|
-|6. [`onError`](#handle-form-submission-errors---onerror)| Event when saving form data to the cloud fails.| Use this to log the error and investigate further if your validation rules need to be enhanced to catch input formatting issues. Only use this if your form is connected to a data model.|
-|7. [`onCancel`](#handle-user-clicking-on-undefined-action-button---oncancel)| Event when your user clicks on the **Cancel** button.| Use this to dismiss the form without saving the form data.|
+1. **Initial state** - The inputs are either empty or pre-populated based on a default value provided by you.
+
+  **Use case:** If your user clicks on the **Clear** or **Reset** button, they'll be brought back to this state.
+
+2. [`onChange`](#get-form-data-as-your-user-inputs-data---onchange) - Event when form data is changed by the user.
+
+  **Use case:** Use this to get the form data after every user input.
+
+3. [`onValidate`](#extend-validation-rules-in-code---onvalidate) - Event hook for custom validations. This event triggers after `onChange`.
+
+  **Use case:**  Use this to extend validation rules via code. `onValidate` also supports asynchronous validation rules, which enable you to validate the form input against external APIs.
+
+4. [`onSubmit`](#handle-form-data-submissions---onsubmit) - Event when your user clicks the **Submit** button.
+
+  **Use case:**  If your form is **not connected to a data model**, use set this event handler to retrieve the form data. If your form is **connected to a data model**, use this to customize the provided form data before they are saved to the cloud. 
+
+5. [`onSuccess`](#handle-form-data-successfully-saving-to-the-cloud---onsuccess) - Event when saving form data to the cloud succeeds.
+
+  **Use case:**  Use this to dismiss the form or reroute your user after a successful form submission. Only use this if your form is connected to a data model.
+
+6. [`onError`](#handle-form-submission-errors---onerror) - Event when saving form data to the cloud fails.
+
+  **Use case:**  Use this to log the error and investigate further if your validation rules need to be enhanced to catch input formatting issues. Only use this if your form is connected to a data model.
+
+7. [`onCancel`](#handle-user-clicking-on-undefined-action-button---oncancel) - Event when your user clicks on the **Cancel** button.
+
+  **Use case:**  Use this to dismiss the form without saving the form data.
 
 ## Get form data as your user inputs data - onChange
 
@@ -144,7 +162,7 @@ function App() {
 
 ## Handle user clicking on **Cancel** action button - onCancel
 
-If the user clicks on the **Cancel** action button, you can use the `onCancel` event to hide the form or reroute the customer to another page.
+If the user clicks on the **Cancel** action button, you can use the `onCancel` event to hide the form or route the customer to another page.
 
 ```jsx
 import { useState } from 'react'

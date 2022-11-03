@@ -59,7 +59,7 @@ To generate a form from JSON:
 4. Paste your JSON into the code editor
 5. Give your form a name, and click **Create form**
 
-Form Builder will infer the input element type based on the value, and can handle arrays and nested JSON values. For example, use this JSON sample:
+Form Builder will infer the input element type based on the value and can handle arrays and nested JSON values. For example, use this JSON sample:
 
 ```json
 {
@@ -81,10 +81,10 @@ This JSON will render the following form:
 
 ![Form rendered from JSON showing headings and fields with types inferred from key pair values](/images/console/formbuilder/overview6.png)
 
-From the JSON block, Amplify Studio automatically...
-- ...set the correct types for **Email address** and **Number**
-- ...set **Animals** to receive multiple values
-- ...set **Active** and **Enabled** to switches
+From the JSON object, Amplify Studio can automatically
+- set the correct types for **Email address** and **Number**
+- set **Animals** to receive multiple values
+- set **Active** and **Enabled** to switches
 
 ## Render React form in your app
 
@@ -105,11 +105,14 @@ npm install aws-amplify @aws-amplify/ui-react
 2. In your application's `index.js` file, add the following imports and configuration
 
 ```jsx
-import {ThemeProvider} from "@aws-amplify/ui-react";
+import '@aws-amplify/ui-react/styles.css';
+
 import { Amplify } from 'aws-amplify';
+import {ThemeProvider} from "@aws-amplify/ui-react";
+
 import awsconfig from './aws-exports';
-import "@aws-amplify/ui-react/styles.css";
 import studioTheme from './ui-components/studioTheme';
+
 Amplify.configure(awsconfig);
 ```
 3. In your application's `index.js` file, wrap the `<App />` with the following:
