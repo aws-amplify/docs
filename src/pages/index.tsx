@@ -79,7 +79,7 @@ const Page = () => {
         currentSite={'Docs'}
       />
       <SecondaryNav />
-      <Hero className="margin-top-lg">
+      <Hero>
         <h1 className="font-weight-300">Amplify Documentation</h1>
         <p>
           Learn how to use Amplify to develop and deploy cloud-powered mobile
