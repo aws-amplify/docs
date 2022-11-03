@@ -2252,7 +2252,7 @@ const directory = {
             route: '/console/formbuilder/lifecycle'
           },
           {
-            title: 'Overrides',
+            title: 'Extend input element in code',
             route: '/console/formbuilder/overrides'
           }
         ]
