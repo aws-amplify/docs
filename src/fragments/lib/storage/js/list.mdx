@@ -6,8 +6,8 @@ List keys under a specified path, as well as `lastModified` timestamp.
 
 ```javascript
 Storage.list('photos/') // for listing ALL files without prefix, pass '' instead
-    .then((result) => console.log(result))
-    .catch((err) => console.log(err));
+  .then((result) => console.log(result))
+  .catch((err) => console.log(err));
 ```
 
 Note the trailing slash `/` - if you had requested `Storage.list('photos')` it would also match against files like `photos123.jpg` alongside `photos/123.jpg`.
@@ -33,19 +33,22 @@ Manually created folders will show up as files with a `size` of 0, but you can a
 
 ```js
 function processStorageList(response) {
-  let files = []
-  let folders = new Set()
+  let files = [];
+  let folders = new Set();
   response.results.forEach(res => {
     if (res.size) {
-      files.push(res)
+      files.push(res);
       // sometimes files declare a folder with a / within then
-      let possibleFolder = res.key.split('/').slice(0,-1).join('/')
-      if (possibleFolder) folders.add(possibleFolder)
+      let possibleFolder = res.key
+        .split('/')
+        .slice(0, -1)
+        .join('/');
+      if (possibleFolder) folders.add(possibleFolder);
     } else {
-      folders.add(res.key)
+      folders.add(res.key);
     }
-  })
-  return {files, folders}
+  });
+  return { files, folders };
 }
 ```
 
@@ -53,20 +56,21 @@ If you need the files and folders in terms of a nested object instead (for examp
 
 ```js
 function processStorageList(response) {
-  const filesystem = {}
+  const filesystem = {};
   // https://stackoverflow.com/questions/44759750/how-can-i-create-a-nested-object-representation-of-a-folder-structure
   const add = (source, target, item) => {
-    const elements = source.split("/");
+    const elements = source.split('/');
     const element = elements.shift();
-    if (!element) return // blank
-    target[element] = target[element] || {__data: item}// element;
+    if (!element) return; // blank
+    target[element] = target[element] || { __data: item }; // element;
     if (elements.length) {
-      target[element] = typeof target[element] === "object" ? target[element] : {};
-      add(elements.join("/"), target[element], item);
+      target[element] =
+        typeof target[element] === 'object' ? target[element] : {};
+      add(elements.join('/'), target[element], item);
     }
   };
-  response.results.forEach(item => add(item.key, filesystem, item));
-  return filesystem
+  response.results.forEach((item) => add(item.key, filesystem, item));
+  return filesystem;
 }
 ```
 
@@ -79,7 +83,7 @@ To list current user's objects:
 ```javascript
 Storage.list('photos/', { level: 'protected' })
   .then(({ results }) => console.log(results))
-  .catch(err => console.log(err));
+  .catch((err) => console.log(err));
 ```
 
 To get other users' objects:
@@ -90,7 +94,7 @@ Storage.list('photos/', {
   identityId: 'xxxxxxx' // the identityId of that user
 })
   .then(({ results }) => console.log(results))
-  .catch(err => console.log(err));
+  .catch((err) => console.log(err));
 ```
 
 ## Private level list
@@ -98,7 +102,7 @@ Storage.list('photos/', {
 ```javascript
 Storage.list('photos/', { level: 'private' })
   .then(({ results }) => console.log(results))
-  .catch(err => console.log(err));
+  .catch((err) => console.log(err));
 ```
 
 ## Access all files
@@ -108,12 +112,12 @@ To get a list of all files in your S3 bucket under a specific prefix, you can se
 ```javascript
 
 Storage.list('photos/', { pageSize : 'ALL' })
-  .then(result => console.log(result))
-  .catch(err => console.log(err));
+  .then(({ results }) => console.log(result))
+  .catch((err) => console.log(err));
 
 ```
 
-If the the pageSize is set to lower than total file size, a single `Storage.list` call only returns a subset of all the files. To list all the files with multiple calls, Users can use the `hasNextToken` and `nextToken` key:
+If the the pageSize is set to lower than total file size, a single `Storage.list` call only returns a subset of all the files. To list all the files with multiple calls, users can use the `hasNextToken` and `nextToken` key:
 
 ```javascript
 
@@ -133,12 +137,10 @@ const loadNextPage = async () => {
       nextToken = undefined;
       hasNextPage = false;
     }
-    // render list items in response.results
+    // render list items from response.results
   }
 }
 
 ```
 
-<Callout>
-Note: The range of maxKeys can be from 0 - 1000 or 'ALL'.
-</Callout>
+<Callout>Note: The range of maxKeys can be from 0 - 1000 or 'ALL'.</Callout>
