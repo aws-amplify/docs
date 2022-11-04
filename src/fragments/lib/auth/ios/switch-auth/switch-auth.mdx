@@ -48,6 +48,10 @@ Runtime configuration will take precedence and will override any auth flow type 
 
 A use case for the `USER_PASSWORD_AUTH` authentication flow is migrating users into Amazon Cognito
 
+A user migration Lambda trigger helps migrate users from a legacy user management system into your user pool. If you choose the USER_PASSWORD_AUTH authentication flow, users don't have to reset their passwords during user migration. This flow sends your users' passwords to the service over an encrypted SSL connection during authentication.
+
+When you have migrated all your users, switch flows to the more secure SRP flow. The SRP flow doesn't send any passwords over the network.
+
 ```swift
 func signIn(username: String, password: String) async throws {
 
