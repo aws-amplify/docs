@@ -10,7 +10,7 @@ try {
 	await promise;
 } catch (error) {
 	console.error(error);
-	// We can confirm the error is thrown by the cancellation here
+	// You can confirm the error is thrown by the cancellation here
 	if (Storage.isCancelError(error)) {
 		console.error(error.message); // "my message for cancellation"
 	}

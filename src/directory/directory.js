@@ -49,6 +49,11 @@ const directory = {
             filters: ['ios']
           },
           {
+            title: 'Upgrade guide',
+            route: '/lib/project-setup/upgrade-guide',
+            filters: ['ios']
+          },
+          {
             title: 'Async Programming Model',
             route: '/lib/project-setup/async',
             filters: ['android']
@@ -271,11 +276,6 @@ const directory = {
           {
             title: 'Switching authentication flows',
             route: '/lib/auth/switch-auth',
-            filters: ['js', 'react-native']
-          },
-          {
-            title: 'Customize UI components',
-            route: '/lib/auth/customui',
             filters: ['js', 'react-native']
           },
           {
@@ -1062,7 +1062,7 @@ const directory = {
           {
             title: 'Delete user',
             route: '/lib-v1/auth/delete_user',
-            filters: [ 'ios']
+            filters: ['ios']
           },
           {
             title: 'Escape hatch',
@@ -1147,7 +1147,7 @@ const directory = {
           {
             title: 'Getting started',
             route: '/lib-v1/geo/getting-started',
-            filters: [ 'ios']
+            filters: ['ios']
           },
           {
             title: 'Maps',
@@ -1279,7 +1279,7 @@ const directory = {
       utilities: {
         title: 'Utilities',
         items: [
-          { title: 'Hub', route: '/lib-v1/utilities/hub', filters: ['ios'] },
+          { title: 'Hub', route: '/lib-v1/utilities/hub', filters: ['ios'] }
         ]
       },
       debugging: {
@@ -2237,11 +2237,40 @@ const directory = {
           }
         ]
       },
-      uibuilder: {
-        title: 'UI development (React)',
+      formbuilder: {
+        title: 'Form Builder (React)',
         items: [
           {
-            title: 'Figma to code',
+            title: 'Overview',
+            route: '/console/formbuilder/overview'
+          },
+          {
+            title: 'Customize form inputs',
+            route: '/console/formbuilder/customize'
+          },
+          {
+            title: 'Validate form data',
+            route: '/console/formbuilder/validations'
+          },
+          {
+            title: 'Manage form lifecycle',
+            route: '/console/formbuilder/lifecycle'
+          },
+          {
+            title: 'Customize action buttons (Submit, Cancel, Clear, Reset)',
+            route: '/console/formbuilder/call-to-action'
+          },
+          {
+            title: 'Extend input element in code',
+            route: '/console/formbuilder/overrides'
+          }
+        ]
+      },
+      uibuilder: {
+        title: 'Figma-to-Code (React)',
+        items: [
+          {
+            title: 'Overview',
             route: '/console/uibuilder/figmatocode'
           },
           {

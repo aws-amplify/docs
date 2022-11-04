@@ -157,6 +157,7 @@
     "arraybuffer",
     "artifactID",
     "async",
+    "asyncawait",
     "AsyncStorage",
     "attribs",
     "attributes.put",
@@ -265,6 +266,8 @@
     "AWSHTTP",
     "AWSHTTPURL",
     "AWSIoT",
+    "AWSIP",
+    "AWSJSON",
     "AWSKinesis",
     "AWSKinesisFirehoseProvider",
     "AWSKinesisProvider",
@@ -593,6 +596,7 @@
     "forgotPasswordConfig",
     "forKey",
     "formapi",
+    "formbuilder",
     "formfunction",
     "formtable",
     "FORMTABLE",
@@ -932,6 +936,7 @@
     "onPick",
     "onResult",
     "onUpdate",
+    "onvalidate",
     "OPENID_CONNECT",
     "openid",
     "OpenID",
@@ -1035,6 +1040,7 @@
     "QueryField",
     "queueing",
     "quickstart",
+    "Quokka",
     "quoteOfTheDay",
     "R.color.black",
     "R.id.confirmSignUpCode",
@@ -1477,5 +1483,10 @@
     "Libre's",
     "Pinia"
   ],
-  "flagWords": ["hte"]
+  "flagWords": [
+    "hte", 
+    "full-stack", 
+    "Full-stack", 
+    "Full-Stack"
+  ]
 }

@@ -12,7 +12,7 @@ With the basic setup complete, you can now model the data your application will 
 
     ![Create new schema](/images/lib/getting-started/reactnative/generate-model-admin-ui-create.png)
 
-2. On the Data modeling screen, you should see your Todo data model.  This is a good start but let’s take it a step further by adding a completion flag to our Todo items.
+2. On the Data modeling screen, you should see your Todo data model.  This is a good start but let’s take it a step further by adding a completion flag to your Todo items.
 
 ### Add the isComplete Boolean field
 
@@ -36,7 +36,7 @@ With the basic setup complete, you can now model the data your application will 
             
     4. Make a note of the sandbox id, just in case!
     5. As the rest of the steps will be covered by the tutorial, you can skip the remaining steps in Amplify Studio and click **Deploy** on the top right
-3. In order to deploy a backend, you will need an AWS account. We will go over this in a later step when we’re ready to sync our app to the cloud. For now, keep the link to this page handy!
+3. In order to deploy a backend, you will need an AWS account. We will go over this in a later step when you’re ready to sync your app to the cloud. For now, keep the link to this page handy!
 
 At this point, Amplify should have generated several directories and configuration files in your project for you. Let’s take a look at the generated GraphQL schema.
 
@@ -59,8 +59,8 @@ type Todo @model @auth(rules: [{ allow: public }]) {
 
         <Callout>
 
-        **Note:** We are also specifying an @auth directive on our model which can be useful for setting up authorization rules later, but for the purposes of this tutorial, the model will be authorized for public access. You can read more about authorization rules [here](https://docs.amplify.aws/lib/datastore/setup-auth-rules/q/platform/js).
+        **Note:** You are also specifying an @auth directive on your model which can be useful for setting up authorization rules later, but for the purposes of this tutorial, the model will be authorized for public access. You can read more about authorization rules [here](https://docs.amplify.aws/lib/datastore/setup-auth-rules/q/platform/js).
 
         </Callout>
 
-Now that local Amplify and data models are set up, we’re ready to integrate with the app!
+Now that local Amplify and data models are set up, you’re ready to integrate with the app!

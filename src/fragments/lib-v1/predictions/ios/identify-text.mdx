@@ -104,7 +104,7 @@ func detectText(_ image: URL) -> AnyCancellable {
     })
 }
 ```
-Additionally it's important to note that Rekognition places (0,0) at the top left and Core ML places (0,0) at the bottom left. In order to handle this issue, we have flipped the y axis of the CoreML bounding box for you since iOS starts (0,0) from the top left.
+Additionally it's important to note that Rekognition places (0,0) at the top left and Core ML places (0,0) at the bottom left. In order to handle this issue, you have flipped the y axis of the CoreML bounding box for you since iOS starts (0,0) from the top left.
 
 To get results that utilize on-device capabilities (Core ML), without combining results from the backend, you can use the following to pass into the `options` argument of the `Amplify.Predictions.identify` function.
 ```swift

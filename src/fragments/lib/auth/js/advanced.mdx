@@ -316,7 +316,7 @@ Auth.federatedSignIn(
     {
         token: idToken, // The id token from Auth0
         // expires_at means the timestamp when the token provided expires,
-        // here we can derive it from the expiresIn parameter provided,
+        // here you can derive it from the expiresIn parameter provided,
         // then convert its unit from second to millisecond, and add the current timestamp
         expires_at: exp * 1000 // the expiration timestamp
     },

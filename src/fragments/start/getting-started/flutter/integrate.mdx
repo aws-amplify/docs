@@ -1,15 +1,15 @@
 In this section you’ll integrate Amplify DataStore with your app, and learn to use the generated data model to create, update, query, and delete Todo items by building an app.
 
-First, replace the contents of your *main.dart* file with the following UI boilerplate code. Typically, you would break this file up into smaller modules but we've kept it as a single file here just for the tutorial. You might find your IDE complains about numerous unreferenced declarations but, don’t worry, we’ll get around to fixing those as we fill out our app with more functionality.
+First, replace the contents of your *main.dart* file with the following UI boilerplate code. Typically, you would break this file up into smaller modules but we've kept it as a single file here just for the tutorial. You might find your IDE complains about numerous unreferenced declarations but, don’t worry, you'll get around to fixing those as you fill out your app with more functionality.
 
 ```dart
-// dart async library we will refer to when setting up real time updates
+// dart async library you will refer to when setting up real time updates
 import 'dart:async';
 
 // flutter and ui libraries
 import 'package:flutter/material.dart';
 
-// amplify packages we will need to use
+// amplify packages you will need to use
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:amplify_datastore/amplify_datastore.dart';
 
@@ -334,7 +334,7 @@ Future<void> _saveTodo() async {
     isComplete: false,
   );
   try {
-    // to write data to DataStore, we simply pass an instance of a model to
+    // to write data to DataStore, you simply pass an instance of a model to
     // Amplify.DataStore.save()
     await Amplify.DataStore.save(newTodo);
     // after creating a new Todo, close the form
@@ -348,11 +348,11 @@ Future<void> _saveTodo() async {
 }
 ```
 
-If you try to add todos using the form now, it should successfully close the form when pressing the *Save* button. But our Todo list is still empty even if you restart the app! After initializing our todos as an empty list, we aren't currently updating it again. We will remedy that in the next step.
+If you try to add todos using the form now, it should successfully close the form when pressing the *Save* button. But your Todo list is still empty even if you restart the app! After initializing your todos as an empty list, you aren't currently updating it again. You will remedy that in the next step.
 
 ### Querying for Todos and Observing Updates in Real-Time
 
-Now that we have a way to add Todo items, we need a way to list them out. We also want to observe updates to those items as they are added, updated, or removed.
+Now that you have a way to add Todo items, you need a way to list them out. You also want to observe updates to those items as they are added, updated, or removed.
 
 This can be achieved with `DataStore.observeQuery()`. ObserveQuery will return a Stream of query snapshots. Each snapshot will contain the current list of items, as well as boolean value to indicate if DataStore's sync process has completed.
 
@@ -410,11 +410,11 @@ Update the `_toggleIsComplete()` function in the `TodoItem` class.
 ```dart
 Future<void> _toggleIsComplete() async {
 
-  // copy the Todo we wish to update, but with updated properties
+  // copy the Todo you wish to update, but with updated properties
   final updatedTodo = todo.copyWith(isComplete: !todo.isComplete);
   try {
 
-    // to update data in DataStore, we again pass an instance of a model to
+    // to update data in DataStore, you again pass an instance of a model to
     // Amplify.DataStore.save()
     await Amplify.DataStore.save(updatedTodo);
   } catch (e) {
@@ -423,18 +423,18 @@ Future<void> _toggleIsComplete() async {
 }
 ```
 
-That’s it! Restart your app and you should now be able to toggle a todo between completed and not completed states. We’re almost done here but what if you want to delete an item from your todo list? We’ll go over how to do that next.
+That’s it! Restart your app and you should now be able to toggle a todo between completed and not completed states. You’re almost done here but what if you want to delete an item from your todo list? We’ll go over how to do that next.
 
 ### Deleting a Todo
 
-Deleting an existing data entry is even easier than updating one since you don’t need to copy the instance to delete it. It may not be the best user experience to do this but, for this app, we will trigger deletion of a todo item to a long press of the item.
+Deleting an existing data entry is even easier than updating one since you don’t need to copy the instance to delete it. It may not be the best user experience to do this but, for this app, you will trigger deletion of a todo item to a long press of the item.
 
 Update the `_deleteTodo()` function in the `TodoItem` class.
 
 ```dart
 void _deleteTodo(BuildContext context) async {
   try {
-    // to delete data from DataStore, we pass the model instance to
+    // to delete data from DataStore, you pass the model instance to
     // Amplify.DataStore.delete()
     await Amplify.DataStore.delete(todo);
   } catch (e) {
@@ -443,7 +443,7 @@ void _deleteTodo(BuildContext context) async {
 }
 ```
 
-Reload your app once more and you should now be able to long press an item to delete it. Now we have a fully featured CRUD application that saves and retrieves data on the local device, which means this app **works without an AWS account or even an internet connection.** Next, we’ll connect it to AWS and make sure the data is available in the cloud but first, a note about Flutter Hot Reload and Hot Restart.
+Reload your app once more and you should now be able to long press an item to delete it. Now you have a fully featured CRUD application that saves and retrieves data on the local device, which means this app **works without an AWS account or even an internet connection.** Next, you'll connect it to AWS and make sure the data is available in the cloud but first, a note about Flutter Hot Reload and Hot Restart.
 
 ## Using Flutter Hot Reload and Hot Restart
 
