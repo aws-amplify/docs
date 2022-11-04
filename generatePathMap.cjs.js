@@ -34,11 +34,8 @@ function generatePathMap(
     '/start/q/integration/react-native': {
       page: '/start/q/integration/[integration]'
     },
-    '/start/q/integration/ionic': {
-      page: '/start/q/integration/[integration]'
-    },
     '/start/q/integration/ios': {
-      page: '/start/q/integration/[integration]'
+      page: '/start/q/integration/[integration]',
     },
     '/start/q/integration/flutter': {
       page: '/start/q/integration/[integration]'
@@ -61,6 +58,9 @@ function generatePathMap(
     '/lib-v1/q/platform/android': {
       page: '/lib-v1/q/platform/[platform]'
     },
+    '/lib-v1/q/platform/ios': {
+      page: '/lib-v1/q/platform/[platform]'
+    },
     '/ui/q/framework/react': {
       page: '/ui/q/framework/[framework]'
     },
@@ -71,9 +71,6 @@ function generatePathMap(
       page: '/ui/q/framework/[framework]'
     },
     '/ui/q/framework/vue': {
-      page: '/ui/q/framework/[framework]'
-    },
-    '/ui/q/framework/ionic': {
       page: '/ui/q/framework/[framework]'
     },
     '/ui/q/framework/flutter': {
@@ -92,9 +89,6 @@ function generatePathMap(
       page: '/ui-legacy/q/framework/[framework]'
     },
     '/ui-legacy/q/framework/vue': {
-      page: '/ui-legacy/q/framework/[framework]'
-    },
-    '/ui-legacy/q/framework/ionic': {
       page: '/ui-legacy/q/framework/[framework]'
     },
     '/ui-legacy/q/framework/next': {
@@ -213,7 +207,6 @@ function generatePathMap(
         'react-native',
         'angular',
         'vue',
-        'ionic',
         'next'
       ];
     }
