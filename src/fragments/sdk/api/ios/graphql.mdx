@@ -775,7 +775,7 @@ appSyncClient?.sync(
 
 **Example**
 
-The following section walks through the details of creating an app using Delta Sync. We will use a simple Posts App that has a view that displays a list of posts and keeps it synchronized using the Delta Sync functionality. We will use an array called `postList` to collect and manage the posts and a UIViewController to power the UI.
+The following section walks through the details of creating an app using Delta Sync. You will use a simple Posts App that has a view that displays a list of posts and keeps it synchronized using the Delta Sync functionality. You will use an array called `postList` to collect and manage the posts and a UIViewController to power the UI.
 
 **Create Sync Handler Function**
 
@@ -805,7 +805,7 @@ class YourAppViewController: UIViewController {
       self.tableView.dataSource = self
       self.tableView.delegate = self
 
-      // Call the new method which we just added.
+      // Call the new method which you just added.
       loadPostsWithSyncFeature()
     }
 
@@ -915,7 +915,7 @@ class YourAppViewController: UIViewController {
 
 **Implement the new sync function**
 
-Now, update the `loadPostsWithSyncFeature` function with the calls to our helper methods to make sure all changes are updated in the UI.
+Now, update the `loadPostsWithSyncFeature` function with the calls to your helper methods to make sure all changes are updated in the UI.
 
 ```swift
     func loadPostsWithSyncFeature() {
@@ -983,7 +983,7 @@ Now, update the `loadPostsWithSyncFeature` function with the calls to our helper
     }
 ```
 
-Once we have all of these pieces in place, we will tie it all together by invoking the Delta Sync functionality as follows.
+Once you have all of these pieces in place, you will tie it all together by invoking the Delta Sync functionality as follows.
 
 **Delta Sync Lifecycle**
 

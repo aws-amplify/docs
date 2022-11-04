@@ -1,11 +1,11 @@
 <Callout>
-Note: If you create or update an SMS MFA configuration for your Cognito user pool, the Cognito service will send a test SMS message to an internal number in order to verify your configuration. You will be charged for these test messages by Amazon SNS. 
+Note: If you create or update an SMS MFA configuration for your Cognito user pool, the Cognito service will send a test SMS message to an internal number in order to verify your configuration. You will be charged for these test messages by Amazon SNS.
 
 For information about Amazon SNS pricing, see [Worldwide SMS Pricing](https://aws.amazon.com/sns/sms-pricing/).
 </Callout>
 
 
-There are a few ways to integrate phone numbers into an Amplify app's sign-in and verification process. 
+There are a few ways to integrate phone numbers into an Amplify project's sign-in and verification process.
 - **As a username**\*: Users login with a username and password where their phone number acts as the username.
 - **As a verification method**: Users login by any means, but must verify their account with an OTP (one time password) sent to their phone.
 - **MFA (Multi-Factor Authentication)**: Users must verify every login with an OTP sent to their phone.
@@ -25,7 +25,7 @@ You have enabled SMS based auth workflow. Verify your SNS account mode in the SN
 If your account is in "Sandbox" mode, you can only send SMS messages to verified recipient phone numbers.
 ```
 
-Follow the [link](https://console.aws.amazon.com/sns/v3/home#/mobile/text-messaging) to visit your SNS account. If your account is in "Sandbox" mode, you'll need to verify a phone number before you're able to send SMS messages. 
+Follow the [link](https://console.aws.amazon.com/sns/v3/home#/mobile/text-messaging) to visit your SNS account. If your account is in "Sandbox" mode, you'll need to verify a phone number before you're able to send SMS messages.
 
 ### Set up an Origination Entity
 

@@ -458,6 +458,47 @@ type Todo @model {
 If you create a new Todo and don't supply a `content` input, Amplify will ensure that `My new Todo` is auto populated as a value. 
 When `@default` is applied, non-null assertions using `!` are disregarded. For example, `String!` is treated the same as `String`.
 
+## Server-side filtering for subscriptions
+
+A server-side subscription filter expression is automatically generated for any `@model` type.
+
+```graphql
+type Task @model {
+  title: String!
+  description: String
+  type: String
+  priority: Int
+}
+```
+
+You can filter the subscriptions server-side by passing a filter expression. For example: If you want to subscribe to tasks of type `Security` and priority greater than `5`, you can set the `filter` argument accordingly.
+
+```graphql
+subscription OnCreateTask {
+  onCreateTask(
+    filter: {
+      and: [
+        { type: { eq: "Security" } }
+        { priority: { gt: 5 } }
+      ]
+    }
+  ) {
+    title
+    description
+    type
+    priority
+  }
+}
+```
+
+If you want to get all subscription events, don’t pass any `filter` parameters.
+
+<Callout>
+
+**Important**: Passing an empty object `{}` as a filter is NOT recommended. Using `{}` as a filter might cause inconsistent behavior based on your data model's authorization rules.
+
+</Callout>
+
 ## Advanced
 
 ### Rename generated queries, mutations, and subscriptions
@@ -471,11 +512,11 @@ type Todo @model(queries: { get: "queryFor" }) {
 }
 ```
 
-In the example above, we will be able to run a `queryForTodo` query to get a single Todo element.  
+In the example above, you will be able to run a `queryForTodo` query to get a single Todo element.  
 
 ### Disable generated queries, mutations, and subscriptions
 
-We can disable specific operations by assigning their value to `null`.
+You can disable specific operations by assigning their value to `null`.
 
 ```graphql
 type Todo @model(queries: { get: null }, mutations: null, subscriptions: null) {
@@ -488,7 +529,7 @@ The example above disables the `getTodo` query, all mutations, and all subscript
 
 ### Creating a custom query
 
-We can disable the `get` query and create a custom query that enables us to retrieve a single Todo model.
+You can disable the `get` query and create a custom query that enables us to retrieve a single Todo model.
 
 ```graphql
 type Query {

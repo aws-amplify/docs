@@ -14,7 +14,7 @@ type Todo
 }
 ```
 
-By setting `allow:owner` with `operations` set to `create`, `update` and `delete`, we have effectively set permissions for both the user who created the model (owner) and everyone else (non-owners). For owners this means, they can update and delete their created instances. For non-owners, this means they can read instances that are not owned by them and are restricted from updating or deleting them.
+By setting `allow:owner` with `operations` set to `create`, `update` and `delete`, you have effectively set permissions for both the user who created the model (owner) and everyone else (non-owners). For owners this means, they can update and delete their created instances. For non-owners, this means they can read instances that are not owned by them and are restricted from updating or deleting them.
 
 For example, if there are two users, UserA and UserB, where UserA creates a `Todo` instance named `todo123`, UserA can create, update, or delete `todo123`. UserB can read `todo123` but can not update or delete `todo123`.
 
@@ -27,7 +27,7 @@ The `@auth` directive when used with Amplify DataStore supports the following fi
 
 ## Configure API with Amazon Cognito user pool
 
-While using the `@auth` directive in your schema to limit read/write access, we require authentication to be integrated into your app in order to differentiate who the owner is. To set this up issue the command:
+While using the `@auth` directive in your schema to limit read/write access, you require authentication to be integrated into your app in order to differentiate who the owner is. To set this up issue the command:
 
 ```console
 amplify update api

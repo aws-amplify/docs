@@ -10,7 +10,7 @@ Storage.list('photos/') // for listing ALL files without prefix, pass '' instead
   .catch((err) => console.log(err));
 ```
 
-Note the trailing slash `/` - if we had requested `Storage.list('photos')` it would also match against files like `photos123.jpg` alongside `photos/123.jpg`.
+Note the trailing slash `/` - if you had requested `Storage.list('photos')` it would also match against files like `photos123.jpg` alongside `photos/123.jpg`.
 
 The format of the result looks like this:
 

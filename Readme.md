@@ -1,4 +1,4 @@
-# Amplify Framework Documentation
+# Amplify Documentation
 
 [![DiscordChat](https://img.shields.io/discord/308323056592486420?logo=discord")](https://discord.gg/amplify)
 

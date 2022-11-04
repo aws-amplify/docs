@@ -8,7 +8,7 @@ Make sure you have completed the below steps:
 In your application directory, you should first install the necessary dependencies. Although Amplify In-App Messaging can be used as a standalone JavaScript library, the UI integration is currently available only for _React Native_. The integrations steps here assume a React Native application as the implementation target.
 
 ```bash
-npm install -E aws-amplify@in-app-messaging aws-amplify-react-native@in-app-messaging amazon-cognito-identity-js @react-native-community/netinfo @react-native-async-storage/async-storage @react-native-picker/picker react-native-get-random-values react-native-url-polyfill
+npm install -E aws-amplify@in-app-messaging aws-amplify-react-native@in-app-messaging amazon-cognito-identity-js @react-native-community/netinfo @react-native-async-storage/async-storage react-native-get-random-values react-native-url-polyfill
 ```
 
 You will also need to install pod dependencies for `iOS`. Navigate to the `iOS` directory in your project and run the install command.
@@ -88,7 +88,7 @@ const myFirstEvent = { name: 'my_first_event' };
 const App = () => {
   useEffect(() => {
     // Messages from your campaigns need to be synced from the backend before they
-    // can be displayed. You can trigger this anywhere in your app. Here we are
+    // can be displayed. You can trigger this anywhere in your app. Here you are
     // syncing just once when this component (your app) renders for the first time.
     InAppMessaging.syncMessages();
   }, []);

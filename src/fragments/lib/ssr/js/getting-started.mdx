@@ -2,7 +2,7 @@ To work well with server-rendered pages, Amplify JS requires slight modification
 
 ## Amplify
 
-### Enabling SSR 
+### Enabling SSR
 
 When using the Amplify CLI, the __aws-exports.js__ file gets created and updated automatically for you based upon the resources you have added and configured.
 
@@ -39,7 +39,7 @@ export default function HomePage({ posts = [] }) {
   const [posts, setPosts] = useState(posts);
 
   useEffect(() => {
-    // 👇 Notice how the client correctly uses the top-level `API` import
+    // Notice how the client correctly uses the top-level `API` import
     API.graphql({ query: listPosts }).then(({ data }) => setPosts(data.listPosts.items));
   }, [])
 
@@ -53,7 +53,7 @@ When on the server, use `withSSRContext({ req?: ServerRequest })`:
 import { Amplify, API, withSSRContext } from "aws-amplify";
 
 export async function getServerSideProps({ req }) {
-  // 👇 Notice how the server uses `API` from `withSSRContext`, instead of the top-level `API`.
+  // Notice how the server uses `API` from `withSSRContext`, instead of the top-level `API`.
   const SSR = withSSRContext({ req })
   const { data } = await SSR.API.graphql({ query: listPosts });
 
@@ -75,7 +75,7 @@ Server-side functions that don't have a req object (e.g. Next.js' getStaticProps
 
 ### Serializing
 
-For Next.js, returned `props` from the server have to be valid JSON. Because `DataStore.query(Model)` returns _instances_ of `Model`, we need the `serializeModel` helper to convert it to JSON instead:
+For Next.js, returned `props` from the server have to be valid JSON. Because `DataStore.query(Model)` returns _instances_ of `Model`, you need the `serializeModel` helper to convert it to JSON instead:
 
 ```js
 import { serializeModel } from '@aws-amplify/datastore/ssr';
@@ -89,7 +89,7 @@ export async function getServerSideProps({ req }) {
 
 	return {
 		props: {
-      // 👇 This converts Post instances into serialized JSON for the client
+      // This converts Post instances into serialized JSON for the client
       posts: serializeModel(posts),
 		},
 	};
@@ -109,7 +109,7 @@ import { Amplify, withSSRContext } from "aws-amplify";
 import { Post } from "../src/models";
 
 export default function HomePage(initialData) {
-    // 👇 This converts the serialized JSON back into Post instances
+    // This converts the serialized JSON back into Post instances
     const [posts, setPosts] = useState(deserializeModel(Post, initialData.posts));
 
     ...
@@ -162,7 +162,7 @@ export async function getServerSideProps({ req }) {
 
   return {
     props: {
-      // 👇 This converts Post instances into serialized JSON for the client
+      // This converts Post instances into serialized JSON for the client
       posts: serializeModel(posts),
     },
   };
@@ -226,7 +226,7 @@ export default function Home({ posts = [] }) {
                 <fieldset>
                   <legend>Content</legend>
                   <textarea
-                    defaultValue="I built an Amplify app with Next.js and DataStore!"
+                    defaultValue="I built an Amplify project with Next.js and DataStore!"
                     name="content"
                   />
                 </fieldset>

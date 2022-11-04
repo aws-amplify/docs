@@ -52,3 +52,12 @@ do {
     print("Unexpected error: \(error)")
 }
 ```
+
+## Force refreshing session
+
+You can ask the plugin to force refresh the internal session by passing an api options `forceRefresh` while calling the fetchAuthSession api.
+
+```swift
+Amplify.Auth.fetchAuthSession(options: .forceRefresh())
+
+```
