@@ -58,3 +58,49 @@ Hub.listen('api', (data: any) => {
 import jsConnectionStates from '/src/fragments/lib-v1/pubsub/js/connection-states.mdx';
 
 <Fragments fragments={{ js: jsConnectionStates }} />
+
+### Connection issues and automated reconnection
+
+Your application can lose connectivity for any number of reasons such as network outages or when the device is put to sleep. Your subscriptions will automatically reconnect when it becomes possible to do so.
+
+While offline, your application will miss messages and will not automatically catch up when reconnection happens. Depending on your usecase, you may want take action to catch up when your app comes back online.
+
+```typescript
+const fetchRecentData = () => {
+  // Retrieve some/all data from a appsync
+  const allTodos = await API.graphql({ query: queries.listTodos });
+}
+
+let priorConnectionState: ConnectionState;
+
+Hub.listen("api", (data: any) => {
+  const { payload } = data;
+  if (
+    payload.event === CONNECTION_STATE_CHANGE
+  ) {
+
+    if (priorConnectionState === ConnectionState.Connecting && payload.message === ConnectionState.Connected) {
+      fetchRecentData();
+    }
+    priorConnectionState = payload.message;
+  }
+});
+
+const subscription = (API.graphql(
+  graphqlOperation(subscriptions.onCreateTodo)
+) as unknown as ZenObservable<object>).subscribe({
+  next: data => // Process incoming messages
+});
+
+const subscription = (API.graphql(
+  graphqlOperation(subscriptions.onUpdateTodo)
+) as unknown as ZenObservable<object>).subscribe({
+  next: data => // Process incoming messages
+});
+
+const subscription = (API.graphql(
+  graphqlOperation(subscriptions.onDeleteTodo)
+) as unknown as ZenObservable<object>).subscribe({
+  next: data => // Process incoming messages
+});
+```
