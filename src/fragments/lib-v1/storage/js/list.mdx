@@ -110,7 +110,7 @@ Storage.list('photos/', { pageSize : 'ALL' })
 
 ## Paginated file access
 
-If the the pageSize is set to lower than total file size, a single `Storage.list` call only returns a subset of all the files. To list all the files with multiple calls, users can use the `hasNextToken` and `nextToken` key:
+If the pageSize is set lower than the total file size, a single `Storage.list` call only returns a subset of all the files. To list all the files with multiple calls, users can use the `hasNextToken` and `nextToken` keys:
 
 ```javascript
 
