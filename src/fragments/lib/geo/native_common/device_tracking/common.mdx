@@ -7,19 +7,13 @@ The Amplify CLI will prompt configuration options for what type of capability yo
 ```sh
 amplify add geo
 
-? Which capability do you want to add: Device location tracking (view device locations and history)
-? Provide a name for the device location tracker: <Enter>
-? Restrict access by? Both
-? What kind of access do you want for Authenticated users? <Select all applicable access>
-? What kind of access do you want for Guest users? <Select all applicable access>
-? Select one or more users groups to give access: Select TrackerAdmin
-? What kind of access do you want for TrackerAdmin users? <Select all applicable access>
-? Here are the default advanced settings. Select a setting to edit or continue (Use arrow keys)
-  Grant users access to devices other than their own: No
-  Link tracker to a geofence collection: No
-  Secondary layer of encryption for data at rest via KMS: Disabled
-  Position filtering setting: Accuracy-based filtering
-❯ Continue
+? Select which capability you want to add: Device location tracking (view device locations and history)
+✔ Provide a name for the device location tracker: · devTracker
+✔ Who can access this device tracker? · Authorized and Guest users
+✔ What kind of access do you want for authenticated users? Select ALL that apply: · Update device position, Read latest device position, Read device position history, List device positions, Delete device position history
+✔ What kind of access do you want for guest users? Select ALL that apply: · Update device position, Read latest device position, Read device position history, List device positions, Delete device position history
+✅ Created device location tracking resources
+✅ Successfully added resource devTracker locally.
 
 ```
 
