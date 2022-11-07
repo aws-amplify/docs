@@ -117,6 +117,8 @@ Storage.list('photos/', { pageSize : 'ALL' })
 
 ```
 
+## Paginated file access
+
 If the the pageSize is set to lower than total file size, a single `Storage.list` call only returns a subset of all the files. To list all the files with multiple calls, users can use the `hasNextToken` and `nextToken` key:
 
 ```javascript
@@ -129,7 +131,7 @@ const loadNextPage = async () => {
   if (hasNextPage) {
     let response = await Storage.list('', {
       pageSize: PAGE_SIZE,
-      pageToken: nextToken,
+      nextToken: nextToken,
     });
     if (response.hasNextToken) {
       nextToken = response.nextToken;
@@ -143,4 +145,4 @@ const loadNextPage = async () => {
 
 ```
 
-<Callout>Note: The range of maxKeys can be from 0 - 1000 or 'ALL'.</Callout>
+<Callout>Note: The range of pageSize can be from 0 - 1000 or 'ALL'.</Callout>
