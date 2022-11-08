@@ -29,7 +29,6 @@ export const FRAMEWORK_FILTER_OPTIONS = [
   "react-native",
   "angular",
   "vue",
-  "ionic",
   "next",
   "flutter"
 ];
@@ -80,10 +79,6 @@ export const filterMetadataByOption: FilterMetadataByOption<typeof FILTER_OPTION
   vue: {
     label: "Vue",
     graphicURI: "/assets/integrations/vue.svg",
-  },
-  ionic: {
-    label: "Ionic",
-    graphicURI: "/assets/integrations/ionic.svg",
   },
   next: {
     label: "Next.js",

@@ -101,7 +101,7 @@ query SearchAndSort {
 
 ### Automatic changes the CLI will make for new apps
 
-If you are creating a new Amplify app, your app's GraphQL API will be created using the `"sub::username"` identity claim, and no further action is required from you. Your database records will store the uuid and username in the `owner` field in the format of `<sub>::<username>`, and the API will return `<username>`.
+If you are creating a new Amplify project, your app's GraphQL API will be created using the `"sub::username"` identity claim, and no further action is required from you. Your database records will store the uuid and username in the `owner` field in the format of `<sub>::<username>`, and the API will return `<username>`.
 
 If you would like to use username for the identity claim without storing sub, specify in your schema the following:
 
@@ -186,28 +186,28 @@ Keep in mind that if you have existing owner records in your database and owner-
 
 ## What is the timeline?
 
-v8.1.0 of the Amplify CLI is introducing the feature flag, `useSubUsernameForDefaultIdentityClaim`, that will allow developers to opt into the `sub::username` default. New Amplify apps created will already be opted into the feature flag, but developers that want to use the new default will have to opt in. For existing Amplify apps, that do not have the feature flag, `useSubUsernameForDefaultIdentityClaim` will default to `false`.
+v8.1.0 of the Amplify CLI is introducing the feature flag, `useSubUsernameForDefaultIdentityClaim`, that will allow developers to opt into the `sub::username` default. New Amplify projects created will already be opted into the feature flag, but developers that want to use the new default will have to opt in. For existing Amplify projects, that do not have the feature flag, `useSubUsernameForDefaultIdentityClaim` will default to `false`.
 
 The Amplify CLI team will release v9.0.0, with the feature flag removed, and developers will need to manually set `"username"` to their schemas to maintain their former API contract, or the resolvers will start to store `sub::username` in their databases.
 
 ## Check for invalid owner identity claims
 Amplify CLI `v10.0.0` is adding stricter checks to ensure that valid owner identity claims exist in the customer's JWT token before storing these values in the owner field.
-**Previously**, if the developer-specified owner identity claim does not exist in the customer's JWT token, a default none value was stored in the owner field. 
+**Previously**, if the developer-specified owner identity claim does not exist in the customer's JWT token, a default none value was stored in the owner field.
 
-**Amplify CLI `v10.0.0` and above**, if the developer-specified identity claim does not exist in the customer's JWT token, the customer will be not be authorized to access the record. 
+**Amplify CLI `v10.0.0` and above**, if the developer-specified identity claim does not exist in the customer's JWT token, the customer will be not be authorized to access the record.
 
-Since we cannot determine the owner from the previously stored default none value in the owner field, any requests to access these records will not be authorized.
+Since you cannot determine the owner from the previously stored default none value in the owner field, any requests to access these records will not be authorized.
 
 Consider the following schema with custom owner identity claim:
 
 ```graphql
-type Todo 
-  @model 
+type Todo
+  @model
   @auth(
     rules: [
-      { 
-        allow: owner, 
-        identityClaim: "userID" 
+      {
+        allow: owner,
+        identityClaim: "userID"
       }
     ]
   )
@@ -217,13 +217,13 @@ type Todo
 }
 ```
 
-The developer-specified owner identity claim i.e `userID` should be present in the customer's JWT token for them to be authorized. 
+The developer-specified owner identity claim i.e `userID` should be present in the customer's JWT token for them to be authorized.
 
 Consider the following schema with default owner identity claim:
 
 ```graphql
-type Todo 
-  @model 
+type Todo
+  @model
   @auth(
     rules: [
       {
@@ -238,4 +238,3 @@ type Todo
 ```
 
 The claims `sub` and `username` should be present in the customer's JWT token for them to be authorized.
-

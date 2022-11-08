@@ -41,7 +41,7 @@ For each user type you can further specify what actions it has access to.
 
 REST APIs have support for [multiple environments](/cli/teams/overview) (e.g. dev, qa, and prod). This means that you can easily isolate different versions of your REST API by using different Amplify environments.
 
-Because Amplify environments could be in separate AWS accounts, we cannot use the environment feature of API Gateway. Each Amplify environment will have a separate API Gateway resource associated with it. For example:
+Because Amplify environments could be in separate AWS accounts, you cannot use the environment feature of API Gateway. Each Amplify environment will have a separate API Gateway resource associated with it. For example:
 
 ```console
 https://<API ID 1>.execute-api.eu-west-2.amazonaws.com/dev/items
@@ -103,7 +103,7 @@ DELETE /items/1    Delete an item by id
 - Do you want to configure Lambda layers for this function? __No__
 - Do you want to edit the local lambda function now? __Yes__
 
-> We are not going to change this template but it's good that you have it open as you follow the next steps.
+> You are not going to change this template but it's good that you have it open as you follow the next steps.
 
 - Press enter to continue
 - Restrict API access __Yes__
@@ -142,7 +142,7 @@ REST
 ```
 
 ## Create REST API and restrict specific routes to specific User Pool Groups
-If your app uses User Pool Groups to manage different user types and would like to restrict access of specific routes to specific User Pool Groups. We can accomplish this by the following flow: 
+If your app uses User Pool Groups to manage different user types and would like to restrict access of specific routes to specific User Pool Groups. You can accomplish this by the following flow: 
 - Create API route. 
 - Add API route handler function.
 - Restrict-access to the API route to the User Pool Group.

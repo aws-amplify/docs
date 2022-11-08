@@ -36,7 +36,7 @@ In this example, you will learn how to support these data access patterns using 
 - AccountRepresentative
 - Customer
 
-The [following schema](https://gist.github.com/dabit3/e0af16db09b6e206292d1c5cfc0d0a07) introduces the required keys and connections so that we can support these access patterns:
+The [following schema](https://gist.github.com/dabit3/e0af16db09b6e206292d1c5cfc0d0a07) introduces the required keys and connections so that you can support these access patterns:
 
 ```graphql
 type Order @model
@@ -75,7 +75,7 @@ type Employee @model
   phoneNumber: String!
   warehouseID: ID!
   jobTitle: String!
-  newHire: String! # We have to use String type, because Boolean types cannot be sort keys
+  newHire: String! # You have to use String type, because Boolean types cannot be sort keys
 }
 
 type Warehouse @model {
@@ -108,7 +108,7 @@ type Product @model {
 }
 ```
 
-Now that we have the schema created, let's create the items in the database that we will be operating against:
+Now that you have the schema created, let's create the items in the database that you will be operating against:
 
 ```graphql
 # first
@@ -230,7 +230,7 @@ query getEmployee($id: ID!) {
 
 ## 2. Query employee details by employee name
 
-The `@key` `byName` on the `Employee` type makes this access-pattern feasible because under the covers an index is created and a query is used to match against the name field. We can use this query:
+The `@key` `byName` on the `Employee` type makes this access-pattern feasible because under the covers an index is created and a query is used to match against the name field. You can use this query:
 
 ```graphql
 query employeeByName($name: String!) {
@@ -330,7 +330,7 @@ query employeesNewHire {
 }
 ```
 
-We can also query and have the results returned by start date by using the `employeesNewHireByStartDate` query:
+You can also query and have the results returned by start date by using the `employeesNewHireByStartDate` query:
 
 ```graphql
 query employeesNewHireByDate {
@@ -369,7 +369,7 @@ query getWarehouse($warehouseID: ID!) {
 
 ## 9. Get all items on order for a given product
 
-This access-pattern would use a one-to-many relation from products to orders. With this query we can get all orders of a given product:
+This access-pattern would use a one-to-many relation from products to orders. With this query you can get all orders of a given product:
 
 ```graphql
 query getProductOrders($productID: ID!) {
@@ -487,7 +487,7 @@ query inventoryByProductAndWarehouse($productID: ID!, $warehouseID: ID!) {
 
 ```
 
-We can also get all inventory from an individual warehouse by using the `itemsByWarehouseID` query created by the `byWarehouseID` key:
+You can also get all inventory from an individual warehouse by using the `itemsByWarehouseID` query created by the `byWarehouseID` key:
 
 ```graphql
 query byWarehouseId($warehouseID: ID!) {
@@ -518,7 +518,7 @@ query listInventorys {
 
 ## 17. Get sales representatives ranked by order total and sales period
 
-The sales period is either a date range or maybe even a month or week. Therefore we can set the sales period as a string and query using the combination of `salesPeriod` and `orderTotal`. We can also set the `sortDirection` in order to get the return values from largest to smallest:
+The sales period is either a date range or maybe even a month or week. Therefore you can set the sales period as a string and query using the combination of `salesPeriod` and `orderTotal`. You can also set the `sortDirection` in order to get the return values from largest to smallest:
 
 ```graphql
 query repsByPeriodAndTotal {

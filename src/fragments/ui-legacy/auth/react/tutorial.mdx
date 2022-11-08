@@ -232,15 +232,15 @@ export default withAuthenticator(App, {
 
 ## Add Analytics and Storage
 
-Next, we'll add some features, like tracking user behavior analytics and uploading/downloading images in the cloud.
+Next, you'll add some features, like tracking user behavior analytics and uploading/downloading images in the cloud.
 
-Before starting, to enable analytics in amplify, we need to associate user to an identity pool. Run `amplify add auth` and configure authentication with using manual configuration.
+Before starting, to enable analytics in amplify, you need to associate user to an identity pool. Run `amplify add auth` and configure authentication with using manual configuration.
 
 Start by running `amplify add analytics` in your project. You can enable analytics for authenticated users only, or for users that aren't authenticated. You would be prompted to ask whether you want to allow guests and unauthenticated users to send analytics events, so you can choose `Yes`. You can also try a new project without authentication configured to test this feature.
 
 Run `amplify add storage` and then select **Content (Images, audio, video, etc.)**. You'll then be prompted for authorization related questions. Choose **Auth and guest users** to give both authorized and guest users access. In the next prompts, based on your previous selection you would be asked to configure read/write permissions for the authorized and guest users. When complete, run `amplify push` to create the cloud resources.
 
-Edit your `App.js` file in the React project again and modify your imports so that the `Analytics` and `Storage` categories are included in addition to the `S3Album` component, which we'll use to upload and download photos.
+Edit your `App.js` file in the React project again and modify your imports so that the `Analytics` and `Storage` categories are included in addition to the `S3Album` component, which you'll use to upload and download photos.
 
 ```javascript
 import { Amplify, Analytics, Storage } from 'aws-amplify';
@@ -384,7 +384,7 @@ Save the file and run `amplify publish`. After the backend is deployed, you can 
 
 ## Add REST API Calls to a Database
 
-For this example, we use a REST backend with a NoSQL database. Run `amplify add api` and follow the prompts. Select the **REST** option and provide a friendly name for your API, such as **myapi** or something else that you can remember. Use the default `/items` path and choose **Create a new lambda function**. Choose the option titled **CRUD function for Amazon DynamoDB table (Integration with Amazon API Gateway and Amazon DynamoDB)** when prompted. This creates an architecture using Amazon API Gateway with Express running in an AWS Lambda function that reads and writes to Amazon DynamoDB. You can modify the routes in the Lambda function later to meet your needs and update it in the cloud.
+For this example, you use a REST backend with a NoSQL database. Run `amplify add api` and follow the prompts. Select the **REST** option and provide a friendly name for your API, such as **myapi** or something else that you can remember. Use the default `/items` path and choose **Create a new lambda function**. Choose the option titled **CRUD function for Amazon DynamoDB table (Integration with Amazon API Gateway and Amazon DynamoDB)** when prompted. This creates an architecture using Amazon API Gateway with Express running in an AWS Lambda function that reads and writes to Amazon DynamoDB. You can modify the routes in the Lambda function later to meet your needs and update it in the cloud.
 
 Since you do not have a database provisioned yet, the CLI workflow prompts you for this information. Alternatively, you can run `amplify add storage` beforehand to create a DynamoDB table and use it in this setup. When the CLI prompts you for the primary key structure, use an attribute named `id` of type `String`. Don't select any other options like sort keys or global secondary indexes (GSIs).
 
