@@ -61,9 +61,9 @@ import jsConnectionStates from '/src/fragments/lib-v1/pubsub/js/connection-state
 
 ### Connection issues and automated reconnection
 
-Your application can lose connectivity for any number of reasons such as network outages or when the device is put to sleep. Your subscriptions will automatically reconnect when it becomes possible to do so.
+import jsReconnectDescription from '/src/fragments/lib/pubsub/js/reconnect-description.mdx';
 
-While offline, your application will miss messages and will not automatically catch up when reconnection happens. Depending on your usecase, you may want take action to catch up when your app comes back online.
+<Fragments fragments={{ js: jsReconnectDescription }} />
 
 ```typescript
 const fetchRecentData = () => {
@@ -86,21 +86,27 @@ Hub.listen("api", (data: any) => {
   }
 });
 
-const subscription = (API.graphql(
+const createSubscription = (API.graphql(
   graphqlOperation(subscriptions.onCreateTodo)
 ) as unknown as ZenObservable<object>).subscribe({
   next: data => // Process incoming messages
 });
 
-const subscription = (API.graphql(
+const updateSubscription = (API.graphql(
   graphqlOperation(subscriptions.onUpdateTodo)
 ) as unknown as ZenObservable<object>).subscribe({
   next: data => // Process incoming messages
 });
 
-const subscription = (API.graphql(
+const deleteSubscription = (API.graphql(
   graphqlOperation(subscriptions.onDeleteTodo)
 ) as unknown as ZenObservable<object>).subscribe({
   next: data => // Process incoming messages
 });
+
+const cleanupSubscriptions = () => {
+  createSubscription.unsubscribe();
+  updateSubscription.unsubscribe();
+  deleteSubscription.unsubscribe();
+}
 ```
