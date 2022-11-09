@@ -23,7 +23,7 @@ Here we've first created a new `Post` instance and a new `User` instance. Then, 
 
 ### Query
 
-To query many-to-many relationships, use a nested predicate filter the target model by the source model's id:
+To query many-to-many relationships, use a nested predicate to filter the target model by the source model's id:
 
 ```js
 const editors = await DataStore.query(User, u => u.posts.post.id.eq(post.id))
