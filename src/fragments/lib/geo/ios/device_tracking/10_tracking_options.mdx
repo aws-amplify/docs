@@ -1,6 +1,6 @@
 | **Parameter Name**                        | **Default Value**           | **Description** |
 | ----------------------------------------- | --------------------------- | -----------------
-| **`tracker`**                             | default tracker in config   | Name of the tracker resource in Amazon Location Service to send location updates.  If you don't provide a tracker name, then the default tracker is used. |
+| **`tracker`**                             |  `nil`                      | Name of the tracker resource in Amazon Location Service to send location updates.  If you don't provide a tracker name, then the default tracker in Amplify configuration is used. |
 | **`desiredAccuracy`**                     | `.fine`                     | A value to request the desired level of accuracy of location updates.  The requested desired accuracy is not guaranteed to be achieved. |
 | **`requestAlwaysAuthorization`**          | `true`                      | If true, Amplify will request Always Authorization permission to always receive location updates from the OS. |
 | **`allowsBackgroundLocationUpdates`**     | `false`                     | If true, location updates will be received from the OS when the app is in the background. |
