@@ -489,11 +489,6 @@ const directory = {
             filters: ['react-native', 'js']
           },
           {
-            title: 'Prerequisites',
-            route: '/lib/in-app-messaging/prerequisites',
-            filters: ['react-native', 'js']
-          },
-          {
             title: 'Create an In-App Messaging campaign',
             route: '/lib/in-app-messaging/create-campaign',
             filters: ['react-native', 'js']
