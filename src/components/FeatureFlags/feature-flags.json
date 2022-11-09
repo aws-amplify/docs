@@ -256,18 +256,18 @@
         "description": "Changes the behaviour of @index directive to auto-generate Queries for indexes if no 'queryField' is provided.",
         "type": "Feature",
         "valueType": "Boolean",
-        "versionAdded": "8.5.x",
+        "versionAdded": "8.5.0",
         "values": [
           {
             "value": "true",
             "description": "An empty 'queryField' will cause a Query to be auto-generated. Explicit null value will disable this functionality",
-            "defaultNewProject": false,
+            "defaultNewProject": true,
             "defaultExistingProject": false
           },
           {
             "value": "false",
             "description": "A Query will only be created if the 'queryField' is explicitly set",
-            "defaultNewProject": true,
+            "defaultNewProject": false,
             "defaultExistingProject": true
           }
         ]
