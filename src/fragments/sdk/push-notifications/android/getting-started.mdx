@@ -73,19 +73,13 @@ Use the following steps to connect your app to the push notification backend ser
     </service>
     ```
 
-1. Create an Amazon Pinpoint client in the location of your push notification code.
+1. Create the Amazon Pinpoint client in your custom `Application class`. This is necessary to ensure Pinpoint is initialized before the push notification Intent is handled.
 
     ```java
-    import android.content.BroadcastReceiver;
+    import android.app.Application;
     import android.content.Context;
-    import android.content.Intent;
-    import android.content.IntentFilter;
-    import android.os.Bundle;
-    import android.support.annotation.NonNull;
-    import android.support.v4.content.LocalBroadcastManager;
-    import android.support.v7.app.AlertDialog;
-    import android.support.v7.app.AppCompatActivity;
     import android.util.Log;
+    import android.support.annotation.NonNull;
 
     import com.amazonaws.mobile.client.AWSMobileClient;
     import com.amazonaws.mobile.client.Callback;
@@ -97,10 +91,18 @@ Use the following steps to connect your app to the push notification backend ser
     import com.google.android.gms.tasks.Task;
     import com.google.firebase.messaging.FirebaseMessaging;
 
-    public class MainActivity extends AppCompatActivity {
-        public static final String TAG = MainActivity.class.getSimpleName();
+    public class MyPinpointApp extends Application {
+        public static final String TAG = MyPinpointApp.class.getSimpleName();
 
         private static PinpointManager pinpointManager;
+
+        @Override
+        public void onCreate() {
+            super.onCreate();
+
+            // Initialize PinpointManager
+            getPinpointManager(getApplicationContext());
+        }
 
         public static PinpointManager getPinpointManager(final Context applicationContext) {
             if (pinpointManager == null) {
@@ -108,7 +110,7 @@ Use the following steps to connect your app to the push notification backend ser
                 AWSMobileClient.getInstance().initialize(applicationContext, awsConfig, new Callback<UserStateDetails>() {
                     @Override
                     public void onResult(UserStateDetails userStateDetails) {
-                        Log.i("INIT", userStateDetails.getUserState());
+                        Log.i("INIT", "User State: " + userStateDetails.getUserState());
                     }
 
                     @Override
@@ -140,14 +142,21 @@ Use the following steps to connect your app to the push notification backend ser
             }
             return pinpointManager;
         }
-
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
-
-            // Initialize PinpointManager
-            getPinpointManager(getApplicationContext());
-        }
     }
+    ```
+
+1. Next, configure your application to use your custom `Application class`. Open the `AndroidManifest.xml` file located in your project directory at `app/src/main/AndroidManifest.xml`.
+
+    Add the `android:name` attribute to the application node. For example, if the application name is  *MyPinpointApp* and the new class is named *MyPinpointApplication*, the update to the `AndroidManifest.xml` file looks as follows:
+    ```xml
+    <?xml version="1.0" encoding="utf-8"?>
+    <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+        package="com.example.MyPinpointApp">
+
+        <!-- Add the android:name attribute to the application node -->
+        <application
+            android:name=".MyPinpointApplication"
+            ...
+        </application>
+    </manifest>
     ```

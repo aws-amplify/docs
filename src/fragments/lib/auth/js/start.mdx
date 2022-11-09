@@ -50,7 +50,7 @@ pod install --repo-update
 In your app's entry point i.e. App.js, import and load the configuration file:
 
 ```javascript
-import Amplify, { Auth } from 'aws-amplify';
+import { Amplify, Auth } from 'aws-amplify';
 import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
 ```
@@ -60,7 +60,7 @@ Amplify.configure(awsconfig);
 If you want to re-use an existing authentication resource from AWS (e.g. Amazon Cognito UserPool or Identity Pool), update `Amplify.configure()` method with the following information.
 
 ```javascript
-import Amplify, { Auth } from 'aws-amplify';
+import { Amplify, Auth } from 'aws-amplify';
 
 Amplify.configure({
     Auth: {
@@ -83,6 +83,10 @@ Amplify.configure({
 
         // OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
         mandatorySignIn: false,
+        
+        // OPTIONAL - This is used when autoSignIn is enabled for Auth.signUp
+        // 'code' is used for Auth.confirmSignUp, 'link' is used for email link verification
+        signUpVerificationMethod: 'code', // 'code' | 'link' 
 
         // OPTIONAL - Configuration for cookie storage
         // Note: if the secure flag is set to true, then the cookie transmission requires a secure protocol

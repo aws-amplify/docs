@@ -22,7 +22,7 @@ import 'package:path_provider/path_provider.dart';
 
 Future<void> createAndUploadFileWithOptions() async {
   // Create a dummy file
-  final exampleString = 'Example file contents';
+  const exampleString = 'Example file contents';
   final tempDir = await getTemporaryDirectory();
   final exampleFile = File(tempDir.path + '/example.txt')
     ..createSync()
@@ -33,7 +33,7 @@ Future<void> createAndUploadFileWithOptions() async {
     accessLevel: StorageAccessLevel.guest,
     contentType: 'text/plain',
     metadata: <String, String>{
-      'project': 'ExampleProject',
+    'project': 'ExampleProject',
     },
   );
 
@@ -44,7 +44,7 @@ Future<void> createAndUploadFileWithOptions() async {
       key: 'ExampleKey',
       options: options,
       onProgress: (progress) {
-        print("Fraction completed: " + progress.getFractionCompleted().toString());
+        print('Fraction completed: ${progress.getFractionCompleted()}');
       }
     );
     print('Successfully uploaded file: ${result.key}');
@@ -72,8 +72,7 @@ final picker = ImagePicker();
 
 Future<void> uploadImage() async {
   // Select image from user's gallery
-  final PickedFile? pickedFile =
-      await picker.getImage(source: ImageSource.gallery);
+  final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
   if (pickedFile == null) {
     print('No image selected');
@@ -84,14 +83,13 @@ Future<void> uploadImage() async {
   final key = DateTime.now().toString();
   final file = File(pickedFile.path);
   try {
-    final UploadFileResult result =
-        await Amplify.Storage.uploadFile(
-          local: file, 
-          key: key,
-          onProgress: (progress) {
-            print("Fraction completed: " + progress.getFractionCompleted().toString());
-          }
-        );
+    final UploadFileResult result = await Amplify.Storage.uploadFile(
+      local: file,
+      key: key,
+      onProgress: (progress) {
+        print('Fraction completed: ${progress.getFractionCompleted()}');
+      },
+    );
     print('Successfully uploaded image: ${result.key}');
   } on StorageException catch (e) {
     print('Error uploading image: $e');
@@ -111,7 +109,7 @@ import 'package:file_picker/file_picker.dart';
 
 Future<void> uploadFile() async {
   // Select a file from the device
-  final FilePickerResult? result = await FilePicker.platform.pickFiles();
+  final result = await FilePicker.platform.pickFiles();
 
   if (result == null) {
     print('No file selected');
@@ -124,14 +122,13 @@ Future<void> uploadFile() async {
   final key = platformFile.name;
   final file = File(path);
   try {
-    final UploadFileResult result =
-        await Amplify.Storage.uploadFile(
-          local: file, 
-          key: key
-          onProgress: (progress) {
-            print("Fraction completed: " + progress.getFractionCompleted().toString());
-          }
-        );
+    final UploadFileResult result = await Amplify.Storage.uploadFile(
+      local: file,
+      key: key
+      onProgress: (progress) {
+        print('Fraction completed: ${progress.getFractionCompleted()}');
+      },
+    );
     print('Successfully uploaded file: ${result.key}');
   } on StorageException catch (e) {
     print('Error uploading file: $e');

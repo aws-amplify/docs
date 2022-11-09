@@ -23,7 +23,7 @@ export default withAuthenticator(App);
 
 Now, your app has complete flows for user sign-in and registration. Since you have wrapped your **App** with `withAuthenticator`, only signed in users can access your app. The routing for login pages and giving access to your **App** Component will be managed automatically.
 
-`withAuthenticator` component renders your App component after a successful user signed in, and it prevents non-sign-in users to interact with your app. In this case, we need to display a _sign-out_ button to trigger the related process.
+`withAuthenticator` component renders your App component after a successful user signed in, and it prevents non-sign-in users to interact with your app. In this case, you need to display a _sign-out_ button to trigger the related process.
 
 To display a sign-out button or customize other, set `includeGreetings = true` in the parameter object. It displays a _greetings section_ on top of your app, and a sign-out button is displayed in the authenticated state. Other customization options are also available as properties to the HOC:
 

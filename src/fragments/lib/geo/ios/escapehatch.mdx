@@ -1,27 +1,15 @@
 If you need functionality in the AWSLocation framework used by the Amplify Geo category that isn't available, we provide an escape hatch so you can reference it directly.
 
+import ios0 from "/src/fragments/lib/ios-escape-hatch-warning.mdx";
+
+<Fragments fragments={{ios: ios0}} />
+
 Note: If you provisioned your Geo resources via Amplify CLI, then the IAM policy will be specifically scoped to only allow actions required by the library.
 Please [adjust your authorization permissions](/lib/geo/existing-resources) accordingly for your escape hatch use-cases.
-
-<BlockSwitcher>
-
-<Block name="Swift Package Manager">
-
-```swift
-import AWSLocationXCF
-```
-
-</Block>
-
-<Block name="CocoaPods">
 
 ```swift
 import AWSLocation
 ```
-
-</Block>
-
-</BlockSwitcher>
 
 Then retrieve the escape hatch and call methods on `AWSLocation` directly:
 
@@ -37,11 +25,10 @@ do {
     let awsLocation = locationPlugin.getEscapeHatch()
 
     // Make Request
-    let request = AWSLocationListMapsRequest()!
+    var request = ListMapsInput()
     request.maxResults = 5
-    awsLocation.listMaps(request) { response, error in
-        // handle response ...
-    }
+    let response = try await awsLocation.listMaps(input: request)
+    // handle response ...
 } catch {
     print("Error occurred while fetching the escape hatch \(error)")
 }

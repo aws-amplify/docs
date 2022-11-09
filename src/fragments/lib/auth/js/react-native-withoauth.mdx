@@ -1,6 +1,6 @@
 **withOAuth Higher-Order Component (HOC)**
 
-With React Native & Expo, you can also use the `withOAuth` HOC to launch the Cognito Hosted UI experience. Just wrap your app's main component with our HOC. Doing so, will pass the following `props` available to your component:
+With React Native & Expo, you can also use the `withOAuth` HOC to launch the Cognito Hosted UI experience. Just wrap your app's main component with your HOC. Doing so, will pass the following `props` available to your component:
 
 - `oAuthUser`: If the sign was successful, this object will have the user from the user pool.
 - `oAuthError`: In case of an error, the string with the error as given by the Cognito Hosted UI.
@@ -21,17 +21,17 @@ The following `props` are used for building a custom UI with buttons if you do n
 To use `withOAuth` in your React Native application first install the appropriate dependencies:
 
 <BlockSwitcher>
-<Block name="Expo">
+<Block name="Expo CLI">
 
 ```sh
-yarn add aws-amplify-react-native aws-amplify @react-native-picker/picker
+yarn add aws-amplify
 ```
 
 </Block>
 <Block name="React Native CLI">
 
 ```sh
-yarn add aws-amplify-react-native aws-amplify @react-native-picker/picker
+yarn add aws-amplify
 ```
 
 You will also need to install the pod dependencies for iOS:
@@ -53,7 +53,7 @@ Although `urlOpener` is left out of this sample for brevity, it is still recomme
 ```javascript
 import React from 'react';
 import { Button, Text, View } from 'react-native';
-import Amplify, { Auth, Hub } from 'aws-amplify';
+import { Amplify, Auth, Hub } from 'aws-amplify';
 import { withOAuth } from "aws-amplify-react-native";
 import awsconfig from './aws-exports';
 

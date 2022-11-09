@@ -3,7 +3,7 @@
 To configure Amplify Geo manually, you will have to configure Amplify Auth category as well. Instead of configuring Amplify by importing the CLI generated `aws-exports.js`, you will be calling `Amplify.configure` with your existing Amazon Cognito and Amazon Location Service information in your app like this:
 
 ```js
-import Amplify, { Auth, Geo } from 'aws-amplify';
+import { Amplify, Auth, Geo } from 'aws-amplify';
 
 Amplify.configure({
   Auth: {
@@ -23,9 +23,13 @@ Amplify.configure({
         default: "XXXXXXXXXXX", // REQUIRED - Amazon Location Service Map resource name to set as default
       },
       search_indices: {
-        items: ["XXXXXXXXX"], // REQUIRED - Amazon Location Service Place Index name
+        items: ["XXXXXXXXX", "XXXXXXXXX"], // REQUIRED - Amazon Location Service Place Index name
         default: "XXXXXXXXX", // REQUIRED - Amazon Location Service Place Index name to set as default
       },
+      geofenceCollections: {
+          items: ["XXXXXXXXX", "XXXXXXXXX"], // REQUIRED - Amazon Location Service Geofence Collection name
+          default: "XXXXXXXXX", // REQUIRED - Amazon Location Service Geofence Collection name to set as default
+      }
       region: 'XX-XXXX-X', // REQUIRED - Amazon Location Service Region
     },
   },

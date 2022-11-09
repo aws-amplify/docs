@@ -19,13 +19,13 @@
     "@algolia/autocomplete-theme-classic": "^1.6.1",
     "@algolia/client-search": "^4.13.0",
     "@aws-amplify/ui-components": "latest",
-    "@aws-amplify/ui-react": "^1.2.5",
+    "@aws-amplify/ui-react": "^3.5.0",
     "@emotion/react": "^11.1.5",
     "@emotion/styled": "^11.3.0",
     "@mdx-js/mdx": "^2.0.0",
     "algoliasearch": "^4.12.1",
     "array-flatten": "^3.0.0",
-    "aws-amplify": "latest",
+    "aws-amplify": "^4.3.34",
     "copy-to-clipboard": "^3.2.1",
     "dotenv": "^16.0.0",
     "emotion": "^10.0.23",
@@ -66,19 +66,20 @@
     "@types/url-parse": "^1.4.3",
     "@typescript-eslint/eslint-plugin": "^2.7.0",
     "@typescript-eslint/parser": "^2.7.0",
-    "cspell": "^4.0.55",
+    "cspell": "^6.2.3",
     "eslint": "^6.6.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.16.0",
     "fs-extra": "^9.0.1",
-    "husky": "^4.2.5",
+    "husky": "^8.0.1",
     "jest": "^26.6.3",
     "jest-cli": "^26.6.3",
     "prettier": "^1.19.1",
     "puppeteer": "1.20.0",
     "rollup-plugin-node-polyfills": "^0.2.1",
+    "sass": "^1.54.8",
     "ts-jest": "^26.0.3",
     "ts-node": "^8.5.0",
     "typescript": "^3.8.3",
@@ -86,11 +87,6 @@
   },
   "resolutions": {
     "**/trim": "0.0.3"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn spellcheck-diff"
-    }
   },
   "jest": {
     "roots": [
@@ -120,13 +116,14 @@
     "refresh": "yarn clean && yarn",
     "task": "ts-node tasks",
     "test": "jest",
-    "spellcheck": "cspell 'src/**/*.mdx'",
-    "spellcheck-diff": "cspell --no-must-find-files $(git diff --cached --name-only | awk '/src.*\\.mdx/{print}' | cat - <(echo 'preventNoFilesPrintout'))",
+    "spellcheck": "cspell \"src/**/*.mdx\"",
+    "spellcheck-diff": "git diff --name-only --cached | awk \"/src.*\\.mdx/{print}\" | npx cspell --no-must-find-files --file-list stdin",
     "dev": "yarn build-support-config && next dev",
     "build": "yarn task generate-sitemap && next build && next export -o client/www/next-build",
     "next-build": "next build",
     "next-start": "next start",
     "amplify:submissionsLambda": "cd amplify/backend/function/submissionsLambda/src && yarn install && yarn build && yarn test",
-    "build-support-config": "chmod +x build_support/create-awsconfig.sh && ./build_support/create-awsconfig.sh"
+    "build-support-config": "chmod +x build_support/create-awsconfig.sh && ./build_support/create-awsconfig.sh",
+    "prepare": "husky install"
   }
 }

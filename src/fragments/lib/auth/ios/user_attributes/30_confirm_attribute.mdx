@@ -1,29 +1,29 @@
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-func confirmAttribute() {
-    Amplify.Auth.confirm(userAttribute: .email, confirmationCode: "390739") { result in
-        switch result {
-        case .success:
-            print("Attribute verified")
-        case .failure(let error):
-            print("Update attribute failed with error \(error)")
-        }
+func confirmAttribute() async {
+    do {
+        try await Amplify.Auth.confirm(userAttribute: .email, confirmationCode: "390739")
+        print("Attribute verified")
+    } catch let error as AuthError {
+        print("Update attribute failed with error \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
     }
 }
 ```
 
 </Block>
 
-<Block name="Combine (iOS 13+)">
+<Block name="Combine">
 
 ```swift
 func confirmAttribute() -> AnyCancellable {
-    Amplify.Auth.confirm(userAttribute: .email, confirmationCode: "390739")
-        .resultPublisher
-        .sink {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.confirm(userAttribute: .email, confirmationCode: "390739")
+        }.sink {
             if case let .failure(authError) = $0 {
                 print("Update attribute failed with error \(authError)")
             }

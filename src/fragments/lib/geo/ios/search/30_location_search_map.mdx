@@ -21,6 +21,7 @@ struct MyMapView: View {
             AMLSearchBar(
                 text: $searchText,
                 displayState: $displayState,
+                onEditing: { },
                 onCommit: search,
                 onCancel: { mapState.features = [] }
             )
@@ -31,14 +32,16 @@ struct MyMapView: View {
     private func search() {
         let searchArea = Geo.SearchArea.near(mapState.center)
         let searchOptions = Geo.SearchForTextOptions(area: searchArea)
-        Amplify.Geo.search(for: searchText, options: searchOptions) { result in
-            switch result {
-            case .success(let places):
-                DispatchQueue.main.async {
-                    mapState.features = AmplifyMapLibre.createFeatures(places)
+        Task {
+            do {
+                let places = try await Amplify.Geo.search(for: searchText, options: searchOptions)
+                await MainActor.run {
+                    self.mapState.features = AmplifyMapLibre.createFeatures(places)
                 }
-            case .failure(let geoError):
-                print(geoError)
+            } catch let error as Geo.Error {
+                print("Failed to search: \(error)")
+            } catch {
+                print("Unexpected error: \(error)")
             }
         }
     }

@@ -44,7 +44,7 @@ import android1 from "/src/fragments/lib/auth/android/device_features/10_remembe
 
 import js2 from "/src/fragments/lib/auth/js/device_features/10_rememberDevice.mdx";
 
-<Fragments fragments={{js: js2}} />
+<Fragments fragments={{js: js2, 'react-native': js2}} />
 
 import flutter3 from "/src/fragments/lib/auth/flutter/device_features/10_rememberDevice.mdx";
 
@@ -63,7 +63,7 @@ import android5 from "/src/fragments/lib/auth/android/device_features/20_forgetD
 
 import js6 from "/src/fragments/lib/auth/js/device_features/20_forgetDevice.mdx";
 
-<Fragments fragments={{js: js6}} />
+<Fragments fragments={{js: js6, 'react-native': js6}} />
 
 import flutter7 from "/src/fragments/lib/auth/flutter/device_features/20_forgetDevice.mdx";
 
@@ -82,7 +82,7 @@ import android9 from "/src/fragments/lib/auth/android/device_features/30_fetchDe
 
 import js10 from "/src/fragments/lib/auth/js/device_features/30_fetchDevice.mdx";
 
-<Fragments fragments={{js: js10}} />
+<Fragments fragments={{js: js10, 'react-native': js10}} />
 
 import flutter11 from "/src/fragments/lib/auth/flutter/device_features/30_fetchDevice.mdx";
 
@@ -96,4 +96,4 @@ import flutter11 from "/src/fragments/lib/auth/flutter/device_features/30_fetchD
 * **Not Remembered**
   * A not-remembered device is a tracked device where Cognito has been configured to require users to "Opt-in" to remember a device, but the user has not opt-ed in to having the device remembered.  This use case is used for users signing into their application from a device that they don't own.
 * **Forgotten**
-  * In the event that you no longer want to remember or track a device, you can use the `Amplify.Auth.forgetDevice()` API to remove this device from being both remembered and tracked.
+  * In the event that you no longer want to remember or track a device, you can use the `Auth.forgetDevice()` API to remove this device from being both remembered and tracked.

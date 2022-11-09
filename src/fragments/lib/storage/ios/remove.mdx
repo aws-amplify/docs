@@ -2,34 +2,28 @@ Delete an object uploaded to S3 by using `Amplify.Storage.remove` and specify th
 
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-Amplify.Storage.remove(key: "myKey") { event in
-    switch event {
-    case let .success(data):
-        print("Completed: Deleted \(data)")
-    case let .failure(storageError):
-        print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
-    }
-}
+let removedKey = try await Amplify.Storage.remove(key: "myKey")
+print("Deleted \(removedKey)")
 ```
 
 </Block>
 
-<Block name="Combine (iOS 13+)">
+<Block name="Combine">
 
 ```swift
-let sink = Amplify.Storage.remove(key: "myKey")
-    .resultPublisher
-    .sink {
-        if case let .failure(storageError) = $0 {
-            print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
-        }
+let sink = Amplify.Publisher.create {
+    try await Amplify.Storage.remove(key: "myKey")
+}.sink {
+    if case let .failure(error) = $0 {
+        print("Failed: \(error)")
     }
-    receiveValue: { data in
-        print("Completed: Deleted \(data)")
-    }
+}
+receiveValue: { removedKey in
+    print("Deleted \(removedKey)")
+}
 ```
 
 </Block>

@@ -9,21 +9,33 @@ import all0 from "/src/fragments/lib/auth/common/social_signin_web_ui/setup_auth
 <Fragments fragments={{all: all0}} />
 
 ## Configure Auth Category
-
 Once you have the social provider configured, run the following in your project’s root folder:
 
 ```bash
 amplify add auth     ## "amplify update auth" if already configured
 ```
 
-Select Default configuration with Social Provider (Federation):
+Choose the following options (the last steps are specific to Facebook here but are similar for other providers):
 
 ```console
-Do you want to use the default authentication and security configuration? 
-  Default configuration 
-❯ Default configuration with Social Provider (Federation) 
-  Manual configuration 
-  I want to learn more.
+? Do you want to use the default authentication and security configuration? 
+    `Default configuration with Social Provider (Federation)`
+? How do you want users to be able to sign in? 
+    `Username`
+? Do you want to configure advanced settings? 
+    `No, I am done.`
+? What domain name prefix you want us to create for you? 
+    `(default)`
+? Enter your redirect signin URI: 
+    `http://localhost:3000/`
+? Do you want to add another redirect signin URI 
+    `No`
+? Enter your redirect signout URI: 
+    `http://localhost:3000/`
+? Do you want to add another redirect signout URI 
+    `No`
+? Select the social providers you want to configure for your user pool: 
+    `<choose your provider and follow the prompts to input the proper tokens>`
 ```
 
 **Redirect URIs**
@@ -131,11 +143,11 @@ When using the federated OAuth flow with Cognito User Pools, the [device trackin
 
 ## Setup frontend
 
-After configuring the OAuth endpoints (Cognito Hosted UI), you can integrate your App by invoking `Auth.federatedSignIn()` function. Passing `LoginWithAmazon`, `Facebook`, `Google`, or `SignInWithApple` on the `provider` argument (e.g `Auth.federatedSign({ provider: 'LoginWithAmazon' })`), it will bypass the Hosted UI and federate immediately with the social provider as shown in the below React example. If you are looking to add a custom state, you are able to do so by passing a string (e.g. `Auth.federatedSignIn({ customState: 'xyz' })`) value and listening for the custom state via Hub.
+After configuring the OAuth endpoints (Cognito Hosted UI), you can integrate your App by invoking `Auth.federatedSignIn()` function. Passing `LoginWithAmazon`, `Facebook`, `Google`, or `SignInWithApple` on the `provider` argument (e.g `Auth.federatedSignIn({ provider: 'LoginWithAmazon' })`), it will bypass the Hosted UI and federate immediately with the social provider as shown in the below React example. If you are looking to add a custom state, you are able to do so by passing a string (e.g. `Auth.federatedSignIn({ customState: 'xyz' })`) value and listening for the custom state via Hub.
 
 ```javascript
 import React, { useEffect, useState } from 'react';
-import Amplify, { Auth, Hub } from 'aws-amplify';
+import { Amplify, Auth, Hub } from 'aws-amplify';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
 import awsconfig from './aws-exports';
 
@@ -178,7 +190,7 @@ function App() {
 ```
 
 <Callout warning={true}>
-  You can also use the <a href="https://ui.docs.amplify.aws/react/components/authenticator">Authenticator UI component</a> to add social sign in flow to your application. Visit <a href="https://ui.docs.amplify.aws/react/components/authenticator#social-providers">Social Provider</a> section to learn more.
+  You can also use the <a href="https://ui.docs.amplify.aws/react/components/authenticator">Authenticator UI component</a> to add social sign in flow to your application. Visit <a href="https://ui.docs.amplify.aws/react/components/authenticator/configuration#social-providers">Social Provider</a> section to learn more.
 </Callout>
 
 ### Deploying to Amplify Console
@@ -193,7 +205,7 @@ To deploy your app to Amplify Console with continuous deployment of the frontend
 
 ```js
 import React, { useEffect, useState } from 'react';
-import Amplify, { Auth, Hub } from 'aws-amplify';
+import { Amplify, Auth, Hub } from 'aws-amplify';
 import awsconfig from './aws-exports';
 
 Amplify.configure(awsconfig);
@@ -272,7 +284,7 @@ By default, Amplify will open the Cognito Hosted UI in Safari/Chrome, but you ca
 ```js
 import React, { useEffect, useState } from 'react';
 import { Button, Linking, Text, View } from 'react-native';
-import Amplify, { Auth, Hub } from 'aws-amplify';
+import { Amplify, Auth, Hub } from 'aws-amplify';
 import InAppBrowser from 'react-native-inappbrowser-reborn';
 import awsconfig from './aws-exports';
 
@@ -348,7 +360,7 @@ import all2 from "/src/fragments/lib/auth/js/react-native-withoauth.mdx";
 
 </Block>
 
-<Block name="Expo">
+<Block name="Expo CLI">
 
 **In-App Browser Setup (optional, but recommended)**
 
@@ -360,7 +372,7 @@ By default, Amplify will open the Cognito Hosted UI in Safari/Chrome, but you ca
 import React, { useEffect, useState } from 'react';
 import { Button, Linking, Platform, Text, View } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
-import Amplify, { Auth, Hub } from 'aws-amplify';
+import { Amplify, Auth, Hub } from 'aws-amplify';
 import awsconfig from './aws-exports';
 
 async function urlOpener(url, redirectUrl) {

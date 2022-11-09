@@ -87,11 +87,36 @@ type Customer @model {
   id: ID!
   name: String!
   phoneNumber: String
-  accountRepresentativeID: ID! @index(name: "byRepresentative", queryField: "customerByRepresentative")
+  accountRepresentativeID: ID! @index
 }
 ```
 
-The example client query below allows you to query for "Customer" based on their `accountRepresentativeID`:
+The example client query below allows you to query for "Customer" records based on their `accountRepresentativeID`:
+
+```graphql
+query QueryCustomersForAccountRepresentative($accountRepresentativeID: ID!) {
+  customersByAccountRepresentativeID(accountRepresentativeID: $accountRepresentativeID) {
+    customers {
+      items {
+        id
+        name
+        phoneNumber
+      }
+    }
+  }
+}
+```
+
+You can also overwrite the `queryField` or `name` to customize the GraphQL query name, or secondary index name respectively:
+
+```graphql
+type Customer @model {
+  id: ID!
+  name: String!
+  phoneNumber: String
+  accountRepresentativeID: ID! @index(name: "byRepresentative", queryField: "customerByRepresentative")
+}
+```
 
 ```graphql
 query QueryCustomersForAccountRepresentative($representativeId: ID!) {
@@ -114,15 +139,14 @@ type Customer @model @auth(rules: [{ allow: public }]) {
   id: ID!
   name: String! @index(name: "byNameAndPhoneNumber", sortKeyFields: ["phoneNumber"], queryField: "customerByNameAndPhone")
   phoneNumber: String
-  accountRepresentativeID: ID! @index(name: "byRepresentative", queryField: "customerByRepresentative")
-}
+  accountRepresentativeID: ID! @index
 ```
 
 The example client query below allows you to query for "Customer" based on their `name` and filter based on `phoneNumber`:
 
 ```graphql
 query MyQuery {
-  customerByNameAndPhone(phoneNumber: {beginsWith: "+1"}, name: "Rene") {
+  customerByNameAndPhone(phoneNumber: { beginsWith: "+1" }, name: "Rene") {
     items {
       id
       name
@@ -249,9 +273,14 @@ mutation CreatePost {
 }
 ```
 
-Under the hood, `@hasMany` configures a secondary index on the related table to enable you to query the related model from the source model.
+Under the hood, `@hasMany` configures a default secondary index on the related table to enable you to query the related model from the source model.
 
-You can customize the specific secondary index used for the "has many" relationship. First, configure a secondary index using `@index`. Then, pass in the secondary index name `indexName` parameter and the respective `fields` which match the connected index.
+To customize the specific secondary index used for the "has many" relationship, create an `@index` directive on the field in the related table where you want to assign the secondary index. 
+
+Next, provide the secondary index with a `name` attribute and a value. Optionally, you can configure a “sort key” on the secondary index by providing a `sortKeyFields` attribute and a designated field as its value.
+
+On the `@hasMany` configuration, pass in the name value from your secondary index as the value for the `indexName` parameter. Then, pass in the respective `fields` that match the connected index.
+
 
 ```graphql
 type Post @model {
@@ -453,6 +482,47 @@ type Todo @model {
 If you create a new Todo and don't supply a `content` input, Amplify will ensure that `My new Todo` is auto populated as a value. 
 When `@default` is applied, non-null assertions using `!` are disregarded. For example, `String!` is treated the same as `String`.
 
+## Server-side filtering for subscriptions
+
+A server-side subscription filter expression is automatically generated for any `@model` type.
+
+```graphql
+type Task @model {
+  title: String!
+  description: String
+  type: String
+  priority: Int
+}
+```
+
+You can filter the subscriptions server-side by passing a filter expression. For example: If you want to subscribe to tasks of type `Security` and priority greater than `5`, you can set the `filter` argument accordingly.
+
+```graphql
+subscription OnCreateTask {
+  onCreateTask(
+    filter: {
+      and: [
+        { type: { eq: "Security" } }
+        { priority: { gt: 5 } }
+      ]
+    }
+  ) {
+    title
+    description
+    type
+    priority
+  }
+}
+```
+
+If you want to get all subscription events, don’t pass any `filter` parameters.
+
+<Callout>
+
+**Important**: Passing an empty object `{}` as a filter is NOT recommended. Using `{}` as a filter might cause inconsistent behavior based on your data model's authorization rules.
+
+</Callout>
+
 ## Advanced
 
 ### Rename generated queries, mutations, and subscriptions
@@ -466,11 +536,11 @@ type Todo @model(queries: { get: "queryFor" }) {
 }
 ```
 
-In the example above, we will be able to run a `queryForTodo` query to get a single Todo element.  
+In the example above, you will be able to run a `queryForTodo` query to get a single Todo element.  
 
 ### Disable generated queries, mutations, and subscriptions
 
-We can disable specific operations by assigning their value to `null`.
+You can disable specific operations by assigning their value to `null`.
 
 ```graphql
 type Todo @model(queries: { get: null }, mutations: null, subscriptions: null) {
@@ -483,7 +553,7 @@ The example above disables the `getTodo` query, all mutations, and all subscript
 
 ### Creating a custom query
 
-We can disable the `get` query and create a custom query that enables us to retrieve a single Todo model.
+You can disable the `get` query and create a custom query that enables us to retrieve a single Todo model.
 
 ```graphql
 type Query {
@@ -545,6 +615,19 @@ type Address @model {
   shippingIndividualID: ID
   homeIndividual: Individual @belongsTo(fields: ["homeIndividualID"])
   shipIndividual: Individual @belongsTo(fields: ["shippingIndividualID"])
+}
+```
+
+### Generate a secondary index without a GraphQL query
+
+Because query creation against a secondary index is automatic, if you wish to define a secondary index that does not have a corresponding query in your API, set the `queryField` parameter to `null`.
+
+```graphql
+type Customer @model {
+  id: ID!
+  name: String!
+  phoneNumber: String
+  accountRepresentativeID: ID! @index(queryField: null)
 }
 ```
 

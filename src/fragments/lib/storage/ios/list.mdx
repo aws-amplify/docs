@@ -2,40 +2,33 @@ You can list all of the objects uploaded:
 
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-Amplify.Storage.list { event in
-    switch event {
-    case let .success(listResult):
-        print("Completed")
-        listResult.items.forEach { item in
-            print("Key: \(item.key)")
-        }
-    case let .failure(storageError):
-        print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
-    }
+let listResult = try await Amplify.Storage.list()
+listResult.items.forEach { item in
+    print("Key: \(item.key)")
 }
 ```
 
 </Block>
 
-<Block name="Combine (iOS 13+)">
+<Block name="Combine">
 
 ```swift
-let sink = Amplify.Storage.list()
-    .resultPublisher
-    .sink {
-        if case let .failure(storageError) = $0 {
-            print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
-        }
+let sink = Amplify.Publisher.create {
+    try await Amplify.Storage.list()
+}.sink {
+    if case let .failure(error) = $0 {
+        print("Failed: \(error)")
     }
-    receiveValue: { listResult in
-        print("Completed")
-        listResult.items.forEach { item in
-            print("Key: \(item.key)")
-        }
+}
+receiveValue: { listResult in
+    print("Completed")
+    listResult.items.forEach { item in
+        print("Key: \(item.key)")
     }
+}
 ```
 
 </Block>

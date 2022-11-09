@@ -5,7 +5,7 @@ export const meta = {
 
 Several commands in the Amplify CLI support arguments which could be used in a CI/CD workflow or other non-interactive shell. The CLI will work non-interactively if the required information is provided by an argument.
 
-Arguments are used mostly for scripting so that the command execution flow is not interrupted by prompts. Examples for this can be found [here](https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-cli/sample-headless-scripts)
+Arguments are used mostly for scripting so that the command execution flow is not interrupted by prompts. Examples for this can be found [here](https://github.com/aws-amplify/amplify-cli/tree/main/packages/amplify-cli/sample-headless-scripts)
 
 **`--yes` flag**
 
@@ -160,7 +160,7 @@ CATEGORIES="{\
 
 `amplify init --app git@github.com:<github-username>/<repository-name>.git`
 
-Installs, initializes, and provisions resources for a sample amplify application from the provided GitHub repository URL. This option must be executed in an empty directory. The sample repository must have an amplify folder, including the following:
+Installs, initializes, and provisions resources for a sample amplify project from the provided GitHub repository URL. This option must be executed in an empty directory. The sample repository must have an amplify folder, including the following:
 
 - `project-config.json` in .config folder
 - `backend-config.json` in backend folder
@@ -494,15 +494,15 @@ The commands that currently support this method of supplying headless parameters
 
 The structure of the JSON objects supplied on `stdin` are defined in [amplify-headless-interface](https://www.npmjs.com/package/amplify-headless-interface). This package contains both JSON Schema and TypeScript definitions for:
 
-- [Add Auth Payload](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-headless-interface/src/interface/auth/add.ts)
-- [Import Auth Payload](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-headless-interface/src/interface/auth/import.ts)
-- [Update Auth Payload](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-headless-interface/src/interface/auth/update.ts)
-- [Add API Payload](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-headless-interface/src/interface/api/add.ts)
-- [Update API Payload](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-headless-interface/src/interface/api/update.ts)
-- [Add Storage Payload](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-headless-interface/src/interface/storage/add.ts)
-- [Import Storage Payload](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-headless-interface/src/interface/storage/import.ts)
-- [Remove Storage Payload](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-headless-interface/src/interface/storage/remove.ts)
-- [Update Storage Payload](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-headless-interface/src/interface/storage/update.ts)
+- [Add Auth Payload](https://github.com/aws-amplify/amplify-cli/blob/main/packages/amplify-headless-interface/src/interface/auth/add.ts)
+- [Import Auth Payload](https://github.com/aws-amplify/amplify-cli/blob/main/packages/amplify-headless-interface/src/interface/auth/import.ts)
+- [Update Auth Payload](https://github.com/aws-amplify/amplify-cli/blob/main/packages/amplify-headless-interface/src/interface/auth/update.ts)
+- [Add API Payload](https://github.com/aws-amplify/amplify-cli/blob/main/packages/amplify-headless-interface/src/interface/api/add.ts)
+- [Update API Payload](https://github.com/aws-amplify/amplify-cli/blob/main/packages/amplify-headless-interface/src/interface/api/update.ts)
+- [Add Storage Payload](https://github.com/aws-amplify/amplify-cli/blob/main/packages/amplify-headless-interface/src/interface/storage/add.ts)
+- [Import Storage Payload](https://github.com/aws-amplify/amplify-cli/blob/main/packages/amplify-headless-interface/src/interface/storage/import.ts)
+- [Remove Storage Payload](https://github.com/aws-amplify/amplify-cli/blob/main/packages/amplify-headless-interface/src/interface/storage/remove.ts)
+- [Update Storage Payload](https://github.com/aws-amplify/amplify-cli/blob/main/packages/amplify-headless-interface/src/interface/storage/update.ts)
 
 ### (Optional) IDE setup for headless development
 
@@ -582,7 +582,7 @@ Create a file called `authconfig.importauth.json` and paste in the following con
   "userPoolId": "myUserPoolId",
   "webClientId": "myWebAppClientId",
   "nativeClientId": "myNativeAppClientId",
-  "identityPoolId": "myIdentityPoolId" //optional 
+  "identityPoolId": "myIdentityPoolId" //optional
 ```
 
 Run `cat authconfig.importauth.json | jq -c | amplify import auth --headless` to import an Cognito resource.

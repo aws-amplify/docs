@@ -18,8 +18,8 @@ let todos = [
 ]
 
 let sink = Publishers.Sequence<[Todo], Never>(sequence: todos)
-    .flatMap { todo -> AnyPublisher<Todo, DataStoreError> in
-        Amplify.DataStore.save(todo)
+    .flatMap { todo -> AnyPublisher<Todo, Error> in
+        Amplify.Publisher.create { try await Amplify.DataStore.save(todo) }
     }
     .collect()
     .sink {
@@ -41,8 +41,10 @@ To delete items in parallel, pass an array of IDs to `Publishers.Sequence` and p
 let todoIds = ["123", "456", "789"]
 
 let sink = Publishers.Sequence<[String], Never>(sequence: todoIds)
-    .flatMap { todoId -> AnyPublisher<Void, DataStoreError> in
-        Amplify.DataStore.delete(Todo.self, withId: todoId)
+    .flatMap { todoId -> AnyPublisher<Void, Error> in
+        Amplify.Publisher.create {
+            try await Amplify.DataStore.delete(Todo.self, withId: todoId)
+        }
     }
     .collect()
     .sink {
@@ -64,8 +66,10 @@ To query items in parallel, pass an array of IDs to `Publishers.Sequence` and pe
 let todoIds = ["123", "456", "789"]
 
 let sink = Publishers.Sequence<[String], Never>(sequence: todoIds)
-    .flatMap { itemId -> AnyPublisher<Todo?, DataStoreError> in
-        Amplify.DataStore.query(Todo.self, byId: itemId)
+    .flatMap { itemId -> AnyPublisher<Todo?, Error> in
+        Amplify.Publisher.create {
+            try await Amplify.DataStore.query(Todo.self, byId: itemId)
+        }
     }
     .compactMap { $0 }
     .collect()

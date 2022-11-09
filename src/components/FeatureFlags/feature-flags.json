@@ -233,22 +233,22 @@
         ]
       },
       "useSubUsernameForDefaultIdentityClaim": {
-        "description": "Changes the default identity claim to for owner-based @auth from 'username' to 'sub:username'",
+        "description": "Changes the default identity claim to for owner-based @auth from 'username' to 'sub::username'",
         "type": "Feature",
         "valueType": "Boolean",
-        "versionAdded": "9.x",
+        "versionAdded": "8.x",
         "values": [
           {
             "value": "true",
-            "description": "Uses a default owner field format of '<sub>:<username>' to write records and reads both '<username>' and '<sub>:<username>'",
+            "description": "Uses a default owner field format of '<sub>::<username>' to write records and reads both '<username>' and '<sub>::<username>'",
             "defaultNewProject": true,
-            "defaultExistingProject": false
+            "defaultExistingProject": true
           },
           {
             "value": "false",
-            "description": "Uses a default owner field format of '<username>' to write records and reads both '<username>' and '<sub>:<username>'",
+            "description": "Uses a default owner field format of '<username>' to write records and reads '<username>'",
             "defaultNewProject": false,
-            "defaultExistingProject": true
+            "defaultExistingProject": false
           }
         ]
       },
@@ -256,25 +256,45 @@
         "description": "Changes the behaviour of @index directive to auto-generate Queries for indexes if no 'queryField' is provided.",
         "type": "Feature",
         "valueType": "Boolean",
-        "versionAdded": "8.5.x",
+        "versionAdded": "8.5.0",
         "values": [
           {
             "value": "true",
             "description": "An empty 'queryField' will cause a Query to be auto-generated. Explicit null value will disable this functionality",
-            "defaultNewProject": false,
+            "defaultNewProject": true,
             "defaultExistingProject": false
           },
           {
             "value": "false",
             "description": "A Query will only be created if the 'queryField' is explicitly set",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      },
+      "respectPrimaryKeyAttributesOnConnectionField": {
+        "description": "Changes the behavior of relational directives on model types that contain a custom primary key by generating connection fields that respect the attributes of the primary key and sort key fields. The changes include naming convention, the number of connected fields, and their field types. In addition, this changes the code generation for DataStore models of all platforms to enable the custom primary key feature.",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "10.0.0",
+        "values": [
+          {
+            "value": "false",
+            "description": "Only one connection field with type ID generated on connected models. Model-gen with custom primary key feature is disabled.",
             "defaultNewProject": true,
             "defaultExistingProject": true
+          },
+          {
+            "value": "true",
+            "description": "Connection field(s) are generated respecting the attributes of priamry key and sort key fields. Model-gen with custom primary key feature is enabled.",
+            "defaultNewProject": false,
+            "defaultExistingProject": false
           }
         ]
       }
     }
   },
-   
+
   "frontend-ios": {
     "description": "Feature Flag related to iOS projects",
     "features": {
@@ -413,7 +433,7 @@
     "description": "Feature Flag related to Codegen",
     "features": {
       "useAppsyncModelgenPlugin": {
-        "description": "Choose between implementations of internal DataStore model generator package. Refer https://github.com/aws-amplify/amplify-codegen/blob/master/FeatureFlags.md",
+        "description": "Choose between implementations of internal DataStore model generator package. Refer https://github.com/aws-amplify/amplify-codegen/blob/main/FeatureFlags.md",
         "type": "Feature",
         "valueType": "Boolean",
         "versionAdded": "4.40.0",
@@ -421,20 +441,20 @@
         "values": [
           {
             "value": "true",
-            "description": "[Recommended] Use the models generator internal package implementation at https://github.com/aws-amplify/amplify-codegen",
+            "description": "[Recommended] Use the models generator internal package implementation at https://github.com/aws-amplify/amplify-codegen/tree/main/packages/appsync-modelgen-plugin",
             "defaultNewProject": true,
             "defaultExistingProject": false
           },
           {
             "value": "false",
-            "description": "Use the deprecated models generator package implementation at https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-codegen-appsync-model-plugin",
+            "description": "Use the deprecated models generator package implementation at https://github.com/aws-amplify/amplify-cli/tree/main/packages/amplify-codegen-appsync-model-plugin",
             "defaultNewProject": false,
             "defaultExistingProject": true
           }
         ]
       },
       "useDocsGeneratorPlugin": {
-        "description": "Choose between implementations of internal GraphQL documents generator package. Refer https://github.com/aws-amplify/amplify-codegen/blob/master/FeatureFlags.md",
+        "description": "Choose between implementations of internal GraphQL documents generator package. Refer https://github.com/aws-amplify/amplify-codegen/blob/main/FeatureFlags.md",
         "type": "Feature",
         "valueType": "Boolean",
         "versionAdded": "4.40.0",
@@ -448,14 +468,14 @@
           },
           {
             "value": "false",
-            "description": "Use the deprecated GraphQL documents generation package implementation at https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-graphql-docs-generator",
+            "description": "Use the deprecated GraphQL documents generation package implementation at https://github.com/aws-amplify/amplify-cli/tree/main/packages/amplify-graphql-docs-generator",
             "defaultNewProject": false,
             "defaultExistingProject": true
           }
         ]
       },
       "useTypesGeneratorPlugin": {
-        "description": "Choose between implementations of internal GraphQL types generator package. Refer https://github.com/aws-amplify/amplify-codegen/blob/master/FeatureFlags.md",
+        "description": "Choose between implementations of internal GraphQL types generator package. Refer https://github.com/aws-amplify/amplify-codegen/blob/main/FeatureFlags.md",
         "type": "Feature",
         "valueType": "Boolean",
         "versionAdded": "4.40.0",
@@ -469,7 +489,7 @@
           },
           {
             "value": "false",
-            "description": "Use the deprecated types generation package implementation at https://github.com/aws-amplify/amplify-cli/tree/master/packages/amplify-graphql-types-generator",
+            "description": "Use the deprecated types generation package implementation at https://github.com/aws-amplify/amplify-cli/tree/main/packages/amplify-graphql-types-generator",
             "defaultNewProject": false,
             "defaultExistingProject": true
           }
