@@ -2,8 +2,7 @@
 ```swift
 func deleteLocationHistory() async {
     do {
-        let device = try await Geo.Device.tiedToUserAndDevice()
-        try await Amplify.Geo.deleteLocationHistory(for: device)
+        try await Amplify.Geo.deleteLocationHistory()
     } catch let error as Geo.Error {
         print("Failed to delete location history: \(error)")
     } catch {

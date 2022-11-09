@@ -2,8 +2,7 @@
 ```swift
 func updateLocation(_ location: Geo.Location) async {
     do {
-        let device = try await Geo.Device.tiedToUserAndDevice()
-        try await Amplify.Geo.updateLocation(location, for: device)
+        try await Amplify.Geo.updateLocation(location)
     } catch let error as Geo.Error {
         print("Failed to update location: \(error)")
     } catch {
