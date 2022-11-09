@@ -101,7 +101,7 @@ The `Create Auth Challenge Lambda Trigger` creates a CAPTCHA as a challenge to t
 export const handler = async (event) => {
     if (!event.request.session || event.request.session.length === 0) {
         event.response.publicChallengeParameters = {
-            captchaUrl: "url/123.jpg",
+            captchaUrl: <captcha url>,
         };
         event.response.privateChallengeParameters = {
             answer: "5",
