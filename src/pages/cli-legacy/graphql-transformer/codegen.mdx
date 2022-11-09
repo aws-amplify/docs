@@ -219,14 +219,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var appSyncClient: AWSAppSyncClient?
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
 
         do {
             // You can choose your database location if you wish, or use the default
             let cacheConfiguration = try AWSAppSyncCacheConfiguration()
 
             // AppSync configuration & client initialization
-            let appSyncConfig = try AWSAppSyncClientConfiguration(appSyncServiceConfig: AWSAppSyncServiceConfig(), cacheConfiguration: cacheConfiguration)
+            let appSyncConfig = try AWSAppSyncClientConfiguration(
+                appSyncServiceConfig: AWSAppSyncServiceConfig(),
+                cacheConfiguration: cacheConfiguration
+            )
             appSyncClient = try AWSAppSyncClient(appSyncConfig: appSyncConfig)
         } catch {
             print("Error initializing appsync client. \(error)")
@@ -284,14 +290,16 @@ For adding data now you will need to run a GraphQL mutation. The syntax `appSync
 ```swift
 let mutationInput = CreateTodoInput(name: "Use AppSync", description:"Realtime and Offline")
 
-appSyncClient?.perform(mutation: CreateTodoMutation(input: mutationInput)) { (result, error) in
-  if let error = error as? AWSAppSyncClientError {
-    print("Error occurred: \(error.localizedDescription )")
-  }
-  if let resultError = result?.errors {
-    print("Error saving the item on server: \(resultError)")
-    return
-  }
+appSyncClient?.perform(
+    mutation: CreateTodoMutation(input: mutationInput)
+) { (result, error) in
+    if let error = error as? AWSAppSyncClientError {
+        print("Error occurred: \(error.localizedDescription )")
+    }
+    if let resultError = result?.errors {
+        print("Error saving the item on server: \(resultError)")
+        return
+    }
 }
 ```
 
@@ -305,15 +313,18 @@ var subscriptionWatcher: Cancellable?
 
 //In your app code
 do {
-  subscriptionWatcher = try appSyncClient?.subscribe(subscription: OnCreateTodoSubscription(), resultHandler: { (result, transaction, error) in
-    if let result = result {
-      print(result.data!.onCreateTodo!.name + " " + result.data!.onCreateTodo!.description!)
-    } else if let error = error {
-      print(error.localizedDescription)
-    }
-  })
+    subscriptionWatcher = try appSyncClient?.subscribe(
+        subscription: OnCreateTodoSubscription(),
+        resultHandler: { (result, transaction, error) in
+            if let result = result {
+                print(result.data!.onCreateTodo!.name + " " + result.data!.onCreateTodo!.description!)
+            } else if let error = error {
+                print(error.localizedDescription)
+            }
+        }
+    )
 } catch {
-  print("Error starting subscription.")
+    print("Error starting subscription.")
 }
 ```
 
@@ -333,7 +344,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var appSyncClient: AWSAppSyncClient?
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
         do {
             // You can choose your database location if you wish, or use the default
             let cacheConfiguration = try AWSAppSyncCacheConfiguration()

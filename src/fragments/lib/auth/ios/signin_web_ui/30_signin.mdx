@@ -2,36 +2,40 @@ Sweet! You're now ready to launch sign in with web UI. The `signInWithWebUI` api
 
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-func signInWithWebUI() {
-    Amplify.Auth.signInWithWebUI(presentationAnchor: self.view.window!) { result in
-        switch result {
-        case .success:
+func signInWithWebUI() async {
+    do {
+        let signInResult = Amplify.Auth.signInWithWebUI(presentationAnchor: self.view.window!)
+        if signInResult.isSignedIn {
             print("Sign in succeeded")
-        case .failure(let error):
-            print("Sign in failed \(error)")
         }
+    } catch let error as AuthError {
+        print("Sign in failed \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
     }
 }
 ```
 
 </Block>
 
-<Block name="Combine (iOS 13+)">
+<Block name="Combine">
 
 ```swift
 func signInWithWebUI() -> AnyCancellable {
-    Amplify.Auth.signInWithWebUI(presentationAnchor: self.view.window!)
-        .resultPublisher
-        .sink {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.signInWithWebUI(presentationAnchor: self.view.window!)
+        }.sink {
             if case let .failure(authError) = $0 {
                 print("Sign in failed \(authError)")
             }
         }
-        receiveValue: { _ in
-            print("Sign in succeeded")
+        receiveValue: { signInResult in
+            if signInResult.isSignedIn {
+                print("Sign in succeeded")
+            }
         }
 }
 ```

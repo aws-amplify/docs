@@ -1,4 +1,4 @@
-**Note:** Please review the documentation for [API](/sdk/api/graphql) before you proceed with the rest of this section. 
+**Note:** Please review the documentation for [API](/sdk/api/graphql) before you proceed with the rest of this section.
 
 You can upload and download Amazon S3 Objects using AWS AppSync, a GraphQL based solution to build data-driven apps with real-time and offline capabilities. Sometimes you might want to create logical objects that have more complex data, such as images or videos, as part of their structure.  _For example, you might create a Person type with a profile picture or a Post type that has an associated image_. You can use AWS AppSync to model these as GraphQL types. If any of your mutations have a variable with `bucket`, `key`, `region`, `mimeType`, and `localUri` fields, the SDK uploads the file to S3 for you.
 
@@ -47,11 +47,13 @@ Update the `class AppDelegate: UIResponder, UIApplicationDelegate` in `AppDelega
 ```swift
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    
+
     var appSyncClient: AWSAppSyncClient?
 
-    func application(_ application: UIApplication, 
-                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
         // Add the following config code
         do {
             let cacheConfiguration = try AWSAppSyncCacheConfiguration()
@@ -75,19 +77,25 @@ And to automatically upload image when doing the api mutation. You can create th
 
 ```swift
 func uploadImage() {
-    let s3ObjectInput = S3ObjectInput(bucket: "yourBucket",
-                                      region: "yourBucketRegion",
-                                      key: "public/imageName.jpeg",
-                                      localUri: "uriOfImageToUpload",
-                                      mimeType: "jpeg")
+    let s3ObjectInput = S3ObjectInput(
+        bucket: "yourBucket",
+        region: "yourBucketRegion",
+        key: "public/imageName.jpeg",
+        localUri: "uriOfImageToUpload",
+        mimeType: "jpeg"
+    )
 
-    let pictureMutationInput = CreatePictureInput(id: UUID().uuidString,
-                                                  name: "yourInputName",
-                                                  owner: "yourName",
-                                                  visibility: Visibility(rawValue: "public"),
-                                                  file: s3ObjectInput)      
-  
-    appSyncClient.perform(mutation: CreatePictureMutation(input: pictureMutationInput)) { (result, error) in
+    let pictureMutationInput = CreatePictureInput(
+        id: UUID().uuidString,
+        name: "yourInputName",
+        owner: "yourName",
+        visibility: Visibility(rawValue: "public"),
+        file: s3ObjectInput
+    )
+
+    appSyncClient.perform(
+        mutation: CreatePictureMutation(input: pictureMutationInput)
+    ) { (result, error) in
         if let error = error as? AWSAppSyncClientError {
             print("Error occurred: \(error.localizedDescription )")
         }
@@ -96,7 +104,7 @@ func uploadImage() {
             return
         }
     }
-}            
+}
 ```
 Note: Remember to replace the `bucket` and `region` with what you find in `awsconfiguration.json`
 

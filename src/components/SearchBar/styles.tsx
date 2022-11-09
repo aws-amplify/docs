@@ -1,5 +1,5 @@
-import styled from "@emotion/styled";
-import {MQLaptop} from "../media";
+import styled from '@emotion/styled';
+import { MQLaptop } from '../media';
 
 export const Search = styled.div`
   width: 100%;
@@ -27,7 +27,7 @@ export const Search = styled.div`
       .algolia-autocomplete .ds-dropdown-menu * {
         white-space: normal;
       }
-      .algolia-autocomplete .ds-dropdown-menu [class^="ds-dataset-"] {
+      .algolia-autocomplete .ds-dropdown-menu [class^='ds-dataset-'] {
         max-height: calc(100vh - 100px);
       }
       .algolia-autocomplete
@@ -78,6 +78,35 @@ export const Search = styled.div`
         right: 0.5rem;
         width: 0.75rem;
         opacity: 0.5;
+      }
+
+      .aa-InputWrapper {
+        order: 1;
+      }
+
+      .aa-InputWrapperSuffix {
+        order: 2;
+      }
+
+      .aa-InputWrapperPrefix {
+        order: 4;
+        border-left: 1px solid #aab7b8;
+      }
+
+      .aa-SubmitButton {
+        padding: 0px 11px;
+      }
+
+      .aa-DetachedSearchButton {
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        padding-left: 11px;
+      }
+
+      .aa-DetachedSearchButtonIcon {
+        border-left: 1px solid #aab7b8;
+        padding-left: 5px;
+        background-position-x: 12px;
       }
     }
   }

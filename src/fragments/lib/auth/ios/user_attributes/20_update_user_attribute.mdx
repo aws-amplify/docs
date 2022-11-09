@@ -1,46 +1,51 @@
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-func updateAttribute() {
-    Amplify.Auth.update(userAttribute: AuthUserAttribute(.phoneNumber, value: "+2223334444")) { result in
-        do {
-            let updateResult = try result.get()
-            switch updateResult.nextStep {
-            case .confirmAttributeWithCode(let deliveryDetails, let info):
-                print("Confirm the attribute with details send to - \(deliveryDetails) \(info)")
-            case .done:
-                print("Update completed")
-            }
-        } catch {
-            print("Update attribute failed with error \(error)")
+func updateAttribute() async {
+    do {
+        let updateResult = try await Amplify.Auth.update(
+            userAttribute: AuthUserAttribute(.phoneNumber, value: "+2223334444")
+        )
+
+        switch updateResult.nextStep {
+        case .confirmAttributeWithCode(let deliveryDetails, let info):
+            print("Confirm the attribute with details send to - \(deliveryDetails) \(String(describing: info))")
+        case .done:
+            print("Update completed")
         }
+    } catch let error as AuthError {
+        print("Update attribute failed with error \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
     }
 }
 ```
 
 </Block>
 
-<Block name="Combine (iOS 13+)">
+<Block name="Combine">
 
 ```swift
 func updateAttribute() -> AnyCancellable {
-    Amplify.Auth.update(userAttribute: AuthUserAttribute(.phoneNumber, value: "+2223334444"))
-        .resultPublisher
-        .sink {
-            if case let .failure(authError) = $0 {
-                print("Update attribute failed with error \(authError)")
-            }
+    Amplify.Publisher.create {
+        try await Amplify.Auth.update(
+          userAttribute: AuthUserAttribute(.phoneNumber, value: "+2223334444")
+        )
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("Update attribute failed with error \(authError)")
         }
-        receiveValue: { updateResult in
-            switch updateResult.nextStep {
-            case .confirmAttributeWithCode(let deliveryDetails, let info):
-                print("Confirm the attribute with details send to - \(deliveryDetails) \(info)")
-            case .done:
-                print("Update completed")
-            }
+    }
+    receiveValue: { updateResult in
+        switch updateResult.nextStep {
+        case .confirmAttributeWithCode(let deliveryDetails, let info):
+            print("Confirm the attribute with details send to - \(deliveryDetails) \(info)")
+        case .done:
+            print("Update completed")
         }
+    }
 }
 ```
 

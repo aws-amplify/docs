@@ -1,64 +1,51 @@
 ## Customization
 
-### Customize Object Key Path 
+### Customize Object Key Path
 
 You can customize your key path by defining a prefix resolver:
 
 ```swift
 import Amplify
-import AmplifyPlugins
+import AWSPluginsCore
+import AWSS3StoragePlugin
 
 // Define your own prefix resolver, that conforms to `AWSS3StoragePluginPrefixResolver`
 struct MyDeveloperDefinedPrefixResolver: AWSS3PluginPrefixResolver {
 
     // This function is called on every Storage API to modify the prefix of the request.
-    func resolvePrefix(for accessLevel: StorageAccessLevel,
-                       targetIdentityId: String?,
-                       completion: @escaping (Result<String, StorageError>) -> Void) {
+    func resolvePrefix(
+        for accessLevel: StorageAccessLevel,
+        targetIdentityId: String?
+    ) async throws -> String {
         // Use "myPublicPrefix" for guest access levels
         if accessLevel == .guest {
-            completion(.success("myPublicPrefix/"))
-            return
-        }
-
-        // Use "myProtectedPrefix/{targetIdentityId}" and "myPrivatePrefix/{targetIdentityId}" respectively
-        // `targetIdentityId` is the value passed into the Storage request object,
-        if let identityId = targetIdentityId {
-            if accessLevel == .protected {
-                completion(.success("myProtectedPrefix/" + identityId + "/"))
-            } else if accessLevel == .private {
-                completion(.success("myPrivatePrefix/" + identityId + "/"))
-            }
-            return
+            return "myPublicPrefix/"
         }
 
         // Use "myProtectedPrefix/{identityId}" and "myPrivatePrefix/{identityId}" respectively
-        // `identityId` is the identity id of the current user
-        getIdentityId { result in
-            switch result {
-            case .failure(let error):
-                completion(.failure(error))
-            case .success(let identityId):
-                if accessLevel == .protected {
-                    completion(.success("myProtectedPrefix/" + identityId + "/"))
-                } else if accessLevel == .private {
-                    completion(.success("myPrivatePrefix/" + identityId + "/"))
-                }
-            }
+        let accessLevelPrefix: String
+        if accessLevel == .protected {
+            accessLevelPrefix = "myProtectedPrefix/"
+        } else {
+            accessLevelPrefix = "myPrivatePrefix/"
         }
+
+        // `targetIdentityId` is the value passed into the Storage request object
+        if let identityId = targetIdentityId {
+            return accessLevelPrefix + identityId + "/"
+        }
+
+        // `identityId` is the identity id of the current user
+        let identityId = try await getIdentityId()
+        return accessLevelPrefix + identityId + "/"
     }
 
-    public func getIdentityId(completion: @escaping (Result<String, StorageError>) -> Void) {
-        Amplify.Auth.fetchAuthSession { result in
-            do {
-                let session = try result.get()
-                if let identityProvider = session as? AuthCognitoIdentityProvider {
-                    let identityId = try identityProvider.getIdentityId().get()
-                    completion(.success(identityId))
-                }
-            } catch {
-                completion(.failure(StorageError.authError("Failed to retrieve auth session", "", error)))
-            }
+    func getIdentityId() async throws -> String {
+        let session = try await Amplify.Auth.fetchAuthSession()
+        if let identityProvider = session as? AuthCognitoIdentityProvider {
+            return try identityProvider.getIdentityId().get()
+        } else {
+            throw StorageError.authError("Unable to retrieve identity id", "", nil)
         }
     }
 }
@@ -105,16 +92,18 @@ If you want to have custom *private* path prefix like *myPrivatePrefix/*, you ne
     }
 ]
 ```
-This ensures only the authenticated users has the access to the objects under the path. 
+This ensures only the authenticated users has the access to the objects under the path.
 
 #### Passthrough PrefixResolver
 
 If you would like no prefix resolution logic, such as performing S3 requests at the root of the bucket, create a prefix resolver that returns an empty string:
 
 ```swift
-public func resolvePrefix(for accessLevel: StorageAccessLevel,
-                            targetIdentityId: String?) -> Result<String, StorageError> {
-    return .success("")
+func resolvePrefix(
+    for accessLevel: StorageAccessLevel,
+    targetIdentityId: String?
+) async throws -> String {
+    return ""
 }
 ```
 
@@ -124,18 +113,18 @@ You can also perform validation based on the access controls you have defined. F
 
 <Callout>
 
-This will only stop your app from making a call with an unauthenticated user. You must also set up your IAM policies to protect your resources. See [CLI Storage](/cli/storage/import) for more details. 
+This will only stop your app from making a call with an unauthenticated user. You must also set up your IAM policies to protect your resources. See [CLI Storage](/cli/storage/import) for more details.
 
 </Callout>
 
 ```swift
 struct MyDeveloperDefinedPrefixResolver: AWSS3PluginPrefixResolver {
-    public func resolvePrefix(for accessLevel: StorageAccessLevel,
-                              targetIdentityId: String?,
-                              completion: @escaping (Result<String, StorageError>) -> Void) {
-        guard Amplify.Auth.getCurrentUser() != nil else {
-            completion(.failure(.authError("User is not signed in", "", nil)))
-            return
+    func resolvePrefix(
+        for accessLevel: StorageAccessLevel,
+        targetIdentityId: String?
+    ) async throws -> String {
+        guard await Amplify.Auth.getCurrentUser() != nil else {
+            throw StorageError.authError("User is not signed in", "", nil)
         }
 
         // Continue to resolve the prefix for the request

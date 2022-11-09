@@ -58,7 +58,7 @@ Once you have made your category updates, run the command `amplify push` to upda
 The `amplify pull` command operates similar to a _git pull_, fetching upstream backend environment definition changes from the cloud* and update the local environment to match that definition. The command is particularly helpful in team scenarios when multiple team members are editing the same backend, pulling a backend into a new project, or when connecting to [multiple frontend projects](/cli/teams/multi-frontend) that share the same Amplify backend environment.
 > \* The CLI will use the S3 deployment bucket to retrieve your project information including the CloudFormation templates from the last successful `amplify push`.
 
-<Callout> 
+<Callout>
 
 To generate client configuration files (aws-exports.js, amplifyconfiguration.json, or amplifyconfiguration.dart) for an existing project that is listed in the Amplify Hosting console, or to checkout a backend environment that has not been pulled locally:
 
@@ -82,9 +82,9 @@ The `amplify configure project` command is an advanced command and not commonly 
 
 `amplify configure project` is also used to enable **Serverless Container** options in your project with Amazon Elastic Container Service. When enabled, you will be able to build APIs with both AWS Lambda and AWS Fargate using a [Dockerfile](https://docs.docker.com/engine/reference/builder/) or a [Docker Compose file](https://docs.docker.com/compose/compose-file/). See [Serverless Containers](/cli/usage/containers) for more information.
 
-### amplify logout --appId &lt;Amplify App Id&gt;
+### amplify logout --appId &lt;Amplify Project Id&gt;
 
-When Amplify CLI is authenticated with Amplify Studio, JSON Web Tokens (JWTs) are stored on the developer's machine. This command will remove the JWTs associated with a particular Amplify app. The CLI will also prompt if you want to logout from all sessions. 'Yes' will remove the JWTs and ensure they are invalidated globally. 'No' will still remove the locally-stored JWTs but the tokens will remain valid until they expire.
+When Amplify CLI is authenticated with Amplify Studio, JSON Web Tokens (JWTs) are stored on the developer's machine. This command will remove the JWTs associated with a particular Amplify project. The CLI will also prompt if you want to logout from all sessions. 'Yes' will remove the JWTs and ensure they are invalidated globally. 'No' will still remove the locally-stored JWTs but the tokens will remain valid until they expire.
 
 ## Upgrade Amplify CLI
 
@@ -140,7 +140,7 @@ amplify push --force
 Hit Enter or type Y when prompted for confirmations. Look for the following result to validate the configuration updates have been applied.
 
 ```console
-✔ All resources are updated in the cloud 
+✔ All resources are updated in the cloud
 ```
 
 If you have multiple AWS Amplify project folders, repeat steps above for each project folder.
@@ -148,7 +148,7 @@ If you have multiple AWS Amplify project folders, repeat steps above for each pr
 <Callout warning>
 
 If you are receiving errors on push regarding unknown GraphQL directives and have not yet migrated your GraphQL resource to use GraphQL Transformer v2, please review the [migration documentation page](/cli/migration/transformer-migration/) for an in-depth guide to migrating the resource.
-  
+
 </Callout>
 
 ## Uninstall Amplify CLI

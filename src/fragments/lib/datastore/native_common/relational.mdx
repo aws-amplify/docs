@@ -13,6 +13,10 @@ import js0 from "/src/fragments/lib/datastore/js/relational/updated-schema.mdx";
 
 <Fragments fragments={{js: js0}} />
 
+import reactnative0 from "/src/fragments/lib/datastore/js/relational/updated-schema.mdx";
+
+<Fragments fragments={{'react-native': reactnative0}} />
+
 import ios1 from "/src/fragments/lib/datastore/ios/relational/updated-schema.mdx";
 
 <Fragments fragments={{ios: ios1}} />
@@ -27,11 +31,15 @@ import flutter3 from "/src/fragments/lib/datastore/flutter/relational/updated-sc
 
 ## Saving relations
 
-In order to save connected models you will create an instance of the model you wish to connect and pass it's ID to `DataStore.save`:
+In order to save connected models, you will create an instance of the model you wish to connect and pass its ID to `DataStore.save`:
 
 import js4 from "/src/fragments/lib/datastore/js/relational/save-snippet.mdx";
 
 <Fragments fragments={{js: js4}} />
+
+import reactnative1 from "/src/fragments/lib/datastore/js/relational/save-snippet.mdx";
+
+<Fragments fragments={{'react-native': reactnative1}} />
 
 import ios5 from "/src/fragments/lib/datastore/ios/relational/save-snippet.mdx";
 
@@ -51,6 +59,10 @@ import js8 from "/src/fragments/lib/datastore/js/relational/query-snippet.mdx";
 
 <Fragments fragments={{js: js8}} />
 
+import reactnative2 from "/src/fragments/lib/datastore/js/relational/query-snippet.mdx";
+
+<Fragments fragments={{'react-native': reactnative2}} />
+
 import ios9 from "/src/fragments/lib/datastore/ios/relational/query-snippet.mdx";
 
 <Fragments fragments={{ios: ios9}} />
@@ -65,11 +77,15 @@ import flutter11 from "/src/fragments/lib/datastore/flutter/relational/query-sni
 
 ## Deleting relations
 
-When you delete a parent object in a one to many relationship, the children will also be removed from the DataStore and mutations for this deletion will be sent over the network. For example the following operation would remove the Post with id *123* as well as any related comments:
+When you delete a parent object in a one-to-many relationship, the children will also be removed from the DataStore and mutations for this deletion will be sent over the network. For example, the following operation would remove the Post with id *123* as well as any related comments:
 
 import js12 from "/src/fragments/lib/datastore/js/relational/delete-snippet.mdx";
 
 <Fragments fragments={{js: js12}} />
+
+import reactnative4 from "/src/fragments/lib/datastore/js/relational/delete-snippet.mdx";
+
+<Fragments fragments={{'react-native': reactnative4}} />
 
 import ios13 from "/src/fragments/lib/datastore/ios/relational/delete-snippet.mdx";
 
@@ -83,7 +99,7 @@ import flutter15 from "/src/fragments/lib/datastore/flutter/relational/delete-sn
 
 <Fragments fragments={{flutter: flutter15}} />
 
-However, in a many to many relationship the children are not removed and you must explicitly delete them.
+However, in a many-to-many relationship the children are not removed and you must explicitly delete them.
 
 ### Many-to-many
 
@@ -114,6 +130,10 @@ import js16 from "/src/fragments/lib/datastore/js/relational/save-many-snippet.m
 
 <Fragments fragments={{js: js16}} />
 
+import reactnative5 from "/src/fragments/lib/datastore/js/relational/save-many-snippet.mdx";
+
+<Fragments fragments={{'react-native': reactnative5}} />
+
 import ios17 from "/src/fragments/lib/datastore/ios/relational/save-many-snippet.mdx";
 
 <Fragments fragments={{ios: ios17}} />
@@ -129,3 +149,7 @@ import flutter19 from "/src/fragments/lib/datastore/flutter/relational/save-many
 import js20 from "/src/fragments/lib/datastore/js/relational/query-many-snippet.mdx";
 
 <Fragments fragments={{js: js20}} />
+
+import reactnative6 from "/src/fragments/lib/datastore/js/relational/query-many-snippet.mdx";
+
+<Fragments fragments={{'react-native': reactnative6}} />
