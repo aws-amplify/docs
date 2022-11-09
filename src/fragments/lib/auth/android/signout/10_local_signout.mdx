@@ -12,10 +12,35 @@ Amplify.Auth.signOut(
 <Block name="Kotlin - Callbacks">
 
 ```kotlin
-Amplify.Auth.signOut(
-    { Log.i("AuthQuickstart", "Signed out successfully") },
-    { Log.e("AuthQuickstart", "Sign out failed", it) }
-)
+Amplify.Auth.signOut { signOutResult ->
+    when(signOutResult) {
+        is AWSCognitoAuthSignOutResult.CompleteSignOut -> {
+            // Sign Out completed fully and without errors.
+            Log.i("AuthQuickStart", "Signed out successfully")
+        }
+        is AWSCognitoAuthSignOutResult.PartialSignOut -> {
+            // Sign Out completed with some errors. User is signed out of the device.
+            signOutResult.hostedUIError?.let {
+                Log.e("AuthQuickStart", "HostedUI Error", it.error)
+                // Optional: Re-launch it.url in a Custom tab to clear Cognito web session.
+
+            }
+            signOutResult.globalSignOutError?.let {
+                Log.e("AuthQuickStart", "GlobalSignOut Error", it.error)
+                // Optional: Use escape hatch to retry revocation of it.accessToken.
+            }
+            signOutResult.revokeTokenError?.let {
+                it.error
+                Log.e("AuthQuickStart", "RevokeToken Error", it.error)
+                // Optional: Use escape hatch to retry revocation of it.refreshToken.
+            }
+        }
+        is AWSCognitoAuthSignOutResult.FailedSignOut -> {
+            // Sign Out failed with an exception, leaving the user signed in.
+            Log.e("AuthQuickStart", "Sign out Failed", signOutResult.error)
+        }
+    }
+}
 ```
 
 </Block>
