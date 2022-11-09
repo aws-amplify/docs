@@ -1,0 +1,91 @@
+## prerequisites
+
+Make sure you have completed the below steps:
+
+- [Completed the CLI and project setup steps.](/lib/project-setup/prereq)
+- [Created a campaign from the pinpoint console.](/lib/in-app-messaging/create-campaign)
+
+## Setup Backend
+
+Since you already have an Amplify project initialized from the prerequisite steps, you can now proceed with configuring the backend to use In-app messaging.
+
+```bash
+amplify add notifications
+
+? Choose the notification channel to enable …  (Use arrow keys or type to filter)
+  APNS |  Apple Push Notifications   
+  FCM  | » Firebase Push Notifications 
+❯ In-App Messaging
+  Email
+  SMS
+
+? Provide your pinpoint resource name: (inappmessaging)
+
+? Apps need authorization to send analytics events. 
+Do you want to allow guests and unauthenticated 
+users to send analytics events? 
+(we recommend you allow this when getting started) (Y/n)  
+
+✔ The In-App Messaging channel has been successfully enabled.
+```
+
+After your In-app messaging channel is enabled, you can now push the changes to the cloud.
+
+```bash
+amplify push
+```
+
+## Integrate your application
+
+In your application directory, you should first install the necessary dependencies for using In-app messaging.
+
+<Callout>
+
+  Although Amplify In-App Messaging can be used as a standalone JavaScript library, the UI integration is currently available only for React and React Native.
+
+</Callout>
+
+import reactnative0 from '/src/fragments/lib/in-app-messaging/getting-started/react-native/install-dependencies.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative0 }} />
+
+import js0 from '/src/fragments/lib/in-app-messaging/getting-started/js/install-dependencies.mdx';
+
+<Fragments fragments={{ js: js0 }} />
+
+Finally, integrate the Amplify React Native UI components for In-App Messaging in your application’s root component. For example, **App.js**.
+
+import reactnative1 from '/src/fragments/lib/in-app-messaging/getting-started/react-native/hoc-setup.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative1 }} />
+
+import js1 from '/src/fragments/lib/in-app-messaging/getting-started/js/hoc-setup.mdx';
+
+<Fragments fragments={{ js: js1 }} />
+
+Now your application is set up with Amplify In-App Messaging. To interact with Amplify In-App Messaging APIs, you will first need to import the `Notifications` category.
+
+```js
+import { Notifications } from 'aws-amplify';
+```
+
+The In-App Messaging feature is a subcategory of Notifications. To make it easier to access throughout your application, you can de-structure it.
+
+```js
+const { InAppMessaging } = Notifications;
+```
+
+Below is an example of what your entry file should look like:
+
+import reactnative2 from '/src/fragments/lib/in-app-messaging/getting-started/react-native/full-example.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative2 }} />
+
+import js2 from '/src/fragments/lib/in-app-messaging/getting-started/js/full-example.mdx';
+
+<Fragments fragments={{ js: js2 }} />
+
+<!-- TODO What would happen for framworks other than React? Would they NOT see this popup? what should we do for them? -->
+You can now build and run your app in your terminal. If you click on one of the buttons shown in the above example, the message shown in the pinpoint preview section should be the same as the in-app message in your app.
+
+![In-App-Messaging](/images/lib/in-app-messaging/in-app-message-preview.png)

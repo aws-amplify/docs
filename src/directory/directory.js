@@ -481,62 +481,62 @@ const directory = {
         ]
       },
       'in-app-messaging': {
-        title: 'In-App Messaging (Preview)',
+        title: 'In-App Messaging',
         items: [
           {
             title: 'Overview',
             route: '/lib/in-app-messaging/overview',
-            filters: ['react-native']
+            filters: ['react-native', 'js']
           },
           {
             title: 'Prerequisites',
             route: '/lib/in-app-messaging/prerequisites',
-            filters: ['react-native']
+            filters: ['react-native', 'js']
           },
           {
             title: 'Create an In-App Messaging campaign',
             route: '/lib/in-app-messaging/create-campaign',
-            filters: ['react-native']
+            filters: ['react-native', 'js']
           },
           {
             title: 'Getting started',
             route: '/lib/in-app-messaging/getting-started',
-            filters: ['react-native']
+            filters: ['react-native', 'js']
           },
           {
             title: 'Sync messages',
             route: '/lib/in-app-messaging/sync-messages',
-            filters: ['react-native']
+            filters: ['react-native', 'js']
           },
           {
             title: 'Display message',
             route: '/lib/in-app-messaging/display-message',
-            filters: ['react-native']
+            filters: ['react-native', 'js']
           },
           {
             title: 'Clear messages',
             route: '/lib/in-app-messaging/clear-messages',
-            filters: ['react-native']
+            filters: ['react-native', 'js']
           },
           {
             title: 'Customize your UI',
             route: '/lib/in-app-messaging/customize',
-            filters: ['react-native']
+            filters: ['react-native', 'js']
           },
           {
             title: 'Identify a user',
             route: '/lib/in-app-messaging/identify-user',
-            filters: ['react-native']
+            filters: ['react-native', 'js']
           },
           {
             title: 'Respond to interaction events',
             route: '/lib/in-app-messaging/respond-interaction-events',
-            filters: ['react-native']
+            filters: ['react-native', 'js']
           },
           {
             title: 'Resolving conflicts',
             route: '/lib/in-app-messaging/resolve-conflicts',
-            filters: ['react-native']
+            filters: ['react-native', 'js']
           }
         ]
       },
