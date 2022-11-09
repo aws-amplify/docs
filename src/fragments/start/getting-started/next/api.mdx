@@ -95,14 +95,14 @@ amplify push
 
 
 API key configuration
-✔ Enter a description for the API key: · (Just hit enter)
-✔ After how many days from now the API key should expire (1-365): · 7 (Just hit enter)
+✔ Enter a description for the API key: · (default)
+✔ After how many days from now the API key should expire (1-365): · 7 (default)
 
 # You should see that the GraphQL schema compiled successfully.
 
 ? Do you want to generate code for your newly created GraphQL API: (Yes)
 ? Choose the code generation language target: (javascript)
-? Enter the file name pattern of graphql queries, mutations and subscriptions (src/graphql/**/*.js) (Just hit enter)
+? Enter the file name pattern of graphql queries, mutations and subscriptions (src/graphql/**/*.js) (default)
 ? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions: (Yes)
 ? Enter maximum statement depth [increase from default if your schema is deeply nested]: (2)
 
@@ -360,10 +360,7 @@ Submit that form to create a new post, and you'll build that page next!
 
 Statically generating pages during the build process improves performance. But, dynamically created posts still need to not `404`.
 
-To solve this, create a new folder within **/pages** named "posts".  Next, create a new file within this new **/posts** named **[id].js** to create the structure: 
-**pages/posts/[id].js**.  
-
-Paste the following content into the newly made **[id].js** file:
+To solve this, create a new folder within **/pages** named "**posts**", then a file within that named **[id].js** to place the following content:
 
 ```jsx
 import { Amplify, API, withSSRContext } from 'aws-amplify';
@@ -384,7 +381,6 @@ export async function getServerSideProps({req, params}) {
       id: params.id
     }
   });
-  console.log(data)
   return { 
     props: {
       post: data.getPost
