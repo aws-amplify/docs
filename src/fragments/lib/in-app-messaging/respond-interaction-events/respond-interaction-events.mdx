@@ -1,5 +1,10 @@
 Your code can respond with additional behavior to your users interacting with in-app messages by adding interaction event listeners.
 
+<Callout informational>
+  If you are using TypeScript for your development, you can import and use
+  the InAppMessageInteractionEvent enum.
+</Callout>
+
 ## Message received
 
 Add `onMessageReceived` listeners to respond to an in-app message being received from the library as the result of an event matching the criteria of a synced in-app message. This is required if you are implementing a custom UI.
@@ -72,8 +77,3 @@ If you are using the Amplify In-App Messaging UI, interaction events notificatio
  */
 InAppMessaging.notifyMessageInteraction('MESSAGE_DISPLAYED_EVENT');
 ```
-
-<Callout informational>
-  If you are using TypeScript for your development, you can also import and use
-  the InAppMessageInteractionEvent enum.
-</Callout>
