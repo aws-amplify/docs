@@ -87,11 +87,36 @@ type Customer @model {
   id: ID!
   name: String!
   phoneNumber: String
-  accountRepresentativeID: ID! @index(name: "byRepresentative", queryField: "customerByRepresentative")
+  accountRepresentativeID: ID! @index
 }
 ```
 
-The example client query below allows you to query for "Customer" based on their `accountRepresentativeID`:
+The example client query below allows you to query for "Customer" records based on their `accountRepresentativeID`:
+
+```graphql
+query QueryCustomersForAccountRepresentative($accountRepresentativeID: ID!) {
+  customersByAccountRepresentativeID(accountRepresentativeID: $accountRepresentativeID) {
+    customers {
+      items {
+        id
+        name
+        phoneNumber
+      }
+    }
+  }
+}
+```
+
+You can also overwrite the `queryField` or `name` to customize the GraphQL query name, or secondary index name respectively:
+
+```graphql
+type Customer @model {
+  id: ID!
+  name: String!
+  phoneNumber: String
+  accountRepresentativeID: ID! @index(name: "byRepresentative", queryField: "customerByRepresentative")
+}
+```
 
 ```graphql
 query QueryCustomersForAccountRepresentative($representativeId: ID!) {
@@ -114,15 +139,14 @@ type Customer @model @auth(rules: [{ allow: public }]) {
   id: ID!
   name: String! @index(name: "byNameAndPhoneNumber", sortKeyFields: ["phoneNumber"], queryField: "customerByNameAndPhone")
   phoneNumber: String
-  accountRepresentativeID: ID! @index(name: "byRepresentative", queryField: "customerByRepresentative")
-}
+  accountRepresentativeID: ID! @index
 ```
 
 The example client query below allows you to query for "Customer" based on their `name` and filter based on `phoneNumber`:
 
 ```graphql
 query MyQuery {
-  customerByNameAndPhone(phoneNumber: {beginsWith: "+1"}, name: "Rene") {
+  customerByNameAndPhone(phoneNumber: { beginsWith: "+1" }, name: "Rene") {
     items {
       id
       name
@@ -591,6 +615,19 @@ type Address @model {
   shippingIndividualID: ID
   homeIndividual: Individual @belongsTo(fields: ["homeIndividualID"])
   shipIndividual: Individual @belongsTo(fields: ["shippingIndividualID"])
+}
+```
+
+### Generate a secondary index without a GraphQL query
+
+Because query creation against a secondary index is automatic, if you wish to define a secondary index that does not have a corresponding query in your API, set the `queryField` parameter to `null`.
+
+```graphql
+type Customer @model {
+  id: ID!
+  name: String!
+  phoneNumber: String
+  accountRepresentativeID: ID! @index(queryField: null)
 }
 ```
 

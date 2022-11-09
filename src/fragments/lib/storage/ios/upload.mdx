@@ -9,7 +9,7 @@ To upload to S3 from a data object, specify the `key` and the `data` object to b
 ```swift
 let dataString = "My Data"
 let data = Data(dataString.utf8)
-let uploadTask = try await Amplify.Storage.uploadData(
+let uploadTask = Amplify.Storage.uploadData(
     key: "ExampleKey",
     data: data
 )
@@ -29,7 +29,7 @@ print("Completed: \(value)")
 ```swift
 let dataString = "My Data"
 let data = Data(dataString.utf8)
-let uploadTask = try await Amplify.Storage.uploadData(
+let uploadTask = Amplify.Storage.uploadData(
     key: "ExampleKey",
     data: data
 )
@@ -78,7 +78,7 @@ try dataString.write(
     encoding: .utf8
 )
 
-let uploadTask = try await Amplify.Storage.uploadFile(
+let uploadTask = Amplify.Storage.uploadFile(
     key: fileNameKey,
     local: filename
 )
@@ -112,7 +112,7 @@ try dataString.write(
     encoding: .utf8
 )
 
-let uploadTask = try await Amplify.Storage.uploadFile(
+let uploadTask = Amplify.Storage.uploadFile(
     key: fileNameKey,
     local: filename
 )

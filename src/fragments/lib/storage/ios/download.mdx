@@ -9,7 +9,7 @@ You can download to in-memory buffer [Data](https://developer.apple.com/document
 <Block name="Async/Await">
 
 ```swift
-let downloadTask = try await Amplify.Storage.downloadData(key: "ExampleKey")
+let downloadTask = Amplify.Storage.downloadData(key: "ExampleKey")
 Task {
     for await progress in await downloadTask.progress {
         print("Progress: \(progress)")
@@ -24,7 +24,7 @@ print("Completed: \(data)")
 <Block name="Combine">
 
 ```swift
-let downloadTask = try await Amplify.Storage.downloadData(key: "ExampleKey")
+let downloadTask = Amplify.Storage.downloadData(key: "ExampleKey")
 let progressSink = downloadTask
     .inProcessPublisher
     .sink { progress in
@@ -61,7 +61,7 @@ let downloadToFileName = FileManager.default.urls(
     in: .userDomainMask
 )[0].appendingPathComponent("myFile.txt")
 
-let downloadTask = try await Amplify.Storage.downloadFile(
+let downloadTask = Amplify.Storage.downloadFile(
     key: "myKey",
     local: downloadToFileName,
     options: nil
@@ -85,7 +85,7 @@ let downloadToFileName = FileManager.default.urls(
     in: .userDomainMask
 )[0].appendingPathComponent("myFile.txt")
 
-let downloadTask = try await Amplify.Storage.downloadFile(
+let downloadTask = Amplify.Storage.downloadFile(
     key: "myKey",
     local: downloadToFileName,
     options: nil
