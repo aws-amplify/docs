@@ -995,6 +995,7 @@
     "prepended",
     "prereq",
     "presigned",
+    "Presigning",
     "PreSignUp",
     "prev",
     "printLn",
@@ -1484,9 +1485,9 @@
     "Pinia"
   ],
   "flagWords": [
-    "hte", 
-    "full-stack", 
-    "Full-stack", 
+    "hte",
+    "full-stack",
+    "Full-stack",
     "Full-Stack"
   ]
 }
