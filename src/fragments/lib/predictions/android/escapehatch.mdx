@@ -1,4 +1,4 @@
-If you need functionality in the AWS services used by the Amplify Predictions category that isn't available, we provide an escape hatch so you can get a reference to that service. For example, to get a reference to `AmazonRekognitionClient`:
+If you need functionality in the AWS services used by the Amplify Predictions category that isn't available, we provide an escape hatch so you can get a reference to that service. For example, to get a reference to `RekognitionClient`:
 
 <BlockSwitcher>
 <Block name="Java">
@@ -10,9 +10,11 @@ AWSPredictionsPlugin predictionsPlugin = (AWSPredictionsPlugin)
 AWSPredictionsEscapeHatch escapeHatch = predictionsPlugin.getEscapeHatch();
 
 // Send a new request to the Rekognition endpoint directly using the client
-AmazonRekognitionClient client = escapeHatch.getRekognitionClient();
-CreateCollectionRequest request = new CreateCollectionRequest()
-        .withCollectionId("<new-collection-id-here>");
+RekognitionClient client = escapeHatch.getRekognitionClient();
+CreateCollectionRequest request = CreateCollectionRequest.Companion.invoke((requestBuilder) -> {
+    requestBuilder.setCollectionId("<new-collection-id-here>");
+    return Unit.INSTANCE;
+});
 client.createCollection(request);
 ```
 
@@ -26,9 +28,64 @@ val escapeHatch = (plugin as AWSPredictionsPlugin).escapeHatch
 
 // Send a new request to the Rekognition endpoint directly using the client
 val client = escapeHatch.rekognitionClient
-val request = CreateCollectionRequest().withCollectionId("<new-collection-id-here>")
-
+val request = CreateCollectionRequest {
+    collectionId = "<new-collection-id-here>"
+}
 client.createCollection(request)
+```
+
+</Block>
+</BlockSwitcher>
+
+The functions in the clients returned by the escape hatch are `suspend` functions and need to be called from within a [coroutine scope](https://developer.android.com/topic/libraries/architecture/coroutines#lifecycle-aware).
+
+In addition to the Amazon Polly APIs, the `PollyClient` returned in the escape hatch provides a way to create a presigned URL for a text to speech request. An example of creating a presigned URL is below.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+// Obtain reference to the plugin
+AWSPredictionsPlugin predictionsPlugin = (AWSPredictionsPlugin)
+        Amplify.Predictions.getPlugin("awsPredictionsPlugin");
+AWSPredictionsEscapeHatch escapeHatch = predictionsPlugin.getEscapeHatch();
+
+// Create a presigned URL to convert text to speech using the client
+AmazonPollyPresigningClient client = (AmazonPollyPresigningClient) escapeHatch.getPollyClient();
+SynthesizeSpeechRequest request = SynthesizeSpeechRequest.Companion.invoke((requestBuilder) -> {
+    requestBuilder.setLanguageCode(LanguageCode.EnUs.INSTANCE);
+    requestBuilder.setText("I like to eat spaghetti");
+    return Unit.INSTANCE;
+});
+
+// The presigned URL needs to be created on a worker thread
+runOnUiThread(new Runnable() {
+    @Override
+    public void run() {
+        URL url = client.getPresignedSynthesizeSpeechUrl(request);
+    }
+});
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+// Obtain reference to the plugin
+val plugin = Amplify.Predictions.getPlugin("awsPredictionsPlugin")
+val escapeHatch = (plugin as AWSPredictionsPlugin).escapeHatch
+
+// Create a presigned URL to convert text to speech using the client
+val client = escapeHatch.pollyClient as AmazonPollyPresigningClient
+val request = SynthesizeSpeechRequest {
+    languageCode = LanguageCode.EnUs
+    text = "I like to eat spaghetti"
+}
+
+// The presigned URL needs to be created on a worker thread
+runOnUiThread {
+    val url = client.getPresignedSynthesizeSpeechUrl(request)
+}
 ```
 
 </Block>
