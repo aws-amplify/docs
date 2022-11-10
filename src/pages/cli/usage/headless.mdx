@@ -179,7 +179,7 @@ If the repository contains a `yarn.lock` and/or `package.json` file, the sample 
 ### Sample script
 ```javascript
 const shell = require('shelljs');
-const amplify = require('./amplify.json');
+const amplify = require('./amplify-headless-init-payload.json');
 
 const cmd =
 'amplify init --amplify "' +
@@ -195,7 +195,7 @@ shell.exit(1);
 }
 ```
 
-amplify.json content
+amplify-headless-init-payload.json content
 ```json
 {
 "amplify": {
