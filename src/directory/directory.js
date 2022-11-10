@@ -371,7 +371,7 @@ const directory = {
           {
             title: 'Advanced workflows',
             route: '/lib/auth/advanced',
-            filters: ['ios']
+            filters: ['android', 'ios']
           },
           {
             title: 'Under the hood',
