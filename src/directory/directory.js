@@ -296,7 +296,7 @@ const directory = {
           {
             title: 'Sign in with custom flow',
             route: '/lib/auth/signin_with_custom_flow',
-            filters: ['ios', 'flutter']
+            filters: ['ios', 'android','flutter']
           },
           {
             title: 'Sign in with web UI',
