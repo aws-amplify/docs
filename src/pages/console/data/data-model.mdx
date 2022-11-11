@@ -33,6 +33,7 @@ The Studio data model designer provides a visual way to define your app's data m
 
 ![datamodel](/images/console/datamodel.gif)
 
+The experience for modeling data is the same in the sandbox and in Studio. With an AWS account, you will have real-time data synchronization capabilities and you will also be able to set authorization rules on your models. For more information, see [Authorization](/console/authz/authorization). All data models are provisioned in your account as AWS AppSync GraphQL APIs and Amazon DynamoDB tables. As with every feature of Studio, it can be further extended with the CLI.
 
 ### DataStore and GraphQL
 By default, all data models built with Studio are provisioned with Amplify DataStore. However, Studio applications work with both DataStore and an Amplify GraphQL API. 
@@ -55,4 +56,10 @@ Changing between DataStore and an Amplify GraphQL API is a significant change to
 
 </Callout>
 
-The experience for modeling data is the same in the sandbox and in Studio. With an AWS account, you will have real-time data synchronization capabilities and you will also be able to set authorization rules on your models. For more information, see [Authorization](/console/authz/authorization). All data models are provisioned in your account as AWS AppSync GraphQL APIs and Amazon DynamoDB tables. As with every feature of Studio, it can be further extended with the CLI.
+### Limitations
+Applications that use an Amplify GraphQL API have limited feature availability in Studio. 
+- The Content Manager is not supported, and is [replaced by a GraphiQL interface](content-management/#limitations)
+- [Binding UI Components to data](../uibuilder/databinding/), and [generating Collections](../uibuilder/collections/) is not supported
+- [Binding Forms to data, and auto-generated forms](../formbuilder/overview/) are not supported
+
+To get access to these features, turn on DataStore and select a Conflict Resolution strategy.
