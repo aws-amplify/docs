@@ -1,49 +1,37 @@
 <BlockSwitcher>
 
-<Block name="Async/Await">
+<Block name="Java">
 
-```swift
-func signIn(username: String) async {
-    do {
-        let options = AWSAuthSignInOptions(authFlowType: .customWithoutSRP)
-        let signInResult = try await Amplify.Auth.signIn(username: username,
-                                                        options: .init(pluginOptions: options))
-        if case .confirmSignInWithCustomChallenge(_) = signInResult.nextStep {
-            // Ask the user to enter the custom challenge.
-        } else {
-            print("Sign in succeeded")
-        }
-    } catch let error as AuthError {
-        print("Sign in failed \(error)")
-    } catch {
-        print("Unexpected error: \(error)")
-    }
-}
+```java
+Amplify.Auth.signIn(
+    "username",
+    "password"
+    AWSCognitoAuthSignInOptions.builder()
+                            .authFlowType(AuthFlowType.CUSTOM_AUTH_WITHOUT_SRP)
+                            .build(),
+    result -> Log.i("AuthQuickstart", result.isSignedIn() ? "Sign in succeeded" : "Sign in not complete"),
+    error -> Log.e("AuthQuickstart", error.toString())
+);
 ```
 
 </Block>
 
-<Block name="Combine">
+<Block name="Kotlin">
 
-```swift
-func signIn(username: String) -> AnyCancellable {
-    Amplify.Publisher.create {
-        let options = AWSAuthSignInOptions(authFlowType: .customWithoutSRP)
-        try await Amplify.Auth.signIn(username: username,
-                                    options: .init(pluginOptions: options))
-    }.sink {
-        if case let .failure(authError) = $0 {
-            print("Sign in failed \(authError)")
-        }
-    }
-    receiveValue: { result in
-        if case .confirmSignInWithCustomChallenge(_) = result.nextStep {
-            // Ask the user to enter the custom challenge.
+```kotlin
+Amplify.Auth.signIn("username", "password",
+AWSCognitoAuthSignInOptions.builder()
+                            .authFlowType(AuthFlowType.CUSTOM_AUTH_WITHOUT_SRP)
+                            .build(),
+    { result ->
+        if (result.isSignedIn) {
+            Log.i("AuthQuickstart", "Sign in succeeded")
         } else {
-            print("Sign in succeeded")
+            Log.i("AuthQuickstart", "Sign in not complete")
         }
-    }
-}
+    },
+    { Log.e("AuthQuickstart", "Failed to sign in", it) }
+)
 ```
 
 </Block>

@@ -1,37 +1,24 @@
 <BlockSwitcher>
 
-<Block name="Async/Await">
+<Block name="Java">
 
-```swift
-func customChallenge(response: String) async {
-    do {
-      _ = try await Amplify.Auth.confirmSignIn(challengeResponse: response)
-      print("Confirm sign in succeeded") 
-    } catch let error as AuthError {
-      print("Confirm sign in failed \(error)")
-    } catch {
-      print("Unexpected error: \(error)")
-    }
-}
+```java
+Amplify.Auth.confirmSignIn(
+    "confirmation",
+    result -> Log.i("AuthQuickstart", result.toString()),
+    error -> Log.e("AuthQuickstart", error.toString())
+);
 ```
 
 </Block>
 
-<Block name="Combine">
+<Block name="Kotlin">
 
-```swift
-func customChallenge(response: String) -> AnyCancellable {
-    Amplify.Publisher.create {
-        try await Amplify.Auth.confirmSignIn(challengeResponse: response)
-        }.sink {
-            if case let .failure(authError) = $0 {
-                print("Confirm sign in failed \(authError)")
-            }
-        }
-        receiveValue: { _ in
-            print("Confirm sign in succeeded")
-        }
-}
+```kotlin
+Amplify.Auth.confirmSignIn("confirmation",
+    { Log.i("AuthQuickstart", "Confirmed signin: $it") },
+    { Log.e("AuthQuickstart", "Failed to confirm signin", it) }
+)
 ```
 
 </Block>
@@ -46,7 +33,7 @@ Confirm sign in succeeded
 
 ### Lambda Trigger Setup
 
-The Amplify CLI can be used to generate triggers required by a custom authentication flow. See the [CLI Documentation](/cli/usage/lambda-triggers) for details. The CLI will create a custom auth flow skeleton that you can manually edit. 
+The Amplify CLI can be used to generate triggers required by a custom authentication flow. See the [CLI Documentation](/cli/usage/lambda-triggers) for details. The CLI will create a custom auth flow skeleton that you can manually edit.
 
 > More information on available triggers can be found in the [Cognito documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html).
 
@@ -56,19 +43,19 @@ Cognito User Pool allows to start the custom authentication flow with SRP as the
 
 ```javascript
 exports.handler = (event, context) => {
-  if (event.request.session.length == 1 && 
+  if (event.request.session.length == 1 &&
       event.request.session[0].challengeName == 'SRP_A') {
         event.response.issueTokens = false;
         event.response.failAuthentication = false;
         event.response.challengeName = 'PASSWORD_VERIFIER';
-  } else if (event.request.session.length == 2 && 
-      event.request.session[1].challengeName == 'PASSWORD_VERIFIER' && 
+  } else if (event.request.session.length == 2 &&
+      event.request.session[1].challengeName == 'PASSWORD_VERIFIER' &&
       event.request.session[1].challengeResult == true) {
         event.response.issueTokens = false;
         event.response.failAuthentication = false;
         event.response.challengeName = 'CUSTOM_CHALLENGE';
-  } else if (event.request.session.length == 3 && 
-      event.request.session[2].challengeName == 'CUSTOM_CHALLENGE' && 
+  } else if (event.request.session.length == 3 &&
+      event.request.session[2].challengeName == 'CUSTOM_CHALLENGE' &&
       event.request.session[2].challengeResult == true) {
         event.response.issueTokens = true;
         event.response.failAuthentication = false;
@@ -82,13 +69,20 @@ exports.handler = (event, context) => {
 
 If your lambda is setup to start with `SRP` as the first step, make sure to initiate the signIn process with `customWithSRP` as the authentication flow:
 
-```swift
-let options = AWSAuthSignInOptions(
-    authFlowType: .customWithSRP)
-let signInResult = try await Amplify.Auth.signIn(
-    username: username,
-    password: password,
-    options: .init(pluginOptions: options))
+```kotlin
+Amplify.Auth.signIn("username", "password",
+AWSCognitoAuthSignInOptions.builder()
+                            .authFlowType(AuthFlowType.CUSTOM_AUTH_WITH_SRP)
+                            .build(),
+    { result ->
+        if (result.isSignedIn) {
+            Log.i("AuthQuickstart", "Sign in succeeded")
+        } else {
+            Log.i("AuthQuickstart", "Sign in not complete")
+        }
+    },
+    { Log.e("AuthQuickstart", "Failed to sign in", it) }
+)
 ```
 
 ### CAPTCHA-based authentication

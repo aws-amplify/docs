@@ -1,60 +1,29 @@
 <BlockSwitcher>
 
-<Block name="Async/Await">
+<Block name="Java">
 
-```swift
-func signUp(username: String, email: String) async {
-    let userAttributes = [AuthUserAttribute(.email, value: email)]
-    let options = AuthSignUpRequest.Options(userAttributes: userAttributes)
-    do {
-        let signUpResult = try await Amplify.Auth.signUp(
-            username: username,
-            password: UUID().uuidString,
-            options: options
-        )
-
-        if case let .confirmUser(deliveryDetails, _, userId) = signUpResult.nextStep {
-            print("Delivery details \(String(describing: deliveryDetails)) for userId: \(String(describing: userId)))")
-        } else {
-            print("Signup Complete")
-        }
-    } catch let error as AuthError {
-        print("An error occurred while registering a user \(error)")
-    } catch {
-        print("Unexpected error: \(error)")
-    }
-}
+```java
+AuthSignUpOptions options = AuthSignUpOptions.builder()
+    .userAttribute(AuthUserAttributeKey.email(), "my@email.com")
+    .build();
+Amplify.Auth.signUp("username", UUID.randomUUID().toString(), options,
+    result -> Log.i("AuthQuickStart", "Result: " + result.toString()),
+    error -> Log.e("AuthQuickStart", "Sign up failed", error)
+);
 ```
 
 </Block>
 
-<Block name="Combine">
+<Block name="Kotlin">
 
-```swift
-func signUp(username: String, password: String, email: String) -> AnyCancellable {
-    let userAttributes = [AuthUserAttribute(.email, value: email)]
-    let options = AuthSignUpRequest.Options(userAttributes: userAttributes)
-    let sink = Amplify.Publisher.create {
-        try await Amplify.Auth.signUp(
-            username: username,
-            password: UUID().uuidString,
-            options: options
-        )
-    }.sink {
-        if case let .failure(authError) = $0 {
-            print("An error occurred while registering a user \(authError)")
-        }
-    }
-    receiveValue: { signUpResult in
-        if case let .confirmUser(deliveryDetails, _, userId) = signUpResult.nextStep {
-            print("Delivery details \(String(describing: deliveryDetails)) for userId: \(String(describing: userId)))")
-        } else {
-            print("Signup Complete")
-        }
-
-    }
-    return sink
-}
+```kotlin
+val options = AuthSignUpOptions.builder()
+    .userAttribute(AuthUserAttributeKey.email(), "my@email.com")
+    .build()
+Amplify.Auth.signUp("username", UUID.randomUUID().toString(), options,
+    { Log.i("AuthQuickStart", "Sign up succeeded: $it") },
+    { Log.e ("AuthQuickStart", "Sign up failed", it) }
+)
 ```
 
 </Block>
