@@ -6,25 +6,45 @@ Please [adjust your authorization permissions](/lib/geo/existing-resources) acco
 <BlockSwitcher>
 <Block name="Java">
 
+Learn more about consuming Kotlin clients from Java using either a blocking interface or an equivalent async interface based on futures [here](https://github.com/awslabs/smithy-kotlin/blob/main/docs/design/kotlin-smithy-sdk.md#java-interop).
+
 ```java
 import android.util.Log;
-import com.amazonaws.services.geo.AmazonLocationClient;
-import com.amazonaws.services.geo.model.ListMapsRequest;
-import com.amazonaws.services.geo.model.ListMapsResult;
+
+import androidx.annotation.NonNull;
+
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.geo.location.AWSLocationGeoPlugin;
+
+import aws.sdk.kotlin.services.location.LocationClient;
+import aws.sdk.kotlin.services.location.model.ListMapsRequest;
+import aws.sdk.kotlin.services.location.model.ListMapsResponse;
+import kotlin.Unit;
+import kotlin.coroutines.Continuation;
+import kotlin.coroutines.CoroutineContext;
+import kotlinx.coroutines.GlobalScope;
 ```
 
 ```java
 // Obtain reference to the plugin
 AWSLocationGeoPlugin geoPlugin = (AWSLocationGeoPlugin)
         Amplify.Geo.getPlugin("awsLocationGeoPlugin");
-AmazonLocationClient locationClient = geoPlugin.getEscapeHatch();
+LocationClient locationClient = geoPlugin.getEscapeHatch();
 
 // Send a new request to the Location Maps endpoint directly using the client
-ListMapsRequest request = new ListMapsRequest();
-ListMapsResult response = locationClient.listMaps(request);
-Log.i("MyAmplifyApp", response.getEntries().toString());
+ListMapsRequest request = ListMapsRequest.Companion.invoke(requestBuilder -> Unit.INSTANCE);
+locationClient.listMaps(request, new Continuation<ListMapsResponse>() {
+    @NonNull
+    @Override
+    public CoroutineContext getContext() {
+        return GlobalScope.INSTANCE.getCoroutineContext();
+    }
+
+    @Override
+    public void resumeWith(@NonNull Object resultOrException) {
+        Log.i("MyAmplifyApp", resultOrException.toString());
+    }
+});
 ```
 
 </Block>
@@ -32,18 +52,18 @@ Log.i("MyAmplifyApp", response.getEntries().toString());
 
 ```kotlin
 import android.util.Log
-import com.amazonaws.services.geo.AmazonLocationClient
-import com.amazonaws.services.geo.model.ListMapsRequest
+import aws.sdk.kotlin.services.location.LocationClient
+import aws.sdk.kotlin.services.location.model.ListMapsRequest
 import com.amplifyframework.core.Amplify
 ```
 
 ```kotlin
 // Obtain reference to the Amazon Location Service client
 val geoPlugin = Amplify.Geo.getPlugin("awsLocationGeoPlugin")
-val locationClient = geoPlugin.escapeHatch as AmazonLocationClient
+val locationClient = geoPlugin.escapeHatch as LocationClient
 
 // Send a new request to the Location Maps endpoint directly using the client
-val request = ListMapsRequest()
+val request = ListMapsRequest {  }
 val response = locationClient.listMaps(request)
 Log.i("MyAmplifyApp", response.entries.toString())
 ```
