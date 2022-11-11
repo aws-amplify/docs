@@ -237,22 +237,22 @@ Code tags and monospace fonts are used to represent code that goes into files or
 “Select **upload image**.”
 * * *
 
-## 16. Bracket <replacement text> in codeblocks
+## 16. Bracket `<replacement text>` in codeblocks
 
 In code blocks, refer to placeholder text with angle brackets, lowercase, with dashes. 
 
 ### Don’t
 
-* amplify/backend/api/~apiname~/schema.graphql
-* amplify/backend/api/YOUR-API-NAME/schema.graphql
-* amplify/backend/api/<YOUR_API_NAME>/schema.graphql
-* amplify/backend/api/<your_api_name>/schema.graphql
-* amplify/backend/api/<your api name>/schema.graphql
-* amplify/backend/api/{yourAPIname}/schema.graphql
+* `amplify/backend/api/~apiname~/schema.graphql`
+* `amplify/backend/api/YOUR-API-NAME/schema.graphql`
+* `amplify/backend/api/<YOUR_API_NAME>/schema.graphql`
+* `amplify/backend/api/<your_api_name>/schema.graphql`
+* `amplify/backend/api/<your api name>/schema.graphql`
+* `amplify/backend/api/{yourAPIname}/schema.graphql`
 
 ### Do
 
-**amplify/backend/api/<api-name>/schema.graphql**
+**`amplify/backend/api/<api-name>/schema.graphql`**
 * * *
 
 ## 17. Refer to Amplify files in the /amplify directory
@@ -261,11 +261,10 @@ When referring to files in the **amplify** directory, always preface with **ampl
 
 ### Don’t
 
-**backend/api/<api-name>/schema.graphql**
+**`backend/api/<api-name>/schema.graphql`**
 
 ### Do
 
-**amplify/backend/api/<api-name>/schema.graphql**
 * * *
 
 ## 18. Write compliant JSON: no single quotes, no comments
