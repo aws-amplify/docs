@@ -1,0 +1,41 @@
+<BlockSwitcher>
+
+<Block name="Java">
+
+```java
+Amplify.Auth.signIn(
+    "username",
+    "password"
+    AWSCognitoAuthSignInOptions.builder()
+                            .authFlowType(AuthFlowType.CUSTOM_AUTH_WITHOUT_SRP)
+                            .build(),
+    result -> Log.i("AuthQuickstart", result.isSignedIn() ? "Sign in succeeded" : "Sign in not complete"),
+    error -> Log.e("AuthQuickstart", error.toString())
+);
+```
+
+</Block>
+
+<Block name="Kotlin">
+
+```kotlin
+Amplify.Auth.signIn("username", "password",
+AWSCognitoAuthSignInOptions.builder()
+                            .authFlowType(AuthFlowType.CUSTOM_AUTH_WITHOUT_SRP)
+                            .build(),
+    { result ->
+        if (result.isSignedIn) {
+            Log.i("AuthQuickstart", "Sign in succeeded")
+        } else {
+            Log.i("AuthQuickstart", "Sign in not complete")
+        }
+    },
+    { Log.e("AuthQuickstart", "Failed to sign in", it) }
+)
+```
+
+</Block>
+
+</BlockSwitcher>
+
+Since this is a custom authentication flow with a challenge, the result of the signin process has a next step `.confirmSignInWithCustomChallenge`. Implement a UI to allow the user to enter the custom challenge.

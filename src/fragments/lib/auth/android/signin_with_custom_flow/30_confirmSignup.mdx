@@ -1,0 +1,40 @@
+<BlockSwitcher>
+
+<Block name="Java">
+
+```java
+Amplify.Auth.confirmSignUp(
+    "username",
+    "confirmation code",
+    result -> Log.i("AuthQuickstart", result.isSignUpComplete() ? "Confirm signUp succeeded" : "Confirm sign up not complete"),
+    error -> Log.e("AuthQuickstart", error.toString())
+);
+```
+
+</Block>
+
+<Block name="Kotlin">
+
+```kotlin
+Amplify.Auth.confirmSignUp(
+    "username", "confirmation code",
+    { result ->
+        if (result.isSignUpComplete) {
+            Log.i("AuthQuickstart", "Confirm signUp succeeded")
+        } else {
+            Log.i("AuthQuickstart","Confirm sign up not complete")
+        }
+    },
+    { Log.e("AuthQuickstart", "Failed to confirm sign up", it) }
+)
+```
+
+</Block>
+
+</BlockSwitcher>
+
+You will know the sign up flow is complete if you see the following in your console window:
+
+```console
+Confirm signUp succeeded
+```
