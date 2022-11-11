@@ -234,7 +234,7 @@ Code tags and monospace fonts are used to represent code that goes into files or
 
 “To create a new file, go to **Menu > Art > New File**.”
 
-“Select **upload image.”**
+“Select **upload image**.”
 * * *
 
 ## 16. Bracket <replacement text> in codeblocks
