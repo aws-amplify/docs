@@ -232,7 +232,7 @@ Code tags and monospace fonts are used to represent code that goes into files or
 
 ### Do
 
-“To create a new file, go to **Menu > Art > New File****.”**
+“To create a new file, go to **Menu > Art > New File**.”
 
 “Select **upload image.”**
 * * *
