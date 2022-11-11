@@ -4,4 +4,5 @@ module.exports = {
   ANDROID_KOTLIN_VERSION: "0.21.6",
   ANDROID_GEO_VERSION: "1.0.0",
   ANDROID_SDK_VERSION: "2.55.0",
+  KOTLIN_SDK_VERSION: "0.16.3-beta",
 };
