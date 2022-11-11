@@ -52,7 +52,7 @@ Different cultures have different idioms, different “in-jokes,” and differen
 
 “Something that is difficult for someone new to programming may be child’s play for a senior engineer.”
 
-“Every Hans Solo has his Chewbacca: find a study buddy to team up with. ”
+“Every Han Solo has his Chewbacca: find a study buddy to team up with.”
 
 ### Do
 
