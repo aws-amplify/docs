@@ -273,7 +273,7 @@ When referring to files in the **amplify** directory, always preface with **ampl
 Conform to the [JSON standard](https://www.json.org/json-en.html). 
 
 * Key names are enclosed in `"`
-* Values are between `"` instead of `'`* 
+* Values are between `"` instead of `'`
 * No comments
 
 * Only JavaScript and TypeScript let you use double and single quotes interchangeably. This means that when people from other platforms copy-paste JSON from our examples, they run into errors.
