@@ -199,7 +199,7 @@ async function tryParseImports(
     filename = filename.split('src/pages')[1];
     filename = filename.split('.mdx')[0];
 
-    if (!Object.keys(fragments).length === 0) {
+    if (Object.keys(fragments).length !== 0) {
       // add platform specific fragments to source
       fragments[platform].forEach((fragment) => {
         const fragmentPath = path.join(__dirname, '..', fragment);
