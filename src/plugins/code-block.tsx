@@ -111,6 +111,7 @@ module.exports = (async () => {
     );
     code = code.replace(/ANDROID_GEO_VERSION/g, versions.ANDROID_GEO_VERSION);
     code = code.replace(/ANDROID_SDK_VERSION/g, versions.ANDROID_SDK_VERSION);
+    code = code.replace(/KOTLIN_SDK_VERSION/g, versions.KOTLIN_SDK_VERSION);
     return code;
   };
 

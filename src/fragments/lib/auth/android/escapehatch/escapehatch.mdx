@@ -1,73 +1,17 @@
 For advanced use cases where Amplify does not provide the functionality you're looking for,
 you can retrieve the escape hatch to access the underlying SDK.
 
-<BlockSwitcher>
+import android0 from "/src/fragments/lib/android-escape-hatch-warning.mdx";
 
-<Block name="Stable Release">
-
-The escape hatch provides access to the underlying `AWSMobileClient` instance.
-
-<BlockSwitcher>
-<Block name="Java">
-
-```java
-AWSMobileClient mobileClient = (AWSMobileClient) Amplify.Auth.getPlugin("awsCognitoAuthPlugin").getEscapeHatch();
-```
-
-</Block>
-<Block name="Kotlin - Callbacks">
-
-```kotlin
-val cognitoAuthPlugin = Amplify.Auth.getPlugin("awsCognitoAuthPlugin")
-val mobileClient = cognitoAuthPlugin.escapeHatch as AWSMobileClient
-```
-
-</Block>
-<Block name="Kotlin - Coroutines (Beta)">
-
-```kotlin
-val cognitoAuthPlugin = Amplify.Auth.getPlugin("awsCognitoAuthPlugin")
-val mobileClient = cognitoAuthPlugin.escapeHatch as AWSMobileClient
-```
-
-</Block>
-<Block name="RxJava">
-
-```java
-AWSMobileClient mobileClient =
-    (AWSMobileClient) RxAmplify.Auth.getPlugin("awsCognitoAuthPlugin").getEscapeHatch();
-```
-
-</Block>
-</BlockSwitcher>
-
-You can use the escape hatch to `federatedSignIn` with a valid token from other social providers. Find more details [here](https://docs.amplify.aws/sdk/auth/federated-identities/q/platform/android)
-
-```java
-mobileClient.federatedSignIn(IdentityProvider.FACEBOOK.toString(), "<FACEBOOK_TOKEN_HERE>", new Callback<UserStateDetails>() {
-    @Override
-    public void onResult(final UserStateDetails userStateDetails) {
-        //Handle the result
-    }
-
-    @Override
-    public void onError(Exception e) {
-        Log.e(TAG, "sign-in error", e);
-    }
-});
-```
-
-</Block>
-
-<Block name="Developer Preview">
+<Fragments fragments={{android: android0}} />
 
 The escape hatch provides access to the underlying `CognitoIdentityProviderClient` and `CognitoIdentityClient` instance. Then retrieve the escape hatch with this code:
 
 **Gradle Imports**
 
 ```groovy
-implementation "aws.sdk.kotlin:cognitoidentityprovider:0.14.0-beta"
-implementation "aws.sdk.kotlin:cognitoidentity:0.14.0-beta"
+implementation "aws.sdk.kotlin:cognitoidentityprovider:KOTLIN_SDK_VERSION"
+implementation "aws.sdk.kotlin:cognitoidentity:KOTLIN_SDK_VERSION"
 ```
 
 <BlockSwitcher>
@@ -122,10 +66,6 @@ suspend fun resendCodeUsingEscapeHatch() {
     val response = cognitoIdentityProviderClient?.resendConfirmationCode(request)
 }
 ```
-
-</Block>
-
-</BlockSwitcher>
 
 </Block>
 
