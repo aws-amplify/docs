@@ -292,7 +292,6 @@ Conform to the [JSON standard](https://www.json.org/json-en.html).
   "region": "XX-XXXX-X"
 }
 ```
-* * *
 
 ## 19. Prefix AWS and Amazon products when they first appear on a page
 
