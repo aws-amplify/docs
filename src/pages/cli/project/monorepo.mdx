@@ -3,7 +3,7 @@ export const meta = {
   description: `Learn how to set up monorepo workflows with Amplify CLI`,
 };
 
-For a monorepo setup, it is recommended to have the Amplify CLI initialize a new backend at the root of one of your frontend projects. In a different frontend directory, you can run `amplify pull` and select the Amplify app you want to associate your frontend with.
+For a monorepo setup, it is recommended to have the Amplify CLI initialize a new backend at the root of one of your frontend projects. In a different frontend directory, you can run `amplify pull` and select the Amplify project you want to associate your frontend with.
 
 ## Example
 
@@ -23,13 +23,13 @@ This project contains the frontend code for an angular and react Todo app. The r
 
 ### Step 2: Set up the Amplify backend
 
-To set up a backend on AWS, we are going to use the Amplify CLI. The Amplify CLI is a command-line toolchain that simplifies provisioning AWS services.
+To set up a backend on AWS, you are going to use the Amplify CLI. The Amplify CLI is a command-line toolchain that simplifies provisioning AWS services.
 
 import all0 from "/src/fragments/cli-install-block.mdx";
 
 <Fragments fragments={{all: all0}} />
 
-First, [configure the CLI](/cli/start/install#configure-the-amplify-cli) on your machine. Once configured, initialize a new backend project at the root of one of your frontend projects. While we could also initialize the project at the root level, the Amplify is best used attached to one of your projects. This allows you to set up continuous deployment pipelines of the frontend and backend together.
+First, [configure the CLI](/cli/start/install#configure-the-amplify-cli) on your machine. Once configured, initialize a new backend project at the root of one of your frontend projects. While you could also initialize the project at the root level, the Amplify is best used attached to one of your projects. This allows you to set up continuous deployment pipelines of the frontend and backend together.
 
 ```console
 > cd monorepo-amplify/react
@@ -123,8 +123,8 @@ Let's reference the same backend in the Angular app. In order to do so, run the 
 amplify pull
 ? Do you want to use an AWS profile? Yes
 ? Please choose the profile you want to use work-lhr
-? Which app are you working on? 
-❯ todo 
+? Which app are you working on?
+❯ todo
   app2
   app3
 

@@ -12,11 +12,12 @@ let syncExpr1 = DataStoreSyncExpression.syncExpression(Post.schema) {
     Post.keys.rating.gt(5)
 }
 let syncExpr2 = DataStoreSyncExpression.syncExpression(Comment.schema) {
-    Comment.keys.status.eq("active")
+    Comment.keys.content.beginsWith("the")
 }
-try Amplify.add(plugin: AWSDataStorePlugin(modelRegistration: AmplifyModels(),
-                                           configuration: .custom(
-					    syncExpressions: [syncExpr1, syncExpr2])))
+try Amplify.add(plugin: AWSDataStorePlugin(
+    modelRegistration: AmplifyModels(),
+    configuration: .custom(syncExpressions: [syncExpr1, syncExpr2])
+))
 ```
 
 When DataStore starts syncing, only Posts with `rating > 5` and Comments with `status` equal to `active` will be synced down to the user's local store.
@@ -37,31 +38,31 @@ If you have the following expression and you want to change the filter that gets
 public var rating = 5
 
 func initialize() {
-    let variableSyncExpr = DataStoreSyncExpression.syncExpression(Post.schema) {
-        Post.keys.rating.gt(self.rating)
+    do {
+        let variableSyncExpr = DataStoreSyncExpression.syncExpression(Post.schema) {
+            Post.keys.rating.gt(self.rating)
+        }
+        try Amplify.add(plugin: AWSDataStorePlugin(
+            modelRegistration: AmplifyModels(),
+            configuration: .custom(syncExpressions: [variableSyncExpr])
+        ))
+    } catch {
+        print("Failed to initialize Amplify with \(error)")
     }
-    try Amplify.add(plugin: AWSDataStorePlugin(modelRegistration: AmplifyModels(),
-                                               configuration: .custom(
-                                                syncExpressions: [variableSyncExpr])))
 }
 
 func changeSync() {
     rating = 1
-    Amplify.DataStore.stop { (result) in
-        switch(result) {
-        case .success:
-            Amplify.DataStore.start { (result) in
-                switch(result) {
-                case .success:
-                    print("DataStore started")
-                case .failure(let error):
-                    print("Error starting DataStore:\(error)")
-                }
-            }
-        case .failure(let error):
-            print("Error stopping DataStore:\(error)")
-        }
-    }      
+    do {
+        try await Amplify.DataStore.stop()
+        print("DataStore stopped")
+        try await Amplify.DataStore.start()
+        print("DataStore started")
+    } catch let error as DataStoreError {
+        print("Failed with error \(error)")
+    } catch {
+        print("Unexpected error \(error)")
+    }
 }
 ```
 Each time DataStore starts (via `start` or any other operation: `query`, `save`, `delete`, or `observe`), DataStore will reevaluate the `syncExpressions`.
@@ -79,21 +80,17 @@ When applying a more restrictive filter, clear the local records first by runnin
 ```swift
 func changeSync() {
     rating = 8
-    Amplify.DataStore.clear { (result) in
-        switch(result) {
-        case .success:
-            Amplify.DataStore.start { (result) in
-                switch(result) {
-                case .success:
-                    print("DataStore started")
-                case .failure(let error):
-                    print("Error starting DataStore:\(error)")
-                }
-            }
-        case .failure(let error):
-            print("Error clearing DataStore:\(error)")
-        }
-    }    
+    do {
+        try await Amplify.DataStore.stop()
+        print("DataStore stopped")
+        try await Amplify.DataStore.start()
+        print("DataStore started")
+    } catch let error as DataStoreError {
+        print("Failed with error \(error)")
+    } catch {
+        print("Unexpected error \(error)")
+    }
+}
 ```
 
 This will clear the contents of your local store, reevaluate your sync expressions and re-sync the data from the cloud, applying all of the specified predicates to the sync queries.
@@ -110,9 +107,15 @@ func initialize() {
         }
         return Post.keys.rating.gt(rating)
     }
-    try Amplify.add(plugin: AWSDataStorePlugin(modelRegistration: AmplifyModels(),
-                                               configuration: .custom(
-                                                syncExpressions: [syncExpr])))
+    do {
+        try Amplify.add(plugin: AWSDataStorePlugin(
+            modelRegistration: AmplifyModels(),
+            configuration: .custom(syncExpressions: [syncExpr])
+        ))
+    } catch {
+        print("Failed to initialize Amplify with \(error)")
+    }
+}
 ```
 
 <Callout warning>
@@ -140,7 +143,7 @@ To construct a query expression, return a predicate with the primary key of the 
 
 For the schema defined above `User.keys.lastName.eq("Doe")` is a valid query expression.
 
-Optionally, you can also chain the sort key to this expression, using any of the following operators: `eq | ne | le | lt | ge | gt | beginsWith | between`. 
+Optionally, you can also chain the sort key to this expression, using any of the following operators: `eq | ne | le | lt | ge | gt | beginsWith | between`.
 
 E.g., `User.keys.lastName.eq("Doe").and(User.keys.createdAt.gt("2020-10-10")`.
 
@@ -150,13 +153,17 @@ Both of these sync expressions will result in AWS AppSync retrieving records fro
 let syncExpr = DataStoreSyncExpression.syncExpression(User.schema) {
     User.keys.lastName.eq("Doe")
 }
-try Amplify.add(plugin: AWSDataStorePlugin(modelRegistration: AmplifyModels(),
-                                           configuration: .custom(syncExpressions: [syncExpr])))
+try Amplify.add(plugin: AWSDataStorePlugin(
+    modelRegistration: AmplifyModels(),
+    configuration: .custom(syncExpressions: [syncExpr])
+))
 // OR
 
 let syncExpr = DataStoreSyncExpression.syncExpression(User.schema) {
     User.keys.lastName.eq("Doe").and(User.keys.createdAt.gt("2020-10-10"))
 }
-try Amplify.add(plugin: AWSDataStorePlugin(modelRegistration: AmplifyModels(),
-                                           configuration: .custom(syncExpressions: [syncExpr])))
+try Amplify.add(plugin: AWSDataStorePlugin(
+    modelRegistration: AmplifyModels(),
+    configuration: .custom(syncExpressions: [syncExpr])
+))
 ```

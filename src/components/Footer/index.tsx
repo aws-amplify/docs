@@ -15,17 +15,6 @@ export default function DocsFooter() {
             <a href="/start">Getting Started</a>
             <ExternalLink href={links.DISCORD}>Community Chat</ExternalLink>
           </div>
-          <div>
-            <h3>Community</h3>
-            <ExternalLink href={links.COMMUNITY_EVENTS}>Events</ExternalLink>
-            <ExternalLink href={links.COMMUNITY_POSTS}>Posts</ExternalLink>
-            <ExternalLink href={links.COMMUNITY_CONTRIBUTORS}>
-              Members
-            </ExternalLink>
-            <ExternalLink href={links.COMMUNITY_NEWSLETTERS}>
-              Newsletters
-            </ExternalLink>
-          </div>
         </LeftFooter>
         <RightFooter>
           <Social>

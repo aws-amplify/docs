@@ -1,0 +1,31 @@
+Sweet! You're now ready to launch sign in with web UI.
+
+```dart
+Future<void> signInWithWebUI() async {
+  try {
+    final result = await Amplify.Auth.signInWithWebUI();
+    print('Result: $result');
+  } on AuthException catch (e) {
+    print(e.message);
+  }
+}
+```
+
+You can also specify a provider with the `provider` attribute:
+
+```dart
+Future<void> signInWithWebUIProvider() async {
+  try {
+    final result = await Amplify.Auth.signInWithWebUI(provider:  AuthProvider.google);
+    print('Result: $result');
+  } on AuthException catch (e) {
+    print(e.message);
+  }
+}
+```
+
+Amplify Flutter currently supports the following social sign-in providers:
+  * Google
+  * Facebook
+  * Login With Amazon
+  * Apple
