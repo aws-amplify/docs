@@ -180,18 +180,18 @@ If the repository contains a `yarn.lock` and/or `package.json` file, the sample 
 ```javascript
 const shell = require('shelljs');
 const amplify = require('./amplify-headless-init-payload.json');
-
 const cmd =
-'amplify init --amplify "' +
-JSON.stringify(amplify.amplify).replaceAll('"', '\\"') +
-'" --frontend "' +
-JSON.stringify(amplify.frontend).replaceAll('"', '\\"') +
-'" --providers "' +
-JSON.stringify(amplify.providers).replaceAll('"', '\\"') +
-'" --yes';
+  'amplify init --amplify "' +
+  JSON.stringify(amplify.amplify).replaceAll('"', '\\"') +
+  '" --frontend "' +
+  JSON.stringify(amplify.frontend).replaceAll('"', '\\"') +
+  '" --providers "' +
+  JSON.stringify(amplify.providers).replaceAll('"', '\\"') +
+  '" --yes';
+  
 if (shell.exec(cmd).code !== 0) {
-shell.echo('Error amplify init');
-shell.exit(1);
+  shell.echo('Error amplify init');
+  shell.exit(1);
 }
 ```
 
