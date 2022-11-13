@@ -198,29 +198,30 @@ if (shell.exec(cmd).code !== 0) {
 amplify-headless-init-payload.json content
 ```json
 {
-"amplify": {
-"projectName": "headlessProjectName",
-"envName": "myenvname",
-"defaultEditor": "code"
-},
-"frontend": {
-"frontend": "javascript",
-"framework": "react",
-"config": {
-"SourceDir": "src",
-"DistributionDir": "build",
-"BuildCommand": "npm run-script build",
-"StartCommand": "npm run-script start"
+  "amplify": {
+    "projectName": "headlessProjectName",
+    "envName": "myenvname",
+    "defaultEditor": "code"
+  },
+  "frontend": {
+    "frontend": "javascript",
+    "framework": "react",
+    "config": {
+      "SourceDir": "src",
+      "DistributionDir": "build",
+      "BuildCommand": "npm run-script build",
+      "StartCommand": "npm run-script start"
+    }
+  },
+  "providers": {
+    "awscloudformation": {
+      "configLevel": "project",
+      "useProfile": false,
+      "profileName": "default"
+    }
+  }
 }
-},
-"providers": {
-"awscloudformation": {
-"configLevel": "project",
-"useProfile": false,
-"profileName": "default"
-}
-}
-}
+
 ```
 
 #### Sample bash script for Unix platform
