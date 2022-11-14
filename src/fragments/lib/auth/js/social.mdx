@@ -143,7 +143,7 @@ When using the federated OAuth flow with Cognito User Pools, the [device trackin
 
 ## Setup frontend
 
-After configuring the OAuth endpoints (Cognito Hosted UI), you can integrate your App by invoking `Auth.federatedSignIn()` function. Passing `LoginWithAmazon`, `Facebook`, `Google`, or `SignInWithApple` on the `provider` argument (e.g `Auth.federatedSignIn({ provider: 'LoginWithAmazon' })`), it will bypass the Hosted UI and federate immediately with the social provider as shown in the below React example. If you are looking to add a custom state, you are able to do so by passing a string (e.g. `Auth.federatedSignIn({ customState: 'xyz' })`) value and listening for the custom state via Hub.
+After configuring the OAuth endpoints (Cognito Hosted UI), you can integrate your App by invoking `Auth.federatedSignIn()` function. Passing `LoginWithAmazon`, `Facebook`, `Google`, or `SignInWithApple` on the `provider` argument (e.g `Auth.federatedSignIn({ provider: 'LoginWithAmazon' })`) will bypass the Hosted UI and federate immediately with the social provider as shown in the below React example. If you are looking to add a custom state, you are able to do so by passing a string (e.g. `Auth.federatedSignIn({ customState: 'xyz' })`) value and listening for the custom state via Hub.
 
 ```javascript
 import React, { useEffect, useState } from 'react';
@@ -183,7 +183,8 @@ function App() {
       <button onClick={() => Auth.federatedSignIn({provider: CognitoHostedUIIdentityProvider.Facebook })}>Open Facebook</button>
       <button onClick={() => Auth.federatedSignIn({provider: CognitoHostedUIIdentityProvider.Google })}>Open Google</button>
       <button onClick={() => Auth.federatedSignIn()}>Open Hosted UI</button>
-      <button onClick={() => Auth.signOut()}>Sign Out {user.getUsername()}</button>
+      <button onClick={() => Auth.signOut()}>Sign Out</button>
+      <div>{user && user.getUsername()}</div>
     </div>
   );
 }
