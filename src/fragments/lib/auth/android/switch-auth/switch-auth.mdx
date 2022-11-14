@@ -2,15 +2,15 @@
 
 For client side authentication there are four different flows that can be configured during runtime:
 
-1. `userSRP`: The `userSRP` flow uses the <a href="https://en.wikipedia.org/wiki/Secure_Remote_Password_protocol" target="_blank">SRP protocol (Secure Remote Password)</a> where the password never leaves the client and is unknown to the server. This is the recommended flow and is used by default.
+1. `USER_SRP_AUTH`: The `USER_SRP_AUTH` flow uses the <a href="https://en.wikipedia.org/wiki/Secure_Remote_Password_protocol" target="_blank">SRP protocol (Secure Remote Password)</a> where the password never leaves the client and is unknown to the server. This is the recommended flow and is used by default.
 
-2. `userPassword`: The `userPassword` flow will send user credentials unencrypted to the back-end. If you want to migrate users to Cognito using the "Migration" trigger and avoid forcing users to reset their passwords, you will need to use this authentication type because the Lambda function invoked by the trigger needs to verify the supplied credentials.
+2. `USER_PASSWORD_AUTH`: The `USER_PASSWORD_AUTH` flow will send user credentials unencrypted to the back-end. If you want to migrate users to Cognito using the "Migration" trigger and avoid forcing users to reset their passwords, you will need to use this authentication type because the Lambda function invoked by the trigger needs to verify the supplied credentials.
 
-3. `customWithSRP`: The `customWithSRP` flow is used to start with SRP authentication and then switch to custom authentication. This is useful if you want to use SRP for the initial authentication and then use custom authentication for subsequent authentication attempts.
+3. `CUSTOM_AUTH_WITH_SRP`: The `CUSTOM_AUTH_WITH_SRP` flow is used to start with SRP authentication and then switch to custom authentication. This is useful if you want to use SRP for the initial authentication and then use custom authentication for subsequent authentication attempts.
 
-4. `customWithoutSRP`: The `customWithoutSRP` flow is used to start authentication flow **WITHOUT** SRP and then use a series of challenge and response cycles that can be customized to meet different requirements.
+4. `CUSTOM_AUTH_WITHOUT_SRP`: The `CUSTOM_AUTH_WITHOUT_SRP` flow is used to start authentication flow **WITHOUT** SRP and then use a series of challenge and response cycles that can be customized to meet different requirements.
 
-`Auth` can be configured to use the different flows at runtime by calling `signIn` with `AuthSignInOptions`'s `authFlowType` as `AuthFlowType.userPassword`, `AuthFlowType.customAuthWithoutSrp` or `AuthFlowType.customAuthWithSrp`. If you do not specify the `AuthFlowType` in `AuthSignInOptions`, the default flow (`AuthFlowType.userSRP`) will be used.
+`Auth` can be configured to use the different flows at runtime by calling `signIn` with `AWSCognitoAuthSignInOptions`'s `authFlowType` as `AuthFlowType.USER_PASSWORD_AUTH`, `AuthFlowType.CUSTOM_AUTH_WITHOUT_SRP` or `AuthFlowType.CUSTOM_AUTH_WITH_SRP`. If you do not specify the `AuthFlowType` in `AWSCognitoAuthSignInOptions`, the default flow (`AuthFlowType.USER_SRP_AUTH`) will be used.
 
 <Callout>
 
@@ -83,7 +83,7 @@ Amazon Cognito User Pools supports customizing the authentication flow to enable
 
 To define your challenges for custom authentication flow, you need to implement three Lambda triggers for Amazon Cognito.
 
-The flow is initiated by calling `signIn` with `AuthSignInOptions` configured with `AuthFlowType.customAuthWithSrp` OR `AuthFlowType.customAuthWithoutSrp`.
+The flow is initiated by calling `signIn` with `AWSCognitoAuthSignInOptions` configured with `AuthFlowType.CUSTOM_AUTH_WITH_SRP` OR `AuthFlowType.CUSTOM_AUTH_WITHOUT_SRP`.
 
 Follow the instructions in [Custom Auth Sign In](/lib/auth/signin_with_custom_flow) to learn about how to integrate custom authentication flow in your application with the Auth APIs.
 
