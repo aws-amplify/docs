@@ -12,7 +12,7 @@ function App() {
      * This keeps `todo` fresh.
      */
     const sub = DataStore.observeQuery(Post, (c) =>
-      c.id("eq", "e4dd1dc5-e85c-4566-8aaa-54a801396456")
+      c.id.eq("e4dd1dc5-e85c-4566-8aaa-54a801396456")
     ).subscribe(({ items }) => {
       setPost(items[0]);
     });
