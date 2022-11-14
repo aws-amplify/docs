@@ -1,13 +1,13 @@
 Your code can respond with additional behavior to your users interacting with in-app messages by adding interaction event listeners.
 
 <Callout informational>
-  If you are using TypeScript for your development, you can import and use
-  the InAppMessageInteractionEvent enum.
+  If you are using TypeScript for your development, you can import and use the
+  InAppMessageInteractionEvent enum.
 </Callout>
 
 ## Message received
 
-Add `onMessageReceived` listeners to respond to an in-app message being received from the library as the result of an event matching the criteria of a synced in-app message. This is required if you are implementing a custom UI.
+Add `onMessageReceived` listeners to respond to an in-app message being received from the library as the result of an event matching the criteria of a synced in-app message. This is required if you are implementing a custom UI, or if you want to add special handling when an event matches a criteria of a set campaign.
 
 ```js
 const myMessageReceivedHandler = (message) => {
@@ -21,7 +21,7 @@ listener.remove(); // Remember to remove the listener when it is no longer neede
 
 ## Message displayed
 
-Add `onMessageDisplayed` listeners to respond to an in-app message being displayed to your user.
+Add `onMessageDisplayed` listeners to respond to an in-app message being displayed to your user. This is optional to be wired while building a UI components since it sends analytics events back to Amazon Pinpoint for reporting purposes.
 
 ```js
 const myMessageDisplayedHandler = (message) => {
@@ -35,7 +35,7 @@ listener.remove(); // Remember to remove the listener when it is no longer neede
 
 ## Message dismissed
 
-Add `onMessageDismissed` listeners to respond to an in-app message being dismissed by your user.
+Add `onMessageDismissed` listeners to respond to an in-app message being dismissed by your user. This is optional to be wired while building a UI components since it sends analytics events back to Amazon Pinpoint for reporting purposes.
 
 ```js
 const myMessageDismissedHandler = (message) => {
@@ -49,7 +49,7 @@ listener.remove(); // Remember to remove the listener when it is no longer neede
 
 ## Message action taken
 
-Add `onMessageActionTaken` listeners to respond to an action being taken on an in-app message. Typically, this means that the user has tapped or clicked a button on an in-app message.
+Add `onMessageActionTaken` listeners to respond to an action being taken on an in-app message. Typically, this means that the user has tapped or clicked a button on an in-app message. This is optional to be wired while building a UI components since it sends analytics events back to Amazon Pinpoint for reporting purposes.
 
 ```js
 const myMessageActionTakenHandler = (message) => {
