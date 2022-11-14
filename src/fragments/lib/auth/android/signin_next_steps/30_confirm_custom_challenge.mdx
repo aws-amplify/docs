@@ -1,0 +1,34 @@
+If the next step is `CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE`, Amplify Auth is awaiting completion of a custom authentication challenge. The challenge is based on the Lambda trigger you setup when you configured a [custom sign in flow](/lib/auth/signin_with_custom_flow). To complete this step, you should prompt the user for the custom challenge answer, and pass the answer to the `confirmSignIn` API.
+
+<BlockSwitcher>
+
+<Block name="Kotlin">
+
+```kotlin
+Amplify.Auth.confirmSignIn(
+          "challenge answer",
+          { result ->
+              Log.i(
+                  TAG,
+                  if (result.isSignedIn) {
+                      "Confirm signIn succeeded"
+                  }
+                  else {
+                      "Confirm sign in not complete. There might be additional steps: ${result.nextStep}"
+                      // Switch on the next step to take appropriate actions.
+                      // If `signInResult.isSignedIn` is true, the next step
+                      // is 'done', and the user is now signed in.
+                  }
+              )
+          }
+      ) { error ->
+          Log.e(TAG, "Confirm sign in failed: $error")
+      }
+  } catch (error: Exception) {
+      Log.e(TAG, "Unexpected error: $error")
+  }
+```
+
+</Block>
+
+</BlockSwitcher>
