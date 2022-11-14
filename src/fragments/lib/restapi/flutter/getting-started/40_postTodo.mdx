@@ -5,7 +5,7 @@
   ```dart
   import 'dart:typed_data';
 
-  Future<void> onTestApi() async {
+  Future<void> postTodo() async {
     try {
       final options = RestOptions(
           path: '/todo',
@@ -28,7 +28,7 @@
 <Block name = "Developer Preview (Mobile, Web & Desktop)">
 
   ```dart
-  Future<void> onTestApi() async {
+  Future<void> postTodo() async {
     try {
       final restOperation = Amplify.API.post(
         'todo',
