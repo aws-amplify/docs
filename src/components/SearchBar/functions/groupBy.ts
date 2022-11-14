@@ -1,6 +1,7 @@
 import { BaseItem } from '@algolia/autocomplete-core';
 import { AutocompleteSource } from '@algolia/autocomplete-js';
 import { flatten } from '@algolia/autocomplete-shared';
+import { NextRouter } from 'next/router';
 
 import { AutocompleteReshapeFunction } from './AutocompleteReshapeFunction';
 import { normalizeReshapeSources } from './normalizeReshapeSources';
@@ -17,7 +18,8 @@ export const groupBy: AutocompleteReshapeFunction = <
   TSource extends AutocompleteSource<TItem> = AutocompleteSource<TItem>
 >(
   predicate: (value: TItem) => string,
-  options: GroupByOptions<TItem, TSource>
+  options: GroupByOptions<TItem, TSource>,
+  router: NextRouter
 ) => {
   return function runGroupBy(...rawSources) {
     const sources = normalizeReshapeSources(rawSources);
@@ -28,6 +30,10 @@ export const groupBy: AutocompleteReshapeFunction = <
 
     // Since we create multiple sources from a single one, we take the first one
     // as reference to create the new sources from.
+    let platform;
+    if ('platform' in router.query) {
+      platform = router.query.platform as string;
+    }
     const referenceSource = sources[0];
     const items = flatten(sources.map((source) => source.getItems()));
     const groupedItems = items.reduce<Record<string, TItem[]>>((acc, item) => {
@@ -37,7 +43,15 @@ export const groupBy: AutocompleteReshapeFunction = <
         acc[key] = [];
       }
 
-      acc[key].push(item as TItem);
+      if (platform && item.slug && item.slug.includes('/platform/')) {
+        const regex = /\/platform\/([^(\?\/\#)]*)/;
+        const slugPlatform = regex.exec(item.slug)[1];
+        if (!slugPlatform || item.slug.includes(`/platform/${platform}`)) {
+          acc[key].push(item as TItem);
+        }
+      } else {
+        acc[key].push(item as TItem);
+      }
 
       return acc;
     }, {});
