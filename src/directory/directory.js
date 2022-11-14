@@ -281,7 +281,7 @@ const directory = {
           {
             title: 'Switching authentication flows',
             route: '/lib/auth/switch-auth',
-            filters: ['ios']
+            filters: ['ios', 'android']
           },
           {
             title: 'Sign in with custom flow',
