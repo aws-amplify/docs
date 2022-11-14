@@ -920,6 +920,7 @@
     "oauth",
     "OAuth",
     "OAuth2.0",
+    "omitted",
     "oauth2",
     "OBJC",
     "OBJECT_KEY",
@@ -1484,10 +1485,5 @@
     "Libre's",
     "Pinia"
   ],
-  "flagWords": [
-    "hte", 
-    "full-stack", 
-    "Full-stack", 
-    "Full-Stack"
-  ]
+  "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack"]
 }
