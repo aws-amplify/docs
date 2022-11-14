@@ -12,45 +12,6 @@ For client side authentication there are four different flows that can be config
 
 `Auth` can be configured to use the different flows at runtime by calling `signIn` with `AuthSignInOptions`'s `authFlowType` as `AuthFlowType.userPassword`, `AuthFlowType.customAuthWithoutSrp` or `AuthFlowType.customAuthWithSrp`. If you do not specify the `AuthFlowType` in `AuthSignInOptions`, the default flow (`AuthFlowType.userSRP`) will be used.
 
-```kotlin
-/**
- * Enum to represent AuthFlowType in AWS SDK.
- */
-
-public enum AuthFlowType {
-    /**
-     * type for USER_SRP_AUTH.
-     */
-    USER_SRP_AUTH("USER_SRP_AUTH"),
-    /**
-     * type for CUSTOM_AUTH.
-     *
-     * @deprecated Replaced by AuthFlowType.CUSTOM_AUTH_WITHOUT_SRP
-     */
-    @Deprecated
-    CUSTOM_AUTH("CUSTOM_AUTH"),
-
-    /**
-     * type for CUSTOM_AUTH THAT STARTS WITH SRP.
-     */
-    CUSTOM_AUTH_WITH_SRP("CUSTOM_AUTH_WITH_SRP"),
-
-    /**
-     * type for CUSTOM_AUTH.
-     */
-    CUSTOM_AUTH_WITHOUT_SRP("CUSTOM_AUTH_WITHOUT_SRP"),
-    /**
-     * type for USER_PASSWORD_AUTH.
-     */
-    USER_PASSWORD_AUTH("USER_PASSWORD_AUTH");
-    private String value;
-
-    AuthFlowType(String value) {
-        this.value = value;
-    }
-}
-```
-
 <Callout>
 
 Runtime configuration will take precedence and will override any auth flow type configuration present in amplifyconfiguration.json
@@ -105,6 +66,7 @@ AWSCognitoAuthSignInOptions.builder()
 ```
 </Block>
 </BlockSwitcher>
+
 ### Setup auth backend
 
 In order to use the authentication flow `USER_PASSWORD_AUTH`, your Cognito app client has to be configured to allow it. In the AWS Console, this is done by ticking the checkbox at General settings > App clients > Show Details (for the affected client) > Enable username-password (non-SRP) flow. If you're using the AWS CLI or CloudFormation, update your app client by adding `USER_PASSWORD_AUTH` to the list of "Explicit Auth Flows".
