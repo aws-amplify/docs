@@ -306,7 +306,7 @@ const directory = {
           {
             title: 'Sign in next steps',
             route: '/lib/auth/signin_next_steps',
-            filters: ['ios']
+            filters: ['ios', 'android']
           },
           {
             title: 'Guest access',
