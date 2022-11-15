@@ -137,7 +137,7 @@ Future<void> getDownloadUrl() async {
 
 <Block name = "Developer Preview (Mobile, Web & Desktop)">
 
-In addition to the existing functionality of the `Amplify.Storage.getUrl`, it supports checking file existence now with given file key and access level. If the file doesn't exist or cannot be accessed it throws exception.
+In addition to the existing functionality of the `Amplify.Storage.getUrl`, it now supports checking file existence with given file key and access level. If the file doesn't exist or cannot be accessed it throws a `StorageException`.
 
 ```dart
 Future<String> getDownloadUrl({
