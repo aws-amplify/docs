@@ -814,7 +814,7 @@ const directory = {
           {
             title: 'Uninstalling the app',
             route: '/lib/info/app-uninstall',
-            filters: ['ios']
+            filters: ['android', 'ios']
           }
         ]
       },
