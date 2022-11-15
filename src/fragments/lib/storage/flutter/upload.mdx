@@ -18,8 +18,8 @@ import flutter0 from "/src/fragments/lib/storage/flutter/upload/upload-create-fi
 
 ```dart
 import 'dart:io' as io;
-import 'package:amplify_core/src/io/aws_file_platform_io.dart';
 import 'package:amplify_storage_s3_dart/amplify_storage_s3_dart.dart';
+import 'package:aws_common/vm.dart';
 
 Future<void> uploadIOFile(io.File file) async {
   final awsFile = AWSFilePlatform.fromFile(file);
@@ -42,8 +42,8 @@ Future<void> uploadIOFile(io.File file) async {
 
 ```dart
 import 'dart:html' as html;
-import 'package:amplify_core/src/io/aws_file_platform_html.dart';
 import 'package:amplify_storage_s3_dart/amplify_storage_s3_dart.dart';
+import 'package:aws_common/web.dart';
 
 Future<void> uploadHtmlFile(html.File file) async {
   final awsFile = AWSFilePlatform.fromFile(file);
