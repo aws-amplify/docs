@@ -7,10 +7,13 @@ import android0 from "/src/fragments/lib/android-escape-hatch-warning.mdx";
 Note: If you provisioned your Geo resources via Amplify CLI, then the IAM policy will be specifically scoped to only allow actions required by the library.
 Please [adjust your authorization permissions](/lib/geo/existing-resources) accordingly for your escape hatch use-cases.
 
+import android1 from "/src/fragments/lib/android-kotlin-java-interop.mdx";
+
 <BlockSwitcher>
+
 <Block name="Java">
 
-Learn more about consuming Kotlin clients from Java using either a blocking interface or an equivalent async interface based on futures [here](https://github.com/awslabs/smithy-kotlin/blob/main/docs/design/kotlin-smithy-sdk.md#java-interop).
+<Fragments fragments={{android: android1}} />
 
 ```java
 import android.util.Log;
