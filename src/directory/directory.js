@@ -41,7 +41,7 @@ const directory = {
           {
             title: 'Upgrade guide',
             route: '/lib/project-setup/upgrade-guide',
-            filters: ['ios']
+            filters: ['android', 'ios']
           },
           {
             title: 'Async Programming Model',
