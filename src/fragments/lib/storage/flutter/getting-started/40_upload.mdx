@@ -26,8 +26,8 @@ Future<void> uploadExampleData() async {
       },
     ).result;
 
-    safePrint('Uploaded data: ${result.uploadedItem.key}');
-  } on S3Exception catch (e) {
+    safePrint('Uploaded data to location: ${result.uploadedItem.key}');
+  } on StorageException catch (e) {
     safePrint(e.message);
   }
 }

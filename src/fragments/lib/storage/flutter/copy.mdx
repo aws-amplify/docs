@@ -22,7 +22,7 @@ Future<void> copyGustFileToPrivate({
     ).result;
 
     safePrint('Copied file: ${result.copiedItem.key}');
-  } on S3Exception catch (e) {
+  } on StorageException catch (e) {
     safePrint(e.message);
   }
 }

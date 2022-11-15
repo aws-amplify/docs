@@ -15,7 +15,7 @@ Future<void> retrieveProperties() async {
     ).result;
 
     safePrint('file size: ${result.storageItem.size}');
-  } on S3Exception catch (e) {
+  } on StorageException catch (e) {
     safePrint(e.message);
   }
 }

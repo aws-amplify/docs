@@ -60,7 +60,7 @@ Future<void> downloadToLocalFile(String key) async {
     ).result;
 
     safePrint('Downloaded file is located at: ${result.localFile.path}');
-  } on S3Exception catch (e) {
+  } on StorageException catch (e) {
     safePrint(e.message);
   }
 }
@@ -81,7 +81,7 @@ Future<void> downloadToLocalFileOnWeb(String key) async {
     ).result;
 
     safePrint('Downloaded file: ${result.downloadedItem.key}');
-  } on S3Exception catch (e) {
+  } on StorageException catch (e) {
     safePrint(e.message);
   }
 }
@@ -106,7 +106,7 @@ Future<void> downloadToMemory(String key) async {
     ).result;
 
     safePrint('Downloaded data: ${result.bytes}');
-  } on S3Exception catch (e) {
+  } on StorageException catch (e) {
     safePrint(e.message);
   }
 }
@@ -148,12 +148,13 @@ Future<String> getDownloadUrl({
     final result = await Amplify.Storage.getUrl(
       key: key,
       options: const S3GetUrlOptions(
+        accessLevel: accessLevel,
         checkObjectExistence: true,
         expiresIn: Duration(days: 1),
       ),
     ).result;
     return result.url.toString();
-  } on S3Exception catch (e) {
+  } on StorageException catch (e) {
     safePrint(e.message);
     rethrow;
   }

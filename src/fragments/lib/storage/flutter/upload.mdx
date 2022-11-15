@@ -29,7 +29,7 @@ Future<void> uploadIOFile(io.File file) async {
       key: 'upload/file.png',
     ).result;
     safePrint('Uploaded file: ${uploadResult.uploadedItem.key}');
-  } on S3Exception catch (e) {
+  } on StorageException catch (e) {
     safePrint(e.message);
     rethrow;
   }
@@ -53,7 +53,7 @@ Future<void> uploadHtmlFile(html.File file) async {
       key: 'upload/file.png',
     ).result;
     safePrint('Uploaded file: ${uploadResult.uploadedItem.key}');
-  } on S3Exception catch (e) {
+  } on StorageException catch (e) {
     safePrint(e.message);
     rethrow;
   }
@@ -265,7 +265,7 @@ Future<void> uploadStringData({
     ).result;
 
     safePrint('Uploaded data: ${result.uploadedItem.key}');
-  } on S3Exception catch (e) {
+  } on StorageException catch (e) {
     safePrint(e.message);
   }
 }
@@ -277,20 +277,17 @@ Future<void> uploadStringData({
 
 ```dart
 Future<void> uploadJsonObject({
-  required Map<String, Object> json,
+  required Map<String, Object?> json,
   required String key,
 }) async {
   try {
     final result = await Amplify.Storage.uploadData(
-      data: S3DataPayload.json(
-        json,
-        contentType: 'text/plain',
-      ),
+      data: S3DataPayload.json(json),
       key: key,
     ).result;
 
     safePrint('Uploaded data: ${result.uploadedItem.key}');
-  } on S3Exception catch (e) {
+  } on StorageException catch (e) {
     safePrint(e.message);
   }
 }
@@ -298,7 +295,7 @@ Future<void> uploadJsonObject({
 
 </Block>
 
-<Block name="Data Url">
+<Block name="Data URL">
 
 ```dart
 // `S3DataPayload.dataUrl()` throws exception on invalid data url string,
@@ -314,7 +311,7 @@ Future<void> uploadDataUrl({
     ).result;
 
     safePrint('Uploaded data: ${result.uploadedItem.key}');
-  } on S3Exception catch (e) {
+  } on StorageException catch (e) {
     safePrint(e.message);
   }
 }
@@ -340,7 +337,7 @@ Future<void> uploadBytes({
     ).result;
 
     safePrint('Uploaded data: ${result.uploadedItem.key}');
-  } on S3Exception catch (e) {
+  } on StorageException catch (e) {
     safePrint(e.message);
   }
 }
@@ -374,6 +371,7 @@ Amplify.Storage.uploadFile(
 <Block name = "Developer Preview (Mobile, Web & Desktop)">
 
 ```dart
+// When uploading data, use `S3UploadDataOptions`
 Amplify.Storage.uploadData(
   data: S3DataPayload.string(
     'example',
@@ -387,6 +385,7 @@ Amplify.Storage.uploadData(
   ),
 );
 
+// When uploading a file, use `S3UploadFIleOptions`
 Amplify.Storage.uploadFile(
   data: S3DataPayload.string(
     'example',
@@ -415,13 +414,13 @@ In S3 console, you should see the metadata attached to your file. You can learn 
 
 ## Cancel, Pause and Resume Upload Operation (Developer Preview)
 
-Calls to `Amplify.Storage.uploadFile` return a reference to the operation that is actually performing the upload.
+Calls to `Amplify.Storage.uploadFile` return a reference to the operation that is performing the upload.
 
-To cancel the upload (for example, in response to the user pressing a Cancel button), you simply call cancel() on the upload operation.
+To cancel the upload (for example, in response to the user pressing a Cancel button), you simply call `.cancel()` on the returned upload operation.
 
 <Callout>
 
-The operation control APIs are only available on `S3UploadOperation` in developer preview. A `S3UploadOperation` is able to be paused and resumable when uploading a file that is larger than 5MB.
+The operation control APIs are only available on `S3UploadOperation` in developer preview. A `S3UploadOperation` is able to be paused and resumed when uploading a file that is larger than 5MB.
 
 </Callout>
 
@@ -437,7 +436,7 @@ Future<void> uploadFile(String path) {
 
     final result = await uploadOperation!.result;
     safePrint('Uploaded ${result.uploadedItem.key');
-  } on S3Exception catch(e) {
+  } on StorageException catch(e) {
     safePrint(e.message);
   }
 }
@@ -447,6 +446,6 @@ void cancelUpload {
 }
 ```
 
-## MultiPart upload
+## Multipart upload
 
-Amplify will automatically perform a S3 multipart upload for files that are larger than 5MB. For more information about S3's multipart upload, see [Uploading and copying objects using multipart upload](https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html).
+Amplify will automatically perform a S3 multipart upload for files larger than 5MB. For more information about S3's multipart upload support, see [Uploading and copying objects using multipart upload](https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html).

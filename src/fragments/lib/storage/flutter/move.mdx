@@ -2,7 +2,7 @@ import flutter0 from "/src/fragments/lib/storage/flutter/dev-preview-api-callout
 
 <Fragments fragments={{flutter: flutter0}} />
 
-You can move an existing file to a different location. This requires the user who initiates the move operation to have write permission on the move source file.
+You can move an existing file to a different location. This requires the user who initiates the move operation to have read and write permission on the source file.
 
 ```dart
 Future<void> movePrivateFile({
@@ -22,7 +22,7 @@ Future<void> movePrivateFile({
     ).result;
 
     safePrint('Moved file: ${result.copiedItem.key}');
-  } on S3Exception catch (e) {
+  } on StorageException catch (e) {
     safePrint(e.message);
   }
 }
