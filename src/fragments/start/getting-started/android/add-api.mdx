@@ -39,7 +39,7 @@ Answering `Yes` will generate an `API.java` file which is only necessary when di
 
 ## Enable cloud syncing
 
-In order to enable cloud syncing you need to **configure your application to use the Amplify API category**.
+In order to enable cloud syncing, you need to **configure your application to use the Amplify API category**.
 
 Open the `MyAmplifyApp` file and **add the following** import statement:
 
@@ -55,13 +55,13 @@ import com.amplifyframework.api.aws.AWSApiPlugin;
 <Block name="Kotlin">
 
 ```kotlin
-import com.amplifyframework.api.aws.AWSApiPlugin;
+import com.amplifyframework.api.aws.AWSApiPlugin
 ```
 
 </Block>
 </BlockSwitcher>
 
-Then **update the `onCreate()` function** to call `Amplify.addPlugin()` with a reference to an `AWSAPIPlugin()` instance:
+Then **update the `onCreate()` function** to call `Amplify.addPlugin()` with a reference to an `AWSApiPlugin()` instance:
 
 <BlockSwitcher>
 <Block name="Java">
@@ -93,7 +93,6 @@ override fun onCreate() {
         Amplify.addPlugin(AWSApiPlugin())
         Amplify.addPlugin(AWSDataStorePlugin())
         Amplify.configure(applicationContext)
-
         Log.i("MyAmplifyApp", "Initialized Amplify")
     } catch (error: AmplifyException) {
         Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
@@ -146,13 +145,13 @@ Amplify.DataStore.observe(Todo::class.java,
 </Block>
 </BlockSwitcher>
 
-2. **Build and run** the application. In the logcat, you will see that we are making a websocket connection to receive updates any time there is a mutation to the Todo model.
+2. **Build and run** the application. In the logcat, you will see that we are making a web socket connection to receive updates any time there is a mutation to the Todo model.
 
-Since this is the first time you are connecting to API, DataStore will sync any mutations that were previously made offline. If you have been following the guide, there should be one mutation that is synchronized to the backend that has a name of "Build iOS Application".
+Since this is the first time you are connecting to API, DataStore will sync any mutations that were previously made offline. If you have been following the guide, there should be one mutation that is synchronized to the backend that has a name of "Build Android application".
 
 ## Query for mutations using the console
 
-In this section we will make a mutation using the app sync console and have our app receive that mutation over the websocket subscription.
+In this section, we will make a mutation using the AppSync console and have our app receive that mutation over the web socket subscription.
 
 1. Open a terminal window in your project's directory. **Run the command:**
   ```bash
