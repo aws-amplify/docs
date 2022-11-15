@@ -97,3 +97,6 @@ import flutter11 from "/src/fragments/lib/auth/flutter/device_features/30_fetchD
   * A not-remembered device is a tracked device where Cognito has been configured to require users to "Opt-in" to remember a device, but the user has not opt-ed in to having the device remembered.  This use case is used for users signing into their application from a device that they don't own.
 * **Forgotten**
   * In the event that you no longer want to remember or track a device, you can use the `Auth.forgetDevice()` API to remove this device from being both remembered and tracked.
+
+## Known Limitations
+When using the federated OAuth flow with Cognito User Pools, the [device tracking and remembering](https://aws.amazon.com/blogs/mobile/tracking-and-remembering-devices-using-amazon-cognito-your-user-pools/) features are currently not available within the library. If you are looking for this feature within the library, please open a feature request [here](https://github.com/aws-amplify/amplify-js/issues/new?assignees=&labels=feature-request&template=feature_request.md&title=) and provide upvotes in order for us to take this into consideration for the future of the library.

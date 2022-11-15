@@ -27,11 +27,11 @@ Choose the following options:
 ? What domain name prefix you want us to create for you? 
     `(default)`
 ? Enter your redirect signin URI: 
-    `exp://127.0.0.1:19000/--/`
+    `myapp://`
 ? Do you want to add another redirect signin URI 
     `No`
 ? Enter your redirect signout URI: 
-    `exp://127.0.0.1:19000/--/`
+    `myapp://`
 ? Do you want to add another redirect signout URI 
     `No`
 ? Select the social providers you want to configure for your user pool: 
@@ -40,12 +40,12 @@ Choose the following options:
 
 ** Redirect URIs**
 
-For *Sign in Redirect URI(s)* inputs, you can put one URI for local development and one for production. Example: `exp://127.0.0.1:19000/--/` in dev and `myapp://` in production. The same is true for *Sign out redirect URI(s)*.
+For *Sign in Redirect URI(s)* inputs, you can put one URI for local development and one for production. For example, in Expo: `exp://127.0.0.1:19000/--/` in dev and `myapp://` in production. The same is true for *Sign out redirect URI(s)*.
 
 **Note:** if you have multiple redirect URI inputs, you'll need to handle both of them where you configure your Amplify project. For example:
 
 ```javascript
-import awsConfig from './aws-exports';
+import awsConfig from "./aws-exports";
 
 const isLocalhost = Boolean(__DEV__);
 
@@ -128,20 +128,15 @@ import all1 from "/src/fragments/lib/auth/common/social_signin_web_ui/configure_
 
 <Fragments fragments={{all: all1}} />
 
-### Known Limitations
-When using the federated OAuth flow with Cognito User Pools, the [device tracking and remembering](https://aws.amazon.com/blogs/mobile/tracking-and-remembering-devices-using-amazon-cognito-your-user-pools/) features are currently not available within the library. If you are looking for this feature within the library, please open a feature request [here](https://github.com/aws-amplify/amplify-js/issues/new?assignees=&labels=feature-request&template=feature_request.md&title=) and provide upvotes in order for us to take this into consideration for the future of the library.
-
 ## Setup frontend
 
-After configuring the OAuth endpoints (Cognito Hosted UI), you can integrate your App by invoking `Auth.federatedSignIn()` function. Passing `LoginWithAmazon`, `Facebook`, `Google`, or `SignInWithApple` on the `provider` argument (e.g `Auth.federatedSignIn({ provider: 'LoginWithAmazon' })`) will bypass the Hosted UI and federate immediately with the social provider as shown in the below React example. If you are looking to add a custom state, you are able to do so by passing a string (e.g. `Auth.federatedSignIn({ customState: 'xyz' })`) value and listening for the custom state via Hub.
+After configuring the OAuth endpoints (Cognito Hosted UI), you can integrate your App by invoking `Auth.federatedSignIn()` function. Passing `LoginWithAmazon`, `Facebook`, `Google`, or `SignInWithApple` on the `provider` argument (e.g `Auth.federatedSignIn({ provider: 'LoginWithAmazon' })`) will bypass the Hosted UI and federate immediately with the social provider as shown in the below React Native example. If you are looking to add a custom state, you are able to do so by passing a string (e.g. `Auth.federatedSignIn({ customState: 'xyz' })`) value and listening for the custom state via Hub.
 
 ```javascript
 import { useEffect, useState } from "react";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Linking, Button } from "react-native";
+import { Text, View, Linking, Button } from "react-native";
 
 import { Amplify, Auth, Hub } from "aws-amplify";
-import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth";
 import awsconfig from "./aws-exports";
 
 Amplify.configure(awsconfig);
@@ -171,40 +166,22 @@ export default function App() {
     return unsubscribe;
   }, []);
 
-	return (
-    <View style={styles.container}>
+  return (
+    <View>
       <Button
-        title="Open Facebook"
+        title="Open Amazon"
         onPress={() =>
           Auth.federatedSignIn({
-            provider: CognitoHostedUIIdentityProvider.Facebook,
-          })
-        }
-      />
-      <Button
-        title="Open Google"
-        onPress={() =>
-          Auth.federatedSignIn({
-            provider: CognitoHostedUIIdentityProvider.Google,
+            provider: "LoginWithAmazon",
           })
         }
       />
       <Button title="Open Hosted UI" onPress={() => Auth.federatedSignIn()} />
       <Button title="Sign Out" onPress={() => Auth.signOut()} />
-      {user && <Text>{user.getUsername()}</Text>}
-      <StatusBar style="auto" />
+      <Text>{user && user.getUsername()}</Text>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
 ```
 
 ### Deploying to Amplify Console
@@ -242,10 +219,12 @@ By default, Amplify will open the Cognito Hosted UI in Safari/Chrome, but you ca
 **Sample**
 
 ```js
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Linking, Text, View } from 'react-native';
-import { Amplify, Auth, Hub } from 'aws-amplify';
 import InAppBrowser from 'react-native-inappbrowser-reborn';
+
+import { Amplify, Auth, Hub } from 'aws-amplify';
+import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
 import awsconfig from './aws-exports';
 
 async function urlOpener(url, redirectUrl) {
@@ -305,7 +284,15 @@ function App() {
       {user ? (
         <Button title="Sign Out" onPress={() => Auth.signOut()} />
       ) : (
-        <Button title="Federated Sign In" onPress={() => Auth.federatedSignIn()} />
+        <>
+          {/* Go to the Cognito Hosted UI */}
+          <Button title="Cognito" onPress={() => Auth.federatedSignIn()} />
+
+          {/* Go directly to a configured identity provider */}
+          <Button title="Facebook" onPress={() => Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Facebook })} />
+          <Button title="Google" onPress={() => Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google })}  />
+          <Button title="Amazon" onPress={() => Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Amazon })} />
+        </>
       )}
     </View>
   );
@@ -403,6 +390,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+      <Button title="Open Hosted UI" onPress={() => Auth.federatedSignIn()} />
       <Button
         title="Open Facebook"
         onPress={() =>
@@ -419,9 +407,24 @@ export default function App() {
           })
         }
       />
-      <Button title="Open Hosted UI" onPress={() => Auth.federatedSignIn()} />
+      <Button
+        title="Open Amazon"
+        onPress={() =>
+          Auth.federatedSignIn({
+            provider: CognitoHostedUIIdentityProvider.Amazon,
+          })
+        }
+      />
+      <Button
+        title="Open Apple"
+        onPress={() =>
+          Auth.federatedSignIn({
+            provider: CognitoHostedUIIdentityProvider.Apple,
+          })
+        }
+      />
       <Button title="Sign Out" onPress={() => Auth.signOut()} />
-      {user && <Text>{user.getUsername()}</Text>}
+      <Text>{user && user.getUsername()}</Text>
       <StatusBar style="auto" />
     </View>
   );
