@@ -400,7 +400,7 @@ Amplify.Storage.uploadFile(
 );
 ```
 
-The `Amplify.Storage.getProperties` is available in developer preview allowing retrieve metadata without downloading the file.
+The [`Amplify.Storage.getProperties` API](/lib/storage/get-properties) is available in developer preview which allows you to retrieve metadata without downloading the file.
 
 </Block>
 
@@ -416,7 +416,7 @@ In S3 console, you should see the metadata attached to your file. You can learn 
 
 Calls to `Amplify.Storage.uploadFile` return a reference to the operation that is performing the upload.
 
-To cancel the upload (for example, in response to the user pressing a Cancel button), you simply call `.cancel()` on the returned upload operation.
+To cancel the upload (for example, in response to the user pressing a Cancel button), simply call `.cancel()` on the returned upload operation.
 
 <Callout>
 
@@ -443,6 +443,7 @@ Future<void> uploadFile(String path) {
 
 void cancelUpload {
   uploadOperation?.cancel();
+  uploadOperation = null;
 }
 ```
 
