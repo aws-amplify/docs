@@ -297,9 +297,9 @@ Future<void> uploadJsonObject({
 
 <Block name="Data URL">
 
+`S3DataPayload.dataUrl()` parses the provided data URL string, and throws exception if the data URL is invalid. See more info about [data URL](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URLs).
+
 ```dart
-// `S3DataPayload.dataUrl()` throws exception on invalid data url string,
-// and extracts `contentType` value from the data url string.
 Future<void> uploadDataUrl({
   required String dataUrl,
   required String key,
