@@ -10,9 +10,7 @@ If you receive `CONFIRM_SIGN_UP` as a next step, sign up could not proceed witho
           "username",
           "confirmation code",
           { result ->
-              Log.i(
-                  TAG,
-                  "Confirm signUp result completed: ${result.isSignUpComplete}"
+              Log.i(TAG, "Confirm signUp result completed: ${result.isSignUpComplete}"
               )
           }
       ) { error ->
