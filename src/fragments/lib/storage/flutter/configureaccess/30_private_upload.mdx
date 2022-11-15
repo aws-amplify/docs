@@ -14,7 +14,7 @@ Future<void> uploadProtected() async {
         options: uploadOptions,
         ...
     );
-    print('Successfully uploaded file: ${result.key}');
+    safePrint('Successfully uploaded file: ${result.key}');
   }...
 }
 ```

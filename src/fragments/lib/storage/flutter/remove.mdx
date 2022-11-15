@@ -1,12 +1,59 @@
-To delete an object uploaded to S3, use `Amplify.Storage.remove` and by specifying its key:
+## Remove a file
+
+Remove an file uploaded to S3 by using `Amplify.Storage.remove` and specify the key:
+
+<BlockSwitcher>
+
+<Block name="Remove a file (Stable (Mobile))">
 
 ```dart
-Future<void> deleteFile(String key) async {
+Future<void> removeFile(String key) async {
   try {
     final result = await Amplify.Storage.remove(key: key);
-    print('Deleted file: ${result.key}');
+    safePrint('Deleted file: ${result.key}');
   } on StorageException catch (e) {
-    print('Error deleting file: $e');
+    safePrint('Error deleting file: $e');
+  }
+}
+```
+
+</Block>
+
+<Block name="Remove a file (Developer Preview (Mobile, Web & Desktop))">
+
+```dart
+Future<void> removeFile(String key) async {
+  try {
+    final result = await Amplify.Storage.remove(
+      key: key,
+    ).result;
+    safePrint('Deleted file: ${result.key}');
+  } on StorageException catch (e) {
+    safePrint('Error deleting file: $e');
+  }
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+## Remove multiple files (Developer Preview)
+
+Delete multiple files uploaded to S3 by using `Amplify.Storage.removeMany` and specify the keys:
+
+```dart
+Future<void> removePrivateFiles(List<String> keys) async {
+  try {
+    final result = await Amplify.Storage.removeMany(
+      keys: keys,
+      options: const S3RemoveManyOptions(
+        accessLevel: StorageAccessLevel.private,
+      ),
+    ).result;
+    safePrint('Removed files: ${result.removedItems}');
+  } on S3Exception catch (e) {
+    safePrint(e.message);
   }
 }
 ```
