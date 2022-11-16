@@ -47,7 +47,7 @@ try {
     operation.setOnSuccess {  }
     operation.setOnError {  }
 } catch (error: StorageException) {
-    Log.e("MyAmplifyApp","Failed to query transfer",error)
+    Log.e("MyAmplifyApp", "Failed to query transfer", error)
 }
 ```
 
@@ -65,7 +65,7 @@ RxAmplify.Storage.getTransfer("TRANSFER_ID")
             operation.setOnError(error -> {});
 
         },
-        error -> Log.e("MyAmplifyApp","Failed to query transfer",error);
+        error -> Log.e("MyAmplifyApp", "Failed to query transfer", error);
     );
 ```
 

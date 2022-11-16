@@ -5,8 +5,8 @@
 ```java
 Amplify.Auth.confirmSignIn(
     "confirmation",
-    result -> Log.i("AuthQuickstart", result.toString()),
-    error -> Log.e("AuthQuickstart", error.toString())
+    result -> Log.i("AuthQuickstart", "Confirm sign in succeeded: " + result.toString()),
+    error -> Log.e("AuthQuickstart", "Failed to confirm sign in", error)
 );
 ```
 
@@ -16,8 +16,8 @@ Amplify.Auth.confirmSignIn(
 
 ```kotlin
 Amplify.Auth.confirmSignIn("confirmation",
-    { Log.i("AuthQuickstart", "Confirmed signin: $it") },
-    { Log.e("AuthQuickstart", "Failed to confirm signin", it) }
+    { Log.i("AuthQuickstart", "Confirmed sign in succeeded: $it") },
+    { Log.e("AuthQuickstart", "Failed to confirm sign in", it) }
 )
 ```
 
@@ -71,7 +71,7 @@ If your lambda is setup to start with `SRP` as the first step, make sure to init
 
 ```kotlin
 Amplify.Auth.signIn("username", "password",
-AWSCognitoAuthSignInOptions.builder()
+    AWSCognitoAuthSignInOptions.builder()
                             .authFlowType(AuthFlowType.CUSTOM_AUTH_WITH_SRP)
                             .build(),
     { result ->
@@ -89,7 +89,7 @@ AWSCognitoAuthSignInOptions.builder()
 
 Here is the sample for creating a CAPTCHA challenge with a Lambda Trigger.
 
-The `Create Auth Challenge Lambda Trigger` creates a CAPTCHA as a challenge to the user. The URL for the CAPTCHA image and  the expected answer is added to the private challenge parameters:
+The `Create Auth Challenge Lambda Trigger` creates a CAPTCHA as a challenge to the user. The URL for the CAPTCHA image and the expected answer are added to the private challenge parameters:
 
 ```javascript
 export const handler = async (event) => {

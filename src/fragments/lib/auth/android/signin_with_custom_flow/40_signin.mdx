@@ -5,7 +5,7 @@
 ```java
 Amplify.Auth.signIn(
     "username",
-    "password"
+    "password",
     AWSCognitoAuthSignInOptions.builder()
                             .authFlowType(AuthFlowType.CUSTOM_AUTH_WITHOUT_SRP)
                             .build(),
@@ -20,7 +20,7 @@ Amplify.Auth.signIn(
 
 ```kotlin
 Amplify.Auth.signIn("username", "password",
-AWSCognitoAuthSignInOptions.builder()
+    AWSCognitoAuthSignInOptions.builder()
                             .authFlowType(AuthFlowType.CUSTOM_AUTH_WITHOUT_SRP)
                             .build(),
     { result ->

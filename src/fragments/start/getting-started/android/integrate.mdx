@@ -23,7 +23,6 @@ Add the following import statements at the top of the file:
 import android.app.Application;
 import android.util.Log;
 import com.amplifyframework.AmplifyException;
-import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.AWSDataStorePlugin;
 ```
@@ -35,7 +34,7 @@ public void onCreate() {
     super.onCreate();
 
     try {
-        Amplify.addPlugin(AWSDataStorePlugin());
+        Amplify.addPlugin(new AWSDataStorePlugin());
         Amplify.configure(getApplicationContext());
         Log.i("Tutorial", "Initialized Amplify");
     } catch (AmplifyException error) {
@@ -88,7 +87,7 @@ override fun onCreate() {
 
 This overrides the `onCreate()` to initialize Amplify when your application is launched.
 
-Next, configure your application to use your new custom `Application` class. Open **manifests** > **AndroidManifest.xml**, and add a `android:name` attribute with the value of your new class name:
+Next, configure your application to use your new custom `Application` class. Open **manifests** > **AndroidManifest.xml**, and add an `android:name` attribute with the value of your new class name:
 
   ```xml
   <?xml version="1.0" encoding="utf-8"?>
@@ -109,7 +108,7 @@ Next, configure your application to use your new custom `Application` class. Ope
 com.example.MyAmplifyApp I/MyAmplifyApp: Initialized Amplify
 ```
 
-To make this easier to find, enter the string **Tutorial** into the search field
+To make this easier to find, enter the string **MyAmplifyApp** into the search field
 
 ## Manipulating data
 
@@ -163,7 +162,7 @@ Next, you'll create a Todo and save it to DataStore.
   Todo item = Todo.builder()
       .name("Build Android application")
       .priority(Priority.NORMAL)
-      .build()
+      .build();
 
   Amplify.DataStore.save(item,
       success -> Log.i("Tutorial", "Saved item: " + success.item().getName()),
@@ -198,39 +197,38 @@ Next, you'll create a Todo and save it to DataStore.
  <Block name="Java">
 
   ```java
-    package com.example.todo;
+  package com.example.todo;
 
-    import androidx.appcompat.app.AppCompatActivity;
+  import androidx.appcompat.app.AppCompatActivity;
+  import android.os.Bundle;
+  import android.util.Log;
+  import com.amplifyframework.core.Amplify;
+  import com.amplifyframework.core.model.query.Where;
+  import com.amplifyframework.core.model.temporal.Temporal;
+  import com.amplifyframework.datastore.AWSDataStorePlugin;
+  import com.amplifyframework.datastore.generated.model.Priority;
+  import com.amplifyframework.datastore.generated.model.Todo;
+  import java.util.*;
+  import java.util.concurrent.TimeUnit;
 
-    import android.os.Bundle;
-    import android.util.Log;
-    import com.amplifyframework.core.Amplify;
-    import com.amplifyframework.core.model.query.Where;
-    import com.amplifyframework.core.model.temporal.Temporal;
-    import com.amplifyframework.datastore.AWSDataStorePlugin;
-    import com.amplifyframework.datastore.generated.model.Priority;
-    import com.amplifyframework.datastore.generated.model.Todo;
-    import java.util.*;
-    import java.util.concurrent.TimeUnit;
+  public class MainActivity extends AppCompatActivity {
 
-    public class MainActivity extends AppCompatActivity {
+      @Override
+      protected void onCreate(Bundle savedInstanceState) {
+          super.onCreate(savedInstanceState);
+          setContentView(R.layout.activity_main);
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
+          Todo item = Todo.builder()
+              .name("Build Android application")
+              .priority(Priority.NORMAL)
+              .build();
 
-            Todo item = Todo.builder()
-                .name("Build Android application")
-                .priority(Priority.NORMAL)
-                .build()
-
-            Amplify.DataStore.save(item,
-                success -> Log.i("Tutorial", "Saved item: " + success.item().getName()),
-                error -> Log.e("Tutorial", "Could not save item to DataStore", error)
-            );
-        }
-    }
+          Amplify.DataStore.save(item,
+              success -> Log.i("Tutorial", "Saved item: " + success.item().getName()),
+              error -> Log.e("Tutorial", "Could not save item to DataStore", error)
+          );
+      }
+  }
   ```
 
   </Block>
@@ -238,36 +236,36 @@ Next, you'll create a Todo and save it to DataStore.
   <Block name="Kotlin">
 
   ```kotlin
-    package com.example.todo
+  package com.example.todo
 
-    import androidx.appcompat.app.AppCompatActivity
-    import android.os.Bundle
-    import android.util.Log
-    import com.amplifyframework.core.Amplify
-    import com.amplifyframework.core.model.query.Where
-    import com.amplifyframework.core.model.temporal.Temporal
-    import com.amplifyframework.datastore.AWSDataStorePlugin
-    import com.amplifyframework.datastore.generated.model.Priority
-    import com.amplifyframework.datastore.generated.model.Todo
-    import java.util.*
-    import java.util.concurrent.TimeUnit
+  import androidx.appcompat.app.AppCompatActivity
+  import android.os.Bundle
+  import android.util.Log
+  import com.amplifyframework.core.Amplify
+  import com.amplifyframework.core.model.query.Where
+  import com.amplifyframework.core.model.temporal.Temporal
+  import com.amplifyframework.datastore.AWSDataStorePlugin
+  import com.amplifyframework.datastore.generated.model.Priority
+  import com.amplifyframework.datastore.generated.model.Todo
+  import java.util.*
+  import java.util.concurrent.TimeUnit
 
-    class MainActivity : AppCompatActivity() {
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-            setContentView(R.layout.activity_main)
+  class MainActivity : AppCompatActivity() {
+      override fun onCreate(savedInstanceState: Bundle?) {
+          super.onCreate(savedInstanceState)
+          setContentView(R.layout.activity_main)
 
-            val item = Todo.builder()
-                .name("Build Android application")
-                .priority(Priority.NORMAL)
-                .build()
+          val item = Todo.builder()
+              .name("Build Android application")
+              .priority(Priority.NORMAL)
+              .build()
 
-            Amplify.DataStore.save(item,
-                { Log.i("Tutorial", "Saved item: ${item.name}") },
-                { Log.e("Tutorial", "Could not save item to DataStore", it) }
-            )
-        }
-    }
+          Amplify.DataStore.save(item,
+              { Log.i("Tutorial", "Saved item: ${item.name}") },
+              { Log.e("Tutorial", "Could not save item to DataStore", it) }
+          )
+      }
+  }
   ```
 
   </Block>
@@ -365,8 +363,8 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
               val todo: Todo = todos.next()
               Log.i("Tutorial", "==== Todo ====")
               Log.i("Tutorial", "Name: ${todo.name}")
-              Log.i("Tutorial", "Priority: ${todo.priority}")
-              Log.i("Tutorial", "CompletedAt: ${todo.completedAt}")
+              todo.priority?.let { todoPriority -> Log.i("Tutorial", "Priority: $todoPriority") }
+              todo.completedAt?.let { todoCompletedAt -> Log.i("Tutorial", "CompletedAt: $todoCompletedAt") }
           }
       },
       { Log.e("Tutorial", "Could not query DataStore", it)  }
@@ -383,7 +381,6 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
   com.example.todo I/Tutorial: ==== Todo ====
   com.example.todo I/Tutorial: Name: Build Android application
   com.example.todo I/Tutorial: Priority: NORMAL
-  com.example.todo I/Tutorial: CompletedAt: null
   com.example.todo I/Tutorial: ==== Todo ====
   com.example.todo I/Tutorial: Name: Finish quarterly taxes
   com.example.todo I/Tutorial: Priority: HIGH
@@ -446,8 +443,8 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
               val todo: Todo = todos.next()
               Log.i("Tutorial", "==== Todo ====")
               Log.i("Tutorial", "Name: ${todo.name}")
-              Log.i("Tutorial", "Priority: ${todo.priority}")
-              Log.i("Tutorial", "CompletedAt: ${todo.completedAt}")
+              todo.priority?.let { todoPriority -> Log.i("Tutorial", "Priority: $todoPriority") }
+              todo.completedAt?.let { todoCompletedAt -> Log.i("Tutorial", "CompletedAt: $todoCompletedAt") }
           }
       },
       { failure -> Log.e("Tutorial", "Could not query DataStore", failure) }
@@ -558,7 +555,7 @@ To round out CRUD operations, we'll query for a record and then delete it from D
    <Block name="Kotlin">
 
    ```kotlin
-    Amplify.DataStore.query(Post::class.java, Where.matches(Todo.NAME.eq("File quarterly taxes")),
+    Amplify.DataStore.query(Todo::class.java, Where.matches(Todo.NAME.eq("File quarterly taxes")),
         { matches ->
             if (matches.hasNext()) {
                 val toDeleteTodo = matches.next()

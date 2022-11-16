@@ -55,7 +55,7 @@ In terminal, navigate to your project, run `amplify add auth`, and choose the fo
 ? Please edit the file in your editor: <local file path>/src/boilerplate-create-challenge.js
 ```
 
-The boilerplate for Create Auth Challenge opens in your favorite code editor. Enter the following code to this file:
+The boilerplate for Create Auth Challenge opens in your favorite code editor. Enter the following code in this file:
 
 ```js
 //crypto-secure-random-digit is used here to get random challenge code - https://github.com/ottokruse/crypto-secure-random-digit
@@ -89,7 +89,7 @@ exports.handler = async (event) => {
   to send the challenge code to the user.
 </Callout>
 
-Amazon Cognito invokes the Create Auth Challenge trigger after Define Auth Challenge to create a custom challenge. In this lambda trigger you define the challenge to present to the user. `privateChallengeParameters` contains all the information to validate the response from the user. Save and close the file. Now open the file under "<your_android_project>/amplify/backend/function/<project_code>CreateAuthChallenge/src/package.json" and add the following:
+Amazon Cognito invokes the Create Auth Challenge trigger after Define Auth Challenge to create a custom challenge. In this lambda trigger, you define the challenge to present to the user. `privateChallengeParameters` contains all the information to validate the response from the user. Save and close the file. Now open the file under "<your_android_project>/amplify/backend/function/<project_code>CreateAuthChallenge/src/package.json" and add the following:
 
 ```js
 "dependencies": {
@@ -108,7 +108,7 @@ Save and close the file, then switch back to the terminal and follow the instruc
 ? Please edit the file in your editor: <local file path>/src/boilerplate-define-challenge.js
 ```
 
-The boilerplate for Define Auth Challenge opens in your favorite code editor. Enter the following code to this file:
+The boilerplate for Define Auth Challenge opens in your favorite code editor. Enter the following code in this file:
 
 ```js
 exports.handler = async function(event) {
@@ -165,7 +165,7 @@ exports.handler = async (event) => {
 };
 ```
 
-Amazon Cognito invokes the Verify Auth Challenge trigger to verify if the response from the end user for a custom challenge is valid or not. The response from the user will be available in `event.request.challengeAnswer`. The code above compares that with `privateChallengeParameters` value set in the Create Auth Challenge trigger. Save and close the file, then switch back to the terminal and follow the instructions:
+Amazon Cognito invokes the Verify Auth Challenge trigger to verify if the response from the end user for a custom challenge is valid or not. The response from the user will be available in `event.request.challengeAnswer`. The code above compares that with the `privateChallengeParameters` value set in the Create Auth Challenge trigger. Save and close the file, then switch back to the terminal and follow the instructions:
 
 ```
 ? Press enter to continue
