@@ -18,13 +18,13 @@ amplify auth console
     User Pool
 ```
 
-When the console opens, **click on Devices** from the left navigation menu, which will render the following page allowing you to configure your preference for remembering a user's device.
+When the console opens, scroll down to the **Device Tracking** section and select the `Edit` button. This will render the following page allowing you to configure your preference for remembering a user's device.
 
 ![auth](/images/auth/webconsole_remember1.png)
 
-**Choose either Always or User Opt in** depending on whether you want to remember a user's device by default or give the user the ability to choose.
+**Choose either Always remember or User Opt-in** depending on whether you want to remember a user's device by default or give the user the ability to choose.
 
-If MFA is enabled for the Cognito user pool, you will have the option to suppress the second factor during multi-factor authentication.  **Choose Yes** if you want a remembered device to be used as a second factor mechanism or No otherwise.
+If MFA is enabled for the Cognito user pool, you will have the option to suppress the second factor during multi-factor authentication.  **Choose Yes** if you want a remembered device to be used as a second factor mechanism or **No** otherwise.
 
 ![auth](/images/auth/webconsole_remember2.png)
 
@@ -97,3 +97,6 @@ import flutter11 from "/src/fragments/lib/auth/flutter/device_features/30_fetchD
   * A not-remembered device is a tracked device where Cognito has been configured to require users to "Opt-in" to remember a device, but the user has not opt-ed in to having the device remembered.  This use case is used for users signing into their application from a device that they don't own.
 * **Forgotten**
   * In the event that you no longer want to remember or track a device, you can use the `Auth.forgetDevice()` API to remove this device from being both remembered and tracked.
+
+## Known Limitations
+When using the federated OAuth flow with Cognito User Pools, the [device tracking and remembering](https://aws.amazon.com/blogs/mobile/tracking-and-remembering-devices-using-amazon-cognito-your-user-pools/) features are currently not available within the library. If you are looking for this feature within the library, please open a feature request [here](https://github.com/aws-amplify/amplify-js/issues/new?assignees=&labels=feature-request&template=feature_request.md&title=) and provide upvotes in order for us to take this into consideration for the future of the library.

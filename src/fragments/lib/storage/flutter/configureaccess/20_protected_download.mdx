@@ -27,9 +27,9 @@ Future<void> downloadProtected(String cognitoIdentityId) async {
       options: downloadOptions,
     );
     final contents = file.readAsStringSync();
-    print('Got protected file with contents: $contents');
+    safePrint('Got protected file with contents: $contents');
   } on StorageException catch (e) {
-    print('Error downloading protected file: $e');
+    safePrint('Error downloading protected file: $e');
   }
 }
 ```
