@@ -39,7 +39,7 @@ class MyDeveloperPrefixResolver implements S3PrefixResolver {
         getAWSCredentials: true,
       ),
     );
-    return (user1Session as CognitoAuthSession).identityId!;
+    return (userSession as CognitoAuthSession).identityId!;
   }
 }
 ```
