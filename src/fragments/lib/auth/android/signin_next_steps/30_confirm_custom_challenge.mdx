@@ -5,7 +5,7 @@ If the next step is `CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE`, Amplify Auth is awa
 <Block name="Java">
 
 ```java
-try{
+try {
     Amplify.Auth.confirmSignIn(
             "challenge answer",
             result -> {
@@ -20,9 +20,9 @@ try{
             },
              error -> Log.e(TAG, "Confirm sign in failed: " + error)
       );
-    } catch (Exception error) {
-        Log.e(TAG, "Unexpected error: " + error);
-    }
+} catch (Exception error) {
+    Log.e(TAG, "Unexpected error: " + error);
+}
 ```
 </Block>
 
@@ -45,9 +45,9 @@ Amplify.Auth.confirmSignIn(
       ) { error ->
           Log.e(TAG, "Confirm sign in failed: $error")
       }
-  } catch (error: Exception) {
-      Log.e(TAG, "Unexpected error: $error")
-  }
+} catch (error: Exception) {
+    Log.e(TAG, "Unexpected error: $error")
+}
 ```
 
 </Block>

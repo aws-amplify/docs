@@ -63,9 +63,9 @@ try {
               },
               error -> Log.e(TAG, "SignIn failed: " + error)
       );
-      } catch (Exception error) {
-          Log.e(TAG, "Unexpected error occurred: " + error);
-      }
+} catch (Exception error) {
+    Log.e(TAG, "Unexpected error occurred: " + error);
+}
 ```
 
 </Block>
@@ -124,9 +124,9 @@ try {
       ) { error ->
           Log.e(TAG, "SignIn failed: $error")
       }
-      } catch (error: Exception) {
-          Log.e(TAG, "Unexpected error occurred: $error")
-      }
+} catch (error: Exception) {
+    Log.e(TAG, "Unexpected error occurred: $error")
+}
 ```
 
 </Block>

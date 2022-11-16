@@ -21,10 +21,17 @@ try {
                 }
             },
             error -> Log.e(TAG, "Confirm sign in failed: " + error)
+<<<<<<< Updated upstream
     );
       } catch (Exception error) {
           Log.e(TAG, "Unexpected error: "+error);
       }
+=======
+            );
+} catch (Exception error) {
+    Log.e(TAG, "Unexpected error: "+error);
+}
+>>>>>>> Stashed changes
 ```
 </Block>
 
@@ -45,9 +52,9 @@ try {
               }
           }
     ) { error -> Log.e(TAG, "Confirm sign in failed: $error")}
-    } catch (error: Exception) {
-        Log.e(TAG, "Unexpected error: $error")
-    }
+} catch (error: Exception) {
+    Log.e(TAG, "Unexpected error: $error")
+}
 ```
 </Block>
 

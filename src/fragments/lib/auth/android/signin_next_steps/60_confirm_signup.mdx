@@ -12,9 +12,9 @@ If you receive `CONFIRM_SIGN_UP` as a next step, sign up could not proceed witho
              result -> Log.i(TAG, "Confirm signUp result completed: " + result.isSignUpComplete()),
              error -> Log.e(TAG, "An error occurred while confirming sign up: " + error)
       );
-      } catch (Exception error) {
-         Log.e(TAG, "unexpected error: " + error);
-      }
+} catch (Exception error) {
+   Log.e(TAG, "unexpected error: " + error);
+}
 ```
 </Block>
 
@@ -31,9 +31,9 @@ If you receive `CONFIRM_SIGN_UP` as a next step, sign up could not proceed witho
       ) { error ->
           Log.e(TAG, "An error occurred while confirming sign up: $error")
       }
-      } catch (error: Exception) {
-          Log.e(TAG, "unexpected error: $error")
-      }
+} catch (error: Exception) {
+    Log.e(TAG, "unexpected error: $error")
+}
 ```
 </Block>
 
