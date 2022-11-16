@@ -19,7 +19,7 @@ try {
                         AuthNextSignInStep nextStep = result.getNextStep();
                         switch (nextStep.getSignInStep()) {
                             case CONFIRM_SIGN_IN_WITH_SMS_MFA_CODE: {
-                                Log.i(TAG, "SMS code sent to "+nextStep.getCodeDeliveryDetails().getDestination());
+                                Log.i(TAG, "SMS code sent to "+ nextStep.getCodeDeliveryDetails().getDestination());
                                 Log.i(TAG, "Additional Info :"+ nextStep.getAdditionalInfo());
                                 // Prompt the user to enter the SMS MFA code they received
                                 // Then invoke `confirmSignIn` api with the code
@@ -63,10 +63,10 @@ try {
                         }
                     }
                     ,
-                    error -> Log.e(TAG, "SignIn failed: "+error.getStackTrace())
+                    error -> Log.e(TAG, "SignIn failed: "+ error.getStackTrace())
             );
         } catch (Exception error) {
-            Log.e(TAG, "Unexpected error occurred: "+error.getStackTrace());
+            Log.e(TAG, "Unexpected error occurred: "+ error.getStackTrace());
         }
 ```
 
