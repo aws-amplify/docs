@@ -41,12 +41,12 @@ Future<void> downloadProtected(String cognitoIdentityId) async {
 
 </Block>
 
-<Block name = "Developer Preview (Mobile, Web & Desktop)">
+<Block name = "Developer Preview (Mobile & Desktop)">
 
 ```dart
 import 'package:path_provider/path_provider.dart';
 
-Future<void> downloadProtectedFile({
+Future<void> downloadProtectedIOFile({
   required String key,
   required String targetIdentityId,
 }) async {
@@ -57,7 +57,7 @@ Future<void> downloadProtectedFile({
       key: key,
       localFile: AWSFile.fromPath(filepath),
       // use S3DownloadFileOptions.forIdentity when download a file that has
-      // protected access level, which requires providing an cognito identity id
+      // protected access level, which requires providing a cognito identity ID
       options: const S3DownloadFileOptions.forIdentity(targetIdentityId),
       onProgress: (progress) {
         safePrint('Fraction completed: ${progress.fractionCompleted}');
@@ -65,6 +65,31 @@ Future<void> downloadProtectedFile({
     ).result;
 
     safePrint('Downloaded file is located at: ${result.localFile.path}');
+  } on StorageException catch (e) {
+    safePrint(e.message);
+  }
+}
+```
+
+</Block>
+
+<Block name = "Developer Preview (Web)">
+
+```dart
+Future<void> downloadProtectedFileOnWeb({
+  required String key,
+  required String targetIdentityId,
+}) async {
+  try {
+    final result = await Amplify.Storage.downloadFile(
+      key: key,
+      localFile: AWSFile.fromPath('download.txt'),
+      // use S3DownloadFileOptions.forIdentity when download a file that has
+      // protected access level, which requires providing a cognito identity ID
+      options: const S3DownloadFileOptions.forIdentity(targetIdentityId),
+    ).result;
+
+    safePrint('Downloaded file: ${result.downloadedItem.key}');
   } on StorageException catch (e) {
     safePrint(e.message);
   }
