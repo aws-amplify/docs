@@ -1,31 +1,3 @@
-<BlockSwitcher>
+import android0 from "/src/fragments/lib/auth/android/signin/10_signUp.mdx";
 
-<Block name="Java">
-
-```java
-AuthSignUpOptions options = AuthSignUpOptions.builder()
-    .userAttribute(AuthUserAttributeKey.email(), "my@email.com")
-    .build();
-Amplify.Auth.signUp("username", UUID.randomUUID().toString(), options,
-    result -> Log.i("AuthQuickStart", "Result: " + result.toString()),
-    error -> Log.e("AuthQuickStart", "Sign up failed", error)
-);
-```
-
-</Block>
-
-<Block name="Kotlin">
-
-```kotlin
-val options = AuthSignUpOptions.builder()
-    .userAttribute(AuthUserAttributeKey.email(), "my@email.com")
-    .build()
-Amplify.Auth.signUp("username", UUID.randomUUID().toString(), options,
-    { Log.i("AuthQuickStart", "Sign up succeeded: $it") },
-    { Log.e ("AuthQuickStart", "Sign up failed", it) }
-)
-```
-
-</Block>
-
-</BlockSwitcher>
+<Fragments fragments={{android: android0}} />
