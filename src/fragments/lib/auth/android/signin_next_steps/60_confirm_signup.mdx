@@ -2,6 +2,22 @@ If you receive `CONFIRM_SIGN_UP` as a next step, sign up could not proceed witho
 
 <BlockSwitcher>
 
+<Block name="Java">
+
+```java
+ try {
+     Amplify.Auth.confirmSignUp(
+             "username",
+             "confirmation code",
+             result -> Log.i(TAG, "Confirm signUp result completed: "+result.isSignUpComplete()),
+             error -> Log.e(TAG, "An error occurred while confirming sign up: "+error)
+     );
+    } catch (Exception error) {
+       Log.e(TAG, "unexpected error: "+error);
+    }
+```
+</Block>
+
 <Block name="Kotlin">
 
 ```kotlin
