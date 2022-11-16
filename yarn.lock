@@ -339,9 +339,9 @@
     uuid "^8.2.0"
 
 "@aws-amplify/ui-components@latest":
-  version "1.9.6"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/ui-components/-/ui-components-1.9.6.tgz#42ec42a71396ccb6144f1d5dd8332393e0e62bf8"
-  integrity sha512-NfN6mlDrS41qCQ7BNe/bTDQXAG4kUhRnXIQCbi9oY/lnWImtKLrx37zVieuXi5PF/coVCMT+M1OfBbo8LM2wiw==
+  version "1.9.40"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/ui-components/-/ui-components-1.9.40.tgz#0fb9fde2ee99e5259f74d9db5fd552ffa3b472b7"
+  integrity sha512-zcpP1gYO6jwZ0IBwaZC9zvhyIRK2udfpDAHNXfCEgOsWtIjhS+kCWot0mDloCZiiIkHCVWxfMpgR3Ex9fa55zQ==
   dependencies:
     qrcode "^1.4.4"
     uuid "^8.2.0"
