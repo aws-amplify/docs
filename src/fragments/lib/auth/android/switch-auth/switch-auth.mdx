@@ -33,27 +33,30 @@ When you have migrated all your users, switch flows to the more secure SRP flow.
 <Block name="Java">
 
 ```java
+AWSCognitoAuthSignInOptions options = AWSCognitoAuthSignInOptions.builder()
+    .authFlowType(AuthFlowType.USER_PASSWORD_AUTH)
+    .build();
 Amplify.Auth.signIn(
     "username",
     "password",
-    AWSCognitoAuthSignInOptions.builder()
-                            .authFlowType(AuthFlowType.USER_PASSWORD_AUTH)
-                            .build(),
+    options,
     result -> Log.i("AuthQuickstart", result.isSignedIn() ? "Sign in succeeded" : "Sign in not complete"),
     error -> Log.e("AuthQuickstart", error.toString())
 );
-
 ```
 
 </Block>
 
-<Block name="Kotlin">
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
-Amplify.Auth.signIn("username", "password",
-    AWSCognitoAuthSignInOptions.builder()
-                            .authFlowType(AuthFlowType.USER_PASSWORD_AUTH)
-                            .build(),
+val options = AWSCognitoAuthSignInOptions.builder()
+    .authFlowType(AuthFlowType.USER_PASSWORD_AUTH)
+    .build()
+Amplify.Auth.signIn(
+    "username", 
+    "password", 
+    options,
     { result ->
         if (result.isSignedIn) {
             Log.i("AuthQuickstart", "Sign in succeeded")
@@ -64,6 +67,40 @@ Amplify.Auth.signIn("username", "password",
     { Log.e("AuthQuickstart", "Failed to sign in", it) }
 )
 ```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val options = AWSCognitoAuthSignInOptions.builder()
+    .authFlowType(AuthFlowType.USER_PASSWORD_AUTH)
+    .build()
+try {
+    val result = Amplify.Auth.signIn("username", "password", options)
+    if (result.isSignedIn) {
+        Log.i("AuthQuickstart", "Sign in succeeded")
+    } else {
+        Log.e("AuthQuickstart", "Sign in not complete")
+    }
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Sign in failed", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+AWSCognitoAuthSignInOptions options = AWSCognitoAuthSignInOptions.builder()
+    .authFlowType(AuthFlowType.USER_PASSWORD_AUTH)
+    .build();
+RxAmplify.Auth.signIn("username", "password", options)
+    .subscribe(
+        result -> Log.i("AuthQuickstart", result.isSignedIn() ? "Sign in succeeded" : "Sign in not complete"),
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+```
+
 </Block>
 </BlockSwitcher>
 
