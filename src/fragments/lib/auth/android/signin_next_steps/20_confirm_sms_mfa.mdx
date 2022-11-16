@@ -8,7 +8,7 @@ Note: the signIn result also includes an `AuthCodeDeliveryDetails` member. It in
 
 ```java
 try {
-    Amplify.Auth.confirmSignIn(
+      Amplify.Auth.confirmSignIn(
             "confirmation code",
             result -> {
                 if (result.isSignedIn()) {
@@ -22,9 +22,9 @@ try {
             },
             error -> Log.e(TAG, "Confirm sign in failed: " + error)
             );
-    } catch (Exception error) {
-        Log.e(TAG, "Unexpected error: "+error);
-    }
+      } catch (Exception error) {
+          Log.e(TAG, "Unexpected error: "+error);
+      }
 ```
 </Block>
 
@@ -32,7 +32,7 @@ try {
 
 ```kotlin
 try {
-      Amplify.Auth.confirmSignIn(
+    Amplify.Auth.confirmSignIn(
           "confirmation code",
           { result ->
               if (result.isSignedIn) {
@@ -44,12 +44,10 @@ try {
                   // is 'done', and the user is now signed in.
               }
           }
-      ) { error ->
-          Log.e(TAG, "Confirm sign in failed: $error")
-      }
-  } catch (error: Exception) {
-      Log.e(TAG, "Unexpected error: $error")
-  }
+    ) { error -> Log.e(TAG, "Confirm sign in failed: $error")}
+    } catch (error: Exception) {
+        Log.e(TAG, "Unexpected error: $error")
+    }
 ```
 </Block>
 
