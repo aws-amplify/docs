@@ -1484,10 +1484,5 @@
     "Libre's",
     "Pinia"
   ],
-  "flagWords": [
-    "hte", 
-    "full-stack", 
-    "Full-stack", 
-    "Full-Stack"
-  ]
+  "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack"]
 }
