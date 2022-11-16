@@ -18,6 +18,7 @@ Amplify.Auth.getCurrentUser({ authUser ->
 - The escape hatch now provides access to the underlying `CognitoIdentityProviderClient` and `CognitoIdentityClient` instance. Read more [here](/lib/auth/escapehatch).
 - Parameters `signInQueryParameters`, `signOutQueryParameters` and `tokenQueryParameters` are dropped from `AuthWebUISignInOptions`.
 - `federationProviderName` has been dropped from `AWSCognitoAuthWebUISignInOptions`.
+- `signIn` will now return an error if you attempt to call sign in, while already signed in.
 
 ## Escape Hatches
 
