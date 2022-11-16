@@ -61,7 +61,7 @@ const groupByCategory = function(router) {
         };
       }
     },
-    router
+    router.query?.platform
   );
 };
 
