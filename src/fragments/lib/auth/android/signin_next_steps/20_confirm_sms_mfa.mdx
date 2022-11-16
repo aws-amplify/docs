@@ -19,12 +19,12 @@ try{
                     // If `signInResult.isSignedIn` is true, the next step
                     // is 'done', and the user is now signed in.
                 }
-            }
-  , error -> Log.e(TAG, "Confirm sign in failed: "+error)
+            },
+             error -> Log.e(TAG, "Confirm sign in failed: " + error)
             );
-} catch (Exception error) {
-    Log.e(TAG, "Unexpected error: "+error);
-}
+    } catch (Exception error) {
+        Log.e(TAG, "Unexpected error: "+error);
+    }
 ```
 </Block>
 
