@@ -11,14 +11,36 @@ Amplify.Auth.confirmSignIn(
 ```
 
 </Block>
-
-<Block name="Kotlin">
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 Amplify.Auth.confirmSignIn("confirmation",
-    { Log.i("AuthQuickstart", "Confirmed sign in succeeded: $it") },
+    { Log.i("AuthQuickstart", "Confirm sign in succeeded: $it") },
     { Log.e("AuthQuickstart", "Failed to confirm sign in", it) }
 )
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val result = Amplify.Auth.confirmSignIn("confirmation")
+    Log.i("AuthQuickstart", "Confirm sign in succeeded: $result") 
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Failed to confirm signin", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.confirmSignIn("confirmation")
+    .subscribe(
+        result -> Log.i("AuthQuickstart", result.toString()),
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
 ```
 
 </Block>
@@ -69,11 +91,35 @@ exports.handler = (event, context) => {
 
 If your lambda is setup to start with `SRP` as the first step, make sure to initiate the signIn process with `customWithSRP` as the authentication flow:
 
+<BlockSwitcher>
+
+<Block name="Java">
+
+```java
+AWSCognitoAuthSignInOptions options = AWSCognitoAuthSignInOptions.builder()
+    .authFlowType(AuthFlowType.CUSTOM_AUTH_WITH_SRP)
+    .build();
+Amplify.Auth.signIn(
+    "username",
+    "password",
+    options,
+    result -> Log.i("AuthQuickstart", result.isSignedIn() ? "Sign in succeeded" : "Sign in not complete"),
+    error -> Log.e("AuthQuickstart", error.toString())
+);
+```
+
+</Block>
+
+<Block name="Kotlin - Callbacks">
+
 ```kotlin
-Amplify.Auth.signIn("username", "password",
-    AWSCognitoAuthSignInOptions.builder()
-                            .authFlowType(AuthFlowType.CUSTOM_AUTH_WITH_SRP)
-                            .build(),
+val options = AWSCognitoAuthSignInOptions.builder()
+    .authFlowType(AuthFlowType.CUSTOM_AUTH_WITH_SRP)
+    .build()
+Amplify.Auth.signIn(
+    "username", 
+    "password", 
+    options,
     { result ->
         if (result.isSignedIn) {
             Log.i("AuthQuickstart", "Sign in succeeded")
@@ -84,6 +130,42 @@ Amplify.Auth.signIn("username", "password",
     { Log.e("AuthQuickstart", "Failed to sign in", it) }
 )
 ```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val options = AWSCognitoAuthSignInOptions.builder()
+    .authFlowType(AuthFlowType.CUSTOM_AUTH_WITH_SRP)
+    .build()
+try {
+    val result = Amplify.Auth.signIn("username", "password", options)
+    if (result.isSignedIn) {
+        Log.i("AuthQuickstart", "Sign in succeeded")
+    } else {
+        Log.e("AuthQuickstart", "Sign in not complete")
+    }
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Sign in failed", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+AWSCognitoAuthSignInOptions options = AWSCognitoAuthSignInOptions.builder()
+    .authFlowType(AuthFlowType.CUSTOM_AUTH_WITH_SRP)
+    .build();
+RxAmplify.Auth.signIn("username", "password", options)
+    .subscribe(
+        result -> Log.i("AuthQuickstart", result.isSignedIn() ? "Sign in succeeded" : "Sign in not complete"),
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+```
+
+</Block>
+</BlockSwitcher>
 
 ### CAPTCHA-based authentication
 

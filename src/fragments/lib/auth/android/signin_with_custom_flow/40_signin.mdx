@@ -3,12 +3,13 @@
 <Block name="Java">
 
 ```java
+AWSCognitoAuthSignInOptions options = AWSCognitoAuthSignInOptions.builder()
+    .authFlowType(AuthFlowType.CUSTOM_AUTH_WITHOUT_SRP)
+    .build();
 Amplify.Auth.signIn(
     "username",
     "password",
-    AWSCognitoAuthSignInOptions.builder()
-                            .authFlowType(AuthFlowType.CUSTOM_AUTH_WITHOUT_SRP)
-                            .build(),
+    options,
     result -> Log.i("AuthQuickstart", result.isSignedIn() ? "Sign in succeeded" : "Sign in not complete"),
     error -> Log.e("AuthQuickstart", error.toString())
 );
@@ -16,13 +17,16 @@ Amplify.Auth.signIn(
 
 </Block>
 
-<Block name="Kotlin">
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
-Amplify.Auth.signIn("username", "password",
-    AWSCognitoAuthSignInOptions.builder()
-                            .authFlowType(AuthFlowType.CUSTOM_AUTH_WITHOUT_SRP)
-                            .build(),
+val options = AWSCognitoAuthSignInOptions.builder()
+    .authFlowType(AuthFlowType.CUSTOM_AUTH_WITHOUT_SRP)
+    .build()
+Amplify.Auth.signIn(
+    "username", 
+    "password", 
+    options,
     { result ->
         if (result.isSignedIn) {
             Log.i("AuthQuickstart", "Sign in succeeded")
@@ -35,7 +39,39 @@ Amplify.Auth.signIn("username", "password",
 ```
 
 </Block>
+<Block name="Kotlin - Coroutines">
 
+```kotlin
+val options = AWSCognitoAuthSignInOptions.builder()
+    .authFlowType(AuthFlowType.CUSTOM_AUTH_WITHOUT_SRP)
+    .build()
+try {
+    val result = Amplify.Auth.signIn("username", "password", options)
+    if (result.isSignedIn) {
+        Log.i("AuthQuickstart", "Sign in succeeded")
+    } else {
+        Log.e("AuthQuickstart", "Sign in not complete")
+    }
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Sign in failed", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+AWSCognitoAuthSignInOptions options = AWSCognitoAuthSignInOptions.builder()
+    .authFlowType(AuthFlowType.CUSTOM_AUTH_WITHOUT_SRP)
+    .build();
+RxAmplify.Auth.signIn("username", "password", options)
+    .subscribe(
+        result -> Log.i("AuthQuickstart", result.isSignedIn() ? "Sign in succeeded" : "Sign in not complete"),
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+```
+
+</Block>
 </BlockSwitcher>
 
 Since this is a custom authentication flow with a challenge, the result of the signin process has a next step `.confirmSignInWithCustomChallenge`. Implement a UI to allow the user to enter the custom challenge.
