@@ -682,12 +682,22 @@ const directory = {
           {
             title: 'Upload files',
             route: '/lib/storage/upload',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'js', 'react-native']
+          },
+          {
+            title: 'Upload files/data',
+            route: '/lib/storage/upload',
+            filters: ['flutter']
           },
           {
             title: 'Download files',
             route: '/lib/storage/download',
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+          },
+          {
+            title: 'Get file properties (Developer Preview)',
+            route: '/lib/storage/get-properties',
+            filters: ['flutter']
           },
           {
             title: 'List files',
@@ -698,6 +708,16 @@ const directory = {
             title: 'Copy files',
             route: '/lib/storage/copy',
             filters: ['js', 'react-native']
+          },
+          {
+            title: 'Copy files (Developer Preview)',
+            route: '/lib/storage/copy',
+            filters: ['flutter']
+          },
+          {
+            title: 'Move files (Developer Preview)',
+            route: '/lib/storage/move',
+            filters: ['flutter']
           },
           {
             title: 'Remove files',
