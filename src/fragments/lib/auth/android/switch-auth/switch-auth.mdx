@@ -35,7 +35,7 @@ When you have migrated all your users, switch flows to the more secure SRP flow.
 ```java
 Amplify.Auth.signIn(
     "username",
-    "password"
+    "password",
     AWSCognitoAuthSignInOptions.builder()
                             .authFlowType(AuthFlowType.USER_PASSWORD_AUTH)
                             .build(),
@@ -51,7 +51,7 @@ Amplify.Auth.signIn(
 
 ```kotlin
 Amplify.Auth.signIn("username", "password",
-AWSCognitoAuthSignInOptions.builder()
+    AWSCognitoAuthSignInOptions.builder()
                             .authFlowType(AuthFlowType.USER_PASSWORD_AUTH)
                             .build(),
     { result ->

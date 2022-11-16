@@ -71,7 +71,7 @@ If your lambda is setup to start with `SRP` as the first step, make sure to init
 
 ```kotlin
 Amplify.Auth.signIn("username", "password",
-AWSCognitoAuthSignInOptions.builder()
+    AWSCognitoAuthSignInOptions.builder()
                             .authFlowType(AuthFlowType.CUSTOM_AUTH_WITH_SRP)
                             .build(),
     { result ->
