@@ -996,6 +996,7 @@
     "prepended",
     "prereq",
     "presigned",
+    "Presigning",
     "PreSignUp",
     "prev",
     "printLn",
@@ -1482,7 +1483,8 @@
     "roadmap",
     "infowindow",
     "Libre's",
-    "Pinia"
+    "Pinia",
+    "kotlinx"
   ],
   "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack"]
 }
