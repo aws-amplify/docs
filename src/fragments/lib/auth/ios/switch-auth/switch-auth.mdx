@@ -12,30 +12,6 @@ For client side authentication there are four different flows that can be config
 
 `Auth` can be configured to use the different flows at runtime by calling `signIn` with `AuthSignInOptions`'s `authFlowType` as `AuthFlowType.userPassword`, `AuthFlowType.customAuthWithoutSrp` or `AuthFlowType.customAuthWithSrp`. If you do not specify the `AuthFlowType` in `AuthSignInOptions`, the default flow (`AuthFlowType.userSRP`) will be used.
 
-```swift 
-public enum AuthFlowType: String {
-
-    /// Authentication flow for the Secure Remote Password (SRP) protocol
-    case userSRP
-
-    /// Authentication flow for custom flow which are backed by lambda triggers.
-    /// Note that `custom`will always begin with a SRP flow.
-    @available(*, deprecated, message: "Use of custom is deprecated, use customWithSrp or customWithoutSrp instead")
-    case custom
-
-    /// Authentication flow which start with SRP and then move to custom auth flow
-    case customWithSRP
-
-    /// Authentication flow which starts without SRP and directly moves to custom auth flow
-    case customWithoutSRP
-
-    /// Non-SRP authentication flow; user name and password are passed directly.
-    /// If a user migration Lambda trigger is set, this flow will invoke the user migration
-    /// Lambda if it doesn't find the user name in the user pool.
-    case userPassword
-}
-```
-
 <Callout>
 
 Runtime configuration will take precedence and will override any auth flow type configuration present in amplifyconfiguration.json
@@ -48,7 +24,7 @@ Runtime configuration will take precedence and will override any auth flow type 
 
 A use case for the `USER_PASSWORD_AUTH` authentication flow is migrating users into Amazon Cognito
 
-A user migration Lambda trigger helps migrate users from a legacy user management system into your user pool. If you choose the USER_PASSWORD_AUTH authentication flow, users don't have to reset their passwords during user migration. This flow sends your users' passwords to the service over an encrypted SSL connection during authentication.
+A user migration Lambda trigger helps migrate users from a legacy user management system into your user pool. If you choose the USER_PASSWORD_AUTH authentication flow, users don't have to reset their passwords during user migration. This flow sends your user's password to the service over an encrypted SSL connection during authentication.
 
 When you have migrated all your users, switch flows to the more secure SRP flow. The SRP flow doesn't send any passwords over the network.
 
