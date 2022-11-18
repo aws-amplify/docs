@@ -280,7 +280,12 @@ Conform to the [JSON standard](https://www.json.org/json-en.html).
 ### Don’t
 
 ```json
-{// REQUIRED only for Federated Authentication - Amazon Cognito Identity Pool IDidentityPoolId: 'XX-XXXX-X:XXXXXXXX-XXXX-1234-abcd-1234567890ab',// REQUIRED - Amazon Cognito Regionregion: 'XX-XXXX-X'}
+{
+  // REQUIRED only for Federated Authentication - Amazon Cognito Identity Pool ID
+  identityPoolId: 'XX-XXXX-X:XXXXXXXX-XXXX-1234-abcd-1234567890ab',
+  // REQUIRED - Amazon Cognito Region
+  region: 'XX-XXXX-X'
+}
 ```
 
 ### Do
