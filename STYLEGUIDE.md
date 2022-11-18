@@ -294,7 +294,7 @@ Conform to the [JSON standard](https://www.json.org/json-en.html).
 
 ```json
 {
-  "IDidentityPoolId": "XX-XXXX-X:XXXXXXXX-XXXX-1234-abcd-1234567890ab",
+  "identityPoolId": "XX-XXXX-X:XXXXXXXX-XXXX-1234-abcd-1234567890ab",
   "region": "XX-XXXX-X"
 }
 ```
