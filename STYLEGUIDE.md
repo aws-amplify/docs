@@ -265,6 +265,8 @@ When referring to files in the **amplify** directory, always preface with **ampl
 
 ### Do
 
+**`amplify/backend/api/<api-name>/schema.graphql`**
+
 * * *
 
 ## 18. Write compliant JSON: no single quotes, no comments
