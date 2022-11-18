@@ -307,5 +307,5 @@ When an AWS service or product appears on the page for the first time, refer to 
 
 ### Do
 
-“AWS Amplify Hosting uses AWS S3 for file storage. Amplify Hosting also provides caching to ensure files are delivered quickly to users.”
+“AWS Amplify Hosting uses Amazon Simple Storage Service (S3) for file storage. Amplify Hosting also provides caching to ensure files are delivered quickly to users.”
 * * *
