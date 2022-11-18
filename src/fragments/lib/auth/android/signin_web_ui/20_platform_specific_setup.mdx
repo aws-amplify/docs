@@ -4,16 +4,6 @@ Add the following activity and queries tag to your app's `AndroidManifest.xml` f
 your redirect URI prefix if necessary:
 
 ```xml
-<queries>
-  <intent>
-    <action android:name="android.intent.action.VIEW" />
-    <data android:scheme="https" />
-  </intent>
-  <intent>
-    <action android:name=
-        "android.support.customtabs.action.CustomTabsService" />
-  </intent>
-</queries>
 <application ...>
   ...
   <activity
