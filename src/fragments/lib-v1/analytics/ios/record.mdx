@@ -28,12 +28,12 @@ Events have default configuration to flush out to the network every 60 seconds. 
             "awsPinpointAnalyticsPlugin": {
                 "pinpointAnalytics": {
                     "appId": "AppID",
-                    "region": "Region"
+                    "region": "Region",
+                    "autoFlushEventsInterval": 60
                 },
                 "pinpointTargeting": {
                     "region": "Region"
-                },
-                "autoFlushEventsInterval": 60
+                }
             }
         }
     }
@@ -57,7 +57,7 @@ You can report authentication events by doing either of the following:
 
 - Managing user sign-up and sign-in with Amazon Cognito user pools.
 
-  Cognito user pools are user directories that make it easier to add sign-up and sign-in to your app. As users authenticate with your app, Cognito reports authentication events to Pinpoint. For more information, see [Using Amazon Pinpoint Analytics with Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-pinpoint-integration.html) in the _Amazon Cognito Developer Guide_. Also update **awsconfiguration.json** by adding the `PinpointAppId` key under `CognitoUserPool`.
+  Cognito user pools are user directories that make it easier to add sign-up and sign-in to your app. As users authenticate with your app, Cognito reports authentication events to Pinpoint. For more information, see [Using Amazon Pinpoint Analytics with Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-pinpoint-integration.html) in the _Amazon Cognito Developer Guide_. Also update **amplifyconfiguration.json** by adding the `PinpointAppId` key under `CognitoUserPool`.
   
   ```json
   "CognitoUserPool": {
@@ -70,7 +70,7 @@ You can report authentication events by doing either of the following:
   }
   ```
 
-- Reporting authentication events by using the Pinpoint client that's provided by the AWS Mobile SDK for iOS or Android.
+- Manually recording events using the `record(event:)` API.
 
   If you don't want to use Cognito user pools, you can use the Pinpoint client to record and submit authentication events, as shown in the following examples. In these examples, the event type is set to `_userauth.sign_in`, but you can substitute any authentication event type.
 
