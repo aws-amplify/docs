@@ -17,7 +17,8 @@ export const groupBy: AutocompleteReshapeFunction = <
   TSource extends AutocompleteSource<TItem> = AutocompleteSource<TItem>
 >(
   predicate: (value: TItem) => string,
-  options: GroupByOptions<TItem, TSource>
+  options: GroupByOptions<TItem, TSource>,
+  platform?: string
 ) => {
   return function runGroupBy(...rawSources) {
     const sources = normalizeReshapeSources(rawSources);
@@ -37,7 +38,15 @@ export const groupBy: AutocompleteReshapeFunction = <
         acc[key] = [];
       }
 
-      acc[key].push(item as TItem);
+      if (platform && item.slug && item.slug.includes('/platform/')) {
+        const regex = /\/platform\/([^(\?\/\#)]*)/;
+        const slugPlatform = regex.exec(item.slug)[1];
+        if (!slugPlatform || item.slug.includes(`/platform/${platform}`)) {
+          acc[key].push(item as TItem);
+        }
+      } else {
+        acc[key].push(item as TItem);
+      }
 
       return acc;
     }, {});

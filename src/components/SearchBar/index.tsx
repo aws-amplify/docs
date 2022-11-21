@@ -37,7 +37,7 @@ function App() {
                     indexName: searchIndex,
                     query,
                     params: {
-                      hitsPerPage: 6
+                      hitsPerPage: 20
                     }
                   }
                 ]
