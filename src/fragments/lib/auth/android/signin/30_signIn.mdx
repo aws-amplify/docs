@@ -5,7 +5,7 @@
 Amplify.Auth.signIn(
     "username",
     "password",
-    result -> Log.i("AuthQuickstart", result.isSignInComplete() ? "Sign in succeeded" : "Sign in not complete"),
+    result -> Log.i("AuthQuickstart", result.isSignedIn() ? "Sign in succeeded" : "Sign in not complete"),
     error -> Log.e("AuthQuickstart", error.toString())
 );
 ```
@@ -16,7 +16,7 @@ Amplify.Auth.signIn(
 ```kotlin
 Amplify.Auth.signIn("username", "password",
     { result ->
-        if (result.isSignInComplete) {
+        if (result.isSignedIn) {
             Log.i("AuthQuickstart", "Sign in succeeded")
         } else {
             Log.i("AuthQuickstart", "Sign in not complete")
@@ -27,12 +27,12 @@ Amplify.Auth.signIn("username", "password",
 ```
 
 </Block>
-<Block name="Kotlin - Coroutines (Beta)">
+<Block name="Kotlin - Coroutines">
 
 ```kotlin
 try {
     val result = Amplify.Auth.signIn("username", "password")
-    if (result.isSignInComplete) {
+    if (result.isSignedIn) {
         Log.i("AuthQuickstart", "Sign in succeeded")
     } else {
         Log.e("AuthQuickstart", "Sign in not complete")
@@ -48,7 +48,7 @@ try {
 ```java
 RxAmplify.Auth.signIn("username", "password")
     .subscribe(
-        result -> Log.i("AuthQuickstart", result.isSignInComplete() ? "Sign in succeeded" : "Sign in not complete"),
+        result -> Log.i("AuthQuickstart", result.isSignedIn() ? "Sign in succeeded" : "Sign in not complete"),
         error -> Log.e("AuthQuickstart", error.toString())
     );
 ```

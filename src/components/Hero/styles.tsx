@@ -6,7 +6,7 @@ export const Hero = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 3rem 1.5rem 1.5rem;
+  padding: 9rem 1.5rem 1.5rem;
   background-color: var(--bg-color);
 
   h1 {
@@ -16,5 +16,9 @@ export const Hero = styled.div`
   > p {
     color: var(--font-color-secondary);
     font-weight: 500;
+  }
+
+  @media (min-width: 975px) {
+    padding: 6rem 1.5rem 1.5rem;
   }
 `;

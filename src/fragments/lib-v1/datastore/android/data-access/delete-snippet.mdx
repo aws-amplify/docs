@@ -1,4 +1,4 @@
-Below, we query for an instance with an `id` of `"123"`, and then delete it, if found:
+Below, you query for an instance with an `id` of `"123"`, and then delete it, if found:
 
 <BlockSwitcher>
 <Block name="Java">
@@ -37,7 +37,7 @@ Amplify.DataStore.query(Post::class.java, Where.id("123"),
 ```
 
 </Block>
-<Block name="Kotlin - Coroutines (Beta)">
+<Block name="Kotlin - Coroutines">
 
 ```kotlin
 Amplify.DataStore.query(Post::class, Where.id("123"))
@@ -102,7 +102,7 @@ Amplify.DataStore.query(Post::class.java,
 ```
 
 </Block>
-<Block name="Kotlin - Coroutines (Beta)">
+<Block name="Kotlin - Coroutines">
 
 ```kotlin
 Amplify.DataStore.query(Post::class)

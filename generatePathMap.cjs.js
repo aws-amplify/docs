@@ -34,8 +34,8 @@ function generatePathMap(
     '/start/q/integration/react-native': {
       page: '/start/q/integration/[integration]'
     },
-    "/start/q/integration/ios": {
-      page: "/start/q/integration/[integration]",
+    '/start/q/integration/ios': {
+      page: '/start/q/integration/[integration]',
     },
     '/start/q/integration/flutter': {
       page: '/start/q/integration/[integration]'
@@ -54,6 +54,9 @@ function generatePathMap(
     },
     '/lib/q/platform/react-native': {
       page: '/lib/q/platform/[platform]'
+    },
+    '/lib-v1/q/platform/android': {
+      page: '/lib-v1/q/platform/[platform]'
     },
     '/lib-v1/q/platform/ios': {
       page: '/lib-v1/q/platform/[platform]'

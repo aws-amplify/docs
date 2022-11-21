@@ -64,7 +64,7 @@ Now when you run your application the data will be synced to your cloud backend 
 
 ## Add a subscription
 
-We will now demonstrate how to add a subscription to the application, so that we can receive any updates to the `Todo` model.
+We will now demonstrate how to add a subscription to the application, so that you can receive any updates to the `Todo` model.
 
 1. Open `ContentView.swift` and **add the following** code to the body of the struct:
   ```swift
@@ -103,13 +103,13 @@ func subscribeTodos() async {
   }
   ```
 
-1. **Build and run** the application. In the console output if `.info` logging is enabled, you will see that we are making a websocket connection to receive updates any time there is a mutation to the Todo model.
+1. **Build and run** the application. In the console output if `.info` logging is enabled, you will see that you are making a websocket connection to receive updates any time there is a mutation to the Todo model.
 
 Since this is the first time you are connecting to API, DataStore will sync any mutations that were previously made offline. If you have been following the guide, there should be one mutation that is synchronized to the backend that has an id of "Build iOS Application".
 
 ## Query for mutations using the console
 
-In this section we will make a mutation using the app sync console and have our app receive that mutation over the websocket subscription.
+In this section you will make a mutation using the app sync console and have your app receive that mutation over the websocket subscription.
 
 1. Open a terminal window in your project's directory. **Run the command:**
   ```bash

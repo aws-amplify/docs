@@ -86,7 +86,9 @@
     "workbox-build": "4.3.1"
   },
   "resolutions": {
-    "**/trim": "0.0.3"
+    "**/trim": "0.0.3",
+    "loader-utils": "2.0.4",
+    "minimatch": "3.0.5"
   },
   "jest": {
     "roots": [

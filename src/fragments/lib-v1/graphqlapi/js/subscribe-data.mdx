@@ -58,3 +58,55 @@ Hub.listen('api', (data: any) => {
 import jsConnectionStates from '/src/fragments/lib-v1/pubsub/js/connection-states.mdx';
 
 <Fragments fragments={{ js: jsConnectionStates }} />
+
+### Connection issues and automated reconnection
+
+import jsReconnectDescription from '/src/fragments/lib/pubsub/js/reconnect-description.mdx';
+
+<Fragments fragments={{ js: jsReconnectDescription }} />
+
+```typescript
+const fetchRecentData = () => {
+  // Retrieve some/all data from a appsync
+  const allTodos = await API.graphql({ query: queries.listTodos });
+}
+
+let priorConnectionState: ConnectionState;
+
+Hub.listen("api", (data: any) => {
+  const { payload } = data;
+  if (
+    payload.event === CONNECTION_STATE_CHANGE
+  ) {
+
+    if (priorConnectionState === ConnectionState.Connecting && payload.message === ConnectionState.Connected) {
+      fetchRecentData();
+    }
+    priorConnectionState = payload.message;
+  }
+});
+
+const createSubscription = (API.graphql(
+  graphqlOperation(subscriptions.onCreateTodo)
+) as unknown as ZenObservable<object>).subscribe({
+  next: data => // Process incoming messages
+});
+
+const updateSubscription = (API.graphql(
+  graphqlOperation(subscriptions.onUpdateTodo)
+) as unknown as ZenObservable<object>).subscribe({
+  next: data => // Process incoming messages
+});
+
+const deleteSubscription = (API.graphql(
+  graphqlOperation(subscriptions.onDeleteTodo)
+) as unknown as ZenObservable<object>).subscribe({
+  next: data => // Process incoming messages
+});
+
+const cleanupSubscriptions = () => {
+  createSubscription.unsubscribe();
+  updateSubscription.unsubscribe();
+  deleteSubscription.unsubscribe();
+}
+```

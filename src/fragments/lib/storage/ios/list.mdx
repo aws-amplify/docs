@@ -6,7 +6,6 @@ You can list all of the objects uploaded:
 
 ```swift
 let listResult = try await Amplify.Storage.list()
-print("Completed")
 listResult.items.forEach { item in
     print("Key: \(item.key)")
 }

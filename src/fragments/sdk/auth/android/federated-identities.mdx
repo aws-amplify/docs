@@ -163,7 +163,7 @@ To federate Sign in with Apple as a user sign-in provider for AWS services calle
 
 1. **Implementing Sign in with Apple in your app**
 
-    Since we don’t have an SDK that supports Sign in with Apple for Android, we need to use the web flow in a web view. To configure Sign in with Apple in your application, follow [Configuring Your Webpage for Sign In with Apple](https://developer.apple.com/documentation/signinwithapplejs/configuring_your_webpage_for_sign_in_with_apple) in the Apple documentation. To add a Sign in with Apple button to your Android user interface, follow [Displaying and Configuring Sign In with Apple Buttons](https://developer.apple.com/documentation/signinwithapplejs/displaying_and_configuring_sign_in_with_apple_buttons) in the Apple documentation. To securely authenticate users using Sign in with Apple, follow [Configuring Your Webpage for Sign In with Apple](https://developer.apple.com/documentation/signinwithapplerestapi/authenticating_users_with_sign_in_with_apple) in the Apple documentation.
+    Since we don’t have an SDK that supports Sign in with Apple for Android, you need to use the web flow in a web view. To configure Sign in with Apple in your application, follow [Configuring Your Webpage for Sign In with Apple](https://developer.apple.com/documentation/signinwithapplejs/configuring_your_webpage_for_sign_in_with_apple) in the Apple documentation. To add a Sign in with Apple button to your Android user interface, follow [Displaying and Configuring Sign In with Apple Buttons](https://developer.apple.com/documentation/signinwithapplejs/displaying_and_configuring_sign_in_with_apple_buttons) in the Apple documentation. To securely authenticate users using Sign in with Apple, follow [Configuring Your Webpage for Sign In with Apple](https://developer.apple.com/documentation/signinwithapplerestapi/authenticating_users_with_sign_in_with_apple) in the Apple documentation.
 
 2. **Configuring Sign in with Apple as an authentication provider in your Amazon Cognito Identity Pool**
 
@@ -239,7 +239,7 @@ dependencies {
 }
 ```
 
-> Note: When you add the dependencies, make sure that the major version of appcompat and support libraries match. In the previous example, we're using version 28.
+> Note: When you add the dependencies, make sure that the major version of appcompat and support libraries match. In the previous example, you're using version 28.
 
 In `strings.xml`, add string definitions for your Facebook app ID and login protocol scheme. The value for app_id is your Facebook app ID and the value for logic_protocol_scheme should be your Facebook app ID prefixed with `fb`.
 
@@ -336,7 +336,7 @@ dependencies {
 }
 ```
 
-> Note: When you add the dependencies, make sure that the major version of appcompat and support libraries match. In the previous example, we're using version 28.
+> Note: When you add the dependencies, make sure that the major version of appcompat and support libraries match. In the previous example, you're using version 28.
 
 Create an activity that will present your sign-in screen. In Android Studio, choose `File > New > Activity > Basic Activity` and type an activity name, such as `AuthenticatorActivity`. If you want to make this your starting activity, move the intent filter block containing `.LAUNCHER` to the `AuthenticatorActivity` in your app's `AndroidManifest.xml`.
 

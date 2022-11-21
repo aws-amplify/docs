@@ -9,7 +9,7 @@ import { Card, CardDetail, CardGraphic } from '../components/Card';
 import FeaturesGrid from '../components/FeaturesGrid';
 import LinkBanner from '../components/LinkBanner';
 import Footer from '../components/Footer';
-import UniversalNav from '../components/UniversalNav';
+import SecondaryNav from '../components/SecondaryNav';
 
 import { trackPageVisit } from '../utils/track';
 import { NavMenuItem, GlobalNav } from '../components/GlobalNav';
@@ -78,7 +78,7 @@ const Page = () => {
         socialLinks={SOCIAL_LINKS as NavMenuItem[]}
         currentSite={'Docs'}
       />
-      <UniversalNav blend={true} />
+      <SecondaryNav />
       <Hero>
         <h1 className="font-weight-300">Amplify Documentation</h1>
         <p>
@@ -120,7 +120,7 @@ const Page = () => {
               <CardDetail>
                 <h4>Amplify Studio</h4>
                 <p>
-                  Visual development environment to accelerate full-stack
+                  Visual development environment to accelerate fullstack
                   development.
                 </p>
               </CardDetail>
@@ -136,7 +136,7 @@ const Page = () => {
               <CardGraphic alt="Console icon" src="/assets/console.png" />
               <CardDetail>
                 <h4>Amplify Hosting</h4>
-                <p>Fully managed web hosting with full-stack CI/CD.</p>
+                <p>Fully managed web hosting with fullstack CI/CD.</p>
               </CardDetail>
             </Card>
           </Grid>

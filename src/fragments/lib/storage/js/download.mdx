@@ -19,7 +19,7 @@ await Storage.get(key: string, config: {
 const signedURL = await Storage.get(key); // get key from Storage.list
 
 // inside your template or JSX code. Note <a download> doesn't work here because it is not same origin
-<a href={signedURL} target="_blank">{fileName}</a>
+<a href={signedURL} target="_blank" rel='noreferrer'>{fileName}</a>
 ```
 
 If `download` is true, `Storage.get` returns an object with a `Body` field of type [`Blob`](https://developer.mozilla.org/en-US/docs/Web/API/Blob). It is up to you to programmatically save it to disk (we suggest a method below) or do whatever else you need with it.
