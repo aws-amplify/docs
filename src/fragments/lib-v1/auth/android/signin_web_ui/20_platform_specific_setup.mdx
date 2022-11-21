@@ -77,8 +77,8 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
 
     if (requestCode == AWSCognitoAuthPlugin.WEB_UI_SIGN_IN_ACTIVITY_CODE &&
-        resultCode == Activity.RESULT_CANCELLED) {
-        Log.i("AuthQuickStart", "User cancelled sign in");
+        resultCode == Activity.RESULT_CANCELED) {
+        Log.i("AuthQuickStart", "User canceled sign in");
     }
 }
 ```
@@ -91,8 +91,8 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
     super.onActivityResult(requestCode, resultCode, data)
 
     if (requestCode == AWSCognitoAuthPlugin.WEB_UI_SIGN_IN_ACTIVITY_CODE &&
-        resultCode == Activity.RESULT_CANCELLED) {
-        Log.i("AuthQuickStart", "User cancelled sign in")
+        resultCode == Activity.RESULT_CANCELED) {
+        Log.i("AuthQuickStart", "User canceled sign in")
     }
 }
 ```

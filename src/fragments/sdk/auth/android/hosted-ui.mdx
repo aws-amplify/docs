@@ -378,8 +378,8 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
 
     if (requestCode == AuthClient.CUSTOM_TABS_ACTIVITY_CODE &&
-        resultCode == Activity.RESULT_CANCELLED) {
-        // handle cancelled sign in
+        resultCode == Activity.RESULT_CANCELED) {
+        // handle canceled sign in
     }
 }
 ```
