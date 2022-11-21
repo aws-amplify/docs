@@ -233,9 +233,36 @@ This returns a list of suggestions (places and their respective `placeId` if ava
 ]
 ```
 
+In cases where `placeId` is not available on the list of suggestions as below, use ``searchByText`` to search for the selected place by text.
+
+```javascript
+Geo.searchForSuggestions("Amazon", { MaxResults: 5 })
+
+// returns
+[
+  {
+    text: "Amazon Go",
+  },
+  {
+    text: "Amazon 4-star",
+  }
+]
+
+Geo.searchByText('Amazon Go', { MaxResults: 5 })
+```
+
+This returns places and their coordinates that match the search text.
+
+
 ### Search by PlaceId
 
 The `Geo.searchByPlaceId()` API enables you to search for a place by a `placeId`, which is a unique opaque token for a place returned by the provider.
+
+<Callout>
+
+**Note:** Upgrade to the latest Amplify CLI version (greater than version 10.4) and do an ``amplify push`` to update your IAM policies to allow for ``getPlace`` API.
+
+</Callout>
 
 ```javascript
 import { Geo } from "aws-amplify"
