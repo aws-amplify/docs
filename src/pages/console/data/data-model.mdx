@@ -33,16 +33,17 @@ The Studio data model designer provides a visual way to define your app's data m
 
 ![datamodel](/images/console/datamodel.gif)
 
-The experience for modeling data is the same in the sandbox and in Studio. With an AWS account, you will have real-time data synchronization capabilities and you will also be able to set authorization rules on your models. For more information, see [Authorization](/console/authz/authorization). All data models are provisioned in your account as AWS AppSync GraphQL APIs and Amazon DynamoDB tables. As with every feature of Studio, it can be further extended with the CLI.
+The experience for modeling data is the same in the sandbox and in Studio. With an AWS account, you will have real-time data synchronization capabilities and you will also be able to set authorization rules on your models. For more information, see [Authorization](/console/authz/authorization). All data models are provisioned in your account as AWS AppSync GraphQL APIs and Amazon DynamoDB tables. As with every feature of Studio, your data model can be further extended with the CLI.
 
-### DataStore and GraphQL
-By default, all data models built with Studio are provisioned with Amplify DataStore. However, Studio applications work with both DataStore and an Amplify GraphQL API. 
+### Conflict Resolution and GraphQL APIs
+By default, all GraphQL APIs built with Studio are provisioned with Conflict Resolution **enabled**. 
 
-**[DataStore](/lib/datastore/getting-started)** is an on-device storage engine that automatically synchronizes data between your mobile and web apps and your database, enabling offline use. DataStore requires a **Conflict Resolution** method to function. 
+Conflict Resolution is used by **[DataStore](/lib/datastore/getting-started)**, an on-device storage engine that enables offline use. DataStore requires a Conflict Resolution strategy to resolve data conflicts that arise from using an app offline. 
 
-An **[Amplify GraphQL API](../../cli/graphql/overview/)** is an online-only API that uses a GraphQL and DynamoDB via AWS AppSync. 
+Learn more about Conflict Resolution strategies in the [AppSync documentation](https://docs.aws.amazon.com/appsync/latest/devguide/conflict-detection-and-sync.html#conflict-detection-and-resolution).
 
-To change your app's Conflict Resolution settings, or to change your app from using DataStore to using an Amplify GraphQL API, take the following steps:
+### Change Conflict Resolution settings
+To change your app's Conflict Resolution strategy, or to enable or disable Conflict Resolution entirely, take the following steps:
 1. Navigate to **Amplify Studio > Data**
 2. Select **GraphQL API settings** at the top of the page
 3. Toggle DataStore off or on, or change your Conflict Resolution strategy
@@ -50,14 +51,14 @@ To change your app's Conflict Resolution settings, or to change your app from us
 
 <Callout warning>
 
-**IMPORTANT NOTE**: Changing between DataStore and an Amplify GraphQL API is a significant change to your data structure, and can take up to 30 minutes to complete. Frequently changing between data structures is not recommended.
+**IMPORTANT NOTE**: Activating and deactivating Conflict Resolution is a **destructive** change to your data structure, and isn't recommended if you have existing data. 
 
 </Callout>
 
 ### Limitations
-Applications that use an Amplify GraphQL API have limited feature availability in Studio. 
+GraphQL APIs with Conflict Resolution disabled have limited feature availability in Studio. 
 - The Content Manager is not supported, and is [replaced by a GraphiQL interface](content-management/#limitations)
 - [Binding UI Components to data](../uibuilder/databinding/), and [generating Collections](../uibuilder/collections/) is not supported
 - [Binding Forms to data, and auto-generated forms](../formbuilder/overview/) are not supported
 
-To get access to these features, turn on DataStore and select a Conflict Resolution strategy.
+To get access to these features, activate Conflict Resolution and **Save and Deploy** your schema.

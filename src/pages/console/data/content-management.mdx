@@ -68,8 +68,8 @@ You can also edit and store the data as markdown with the markdown editor. This 
 ![cms](/images/console/cms.png)
 
 ## Limitations
-Amplify Studio's content management view requires your app to be using [DataStore](/lib/datastore/getting-started). 
+Amplify Studio's content management view requires your app's GraphQL API to have **Conflict Resolution** enabled. Conflict Resolution is used by [DataStore](/lib/datastore/getting-started) to handle data conflicts that arise from offline use. 
 
-For applications that are using an Amplify GraphQL API instead, app content can be managed using **GraphiQL**, a visual interface for building and executing queries and mutations in GraphQL. [Learn more about GraphQL in their documentation.](https://graphql.org/learn/)
+For GraphQL APIs with Conflict Resolution disabled, app content can be managed using **GraphiQL**, a visual interface for building and executing queries and mutations in GraphQL. [Learn more about GraphQL in their documentation.](https://graphql.org/learn/)
 
-To change your app's data model from DataStore to an Amplify GraphQL API, [adjust your GraphQL API settings.](/console/data/data-model/#datastore-and-graphql)
+To change the Conflict Resolution strategy for your GraphQL API, or to enable or disabled Conflict Resolution entirely, [adjust your GraphQL API settings.](/console/data/data-model/#datastore-and-graphql)
