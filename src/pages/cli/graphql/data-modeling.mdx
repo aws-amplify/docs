@@ -618,42 +618,26 @@ type Address @model {
 }
 ```
 
-### Relational models with custom primary keys
-You can define custom primary keys for relational models. The foreign key fields needed by queries and mutations will be generated, which allows you to retrieve data across different relations. 
+### Relationships to a model with a composite primary key
 
-There are two options when you are defining the relational directives(`@hasOne`, `hasMany` and `@belongsTo`) depending on whether or not the `fields` argument is defined.
-- **Implicit fields**: `fields` argument defined
-- **Explicit fields**: `fields` argument undefined
+When a primary key is defined by a *sort key* in addition to the *hash key*, then it's called a **composite primary key**.
 
-You can choose the default relations with **implicit fields**. This will result in auto generation of additional foreign key fields referring its counterpart primary key and sort key fields.
+If you explicitly define the `fields` argument on the `@hasOne`, `@hasMany`, or `@belongsTo` directives and reference a model that has a composite primary key, then you must set the values in the `fields` argument in a specific order:
+
+- The first value should always be the primary key of the related model.
+- Remaining values should match the `sortKeyFields` specified in the `@primaryKey` directive of the related model.
 
 <BlockSwitcher>
 
-<Block name='Implicit Bi-directional "has one"'>
+<Block name='Uni-directional "has one"'>
 
 ```graphql
 type Project @model {
   projectId: ID! @primaryKey(sortKeyFields:["name"])
   name: String!
-  team: Team @hasOne
-}
-
-type Team @model {
-  teamId: ID! @primaryKey(sortKeyFields:["name"])
-  name: String!
-  project: Project @belongsTo
-}
-```
-
-</Block>
-
-<Block name='Implicit Uni-directional "has one"'>
-
-```graphql
-type Project @model {
-  projectId: ID! @primaryKey(sortKeyFields:["name"])
-  name: String!
-  team: Team @hasOne
+  team: Team @hasOne(fields:["teamId", "teamName"])
+  teamId: ID # customized foreign key for child primary key
+  teamName: String # customized foreign key for child sort key
 }
 
 type Team @model {
@@ -664,52 +648,7 @@ type Team @model {
 
 </Block>
 
-<Block name='Implicit Bi-directional "has many"'>
-
-```graphql
-type Post @model {
-  postId: ID! @primaryKey(sortKeyFields:["title"])
-  title: String!
-  comments: [Comment] @hasMany
-}
-
-type Comment @model {
-  commentId: ID! @primaryKey(sortKeyFields:["content"])
-  content: String!
-  post: Post @belongsTo
-}
-```
-
-</Block>
-
-<Block name='Implicit Uni-directional "has many"'>
-
-```graphql
-type Post @model {
-  postId: ID! @primaryKey(sortKeyFields:["title"])
-  title: String!
-  comments: [Comment] @hasMany
-}
-
-type Comment @model {
-  commentId: ID! @primaryKey(sortKeyFields:["content"])
-  content: String!
-}
-```
-
-</Block>
-
-</BlockSwitcher>
-
-You can also customize the foreign key fields instead of the auto-generated ones in the schema by defining the **explicit `fields`**  argument in relation directives.
-
-<Callout>
-The order of the elements in the value of `fields` argument matters. The first element should always be the primary key of the relational model. And remaining elements should match the `sortKeyFields` specified in the `@primaryKey` directive of the relational model.
-</Callout>
-
-<BlockSwitcher>
-
-<Block name='Explicit Bi-directional "has one"'>
+<Block name='Bi-directional "has one"'>
 
 ```graphql
 type Project @model {
@@ -731,26 +670,26 @@ type Team @model {
 
 </Block>
 
-<Block name='Explicit Uni-directional "has one"'>
+<Block name='Uni-directional "has many"'>
 
 ```graphql
-type Project @model {
-  projectId: ID! @primaryKey(sortKeyFields:["name"])
-  name: String!
-  team: Team @hasOne(fields:["teamId", "teamName"])
-  teamId: ID # customized foreign key for child primary key
-  teamName: String # customized foreign key for child sort key
+type Post @model {
+  postId: ID! @primaryKey(sortKeyFields:["title"])
+  title: String!
+  comments: [Comment] @hasMany(indexName:"byPost", fields:["postId", "title"])
 }
 
-type Team @model {
-  teamId: ID! @primaryKey(sortKeyFields:["name"])
-  name: String!
+type Comment @model {
+  commentId: ID! @primaryKey(sortKeyFields:["content"])
+  content: String!
+  postId: ID @index(name: "byPost", sortKeyFields:["postTitle"]) # customized foreign key for parent primary key
+  postTitle: String # customized foreign key for parent sort key
 }
 ```
 
 </Block>
 
-<Block name='Explicit Bi-directional "has many"'>
+<Block name='Bi-directional "has many"'>
 
 ```graphql
 type Post @model {
@@ -770,46 +709,9 @@ type Comment @model {
 
 </Block>
 
-<Block name='Explicit Uni-directional "has many"'>
 
-```graphql
-type Post @model {
-  postId: ID! @primaryKey(sortKeyFields:["title"])
-  title: String!
-  comments: [Comment] @hasMany(indexName:"byPost", fields:["postId", "title"])
-}
 
-type Comment @model {
-  commentId: ID! @primaryKey(sortKeyFields:["content"])
-  content: String!
-  postId: ID @index(name: "byPost", sortKeyFields:["postTitle"]) # customized foreign key for parent primary key
-  postTitle: String # customized foreign key for parent sort key
-}
-```
-
-</Block>
 </BlockSwitcher>
-
-The custom primary key can also be applied to `@manyToMany` models. Take the following schema as an example.
-
-<Block name='"many to many" relation'>
-
-```graphql
-type Post @model {
-	customPostId: ID! @primaryKey(sortKeyFields: ["title"])
-	title: String!
-	content: String
-	tags: [Tag] @manyToMany(relationName: "PostTags")
-}
-
-type Tag @model {
-	customTagId: ID! @primaryKey(sortKeyFields: ["label"])
-	label: String!
-	posts: [Post] @manyToMany(relationName: "PostTags")
-}
-```
-
-</Block>
 
 ### Generate a secondary index without a GraphQL query
 
@@ -884,10 +786,6 @@ The `@hasOne` will generate:
 - Foreign key fields in parent type that refer to the primary key and sort key fields of the child model.
 - Foreign key fields in parent input object of `create` and `update` mutations.
 
-<Callout>
-The foreign key fields can be customized by adding existing fields in `fields` attribute.
-</Callout>
-
 **Type definition of the `@hasOne` directive**
 
 ```graphql
@@ -902,23 +800,12 @@ The `@hasMany` will generate:
 - Foreign key fields in child input object of `create` and `update` mutations.
 - A global secondary index (GSI) in the child type Amazon DynamoDB table.
 
-<Callout>
-In a has many relation, the foreign keys are generated in the child type instead of the parent.
-</Callout>
-
-<Callout>
-The `fields` attribute matches the parent fields to the child index fields respectively.
-</Callout>
-
-<Callout>
-When `fields` attribute is defined, the global secondary index will not be added and should be defined explicitly on the child model via `@index`.
-</Callout>
-
 **Type definition of the `@hasMany` directive**
 
 ```graphql
 directive @hasMany(indexName: String, fields: [String!], limit: Int = 100) on FIELD_DEFINITION
 ```
+
 - The default number of nested objects returned is 100. You can override this behavior by setting the limit argument.
 
 </Block>
@@ -928,10 +815,6 @@ The `@belongsTo` will generate:
 
 - Foreign key fields that refer to the primary key and sort key fields of the related model.
 - Foreign key fields in the input object of `create` and `update` mutations.
-
-<Callout>
-The foreign key fields can be customized by adding existing fields in the `fields` attribute.
-</Callout>
 
 **Type definition of the `@belongsTo` directive**
 
