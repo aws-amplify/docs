@@ -73,7 +73,17 @@ let storagePlugin = AWSS3StoragePlugin(configuration: .prefixResolver(MyDevelope
 Amplify.add(storagePlugin)
 ```
 
-Add the IAM policy that corresponds with the prefixes defined above to enable read, write and delete operation for all the objects under path *myPublicPrefix/*:
+### Defining IAM Policy for Custom Prefix
+
+You will need to update the IAM policy to enable read, write and delete operation for all the objects under your custom prefix path.
+
+Directly updating the relevant IAM role policies in AWS policies will be overwritten for future calls of Amplify push.
+
+Instead, [override Amplify IAM roles](https://docs.amplify.aws/cli/project/override/) for `authRole` and/or `unauthRole` by adapting [this example](https://docs.amplify.aws/cli/project/override/#example-modify-authroles-iam-policies).
+
+Note that the `policyName` should match a pre existing policyName that Amplify CLI created for your app.
+
+Add the IAM policy that corresponds with the prefixes defined above to enable read, write and delete operation for all the objects under path _myPublicPrefix/_:
 
 ```xml
 "Statement": [
