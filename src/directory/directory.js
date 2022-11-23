@@ -469,6 +469,11 @@ const directory = {
             filters: ['js']
           },
           {
+            title: 'Device Tracking',
+            route: '/lib/geo/device-tracking',
+            filters: ['ios']
+          },
+          {
             title: 'Use existing Amazon Location resources',
             route: '/lib/geo/existing-resources',
             filters: ['js', 'ios', 'android']
