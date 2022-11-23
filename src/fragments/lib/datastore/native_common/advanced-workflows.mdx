@@ -1,6 +1,6 @@
 ## Customize primary keys
 
-By default, DataStore models have an `id` field that is automatically populated on the client with a UUID v4, allowing DataStore to generate non-colliding globally unique identifiers in a scalable way. While UUIDs have desirable properties (they are large, non-sequential and opaque), there are times when a custom primary key is needed. For instance, to:
+By default, DataStore models have an `id` field that is automatically populated on the client with a UUID v4, allowing DataStore to generate non-colliding globally unique identifiers in a scalable way. While UUIDs have desirable properties (they are large, non-sequential and opaque), there are times when a custom primary key, also known as custom identifier, is needed. For instance, to:
 
 - Have friendly/readable identifiers (surrogate/opaque vs. natural keys)
 - Define composite primary keys
@@ -124,7 +124,7 @@ type Customer@model {
 ```
 
 </td>
-<td>If not provided in constructor/builder</td>
+<td>✅ Yes</td>
 </tr>
 <tr>
 <td>
@@ -145,7 +145,7 @@ type Customer @model {
 ```
 
 </td>
-<td>If not provided in constructor/builder</td>
+<td>✅ Yes</td>
 </tr>
 <tr>
 <td>
@@ -166,7 +166,7 @@ type Customer@model {
 ```
 
 </td>
-<td>If not provided in constructor/builder</td>
+<td>✅ Yes</td>
 </tr>
 <tr>
 <td>
