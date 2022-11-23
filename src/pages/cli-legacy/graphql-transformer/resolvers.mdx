@@ -553,7 +553,7 @@ Amazon OpenSearch domains can take a while to deploy. Take this time to read up 
 
 - After the update is complete but before creating any objects, update your OpenSearch index mapping.
 
-An index mapping tells OpenSearch how it should treat the data that you are trying to store. By default, if we create an object with field `"location": { "lat": 40, "lon": -40 }`, OpenSearch will treat that data as an *object* type when in reality we want it to be treated as a *geo_point*. You use the mapping APIs to tell OpenSearch how to do this.
+An index mapping tells OpenSearch how it should treat the data that you are trying to store. By default, if you create an object with field `"location": { "lat": 40, "lon": -40 }`, OpenSearch will treat that data as an *object* type when in reality you want it to be treated as a *geo_point*. You use the mapping APIs to tell OpenSearch how to do this.
 
 Make sure you tell OpenSearch that your location field is a *geo_point* before creating objects in the index because otherwise you will need delete the index and try again. Go to the [Amazon OpenSearch Console](https://console.aws.amazon.com/es/home) and find the OpenSearch domain that contains this environment's GraphQL API ID. Click on it and open the OpenSearch Dashboard link. To get the OpenSearch Dashboard to show up you need to install a browser extension such as [AWS Agent](https://addons.mozilla.org/en-US/firefox/addon/aws-agent/) and configure it with your AWS profile's public key and secret so the browser can sign your requests to the OpenSearch Dashboard for security reasons. Once you have the OpenSearch Dashboard open, click the "Dev Tools" tab on the left and run the commands below using the in browser console.
 

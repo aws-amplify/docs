@@ -1,8 +1,10 @@
 ```js
 const subscription = DataStore.observeQuery(
   Post,
-  p => p.title("beginsWith", "post").rating("gt", 10),
-  {
+  p => p.and(p => [
+    p.title.beginsWith("post"),
+    p.rating.gt(10)
+  ]), {
     sort: s => s.rating(SortDirection.ASCENDING)
   }
 ).subscribe(snapshot => {

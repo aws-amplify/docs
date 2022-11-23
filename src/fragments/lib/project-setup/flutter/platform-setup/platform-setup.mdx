@@ -31,7 +31,16 @@ import flutter1 from '/src/fragments/start/getting-started/flutter/kotlin-versio
 <Block name = "Developer Preview (Mobile, Web & Desktop)">
 
 ## Web
+
+### Auth category
+
 No specific configuration steps are needed to begin using the Auth category in the browser.
+
+### Analytics and Storage categories
+
+import flutter2 from '/src/fragments/lib/project-setup/flutter/platform-setup/sqlite3_wasm.mdx';
+
+<Fragments fragments={{ flutter: flutter2 }} />
 
 ## iOS
 From your project root, navigate to the `ios/` directory and modify the `Podfile` using a text editor of your choice and update the target iOS platform to 13.0 or higher.
@@ -49,7 +58,23 @@ minSdkVersion 24
 ```
 
 ## macOS
-To run the Amplify-Flutter developer preview on macOS, you will need to enable signing as well as networking and keychain [entitlements](https://developer.apple.com/documentation/bundleresources/entitlements).
+To run the Amplify-Flutter developer preview on macOS, you will need to update the minimum platform version to 10.15, and enable networking, keychain [entitlements](https://developer.apple.com/documentation/bundleresources/entitlements), and signing.
+
+### Update Minimum Version 
+
+From your project root, navigate to the `macos/` directory and modify the `Podfile` using a text editor of your choice and update the target macOS platform to 10.15 or higher.
+
+```bash
+platform :osx, '10.15'
+```
+
+Open your project in Xcode and select Runner, Target -> Runner and then the "General" tab. Under the "Minimum Deployments" section, update the version to 10.15 or higher.
+
+![XCode Minimum Deployment Version](/images/project-setup/flutter/mac/target-min-deployment-version.png)
+
+Select Runner, Project -> Runner and then the "Info" tab. Update "macOS Deployment Target" to 10.15 or higher.
+
+![XCode Minimum Deployment Version](/images/project-setup/flutter/mac/project-min-deployment-version.png)
 
 ### Enable network calls
 

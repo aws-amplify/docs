@@ -2,21 +2,25 @@
 
 You can subscribe to changes on your Models. This reacts dynamically to updates of data to the underlying Storage Engine, which could be the result of GraphQL Subscriptions as well as Queries or Mutations that run against the backing AppSync API if you are synchronizing with the cloud.
 
-import js0 from "/src/fragments/lib/datastore/js/real-time/observe-snippet.mdx";
+import js0 from '/src/fragments/lib/datastore/js/real-time/observe-snippet.mdx';
 
-<Fragments fragments={{js: js0}} />
+<Fragments fragments={{ js: js0 }} />
 
-import ios1 from "/src/fragments/lib/datastore/ios/real-time/observe-snippet.mdx";
+import reactnative0 from '/src/fragments/lib/datastore/js/real-time/observe-snippet.mdx';
 
-<Fragments fragments={{ios: ios1}} />
+<Fragments fragments={{ 'react-native': reactnative0 }} />
 
-import android2 from "/src/fragments/lib/datastore/android/real-time/observe-snippet.mdx";
+import ios1 from '/src/fragments/lib/datastore/ios/real-time/observe-snippet.mdx';
 
-<Fragments fragments={{android: android2}} />
+<Fragments fragments={{ ios: ios1 }} />
 
-import flutter3 from "/src/fragments/lib/datastore/flutter/real-time/observe-snippet.mdx";
+import android2 from '/src/fragments/lib/datastore/android/real-time/observe-snippet.mdx';
 
-<Fragments fragments={{flutter: flutter3}} />
+<Fragments fragments={{ android: android2 }} />
+
+import flutter3 from '/src/fragments/lib/datastore/flutter/real-time/observe-snippet.mdx';
+
+<Fragments fragments={{ flutter: flutter3 }} />
 
 ## Observe query results in real-time
 
@@ -24,24 +28,28 @@ import flutter3 from "/src/fragments/lib/datastore/flutter/real-time/observe-sni
 
 The first snapshot returned from `observeQuery` will contain the same results as calling `query` directly on your Model - a collection of all the locally-available records. Subsequent snapshots will be emitted as updates to the dataset are received in the local store.
 
-While data is syncing from the cloud, snapshots will contain all of the items synced so far and an `isSynced` status of `false`. When the sync process is complete, a snapshot will be emitted with all the records in the local store and an `isSynced` status of `true`. 
+While data is syncing from the cloud, snapshots will contain all of the items synced so far and an `isSynced` status of `false`. When the sync process is complete, a snapshot will be emitted with all the records in the local store and an `isSynced` status of `true`.
 
 In addition to typical real-time use cases, `observeQuery` can be used on app launch to show your customers an initial data set from the local store while new data is being synced from cloud.
 
 `observeQuery` also accepts the same [predicates](/lib/datastore/data-access#predicates) and [sorting](/lib/datastore/data-access#sort) options as `query`.
 
-import js1 from "/src/fragments/lib/datastore/js/real-time/observe-query-snippet.mdx";
+import js1 from '/src/fragments/lib/datastore/js/real-time/observe-query-snippet.mdx';
 
-<Fragments fragments={{js: js1}} />
+<Fragments fragments={{ js: js1 }} />
 
-import ios2 from "/src/fragments/lib/datastore/ios/real-time/observe-query-snippet.mdx";
+import reactnative1 from '/src/fragments/lib/datastore/js/real-time/observe-query-snippet.mdx';
 
-<Fragments fragments={{ios: ios2}} />
+<Fragments fragments={{ 'react-native': reactnative1 }} />
 
-import android3 from "/src/fragments/lib/datastore/android/real-time/observe-query-snippet.mdx";
+import ios2 from '/src/fragments/lib/datastore/ios/real-time/observe-query-snippet.mdx';
 
-<Fragments fragments={{android: android3}} />
+<Fragments fragments={{ ios: ios2 }} />
 
-import flutter4 from "/src/fragments/lib/datastore/flutter/real-time/observe-query-snippet.mdx";
+import android3 from '/src/fragments/lib/datastore/android/real-time/observe-query-snippet.mdx';
 
-<Fragments fragments={{flutter: flutter4}} />
+<Fragments fragments={{ android: android3 }} />
+
+import flutter4 from '/src/fragments/lib/datastore/flutter/real-time/observe-query-snippet.mdx';
+
+<Fragments fragments={{ flutter: flutter4 }} />

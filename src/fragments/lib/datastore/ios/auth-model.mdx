@@ -14,7 +14,7 @@ type Todo
 }
 ```
 
-By setting `allow:owner` with `operations` set to `create`, `update` and `delete`, we have effectively set permissions for both the user who created the model (owner) and everyone else (non-owners). For owners this means, they can update and delete their created instances. For non-owners, this means they can read instances that are not owned by them and are restricted from updating or deleting them.
+By setting `allow:owner` with `operations` set to `create`, `update` and `delete`, you have effectively set permissions for both the user who created the model (owner) and everyone else (non-owners). For owners this means, they can update and delete their created instances. For non-owners, this means they can read instances that are not owned by them and are restricted from updating or deleting them.
 
 For example, if there are two users, UserA and UserB, where UserA creates a `Todo` instance named `todo123`, UserA can create, update, or delete `todo123`. UserB can read `todo123` but can not update or delete `todo123`.
 
@@ -27,7 +27,7 @@ The `@auth` directive when used with Amplify DataStore supports the following fi
 
 ## Configure API with Amazon Cognito user pool
 
-While using the `@auth` directive in your schema to limit read/write access, we require authentication to be integrated into your app in order to differentiate who the owner is. To set this up issue the command:
+While using the `@auth` directive in your schema to limit read/write access, you require authentication to be integrated into your app in order to differentiate who the owner is. To set this up issue the command:
 
 ```console
 amplify update api
@@ -71,9 +71,9 @@ Upon successfully running `amplify push` per the last step, `amplifyconfiguratio
 Add "AWSCognitoAuthPlugin" and "AWSAPIPlugin" to Amplify before configuring
 
 ```swift
-Amplify.add(plugin: AWSCognitoAuthPlugin())
-Amplify.add(plugin: AWSAPIPlugin())
-Amplify.configure()
+try Amplify.add(plugin: AWSCognitoAuthPlugin())
+try Amplify.add(plugin: AWSAPIPlugin())
+try Amplify.configure()
 ```
 
 ## Authentication requirements
@@ -83,30 +83,30 @@ In order to issue an operation (`DataStore.save`, `DataStore.delete`) on a model
 1. User's sign in state is known to be signed out, and the user needs to sign in, prior to making a call to `DataStore.save()`. 
 
 ```swift
-Amplify.Auth.signIn {
-    switch $0 {
-    case .success(let signInResult):
-        if signInResult.isSignedIn {
-            // Amplify.DataStore.save
-        }
-    case .failure(let error):
-        print("Sign in error \(error)")
+do {
+    let signInResult = try await Amplify.Auth.signIn(username: username, password: password)
+    if signInResult.isSignedIn {
+        print("Sign in succeeded")
     }
+    // Amplify.DataStore.save
+} catch let error as AuthError {
+    print("Sign in error \(error)")
+} catch {
+    print("Unexpected error \(error)")
 }
 ```
 
 2. User's sign in state is unknown (for example, app was terminated or transitioned from background to foreground) and you need to check prior to making a call to `DataStore.save()`. 
 
 ```swift
-_ = Amplify.Auth.fetchAuthSession {
-    switch $0 {
-    case .success(let authSession):
-        if authSession.isSignedIn {
-            // Amplify.DataStore.save
-        }
-    case .failure(let error):
-        print("failed to get auth session", error)
-    }
+do {
+    let session = try await Amplify.Auth.fetchAuthSession() 
+    print("Is user signed in - \(session.isSignedIn)")
+    // try await Amplify.DataStore.save
+} catch let error as AuthError {
+    print("failed to get auth session \(error)")
+} catch {
+    print("Unexpected error \(error)")
 }
 ```
 
@@ -122,7 +122,7 @@ For more information on related topics:
 
 To check who the owner of the model is, call `DataStore.query` and check the user's username against the owner field. 
 ```swift
-if let currentUser = Amplify.Auth.getCurrentUser() {
+if let currentUser = try await Amplify.Auth.getCurrentUser() {
     if currentUser.username == todo.owner {
         print("This todo was created by the current user")
     }
@@ -138,7 +138,7 @@ _ = Amplify.Hub.listen(to: .dataStore) { payload in
             let modelName = mutationEvent.modelName
             let id = mutationEvent.modelId
             if modelName == YourModel.modelName {
-                // Amplify.DataStore.query(YourModel.self, id)
+                // try await Amplify.DataStore.query(YourModel.self, byId: id)
             }
         }
     }

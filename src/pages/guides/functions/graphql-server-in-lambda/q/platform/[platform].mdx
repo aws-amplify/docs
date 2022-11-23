@@ -3,7 +3,7 @@ export const meta = {
   description: `How to run an Apollo GraphQL server in a Lambda function`,
 };
 
-In this guide you will learn how to run a GraphQL server in a Lambda function. In this example we will be using [Apollo Server](https://www.apollographql.com/docs/) and [Apollo Server Lambda](https://github.com/apollographql/apollo-server/tree/master/packages/apollo-server-lambda), but you can use any server implementation you would like.
+In this guide you will learn how to run a GraphQL server in a Lambda function. In this example you will be using [Apollo Server](https://www.apollographql.com/docs/) and [Apollo Server Lambda](https://github.com/apollographql/apollo-server/tree/master/packages/apollo-server-lambda), but you can use any server implementation you would like.
 
 The end goal is to have an API endpoint, like `https://your-api-endpoint.com/graphql`, deployed and integrated with a GraphQL server running in a serverless function.
 
@@ -26,7 +26,7 @@ amplify init
 
 ### Creating the GraphQL API and function
 
-Next we need to create the API and the Lambda function. Using the `api` category, the CLI will create a serverless function as well as an http endpoint that we can use for our GraphQL server.
+Next you need to create the API and the Lambda function. Using the `api` category, the CLI will create a serverless function as well as an http endpoint that you can use for your GraphQL server.
 
 ```sh
 $ amplify add api
@@ -95,7 +95,7 @@ exports.handler = server.createHandler({
 })
 ```
 
-Now, we can deploy the function and GraphQL API:
+Now, you can deploy the function and GraphQL API:
 
 ```sh
 amplify push

@@ -10,7 +10,9 @@ import { useRouter } from 'next/router';
 
 const appId = 'W6Q5N5WUDV';
 const apiKey = '953b9e801f385c3c689fc8e94690ab43';
-const searchIndex = process.env.NEXT_PUBLIC_ALGOLIA_INDEX ? process.env.NEXT_PUBLIC_ALGOLIA_INDEX : 'custom_search_staging';
+const searchIndex = process.env.NEXT_PUBLIC_ALGOLIA_INDEX
+  ? process.env.NEXT_PUBLIC_ALGOLIA_INDEX
+  : 'custom_search_staging';
 const searchClient = algoliasearch(appId, apiKey);
 
 function App() {
@@ -19,6 +21,7 @@ function App() {
   return (
     <Search>
       <Autocomplete
+        placeholder="Search Docs"
         openOnFocus={false}
         getSources={({ query }) => [
           {
@@ -34,7 +37,7 @@ function App() {
                     indexName: searchIndex,
                     query,
                     params: {
-                      hitsPerPage: 6
+                      hitsPerPage: 20
                     }
                   }
                 ]

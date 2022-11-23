@@ -1,6 +1,33 @@
+import flutter0 from "/src/fragments/lib/project-setup/flutter/platform-setup/sqlite3_wasm.mdx";
+
+<BlockSwitcher>
+
+<Block name="Stable (Mobile)">
+
 * A Flutter application targeting Flutter SDK >= 2.10.0 (stable version) with Amplify libraries integrated
   * An iOS configuration targeting at least iOS 11.0
   * An Android configuration targeting at least Android API level 21 (Android 5.0) or above
   * For a full example please follow the [project setup walkthrough](/lib/project-setup/create-application)
 
 You can see [an example Amplify Storage + Flutter application here](https://github.com/aws-amplify/amplify-flutter/tree/main/packages/storage/amplify_storage_s3/example).
+
+</Block>
+
+<Block name = "Developer Preview (Mobile, Web & Desktop)">
+
+* A Flutter application targeting Flutter SDK >= 3.0.0 with Amplify libraries integrated
+  
+  The following are also required, depending on which platforms you are targeting:
+
+  * An iOS configuration targeting at least iOS 13.0 and XCode version >=13.2
+  * An Android configuration targeting at least Android API level 24 (Android 7.0) or above
+  * Any browser supported by Flutter for Web (you can check the list of supported browsers [here](https://docs.flutter.dev/development/platform-integration/web/faq#which-web-browsers-are-supported-by-flutter))
+  * Any Windows OS meeting Flutter minimums
+  * macOS version 10.15 or higher
+  * Any Ubuntu Linux distribution meeting Flutter minimums
+  * For a full example please follow the [project setup walkthrough](/lib/project-setup/create-application)
+  * <Fragments fragments={{flutter: flutter0}} />
+
+</Block>
+
+</BlockSwitcher>

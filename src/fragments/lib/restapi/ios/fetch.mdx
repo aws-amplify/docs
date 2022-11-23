@@ -4,41 +4,42 @@ To make a GET request, first create a RESTRequest object and then use the Amplif
 
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-func getTodo() {
+func getTodo() async {
     let request = RESTRequest(path: "/todo")
-    Amplify.API.get(request: request) { result in
-        switch result {
-        case .success(let data):
-            let str = String(decoding: data, as: UTF8.self)
-            print("Success \(str)")
-        case .failure(let apiError):
-            print("Failed", apiError)
-        }
+    do {
+        let data = try await Amplify.API.get(request: request)
+        let str = String(decoding: data, as: UTF8.self)
+        print("Success: \(str)")
+    } catch let error as APIError {
+            print("Failed due to API error: ", error)
+    } catch {
+        print("Unexpected error: \(error)")
     }
 }
 ```
 
 </Block>
 
-<Block name="Combine (iOS 13+)">
+<Block name="Combine">
 
 ```swift
 func getTodo() -> AnyCancellable {
     let request = RESTRequest(path: "/todo")
-    let sink = Amplify.API.get(request: request)
-        .resultPublisher
-        .sink {
-            if case let .failure(apiError) = $0 {
-                print("Failed", apiError)
-            }
+    let sink = Amplify.Publisher.create {
+        try await Amplify.API.get(request: request)
+    }
+    .sink {
+        if case let .failure(apiError) = $0 {
+            print("Failed", apiError)
         }
-        receiveValue: { data in
-            let str = String(decoding: data, as: UTF8.self)
-            print("Success \(str)")
-        }
+    }
+    receiveValue: { data in
+        let str = String(decoding: data, as: UTF8.self)
+        print("Success \(str)")
+    }
     return sink
 }
 ```
@@ -52,11 +53,15 @@ func getTodo() -> AnyCancellable {
 When your service returns a non-2xx HTTP status code in the response, the API call will result in a failure that you can handle in your app. The response body can be accessed from the `body: Data?` property. For example, when the `APIError` is an `.httpStatusError(StatusCode, HTTPURLResponse)`, then access the response body by type casting the response to an `AWSHTTPURLResponse` and retrieve the `body` field.
 
 ```swift
-if case let .httpStatusError(statusCode, response) = error,
-    let awsResponse = response as? AWSHTTPURLResponse,
-    let responseBody = awsResponse.body
-{
-    print("Response contains a \(responseBody.count) byte long response body")
+import AWSAPIPlugin
+```
+
+```swift
+if let error = error as? APIError,
+   case let .httpStatusError(statusCode, response) = error,
+   let awsResponse = response as? AWSHTTPURLResponse,
+   let responseBody = awsResponse.body {
+    print("Response contains a \(responseBody.count) byte long response body with status code: \(statusCode)")
 }
 ```
 
@@ -100,43 +105,44 @@ Then you can use query parameters in your path as follows:
 
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-func getTodo() {
+func getTodo() async {
     let queryParameters = ["q":"test"]
     let request = RESTRequest(path: "/todo", queryParameters: queryParameters)
-    Amplify.API.get(request: request) { result in
-        switch result {
-        case .success(let data):
-            let str = String(decoding: data, as: UTF8.self)
-            print("Success \(str)")
-        case .failure(let apiError):
-            print("Failed", apiError)
-        }
+    do {
+        let data = try await Amplify.API.get(request: request)
+        let str = String(decoding: data, as: UTF8.self)
+        print("Success: \(str)")
+    } catch let error as APIError {
+        print("Failed due to API error: ", error)
+    } catch {
+        print("Unexpected error: \(error)")
     }
 }
 ```
 
 </Block>
 
-<Block name="Combine (iOS 13+)">
+<Block name="Combine">
 
 ```swift
 func getTodo() -> AnyCancellable {
     let queryParameters = ["q":"test"]
     let request = RESTRequest(path: "/todo", queryParameters: queryParameters)
-    let sink = Amplify.API.get(request: request)
-        .resultPublisher
-        .sink {
-            if case let .failure(apiError) = $0 {
-                print("Failed", apiError)
-            }
+    let sink = Amplify.Publisher.create {
+        try await Amplify.API.get(request: request)
+    }
+    .sink {
+        if case let .failure(apiError) = $0 {
+            print("Failed", apiError)
         }
-        receiveValue: { data in
-            let str = String(decoding: data, as: UTF8.self)
-            print("Success \(str)")
-        }
+    }
+    receiveValue: { data in
+        let str = String(decoding: data, as: UTF8.self)
+        print("Success \(str)")
+    }
     return sink
 }
 ```
