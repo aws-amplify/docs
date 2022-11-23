@@ -12,7 +12,7 @@ With a predicate:
 
 ```js
 const books = await DataStore.query(Book, b =>
-    t.isbn('eq', '12345')
+    t.isbn.eq('12345')
 );
 ```
 
@@ -20,8 +20,11 @@ const books = await DataStore.query(Book, b =>
 <Block name="Composite Key">
 
 ```js
-const books = await DataStore.query(Book, b =>
-    t.isbn('eq', '12345').title('eq', 'My Book')
+const books = await DataStore.query(Book, b => b.and(
+    b => [
+        b.isbn.eq('12345'),
+        b.title.eq('My Book')
+    ])
 );
 ```
 

@@ -1,8 +1,6 @@
-## Custom Primary Keys
+## Customize primary keys
 
-By default, DataStore models have an `id` field that is automatically populated on the client with a UUID v4, allowing DataStore to generate non-colliding globally unique identifiers in a scalable way.
-
-While UUIDs have desirable properties (they are large, non-sequential and opaque), there are times when a custom primary key is needed. For instance, to:
+By default, DataStore models have an `id` field that is automatically populated on the client with a UUID v4, allowing DataStore to generate non-colliding globally unique identifiers in a scalable way. While UUIDs have desirable properties (they are large, non-sequential and opaque), there are times when a custom primary key is needed. For instance, to:
 
 - Have friendly/readable identifiers (surrogate/opaque vs. natural keys)
 - Define composite primary keys
@@ -10,8 +8,6 @@ While UUIDs have desirable properties (they are large, non-sequential and opaque
 - Selectively synchronize data to clients (e.g. by fields like `deviceId`, `userId` or similar)
 - Prioritize the sort order in which objects are returned by the sync queries
 - Make existing data consumable and syncable by DataStore
-
-### Example schemas using custom primary keys
 
 A schema with the typical `id` field looks like this:
 
@@ -23,10 +19,7 @@ type Book @model {
 }
 ```
 
-With custom primary keys, you can provide a unique field name and/or value using the `@primaryKey` directive:
-
-<BlockSwitcher>
-<Block name="Custom Primary Key">
+You can customize the primary key by adding the `@primaryKey` directive to a field:
 
 ```graphql
 type Book @model {
@@ -36,8 +29,7 @@ type Book @model {
 }
 ```
 
-</Block>
-<Block name="Composite Key">
+You can also require multiple fields to define your primary key. When your primary key references multiple fields, it's called a **composite key**. In the example below, the primary key is defined by the `isbn` and `title` fields:
 
 ```graphql
 type Book @model {
@@ -47,12 +39,9 @@ type Book @model {
 }
 ```
 
-</Block>
-</BlockSwitcher>
+### Determine when the primary key field is auto-populated upon record creation
 
-### Creating records with Custom Primary Keys:
-
-The following table explains when a value for the custom primary key must be provided:
+When you create a record with DataStore, a UUID is automatically populated for the default `id: ID!` primary key field. When working with custom primary keys, DataStore will automatically populate the key fields in the following conditions:
 
 <table>
 <tbody>
@@ -62,7 +51,11 @@ The following table explains when a value for the custom primary key must be pro
 <th>Autopopulated with UUID</th>
 </tr>
 <tr>
-<td>Without @primaryKey</td>
+<td>
+
+Without `@primaryKey`
+
+</td>
 <td>
 
 ```graphql
@@ -76,7 +69,11 @@ type Customer @model {
 <td>✅ Yes</td>
 </tr>
 <tr>
-<td>Without @primaryKey, explicit `id` field</td>
+<td>
+
+Without `@primaryKey`, explicit `id` field
+
+</td>
 <td>
 
 ```graphql
@@ -91,7 +88,11 @@ type Customer @model {
 <td>✅ Yes</td>
 </tr>
 <tr>
-<td>@primaryKey on a custom field</td>
+<td>
+
+`@primaryKey` on a custom field
+
+</td>
 <td>
 
 ```graphql
@@ -106,7 +107,11 @@ type Customer @model {
 <td>❌ No</td>
 </tr>
 <tr>
-<td>Explicit @primaryKey on `id` field</td>
+<td>
+
+Explicit `@primaryKey` on `id` field
+
+</td>
 <td>
 
 ```graphql
@@ -122,7 +127,11 @@ type Customer@model {
 <td>If not provided in constructor/builder</td>
 </tr>
 <tr>
-<td>Explicit @primaryKey on `id` field with sort key</td>
+<td>
+
+Explicit `@primaryKey` on `id` field with sort key
+
+</td>
 <td>
 
 ```graphql
@@ -139,7 +148,11 @@ type Customer @model {
 <td>If not provided in constructor/builder</td>
 </tr>
 <tr>
-<td>Explicit `id` field in sort key</td>
+<td>
+
+Explicit `id` field in sort key
+
+</td>
 <td>
 
 ```graphql
@@ -156,7 +169,11 @@ type Customer@model {
 <td>If not provided in constructor/builder</td>
 </tr>
 <tr>
-<td>@primaryKey with no `id` field</td>
+<td>
+
+@primaryKey with no `id` field
+
+</td>
 <td>
 
 ```graphql
@@ -175,7 +192,7 @@ type Customer @model {
 </tbody>
 </table>
 
-### Querying records with Custom Primary Keys:
+### Querying records with custom primary keys
 
 import android0 from '/src/fragments/lib/datastore/android/advanced-workflows/custom-primary-key/query-snippet.mdx';
 
@@ -191,7 +208,7 @@ import ios0 from '/src/fragments/lib/datastore/ios/advanced-workflows/custom-pri
 
 import js0 from '/src/fragments/lib/datastore/js/advanced-workflows/custom-primary-key/query-snippet.mdx';
 
-<Fragments fragments={{ js: js0 }} />
+<Fragments fragments={{ js: js0, 'react-native': js0 }} />
 
 import android1 from '/src/fragments/lib/datastore/android/advanced-workflows/custom-primary-key/delete-snippet.mdx';
 
@@ -203,8 +220,4 @@ import ios1 from '/src/fragments/lib/datastore/ios/advanced-workflows/custom-pri
 
 import js1 from '/src/fragments/lib/datastore/js/advanced-workflows/custom-primary-key/delete-snippet.mdx';
 
-<Fragments fragments={{ js: js1 }} />
-
-### Relational Models with Custom Primary Key
-
-For more details on using custom primary keys with relational models, visit our [cli docs](https://docs.amplify.aws/cli/graphql/data-modeling/#relational-models-with-custom-primary-keys).
+<Fragments fragments={{ js: js1, 'react-native': js1 }} />
