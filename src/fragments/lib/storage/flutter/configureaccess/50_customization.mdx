@@ -99,3 +99,55 @@ final storagePlugin = AmplifyStorageS3(
 
 await Amplify.addPlugin(storagePlugin);
 ```
+
+You will need to update your permissions to allow access to your custom prefix. Go to s3.console.aws.amazon.com then go to IAM -> Roles.
+
+Choose the Role associated with your Amplify app labeled [AMPLIFY_APP_NAME]-[ENV]-unAuthRole or authRole (for signed in users).
+
+Under permissions, modify the relevant policy to enable read, write and delete operation for all the objects under path _myPublicPrefix/_.
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": ["s3:PutObject", "s3:GetObject", "s3:DeleteObject"],
+      "Resource": ["arn:aws:s3:::your-s3-bucket/myPublicPrefix/*"],
+      "Effect": "Allow"
+    }
+  ]
+}
+```
+
+If you want to have custom _private_ path prefix like `myPrivatePrefix/`, you need to add permissions to the IAM policy of your authenticated users. For example, for the given IAM principal (default authenticated role for Amplify projects):
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": ["s3:GetObject", "s3:PutObject", "s3:DeleteObject"],
+      "Resource": [
+        "arn:aws:s3:::your-s3-bucket/myPrivatePrefix/${cognito-identity.amazonaws.com:sub}/*"
+      ],
+      "Effect": "Allow"
+    }
+  ]
+}
+```
+
+#### Passthrough PrefixResolver
+
+If you would like no prefix resolution logic, such as performing S3 requests at the root of the bucket, create a prefix resolver that returns an empty string:
+
+```dart
+class PassThroughPrefixResolver implements StorageS3PrefixResolver {
+  @override
+  Future<String> resolvePrefix({
+    required StorageAccessLevel storageAccessLevel,
+    String? identityId,
+  }) async {
+    return '';
+  }
+}
+```
