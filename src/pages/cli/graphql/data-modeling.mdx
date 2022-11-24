@@ -618,6 +618,101 @@ type Address @model {
 }
 ```
 
+### Relationships to a model with a composite primary key
+
+When a primary key is defined by a *sort key* in addition to the *hash key*, then it's called a **composite primary key**.
+
+If you explicitly define the `fields` argument on the `@hasOne`, `@hasMany`, or `@belongsTo` directives and reference a model that has a composite primary key, then you must set the values in the `fields` argument in a specific order:
+
+- The first value should always be the primary key of the related model.
+- Remaining values should match the `sortKeyFields` specified in the `@primaryKey` directive of the related model.
+
+<BlockSwitcher>
+
+<Block name='Uni-directional "has one"'>
+
+```graphql
+type Project @model {
+  projectId: ID! @primaryKey(sortKeyFields:["name"])
+  name: String!
+  team: Team @hasOne(fields:["teamId", "teamName"])
+  teamId: ID # customized foreign key for child primary key
+  teamName: String # customized foreign key for child sort key
+}
+
+type Team @model {
+  teamId: ID! @primaryKey(sortKeyFields:["name"])
+  name: String!
+}
+```
+
+</Block>
+
+<Block name='Bi-directional "has one"'>
+
+```graphql
+type Project @model {
+  projectId: ID! @primaryKey(sortKeyFields:["name"])
+  name: String!
+  team: Team @hasOne(fields:["teamId", "teamName"])
+  teamId: ID # customized foreign key for child primary key
+  teamName: String # customized foreign key for child sort key
+}
+
+type Team @model {
+  teamId: ID! @primaryKey(sortKeyFields:["name"])
+  name: String!
+  project: Project @belongsTo(fields:["projectId", "projectName"])
+  projectId: ID # customized foreign key for parent primary key
+  projectName: String # customized foreign key for parent sort key
+}
+```
+
+</Block>
+
+<Block name='Uni-directional "has many"'>
+
+```graphql
+type Post @model {
+  postId: ID! @primaryKey(sortKeyFields:["title"])
+  title: String!
+  comments: [Comment] @hasMany(indexName:"byPost", fields:["postId", "title"])
+}
+
+type Comment @model {
+  commentId: ID! @primaryKey(sortKeyFields:["content"])
+  content: String!
+  postId: ID @index(name: "byPost", sortKeyFields:["postTitle"]) # customized foreign key for parent primary key
+  postTitle: String # customized foreign key for parent sort key
+}
+```
+
+</Block>
+
+<Block name='Bi-directional "has many"'>
+
+```graphql
+type Post @model {
+  postId: ID! @primaryKey(sortKeyFields:["title"])
+  title: String!
+  comments: [Comment] @hasMany(indexName:"byPost", fields:["postId", "title"])
+}
+
+type Comment @model {
+  commentId: ID! @primaryKey(sortKeyFields:["content"])
+  content: String!
+  post: Post @belongsTo(fields:["postId", "postTitle"])
+  postId: ID @index(name: "byPost", sortKeyFields:["postTitle"]) # customized foreign key for parent primary key
+  postTitle: String # customized foreign key for parent sort key
+}
+```
+
+</Block>
+
+
+
+</BlockSwitcher>
+
 ### Generate a secondary index without a GraphQL query
 
 Because query creation against a secondary index is automatic, if you wish to define a secondary index that does not have a corresponding query in your API, set the `queryField` parameter to `null`.
@@ -632,6 +727,7 @@ type Customer @model {
 ```
 
 ## How it works
+### Model directive
 The `@model` directive will generate:
 - An Amazon DynamoDB table with PAY_PER_REQUEST billing mode enabled by default.
 - An AWS AppSync DataSource configured to access the table above.
@@ -641,8 +737,7 @@ The `@model` directive will generate:
 - Filter input objects that allow you to filter objects in list queries and relationship fields.
 - For list queries the default number of objects returned is 100. You can override this behavior by setting the limit argument.
 
-### Type definition of the `@model` directive
-
+**Type definition of the `@model` directive**
 ```graphql
 directive @model(
   queries: ModelQueryMap
@@ -680,3 +775,67 @@ input TimestampConfiguration {
   updatedAt: String
 }
 ```
+
+### Relational directives
+The relational directives are `@hasOne`, `@hasMany`, `@belongsTo` and `@manyToMany`.
+<BlockSwitcher>
+<Block name="@hasOne">
+
+The `@hasOne` will generate:
+
+- Foreign key fields in parent type that refer to the primary key and sort key fields of the child model.
+- Foreign key fields in parent input object of `create` and `update` mutations.
+
+**Type definition of the `@hasOne` directive**
+
+```graphql
+directive @hasOne(fields: [String!]) on FIELD_DEFINITION
+```
+</Block>
+<Block name="@hasMany">
+
+The `@hasMany` will generate:
+
+- Foreign key fields in child type that refer to the primary key and sort key fields of the parent model.
+- Foreign key fields in child input object of `create` and `update` mutations.
+- A global secondary index (GSI) in the child type Amazon DynamoDB table.
+
+**Type definition of the `@hasMany` directive**
+
+```graphql
+directive @hasMany(indexName: String, fields: [String!], limit: Int = 100) on FIELD_DEFINITION
+```
+
+- The default number of nested objects returned is 100. You can override this behavior by setting the limit argument.
+
+</Block>
+<Block name="@belongsTo">
+
+The `@belongsTo` will generate:
+
+- Foreign key fields that refer to the primary key and sort key fields of the related model.
+- Foreign key fields in the input object of `create` and `update` mutations.
+
+**Type definition of the `@belongsTo` directive**
+
+```graphql
+directive @belongsTo(fields: [String!]) on FIELD_DEFINITION
+```
+</Block>
+<Block name="@manyToMany">
+
+The `@manyToMany` will generate:
+
+- A joint table defining the intermediate model type with the name of `relationName`.
+- Foreign key fields in the joint table that refer to the primary key and sort key fields of both models.
+- Foreign key fields in the intermediate model input object of `create` and `update` mutations.
+
+**Type definition of the `@manyToMany` directive**
+
+```graphql
+directive @manyToMany(relationName: String!, limit: Int = 100) on FIELD_DEFINITION
+```
+- The default number of nested objects returned is 100. You can override this behavior by setting the limit argument.
+
+</Block>
+</BlockSwitcher>

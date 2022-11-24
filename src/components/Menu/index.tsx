@@ -74,10 +74,10 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
       showVersionSwitcher = true;
     } 
     
-    //TODO: add Android filterkey here to support Android version switcher
     if ((this.props.url.startsWith("/lib") || 
     this.props.url.startsWith("/lib-v1")) && 
-    this.props.filterKey == 'ios') {
+    (this.props.filterKey == 'ios' ||
+    this.props.filterKey == 'android')) {
       showLibVersionSwitcher = true;
     }
     if (this.state.isOpen) {

@@ -44,6 +44,7 @@ Learn more about Conflict Resolution strategies in the [AppSync documentation](h
 
 ### Change Conflict Resolution settings
 To change your app's Conflict Resolution strategy, or to enable or disable Conflict Resolution entirely, take the following steps:
+
 1. Navigate to **Amplify Studio > Data**
 2. Select **GraphQL API settings** at the top of the page
 3. Toggle DataStore off or on, or change your Conflict Resolution strategy
@@ -51,14 +52,21 @@ To change your app's Conflict Resolution strategy, or to enable or disable Confl
 
 <Callout warning>
 
+
 **IMPORTANT NOTE**: Activating and deactivating Conflict Resolution is a **destructive** change to your data structure, and isn't recommended if you have existing data. 
+
 
 </Callout>
 
 ### Limitations
+
 GraphQL APIs with Conflict Resolution disabled have limited feature availability in Studio. 
+
+
 - The Content Manager is not supported, and is [replaced by a GraphiQL interface](content-management/#limitations)
 - [Binding UI Components to data](../uibuilder/databinding/), and [generating Collections](../uibuilder/collections/) is not supported
 - [Binding Forms to data, and auto-generated forms](../formbuilder/overview/) are not supported
 
+
 To get access to these features, activate Conflict Resolution and **Save and Deploy** your schema.
+

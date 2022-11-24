@@ -4,7 +4,9 @@ For now, just add this method to the `onCreate` method of MainActivity with what
 <Block name="Java">
 
 ```java
-Amplify.Auth.signInWithSocialWebUI(AuthProvider.facebook(), this,
+Amplify.Auth.signInWithSocialWebUI(
+    AuthProvider.facebook(), 
+    this,
     result -> Log.i("AuthQuickstart", result.toString()),
     error -> Log.e("AuthQuickstart", error.toString())
 );
@@ -14,14 +16,16 @@ Amplify.Auth.signInWithSocialWebUI(AuthProvider.facebook(), this,
 <Block name="Kotlin - Callbacks">
 
 ```kotlin
-Amplify.Auth.signInWithSocialWebUI(AuthProvider.facebook(), this,
+Amplify.Auth.signInWithSocialWebUI(
+    AuthProvider.facebook(), 
+    this,
     { Log.i("AuthQuickstart", "Sign in OK: $it") },
     { Log.e("AuthQuickstart", "Sign in failed", it) }
 )
 ```
 
 </Block>
-<Block name="Kotlin - Coroutines (Beta)">
+<Block name="Kotlin - Coroutines">
 
 ```kotlin
 try {

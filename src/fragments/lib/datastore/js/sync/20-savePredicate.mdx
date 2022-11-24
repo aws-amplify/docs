@@ -5,6 +5,6 @@ await DataStore.save(
     rating: 10,
     status: PostStatus.INACTIVE
   }),
-  (p) => p.title('beginsWith', '[Amplify]')
+  (p) => p.title.beginsWith('[Amplify]')
 );
 ```
