@@ -286,7 +286,7 @@ const directory = {
           {
             title: 'Sign in with custom flow',
             route: '/lib/auth/signin_with_custom_flow',
-            filters: ['ios', 'android','flutter']
+            filters: ['ios', 'android', 'flutter']
           },
           {
             title: 'Sign in with web UI',
@@ -1112,7 +1112,7 @@ const directory = {
           {
             title: 'Delete user',
             route: '/lib-v1/auth/delete_user',
-            filters: ['android',  'ios']
+            filters: ['android', 'ios']
           },
           {
             title: 'Escape hatch',
@@ -1333,7 +1333,7 @@ const directory = {
             title: 'Hub',
             route: '/lib-v1/utilities/hub',
             filters: ['android', 'ios']
-          },
+          }
         ]
       },
       debugging: {
@@ -1787,6 +1787,11 @@ const directory = {
           {
             title: 'Build options',
             route: '/cli/function/build-options',
+            filters: []
+          },
+          {
+            title: 'Configuring Lambda function settings',
+            route: '/cli/function/configure-options',
             filters: []
           }
         ]
@@ -2567,11 +2572,6 @@ const directory = {
           {
             title: 'Calling DynamoDB using AWS Cognito triggers',
             route: '/guides/functions/cognito-trigger-lambda-dynamodb',
-            filters: ['js', 'android', 'ios']
-          },
-          {
-            title: 'Configuring Lambda function settings',
-            route: '/guides/functions/configuring-lambda',
             filters: ['js', 'android', 'ios']
           }
         ]
