@@ -182,6 +182,8 @@
     "autolinking",
     "Automerge",
     "autoplay",
+    "autopopulate",
+    "autopopulated",
     "autoscaling",
     "autotrack",
     "aws_bots_config.name",
@@ -467,6 +469,7 @@
     "dabit",
     "dataaccess",
     "dataacess",
+    "databinding",
     "dataset",
     "datasource",
     "DataSource",
@@ -985,6 +988,7 @@
     "postname",
     "posts.graphql",
     "PostsTable",
+    "posttitle",
     "pre-annotated",
     "pre-built",
     "pre-created",
@@ -1205,12 +1209,14 @@
     "superset",
     "suppressschemamigrationprompt",
     "SwiftUI",
+    "syncable",
     "syncConfiguration",
     "synchronizes",
     "syncMode",
     "tabs.module.ts",
     "tabs.page.html",
     "tabs.router.module",
+    "taglabel",
     "task.result",
     "taskIdentifier",
     "template.json",
@@ -1486,5 +1492,10 @@
     "Pinia",
     "kotlinx"
   ],
-  "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack"]
+  "flagWords": [
+    "hte", 
+    "full-stack", 
+    "Full-stack", 
+    "Full-Stack"
+  ]
 }

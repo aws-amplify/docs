@@ -437,6 +437,11 @@ const directory = {
             title: 'Examples',
             route: '/lib/datastore/examples',
             filters: ['js', 'react-native']
+          },
+          {
+            title: 'Advanced workflows',
+            route: '/lib/datastore/advanced-workflows',
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           }
         ]
       },
@@ -462,6 +467,11 @@ const directory = {
             title: 'Geofences',
             route: '/lib/geo/geofences',
             filters: ['js']
+          },
+          {
+            title: 'Device Tracking',
+            route: '/lib/geo/device-tracking',
+            filters: ['ios']
           },
           {
             title: 'Use existing Amazon Location resources',
