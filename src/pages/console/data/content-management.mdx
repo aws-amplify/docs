@@ -73,3 +73,5 @@ Amplify Studio's content management view requires your app's GraphQL API to have
 For GraphQL APIs with Conflict Resolution disabled, app content can be managed using **GraphiQL**, a visual interface for building and executing queries and mutations in GraphQL. [Learn more about GraphQL in their documentation.](https://graphql.org/learn/)
 
 To change the Conflict Resolution strategy for your GraphQL API, or to enable or disabled Conflict Resolution entirely, [adjust your GraphQL API settings.](/console/data/data-model/#datastore-and-graphql)
+
+Additionally, the content management view requires that IAM be added as an Authorization method, either as the default or as an additional auth method. If IAM is not added, Amplify Studio will automatically add it for you in the next deployment. Navigate to the **Data** tab and select **Save and Deploy** to apply IAM as an auth method.
