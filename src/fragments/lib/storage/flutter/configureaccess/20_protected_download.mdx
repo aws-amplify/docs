@@ -1,3 +1,8 @@
+<BlockSwitcher>
+
+<Block name="Stable (Mobile)">
+
+
 ```dart
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
@@ -27,9 +32,70 @@ Future<void> downloadProtected(String cognitoIdentityId) async {
       options: downloadOptions,
     );
     final contents = file.readAsStringSync();
-    print('Got protected file with contents: $contents');
+    safePrint('Got protected file with contents: $contents');
   } on StorageException catch (e) {
-    print('Error downloading protected file: $e');
+    safePrint('Error downloading protected file: $e');
   }
 }
 ```
+
+</Block>
+
+<Block name = "Developer Preview (Mobile & Desktop)">
+
+```dart
+import 'package:path_provider/path_provider.dart';
+
+Future<void> downloadProtectedIOFile({
+  required String key,
+  required String targetIdentityId,
+}) async {
+  final documentsDir = await getApplicationDocumentsDirectory();
+  final filepath = documentsDir.path + '/example.txt';
+  try {
+    final result = await Amplify.Storage.downloadFile(
+      key: key,
+      localFile: AWSFile.fromPath(filepath),
+      // use S3DownloadFileOptions.forIdentity when download a file that has
+      // protected access level, which requires providing a cognito identity ID
+      options: const S3DownloadFileOptions.forIdentity(targetIdentityId),
+      onProgress: (progress) {
+        safePrint('Fraction completed: ${progress.fractionCompleted}');
+      },
+    ).result;
+
+    safePrint('Downloaded file is located at: ${result.localFile.path}');
+  } on StorageException catch (e) {
+    safePrint(e.message);
+  }
+}
+```
+
+</Block>
+
+<Block name = "Developer Preview (Web)">
+
+```dart
+Future<void> downloadProtectedFileOnWeb({
+  required String key,
+  required String targetIdentityId,
+}) async {
+  try {
+    final result = await Amplify.Storage.downloadFile(
+      key: key,
+      localFile: AWSFile.fromPath('download.txt'),
+      // use S3DownloadFileOptions.forIdentity when download a file that has
+      // protected access level, which requires providing a cognito identity ID
+      options: const S3DownloadFileOptions.forIdentity(targetIdentityId),
+    ).result;
+
+    safePrint('Downloaded file: ${result.downloadedItem.key}');
+  } on StorageException catch (e) {
+    safePrint(e.message);
+  }
+}
+```
+
+</Block>
+
+</BlockSwitcher>

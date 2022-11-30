@@ -1,5 +1,7 @@
 ### Download to file
 
+<!-- TODO Rewrite monitor progress of download for iOS/Flutter/Android? -->
+
 If you uploaded the data using the key `ExampleKey`, you can retrieve the data using `Amplify.Storage.downloadFile`.
 
 <BlockSwitcher>
@@ -26,7 +28,7 @@ Amplify.Storage.downloadFile("ExampleKey", file,
 ```
 
 </Block>
-<Block name="Kotlin - Coroutines (Beta)">
+<Block name="Kotlin - Coroutines">
 
 ```kotlin
 try {
@@ -94,7 +96,7 @@ Amplify.Storage.downloadFile("ExampleKey", file, options,
 ```
 
 </Block>
-<Block name="Kotlin - Coroutines (Beta)">
+<Block name="Kotlin - Coroutines">
 
 ```kotlin
 val file = File("${applicationContext.filesDir}/download.txt")
@@ -152,13 +154,13 @@ Amplify.Storage.getUrl(
 ```kotlin
 Amplify.Storage.getUrl(
     "ExampleKey",
-    { Log.i("MyAmplifyApp", "Successfully generated: ${it.url}") }
+    { Log.i("MyAmplifyApp", "Successfully generated: ${it.url}") },
     { Log.e("MyAmplifyApp", "URL generation failure", it) }
 )
 ```
 
 </Block>
-<Block name="Kotlin - Coroutines (Beta)">
+<Block name="Kotlin - Coroutines">
 
 ```kotlin
 try {

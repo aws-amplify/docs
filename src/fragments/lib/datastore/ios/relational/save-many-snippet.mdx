@@ -1,51 +1,54 @@
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-let post = Post(title: "My post with comments",
-                rating: 5,
-                status: .active)
-let editor = User(username: "Nadia")
-
-Amplify.DataStore.save(post) { postResult in
-    switch postResult {
-    case .failure(let error):
-        print("Error adding post - \(error.localizedDescription)")
-    case .success:
-        Amplify.DataStore.save(editor) { editorResult in
-            switch editorResult {
-            case .failure(let error):
-                print("Error adding user - \(error.localizedDescription)")
-            case .success:
-                let postEditor = PostEditor(post: post, editor: editor)
-                Amplify.DataStore.save(postEditor) { postEditorResult in
-                    switch postEditorResult {
-                    case .failure(let error):
-                        print("Error saving postEditor - \(error.localizedDescription)")
-                    case .success:
-                        print("Saved user, post and postEditor!")
-                    }
-                }
-            }
-        }
-    }
+let post = Post(
+    title: "My first post",
+    status: .active
+)
+let user = User(
+    username: "Nadia"
+)
+let postEditor = PostEditor(
+    post: post,
+    user: user
+)
+do {
+    try await Amplify.DataStore.save(post)
+    try await Amplify.DataStore.save(user)
+    try await Amplify.DataStore.save(postEditor)
+    print("Saved post, user, and postEditor!")
+} catch let error as DataStoreError {
+    print("Failed with error \(error)")
+} catch {
+    print("Unexpected error \(error)")
 }
 ```
 
 </Block>
 
-<Block name="Combine (iOS 13+)">
+<Block name="Combine">
 
 ```swift
-let post = Post(title: "My post with comments",
-                rating: 5,
-                status: .active)
-let editor = User(username: "Nadia")
-
-let sink = Amplify.DataStore.save(post)
-    .flatMap { _ in Amplify.DataStore.save(editor) }
-    .flatMap { _ in Amplify.DataStore.save(PostEditor(post: post, editor: editor)) }
+let post = Post(
+    title: "My first post",
+    status: .active
+)
+let user = User(
+    username: "Nadia"
+)
+let postEditor = PostEditor(
+    post: post,
+    user: user
+)
+let sink = Amplify.Publisher.create{ try await Amplify.DataStore.save(post) }
+    .flatMap { _ in
+        Amplify.Publisher.create { try await Amplify.DataStore.save(user) }
+    }
+    .flatMap { _ in
+        Amplify.Publisher.create { try await Amplify.DataStore.save(postEditor) }
+    }
     .sink {
         if case let .failure(error) = $0 {
             print("Error saving post, user and postEditor: \(error.localizedDescription)")

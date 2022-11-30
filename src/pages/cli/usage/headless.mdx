@@ -160,7 +160,7 @@ CATEGORIES="{\
 
 `amplify init --app git@github.com:<github-username>/<repository-name>.git`
 
-Installs, initializes, and provisions resources for a sample amplify application from the provided GitHub repository URL. This option must be executed in an empty directory. The sample repository must have an amplify folder, including the following:
+Installs, initializes, and provisions resources for a sample amplify project from the provided GitHub repository URL. This option must be executed in an empty directory. The sample repository must have an amplify folder, including the following:
 
 - `project-config.json` in .config folder
 - `backend-config.json` in backend folder
@@ -582,7 +582,7 @@ Create a file called `authconfig.importauth.json` and paste in the following con
   "userPoolId": "myUserPoolId",
   "webClientId": "myWebAppClientId",
   "nativeClientId": "myNativeAppClientId",
-  "identityPoolId": "myIdentityPoolId" //optional 
+  "identityPoolId": "myIdentityPoolId" //optional
 ```
 
 Run `cat authconfig.importauth.json | jq -c | amplify import auth --headless` to import an Cognito resource.

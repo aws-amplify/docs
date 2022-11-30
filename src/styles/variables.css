@@ -43,9 +43,11 @@
   --code-font-color: var(--color-white);
   --code-line-numbers-color: rgba(255, 255, 255, 0.3);
   --font-color-contrast: var(--color-white);
+
+  --docs-dev-center-nav: 3rem;
 }
 
-[data-theme="dark"] {
+[data-theme='dark'] {
   --font-color: var(--color-white);
   --font-color-secondary: var(--color-grey-md);
   --bg-color: var(--color-dark-hv);

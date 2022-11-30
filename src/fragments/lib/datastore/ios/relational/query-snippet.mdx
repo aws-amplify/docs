@@ -2,45 +2,56 @@ Models with one-to-many connections are lazy-loaded when accessing the connected
 
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-Amplify.DataStore.query(Post.self, byId: "123") {
-    switch $0 {
-    case .success(let post):
-        if let postWithComments = post {
-            if let comments = postWithComments.comments {
-                for comment in comments {
-                    print(comment.content)
-                }
-            }
-        } else {
-            print("Post not found")
-        }
-    case .failure(let error):
-        print("Post not found - \(error.localizedDescription)")
+do {
+    guard let queriedPost = try await Amplify.DataStore.query(Post.self, byId: "123"),
+            let comments = queriedPost.comments else {
+        return
     }
+    // call fetch to lazy load the postResult before accessing its result
+    try await comments.fetch()
+    for comment in comments {
+        print("\(comment)")
+    }
+} catch let error as DataStoreError {
+    print("Failed to query \(error)")
+} catch let error as CoreError {
+    print("Failed to fetch \(error)")
+} catch {
+    print("Unexpected error \(error)")
 }
 ```
 
 </Block>
 
-<Block name="Combine (iOS 13+)">
+<Block name="Combine">
 
 ```swift
-let sink = Amplify.DataStore.query(Post.self, byId: "123")
-    .compactMap { $0?.comments }
-    .flatMap { $0.loadAsPublisher() }
-    .sink {
-        if case let .failure(error) = $0 {
-            print("Error retrieving post \(error.localizedDescription)")
+let sink = Amplify.Publisher.create { try await Amplify.DataStore.query(Post.self, byId: "123") }.sink {
+    if case let .failure(error) = $0 {
+        print("Error retrieving post \(error.localizedDescription)")
+    }
+} receiveValue: { queriedPost in
+    guard let queriedPost = queriedPost,
+            let comments = queriedPost.comments else {
+        return
+    }
+    // call fetch to lazy load the postResult before accessing its result
+    Task {
+        do {
+            try await comments.fetch()
+            for comment in comments {
+                print("\(comment)")
+            }
+        } catch let error as CoreError {
+            print("Failed to fetch \(error)")
+        } catch {
+            print("Unexpected error \(error)")
         }
     }
-    receiveValue: {
-        for comment in $0 {
-            print(comment.content)
-        }
-    }
+}
 ```
 
 </Block>
@@ -50,8 +61,7 @@ let sink = Amplify.DataStore.query(Post.self, byId: "123")
 The connected properties are of type `List<M>`, where `M` is the model type, and that type is a custom [Swift Collection](https://developer.apple.com/documentation/swift/collection), which means that you can `filter`, `map`, etc:
 
 ```swift
-let excitedComments = postWithComments
-    .comments?
+let excitedComments = comments
     .compactMap { $0.content }
     .filter { $0.contains("Wow!") }
 ```

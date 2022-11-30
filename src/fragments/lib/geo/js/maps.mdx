@@ -267,3 +267,83 @@ Next, add a div element with id `map` anywhere in your webpage where you want to
     </body>
 </html>
 ```
+
+## Map API's
+
+If you want more information about the maps you currently have configured or want a way to switch between maps programmatically, the `@aws-amplify/geo` package provides API's that return more information about your currently provisioned maps.
+
+First, you need to import Geo from either the `@aws-amplify/geo` or `aws-amplify` packages.
+
+```javascript
+import { Geo } from "@aws-amplify/geo";
+// Or
+import { Geo } from "aws-amplify";
+```
+
+### getAvailableMaps
+
+`getAvailableMaps` will return the map resources you currently have provisioned in your Amplify project. You can switch between any of these different maps and display their different map styles.
+
+#### API
+
+```javascript
+Geo.getAvailableMaps() => Promise<AmazonLocationServiceMapStyle[]>;
+```
+
+#### Parameters
+
+- N/A
+
+#### Return
+
+The return from `getAvailableMaps` is a Promise that resolves to `AmazonLocationServiceMapStyle[]` which is an array of `mapName`, `style`, and `region`.
+
+Each object has the following properties:
+
+- `mapName` - name of the map you created.
+- `style` - the Amazon Location Service style used to create the map.
+- `region` - the AWS region the map is hosted in.
+
+<Callout>
+
+**Note:** When changing a map with Amplify and MapLibre the [setStyle](https://maplibre.org/maplibre-gl-js-docs/api/map/#map#setstyle) function should be called with the name of the Location Service map NOT the style. This is because the `transformRequest` function uses the Location Service map name to make a new request for map tile data.
+
+</Callout>
+
+#### Example
+
+```js
+const availableMaps = await Geo.getAvailableMaps();
+
+map.setStyle(availableMaps[0].mapName);
+```
+
+### getDefaultMap
+
+`getDefaultMap` is used to get a the default map object.
+
+#### API
+
+```javascript
+Geo.getDefaultMap() => Promise<AmazonLocationServiceMapStyle>;
+```
+
+#### Parameters
+
+- N/A
+
+#### Return
+
+The return from `getDefaultMap` is a Promise that resolves to a AmazonLocationServiceMapStyle object.
+
+The object has the following properties:
+
+- `mapName` - name of the map you created.
+- `style` - the Amazon Location Service style used to create the map.
+- `region` - the AWS region the map is hosted in.
+
+#### Example
+
+```javascript
+const defaultMap = await Geo.getDefaultMap();
+```

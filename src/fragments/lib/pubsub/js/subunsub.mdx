@@ -57,3 +57,55 @@ const sub1 = PubSub.subscribe('myTopicA').subscribe({
 sub1.unsubscribe();
 // You will no longer get messages for 'myTopicA'
 ```
+
+## Subscription connection status updates
+
+Now that your application is setup and using pubsub subscriptions, you may want to know when the subscription is finally established, or reflect to your users when the subscription isn't healthy. You can monitor the connection state for changes via Hub.
+
+```typescript
+import { CONNECTION_STATE_CHANGE, ConnectionState } from '@aws-amplify/pubsub';
+import { Hub } from 'aws-amplify';
+
+Hub.listen('pubsub', (data: any) => {
+  const { payload } = data;
+  if (payload.event === CONNECTION_STATE_CHANGE) {
+    const connectionState = payload.data.connectionState as ConnectionState;
+    console.log(connectionState);
+  }
+});
+```
+
+import jsConnectionStates from '/src/fragments/lib/pubsub/js/connection-states.mdx';
+
+<Fragments fragments={{ js: jsConnectionStates }} />
+
+### Connection issues and automated reconnection
+
+import jsReconnectDescription from '/src/fragments/lib/pubsub/js/reconnect-description.mdx';
+
+<Fragments fragments={{ js: jsReconnectDescription }} />
+
+```typescript
+const fetchRecentData = () => {
+  // Retrieve recent data from some sort of data storage service
+}
+
+let priorConnectionState: ConnectionState;
+
+Hub.listen("pubsub", (data: any) => {
+  const { payload } = data;
+  if (
+    payload.event === CONNECTION_STATE_CHANGE
+  ) {
+   
+    if (priorConnectionState === ConnectionState.Connecting && payload.message === ConnectionState.Connected) {
+      fetchRecentData();
+    }
+    priorConnectionState = payload.message;
+  }
+});
+
+PubSub.subscribe('myTopic').subscribe({
+  next: data => // Process incoming messages
+})
+```

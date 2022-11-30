@@ -63,12 +63,12 @@ Events have default configuration to flush out to the network every 30 seconds. 
             "awsPinpointAnalyticsPlugin": {
                 "pinpointAnalytics": {
                     "appId": "AppID",
-                    "region": "Region"
+                    "region": "Region",
+                    "autoFlushEventsInterval": 10000
                 },
                 "pinpointTargeting": {
                     "region": "Region"
-                },
-                "autoFlushEventsInterval": 10000
+                }
             }
         }
     }
@@ -100,6 +100,8 @@ RxAmplify.Analytics.flushEvents();
 
 </Block>
 </BlockSwitcher>
+
+When flushing events, a [Hub event](/lib/utilities/hub) is sent containing the events which were successfully sent to the Pinpoint service.  To receive a list of these events, subscribe to the `HubChannel.ANALYTICS` channel and handle an event of the type `AnalyticsChannelEventName.FLUSH_EVENTS`.
 
 ## Global Properties
 
@@ -163,60 +165,3 @@ RxAmplify.Analytics.unregisterGlobalProperties("AppStyle", "OtherProperty");
 
 </Block>
 </BlockSwitcher>
-
-## Disable Analytics
-
-To disable analytics, call:
-
-<BlockSwitcher>
-<Block name="Java">
-
-```java
-Amplify.Analytics.disable();
-```
-
-</Block>
-<Block name="Kotlin">
-
-```kotlin
-Amplify.Analytics.disable()
-```
-
-</Block>
-<Block name="RxJava">
-
-```java
-RxAmplify.Analytics.disable();
-```
-
-</Block>
-</BlockSwitcher>
-
-## Enable Analytics
-
-To re-enable, call:
-
-<BlockSwitcher>
-<Block name="Java">
-
-```java
-Amplify.Analytics.enable();
-```
-
-</Block>
-<Block name="Kotlin">
-
-```kotlin
-Amplify.Analytics.enable()
-```
-
-</Block>
-<Block name="RxJava">
-
-```java
-RxAmplify.Analytics.enable();
-```
-
-</Block>
-</BlockSwitcher>
-
