@@ -44,7 +44,7 @@ export const groupBy: AutocompleteReshapeFunction = <
         (item.slug.includes('/platform/') ||
           item.slug.includes('/integration/'))
       ) {
-        const regex = /\/platform|integration\/([^(\?\/\#)]*)/;
+        const regex = /\/(?:platform|integration)\/([^(\?\/\#)]*)/;
         const slugPlatform = regex.exec(item.slug)[1];
         if (!slugPlatform || item.slug.includes(platform)) {
           acc[key].push(item as TItem);
