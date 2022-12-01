@@ -142,3 +142,39 @@ exports.handler = async (event, context) => {
   }
 }
 ```
+
+### Delete an item from a table
+
+To delete an item by primary key in DynamoDB you can use the `delete` method. The `delete` method can also return the item's attributes by using the `ReturnValues` parameter.
+
+```js
+const AWS = require('aws-sdk');
+const docClient = new AWS.DynamoDB.DocumentClient();
+
+var params = {
+  TableName: 'your-table-name',
+  /* Item properties will depend on your application concerns */
+  Key: {
+    id: '12345'
+  },
+  ReturnValues: NONE | ALL_OLD | UPDATED_OLD | ALL_NEW | UPDATED_NEW
+}
+
+async function deleteItem(){
+  try {
+    const data = await docClient.delete(params).promise()
+    return data
+  } catch (err) {
+    return err
+  }
+}
+
+exports.handler = async (event, context) => {
+  try {
+    const data = await deleteItem()
+    return { body: JSON.stringify(data) }
+  } catch (err) {
+    return { error: err }
+  }
+}
+```
