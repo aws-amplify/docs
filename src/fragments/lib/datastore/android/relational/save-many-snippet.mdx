@@ -47,7 +47,7 @@ val editor = User.builder()
 
 val postEditor = PostEditor.builder()
     .post(post)
-    .editor(editor)
+    .user(editor)
     .build()
 
 Amplify.DataStore.save(post,
