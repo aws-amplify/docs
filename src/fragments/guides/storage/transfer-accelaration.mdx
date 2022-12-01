@@ -1,0 +1,43 @@
+When you need leverage S3's transfer accelaration on the content bucket, you can override the storage resource for this configuration and then leveraging the `useAccelerateEndpoint` parameter to use the accelarated S3 endpoint. This will enable fast, easy, and secure transfers of files over long distances between your client and the S3 bucket.
+
+## Override storage resource
+
+Start by overriding storage resource to enable Transfer Accelaration on the content bucket.
+
+```sh
+$ amplify override storage
+✅ Successfully generated "override.ts" folder at <project>/amplify/backend/storage/accelarated-bucket
+✔ Do you want to edit override.ts file now? (Y/n) · yes
+Edit the file in your editor: <project>/amplify/backend/storage/accelarated-bucket/override.ts
+```
+
+In the generated `override.ts` file use the following CDK snippet to enable transfer accelaration. 
+
+```typescript
+// amplify/backend/storage/accelarated-bucket/override.ts
+import { AmplifyS3ResourceTemplate } from '@aws-amplify/cli-extensibility-helper';
+
+export function override(resources: AmplifyS3ResourceTemplate) {
+    resources.s3Bucket.accelerateConfiguration = {
+        accelerationStatus: 'Enabled'
+    }
+}
+```
+
+Next, deploy this storage resource:
+
+```sh
+amplify push
+```
+
+
+
+## Use below snippet for leveraging accelarated endpoint
+
+While using the Storage.put method, we use the `useAccelerateEndpoint` parameter to use the accelarated S3 endpoint.
+
+```javascript
+const result = await Storage.put("test.txt", "Hello", {
+    useAccelerateEndpoint: true // use accelarated S3 endpoint
+});
+```

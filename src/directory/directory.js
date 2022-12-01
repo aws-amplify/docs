@@ -2030,6 +2030,15 @@ const directory = {
             filters: ['js']
           }
         ]
+      },
+      storage: {
+        title: 'Storage',
+        items: [
+          {
+            title: 'Using Transfer Accelaration',
+            route: '/guides/storage/transfer-accelaration'
+          }
+        ]
       }
     }
   }
