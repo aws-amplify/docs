@@ -1,0 +1,647 @@
+{
+  "init": {
+    "command": "init",
+    "commandDescription": "Initializes a new project, sets up deployment resources in the cloud, and makes your project ready for Amplify",
+    "commandUsage": "amplify <command> <subcommand> [flags]",
+    "learnMoreLink": "FILLER_LINK.com",
+    "commandFlags": [
+      {
+        "short": "y",
+        "long": "yes",
+        "flagDescription": "skip all interactive prompts by selecting default options"
+      },
+      {
+        "short": "",
+        "long": "amplify",
+        "flagDescription": "basic information of the project"
+      },
+      {
+        "short": "",
+        "long": "frontend",
+        "flagDescription": "information for the project's frontend appliction"
+      },
+      {
+        "short": "",
+        "long": "providers",
+        "flagDescription": "configuration settings for provider plugins"
+      },
+      {
+        "short": "",
+        "long": "categories",
+        "flagDescription": "configuration settings for resources in the given categories"
+      },
+      {
+        "short": "",
+        "long": "app",
+        "flagDescription": "Specify a GitHub repository from which to create an Amplify project"
+      },
+      {
+        "short": "",
+        "long": "permissions-boundary <IAM Policy ARN>",
+        "flagDescription": "Specify an IAM permissions boundary for the roles created during init"
+      }
+    ],
+    "subCommands": {}
+  },
+  "configure": {
+    "command": "configure",
+    "commandDescription": "Configure the Amplify CLI for usage",
+    "commandUsage": "amplify <command> <subcommand> [flags]",
+    "learnMoreLink": "FILLER_LINK.com",
+    "commandFlags": [],
+    "subCommands": {
+      "project": {
+        "subCommand": "project",
+        "subCommandDescription": "Configure the attributes of your project such as switching front-end framework",
+        "subCommandUsage": "amplify <command> <subcommand> [flags]",
+        "learnMoreLink": "FILLER_LINK.com",
+        "subCommandFlags": [
+          {
+            "short": "y",
+            "long": "yes",
+            "flagDescription": "skip all interactive prompts by selecting default options"
+          },
+          {
+            "short": "",
+            "long": "amplify",
+            "flagDescription": "basic information of the project"
+          },
+          {
+            "short": "",
+            "long": "frontend",
+            "flagDescription": "information for the project's frontend appliction"
+          },
+          {
+            "short": "",
+            "long": "providers",
+            "flagDescription": "configuration settings for provider plugins"
+          }
+        ]
+      },
+      "hosting": {
+        "subCommand": "hosting",
+        "subCommandDescription": "Configure hosting resources including S3, CloudFront, and publish ignore",
+        "subCommandUsage": "amplify <command> <subcommand> [flags]",
+        "learnMoreLink": "FILLER_LINK.com",
+        "subCommandFlags": []
+      },
+      "codegen": {
+        "subCommand": "codegen",
+        "subCommandDescription": "Configure GraphQL codegen",
+        "subCommandUsage": "amplify <command> <subcommand> [flags]",
+        "learnMoreLink": "FILLER_LINK.com",
+        "subCommandFlags": []
+      }
+    }
+  },
+  "delete": {
+    "command": "delete",
+    "commandDescription": "Delete the Amplify project",
+    "commandUsage": "amplify <command> <subcommand> [flags]",
+    "learnMoreLink": "FILLER_LINK.com",
+    "commandFlags": [
+      {
+        "short": "y",
+        "long": "yes",
+        "flagDescription": "skip all interactive prompts by selecting default options"
+      },
+      {
+        "short": "f",
+        "long": "force",
+        "flagDescription": "Equivalent to the \u2014yes parameter that other commands support for use in headless environments"
+      }
+    ],
+    "subCommands": {}
+  },
+  "diagnose": {
+    "command": "diagnose",
+    "commandDescription": "NEED DESCRIPTION",
+    "commandUsage": "amplify <command> <subcommand> [flags]",
+    "learnMoreLink": "FILLER_LINK.com",
+    "commandFlags": [
+      {
+        "short": "",
+        "long": "send-report",
+        "flagDescription": "securely share non-sensitive configurations of your Amplify backend with the Amplify team"
+      },
+      {
+        "short": "",
+        "long": "auto-send-off",
+        "flagDescription": "opt out of automatically sharing your project configurations with Amplify CLI on failures"
+      },
+      {
+        "short": "",
+        "long": "auto-send-on",
+        "flagDescription": "opt in to automatically share your project configurations with Amplify CLI on failures"
+      }
+    ],
+    "subCommands": {}
+  },
+  "export": {
+    "command": "export",
+    "commandDescription": "Export Amplify CLI-generated backends as a Cloud Development Kit (CDK) stack",
+    "commandUsage": "amplify <command> <subcommand> [flags]",
+    "learnMoreLink": "FILLER_LINK.com",
+    "commandFlags": [
+      {
+        "short": "",
+        "long": "out <path>",
+        "flagDescription": "Specify the output path, where this is typically the path to your CDK project"
+      }
+    ],
+    "subCommands": {}
+  },
+  "override": {
+    "command": "override",
+    "commandDescription": "Override Amplify-generated resources with Cloud Development Kit (CDK)",
+    "commandUsage": "amplify <command> <subcommand> [flags]",
+    "learnMoreLink": "FILLER_LINK.com",
+    "commandFlags": [],
+    "subCommands": {
+      "api": {
+        "subCommand": "api",
+        "subCommandDescription": "override Amplify-generated GraphQL API resources including AWS AppSync API, Amazon DynamoDB table, Amazon OpenSearch domain, and more",
+        "subCommandUsage": "amplify <command> <subcommand> [flags]",
+        "learnMoreLink": "FILLER_LINK.com",
+        "subCommandFlags": []
+      },
+      "auth": {
+        "subCommand": "auth",
+        "subCommandDescription": "override Amplify-generated auth resources including Amazon Cognito user pool, identity pool, user pool groups, and more",
+        "subCommandUsage": "amplify <command> <subcommand> [flags]",
+        "learnMoreLink": "FILLER_LINK.com",
+        "subCommandFlags": []
+      },
+      "storage": {
+        "subCommand": "storage",
+        "subCommandDescription": "override Amplify-generated storage resources including the S3 bucket, DynamoDB tables, and more",
+        "subCommandUsage": "amplify <command> <subcommand> [flags]",
+        "learnMoreLink": "FILLER_LINK.com",
+        "subCommandFlags": []
+      },
+      "project": {
+        "subCommand": "project",
+        "subCommandDescription": "override Amplify-generated project-level resources, such as IAM roles for authenticated and unauthenticated",
+        "subCommandUsage": "amplify <command> <subcommand> [flags]",
+        "learnMoreLink": "FILLER_LINK.com",
+        "subCommandFlags": []
+      }
+    }
+  },
+  "push": {
+    "command": "push",
+    "commandDescription": "Adds a resource for an Amplify category in your local backend",
+    "commandUsage": "amplify <command> <subcommand> [flags]",
+    "learnMoreLink": "FILLER_LINK.com",
+    "commandFlags": [],
+    "subCommands": {
+      "<category>": {
+        "subCommand": "<category>",
+        "subCommandDescription": "",
+        "subCommandUsage": "amplify <command> <subcommand> [flags]",
+        "learnMoreLink": "FILLER_LINK.com",
+        "subCommandFlags": [
+          {
+            "short": "",
+            "long": "headless",
+            "flagDescription": "Headless JSON payload"
+          }
+        ]
+      }
+    }
+  },
+  "pull": {
+    "command": "pull",
+    "commandDescription": "Fetch upstream backend environment definition changes from the cloud and updates the local environment to match that definition",
+    "commandUsage": "amplify <command> <subcommand> [flags]",
+    "learnMoreLink": "FILLER_LINK.com",
+    "commandFlags": [
+      {
+        "short": "y",
+        "long": "yes",
+        "flagDescription": "skip all interactive prompts by selecting default options"
+      },
+      {
+        "short": "",
+        "long": "restore",
+        "flagDescription": "Overwrite your local backend changes with configurations from the cloud"
+      },
+      {
+        "short": "",
+        "long": "amplify",
+        "flagDescription": "basic information of the project"
+      },
+      {
+        "short": "",
+        "long": "frontend",
+        "flagDescription": "information for the project's frontend appliction"
+      },
+      {
+        "short": "",
+        "long": "providers",
+        "flagDescription": "configuration settings for provider plugins"
+      }
+    ],
+    "subCommands": {}
+  },
+  "publish": {
+    "command": "publish",
+    "commandDescription": "Executes amplify push, and then builds and publishes client-side application for hosting",
+    "commandUsage": "amplify <command> <subcommand> [flags]",
+    "learnMoreLink": "FILLER_LINK.com",
+    "commandFlags": [
+      {
+        "short": "y",
+        "long": "yes",
+        "flagDescription": "Automatically accept publish prompt"
+      },
+      {
+        "short": "",
+        "long": "codegen",
+        "flagDescription": "configuration for GraphQL codegen"
+      },
+      {
+        "short": "f",
+        "long": "force",
+        "flagDescription": "Pushes all resources regardless of update status and bypasses all guardrails to push the local state to the cloud"
+      },
+      {
+        "short": "",
+        "long": "allow-destructive-graphql-schema-updates",
+        "flagDescription": "Pushes schema changes that require removal or replacement of underlying tables"
+      },
+      {
+        "short": "c",
+        "long": "invalidateCloudFront",
+        "flagDescription": "send an invalidation request to the Amazon CloudFront service to invalidate its cache"
+      }
+    ],
+    "subCommands": {}
+  },
+  "serve": {
+    "command": "serve",
+    "commandDescription": "Executes amplify push, and then executes the project's start command to test run the client-side application locally",
+    "commandUsage": "amplify <command> <subcommand> [flags]",
+    "learnMoreLink": "FILLER_LINK.com",
+    "commandFlags": [],
+    "subCommands": {}
+  },
+  "status": {
+    "command": "status",
+    "commandDescription": "Shows the state of local resources not yet pushed to the cloud (Create/Update/Delete)",
+    "commandUsage": "amplify <command> <subcommand> [flags]",
+    "learnMoreLink": "FILLER_LINK.com",
+    "commandFlags": [
+      {
+        "short": "v",
+        "long": "verbose",
+        "flagDescription": "Shows the detailed verbose diff between local and deployed resources, including cloudformation-diff"
+      }
+    ],
+    "subCommands": {
+      "[<category> ...]": {
+        "subCommand": "[<category> ...]",
+        "subCommandDescription": "Shows the state of local resources not yet pushed to the cloud (Create/Update/Delete)",
+        "subCommandUsage": "amplify <command> <subcommand> [flags]",
+        "learnMoreLink": "FILLER_LINK.com",
+        "subCommandFlags": []
+      }
+    }
+  },
+  "add": {
+    "command": "add",
+    "commandDescription": "Adds a resource for an Amplify category in your local backend",
+    "commandUsage": "amplify <command> <subcommand> [flags]",
+    "learnMoreLink": "FILLER_LINK.com",
+    "commandFlags": [],
+    "subCommands": {
+      "<category>": {
+        "subCommand": "<category>",
+        "subCommandDescription": "",
+        "subCommandUsage": "amplify <command> <subcommand> [flags]",
+        "learnMoreLink": "FILLER_LINK.com",
+        "subCommandFlags": [
+          {
+            "short": "",
+            "long": "headless",
+            "flagDescription": "Headless JSON payload"
+          }
+        ]
+      }
+    }
+  },
+  "update": {
+    "command": "update",
+    "commandDescription": "Adds a resource for an Amplify category in your local backend",
+    "commandUsage": "amplify <command> <subcommand> [flags]",
+    "learnMoreLink": "FILLER_LINK.com",
+    "commandFlags": [],
+    "subCommands": {
+      "<category>": {
+        "subCommand": "<category>",
+        "subCommandDescription": "",
+        "subCommandUsage": "amplify <command> <subcommand> [flags]",
+        "learnMoreLink": "FILLER_LINK.com",
+        "subCommandFlags": [
+          {
+            "short": "",
+            "long": "headless",
+            "flagDescription": "Headless JSON payload"
+          }
+        ]
+      }
+    }
+  },
+  "remove": {
+    "command": "remove",
+    "commandDescription": "Adds a resource for an Amplify category in your local backend",
+    "commandUsage": "amplify <command> <subcommand> [flags]",
+    "learnMoreLink": "FILLER_LINK.com",
+    "commandFlags": [],
+    "subCommands": {
+      "<category>": {
+        "subCommand": "<category>",
+        "subCommandDescription": "",
+        "subCommandUsage": "amplify <command> <subcommand> [flags]",
+        "learnMoreLink": "FILLER_LINK.com",
+        "subCommandFlags": [
+          {
+            "short": "",
+            "long": "headless",
+            "flagDescription": "Headless JSON payload"
+          }
+        ]
+      }
+    }
+  },
+  "import": {
+    "command": "import",
+    "commandDescription": "NEED DESCRIPTION",
+    "commandUsage": "amplify <command> <subcommand> [flags]",
+    "learnMoreLink": "FILLER_LINK.com",
+    "commandFlags": [
+      {
+        "short": "",
+        "long": "headless",
+        "flagDescription": "headless JSON payload for category import"
+      }
+    ],
+    "subCommands": {
+      "auth": {
+        "subCommand": "auth",
+        "subCommandDescription": "",
+        "subCommandUsage": "amplify <command> <subcommand> [flags]",
+        "learnMoreLink": "FILLER_LINK.com",
+        "subCommandFlags": []
+      },
+      "storage": {
+        "subCommand": "storage",
+        "subCommandDescription": "",
+        "subCommandUsage": "amplify <command> <subcommand> [flags]",
+        "learnMoreLink": "FILLER_LINK.com",
+        "subCommandFlags": []
+      }
+    }
+  },
+  "mock": {
+    "command": "mock",
+    "commandDescription": "Run mock server for testing categories locally",
+    "commandUsage": "amplify <command> <subcommand> [flags]",
+    "learnMoreLink": "FILLER_LINK.com",
+    "commandFlags": [],
+    "subCommands": {
+      "api": {
+        "subCommand": "api",
+        "subCommandDescription": "",
+        "subCommandUsage": "amplify <command> <subcommand> [flags]",
+        "learnMoreLink": "FILLER_LINK.com",
+        "subCommandFlags": []
+      },
+      "storage": {
+        "subCommand": "storage",
+        "subCommandDescription": "",
+        "subCommandUsage": "amplify <command> <subcommand> [flags]",
+        "learnMoreLink": "FILLER_LINK.com",
+        "subCommandFlags": []
+      },
+      "function": {
+        "subCommand": "function",
+        "subCommandDescription": "",
+        "subCommandUsage": "amplify <command> <subcommand> [flags]",
+        "learnMoreLink": "FILLER_LINK.com",
+        "subCommandFlags": [
+          {
+            "short": "",
+            "long": "event <path-to-json-file>",
+            "flagDescription": "specified JSON file as the event to pass to the Lambda handler"
+          },
+          {
+            "short": "",
+            "long": "timeout <number-of-seconds>",
+            "flagDescription": "Override the default 10 second function response timeout with a custom timeout value"
+          }
+        ]
+      },
+      "function <function-name>": {
+        "subCommand": "function <function-name>",
+        "subCommandDescription": "",
+        "subCommandUsage": "amplify <command> <subcommand> [flags]",
+        "learnMoreLink": "FILLER_LINK.com",
+        "subCommandFlags": []
+      }
+    }
+  },
+  "codegen": {
+    "command": "codegen",
+    "commandDescription": "Generates GraphQL statements(queries, mutations and eventHandlers) and type annotations",
+    "commandUsage": "amplify <command> <subcommand> [flags]",
+    "learnMoreLink": "FILLER_LINK.com",
+    "commandFlags": [],
+    "subCommands": {
+      "statements": {
+        "subCommand": "statements",
+        "subCommandDescription": "Generates GraphQL statements (queries, mutations, and subscriptions)",
+        "subCommandUsage": "amplify <command> <subcommand> [flags]",
+        "learnMoreLink": "FILLER_LINK.com",
+        "subCommandFlags": []
+      },
+      "types": {
+        "subCommand": "types",
+        "subCommandDescription": "Generates GraphQL type annotations.",
+        "subCommandUsage": "amplify <command> <subcommand> [flags]",
+        "learnMoreLink": "FILLER_LINK.com",
+        "subCommandFlags": []
+      },
+      "models": {
+        "subCommand": "models",
+        "subCommandDescription": "Generates GraphQL DataStore models",
+        "subCommandUsage": "amplify <command> <subcommand> [flags]",
+        "learnMoreLink": "FILLER_LINK.com",
+        "subCommandFlags": []
+      }
+    }
+  },
+  "env": {
+    "command": "env",
+    "commandDescription": "Displays and manages environment related information for your Amplify project.",
+    "commandUsage": "amplify <command> <subcommand> [flags]",
+    "learnMoreLink": "FILLER_LINK.com",
+    "commandFlags": [
+      {
+        "short": "",
+        "long": "name <env-name>",
+        "flagDescription": "Specify name"
+      },
+      {
+        "short": "",
+        "long": "json",
+        "flagDescription": "Get environment information in JSON format"
+      }
+    ],
+    "subCommands": {
+      "import": {
+        "subCommand": "import",
+        "subCommandDescription": "Imports an already existing Amplify project environment stack to your local backend",
+        "subCommandUsage": "amplify <command> <subcommand> [flags]",
+        "learnMoreLink": "FILLER_LINK.com",
+        "subCommandFlags": [
+          {
+            "short": "",
+            "long": "name <env-name>",
+            "flagDescription": "Specify name"
+          },
+          {
+            "short": "",
+            "long": "config <provider-configs>",
+            "flagDescription": ""
+          },
+          {
+            "short": "",
+            "long": "awsInfo <aws-configs>",
+            "flagDescription": ""
+          }
+        ]
+      },
+      "list": {
+        "subCommand": "list",
+        "subCommandDescription": "Displays a list of all the environments in your Amplify project",
+        "subCommandUsage": "amplify <command> <subcommand> [flags]",
+        "learnMoreLink": "FILLER_LINK.com",
+        "subCommandFlags": [
+          {
+            "short": "",
+            "long": "details",
+            "flagDescription": "List environment details"
+          },
+          {
+            "short": "",
+            "long": "json",
+            "flagDescription": "List environment details in JSON format"
+          }
+        ]
+      },
+      "pull": {
+        "subCommand": "pull",
+        "subCommandDescription": "NEED DESCRIPTION",
+        "subCommandUsage": "amplify <command> <subcommand> [flags]",
+        "learnMoreLink": "FILLER_LINK.com",
+        "subCommandFlags": [
+          {
+            "short": "",
+            "long": "restore",
+            "flagDescription": "Overwrite your local backend environment changes with configurations in the cloud for the specified environment"
+          }
+        ]
+      },
+      "remove": {
+        "subCommand": "remove",
+        "subCommandDescription": "Removes an environment from the Amplify project",
+        "subCommandUsage": "amplify <command> <subcommand> [flags]",
+        "learnMoreLink": "FILLER_LINK.com",
+        "subCommandFlags": []
+      },
+      "update": {
+        "subCommand": "update",
+        "subCommandDescription": "Update the environment configuration",
+        "subCommandUsage": "amplify <command> <subcommand> [flags]",
+        "learnMoreLink": "FILLER_LINK.com",
+        "subCommandFlags": [
+          {
+            "short": "",
+            "long": "permissions-boundary <IAM Policy ARN>",
+            "flagDescription": "Set a permisions boundary"
+          }
+        ]
+      }
+    }
+  },
+  "console": {
+    "command": "console",
+    "commandDescription": "Opens the web console for the selected cloud resource.",
+    "commandUsage": "amplify <command> <subcommand> [flags]",
+    "learnMoreLink": "FILLER_LINK.com",
+    "commandFlags": [],
+    "subCommands": {}
+  },
+  "logout": {
+    "command": "logout",
+    "commandDescription": "If using temporary credentials through Amplify Studio, this logs out of the account.",
+    "commandUsage": "amplify <command> <subcommand> [flags]",
+    "learnMoreLink": "FILLER_LINK.com",
+    "commandFlags": [
+      {
+        "short": "",
+        "long": "appId <appId>",
+        "flagDescription": "Specify app ID"
+      }
+    ],
+    "subCommands": {}
+  },
+  "upgrade": {
+    "command": "upgrade",
+    "commandDescription": "Download and install the latest version of the Amplify CLI",
+    "commandUsage": "amplify <command> <subcommand> [flags]",
+    "learnMoreLink": "FILLER_LINK.com",
+    "commandFlags": [],
+    "subCommands": {}
+  },
+  "uninstall": {
+    "command": "uninstall",
+    "commandDescription": "Remove all global Amplify configuration files and uninstall the Amplify CLI. This will not delete any Amplify projects",
+    "commandUsage": "amplify <command> <subcommand> [flags]",
+    "learnMoreLink": "FILLER_LINK.com",
+    "commandFlags": [],
+    "subCommands": {}
+  },
+  "api": {
+    "command": "api",
+    "commandDescription": "Configure API",
+    "commandUsage": "amplify <command> <subcommand> [flags]",
+    "learnMoreLink": "FILLER_LINK.com",
+    "commandFlags": [],
+    "subCommands": {
+      "add-graphql-datasource": {
+        "subCommand": "add-graphql-datasource",
+        "subCommandDescription": "Add an RDS datasource to your GraphQL API",
+        "subCommandUsage": "amplify <command> <subcommand> [flags]",
+        "learnMoreLink": "FILLER_LINK.com",
+        "subCommandFlags": []
+      },
+      "rebuild": {
+        "subCommand": "rebuild",
+        "subCommandDescription": "Tears down all GraphQL resources and recreates the API. Should ONLY be used in dev environments. Only works for GraphQL APIs",
+        "subCommandUsage": "amplify <command> <subcommand> [flags]",
+        "learnMoreLink": "FILLER_LINK.com",
+        "subCommandFlags": []
+      }
+    }
+  },
+  "plugin": {
+    "command": "plugin",
+    "commandDescription": "NEED DESCRIPTION",
+    "commandUsage": "amplify <command> <subcommand> [flags]",
+    "learnMoreLink": "FILLER_LINK.com",
+    "commandFlags": [],
+    "subCommands": {}
+  }
+}
