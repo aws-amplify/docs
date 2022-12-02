@@ -1,5 +1,6 @@
 import React from 'react';
 import { getProductDirectory } from '../../../utils/getLocalDirectory';
+import { isHtmlCodeTagString } from '../../../utils/is-html-string';
 import InternalLink from '../../InternalLink';
 import {
   ArrowStyle,
@@ -72,11 +73,6 @@ class DirectoryGroup extends React.Component<
     });
   };
 
-  private isHtmlString = (str: string): boolean => {
-    const regex = /<[^>]*>/g;
-    return regex.test(str);
-  };
-
   render() {
     this.initialize();
     if (this.itemsToDisplay.length === 0) {
@@ -96,7 +92,7 @@ class DirectoryGroup extends React.Component<
                 key={item.title}
               >
                 <InternalLink href={`${item.route}`}>
-                  {this.isHtmlString(item.title) ? (
+                  {isHtmlCodeTagString(item.title) ? (
                     <a dangerouslySetInnerHTML={{ __html: item.title }}></a>
                   ) : (
                     item.title
