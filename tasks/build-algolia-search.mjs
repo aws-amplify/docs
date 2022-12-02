@@ -37,9 +37,6 @@ const platformMap = {
   vue: {
     label: 'Vue'
   },
-  ionic: {
-    label: 'Ionic'
-  },
   next: {
     label: 'Next.js'
   }
@@ -60,7 +57,6 @@ const allFilters = [
   'react-native',
   'angular',
   'vue',
-  'ionic',
   'next'
 ];
 
@@ -203,7 +199,7 @@ async function tryParseImports(
     filename = filename.split('src/pages')[1];
     filename = filename.split('.mdx')[0];
 
-    if (!Object.keys(fragments).length === 0) {
+    if (Object.keys(fragments).length !== 0) {
       // add platform specific fragments to source
       fragments[platform].forEach((fragment) => {
         const fragmentPath = path.join(__dirname, '..', fragment);
@@ -270,7 +266,7 @@ function transformPostsToSearchObjects(articles) {
       const skip =
         subcategory === 'undefined' ||
         subcategory === undefined ||
-        text.startsWith('Learn more about how to use Amplify Framework') ||
+        text.startsWith('Learn more about how to use Amplify') ||
         text.length === 0;
       if (!skip) {
         const obj = {

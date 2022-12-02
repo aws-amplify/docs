@@ -76,7 +76,7 @@ Amplify.configure(awsconfig);
 
 ## Add your first record
 
-Next, let's try to query from the GraphQL API. Choose a platform below and follow along the steps:
+Next, let's try to query from the GraphQL API. Follow along the steps below to make a query from a React app:
 
 ```js
 import { API } from 'aws-amplify'
@@ -123,7 +123,7 @@ The result should contain the updated value: `My first updated todo!`.
 
 ## Delete a record
 
-Let's clean up our database! Delete the todo by using the delete mutation:
+Let's clean up your database! Delete the todo by using the delete mutation:
 
 ```js
 const result = await API.graphql(graphqlOperation(deleteTodo, {

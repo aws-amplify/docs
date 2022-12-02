@@ -2,30 +2,14 @@ Next you'll use the generated model to create, update, query, and delete data. I
 
 ## Configure Amplify and DataStore
 
-First, we'll add the DataStore plugin and configure Amplify.
+First, you'll add the DataStore plugin and configure Amplify.
 
-1. Open the main file of the application - `TodoApp.swift` and **add the following** import statements at the top of the file:
-  <BlockSwitcher>
-  
-  <Block name="Swift Package Manager">
+1. Open the main file of the application (`TodoApp.swift`) and **add the following** import statements at the top of the file:
 
   ```swift
   import Amplify
   import AWSDataStorePlugin
   ```
-
-  </Block>
-
-  <Block name="CocoaPods">
-
-  ```swift
-  import Amplify
-  import AmplifyPlugins
-  ```
-
-  </Block>
-  
-  </BlockSwitcher>
 
 1. In the same file, **create a function** to configure Amplify:
   ```swift
@@ -42,44 +26,19 @@ First, we'll add the DataStore plugin and configure Amplify.
   }
   ```
 
-1. Now **call the `configureAmplify()` function** in the starting point of your application.
-  <BlockSwitcher>
-  <Block name="SwiftUI App">
+1. Now **call the `configureAmplify()` function** in your App's initializer.
   
   ```swift
   @main
   struct TodoApp: App {
-      var body: some Scene {
-          WindowGroup {
-              ContentView()
-          }
-      }
-
-      // add a default initializer and configure Amplify
+      // Add a default initializer and configure Amplify
       init() {
           configureAmplify()
       }
+
+      // Additional functions...
   }
   ```
-  
-  </Block>
-  <Block name="UIKit App Delegate">
-  
-  ```swift
-  @UIApplicationMain
-  class AppDelegate: UIResponder, UIApplicationDelegate {
-      func application(_: UIApplication,
-                        didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?
-      ) -> Bool {
-          configureAmplify()
-          return true
-      }
-      // ...
-  }
-  ```
-  
-  </Block>
-  </BlockSwitcher>
 
 1. **Build and run** the application. In the Xcode console window, you'll see a log line indicating success:
 
@@ -87,7 +46,9 @@ First, we'll add the DataStore plugin and configure Amplify.
     Initialized Amplify
     ```
 
-    Optionally, if you'd like to adjust the log level, you can do this by updating the `Amplify.Logging.logLevel` variable. For example, you can add the following line of code to the `configureAmplify()` function:
+    Optionally, if you'd like to adjust the log level, you can do this by updating the `Amplify.Logging.logLevel` variable. 
+
+    For example, you can add the following line of code to the `configureAmplify()` function before calling `Amplify.configure()`:
     ```swift
     Amplify.Logging.logLevel = .info
     ```
@@ -96,10 +57,10 @@ First, we'll add the DataStore plugin and configure Amplify.
     ```console
     [Amplify] Configuring
     Initialized Amplify
-    [AWSDataStorePlugin] Unable to find suitable API plugin for syncEngine.  syncEngine will not be started
     ```
 
-## Create a Todo
+## Manipulating data
+### Create a Todo
 
 Next, you'll create a Todo and save it to DataStore.
 
@@ -108,75 +69,60 @@ Next, you'll create a Todo and save it to DataStore.
   import Amplify
   ```
 
-1. In the same file (`ContentView.swift`), **update the body view**  to call a function called `performOnAppear()`:
+1. In the same file (`ContentView.swift`), **update the body view**  to call a function called `performOnAppear()` using the `.task()` modifier:
 
   ```swift
-    var body: some View {
-        Text("Hello, World!")
-            .onAppear {
-                self.performOnAppear()
-        }
-    }
-  ```
-
-1. In the same file (`ContentView.swift`), **add a function** called `performOnAppear()`:
-
-  ```swift
-  func performOnAppear() {
-      let item = Todo(name: "Build iOS Application",
-                      description: "Build an iOS application using Amplify")
+  var body: some View {
+      Text("Hello, World!")
+          .task {
+              await performOnAppear()
+          }
   }
   ```
-  This code creates a Todo item with two properties: a name and a description. This is a plain object that isn't stored in DataStore yet.
 
-1. Below the creation of the item, **add the code** to save the item to DataStore:
+1. In the same file, **add an `async` function** called `performOnAppear()`:
 
   ```swift
-  Amplify.DataStore.save(item) { result in
-      switch(result) {
-      case .success(let savedItem):
+  func performOnAppear() async {
+      do {
+          let item = Todo(name: "Build iOS Application",
+                          description: "Build an iOS application using Amplify")
+          let savedItem = try await Amplify.DataStore.save(item)
           print("Saved item: \(savedItem.name)")
-      case .failure(let error):
+      } catch {
           print("Could not save item to DataStore: \(error)")
-      }    
+      }
   }
   ```
+  This code creates a Todo item with two properties: a name and a description, and then calls `Amplify.DataStore.save(:)` in order to store it on DataStore.
+
 1. After making the preceding updates to the `ContentView.swift` file, your code should look like the following:
 
-```swift
-import SwiftUI
-import Amplify
+  ```swift
+  import SwiftUI
+  import Amplify
 
-struct ContentView: View {
-    
-    var body: some View {
-        Text("Hello, World!")
-            .onAppear {
-                self.performOnAppear()
-        }
-    }
-    
-    func performOnAppear() {
-       let item = Todo(name: "Build iOS Application",
-                       description: "Build an iOS application using Amplify")
-        
-        Amplify.DataStore.save(item) { result in
-           switch(result) {
-           case .success(let savedItem):
-               print("Saved item: \(savedItem.name)")
-           case .failure(let error):
-               print("Could not save item to DataStore: \(error)")
-           }
-        }
-    }
-}
-    
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
-```
+  struct ContentView: View {
+      
+      var body: some View {
+          Text("Hello, World!")
+              .task {
+                  await performOnAppear()
+              }
+      }
+  
+      func performOnAppear() async {
+          do {
+              let item = Todo(name: "Build iOS Application",
+                              description: "Build an iOS application using Amplify")
+              let savedItem = try await Amplify.DataStore.save(item)
+              print("Saved item: \(savedItem.name)")
+          } catch {
+              print("Could not save item to DataStore: \(error)")
+          }
+      }
+  }
+  ```
 
 1. **Build and run** the application. In the console output, you'll see an indication that the item was saved successfully:
 
@@ -200,31 +146,27 @@ struct ContentView_Previews: PreviewProvider {
   Saved item: Finish quarterly taxes
   ```
 
-## Query Todos
+### Query Todos
 
 Now that you have some data in DataStore, you can run queries to retrieve those records.
 
-1. Edit your `performOnAppear()` method to remove the item creation and save operations, and replace them with the following code.  Your entire `performOnAppear` function should look like this:
+1. Edit your `performOnAppear()` method to remove the item creation and save operations, and replace it with the following code:
 
   ```swift
-  func performOnAppear() {
-      Amplify.DataStore.query(Todo.self) { result in
-          switch(result) {
-          case .success(let todos):
-              for todo in todos {
-                  print("==== Todo ====")
-                  print("Name: \(todo.name)")
-                  if let priority = todo.priority {
-                      print("Priority: \(priority)")
-                  }
-                  if let description = todo.description {
-                      print("Description: \(description)")
-                  }
-              }
-          case .failure(let error):
-              print("Could not query DataStore: \(error)")
+  do {
+      let todos = try await Amplify.DataStore.query(Todo.self)
+      for todo in todos {
+          print("==== Todo ====")
+          print("Name: \(todo.name)")
+          if let description = todo.description {
+              print("Description: \(description)")
+          }
+          if let priority = todo.priority {
+              print("Priority: \(priority)")
           }
       }
+  } catch {
+      print("Could not query DataStore: \(error)")
   }
   ```
 
@@ -234,6 +176,7 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
   Initialized Amplify
   ==== Todo ====
   Name: Build an iOS application using Amplify
+  Description: Build an iOS application using Amplify
   ==== Todo ====
   Name: Finish quarterly taxes
   Description: Taxes are due for the quarter next week
@@ -259,24 +202,8 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
   To use a predicate, pass an additional argument into your query. For example, you can use the following code to see all high priority items:
 
   ```swift
-  Amplify.DataStore.query(Todo.self,
-                          where: Todo.keys.priority.eq(Priority.high)) { result in
-      switch(result) {
-      case .success(let todos):
-          for todo in todos {
-              print("==== Todo ====")
-              print("Name: \(todo.name)")
-              if let description = todo.description {
-                  print("Description: \(description)")
-              }
-              if let priority = todo.priority {
-                  print("Priority: \(priority)")
-              }
-          }
-      case .failure(let error):
-          print("Could not query DataStore: \(error)")
-      }
-  }
+  let todos = try await Amplify.DataStore.query(Todo.self,
+                                                where: Todo.keys.priority.eq(Priority.high))
   ```
   In the above code, notice the addition of the predicate parameter as the second argument.
 
@@ -290,34 +217,27 @@ Now that you have some data in DataStore, you can run queries to retrieve those 
   Priority: high
   ```
 
-## Update a Todo
+### Update a Todo
 
-You may want to change the contents of a record. Below, we'll query for a record, create a copy of it, modify it, and save it back to DataStore. 
-1. Edit your `performOnAppear()` method to remove anything related to DataStore and **add the following** instead of it:
+You may want to change the contents of a record. Below, you'll query for a record, create a copy of it, modify it, and save it back to DataStore. 
 
-    ```swift
-    Amplify.DataStore.query(Todo.self,
-                            where: Todo.keys.name.eq("Finish quarterly taxes")) { result in
-        switch(result) {
-        case .success(let todos):
-            guard todos.count == 1, var updatedTodo = todos.first else {
-                print("Did not find exactly one todo, bailing")
-                return
-            }
-            updatedTodo.name = "File quarterly taxes"
-            Amplify.DataStore.save(updatedTodo) { result in
-                switch(result) {
-                case .success(let savedTodo):
-                    print("Updated item: \(savedTodo.name)")
-                case .failure(let error):
-                    print("Could not update data in DataStore: \(error)")
-                }
-            }
-        case .failure(let error):
-            print("Could not query DataStore: \(error)")
-        }
-    }
-    ```
+1. Edit your `performOnAppear()` method to remove anything related to DataStore and replace it with the following code:
+
+  ```swift
+  do {
+      let todos = try await Amplify.DataStore.query(Todo.self,
+                                                    where: Todo.keys.name.eq("Finish quarterly taxes"))
+      guard todos.count == 1, var updatedTodo = todos.first else {
+          print("Did not find exactly one todo, bailing")
+          return
+      }
+      updatedTodo.name = "File quarterly taxes"
+      let savedTodo = try await Amplify.DataStore.save(updatedTodo)
+      print("Updated item: \(savedTodo.name)")
+  } catch {
+      print("Unable to perform operation: \(error)")
+  }
+  ```
 
 1. **Build and run** the application. In your console output, you'll see an indication that the item was updated successfully:
 
@@ -326,32 +246,24 @@ You may want to change the contents of a record. Below, we'll query for a record
     Updated item: File quarterly taxes
     ```
   
-## Delete a Todo
+### Delete a Todo
 
-To round out our CRUD operations, we'll query for a record and delete it from DataStore.
+To round out CRUD operations, you'll query for a record and then delete it from DataStore.
 
-1. Edit your `performOnAppear()` method to remove anything related to DataStore and **add the following** instead of it:
+1. Edit your `performOnAppear()` method to remove anything related to DataStore and replace it with the following code:
 
-    ```swift
-    Amplify.DataStore.query(Todo.self,
-                            where: Todo.keys.name.eq("File quarterly taxes")) { result in
-        switch(result) {
-        case .success(let todos):
-            guard todos.count == 1, let toDeleteTodo = todos.first else {
-                print("Did not find exactly one todo, bailing")
-                return
-            }
-            Amplify.DataStore.delete(toDeleteTodo) { result in
-                switch(result) {
-                case .success:
-                    print("Deleted item: \(toDeleteTodo.name)")
-                case .failure(let error):
-                    print("Could not update data in DataStore: \(error)")
-                }
-            }
-        case .failure(let error):
-            print("Could not query DataStore: \(error)")
-        }
+  ```swift
+  do {
+      let todos = try await Amplify.DataStore.query(Todo.self,
+                                                    where: Todo.keys.name.eq("File quarterly taxes"))
+      guard todos.count == 1, let toDeleteTodo = todos.first else {
+          print("Did not find exactly one todo, bailing")
+          return
+      }
+      try await Amplify.DataStore.delete(toDeleteTodo)
+      print("Deleted item: \(toDeleteTodo.name)")
+  } catch {
+      print("Unable to perform operation: \(error)")
   }
   ```
 
@@ -363,6 +275,6 @@ To round out our CRUD operations, we'll query for a record and delete it from Da
 
 ## Almost done
 
-We just reached a *very cool* checkpoint. We have a fully featured CRUD application that saves and retrieves data in the local device, which means the app **works without an AWS account and even without internet connection**.
+You just reached a *very cool* checkpoint. You have a fully featured CRUD application that saves and retrieves data in the local device, which means the app **works without an AWS account and even without internet connection**.
 
 Next, let's connect it to AWS and make sure the data available in the cloud.

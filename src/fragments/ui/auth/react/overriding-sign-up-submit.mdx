@@ -2,6 +2,7 @@ _App.jsx_
 
 ```jsx
 import { Auth } from 'aws-amplify';
+import { Authenticator } from '@aws-amplify/ui-react';
 
 const handleSignUp = async (formData) => {
     const param = {
@@ -15,7 +16,7 @@ const handleSignUp = async (formData) => {
     return data;
 }
 
-<AmplifyAuthenticator>
+<Authenticator>
     <AmplifySignUp slot="sign-up" handleSignUp={handleSignUp}></AmplifySignUp>
-</AmplifyAuthenticator>
+</Authenticator>
 ```

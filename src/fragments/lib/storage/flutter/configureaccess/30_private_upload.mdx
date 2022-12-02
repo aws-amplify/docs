@@ -1,5 +1,5 @@
 ```dart
-Future<void> uploadProtected() async {
+Future<void> uploadPrivateFile() async {
   ...
   // Update the uploadOptions
   final uploadOptions = S3UploadFileOptions(
@@ -14,7 +14,7 @@ Future<void> uploadProtected() async {
         options: uploadOptions,
         ...
     );
-    print('Successfully uploaded file: ${result.key}');
+    safePrint('Successfully uploaded file: ${result.key}');
   }...
 }
 ```

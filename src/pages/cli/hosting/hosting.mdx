@@ -26,11 +26,11 @@ The AWS Amplify Console is a continuous deployment and hosting service for Ampli
 
 The AWS Amplify Console provides a Git-based workflow for building, deploying, and hosting your Amplify web app — both the frontend and backend — from source control. Once you connect a feature branch, all code commits are automatically deployed to an `amplifyapp.com` subdomain or your custom domain. [Get Started](https://docs.aws.amazon.com/amplify/latest/userguide/getting-started.html)
 
-Following are the concepts you would encounter when adding Amplify console as a hosting option for your Amplify app.
+Following are the concepts you would encounter when adding Amplify console as a hosting option for your Amplify project.
 
 ### Type of deployments
 
-If you select Amplify Console for hosting your Amplify App in the `amplify add hosting` flow, there are two stages you can select from as a part of the flow:
+If you select Amplify Console for hosting your Amplify project in the `amplify add hosting` flow, there are two stages you can select from as a part of the flow:
 
 - **Continuous deployment** allows you to publish changes on every code commit by connecting your GitHub, Bitbucket, GitLab, or AWS CodeCommit repositories. Selecting this option would open up your AWS Amplify console where you can connect your Git  repository. Once your repository is connected, run `git push` to deploy changes to both your backend and frontend in a single workflow.
 - **Manual deployment** allows you to publish your web app to the Amplify Console without connecting a Git provider. If you select this option, you will have to run the `amplify publish` command every time you would like to see your changes reflected in the cloud.
@@ -56,11 +56,11 @@ If you're hosting a Single Page Web App (SPA) with routing such as [`react-route
 
 ## Amazon S3 and Amazon Cloudfront
 
-The Amplify CLI provides you the option to manage the hosting of your static website using Amazon S3 and Amazon Cloudfront directly as well. Following are the concepts you would encounter when adding S3 & Cloudfront as a hosting option for your Amplify app.
+The Amplify CLI provides you the option to manage the hosting of your static website using Amazon S3 and Amazon Cloudfront directly as well. Following are the concepts you would encounter when adding S3 & Cloudfront as a hosting option for your Amplify project.
 
 ### Stages
 
-If you select Amazon S3 & Amazon Cloudfront for hosting your Amplify App in the `amplify add hosting` flow, there are two stages you can select from as a part of the flow:
+If you select Amazon S3 & Amazon Cloudfront for hosting your Amplify project in the `amplify add hosting` flow, there are two stages you can select from as a part of the flow:
 
 - DEV:  S3 static web hosting
 - PROD: S3 and CloudFront
@@ -75,7 +75,7 @@ For more  information of the Amazon S3 and Amazon CloudFront, check their docs:
 
 ### Cache Invalidation
 
-If you select Amazon S3 & Amazon Cloudfront for hosting your Amplify App in the `amplify add hosting` flow, the frontend build artifacts will be uploaded to the S3 hosting bucket, and then if Amazon CloudFront is enabled along with it, the `amplify publish` command executed with the `--invalidateCloudFront` or `-c` flag will send an invalidation request to the Amazon CloudFront service to invalidate its cache.
+If you select Amazon S3 & Amazon Cloudfront for hosting your Amplify project in the `amplify add hosting` flow, the frontend build artifacts will be uploaded to the S3 hosting bucket, and then if Amazon CloudFront is enabled along with it, the `amplify publish` command executed with the `--invalidateCloudFront` or `-c` flag will send an invalidation request to the Amazon CloudFront service to invalidate its cache.
 
 ### Advanced Configurations
 

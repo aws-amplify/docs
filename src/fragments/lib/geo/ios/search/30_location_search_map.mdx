@@ -1,57 +1,6 @@
 To add a location search UI component to your `AMLMapView`, you will add an `AMLSearchBar` to your View in your desired layout. Upon searching, `Geo.Place`s are converted to `MGLPointFeature`s using `AmplifyMapLibre.createFeatures(places)`. Lastly assign those converted `MGLPointFeature`s to `mapState.features`.
 Alternatively, you can leverage the `AMLMapCompositeView` directly, which includes an `AMLSearchBar` among other pre-configured UI components.
 
-<BlockSwitcher>
-<Block name="Stable Release">
-
-```swift
-import SwiftUI
-import AmplifyMapLibreUI
-import AmplifyMapLibreAdapter
-import Amplify
-
-struct MyMapView: View {
-
-    @StateObject private var mapState = AMLMapViewState()
-    @State private var searchText = ""
-    @State private var displayState: AMLSearchBar.DisplayState = .map
-
-    var body: some View {
-        ZStack(alignment: .top) {
-            AMLMapView(mapState: mapState)
-                .edgesIgnoringSafeArea(.all)
-
-            AMLSearchBar(
-                text: $searchText,
-                displayState: $displayState,
-                onCommit: search,
-                onCancel: { mapState.features = [] }
-            )
-            .padding()
-        }
-    }
-
-    private func search() {
-        let searchArea = Geo.SearchArea.near(mapState.center)
-        let searchOptions = Geo.SearchForTextOptions(area: searchArea)
-        Amplify.Geo.search(for: searchText, options: searchOptions) { result in
-            switch result {
-            case .success(let places):
-                DispatchQueue.main.async {
-                    mapState.features = AmplifyMapLibre.createFeatures(places)
-                }
-            case .failure(let geoError):
-                print(geoError)
-            }
-        }
-    }
-}
-```
-
-</Block>
-
-<Block name="Developer Preview">
-
 ```swift
 import SwiftUI
 import AmplifyMapLibreUI
@@ -89,15 +38,15 @@ struct MyMapView: View {
                 await MainActor.run {
                     self.mapState.features = AmplifyMapLibre.createFeatures(places)
                 }
+            } catch let error as Geo.Error {
+                print("Failed to search: \(error)")
             } catch {
-                print(error)
+                print("Unexpected error: \(error)")
             }
         }
     }
 }
 ```
-</Block>
-</BlockSwitcher>
 
 ![AMLMapView with AMLSearchBar](/images/ios-geocoder-search-box-map.png)
 

@@ -36,9 +36,14 @@ AWSPinpointUserProfile profile = AWSPinpointUserProfile.builder()
     .userAttributes(userAttributes)
     .build();
 
-String userId = Amplify.Auth.getCurrentUser().getUserId();
+Amplify.Auth.getCurrentUser(authUser -> {
+    String userId = authUser.getUserId();
+    Amplify.Analytics.identifyUser(userId, profile);
+}, exception -> {
+    Log.e("MyAmplifyApp", "Error getting current user", exception);
+});
 
-Amplify.Analytics.identifyUser(userId, profile);
+
 ```
 
 </Block>
@@ -71,9 +76,11 @@ val profile = AWSPinpointUserProfile.builder()
     .userAttributes(userAttributes)
     .build();
 
-val userId = Amplify.Auth.getCurrentUser().getUserId();
-
-Amplify.Analytics.identifyUser(userId, profile);
+Amplify.Auth.getCurrentUser({ authUser ->
+    Amplify.Analytics.identifyUser(authUser.userId, profile);
+}, { exception ->
+    Log.e("MyAmplifyApp", "Error getting current user", exception)
+})
 ```
 
 </Block>
@@ -106,9 +113,14 @@ AWSPinpointUserProfile profile = AWSPinpointUserProfile.builder()
     .userAttributes(userAttributes)
     .build();
 
-String userId = RxAmplify.Auth.getCurrentUser().getUserId();
-
-RxAmplify.Analytics.identifyUser(userId, profile);
+RxAmplify.Auth.getCurrentUser()
+    .subscribe(
+        result -> {
+            String userId = result.getUserId();
+            RxAmplify.Analytics.identifyUser(userId, profile);
+        },
+        error -> Log.e("AuthQuickStart", error.toString())
+    );
 ```
 
 </Block>

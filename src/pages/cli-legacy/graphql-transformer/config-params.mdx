@@ -158,6 +158,18 @@ For more information, see https://docs.aws.amazon.com/amazondynamodb/latest/deve
 }
 ```
 
+## ElasticSearchStreamingLambdaRuntime
+
+**Override the runtime for the streaming lambda function used to stream data from DynamoDB into OpenSearch**
+
+```json
+{
+  "ElasticSearchStreamingLambdaRuntime": "python3.9"
+}
+```
+
+> In the event you have a deprecated runtime and are unable to upgrade your installed Amplify CLI to resolve it you may use this
+
 **Note: To use the @auth directive, the API must be configured to use Amazon Cognito user pools.**
 
 ```graphql

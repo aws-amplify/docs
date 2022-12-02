@@ -5,12 +5,12 @@
 Amplify.Auth.fetchAuthSession(
     result -> {
         AWSCognitoAuthSession cognitoAuthSession = (AWSCognitoAuthSession) result;
-            switch(cognitoAuthSession.getIdentityId().getType()) {
+            switch(cognitoAuthSession.getIdentityIdResult().getType()) {
                 case SUCCESS:
-                    Log.i("AuthQuickStart", "IdentityId: " + cognitoAuthSession.getIdentityId().getValue());
+                    Log.i("AuthQuickStart", "IdentityId: " + cognitoAuthSession.getIdentityIdResult().getValue());
                     break;
                 case FAILURE:
-                    Log.i("AuthQuickStart", "IdentityId not present because: " + cognitoAuthSession.getIdentityId().getError().toString());
+                    Log.i("AuthQuickStart", "IdentityId not present because: " + cognitoAuthSession.getIdentityIdResult().getError().toString());
             }
         },
         error -> Log.e("AuthQuickStart", error.toString())
@@ -24,11 +24,11 @@ Amplify.Auth.fetchAuthSession(
 Amplify.Auth.fetchAuthSession(
     {
         val session = it as AWSCognitoAuthSession
-        when (session.identityId.type) {
+        when (session.identityIdResult.type) {
             AuthSessionResult.Type.SUCCESS ->
-                Log.i("AuthQuickStart", "IdentityId = ${session.identityId.value}")
+                Log.i("AuthQuickStart", "IdentityId = ${session.identityIdResult.value}")
             AuthSessionResult.Type.FAILURE ->
-                Log.w("AuthQuickStart", "IdentityId not found", session.identityId.error)
+                Log.w("AuthQuickStart", "IdentityId not found", session.identityIdResult.error)
         }
     },
     { Log.e("AuthQuickStart", "Failed to fetch session", it) }
@@ -36,12 +36,12 @@ Amplify.Auth.fetchAuthSession(
 ```
 
 </Block>
-<Block name="Kotlin - Coroutines (Beta)">
+<Block name="Kotlin - Coroutines">
 
 ```kotlin
 try {
     val session = Amplify.Auth.fetchAuthSession() as AWSCognitoAuthSession
-    val id = session.identityId
+    val id = session.identityIdResult
     if (id.type == AuthSessionResult.Type.SUCCESS) {
         Log.i("AuthQuickStart", "IdentityId: ${id.value}")
     } else if (id.type == AuthSessionResult.Type.FAILURE) {
@@ -61,16 +61,51 @@ RxAmplify.Auth.fetchAuthSession()
         result -> {
             AWSCognitoAuthSession cognitoAuthSession = (AWSCognitoAuthSession) result;
 
-            switch (cognitoAuthSession.getIdentityId().getType()) {
+            switch (cognitoAuthSession.getIdentityIdResult().getType()) {
                 case SUCCESS:
-                    Log.i("AuthQuickStart", "IdentityId: " + cognitoAuthSession.getIdentityId().getValue());
+                    Log.i("AuthQuickStart", "IdentityId: " + cognitoAuthSession.getIdentityIdResult().getValue());
                     break;
                 case FAILURE:
-                    Log.i("AuthQuickStart", "IdentityId not present because: " + cognitoAuthSession.getIdentityId().getError().toString());
+                    Log.i("AuthQuickStart", "IdentityId not present because: " + cognitoAuthSession.getIdentityIdResult().getError().toString());
             }
         },
         error -> Log.e("AuthQuickStart", error.toString())
     );
+```
+
+</Block>
+</BlockSwitcher>
+
+## Force refreshing session
+
+You can ask the plugin to force refresh the internal session by setting the `forceRefresh` option when calling the fetchAuthSession API.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+AuthFetchSessionOptions options = AuthFetchSessionOptions.builder().forceRefresh(true).build();
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val option = AuthFetchSessionOptions.builder().forceRefresh(true).build()
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val option = AuthFetchSessionOptions.builder().forceRefresh(true).build()
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+AuthFetchSessionOptions options = AuthFetchSessionOptions.builder().forceRefresh(true).build();
 ```
 
 </Block>
