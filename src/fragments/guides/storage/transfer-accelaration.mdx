@@ -1,8 +1,8 @@
-When you need leverage S3's transfer accelaration on the content bucket, you can override the storage resource for this configuration and then leveraging the `useAccelerateEndpoint` parameter to use the accelarated S3 endpoint. This will enable fast, easy, and secure transfers of files over long distances between your client and the S3 bucket.
+You can enable Transfer Acceleration for fast and secure transfer of files over long distances between your end user device and the S3 bucket. You can override the storage resource for this configuration and then leverage the `useAccelerateEndpoint` parameter to use the accelerated S3 endpoint.
 
 ## Override storage resource
 
-Start by overriding storage resource to enable Transfer Accelaration on the content bucket.
+Start by overriding your storage resources to enable Transfer Acceleration on your S3 bucket.
 
 ```sh
 $ amplify override storage
