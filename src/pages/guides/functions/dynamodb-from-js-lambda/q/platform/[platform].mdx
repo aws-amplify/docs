@@ -5,7 +5,7 @@ export const meta = {
 
 The easiest way to interact with DynamoDB from Lambda in a Node.js environment is to use the [DynamoDB document client](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html). In this guide you will learn how to interact with a DynamoDB database from a Lambda function using the Node.js runtime.
 
-You will learn how to perform [put](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#put-property), [get](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#get-property), [scan](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#scan-property), and [query](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#query-property) operations.
+You will learn how to perform [put](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#put-property), [get](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#get-property), [scan](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#scan-property), [query](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#query-property), and [delete](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html#delete-property) operations.
 
 ### Creating an item in DynamoDB from Lambda
 
@@ -24,19 +24,12 @@ const params = {
   }
 }
 
-async function createItem(){
-  try {
-    await docClient.put(params).promise();
-  } catch (err) {
-    return err;
-  }
-}
-
 exports.handler = async (event) => {
   try {
-    await createItem()
+    await docClient.put(params).promise();
     return { body: 'Successfully created item!' }
   } catch (err) {
+    
     return { error: err }
   }
 };
@@ -58,18 +51,9 @@ const params = {
   }
 }
 
-async function getItem(){
-  try {
-    const data = await docClient.get(params).promise()
-    return data
-  } catch (err) {
-    return err
-  }
-}
-
 exports.handler = async (event, context) => {
   try {
-    const data = await getItem()
+    const data = await docClient.get(params).promise()
     return { body: JSON.stringify(data) }
   } catch (err) {
     return { error: err }
@@ -89,18 +73,9 @@ const params = {
   TableName : 'your-table-name'
 }
 
-async function listItems(){
-  try {
-    const data = await docClient.scan(params).promise()
-    return data
-  } catch (err) {
-    return err
-  }
-}
-
 exports.handler = async (event, context) => {
   try {
-    const data = await listItems()
+    const data = await docClient.scan(params).promise()
     return { body: JSON.stringify(data) }
   } catch (err) {
     return { error: err }
@@ -124,18 +99,9 @@ var params = {
   ExpressionAttributeNames: { '#name': 'name' }
 }
 
-async function queryItems(){
-  try {
-    const data = await docClient.query(params).promise()
-    return data
-  } catch (err) {
-    return err
-  }
-}
-
 exports.handler = async (event, context) => {
   try {
-    const data = await queryItems()
+    const data = await docClient.query(params).promise()
     return { body: JSON.stringify(data) }
   } catch (err) {
     return { error: err }
@@ -160,18 +126,9 @@ var params = {
   ReturnValues: NONE | ALL_OLD | UPDATED_OLD | ALL_NEW | UPDATED_NEW
 }
 
-async function deleteItem(){
-  try {
-    const data = await docClient.delete(params).promise()
-    return data
-  } catch (err) {
-    return err
-  }
-}
-
 exports.handler = async (event, context) => {
   try {
-    const data = await deleteItem()
+    const data = await docClient.delete(params).promise()
     return { body: JSON.stringify(data) }
   } catch (err) {
     return { error: err }
