@@ -1,9 +1,9 @@
 export const meta = {
   title: `Directives`,
-  description: `The Amplify CLI provides GraphQL directives to enhance your schema with additional capabilities, such as custom indexes, authorization rules, function triggers and more.`,
+  description: `The Amplify CLI provides GraphQL directives to enhance your schema with additional capabilities, such as custom indexes, authorization rules, function triggers and more.`
 };
 
-<MigrationAlert isLegacy url={"/cli/graphql/overview"}/>
+<MigrationAlert isLegacy url={'/cli/graphql/overview'} />
 
 The Amplify CLI provides GraphQL directives to enhance your schema with additional capabilities such as custom indexes, authorization rules, function triggers, and more.
 
@@ -18,6 +18,12 @@ The Amplify CLI provides GraphQL directives to enhance your schema with addition
 - [`@predictions`: Queries an orchestration of AI/ML services such as Amazon Rekognition, Amazon Translate, and/or Amazon Polly](/cli/graphql-transformer/predictions)
 - [`@searchable`: Makes your data searchable by streaming it to Amazon OpenSearch](/cli/graphql-transformer/searchable)
 - [`@versioned`: Defines the versioning and conflict resolution strategy for an @model type](/cli/graphql-transformer/versioned)
+
+<Callout warning>
+  Limitation with DataStore: Custom primary keys are not supported by the
+  GraphQL Transformer v1. Upgrade to the GraphQL Transformer v2 to leverage
+  custom primary keys in DataStore.
+</Callout>
 
 ## AWS AppSync-provided directives
 

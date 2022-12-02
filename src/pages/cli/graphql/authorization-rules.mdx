@@ -106,7 +106,24 @@ type Todo @model @auth(rules: [{ allow: owner, ownerField: "author" }]) {
 }
 ```
 
-By default, only one user can be an owner of a record. If you want to grant a set of users access to a record, you can override the `ownerField` to a list of owners. Use this if you want a dynamic set of users to have access to a record.
+<Callout warning>
+
+  **By default, owners can reassign the owner of their existing record to another user.**
+
+  To prevent an owner from reassigning their record to another user, protect the owner field (by default `owner: String`) with a [field-level authorization rule](#field-level-authorization-rules). For example, in a social media app, you would want to prevent Alice from being able to reassign Alice's Post to Bob.
+
+  ```graphql
+  type Todo @model @auth(rules: [{ allow: owner }]) {
+    id: ID!
+    description: String
+    owner: String @auth(rules: [{ allow: owner, operations: [read, delete] }])
+  }
+  ```
+</Callout>
+
+### Multi-user data access
+
+If you want to grant a set of users access to a record, you can override the `ownerField` to a list of owners. Use this if you want a dynamic set of users to have access to a record.
 
 ```graphql
 type Todo @model @auth(rules: [{ allow: owner, ownerField: "authors" }]) {
@@ -116,8 +133,6 @@ type Todo @model @auth(rules: [{ allow: owner, ownerField: "authors" }]) {
 ```
 
 In the example above, upon record creation, the `authors` list is populated with the creator of the record. The creator can then update the `authors` field with additional users. Any user listed in the `authors` field can access the record.
-
-**Known limitation**: Real-time subscriptions are not supported when `owner` authorization is configured with a list of owners.
 
 ### Signed-in user data access
 To restrict a record's access to every signed-in user, use the `private` authorization strategy.
@@ -141,6 +156,22 @@ type Todo @model @auth(rules: [{ allow: private, provider: iam }]) {
 ```
 
 In addition, you can also use OpenID Connect with `private` authorization. See [OpenID Connect as an authorization provider](#using-oidc-authorization-provider).
+
+**Note:** If you have a connected child model that allows `private` level access, any user authorized to fetch it from the parent model will be able to read the connected child model.
+For example,
+```graphql
+type Todo @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  name: String!
+  task: [Task] @hasMany
+}
+
+type Task @model @auth(rules: [{ allow: owner }, { allow: private, operations: [read] }]) {
+  id: ID!
+  description: String!
+}
+```
+In the above relationship, the owner of a `Todo` record can query all the tasks connected to it, since the `Task` model allows `private` read access.
 
 ### User group-based data access
 To restrict access based on user groups, use the `group` authorization strategy.
@@ -257,6 +288,8 @@ type Post @model @auth(rules: [
 In the example above:
 - any user (signed in or not, verified by IAM) is allowed to read all posts
 - owners are allowed to create, read, update, and delete their own posts.
+
+If you are using DataStore and have multiple authorization rules, you can let DataStore automatically determine the best authorization mode client-side. Review how to [Configure Multiple Authorization Types](https://docs.amplify.aws/lib/datastore/setup-auth-rules/q/platform/js/#configure-multiple-authorization-types) on DataStore for more details.
 
 ## Field-level authorization rules
 
@@ -406,13 +439,24 @@ input AuthRule {
 
 enum AuthStrategy { owner groups private public custom }
 enum AuthProvider { apiKey iam oidc userPools function }
-enum ModelOperation { create update delete read }
+enum ModelOperation {
+  create
+  update
+  delete
+  read # Short-hand to allow "get", "list", "sync", "listen", and "search"
+  
+  get # Retrieves an individual item
+  list # Retrieves a list of items
+  sync # Enables ability to sync offline/online changes (including via DataStore)
+  listen # Subscribes to real-time changes
+  search # Enables ability to search using @searchable directive
+}
 ```
 
 Authorization rules consists of:
 - **authorization strategy** (`allow`): who the authorization rule applies to
 - **authorization provider** (`provider`): which mechanism is used to apply the authorization rule (API Key, IAM, Amazon Cognito user pool, OIDC)
 - **authorized operations** (`operations`): which operations are allowed for the given strategy and provider. If not specified, `create`, `read`, `update`, and `delete` operations are allowed.
--- **read operation**: `read` operation can be replaced with `get`, `list`, `sync`, `search`, `list` for a more granular query access
+  - **`read` operation**: `read` operation can be replaced with `get`, `list`, `sync`, `listen`, and `search` for a more granular query access
 
 **API Keys** are best used for public APIs (or parts of your schema which you wish to be public) or prototyping, and you must specify the expiration time before deploying. **IAM** authorization uses [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html) to make request with policies attached to Roles. OIDC tokens provided by **Amazon Cognito user pool** or **3rd party OpenID Connect** providers can also be used for authorization, and enabling this provides a simple access control requiring users to authenticate to be granted top level access to API actions.

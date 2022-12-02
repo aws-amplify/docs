@@ -1,6 +1,6 @@
 **withOAuth Higher-Order Component (HOC)**
 
-With React Native & Expo, you can also use the `withOAuth` HOC to launch the Cognito Hosted UI experience. Just wrap your app's main component with our HOC. Doing so, will pass the following `props` available to your component:
+With React Native & Expo, you can also use the `withOAuth` HOC to launch the Cognito Hosted UI experience. Just wrap your app's main component with your HOC. Doing so, will pass the following `props` available to your component:
 
 - `oAuthUser`: If the sign was successful, this object will have the user from the user pool.
 - `oAuthError`: In case of an error, the string with the error as given by the Cognito Hosted UI.
@@ -17,30 +17,6 @@ The following `props` are used for building a custom UI with buttons if you do n
 - `googleSignIn`: A callback function to trigger the hosted UI sign in flow for Google, this will show the Google login page.
 - `amazonSignIn`: A callback function to trigger the hosted UI sign in flow for LoginWithAmazon, this will show the LoginWithAmazon login page.
 - `customProviderSignIn`: A callback function to trigger the hosted UI sign in flow for an OIDC provider, this will show the OIDC provider login page. This function expects a string with the **provider name** specified when [adding the OIDC  IdP to your User Pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-oidc-idp.html#cognito-user-pools-oidc-idp-step-2).
-
-To use `withOAuth` in your React Native application first install the appropriate dependencies:
-
-<BlockSwitcher>
-<Block name="Expo">
-
-```sh
-yarn add aws-amplify-react-native aws-amplify @react-native-picker/picker
-```
-
-</Block>
-<Block name="React Native CLI">
-
-```sh
-yarn add aws-amplify-react-native aws-amplify @react-native-picker/picker
-```
-
-You will also need to install the pod dependencies for iOS:
-
-```sh
-npx pod-install
-```
-</Block>
-</BlockSwitcher>
 
 The following code snippet shows an example of its possible usage:
 

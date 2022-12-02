@@ -1,48 +1,61 @@
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-func signUp(username: String, password: String, email: String, phonenumber: String) {
+func signUp(username: String, password: String, email: String, phonenumber: String) async {
     let userAttributes = [AuthUserAttribute(.email, value: email), AuthUserAttribute(.phoneNumber, value: phonenumber)]
     let options = AuthSignUpRequest.Options(userAttributes: userAttributes)
-    Amplify.Auth.signUp(username: username, password: password, options: options) { result in
-        switch result {
-        case .success(let signUpResult):
-            if case let .confirmUser(deliveryDetails, _) = signUpResult.nextStep {
-                print("Delivery details \(String(describing: deliveryDetails))")
-            } else {
-                print("SignUp Complete")
-            }
-        case .failure(let error):
-            print("An error occurred while registering a user \(error)")
+
+    do {
+        let signUpResult = try await Amplify.Auth.signUp(
+            username: username,
+            password: password,
+            options: options
+        )
+
+        if case let .confirmUser(deliveryDetails, _, userId) = signUpResult.nextStep {
+            print("Delivery details \(String(describing: deliveryDetails)) for userId: \(String(describing: userId)))")
+        } else {
+            print("SignUp Complete")
         }
+    } catch let error as AuthError {
+        print("An error occurred while registering a user \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
     }
 }
 ```
 
 </Block>
 
-<Block name="Combine (iOS 13+)">
+<Block name="Combine">
 
 ```swift
 func signUp(username: String, password: String, email: String, phonenumber: String) -> AnyCancellable {
-    let userAttributes = [AuthUserAttribute(.email, value: email), AuthUserAttribute(.phoneNumber, value: phonenumber)]
+    let userAttributes = [
+        AuthUserAttribute(.email, value: email),
+        AuthUserAttribute(.phoneNumber, value: phonenumber)
+    ]
     let options = AuthSignUpRequest.Options(userAttributes: userAttributes)
-    let sink = Amplify.Auth.signUp(username: username, password: password, options: options)
-        .resultPublisher
-        .sink {
-            if case let .failure(authError) = $0 {
-                print("An error occurred while registering a user \(authError)")
-            }
+    Amplify.Publisher.create {
+        try await Amplify.Auth.signUp(
+            username: username,
+            password: password,
+            options: options
+        )
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("An error occurred while registering a user \(authError)")
         }
-        receiveValue: { signUpResult in
-            if case let .confirmUser(deliveryDetails, _) = signUpResult.nextStep {
-                print("Delivery details \(String(describing: deliveryDetails))")
-            } else {
-                print("SignUp Complete")
-            }
+    }
+    receiveValue: { signUpResult in
+        if case let .confirmUser(deliveryDetails, _, userId) = signUpResult.nextStep {
+            print("Delivery details \(String(describing: deliveryDetails)) for userId: \(String(describing: userId)))")
+        } else {
+            print("SignUp Complete")
         }
+    }
     return sink
 }
 ```

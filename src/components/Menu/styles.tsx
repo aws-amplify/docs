@@ -1,4 +1,5 @@
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
+import { MQMobile, MQTablet, MQLaptop, MQDesktop } from '../media';
 
 export const MenuHeaderStyle = styled.div`
   display: flex;
@@ -17,7 +18,11 @@ export const MenuStyle = styled.div`
 
     > div {
       position: sticky;
-      top: 3.375rem;
+      top: calc(3rem + var(--docs-dev-center-nav) + 5rem);
+
+      ${MQDesktop} {
+        top: calc(3rem + var(--docs-dev-center-nav));
+      }
 
       display: flex;
       flex-direction: column;

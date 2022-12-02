@@ -2,36 +2,16 @@
 
 The `Amplify.Geo.search(for coordinates:)` API is a reverse Geocoder that takes a coordinate point and returns information about what it finds at that point on the map.
 
-<BlockSwitcher>
-<Block name="Stable Release">
-
-```swift
-Amplify.Geo.search(for: coordinates) { result in
-    switch result {
-    case .failure(let error):
-        print(error)
-    case .success(let places):
-        dump(places)
-    }
-}
-```
-
-</Block>
-
-<Block name="Developer Preview">
-
 ```swift
 do {
     let places = try await Amplify.Geo.search(for: coordinates)
     dump(places)
+} catch let error as Geo.Error {
+    print("Failed to search: \(error)")
 } catch {
-    print(error)
+    print("Unexpected error: \(error)")
 }
 ```
-</Block>
-
-
-</BlockSwitcher>
 
 You can refine your search by specifying following parameters inside `Geo.SearchForCoordinatesOptions`
 - `maxResults` - to limit the maximum result set (defaults to 50)

@@ -8,7 +8,7 @@ export const meta = {
 It is highly recommended that you complete the Getting Started section of Amplify setup before using local mocking.
 
 <InternalLinkButton href="/start">
-  <span slot="text">🚀 Get Started</span>
+  <span slot="text">Get Started</span>
 </InternalLinkButton>
 
 In order to quickly test and debug without pushing all changes in your project to the cloud, Amplify supports *Local Mocking and Testing* for certain categories including API (AWS AppSync), Storage (Amazon DynamoDB and Amazon S3), and Functions (AWS Lambda). This includes using directives from the GraphQL Transformer, editing & debug resolvers, hot reloading, JWT mocking of authorization checks, and even performing S3 operations such as uploading and downloading content.
@@ -45,6 +45,17 @@ When defining a schema you can use directives from the GraphQL Transformer in lo
 - [@primaryKey, @index](/cli/graphql/data-modeling)
 - [@hasOne, @hasMany, @belongsTo, @manyToMany](/cli/graphql/data-modeling)
 - [@function](/cli/graphql/custom-business-logic#lambda-function-resolver)
+
+If you have DynamoDB Lambda triggers set up on `@model` types in your GraphQL schema, by following steps [listed here](/cli/usage/lambda-triggers/#as-a-part-of-the-graphql-api-types-with-model-annotation),
+then you can test those Lambda triggers locally via `amplify mock` or `amplify mock api`. 
+
+The connected Lambda triggers are automatically invoked locally if you perform a CRUD operation on the `@model` type using either the local DynamoDB endpoint (`http://localhost:62224`) or 
+the local AppSync console (should be `http://localhost:20002`). The structure of the event that is sent to the lambda trigger can be found [here](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_streams_GetRecords.html).
+
+The environment variables that are listed below in [Function mock environment variables](/cli/usage/mock/#function-mock-environment-variables), are available for each invocation of the Lambda trigger.
+
+In addition, you can use a `.env` file within the function directory (ie. `<project root>/amplify/backend/function/<function name>/.env`) to override any environment variables for local mocking.
+
 
 > __Note__: IAM authorization rules in Mock get are treated as Auth role if the request is signed with AccessKey `ASIAVJKIAM-AuthRole`. Otherwise the request is treated as made by an unAuth user.
 
@@ -111,7 +122,7 @@ The mock environment will also populate [lambda runtime environment variables](h
 
 - `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `AWS_SESSION_TOKEN` will be populated using the AWS credentials that the Amplify project is currently configured to use
 - `_HANDLER`, `AWS_REGION`, `AWS_LAMBDA_FUNCTION_NAME`, `LAMBDA_TASK_ROOT`, and `LAMBDA_RUNTIME_DIR` will be set based on the function being mocked
-- Static defaults will be specified for all other runtime environment variables. The full list of static defaults can be found [here](https://github.com/aws-amplify/amplify-cli/blob/master/packages/amplify-util-mock/src/utils/lambda/populate-lambda-mock-env-vars.ts#L39)
+- Static defaults will be specified for all other runtime environment variables. The full list of static defaults can be found [here](https://github.com/aws-amplify/amplify-cli/blob/main/packages/amplify-util-mock/src/utils/lambda/populate-lambda-mock-env-vars.ts#L39)
 
 You can also override any mock environment variables in a `.env` file within the function directory (ie. `<project root>/amplify/backend/function/<function name>/.env`).
 

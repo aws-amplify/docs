@@ -559,6 +559,18 @@ responseMappingTemplate: appsync.MappingTemplate.fromFile(path.join(__dirname, "
 
 > **Note:** the `..` is added to the path because the path is always relative to the `build` folder of the custom resource.
 
+## Add authorization rules to custom queries and mutations
+
+Authorization rules can be applied with the `@auth` directive in the same way as field-level authorization rules. See [Field-level authorization rules](/cli/graphql/authorization-rules/#field-level-authorization-rules) for details.
+
+In the example below, `myCustomMutation` can only be executed by signed-in customers who are authenticated with IAM:
+
+```graphql
+type Mutation {
+  myCustomMutation(args: String): String @auth(rules: [{ allow: private, provider: iam }])
+}
+```
+
 ## Override Amplify-generated resolvers
 
 Amplify generates [AWS AppSync pipeline resolver](https://docs.aws.amazon.com/appsync/latest/devguide/pipeline-resolvers.html) for your queries and mutations. The resolvers are listed the following API resource's folder `amplify/backend/api/<resource_name>/build/resolvers/`. 
