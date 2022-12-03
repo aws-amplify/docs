@@ -740,6 +740,11 @@ const directory = {
             filters: ['js', 'react-native']
           },
           {
+            title: 'Use Transfer Acceleration',
+            route: '/lib/storage/transfer-acceleration',
+            filters: ['js', 'react-native']
+          },
+          {
             title: 'Lambda triggers',
             route: '/lib/storage/triggers',
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
@@ -2618,15 +2623,6 @@ const directory = {
             title: 'Nuxt.js',
             route: '/guides/hosting/nuxt',
             filters: ['js']
-          }
-        ]
-      },
-      storage: {
-        title: 'Storage',
-        items: [
-          {
-            title: 'Using Transfer Accelaration',
-            route: '/guides/storage/transfer-acceleration'
           }
         ]
       }

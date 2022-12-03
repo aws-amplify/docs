@@ -1,4 +1,10 @@
-You can enable Transfer Acceleration for fast and secure transfer of files over long distances between your end user device and the S3 bucket. You can override the storage resource for this configuration and then leverage the `useAccelerateEndpoint` parameter to use the accelerated S3 endpoint.
+<Callout warning>
+
+When you use Transfer Acceleration, additional data transfer charges might apply. For more information about pricing, see [Amazon S3 pricing](https://aws.amazon.com/s3/pricing/).
+
+</Callout>
+
+You can enable [Transfer Acceleration](https://docs.aws.amazon.com/AmazonS3/latest/userguide/transfer-acceleration.html) for fast and secure transfer of files over long distances between your end user device and the S3 bucket. You can override the storage resource for this configuration and then leverage the `useAccelerateEndpoint` parameter to use the accelerated S3 endpoint.
 
 ## Override storage resource
 
@@ -32,7 +38,7 @@ amplify push
 
 
 
-## Use below snippet for leveraging the accelerated endpoint
+## Upload files using the accelerated S3 endpoint
 
 We switch to the accelerated S3 endpoint by using the `useAccelerateEndpoint` parameter set to `true` for the `Storage.put` method.
 
