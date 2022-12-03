@@ -2626,7 +2626,7 @@ const directory = {
         items: [
           {
             title: 'Using Transfer Accelaration',
-            route: '/guides/storage/transfer-accelaration'
+            route: '/guides/storage/transfer-acceleration'
           }
         ]
       }
