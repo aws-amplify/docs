@@ -1,6 +1,5 @@
 import React from 'react';
 import { getProductDirectory } from '../../../utils/getLocalDirectory';
-import { isHtmlCodeTagString } from '../../../utils/is-html-string';
 import InternalLink from '../../InternalLink';
 import {
   ArrowStyle,
