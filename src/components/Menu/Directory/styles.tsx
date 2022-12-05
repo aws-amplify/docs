@@ -14,6 +14,8 @@ export const DirectoryGroupHeaderStyle = styled.button`
 
   h4 {
     cursor: pointer;
+    margin-bottom: 0;
+    margin-top: 0;
   }
 
   &:hover {

@@ -31,7 +31,11 @@ export const ContentStyle = styled.div<ContentProps>(({menuIsOpen}) => {
 
     &:hover,
     & h2:hover,
-    & h3:hover {
+    & h3:hover,
+    & h4:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    } {
       cursor: pointer;
       text-decoration: underline;
     }
