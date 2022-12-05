@@ -1,8 +1,7 @@
 name: 'CodeQL'
 
 on:
-  push:
-  pull_request:
+  pull_request: [main]
 
 jobs:
   CodeQL-Build:
