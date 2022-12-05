@@ -64,7 +64,7 @@ To learn more about the search queries, refer to [this guide](/cli/graphql/searc
 
 We create the following artifacts when you mock the API with searchable models:
 - [OpenSearch](https://opensearch.org/) version `1.3.0` is downloaded.
-- A python Lambda trigger is stored locally at `mock-api-resources/searchable/searchable-lambda-trigger`. 
+- A Python Lambda trigger is stored locally at `mock-api-resources/searchable/searchable-lambda-trigger`. 
 This Lambda trigger is automatically invoked locally if you perform a CRUD operation on the searchable model types. 
 It updates the data in the corresponding search index used by the local opensearch cluster.
 - A data folder to store the OpenSearch indices is created at `mock-api-resources/searchable/searchable-data`.
