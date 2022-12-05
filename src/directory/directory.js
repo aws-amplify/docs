@@ -1,3 +1,7 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const commands = require('../data/commands.json');
+// @TODO can we import the commands fetched from the GitHub repo here?
+
 const directory = {
   lib: {
     productRoot: {
@@ -1647,6 +1651,16 @@ const directory = {
             filters: []
           }
         ]
+      },
+      commands: {
+        title: 'Commands',
+        items: Object.entries(commands)
+          .sort(([a], [b]) => a > b)
+          .map(([name, command]) => ({
+            title: name,
+            titleHtml: `<code>${name}</code>`,
+            route: `/cli/commands/${name}`
+          }))
       },
       graphql: {
         title: 'API (GraphQL)',

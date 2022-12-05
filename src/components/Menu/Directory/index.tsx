@@ -11,7 +11,14 @@ import {
 } from './styles';
 
 type DirectoryItem = {
+  /**
+   * Title used for sidenav link, page title, and page heading
+   */
   title: string;
+  /**
+   * Raw HTML string
+   */
+  titleHtml: string;
   route: string;
   filters: string[];
 };
@@ -92,8 +99,8 @@ class DirectoryGroup extends React.Component<
                 key={item.title}
               >
                 <InternalLink href={`${item.route}`}>
-                  {isHtmlCodeTagString(item.title) ? (
-                    <a dangerouslySetInnerHTML={{ __html: item.title }}></a>
+                  {item.titleHtml ? (
+                    <a dangerouslySetInnerHTML={{ __html: item.titleHtml }}></a>
                   ) : (
                     item.title
                   )}
