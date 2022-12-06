@@ -62,6 +62,7 @@ const allFilters = [
 
 const pagesToSkip = ['/', '/ChooseFilterPage', '/404'];
 const pagesWithIndex = ['/cli/function', '/cli', '/console'];
+dotenv.config();
 
 const searchIndex = process.env.NEXT_PUBLIC_ALGOLIA_INDEX
   ? process.env.NEXT_PUBLIC_ALGOLIA_INDEX
@@ -90,8 +91,6 @@ Object.keys(pathmap).forEach(async (key) => {
 });
 
 try {
-  dotenv.config();
-
   if (!process.env.PUBLIC_ALGOLIA_APP_ID) {
     throw new Error('PUBLIC_ALGOLIA_APP_ID is not defined');
   }
