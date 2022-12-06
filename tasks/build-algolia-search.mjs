@@ -165,28 +165,31 @@ async function importRecursiveFragments(fragmentFile, platform) {
       let allFragments = fragmentFile;
       const compiled = String(await compile(fragmentFile));
       const imports = [...(await parseImports(compiled))];
-      imports.forEach((parsedImport) => {
-        const isAbsolute = parsedImport.moduleSpecifier.isConstant;
-        const hasDefault = parsedImport.importClause.default;
-        const likelyFragment = isAbsolute && hasDefault;
-        if (
-          likelyFragment &&
-          parsedImport.importClause.default.includes(platform)
-        ) {
-          const fragmentPath = path.join(
-            __dirname,
-            '..',
-            parsedImport.moduleSpecifier.value
-          );
-          const nestedFragmentFile = sanitizeMDX(
-            fs.readFileSync(fragmentPath, 'utf8')
-          );
-          allFragments =
-            allFragments +
-            '\n' +
-            importRecursiveFragments(nestedFragmentFile, platform);
-        }
-      });
+      await Promise.all(
+        imports.map(async (parsedImport) => {
+          const isAbsolute = parsedImport.moduleSpecifier.isConstant;
+          const hasDefault = parsedImport.importClause.default;
+          const likelyFragment = isAbsolute && hasDefault;
+          if (
+            likelyFragment &&
+            parsedImport.importClause.default.includes(platform)
+          ) {
+            const fragmentPath = path.join(
+              __dirname,
+              '..',
+              parsedImport.moduleSpecifier.value
+            );
+            const nestedFragmentFile = sanitizeMDX(
+              fs.readFileSync(fragmentPath, 'utf8')
+            );
+            const recursiveFragment = await importRecursiveFragments(
+              nestedFragmentFile,
+              platform
+            );
+            allFragments = allFragments + '\n' + recursiveFragment;
+          }
+        })
+      );
       return allFragments;
     } catch (e) {
       console.log(e);
@@ -261,15 +264,19 @@ async function tryParseImports(
 
     if (Object.keys(fragments).length !== 0) {
       // add platform specific fragments to source
-      fragments[platform].forEach(async (fragment) => {
-        const fragmentPath = path.join(__dirname, '..', fragment);
-        const fragmentFile = sanitizeMDX(fs.readFileSync(fragmentPath, 'utf8'));
-        const allFragments = await importRecursiveFragments(
-          fragmentFile,
-          platform
-        );
-        source = source + '\n' + allFragments;
-      });
+      await Promise.all(
+        fragments[platform].map(async (fragment) => {
+          const fragmentPath = path.join(__dirname, '..', fragment);
+          const fragmentFile = sanitizeMDX(
+            fs.readFileSync(fragmentPath, 'utf8')
+          );
+          const allFragments = await importRecursiveFragments(
+            fragmentFile,
+            platform
+          );
+          source = source + '\n' + allFragments;
+        })
+      );
 
       // remove unused fragments and imports from markdown
       source = source.split('\n');
