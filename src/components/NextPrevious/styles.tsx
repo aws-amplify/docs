@@ -26,6 +26,7 @@ export const NextPreviousLinkStyle = styled.a`
   }
 
   h4 {
+    margin-top: 0;
     margin-bottom: 1rem;
   }
 
