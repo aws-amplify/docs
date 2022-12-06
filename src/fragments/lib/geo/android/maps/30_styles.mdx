@@ -6,11 +6,6 @@ This is useful if you would like to give your users a variety of map styles to c
 <Block name="Java">
 
 ```java
-import com.amplifyframework.core.Amplify;
-import com.amplifyframework.geo.models.MapStyle;
-```
-
-```java
 Amplify.Geo.getAvailableMaps(
     result -> {
         for (final MapStyle style : result) {
@@ -22,11 +17,7 @@ Amplify.Geo.getAvailableMaps(
 ```
 
 </Block>
-<Block name="Kotlin">
-
-```kotlin
-import com.amplifyframework.core.Amplify
-```
+<Block name="Kotlin - Callbacks">
 
 ```kotlin
 Amplify.Geo.getAvailableMaps(
@@ -37,6 +28,34 @@ Amplify.Geo.getAvailableMaps(
     },
     { Log.e("MyAmplifyApp", "Failed to get available maps.", it) }
 )
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val result = Amplify.Geo.getAvailableMaps()
+    for (mapStyle in result) {
+        Log.i("MyAmplifyApp", mapStyle.toString())
+    }
+} catch (error: GeoException) {
+    Log.e("MyAmplifyApp", "Failed to get available maps.", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Geo.getAvailableMaps().subscribe(
+    result -> {
+        for (final MapStyle style : result) {
+            Log.i("MyAmplifyApp", style.toString());
+        }
+    },
+    error -> Log.e("MyAmplifyApp", "Failed to get available maps.", error)
+);
 ```
 
 </Block>
