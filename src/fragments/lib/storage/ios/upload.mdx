@@ -172,9 +172,10 @@ func getTempUrls(securityScopedUrls: [URL]) -> [URL] {
     }
     
     // 2. write the file contents to temporary files and return the URLs of the temp files
-    let localFileURLS = persistTemporaryFiles(fileContents)
+    let localFileURLs = persistTemporaryFiles(fileContents)
 
     // 3. Now you have local URLs for the files you'd like to upload.
+    return localFileURLs
 }
 ```
 
