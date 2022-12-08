@@ -6,7 +6,6 @@ permissions:
   contents: read
 jobs:
   Spellcheck:
-    name: Spellcheck
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
