@@ -153,7 +153,7 @@ struct ScopedResourceFile {
 }
 
 func getTempUrls(securityScopedUrls: [URL]) -> [URL] {
-    // 1. get the content of security scoped resources into ScopedResourceFile structs
+    // 1. get the content of security scoped resources into ScopedResourceFile struct
     let fileContents = securityScopedUrls.compactMap { url -> ScopedResourceFile? in
         let startAccess = url.startAccessingSecurityScopedResource()
         guard startAccess else {
