@@ -1,6 +1,7 @@
+import Head from 'next/head';
+import MDXProvider from '../components/MDXProvider';
 import '@algolia/autocomplete-theme-classic';
 import '../styles/styles.css';
-import Head from 'next/head';
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -83,8 +84,9 @@ function MyApp({ Component, pageProps }) {
         <link rel="apple-touch-icon" href="/assets/icon/icon.png" />
         <link rel="icon" type="image/x-icon" href="/assets/icon/favicon.ico" />
       </Head>
-
-      <Component {...pageProps} />
+      <MDXProvider>
+        <Component {...pageProps} />
+      </MDXProvider>
 
       {process.env.NODE_ENV !== 'production' ? (
         <script src="https://aa0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"></script>
