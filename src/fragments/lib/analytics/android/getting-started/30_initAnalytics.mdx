@@ -6,6 +6,14 @@ Add the following code to your `onCreate()` method in your application class:
 <Block name="Java">
 
 ```java
+import android.util.Log;
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.analytics.pinpoint.AWSPinpointAnalyticsPlugin;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
+import com.amplifyframework.core.Amplify;
+```
+
+```java
 Amplify.addPlugin(new AWSCognitoAuthPlugin());
 Amplify.addPlugin(new AWSPinpointAnalyticsPlugin());
 ```
@@ -36,6 +44,14 @@ public class MyAmplifyApp extends Application {
 <Block name="Kotlin">
 
 ```kotlin
+import android.util.Log
+import com.amplifyframework.AmplifyException
+import com.amplifyframework.analytics.pinpoint.AWSPinpointAnalyticsPlugin
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
+import com.amplifyframework.core.Amplify
+```    
+
+```kotlin
 Amplify.addPlugin(AWSCognitoAuthPlugin())
 Amplify.addPlugin(AWSPinpointAnalyticsPlugin())
 ```
@@ -63,6 +79,14 @@ class MyAmplifyApp : Application() {
 
 </Block>
 <Block name="RxJava">
+
+```java
+import android.util.Log;
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.analytics.pinpoint.AWSPinpointAnalyticsPlugin;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
+import com.amplifyframework.rx.RxAmplify;
+```
 
 ```java
 RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
