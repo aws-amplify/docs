@@ -142,7 +142,7 @@ resultSink = uploadTask
 Security scoped resources refer to files that are retrieved from iCloud. 
 
 To upload security scoped resources:
-1. you'll need to use `startAccessingSecurityScopedResource()` and `stopAccessingSecurityScopedResource()` to access the data within security scoped files
+1. you'll need to use [startAccessingSecurityScopedResource()](https://developer.apple.com/documentation/foundation/url/1779698-startaccessingsecurityscopedreso) and [stopAccessingSecurityScopedResource()](https://developer.apple.com/documentation/foundation/url/1780153-stopaccessingsecurityscopedresou) to access the data within security scoped files
 2. temporarily persist the data from the security scoped files in your app's sandbox 
 3. upload files using the temporary URLs
 
