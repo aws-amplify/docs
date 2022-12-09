@@ -18,7 +18,7 @@ export const FeedbackContainer = styled.div`
   ${MQDesktop} {
     border: none;
     border-top: 0.05rem solid var(--border-color);
-  }  
+  }
 `;
 
 export const VoteButtonsContainer = styled.div`

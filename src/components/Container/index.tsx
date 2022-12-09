@@ -1,5 +1,5 @@
-import {Container, InnerContainer, OuterContainer} from "./styles";
+import { Container, InnerContainer, OuterContainer } from './styles';
 
-export {Container, InnerContainer, OuterContainer};
+export { Container, InnerContainer, OuterContainer };
 
 export default Container;

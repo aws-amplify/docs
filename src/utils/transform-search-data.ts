@@ -1,6 +1,6 @@
-import {parseURL} from "./url/url";
-import {filterMetadataByOption} from "./filter-data";
-import {setSearchResultCount} from "./track";
+import { parseURL } from './url/url';
+import { filterMetadataByOption } from './filter-data';
+import { setSearchResultCount } from './track';
 
 type FilterMetadataKey = keyof typeof filterMetadataByOption;
 
@@ -39,11 +39,11 @@ export function transformData(items: Item[]): Item[] {
   setSearchResultCount(items.length);
 
   return items.map((item) => {
-    const {params} = parseURL(item.url);
+    const { params } = parseURL(item.url);
     const entries = Object.entries(params);
     if (entries.length > 0) {
       const filterMetadataKey = entries[0][1] as FilterMetadataKey | undefined;
-      if (typeof filterMetadataKey === "string") {
+      if (typeof filterMetadataKey === 'string') {
         const label = filterMetadataByOption[filterMetadataKey].label;
         if (label && item?._highlightResult?.hierarchy?.lvl0) {
           const newHeading = `${item.hierarchy.lvl0} (${label})`;

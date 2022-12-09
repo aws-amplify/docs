@@ -1,7 +1,7 @@
-import {Grid} from "theme-ui";
+import { Grid } from 'theme-ui';
 
-import {Container} from "../Container";
-import {Card, CardDetail, CardGraphic} from "../Card";
+import { Container } from '../Container';
+import { Card, CardDetail, CardGraphic } from '../Card';
 
 export default function FeaturesGrid() {
   return (
@@ -12,7 +12,7 @@ export default function FeaturesGrid() {
           gap={4}
           columns={[1, null, null, 3]}
           sx={{
-            marginTop: "2rem",
+            marginTop: '2rem'
           }}
         >
           <Card href="/lib/auth/getting-started" className="border-radius">
@@ -64,15 +64,13 @@ export default function FeaturesGrid() {
               </p>
             </CardDetail>
           </Card>
-          <Card
-            href="/lib/geo/getting-started"
-            className="border-radius"
-          >
+          <Card href="/lib/geo/getting-started" className="border-radius">
             <CardGraphic src="/assets/features/geo.svg" />
             <CardDetail>
               <h4>Geo</h4>
               <p>
-                Modern, interactive maps with location markers and location search.
+                Modern, interactive maps with location markers and location
+                search.
               </p>
             </CardDetail>
           </Card>

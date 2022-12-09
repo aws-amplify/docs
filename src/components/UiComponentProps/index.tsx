@@ -1,24 +1,24 @@
-import ExternalLink from "../ExternalLink";
+import ExternalLink from '../ExternalLink';
 
-import docs from "@aws-amplify/ui-components/dist/docs";
-import {tableGeneratorMap} from "../TableGenerator";
-import {WebComponentProps} from "../../utils/ui-component-props.types";
-import {ATTR_HEADER, CSS_HEADER, SLOTS_HEADER} from "../../constants/strings";
+import docs from '@aws-amplify/ui-components/dist/docs';
+import { tableGeneratorMap } from '../TableGenerator';
+import { WebComponentProps } from '../../utils/ui-component-props.types';
+import { ATTR_HEADER, CSS_HEADER, SLOTS_HEADER } from '../../constants/strings';
 
 export const headerNames: Record<WebComponentProps, string> = {
   attr: ATTR_HEADER,
   css: CSS_HEADER,
-  slots: SLOTS_HEADER,
+  slots: SLOTS_HEADER
 };
 
 export default function UiComponentProps({
   tag,
   useTableHeaders = false,
-  propType = "attr",
+  propType = 'attr'
 }) {
   const component = docs.components.find((component) => component.tag === tag);
 
-  if (!component || !component.tag || propsAreEmpty({propType, component})) {
+  if (!component || !component.tag || propsAreEmpty({ propType, component })) {
     return null;
   }
 
@@ -36,10 +36,10 @@ export default function UiComponentProps({
   );
 }
 
-function Header({useTableHeaders = false, propType = "attr", component}) {
+function Header({ useTableHeaders = false, propType = 'attr', component }) {
   const sectionId = `props-${propType}-${component?.tag}`;
   return useTableHeaders ? (
-    <a href={"#" + sectionId}>
+    <a href={'#' + sectionId}>
       <h2 id={sectionId}>{headerNames[propType]}</h2>
     </a>
   ) : (
@@ -47,15 +47,15 @@ function Header({useTableHeaders = false, propType = "attr", component}) {
   );
 }
 
-function Content({propType, component}) {
-  if (propType === "attr") {
+function Content({ propType, component }) {
+  if (propType === 'attr') {
     return (
       <p>
         <code>{component?.tag}</code>
         &nbsp;provides the following properties to configure the component.
       </p>
     );
-  } else if (propType === "css") {
+  } else if (propType === 'css') {
     return (
       <p>
         <code>{component?.tag}</code>
@@ -66,7 +66,7 @@ function Content({propType, component}) {
         &nbsp;to modify the style at component level.
       </p>
     );
-  } else if (propType === "slots") {
+  } else if (propType === 'slots') {
     return (
       <p>
         <code>{component?.tag}</code>
@@ -80,20 +80,20 @@ function Content({propType, component}) {
   }
 }
 
-function propsAreEmpty({propType, component}) {
+function propsAreEmpty({ propType, component }) {
   return (
-    (propType === "attr" && component?.props.length === 0) ||
-    (propType === "css" && component?.styles.length === 0) ||
-    (propType === "slots" && component?.slots.length === 0)
+    (propType === 'attr' && component?.props.length === 0) ||
+    (propType === 'css' && component?.styles.length === 0) ||
+    (propType === 'slots' && component?.slots.length === 0)
   );
 }
 
-export function propsAreEmptyByTag({propType, componentTag}) {
+export function propsAreEmptyByTag({ propType, componentTag }) {
   const component = docs.components.find(
-    (component) => component.tag === componentTag,
+    (component) => component.tag === componentTag
   );
 
-  if (!component || !component.tag || propsAreEmpty({propType, component})) {
+  if (!component || !component.tag || propsAreEmpty({ propType, component })) {
     return true;
   }
   return false;

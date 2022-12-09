@@ -1,13 +1,13 @@
 import {
   NextPreviousContainerStyle,
   NextPreviousLinkStyle,
-  NextPreviousTextStyle,
-} from "./styles";
-import InternalLink from "../InternalLink";
+  NextPreviousTextStyle
+} from './styles';
+import InternalLink from '../InternalLink';
 import {
   getChapterDirectory,
-  isProductRoot,
-} from "../../utils/getLocalDirectory";
+  isProductRoot
+} from '../../utils/getLocalDirectory';
 
 type DirectoryItem = {
   filters: string[];
@@ -46,7 +46,7 @@ function Next(item: DirectoryItem) {
   );
 }
 
-export default function NextPrevious({url, filterKey}) {
+export default function NextPrevious({ url, filterKey }) {
   if (isProductRoot(url)) {
     return <></>;
   }
@@ -56,9 +56,9 @@ export default function NextPrevious({url, filterKey}) {
     return null;
   }
 
-  let {items} = chapterDirectory;
+  let { items } = chapterDirectory;
   items = items.filter((item) => {
-    if (!("filters" in item) || item.filters.includes(filterKey)) return true;
+    if (!('filters' in item) || item.filters.includes(filterKey)) return true;
     return false;
   });
   let itemIndex = -1;

@@ -1,6 +1,6 @@
-import FilterChildren from "../FilterChildren";
+import FilterChildren from '../FilterChildren';
 
-export default function Fragments({fragments}) {
+export default function Fragments({ fragments }) {
   const children = [];
   for (const key in fragments) {
     const fragment = fragments[key]([]);

@@ -88,12 +88,14 @@ export default function Feedback() {
       return true;
     } catch (err) {
       console.log(err);
-      return false
+      return false;
     }
   }
 
   return (
-    <FeedbackContainer style={state === FeedbackState.HIDDEN ? { display: 'none' } : {}}>
+    <FeedbackContainer
+      style={state === FeedbackState.HIDDEN ? { display: 'none' } : {}}
+    >
       {state == FeedbackState.START ? (
         <>
           <p>{feedbackQuestion}</p>

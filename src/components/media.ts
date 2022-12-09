@@ -4,7 +4,7 @@ export enum Breakpoint {
   TABLET = 48,
   LAPTOP = 64,
   DESKTOP = 75,
-  MONITOR = 100,
+  MONITOR = 100
 }
 
 export const createMQ = (device: number) =>
@@ -20,4 +20,4 @@ export const MQLaptop = createDeviceMQ(Breakpoint.LAPTOP);
 export const MQDesktop = createDeviceMQ(Breakpoint.DESKTOP);
 export const MQMonitor = createDeviceMQ(Breakpoint.MONITOR);
 
-export const MAX_WIDTH = "90rem";
+export const MAX_WIDTH = '90rem';

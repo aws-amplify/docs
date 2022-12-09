@@ -1,5 +1,5 @@
-import styled from "@emotion/styled";
-import {MQLaptop} from "../media";
+import styled from '@emotion/styled';
+import { MQLaptop } from '../media';
 
 export const Footer = styled.footer`
   padding: 4rem 2rem;

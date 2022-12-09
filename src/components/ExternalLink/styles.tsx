@@ -1,4 +1,4 @@
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
 
 export const ExternalLinkGraphic = styled.img`
   margin-left: 0.25rem;

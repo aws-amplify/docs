@@ -1,9 +1,9 @@
-import Layout from "../components/Layout";
-import ExternalLink from "../components/ExternalLink";
-import InternalLinkButton from "../components/InternalLinkButton";
-import styled from "@emotion/styled";
-import {MQDesktop} from "../components/media";
-import {useEffect, useState} from "react";
+import Layout from '../components/Layout';
+import ExternalLink from '../components/ExternalLink';
+import InternalLinkButton from '../components/InternalLinkButton';
+import styled from '@emotion/styled';
+import { MQDesktop } from '../components/media';
+import { useEffect, useState } from 'react';
 
 export const Host = styled.div`
   width: 100%;
@@ -33,7 +33,7 @@ export const Host = styled.div`
 `;
 
 export default function Custom404() {
-  let [href, setHref] = useState("https://docs.amplify.aws");
+  const [href, setHref] = useState('https://docs.amplify.aws');
   useEffect(() => {
     setHref(window.location.href);
   }, []);
@@ -48,7 +48,7 @@ export default function Custom404() {
               `**Page**: [\`${href}\`](${href})
 
 **Feedback**: <!-- your feedback here -->
-`,
+`
             )}`}
           >
             file an issue

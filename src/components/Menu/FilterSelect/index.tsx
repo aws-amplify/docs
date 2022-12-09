@@ -38,7 +38,7 @@ const convertToRouteHerf = (
   if (firstPathSegment)
     path = path.replace(`/${firstPathSegment}`, '/[firstPathSegment]');
 
-  let queryIndex = path.lastIndexOf('/q/');
+  const queryIndex = path.lastIndexOf('/q/');
   if (queryIndex >= 0) {
     path =
       path.substring(0, queryIndex) +

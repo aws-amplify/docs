@@ -15,7 +15,7 @@ export function RightNavLinks({
   rightLinks,
   isCollapsed,
   currentSite,
-  socialLinks,
+  socialLinks
 }: RightNavLinksProps) {
   return (
     <Flex

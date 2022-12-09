@@ -1,4 +1,4 @@
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
 
 export const FilterSelectStyle = styled.div`
   position: relative;
@@ -67,5 +67,5 @@ export const DropdownStyle = styled.div<DropdownProps>`
     border-top: 0;
   }
 
-  visibility: ${(props) => (props.shouldDisplay ? "visible" : "hidden")};
+  visibility: ${(props) => (props.shouldDisplay ? 'visible' : 'hidden')};
 `;

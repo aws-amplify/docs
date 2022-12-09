@@ -67,7 +67,7 @@ export default function Page({
   const headers = traverseHeadings(children, filterKey);
   let filters = gatherAllFilters(children, filterKind);
   // special cases
-  if (url.startsWith("/sdk")) {
+  if (url.startsWith('/sdk')) {
     filters = filters.filter(
       (filter) => filter !== 'flutter' && filter !== 'js'
     );
@@ -150,7 +150,7 @@ export function metaContent({
     typeof window === 'undefined'
       ? false
       : window.matchMedia(MQTabletJS).matches;
-  
+
   return (
     <>
       <Menu
@@ -187,7 +187,7 @@ export function metaContent({
           />
         </SidebarLayoutToggle>
       )}
-      <FeedbackToggle/>
+      <FeedbackToggle />
     </>
   );
 }

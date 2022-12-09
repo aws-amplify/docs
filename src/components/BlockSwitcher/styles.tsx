@@ -1,4 +1,4 @@
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
 
 type TabProps = {
   active?: boolean;
@@ -15,7 +15,7 @@ export const HostStyle = styled.div`
   }
 `;
 
-export const TabStyle = styled.button<TabProps>(({active}) => {
+export const TabStyle = styled.button<TabProps>(({ active }) => {
   return `
     border-top-right-radius: 0.25rem;
     border-top-left-radius: 0.25rem;

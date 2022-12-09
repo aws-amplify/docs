@@ -1,4 +1,4 @@
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
 
 export const TableContainer = styled.div`
   overflow-x: auto;
@@ -40,8 +40,8 @@ export type Section = {
 
 export type FeatureFlag = {
   description: string;
-  type: "Feature" | "Release" | "Experimental";
-  valueType: "Boolean" | "Number" | "String";
+  type: 'Feature' | 'Release' | 'Experimental';
+  valueType: 'Boolean' | 'Number' | 'String';
   versionAdded: string;
   versionDeprecated?: string;
   deprecationDate?: string;
@@ -57,7 +57,7 @@ export type Value = {
   defaultExistingProject: boolean;
 };
 
-export default function FeatureFlagValues({values}) {
+export default function FeatureFlagValues({ values }) {
   return (
     <TableContainer>
       <Table>
@@ -85,8 +85,8 @@ export default function FeatureFlagValues({values}) {
                   <code>{value.value}</code>
                 </td>
                 <Description>{value.description}</Description>
-                <td>{value.defaultExistingProject ? "✅" : ""}</td>
-                <td>{value.defaultNewProject ? "✅" : ""}</td>
+                <td>{value.defaultExistingProject ? '✅' : ''}</td>
+                <td>{value.defaultNewProject ? '✅' : ''}</td>
               </tr>
             );
           })}

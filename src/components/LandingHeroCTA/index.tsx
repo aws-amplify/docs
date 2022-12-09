@@ -1,7 +1,7 @@
-import Link from "next/link";
-import {PlatformsGroup, CTAContainer} from "./styles";
-import InternalLinkButton from "../InternalLinkButton";
-import * as img from "../../constants/img";
+import Link from 'next/link';
+import { PlatformsGroup, CTAContainer } from './styles';
+import InternalLinkButton from '../InternalLinkButton';
+import * as img from '../../constants/img';
 
 export default function LandingHeroCTA() {
   return (

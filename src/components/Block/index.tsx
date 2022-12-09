@@ -1,3 +1,3 @@
-export default function Block({name, children}) {
+export default function Block({ name, children }) {
   return <div name={name}>{children}</div>;
 }
