@@ -93,19 +93,14 @@ Setup instructions are provided for Android and iOS, and configuration for both 
 
 8. Open *android/app/src/main/AndroidManifest.xml* file and add the following configuration into `application` element.
 
-    <Callout>
-
-    When using Android 12+, make sure to add the property `android:exported="false"` to the service tags below.
-    
-    </Callout>
-
     ```xml
     <application ... >
 
         <!--[START Push notification config -->
             <!-- [START firebase_service] -->
             <service
-                android:name="com.amazonaws.amplify.pushnotification.RNPushNotificationMessagingService">
+                android:name="com.amazonaws.amplify.pushnotification.RNPushNotificationMessagingService"
+                android:exported="false">
                 <intent-filter>
                     <action android:name="com.google.firebase.MESSAGING_EVENT"/>
                 </intent-filter>
@@ -113,7 +108,8 @@ Setup instructions are provided for Android and iOS, and configuration for both 
             <!-- [END firebase_service] -->
             <!-- [START firebase_iid_service] -->
             <service
-                android:name="com.amazonaws.amplify.pushnotification.RNPushNotificationDeviceIDService">
+                android:name="com.amazonaws.amplify.pushnotification.RNPushNotificationDeviceIDService"
+                android:exported="false">
                 <intent-filter>
                     <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
                 </intent-filter>
