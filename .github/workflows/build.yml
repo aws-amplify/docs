@@ -39,8 +39,6 @@ jobs:
           node-version: 14.x
       - name: Install Dependencies
         run: yarn
-      - name: Run Spellcheck
-        run: yarn spellcheck
       - name: Fetch Amplify backend configuration
         uses: ./.github/actions/fetch_amplify_backend
         with:
