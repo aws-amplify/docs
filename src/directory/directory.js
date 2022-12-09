@@ -2625,6 +2625,16 @@ const directory = {
             filters: ['js']
           }
         ]
+      },
+      utilities: {
+        title: 'Utilities',
+        items: [
+          {
+            title: 'Logging',
+            route: '/guides/utilities/logging',
+            filters: ['js']
+          }
+        ]
       }
     }
   }
