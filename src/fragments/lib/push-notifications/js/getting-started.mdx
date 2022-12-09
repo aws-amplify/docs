@@ -91,13 +91,13 @@ Setup instructions are provided for Android and iOS, and configuration for both 
     apply plugin: "com.google.gms.google-services"
     ``` 
 
-8. Open *android/gradle/wrapper/gradle-wrapper.properties* update the Gradle `distributionUrl`:
+8. Open *android/app/src/main/AndroidManifest.xml* file and add the following configuration into `application` element.
 
-    ```properties
-    distributionUrl=https\://services.gradle.org/distributions/gradle-6.3-all.zip
-    ```
+    <Callout>
 
-9. Open *android/app/src/main/AndroidManifest.xml* file and add the following configuration into `application` element.
+    When using Android 12+, make sure to add the property `android:exported="false"` to the service tags below.
+    
+    </Callout>
 
     ```xml
     <application ... >
@@ -130,9 +130,9 @@ Setup instructions are provided for Android and iOS, and configuration for both 
     </application>
     ```
 
-10. Configure Push Notifications category for your app as shown in [Configure your App](#configure-your-app) section.
+9. Configure Push Notifications category for your app as shown in [Configure your App](#configure-your-app) section.
 
-11. Run your app:
+10. Run your app:
 
     ```bash
     npx react-native run-android
