@@ -131,7 +131,14 @@ Auth.currentSession()
 
 ## Managing user attributes
 
+Attributes such as name, email address, phone number help you identify individual users. Amplify JS library contains 
+a set of APIs that can help you manage attributes in your user pool.
+
 ### Pass user attributes during sign up
+
+Amazon Cognito has a set of default standard attributes as well as an availability to add custom attributes.
+Up to 50 custom attributes can be added to your user pool. 
+You can pass them in the `attributes` object of `Auth.signUp` function parameters:
 
 ```javascript
 Auth.signUp({
@@ -142,10 +149,13 @@ Auth.signUp({
     phone_number: '+12128601234', // E.164 number convention
     given_name: 'Jane',
     family_name: 'Doe',
-    nickname: 'Jane'
+    nickname: 'Jane',
+    'custom:attribute_name': 'attribute_value'
   }
 });
 ```
+
+> You can find a [list of all custom attributes here](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#cognito-user-pools-standard-attributes).
 
 ### Retrieve user attributes
 
@@ -166,7 +176,10 @@ let result = await Auth.updateUserAttributes(user, {
 });
 console.log(result); // SUCCESS
 ```
-If you change an attribute that requires confirmation (i.e. email or phone number), you will receive a confirmation code to that attribute.
+<Callout>
+Note: If you change an attribute that requires confirmation (i.e. email or phone number), you will receive a confirmation code to that attribute.
+</Callout> 
+
 `Auth.updateUserAttributes()` function dispatches hub event to help identify attributes that require
 verification. You can listen to `updateUserAttributes` event on `auth` channel:
 
@@ -215,8 +228,6 @@ let user = await Auth.currentAuthenticatedUser();
 let result = await Auth.deleteUserAttributes(user, ['family_name']);
 console.log(result); // SUCCESS
 ```
-
-> You can find a [list of all custom attributes here](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#cognito-user-pools-standard-attributes).
 
 
 
