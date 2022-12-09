@@ -2,6 +2,12 @@
 <Block name="Java">
 
 ```java
+import android.util.Log;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.generated.model.Post;
+```
+
+```java
 Post post = Post.builder()
     .title("Create an Amplify DataStore app")
     .status(PostStatus.ACTIVE)
@@ -15,6 +21,12 @@ Amplify.DataStore.save(post,
 
 </Block>
 <Block name="Kotlin - Callbacks">
+
+```kotlin
+import android.util.Log
+import com.amplifyframework.core.Amplify
+import com.amplifyframework.datastore.generated.model.Post
+```
 
 ```kotlin
 val post = Post.builder()
@@ -32,6 +44,12 @@ Amplify.DataStore.save(post,
 <Block name="Kotlin - Coroutines">
 
 ```kotlin
+import android.util.Log
+import com.amplifyframework.datastore.generated.model.Post
+import com.amplifyframework.kotlin.core.Amplify
+```
+
+```kotlin
 val post = Post.builder()
     .title("Create an Amplify DataStore app")
     .status(PostStatus.ACTIVE)
@@ -47,6 +65,12 @@ try {
 
 </Block>
 <Block name="RxJava">
+
+ ```java
+import android.util.Log;
+import com.amplifyframework.datastore.generated.model.Post;
+import com.amplifyframework.rx.RxAmplify;
+```   
 
 ```java
 Post post = Post.builder()
