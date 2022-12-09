@@ -139,13 +139,13 @@ resultSink = uploadTask
 </BlockSwitcher>
 
 ### Working with Security Scoped Resources (from iCloud)
-Security scoped resources refer to files that are retrieved from iCloud. 
+Security scoped resources refer to files that are retrieved from iCloud  or other cloud storage providers. You're likely to run into these file types when using system components that provide access to files stored in iCloud, e.g. [UIDocumentBrowserViewController](https://developer.apple.com/documentation/uikit/uidocumentbrowserviewcontroller).
 
-To upload security scoped resources:
-1. you'll need to use [startAccessingSecurityScopedResource()](https://developer.apple.com/documentation/foundation/url/1779698-startaccessingsecurityscopedreso) and [stopAccessingSecurityScopedResource()](https://developer.apple.com/documentation/foundation/url/1780153-stopaccessingsecurityscopedresou) to access the data within security scoped files
+To upload security scoped resources, you'll need to:
+1. use [startAccessingSecurityScopedResource()](https://developer.apple.com/documentation/foundation/url/1779698-startaccessingsecurityscopedreso) and [stopAccessingSecurityScopedResource()](https://developer.apple.com/documentation/foundation/url/1780153-stopaccessingsecurityscopedresou) to access the data within security scoped files
 2. temporarily persist the data from the security scoped files in your app's sandbox 
 3. upload files using the temporary URLs
-
+4. delete temporarily persisted files (optional)
 ```swift
 struct ScopedResourceFile {
     let name: String
