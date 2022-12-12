@@ -160,7 +160,7 @@ Auth.signUp({
 ### Retrieve user attributes
 
 ```javascript
-let user = await Auth.currentAuthenticatedUser();
+const user = await Auth.currentAuthenticatedUser();
 
 const { attributes } = user;
 ```
@@ -168,9 +168,9 @@ const { attributes } = user;
 ### Update user attributes
 
 ```javascript
-let user = await Auth.currentAuthenticatedUser();
+const user = await Auth.currentAuthenticatedUser();
 
-let result = await Auth.updateUserAttributes(user, {
+const result = await Auth.updateUserAttributes(user, {
   email: 'me@anotherdomain.com',
   family_name: 'Lastname'
 });
@@ -218,7 +218,7 @@ If you change the email address, you will receive a confirmation code to the new
 email address in your app:
 
 ```javascript
-let result = await Auth.verifyCurrentUserAttributeSubmit('email', 'abc123');
+const result = await Auth.verifyCurrentUserAttributeSubmit('email', 'abc123');
 ```
 
 ### Delete user attributes
@@ -226,9 +226,9 @@ let result = await Auth.verifyCurrentUserAttributeSubmit('email', 'abc123');
 If you need to delete one or more user attributes, you can call `Auth.deleteUserAttributes` function from the Amplify JavaScript library:
 
 ```javascript
-let user = await Auth.currentAuthenticatedUser();
+const user = await Auth.currentAuthenticatedUser();
 
-let result = await Auth.deleteUserAttributes(user, ['family_name']);
+const result = await Auth.deleteUserAttributes(user, ['family_name']);
 console.log(result); // SUCCESS
 ```
 
