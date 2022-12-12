@@ -131,7 +131,15 @@ Auth.currentSession()
 
 ## Managing user attributes
 
-You can pass user attributes during sign up:
+Attributes such as name, email address, phone number help you identify individual users. The Amplify JavaScript library contains 
+a set of APIs that can help you manage attributes in your user pool.
+
+### Pass user attributes during sign up
+
+Amazon Cognito has a set of default standard attributes; you also have the ability to define custom attributes.
+Up to 50 custom attributes can be added to your user pool. 
+You can find a [list of all custom attributes here](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#cognito-user-pools-standard-attributes).
+You can pass them in the `attributes` object of `Auth.signUp` function parameters:
 
 ```javascript
 Auth.signUp({
@@ -142,47 +150,89 @@ Auth.signUp({
     phone_number: '+12128601234', // E.164 number convention
     given_name: 'Jane',
     family_name: 'Doe',
-    nickname: 'Jane'
+    nickname: 'Jane',
+    'custom:attribute_name': 'attribute_value'
   }
 });
 ```
 
-You can retrieve user attributes:
+
+### Retrieve user attributes
 
 ```javascript
-let user = await Auth.currentAuthenticatedUser();
+const user = await Auth.currentAuthenticatedUser();
 
 const { attributes } = user;
 ```
 
-You can update user attributes:
+### Update user attributes
 
 ```javascript
-let user = await Auth.currentAuthenticatedUser();
+const user = await Auth.currentAuthenticatedUser();
 
-let result = await Auth.updateUserAttributes(user, {
+const result = await Auth.updateUserAttributes(user, {
   email: 'me@anotherdomain.com',
   family_name: 'Lastname'
 });
 console.log(result); // SUCCESS
 ```
+<Callout>
+Note: If you change an attribute that requires confirmation (i.e. email or phone number), you will receive a confirmation code to that attribute.
+</Callout> 
 
-You can delete user attributes:
+`Auth.updateUserAttributes()` function dispatches hub event to help identify attributes that require
+verification. You can listen to `updateUserAttributes` event on `auth` channel:
 
 ```javascript
-let user = await Auth.currentAuthenticatedUser();
+Hub.listen('auth', ({payload}) => {
+    if (payload.event === 'updateUserAttributes') {
+        const resultObject = payload.data;
+    }
+});
+```
+You can learn more about how to listen to Hub events [here](https://docs.amplify.aws/lib/utilities/hub/q/platform/js/).
 
-let result = await Auth.deleteUserAttributes(user, ['family_name']);
+Example of the dispatched `resultObject`:
+
+```javascript
+{
+    'email': {
+        isUpdated: false // indicates that attribute requires verification
+        codeDeliveryDetails: {
+            AttributeName: 'email',
+            DeliveryMedium: 'EMAIL',
+            Destination: 'm***@a...'
+        }
+    },
+    'family_name': {
+        isUpdated: true
+    }
+}
+```
+If a user sends several attributes for update and one or more of them is `read_only` or doesn't exist, the Amplify JavaScript library will throw
+an error and dispatch `updateUserAttributes_failure` Hub event. None of the attributes in the request will be updated.
+
+### Confirm attribute
+
+If you change the email address, you will receive a confirmation code to the new email address. Below is an example of how to confirm the new 
+email address in your app:
+
+```javascript
+const result = await Auth.verifyCurrentUserAttributeSubmit('email', 'abc123');
+```
+
+### Delete user attributes
+
+If you need to delete one or more user attributes, you can call `Auth.deleteUserAttributes` function from the Amplify JavaScript library:
+
+```javascript
+const user = await Auth.currentAuthenticatedUser();
+
+const result = await Auth.deleteUserAttributes(user, ['family_name']);
 console.log(result); // SUCCESS
 ```
 
-> You can find a [list of all custom attributes here](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#cognito-user-pools-standard-attributes).
 
-If you change the email address, the user will receive a confirmation code. In your app, you can confirm the verification code:
-
-```javascript
-let result = await Auth.verifyCurrentUserAttributeSubmit('email', 'abc123');
-```
 
 ## Updating and verifying a Cognito user email address
 
