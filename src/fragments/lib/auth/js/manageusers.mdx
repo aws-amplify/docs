@@ -131,13 +131,14 @@ Auth.currentSession()
 
 ## Managing user attributes
 
-Attributes such as name, email address, phone number help you identify individual users. Amplify JS library contains 
+Attributes such as name, email address, phone number help you identify individual users. The Amplify JavaScript library contains 
 a set of APIs that can help you manage attributes in your user pool.
 
 ### Pass user attributes during sign up
 
-Amazon Cognito has a set of default standard attributes as well as an availability to add custom attributes.
+Amazon Cognito has a set of default standard attributes; you also have the ability to define custom attributes.
 Up to 50 custom attributes can be added to your user pool. 
+You can find a [list of all custom attributes here](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#cognito-user-pools-standard-attributes).
 You can pass them in the `attributes` object of `Auth.signUp` function parameters:
 
 ```javascript
@@ -155,7 +156,6 @@ Auth.signUp({
 });
 ```
 
-> You can find a [list of all custom attributes here](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#cognito-user-pools-standard-attributes).
 
 ### Retrieve user attributes
 
@@ -192,7 +192,7 @@ Hub.listen('auth', ({payload}) => {
 ```
 You can learn more about how to listen to Hub events [here](https://docs.amplify.aws/lib/utilities/hub/q/platform/js/).
 
-Example of the dispatched result object:
+Example of the dispatched `resultObject`:
 
 ```javascript
 {
@@ -209,18 +209,21 @@ Example of the dispatched result object:
     }
 }
 ```
-If user sends several attributes for update and one or more of them is `read_only` or doesn't exist, Amplify JS library will throw
-an error and dispatch `updateUserAttributes_failure` Hub event. None of the attributes in the list will be updated.
+If a user sends several attributes for update and one or more of them is `read_only` or doesn't exist, the Amplify JavaScript library will throw
+an error and dispatch `updateUserAttributes_failure` Hub event. None of the attributes in the request will be updated.
 
 ### Confirm attribute
 
-If you change the email address, you will receive a confirmation code.  In your app, you can confirm your new email address:
+If you change the email address, you will receive a confirmation code to the new email address. Below is an example of how to confirm the new 
+email address in your app:
 
 ```javascript
 let result = await Auth.verifyCurrentUserAttributeSubmit('email', 'abc123');
 ```
 
 ### Delete user attributes
+
+If you need to delete one or more user attributes, you can to call `Auth.deleteUserAttributes` function from the Amplify JavaScript library:
 
 ```javascript
 let user = await Auth.currentAuthenticatedUser();
