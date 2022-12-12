@@ -4,6 +4,11 @@ To record an event, create an `AnalyticsEvent` and call `Amplify.Analytics.recor
 <Block name="Java">
 
 ```java
+import com.amplifyframework.analytics.AnalyticsEvent;
+import com.amplifyframework.core.Amplify;
+```
+
+```java
 AnalyticsEvent event = AnalyticsEvent.builder()
     .name("PasswordReset")
     .addProperty("Channel", "SMS")
@@ -19,6 +24,11 @@ Amplify.Analytics.recordEvent(event);
 <Block name="Kotlin">
 
 ```kotlin
+import com.amplifyframework.analytics.AnalyticsEvent
+import com.amplifyframework.core.Amplify
+```
+
+```kotlin
 val event = AnalyticsEvent.builder()
     .name("PasswordReset")
     .addProperty("Channel", "SMS")
@@ -32,6 +42,11 @@ Amplify.Analytics.recordEvent(event)
 
 </Block>
 <Block name="RxJava">
+
+```java
+import com.amplifyframework.analytics.AnalyticsEvent;
+import com.amplifyframework.rx.RxAmplify;
+```
 
 ```java
 AnalyticsEvent event = AnalyticsEvent.builder()
