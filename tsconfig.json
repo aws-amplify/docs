@@ -13,5 +13,5 @@
     "jsx": "preserve"
   },
   "extends": "./tsconfig.base.json",
-  "include": ["tasks", "adobe.d.ts"]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "tasks", "adobe.d.ts"]
 }
