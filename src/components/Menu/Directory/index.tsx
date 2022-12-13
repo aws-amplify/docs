@@ -9,27 +9,28 @@ import {
   ProductRootLinkStyle
 } from './styles';
 
-type DirectoryItem = {
+export type DirectoryItem = {
   /**
    * Title used for sidenav link, page title, and page heading
    */
   title: string;
   /**
-   * Raw HTML string
+   * Control whether the title should be displayed as inline code
+   * @default false
    */
-  titleHtml: string;
+  isCodeTitle: boolean;
   route: string;
   filters: string[];
 };
 
-type DirectoryGroupProps = {
+export type DirectoryGroupProps = {
   title: string;
   items: DirectoryItem[];
   url: string;
   filterKey: string;
 };
 
-type DirectoryGroupState = {
+export type DirectoryGroupState = {
   isExpanded: boolean;
 };
 
@@ -98,8 +99,8 @@ class DirectoryGroup extends React.Component<
                 key={item.title}
               >
                 <InternalLink href={`${item.route}`}>
-                  {item.titleHtml ? (
-                    <a dangerouslySetInnerHTML={{ __html: item.titleHtml }}></a>
+                  {item.isCodeTitle ? (
+                    <code>{item.title}</code>
                   ) : (
                     item.title
                   )}
