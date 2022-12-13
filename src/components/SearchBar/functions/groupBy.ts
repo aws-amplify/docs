@@ -34,12 +34,12 @@ export const groupBy: AutocompleteReshapeFunction = <
     const groupedItems = items.reduce<Record<string, TItem[]>>((acc, item) => {
       const key = predicate(item as TItem);
 
-      if (!acc.hasOwnProperty(key)) {
+      if (!acc[key]) {
         acc[key] = [];
       }
 
       if (platform && item.slug && item.slug.includes('/platform/')) {
-        const regex = /\/platform\/([^(\?\/\#)]*)/;
+        const regex = /\/platform\/([^(?/#)]*)/;
         const slugPlatform = regex.exec(item.slug)[1];
         if (!slugPlatform || item.slug.includes(`/platform/${platform}`)) {
           acc[key].push(item as TItem);
