@@ -16,7 +16,7 @@ const directoryKeys = Object.keys(directory);
 
 describe('Menu', () => {
   directoryKeys.forEach((directoryKey) => {
-    it(`should render the Menu component with the ${directoryKey} key`, async () => {
+    it(`should render the Menu component with the ${directoryKey} key`, () => {
       const url = `/${directoryKey}`;
       render(
         <Menu
