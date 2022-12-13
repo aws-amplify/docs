@@ -47,7 +47,7 @@ describe('FilterChildren', () => {
     expect(frameworkNode).not.toBeInTheDocument();
   });
 
-  it('should include integration children', async () => {
+  it('should include integration children', () => {
     routerMock.useRouter = () => {
       return {
         query: {
@@ -66,7 +66,7 @@ describe('FilterChildren', () => {
     expect(frameworkNode).not.toBeInTheDocument();
   });
 
-  it('should include framework children', async () => {
+  it('should include framework children', () => {
     routerMock.useRouter = () => {
       return {
         query: {
