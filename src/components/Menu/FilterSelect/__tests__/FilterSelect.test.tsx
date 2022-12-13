@@ -139,7 +139,7 @@ describe('FilterSelect', () => {
     const filterKey = 'all';
     const filters = [];
 
-    it('should render a link for each filter value', async () => {
+    it('should render a link for each filter value', () => {
       render(
         <FilterSelect
           filters={filters}
@@ -165,7 +165,7 @@ describe('FilterSelect', () => {
     const filterKey = 'all';
     const filters = [];
 
-    it('should render a link for each filter value', async () => {
+    it('should render a link for each filter value', () => {
       render(
         <FilterSelect
           filters={filters}
