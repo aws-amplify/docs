@@ -2,7 +2,8 @@ import {
   MenuHeaderStyle,
   MenuStyle,
   MenuBreakStyle,
-  MenuBodyStyle
+  MenuBodyStyle,
+  LastUpdatedStyle
 } from './styles';
 import React from 'react';
 import MenuOpenButton from './MenuOpenButton';
@@ -11,7 +12,7 @@ import { MQTablet } from '../media';
 import Directory from './Directory';
 import RepoActions from './RepoActions';
 import FilterSelect from './FilterSelect';
-import { VersionSwitcher, LibVersionSwitcher } from "./VersionSwitcher";
+import { VersionSwitcher, LibVersionSwitcher } from './VersionSwitcher';
 
 type MenuProps = {
   filters: string[];
@@ -19,6 +20,7 @@ type MenuProps = {
   filterKind: string;
   url: string;
   directoryPath: string;
+  lastUpdatedDate: number;
   setMenuIsOpen?: any;
 };
 
@@ -64,7 +66,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
 
   render() {
     let showVersionSwitcher = false;
-    let showLibVersionSwitcher = false
+    let showLibVersionSwitcher = false;
     if (
       (this.props.url.startsWith('/ui') ||
         this.props.url.startsWith('/ui-legacy')) &&
@@ -72,12 +74,13 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
       this.props.filterKey !== 'flutter'
     ) {
       showVersionSwitcher = true;
-    } 
-    
-    if ((this.props.url.startsWith("/lib") || 
-    this.props.url.startsWith("/lib-v1")) && 
-    (this.props.filterKey == 'ios' ||
-    this.props.filterKey == 'android')) {
+    }
+
+    if (
+      (this.props.url.startsWith('/lib') ||
+        this.props.url.startsWith('/lib-v1')) &&
+      (this.props.filterKey == 'ios' || this.props.filterKey == 'android')
+    ) {
       showLibVersionSwitcher = true;
     }
     if (this.state.isOpen) {
@@ -112,6 +115,9 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
                   url={this.props.url}
                   directoryPath={this.props.directoryPath}
                 />
+                <LastUpdatedStyle>
+                  {displayLastUpdatedString(this.props.lastUpdatedDate)}
+                </LastUpdatedStyle>
               </MenuBodyStyle>
             </div>
           </div>
@@ -120,4 +126,22 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
     }
     return <MenuOpenButton openMenu={this.openMenu} />;
   }
+}
+
+function toReadableDate(date) {
+  const dateOptions: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  };
+
+  return new Date(date).toLocaleDateString('en-US', dateOptions);
+}
+
+function displayLastUpdatedString(date) {
+  if (date) {
+    return `Last Updated: ${toReadableDate(date)}`;
+  }
+
+  return '';
 }

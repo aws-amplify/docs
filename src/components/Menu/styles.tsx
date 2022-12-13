@@ -72,3 +72,10 @@ export const DiscordLinkStyle = styled.div`
     margin-right: 0.25rem;
   }
 `;
+
+export const LastUpdatedStyle = styled.p`
+  margin-top: -10px;
+  font-size: 0.875rem;
+  font-style: italic;
+  text-align: center;
+`;

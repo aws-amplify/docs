@@ -6,7 +6,7 @@ import Layout from '../Layout/index';
 import Menu from '../Menu/index';
 import TableOfContents from '../TableOfContents/index';
 import NextPrevious from '../NextPrevious/index';
-import { ContentStyle, ChapterTitleStyle, LastUpdatedStyle } from './styles';
+import { ContentStyle, ChapterTitleStyle } from './styles';
 import {
   getChapterDirectory,
   isProductRoot
@@ -190,24 +190,6 @@ export function metaContent({
       ? false
       : window.matchMedia(MQTabletJS).matches;
 
-  function toReadableDate(date) {
-    const dateOptions: Intl.DateTimeFormatOptions = {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    };
-
-    return new Date(date).toLocaleDateString('en-US', dateOptions);
-  }
-
-  function displayLastUpdatedString(date) {
-    if (date) {
-      return `Last Updated: ${toReadableDate(lastUpdatedDate)}`;
-    }
-
-    return '';
-  }
-
   function updateLastUpdatedDate(date) {
     const dateInTime = new Date(date).getTime();
 
@@ -228,15 +210,13 @@ export function metaContent({
           directoryPath={directoryPath}
           ref={menuRef}
           setMenuIsOpen={setMenuIsOpen}
+          lastUpdatedDate={lastUpdatedDate}
         ></Menu>
         <ContentStyle menuIsOpen={menuIsOpen}>
           <div>
             <ChapterTitleStyle>{chapterTitle}</ChapterTitleStyle>
             <div>
               <h1>{title}</h1>
-              <LastUpdatedStyle>
-                {displayLastUpdatedString(lastUpdatedDate)}
-              </LastUpdatedStyle>
             </div>
             <CodeBlockProvider>
               {children}
