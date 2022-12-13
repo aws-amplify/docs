@@ -17,6 +17,7 @@ import { trackFeedbackSubmission } from '../../utils/track';
 Amplify.configure(awsconfig);
 if (process.env.API_ENV === 'production') {
   Amplify.configure({
+    // eslint-disable-next-line @typescript-eslint/camelcase
     aws_cloud_logic_custom: [
       {
         name: 'submissions',
@@ -59,6 +60,7 @@ export default function Feedback() {
     const pagePath = window.location.href.split('#')[0];
 
     const body: Feedback = {
+      // eslint-disable-next-line @typescript-eslint/camelcase
       page_path: pagePath,
       vote: vote
     };
