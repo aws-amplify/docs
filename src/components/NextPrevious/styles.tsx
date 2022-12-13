@@ -1,4 +1,4 @@
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
 
 export const NextPreviousContainerStyle = styled.div`
   display: flex;
@@ -56,7 +56,7 @@ type NextPreviousTextProps = {
   isPrevious: boolean;
 };
 export const NextPreviousTextStyle = styled.div<NextPreviousTextProps>(
-  ({isPrevious}) => `
+  ({ isPrevious }) => `
   display: flex;
   flex-direction: column;
 
@@ -64,6 +64,6 @@ export const NextPreviousTextStyle = styled.div<NextPreviousTextProps>(
     display: block;
   }
 
-  align-items: ${isPrevious ? "flex-start" : "flex-end"};
-`,
+  align-items: ${isPrevious ? 'flex-start' : 'flex-end'};
+`
 );
