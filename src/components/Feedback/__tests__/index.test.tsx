@@ -67,6 +67,8 @@ describe('Feedback', () => {
 
     userEvent.click(thumbsDown);
 
-    expect(API.post).toHaveBeenCalled();
+    const spy = jest.spyOn(API, 'post');
+
+    expect(spy).toHaveBeenCalled();
   });
 });
