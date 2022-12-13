@@ -1490,7 +1490,8 @@
     "infowindow",
     "Libre's",
     "Pinia",
-    "kotlinx"
+    "kotlinx",
+    "snapcraft"
   ],
   "flagWords": [
     "hte", 
