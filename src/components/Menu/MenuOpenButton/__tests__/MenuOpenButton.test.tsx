@@ -3,9 +3,11 @@ import { render, screen } from '@testing-library/react';
 import MenuOpenButton from '../index';
 
 describe('MenuOpenButton', () => {
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   const openMenu = () => {};
 
   it('should render the MenuCloseButton', async () => {
+    // eslint-disable-next-line react/jsx-no-bind
     render(<MenuOpenButton openMenu={openMenu} />);
 
     const openButton = await screen.findByRole('button', { hidden: true });
