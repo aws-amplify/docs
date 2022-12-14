@@ -118,14 +118,15 @@
     "refresh": "yarn clean && yarn",
     "task": "ts-node tasks",
     "test": "jest",
+    "dev": "next dev",
     "spellcheck": "cspell \"src/**/*.mdx\"",
     "spellcheck-diff": "git diff --name-only --cached | awk \"/src.*\\.mdx/{print}\" | npx cspell --no-must-find-files --file-list stdin",
-    "dev": "yarn build-support-config && next dev",
     "build": "yarn task generate-sitemap && next build && next export -o client/www/next-build",
     "next-build": "next build",
     "next-start": "next start",
     "amplify:submissionsLambda": "cd amplify/backend/function/submissionsLambda/src && yarn install && yarn build && yarn test",
-    "build-support-config": "chmod +x build_support/create-awsconfig.sh && ./build_support/create-awsconfig.sh",
+    "postinstall": "yarn setup",
+    "setup": "node build_support/create-awsconfig.mjs",
     "prepare": "husky install"
   }
 }
