@@ -122,6 +122,7 @@
     "spellcheck-diff": "git diff --name-only --cached | awk \"/src.*\\.mdx/{print}\" | npx cspell --no-must-find-files --file-list stdin",
     "dev": "yarn build-support-config && next dev",
     "build": "yarn task generate-sitemap && next build && next export -o client/www/next-build",
+    "lint": "eslint \"{src,tasks}/**/*.${ts,tsx}\"",
     "next-build": "next build",
     "next-start": "next start",
     "amplify:submissionsLambda": "cd amplify/backend/function/submissionsLambda/src && yarn install && yarn build && yarn test",
