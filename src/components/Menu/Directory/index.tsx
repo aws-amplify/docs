@@ -1,28 +1,36 @@
-import React from "react";
-import {getProductDirectory} from "../../../utils/getLocalDirectory";
-import InternalLink from "../../InternalLink";
+import React from 'react';
+import { getProductDirectory } from '../../../utils/getLocalDirectory';
+import InternalLink from '../../InternalLink';
 import {
   ArrowStyle,
   DirectoryGroupHeaderStyle,
   DirectoryGroupItemStyle,
   DirectoryLinksStyle,
-  ProductRootLinkStyle,
-} from "./styles";
+  ProductRootLinkStyle
+} from './styles';
 
-type DirectoryItem = {
+export type DirectoryItem = {
+  /**
+   * Title used for sidenav link, page title, and page heading
+   */
   title: string;
+  /**
+   * Control whether the title should be displayed as inline code
+   * @default false
+   */
+  isCodeTitle: boolean;
   route: string;
   filters: string[];
 };
 
-type DirectoryGroupProps = {
+export type DirectoryGroupProps = {
   title: string;
   items: DirectoryItem[];
   url: string;
   filterKey: string;
 };
 
-type DirectoryGroupState = {
+export type DirectoryGroupState = {
   isExpanded: boolean;
 };
 
@@ -30,15 +38,15 @@ class DirectoryGroup extends React.Component<
   DirectoryGroupProps,
   DirectoryGroupState
 > {
-  itemsToDisplay = [];
-  currentRoute = "";
+  itemsToDisplay: DirectoryItem[] = [];
+  currentRoute = '';
 
-  shouldDisplay = ({filters}): boolean => {
+  shouldDisplay = ({ filters }): boolean => {
     return (
       // the filter key is undefined
       this.props.filterKey === undefined ||
       // href doesn't have any q/[filter]/[filter]; via ChooseFilterPage
-      this.props.filterKey === "all" ||
+      this.props.filterKey === 'all' ||
       // this page is available independent of filter
       filters === undefined ||
       filters.length === 0 ||
@@ -53,22 +61,22 @@ class DirectoryGroup extends React.Component<
 
     if (
       this.props.items &&
-      this.props.items.some(({route}) => this.currentRoute.startsWith(route))
+      this.props.items.some(({ route }) => this.currentRoute.startsWith(route))
     ) {
-      this.state = {isExpanded: true};
+      this.state = { isExpanded: true };
     } else {
-      this.state = {isExpanded: this.props.url.startsWith("/start")};
+      this.state = { isExpanded: this.props.url.startsWith('/start') };
     }
   }
 
   initialize = () => {
     this.itemsToDisplay = this.props.items.filter(this.shouldDisplay);
-    this.currentRoute = this.props.url.split("/q/").shift() as string;
+    this.currentRoute = this.props.url.split('/q/').shift() as string;
   };
 
   toggleOpen = () => {
-    this.setState(({isExpanded}) => {
-      return {isExpanded: !isExpanded};
+    this.setState(({ isExpanded }) => {
+      return { isExpanded: !isExpanded };
     });
   };
 
@@ -90,7 +98,13 @@ class DirectoryGroup extends React.Component<
                 isActive={this.currentRoute.startsWith(item.route)}
                 key={item.title}
               >
-                <InternalLink href={`${item.route}`}>{item.title}</InternalLink>
+                <InternalLink href={`${item.route}`}>
+                  {item.isCodeTitle ? (
+                    <code>{item.title}</code>
+                  ) : (
+                    item.title
+                  )}
+                </InternalLink>
                 <br />
               </DirectoryGroupItemStyle>
             ))}
@@ -109,8 +123,8 @@ type DirectoryProps = {
 export default class Directory extends React.Component<DirectoryProps> {
   render() {
     const directory = getProductDirectory(this.props.url) as {
-      productRoot: {title: string; route: string};
-      items: {title: string; items: DirectoryItem[]}[];
+      productRoot: { title: string; route: string };
+      items: { title: string; items: DirectoryItem[] }[];
     };
     const productRoot = directory.productRoot;
 
@@ -118,7 +132,7 @@ export default class Directory extends React.Component<DirectoryProps> {
       <div>
         <InternalLink href={productRoot.route}>
           <ProductRootLinkStyle
-            isActive={this.props.url.split("/q")[0] === productRoot.route}
+            isActive={this.props.url.split('/q')[0] === productRoot.route}
           >
             {productRoot.title}
           </ProductRootLinkStyle>
