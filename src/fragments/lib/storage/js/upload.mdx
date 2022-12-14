@@ -83,6 +83,7 @@ Storage.put("test.txt", "My Content", {
   expires: new Date().now() + 60 * 60 * 24 * 7, // (Date) The date and time at which the object is no longer cacheable. ISO-8601 string, or a UNIX timestamp in seconds
   metadata: {key: "value"}, // (map<String>) A map of metadata to store with the object in S3.
   resumable: true, // (Boolean) Allows uploads to be paused and resumed
+  useAccelerateEndpoint: true // If enabled on the bucket, use accelerated S3 endpoint
 });
 ```
 

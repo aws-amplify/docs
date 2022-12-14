@@ -740,6 +740,11 @@ const directory = {
             filters: ['js', 'react-native']
           },
           {
+            title: 'Use Transfer Acceleration',
+            route: '/lib/storage/transfer-acceleration',
+            filters: ['js', 'react-native']
+          },
+          {
             title: 'Lambda triggers',
             route: '/lib/storage/triggers',
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
