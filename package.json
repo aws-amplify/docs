@@ -25,7 +25,7 @@
     "@mdx-js/mdx": "^2.0.0",
     "algoliasearch": "^4.12.1",
     "array-flatten": "^3.0.0",
-    "aws-amplify": "^4.3.34",
+    "aws-amplify": "^5.0.5",
     "copy-to-clipboard": "^3.2.1",
     "dotenv": "^16.0.0",
     "emotion": "^10.0.23",
