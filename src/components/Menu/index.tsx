@@ -131,7 +131,7 @@ export default class Menu extends React.Component<MenuProps, MenuState> {
 function toReadableDate(date) {
   const dateOptions: Intl.DateTimeFormatOptions = {
     year: 'numeric',
-    month: 'long',
+    month: 'short',
     day: 'numeric'
   };
 
@@ -140,7 +140,7 @@ function toReadableDate(date) {
 
 function displayLastUpdatedString(date) {
   if (date) {
-    return `Last Updated: ${toReadableDate(date)}`;
+    return `Page updated ${toReadableDate(date)}`;
   }
 
   return '';
