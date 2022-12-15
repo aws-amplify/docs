@@ -37,6 +37,7 @@ export const MenuStyle = styled.div`
 export const MenuBodyStyle = styled.div`
   display: block;
   margin: 0 2.5rem;
+  padding-bottom: 200px;
 `;
 
 export const MenuBreakStyle = styled.hr`
