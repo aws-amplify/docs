@@ -17,6 +17,38 @@ You can setup TOTP for a user in your app:
 ```javascript
 import { Auth } from 'aws-amplify';
 
+const user = await Auth.signIn(username, password);
+
+userEffect(() => {
+  async function createCode() { 
+    try {
+      const codeSetUp = await Auth.setupTOTP(props.user);
+      setCodeTOTP(codeSetUp)
+    } catch (error) {
+      console.log(error)
+    }
+  };
+  if (props.user?.challengeName !== 'SOFTWARE_TOKEN_MFA') {
+    createCode();
+  }
+}, [props.user])
+
+const handleCode = async (event: any) => {
+  event.preventDefault()
+  try {
+    if (props.user?.challengeName !== 'SOFTWARE_TOKEN_MFA') {
+      await Auth.verifyTotpToken(props.user, code)
+    } else {
+      await Auth.confirmSignIn(props.user, code, 'SOFTWARE_TOKEN_MFA')
+    }
+    navigate('/dashboard', {replace: true})
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+// PREVIOUS START ----------------------------------------------------------------
+
 // To setup TOTP, first you need to get a `authorization code` from Amazon Cognito
 // `user` is the current Authenticated user
 Auth.setupTOTP(user).then((code) => {
@@ -40,6 +72,10 @@ Auth.verifyTotpToken(user, challengeAnswer)
   .catch((e) => {
     // Token is not verified
   });
+
+// PREVIOUS END ----------------------------------------------------------------
+
+
 ```
 
 ## Setup MFA type
