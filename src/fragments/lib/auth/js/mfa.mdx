@@ -31,7 +31,6 @@ Auth.setupTOTP(user).then((code) => {
 
 // Then you will have your TOTP account in your TOTP-generating app (like Google Authenticator)
 // Use the generated one-time password to verify the setup
-// This can also be used if user is already signed in for testing/validation
 Auth.verifyTotpToken(user, challengeAnswer)
   .then(() => {
     // don't forget to set TOTP as the preferred MFA method
@@ -42,15 +41,11 @@ Auth.verifyTotpToken(user, challengeAnswer)
     // Token is not verified
   });
 
-// If signing in with MFA is enabled, use confirmSignIn method to 
-// send a new MFA code to be used with Authenticator. 
-
 // ...
 
-if (
-  user.challengeName === "SMS_MFA" ||
-  user.challengeName === "SOFTWARE_TOKEN_MFA"
-) { const loggedUser = await Auth.confirmSignIn( user, challengeAnswer )}
+// Finally, when sign-in with MFA is enabled, use the confirmSignIn method 
+// to pass the TOTP code and MFA type. 
+Auth.confirmSignIn(user, code, mfaType) // Optional, MFA Type e.g. SMS_MFA || SOFTWARE_TOKEN_MFA
 
 
 ```
