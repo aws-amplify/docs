@@ -36,24 +36,3 @@ Paste in the URL of your Figma file to start syncing. If this is your first time
 Either choose **Accept all** or review individual components with the **Reject** and **Accept** buttons.
 
 ![Screenshot showing component review when syncing with Figma](/images/studio/sync-review.png)
-
-## Use component in code
-
-Now that your components are synced, navigate to a component and choose **Configure**. To get your React code, choose **Get component code**.
-
-Follow the instructions in the modal. If this is your first time setting up the UI components in your app, make sure to complete **Initial project setup** first to install all dependencies.
-
-![Screenshot showing how to get the component code](/images/studio/get-code.png)
-
-Next, run `amplify pull` to sync all your components into your local code base. A new `ui-components` folder with all the UI components is created.
-
-Import the UI component you want from `./ui-components` and then render it in your React app. For example:
-
-```js
-import { CardB } from './ui-components'
-...
-  return <div>
-    <CardB />
-  </div>
-...
-```

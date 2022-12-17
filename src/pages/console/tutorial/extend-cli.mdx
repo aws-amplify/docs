@@ -1,5 +1,5 @@
 export const meta = {
-  title: `Extend with the Amplify CLI`,
+  title: `Component in code`,
   description: `Install the CLI without npm and use the CLI without an AWS account`,
 };
 
@@ -22,7 +22,34 @@ import all1 from "/src/fragments/pull-cli-studio.mdx";
 
 <Fragments fragments={{all: all1}} />
 
-## Adding features with the Amplify CLI
+<Callout>
+
+For Safari browser, the browser will provide a CLI login key. Copy the CLI login key from the browser and paste it into your terminal.
+
+</Callout>
+
+## Use component in code
+
+Now that your components are synced, navigate to a component and choose **Configure**. To get your React code, choose **Get component code**.
+
+Follow the instructions in the modal. If this is your first time setting up the UI components in your app, make sure to complete **Initial project setup** first to install all dependencies.
+
+![Screenshot showing how to get the component code](/images/studio/get-code.png)
+
+Next, run `amplify pull` to sync all your components into your local code base. A new `ui-components` folder with all the UI components is created.
+
+Import the UI component you want from `./ui-components` and then render it in your React app. For example:
+
+```js
+import { CardB } from './ui-components'
+...
+  return <div>
+    <CardB />
+  </div>
+...
+```
+
+## (Optional) Adding features with the Amplify CLI
 
 The Studio **Set up** menu lists cloud backend features such as functions, storage, and APIs that you can add to your app using the CLI. For each backend resource, Studio displays the CLI commands to run in your terminal window. 
 
