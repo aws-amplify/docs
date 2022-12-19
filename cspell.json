@@ -1203,7 +1203,6 @@
     "subscriptionQuery",
     "subscriptionResultHandler",
     "subunsub",
-    "sudo",
     "Subview",
     "succ",
     "super.onCreate",
@@ -1497,6 +1496,7 @@
     "hte", 
     "full-stack", 
     "Full-stack", 
-    "Full-Stack"
+    "Full-Stack",
+    "sudo",
   ]
 }
