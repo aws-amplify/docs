@@ -578,11 +578,13 @@ This example showcases how to use headless mode to configure `amplify import aut
 Create a file called `authconfig.importauth.json` and paste in the following contents:
 
 ```json
+{
   "version": 1,
   "userPoolId": "myUserPoolId",
   "webClientId": "myWebAppClientId",
   "nativeClientId": "myNativeAppClientId",
   "identityPoolId": "myIdentityPoolId" //optional
+}
 ```
 
 Run `cat authconfig.importauth.json | jq -c | amplify import auth --headless` to import an Cognito resource.
