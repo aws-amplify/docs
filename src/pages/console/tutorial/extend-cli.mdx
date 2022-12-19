@@ -28,6 +28,37 @@ For Safari, the browser will provide a CLI login key. Copy the CLI login key fro
 
 </Callout>
 
+### Initial Project Setup
+
+To use a form in your application, you first need to configure your project to use Amplify Studio generated components. 
+
+1. In your application's root directory and install the following npm dependencies
+
+```
+npm install aws-amplify @aws-amplify/ui-react
+```
+
+2. In your application's `index.js` file, add the following imports and configuration
+
+```jsx
+import '@aws-amplify/ui-react/styles.css';
+
+import { Amplify } from 'aws-amplify';
+import {ThemeProvider} from "@aws-amplify/ui-react";
+
+import awsconfig from './aws-exports';
+import studioTheme from './ui-components/studioTheme';
+
+Amplify.configure(awsconfig);
+```
+3. In your application's `index.js` file, wrap the `<App />` with the following:
+
+```jsx
+<ThemeProvider theme={studioTheme}>
+    <App />
+</ThemeProvider>
+```
+
 ## Use component in code
 
 Now that your components are synced, navigate to a component and choose **Configure**. To get your React code, choose **Get component code**.
@@ -42,11 +73,15 @@ Import the UI component you want from `./ui-components` and then render it in yo
 
 ```js
 import { CardB } from './ui-components'
-...
-  return <div>
-    <CardB />
-  </div>
-...
+
+function MyCardComponent() {
+  return (
+    <div>
+			<CardB />
+		</div>
+	)
+}
+
 ```
 
 ## (Optional) Adding features with the Amplify CLI
