@@ -19,13 +19,13 @@
     "@algolia/autocomplete-theme-classic": "^1.6.1",
     "@algolia/client-search": "^4.13.0",
     "@aws-amplify/ui-components": "latest",
-    "@aws-amplify/ui-react": "^3.5.0",
+    "@aws-amplify/ui-react": "^4.2.0",
     "@emotion/react": "^11.1.5",
     "@emotion/styled": "^11.3.0",
     "@mdx-js/mdx": "^2.0.0",
     "algoliasearch": "^4.12.1",
     "array-flatten": "^3.0.0",
-    "aws-amplify": "^4.3.34",
+    "aws-amplify": "^5.0.5",
     "copy-to-clipboard": "^3.2.1",
     "dotenv": "^16.0.0",
     "emotion": "^10.0.23",
@@ -86,7 +86,9 @@
     "workbox-build": "4.3.1"
   },
   "resolutions": {
-    "**/trim": "0.0.3"
+    "**/trim": "0.0.3",
+    "loader-utils": "2.0.4",
+    "minimatch": "3.0.5"
   },
   "jest": {
     "roots": [
@@ -116,14 +118,15 @@
     "refresh": "yarn clean && yarn",
     "task": "ts-node tasks",
     "test": "jest",
+    "dev": "next dev",
     "spellcheck": "cspell \"src/**/*.mdx\"",
     "spellcheck-diff": "git diff --name-only --cached | awk \"/src.*\\.mdx/{print}\" | npx cspell --no-must-find-files --file-list stdin",
-    "dev": "yarn build-support-config && next dev",
     "build": "yarn task generate-sitemap && next build && next export -o client/www/next-build",
     "next-build": "next build",
     "next-start": "next start",
     "amplify:submissionsLambda": "cd amplify/backend/function/submissionsLambda/src && yarn install && yarn build && yarn test",
-    "build-support-config": "chmod +x build_support/create-awsconfig.sh && ./build_support/create-awsconfig.sh",
+    "postinstall": "yarn setup",
+    "setup": "node build_support/create-awsconfig.mjs",
     "prepare": "husky install"
   }
 }

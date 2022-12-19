@@ -9,7 +9,7 @@ To upload to S3 from a data object, specify the `key` and the `data` object to b
 ```swift
 let dataString = "My Data"
 let data = Data(dataString.utf8)
-let uploadTask = try await Amplify.Storage.uploadData(
+let uploadTask = Amplify.Storage.uploadData(
     key: "ExampleKey",
     data: data
 )
@@ -29,7 +29,7 @@ print("Completed: \(value)")
 ```swift
 let dataString = "My Data"
 let data = Data(dataString.utf8)
-let uploadTask = try await Amplify.Storage.uploadData(
+let uploadTask = Amplify.Storage.uploadData(
     key: "ExampleKey",
     data: data
 )
@@ -78,7 +78,7 @@ try dataString.write(
     encoding: .utf8
 )
 
-let uploadTask = try await Amplify.Storage.uploadFile(
+let uploadTask = Amplify.Storage.uploadFile(
     key: fileNameKey,
     local: filename
 )
@@ -112,7 +112,7 @@ try dataString.write(
     encoding: .utf8
 )
 
-let uploadTask = try await Amplify.Storage.uploadFile(
+let uploadTask = Amplify.Storage.uploadFile(
     key: fileNameKey,
     local: filename
 )
@@ -137,6 +137,48 @@ resultSink = uploadTask
 </Block>
 
 </BlockSwitcher>
+
+### Working with Security Scoped Resources (from iCloud)
+Security scoped resources refer to files that are retrieved from iCloud  or other cloud storage providers. You're likely to run into these file types when using system components that provide access to files stored in iCloud, e.g. [UIDocumentBrowserViewController](https://developer.apple.com/documentation/uikit/uidocumentbrowserviewcontroller).
+
+To upload security scoped resources, you'll need to:
+1. use [startAccessingSecurityScopedResource()](https://developer.apple.com/documentation/foundation/url/1779698-startaccessingsecurityscopedreso) and [stopAccessingSecurityScopedResource()](https://developer.apple.com/documentation/foundation/url/1780153-stopaccessingsecurityscopedresou) to access the data within security scoped files
+2. temporarily persist the data from the security scoped files in your app's sandbox 
+3. upload files using the temporary URLs
+4. delete temporarily persisted files (optional)
+```swift
+struct ScopedResourceFile {
+    let name: String
+    let data: Data
+}
+
+func getTempUrls(securityScopedUrls: [URL]) -> [URL] {
+    // 1. get the content of security scoped resources into ScopedResourceFile struct
+    let fileContents = securityScopedUrls.compactMap { url -> ScopedResourceFile? in
+        let startAccess = url.startAccessingSecurityScopedResource()
+        guard startAccess else {
+            print("Issue accessing security scoped resource at :\(url)")
+            return nil
+        }
+        defer { url.stopAccessingSecurityScopedResource() }
+        do {
+            let data = try Data(contentsOf: url)
+            let fileName = url.lastPathComponent
+            return ScopedResourceFile(name: fileName, data: data)
+        } catch {
+            print("Couldn't create Data from contents of file at url: \(url)")
+            return nil
+        }
+    }
+    
+    // 2. write the file contents to temporary files and return the URLs of the temp files
+    let localFileURLs = persistTemporaryFiles(fileContents)
+
+    // 3. Now you have local URLs for the files you'd like to upload.
+    return localFileURLs
+}
+```
+
 
 ## Cancel, Pause, Resume
 

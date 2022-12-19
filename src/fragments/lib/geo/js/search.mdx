@@ -177,3 +177,128 @@ const searchOptionsWithBiasPosition = {
 
 Geo.searchByCoordinates([-122.3399573, 47.616179], searchOptionsWithBiasPosition)
 ```
+
+### Search for suggestions
+
+The `Geo.searchForSuggestions()` API enables you to search for suggestions by free-form text, such as a place, address, city, or region.
+
+```javascript
+import { Geo } from "aws-amplify"
+
+Geo.searchForSuggestions("Amazon Go Store")
+```
+
+Similar to `Geo.searchByText()` API, customize your search results further by providing:
+- `countries` - to limit the search results to given countries (specified in [ISO Alpha-3 country codes](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3))
+- `maxResults` - to limit the maximum result set
+- `biasPosition` - to act as the search origination location
+- `searchAreaConstraints` - to limit the area to search inside of
+- `searchIndexName` - to use a different Location Service search index resource than the default
+
+ **Note:** Providing both `biasPosition` and `searchAreaConstraints` parameters simultaneously returns an error.
+
+```javascript
+const searchOptionsWithBiasPosition = {
+  countries: string[], // Alpha-3 country codes
+  maxResults: number, // 50 is the max and the default
+  biasPosition: [
+    longitude // number
+    latitude // number,
+  ], // Coordinates point to act as the center of the search
+  searchIndexName: string, // the string name of the search index
+}
+
+const searchOptionsWithSearchAreaConstraints = {
+  countries: ["USA"], // Alpha-3 country codes
+  maxResults: 25, // 50 is the max and the default
+  searchAreaConstraints: [SWLongitude, SWLatitude, NELongitude, NELatitude], // Bounding box to search inside of
+  searchIndexName: string, // the string name of the search index
+}
+
+Geo.searchForSuggestions('Amazon Go', searchOptionsWithBiasPosition)
+```
+This returns a list of suggestions (places and their respective `placeId` if available) that match the search constraints.
+
+```javascript
+// returns
+[
+  {
+    text: "Amazon Go, 2131 7th Ave, Seattle, WA, 98121, USA",
+    placeId: "8fd9d4c6-2527-4190-a7df-0dae352c9dc6"
+  },
+  {
+    text: "Amazon Go, 1906 Terry Ave, Seattle, WA, 98101, USA",
+    placeId: "5d04d071-dea2-4d86-bfce-86bd6a8f4787"
+  }
+]
+```
+
+In cases where `placeId` is not available on the list of suggestions as below, use ``searchByText`` to search for the selected place by text.
+
+```javascript
+Geo.searchForSuggestions("Amazon", { MaxResults: 5 })
+
+// returns
+[
+  {
+    text: "Amazon Go",
+  },
+  {
+    text: "Amazon 4-star",
+  }
+]
+
+Geo.searchByText('Amazon Go', { MaxResults: 5 })
+```
+
+This returns places and their coordinates that match the search text.
+
+
+### Search by PlaceId
+
+The `Geo.searchByPlaceId()` API enables you to search for a place by a `placeId`, which is a unique opaque token for a place returned by the provider.
+
+<Callout>
+
+**Note:** Upgrade to the latest Amplify CLI version (greater than version 10.4) and do an ``amplify push`` to update your IAM policies to allow for ``getPlace`` API.
+
+</Callout>
+
+```javascript
+import { Geo } from "aws-amplify"
+
+Geo.searchByPlaceId(placeId)
+```
+You can optionally override the default search index with the `searchIndexName` parameter.
+
+```javascript
+const searchByPlaceIdOptions = {
+  searchIndexName: string, // the string name of the search index
+}
+
+Geo.searchByPlaceId("8fd9d4c6-2527-4190-a7df-0dae352c9dc6", searchByPlaceIdOptions)
+```
+
+This returns a place with metadata as shown in the example below.
+
+```javascript
+// returns
+{
+  geometry: {
+    point:
+      [
+        -122.34014899999994, // Longitude point
+        47.61609000000004 // Latitude point
+      ],
+  },
+  addressNumber: "2131" // optional string for the address number alone
+  country: "USA" // optional Alpha-3 country code
+  label: "Amazon Go, 2131 7th Ave, Seattle, WA, 98121, USA" // Optional string
+  municipality: "Seattle" // Optional string
+  neighborhood: undefined // Optional string
+  postalCode: "98121" // Optional string
+  region: "Washington" // Optional string
+  street: "7th Ave" // Optional string
+  subRegion: "King County" // Optional string
+}
+```

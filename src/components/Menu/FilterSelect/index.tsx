@@ -1,14 +1,14 @@
-import Link from "next/link";
+import Link from 'next/link';
 import {
   filterMetadataByOption,
-  filterOptionsByName,
-} from "../../../utils/filter-data";
+  filterOptionsByName
+} from '../../../utils/filter-data';
 import {
   FilterSelectStyle,
   CurrentlySelectedStyle,
-  DropdownStyle,
-} from "./styles";
-import React from "react";
+  DropdownStyle
+} from './styles';
+import React from 'react';
 
 type FilterSelectProps = {
   filters: string[];
@@ -22,34 +22,40 @@ type FilterSelectState = {
 };
 
 const getFirstPathSegment = (path: string): string | undefined => {
-  return path.split('/').filter(x => !!x)[0]
-}
+  return path.split('/').filter((x) => !!x)[0];
+};
 
-const multiLibVersionPlatforms = ['ios']
+const multiLibVersionPlatforms = ['ios'];
 
-const convertToRouteHerf = (filter: FilterSelectProps, targetFilterKey: string) => {
-  const url = filter.url.startsWith('/') ? `file://${filter.url}` : filter.url
-  let path = new URL(url).pathname
+const convertToRouteHerf = (
+  filter: FilterSelectProps,
+  targetFilterKey: string
+) => {
+  const url = filter.url.startsWith('/') ? `file://${filter.url}` : filter.url;
+  let path = new URL(url).pathname;
 
-  const firstPathSegment = getFirstPathSegment(path)
+  const firstPathSegment = getFirstPathSegment(path);
   if (firstPathSegment)
-    path = path.replace(`/${firstPathSegment}`, '/[firstPathSegment]')
+    path = path.replace(`/${firstPathSegment}`, '/[firstPathSegment]');
 
-  let queryIndex = path.lastIndexOf('/q/')
+  let queryIndex = path.lastIndexOf('/q/');
   if (queryIndex >= 0) {
-    path = path.substring(0, queryIndex)
-      + path.substring(queryIndex).replace(`/${filter.filterKey}`, `/[${filter.filterKind}]`)
+    path =
+      path.substring(0, queryIndex) +
+      path
+        .substring(queryIndex)
+        .replace(`/${filter.filterKey}`, `/[${filter.filterKind}]`);
   }
-  return  {
+  return {
     pathname: path,
     query: {
       [filter.filterKind]: targetFilterKey,
       firstPathSegment: multiLibVersionPlatforms.includes(targetFilterKey)
-                        ? firstPathSegment
-                        : firstPathSegment?.split('-')[0],
+        ? firstPathSegment
+        : firstPathSegment?.split('-')[0]
     }
-  }
-}
+  };
+};
 
 export default class FilterSelect extends React.Component<
   FilterSelectProps,
@@ -62,15 +68,15 @@ export default class FilterSelect extends React.Component<
 
     this.wrapperRef = React.createRef();
     this.closeMenu = this.closeMenu.bind(this);
-    this.state = {isOpen: false};
+    this.state = { isOpen: false };
   }
 
   componentDidMount() {
-    document.addEventListener("mousedown", this.closeMenu);
+    document.addEventListener('mousedown', this.closeMenu);
   }
 
   componentWillUnmount() {
-    document.removeEventListener("mousedown", this.closeMenu);
+    document.removeEventListener('mousedown', this.closeMenu);
   }
 
   closeMenu = (event: MouseEvent) => {
@@ -80,22 +86,22 @@ export default class FilterSelect extends React.Component<
       this.state.isOpen
     ) {
       this.setState({
-        isOpen: false,
+        isOpen: false
       });
     }
   };
 
   toggleVis = () => {
     this.setState((oldState) => {
-      return {isOpen: !oldState.isOpen};
+      return { isOpen: !oldState.isOpen };
     });
   };
 
   renderFilter = (name) => {
     if (name === this.props.filterKey) return;
 
-    let href: object | string = convertToRouteHerf(this.props, name)
-    if (!this.props.url.includes("/q/")) {
+    let href: object | string = convertToRouteHerf(this.props, name);
+    if (!this.props.url.includes('/q/')) {
       href = this.props.url + `/q/${this.props.filterKind}/${name}`;
     }
 
@@ -103,7 +109,7 @@ export default class FilterSelect extends React.Component<
       <Link href={href} key={name}>
         <a onClick={this.toggleVis}>
           <img
-            alt={filterMetadataByOption[name]?.label + " icon"}
+            alt={filterMetadataByOption[name]?.label + ' icon'}
             src={filterMetadataByOption[name]?.graphicURI}
             height="28px"
             width="28px"
@@ -125,8 +131,8 @@ export default class FilterSelect extends React.Component<
         let shouldAdd = true;
 
         // special cases
-        if (this.props.url.startsWith("/sdk")) {
-          shouldAdd = filter !== "flutter" && filter !== "js";
+        if (this.props.url.startsWith('/sdk')) {
+          shouldAdd = filter !== 'flutter' && filter !== 'js';
         }
 
         if (shouldAdd) {
@@ -136,8 +142,8 @@ export default class FilterSelect extends React.Component<
     }
 
     let CurrentlySelected = <></>;
-    if (this.props.filterKey === "all") {
-      const aOrAn = "aeiou".includes(this.props.filterKind[0]) ? "an" : "a";
+    if (this.props.filterKey === 'all') {
+      const aOrAn = 'aeiou'.includes(this.props.filterKind[0]) ? 'an' : 'a';
       CurrentlySelected = (
         <CurrentlySelectedStyle>
           <a onClick={this.toggleVis}>
@@ -151,11 +157,11 @@ export default class FilterSelect extends React.Component<
       const supported = !unsupportedFilters.includes(this.props.filterKey);
       CurrentlySelected = (
         <CurrentlySelectedStyle>
-          <div className={!supported ? "unsupported" : ""}>
+          <div className={!supported ? 'unsupported' : ''}>
             <a onClick={this.toggleVis}>
               <img
                 alt={
-                  filterMetadataByOption[this.props.filterKey]?.label + " icon"
+                  filterMetadataByOption[this.props.filterKey]?.label + ' icon'
                 }
                 src={filterMetadataByOption[this.props.filterKey]?.graphicURI}
                 height="28px"

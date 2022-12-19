@@ -30,7 +30,7 @@ In addition, you can configure advanced capabilities such as cache control, meta
 
 ```typescript
 await Storage.copy({ key: 'src' }, { key: 'dest' }, {
-	acl?: string, // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#upload-property
+	acl?: string, // https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-s3/enums/objectcannedacl.html
 	cacheControl?: string, // Specifies caching behavior along the request/reply chain
 	expires?: Date, // The date at which the object is no longer cacheable
 	metadata?: [key: string]: string, // A map of metadata to store with the object in S3

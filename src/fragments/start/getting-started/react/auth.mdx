@@ -181,18 +181,18 @@ export default withAuthenticator(App);
 
 ### Bonus: Use Amplify UI Primitives
 
-You used two Amplify UI components, `Heading` and `Button`. You could also convert the rest of the app to Amplify UI components by replacing the `p` tags with `Text` and the `input`s with `TextField`s.
+You used two Amplify UI components, `Heading` and `Button`. You could also convert the rest of the app to Amplify UI components by replacing the `p` tags with `Text`, the `input`s with `TextField`s and the `div`s with `View`s.
 
-1. Add the `Text` and `TextField` components to the imported components from Amplify UI:
+1. Add the `Text`, `TextField`, `View` components to the imported components from Amplify UI:
 
 ```javascript
-import { withAuthenticator, Button, Heading, Text, TextField } from '@aws-amplify/ui-react';
+import { withAuthenticator, Button, Heading, Text, TextField, View } from '@aws-amplify/ui-react';
 ```
 
-2. Replace the `p` tags with `Text` and the `input`s with `TextField`s in your `App` component:
+2. Replace the `p` tags with `Text`, the `input`s with `TextField`s and the `div`s with `View`s in your `App` component:
 
 ```javascript
-<div style={styles.container}>
+<View style={styles.container}>
   <Heading level={1}>Hello {user.username}</Heading>
   <Button style={styles.button}onClick={signOut}>Sign out</Button>
   <Heading level={2}>Amplify Todos</Heading>
@@ -211,13 +211,13 @@ import { withAuthenticator, Button, Heading, Text, TextField } from '@aws-amplif
   <Button style={styles.button} onClick={addTodo}>Create Todo</Button>
   {
     todos.map((todo, index) => (
-      <div key={todo.id ? todo.id : index} style={styles.todo}>
+      <View key={todo.id ? todo.id : index} style={styles.todo}>
         <Text style={styles.todoName}>{todo.name}</Text>
         <Text style={styles.todoDescription}>{todo.description}</Text>
-      </div>
+      </View>
     ))
   }
-</div>
+</View>
 ```
 
 Using Amplify UI components together makes it easier to manage styling across your entire app.
@@ -226,6 +226,6 @@ In this example, you used the Amplify React UI library and the `withAuthenticato
 
 You can also [customize this component](https://ui.docs.amplify.aws/react/components/authenticator/customization) to add or remove fields, update styling, or other configurations. You can even [override function calls](https://ui.docs.amplify.aws/react/components/authenticator/customization#override-function-calls) if needed.
 
-In addition to the `withAuthenticator`, you can build [custom authentication flows Amplify Libraries for JS](lib/auth/getting-started/q/platform/js/). Amplify's `Auth` class has over 30 methods including `signUp`, `signIn`, `forgotPassword`, and `signOut` that allow you full control over all aspects of the user authentication flow. Check out the complete API [here](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html).
+In addition to the `withAuthenticator`, you can build [custom authentication flows Amplify Libraries for JS](/lib/auth/getting-started). Amplify's `Auth` class has over 30 methods including `signUp`, `signIn`, `forgotPassword`, and `signOut` that allow you full control over all aspects of the user authentication flow. Check out the complete API [here](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html).
 
 In the next section, you'll host your app on the Amplify Console, a hosting service complete with a globally available CDN, atomic deployments, easy custom domains, and CI / CD.

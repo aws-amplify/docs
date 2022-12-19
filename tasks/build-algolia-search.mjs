@@ -62,8 +62,11 @@ const allFilters = [
 
 const pagesToSkip = ['/', '/ChooseFilterPage', '/404'];
 const pagesWithIndex = ['/cli/function', '/cli', '/console'];
+dotenv.config();
 
-const searchIndex = process.env.NEXT_PUBLIC_ALGOLIA_INDEX ? process.env.NEXT_PUBLIC_ALGOLIA_INDEX : 'custom_search_staging';
+const searchIndex = process.env.NEXT_PUBLIC_ALGOLIA_INDEX
+  ? process.env.NEXT_PUBLIC_ALGOLIA_INDEX
+  : 'custom_search_staging';
 const searchIndexTemp = `${searchIndex}_temp`;
 
 const pageValues = [];
@@ -88,8 +91,6 @@ Object.keys(pathmap).forEach(async (key) => {
 });
 
 try {
-  dotenv.config();
-
   if (!process.env.PUBLIC_ALGOLIA_APP_ID) {
     throw new Error('PUBLIC_ALGOLIA_APP_ID is not defined');
   }
@@ -121,7 +122,7 @@ try {
           'unordered(subcategory)'
         ],
         attributesToSnippet: [
-          'text:10', // limits the size of the snippet
+          'text:10' // limits the size of the snippet
         ]
       };
 
@@ -150,8 +151,68 @@ function readPages(cb) {
   }
   const page = pageValues.pop();
   const { filename, platform, title, subcategory, category } = page;
-  const doc = fs.readFileSync(filename, 'utf8');
+  const doc = sanitizeMDX(fs.readFileSync(filename, 'utf8'));
   tryParseImports(doc, filename, platform, cb, title, subcategory, category);
+}
+
+async function importRecursiveFragments(fragmentFile, platform) {
+  if (!fragmentFile.includes('<Fragments')) {
+    //no recursive fragments found
+    return fragmentFile;
+  } else {
+    try {
+      let allFragments = fragmentFile;
+      const compiled = String(await compile(fragmentFile));
+      const imports = [...(await parseImports(compiled))];
+      await Promise.all(
+        imports.map(async (parsedImport) => {
+          const isAbsolute = parsedImport.moduleSpecifier.isConstant;
+          const hasDefault = parsedImport.importClause.default;
+          const likelyFragment = isAbsolute && hasDefault;
+          if (
+            likelyFragment &&
+            parsedImport.importClause.default.includes(platform)
+          ) {
+            const fragmentPath = path.join(
+              __dirname,
+              '..',
+              parsedImport.moduleSpecifier.value
+            );
+            const nestedFragmentFile = sanitizeMDX(
+              fs.readFileSync(fragmentPath, 'utf8')
+            );
+            const recursiveFragment = await importRecursiveFragments(
+              nestedFragmentFile,
+              platform
+            );
+            allFragments = allFragments + '\n' + recursiveFragment;
+          }
+        })
+      );
+      return allFragments;
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  return fragmentFile;
+}
+
+function sanitizeMDX(source) {
+  const removeComments = /(?=<!--)([\s\S]*?)-->/gm;
+  const removeCodeBlocks = /```[\s\S]+?(?=```)```/gm;
+  const removeEllipsis = /…/gm;
+  const removeUnparsable = /<=>/gm;
+  const removeTables = /\|[^\n]+\|/gm;
+  const removeLink = /<http[^>]+>/gm;
+  const removeUrlVariables = /\/{([^}|{]*)}/gm;
+  source = source.replace(removeComments, '');
+  source = source.replace(removeCodeBlocks, '');
+  source = source.replace(removeEllipsis, '');
+  source = source.replace(removeUnparsable, '');
+  source = source.replace(removeTables, '');
+  source = source.replace(removeLink, '');
+  source = source.replace(removeUrlVariables, '');
+  return source;
 }
 
 async function tryParseImports(
@@ -164,8 +225,9 @@ async function tryParseImports(
   category
 ) {
   console.log('Compiling', filename);
+  let compiled;
   try {
-    const compiled = String(await compile(source));
+    compiled = String(await compile(sanitizeMDX(source)));
     const lines = source.split('\n');
     const imports = [...(await parseImports(compiled))];
     const fragments = {};
@@ -199,13 +261,21 @@ async function tryParseImports(
     filename = filename.split('src/pages')[1];
     filename = filename.split('.mdx')[0];
 
-    if (!Object.keys(fragments).length === 0) {
+    if (Object.keys(fragments).length !== 0) {
       // add platform specific fragments to source
-      fragments[platform].forEach((fragment) => {
-        const fragmentPath = path.join(__dirname, '..', fragment);
-        const fragmentFile = fs.readFileSync(fragmentPath, 'utf8');
-        source = source + '\n' + fragmentFile;
-      });
+      await Promise.all(
+        fragments[platform].map(async (fragment) => {
+          const fragmentPath = path.join(__dirname, '..', fragment);
+          const fragmentFile = sanitizeMDX(
+            fs.readFileSync(fragmentPath, 'utf8')
+          );
+          const allFragments = await importRecursiveFragments(
+            fragmentFile,
+            platform
+          );
+          source = source + '\n' + allFragments;
+        })
+      );
 
       // remove unused fragments and imports from markdown
       source = source.split('\n');

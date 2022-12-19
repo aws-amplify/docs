@@ -6,7 +6,7 @@
 func uploadData() async throws {
     let dataString = "Example file contents"
     let data = Data(dataString.utf8)
-    let uploadTask = try await Amplify.Storage.uploadData(
+    let uploadTask = Amplify.Storage.uploadData(
         key: "ExampleKey",
         data: data
     )
@@ -31,10 +31,10 @@ var progressSink: AnyCancellable?
 
 // ...
 
-func uploadData() async throws {
+func uploadData() {
     let dataString = "Example file contents"
     let data = Data(dataString.utf8)
-    let uploadTask = try await Amplify.Storage.uploadData(
+    let uploadTask = Amplify.Storage.uploadData(
         key: "ExampleKey",
         data: data
     )

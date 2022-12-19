@@ -25,8 +25,10 @@ The [Data modeling](/console/data/data-model) topic guides you through several e
 5. In the **Auto-generate data** window, specify how many rows of data you want to generate and constraints for the generated data. 
 6. Choose **Generate data**.
 
-<Callout warning>
-Seed data is auto-generated using <a href='https://faker.readthedocs.io/en/master/'>Faker</a>. 
+<Callout warning={true}>
+
+Seed data is auto-generated using [Faker](https://faker.readthedocs.io/en/master/). 
+
 </Callout>
 
 ## To edit data
@@ -66,3 +68,10 @@ When you create a new instance in a table, you can also link it to an instance i
 You can also edit and store the data as markdown with the markdown editor. This is especially useful for blogs, news, marketing, or content-focused apps where you want the app UI to be styled appropriately. The markdown editor is available by choosing **Edit in markdown** when you are in the **Edit** window for a data instance.
 
 ![cms](/images/console/cms.png)
+
+## Limitations
+Amplify Studio's content management view requires your app to be using [DataStore](/lib/datastore/getting-started). 
+
+For applications that are using an Amplify GraphQL API instead, app content can be managed using **GraphiQL**, a visual interface for building and executing queries and mutations in GraphQL. [Learn more about GraphQL in their documentation.](https://graphql.org/learn/)
+
+To change your app's data model from DataStore to an Amplify GraphQL API, [adjust your GraphQL API settings.](/console/data/data-model/#datastore-and-graphql)

@@ -6,8 +6,16 @@ Add the following code to your `onCreate()` method in your application class:
 <Block name="Java">
 
 ```java
+import android.util.Log;
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.analytics.pinpoint.AWSPinpointAnalyticsPlugin;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
+import com.amplifyframework.core.Amplify;
+```
+
+```java
 Amplify.addPlugin(new AWSCognitoAuthPlugin());
-Amplify.addPlugin(new AWSPinpointAnalyticsPlugin(this));
+Amplify.addPlugin(new AWSPinpointAnalyticsPlugin());
 ```
 
 Your class will look like this:
@@ -21,7 +29,7 @@ public class MyAmplifyApp extends Application {
         try {
             // Add these lines to add the AWSCognitoAuthPlugin and AWSPinpointAnalyticsPlugin plugins
             Amplify.addPlugin(new AWSCognitoAuthPlugin());
-            Amplify.addPlugin(new AWSPinpointAnalyticsPlugin(this));
+            Amplify.addPlugin(new AWSPinpointAnalyticsPlugin());
             Amplify.configure(getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify");
@@ -36,8 +44,16 @@ public class MyAmplifyApp extends Application {
 <Block name="Kotlin">
 
 ```kotlin
+import android.util.Log
+import com.amplifyframework.AmplifyException
+import com.amplifyframework.analytics.pinpoint.AWSPinpointAnalyticsPlugin
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
+import com.amplifyframework.core.Amplify
+```    
+
+```kotlin
 Amplify.addPlugin(AWSCognitoAuthPlugin())
-Amplify.addPlugin(AWSPinpointAnalyticsPlugin(this))
+Amplify.addPlugin(AWSPinpointAnalyticsPlugin())
 ```
 
 Your class will look like this:
@@ -50,7 +66,7 @@ class MyAmplifyApp : Application() {
         try {
             // Add these lines to add the AWSCognitoAuthPlugin and AWSPinpointAnalyticsPlugin plugins
             Amplify.addPlugin(AWSCognitoAuthPlugin())
-            Amplify.addPlugin(AWSPinpointAnalyticsPlugin(this))
+            Amplify.addPlugin(AWSPinpointAnalyticsPlugin())
             Amplify.configure(applicationContext)
 
             Log.i("MyAmplifyApp", "Initialized Amplify")
@@ -65,8 +81,16 @@ class MyAmplifyApp : Application() {
 <Block name="RxJava">
 
 ```java
+import android.util.Log;
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.analytics.pinpoint.AWSPinpointAnalyticsPlugin;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
+import com.amplifyframework.rx.RxAmplify;
+```
+
+```java
 RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
-RxAmplify.addPlugin(new AWSPinpointAnalyticsPlugin(this));
+RxAmplify.addPlugin(new AWSPinpointAnalyticsPlugin());
 ```
 
 Your class will look like this:
@@ -80,7 +104,7 @@ public class MyAmplifyApp extends Application {
         try {
             // Add these lines to add the AWSCognitoAuthPlugin and AWSPinpointAnalyticsPlugin plugins
             RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
-            RxAmplify.addPlugin(new AWSPinpointAnalyticsPlugin(this));
+            RxAmplify.addPlugin(new AWSPinpointAnalyticsPlugin());
             RxAmplify.configure(getApplicationContext());
 
             Log.i("MyAmplifyApp", "Initialized Amplify");

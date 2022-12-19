@@ -256,18 +256,18 @@
         "description": "Changes the behaviour of @index directive to auto-generate Queries for indexes if no 'queryField' is provided.",
         "type": "Feature",
         "valueType": "Boolean",
-        "versionAdded": "8.5.x",
+        "versionAdded": "8.5.0",
         "values": [
           {
             "value": "true",
             "description": "An empty 'queryField' will cause a Query to be auto-generated. Explicit null value will disable this functionality",
-            "defaultNewProject": false,
+            "defaultNewProject": true,
             "defaultExistingProject": false
           },
           {
             "value": "false",
             "description": "A Query will only be created if the 'queryField' is explicitly set",
-            "defaultNewProject": true,
+            "defaultNewProject": false,
             "defaultExistingProject": true
           }
         ]
@@ -288,6 +288,26 @@
             "value": "true",
             "description": "Connection field(s) are generated respecting the attributes of priamry key and sort key fields. Model-gen with custom primary key feature is enabled.",
             "defaultNewProject": false,
+            "defaultExistingProject": false
+          }
+        ]
+      },
+      "populateOwnerFieldForStaticGroupAuth": {
+        "description": "Populates the owner field automatically if the user is already authorized by static user pool authorization rules",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "9.2.0",
+        "values": [
+          {
+            "value": "true",
+            "description": "If the user is authorized, the owner field is automatically populated",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          },
+          {
+            "value": "false",
+            "description": "If the user is authorized by static user pool authorization rules, the owner field needs to be explicitly set by the developer",
+            "defaultNewProject": true,
             "defaultExistingProject": false
           }
         ]

@@ -15,13 +15,13 @@ Amplify.Auth.fetchAuthSession { result in
         // Get AWS credentials
         if let awsCredentialsProvider = session as? AuthAWSCredentialsProvider {
             let credentials = try awsCredentialsProvider.getAWSCredentials().get()
-            print("Access key - \(credentials.accessKey) ")
+            // Do something with the credentials
         }
 
         // Get cognito user pool token
         if let cognitoTokenProvider = session as? AuthCognitoTokensProvider {
             let tokens = try cognitoTokenProvider.getCognitoTokens().get()
-            print("Id token - \(tokens.idToken) ")
+            // Do something with the Cognito tokens
         }
 
     } catch {
@@ -47,10 +47,11 @@ Amplify.Auth.fetchAuthSession { result in
         // Get AWS credentials
         if let awsCredentialsProvider = session as? AuthAWSCredentialsProvider {
             let credentials = try awsCredentialsProvider.getAWSCredentials().get()
-            print("Access key - \(credentials.accessKey) ")
+            // Do something with the credentials
         }
 
     } catch {
         print("Fetch auth session failed with error - \(error)")
     }
 }
+```
