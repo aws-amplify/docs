@@ -29,7 +29,6 @@ export const MenuStyle = styled.div`
       max-height: 100vh;
       overflow-y: auto; /* for Firefox */
       overflow-y: overlay; /* for Webkit browsers */
-      margin-bottom: 6rem;
     }
   }
 `;
@@ -37,6 +36,7 @@ export const MenuStyle = styled.div`
 export const MenuBodyStyle = styled.div`
   display: block;
   margin: 0 2.5rem;
+  padding-bottom: 9rem;
 `;
 
 export const MenuBreakStyle = styled.hr`
