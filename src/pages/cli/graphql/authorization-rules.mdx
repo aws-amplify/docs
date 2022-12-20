@@ -321,6 +321,27 @@ In the example above:
 - **any signed in user** is allowed to read the list of employees' `name` and `email` fields
 - **only the employee/owner themselves** have CRUD access to their `ssn` field
 
+<Callout warning>
+
+To prevent unintended loss of data, the user or role that attempts to `delete` a record should have delete permissions on every field of the `@model` annotated GraphQL type.
+For example, in the schema below: 
+```graphql
+type Todo @model @auth(rules: [
+  { allow: private, provider: iam }, 
+  { allow: groups, groups: ["Admin"] }
+]) {
+ id: ID!
+ name: String! @auth(rules: [
+   { allow: private, provider: iam }, 
+   { allow: groups, groups: ["Admin"] }
+ ])
+ description: String @auth(rules: [{ allow: private, provider: iam }])
+}
+```
+Since the `description` field is not accessible by "Admin" Cognito group users, they cannot delete any `Todo` records.
+
+</Callout>
+
 ## Advanced
 
 ### Review and print access control matrix
