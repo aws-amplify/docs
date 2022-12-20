@@ -329,8 +329,7 @@ For example, in the schema below:
 type Todo @model @auth(rules: [
   { allow: private, provider: iam }, 
   { allow: groups, groups: ["Admin"] }
-])
-{
+]) {
  id: ID!
  name: String! @auth(rules: [
    { allow: private, provider: iam }, 
@@ -339,7 +338,7 @@ type Todo @model @auth(rules: [
  description: String @auth(rules: [{ allow: private, provider: iam }])
 }
 ```
-Since, the `description` field is not accessible by "Admin" cognito group users, they cannot delete any `Todo` records.
+Since the `description` field is not accessible by "Admin" Cognito group users, they cannot delete any `Todo` records.
 
 </Callout>
 
