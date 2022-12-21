@@ -11,10 +11,9 @@ import android1 from "/src/fragments/lib-v1/auth/android/password_management/10_
 
 To complete the password reset process, invoke the confirmResetPassword api with the code you were sent and the new password you want.
 
-<Callout>
-Note that you must call confirmResetPassword in the same app session as you call resetPassword. If you close the app, you'll need to call resetPassword again.
-As a result, for testing purposes, you'll at least need an input field where you can enter the code sent by the resetPassword api and feed it to confirmResetPassword.
-</Callout>
+import android2 from "/src/fragments/lib-v1/auth/android/password_management/10_reset_password_note.mdx";
+
+<Fragments fragments={{android: android2}} />
 
 import ios3 from "/src/fragments/lib-v1/auth/ios/password_management/20_confirm_reset_password.mdx";
 
