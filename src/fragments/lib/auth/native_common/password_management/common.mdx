@@ -15,11 +15,6 @@ import flutter2 from "/src/fragments/lib/auth/flutter/password_management/10_res
 
 To complete the password reset process, invoke the confirmResetPassword api with the code you were sent and the new password you want.
 
-<Callout>
-Note that you must call confirmResetPassword in the same app session as you call resetPassword. If you close the app, you'll need to call resetPassword again.
-As a result, for testing purposes, you'll at least need an input field where you can enter the code sent by the resetPassword api and feed it to confirmResetPassword.
-</Callout>
-
 import ios3 from "/src/fragments/lib/auth/ios/password_management/20_confirm_reset_password.mdx";
 
 <Fragments fragments={{ios: ios3}} />
