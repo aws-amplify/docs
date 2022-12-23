@@ -1490,12 +1490,14 @@
     "infowindow",
     "Libre's",
     "Pinia",
-    "kotlinx"
+    "kotlinx",
+    "snapcraft"
   ],
   "flagWords": [
     "hte", 
     "full-stack", 
     "Full-stack", 
-    "Full-Stack"
+    "Full-Stack",
+    "sudo",
   ]
 }
