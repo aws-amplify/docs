@@ -40,6 +40,14 @@ Auth.verifyTotpToken(user, challengeAnswer)
   .catch((e) => {
     // Token is not verified
   });
+
+// ...
+
+// Finally, when sign-in with MFA is enabled, use the confirmSignIn method 
+// to pass the TOTP code and MFA type. 
+Auth.confirmSignIn(user, code, mfaType) // Optional, MFA Type e.g. SMS_MFA || SOFTWARE_TOKEN_MFA
+
+
 ```
 
 ## Setup MFA type
