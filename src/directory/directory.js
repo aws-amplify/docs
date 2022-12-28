@@ -1948,6 +1948,11 @@ const directory = {
         title: 'Migration & Backwards Compatibility',
         items: [
           {
+            title: 'Lazy Loading and Custom Selection Set',
+            route: '/cli/migration/lazy-load-custom-selection-set',
+            filters: []
+          },
+          {
             title: 'GraphQL Transformer v1 to v2 migration',
             route: '/cli/migration/transformer-migration',
             filters: []

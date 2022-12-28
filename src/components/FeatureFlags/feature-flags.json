@@ -660,21 +660,21 @@
           }
         ]
       },
-      "generateLazyReferenceAndModelPath": {
-        "description": "Generate models with LazyReference and ModelPath",
+      "generateModelsForLazyLoadAndCustomSelectionSet": {
+        "description": "Generate models for lazy loading and custom selection set",
         "type": "Feature",
         "valueType": "Boolean",
         "versionAdded": "x.x.x",
         "values": [
           {
             "value": "true",
-            "description": "[Recommended] Add support for custom selection set and lazy loading.",
-            "defaultNewProject": true,
+            "description": "[Recommended] Add support for lazy loading and custom selection set.",
+            "defaultNewProject": false,
             "defaultExistingProject": false
           },
           {
             "value": "false",
-            "description": "iOS models will not support selection set customization and continue to eager load certain associations.",
+            "description": "models will not support selection set customization and lazy loading.",
             "defaultNewProject": false,
             "defaultExistingProject": true
           }
