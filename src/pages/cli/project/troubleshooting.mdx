@@ -235,6 +235,22 @@ Amplify currently doesn't support automatic data migration. If the data in the o
 If you have previously deployed an application using GraphQL transformer V1 and have decided to migrate to GraphQL transformer V2, go through the [GraphQL transformer migration documentation](/cli/migration/transformer-migration/#changes-that-amplify-cli-will-auto-migrate-for-you) to understand the impact of the migration on the schema directives and limitations prior to updating.
 You can confirm the version of the GraphQL transformer using the `amplify status` command. You can also inspect the `transformerversion` feature flag in `${project-root}/amplify/cli.json`, to confirm.
 
+### Migration from Amplify version using AWS CDK v1 to V2
+If you have previously deployed an application based on Amplify version < 11.0.0 which is using overrides or custom resources, you can follow the below guide if you are in process of migration amplify version 10 to 11: 
+1. For Amplify projects using `overrides`:
+   Upgrade `@aws-amplify/cli-extensibility-helper` to the latest Amplify version `^3.0.0`
+2. For Amplify projects using `custom`:
+   Update `package.json` for `custom` categories as shown below: 
+   ![Amplify custom warning 1](/images/ts-guide-cdk-package.png)
+   And update `cdk-stack.ts` for `custom` categories as shown below: 
+   ![Amplify custom warning 2](/images/ts-guide-cdk.png)
+
+If the problem still persists, follow the below link to file a github issue:
+   https://github.com/aws-amplify/amplify-cli/issues/new?assignees=&labels=pending-triage&template=1.bug_report.yaml
+
+To know more about the CDK Migration procedure, follow the below link:
+   https://docs.aws.amazon.com/cdk/v2/guide/migrating-v2.html
+
 ### Local testing
 Test schema changes and business logic as much as you can prior to deployment. The `amplify mock` command allows validation of your cloud dependencies locally. Follow the mock testing examples in [Advanced workflows documentation](/cli/usage/mock/) to dive deeper.
 
