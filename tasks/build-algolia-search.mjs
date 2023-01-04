@@ -338,12 +338,15 @@ function transformPostsToSearchObjects(articles) {
         subcategory === undefined ||
         text.startsWith('Learn more about how to use Amplify') ||
         text.length === 0;
+      const link = chunk.heading
+        ? `${slug}/#${headingToHash(chunk.heading)}`
+        : slug;
       if (!skip) {
         const obj = {
           objectID: article.meta.title + '-' + idx,
           title: article.meta.title,
           description,
-          slug,
+          slug: link,
           category,
           subcategory,
           type: 'article',
@@ -397,6 +400,12 @@ function makeSearchable() {
       }
     );
   };
+}
+
+function headingToHash(str) {
+  str = str.toLowerCase();
+  str = str.replace(/ /gm, '-');
+  return str;
 }
 
 function titleCase(str) {
