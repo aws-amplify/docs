@@ -114,7 +114,7 @@ When using a "Capturing Group" (e.g. parenthesis grouping regular expressions) a
 
 ```javascript
 Hub.listen(/user(.*)/, (data) => {
-  console.log('A USER event has been found matching the pattern: ', data.payload.message);
+  console.log('A USER event has been found matching the pattern: ', data.payload.message );
   console.log('patternInfo:', data.patternInfo);
 })
 ```
