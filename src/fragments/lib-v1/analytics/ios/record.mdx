@@ -1,6 +1,6 @@
 ## Record Event
 
-The Amplify Analytics plugin provides a simple interface to record custom events within your app. The plugin handles retry logic in the event the device looses network connectivity, and automatically batches requests to reduce network bandwidth.
+The Amplify Analytics plugin provides a simple interface to record custom events within your app. The plugin handles retry logic in the event the device loses network connectivity, and automatically batches requests to reduce network bandwidth.
 
 ```swift
 func recordEvents() {
@@ -41,6 +41,21 @@ Events have default configuration to flush out to the network every 60 seconds. 
 ```
 
 > **Note**: If you set `autoFlushEventsInterval` to 0, you are responsible for calling `Amplify.Analytics.flushEvents()` to submit the recorded events to the backend.
+
+## Authentication events
+
+import native_common from "/src/fragments/lib-v1/analytics/native_common/getting-started/auth-events.mdx";
+
+<Fragments fragments={{all: native_common}} />
+
+  ```swift
+  func sendUserSignInEvent() {
+      let event = BasicAnalyticsEvent(
+          name: "_userauth.sign_in"
+      )
+      Amplify.Analytics.record(event: event)
+  }
+  ```
 
 ## Global Properties
 
