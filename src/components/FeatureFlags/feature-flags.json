@@ -281,13 +281,13 @@
           {
             "value": "false",
             "description": "Only one connection field with type ID generated on connected models. Model-gen with custom primary key feature is disabled.",
-            "defaultNewProject": true,
+            "defaultNewProject": false,
             "defaultExistingProject": true
           },
           {
             "value": "true",
             "description": "Connection field(s) are generated respecting the attributes of priamry key and sort key fields. Model-gen with custom primary key feature is enabled.",
-            "defaultNewProject": false,
+            "defaultNewProject": true,
             "defaultExistingProject": false
           }
         ]
