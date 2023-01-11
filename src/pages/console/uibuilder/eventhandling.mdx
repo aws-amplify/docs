@@ -91,6 +91,13 @@ This will render the component within an HTML `<form />` element.
 
 </Callout>
 
+<Callout warning>
+
+Amplify Forms use DataStore to save and load data. In most cases, you will want to have authentication for your forms. For example, an app might use `API Key` for public content and `Cognito User Pool` for personalized content once the user logs in. 
+However, DataStore will only use the default authentication type and not the additional types unless configured with MULTI_AUTH enabled. To enable multiple authentication types in DataStore & Amplify Forms, please refer to [Configure Multiple Authorization Types](/lib/datastore/setup-auth-rules/#configure-multiple-authorization-types).
+
+</Callout>
+
 ### Create a record in database
 
 <Callout warning>
