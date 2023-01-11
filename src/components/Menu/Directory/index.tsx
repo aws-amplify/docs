@@ -87,7 +87,9 @@ class DirectoryGroup extends React.Component<
               >
                 <InternalLink href={`${item.route}`}>
                   {item.isCodeTitle ? (
-                    <code>{item.title}</code>
+                    <a>
+                      <code>{item.title}</code>
+                    </a>
                   ) : (
                     item.title
                   )}
