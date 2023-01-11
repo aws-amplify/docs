@@ -19,7 +19,7 @@ const containsATag = (source) => {
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-let files = [];
+const files = [];
 
 function getAllMdxFiles(directory) {
   //recursively add all mdx files found in the directory to the files list
@@ -38,11 +38,13 @@ files.forEach((filename) => {
   //check each mdx file found for A tags
   const doc = removeCodeBlocks(fs.readFileSync(filename, 'utf8'));
   if (containsATag(doc)) {
-    errors.push(`A Tag found in ${filename}`);
+    errors.push(
+      `${filename} contains and HTML link tag, please use the markdown equivalent instead [text](linkAddress)`
+    );
   }
 });
 
 if (errors.length) {
   //If any A tags were found throw an error
-  throw new Error(errors);
+  throw new Error(errors.join('\n'));
 }
