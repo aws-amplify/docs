@@ -1,8 +1,9 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const commands = require('../data/commands.json');
-// @TODO can we import the commands fetched from the GitHub repo here?
+import { commands } from '../data/cli-commands.mjs';
 
-const directory = {
+/**
+ * @type {Record<string, import('./directory').Directory>}
+ */
+export const directory = {
   lib: {
     productRoot: {
       title: 'Amplify Libraries',
@@ -1654,11 +1655,11 @@ const directory = {
       },
       commands: {
         title: 'Commands',
-        items: Object.entries(commands)
-          .sort(([a], [b]) => a > b)
-          .map(([name, command]) => ({
+        items: commands
+          .sort((a, b) => ((a.name > b.name ? 1 : -1)))
+          .map(({ name }) => ({
+            isCodeTitle: true,
             title: name,
-            titleHtml: `<code>${name}</code>`,
             route: `/cli/commands/${name}`
           }))
       },
@@ -2639,4 +2640,4 @@ const directory = {
   }
 };
 
-module.exports = directory;
+export default directory;
