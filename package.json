@@ -24,6 +24,7 @@
     "@emotion/styled": "^11.3.0",
     "@mdx-js/mdx": "^2.0.0",
     "algoliasearch": "^4.12.1",
+    "amplify-cli-core": "latest",
     "array-flatten": "^3.0.0",
     "aws-amplify": "^5.0.5",
     "copy-to-clipboard": "^3.2.1",
