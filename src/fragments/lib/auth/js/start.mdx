@@ -127,6 +127,9 @@ Amplify.configure({
 // You can get the current config object
 const currentConfig = Auth.configure();
 ```
+<Callout warning={true}>
+If your existing UserPool client has a required attribute that is NOT set to mutable, you may face login issues when using Social sign in. To resolve this, you will need to create a new UserPool client and mark the required attribute as mutable.
+</Callout>
 
 ### Note about OAuth configuration parameters
 These settings can be found in the Cognito User Pools console under **App Integration** section
@@ -135,3 +138,4 @@ These settings can be found in the Cognito User Pools console under **App Integr
 - `redirectSignIn`: URL must be present on **Callback URL(s)** , check on **App client settings** sub section
 - `redirectSignOut`: URL must be present on **Sign out URL(s)**, check on **App client settings** sub section
 - `responseType`: Option must be enabled on the App client, look for **Allowed OAuth Flows** on **App client settings** sub section. *Authorization code grant* is for 'code' value and *Implicit grant* is for 'token' value.
+
