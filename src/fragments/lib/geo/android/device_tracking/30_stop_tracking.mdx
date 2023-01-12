@@ -1,0 +1,30 @@
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+void stopTracking() {
+    Amplify.Geo.stopTracking(
+      () -> {
+        Log.i("MyAmplifyApp", "Stopped tracking");
+      },
+      error -> {
+        Log.e("MyAmplifyApp", "Stop tracking failed", error);
+      }
+    );
+}
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+fun stopTracking() {
+    Amplify.Geo.stopTracking(
+      { Log.i("MyAmplifyApp", "Stopped tracking") },
+      { error -> Log.e("MyAmplifyApp", "Stop tracking failed", error) }
+    )
+}
+```
+
+</Block>
+</BlockSwitcher>

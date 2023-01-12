@@ -1,0 +1,88 @@
+First, request either the `ACCESS_FINE_LOCATION` or `ACCESS_COARSE_LOCATION` permissions, depending on which you are requesting in the tracking options.  Then:
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+void startTracking() {
+    Amplify.Geo.startTracking(
+      GeoDevice.createIdTiedToUserAndDevice(),
+      () -> {
+        Log.i("MyAmplifyApp", "Started tracking");
+      },
+      error -> {
+        Log.e("MyAmplifyApp", "Start tracking failed", error);
+      }
+    );
+}
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+fun startTracking() {
+    Amplify.Geo.startTracking(
+      GeoDevice.createIdTiedToUserAndDevice(),
+      { Log.i("MyAmplifyApp", "Started tracking") },
+      { error -> Log.e("MyAmplifyApp", "Start tracking failed", error) }
+    )
+}
+```
+</Block>
+</BlockSwitcher>
+
+You can pass the options described above as the second argument of the function, like so:
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+void startTracking() {
+    Amplify.Geo.startTracking(
+      GeoDevice.createIdTiedToUserAndDevice(),
+
+      GeoTrackingSessionOptions.builder()
+        .withPowerRequired(GeoTrackingSessionOptions.Power.HIGH)
+        .withProxyDelegate(
+          positions -> positions.forEach(geoPosition -> {
+              Log.i("MyAmplifyApp", String.valueOf(geoPosition.location.getLatitude()));
+          })
+        )
+        .build(),
+
+      () -> {
+        Log.i("MyAmplifyApp", "Started tracking");
+      },
+      error -> {
+        Log.e("MyAmplifyApp", "Start tracking failed", error);
+      }
+    );
+}
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+fun startTracking() {
+    Amplify.Geo.startTracking(
+      GeoDevice.createIdTiedToUserAndDevice(),
+
+      GeoTrackingSessionOptions.builder()
+        .withPowerRequired(GeoTrackingSessionOptions.Power.HIGH)
+        .withProxyDelegate { positions ->
+          positions.forEach { geoPosition ->
+            Log.i("MyAmplifyApp", geoPosition.location.latitude.toString())
+          }
+        }
+      .build(),
+
+      { Log.i("MyAmplifyApp", "Started tracking") },
+      { error -> Log.e("MyAmplifyApp", "Start tracking failed", error) }
+    )
+}
+```
+
+</Block>
+</BlockSwitcher>

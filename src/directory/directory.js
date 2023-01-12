@@ -482,6 +482,11 @@ const directory = {
             title: 'Escape Hatch',
             route: '/lib/geo/escapehatch',
             filters: ['js', 'ios', 'android']
+          // },
+          // {
+          //   title: 'DO NOT COMMIT DEVICE TRACKING',
+          //   route: '/lib/geo/device-tracking',
+          //   filters: ['ios', 'android']
           }
         ]
       },

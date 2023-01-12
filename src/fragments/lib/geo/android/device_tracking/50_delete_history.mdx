@@ -1,0 +1,75 @@
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+GeoDevice deviceId = GeoDevice.createIdTiedToUserAndDevice();
+void updateLocation() {
+  Amplify.Geo.deleteLocationHistory(
+    deviceId,
+    () -> {
+        Log.i("MyAmplifyApp", "Started tracking");
+    },
+    error -> {
+        Log.e("MyAmplifyApp", "Start tracking failed", error);
+    }
+  );
+}
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+val deviceId = GeoDevice.createIdTiedToUserAndDevice()
+fun updateLocation() {
+  Amplify.Geo.deleteLocationHistory(
+    GeoDevice.createIdTiedToUserAndDevice(),
+    { Log.i("MyAmplifyApp", "Started tracking") },
+    { error -> Log.e( "MyAmplifyApp", "Start tracking failed", error ) }
+  )
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+If you want to delete the location history associated with a particular tracker, you can specify that as well:
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+GeoDevice deviceId = GeoDevice.createIdTiedToUserAndDevice();
+void updateLocation() {
+  Amplify.Geo.deleteLocationHistory(
+    deviceId,
+    GeoDeleteLocationHistoryOptions.builder()
+            .tracker("tracker").build(),
+    () -> {
+        Log.i("MyAmplifyApp", "Started tracking");
+    },
+    error -> {
+        Log.e("MyAmplifyApp", "Start tracking failed", error);
+    }
+  );
+}
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+val deviceId = GeoDevice.createIdTiedToUserAndDevice()
+fun updateLocation() {
+  Amplify.Geo.deleteLocationHistory(
+    deviceId,
+    GeoDeleteLocationHistoryOptions.builder()
+        .tracker("tracker").build(),
+    { Log.i("MyAmplifyApp", "Started tracking") },
+    { error -> Log.e( "MyAmplifyApp", "Start tracking failed", error ) }
+  )
+}
+```
+
+</Block>
+</BlockSwitcher>

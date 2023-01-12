@@ -1,0 +1,36 @@
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+GeoDevice deviceId = GeoDevice.createIdTiedToUserAndDevice();
+void updateLocation() {
+    Amplify.Geo.updateLocation(
+      deviceId,
+      new GeoLocation(latitude, longitude),
+      () -> {
+        Log.i("MyAmplifyApp", "Updated location");
+      },
+      error -> {
+        Log.e("MyAmplifyApp", "Update location failed", error);
+      }
+    );
+}
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+val deviceId = GeoDevice.createIdTiedToUserAndDevice()
+fun updateLocation() {
+    Amplify.Geo.updateLocation(
+      deviceId,
+      GeoLocation(latitude, longitude),
+      { Log.i("MyAmplifyApp", "Updated location") },
+      { error -> Log.e("MyAmplifyApp", "Update location failed", error) }
+    )
+}
+```
+
+</Block>
+</BlockSwitcher>
