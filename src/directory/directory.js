@@ -662,7 +662,7 @@ const directory = {
             filters: ['ios']
           },
           {
-            title: 'Record notification events',
+            title: 'Record notifications',
             route: '/lib/push-notifications/record-notifications',
             filters: ['ios']
           },
@@ -687,8 +687,8 @@ const directory = {
             filters: ['ios', 'react-native']
           },
           {
-            title: 'Setting up push notification services',
-            route: '/lib/push-notifications/setup-push-service',
+            title: 'Use existing AWS resources',
+            route: '/lib/push-notifications/existing-resources',
             filters: ['ios']
           }
         ]
