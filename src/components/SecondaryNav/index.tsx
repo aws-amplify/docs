@@ -1,3 +1,6 @@
+import React from 'react';
+import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
 import {
   HostStyle,
   LinkActiveStyle,
@@ -13,12 +16,11 @@ import {
 } from '../../constants/links';
 import ExternalLink from '../ExternalLink';
 import InternalLink from '../InternalLink';
-import { useRouter } from 'next/router';
 import { Container } from '../Container';
 import { parseLocalStorage } from '../../utils/parseLocalStorage';
 
-import SearchBar from '../SearchBar';
-import React from 'react';
+// needed since SearchBar contains algolia code that is written for ESM. it will failed with "SyntaxError: Unexpected token 'export'" without this
+const SearchBar = dynamic(() => import('../SearchBar'), { ssr: false });
 
 export default function SecondaryNav() {
   const router = useRouter();

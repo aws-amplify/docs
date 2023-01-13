@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react';
-import { API } from '@aws-amplify/api';
+import { useEffect, useRef, useState } from 'react';
+import { API } from 'aws-amplify';
 import isUUID from 'validator/lib/isUUID';
 import {
   FeedbackContainer,
   VoteButton,
   VoteButtonsContainer,
+  Toggle,
+  FeedbackMobileContainer,
   ThankYouContainer
 } from './styles';
 import { trackFeedbackSubmission } from '../../utils/track';
@@ -116,5 +118,55 @@ export default function Feedback() {
         </ThankYouContainer>
       )}
     </FeedbackContainer>
+  );
+}
+
+export function FeedbackToggle() {
+  const [inView, setInView] = useState(false);
+  const feedbackContainer = useRef(null);
+
+  function toggleView() {
+    if (inView) {
+      setInView(false);
+    } else {
+      setInView(true);
+    }
+  }
+
+  function handleClickOutside(e) {
+    if (feedbackContainer.current.contains(e.target)) {
+      // inside click
+      return;
+    }
+    // outside click
+    setInView(false);
+  }
+
+  useEffect(() => {
+    if (inView) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [inView]);
+
+  return (
+    <div ref={feedbackContainer}>
+      <FeedbackMobileContainer style={inView ? {} : { display: 'none' }}>
+        <Feedback></Feedback>
+      </FeedbackMobileContainer>
+      <Toggle
+        onClick={() => {
+          toggleView();
+        }}
+      >
+        <img src="/assets/thumbs-up.svg" alt="Thumbs up" />
+        <img src="/assets/thumbs-down.svg" alt="Thumbs down" />
+      </Toggle>
+    </div>
   );
 }

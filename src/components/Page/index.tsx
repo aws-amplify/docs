@@ -1,19 +1,12 @@
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { traverseHeadings } from '../../utils/traverseHeadings';
 import { gatherAllFilters } from '../../utils/gatherFilters';
-import CodeBlockProvider from '../CodeBlockProvider/index';
 import Layout from '../Layout/index';
-import Menu from '../Menu/index';
-import TableOfContents from '../TableOfContents/index';
-import NextPrevious from '../NextPrevious/index';
-import { ContentStyle, ChapterTitleStyle } from './styles';
 import {
   getChapterDirectory,
   isProductRoot
 } from '../../utils/getLocalDirectory';
-import SidebarLayoutToggle from '../SidebarLayoutToggle';
-import { useRef, useState } from 'react';
-import { MQTablet } from '../media';
 import {
   filterMetadataByOption,
   SelectedFilters
@@ -21,21 +14,21 @@ import {
 import ChooseFilterPage from '../../pages/ChooseFilterPage';
 import { parseLocalStorage } from '../../utils/parseLocalStorage';
 import { withFilterOverrides } from '../../utils/withFilterOverrides';
-import { FeedbackToggle } from '../Feedback';
+import UIShell from '../UIShell';
+import type { PropsWithChildren } from 'react';
 
-export default function Page({
-  children,
-  meta
-}: {
-  children: any;
+export type PageProps = PropsWithChildren<{
   meta?: any;
-}) {
+}>;
+
+export default function Page({ children, meta }: PageProps) {
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
   const router = useRouter();
-  if (!router.isReady) {
-    const [menuIsOpen, setMenuIsOpen] = useState(false);
-    useRef(null);
-    return <></>;
-  }
+  // @NOTE what does this do?
+  // if (!router.isReady) {
+  //   // useRef(null);
+  //   return <></>;
+  // }
   let url = router.asPath;
   // remove trailing slash.  this is important on pages like /cli/index.mdx
   // or /console/index.mdx where router.asPath has a trailing slash and
@@ -44,8 +37,8 @@ export default function Page({
     url = url.slice(0, -1);
   }
   const directoryPath = router.pathname;
-  let filterKey = '',
-    filterKind = '';
+  let filterKey = '';
+  let filterKind = '';
   const filterKeysLoaded = parseLocalStorage(
     'filterKeys',
     {} as SelectedFilters
@@ -67,19 +60,23 @@ export default function Page({
   const headers = traverseHeadings(children, filterKey);
   let filters = gatherAllFilters(children, filterKind);
   // special cases
-  if (url.startsWith("/sdk")) {
+  if (url.startsWith('/sdk')) {
     filters = filters.filter(
       (filter) => filter !== 'flutter' && filter !== 'js'
     );
   }
 
   const overrides = withFilterOverrides(filterKeyUpdates, filterKeysLoaded);
-  const filterKeys = {
-    ...filterKeysLoaded,
-    ...overrides
-  };
 
-  localStorage.setItem('filterKeys', JSON.stringify(filterKeys));
+  useEffect(() => {
+    const filterKeys = {
+      ...filterKeysLoaded,
+      ...overrides
+    };
+    localStorage.setItem('filterKeys', JSON.stringify(filterKeys));
+    return () => {};
+  }, [filterKeysLoaded, overrides]);
+
   if (filters.length !== 0 && !filters.includes(filterKey) && meta) {
     return (
       <ChooseFilterPage
@@ -92,7 +89,6 @@ export default function Page({
       />
     );
   }
-  const [menuIsOpen, setMenuIsOpen] = useState(false);
 
   meta.chapterTitle = '';
   if (meta && !isProductRoot(url)) {
@@ -110,84 +106,24 @@ export default function Page({
       filterKey={filterKey}
       filterMetadataByOption={filterMetadataByOption}
     >
-      {meta
-        ? metaContent({
-            title: meta.title,
-            chapterTitle: meta.chapterTitle,
-            headers,
-            children,
-            filters,
-            filterKey,
-            filterKind,
-            url,
-            directoryPath,
-            menuIsOpen,
-            setMenuIsOpen
-          })
-        : children}
-    </Layout>
-  );
-}
-
-export function metaContent({
-  title,
-  chapterTitle,
-  headers,
-  children,
-  filters,
-  filterKey,
-  filterKind,
-  url,
-  directoryPath,
-  menuIsOpen,
-  setMenuIsOpen
-}) {
-  const menuRef = useRef(null);
-  // Slice off the "@media " string at the start for use in JS instead of CSS
-  const MQTabletJS = MQTablet.substring(6);
-  // If the media query matches, then the user is on desktop and should not see the mobile toggle
-  const onDesktop =
-    typeof window === 'undefined'
-      ? false
-      : window.matchMedia(MQTabletJS).matches;
-  
-  return (
-    <>
-      <Menu
-        filters={filters}
-        filterKey={filterKey}
-        filterKind={filterKind}
-        url={url}
-        directoryPath={directoryPath}
-        ref={menuRef}
-        setMenuIsOpen={setMenuIsOpen}
-      ></Menu>
-      <ContentStyle menuIsOpen={menuIsOpen}>
-        <div>
-          <ChapterTitleStyle>{chapterTitle}</ChapterTitleStyle>
-          <h1>{title}</h1>
-          <CodeBlockProvider>
-            {children}
-            <NextPrevious url={url} filterKey={filterKey} />
-          </CodeBlockProvider>
-        </div>
-      </ContentStyle>
-      <TableOfContents title={title}>{headers}</TableOfContents>
-      {!onDesktop && (
-        <SidebarLayoutToggle menuRef={menuRef}>
-          <img
-            alt="Open menu"
-            className="burger-graphic"
-            src="/assets/burger.svg"
-          />
-          <img
-            alt="Close menu"
-            className="ex-graphic"
-            src="/assets/close.svg"
-          />
-        </SidebarLayoutToggle>
+      {meta ? (
+        <UIShell
+          title={meta.title}
+          chapterTitle={meta.chapterTitle}
+          headers={headers}
+          filters={filters}
+          filterKey={filterKey}
+          filterKind={filterKind}
+          url={url}
+          directoryPath={directoryPath}
+          menuIsOpen={menuIsOpen}
+          setMenuIsOpen
+        >
+          {children}
+        </UIShell>
+      ) : (
+        children
       )}
-      <FeedbackToggle/>
-    </>
+    </Layout>
   );
 }

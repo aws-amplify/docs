@@ -1,9 +1,7 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-import getElementTop from '../../utils/get-element-top';
+import styled from '@emotion/styled';
 import FeatureFlagValues from './FeatureFlagValues';
 import InternalLink from '../InternalLink';
-
-import styled from '@emotion/styled';
+import type { PropsWithChildren } from 'react';
 
 export const TableContainer = styled.div`
   overflow-x: auto;
@@ -55,7 +53,15 @@ export type Value = {
   defaultExistingProject: boolean;
 };
 
-export default function FeatureFlagSummary({ name, feature }) {
+export type FeatureFlagSummaryProps = PropsWithChildren<{
+  name: string;
+  feature: FeatureFlag;
+}>;
+
+export default function FeatureFlagSummary({
+  name,
+  feature
+}: FeatureFlagSummaryProps) {
   return (
     <div>
       <InternalLink href={`#${name}`}>
@@ -91,13 +97,4 @@ export default function FeatureFlagSummary({ name, feature }) {
       <FeatureFlagValues values={feature.values} />
     </div>
   );
-}
-
-const stickyHeaderHeight = 54;
-function scroll(hash) {
-  const header = document.querySelector(`[id="${hash}"]`);
-  const top = getElementTop(header, stickyHeaderHeight);
-  if (top !== window.scrollY) {
-    window.scrollTo({ top });
-  }
 }

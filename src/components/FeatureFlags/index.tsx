@@ -1,10 +1,7 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-import getElementTop from '../../utils/get-element-top';
-import featureFlagsJson from './feature-flags.json';
+import styled from '@emotion/styled';
+import featureFlagsJson from '../../data/feature-flags.json';
 import FeatureFlagSummary from './FeatureFlagSummary';
 import InternalLink from '../InternalLink';
-
-import styled from '@emotion/styled';
 
 const Container = styled.div`
   margin-top: 0;
@@ -39,30 +36,19 @@ export default function FeatureFlags() {
 
   return (
     <Container>
-      {Object.entries(data).map(([name, section]) => {
-        return (
-          <div>
-            <InternalLink href={'#' + name}>
-              <h3 id={name}>{name}</h3>
-            </InternalLink>
+      {Object.entries(data).map(([name, section]) => (
+        <div key={name}>
+          <InternalLink href={'#' + name}>
+            <h3 id={name}>{name}</h3>
+          </InternalLink>
 
-            {section.description ? <p>{section.description}</p> : undefined}
+          {section.description && <p>{section.description}</p>}
 
-            {Object.entries(section.features).map(([flagName, flag]) => {
-              return <FeatureFlagSummary name={flagName} feature={flag} />;
-            })}
-          </div>
-        );
-      })}
+          {Object.entries(section.features).map(([flagName, flag]) => (
+            <FeatureFlagSummary key={flagName} name={flagName} feature={flag} />
+          ))}
+        </div>
+      ))}
     </Container>
   );
-}
-
-const stickyHeaderHeight = 54;
-function scroll(hash) {
-  const header = document.querySelector(`[id="${hash}"]`);
-  const top = getElementTop(header, stickyHeaderHeight);
-  if (top !== window.scrollY) {
-    window.scrollTo({ top });
-  }
 }

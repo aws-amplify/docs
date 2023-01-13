@@ -97,13 +97,7 @@ class DirectoryGroup extends React.Component<
                 isActive={this.currentRoute.startsWith(item.route)}
                 key={item.title}
               >
-                <InternalLink href={`${item.route}`}>
-                  {item.titleHtml ? (
-                    <a dangerouslySetInnerHTML={{ __html: item.titleHtml }}></a>
-                  ) : (
-                    item.title
-                  )}
-                </InternalLink>
+                <InternalLink href={`${item.route}`}>{item.title}</InternalLink>
                 <br />
               </DirectoryGroupItemStyle>
             ))}

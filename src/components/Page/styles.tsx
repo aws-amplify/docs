@@ -1,11 +1,11 @@
-import styled from "@emotion/styled";
-import {MQFablet} from "../media";
+import styled from '@emotion/styled';
+import { MQFablet } from '../media';
 
 type ContentProps = {
   menuIsOpen?: boolean;
 };
 
-export const ContentStyle = styled.div<ContentProps>(({menuIsOpen}) => {
+export const ContentStyle = styled.div<ContentProps>(({ menuIsOpen }) => {
   return `
   padding: 1.5rem 1rem;
   width: 100%;
@@ -16,7 +16,7 @@ export const ContentStyle = styled.div<ContentProps>(({menuIsOpen}) => {
   }
 
   > div {
-    ${menuIsOpen ? "min-width: 100vw;" : "min-width: initial;"}
+    ${menuIsOpen ? 'min-width: 100vw;' : 'min-width: initial;'}
     ${MQFablet} {
       min-width: initial;
       padding: 1.5rem 2rem 1.5rem 4rem;
@@ -25,13 +25,15 @@ export const ContentStyle = styled.div<ContentProps>(({menuIsOpen}) => {
 
   a {
     & h2,
-    & h3 {
+    & h3,
+    & h4, {
       color: var(--font-color);
     }
 
     &:hover,
     & h2:hover,
-    & h3:hover {
+    & h3:hover,
+    & h4:hover {
       cursor: pointer;
       text-decoration: underline;
     }

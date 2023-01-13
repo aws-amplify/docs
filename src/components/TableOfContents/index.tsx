@@ -1,4 +1,5 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 import getElementTop from '../../utils/get-element-top';
 import {
   TOCStyle,
@@ -7,9 +8,8 @@ import {
   H3AnchorStyle,
   HeaderStyle
 } from './styles';
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
 import Feedback from '../Feedback';
+import type { PropsWithChildren } from 'react';
 
 const stickyHeaderHeight = 124;
 function scroll(hash) {
@@ -20,17 +20,15 @@ function scroll(hash) {
   }
 }
 
-export default function TableOfContents({ children, title }) {
+export type TableOfContentsProps = PropsWithChildren<{
+  title: string;
+}>;
+
+export default function TableOfContents({
+  children,
+  title
+}: TableOfContentsProps) {
   const router = useRouter();
-  if (children.length === 0) {
-    return <></>;
-  }
-  window.onload = (_) => {
-    if (window.location.href.includes('#')) {
-      const hash = window.location.href.split('#')[1];
-      scroll(hash);
-    }
-  };
   let headers = [];
   let headerQueries = [];
   let activeLink = 0;
@@ -110,7 +108,7 @@ export default function TableOfContents({ children, title }) {
       }
     };
     document.addEventListener('scroll', scrollHandler);
-    return function cleanup() {
+    return () => {
       document.removeEventListener('scroll', scrollHandler);
     };
   }, []);

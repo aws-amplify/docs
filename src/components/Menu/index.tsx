@@ -1,123 +1,101 @@
+import { useCallback, useEffect, useState } from 'react';
 import {
   MenuHeaderStyle,
   MenuStyle,
   MenuBreakStyle,
   MenuBodyStyle
 } from './styles';
-import React from 'react';
 import MenuOpenButton from './MenuOpenButton';
 import MenuCloseButton from './MenuCloseButton';
 import { MQTablet } from '../media';
 import Directory from './Directory';
 import RepoActions from './RepoActions';
 import FilterSelect from './FilterSelect';
-import { VersionSwitcher, LibVersionSwitcher } from "./VersionSwitcher";
+import { VersionSwitcher, LibVersionSwitcher } from './VersionSwitcher';
+import type { PropsWithChildren } from 'react';
 
-type MenuProps = {
+export type MenuProps = PropsWithChildren<{
   filters: string[];
   filterKey: string;
   filterKind: string;
   url: string;
   directoryPath: string;
   setMenuIsOpen?: any;
-};
+}>;
 
-type MenuState = {
-  isOpen: boolean;
-};
-export default class Menu extends React.Component<MenuProps, MenuState> {
-  constructor(props) {
-    super(props);
-    this.state = { isOpen: true };
+export default function Menu({
+  filters,
+  filterKey,
+  filterKind,
+  url,
+  directoryPath,
+  setMenuIsOpen
+}: MenuProps) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const closeMenu = useCallback(() => {
+    setIsOpen(false);
+    if (setMenuIsOpen) {
+      setMenuIsOpen(false);
+    }
+  }, [setMenuIsOpen]);
+
+  const openMenu = useCallback(() => {
+    setIsOpen(true);
+    if (setMenuIsOpen) {
+      setMenuIsOpen(true);
+    }
+  }, [setMenuIsOpen]);
+
+  useEffect(() => {
+    const isTablet = window.matchMedia(MQTablet.substring(6)).matches;
+    if (isTablet) setIsOpen(true);
+  }, []);
+
+  let showVersionSwitcher = false;
+  let showLibVersionSwitcher = false;
+  if (
+    (url.startsWith('/ui') || url.startsWith('/ui-legacy')) &&
+    filterKey !== 'react-native' &&
+    filterKey !== 'flutter'
+  ) {
+    showVersionSwitcher = true;
   }
 
-  componentDidMount() {
-    // We can't do this in the constructor because React will error that the prerendered version is different than live.
-    // Slice off the "@media " string at the start for use in JS instead of CSS
-    const MQTabletJS = MQTablet.substring(6);
-    // If the media query matches, then the user is on desktop and should see the menu by default
-    this.setState({
-      isOpen:
-        typeof window !== 'undefined' && window.matchMedia(MQTabletJS).matches
-    });
+  if (
+    (url.startsWith('/lib') || url.startsWith('/lib-v1')) &&
+    (filterKey === 'ios' || filterKey === 'android')
+  ) {
+    showLibVersionSwitcher = true;
   }
 
-  closeMenu = () => {
-    this.setState({
-      isOpen: false
-    });
-
-    if (this.props.setMenuIsOpen) {
-      this.props.setMenuIsOpen(false);
-    }
-  };
-
-  openMenu = () => {
-    this.setState({
-      isOpen: true
-    });
-
-    if (this.props.setMenuIsOpen) {
-      this.props.setMenuIsOpen(true);
-    }
-  };
-
-  render() {
-    let showVersionSwitcher = false;
-    let showLibVersionSwitcher = false
-    if (
-      (this.props.url.startsWith('/ui') ||
-        this.props.url.startsWith('/ui-legacy')) &&
-      this.props.filterKey !== 'react-native' &&
-      this.props.filterKey !== 'flutter'
-    ) {
-      showVersionSwitcher = true;
-    } 
-    
-    if ((this.props.url.startsWith("/lib") || 
-    this.props.url.startsWith("/lib-v1")) && 
-    (this.props.filterKey == 'ios' ||
-    this.props.filterKey == 'android')) {
-      showLibVersionSwitcher = true;
-    }
-    if (this.state.isOpen) {
-      return (
-        <MenuStyle>
+  if (isOpen) {
+    return (
+      <MenuStyle>
+        <div>
           <div>
-            <div>
-              <MenuHeaderStyle>
-                <MenuCloseButton closeMenu={this.closeMenu} />
-                {typeof this.props.filterKey !== 'undefined' && (
-                  <FilterSelect
-                    filters={this.props.filters}
-                    filterKey={this.props.filterKey}
-                    filterKind={this.props.filterKind}
-                    url={this.props.url}
-                  />
-                )}
-              </MenuHeaderStyle>
-              <MenuBodyStyle>
-                {showVersionSwitcher && (
-                  <VersionSwitcher url={this.props.url} />
-                )}
-                {showLibVersionSwitcher && (
-                  <LibVersionSwitcher url={this.props.url} />
-                )}
-                <Directory
-                  filterKey={this.props.filterKey}
-                  url={this.props.url}
+            <MenuHeaderStyle>
+              <MenuCloseButton closeMenu={closeMenu} />
+              {typeof filterKey !== 'undefined' && (
+                <FilterSelect
+                  filters={filters}
+                  filterKey={filterKey}
+                  filterKind={filterKind}
+                  url={url}
                 />
-                <MenuBreakStyle />
-                <RepoActions
-                  url={this.props.url}
-                  directoryPath={this.props.directoryPath}
-                />
-              </MenuBodyStyle>
-            </div>
+              )}
+            </MenuHeaderStyle>
+            <MenuBodyStyle>
+              {showVersionSwitcher && <VersionSwitcher url={url} />}
+              {showLibVersionSwitcher && <LibVersionSwitcher url={url} />}
+              <Directory filterKey={filterKey} url={url} />
+              <MenuBreakStyle />
+              <RepoActions url={url} directoryPath={directoryPath} />
+            </MenuBodyStyle>
           </div>
-        </MenuStyle>
-      );
-    }
-    return <MenuOpenButton openMenu={this.openMenu} />;
+        </div>
+      </MenuStyle>
+    );
   }
+  return <MenuOpenButton openMenu={openMenu} />;
 }

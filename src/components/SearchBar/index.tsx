@@ -1,12 +1,10 @@
-import React from 'react';
+import { useCallback } from 'react';
+import { useRouter } from 'next/router';
 import { getAlgoliaResults } from '@algolia/autocomplete-js';
 import algoliasearch from 'algoliasearch';
-
 import { Autocomplete } from './Autocomplete';
 import { SearchItem } from './SearchItem';
 import { Search } from './styles';
-
-import { useRouter } from 'next/router';
 
 const appId = 'W6Q5N5WUDV';
 const apiKey = '953b9e801f385c3c689fc8e94690ab43';
@@ -18,38 +16,42 @@ const searchClient = algoliasearch(appId, apiKey);
 function App() {
   const router = useRouter();
 
+  const handleGetSources = useCallback(({ query }) => {
+    return [
+      {
+        sourceId: 'products',
+        getItemUrl({ item }) {
+          return item.slug;
+        },
+        getItems({ query }) {
+          return getAlgoliaResults({
+            searchClient,
+            queries: [
+              {
+                indexName: searchIndex,
+                query,
+                params: {
+                  hitsPerPage: 20
+                }
+              }
+            ]
+          });
+        },
+        templates: {
+          item({ item, components }) {
+            return <SearchItem hit={item} components={components} />;
+          }
+        }
+      }
+    ];
+  }, []);
+
   return (
     <Search>
       <Autocomplete
         placeholder="Search Docs"
         openOnFocus={false}
-        getSources={({ query }) => [
-          {
-            sourceId: 'products',
-            getItemUrl({ item }) {
-              return item.slug;
-            },
-            getItems({ query }) {
-              return getAlgoliaResults({
-                searchClient,
-                queries: [
-                  {
-                    indexName: searchIndex,
-                    query,
-                    params: {
-                      hitsPerPage: 20
-                    }
-                  }
-                ]
-              });
-            },
-            templates: {
-              item({ item, components }) {
-                return <SearchItem hit={item} components={components} />;
-              }
-            }
-          }
-        ]}
+        getSources={handleGetSources}
         navigator={{
           navigate({ itemUrl }) {
             // Pressing "enter"

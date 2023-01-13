@@ -44,48 +44,42 @@ export default function Layout({
 
   return (
     <>
-      {meta && (
-        <Head>
-          <title>{`${title}`}</title>
-          <meta property="og:title" content={title} key="og:title" />
-          <meta name="description" content={description} />
-          <meta
-            property="og:description"
-            content={description}
-            key="og:description"
-          />
-          <meta property="og:url" content={meta.url} key="og:url" />
-          <meta
-            property="og:image"
-            content="https://docs.amplify.aws/assets/ogp.jpg"
-            key="og:image"
-          />
-          <meta
-            property="description"
-            content={description}
-            key="description"
-          />
-          <meta property="twitter:card" content="summary" key="twitter:card" />
-          <meta property="twitter:title" content={title} key="twitter:title" />
-          <meta
-            property="twitter:description"
-            content={description}
-            key="twitter:description"
-          />
-          <meta
-            property="twitter:image"
-            content="https://docs.amplify.aws/assets/ogp.jpg"
-            key="twitter:image"
-          />
-        </Head>
-      )}
-      <GlobalNav
+      <Head>
+        <title>{`${title}`}</title>
+        <meta property="og:title" content={title} key="og:title" />
+        <meta name="description" content={description} />
+        <meta
+          property="og:description"
+          content={description}
+          key="og:description"
+        />
+        {meta?.url && <meta property="og:url" content={meta.url} />}
+        <meta
+          property="og:image"
+          content="https://docs.amplify.aws/assets/ogp.jpg"
+          key="og:image"
+        />
+        <meta property="description" content={description} key="description" />
+        <meta property="twitter:card" content="summary" key="twitter:card" />
+        <meta property="twitter:title" content={title} key="twitter:title" />
+        <meta
+          property="twitter:description"
+          content={description}
+          key="twitter:description"
+        />
+        <meta
+          property="twitter:image"
+          content="https://docs.amplify.aws/assets/ogp.jpg"
+          key="twitter:image"
+        />
+      </Head>
+      {/* <GlobalNav
         leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
         rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
         socialLinks={SOCIAL_LINKS as NavMenuItem[]}
         currentSite={'Docs'}
-      />
-      <SecondaryNav />
+      /> */}
+      {/* <SecondaryNav /> */}
       <Container backgroundColor="bg-color-tertiary">
         <LayoutStyle>{children}</LayoutStyle>
       </Container>

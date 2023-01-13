@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "@emotion/styled";
-import Link from "next/link";
+import React from 'react';
+import styled from '@emotion/styled';
+import Link from 'next/link';
 
-import {MQFablet, MQDesktop} from "../media";
+import { MQFablet, MQDesktop } from '../media';
 
 type CardProps = {
   className?: string;
@@ -18,7 +18,7 @@ const ExternalLinkGraphic = styled.img`
   z-index: 1;
 `;
 
-const Anchor = styled.a`
+const Anchor = styled(Link)`
   position: relative;
 `;
 
@@ -26,20 +26,18 @@ const docsCard: React.FC<CardProps> = ({
   children,
   className,
   href,
-  external,
+  external
 }) => {
   if (!href) return <div className={className}>{children}</div>;
   return (
     <Link href={href} passHref={true}>
-      <Anchor>
-        {external && (
-          <ExternalLinkGraphic
-            src="/assets/external-link-black.svg"
-            alt="External link"
-          />
-        )}
-        <div className={className}>{children}</div>
-      </Anchor>
+      {external && (
+        <ExternalLinkGraphic
+          src="/assets/external-link-black.svg"
+          alt="External link"
+        />
+      )}
+      <div className={className}>{children}</div>
     </Link>
   );
 };
