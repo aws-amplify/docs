@@ -1,13 +1,17 @@
 {
   "env": {
-    "node": true
+    "node": true,
+    "browser": true
   },
   "extends": [
     "eslint:recommended",
     "plugin:@stencil/recommended",
     "prettier",
     "plugin:prettier/recommended",
-    "plugin:mdx/recommended"
+    "plugin:mdx/recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:jsx-a11y/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -16,7 +20,14 @@
     "project": "tsconfig.json",
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint", "@stencil", "prettier"],
+  "plugins": [
+    "@typescript-eslint",
+    "@stencil",
+    "jsx-a11y",
+    "prettier",
+    "react",
+    "react-hooks"
+  ],
   "root": true,
   "rules": {
     "@stencil/async-methods": 2,
@@ -59,6 +70,10 @@
     "@typescript-eslint/no-unused-vars": 0,
     "@typescript-eslint/no-use-before-define": 0,
     "arrow-parens": [1, "always"],
-    "no-console": 1
+    "no-console": 1,
+    "react/react-in-jsx-scope": "off",
+    "react/no-multi-comp": "error",
+    "react/prefer-stateless-function": "error",
+    "eqeqeq": "error"
   }
 }
