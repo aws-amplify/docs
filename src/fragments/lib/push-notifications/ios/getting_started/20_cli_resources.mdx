@@ -1,0 +1,35 @@
+> Prerequisite: [Install and configure the Amplify CLI](/cli/start/install)
+
+To start provisioning push notifications resources in the backend, go to your project directory and execute the command:
+
+```sh
+amplify add notifications
+```
+
+Choose *APNS* when promoted:
+
+```console
+? Choose the push notification channel to enable.
+> APNS
+FCM
+Email
+SMS
+```
+
+Choose *Certificate* when promoted:
+
+```console
+? Choose authentication method used for APNs
+> Certificate
+Key
+```
+
+The CLI will prompt for your *p12 certificate path*, enter it respectively.
+
+Once all your configuration is complete run the following:
+
+```sh
+amplify push
+```
+
+Upon completion, `amplifyconfiguration.json` will be updated to reference the newly provisioned backend push notifications resources. Note that this file should already be a part of your project if you followed the Project Setup walkthrough.

@@ -647,7 +647,22 @@ const directory = {
           {
             title: 'Getting started',
             route: '/lib/push-notifications/getting-started',
-            filters: ['react-native']
+            filters: ['ios', 'react-native']
+          },
+          {
+            title: 'Register device',
+            route: '/lib/push-notifications/register-device',
+            filters: ['ios']
+          },
+          {
+            title: 'Record notifications',
+            route: '/lib/push-notifications/record-notifications',
+            filters: ['ios']
+          },
+          {
+            title: 'Identify user',
+            route: '/lib/push-notifications/identify-user',
+            filters: ['ios']
           },
           {
             title: 'Working with API',
@@ -657,7 +672,12 @@ const directory = {
           {
             title: 'Testing',
             route: '/lib/push-notifications/testing',
-            filters: ['react-native']
+            filters: ['ios', 'react-native']
+          },
+          {
+            title: 'Use existing AWS resources',
+            route: '/lib/push-notifications/existing-resources',
+            filters: ['ios']
           }
         ]
       },
