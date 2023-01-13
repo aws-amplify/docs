@@ -1,16 +1,14 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-import getElementTop from "../../utils/get-element-top";
-import featureFlagsJson from "./feature-flags.json";
-import FeatureFlagSummary from "./FeatureFlagSummary";
-import InternalLink from "../InternalLink";
+import getElementTop from '../../utils/get-element-top';
+import featureFlagsJson from './feature-flags.json';
+import FeatureFlagSummary from './FeatureFlagSummary';
+import InternalLink from '../InternalLink';
 
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
 
 const Container = styled.div`
   margin-top: 0;
 `;
-
-export type FeatureFlags = Record<string, Section>;
 
 export type Section = {
   description: string;
@@ -19,8 +17,8 @@ export type Section = {
 
 export type FeatureFlag = {
   description: string;
-  type: "Feature" | "Release" | "Experimental";
-  valueType: "Boolean" | "Number" | "String";
+  type: 'Feature' | 'Release' | 'Experimental';
+  valueType: 'Boolean' | 'Number' | 'String';
   versionAdded: string;
   versionDeprecated?: string;
   deprecationDate?: string;
@@ -37,22 +35,15 @@ export type Value = {
 };
 
 export default function FeatureFlags() {
-  const data = featureFlagsJson as FeatureFlags;
+  const data = featureFlagsJson as Record<string, Section>;
 
   return (
     <Container>
       {Object.entries(data).map(([name, section]) => {
         return (
           <div>
-            <InternalLink href={"#" + name}>
-              <a
-                onClick={() => {
-                  setTimeout(scroll.bind(undefined, name), 50);
-                  return false;
-                }}
-              >
-                <h2 id={name}>{name}</h2>
-              </a>
+            <InternalLink href={'#' + name}>
+              <h3 id={name}>{name}</h3>
             </InternalLink>
 
             {section.description ? <p>{section.description}</p> : undefined}
@@ -72,6 +63,6 @@ function scroll(hash) {
   const header = document.querySelector(`[id="${hash}"]`);
   const top = getElementTop(header, stickyHeaderHeight);
   if (top !== window.scrollY) {
-    window.scrollTo({top});
+    window.scrollTo({ top });
   }
 }
