@@ -44,7 +44,7 @@ Currently, developers querying for the Comment will contain the Post eager loade
 <Block name="Swift">
 
 ```swift
-let response = try await Amplify.API.query(request: .get(Comment.self, byId: comment.id))
+let response = try await Amplify.API.query(request: .get(Comment.self, byId: "commentId"))
 if case .success(let queriedComment) = response {
     print("Queried Comment eager loaded post: \(queriedComment?.post)")
 }
@@ -84,9 +84,9 @@ let response = try await Amplify.API.query(request:
              includes: { comment in [comment.post]} ))
 if case .success(let queriedComment) = response {
     print("Queried Comment \(String(describing: queriedComment))")
-    // Lazy Load the post
+
     if let post = try await queriedComment?.post {
-        print("Lazy loaded the post: \(post)")
+        print("Eager loaded post: \(post)")
     }
 }
 ```
