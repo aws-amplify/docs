@@ -17,4 +17,4 @@ jobs:
       - name: Install Dependencies
         run: yarn
       - name: Run Link Tag Check
-        run: node task/check-link-tags.mjs
+        run: node tasks/check-link-tags.mjs
