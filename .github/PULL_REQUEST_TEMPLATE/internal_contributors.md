@@ -12,7 +12,7 @@
 
 - [ ] Does this PR include filetypes other than markdown or images? Please add or update unit tests accordingly.
 
-- [ ] Are any pages being deleted with this PR? If so have the needed redirects been created?
+- [ ] Are any files being deleted with this PR? If so have the needed redirects been created?
 
 - [ ] Are all links in mdx files using the mdx link syntax?
 
