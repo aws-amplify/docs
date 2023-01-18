@@ -1,23 +1,13 @@
-This call identifies the current user (which could be unauthenticated or authenticated) to Amazon Pinpoint. The user ID can be any string which identifies the user in the context of your application.
+The Amplify Push Notifications plugin provides a simple API to record the receipt and opening of notifications within your app.
 
-## Get the user ID from Amplify Auth
+## Record Notification Received
 
-If the user is signed in through [Amplify.Auth.signIn](/lib/auth/signin), then you can retrieve the current user's ID as shown below:
-
-import ios0 from "/src/fragments/lib/push-notifications/ios/identify_user/10_get_auth_user.mdx";
+import ios0 from "/src/fragments/lib/push-notifications/ios/record_notifications/10_notification_received.mdx";
 
 <Fragments fragments={{ios: ios0}} />
 
-## Identify the user to Amazon Pinpoint
+## Record Notification Opened
 
-Once you have a string that identifies the current user (either from the Auth category as shown above or through your own application logic), you can identify the user to Amazon Pinpoint with the following:
-
-import ios3 from "/src/fragments/lib/push-notifications/ios/identify_user/20_send_to_pinpoint.mdx";
+import ios3 from "/src/fragments/lib/push-notifications/ios/record_notifications/20_notification_opened.mdx";
 
 <Fragments fragments={{ios: ios3}} />
-
-Alternatively, you can provide additional information about the user by passing a user profile:
-
-import ios6 from "/src/fragments/lib/push-notifications/ios/identify_user/30_send_to_pinpoint_profile.mdx";
-
-<Fragments fragments={{ios: ios6}} />
