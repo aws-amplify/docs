@@ -232,6 +232,26 @@
           }
         ]
       },
+      "showFieldAuthNotification": {
+        "description": "Adds a notification of @auth security change.",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "7.6.15",
+        "values": [
+          {
+            "value": "true",
+            "description": "A notification with a prompt will appear, after which security updates are automatically applied and no further prompt will appear",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          },
+          {
+            "value": "false",
+            "description": "There is no notification of security updates",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          }
+        ]
+      },
       "useSubUsernameForDefaultIdentityClaim": {
         "description": "Changes the default identity claim to for owner-based @auth from 'username' to 'sub::username'",
         "type": "Feature",
