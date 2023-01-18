@@ -292,6 +292,26 @@
           }
         ]
       },
+      "shouldDeepMergeDirectiveConfigDefaults": {
+        "description": "Performs a deep merge with default directives and custom directives.",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "9.1.0",
+        "values": [
+          {
+            "value": "false",
+            "description": "Merge default directives and custom directives with a single level depth. Custom directives will take precedent.",
+            "defaultNewProject": true,
+            "defaultExistingProject": true
+          },
+          {
+            "value": "true",
+            "description": "Merge default directives and custom directives with unlimitted depth. Custom directives will take precedent.",
+            "defaultNewProject": false,
+            "defaultExistingProject": false
+          }
+        ]
+      },
       "populateOwnerFieldForStaticGroupAuth": {
         "description": "Populates the owner field automatically if the user is already authorized by static user pool authorization rules",
         "type": "Feature",
