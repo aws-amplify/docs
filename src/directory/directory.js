@@ -2245,37 +2245,24 @@ const directory = {
       route: '/console'
     },
     items: {
-      adminui: {
-        title: 'Basics',
-        items: [
-          {
-            title: 'Getting started',
-            route: '/console/adminui/start'
-          },
-          {
-            title: 'Extend with the Amplify CLI',
-            route: '/console/adminui/extend-cli'
-          },
-          {
-            title: 'Manage team access',
-            route: '/console/adminui/access-management'
-          },
-          {
-            title: 'Custom domains',
-            route: '/console/adminui/custom-domain'
-          }
-        ]
-      },
       tutorial: {
         title: 'Tutorial',
         items: [
+          {
+            title: 'Getting started',
+            route: '/console/tutorial/start'
+          },
+          {
+            title: 'Data Modeling',
+            route: '/console/tutorial/data'
+          },
           {
             title: 'Build UI',
             route: '/console/tutorial/buildui'
           },
           {
-            title: 'Model database',
-            route: '/console/tutorial/data'
+            title: 'Component in code',
+            route: '/console/tutorial/extend-cli'
           },
           {
             title: 'Bind UI to data',
@@ -2288,6 +2275,14 @@ const directory = {
           {
             title: 'Write React code',
             route: '/console/tutorial/code'
+          },
+          {
+            title: 'Custom domains',
+            route: '/console/tutorial/custom-domain'
+          },
+          {
+            title: 'Manage team access',
+            route: '/console/tutorial/access-management'
           }
         ]
       },

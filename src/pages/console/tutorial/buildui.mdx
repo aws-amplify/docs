@@ -8,7 +8,7 @@ With Studio’s new “UI Library”, you can sync components from Figma to Reac
 ## Create UI components in Figma
 
 1. **Clone the [Amplify UI Figma file](https://www.figma.com/community/file/1047600760128127424)**
-![Screenshot showing how to sync with Figma](/images/studio/sync-with-figma.png)
+
 The Amplify UI Figma file provides a starting point for your app. It includes common UI primitives and pre-built UI components.
 
 2. **Explore the UI primitives and templates**
@@ -27,33 +27,14 @@ Templates are Figma components that leverage the primitives to enhance your UI e
 
 ## Sync components with Figma
 
-Back in Studio, choose the “Sync from Figma” button to review all the components from your Figma file. 
+Back in Studio, select “Sync from Figma” button to review all the components from your Figma file. 
+
+![Screenshot showing how to sync with Figma](/images/studio/sync-with-figma.png)
 
 Paste in the URL of your Figma file to start syncing. If this is your first time syncing from Figma, you need to grant Amplify Studio access to your Figma account.
 
 ![Screenshot showing where to get Figma URL](/images/studio/figma-link.png)
 
-Either choose **Accept all** or review individual components with the **Reject** and **Accept** buttons.
+Either select **Accept all** or review individual components with the **Reject** and **Accept** buttons.
 
 ![Screenshot showing component review when syncing with Figma](/images/studio/sync-review.png)
-
-## Use component in code
-
-Now that your components are synced, navigate to a component and choose **Configure**. To get your React code, choose **Get component code**.
-
-Follow the instructions in the modal. If this is your first time setting up the UI components in your app, make sure to complete **Initial project setup** first to install all dependencies.
-
-![Screenshot showing how to get the component code](/images/studio/get-code.png)
-
-Next, run `amplify pull` to sync all your components into your local code base. A new `ui-components` folder with all the UI components is created.
-
-Import the UI component you want from `./ui-components` and then render it in your React app. For example:
-
-```js
-import { CardB } from './ui-components'
-...
-  return <div>
-    <CardB />
-  </div>
-...
-```

@@ -1,5 +1,5 @@
 export const meta = {
-  title: `Extend with the Amplify CLI`,
+  title: `Component in code`,
   description: `Install the CLI without npm and use the CLI without an AWS account`,
 };
 
@@ -22,7 +22,68 @@ import all1 from "/src/fragments/pull-cli-studio.mdx";
 
 <Fragments fragments={{all: all1}} />
 
-## Adding features with the Amplify CLI
+<Callout>
+
+For Safari, the browser will provide a CLI login key. Copy the CLI login key from the browser and paste it into your terminal.
+
+</Callout>
+
+### Initial Project Setup
+
+To use a form in your application, you first need to configure your project to use Amplify Studio generated components. 
+
+1. In your application's root directory, install the following npm dependencies
+
+```
+npm install aws-amplify @aws-amplify/ui-react
+```
+
+2. In your application's `index.js` file, add the following imports and configuration
+
+```jsx
+import '@aws-amplify/ui-react/styles.css';
+
+import { Amplify } from 'aws-amplify';
+import {ThemeProvider} from "@aws-amplify/ui-react";
+
+import awsconfig from './aws-exports';
+import studioTheme from './ui-components/studioTheme';
+
+Amplify.configure(awsconfig);
+```
+3. In your application's `index.js` file, wrap the `<App />` with the following:
+
+```jsx
+<ThemeProvider theme={studioTheme}>
+    <App />
+</ThemeProvider>
+```
+
+## Use component in code
+
+Now that your components are synced, navigate to a component and select **Configure**. To get your React code, select **Get component code**.
+
+Follow the instructions in the modal. If this is your first time setting up the UI components in your app, make sure to complete **Initial project setup** first to install all dependencies.
+
+![Screenshot showing how to get the component code](/images/studio/get-code.png)
+
+Next, run `amplify pull` to sync all your components into your local code base. A new `ui-components` folder with all the UI components is created.
+
+Import the UI component you want from `./ui-components` and then render it in your React app. For example:
+
+```jsx
+import { CardB } from './ui-components'
+
+function MyCardComponent() {
+  return (
+    <div>
+      <CardB />
+    </div>
+  )
+}
+```
+
+## (Optional) Adding features with the Amplify CLI
 
 The Studio **Set up** menu lists cloud backend features such as functions, storage, and APIs that you can add to your app using the CLI. For each backend resource, Studio displays the CLI commands to run in your terminal window. 
 
