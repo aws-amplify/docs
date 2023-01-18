@@ -19,7 +19,7 @@ We welcome contributions to the documentation site! Here's how to do it:
 2. Verify your changes locally. 
 3. Make a PR to our `main` branch
     1. Please include any [issues](https://github.com/aws-amplify/docs/issues) your PR addresses.
-    2. If any files have been deleted with your PR, please indicate that `redirects are needed` in your PR description.
+    2. If any files have been deleted with your PR, please indicate that `redirects are needed` in your PR description and add the `redirects needed` label.
 
 **What's next?** After your PR is reviewed and all tests pass, it will be merged and the branch will be deleted.
 
