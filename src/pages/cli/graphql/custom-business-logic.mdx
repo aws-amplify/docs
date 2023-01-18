@@ -612,10 +612,6 @@ export class cdkStack extends cdk.Stack {
    })
 
   const resolver = new appsync.CfnResolver(this, "pipeline-resolver", {
-    // apiId: retVal.api.new.GraphQLAPIIdOutput,
-    // https://github.com/aws-amplify/amplify-cli/issues/9391#event-5843293887
-    // If you use Amplify you can access the parameter via Ref since it's a CDK parameter passed from the root stack.
-    // Previously the ApiId is the variable Name which is wrong , it should be variable value as below
     apiId: cdk.Fn.ref(retVal.api.replaceWithAPIName.GraphQLAPIIdOutput),
     fieldName: "querySomething", 
     typeName: "Query", // Query | Mutation | Subscription
@@ -624,10 +620,10 @@ export class cdkStack extends cdk.Stack {
       functions: [
         function1.attrFunctionId,
         function2.attrFunctionId 
-        ],
+        ]
       },
     requestMappingTemplate: beforeMappingVTL,
-    responseMappingTemplate: afterMappingVTL,
+    responseMappingTemplate: afterMappingVTL
     })
   }
 }
