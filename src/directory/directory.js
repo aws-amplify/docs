@@ -670,6 +670,11 @@ const directory = {
             filters: ['react-native']
           },
           {
+            title: 'Remote media',
+            route: '/lib/push-notifications/remote-media',
+            filters: ['ios']
+          },
+          {
             title: 'Testing',
             route: '/lib/push-notifications/testing',
             filters: ['ios', 'react-native']
