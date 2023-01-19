@@ -116,22 +116,21 @@ const { attributes } = await Auth.currentAuthenticatedUser();
 ```
 
 <Callout info>
-  Note: In order to retrieve attributes for federated users, the
-  `aws.cognito.signin.user.admin` scope must be included when configuring the
-  Auth resource with an OAuth flow enabled.
+  Note: In order to retrieve attributes for federated users, the{' '}
+  <strong>aws.cognito.signin.user.admin</strong> scope must be included when
+  configuring the Auth resource with an OAuth flow enabled.
   <br />
   <br />
   This scope grants access to Amazon Cognito User Pool API operations that require
-  access tokens such as
-  <a href="https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_GetUser.html">
+  access tokens such as <a href="https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_GetUser.html">
     GetUser
-  </a>
-  ,<a href="https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_UpdateUserAttributes.html">
+  </a>, <a href="https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_UpdateUserAttributes.html">
     UpdateUserAttributes
-  </a>, and
+  </a>, and{' '}
   <a href="https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_VerifyUserAttribute.html">
     VerifyUserAttribute
-  </a>.
+  </a>
+  .
 </Callout>
 
 ## Retrieve current session
