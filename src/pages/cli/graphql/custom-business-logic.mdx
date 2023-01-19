@@ -593,7 +593,6 @@ export class cdkStack extends cdk.Stack {
       }]
     );
    
-    
    const function1 = new appsync.CfnFunctionConfiguration(this,"function1",{
     apiId: cdk.Fn.ref(retVal.api.replaceWithAPIName.GraphQLAPIIdOutput),
     dataSourceName: "NONE_DS", // DataSource name
@@ -602,6 +601,7 @@ export class cdkStack extends cdk.Stack {
     requestMappingTemplate: function1requestVTL,
     responseMappingTemplate: function1responseVTL
    })
+   
    const function2 = new appsync.CfnFunctionConfiguration(this,"function2",{
     apiId: cdk.Fn.ref(retVal.api.replaceWithAPIName.GraphQLAPIIdOutput),
     dataSourceName: "TodoTable",  // DataSource name
@@ -620,8 +620,7 @@ export class cdkStack extends cdk.Stack {
       functions: [
         function1.attrFunctionId,
         function2.attrFunctionId 
-        ]
-      },
+        ]},
     requestMappingTemplate: beforeMappingVTL,
     responseMappingTemplate: afterMappingVTL
     })
