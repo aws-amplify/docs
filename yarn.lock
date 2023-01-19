@@ -352,23 +352,23 @@
     qrcode "^1.4.4"
     uuid "^8.2.0"
 
-"@aws-amplify/ui-react-core@2.1.4":
-  version "2.1.4"
-  resolved "https://registry.npmjs.org/@aws-amplify/ui-react-core/-/ui-react-core-2.1.4.tgz"
-  integrity sha512-Jd/pwPLjgKfjxjLq4Qb1V0gKscyC/neN7z4dkHmK9jSYW7z73YFTppIdbeTtqySZq7yl4+4DKTkjRIFFbyiajQ==
+"@aws-amplify/ui-react-core@2.1.9":
+  version "2.1.9"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/ui-react-core/-/ui-react-core-2.1.9.tgz#25bad2a6691da23782878b900af8f5a24bee4785"
+  integrity sha512-zld52XXKchfYdHSLiDN61QniswELPVlKlBudK6u6H5HJ9XqshY5m1oyoQIRIGhvn/wo0kW+ug/VNtifELOXnJA==
   dependencies:
-    "@aws-amplify/ui" "5.3.1"
+    "@aws-amplify/ui" "5.5.1"
     "@xstate/react" "3.0.1"
     lodash "4.17.21"
     xstate "^4.33.6"
 
-"@aws-amplify/ui-react@^4.2.1":
-  version "4.2.1"
-  resolved "https://registry.npmjs.org/@aws-amplify/ui-react/-/ui-react-4.2.1.tgz"
-  integrity sha512-CoE149ZLyK/lrm8W9vTluc9AUBCb5Yx7mUZlm1+DCijwav3lyXE1kwX5pi/MyCRiFRV82L6vDq8jJwgquAvFTw==
+"@aws-amplify/ui-react@^4.3.4":
+  version "4.3.4"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/ui-react/-/ui-react-4.3.4.tgz#4dd19e85cf0c580c4d6cf28715db17ae3bd79827"
+  integrity sha512-8nU78ZMigdlEvgLclGzMHLee4XjegdWAVumYyQMrBoVDgxmNr4UzQl1fvMwlqJwftw0U2TTX2m1q9A0OQklLXQ==
   dependencies:
-    "@aws-amplify/ui" "5.3.1"
-    "@aws-amplify/ui-react-core" "2.1.4"
+    "@aws-amplify/ui" "5.5.1"
+    "@aws-amplify/ui-react-core" "2.1.9"
     "@radix-ui/react-accordion" "1.0.0"
     "@radix-ui/react-direction" "1.0.0"
     "@radix-ui/react-dropdown-menu" "1.0.0"
@@ -387,10 +387,10 @@
     tinycolor2 "1.4.2"
     tslib "2.4.1"
 
-"@aws-amplify/ui@5.3.1":
-  version "5.3.1"
-  resolved "https://registry.npmjs.org/@aws-amplify/ui/-/ui-5.3.1.tgz"
-  integrity sha512-8z8Zg+cTR+GFaOzmukajYI4nc2TOswcJO2OMXnCFhDFIIfKqlE13Iye8B4A8CiwzXHfxx+Q6v+aydZHPa2f/dw==
+"@aws-amplify/ui@5.5.1":
+  version "5.5.1"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/ui/-/ui-5.5.1.tgz#ac76e29190c31d5b52045485abb9c600560c3f8b"
+  integrity sha512-Ki3X8usLeC+AXD+osMRqdhQiauPmc5DLCL+L0KnXZ0S75A1l+806h6HyiZlNFXNpb8GVp52eTtx+pm97xoGeyg==
   dependencies:
     csstype "^3.1.1"
     lodash "4.17.21"
