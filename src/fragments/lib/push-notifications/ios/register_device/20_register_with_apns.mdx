@@ -1,19 +1,14 @@
-## Request user permission for notifications
+## Register with APNs
 
-Displaying push notifications from APNs requires requesting permission from the user to receive notifications and registering with the APNs service. 
+Receiving push notifications from APNs requires requesting permission from the user to receive notifications and then registering with the APNs service. By default, **AWSPinpointPushNotificationsPlugin takes care of these steps for you during configuration**.  The following permissions are requested: `[.badge, .alert, .sound]`.
 
-**AWSPinpointPushNotificationsPlugin** takes care of registering with APNs during configuration. If you want the plugin to also request user permission during configuration, you can pass an array of `UNAuthorizationOptions` when adding the plugin. For example, to request permission for badges, alerts, and sounds, you could add the plugin with the following:
-```
-try Amplify.add(
-    plugin: AWSPinpointPushNotificationsPlugin(options: [.badge, .alert, .sound])
-)
-```
+You can override the default behavior by passing a different set of `UNAuthorizationOptions` when adding the plugin. For example, to exclude the permission for notifications sounds, you could add the plugin with `try Amplify.add(plugin: AWSPinpointPushNotificationsPlugin(options: [.badge, .alert]))`.
 
-If you don't pass `UNAuthorizationOptions` when adding the plugin, you will be responsible for requesting notification permissions and registering with APNs as shown below.
+If you don't want AWSPinpointPushNotificationsPlugin to request notification permissions during configuration, you can pass an empty array. In this case, you will be responsible for requesting notification permissions and registering with APNs.
 
 <Callout>
 
-The following is only required when you do not pass `UNAuthorizationOptions` when adding the plugin as described above.
+The following is only required when overriding the default plugin behavior by passing an empty array to `try Amplify.add(plugin: AWSPinpointPushNotificationsPlugin(options: []))`.
 
 </Callout>
 
@@ -26,6 +21,11 @@ let options: UNAuthorizationOptions = [.badge, .alert, .sound]
 let notificationsAllowed = try await UNUserNotificationCenter.current().requestAuthorization(
     options: options
 )
+
+if notificationsAllowed {
+    // Register with Apple Push Notification service
+    await UIApplication.shared.registerForRemoteNotifications()
+}
 ```
 
 </Block>
@@ -37,6 +37,11 @@ let options: UNAuthorizationOptions = [.badge, .alert, .sound]
 let notificationsAllowed = try await UNUserNotificationCenter.current().requestAuthorization(
     options: options
 )
+
+if notificationsAllowed {
+    // Register with Apple Push Notification service
+    await NSApplication.shared.registerForRemoteNotifications()
+}
 ```
 
 </Block>

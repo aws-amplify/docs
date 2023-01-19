@@ -2,15 +2,34 @@ You can record that a user opened a push notification with Amazon Pinpoint by ca
 
 First, set the UNUserNotificationCenter delegate to your Application Delegate.
 
+<BlockSwitcher>
+<Block name="iOS">
+
 ```swift
 func application(
-        _ application: Application,
+        _ application: UIApplication,
         didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
 ) {  
     UNUserNotificationCenter.current().delegate = self
     // ...
 }
 ```
+
+</Block>
+<Block name="macOS">
+
+```swift
+func application(
+        _ application: NSApplication,
+        didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
+) {  
+    UNUserNotificationCenter.current().delegate = self
+    // ...
+}
+```
+
+</Block>
+</BlockSwitcher>
 
 Then, extend your Application Delegate to conform to `UNUserNotificationCenterDelegate` and add the following method.
 

@@ -1,17 +1,11 @@
 Existing Amazon Pinpoint resources can be used with the Amplify Libraries by referencing your **Application ID** and **Region** in your `amplifyconfiguration.json` file.
 
 ```json
-{
-    "notifications": {
-        "push": {
-            "plugins": {
-                "awsPinpointPushNotificationsPlugin": {
-                    "pinpoint": {
-                        "appId": "[APP ID]",
-                        "region": "[REGION]"
-                    }
-                }
-            }
+"notifications": {
+    "plugins": {
+        "awsPinpointPushNotificationsPlugin": {
+            "appId": "[APP ID]",
+            "region": "[REGION]"
         }
     }
 }
