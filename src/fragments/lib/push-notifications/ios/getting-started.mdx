@@ -8,19 +8,7 @@ import ios0 from "/src/fragments/lib/ios-prereq-category.mdx";
 2. Testing Push Notifications requires a physical device, because simulators or emulators won't be able to handle push notifications.
 
 
-
-
 ## Setup for iOS
 
-1. For setting up iOS push notifications, you need to download and install Xcode from [Apple Developer Center](https://developer.apple.com/xcode/).
-
 2. Setup iOS Push Notifications and create a p12 certificate as instructed here in [Amazon Pinpoint Developer Guide](https://docs.aws.amazon.com/pinpoint/latest/developerguide/apns-setup.html).
-
-
-
-### Configuration Options
-
-- `requestIOSPermissions` is an optional boolean flag which specifies whether or not to automatically request push notifications permissions in iOS when calling `PushNotification.configure` for the first time. If not provided, it defaults to `true`. When set to `false`, you may later call the method `PushNotification.requestIOSPermissions` at the explicit point in your application flow when you want to prompt the user for permissions.
-- `appId` is optional and *only* needed if `aws-exports` doesn't contain `aws_mobile_analytics_app_id` or you are manually configuring each category inside `Amplify.configure()`.
-
 
