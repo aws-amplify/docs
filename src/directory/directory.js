@@ -687,6 +687,11 @@ const directory = {
             filters: ['ios', 'react-native']
           },
           {
+            title: 'Setting up push notification services',
+            route: '/lib/push-notifications/setup-push-service',
+            filters: ['ios']
+          },
+          {
             title: 'Use existing AWS resources',
             route: '/lib/push-notifications/existing-resources',
             filters: ['ios']
