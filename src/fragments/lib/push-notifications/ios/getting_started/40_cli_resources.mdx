@@ -1,8 +1,8 @@
 > Prerequisite: [Install and configure the Amplify CLI](/cli/start/install)
 
-<Callout warning>
+<Callout>
 
-Push Notifications requires version **10.8.0+** of the Amplify CLI. You can check your current version by typing `amplify -version` and upgrade to the latest version by typing `amplify upgrade`.
+If you want to use existing AWS Pinpoint resources [follow this guide](/lib/push-notifications/existing-resources) instead.
 
 </Callout>
 
@@ -38,4 +38,4 @@ Once all your configuration is complete run the following:
 amplify push
 ```
 
-Upon completion, `amplifyconfiguration.json` will be updated to reference the newly provisioned backend push notifications resources. Note that this file should already be generated for you by the Amplify CLI as a part of your project if you followed the [project setup walkthrough](/lib/project-setup/prereq).
+Upon completion, `amplifyconfiguration.json` will be updated to reference the newly provisioned backend push notifications resources. Note that this file should already be a part of your project if you followed the Project Setup walkthrough.
