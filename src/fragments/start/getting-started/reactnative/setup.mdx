@@ -2,14 +2,14 @@
 
 To get started, initialize a new React Native project.
 
-With `expo-cli` you can develop for **Android**, **iOS**, and **web** within minutes.
+With `expo-cli` you can develop for **Android**, **iOS**, and **web**.
 
-With `react-native-cli` you can develop for **Android** and **iOS**, and you will need about an hour to [Setup development environment](https://reactnative.dev/docs/environment-setup).
+With `react-native-cli` you can develop for **Android** and **iOS**.
 
 <BlockSwitcher>
 <Block name="Expo CLI">
 
-Create the new app with the following command:    
+Create a new app with the following command:    
 
 ```bash
 
@@ -21,12 +21,11 @@ npx expo install react-dom react-native-web @expo/webpack-config
 
 ```
 
-In the root folder of your project in the **package.json** file, remove the line `"main": "node_modules/expo/AppEntry.js",`
+Expo apps come with a prebuilt entry point but because it is necessary to customize this file to configure Amplify later, you must create a different one.
 
-In the root folder of your project create **index.js** file with the following content.
+Inside the root folder of your project create **index.js** file with the following content:
 
 ```javascript
-// index.js
 import { registerRootComponent } from 'expo';
 
 import App from './App';
@@ -34,6 +33,13 @@ import App from './App';
 registerRootComponent(App);
 
 ````
+
+Inside the root folder of your project open the **package.json** file and replace the content of the **"main"** field to update your project's entry point:
+
+```diff
+- "main": "node_modules/expo/AppEntry.js",
++ "main": "index.js",
+```
 
 Start the app with the following command:
 
@@ -59,7 +65,7 @@ Logs for your project will appear below. Press Ctrl+C to exit.
 </Block>
 <Block name="React Native CLI">
 
-After you [Setup development environment](https://reactnative.dev/docs/environment-setup), create the new app with the following command:    
+After you [setup development environment](https://reactnative.dev/docs/environment-setup), create a new app with the following command:    
 
 ```bash
 npx react-native init amplified_todo
@@ -175,7 +181,7 @@ Using default provider  awscloudformation
 </Block>
 </BlockSwitcher>
 
-> Amplify CLI will infer the proper configuration based on the type of project Amplify is being initialized in where possible. Here it detected Create React App and provided the proper configuration for type of app, framework, source, distribution, build, and start options.
+> Amplify CLI will infer the proper configuration based on the type of project Amplify is being initialized in where possible. Adjust if needed.
 
 When you initialize a new Amplify project, a few things happen:
 
@@ -186,11 +192,11 @@ When you initialize a new Amplify project, a few things happen:
 
 ## Install Amplify Libraries
 
-The `aws-amplify` package is the main library for working with Amplify Libraries in your projects:
+Next, install the local Amplify dependencies. The directions here will depend on whether you are using Expo or the React Native CLI.
 
-```bash
-npm install aws-amplify
-```
+import installLibraries from "/src/fragments/start/getting-started/reactnative/getting-started-steps-ui.mdx";
+
+<Fragments fragments={{"react-native": installLibraries}} />
 
 ## Set up frontend
 
@@ -206,4 +212,4 @@ Amplify.configure(awsExports);
 
 And that's all it takes to configure Amplify. As you add or remove categories and make updates to your backend configuration using the Amplify CLI, the configuration in **aws-exports.js** will update automatically.
 
-Now that your React app is set up and Amplify is initialized, you can add an API in the next step.
+Now that your app is set up and Amplify is initialized, you can add an API in the next step.
