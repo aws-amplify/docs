@@ -500,7 +500,7 @@ npm i @aws-cdk/aws-appsync@~1.124.0
 
 
 Finally, add your custom resolvers into the `cdk-stack.ts` file. You can either add the VTL inline into your `cdk-stack.ts` file or define them externally in another file. Review the [Resolver Mapping Template Programming Guide](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-mapping-template-reference-programming-guide.html) to learn more about the VTL template.
-
+#### Unit Resolver
 ```ts
 import * as cdk from '@aws-cdk/core';
 import * as AmplifyHelpers from '@aws-amplify/cli-extensibility-helper';
@@ -544,6 +544,86 @@ export class cdkStack extends cdk.Stack {
       requestMappingTemplate: requestVTL,
       responseMappingTemplate: responseVTL,
       dataSourceName: "TodoTable" // DataSource name
+    })
+  }
+}
+```
+#### Pipeline Resolver
+
+```ts 
+import * as cdk from '@aws-cdk/core';
+import * as AmplifyHelpers from '@aws-amplify/cli-extensibility-helper';
+import * as appsync from '@aws-cdk/aws-appsync';
+import { AmplifyDependentResourcesAttributes } from '../../types/amplify-dependent-resources-ref';
+
+const beforeMappingVTL =`
+<YOUR CUSTOM VTL REQUEST MAPPING TEMPLATE HERE>
+`
+const afterMappingVTL =`
+<YOUR CUSTOM VTL RESPONSE MAPPING TEMPLATE HERE>
+`
+const function1requestVTL=`
+<YOUR CUSTOM VTL FUNCTION 1 REQUEST MAPPING TEMPLATE HERE>
+`
+const function1responseVTL=`
+<YOUR CUSTOM VTL FUNCTION 1 RESPONSE MAPPING TEMPLATE HERE>
+`
+const function2requestVTL=`
+<YOUR CUSTOM VTL FUNCTION 2 REQUEST MAPPING TEMPLATE HERE>
+`
+const function2responseVTL=`
+<YOUR CUSTOM VTL FUNCTION 2 RESPONSE MAPPING TEMPLATE HERE>
+`
+export class cdkStack extends cdk.Stack {
+  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps, amplifyResourceProps?: AmplifyHelpers.AmplifyResourceProps) {
+    super(scope, id, props);
+    /* Do not remove - Amplify CLI automatically injects the current deployment environment in this input parameter */
+    new cdk.CfnParameter(this, 'env', {
+      type: 'String',
+      description: 'Current Amplify CLI env name',
+    });
+    
+    // Access other Amplify Resources 
+    const retVal:AmplifyDependentResourcesAttributes = AmplifyHelpers.addResourceDependency(this, 
+      amplifyResourceProps.category, 
+      amplifyResourceProps.resourceName, 
+      [{
+        category: "api",
+        resourceName: "<YOUR-API-NAME>"
+      }]
+    );
+   
+   const function1 = new appsync.CfnFunctionConfiguration(this,"function1",{
+    apiId: cdk.Fn.ref(retVal.api.replaceWithAPIName.GraphQLAPIIdOutput),
+    dataSourceName: "NONE_DS", // DataSource name
+    functionVersion: "2018-05-29",
+    name: "function1",
+    requestMappingTemplate: function1requestVTL,
+    responseMappingTemplate: function1responseVTL
+   })
+   
+   const function2 = new appsync.CfnFunctionConfiguration(this,"function2",{
+    apiId: cdk.Fn.ref(retVal.api.replaceWithAPIName.GraphQLAPIIdOutput),
+    dataSourceName: "TodoTable",  // DataSource name
+    functionVersion: "2018-05-29",
+    name: "function2",
+    requestMappingTemplate: function2requestVTL,
+    responseMappingTemplate: function2responseVTL
+   })
+
+  const resolver = new appsync.CfnResolver(this, "pipeline-resolver", {
+    apiId: cdk.Fn.ref(retVal.api.replaceWithAPIName.GraphQLAPIIdOutput),
+    fieldName: "querySomething", 
+    typeName: "Query", // Query | Mutation | Subscription
+    kind: "PIPELINE",
+    pipelineConfig: {
+      functions: [
+        function1.attrFunctionId,
+        function2.attrFunctionId 
+      ]
+    },
+    requestMappingTemplate: beforeMappingVTL,
+    responseMappingTemplate: afterMappingVTL
     })
   }
 }
