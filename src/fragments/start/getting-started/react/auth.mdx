@@ -220,12 +220,16 @@ import { withAuthenticator, Button, Heading, Text, TextField, View } from '@aws-
 </View>
 ```
 
-Using Amplify UI components together makes it easier to manage styling across your entire app.
+Using Amplify UI connected components together makes it easier to manage styling across your entire app.
 
 In this example, you used the Amplify React UI library and the `withAuthenticator` component to quickly get up and running with a real-world authentication flow.
 
-You can also [customize this component](https://ui.docs.amplify.aws/react/components/authenticator/customization) to add or remove fields, update styling, or other configurations. You can even [override function calls](https://ui.docs.amplify.aws/react/components/authenticator/customization#override-function-calls) if needed.
+You can also [customize this component](https://ui.docs.amplify.aws/react-native/connected-components/authenticator/customization) to add or remove fields, update styling, or other configurations. You can even [override function calls](https://ui.docs.amplify.aws/react-native/connected-components/authenticator/customization#override-function-calls) if needed.
 
 In addition to the `withAuthenticator`, you can build [custom authentication flows Amplify Libraries for JS](/lib/auth/getting-started). Amplify's `Auth` class has over 30 methods including `signUp`, `signIn`, `forgotPassword`, and `signOut` that allow you full control over all aspects of the user authentication flow. Check out the complete API [here](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html).
 
-In the next section, you'll host your app on the Amplify Console, a hosting service complete with a globally available CDN, atomic deployments, easy custom domains, and CI / CD.
+<Callout warning>
+
+If you built your app with `expo`, In the next section, you'll host your app on the Amplify Console, a hosting service complete with a globally available CDN, atomic deployments, easy custom domains, and CI / CD.
+
+</Callout>
