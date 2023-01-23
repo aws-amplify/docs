@@ -31,5 +31,8 @@ Which platform(s) are affected by this PR (if applicable)?
 - [ ] Are all links in MDX files using the MDX link syntax rather than HTML link syntax? <br />
       _ref: MDX: `[link](https://link.com)`
             HTML: `<a href="https://link.com">link</a>`_
+            
+#### When this PR is ready to merge, please check the box below:
+- [ ] READY TO MERGE
 
 _By submitting this pull request, I confirm that my contribution is made under the terms of the Apache 2.0 license._
