@@ -2203,7 +2203,7 @@ const directory = {
           {
             title: 'Add authentication',
             route: '/start/getting-started/auth',
-            filters: ['react', 'angular', 'vue']
+            filters: ['react', 'angular', 'vue', 'react-native']
           },
           {
             title: 'Deploy and host app',
