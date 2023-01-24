@@ -33,6 +33,6 @@ Which platform(s) are affected by this PR (if applicable)?
             HTML: `<a href="https://link.com">link</a>`_
             
 ### When this PR is ready to merge, please check the box below
-- [ ] ready to merge
+- [ ] Ready to merge
 
 _By submitting this pull request, I confirm that my contribution is made under the terms of the Apache 2.0 license._
