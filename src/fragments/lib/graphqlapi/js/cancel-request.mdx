@@ -6,14 +6,14 @@ You may cancel any query or mutation request made through API category by keepin
 const promise = API.graphql(graphqlOperation(...));
 
 try {
-    await promise;
+  await promise;
 } catch (error) {
-    console.log(error); 
-    // If the error is because the request was cancelled you can confirm here.
-    if(API.isCancel(error)) {
-        console.log(error.message); // "my message for cancellation"
-        // handle user cancellation logic
-    }
+  console.log(error);
+  // If the error is because the request was cancelled you can confirm here.
+  if(API.isCancel(error)) {
+    console.log(error.message); // "my message for cancellation"
+    // handle user cancellation logic
+  }
 }
 
 ...
@@ -26,7 +26,7 @@ You need to ensure that the promise returned from `API.graphql()` has not been m
 
 ```javascript
 async function makeAPICall() {
-    return API.graphql(graphqlOperation(...));
+  return API.graphql(graphqlOperation(...));
 }
 const promise = makeAPICall();
 

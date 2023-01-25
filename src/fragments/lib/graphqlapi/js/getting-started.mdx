@@ -73,6 +73,30 @@ Now that the GraphQL API has deployed, it’s time to learn how to interact with
 
 - __Mutations__ - write data to the API (create, update, delete operations)
 
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { API, graphqlOperation } from 'aws-amplify';
+import { createTodo, updateTodo, deleteTodo } from './graphql/mutations';
+import { GraphQLQuery } from '@aws-amplify/api';
+import { CreateTodoInput, CreateTodoMutation, UpdateTodoMutation, DeleteTodoMutation } from './API';
+
+const todo: CreateTodoInput = { name: "My first todo", description: "Hello world!" };
+
+/* create a todo */
+await API.graphql<GraphQLQuery<CreateTodoMutation>>(graphqlOperation(createTodo, {input: todo}));
+
+/* update a todo */
+await API.graphql<GraphQLQuery<UpdateTodoMutation>>(graphqlOperation(updateTodo, { input: { id: todoId, name: "Updated todo info" }}));
+
+/* delete a todo */
+await API.graphql<GraphQLQuery<DeleteTodoMutation>>(graphqlOperation(deleteTodo, { input: { id: todoId }}));
+```
+
+</Block>
+<Block name="JavaScript">
+
 ```js
 import { API, graphqlOperation } from 'aws-amplify';
 import { createTodo, updateTodo, deleteTodo } from './graphql/mutations';
@@ -88,7 +112,28 @@ await API.graphql(graphqlOperation(updateTodo, { input: { id: todoId, name: "Upd
 /* delete a todo */
 await API.graphql(graphqlOperation(deleteTodo, { input: { id: todoId }}));
 ```
+
+</Block>
+</BlockSwitcher>
+
 - __Queries__ - read data from the API (list, get operations)
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { API, graphqlOperation } from 'aws-amplify';
+import { GraphQLQuery } from '@aws-amplify/api';
+import { listTodos } from './graphql/queries';
+import { ListTodosQuery } from './API';
+
+const todos = await API.graphql<GraphQLQuery<ListTodosQuery>>(graphqlOperation(listTodos));
+```
+
+</Block>
+
+
+<Block name="JavaScript">
 
 ```js
 import { API, graphqlOperation } from 'aws-amplify';
@@ -97,14 +142,22 @@ import { listTodos } from './graphql/queries';
 const todos = await API.graphql(graphqlOperation(listTodos));
 ```
 
+</Block>
+</BlockSwitcher>
+
 - __Subscriptions__ - subscribe to changes in data for real-time functionality (onCreate, onUpdate, onDelete)
 
-```js
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
 import { API, graphqlOperation } from 'aws-amplify';
+import { GraphQLSubscription } from '@aws-amplify/api';
 import { onCreateTodo } from './graphql/subscriptions';
+import { OnCreateTodoSubscription } from './API';
 
 // Subscribe to creation of Todo
-const subscription = API.graphql(
+const sub = API.graphql<GraphQLSubscription<OnCreateTodoSubscription>>(
     graphqlOperation(onCreateTodo)
 ).subscribe({
     next: (todoData) => {
@@ -114,8 +167,33 @@ const subscription = API.graphql(
 });
 
 // Stop receiving data updates from the subscription
-subscription.unsubscribe();
+sub.unsubscribe();
 ```
+
+</Block>
+
+<Block name="JavaScript">
+
+```js
+import { API, graphqlOperation } from 'aws-amplify';
+import { onCreateTodo } from './graphql/subscriptions';
+
+// Subscribe to creation of Todo
+const sub = API.graphql(
+    graphqlOperation(onCreateTodo)
+).subscribe({
+    next: (todoData) => {
+      console.log(todoData);
+      // Do something with the data
+    }
+});
+
+// Stop receiving data updates from the subscription
+sub.unsubscribe();
+```
+
+</Block>
+</BlockSwitcher>
 
 ### Updating Your GraphQL Schema
 

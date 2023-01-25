@@ -4,12 +4,17 @@
 
 Subscriptions is a GraphQL feature allowing the server to send data to its clients when a specific event happens. You can enable real-time data integration in your app with a subscription.
 
-```javascript
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
 import { Amplify, API, graphqlOperation } from 'aws-amplify';
+import { GraphQLSubscription } from '@aws-amplify/api';
 import * as subscriptions from './graphql/subscriptions';
+import { OnCreateTodoSubscription } from './API';
 
 // Subscribe to creation of Todo
-const subscription = API.graphql(
+const sub = API.graphql<GraphQLSubscription<OnCreateTodoSubscription>>(
   graphqlOperation(subscriptions.onCreateTodo)
 ).subscribe({
   next: ({ provider, value }) => console.log({ provider, value }),
@@ -17,8 +22,31 @@ const subscription = API.graphql(
 });
 
 // Stop receiving data updates from the subscription
-subscription.unsubscribe();
+sub.unsubscribe();
 ```
+
+</Block>
+
+<Block name="JavaScript">
+
+```js
+import { Amplify, API, graphqlOperation } from 'aws-amplify';
+import * as subscriptions from './graphql/subscriptions';
+
+// Subscribe to creation of Todo
+const sub = API.graphql(
+  graphqlOperation(subscriptions.onCreateTodo)
+).subscribe({
+  next: ({ provider, value }) => console.log({ provider, value }),
+  error: (error) => console.warn(error)
+});
+
+// Stop receiving data updates from the subscription
+sub.unsubscribe();
+```
+
+</Block>
+</BlockSwitcher>
 
 When using **AWS AppSync** subscriptions, be sure that your AppSync configuration is at the root of the configuration object, instead of being under API:
 
@@ -42,19 +70,50 @@ Amplify.configure({
 
 Subscriptions take an optional `filter` argument to define service-side subscription filters:
 
-```graphql
-// Only subscribe to creation of Todo, if the todo "type" is "Personal"
-const subscription = API.graphql(
-    graphqlOperation(subscriptions.onCreateTodo, {
-      filter: {
-        type: { eq: "Personal" }
-      }
-    })
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { GraphQLSubscription } from '@aws-amplify/api';
+import { OnCreateTodoSubscriptionVariables, OnCreateTodoSubscription } from './API';
+
+const variables: OnCreateTodoSubscriptionVariables = {
+  filter: {
+    // Only receive Todo messages where the "type" field is "Personal"
+    type: { eq: "Personal" }
+  }
+}
+
+const sub = API.graphql<GraphQLSubscription<OnCreateTodoSubscription>>(
+  graphqlOperation(subscriptions.onCreateTodo, variables)
 ).subscribe({
-    next: ({ provider, value }) => console.log({ provider, value }),
-    error: error => console.warn(error)
+  next: ({ provider, value }) => console.log({ provider, value }),
+  error: error => console.warn(error)
 });
 ```
+
+</Block>
+
+<Block name="JavaScript">
+
+```js
+const variables = {
+  filter: {
+    // Only receive Todo messages where the "type" field is "Personal"
+    type: { eq: "Personal" }
+  }
+}
+
+const sub = API.graphql(
+  graphqlOperation(subscriptions.onCreateTodo, variables)
+).subscribe({
+  next: ({ provider, value }) => console.log({ provider, value }),
+  error: error => console.warn(error)
+});
+```
+
+</Block>
+</BlockSwitcher>
 
 If you want to get all subscription events, don’t pass any `filter` parameters.
 
@@ -68,7 +127,7 @@ If you want to get all subscription events, don’t pass any `filter` parameters
 
 Now that your application is setup and using subscriptions, you may want to know when the subscription is finally established, or reflect to your users when the subscription isn't healthy. You can monitor the connection state for changes via Hub.
 
-```typescript
+```ts
 import { CONNECTION_STATE_CHANGE, ConnectionState } from '@aws-amplify/pubsub';
 import { Hub } from 'aws-amplify';
 
@@ -91,9 +150,72 @@ import jsReconnectDescription from '/src/fragments/lib/pubsub/js/reconnect-descr
 
 <Fragments fragments={{ js: jsReconnectDescription }} />
 
-```typescript
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { GraphQLQuery, GraphQLSubscription } from '@aws-amplify/api';
+import {
+  ListTodosQuery
+  OnCreateTodoSubscription,
+  OnUpdateTodoSubscription,
+  OnDeleteTodoSubscription
+} from './API';
+
 const fetchRecentData = () => {
-  // Retrieve some/all data from a appsync
+  // Retrieve some/all data from AppSync
+  const allTodos = await API.graphql<GraphQLQuery<ListTodosQuery>>({ 
+    query: queries.listTodos 
+  });
+}
+
+let priorConnectionState: ConnectionState;
+
+Hub.listen("api", (data: any) => {
+  const { payload } = data;
+  if (
+    payload.event === CONNECTION_STATE_CHANGE
+  ) {
+
+    if (priorConnectionState === ConnectionState.Connecting && payload.data.connectionState === ConnectionState.Connected) {
+      fetchRecentData();
+    }
+    priorConnectionState = payload.data.connectionState;
+  }
+});
+
+const createSub = API.graphql<GraphQLSubscription<OnCreateTodoSubscription>>(
+  graphqlOperation(subscriptions.onCreateTodo)
+).subscribe({
+  next: data => // Process incoming messages
+});
+
+const updateSub = API.graphql<GraphQLSubscription<OnUpdateTodoSubscription>>(
+  graphqlOperation(subscriptions.onUpdateTodo)
+).subscribe({
+  next: data => // Process incoming messages
+});
+
+const deleteSub = API.graphql<GraphQLSubscription<OnDeleteTodoSubscription>>(
+  graphqlOperation(subscriptions.onDeleteTodo)
+).subscribe({
+  next: data => // Process incoming messages
+});
+
+const cleanupSubscriptions = () => {
+  createSub.unsubscribe();
+  updateSub.unsubscribe();
+  deleteSub.unsubscribe();
+}
+```
+
+</Block>
+
+<Block name="JavaScript">
+
+```js
+const fetchRecentData = () => {
+  // Retrieve some/all data from AppSync
   const allTodos = await API.graphql({ query: queries.listTodos });
 }
 
@@ -112,27 +234,30 @@ Hub.listen("api", (data: any) => {
   }
 });
 
-const createSubscription = (API.graphql(
+const createSub = API.graphql(
   graphqlOperation(subscriptions.onCreateTodo)
-) as unknown as ZenObservable<object>).subscribe({
+).subscribe({
   next: data => // Process incoming messages
 });
 
-const updateSubscription = (API.graphql(
+const updateSub = API.graphql(
   graphqlOperation(subscriptions.onUpdateTodo)
-) as unknown as ZenObservable<object>).subscribe({
+).subscribe({
   next: data => // Process incoming messages
 });
 
-const deleteSubscription = (API.graphql(
+const deleteSub = API.graphql(
   graphqlOperation(subscriptions.onDeleteTodo)
-) as unknown as ZenObservable<object>).subscribe({
+).subscribe({
   next: data => // Process incoming messages
 });
 
 const cleanupSubscriptions = () => {
-  createSubscription.unsubscribe();
-  updateSubscription.unsubscribe();
-  deleteSubscription.unsubscribe();
+  createSub.unsubscribe();
+  updateSub.unsubscribe();
+  deleteSub.unsubscribe();
 }
 ```
+
+</Block>
+</BlockSwitcher>
