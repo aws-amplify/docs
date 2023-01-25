@@ -1,11 +1,11 @@
-name: Linktagcheck
+name: LinkTagCheck
 on:
   pull_request:
     types: [opened, synchronize]
 permissions:
   contents: read
 jobs:
-  Linktagcheck:
+  LinkTagCheck:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
