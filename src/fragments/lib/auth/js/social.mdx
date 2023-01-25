@@ -4,12 +4,9 @@
 
 OAuth support in Amplify uses Cognito User Pools and supports federation with social providers, which will automatically create a corresponding user in the User Pool after a login. [OIDC](https://en.wikipedia.org/wiki/OpenID_Connect) tokens are available in the app after the application has completed this process.
 
-<Callout warning>
+import trigger from "src/fragments/cli/lambdatriggers_callout.mdx"
 
-Federated sign-in does not invoke any [Custom authentication challenge Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html), [Migrate user Lambda trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-migrate-user.html), [Custom message Lambda trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-custom-message.html), or [Custom sender Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-custom-sender-triggers.html) in your user pool. 
-For information on the supported Lambda triggers refer to [Lambda triggers for federated users](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html#lambda-triggers-for-federated-users) 
-
-</Callout>
+<Fragments fragments={{all: trigger}} />
 
 import all0 from "/src/fragments/lib/auth/common/social_signin_web_ui/setup_auth_provider.mdx";
 
