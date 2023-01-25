@@ -1,16 +1,16 @@
 export const meta = {
-  title: `Lazy Loading and Custom Selection Set`,
-  description: `Lazy Loading and Custom Selection Set`,
+  title: `Amplify for Swift: Lazy Loading and Custom Selection Set`,
+  description: `Amplify library for Swift now supports custom selection sets through API (GraphQL). Models have extended support for lazy loading "has one" and "belongs to" relations. Cross platform model updates from Amplify Studio and Android can be observed in real-time by DataStore apps built with Swift. Amplify swift supports bi-directional "has one" data modeling use case.`
 };
 
 ## **What is changing?** 
 
-With the latest Amplify Swift library and Amplify Codegen, developers now have better query controls on connected models, described as lazy loading and eager loading a connected model.
+With the latest Amplify library for Swift, developers now have better query controls on connected models, described as lazy loading and eager loading a connected model.
 
-* **API (GraphQL)** now allows Selection Set customizations by providing the `includes` parameter to control the depth of the selection set specifying which connected model to eager load or lazy load.
-* **Models** now have extended support for lazy loading connected models to include has-one and belongs-to relations.
-* **DataStore (Swift)** now has better support for cross platform app development. Model updates from Amplify Studio and the Amplify Libraries including JavaScript and Android can be now observed in real-time by DataStore Swift apps.
-* **DataStore (Swift)** now supports the bi-directional has-one data modeling use case.
+* **API (GraphQL)** now allows selection set customizations via the `includes` parameter to control the depth of the selection set specifying which connected model to eager load or lazy load.
+* **Models** now have extended support for lazy loading connected models to include `@hasOne` and `@belongsTo` relations.
+* **DataStore (Swift)** now has better support for cross platform app development. Model updates from Amplify Studio and the Amplify Libraries including JavaScript and Android can be now observed in real-time by DataStore apps built with Swift.
+* **DataStore (Swift)** now supports the bi-directional `@hasOne` data modeling use case.
 
 
 ## Custom Selection Sets
@@ -38,7 +38,7 @@ type Comment @model @auth(rules: [{allow: public}]) {
 }
 ```
 
-Currently, developers querying for the Comment will contain the Post eager loaded:
+Currently, developers querying for the `Comment` will contain the `Post` eager loaded:
 
 <BlockSwitcher>
 <Block name="Swift">
@@ -91,12 +91,12 @@ if case .success(let queriedComment) = response {
 }
 ```
 
-This will populate the Selection Set of the post in the GraphQL document which indicates to your GraphQL service to retrieve the post model as part of the operation. Once you await on the post, the post model will immediately be returned without making a service call.
+This will populate the selection set of the post in the GraphQL document which indicates to your GraphQL service to retrieve the post model as part of the operation. Once you await on the post, the post model will immediately be returned without making a network request.
 
 </Block>
 </BlockSwitcher>
 
-This customization extends to has-many relationships as well. Let's take for example, the queried post.
+This customization extends to `@hasMany` relationships as well. Let's take for example, the queried post.
 
 <BlockSwitcher>
 <Block name="Swift">
@@ -168,13 +168,11 @@ The post, its comments, and the author of the post and each of its comments will
 </Block>
 </BlockSwitcher>
 
-## Lazy Loading connected models
+## Lazy loading connected models
 
 Whether you are using **DataStore** or **API**, once you have retrieved a model, you can traverse the model graph from a single model instance to its connected models through the APIs available.
 
-### belongs-to / has-one
-
-For has-one and belongs-to relations, access it by awaiting for the post. This will retrieve the model from your GraphQL service or local database in DataStore.
+For `@hasOne` and `@belongsTo` relations, access it by awaiting for the post. This will retrieve the model from your GraphQL service or local database in DataStore.
 <BlockSwitcher>
 <Block name="Swift">
 
@@ -187,9 +185,7 @@ let authorOfPost = try await post.author
 </Block>
 </BlockSwitcher>
 
-### has-many 
-
-For has-many relations, call `fetch()` to load the posts. This will retrieve the list of models from your data source.
+For `@hasMany` relations, call `fetch()` to load the posts. This will retrieve the list of models from your data source.
 
 <BlockSwitcher>
 <Block name="Swift">
@@ -214,7 +210,7 @@ if allCommentsForPost.hasNextPage() {
 </Block>
 </BlockSwitcher>
 
-The following is a full example of lazy loading belongs-to and has-many connected models.
+The following is a full example of lazy loading `@belongsTo` and `@hasMany` connected models.
 
 <BlockSwitcher>
 <Block name="Swift">
@@ -251,7 +247,7 @@ The queried comment is used to lazy load its post. The author of the post is laz
 
 Developers building with **DataStore (Swift)** can now receive real-time model updates coming from other platforms such as Amplify Studio and Amplify JavaScript and Android libraries. Previously, model updates (save/update/deletes) from other platforms will not be observed successfully by your iOS/macOS app running **DataStore (Swift)**. With the latest codegen and library changes, DataStore has been updated to successfully reconcile those model updates coming from other platforms, and will subsequently emit the event to your `DataStore.observe` API.
 
-To try this out, launch your iOS app with [verbose logging](https://docs.amplify.aws/lib/project-setup/create-application/q/platform/ios/#2-install-amplify-libraries) and [DataStore started](https://docs.amplify.aws/lib/datastore/other-methods/q/platform/ios/#start). Performing model updates using DataStore from any other platform will automatically synchronize data to your iOS/macOS app. You will see logs indicating that DataStore has successfully received and reconcile the model update immediately. To access the updates in your app, follow the [Real time guide to observe updates of data](https://docs.amplify.aws/lib/datastore/real-time/q/platform/ios/).
+To try this out, launch your iOS app with [verbose logging](https://docs.amplify.aws/lib/project-setup/create-application/q/platform/ios/#2-install-amplify-libraries) and [DataStore started](https://docs.amplify.aws/lib/datastore/other-methods/q/platform/ios/#start). Performing model updates using DataStore from any other platform and it will automatically be synchronized to your iOS/macOS app. You will see logs indicating that DataStore has successfully received and reconcile the model update immediately. To access the updates in your app, follow the [Real time guide to observe updates of data](https://docs.amplify.aws/lib/datastore/real-time/q/platform/ios/).
 
 ## DataStore (Swift) Bi-directional “has one” relationship support
 
@@ -299,7 +295,7 @@ By explicitly enabling the feature flag `generateModelsForLazyLoadAndCustomSelec
 
 ### Scenario 1. Using API (GraphQL)
 
-**Amplify.API** will no longer eager load the belongs-to and has-one connected models when using the latest codegen. To allow your app backwards compatibility with previous versions of your app, specify the model path with `includes` for all belongs-to and has-one relationships. This is crucial to allow previous versions of the app to decode mutations sourced from new versions of the app successfully. 
+**Amplify.API** will no longer eager load the `@belongsTo` and `@hasOne` connected models when using the latest codegen. To allow your app backwards compatibility with previous versions of your app, specify the model path with `includes` for all `@belongsTo` and `@hasOne` relationships. This is crucial to allow previous versions of the app to decode mutations sourced from new versions of the app successfully. 
 
 <BlockSwitcher>
 <Block name="Swift">
@@ -318,7 +314,7 @@ The selection set on the mutation request is aligned with the selection set on t
 </Block>
 </BlockSwitcher>
 
-If the model types have been replaced with the latest codegen for lazy loading, the same mutation will no longer include the post fields, causing the subscription in the previous app to fail decoding the response payload. To make sure the new version of the app works with previous versions, include the belongs-to and has-one connected models in the selection set using the `includes` parameter of your mutation request.
+If the model types have been replaced with the latest codegen for lazy loading, the same mutation will no longer include the post fields, causing the subscription in the previous app to fail decoding the response payload. To make sure the new version of the app works with previous versions, include the `@belongsTo` and `@hasOne` connected models in the selection set using the `includes` parameter of your mutation request.
 
 <BlockSwitcher>
 <Block name="Swift">
@@ -332,9 +328,9 @@ let graphQLResponse = try await Amplify.API.mutate(request: .create(comment, inc
 
 ### Scenario 2. Using DataStore (Swift)
 
-DataStore will no longer eager load the belongs-to and has-one connected models when using the latest codegen. Your new app will continue to be backwards compatible with previous versions, however the call pattern to retrieve these connected models have changed. See the next scenario for the changes you have to make at the call site.
+DataStore will no longer eager load the belongs-to and `@hasOne` connected models when using the latest codegen. Your new app will continue to be backwards compatible with previous versions, however the call pattern to retrieve these connected models have changed. See the next scenario for the changes you have to make at the call site.
 
-### Scenario 3. Belongs-to / has-one access pattern
+### Scenario 3. "Belongs to" / "Has One" access pattern
 
 <BlockSwitcher>
 <Block name="Swift">
