@@ -1,0 +1,51 @@
+This call fetches the current logged in user.
+
+<BlockSwitcher>
+
+<Block name="Java">
+
+```java
+ try {
+      Amplify.Auth.getCurrentUser(
+             result -> Log.i("AuthQuickstart", "Current user details are:" + result.toString(),
+             error -> Log.e("AuthQuickstart", "getCurrentUser failed with an exception: " + error)
+      );
+ } catch (Exception error) {
+    Log.e("AuthQuickstart", "unexpected error: " + error);
+ }
+```
+</Block>
+
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+  Amplify.Auth.getCurrentUser({
+             Log.i("AuthQuickStart", "Current user details are: userid : ${it.userId} username: ${it.username}")},{
+             Log.e("AuthQuickStart", "getCurrentUser failed with an exception: ", it)
+ })
+```
+</Block>
+
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+  try {
+      val result = Amplify.Auth.getCurrentUser()
+      Log.i("AuthQuickstart", "Current user details are: userid : ${result.userId} username: ${result.username}")
+  } catch (error: Exception) {
+      Log.e("AuthQuickstart", "getCurrentUser failed with an exception: $error")
+  }
+```
+</Block>
+
+<Block name="RxJava">
+
+```java
+  RxAmplify.Auth.getCurrentUser().subscribe(
+        result -> Log.i("AuthQuickStart getCurrentUser: ", result.toString()),
+        error -> Log.e("AuthQuickStart", error.toString())
+ );
+```
+</Block>
+
+</BlockSwitcher>
