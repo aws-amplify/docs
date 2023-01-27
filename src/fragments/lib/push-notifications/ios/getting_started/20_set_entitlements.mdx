@@ -7,6 +7,9 @@ Using Amazon Pinpoint with APNs requires the following capabilities
 
 To add these capabilities:
 
+<BlockSwitcher>
+<Block name="iOS">
+
 1. In project settings, select your main application target, select the **Signing and Capabilities** tab, and click **+ Capability** in the upper left corner of the editor pane to bring up the Capabilities dialog.
 
 ![Add capability](/images/push-notifications/xcode-entitlements/01_add-capability.png)
@@ -21,7 +24,7 @@ Xcode can be a little finicky with this step. If the Capabilities dialog is empt
 
 ![Add push](/images/push-notifications/xcode-entitlements/02_add-push.png)
 
-3. If your app supports **iOS**, repeat step 1 to open the Capabilities dialog and then type **back** in the filter box and double-click **Background Modes** to add the capability.
+3. Repeat step 1 to open the Capabilities dialog and then type **back** in the filter box and double-click **Background Modes** to add the capability.
 
 ![Add background](/images/push-notifications/xcode-entitlements/03_add-background.png)
 
@@ -33,10 +36,30 @@ Xcode can be a little finicky with this step. If the Capabilities dialog is empt
 
 6. Select **Change All** again when prompted.
 
-7. If your app supports **macOS**, repeat step 1 to open the Capabilities dialog and then type **sand** in the filter box and double-click **App Sandbox** to add the capability.
+</Block>
+<Block name="macOS">
+
+1. In project settings, select your main application target, select the **Signing and Capabilities** tab, and click **+ Capability** in the upper left corner of the editor pane to bring up the Capabilities dialog.
+
+![Add capability](/images/push-notifications/xcode-entitlements/01_add-capability.png)
+
+<Callout>
+
+Xcode can be a little finicky with this step. If the Capabilities dialog is empty, try switching to a different tab and then switching back to **Signing and Capabilities**
+
+</Callout>
+
+2. Type **push** in the filter box and double-click **Push Notifications** to add the capability.
+
+![Add push](/images/push-notifications/xcode-entitlements/02_add-push.png)
+
+3. Repeat step 1 to open the Capabilities dialog and then type **sand** in the filter box and double-click **App Sandbox** to add the capability.
 
 ![App sandbox](/images/push-notifications/xcode-entitlements/05_app-sandbox.png)
 
-8. Under **App Sandbox**, select **Outgoing Connections (Client)**
+4. Under **App Sandbox**, select **Outgoing Connections (Client)**
 
 ![Outgoing connections](/images/push-notifications/xcode-entitlements/06_app-sandbox-outgoing-connections.png)
+
+</Block>
+</BlockSwitcher>
