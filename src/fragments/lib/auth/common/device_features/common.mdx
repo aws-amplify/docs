@@ -98,5 +98,14 @@ import flutter11 from "/src/fragments/lib/auth/flutter/device_features/30_fetchD
 * **Forgotten**
   * In the event that you no longer want to remember or track a device, you can use the `Auth.forgetDevice()` API to remove this device from being both remembered and tracked.
 
+import js12 from "/src/fragments/lib/auth/js/device_features/40_trackDevice.mdx";
+import flutter13 from "/src/fragments/lib/auth/flutter/device_features/40_trackDevice.mdx";
+import ios14 from "/src/fragments/lib/auth/ios/device_features/40_trackDevice.mdx";
+import android15 from "/src/fragments/lib/auth/android/device_features/40_trackDevice.mdx";
+
 ## Known Limitations
-When using the federated OAuth flow with Cognito User Pools, the [device tracking and remembering](https://aws.amazon.com/blogs/mobile/tracking-and-remembering-devices-using-amazon-cognito-your-user-pools/) features are currently not available within the library. If you are looking for this feature within the library, please open a feature request [here](https://github.com/aws-amplify/amplify-js/issues/new?assignees=&labels=feature-request&template=feature_request.md&title=) and provide upvotes in order for us to take this into consideration for the future of the library.
+When using the federated OAuth flow with Cognito User Pools, the [device tracking and remembering](https://aws.amazon.com/blogs/mobile/tracking-and-remembering-devices-using-amazon-cognito-your-user-pools/) features are currently not available within the library. 
+<Fragments fragments={{js: js12, 'react-native': js12}} />
+<Fragments fragments={{flutter: flutter13}} />
+<Fragments fragments={{ios: ios14}} />
+<Fragments fragments={{android: android15}} />
