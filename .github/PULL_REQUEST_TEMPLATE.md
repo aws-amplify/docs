@@ -24,6 +24,8 @@ Which platform(s) are affected by this PR (if applicable)?
 
 #### Checks
 
+- [ ] Does this PR conform to [the styleguide](https://github.com/aws-amplify/docs/blob/main/STYLEGUIDE.md)?
+
 - [ ] Does this PR include filetypes other than markdown or images? Please add or update unit tests accordingly.
 
 - [ ] Are any files being deleted with this PR? If so, have the needed redirects been created?
