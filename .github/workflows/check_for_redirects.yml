@@ -1,0 +1,39 @@
+name: Redirects Workflow
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, labeled, unlabeled]
+jobs:
+  checkIfRedirectsAreNeeded:
+    permissions:
+      pull-requests: write # used to add label
+      contents: read
+    name: Check if redirects are needed
+    runs-on: ubuntu-latest
+    if: github.event.action == 'opened' || github.event.action == 'synchronize'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          # Minimal depth 2 so we can checkout the commit before possible merge commit.
+          fetch-depth: 2
+      - name: Get count of deleted files
+        run: |
+          git fetch origin main
+          echo "DELETED_FILES=$(git diff --name-status --diff-filter=D origin/main -- src/pages src/fragments ${{ github.pull_request.head.sha }} -- src/pages src/fragments | wc -l)" >> $GITHUB_ENV
+      - name: Add redirects-needed label if there are deleted files
+        if: ${{ env.DELETED_FILES > 0 }}
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { issue: { number: issue_number }, repo: { owner, repo } } = context;
+            const labels = ['redirects-needed'];
+            github.rest.issues.addLabels({ owner, repo, issue_number, labels});
+  blockPrIfRedirectsNeeded:
+    name: Block PR if redirects are needed
+    runs-on: ubuntu-latest
+    if: contains(github.event.pull_request.labels.*.name, 'redirects-needed')
+    steps:
+      - name: Exit with error
+        run: exit 1
