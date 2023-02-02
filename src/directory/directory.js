@@ -2208,7 +2208,7 @@ const directory = {
           {
             title: 'Deploy and host app',
             route: '/start/getting-started/hosting',
-            filters: ['js', 'react', 'angular', 'vue', 'next', 'react-native']
+            filters: ['js', 'react', 'angular', 'vue', 'next']
           },
           {
             title: 'Next steps',
