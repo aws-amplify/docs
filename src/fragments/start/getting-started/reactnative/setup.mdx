@@ -2,10 +2,6 @@
 
 To get started, initialize a new React Native project.
 
-With `expo-cli` you can develop for **Android**, **iOS**, and **web**.
-
-With `react-native-cli` you can develop for **Android** and **iOS**.
-
 <BlockSwitcher>
 <Block name="Expo CLI">
 
@@ -16,8 +12,6 @@ Create a new app with the following command:
 npx create-expo-app amplified_todo
 
 cd amplified_todo
-
-npx expo install react-dom react-native-web @expo/webpack-config
 
 ```
 
@@ -99,60 +93,7 @@ Open a new terminal. From the **amplified_todo** directory, run:
 amplify init
 ```
 
-When you initialize Amplify you'll be prompted for some information about the project.
-
-<BlockSwitcher>
-<Block name="Expo CLI">
-
-
-<Callout warning>
-
-Note that you have to change some defaults! This will help deployment of the web version.
-
-```console
-? Source Directory Path:  /
-? Distribution Directory Path: web-build
-? Build Command:  npx expo export:web
-? Start Command: npx expo start
-```
-
-</Callout>
-
-```console
-
-? Enter a name for the project (amplified_todo) 
-The following configuration will be applied:
-
-Project information
-| Name: amplified_todo
-| Environment: dev
-| Default editor: Visual Studio Code
-| App type: javascript
-| Javascript framework: react-native
-| Source Directory Path: src
-| Distribution Directory Path: /
-| Build Command: npm run-script build
-| Start Command: npm run-script start
-
-? Initialize the project with the above configuration? No
-? Enter a name for the environment dev
-? Choose your default editor: Visual Studio Code
-? Choose the type of app that you're building javascript
-Please tell us about your project
-? What javascript framework are you using react-native
-? Source Directory Path:  /
-? Distribution Directory Path: web-build
-? Build Command:  npx expo export:web
-? Start Command: npx expo start
-Using default provider  awscloudformation
-? Select the authentication method you want to use: AWS profile
-? Please choose the profile you want to use default
-
-...
-```
-</Block>
-
-<Block name="React Native CLI">
+When you initialize Amplify you'll be prompted for some information about the app, with the option to accept recommended values:
 
 ```console
 
@@ -178,15 +119,12 @@ Using default provider  awscloudformation
 ...
 ```
 
-</Block>
-</BlockSwitcher>
-
 > Amplify CLI will infer the proper configuration based on the type of project Amplify is being initialized in where possible. Adjust if needed.
 
 When you initialize a new Amplify project, a few things happen:
 
 - It creates a top level directory called **amplify** that stores your backend definition. During the tutorial you'll add capabilities such as a GraphQL API and authentication. As you add features, the **amplify** folder will grow with infrastructure-as-code templates that define your backend stack. Infrastructure-as-code is a best practice way to create a replicable backend stack.
-- It creates a file called **aws-exports.js** in the **src** directory that holds all the configuration for the services you create with Amplify. This is how the Amplify client is able to get the necessary information about your backend services.
+- It creates a file called **aws-exports.js** in the **root** directory that holds all the configuration for the services you create with Amplify. This is how the Amplify client is able to get the necessary information about your backend services.
 - It modifies the **.gitignore** file, adding some generated files to the ignore list
 - A cloud project is created for you in the AWS Amplify Console that can be accessed by running `amplify console`. The Console provides a list of backend environments, deep links to provisioned resources per Amplify category, status of recent deployments, and instructions on how to promote, clone, pull, and delete backend resources
 
