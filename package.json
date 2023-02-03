@@ -92,11 +92,12 @@
     "minimatch": "3.0.5"
   },
   "jest": {
+    "preset": "ts-jest",
     "roots": [
       "<rootDir>/src"
     ],
     "transform": {
-      "^.+\\.(ts|tsx|js)$": [
+      "^.+\\.(ts|tsx|js|mjs)$": [
         "babel-jest",
         {
           "presets": [
