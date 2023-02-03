@@ -1,6 +1,6 @@
 import Link from "next/link";
 import {ActiveSwitchStyle, SwitchStyle} from "./styles";
-import directory from "../../../directory/directory";
+import directory from "../../../directory/directory.mjs";
 
 const ui = directory["ui"].items;
 const uiLegacy = directory["ui-legacy"].items;
