@@ -43,6 +43,21 @@ Amplify.Analytics.flushEvents()
 
 The plugin automatically batches requests in order to reduce network bandwidth and handles the retry logic if the device loses connectivity.
 
+## Authentication events
+
+import native_common from "/src/fragments/lib-v1/analytics/native_common/getting-started/auth-events.mdx";
+
+<Fragments fragments={{all: native_common}} />
+
+  ```swift
+  func sendUserSignInEvent() {
+      let event = BasicAnalyticsEvent(
+          name: "_userauth.sign_in"
+      )
+      Amplify.Analytics.record(event: event)
+  }
+  ```
+
 ## Global Properties
 
 You can register properties which will be included across all `Amplify.Analytics.record(event:)` calls.
