@@ -790,7 +790,7 @@ const directory = {
             route: '/lib/utilities/serviceworker',
             filters: ['js']
           },
-          { title: 'Cache', route: '/lib/utilities/cache', filters: ['js'] },
+          { title: 'Cache', route: '/lib/utilities/cache', filters: ['js', 'react-native'] },
           {
             title: 'Hub',
             route: '/lib/utilities/hub',
