@@ -4,10 +4,15 @@
 
 > https://docs.amplify.aws
 
+### Prerequisites
+
+- [Node.js 14.x or later](https://nodejs.org/en/)
+- [Yarn classic](https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable)
+
 ## Set up the docs repo
 
-1. [Fork this repo](/fork).
-2. Navigate to **/docs**.
+1. [Fork this repo](/fork) and `git clone` it.
+2. In your terminal, navigate to the repo from where it was just cloned. This should be located at the `/docs` directory.
 2. From your command line, run `yarn && yarn dev`
 3. <http://localhost:3000/> should open automatically.
 
