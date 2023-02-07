@@ -1534,7 +1534,7 @@ const directory = {
         items: [
           {
             title: 'Data Information',
-            route: '/overview',
+            route: '/sdk/info/overview',
             filters: ['ios']
           },
           {
