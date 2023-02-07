@@ -1534,13 +1534,13 @@ const directory = {
         items: [
           {
             title: 'Data Information',
-            route: '/overview',
-            filters: ['android']
+            route: '/sdk/info/overview',
+            filters: ['ios']
           },
           {
             title: 'Uninstalling the app',
             route: '/sdk/info/app-uninstall',
-            filters: ['android']
+            filters: ['ios']
           }
         ]
       }
