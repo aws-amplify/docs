@@ -275,17 +275,17 @@ type Team @model {
 amplify upgrade
 ```
 
-2. The version should be at least x.x.x
+2. The version should be at least 10.8.0
 
 ```
-amplify --v # at least x.x.x
+amplify --v # at least 10.8.0
 ```
 
 3. Set the feature flag `generateModelsForLazyLoadAndCustomSelectionSet` to `true` in `cli.json` at the amplify project root.
 
 4. Run `amplify codegen models` to generate the latest models.
 
-5. Upgrade Amplify libraries to x.x.x or greater.
+5. Upgrade Amplify libraries to 2.4.0 or greater.
 
 6. Open the App and make sure the app compiles with the latest generated models. 
 
