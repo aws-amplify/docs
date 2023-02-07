@@ -1,0 +1,8 @@
+### Add Polyfills
+
+React Native is missing some standard library funcationality that is required by DataStore.
+Add the following to the entry point of your app.
+
+```js
+import 'core-js/full/symbol/async-iterator';
+```

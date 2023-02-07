@@ -1,10 +1,10 @@
 In this section you’ll integrate Amplify DataStore with your app, and learn to use the generated data model to create, update, query, and delete Todo items by building an app. You can find the source code of the final Todo App [on our GitHub repository](https://github.com/chintannp/amplified_todo_rn).
 
 ## Boilerplate UI
-First, you will create some files and place the boilerplate UI code in it.
+First, you will create some files and place the boilerplate UI code in it. 
 
 #### App.js
-First, replace the contents of your **App.js** file with the following UI boilerplate code. Here, you are importing your Home component.
+First, replace the contents of your **App.js** file with the following UI boilerplate code. Here, you are importing your Home component. 
 
 <Callout>
 
@@ -16,7 +16,6 @@ NOTE: You have already configured Amplify using `Amplify.configure` in __index.j
 <Block name="Expo CLI">
 
 ```jsx
-import 'core-js/full/symbol/async-iterator';
 import React from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
 import { Amplify } from 'aws-amplify';
@@ -46,7 +45,6 @@ const styles = StyleSheet.create({
 <Block name="React Native CLI">
 
 ```jsx
-import 'core-js/full/symbol/async-iterator';
 import React from 'react';
 import { StatusBar, StyleSheet, View } from 'react-native';
 import Home from './src/Home';
@@ -355,7 +353,7 @@ You will use the `useEffect()` hook of **TodoList** component to list the todo i
 
     //query the initial todolist and subscribe to data updates
     const subscription = DataStore.observeQuery(Todo).subscribe((snapshot) => {
-      //isSynced can be used to show a loading spinner when the list is being loaded.
+      //isSynced can be used to show a loading spinner when the list is being loaded. 
       const { items, isSynced } = snapshot;
       setTodos(items);
     });
@@ -405,7 +403,7 @@ Update the `deleteTodo()` function in the `TodoList` component.
   }
 ```
 
-Reload your app once more and you should now be able to long press an item to delete it.
+Reload your app once more and you should now be able to long press an item to delete it. 
 
 You can find the complete `Home.js` file [here](https://github.com/chintannp/amplified_todo_rn/blob/main/src/Home.js). Now you have a fully featured CRUD application that saves and retrieves data on the local device, which means this app **works without an AWS account or even an internet connection.** Next, you'll connect it to AWS and make sure the data is available in the cloud.
 
