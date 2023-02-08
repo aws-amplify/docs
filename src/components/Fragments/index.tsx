@@ -15,11 +15,20 @@ export default function Fragments({ fragments }) {
   for (const key in fragments) {
     const fragment = fragments[key]([]);
     frontmatter = fragment.props.frontmatter;
-    console.log(frontmatter);
 
-    const value = `${frontmatter.relativeFilePath}____${frontmatter.lastUpdated}`;
+    let value;
+    if (
+      frontmatter &&
+      frontmatter.relativeFilePath &&
+      frontmatter.lastUpdated
+    ) {
+      value = `${frontmatter.relativeFilePath}____${frontmatter.lastUpdated}`;
+    }
 
-    if (state.files[key] === undefined || !state.files[key].includes(value)) {
+    if (
+      (value && state.files[key] === undefined) ||
+      (state.files[key] && !state.files[key].includes(value))
+    ) {
       dispatch({
         type: 'update',
         key: key,
