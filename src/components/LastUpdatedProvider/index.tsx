@@ -17,8 +17,6 @@ const pageLastUpdatedReducer = (
         state.files[action.key].push(value);
       }
 
-      console.log(state);
-
       return {
         ...state
       };
