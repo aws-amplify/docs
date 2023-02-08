@@ -37,11 +37,13 @@ module.exports = (async () => {
                     return trimContent.indexOf(element.children[0].value) > -1;
                   }
                   break;
+                case 'comment':
                 case 'import':
                 case 'export':
                 case 'code':
                 case 'jsx':
                 case 'list':
+                case 'table':
                 case 'blockquote':
                   // Return true because these element types should not exist in the frontmatter
                   return true;
