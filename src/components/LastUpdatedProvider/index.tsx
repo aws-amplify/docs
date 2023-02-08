@@ -1,29 +1,29 @@
 import { createContext, useContext, useReducer } from 'react';
 
-export const ACTIONS = {};
+type PageLastUpdatedDatesType = {
+  parentPageLastUpdatedDate: string;
+};
+
+type PageLastUpdatedState = {
+  files: PageLastUpdatedDatesType;
+};
 
 const pageLastUpdatedReducer = (
-  state,
-  action: { type: string; key: string; filePath: string; lastUpdated: string }
+  state: PageLastUpdatedState,
+  action: { type: string; key: string; lastUpdated: string }
 ) => {
   switch (action.type) {
     case 'update': {
-      const value = `${action.filePath}____${action.lastUpdated}`;
-
-      if (!state.files.hasOwnProperty(action.key)) {
+      if (!Object.prototype.hasOwnProperty.call(state.files, action.key)) {
         state.files[action.key] = [];
-        state.files[action.key].push(value);
-      } else if (!state.files[action.key].includes(value)) {
-        state.files[action.key].push(value);
+        state.files[action.key].push(action.lastUpdated);
+      } else if (!state.files[action.key].includes(action.lastUpdated)) {
+        state.files[action.key].push(action.lastUpdated);
       }
 
       return {
         ...state
       };
-    }
-    case 'clear': {
-      console.log('clear');
-      return state;
     }
     default:
       return state;
@@ -31,12 +31,12 @@ const pageLastUpdatedReducer = (
 };
 
 type LastUpdatedDatesContextType = {
-  state: { files: any };
+  state: PageLastUpdatedState;
   dispatch: any;
 };
 
 const LastUpdatedDatesContext = createContext<LastUpdatedDatesContextType>({
-  state: { files: {} },
+  state: { files: { parentPageLastUpdatedDate: '' } },
   dispatch: (action: any) => {
     /** no-op */
   }

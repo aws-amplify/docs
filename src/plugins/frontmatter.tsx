@@ -11,12 +11,6 @@ module.exports = (async () => {
 
         const trimContent = content.trim();
 
-        // Add the path to the frontmatter too?
-        // do this so we know which fragment has what date
-        // and build a DS using the file name/path?
-        const relativeFilePath = file.path.substring(file.cwd.length + 1);
-        frontmatter.relativeFilePath = relativeFilePath;
-
         tree.children.push({
           type: 'export',
           value: `export const frontmatter = ${JSON.stringify(

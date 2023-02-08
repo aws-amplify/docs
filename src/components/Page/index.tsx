@@ -24,6 +24,10 @@ import { withFilterOverrides } from '../../utils/withFilterOverrides';
 import { FeedbackToggle } from '../Feedback';
 import LastUpdatedDatesProvider from '../LastUpdatedProvider';
 
+type MdxFrontmatterType = {
+  lastUpdated: string;
+};
+
 export default function Page({
   children,
   meta,
@@ -31,7 +35,7 @@ export default function Page({
 }: {
   children: any;
   meta?: any;
-  frontmatter?: any;
+  frontmatter?: MdxFrontmatterType;
 }) {
   const router = useRouter();
 
@@ -118,8 +122,8 @@ export default function Page({
   meta.url = basePath + router.asPath;
 
   let parentPageLastUpdatedDate;
-  if (frontmatter && frontmatter.relativeFilePath && frontmatter.lastUpdated) {
-    parentPageLastUpdatedDate = `${frontmatter.relativeFilePath}____${frontmatter.lastUpdated}`;
+  if (frontmatter && frontmatter.lastUpdated) {
+    parentPageLastUpdatedDate = frontmatter.lastUpdated;
   }
 
   return (

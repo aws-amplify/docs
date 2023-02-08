@@ -91,9 +91,7 @@ function Menu(props: MenuProps, ref) {
     }
 
     lastUpdatedDate = Math.max(
-      ...combinedDates
-        .map((e) => e.split('____')[1])
-        .map((e) => new Date(e).getTime())
+      ...combinedDates.map((e) => new Date(e).getTime())
     );
   }
 

@@ -16,25 +16,18 @@ export default function Fragments({ fragments }) {
     const fragment = fragments[key]([]);
     frontmatter = fragment.props.frontmatter;
 
-    let value;
-    if (
-      frontmatter &&
-      frontmatter.relativeFilePath &&
-      frontmatter.lastUpdated
-    ) {
-      value = `${frontmatter.relativeFilePath}____${frontmatter.lastUpdated}`;
-    }
-
-    if (
-      (value && state.files[key] === undefined) ||
-      (state.files[key] && !state.files[key].includes(value))
-    ) {
-      dispatch({
-        type: 'update',
-        key: key,
-        filePath: frontmatter.relativeFilePath,
-        lastUpdated: frontmatter.lastUpdated
-      });
+    if (frontmatter && frontmatter.lastUpdated) {
+      if (
+        state.files[key] === undefined ||
+        (state.files[key] &&
+          !state.files[key].includes(frontmatter.lastUpdated))
+      ) {
+        dispatch({
+          type: 'update',
+          key: key,
+          lastUpdated: frontmatter.lastUpdated
+        });
+      }
     }
 
     children.push(<div key={key}>{fragment}</div>);
