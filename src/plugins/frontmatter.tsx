@@ -10,7 +10,13 @@ module.exports = (async () => {
         const { data: frontmatter, content } = matter(file.contents);
 
         const trimContent = content.trim();
-        
+
+        // Add the path to the frontmatter too?
+        // do this so we know which fragment has what date
+        // and build a DS using the file name/path?
+        const relativeFilePath = file.path.substring(file.cwd.length + 1);
+        frontmatter.relativeFilePath = relativeFilePath;
+
         tree.children.push({
           type: 'export',
           value: `export const frontmatter = ${JSON.stringify(
@@ -23,30 +29,35 @@ module.exports = (async () => {
         if (tree.children[0].type === 'thematicBreak') {
           // Find the index of the first element after the "frontmatter"
           const closingThematicBreakIndex = tree.children.findIndex(
-              (element, currIndex) => {
-                switch (element.type) {
-                  case 'paragraph':
-                  case 'heading':
-                    if (element.children && element.children.length > 0) {
-                      return trimContent.indexOf(element.children[0].value) > -1;
-                    }
-                    break;
-                  case 'import':
-                  case 'export':
-                  case 'code':
-                  case 'jsx':
-                  case 'list':
-                  case 'blockquote':
-                    // Return true because these element types should not exist in the frontmatter
-                    return true;
-                  case 'thematicBreak':
-                    // skip
-                    return false;
-                  default:
-                    console.log('Found unhandled element type while trying to remove frontmatter: ', element.type, file.path);
-                    break;
-                }
-            });
+            (element, currIndex) => {
+              switch (element.type) {
+                case 'paragraph':
+                case 'heading':
+                  if (element.children && element.children.length > 0) {
+                    return trimContent.indexOf(element.children[0].value) > -1;
+                  }
+                  break;
+                case 'import':
+                case 'export':
+                case 'code':
+                case 'jsx':
+                case 'list':
+                case 'blockquote':
+                  // Return true because these element types should not exist in the frontmatter
+                  return true;
+                case 'thematicBreak':
+                  // skip
+                  return false;
+                default:
+                  console.log(
+                    'Found unhandled element type while trying to remove frontmatter: ',
+                    element.type,
+                    file.path
+                  );
+                  break;
+              }
+            }
+          );
 
           if (closingThematicBreakIndex !== -1) {
             // Remove the frontmatter

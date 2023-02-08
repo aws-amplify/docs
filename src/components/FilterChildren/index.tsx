@@ -1,11 +1,7 @@
 import { useRouter } from 'next/router';
-import { useLayoutEffect } from 'react';
-import { useLastUpdatedDatesContext } from '../LastUpdatedProvider';
 
-export default function FilterChildren({ children, frontmatter }) {
+export default function FilterChildren({ children }) {
   const router = useRouter();
-  
-  const lastUpdatedDatesContext = useLastUpdatedDatesContext();
 
   let filterKey = '';
   if ('platform' in router.query) {
@@ -19,12 +15,6 @@ export default function FilterChildren({ children, frontmatter }) {
   const filteredChildren = children.filter(
     (el) => el.key === filterKey || el.key === 'all'
   );
-
-  useLayoutEffect(() => {
-    if (frontmatter && filteredChildren.length > 0) {
-      lastUpdatedDatesContext.updateLastUpdatedDate(frontmatter.lastUpdated);
-    }
-  }, []);
 
   return filteredChildren;
 }

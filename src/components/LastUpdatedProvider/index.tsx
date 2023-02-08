@@ -1,14 +1,54 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useReducer } from 'react';
 
-const LastUpdatedDatesContext = createContext({
-  updateLastUpdatedDate: (date) => {}
+export const ACTIONS = {};
+
+const pageLastUpdatedReducer = (
+  state,
+  action: { type: string; key: string; filePath: string; lastUpdated: string }
+) => {
+  switch (action.type) {
+    case 'update': {
+      const value = `${action.filePath}____${action.lastUpdated}`;
+
+      if (!state.files.hasOwnProperty(action.key)) {
+        state.files[action.key] = [];
+        state.files[action.key].push(value);
+      } else if (!state.files[action.key].includes(value)) {
+        state.files[action.key].push(value);
+      }
+
+      console.log(state);
+
+      return {
+        ...state
+      };
+    }
+    case 'clear': {
+      console.log('clear');
+      return state;
+    }
+    default:
+      return state;
+  }
+};
+
+type LastUpdatedDatesContextType = {
+  state: { files: any };
+  dispatch: any;
+};
+
+const LastUpdatedDatesContext = createContext<LastUpdatedDatesContextType>({
+  state: { files: {} },
+  dispatch: (action: any) => {
+    /** no-op */
+  }
 });
 
-export default function LastUpdatedDatesProvider({ updateLastUpdatedDate, children }) {
-  const value = {updateLastUpdatedDate}
+export default function LastUpdatedDatesProvider({ children }) {
+  const [state, dispatch] = useReducer(pageLastUpdatedReducer, { files: {} });
 
   return (
-    <LastUpdatedDatesContext.Provider value={value}>
+    <LastUpdatedDatesContext.Provider value={{ state, dispatch }}>
       {children}
     </LastUpdatedDatesContext.Provider>
   );
@@ -17,10 +57,9 @@ export default function LastUpdatedDatesProvider({ updateLastUpdatedDate, childr
 export function useLastUpdatedDatesContext() {
   const context = useContext(LastUpdatedDatesContext);
   if (!context) {
-    console.error(
+    throw new Error(
       'useLastUpdatedDatesContext must be used within a LastUpdatedDatesProvider'
     );
-    return;
   }
 
   return context;

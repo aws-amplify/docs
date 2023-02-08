@@ -22,7 +22,9 @@ import ChooseFilterPage from '../../pages/ChooseFilterPage';
 import { parseLocalStorage } from '../../utils/parseLocalStorage';
 import { withFilterOverrides } from '../../utils/withFilterOverrides';
 import { FeedbackToggle } from '../Feedback';
-import LastUpdatedDatesProvider from '../LastUpdatedProvider';
+import LastUpdatedDatesProvider, {
+  useLastUpdatedDatesContext
+} from '../LastUpdatedProvider';
 
 export default function Page({
   children,
@@ -34,10 +36,14 @@ export default function Page({
   frontmatter?: any;
 }) {
   const router = useRouter();
+
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
+  const [prevFilterKey, setPrevFilterKey] = useState('');
+
+  let pageLastUpdated = 0;
+  const [lastUpdatedDate, setLastUpdatedDate] = useState(pageLastUpdated);
+
   if (!router.isReady) {
-    const [menuIsOpen, setMenuIsOpen] = useState(false);
-    const [lastUpdatedDate, setLastUpdatedDate] = useState(0);
-    const [prevFilterKey, setPrevFilterKey] = useState('');
     useRef(null);
     return <></>;
   }
@@ -51,6 +57,9 @@ export default function Page({
   }
 
   const directoryPath = router.pathname;
+
+  // USE FILTERKEY TO GET THE PLATFORM???
+
   let filterKey = '',
     filterKind = '';
   const filterKeysLoaded = parseLocalStorage(
@@ -71,6 +80,9 @@ export default function Page({
     filterKeyUpdates.framework = filterKey;
     filterKind = 'framework';
   }
+
+  // FILTERKEY WILL BE ALREADY EVALUATED AT THIS POINT IN THE CODE
+
   const headers = traverseHeadings(children, filterKey);
   let filters = gatherAllFilters(children, filterKind);
   // special cases
@@ -99,15 +111,10 @@ export default function Page({
       />
     );
   }
-  const [menuIsOpen, setMenuIsOpen] = useState(false);
 
-  let pageLastUpdated = 0;
   if (frontmatter && frontmatter.lastUpdated) {
     pageLastUpdated = new Date(frontmatter.lastUpdated).getTime();
   }
-
-  const [prevFilterKey, setPrevFilterKey] = useState('');
-  const [lastUpdatedDate, setLastUpdatedDate] = useState(pageLastUpdated);
 
   if (filterKey !== prevFilterKey) {
     // "Reset" the lastUpdated date when filterKey changes
@@ -143,9 +150,7 @@ export default function Page({
             url,
             directoryPath,
             menuIsOpen,
-            setMenuIsOpen,
-            lastUpdatedDate,
-            setLastUpdatedDate
+            setMenuIsOpen
           })
         : children}
     </Layout>
@@ -163,12 +168,10 @@ export function metaContent({
   url,
   directoryPath,
   menuIsOpen,
-  setMenuIsOpen,
-  lastUpdatedDate,
-  setLastUpdatedDate
+  setMenuIsOpen
 }: {
-  title: any;
-  chapterTitle: any;
+  title: string;
+  chapterTitle: string;
   headers: any;
   children: any;
   filters: any;
@@ -178,8 +181,6 @@ export function metaContent({
   directoryPath: any;
   menuIsOpen: any;
   setMenuIsOpen: any;
-  lastUpdatedDate: number;
-  setLastUpdatedDate: any;
 }) {
   const menuRef = useRef(null);
   // Slice off the "@media " string at the start for use in JS instead of CSS
@@ -190,18 +191,9 @@ export function metaContent({
       ? false
       : window.matchMedia(MQTabletJS).matches;
 
-  function updateLastUpdatedDate(date) {
-    const dateInTime = new Date(date).getTime();
-
-    const mostRecentDate =
-      dateInTime >= lastUpdatedDate ? dateInTime : lastUpdatedDate;
-
-    setLastUpdatedDate(mostRecentDate);
-  }
-
   return (
     <>
-      <LastUpdatedDatesProvider updateLastUpdatedDate={updateLastUpdatedDate}>
+      <LastUpdatedDatesProvider>
         <Menu
           filters={filters}
           filterKey={filterKey}
@@ -210,7 +202,6 @@ export function metaContent({
           directoryPath={directoryPath}
           ref={menuRef}
           setMenuIsOpen={setMenuIsOpen}
-          lastUpdatedDate={lastUpdatedDate}
         ></Menu>
         <ContentStyle menuIsOpen={menuIsOpen}>
           <div>
