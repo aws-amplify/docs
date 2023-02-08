@@ -13,8 +13,6 @@ export default function Fragments({ fragments }) {
   const { state, dispatch } = useLastUpdatedDatesContext();
 
   for (const key in fragments) {
-    // USE THE KEY TO CREATE THE OBJECT?
-
     const fragment = fragments[key]([]);
     frontmatter = fragment.props.frontmatter;
     console.log(frontmatter);

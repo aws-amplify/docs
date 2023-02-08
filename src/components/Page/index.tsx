@@ -40,9 +40,6 @@ export default function Page({
   const [menuIsOpen, setMenuIsOpen] = useState(false);
   const [prevFilterKey, setPrevFilterKey] = useState('');
 
-  let pageLastUpdated = 0;
-  const [lastUpdatedDate, setLastUpdatedDate] = useState(pageLastUpdated);
-
   if (!router.isReady) {
     useRef(null);
     return <></>;
@@ -57,8 +54,6 @@ export default function Page({
   }
 
   const directoryPath = router.pathname;
-
-  // USE FILTERKEY TO GET THE PLATFORM???
 
   let filterKey = '',
     filterKind = '';
@@ -80,8 +75,6 @@ export default function Page({
     filterKeyUpdates.framework = filterKey;
     filterKind = 'framework';
   }
-
-  // FILTERKEY WILL BE ALREADY EVALUATED AT THIS POINT IN THE CODE
 
   const headers = traverseHeadings(children, filterKey);
   let filters = gatherAllFilters(children, filterKind);
@@ -112,13 +105,7 @@ export default function Page({
     );
   }
 
-  if (frontmatter && frontmatter.lastUpdated) {
-    pageLastUpdated = new Date(frontmatter.lastUpdated).getTime();
-  }
-
   if (filterKey !== prevFilterKey) {
-    // "Reset" the lastUpdated date when filterKey changes
-    setLastUpdatedDate(pageLastUpdated);
     setPrevFilterKey(filterKey);
   }
 
