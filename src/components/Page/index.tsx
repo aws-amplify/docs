@@ -119,6 +119,8 @@ export default function Page({
   const basePath = 'docs.amplify.aws';
   meta.url = basePath + router.asPath;
 
+  const parentPageLastUpdatedDate = `${frontmatter.relativeFilePath}____${frontmatter.lastUpdated}`;
+
   return (
     <Layout
       meta={meta}
@@ -137,7 +139,8 @@ export default function Page({
             url,
             directoryPath,
             menuIsOpen,
-            setMenuIsOpen
+            setMenuIsOpen,
+            parentPageLastUpdatedDate
           })
         : children}
     </Layout>
@@ -155,7 +158,8 @@ export function metaContent({
   url,
   directoryPath,
   menuIsOpen,
-  setMenuIsOpen
+  setMenuIsOpen,
+  parentPageLastUpdatedDate
 }: {
   title: string;
   chapterTitle: string;
@@ -168,6 +172,7 @@ export function metaContent({
   directoryPath: any;
   menuIsOpen: any;
   setMenuIsOpen: any;
+  parentPageLastUpdatedDate: string;
 }) {
   const menuRef = useRef(null);
   // Slice off the "@media " string at the start for use in JS instead of CSS
@@ -180,7 +185,9 @@ export function metaContent({
 
   return (
     <>
-      <LastUpdatedDatesProvider>
+      <LastUpdatedDatesProvider
+        parentPageLastUpdatedDate={parentPageLastUpdatedDate}
+      >
         <Menu
           filters={filters}
           filterKey={filterKey}

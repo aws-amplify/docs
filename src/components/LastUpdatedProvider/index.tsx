@@ -44,8 +44,13 @@ const LastUpdatedDatesContext = createContext<LastUpdatedDatesContextType>({
   }
 });
 
-export default function LastUpdatedDatesProvider({ children }) {
-  const [state, dispatch] = useReducer(pageLastUpdatedReducer, { files: {} });
+export default function LastUpdatedDatesProvider({
+  children,
+  parentPageLastUpdatedDate
+}) {
+  const [state, dispatch] = useReducer(pageLastUpdatedReducer, {
+    files: { parentPageLastUpdatedDate: parentPageLastUpdatedDate }
+  });
 
   return (
     <LastUpdatedDatesContext.Provider value={{ state, dispatch }}>

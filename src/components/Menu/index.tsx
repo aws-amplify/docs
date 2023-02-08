@@ -72,9 +72,15 @@ export default function Menu(props: MenuProps) {
 
   let lastUpdatedDate;
 
-  if (state.files[props.filterKey]) {
+  if (state.files['parentPageLastUpdatedDate']) {
+    const combinedDates = [state.files['parentPageLastUpdatedDate']];
+
+    if (state.files[props.filterKey]) {
+      combinedDates.push(...state.files[props.filterKey]);
+    }
+
     lastUpdatedDate = Math.max(
-      ...state.files[props.filterKey]
+      ...combinedDates
         .map((e) => e.split('____')[1])
         .map((e) => new Date(e).getTime())
     );
