@@ -77,6 +77,8 @@ export default function Menu(props: MenuProps) {
 
     if (state.files[props.filterKey]) {
       combinedDates.push(...state.files[props.filterKey]);
+    } else if (state.files['all'] && state.files['all'].length > 0) {
+      combinedDates.push(...state.files['all']);
     }
 
     lastUpdatedDate = Math.max(

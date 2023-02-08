@@ -22,9 +22,7 @@ import ChooseFilterPage from '../../pages/ChooseFilterPage';
 import { parseLocalStorage } from '../../utils/parseLocalStorage';
 import { withFilterOverrides } from '../../utils/withFilterOverrides';
 import { FeedbackToggle } from '../Feedback';
-import LastUpdatedDatesProvider, {
-  useLastUpdatedDatesContext
-} from '../LastUpdatedProvider';
+import LastUpdatedDatesProvider from '../LastUpdatedProvider';
 
 export default function Page({
   children,
@@ -119,7 +117,10 @@ export default function Page({
   const basePath = 'docs.amplify.aws';
   meta.url = basePath + router.asPath;
 
-  const parentPageLastUpdatedDate = `${frontmatter.relativeFilePath}____${frontmatter.lastUpdated}`;
+  let parentPageLastUpdatedDate;
+  if (frontmatter && frontmatter.relativeFilePath && frontmatter.lastUpdated) {
+    parentPageLastUpdatedDate = `${frontmatter.relativeFilePath}____${frontmatter.lastUpdated}`;
+  }
 
   return (
     <Layout
