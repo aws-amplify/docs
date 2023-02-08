@@ -5,7 +5,12 @@ import {
   MenuBodyStyle,
   LastUpdatedStyle
 } from './styles';
-import React, { MutableRefObject, useEffect, useState } from 'react';
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useState
+} from 'react';
 import MenuOpenButton from './MenuOpenButton';
 import MenuCloseButton from './MenuCloseButton';
 import { MQTablet } from '../media';
@@ -22,10 +27,9 @@ type MenuProps = {
   url: string;
   directoryPath: string;
   setMenuIsOpen?: any;
-  ref: MutableRefObject<null>;
 };
 
-export default function Menu(props: MenuProps) {
+function Menu(props: MenuProps, ref) {
   const [isOpen, setIsOpen] = useState(true);
   const { state } = useLastUpdatedDatesContext();
 
@@ -36,6 +40,11 @@ export default function Menu(props: MenuProps) {
       typeof window !== 'undefined' && window.matchMedia(MQTabletJS).matches
     );
   }, []);
+
+  useImperativeHandle(ref, () => ({
+    closeMenu: () => closeMenu(),
+    openMenu: () => openMenu()
+  }));
 
   const closeMenu = () => {
     setIsOpen(false);
@@ -124,6 +133,8 @@ export default function Menu(props: MenuProps) {
   }
   return <MenuOpenButton openMenu={openMenu} />;
 }
+
+export default forwardRef(Menu);
 
 function toReadableDate(date) {
   const dateOptions: Intl.DateTimeFormatOptions = {
