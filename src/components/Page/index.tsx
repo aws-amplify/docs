@@ -24,7 +24,7 @@ import { withFilterOverrides } from '../../utils/withFilterOverrides';
 import { FeedbackToggle } from '../Feedback';
 import LastUpdatedDatesProvider from '../LastUpdatedProvider';
 
-type MdxFrontmatterType = {
+export type MdxFrontmatterType = {
   lastUpdated: string;
 };
 

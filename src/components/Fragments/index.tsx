@@ -1,14 +1,10 @@
 import FilterChildren from '../FilterChildren';
 import { useLastUpdatedDatesContext } from '../LastUpdatedProvider';
-
-type MdxFrontmatter = {
-  lastUpdated: string;
-  relativeFilePath: string;
-};
+import { MdxFrontmatterType } from '../Page';
 
 export default function Fragments({ fragments }) {
   const children = [];
-  let frontmatter: MdxFrontmatter;
+  let frontmatter: MdxFrontmatterType;
 
   const { state, dispatch } = useLastUpdatedDatesContext();
 
