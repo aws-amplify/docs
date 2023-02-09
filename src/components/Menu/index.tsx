@@ -120,7 +120,7 @@ function Menu(props: MenuProps, ref) {
                 url={props.url}
                 directoryPath={props.directoryPath}
               />
-              <LastUpdatedStyle>
+              <LastUpdatedStyle id="page-last-updated">
                 {displayLastUpdatedString(lastUpdatedDate)}
               </LastUpdatedStyle>
             </MenuBodyStyle>
