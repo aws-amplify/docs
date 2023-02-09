@@ -40,7 +40,6 @@ export default function Page({
   const router = useRouter();
 
   const [menuIsOpen, setMenuIsOpen] = useState(false);
-  const [prevFilterKey, setPrevFilterKey] = useState('');
 
   if (!router.isReady) {
     useRef(null);
@@ -105,10 +104,6 @@ export default function Page({
         message={`${filterMetadataByOption[filterKey].label} is not supported on this page.  Please select one of the following:`}
       />
     );
-  }
-
-  if (filterKey !== prevFilterKey) {
-    setPrevFilterKey(filterKey);
   }
 
   meta.chapterTitle = '';
