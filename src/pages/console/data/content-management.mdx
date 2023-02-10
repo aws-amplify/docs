@@ -1,13 +1,13 @@
 export const meta = {
-  title: `Content management`,
+  title: `Data management`,
   description: `Get started with Amplify Studio`,
 };
 
-The Amplify Studio **Content** management view provides a tabular view of the backend data for an application. You can use this feature to test your models and to provide both technical and non-technical team members with the ability to create and update an application's data in real-time instead of building admin views.
+The Amplify Studio **Data management** view provides a tabular view of the backend data for an application. You can use this feature to test your models and to provide both technical and non-technical team members with the ability to create and update an application's data in real-time instead of building admin views.
 
 ![cms](/images/console/cms.png)
 
-The [Data modeling](/console/data/data-model) topic guides you through several examples for creating data models and setting the relationships between them. The following content management procedures, reference the *Book* and *Author* tables that were created in the data modeling example in order to demonstrate how to perform operations on your data.
+The [Data modeling](/console/data/data-model) documentation guides you through several examples for creating data models and setting the relationships between them. The following data management procedures, reference the *Book* and *Author* tables that were created in the data modeling example in order to demonstrate how to perform operations on your data.
 
 ## To create data
 1. Open Studio for an app.
@@ -15,7 +15,7 @@ The [Data modeling](/console/data/data-model) topic guides you through several e
 3. On the **Content** page, select the table to update from the **Select table** menu. For this example, select the *Author* table.
 4. Choose **Create author**.
 5. In the **Add Author** window, specify your custom values for the fields in the table. For this example, enter *Martha* for the *firstName* field and enter *Riviera* for the *lastName* field.
-6. Choose **Save author**.
+6. Choose **Submit**.
 
 ## To seed data
 1. Open Studio for an app.
@@ -35,9 +35,8 @@ Seed data is auto-generated using [Faker](https://faker.readthedocs.io/en/master
 1. Open Studio for an app.
 2. On the **Manage** menu, choose **Content**.
 3. On the **Content** page, select the table to update from the **Select table** menu. For this example, select the *Author* table that you used in the previous procedure.
-4. From the list of records, select the record to update. For this example, select *Martha Riviera*. Let's assume that the last name of the author is misspelled and needs to be corrected.
-5. On the **Actions** menu, choose **Edit**.
-6. In the **Edit Author** window, change the spelling of the author's last name. Enter *Rivera* in the *lastName* field, then choose **Save author**.
+4. From the list of records, select any field in the record you want to update.
+5. In the **Edit Author** window, make any changes to your record, and then choose **Submit**.
 
 ## To create and link data
 When you create a new instance in a table, you can also link it to an instance in another table based on the relationships between the data models. 
@@ -46,32 +45,60 @@ When you create a new instance in a table, you can also link it to an instance i
 2. On the **Manage** menu, choose **Content**.
 3. On the **Content** page, select the table to update from the **Select table** menu. For this example, select the *Book* table, to add a new instance of a book. 
 4. Choose **Create book**. For *title*, enter *All About Dogs*. 
-5. Let's link this book to the *Martha Rivera* author instance that you edited in the previous procedure. Choose **Link to an existing Author**, then choose *Martha Rivera* from the list of *Author* instances. Note that you have the option to link to an an author because a relationship was defined between the *Book* and *Author* tables during the data modeling process.
-6. View the details for the *All About Dogs* instance in the *Book* table, and *Martha Rivera* is listed as an author. 
+5. Let's link this book to the *Martha Rivera* author instance that you edited in the previous procedure. Choose **Link to an existing Author**, then choose the ID for *Martha Rivera* from the list of *Author* instances. Note that you have the option to link to an an author because a relationship was defined between the *Book* and *Author* tables during the data modeling process.
+6. View the details for the *All About Dogs* instance in the *Book* table, and *Martha Rivera* is linked as an author. 
+
+Alternatively, you can save save *All About Dogs* before linking to an Author, and instead create the link from an Author record by opening the *Martha Rivera* record, and selecting *All About Dogs* from the related Books.
 
 ## To delete data
 1. Open Studio for an app.
 2. On the **Manage** menu, choose **Content**.
 3. On the **Content** page, select the table to update from the **Select table** menu. For this example, select the *Author* table that you used in the previous procedure.
-4. From the list of records in the table, select the record to delete. For this example, select *Martha Rivera*. On the **Actions** menu, then choose **Delete**.
-5. In the **Delete item** confirmation window, choose **Delete**.
+4. From the list of records in the table, select the checkbox to the left of the record(s) you want to delete. For this example, select *Martha Rivera*. 
+5. On the **Actions** menu, then choose **Delete**.
+6. In the **Delete item** confirmation window, choose **Delete**.
 
 ## To download data
 1. Open Studio for an app.
 2. On the **Manage** menu, choose **Content**.
 3. On the **Actions** menu you have two options for downloading data.
-  1. Choose **Download selected items to CSV** to download only the selected rows of data.
-  2. Choose **Download results to CSV** to download all rows of data on the currently selected page.
+  1. Choose **Download selected items (.csv)** to download only the selected rows of data.
+  2. Choose **Download all items (.csv)** to download all rows of data on the currently selected model.
 4. Once you have selected a download option, your data should immediately start downloading as a CSV.
 
-## Create or edit data in markdown
-You can also edit and store the data as markdown with the markdown editor. This is especially useful for blogs, news, marketing, or content-focused apps where you want the app UI to be styled appropriately. The markdown editor is available by choosing **Edit in markdown** when you are in the **Edit** window for a data instance.
-
-![cms](/images/console/cms.png)
-
 ## Limitations
-Amplify Studio's content management view requires your app to be using [DataStore](/lib/datastore/getting-started). 
 
-For applications that are using an Amplify GraphQL API instead, app content can be managed using **GraphiQL**, a visual interface for building and executing queries and mutations in GraphQL. [Learn more about GraphQL in their documentation.](https://graphql.org/learn/)
+### Conflict Resolution
+Amplify Studio's data manager requires your app to have Conflict Resolution enabled. 
 
-To change your app's data model from DataStore to an Amplify GraphQL API, [adjust your GraphQL API settings.](/console/data/data-model/#datastore-and-graphql)
+For applications that are using a GraphQL API with Conflict Resolution disabled, app data can be managed using **GraphiQL**, a visual interface for building and executing queries and mutations in GraphQL. [Learn more about GraphQL in their documentation.](https://graphql.org/learn/)
+
+To use the data manager, you can [adjust your GraphQL API settings.](/console/data/data-model/#datastore-and-graphql)
+
+### Null required fields
+When using the data manager, you may encounter the following error message:
+
+<Callout info>
+
+"Field {{fieldName}} cannot be set to null since its a required field."
+
+</Callout>
+
+This message occurs when there are records in the selected data model that have null values for required fields. Usually, this occurs because a field was changed to be required after records were created. To resolve this issue, null records need to be updated.
+
+*To update records in Studio...*
+1. From the Data tab, change the required field to optional, and select **Save and deploy** to redeploy your data model
+1. In the **Content** tab, update all records so that there are no null values for this field, or delete records with null values
+1. In the Data tab, change the field back to required, and select **Save and deploy** again
+
+*To update records in DynamoDB...*
+1. Visit the [DynamoDB console](https://console.aws.amazon.com/dynamodbv2/home)
+1. Select the **Tables** heading in the left-hand nav bar, and select your app's table
+1. Select the "Explore table items" button in the upper right-hand corner
+1. Update all records so that there are no null values for this field, or delete records with null values
+
+### Bi-directionally required fields
+
+A bi-directionally required field is a Relationship field between two data models where both models require a non-null value for the field. Currently, the Data Manager does not support creating or editing records for models with bi-directionally required fields. To manage data in these models, take one of two paths:
+1. Change the field to optional for one or both of the related models, OR
+1. Create and manage records using GraphiQL, which supports simultaneous record management

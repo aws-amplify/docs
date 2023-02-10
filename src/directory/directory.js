@@ -2373,7 +2373,7 @@ const directory = {
             route: '/console/data/relationships'
           },
           {
-            title: 'Content management',
+            title: 'Data management',
             route: '/console/data/content-management'
           }
         ]
