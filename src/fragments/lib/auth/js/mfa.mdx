@@ -40,6 +40,14 @@ Auth.verifyTotpToken(user, challengeAnswer)
   .catch((e) => {
     // Token is not verified
   });
+
+// ...
+
+// Finally, when sign-in with MFA is enabled, use the confirmSignIn method 
+// to pass the TOTP code and MFA type. 
+Auth.confirmSignIn(user, code, mfaType) // Optional, MFA Type e.g. SMS_MFA || SOFTWARE_TOKEN_MFA
+
+
 ```
 
 ## Setup MFA type
@@ -80,38 +88,6 @@ Auth.getPreferredMFA(user, {
 }).then((data) => {
   console.log('Current preferred MFA type is: ' + data);
 });
-```
-
-## Allow users to select MFA type
-
-When working with multiple MFA Types, you can let the app user select the desired authentication method. `SelectMFAType` UI Component, which is provided with `aws-amplify-react` package, renders a list of available MFA types.
-
-```javascript
-import { Amplify } from 'aws-amplify';
-import awsconfig from './aws-exports';
-import { SelectMFAType } from 'aws-amplify-react';
-
-Amplify.configure(awsconfig);
-
-// Please have at least TWO types
-// Please make sure you set it properly according to your Cognito User pool
-const MFATypes = {
-    SMS: true, // if SMS enabled in your user pool
-    TOTP: true, // if TOTP enabled in your user pool
-    Optional: true, // if MFA is set to optional in your user pool
-}
-
-class App extends Component {
-    // ...
-    render() {
-        return (
-            // ...
-            <SelectMFAType authData={this.props.authData} MFATypes={MFATypes}>
-        )
-    }
-}
-
-export default withAuthenticator(App, true);
 ```
 
 ## Advanced use cases

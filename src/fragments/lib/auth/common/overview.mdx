@@ -15,7 +15,7 @@ Authorization is often done in one of two ways:
 1. Clients pass the tokens to the backend that perform custom logic to allow or deny actions
 1. Clients sign the requests and the backend validates the signature, allowing or denying actions depending on predefined policy. The predefined rules are known as [IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html) policies and automatically configured by the Amplify CLI.
 	
-The first mode is a common authorization method for REST or GraphQL APIs, while the second mode is necessary for interfacing with AWS services such as S3, Pinpoint, Sumerian, and others. 
+The first mode is a common authorization method for REST or GraphQL APIs, while the second mode is necessary for interfacing with AWS services such as S3, Pinpoint, and others. 
 
 ## Sign-up and sign-in
 
@@ -28,3 +28,7 @@ Many apps also support login with social providers such as Facebook, Google Sign
 ## Accessing AWS services
 
 Some apps need to use AWS services which require [signing requests](https://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html). Examples of this would be storing images or videos on S3, or sending analytics to Pinpoint or Kinesis. Amplify automatically signs requests with short term credentials from a Cognito Identity Pool which automatically expire, rotate, and refresh by the Amplify client libraries.
+
+import ios0 from "/src/fragments/lib/auth/ios/credential_handling/10_credential_handling.mdx";
+
+<Fragments fragments={{ios: ios0}} />

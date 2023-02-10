@@ -103,12 +103,12 @@ resources.restApi.addPropertyOverride("Body.securityDefinitions", {
 ```
 
 Finally, update the security methods for all of the paths in your REST API to
-use this new Cognito User Pool authorizer. We also add the `Authorization` header
+use this new Cognito User Pool authorizer. You also add the `Authorization` header
 as a parameter on incoming requests for these paths as a place for users to provide
 their Cognito User ID Tokens. 
 
 ```ts
-// For every path in our REST API
+// For every path in your REST API
 for (const path in resources.restApi.body.paths) {
   // Add the Authorization header as a parameter to requests
   resources.restApi.addPropertyOverride(
@@ -124,7 +124,7 @@ for (const path in resources.restApi.body.paths) {
       },
     ]
   );
-  // Use our new Cognito User Pool authorizer for security
+  // Use your new Cognito User Pool authorizer for security
   resources.restApi.addPropertyOverride(
     `Body.paths.${path}.x-amazon-apigateway-any-method.security`,
     [ { Cognito: [], }, ]

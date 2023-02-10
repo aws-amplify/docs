@@ -8,15 +8,11 @@ import {
   getChapterDirectory,
   isProductRoot,
 } from "../../utils/getLocalDirectory";
+import type { DirectoryItem } from "../Menu/Directory";
 
-type DirectoryItem = {
-  filters: string[];
-  route: string;
-  title: string;
-};
 type Directory = {
   items: DirectoryItem[];
-};
+}
 
 function Prev(item: DirectoryItem) {
   return (

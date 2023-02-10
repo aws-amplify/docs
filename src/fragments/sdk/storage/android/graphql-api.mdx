@@ -96,7 +96,7 @@ public class ClientFactory {
         client = AWSAppSyncClient.builder()
                 .context(context)
                 .awsConfiguration(new AWSConfiguration(context))
-                .s3ObjectManager(getS3ObjectManager(context)) // Here we initialize the s3 object manager.
+                .s3ObjectManager(getS3ObjectManager(context)) // Here you initialize the s3 object manager.
                 .build();
       }
       return client;

@@ -2,29 +2,27 @@ The Amazon Kinesis analytics provider allows you to send analytics data to an [A
 
 ## Installation and Configuration
 
-Register the *AWSKinesisProvider* with the Analytics category: 
+Register the _AWSKinesisProvider_ with the Analytics category:
 
 ```javascript
 import { Analytics, AWSKinesisProvider } from 'aws-amplify';
 Analytics.addPluggable(new AWSKinesisProvider());
 ```
 
-If you did not use the CLI, ensure you have <a href="https://docs.aws.amazon.com/streams/latest/dev/learning-kinesis-module-one-iam.html" target="_blank">setup IAM permissions</a> for `PutRecords`.
+If you did not use the CLI, ensure you have [setup IAM permissions](https://docs.aws.amazon.com/streams/latest/dev/learning-kinesis-module-one-iam.html) for `PutRecords`.
 
 Example IAM policy for Amazon Kinesis:
+
 ```json
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "kinesis:PutRecord",
-                "kinesis:PutRecords"
-            ],
-            "Resource": "*"
-        }
-    ]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["kinesis:PutRecord", "kinesis:PutRecords"],
+      "Resource": "*"
+    }
+  ]
 }
 ```
 
@@ -35,23 +33,22 @@ Configure Kinesis:
 ```javascript
 // Configure the plugin after adding it to the Analytics module
 Analytics.configure({
-    AWSKinesis: {
+  AWSKinesis: {
+    // OPTIONAL -  Amazon Kinesis service region
+    region: 'XX-XXXX-X',
 
-        // OPTIONAL -  Amazon Kinesis service region
-        region: 'XX-XXXX-X',
-        
-        // OPTIONAL - The buffer size for events in number of items.
-        bufferSize: 1000,
-        
-        // OPTIONAL - The number of events to be deleted from the buffer when flushed.
-        flushSize: 100,
-        
-        // OPTIONAL - The interval in milliseconds to perform a buffer check and flush if necessary.
-        flushInterval: 5000, // 5s
-        
-        // OPTIONAL - The limit for failed recording retries.
-        resendLimit: 5
-    } 
+    // OPTIONAL - The buffer size for events in number of items.
+    bufferSize: 1000,
+
+    // OPTIONAL - The number of events to be deleted from the buffer when flushed.
+    flushSize: 100,
+
+    // OPTIONAL - The interval in milliseconds to perform a buffer check and flush if necessary.
+    flushInterval: 5000, // 5s
+
+    // OPTIONAL - The limit for failed recording retries.
+    resendLimit: 5
+  }
 });
 ```
 
@@ -60,12 +57,15 @@ Analytics.configure({
 You can send a data to a Kinesis stream with the standard `record()` method:
 
 ```javascript
-Analytics.record({
-    data: { 
-        // The data blob to put into the record
+Analytics.record(
+  {
+    data: {
+      // The data blob to put into the record
     },
     // OPTIONAL
-    partitionKey: 'myPartitionKey', 
+    partitionKey: 'myPartitionKey',
     streamName: 'myKinesisStream'
-}, 'AWSKinesis');
+  },
+  'AWSKinesis'
+);
 ```

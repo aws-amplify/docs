@@ -6,6 +6,13 @@ Add the following code to your `onCreate()` method in your application class:
 <Block name="Java">
 
 ```java
+import android.util.Log;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
+```
+
+```java
 Amplify.addPlugin(new AWSCognitoAuthPlugin());
 Amplify.addPlugin(new AWSS3StoragePlugin());
 ```
@@ -36,6 +43,13 @@ public class MyAmplifyApp extends Application {
 <Block name="Kotlin">
 
 ```kotlin
+import android.util.Log
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
+import com.amplifyframework.core.Amplify
+import com.amplifyframework.storage.s3.AWSS3StoragePlugin
+```
+
+```kotlin
 Amplify.addPlugin(AWSCognitoAuthPlugin())
 Amplify.addPlugin(AWSS3StoragePlugin())
 ```
@@ -63,6 +77,13 @@ class MyAmplifyApp : Application() {
 
 </Block>
 <Block name="RxJava">
+
+```java
+import android.util.Log;
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
+import com.amplifyframework.rx.RxAmplify;
+import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
+```
 
 ```java
 RxAmplify.addPlugin(new AWSCognitoAuthPlugin());

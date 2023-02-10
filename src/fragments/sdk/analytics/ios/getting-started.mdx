@@ -12,56 +12,51 @@ Amazon Pinpoint is a fully managed AWS service that you can use to engage with y
 
 The Amplify CLI helps setup and configure Pinpoint within your application and connect with the AWS Mobile SDK.
 
- > **Prerequisite:** [Install and configure the Amplify CLI](/cli/start/install)
+> **Prerequisite:** [Install and configure the Amplify CLI](/cli/start/install)
 
 ## Set Up Your Backend
 
 1. Use the CLI to add analytics to your cloud-enabled backend and app.
 
-    In a terminal window, navigate to your project folder (the folder contains your app `.xcodeproj` file), and add the SDK to your app.
+   In a terminal window, navigate to your project folder (the folder contains your app `.xcodeproj` file), and add the SDK to your app.
 
-    ```bash
-    cd ./YOUR_PROJECT_FOLDER
-    amplify add analytics
-    ```
+   ```bash
+   cd ./YOUR_PROJECT_FOLDER
+   amplify add analytics
+   ```
 
 2. When configuration for analytics is complete, a message appears confirming that you have configured local CLI metadata for this category. You can confirm this by viewing status.
 
-    ```console
-    $ amplify status
-    | Category  | Resource name   | Operation | Provider plugin   |
-    | --------- | --------------- | --------- | ----------------- |
-    | Auth      | cognitoabcd0123 | Create    | awscloudformation |
-    | Analytics | yourprojectname | Create    | awscloudformation |
-    ```
+   ```console
+   $ amplify status
+   | Category  | Resource name   | Operation | Provider plugin   |
+   | --------- | --------------- | --------- | ----------------- |
+   | Auth      | cognitoabcd0123 | Create    | awscloudformation |
+   | Analytics | yourprojectname | Create    | awscloudformation |
+   ```
 
 3. To create your backend AWS resources run the following:
 
-    ```bash
-    amplify push
-    ```
+   ```bash
+   amplify push
+   ```
 
 ### Manually Updating your IAM Policy:
 
-> **Note** The Amplify CLI adds the appropriate policies and permissions for you. The information provided here is provided if you are ***not*** using the Amplify CLI in your project.
+> **Note** The Amplify CLI adds the appropriate policies and permissions for you. The information provided here is provided if you are **_not_** using the Amplify CLI in your project.
 
-The Amazon Pinpoint service requires permissions defined in an IAM policy to use the `submitEvents` API. If you are using long-term AWS credentials attached to an `Amazon IAM` user, attach the following policies to the role of that `IAM` user. If you are using temporary AWS credentials vended by `Amazon Cognito Identity Pools`, then attach the following policies to the Unauthenticated and/or Authenticated `IAM` roles of your `Cognito Identity Pool`. The role you attach the policies to depends on the scope of your application. For example, if you only want events submitted when users login, attach to the authenticated role. Similarly, if you want events submitted regardless of authentication state, attach the policy to the unauthenticated role. For more information on Cognito Identities authenticated/unauthenticated roles see <a href="https://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html" target="_blank">here</a>.
+The Amazon Pinpoint service requires permissions defined in an IAM policy to use the `submitEvents` API. If you are using long-term AWS credentials attached to an `Amazon IAM` user, attach the following policies to the role of that `IAM` user. If you are using temporary AWS credentials vended by `Amazon Cognito Identity Pools`, then attach the following policies to the Unauthenticated and/or Authenticated `IAM` roles of your `Cognito Identity Pool`. The role you attach the policies to depends on the scope of your application. For example, if you only want events submitted when users login, attach to the authenticated role. Similarly, if you want events submitted regardless of authentication state, attach the policy to the unauthenticated role. For more information on Cognito Identities authenticated/unauthenticated roles see [here](https://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html).
 
 ```json
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "mobiletargeting:UpdateEndpoint",
-                "mobiletargeting:PutEvents"
-            ],
-            "Resource": [
-                "arn:aws:mobiletargeting:*:${accountID}:apps/${appId}*"
-            ]
-        }
-    ]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["mobiletargeting:UpdateEndpoint", "mobiletargeting:PutEvents"],
+      "Resource": ["arn:aws:mobiletargeting:*:${accountID}:apps/${appId}*"]
+    }
+  ]
 }
 ```
 
@@ -110,22 +105,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var pinpoint: AWSPinpoint?
     /** end code copy **/
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?
+    ) -> Bool {
 
         // Other didFinishLaunching code...
 
         /** start code copy **/
         // Create AWSMobileClient to connect with AWS
         AWSMobileClient.default().initialize { (userState, error) in
-          if let error = error {
-	    print("Error initializing AWSMobileClient: \(error.localizedDescription)")
-          } else if let userState = userState {
-	    print("AWSMobileClient initialized. Current UserState: \(userState.rawValue)")
-          }
+            if let error = error {
+                print("Error initializing AWSMobileClient: \(error.localizedDescription)")
+            } else if let userState = userState {
+                print("AWSMobileClient initialized. Current UserState: \(userState.rawValue)")
+            }
         }
 
         // Initialize Pinpoint
-        let pinpointConfiguration = AWSPinpointConfiguration.defaultPinpointConfiguration(launchOptions: launchOptions)
+        let pinpointConfiguration =
+            AWSPinpointConfiguration.defaultPinpointConfiguration(launchOptions: launchOptions)
         pinpoint = AWSPinpoint(configuration: pinpointConfiguration)
         /** end code copy **/
         return true
@@ -145,6 +144,6 @@ amplify console analytics
 
 2. Choose `Analytics` from the icons on the left of the console, and view the graphs of your app's usage. It may take up to 15 minutes for metrics to become visible.
 
-    ![getting-started-analytics](/images/getting-started-analytics.png)
+   ![getting-started-analytics](/images/getting-started-analytics.png)
 
 Analytics events can be grouped into segments, and you can engage your users more deeply by tying their app usage behavior to Push Notification, email, or SMS messaging campaigns. Read more about this in the [messaging section](/sdk/push-notifications/messaging-campaign) or [click here to learn more about Amazon Pinpoint](http://docs.aws.amazon.com/pinpoint/latest/developerguide/welcome.html).

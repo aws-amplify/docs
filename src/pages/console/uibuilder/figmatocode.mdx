@@ -1,5 +1,5 @@
 export const meta = {
-  title: "Figma to code",
+  title: "Overview",
   description: "Figma to React code with Amplify Studio",
 };
 
@@ -30,34 +30,83 @@ After authenticating with Figma, you will see a list of components that you can 
 
 ![figma](/images/console/ui-figma-sync.png)
 
-## Step 3: Pull UI components code in your project
+## Step 3: Configure your project
 
-In Studio, pick a component and choose **Configure** to get to the component editor screen. Choose **Get component code** at the bottom of the page.
+Before importing and using your components and theme, the project will need an initial setup. 
 
-![figma](/images/console/ui-getcomponent-code.png)
+1. Navigate to your application root directory and install the following npm dependencies
+
+```
+npm install -g @aws-amplify/cli
+```
+
+```
+npm install aws-amplify @aws-amplify/ui-react
+```
+
+2. In your application's `index.js` file, add the following imports and configuration
+
+```jsx
+import {ThemeProvider} from "@aws-amplify/ui-react";
+import { Amplify } from 'aws-amplify';
+import awsconfig from './aws-exports';
+import "@aws-amplify/ui-react/styles.css";
+import studioTheme from './ui-components/studioTheme';
+Amplify.configure(awsconfig);
+```
+3. In your application's `index.js` file, wrap the `<App />` with the following:
+
+```jsx
+<ThemeProvider theme={studioTheme}>
+    <App />
+</ThemeProvider>
+```
+
+
+Alternatively, initial project setup instructions can be found at any time within any component. In Studio, pick a component and choose **Configure** to get to the component editor screen. Choose **Get component code** at the bottom of the page.
+
+![A component in edit mode with the Get component code button visible at the bottom](/images/studio/ui-setup1.png)
 
 Go to the **Initial project setup** tab and follow the setup instructions.
 
-![figma](/images/console/ui-getcomponent-code2.png)
+![A pop up with the Initial Project Setup tab selected, showing code snippets needed to use Amplify Studio components](/images/studio/ui-setup2.png)
 
-Amplify generates all UI component code into `src/ui-components`, as JSX and TS files. All generated code is built with primitives from the Amplify UI library. Although you have access to inspect the component code, you cannot modify it directly as we will override any changes on the next `amplify pull`.
+## Step 4: Import and render your components
 
-Once that is done, you can use the components anywhere in your app. Learn how to **[customize these UI components in code](/console/uibuilder/override)**.
-
-```
+Navigate to the root directory of your project. In the project root directory, run `amplify pull` to import React code generated from your Figma components. Then, import your components to use them in your application. Replace "ComponentA" and "ComponentB" with the names of your components:
+```jsx
 import { ComponentA, ComponentB }  from './ui-components';
 
 ```
 
+Amplify CLI places all generated UI component code in the `src/ui-components` directory as JSX and TS files. All generated code is built with primitives from the Amplify UI library. 
+
+Although you can inspect the component code, any changes to component code will be overwritten on the next `amplify pull`. Instead, you can update the source component in Figma and resync, or you can use overrides to customize individual components inline. **[Learn how to extend your components with code here](/console/uibuilder/override)**.
+
+
+
 ## Upgrading Figma files
+
+In order to upgrade your Figma file, the newest version of all Amplify UI primitives must be imported into your customized Figma file.
 
 1. Duplicate the new [Figma community file](https://www.figma.com/community/file/1047600760128127424) into your Figma account.
 ![Duplicate the new figma file](/images/console/ui-figma-file.png)
-1. (optional) Delete all the components in the 'My Components' page of the new Figma file.
-1. Copy everything in the 'My Components' page of your old Figma file and paste it into the 'My Components' page of the new Figma file.
-1. Go through each component on the 'My Components' page and update the broken component instances to point to the local components on the 'Primitives' page. Unfortunately, there is no easy way to bulk update component instances in Figma. **This is important because if you do not do this, your design might look ok, but the React code it generates won't use the [Amplify UI components](https://ui.docs.amplify.aws).**
+1. Copy everything in the 'README' page of the cloned community file into your existing customized Figma file
+    * If your Figma file doesn't have a 'README' page, create new page named README
+1. Delete all content in the 'Primitives' page of your customized Figma file
+1. Copy everything in the 'Primitives' page of the cloned Figma file, and paste it into the 'Primitives' page of your customized Figma file.
+1. Go through each component on the 'My Components' page and update the broken component instances to point to the local components on the 'Primitives' page. Unfortunately, there is no easy way to bulk update component instances in Figma.
 ![Reattach figma components](/images/console/figma-upgrade-reattach.gif)
 
+**It is important to reattach your primitives. If you skip this step, Amplify Studio will generate components that look correct, but the React code generated will not use the [Amplify UI components](https://ui.docs.amplify.aws), and may not behave as expected**
+
+<Callout info>
+
+Having trouble identifying which primitives need to be reattached? Amplify Studio will warn you during import if a primitive is broken.
+
+[![Error showing Amplify Studio import warning when a Primitive has not been remapped](/images/console/ui-figma-import-error.png)](/images/console/ui-figma-import-error.png)
+
+</Callout>
 
 ### Figma file changelog
 

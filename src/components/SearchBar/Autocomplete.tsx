@@ -9,10 +9,13 @@ import { render } from 'react-dom';
 import { pipe } from 'ramda';
 
 import { groupBy, limit, uniqBy } from './functions/index';
+import { useRouter } from 'next/router';
 
 const appId = 'W6Q5N5WUDV';
 const apiKey = '953b9e801f385c3c689fc8e94690ab43';
-const searchIndex = process.env.NEXT_PUBLIC_ALGOLIA_INDEX ? process.env.NEXT_PUBLIC_ALGOLIA_INDEX : 'custom_search_staging';
+const searchIndex = process.env.NEXT_PUBLIC_ALGOLIA_INDEX
+  ? process.env.NEXT_PUBLIC_ALGOLIA_INDEX
+  : 'custom_search_staging';
 const searchClient = algoliasearch(appId, apiKey);
 
 const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
@@ -36,28 +39,35 @@ const dedupeAndLimitSuggestions = pipe(
   limit(10)
 );
 
-const groupByCategory = groupBy((hit) => hit.category, {
-  getSource({ name, items }) {
-    return {
-      getItems() {
-        return items;
-      },
-      templates: {
-        header() {
-          return (
-            <>
-              <span className="aa-SourceHeaderTitle">{name}</span>
-              <div className="aa-SourceHeaderLine" />
-            </>
-          );
-        }
+const groupByCategory = function(router) {
+  return groupBy(
+    (hit) => hit.category,
+    {
+      getSource({ name, items }) {
+        return {
+          getItems() {
+            return items;
+          },
+          templates: {
+            header() {
+              return (
+                <>
+                  <span className="aa-SourceHeaderTitle">{name}</span>
+                  <div className="aa-SourceHeaderLine" />
+                </>
+              );
+            }
+          }
+        };
       }
-    };
-  }
-});
+    },
+    router.query?.platform || router.query?.integration
+  );
+};
 
 export function Autocomplete(props) {
   const containerRef = useRef(null);
+  const router = useRouter();
 
   useEffect(() => {
     if (!containerRef.current) {
@@ -83,7 +93,7 @@ export function Autocomplete(props) {
 
         return [
           dedupeAndLimitSuggestions(),
-          groupByCategory(products),
+          groupByCategory(router)(products),
           Object.values(rest)
         ];
       },
@@ -96,7 +106,7 @@ export function Autocomplete(props) {
     return () => {
       search.destroy();
     };
-  }, [props]);
+  }, []);
 
   return <div ref={containerRef} />;
 }

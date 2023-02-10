@@ -78,3 +78,34 @@ Hub.listen('pubsub', (data: any) => {
 import jsConnectionStates from '/src/fragments/lib/pubsub/js/connection-states.mdx';
 
 <Fragments fragments={{ js: jsConnectionStates }} />
+
+### Connection issues and automated reconnection
+
+import jsReconnectDescription from '/src/fragments/lib/pubsub/js/reconnect-description.mdx';
+
+<Fragments fragments={{ js: jsReconnectDescription }} />
+
+```typescript
+const fetchRecentData = () => {
+  // Retrieve recent data from some sort of data storage service
+}
+
+let priorConnectionState: ConnectionState;
+
+Hub.listen("pubsub", (data: any) => {
+  const { payload } = data;
+  if (
+    payload.event === CONNECTION_STATE_CHANGE
+  ) {
+   
+    if (priorConnectionState === ConnectionState.Connecting && payload.data.connectionState === ConnectionState.Connected) {
+      fetchRecentData();
+    }
+    priorConnectionState = payload.data.connectionState;
+  }
+});
+
+PubSub.subscribe('myTopic').subscribe({
+  next: data => // Process incoming messages
+})
+```

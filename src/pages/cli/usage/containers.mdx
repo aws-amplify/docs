@@ -297,10 +297,10 @@ When creating an API using containers, you have the option to bring in your own 
 
 ```console
 ? What image would you like to use Custom (bring your own Dockerfile or docker-compose.yml)
-? When do you want to build & deploy the Fargate task 
-> On every "amplify push" (Fully managed container source) 
-  On every Github commit (Independently managed container source) 
-  Advanced: Self-managed (Learn more: docs.amplify.aws/cli/usage/containers) 
+? When do you want to build & deploy the Fargate task
+> On every "amplify push" (Fully managed container source)
+  On every Github commit (Independently managed container source)
+  Advanced: Self-managed (Learn more: docs.amplify.aws/cli/usage/containers)
 ```
 
 The CLI will provide you with the next steps to bring your existing Docker specification and source files into your project by populating the `src` directory.
@@ -309,7 +309,7 @@ The CLI will provide you with the next steps to bring your existing Docker speci
 ✅ Next steps:
 - Place your Dockerfile, docker-compose.yml and any related container source files in "amplify/backend/api/{API_NAME}/src"
 - Amplify CLI infers many configuration settings from the "docker-compose.yaml" file. Learn more: docs.amplify.aws/cli/usage/containers
-- To access AWS resources outside of this Amplify app, edit the amplify/local/test/amplify/backend/api/{API_NAME}/custom-policies.json
+- To access AWS resources outside of this Amplify project, edit the amplify/local/test/amplify/backend/api/{API_NAME}/custom-policies.json
 - Run "amplify push" to build and deploy your image
 ```
 
@@ -317,12 +317,12 @@ The CLI will provide you with the next steps to bring your existing Docker speci
 
 Serverless containers are fronted by a secure endpoint by which you can interact with them from a mobile or web application. Amplify CLI will attempt to update the project `aws-exports.js` or `amplifyconfiguration.json` file with the endpoint, however for GraphQL API types this is not possible and you will need to manually specify it in an `Amplify.configure()` call within your application code. The endpoint will be printed out to the screen after running an `amplify push` for you to make these changes, take note of it and follow one of the guides below appropriately.
 
-- [JavaScript GraphQL configuration](/lib/graphqlapi/create-or-re-use-existing-backend)
+- [JavaScript GraphQL configuration](/lib/graphqlapi/existing-resources/q/platform/js)
 - [JavaScript REST configuration](/lib/restapi/getting-started#manual-setup-import-existing-rest-api)
-- [Android GraphQL configuration](https://docs.amplify.aws/lib/graphqlapi/existing-resources/q/platform/android)
-- [Android REST configuration](https://docs.amplify.aws/lib/restapi/getting-started/q/platform/android)
-- [iOS GraphQL configuration](https://docs.amplify.aws/lib/graphqlapi/existing-resources/q/platform/ios)
-- [iOS REST configuration](https://docs.amplify.aws/lib/restapi/getting-started/q/platform/ios)
+- [Android GraphQL configuration](/lib/graphqlapi/existing-resources/q/platform/android)
+- [Android REST configuration](/lib/restapi/getting-started/q/platform/android)
+- [iOS GraphQL configuration](/lib/graphqlapi/existing-resources/q/platform/ios)
+- [iOS REST configuration](/lib/restapi/getting-started/q/platform/ios)
 
 Note that if you have enabled Authorization checks on your endpoints during `amplify add api` your clients will need to Authenticate against the Cognito User Pool configured and pass tokens. Please see the [appropriate platform guide](/lib/auth/getting-started) for adding Sign-Up and Sign-In calls to your application.
 

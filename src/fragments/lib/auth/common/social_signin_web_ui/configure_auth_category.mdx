@@ -1,4 +1,8 @@
-Once finished, run `amplify push` to publish your changes. Once finished, it will display an auto generated URL for your web UI. You can retrieve your user pool domain URL at anytime by running `amplify status` using the CLI.
+Run `amplify push` to publish your changes. Once finished, it will display an auto generated URL for your web UI. You can retrieve your user pool domain URL at anytime by running `amplify status` using the CLI.
+
+import trigger from "/src/fragments/cli/lambda_triggers_callout.mdx"
+
+<Fragments fragments={{all: trigger}} />
 
 You need to now inform your auth provider of this URL:
 
@@ -10,29 +14,27 @@ You need to now inform your auth provider of this URL:
 ![Image](/images/cognitoHostedUI/facebook1.png)
 3. On the left navigation bar, choose *Settings* and then *Basic*.
 ![Image](/images/cognitoHostedUI/facebook3.png)
-4. Choose *+ Add Platform* from the bottom of the page and then choose *Website*.
-![Image](/images/cognitoHostedUI/facebook4.png)
-5. Under Website, type your user pool domain with the /oauth2/idpresponse endpoint into *Site URL*
+4. Choose *+ Add Platform* from the bottom of the page, then choose the relevant platform and fill in the fields.
 
-    `https://<your-user-pool-domain>/oauth2/idpresponse`
+![Image](/images/cognitoHostedUI/facebook9.png)
+> Note: For Website, the Site URL should be the location of your [web based production application](https://developers.facebook.com/docs/development/create-an-app/app-dashboard/platform-settings/#website). Facebook will perform a check on this URL and a failure may result in your Facebook app becoming disabled.
 
-    ![Image](/images/cognitoHostedUI/facebook5.png)
-6. Save changes.
-7. Type your user pool domain into *App Domains*:
+5. Save changes.
+6. Type your user pool domain into *App Domains*:
 
     `https://<your-user-pool-domain>`
 
     ![Image](/images/cognitoHostedUI/facebook6.png)
-8. Save changes.
-9. From the navigation bar choose *Products* and then *Set up* from *Facebook Login*.
+6. Save changes.
+8. From the navigation bar choose *Add Product* and then *Set up* from *Facebook Login*.
 ![Image](/images/cognitoHostedUI/facebook7.png)
-10. From the navigation bar choose *Facebook Login* and then *Settings*.
-11. Type your redirect URL into *Valid OAuth Redirect URIs*. It will consist of your user pool domain with the /oauth2/idpresponse endpoint.
+9. From the navigation bar choose *Facebook Login* and then *Settings*.
+10. Type your redirect URL into *Valid OAuth Redirect URIs*. It will consist of your user pool domain with the /oauth2/idpresponse endpoint.
 
     `https://<your-user-pool-domain>/oauth2/idpresponse`
 
     ![Image](/images/cognitoHostedUI/facebook8.png)
-12. Save changes.
+11. Save changes.
 
 </Block>
 <Block name="Google Sign-In">

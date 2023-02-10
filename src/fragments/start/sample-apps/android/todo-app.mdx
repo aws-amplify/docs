@@ -3,7 +3,7 @@ This is a simple To Do app that allows users to add and remove items in a To Do 
 
 ## Run ToDo App Locally
 
-1. Follow the steps in [Amplify Android Getting Started Tutorial](/start/getting-started/installation/q/integration/android/#sign-up-for-an-aws-account) to sign up for an AWS account, install and configure Amplify CLI. Install all the [prerequisites](/start/getting-started/setup/q/integration/android/#prerequisites) for setting up a full stack project.
+1. Follow the steps in [Amplify Android Getting Started Tutorial](/start/) to sign up for an AWS account, install and configure Amplify CLI. Install all the [prerequisites](/start/getting-started/installation/) for setting up a fullstack project.
 
 2. Open Terminal and clone the project under your preferred directory using the following command:
 
@@ -32,7 +32,13 @@ This is a simple To Do app that allows users to add and remove items in a To Do 
 
 3. Follow the [instructions](/start/getting-started/generate-model) to generate model files.
 
-4. Follow the [instructions](/start/getting-started/add-api/q/integration/android/#deploy-your-amplify-sandbox-backend) to connect the project to the cloud. (Skip any instructions that require code change)
+4. Connect the project to the cloud by running the command:
+
+   ```bash
+   amplify push
+   ```
+
+   Answer `No` to `? Do you want to generate code for your newly created GraphQL API`. Answering `Yes` will generate an `API.java` file which is only necessary when directly using the AWS AppSync SDK. When you're using Amplify API or Amplify DataStore, you'll use the `amplify codegen models` command to generate Java models.
 
    After this step, you will see the following in the terminal if the project is successfully connected to the cloud:
 

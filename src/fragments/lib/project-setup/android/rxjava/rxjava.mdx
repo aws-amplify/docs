@@ -21,7 +21,7 @@ Compared to the traditional callback API, this doesn't make a big difference whe
 
 However, it greatly improves readability when chaining asynchronous calls. Moreover, you can use standard RxJava operators to compose other complex functionality into readable chunks.
 
-Let's revisit our nested example where we saved `Post`, `Editor`, and `PostEditor`. With Amplify's RxJava interface we can merge these operations together.
+Let's revisit your nested example where you saved `Post`, `Editor`, and `PostEditor`. With Amplify's RxJava interface you can merge these operations together.
 
 ```java
 Completable.mergeArray(
@@ -54,7 +54,7 @@ dependencies {
 
 ## Usage
 
-Amplify tries to map the behavior of our callback-based APIs to well-known Rx primitives in an intuitive way. Functions whose callbacks emit a single value (or error) will now return Rx `Single`s, instead. Functions whose callbacks emit no particular value will now return Rx `Completable`s, instead. Lastly, functions whose callbacks emit a stream of values will now return `Observable`s, instead.
+Amplify tries to map the behavior of your callback-based APIs to well-known Rx primitives in an intuitive way. Functions whose callbacks emit a single value (or error) will now return Rx `Single`s, instead. Functions whose callbacks emit no particular value will now return Rx `Completable`s, instead. Lastly, functions whose callbacks emit a stream of values will now return `Observable`s, instead.
 
 ## Special cases
 

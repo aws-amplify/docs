@@ -14,12 +14,12 @@ When using the Amazon Location Service within your iOS app, your application mus
 
 ## Adding authentication to your App using the Amplify CLI
 
-The Amplify Framework uses [Amazon Cognito](https://aws.amazon.com/cognito/) as its primary authentication provider. Amazon Cognito is a robust user directory service that handles user registration, authentication, account recovery, and other operations. Use the following procedure to add authentication to your app using Amazon Cognito and Amplify CLI. 
+Amplify uses [Amazon Cognito](https://aws.amazon.com/cognito/) as its primary authentication provider. Amazon Cognito is a robust user directory service that handles user registration, authentication, account recovery, and other operations. Use the following procedure to add authentication to your app using Amazon Cognito and Amplify CLI.
 
 1. Open a terminal window.
 1. Install the [Amplify CLI](https://docs.amplify.aws/cli/start/install) by running the following command:
 
-    
+
 
 import all0 from "/src/fragments/cli-install-block.mdx";
 
@@ -40,11 +40,11 @@ import all0 from "/src/fragments/cli-install-block.mdx";
 1. When prompted, provide the following information:
 
     ```console
-    ? Do you want to use the default authentication and security configuration? 
+    ? Do you want to use the default authentication and security configuration?
       `Default configuration`
-    ? How do you want users to be able to sign in? 
+    ? How do you want users to be able to sign in?
       `Username`
-    ? Do you want to configure advanced settings? 
+    ? Do you want to configure advanced settings?
       `No, I am done.`
     ```
 
@@ -64,16 +64,16 @@ Then you will need to install the necessary Amazon Location Service SDK dependen
 1. Initialize your project with the CocoaPods package manager by running the following command:
 
     ```bash
-    pod init 
+    pod init
     ```
 
 1. A new file named **Podfile** will be created. This file is used to describe your project’s packages dependency.
 1. Open the **Podfile** in a file editor, and add `AWSLocation` and `AWSMobileClient` SDKs as pod dependencies. When you’re done, your Podfile will look similar to this example:
 
     ```ruby
-    target 'MyAmplifyApp' do 
-      use_frameworks! 
-      pod 'AWSLocation' 
+    target 'MyAmplifyApp' do
+      use_frameworks!
+      pod 'AWSLocation'
       pod 'AWSMobileClient'
     end
     ```
@@ -90,7 +90,7 @@ Then you will need to install the necessary Amazon Location Service SDK dependen
     xed .
     ```
 
-1. Open Finder and locate the `awsconfiguration.json` file. Drag this file to the Xcode window, under your project’s folder to add this configuration file to your project, as referenced in the following screenshot: 
+1. Open Finder and locate the `awsconfiguration.json` file. Drag this file to the Xcode window, under your project’s folder to add this configuration file to your project, as referenced in the following screenshot:
 
     ![Amazon Location Service - Copy iOS project files](/images/als/ios-copy-project-files.png)
 
@@ -98,7 +98,7 @@ Then you will need to install the necessary Amazon Location Service SDK dependen
 
     1. For “Added folders”, have **Create groups** selected.
 
-    1. For “Add to targets”, make sure the app target (For example, **MyAmplifyApp**) is checked. 
+    1. For “Add to targets”, make sure the app target (For example, **MyAmplifyApp**) is checked.
 
     Choose **Finish** to add these files to your project as shown in the following screenshot:
 
@@ -106,7 +106,7 @@ Then you will need to install the necessary Amazon Location Service SDK dependen
 
 ## Initializing Amazon Location Service SDK
 
-The following procedure details how to initialize the `AWSMobileClient` and the `AWSLocation` client. The `AWSLocation` client is the low level SDK you need to access the Amazon Location Service APIs. 
+The following procedure details how to initialize the `AWSMobileClient` and the `AWSLocation` client. The `AWSLocation` client is the low level SDK you need to access the Amazon Location Service APIs.
 
 1. Add the following imports to the top of your `AppDelegate` file:
 
@@ -117,7 +117,10 @@ The following procedure details how to initialize the `AWSMobileClient` and the 
 1. Add the following code to initialize `AWSMobileClient` in your `AppDelegate`'s `application(_:didFinishLaunchingWithOptions:)` method:
 
       ```swift
-      func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+      func application(
+          _ application: UIApplication,
+          didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+      ) -> Bool {
           // Override point for customization after application launch.
           AWSMobileClient.default().initialize { (userState, error) in
               if let userState = userState {
@@ -134,7 +137,10 @@ The following procedure details how to initialize the `AWSMobileClient` and the 
 
       ```swift
       class AppDelegate: NSObject, UIApplicationDelegate {
-          func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+          func application(
+              _ application: UIApplication,
+              didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
+          ) -> Bool {
               AWSMobileClient.default().initialize { (userState, error) in
                   if let userState = userState {
                       print("UserState: \(userState.rawValue)")
@@ -177,9 +183,9 @@ You have now successfully setup and configured your app to use Amazon Location S
 
 ## Using the Amazon Location Service APIs
 
-In order to access Amazon Location Service APIs you will need to create resources. You can create resources using the [Amazon Location Service console](http://console.aws.amazon.com/location/home) or using the [AWS Command Line Interface (CLI)](https://aws.amazon.com/cli/). Once you have created the resources, you can use these resources by calling the [APIs](https://aws-amplify.github.io/aws-sdk-ios/docs/reference/AWSLocation/index.html). 
+In order to access Amazon Location Service APIs you will need to create resources. You can create resources using the [Amazon Location Service console](http://console.aws.amazon.com/location/home) or using the [AWS Command Line Interface (CLI)](https://aws.amazon.com/cli/). Once you have created the resources, you can use these resources by calling the [APIs](https://aws-amplify.github.io/aws-sdk-ios/docs/reference/AWSLocation/index.html).
 
-This section provides you an example of using the Amazon Location Service APIs. In this example, we will first create a Place Index in the Amazon Location Service console and use the APIs to search for places.  
+This section provides you an example of using the Amazon Location Service APIs. In this example, you will first create a Place Index in the Amazon Location Service console and use the APIs to search for places.
 
 ### Creating a new place index
 

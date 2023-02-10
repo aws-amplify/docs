@@ -91,7 +91,20 @@ This will render the component within an HTML `<form />` element.
 
 </Callout>
 
+<Callout warning>
+
+Amplify Forms use DataStore to save and load data. In most cases, you will want to have authentication for your forms. For example, an app might use `API Key` for public content and `Cognito User Pool` for personalized content once the user logs in. 
+However, DataStore will only use the default authentication type and not the additional types unless configured with MULTI_AUTH enabled. To enable multiple authentication types in DataStore & Amplify Forms, please refer to [Configure Multiple Authorization Types](/lib/datastore/setup-auth-rules/#configure-multiple-authorization-types).
+
+</Callout>
+
 ### Create a record in database
+
+<Callout warning>
+
+**Note:** Amplify Studio now provides a new experience to build React forms. We recommend you to review [Form Builder (React)](/console/formbuilder/overview) first before using the data action bindings documented below.
+
+</Callout>
 
 You can create a new record based on the values provided by input fields. For example, you have a form to create a new "Home" for a rental listing site. The form contains inputs for the address, price, and an image URL.
 

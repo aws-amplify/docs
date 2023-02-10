@@ -4,6 +4,11 @@ For testing purposes, you can run this from your MainActivity's `onCreate` metho
 <Block name="Java">
 
 ```java
+import android.util.Log;
+import com.amplifyframework.core.Amplify;
+```
+
+```java
 Amplify.Auth.fetchAuthSession(
     result -> Log.i("AmplifyQuickstart", result.toString()),
     error -> Log.e("AmplifyQuickstart", error.toString())
@@ -14,6 +19,11 @@ Amplify.Auth.fetchAuthSession(
 <Block name="Kotlin - Callbacks">
 
 ```kotlin
+import android.util.Log
+import com.amplifyframework.core.Amplify
+```
+
+```kotlin
 Amplify.Auth.fetchAuthSession(
     { Log.i("AmplifyQuickstart", "Auth session = $it") },
     { error -> Log.e("AmplifyQuickstart", "Failed to fetch auth session", error) }
@@ -21,7 +31,13 @@ Amplify.Auth.fetchAuthSession(
 ```
 
 </Block>
-<Block name="Kotlin - Coroutines (Beta)">
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+import android.util.Log
+import com.amplifyframework.auth.AuthException
+import com.amplifyframework.kotlin.core.Amplify
+```
 
 ```kotlin
 try {
@@ -34,6 +50,11 @@ try {
 
 </Block>
 <Block name="RxJava">
+
+```java
+import android.util.Log;
+import com.amplifyframework.rx.RxAmplify;
+```
 
  ```java
 RxAmplify.Auth.fetchAuthSession()
