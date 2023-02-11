@@ -5,7 +5,7 @@ pull_request_rules:
     actions:
       comment:
         message: |
-          @{{author}}, since a file was deleted from the `src/pages` and/or `src/fragments` directories, redirects will need to be set up so these previous pages do not 404. Please answer these questions:
+          @{{author}}, since a file was deleted from the `src/pages` and/or `src/fragments` directories, redirects might need to be set up so these previous pages do not 404. If redirects are needed, please answer these questions for each redirect that is needed:
 
           - What is the source address of the redirect? (Where are you trying to redirect from?)
 
@@ -15,9 +15,11 @@ pull_request_rules:
       label:
         remove:
           - 'redirects-added'
-  - name: Add redirects-needed label if action fails for forked PRs
+  - name: Add redirects-needed label if status checks fail
     conditions:
-      - check-failure="Check if redirects are needed"
+      - or:
+        - check-failure="Check if redirects are needed on PR opened"
+        - check-failure="Check if redirects are needed on PR sync"
     actions:
       label:
         add:
