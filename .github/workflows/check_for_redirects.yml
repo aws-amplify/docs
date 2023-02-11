@@ -49,4 +49,3 @@ jobs:
     steps:
       - name: Exit with error
         run: exit 1
-        
