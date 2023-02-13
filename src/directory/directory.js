@@ -2024,6 +2024,11 @@ const directory = {
             title: 'Feature Flags',
             route: '/cli/reference/feature-flags',
             filters: []
+          },
+          {
+            title: 'SSM Parameter Store',
+            route: '/cli/reference/ssm-parameter-store',
+            filters: []
           }
         ]
       }
