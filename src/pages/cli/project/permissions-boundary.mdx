@@ -1,6 +1,6 @@
 export const meta = {
   title: `IAM Permissions Boundary for Amplify-generated roles`,
-  description: `Apply a Permissions Boundary to all IAM Roles created by Amplify CLI.`,
+  description: `Apply a Permissions Boundary to all IAM Roles created by Amplify CLI.`
 };
 
 To set the maximum permissions that can be granted to IAM Roles created by Amplify CLI, configure a [Permissions Boundary](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html) for the project. Then, Amplify-generated IAM roles can perform only the actions that are allowed by both the roles’ policies and Permissions Boundary. You can configure a different Permissions Boundary for each environment. For example, this enables you to deny a dev environment all access to a prod environment's resources.
@@ -11,7 +11,8 @@ The IAM Policy, to be used as a Permissions Boundary, must be configured outside
 
 ## Set up a Permissions Boundary in a new project
 
-To initialize a project with a Permissions Boundary run: 
+To initialize a project with a Permissions Boundary run:
+
 ```
 amplify init --permissions-boundary <IAM Policy ARN>
 ```
@@ -21,11 +22,13 @@ amplify init --permissions-boundary <IAM Policy ARN>
 When creating a new Amplify environment using `amplify env add` the Permissions Boundary from the current environment is automatically applied to the new environment.
 
 To specify a different Permissions Boundary for the new environment, run:
+
 ```
 amplify env add --permissions-boundary <IAM Policy ARN>
 ```
 
 To explicitly specify that the new environment should NOT have a Permissions Boundary, run:
+
 ```
 amplify env add --permissions-boundary ''
 ```
@@ -35,11 +38,13 @@ If Amplify CLI is not able to automatically apply the Permissions Boundary to th
 ## Update an environment's Permissions Boundary
 
 To modify the Permissions Boundary of the current environment, run:
+
 ```
 amplify env update
 ```
 
-In non-interactive shells use 
+In non-interactive shells use
+
 ```
 amplify env update --permissions-boundary <IAM Policy ARN>
 ```
@@ -49,3 +54,33 @@ The IAM Permissions Boundary will be applied on the next `amplify push`.
 ## Set up a Permissions Boundary in a cross-account Amplify project
 
 Amplify CLI cannot automatically apply the existing boundary to a new environment in a different AWS account if the `--yes` flag is used during `amplify env add`. In this case, a new Permissions Boundary must be specified using `amplify env add --yes --permissions-boundary <IAM Policy ARN>` or to explicitly remove the Permissions Boundary from the new environment use `amplify env add --yes --permissions-boundary ''`.
+
+## Permissions Boundary usage example
+
+When working with different environments you may want to create an environment that allow users to only access and make modifications to specific resources.
+
+For this example lets consider a scenario where the team wants to create a environment thats allows the developers to only work with DynamoDB resources. We can use the [AWS managed](https://us-east-1.console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess$serviceLevelSummary?section=permissions) policy for DynamoDB that allows users to add a DynamoDB table.
+
+Add Permissions Boundary for the new environment, run:
+
+```
+amplify env add --permissions-boundary arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess
+```
+
+We can verify if the permissions boundary have been applied by checking the AWS IAM console for the `authRole` and `unauthRole` created by Amplify CLI.
+
+Add a DynamoDB table, run:
+
+```
+amplify add storage
+```
+
+Select `NoSQL Database` and finish the setup wizard.
+
+Push the resources, run:
+
+```
+amplify push
+```
+
+If we create resources that are outside the scope of allowed resources on permissions boundary, for example a Cognito resource. The next `amplify push` will fail.
