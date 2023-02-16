@@ -26,7 +26,13 @@ Future<void> deleteTodo(Todo todoToDelete) async {
   final response = await Amplify.API.mutate(request: request).response;
   print('Response: $response');
 }
+```
 
+<BlockSwitcher>
+
+<Block name="Stable (Mobile)">
+
+```dart
 // or delete by ID, ideal if you do not have the instance in memory, yet
 Future<void> deleteTodoById(Todo todoToDelete) async {
   final request = ModelMutations.deleteById(Todo.classType, '8e0dd2fc-2f4a-4dc4-b47f-2052eda10775');
@@ -34,3 +40,23 @@ Future<void> deleteTodoById(Todo todoToDelete) async {
   print('Response: $response');
 }
 ```
+
+</Block>
+
+<Block name="Developer Preview (Mobile, Web & Desktop)">
+
+```dart
+// or delete by ID, ideal if you do not have the instance in memory, yet
+Future<void> deleteTodoById(Todo todoToDelete) async {
+  final request = ModelMutations.deleteById(
+    Todo.classType,
+    TodoModelIdentifier(id: '8e0dd2fc-2f4a-4dc4-b47f-2052eda10775'),
+  );
+  final response = await Amplify.API.mutate(request: request).response;
+  print('Response: $response');
+}
+```
+
+</Block>
+
+</BlockSwitcher>
