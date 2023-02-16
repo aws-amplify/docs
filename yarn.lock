@@ -382,23 +382,23 @@
     qrcode "^1.4.4"
     uuid "^8.2.0"
 
-"@aws-amplify/ui-react-core@2.1.4":
-  version "2.1.4"
-  resolved "https://registry.npmjs.org/@aws-amplify/ui-react-core/-/ui-react-core-2.1.4.tgz"
-  integrity sha512-Jd/pwPLjgKfjxjLq4Qb1V0gKscyC/neN7z4dkHmK9jSYW7z73YFTppIdbeTtqySZq7yl4+4DKTkjRIFFbyiajQ==
+"@aws-amplify/ui-react-core@2.1.13":
+  version "2.1.13"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/ui-react-core/-/ui-react-core-2.1.13.tgz#c98beefbd3d1d58bde8947763863d9287d429111"
+  integrity sha512-jUzzULKM/0wQWuCoZKS6qc4zrqcGR7tgVcwTysBGJMjY5F8JJG0cTKR/1La+gUGPRT2W+/YiS62FwsD80ngysw==
   dependencies:
-    "@aws-amplify/ui" "5.3.1"
+    "@aws-amplify/ui" "5.5.5"
     "@xstate/react" "3.0.1"
     lodash "4.17.21"
     xstate "^4.33.6"
 
-"@aws-amplify/ui-react@^4.2.1":
-  version "4.2.1"
-  resolved "https://registry.npmjs.org/@aws-amplify/ui-react/-/ui-react-4.2.1.tgz"
-  integrity sha512-CoE149ZLyK/lrm8W9vTluc9AUBCb5Yx7mUZlm1+DCijwav3lyXE1kwX5pi/MyCRiFRV82L6vDq8jJwgquAvFTw==
+"@aws-amplify/ui-react@^4.3.8":
+  version "4.3.8"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/ui-react/-/ui-react-4.3.8.tgz#8efe9c923cd020537388dc1d5bc88a889e6c5c7f"
+  integrity sha512-5aOX5/1aVVE7uuNQhTsgPtvdN7nti9Ytcq7G75tX9BoGXu7yxWfXIdUKQhk3B6mcL+P4iXahsSy9b3oQ006YSQ==
   dependencies:
-    "@aws-amplify/ui" "5.3.1"
-    "@aws-amplify/ui-react-core" "2.1.4"
+    "@aws-amplify/ui" "5.5.5"
+    "@aws-amplify/ui-react-core" "2.1.13"
     "@radix-ui/react-accordion" "1.0.0"
     "@radix-ui/react-direction" "1.0.0"
     "@radix-ui/react-dropdown-menu" "1.0.0"
@@ -410,17 +410,17 @@
     lodash "4.17.21"
     mapbox-gl "1.13.1"
     maplibre-gl "2.1.9"
-    maplibre-gl-js-amplify "3.0.0"
+    maplibre-gl-js-amplify "3.0.2"
     qrcode "1.5.0"
     react-generate-context "1.0.1"
     react-map-gl "7.0.15"
     tinycolor2 "1.4.2"
     tslib "2.4.1"
 
-"@aws-amplify/ui@5.3.1":
-  version "5.3.1"
-  resolved "https://registry.npmjs.org/@aws-amplify/ui/-/ui-5.3.1.tgz"
-  integrity sha512-8z8Zg+cTR+GFaOzmukajYI4nc2TOswcJO2OMXnCFhDFIIfKqlE13Iye8B4A8CiwzXHfxx+Q6v+aydZHPa2f/dw==
+"@aws-amplify/ui@5.5.5":
+  version "5.5.5"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/ui/-/ui-5.5.5.tgz#c57906eec90c2aac8192de6a99faf18a00afc624"
+  integrity sha512-l4YECWJ72ZtottroyZ5ZZnxYT4QuoTKzZofg6ic/XAMH6pjUCtqNiqp0+K0tEqN7UlKQd1ggPkdMSpgsbaaEUQ==
   dependencies:
     csstype "^3.1.1"
     lodash "4.17.21"
@@ -7280,7 +7280,7 @@ get-value@^2.0.3, get-value@^2.0.6:
   resolved "https://registry.npmjs.org/get-value/-/get-value-2.0.6.tgz"
   integrity "sha1-3BXKHGcjh8p2vTesCjlbogQqLCg= sha512-Ln0UQDlxH1BapMu3GPtf7CuYNwRZf2gwCuPqbyG6pB8WfmFpzqcy4xtAaAMUhnNqjMKTiCPZG2oMT3YSx8U2NA=="
 
-git-jiggy@^1.1.1:
+git-jiggy@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/git-jiggy/-/git-jiggy-1.1.1.tgz#26c7016a5de11ca4723cfafc075ddb6212678253"
   integrity sha512-+Th8Qt2HqdMlXo1naC4xnaDUlmmvkAONYpDyt9ENcSyriem+N2Zp3dPb25Alhmd4gOPwJwyzwcgJWIJc/dnmRg==
@@ -7376,7 +7376,7 @@ graphql@15.8.0:
   resolved "https://registry.npmjs.org/graphql/-/graphql-15.8.0.tgz"
   integrity sha512-5gghUc24tP9HRznNpV2+FIoq3xKkj5dTQqf4v0CpdPbFVwFkWoxOM+o+2OC9ZSvjEMTjfmG9QT+gcvggTwW1zw==
 
-gray-matter@^4.0.3:
+gray-matter@4.0.3:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/gray-matter/-/gray-matter-4.0.3.tgz#e893c064825de73ea1f5f7d88c7a9f7274288798"
   integrity sha512-5v6yZd4JK3eMI3FqqCouswVqwugaA9r4dNZB1wwcmrD02QkV5H0y7XBQW8QwQqEaZY1pM9aqORSORhJRdNK44Q==
@@ -9010,10 +9010,10 @@ maplibre-gl-draw-circle@^0.1.1:
     "@turf/helpers" "^6.1.4"
     "@turf/length" "^6.0.2"
 
-maplibre-gl-js-amplify@3.0.0:
-  version "3.0.0"
-  resolved "https://registry.npmjs.org/maplibre-gl-js-amplify/-/maplibre-gl-js-amplify-3.0.0.tgz"
-  integrity sha512-mqDD0cJyc/JJ6mhMrbl6VU+/YHUKxHbI+22ZkXB34taYZR2+TBIwvHrcnb/p+Z4HilVC2NgY44ldpanZiHZX/g==
+maplibre-gl-js-amplify@3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/maplibre-gl-js-amplify/-/maplibre-gl-js-amplify-3.0.2.tgz#ccb7f97e4ec31ca0c0dc287b11fb739d45131f86"
+  integrity sha512-zCnpB6jPKvROLa45yqNkliffrHWu6Z2hZCLVk098/BeWEJjU54eBTxEgezGkIKdD/qPTohq6tf9t/6SEWYsOQA==
   dependencies:
     "@mapbox/mapbox-gl-draw" "^1.3.0"
     "@maplibre/maplibre-gl-geocoder" "^1.5.0"
@@ -11479,7 +11479,7 @@ through@^2.3.6:
   resolved "https://registry.npmjs.org/through/-/through-2.3.8.tgz"
   integrity "sha1-DdTJ/6q8NXlgsbckEV1+Doai4fU= sha512-w89qg7PI8wAdvX60bMDP+bFoD5Dvhm9oLheFp5O4a2QF0cSBGsBX4qZmadPMvVqlLJBBci+WqGGOAPvcDeNSVg=="
 
-tiny-glob@^0.2.9:
+tiny-glob@0.2.9:
   version "0.2.9"
   resolved "https://registry.yarnpkg.com/tiny-glob/-/tiny-glob-0.2.9.tgz#2212d441ac17928033b110f8b3640683129d31e2"
   integrity sha512-g/55ssRPUjShh+xkfx9UPDXqhckHEsHr4Vd9zX55oSdGZc/MD0m3sferOkwWtp98bv+kcVfEHtRJgBVJzelrzg==
