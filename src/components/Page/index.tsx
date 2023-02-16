@@ -39,9 +39,8 @@ export default function Page({
 }) {
   const router = useRouter();
 
-  const [menuIsOpen, setMenuIsOpen] = useState(false);
-
   if (!router.isReady) {
+    const [menuIsOpen, setMenuIsOpen] = useState(false);
     useRef(null);
     return <></>;
   }
@@ -106,6 +105,7 @@ export default function Page({
     );
   }
 
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
   meta.chapterTitle = '';
   if (meta && !isProductRoot(url)) {
     const { title: chapTitle } = getChapterDirectory(url) as {
