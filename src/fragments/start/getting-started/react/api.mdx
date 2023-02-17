@@ -150,8 +150,11 @@ query listTodos {
 }
 ```
 
-### If you are using Typescript
-You may need to add a tsconfig.json file to your project manually otherwise the project won't be able to find the GraphQL queries. 
+
+If you are following this step using Typescript, you may run into an issue where your project cannot find your GraphQL queries.
+To fix this, you will need to add a ```tsconfig.json``` file to your Amplify project manually.
+
+An example working tsconfig.json file is provided below: 
 
 ```tsconfig.json
 {
