@@ -150,27 +150,6 @@ query listTodos {
 }
 ```
 
-
-If you are following this step using Typescript, you may run into an issue where your project cannot find your GraphQL queries.
-To fix this, you will need to add a ```tsconfig.json``` file to your Amplify project manually.
-
-An example working tsconfig.json file is provided below: 
-
-```tsconfig.json
-{
-    "compilerOptions": {
-      "module": "system",
-      "noImplicitAny": true,
-      "removeComments": true,
-      "preserveConstEnums": true,
-      "outFile": "../../built/local/tsc.js",
-      "sourceMap": true
-    },
-    "include": ["src/**/*"],
-    "exclude": ["node_modules", "**/*.spec.ts"]
-}
-```
-
 ## Connect frontend to API
 
 In this section you will create a way to list and create todos from the React application. To do this, you will create a form with a button to create todos as well as a way to fetch and render the list of todos.
@@ -275,4 +254,24 @@ Next, run the app and you should see the form rendered to the screen and be able
 
 ```bash
 npm start
+```
+
+If you are following this step using Typescript, you may run into an issue where your project cannot find your GraphQL queries.
+To fix this, you will need to add a ```tsconfig.json``` file to your Amplify project manually.
+
+An example working tsconfig.json file is provided below: 
+
+```tsconfig.json
+{
+    "compilerOptions": {
+      "module": "system",
+      "noImplicitAny": true,
+      "removeComments": true,
+      "preserveConstEnums": true,
+      "outFile": "../../built/local/tsc.js",
+      "sourceMap": true
+    },
+    "include": ["src/**/*"],
+    "exclude": ["node_modules", "**/*.spec.ts"]
+}
 ```
