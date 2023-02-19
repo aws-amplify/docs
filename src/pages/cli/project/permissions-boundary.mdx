@@ -57,17 +57,15 @@ Amplify CLI cannot automatically apply the existing boundary to a new environmen
 
 ## Permissions Boundary usage example
 
-When working with different environments you may want to create an environment that allow users to only access and make modifications to specific resources.
+Suppose you want to scope down permissions for Amplify CLI to only allow an environment to work with DynamoDB tables. In this case, the [DynamoDB FullAccess Managed Policy](https://us-east-1.console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess$serviceLevelSummary?section=permissions) can be used as a permission boundary.
 
-For this example lets consider a scenario where the team wants to create a environment thats allows the developers to only work with DynamoDB resources. We can use the [AWS managed](https://us-east-1.console.aws.amazon.com/iam/home#/policies/arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess$serviceLevelSummary?section=permissions) policy for DynamoDB that allows users to add a DynamoDB table.
-
-Add Permissions Boundary for the new environment, run:
+To add a Permissions Boundary for a new environment, run:
 
 ```
 amplify env add --permissions-boundary arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess
 ```
 
-We can verify if the permissions boundary have been applied by checking the AWS IAM console for the `authRole` and `unauthRole` created by Amplify CLI.
+Verify if the permissions boundary have been applied by checking the AWS IAM console for the `authRole` and `unauthRole` created by Amplify CLI.
 
 Add a DynamoDB table, run:
 
