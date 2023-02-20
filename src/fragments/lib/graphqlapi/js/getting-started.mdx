@@ -160,9 +160,9 @@ import { OnCreateTodoSubscription } from './API';
 const sub = API.graphql<GraphQLSubscription<OnCreateTodoSubscription>>(
     graphqlOperation(onCreateTodo)
 ).subscribe({
-    next: (todoData) => {
-      console.log(todoData);
-      // Do something with the data
+    next: (payload) => {
+      const createdTodo = payload.value.data?.onCreateTodo;
+      console.log(createdTodo);
     }
 });
 
@@ -182,9 +182,9 @@ import { onCreateTodo } from './graphql/subscriptions';
 const sub = API.graphql(
     graphqlOperation(onCreateTodo)
 ).subscribe({
-    next: (todoData) => {
-      console.log(todoData);
-      // Do something with the data
+    next: (payload) => {
+      const createdTodo = payload.value.data?.onCreateTodo;
+      console.log(createdTodo);
     }
 });
 
