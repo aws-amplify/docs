@@ -20,12 +20,13 @@ This is an example of using `AWS_IAM` as an authorization mode:
 <Block name="TypeScript">
 
 ```ts
-import { GraphQLQuery, GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
+import { API, GraphQLQuery, GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
+import * as mutations from './graphql/mutations';
 import { CreateTodoMutation } from './API';
 
 // Creating a post is restricted to IAM 
 const createdTodo = await API.graphql<GraphQLQuery<CreateTodoMutation>>({
-  query: queries.createTodo,
+  query: mutations.createTodo,
   variables: { input: todoDetails },
   authMode: GRAPHQL_AUTH_MODE.AWS_IAM
 });
@@ -35,11 +36,12 @@ const createdTodo = await API.graphql<GraphQLQuery<CreateTodoMutation>>({
 <Block name="JavaScript">
 
 ```js
-import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
+import { API, GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
+import * as mutations from './graphql/mutations';
 
 // Creating a post is restricted to IAM 
 const createdTodo = await API.graphql({
-  query: queries.createTodo,
+  query: mutations.createTodo,
   variables: {input: todoDetails},
   authMode: GRAPHQL_AUTH_MODE.AWS_IAM
 });
@@ -68,14 +70,13 @@ The following example assumes `AWS_LAMBDA` is configured as the default authenti
 <Block name="TypeScript">
 
 ```ts
-import { GraphQLQuery } from '@aws-amplify/api';
-import { CreateTodoMutation } from './API';
+// ...
 
 const getAuthToken = () => 'myAuthToken';
 const lambdaAuthToken = getAuthToken();
 
 const createdTodo = await API.graphql<GraphQLQuery<CreateTodoMutation>>({
-  query: queries.createTodo,
+  query: mutations.createTodo,
   variables: {input: todoDetails},
   authToken: lambdaAuthToken
 });
@@ -84,13 +85,14 @@ const createdTodo = await API.graphql<GraphQLQuery<CreateTodoMutation>>({
 </Block>
 
 <Block name="JavaScript">
-
 ```js
+// ...
+
 const getAuthToken = () => 'myAuthToken';
 const lambdaAuthToken = getAuthToken();
 
 const createdTodo = await API.graphql({
-  query: queries.createTodo,
+  query: mutations.createTodo,
   variables: {input: todoDetails},
   authToken: lambdaAuthToken
 });
@@ -105,14 +107,15 @@ If you have a different default authentication type and would like to use `AWS_L
 <Block name="TypeScript">
 
 ```ts
-import { GraphQLQuery, GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
+// ...
+import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
 import { CreateTodoMutation } from './API';
 
 const getAuthToken = () => 'myAuthToken';
 const lambdaAuthToken = getAuthToken();
 
 const createdTodo = await API.graphql<GraphQLQuery<CreateTodoMutation>>({
-  query: queries.createTodo,
+  query: mutations.createTodo,
   variables: {input: todoDetails},
   authMode: GRAPHQL_AUTH_MODE.AWS_LAMBDA,
   authToken: lambdaAuthToken
@@ -124,13 +127,14 @@ const createdTodo = await API.graphql<GraphQLQuery<CreateTodoMutation>>({
 <Block name="JavaScript">
 
 ```js
+// ...
 import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
 
 const getAuthToken = () => 'myAuthToken';
 const lambdaAuthToken = getAuthToken();
 
 const createdTodo = await API.graphql({
-  query: queries.createTodo,
+  query: mutations.createTodo,
   variables: {input: todoDetails},
   authMode: GRAPHQL_AUTH_MODE.AWS_LAMBDA,
   authToken: lambdaAuthToken

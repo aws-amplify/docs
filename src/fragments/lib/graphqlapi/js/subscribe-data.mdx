@@ -74,6 +74,7 @@ Subscriptions take an optional `filter` argument to define service-side subscrip
 <Block name="TypeScript">
 
 ```ts
+// ...
 import { GraphQLSubscription } from '@aws-amplify/api';
 import { OnCreateTodoSubscriptionVariables, OnCreateTodoSubscription } from './API';
 
@@ -97,6 +98,8 @@ const sub = API.graphql<GraphQLSubscription<OnCreateTodoSubscription>>(
 <Block name="JavaScript">
 
 ```js
+// ...
+
 const variables = {
   filter: {
     // Only receive Todo messages where the "type" field is "Personal"
@@ -154,6 +157,7 @@ import jsReconnectDescription from '/src/fragments/lib/pubsub/js/reconnect-descr
 <Block name="TypeScript">
 
 ```ts
+// ...
 import { GraphQLQuery, GraphQLSubscription } from '@aws-amplify/api';
 import {
   ListTodosQuery
@@ -214,6 +218,8 @@ const cleanupSubscriptions = () => {
 <Block name="JavaScript">
 
 ```js
+// ...
+
 const fetchRecentData = () => {
   // Retrieve some/all data from AppSync
   const allTodos = await API.graphql({ query: queries.listTodos });

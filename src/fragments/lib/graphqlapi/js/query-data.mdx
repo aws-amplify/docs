@@ -69,6 +69,7 @@ You can optionally import the `graphqlOperation` helper function to help you con
 import { API, graphqlOperation } from 'aws-amplify';
 import { GraphQLQuery } from '@aws-amplify/api';
 import { GetTodoQuery } from './API';
+// ...
 
 const oneTodo = await API.graphql<GraphQLQuery<GetTodoQuery>>(
   graphqlOperation(queries.getTodo, { id: 'some id' })
@@ -81,6 +82,7 @@ const oneTodo = await API.graphql<GraphQLQuery<GetTodoQuery>>(
 
 ```js
 import { API, graphqlOperation } from 'aws-amplify';
+// ...
 
 const oneTodo = await API.graphql(
   graphqlOperation(queries.getTodo, { id: 'some id' })

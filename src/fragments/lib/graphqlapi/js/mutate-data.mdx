@@ -56,8 +56,8 @@ You can optionally import the `graphqlOperation` helper function to help you con
 <Block name="TypeScript">
 
 ```ts
-import { API, graphqlOperation } from 'aws-amplify';
 // ...
+import { API, graphqlOperation } from 'aws-amplify';
 
 // equivalent to above example
 const newTodo = await API.graphql<GraphQLQuery<CreateTodoMutation>>(
@@ -70,8 +70,8 @@ const newTodo = await API.graphql<GraphQLQuery<CreateTodoMutation>>(
 <Block name="JavaScript">
 
 ```js
-import { API, graphqlOperation } from 'aws-amplify';
 // ...
+import { API, graphqlOperation } from 'aws-amplify';
 
 // equivalent to above example
 const newTodo = await API.graphql(
