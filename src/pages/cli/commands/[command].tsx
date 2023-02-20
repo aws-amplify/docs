@@ -144,11 +144,12 @@ function CommandPage({ meta, command }) {
               <CommandPageSubcommandHeading>
                 {subCommand.name}
               </CommandPageSubcommandHeading>
-              <p>{command.description}</p>
-              <CommandPageHeading level={4}>Usage</CommandPageHeading>
+              <p>{subCommand.description}</p>
+              {/* @todo fix subcommand usage from cli */}
+              {/* <CommandPageHeading level={4}>Usage</CommandPageHeading>
               <p>
                 <code>{command.usage}</code>
-              </p>
+              </p> */}
               {command.subCommands.flags?.length > 0 && (
                 <>
                   <CommandPageHeading level={4}>Flags</CommandPageHeading>
