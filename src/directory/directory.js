@@ -2522,6 +2522,11 @@ const directory = {
             title: 'Managing user attributes',
             route: '/guides/authentication/managing-user-attributes',
             filters: ['js']
+          },
+          {
+            title: 'Client-side route protection',
+            route: '/guides/authentication/client-side-route-protection',
+            filters: ['js']
           }
         ]
       },
