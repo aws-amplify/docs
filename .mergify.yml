@@ -24,3 +24,19 @@ pull_request_rules:
       label:
         add:
           - 'redirects-needed'
+  - name: Remove verified-assets label if deleted-assets label is added
+    conditions:
+      - label="deleted-assets"
+    actions:
+      label:
+        remove:
+          - 'verified-assets'
+  - name: Add deleted-assets label if status checks fail
+    conditions:
+      - or:
+        - check-failure="Check if assets were deleted on PR opened"
+        - check-failure="Check if assets were deleted on PR sync"
+    actions:
+      label:
+        add:
+          - 'deleted-assets'
