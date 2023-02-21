@@ -1,0 +1,50 @@
+<!-- # Client-side route protection in React -->
+
+This example shows how to protect routes client-side in React using `withAuthenticator` [higher-order component (HOC)](https://reactjs.org/docs/higher-order-components.html).
+
+```tsx
+// src/lib/withAuth.tsx
+import { useAuthenticator } from '@aws-amplify/ui-react'
+import type { FunctionComponent, PropsWithChildren } from 'react'
+
+type UnknownComponentProps = PropsWithChildren<{
+  [key: string]: unknown
+}>
+
+/**
+ * A higher-order component that wraps a Component with authentication.
+ */
+function withAuth(Component: FunctionComponent<UnknownComponentProps>) {
+  return function WithAuth(props: UnknownComponentProps) {
+    const { user } = useAuthenticator((context) => [context.user])
+
+    if (!user) {
+      return (
+        <p>
+          You do not have access to this page.
+        </p>
+      )
+    }
+
+    return <Component {...props} />
+  }
+}
+
+export default withAuth
+```
+
+Which can be used to protect a route like the following example that is based on Next.js:
+
+```tsx
+import { withAuth } from '../lib/withAuth'
+
+function ProtectedPage() {
+  return (
+    <p>
+      This page is protected.
+    </p>
+  )
+}
+
+export default withAuth(ProtectedPage)
+```
