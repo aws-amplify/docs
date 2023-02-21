@@ -16,6 +16,7 @@ type UnknownComponentProps = PropsWithChildren<{
  */
 function withAuth(Component: FunctionComponent<UnknownComponentProps>) {
   return function WithAuth(props: UnknownComponentProps) {
+    // useAuthenticator will require an instance of Authenticator.Provider in the app file
     const { user } = useAuthenticator((context) => [context.user])
 
     if (!user) {
