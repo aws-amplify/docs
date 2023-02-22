@@ -10,10 +10,10 @@ Note: An empty string will be assigned to userId and/or username, if the values 
 
 ```java
  try {
-      Amplify.Auth.getCurrentUser(
-             result -> Log.i("AuthQuickstart", "Current user details are:" + result.toString(),
-             error -> Log.e("AuthQuickstart", "getCurrentUser failed with an exception: " + error)
-      );
+    Amplify.Auth.getCurrentUser(
+           result -> Log.i("AuthQuickstart", "Current user details are:" + result.toString(),
+           error -> Log.e("AuthQuickstart", "getCurrentUser failed with an exception: " + error)
+    );
  } catch (Exception error) {
     Log.e("AuthQuickstart", "unexpected error: " + error);
  }
@@ -23,22 +23,22 @@ Note: An empty string will be assigned to userId and/or username, if the values 
 <Block name="Kotlin - Callbacks">
 
 ```kotlin
-  Amplify.Auth.getCurrentUser({
-             Log.i("AuthQuickStart", "Current user details are: userid : ${it.userId} username: ${it.username}")},{
-             Log.e("AuthQuickStart", "getCurrentUser failed with an exception: ", it)
- })
+Amplify.Auth.getCurrentUser({
+    Log.i("AuthQuickStart", "Current user details are: $it")},{
+    Log.e("AuthQuickStart", "getCurrentUser failed with an exception: $it")
+})
 ```
 </Block>
 
 <Block name="Kotlin - Coroutines">
 
 ```kotlin
-  try {
-      val result = Amplify.Auth.getCurrentUser()
-      Log.i("AuthQuickstart", "Current user details are: userid : ${result.userId} username: ${result.username}")
-  } catch (error: Exception) {
-      Log.e("AuthQuickstart", "getCurrentUser failed with an exception: $error")
-  }
+try {
+    val result = Amplify.Auth.getCurrentUser()
+    Log.i("AuthQuickstart", "Current user details are: $result")
+} catch (error: Exception) {
+    Log.e("AuthQuickstart", "getCurrentUser failed with an exception: $error")
+}
 ```
 </Block>
 
@@ -46,7 +46,7 @@ Note: An empty string will be assigned to userId and/or username, if the values 
 
 ```java
   RxAmplify.Auth.getCurrentUser().subscribe(
-        result -> Log.i("AuthQuickStart getCurrentUser: ", result.toString()),
+        result -> Log.i("AuthQuickStart getCurrentUser: " + result.toString()),
         error -> Log.e("AuthQuickStart", error.toString())
  );
 ```
