@@ -2326,7 +2326,7 @@ const directory = {
         ]
       },
       uibuilder: {
-        title: 'Figma-to-Code (React)',
+        title: 'Figma to Code (React)',
         items: [
           {
             title: 'Overview',
@@ -2361,7 +2361,7 @@ const directory = {
             route: '/console/uibuilder/override'
           },
           {
-            title: 'Figma-to-Code best practices',
+            title: 'Best practices',
             route: '/console/uibuilder/bestpractices'
           }
         ]
