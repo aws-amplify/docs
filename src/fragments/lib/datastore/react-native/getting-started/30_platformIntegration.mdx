@@ -31,7 +31,7 @@ To enable SQLite with DataStore for enhanced local database performance, follow 
 npx react-native@0.68.2 init AmplifyDataStoreRN --version 0.68.2
 cd AmplifyDataStoreRN
 npx amplify-app@latest
-npm install aws-amplify @aws-amplify/datastore-storage-adapter react-native-sqlite-storage @react-native-community/netinfo @react-native-async-storage/async-storage 
+npm install aws-amplify @aws-amplify/datastore-storage-adapter react-native-sqlite-storage @react-native-community/netinfo @react-native-async-storage/async-storage
 npx pod-install
 ```
 
@@ -45,6 +45,9 @@ DataStore.configure({
   storageAdapter: SQLiteAdapter
 });
 ```
+
+The SQLite storage adapter does not currently support custom primary keys.
+Disable custom primary key in `amplify/cli.json` by setting `graphQLTransformer.respectPrimaryKeyAttributesOnConnectionField` to `false`.
 
 </Block>
 <Block name="Expo">
@@ -68,7 +71,7 @@ To enable SQLite with DataStore for enhanced local database performance, follow 
 expo init AmplifyDataStoreExpo
 cd AmplifyDataStoreExpo
 npx amplify-app@latest
-expo install aws-amplify @aws-amplify/datastore-storage-adapter expo-sqlite expo-file-system @react-native-community/netinfo @react-native-async-storage/async-storage 
+expo install aws-amplify @aws-amplify/datastore-storage-adapter expo-sqlite expo-file-system @react-native-community/netinfo @react-native-async-storage/async-storage
 ```
 
 Then configure the SQLite storage adapter with DataStore in your app:
@@ -81,6 +84,9 @@ DataStore.configure({
   storageAdapter: ExpoSQLiteAdapter
 });
 ```
+
+The SQLite storage adapter does not currently support custom primary keys.
+Disable custom primary key in `amplify/cli.json` by setting `graphQLTransformer.respectPrimaryKeyAttributesOnConnectionField` to `false`.
 
 </Block>
 </BlockSwitcher>
