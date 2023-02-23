@@ -46,9 +46,12 @@ DataStore.configure({
 });
 ```
 
+<Callout>
+
 The SQLite storage adapter does not currently support custom primary keys.
 Disable custom primary key in `amplify/cli.json` by setting `graphQLTransformer.respectPrimaryKeyAttributesOnConnectionField` to `false`.
 
+</Callout>
 </Block>
 <Block name="Expo">
 
