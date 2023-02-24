@@ -1,13 +1,37 @@
-```js
+<BlockSwitcher>
+<Block name="TypeScript"></Block>
+
+```ts
 async function updatePost(id, newTitle) {
-  const original = await DataStore.query(Post, id);
-  await DataStore.save(
+  const original: Post | undefined = await DataStore.query<Post>(Post, id);
+
+  if (!original) return;
+
+  const updatedPost: Post = await DataStore.save<Post>(
     Post.copyOf(original, updated => {
       updated.title = newTitle
     })
   );
 }
 ```
+
+</Block>
+<Block name="JavaScript">
+
+```js
+async function updatePost(id, newTitle) {
+  const original = await DataStore.query(Post, id);
+  
+  const updatedPost = await DataStore.save(
+    Post.copyOf(original, updated => {
+      updated.title = newTitle
+    })
+  );
+}
+```
+
+</Block>
+</BlockSwitcher>
 
 <Callout>
 

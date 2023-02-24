@@ -1,5 +1,20 @@
+<BlockSwitcher>
+<Block name="TypeScript"></Block>
+
+```ts
+const posts: Post[] = await DataStore.query<Post>(Post, Predicates.ALL, {
+  sort: s => s.rating(SortDirection.ASCENDING).title(SortDirection.DESCENDING)
+});
+```
+
+</Block>
+<Block name="JavaScript">
+
 ```js
 const posts = await DataStore.query(Post, Predicates.ALL, {
   sort: s => s.rating(SortDirection.ASCENDING).title(SortDirection.DESCENDING)
 });
 ```
+
+</Block>
+</BlockSwitcher>

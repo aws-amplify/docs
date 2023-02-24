@@ -1,3 +1,18 @@
+<BlockSwitcher>
+<Block name="TypeScript"></Block>
+
+```ts
+try {
+  const posts: Post[] = await DataStore.query<Post>(Post);
+  console.log("Posts retrieved successfully!", JSON.stringify(posts, null, 2));
+} catch (error) {
+  console.log("Error retrieving posts", error);
+}
+```
+
+</Block>
+<Block name="JavaScript">
+
 ```js
 try {
   const posts = await DataStore.query(Post);
@@ -6,3 +21,7 @@ try {
   console.log("Error retrieving posts", error);
 }
 ```
+
+</Block>
+</BlockSwitcher>
+

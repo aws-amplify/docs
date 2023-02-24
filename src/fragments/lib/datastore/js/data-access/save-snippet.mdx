@@ -1,5 +1,21 @@
+<BlockSwitcher>
+<Block name="TypeScript"></Block>
+
+```ts
+const post = await DataStore.save(
+  const post: Post = new Post<Post>({
+    title: 'My First Post',
+    rating: 10,
+    status: PostStatus.INACTIVE
+  })
+);
+```
+
+</Block>
+<Block name="JavaScript">
+
 ```js
-await DataStore.save(
+const post = await DataStore.save(
   new Post({
     title: 'My First Post',
     rating: 10,
@@ -7,3 +23,6 @@ await DataStore.save(
   })
 );
 ```
+
+</Block>
+</BlockSwitcher>

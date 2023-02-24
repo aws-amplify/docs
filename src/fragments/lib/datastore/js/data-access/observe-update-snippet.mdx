@@ -1,3 +1,6 @@
+<BlockSwitcher>
+<Block name="TypeScript"></Block>
+
 ```ts
 // Example showing how to observe the model and keep state updated before
 // performing a save. This uses the useEffect React hook, but you can
@@ -6,6 +9,66 @@
 
 function App() {
   const [post, setPost] = useState<Post>();
+
+  useEffect(() => {
+    /**
+     * This keeps `todo` fresh.
+     */
+    const sub = DataStore.observeQuery<Post>(Post, (c) =>
+      c.id.eq("e4dd1dc5-e85c-4566-8aaa-54a801396456")
+    ).subscribe(({ items }) => {
+      setPost(items[0]);
+    });
+
+    return () => {
+      sub.unsubscribe();
+    };
+  }, []);
+
+  return (
+    <>
+      <h1>{post?.title}</h1>
+      <input
+        type="text"
+        value={post?.title ?? ""}
+        onChange={({ target: { value } }) => {
+          /**
+           * Each keypress updates the post in local react state.
+           */
+          setPost(
+            Post.copyOf<Post>(post, (draft) => {
+              draft.title = value;
+            })
+          );
+        }}
+      />
+      <input
+        type="button"
+        value="Save"
+        onClick={async () => {
+          /**
+           * This post is already up to date because observeQuery updated it.
+           */
+          await DataStore.save<Post>(post);
+          console.log("Post saved");
+        }}
+      />
+    </>
+  );
+}
+```
+
+</Block>
+<Block name="JavaScript">
+
+```ts
+// Example showing how to observe the model and keep state updated before
+// performing a save. This uses the useEffect React hook, but you can
+// substitute for a similar mechanism in your application lifecycle with
+// other frameworks.
+
+function App() {
+  const [post, setPost] = useState();
 
   useEffect(() => {
     /**
@@ -33,7 +96,7 @@ function App() {
            * Each keypress updates the post in local react state.
            */
           setPost(
-            Post.copyOf(post!, (draft) => {
+            Post.copyOf(post, (draft) => {
               draft.title = value;
             })
           );
@@ -46,10 +109,14 @@ function App() {
           /**
            * This post is already up to date because observeQuery updated it.
            */
-          await DataStore.save(post!);
+          await DataStore.save(post);
           console.log("Post saved");
         }}
       />
     </>
   );
+}
 ```
+
+</Block>
+</BlockSwitcher>
