@@ -1,14 +1,21 @@
 ## Register with APNs
 
-Receiving push notifications from APNs requires requesting permission from the user to receive notifications and then registering with the APNs service. By default, **AWSPinpointPushNotificationsPlugin takes care of these steps for you during configuration**.  The following permissions are requested: `[.badge, .alert, .sound]`.
+### Request user permission to receive notifications
 
-You can override the default behavior by passing a different set of `UNAuthorizationOptions` when adding the plugin. For example, to exclude the permission for notifications sounds, you could add the plugin with `try Amplify.add(plugin: AWSPinpointPushNotificationsPlugin(options: [.badge, .alert]))`.
+Receiving push notifications from APNs requires requesting permission from the user to receive notifications and then registering with the APNs service.
 
-If you don't want AWSPinpointPushNotificationsPlugin to request notification permissions during configuration, you can pass an empty array. In this case, you will be responsible for requesting notification permissions and registering with APNs.
+If you want **AWSPinpointPushNotificationsPlugin** to take care of these steps for you during configuration, you can pass an array of `UNAuthorizationOptions` when adding the plugin. For example, to request permission for badges, alerts, and sounds, you could add the plugin with the following:
+```
+try Amplify.add(
+    plugin: AWSPinpointPushNotificationsPlugin(options: [.badge, .alert, .sound])
+)
+```
+
+If you don't pass `UNAuthorizationOptions` when adding the plugin, you will be responsible for requesting notification permissions and registering with APNs as shown below.
 
 <Callout>
 
-The following is only required when overriding the default plugin behavior by passing an empty array to `try Amplify.add(plugin: AWSPinpointPushNotificationsPlugin(options: []))`.
+The following is only required when you do not pass `UNAuthorizationOptions` when adding the plugin as described above.
 
 </Callout>
 
