@@ -6,7 +6,8 @@ import {
   TableRow
 } from '@aws-amplify/ui-react';
 import Page from '../../../components/Page';
-import { commands } from '../../../data/cli-commands';
+import { commands } from '../../../data/cli-commands.mjs';
+import type { CliCommandFlag, CliCommand } from '../../../data/cli-commands';
 
 /**
  * Create SEO metadata for a command
@@ -14,7 +15,7 @@ import { commands } from '../../../data/cli-commands';
  * @param command Amplify CLI command JSON
  * @returns
  */
-const createCommandMeta = (command) => {
+const createCommandMeta = (command: CliCommand) => {
   const title = command.name;
   const description = command.description;
   return {
@@ -23,9 +24,9 @@ const createCommandMeta = (command) => {
   };
 };
 
-function CommandPageFlagsTable({ flags }) {
+function CommandPageFlagsTable({ flags }: { flags: CliCommandFlag[] }) {
   return (
-    <Table caption="" highlightOnHover={false}>
+    <Table caption={null} highlightOnHover={false}>
       <TableHead>
         <TableRow>
           <TableCell width={'12rem'}>Flag</TableCell>
@@ -119,7 +120,7 @@ function CommandPage({ meta, command }) {
       {command.subCommands.length > 0 && (
         <>
           <CommandPageHeading>Subcommands</CommandPageHeading>
-          <Table caption="" highlightOnHover={false}>
+          <Table caption={null} highlightOnHover={false}>
             <TableHead>
               <TableRow>
                 <TableCell width={'12rem'}>Subcommand</TableCell>
@@ -176,6 +177,9 @@ export function getStaticPaths() {
 
 export function getStaticProps({ params }) {
   const command = commands.find((command) => command.name === params.command);
+  if (!command) {
+    throw new Error(`Command not found: ${params.command}`);
+  }
   const meta = createCommandMeta(command);
   return {
     props: {
