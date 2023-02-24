@@ -294,7 +294,7 @@ async ngOnInit() {
   });
 
   /* subscribe to new restaurants being created */
-  this.subscription = this.api.OnCreateRestaurantListener.subscribe(
+  this.subscription = this.api.OnCreateRestaurantListener().subscribe(
     (event: any) => {
       const newRestaurant = event.value.data.onCreateRestaurant;
       this.restaurants = [newRestaurant, ...this.restaurants];

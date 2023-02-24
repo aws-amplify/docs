@@ -4,6 +4,7 @@ frontend:
     preBuild:
       commands:
         - yarn install
+        - node tasks/addLastUpdatedToMdxFiles.js
     build:
       commands:
         - echo "API_ENV=$API_ENV" >> .env.custom

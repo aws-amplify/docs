@@ -62,7 +62,7 @@ const xmlUrlNode = (pageUrl, pagePath) => {
 
 const writeSitemap = async () => {
   const sitemapPath = './public/sitemap.xml';
-  const pathmap = generatePathMap(directory);
+  const pathmap = generatePathMap(directory, undefined, true);
   let xmlUrlNodes = '';
   for (const pageUrl in pathmap) {
     const pagePath = pathmap[pageUrl].page;
