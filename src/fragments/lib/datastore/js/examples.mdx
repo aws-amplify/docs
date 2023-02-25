@@ -109,7 +109,7 @@ function onDeleteAll() {
 }
 
 async function onQuery() {
-  const posts: Post[] = await DataStore.query<Post>(Post, (c: Post) => c.rating.gt(4));
+  const posts: Post[] = await DataStore.query<Post>(Post, (c) => c.rating.gt(4));
 
   console.log(posts);
 }

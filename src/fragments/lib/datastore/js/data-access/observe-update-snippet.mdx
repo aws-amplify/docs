@@ -35,8 +35,9 @@ function App() {
           /**
            * Each keypress updates the post in local react state.
            */
+          if (!post) return;
           setPost(
-            Post.copyOf<Post>(post, (draft) => {
+            Post.copyOf(post, (draft) => {
               draft.title = value;
             })
           );
@@ -49,6 +50,7 @@ function App() {
           /**
            * This post is already up to date because observeQuery updated it.
            */
+          if (!post) return;
           await DataStore.save<Post>(post);
           console.log("Post saved");
         }}
