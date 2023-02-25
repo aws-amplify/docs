@@ -78,7 +78,7 @@ export default App;
 </Block>
 <Block name="React (TS)">
 
-```tsx
+```ts
 import React, { useEffect } from "react";
 import logo from "./logo.svg";
 import "./App.css";
@@ -109,7 +109,7 @@ function onDeleteAll() {
 }
 
 async function onQuery() {
-  const posts = await DataStore.query<Post>(Post, (c: Post) => c.rating.gt(4));
+  const posts: Post[] = await DataStore.query<Post>(Post, (c: Post) => c.rating.gt(4));
 
   console.log(posts);
 }

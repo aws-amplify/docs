@@ -2,8 +2,8 @@
 <Block name="TypeScript">
 
 ```ts
-const post = await DataStore.save(
-  const post: Post = new Post<Post>({
+const post: Post = await DataStore.save(
+  new Post<Post>({
     title: 'My First Post',
     rating: 10,
     status: PostStatus.INACTIVE

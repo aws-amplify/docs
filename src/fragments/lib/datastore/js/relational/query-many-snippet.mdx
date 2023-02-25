@@ -8,22 +8,22 @@ In order to save a many-to-many relationship, create both model instance first a
 ```ts
 const post: Post = await DataStore.save<Post>(
 	new Post({
-	title: 'Amplify Weekly',
-	rating: 10,
-	status: PostStatus.ACTIVE,
+	  title: 'Amplify Weekly',
+	  rating: 10,
+	  status: PostStatus.ACTIVE,
 	})
 );
 
 const user: User = await DataStore.save<User>(
 	new User({
-	username: 'rene'
+	  username: 'rene'
 	})
 );
 
 const postEditor: PostEditor = await DataStore.save<PostEditor>(
 	new PostEditor({
-	post: post,
-	user: user
+	  post: post,
+	  user: user
 	})
 );
 ```
