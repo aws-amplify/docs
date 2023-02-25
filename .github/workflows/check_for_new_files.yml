@@ -15,10 +15,12 @@ jobs:
           # Minimal depth 2 so we can checkout the commit before possible merge commit.
           fetch-depth: 2
       - name: Get count of added files
+        env:
+          GITHUB_PULL_REQUEST_HEAD_SHA: ${{ github.pull_request.head.sha }}
         run: |
           git fetch origin main
           echo "NEW_FILES<<EOF" >> $GITHUB_ENV
-          echo $(git diff --name-only --diff-filter=A origin/main ${{ github.pull_request.head.sha }}) >> $GITHUB_ENV
+          echo $(git diff --name-only --diff-filter=A origin/main ${{ env.GITHUB_PULL_REQUEST_HEAD_SHA }}) >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
       - name: Install npm package ignore
         run: yarn add ignore -W # help verify CODEOWNERS
