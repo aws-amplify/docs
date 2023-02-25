@@ -2,7 +2,7 @@ You can query related models in three ways:
 
 - Option 1: use the `toArray()` function to lazy load related comments
 <BlockSwitcher>
-<Block name="TypeScript"></Block>
+<Block name="TypeScript">
 
 ```ts
 const post: Post | undefined = await DataStore.query<Post>(Post, "YOUR_POST_ID")
@@ -23,7 +23,7 @@ const comments = await post.comments.toArray()
 
 - Option 2: use async iterators to lazy load related comments
 <BlockSwitcher>
-<Block name="TypeScript"></Block>
+<Block name="TypeScript">
 
 ```ts
 const post: Post | undefined = await DataStore.query<Post>(Post, "YOUR_POST_ID")
@@ -48,7 +48,7 @@ for await (const comment of post.comments) {
 
 - Option 3: use nested query predicates with the `Comment` model
 <BlockSwitcher>
-<Block name="TypeScript"></Block>
+<Block name="TypeScript">
 
 ```ts
 const comments: Comment[] = await DataStore.query<Comment>(Comment, c => c.post.id.eq('YOUR_POST_ID'));

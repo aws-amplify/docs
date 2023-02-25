@@ -1,5 +1,5 @@
 <BlockSwitcher>
-<Block name="TypeScript"></Block>
+<Block name="TypeScript">
 
 ```ts
 const post: Post = await DataStore.save<Post>(
@@ -10,6 +10,7 @@ const post: Post = await DataStore.save<Post>(
   })
 );
 
+// TODO: existing type error
 await DataStore.save<Comment>(
   new Comment({
     content: "Loving Amplify DataStore!",
