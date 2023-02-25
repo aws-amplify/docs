@@ -1,4 +1,19 @@
+<BlockSwitcher>
+<Block name="TypeScript"></Block>
+
+```ts
+const toDelete: Post | undefined = await DataStore.query<Post>(Post, "123");
+if (!toDelete) return;
+DataStore.delete<Post>(toDelete);
+```
+
+</Block>
+<Block name="JavaScript">
+
 ```js
 const toDelete = await DataStore.query(Post, "123");
 DataStore.delete(toDelete);
 ```
+
+</Block>
+</BlockSwitcher>
