@@ -21,7 +21,7 @@ const editor: User = await DataStore.save<User>(
 await DataStore.save<PostEditor>(
   new PostEditor({
     post: post,
-    editor: editor
+    user: editor
   })
 );
 ```
@@ -48,7 +48,7 @@ const editor = await DataStore.save(
 await DataStore.save(
   new PostEditor({
     post: post,
-    editor: editor
+    user: editor
   })
 );
 ```
