@@ -48,7 +48,7 @@ Additionally, you can perform a conditional delete. For instance, only delete **
 const toDelete: Post | undefined = await DataStore.query<Post>(Post, '123');
 if (!toDelete) return;
 DataStore.delete<Post>(toDelete, (post) => post.status.eq(PostStatus.INACTIVE));
-```
+``` 
 
 </Block>
 <Block name="JavaScript">

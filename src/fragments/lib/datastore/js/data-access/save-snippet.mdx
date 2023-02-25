@@ -2,7 +2,7 @@
 <Block name="TypeScript">
 
 ```ts
-const post: Post = await DataStore.save(
+await DataStore.save(
   new Post<Post>({
     title: 'My First Post',
     rating: 10,
@@ -15,7 +15,7 @@ const post: Post = await DataStore.save(
 <Block name="JavaScript">
 
 ```js
-const post = await DataStore.save(
+await DataStore.save(
   new Post({
     title: 'My First Post',
     rating: 10,
