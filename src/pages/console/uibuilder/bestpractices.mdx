@@ -1,9 +1,9 @@
 export const meta = {
-  title: `Figma-to-Code best practices`,
-  description: `Constraints of Amplify Studio's Figma-to-React capabilities`,
+  title: `Figma to Code best practices`,
+  description: `Constraints of Amplify Studio's Figma to React capabilities`,
 };
 
-We're constantly improving Amplify Studio to make Figma-to-React code conversion better but there are some constraints that need to be taken into account.
+We're constantly improving Amplify Studio to make Figma to React code conversion better but there are some constraints that need to be taken into account.
 
 ## Make sure to mark frames as components in Figma
 Amplify Studio only converts Figma components. If you only have a Figma "frame", Studio will ignore it because frames tend to be used to layout a set of components.
@@ -14,13 +14,13 @@ Learn more about how Figma components work and how to create them with the video
 
 ## Fonts aren't automatically integrated
 
-By default, Amplify Studio doesn't automatically export the font from the Figma file and download it as part of your `src/ui-components/` folder. To workaround this, you can include the font like you'd usually do yourself in your React app. 
+By default, Amplify Studio doesn't automatically export the font from the Figma file and download it as part of your `src/ui-components/` folder. To workaround this, you can include the font like you'd usually do yourself in your React app.
 
 Review the [Adding Fonts](https://create-react-app.dev/docs/adding-images-fonts-and-files/) documentation from the Create React App on how to configure this.
 
 ## Try to use Figma Auto layout whenever possible
 
-Figma "Auto layout" can make a component significantly more responsive than used fixed position of elements. Think of Figma's Auto layout as "Flexboxes" (`display: flex`) in CSS. 
+Figma "Auto layout" can make a component significantly more responsive than used fixed position of elements. Think of Figma's Auto layout as "Flexboxes" (`display: flex`) in CSS.
 
 Learn more about how Figma's Auto layout works with the video below from the Figma team:
 
@@ -28,7 +28,7 @@ Learn more about how Figma's Auto layout works with the video below from the Fig
 
 ## Represent UI element states in code (hover, active)
 
-Amplify Studio currently doesn't support Figma-to-React code conversion of UI state. For example, if you want to add a hover effect to a button, you need to [override the component behavior in code](/console/uibuilder/override/#set-hover-states-on-icons) instead of creating a hover variant in Figma.
+Amplify Studio currently doesn't support Figma to React code conversion of UI state. For example, if you want to add a hover effect to a button, you need to [override the component behavior in code](/console/uibuilder/override/#set-hover-states-on-icons) instead of creating a hover variant in Figma.
 
 ## Figma variants must have the same child elements
 

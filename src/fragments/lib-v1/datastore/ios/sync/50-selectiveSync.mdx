@@ -27,9 +27,9 @@ Developers should only specify a single `syncExpression` per model. Any subseque
 
 </Callout>
 
-### Reevaluate expressions at runtime
+### Re-evaluate expressions at runtime
 Sync expressions get evaluated whenever DataStore starts.
-In order to have your expressions reevaluated, you can execute `Amplify.DataStore.clear()` or `Amplify.DataStore.stop()` followed by `Amplify.DataStore.start()`.
+In order to have your expressions re-evaluated, you can execute `Amplify.DataStore.clear()` or `Amplify.DataStore.stop()` followed by `Amplify.DataStore.start()`.
 
 If you have the following expression and you want to change the filter that gets applied at runtime, you can do the following:
 
@@ -64,7 +64,7 @@ func changeSync() {
     }      
 }
 ```
-Each time DataStore starts (via `start` or any other operation: `query`, `save`, `delete`, or `observe`), DataStore will reevaluate the `syncExpressions`.
+Each time DataStore starts (via `start` or any other operation: `query`, `save`, `delete`, or `observe`), DataStore will re-evaluate the `syncExpressions`.
 
 In the above case, the predicate will contain the value `1`, so all Posts with `rating > 1` will get synced down.
 
@@ -96,7 +96,7 @@ func changeSync() {
     }    
 ```
 
-This will clear the contents of your local store, reevaluate your sync expressions and re-sync the data from the cloud, applying all of the specified predicates to the sync queries.
+This will clear the contents of your local store, re-evaluate your sync expressions and re-sync the data from the cloud, applying all of the specified predicates to the sync queries.
 
 You can also have your sync expression return `QueryPredicateConstant.all` in order to remove any filtering for that model. This will have the same effect as the default sync behavior.
 
