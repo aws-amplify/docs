@@ -1,5 +1,6 @@
 import '@algolia/autocomplete-theme-classic';
 import '../styles/styles.css';
+import '../styles/contribute-styles.css';
 import Head from 'next/head';
 
 function MyApp({ Component, pageProps }) {

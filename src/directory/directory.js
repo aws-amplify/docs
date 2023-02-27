@@ -1,4 +1,11 @@
 const directory = {
+  contribute: {
+    productRoot: {
+      title: 'Contribute',
+      route: '/contribute'
+    },
+    items: {}
+  },
   lib: {
     productRoot: {
       title: 'Amplify Libraries',
@@ -790,7 +797,11 @@ const directory = {
             route: '/lib/utilities/serviceworker',
             filters: ['js']
           },
-          { title: 'Cache', route: '/lib/utilities/cache', filters: ['js', 'react-native'] },
+          {
+            title: 'Cache',
+            route: '/lib/utilities/cache',
+            filters: ['js', 'react-native']
+          },
           {
             title: 'Hub',
             route: '/lib/utilities/hub',
