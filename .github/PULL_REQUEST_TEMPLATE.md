@@ -32,7 +32,7 @@ Which platform(s) are affected by this PR (if applicable)?
 
 - [ ] Are any files being deleted with this PR? If so, have the needed redirects been created?
 
-- [ ] Are all links in MDX files using the MDX link syntax rather than HTML link syntax? <br /> _ref: MDX: `[link](https://https://docs.amplify.aws)` HTML: `<a href="https://https://docs.amplify.aws">link</a>`_
+- [ ] Are all links in MDX files using the MDX link syntax rather than HTML link syntax? <br /> _ref: MDX: `[link](https://docs.amplify.aws)` HTML: `<a href="https://docs.amplify.aws">link</a>`_
 
 - [ ] Does this PR include new and / or updated code examples? If so, please add E2E tests for those samples and link them in this PR.
 
