@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Link from 'next/link';
 import {
   Button,
   Flex,
@@ -117,7 +118,11 @@ export default function Index({ JSissues, CLIissues }) {
               </Text>
 
               <Flex justifyContent="center">
-                <Button as={'a'} href="/getting-started" variation="primary">
+                <Button
+                  as={Link}
+                  href="/contribute/getting-started"
+                  variation="primary"
+                >
                   Get Started Contributing to Amplify
                 </Button>
                 <Link
