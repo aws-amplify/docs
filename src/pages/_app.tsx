@@ -82,6 +82,7 @@ function MyApp({ Component, pageProps }) {
         />
         <link rel="apple-touch-icon" href="/assets/icon/icon.png" />
         <link rel="icon" type="image/x-icon" href="/assets/icon/favicon.ico" />
+        <link rel="stylesheet" href="/stackblitz/xterm.css" />
       </Head>
 
       <Component {...pageProps} />

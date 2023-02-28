@@ -23,6 +23,8 @@
     "@emotion/react": "^11.1.5",
     "@emotion/styled": "^11.3.0",
     "@mdx-js/mdx": "^2.0.0",
+    "@stackblitz/sdk": "^1.8.2",
+    "@webcontainer/api": "^1.0.1",
     "algoliasearch": "^4.12.1",
     "array-flatten": "^3.0.0",
     "aws-amplify": "^5.0.5",
@@ -46,7 +48,10 @@
     "theme-ui": "^0.7.5",
     "unified": "^10.1.2",
     "unist-util-visit": "^4.1.0",
-    "validator": "^13.7.0"
+    "validator": "^13.7.0",
+    "xterm": "^5.1.0",
+    "xterm-addon-fit": "^0.7.0",
+    "xterm-addon-web-links": "^0.8.0"
   },
   "devDependencies": {
     "@mdx-js/loader": "^1.6.22",

@@ -20,7 +20,7 @@ const getCspContent = (context) => {
       prefetch-src 'self';
       style-src 'self' 'unsafe-inline';
       font-src 'self' data:;
-      frame-src 'self' https://www.youtube-nocookie.com https://aws.demdex.net https://dpm.demdex.net;
+      frame-src 'self' https://www.youtube-nocookie.com https://aws.demdex.net https://dpm.demdex.net https://stackblitz.com;
       connect-src 'self' *.shortbread.aws.dev https://amazonwebservices.d2.sc.omtrdc.net https://aws.demdex.net https://dpm.demdex.net https://cm.everesttech.net https://aa0.awsstatic.com/ https://d2c-alpha.dse.marketing.aws.a2z.com
       https://*.algolia.net https://*.algolianet.com *.amazonaws.com;
       img-src 'self' https://img.shields.io data: cm.everesttech.net https://amazonwebservices.d2.sc.omtrdc.net https://aws.demdex.net https://dpm.demdex.net https://cm.everesttech.net https://aa0.awsstatic.com/; 

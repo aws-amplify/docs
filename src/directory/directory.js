@@ -2224,6 +2224,11 @@ const directory = {
               'ios',
               'flutter'
             ]
+          },
+          {
+            title: 'StackBlitz integration',
+            route: '/start/getting-started/stackblitz',
+            filters: ['react']
           }
         ]
       },
