@@ -195,7 +195,7 @@ const SignInWithGoogle = () => {
     const initGsi = () => {
       if (window.google && window.google?.accounts) {
         window.google.accounts.id.initialize({
-          client_id: 'GOOGLE_CLIENT_ID',
+          client_id: process.env.GOOGLE_CLIENT_ID,
           callback: (response: any) => {
             getAWSCredentials(response.credential)
           },
