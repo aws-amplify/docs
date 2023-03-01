@@ -12,3 +12,29 @@ The `team-provider-info.json` file (from here on referred to as the TPI file) is
 With this change the values historically stored in the TPI file are now being copied to Parameter Store. We are not removing the TPI file, Parameter Store is being used as a backup. If Amplify CLI needs a value that is not present in the TPI file, it will fetch the value from Parameter Store. The values in Parameter Store are updated after a successful Amplify deployment.
 
 Developers can now seamlessly move between various environments like different developer machines and even to AWS Amplify Studio.
+
+<Callout>Note: When an environement is deleted all parmaters under that environment name are deleted in Parmater Store. When an Amplify Application is deleted, all parameters for that appId are deleted along with it.</Callout>
+
+## Manually creating parameters
+
+It can be helpful in some multi-environment scenarios to create parameters in Parameter Store manually. To do so, head to the AWS Console and search for SSM.
+
+![image](/images/cli/parameter-store/select-ssm-console.png)
+
+Once the SSM console has been opened, navigate to Parameter Store.
+
+![image](/images/cli/parameter-store/select-parameter-store.png)
+
+With Parameter Store opened, click "Create Parameter".
+
+![image](/images/cli/parameter-store/view-parameter-store.png)
+
+Amplify parameter keys must follow a strict naming pattern:
+
+/amplify/<appId>/<environment name>/AMPLIFY_<category name>_<resource name>_<parameter name>
+
+Only Standard parameters with the default String type are supported.
+
+![image](/images/cli/parameter-store/create-parameter.png)
+
+Click "Create parameter" at the bottom of the page. That's it!
