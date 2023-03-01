@@ -68,7 +68,12 @@ export default function ContributeGettingStartedPage() {
   };
   return (
     <Layout meta={meta}>
-      <View width="100%" backgroundColor="brand.paper">
+      <View
+        width="100%"
+        backgroundColor="brand.paper"
+        marginTop="5em"
+        marginBottom="10em"
+      >
         <Flex
           direction="column"
           gap="5rem"
