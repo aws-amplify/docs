@@ -163,3 +163,16 @@ export const trackFeedbackSubmission = (feedback: boolean) => {
     document.dispatchEvent(new CustomEvent(AWSMA.TRIGGER_EVENT, {detail: opt}));
   });
 }
+
+export const trackCopyClicks = () => {
+  const opt = {
+    event: {
+      type: 'click',
+      name: 'copied'
+    }
+  }
+
+  AWSMA.ready(() => {
+    document.dispatchEvent(new CustomEvent(AWSMA.TRIGGER_EVENT, {detail: opt}));
+  });
+}
