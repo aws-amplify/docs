@@ -1,51 +1,21 @@
 name: Test
 on:
-  pull_request_target:
+  pull_request:
     branches: [main]
-    types: [opened, synchronize, labeled]
-permissions:
-  pull-requests: write # used to remove label
-  id-token: write
-  contents: read
+    types: [opened, synchronize]
 jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    # We run tests only if it's:
-    #   1) pull request not from a fork (ie. internal PR), or
-    #   2) pull request from a fork (ie. external PR) that was added "run-tests" label
-    if: |
-      (github.event.pull_request.head.repo.full_name == github.repository) ||
-      (github.event.action == 'labeled' && github.event.label.name == 'run-tests')
     steps:
-      - name: Remove run-tests label, if applicable
-        if: always() && github.event.label.name == 'run-tests'
-        uses: actions/github-script@0.3.0
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const { issue: { number: issue_number }, repo: { owner, repo } } = context;
-            const label = 'run-tests';
-            github.issues.removeLabel({ owner, repo, issue_number, name: label });
       - name: Checkout Repo
-        uses: actions/checkout@main
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-          repository: ${{ github.event.pull_request.head.repo.full_name }}
-          persist-credentials: false
+        uses: actions/checkout@v3
       - name: Setup Node.js 14.x
         uses: actions/setup-node@main
         with:
           node-version: 14.x
       - name: Install Dependencies
         run: yarn
-      - name: Fetch Amplify backend configuration
-        uses: ./.github/actions/fetch_amplify_backend
-        with:
-          role-to-assume: ${{ secrets.AWS_ARN_ROLE }}
-          aws-region: ${{ secrets.AWS_REGION }}
-          app-id: ${{ secrets.APP_ID }}
-          env-name: ${{ secrets.ENV_NAME }}
       - name: Run tests
         run: yarn test
       - name: Run Build
