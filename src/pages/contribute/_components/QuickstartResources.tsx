@@ -2,16 +2,22 @@ import { Heading, View, Text, Flex } from '@aws-amplify/ui-react';
 
 export default function QuickstartResources() {
   return (
-    <Flex direction="column" gap="2em">
-      <View maxWidth="1024px" margin="0 auto">
+    <Flex
+      direction="row"
+      justifyContent="center"
+      alignItems="top"
+      gap="5em"
+      wrap={'wrap'}
+    >
+      <View width={{ base: '90%', large: '60%' }}>
         <Heading level={2}>Quickstart videos</Heading>
         <Text fontSize="large">
           Get your local environment set up quickly by following along with the
           below videos.
         </Text>
       </View>
-      <Flex direction="row">
-        <View>
+      <Flex wrap={'wrap'} justifyContent={'center'} width="100%" gap="2em">
+        <View width={{ base: '90%', large: '40%' }}>
           <iframe
             width="600"
             height="350"
@@ -22,7 +28,7 @@ export default function QuickstartResources() {
             allowFullScreen
           ></iframe>
         </View>
-        <View>
+        <View width={{ base: '90%', large: '40%' }}>
           <iframe
             width="600"
             height="350"

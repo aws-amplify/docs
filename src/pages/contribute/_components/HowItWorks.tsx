@@ -1,4 +1,5 @@
 import {
+  Divider,
   Flex,
   Heading,
   Text,
@@ -17,10 +18,15 @@ import {
 
 export default function HowItWorks() {
   return (
-    <Flex direction="column" maxWidth="1024px" margin="0 auto" gap="2em">
+    <Flex
+      direction="column"
+      maxWidth="1024px"
+      margin="0 auto"
+      gap="2em"
+      width={{ base: '90%', large: '60%' }}
+    >
       <View>
         <Badge
-          size="default"
           textTransform="uppercase"
           backgroundColor="brand.rind"
           color="brand.squidInk"
@@ -36,7 +42,7 @@ export default function HowItWorks() {
       </Text>
 
       <View>
-        <Card variation="elevated">
+        <Card>
           <Flex direction="row" alignItems="center">
             <Flex
               backgroundColor="brand.rind"
@@ -56,7 +62,8 @@ export default function HowItWorks() {
             </Text>
           </Flex>
         </Card>
-        <Card variation="elevated">
+        <Divider size="small" />
+        <Card>
           <Flex direction="row" alignItems="center">
             <Flex
               backgroundColor="brand.rind"
@@ -76,7 +83,8 @@ export default function HowItWorks() {
             </Text>
           </Flex>
         </Card>
-        <Card variation="elevated">
+        <Divider size="small" />
+        <Card>
           <Flex direction="row" alignItems="center">
             <Flex
               backgroundColor="brand.rind"
@@ -95,7 +103,8 @@ export default function HowItWorks() {
             </Text>
           </Flex>
         </Card>
-        <Card variation="elevated">
+        <Divider size="small" />
+        <Card>
           <Flex direction="row" alignItems="center">
             <Flex
               backgroundColor="brand.rind"
@@ -112,7 +121,8 @@ export default function HowItWorks() {
             <Text>The Amplify team will review the submitted PRs.</Text>
           </Flex>
         </Card>
-        <Card variation="elevated">
+        <Divider size="small" />
+        <Card>
           <Flex direction="row" alignItems="center">
             <Flex
               backgroundColor="brand.rind"
@@ -129,7 +139,8 @@ export default function HowItWorks() {
             <Text>Pull requests must be approved by the Amplify Team.</Text>
           </Flex>
         </Card>
-        <Card variation="elevated">
+        <Divider size="small" />
+        <Card>
           <Flex direction="row" alignItems="center">
             <Flex
               backgroundColor="brand.rind"
@@ -145,7 +156,7 @@ export default function HowItWorks() {
             </Flex>
             <Text>
               Receive a contributor role in the{' '}
-              <Link src="https://discord.com/invite/amplify">
+              <Link href="https://discord.com/invite/amplify" isExternal>
                 Amplify Community Discord server <FiExternalLink />
               </Link>
               .
