@@ -8,29 +8,25 @@ import js0 from '/src/fragments/lib/in-app-messaging/integrate-your-application/
 
 <Fragments fragments={{ js: js0 }} />
 
-### Configure Amplify
+import reactnative1 from '/src/fragments/lib/in-app-messaging/integrate-your-application/react-native/configure-amplify.mdx';
 
-Next, you should import and load the `aws-exports.js` configuration file created by the CLI. Add the Amplify configuration step to your application’s root entry point. For example, `index.js`.
+<Fragments fragments={{ 'react-native': reactnative1 }} />
 
-import reactnative3 from '/src/fragments/lib/in-app-messaging/integrate-your-application/react-native/configure-amplify.mdx';
+import js1 from '/src/fragments/lib/in-app-messaging/integrate-your-application/js/configure-amplify.mdx';
 
-<Fragments fragments={{ 'react-native': reactnative3 }} />
-
-import js3 from '/src/fragments/lib/in-app-messaging/integrate-your-application/js/configure-amplify.mdx';
-
-<Fragments fragments={{ js: js3 }} />
+<Fragments fragments={{ js: js1 }} />
 
 ### Integrate In-App Messaging
 
 Amplify UI provides a Higher-Order Component for ease of integrating the In-App Messaging UI with your application. Simply wrap your application root component in, for example, `App.js`.
 
-import reactnative1 from '/src/fragments/lib/in-app-messaging/integrate-your-application/react-native/hoc-setup.mdx';
+import reactnative2 from '/src/fragments/lib/in-app-messaging/integrate-your-application/react-native/hoc-setup.mdx';
 
-<Fragments fragments={{ 'react-native': reactnative1 }} />
+<Fragments fragments={{ 'react-native': reactnative2 }} />
 
-import js1 from '/src/fragments/lib/in-app-messaging/integrate-your-application/js/hoc-setup.mdx';
+import js2 from '/src/fragments/lib/in-app-messaging/integrate-your-application/js/hoc-setup.mdx';
 
-<Fragments fragments={{ js: js1 }} />
+<Fragments fragments={{ js: js2 }} />
 
 Now your application is set up with Amplify In-App Messaging. To interact with Amplify In-App Messaging APIs, you will first need to import the `Notifications` category.
 
@@ -46,13 +42,13 @@ const { InAppMessaging } = Notifications;
 
 Below is an example of what your entry file should look like:
 
-import reactnative2 from '/src/fragments/lib/in-app-messaging/integrate-your-application/react-native/full-example.mdx';
+import reactnative3 from '/src/fragments/lib/in-app-messaging/integrate-your-application/react-native/full-example.mdx';
 
-<Fragments fragments={{ 'react-native': reactnative2 }} />
+<Fragments fragments={{ 'react-native': reactnative3 }} />
 
-import js2 from '/src/fragments/lib/in-app-messaging/integrate-your-application/js/full-example.mdx';
+import js3 from '/src/fragments/lib/in-app-messaging/integrate-your-application/js/full-example.mdx';
 
-<Fragments fragments={{ js: js2 }} />
+<Fragments fragments={{ js: js3 }} />
 
 <!-- TODO What would happen for frameworks other than React? Would they NOT see this popup? what should we do for them? -->
 

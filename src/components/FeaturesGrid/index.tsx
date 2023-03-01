@@ -115,16 +115,6 @@ export default function FeaturesGrid() {
               </p>
             </CardDetail>
           </Card>
-          <Card href="/lib/xr/getting-started" className="border-radius">
-            <CardGraphic alt="XR icon" src="/assets/features/xr.svg" />
-            <CardDetail>
-              <h4>XR</h4>
-              <p>
-                Engage your customers in a different dimension with augmented
-                reality (AR) and virtual reality (VR) content within your app
-              </p>
-            </CardDetail>
-          </Card>
           <Card href="/lib/pubsub/getting-started" className="border-radius">
             <CardGraphic alt="PubSub icon" src="/assets/features/pubsub.svg" />
             <CardDetail>

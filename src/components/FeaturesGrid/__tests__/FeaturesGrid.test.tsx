@@ -12,7 +12,6 @@ describe('FeaturesGrid', () => {
     'REST API',
     'Analytics',
     'Push Notifications',
-    'XR',
     'PubSub',
     'Interactions',
     'AI / ML Predictions'
