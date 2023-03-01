@@ -501,7 +501,7 @@ npm i @aws-cdk/aws-appsync@~1.172.0
 
 Finally, add your custom resolvers into the `cdk-stack.ts` file. You can either add the VTL inline into your `cdk-stack.ts` file or define them externally in another file. Review the [Resolver Mapping Template Programming Guide](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-mapping-template-reference-programming-guide.html) to learn more about the VTL template.
 
-> **Note:** If you have amplify generated resolvers for a field, you can't define a custom resolver using CDK. 
+> **Note:** You can't use @auth, @function and @http directives when you use CDK to define custom resolvers. 
 
 #### Unit Resolver
 ```ts
@@ -653,6 +653,8 @@ type Mutation {
   myCustomMutation(args: String): String @auth(rules: [{ allow: private, provider: iam }])
 }
 ```
+
+> **Note:** @auth directive works only with @function and @http directives on custom queries and mutations.
 
 ## Override Amplify-generated resolvers
 
