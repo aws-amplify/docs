@@ -13,11 +13,11 @@ With this change the values historically stored in the TPI file are now being co
 
 Developers can now seamlessly move between various environments like different developer machines and even to AWS Amplify Studio.
 
-<Callout>Note: When an environement is deleted all parmaters under that environment name are deleted in Parmater Store. When an Amplify Application is deleted, all parameters for that appId are deleted along with it.</Callout>
+<Callout>Note: When an Amplify environement is deleted, all parmaters under that environment name are deleted in Parmater Store. When an Amplify project is deleted, all parameters for that appId are deleted along with it.</Callout>
 
 ## Manually creating parameters
 
-It can be helpful in some multi-environment scenarios to create parameters in Parameter Store manually. To do so, head to the AWS Console and search for SSM.
+In some multi-environment scenarios, it is helpful to create parameters in Parameter Store manually. To do so, head to the AWS Console and search for SSM.
 
 ![image](/images/cli/parameter-store/select-ssm-console.png)
 
@@ -25,7 +25,7 @@ Once the SSM console has been opened, navigate to Parameter Store.
 
 ![image](/images/cli/parameter-store/select-parameter-store.png)
 
-With Parameter Store opened, click "Create Parameter".
+With Parameter Store opened, select "Create Parameter".
 
 ![image](/images/cli/parameter-store/view-parameter-store.png)
 
@@ -37,4 +37,4 @@ Only Standard parameters with the default String type are supported.
 
 ![image](/images/cli/parameter-store/create-parameter.png)
 
-Click "Create parameter" at the bottom of the page. That's it!
+At the bottom of the page, select "Create parameter". That's it!
