@@ -1,5 +1,4 @@
-import Head from 'next/head';
-// import Link from 'next/link';
+import NextLink from 'next/link';
 import {
   Button,
   Flex,
@@ -7,8 +6,7 @@ import {
   Heading,
   Text,
   Link,
-  Card,
-  Icon
+  Card
 } from '@aws-amplify/ui-react';
 import { FiExternalLink } from 'react-icons/fi';
 import Layout from './_components/Layout';
@@ -33,6 +31,7 @@ export async function getStaticProps() {
     repo: 'amplify-js',
     state: 'open',
     labels: 'good first issue',
+    // eslint-disable-next-line @typescript-eslint/camelcase
     per_page: 6
   });
 
@@ -45,6 +44,7 @@ export async function getStaticProps() {
     repo: 'amplify-cli',
     state: 'open',
     labels: 'good first issue',
+    // eslint-disable-next-line @typescript-eslint/camelcase
     per_page: 6
   });
 
@@ -54,44 +54,14 @@ export async function getStaticProps() {
   };
 }
 
-export default function Index({ JsIssues, CLIissues }) {
+export default function ContributorPage({ JsIssues, CLIissues }) {
   const meta = {
     title: 'AWS Amplify Contributor Program',
     description:
       'The Amplify Contributor Program is an open invitation for you to participate in the Amplify open source development journey. Get involved with AWS Amplify by making open source contributions to the Amplify project!'
   };
-  const url = 'https://docs.amplify.aws/contribute';
-  const creator = '@AWSAmplify';
   return (
     <>
-      <Head>
-        <title>AWS Amplify Contributor Program</title>
-
-        <meta name="HandheldFriendly" content="True" />
-        <meta name="MobileOptimized" content="320" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-        <meta name="description" content={meta.description} />
-
-        <meta property="og:title" content={meta.title} key="title" />
-        <meta property="og:site_name" content="Amplify Contributor Program" />
-        <meta property="og:description" content={meta.description} />
-        <meta property="og:image:type" content="image/png" />
-        <meta property="og:url" content={url} />
-        <meta property="og:locale" content="en-us" />
-
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content={creator} />
-        <meta name="twitter:creator" content={creator} />
-        <meta name="twitter:title" content={meta.title} />
-        <meta name="twitter:description" content={meta.description} />
-        {/* <meta
-          property="twitter:image"
-          content="https://contributetoamplify.com/contributor-bash-og-image.png"
-        /> */}
-        <meta name="twitter:domain" content={url} />
-      </Head>
-
       <Layout meta={meta}>
         {/* Nav - need to put in matching nav */}
         {/* <Nav /> */}
@@ -129,13 +99,21 @@ export default function Index({ JsIssues, CLIissues }) {
               </Text>
 
               <Flex justifyContent="center" wrap="wrap">
-                <Link href="/contribute/getting-started" isExternal={false}>
+                <Link
+                  as={NextLink}
+                  href="/contribute/getting-started"
+                  isExternal={false}
+                >
                   <Button size="large" variation="primary">
                     Get Started Contributing to Amplify
                   </Button>
                 </Link>
 
-                <Link href="https://github.com/aws-amplify/" isExternal={true}>
+                <Link
+                  as={NextLink}
+                  href="https://github.com/aws-amplify/"
+                  isExternal={true}
+                >
                   <Button size="large">
                     <Text>
                       Explore the repos <FiExternalLink />
