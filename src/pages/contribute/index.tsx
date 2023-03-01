@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import Link from 'next/link';
+// import Link from 'next/link';
 import {
   Button,
   Flex,
@@ -12,42 +12,49 @@ import {
 } from '@aws-amplify/ui-react';
 import { FiExternalLink } from 'react-icons/fi';
 import Layout from './_components/Layout';
+import Issues from './_components/CardIssues';
 import HowItWorks from './_components/HowItWorks';
 import QuickstartResources from './_components/QuickstartResources';
 
-// const { Octokit } = require("@octokit/rest");
+import { Octokit } from '@octokit/rest';
+import { Endpoints } from '@octokit/types';
+
+type listRepoIssuesResponse = Endpoints['GET /repos/{owner}/{repo}/issues']['response'];
 
 export async function getStaticProps() {
-  // const octokit = new Octokit({
-  //   auth: process.env.TOKEN,
-  // });
+  const octokit = new Octokit({});
 
-  // let { data: JSissues } = await octokit.rest.issues.listForRepo({
-  //   owner: "aws-amplify",
-  //   repo: ["amplify-js"],
-  //   state: "open",
-  //   labels: ["good first issue"],
-  //   per_page: 6,
-  // });
+  const {
+    data: JsIssues
+  }: {
+    data: listRepoIssuesResponse['data'];
+  } = await octokit.rest.issues.listForRepo({
+    owner: 'aws-amplify',
+    repo: 'amplify-js',
+    state: 'open',
+    labels: 'good first issue',
+    per_page: 6
+  });
 
-  // let { data: CLIissues } = await octokit.rest.issues.listForRepo({
-  //   owner: "aws-amplify",
-  //   repo: ["amplify-cli"],
-  //   state: "open",
-  //   labels: ["good first issue"],
-  //   per_page: 6,
-  // });
-
-  const JSissues = {};
-  const CLIissues = {};
+  const {
+    data: CLIissues
+  }: {
+    data: listRepoIssuesResponse['data'];
+  } = await octokit.rest.issues.listForRepo({
+    owner: 'aws-amplify',
+    repo: 'amplify-cli',
+    state: 'open',
+    labels: 'good first issue',
+    per_page: 6
+  });
 
   return {
-    props: { JSissues, CLIissues },
+    props: { JsIssues, CLIissues },
     revalidate: 60 * 60
   };
 }
 
-export default function Index({ JSissues, CLIissues }) {
+export default function Index({ JsIssues, CLIissues }) {
   const meta = {
     title: 'AWS Amplify Contributor Program',
     description:
@@ -160,29 +167,29 @@ export default function Index({ JSissues, CLIissues }) {
                   the Amplify projects below to get started!
                 </Text>
               </View>
-              {/* <Flex
-              direction="row"
-              justifyContent="center"
-              alignItems="top"
-              gap="5em"
-            >
-              <Card variation="elevated" width="50%">
-                <Issues
-                  title={'Amplify JS'}
-                  issues={JSissues}
-                  repo={'amplify-js'}
-                  description="A declarative JavaScript library for application development using cloud services."
-                />
-              </Card>
-              <Card variation="elevated" width="50%">
-                <Issues
-                  title={'Amplify CLI'}
-                  issues={CLIissues}
-                  repo={'amplify-cli'}
-                  description="The AWS Amplify CLI is a toolchain for simplifying serverless web and mobile development."
-                />
-              </Card>
-            </Flex> */}
+              <Flex
+                direction="row"
+                justifyContent="center"
+                alignItems="top"
+                gap="5em"
+              >
+                <Card variation="elevated" width="50%">
+                  <Issues
+                    title={'Amplify JS'}
+                    issues={JsIssues}
+                    repo={'amplify-js'}
+                    description="A declarative JavaScript library for application development using cloud services."
+                  />
+                </Card>
+                <Card variation="elevated" width="50%">
+                  <Issues
+                    title={'Amplify CLI'}
+                    issues={CLIissues}
+                    repo={'amplify-cli'}
+                    description="The AWS Amplify CLI is a toolchain for simplifying serverless web and mobile development."
+                  />
+                </Card>
+              </Flex>
             </Flex>
 
             <QuickstartResources />
