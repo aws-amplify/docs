@@ -653,7 +653,8 @@ type Mutation {
 }
 ```
 
-> **Note:** @auth directive works only with @function and @http directives on custom queries and mutations.
+> **Known limitation:** You can't combine the `@auth` directive with a custom query or mutation that is using a VTL resolver.
+
 
 ## Override Amplify-generated resolvers
 
