@@ -1,8 +1,6 @@
-<Callout>
+import nextcallout from "/src/fragments/lib/ssr/js/next-js-callout.mdx";
 
-SSR functionality in Amplify was primarily built for compatibility with Next.js [page components](https://nextjs.org/docs/basic-features/pages), and their [getServerSideProps data fetching mechanism](https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props). Compatibility with other frameworks or Next.js features cannot be guaranteed.
-
-</Callout>
+<Fragments fragments={{ js: nextcallout }} />
 
 To work well with server-rendered pages, Amplify JS requires slight modifications from how you would use it in a client-only environment.
 
