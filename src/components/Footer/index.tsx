@@ -14,8 +14,8 @@ export default function DocsFooter() {
           <div>
             <h3>Amplify</h3>
             <Link href="/start">Getting Started</Link>
-            <Link href="/contribute">Contribute</Link>
             <ExternalLink href={links.DISCORD}>Community Chat</ExternalLink>
+            <Link href="/contribute">Contribute</Link>
           </div>
         </LeftFooter>
         <RightFooter>
