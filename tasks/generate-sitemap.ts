@@ -60,7 +60,7 @@ const xmlUrlNode = (pageUrl, pagePath) => {
 
 const writeSitemap = () => {
   const sitemapPath = './public/sitemap.xml';
-  const pathmap = generatePathMap(directory);
+  const pathmap = generatePathMap(directory, undefined, true);
   let xmlUrlNodes = '';
   for (const pageUrl in pathmap) {
     const pagePath = pathmap[pageUrl].page;
@@ -73,11 +73,11 @@ const writeSitemap = () => {
 
 const writeRobots = () => {
   let robotsContent = `User-agent: *\nDisallow:\n`;
-  if (typeof process.env.ALLOW_ROBOTS === "undefined") {
+  if (typeof process.env.ALLOW_ROBOTS === 'undefined') {
     robotsContent = `User-agent: *\nDisallow: /\n`;
   }
 
-  const robotsPath = "./public/robots.txt";
+  const robotsPath = './public/robots.txt';
   fs.writeFileSync(robotsPath, robotsContent);
   console.log(`robots.txt written to ${robotsPath}`);
 };
