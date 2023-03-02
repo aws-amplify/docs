@@ -80,7 +80,7 @@ export default function ContributeGettingStartedPage() {
           direction="column"
           gap="5rem"
           maxWidth="768px"
-          width="100%"
+          width={{ base: '90%', large: '100%' }}
           margin="0 auto"
         >
           <Flex direction="column">
