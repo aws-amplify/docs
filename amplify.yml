@@ -7,9 +7,8 @@ frontend:
         - node tasks/addLastUpdatedToMdxFiles.js
     build:
       commands:
-        - echo "API_ENV=$API_ENV" >> .env.custom
         - NODE_ENV=production yarn build
-        - node tasks/build-algolia-search.mjs
+        - if [ "${AWS_BRANCH}" = "main" ]; then node tasks/build-algolia-search.mjs; fi
   artifacts:
     # IMPORTANT - Please verify your build output directory
     baseDirectory: /client/www/next-build
