@@ -14,12 +14,14 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import Layout from '../../components/contribute/Layout';
 
 const _4a = `
-$ git status
+git status 
+
 On branch main
 Your branch is up to date with 'origin/main'.
 
 nothing to commit, working tree clean
 `.trim();
+
 const _6a = `
 git add .
 git commit -m "A commit message"
@@ -114,7 +116,7 @@ export default function ContributeGettingStartedPage() {
                   isExternal
                   href="https://github.com/join"
                 >
-                  here <FiExternalLink mx="1px" />.
+                  here <FiExternalLink />.
                 </Link>
               </Text>
               <Text fontSize={'large'}>
@@ -138,7 +140,7 @@ export default function ContributeGettingStartedPage() {
                   isExternal
                 >
                   here
-                  <FiExternalLink mx="1px" />
+                  <FiExternalLink />
                 </Link>{' '}
                 to get set up.
               </Text>
@@ -154,7 +156,7 @@ export default function ContributeGettingStartedPage() {
                   isExternal
                   href="https://github.com/aws-amplify/docs#getting-started"
                 >
-                  development environment <FiExternalLink mx="1px" />
+                  development environment <FiExternalLink />
                 </Link>
                 .<Badge marginLeft="8px">Optional</Badge>
               </Text>
@@ -172,7 +174,7 @@ export default function ContributeGettingStartedPage() {
                       isExternal
                       href="https://github.com/aws-amplify/amplify-js/contribute"
                     >
-                      contributing page <FiExternalLink mx="1px" />
+                      contributing page <FiExternalLink />
                     </Link>{' '}
                     of the Amplify JS repo and find the right issue for you.
                   </Text>
@@ -185,7 +187,7 @@ export default function ContributeGettingStartedPage() {
                       isExternal
                       href="https://github.com/aws-amplify/amplify-js"
                     >
-                      Amplify JS <FiExternalLink mx="1px" />
+                      Amplify JS <FiExternalLink />
                     </Link>{' '}
                     GitHub project.
                   </Text>
@@ -316,7 +318,7 @@ export default function ContributeGettingStartedPage() {
                   href="https://github.com/aws-amplify/amplify-js/blob/main/CONTRIBUTING.md#contributing-guidelines"
                 >
                   Amplify JS Contributing Guidelines
-                  <FiExternalLink mx="1px" />
+                  <FiExternalLink />
                 </Link>
               </Heading>
               <Text fontSize={'large'}>
@@ -330,7 +332,7 @@ export default function ContributeGettingStartedPage() {
                   href="https://docs.amplify.aws/lib/q/platform/js/"
                 >
                   Amplify Documentation
-                  <FiExternalLink mx="1px" />
+                  <FiExternalLink />
                 </Link>
               </Heading>
               <Text fontSize={'large'}>
@@ -343,7 +345,7 @@ export default function ContributeGettingStartedPage() {
                   href="https://discord.com/invite/amplify"
                 >
                   Amplify Community Discord server
-                  <FiExternalLink mx="1px" />
+                  <FiExternalLink />
                 </Link>
               </Heading>
               <Text fontSize={'large'}>
@@ -354,7 +356,7 @@ export default function ContributeGettingStartedPage() {
               <Heading level={4}>
                 <Link color="brand.smile" href="https://discord.gg/kfWYHw73eA">
                   The <Code>contribute-to-javascript</Code> Discord channel
-                  <FiExternalLink mx="1px" />
+                  <FiExternalLink />
                 </Link>
               </Heading>
               <Text fontSize={'large'}>
@@ -367,7 +369,7 @@ export default function ContributeGettingStartedPage() {
                   href="https://discord.com/invite/amplify"
                 >
                   Amplify Discord Office Hours
-                  <FiExternalLink mx="1px" />
+                  <FiExternalLink />
                 </Link>
               </Heading>
 
