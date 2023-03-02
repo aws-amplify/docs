@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { ThemeProvider } from '@aws-amplify/ui-react';
-import { default as BaseLayout } from '../../../components/Layout';
+import { default as BaseLayout } from '../Layout';
 import { theme } from './theme';
 import type { PropsWithChildren } from 'react';
 

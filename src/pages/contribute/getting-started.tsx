@@ -11,7 +11,7 @@ import {
 import { FiExternalLink } from 'react-icons/fi';
 import { MdCheckCircle, MdOutlineInfo } from 'react-icons/md';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import Layout from './_components/Layout';
+import Layout from '../../components/contribute/Layout';
 
 const _4a = `
 $ git status

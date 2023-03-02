@@ -9,10 +9,10 @@ import {
   Card
 } from '@aws-amplify/ui-react';
 import { FiExternalLink } from 'react-icons/fi';
-import Layout from './_components/Layout';
-import Issues from './_components/CardIssues';
-import HowItWorks from './_components/HowItWorks';
-import QuickstartResources from './_components/QuickstartResources';
+import Layout from '../../components/contribute/Layout';
+import Issues from '../../components/contribute/CardIssues';
+import HowItWorks from '../../components/contribute/HowItWorks';
+import QuickstartResources from '../../components/contribute/QuickstartResources';
 
 import { Octokit } from '@octokit/rest';
 import { Endpoints } from '@octokit/types';
