@@ -1,0 +1,88 @@
+You can record receipt of a push notification with Amazon Pinpoint by calling `Amplify.Notifications.Push.recordNotificationReceived()` from the Messaging Service class.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+class MyAppService extends FirebaseMessagingService() {
+    // Called when a notification is received
+    @Override
+    public void onMessageReceived(RemoteMessage remoteMessage) {
+        super.onMessageReceived(remoteMessage);
+
+        // TODO(developer): Handle FCM messages here
+
+        // Record notification received with Amplify
+        Amplify.Notifications.Push.recordNotificationReceived(remoteMessage,
+            result -> Log.i("MyAmplifyApp", "Successfully recorded a notification received"),
+            error -> Log.e("MyAmplifyApp", "Error recording notification received", error)
+        );
+    }
+}
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+class MyAppService : FirebaseMessagingService() {
+    // Called when a notification is received
+    override fun onMessageReceived(remoteMessage: RemoteMessage) {
+        super.onMessageReceived(remoteMessage)
+
+        // TODO(developer): Handle FCM messages here
+
+        // Record notification received with Amplify
+        Amplify.Notifications.Push.recordNotificationReceived(remoteMessage,
+            { Log.i("MyAmplifyApp", "Successfully recorded a notification received") },
+            { Log.e("MyAmplifyApp", "Error recording notification received", error) }
+        )
+    }
+}
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+class MyAppService : FirebaseMessagingService() {
+    // Called when a notification is received
+    override fun onMessageReceived(remoteMessage: RemoteMessage) {
+        super.onMessageReceived(remoteMessage)
+
+        // TODO(developer): Handle FCM messages here
+
+        try {
+            // let Amplify handle foreground and background message received
+            Amplify.Notifications.Push.recordNotificationReceived(remoteMessage)
+            Log.i("MyAmplifyApp", "Successfully recorded a notification received")
+        } catch (error: PushNotificationsException) {
+            Log.e("MyAmplifyApp", "Error recording notification received", error)
+        }
+    }
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+class MyAppService extends FirebaseMessagingService() {
+    // Called when a notification is received
+    @Override
+    public void onMessageReceived(RemoteMessage remoteMessage) {
+        super.onMessageReceived(remoteMessage);
+
+        // TODO(developer): Handle FCM messages here
+
+        // let Amplify handle foreground and background message received
+        RxAmplify.Notifications.Push.recordNotificationReceived(remoteMessage).subscribe(
+            () -> Log.i("MyAmplifyApp", "Successfully recorded a notification received"),
+            error -> Log.e("MyAmplifyApp", "Error recording notification received", error)
+        );
+    }
+}
+```
+
+</Block>
+</BlockSwitcher>
