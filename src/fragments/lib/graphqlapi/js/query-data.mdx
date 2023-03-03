@@ -330,5 +330,5 @@ A `nextToken` is a very long string that looks like `"eyJ2ZXJzaW9uejE1a2RPanZPQz
 
 - There is no API to get a total page count at this time. Note that scanning all items is a [potentially expensive operation](https://github.com/aws-amplify/amplify-js/issues/2901).
 - Sorting is [available in DataStore](https://docs.amplify.aws/lib/datastore/data-access/q/platform/js#predicates) but not in AppSync.
-- AppSync schemas do not follow the edges/nodes of the [Relay spec](https://relay.dev/docs/en/graphql-server-specification.html) but are spiritually similar.
+- AppSync schemas do not follow the edges/nodes of the [Relay spec](https://relay.dev/docs/guides/graphql-server-specification) but are spiritually similar.
 - You [cannot query by `page` number](https://github.com/aws-amplify/amplify-cli/issues/5086), you have to query by `nextToken`.
