@@ -1021,6 +1021,7 @@
     "PUSHINFOPROVIDER",
     "PushListenerService",
     "pushnotification",
+    "pushnotifications",
     "pushservice",
     "putPostWithPhoto",
     "PutRecord",
