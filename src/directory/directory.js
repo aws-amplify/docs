@@ -654,22 +654,22 @@ const directory = {
           {
             title: 'Getting started',
             route: '/lib/push-notifications/getting-started',
-            filters: ['ios', 'react-native']
+            filters: ['android', 'ios', 'react-native']
           },
           {
             title: 'Register device',
             route: '/lib/push-notifications/register-device',
-            filters: ['ios']
+            filters: ['android', 'ios']
           },
           {
             title: 'Record notifications',
             route: '/lib/push-notifications/record-notifications',
-            filters: ['ios']
+            filters: ['android', 'ios']
           },
           {
             title: 'Identify user',
             route: '/lib/push-notifications/identify-user',
-            filters: ['ios']
+            filters: ['android', 'ios']
           },
           {
             title: 'Working with API',
@@ -684,17 +684,17 @@ const directory = {
           {
             title: 'Testing',
             route: '/lib/push-notifications/testing',
-            filters: ['ios', 'react-native']
+            filters: ['android', 'ios', 'react-native']
           },
           {
             title: 'Setting up push notification services',
             route: '/lib/push-notifications/setup-push-service',
-            filters: ['ios']
+            filters: ['android', 'ios']
           },
           {
             title: 'Use existing AWS resources',
             route: '/lib/push-notifications/existing-resources',
-            filters: ['ios']
+            filters: ['android', 'ios']
           }
         ]
       },
