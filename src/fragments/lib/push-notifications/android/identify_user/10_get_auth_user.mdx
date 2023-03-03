@@ -1,0 +1,47 @@
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+String user = "";
+Amplify.Auth.getCurrentUser(
+    authUser -> user = authUser.getUserId(),
+    error -> Log.e("MyAmplifyApp", "Error getting current user", error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+var user = ""
+Amplify.Auth.getCurrentUser(
+    { authUser -> user = authUser.userId }, 
+    { Log.e("MyAmplifyApp", "Error getting current user", error) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+var user = ""
+try {
+    user = Amplify.Auth.getCurrentUser().userId
+} catch (error: PushNotificationsException) {
+    Log.e("MyAmplifyApp", "Error getting current user", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+String user = "";
+RxAmplify.Auth.getCurrentUser().subscribe(
+    authUser -> user = authUser.getUserId(),
+    error -> Log.e("MyAmplifyApp", "Error getting current user", error)
+);
+```
+
+</Block>
+</BlockSwitcher>

@@ -1,0 +1,88 @@
+<Callout>
+
+These APIs do not need to be called unless you choose to not use our service extension or you want to support multiple push providers.
+
+</Callout>
+
+## Handle Notification Received
+
+You can display the notification in the system tray if the app is in a background or killed state by calling `Amplify.Notifications.Push.handleNotificationReceived()` from the Messaging Service class. It also calls `recordNotificationReceived` irrespective of the app state.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+class MyAppService extends FirebaseMessagingService() {
+    // Called when a notification is received
+    @Override
+    public void onMessageReceived(RemoteMessage remoteMessage) {
+        super.onMessageReceived(remoteMessage);
+
+        // let Amplify handle foreground and background message received
+        Amplify.Notifications.Push.handleNotificationReceived(remoteMessage,
+            result -> Log.i("MyAmplifyApp", "Successfully handled a notification"),
+            error -> Log.e("MyAmplifyApp", "Error handling notification", error)
+        );
+    }
+}
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+class MyAppService : FirebaseMessagingService() {
+    // Called when a notification is received
+    override fun onMessageReceived(remoteMessage: RemoteMessage) {
+        super.onMessageReceived(remoteMessage)
+
+        // let Amplify handle foreground and background message received
+        Amplify.Notifications.Push.handleNotificationReceived(remoteMessage,
+            { Log.i("MyAmplifyApp", "Successfully handled a notification") },
+            { Log.e("MyAmplifyApp", "Error handling notification", error) }
+        )
+    }
+}
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+class MyAppService : FirebaseMessagingService() {
+    // Called when a notification is received
+    override fun onMessageReceived(remoteMessage: RemoteMessage) {
+        super.onMessageReceived(remoteMessage)
+
+        try {
+            // let Amplify handle foreground and background message received
+            Amplify.Notifications.Push.handleNotificationReceived(remoteMessage)
+            Log.i("MyAmplifyApp", "Successfully handled a notification")
+        } catch (error: PushNotificationsException) {
+            Log.e("MyAmplifyApp", "Error handling notification", error)
+        }
+    }
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+class MyAppService extends FirebaseMessagingService() {
+    // Called when a notification is received
+    @Override
+    public void onMessageReceived(RemoteMessage remoteMessage) {
+        super.onMessageReceived(remoteMessage);
+
+        // let Amplify handle foreground and background message received
+        RxAmplify.Notifications.Push.handleNotificationReceived(remoteMessage).subscribe(
+            () -> Log.i("MyAmplifyApp", "Successfully handled a notification"),
+            error -> Log.e("MyAmplifyApp", "Error handling notification", error)
+        );
+    }
+}
+```
+
+</Block>
+</BlockSwitcher>

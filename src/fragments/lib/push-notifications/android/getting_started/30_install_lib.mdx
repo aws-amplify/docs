@@ -1,0 +1,15 @@
+Open **build.gradle (Module: app)** and add these libraries into the `dependencies` block.
+
+```groovy
+dependencies {
+    implementation 'com.amplifyframework:aws-auth-cognito:ANDROID_VERSION'
+    implementation 'com.amplifyframework:aws-push-notifications-pinpoint:ANDROID_VERSION'
+}
+```
+Click **Sync Now**.
+
+<Callout>
+
+**Note:** The Push Notifications plugin has a dependency on Cognito Auth.
+
+</Callout>

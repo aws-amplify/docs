@@ -1,0 +1,76 @@
+You can record that a user opened a push notification with Amazon Pinpoint by calling `Amplify.Notifications.Push.recordNotificationOpened()` from the launch activity.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+class LaunchActivity extends AppCompatActivity() {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Record notification opened when activity launches
+        Amplify.Notifications.Push.recordNotificationOpened(data,
+            result -> Log.i("MyAmplifyApp", "Successfully recorded notification opened"),
+            error -> Log.e("MyAmplifyApp", "Error recording notification opened", error)
+        );
+    }
+}
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+class LaunchActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // Record notification opened when activity launches
+        Amplify.Notifications.Push.recordNotificationOpened(data,
+            { Log.i("MyAmplifyApp", "Successfully recorded notification opened") },
+            { Log.e("MyAmplifyApp", "Error recording notification opened", error) }
+        )
+    }
+}
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+class LaunchActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        try {
+            // Record notification opened when activity launches
+            Amplify.Notifications.Push.recordNotificationOpened(data)
+            Log.i("MyAmplifyApp", "Successfully recorded notification opened")
+        } catch (error: PushNotificationsException) {
+            Log.e("MyAmplifyApp", "Error recording notification opened", error)
+        }
+    }
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+class LaunchActivity extends AppCompatActivity() {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Record notification opened when activity launches
+        RxAmplify.Notifications.Push.recordNotificationOpened(data).subscribe(
+            () -> Log.i("MyAmplifyApp", "Successfully recorded notification opened"),
+            error -> Log.e("MyAmplifyApp", "Error recording notification opened", error)
+        );
+    }
+}
+```
+
+</Block>
+</BlockSwitcher>
