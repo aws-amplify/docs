@@ -1,0 +1,60 @@
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+AWSPinpointUserProfile profile = AWSPinpointUserProfile.builder()
+    .name("Name")
+    .build()
+
+Amplify.Analytics.identifyUser(
+    user,
+    profile,
+    result -> Log.i("MyAmplifyApp", "Identified user successfully"),
+    error -> Log.e("MyAmplifyApp", "Error identifying user", error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val profile = AWSPinpointUserProfile.builder()
+    .name("Name")
+    .build()
+
+Amplify.Analytics.identifyUser(
+    user,
+    profile,
+    { Log.i("MyAmplifyApp", "Identified user successfully") },
+    { Log.e("MyAmplifyApp", "Error identifying user", error) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val profile = AWSPinpointUserProfile.builder()
+    .name("Name")
+    .build()
+
+try {
+    Amplify.Notifications.Push.identifyUser(user, profile)
+    Log.i("MyAmplifyApp", "Identified user successfully")
+} catch (error: PushNotificationsException) {
+    Log.e("MyAmplifyApp", "Error identifying user", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Notifications.Push.identifyuser(user, profile).subscribe(
+    () -> Log.i("MyAmplifyApp", "Identified user successfully"),
+    error -> Log.e("MyAmplifyApp", "Error identifyUser user", error)
+);
+```
+
+</Block>
+</BlockSwitcher>
