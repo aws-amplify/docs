@@ -32,7 +32,7 @@ The client secret is used by applications that have a server-side component that
 
 [Learn more about getting started with Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/getting-started-with-cognito-user-pools.html) or [configuring a User Pool App Client](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-client-apps.html)
 
-We can also use Amplify CLI to [import an Cognito user pool resource](/cli/auth/import/).
+We can also use Amplify CLI to [import a Cognito user pool resource](/cli/auth/import/).
 
 ## Import an existing identity pool
 
@@ -45,7 +45,14 @@ These roles are usually automatically configured when you create a new identity 
 
 [Learn more about getting started with Identity Pools.](https://docs.aws.amazon.com/cognito/latest/developerguide/getting-started-with-identity-pools.html)
 
-We can also use Amplify CLI to [import an Cognito identity pool resource](/cli/auth/import/).
+We can also use Amplify CLI to [import a Cognito identity pool resource](/cli/auth/import/).
+
+<Callout>
+
+In order to import a Cognito identity pool resource a Cognito user pool resource is required.
+Note: Amplify does not manage the lifecycle of an imported resource.
+
+</Callout>
 
 ## Update your source code
 
