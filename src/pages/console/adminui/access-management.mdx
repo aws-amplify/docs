@@ -41,7 +41,9 @@ If a team member logs into Amplify Studio, their login token is valid for 60 min
 ## Understanding how Studio manages user access
 
 <Callout warning>
-  The following resources are all managed by Studio so please **do not modify their settings, as they may affect your login experience**.
+
+  The following resources are all managed by Studio. **Manual changes to these resources may affect your login experience**.
+
 </Callout>
 
 ### User pool
@@ -66,8 +68,8 @@ To provide a passwordless login experience from AWS Amplify Console to Amplify S
 - *amplify-login-define-auth-challenge-SHORT_CODE*
 - *amplify-login-verify-auth-challenge-SHORT_CODE*
 
-### Recreating Studio managed resources
-If you happen to delete or otherwise mismanage any of the resources mentioned above, you can re-create them by first disabling and then re-enabling Studio for your Amplify Project on the Amplify management console.
+### Troubleshooting
+If your Studio application experiences any issues logging in or the resources have been deleted, you can re-create the resources by disabling and then re-enabling Studio for your Amplify Project on the Amplify management console.
 
 1. Sign in to the AWS Management Console and open AWS Amplify.
 2. Select your Amplify project with Amplify Studio enabled.
@@ -76,5 +78,5 @@ If you happen to delete or otherwise mismanage any of the resources mentioned ab
 5. Turn on **Enable Amplify Studio.**
 
 <Callout warning>
-  Disabling and re-enabling Studio will delete the User pool managing user access into Studio, which will require re-inviting members you'd like to give access to your Amplify Project. Disabling and re-enabling Amplify Studio will not make any changes on your Amplify Project.
+   Disabling and re-enabling Amplify Studio will remove and recreate the Amplify Studio managed User pool resource used to access your project, and you will need to re-invite your users to provide access to your Amplify Project. Disabling and re-enabling Amplify Studio will not modify any resources on your Amplify Project.
 </Callout>
