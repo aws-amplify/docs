@@ -105,19 +105,7 @@ export default function ContributorPage({ JsIssues, CLIissues }) {
                   isExternal={false}
                 >
                   <Button size="large" variation="primary">
-                    Get Started Contributing to Amplify
-                  </Button>
-                </Link>
-
-                <Link
-                  as={NextLink}
-                  href="https://github.com/aws-amplify/"
-                  isExternal={true}
-                >
-                  <Button size="large">
-                    <Text>
-                      Explore the repos <FiExternalLink />
-                    </Text>
+                    Get Started Contributing
                   </Button>
                 </Link>
               </Flex>
