@@ -62,7 +62,7 @@ AWSS3StorageUploadFileOptions awsS3StorageUploadFileOptions =
 ```kotlin
 val awsS3StorageUploadFileOptions = AWSS3StorageUploadFileOptions.builder().
                                                   setUseAccelerateEndpoint(true).
-                                                  build();
+                                                  build()
  Amplify.Storage.uploadFile(
    "KEY",
    file
@@ -77,7 +77,7 @@ val awsS3StorageUploadFileOptions = AWSS3StorageUploadFileOptions.builder().
 ```kotlin
 val awsS3StorageUploadFileOptions = AWSS3StorageUploadFileOptions.builder().
                                                     setUseAccelerateEndpoint(true).
-                                                    build();
+                                                    build()
 val upload = Amplify.Storage.uploadFile("KEY", file, awsS3StorageUploadFileOptions)
 try {
     val result = upload.result()
@@ -105,5 +105,4 @@ rxUploadOperation
 ```
 </Block>
 </BlockSwitcher>
-```
 <Callout>Note: useAccelerateEndpoint flag is available in AWSS3StorageUploadFileOptions, AWSS3StorageUploadInputStreamOptions, AWSS3StorageDownloadFileOptions and AWSS3StorageGetPresignedUrlOptions</Callout>
