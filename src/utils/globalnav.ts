@@ -35,7 +35,7 @@ export const LEFT_NAV_LINKS = [
   {
     type: 'DEFAULT',
     label: 'Contribute',
-    url: '/contribute',
+    url: '/contribute/',
     order: 4
   }
 ];
