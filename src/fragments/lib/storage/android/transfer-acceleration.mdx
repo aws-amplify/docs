@@ -69,7 +69,7 @@ val awsS3StorageUploadFileOptions = AWSS3StorageUploadFileOptions.builder().
    awsS3StorageUploadFileOptions,
    { Log.i("MyAmplifyApp", "Successfully uploaded: " + it.getKey()) },
    { Log.e("MyAmplifyApp", "Upload failed", it) }
-);
+)
 ```
 </Block>
 <Block name="Kotlin - Coroutines">
@@ -85,7 +85,7 @@ try {
 } catch (error: StorageException) {
     Log.e("MyAmplifyApp", "Upload failed", error)
 }
-);
+)
 ```
 </Block>
 <Block name="RxJava">
