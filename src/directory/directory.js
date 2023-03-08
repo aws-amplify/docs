@@ -94,11 +94,6 @@ const directory = {
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
-            title: 'Identify user',
-            route: '/lib/analytics/identifyuser',
-            filters: ['android', 'flutter', 'ios', 'react-native', 'js']
-          },
-          {
             title: 'Streaming analytics data',
             route: '/lib/analytics/streaming',
             filters: ['js', 'react-native']
@@ -239,11 +234,6 @@ const directory = {
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
-            title: 'Create or re-use existing backend',
-            route: '/lib/auth/start',
-            filters: ['js', 'react-native']
-          },
-          {
             title: 'Sign up, Sign in & Sign out',
             route: '/lib/auth/emailpassword',
             filters: ['js', 'react-native']
@@ -367,11 +357,6 @@ const directory = {
             title: 'Under the hood',
             route: '/lib/auth/overview',
             filters: ['android', 'ios', 'js', 'react-native']
-          },
-          {
-            title: 'Use existing Amazon Cognito resources',
-            route: '/lib/auth/existing-resources',
-            filters: ['android', 'flutter', 'ios']
           }
         ]
       },
@@ -790,7 +775,11 @@ const directory = {
             route: '/lib/utilities/serviceworker',
             filters: ['js']
           },
-          { title: 'Cache', route: '/lib/utilities/cache', filters: ['js', 'react-native'] },
+          {
+            title: 'Cache',
+            route: '/lib/utilities/cache',
+            filters: ['js', 'react-native']
+          },
           {
             title: 'Hub',
             route: '/lib/utilities/hub',
@@ -1122,11 +1111,6 @@ const directory = {
           {
             title: 'Under the hood',
             route: '/lib-v1/auth/overview',
-            filters: ['android', 'ios']
-          },
-          {
-            title: 'Use existing Amazon Cognito resources',
-            route: '/lib-v1/auth/existing-resources',
             filters: ['android', 'ios']
           }
         ]
