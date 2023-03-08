@@ -6,9 +6,9 @@
 /src/pages/_document.tsx @aws-amplify/documentation-team 
 /src/pages/404.tsx @aws-amplify/documentation-team 
 /src/pages/ChooseFilterPage.tsx @aws-amplify/documentation-team 
-/src/pages/guides/q/platform/[platform].mdx @aws-amplify/documentation-team 
+/src/pages/guides/q/platform @aws-amplify/documentation-team 
 /src/pages/index.tsx @aws-amplify/documentation-team
-/src/pages/start/q/integration/[integration].mdx @aws-amplify/documentation-team
+/src/pages/start/q/integration @aws-amplify/documentation-team
 /src/plugins @aws-amplify/documentation-team 
 /src/public @aws-amplify/documentation-team 
 /src/styles @aws-amplify/documentation-team 
@@ -56,8 +56,8 @@
 /src/pages/**/datastore @renebrandel
 
 #Geo
-/src/fragments/**/geo @amplify/amplify-geo @hdworld11
-/src/pages/**/geo @amplify/amplify-geo @hdworld11
+/src/fragments/**/geo @aws-amplify/amplify-geo @hdworld11
+/src/pages/**/geo @aws-amplify/amplify-geo @hdworld11
 
 #CLI
 /src/**/cli @aws-amplify/amplify-cli @swaminator
@@ -78,7 +78,7 @@
 /src/fragments/lib/android-kotlin-java-interop.mdx @aws-amplify/amplify-android @hdworld11
 /src/fragments/lib/android-sdk.mdx @aws-amplify/amplify-android @hdworld11
 /src/fragments/lib/android.mdx @aws-amplify/amplify-android @hdworld11
-/src/pages/start/sample-apps/todo-app/q/integration/[integration].mdx @aws-amplify/amplify-android @hdworld11
+/src/pages/start/sample-apps/todo-app/q/integration @aws-amplify/amplify-android @hdworld11
 
 #Flutter
 /src/fragments/**/**/flutter @aws-amplify/amplify-flutter @abdallahshaban557
