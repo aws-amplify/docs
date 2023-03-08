@@ -70,12 +70,10 @@ amplify import auth
 
 For more details, see how to [Use an existing Cognito User Pool and Identity Pool](/cli/auth/import).
 
-If you are not using the Amplify CLI, a Cognito User Pool and Identity Pool can be used by referencing them in your `amplifyconfiguration.dart` file.
+If you are not using the Amplify CLI, a Cognito User Pool and Identity Pool can be used by referencing them in your `amplifyconfiguration.json` file.
 
-```dart
-const amplifyconfig = ''' {
-    "UserAgent": "aws-amplify-cli/2.0",
-    "Version": "1.0",
+```jsx
+{
     "auth": {
         "plugins": {
             "awsCognitoAuthPlugin": {
@@ -112,13 +110,13 @@ const amplifyconfig = ''' {
                                 "profile",
                                 "aws.cognito.signin.user.admin"
                             ]
-                        },
+                        }
                     }
                 }
             }
         }
     }
-}''';
+}
 ```
 
 - **CredentialsProvider**:
