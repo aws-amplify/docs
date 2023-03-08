@@ -94,6 +94,11 @@ const directory = {
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
+            title: 'Identify user',
+            route: '/lib/analytics/identifyuser',
+            filters: ['android', 'flutter', 'ios', 'react-native', 'js']
+          },
+          {
             title: 'Streaming analytics data',
             route: '/lib/analytics/streaming',
             filters: ['js', 'react-native']
