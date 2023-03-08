@@ -31,7 +31,13 @@ export const LEFT_NAV_LINKS = [
     label: 'UI Library',
     url: 'https://ui.docs.amplify.aws/',
     order: 3
-  }
+  },
+  // {
+  //   type: 'DEFAULT',
+  //   label: 'Contribute',
+  //   url: '/contribute/',
+  //   order: 4
+  // }
 ];
 
 export const SOCIAL_LINKS = [
