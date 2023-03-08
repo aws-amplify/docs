@@ -70,11 +70,56 @@ amplify import auth
 
 For more details, see how to [Use an existing Cognito User Pool and Identity Pool](/cli/auth/import).
 
-import nativeCommon0 from "/src/fragments/lib/auth/native_common/existing_resources/common.mdx";
+If you are not using the Amplify CLI, a Cognito User Pool and Identity Pool can be used by referencing them in your `amplifyconfiguration.dart` file.
 
-<Fragments fragments={{ios: nativeCommon0}} />
-<Fragments fragments={{android: nativeCommon0}} />
-<Fragments fragments={{flutter: flutter0}} />
+```dart
+const amplifyconfig = ''' {
+    "UserAgent": "aws-amplify-cli/2.0",
+    "Version": "1.0",
+    "auth": {
+        "plugins": {
+            "awsCognitoAuthPlugin": {
+                "IdentityManager": {
+                    "Default": {}
+                },
+                "CredentialsProvider": {
+                    "CognitoIdentity": {
+                        "Default": {
+                            "PoolId": "[COGNITO IDENTITY POOL ID]",
+                            "Region": "[REGION]"
+                        }
+                    }
+                },
+                "CognitoUserPool": {
+                    "Default": {
+                        "PoolId": "[COGNITO USER POOL ID]",
+                        "AppClientId": "[COGNITO USER POOL APP CLIENT ID]",
+                        "Region": "[REGION]"
+                    }
+                },
+                "Auth": {
+                    "Default": {
+                        "authenticationFlowType": "USER_SRP_AUTH",
+                        "OAuth": {
+                            "WebDomain": "[YOUR COGNITO DOMAIN ]",
+                            "AppClientId": "[COGNITO USER POOL APP CLIENT ID]",
+                            "SignInRedirectURI": "[CUSTOM REDIRECT SCHEME AFTER SIGN IN, e.g. myapp://]",
+                            "SignOutRedirectURI": "[CUSTOM REDIRECT SCHEME AFTER SIGN OUT, e.g. myapp://]",
+                            "Scopes": [ 
+                                "phone",
+                                "email",
+                                "openid",
+                                "profile",
+                                "aws.cognito.signin.user.admin"
+                            ]
+                        },
+                    }
+                }
+            }
+        }
+    }
+}''';
+```
 
 - **CredentialsProvider**:
   - **Cognito Identity**:
