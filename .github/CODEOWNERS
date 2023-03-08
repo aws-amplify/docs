@@ -60,12 +60,12 @@
 /src/pages/**/geo @aws-amplify/amplify-geo @hdworld11
 
 #CLI
-/src/**/cli @aws-amplify/amplify-cli @swaminator
-/src/**/cli-legacy @aws-amplify/amplify-cli @swaminator
-/src/fragments/cli-install-block.mdx @aws-amplify/amplify-cli @swaminator
-/src/fragments/lib-v1/project-setup/native_common/prereq/cliInstall.mdx @aws-amplify/amplify-cli @swaminator
-/src/fragments/pull-cli-studio.mdx @aws-amplify/amplify-cli @swaminator
-/src/pages/console/adminui/extend-cli.mdx @aws-amplify/amplify-cli @swaminator
+/src/**/cli @aws-amplify/amplify-cli
+/src/**/cli-legacy @aws-amplify/amplify-cli
+/src/fragments/cli-install-block.mdx @aws-amplify/amplify-cli
+/src/fragments/lib-v1/project-setup/native_common/prereq/cliInstall.mdx @aws-amplify/amplify-cli
+/src/fragments/pull-cli-studio.mdx @aws-amplify/amplify-cli
+/src/pages/console/adminui/extend-cli.mdx @aws-amplify/amplify-cli
 
 #Android
 /src/fragments/**/**/android @aws-amplify/amplify-android @hdworld11
