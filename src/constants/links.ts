@@ -1,6 +1,7 @@
 export const DISCORD = 'https://discord.gg/amplify';
 export const LEARN = 'https://amplify.aws/learn';
-export const CONTRIBUTE = 'https://contributetoamplify.com/';
+// export const CONTRIBUTE = 'https://docs.amplify.aws/contribute/';
+// export const CONTRIBUTE = 'https://contributetoamplify.com/';
 export const TWITTER = 'https://twitter.com/AWSAmplify';
 export const GITHUB = 'https://github.com/aws-amplify';
 export const TERMS = 'https://aws.amazon.com/terms/';
