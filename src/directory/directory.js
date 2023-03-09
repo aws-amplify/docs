@@ -654,7 +654,22 @@ const directory = {
           {
             title: 'Getting started',
             route: '/lib/push-notifications/getting-started',
-            filters: ['react-native']
+            filters: ['ios', 'react-native']
+          },
+          {
+            title: 'Register device',
+            route: '/lib/push-notifications/register-device',
+            filters: ['ios']
+          },
+          {
+            title: 'Record notification events',
+            route: '/lib/push-notifications/record-notifications',
+            filters: ['ios']
+          },
+          {
+            title: 'Identify user',
+            route: '/lib/push-notifications/identify-user',
+            filters: ['ios']
           },
           {
             title: 'Working with API',
@@ -662,9 +677,19 @@ const directory = {
             filters: ['react-native']
           },
           {
+            title: 'Remote media',
+            route: '/lib/push-notifications/remote-media',
+            filters: ['ios']
+          },
+          {
             title: 'Testing',
             route: '/lib/push-notifications/testing',
-            filters: ['react-native']
+            filters: ['ios', 'react-native']
+          },
+          {
+            title: 'Setting up push notification services',
+            route: '/lib/push-notifications/setup-push-service',
+            filters: ['ios']
           }
         ]
       },
