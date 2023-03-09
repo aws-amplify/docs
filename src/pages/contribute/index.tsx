@@ -19,47 +19,44 @@ import { Endpoints } from '@octokit/types';
 
 type listRepoIssuesResponse = Endpoints['GET /repos/{owner}/{repo}/issues']['response'];
 
-export async function getStaticProps() {
-  if (process.env.PROD_ENV === 'production') {
-    const octokit = new Octokit({});
+// export async function getStaticProps() {
+//   if (process.env.PROD_ENV === 'production') {
+// const octokit = new Octokit({});
+// const {
+//   data: JsIssues
+// }: {
+//   data: listRepoIssuesResponse['data'];
+// } = await octokit.rest.issues.listForRepo({
+//   owner: 'aws-amplify',
+//   repo: 'amplify-js',
+//   state: 'open',
+//   labels: 'good first issue',
+//   // eslint-disable-next-line @typescript-eslint/camelcase
+//   per_page: 6
+// });
+// const {
+//   data: CLIissues
+// }: {
+//   data: listRepoIssuesResponse['data'];
+// } = await octokit.rest.issues.listForRepo({
+//   owner: 'aws-amplify',
+//   repo: 'amplify-cli',
+//   state: 'open',
+//   labels: 'good first issue',
+//   // eslint-disable-next-line @typescript-eslint/camelcase
+//   per_page: 6
+// });
+// return {
+//   props: { JsIssues, CLIissues }
+// };
+//   }
 
-    const {
-      data: JsIssues
-    }: {
-      data: listRepoIssuesResponse['data'];
-    } = await octokit.rest.issues.listForRepo({
-      owner: 'aws-amplify',
-      repo: 'amplify-js',
-      state: 'open',
-      labels: 'good first issue',
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      per_page: 6
-    });
+//   return {
+//     props: {}
+//   };
+// }
 
-    const {
-      data: CLIissues
-    }: {
-      data: listRepoIssuesResponse['data'];
-    } = await octokit.rest.issues.listForRepo({
-      owner: 'aws-amplify',
-      repo: 'amplify-cli',
-      state: 'open',
-      labels: 'good first issue',
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      per_page: 6
-    });
-
-    return {
-      props: { JsIssues, CLIissues }
-    };
-  }
-
-  return {
-    props: {}
-  };
-}
-
-export default function ContributorPage({ JsIssues, CLIissues }) {
+export default function ContributorPage() {
   const meta = {
     title: 'AWS Amplify Contributor Program',
     description:
@@ -118,7 +115,7 @@ export default function ContributorPage({ JsIssues, CLIissues }) {
 
             <HowItWorks />
 
-            <Flex
+            {/* <Flex
               direction="column"
               maxWidth="1024px"
               width={{ base: '90%', large: '60%' }}
@@ -168,7 +165,7 @@ export default function ContributorPage({ JsIssues, CLIissues }) {
                   description="The AWS Amplify CLI is a toolchain for simplifying serverless web and mobile development."
                 />
               </Card>
-            </Flex>
+            </Flex> */}
 
             <QuickstartResources />
             {/* <Contributors /> */}
