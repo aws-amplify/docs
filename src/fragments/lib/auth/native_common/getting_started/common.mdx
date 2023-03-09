@@ -23,7 +23,9 @@ import flutter2 from "/src/fragments/lib/auth/flutter/getting_started/10_preReq.
 
 ## Set Up Backend Resources
 
-To use Authentication with Amplify, you have the option to either have the Amplify CLI setup resources for you, or you can use an existing Amazon Cognito resource in your AWS account.
+To use Authentication with Amplify, you can choose to configure resources through the Amplify CLI (which will automatically create them on the backend for you) or use an existing Amazon Cognito resource in your AWS account.
+
+> Note that before you can add an AWS resource to your application, the application must have the Amplify libraries installed. If you need to perform this step, see [Install Amplify Libraries](/lib/project-setup/create-application#n2-install-amplify-libraries) and ensure you've installed the necessary dependencies.
 
 <BlockSwitcher>
 <Block name="Amplify CLI">
@@ -43,6 +45,8 @@ Enter the following when prompted:
 ? Do you want to configure advanced settings?
     `No, I am done.`
 ```
+
+> If you have previously enabled an Amplify category that uses Auth behind the scenes (e.g. API category), run the `amplify update auth` command to edit your configuration. 
 
 To push your changes to the cloud, **execute the command**:
 
@@ -64,7 +68,7 @@ import flutter5 from "/src/fragments/lib/auth/flutter/getting_started/12_amplify
 
 </Block>
 <Block name="Existing resources">
-If you are using the Amplify CLI, an existing Amazon Cognito User Pool and Identity Pool can be used with the Amplify Libraries by running:
+Existing Authentication resources from AWS (e.g. Amazon Cognito UserPools or Identity Pools) can be used with the Amplify Libraries by running:
 
 ```bash
 amplify import auth

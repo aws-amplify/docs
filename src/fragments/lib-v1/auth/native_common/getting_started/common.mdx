@@ -15,7 +15,9 @@ import android1 from "/src/fragments/lib-v1/auth/android/getting_started/10_preR
 
 ## Set Up Backend Resources
 
-To use Authentication with Amplify, you have the option to either have the Amplify CLI setup resources for you, or you can use an existing Amazon Cognito resource in your AWS account.
+To use Authentication with Amplify, you can choose to configure resources through the Amplify CLI (which will automatically create them on the backend for you) or use an existing Amazon Cognito resource in your AWS account.
+
+> Note that before you can add an AWS resource to your application, the application must have the Amplify libraries installed. If you need to perform this step, see [Install Amplify Libraries](/lib/project-setup/create-application#n2-install-amplify-libraries) and ensure you've installed the necessary dependencies.
 
 <BlockSwitcher>
 <Block name="Amplify CLI">
@@ -25,6 +27,7 @@ To start provisioning auth resources in the backend, go to your project director
 ```bash
 amplify add auth
 ```
+> If you have previously enabled an Amplify category that uses Auth behind the scenes (e.g. API category), run `amplify update auth` command to edit your configuration. 
 
 Enter the following when prompted:
 ```console
@@ -53,7 +56,7 @@ import android4 from "/src/fragments/lib-v1/auth/android/getting_started/12_ampl
 </Block>
 <Block name="Existing resources">
 
-If you are using the Amplify CLI, an existing Amazon Cognito User Pool and Identity Pool can be used with the Amplify Libraries by running:
+Existing Authentication resources from AWS (e.g. Amazon Cognito UserPools or Identity Pools) canbe used with the Amplify Libraries by running:
 
 ```bash
 amplify import auth
