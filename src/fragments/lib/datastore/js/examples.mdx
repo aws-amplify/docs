@@ -19,11 +19,7 @@ function onCreate() {
   DataStore.save(
     new Post({
       title: `New title ${Date.now()}`,
-      rating: (function getRandomInt(min, max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min)) + min;
-      })(1, 7),
+      rating: Math.floor(Math.random() * (8 - 1) + 1),
       status: PostStatus.ACTIVE,
     })
   );
@@ -94,11 +90,7 @@ function onCreate() {
   DataStore.save<Post>(
     new Post({
       title: `New title ${Date.now()}`,
-      rating: (function getRandomInt(min, max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min)) + min;
-      })(1, 7),
+      rating: Math.floor(Math.random() * (8 - 1) + 1),
       status: PostStatus.ACTIVE,
     })
   );
@@ -191,11 +183,7 @@ export class AppComponent implements OnInit, OnDestroy {
     DataStore.save(
       new Post({
         title: `New title ${Date.now()}`,
-        rating: (function getRandomInt(min, max) {
-          min = Math.ceil(min);
-          max = Math.floor(max);
-          return Math.floor(Math.random() * (max - min)) + min;
-        })(1, 7),
+        rating: Math.floor(Math.random() * (8 - 1) + 1),
         status: PostStatus.ACTIVE,
       })
     );
@@ -251,11 +239,7 @@ export default {
       DataStore.save(
         new Post({
           title: `New title ${Date.now()}`,
-          rating: (function getRandomInt(min, max) {
-            min = Math.ceil(min);
-            max = Math.floor(max);
-            return Math.floor(Math.random() * (max - min)) + min;
-          })(1, 7),
+          rating: Math.floor(Math.random() * (8 - 1) + 1),
           status: PostStatus.ACTIVE,
         })
       );
