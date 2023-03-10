@@ -42,7 +42,7 @@ export default function Layout({
         .filter((s) => s !== '')
         .join(' - ');
 
-  const current = meta.title.includes('Contribut') ? 'Contribute' : 'Docs';
+  const current = meta?.title?.includes('Contribut') ? 'Contribute' : 'Docs';
 
   return (
     <>
