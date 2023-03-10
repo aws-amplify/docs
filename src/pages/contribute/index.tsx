@@ -17,44 +17,44 @@ import QuickstartResources from '../../components/contribute/QuickstartResources
 import { Octokit } from '@octokit/rest';
 import { Endpoints } from '@octokit/types';
 
-type listRepoIssuesResponse = Endpoints['GET /repos/{owner}/{repo}/issues']['response'];
+// type listRepoIssuesResponse = Endpoints['GET /repos/{owner}/{repo}/issues']['response'];
 
-// export async function getStaticProps() {
-//   if (process.env.PROD_ENV === 'production') {
-// const octokit = new Octokit({});
-// const {
-//   data: JsIssues
-// }: {
-//   data: listRepoIssuesResponse['data'];
-// } = await octokit.rest.issues.listForRepo({
-//   owner: 'aws-amplify',
-//   repo: 'amplify-js',
-//   state: 'open',
-//   labels: 'good first issue',
-//   // eslint-disable-next-line @typescript-eslint/camelcase
-//   per_page: 6
-// });
-// const {
-//   data: CLIissues
-// }: {
-//   data: listRepoIssuesResponse['data'];
-// } = await octokit.rest.issues.listForRepo({
-//   owner: 'aws-amplify',
-//   repo: 'amplify-cli',
-//   state: 'open',
-//   labels: 'good first issue',
-//   // eslint-disable-next-line @typescript-eslint/camelcase
-//   per_page: 6
-// });
-// return {
-//   props: { JsIssues, CLIissues }
-// };
-//   }
+export function getStaticProps() {
+  // if (process.env.PROD_ENV === 'production') {
+  //   const octokit = new Octokit({});
+  //   const {
+  //     data: JsIssues
+  //   }: {
+  //     data: listRepoIssuesResponse['data'];
+  //   } = await octokit.rest.issues.listForRepo({
+  //     owner: 'aws-amplify',
+  //     repo: 'amplify-js',
+  //     state: 'open',
+  //     labels: 'good first issue',
+  //     // eslint-disable-next-line @typescript-eslint/camelcase
+  //     per_page: 6
+  //   });
+  //   const {
+  //     data: CLIissues
+  //   }: {
+  //     data: listRepoIssuesResponse['data'];
+  //   } = await octokit.rest.issues.listForRepo({
+  //     owner: 'aws-amplify',
+  //     repo: 'amplify-cli',
+  //     state: 'open',
+  //     labels: 'good first issue',
+  //     // eslint-disable-next-line @typescript-eslint/camelcase
+  //     per_page: 6
+  //   });
+  //   return {
+  //     props: { JsIssues, CLIissues }
+  //   };
+  // }
 
-//   return {
-//     props: {}
-//   };
-// }
+  return {
+    props: {}
+  };
+}
 
 export default function ContributorPage() {
   const meta = {
