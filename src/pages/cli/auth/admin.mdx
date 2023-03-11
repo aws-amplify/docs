@@ -267,9 +267,9 @@ class MyCustomInterceptor: URLRequestInterceptor {
 
 ## Adding Admin Actions
 
-To add additional admin actions that are not included by default but are enabled by Cognito, you will need to modify the Lambda function that is generated for you. The change will include adding a function for the action, and creating a route for it. You will then associate the function to the route within the express app.
+To add additional admin actions that are not included by default but are enabled by Amazon Cognito, you will need to update the Lambda function code that is generated for you. The change will include adding a procedure for the action and creating a route for it. You will then associate the procedure to the route within the express app.
 
-Below is an example of adding an admin action that will allow you to <ExternalLink href="https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminUpdateUserAttributes.html">update a user's attributes</ExternalLink>.
+Below is an example of how to add an admin action that will allow you to <ExternalLink href="https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminUpdateUserAttributes.html">update a user's attributes</ExternalLink>.
 ```js
 async function updateUserAttributes(username, attributes) {
   
@@ -293,9 +293,9 @@ async function updateUserAttributes(username, attributes) {
   }
 }
 ```
-Once the function is defined, you will then add a route with the correct HTTP method to the express app and associate the function to the route. Be sure to make the route unique.
+Once the procedure is defined, you will then add a route with the correct HTTP method to the express app and associate the procedure to the route. Be sure to make the route unique.
 
-Below is an example of how you can add a `POST` route named `/updateUserAttributes` and associate the above function to it.
+Below is an example of how you can add a `POST` route named `/updateUserAttributes` and associate the above procedure to it.
 ```js
 app.post('/updateUserAttributes', async (req, res, next) => {
   if (!req.body.username || !req.body.attributes) {
