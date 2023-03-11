@@ -2,22 +2,6 @@
 
 To query for a single item, pass in the ID of the item as the second argument to the query.
 
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-const post: Post | undefined = await DataStore.query<Post>(
-  Post,
-  '1234567'
-);
-```
-
-</Block>
-<Block name="JavaScript">
-
 ```js
 const post = await DataStore.query(Post, "1234567");
 ```
-
-</Block>
-</BlockSwitcher>

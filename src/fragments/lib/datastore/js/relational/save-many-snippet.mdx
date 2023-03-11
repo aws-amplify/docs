@@ -1,46 +1,15 @@
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-// first you save the post
-const post: Post = await DataStore.save<Post>(
-  new Post({
-    title: "My first post",
-  })
-);
-
-// secondly, you save the editor/user
-const editor: User = await DataStore.save<User>(
-  new User({
-    username: "Nadia",
-  })
-);
-
-// then you save the mode that links a post with an editor
-// TODO: type error
-await DataStore.save<PostEditor>(
-  new PostEditor({
-    post: post,
-    user: editor
-  })
-);
-```
-
-</Block>
-<Block name="JavaScript">
-
 ```js
 // first you save the post
 const post = await DataStore.save(
   new Post({
-    title: "My first post",
+    title: 'My first post'
   })
 );
 
 // secondly, you save the editor/user
 const editor = await DataStore.save(
   new User({
-    username: "Nadia",
+    username: 'Nadia'
   })
 );
 
@@ -52,6 +21,3 @@ await DataStore.save(
   })
 );
 ```
-
-</Block>
-</BlockSwitcher>

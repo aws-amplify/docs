@@ -2,21 +2,6 @@
 
 To query for all items, pass in the model name as the argument.
 
-
-
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-const posts: Post[] = await DataStore.query<Post>(Post);
-```
-
-</Block>
-<Block name="JavaScript">
-
 ```js
 const posts = await DataStore.query(Post);
 ```
-
-</Block>
-</BlockSwitcher>

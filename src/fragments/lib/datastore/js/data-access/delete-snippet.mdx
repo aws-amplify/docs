@@ -2,9 +2,9 @@
 <Block name="TypeScript">
 
 ```ts
-const toDelete: Post = await DataStore.query<Post>(Post, '1234567');
+const toDelete = await DataStore.query(Post, '1234567');
 if (!toDelete) return;
-DataStore.delete<Post>(todelete);
+DataStore.delete(toDelete);
 ```
 
 </Block>
@@ -21,23 +21,9 @@ DataStore.delete(toDelete);
 
 You can also pass predicate operators to delete multiple items. For example, the following will delete all draft posts:
 
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-await DataStore.delete<Post>(Post, (post) => post.status.eq(PostStatus.INACTIVE));
-```
-
-</Block>
-<Block name="JavaScript">
-
 ```js
 await DataStore.delete(Post, (post) => post.status.eq(PostStatus.INACTIVE));
 ```
-
-</Block>
-</BlockSwitcher>
-
 
 Additionally, you can perform a conditional delete. For instance, only delete **if** a post is in draft status by passing in an instance of a model:
 
@@ -45,9 +31,10 @@ Additionally, you can perform a conditional delete. For instance, only delete **
 <Block name="TypeScript">
 
 ```ts
-const toDelete: Post | undefined = await DataStore.query<Post>(Post, '123');
-if (!toDelete) return;
-DataStore.delete<Post>(toDelete, (post) => post.status.eq(PostStatus.INACTIVE));
+const toDelete = await DataStore.query(Post, '123');
+if (toDelete) {
+  DataStore.delete(toDelete, (post) => post.status.eq(PostStatus.INACTIVE));
+}
 ``` 
 
 </Block>
@@ -64,20 +51,6 @@ DataStore.delete(todelete, (post) => post.status.eq(PostStatus.INACTIVE));
 
 Also, to delete all items for a model you can use `Predicates.ALL`:
 
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-await DataStore.delete<Post>(Post, Predicates.ALL);
-```
-
-</Block>
-<Block name="JavaScript">
-
 ```js
 await DataStore.delete(Post, Predicates.ALL);
 ```
-
-</Block>
-</BlockSwitcher>
-

@@ -1,22 +1,6 @@
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-const posts: Post[] = await DataStore.query<Post>(Post, Predicates.ALL, {
-  page: 0,
-  limit: 100
-});
-```
-
-</Block>
-<Block name="JavaScript">
-
 ```js
 const posts = await DataStore.query(Post, Predicates.ALL, {
   page: 0,
   limit: 100
 });
 ```
-
-</Block>
-</BlockSwitcher>

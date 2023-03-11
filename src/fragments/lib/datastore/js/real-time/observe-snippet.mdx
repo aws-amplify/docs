@@ -1,40 +1,10 @@
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-const subscription = DataStore.observe<Post>(Post).subscribe((msg) => {
-  console.log(msg.model, msg.opType, msg.element);
-});
-
-```
-
-</Block>
-<Block name="JavaScript">
-
 ```js
 const subscription = DataStore.observe(Post).subscribe(msg => {
   console.log(msg.model, msg.opType, msg.element);
 });
 ```
 
-</Block>
-</BlockSwitcher>
-
 Observing changes of a single item by ID.
-
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-const id = '69ddcb63-7e4a-4325-b84d-8592e6dac07b';
-
-const subscription = DataStore.observe<Post>(Post, id).subscribe(msg => {
-  console.log(msg.model, msg.opType, msg.element);
-});
-```
-
-</Block>
-<Block name="JavaScript">
 
 ```js
 const id = '69ddcb63-7e4a-4325-b84d-8592e6dac07b';
@@ -43,27 +13,9 @@ const subscription = DataStore.observe(Post, id).subscribe(msg => {
   console.log(msg.model, msg.opType, msg.element);
 });
 ```
-
-</Block>
-</BlockSwitcher>
 
 Closing a subscription:
 
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-const subscription = DataStore.observe<Post>(Post, id).subscribe(msg => {
-  console.log(msg.model, msg.opType, msg.element);
-});
-
-// Call unsubscribe to close the subscription
-subscription.unsubscribe();
-```
-
-</Block>
-<Block name="JavaScript">
-
 ```js
 const subscription = DataStore.observe(Post, id).subscribe(msg => {
   console.log(msg.model, msg.opType, msg.element);
@@ -72,9 +24,6 @@ const subscription = DataStore.observe(Post, id).subscribe(msg => {
 // Call unsubscribe to close the subscription
 subscription.unsubscribe();
 ```
-
-</Block>
-</BlockSwitcher>
 
 <Callout>
 

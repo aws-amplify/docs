@@ -3,11 +3,11 @@
 
 ```ts
 async function updatePost(id, newTitle) {
-  const original: Post | undefined = await DataStore.query<Post>(Post, id);
+  const original = await DataStore.query(Post, id);
 
   if (!original) return;
 
-  const updatedPost: Post = await DataStore.save<Post>(
+  const updatedPost = await DataStore.save(
     Post.copyOf(original, updated => {
       updated.title = newTitle
     })

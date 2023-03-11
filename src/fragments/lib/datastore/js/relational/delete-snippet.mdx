@@ -2,9 +2,9 @@
 <Block name="TypeScript">
 
 ```ts
-const toDelete: Post | undefined = await DataStore.query<Post>(Post, "123");
+const toDelete = await DataStore.query(Post, "123");
 if (!toDelete) return;
-DataStore.delete<Post>(toDelete);
+DataStore.delete(toDelete);
 ```
 
 </Block>

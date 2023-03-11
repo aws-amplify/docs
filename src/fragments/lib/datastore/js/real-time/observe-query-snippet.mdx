@@ -1,24 +1,3 @@
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-const subscription = DataStore.observeQuery<Post>(
-  Post,
-  p => p.and(p => [
-    p.title.beginsWith("post"),
-    p.rating.gt(10)
-  ]), {
-    sort: s => s.rating(SortDirection.ASCENDING)
-  }
-).subscribe(snapshot => {
-  const { items, isSynced } = snapshot;
-  console.log(`[Snapshot] item count: ${items.length}, isSynced: ${isSynced}`);
-});
-```
-
-</Block>
-<Block name="JavaScript">
-
 ```js
 const subscription = DataStore.observeQuery(
   Post,
@@ -33,9 +12,6 @@ const subscription = DataStore.observeQuery(
   console.log(`[Snapshot] item count: ${items.length}, isSynced: ${isSynced}`);
 });
 ```
-
-</Block>
-</BlockSwitcher>
 
 <Callout>
 

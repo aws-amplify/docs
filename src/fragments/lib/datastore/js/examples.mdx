@@ -97,7 +97,7 @@ function onCreate() {
 }
 
 function onDeleteAll() {
-  DataStore.delete<Post>(Post, Predicates.ALL);
+  DataStore.delete(Post, Predicates.ALL);
 }
 
 async function onQuery() {

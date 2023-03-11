@@ -1,34 +1,12 @@
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-try {
-  const post: Post = await DataStore.save<Post>(
-    new Post({
-      title: "My First Post"
-    })
-  );
-  console.log("Post saved successfully!", post);
-} catch (error) {
-  console.log("Error saving post", error);
-}
-```
-
-</Block>
-<Block name="JavaScript">
-
 ```js
 try {
   const post = await DataStore.save(
     new Post({
-      title: "My First Post"
+      title: 'My First Post'
     })
   );
-  console.log("Post saved successfully!", post);
+  console.log('Post saved successfully!', post);
 } catch (error) {
-  console.log("Error saving post", error);
+  console.log('Error saving post', error);
 }
 ```
-
-</Block>
-</BlockSwitcher>

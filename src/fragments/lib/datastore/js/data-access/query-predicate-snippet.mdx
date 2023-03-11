@@ -1,16 +1,3 @@
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-const posts: Post[] = await DataStore.query<Post>(Post, c => c.rating.gt(4));
-```
-
-</Block>
-<Block name="JavaScript">
-
 ```js
-const posts = await DataStore.query(Post, c => c.rating.gt(4));
+const posts = await DataStore.query(Post, (c) => c.rating.gt(4));
 ```
-
-</Block>
-</BlockSwitcher>

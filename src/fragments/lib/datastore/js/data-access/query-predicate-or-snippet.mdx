@@ -1,19 +1,5 @@
 If you wanted this to be an `or` statement you would wrap your combined predicates with `c => c.or(...)`
 
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-const posts: Post[] = await DataStore.query<Post>(Post, (c) =>
-  c.or(c => [
-    c.rating.gt(4),
-    c.status.eq(PostStatus.ACTIVE)
-  ]));
-```
-
-</Block>
-<Block name="JavaScript">
-
 ```js
 const posts = await DataStore.query(Post, (c) =>
   c.or(c => [
@@ -21,6 +7,3 @@ const posts = await DataStore.query(Post, (c) =>
     c.status.eq(PostStatus.ACTIVE)
   ]));
 ```
-
-</Block>
-</BlockSwitcher>
