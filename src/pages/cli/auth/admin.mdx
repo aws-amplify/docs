@@ -264,3 +264,51 @@ class MyCustomInterceptor: URLRequestInterceptor {
 ```
 </Block>
 </BlockSwitcher>
+
+## Adding Admin Actions
+
+To add additional admin actions that are not included by default but are enabled by Cognito, you will need to modify the Lambda function that is generated for you. The change will include adding a function for the action, and creating a route for it. You will then associate the function to the route within the express app.
+
+Below is an example of adding an admin action that will allow you to <ExternalLink href="https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminUpdateUserAttributes.html">update a user's attributes</ExternalLink>.
+```js
+async function updateUserAttributes(username, attributes) {
+  
+  var params = {
+    Username: username,
+    UserAttributes: attributes,
+    UserPoolId: 'STRING_VALUE',
+  };
+
+  console.log(`Attempting to update ${username} attributes`);
+
+  try {
+    await cognitoIdentityServiceProvider.adminUpdateUserAttributes(params).promise();
+    console.log(`Success updating ${username} attributes`);
+    return {
+      message: `Success updating ${username} attributes`,
+    };
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+```
+Once the function is defined, you will then add a route with the correct HTTP method to the express app and associate the function to the route. Be sure to make the route unique.
+
+Below is an example of how you can add a `POST` route named `/updateUserAttributes` and associate the above function to it.
+```js
+app.post('/updateUserAttributes', async (req, res, next) => {
+  if (!req.body.username || !req.body.attributes) {
+    const err = new Error('username and attributes are required');
+    err.statusCode = 400;
+    return next(err);
+  }
+
+  try {
+    const response = await updateUserAttributes(req.body.username, req.body.attributes);
+    res.status(200).json(response);
+  } catch (err) {
+    next(err);
+  }
+});
+```
