@@ -57,7 +57,7 @@ class CodeBlock extends React.Component<CodeBlockProps, CodeBlockState> {
   copyToClipboard = () => {
     if (this.element && this.element.textContent) {
       copy(this.element.textContent);
-      trackCopyClicks();
+      trackCopyClicks(this.element.textContent);
       this.setState({ copyMessage: COPIED });
     } else {
       this.setState({ copyMessage: FAILED });
