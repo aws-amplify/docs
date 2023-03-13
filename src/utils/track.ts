@@ -164,12 +164,13 @@ export const trackFeedbackSubmission = (feedback: boolean) => {
   });
 }
 
-export const trackCopyClicks = () => {
+export const trackCopyClicks = (data) => {
   const opt = {
     event: {
       type: 'click',
-      name: 'copied'
-    }
+      name: 'CopyCode'
+    },
+    data: data
   }
 
   AWSMA.ready(() => {
