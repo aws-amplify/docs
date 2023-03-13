@@ -7,24 +7,6 @@ In this guide you will learn how to create a custom GraphQL subscription that wi
 
 When using the Amplify GraphQL transform library, there will often be times when you need to expand the GraphQL schema and operations created by the `@model` directive. A common use case is when fine grained control is needed for GraphQL subscriptions.
 
-Take for example the following GraphQL schema:
-
-```graphql
-type Post @model {
-  id: ID!
-  title: String!
-  content: String
-  comments: [Comment] @hasMany
-}
-
-type Comment @model {
-  id: ID!
-  content: String
-}
-```
-
-
-
 import ios0 from "/src/fragments/guides/api-graphql/ios/subscriptions-by-id.mdx";
 
 <Fragments fragments={{ios: ios0}} />

@@ -1,3 +1,19 @@
+Take for example the following GraphQL schema:
+
+```graphql
+type Post @model {
+  id: ID!
+  title: String!
+  content: String
+  comments: [Comment] @hasMany
+}
+
+type Comment @model {
+  id: ID!
+  content: String
+}
+```
+
 By default, subscriptions will be created for the following mutations:
 
 ```graphql
