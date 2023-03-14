@@ -3,8 +3,9 @@
 
 ```ts
 const toDelete = await DataStore.query(Post, '1234567');
-if (!toDelete) return;
-DataStore.delete(toDelete);
+if (toDelete) {
+  DataStore.delete(toDelete);
+}
 ```
 
 </Block>

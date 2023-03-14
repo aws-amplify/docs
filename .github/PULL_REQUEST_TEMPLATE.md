@@ -7,7 +7,6 @@
 **If this PR should not be merged upon approval for any reason, please submit as a DRAFT**
 
 Which product(s) are affected by this PR (if applicable)?
-
 - [ ] amplify-cli
 - [ ] amplify-ui
 - [ ] amplify-studio
@@ -15,7 +14,6 @@ Which product(s) are affected by this PR (if applicable)?
 - [ ] amplify-libraries
 
 Which platform(s) are affected by this PR (if applicable)?
-
 - [ ] JS
 - [ ] iOS
 - [ ] Android
@@ -32,12 +30,11 @@ Which platform(s) are affected by this PR (if applicable)?
 
 - [ ] Are any files being deleted with this PR? If so, have the needed redirects been created?
 
-- [ ] Are all links in MDX files using the MDX link syntax rather than HTML link syntax? <br /> _ref: MDX: `[link](https://link.com)` HTML: `<a href="https://link.com">link</a>`_
-
-- [ ] Does this PR include new and / or updated code examples? If so, please add E2E tests for those samples and link them in this PR.
+- [ ] Are all links in MDX files using the MDX link syntax rather than HTML link syntax? <br /> 
+      _ref: MDX: `[link](https://link.com)` 
+            HTML: `<a href="https://link.com">link</a>`_
 
 ### When this PR is ready to merge, please check the box below
-
 - [ ] Ready to merge
 
 _By submitting this pull request, I confirm that my contribution is made under the terms of the Apache 2.0 license._

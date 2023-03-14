@@ -5,13 +5,13 @@
 async function updatePost(id, newTitle) {
   const original = await DataStore.query(Post, id);
 
-  if (!original) return;
-
-  const updatedPost = await DataStore.save(
-    Post.copyOf(original, updated => {
-      updated.title = newTitle
-    })
-  );
+  if (original) {
+    const updatedPost = await DataStore.save(
+      Post.copyOf(original, updated => {
+        updated.title = newTitle
+      })
+    );
+  }
 }
 ```
 

@@ -1,31 +1,7 @@
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-const post: Post = await DataStore.save<Post>(
-  new Post({
-    title: "My Post with comments",
-    rating: 10,
-    status: PostStatus.ACTIVE
-  })
-);
-
-// TODO: existing type error
-await DataStore.save<Comment>(
-  new Comment({
-    content: "Loving Amplify DataStore!",
-    post: post
-  })
-);
-```
-
-</Block>
-<Block name="JavaScript">
-
 ```js
 const post = await DataStore.save(
   new Post({
-    title: "My Post with comments",
+    title: 'My Post with comments',
     rating: 10,
     status: PostStatus.ACTIVE
   })
@@ -33,11 +9,8 @@ const post = await DataStore.save(
 
 await DataStore.save(
   new Comment({
-    content: "Loving Amplify DataStore!",
+    content: 'Loving Amplify DataStore!',
     post: post
   })
 );
 ```
-
-</Block>
-</BlockSwitcher>

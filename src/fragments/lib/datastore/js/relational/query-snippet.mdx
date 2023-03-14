@@ -6,9 +6,10 @@ You can query related models in three ways:
 <Block name="TypeScript">
 
 ```ts
-const post: Post | undefined = await DataStore.query<Post>(Post, "YOUR_POST_ID")
-if (!post) return
-const comments: Comment[] = await post.comments.toArray()
+const post = await DataStore.query(Post, "YOUR_POST_ID")
+if (post) {
+  const comments = await post.comments.toArray()
+}
 ```
 
 </Block>
@@ -28,11 +29,12 @@ const comments = await post.comments.toArray();
 <Block name="TypeScript">
 
 ```ts
-const post await DataStore.query(Post, "YOUR_POST_ID");
-if (!post) return
-for await (const comment of post.comments) {
-  console.log(comment)
-};
+const post = await DataStore.query(Post, "YOUR_POST_ID");
+if (post) {
+  for await (const comment of post.comments) {
+    console.log(comment)
+  };
+}
 ```
 
 </Block>

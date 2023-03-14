@@ -51,7 +51,6 @@ DataStore.configure({
   },
   conflictHandler: async (data) => {
     // Example conflict handler
-
     const modelConstructor = data.modelConstructor;
     if (modelConstructor === Post) {
       const remoteModel = data.remoteModel;
