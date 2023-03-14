@@ -44,7 +44,7 @@ module.exports = async (phase, { defaultConfig }) => {
   const nextConfig = withTM(
     withMDX({
       env: {
-        API_ENV: process.env.API_ENV
+        PROD_ENV: process.env.PROD_ENV
       },
       pageExtensions: ['js', 'jsx', 'mdx', 'tsx', 'ts'],
       typescript: {
