@@ -22,7 +22,7 @@ const getCspContent = (context) => {
       font-src 'self' data:;
       frame-src 'self' https://www.youtube-nocookie.com https://aws.demdex.net https://dpm.demdex.net;
       connect-src 'self' *.shortbread.aws.dev https://amazonwebservices.d2.sc.omtrdc.net https://aws.demdex.net https://dpm.demdex.net https://cm.everesttech.net https://aa0.awsstatic.com/ https://d2c-alpha.dse.marketing.aws.a2z.com
-      https://*.algolia.net https://*.algolianet.com *.amazonaws.com;
+      https://*.algolia.net https://*.algolianet.com *.amazonaws.com https://vs-alpha.aws.amazon.com https://aws-mktg-csds-alpha.integ.amazon.com;
       img-src 'self' https://img.shields.io data: cm.everesttech.net https://amazonwebservices.d2.sc.omtrdc.net https://aws.demdex.net https://dpm.demdex.net https://cm.everesttech.net https://aa0.awsstatic.com/; 
       media-src 'self';
       script-src 'unsafe-eval' 'self' ${cspInlineScriptHash} 	https://aa0.awsstatic.com/ https://alpha.d2c.marketing.aws.dev;
@@ -37,7 +37,7 @@ const getCspContent = (context) => {
     font-src 'self';
     frame-src 'self' https://www.youtube-nocookie.com https://aws.demdex.net https://dpm.demdex.net;
     connect-src 'self' *.shortbread.aws.dev https://amazonwebservices.d2.sc.omtrdc.net https://aws.demdex.net https://dpm.demdex.net https://cm.everesttech.net https://a0.awsstatic.com/ https://d2c.aws.amazon.com https://vs.aws.amazon.com
-    https://*.algolia.net https://*.algolianet.com *.amazonaws.com https://docs-backend.amplify.aws;
+    https://*.algolia.net https://*.algolianet.com *.amazonaws.com https://docs-backend.amplify.aws https://vs-alpha.aws.amazon.com https://aws-mktg-csds-alpha.integ.amazon.com;
     img-src 'self' https://img.shields.io cm.everesttech.net https://amazonwebservices.d2.sc.omtrdc.net https://aws.demdex.net https://dpm.demdex.net https://cm.everesttech.net https://a0.awsstatic.com/;
     media-src 'self';
     script-src 'self' ${cspInlineScriptHash} https://a0.awsstatic.com/ https://alpha.d2c.marketing.aws.dev;
