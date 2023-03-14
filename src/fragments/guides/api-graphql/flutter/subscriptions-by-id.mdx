@@ -42,14 +42,14 @@ Future<void> subscribeByPostId(String postId) async {
 Take for example the following GraphQL schema:
 
 ```graphql
-type Post @model @auth(rules: [{allow: public, provider: apiKey}]){
+type Post @model @auth(rules: [{ allow: public, provider: apiKey }]){
   id: ID!
   title: String!
   content: String
   comments: [Comment] @hasMany
 }
 
-type Comment @model @auth(rules: [{allow: public, provider: apiKey}]){
+type Comment @model @auth(rules: [{ allow: public, provider: apiKey }]){
   id: ID!
   content: String
   post: Post @belongsTo(fields: ["postCommentsId"])
@@ -64,6 +64,7 @@ Future<void> subscribeByPostId(String postId) async {
   final subscriptionRequest = ModelSubscriptions.onCreate(
     Comment.classType,
     where: Comment.POST.eq(postId),
+    authorizationMode: APIAuthorizationType.apiKey,
   );
 
   final operation = Amplify.API.subscribe(
