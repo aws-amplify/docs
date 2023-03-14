@@ -2,14 +2,14 @@
 <Block name="Java">
 
 ```java
-AWSPinpointUserProfile profile = AWSPinpointUserProfile.builder()
+AWSNotificationsUserProfile profile = AWSNotificationsUserProfile.builder()
     .name("Name")
     .build()
 
 Amplify.Analytics.identifyUser(
     user,
     profile,
-    result -> Log.i("MyAmplifyApp", "Identified user successfully"),
+   () -> Log.i("MyAmplifyApp", "Identified user successfully"),
     error -> Log.e("MyAmplifyApp", "Error identifying user", error)
 );
 ```
@@ -18,7 +18,7 @@ Amplify.Analytics.identifyUser(
 <Block name="Kotlin - Callbacks">
 
 ```kotlin
-val profile = AWSPinpointUserProfile.builder()
+val profile = AWSNotificationsUserProfile.builder()
     .name("Name")
     .build()
 
@@ -34,7 +34,7 @@ Amplify.Analytics.identifyUser(
 <Block name="Kotlin - Coroutines">
 
 ```kotlin
-val profile = AWSPinpointUserProfile.builder()
+val profile = AWSNotificationsUserProfile.builder()
     .name("Name")
     .build()
 
@@ -50,6 +50,10 @@ try {
 <Block name="RxJava">
 
 ```java
+AWSNotificationsUserProfile profile = AWSNotificationsUserProfile.builder()
+    .name("Name")
+    .build()
+    
 RxAmplify.Notifications.Push.identifyuser(user, profile).subscribe(
     () -> Log.i("MyAmplifyApp", "Identified user successfully"),
     error -> Log.e("MyAmplifyApp", "Error identifyUser user", error)

@@ -3,7 +3,7 @@
 
 ```java
 Amplify.Notifications.Push.identifyUser(user,
-    result -> Log.i("MyAmplifyApp", "Identified user successfully"),
+   () -> Log.i("MyAmplifyApp", "Identified user successfully"),
     error -> Log.e("MyAmplifyApp", "Error identifying user", error)
 );
 ```
