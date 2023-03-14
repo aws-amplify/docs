@@ -61,3 +61,24 @@ Applications that use an Amplify GraphQL API have limited feature availability i
 - [Binding Forms to data, and auto-generated forms](../formbuilder/overview/) are not supported
 
 To get access to these features, turn on DataStore and select a Conflict Resolution strategy.
+
+### Unsupported directives and field-level parameters
+
+If a data model contains unsupported directives or field-level parameters the **Visual editor** under Data modeling and **Data manager** under Content will not be available to use. However, you can continue using other Amplify Studio features and use the Amplify CLI to make modifications to GraphQL schemas.
+
+- [`@default` directive](/cli/graphql/data-modeling/#assign-default-values-for-fields)
+- [`@function` directive](/cli/graphql/custom-business-logic/#lambda-function-resolver)
+- [`@http` directive](/cli/graphql/custom-business-logic/#http-resolver)
+- [`@predictions` directive](/cli/graphql/connect-to-machine-learning-services/)
+- [`@primaryKey` directive](/cli/graphql/data-modeling/#configure-a-primary-key)
+- [`@searchable` directive](/cli/graphql/search-and-result-aggregations/)
+- [`@mapsTo` directive](/cli/graphql/schema-evolution/)
+- [`@auth` `groupClaim` property](cli/graphql/authorization-rules/#user-group-based-data-access)
+- [`@auth` `groupsField` property](/cli/graphql/authorization-rules/#field-level-authorization-rules)
+- [`@auth` custom `groupClaim`](/cli/graphql/authorization-rules/#configure-custom-identity-and-group-claims)
+- [`@auth` custom `identityClaim`](/cli/graphql/authorization-rules/#configure-custom-identity-and-group-claims)
+- [OIDC and Function providers](/cli/graphql/authorization-rules/#using-oidc-authorization-provider)
+- [OwnerField as Array type](authorization-rules/#multi-user-data-access) 
+- [`Query` type](/cli/graphql/custom-business-logic/#create-a-custom-query-or-mutation)
+- [`Mutation` type](/cli/graphql/custom-business-logic/#create-a-custom-query-or-mutation)
+- [`Subscription` type](/cli/graphql/custom-business-logic/#create-a-custom-query-or-mutation)
