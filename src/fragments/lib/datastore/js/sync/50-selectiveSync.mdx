@@ -51,7 +51,7 @@ async function changeSync() {
   rating = 1;
   await DataStore.stop();
   await DataStore.start();
-}
+};
 ```
 
 Upon calling `DataStore.start()` (or executing a DataStore operation, e.g., `query`, `save`, `delete`, or `observe`), DataStore will reevaluate the `syncExpressions`. 
@@ -71,7 +71,7 @@ async function changeSync() {
   rating = 8;
   await DataStore.clear();
   await DataStore.start();
-}
+};
 ```
 This will clear the contents of your local store, reevaluate your sync expressions and re-sync the data from the cloud, applying all of the specified predicates to the sync queries.
 

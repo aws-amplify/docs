@@ -7,16 +7,16 @@ const post = await DataStore.save(new Post({
   title: 'Amplify Weekly'
   rating: 10,
   status: PostStatus.ACTIVE,
-}))
+}));
 
 const user = await DataStore.save(new User({
   username: 'rene'
-}))
+}));
 
 const postEditor = await DataStore.save(new PostEditor({
   post: post,
   user: user
-}))
+}));
 ```
 
 Here we've first created a new `Post` instance and a new `User` instance. Then, saved those instances to a new instance of our join model `PostEditor`.
@@ -26,7 +26,7 @@ Here we've first created a new `Post` instance and a new `User` instance. Then, 
 To query many-to-many relationships, use a nested predicate to filter the target model by the source model's id:
 
 ```js
-const editors = await DataStore.query(User, u => u.posts.post.id.eq(post.id))
+const editors = await DataStore.query(User, u => u.posts.post.id.eq(post.id));
 ```
 
 ### Delete
@@ -34,7 +34,7 @@ const editors = await DataStore.query(User, u => u.posts.post.id.eq(post.id))
 Deleting the join model instance will not delete any source model instances.
 
 ```js
-await DataStore.delete(toBeDeletedPostEditor)
+await DataStore.delete(toBeDeletedPostEditor);
 ```
 
 Both the `Post` and the `User` instances will not be deleted. Only the join model instances containing the link between a `Post` and a `User`.
@@ -42,7 +42,7 @@ Both the `Post` and the `User` instances will not be deleted. Only the join mode
 Deleting a source model instance will also delete the join model instances containing the source model instance.
 
 ```js
-await DataStore.delete(toBeDeletedUser)
+await DataStore.delete(toBeDeletedUser);
 ```
-The `toBeDeletedUser` User instance and all `PostEditor` instances where `user` is linked to `toBeDeletedUser` will be deleted.
 
+The `toBeDeletedUser` User instance and all `PostEditor` instances where `user` is linked to `toBeDeletedUser` will be deleted.

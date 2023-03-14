@@ -30,7 +30,7 @@ function App() {
         value={post?.title ?? ""}
         onChange={({ target: { value } }) => {
           /**
-           * Each keypress updates the post in local react state.
+           * Each keypress updates the post in local React state.
            */
           setPost(
             Post.copyOf(post!, (draft) => {
@@ -44,7 +44,7 @@ function App() {
         value="Save"
         onClick={async () => {
           /**
-           * This post is already up to date because observeQuery updated it.
+           * This post is already up-to-date because `observeQuery` updated it.
            */
           await DataStore.save(post!);
           console.log("Post saved");
@@ -52,4 +52,5 @@ function App() {
       />
     </>
   );
+}
 ```
