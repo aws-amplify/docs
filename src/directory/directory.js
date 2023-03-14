@@ -689,7 +689,7 @@ const directory = {
           {
             title: 'Setting up push notification services',
             route: '/lib/push-notifications/setup-push-service',
-            filters: ['ios']
+            filters: ['android', 'ios']
           }
         ]
       },

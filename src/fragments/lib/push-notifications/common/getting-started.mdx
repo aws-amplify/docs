@@ -6,6 +6,10 @@ import ios0 from "/src/fragments/lib/push-notifications/ios/getting_started/10_p
 
 <Fragments fragments={{ios: ios0}} />
 
+import android1 from "/src/fragments/lib/push-notifications/android/getting_started/10_pre_req.mdx";
+
+<Fragments fragments={{android: android1}} />
+
 import ios3 from "/src/fragments/lib/push-notifications/ios/getting_started/20_set_entitlements.mdx";
 
 <Fragments fragments={{ios: ios3}} />
@@ -14,35 +18,51 @@ import ios6 from "/src/fragments/lib/push-notifications/ios/getting_started/30_c
 
 <Fragments fragments={{ios: ios6}} />
 
-## Provisioning resources through CLI
+## Setup backend resources
+
+To use Push Notifications with Amplify, you have the option to either have the Amplify CLI setup resources for you, or you can use an existing Amazon Pinpoint resource in your AWS account.
+
+<BlockSwitcher>
+<Block name="Amplify CLI">
 
 import ios9 from "/src/fragments/lib/push-notifications/ios/getting_started/40_cli_resources.mdx";
 
-<Fragments fragments={{ios: ios10}} />
+<Fragments fragments={{ios: ios9}} />
+
+import android4 from "/src/fragments/lib/push-notifications/android/getting_started/20_cli_resources.mdx";
+
+<Fragments fragments={{android: android4}} />
 
 </Block>
 <Block name="Existing resources">
 
-import android6 from "/src/fragments/lib/push-notifications/android/getting_started/30_install_lib.mdx";
-
-<Fragments fragments={{android: android6}} />
-
-import ios13 from "/src/fragments/lib/push-notifications/ios/getting_started/50_install_lib.mdx";
+import ios12 from "/src/fragments/lib/push-notifications/ios/getting_started/50_existing_resources.mdx";
 
 <Fragments fragments={{ios: ios12}} />
 
-## Initialize Amplify Push Notifications
+import android7 from "/src/fragments/lib/push-notifications/android/getting_started/30_existing_resources.mdx";
 
-import android9 from "/src/fragments/lib/push-notifications/android/getting_started/40_init_push_notifications.mdx";
+<Fragments fragments={{android: android7}} />
 
-<Fragments fragments={{android: android9}} />
+</Block>
+</BlockSwitcher>
 
-import ios16 from "/src/fragments/lib/push-notifications/ios/getting_started/60_install_lib.mdx";
+## Install Amplify Libraries
 
-<Fragments fragments={{ios: ios16}} />
+import ios15 from "/src/fragments/lib/push-notifications/ios/getting_started/60_install_lib.mdx";
+
+<Fragments fragments={{ios: ios15}} />
+
+import android10 from "/src/fragments/lib/push-notifications/android/getting_started/40_install_lib.mdx";
+
+<Fragments fragments={{android: android10}} />
 
 ## Initialize Amplify Push Notifications
 
 import ios18 from "/src/fragments/lib/push-notifications/ios/getting_started/70_init_push_notifications.mdx";
 
 <Fragments fragments={{ios: ios18}} />
+
+import android13 from "/src/fragments/lib/push-notifications/android/getting_started/50_init_push_notifications.mdx";
+
+<Fragments fragments={{android: android13}} />

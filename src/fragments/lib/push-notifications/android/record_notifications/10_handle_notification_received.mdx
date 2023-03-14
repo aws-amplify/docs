@@ -13,13 +13,17 @@ You can display the notification in the system tray if the app is in a backgroun
 
 ```java
 class MyAppService extends FirebaseMessagingService() {
-    // Called when a notification is received
     @Override
-    public void onMessageReceived(RemoteMessage remoteMessage) {
-        super.onMessageReceived(remoteMessage);
+    public void handleIntent(Intent intent) {
+        Bundle data = intent != null ? intent.getExtras() : new Bundle()
+        // First remove any parameters that shouldn't be passed to the app
+        // * The wakelock ID set by the WakefulBroadcastReceiver
+        data.remove("androidx.content.wakelockid")
+        // Convert the RemoteMessage into a PinpointNotificationPayload
+        PinpointNotificationPayload notificationPayload = PinpointNotificationPayload.createFromRemoteMessage(new RemoteMessage(data));
 
         // let Amplify handle foreground and background message received
-        Amplify.Notifications.Push.handleNotificationReceived(remoteMessage,
+        Amplify.Notifications.Push.handleNotificationReceived(notificationPayload,
             result -> Log.i("MyAmplifyApp", "Successfully handled a notification"),
             error -> Log.e("MyAmplifyApp", "Error handling notification", error)
         );
@@ -32,12 +36,16 @@ class MyAppService extends FirebaseMessagingService() {
 
 ```kotlin
 class MyAppService : FirebaseMessagingService() {
-    // Called when a notification is received
-    override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        super.onMessageReceived(remoteMessage)
+    override fun handleIntent(intent: Intent?) {
+        val data = intent?.extras ?: Bundle()
+        // First remove any parameters that shouldn't be passed to the app
+        // * The wakelock ID set by the WakefulBroadcastReceiver
+        data.remove("androidx.content.wakelockid")
+        // Convert the RemoteMessage into a PinpointNotificationPayload
+        val notificationPayload = PinpointNotificationPayload.createFromRemoteMessage(RemoteMessage(data))
 
         // let Amplify handle foreground and background message received
-        Amplify.Notifications.Push.handleNotificationReceived(remoteMessage,
+        Amplify.Notifications.Push.handleNotificationReceived(notificationPayload,
             { Log.i("MyAmplifyApp", "Successfully handled a notification") },
             { Log.e("MyAmplifyApp", "Error handling notification", error) }
         )
@@ -50,13 +58,17 @@ class MyAppService : FirebaseMessagingService() {
 
 ```kotlin
 class MyAppService : FirebaseMessagingService() {
-    // Called when a notification is received
-    override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        super.onMessageReceived(remoteMessage)
+    override fun handleIntent(intent: Intent?) {
+        val data = intent?.extras ?: Bundle()
+        // First remove any parameters that shouldn't be passed to the app
+        // * The wakelock ID set by the WakefulBroadcastReceiver
+        data.remove("androidx.content.wakelockid")
+        // Convert the RemoteMessage into a PinpointNotificationPayload
+        val notificationPayload = PinpointNotificationPayload.createFromRemoteMessage(RemoteMessage(data))
 
         try {
             // let Amplify handle foreground and background message received
-            Amplify.Notifications.Push.handleNotificationReceived(remoteMessage)
+            Amplify.Notifications.Push.handleNotificationReceived(notificationPayload)
             Log.i("MyAmplifyApp", "Successfully handled a notification")
         } catch (error: PushNotificationsException) {
             Log.e("MyAmplifyApp", "Error handling notification", error)
@@ -70,13 +82,17 @@ class MyAppService : FirebaseMessagingService() {
 
 ```java
 class MyAppService extends FirebaseMessagingService() {
-    // Called when a notification is received
     @Override
-    public void onMessageReceived(RemoteMessage remoteMessage) {
-        super.onMessageReceived(remoteMessage);
+    public void handleIntent(Intent intent) {
+       Bundle data = intent != null ? intent.getExtras() : new Bundle()
+        // First remove any parameters that shouldn't be passed to the app
+        // * The wakelock ID set by the WakefulBroadcastReceiver
+        data.remove("androidx.content.wakelockid")
+        // Convert the RemoteMessage into a PinpointNotificationPayload
+        PinpointNotificationPayload notificationPayload = PinpointNotificationPayload.createFromRemoteMessage(new RemoteMessage(data));
 
         // let Amplify handle foreground and background message received
-        RxAmplify.Notifications.Push.handleNotificationReceived(remoteMessage).subscribe(
+        RxAmplify.Notifications.Push.handleNotificationReceived(notificationPayload).subscribe(
             () -> Log.i("MyAmplifyApp", "Successfully handled a notification"),
             error -> Log.e("MyAmplifyApp", "Error handling notification", error)
         );

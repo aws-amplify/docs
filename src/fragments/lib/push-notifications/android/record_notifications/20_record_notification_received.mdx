@@ -1,19 +1,30 @@
 You can record receipt of a push notification with Amazon Pinpoint by calling `Amplify.Notifications.Push.recordNotificationReceived()` from the Messaging Service class.
 
+<Callout>
+
+You should call either `handleNotificationReceived` or `recordNotificationReceived`, but not both since `handleNotificationReceived` already calls `recordNotificationReceived`.
+
+</Callout>
+
 <BlockSwitcher>
 <Block name="Java">
 
 ```java
 class MyAppService extends FirebaseMessagingService() {
-    // Called when a notification is received
     @Override
-    public void onMessageReceived(RemoteMessage remoteMessage) {
-        super.onMessageReceived(remoteMessage);
+    public void handleIntent(Intent intent) {
 
         // TODO(developer): Handle FCM messages here
 
+        Bundle data = intent != null ? intent.getExtras() : new Bundle()
+        // First remove any parameters that shouldn't be passed to the app
+        // * The wakelock ID set by the WakefulBroadcastReceiver
+        data.remove("androidx.content.wakelockid")
+        // Convert the RemoteMessage into a PinpointNotificationPayload
+        PinpointNotificationPayload notificationPayload = PinpointNotificationPayload.createFromRemoteMessage(new RemoteMessage(data));
+
         // Record notification received with Amplify
-        Amplify.Notifications.Push.recordNotificationReceived(remoteMessage,
+        Amplify.Notifications.Push.recordNotificationReceived(notificationPayload,
             result -> Log.i("MyAmplifyApp", "Successfully recorded a notification received"),
             error -> Log.e("MyAmplifyApp", "Error recording notification received", error)
         );
@@ -26,14 +37,19 @@ class MyAppService extends FirebaseMessagingService() {
 
 ```kotlin
 class MyAppService : FirebaseMessagingService() {
-    // Called when a notification is received
-    override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        super.onMessageReceived(remoteMessage)
+    override fun handleIntent(intent: Intent?) {
 
         // TODO(developer): Handle FCM messages here
 
+        val data = intent?.extras ?: Bundle()
+        // First remove any parameters that shouldn't be passed to the app
+        // * The wakelock ID set by the WakefulBroadcastReceiver
+        data.remove("androidx.content.wakelockid")
+        // Convert the RemoteMessage into a PinpointNotificationPayload
+        val notificationPayload = PinpointNotificationPayload.createFromRemoteMessage(RemoteMessage(data))
+
         // Record notification received with Amplify
-        Amplify.Notifications.Push.recordNotificationReceived(remoteMessage,
+        Amplify.Notifications.Push.recordNotificationReceived(notificationPayload,
             { Log.i("MyAmplifyApp", "Successfully recorded a notification received") },
             { Log.e("MyAmplifyApp", "Error recording notification received", error) }
         )
@@ -46,11 +62,16 @@ class MyAppService : FirebaseMessagingService() {
 
 ```kotlin
 class MyAppService : FirebaseMessagingService() {
-    // Called when a notification is received
-    override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        super.onMessageReceived(remoteMessage)
+   override fun handleIntent(intent: Intent?) {
 
         // TODO(developer): Handle FCM messages here
+
+        val data = intent?.extras ?: Bundle()
+        // First remove any parameters that shouldn't be passed to the app
+        // * The wakelock ID set by the WakefulBroadcastReceiver
+        data.remove("androidx.content.wakelockid")
+        // Convert the RemoteMessage into a PinpointNotificationPayload
+        val notificationPayload = PinpointNotificationPayload.createFromRemoteMessage(RemoteMessage(data))
 
         try {
             // let Amplify handle foreground and background message received
@@ -68,12 +89,17 @@ class MyAppService : FirebaseMessagingService() {
 
 ```java
 class MyAppService extends FirebaseMessagingService() {
-    // Called when a notification is received
-    @Override
-    public void onMessageReceived(RemoteMessage remoteMessage) {
-        super.onMessageReceived(remoteMessage);
+    public void handleIntent(Intent intent) {
 
         // TODO(developer): Handle FCM messages here
+
+        Bundle data = intent != null ? intent.getExtras() : new Bundle()
+        // First remove any parameters that shouldn't be passed to the app
+        // * The wakelock ID set by the WakefulBroadcastReceiver
+        data.remove("androidx.content.wakelockid")
+        // Convert the RemoteMessage into a PinpointNotificationPayload
+        PinpointNotificationPayload notificationPayload = PinpointNotificationPayload.createFromRemoteMessage(new RemoteMessage(data));
+
 
         // let Amplify handle foreground and background message received
         RxAmplify.Notifications.Push.recordNotificationReceived(remoteMessage).subscribe(
