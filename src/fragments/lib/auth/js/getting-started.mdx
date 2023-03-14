@@ -1,17 +1,15 @@
-> Prerequisite: [Install and configure](/cli/start/install) the Amplify CLI
-
 ## Authentication with Amplify
 
 Amplify uses [Amazon Cognito](https://aws.amazon.com/cognito/) as the main authentication provider. Amazon Cognito is a robust user directory service that handles user registration, authentication, account recovery & other operations. In this tutorial, you'll learn how to add authentication to your application using Amazon Cognito and username/password login.
 
 ## Set Up Backend Resources
 
-To use Authentication with Amplify, you can choose to configure resources through the Amplify CLI (which will automatically create them on the backend for you) or use an existing Amazon Cognito resource in your AWS account.
-
-> Note that before you can add an AWS resource to your application, the application must have the Amplify libraries installed. If you need to perform this step, see [Install Amplify Libraries](/lib/project-setup/create-application#n2-install-amplify-libraries) and ensure you've installed the necessary dependencies.
+To use Authentication with Amplify, you have the option to set up your resources via the Amplify CLI or manually configure them with existing Cognito resources within AWS.
 
 <BlockSwitcher>
-<Block name="Amplify CLI">
+<Block name="Amplify CLI (Create)">
+
+> Prerequisites: [Install and configure](/lib/project-setup/prereq/q/platform/js/) the Amplify CLI in addition to the Amplify libraries and [necessary dependencies](/lib/project-setup/create-application#n2-install-amplify-libraries).
 
 To start provisioning auth resources in the backend, go to your project directory and **execute the command**:
 
@@ -55,7 +53,52 @@ Amplify.configure(awsconfig);
 ```
 
 </Block>
-<Block name="Existing resources">
+
+<Block name="Amplify CLI (Import)">
+
+> Prerequisites: [Install and configure](/lib/project-setup/prereq/q/platform/js/) the Amplify CLI in addition to the Amplify libraries and [necessary dependencies](/lib/project-setup/create-application#n2-install-amplify-libraries).
+
+To import existing Amazon Cognito resources into your Amplify project, **execute the command**:
+
+```bash
+amplify import auth
+```
+```console
+? What type of auth resource do you want to import?
+   Cognito User Pool and Identity Pool
+   Cognito User Pool only
+```
+
+Once you've selected an option, you'll be able to search for and import an existing Cognito User Pool and Identity Pool (or User Pool only) within your AWS account.  The `amplify import auth` command will also do the following:
+- Automatically populate your Amplify Library configuration files (aws-exports.js, amplifyconfiguration.json) with your chosen Amazon Cognito resource information
+- Provide your designated existing Cognito resource as the authentication & authorization mechanism for all auth-dependent categories (API, Storage and more)
+- Enable Lambda functions to access the chosen Cognito resource if you permit it
+
+> If you have previously enabled an Amplify category that uses Auth behind the scenes (e.g. API category), run `amplify update auth` command to edit your configuration. 
+
+After configuring your Authentication options, update your backend and deploy the service by running the `push` command:
+
+```bash
+amplify push
+```
+
+Now, the authentication service has been deployed and you can start using it. To view the deployed services in your project at any time, go to Amplify Console by running the following command:
+
+```bash
+amplify console
+```
+
+In your app's entry point (i.e. **App.js**, **index.js**, **_app.js**, or **main.js**), import and load the configuration file:
+
+```javascript
+import { Amplify, Auth } from 'aws-amplify';
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
+```
+
+</Block>
+
+<Block name="Manual Configuration">
 
 Existing Authentication resources from AWS (e.g. Amazon Cognito UserPools or Identity Pools) can be used with the Amplify Libraries by calling the `Amplify.configure()` method with the following information:
 
