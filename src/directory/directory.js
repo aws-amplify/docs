@@ -1948,6 +1948,11 @@ const directory = {
         title: 'Migration & Backwards Compatibility',
         items: [
           {
+            title: 'AWS CDK v1 to v2 migration',
+            route: '/cli/migration/aws-cdk-migration',
+            filters: []
+          },
+          {
             title: 'GraphQL Transformer v1 to v2 migration',
             route: '/cli/migration/transformer-migration',
             filters: []
