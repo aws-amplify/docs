@@ -1,0 +1,14 @@
+export const meta = {
+  title: `SSM Parameter Store Usage`,
+  description: `Version 11 of Amplify CLI will start using Parameter Store from AWS Systems Manager (SSM). Parameter Store will be used to keep a copy of the various values stored in team-provider-info.json. Amplify CLI will use standard parameters to keep this copy of the values. This usage falls under the permanent free tier of SSM.`
+};
+
+Version 11 of Amplify CLI will start using [Parameter Store from AWS Systems Manager (SSM)](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html). Parameter Store will be used to keep a copy of the various values stored in `team-provider-info.json`. Amplify CLI will use standard parameters to keep this copy of the values. This usage falls under the permanent free tier of SSM.
+
+## More about this feature
+
+The `team-provider-info.json` file (from here on referred to as the TPI file) is a file in Amplify projects that primarily contains environment-specific CloudFormation parameters that are passed to resource templates during amplify push.
+
+With this change the values historically stored in the TPI file are now being copied to Parameter Store. We are not removing the TPI file, Parameter Store is being used as a backup. If Amplify CLI needs a value that is not present in the TPI file, it will fetch the value from Parameter Store. The values in Parameter Store are updated after a successful Amplify deployment.
+
+Developers can now seamlessly move between various environments like different developer machines and even to AWS Amplify Studio.

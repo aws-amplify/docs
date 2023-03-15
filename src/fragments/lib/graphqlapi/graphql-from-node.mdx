@@ -9,7 +9,45 @@ type Todo @model @auth(rules: [{ allow: public }]) {
 
 This API will have operations available for `Query`, `Mutation`, and `Subscription`. Let's take a look at how to perform both a **query** as well as a **mutation** from a Lambda function using Node.js.
 
-First, create a Lambda function with `amplify add function` and make sure to give access to your GraphQL API when prompted by the CLI to grant access to other resources in the project.
+### Utilizing Lambda function template (IAM authorization)
+
+First, create a Lambda function with `amplify add function` and choose the `AppSync - GraphQL API request (with IAM)` to get started.
+Be sure to grant access to your GraphQL API when prompted by the CLI to grant access to other resources in the project.
+Alternatively, you can create the [function from scratch](#create-from-scratch).
+
+```console
+amplify add function
+? Select which capability you want to add: Lambda function (serverless function)
+? Provide an AWS Lambda function name: myfunction
+? Choose the runtime that you want to use: NodeJS
+? Choose the function template that you want to use: AppSync - GraphQL API request (with IAM)
+
+Available advanced settings:
+- Resource access permissions
+- Scheduled recurring invocation
+- Lambda layers configuration
+- Environment variables configuration
+- Secret values configuration
+
+? Do you want to configure advanced settings? Yes
+? Do you want to access other resources in this project from your Lambda function? Yes
+? Select the categories you want this function to have access to. api
+? Select the operations you want to permit on <YOUR_API_NAME> Query, Mutation, Subscription
+
+You can access the following resource attributes as environment variables from your Lambda function
+	API_<YOUR_API_NAME>_GRAPHQLAPIENDPOINTOUTPUT
+	API_<YOUR_API_NAME>_GRAPHQLAPIIDOUTPUT
+	API_<YOUR_API_NAME>_GRAPHQLAPIKEYOUTPUT
+	ENV
+	REGION
+```
+<Callout warning>
+
+The function can only be added when the GraphQL API with IAM authorization exists.
+
+</Callout>
+
+### Create from scratch
 
 ```console
 amplify add function

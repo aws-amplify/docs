@@ -1,13 +1,1 @@
-* @aws-amplify/amplify-support-eng
-/src/pages/** @aws-amplify/amplify-support-eng
-/src/pages/cli @aws-amplify/amplify-cli @aws-amplify/documentation-team @aws-amplify/amplify-pms @aws-amplify/amplify-support-eng
-/src/pages/console @aws-amplify/amplify-hosting @aws-amplify/documentation-team @aws-amplify/amplify-pms @aws-amplify/amplify-support-eng
-/src/pages/guides @aws-amplify/developer-advocates @aws-amplify/documentation-team @aws-amplify/amplify-support-eng
-/src/fragments/** @aws-amplify/amplify-support-eng
-/src/fragments/**/android @aws-amplify/amplify-android @aws-amplify/documentation-team @aws-amplify/amplify-pms @aws-amplify/amplify-support-eng
-/src/fragments/**/flutter @aws-amplify/amplify-flutter @aws-amplify/documentation-team @aws-amplify/amplify-pms @aws-amplify/amplify-support-eng
-/src/fragments/**/ios @aws-amplify/amplify-ios @aws-amplify/documentation-team @aws-amplify/amplify-pms @aws-amplify/amplify-support-eng
-/src/fragments/**/js  @aws-amplify/amplify-js @aws-amplify/documentation-team @aws-amplify/amplify-pms @aws-amplify/amplify-support-eng
-/src/fragments/cli @aws-amplify/amplify-cli @aws-amplify/documentation-team @aws-amplify/amplify-pms @aws-amplify/amplify-support-eng
-/src/fragments/console @aws-amplify/amplify-hosting @aws-amplify/documentation-team @aws-amplify/amplify-pms @aws-amplify/amplify-support-eng
-/src/fragments/guides @aws-amplify/developer-advocates @aws-amplify/documentation-team @aws-amplify/amplify-support-eng
+* @aws-amplify/documentation-team 

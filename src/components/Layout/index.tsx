@@ -42,6 +42,8 @@ export default function Layout({
         .filter((s) => s !== '')
         .join(' - ');
 
+  const current = meta?.title?.includes('Contribut') ? 'Contribute' : 'Docs';
+
   return (
     <>
       {meta && (
@@ -83,7 +85,7 @@ export default function Layout({
         leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
         rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
         socialLinks={SOCIAL_LINKS as NavMenuItem[]}
-        currentSite={'Docs'}
+        currentSite={current}
       />
       <SecondaryNav />
       <Container backgroundColor="bg-color-tertiary">

@@ -313,13 +313,34 @@ In the example above:
 
 <Callout warning>
 
-To prevent sensitive data from being sent over subscriptions, the GraphQL Transformer needs to alter the response of mutations for those fields by setting them to null. Therefore, to facilitate field-level authorization with subscriptions, you need to either apply field-level authorization rules to all **required** fields, make the other fields nullable, or disable subscriptions by setting it to public or off. 
-  
+To prevent sensitive data from being sent over subscriptions, the GraphQL Transformer needs to alter the response of mutations for those fields by setting them to null. Therefore, to facilitate field-level authorization with subscriptions, you need to either apply field-level authorization rules to all **required** fields, make the other fields nullable, or disable subscriptions by setting it to public or off.
+
 </Callout>
 
 In the example above:
 - **any signed in user** is allowed to read the list of employees' `name` and `email` fields
 - **only the employee/owner themselves** have CRUD access to their `ssn` field
+
+<Callout warning>
+
+To prevent unintended loss of data, the user or role that attempts to `delete` a record should have delete permissions on every field of the `@model` annotated GraphQL type.
+For example, in the schema below: 
+```graphql
+type Todo @model @auth(rules: [
+  { allow: private, provider: iam }, 
+  { allow: groups, groups: ["Admin"] }
+]) {
+ id: ID!
+ name: String! @auth(rules: [
+   { allow: private, provider: iam }, 
+   { allow: groups, groups: ["Admin"] }
+ ])
+ description: String @auth(rules: [{ allow: private, provider: iam }])
+}
+```
+Since the `description` field is not accessible by "Admin" Cognito group users, they cannot delete any `Todo` records.
+
+</Callout>
 
 ## Advanced
 
@@ -405,15 +426,15 @@ Therefore, these functions have special access privileges that are scoped based 
 
 <Block name="Function deployed without Amplify CLI">
 
-To grant an external Lambda function or an IAM role access to this GraphQL API, you need to explicitly allow list the IAM role's name by adding them to `amplify/backend/api/<your-api-name>/custom-roles.json`. (Create the `custom-roles.json` file if it doesn't exist). Append the `adminRoleNames` array with the IAM role names:
+To grant an external AWS Resource or an IAM role access to this GraphQL API, you need to explicitly list the IAM role's name or the AWS Resource's name by adding it to `amplify/backend/api/<your-api-name>/custom-roles.json`. (Create the `custom-roles.json` file if it doesn't exist). Append the `adminRoleNames` array with the IAM role name or AWS Resource name:
 
 ```json
 {
-  "adminRoleNames": ["<YOUR_IAM_ROLE_NAME>"]
+  "adminRoleNames": ["<YOUR_IAM_ROLE_NAME>", "<YOUR_AWS_RESOURCE_NAME>"]
 }
 ```
 
-These "Admin Roles" have special access privileges that are scoped based on their IAM policy instead of any particular `@auth` rule.
+These "Admin Roles" have special access privileges that are scoped based on their [IAM policy](https://docs.aws.amazon.com/appsync/latest/devguide/security-authz.html#aws-iam-authorization) instead of any particular `@auth` rule.
 
 </Block>
 
@@ -444,7 +465,7 @@ enum ModelOperation {
   update
   delete
   read # Short-hand to allow "get", "list", "sync", "listen", and "search"
-  
+
   get # Retrieves an individual item
   list # Retrieves a list of items
   sync # Enables ability to sync offline/online changes (including via DataStore)

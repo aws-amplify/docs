@@ -311,3 +311,15 @@ When an AWS service or product appears on the page for the first time, refer to 
 
 “AWS Amplify Hosting uses Amazon Simple Storage Service (S3) for file storage. Amplify Hosting also provides caching to ensure files are delivered quickly to users.”
 * * *
+
+## 20. Write links using markdown syntax
+
+When editing text content in markdown files use the markdown syntax for links. We use some special linting processes that leverage markdown.
+
+### Don't
+
+`<a href="/some-link">Use html link tags</a>`
+
+### Do
+
+`\[Use mdx link syntax](/some-link)`

@@ -738,6 +738,7 @@
     "javax",
     "jcenter",
     "jdoe",
+    "jetbrains",
     "jobTitle",
     "jpg",
     "js",
@@ -1490,12 +1491,14 @@
     "infowindow",
     "Libre's",
     "Pinia",
-    "kotlinx"
+    "kotlinx",
+    "snapcraft"
   ],
   "flagWords": [
     "hte", 
     "full-stack", 
     "Full-stack", 
-    "Full-Stack"
+    "Full-Stack",
+    "sudo",
   ]
 }

@@ -291,6 +291,26 @@
             "defaultExistingProject": false
           }
         ]
+      },
+      "populateOwnerFieldForStaticGroupAuth": {
+        "description": "Populates the owner field automatically if the user is already authorized by static user pool authorization rules",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "9.2.0",
+        "values": [
+          {
+            "value": "true",
+            "description": "If the user is authorized, the owner field is automatically populated",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          },
+          {
+            "value": "false",
+            "description": "If the user is authorized by static user pool authorization rules, the owner field needs to be explicitly set by the developer",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          }
+        ]
       }
     }
   },
@@ -635,6 +655,26 @@
           {
             "value": "false",
             "description": "iOS models will not be able to access key/index details",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      },
+      "generateModelsForLazyLoadAndCustomSelectionSet": {
+        "description": "Generate models for lazy loading and custom selection set",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "x.x.x",
+        "values": [
+          {
+            "value": "true",
+            "description": "[Recommended] Add support for lazy loading and custom selection set.",
+            "defaultNewProject": false,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "models will not support selection set customization and lazy loading.",
             "defaultNewProject": false,
             "defaultExistingProject": true
           }

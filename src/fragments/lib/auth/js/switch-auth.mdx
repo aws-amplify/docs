@@ -1,7 +1,7 @@
 
 For client side authentication there are three different flows:
 
-1. `USER_SRP_AUTH`: The `USER_SRP_AUTH` flow uses the <a href="https://en.wikipedia.org/wiki/Secure_Remote_Password_protocol" target="_blank">SRP protocol (Secure Remote Password)</a> where the password never leaves the client and is unknown to the server. This is the recommended flow and is used by default.
+1. `USER_SRP_AUTH`: The `USER_SRP_AUTH` flow uses the [SRP protocol (Secure Remote Password)](https://en.wikipedia.org/wiki/Secure_Remote_Password_protocol) where the password never leaves the client and is unknown to the server. This is the recommended flow and is used by default.
 
 2. `USER_PASSWORD_AUTH`: The `USER_PASSWORD_AUTH` flow will send user credentials unencrypted to the back-end. If you want to migrate users to Cognito using the "Migration" trigger and avoid forcing users to reset their passwords, you will need to use this authentication type because the Lambda function invoked by the trigger needs to verify the supplied credentials.
 
