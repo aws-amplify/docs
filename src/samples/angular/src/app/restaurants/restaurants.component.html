@@ -1,0 +1,29 @@
+<div>
+  <div class="form-body">
+    <form
+      autocomplete="off"
+      [formGroup]="createForm"
+      (ngSubmit)="onCreate(createForm.value)"
+    >
+      <div>
+        <label>Name: </label>
+        <input type="text" formControlName="name" autocomplete="off" />
+      </div>
+      <div>
+        <label>Description: </label>
+        <input type="text" formControlName="description" autocomplete="off" />
+      </div>
+      <div>
+        <label>City: </label>
+        <input type="text" formControlName="city" autocomplete="off" />
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <div *ngFor="let restaurant of restaurants">
+    <div>{{ restaurant?.city }}</div>
+    <div>{{ restaurant?.name }}</div>
+    <div>{{ restaurant?.description }}</div>
+  </div>
+</div>

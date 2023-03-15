@@ -1,0 +1,37 @@
+# this is an auto generated file. This will be overwritten
+subscription OnCreateRestaurant(
+  $filter: ModelSubscriptionRestaurantFilterInput
+) {
+  onCreateRestaurant(filter: $filter) {
+    id
+    name
+    description
+    city
+    createdAt
+    updatedAt
+  }
+}
+subscription OnUpdateRestaurant(
+  $filter: ModelSubscriptionRestaurantFilterInput
+) {
+  onUpdateRestaurant(filter: $filter) {
+    id
+    name
+    description
+    city
+    createdAt
+    updatedAt
+  }
+}
+subscription OnDeleteRestaurant(
+  $filter: ModelSubscriptionRestaurantFilterInput
+) {
+  onDeleteRestaurant(filter: $filter) {
+    id
+    name
+    description
+    city
+    createdAt
+    updatedAt
+  }
+}
