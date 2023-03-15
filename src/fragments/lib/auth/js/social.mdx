@@ -92,9 +92,9 @@ After configuring the OAuth endpoints (Cognito Hosted UI), you can integrate you
 import React, { useEffect, useState } from 'react';
 import { Amplify, Auth, Hub } from 'aws-amplify';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
-import awsconfig from './aws-exports';
+import awsConfig from './aws-exports';
 
-Amplify.configure(awsconfig);
+Amplify.configure(awsConfig);
 
 function App() {
   const [user, setUser] = useState(null);
@@ -150,7 +150,7 @@ To deploy your app to Amplify Console with continuous deployment of the frontend
 ```js
 import { useEffect, useState } from 'react';
 import { Amplify, Auth, Hub } from 'aws-amplify';
-import awsconfig from './aws-exports';
+import awsConfig from './aws-exports';
 
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||

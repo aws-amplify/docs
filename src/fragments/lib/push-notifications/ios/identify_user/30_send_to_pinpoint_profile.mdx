@@ -1,0 +1,13 @@
+```swift
+let userProfile = BasicUserProfile(
+    name: "Name",
+    customProperties: [
+        "attribute": "value"
+    ]
+)
+
+try await Amplify.Notifications.Push.identifyUser(
+    userId: user,
+    userProfile: userProfile
+)
+```

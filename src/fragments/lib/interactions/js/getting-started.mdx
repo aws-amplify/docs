@@ -33,7 +33,7 @@ amplify push
 
 Upon successful execution of the push command, a configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`.
 
-> If your Interactions resources were created with Amplify CLI version 1.6.4 and below, you will need to manually update your project to avoid Node.js runtime issues with AWS Lambda. [Read more](/cli/migration/lambda-node-version-update)
+> If your Interactions resources were created with Amplify CLI version 1.6.4 and below, you will need to manually update your project to avoid Node.js runtime issues with AWS Lambda. [Read more](/cli/function/configure-options)
 
 ## Manual setup
 ### Lex V1 bot
@@ -101,14 +101,17 @@ Amplify.configure(interactionsConfig);
 
 ## Configure frontend
 
-Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. For example `App.js` in React or `main.ts` in Angular.
+import js0 from '/src/fragments/lib/interactions/js/frontend.mdx';
 
-```javascript
-import { Amplify, Interactions } from 'aws-amplify';
-import awsconfig from './aws-exports';
+<Fragments fragments={{ js: js0 }} />
 
-Amplify.configure(awsconfig);
-```
+import reactnative1 from '/src/fragments/lib/react-native-polyfills.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative1 }} />
+
+import reactnative2 from '/src/fragments/lib/in-app-messaging/integrate-your-application/react-native/configure-amplify.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative2 }} />
 
 ## ChatBot UI component
 

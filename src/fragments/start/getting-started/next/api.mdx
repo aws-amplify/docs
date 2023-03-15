@@ -206,6 +206,10 @@ query ListPosts {
 
 ## API with Server-Side Rendering (SSR)
 
+import nextCallout from "/src/fragments/lib/ssr/js/next-js-callout.mdx";
+
+<Fragments fragments={{ next: nextCallout }} />
+
 In this section you will create a way to list and create posts from the Next.js application. To do this, you will fetch & render the latest posts from the server as well as create a new post on the client.
 
 Ensure you have the following libraries installed:
@@ -236,8 +240,9 @@ Amplify.configure({ ...awsExports, ssr: true });
 
 export async function getServerSideProps({ req }) {
   const SSR = withSSRContext({ req });
+  
   try {
-    const response = await SSR.API.graphql({ query: listPosts });
+    const response = await SSR.API.graphql({ query: listPosts, authMode: 'API_KEY' });
     return {
       props: {
         posts: response.data.listPosts.items,
