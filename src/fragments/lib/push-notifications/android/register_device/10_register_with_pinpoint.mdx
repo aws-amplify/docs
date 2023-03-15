@@ -1,6 +1,6 @@
 <Callout>
 
-These APIs do not need to be called unless you choose to not use our service extension or you want to support multiple push providers.
+You do not need to call these APIs manually if you are using our library out of the box.
 
 </Callout>
 
@@ -84,3 +84,14 @@ class MyAppService : FirebaseMessagingService() {
 
 </Block>
 </BlockSwitcher>
+
+You must also add the custom service extension to `AndroidManifest.xml` in the `application` tag:
+
+```xml
+<service android:name=".MyAppService"
+    android:exported="false">
+    <intent-filter>
+        <action android:name="com.google.firebase.MESSAGING_EVENT" />
+    </intent-filter>
+</service>
+```

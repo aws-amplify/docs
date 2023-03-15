@@ -1,5 +1,11 @@
 To initialize the Amplify Push Notifications, you will use the `Amplify.addPlugin()` method to add the **AWSCognitoAuthPlugin** and the **AWSPinpointPushNotificationsPlugin** and then call `Amplify.configure()` to finish configuring Amplify.
 
+<Callout>
+
+The **AWSPinpointPushNotificationsPlugin** automatically records and displays your notifications. You don't need to make any API calls besides `identifyUser` unless you choose to not use our service extension or you want to support multiple push providers.
+
+</Callout>
+
 Add the following code to your `onCreate()` method in your application class:
 
 <BlockSwitcher>
