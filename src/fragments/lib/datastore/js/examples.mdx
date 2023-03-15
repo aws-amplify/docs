@@ -15,8 +15,8 @@ import { Post, PostStatus } from "./models";
 import awsconfig from "./aws-exports";
 Amplify.configure(awsconfig);
 
-function onCreate() {
-  DataStore.save(
+async function onCreate() {
+  await DataStore.save(
     new Post({
       title: `New title ${Date.now()}`,
       rating: Math.floor(Math.random() * (8 - 1) + 1),
@@ -25,8 +25,8 @@ function onCreate() {
   );
 }
 
-function onDeleteAll() {
-  DataStore.delete(Post, Predicates.ALL);
+async function onDeleteAll() {
+  await DataStore.delete(Post, Predicates.ALL);
 }
 
 async function onQuery() {
