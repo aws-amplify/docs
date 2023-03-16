@@ -1,0 +1,19 @@
+name: LinkChecker
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  Spellcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Setup Node.js 14.x
+        uses: actions/setup-node@main
+        with:
+          node-version: 14.x
+      - name: Install Dependencies
+        run: yarn
+      - name: Run Link Checker
+        run: yarn task link-checker
