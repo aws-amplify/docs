@@ -34,3 +34,7 @@ If an Amplify project using `amplify overrides [category]` or `amplify add custo
    ![Amplify overrides warning](/images/ts-guide-cdk-package.png)
    And update `amplify/backend/custom/<customResourceName>/cdk-stack.ts` for `custom` categories as shown below: 
    ![Amplify custom warning](/images/ts-guide-cdk.png)
+
+### Note:
+ `aws-cdk-lib` version should match CDK version that ```@aws-amplify/cli-extensibility-helper``` used as dependency  in `amplify/backend/custom/<customResourceName>/package.json`.
+  You can check the `aws-cdk-lib` version that `@aws-amplify/cli-extensibility-helper` uses in `package.json` [here](https://www.npmjs.com/package/@aws-amplify/cli-extensibility-helper?activeTab=explore)
