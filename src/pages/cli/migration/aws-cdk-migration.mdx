@@ -9,7 +9,7 @@ To learn more about AWS CDK Migration, visit [Migrating to V2](https://docs.aws.
 ## When to migrate
 During deployment, Amplify CLI searches for AWS CDK v1 dependencies in your project and if found, Amplify CLI prints a warning to migrate to AWS CDK v2.
 ```
-We detect you are using CDK v1 with custom stacks and overrides.AWS CDK v1 has entered
+We detect you are using CDK v1 with custom stacks and overrides. AWS CDK v1 has entered
  maintenance mode on June 1, 2022 
 
 Impacted files.
@@ -19,7 +19,7 @@ Impacted files.
  - amplify/backend/custom/<resource-name1>/package.json
  - amplify/backend/custom/<resource-name2>/package.json
 
-Follow this guide here : https://docs.aws.amazon.com/cdk/v2/guide/migrating-v2.html
+Follow this guide here: https://docs.aws.amazon.com/cdk/v2/guide/migrating-v2.html
 ```
 
 ## How do I migrate?
@@ -34,4 +34,4 @@ If an Amplify project using `amplify overrides [category]` or `amplify add custo
    ![Amplify custom warning](/images/ts-guide-cdk.png)
 
 ### Note:
-`aws-cdk-lib` version should match the CDK version that `@aws-amplify/cli-extensibility-helper` uses as a dependency in `amplify/backend/custom/<customResourceName>/package.json`.You can verify the `aws-cdk-lib` version that `@aws-amplify/cli-extensibility-helper` uses in the `package.json` [here](https://www.npmjs.com/package/@aws-amplify/cli-extensibility-helper?activeTab=explore)
+`aws-cdk-lib` version should match the CDK version that `@aws-amplify/cli-extensibility-helper` uses as a dependency in `amplify/backend/custom/<customResourceName>/package.json`.You can verify the `aws-cdk-lib` version that `@aws-amplify/cli-extensibility-helper` uses in the `package.json` [here](https://www.npmjs.com/package/@aws-amplify/cli-extensibility-helper?activeTab=explore).
