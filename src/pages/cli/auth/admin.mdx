@@ -273,7 +273,7 @@ Below is an example of how to add an admin action that will allow you to [update
 ```js
 async function updateUserAttributes(username, attributes) {
   
-  var params = {
+  const params = {
     Username: username,
     UserAttributes: attributes,
     UserPoolId: 'STRING_VALUE',
