@@ -14,10 +14,9 @@ You can display the notification in the system tray if the app is in a backgroun
 ```java
 class MyAppService extends FirebaseMessagingService() {
     @Override
-    public void handleIntent(Intent intent) {
+    public void onMessageReceived(RemoteMessage remoteMessage) {
         // Convert the RemoteMessage into a PinpointNotificationPayload
-        Bundle data = intent != null ? intent.getExtras() : new Bundle()
-        PinpointNotificationPayload notificationPayload = PinpointNotificationPayload.createFromRemoteMessage(new RemoteMessage(data));
+        PinpointNotificationPayload notificationPayload = PinpointNotificationPayload.createFromRemoteMessage(remoteMessage);
 
         // notificationPayload is null if notification is not sent from Pinpoint
         if (notificationPayload != null) {
@@ -36,10 +35,9 @@ class MyAppService extends FirebaseMessagingService() {
 
 ```kotlin
 class MyAppService : FirebaseMessagingService() {
-    override fun handleIntent(intent: Intent?) {
+    override fun onMessageReceived(remoteMessage: RemoteMessage) {
         // Convert the RemoteMessage into a PinpointNotificationPayload
-        val data = intent?.extras ?: Bundle()
-        val notificationPayload = PinpointNotificationPayload.createFromRemoteMessage(RemoteMessage(data))
+        val notificationPayload = PinpointNotificationPayload.createFromRemoteMessage(remoteMessage)
 
         // notificationPayload is null if notification is not sent from Pinpoint
         if (notificationPayload != null) {
@@ -58,10 +56,9 @@ class MyAppService : FirebaseMessagingService() {
 
 ```kotlin
 class MyAppService : FirebaseMessagingService() {
-    override fun handleIntent(intent: Intent?) {
+    override fun onMessageReceived(remoteMessage: RemoteMessage) {
         // Convert the RemoteMessage into a PinpointNotificationPayload
-        val data = intent?.extras ?: Bundle()
-        val notificationPayload = PinpointNotificationPayload.createFromRemoteMessage(RemoteMessage(data))
+        val notificationPayload = PinpointNotificationPayload.createFromRemoteMessage(remoteMessage)
 
         // notificationPayload is null if notification is not sent from Pinpoint
         if (notificationPayload != null) {
@@ -83,10 +80,9 @@ class MyAppService : FirebaseMessagingService() {
 ```java
 class MyAppService extends FirebaseMessagingService() {
     @Override
-    public void handleIntent(Intent intent) {
+    public void onMessageReceived(RemoteMessage remoteMessage) {
         // Convert the RemoteMessage into a PinpointNotificationPayload
-        Bundle data = intent != null ? intent.getExtras() : new Bundle()
-        PinpointNotificationPayload notificationPayload = PinpointNotificationPayload.createFromRemoteMessage(new RemoteMessage(data));
+        PinpointNotificationPayload notificationPayload = PinpointNotificationPayload.createFromRemoteMessage(remoteMessage);
 
         // notificationPayload is null if notification is not sent from Pinpoint
         if (notificationPayload != null) {
