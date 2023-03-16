@@ -1,0 +1,145 @@
+import puppeteer from 'puppeteer';
+import axios from 'axios';
+
+const SITEMAP_URL = 'https://docs.amplify.aws/sitemap.xml';
+const CRAWLER_EXCEPTIONS = [
+  'https://aaaaaaaaaa.execute-api.us-east-1.amazonaws.com/api',
+  'https://aaaaaaaaaaaaaaaaaaaaaaaaaa.appsync-api.us-east-1.amazonaws.com/graphql',
+  'https://twitter.com/AWSAmplify'
+];
+
+type LinkObject = {
+  url: string;
+  parentUrl: string;
+  linkText: string | null;
+};
+
+const getSitemapUrls = async (): Promise<string[]> => {
+  let browser = await puppeteer.launch();
+
+  const page = await browser.newPage();
+
+  let response = await page.goto(SITEMAP_URL);
+
+  const siteMapUrls: string[] = [];
+
+  if (response && response.status() && response.status() === 200) {
+    const urlTags = await page.evaluateHandle(() => {
+      return document.getElementsByTagName('loc');
+    });
+
+    const numOfLinks = await page.evaluate((e) => e.length, urlTags);
+
+    for (let i = 0; i < numOfLinks; i++) {
+      let url = await page.evaluate(
+        (urlTags, i) => urlTags[i].innerHTML,
+        urlTags,
+        i
+      );
+      siteMapUrls.push(url);
+    }
+  }
+
+  browser.close();
+
+  return siteMapUrls;
+};
+
+const retrieveLinks = async (
+  siteMapUrls: string[],
+  visitedLinks: { [key: string]: boolean }
+): Promise<LinkObject[]> => {
+  let browser = await puppeteer.launch();
+
+  const page = await browser.newPage();
+
+  const urlsToVisit: LinkObject[] = [];
+
+  for (let i = 0; i < siteMapUrls.length; i++) {
+    //   for (let i = 0; i < 100; i++) {
+    let url = siteMapUrls[i];
+
+    let response = await page.goto(url);
+    if (response && response.status() && response.status() === 200) {
+      visitedLinks[url] = true;
+
+      const urlList = await page.evaluate(async (url) => {
+        let urls: LinkObject[] = [];
+        let elements = document.getElementsByTagName('a');
+        for (let i = 0; i < elements.length; i++) {
+          let element = elements[i];
+          if (element.href) {
+            const link: LinkObject = {
+              url: element.href,
+              parentUrl: url,
+              linkText: element.textContent
+            };
+            urls.push(link);
+          }
+        }
+        return urls;
+      }, url);
+
+      urlList.forEach((link) => {
+        if (!CRAWLER_EXCEPTIONS.includes(link.url)) {
+          urlsToVisit.push(link);
+        }
+      });
+    }
+  }
+
+  browser.close();
+
+  return urlsToVisit;
+};
+
+const linkChecker = async () => {
+  const visitedLinks = {};
+  const statusCodes = {};
+  const brokenLinks: LinkObject[] = [];
+
+  const siteMapUrls = await getSitemapUrls();
+
+  const urlsToVisit: LinkObject[] = await retrieveLinks(
+    siteMapUrls,
+    visitedLinks
+  );
+
+  let allPromises: Promise<void>[] = [];
+
+  for (let i = 0; i < urlsToVisit.length; i++) {
+    const link = urlsToVisit[i];
+    let href = link.url;
+    if (visitedLinks[href]) continue;
+    visitedLinks[href] = true;
+
+    let request = axios
+      .get(href)
+      .then((response) => {
+        let statusCode = response.status;
+        if (statusCode && statusCode !== 200) {
+          statusCodes[statusCode] = statusCodes[statusCode] || [];
+          statusCodes[statusCode].push(href);
+        }
+      })
+      .catch((e) => {
+        let statusCode = e?.response?.status;
+        if (statusCode) {
+          statusCodes[statusCode] = statusCodes[statusCode] || [];
+          statusCodes[statusCode].push(href);
+        }
+        if (statusCode === 404) {
+          brokenLinks.push(link);
+        }
+      });
+
+    allPromises.push(request);
+  }
+
+  await Promise.all(allPromises);
+
+  console.log(statusCodes);
+  console.log(brokenLinks);
+};
+
+linkChecker();
