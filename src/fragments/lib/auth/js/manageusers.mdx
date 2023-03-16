@@ -115,6 +115,24 @@ You can also access the user's attributes like their email address, phone number
 const { attributes } = await Auth.currentAuthenticatedUser();
 ```
 
+<Callout info>
+  Note: In order to retrieve attributes for federated users, the{' '}
+  <strong>aws.cognito.signin.user.admin</strong> scope must be included when
+  configuring the Auth resource with an OAuth flow enabled.
+  <br />
+  <br />
+  This scope grants access to Amazon Cognito User Pool API operations that require
+  access tokens such as <a href="https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_GetUser.html">
+    GetUser
+  </a>, <a href="https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_UpdateUserAttributes.html">
+    UpdateUserAttributes
+  </a>, and{' '}
+  <a href="https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_VerifyUserAttribute.html">
+    VerifyUserAttribute
+  </a>
+  .
+</Callout>
+
 ## Retrieve current session
 
 `Auth.currentSession()` returns a `CognitoUserSession` object which contains JWT `accessToken`, `idToken`, and `refreshToken`.
@@ -131,15 +149,11 @@ Auth.currentSession()
 
 ## Managing user attributes
 
-Attributes such as name, email address, phone number help you identify individual users. The Amplify JavaScript library contains 
-a set of APIs that can help you manage attributes in your user pool.
+Attributes such as name, email address, phone number help you identify individual users. The Amplify JavaScript library contains a set of APIs that can help you manage attributes in your user pool.
 
 ### Pass user attributes during sign up
 
-Amazon Cognito has a set of default standard attributes; you also have the ability to define custom attributes.
-Up to 50 custom attributes can be added to your user pool. 
-You can find a [list of all custom attributes here](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#cognito-user-pools-standard-attributes).
-You can pass them in the `attributes` object of `Auth.signUp` function parameters:
+Amazon Cognito has a set of default standard attributes; you also have the ability to define custom attributes. Up to 50 custom attributes can be added to your user pool. You can find a [list of all custom attributes here](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#cognito-user-pools-standard-attributes). You can pass them in the `attributes` object of `Auth.signUp` function parameters:
 
 ```javascript
 Auth.signUp({
@@ -155,7 +169,6 @@ Auth.signUp({
   }
 });
 ```
-
 
 ### Retrieve user attributes
 
@@ -176,20 +189,22 @@ const result = await Auth.updateUserAttributes(user, {
 });
 console.log(result); // SUCCESS
 ```
-<Callout>
-Note: If you change an attribute that requires confirmation (i.e. email or phone number), you will receive a confirmation code to that attribute.
-</Callout> 
 
-`Auth.updateUserAttributes()` function dispatches hub event to help identify attributes that require
-verification. You can listen to `updateUserAttributes` event on `auth` channel:
+<Callout>
+  Note: If you change an attribute that requires confirmation (i.e. email or
+  phone number), you will receive a confirmation code to that attribute.
+</Callout>
+
+`Auth.updateUserAttributes()` function dispatches hub event to help identify attributes that require verification. You can listen to `updateUserAttributes` event on `auth` channel:
 
 ```javascript
-Hub.listen('auth', ({payload}) => {
-    if (payload.event === 'updateUserAttributes') {
-        const resultObject = payload.data;
-    }
+Hub.listen('auth', ({ payload }) => {
+  if (payload.event === 'updateUserAttributes') {
+    const resultObject = payload.data;
+  }
 });
 ```
+
 You can learn more about how to listen to Hub events [here](https://docs.amplify.aws/lib/utilities/hub/q/platform/js/).
 
 Example of the dispatched `resultObject`:
@@ -209,13 +224,12 @@ Example of the dispatched `resultObject`:
     }
 }
 ```
-If a user sends several attributes for update and one or more of them is `read_only` or doesn't exist, the Amplify JavaScript library will throw
-an error and dispatch `updateUserAttributes_failure` Hub event. None of the attributes in the request will be updated.
+
+If a user sends several attributes for update and one or more of them is `read_only` or doesn't exist, the Amplify JavaScript library will throw an error and dispatch `updateUserAttributes_failure` Hub event. None of the attributes in the request will be updated.
 
 ### Confirm attribute
 
-If you change the email address, you will receive a confirmation code to the new email address. Below is an example of how to confirm the new 
-email address in your app:
+If you change the email address, you will receive a confirmation code to the new email address. Below is an example of how to confirm the new email address in your app:
 
 ```javascript
 const result = await Auth.verifyCurrentUserAttributeSubmit('email', 'abc123');
@@ -231,8 +245,6 @@ const user = await Auth.currentAuthenticatedUser();
 const result = await Auth.deleteUserAttributes(user, ['family_name']);
 console.log(result); // SUCCESS
 ```
-
-
 
 ## Updating and verifying a Cognito user email address
 
