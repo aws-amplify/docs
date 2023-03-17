@@ -2,6 +2,7 @@
 /src/components @aws-amplify/documentation-team 
 /src/constants @aws-amplify/documentation-team 
 /src/directory @aws-amplify/documentation-team 
+/src/pages/contribute @aws-amplify/documentation-team
 /src/pages/_app.tsx @aws-amplify/documentation-team 
 /src/pages/_document.tsx @aws-amplify/documentation-team 
 /src/pages/404.tsx @aws-amplify/documentation-team 
@@ -16,11 +17,9 @@
  
 #JS
 /src/**/**/analytics @aws-amplify/amplify-js @abdallahshaban557
-/src/**/**/api-graphql @aws-amplify/amplify-js @abdallahshaban557
 /src/**/**/api-rest @aws-amplify/amplify-js @abdallahshaban557
 /src/**/**/auth @aws-amplify/amplify-js @abdallahshaban557
 /src/**/**/authentication @aws-amplify/amplify-js @abdallahshaban557
-/src/**/**/graphqlapi @aws-amplify/amplify-js @abdallahshaban557
 /src/**/**/in-app-messaging @aws-amplify/amplify-js @abdallahshaban557
 /src/**/**/interactions @aws-amplify/amplify-js @abdallahshaban557
 /src/**/**/predictions @aws-amplify/amplify-js @abdallahshaban557
@@ -55,17 +54,21 @@
 /src/fragments/**/datastore @renebrandel
 /src/pages/**/datastore @renebrandel
 
+#GraphQL
+/src/**/**/api-graphql @renebrandel
+/src/**/**/graphqlapi @renebrandel 
+
 #Geo
 /src/fragments/**/geo @aws-amplify/amplify-geo @hdworld11
 /src/pages/**/geo @aws-amplify/amplify-geo @hdworld11
 
 #CLI
-/src/**/cli @aws-amplify/amplify-cli
-/src/**/cli-legacy @aws-amplify/amplify-cli
-/src/fragments/cli-install-block.mdx @aws-amplify/amplify-cli
-/src/fragments/lib-v1/project-setup/native_common/prereq/cliInstall.mdx @aws-amplify/amplify-cli
-/src/fragments/pull-cli-studio.mdx @aws-amplify/amplify-cli
-/src/pages/console/adminui/extend-cli.mdx @aws-amplify/amplify-cli
+/src/**/cli @aws-amplify/amplify-cli @josefaidt
+/src/**/cli-legacy @aws-amplify/amplify-cli @josefaidt
+/src/fragments/cli-install-block.mdx @aws-amplify/amplify-cli @josefaidt
+/src/fragments/lib-v1/project-setup/native_common/prereq/cliInstall.mdx @aws-amplify/amplify-cli @josefaidt
+/src/fragments/pull-cli-studio.mdx @aws-amplify/amplify-cli @josefaidt
+/src/pages/console/adminui/extend-cli.mdx @aws-amplify/amplify-cli @josefaidt
 
 #Android
 /src/fragments/**/**/android @aws-amplify/amplify-android @hdworld11
@@ -97,12 +100,12 @@
 /src/fragments/lib-v1/ios-spm.mdx @aws-amplify/amplify-ios @hdworld11
 /src/fragments/lib-v1/ios.mdx @aws-amplify/amplify-ios @hdworld11
 /src/fragments/lib/ios-escape-hatch-warning.mdx @aws-amplify/amplify-ios @hdworld11
-/src/fragments/lib/ios-prereq-category.mdx @aws-amplify/amplify-ios @hdworld11 @hdworld11
+/src/fragments/lib/ios-prereq-category.mdx @aws-amplify/amplify-ios @hdworld11
 /src/fragments/lib/ios-prereq-xcode.mdx @aws-amplify/amplify-ios @hdworld11
 /src/fragments/lib/ios-sdk.mdx @aws-amplify/amplify-ios @hdworld11
 /src/fragments/lib/ios-spm.mdx @aws-amplify/amplify-ios @hdworld11
 /src/fragments/lib/ios.mdx @aws-amplify/amplify-ios @hdworld11
-/src/fragments/sdk/sdk-api-ref/ios.mdx @aws-amplify/amplify-ios @hdworld11 @hdworld11
+/src/fragments/sdk/sdk-api-ref/ios.mdx @aws-amplify/amplify-ios @hdworld11
 
 #Studio
 /src/pages/console @aws-amplify/amplify-studio-uibuilder @wrpeck
