@@ -14,6 +14,8 @@
 /src/public @aws-amplify/documentation-team 
 /src/styles @aws-amplify/documentation-team 
 /src/utils @aws-amplify/documentation-team
+
+/STYLEGUIDE.md @rachelnabors
  
 #JS
 /src/**/**/analytics @aws-amplify/amplify-js @abdallahshaban557
