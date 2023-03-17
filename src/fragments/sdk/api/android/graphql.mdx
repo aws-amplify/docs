@@ -20,6 +20,8 @@ The AWS SDKs support configuration through a centralized file called `awsconfigu
 
 To execute GraphQL operations in Android you need to run a code generation process, which requires both the GraphQL schema and the statements (for example, queries, mutations, or subscriptions) that your client defines. The Amplify CLI toolchain makes this easy for you by automatically pulling down your schema and generating default GraphQL queries, mutations, and subscriptions before kicking off the code generation process using Gradle. If your client requirements change, you can alter these GraphQL statements and kick off a Gradle build again to regenerate the types.
 
+**Note:** - generated models with the GraphQL improvePluralization feature flag enabled will be incompatible with Android SDK versions earlier than 1.28.3
+
 #### AppSync APIs Created in the Console
 
 After installing the Amplify CLI open a terminal, go to your Android Studio project root, and then run the following:

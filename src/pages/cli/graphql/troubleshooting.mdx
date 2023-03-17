@@ -49,3 +49,7 @@ python3 ddb_to_es.py \
 ## Index with multiple sort key fields
 
 When you add an `@index` directive with 2 or more sort key fields, you will need to backfill the new composite sort key for existing data. With `@index(sortKeyFields: ["status", "date"])`, you will need to backfill the `status#date` field with composite key values made up of each object's `status` and `date` fields joined by a `#`. You do not need to backfill data for `@index` directives with zero to one sort key field(s).
+
+## Generating models with Improved Pluralization
+
+When you generate models with the GraphQL improvePluralization feature flag enabled, they will be incompatible with iOS SDK versions earlier than 1.15.4 and Android SDK versions earlier than 1.28.3. Other libraries are not impacted.
