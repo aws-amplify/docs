@@ -33,7 +33,7 @@ Follow this guide here: https://docs.aws.amazon.com/cdk/v2/guide/migrating-v2.ht
 ## How do I migrate?
 
 If an Amplify project using `amplify override <category>` or `amplify add custom` was deployed with an Amplify CLI version prior to 11.0.0, then you need to follow the steps below to migrate:
-1. For projects using `amplify overrides [category]`:
+1. For projects using `amplify overrides <category>`:
    Upgrade `@aws-amplify/cli-extensibility-helper` to version `^3.0.0` in `amplify/backend/package.json`
 2. For projects using `amplify add custom`:
    Update `package.json` for `custom` categories in `amplify/backend/custom/<customResourceName>/package.json` as shown below:
