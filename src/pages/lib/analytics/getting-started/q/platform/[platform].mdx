@@ -1,20 +1,24 @@
 export const meta = {
   title: `Getting started`,
-  description: `The Analytics category enables you to collect analytics data for your app. The Analytics category comes with built-in support for Amazon Pinpoint and Amazon Kinesis (Kinesis support is currently only available in the Amplify JavaScript library). The Analytics category uses Amazon Cognito Identity pools to identify users in your App. Cognito allows you to receive data from authenticated, and unauthenticated users in your App.`,
+  description: `The Analytics category enables you to collect analytics data for your app. The Analytics category comes with built-in support for Amazon Pinpoint and Amazon Kinesis (Kinesis support is currently only available in the Amplify JavaScript library). The Analytics category uses Amazon Cognito Identity pools to identify users in your App. Cognito allows you to receive data from authenticated, and unauthenticated users in your App.`
 };
 
-import js0 from "/src/fragments/lib/analytics/js/getting-started.mdx";
+import js0 from '/src/fragments/lib/analytics/native_common/getting-started/common.mdx';
 
-<Fragments fragments={{js: js0}} />
+<Fragments fragments={{ js: js0 }} />
 
-import ios1 from "/src/fragments/lib/analytics/native_common/getting-started/common.mdx";
+import ios1 from '/src/fragments/lib/analytics/native_common/getting-started/common.mdx';
 
-<Fragments fragments={{ios: ios1}} />
+<Fragments fragments={{ ios: ios1 }} />
 
-import android2 from "/src/fragments/lib/analytics/native_common/getting-started/common.mdx";
+import android2 from '/src/fragments/lib/analytics/native_common/getting-started/common.mdx';
 
-<Fragments fragments={{android: android2}} />
+<Fragments fragments={{ android: android2 }} />
 
-import flutter3 from "/src/fragments/lib/analytics/native_common/getting-started/common.mdx";
+import flutter3 from '/src/fragments/lib/analytics/native_common/getting-started/common.mdx';
 
-<Fragments fragments={{flutter: flutter3}} />
+<Fragments fragments={{ flutter: flutter3 }} />
+
+import reactNative4 from '/src/fragments/lib/analytics/native_common/getting-started/common.mdx';
+
+<Fragments fragments={{ 'react-native': reactNative4 }} />

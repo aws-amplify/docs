@@ -1,4 +1,5 @@
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
+import { MQMobile, MQTablet, MQLaptop, MQDesktop } from '../media';
 
 export const MenuHeaderStyle = styled.div`
   display: flex;
@@ -17,14 +18,17 @@ export const MenuStyle = styled.div`
 
     > div {
       position: sticky;
-      top: 3.375rem;
+      top: calc(3rem + var(--docs-dev-center-nav) + 5rem);
+
+      ${MQDesktop} {
+        top: calc(3rem + var(--docs-dev-center-nav));
+      }
 
       display: flex;
       flex-direction: column;
       max-height: 100vh;
       overflow-y: auto; /* for Firefox */
       overflow-y: overlay; /* for Webkit browsers */
-      margin-bottom: 6rem;
     }
   }
 `;
@@ -32,6 +36,7 @@ export const MenuStyle = styled.div`
 export const MenuBodyStyle = styled.div`
   display: block;
   margin: 0 2.5rem;
+  padding-bottom: 9rem;
 `;
 
 export const MenuBreakStyle = styled.hr`
@@ -66,4 +71,11 @@ export const DiscordLinkStyle = styled.div`
     height: 1.5rem;
     margin-right: 0.25rem;
   }
+`;
+
+export const LastUpdatedStyle = styled.p`
+  margin-top: -10px;
+  font-size: 0.875rem;
+  font-style: italic;
+  text-align: center;
 `;

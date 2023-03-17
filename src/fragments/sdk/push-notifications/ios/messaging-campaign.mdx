@@ -15,7 +15,10 @@ The following steps show how to receive push notifications targeted for your app
     class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Other app delegate methods...
-        func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        func application(
+            _ application: UIApplication,
+            didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+        ) -> Bool {
             // Other didFinishLaunching code, including Pinpoint initialization...
 
             registerForPushNotifications()
@@ -34,20 +37,24 @@ The following steps show how to receive push notifications targeted for your app
         func application(
             _ application: UIApplication,
             didReceiveRemoteNotification userInfo: [AnyHashable: Any],
-                                        fetchCompletionHandler completionHandler:
-            @escaping (UIBackgroundFetchResult) -> Void) {
+            fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
+        ) {
 
             pinpoint!.notificationManager.interceptDidReceiveRemoteNotification(
-                userInfo, fetchCompletionHandler: completionHandler)
+              userInfo,
+              fetchCompletionHandler: completionHandler
+            )
 
             if (application.applicationState == .active) {
-                let alert = UIAlertController(title: "Notification Received",
-                                              message: userInfo.description,
-                                              preferredStyle: .alert)
+                let alert = UIAlertController(
+                    title: "Notification Received",
+                    message: userInfo.description,
+                    preferredStyle: .alert
+                )
                 alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
 
-                UIApplication.shared.keyWindow?.rootViewController?.present(
-                    alert, animated: true, completion:nil)
+                UIApplication.shared.keyWindow?
+                    .rootViewController?.present(alert, animated: true, completion:nil)
             }
         }
 
@@ -97,7 +104,7 @@ The following steps show how to receive push notifications targeted for your app
 
     1. Provide a campaign name, choose **Next**, choose **Filter by standard attributes**, and then choose iOS as the platform.
 
-    1. You should see 1 device as a targeted endpoint, which is the app we are running on the iPhone device. Choose the option and then choose **Next Step**.
+    1. You should see 1 device as a targeted endpoint, which is the app you are running on the iPhone device. Choose the option and then choose **Next Step**.
 
     1. Provide text for a sample title and body for push notification, and then choose **Next Step**.
 

@@ -1,48 +1,54 @@
-These many-to-many relationship models can be queried directly to return all models in the relationship:
+### Create
+
+In order to save a many-to-many relationship, create both model instance first and then save them to a new join model instance.
 
 ```js
-// All post editor relationships
-const results = await DataStore.query(PostEditor);
+const post = await DataStore.save(
+  new Post({
+    title: 'Amplify Weekly',
+    rating: 10,
+    status: PostStatus.ACTIVE
+  })
+);
+
+const user = await DataStore.save(
+  new User({
+    username: 'rene'
+  })
+);
+
+const postEditor = await DataStore.save(
+  new PostEditor({
+    post: post,
+    user: user
+  })
+);
 ```
 
-This will return an array of `PostEditor`s with `Post` and `Editor` model instances attached. For example, without metadata, `results` from above would look like this:
+Here we've first created a new `Post` instance and a new `User` instance. Then, saved those instances to a new instance of our join model `PostEditor`.
 
-```json
-[
-    {
-        "id": "4b66cee3-1436-4d53-910f-7cfe0d955cd8",
-        "post": {
-            "id": "d2a96183-938f-4469-9873-944336fb9d9d",
-            "title": "My first post"
-        },
-        "editor": {
-            "id": "2cbfdd83-8353-4b0e-ae63-8f7d004c728f",
-            "username": "Nadia"
-        }
-    }
-]
-```
+### Query
 
-This model instance contains both related models. Use `filter()` or `map()` to retrieve the related model instances:
+To query many-to-many relationships, use a nested predicate to filter the target model by the source model's id:
 
 ```js
-// All posts for a given editor
-const postsByEditor = (await DataStore.query(PostEditor)).filter(
-    pe => pe.editor.id === editor.id
-).map(pe => pe.post);
-
-// All editors on a given post
-const editorsByPost = (await DataStore.query(PostEditor)).filter(
-    pe => pe.post.id === post.id
-).map(pe => pe.editor);
-
-// All editors of posts where title contains "first"
-const editorsOfFirstPosts = (await DataStore.query(PostEditor)).filter(
-    pe => pe.post.title.includes("first")
-).map(pe => pe.editor);
-
-// All editors of posts where title is long
-const editorsWithLongTitles = (await DataStore.query(PostEditor)).filter(
-    pd => pe.post.title.length > 20
-).map(pe => pe.editor);
+const editors = await DataStore.query(User, (u) => u.posts.post.id.eq(post.id));
 ```
+
+### Delete
+
+Deleting the join model instance will not delete any source model instances.
+
+```js
+await DataStore.delete(toBeDeletedPostEditor);
+```
+
+Both the `Post` and the `User` instances will not be deleted. Only the join model instances containing the link between a `Post` and a `User`.
+
+Deleting a source model instance will also delete the join model instances containing the source model instance.
+
+```js
+await DataStore.delete(toBeDeletedUser);
+```
+
+The `toBeDeletedUser` User instance and all `PostEditor` instances where `user` is linked to `toBeDeletedUser` will be deleted.

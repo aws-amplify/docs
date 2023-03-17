@@ -1,36 +1,42 @@
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-func confirmSignUp(for username: String, with confirmationCode: String) {
-    Amplify.Auth.confirmSignUp(for: username, confirmationCode: confirmationCode) { result in
-        switch result {
-        case .success:
-            print("Confirm signUp succeeded")
-        case .failure(let error):
-            print("An error occurred while confirming sign up \(error)")
-        }
+func confirmSignUp(for username: String, with confirmationCode: String) async {
+    do {
+        let confirmSignUpResult = try await Amplify.Auth.confirmSignUp(
+            for: username,
+            confirmationCode: confirmationCode
+        )
+        print("Confirm sign up result completed: \(confirmSignUpResult.isSignUpComplete)")
+    } catch let error as AuthError {
+        print("An error occurred while confirming sign up \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
     }
 }
 ```
 
 </Block>
 
-<Block name="Combine (iOS 13+)">
+<Block name="Combine">
 
 ```swift
 func confirmSignUp(for username: String, with confirmationCode: String) -> AnyCancellable {
-    Amplify.Auth.confirmSignUp(for: username, confirmationCode: confirmationCode)
-        .resultPublisher
-        .sink {
-            if case let .failure(authError) = $0 {
-                print("An error occurred while confirming sign up \(authError)")
-            }
+    Amplify.Publisher.create {
+        try await Amplify.Auth.confirmSignUp(
+            for: username,
+            confirmationCode: confirmationCode
+        )
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("An error occurred while confirming sign up \(authError)")
         }
-        receiveValue: { _ in
-            print("Confirm signUp succeeded")
-        }
+    }
+    receiveValue: { _ in
+        print("Confirm signUp succeeded")
+    }
 }
 ```
 

@@ -1,0 +1,141 @@
+export const meta = {
+  title: `Overview`,
+  description: `Amplify Studio's Form Builder automatically generates cloud-connected forms as React code, either from your data model, any JSON object, or from scratch. You can configure validation logic, adjust theming, and customize presentation all within the console.`,
+};
+
+Amplify Studio's Form Builder automatically generates cloud-connected forms as React code, either from your data model, any JSON object, or from scratch. You can configure validation logic, adjust theming, and customize presentation all within the console. 
+
+Forms are also extensible, allowing full form lifecycle management, and supporting custom validation logic in code, including calling an external API or validating against another database.
+
+## Option 1: Use auto-generated forms
+
+The fastest and easiest way to use the Form Builder is to use forms generated from your data model. To auto-generate forms:
+
+1. Deploy a data model in Amplify Studio - [Learn more](/console/data/data-model/)
+2. Navigate to the **Studio Console > UI Library**
+
+Your forms will be listed on the left-hand navigation bar under the **Forms** header
+
+![Studio console showing auto-generated forms on the left-hand navigation bar](/images/console/formbuilder/overview1.png)
+
+<Callout info>
+
+**Missing a form?** If you have a deployed data model but have no forms, automatic form generation may be disabled. In the upper right-hand corner of the UI Library, select **UI Library settings**, and enable **Automatic form creation**.
+
+</Callout>
+
+For each data model, Amplify Studio will generate two forms: a **Create** form, and an **Update** form. 
+
+Your forms will contain inputs for each field of your data model. Auto-generated forms are dynamic; as your data model changes, the forms' fields will update accordingly.
+
+## Option 2: Build a form from scratch
+
+Alternatively, Amplify Studio allows you to build forms completely from scratch. To generate a basic, brand-new form:
+
+1. Navigate to **Studio Console > UI Library**
+2. In the left-hand nav bar, next to the **Forms** header, select **New**
+3. Give your form a name
+4. For this example, leave the other options as default, and click **Create form**
+
+![New form page, showing the options available when creating a new form](/images/console/formbuilder/overview2.png)
+
+After clicking **Create form**, you will be directed to the Edit Form page. Select the **plus sign**, and select an input element to add to your form. 
+
+![Image of the Form Creation page with the blue bar and plus sign indicating the ability to add input elements to the form](/images/console/formbuilder/overview3.png)
+
+Alternatively, you can select different options when generating your form:
+- Forms created as **Update** forms will expect input data
+- Forms that start with a **Data model** will have an input element for every field on the data model, similar to an auto-generated form
+- Learn more [JSON object forms below](#option-3-generate-a-form-from-json)
+
+## Option 3: Generate a form from any JSON object
+
+Amplify Studio can generate a form based on the JSON object you'd like it to produce. This is particularly useful if you are interfacing with another API - most API endpoints expect input data in JSON format, so you can quickly generate a form by pasting a sample payload. 
+
+To generate a form from JSON:
+1. Navigate to **Studio Console > UI Library**
+2. In the left-hand nav bar, next to the **Forms** header, select **New**
+3. In the New Form page, select **JSON object**
+4. Paste your JSON into the code editor
+5. Give your form a name, and click **Create form**
+
+Form Builder will infer the input element type based on the value and can handle arrays and nested JSON values. For example, use this JSON sample:
+
+```json
+{
+  "basics": {
+    "firstName": "Wesley",
+    "emailAddress": "wpeck@amazon.com"
+  },
+  "favoriteThings": {
+    "animals": ["Cats", "Snakes", "Quokka"],
+    "month": "December",
+    "number": 17
+  },
+  "active": true,
+  "enabled": false
+}
+```
+
+This JSON will render the following form:
+
+![Form rendered from JSON showing headings and fields with types inferred from key pair values](/images/console/formbuilder/overview6.png)
+
+From the JSON object, Amplify Studio can automatically
+- set the correct types for **Email address** and **Number**
+- set **Animals** to receive multiple values
+- set **Active** and **Enabled** to switches
+
+## Render React form in your app
+
+### Initial Project Setup
+
+To use a form in your application, you first need to configure your project to use Amplify Studio generated components. 
+
+1. Navigate to your application's root directory and install the following npm dependencies
+
+```
+npm install -g @aws-amplify/cli
+```
+
+```
+npm install aws-amplify @aws-amplify/ui-react
+```
+
+2. In your application's `index.js` file, add the following imports and configuration
+
+```jsx
+import '@aws-amplify/ui-react/styles.css';
+
+import { Amplify } from 'aws-amplify';
+import {ThemeProvider} from "@aws-amplify/ui-react";
+
+import awsconfig from './aws-exports';
+import studioTheme from './ui-components/studioTheme';
+
+Amplify.configure(awsconfig);
+```
+3. In your application's `index.js` file, wrap the `<App />` with the following:
+
+```jsx
+<ThemeProvider theme={studioTheme}>
+    <App />
+</ThemeProvider>
+```
+
+### Import and Render Your Form
+
+Next, your forms need to be pulled from the Amplify cloud to your project, and imported into your code. 
+
+1. Navigate to your application's root directory and run `amplify pull`
+2. Import your form by name. For a form named `ProductCreateForm`, you would use the following code:
+
+```jsx
+
+import { 
+  ProductCreateForm 
+} from './ui-components';
+
+```
+
+3. Place your form in code. For a form named `ProductCreateForm`, you would use `<ProductCreateForm />` to render the form

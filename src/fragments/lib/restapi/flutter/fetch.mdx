@@ -1,19 +1,43 @@
 ## GET requests
 
-To make a GET request, first build a `RestOptions` object and then use the `Amplify.API.get` API to issue the request:
+To make a GET request use `Amplify.API.get`:
 
-```dart
-Future<void> getTodo() async {
-  try {
-    const options = RestOptions(path: '/todo');
-    final restOperation = Amplify.API.get(restOptions: options);
-    final response = await restOperation.response;
-    print('GET call succeeded: ${response.data}');
-  } on ApiException catch (e) {
-      print('GET call failed: $e');
+<BlockSwitcher>
+
+<Block name="Stable (Mobile)">
+
+  ```dart
+  Future<void> getTodo() async {
+    try {
+      const options = RestOptions(path: '/todo');
+      final restOperation = Amplify.API.get(restOptions: options);
+      final response = await restOperation.response;
+      print('GET call succeeded: ${response.body}');
+    } on ApiException catch (e) {
+        print('GET call failed: $e');
+    }
   }
-}
 ```
+
+</Block>
+
+<Block name="Developer Preview (Mobile, Web & Desktop)">
+
+  ```dart
+  Future<void> getTodo() async {
+    try {
+      final restOperation = Amplify.API.get('todo');
+      final response = await restOperation.response;
+      print('GET call succeeded: ${response.decodeBody()}');
+    } on ApiException catch (e) {
+      print('GET call failed: $e');
+    }
+  }
+  ```
+
+</Block>
+
+</BlockSwitcher>
 
 ## Accessing query parameters & body in Lambda proxy function
 
@@ -53,19 +77,47 @@ app.get('/todo', function(req, res) {
 
 Then you can use query parameters in your path as follows:
 
-```dart
-Future<void> getTodo() async {
-  try {
-    const options = RestOptions(
-        path: '/todo',
-        queryParameters: {'q' : 'test'},
-    );
-    final restOperation = Amplify.API.get(restOptions: options);
-    final response = await restOperation.response;
-    print('GET call succeeded');
-    print(String.fromCharCodes(response.data));
-  } on ApiException catch (e) {
-    print('GET call failed: $e');
+
+<BlockSwitcher>
+
+<Block name="Stable (Mobile)">
+
+  ```dart
+  Future<void> getTodo() async {
+    try {
+      const options = RestOptions(
+          path: '/todo',
+          queryParameters: {'q' : 'test'},
+      );
+      final restOperation = Amplify.API.get(restOptions: options);
+      final response = await restOperation.response;
+      print('GET call succeeded');
+      print(response.body);
+    } on ApiException catch (e) {
+      print('GET call failed: $e');
+    }
   }
-}
-```
+  ```
+
+</Block>
+
+<Block name="Developer Preview (Mobile, Web & Desktop)">
+
+  ```dart
+  Future<void> getTodo() async {
+    try {
+      final restOperation = Amplify.API.get(
+        'todo',
+        queryParameters: {'q': 'test'},
+      );
+      final response = await restOperation.response;
+      print('GET call succeeded: ${response.decodeBody()}');
+    } on ApiException catch (e) {
+      print('GET call failed: $e');
+    }
+  }
+  ```
+
+</Block>
+
+</BlockSwitcher>

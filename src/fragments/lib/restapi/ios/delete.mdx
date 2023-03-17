@@ -2,41 +2,42 @@
 
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-func deleteTodo() {
+func deleteTodo() async {
     let request = RESTRequest(path: "/todo")
-    Amplify.API.delete(request: request) { result in
-        switch result {
-        case .success(let data):
-            let str = String(decoding: data, as: UTF8.self)
-            print("Success \(str)")
-        case .failure(let apiError):
-            print("Failed", apiError)
-        }
+    do {
+        let data = try await Amplify.API.delete(request: request)
+        let str = String(decoding: data, as: UTF8.self)
+        print("Success: \(str)")
+    } catch let error as APIError {
+            print("Failed due to API error: ", error)
+    } catch {
+        print("Unexpected error: \(error)")
     }
 }
 ```
 
 </Block>
 
-<Block name="Combine (iOS 13+)">
+<Block name="Combine">
 
 ```swift
 func deleteTodo() -> AnyCancellable {
     let request = RESTRequest(path: "/todo")
-    let sink = Amplify.API.delete(request: request)
-        .resultPublisher
-        .sink {
-            if case let .failure(apiError) = $0 {
-                print("Failed", apiError)
-            }
+    let sink = Amplify.Publisher.create {
+        try await Amplify.API.delete(request: request)
+    }
+    .sink {
+        if case let .failure(apiError) = $0 {
+            print("Failed", apiError)
         }
-        receiveValue: { data in
-            let str = String(decoding: data, as: UTF8.self)
-            print("Success \(str)")
-        }
+    }
+    receiveValue: { data in
+        let str = String(decoding: data, as: UTF8.self)
+        print("Success \(str)")
+    }
     return sink
 }
 ```

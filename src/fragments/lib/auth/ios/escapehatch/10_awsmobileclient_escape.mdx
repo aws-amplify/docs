@@ -1,78 +1,9 @@
 For advanced use cases where Amplify does not provide the functionality you're looking for,
 you can retrieve the escape hatch to access the underlying SDK.
 
-<Callout warning>
+import ios0 from "/src/fragments/lib/ios-escape-hatch-warning.mdx";
 
-If you are using the new [Amplify iOS (Developer Preview)](/lib/devpreview/getting-started), check the Developer Preview tab for how to access the Escape Hatch for the AWS SDK for Swift.
-
-</Callout>
-
-<BlockSwitcher>
-
-<Block name="Stable Release">
-
-The escape hatch provides access to the underlying `AWSMobileClient` instance.
-
-<BlockSwitcher>
-
-<Block name="Swift Package Manager">
-
-```swift
-import AWSCognitoAuthPlugin // Imports the Amplify plugin interface
-```
-
-</Block>
-
-<Block name="CocoaPods">
-
-```swift
-import AmplifyPlugins // Imports the Amplify plugin interface
-```
-
-</Block>
-
-</BlockSwitcher>
-
-Then retrieve the escape hatch with this code:
-
-```swift
-func getEscapeHatch() {
-    do {
-        let plugin = try Amplify.Auth.getPlugin(for: "awsCognitoAuthPlugin") as! AWSCognitoAuthPlugin
-        guard case let .awsMobileClient(awsmobileclient) = plugin.getEscapeHatch() else {
-            print("Failed to fetch escape hatch")
-            return
-        }
-        print("Fetched escape hatch - \(awsmobileclient)")
-    } catch {
-        print("Error occurred while fetching the escape hatch \(error)")
-    }
-}
-```
-
-It is not recommended to use`AWSMobileClient` credentials apis like `getToken`, `getAWSCredentials` through the escape hatch object.
-
-You can use the escape hatch to `federatedSignIn` with a valid token from other social providers. Find more details [here](https://docs.amplify.aws/sdk/auth/federated-identities/q/platform/ios)
-
-```swift
-awsmobileclient.federatedSignIn(providerName: IdentityProvider.apple.rawValue,
-                                token: "<APPLE_TOKEN_HERE>") { (userState, error) in
-        if let error = error {
-            print("Error in federatedSignIn: \(error)")
-            return
-        }
-
-        guard let userState = userState else {
-            print("userState unexpectedly nil")
-            return
-        }
-        print("federatedSignIn successful: \(userState)")
-}
-```
-
-</Block>
-
-<Block name="Developer Preview">
+<Fragments fragments={{ios: ios0}} />
 
 The escape hatch provides access to the underlying `AWSCognitoIdentityProvider` instance.  Import the necessary types:
 
@@ -101,7 +32,3 @@ func getEscapeHatch() {
     print("Fetched escape hatch - \(String(describing: client))")
 }
 ```
-
-</Block>
-
-</BlockSwitcher>

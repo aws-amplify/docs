@@ -4,6 +4,11 @@ Add the Auth plugin before calling `Amplify.configure`. Update [the code you add
 <Block name="Java">
 
 ```java
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
+import com.amplifyframework.core.Amplify;
+```
+
+```java
 // Add this line, to include the Auth plugin.
 Amplify.addPlugin(new AWSCognitoAuthPlugin());
 Amplify.configure(getApplicationContext());
@@ -13,13 +18,23 @@ Amplify.configure(getApplicationContext());
 <Block name="Kotlin - Callbacks">
 
 ```kotlin
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
+import com.amplifyframework.core.Amplify
+```
+
+```kotlin
 // Add this line, to include the Auth plugin.
 Amplify.addPlugin(AWSCognitoAuthPlugin())
 Amplify.configure(applicationContext)
 ```
 
 </Block>
-<Block name="Kotlin - Coroutines (Beta)">
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
+import com.amplifyframework.kotlin.core.Amplify
+```
 
 ```kotlin
 // Add this line, to include the Auth plugin.
@@ -29,6 +44,11 @@ Amplify.configure(applicationContext)
 
 </Block>
 <Block name="RxJava">
+
+```java
+import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
+import com.amplifyframework.rx.RxAmplify;
+```
 
 ```java
 // Add this line, to include the Auth plugin.

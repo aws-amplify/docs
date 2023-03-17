@@ -4,19 +4,18 @@ Because the lifetime of the subscription will last longer than the lifetime of a
 
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-var subscription: GraphQLSubscriptionOperation<Todo>?
+var subscription: AmplifyAsyncThrowingSequence<GraphQLSubscriptionEvent<Todo>>
 ```
 
 </Block>
 
-<Block name="Combine (iOS 13+)">
+<Block name="Combine">
 
 ```swift
-var subscription: GraphQLSubscriptionOperation<Todo>?
-var dataSink: AnyCancellable?
+var subscription: AnyCancellable?
 ```
 
 </Block>
@@ -27,40 +26,41 @@ To listen to creation updates, you can use the following code sample:
 
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
 func createSubscription() {
-    subscription = Amplify.API.subscribe(request: .subscription(of: Todo.self, type: .onCreate), valueListener: { (subscriptionEvent) in
-        switch subscriptionEvent {
-        case .connection(let subscriptionConnectionState):
-            print("Subscription connect state is \(subscriptionConnectionState)")
-        case .data(let result):
-            switch result {
-            case .success(let createdTodo):
-                print("Successfully got todo from subscription: \(createdTodo)")
-            case .failure(let error):
-                print("Got failed result with \(error.errorDescription)")
+    subscription = Amplify.API.subscribe(request: .subscription(of: Todo.self, type: .onCreate))
+    Task {
+        do {
+            for try await subscriptionEvent in subscription {
+                switch subscriptionEvent {
+                case .connection(let subscriptionConnectionState):
+                    print("Subscription connect state is \(subscriptionConnectionState)")
+                case .data(let result):
+                    switch result {
+                    case .success(let createdTodo):
+                        print("Successfully got todo from subscription: \(createdTodo)")
+                    case .failure(let error):
+                        print("Got failed result with \(error.errorDescription)")
+                    }
+                }
             }
-        }
-    }) { result in
-        switch result {
-        case .success:
-            print("Subscription has been closed successfully")
-        case .failure(let apiError):
-            print("Subscription has terminated with \(apiError)")
+        } catch {
+            print("Subscription has terminated with \(error)")
         }
     }
 }
 ```
 </Block>
 
-<Block name="Combine (iOS 13+)">
+<Block name="Combine">
 
 ```swift
 func createSubscription() {
-    subscription = Amplify.API.subscribe(request: .subscription(of: Todo.self, type: .onCreate))
-    dataSink = subscription?.subscriptionDataPublisher.sink {
+    let sequence = Amplify.API.subscribe(request: .subscription(of: Todo.self, type: .onCreate))
+    subscription = Amplify.Publisher.create(sequence)
+        .sink {
         if case let .failure(apiError) = $0 {
             print("Subscription has terminated with \(apiError)")
         } else {
@@ -69,10 +69,15 @@ func createSubscription() {
     }
     receiveValue: { result in
         switch result {
-        case .success(let createdTodo):
-            print("Successfully got todo from subscription: \(createdTodo)")
-        case .failure(let error):
-            print("Got failed result with \(error.errorDescription)")
+            case .connection(let subscriptionConnectionState):
+                print("Subscription connect state is \(subscriptionConnectionState)")
+            case .data(let result):
+                switch result {
+                case .success(let createdTodo):
+                    print("Successfully got todo from subscription: \(createdTodo)")
+                case .failure(let error):
+                    print("Got failed result with \(error.errorDescription)")
+            }
         }
     }
 }
@@ -84,9 +89,9 @@ func createSubscription() {
 
 ### Unsubscribing from updates
 
-#### Listener (iOS 11+)
+#### Async/Await
 
-To unsubscribe from updates, you can call `cancel()` on the subscription
+To unsubscribe from updates, you can call `cancel()` on the subscription.
 
 ```swift
 func cancelSubscription() {
@@ -95,20 +100,22 @@ func cancelSubscription() {
 }
 ```
 
-#### Combine (iOS 13+)
+#### Combine
 
-With the Combine flavor of the `subscribe()` API, you have the option of canceling just the downstream Combine subscriber, or the entire GraphQL subscription.
-
-Calling `cancel()` on the subscription will disconnect the subscription from the backend. Any downstream subscribers will also be cancelled. On the other hand, calling `cancel()` on the Combine subscriber (e.g., the `AnyCancellable` returned from `sink()` will cause that Combine subscriber to stop receiving updates, but any other attached subscribers will continue to receive subscription data. For example:
+Calling `cancel()` on the sequence will disconnect the subscription from the backend. Any downstream subscribers will also be cancelled.
 
 ```swift
-let subscription = Amplify.API.subscribe(...)
-let allUpdates = subscription.subscriptionDataPublisher.sink(...)
-let filteredUpdates = subscription.subscriptionDataPublisher.filter{...}.sink(...)
+let sequence = Amplify.API.subscribe(...)
+let subscription = Amplify.Publisher.create(sequence)
+let allUpdates = subscription.sink(...)
+let filteredUpdates = subscription.filter{...}.sink(...)
+sequence.cancel()   // sequence is now disconnected
+                    // allUpdates and filteredUpdates will no longer receive data
+```
 
-allUpdates.cancel() // subscription is still connected,
-                    // filteredUpdates will still receive data
+Similarly, calling `cancel()` on the Combine subscriber (e.g., the `AnyCancellable` returned from `sink()`) will cause the underlying sequence to cancel. This will cause all attached subscribers to stop receiving updates.
 
-subscription.cancel() // subscription is now disconnected
-                      // filteredUpdates will no longer receive data
+```swift
+allUpdates.cancel() // sequence is disconnected
+                    // filteredUpdates will no longer receive data
 ```

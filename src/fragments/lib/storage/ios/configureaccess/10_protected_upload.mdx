@@ -1,43 +1,56 @@
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-func uploadData(key: String, data: Data) {
+func uploadData(key: String, data: Data) async throws {
     let options = StorageUploadDataRequest.Options(accessLevel: .protected)
-    Amplify.Storage.uploadData(key: key, data: data, options: options) { progress in
-        print("Progress: \(progress)")
-    } resultListener: { event in
-        switch event {
-        case .success(let data):
-            print("Completed: \(data)")
-        case .failure(let storageError):
-            print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+    let uploadTask = Amplify.Storage.uploadData(
+        key: key,
+        data: data,
+        options: options
+    )
+    Task {
+        for await progress in await uploadTask.progress {
+            print("Progress: \(progress)")
         }
     }
+    let data = try await uploadTask.value
+    print("Completed: \(data)")
 }
 ```
 
 </Block>
 
-<Block name="Combine (iOS 13+)">
+<Block name="Combine">
 
 ```swift
-var progressSink: AnyCancellable?
 var resultSink: AnyCancellable?
+var progressSink: AnyCancellable?
 
 func uploadData(key: String, data: Data) {
     let options = StorageUploadDataRequest.Options(accessLevel: .protected)
-    let storageOperation = Amplify.Storage.uploadData(key: key, data: data, options: options)
-    progressSink = storageOperation.progressPublisher.sink { progress in print("Progress: \(progress)") }
-    resultSink = storageOperation.resultPublisher.sink {
-        if case let .failure(storageError) = $0 {
-            print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+    let uploadTask = Amplify.Storage.uploadData(
+        key: key,
+        data: data,
+        options: options
+    )
+    progressSink = uploadTask
+        .inProcessPublisher
+        .sink { progress in
+            print("Progress: \(progress)")
         }
-    }
-    receiveValue: { data in
-        print("Completed: \(data)")
-    }
+
+    resultSink = uploadTask
+        .resultPublisher
+        .sink {
+            if case let .failure(storageError) = $0 {
+                print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+            }
+        }
+        receiveValue: { data in
+            print("Completed: \(data)")
+        }
 }
 ```
 

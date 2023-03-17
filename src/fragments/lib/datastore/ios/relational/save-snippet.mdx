@@ -1,44 +1,46 @@
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-let postWithComments = Post(title: "My post with comments",
-                            rating: 5,
-                            status: .active)
+let post = Post(
+    title: "My post with comments",
+    rating: 5,
+    status: .active
+)
 
-let comment = Comment(content: "Loving Amplify DataStore", post: postWithComments)
+let commentWithPost = Comment(
+    content: "Loving Amplify DataStore",
+    post: post
+)
 
-Amplify.DataStore.save(postWithComments) { postResult in
-    switch postResult {
-    case .failure(let error):
-        print("Error adding post - \(error.localizedDescription)")
-    case .success:
-        Amplify.DataStore.save(comment) { commentResult in
-            switch commentResult {
-            case .success:
-                print("Comment saved!")
-            case .failure(let error):
-                print("Error adding comment - \(error.localizedDescription)")
-            }
-        }
-    }
+do {
+    let savedPost = try await Amplify.DataStore.save(post)
+    let savedCommentWithPost = try await Amplify.DataStore.save(commentWithPost)
+} catch let error as DataStoreError {
+    print("Failed with error \(error)")
+} catch {
+    print("Unexpected error \(error)")
 }
 ```
 
 </Block>
 
-<Block name="Combine (iOS 13+)">
+<Block name="Combine">
 
 ```swift
-let postWithComments = Post(title: "My post with comments",
-                            rating: 5,
-                            status: .active)
+let post = Post(
+    title: "My post with comments",
+    rating: 5,
+    status: .active
+)
 
-let comment = Comment(content: "Loving Amplify DataStore", post: postWithComments)
+let commentWithPost = Comment(
+    content: "Loving Amplify DataStore",
+    post: post)
 
-let sink = Amplify.DataStore.save(postWithComments)
-    .flatMap { Amplify.DataStore.save(comment) }
+let sink = Amplify.Publisher.create { try await Amplify.DataStore.save(post) }
+    .flatMap { Amplify.Publisher.create { try await Amplify.DataStore.save(commentWithPost) } }
     .sink {
         if case let .failure(error) = $0 {
             print("Error adding post and comment - \(error.localizedDescription)")

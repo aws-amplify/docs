@@ -59,27 +59,43 @@ To view the deployed services in your project at any time, go to Amplify Console
 amplify console
 ```
 
-## Configure your application
+import js0 from "/src/fragments/lib/graphqlapi/js/js-configure.mdx";
 
-Add Amplify to your app with `yarn` or `npm`:
+<Fragments fragments={{js: js0}} />
 
-```bash
-npm install aws-amplify
-```
+import reactnative0 from "/src/fragments/lib/graphqlapi/js/react-native-configure.mdx";
 
-In your app's entry point i.e. App.js, import and load the configuration file:
-
-```javascript
-import { Amplify, API, graphqlOperation } from 'aws-amplify';
-import awsconfig from './aws-exports';
-Amplify.configure(awsconfig);
-```
+<Fragments fragments={{'react-native': reactnative0}} />
 
 ## Enable queries, mutations, and subscriptions
 
 Now that the GraphQL API has deployed, it’s time to learn how to interact with it from a JavaScript client application. With GraphQL, you typically have the following types of operations:
 
 - __Mutations__ - write data to the API (create, update, delete operations)
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { API, graphqlOperation } from 'aws-amplify';
+import { createTodo, updateTodo, deleteTodo } from './graphql/mutations';
+import { GraphQLQuery } from '@aws-amplify/api';
+import { CreateTodoInput, CreateTodoMutation, UpdateTodoMutation, DeleteTodoMutation } from './API';
+
+const todo: CreateTodoInput = { name: "My first todo", description: "Hello world!" };
+
+/* create a todo */
+await API.graphql<GraphQLQuery<CreateTodoMutation>>(graphqlOperation(createTodo, {input: todo}));
+
+/* update a todo */
+await API.graphql<GraphQLQuery<UpdateTodoMutation>>(graphqlOperation(updateTodo, { input: { id: todoId, name: "Updated todo info" }}));
+
+/* delete a todo */
+await API.graphql<GraphQLQuery<DeleteTodoMutation>>(graphqlOperation(deleteTodo, { input: { id: todoId }}));
+```
+
+</Block>
+<Block name="JavaScript">
 
 ```js
 import { API, graphqlOperation } from 'aws-amplify';
@@ -96,7 +112,28 @@ await API.graphql(graphqlOperation(updateTodo, { input: { id: todoId, name: "Upd
 /* delete a todo */
 await API.graphql(graphqlOperation(deleteTodo, { input: { id: todoId }}));
 ```
+
+</Block>
+</BlockSwitcher>
+
 - __Queries__ - read data from the API (list, get operations)
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { API, graphqlOperation } from 'aws-amplify';
+import { GraphQLQuery } from '@aws-amplify/api';
+import { listTodos } from './graphql/queries';
+import { ListTodosQuery } from './API';
+
+const todos = await API.graphql<GraphQLQuery<ListTodosQuery>>(graphqlOperation(listTodos));
+```
+
+</Block>
+
+
+<Block name="JavaScript">
 
 ```js
 import { API, graphqlOperation } from 'aws-amplify';
@@ -105,25 +142,58 @@ import { listTodos } from './graphql/queries';
 const todos = await API.graphql(graphqlOperation(listTodos));
 ```
 
+</Block>
+</BlockSwitcher>
+
 - __Subscriptions__ - subscribe to changes in data for real-time functionality (onCreate, onUpdate, onDelete)
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { API, graphqlOperation } from 'aws-amplify';
+import { GraphQLSubscription } from '@aws-amplify/api';
+import { onCreateTodo } from './graphql/subscriptions';
+import { OnCreateTodoSubscription } from './API';
+
+// Subscribe to creation of Todo
+const sub = API.graphql<GraphQLSubscription<OnCreateTodoSubscription>>(
+    graphqlOperation(onCreateTodo)
+).subscribe({
+    next: (payload) => {
+      const createdTodo = payload.value.data?.onCreateTodo;
+      console.log(createdTodo);
+    }
+});
+
+// Stop receiving data updates from the subscription
+sub.unsubscribe();
+```
+
+</Block>
+
+<Block name="JavaScript">
 
 ```js
 import { API, graphqlOperation } from 'aws-amplify';
 import { onCreateTodo } from './graphql/subscriptions';
 
 // Subscribe to creation of Todo
-const subscription = API.graphql(
+const sub = API.graphql(
     graphqlOperation(onCreateTodo)
 ).subscribe({
-    next: (todoData) => {
-      console.log(todoData);
-      // Do something with the data
+    next: (payload) => {
+      const createdTodo = payload.value.data?.onCreateTodo;
+      console.log(createdTodo);
     }
 });
 
 // Stop receiving data updates from the subscription
-subscription.unsubscribe();
+sub.unsubscribe();
 ```
+
+</Block>
+</BlockSwitcher>
 
 ### Updating Your GraphQL Schema
 
@@ -180,7 +250,7 @@ amplify api console
 
 ### Using GraphQL Transformers
 
-As you can notice in the sample schema file above, the schema has a `@model` directive. The `@model` directive leverages a set of libraries that can help simplify the process of bootstrapping highly scalable, serverless GraphQL APIs on AWS. The `@model` directive tells the GraphQL Transform that we would like to store Todo objects in an Amazon DynamoDB table and configure CRUD operations for it. When you create or update your backend with *push* command, the CLI will automatically create and configure a new DynamoDB table that works with your AppSync API. The `@model` directive is just one of multiple transformers that can be used by annotating your *schema.graphql*.
+As you can notice in the sample schema file above, the schema has a `@model` directive. The `@model` directive leverages a set of libraries that can help simplify the process of bootstrapping highly scalable, serverless GraphQL APIs on AWS. The `@model` directive tells the GraphQL Transform that you would like to store Todo objects in an Amazon DynamoDB table and configure CRUD operations for it. When you create or update your backend with *push* command, the CLI will automatically create and configure a new DynamoDB table that works with your AppSync API. The `@model` directive is just one of multiple transformers that can be used by annotating your *schema.graphql*.
 
 The following directives are available to be used when defining your schema:  
 

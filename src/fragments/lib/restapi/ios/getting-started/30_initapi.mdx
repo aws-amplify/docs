@@ -1,39 +1,50 @@
-To initialize the Amplify API and Authentication categories, we are required to use the `Amplify.addPlugin()` method for each category we want.  When we are done calling `addPlugin()` on each category, we finish configuring Amplify by calling `Amplify.configure()`.
-
-**Add the following imports** to the top of your `AppDelegate.swift` file:
+To initialize the Amplify API and Authentication categories, you are required to use the `Amplify.addPlugin()` method for each category you want.  When you are done calling `addPlugin()` on each category, you finish configuring Amplify by calling `Amplify.configure()`.
 
 <BlockSwitcher>
 
-<Block name="Swift Package Manager">
+<Block name="SwiftUI">
 
+In your `App` scene, configure Amplify in the initializer:
+
+```swift
+@main
+struct MyAmplifyApp: App {
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
+
+    init() {
+        do {
+            try Amplify.add(plugin: AWSCognitoAuthPlugin())
+            try Amplify.add(plugin: AWSAPIPlugin())
+            try Amplify.configure()
+            print("Amplify configured with API and Auth plugin")
+        } catch {
+            print("Failed to initialize Amplify with \(error)")
+        }
+    }
+}
+```
+
+</Block>
+
+<Block name="UIKit">
+
+Add the following imports to the top of your `AppDelegate.swift` file:
 ```swift
 import Amplify
 import AWSAPIPlugin
 ```
 
-</Block>
-
-<Block name="CocoaPods">
+Add the following code to the `application:didFinishLaunchingWithOptions` method:
 
 ```swift
-import Amplify
-import AmplifyPlugins
-```
-
-</Block>
-
-</BlockSwitcher>
-
-**Add the following code** 
-
-<BlockSwitcher>
-
-<Block name="UIKit AppDelegate">
-
-Add to your AppDelegate's `application:didFinishLaunchingWithOptions` method
-
-```swift
-func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+func application(
+    _ application: UIApplication,
+    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+) -> Bool {
 
     do {
         try Amplify.add(plugin: AWSCognitoAuthPlugin())
@@ -45,43 +56,6 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
     }
 
     return true
-}
-```
-
-</Block>
-
-<Block name="SwiftUI App">
-
-Create a custom `AppDelegate`, and add to your `application:didFinishLaunchingWithOptions` method
-```swift
-class AppDelegate: NSObject, UIApplicationDelegate {
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-
-        do {
-        try Amplify.add(plugin: AWSCognitoAuthPlugin())
-        try Amplify.add(plugin: AWSAPIPlugin())
-        try Amplify.configure()
-        print("Amplify configured with API and Auth plugin")
-    } catch {
-        print("Failed to initialize Amplify with \(error)")
-    }
-
-        return true
-    }
-}
-```
-
-Then in the `App` scene, use `UIApplicationDelegateAdaptor` property wrapper to use your custom `AppDelegate`
-```swift
-@main
-struct MyAmplifyApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
-    }
 }
 ```
 

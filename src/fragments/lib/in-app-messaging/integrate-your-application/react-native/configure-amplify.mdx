@@ -1,0 +1,10 @@
+### Configure Amplify
+
+Next, you should import and load the `aws-exports.js` configuration file created by the CLI. Add the Amplify configuration step to your application’s root entry point. For example, `index.js`.
+
+```js
+import { Amplify } from 'aws-amplify';
+import awsconfig from './src/aws-exports';
+
+Amplify.configure(awsconfig);
+```

@@ -1,29 +1,29 @@
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-func resendCode() {
-    Amplify.Auth.resendConfirmationCode(for: .email) { result in
-        switch result {
-        case .success(let deliveryDetails):
-            print("Resend code send to - \(deliveryDetails)")
-        case .failure(let error):
-            print("Resend code failed with error \(error)")
-        }
+func resendCode() async {
+    do {
+        let deliveryDetails = try await Amplify.Auth.resendConfirmationCode(forUserAttributeKey: .email)
+        print("Resend code send to - \(deliveryDetails)")
+    } catch let error as AuthError {
+        print("Resend code failed with error \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
     }
 }
 ```
 
 </Block>
 
-<Block name="Combine (iOS 13+)">
+<Block name="Combine">
 
 ```swift
 func resendCode() -> AnyCancellable {
-    Amplify.Auth.resendConfirmationCode(for: .email)
-        .resultPublisher
-        .sink {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.resendConfirmationCode(forUserAttributeKey: .email)
+        }.sink {
             if case let .failure(authError) = $0 {
                 print("Resend code failed with error \(authError)")
             }

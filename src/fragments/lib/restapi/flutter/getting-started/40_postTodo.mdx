@@ -1,20 +1,48 @@
-```dart
-import 'dart:typed_data';
+<BlockSwitcher>
 
-Future<void> onTestApi() async {
-  try {
-    final options = RestOptions(
-        path: '/todo',
-        body: Uint8List.fromList('{\'name\':\'Mow the lawn\'}'.codeUnits)
-    );
-    final restOperation = Amplify.API.post(
-        restOptions: options
-    );
-    final response = await restOperation.response;
-    print('POST call succeeded');
-    print(String.fromCharCodes(response.data));
-  } on ApiException catch (e) {
-    print('POST call failed: $e');
+<Block name="Stable (Mobile)">
+
+  ```dart
+  import 'dart:typed_data';
+
+  Future<void> postTodo() async {
+    try {
+      final options = RestOptions(
+          path: '/todo',
+          body: Uint8List.fromList('{\'name\':\'Mow the lawn\'}'.codeUnits)
+      );
+      final restOperation = Amplify.API.post(
+          restOptions: options
+      );
+      final response = await restOperation.response;
+      print('POST call succeeded');
+      print(response.body);
+    } on ApiException catch (e) {
+      print('POST call failed: $e');
+    }
   }
-}
-```
+  ```
+
+</Block>
+
+<Block name = "Developer Preview (Mobile, Web & Desktop)">
+
+  ```dart
+  Future<void> postTodo() async {
+    try {
+      final restOperation = Amplify.API.post(
+        'todo',
+        body: HttpPayload.json({'name': 'Mow the lawn'}),
+      );
+      final response = await restOperation.response;
+      print('POST call succeeded');
+      print(response.decodeBody());
+    } on ApiException catch (e) {
+      print('POST call failed: $e');
+    }
+  }
+  ```
+  
+</Block>
+
+</BlockSwitcher>

@@ -1,5 +1,3 @@
-## Create a new Angular app
-
 Use the [Angular CLI](https://github.com/angular/angular-cli) to bootstrap a new Angular app:
 
 ```bash
@@ -33,7 +31,9 @@ import 'core-js/es/object';
 
 ## Create a new Amplify backend
 
-Now that we have a running Angular app, it's time to set up Amplify for this app so that we can create the necessary backend services needed to support the app. From the root of the project, run:
+Now that you have a running Angular app, it's time to set up Amplify for this app so that you can create the necessary backend services needed to support the app. 
+
+Open a new terminal. From the root of the project, run:
 
 ```bash
 amplify init
@@ -42,31 +42,28 @@ amplify init
 When you initialize Amplify you'll be prompted for some information about the app.  For newer versions of Angular, you will have to change the Distribution Directory Path from `dist` to `dist/amplify-app` to match how Angular will build your project.
 
 ```console
-Enter a name for the project (amplifyapp)
+? Enter a name for the project: amplifyapp
+The following configuration will be applied:
 
-# All AWS services you provision for your app are grouped into an "environment"
-# A common naming convention is dev, staging, and production
-Enter a name for the environment (dev)
+Project information
+| Name: amplifyapp
+| Environment: dev
+| Default editor: Visual Studio Code
+| App type: javascript
+| Javascript framework: angular
+| Source Directory Path: src
+| Distribution Directory Path: dist
+| Build Command: npm run-script build
+| Start Command: ng serve
 
-# Sometimes the CLI will prompt you to edit a file, it will use this editor to open those files.
-Choose your default editor
+? Initialize the project with the above configuration? Yes
+Using default provider  awscloudformation
+? Select the authentication method you want to use: AWS profile
 
-# Amplify supports JavaScript (Web & React Native), iOS, and Android apps
-Choose the type of app that you're building (javascript)
+For more information on AWS Profiles, see:
+https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html
 
-What JavaScript framework are you using (angular)
-
-Source directory path (src)
-
-Distribution directory path (dist)
-Change from dist to dist/amplify-app
-
-Build command (npm run-script build)
-
-Start command (ng serve or npm start)
-
-# This is the profile you created with the `amplify configure` command in the introduction step.
-Do you want to use an AWS profile
+? Please choose the profile you want to use: default
 ```
 
 When you initialize a new Amplify project, a few things happen:

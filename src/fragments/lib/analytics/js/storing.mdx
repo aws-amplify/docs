@@ -2,29 +2,27 @@ The Amazon Kinesis Firehose analytics provider allows you to send analytics data
 
 ## Installation and Configuration
 
-Register the *AWSKinesisFirehoseProvider* with the Analytics category: 
+Register the _AWSKinesisFirehoseProvider_ with the Analytics category:
 
 ```javascript
 import { Analytics, AWSKinesisFirehoseProvider } from 'aws-amplify';
 Analytics.addPluggable(new AWSKinesisFirehoseProvider());
 ```
 
-Ensure you have <a href="https://docs.aws.amazon.com/firehose/latest/dev/controlling-access.html" target="_blank">setup IAM permissions</a> for `PutRecordBatch`.
+Ensure you have [setup IAM permissions](https://docs.aws.amazon.com/firehose/latest/dev/controlling-access.html) for `PutRecordBatch`.
 
 Example IAM policy for Amazon Kinesis Firehose:
+
 ```json
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "firehose:PutRecord",
-                "firehose:PutRecordBatch"
-            ],
-            "Resource": "*"
-        }
-    ]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["firehose:PutRecord", "firehose:PutRecordBatch"],
+      "Resource": "*"
+    }
+  ]
 }
 ```
 
@@ -33,23 +31,22 @@ Configure Kinesis Firehose:
 ```javascript
 // Configure the plugin after adding it to the Analytics module
 Analytics.configure({
-    AWSKinesisFirehose: {
+  AWSKinesisFirehose: {
+    // OPTIONAL -  Amazon Kinesis Firehose service region
+    region: 'XX-XXXX-X',
 
-        // OPTIONAL -  Amazon Kinesis Firehose service region
-        region: 'XX-XXXX-X',
-        
-        // OPTIONAL - The buffer size for events in number of items.
-        bufferSize: 1000,
-        
-        // OPTIONAL - The number of events to be deleted from the buffer when flushed.
-        flushSize: 100,
-        
-        // OPTIONAL - The interval in milliseconds to perform a buffer check and flush if necessary.
-        flushInterval: 5000, // 5s
-        
-        // OPTIONAL - The limit for failed recording retries.
-        resendLimit: 5
-    } 
+    // OPTIONAL - The buffer size for events in number of items.
+    bufferSize: 1000,
+
+    // OPTIONAL - The number of events to be deleted from the buffer when flushed.
+    flushSize: 100,
+
+    // OPTIONAL - The interval in milliseconds to perform a buffer check and flush if necessary.
+    flushInterval: 5000, // 5s
+
+    // OPTIONAL - The limit for failed recording retries.
+    resendLimit: 5
+  }
 });
 ```
 
@@ -58,10 +55,13 @@ Analytics.configure({
 You can send a data to a Kinesis Firehose stream with the standard `record` method. Any data is acceptable and `streamName` is required:
 
 ```javascript
-Analytics.record({
-    data: { 
-        // The data blob to put into the record
+Analytics.record(
+  {
+    data: {
+      // The data blob to put into the record
     },
     streamName: 'myKinesisStream'
-}, 'AWSKinesisFirehose');
+  },
+  'AWSKinesisFirehose'
+);
 ```

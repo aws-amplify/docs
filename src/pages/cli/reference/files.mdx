@@ -1,6 +1,6 @@
 export const meta = {
   title: `Files and Folders`,
-  description: `Learn more about the files and folders Amplify uses to maintain project state.`,
+  description: `Learn more about the files and folders Amplify uses to maintain project state.`
 };
 
 ## Folders
@@ -36,8 +36,7 @@ Contains the current cloud state of the checked out environment's resources. The
 
 > Add to version control: YES
 
-Contains the latest local development state of the checked out environment's resources. The contents of this folder can be modified and running `amplify push` will push changes in this directory to the cloud.
-Each plugin stores contents in its own subfolder within this folder.
+Contains the latest local development state of the checked out environment's resources. The contents of this folder can be modified and running `amplify push` will push changes in this directory to the cloud. Each plugin stores contents in its own subfolder within this folder.
 
 ### amplify/mock-data
 
@@ -52,6 +51,7 @@ Only created after running `amplify mock api`. It contains the SQLite databases 
 These files work together to maintain the overall state of the Amplify project such as what resources are configured in the project, dependencies between resources, and when the last push was.
 
 ### backend-config.json
+
 > Manual edits okay: YES
 
 > Add to version control: YES
@@ -83,8 +83,7 @@ Because one category might create multiple services within one project (e.g. the
 }
 ```
 
-The metadata for each service is first logged into the meta file after the `amplify <category> add` command is executed, containing some general information that indicates one service of the category has been added locally.
-Then, on the successful execution of the `amplify push` command, the `output` object will be added/updated in the service's metadata with information that describes the actual cloud resources that have been created or updated.
+The metadata for each service is first logged into the meta file after the `amplify <category> add` command is executed, containing some general information that indicates one service of the category has been added locally. Then, on the successful execution of the `amplify push` command, the `output` object will be added/updated in the service's metadata with information that describes the actual cloud resources that have been created or updated.
 
 ### aws-exports.js
 
@@ -92,8 +91,7 @@ Then, on the successful execution of the `amplify push` command, the `output` ob
 
 > Add to version control: NO
 
-This file is generated only for JavaScript projects.
-It contains the consolidated outputs from all the categories and is placed under the `src` directory specified during the `init` process. It is updated after `amplify push`.
+This file is generated only for JavaScript projects. It contains the consolidated outputs from all the categories and is placed under the `src` directory specified during the `init` process. It is updated after `amplify push`.
 
 This file is consumed by the [Amplify](https://github.com/aws-amplify/amplify-js) JavaScript library for configuration. It contains information which is non-sensitive and only required for external, unauthenticated actions from clients (such as user registration or sign-in flows in the case of Auth) or for constructing appropriate endpoint URLs after authorization has taken place. Please see the following more detailed explanations:
 
@@ -156,7 +154,7 @@ Used to share project info within your team. Learn more at [Share single environ
 
 > Add to version control: YES
 
-Contains feature flag configuration for the project. If this file does not exist, it is created by Amplify CLI during `amplify init`. Environment specific feature flag overrides can also be defined in `cli.<environment name>.json`.  If an environment specific file exists for the currently checked out environment, during `amplify env add` command the same file will be copied for the newly created environment as well. Learn more at [Feature flags](/cli/reference/feature-flags).
+Contains feature flag configuration for the project. If this file does not exist, it is created by Amplify CLI during `amplify init`. Environment specific feature flag overrides can also be defined in `cli.<environment name>.json`. If an environment specific file exists for the currently checked out environment, during `amplify env add` command the same file will be copied for the newly created environment as well. Learn more at [Feature flags](/cli/reference/feature-flags).
 
 ## General Category Files
 
@@ -234,3 +232,27 @@ Contains internal metadata about how the CLI should build and invoke the functio
 > Add to version control: YES
 
 Contains configuration about how to interpret the GraphQL schema and transform it into AppSync resolvers. Run `amplify api update` to change API category configuration.
+
+## Shared State Files
+
+These files are stored outside of the Amplify project directory and are used by all installations of Amplify on your machine.
+
+### ~/.amplify/amplify-configuration.json
+
+If you have opted in to [Usage Data](./usage-data) this file contains an installation UUID used to correlate data from your machine.
+
+### ~/.amplify/plugins.json
+
+This is where Amplify keeps track of all the installed Amplify plugins. The file has information on where each plugin is located and what commands are handled by each plugin.
+
+### ~/.amplify/lib
+
+This directory contains files that some plugins need at runtime. For example, the DynamoDB simulator used by `amplify mock`.
+
+### ~/.amplify/bin/amplify (or amplify.exe on Windows)
+
+The Amplify CLI executable.
+
+### ~/.aws/amplify/deployment-secrets.json
+
+Stores OAuth configuration values between the time they are configured using `amplify add auth` or `amplify update auth` and `amplify push`. Once the configuration is pushed it is removed from this file.

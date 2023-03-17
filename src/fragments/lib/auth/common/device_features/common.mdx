@@ -18,13 +18,13 @@ amplify auth console
     User Pool
 ```
 
-When the console opens, **click on Devices** from the left navigation menu, which will render the following page allowing you to configure your preference for remembering a user's device.
+When the console opens, scroll down to the **Device Tracking** section and select the `Edit` button. This will render the following page allowing you to configure your preference for remembering a user's device.
 
 ![auth](/images/auth/webconsole_remember1.png)
 
-**Choose either Always or User Opt in** depending on whether you want to remember a user's device by default or give the user the ability to choose.
+**Choose either Always remember or User Opt-in** depending on whether you want to remember a user's device by default or give the user the ability to choose.
 
-If MFA is enabled for the Cognito user pool, you will have the option to suppress the second factor during multi-factor authentication.  **Choose Yes** if you want a remembered device to be used as a second factor mechanism or No otherwise.
+If MFA is enabled for the Cognito user pool, you will have the option to suppress the second factor during multi-factor authentication.  **Choose Yes** if you want a remembered device to be used as a second factor mechanism or **No** otherwise.
 
 ![auth](/images/auth/webconsole_remember2.png)
 
@@ -44,7 +44,7 @@ import android1 from "/src/fragments/lib/auth/android/device_features/10_remembe
 
 import js2 from "/src/fragments/lib/auth/js/device_features/10_rememberDevice.mdx";
 
-<Fragments fragments={{js: js2}} />
+<Fragments fragments={{js: js2, 'react-native': js2}} />
 
 import flutter3 from "/src/fragments/lib/auth/flutter/device_features/10_rememberDevice.mdx";
 
@@ -63,7 +63,7 @@ import android5 from "/src/fragments/lib/auth/android/device_features/20_forgetD
 
 import js6 from "/src/fragments/lib/auth/js/device_features/20_forgetDevice.mdx";
 
-<Fragments fragments={{js: js6}} />
+<Fragments fragments={{js: js6, 'react-native': js6}} />
 
 import flutter7 from "/src/fragments/lib/auth/flutter/device_features/20_forgetDevice.mdx";
 
@@ -82,7 +82,7 @@ import android9 from "/src/fragments/lib/auth/android/device_features/30_fetchDe
 
 import js10 from "/src/fragments/lib/auth/js/device_features/30_fetchDevice.mdx";
 
-<Fragments fragments={{js: js10}} />
+<Fragments fragments={{js: js10, 'react-native': js10}} />
 
 import flutter11 from "/src/fragments/lib/auth/flutter/device_features/30_fetchDevice.mdx";
 
@@ -96,4 +96,16 @@ import flutter11 from "/src/fragments/lib/auth/flutter/device_features/30_fetchD
 * **Not Remembered**
   * A not-remembered device is a tracked device where Cognito has been configured to require users to "Opt-in" to remember a device, but the user has not opt-ed in to having the device remembered.  This use case is used for users signing into their application from a device that they don't own.
 * **Forgotten**
-  * In the event that you no longer want to remember or track a device, you can use the `Amplify.Auth.forgetDevice()` API to remove this device from being both remembered and tracked.
+  * In the event that you no longer want to remember or track a device, you can use the `Auth.forgetDevice()` API to remove this device from being both remembered and tracked.
+
+import js12 from "/src/fragments/lib/auth/js/device_features/40_trackDevice.mdx";
+import flutter13 from "/src/fragments/lib/auth/flutter/device_features/40_trackDevice.mdx";
+import ios14 from "/src/fragments/lib/auth/ios/device_features/40_trackDevice.mdx";
+import android15 from "/src/fragments/lib/auth/android/device_features/40_trackDevice.mdx";
+
+## Known Limitations
+When using the federated OAuth flow with Cognito User Pools, the [device tracking and remembering](https://aws.amazon.com/blogs/mobile/tracking-and-remembering-devices-using-amazon-cognito-your-user-pools/) features are currently not available within the library. 
+<Fragments fragments={{js: js12, 'react-native': js12}} />
+<Fragments fragments={{flutter: flutter13}} />
+<Fragments fragments={{ios: ios14}} />
+<Fragments fragments={{android: android15}} />

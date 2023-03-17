@@ -1,32 +1,34 @@
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-let existingPost: Post = /* get an existing post */
+var existingPost: Post = /* get an existing post */
 existingPost.title = "[updated] My first post"
 
-Amplify.DataStore.save(existingPost) {
-    switch $0 {
-    case .success:
-        print("Updated the existing post")
-    case .failure(let error):
-        print("Error updating post - \(error.localizedDescription)")
-    }
+do {
+    try await Amplify.DataStore.save(existingPost)
+    print("Updated the existing post")
+} catch let error as DataStoreError {
+    print("Error updating post - \(error)")
+} catch {
+    print("Unexpected error \(error)")
 }
 ```
 
 </Block>
 
-<Block name="Combine (iOS 13+)">
+<Block name="Combine">
 
 ```swift
-let existingPost: Post = /* get an existing post */
+var existingPost: Post = /* get an existing post */
 existingPost.title = "[updated] My first post"
-
-let saveSink = Amplify.DataStore.save(existingPost).sink {
+let postForUpdate = existingPost
+let saveSink = Amplify.Publisher.create {
+    try await Amplify.DataStore.save(existingPost)
+}.sink {
     if case let .failure(error) = $0 {
-        print("Error updating post - \(error.localizedDescription)")
+        print("Error updating post - \(error)")
     }
 }
 receiveValue: {

@@ -46,7 +46,7 @@ export const JS = {
 
 export const IOS = {
   src: "/assets/integrations/ios.svg",
-  alt: "iOS Icon",
+  alt: "Swift Icon",
 };
 
 export const ANDROID = {
@@ -77,11 +77,6 @@ export const ANGULAR = {
 export const VUE = {
   src: "/assets/integrations/vue.svg",
   alt: "Vue Icon",
-};
-
-export const IONIC = {
-  src: "/assets/integrations/ionic.svg",
-  alt: "Ionic Icon",
 };
 
 export const NEXT = {

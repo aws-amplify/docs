@@ -14,10 +14,10 @@ import { Post, Comment } from './models';
 DataStore.configure({
   syncExpressions: [
     syncExpression(Post, () => {
-      return post => post.rating('gt', 5);
+      return post => post.rating.gt(5);
     }),
     syncExpression(Comment, () => {
-      return comment => comment.status('eq', 'active');
+      return comment => comment.status.eq('active');
     }),
   ]
 });
@@ -42,7 +42,7 @@ let rating = 5;
 DataStore.configure({
   syncExpressions: [
     syncExpression(Post, () => {
-      return post => post.rating('gt', rating));
+      return post => post.rating.gt(rating);
     })
   ]
 });
@@ -51,7 +51,7 @@ async function changeSync() {
   rating = 1;
   await DataStore.stop();
   await DataStore.start();
-}
+};
 ```
 
 Upon calling `DataStore.start()` (or executing a DataStore operation, e.g., `query`, `save`, `delete`, or `observe`), DataStore will reevaluate the `syncExpressions`. 
@@ -71,7 +71,7 @@ async function changeSync() {
   rating = 8;
   await DataStore.clear();
   await DataStore.start();
-}
+};
 ```
 This will clear the contents of your local store, reevaluate your sync expressions and re-sync the data from the cloud, applying all of the specified predicates to the sync queries.
 
@@ -84,7 +84,7 @@ DataStore.configure({
   syncExpressions: [
     syncExpression(Post, () => {
       if (rating) {
-        return post => post.rating('gt', rating));
+        return post => post.rating.gt(rating);
       }
 
       return Predicates.ALL;
@@ -105,7 +105,7 @@ DataStore.configure({
   syncExpressions: [
     syncExpression(Post, async () => {
       const ratingValue = await getRatingValue();
-      return post => post.rating('gt', ratingValue);
+      return post => post.rating.gt(ratingValue);
     })
   ]
 });
@@ -117,7 +117,7 @@ If you don't need to add any logic to your `syncExpression`, you can use the fol
 ```js
 DataStore.configure({
   syncExpressions: [
-    syncExpression(Post, post => post.rating('gt', 5))
+    syncExpression(Post, post => post.rating.gt(5))
   ]
 });
 ```
@@ -144,7 +144,7 @@ DataStore.configure({
   syncExpressions: [
     syncExpression(User, () => {
       const lastName = await getLastNameForSync();
-      return user => user.lastName('eq', lastName)
+      return user => user.lastName.eq(lastName)
     })
   ]
 });
@@ -155,7 +155,10 @@ DataStore.configure({
   syncExpressions: [
     syncExpression(User, () => {
       const lastName = await getLastNameForSync();
-      return user => user.lastName('eq', lastName).createdAt('gt', '2020-10-10')
+      return user => user.and(user => [
+        user.lastName.eq(lastName),
+        user.createdAt.gt('2020-10-10')
+      ])
     })
   ]
 });
@@ -163,8 +166,8 @@ DataStore.configure({
 
 To construct a query expression, return a predicate with the primary key of the GSI. You can only use the `eq` operator with this predicate.
 
-For the schema defined above `user => user.lastName('eq', 'Bobby')` is a valid query expression.
+For the schema defined above `user => user.lastName.eq('Bobby')` is a valid query expression.
 
-Optionally, you can also chain the sort key to this expression, using any of the following operators: `eq | ne | le | lt | ge | gt | beginsWith | between`. 
+Optionally, you can also add the sort key to this expression with an `and` operator and any of the following operators: `eq | ne | le | lt | ge | gt | beginsWith | between`. 
 
-E.g., `user => user.lastName('eq', 'Bobby').createdAt('gt', '2020-10-10')`.
+E.g., `user => user.and(user => [user.lastName.eq('Bobby'), user.createdAt.gt('2020-10-10')])`.

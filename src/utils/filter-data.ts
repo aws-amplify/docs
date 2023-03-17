@@ -22,14 +22,13 @@ type FilterMetadataByOption<T extends readonly string[]> = Record<
 /**
  * filter constants
  */
-export const PLATFORM_FILTER_OPTIONS = ["js", "android", "ios", "flutter"];
+export const PLATFORM_FILTER_OPTIONS = ["android", "js", "ios", "flutter", "react-native"];
 
 export const FRAMEWORK_FILTER_OPTIONS = [
   "react",
   "react-native",
   "angular",
   "vue",
-  "ionic",
   "next",
   "flutter"
 ];
@@ -48,16 +47,16 @@ export const filterOptionsByName = {
 export const FILTER_OPTIONS = [...INTEGRATION_FILTER_OPTIONS];
 
 export const filterMetadataByOption: FilterMetadataByOption<typeof FILTER_OPTIONS> = {
-  js: {
-    label: "JavaScript",
-    graphicURI: "/assets/integrations/js.svg",
-  },
   android: {
     label: "Android",
     graphicURI: "/assets/integrations/android.svg",
   },
+  js: {
+    label: "JavaScript",
+    graphicURI: "/assets/integrations/js.svg",
+  },
   ios: {
-    label: "iOS",
+    label: "Swift",
     graphicURI: "/assets/integrations/ios.svg",
   },
   flutter: {
@@ -80,10 +79,6 @@ export const filterMetadataByOption: FilterMetadataByOption<typeof FILTER_OPTION
   vue: {
     label: "Vue",
     graphicURI: "/assets/integrations/vue.svg",
-  },
-  ionic: {
-    label: "Ionic",
-    graphicURI: "/assets/integrations/ionic.svg",
   },
   next: {
     label: "Next.js",

@@ -11,7 +11,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Feedback from '../Feedback';
 
-const stickyHeaderHeight = 54;
+const stickyHeaderHeight = 124;
 function scroll(hash) {
   const header = document.querySelector(`[id="${hash}"]`);
   const top = getElementTop(header, stickyHeaderHeight);
@@ -132,7 +132,7 @@ export default function TableOfContents({ children, title }) {
             return <H2AnchorStyle key={index}>{anchor}</H2AnchorStyle>;
           else return <H3AnchorStyle key={index}>{anchor}</H3AnchorStyle>;
         })}
-        <Feedback/>
+        <Feedback />
       </TOCInnerStyle>
     </TOCStyle>
   );

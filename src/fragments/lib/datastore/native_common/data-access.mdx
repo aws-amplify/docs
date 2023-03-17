@@ -1,6 +1,12 @@
+<!-- TODO Rewrite this whole page can benefit from a refactor and breaking out some of the pieces into their own sub pages. -->
+
 import js0 from "/src/fragments/lib/datastore/js/data-access/importing-datastore-snippet.mdx";
 
 <Fragments fragments={{js: js0}} />
+
+import reactnative0 from "/src/fragments/lib/datastore/js/data-access/importing-datastore-snippet.mdx";
+
+<Fragments fragments={{'react-native': reactnative0}} />
 
 ## Create and update
 
@@ -9,6 +15,10 @@ To write data to the DataStore, pass an instance of a model to `Amplify.DataStor
 import js1 from "/src/fragments/lib/datastore/js/data-access/save-snippet.mdx";
 
 <Fragments fragments={{js: js1}} />
+
+import reactnative1 from "/src/fragments/lib/datastore/js/data-access/save-snippet.mdx";
+
+<Fragments fragments={{'react-native': reactnative1}} />
 
 import ios2 from "/src/fragments/lib/datastore/ios/data-access/save-snippet.mdx";
 
@@ -40,6 +50,8 @@ import flutter8 from "/src/fragments/lib/datastore/flutter/data-access/update-sn
 
 <Fragments fragments={{flutter: flutter8}} />
 
+<!-- TODO Rewrite adding this callout in the middle of the first page after getting started is a bit jarring. We should find another home for this caveat. -->
+
 <Callout warning>
 
   **Avoid working with stale data!**
@@ -51,6 +63,10 @@ import flutter8 from "/src/fragments/lib/datastore/flutter/data-access/update-sn
 import js_observe_update from "/src/fragments/lib/datastore/js/data-access/observe-update-snippet.mdx";
 
 <Fragments fragments={{js: js_observe_update}} />
+
+import reactnative2 from "/src/fragments/lib/datastore/js/data-access/observe-update-snippet.mdx";
+
+<Fragments fragments={{'react-native': reactnative2}} />
 
 import ios_observe_update from "/src/fragments/lib/datastore/ios/data-access/observe-update-snippet.mdx";
 
@@ -71,6 +87,10 @@ To delete an item, simply pass in an instance.
 import js9 from "/src/fragments/lib/datastore/js/data-access/delete-snippet.mdx";
 
 <Fragments fragments={{js: js9}} />
+
+import reactnative3 from "/src/fragments/lib/datastore/js/data-access/delete-snippet.mdx";
+
+<Fragments fragments={{'react-native': reactnative3}} />
 
 import ios10 from "/src/fragments/lib/datastore/ios/data-access/delete-snippet.mdx";
 
@@ -93,6 +113,10 @@ For more advanced filtering, such as matching arbitrary field values on an objec
 import js13 from "/src/fragments/lib/datastore/js/data-access/query-basic-snippet.mdx";
 
 <Fragments fragments={{js: js13}} />
+
+import reactnative4 from "/src/fragments/lib/datastore/js/data-access/query-basic-snippet.mdx";
+
+<Fragments fragments={{'react-native': reactnative4}} />
 
 import ios14 from "/src/fragments/lib/datastore/ios/data-access/query-basic-snippet.mdx";
 
@@ -126,6 +150,10 @@ import js18 from "/src/fragments/lib/datastore/js/data-access/query-predicate-sn
 
 <Fragments fragments={{js: js18}} />
 
+import reactnative5 from "/src/fragments/lib/datastore/js/data-access/query-predicate-snippet.mdx";
+
+<Fragments fragments={{'react-native': reactnative5}} />
+
 import ios19 from "/src/fragments/lib/datastore/ios/data-access/query-predicate-snippet.mdx";
 
 <Fragments fragments={{ios: ios19}} />
@@ -144,6 +172,10 @@ import js22 from "/src/fragments/lib/datastore/js/data-access/query-predicate-mu
 
 <Fragments fragments={{js: js22}} />
 
+import reactnative6 from "/src/fragments/lib/datastore/js/data-access/query-predicate-multiple-snippet.mdx";
+
+<Fragments fragments={{'react-native': reactnative6}} />
+
 import ios23 from "/src/fragments/lib/datastore/ios/data-access/query-predicate-multiple-snippet.mdx";
 
 <Fragments fragments={{ios: ios23}} />
@@ -161,6 +193,10 @@ Alternatively, the `or` logical operator can also be used:
 import js26 from "/src/fragments/lib/datastore/js/data-access/query-predicate-or-snippet.mdx";
 
 <Fragments fragments={{js: js26}} />
+
+import reactnative7 from "/src/fragments/lib/datastore/js/data-access/query-predicate-or-snippet.mdx";
+
+<Fragments fragments={{'react-native': reactnative7}} />
 
 import ios27 from "/src/fragments/lib/datastore/ios/data-access/query-predicate-or-snippet.mdx";
 
@@ -197,6 +233,10 @@ Query results can also be paginated by passing in a `page` number (starting at 0
 import js34 from "/src/fragments/lib/datastore/js/data-access/query-pagination-snippet.mdx";
 
 <Fragments fragments={{js: js34}} />
+
+import reactnative8 from "/src/fragments/lib/datastore/js/data-access/query-pagination-snippet.mdx";
+
+<Fragments fragments={{'react-native': reactnative8}} />
 
 import ios35 from "/src/fragments/lib/datastore/ios/data-access/query-pagination-snippet.mdx";
 

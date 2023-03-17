@@ -43,17 +43,17 @@ When using Google Maps Platform or other similar services like Mapbox you will f
         referrerpolicy="no-referrer">
     </link>
     <!-- Import Amplify  -->
-    <script src="https://cdn.amplify.aws/packages/core/4.2.1-geo.20/aws-amplify-core.min.js"
-        integrity="sha384-ZJ0BipyxRjDHPcTLilxOMRf9grNEwTTUOmr8l8MUprgnpAnpK4Fz20ndOQElCtWb" crossorigin="anonymous"
+    <script src="https://cdn.amplify.aws/packages/core/5.0.5/aws-amplify-core.min.js" 
+        integrity="sha384-eM2urkpomL9SRm/kuPHZG3XPEItAiUAAyotT/AqlhSus8iAqs/EfHaYy1Jn5ih7K" crossorigin="anonymous"
         referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.amplify.aws/packages/auth/4.1.3-geo.20/aws-amplify-auth.min.js"
-        integrity="sha384-rqyJfFR2070OQyXIQqomdGCYa6TaR/1asvv2oaz9wB6R8YSiIBC08mWwgVtr1NNk" crossorigin="anonymous"
+    <script src="https://cdn.amplify.aws/packages/auth/5.0.5/aws-amplify-auth.min.js"
+        integrity="sha384-H25CFLYd7YHa1Oib73fs3kJN36VhaHHkLjo4AhGrhJ4HuKam05pg2/0t2MR6epun" crossorigin="anonymous"
         referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.amplify.aws/packages/geo/0.0.2-geo.6654/aws-amplify-geo.min.js"
-        integrity="sha384-3WpvDe5YSr8Xdmc31s/1cKXlG5DCmeQA2PZkuQUIgwPPwGNY/kbrTYYItxSO8JJJ" crossorigin="anonymous"
+    <script src="https://cdn.amplify.aws/packages/geo/2.0.5/aws-amplify-geo.min.js"
+        integrity="sha384-Esc9xx0X7ckb/yeYHuYsZGqBB4FwYr98NFHS3BRXLeRE/eB0uVrad2w+G6cGxYb5" crossorigin="anonymous"
         referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.amplify.aws/packages/maplibre-gl-js-amplify/1.2.5/maplibre-gl-js-amplify.umd.min.js"
-        integrity="sha384-LeN6H/HSklbpP4fi7E6p5wxpjdrtZRmvrUSwrYqRvQr9xuKXhbjxSGAQjhoUTPt3" crossorigin="anonymous"
+    <script src="https://cdn.amplify.aws/packages/maplibre-gl-js-amplify/1.5.0/maplibre-gl-js-amplify.umd.min.js"
+        integrity="sha384-9kJyZavd3Jk6QzHeaLpugVonfZmZZZdixek6uglOwzKtZvDS9K3W4dshw1uswmlV" crossorigin="anonymous"
         referrerpolicy="no-referrer"></script>
     </link>
 
@@ -87,7 +87,7 @@ When using Google Maps Platform or other similar services like Mapbox you will f
 </html>
 ```
 
-This code imports the MapLibre GL JS library and CSS, one of the popular options for map rendering we recommend for use with Amplify Geo. In the HTML body we create a `<div>` element with an id of 'map' that will be the map's container. Finally in the script section we setup some Amplify configuration that is required for Amplify Geo to understand what Amplify AWS resources have been created.
+This code imports the MapLibre GL JS library and CSS, one of the popular options for map rendering we recommend for use with Amplify Geo. In the HTML body you create a `<div>` element with an id of 'map' that will be the map's container. Finally in the script section you'll setup some Amplify configuration that is required for Amplify Geo to understand what Amplify AWS resources have been created.
 
 ### Setting up Amplify
 
@@ -134,7 +134,7 @@ const map = new google.maps.Map(document.getElementById('map'), {
 
 ## Display a marker
 
-Here we will add a marker to your map
+Here you will add a marker to your map
 
 <BlockSwitcher>
 
@@ -175,7 +175,7 @@ map: map
 
 ## Add a Popup
 
-Now we can add a popup that displays information when a user clicks on a marker.
+Now you can add a popup that displays information when a user clicks on a marker.
 
 <BlockSwitcher>
 
@@ -228,3 +228,127 @@ marker.addListener('click', () => {
 </BlockSwitcher>
 
 ![A map with a marker popup](/images/map-marker-popup.png)
+
+## Add a search component
+
+Now we can try adding a search bar to your map which can return results and place markers on a map based on those results.
+
+<BlockSwitcher>
+
+  <Block name="Amplify">
+
+With Amplify Geo and MapLibre you can do the following.
+
+```js
+const { createMap, createAmplifyGeocoder } = AmplifyMapLibre; // import from above updated to include createAmplifyGeocoder
+
+const geocoder = createAmplifyGeocoder();
+map.addControl(geocoder);
+```
+
+Save your changes and refresh your page and now when you should see a maplibre-gl-geocoder control in the top right corner of your map.
+
+<Callout>
+
+This example uses the [MapLibre's geocoder component](https://github.com/maplibre/maplibre-gl-geocoder) to create a search component. To see more options for our `createAmplifyGeocoder` utility function check out the docs [here](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#createAmplifyGeocoder).
+
+</Callout>
+
+  </Block>
+
+  <Block name="Google Maps">
+
+Using the Google Places JS API you would add a search bar as shown below.
+
+```js
+// Create the search box and link it to the UI element.
+const input = document.getElementById("pac-input") as HTMLInputElement;
+const searchBox = new google.maps.places.SearchBox(input);
+
+map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+// Bias the SearchBox results towards current map's viewport.
+map.addListener("bounds_changed", () => {
+  searchBox.setBounds(map.getBounds() as google.maps.LatLngBounds);
+});
+
+// Listen for the event fired when the user selects a prediction and retrieve more details for that place.
+searchBox.addListener("places_changed", () => {
+  const places = searchBox.getPlaces();
+
+  if (places.length == 0) {
+    return;
+  }
+
+  // For each place, get the icon, name and location.
+  places.forEach((place) => {
+    // Create markers for each place
+    // Extend map view for each place
+  });
+  map.fitBounds(bounds);
+});
+```
+
+  </Block>
+
+</BlockSwitcher>
+
+![A search box](/images/geocoder-custom-images.png)
+
+## Add a stand alone search component
+
+Now we can try adding a search bar without adding it to a map which can return results that you can use.
+
+<BlockSwitcher>
+
+  <Block name="Amplify">
+
+With Amplify Geo and MapLibre you can do the following.
+
+```js
+// Create a div to hold the search component
+const el = document.createElement("div");
+el.setAttribute("id", "search");
+document.body.appendChild(el);
+
+// Create the geocoder component and append it to the div you created earlier
+const geocoder = createAmplifyGeocoder();
+document.getElementById("search").appendChild(geocoder.onAdd());
+```
+
+Save your changes and refresh your page and now when you should see a maplibre-gl-geocoder control in the div you created.
+
+<Callout>
+
+This example uses the [MapLibre's geocoder component](https://github.com/maplibre/maplibre-gl-geocoder) to create a search component. To see more options for our `createAmplifyGeocoder` utility function check out the docs [here](https://github.com/aws-amplify/maplibre-gl-js-amplify/blob/main/API.md#createAmplifyGeocoder).
+
+</Callout>
+
+  </Block>
+
+  <Block name="Google Maps">
+
+Using the Google Places JS API you would add a stand alone search bar as shown below.
+
+<Callout>
+
+Some lines omitted for brevity, see the Google Maps Platform Places Search Box example for the full application
+
+</Callout>
+
+```js
+// Create a input to hold the search component
+const el = document.createElement("input");
+el.setAttribute("id", "pac-input");
+document.body.appendChild(el);
+
+// Create the search box and link it to the UI element.
+const input = document.getElementById("pac-input");
+const searchBox = new google.maps.places.SearchBox(input);
+```
+
+  </Block>
+
+</BlockSwitcher>
+
+![A search box](/images/geocoder-search-box.png)

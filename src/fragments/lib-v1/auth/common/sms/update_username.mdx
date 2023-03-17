@@ -1,0 +1,1 @@
+The type of username used for signing in cannot be changed after creating a user pool. If needed, first run `amplify remove auth` to delete the existing user pool, then follow the **New Project** flow on this page for enabling phone-number sign-in.

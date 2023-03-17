@@ -284,7 +284,7 @@ To add a custom GraphQL transformer to the list of transformers, they need to be
 
 ### Example
 
-As an example let's walk through how we implemented the [`@model`](https://github.com/aws-amplify/amplify-category-api/blob/main/packages/amplify-graphql-model-transformer/src/graphql-model-transformer.ts) transformer. The first thing to do is to define a directive for our transformer.
+As an example let's walk through how we implemented the [`@model`](https://github.com/aws-amplify/amplify-category-api/blob/main/packages/amplify-graphql-model-transformer/src/graphql-model-transformer.ts) transformer. The first thing to do is to define a directive for your transformer.
 
 > Note: Some parts of the code will not be shown for brevity.
 
@@ -319,7 +319,7 @@ export class ModelTransformer extends TransformerModelBase implements Transforme
 }
 ```
 
-Since our `directiveDefinition` only specifies `OBJECT` in its **on** condition, we have to implement the `object` method and some other
+Since your `directiveDefinition` only specifies `OBJECT` in its **on** condition, we have to implement the `object` method and some other
  lifecycle methods like `validate`, `prepare` and `transformSchema` to have a fully functioning transformer. You may implement `before` and `after` methods which will be called once at the beginning and end respectively of the transformation process.
 
 ```ts

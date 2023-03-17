@@ -1,32 +1,29 @@
 const directory = {
+  contribute: {
+    productRoot: {
+      title: 'Contribute',
+      route: '/contribute'
+    },
+    items: {}
+  },
   lib: {
     productRoot: {
       title: 'Amplify Libraries',
       route: '/lib'
     },
     items: {
-      devpreview: {
-        title: 'New! Amplify Mobile (Developer Preview)',
-        items: [
-          {
-            title: 'Getting started',
-            route: '/lib/devpreview/getting-started',
-            filters: ['ios', 'android']
-          }
-        ]
-      },
       'project-setup': {
         title: 'Project Setup',
         items: [
           {
             title: 'Prerequisites',
             route: '/lib/project-setup/prereq',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Create your application',
             route: '/lib/project-setup/create-application',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Null safety',
@@ -47,6 +44,11 @@ const directory = {
             title: 'Using Combine with Amplify',
             route: '/lib/project-setup/combine',
             filters: ['ios']
+          },
+          {
+            title: 'Upgrade guide',
+            route: '/lib/project-setup/upgrade-guide',
+            filters: ['android', 'ios']
           },
           {
             title: 'Async Programming Model',
@@ -76,37 +78,52 @@ const directory = {
           {
             title: 'Getting started',
             route: '/lib/analytics/getting-started',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Record events',
             route: '/lib/analytics/record',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
+          },
+          {
+            title: 'Update Endpoint',
+            route: '/lib/analytics/update-endpoint',
+            filters: ['js', 'react-native']
           },
           {
             title: 'Automatically track sessions',
             route: '/lib/analytics/autotrack',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
+          },
+          {
+            title: 'Enable/Disable Analytics',
+            route: '/lib/analytics/enable-disable',
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Identify user',
             route: '/lib/analytics/identifyuser',
-            filters: ['android', 'flutter', 'ios']
+            filters: ['android', 'flutter', 'ios', 'react-native', 'js']
           },
           {
             title: 'Streaming analytics data',
             route: '/lib/analytics/streaming',
-            filters: ['js']
+            filters: ['js', 'react-native']
+          },
+          {
+            title: 'Create a custom analytics plugin',
+            route: '/lib/analytics/create-custom-plugin',
+            filters: ['js', 'react-native']
           },
           {
             title: 'Storing analytics data',
             route: '/lib/analytics/storing',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Personalized recommendations',
             route: '/lib/analytics/personalize',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Escape hatch',
@@ -116,7 +133,7 @@ const directory = {
           {
             title: 'Use existing AWS resources',
             route: '/lib/analytics/existing-resources',
-            filters: ['android', 'flutter', 'ios']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           }
         ]
       },
@@ -126,62 +143,57 @@ const directory = {
           {
             title: 'Getting started',
             route: '/lib/graphqlapi/getting-started',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Concepts',
             route: '/lib/graphqlapi/concepts',
-            filters: ['android', 'flutter', 'ios', 'js']
-          },
-          {
-            title: 'Create or re-use existing backend',
-            route: '/lib/graphqlapi/create-or-re-use-existing-backend',
-            filters: ['js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Configure authorization modes',
             route: '/lib/graphqlapi/authz',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Create, update, delete data',
             route: '/lib/graphqlapi/mutate-data',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Fetch data',
             route: '/lib/graphqlapi/query-data',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Subscribe to data',
             route: '/lib/graphqlapi/subscribe-data',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Cancel API requests',
             route: '/lib/graphqlapi/cancel-request',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Offline scenarios',
             route: '/lib/graphqlapi/offline',
-            filters: ['js']
+            filters: ['js', 'react-native', 'flutter', 'android', 'ios']
           },
           {
             title: 'GraphQL from NodeJS',
             route: '/lib/graphqlapi/graphql-from-nodejs',
-            filters: ['js']
+            filters: ['js', 'react-native', 'react-native']
           },
           {
             title: 'Advanced Workflows',
             route: '/lib/graphqlapi/advanced-workflows',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Use existing AWS resources',
             route: '/lib/graphqlapi/existing-resources',
-            filters: ['android', 'flutter', 'ios']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           }
         ]
       },
@@ -191,32 +203,32 @@ const directory = {
           {
             title: 'Getting started',
             route: '/lib/restapi/getting-started',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Fetching data',
             route: '/lib/restapi/fetch',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Updating data',
             route: '/lib/restapi/update',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Deleting data',
             route: '/lib/restapi/delete',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Cancel API requests',
             route: '/lib/restapi/cancel',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Define authorization rules',
             route: '/lib/restapi/authz',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Use existing AWS resources',
@@ -231,47 +243,42 @@ const directory = {
           {
             title: 'Getting started',
             route: '/lib/auth/getting-started',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Create or re-use existing backend',
             route: '/lib/auth/start',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Sign up, Sign in & Sign out',
             route: '/lib/auth/emailpassword',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Social sign-in (OAuth)',
             route: '/lib/auth/social',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Multi-factor authentication',
             route: '/lib/auth/mfa',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Password & user management',
             route: '/lib/auth/manageusers',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Switching authentication flows',
             route: '/lib/auth/switch-auth',
-            filters: ['js']
-          },
-          {
-            title: 'Customize UI components',
-            route: '/lib/auth/customui',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Advanced workflows',
             route: '/lib/auth/advanced',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Sign in',
@@ -279,9 +286,14 @@ const directory = {
             filters: ['android', 'flutter', 'ios']
           },
           {
+            title: 'Switching authentication flows',
+            route: '/lib/auth/switch-auth',
+            filters: ['ios', 'android']
+          },
+          {
             title: 'Sign in with custom flow',
             route: '/lib/auth/signin_with_custom_flow',
-            filters: ['ios', 'flutter']
+            filters: ['ios', 'android', 'flutter']
           },
           {
             title: 'Sign in with web UI',
@@ -301,7 +313,7 @@ const directory = {
           {
             title: 'Sign in next steps',
             route: '/lib/auth/signin_next_steps',
-            filters: ['ios']
+            filters: ['ios', 'android']
           },
           {
             title: 'Guest access',
@@ -311,7 +323,7 @@ const directory = {
           {
             title: 'Auth events',
             route: '/lib/auth/auth-events',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'User attributes',
@@ -321,7 +333,7 @@ const directory = {
           {
             title: 'Remember a device',
             route: '/lib/auth/device_features',
-            filters: ['android', 'ios', 'js', 'flutter']
+            filters: ['android', 'ios', 'js', 'flutter', 'react-native']
           },
           {
             title: 'Password management',
@@ -346,7 +358,7 @@ const directory = {
           {
             title: 'Delete user',
             route: '/lib/auth/delete_user',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Escape hatch',
@@ -354,9 +366,14 @@ const directory = {
             filters: ['android', 'ios']
           },
           {
+            title: 'Advanced workflows',
+            route: '/lib/auth/advanced',
+            filters: ['android', 'ios']
+          },
+          {
             title: 'Under the hood',
             route: '/lib/auth/overview',
-            filters: ['android', 'ios', 'js']
+            filters: ['android', 'ios', 'js', 'react-native']
           },
           {
             title: 'Use existing Amazon Cognito resources',
@@ -371,62 +388,67 @@ const directory = {
           {
             title: 'Getting started',
             route: '/lib/datastore/getting-started',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Manipulating data',
             route: '/lib/datastore/data-access',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Relational models',
             route: '/lib/datastore/relational',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Syncing data to cloud',
             route: '/lib/datastore/sync',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Setup authorization rules',
             route: '/lib/datastore/setup-auth-rules',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Conflict resolution',
             route: '/lib/datastore/conflict',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Real time',
             route: '/lib/datastore/real-time',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'DataStore Events',
             route: '/lib/datastore/datastore-events',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Other methods',
             route: '/lib/datastore/other-methods',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Schema updates',
             route: '/lib/datastore/schema-updates',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'How it works',
             route: '/lib/datastore/how-it-works',
-            filters: ['android', 'flutter', 'ios', 'js']
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
             title: 'Examples',
             route: '/lib/datastore/examples',
-            filters: ['js']
+            filters: ['js', 'react-native']
+          },
+          {
+            title: 'Advanced workflows',
+            route: '/lib/datastore/advanced-workflows',
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           }
         ]
       },
@@ -471,62 +493,57 @@ const directory = {
         ]
       },
       'in-app-messaging': {
-        title: 'In-App Messaging (Preview)',
+        title: 'In-App Messaging',
         items: [
           {
             title: 'Overview',
             route: '/lib/in-app-messaging/overview',
-            filters: ['js']
-          },
-          {
-            title: 'Prerequisites',
-            route: '/lib/in-app-messaging/prerequisites',
-            filters: ['js']
-          },
-          {
-            title: 'Create an In-App Messaging campaign',
-            route: '/lib/in-app-messaging/create-campaign',
-            filters: ['js']
+            filters: ['react-native', 'js']
           },
           {
             title: 'Getting started',
             route: '/lib/in-app-messaging/getting-started',
-            filters: ['js']
+            filters: ['react-native', 'js']
+          },
+          {
+            title: 'Create an In-App Messaging campaign',
+            route: '/lib/in-app-messaging/create-campaign',
+            filters: ['react-native', 'js']
+          },
+          {
+            title: 'Integrate your application',
+            route: '/lib/in-app-messaging/integrate-your-application',
+            filters: ['react-native', 'js']
           },
           {
             title: 'Sync messages',
             route: '/lib/in-app-messaging/sync-messages',
-            filters: ['js']
+            filters: ['react-native', 'js']
           },
           {
             title: 'Display message',
             route: '/lib/in-app-messaging/display-message',
-            filters: ['js']
+            filters: ['react-native', 'js']
           },
           {
             title: 'Clear messages',
             route: '/lib/in-app-messaging/clear-messages',
-            filters: ['js']
-          },
-          {
-            title: 'Customize your UI',
-            route: '/lib/in-app-messaging/customize',
-            filters: ['js']
+            filters: ['react-native', 'js']
           },
           {
             title: 'Identify a user',
             route: '/lib/in-app-messaging/identify-user',
-            filters: ['js']
+            filters: ['react-native', 'js']
           },
           {
             title: 'Respond to interaction events',
             route: '/lib/in-app-messaging/respond-interaction-events',
-            filters: ['js']
+            filters: ['react-native', 'js']
           },
           {
             title: 'Resolving conflicts',
             route: '/lib/in-app-messaging/resolve-conflicts',
-            filters: ['js']
+            filters: ['react-native', 'js']
           }
         ]
       },
@@ -536,72 +553,73 @@ const directory = {
           {
             title: 'Getting started',
             route: '/lib/interactions/getting-started',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Interact with bots',
             route: '/lib/interactions/chatbot',
-            filters: ['js']
+            filters: ['js', 'react-native']
           }
         ]
       },
       predictions: {
         title: 'Predictions',
         items: [
+          // TODO Rewrite why do we have an intro for RN and JS and not iOS/Android?
           {
             title: 'Overview',
             route: '/lib/predictions/intro',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Getting started',
             route: '/lib/predictions/getting-started',
-            filters: ['android', 'ios', 'js']
+            filters: ['android', 'js', 'react-native']
           },
           {
             title: 'Text to speech',
             route: '/lib/predictions/text-speech',
-            filters: ['android', 'ios', 'js']
+            filters: ['android', 'js', 'react-native']
           },
           {
             title: 'Transcribe audio to text',
             route: '/lib/predictions/transcribe',
-            filters: ['ios', 'js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Translate language',
             route: '/lib/predictions/translate',
-            filters: ['android', 'ios', 'js']
+            filters: ['android', 'js', 'react-native']
           },
           {
             title: 'Identify text',
             route: '/lib/predictions/identify-text',
-            filters: ['android', 'ios', 'js']
+            filters: ['android', 'js', 'react-native']
           },
           {
             title: 'Identify entities from images',
             route: '/lib/predictions/identify-entity',
-            filters: ['android', 'ios', 'js']
+            filters: ['android', 'js', 'react-native']
           },
           {
             title: 'Label objects in image',
             route: '/lib/predictions/label-image',
-            filters: ['android', 'ios', 'js']
+            filters: ['android', 'js', 'react-native']
           },
           {
             title: 'Interpret sentiment',
             route: '/lib/predictions/interpret',
-            filters: ['android', 'ios', 'js']
+            filters: ['android', 'js', 'react-native']
           },
           {
             title: 'Escape hatch',
             route: '/lib/predictions/escapehatch',
-            filters: ['android', 'ios']
+            filters: ['android']
           },
           {
             title: 'Example',
             route: '/lib/predictions/sample',
-            filters: ['js']
+            filters: ['js', 'react-native']
           }
         ]
       },
@@ -611,14 +629,18 @@ const directory = {
           {
             title: 'Getting started',
             route: '/lib/pubsub/getting-started',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Subscribe & Unsubscribe',
             route: '/lib/pubsub/subunsub',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
-          { title: 'Publish', route: '/lib/pubsub/publish', filters: ['js'] }
+          {
+            title: 'Publish',
+            route: '/lib/pubsub/publish',
+            filters: ['js', 'react-native']
+          }
         ]
       },
       'push-notifications': {
@@ -627,22 +649,47 @@ const directory = {
           {
             title: 'Overview',
             route: '/lib/push-notifications/overview',
-            filters: ['js']
+            filters: ['react-native']
           },
           {
             title: 'Getting started',
             route: '/lib/push-notifications/getting-started',
-            filters: ['js']
+            filters: ['ios', 'react-native']
+          },
+          {
+            title: 'Register device',
+            route: '/lib/push-notifications/register-device',
+            filters: ['ios']
+          },
+          {
+            title: 'Record notification events',
+            route: '/lib/push-notifications/record-notifications',
+            filters: ['ios']
+          },
+          {
+            title: 'Identify user',
+            route: '/lib/push-notifications/identify-user',
+            filters: ['ios']
           },
           {
             title: 'Working with API',
             route: '/lib/push-notifications/working-with-api',
-            filters: ['js']
+            filters: ['react-native']
+          },
+          {
+            title: 'Remote media',
+            route: '/lib/push-notifications/remote-media',
+            filters: ['ios']
           },
           {
             title: 'Testing',
             route: '/lib/push-notifications/testing',
-            filters: ['js']
+            filters: ['ios', 'react-native']
+          },
+          {
+            title: 'Setting up push notification services',
+            route: '/lib/push-notifications/setup-push-service',
+            filters: ['ios']
           }
         ]
       },
@@ -652,57 +699,92 @@ const directory = {
           {
             title: 'Getting started',
             route: '/lib/storage/getting-started',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Concepts',
             route: '/lib/storage/overview',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Upload files',
             route: '/lib/storage/upload',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'ios', 'js', 'react-native']
+          },
+          {
+            title: 'Upload files/data',
+            route: '/lib/storage/upload',
+            filters: ['flutter']
           },
           {
             title: 'Download files',
             route: '/lib/storage/download',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+          },
+          {
+            title: 'Query Transfers',
+            route: '/lib/storage/querytransfers',
+            filters: ['android']
+          },
+          {
+            title: 'Get file properties (Developer Preview)',
+            route: '/lib/storage/get-properties',
+            filters: ['flutter']
           },
           {
             title: 'List files',
             route: '/lib/storage/list',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Copy files',
             route: '/lib/storage/copy',
-            filters: ['js']
+            filters: ['js', 'react-native']
+          },
+          {
+            title: 'Copy files (Developer Preview)',
+            route: '/lib/storage/copy',
+            filters: ['flutter']
+          },
+          {
+            title: 'Move files (Developer Preview)',
+            route: '/lib/storage/move',
+            filters: ['flutter']
           },
           {
             title: 'Remove files',
             route: '/lib/storage/remove',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Cancel requests',
             route: '/lib/storage/cancel-requests',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
           {
             title: 'File access levels',
             route: '/lib/storage/configureaccess',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
-            title: 'Automatically track events',
+            title: 'Automatically track Storage events',
             route: '/lib/storage/autotrack',
-            filters: ['js']
+            filters: ['js', 'react-native']
+          },
+          {
+            title: 'Use Transfer Acceleration',
+            route: '/lib/storage/transfer-acceleration',
+            filters: ['android', 'js', 'react-native']
           },
           {
             title: 'Lambda triggers',
             route: '/lib/storage/triggers',
-            filters: ['android', 'ios', 'flutter', 'js']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+          },
+          {
+            title: 'Custom Plugin',
+            route: '/lib/storage/custom-plugin',
+            filters: ['js', 'react-native']
           },
           {
             title: 'Escape hatch',
@@ -712,7 +794,7 @@ const directory = {
           {
             title: 'Use existing AWS resources',
             route: '/lib/storage/existing-resources',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           }
         ]
       },
@@ -724,25 +806,42 @@ const directory = {
             route: '/lib/xr/getting-started',
             filters: ['js']
           },
-          { title: 'Scene API', route: '/lib/xr/sceneapi', filters: ['js'] }
+          {
+            title: 'Scene API',
+            route: '/lib/xr/sceneapi',
+            filters: ['js']
+          }
         ]
       },
       utilities: {
         title: 'Utilities',
         items: [
+          // TODO Rewrite do we have service workers for React native?
           {
             title: 'Service Worker',
             route: '/lib/utilities/serviceworker',
             filters: ['js']
           },
-          { title: 'Cache', route: '/lib/utilities/cache', filters: ['js'] },
-          { title: 'Hub', route: '/lib/utilities/hub', filters: ['android', 'ios', 'js'] },
+          {
+            title: 'Cache',
+            route: '/lib/utilities/cache',
+            filters: ['js', 'react-native']
+          },
+          {
+            title: 'Hub',
+            route: '/lib/utilities/hub',
+            filters: ['android', 'ios', 'js', 'react-native']
+          },
           {
             title: 'Internationalization',
             route: '/lib/utilities/i18n',
-            filters: ['js']
+            filters: ['js', 'react-native']
           },
-          { title: 'Logger', route: '/lib/utilities/logger', filters: ['js'] }
+          {
+            title: 'Logger',
+            route: '/lib/utilities/logger',
+            filters: ['js', 'react-native']
+          }
         ]
       },
       'client-configuration': {
@@ -751,7 +850,7 @@ const directory = {
           {
             title: 'Configuring Amplify Categories',
             route: '/lib/client-configuration/configuring-amplify-categories',
-            filters: ['js']
+            filters: ['js', 'react-native']
           }
         ]
       },
@@ -776,7 +875,7 @@ const directory = {
           {
             title: 'Uninstalling the app',
             route: '/lib/info/app-uninstall',
-            filters: ['ios']
+            filters: ['android', 'ios']
           }
         ]
       },
@@ -796,12 +895,505 @@ const directory = {
           {
             title: 'Upgrading Amplify packages',
             route: '/lib/troubleshooting/upgrading',
-            filters: ['flutter', 'js']
+            filters: ['flutter', 'js', 'react-native']
           },
           {
             title: 'TypeScript strict mode',
             route: '/lib/troubleshooting/strict-mode',
-            filters: ['js']
+            filters: ['js', 'react-native']
+          }
+        ]
+      }
+    }
+  },
+  'lib-v1': {
+    productRoot: {
+      title: 'Amplify Libraries',
+      route: '/lib-v1'
+    },
+    items: {
+      'project-setup': {
+        title: 'Project Setup',
+        items: [
+          {
+            title: 'Prerequisites',
+            route: '/lib-v1/project-setup/prereq',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Create your application',
+            route: '/lib-v1/project-setup/create-application',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Using Combine with Amplify',
+            route: '/lib-v1/project-setup/combine',
+            filters: ['ios']
+          },
+          {
+            title: 'Async Programming Model',
+            route: '/lib-v1/project-setup/async',
+            filters: ['android']
+          },
+          {
+            title: 'Kotlin Coroutines Support',
+            route: '/lib-v1/project-setup/coroutines',
+            filters: ['android']
+          },
+          {
+            title: 'Using RxJava with Amplify',
+            route: '/lib-v1/project-setup/rxjava',
+            filters: ['android']
+          },
+          {
+            title: 'Use existing AWS resources',
+            route: '/lib-v1/project-setup/use-existing-resources',
+            filters: ['android', 'ios']
+          }
+        ]
+      },
+      analytics: {
+        title: 'Analytics',
+        items: [
+          {
+            title: 'Getting started',
+            route: '/lib-v1/analytics/getting-started',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Record events',
+            route: '/lib-v1/analytics/record',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Automatically track sessions',
+            route: '/lib-v1/analytics/autotrack',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Enable/Disable Analytics',
+            route: '/lib-v1/analytics/enable-disable',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Identify user',
+            route: '/lib-v1/analytics/identifyuser',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Escape hatch',
+            route: '/lib-v1/analytics/escapehatch',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Use existing AWS resources',
+            route: '/lib-v1/analytics/existing-resources',
+            filters: ['android', 'ios']
+          }
+        ]
+      },
+      graphqlapi: {
+        title: 'API (GraphQL)',
+        items: [
+          {
+            title: 'Getting started',
+            route: '/lib-v1/graphqlapi/getting-started',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Concepts',
+            route: '/lib-v1/graphqlapi/concepts',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Configure authorization modes',
+            route: '/lib-v1/graphqlapi/authz',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Create, update, delete data',
+            route: '/lib-v1/graphqlapi/mutate-data',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Fetch data',
+            route: '/lib-v1/graphqlapi/query-data',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Subscribe to data',
+            route: '/lib-v1/graphqlapi/subscribe-data',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Offline scenarios',
+            route: '/lib/graphqlapi/offline',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Advanced Workflows',
+            route: '/lib-v1/graphqlapi/advanced-workflows',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Use existing AWS resources',
+            route: '/lib-v1/graphqlapi/existing-resources',
+            filters: ['android', 'ios']
+          }
+        ]
+      },
+      restapi: {
+        title: 'API (REST)',
+        items: [
+          {
+            title: 'Getting started',
+            route: '/lib-v1/restapi/getting-started',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Fetching data',
+            route: '/lib-v1/restapi/fetch',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Updating data',
+            route: '/lib-v1/restapi/update',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Deleting data',
+            route: '/lib-v1/restapi/delete',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Define authorization rules',
+            route: '/lib-v1/restapi/authz',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Use existing AWS resources',
+            route: '/lib-v1/restapi/existing-resources',
+            filters: ['android', 'ios']
+          }
+        ]
+      },
+      auth: {
+        title: 'Authentication',
+        items: [
+          {
+            title: 'Getting started',
+            route: '/lib-v1/auth/getting-started',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Sign in',
+            route: '/lib-v1/auth/signin',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Sign in with custom flow',
+            route: '/lib-v1/auth/signin_with_custom_flow',
+            filters: ['ios']
+          },
+          {
+            title: 'Sign in with web UI',
+            route: '/lib-v1/auth/signin_web_ui',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Social sign-in (OAuth)',
+            route: '/lib-v1/auth/social',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Sign in next steps',
+            route: '/lib-v1/auth/signin_next_steps',
+            filters: ['ios']
+          },
+          {
+            title: 'Guest access',
+            route: '/lib-v1/auth/guest_access',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Auth events',
+            route: '/lib-v1/auth/auth-events',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'User attributes',
+            route: '/lib-v1/auth/user-attributes',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Remember a device',
+            route: '/lib-v1/auth/device_features',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Password management',
+            route: '/lib-v1/auth/password_management',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Sign out',
+            route: '/lib-v1/auth/signOut',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Accessing credentials',
+            route: '/lib-v1/auth/access_credentials',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Delete user',
+            route: '/lib-v1/auth/delete_user',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Escape hatch',
+            route: '/lib-v1/auth/escapehatch',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Under the hood',
+            route: '/lib-v1/auth/overview',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Use existing Amazon Cognito resources',
+            route: '/lib-v1/auth/existing-resources',
+            filters: ['android', 'ios']
+          }
+        ]
+      },
+      datastore: {
+        title: 'DataStore',
+        items: [
+          {
+            title: 'Getting started',
+            route: '/lib-v1/datastore/getting-started',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Manipulating data',
+            route: '/lib-v1/datastore/data-access',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Relational models',
+            route: '/lib-v1/datastore/relational',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Syncing data to cloud',
+            route: '/lib-v1/datastore/sync',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Setup authorization rules',
+            route: '/lib-v1/datastore/setup-auth-rules',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Conflict resolution',
+            route: '/lib-v1/datastore/conflict',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Real time',
+            route: '/lib-v1/datastore/real-time',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'DataStore Events',
+            route: '/lib-v1/datastore/datastore-events',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Other methods',
+            route: '/lib-v1/datastore/other-methods',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Schema updates',
+            route: '/lib-v1/datastore/schema-updates',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'How it works',
+            route: '/lib-v1/datastore/how-it-works',
+            filters: ['android', 'ios']
+          }
+        ]
+      },
+      geo: {
+        title: 'Geo',
+        items: [
+          {
+            title: 'Getting started',
+            route: '/lib-v1/geo/getting-started',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Maps',
+            route: '/lib-v1/geo/maps',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Location Search',
+            route: '/lib-v1/geo/search',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Use existing Amazon Location resources',
+            route: '/lib-v1/geo/existing-resources',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Escape Hatch',
+            route: '/lib-v1/geo/escapehatch',
+            filters: ['android', 'ios']
+          }
+        ]
+      },
+      predictions: {
+        title: 'Predictions',
+        items: [
+          {
+            title: 'Getting started',
+            route: '/lib-v1/predictions/getting-started',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Text to speech',
+            route: '/lib-v1/predictions/text-speech',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Transcribe audio to text',
+            route: '/lib-v1/predictions/transcribe',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Translate language',
+            route: '/lib-v1/predictions/translate',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Identify text',
+            route: '/lib-v1/predictions/identify-text',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Identify entities from images',
+            route: '/lib-v1/predictions/identify-entity',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Label objects in image',
+            route: '/lib-v1/predictions/label-image',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Interpret sentiment',
+            route: '/lib-v1/predictions/interpret',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Escape hatch',
+            route: '/lib-v1/predictions/escapehatch',
+            filters: ['android', 'ios']
+          }
+        ]
+      },
+      storage: {
+        title: 'Storage',
+        items: [
+          {
+            title: 'Getting started',
+            route: '/lib-v1/storage/getting-started',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Concepts',
+            route: '/lib-v1/storage/overview',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Upload files',
+            route: '/lib-v1/storage/upload',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Download files',
+            route: '/lib-v1/storage/download',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'List files',
+            route: '/lib-v1/storage/list',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Remove files',
+            route: '/lib-v1/storage/remove',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'File access levels',
+            route: '/lib-v1/storage/configureaccess',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Lambda triggers',
+            route: '/lib-v1/storage/triggers',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Escape hatch',
+            route: '/lib-v1/storage/escapehatch',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Use existing AWS resources',
+            route: '/lib/storage/existing-resources',
+            filters: ['android', 'ios']
+          }
+        ]
+      },
+      utilities: {
+        title: 'Utilities',
+        items: [
+          {
+            title: 'Hub',
+            route: '/lib-v1/utilities/hub',
+            filters: ['android', 'ios']
+          }
+        ]
+      },
+      debugging: {
+        title: 'Debugging',
+        items: [
+          {
+            title: 'Developer Menu',
+            route: '/lib-v1/debugging/dev-menu',
+            filters: ['android', 'ios']
+          }
+        ]
+      },
+      info: {
+        title: 'Info',
+        items: [
+          {
+            title: 'Data Information',
+            route: '/lib-v1/info/overview',
+            filters: ['ios']
+          },
+          {
+            title: 'Uninstalling the app',
+            route: '/lib-v1/info/app-uninstall',
+            filters: ['ios']
           }
         ]
       }
@@ -978,13 +1570,13 @@ const directory = {
         items: [
           {
             title: 'Data Information',
-            route: '/overview',
-            filters: ['android']
+            route: '/sdk/info/overview',
+            filters: ['ios']
           },
           {
             title: 'Uninstalling the app',
             route: '/sdk/info/app-uninstall',
-            filters: ['android']
+            filters: ['ios']
           }
         ]
       }
@@ -1232,6 +1824,11 @@ const directory = {
             title: 'Build options',
             route: '/cli/function/build-options',
             filters: []
+          },
+          {
+            title: 'Configuring Lambda function settings',
+            route: '/cli/function/configure-options',
+            filters: []
           }
         ]
       },
@@ -1387,6 +1984,16 @@ const directory = {
         title: 'Migration & Backwards Compatibility',
         items: [
           {
+            title: 'AWS CDK v1 to v2 migration',
+            route: '/cli/migration/aws-cdk-migration',
+            filters: []
+          },
+          {
+            title: 'Lazy Loading and Custom Selection Set',
+            route: '/cli/migration/lazy-load-custom-selection-set',
+            filters: []
+          },
+          {
             title: 'GraphQL Transformer v1 to v2 migration',
             route: '/cli/migration/transformer-migration',
             filters: []
@@ -1394,11 +2001,6 @@ const directory = {
           {
             title: 'Override feature enablement migration',
             route: '/cli/migration/override',
-            filters: []
-          },
-          {
-            title: 'Node Version Update',
-            route: '/cli/migration/lambda-node-version-update',
             filters: []
           },
           {
@@ -1460,6 +2062,11 @@ const directory = {
           {
             title: 'Feature Flags',
             route: '/cli/reference/feature-flags',
+            filters: []
+          },
+          {
+            title: 'SSM Parameter Store',
+            route: '/cli/reference/ssm-parameter-store',
             filters: []
           }
         ]
@@ -1587,7 +2194,6 @@ const directory = {
           'next',
           'android',
           'ios',
-          'ionic',
           'flutter'
         ],
         items: []
@@ -1607,7 +2213,6 @@ const directory = {
               'next',
               'android',
               'ios',
-              'ionic',
               'flutter'
             ]
           },
@@ -1623,7 +2228,6 @@ const directory = {
               'next',
               'android',
               'ios',
-              'ionic',
               'flutter'
             ]
           },
@@ -1645,17 +2249,17 @@ const directory = {
           {
             title: 'Connect API and database to the app',
             route: '/start/getting-started/data-model',
-            filters: ['js', 'react', 'angular', 'vue', 'next', 'ionic']
+            filters: ['js', 'react', 'angular', 'vue', 'next']
           },
           {
             title: 'Add authentication',
             route: '/start/getting-started/auth',
-            filters: ['react', 'angular', 'vue', 'ionic']
+            filters: ['react', 'angular', 'vue']
           },
           {
             title: 'Deploy and host app',
             route: '/start/getting-started/hosting',
-            filters: ['js', 'react', 'angular', 'vue', 'next', 'ionic']
+            filters: ['js', 'react', 'angular', 'vue', 'next']
           },
           {
             title: 'Next steps',
@@ -1669,7 +2273,6 @@ const directory = {
               'next',
               'android',
               'ios',
-              'ionic',
               'flutter'
             ]
           }
@@ -1739,11 +2342,40 @@ const directory = {
           }
         ]
       },
-      uibuilder: {
-        title: 'UI development (React)',
+      formbuilder: {
+        title: 'Form Builder (React)',
         items: [
           {
-            title: 'Figma to code',
+            title: 'Overview',
+            route: '/console/formbuilder/overview'
+          },
+          {
+            title: 'Customize form inputs',
+            route: '/console/formbuilder/customize'
+          },
+          {
+            title: 'Validate form data',
+            route: '/console/formbuilder/validations'
+          },
+          {
+            title: 'Manage form lifecycle',
+            route: '/console/formbuilder/lifecycle'
+          },
+          {
+            title: 'Customize action buttons (Submit, Cancel, Clear, Reset)',
+            route: '/console/formbuilder/call-to-action'
+          },
+          {
+            title: 'Extend input element in code',
+            route: '/console/formbuilder/overrides'
+          }
+        ]
+      },
+      uibuilder: {
+        title: 'Figma to Code (React)',
+        items: [
+          {
+            title: 'Overview',
             route: '/console/uibuilder/figmatocode'
           },
           {
@@ -1759,8 +2391,8 @@ const directory = {
             route: '/console/uibuilder/collections'
           },
           {
-              title: 'Component slots',
-              route: '/console/uibuilder/slots'
+            title: 'Component slots',
+            route: '/console/uibuilder/slots'
           },
           {
             title: 'Theming',
@@ -1775,7 +2407,7 @@ const directory = {
             route: '/console/uibuilder/override'
           },
           {
-            title: 'Figma-to-Code best practices',
+            title: 'Best practices',
             route: '/console/uibuilder/bestpractices'
           }
         ]
@@ -1792,7 +2424,7 @@ const directory = {
             route: '/console/data/relationships'
           },
           {
-            title: 'Content management',
+            title: 'Data management',
             route: '/console/data/content-management'
           }
         ]
@@ -1940,7 +2572,7 @@ const directory = {
         ]
       },
       datastore: {
-        title: 'Datastore',
+        title: 'DataStore',
         items: [
           {
             title: 'Parallel Processing',
@@ -1991,11 +2623,6 @@ const directory = {
           {
             title: 'Calling DynamoDB using AWS Cognito triggers',
             route: '/guides/functions/cognito-trigger-lambda-dynamodb',
-            filters: ['js', 'android', 'ios']
-          },
-          {
-            title: 'Configuring Lambda function settings',
-            route: '/guides/functions/configuring-lambda',
             filters: ['js', 'android', 'ios']
           }
         ]

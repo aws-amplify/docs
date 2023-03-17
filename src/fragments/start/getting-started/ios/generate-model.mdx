@@ -1,8 +1,10 @@
-With the basic setup complete, next you will model the data your application will store. Amplify DataStore will use this model to persist data to your local device that will be synchronized to a backend API without writing any additional code. These models are specified as [GraphQL](http://graphql.org/) schemas. If you'd like, first [learn more](/cli/graphql/overview) about GraphQL schemas and data modeling.
+With the basic setup complete, next you will model the data that your application will store. Amplify DataStore will use this model to persist data to your local device that will be synchronized to a backend API without writing any additional code. 
 
-1. In Xcode, make sure the project navigator is displayed. You can use **Cmd+1** to switch to this view. **Open the schema file** located at **Todo** > **AmplifyConfig** > **schema.graphql**. In your project folder, this file is located at `"amplify/backend/api/amplifyDatasource/schema.graphql"`.
+These models are specified as [GraphQL](http://graphql.org/) schemas. If you'd like, first [learn more](/cli/graphql/overview) about GraphQL schemas and data modeling.
 
-    Replace the contents of the file with the following schema:
+1. To begin, you need to edit the `schema.graphql` file. To find it, first navigate to your project folder and then into `amplify/backend/api/amplifyDatasource/schema.graphql`. 
+
+    Open the file with any text editor and  replace its contents with the following schema:
 
     ```graphql
     enum Priority {
@@ -11,7 +13,8 @@ With the basic setup complete, next you will model the data your application wil
       HIGH
     }
 
-    type Todo @model {
+    type Todo @model
+    @auth(rules: [{ allow: public}]) {
       id: ID!
       name: String!
       priority: Priority
@@ -21,21 +24,17 @@ With the basic setup complete, next you will model the data your application wil
 
     This schema creates a model called `Todo` with four properties:
 
-    - **id** an auto-generated identifier field for a Todo item
-    - **name** a non-optional string field that is the title of the Todo item
-    - **priority** an optional enumeration type field that indicates the importance of a Todo item; the value of priority can be only *LOW*, *NORMAL*, or *HIGH*
-    - **description** an optional string field that holds more information about a Todo item
+    - **id**: an auto-generated identifier field for a Todo item
+    - **name**: a non-optional string field that is the title of the Todo item
+    - **priority**: an optional enumeration type field that indicates the importance of a Todo item; its only available values being *LOW*, *NORMAL*, or *HIGH*
+    - **description**: an optional string field that holds more information about a Todo item
 
-    <Callout warning>
-
-    You will need to add your `schema.graphql` file to your Xcode project for the next step. Drag the file into your project, then in the popup that appears select **'copy items if needed'** in the **Destination** section and make sure your App Target is selected in the **Add to targets** section.
-
-    </Callout>
-
-1. Next, generate the classes for these models and add them to your Xcode project. **Run the command**:
+1. Next, you need to generate the Swift objects for these models by **running this command** on the terminal:
 
   ```bash
   amplify codegen models
   ```
 
-1. Now that the generated models has been added to your project, you will need to **build (`Cmd+b`)** to compile the newly generated files.
+  The generated models will be added to your project under the `AmplifyModels` group.
+
+1. Finally, open Xcode and **build (`Cmd+b`)** your project to compile the newly generated files.
