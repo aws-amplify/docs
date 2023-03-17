@@ -3,6 +3,14 @@ export const meta = {
   description: ``,
 };
 
+<Callout>
+AWS CDK version should match the CDK version that cli-extensibility-helper package uses as a dependency in amplify/backend/custom/customResourceName/package.json.
+
+
+You can verify the `aws-cdk-lib` version that `@aws-amplify/cli-extensibility-helper` uses in the `package.json`  [here](https://www.npmjs.com/package/@aws-amplify/cli-extensibility-helper?activeTab=explore).
+
+</Callout>
+
 AWS Cloud Development Kit [CDK version 1](https://docs.aws.amazon.com/cdk/v2/guide/home.html) that Amplify CLI uses under the hood has entered maintenance on June 1, 2022 with end of support date scheduled on 6/1/2023.
 Amplify CLI v11 and above uses CDK v2 to help you move away from deprecated CDK as well as unblock new features that won’t be added to version 1 of CDK.
 To learn more about AWS CDK Migration, visit [Migrating to V2](https://docs.aws.amazon.com/cdk/v2/guide/migrating-v2.html)
@@ -32,6 +40,3 @@ If an Amplify project using `amplify overrides [category]` or `amplify add custo
    ![Amplify overrides warning](/images/ts-guide-cdk-package.png)
    And update `amplify/backend/custom/<customResourceName>/cdk-stack.ts` for `custom` categories as shown below: 
    ![Amplify custom warning](/images/ts-guide-cdk.png)
-
-### Note:
-`aws-cdk-lib` version should match the CDK version that `@aws-amplify/cli-extensibility-helper` uses as a dependency in `amplify/backend/custom/<customResourceName>/package.json`.You can verify the `aws-cdk-lib` version that `@aws-amplify/cli-extensibility-helper` uses in the `package.json` [here](https://www.npmjs.com/package/@aws-amplify/cli-extensibility-helper?activeTab=explore).
