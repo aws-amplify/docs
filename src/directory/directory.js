@@ -1991,6 +1991,11 @@ const directory = {
         title: 'Migration & Backwards Compatibility',
         items: [
           {
+            title: 'AWS CDK v1 to v2 migration',
+            route: '/cli/migration/aws-cdk-migration',
+            filters: []
+          },
+          {
             title: 'Lazy Loading and Custom Selection Set',
             route: '/cli/migration/lazy-load-custom-selection-set',
             filters: []
