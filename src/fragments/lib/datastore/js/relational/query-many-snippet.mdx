@@ -3,20 +3,26 @@
 In order to save a many-to-many relationship, create both model instance first and then save them to a new join model instance.
 
 ```js
-const post = await DataStore.save(new Post({
-  title: 'Amplify Weekly'
-  rating: 10,
-  status: PostStatus.ACTIVE,
-}));
+const post = await DataStore.save(
+  new Post({
+    title: 'Amplify Weekly',
+    rating: 10,
+    status: PostStatus.ACTIVE
+  })
+);
 
-const user = await DataStore.save(new User({
-  username: 'rene'
-}));
+const user = await DataStore.save(
+  new User({
+    username: 'rene'
+  })
+);
 
-const postEditor = await DataStore.save(new PostEditor({
-  post: post,
-  user: user
-}));
+const postEditor = await DataStore.save(
+  new PostEditor({
+    post: post,
+    user: user
+  })
+);
 ```
 
 Here we've first created a new `Post` instance and a new `User` instance. Then, saved those instances to a new instance of our join model `PostEditor`.
@@ -26,7 +32,7 @@ Here we've first created a new `Post` instance and a new `User` instance. Then, 
 To query many-to-many relationships, use a nested predicate to filter the target model by the source model's id:
 
 ```js
-const editors = await DataStore.query(User, u => u.posts.post.id.eq(post.id));
+const editors = await DataStore.query(User, (u) => u.posts.post.id.eq(post.id));
 ```
 
 ### Delete

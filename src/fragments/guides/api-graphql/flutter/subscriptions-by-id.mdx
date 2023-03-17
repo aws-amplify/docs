@@ -1,4 +1,10 @@
-Now you can create a custom subscription for comment creation with a specific post id:
+<BlockSwitcher>
+
+<Block name="Stable (Mobile)">
+
+import all0 from "/src/fragments/guides/api-graphql/common/subscriptions-by-id.mdx";
+
+<Fragments fragments={{all: all0}} />
 
 ```dart
 Future<void> subscribeByPostId(String postId) async {
@@ -28,3 +34,54 @@ Future<void> subscribeByPostId(String postId) async {
   }
 }
 ```
+
+</Block>
+
+<Block name="Developer Preview (Mobile, Web & Desktop)">
+
+Take for example the following GraphQL schema:
+
+```graphql
+type Post @model @auth(rules: [{ allow: public, provider: apiKey }]){
+  id: ID!
+  title: String!
+  content: String
+  comments: [Comment] @hasMany
+}
+
+type Comment @model @auth(rules: [{ allow: public, provider: apiKey }]){
+  id: ID!
+  content: String
+  post: Post @belongsTo(fields: ["postCommentsId"])
+  postCommentsId: ID! 
+}
+```
+
+You can subscribe to comments from a specific post with the following:
+
+```dart
+Future<void> subscribeByPostId(String postId) async {
+  final subscriptionRequest = ModelSubscriptions.onCreate(
+    Comment.classType,
+    where: Comment.POST.eq(postId),
+    authorizationMode: APIAuthorizationType.apiKey,
+  );
+
+  final operation = Amplify.API.subscribe(
+    subscriptionRequest,
+    onEstablished: () => print('Subscription established'),
+  );
+
+  try {
+    await for (var event in operation) {
+      print('Subscription event data received: ${event.data}');
+    }
+  } on Exception catch (e) {
+    print('Error in subscription stream: $e');
+  }
+}
+```
+
+</Block>
+
+</BlockSwitcher>
