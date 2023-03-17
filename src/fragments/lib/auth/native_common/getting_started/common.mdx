@@ -1,11 +1,12 @@
-The Amplify Auth category provides an interface for authenticating a user. Behind the scenes, it provides the necessary authorization to the other Amplify categories. It comes with default, built-in support for [Amazon Cognito](https://aws.amazon.com/cognito) User Pool and Identity Pool. The Amplify CLI helps you to create and configure the auth category with an authentication provider.
+The Amplify Auth category provides an interface for authenticating a user. Behind the scenes, it provides the necessary authorization to the other Amplify categories. It comes with default, built-in support for [Amazon Cognito](https://aws.amazon.com/cognito) User Pool and Identity Pool. The Amplify CLI helps you create and configure the auth category with an authentication provider.
 
 import flutter0 from "/src/fragments/lib/auth/flutter/getting_started/60_developerPreview.mdx";
 
 <Fragments fragments={{flutter: flutter0}} />
 
 ## Goal
-To setup and configure your application with Amplify Auth and go through a simple api to check the current auth session
+
+To setup and configure your application with Amplify Auth and go through a simple api to check the current auth session.
 
 ## Prerequisites
 
@@ -23,12 +24,12 @@ import flutter2 from "/src/fragments/lib/auth/flutter/getting_started/10_preReq.
 
 ## Set Up Backend Resources
 
-To use Authentication with Amplify, you can choose to configure resources through the Amplify CLI (which will automatically create them on the backend for you) or use an existing Amazon Cognito resource in your AWS account.
-
-> Note that before you can add an AWS resource to your application, the application must have the Amplify libraries installed. If you need to perform this step, see [Install Amplify Libraries](/lib/project-setup/create-application#n2-install-amplify-libraries) and ensure you've installed the necessary dependencies.
+To use Authentication with Amplify, you have the option to set up or import existing Amazon Cognito resources via the Amplify CLI or manually configure them in your application.
 
 <BlockSwitcher>
-<Block name="Amplify CLI">
+<Block name="Amplify CLI (Create)">
+
+> Prerequisites: [Install and configure](/lib/project-setup/prereq/q/platform/flutter/#install-and-configure-the-amplify-cli) the Amplify CLI in addition to the Amplify libraries and [necessary dependencies](/lib/project-setup/create-application/q/platform/flutter/#2-install-amplify-libraries).
 
 To start provisioning auth resources in the backend, go to your project directory and **execute the command**:
 
@@ -67,19 +68,54 @@ import flutter5 from "/src/fragments/lib/auth/flutter/getting_started/12_amplify
 <Fragments fragments={{flutter: flutter5}} />
 
 </Block>
-<Block name="Existing resources">
-Existing Authentication resources from AWS (e.g. Amazon Cognito UserPools or Identity Pools) can be used with the Amplify Libraries by running:
+
+<Block name="Amplify CLI (Import)">
+
+> Prerequisites: [Install and configure](/lib/project-setup/prereq/q/platform/flutter/#install-and-configure-the-amplify-cli) the Amplify CLI in addition to the Amplify libraries and [necessary dependencies](/lib/project-setup/create-application/q/platform/flutter/#2-install-amplify-libraries).
+
+To import existing Amazon Cognito resources into your Amplify project, **execute the command**:
 
 ```bash
 amplify import auth
 ```
+```console
+? What type of auth resource do you want to import?
+   Cognito User Pool and Identity Pool
+   Cognito User Pool only
+```
 
+Once you've selected an option, you'll be able to search for and import an existing Cognito User Pool and Identity Pool (or User Pool only) within your AWS account.  The `amplify import auth` command will also do the following:
+- Automatically populate your Amplify Library configuration files (`amplifyconfiguration.dart` and `amplifyconfiguration.json`) with your chosen Amazon Cognito resource information
+- Provide your designated existing Cognito resource as the authentication & authorization mechanism for all auth-dependent categories (API, Storage and more)
+- Enable Lambda functions to access the chosen Cognito resource if you permit it
+
+> If you have previously enabled an Amplify category that uses Auth behind the scenes (e.g. API category), run `amplify update auth` command to edit your configuration. 
+
+After configuring your Authentication options, update your backend and deploy the service by running the `push` command:
+
+```bash
+amplify push
+```
+
+Now, the authentication service has been deployed and you can start using it. To view the deployed services in your project at any time, go to Amplify Console by running the following command:
+
+```bash
+amplify console
+```
 For more details, see how to [Use an existing Cognito User Pool and Identity Pool](/cli/auth/import).
 
-If you are not using the Amplify CLI, a Cognito User Pool and Identity Pool can be used by referencing them in your `amplifyconfiguration.json` file.
+</Block>
+
+<Block name="Manual Configuration">
+
+Existing Authentication resources from AWS (e.g. Amazon Cognito UserPools or Identity Pools) can be used with the Amplify Libraries by calling the `Amplify.configure()` method.
+
+If you are not using the Amplify CLI, a Cognito User Pool and Identity Pool can be used by referencing them in your `amplifyconfiguration.dart` file:
 
 ```jsx
-{
+const amplifyconfig = ''' {
+    "UserAgent": "aws-amplify-cli/2.0",
+    "Version": "1.0",
     "auth": {
         "plugins": {
             "awsCognitoAuthPlugin": {
@@ -116,13 +152,13 @@ If you are not using the Amplify CLI, a Cognito User Pool and Identity Pool can 
                                 "profile",
                                 "aws.cognito.signin.user.admin"
                             ]
-                        }
+                        },
                     }
                 }
             }
         }
     }
-}
+}''';
 ```
 
 - **CredentialsProvider**:
@@ -141,8 +177,6 @@ If you are not using the Amplify CLI, a Cognito User Pool and Identity Pool can 
     - **OAuth**: Hosted UI Configuration (only include this if using the Hosted UI flow)
       - **Scopes:** Scopes should match the scopes enables in Cognito under "App client settings"
     
-Note that before you can add an AWS resource to your application, the application must have the Amplify libraries installed. If you need to perform this step, see [Install Amplify Libraries](/lib/project-setup/create-application#n2-install-amplify-libraries). 
-
 If you are using a Cognito User Pool, without a Cognito Identity Pool, you can omit the **CredentialsProvider** section in the configuration.
 
 </Block>

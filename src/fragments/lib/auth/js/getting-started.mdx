@@ -100,7 +100,9 @@ Amplify.configure(awsconfig);
 
 <Block name="Manual Configuration">
 
-Existing Authentication resources from AWS (e.g. Amazon Cognito UserPools or Identity Pools) can be used with the Amplify Libraries by calling the `Amplify.configure()` method with the following information:
+Existing Authentication resources from AWS (e.g. Amazon Cognito UserPools or Identity Pools) can be used with the Amplify Libraries by calling the `Amplify.configure()` method. 
+
+In your app's entry point (i.e. **App.js**, **index.js**, **_app.js**, or **main.js**), import and load the configuration file:
 
 ```javascript
 import { Amplify, Auth } from 'aws-amplify';
