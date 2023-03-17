@@ -10,7 +10,7 @@ Future<void> signInUser(String username, String password) async {
     );
 
     setState(() {
-      isSignedIn = res.isSignedIn;
+      isSignedIn = result.isSignedIn;
     });
 
   } on AuthException catch (e) {
