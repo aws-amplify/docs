@@ -893,16 +893,16 @@ client.sync(baseQuery, baseQueryCallback, deltaQuery, deltaQueryCallback,
 
 **Example**
 
-The following section walks through the details of creating an app using Delta Sync. We will use a simple Posts App that has a view that displays a list of posts and keeps it synchronized using the Delta Sync functionality. We will use a Map object called `allPosts` to collect and manage the posts and a RecyclerView to power the UI.
+The following section walks through the details of creating an app using Delta Sync. You will use a simple Posts App that has a view that displays a list of posts and keeps it synchronized using the Delta Sync functionality. You will use a Map object called `allPosts` to collect and manage the posts and a RecyclerView to power the UI.
 
 **Base Query and BaseQuery Callback**
-In the Adapter object, create the BaseQuery and the BaseQuery Callback. We will use the `listPosts` query from the sample schema as our base query.
+In the Adapter object, create the BaseQuery and the BaseQuery Callback. You will use the `listPosts` query from the sample schema as your base query.
 ```java
-//Setup the BaseQuery - we will use the ListPostsQuery as our base query
+//Setup the BaseQuery - you will use the ListPostsQuery as your base query
 Query listPostsQuery = ListPostsQuery.builder().build();
 ```
 
-In the `baseQueryCallback` we will receive and process the results of `listPosts`. We will update the allPosts Map object with the query results and trigger the RecyclerView to refresh the contents of the view. The `listPosts` query cache will be automatically updated by the SDK.
+In the `baseQueryCallback` you will receive and process the results of `listPosts`. You will update the allPosts Map object with the query results and trigger the RecyclerView to refresh the contents of the view. The `listPosts` query cache will be automatically updated by the SDK.
 
 ```java
 GraphQLCall.Callback listPostsQueryCallback = new GraphQLCall.Callback<ListPostsQuery.Data>() {
@@ -943,7 +943,7 @@ GraphQLCall.Callback listPostsQueryCallback = new GraphQLCall.Callback<ListPosts
 ```
 
 **Subscription and Subscription callback**
-Next, we will create a subscription to get notified whenever a change (Add, Update or Delete) happens to a post.
+Next, you will create a subscription to get notified whenever a change (Add, Update or Delete) happens to a post.
 
 ```java
   //Setup Delta Post Subscription to get notified when a change
@@ -952,7 +952,7 @@ Next, we will create a subscription to get notified whenever a change (Add, Upda
       OnDeltaPostSubscription.builder().build();
 ```
 
-In the subscription callback, we will handle the change by adding, deleting or updating the allPosts Map object and trigger the RecyclerView to refresh the contents of the view. We will also add the logic to update the query cache for the `listPosts` query.
+In the subscription callback, you will handle the change by adding, deleting or updating the allPosts Map object and trigger the RecyclerView to refresh the contents of the view. You will also add the logic to update the query cache for the `listPosts` query.
 
 ```java
 AppSyncSubscriptionCall.Callback onDeltaPostSubscriptionCallback =
@@ -1020,7 +1020,7 @@ The `updateListPostsQueryCache` method will update the query cache of the `listP
 ```
 
 **Delta Query and Delta Query Callback**
-Next we will setup the delta query. We will use the `listPostsDelta` query for the changes made to Posts. The SDK will keep track of when it was last run and will automatically pass in the appropriate value for `lastSync` to get the updates in an optimized manner.
+Next you will setup the delta query. You will use the `listPostsDelta` query for the changes made to Posts. The SDK will keep track of when it was last run and will automatically pass in the appropriate value for `lastSync` to get the updates in an optimized manner.
 
 ```java
     //Setup the Delta Query to get changes to posts incrementally
@@ -1028,7 +1028,7 @@ Next we will setup the delta query. We will use the `listPostsDelta` query for t
 
 ```
 
-In the `listPostsDeltaQueryCallback`, we will add, update, delete the changed Posts in the allPosts Map object and trigger the RecyclerView to refresh the contents of the view. We will also add the logic to update the query cache for the `listPosts` query.
+In the `listPostsDeltaQueryCallback`, you will add, update, delete the changed Posts in the allPosts Map object and trigger the RecyclerView to refresh the contents of the view. You will also add the logic to update the query cache for the `listPosts` query.
 
 ```java
 GraphQLCall.Callback listPostsDeltaQueryCallback = new GraphQLCall.Callback<ListPostsDeltaQuery.Data>() {
@@ -1076,7 +1076,7 @@ GraphQLCall.Callback listPostsDeltaQueryCallback = new GraphQLCall.Callback<List
 ```
 
 **Tying it all together**
-Once we have all of these pieces in place, we will tie it all together by invoking the Delta Sync functionality as follows.
+Once you have all of these pieces in place, you will tie it all together by invoking the Delta Sync functionality as follows.
 
 ```java
  Cancelable handle =  client.sync(listPostsQuery, listPostsQueryCallback,

@@ -17,7 +17,7 @@
   border-color: #005fcc;
   border-color: rgba(0, 95, 204, 1);
   outline: -webkit-focus-ring-color auto 1px;
-  box-shadow: 0 0 0 3px -moz-mac-focusring; 
+  box-shadow: 0 0 0 3px -moz-mac-focusring;
 }
 
 .aa-SourceHeaderTitle,
@@ -41,7 +41,9 @@
 }
 
 .aa-SubmitIcon {
-  color: var(--font-color) !important;
+  /* Hide the default algolia icon and use our own by adding it as a background-image to the button */
+  display: none;
+  color: #545b64 !important;
 }
 
 .aa-Item:hover .page-subcategory,
@@ -579,4 +581,39 @@
   width: 100%;
   height: 100%;
   display: block;
+}
+
+.aa-Form {
+  border: 1px solid #aab7b8;
+}
+
+.aa-Input::placeholder,
+.aa-DetachedSearchButtonPlaceholder {
+  color: #879596;
+}
+
+.aa-DetachedOverlay .aa-InputWrapper {
+  order: 1;
+  padding: 0px 12px;
+}
+
+.aa-DetachedOverlay .aa-InputWrapperSuffix {
+  order: 2;
+}
+
+.aa-DetachedOverlay .aa-InputWrapperPrefix {
+  order: 4;
+  border-left: 1px solid #aab7b8;
+}
+
+.aa-DetachedOverlay .aa-SubmitButton {
+  padding: 0px 11px;
+}
+
+.aa-SubmitButton,
+.aa-DetachedSearchButtonIcon {
+  background-image: url(/assets/search.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 20px;
 }

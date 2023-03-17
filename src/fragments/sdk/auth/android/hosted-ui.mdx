@@ -368,6 +368,22 @@ If you want to sign out locally by just deleting tokens, you can call `signOut` 
 AWSMobileClient.getInstance().signOut();
 ```
 
+### Add Response handler
+
+Add the result handler if you need to capture sign in cancellations that occurred before the user submitted credentials.
+
+```java
+@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+
+    if (requestCode == AuthClient.CUSTOM_TABS_ACTIVITY_CODE &&
+        resultCode == Activity.RESULT_CANCELED) {
+        // handle canceled sign in
+    }
+}
+```
+
 ### Manual Setup
 
 To configure your application for hosted UI, you need to use *HostedUI* options. Update your `awsconfiguration.json` file to add a new configuration for `Auth`. The configuration should look like this:

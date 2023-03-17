@@ -1,4 +1,4 @@
-## Put
+## Upload Files
 
 The `Put` method uploads files into Amazon S3.
 
@@ -7,6 +7,19 @@ It returns a `{key: S3 Object key}` object on success:
 ```javascript
 const result = await Storage.put("test.txt", "Hello");
 ```
+
+
+<!-- TODO Rewrite - which is this differently shown? is it just for grabbing pathImageFile? I am confused why this section exists when it is almost a duplicate of the above -->
+
+import js0 from "/src/fragments/lib/storage/js/browser-uploads.mdx";
+
+<Fragments fragments={{js: js0}} />
+
+import reactnative0 from "/src/fragments/lib/storage/js/react-native-uploads.mdx";
+
+<Fragments fragments={{'react-native': reactnative0}} />
+
+When a networking error happens during the upload, Storage module retries upload for a maximum of 4 attempts. If the upload fails after all retries, you will get an error.
 
 ### Public level
 
@@ -64,12 +77,13 @@ Other options available are:
 
 ```javascript
 Storage.put("test.txt", "My Content", {
-  acl: "public-read", // https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#upload-property
+  acl: "public-read", // https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-s3/enums/objectcannedacl.html
   cacheControl: "no-cache", // (String) Specifies caching behavior along the request/reply chain
   contentDisposition: "attachment", // (String) Specifies presentational information for the object
   expires: new Date().now() + 60 * 60 * 24 * 7, // (Date) The date and time at which the object is no longer cacheable. ISO-8601 string, or a UNIX timestamp in seconds
   metadata: {key: "value"}, // (map<String>) A map of metadata to store with the object in S3.
   resumable: true, // (Boolean) Allows uploads to be paused and resumed
+  useAccelerateEndpoint: true // If enabled on the bucket, use accelerated S3 endpoint
 });
 ```
 
@@ -89,6 +103,8 @@ upload.resume();
 
 Storage.cancel(upload);
 ```
+
+<!-- TODO Rewrite why do we not have multi-part upload documented for JS? -->
 
 When a page refresh occurs during the upload, re-initializing the upload with the same file will continue from previous progress point.
 
@@ -125,50 +141,3 @@ const upload = Storage.put(file.name, file, {
 		}
 })
 ```
-
-## Browser uploads
-
-Upload an image in the browser:
-
-```javascript
-async function onChange(e) {
-  const file = e.target.files[0];
-  try {
-    await Storage.put(file.name, file, {
-      contentType: "image/png", // contentType is optional
-    });
-  } catch (error) {
-    console.log("Error uploading file: ", error);
-  }
-}
-
-<input type="file" onChange={onChange} />;
-```
-
-<Callout>
-
-Note: 'contentType' is metadata (saved under the key 'Content-Type') for the S3 object and does not determine the 'Type' in the AWS S3 Console. If a file extension is not provided in the key of the uploaded object, the S3 console's 'Type' field will be emitted. Otherwise, the 'Type' will be populated to match the given extension of the key. The behavior of how the S3 object is treated will be based on 'contentType' in the metadata and not the 'Type'. 
-
-For example: uploading a file with the key "example.jpg" will result in the 'Type' being set as "jpg", but the 'contentType' in metadata will determine it's behavior so setting it as "text/html" will result in the file being treated as an HTML file regardless of displayed 'Type' in the S3 console.
-
-</Callout>
-
-## React Native uploads
-
-Upload an image in your React Native app:
-
-```javascript
-async function pathToImageFile() {
-  try {
-    const response = await fetch(pathToImageFile);
-    const blob = await response.blob();
-    await Storage.put("yourKeyHere", blob, {
-      contentType: "image/jpeg", // contentType is optional
-    });
-  } catch (err) {
-    console.log("Error uploading file:", err);
-  }
-}
-```
-
-When a networking error happens during the upload, Storage module retries upload for a maximum of 4 attempts. If the upload fails after all retries, you will get an error.

@@ -1,5 +1,5 @@
-import styled from "@emotion/styled";
-import {MQTablet, MQDesktop} from "../media";
+import styled from '@emotion/styled';
+import { MQTablet, MQDesktop } from '../media';
 
 export const TOCInnerStyle = styled.div`
   overflow: auto;
@@ -14,7 +14,7 @@ export const TOCStyle = styled.div`
   min-width: 16.875rem;
   position: sticky;
   align-self: flex-start;
-  top: 3.375rem;
+  top: calc(3rem + var(--docs-dev-center-nav));
   max-height: 100vh;
 
   ${MQTablet} {

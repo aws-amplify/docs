@@ -1,141 +1,211 @@
+## Upload data
+
 To upload to S3 from a data object, specify the `key` and the `data` object to be uploaded.
 
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
 let dataString = "My Data"
-let data = dataString.data(using: .utf8)!
-let storageOperation = Amplify.Storage.uploadData(
+let data = Data(dataString.utf8)
+let uploadTask = Amplify.Storage.uploadData(
     key: "ExampleKey",
-    data: data,
-    progressListener: { progress in
-        print("Progress: \(progress)")
-    }, resultListener: { event in
-        switch event {
-        case .success(let data):
-            print("Completed: \(data)")
-        case .failure(let storageError):
-            print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
-        }
-    }
+    data: data
 )
+Task {
+    for await progress in await uploadTask.progress {
+        print("Progress: \(progress)")
+    }
+}
+let value = try await uploadTask.value
+print("Completed: \(value)")
 ```
 
 </Block>
 
-<Block name="Combine (iOS 13+)">
+<Block name="Combine">
 
 ```swift
 let dataString = "My Data"
-let data = dataString.data(using: .utf8)!
-let storageOperation = Amplify.Storage.uploadData(key: "ExampleKey", data: data)
-let progressSink = storageOperation.progressPublisher.sink { progress in print("Progress: \(progress)") }
-let resultSink = storageOperation.resultPublisher.sink {
-    if case let .failure(storageError) = $0 {
-        print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+let data = Data(dataString.utf8)
+let uploadTask = Amplify.Storage.uploadData(
+    key: "ExampleKey",
+    data: data
+)
+let progressSink = uploadTask
+    .inProcessPublisher
+    .sink { progress in
+        print("Progress: \(progress)")
     }
-}
-receiveValue: { data in
-    print("Completed: \(data)")
-}
+
+let resultSink = uploadTask
+    .resultPublisher
+    .sink {
+        if case let .failure(storageError) = $0 {
+            print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+        }
+    }
+    receiveValue: { data in
+        print("Completed: \(data)")
+    }
 ```
 
 </Block>
 
 </BlockSwitcher>
+
+## Upload file
 
 When you have a file that you want to upload, you can specify the url to the file in the `local` parameter.
 
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
 let dataString = "My Data"
 let fileNameKey = "myFile.txt"
-let filename = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-    .appendingPathComponent(fileNameKey)
-do {
-    try dataString.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
-} catch {
-    print("Failed to write to file \(error)")
-}
+guard let filename = FileManager.default.urls(
+    for: .documentDirectory,
+    in: .userDomainMask
+).first?.appendingPathComponent(fileNameKey)
+else { return }
 
-let storageOperation = Amplify.Storage.uploadFile(
-    key: fileNameKey,
-    local: filename,
-    progressListener: { progress in
-        print("Progress: \(progress)")
-    }, resultListener: { event in
-        switch event {
-        case let .success(data):
-            print("Completed: \(data)")
-        case let .failure(storageError):
-            print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
-        }
-    }
+try dataString.write(
+    to: filename,
+    atomically: true,
+    encoding: .utf8
 )
+
+let uploadTask = Amplify.Storage.uploadFile(
+    key: fileNameKey,
+    local: filename
+)
+
+Task {
+    for await progress in await uploadTask.progress {
+        print("Progress: \(progress)")
+    }
+}
+let data = try await uploadTask.value
+print("Completed: \(data)")
+
 ```
 
 </Block>
 
-<Block name="Combine (iOS 13+)">
+<Block name="Combine">
 
 ```swift
 let dataString = "My Data"
 let fileNameKey = "myFile.txt"
-let filename = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-    .appendingPathComponent(fileNameKey)
-do {
-    try dataString.write(to: filename, atomically: true, encoding: String.Encoding.utf8)
-} catch {
-    print("Failed to write to file \(error)")
-}
+guard let filename = FileManager.default.urls(
+    for: .documentDirectory,
+    in: .userDomainMask
+).first?.appendingPathComponent(fileNameKey)
+else { return }
 
-let storageOperation = Amplify.Storage.uploadFile(key: fileNameKey, local: filename)
-let progressSink = storageOperation.progressPublisher.sink { progress in print("Progress: \(progress)") }
-let resultSink = storageOperation.resultPublisher.sink {
-    if case let .failure(storageError) = $0 {
-        print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+try dataString.write(
+    to: filename,
+    atomically: true,
+    encoding: .utf8
+)
+
+let uploadTask = Amplify.Storage.uploadFile(
+    key: fileNameKey,
+    local: filename
+)
+progressSink = uploadTask
+    .inProcessPublisher
+    .sink { progress in
+        print("Progress: \(progress)")
     }
-}
-receiveValue: { data in
-    print("Completed: \(data)")
-}
+
+resultSink = uploadTask
+    .resultPublisher
+    .sink {
+        if case let .failure(storageError) = $0 {
+            print("Failed: \(storageError.errorDescription). \(storageError.recoverySuggestion)")
+        }
+    }
+    receiveValue: { data in
+        print("Completed: \(data)")
+    }
 ```
 
 </Block>
 
 </BlockSwitcher>
 
-## Cancel, Pause, Resume
+### Working with Security Scoped Resources (from iCloud)
+Security scoped resources refer to files that are retrieved from iCloud  or other cloud storage providers. You're likely to run into these file types when using system components that provide access to files stored in iCloud, e.g. [UIDocumentBrowserViewController](https://developer.apple.com/documentation/uikit/uidocumentbrowserviewcontroller).
 
-Calls to `uploadData` or `uploadFile` return a reference to the operation that is actually performing the upload.
-
-To cancel the upload (for example, in response to the user pressing a **Cancel** button), you simply call `cancel()` on the upload operation.
-
+To upload security scoped resources, you'll need to:
+1. use [startAccessingSecurityScopedResource()](https://developer.apple.com/documentation/foundation/url/1779698-startaccessingsecurityscopedreso) and [stopAccessingSecurityScopedResource()](https://developer.apple.com/documentation/foundation/url/1780153-stopaccessingsecurityscopedresou) to access the data within security scoped files
+2. temporarily persist the data from the security scoped files in your app's sandbox 
+3. upload files using the temporary URLs
+4. delete temporarily persisted files (optional)
 ```swift
-func cancelUpload() {
-    storageOperation.cancel()
+struct ScopedResourceFile {
+    let name: String
+    let data: Data
+}
+
+func getTempUrls(securityScopedUrls: [URL]) -> [URL] {
+    // 1. get the content of security scoped resources into ScopedResourceFile struct
+    let fileContents = securityScopedUrls.compactMap { url -> ScopedResourceFile? in
+        let startAccess = url.startAccessingSecurityScopedResource()
+        guard startAccess else {
+            print("Issue accessing security scoped resource at :\(url)")
+            return nil
+        }
+        defer { url.stopAccessingSecurityScopedResource() }
+        do {
+            let data = try Data(contentsOf: url)
+            let fileName = url.lastPathComponent
+            return ScopedResourceFile(name: fileName, data: data)
+        } catch {
+            print("Couldn't create Data from contents of file at url: \(url)")
+            return nil
+        }
+    }
+    
+    // 2. write the file contents to temporary files and return the URLs of the temp files
+    let localFileURLs = persistTemporaryFiles(fileContents)
+
+    // 3. Now you have local URLs for the files you'd like to upload.
+    return localFileURLs
 }
 ```
 
-You can also pause then resume the operation.
+
+## Cancel, Pause, Resume
+
+Calls to `uploadData` or `uploadFile` return a reference to the task that is actually performing the upload.
+
+To cancel the upload (for example, in response to the user pressing a **Cancel** button), you simply call `cancel()` on the upload task.
+
+```swift
+func cancelUpload() {
+    uploadTask.cancel()
+}
+```
+
+You can also pause then resume the task.
+
+```swift
+uploadTask.pause()
+uploadTask.resume()
+```
+
 
 <Callout>
 
-Note that pause internally uses the `suspend` api of `NSURLSessionTask`, which suspends the task temporarily and does not fully pause the transfer. Complete pausing of task is tracked in this Github issue - https://github.com/aws-amplify/aws-sdk-ios/issues/3668
+Upload tasks are run using `URLSessionTask` instances internally. You can learn more about them in [Apple's official documentation](https://developer.apple.com/documentation/foundation/urlsessiontask).
 
 </Callout>
 
-```swift
-storageOperation.pause()
-storageOperation.resume()
-```
-
 ## MultiPart upload
 
-The upload will automatically perform a S3 multipart upload for files larger than 5MB. For more information about S3's multipart upload, see [Uploading and copying objects using multipart upload
-](https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html)
+Amplify will automatically perform a S3 multipart upload for objects that are larger than 5MB. For more information about S3's multipart upload, see [Uploading and copying objects using multipart upload](https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html)

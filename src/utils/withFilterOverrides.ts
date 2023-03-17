@@ -2,27 +2,32 @@ import {
   filterMetadataByOption,
   FRAMEWORK_FILTER_OPTIONS,
   PLATFORM_FILTER_OPTIONS,
-  SelectedFilters,
-} from "./filter-data";
+  SelectedFilters
+} from './filter-data';
 
 export const withFilterOverrides = (
   updates: SelectedFilters,
-  currentSelection: SelectedFilters,
+  currentSelection: SelectedFilters
 ): SelectedFilters => {
   const overrides: SelectedFilters = {};
 
   if (updates.integration) {
     // if user sets integration to js, set platform to js
-    if (updates.integration === "js") {
-      overrides.platform = "js";
-    // if user sets integration to flutter, set platform to flutter
-    } else if (updates.integration === "flutter") {
-      overrides.platform = "flutter"
+    if (updates.integration === 'js') {
+      overrides.platform = 'js';
+      // if user sets integration to flutter, set platform to flutter
+    } else if (updates.integration === 'flutter') {
+      overrides.platform = 'flutter';
+    } else if (updates.integration === 'react-native') {
+      overrides.platform = 'react-native';
     }
 
     // if user sets integration to a framework, set platform to js and framework to whatever was selected
-    else if (FRAMEWORK_FILTER_OPTIONS.includes(updates.integration) && updates.integration !== "flutter") {
-      overrides.platform = "js";
+    else if (
+      FRAMEWORK_FILTER_OPTIONS.includes(updates.integration) &&
+      updates.integration !== 'flutter'
+    ) {
+      overrides.platform = 'js';
       overrides.framework = updates.integration as keyof typeof filterMetadataByOption;
     }
 
@@ -37,13 +42,13 @@ export const withFilterOverrides = (
 
   if (updates.platform) {
     // if platform has been set to js
-    if (updates.platform === "js") {
+    if (updates.platform === 'js') {
       // and there is an integration currently selected
       if (currentSelection.integration) {
         // and the currently-selected integration is NOT a framework
         if (!FRAMEWORK_FILTER_OPTIONS.includes(currentSelection.integration)) {
           // override the integration as js
-          overrides.integration = "js" as keyof typeof filterMetadataByOption;
+          overrides.integration = 'js' as keyof typeof filterMetadataByOption;
         }
       }
 
@@ -51,10 +56,10 @@ export const withFilterOverrides = (
       else {
         updates.integration = updates.platform;
       }
-    // if platform has been set to flutter, then set it as integration and as framework
-    } else if (updates.platform === "flutter") {
+      // if platform has been set to flutter, then set it as integration and as framework
+    } else if (updates.platform === 'flutter') {
       updates.integration = updates.platform;
-      updates.framework = "flutter"
+      updates.framework = 'flutter';
     }
 
     // if the platform update is not js nor flutter, then set it as the integration, and clear the selected framework
@@ -66,14 +71,16 @@ export const withFilterOverrides = (
 
   // if framework is set, update the integration state with it
   if (updates.framework) {
-    if (updates.framework === "flutter") {
-      overrides.platform = "flutter";
-    // if the framework is not flutter, assume it is a js framework and set platform to js
+    if (updates.framework === 'flutter') {
+      overrides.platform = 'flutter';
+    } else if (updates.framework === 'react-native') {
+      overrides.platform = 'react-native';
     } else {
-      overrides.platform = "js";
+      // if the framework is not any of the above, assume it is a js framework and set platform to js
+      overrides.platform = 'js';
     }
     overrides.integration = updates.framework as keyof typeof filterMetadataByOption;
   }
 
-  return {...updates, ...overrides};
+  return { ...updates, ...overrides };
 };

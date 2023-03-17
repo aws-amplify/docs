@@ -1,24 +1,39 @@
-To start off, you'll need a React Native project. If you have an existing project, you can skip to [Generate model files](/start/getting-started/generate-model).
-
-##  Create a new React Native app
-
 To get started, initialize a new React Native project.
 
 <BlockSwitcher>
-<Block name="Expo">
+<Block name="Expo CLI">
 
 ```bash
 npm install -g expo-cli  
-expo init amplified_todo
 
-? Choose a template: blank
+npx create-expo-app amplified_todo
+
+cd my-app
+```
+
+Finally, open __App.js__ and add the following lines of code at the top of the file below the last import:
+
+```javascript
+import { Amplify } from 'aws-amplify'
+import awsconfig from './src/aws-exports'
+
+Amplify.configure(awsconfig)
 ```
 
 </Block>
 <Block name="React Native CLI">
 
 ```bash
-npx react-native init amplified_todo
+npx react-native@latest init amplified_to_do
+```
+
+Finally, open __index.js__ and add the following lines of code at the top of the file below the last import:
+
+```javascript
+import { Amplify } from 'aws-amplify';
+import awsconfig from './src/aws-exports';
+
+Amplify.configure(awsconfig);
 ```
 
 </Block>
@@ -32,13 +47,12 @@ import all0 from "/src/fragments/start/getting-started/reactnative/getting-start
 
 <Fragments fragments={{all: all0}} />
 
-
-Finally, open __App.js__(Expo) or __index.js__(React Native CLI) and add the following lines of code at the top of the file below the last import:
-
-```javascript
-import { Amplify } from 'aws-amplify'
-import awsconfig from './src/aws-exports'
-Amplify.configure(awsconfig)
-```
-
 Now your project is set up and you can begin adding new features.
+
+## Run your app
+
+To run your React Native app, you can follow the below steps
+
+import reactnative1 from '/src/fragments/lib/project-setup/react-native/run-react-native.mdx';
+
+<Fragments fragments={{ "react-native": reactnative1 }} />

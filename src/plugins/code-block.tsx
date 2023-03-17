@@ -45,7 +45,8 @@ module.exports = (async () => {
     'groovy',
     'dart',
     'text',
-    'plain'
+    'plain',
+    'sh'
   ];
 
   loadLanguages(supportedLanguages);
@@ -105,12 +106,17 @@ module.exports = (async () => {
   const addVersions = (code) => {
     code = code.replace(/ANDROID_VERSION/g, versions.ANDROID_VERSION);
     code = code.replace(/ANDROID_DEVPREVIEW/g, versions.ANDROID_DEVPREVIEW);
+    code = code.replace(/ANDROID_V1_VERSION/g, versions.ANDROID_V1_VERSION);
     code = code.replace(
-      /ANDROID_KOTLIN_VERSION/g,
-      versions.ANDROID_KOTLIN_VERSION
+      /ANDROID_V1_GEO_VERSION/g,
+      versions.ANDROID_V1_GEO_VERSION
     );
-    code = code.replace(/ANDROID_GEO_VERSION/g, versions.ANDROID_GEO_VERSION);
+    code = code.replace(
+      /ANDROID_V1_KOTLIN_VERSION/g,
+      versions.ANDROID_V1_KOTLIN_VERSION
+    );
     code = code.replace(/ANDROID_SDK_VERSION/g, versions.ANDROID_SDK_VERSION);
+    code = code.replace(/KOTLIN_SDK_VERSION/g, versions.KOTLIN_SDK_VERSION);
     return code;
   };
 

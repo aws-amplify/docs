@@ -4,42 +4,40 @@ Now that the client is set up, you can run a GraphQL mutation with `Amplify.API.
 
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 Make sure you have the following imports at the top of your file
 ```swift
 import Amplify
-import AWSPluginsCore
 ```
 
 ```swift
-func updateTodo() {
+func updateTodo() async {
     // Retrieve your Todo using Amplify.API.query
     var todo = Todo(name: "my first todo", description: "todo description")
     todo.description = "updated description"
-    Amplify.API.mutate(request: .update(todo)) { event in
-        switch event {
-        case .success(let result):
-            switch result {
-            case .success(let todo):
-                print("Successfully created todo: \(todo)")
-            case .failure(let error):
-                print("Got failed result with \(error.errorDescription)")
-            }
+    do {
+        let result = try await Amplify.API.mutate(request: .update(todo))
+        switch result {
+        case .success(let todo):
+            print("Successfully created todo: \(todo)")
         case .failure(let error):
-            print("Got failed event with error \(error)")
+            print("Got failed result with \(error.errorDescription)")
         }
+    } catch let error as APIError {
+        print("Failed to update todo: ", error)
+    } catch {
+        print("Unexpected error: \(error)")
     }
 }
 ```
 </Block>
 
-<Block name="Combine (iOS 13+)">
+<Block name="Combine">
 
 Make sure you have the following imports at the top of your file
 ```swift
 import Amplify
-import AWSPluginsCore
 import Combine
 ```
 
@@ -48,21 +46,23 @@ func updateTodo() -> AnyCancellable {
     // Retrieve your Todo using Amplify.API.query
     var todo = Todo(name: "my first todo", description: "todo description")
     todo.description = "updated description"
-    let sink = Amplify.API.mutate(request: .update(todo))
-        .resultPublisher
-        .sink {
-            if case let .failure(error) = $0 {
-                print("Got failed event with error \(error)")
-            }
+    let todoUpdated = todo
+    let sink = Amplify.Publisher.create {
+        try await Amplify.API.mutate(request: .update(todoUpdated))
+    }
+    .sink {
+        if case let .failure(error) = $0 {
+            print("Got failed event with error \(error)")
         }
-        receiveValue: { result in
-            switch result {
-            case .success(let todo):
-                print("Successfully created todo: \(todo)")
-            case .failure(let error):
-                print("Got failed result with \(error.errorDescription)")
-            }
+    }
+    receiveValue: { result in
+        switch result {
+        case .success(let todo):
+            print("Successfully created todo: \(todo)")
+        case .failure(let error):
+            print("Got failed result with \(error.errorDescription)")
         }
+    }
     return sink
 }
 ```
@@ -73,9 +73,9 @@ func updateTodo() -> AnyCancellable {
 
 To create data, replace the request with `.create`
 ```swift
-Amplify.API.mutate(request: .create(todo))
+try await Amplify.API.mutate(request: .create(todo))
 ```
 To delete data, replace the request with `.delete`
 ```swift
-Amplify.API.mutate(request: .delete(todo))
+try await Amplify.API.mutate(request: .delete(todo))
 ```

@@ -2,36 +2,40 @@ Invoke this api with whatever provider you're using (shown with Facebook below):
 
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-func socialSignInWithWebUI() {
-    Amplify.Auth.signInWithWebUI(for: .facebook, presentationAnchor: self.view.window!) { result in
-        switch result {
-        case .success:
+func socialSignInWithWebUI() async {
+    do {
+        let signInResult = try await Amplify.Auth.signInWithWebUI(for: .facebook, presentationAnchor: self.view.window!)
+        if signInResult.isSignedIn {
             print("Sign in succeeded")
-        case .failure(let error):
-            print("Sign in failed \(error)")
         }
+    } catch let error as AuthError {
+        print("Sign in failed \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
     }
 }
 ```
 
 </Block>
 
-<Block name="Combine (iOS 13+)">
+<Block name="Combine">
 
 ```swift
 func socialSignInWithWebUI() -> AnyCancellable {
-    Amplify.Auth.signInWithWebUI(for: .facebook, presentationAnchor: self.view.window!)
-        .resultPublisher
-        .sink {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.signInWithWebUI(for: .facebook, presentationAnchor: self.view.window!)
+        }.sink {
             if case let .failure(authError) = $0 {
                 print("Sign in failed \(authError)")
             }
         }
-        receiveValue: { _ in
-            print("Sign in succeeded")
+        receiveValue: { signInResult in
+            if signInResult.isSignedIn {
+                print("Sign in succeeded")
+            }
         }
 }
 ```

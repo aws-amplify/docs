@@ -1,36 +1,41 @@
-import styled from "@emotion/styled";
-import {MQLaptop} from "../media";
+import styled from '@emotion/styled';
+import { MQDesktop, MQLaptop, MQTablet, MQMobile } from '../media';
 
 export const SecondaryNavStyle = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   justify-content: space-between;
-  flex: 1;
   align-items: center;
+  column-gap: 20px;
 
-  ${MQLaptop} {
+  ${MQDesktop} {
     flex-direction: row;
-    padding-left: 1.5rem;
+    alignitems: flex-start;
   }
 
   * {
     white-space: nowrap;
   }
 
-  div {
+  .secondary-nav-links {
+    padding: 0px 32px;
+    padding-top: 8px;
     display: flex;
     flex-direction: row;
     align-items: center;
     box-sizing: border-box;
 
-    &:first-child {
-      width: 100%;
-      overflow-x: auto;
+    width: 100%;
+    overflow-x: auto;
 
-      display: flex;
-      flex-direction: row;
-      align-items: start;
-      padding: 0 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+
+    border-top: 1px solid #aab7b8;
+
+    ${MQDesktop} {
+      border-top: none;
     }
 
     a {
@@ -42,8 +47,26 @@ export const SecondaryNavStyle = styled.div`
 
       display: block;
       padding: 0.875rem 0 0.875rem;
+      padding-bottom: 1.375rem;
       color: var(--font-color);
     }
+
+    background: linear-gradient(
+        to right,
+        var(--bg-color-secondary) 25%,
+        rgba(255, 255, 255, 0)
+      ),
+      linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0),
+        var(--bg-color-secondary) 75%
+      ),
+      linear-gradient(to right, rgba(0, 0, 0, 0.25), rgba(255, 255, 255, 0)),
+      linear-gradient(to left, rgba(0, 0, 0, 0.25), rgba(255, 255, 255, 0));
+    background-position: left center, right center, left center, right center;
+    background-repeat: no-repeat;
+    background-size: 80px 100%, 80px 100%, 30px 100%, 30px 100%;
+    background-attachment: local, local, scroll, scroll;
   }
 `;
 
@@ -51,7 +74,7 @@ export const HostStyle = styled.div`
   z-index: 1;
   display: block;
   position: sticky;
-  top: 0;
+  top: var(--docs-dev-center-nav);
   background-color: var(--bg-color-secondary);
 `;
 
@@ -59,7 +82,7 @@ export const LinkActiveStyle = styled.a`
   font-weight: bold;
 
   ${MQLaptop} {
-    border-bottom: 0.125rem solid var(--font-color);
+    border-bottom: 2px solid var(--color-orange-hv);
   }
 
   > span {
@@ -69,19 +92,12 @@ export const LinkActiveStyle = styled.a`
 
 export const LinkInactiveStyle = styled.a``;
 
-export const ShadowStyle = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 2rem;
-  background-image: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0),
-    rgba(0, 0, 0, 0.1875)
-  );
+export const SearchBarContainer = styled.div`
+  margin: 12px 0px;
+  width: 100%;
+  padding: 0px 32px;
 
-  ${MQLaptop} {
-    display: none !important;
+  ${MQDesktop} {
+    width: 850px;
   }
 `;

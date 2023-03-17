@@ -1,4 +1,7 @@
-Now you can create a custom subscription for comment creation with a specific post id:
+import all0 from "/src/fragments/guides/api-graphql/common/subscriptions-by-id.mdx";
+
+<Fragments fragments={{all: all0}} />
+
 
 ```swift
 extension GraphQLRequest {
@@ -25,19 +28,18 @@ Because the lifetime of the subscription will last longer than the lifetime of a
 
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-var subscription: GraphQLSubscriptionOperation<Comment>?
+var subscription: AmplifyAsyncThrowingSequence<GraphQLSubscriptionEvent<Comment>>!
 ```
 
 </Block>
 
-<Block name="Combine (iOS 13+)">
+<Block name="Combine">
 
 ```swift
-var subscription: GraphQLSubscriptionOperation<Comment>?
-var dataSink: AnyCancellable?
+var cancellable: AnyCancellable?
 ```
 
 </Block>
@@ -48,54 +50,67 @@ To listen to creation updates with the specific post using the post id, you can 
 
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
 func createSubscription() {
-    subscription = Amplify.API.subscribe(request: .onCreateComment(byPostId: "12345"), valueListener: { (subscriptionEvent) in
-        switch subscriptionEvent {
-        case .connection(let subscriptionConnectionState):
-            print("Subscription connect state is \(subscriptionConnectionState)")
-        case .data(let result):
-            switch result {
-            case .success(let createdComment):
-                print("Successfully got comment from subscription: \(createdComment)")
-            case .failure(let error):
-                print("Got failed result with \(error.errorDescription)")
+    subscription = Amplify.API.subscribe(
+        request: .onCreateComment(byPostId: "12345")
+    )
+    Task {
+        do {
+            for try await subscriptionEvent in subscription {
+                switch subscriptionEvent {
+                case .connection(let subscriptionConnectionState):
+                    print("Subscription connect state is \(subscriptionConnectionState)")
+                case .data(let result):
+                    switch result {
+                    case .success(let createdComment):
+                        print("Successfully got comment from subscription: \(createdComment)")
+                    case .failure(let error):
+                        print("Got failed result with \(error.errorDescription)")
+                    }
+                }
             }
+        } catch {
+            print("Subscription has terminated with \(error)")
         }
-    }, completionListener: { (result) in
-        switch result {
-        case .success:
-            print("Subscription has been closed successfully")
-        case .failure(let apiError):
-            print("Subscription has terminated with \(apiError)")
-        }
-    })
+    }
 }
 ```
 </Block>
 
-<Block name="Combine (iOS 13+)">
+<Block name="Combine">
 
 ```swift
 func createSubscription() {
-    subscription = Amplify.API.subscribe(request: .onCreateComment(byPostId: "12345"))
-    dataSink = subscription?.subscriptionDataPublisher.sink {
-        if case let .failure(apiError) = $0 {
-            print("Subscription has terminated with \(apiError)")
-        } else {
-            print("Subscription has been closed successfully")
-        }
-    }
-    receiveValue: { result in
-        switch result {
-        case .success(let createdComment):
-            print("Successfully got comment from subscription: \(createdComment)")
-        case .failure(let error):
-            print("Got failed result with \(error.errorDescription)")
-        }
-    }
+    let sequence = Amplify.API.subscribe(
+        request: .onCreateComment(byPostId: "12345")
+    )
+
+    cancellable = Amplify.Publisher.create(sequence)
+        .sink(
+            receiveCompletion: {
+                if case let .failure(apiError) = $0 {
+                    print("Subscription has terminated with \(apiError)")
+                } else {
+                    print("Subscription has been closed successfully")
+                }
+            },
+            receiveValue: { result in
+                switch result {
+                    case .connection(let subscriptionConnectionState):
+                        print("Subscription connect state is \(subscriptionConnectionState)")
+                    case .data(let result):
+                        switch result {
+                        case .success(let createdComment):
+                            print("Successfully got comment from subscription: \(createdComment)")
+                        case .failure(let error):
+                            print("Got failed result with \(error.errorDescription)")
+                    }
+                }
+            }
+        )
 }
 ```
 

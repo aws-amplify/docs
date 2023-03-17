@@ -5,12 +5,12 @@ export const meta = {
 
 ## Data modeling example
 
-In this example we will build a data model for a bookstore to maintain information about books, authors, and publishers with relationships and authorization rules. The schema template below is a starting point for the bookstore backend.
+In this example you will build a data model for a bookstore to maintain information about books, authors, and publishers with relationships and authorization rules. The schema template below is a starting point for the bookstore backend.
 
 <Grid grid-gap="2" columns={1} className="margin-top-lg margin-bottom-lg">
   <Card
     external
-    href="https://sandbox.amplifyapp.com/schema-design/4f1a9f51-5783-4da5-9db1-60ce071e6539/clone"
+    href="https://sandbox.amplifyapp.com/schema-design/8771638b-a00a-4a1d-af23-26913967cc5f/clone"
     containertag="amplify-external-link"
   >
     <CardGraphic alt="Amplify Studio logo" src="/images/console/adminui.svg" />
@@ -33,6 +33,52 @@ The Studio data model designer provides a visual way to define your app's data m
 
 ![datamodel](/images/console/datamodel.gif)
 
-All data models built with Studio work with Amplify DataStore out-of-the-box. [DataStore](/lib/datastore/getting-started) is an on-device storage engine that automatically synchronizes data between your mobile and web apps and your database in the AWS cloud to help you build real-time and offline apps faster.
-
 The experience for modeling data is the same in the sandbox and in Studio. With an AWS account, you will have real-time data synchronization capabilities and you will also be able to set authorization rules on your models. For more information, see [Authorization](/console/authz/authorization). All data models are provisioned in your account as AWS AppSync GraphQL APIs and Amazon DynamoDB tables. As with every feature of Studio, it can be further extended with the CLI.
+
+### DataStore and GraphQL
+By default, all data models built with Studio are provisioned with Amplify DataStore. However, Studio applications work with both DataStore and an Amplify GraphQL API. 
+
+**[DataStore](/lib/datastore/getting-started)** is an on-device storage engine that automatically synchronizes data between your mobile and web apps and your database, enabling offline use. DataStore requires a **Conflict Resolution** method to function. 
+
+An **[Amplify GraphQL API](../../cli/graphql/overview/)** is an online-only API that uses a GraphQL and DynamoDB via AWS AppSync. 
+
+To change your app's Conflict Resolution settings, or to change your app from using DataStore to using an Amplify GraphQL API, take the following steps:
+1. Navigate to **Amplify Studio > Data**
+2. Select **GraphQL API settings** at the top of the page
+3. Toggle DataStore off or on, or change your Conflict Resolution strategy
+4. Return to the Data Modeling screen and select **Save and Deploy**
+
+<Callout warning>
+
+**IMPORTANT NOTE**: Changing between DataStore and an Amplify GraphQL API is a significant change to your data structure, and can take up to 30 minutes to complete. Frequently changing between data structures is not recommended.
+
+</Callout>
+
+### Limitations
+Applications that use an Amplify GraphQL API have limited feature availability in Studio. 
+- The Content Manager is not supported, and is [replaced by a GraphiQL interface](content-management/#limitations)
+- [Binding UI Components to data](../uibuilder/databinding/), and [generating Collections](../uibuilder/collections/) is not supported
+- [Binding Forms to data, and auto-generated forms](../formbuilder/overview/) are not supported
+
+To get access to these features, turn on DataStore and select a Conflict Resolution strategy.
+
+### Unsupported directives and field-level parameters
+
+If a data model contains unsupported directives or field-level parameters the **Visual editor** under Data modeling and **Data manager** under Content will not be available to use. However, you can continue using other Amplify Studio features and use the Amplify CLI to make modifications to GraphQL schemas.
+
+- [`@default` directive](/cli/graphql/data-modeling/#assign-default-values-for-fields)
+- [`@function` directive](/cli/graphql/custom-business-logic/#lambda-function-resolver)
+- [`@http` directive](/cli/graphql/custom-business-logic/#http-resolver)
+- [`@predictions` directive](/cli/graphql/connect-to-machine-learning-services/)
+- [`@primaryKey` directive](/cli/graphql/data-modeling/#configure-a-primary-key)
+- [`@searchable` directive](/cli/graphql/search-and-result-aggregations/)
+- [`@mapsTo` directive](/cli/graphql/schema-evolution/)
+- [`@auth` `groupClaim` property](cli/graphql/authorization-rules/#user-group-based-data-access)
+- [`@auth` `groupsField` property](/cli/graphql/authorization-rules/#field-level-authorization-rules)
+- [`@auth` custom `groupClaim`](/cli/graphql/authorization-rules/#configure-custom-identity-and-group-claims)
+- [`@auth` custom `identityClaim`](/cli/graphql/authorization-rules/#configure-custom-identity-and-group-claims)
+- [OIDC and Function providers](/cli/graphql/authorization-rules/#using-oidc-authorization-provider)
+- [OwnerField as Array type](authorization-rules/#multi-user-data-access) 
+- [`Query` type](/cli/graphql/custom-business-logic/#create-a-custom-query-or-mutation)
+- [`Mutation` type](/cli/graphql/custom-business-logic/#create-a-custom-query-or-mutation)
+- [`Subscription` type](/cli/graphql/custom-business-logic/#create-a-custom-query-or-mutation)

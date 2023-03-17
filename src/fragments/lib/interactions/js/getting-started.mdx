@@ -33,11 +33,11 @@ amplify push
 
 Upon successful execution of the push command, a configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`.
 
-> If your Interactions resources were created with Amplify CLI version 1.6.4 and below, you will need to manually update your project to avoid Node.js runtime issues with AWS Lambda. [Read more](/cli/migration/lambda-node-version-update)
+> If your Interactions resources were created with Amplify CLI version 1.6.4 and below, you will need to manually update your project to avoid Node.js runtime issues with AWS Lambda. [Read more](/cli/function/configure-options)
 
 ## Manual setup
-
-You can create Amazon Lex chatbox in Amazon Lex console. To create your bot, follow the steps shown in [Amazon Lex Developer Guide](https://docs.aws.amazon.com/lex/latest/dg/getting-started.html).
+### Lex V1 bot
+You can create Amazon Lex V1 chatbot in Amazon Lex console. To create your bot, follow the steps shown in [Amazon Lex V1 Developer Guide](https://docs.aws.amazon.com/lex/latest/dg/getting-started.html).
 
 ![Interactions](/images/interactions_lex_console_edit_bot.jpg)
 
@@ -63,21 +63,52 @@ Amplify.configure({
 });
 ```
 
-## Configure frontend
+### Lex V2 bot
+You can create Amazon Lex V2 chatbot in Amazon Lex console. To create your bot, follow the steps shown in [Amazon Lex V2 Developer Guide](https://docs.aws.amazon.com/lexv2/latest/dg/getting-started.html).
 
-Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. For example `App.js` in React or `main.ts` in Angular.
+![Interactions](/images/interactions_lex_v2_console_edit_bot.png)
+
+With manual setup, you need to provide your auth credentials and bot details to configure your app:
 
 ```javascript
-import { Amplify, Interactions } from 'aws-amplify';
-import awsconfig from './aws-exports';
+import { Amplify } from 'aws-amplify';
+import { AWSLexV2Provider } from '@aws-amplify/interactions';
 
-Amplify.configure(awsconfig);
+Amplify.addPluggable(new AWSLexV2Provider());
+
+const interactionsConfig = {
+    Auth: {
+        identityPoolId: "<identityPoolId>",
+        region: "<region>"
+    },
+    Interactions: {
+        bots: {
+            // LexV2 Bot
+            <V2BotName>: {
+                name: "<V2BotName>",
+                aliasId: "<V2BotAliasId>",
+                botId: "<V2BotBotId>",
+                localeId: "<V2BotLocaleId>",
+                region: "<V2BotRegion>",
+                providerName: "AWSLexV2Provider",
+            },
+        }
+    }
+}
+
+Amplify.configure(interactionsConfig);
 ```
 
-## ChatBot UI component
+## Configure frontend
 
-Use the `ChatBot` component to add conversational UI to your app. [Learn more](/ui-legacy/interactions/chatbot).
+import js0 from '/src/fragments/lib/interactions/js/frontend.mdx';
 
-## API reference
+<Fragments fragments={{ js: js0 }} />
 
-For the complete API documentation for Interactions module, visit our [API Reference](https://aws-amplify.github.io/amplify-js/api/classes/interactions.html).
+import reactnative1 from '/src/fragments/lib/react-native-polyfills.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative1 }} />
+
+import reactnative2 from '/src/fragments/lib/in-app-messaging/integrate-your-application/react-native/configure-amplify.mdx';
+
+<Fragments fragments={{ 'react-native': reactnative2 }} />

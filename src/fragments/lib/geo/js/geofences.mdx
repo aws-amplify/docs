@@ -41,11 +41,11 @@ import "maplibre-gl/dist/maplibre-gl.css";
   function Map() {
     const mapRef = useRef(null); // Reference to the map DOM element
 
-    // Wrapping our code in a useEffect allows us to run initializeMap after the div has been rendered into the DOM
+    // Wrapping your code in a useEffect allows us to run initializeMap after the div has been rendered into the DOM
     useEffect(() => {
       let map;
       async function initializeMap() {
-        // We only want to initialize the underlying maplibre map after the div has been rendered
+        // You only want to initialize the underlying maplibre map after the div has been rendered
         if (mapRef.current != null) {
           map = await createMap({
             container: mapRef.current,

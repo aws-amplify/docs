@@ -1,19 +1,25 @@
-## Create a new Vue app
+Use the Vue Vite powered `create-app` to bootstrap a new Vue 3 app (selecting the defaults will work for this project):
 
-Use the Vue CLI to bootstrap a new Vue 3 app (selecting the defaults will work for this project):
-
-<BlockSwitcher>
 <Block name="NPM">
 
 ```bash
-npm install -g @vue/cli
-vue create myamplifyproject
+npm init vue@3
 
-? Please pick a preset: (Use arrow keys)
-❯ Default (Vue 3 Preview) ([Vue 3] babel, eslint)  <--
-  Manually select features
+Need to install the following packages:
+  create-vue@3
+Ok to proceed? (y) y
+
+✔ Project name: … myamplifyproject
+✔ Add TypeScript? … No 
+✔ Add JSX Support? … No 
+✔ Add Vue Router for Single Page Application development? … No 
+✔ Add Pinia for state management? … No 
+✔ Add Vitest for Unit Testing? … No 
+✔ Add Cypress for both Unit and End-to-End testing? … No 
+✔ Add ESLint for code quality? … No 
 
 cd myamplifyproject
+
 ```
 
 Install required modules:
@@ -25,43 +31,18 @@ npm install
 Run your app:
 
 ```bash
-npm run serve --open
+npm run dev
 ```
 Press `Ctrl + C` to stop the server
 
 </Block>
-<Block name="Yarn">
 
-```bash
-yarn global add @vue/cli
-vue create myamplifyproject
-
-? Please pick a preset: (Use arrow keys)
-❯ default (babel, eslint)   <--
-  Manually select features
-
-cd myamplifyproject
-```
-
-Install required modules:
-
-```bash
-yarn
-```
-
-Run your app:
-
-```bash
-yarn serve --open
-```
-Press `Ctrl + C` to stop the server
-
-</Block>
-</BlockSwitcher>
 
 ## Initialize a new backend
 
-Now that we have a running Vue app, it's time to set up Amplify so that we can create the necessary backend services needed to support the app. From the root of the project, run:
+Now that you have a running Vue app, it's time to set up Amplify so that you can create the necessary backend services needed to support the app. 
+
+Open a new terminal. From the root of the project, run:
 
 ```bash
 amplify init
@@ -75,132 +56,27 @@ Give your backend project the name `todo`
 ? Enter a name for the project (myamplifyproject) todo
 ```
 
-All AWS services you provision for your app are grouped into an "environment"
-A common naming convention is dev, staging, and production
+You'll then be asked to accept some recommended values:
 
-Set the backend environment name to be `dev`
-```console
-? Enter a name for the environment dev
+```
+The following configuration will be applied:
+
+Project information
+| Name: todo
+| Environment: dev
+| Default editor: Visual Studio Code
+| App type: javascript
+| Javascript framework: vue
+| Source Directory Path: src
+| Distribution Directory Path: dist
+| Build Command: npm run-script build
+| Start Command: npm run-script serve
+
+? Initialize the project with the above configuration? Yes
+
 ```
 
-Sometimes the CLI will prompt you to edit a file, it will use this editor to open those files.
-Select your preferred code editor software
-```console
-? Choose your default editor: (Use arrow keys)
-❯ Visual Studio Code
-  Atom Editor
-  Sublime Text
-  IntelliJ IDEA
-  Vim (via Terminal, Mac OS only)
-  Emacs (via Terminal, Mac OS only)
-  None
-```
-
-Amplify will provide configuration files for your frontend application to connect to this backend environment. Since Vue is based on Javascript, we'll select that here.
-Select the javascript framework for your backend integration
-```console
-# Amplify supports JavaScript (Web & React Native), iOS, and Android apps
-? Choose the type of app that you're building (Use arrow keys)
-  android
-  ios
-❯ javascript
-```
-
-```console
-? What JavaScript framework are you using (Use arrow keys)
-  angular
-  ember
-  ionic
-  react
-  react-native
-❯ vue
-  none
-```
-
-Vue CLI setup the source files for your project under a `./src` folder. Other tools, such as `Nuxt`, place the source files in the root directory. For this tutorial, we'll go with the default, `src`
-```console
-? Source Directory Path:  src
-```
-
-When your project is ready to be hosted, Vue will generate your website, ready for public use, into a folder called `dist`. This is the default, so you can just press enter to continue.
-```console
-? Distribution Directory Path:  dist
-```
-
-<BlockSwitcher>
-<Block name="NPM">
-
-Amplify's automated deployment needs to know what steps are needed to build your application for publishing. Here we will set that to be Vue CLI's default build script, found in the `package.json`
-```console
-? Build Command:  npm run-script build
-```
-
-If Amplify needs to run the application in development mode, it needs to know how to start the development server. Again, we'll use Vue CLI's default scripts.
-```console
-? Start Command:  npm run-script serve
-```
-</Block>
-<Block name="Yarn">
-
-Amplify's automated deployment needs to know what steps are needed to build your application for publishing. Here we will set that to be Vue CLI's default build script, found in the `package.json`
-```console
-? Build Command:  yarn build
-```
-
-If Amplify needs to run the application in development mode, it needs to know how to start the development server. Again, we'll use Vue CLI's default scripts.
-```console
-? Start Command:  yarn serve
-```
-</Block>
-</BlockSwitcher>
-
-Finally, Amplify needs an AWS account to connect to so that it can begin creating the backend services.
-This is the profile you created with the `amplify configure` command in the introduction step. [introduction step](/start/getting-started/installation)
-
-<BlockSwitcher>
-<Block name="With A Profile">
-
-Select "yes" by typing `y` and pressing `enter`.
-
-```console
-? Do you want to use an AWS profile? (Y/n)
-```
-Proceed to select your profile from the list and press enter. Amplify will now begin deploying your backend framework.
-
-</Block>
-<Block name="Without A Profile">
-
-If you have not setup an AWS profile yet, select "no" by typing `n` and pressing `enter`.
-
-```console
-? Do you want to use an AWS profile? (Y/n)
-```
-
-You will now be prompted for an Access Key and Secret Key for your AWS account. Fill in these details and press enter.
-
-```console
-? accessKeyId:  (<YOUR_ACCESS_KEY_ID>)
-? secretAccessKey:  (<YOUR_SECRET_ACCESS_KEY>)
-```
-
-AWS has multiple regions distributed around the world. Select the region that makes sense for your application to run in. For this tutorial, the closer the region is to you, the better your experience will be.
-
-```console
-? region:  (Use arrow keys)
-❯ us-east-1 
-  us-east-2 
-  us-west-2 
-  eu-west-1 
-  eu-west-2 
-  eu-central-1 
-  ap-northeast-1 
-(Move up and down to reveal more choices)
-```
-
-Amplify will now begin deploying your backend framework.
-
-</Block>
-</BlockSwitcher>
+> Where possible the CLI will infer the proper configuration based on the type of project Amplify is being initialized in. In this case it knew you are using Vue and provided the proper configuration for type of app, framework, source, distribution, build, and start options.
 
 When you initialize a new Amplify project, a few things happen:
 
@@ -213,7 +89,6 @@ When you initialize a new Amplify project, a few things happen:
 
 The first step to using Amplify in the client is to install the necessary dependencies:
 
-<BlockSwitcher>
 <Block name="NPM">
 
 ```
@@ -221,14 +96,6 @@ npm install aws-amplify @aws-amplify/ui-vue
 ```
 
 </Block>
-<Block name="Yarn">
-
-```
-yarn add aws-amplify @aws-amplify/ui-vue
-```
-
-</Block>
-</BlockSwitcher>
 
 <Callout>
 
@@ -240,7 +107,7 @@ The `@aws-amplify/ui-vue` package is a set of components that make it easy to in
 
 # Set up frontend
 
-Next, we need to configure Amplify on the client so that we can use it to interact with our backend services.
+Next, you need to configure Amplify on the client so that you can use it to interact with your backend services.
 
 Open __src/main.js__ and add the following code below the last import:
 
@@ -250,24 +117,47 @@ import awsExports from './aws-exports';
 Amplify.configure(awsExports);
 ```
 
-And that's all it takes to configure Amplify. As you add or remove categories and make updates to your backend configuration using the Amplify CLI, the configuration in __aws-exports.js__ will update automatically.
+## Vue Vite Config
 
-Now that our Vue app is set up and Amplify is initialized, we're ready to add an API in the next step.
+When working with a Vue `create-app` that uses [Vite](https://vitejs.dev) you must make a few additional modifications. Please follow the steps below.
 
+**1.** Add the following script tag to the `index.html` file at the bottom of the `<body>` tag.
 
-## Install as a global plugin (Optional)
-
-We can configure Amplify on the client as a global plugin so that we can use `ui-vue` components anywhere without importing them in.
-
-Open __src/main.js__ and add the following code below the last import:
-
-```js
-import { createApp } from 'vue';
-import App from './App.vue';
-import AmplifyVue from '@aws-amplify/ui-vue';
-
-const app = createApp(App);
-app.use(AmplifyVue);
-app.mount('#app');
+```html
+...
+  <script>
+        window.global = window;
+        var exports = {};
+  </script>
+</body>
 ```
 
+**2.** Update the `vite.config.ts` and add in a resolve object inside the `defineConfig({})` as seen below.
+
+```js
+...
+export default defineConfig({
+  plugins: [vue()],
+  resolve: {
+      alias: [
+      {
+        find: './runtimeConfig',
+        replacement: './runtimeConfig.browser',
+      },
+    ]
+  }
+})
+```
+
+**3.** If you choose to add TypeScript, update the `tsconfig.json` file and add `skipLibCheck: true` under `compilerOptions`.
+
+```js
+...
+  "compilerOptions": {
+    "skipLibCheck": true,
+...
+```
+
+And that's all it takes to configure Amplify with Vue and `create-app`. As you add or remove categories and make updates to your backend configuration using the Amplify CLI, the configuration in __aws-exports.js__ will update automatically.
+
+Now that your Vue app is set up and Amplify is initialized, you're ready to add an API in the next step.

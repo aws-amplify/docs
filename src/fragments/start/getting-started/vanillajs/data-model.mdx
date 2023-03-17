@@ -15,23 +15,13 @@ amplify add api
 Accept the **default values** which are highlighted below:
 
 ```console
-? Please select from one of the below mentioned services:
+? Select from one of the below mentioned services:
 # GraphQL
-? Provide API name:
-# amplifyjsapp
-? Choose the default authorization type for the API:
-# API Key
-? Enter a description for the API key:
-# todos
-? After how many days from now the API key should expire:
-# 7 (or your preferred expiration)
-? Do you want to configure advanced settings for the GraphQL API:
-# No
-? Do you have an annotated GraphQL schema?
-# No
+? Here is the GraphQL API that we will create. Select a setting to edit or continue
+# Continue
 ? Choose a schema template:
 # Single object with fields (e.g., “Todo” with ID, name, description)
-? Do you want to edit the schema now?
+✔ Do you want to edit the schema now? (Y/n)
 # Yes
 ```
 
@@ -40,24 +30,29 @@ The CLI should open this GraphQL schema in your text editor.
 __amplify/backend/api/amplifyjsapp/schema.graphql__
 
 ```graphql
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
+
 type Todo @model {
   id: ID!
   name: String!
   description: String
 }
+
 ```
 
-The schema generated is for a Todo app. You'll notice a directive on the `Todo` type of `@model`. This directive is part of the [GraphQL transform](/cli/graphql/data-modeling) library of Amplify. 
+The schema generated is for a Todo app. You'll notice a `@model` directive on the `Todo` type. This directive is part of the [GraphQL transformer](/cli/graphql/data-modeling) feature of the Amplify CLI. 
 
-The GraphQL Transform Library provides custom directives you can use in your schema that allow you to do things like define data models, set up authentication and authorization rules, configure serverless functions as resolvers, and more.
+The GraphQL transformer provides custom GraphQL directives that allow you to define data models, set up authorization rules, configure serverless functions as resolvers, and more.
 
-A type decorated with the `@model` directive will scaffold out the database table for the type (Todo table), the schema for CRUD (create, read, update, delete) and list operations, and the GraphQL resolvers needed to make everything work together.
+A GraphQL type decorated with the `@model` directive will scaffold out the database table for the type (Todo table), the schema for CRUD (create, read, update, delete) and list operations, and the GraphQL resolvers needed to make everything work together.
 
 From the command line, press __enter__ to accept the schema and continue to the next steps.
 
 ## Deploy your GraphQL API
 
-Now that the API has been successfully created. We need to push our updated configuration to the cloud so our API can be deployed:
+Now that the API has been successfully created locally, you need to deploy the API to the cloud:
 
 ```bash
 amplify push
@@ -65,7 +60,7 @@ amplify push
 
 ## Generate code for the GraphQL API
 
-When you run `amplify push`, you will be presented with the option to have all the GraphQL operations found in your schema generated for you in code. Choose the following options:
+When you run `amplify push`, you can generate client code for all the GraphQL operations (create, read, update, delete, list). These client code snippets allow you to execute these GraphQL operations more easily with the help of the Amplify JavaScript library. Choose the following options:
 
 ```console
 ? Do you want to generate code for your newly created GraphQL API (Yes)
@@ -226,4 +221,4 @@ Now if you wish to subscribe to data, import the `onCreateTodo` subscription and
  getData();
 ```
 
-After restarting your app using `npm start` go back to your browser and using dev tools you will see data being stored and retrieved in your backend from the console logs.
+After restarting your app using `npm start` go back to your browser and you will see subscription events displayed under **Subscription Results**.

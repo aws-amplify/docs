@@ -1,44 +1,48 @@
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-func signIn(username: String) {
-    Amplify.Auth.signIn(username: username) { result in
-        switch result {
-        case .success:
-            if case .confirmSignInWithCustomChallenge(_) = result.nextStep {
-                // Ask the user to enter the custom challenge.
-            } else {
-                print("Sign in succeeded")   
-            }
-        case .failure(let error):
-            print("Sign in failed \(error)")
+func signIn(username: String) async {
+    do {
+        let options = AWSAuthSignInOptions(authFlowType: .customWithoutSRP)
+        let signInResult = try await Amplify.Auth.signIn(username: username,
+                                                        options: .init(pluginOptions: options))
+        if case .confirmSignInWithCustomChallenge(_) = signInResult.nextStep {
+            // Ask the user to enter the custom challenge.
+        } else {
+            print("Sign in succeeded")
         }
+    } catch let error as AuthError {
+        print("Sign in failed \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
     }
 }
 ```
 
 </Block>
 
-<Block name="Combine (iOS 13+)">
+<Block name="Combine">
 
 ```swift
-func signIn(username: String, password: String) -> AnyCancellable {
-    Amplify.Auth.signIn(username: username, password: password)
-        .resultPublisher
-        .sink {
-            if case let .failure(authError) = $0 {
-                print("Sign in failed \(authError)")
-            }
+func signIn(username: String) -> AnyCancellable {
+    Amplify.Publisher.create {
+        let options = AWSAuthSignInOptions(authFlowType: .customWithoutSRP)
+        try await Amplify.Auth.signIn(username: username,
+                                    options: .init(pluginOptions: options))
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("Sign in failed \(authError)")
         }
-        receiveValue: { result in
-            if case .confirmSignInWithCustomChallenge(_) = result.nextStep {
-                // Ask the user to enter the custom challenge.
-            } else {
-                print("Sign in succeeded")
-            }
+    }
+    receiveValue: { result in
+        if case .confirmSignInWithCustomChallenge(_) = result.nextStep {
+            // Ask the user to enter the custom challenge.
+        } else {
+            print("Sign in succeeded")
         }
+    }
 }
 ```
 

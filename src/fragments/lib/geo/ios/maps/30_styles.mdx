@@ -2,38 +2,16 @@ The `availableMaps` API fetches information for all maps that are available to b
 
 This is useful if you would like to give your users a variety of maps styles to choose from.
 
-<BlockSwitcher>
-
-<Block name="Stable Release">
-
-```swift
-var maps = [Geo.MapStyle]()
-
-Amplify.Geo.availableMaps { result in
-    switch result {
-    case .failure(let error):
-        print(error)
-    case .success(let availableMaps):
-        maps = availableMaps
-    }
-}
-```
-
-</Block>
-
-<Block name="Developer Preview">
-
 ```swift
 var maps = [Geo.MapStyle]()
 do {
     maps = try await Amplify.Geo.availableMaps()
+} catch let error as Geo.Error {
+    print("Failed to get available maps: \(error)")
 } catch {
-    print(error)
+    print("Unexpected error: \(error)")
 }
 ```
-
-</Block>
-</BlockSwitcher>
 
 You can load a different style map by passing it to the createMap function.
 

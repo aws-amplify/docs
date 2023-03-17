@@ -30,6 +30,19 @@ export function override(resources: AmplifyAuthCognitoStackTemplate) {
 
 Or add a custom attribute to your Cognito user pool:
 
+<Callout warning>
+
+Removing or adding an attribute on a Cognito userpool schema including default attributes (e.g. `email`) will cause errors such as 
+`Invalid AttributeDataType input, consider using the provided AttributeDataType enum` as CloudFormation interprets this as schema change. 
+
+</Callout>
+
+<Callout warning>
+
+Custom attributes can not be renamed or deleted after you create them.
+
+</Callout>
+
 ```ts
 import { AmplifyAuthCognitoStackTemplate } from '@aws-amplify/cli-extensibility-helper'
 
@@ -124,7 +137,7 @@ export function override(resources: AmplifyAuthCognitoStackTemplate) {
       type: "AWS::Cognito::UserPoolIdentityProvider",
       properties: {
         AttributeMapping: {
-          preferredUsername: "email",
+          preferred_username: "email",
           email: "email"
         },
         ProviderDetails: {

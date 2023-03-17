@@ -306,7 +306,7 @@ type Subscription {
 
 This is useful when you need to filter by what Todo objects the Comments are connected to. You will need to augment your schema slightly to enable this.
 
-1. Add the subscriptions argument on the *@model* directive, telling Amplify to *not* generate subscriptions for your Comment type. Also, just as importantly, we will be utilizing an auto-generated column from DynamoDB by adding `commentTodoId` to our Comment model:
+1. Add the subscriptions argument on the *@model* directive, telling Amplify to *not* generate subscriptions for your Comment type. Also, just as importantly, you will be utilizing an auto-generated column from DynamoDB by adding `commentTodoId` to our Comment model:
 
 ```graphql
 type Comment @model(subscriptions: null) {

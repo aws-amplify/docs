@@ -1,3 +1,7 @@
+<BlockSwitcher>
+
+<Block name="Stable (Mobile)">
+
 ```dart
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
@@ -24,12 +28,73 @@ Future<void> uploadProtected() async {
         key: 'ExampleKey',
         options: uploadOptions,
         onProgress: (progress) {
-          print('Fraction completed: ${progress.getFractionCompleted()}');
+          safePrint('Fraction completed: ${progress.getFractionCompleted()}');
         }
     );
-    print('Successfully uploaded file: ${result.key}');
+    safePrint('Successfully uploaded file: ${result.key}');
   } on StorageException catch (e) {
-    print('Error uploading protected file: $e');
+    safePrint('Error uploading protected file: $e');
   }
 }
 ```
+
+</Block>
+
+<Block name = "Developer Preview (Mobile & Desktop)">
+
+```dart
+import 'dart:io' as io;
+import 'package:amplify_storage_s3_dart/amplify_storage_s3_dart.dart';
+import 'package:aws_common/vm.dart';
+
+Future<void> uploadProtectedIOFile(io.File file) async {
+  final awsFile = AWSFilePlatform.fromFile(file);
+  try {
+    final uploadResult = await Amplify.Storage.uploadFile(
+      localFile: awsFile,
+      key: 'upload/file.png',
+      options: const S3UploadFileOptions(
+        accessLevel: StorageAccessLevel.protected,
+      ),
+      onProgress: (progress) {
+        safePrint('Fraction completed: ${progress.fractionCompleted}');
+      },
+    ).result;
+    safePrint('Uploaded file: ${uploadResult.uploadedItem.key}');
+  } on StorageException catch (e) {
+    safePrint(e.message);
+    rethrow;
+  }
+}
+```
+
+</Block>
+
+<Block name = "Developer Preview (Web)">
+
+```dart
+import 'dart:html' as html;
+import 'package:amplify_storage_s3_dart/amplify_storage_s3_dart.dart';
+import 'package:aws_common/web.dart';
+
+Future<void> uploadProtectedFileOnWeb(html.File file) async {
+  final awsFile = AWSFilePlatform.fromFile(file);
+  try {
+    final uploadResult = await Amplify.Storage.uploadFile(
+      localFile: awsFile,
+      key: 'upload/file.png',
+      options: const S3UploadFileOptions(
+        accessLevel: StorageAccessLevel.protected,
+      ),
+    ).result;
+    safePrint('Uploaded file: ${uploadResult.uploadedItem.key}');
+  } on StorageException catch (e) {
+    safePrint(e.message);
+    rethrow;
+  }
+}
+```
+
+</Block>
+
+</BlockSwitcher>

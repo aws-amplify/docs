@@ -24,22 +24,22 @@ Events have default configuration to flush out to the network every 30 seconds. 
 
 ```json
 {
-    "UserAgent": "aws-amplify-cli/2.0",
-    "Version": "1.0",
-    "analytics": {
-        "plugins": {
-            "awsPinpointAnalyticsPlugin": {
-                "pinpointAnalytics": {
-                    "appId": "AppID",
-                    "region": "Region"
-                },
-                "pinpointTargeting": {
-                    "region": "Region"
-                },
-                "autoFlushEventsInterval": 10000
-            }
-        }
+  "UserAgent": "aws-amplify-cli/2.0",
+  "Version": "1.0",
+  "analytics": {
+    "plugins": {
+      "awsPinpointAnalyticsPlugin": {
+        "pinpointAnalytics": {
+          "appId": "AppID",
+          "region": "Region"
+        },
+        "pinpointTargeting": {
+          "region": "Region"
+        },
+        "autoFlushEventsInterval": 10000
+      }
     }
+  }
 }
 ```
 
@@ -70,20 +70,3 @@ Future<void> unregisterGlobalProperties() async {
   );
 }
 ```
-
-## Disable Analytics
-
-To disable analytics, call:
-
-```dart
-Amplify.Analytics.disable();
-```
-
-## Enable Analytics
-
-To re-enable, call:
-
-```dart
-Amplify.Analytics.enable();
-```
-

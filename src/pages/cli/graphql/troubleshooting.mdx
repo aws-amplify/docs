@@ -30,7 +30,7 @@ The script creates an event stream of your DynamoDB records and sends them to yo
 |---------|-----------|--------|
 |`--rn`   | DynamoDB table region. See [AWS Regions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html) for available options |Yes|
 |`--tn`   | DynamoDB table name. Format: `{@model type name}-{AppSync API ID}-{Amplify environment}`|Yes|
-|`--lf`   | ARN of the "DynamoDB to OpenSearch streaming" Lambda function. Format: `arn:aws:lambda:{region}:{AWS Account ID}:function:amplify-{Amplify app name}-{Amplify environment}-{Random string}-OpenSearchStreamingLambd-{Random string}`|Yes|
+|`--lf`   | ARN of the "DynamoDB to OpenSearch streaming" Lambda function. Format: `arn:aws:lambda:{region}:{AWS Account ID}:function:amplify-{Amplify project name}-{Amplify environment}-{Random string}-OpenSearchStreamingLambd-{Random string}`|Yes|
 |`--esarn`| ARN of the DynamoDB table stream. Format: `arn:aws:dynamodb:{region}:{AWS Account ID}:table/{@model type name}-{AppSync API ID}-{Amplify environment}/stream/{Table creation date}`|Yes|
 |`--ak`   | AWS Access Key ID. This is used to authenticate with your AWS account in case no local AWS profile is set up. | No|
 |`--sk`   | AWS Secret Access Key. This is used to authenticate with your AWS account in case no local AWS profile is set up. | No|

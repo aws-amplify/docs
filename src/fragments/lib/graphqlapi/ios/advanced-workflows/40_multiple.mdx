@@ -14,10 +14,15 @@ extension GraphQLRequest {
           }
         }
         """
-        return GraphQLRequest<JSONValue>(document: document,
-                                         variables: ["postId": postId,
-                                                     "todoId": todoId],
-                                         responseType: JSONValue.self)
+
+        return GraphQLRequest<JSONValue>(
+            document: document,
+            variables: [
+                "postId": postId,
+                "todoId": todoId
+            ],
+            responseType: JSONValue.self
+        )
     }
 }
 ```
@@ -26,27 +31,27 @@ Notice here that `JSONValue` is used as the `responseType`. `JSONValue` is utili
 Once you have the response data in a `JSONValue`, you can access each object in the JSON structure by encoding it back to Data and decoding it to the expected Model.
 
 ```swift
-Amplify.API.query(request: .get(byPostId: "[POST_ID]", todoId: "[TODO_ID]")) { result in
-    switch result {
-    case .success(let response):
-        switch response {
-        case .success(let data):
-            if let todoJSON = data.value(at: "getTodo"),
-                let todoData = try? JSONEncoder().encode(todoJSON),
-                let todo = try? JSONDecoder().decode(Todo.self, from: todoData) {
-                print(todo)
-            }
-            if let postJSON = data.value(at: "getPost"),
-                let postData = try? JSONEncoder().encode(postJSON),
-                let post = try? JSONDecoder().decode(Post.self, from: postData) {
-                print(post)
-            }
-        case .failure(let errorResponse):
-            print("Response contained errors: \(errorResponse)")
+do {
+    let response = try await Amplify.API.query(request: .get(byPostId: "[POST_ID]", todoId: "[TODO_ID]"))
+    switch response {
+    case .success(let data):
+        if let todoJSON = data.value(at: "getTodo"),
+            let todoData = try? JSONEncoder().encode(todoJSON),
+            let todo = try? JSONDecoder().decode(Todo.self, from: todoData) {
+            print(todo)
         }
-    case .failure(let apiError):
-        print("Failed with error: \(apiError)")
+        if let postJSON = data.value(at: "getPost"),
+            let postData = try? JSONEncoder().encode(postJSON),
+            let post = try? JSONDecoder().decode(Post.self, from: postData) {
+            print(post)
+        }
+    case .failure(let errorResponse):
+        print("Response contained errors: \(errorResponse)")
     }
+} catch let error as APIError {
+    print("Failed with error: \(error)")
+} catch {
+    print("Unexpected error: \(error)")
 }
 ```
 

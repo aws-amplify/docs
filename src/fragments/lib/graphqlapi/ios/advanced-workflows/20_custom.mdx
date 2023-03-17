@@ -10,10 +10,12 @@ extension GraphQLRequest {
           }
         }
         """
-        return GraphQLRequest<Todo>(document: document,
-                                    variables: ["id": id],
-                                    responseType: Todo.self,
-                                    decodePath: operationName)
+        return GraphQLRequest<Todo>(
+            document: document,
+            variables: ["id": id],
+            responseType: Todo.self,
+            decodePath: operationName
+        )
     }
 }
 ```
@@ -21,6 +23,6 @@ The decode path specifies which part of the response to deserialize to the `resp
 
 Then, query for the Todo by a todo id
 ```swift
-Amplify.API.query(request: .getWithoutDescription(byId: "[UNIQUE_ID]")) { 
+try await Amplify.API.query(request: .getWithoutDescription(byId: "[UNIQUE_ID]"))
   // handle result
-```  
+```

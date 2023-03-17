@@ -1,30 +1,30 @@
 
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-func createTodo() {
+func createTodo() async {
     let todo = Todo(name: "my first todo", description: "todo description")
-    Amplify.API.mutate(request: .create(todo)) { event in
-        switch event {
-        case .success(let result):
-            switch result {
-            case .success(let todo):
-                print("Successfully created the todo: \(todo)")
-            case .failure(let graphQLError):
-                print("Failed to create graphql \(graphQLError)")
-            }
-        case .failure(let apiError):
-            print("Failed to create a todo", apiError)
+    do {
+        let result = try await Amplify.API.mutate(request: .create(todo))
+        switch result {
+        case .success(let todo):
+            print("Successfully created the todo: \(todo)")
+        case .failure(let graphQLError):
+            print("Failed to create graphql \(graphQLError)")
         }
+    } catch let error as APIError {
+        print("Failed to create a todo: ", error)
+    } catch {
+        print("Unexpected error: \(error)")
     }
 }
 ```
 
 </Block>
 
-<Block name="Combine (iOS 13+)">
+<Block name="Combine">
 
 Make sure you have the additional import at the top of your file
 ```swift
@@ -34,9 +34,9 @@ import Combine
 ```swift
 func createTodo() -> AnyCancellable {
     let todo = Todo(name: "my first todo", description: "todo description")
-    let sink = Amplify.API.mutate(request: .create(todo))
-        .resultPublisher
-        .sink { completion in
+    let sink =  Amplify.Publisher.create {
+        try await Amplify.API.mutate(request: .create(todo))
+    }.sink { completion in
         if case let .failure(error) = completion {
             print("Failed to create graphql \(error)")
         }

@@ -19,13 +19,13 @@ extension GraphQLRequest {
         }
         """
         return GraphQLRequest<Post>(
-          document: document,
-          variables: ["id": id],
-          responseType: Post.self,
-          decodePath: "getPost"
+            document: document,
+            variables: ["id": id],
+            responseType: Post.self,
+            decodePath: "getPost"
         )
     }
 }
 
 ```
-Query with `Amplify.API.query(request: .getPostWithComments(byId: "[POST_ID]"))`. 
+Query with `try await Amplify.API.query(request: .getPostWithComments(byId: "[POST_ID]"))`.

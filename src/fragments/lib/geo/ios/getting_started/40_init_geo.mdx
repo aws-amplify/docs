@@ -1,27 +1,11 @@
-To initialize the Amplify Geo, use the `Amplify.addPlugin()` method to add the AWSLocationGeoPlugin. Next, finish configuring the Amplify framework by calling `Amplify.configure()`.
+To initialize the Amplify Geo, use the `Amplify.addPlugin()` method to add the AWSLocationGeoPlugin. Next, finish configuring Amplify by calling `Amplify.configure()`.
 
 Open the main file of the application - `AppDelegate.swift` or `<YOUR_APP_NAME>App.swift` depending on the app's life cycle - and **add the following** import statements at the top of the file:
-<BlockSwitcher>
-
-<Block name="Swift Package Manager">
 
 ```swift
 import Amplify
 import AWSLocationGeoPlugin
 ```
-
-</Block>
-
-<Block name="CocoaPods">
-
-```swift
-import Amplify
-import AmplifyPlugins
-```
-
-</Block>
-
-</BlockSwitcher>
 
 In the same file, **create a function** to configure Amplify:
 ```swift
@@ -39,7 +23,7 @@ func configureAmplify() {
 
 Now **call the `configureAmplify()` function** in the starting point of your application.
 <BlockSwitcher>
-<Block name="SwiftUI App">
+<Block name="SwiftUI">
 
 ```swift
 @main
@@ -52,7 +36,7 @@ struct <YOUR_APP_NAME>App: App {
 ```
 
 </Block>
-<Block name="UIKit App Delegate">
+<Block name="UIKit">
 
 ```swift
 @UIApplicationMain

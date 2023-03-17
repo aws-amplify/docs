@@ -8,7 +8,7 @@ export const meta = {
 It is highly recommended that you complete the Getting Started section of Amplify setup before using local mocking.
 
 <InternalLinkButton href="/start">
-  <span slot="text">🚀 Get Started</span>
+  <span slot="text">Get Started</span>
 </InternalLinkButton>
 
 In order to quickly test and debug without pushing all changes in your project to the cloud, Amplify supports *Local Mocking and Testing* for certain categories including API (AWS AppSync), Storage (Amazon DynamoDB and Amazon S3), and Functions (AWS Lambda). This includes using directives from the GraphQL Transformer, editing & debug resolvers, hot reloading, JWT mocking of authorization checks, and even performing S3 operations such as uploading and downloading content.
@@ -45,7 +45,9 @@ When defining a schema you can use directives from the GraphQL Transformer in lo
 - [@primaryKey, @index](/cli/graphql/data-modeling)
 - [@hasOne, @hasMany, @belongsTo, @manyToMany](/cli/graphql/data-modeling)
 - [@function](/cli/graphql/custom-business-logic#lambda-function-resolver)
+- [@searchable](/cli/graphql/search-and-result-aggregations/)
 
+### Mocking the Lambda triggers on `@model` types
 If you have DynamoDB Lambda triggers set up on `@model` types in your GraphQL schema, by following steps [listed here](/cli/usage/lambda-triggers/#as-a-part-of-the-graphql-api-types-with-model-annotation),
 then you can test those Lambda triggers locally via `amplify mock` or `amplify mock api`. 
 
@@ -56,10 +58,23 @@ The environment variables that are listed below in [Function mock environment va
 
 In addition, you can use a `.env` file within the function directory (ie. `<project root>/amplify/backend/function/<function name>/.env`) to override any environment variables for local mocking.
 
+### Mocking `@model` types with `@searchable`
+If you use the `@searchable` directive on `@model` types in your GraphQL schema, then you can test the search GraphQL queries that are generated for you locally via `amplify mock` or `amplify mock api`.
+To learn more about the search queries, refer to [this guide](/cli/graphql/search-and-result-aggregations/).
+
+We create the following artifacts when you mock the API with searchable models:
+- [OpenSearch](https://opensearch.org/) version `1.3.0` is downloaded.
+- A Python Lambda trigger is stored locally at `mock-api-resources/searchable/searchable-lambda-trigger`. 
+This Lambda trigger is automatically invoked locally if you perform a CRUD operation on the searchable model types. 
+It updates the data in the corresponding search index used by the local OpenSearch cluster.
+- A data folder to store the OpenSearch indices is created at `mock-api-resources/searchable/searchable-data`.
+
+<Callout>
+This feature is available only for Linux and Mac systems. Windows-based systems will continue to receive empty list output for search GraphQL queries.
+</Callout>
 
 > __Note__: IAM authorization rules in Mock get are treated as Auth role if the request is signed with AccessKey `ASIAVJKIAM-AuthRole`. Otherwise the request is treated as made by an unAuth user.
 
-> __Note__: that `@searchable` is not supported at this time.
 
 ## Storage mocking setup
 

@@ -1,11 +1,20 @@
-For advanced use cases where Amplify does not provide the functionality, you can retrieve the escape hatch to access the `AmazonS3Client` instance:
+For advanced use cases where Amplify does not provide the functionality, you can retrieve the escape hatch to access the `S3Client` instance:
+
+import android0 from "/src/fragments/lib/android-escape-hatch-warning.mdx";
+
+<Fragments fragments={{android: android0}} />
+
+import android1 from "/src/fragments/lib/android-kotlin-java-interop.mdx";
 
 <BlockSwitcher>
+
 <Block name="Java">
+
+<Fragments fragments={{android: android1}} />
 
 ```java
 AWSS3StoragePlugin plugin = (AWSS3StoragePlugin) Amplify.Storage.getPlugin("awsS3StoragePlugin");
-AmazonS3Client client = plugin.getEscapeHatch();
+S3Client client = plugin.getEscapeHatch();
 ```
 
 </Block>

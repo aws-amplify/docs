@@ -17,5 +17,5 @@ In case you have not added the Cognito libraries to your application, be sure to
 Afterwards add the following code to your app before you configure Amplify:
 
 ```dart
-await Amplify.addPlugins([AmplifyAuthCognito(), AmplifyAPI()]);
+await Amplify.addPlugins([AmplifyAuthCognito(), AmplifyAPI(modelProvider: ModelProvider.instance)]);
 ```

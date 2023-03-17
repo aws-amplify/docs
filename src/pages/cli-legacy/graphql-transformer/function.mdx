@@ -207,8 +207,8 @@ This simple lambda function shows how you can write your own custom logic using 
 
 > When deploying the function, make sure your function has access to the auth resource. You can run the `amplify update function` command for the CLI to automatically supply an environment variable named `AUTH_<RESOURCE_NAME>_USERPOOLID` to the function and associate corresponding CRUD policies to the execution role of the function.
 
-After deploying our function, you can connect it to AppSync by defining some types and using the @function directive. Add this to your schema, to connect the
-`Query.echo` and `Query.me` resolvers to our new function.
+After deploying your function, you can connect it to AppSync by defining some types and using the @function directive. Add this to your schema, to connect the
+`Query.echo` and `Query.me` resolvers to your new function.
 
 ```graphql
 type Query {

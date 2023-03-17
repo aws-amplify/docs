@@ -480,7 +480,8 @@ The `@http` transformer will create one HTTP datasource for each identified base
 
 ## VTL resolver
 
-You can use AWS Cloud Development Kit (CDK) to define custom VTL resolvers for your GraphQL API.
+You can use AWS Cloud Development Kit (CDK) to define custom VTL resolvers for your GraphQL API. `@auth` directives are not supported for custom queries or mutations that are connected to a VTL resolver. This is because you are replacing Amplify's auto-generated capabilities for that particular query or mutation with a custom-defined cloud resources. 
+
 ```bash
 amplify add custom
 ```
@@ -494,13 +495,14 @@ amplify add custom
 Next, install the AppSync dependencies for your custom resource:
 ```bash
 cd amplify/backend/custom/MyCustomResolvers
-npm i @aws-cdk/aws-appsync@~1.124.0
+npm i @aws-cdk/aws-appsync@~1.172.0
 ```
 > **Note:** Installations using the '\~' character do not modify the package.json. To use '\~' for default npm configurations, make sure your package.json reflects the right dependency to avoid compatibility errors in CDK.
 
 
 Finally, add your custom resolvers into the `cdk-stack.ts` file. You can either add the VTL inline into your `cdk-stack.ts` file or define them externally in another file. Review the [Resolver Mapping Template Programming Guide](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-mapping-template-reference-programming-guide.html) to learn more about the VTL template.
 
+#### Unit Resolver
 ```ts
 import * as cdk from '@aws-cdk/core';
 import * as AmplifyHelpers from '@aws-amplify/cli-extensibility-helper';
@@ -548,6 +550,86 @@ export class cdkStack extends cdk.Stack {
   }
 }
 ```
+#### Pipeline Resolver
+
+```ts 
+import * as cdk from '@aws-cdk/core';
+import * as AmplifyHelpers from '@aws-amplify/cli-extensibility-helper';
+import * as appsync from '@aws-cdk/aws-appsync';
+import { AmplifyDependentResourcesAttributes } from '../../types/amplify-dependent-resources-ref';
+
+const beforeMappingVTL =`
+<YOUR CUSTOM VTL REQUEST MAPPING TEMPLATE HERE>
+`
+const afterMappingVTL =`
+<YOUR CUSTOM VTL RESPONSE MAPPING TEMPLATE HERE>
+`
+const function1requestVTL=`
+<YOUR CUSTOM VTL FUNCTION 1 REQUEST MAPPING TEMPLATE HERE>
+`
+const function1responseVTL=`
+<YOUR CUSTOM VTL FUNCTION 1 RESPONSE MAPPING TEMPLATE HERE>
+`
+const function2requestVTL=`
+<YOUR CUSTOM VTL FUNCTION 2 REQUEST MAPPING TEMPLATE HERE>
+`
+const function2responseVTL=`
+<YOUR CUSTOM VTL FUNCTION 2 RESPONSE MAPPING TEMPLATE HERE>
+`
+export class cdkStack extends cdk.Stack {
+  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps, amplifyResourceProps?: AmplifyHelpers.AmplifyResourceProps) {
+    super(scope, id, props);
+    /* Do not remove - Amplify CLI automatically injects the current deployment environment in this input parameter */
+    new cdk.CfnParameter(this, 'env', {
+      type: 'String',
+      description: 'Current Amplify CLI env name',
+    });
+    
+    // Access other Amplify Resources 
+    const retVal:AmplifyDependentResourcesAttributes = AmplifyHelpers.addResourceDependency(this, 
+      amplifyResourceProps.category, 
+      amplifyResourceProps.resourceName, 
+      [{
+        category: "api",
+        resourceName: "<YOUR-API-NAME>"
+      }]
+    );
+   
+   const function1 = new appsync.CfnFunctionConfiguration(this,"function1",{
+    apiId: cdk.Fn.ref(retVal.api.replaceWithAPIName.GraphQLAPIIdOutput),
+    dataSourceName: "NONE_DS", // DataSource name
+    functionVersion: "2018-05-29",
+    name: "function1",
+    requestMappingTemplate: function1requestVTL,
+    responseMappingTemplate: function1responseVTL
+   })
+   
+   const function2 = new appsync.CfnFunctionConfiguration(this,"function2",{
+    apiId: cdk.Fn.ref(retVal.api.replaceWithAPIName.GraphQLAPIIdOutput),
+    dataSourceName: "TodoTable",  // DataSource name
+    functionVersion: "2018-05-29",
+    name: "function2",
+    requestMappingTemplate: function2requestVTL,
+    responseMappingTemplate: function2responseVTL
+   })
+
+  const resolver = new appsync.CfnResolver(this, "pipeline-resolver", {
+    apiId: cdk.Fn.ref(retVal.api.replaceWithAPIName.GraphQLAPIIdOutput),
+    fieldName: "querySomething", 
+    typeName: "Query", // Query | Mutation | Subscription
+    kind: "PIPELINE",
+    pipelineConfig: {
+      functions: [
+        function1.attrFunctionId,
+        function2.attrFunctionId 
+      ]
+    },
+    requestMappingTemplate: beforeMappingVTL,
+    responseMappingTemplate: afterMappingVTL
+    })
+  }
+}
+```
 > **Note:** Users moving from ElasticSearch to OpenSearch will need to change the datasource name from `ElasticSearchDomain` to `OpenSearchDataSource` if the upgrade process changes the source name. For new @searchable models the datasource name will default to `OpenSearchDataSource`.
 
 You can alternatively define the VTL templates in another file such as `Query.querySomething.req.vtl` or `Query.querySomething.res.vtl` in `amplify/backend/custom/MyCustomResolvers/`. Then use the following code snippets to retrieve them:
@@ -570,6 +652,9 @@ type Mutation {
   myCustomMutation(args: String): String @auth(rules: [{ allow: private, provider: iam }])
 }
 ```
+
+> **Known limitation:** You can't combine the `@auth` directive with a custom query or mutation that is using a VTL resolver.
+
 
 ## Override Amplify-generated resolvers
 

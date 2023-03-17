@@ -12,7 +12,7 @@ User editor = User.builder()
 
 PostEditor postEditor = PostEditor.builder()
     .post(post)
-    .editor(editor)
+    .user(editor)
     .build();
 
 Amplify.DataStore.save(post,
@@ -47,7 +47,7 @@ val editor = User.builder()
 
 val postEditor = PostEditor.builder()
     .post(post)
-    .editor(editor)
+    .user(editor)
     .build()
 
 Amplify.DataStore.save(post,
@@ -69,7 +69,7 @@ Amplify.DataStore.save(post,
 ```
 
 </Block>
-<Block name="Kotlin - Coroutines (Beta)">
+<Block name="Kotlin - Coroutines">
 
 ```kotlin
 val post = Post.builder()
@@ -82,7 +82,7 @@ val editor = User.builder()
 
 val postEditor = PostEditor.builder()
     .post(post)
-    .editor(editor)
+    .user(editor)
     .build()
 
 try {
@@ -114,7 +114,7 @@ User editor = User.builder()
 
 PostEditor postEditor = PostEditor.builder()
     .post(post)
-    .editor(editor)
+    .user(editor)
     .build();
 
 Completable.mergeArray(

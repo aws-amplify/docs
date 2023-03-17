@@ -1,36 +1,46 @@
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-func signIn(username: String, password: String) {
-    Amplify.Auth.signIn(username: username, password: password) { result in
-        switch result {
-        case .success:
+func signIn(username: String, password: String) async {
+    do {
+        let signInResult = try await Amplify.Auth.signIn(
+            username: username, 
+            password: password
+            )
+        if signInResult.isSignedIn {
             print("Sign in succeeded")
-        case .failure(let error):
-            print("Sign in failed \(error)")
         }
+    } catch let error as AuthError {
+        print("Sign in failed \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
     }
 }
 ```
 
 </Block>
 
-<Block name="Combine (iOS 13+)">
+<Block name="Combine">
 
 ```swift
 func signIn(username: String, password: String) -> AnyCancellable {
-    Amplify.Auth.signIn(username: username, password: password)
-        .resultPublisher
-        .sink {
-            if case let .failure(authError) = $0 {
-                print("Sign in failed \(authError)")
-            }
+    Amplify.Publisher.create {
+        try await try await Amplify.Auth.signIn(
+            username: username, 
+            password: password
+            )
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("Sign in failed \(authError)")
         }
-        receiveValue: { _ in
+    }
+    receiveValue: { signInResult in
+        if signInResult.isSignedIn {
             print("Sign in succeeded")
         }
+    }
 }
 ```
 

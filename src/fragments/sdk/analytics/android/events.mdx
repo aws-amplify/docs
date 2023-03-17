@@ -259,7 +259,7 @@ public abstract class AbstractApplicationLifeCycleHelper implements Application.
     @Override
     public void onActivityStopped(final Activity activity) {
         Log.d(LOG_TAG, "onActivityStopped " + activity.getLocalClassName());
-        // When the activity is stopped, we remove it from the lifecycle state map since we
+        // When the activity is stopped, you remove it from the lifecycle state map since you
         // no longer consider it keeping a session alive.
         activityLifecycleStateMap.remove(activity);
     }
@@ -313,11 +313,11 @@ public abstract class AbstractApplicationLifeCycleHelper implements Application.
      * the foreground.
      */
     private void handleOnCreateOrOnStartToHandleApplicationEnteredForeground() {
-        // if nothing is in the activity lifecycle map indicating that we are likely in the background, and the flag
-        // indicates we are indeed in the background.
+        // if nothing is in the activity lifecycle map indicating that you are likely in the background, and the flag
+        // indicates you are indeed in the background.
         if (activityLifecycleStateMap.size() == 0 && !inForeground) {
             inForeground = true;
-            // Since this is called when an activity has started, we now know the app has entered the foreground.
+            // Since this is called when an activity has started, you now know the app has entered the foreground.
             applicationEnteredForeground();
         }
     }
