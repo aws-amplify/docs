@@ -19,23 +19,23 @@ Choose the following options:
 
 ```console
 ? Do you want to use the default authentication and security configuration? 
-    `Default configuration with Social Provider (Federation)`
+  `Default configuration with Social Provider (Federation)`
 ? How do you want users to be able to sign in? 
-    `Username`
+  `Username`
 ? Do you want to configure advanced settings? 
-    `No, I am done.`
+  `No, I am done.`
 ? What domain name prefix you want us to create for you? 
-    `(default)`
+  `(default)`
 ? Enter your redirect signin URI: 
-    `myapp://`
+  `myapp://`
 ? Do you want to add another redirect signin URI 
-    `No`
+  `No`
 ? Enter your redirect signout URI: 
-    `myapp://`
+  `myapp://`
 ? Do you want to add another redirect signout URI 
-    `No`
+  `No`
 ? Select the social providers you want to configure for your user pool: 
-    `<choose your provider and follow the prompts to input the proper tokens>`
+  `<choose your provider and follow the prompts to input the proper tokens>`
 ```
 
 ** Redirect URIs**
@@ -83,23 +83,23 @@ For React Native applications, you need to define a custom URL scheme for your a
 
  <plist version="1.0">
 
-     <dict>
-     <!-- YOUR OTHER PLIST ENTRIES HERE -->
+  <dict>
+  <!-- YOUR OTHER PLIST ENTRIES HERE -->
 
-     <!-- ADD AN ENTRY TO CFBundleURLTypes for Cognito Auth -->
-     <!-- IF YOU DO NOT HAVE CFBundleURLTypes, YOU CAN COPY THE WHOLE BLOCK BELOW -->
-     <key>CFBundleURLTypes</key>
-     <array>
-         <dict>
-             <key>CFBundleURLSchemes</key>
-             <array>
-                 <string>myapp</string>
-             </array>
-         </dict>
-     </array>
+  <!-- ADD AN ENTRY TO CFBundleURLTypes for Cognito Auth -->
+  <!-- IF YOU DO NOT HAVE CFBundleURLTypes, YOU CAN COPY THE WHOLE BLOCK BELOW -->
+  <key>CFBundleURLTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>myapp</string>
+      </array>
+    </dict>
+  </array>
 
-     <!-- ... -->
-     </dict>
+  <!-- ... -->
+  </dict>
 ```
 
 *React Native - Android - AndroidManifest.xml*
