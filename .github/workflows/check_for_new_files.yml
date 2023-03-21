@@ -20,7 +20,7 @@ jobs:
             getAddedFiles({github, context, core});
       - name: Install npm package ignore
         if: ${{ env.NEW_FILES_COUNT > 0 }}
-        run: yarn add ignore -W # help verify CODEOWNERS
+        run: yarn add ignore@5.2.4 -W # help verify CODEOWNERS
       - name: Check file against CODEOWNERS
         if: ${{ env.NEW_FILES_COUNT > 0 }}
         uses: actions/github-script@v6.4.0
