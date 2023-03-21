@@ -55,6 +55,8 @@ module.exports = {
       repo: { owner, repo }
     } = context;
 
+    console.log('New files: ', filesNotInCodeowners);
+
     // If we found files not covered by CODEOWNERS, then add a comment to the PR
     if (filesNotInCodeowners.length > 0) {
       const files = filesNotInCodeowners.map((e) => `- ${e}\n`).join('');
