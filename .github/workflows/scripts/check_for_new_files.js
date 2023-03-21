@@ -28,13 +28,10 @@ module.exports = {
     );
     const body = await response.text();
 
-    // Filter CODEOWNERS file. At the end of these filters,
-    // codeownersFilePatterns should only include patterns for
-    // our mdx files
+    // Filter out comments from CODEOWNERS file
     const codeownersFilePatterns = body
       .split('\n')
       .filter((e) => !e.startsWith('#'))
-      .filter((e) => !e.includes('aws-amplify/documentation-team'))
       .filter((e) => e.length > 1)
       .map((e) => e.split(/\s+/)[0]);
 
