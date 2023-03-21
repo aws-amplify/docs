@@ -21,10 +21,10 @@ module.exports = {
       });
   },
   validateCodeowners: async ({ github, context, fetch, ignore }) => {
-    const { NEW_FILES } = process.env;
+    const { NEW_FILES, CURRENT_BRANCH } = process.env;
 
     const response = await fetch(
-      'https://raw.githubusercontent.com/timngyn/docs/test-codeowners-workflow/.github/CODEOWNERS'
+      `https://raw.githubusercontent.com/aws-amplify/docs/${CURRENT_BRANCH}/.github/CODEOWNERS`
     );
     const body = await response.text();
 

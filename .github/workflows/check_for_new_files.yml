@@ -24,6 +24,8 @@ jobs:
       - name: Check file against CODEOWNERS
         if: ${{ env.NEW_FILES_COUNT > 0 }}
         uses: actions/github-script@v6.4.0
+        env:
+          CURRENT_BRANCH: ${{ github.head_ref }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
