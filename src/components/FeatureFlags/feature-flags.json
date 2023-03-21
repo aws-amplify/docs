@@ -232,6 +232,26 @@
           }
         ]
       },
+      "showFieldAuthNotification": {
+        "description": "Adds a notification of @auth security change.",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "7.6.15",
+        "values": [
+          {
+            "value": "true",
+            "description": "A notification with a prompt will appear, after which security updates are automatically applied and no further prompt will appear",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          },
+          {
+            "value": "false",
+            "description": "There is no notification of security updates",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          }
+        ]
+      },
       "useSubUsernameForDefaultIdentityClaim": {
         "description": "Changes the default identity claim to for owner-based @auth from 'username' to 'sub::username'",
         "type": "Feature",
@@ -249,6 +269,26 @@
             "description": "Uses a default owner field format of '<username>' to write records and reads '<username>'",
             "defaultNewProject": false,
             "defaultExistingProject": false
+          }
+        ]
+      },
+      "useFieldNameForPrimaryKeyConnectionField": {
+        "description": "Changes the naming convention for primary key connection fields.",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "8.3.0",
+        "values": [
+          {
+            "value": "true",
+            "description": "Uses 'Id' in the name. (Type + RelatedType + Id)",
+            "defaultNewProject": false,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "Uses the related type field name in the name. (Type + RelatedType + RelatedTypeFieldName)",
+            "defaultNewProject": true,
+            "defaultExistingProject": true
           }
         ]
       },
@@ -288,6 +328,26 @@
             "value": "true",
             "description": "Connection field(s) are generated respecting the attributes of priamry key and sort key fields. Model-gen with custom primary key feature is enabled.",
             "defaultNewProject": true,
+            "defaultExistingProject": false
+          }
+        ]
+      },
+      "shouldDeepMergeDirectiveConfigDefaults": {
+        "description": "Performs a deep merge with default directives and custom directives.",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "9.1.0",
+        "values": [
+          {
+            "value": "false",
+            "description": "Merge default directives and custom directives with a single level depth. Custom directives will take precedent.",
+            "defaultNewProject": true,
+            "defaultExistingProject": true
+          },
+          {
+            "value": "true",
+            "description": "Merge default directives and custom directives with unlimitted depth. Custom directives will take precedent.",
+            "defaultNewProject": false,
             "defaultExistingProject": false
           }
         ]
