@@ -26,6 +26,7 @@ jobs:
         uses: actions/github-script@v6.4.0
         env:
           CURRENT_BRANCH: ${{ github.head_ref }}
+          CURRENT_REPO: ${{ github.repository }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |

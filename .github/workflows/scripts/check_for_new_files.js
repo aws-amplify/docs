@@ -21,11 +21,13 @@ module.exports = {
       });
   },
   validateCodeowners: async ({ github, context, fetch, ignore }) => {
-    const { NEW_FILES, CURRENT_BRANCH } = process.env;
+    const { NEW_FILES, CURRENT_BRANCH, CURRENT_REPO } = process.env;
 
-    const response = await fetch(
-      `https://raw.githubusercontent.com/aws-amplify/docs/${CURRENT_BRANCH}/.github/CODEOWNERS`
-    );
+    const codeownersFile = `https://raw.githubusercontent.com/${CURRENT_REPO}/${CURRENT_BRANCH}/.github/CODEOWNERS`;
+
+    console.log('Fetching CODEOWNERS from: ', codeownersFile);
+
+    const response = await fetch(codeownersFile);
     const body = await response.text();
 
     // Filter out comments from CODEOWNERS file
