@@ -12,19 +12,21 @@ You should call either `handleNotificationReceived` or `recordNotificationReceiv
 ```java
 class MyAppService extends FirebaseMessagingService() {
     @Override
-    public void handleIntent(Intent intent) {
+    public void onMessageReceived(RemoteMessage remoteMessage) {
+        // Convert the RemoteMessage into a NotificationPayload
+        NotificationPayload notificationPayload = NotificationPayload.builder(
+            new NotificationContentProvider.FCM(remoteMessage.getData())
+        ).build();
 
-        // TODO(developer): Handle FCM messages here
-
-        // Convert the RemoteMessage into a PinpointNotificationPayload
-        Bundle data = intent != null ? intent.getExtras() : new Bundle()
-        PinpointNotificationPayload notificationPayload = PinpointNotificationPayload.createFromRemoteMessage(new RemoteMessage(data));
-
-        // Record notification received with Amplify
-        Amplify.Notifications.Push.recordNotificationReceived(notificationPayload,
-            result -> Log.i("MyAmplifyApp", "Successfully recorded a notification received"),
-            error -> Log.e("MyAmplifyApp", "Error recording notification received", error)
-        );
+        // Amplify should handle notification if it is sent from Pinpoint
+        boolean isAmplifyMessage = Amplify.Notifications.Push.shouldHandleNotification(notificationPayload);
+        if (isAmplifyMessage) {
+            // Record notification received with Amplify
+            Amplify.Notifications.Push.recordNotificationReceived(notificationPayload,
+                () -> Log.i("MyAmplifyApp", "Successfully recorded a notification received"),
+                error -> Log.e("MyAmplifyApp", "Error recording notification received", error)
+            );
+        }
     }
 }
 ```
@@ -34,19 +36,19 @@ class MyAppService extends FirebaseMessagingService() {
 
 ```kotlin
 class MyAppService : FirebaseMessagingService() {
-    override fun handleIntent(intent: Intent?) {
+    override fun onMessageReceived(remoteMessage: RemoteMessage) {
+        // Convert the RemoteMessage into a NotificationPayload
+        val notificationPayload = NotificationPayload(NotificationContentProvider.FCM(remoteMessage.data))
 
-        // TODO(developer): Handle FCM messages here
-
-        // Convert the RemoteMessage into a PinpointNotificationPayload
-        val data = intent?.extras ?: Bundle()
-        val notificationPayload = PinpointNotificationPayload.createFromRemoteMessage(RemoteMessage(data))
-
-        // Record notification received with Amplify
-        Amplify.Notifications.Push.recordNotificationReceived(notificationPayload,
-            { Log.i("MyAmplifyApp", "Successfully recorded a notification received") },
-            { Log.e("MyAmplifyApp", "Error recording notification received", error) }
-        )
+        // Amplify should handle notification if it is sent from Pinpoint
+        val isAmplifyMessage = Amplify.Notifications.Push.shouldHandleNotification(notificationPayload)
+        if (isAmplifyMessage) {
+            // Record notification received with Amplify
+            Amplify.Notifications.Push.recordNotificationReceived(notificationPayload,
+                { Log.i("MyAmplifyApp", "Successfully recorded a notification received") },
+                { Log.e("MyAmplifyApp", "Error recording notification received", error) }
+            )
+        }
     }
 }
 ```
@@ -56,20 +58,20 @@ class MyAppService : FirebaseMessagingService() {
 
 ```kotlin
 class MyAppService : FirebaseMessagingService() {
-   override fun handleIntent(intent: Intent?) {
+    override fun onMessageReceived(remoteMessage: RemoteMessage) {
+        // Convert the RemoteMessage into a NotificationPayload
+        val notificationPayload = NotificationPayload(NotificationContentProvider.FCM(remoteMessage.data))
 
-        // TODO(developer): Handle FCM messages here
-
-        // Convert the RemoteMessage into a PinpointNotificationPayload
-        val data = intent?.extras ?: Bundle()
-        val notificationPayload = PinpointNotificationPayload.createFromRemoteMessage(RemoteMessage(data))
-
-        try {
-            // let Amplify handle foreground and background message received
-            Amplify.Notifications.Push.recordNotificationReceived(remoteMessage)
-            Log.i("MyAmplifyApp", "Successfully recorded a notification received")
-        } catch (error: PushNotificationsException) {
-            Log.e("MyAmplifyApp", "Error recording notification received", error)
+        // Amplify should handle notification if it is sent from Pinpoint
+        val isAmplifyMessage = Amplify.Notifications.Push.shouldHandleNotification(notificationPayload)
+        if (isAmplifyMessage) {
+            try {
+                // let Amplify handle foreground and background message received
+                Amplify.Notifications.Push.recordNotificationReceived(notificationPayload)
+                Log.i("MyAmplifyApp", "Successfully recorded a notification received")
+            } catch (error: PushNotificationsException) {
+                Log.e("MyAmplifyApp", "Error recording notification received", error)
+            }
         }
     }
 }
@@ -80,19 +82,22 @@ class MyAppService : FirebaseMessagingService() {
 
 ```java
 class MyAppService extends FirebaseMessagingService() {
-    public void handleIntent(Intent intent) {
+    @Override
+    public void onMessageReceived(RemoteMessage remoteMessage) {
+        // Convert the RemoteMessage into a NotificationPayload
+        NotificationPayload notificationPayload = NotificationPayload.builder(
+            new NotificationContentProvider.FCM(remoteMessage.getData())
+        ).build();
 
-        // TODO(developer): Handle FCM messages here
-
-        // Convert the RemoteMessage into a PinpointNotificationPayload
-        Bundle data = intent != null ? intent.getExtras() : new Bundle()
-        PinpointNotificationPayload notificationPayload = PinpointNotificationPayload.createFromRemoteMessage(new RemoteMessage(data));
-
-        // let Amplify handle foreground and background message received
-        RxAmplify.Notifications.Push.recordNotificationReceived(remoteMessage).subscribe(
-            () -> Log.i("MyAmplifyApp", "Successfully recorded a notification received"),
-            error -> Log.e("MyAmplifyApp", "Error recording notification received", error)
-        );
+        // Amplify should handle notification if it is sent from Pinpoint
+        boolean isAmplifyMessage = Amplify.Notifications.Push.shouldHandleNotification(notificationPayload);
+        if (isAmplifyMessage) {
+            // let Amplify handle foreground and background message received
+            RxAmplify.Notifications.Push.recordNotificationReceived(notificationPayload).subscribe(
+                () -> Log.i("MyAmplifyApp", "Successfully recorded a notification received"),
+                error -> Log.e("MyAmplifyApp", "Error recording notification received", error)
+            );
+        }
     }
 }
 ```

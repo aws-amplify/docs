@@ -18,7 +18,7 @@ class MyAppService : FirebaseMessagingService() {
         
         // Register device with Pinpoint
         Amplify.Notifications.Push.registerDevice(token, 
-           () -> Log.i("MyAmplifyApp", "Successfully registered device"),
+            () -> Log.i("MyAmplifyApp", "Successfully registered device"),
             error -> Log.e("MyAmplifyApp", "Error registering device", error)
         );
     }

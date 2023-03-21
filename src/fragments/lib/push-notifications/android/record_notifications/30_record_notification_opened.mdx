@@ -10,13 +10,15 @@ class LaunchActivity extends AppCompatActivity() {
         super.onCreate(savedInstanceState);
 
         // Get the payload from the intent
-        NotificationPayload payload = intent.getParcelableExtra<NotificationPayload>("amplifyNotificationPayload");
+        NotificationPayload payload = NotificationPayload.fromIntent(intent);
 
-        // Record notification opened when activity launches
-        Amplify.Notifications.Push.recordNotificationOpened(payload,
-            result -> Log.i("MyAmplifyApp", "Successfully recorded notification opened"),
-            error -> Log.e("MyAmplifyApp", "Error recording notification opened", error)
-        );
+        if (payload != null) {
+            // Record notification opened when activity launches
+            Amplify.Notifications.Push.recordNotificationOpened(payload,
+                () -> Log.i("MyAmplifyApp", "Successfully recorded notification opened"),
+                error -> Log.e("MyAmplifyApp", "Error recording notification opened", error)
+            );
+        }
     }
 }
 ```
@@ -30,13 +32,13 @@ class LaunchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         // Get the payload from the intent
-        val payload = intent.getParcelableExtra<NotificationPayload>("amplifyNotificationPayload")
-
-        // Record notification opened when activity launches
-        Amplify.Notifications.Push.recordNotificationOpened(payload,
-            { Log.i("MyAmplifyApp", "Successfully recorded notification opened") },
-            { Log.e("MyAmplifyApp", "Error recording notification opened", error) }
-        )
+        NotificationPayload.fromIntent(intent)?.let {
+            // Record notification opened when activity launches
+            Amplify.Notifications.Push.recordNotificationOpened(it,
+                { Log.i("MyAmplifyApp", "Successfully recorded notification opened") },
+                { Log.e("MyAmplifyApp", "Error recording notification opened", error) }
+            )
+        }
     }
 }
 ```
@@ -49,13 +51,13 @@ class LaunchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Get the payload from the intent
-        val payload = intent.getParcelableExtra<NotificationPayload>("amplifyNotificationPayload")
-
         try {
-            // Record notification opened when activity launches
-            Amplify.Notifications.Push.recordNotificationOpened(payload)
-            Log.i("MyAmplifyApp", "Successfully recorded notification opened")
+            // Get the payload from the intent
+            NotificationPayload.fromIntent(intent)?.let {
+                // Record notification opened when activity launches
+                Amplify.Notifications.Push.recordNotificationOpened(it)
+                Log.i("MyAmplifyApp", "Successfully recorded notification opened")
+            }
         } catch (error: PushNotificationsException) {
             Log.e("MyAmplifyApp", "Error recording notification opened", error)
         }
@@ -72,14 +74,15 @@ class LaunchActivity extends AppCompatActivity() {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Get the payload from the intent
-        NotificationPayload payload = intent.getParcelableExtra<NotificationPayload>("amplifyNotificationPayload");
+        NotificationPayload payload = NotificationPayload.fromIntent(intent);
 
-        // Record notification opened when activity launches
-        RxAmplify.Notifications.Push.recordNotificationOpened(payload).subscribe(
-            () -> Log.i("MyAmplifyApp", "Successfully recorded notification opened"),
-            error -> Log.e("MyAmplifyApp", "Error recording notification opened", error)
-        );
+        if (payload != null) {
+            // Record notification opened when activity launches
+            RxAmplify.Notifications.Push.recordNotificationOpened(payload).subscribe(
+                () -> Log.i("MyAmplifyApp", "Successfully recorded notification opened"),
+                error -> Log.e("MyAmplifyApp", "Error recording notification opened", error)
+            );
+        }
     }
 }
 ```
