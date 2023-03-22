@@ -706,7 +706,7 @@ amplify/backend/api/<resource_name>
 │   │   └── ...
 |   ...
 ├── resolvers
-│   └── Query.createTodo.postAuth.2.req.vtl # Custom resolver slotted in after postAuth.1 resolver
+│   └── Mutation.createTodo.postAuth.2.req.vtl # Custom resolver slotted in after postAuth.1 resolver
 ```
 
 For example, the a resolver function file named `Mutation.createTodo.postAuth.2.req.vtl` will be slotted in right after the `Mutation.createTodo.postAuth.1.req.vtl` resolver. Review the [Resolver Mapping Template Programming Guide](https://docs.aws.amazon.com/appsync/latest/devguide/resolver-mapping-template-reference-programming-guide.html) to learn more about the VTL template.
