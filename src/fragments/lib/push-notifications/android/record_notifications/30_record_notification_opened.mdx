@@ -10,7 +10,7 @@ class LaunchActivity extends AppCompatActivity() {
         super.onCreate(savedInstanceState);
 
         // Get the payload from the intent
-        NotificationPayload payload = NotificationPayload.fromIntent(intent);
+        NotificationPayload payload = NotificationPayload.fromIntent(getIntent());
 
         if (payload != null) {
             // Record notification opened when activity launches
@@ -74,7 +74,7 @@ class LaunchActivity extends AppCompatActivity() {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        NotificationPayload payload = NotificationPayload.fromIntent(intent);
+        NotificationPayload payload = NotificationPayload.fromIntent(getIntent());
 
         if (payload != null) {
             // Record notification opened when activity launches
