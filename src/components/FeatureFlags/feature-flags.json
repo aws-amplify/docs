@@ -49,7 +49,7 @@
         ]
       },
       "improvePluralization": {
-        "description": "Use word specific pluralization instead of only appending an \"s\" to every word. Note: this feature flag is only respected when using GraphQL Transformer v1.",
+        "description": "Use word specific pluralization instead of only appending an \"s\" to every word. Note: this feature flag is only respected by the Transformer when using GraphQL Transformer v1. Codegen respects this feature flag independently of transformer version.",
         "type": "Feature",
         "valueType": "Boolean",
         "versionAdded": "5.0.2",
