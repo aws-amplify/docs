@@ -267,7 +267,7 @@ class MyCustomInterceptor: URLRequestInterceptor {
 
 ## Adding Admin Actions
 
-To add additional admin actions that are not included by default but are enabled by Amazon Cognito, you will need to update the Lambda function code that is generated for you. The change will include adding a procedure for the action and creating a route for it. You will then associate the procedure to the route within the [Express](https://expressjs.com/) app.
+To add additional admin actions that are not included by default but are enabled by Amazon Cognito, you will need to update the Lambda function code that is generated for you. The change will include adding a route handler for the action and creating a route for it. You will then associate the route handler to the route within the [Express](https://expressjs.com/) app.
 
 Below is an example of how to add an admin action that will allow you to [update a user's attributes](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminUpdateUserAttributes.html).
 ```js
@@ -293,9 +293,9 @@ async function updateUserAttributes(username, attributes) {
   }
 }
 ```
-Once the procedure is defined, you will then add a route with the correct HTTP method to the Express app and associate the procedure to the route. Be sure to make the route unique.
+Once the route handler is defined, you will then add a route with the correct HTTP method to the Express app and associate the route handler to the route. Be sure to make the route unique.
 
-Below is an example of how you can add a `POST` route named `/updateUserAttributes` and associate the above procedure to it.
+Below is an example of how you can add a `POST` route named `/updateUserAttributes` and associate the above route handler to it.
 ```js
 app.post('/updateUserAttributes', async (req, res, next) => {
   if (!req.body.username || !req.body.attributes) {
