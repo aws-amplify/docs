@@ -76,19 +76,15 @@ Spacing values can either be a CSS length value (`px`, `rem`, `em`, `%`) or a re
 
 ## Enable list inputs
 
-Every form input can be made to accept multiple values. The form input gets "wrapped" around by a "list input" component to allow your users to add, update, and remove items.
-
-![Screenshot of "Accept multiple values" checkbox](/images/console/formbuilder/customize-accept-multiple-values.png)
-
-<Callout info>
-
-**This toggle is only enabled for inputs not tied to a data model.** If your input is tied to one of your existing models, this feature is controlled directly on the model by toggling the **Is array** property on the corresponding field and deploying your update.
-
-</Callout>
+Form inputs can be made to accept multiple values. The form input gets "wrapped" around by a "list input" component to allow your users to add, update, and remove items. **This functionality is only enabled for inputs not tied to a data model.** If your input is tied to one of your existing models, this feature is controlled directly on the model by toggling the **Is array** property on the corresponding field and deploying your update.
 
 1. Select a form input that's not connected to a data model
 2. Go to **Data** 
 3. Select **Accept multiple values**
+
+![Screenshot of "Accept multiple values" checkbox](/images/console/formbuilder/customize-accept-multiple-values.png)
+
+Here is what a list input looks like for the end user:
 
 <video autoPlay={true} muted={true} loop={true} width="100%">
   <source src="/images/console/formbuilder/customize-list-control.mp4"/>
