@@ -70,7 +70,7 @@ Upon deployment, the Amplify-generated CloudFormation templates provision an App
 
 #### Scenario 1: "amplify push" fails after manually updating DynamoDB tables and GSIs from the console.
 Assume you have an application with a GraphQL schema deployed to the cloud.
-Amplify creates DynamoDB tables for all [@model]((/cli/graphql/data-modeling/)) types and GSIs for all [@index]((/cli/graphql/data-modeling/)) fields in the GraphQL schema.
+Amplify creates DynamoDB tables for all [@model](/cli/graphql/data-modeling/) types and GSIs for all [@index](/cli/graphql/data-modeling/) fields in the GraphQL schema.
 "Drift" is introduced if you delete any of the GSIs using the DynamoDB console, instead of using the Amplify CLI.
 With drift, future changes to the GraphQL schema may fail to deploy.
 As an example, if you change the names of some `@model` types and `@index` fields in your GraphQL schema and perform the `amplify push --allow-destructive-graphql-schema-updates` command, Amplify will first remove all DynamoDB tables corresponding to the original model names.
@@ -151,8 +151,8 @@ To debug any issues related to secrets not being correctly copied across environ
 "Cannot exceed quota for PoliciesPerRole"
 </Callout>
 
-AWS maintains [service quotas](/general/latest/gr/aws-service-information.html) for various AWS services. If your application contains many resources, such as large GraphQL schemas with many resolvers or many REST APIs, you may hit a service limit.
-To identify if exceeding an [AWS Service level quotas](/general/latest/gr/aws-service-information.html) caused a deployment failure, check the AWS console for the CloudFormation deployment/failure logs.
+AWS maintains [service quotas](https://docs.aws.amazon.com/general/latest/gr/aws-service-information.html) for various AWS services. If your application contains many resources, such as large GraphQL schemas with many resolvers or many REST APIs, you may hit a service limit.
+To identify if exceeding an [AWS Service level quotas](https://docs.aws.amazon.com/general/latest/gr/aws-service-information.html) caused a deployment failure, check the AWS console for the CloudFormation deployment/failure logs.
 
 **Suggested Resolution:**
 1. If your application's resource requirements are impaired by AWS service quotas, you can use the [AWS Service Quotas console](https://console.aws.amazon.com/servicequotas) to view and request increases for most AWS quotas.
