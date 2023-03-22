@@ -774,7 +774,7 @@ const directory = {
           {
             title: 'Use Transfer Acceleration',
             route: '/lib/storage/transfer-acceleration',
-            filters: ['js', 'react-native']
+            filters: ['android', 'js', 'react-native']
           },
           {
             title: 'Lambda triggers',
@@ -1983,6 +1983,11 @@ const directory = {
       migration: {
         title: 'Migration & Backwards Compatibility',
         items: [
+          {
+            title: 'AWS CDK v1 to v2 migration',
+            route: '/cli/migration/aws-cdk-migration',
+            filters: []
+          },
           {
             title: 'Lazy Loading and Custom Selection Set',
             route: '/cli/migration/lazy-load-custom-selection-set',
