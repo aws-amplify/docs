@@ -8,7 +8,6 @@ Finally you can configure the number of records to sync as an upper bound on ite
 - `syncMaxRecords` - sets the maximum number of records, from the server, to process from a sync operation.
 - `syncPageSize` - sets the number of items requested in each page of sync results.
 - `syncInterval` - sets the duration of time after which delta syncs will not be preferred over base syncs. The default time unit is minutes.
-- `doSyncRetry` - enables retry on sync failure.
 - `syncExpression` - sets a sync expression for a particular model to filter which data is synced locally.  The expression is evaluated each time DataStore is started.  The QueryPredicate is applied on both sync and subscriptions.
 
 ### Example

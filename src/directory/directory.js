@@ -790,7 +790,7 @@ const directory = {
             route: '/lib/utilities/serviceworker',
             filters: ['js']
           },
-          { title: 'Cache', route: '/lib/utilities/cache', filters: ['js'] },
+          { title: 'Cache', route: '/lib/utilities/cache', filters: ['js', 'react-native'] },
           {
             title: 'Hub',
             route: '/lib/utilities/hub',
@@ -1534,13 +1534,13 @@ const directory = {
         items: [
           {
             title: 'Data Information',
-            route: '/overview',
-            filters: ['android']
+            route: '/sdk/info/overview',
+            filters: ['ios']
           },
           {
             title: 'Uninstalling the app',
             route: '/sdk/info/app-uninstall',
-            filters: ['android']
+            filters: ['ios']
           }
         ]
       }
@@ -2017,6 +2017,11 @@ const directory = {
             title: 'Feature Flags',
             route: '/cli/reference/feature-flags',
             filters: []
+          },
+          {
+            title: 'SSM Parameter Store',
+            route: '/cli/reference/ssm-parameter-store',
+            filters: []
           }
         ]
       }
@@ -2326,7 +2331,7 @@ const directory = {
         ]
       },
       uibuilder: {
-        title: 'Figma-to-Code (React)',
+        title: 'Figma to Code (React)',
         items: [
           {
             title: 'Overview',
@@ -2361,7 +2366,7 @@ const directory = {
             route: '/console/uibuilder/override'
           },
           {
-            title: 'Figma-to-Code best practices',
+            title: 'Best practices',
             route: '/console/uibuilder/bestpractices'
           }
         ]
@@ -2378,7 +2383,7 @@ const directory = {
             route: '/console/data/relationships'
           },
           {
-            title: 'Content management',
+            title: 'Data management',
             route: '/console/data/content-management'
           }
         ]

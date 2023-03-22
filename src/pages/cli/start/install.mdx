@@ -1,17 +1,15 @@
 export const meta = {
   title: `Installation`,
-  description: `How to install & configure Amplify CLI`,
+  description: `How to install & configure Amplify CLI`
 };
-
-  
 
 ## Install the Amplify CLI
 
 The Amplify Command Line Interface (CLI) is a unified toolchain to create AWS cloud services for your app. Let's go ahead and install the Amplify CLI.
 
-import all0 from "/src/fragments/cli-install-block.mdx";
+import all0 from '/src/fragments/cli-install-block.mdx';
 
-<Fragments fragments={{all: all0}} />
+<Fragments fragments={{ all: all0 }} />
 
 ### Pre-requisites for installation
 
@@ -23,11 +21,86 @@ import all0 from "/src/fragments/cli-install-block.mdx";
 
 To set up the Amplify CLI on your local machine, you have to configure it to connect to your AWS account.
 
+> If you already have an AWS profile with credentials on your machine, you can skip this step.
+
+> If you are using CLI version < 10.8.0 go to [Configure CLI < 10.8.0](#configure-the-amplify-cli-version--1080)
+
+Configure Amplify by running the following command:
+
+```bash
+amplify configure
+```
+
+`amplify configure` will ask you to sign into the AWS Console.
+
+Once you're signed in, Amplify CLI will ask you to create an IAM user.
+
+> Amazon IAM (Identity and Access Management) enables you to manage users and user permissions in AWS. You can learn more about Amazon IAM [here](https://aws.amazon.com/iam/).
+
+```console
+Specify the AWS Region
+? region:  # Your preferred region
+Follow the instructions at
+https://docs.amplify.aws/cli/start/install/#configure-the-amplify-cli
+
+to complete the user creation in the AWS console
+https://console.aws.amazon.com/iamv2/home#/users/create
+```
+
+Navigate to the [IAM User creation page](https://console.aws.amazon.com/iamv2/home#/users/create) if it's not already open.
+
+Enter a User name and select **Next**. You can name the user anything but we'll call it "amplify-dev".
+
+![image](/images/cli/user-creation/user-name.png)
+
+Select **Attach policies directly** and select **AdministratorAccess-Amplify** as the Permissions policy. Select **Next**.
+
+![image](/images/cli/user-creation/user-permissions.png)
+
+On the Review page, check that everything looks good and select **Create user**.
+
+![image](/images/cli/user-creation/user-review.png)
+
+This will redirect to the users list page. Select the user you just created.
+
+![image](/images/cli/user-creation/user-list.png)
+
+On the user details page, navigate to the **Security credentials** tab, scroll down to **Access keys** and select **Create access keys**.
+
+![image](/images/cli/user-creation/create-access-keys.png)
+
+On the next page, select **Command Line Interface**, acknowledge the warning, and select **Next**.
+
+![image](/images/cli/user-creation/ack-page.png)
+
+On the next page select **Create access key**. You’ll then see a page with the access keys for the user. Use the copy icon to copy these values to your clipboard, then return to the Amplify CLI.
+
+![image](/images/cli/user-creation/access-keys-done.png)
+
+Enter the values you just copied into the corresponding CLI prompts.
+
+```console
+Enter the access key of the newly created user:
+? accessKeyId:  # YOUR_ACCESS_KEY_ID
+? secretAccessKey:  # YOUR_SECRET_ACCESS_KEY
+This would update/create the AWS Profile in your local machine
+? Profile Name:  # (default)
+
+Successfully set up the new user.
+```
+
+## Configure the Amplify CLI version < 10.8.0
+
 ### Option 1: Watch the video guide
 
 Watch the video below to learn how to install and configure the Amplify CLI or skip to the next section to follow the step-by-step instructions.
 
-<iframe src="https://www.youtube-nocookie.com/embed/fWbM5DLh25U" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe
+  src="https://www.youtube-nocookie.com/embed/fWbM5DLh25U"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowfullscreen
+></iframe>
 
 ### Option 2: Follow the instructions
 
@@ -40,6 +113,7 @@ amplify configure
 `amplify configure` will ask you to sign into the AWS Console.
 
 Once you're signed in, Amplify CLI will ask you to create an IAM user.
+
 > Amazon IAM (Identity and Access Management) enables you to manage users and user permissions in AWS. You can learn more about Amazon IAM [here](https://aws.amazon.com/iam/).
 
 ```console
@@ -65,7 +139,6 @@ This would update/create the AWS Profile in your local machine
 
 Successfully set up the new user.
 ```
-
 <Callout>
 
 It is recommended to create a new IAM user for every device that installs the Amplify CLI, rather than attempt to use an existing IAM user used on another device. Having a distinct user for each machine provides the best level of visibility and control without breaking the deployment of your app, allowing for the quick deactivation of an individual machine if needed.
