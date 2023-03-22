@@ -2,6 +2,9 @@ const withTM = require('next-transpile-modules')([
   '@algolia/autocomplete-shared'
 ]); // pass the modules you would like to see transpiled
 
+const theme = require('shiki/themes/nord.json');
+const { remarkCodeHike } = require('@code-hike/mdx');
+
 const mdxRenderer = `
   import { mdx } from "@mdx-js/react";
 
@@ -23,21 +26,24 @@ module.exports = async (phase, { defaultConfig }) => {
   const codeBlockPlugin = await require('./src/plugins/code-block.tsx');
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const importPlugin = await require('./src/plugins/import.tsx');
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const frontmatterPlugin = await require('./src/plugins/frontmatter.tsx');
 
   const withMDX = require('@next/mdx')({
     extension: /\.mdx$/,
     options: {
       remarkPlugins: [
-        frontmatterPlugin,
         importPlugin,
         headingLinkPlugin,
         pagePlugin,
-        internalLinkPlugin
+        internalLinkPlugin,
+        [remarkCodeHike, { theme }]
       ],
       rehypePlugins: [codeBlockPlugin],
       renderer: mdxRenderer
+    },
+    loader: '@mdx-js/loader',
+    /** @type {import('@mdx-js/loader').Options} */
+    options: {
+      providerImportSource: '@mdx-js/react'
     }
   });
 
