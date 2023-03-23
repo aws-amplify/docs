@@ -345,7 +345,7 @@ export const handler = async (event) => {
   });
 
   const signed = await signer.sign(requestToBeSigned);
-  const request = new Request(endpoint, signed);
+  const request = new Request(GRAPHQL_ENDPOINT, signed);
 
   let statusCode = 200;
   let body;
@@ -448,7 +448,7 @@ exports.handler = async (event) => {
   });
 
   const signed = await signer.sign(requestToBeSigned);
-  const request = new Request(endpoint, signed);
+  const request = new Request(GRAPHQL_ENDPOINT, signed);
 
   let statusCode = 200;
   let body;
