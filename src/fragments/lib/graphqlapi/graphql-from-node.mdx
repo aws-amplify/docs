@@ -1,5 +1,5 @@
 You can call an AppSync GraphQL API from a Node.js app or a Lambda function. Take a basic `Todo` app as an example:
-
+ 
 ```graphql
 type Todo @model @auth(rules: [{ allow: public }]) {
   name: String
@@ -150,9 +150,10 @@ export const handler = async (event) => {
   const options = {
     method: 'POST',
     headers: {
-      'x-api-key': GRAPHQL_API_KEY
+      'x-api-key': GRAPHQL_API_KEY,
+      'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ query, variables })
+    body: JSON.stringify({ query })
   };
 
   const request = new Request(GRAPHQL_ENDPOINT, options);
@@ -222,7 +223,8 @@ export const handler = async (event) => {
   const options = {
     method: 'POST',
     headers: {
-      'x-api-key': GRAPHQL_API_KEY
+      'x-api-key': GRAPHQL_API_KEY,
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({ query, variables })
   };
