@@ -54,7 +54,7 @@ try {
 
 ### Configure a primary key
 
-Every GraphQL type with the `@model` directive will automatically have an `id` field set as the primary key. You can override this behavior by marking another required field with the `@primaryKey` directive. 
+Every GraphQL type with the `@model` directive will automatically have an `id` field set as the primary key. You can override this behavior by marking another required field with the `@primaryKey` directive.
 
 In the example below, `todoId` is the database's primary key and an `id` field will no longer be created automatically anymore by the `@model` directive.
 ```graphql
