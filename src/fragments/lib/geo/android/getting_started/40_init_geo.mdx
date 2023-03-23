@@ -62,26 +62,27 @@ class MyAmplifyApp : Application() {
 </Block>
 <Block name="RxJava">
 
-```kotlin
-RxAmplify.addPlugin(AWSCognitoAuthPlugin())
-RxAmplify.addPlugin(AWSLocationGeoPlugin())
-RxAmplify.configure(applicationContext)
+```java
+RxAmplify.addPlugin(AWSCognitoAuthPlugin());
+RxAmplify.addPlugin(AWSLocationGeoPlugin());
+RxAmplify.configure(applicationContext);
 ```
 
 Your class will look like this:
 
-```kotlin
-class MyAmplifyApp : Application() {
-    override fun onCreate() {
-        super.onCreate()
+```java
+public class MyAmplifyApp extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
 
         try {
-            RxAmplify.addPlugin(AWSCognitoAuthPlugin())
-            RxAmplify.addPlugin(AWSLocationGeoPlugin())
-            RxAmplify.configure(applicationContext)
-            Log.i("MyAmplifyApp", "Initialized Amplify")
-        } catch (error: AmplifyException) {
-            Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
+            RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
+            RxAmplify.addPlugin(new AWSLocationGeoPlugin());
+            RxAmplify.configure(getApplicationContext());
+            Log.i("MyAmplifyApp", "Initialized Amplify");
+        } catch (AmplifyException error) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
         }
     }
 }
