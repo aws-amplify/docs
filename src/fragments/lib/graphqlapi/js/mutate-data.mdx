@@ -114,6 +114,7 @@ import * as mutations from './graphql/mutations';
 
 const todoDetails = {
   id: 'some_id',
+//  _version: 'current_version', // add the "_version" field if your AppSync API has conflict detection (required for DataStore) enabled
   description: 'Updated description'
 };
 
