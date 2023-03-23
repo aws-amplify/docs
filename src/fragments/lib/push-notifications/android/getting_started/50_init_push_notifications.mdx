@@ -1,5 +1,5 @@
 To initialize the Amplify Push Notifications, you will use the `Amplify.addPlugin()` method to add the **AWSCognitoAuthPlugin** and the **AWSPinpointPushNotificationsPlugin** and then call `Amplify.configure()` to finish configuring Amplify.
-Displaying push notifications from FCM requires registering the device with the FCM service. The **AWSPinpointPushNotificationsPlugin** takes care of registering with FCM during configuration, automatically records and displays your notifications.
+Displaying push notifications from FCM requires registering mobile devices with the FCM service. The AWSPinpointPushNotificationsPlugin takes care of registering the device with FCM during configuration, and automatically records analytics in Amazon Pinpoints.
 
 
 Add the following code to your `onCreate()` method in your application class:
