@@ -36,7 +36,7 @@ public class MyAmplifyApp extends Application {
 
 ```kotlin
 Amplify.addPlugin(AWSCognitoAuthPlugin())
-Amplify.addPlugin(AWSLocationGeoPlugin())
+Amplify.addPlugin(new AWSLocationGeoPlugin())
 Amplify.configure(applicationContext)
 ```
 
@@ -63,9 +63,9 @@ class MyAmplifyApp : Application() {
 <Block name="RxJava">
 
 ```java
-RxAmplify.addPlugin(AWSCognitoAuthPlugin());
-RxAmplify.addPlugin(AWSLocationGeoPlugin());
-RxAmplify.configure(applicationContext);
+RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
+RxAmplify.addPlugin(new AWSLocationGeoPlugin());
+RxAmplify.configure(getApplicationContext());
 ```
 
 Your class will look like this:
