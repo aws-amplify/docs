@@ -288,6 +288,23 @@ type Post @model @auth(rules: [
   content: String
 }
 ```
+```js
+import { createPost } from './graphql/mutations';
+import { listPosts } from './graphql/queries';
+
+// Creating a post is restricted to Cognito User Pools
+const newPostResult = await API.graphql({
+	query: queries.createPost,
+	variables: { input: { title: 'Hello World' } },
+	authMode: 'AMAZON_COGNITO_USER_POOLS',
+});
+
+// Listing posts is available to all users (verified by IAM)
+const listPostsResult = await API.graphql({
+	query: queries.listPosts,
+	authMode: 'AWS_IAM',
+});
+```
 
 In the example above:
 - any user (signed in or not, verified by IAM) is allowed to read all posts
