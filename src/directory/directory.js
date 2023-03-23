@@ -661,7 +661,7 @@ const directory = {
           {
             title: 'Getting started',
             route: '/lib/push-notifications/getting-started',
-            filters: ['ios', 'react-native']
+            filters: ['android', 'ios', 'react-native']
           },
           {
             title: 'Register device',
@@ -676,7 +676,7 @@ const directory = {
           {
             title: 'Identify user',
             route: '/lib/push-notifications/identify-user',
-            filters: ['ios']
+            filters: ['android', 'ios']
           },
           {
             title: 'Working with API',
@@ -691,12 +691,12 @@ const directory = {
           {
             title: 'Testing',
             route: '/lib/push-notifications/testing',
-            filters: ['ios', 'react-native']
+            filters: ['android', 'ios', 'react-native']
           },
           {
             title: 'Setting up push notification services',
             route: '/lib/push-notifications/setup-push-service',
-            filters: ['ios']
+            filters: ['android', 'ios']
           }
         ]
       },
