@@ -659,12 +659,12 @@ const directory = {
           {
             title: 'Register device',
             route: '/lib/push-notifications/register-device',
-            filters: ['android', 'ios']
+            filters: ['ios']
           },
           {
             title: 'Record notification events',
             route: '/lib/push-notifications/record-notifications',
-            filters: ['android', 'ios']
+            filters: ['ios']
           },
           {
             title: 'Identify user',

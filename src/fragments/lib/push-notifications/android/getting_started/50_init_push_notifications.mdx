@@ -1,10 +1,6 @@
 To initialize the Amplify Push Notifications, you will use the `Amplify.addPlugin()` method to add the **AWSCognitoAuthPlugin** and the **AWSPinpointPushNotificationsPlugin** and then call `Amplify.configure()` to finish configuring Amplify.
+The **AWSPinpointPushNotificationsPlugin** automatically records and displays your notifications.
 
-<Callout>
-
-The **AWSPinpointPushNotificationsPlugin** automatically records and displays your notifications. With the exception of `IdentifyUser`, you do not need to add any APIs to your app if you want to use Amplify with Amazon Pinpoint. You should use these APIs if you are interested in supporting multiple push providers.
-
-</Callout>
 
 Add the following code to your `onCreate()` method in your application class:
 
@@ -129,4 +125,3 @@ Upon building and running this application you should see the following in your 
 ```console
 Initialized Amplify
 ```
-
