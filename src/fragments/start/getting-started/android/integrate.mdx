@@ -505,7 +505,7 @@ You may want to change the contents of a record. Below, we'll query for a record
               val updatedTodo = todo.copyOfBuilder()
                   .name("File quarterly taxes")
                   .build()
-              Amplify.DataStore.save(edited,
+              Amplify.DataStore.save(updatedTodo,
                   { Log.i("Tutorial", "Updated item: ${updatedTodo.name}") },
                   { Log.e("Tutorial", "Update failed.", it) }
               )
