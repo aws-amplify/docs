@@ -570,10 +570,6 @@ When `@auth` is used subscriptions have a few subtle behavior differences than q
 
 Alternatively, when the model is protected using the static group auth strategy, the subscription request will only succeed if the user is in an allowed group. Further, the user will only get notifications of updates to records if they are in an allowed group. Note: You don't need to pass the user as an argument in the subscription request, since the resolver will instead check the contents of your JWT token.
 
-<Callout>
-Dynamic groups have no impact to subscriptions. You will not get notified of any updates to them.
-</Callout>
-
 For example suppose you have the following schema:
 
 ```graphql
@@ -597,7 +593,7 @@ subscription OnCreatePost {
 }
 ```
 
-Note that if your type doesn’t already have an `owner` field the Transformer will automatically add this for you. Passing in the current user can be done dynamically in your code by using [Auth.currentAuthenticatedUser()](https://docs.amplify.aws/lib/auth/manageusers/q/platform/js#retrieve-current-authenticated-user) in JavaScript, [AWSMobileClient.default().username](/sdk/auth/working-with-api.md/q/platform/ios#utility-properties) in iOS, or [AWSMobileClient.getInstance().getUsername()](/sdk/auth/working-with-api.md/q/platform/android#utility-properties) in Android.
+Note that if your type doesn’t already have an `owner` field the Transformer will automatically add this for you. Passing in the current user can be done dynamically in your code by using [Auth.currentAuthenticatedUser()](https://docs.amplify.aws/lib/auth/manageusers/q/platform/js#retrieve-current-authenticated-user) in JavaScript, [AWSMobileClient.default().username](/sdk/auth/working-with-api/q/platform/ios#utility-properties) in iOS, or [AWSMobileClient.getInstance().getUsername()](/sdk/auth/working-with-api/q/platform/android#utility-properties) in Android.
 
 In the case of groups if you define the following:
 

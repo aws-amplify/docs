@@ -97,30 +97,13 @@ Setup instructions are provided for Android and iOS, and configuration for both 
     <application ... >
 
         <!--[START Push notification config -->
-            <!-- [START firebase_service] -->
-            <service
-                android:name="com.amazonaws.amplify.pushnotification.RNPushNotificationMessagingService"
-                android:exported="false">
-                <intent-filter>
-                    <action android:name="com.google.firebase.MESSAGING_EVENT"/>
-                </intent-filter>
-            </service>
-            <!-- [END firebase_service] -->
-            <!-- [START firebase_iid_service] -->
-            <service
-                android:name="com.amazonaws.amplify.pushnotification.RNPushNotificationDeviceIDService"
-                android:exported="false">
-                <intent-filter>
-                    <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
-                </intent-filter>
-            </service>
-            <receiver
-                android:name="com.amazonaws.amplify.pushnotification.modules.RNPushNotificationBroadcastReceiver"
-                android:exported="false" >
-                <intent-filter>
-                    <action android:name="com.amazonaws.amplify.pushnotification.NOTIFICATION_OPENED"/>
-                </intent-filter>
-            </receiver>
+        <service
+            android:name="com.amazonaws.amplify.pushnotification.RNPushNotificationMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
         <!-- [END Push notification config -->
 
     </application>
