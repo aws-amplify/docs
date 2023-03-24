@@ -103,19 +103,19 @@ export default class FilterSelect extends React.Component<
     let href: object | string = convertToRouteHerf(this.props, name);
     if (!this.props.url.includes('/q/')) {
       href = this.props.url + `/q/${this.props.filterKind}/${name}`;
+    } else {
+      href = this.props.url + `${this.props.filterKind}/${name}`;
     }
 
     return (
-      <Link href={href} key={name} legacyBehavior>
-        <a onClick={this.toggleVis}>
-          <img
-            alt={filterMetadataByOption[name]?.label + ' icon'}
-            src={filterMetadataByOption[name]?.graphicURI}
-            height="28px"
-            width="28px"
-          />
-          <span>{filterMetadataByOption[name]?.label}</span>
-        </a>
+      <Link href={href} key={name} onClick={this.toggleVis}>
+        <img
+          alt={filterMetadataByOption[name]?.label + ' icon'}
+          src={filterMetadataByOption[name]?.graphicURI}
+          height="28px"
+          width="28px"
+        />
+        <span>{filterMetadataByOption[name]?.label}</span>
       </Link>
     );
   };
