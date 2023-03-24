@@ -2,23 +2,8 @@ import '@algolia/autocomplete-theme-classic';
 import '../styles/styles.css';
 import '../styles/contribute-styles.css';
 import Head from 'next/head';
-import React from 'react';
 
 function MyApp({ Component, pageProps }) {
-  const HydrationContext = React.createContext(false);
-
-  function HydrationProvider({ children }) {
-    const [hydrated, setHydrated] = React.useState(false);
-    React.useEffect(() => {
-      setHydrated(true);
-    }, []);
-    return (
-      <HydrationContext.Provider value={hydrated}>
-        {children}
-      </HydrationContext.Provider>
-    );
-  }
-
   return (
     <>
       <Head>
@@ -99,9 +84,8 @@ function MyApp({ Component, pageProps }) {
         <link rel="apple-touch-icon" href="/assets/icon/icon.png" />
         <link rel="icon" type="image/x-icon" href="/assets/icon/favicon.ico" />
       </Head>
-      <HydrationProvider>
-        <Component {...pageProps} />
-      </HydrationProvider>
+
+      <Component {...pageProps} />
 
       {process.env.NODE_ENV !== 'production' ? (
         <script src="https://aa0.awsstatic.com/s_code/js/3.0/awshome_s_code.js"></script>
