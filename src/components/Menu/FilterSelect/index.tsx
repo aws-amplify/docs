@@ -106,7 +106,7 @@ export default class FilterSelect extends React.Component<
     }
 
     return (
-      <Link href={href} key={name}>
+      <Link href={href} key={name} legacyBehavior>
         <a onClick={this.toggleVis}>
           <img
             alt={filterMetadataByOption[name]?.label + ' icon'}

@@ -1,6 +1,6 @@
-import React from "react";
-import {ExternalLinkGraphic} from "./styles";
-import {trackExternalLink} from "../../utils/track";
+import React from 'react';
+import { ExternalLinkGraphic } from './styles';
+import { trackExternalLink } from '../../utils/track';
 
 type ExternalLinkProps = {
   graphic?: string;
@@ -12,7 +12,7 @@ const ExternalLink: React.FC<ExternalLinkProps> = ({
   children,
   graphic,
   href,
-  anchorTitle,
+  anchorTitle
 }) => {
   return (
     <a

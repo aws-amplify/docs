@@ -1,9 +1,15 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { parseLocalStorage } from '../../utils/parseLocalStorage';
+import { useEffect, useState } from 'react';
+
 
 export default function InternalLink({ href, children }) {
+  const [url, setUrl] = useState(href);
+  useEffect(() => setUrl(url), []);
   let filterKind = '';
+  // console.log('href', href);
+  // console.log('url', url);
   if (href.startsWith('/cli') || href.startsWith('/console')) {
     filterKind = '';
   } else if (href.startsWith('/lib')) {
@@ -37,10 +43,11 @@ export default function InternalLink({ href, children }) {
     const router = useRouter();
     const prevPath = router.asPath.split('#')[0];
     href = prevPath + href;
+    // console.log('2', href)
   }
 
   return (
-    <Link href={href} passHref>
+    <Link href={url} passHref legacyBehavior>
       {children}
     </Link>
   );

@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "@emotion/styled";
-import Link from "next/link";
+import React from 'react';
+import styled from '@emotion/styled';
+import Link from 'next/link';
 
-import {MQFablet, MQDesktop} from "../media";
+import { MQFablet, MQDesktop } from '../media';
 
 type CardProps = {
   className?: string;
@@ -26,11 +26,11 @@ const docsCard: React.FC<CardProps> = ({
   children,
   className,
   href,
-  external,
+  external
 }) => {
   if (!href) return <div className={className}>{children}</div>;
   return (
-    <Link href={href} passHref={true}>
+    <Link href={href} passHref={true} legacyBehavior>
       <Anchor>
         {external && (
           <ExternalLinkGraphic
