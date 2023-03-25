@@ -6,6 +6,42 @@ Finally you can configure the number of records to sync as an upper bound on ite
 
 The code below illustrates a conflict resolution handler for the `Post` model that retries a mutation with the same title, but the most recent remote data for all other fields. The conflict resolution handler discards conflicts for all other models (by returning the `DISCARD` symbol imported from `@aws-amplify/datastore`).
 
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import {
+  DISCARD,
+  PersistentModelConstructor,
+} from "@aws-amplify/datastore";
+
+DataStore.configure({
+  errorHandler: (error) => {
+    console.warn("Unrecoverable error", { error });
+  },
+  conflictHandler: async (data) => {
+    // Example conflict handler
+    if (data.modelConstructor as PersistentModelConstructor<Todo> === Todo) {
+      const remoteModel = data.remoteModel as Todo;
+      const localModel = data.localModel as Todo;
+      
+      const newModel = Todo.copyOf(remoteModel, (d) => {
+        d.name = localModel.name;
+      });
+      
+      return newModel;
+    }
+
+    return DISCARD;
+  },
+  maxRecordsToSync: 30000,
+  fullSyncInterval: 60, // minutes
+});
+```
+
+</Block>
+<Block name="JavaScript">
+
 ```js
 import { DISCARD } from "@aws-amplify/datastore";
 
@@ -15,7 +51,6 @@ DataStore.configure({
   },
   conflictHandler: async (data) => {
     // Example conflict handler
-
     const modelConstructor = data.modelConstructor;
     if (modelConstructor === Post) {
       const remoteModel = data.remoteModel;
@@ -32,3 +67,6 @@ DataStore.configure({
   fullSyncInterval: 60, // minutes
 });
 ```
+
+</Block>
+</BlockSwitcher>

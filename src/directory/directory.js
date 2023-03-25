@@ -1,4 +1,11 @@
 const directory = {
+  contribute: {
+    productRoot: {
+      title: 'Contribute',
+      route: '/contribute'
+    },
+    items: {}
+  },
   lib: {
     productRoot: {
       title: 'Amplify Libraries',
@@ -647,7 +654,22 @@ const directory = {
           {
             title: 'Getting started',
             route: '/lib/push-notifications/getting-started',
-            filters: ['react-native']
+            filters: ['android', 'ios', 'react-native']
+          },
+          {
+            title: 'Register device',
+            route: '/lib/push-notifications/register-device',
+            filters: ['ios']
+          },
+          {
+            title: 'Record notification events',
+            route: '/lib/push-notifications/record-notifications',
+            filters: ['ios']
+          },
+          {
+            title: 'Identify user',
+            route: '/lib/push-notifications/identify-user',
+            filters: ['android', 'ios']
           },
           {
             title: 'Working with API',
@@ -655,9 +677,19 @@ const directory = {
             filters: ['react-native']
           },
           {
+            title: 'Remote media',
+            route: '/lib/push-notifications/remote-media',
+            filters: ['ios']
+          },
+          {
             title: 'Testing',
             route: '/lib/push-notifications/testing',
-            filters: ['react-native']
+            filters: ['android', 'ios', 'react-native']
+          },
+          {
+            title: 'Setting up push notification services',
+            route: '/lib/push-notifications/setup-push-service',
+            filters: ['android', 'ios']
           }
         ]
       },
@@ -742,7 +774,7 @@ const directory = {
           {
             title: 'Use Transfer Acceleration',
             route: '/lib/storage/transfer-acceleration',
-            filters: ['js', 'react-native']
+            filters: ['android', 'js', 'react-native']
           },
           {
             title: 'Lambda triggers',
@@ -790,7 +822,11 @@ const directory = {
             route: '/lib/utilities/serviceworker',
             filters: ['js']
           },
-          { title: 'Cache', route: '/lib/utilities/cache', filters: ['js', 'react-native'] },
+          {
+            title: 'Cache',
+            route: '/lib/utilities/cache',
+            filters: ['js', 'react-native']
+          },
           {
             title: 'Hub',
             route: '/lib/utilities/hub',
@@ -1947,6 +1983,16 @@ const directory = {
       migration: {
         title: 'Migration & Backwards Compatibility',
         items: [
+          {
+            title: 'AWS CDK v1 to v2 migration',
+            route: '/cli/migration/aws-cdk-migration',
+            filters: []
+          },
+          {
+            title: 'Lazy Loading and Custom Selection Set',
+            route: '/cli/migration/lazy-load-custom-selection-set',
+            filters: []
+          },
           {
             title: 'GraphQL Transformer v1 to v2 migration',
             route: '/cli/migration/transformer-migration',
