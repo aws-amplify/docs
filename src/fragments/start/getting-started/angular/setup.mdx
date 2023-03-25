@@ -19,6 +19,35 @@ Angular 6+ does not include shims for 'global' or 'process' as provided in previ
   env: { DEBUG: undefined },
 };
 ``` 
+### Angular 15 Support
+First, create `src/polyfills.ts` and add the following:
+
+```javascript
+(window as any).global = window;
+(window as any).process = {
+  env: { DEBUG: undefined },
+};
+```
+
+Then, open your `angular.json` file, and add `src/polyfills.ts` to polyfills array(s) in your `angular.json`. These arrays are located in projects.`<project-name>.architect.<task-name>.options`.
+
+```javascript
+"polyfills": [
+  "zone.js",
+  "src/polyfills.ts"
+],
+```
+
+And finally, make sure to add `src/polyfills` to files in your `tsconfig.app.json`:
+
+```javascript
+{
+  "files": [
+    "src/main.ts",
+    "src/polyfills.ts"
+  ],
+}
+```
 
 ### Internet Explorer 11 (IE11) Support:
 
