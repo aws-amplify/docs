@@ -15,9 +15,11 @@ module.exports = {
       .then((files) => {
         // Save these values to the Github env
         core.exportVariable('NEW_FILES', files);
-        core.exportVariable('NEW_FILES_COUNT', files.length);
 
         console.log('New files: ', files);
+
+        // Return the new files count to be used in the github workflow
+        return files.length;
       });
   },
   validateCodeowners: async ({ github, context, fetch, ignore }) => {
@@ -37,7 +39,10 @@ module.exports = {
       .filter((e) => e.length > 1)
       .map((e) => e.split(/\s+/)[0]);
 
-    console.log(codeownersFilePatterns);
+    console.log(
+      'CODEOWNERS patterns to match new files against: ',
+      codeownersFilePatterns
+    );
 
     // Add the patterns to the ignore package
     const ig = ignore().add(codeownersFilePatterns);
