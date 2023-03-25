@@ -6,7 +6,7 @@ module.exports = {
     } = context;
 
     // Use the Github API to query for the list of files from the PR
-    github
+    return github
       .paginate(
         'GET /repos/{owner}/{repo}/pulls/{pull_number}/files',
         { owner, repo, pull_number: issue_number },
