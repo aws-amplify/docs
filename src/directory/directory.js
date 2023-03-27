@@ -1387,8 +1387,18 @@ const directory = {
           },
           {
             title: 'Use existing AWS resources',
-            route: '/lib/storage/existing-resources',
+            route: '/lib-v1/storage/existing-resources',
             filters: ['android', 'ios', 'flutter']
+          }
+        ]
+      },
+      troubleshooting: {
+        title: 'Troubleshooting',
+        items: [
+          {
+            title: 'Upgrading Amplify packages',
+            route: '/lib-v1/troubleshooting/upgrading',
+            filters: ['flutter']
           }
         ]
       },

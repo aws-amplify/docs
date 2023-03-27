@@ -14,6 +14,10 @@ import android1 from "/src/fragments/lib-v1/graphqlapi/android/advanced-workflow
 
 <Fragments fragments={{android: android1}} />
 
+import flutter1 from "/src/fragments/lib-v1/graphqlapi/flutter/advanced-workflows/10_example.mdx";
+
+<Fragments fragments={{flutter: flutter1}} />
+
 Underneath the covers, a request is generated with a GraphQL document and variables and sent to the AppSync service. 
 
 ```json
@@ -77,6 +81,10 @@ import android3 from "/src/fragments/lib-v1/graphqlapi/android/advanced-workflow
 
 <Fragments fragments={{android: android3}} />
 
+import flutter3 from "/src/fragments/lib-v1/graphqlapi/flutter/advanced-workflows/20_custom.mdx";
+
+<Fragments fragments={{flutter: flutter3}} />
+
 ## Nested Data
 If you have a relational model, you can retrieve the nested object by creating a `GraphQLRequest` with a selection set containing the nested object's fields. For example, in this schema, the Post can contain multiple comments and notes.
 
@@ -120,6 +128,10 @@ import android5 from "/src/fragments/lib-v1/graphqlapi/android/advanced-workflow
 
 <Fragments fragments={{android: android5}} />
 
+import flutter5 from "/src/fragments/lib-v1/graphqlapi/flutter/advanced-workflows/30_nested.mdx";
+
+<Fragments fragments={{flutter: flutter5}} />
+
 ## Combining Multiple Operations
 
 When you want to perform more than one operation in a single request, you can place them within the same document. For example, to retrieve a Post and a Todo
@@ -132,6 +144,10 @@ import android7 from "/src/fragments/lib-v1/graphqlapi/android/advanced-workflow
 
 <Fragments fragments={{android: android7}} />
 
+import flutter7 from "/src/fragments/lib-v1/graphqlapi/flutter/advanced-workflows/40_multiple.mdx";
+
+<Fragments fragments={{flutter: flutter7}} />
+
 ## Adding Headers to Outgoing Requests
 
 By default, the API plugin includes appropriate authorization headers on your outgoing requests. However, you may have an advanced use case where you wish to send additional request headers to AppSync.
@@ -143,3 +159,7 @@ import ios8 from "/src/fragments/lib-v1/graphqlapi/ios/advanced-workflows/50_int
 import android9 from "/src/fragments/lib-v1/graphqlapi/android/advanced-workflows/50_interceptor.mdx";
 
 <Fragments fragments={{android: android9}} />
+
+import flutter8 from "/src/fragments/lib-v1/graphqlapi/flutter/advanced-workflows/50_interceptor.mdx";
+
+<Fragments fragments={{flutter: flutter8}} />
