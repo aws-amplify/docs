@@ -54,9 +54,9 @@ async function changeSync() {
 };
 ```
 
-Upon calling `DataStore.start()` (or executing a DataStore operation, e.g., `query`, `save`, `delete`, or `observe`), DataStore will reevaluate the `syncExpressions`. 
+Calls to `start`, `query`, `save`, `delete`, `observe`, and `observeQuery` will only start DataStore and reevaluate sync expressions if DataStore is not already started.
 
-In the above case, the predicate will contain the value `1`, so all Posts with `rating > 1` will get synced down.
+In the example above, `changeSync()` invokes `DataStore.start()` after `DataStore.stop()` has completely finished. This causes sync expressions to be reevaluated. Subsequently, when the sync expression is reevaluated, the `rating` variable has been changed to `1`, so all Posts with `rating > 1` will get synced down.
 
 Keep in mind: `DataStore.stop()` will retain the local store's existing content. Run `DataStore.clear()` to clear the locally-stored contents.
 

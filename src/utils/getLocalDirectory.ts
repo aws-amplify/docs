@@ -22,7 +22,7 @@ export function isProductRoot(pathname: string): boolean {
     return true;
   }
 
-  if (path[2]?.startsWith(`#`)) {
+  if (path[2]?.startsWith(`#`) || path[2]?.startsWith('?')) {
     // matches /cli/#key-capabilities, for examle
     return true;
   }

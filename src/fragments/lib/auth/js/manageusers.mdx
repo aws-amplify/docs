@@ -185,9 +185,9 @@ verification. You can listen to `updateUserAttributes` event on `auth` channel:
 
 ```javascript
 Hub.listen('auth', ({payload}) => {
-    if (payload.event === 'updateUserAttributes') {
-        const resultObject = payload.data;
-    }
+  if (payload.event === 'updateUserAttributes') {
+    const resultObject = payload.data;
+  }
 });
 ```
 You can learn more about how to listen to Hub events [here](https://docs.amplify.aws/lib/utilities/hub/q/platform/js/).
@@ -196,17 +196,17 @@ Example of the dispatched `resultObject`:
 
 ```javascript
 {
-    'email': {
-        isUpdated: false // indicates that attribute requires verification
-        codeDeliveryDetails: {
-            AttributeName: 'email',
-            DeliveryMedium: 'EMAIL',
-            Destination: 'm***@a...'
-        }
-    },
-    'family_name': {
-        isUpdated: true
+  'email': {
+    isUpdated: false // indicates that attribute requires verification
+    codeDeliveryDetails: {
+      AttributeName: 'email',
+      DeliveryMedium: 'EMAIL',
+      Destination: 'm***@a...'
     }
+  },
+  'family_name': {
+    isUpdated: true
+  }
 }
 ```
 If a user sends several attributes for update and one or more of them is `read_only` or doesn't exist, the Amplify JavaScript library will throw

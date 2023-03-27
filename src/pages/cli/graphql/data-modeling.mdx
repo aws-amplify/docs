@@ -36,10 +36,25 @@ query QueryAllTodos {
   }
 }
 ```
+```js
+import { Amplify, API, graphqlOperation } from 'aws-amplify';
+import awsconfig from './aws-exports';
+import { listTodos } from './graphql/queries';
+
+Amplify.configure(awsconfig);
+
+try {
+	const result = await API.graphql(graphqlOperation(listTodos));
+	const todos = result.data.listTodos;
+} catch (res) {
+	const { errors } = res;
+	console.error(errors);
+}
+```
 
 ### Configure a primary key
 
-Every GraphQL type with the `@model` directive will automatically have an `id` field set as the primary key. You can override this behavior by marking another required field with the `@primaryKey` directive. 
+Every GraphQL type with the `@model` directive will automatically have an `id` field set as the primary key. You can override this behavior by marking another required field with the `@primaryKey` directive.
 
 In the example below, `todoId` is the database's primary key and an `id` field will no longer be created automatically anymore by the `@model` directive.
 ```graphql
@@ -72,6 +87,17 @@ query QueryInventoryByProductAndWarehouse($productID: ID!, $warehouseID: ID!) {
     inventoryAmount
   }
 }
+```
+```js
+import { getInventory } from './graphql/queries';
+
+const params = {
+	productID: 'product-id',
+	warehouseID: 'warehouse-id',
+};
+
+const result = await API.graphql(graphqlOperation(getInventory, params));
+const inventory = result.data.getInventory;
 ```
 
 ### Configure a secondary index
@@ -106,6 +132,18 @@ query QueryCustomersForAccountRepresentative($accountRepresentativeID: ID!) {
   }
 }
 ```
+```js
+import { customersByAccountRepresentativeID } from './graphql/queries';
+
+const params = {
+	accountRepresentativeID: 'account-rep-id',
+};
+
+const result = await API.graphql(
+	graphqlOperation(customersByAccountRepresentativeID, params)
+);
+const customers = result.data.customersByAccountRepresentativeID;
+```
 
 You can also overwrite the `queryField` or `name` to customize the GraphQL query name, or secondary index name respectively:
 
@@ -131,6 +169,18 @@ query QueryCustomersForAccountRepresentative($representativeId: ID!) {
   }
 }
 ```
+```js
+import { customerByRepresentative } from './graphql/queries';
+
+const params = {
+	accountRepresentativeID: 'account-rep-id',
+};
+
+const result = await API.graphql(
+	graphqlOperation(customerByRepresentative, params)
+);
+const customer = result.data.customerByRepresentative;
+```
 
 To optionally configure sort keys, provide the additional fields in the `sortKeyFields` parameter:
 
@@ -154,6 +204,19 @@ query MyQuery {
     }
   }
 }
+```
+```js
+import { customerByNameAndPhone } from './graphql/queries';
+
+const params = {
+	phoneNumber: { beginsWith: '+1' },
+	name: 'Rene',
+};
+
+const result = await API.graphql(
+	graphqlOperation(customerByNameAndPhone, params)
+);
+const customer = result.data.customerByNameAndPhone;
 ```
 
 ## Setup relationships between models
@@ -203,6 +266,16 @@ mutation CreateProject {
   }
 }
 ```
+```js
+import { createProject } from './graphql/mutations';
+
+const params = {
+	input: { projectTeamId: 'team-id', name: 'Some Name' },
+};
+
+const result = await API.graphql(graphqlOperation(createProject, params));
+const project = result.data.createProject;
+```
 
 To customize the field to be used for storing the relationship information, set the `fields` array argument and matching it to a field on the type:
 
@@ -233,6 +306,16 @@ mutation CreateProject {
     }
   }
 }
+```
+```js
+import { createProject } from './graphql/mutations';
+
+const params = {
+	input: { teamID: 'team-id', name: 'New Project' },
+};
+
+const result = await API.graphql(graphqlOperation(createProject, params));
+const project = result.data.createProject;
 ```
 
 A `@hasOne` relationship always uses a reference to the primary key of the related model, by default `id` unless overridden with the [`@primaryKey` directive](#configure-a-primary-key).
@@ -271,6 +354,17 @@ mutation CreatePost {
     }
   }
 }
+```
+```js
+import { createPost } from './graphql/mutations';
+
+const params = {
+	input: { title: 'Hello World!!' },
+};
+
+const result = await API.graphql(graphqlOperation(createPost, params));
+const post = result.data.createPost;
+const comments = post.comments.items;
 ```
 
 Under the hood, `@hasMany` configures a default secondary index on the related table to enable you to query the related model from the source model.
@@ -313,13 +407,32 @@ mutation CreatePost {
   }
 }
 ```
+```js
+import { createPost, createComment } from './graphql/mutations';
+import { getPost } from './graphql/mutations';
+
+// create post
+const postParams = {
+	input: { title: 'Hello World!!' },
+};
+
+const result = await API.graphql(graphqlOperation(createPost, postParams));
+const post = result.data.createPost;
+
+// create comment
+const commentParams = {
+	input: { content: 'Hi!', postID: post.id },
+};
+
+await API.graphql(graphqlOperation(createComment, commentParams));
+
+// get post
+const result = await API.graphql(graphqlOperation(getPost, { id: post.id }));
+const postWithComments = result.data.createPost;
+const postComments = postWithComments.comments.items; // access comments from post
+```
 
 ### Belongs To relationship
-
-<Callout>
-
-Bi-directional "has one" relationships currently cannot be represented on iOS due to Swift language limitations.
-</Callout>
 
 Make a "has one" or "has many" relationship bi-directional with the `@belongsTo` directive.
 
@@ -359,6 +472,41 @@ mutation CreateProject {
   }
 }
 ```
+```js
+import { createProject, createTeam, updateTeam } from './graphql/mutations';
+
+// create team
+const teamParams = {
+	input: { name: 'New Team' },
+};
+
+const result = await API.graphql(graphqlOperation(createTeam, teamParams));
+const team = result.data.createTeam;
+
+// create project
+const projectParams = {
+	input: { name: 'New Project', projectTeamId: team.id },
+};
+
+const result = await API.graphql(
+	graphqlOperation(createProject, projectParams)
+);
+const project = result.data.createProject;
+const projectTeam = project.team; // access team from project
+
+// update team
+const updateParams = {
+	input: { id: team.id, teamProjectId: project.id },
+};
+
+const updateTeamResult = await API.graphql(
+	graphqlOperation(updateTeam, updateParams)
+);
+
+const updatedTeam = updateTeamResult.data.updateTeam;
+const teamProject = updatedTeam.project; // access project from team
+```
+
 </Block>
 
 <Block name='Bi-directional "has many" relationship'>
@@ -396,6 +544,32 @@ mutation CreatePost {
     }
   }
 }
+```
+```js
+import { createPost, createComment } from './graphql/mutations';
+import { getPost } from './graphql/mutations';
+
+// create post
+const postParams = {
+	input: { title: 'Hello World!!' },
+};
+
+const result = await API.graphql(graphqlOperation(createPost, postParams));
+const post = result.data.createPost;
+
+// create comment
+const commentParams = {
+	input: { content: 'Hi!', postID: post.id },
+};
+
+await API.graphql(graphqlOperation(createComment, commentParams));
+
+// get post
+const result = await API.graphql(graphqlOperation(getPost, { id: post.id }));
+const postWithComments = result.data.createPost;
+const postComments = postWithComments.comments.items; // access comments from post
+
+const commentPost = postComments[0].post; // access post from comment;
 ```
 </Block>
 
@@ -468,6 +642,44 @@ mutation CreatePost {
   }
 }
 ```
+```js
+import { createPost, createTag, createPostTags } from './graphql/mutations';
+import { listPosts } from './graphql/queries';
+
+// create post
+const postParams = {
+	input: { title: 'Hello World' },
+};
+
+const result = await API.graphql(graphqlOperation(createPost, postParams));
+const post = result.data.createPost;
+
+// create tag
+const tagParams = {
+	input: {
+		label: 'My Tag',
+	},
+};
+
+const tagResult = await API.graphql(graphqlOperation(createTag, tagParams));
+const tag = tagResult.data.createTag;
+
+// connect post and tag
+const postTagParams = {
+	input: {
+		postId: post.id,
+		tagId: tag.id,
+	},
+};
+
+await API.graphql(graphqlOperation(createPostTags, postTagParams));
+
+// get posts
+const listPostsResult = await API.graphql(graphqlOperation(listPosts));
+const posts = listPostsResult.data.listPosts;
+
+const postTags = posts[0].tags; // access tags from post
+```
 
 ## Assign default values for fields
 
@@ -513,6 +725,21 @@ subscription OnCreateTask {
     priority
   }
 }
+```
+```js
+import { onCreateTask } from './graphql/subscriptions';
+
+const filter = {
+	and: [
+		{ type: { eq: "Security" } }
+		{ priority: { gt: 5 } }
+  ]
+};
+
+const subscription = API.graphql(graphqlOperation(onCreateTask, filter)).subscribe({
+	next: ({ provider, value }) => console.log({ provider, value }),
+	error: (error) => console.warn(error)
+});
 ```
 
 If you want to get all subscription events, don’t pass any `filter` parameters.
