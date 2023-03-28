@@ -22,7 +22,9 @@ amplify add auth
 ? How do you want users to be able to sign in? Username
 ? Do you want to configure advanced settings?  No, I am done.
 ```
-> If you have previously enabled an Amplify category that uses Auth behind the scenes (e.g. API category), run `amplify update auth` command to edit your configuration. 
+<Callout warning>
+If you have previously enabled an Amplify category that uses Auth behind the scenes (e.g. API category), run the "amplify update auth" command to edit your configuration. 
+</Callout>
 
 The CLI prompts will help you to customize your auth flow for your app. With the provided options, you can:
 - Customize sign-in/registration flow 
@@ -74,7 +76,9 @@ Once you've selected an option, you'll be able to search for and import an exist
 - Provide your designated existing Cognito resource as the authentication & authorization mechanism for all auth-dependent categories (API, Storage and more)
 - Enable Lambda functions to access the chosen Cognito resource if you permit it
 
-> If you have previously enabled an Amplify category that uses Auth behind the scenes (e.g. API category), run `amplify update auth` command to edit your configuration. 
+<Callout warning>
+If you have previously enabled an Amplify category that uses Auth behind the scenes (e.g. API category), run the "amplify update auth" command to edit your configuration. 
+</Callout>
 
 After configuring your Authentication options, update your backend and deploy the service by running the `push` command:
 

@@ -1,7 +1,7 @@
 <BlockSwitcher>
 <Block name="Amplify CLI (Create)">
 
-> Prerequisites: [Install and configure](/lib/project-setup/prereq/q/platform/ios/#install-and-configure-the-amplify-cli) the Amplify CLI in addition to the Amplify libraries and [necessary dependencies](/lib/project-setup/create-application/q/platform/ios/#2-install-amplify-libraries).
+> Prerequisites: [Install and configure](/lib/project-setup/prereq/q/platform/ios/#install-and-configure-the-amplify-cli) the Amplify CLI in addition to the Amplify libraries and [necessary dependencies](/lib/auth/getting-started/q/platform/ios/#install-amplify-libraries).
 
 To start provisioning auth resources in the backend, go to your project directory and **execute the command**:
 
@@ -19,7 +19,9 @@ Enter the following when prompted:
     `No, I am done.`
 ```
 
-> If you have previously enabled an Amplify category that uses Auth behind the scenes (e.g. API category), run the `amplify update auth` command to edit your configuration. 
+<Callout warning>
+If you have previously enabled an Amplify category that uses Auth behind the scenes (e.g. API category), run the "amplify update auth" command to edit your configuration. 
+</Callout>
 
 To push your changes to the cloud, **execute the command**:
 
@@ -43,7 +45,7 @@ import flutter5 from "/src/fragments/lib/auth/flutter/getting_started/12_amplify
 
 <Block name="Amplify CLI (Import)">
 
-> Prerequisites: [Install and configure](/lib/project-setup/prereq/q/platform/flutter/#install-and-configure-the-amplify-cli) the Amplify CLI in addition to the Amplify libraries and [necessary dependencies](/lib/project-setup/create-application/q/platform/flutter/#2-install-amplify-libraries).
+> Prerequisites: [Install and configure](/lib/project-setup/prereq/q/platform/ios/#install-and-configure-the-amplify-cli) the Amplify CLI in addition to the Amplify libraries and [necessary dependencies](/lib/auth/getting-started/q/platform/ios/#install-amplify-libraries).
 
 To import existing Amazon Cognito resources into your Amplify project, **execute the command**:
 
@@ -57,11 +59,13 @@ amplify import auth
 ```
 
 Once you've selected an option, you'll be able to search for and import an existing Cognito User Pool and Identity Pool (or User Pool only) within your AWS account.  The `amplify import auth` command will also do the following:
-- Automatically populate your Amplify Library configuration files (`amplifyconfiguration.dart` and `awsconfiguration.json`) with your chosen Amazon Cognito resource information
+- Automatically populate your Amplify Library configuration file (`awsconfiguration.json`) with your chosen Amazon Cognito resource information
 - Provide your designated existing Cognito resource as the authentication & authorization mechanism for all auth-dependent categories (API, Storage and more)
 - Enable Lambda functions to access the chosen Cognito resource if you permit it
 
-> If you have previously enabled an Amplify category that uses Auth behind the scenes (e.g. API category), run `amplify update auth` command to edit your configuration. 
+<Callout warning>
+If you have previously enabled an Amplify category that uses Auth behind the scenes (e.g. API category), run the "amplify update auth" command to edit your configuration. 
+</Callout>
 
 After configuring your Authentication options, update your backend and deploy the service by running the `push` command:
 
@@ -82,7 +86,7 @@ For more details, see how to [Use an existing Cognito User Pool and Identity Poo
 
 <Block name="Manual Configuration">
 
-If you are not using the Amplify CLI, existing Authentication resources from AWS (e.g. Amazon Cognito UserPools or Identity Pools) can be used with the Amplify Libraries by updating the associated Plugin within your `amplifyconfiguration.json` file:  
+If you are not using the Amplify CLI, existing Authentication resources from AWS (e.g. Amazon Cognito UserPools or Identity Pools) can be used with the Amplify Libraries by [manually creating a configuration file](/lib/project-setup/use-existing-resources/q/platform/ios/#1-manually-create-the-amplify-configuration-file-for-your-ios-project) (`amplifyconfiguration.json`) and then updating the associated Plugin within it:  
 
 ```jsx
 {
@@ -144,11 +148,11 @@ If you are not using the Amplify CLI, existing Authentication resources from AWS
     - **Region**: AWS Region where the resources are provisioned (e.g. `us-east-1`)
 - **Auth**:
   - **Default**:
-    - **authenticationFlowType**: The authentication flow type, takes values `USER_SRP_AUTH`, `CUSTOM_AUTH`. Default is `USER_SRP_AUTH`.
+    - **authenticationFlowType**: The authentication flow type, takes values `USER_SRP_AUTH`, `CUSTOM_AUTH`, and `USER_PASSWORD_AUTH`. Default is `USER_SRP_AUTH`.
     - **OAuth**: Hosted UI Configuration (only include this if using the Hosted UI flow)
       - **Scopes:** Scopes should match the scopes enables in Cognito under "App client settings"
     
-If you are using a Cognito User Pool, without a Cognito Identity Pool, you can omit the **CredentialsProvider** section in the configuration.
+If you are using a Cognito User Pool without a Cognito Identity Pool, you can omit the **CredentialsProvider** section in the configuration.
 
 </Block>
 </BlockSwitcher>
