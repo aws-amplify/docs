@@ -5,22 +5,19 @@ export const meta = {
 
 With Amplify Studio, team members with different job functions can collaborate on different aspects of a project deployed in Amplify. Studio developers can create accounts with scoped access to resources and invite team members to join via email. Team members with *Full access* can create and manage AWS resources, while team members with *Manage only* access can edit application content and users.
 
-Studio manages user access using an Amazon Cognito User Pool in your account. If you visit Cognito from the AWS console you should see a User Pool named *amplify_backend_manager_APPID*. This User Pool is managed by Studio so please do not modify the settings for this resource. You can invite up to 50,000 monthly users to Studio without cost. In order to give the *Full access* and *Manage only* groups the necessary permissions, Studio creates 2 IAM roles, namely: *USERPOOLID_Full-access*, and *USERPOOLID_Manage-only*. An Amazon Cognito Identity Pool named, *amplify_backend_manager_APPID*  is also created to vend AWS credentials that are tied to the *Full access* and *Manage only* groups.
-
-To provide a passwordless login experience from AWS Amplify Console to Amplify Studio, Studio creates 4 Cognito Lambda triggers (*associated with the above-mentioned User Pool*), namely: *amplify-login-create-auth-challenge-SHORT_CODE*, *amplify-login-custom-message-SHORT_CODE*, *amplify-login-define-auth-challenge-SHORT_CODE*, and *amplify-login-verify-auth-challenge-SHORT_CODE*.
-
 Follow these instructions to add and manage team members and their access to a project.
 
 ## To invite team members to access a project
 
 1. Sign in to the AWS Management Console and open AWS Amplify.
-2. In the navigation pane, choose **Amplify Studio settings**.
-3. On the **Amplify Studio settings** page, in the **Access control settings** section, choose **Add team members**.
-4. For **Email**, enter the email address of the team member to invite.
-5. For **Access level**, choose the level of access to grant the team member.
+2. Select your Amplify project with Amplify Studio enabled.
+3. In the navigation pane, choose **Amplify Studio settings**.
+4. On the **Amplify Studio settings** page, in the **Access control settings** section, choose **Add team members**.
+5. For **Email**, enter the email address of the team member to invite.
+6. For **Access level**, choose the level of access to grant the team member.
   * **Full access** allows the team member to create and manage AWS resources.
   * **Manage only** access allows the team member to edit app content and users.
-6. To email the invitation, choose **Send invite**. The team member receives an email with temporary credentials and a link to access the project in Studio.
+7. To email the invitation, choose **Send invite**. The team member receives an email with temporary credentials and a link to access the project in Studio.
 
 <Callout warning>
 
@@ -30,12 +27,56 @@ Follow these instructions to add and manage team members and their access to a p
 
 ## To edit team member access or delete a user
 1. Sign in to the AWS Management Console and open AWS Amplify.
-2. In the navigation pane, choose **Amplify Studio settings**.
-3. On the **Amplify Studio settings** page, in the **Access control settings** section, select the team member to edit or delete.
-4. Do one of the following:
+2. Select your Amplify project with Amplify Studio enabled.
+3. In the navigation pane, choose **Amplify Studio settings**.
+4. On the **Amplify Studio settings** page, in the **Access control settings** section, select the team member to edit or delete.
+5. Do one of the following:
   * Choose **Edit**. In the **Edit team member(s)** window, choose the **Access level** for the team member.
   * Choose **Delete**. In the **Delete users** window, confirm the delete action.
 
 <Callout warning>
 If a team member logs into Amplify Studio, their login token is valid for 60 minutes, unless explicitly logged out. When you change a team member's permission from *full access* to *manage-only* or when you delete a team member's access, the team member can continue accessing Amplify Studio with their previously granted permissions until their token expires.
+</Callout>
+
+## Understanding how Studio manages user access
+
+<Callout warning>
+
+  The following resources are all managed by Studio. **Manual changes to these resources may affect your login experience**.
+
+</Callout>
+
+### User pool
+Studio manages user access using an Amazon Cognito User Pool in your account. You can invite up to 50,000 monthly users to Studio without cost.
+
+Studio manages user access using an Amazon Cognito User Pool in your account, named:
+- *amplify_backend_manager_APPID*.
+
+### IAM Roles
+In order to give the *Full access* and *Manage only* groups the necessary permissions, Studio creates 2 IAM roles, named:
+- *USERPOOLID_Full-access*
+- *USERPOOLID_Manage-only*
+
+### Cognito Identity Pool
+An Amazon Cognito Identity Pool is also created to vend AWS credentials that are tied to the *Full access* and *Manage only* groups, named:
+- *amplify_backend_manager_APPID*
+
+### Cognito Lambda triggers
+To provide a passwordless login experience from AWS Amplify Console to Amplify Studio, Studio creates 4 Cognito Lambda triggers *associated with the above-mentioned User Pool*, named:
+- *amplify-login-create-auth-challenge-SHORT_CODE*
+- *amplify-login-custom-message-SHORT_CODE*
+- *amplify-login-define-auth-challenge-SHORT_CODE*
+- *amplify-login-verify-auth-challenge-SHORT_CODE*
+
+### Troubleshooting
+If your Studio application experiences any issues logging in or the resources have been deleted, you can re-create the resources by disabling and then re-enabling Studio for your Amplify Project on the Amplify management console.
+
+1. Sign in to the AWS Management Console and open AWS Amplify.
+2. Select your Amplify project with Amplify Studio enabled.
+3. In the navigation pane, choose **Amplify Studio settings**.
+4. Turn off **Enable Amplify Studio.**
+5. Turn on **Enable Amplify Studio.**
+
+<Callout warning>
+   Disabling and re-enabling Amplify Studio will remove and recreate the Amplify Studio managed User pool resource used to access your project, and you will need to re-invite your users to provide access to your Amplify Project. Disabling and re-enabling Amplify Studio will not modify any resources on your Amplify Project.
 </Callout>

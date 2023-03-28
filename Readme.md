@@ -4,10 +4,15 @@
 
 > https://docs.amplify.aws
 
+### Prerequisites
+
+- [Node.js 14.x or later](https://nodejs.org/en/)
+- [Yarn classic](https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable)
+
 ## Set up the docs repo
 
-1. [Fork this repo](/fork).
-2. Navigate to **/docs**.
+1. [Fork this repo](/fork) and `git clone` it.
+2. In your terminal, navigate to the repo from where it was just cloned. This should be located at the `/docs` directory.
 2. From your command line, run `yarn && yarn dev`
 3. <http://localhost:3000/> should open automatically.
 
@@ -17,7 +22,9 @@ We welcome contributions to the documentation site! Here's how to do it:
 
 1. Follow our [styleguide](https://github.com/aws-amplify/docs/blob/main/STYLEGUIDE.md), especially if writing longer pieces.
 2. Verify your changes locally. 
-3. Make a PR to our `main` branch (please include any [issues](https://github.com/aws-amplify/docs/issues) your PR addresses).
+3. Make a PR to our `main` branch
+    1. Please include any [issues](https://github.com/aws-amplify/docs/issues) your PR addresses.
+    2. If any files have been deleted with your PR, please indicate that `redirects are needed` in your PR description and/or add the `redirects-needed` label.
 
 **What's next?** After your PR is reviewed and all tests pass, it will be merged and the branch will be deleted.
 

@@ -94,16 +94,10 @@ Amplify.configure(aws_exports);
 ```
 
 <Callout warning={true}>
-  On Angular 12+, Typescript{' '}
-  <a href="https://www.typescriptlang.org/tsconfig#strict" target="_blank">
-    strict mode
-  </a>{' '}
-  is enabled by default, which will introduce some type errors when you run the
-  application. Please see the TypeScript strict mode{' '}
-  <a href="/lib/troubleshooting/strict-mode/q/platform/js/">
-    troubleshooting guide{' '}
-  </a>
-  to resolve them.
+
+  On Angular 12+, Typescript [strict mode](https://www.typescriptlang.org/tsconfig#strict) is enabled by default, which will introduce some type errors when you run the
+  application. Please see the TypeScript strict mode [troubleshooting guide](/lib/troubleshooting/strict-mode/q/platform/js/) to resolve them.
+
 </Callout>
 
 Update `tsconfig.app.json` to include the "node" compiler option in _types_:
@@ -115,15 +109,10 @@ Update `tsconfig.app.json` to include the "node" compiler option in _types_:
 ```
 
 <Callout>
+
   Depending on your TypeScript version you may need to rename `aws-exports.js`
-  to `aws-exports.ts` prior to importing, or enable the `allowJs`{' '}
-  <a
-    href="https://www.typescriptlang.org/docs/handbook/compiler-options.html"
-    target="_blank"
-  >
-    compiler option
-  </a>{' '}
-  in your tsconfig.
+  to `aws-exports.ts` prior to importing, or enable the `allowJs` [compiler option](https://www.typescriptlang.org/docs/handbook/compiler-options.html) in your tsconfig.
+  
 </Callout>
 
 First, enable the Angular forms modules in `src/app/app.module.ts`:
@@ -305,7 +294,7 @@ async ngOnInit() {
   });
 
   /* subscribe to new restaurants being created */
-  this.subscription = this.api.OnCreateRestaurantListener.subscribe(
+  this.subscription = this.api.OnCreateRestaurantListener().subscribe(
     (event: any) => {
       const newRestaurant = event.value.data.onCreateRestaurant;
       this.restaurants = [newRestaurant, ...this.restaurants];

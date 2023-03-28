@@ -22,20 +22,29 @@ import ChooseFilterPage from '../../pages/ChooseFilterPage';
 import { parseLocalStorage } from '../../utils/parseLocalStorage';
 import { withFilterOverrides } from '../../utils/withFilterOverrides';
 import { FeedbackToggle } from '../Feedback';
+import LastUpdatedDatesProvider from '../LastUpdatedProvider';
+
+export type MdxFrontmatterType = {
+  lastUpdated: string;
+};
 
 export default function Page({
   children,
-  meta
+  meta,
+  frontmatter
 }: {
   children: any;
   meta?: any;
+  frontmatter?: MdxFrontmatterType;
 }) {
   const router = useRouter();
+
   if (!router.isReady) {
     const [menuIsOpen, setMenuIsOpen] = useState(false);
     useRef(null);
     return <></>;
   }
+
   let url = router.asPath;
   // remove trailing slash.  this is important on pages like /cli/index.mdx
   // or /console/index.mdx where router.asPath has a trailing slash and
@@ -43,7 +52,9 @@ export default function Page({
   if (url.endsWith('/')) {
     url = url.slice(0, -1);
   }
+
   const directoryPath = router.pathname;
+
   let filterKey = '',
     filterKind = '';
   const filterKeysLoaded = parseLocalStorage(
@@ -64,10 +75,11 @@ export default function Page({
     filterKeyUpdates.framework = filterKey;
     filterKind = 'framework';
   }
+
   const headers = traverseHeadings(children, filterKey);
   let filters = gatherAllFilters(children, filterKind);
   // special cases
-  if (url.startsWith("/sdk")) {
+  if (url.startsWith('/sdk')) {
     filters = filters.filter(
       (filter) => filter !== 'flutter' && filter !== 'js'
     );
@@ -92,8 +104,8 @@ export default function Page({
       />
     );
   }
-  const [menuIsOpen, setMenuIsOpen] = useState(false);
 
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
   meta.chapterTitle = '';
   if (meta && !isProductRoot(url)) {
     const { title: chapTitle } = getChapterDirectory(url) as {
@@ -103,6 +115,11 @@ export default function Page({
   }
   const basePath = 'docs.amplify.aws';
   meta.url = basePath + router.asPath;
+
+  let parentPageLastUpdatedDate;
+  if (frontmatter && frontmatter.lastUpdated) {
+    parentPageLastUpdatedDate = frontmatter.lastUpdated;
+  }
 
   return (
     <Layout
@@ -122,7 +139,8 @@ export default function Page({
             url,
             directoryPath,
             menuIsOpen,
-            setMenuIsOpen
+            setMenuIsOpen,
+            parentPageLastUpdatedDate
           })
         : children}
     </Layout>
@@ -140,7 +158,21 @@ export function metaContent({
   url,
   directoryPath,
   menuIsOpen,
-  setMenuIsOpen
+  setMenuIsOpen,
+  parentPageLastUpdatedDate
+}: {
+  title: string;
+  chapterTitle: string;
+  headers: any;
+  children: any;
+  filters: any;
+  filterKey: any;
+  filterKind: any;
+  url: any;
+  directoryPath: any;
+  menuIsOpen: any;
+  setMenuIsOpen: any;
+  parentPageLastUpdatedDate: string;
 }) {
   const menuRef = useRef(null);
   // Slice off the "@media " string at the start for use in JS instead of CSS
@@ -150,44 +182,50 @@ export function metaContent({
     typeof window === 'undefined'
       ? false
       : window.matchMedia(MQTabletJS).matches;
-  
+
   return (
     <>
-      <Menu
-        filters={filters}
-        filterKey={filterKey}
-        filterKind={filterKind}
-        url={url}
-        directoryPath={directoryPath}
-        ref={menuRef}
-        setMenuIsOpen={setMenuIsOpen}
-      ></Menu>
-      <ContentStyle menuIsOpen={menuIsOpen}>
-        <div>
-          <ChapterTitleStyle>{chapterTitle}</ChapterTitleStyle>
-          <h1>{title}</h1>
-          <CodeBlockProvider>
-            {children}
-            <NextPrevious url={url} filterKey={filterKey} />
-          </CodeBlockProvider>
-        </div>
-      </ContentStyle>
-      <TableOfContents title={title}>{headers}</TableOfContents>
-      {!onDesktop && (
-        <SidebarLayoutToggle menuRef={menuRef}>
-          <img
-            alt="Open menu"
-            className="burger-graphic"
-            src="/assets/burger.svg"
-          />
-          <img
-            alt="Close menu"
-            className="ex-graphic"
-            src="/assets/close.svg"
-          />
-        </SidebarLayoutToggle>
-      )}
-      <FeedbackToggle/>
+      <LastUpdatedDatesProvider
+        parentPageLastUpdatedDate={parentPageLastUpdatedDate}
+      >
+        <Menu
+          filters={filters}
+          filterKey={filterKey}
+          filterKind={filterKind}
+          url={url}
+          directoryPath={directoryPath}
+          ref={menuRef}
+          setMenuIsOpen={setMenuIsOpen}
+        ></Menu>
+        <ContentStyle menuIsOpen={menuIsOpen}>
+          <div>
+            <ChapterTitleStyle>{chapterTitle}</ChapterTitleStyle>
+            <div>
+              <h1>{title}</h1>
+            </div>
+            <CodeBlockProvider>
+              {children}
+              <NextPrevious url={url} filterKey={filterKey} />
+            </CodeBlockProvider>
+          </div>
+        </ContentStyle>
+        <TableOfContents title={title}>{headers}</TableOfContents>
+        {!onDesktop && (
+          <SidebarLayoutToggle menuRef={menuRef}>
+            <img
+              alt="Open menu"
+              className="burger-graphic"
+              src="/assets/burger.svg"
+            />
+            <img
+              alt="Close menu"
+              className="ex-graphic"
+              src="/assets/close.svg"
+            />
+          </SidebarLayoutToggle>
+        )}
+        <FeedbackToggle />
+      </LastUpdatedDatesProvider>
     </>
   );
 }

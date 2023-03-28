@@ -92,9 +92,9 @@ After configuring the OAuth endpoints (Cognito Hosted UI), you can integrate you
 import React, { useEffect, useState } from 'react';
 import { Amplify, Auth, Hub } from 'aws-amplify';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
-import awsconfig from './aws-exports';
+import awsConfig from './aws-exports';
 
-Amplify.configure(awsconfig);
+Amplify.configure(awsConfig);
 
 function App() {
   const [user, setUser] = useState(null);
@@ -136,7 +136,9 @@ function App() {
 ```
 
 <Callout warning={true}>
-  You can also use the <a href="https://ui.docs.amplify.aws/react/components/authenticator">Authenticator UI component</a> to add social sign in flow to your application. Visit <a href="https://ui.docs.amplify.aws/react/components/authenticator/configuration#social-providers">Social Provider</a> section to learn more.
+
+  You can also use the [Authenticator UI component](https://ui.docs.amplify.aws/react/components/authenticator) to add social sign in flow to your application. Visit [Social Provider](https://ui.docs.amplify.aws/react/components/authenticator/configuration#social-providers) section to learn more.
+
 </Callout>
 
 ### Deploying to Amplify Console
@@ -148,7 +150,7 @@ To deploy your app to Amplify Console with continuous deployment of the frontend
 ```js
 import { useEffect, useState } from 'react';
 import { Amplify, Auth, Hub } from 'aws-amplify';
-import awsconfig from './aws-exports';
+import awsConfig from './aws-exports';
 
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||

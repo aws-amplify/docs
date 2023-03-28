@@ -38,10 +38,15 @@ export const groupBy: AutocompleteReshapeFunction = <
         acc[key] = [];
       }
 
-      if (platform && item.slug && item.slug.includes('/platform/')) {
-        const regex = /\/platform\/([^(\?\/\#)]*)/;
+      if (
+        platform &&
+        item.slug &&
+        (item.slug.includes('/platform/') ||
+          item.slug.includes('/integration/'))
+      ) {
+        const regex = /\/(?:platform|integration)\/([^(\?\/\#)]*)/;
         const slugPlatform = regex.exec(item.slug)[1];
-        if (!slugPlatform || item.slug.includes(`/platform/${platform}`)) {
+        if (!slugPlatform || item.slug.includes(platform)) {
           acc[key].push(item as TItem);
         }
       } else {

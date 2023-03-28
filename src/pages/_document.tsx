@@ -7,6 +7,7 @@ const cspHashOf = (text) => {
   return `'sha256-${hash.digest('base64')}'`;
 };
 
+// CSP also set in customHttp.yml
 const getCspContent = (context) => {
   const cspInlineScriptHash = cspHashOf(
     NextScript.getInlineScriptSource(context)

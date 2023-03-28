@@ -311,3 +311,41 @@ When an AWS service or product appears on the page for the first time, refer to 
 
 “AWS Amplify Hosting uses Amazon Simple Storage Service (S3) for file storage. Amplify Hosting also provides caching to ensure files are delivered quickly to users.”
 * * *
+
+## 20. Write links using markdown syntax
+
+When editing text content in markdown files use the markdown syntax for links. We use some special linting processes that leverage markdown.
+
+### Don't
+
+`<a href="/some-link">Use html link tags</a>`
+
+### Do
+
+`\[Use mdx link syntax](/some-link)`
+
+## 21. Use 2-space indents for code blocks
+
+When adding code blocks and indenting encapsulated code, use 2 spaces for each indent
+
+### Don't
+
+```js
+Amplify.configure({
+    // 4-space indent
+    Auth: {
+        // ...
+    }
+});
+```
+
+### Do
+
+```js
+Amplify.configure({
+  // 2-space indent
+  Auth: {
+    // ...
+  }
+});
+```
