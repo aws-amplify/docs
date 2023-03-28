@@ -58,8 +58,13 @@ exports.request = (queryDetails, appsyncUrl, apiKey) => {
 
   return new Promise((resolve, reject) => {
     const httpRequest = https.request({ ...req, host: endpoint }, (result) => {
-      result.on('data', (data) => {
-        resolve(JSON.parse(data.toString()))
+      let response = ''
+      result.on('data', (chunk) => {
+        response += chunk
+      })
+      result.on('end', () => {
+        response = JSON.parse(response)
+        resolve(response)
       })
     })
 

@@ -7,7 +7,7 @@ Sweet! You're now ready to launch sign in with web UI. The `signInWithWebUI` api
 ```swift
 func signInWithWebUI() async {
     do {
-        let signInResult = Amplify.Auth.signInWithWebUI(presentationAnchor: self.view.window!)
+        let signInResult = try await Amplify.Auth.signInWithWebUI(presentationAnchor: self.view.window!)
         if signInResult.isSignedIn {
             print("Sign in succeeded")
         }

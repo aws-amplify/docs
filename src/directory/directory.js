@@ -644,7 +644,7 @@ const directory = {
           {
             title: 'Getting started',
             route: '/lib/push-notifications/getting-started',
-            filters: ['ios', 'react-native']
+            filters: ['android', 'ios', 'react-native']
           },
           {
             title: 'Register device',
@@ -659,7 +659,7 @@ const directory = {
           {
             title: 'Identify user',
             route: '/lib/push-notifications/identify-user',
-            filters: ['ios']
+            filters: ['android', 'ios']
           },
           {
             title: 'Working with API',
@@ -674,12 +674,12 @@ const directory = {
           {
             title: 'Testing',
             route: '/lib/push-notifications/testing',
-            filters: ['ios', 'react-native']
+            filters: ['android', 'ios', 'react-native']
           },
           {
             title: 'Setting up push notification services',
             route: '/lib/push-notifications/setup-push-service',
-            filters: ['ios']
+            filters: ['android', 'ios']
           }
         ]
       },
@@ -1968,6 +1968,11 @@ const directory = {
       migration: {
         title: 'Migration & Backwards Compatibility',
         items: [
+          {
+            title: 'AWS CDK v1 to v2 migration',
+            route: '/cli/migration/aws-cdk-migration',
+            filters: []
+          },
           {
             title: 'Lazy Loading and Custom Selection Set',
             route: '/cli/migration/lazy-load-custom-selection-set',

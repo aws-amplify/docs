@@ -1,0 +1,37 @@
+name: Validate CODEOWNERS
+on:
+  pull_request:
+    branches: [main]
+jobs:
+  checkIfCodeownersUpdateNeeded:
+    permissions:
+      pull-requests: write # Used to add comment to PR
+    name: Check if CODEOWNERS needs to be updated
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Get count of added files
+        uses: actions/github-script@v6.4.0
+        id: set-added-files-count
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          result-encoding: string
+          script: |
+            const { getAddedFiles } = require('./.github/workflows/scripts/check_for_new_files.js');
+            return getAddedFiles({github, context, core});
+      - name: Install npm package ignore
+        if: ${{ steps.set-added-files-count.outputs.result > 0 }}
+        run: yarn add ignore@5.2.4 -W # help verify CODEOWNERS
+      - name: Check file against CODEOWNERS
+        if: ${{ steps.set-added-files-count.outputs.result > 0 }}
+        uses: actions/github-script@v6.4.0
+        env:
+          CURRENT_BRANCH: ${{ github.head_ref }}
+          CURRENT_REPO: ${{ github.repository }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const ignore = require('ignore');
+            const { validateCodeowners } = require('./.github/workflows/scripts/check_for_new_files.js');
+            validateCodeowners({github, context, fetch, ignore});

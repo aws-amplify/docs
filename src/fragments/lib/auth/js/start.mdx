@@ -127,9 +127,9 @@ Amplify.configure({
 // You can get the current config object
 const currentConfig = Auth.configure();
 ```
-<Callout warning={true}>
-If your existing UserPool client has a required attribute that is NOT set to mutable, you may face login issues when using Social sign in. To resolve this, you will need to <ExternalLink href="https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-client-apps.html">create a new UserPool client</ExternalLink> and mark the required attribute as mutable.
-</Callout>
+import attributesCallout from "/src/fragments/common/writable-vs-mutable-attributes.mdx";
+
+<Fragments fragments={{all: attributesCallout}} />
 
 ### Note about OAuth configuration parameters
 These settings can be found in the Cognito User Pools console under **App Integration** section
