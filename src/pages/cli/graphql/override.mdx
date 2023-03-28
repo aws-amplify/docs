@@ -132,7 +132,7 @@ export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
 
 ### Example - Configure OpenSearch instance version
 
-Override the elasticsearchVersion in the OpenSearch domain created by @searchable
+Override the elasticsearchVersion in the OpenSearch domain created by '@searchable'
 
 ```ts
 import { AmplifyApiGraphQlResourceStackTemplate } from '@aws-amplify/cli-extensibility-helper';
@@ -143,7 +143,7 @@ export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
 ```
 ### Example - Configure OpenSearch instance type
 
-Override the type of instance launched into the OpenSearch domain created by @searchable
+Override the type of instance launched into the OpenSearch domain created by '@searchable'
 
 ```ts
 import { AmplifyApiGraphQlResourceStackTemplate } from '@aws-amplify/cli-extensibility-helper';
@@ -152,12 +152,11 @@ export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
     resources.opensearch.OpenSearchDomain.elasticsearchClusterConfig = {
         ...resources.opensearch.OpenSearchDomain.elasticsearchClusterConfig,
         instanceType: "m5.large.search"
-    }
-   
+    } 
 }
 ```
 ### Example - Configure OpenSearch instance count
-Override the number of instances launched into the OpenSearch domain created by @searchable
+Override the number of instances launched into the OpenSearch domain created by '@searchable'
 
 ```ts
 import { AmplifyApiGraphQlResourceStackTemplate } from '@aws-amplify/cli-extensibility-helper';
@@ -166,23 +165,21 @@ export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
     resources.opensearch.OpenSearchDomain.elasticsearchClusterConfig = {
         ...resources.opensearch.OpenSearchDomain.elasticsearchClusterConfig,
         instanceCount: 2
-    }
-   
+    }  
 }
 ```
 
 ### Example - Configure OpenSearch EBS volume size
-Override the amount of disk space allocated to each instance in the OpenSearch domain created by @searchable
+Override the amount of disk space allocated to each instance in the OpenSearch domain created by '@searchable'
 
 ```ts
 import { AmplifyApiGraphQlResourceStackTemplate } from '@aws-amplify/cli-extensibility-helper';
 
 export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
       resources.opensearch.OpenSearchDomain.ebsOptions={
-        ...resources.opensearch.OpenSearchDomain.ebsOptions,
-        volumeSize:10
-      }
-   
+          ...resources.opensearch.OpenSearchDomain.ebsOptions,
+          volumeSize:10
+      }  
 }
 ```
 
