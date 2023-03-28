@@ -149,10 +149,10 @@ Override the type of instance launched into the OpenSearch domain created by '@s
 import { AmplifyApiGraphQlResourceStackTemplate } from '@aws-amplify/cli-extensibility-helper';
 
 export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
-    resources.opensearch.OpenSearchDomain.elasticsearchClusterConfig = {
-        ...resources.opensearch.OpenSearchDomain.elasticsearchClusterConfig,
-        instanceType: "m5.large.search"
-    } 
+  resources.opensearch.OpenSearchDomain.elasticsearchClusterConfig = {
+    ...resources.opensearch.OpenSearchDomain.elasticsearchClusterConfig,
+    instanceType: "m3.medium.elasticsearch",
+  };
 }
 ```
 ### Example - Configure OpenSearch instance count
@@ -162,10 +162,10 @@ Override the number of instances launched into the OpenSearch domain created by 
 import { AmplifyApiGraphQlResourceStackTemplate } from '@aws-amplify/cli-extensibility-helper';
 
 export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
-    resources.opensearch.OpenSearchDomain.elasticsearchClusterConfig = {
-        ...resources.opensearch.OpenSearchDomain.elasticsearchClusterConfig,
-        instanceCount: 2
-    }  
+  resources.opensearch.OpenSearchDomain.elasticsearchClusterConfig = {
+    ...resources.opensearch.OpenSearchDomain.elasticsearchClusterConfig,
+    instanceCount : 2
+  };
 }
 ```
 
@@ -176,10 +176,10 @@ Override the amount of disk space allocated to each instance in the OpenSearch d
 import { AmplifyApiGraphQlResourceStackTemplate } from '@aws-amplify/cli-extensibility-helper';
 
 export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
-      resources.opensearch.OpenSearchDomain.ebsOptions={
-          ...resources.opensearch.OpenSearchDomain.ebsOptions,
-          volumeSize:10
-      }  
+  resources.opensearch.OpenSearchDomain.ebsOptions={
+    ...resources.opensearch.OpenSearchDomain.ebsOptions,
+    volumeSize:10
+  }    
 }
 ```
 
