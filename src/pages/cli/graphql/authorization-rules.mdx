@@ -482,7 +482,7 @@ Authorization rules consists of:
 
 <Callout warning>
 
-  It is **not** recommended to use granular operations (`get`, `list`, `sync`, `listen`, `search`) instead of `read` if you use the Datastore feature of Amplify libraries, in which case `listen` and `sync` are **required** for its functionality.
+If you use DataStore instead of the API category to connect to your AppSync API, then you must allow `listen` and `sync` operations for your data model.
 
 </Callout>
 
