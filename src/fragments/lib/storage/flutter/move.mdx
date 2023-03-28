@@ -1,0 +1,29 @@
+import flutter0 from "/src/fragments/lib/storage/flutter/dev-preview-api-callout.mdx";
+
+<Fragments fragments={{flutter: flutter0}} />
+
+You can move an existing file to a different folder location in your S3 bucket. This requires the user who initiates the move operation to have read and write permission on the source file.
+
+```dart
+Future<void> movePrivateFile({
+  required String sourceKey,
+  required String destinationKey,
+}) async {
+  try {
+    final result = await Amplify.Storage.move(
+      source: S3ItemWithAccessLevel(
+        storageItem: S3Item(key: sourceKey),
+        accessLevel: StorageAccessLevel.private,
+      ),
+      destination: S3ItemWithAccessLevel(
+        storageItem: S3Item(key: destinationKey),
+        accessLevel: StorageAccessLevel.private,
+      ),
+    ).result;
+
+    safePrint('Moved file: ${result.copiedItem.key}');
+  } on StorageException catch (e) {
+    safePrint(e.message);
+  }
+}
+```

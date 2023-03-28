@@ -1,13 +1,14 @@
-An endpoint uniquely identifies your app within Pinpoint. In order to update your <a href="https://docs.aws.amazon.com/pinpoint/latest/apireference/rest-api-endpoints.html" target="_blank">endpoint</a> use the `updateEndpoint()` method:
+An endpoint uniquely identifies your app within Pinpoint. In order to update your [endpoint](https://docs.aws.amazon.com/pinpoint/latest/apireference/rest-api-endpoints.html) use the `updateEndpoint()` method:
 
 ```javascript
 import { Analytics } from 'aws-amplify';
 
+// NOTE: All fields are OPTIONAL
 await Analytics.updateEndpoint({
   address: 'xxxxxxx', // The unique identifier for the recipient. For example, an address could be a device token, email address, or mobile phone number.
   attributes: {
     // Custom attributes that your app reports to Amazon Pinpoint. You can use these attributes as selection criteria when you create a segment.
-    hobbies: ['piano', 'hiking']
+    hobbies: ['piano', 'hiking'] // MUST be an array, even single value
   },
   channelType: 'APNS', // The channel type. Valid values: APNS, GCM
   demographic: {
@@ -47,19 +48,11 @@ await Analytics.updateEndpoint({
 ```
 
 <Callout>
-  There is a limit of 15 unique endpoints per user ID. See Pinpoint's{' '}
-  <a
-    href="https://docs.aws.amazon.com/pinpoint/latest/developerguide/quotas.html#quotas-endpoint"
-    target="_blank"
-  >
-    documentation
-  </a>
-  {' '}
+
+  There is a limit of 15 unique endpoints per user ID. See Pinpoint's
+  [documentation](https://docs.aws.amazon.com/pinpoint/latest/developerguide/quotas.html#quotas-endpoint)
   on endpoint quotas to learn more.
   
-</Callout> <a
-  href="https://docs.aws.amazon.com/pinpoint/latest/developerguide/audience-define-user.html"
-  target="_blank"
->
-  Learn more
-</a> about Amazon Pinpoint and Endpoints.
+</Callout>
+
+[Learn more](https://docs.aws.amazon.com/pinpoint/latest/developerguide/audience-define-user.html) about Amazon Pinpoint and Endpoints.

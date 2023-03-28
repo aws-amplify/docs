@@ -3,11 +3,13 @@ To set up the project, you'll first create a new Next.js app with [Create Next A
 From your projects directory, run the following commands:
 
 ```bash
-npx create-next-app next-amplified
+npx create-next-app@latest next-amplified
 cd next-amplified
 ```
 
-This creates a new Next.js app in a directory called `next-amplified` and then switches us into that new directory.
+You'll need to select if you'd like to build this project with TypeScript (Yes) or JavaScript (No), and then if you'd like ESLint to be configured as well.  Note that if you select Typescript, there may be additional changes you'll need to make throughout this guide to files and configurations.  
+
+Once these have been selected, a new Next.js app will be created in a directory called `next-amplified` and then switches us into that new directory.
 
 Now that you're in the root of the project, you can run the app by using the following command:
 
@@ -48,12 +50,19 @@ Source directory path (src)
 
 Distribution directory path (build)
 
-Build command (npm run build)
+Build command (npm run-script build)
 
-Start command (npm start)
+Start command (npm run-script start)
 
-# This is the profile you created with the `amplify configure` command in the introduction step.
-Do you want to use an AWS profile?
+? Initialize the project with the above configuration? (Y/n) 
+
+# If you completed the introduction to Amplify steps, the default below is the profile you created with the `amplify configure` command.
+Using default provider  awscloudformation
+? Select the authentication method you want to use: (AWS profile)
+
+? Initialize the project with the above configuration? (Y/n) 
+? Do you want to use an AWS profile? (default)
+
 ```
 
 > Where possible the CLI will infer the proper configuration based on the type of project Amplify is being initialized in. In this case it knew you are using Create Next App and provided the proper configuration for type of app, framework, source, distribution, build, and start options.
@@ -75,6 +84,4 @@ The first step to using Amplify in the client is to install the necessary depend
 npm install aws-amplify @aws-amplify/ui-react
 ```
 
-The `aws-amplify` package is the main library for working with Amplify in your apps. The `@aws-amplify/ui-react` package includes React-specific UI components you'll use as you build the app.
-
-Now that your Next.js app is set up and Amplify is initialized, you're ready to add an API in the next step.
+The `aws-amplify` package is the main library for working with Amplify in your apps. The `@aws-amplify/ui-react` package includes React-specific UI components that you can use to build your app UI. To learn more about Amplify UI visit our [documentation](https://ui.docs.amplify.aws/).

@@ -1,48 +1,38 @@
-Create a new ‘plain’ JavaScript <a href="https://babeljs.io/docs/en/learn/" target="_blank">ES2015</a> app with webpack. With the following commands, create the directory (`amplify-js-app`) and files for the app.
+Create a new ‘plain’ JavaScript [ES2015](https://babeljs.io/docs/en/learn/) app with webpack. With the following commands, create the directory (`amplify-js-app`) and files for the app.
 
 ```bash
 mkdir -p amplify-js-app/src && cd amplify-js-app
-touch package.json index.html webpack.config.js src/app.js
+touch index.html src/app.js webpack.config.js
+```
+
+Initialize npm and install dependencies and dev dependencies.
+
+```bash
+npm init
+npm install aws-amplify
+npm install webpack webpack-cli webpack-dev-server copy-webpack-plugin --save-dev
 ```
 
 The app directory structure should be:
 
 ```console
 amplify-js-app
-├── index.html
-├── package.json
-├── src
+├── node_modules/
+├── src/
 │   └── app.js
+├── index.html
+├── package-lock.json
+├── package.json
 └── webpack.config.js
 ```
 
-Add the following to the `package.json` file:
+Add the following scripts to the `package.json` file:
 
 ```json
-{
-  "name": "amplify-js-app",
-  "version": "1.0.0",
-  "description": "Amplify JavaScript Example",
-  "dependencies": {
-    "aws-amplify": "latest"
-  },
-  "devDependencies": {
-    "copy-webpack-plugin": "^6.1.0",
-    "webpack": "^4.46.0",
-    "webpack-cli": "^4.9.1",
-    "webpack-dev-server": "^4.4.0"
-  },
-  "scripts": {
+"scripts": {
     "start": "webpack && webpack-dev-server --mode development",
     "build": "webpack"
-  }
 }
-```
-
-### Install local development dependencies
-
-```bash
-npm install
 ```
 
 Add the following to the `index.html` file:
@@ -83,10 +73,6 @@ Add the following to the `index.html` file:
         padding: 3em 0 3em 0;
         box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3);
       }
-      .app-logo {
-        width: 126px;
-        margin: 0 auto;
-      }
       .app-body {
         width: 400px;
         margin: 0 auto;
@@ -109,12 +95,6 @@ Add the following to the `index.html` file:
   <body>
     <div class="app">
       <div class="app-header">
-        <div class="app-logo">
-          <img
-            src="https://aws-amplify.github.io/images/Logos/Amplify-Logo-White.svg"
-            alt="AWS Amplify"
-          />
-        </div>
         <h1>Welcome to Amplify</h1>
       </div>
       <div class="app-body">
@@ -186,7 +166,7 @@ _(The `Add data` button does not work yet. You'll work on that next!)_
 
 ## Initialize a new backend
 
-Now that you have a running app, it's time to set up Amplify so that you can create the necessary backend services needed to support the app. 
+Now that you have a running app, it's time to set up Amplify so that you can create the necessary backend services needed to support the app.
 
 Open a new terminal. From the root of the project, run:
 

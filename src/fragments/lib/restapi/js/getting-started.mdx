@@ -43,7 +43,7 @@ import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
 ```
 
-## Manual Setup: Import existing REST API
+## Manual Setup: Reference existing REST API
 
 For manual configuration you need to provide your AWS Resource configuration and optionally configure authentication.
 
@@ -94,7 +94,7 @@ API: {
 ```
 <Callout warning>
 
-**THIS IS NOT A RECOMMENDED ARCHITECTURE** and we highly recommend you leverage AWS AppSync or API Gateway as the endpoint to invoke your Lambda functions. 
+The above example **IS NOT A RECOMMENDED ARCHITECTURE** and we highly recommend you leverage AWS AppSync or API Gateway as the endpoint to invoke your Lambda functions. 
 
 </Callout>
 

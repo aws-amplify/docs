@@ -232,6 +232,26 @@
           }
         ]
       },
+      "showFieldAuthNotification": {
+        "description": "Adds a notification of @auth security change.",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "7.6.15",
+        "values": [
+          {
+            "value": "true",
+            "description": "A notification with a prompt will appear, after which security updates are automatically applied and no further prompt will appear",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          },
+          {
+            "value": "false",
+            "description": "There is no notification of security updates",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          }
+        ]
+      },
       "useSubUsernameForDefaultIdentityClaim": {
         "description": "Changes the default identity claim to for owner-based @auth from 'username' to 'sub::username'",
         "type": "Feature",
@@ -252,22 +272,42 @@
           }
         ]
       },
-      "enableAutoIndexQueryNames": {
-        "description": "Changes the behaviour of @index directive to auto-generate Queries for indexes if no 'queryField' is provided.",
+      "useFieldNameForPrimaryKeyConnectionField": {
+        "description": "Changes the naming convention for primary key connection fields.",
         "type": "Feature",
         "valueType": "Boolean",
-        "versionAdded": "8.5.x",
+        "versionAdded": "8.3.0",
         "values": [
           {
             "value": "true",
-            "description": "An empty 'queryField' will cause a Query to be auto-generated. Explicit null value will disable this functionality",
+            "description": "Uses 'Id' in the name. (Type + RelatedType + Id)",
             "defaultNewProject": false,
             "defaultExistingProject": false
           },
           {
             "value": "false",
-            "description": "A Query will only be created if the 'queryField' is explicitly set",
+            "description": "Uses the related type field name in the name. (Type + RelatedType + RelatedTypeFieldName)",
             "defaultNewProject": true,
+            "defaultExistingProject": true
+          }
+        ]
+      },
+      "enableAutoIndexQueryNames": {
+        "description": "Changes the behaviour of @index directive to auto-generate Queries for indexes if no 'queryField' is provided.",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "8.5.0",
+        "values": [
+          {
+            "value": "true",
+            "description": "An empty 'queryField' will cause a Query to be auto-generated. Explicit null value will disable this functionality",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "A Query will only be created if the 'queryField' is explicitly set",
+            "defaultNewProject": false,
             "defaultExistingProject": true
           }
         ]
@@ -281,13 +321,53 @@
           {
             "value": "false",
             "description": "Only one connection field with type ID generated on connected models. Model-gen with custom primary key feature is disabled.",
-            "defaultNewProject": true,
+            "defaultNewProject": false,
             "defaultExistingProject": true
           },
           {
             "value": "true",
             "description": "Connection field(s) are generated respecting the attributes of priamry key and sort key fields. Model-gen with custom primary key feature is enabled.",
+            "defaultNewProject": true,
+            "defaultExistingProject": false
+          }
+        ]
+      },
+      "shouldDeepMergeDirectiveConfigDefaults": {
+        "description": "Performs a deep merge with default directives and custom directives.",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "9.1.0",
+        "values": [
+          {
+            "value": "false",
+            "description": "Merge default directives and custom directives with a single level depth. Custom directives will take precedent.",
+            "defaultNewProject": true,
+            "defaultExistingProject": true
+          },
+          {
+            "value": "true",
+            "description": "Merge default directives and custom directives with unlimitted depth. Custom directives will take precedent.",
             "defaultNewProject": false,
+            "defaultExistingProject": false
+          }
+        ]
+      },
+      "populateOwnerFieldForStaticGroupAuth": {
+        "description": "Populates the owner field automatically if the user is already authorized by static user pool authorization rules",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "9.2.0",
+        "values": [
+          {
+            "value": "true",
+            "description": "If the user is authorized, the owner field is automatically populated",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          },
+          {
+            "value": "false",
+            "description": "If the user is authorized by static user pool authorization rules, the owner field needs to be explicitly set by the developer",
+            "defaultNewProject": true,
             "defaultExistingProject": false
           }
         ]
@@ -635,6 +715,26 @@
           {
             "value": "false",
             "description": "iOS models will not be able to access key/index details",
+            "defaultNewProject": false,
+            "defaultExistingProject": true
+          }
+        ]
+      },
+      "generateModelsForLazyLoadAndCustomSelectionSet": {
+        "description": "Generate models for lazy loading and custom selection set",
+        "type": "Feature",
+        "valueType": "Boolean",
+        "versionAdded": "x.x.x",
+        "values": [
+          {
+            "value": "true",
+            "description": "[Recommended] Add support for lazy loading and custom selection set.",
+            "defaultNewProject": false,
+            "defaultExistingProject": false
+          },
+          {
+            "value": "false",
+            "description": "models will not support selection set customization and lazy loading.",
             "defaultNewProject": false,
             "defaultExistingProject": true
           }

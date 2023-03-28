@@ -6,7 +6,7 @@ Delete an object uploaded to S3 by using `Amplify.Storage.remove` and specify th
 
 ```swift
 let removedKey = try await Amplify.Storage.remove(key: "myKey")
-print("Completed: Deleted \(removedKey)")
+print("Deleted \(removedKey)")
 ```
 
 </Block>
@@ -22,7 +22,7 @@ let sink = Amplify.Publisher.create {
     }
 }
 receiveValue: { removedKey in
-    print("Completed: Deleted \(removedKey)")
+    print("Deleted \(removedKey)")
 }
 ```
 

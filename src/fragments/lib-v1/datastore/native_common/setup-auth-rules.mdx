@@ -131,9 +131,6 @@ import ios1 from "/src/fragments/lib-v1/datastore/ios/setup-auth-rules/owner_bas
 
 <Fragments fragments={{ios: ios1}} />
 
-import flutterOidc from "/src/fragments/lib-v1/datastore/flutter/setup-auth-rules/owner_based_auth_oidc.mdx";
-
-<Fragments fragments={{flutter: flutterOidc}} />
 
 ### Static Group Authorization with OIDC provider
 The following are commonly used patterns for using `groupClaims` to achieve group based authorization using a 3rd party OIDC provider. For more information on how to tune these examples, please see the [CLI documentation on static group authorization](/cli/graphql/authorization-rules#custom-claims).
@@ -172,14 +169,6 @@ import android3 from "/src/fragments/lib-v1/datastore/android/setup-auth-rules/1
 
 <Fragments fragments={{android: android3}} />
 
-import js4 from "/src/fragments/lib-v1/datastore/js/setup-auth-rules/10_multiauth-snippet.mdx";
-
-<Fragments fragments={{js: js4}} />
-
-import flutterMultiAuth from "/src/fragments/lib-v1/datastore/flutter/setup-auth-rules/10_multiauth-snippet.mdx";
-
-<Fragments fragments={{flutter: flutterMultiAuth}} />
-
 This configuration enables DataStore to synchronize data using the model's `@auth` rule provider for each model.
 
 ### Multiple authorization types priority order
@@ -216,7 +205,3 @@ type YourModel
 }
 ```
 DataStore will attempt to use owner-based authorization first when synchronizing data if there is an authenticated user. If that request fails for some reason, DataStore will attempt the request again with public authorization. If there is **no** authenticated user, public authorization will be used.
-
-import js5 from "/src/fragments/lib-v1/datastore/js/setup-auth-rules/20_function-auth-snippet.mdx";
-
-<Fragments fragments={{js: js5}} />

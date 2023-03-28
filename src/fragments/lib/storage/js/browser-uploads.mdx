@@ -19,7 +19,7 @@ async function onChange(e) {
 
 <Callout>
 
-Note: 'contentType' is metadata (saved under the key 'Content-Type') for the S3 object and does not determine the 'Type' in the AWS S3 Console. If a file extension is not provided in the key of the uploaded object, the S3 console's 'Type' field will be emitted. Otherwise, the 'Type' will be populated to match the given extension of the key. The behavior of how the S3 object is treated will be based on 'contentType' in the metadata and not the 'Type'. 
+Note: 'contentType' is metadata (saved under the key 'Content-Type') for the S3 object and does not determine the 'Type' in the AWS S3 Console. If a file extension is not provided in the key of the uploaded object, the S3 console's 'Type' field will be omitted. Otherwise, the 'Type' will be populated to match the given extension of the key. The behavior of how the S3 object is treated will be based on 'contentType' in the metadata and not the 'Type'. 
 
 For example: uploading a file with the key "example.jpg" will result in the 'Type' being set as "jpg", but the 'contentType' in metadata will determine it's behavior so setting it as "text/html" will result in the file being treated as an HTML file regardless of displayed 'Type' in the S3 console.
 

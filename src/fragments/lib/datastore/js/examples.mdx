@@ -11,30 +11,26 @@ import "./App.css";
 import { Amplify, DataStore, Predicates } from "aws-amplify";
 import { Post, PostStatus } from "./models";
 
-//Use next two lines only if syncing with the cloud
+// Use next two lines only if syncing with the cloud
 import awsconfig from "./aws-exports";
 Amplify.configure(awsconfig);
 
-function onCreate() {
-  DataStore.save(
+async function onCreate() {
+  await DataStore.save(
     new Post({
       title: `New title ${Date.now()}`,
-      rating: (function getRandomInt(min, max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min)) + min;
-      })(1, 7),
+      rating: Math.floor(Math.random() * (8 - 1) + 1),
       status: PostStatus.ACTIVE,
     })
   );
 }
 
-function onDeleteAll() {
-  DataStore.delete(Post, Predicates.ALL);
+async function onDeleteAll() {
+  await DataStore.delete(Post, Predicates.ALL);
 }
 
 async function onQuery() {
-  const posts = await DataStore.query(Post, (c) => c.rating("gt", 4));
+  const posts = await DataStore.query(Post, (c) => c.rating.gt(4));
 
   console.log(posts);
 }
@@ -76,6 +72,7 @@ function App() {
 export default App;
 ```
 </Block>
+
 <Block name="Angular">
 
 ```ts
@@ -108,7 +105,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public async loadPosts() {
-    let posts = await DataStore.query(Post, (c) => c.rating("gt", 4));
+    let posts = await DataStore.query(Post, (c) => c.rating.gt(4));
     console.log(posts);
   }
   
@@ -116,11 +113,7 @@ export class AppComponent implements OnInit, OnDestroy {
     DataStore.save(
       new Post({
         title: `New title ${Date.now()}`,
-        rating: (function getRandomInt(min, max) {
-          min = Math.ceil(min);
-          max = Math.floor(max);
-          return Math.floor(Math.random() * (max - min)) + min;
-        })(1, 7),
+        rating: Math.floor(Math.random() * (8 - 1) + 1),
         status: PostStatus.ACTIVE,
       })
     );
@@ -169,18 +162,14 @@ export default {
   },
   methods: {
     async onQuery() {
-      let posts = await DataStore.query(Post, (c) => c.rating("gt", 4));
+      let posts = await DataStore.query(Post, (c) => c.rating.gt(4));
       console.log(posts);
     },
     onCreate() {
       DataStore.save(
         new Post({
           title: `New title ${Date.now()}`,
-          rating: (function getRandomInt(min, max) {
-            min = Math.ceil(min);
-            max = Math.floor(max);
-            return Math.floor(Math.random() * (max - min)) + min;
-          })(1, 7),
+          rating: Math.floor(Math.random() * (8 - 1) + 1),
           status: PostStatus.ACTIVE,
         })
       );

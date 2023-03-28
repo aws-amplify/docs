@@ -63,12 +63,12 @@ Events have default configuration to flush out to the network every 30 seconds. 
             "awsPinpointAnalyticsPlugin": {
                 "pinpointAnalytics": {
                     "appId": "AppID",
-                    "region": "Region"
+                    "region": "Region",
+                    "autoFlushEventsInterval": 10000
                 },
                 "pinpointTargeting": {
                     "region": "Region"
-                },
-                "autoFlushEventsInterval": 10000
+                }
             }
         }
     }
@@ -100,6 +100,60 @@ RxAmplify.Analytics.flushEvents();
 
 </Block>
 </BlockSwitcher>
+
+## Authentication events
+
+import native_common from "/src/fragments/lib-v1/analytics/native_common/getting-started/auth-events.mdx";
+
+<Fragments fragments={{all: native_common}} />
+  
+  <BlockSwitcher>
+  <Block name="Java">
+
+  ```java
+  /**
+  * Call this method to log an authentication event to the analytics client.
+  */
+  public void logAuthenticationEvent() {
+    AnalyticsEvent event = AnalyticsEvent.builder()
+      .name("_userauth.sign_in")
+      .build();
+    Amplify.Analytics.recordEvent(event);
+  }
+  ```
+
+  </Block>
+  <Block name="Kotlin">
+
+  ```kotlin
+
+  /**
+  * Call this method to log an authentication event to the analytics client.
+  */
+  fun logAuthenticationEvent() {
+    val event = AnalyticsEvent.builder()
+      .name("_userauth.sign_in")
+      .build()
+    Amplify.Analytics.recordEvent(event)
+  }
+  ```
+  </Block>
+  <Block name="RxJava">
+
+  ```java
+
+  /**
+  * Call this method to log an authentication event to the analytics client.
+  */
+  public void logAuthenticationEvent() {
+    AnalyticsEvent event = AnalyticsEvent.builder()
+      .name("_userauth.sign_in")
+      .build();
+    RxAmplify.Analytics.recordEvent(event);
+  }
+  ```
+  </Block>
+  </BlockSwitcher>
 
 ## Global Properties
 

@@ -34,8 +34,8 @@ function generatePathMap(
     '/start/q/integration/react-native': {
       page: '/start/q/integration/[integration]'
     },
-    "/start/q/integration/ios": {
-      page: "/start/q/integration/[integration]",
+    '/start/q/integration/ios': {
+      page: '/start/q/integration/[integration]'
     },
     '/start/q/integration/flutter': {
       page: '/start/q/integration/[integration]'
@@ -54,6 +54,9 @@ function generatePathMap(
     },
     '/lib/q/platform/react-native': {
       page: '/lib/q/platform/[platform]'
+    },
+    '/lib-v1/q/platform/android': {
+      page: '/lib-v1/q/platform/[platform]'
     },
     '/lib-v1/q/platform/ios': {
       page: '/lib-v1/q/platform/[platform]'
@@ -112,7 +115,8 @@ function generatePathMap(
     '/cli/function': {
       page: '/cli/function'
     }
-  }
+  },
+  removeChoosePages = false //this flag if set will generate a pathmap without the choose platform pages
 ) {
   for (const [_, value] of Object.entries(obj)) {
     const { items, filters, route, productRoot } = value;
@@ -150,7 +154,7 @@ function generatePathMap(
     }
 
     if (items) {
-      generatePathMap(items, pathMap);
+      generatePathMap(items, pathMap, removeChoosePages);
     }
 
     if (!filters || !filters.length) {
@@ -206,6 +210,10 @@ function generatePathMap(
         'vue',
         'next'
       ];
+    }
+    if (removeChoosePages) {
+      // reset the allFilters to the filters found in the directory object, this will remove the choose platform pages from the pathmap being generated
+      allFilters = filters;
     }
     allFilters.forEach((filter) => {
       pathMap[route + '/q/' + routeType + '/' + filter] = {

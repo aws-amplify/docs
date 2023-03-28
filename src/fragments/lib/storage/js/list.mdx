@@ -6,33 +6,36 @@ List keys under a specified path, as well as `lastModified` timestamp.
 
 ```javascript
 Storage.list('photos/') // for listing ALL files without prefix, pass '' instead
-  .then((result) => console.log(result))
+  .then(({ results }) => console.log(results))
   .catch((err) => console.log(err));
 ```
 
 Note the trailing slash `/` - if you had requested `Storage.list('photos')` it would also match against files like `photos123.jpg` alongside `photos/123.jpg`.
 
-The format of the result looks like this:
+The format of the response looks like this:
 
 ```js
-[
-  {
-    eTag: ""30074401292215403a42b0739f3b5262"",
-    key: "123.png",
-    lastModified: "Thu Oct 08 2020 23:59:31 GMT+0800 (Singapore Standard Time)",
-    size: 138256
-  },
-  // ...
-]
+{
+  results: [
+    {
+      eTag: ""30074401292215403a42b0739f3b5262"",
+      key: "123.png",
+      lastModified: "Thu Oct 08 2020 23:59:31 GMT+0800 (Singapore Standard Time)",
+      size: 138256
+    },
+    // ...
+  ],
+  hasNextToken: false
+}
 ```
 
 Manually created folders will show up as files with a `size` of 0, but you can also match keys against a regex like `file.key.match(/\.[0-9a-z]+$/i)` to distinguish files vs folders. Since "folders" are a virtual concept in S3, any file may declare any depth of folder just by having a `/` in its name. If you need to list all the folders, you'll have to parse them accordingly to get an authoritative list of files and folders:
 
 ```js
-function processStorageList(result) {
+function processStorageList(response) {
   let files = [];
   let folders = new Set();
-  result.forEach((res) => {
+  response.results.forEach(res => {
     if (res.size) {
       files.push(res);
       // sometimes files declare a folder with a / within then
@@ -52,7 +55,7 @@ function processStorageList(result) {
 If you need the files and folders in terms of a nested object instead (for example, to build an explorer UI), you could parse it recursively:
 
 ```js
-function processStorageList(results) {
+function processStorageList(response) {
   const filesystem = {};
   // https://stackoverflow.com/questions/44759750/how-can-i-create-a-nested-object-representation-of-a-folder-structure
   const add = (source, target, item) => {
@@ -66,7 +69,7 @@ function processStorageList(results) {
       add(elements.join('/'), target[element], item);
     }
   };
-  results.forEach((item) => add(item.key, filesystem, item));
+  response.results.forEach((item) => add(item.key, filesystem, item));
   return filesystem;
 }
 ```
@@ -79,7 +82,7 @@ To list current user's objects:
 
 ```javascript
 Storage.list('photos/', { level: 'protected' })
-  .then((result) => console.log(result))
+  .then(({ results }) => console.log(results))
   .catch((err) => console.log(err));
 ```
 
@@ -90,7 +93,7 @@ Storage.list('photos/', {
   level: 'protected',
   identityId: 'xxxxxxx' // the identityId of that user
 })
-  .then((result) => console.log(result))
+  .then(({ results }) => console.log(results))
   .catch((err) => console.log(err));
 ```
 
@@ -98,18 +101,48 @@ Storage.list('photos/', {
 
 ```javascript
 Storage.list('photos/', { level: 'private' })
-  .then((result) => console.log(result))
+  .then(({ results }) => console.log(results))
   .catch((err) => console.log(err));
 ```
 
 ## Access all files
 
-To get a list of all files in your S3 bucket under a specific prefix, you can set maxKeys to ALL. The default value of maxKeys is 1000.
+To get a list of all files in your S3 bucket under a specific prefix, you can set pageSize to ALL. The default value of pageSize is 1000.
 
 ```javascript
-Storage.list('photos/', { maxKeys: 'ALL' })
-  .then((result) => console.log(result))
+
+Storage.list('photos/', { pageSize : 'ALL' })
+  .then(({ results }) => console.log(result))
   .catch((err) => console.log(err));
+
 ```
 
-<Callout>Note: The range of maxKeys can be from 0 - 1000 or 'ALL'.</Callout>
+## Paginated file access
+
+If the pageSize is set lower than the total file size, a single `Storage.list` call only returns a subset of all the files. To list all the files with multiple calls, users can use the `hasNextToken` and `nextToken` keys:
+
+```javascript
+
+const PAGE_SIZE = 20;
+let nextToken = undefined;
+let hasNextPage = true;
+//...
+const loadNextPage = async () => {
+  if (hasNextPage) {
+    let response = await Storage.list('', {
+      pageSize: PAGE_SIZE,
+      nextToken: nextToken,
+    });
+    if (response.hasNextToken) {
+      nextToken = response.nextToken;
+    } else {
+      nextToken = undefined;
+      hasNextPage = false;
+    }
+    // render list items from response.results
+  }
+}
+
+```
+
+<Callout>Note: The range of pageSize can be from 0 - 1000 or 'ALL'.</Callout>

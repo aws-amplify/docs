@@ -1,7 +1,0 @@
-When using multiple conditions, there is an implicit `and` defined to mirror the [GraphQL Transformer condition statements](/cli/graphql/data-modeling). For example with multiple conditions:
-
-```js
-const posts = await DataStore.query(Post, (c) =>
-  c.rating('gt', 4).status('eq', PostStatus.ACTIVE)
-);
-```

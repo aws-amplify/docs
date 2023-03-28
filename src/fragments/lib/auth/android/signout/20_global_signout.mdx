@@ -2,11 +2,19 @@
 <Block name="Java">
 
 ```java
-Amplify.Auth.signOut(
-    AuthSignOutOptions.builder().globalSignOut(true).build(),
-    () -> Log.i("AuthQuickstart", "Signed out globally"),
-    error -> Log.e("AuthQuickstart", error.toString())
-);
+AuthSignOutOptions options = AuthSignOutOptions.builder()
+    .globalSignOut(true)
+    .build();
+
+Amplify.Auth.signOut(options, signOutResult -> {
+    if (signOutResult instanceof AWSCognitoAuthSignOutResult.CompleteSignOut) {
+        // handle successful sign out
+    } else if (signOutResult instanceof AWSCognitoAuthSignOutResult.PartialSignOut) {
+        // handle partial sign out
+    } else if (signOutResult instanceof AWSCognitoAuthSignOutResult.FailedSignOut) {
+        // handle failed sign out
+    }
+});
 ```
 
 </Block>
@@ -16,36 +24,63 @@ Amplify.Auth.signOut(
 val options = AuthSignOutOptions.builder()
     .globalSignOut(true)
     .build()
-Amplify.Auth.signOut(options,
-    { Log.i("AuthQuickstart", "Signed out globally") },
-    { Log.e("AuthQuickstart", "Sign out failed", it) }
-)
+
+Amplify.Auth.signOut(options) { signOutResult ->
+    when(signOutResult) {
+        is AWSCognitoAuthSignOutResult.CompleteSignOut -> {
+            // handle successful sign out
+        }
+        is AWSCognitoAuthSignOutResult.PartialSignOut -> {
+            // handle partial sign out
+        }
+        is AWSCognitoAuthSignOutResult.FailedSignOut -> {
+            // handle failed sign out
+        }
+    }
+}
 ```
 
 </Block>
-<Block name="Kotlin - Coroutines (Beta)">
+<Block name="Kotlin - Coroutines">
 
 ```kotlin
 val options = AuthSignOutOptions.builder()
     .globalSignOut(true)
     .build()
-try {
-    Amplify.Auth.signOut(options)
-    Log.i("AuthQuickstart", "Signed out globally") 
-} catch (error: AuthException) {
-    Log.e("AuthQuickstart", "Sign out failed", error)
-)
+
+val signOutResult = Amplify.Auth.signOut(options)
+
+when(signOutResult) {
+    is AWSCognitoAuthSignOutResult.CompleteSignOut -> {
+        // handle successful sign out
+    }
+    is AWSCognitoAuthSignOutResult.PartialSignOut -> {
+        // handle partial sign out
+    }
+    is AWSCognitoAuthSignOutResult.FailedSignOut -> {
+        // handle failed sign out
+    }
+}
 ```
 
 </Block>
 <Block name="RxJava">
 
 ```java
-RxAmplify.Auth.signOut(AuthSignOutOptions.builder().globalSignOut(true).build())
-    .subscribe(
-        () -> Log.i("AuthQuickstart", "Signed out globally"),
-        error -> Log.e("AuthQuickstart", error.toString())
-    );
+AuthSignOutOptions options = AuthSignOutOptions.builder()
+    .globalSignOut(true)
+    .build();
+    
+RxAmplify.Auth.signOut(options)
+    .subscribe(signOutResult -> {
+        if (signOutResult instanceof AWSCognitoAuthSignOutResult.CompleteSignOut) {
+            // handle successful sign out
+        } else if (signOutResult instanceof AWSCognitoAuthSignOutResult.PartialSignOut) {
+            // handle partial sign out
+        } else if (signOutResult instanceof AWSCognitoAuthSignOutResult.FailedSignOut) {
+            // handle failed sign out
+        }
+    });
 ```
 
 </Block>

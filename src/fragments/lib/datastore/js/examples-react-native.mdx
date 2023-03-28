@@ -37,12 +37,7 @@ class App extends Component {
     DataStore.save(
       new Post({
         title: `New Post ${Date.now()}`,
-        rating: (function getRandomInt(min, max) {
-          min = Math.ceil(min);
-          max = Math.floor(max);
-          // The maximum is exclusive and the minimum is inclusive
-          return Math.floor(Math.random() * (max - min)) + min;
-        })(5, 10),
+        rating: Math.floor(Math.random() * (8 - 1) + 1),
         status: PostStatus.ACTIVE
       })
     );
@@ -68,7 +63,7 @@ class App extends Component {
   }
 
   onQuery = async () => {
-    const posts = await DataStore.query(Post, (c) => c.rating('gt', 2));
+    const posts = await DataStore.query(Post, (c) => c.rating.gt(2));
     console.log('QUERY_POSTS_RESULT', posts);
     const comments = await DataStore.query(Comment);
     this.setState({ posts });

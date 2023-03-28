@@ -6,6 +6,13 @@ Add the following code to your `onCreate()` method in your application class:
 <Block name="Java">
 
 ```java
+import android.util.Log;
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.core.Amplify;
+import com.amplifyframework.datastore.AWSDataStorePlugin;
+```
+
+```java
 Amplify.addPlugin(new AWSDataStorePlugin());
 ```
 
@@ -33,6 +40,13 @@ public class MyAmplifyApp extends Application {
 <Block name="Kotlin">
 
 ```kotlin
+import android.util.Log
+import com.amplifyframework.AmplifyException
+import com.amplifyframework.core.Amplify
+import com.amplifyframework.datastore.AWSDataStorePlugin
+```
+
+```kotlin
 Amplify.addPlugin(AWSDataStorePlugin())
 ```
 
@@ -57,6 +71,13 @@ class MyAmplifyApp : Application() {
 
 </Block>
 <Block name="RxJava">
+
+```java
+import android.util.Log;
+import com.amplifyframework.AmplifyException;
+import com.amplifyframework.datastore.AWSDataStorePlugin;
+import com.amplifyframework.rx.RxAmplify;
+```
 
 ```java
 RxAmplify.addPlugin(new AWSDataStorePlugin());

@@ -22,7 +22,7 @@ amplify push
 
 A configuration file called `aws-exports.js` will be copied to your configured source directory, for example `./src`.
 
-> If your Authentication resources were created with Amplify CLI version 1.6.4 and below, you will need to manually update your project to avoid Node.js runtime issues with AWS Lambda. [Read more](/cli/migration/lambda-node-version-update)
+> If your Authentication resources were created with Amplify CLI version 1.6.4 and below, you will need to manually update your project to avoid Node.js runtime issues with AWS Lambda. [Read more](/cli/function/configure-options)
 
 ### Configure your application
 
@@ -127,6 +127,9 @@ Amplify.configure({
 // You can get the current config object
 const currentConfig = Auth.configure();
 ```
+import attributesCallout from "/src/fragments/common/writable-vs-mutable-attributes.mdx";
+
+<Fragments fragments={{all: attributesCallout}} />
 
 ### Note about OAuth configuration parameters
 These settings can be found in the Cognito User Pools console under **App Integration** section
@@ -135,3 +138,4 @@ These settings can be found in the Cognito User Pools console under **App Integr
 - `redirectSignIn`: URL must be present on **Callback URL(s)** , check on **App client settings** sub section
 - `redirectSignOut`: URL must be present on **Sign out URL(s)**, check on **App client settings** sub section
 - `responseType`: Option must be enabled on the App client, look for **Allowed OAuth Flows** on **App client settings** sub section. *Authorization code grant* is for 'code' value and *Implicit grant* is for 'token' value.
+

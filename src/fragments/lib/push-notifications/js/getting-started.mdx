@@ -91,48 +91,27 @@ Setup instructions are provided for Android and iOS, and configuration for both 
     apply plugin: "com.google.gms.google-services"
     ``` 
 
-8. Open *android/gradle/wrapper/gradle-wrapper.properties* update the Gradle `distributionUrl`:
-
-    ```properties
-    distributionUrl=https\://services.gradle.org/distributions/gradle-6.3-all.zip
-    ```
-
-9. Open *android/app/src/main/AndroidManifest.xml* file and add the following configuration into `application` element.
+8. Open *android/app/src/main/AndroidManifest.xml* file and add the following configuration into `application` element.
 
     ```xml
     <application ... >
 
         <!--[START Push notification config -->
-            <!-- [START firebase_service] -->
-            <service
-                android:name="com.amazonaws.amplify.pushnotification.RNPushNotificationMessagingService">
-                <intent-filter>
-                    <action android:name="com.google.firebase.MESSAGING_EVENT"/>
-                </intent-filter>
-            </service>
-            <!-- [END firebase_service] -->
-            <!-- [START firebase_iid_service] -->
-            <service
-                android:name="com.amazonaws.amplify.pushnotification.RNPushNotificationDeviceIDService">
-                <intent-filter>
-                    <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
-                </intent-filter>
-            </service>
-            <receiver
-                android:name="com.amazonaws.amplify.pushnotification.modules.RNPushNotificationBroadcastReceiver"
-                android:exported="false" >
-                <intent-filter>
-                    <action android:name="com.amazonaws.amplify.pushnotification.NOTIFICATION_OPENED"/>
-                </intent-filter>
-            </receiver>
+        <service
+            android:name="com.amazonaws.amplify.pushnotification.RNPushNotificationMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
         <!-- [END Push notification config -->
 
     </application>
     ```
 
-10. Configure Push Notifications category for your app as shown in [Configure your App](#configure-your-app) section.
+9. Configure Push Notifications category for your app as shown in [Configure your App](#configure-your-app) section.
 
-11. Run your app:
+10. Run your app:
 
     ```bash
     npx react-native run-android
@@ -208,7 +187,7 @@ If you don't have Analytics already enabled, see our [Analytics Developer Guide]
 
 ```javascript
 import { Amplify } from 'aws-amplify';
-import PushNotification from '@aws-amplify/pushnotification';
+import { PushNotification } from '@aws-amplify/pushnotification';
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import awsconfig from './aws-exports';
 

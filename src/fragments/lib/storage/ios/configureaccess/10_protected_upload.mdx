@@ -5,7 +5,7 @@
 ```swift
 func uploadData(key: String, data: Data) async throws {
     let options = StorageUploadDataRequest.Options(accessLevel: .protected)
-    let uploadTask = try await Amplify.Storage.uploadData(
+    let uploadTask = Amplify.Storage.uploadData(
         key: key,
         data: data,
         options: options
@@ -28,9 +28,9 @@ func uploadData(key: String, data: Data) async throws {
 var resultSink: AnyCancellable?
 var progressSink: AnyCancellable?
 
-func uploadData(key: String, data: Data) async throws {
+func uploadData(key: String, data: Data) {
     let options = StorageUploadDataRequest.Options(accessLevel: .protected)
-    let uploadTask = try await Amplify.Storage.uploadData(
+    let uploadTask = Amplify.Storage.uploadData(
         key: key,
         data: data,
         options: options

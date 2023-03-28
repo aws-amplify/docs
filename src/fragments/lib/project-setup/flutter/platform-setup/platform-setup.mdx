@@ -31,7 +31,16 @@ import flutter1 from '/src/fragments/start/getting-started/flutter/kotlin-versio
 <Block name = "Developer Preview (Mobile, Web & Desktop)">
 
 ## Web
+
+### Auth category
+
 No specific configuration steps are needed to begin using the Auth category in the browser.
+
+### Analytics and Storage categories
+
+import flutter2 from '/src/fragments/lib/project-setup/flutter/platform-setup/sqlite3_wasm.mdx';
+
+<Fragments fragments={{ flutter: flutter2 }} />
 
 ## iOS
 From your project root, navigate to the `ios/` directory and modify the `Podfile` using a text editor of your choice and update the target iOS platform to 13.0 or higher.
@@ -101,20 +110,35 @@ Add a development team in the "Signing and Capabilities" section and enable sign
 No specific configuration steps are needed to begin using the Auth category on Windows; however, depending on how your Windows configuration and the method you use to run your Flutter app, you may need to change the file path length limitation.
 
 ## Linux
-To run the Amplify-Flutter developer preview on Linux, you must install two libraries:
-
-* libsecret-1-dev
-* libglib2.0-dev
+Amplify Flutter depends on [libsecret](https://wiki.gnome.org/Projects/Libsecret) when targeting Linux. To run and debug an app that depends on Amplify Flutter, you must install `libsecret-1-dev`.
 
 To install on Ubuntu, run:
 
+/* cSpell:disable */
 ```terminal
 sudo apt-get update
 sudo apt-get install -y libsecret-1-dev
-sudo apt-get install -y libglib2.0-dev
 ```
+/* cSpell:enable */
 
-The command to install might vary slightly on other Linux distributions.
+This will also install dependencies of `libsecret-1-dev`, such as `libglib2.0-dev`, which is also required for to run and debug apps that depend on Amplify Flutter.
+
+> The command to install might vary on other Linux distributions.
+
+### Packaging Your App
+To include the required dependencies when packaging your app with Snapcraft, include them in your `snapcraft.yaml` file. For more info, see [Flutter's documentation on releasing to the Snap Store](https://docs.flutter.dev/deployment/linux).
+
+```yaml
+parts:
+  my-app:
+    plugin: flutter
+    source: .
+    flutter-target: lib/main.dart
+    build-packages:
+      - libsecret-1-dev
+    stage-packages:
+      - libsecret-1-0
+```
 
 </Block>
 

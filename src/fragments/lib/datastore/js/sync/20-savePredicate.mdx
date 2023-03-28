@@ -1,10 +1,8 @@
 ```js
 await DataStore.save(
-  new Post({
-    title: 'My First Post',
-    rating: 10,
-    status: PostStatus.INACTIVE
+  Post.copyOf(original, (updated) => {
+    updated.title = 'My First Post';
   }),
-  (p) => p.title('beginsWith', '[Amplify]')
+  (p) => p.title.beginsWith('[Amplify]')
 );
 ```

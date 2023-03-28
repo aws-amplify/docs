@@ -1,0 +1,60 @@
+name: Redirects Workflow
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, labeled]
+env:
+  DIFF_DIRECTORIES: 'src/pages src/fragments'
+jobs:
+  onPrOpen:
+    name: Check if redirects are needed on PR opened
+    runs-on: ubuntu-latest
+    if: github.event.action == 'opened'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          # Minimal depth 2 so we can checkout the commit before possible merge commit.
+          fetch-depth: 2
+      - name: Get count of deleted files
+        env:
+          GITHUB_PULL_REQUEST_HEAD_SHA: ${{ github.pull_request.head.sha }}
+        run: |
+          git fetch origin main
+          echo "DELETED_FILES_ON_OPENED=$(git diff --name-status --diff-filter=D origin/main -- ${{ env.DIFF_DIRECTORIES }} ${{ env.GITHUB_PULL_REQUEST_HEAD_SHA }} | wc -l)" >> $GITHUB_ENV
+      - name: Print number of deleted files
+        run: |
+          echo "Deleted file count: ${{ env.DELETED_FILES_ON_OPENED }}"
+      - name: Fail status check if there are deleted files
+        if: ${{ env.DELETED_FILES_ON_OPENED > 0 }}
+        run: exit 1
+  onPrSync:
+    name: Check if redirects are needed on PR sync
+    runs-on: ubuntu-latest
+    if: github.event.action == 'synchronize'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          # Minimal depth 2 so we can checkout the commit before possible merge commit.
+          fetch-depth: 2
+      - name: Get count of deleted files from last sync
+        env:
+          GITHUB_EVENT_BEFORE: ${{ github.event.before }}
+          GITHUB_EVENT_AFTER: ${{ github.event.after }}
+        run: |
+          git fetch origin ${{ github.event.before }} --depth=1
+          echo "DELETED_FILES_ON_SYNC=$(git diff --name-status --diff-filter=D ${{ env.GITHUB_EVENT_BEFORE}} -- ${{ env.DIFF_DIRECTORIES }} ${{ env.GITHUB_EVENT_AFTER }} | wc -l)" >> $GITHUB_ENV
+      - name: Print number of deleted files
+        run: |
+          echo "Deleted file count: ${{ env.DELETED_FILES_ON_OPENED }}"
+      - name: Fail status check if there are deleted files
+        if: ${{ env.DELETED_FILES_ON_SYNC > 0 }}
+        run: exit 1
+  failStatusCheck:
+    name: Fail status check if redirects have not been added
+    runs-on: ubuntu-latest
+    if: contains(github.event.pull_request.labels.*.name, 'redirects-needed')
+    steps:
+      - name: Exit with error
+        run: exit 1

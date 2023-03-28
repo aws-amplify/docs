@@ -1,6 +1,6 @@
 Amplify for Android is distributed as Apache Maven packages. In this section, you'll add the packages and other required directives to your build configuration.
 
-Under **Gradle Scripts**, open **build.gradle (Module: MyAmplifyApp)**.
+Under **Gradle Scripts**, open **build.gradle (Module :app)**.
 
 Add the following lines:
 
@@ -25,10 +25,6 @@ dependencies {
 
 - Set `coreLibraryDesugaringEnabled`, `sourceCompatibility`, and `targetCompatibility` to allow your application to make use of Java 8 features like Lambda expressions
 - Add Amplify Core and Desugaring libraries to the `dependencies` block
-
-<Callout>
-Amplify Android supports API levels 16 and higher. If your are supporting a min SDK less than 21, follow <a href="https://developer.android.com/studio/build/multidex#mdex-pre-l">Android's documentation on adding multidex support</a>.
-</Callout>
 
 Run **Gradle Sync**
 

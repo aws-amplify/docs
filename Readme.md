@@ -4,32 +4,44 @@
 
 > https://docs.amplify.aws
 
-## Getting Started
+### Prerequisites
 
-1. [Fork this repo](/fork).
-2. `yarn && yarn dev`
+- [Node.js 14.x or later](https://nodejs.org/en/)
+- [Yarn classic](https://classic.yarnpkg.com/lang/en/docs/install/#mac-stable)
+
+## Set up the docs repo
+
+1. [Fork this repo](/fork) and `git clone` it.
+2. In your terminal, navigate to the repo from where it was just cloned. This should be located at the `/docs` directory.
+2. From your command line, run `yarn && yarn dev`
 3. <http://localhost:3000/> should open automatically.
 
-## Contributing
+## How to contribute
 
-We welcome contributions to the documentation site! Please verify your changes locally followed by a PR against our `main` branch. After your PR is reviewed and all tests pass, it will be merged and the branch will be deleted.
+We welcome contributions to the documentation site! Here's how to do it:
+
+1. Follow our [styleguide](https://github.com/aws-amplify/docs/blob/main/STYLEGUIDE.md), especially if writing longer pieces.
+2. Verify your changes locally. 
+3. Make a PR to our `main` branch
+    1. Please include any [issues](https://github.com/aws-amplify/docs/issues) your PR addresses.
+    2. If any files have been deleted with your PR, please indicate that `redirects are needed` in your PR description and/or add the `redirects-needed` label.
+
+**What's next?** After your PR is reviewed and all tests pass, it will be merged and the branch will be deleted.
 
 ### Branches
 
-- `main` - at parity with our production site https://docs.amplify.aws/
-- `gh-pages` - used to handle redirects from v1 of the documentation site. This should not be deleted.
+- **main** - at parity with our production site [docs.amplify.aws](https://docs.amplify.aws/)
+- **gh-pages** - DO NOT DELETE! Handle redirects from v1 of the documentation site.
 
-## Authoring Pages
+## Authoring pages
 
-Below is a full description of how to author pages. For now though, trigger the `dev` script (`yarn dev`).
+Our docs are generated using [Next.js](https://nextjs.org/). Refer to their docs on [how to create pages](https://nextjs.org/docs/basic-features/pages) as a primer.
 
-Docs are generated using [Next.js](https://nextjs.org/), please refer to their docs on how to create [pages](https://nextjs.org/docs/basic-features/pages) as a primer.
+The pages' source are in **src**. This folder is the only directory you need touch in order to edit or create pages.
 
-The root-level `src` folder is the only directory you need touch in order to CRUD pages.
+Within this folder exists a **pages/index.tsx** file. This will be rendered as a page at the route **/**. Within the **pages/lib/q/platform/** folder is a **[platform].mdx** file, which will be rendered as a page at the route **/lib**.
 
-Within this folder exists a `pages/index.tsx` file. This will be rendered as a page at the route `/`. Within the `src/pages/lib/q/platform/` folder is a `[platform].mdx` file, which will be rendered as a page at the route `/lib`.
-
-In order to have the page render properly and display in the sidebar, please place your page and it's route in `src/directory/directory.js`
+In order to have the page render properly and display in the sidebar, please place your page and it's route in **src/directory/directory.js**
 
 IMPORTANT: every page has to have a `title` and `description` meta field.
 

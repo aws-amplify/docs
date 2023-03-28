@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Footer, RightFooter, LeftFooter, Social, Legal } from './styles';
 import { Container } from '../Container';
 import ExternalLink from '../ExternalLink';
@@ -12,8 +13,9 @@ export default function DocsFooter() {
           <img alt={img.AMPLIFY.alt} src={img.AMPLIFY.lightSrc} />
           <div>
             <h3>Amplify</h3>
-            <a href="/start">Getting Started</a>
+            <Link href="/start">Getting Started</Link>
             <ExternalLink href={links.DISCORD}>Community Chat</ExternalLink>
+            <Link href="/contribute">Contribute</Link>
           </div>
         </LeftFooter>
         <RightFooter>

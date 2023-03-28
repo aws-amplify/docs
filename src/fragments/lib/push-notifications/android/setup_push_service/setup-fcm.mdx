@@ -1,0 +1,23 @@
+## Setting Up FCM for Push Notifications
+
+Push notifications for Android apps are sent using Firebase Cloud Messaging (FCM). Before you can send push notifications to Android devices, you must perform the following steps:
+- [Create a Firebase project](https://firebase.google.com/docs/cloud-messaging/android/first-message#create_a_firebase_project).
+- [Register your app with Firebase](https://firebase.google.com/docs/cloud-messaging/android/first-message#register_your_app_with_firebase)
+- [Add a Firebase configuration file](https://firebase.google.com/docs/cloud-messaging/android/first-message#add_a_firebase_configuration_file)
+
+Next, you will need to access your **ServerKey** (Referred to as **ApiKey** in the CLI setup):
+- Open the [Firebase console](https://console.firebase.google.com/).
+- Choose your Firebase project.
+- Select the gear icon located in the top left hand corner of your screen, then select **Project settings**.
+- Select the **Cloud Messaging** tab.
+- Select the three vertical dots next to **Cloud Messaging API (Legacy)**, then select **Manage API in Google Cloud Console**.
+![Firebase Console](/images/push-notifications/firebaseconsole.png)
+- In the new tab, select the **Enable** button.
+- Return to the previous tab and refresh the page.
+- Copy the **Token** next to **Server key**
+
+Return to [Provisioning resources through CLI](/lib/push-notifications/getting-started/#provisioning-resources-through-cli) with the copied **Token**
+
+## Handling FCM Push Notifications
+
+Amazon Pinpoint campaigns can take one of three actions when a user taps a notification: Open your app, Go to a URL, or Open a deep link. Follow these [instructions](https://developer.android.com/training/app-links/deep-linking) to enable your app to open deep links.

@@ -109,10 +109,6 @@ import android1 from "/src/fragments/lib-v1/graphqlapi/android/authz/10_userpool
 
 <Fragments fragments={{android: android1}} />
 
-import flutter2 from "/src/fragments/lib-v1/graphqlapi/flutter/authz/10_userpool.mdx";
-
-<Fragments fragments={{flutter: flutter2}} />
-
 ### IAM
 
 Add the following snippet to your `amplifyconfiguration.json`/`.dart` file:
@@ -173,10 +169,6 @@ import android4 from "/src/fragments/lib-v1/graphqlapi/android/authz/20_oidc.mdx
 
 <Fragments fragments={{android: android4}} />
 
-import flutter5 from "/src/fragments/lib-v1/graphqlapi/flutter/authz/20_oidc.mdx";
-
-<Fragments fragments={{flutter: flutter5}} />
-
 If you are using Cognito's user pool as the authorization type, this will by default retrieve and use the Access Token for your requests. If you would like to override this behavior and use the ID Token instead, you can treat Cognito user pool as your OIDC provider and use `Amplify.Auth` to retrieve the ID Token for your requests.
 
 import ios6 from "/src/fragments/lib-v1/graphqlapi/ios/authz/21_oidc.mdx";
@@ -186,10 +178,6 @@ import ios6 from "/src/fragments/lib-v1/graphqlapi/ios/authz/21_oidc.mdx";
 import android7 from "/src/fragments/lib-v1/graphqlapi/android/authz/21_oidc.mdx";
 
 <Fragments fragments={{android: android7}} />
-
-import flutter8 from "/src/fragments/lib-v1/graphqlapi/flutter/authz/21_oidc.mdx";
-
-<Fragments fragments={{flutter: flutter8}} />
 
 ### AWS Lambda
 
@@ -217,10 +205,6 @@ import android10 from "/src/fragments/lib-v1/graphqlapi/android/authz/22_lambda.
 
 <Fragments fragments={{android: android10}} />
 
-import flutter11 from "/src/fragments/lib-v1/graphqlapi/flutter/authz/22_lambda.mdx";
-
-<Fragments fragments={{flutter: flutter11}} />
-
 ### NONE
 You can also set authorization mode to `NONE` so that the library will not provide any request interception logic. You can use this when your API does not require any authorization or when you want to manipulate the request yourself, such as adding header values or authorization data.
 
@@ -247,10 +231,6 @@ import ios12 from "/src/fragments/lib-v1/graphqlapi/ios/advanced-workflows/50_in
 import android13 from "/src/fragments/lib-v1/graphqlapi/android/advanced-workflows/50_interceptor.mdx";
 
 <Fragments fragments={{android: android13}} />
-
-import flutter14 from "/src/fragments/lib-v1/graphqlapi/flutter/advanced-workflows/50_interceptor.mdx";
-
-<Fragments fragments={{flutter: flutter14}} />
 
 ## Configure multiple authorization modes
 
@@ -321,7 +301,3 @@ import ios15 from "/src/fragments/lib-v1/graphqlapi/ios/authz/30_multi.mdx";
 import android16 from "/src/fragments/lib-v1/graphqlapi/android/authz/30_multi.mdx";
 
 <Fragments fragments={{android: android16}} />
-
-import flutter17 from "/src/fragments/lib-v1/graphqlapi/flutter/authz/30_multi.mdx";
-
-<Fragments fragments={{flutter: flutter17}} />

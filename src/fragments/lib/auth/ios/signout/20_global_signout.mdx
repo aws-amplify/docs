@@ -16,18 +16,11 @@ func signOutGlobally() async {
     print("Local signout successful: \(signOutResult.signedOutLocally)")
     switch signOutResult {
     case .complete:
-        print("SignOut completed")
+        // handle successful sign out
     case .failed(let error):
-        print("SignOut failed with \(error)")
+        // handle failed sign out
     case let .partial(revokeTokenError, globalSignOutError, hostedUIError):
-        print(
-            """
-            SignOut is partial.
-            RevokeTokenError: \(String(describing: revokeTokenError))
-            GlobalSignOutError: \(String(describing: globalSignOutError))
-            HostedUIError: \(String(describing: hostedUIError))
-            """
-        )
+        // handle partial sign out
     }
 }
 ```
@@ -49,18 +42,11 @@ func signOutGlobally() -> AnyCancellable {
         print("Local signout successful: \(signOutResult.signedOutLocally)")
         switch signOutResult {
         case .complete:
-            print("SignOut completed")
+            // handle successful sign out
         case .failed(let error):
-            print("SignOut failed with \(error)")
+            // handle failed sign out
         case let .partial(revokeTokenError, globalSignOutError, hostedUIError):
-            print(
-                """
-                SignOut is partial.
-                RevokeTokenError: \(String(describing: revokeTokenError))
-                GlobalSignOutError: \(String(describing: globalSignOutError))
-                HostedUIError: \(String(describing: hostedUIError))
-                """
-            )
+            // handle partial sign out
         }
     })
 }

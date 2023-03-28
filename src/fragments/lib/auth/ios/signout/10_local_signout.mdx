@@ -14,18 +14,29 @@ func signOutLocally() async {
     print("Local signout successful: \(signOutResult.signedOutLocally)")
     switch signOutResult {
     case .complete:
-        print("SignOut completed")
-    case .failed(let error):
-        print("SignOut failed with \(error)")
+        // Sign Out completed fully and without errors.
+        print("Signed out successfully")
+
     case let .partial(revokeTokenError, globalSignOutError, hostedUIError):
-        print(
-            """
-            SignOut is partial.
-            RevokeTokenError: \(String(describing: revokeTokenError))
-            GlobalSignOutError: \(String(describing: globalSignOutError))
-            HostedUIError: \(String(describing: hostedUIError))
-            """
-        )
+        // Sign Out completed with some errors. User is signed out of the device.
+        
+        if let hostedUIError = hostedUIError {
+            print("HostedUI error  \(String(describing: hostedUIError))
+        }
+
+        if let globalSignOutError = globalSignOutError {
+            // Optional: Use escape hatch to retry revocation of globalSignOutError.accessToken.
+            print("GlobalSignOut error  \(String(describing: globalSignOutError))
+        }
+
+        if let revokeTokenError = revokeTokenError {
+            // Optional: Use escape hatch to retry revocation of revokeTokenError.accessToken.
+            print("Revoke token error  \(String(describing: revokeTokenError))
+        }
+
+    case .failed(let error):
+        // Sign Out failed with an exception, leaving the user signed in.
+        print("SignOut failed with \(error)")
     }
 }
 ```
@@ -47,18 +58,28 @@ func signOutLocally() -> AnyCancellable {
         print("Local signout successful: \(signOutResult.signedOutLocally)")
         switch signOutResult {
         case .complete:
-            print("SignOut completed")
-        case .failed(let error):
-            print("SignOut failed with \(error)")
+            // Sign Out completed fully and without errors.
+            print("Signed out successfully")
+
         case let .partial(revokeTokenError, globalSignOutError, hostedUIError):
-            print(
-                """
-                SignOut is partial.
-                RevokeTokenError: \(String(describing: revokeTokenError))
-                GlobalSignOutError: \(String(describing: globalSignOutError))
-                HostedUIError: \(String(describing: hostedUIError))
-                """
-            )
+            // Sign Out completed with some errors. User is signed out of the device.
+            if let hostedUIError = hostedUIError {
+                print("HostedUI error  \(String(describing: hostedUIError))
+            }
+
+            if let globalSignOutError = globalSignOutError {
+                // Optional: Use escape hatch to retry revocation of globalSignOutError.accessToken.
+                print("GlobalSignOut error  \(String(describing: globalSignOutError))
+            }
+
+            if let revokeTokenError = revokeTokenError {
+                // Optional: Use escape hatch to retry revocation of revokeTokenError.accessToken.
+                print("Revoke token error  \(String(describing: revokeTokenError))
+            }
+
+        case .failed(let error):
+            // Sign Out failed with an exception, leaving the user signed in.
+            print("SignOut failed with \(error)")
         }
     })
 }
