@@ -1,7 +1,8 @@
-The Amplify Auth category provides an interface for authenticating a user. Behind the scenes, it provides the necessary authorization to the other Amplify categories. It comes with default, built-in support for [Amazon Cognito](https://aws.amazon.com/cognito) User Pool and Identity Pool. The Amplify CLI helps you to create and configure the auth category with an authentication provider.
+The Amplify Auth category provides an interface for authenticating a user. Behind the scenes, it provides the necessary authorization to the other Amplify categories. It comes with default, built-in support for [Amazon Cognito](https://aws.amazon.com/cognito) User Pool and Identity Pool. The Amplify CLI helps you create and configure the auth category with an authentication provider.
 
 ## Goal
-To setup and configure your application with Amplify Auth and go through a simple api to check the current auth session
+
+To setup and configure your application with Amplify Auth and go through a simple api to check the current auth session.
 
 ## Prerequisites
 
@@ -13,37 +14,21 @@ import android1 from "/src/fragments/lib-v1/auth/android/getting_started/10_preR
 
 <Fragments fragments={{android: android1}} />
 
-## Configure Auth Category
+## Set Up Backend Resources
 
-To start provisioning auth resources in the backend, go to your project directory and **execute the command**:
+To use Authentication with Amplify, you have the option to set up or import existing Amazon Cognito resources via the Amplify CLI or manually configure them in your application.
 
-```bash
-amplify add auth
-```
+import ios50 from "/src/fragments/lib/auth/ios/getting_started/50_configureBackend.mdx";
 
-Enter the following when prompted:
-```console
-? Do you want to use the default authentication and security configuration?
-    `Default configuration`
-? How do you want users to be able to sign in?
-    `Username`
-? Do you want to configure advanced settings?
-    `No, I am done.`
-```
+<Fragments fragments={{ios: ios50}} />
 
-To push your changes to the cloud, **execute the command**:
+import android50 from "/src/fragments/lib/auth/android/getting_started/50_configureBackend.mdx";
 
-```bash
-amplify push
-```
+<Fragments fragments={{android: android50}} />
 
-import ios3 from "/src/fragments/lib-v1/auth/ios/getting_started/12_amplifyConfig.mdx";
+import flutter70 from "/src/fragments/lib/auth/flutter/getting_started/70_configureBackend.mdx";
 
-<Fragments fragments={{ios: ios3}} />
-
-import android4 from "/src/fragments/lib-v1/auth/android/getting_started/12_amplifyConfig.mdx";
-
-<Fragments fragments={{android: android4}} />
+<Fragments fragments={{flutter: flutter70}} />
 
 ## Install Amplify Libraries
 
