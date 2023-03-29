@@ -788,21 +788,6 @@ const directory = {
           }
         ]
       },
-      xr: {
-        title: 'XR',
-        items: [
-          {
-            title: 'Getting started',
-            route: '/lib/xr/getting-started',
-            filters: ['js']
-          },
-          {
-            title: 'Scene API',
-            route: '/lib/xr/sceneapi',
-            filters: ['js']
-          }
-        ]
-      },
       utilities: {
         title: 'Utilities',
         items: [
