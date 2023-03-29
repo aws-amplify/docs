@@ -246,11 +246,6 @@ const directory = {
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
-            title: 'Create or re-use existing backend',
-            route: '/lib/auth/start',
-            filters: ['js', 'react-native']
-          },
-          {
             title: 'Sign up, Sign in & Sign out',
             route: '/lib/auth/emailpassword',
             filters: ['js', 'react-native']
@@ -374,11 +369,6 @@ const directory = {
             title: 'Under the hood',
             route: '/lib/auth/overview',
             filters: ['android', 'ios', 'js', 'react-native']
-          },
-          {
-            title: 'Use existing Amazon Cognito resources',
-            route: '/lib/auth/existing-resources',
-            filters: ['android', 'flutter', 'ios']
           }
         ]
       },
@@ -1158,11 +1148,6 @@ const directory = {
           {
             title: 'Under the hood',
             route: '/lib-v1/auth/overview',
-            filters: ['android', 'ios']
-          },
-          {
-            title: 'Use existing Amazon Cognito resources',
-            route: '/lib-v1/auth/existing-resources',
             filters: ['android', 'ios']
           }
         ]

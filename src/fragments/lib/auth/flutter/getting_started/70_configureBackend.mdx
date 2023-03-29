@@ -1,0 +1,155 @@
+<BlockSwitcher>
+<Block name="Amplify CLI (Create)">
+
+> Prerequisites: [Install and configure](/lib/project-setup/prereq/q/platform/flutter/#install-and-configure-the-amplify-cli) the Amplify CLI in addition to the Amplify libraries and [necessary dependencies](/lib/auth/getting-started/q/platform/flutter/#install-amplify-libraries).
+
+To start provisioning auth resources in the backend, go to your project directory and **execute the command**:
+
+```bash
+amplify add auth
+```
+
+Enter the following when prompted:
+```console
+? Do you want to use the default authentication and security configuration?
+    `Default configuration`
+? How do you want users to be able to sign in?
+    `Username`
+? Do you want to configure advanced settings?
+    `No, I am done.`
+```
+
+> If you have previously enabled an Amplify category that uses Auth behind the scenes (e.g. API category), you can run the `amplify update auth` command to edit your configuration if needed. 
+
+To push your changes to the cloud, **execute the command**:
+
+```bash
+amplify push
+```
+
+import ios3 from "/src/fragments/lib/auth/ios/getting_started/12_amplifyConfig.mdx";
+
+<Fragments fragments={{ios: ios3}} />
+
+import android4 from "/src/fragments/lib/auth/android/getting_started/12_amplifyConfig.mdx";
+
+<Fragments fragments={{android: android4}} />
+
+import flutter5 from "/src/fragments/lib/auth/flutter/getting_started/12_amplifyConfig.mdx";
+
+<Fragments fragments={{flutter: flutter5}} />
+
+</Block>
+
+<Block name="Amplify CLI (Import)">
+
+> Prerequisites: [Install and configure](/lib/project-setup/prereq/q/platform/flutter/#install-and-configure-the-amplify-cli) the Amplify CLI in addition to the Amplify libraries and [necessary dependencies](/lib/auth/getting-started/q/platform/flutter/#install-amplify-libraries).
+
+To import existing Amazon Cognito resources into your Amplify project, **execute the command**:
+
+```bash
+amplify import auth
+```
+```console
+? What type of auth resource do you want to import?
+   Cognito User Pool and Identity Pool
+   Cognito User Pool only
+```
+
+Once you've selected an option, you'll be able to search for and import an existing Cognito User Pool and Identity Pool (or User Pool only) within your AWS account.  The `amplify import auth` command will also do the following:
+- Automatically populate your Amplify Library configuration file (`amplifyconfiguration.dart`) with your chosen Amazon Cognito resource information
+- Provide your designated existing Cognito resource as the authentication & authorization mechanism for all auth-dependent categories (API, Storage and more)
+- Enable Lambda functions to access the chosen Cognito resource if you permit it
+
+> If you have previously enabled an Amplify category that uses Auth behind the scenes (e.g. API category), you can run the `amplify update auth` command to edit your configuration if needed. 
+
+After configuring your Authentication options, update your backend and deploy the service by running the `push` command:
+
+```bash
+amplify push
+```
+
+Now, the authentication service has been deployed and you can start using it. To view the deployed services in your project at any time, go to Amplify Console by running the following command:
+
+```bash
+amplify console
+```
+For more details, see how to [Use an existing Cognito User Pool and Identity Pool](/cli/auth/import).
+
+</Block>
+
+<Block name="Manual Configuration">
+
+Existing Authentication resources from AWS (e.g. Amazon Cognito UserPools or Identity Pools) can be used with the Amplify Libraries by calling the `Amplify.configure()` method.
+
+If you are not using the Amplify CLI, a Cognito User Pool and Identity Pool can be used by referencing them in your `amplifyconfiguration.dart` file:
+
+```dart
+const amplifyconfig = ''' {
+  "UserAgent": "aws-amplify-cli/2.0",
+  "Version": "1.0",
+  "auth": {
+    "plugins": {
+      "awsCognitoAuthPlugin": {
+        "IdentityManager": {
+          "Default": {}
+        },
+        "CredentialsProvider": {
+          "CognitoIdentity": {
+            "Default": {
+              "PoolId": "[COGNITO IDENTITY POOL ID]",
+              "Region": "[REGION]"
+            }
+          }
+        },
+        "CognitoUserPool": {
+          "Default": {
+            "PoolId": "[COGNITO USER POOL ID]",
+            "AppClientId": "[COGNITO USER POOL APP CLIENT ID]",
+            "Region": "[REGION]"
+          }
+        },
+        "Auth": {
+          "Default": {
+            "authenticationFlowType": "USER_SRP_AUTH",
+            "OAuth": {
+              "WebDomain": "[YOUR COGNITO DOMAIN ]",
+              "AppClientId": "[COGNITO USER POOL APP CLIENT ID]",
+              "SignInRedirectURI": "[CUSTOM REDIRECT SCHEME AFTER SIGN IN, e.g. myapp://]",
+              "SignOutRedirectURI": "[CUSTOM REDIRECT SCHEME AFTER SIGN OUT, e.g. myapp://]",
+              "Scopes": [
+                "phone",
+                "email",
+                "openid",
+                "profile",
+                "aws.cognito.signin.user.admin"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}''';
+```
+
+- **CredentialsProvider**:
+  - **Cognito Identity**:
+    - **Default**:
+      - **PoolID**: ID of the Amazon Cognito Identity Pool (e.g. `us-east-1:123e4567-e89b-12d3-a456-426614174000`)
+      - **Region**: AWS Region where the resources are provisioned (e.g. `us-east-1`)
+- **CognitoUserPool**:
+  - **Default**:
+    - **PoolId**: ID of the Amazon Cognito User Pool (e.g. `us-east-1_abcdefghi`)
+    - **AppClientId**: ID for the client used to authenticate against the user pool
+    - **Region**: AWS Region where the resources are provisioned (e.g. `us-east-1`)
+- **Auth**:
+  - **Default**:
+    - **authenticationFlowType**: The authentication flow type, takes values `USER_SRP_AUTH`, `CUSTOM_AUTH`, and `USER_PASSWORD_AUTH`. Default is `USER_SRP_AUTH`.
+    - **OAuth**: Hosted UI Configuration (only include this if using the Hosted UI flow)
+      - **Scopes:** Scopes should match the scopes enables in Cognito under "App client settings"
+    
+If you are using a Cognito User Pool without a Cognito Identity Pool, you can omit the **CredentialsProvider** section in the configuration.
+
+</Block>
+</BlockSwitcher>
