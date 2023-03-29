@@ -1,0 +1,80 @@
+```js
+// Example showing how to observe the model and keep state updated before
+// performing a save. This uses the useEffect React hook, but you can
+// substitute for a similar mechanism in your application lifecycle with
+// other frameworks.
+
+const App = () => {
+  const [post, setPost] = useState();
+
+  useEffect(() => {
+    /**
+     * This keeps `post` fresh.
+     */
+    const sub = DataStore.observeQuery(Post, (c) =>
+      c.id.eq('5a3b284c-8afc-436a-9027-c8c32bfc8ed2')
+    ).subscribe(({ items }) => {
+      setPost(items[0]);
+    });
+
+    return () => {
+      sub.unsubscribe();
+    };
+  }, []);
+
+  /**
+   * Create a new Post
+   */
+  async function onCreate() {
+    const _post = await DataStore.save(
+      new Post({
+        title: `New title ${Date.now()}`,
+        rating: Math.floor(Math.random() * (8 - 1) + 1),
+        status: PostStatus.ACTIVE
+      })
+    );
+
+    setPost(_post);
+  }
+
+  return (
+    <SafeAreaView>
+      <StatusBar />
+      <ScrollView contentInsetAdjustmentBehavior="automatic">
+        <View>
+          <Text>{post?.title}</Text>
+          <Button onPress={onCreate} title={'New Post'} />
+          <TextInput
+            disabled={!post}
+            value={post?.name ?? ''}
+            onChangeText={(text) => {
+              /**
+               * Each keypress updates the post in local React state.
+               */
+              setPost(
+                Post.copyOf(post, (draft) => {
+                  draft.title = text;
+                })
+              );
+            }}
+          />
+          <Button
+            disabled={!post}
+            title={'Save'}
+            onPress={async () => {
+              /**
+               * This post is already up-to-date because `observeQuery` updated it.
+               */
+              if (!post) {
+                return;
+              }
+              const savedPost = await DataStore.save(post);
+              console.log('Post saved: ', savedPost);
+            }}
+          />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
+```
