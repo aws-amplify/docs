@@ -78,7 +78,7 @@ export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
 ```
 ### Example - Configure DynamoDBBillingMode
 
-Set the DynamoDB billing mode for the API. One of "PROVISIONED" or "PAY_PER_REQUEST".
+Set the [DynamoDB billing mode](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html#cfn-dynamodb-table-billingmode) for the API. One of "PROVISIONED" or "PAY_PER_REQUEST".
 
 ```ts
 import { AmplifyApiGraphQlResourceStackTemplate } from '@aws-amplify/cli-extensibility-helper';
@@ -97,8 +97,8 @@ import { AmplifyApiGraphQlResourceStackTemplate } from '@aws-amplify/cli-extensi
 
 export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
   resources.models['Post'].modelDDBTable.provisionedThroughput = {
-    readCapacityUnits:5,
-    writeCapacityUnits:5
+    readCapacityUnits : 5,
+    writeCapacityUnits : 5
   }
 }
 ```
@@ -111,7 +111,7 @@ import { AmplifyApiGraphQlResourceStackTemplate } from '@aws-amplify/cli-extensi
 
 export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
   resources.models['Post'].modelDDBTable.pointInTimeRecoverySpecification = {
-    pointInTimeRecoveryEnabled:true
+    pointInTimeRecoveryEnabled : true
   }
 }
 ```
