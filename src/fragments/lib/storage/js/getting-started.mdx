@@ -38,7 +38,14 @@ Add Amplify to your app with `yarn` or `npm`:
 npm install aws-amplify
 ```
 
-In your app’s entry point i.e. `App.js`, import and load the configuration file `aws-exports.js` which has been created and replaced into `/src` folder in the previous step.
+import js0 from '/src/fragments/lib/common/js/import_configuration.mdx'
+
+<Fragments fragments={{ js: js0 }} />
+
+import rn1 from '/src/fragments/lib/common/react-native/import_configuration.mdx'
+
+<Fragments fragments={{ 'react-native': rn1 }} />
+
 ```javascript
 import { Amplify, Storage } from 'aws-amplify';
 import awsconfig from './aws-exports';
@@ -53,18 +60,18 @@ To configure Storage manually, you will have to configure Amplify Auth category 
 import { Amplify, Auth, Storage } from 'aws-amplify';
 
 Amplify.configure({
-    Auth: {
-        identityPoolId: 'XX-XXXX-X:XXXXXXXX-XXXX-1234-abcd-1234567890ab', //REQUIRED - Amazon Cognito Identity Pool ID
-        region: 'XX-XXXX-X', // REQUIRED - Amazon Cognito Region
-        userPoolId: 'XX-XXXX-X_abcd1234', //OPTIONAL - Amazon Cognito User Pool ID
-        userPoolWebClientId: 'XX-XXXX-X_abcd1234', //OPTIONAL - Amazon Cognito Web Client ID
-    },
-    Storage: {
-        AWSS3: {
-            bucket: '', //REQUIRED -  Amazon S3 bucket name
-            region: 'XX-XXXX-X', //OPTIONAL -  Amazon service region
-        }
+  Auth: {
+    identityPoolId: 'XX-XXXX-X:XXXXXXXX-XXXX-1234-abcd-1234567890ab', //REQUIRED - Amazon Cognito Identity Pool ID
+    region: 'XX-XXXX-X', // REQUIRED - Amazon Cognito Region
+    userPoolId: 'XX-XXXX-X_abcd1234', //OPTIONAL - Amazon Cognito User Pool ID
+    userPoolWebClientId: 'XX-XXXX-X_abcd1234', //OPTIONAL - Amazon Cognito Web Client ID
+  },
+  Storage: {
+    AWSS3: {
+      bucket: '', //REQUIRED -  Amazon S3 bucket name
+      region: 'XX-XXXX-X', //OPTIONAL -  Amazon service region
     }
+  }
 });
 
 ```
@@ -78,61 +85,61 @@ Inline policy for the `Auth_Role`:
 
 ```json
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Action": [
-                "s3:GetObject",
-                "s3:PutObject",
-                "s3:DeleteObject"
-            ],
-            "Resource": [
-                "arn:aws:s3:::{enter bucket name}/public/*",
-                "arn:aws:s3:::{enter bucket name}/protected/${cognito-identity.amazonaws.com:sub}/*",
-                "arn:aws:s3:::{enter bucket name}/private/${cognito-identity.amazonaws.com:sub}/*"
-            ],
-            "Effect": "Allow"
-        },
-        {
-            "Action": [
-                "s3:PutObject"
-            ],
-            "Resource": [
-                "arn:aws:s3:::{enter bucket name}/uploads/*"
-            ],
-            "Effect": "Allow"
-        },
-        {
-            "Action": [
-                "s3:GetObject"
-            ],
-            "Resource": [
-                "arn:aws:s3:::{enter bucket name}/protected/*"
-            ],
-            "Effect": "Allow"
-        },
-        {
-            "Condition": {
-                "StringLike": {
-                    "s3:prefix": [
-                        "public/",
-                        "public/*",
-                        "protected/",
-                        "protected/*",
-                        "private/${cognito-identity.amazonaws.com:sub}/",
-                        "private/${cognito-identity.amazonaws.com:sub}/*"
-                    ]
-                }
-            },
-            "Action": [
-                "s3:ListBucket"
-            ],
-            "Resource": [
-                "arn:aws:s3:::{enter bucket name}"
-            ],
-            "Effect": "Allow"
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:DeleteObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::{enter bucket name}/public/*",
+        "arn:aws:s3:::{enter bucket name}/protected/${cognito-identity.amazonaws.com:sub}/*",
+        "arn:aws:s3:::{enter bucket name}/private/${cognito-identity.amazonaws.com:sub}/*"
+      ],
+      "Effect": "Allow"
+    },
+    {
+      "Action": [
+        "s3:PutObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::{enter bucket name}/uploads/*"
+      ],
+      "Effect": "Allow"
+    },
+    {
+      "Action": [
+        "s3:GetObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::{enter bucket name}/protected/*"
+      ],
+      "Effect": "Allow"
+    },
+    {
+      "Condition": {
+        "StringLike": {
+          "s3:prefix": [
+            "public/",
+            "public/*",
+            "protected/",
+            "protected/*",
+            "private/${cognito-identity.amazonaws.com:sub}/",
+            "private/${cognito-identity.amazonaws.com:sub}/*"
+          ]
         }
-    ]
+      },
+      "Action": [
+        "s3:ListBucket"
+      ],
+      "Resource": [
+        "arn:aws:s3:::{enter bucket name}"
+      ],
+      "Effect": "Allow"
+    }
+  ]
 }
 ```
 
@@ -140,57 +147,57 @@ Inline policy for the `Unauth_Role`:
 
 ```json
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Action": [
-                "s3:GetObject",
-                "s3:PutObject",
-                "s3:DeleteObject"
-            ],
-            "Resource": [
-                "arn:aws:s3:::{enter bucket name}/public/*"
-            ],
-            "Effect": "Allow"
-        },
-        {
-            "Action": [
-                "s3:PutObject"
-            ],
-            "Resource": [
-                "arn:aws:s3:::{enter bucket name}/uploads/*"
-            ],
-            "Effect": "Allow"
-        },
-        {
-            "Action": [
-                "s3:GetObject"
-            ],
-            "Resource": [
-                "arn:aws:s3:::{enter bucket name}/protected/*"
-            ],
-            "Effect": "Allow"
-        },
-        {
-            "Condition": {
-                "StringLike": {
-                    "s3:prefix": [
-                        "public/",
-                        "public/*",
-                        "protected/",
-                        "protected/*"
-                    ]
-                }
-            },
-            "Action": [
-                "s3:ListBucket"
-            ],
-            "Resource": [
-                "arn:aws:s3:::{enter bucket name}"
-            ],
-            "Effect": "Allow"
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:DeleteObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::{enter bucket name}/public/*"
+      ],
+      "Effect": "Allow"
+    },
+    {
+      "Action": [
+        "s3:PutObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::{enter bucket name}/uploads/*"
+      ],
+      "Effect": "Allow"
+    },
+    {
+      "Action": [
+        "s3:GetObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::{enter bucket name}/protected/*"
+      ],
+      "Effect": "Allow"
+    },
+    {
+      "Condition": {
+        "StringLike": {
+          "s3:prefix": [
+            "public/",
+            "public/*",
+            "protected/",
+            "protected/*"
+          ]
         }
-    ]
+      },
+      "Action": [
+        "s3:ListBucket"
+      ],
+      "Resource": [
+        "arn:aws:s3:::{enter bucket name}"
+      ],
+      "Effect": "Allow"
+    }
+  ]
 }
 ```
 
@@ -212,28 +219,28 @@ The following steps will set up your CORS Policy:
 
 ```json
 [
-    {
-        "AllowedHeaders": [
-            "*"
-        ],
-        "AllowedMethods": [
-            "GET",
-            "HEAD",
-            "PUT",
-            "POST",
-            "DELETE"
-        ],
-        "AllowedOrigins": [
-            "*"
-        ],
-        "ExposeHeaders": [
-            "x-amz-server-side-encryption",
-            "x-amz-request-id",
-            "x-amz-id-2",
-            "ETag"
-        ],
-        "MaxAgeSeconds": 3000
-    }
+  {
+    "AllowedHeaders": [
+      "*"
+    ],
+    "AllowedMethods": [
+      "GET",
+      "HEAD",
+      "PUT",
+      "POST",
+      "DELETE"
+    ],
+    "AllowedOrigins": [
+      "*"
+    ],
+    "ExposeHeaders": [
+      "x-amz-server-side-encryption",
+      "x-amz-request-id",
+      "x-amz-id-2",
+      "ETag"
+    ],
+    "MaxAgeSeconds": 3000
+  }
 ]
 ```
 
