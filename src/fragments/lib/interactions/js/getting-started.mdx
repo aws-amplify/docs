@@ -77,23 +77,23 @@ import { AWSLexV2Provider } from '@aws-amplify/interactions';
 Amplify.addPluggable(new AWSLexV2Provider());
 
 const interactionsConfig = {
-    Auth: {
-        identityPoolId: "<identityPoolId>",
-        region: "<region>"
-    },
-    Interactions: {
-        bots: {
-            // LexV2 Bot
-            <V2BotName>: {
-                name: "<V2BotName>",
-                aliasId: "<V2BotAliasId>",
-                botId: "<V2BotBotId>",
-                localeId: "<V2BotLocaleId>",
-                region: "<V2BotRegion>",
-                providerName: "AWSLexV2Provider",
-            },
-        }
+  Auth: {
+    identityPoolId: "<identityPoolId>",
+    region: "<region>"
+  },
+  Interactions: {
+    bots: {
+      // LexV2 Bot
+      <V2BotName>: {
+        name: "<V2BotName>",
+        aliasId: "<V2BotAliasId>",
+        botId: "<V2BotBotId>",
+        localeId: "<V2BotLocaleId>",
+        region: "<V2BotRegion>",
+        providerName: "AWSLexV2Provider",
+      },
     }
+  }
 }
 
 Amplify.configure(interactionsConfig);

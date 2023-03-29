@@ -76,48 +76,48 @@ If you are not using the Amplify CLI, existing Authentication resources from AWS
 
 ```jsx
 {
-    "auth": {
-        "plugins": {
-            "awsCognitoAuthPlugin": {
-                "IdentityManager": {
-                    "Default": {}
-                },
-                "CredentialsProvider": {
-                    "CognitoIdentity": {
-                        "Default": {
-                            "PoolId": "[COGNITO IDENTITY POOL ID]",
-                            "Region": "[REGION]"
-                        }
-                    }
-                },
-                "CognitoUserPool": {
-                    "Default": {
-                        "PoolId": "[COGNITO USER POOL ID]",
-                        "AppClientId": "[COGNITO USER POOL APP CLIENT ID]",
-                        "Region": "[REGION]"
-                    }
-                },
-                "Auth": {
-                    "Default": {
-                        "authenticationFlowType": "USER_SRP_AUTH",
-                        "OAuth": {
-                            "WebDomain": "[YOUR COGNITO DOMAIN ]",
-                            "AppClientId": "[COGNITO USER POOL APP CLIENT ID]",
-                            "SignInRedirectURI": "[CUSTOM REDIRECT SCHEME AFTER SIGN IN, e.g. myapp://]",
-                            "SignOutRedirectURI": "[CUSTOM REDIRECT SCHEME AFTER SIGN OUT, e.g. myapp://]",
-                            "Scopes": [ 
-                                "phone",
-                                "email",
-                                "openid",
-                                "profile",
-                                "aws.cognito.signin.user.admin"
-                            ]
-                        }
-                    }
-                }
+  "auth": {
+    "plugins": {
+      "awsCognitoAuthPlugin": {
+        "IdentityManager": {
+          "Default": {}
+        },
+        "CredentialsProvider": {
+          "CognitoIdentity": {
+            "Default": {
+              "PoolId": "[COGNITO IDENTITY POOL ID]",
+              "Region": "[REGION]"
             }
+          }
+        },
+        "CognitoUserPool": {
+          "Default": {
+            "PoolId": "[COGNITO USER POOL ID]",
+            "AppClientId": "[COGNITO USER POOL APP CLIENT ID]",
+            "Region": "[REGION]"
+          }
+        },
+        "Auth": {
+          "Default": {
+            "authenticationFlowType": "USER_SRP_AUTH",
+            "OAuth": {
+              "WebDomain": "[YOUR COGNITO DOMAIN ]",
+              "AppClientId": "[COGNITO USER POOL APP CLIENT ID]",
+              "SignInRedirectURI": "[CUSTOM REDIRECT SCHEME AFTER SIGN IN, e.g. myapp://]",
+              "SignOutRedirectURI": "[CUSTOM REDIRECT SCHEME AFTER SIGN OUT, e.g. myapp://]",
+              "Scopes": [
+                "phone",
+                "email",
+                "openid",
+                "profile",
+                "aws.cognito.signin.user.admin"
+              ]
+            }
+          }
         }
+      }
     }
+  }
 }
 ```
 

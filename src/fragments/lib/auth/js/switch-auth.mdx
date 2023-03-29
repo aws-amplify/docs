@@ -11,9 +11,9 @@ To configure `Auth` to use the different flows:
 
 ```javascript
 Auth.configure({
-    // other configurations...
-    // ...
-    authenticationFlowType: 'USER_SRP_AUTH' | 'USER_PASSWORD_AUTH' | 'CUSTOM_AUTH',
+  // other configurations...
+  // ...
+  authenticationFlowType: 'USER_SRP_AUTH' | 'USER_PASSWORD_AUTH' | 'CUSTOM_AUTH',
 })
 ```
 
@@ -53,25 +53,25 @@ To initiate a custom authentication flow in your app, call `signIn` without a pa
 import { Auth } from 'aws-amplify';
 
 Auth.configure({
-    // other configurations
-    // ...
-    authenticationFlowType: 'CUSTOM_AUTH'
+  // other configurations
+  // ...
+  authenticationFlowType: 'CUSTOM_AUTH'
 });
 
 let challengeResponse = "the answer for the challenge";
 
 Auth.signIn(username, password)
-    .then(user => {
-        if (user.challengeName === 'CUSTOM_CHALLENGE') {
-            // to send the answer of the custom challenge
-            Auth.sendCustomChallengeAnswer(user, challengeResponse)
-                .then(user => console.log(user))
-                .catch(err => console.log(err));
-        } else {
-            console.log(user);
-        }
-    })
-    .catch(err => console.log(err));
+  .then(user => {
+    if (user.challengeName === 'CUSTOM_CHALLENGE') {
+      // to send the answer of the custom challenge
+      Auth.sendCustomChallengeAnswer(user, challengeResponse)
+        .then(user => console.log(user))
+        .catch(err => console.log(err));
+    } else {
+      console.log(user);
+    }
+  })
+  .catch(err => console.log(err));
 ```
 
 ### CAPTCHA-based authentication
@@ -82,16 +82,16 @@ The `Create Auth Challenge Lambda Trigger` creates a CAPTCHA as a challenge to t
 
 ```javascript
 export const handler = async (event) => {
-    if (!event.request.session || event.request.session.length === 0) {
-        event.response.publicChallengeParameters = {
-            captchaUrl: "url/123.jpg",
-        };
-        event.response.privateChallengeParameters = {
-            answer: "5",
-        };
-        event.response.challengeMetadata = "CAPTCHA_CHALLENGE";
-    }
-    return event;
+  if (!event.request.session || event.request.session.length === 0) {
+    event.response.publicChallengeParameters = {
+      captchaUrl: "url/123.jpg",
+    };
+    event.response.privateChallengeParameters = {
+      answer: "5",
+    };
+    event.response.challengeMetadata = "CAPTCHA_CHALLENGE";
+  }
+  return event;
 };
 ```
 
@@ -99,22 +99,22 @@ This `Define Auth Challenge Lambda Trigger` defines a custom challenge:
 
 ```javascript
 export const handler = async (event) => {
-    if (!event.request.session || event.request.session.length === 0) {
-        // If you don't have a session or it is empty then send a CUSTOM_CHALLENGE
-        event.response.challengeName = "CUSTOM_CHALLENGE";
-        event.response.failAuthentication = false;
-        event.response.issueTokens = false;
-    } else if (event.request.session.length === 1 && event.request.session[0].challengeResult === true) {
-        // If you passed the CUSTOM_CHALLENGE then issue token
-        event.response.failAuthentication = false;
-        event.response.issueTokens = true;
-    } else {
-        // Something is wrong. Fail authentication
-        event.response.failAuthentication = true;
-        event.response.issueTokens = false;
-    }
+  if (!event.request.session || event.request.session.length === 0) {
+    // If you don't have a session or it is empty then send a CUSTOM_CHALLENGE
+    event.response.challengeName = "CUSTOM_CHALLENGE";
+    event.response.failAuthentication = false;
+    event.response.issueTokens = false;
+  } else if (event.request.session.length === 1 && event.request.session[0].challengeResult === true) {
+    // If you passed the CUSTOM_CHALLENGE then issue token
+    event.response.failAuthentication = false;
+    event.response.issueTokens = true;
+  } else {
+    // Something is wrong. Fail authentication
+    event.response.failAuthentication = true;
+    event.response.issueTokens = false;
+  }
 
-    return event;
+  return event;
 };
 ```
 
@@ -122,12 +122,12 @@ The `Verify Auth Challenge Response Lambda Trigger` is used to verify a challeng
 
 ```javascript
 export const handler = async (event, context) => {
-    if (event.request.privateChallengeParameters.answer === event.request.challengeAnswer) {
-        event.response.answerCorrect = true;
-    } else {
-        event.response.answerCorrect = false;
-    }
+  if (event.request.privateChallengeParameters.answer === event.request.challengeAnswer) {
+    event.response.answerCorrect = true;
+  } else {
+    event.response.answerCorrect = false;
+  }
 
-    return event;
+  return event;
 };
 ```
