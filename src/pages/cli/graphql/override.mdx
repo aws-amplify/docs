@@ -88,7 +88,7 @@ export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
 }
 ```
 ### Example - Configure DynamoDBModelTableProvisionedThroughput
-Override the default IOPS provisioned for each @model table
+Override the default IOPS provisioned for each `@model` table
 
 Only valid if the "DynamoDBBillingMode" is set to "PROVISIONED"
 
@@ -96,7 +96,7 @@ Only valid if the "DynamoDBBillingMode" is set to "PROVISIONED"
 import { AmplifyApiGraphQlResourceStackTemplate } from '@aws-amplify/cli-extensibility-helper';
 
 export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
-  resources.models['Post'].modelDDBTable.provisionedThroughput ={
+  resources.models['Post'].modelDDBTable.provisionedThroughput = {
     readCapacityUnits:5,
     writeCapacityUnits:5
   }
@@ -106,14 +106,14 @@ export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
 ### Example - Configure DynamoDBEnablePointInTimeRecovery
 Enable/disable DynamoDB Point-in-time-Recovery for all model tables
 
-For more information, see https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/PointInTimeRecovery.html
+For more information, see [DynamoDB Point-in-time-Recovery](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/PointInTimeRecovery.html)
 
 
 ```ts
 import { AmplifyApiGraphQlResourceStackTemplate } from '@aws-amplify/cli-extensibility-helper';
 
 export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
-  resources.models['Post'].modelDDBTable.pointInTimeRecoverySpecification={
+  resources.models['Post'].modelDDBTable.pointInTimeRecoverySpecification = {
     pointInTimeRecoveryEnabled:true
   }
 }
