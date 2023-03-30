@@ -54,9 +54,6 @@ module.exports = async (phase, { defaultConfig }) => {
         // !! WARN !!
         ignoreBuildErrors: true
       },
-      future: {
-        webpack5: true
-      },
       exportPathMap,
       trailingSlash: true,
       async headers() {

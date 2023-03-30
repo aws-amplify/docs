@@ -127,11 +127,11 @@ dl dt {
   margin: 1rem 0 0.25rem;
 }
 
-dt:first-child {
+dt:first-of-type {
   padding: 0;
 }
 
-dt > :first-child {
+dt > :first-of-type {
   margin-top: 0;
 }
 
@@ -144,7 +144,7 @@ dd {
   padding: 0 1rem;
 }
 
-dd > :first-child {
+dd > :first-of-type {
   margin-top: 0;
 }
 
@@ -162,7 +162,7 @@ blockquote {
   color: var(--color-grey-hv);
 }
 
-blockquote > :first-child {
+blockquote > :first-of-type {
   margin-top: 0;
 }
 

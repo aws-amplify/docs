@@ -18,7 +18,7 @@ export const CalloutOuter = styled.div<CalloutProps>((props) => {
     margin-bottom: 0;
     margin-top: 1rem;
 
-    &:first-child {
+    &:first-of-type {
       margin-top: 0;
     }
   }
