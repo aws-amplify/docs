@@ -30,6 +30,7 @@
     "copy-to-clipboard": "^3.2.1",
     "dotenv": "^16.0.0",
     "emotion": "^10.0.23",
+    "eslint-config-next": "^13.2.4",
     "extract-mdx-metadata": "^2.0.0",
     "gray-matter": "4.0.3",
     "html-entities": "^1.2.1",
