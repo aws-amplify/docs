@@ -1,7 +1,3 @@
-const withTM = require('next-transpile-modules')([
-  '@algolia/autocomplete-shared'
-]); // pass the modules you would like to see transpiled
-
 const mdxRenderer = `
   import { mdx } from "@mdx-js/react";
 
@@ -41,48 +37,47 @@ module.exports = async (phase, { defaultConfig }) => {
     }
   });
 
-  const nextConfig = withTM(
-    withMDX({
-      env: {
-        PROD_ENV: process.env.PROD_ENV
-      },
-      pageExtensions: ['js', 'jsx', 'mdx', 'tsx', 'ts'],
-      typescript: {
-        // !! WARN !!
-        // Dangerously allow production builds to successfully complete even if
-        // your project has type errors.
-        // !! WARN !!
-        ignoreBuildErrors: true
-      },
-      exportPathMap,
-      trailingSlash: true,
-      async headers() {
-        return [
-          {
-            // Apply these headers to all routes in your application.
-            source: '/(.*)',
-            headers: [
-              // IMPORTANT:
-              // These are ONLY used for the Dev server and MUST
-              // be kept in sync with customHttp.yml
-              {
-                key: 'Strict-Transport-Security',
-                value: 'max-age=63072000; includeSubDomains'
-              },
-              {
-                key: 'X-Frame-Options',
-                value: 'SAMEORIGIN'
-              },
-              {
-                key: 'X-Content-Type-Options',
-                value: 'nosniff'
-              }
-            ]
-          }
-        ];
-      }
-    })
-  );
+  const nextConfig = withMDX({
+    env: {
+      PROD_ENV: process.env.PROD_ENV
+    },
+    pageExtensions: ['js', 'jsx', 'mdx', 'tsx', 'ts'],
+    typescript: {
+      // !! WARN !!
+      // Dangerously allow production builds to successfully complete even if
+      // your project has type errors.
+      // !! WARN !!
+      ignoreBuildErrors: true
+    },
+    exportPathMap,
+    trailingSlash: true,
+    transpilePackages: ['@algolia/autocomplete-shared'],
+    async headers() {
+      return [
+        {
+          // Apply these headers to all routes in your application.
+          source: '/(.*)',
+          headers: [
+            // IMPORTANT:
+            // These are ONLY used for the Dev server and MUST
+            // be kept in sync with customHttp.yml
+            {
+              key: 'Strict-Transport-Security',
+              value: 'max-age=63072000; includeSubDomains'
+            },
+            {
+              key: 'X-Frame-Options',
+              value: 'SAMEORIGIN'
+            },
+            {
+              key: 'X-Content-Type-Options',
+              value: 'nosniff'
+            }
+          ]
+        }
+      ];
+    }
+  });
 
   return nextConfig;
 };
