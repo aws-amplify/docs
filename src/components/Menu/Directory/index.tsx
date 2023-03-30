@@ -8,20 +8,7 @@ import {
   DirectoryLinksStyle,
   ProductRootLinkStyle
 } from './styles';
-
-export type DirectoryItem = {
-  /**
-   * Title used for sidenav link, page title, and page heading
-   */
-  title: string;
-  /**
-   * Control whether the title should be displayed as inline code
-   * @default false
-   */
-  isCodeTitle: boolean;
-  route: string;
-  filters: string[];
-};
+import type { DirectoryItem } from '../../../directory/directory';
 
 export type DirectoryGroupProps = {
   title: string;
@@ -100,7 +87,9 @@ class DirectoryGroup extends React.Component<
               >
                 <InternalLink href={`${item.route}`}>
                   {item.isCodeTitle ? (
-                    <code>{item.title}</code>
+                    <a>
+                      <code>{item.title}</code>
+                    </a>
                   ) : (
                     item.title
                   )}
