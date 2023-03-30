@@ -1,8 +1,10 @@
 // Adapted from https://gist.github.com/joranquinten/78f3e288274a3c9405a499b8a8c46e35
-
-import * as fs from 'fs-extra';
+import * as fs from 'fs';
 import { execSync } from 'child_process';
-import directory from '../src/directory/directory';
+import { createRequire } from 'module';
+import directory from '../src/directory/directory.mjs';
+
+const require = createRequire(import.meta.url);
 const generatePathMap = require('../generatePathMap.cjs');
 
 const formatDate = (date) => `${date.toISOString().split('.')[0]}+0:00`;
@@ -58,7 +60,7 @@ const xmlUrlNode = (pageUrl, pagePath) => {
 </url>`;
 };
 
-const writeSitemap = () => {
+const writeSitemap = async () => {
   const sitemapPath = './public/sitemap.xml';
   const pathmap = generatePathMap(directory, undefined, true);
   let xmlUrlNodes = '';
