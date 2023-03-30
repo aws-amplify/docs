@@ -22,6 +22,7 @@ module.exports = async (phase, { defaultConfig }) => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const frontmatterPlugin = await require('./src/plugins/frontmatter.tsx');
 
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const withMDX = require('@next/mdx')({
     extension: /\.mdx$/,
     options: {
@@ -52,6 +53,7 @@ module.exports = async (phase, { defaultConfig }) => {
     exportPathMap,
     trailingSlash: true,
     transpilePackages: ['@algolia/autocomplete-shared'],
+    // eslint-disable-next-line @typescript-eslint/require-await
     async headers() {
       return [
         {
