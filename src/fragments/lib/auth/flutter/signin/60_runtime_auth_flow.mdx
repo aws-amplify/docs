@@ -3,13 +3,25 @@
 By default, the [`authenticationFlowType`](https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-authentication-flow.html) value specified in your `amplifyconfiguration.dart` will be used when authenticating with Cognito. You can change the default behavior at runtime with `CognitoSignInOptions`:
 
 ```dart
+// Create a boolean for checking the sign in status
+bool isSignedIn = false;
+
+...
+
 Future<void> signInUser(String username, String password) async {
   try {
     final result = await Amplify.Auth.signIn(
       username: username,
       password: password,
-      options: CognitoSignInOptions(authFlowType: AuthenticationFlowType.customAuth),
+      options: const SignInOptions(
+        pluginOptions: CognitoSignInPluginOptions(
+          authFlowType: AuthenticationFlowType.customAuthWithSrp,
+        ),
+      ),
     );
+    setState(() {
+      isSignedIn = result.isSignedIn;
+    });
   } on AuthException catch (e) {
     safePrint(e.message);
   }

@@ -4,17 +4,20 @@ To update a single user attribute, call `updateUserAttribute`:
 Future<void> updateUserAttribute() async {
   try {
     final result = await Amplify.Auth.updateUserAttribute(
-      userAttributeKey: CognitoUserAttributeKey.email,
+      userAttributeKey: AuthUserAttributeKey.email,
       value: 'email@email.com',
     );
-    if (result.nextStep.updateAttributeStep == 'CONFIRM_ATTRIBUTE_WITH_CODE') {
-      var destination = result.nextStep.codeDeliveryDetails?.destination;
-      print('Confirmation code sent to $destination');
-    } else {
-      print('Update completed');
+    switch (result.nextStep.updateAttributeStep) {
+      case AuthUpdateAttributeStep.confirmAttributeWithCode:
+        final destination = result.nextStep.codeDeliveryDetails?.destination;
+        safePrint('Confirmation code sent to $destination');
+        break;
+      case AuthUpdateAttributeStep.done:
+        safePrint('Update completed');
+        break;
     }
   } on AmplifyException catch (e) {
-    print(e.message);
+    safePrint(e.message);
   }
 }
 ```
@@ -25,27 +28,31 @@ To update multiple user attributes at a time, call `updateUserAttributes`:
 Future<void> updateMultipleUserAttributes() async {
   const attributes = [
     AuthUserAttribute(
-      userAttributeKey: CognitoUserAttributeKey.email,
+      userAttributeKey: AuthUserAttributeKey.email,
       value: 'email@email.com',
     ),
     AuthUserAttribute(
-      userAttributeKey: CognitoUserAttributeKey.familyName,
+      userAttributeKey: AuthUserAttributeKey.familyName,
       value: 'MyFamilyName',
     ),
   ];
-
   try {
-    final result = await Amplify.Auth.updateUserAttributes(attributes: attributes);
+    final result = await Amplify.Auth.updateUserAttributes(
+      attributes: attributes,
+    );
     result.forEach((key, value) {
-      if (value.nextStep.updateAttributeStep == 'CONFIRM_ATTRIBUTE_WITH_CODE') {
-        final destination = value.nextStep.codeDeliveryDetails?.destination;
-        print('Confirmation code sent to $destination for $key');
-      } else {
-        print('Update completed for $key');
+      switch (value.nextStep.updateAttributeStep) {
+        case AuthUpdateAttributeStep.confirmAttributeWithCode:
+          final destination = value.nextStep.codeDeliveryDetails?.destination;
+          safePrint('Confirmation code sent to $destination for $key');
+          break;
+        case AuthUpdateAttributeStep.done:
+          safePrint('Update completed for $key');
+          break;
       }
     });
   } on AmplifyException catch (e) {
-    print(e.message);
+    safePrint(e.message);
   }
 }
 ```

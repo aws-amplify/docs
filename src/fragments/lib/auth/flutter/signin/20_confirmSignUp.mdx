@@ -8,16 +8,13 @@ Future<void> confirmUser() async {
   try {
     final result = await Amplify.Auth.confirmSignUp(
       username: 'myusername',
-      confirmationCode: '123456'
+      confirmationCode: '123456',
     );
-
     setState(() {
       isSignUpComplete = result.isSignUpComplete;
     });
-
   } on AuthException catch (e) {
     safePrint(e.message);
   }
 }
 ```
-

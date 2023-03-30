@@ -1,9 +1,11 @@
 ```dart
 Future<void> signOutCurrentUserGlobally() async {
   try {
-    await Amplify.Auth.signOut(options: SignOutOptions(globalSignOut: true));
+    await Amplify.Auth.signOut(
+      options: const SignOutOptions(globalSignOut: true),
+    );
   } on AmplifyException catch (e) {
-    print(e.message);
+    safePrint(e.message);
   }
 }
 ```

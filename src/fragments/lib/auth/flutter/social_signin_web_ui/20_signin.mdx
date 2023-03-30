@@ -1,10 +1,12 @@
 ```dart
 Future<void> signInWithSocialWebUI() async {
   try {
-    final result = await Amplify.Auth.signInWithWebUI(provider: AuthProvider.facebook);
-    print('Result: $result');
+    final result = await Amplify.Auth.signInWithWebUI(
+      provider: AuthProvider.facebook,
+    );
+    safePrint('Result: $result');
   } on AmplifyException catch (e) {
-    print(e.message);
+    safePrint(e.message);
   }
 }
 ```
