@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import Menu from '../index';
-import directory from '../../../directory/directory';
+import directory from '../../../directory/directory.mjs';
 
 jest.mock('../RepoActions', () => () => <div>Repo Actions</div>);
 Object.defineProperty(window, 'matchMedia', {
