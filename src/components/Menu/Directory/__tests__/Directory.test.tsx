@@ -36,7 +36,7 @@ describe('Directory', () => {
 
     expect(() =>
       render(<Directory url={'missingUrl'} filterKey="all" />)
-    ).toThrow(`Cannot read properties of undefined (reading 'productRoot')`);
+    ).toThrow(`Cannot read property 'productRoot' of undefined`);
 
     consoleErrorFn.mockRestore();
   });
