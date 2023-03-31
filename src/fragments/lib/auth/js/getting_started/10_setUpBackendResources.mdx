@@ -177,4 +177,28 @@ These settings can be found in the Cognito User Pools console under **App Integr
 - `responseType`: Option must be enabled on the App client, look for **Allowed OAuth Flows** on **App client settings** sub section. *Authorization code grant* is for 'code' value and *Implicit grant* is for 'token' value.
 
 </Block>
+
+<Block name="Amplify Studio"> 
+
+Amplify Studio allows you create auth resources, set up authorization rules, implement Multi-factor authentication (MFA), and more via an intuitive UI. To set up Authentication through the Amplify Studio, take the following steps: 
+
+1. **Sign in** to the [AWS Management Console](https://console.aws.amazon.com/console/home) and open AWS Amplify.
+2. In the navigation pane, **choose an application**.
+3. On the application information page, choose the **Backend environments** tab, then choose **Launch Studio**.
+4. On the **Set up** menu, choose **Authentication**.
+5. In the **Configure log in** section, choose a login mechanism to add from the **Add login mechanism** list. Valid options are _Username_, _Phone number_, _Facebook_, _Google_, _Amazon_, and _Sign in with Apple_. If you choose one of the social sign-in mechanisms (i.e. _Facebook_, _Google_, _Amazon_, or _Sign in with Apple_), you will also need to enter your _App ID_, _App Secret_, and redirect URLs.
+6. (Optional) Add multi-factor authentication (MFA). MFA is set to **Off** by default. To turn on MFA, do the following in the **Multi-factor authentication** section:
+* Choose **Enforced** to require MFA for all users or choose **Optional** to allow individual users to enable MFA.
+* (Optional) Choose **SMS**, and enter your SMS message.
+* (Optional) Choose **Authenticator Application** if you want your app to load with an authentication flow that includes sign up and sign in.
+7. In the **Configure sign up** section, expand **Password protection settings** and customize the password policy settings to enforce. u6. Choose **Save and Deploy**. This starts a CloudFormation deployment with the progress displayed in the upper right corner of the page.
+
+<Callout warning>
+After creating and configuring your auth resources, you'll need to pull them down from Amplify Studio.  To do so, simply click on "Local setup instructions" in the upper right hand corner of the Studio console and execute the CLI command it provides at the root directory of your app. 
+</Callout>
+
+Note that can also [import](https://docs.amplify.aws/console/auth/import/) existing Amazon Cognito resources and [manage users and groups](https://docs.amplify.aws/console/auth/user-management/) through the Amplify Studio UI. 
+
+</Block>
+
 </BlockSwitcher>
