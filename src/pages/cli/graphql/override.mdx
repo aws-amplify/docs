@@ -100,6 +100,17 @@ export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
     readCapacityUnits : 5,
     writeCapacityUnits : 5
   }
+  
+  /**
+  * It is necessary to include provisionedThroughput for every Global Secondary Index (GSI) that exists in the table.
+  */
+  
+  resources.models[
+    "Report"
+  ].modelDDBTable.globalSecondaryIndexes[0].provisionedThroughput = {
+    readCapacityUnits: 5,
+    writeCapacityUnits: 5,
+  }; 
 }
 ```
 
