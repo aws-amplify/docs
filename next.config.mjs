@@ -1,4 +1,12 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+import { createRequire } from 'node:module';
+import dotenv from 'dotenv';
+import _withMDX from '@next/mdx';
+import { directory } from './src/directory/directory.mjs';
+const require = createRequire(import.meta.url);
+
+dotenv.config({ path: './.env.custom' });
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const withTM = require('next-transpile-modules')([
   '@algolia/autocomplete-shared',
   '@cloudscape-design/components'
@@ -9,12 +17,7 @@ const mdxRenderer = `
 
 `;
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const directory = require('./src/directory/directory.js');
-
-require('dotenv').config({ path: './.env.custom' });
-
-module.exports = async (phase, { defaultConfig }) => {
+export default async (phase, { defaultConfig }) => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const headingLinkPlugin = await require('./src/plugins/headings.tsx');
   // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -28,7 +31,7 @@ module.exports = async (phase, { defaultConfig }) => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const frontmatterPlugin = await require('./src/plugins/frontmatter.tsx');
 
-  const withMDX = require('@next/mdx')({
+  const withMDX = _withMDX({
     extension: /\.mdx$/,
     options: {
       remarkPlugins: [

@@ -17,6 +17,7 @@ export const Footer = styled.footer`
 export const LeftFooter = styled.div`
   display: flex;
   flex-direction: row;
+  color: #9ba7b6;
 
   img {
     margin-right: 2rem;
@@ -39,6 +40,12 @@ export const LeftFooter = styled.div`
       color: var(--color-white);
     }
   }
+`;
+
+export const FooterHeading = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-content: center;
 `;
 
 export const RightFooter = styled.div`

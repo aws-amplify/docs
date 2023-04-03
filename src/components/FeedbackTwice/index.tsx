@@ -118,55 +118,55 @@ export default function Feedback() {
   );
 }
 
-export function FeedbackToggle() {
-  const [inView, setInView] = useState(false);
-  const feedbackContainer = useRef(null);
+// export function FeedbackToggle() {
+//   const [inView, setInView] = useState(false);
+//   const feedbackContainer = useRef(null);
 
-  function toggleView() {
-    if (inView) {
-      setInView(false);
-    } else {
-      setInView(true);
-    }
-  }
+//   function toggleView() {
+//     if (inView) {
+//       setInView(false);
+//     } else {
+//       setInView(true);
+//     }
+//   }
 
-  function handleClickOutside(e) {
-    if (
-      feedbackContainer.current &&
-      feedbackContainer.current.contains(e.target)
-    ) {
-      // inside click
-      return;
-    }
-    // outside click
-    setInView(false);
-  }
+//   function handleClickOutside(e) {
+//     if (
+//       feedbackContainer.current &&
+//       feedbackContainer.current.contains(e.target)
+//     ) {
+//       // inside click
+//       return;
+//     }
+//     // outside click
+//     setInView(false);
+//   }
 
-  useEffect(() => {
-    if (inView) {
-      document.addEventListener('mousedown', handleClickOutside);
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside);
-    }
+//   useEffect(() => {
+//     if (inView) {
+//       document.addEventListener('mousedown', handleClickOutside);
+//     } else {
+//       document.removeEventListener('mousedown', handleClickOutside);
+//     }
 
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [inView]);
+//     return () => {
+//       document.removeEventListener('mousedown', handleClickOutside);
+//     };
+//   }, [inView]);
 
-  return (
-    <div ref={feedbackContainer}>
-      <FeedbackMobileContainer style={inView ? {} : { display: 'none' }}>
-        <Feedback></Feedback>
-      </FeedbackMobileContainer>
-      <Toggle
-        onClick={() => {
-          toggleView();
-        }}
-      >
-        <Icon name="thumbs-up" alt="Thumbs up" />
-        <Icon name="thumbs-down" alt="Thumbs down" />
-      </Toggle>
-    </div>
-  );
-}
+//   return (
+//     <div ref={feedbackContainer}>
+//       <FeedbackMobileContainer style={inView ? {} : { display: 'none' }}>
+//         <Feedback></Feedback>
+//       </FeedbackMobileContainer>
+//       <Toggle
+//         onClick={() => {
+//           toggleView();
+//         }}
+//       >
+//         <Icon name="thumbs-up" alt="Thumbs up" />
+//         <Icon name="thumbs-down" alt="Thumbs down" />
+//       </Toggle>
+//     </div>
+//   );
+// }
