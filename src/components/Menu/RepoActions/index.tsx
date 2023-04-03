@@ -55,10 +55,10 @@ export default function RepoActions({directoryPath, url}) {
   const editLink = createEditLink(directoryPath);
   return (
     <RepoActionsStyle>
-      <ExternalLink href={feedbackLink}>
+      {/* <ExternalLink href={feedbackLink}>
         <img src="/assets/flag.svg" alt="Feedback" />
         Feedback
-      </ExternalLink>
+      </ExternalLink> */}
       {shouldShowEditLink && (
         <ExternalLink href={editLink}>
           <img src="/assets/github.svg" alt="Edit" />

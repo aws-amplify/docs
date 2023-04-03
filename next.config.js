@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const withTM = require('next-transpile-modules')([
-  '@algolia/autocomplete-shared'
+  '@algolia/autocomplete-shared',
+  '@cloudscape-design/components'
 ]); // pass the modules you would like to see transpiled
 
 const mdxRenderer = `
