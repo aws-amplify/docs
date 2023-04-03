@@ -11,6 +11,12 @@ Future<void> _configureAmplify() async {
 }
 ```
 
+<Callout>
+
+When running your app on MacOS you will need to enable keychain sharing in Xcode, as described in the [Project setup guide](/lib/project-setup/platform-setup/q/platform/flutter/#enable-keychain).
+
+</Callout>
+
 Make sure that the amplifyconfiguration.dart file generated in the project setup is included and sent to Amplify.configure:
 
 ```dart
@@ -24,7 +30,7 @@ import 'amplifyconfiguration.dart';
     try {
       await Amplify.configure(amplifyconfig);
     } on AmplifyAlreadyConfiguredException {
-      safePrint("Tried to reconfigure Amplify; this can occur when your app restarts on Android.");
+      safePrint('Tried to reconfigure Amplify; this can occur when your app restarts on Android.');
     }
   }
 ...
@@ -65,7 +71,7 @@ class _MyAppState extends State<MyApp> {
       try {
         await Amplify.configure(amplifyconfig);
       } on AmplifyAlreadyConfiguredException {
-        safePrint("Tried to reconfigure Amplify; this can occur when your app restarts on Android.");
+        safePrint('Tried to reconfigure Amplify; this can occur when your app restarts on Android.');
       }
     }
 }
