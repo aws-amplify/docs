@@ -102,7 +102,7 @@ export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
   }
   
   /**
-  * When billing mode is set to "PROVISIONED", It is necessary to include provisionedThroughput for every Global Secondary Index (GSI) that exists in the   * table.
+  * When billing mode is set to "PROVISIONED", It is necessary to specify provisionedThroughput for every Global Secondary Index (GSI) that exists in the   * table.
   */
   
   resources.models[
