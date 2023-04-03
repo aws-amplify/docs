@@ -1,0 +1,195 @@
+import styled from '@emotion/styled';
+import { keyframes } from '@emotion/react';
+import { MQTablet, MQDesktop } from '../media';
+
+const slideIn = keyframes`
+  0% {
+    opacity: 0;
+    transform: translate(0, 100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+`;
+
+const slideOver = keyframes`
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+`;
+
+const expand = keyframes`
+  0% {
+    overflow: hidden;
+    max-height: 46px;
+  }
+  100% {
+    overflow: visible;
+    max-height: 250px;
+  }
+`;
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const fadeOut = keyframes`
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+`;
+
+export const FeedbackSticky = styled.div`
+  
+`;
+
+export const VotePrompt = styled.div`
+  position: fixed;
+  bottom: 50px;
+  border: 2px solid #d1d5db;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  gap: 8px;
+  width: 264px;
+  height: 46px;
+  background: #ffffff;
+  animation: ${slideIn} .5s linear;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  ${MQDesktop} {
+    right: 26%;
+  }
+  }
+`;
+
+export const YesVoteResponse = styled.div`
+  position: fixed;
+  bottom: 50px;
+  border: 2px solid #d1d5db;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  gap: 8px;
+  width: 264px;
+  right: 26%;
+  min-height: 46px;
+  background: #f2fcf3;
+  animation: ${fadeOut} .5s linear 2s;
+  animation-fill-mode: forwards;
+  }
+`;
+
+export const NoVoteResponse = styled.div`
+  position: fixed;
+  bottom: 50px;
+  border: 2px solid #d1d5db;
+  border-radius: 16px;
+  padding: 12px 16px;
+  width: 264px;
+  right: 26%;
+  max-height: 46px;
+  background: #FFF7F7;
+  overflow: hidden;
+  animation: ${expand} 0.5s linear;
+  animation-fill-mode: forwards;
+  }
+`;
+
+export const InitialLoad = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+  border-bottom: 2px solid #e9ebed;
+`;
+
+export const SecondaryLoad = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const Details = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+`;
+
+export const FeedbackText = styled.p`
+  font-weight: bold;
+`;
+
+export const VoteButtonsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+export const VoteButton = styled.a`
+  padding: 5px !important;
+  border-left: none !important;
+  &:hover {
+    cursor: pointer;
+    background: none !important;
+  }
+`;
+
+export const VoteIconUp = styled.span`
+  padding: 5px !important;
+  border-left: none !important;
+  animation: ${slideOver} 0.5s ease-in-out;
+  animation-fill-mode: forwards;
+  &:nth-of-type(2) {
+    animation: ${fadeOut} 0.5s ease-in-out;
+    animation-fill-mode: forwards;
+  }
+`;
+
+export const VoteIconDown = styled.span`
+  padding: 5px !important;
+  border-left: none !important;
+  // animation: ${slideOver} 0.5s ease-in-out;
+  // animation-fill-mode: forwards;
+  &:nth-of-type(1) {
+    animation: ${fadeOut} 0.5s ease-in-out;
+    animation-fill-mode: forwards;
+  }
+`;
+
+export const Divider = styled.div`
+  width: 2px;
+  height: 20px;
+  left: 32px;
+  background: #e9ebed;
+  align-self: center;
+  margin: 0 5px;
+`;
+export const Divider2 = styled.div`
+  width: 2px;
+  height: 20px;
+  left: 32px;
+  background: none;
+  align-self: center;
+  margin: 0 5px;
+`;

@@ -21,7 +21,7 @@ import {
 import ChooseFilterPage from '../../pages/ChooseFilterPage';
 import { parseLocalStorage } from '../../utils/parseLocalStorage';
 import { withFilterOverrides } from '../../utils/withFilterOverrides';
-import { FeedbackToggle } from '../Feedback';
+import FeedbackSticky from '../FeedbackSticky';
 import LastUpdatedDatesProvider from '../LastUpdatedProvider';
 
 export type MdxFrontmatterType = {
@@ -224,7 +224,7 @@ export function metaContent({
             />
           </SidebarLayoutToggle>
         )}
-        <FeedbackToggle />
+        <FeedbackSticky />
       </LastUpdatedDatesProvider>
     </>
   );

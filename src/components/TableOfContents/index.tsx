@@ -9,7 +9,7 @@ import {
 } from './styles';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import Feedback from '../Feedback';
+import Feedback from '../FeedbackSticky';
 
 const stickyHeaderHeight = 124;
 function scroll(hash) {
