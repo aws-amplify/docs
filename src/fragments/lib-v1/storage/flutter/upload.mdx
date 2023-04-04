@@ -18,13 +18,14 @@ Make sure to follow the setup instructions on the image_picker [homepage](https:
 
 ```dart
 import 'dart:io';
+
 import 'package:image_picker/image_picker.dart';
 
 final picker = ImagePicker();
 
 Future<void> uploadImage() async {
   // Select image from user's gallery
-  final pickedFile = await picker.getImage(source: ImageSource.gallery);
+  final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
   if (pickedFile == null) {
     safePrint('No image selected');
@@ -35,7 +36,7 @@ Future<void> uploadImage() async {
   final key = DateTime.now().toString();
   final file = File(pickedFile.path);
   try {
-    final UploadFileResult result = await Amplify.Storage.uploadFile(
+    final result = await Amplify.Storage.uploadFile(
       local: file,
       key: key,
       onProgress: (progress) {
@@ -57,6 +58,7 @@ The [file_picker](https://pub.dev/packages/file_picker) package can be used to r
 
 ```dart
 import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 
 Future<void> uploadFile() async {
@@ -73,10 +75,11 @@ Future<void> uploadFile() async {
   final path = platformFile.path!;
   final key = platformFile.name;
   final file = File(path);
+
   try {
-    final UploadFileResult result = await Amplify.Storage.uploadFile(
+    final result = await Amplify.Storage.uploadFile(
       local: file,
-      key: key
+      key: key,
       onProgress: (progress) {
         safePrint('Fraction completed: ${progress.getFractionCompleted()}');
       },
@@ -97,10 +100,11 @@ Future<void> uploadFile() async {
 You may attach metadata while uploading data or a file via specifying `metadata` in options.
 
 ```dart
-Amplify.Storage.uploadFile(
+await Amplify.Storage.uploadFile(
+  key: 'file',
   local: File('path/to/file'),
   options: S3UploadFileOptions(
-    metadata: <String, String>{
+    metadata: const {
       'project': 'ExampleProject',
     },
   ),
