@@ -10,7 +10,7 @@ import {
   RIGHT_NAV_LINKS,
   SOCIAL_LINKS
 } from '../../utils/globalnav';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 export default function Layout({
   children,
@@ -23,6 +23,12 @@ export default function Layout({
   filterKey?: string;
   filterMetadataByOption?: any;
 }) {
+  const [domLoaded, setDomLoaded] = useState(false);
+
+  useEffect(() => {
+    setDomLoaded(true);
+  }, []);
+
   const router = useRouter();
   if (!router.isReady) return <></>;
 
@@ -46,7 +52,7 @@ export default function Layout({
 
   return (
     <>
-      {meta && (
+      {meta && domLoaded && (
         <Head>
           <title>{`${title}`}</title>
           <meta property="og:title" content={title} key="og:title" />
