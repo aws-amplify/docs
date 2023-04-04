@@ -709,12 +709,7 @@ const directory = {
           {
             title: 'Upload files',
             route: '/lib/storage/upload',
-            filters: ['android', 'ios', 'js', 'react-native']
-          },
-          {
-            title: 'Upload files/data',
-            route: '/lib/storage/upload',
-            filters: ['flutter']
+            filters: ['android', 'ios', 'js', 'react-native', 'flutter']
           },
           {
             title: 'Download files',
@@ -1348,12 +1343,7 @@ const directory = {
           {
             title: 'Upload files',
             route: '/lib-v1/storage/upload',
-            filters: ['android', 'ios']
-          },
-          {
-            title: 'Upload files/data',
-            route: '/lib-v1/storage/upload',
-            filters: ['flutter']
+            filters: ['android', 'ios', 'flutter']
           },
           {
             title: 'Download files',
