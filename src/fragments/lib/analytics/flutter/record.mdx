@@ -46,7 +46,7 @@ Events have default configuration to flush out to the network every 30 seconds. 
 To manually flush events, call:
 
 ```dart
-Amplify.Analytics.flushEvents();
+await Amplify.Analytics.flushEvents();
 ```
 
 ## Global Properties
@@ -55,14 +55,11 @@ You can register global properties which will be sent along with all invocations
 
 ```dart
 Future<void> registerGlobalProperties() async {
-
-  final properties = CustomProperties();
-  properties.addBoolProperty('boolKey', true);
-  properties.addDoubleProperty('doubleKey', 10);
-  properties.addIntProperty('intKey', 10);
-  properties.addStringProperty('stringKey', 'stringValue');
-
-  await Amplify.Analytics.registerGlobalProperties(globalProperties: properties);
+  final properties = CustomProperties()
+    ..addStringProperty('AppStyle', 'DarkMode');
+  await Amplify.Analytics.registerGlobalProperties(
+    globalProperties: properties,
+  );
 }
 ```
 
@@ -71,7 +68,7 @@ To unregister a global property, call `Amplify.Analytics.unregisterGlobalPropert
 ```dart
 Future<void> unregisterGlobalProperties() async {
   await Amplify.Analytics.unregisterGlobalProperties(
-    propertyNames: ['boolKey', 'doubleKey', 'intKey', 'stringKey'],
+    propertyNames: ['AppStyle', 'OtherProperty'],
   );
 }
 ```
@@ -80,6 +77,6 @@ Furthermore, you can remove all global properties by calling `unregisterGlobalPr
 
 ```dart
 Future<void> unregisterAllGlobalProperties() async {
-    await Amplify.Analytics.unregisterGlobalProperties();
-  }
+  await Amplify.Analytics.unregisterGlobalProperties();
+}
 ```

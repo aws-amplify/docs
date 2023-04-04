@@ -14,17 +14,16 @@ The Analytics- prefix of the original `AnalyticsUserProfile` and `AnalyticsUserP
 </Callout>
 
 ```dart
-Future<void> addAnalyticsWithLocation(
-  String userId,
-  String name,
-  String email,
-  String phoneNumber,
-  int age,
-) async {
-  final analyticsUserProfile = UserProfile(
+Future<void> addAnalyticsWithLocation({
+  required String userId,
+  required String name,
+  required String email,
+  required String phoneNumber,
+  required int age,
+}) async {
+  final userProfile = UserProfile(
     name: name,
     email: email,
-    plan: plan,
     location: const UserProfileLocation(
       latitude: 47.606209,
       longitude: -122.332069,
@@ -34,15 +33,13 @@ Future<void> addAnalyticsWithLocation(
       country: 'USA',
     ),
     customProperties: CustomProperties()
-      ..addStringProperty('stringKey', 'stringValue')
-      ..addIntProperty('intKey', 10)
-      ..addDoubleProperty('_doubleKey', 10)
-      ..addBoolProperty('boolKey', false),
+      ..addStringProperty('phoneNumber', phoneNumber)
+      ..addIntProperty('age', age),
   );
 
   await Amplify.Analytics.identifyUser(
     userId: userId,
-    userProfile: analyticsUserProfile,
+    userProfile: userProfile,
   );
 }
 ```
