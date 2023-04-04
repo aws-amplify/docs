@@ -62,14 +62,18 @@ export const VotePrompt = styled.div`
   align-items: center;
   padding: 12px 16px;
   gap: 8px;
-  width: 264px;
-  // min-height: 46px;
+  width: 90%;
   background: #ffffff;
+  left: 0;
+  transform: translate(calc(50vw - 50%));
   animation: ${slideIn} .5s linear;
-  // left: 50%;
-  // transform: translate(-50%, -50%);
 
-    right: 26%;
+    ${MQDesktop} {
+      right: 26%;
+      width: 264px;
+      left: unset;
+      transform: unset;
+    }
   }
 `;
 
@@ -84,13 +88,20 @@ export const YesVoteResponse = styled.div`
   align-items: center;
   padding: 12px 16px;
   gap: 8px;
-  width: 264px;
-  right: 26%;
+  width: 90%;
   background: #f2fcf3;
+  left: 0;
+  transform: translate(calc(50vw - 50%));
   max-height: 46px;
   overflow: hidden;
   animation: ${fadeOut} .5s linear 2s, ${expand} 0.5s linear;
   animation-fill-mode: forwards, forwards;
+    ${MQDesktop} {
+      right: 26%;
+      width: 264px;
+      left: unset;
+      transform: unset;
+    }
   }
 `;
 
@@ -100,13 +111,20 @@ export const NoVoteResponse = styled.div`
   border: 2px solid #d1d5db;
   border-radius: 16px;
   padding: 12px 16px;
-  width: 264px;
-  right: 26%;
+  width: 90%;
   max-height: 46px;
   background: #FFF7F7;
+  left: 0;
+  transform: translate(calc(50vw - 50%));
   overflow: hidden;
   animation: ${expand} 0.5s linear;
   animation-fill-mode: forwards;
+    ${MQDesktop} {
+      right: 26%;
+      width: 264px;
+      left: unset;
+      transform: unset;
+    }
   }
 `;
 
