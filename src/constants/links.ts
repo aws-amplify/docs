@@ -14,3 +14,5 @@ export const ANDROID_REFERENCE =
 export const JS_REFERENCE = 'https://aws-amplify.github.io/amplify-js/api/';
 export const HOSTING_REFERENCE =
   'https://docs.aws.amazon.com/amplify/latest/userguide/getting-started.html';
+  export const FLUTTER_REFERENCE =
+  '/flutter-references';

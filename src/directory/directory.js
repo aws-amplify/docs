@@ -1,4 +1,11 @@
 const directory = {
+  "flutter-references": {
+    productRoot: {
+      title: 'Amplify Libraries for Flutter API References',
+      route: '/flutter-references'
+    },
+    items: {}
+  },
   lib: {
     productRoot: {
       title: 'Amplify Libraries',
