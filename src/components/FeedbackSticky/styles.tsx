@@ -25,7 +25,7 @@ const slideOver = keyframes`
 const expand = keyframes`
   0% {
     overflow: hidden;
-    max-height: 46px;
+    // max-height: initial;
   }
   100% {
     overflow: visible;
@@ -51,10 +51,6 @@ const fadeOut = keyframes`
   }
 `;
 
-export const FeedbackSticky = styled.div`
-  
-`;
-
 export const VotePrompt = styled.div`
   position: fixed;
   bottom: 50px;
@@ -67,15 +63,13 @@ export const VotePrompt = styled.div`
   padding: 12px 16px;
   gap: 8px;
   width: 264px;
-  height: 46px;
+  // min-height: 46px;
   background: #ffffff;
   animation: ${slideIn} .5s linear;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  // left: 50%;
+  // transform: translate(-50%, -50%);
 
-  ${MQDesktop} {
     right: 26%;
-  }
   }
 `;
 
@@ -92,10 +86,11 @@ export const YesVoteResponse = styled.div`
   gap: 8px;
   width: 264px;
   right: 26%;
-  min-height: 46px;
   background: #f2fcf3;
-  animation: ${fadeOut} .5s linear 2s;
-  animation-fill-mode: forwards;
+  max-height: 46px;
+  overflow: hidden;
+  animation: ${fadeOut} .5s linear 2s, ${expand} 0.5s linear;
+  animation-fill-mode: forwards, forwards;
   }
 `;
 
@@ -139,6 +134,8 @@ export const Details = styled.div`
 
 export const FeedbackText = styled.p`
   font-weight: bold;
+  animation: ${fadeIn} 0.5s ease-in;
+  animation-fill-mode: forwards;
 `;
 
 export const VoteButtonsContainer = styled.div`

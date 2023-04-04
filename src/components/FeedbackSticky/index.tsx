@@ -4,7 +4,7 @@ import {
   VoteButton,
   VoteIconDown,
   VoteIconUp,
-  FeedbackSticky,
+  // FeedbackSticky,
   VoteButtonsContainer,
   FeedbackText,
   Divider,
@@ -37,8 +37,7 @@ type Feedback = {
 export default function Feedback() {
   const [state, setState] = useState<FeedbackState>(FeedbackState.START);
   const feedbackQuestion = 'Did this page help you?';
-  const yesVoteResponse =
-    'Thanks for all of the things you do for us. OVer and over and over again!';
+  const yesVoteResponse = 'Thanks for the thumbs up!';
   const noVoteResponse = "We're sorry";
   const noVoteSecondary = 'Can you provide more details?';
   const noVoteCTAButton = 'File an issue on GitHub';
@@ -59,9 +58,9 @@ export default function Feedback() {
   }, []);
 
   return (
-    <FeedbackSticky>
+    <>
       {state == FeedbackState.START ? (
-        <VotePrompt>
+        <VotePrompt id="votePrompt">
           <FeedbackText>{feedbackQuestion}</FeedbackText>
           <VoteButtonsContainer>
             <VoteButton onClick={onYesVote}>
@@ -74,7 +73,7 @@ export default function Feedback() {
           </VoteButtonsContainer>
         </VotePrompt>
       ) : state == FeedbackState.UP ? (
-        <YesVoteResponse>
+        <YesVoteResponse id="yesVoteResponse">
           <FeedbackText>{yesVoteResponse}</FeedbackText>
           <VoteButtonsContainer>
             <VoteIconUp>
@@ -117,6 +116,6 @@ export default function Feedback() {
       ) : (
         <div></div>
       )}
-    </FeedbackSticky>
+    </>
   );
 }

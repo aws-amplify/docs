@@ -224,7 +224,7 @@ export function metaContent({
             />
           </SidebarLayoutToggle>
         )}
-        <FeedbackSticky />
+        {/* <FeedbackSticky /> */}
       </LastUpdatedDatesProvider>
     </>
   );
