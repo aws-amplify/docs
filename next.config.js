@@ -30,22 +30,21 @@ module.exports = async (phase, { defaultConfig }) => {
   const frontmatterPlugin = await require('./src/plugins/frontmatter.tsx');
 
   const withMDX = require('@next/mdx')({
+    /** @type {import('@mdx-js/loader').Options} */
     extension: /\.mdx$/,
+    // loader: '@mdx-js/loader',
     options: {
+      // providerImportSource: '@mdx-js/react',
       remarkPlugins: [
         frontmatterPlugin,
         importPlugin,
         headingLinkPlugin,
         pagePlugin,
-        internalLinkPlugin
+        internalLinkPlugin,
+        [remarkCodeHike, { theme }]
       ],
       rehypePlugins: [codeBlockPlugin],
       renderer: mdxRenderer
-    },
-    loader: '@mdx-js/loader',
-    /** @type {import('@mdx-js/loader').Options} */
-    options: {
-      providerImportSource: '@mdx-js/react'
     }
   });
 
