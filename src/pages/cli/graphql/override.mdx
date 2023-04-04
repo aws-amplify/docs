@@ -97,8 +97,8 @@ import { AmplifyApiGraphQlResourceStackTemplate } from '@aws-amplify/cli-extensi
 
 export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
   resources.models['Post'].modelDDBTable.provisionedThroughput = {
-    readCapacityUnits : 5,
-    writeCapacityUnits : 5
+    readCapacityUnits: 5,
+    writeCapacityUnits: 5
   }
   
   /**
