@@ -2,6 +2,9 @@ const withTM = require('next-transpile-modules')([
   '@algolia/autocomplete-shared'
 ]); // pass the modules you would like to see transpiled
 
+const theme = require('shiki/themes/nord.json');
+const { remarkCodeHike } = require('@code-hike/mdx');
+
 const mdxRenderer = `
   import { mdx } from "@mdx-js/react";
 
@@ -38,6 +41,11 @@ module.exports = async (phase, { defaultConfig }) => {
       ],
       rehypePlugins: [codeBlockPlugin],
       renderer: mdxRenderer
+    },
+    loader: '@mdx-js/loader',
+    /** @type {import('@mdx-js/loader').Options} */
+    options: {
+      providerImportSource: '@mdx-js/react'
     }
   });
 
