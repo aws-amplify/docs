@@ -4,11 +4,10 @@ When a user taps on a notification displayed on their device, your app will be e
 
 To help you with this, Amplify provides two ways of handling notifications being opened. It is recommended that you handle both to ensure your users the most consistent and seamless experience.
 
-| App state  |       Handle with       |
-| :--------: | :---------------------: |
-| Foreground | `onNotificationOpened`  |
-| Background | `onNotificationOpened`  |
-| Terminated | `getLaunchNotification` |
+|        App state        |       Handle with       |
+| :---------------------: | :---------------------: |
+| Foreground / Background | `onNotificationOpened`  |
+|       Terminated        | `getLaunchNotification` |
 
 ### onNotificationOpened
 

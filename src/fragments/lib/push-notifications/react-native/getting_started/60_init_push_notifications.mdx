@@ -12,7 +12,7 @@ Amplify.configure(awsconfig);
 ...
 ```
 
-Next, enable Amplify Push Notifications. It is important that you do this in your app's root entry point as push notifications can occur even while your app is in a terminated state.
+Next, enable Amplify Push Notifications. You should do this in your app's root entry point after configuring Amplify as push notifications can occur even while your app is in a terminated state.
 
 ```js
 // Example index.js

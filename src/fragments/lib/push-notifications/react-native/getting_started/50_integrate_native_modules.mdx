@@ -12,11 +12,11 @@ You should have already installed the native module in an earlier step, now you 
 npx pod-install
 ```
 
-### Update your AppDelegate
+### Update your Application Delegate
 
 Locate and open your `AppDelegate.m` or `AppDelegate.mm` file in your text editor. You should find it in your React Native project under `/ios/<YourProjectName>`
 
-At the top of your AppDelegate, import Amplify Push Notification:
+At the top of your `AppDelegate`, import Amplify Push Notification:
 
 ```objective-c
 #import "AppDelegate.h"
@@ -25,7 +25,7 @@ At the top of your AppDelegate, import Amplify Push Notification:
 ...
 ```
 
-In the body of your AppDelegate, add the following two methods:
+In the body of your `AppDelegate`, add the following two methods:
 
 ```objective-c
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {

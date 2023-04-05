@@ -11,7 +11,7 @@ export const directory = {
     },
     items: {}
   },
-  "flutter-references": {
+  'flutter-references': {
     productRoot: {
       title: 'Amplify Libraries for Flutter API References',
       route: '/flutter-references'
@@ -666,6 +666,11 @@ export const directory = {
           {
             title: 'Request permissions',
             route: '/lib/push-notifications/request-permissions',
+            filters: ['react-native']
+          },
+          {
+            title: 'Receive device token',
+            route: '/lib/push-notifications/receive-device-token',
             filters: ['react-native']
           },
           {

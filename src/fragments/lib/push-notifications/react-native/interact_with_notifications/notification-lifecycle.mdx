@@ -12,7 +12,8 @@ For the purposes of this guide, we will simplify the terminology as follows
 ![Foreground state lifecycle](/images/push-notifications/cross-platform-lifecycle/pn-lifecycle-foreground.png)
 
 - Notifications are not displayed when received in foreground
-- It is possible for notifications to arrive in your user's notification center but not be interacted with until a later time, including while the app is in the active foreground
+- It is possible for notifications to arrive in your user's notification center but not be opened until a later time
+- Since it is possible to interact with the notification center at any time on a device, your user could even open a notification while your app is in the active foreground
 
 ### In a background state
 

@@ -4,11 +4,10 @@ Push notifications received by your users are useful engagement tools but they a
 
 Your app will likely need to respond to notifications being received in different ways depending on its state, namely while it is either actively in the foreground (where your app may respond by updating UI) or not (where your app may respond by performing tasks to ensure your app experience is up to date).
 
-| App state  |             Handle with              |
-| :--------: | :----------------------------------: |
-| Foreground | `onNotificationReceivedInForeground` |
-| Background | `onNotificationReceivedInBackground` |
-| Terminated | `onNotificationReceivedInBackground` |
+|        App state        |             Handle with              |
+| :---------------------: | :----------------------------------: |
+|       Foreground        | `onNotificationReceivedInForeground` |
+| Background / Terminated | `onNotificationReceivedInBackground` |
 
 ### Notification received in foreground
 
