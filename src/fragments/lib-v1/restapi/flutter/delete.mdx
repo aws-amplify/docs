@@ -1,9 +1,5 @@
 ## DELETE requests
 
-<BlockSwitcher>
-
-<Block name="Stable (Mobile)">
-
   ```dart
   Future<void> deleteTodo() async {
     try {
@@ -18,25 +14,6 @@
   }
   ```
 
-</Block>
-
-<Block name = "Developer Preview (Mobile, Web & Desktop)">
-
-  ```dart
-  Future<void> deleteTodo() async {
-    try {
-      final restOperation = Amplify.API.delete('todo/1');
-      final response = await restOperation.response;
-      print('DELETE call succeeded: ${response.decodeBody()}');
-    } on ApiException catch (e) {
-      print('DELETE call failed: $e');
-    }
-  }
-  ```
-  
-</Block>
-
-</BlockSwitcher>
 
 
 

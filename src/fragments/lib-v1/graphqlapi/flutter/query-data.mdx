@@ -2,10 +2,6 @@
 
 Now that you were able to make a mutation, take the `id` from the created `Todo` instance and use it to retrieve data.
 
-<BlockSwitcher>
-
-<Block name="Stable (Mobile)">
-
 ```dart
 Future<Todo?> queryItem(Todo queriedTodo) async {
    try {
@@ -22,31 +18,6 @@ Future<Todo?> queryItem(Todo queriedTodo) async {
    }
 }
 ```
-
-</Block>
-
-<Block name="Developer Preview (Mobile, Web & Desktop)">
-
-```dart
-Future<Todo?> queryItem(Todo queriedTodo) async {
-   try {
-      final request = ModelQueries.get(Todo.classType, queriedTodo.modelIdentifier);
-      final response = await Amplify.API.query(request: request).response;
-      final todo = response.data;
-      if (todo == null) {
-        print('errors: ${response.errors}');
-      }
-      return todo;
-   } on ApiException catch (e) {
-      print('Query failed: $e');
-      return null;
-   }
-}
-```
-
-</Block>
-
-</BlockSwitcher>
 
 ## List items
 
