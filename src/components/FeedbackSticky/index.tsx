@@ -17,8 +17,7 @@ import {
 } from './styles';
 import { useEffect } from 'react';
 import { trackFeedbackSubmission } from '../../utils/track';
-import Icon from '@cloudscape-design/components/icon';
-import Button from '@cloudscape-design/components/button';
+import { Icon, Button } from '@cloudscape-design/components';
 
 enum FeedbackState {
   START = 'START',

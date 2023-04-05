@@ -11,7 +11,7 @@ import { Container } from '../Container';
 import ExternalLink from '../ExternalLink';
 import * as links from '../../constants/links';
 import * as img from '../../constants/img';
-// import Icon from '@cloudscape-design/components/icon';
+import Icon from '@cloudscape-design/components/icon';
 
 export default function DocsFooter() {
   return (
@@ -52,13 +52,13 @@ export default function DocsFooter() {
           </Social>
           <div>
             <div>We want to hear from you</div>
-            <Link href="docs.amplify.aws">Take our docs survey</Link>
+            <Link href="https://docs.amplify.aws">Take our docs survey</Link>
           </div>
           <div>
             <div>Need help?</div>
-            <a href="docs.amplify.aws">
+            <a href="https://docs.amplify.aws">
               Connect to an Amplify expert{' '}
-              {/* <Icon name="external" variant="link"></Icon> */}
+              <Icon name="external" variant="link"></Icon>
             </a>
           </div>
         </RightFooter>
