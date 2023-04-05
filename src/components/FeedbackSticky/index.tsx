@@ -38,7 +38,7 @@ export default function Feedback() {
   const [state, setState] = useState<FeedbackState>(FeedbackState.START);
   const feedbackQuestion = 'Did this page help you?';
   const yesVoteResponse = 'Thanks for the thumbs up!';
-  const noVoteResponse = "We're sorry";
+  const noVoteResponse = "We're sorry we let you down";
   const noVoteSecondary = 'Can you provide more details?';
   const noVoteCTAButton = 'File an issue on GitHub';
   const ctaIcon = 'external';

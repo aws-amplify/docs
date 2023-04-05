@@ -60,7 +60,7 @@ export const VotePrompt = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 16px;
+  padding: 7px 16px;
   gap: 8px;
   width: 90%;
   background: #ffffff;
@@ -70,7 +70,7 @@ export const VotePrompt = styled.div`
 
     ${MQDesktop} {
       right: 26%;
-      width: 264px;
+      width: 280px;
       left: unset;
       transform: unset;
     }
@@ -86,7 +86,7 @@ export const YesVoteResponse = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 16px;
+  padding: 7px 16px;
   gap: 8px;
   width: 90%;
   background: #f2fcf3;
@@ -94,11 +94,11 @@ export const YesVoteResponse = styled.div`
   transform: translate(calc(50vw - 50%));
   max-height: 46px;
   overflow: hidden;
-  animation: ${fadeOut} .5s linear 2s, ${expand} 0.5s linear;
+  animation: ${expand} 0.5s linear;
   animation-fill-mode: forwards, forwards;
     ${MQDesktop} {
       right: 26%;
-      width: 264px;
+      width: 280px;
       left: unset;
       transform: unset;
     }
@@ -121,7 +121,7 @@ export const NoVoteResponse = styled.div`
   animation-fill-mode: forwards;
     ${MQDesktop} {
       right: 26%;
-      width: 264px;
+      width: 280px;
       left: unset;
       transform: unset;
     }
@@ -151,7 +151,9 @@ export const Details = styled.div`
 `;
 
 export const FeedbackText = styled.p`
+  margin-right: 12px;
   font-weight: bold;
+  line-height: 22px;
   animation: ${fadeIn} 0.5s ease-in;
   animation-fill-mode: forwards;
 `;
@@ -162,7 +164,7 @@ export const VoteButtonsContainer = styled.div`
 `;
 
 export const VoteButton = styled.a`
-  padding: 5px !important;
+  padding: 0px !important;
   border-left: none !important;
   &:hover {
     cursor: pointer;
@@ -198,7 +200,7 @@ export const Divider = styled.div`
   left: 32px;
   background: #e9ebed;
   align-self: center;
-  margin: 0 5px;
+  margin: 0 12px;
 `;
 export const Divider2 = styled.div`
   width: 2px;
