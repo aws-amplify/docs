@@ -744,7 +744,7 @@ export const directory = {
             filters: ['android']
           },
           {
-            title: 'Get file properties (Developer Preview)',
+            title: 'Get file properties',
             route: '/lib/storage/get-properties',
             filters: ['flutter']
           },

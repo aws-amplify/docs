@@ -1,18 +1,18 @@
-You can retrieve file properties and metadata from S3 storage without downloading the file using `Amplify.Storage.getProperties`.
+You can get file properties and metadata without downloading the file using `Amplify.Storage.getProperties`.
 
 ```dart
-Future<void> retrieveProperties() async {
+import 'package:amplify_flutter/amplify_flutter.dart';
+
+Future<void> getFileProperties() async {
   try {
     final result = await Amplify.Storage.getProperties(
       key: 'example.txt',
-      options: const S3GetPropertiesOptions(
-        accessLevel: StorageAccessLevel.private,
-      ),
     ).result;
 
-    safePrint('file size: ${result.storageItem.size}');
+    safePrint('File size: ${result.storageItem.size}');
   } on StorageException catch (e) {
-    safePrint(e.message);
+    safePrint('Could not retrieve properties: ${e.message}');
+    rethrow;
   }
 }
 ```
