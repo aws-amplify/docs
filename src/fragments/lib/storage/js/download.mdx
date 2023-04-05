@@ -9,17 +9,20 @@ await Storage.get(key: string, config: {
   download?: boolean, // defaults to false
   expires?: number, // validity of the URL, in seconds. defaults to 900 (15 minutes)
   contentType?: string // set return content type, eg "text/html"
+  validateObjectExistence?: boolean // defaults to false
 });
 ```
 
-`Storage.get` returns a signed URL `string` to your file, if `download` is false, which is the default. You can use this to create a download link for people to click on. This is our recommended option. Note that this method **does not check if the file actually exists** as that would involve an extra API call.
+`Storage.get` returns a signed URL `string` to your file, if `download` is false, which is the default. You can use this to create a download link for people to click on. This is our recommended option. Note that this method **does not check if the file actually exists by default**. But you can check for the existence of the file by setting `validateObjectExistence` to `true`.
 
 ```js
 // get the signed URL string
 const signedURL = await Storage.get(key); // get key from Storage.list
 
 // inside your template or JSX code. Note <a download> doesn't work here because it is not same origin
-<a href={signedURL} target="_blank" rel='noreferrer'>{fileName}</a>
+<a href={signedURL} target="_blank" rel="noreferrer">
+  {fileName}
+</a>;
 ```
 
 If `download` is true, `Storage.get` returns an object with a `Body` field of type [`Blob`](https://developer.mozilla.org/en-US/docs/Web/API/Blob). It is up to you to programmatically save it to disk (we suggest a method below) or do whatever else you need with it.
@@ -32,12 +35,10 @@ The `download` option send you the object data for download or programmatic mani
 const result = await Storage.get(`filename.txt`, { download: true });
 
 // data.Body is a Blob
-result.Body.text().then(string => { 
-  // handle the String data return String 
+result.Body.text().then((string) => {
+  // handle the String data return String
 });
 ```
-
-Note that the `Blob` methods like `.text()` are not supported on [IE/Opera/Safari](https://developer.mozilla.org/en-US/docs/Web/API/Blob/text); in those cases you can [parse manually](https://developer.mozilla.org/en-US/docs/Web/API/Blob#JavaScript).
 
 You can programmatically download Blobs using JavaScript:
 
@@ -92,11 +93,11 @@ To track the progress of your download, you can use `progressCallback`:
 
 ```javascript
 Storage.get('filename.txt', {
-	download: true,
-	progressCallback(progress) {
-		console.log(`Downloaded: ${progress.loaded}/${progress.total}`);
-	}
-})
+  download: true,
+  progressCallback(progress) {
+    console.log(`Downloaded: ${progress.loaded}/${progress.total}`);
+  }
+});
 ```
 
 ### File Access Levels
@@ -122,11 +123,12 @@ Here is a quick guide to the access levels - [see the docs](https://docs.amplify
 const result = await Storage.get('filename.txt', { level: 'protected' });
 
 // To get other users' objects
-const result = await Storage.get('filename.txt', { 
-    level: 'protected', 
-    identityId: 'xxxxxxx' // the identityId of that user
+const result = await Storage.get('filename.txt', {
+  level: 'protected',
+  identityId: 'xxxxxxx' // the identityId of that user
 });
 ```
+
 - `private`: **Only accessible for the signed in user**. Files are stored under `private/{user_identity_id}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.
 
 ### Download expiry
