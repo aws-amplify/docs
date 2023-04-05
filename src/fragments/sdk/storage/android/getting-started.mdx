@@ -98,7 +98,7 @@ Amplify supports running a local mock server for testing your application with S
 
 Transfer Utility generates Amazon S3 pre-signed URLs and uses them to enable background transferring. Using Amazon Cognito Identity, you receive AWS temporary credentials that are valid for up to 60 minutes. It is not possible to generate S3 pre-signed URLs that last longer than 60 minutes. Due to this limitation, the Transfer Utility enforces 50-minute transfer timeouts (10-minute buffer for reducing AWS temporary credential regenerations). After 50 minutes, you receive a transfer failure.
 
-If you expect your app to perform transfers that take longer than 50 minutes, use [AmazonS3Client](http://docs.aws.amazon.com/AWSAndroidSDK/latest/javadoc/com/amazonaws/services/s3/AmazonS3Client.html) instead of [TransferUtility](http://docs.aws.amazon.com/AWSAndroidSDK/latest/javadoc/com/amazonaws/mobileconnectors/s3/transferutility/TransferUtility.html).
+If you expect your app to perform transfers that take longer than 50 minutes, use [AmazonS3Client](http://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/services/s3/AmazonS3Client.html) instead of [TransferUtility](https://docs.amplify.aws/sdk/storage/transfer-utility/q/platform/android/).
 
 ## Additional Resources
 

@@ -47,7 +47,7 @@ subscription.unsubscribe();
 
 ## The buildSync helper
 
-The quickest way to get started with the DeltaSync feature is by using the `buildSync` helper function. This helper function will build an `options` object with the appropriate `update` functions that will update the cache for you in a similar fashion to the [offline helpers](https://github.com/awslabs/aws-mobile-appsync-sdk-js/blob/master/OFFLINE_HELPERS).
+The quickest way to get started with the DeltaSync feature is by using the `buildSync` helper function. This helper function will build an `options` object with the appropriate `update` functions that will update the cache for you in a similar fashion to the [offline helpers](https://github.com/awslabs/aws-mobile-appsync-sdk-js/blob/master/OFFLINE_HELPERS.md).
 
 The first argument you need to pass is the GraphQL `__typename` for your base query. The second argument is the `options` object from the previous section (without the `update` keys, since those will be generated for you by this helper function).
 

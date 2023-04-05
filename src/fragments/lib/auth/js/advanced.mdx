@@ -13,30 +13,30 @@ import { Auth } from 'aws-amplify';
 
 // To derive necessary data from the provider
 const {
-    token, // the token you get from the provider
-    domainOrProviderName, // Either the domain of the provider(e.g. accounts.your-openid-provider.com) or the provider name, for now the library only supports 'google', 'facebook', 'amazon', 'developer'
-    expiresIn, // the time in ms which describes how long the token could live
-    user,  // the user object you defined, e.g. { username, email, phone_number }
-    identity_id // Optional, the identity id specified by the provider
+  token, // the token you get from the provider
+  domainOrProviderName, // Either the domain of the provider(e.g. accounts.your-openid-provider.com) or the provider name, for now the library only supports 'google', 'facebook', 'amazon', 'developer'
+  expiresIn, // the time in ms which describes how long the token could live
+  user,  // the user object you defined, e.g. { username, email, phone_number }
+  identity_id // Optional, the identity id specified by the provider
 } = getFromProvider(); // arbitrary function
 
 Auth.federatedSignIn(
-    domain,
-    {
-        token,
-        identity_id, // Optional
-        expires_at: expiresIn * 1000 + new Date().getTime() // the expiration timestamp
-    },
-    user
+  domain,
+  {
+    token,
+    identity_id, // Optional
+    expires_at: expiresIn * 1000 + new Date().getTime() // the expiration timestamp
+  },
+  user
 ).then(cred => {
-    // If success, you will get the AWS credentials
-    console.log(cred);
-    return Auth.currentAuthenticatedUser();
+  // If success, you will get the AWS credentials
+  console.log(cred);
+  return Auth.currentAuthenticatedUser();
 }).then(user => {
-    // If success, the user object you passed in Auth.federatedSignIn
-    console.log(user);
+  // If success, the user object you passed in Auth.federatedSignIn
+  console.log(user);
 }).catch(e => {
-    console.log(e)
+  console.log(e)
 });
 ```
 
@@ -52,85 +52,85 @@ import { Auth } from 'aws-amplify';
 // To federated sign in from Facebook
 const SignInWithFacebook = () => {
 
-    useEffect(() => {
-        if (!window.FB) createScript();
-    }, [])
+  useEffect(() => {
+    if (!window.FB) createScript();
+  }, [])
 
-    const signIn = () => {
-        const fb = window.FB;
-        fb.getLoginStatus(response => {
-            if (response.status === 'connected') {
-                getAWSCredentials(response.authResponse);
-            } else {
-                fb.login(
-                    response => {
-                        if (!response || !response.authResponse) {
-                            return;
-                        }
-                        getAWSCredentials(response.authResponse);
-                    },
-                    {
-                        // the authorized scopes
-                        scope: 'public_profile,email'
-                    }
-                );
+  const signIn = () => {
+    const fb = window.FB;
+    fb.getLoginStatus(response => {
+      if (response.status === 'connected') {
+        getAWSCredentials(response.authResponse);
+      } else {
+        fb.login(
+          response => {
+            if (!response || !response.authResponse) {
+              return;
             }
+            getAWSCredentials(response.authResponse);
+          },
+          {
+            // the authorized scopes
+            scope: 'public_profile,email'
+          }
+        );
+      }
+    });
+  }
+
+  const getAWSCredentials = (response) => {
+    const { accessToken, expiresIn } = response;
+    const date = new Date();
+    const expires_at = expiresIn * 1000 + date.getTime();
+    if (!accessToken) {
+      return;
+    }
+
+    const fb = window.FB;
+    fb.api('/me', { fields: 'name,email' }, response => {
+      const user = {
+        name: response.name,
+        email: response.email
+      };
+      
+      Auth.federatedSignIn('facebook', { token: accessToken, expires_at }, user)
+        .then(credentials => {
+          console.log(credentials);
         });
-    }
+    });
+  }
 
-    const getAWSCredentials = (response) => {
-            const { accessToken, expiresIn } = response;
-            const date = new Date();
-            const expires_at = expiresIn * 1000 + date.getTime();
-            if (!accessToken) {
-                return;
-            }
+  const createScript = () => {
+    // load the sdk
+    window.fbAsyncInit = fbAsyncInit;
+    const script = document.createElement('script');
+    script.src = 'https://connect.facebook.net/en_US/sdk.js';
+    script.async = true;
+    script.onload = initFB;
+    document.body.appendChild(script);
+  }
 
-            const fb = window.FB;
-            fb.api('/me', { fields: 'name,email' }, response => {
-                const user = {
-                    name: response.name,
-                    email: response.email
-                };
-                
-                Auth.federatedSignIn('facebook', { token: accessToken, expires_at }, user)
-                .then(credentials => {
-                    console.log(credentials);
-                });
-            });
-        }
+  const initFB = () => {
+    const fb = window.FB;
+    console.log('FB SDK initialized');
+  }
 
-    const createScript = () => {
-        // load the sdk
-        window.fbAsyncInit = fbAsyncInit;
-        const script = document.createElement('script');
-        script.src = 'https://connect.facebook.net/en_US/sdk.js';
-        script.async = true;
-        script.onload = initFB;
-        document.body.appendChild(script);
-    }
-
-    const initFB = () => {
-        const fb = window.FB;
-        console.log('FB SDK initialized');
-    }
-
-    const fbAsyncInit = () => {
-        // init the fb sdk client
-        const fb = window.FB;
-        fb.init({
-            appId   : 'your_facebook_app_id',
-            cookie  : true,
-            xfbml   : true,
-            version : 'v2.11'
-        });
-    }
-   
-    return (
-        <div>
-            <button onClick={signIn}>Sign in with Facebook</button>
-        </div>
-    );
+  const fbAsyncInit = () => {
+    // init the fb sdk client
+    const fb = window.FB;
+    fb.init({
+      appId   : 'your_facebook_app_id',
+      cookie  : true,
+      xfbml   : true,
+      version : 'v2.11'
+    });
+  }
+  
+  return (
+    <div>
+      <button onClick={signIn}>Sign in with Facebook</button>
+    </div>
+  );
 }
 ```
 ### Facebook Sign-in (React Native - Expo)
@@ -169,74 +169,63 @@ const App = () => {
 
 ### Google sign-in (React)
 
-```js
+
+```jsx
 import React, { useEffect } from 'react';
+import jwt from 'jwt-decode';
 import { Auth } from 'aws-amplify';
-// To federated sign in from Google
+
 const SignInWithGoogle = () => {
+  useEffect(() => {
+  // Check for an existing Google client initialization
+    if (!window.google && !window.google?.accounts) createScript();
+  }, []);
 
-    useEffect(() => {
-        const ga = window.gapi && window.gapi.auth2 ? 
-            window.gapi.auth2.getAuthInstance() : 
-            null;
+  // Load the Google client
+  const createScript = () => {
+    const script = document.createElement('script');
+    script.src = 'https://accounts.google.com/gsi/client';
+    script.async = true;
+    script.defer = true;
+    script.onload = initGsi;
+    document.body.appendChild(script);
+  }
 
-        if (!ga) createScript();
-    }, [])
-
-    const signIn = () => {
-        const ga = window.gapi.auth2.getAuthInstance();
-        ga.signIn().then(
-            googleUser => {
-                getAWSCredentials(googleUser);
-            },
-            error => {
-                console.log(error);
-            }
-        );
+  // Initialize Google client and render Google button
+  const initGsi = () => {
+    if (window.google && window.google?.accounts) {
+      window.google.accounts.id.initialize({
+        client_id: process.env.GOOGLE_CLIENT_ID,
+        callback: (response: any) => {
+          getAWSCredentials(response.credential)
+        },
+      });
+      window.google.accounts.id.renderButton(
+        document.getElementById("googleSignInButton"),
+        { theme: "outline", size: "large" }
+      );
     }
+  }
 
-    const getAWSCredentials = async (googleUser) => {
-        const { id_token, expires_at } = googleUser.getAuthResponse();
-        const profile = googleUser.getBasicProfile();
-        let user = {
-            email: profile.getEmail(),
-            name: profile.getName()
-        };
-        
-        const credentials = await Auth.federatedSignIn(
-            'google',
-            { token: id_token, expires_at },
-            user
-        );
-        console.log('credentials', credentials);
-    }
-
-    const createScript = () => {
-        // load the Google SDK
-        const script = document.createElement('script');
-        script.src = 'https://apis.google.com/js/platform.js';
-        script.async = true;
-        script.onload = initGapi;
-        document.body.appendChild(script);
-    }
-
-    const initGapi = () => {
-        // init the Google SDK client
-        const g = window.gapi;
-        g.load('auth2', function() {
-            g.auth2.init({
-                client_id: 'your_google_client_id',
-                // authorized scopes
-                scope: 'profile email openid'
-            });
-        });
-    }
-
-    return (
-        <div>
-            <button onClick={signIn}>Sign in with Google</button>
-        </div>
+  // Exchange Google token for temporary AWS credentials
+  const getAWSCredentials = async (credential: string) => {
+    const token = jwt(credential) as any;
+    const user = {
+      email: token.email,
+      name: token.name
+    };      
+    await Auth.federatedSignIn(
+      'google',
+      { token: credential, expires_at: token.exp },
+      user
     );
+  }
+
+  return (
+    <div>
+      <button id="googleSignInButton"/>
+    </div>
+  );
 }
 ```
 
@@ -279,23 +268,23 @@ Note: Automatic token refresh for Google and Facebook is not supported in React 
 import { Auth } from 'aws-amplify';
 
 function refreshToken() {
-    // refresh the token here and get the new token info
-    // ......
+  // refresh the token here and get the new token info
+  // ......
 
-    return new Promise(res, rej => {
-        const data = {
-            token, // the token from the provider
-            expires_at, // the timestamp for the expiration
-            identity_id, // optional, the identityId for the credentials
-        }
-        res(data);
-    });
+  return new Promise(res, rej => {
+    const data = {
+      token, // the token from the provider
+      expires_at, // the timestamp for the expiration
+      identity_id, // optional, the identityId for the credentials
+    }
+    res(data);
+  });
 }
 
 Auth.configure({
-    refreshHandlers: {
-        'developer': refreshToken // the property could be 'google', 'facebook', 'amazon', 'developer', OpenId domain
-    }
+  refreshHandlers: {
+    'developer': refreshToken // the property could be 'google', 'facebook', 'amazon', 'developer', OpenId domain
+  }
 })
 ```
 
@@ -312,23 +301,23 @@ const { idToken, domain, name, email, phoneNumber } = getFromAuth0(); // get the
 const { exp } = decodeJWTToken(idToken); // Please decode the id token in order to get the expiration time
 
 Auth.federatedSignIn(
-    domain, // The Auth0 Domain,
-    {
-        token: idToken, // The id token from Auth0
-        // expires_at means the timestamp when the token provided expires,
-        // here you can derive it from the expiresIn parameter provided,
-        // then convert its unit from second to millisecond, and add the current timestamp
-        expires_at: exp * 1000 // the expiration timestamp
-    },
-    { 
-        // the user object, you can put whatever property you get from the Auth0
-        // for example:
-        name, // the user name
-        email, // Optional, the email address
-        phoneNumber, // Optional, the phone number
-    } 
+  domain, // The Auth0 Domain,
+  {
+    token: idToken, // The id token from Auth0
+    // expires_at means the timestamp when the token provided expires,
+    // here you can derive it from the expiresIn parameter provided,
+    // then convert its unit from second to millisecond, and add the current timestamp
+    expires_at: exp * 1000 // the expiration timestamp
+  },
+  { 
+    // the user object, you can put whatever property you get from the Auth0
+    // for example:
+    name, // the user name
+    email, // Optional, the email address
+    phoneNumber, // Optional, the phone number
+  } 
 ).then(cred => {
-    console.log(cred);
+  console.log(cred);
 });
 ```
 
@@ -344,23 +333,23 @@ Step 4. You can pass a refresh handler to the Auth module to refresh the id toke
 
 ```js
 function refreshToken() {
-    // refresh the token here and get the new token info
-    // ......
+  // refresh the token here and get the new token info
+  // ......
 
-    return new Promise(res, rej => {
-        const data = {
-            token, // the token from the provider
-            expires_at, // the timestamp when the token expires (in milliseconds)
-            identity_id, // optional, the identityId for the credentials
-        }
-        res(data);
-    });
+  return new Promise(res, rej => {
+    const data = {
+      token, // the token from the provider
+      expires_at, // the timestamp when the token expires (in milliseconds)
+      identity_id, // optional, the identityId for the credentials
+    }
+    res(data);
+  });
 }
 
 Auth.configure({
-    refreshHandlers: {
-        'your_auth0_domain': refreshToken
-    }
+  refreshHandlers: {
+    'your_auth0_domain': refreshToken
+  }
 })
 ```
 
@@ -374,9 +363,9 @@ If you have a Pre Sign-up or Pre Authentication Lambda trigger enabled, you can 
 
 ```js
 Auth.signIn({
-    username, // Required, the username
-    password, // Optional, the password
-    validationData, // Optional, an object of key-value pairs which can contain any key and will be passed to your Lambda trigger as-is.
+  username, // Required, the username
+  password, // Optional, the password
+  validationData, // Optional, an object of key-value pairs which can contain any key and will be passed to your Lambda trigger as-is.
 }).then(user => console.log(user))
   .catch(err => console.log(err));
 ```
@@ -390,17 +379,17 @@ If you have `autoSignIn` enabled, you can pass `validationData` as property for 
 
 ```js
 Auth.signUp({
-    username,
-    password,
-    attributes: {
-        email,          // optional
-        phone_number,   // optional - E.164 number convention
-        // other custom attributes 
-    },
-    autoSignIn: { // optional - enables auto sign in after user is confirmed
-        enabled: true,
-        validationData, // optional
-    }
+  username,
+  password,
+  attributes: {
+    email,          // optional
+    phone_number,   // optional - E.164 number convention
+    // other custom attributes 
+  },
+  autoSignIn: { // optional - enables auto sign in after user is confirmed
+    enabled: true,
+    validationData, // optional
+  }
 })
 ```
 

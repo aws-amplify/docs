@@ -21,7 +21,9 @@ jobs:
           GITHUB_PULL_REQUEST_HEAD_SHA: ${{ github.pull_request.head.sha }}
         run: |
           git fetch origin main
-          echo "DELETED_FILES_ON_OPENED=$(git diff --name-status --diff-filter=D origin/main -- ${{ env.DIFF_DIRECTORIES }} ${{ env.GITHUB_PULL_REQUEST_HEAD_SHA }} -- ${{ env.DIFF_DIRECTORIES }} | wc -l)" >> $GITHUB_ENV
+          echo "DELETED_FILES_ON_OPENED=$(git diff --name-status --diff-filter=D origin/main -- ${{ env.DIFF_DIRECTORIES }} ${{ env.GITHUB_PULL_REQUEST_HEAD_SHA }} | wc -l)" >> $GITHUB_ENV
+      - name: Print number of deleted files
+        run: |
           echo "Deleted file count: ${{ env.DELETED_FILES_ON_OPENED }}"
       - name: Fail status check if there are deleted files
         if: ${{ env.DELETED_FILES_ON_OPENED > 0 }}
@@ -42,8 +44,10 @@ jobs:
           GITHUB_EVENT_AFTER: ${{ github.event.after }}
         run: |
           git fetch origin ${{ github.event.before }} --depth=1
-          echo "DELETED_FILES_ON_SYNC=$(git diff --name-status --diff-filter=D ${{ env.GITHUB_EVENT_BEFORE}} -- ${{ env.DIFF_DIRECTORIES }} ${{ env.GITHUB_EVENT_AFTER }} -- ${{ env.DIFF_DIRECTORIES }} | wc -l)" >> $GITHUB_ENV
-          echo "Deleted file count: ${{ env.DELETED_FILES_ON_SYNC }}"
+          echo "DELETED_FILES_ON_SYNC=$(git diff --name-status --diff-filter=D ${{ env.GITHUB_EVENT_BEFORE}} -- ${{ env.DIFF_DIRECTORIES }} ${{ env.GITHUB_EVENT_AFTER }} | wc -l)" >> $GITHUB_ENV
+      - name: Print number of deleted files
+        run: |
+          echo "Deleted file count: ${{ env.DELETED_FILES_ON_OPENED }}"
       - name: Fail status check if there are deleted files
         if: ${{ env.DELETED_FILES_ON_SYNC > 0 }}
         run: exit 1

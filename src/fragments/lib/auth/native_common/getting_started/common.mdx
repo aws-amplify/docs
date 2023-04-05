@@ -1,11 +1,12 @@
-The Amplify Auth category provides an interface for authenticating a user. Behind the scenes, it provides the necessary authorization to the other Amplify categories. It comes with default, built-in support for [Amazon Cognito](https://aws.amazon.com/cognito) User Pool and Identity Pool. The Amplify CLI helps you to create and configure the auth category with an authentication provider.
+The Amplify Auth category provides an interface for authenticating a user. Behind the scenes, it provides the necessary authorization to the other Amplify categories. It comes with default, built-in support for [Amazon Cognito](https://aws.amazon.com/cognito) User Pool and Identity Pool. The Amplify CLI helps you create and configure the auth category with an authentication provider.
 
 import flutter0 from "/src/fragments/lib/auth/flutter/getting_started/60_developerPreview.mdx";
 
 <Fragments fragments={{flutter: flutter0}} />
 
 ## Goal
-To setup and configure your application with Amplify Auth and go through a simple api to check the current auth session
+
+To setup and configure your application with Amplify Auth and go through a simple api to check the current auth session.
 
 ## Prerequisites
 
@@ -21,41 +22,6 @@ import flutter2 from "/src/fragments/lib/auth/flutter/getting_started/10_preReq.
 
 <Fragments fragments={{flutter: flutter2}} />
 
-## Configure Auth Category
-
-To start provisioning auth resources in the backend, go to your project directory and **execute the command**:
-
-```bash
-amplify add auth
-```
-
-Enter the following when prompted:
-```console
-? Do you want to use the default authentication and security configuration?
-    `Default configuration`
-? How do you want users to be able to sign in?
-    `Username`
-? Do you want to configure advanced settings?
-    `No, I am done.`
-```
-
-To push your changes to the cloud, **execute the command**:
-
-```bash
-amplify push
-```
-
-import ios3 from "/src/fragments/lib/auth/ios/getting_started/12_amplifyConfig.mdx";
-
-<Fragments fragments={{ios: ios3}} />
-
-import android4 from "/src/fragments/lib/auth/android/getting_started/12_amplifyConfig.mdx";
-
-<Fragments fragments={{android: android4}} />
-
-import flutter5 from "/src/fragments/lib/auth/flutter/getting_started/12_amplifyConfig.mdx";
-
-<Fragments fragments={{flutter: flutter5}} />
 
 ## Install Amplify Libraries
 
@@ -70,6 +36,26 @@ import android7 from "/src/fragments/lib/auth/android/getting_started/20_install
 import flutter8 from "/src/fragments/lib/auth/flutter/getting_started/20_installLib.mdx";
 
 <Fragments fragments={{flutter: flutter8}} />
+
+
+
+## Set Up Backend Resources
+
+To use Authentication with Amplify, you have the option to set up or import existing Amazon Cognito resources via the Amplify CLI or manually configure them in your application.
+
+import ios50 from "/src/fragments/lib/auth/ios/getting_started/50_configureBackend.mdx";
+
+<Fragments fragments={{ios: ios50}} />
+
+import android50 from "/src/fragments/lib/auth/android/getting_started/50_configureBackend.mdx";
+
+<Fragments fragments={{android: android50}} />
+
+import flutter70 from "/src/fragments/lib/auth/flutter/getting_started/70_configureBackend.mdx";
+
+<Fragments fragments={{flutter: flutter70}} />
+
+
 
 ## Initialize Amplify Auth
 
@@ -113,4 +99,4 @@ Congratulations! You've successfully setup AWS Cognito Auth plugin.  Check out t
 
 * [Authenticate a user with username password](/lib/auth/signin)
 * [Authenticate a user using a web UI](/lib/auth/signin_web_ui)
-* [Authenticate a user with another auth provider](/lib/auth/social_signin_web_ui)
+* [Authenticate a user with another auth provider](/lib/auth/social)

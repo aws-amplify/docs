@@ -24,7 +24,7 @@ Amplify.configure(awsconfig)
 <Block name="React Native CLI">
 
 ```bash
-npx react-native@latest init amplified_to_do
+npx react-native@latest init amplified_todo
 ```
 
 Finally, open __index.js__ and add the following lines of code at the top of the file below the last import:
@@ -48,6 +48,51 @@ import all0 from "/src/fragments/start/getting-started/reactnative/getting-start
 <Fragments fragments={{all: all0}} />
 
 Now your project is set up and you can begin adding new features.
+
+## Initialize a new backend
+
+With the app running, it's time to set up Amplify and create the backend resources to support the app.
+
+Open a new terminal. From the **amplified_todo** directory, run:
+
+```bash
+amplify init
+```
+
+When you initialize Amplify you'll be prompted for some information about the app, with the option to accept recommended values:
+
+```console
+? Enter a name for the project amplifiedtodo
+The following configuration will be applied:
+
+Project information
+| Name:  amplifiedtodo
+| Environment: dev
+| Default editor: Visual Studio Code
+| App type: javascript
+| Javascript framework: react-native
+| Source Directory Path: /
+| Distribution Directory Path: /
+| Build Command: npm run-script build
+| Start Command: npm run-script start
+
+? Initialize the project with the above configuration? Yes
+Using default provider  awscloudformation
+? Select the authentication method you want to use: AWS profile
+
+...
+
+? Please choose the profile you want to use default
+```
+
+> Amplify CLI will infer the proper configuration based on the type of project Amplify is being initialized in where possible. Adjust if needed.
+
+When you initialize a new Amplify project, a few things happen:
+
+- It creates a top level directory called **amplify** that stores your backend definition. As you add features, the **amplify** folder will grow with CloudFormation templates that define your backend stack. Infrastructure-as-code via CloudFormation is a best practice way to create a replicable backend stack.
+- It creates a file called **aws-exports.js** in the **src** directory that holds all the configuration for the resources you create with Amplify. This is how the Amplify client is able to get the necessary information about your backend services.
+- It modifies the **.gitignore** file, adding some generated files to the ignore list.
+- A cloud project is created for you in the AWS Amplify Console that can be accessed by running `amplify console`. The Console provides a list of backend environments, deep links to provisioned resources per Amplify category, status of recent deployments, and instructions on how to promote, clone, pull, and delete backend resources.
 
 ## Run your app
 
