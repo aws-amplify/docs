@@ -1,0 +1,11 @@
+Alternatively, you can provide additional information about the user:
+
+```js
+const userInfo = {
+  attributes: {
+    myAttribute: ['foo', 'bar']
+  }
+};
+
+await Amplify.Notifications.Push.identifyUser(userId, userInfo);
+```
