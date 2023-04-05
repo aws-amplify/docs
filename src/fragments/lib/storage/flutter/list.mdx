@@ -1,26 +1,4 @@
-You can list all of the files uploaded under a given path.
-
-<BlockSwitcher>
-
-<Block name="Stable (Mobile)">
-
-This will list all public files (i.e. those with `guest` access level):
-
-```dart
-Future<void> listItems() async {
-  try {
-    final result = await Amplify.Storage.list();
-    final items = result.items;
-    safePrint('Got items: $items');
-  } on StorageException catch (e) {
-    safePrint('Error listing items: $e');
-  }
-}
-```
-
-</Block>
-
-<Block name = "Developer Preview (Mobile, Web & Desktop)">
+You can list all files uploaded under a given path.
 
 This will list all files located under path `album` that:
 * have `private` access level
@@ -34,10 +12,12 @@ Future<void> listAlbum() async {
   try {
     final result = await Amplify.Storage.list(
       path: 'album/',
-      options: const S3ListOptions(
+      options: const StorageListOptions(
         accessLevel: StorageAccessLevel.private,
         pageSize: 50,
-        excludeSubPaths: true,
+        pluginOptions: S3ListPluginOptions(
+          excludeSubPaths: true,
+        ),
       ),
     ).result;
 
@@ -53,7 +33,9 @@ Future<void> listAlbum() async {
 
 ```
 
-Pagination is enabled by default. The default `pageSize` is `1000` if it has not been defined in the `S3ListOptions`. You can also list all files under a given path without pagination by using the `listAll` options constructor.
+Pagination is enabled by default. The default `pageSize` is `1000` if it is not set in the `StorageListOptions`.
+
+You can also list all files under a given path without pagination by using the `pluginOptions` and `S3ListPluginOptions.listAll()` constructor.
 
 This will list all public files (i.e. those with `guest` access level):
 
@@ -61,8 +43,11 @@ This will list all public files (i.e. those with `guest` access level):
 Future<void> listAllWithGuestAccessLevel() async {
   try {
     final result = await Amplify.Storage.list(
-      options: const S3ListOptions.listAll(
+      options: const StorageListOptions(
         accessLevel: StorageAccessLevel.guest,
+        pluginOptions: S3ListPluginOptions.listAll(
+          excludeSubPaths: true,
+        ),
       ),
     ).result;
 
@@ -72,7 +57,3 @@ Future<void> listAllWithGuestAccessLevel() async {
   }
 }
 ```
-
-</Block>
-
-</BlockSwitcher>
