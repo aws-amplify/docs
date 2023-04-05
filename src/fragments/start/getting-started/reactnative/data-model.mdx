@@ -49,17 +49,6 @@ amplify push
 ```
 
 ```console
-? Are you sure you want to continue? Y
-
-# You will be walked through the following questions for GraphQL code generation
-? Do you want to generate code for your newly created GraphQL API? Y
-? Choose the code generation language target: javascript
-? Enter the file name pattern of graphql queries, mutations and subscriptions: src/graphql/**/*.js
-? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions? Y
-? Enter maximum statement depth [increase from default if your schema is deeply nested]: 2
-```
-
-```console
 ? Are you sure you want to continue? Yes
 
 ...
@@ -123,7 +112,7 @@ amplify mock api
 ? Enter maximum statement depth [increase from default if your schema is deeply nested] 2
 ```
 
-This will open the GraphiQL explorer on a local port. From the test environment you can try out different operations locally, like queries and mutations.
+This will open the GraphiQL explorer on a local port. Navigate to the address shown in the terminal to use the test environment. From here, you can try out different operations locally, like queries and mutations.
 
 Try running a couple of mutations locally and then querying for the todos:
 
@@ -169,85 +158,97 @@ Open __App.tsx__ and replace it with the following code:
 
 
 ```javascript
-import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native';
-import { API, graphqlOperation } from 'aws-amplify'
-import { createTodo } from './src/graphql/mutations'
-import { listTodos } from './src/graphql/queries'
+import React, {useEffect, useState} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Pressable,
+  SafeAreaView,
+} from 'react-native';
+import {API, graphqlOperation} from 'aws-amplify';
+import {createTodo} from './src/graphql/mutations';
+import {listTodos} from './src/graphql/queries';
 
-const initialState = { name: '', description: '' }
+const initialState = {name: '', description: ''};
 
 const App = () => {
-  const [formState, setFormState] = useState(initialState)
-  const [todos, setTodos] = useState([])
+  const [formState, setFormState] = useState(initialState);
+  const [todos, setTodos] = useState([]);
 
   useEffect(() => {
-    fetchTodos()
-  }, [])
+    fetchTodos();
+  }, []);
 
   function setInput(key, value) {
-    setFormState({ ...formState, [key]: value })
+    setFormState({...formState, [key]: value});
   }
 
   async function fetchTodos() {
     try {
-      const todoData = await API.graphql(graphqlOperation(listTodos))
-      const todos = todoData.data.listTodos.items
-      setTodos(todos)
-    } catch (err) { console.log('error fetching todos') }
+      const todoData = await API.graphql(graphqlOperation(listTodos));
+      const todos = todoData.data.listTodos.items;
+      setTodos(todos);
+    } catch (err) {
+      console.log('error fetching todos');
+    }
   }
 
   async function addTodo() {
     try {
-      if (!formState.name || !formState.description) return
-      const todo = { ...formState }
-      setTodos([...todos, todo])
-      setFormState(initialState)
-      await API.graphql(graphqlOperation(createTodo, {input: todo}))
+      if (!formState.name || !formState.description) return;
+      const todo = {...formState};
+      setTodos([...todos, todo]);
+      setFormState(initialState);
+      await API.graphql(graphqlOperation(createTodo, {input: todo}));
     } catch (err) {
-      console.log('error creating todo:', err)
+      console.log('error creating todo:', err);
     }
   }
 
   return (
-    <View style={styles.container}>
-      <TextInput
-        onChangeText={value => setInput('name', value)}
-        style={styles.input}
-        value={formState.name}
-        placeholder="Name"
-      />
-      <TextInput
-        onChangeText={value => setInput('description', value)}
-        style={styles.input}
-        value={formState.description}
-        placeholder="Description"
-      />
-      <Pressable onPress={addTodo} style={styles.buttonContainer}>
-        <Text style={styles.buttonText}>Create todo</Text>
-      </Pressable>
-      {
-        todos.map((todo, index) => (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
+        <TextInput
+          onChangeText={value => setInput('name', value)}
+          style={styles.input}
+          value={formState.name}
+          placeholder="Name"
+        />
+        <TextInput
+          onChangeText={value => setInput('description', value)}
+          style={styles.input}
+          value={formState.description}
+          placeholder="Description"
+        />
+        <Pressable onPress={addTodo} style={styles.buttonContainer}>
+          <Text style={styles.buttonText}>Create todo</Text>
+        </Pressable>
+        {todos.map((todo, index) => (
           <View key={todo.id ? todo.id : index} style={styles.todo}>
             <Text style={styles.todoName}>{todo.name}</Text>
             <Text style={styles.todoDescription}>{todo.description}</Text>
           </View>
-        ))
-      }
-    </View>
+        ))}
+      </View>
+    </SafeAreaView>
   );
-}
+};
 
-export default App
+export default App;
 
 const styles = StyleSheet.create({
-  container: { width: 400, flex: 1, padding: 20, alignSelf: 'center' },
-  todo: {  marginBottom: 15 },
-  input: { backgroundColor: '#ddd', marginBottom: 10, padding: 8, fontSize: 18 },
-  todoName: { fontSize: 20, fontWeight: 'bold' },
-  todoDescription: { marginBottom: 0 },
-  buttonContainer: { alignSelf: 'center', backgroundColor: 'black',  paddingHorizontal: 8 },
-  buttonText: { color: 'white', padding: 16, fontSize: 18 },
+  container: {width: 400, flex: 1, padding: 20, alignSelf: 'center'},
+  todo: {marginBottom: 15},
+  input: {backgroundColor: '#ddd', marginBottom: 10, padding: 8, fontSize: 18},
+  todoName: {fontSize: 20, fontWeight: 'bold'},
+  buttonContainer: {
+    alignSelf: 'center',
+    backgroundColor: 'black',
+    paddingHorizontal: 8,
+  },
+  buttonText: {color: 'white', padding: 16, fontSize: 18},
 });
 ```
 
@@ -261,7 +262,7 @@ __addTodo__ - Uses the Amplify `API` category to call the AppSync GraphQL API wi
 
 ## Run locally
 
-Next, run the app and you should see the form rendered to the screen and be able to create and view the list of todos:
+If your app is already running you should see the form rendered to the screen and be able to create and view the list of todos. If your app is not already running, start it by running the following command:
 
 ```bash
 npm start

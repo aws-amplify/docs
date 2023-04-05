@@ -39,11 +39,30 @@ Creating a login flow can be quite difficult and time consuming to get right. Lu
 
 ### Install Amplify UI
 
-The `@aws-amplify/ui-react-native` package includes React Native specific UI components you'll use to build your app. Install it with this:
+The `@aws-amplify/ui-react-native` package includes React Native specific UI components you'll use to build your app. Install it with the following command:
+
+<BlockSwitcher>
+<Block name="Expo CLI">
 
 ```bash
-npm i @aws-amplify/ui-react-native aws-amplify react-native-safe-area-context amazon-cognito-identity-js @react-native-community/netinfo @react-native-async-storage/async-storage react-native-get-random-values react-native-url-polyfill
+npm install @aws-amplify/ui-react-native react-native-safe-area-context react-native-get-random-values react-native-url-polyfill
 ```
+
+</Block>
+<Block name="React Native CLI">
+
+```bash
+yarn add @aws-amplify/ui-react-native react-native-safe-area-context react-native-get-random-values react-native-url-polyfill
+```
+
+You will also need to install the pod dependencies for iOS:
+
+```sh
+npx pod-install
+```
+
+</Block>
+</BlockSwitcher>
 
 ### Add the Amplify UI Authenticator component
 
@@ -55,20 +74,20 @@ Open **App.js** and make the following changes:
 </Block>
 <Block name="React Native CLI">
 
-Open **App.ts** and make the following changes:
+Open **App.tsx** and make the following changes:
 
 </Block>
 </BlockSwitcher>
 
-1. Import the `withAuthenticator` component and `useAuthenticator` hook:
+1. Import the `withAuthenticator` Higher-Order Component and `useAuthenticator` hook:
 
 ```javascript
 
-import { Authenticator, useAuthenticator } from '@aws-amplify/ui-react-native';
+import { withAuthenticator, useAuthenticator } from '@aws-amplify/ui-react-native';
 
 ````
 
-2. Pass `{signOut, user}` to the any component where you need it (e.g. `SignOutButton`):
+2. The `useAuthenticator` hook can be added to any component that needs it. Create a custom `SignOutButton` component that will be used within the App component, and destructure the `{ user, signOut }` properties returned in the context.
 
 ```javascript
 
@@ -83,15 +102,14 @@ const SignOutButton = () => {
 
 ```
 
-3. Add `SignOutButton` component to  your `App` component:
+3. Add the `SignOutButton` component to  your `App` component:
 
 ```javascript
 
 // ...
 return (
-    <View style={styles.container}>
-      <StatusBar hidden/>
-      <SignOutButton />
+  <View style={styles.container}>
+    <SignOutButton />
 //...
 
 ```
@@ -106,110 +124,140 @@ export default withAuthenticator(App);
 
 Run the app to see the new authentication flow protecting the app:
 
+<BlockSwitcher>
+<Block name="Expo CLI">
+
 ```bash
 npm start
 ```
 
+</Block>
+<Block name="React Native CLI">
+
+```bash
+yarn start
+```
+
+</Block>
+</BlockSwitcher>
+
 Now you should see the app load with an authentication flow allowing users to sign up and sign in. Here's all the code below:
 
 ```javascript
-import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native';
-import { API, graphqlOperation } from 'aws-amplify'
-import { createTodo } from './src/graphql/mutations'
-import { listTodos } from './src/graphql/queries'
-import { withAuthenticator, useAuthenticator } from '@aws-amplify/ui-react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Pressable,
+  SafeAreaView,
+} from 'react-native';
+import {API, graphqlOperation} from 'aws-amplify';
+import {createTodo} from './src/graphql/mutations';
+import {listTodos} from './src/graphql/queries';
+import {
+  withAuthenticator,
+  useAuthenticator,
+} from '@aws-amplify/ui-react-native';
 
 const SignOutButton = () => {
-  const { user, signOut } = useAuthenticator((context) => [context.user]);
+  const {user, signOut} = useAuthenticator(context => [context.user]);
   return (
     <Pressable onPress={signOut} style={styles.buttonContainer}>
-      <Text style={styles.buttonText}>Hello, {user.username}! Click here to sign out!</Text>
+      <Text style={styles.buttonText}>
+        Hello, {user.username}! Click here to sign out!
+      </Text>
     </Pressable>
-  )
+  );
 };
 
-const initialState = { name: '', description: '' }
+const initialState = {name: '', description: ''};
 
 const App = () => {
-  const [formState, setFormState] = useState(initialState)
-  const [todos, setTodos] = useState([])
+  const [formState, setFormState] = useState(initialState);
+  const [todos, setTodos] = useState([]);
 
   useEffect(() => {
-    fetchTodos()
-  }, [])
+    fetchTodos();
+  }, []);
 
   function setInput(key, value) {
-    setFormState({ ...formState, [key]: value })
+    setFormState({...formState, [key]: value});
   }
 
   async function fetchTodos() {
     try {
-      const todoData = await API.graphql(graphqlOperation(listTodos))
-      const todos = todoData.data.listTodos.items
-      setTodos(todos)
-    } catch (err) { console.log('error fetching todos') }
+      const todoData = await API.graphql(graphqlOperation(listTodos));
+      const todos = todoData.data.listTodos.items;
+      setTodos(todos);
+    } catch (err) {
+      console.log('error fetching todos');
+    }
   }
 
   async function addTodo() {
     try {
-      if (!formState.name || !formState.description) return
-      const todo = { ...formState }
-      setTodos([...todos, todo])
-      setFormState(initialState)
-      await API.graphql(graphqlOperation(createTodo, {input: todo}))
+      if (!formState.name || !formState.description) return;
+      const todo = {...formState};
+      setTodos([...todos, todo]);
+      setFormState(initialState);
+      await API.graphql(graphqlOperation(createTodo, {input: todo}));
     } catch (err) {
-      console.log('error creating todo:', err)
+      console.log('error creating todo:', err);
     }
   }
 
   return (
-    <View style={styles.container}>
-      <SignOutButton />
-      <TextInput
-        onChangeText={value => setInput('name', value)}
-        style={styles.input}
-        value={formState.name}
-        placeholder="Name"
-      />
-      <TextInput
-        onChangeText={value => setInput('description', value)}
-        style={styles.input}
-        value={formState.description}
-        placeholder="Description"
-      />
-      <Pressable onPress={addTodo} style={styles.buttonContainer}>
-        <Text style={styles.buttonText}>Create todo</Text>
-      </Pressable>
-      {
-        todos.map((todo, index) => (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
+        <SignOutButton />
+        <TextInput
+          onChangeText={value => setInput('name', value)}
+          style={styles.input}
+          value={formState.name}
+          placeholder="Name"
+        />
+        <TextInput
+          onChangeText={value => setInput('description', value)}
+          style={styles.input}
+          value={formState.description}
+          placeholder="Description"
+        />
+        <Pressable onPress={addTodo} style={styles.buttonContainer}>
+          <Text style={styles.buttonText}>Create todo</Text>
+        </Pressable>
+        {todos.map((todo, index) => (
           <View key={todo.id ? todo.id : index} style={styles.todo}>
             <Text style={styles.todoName}>{todo.name}</Text>
             <Text style={styles.todoDescription}>{todo.description}</Text>
           </View>
-        ))
-      }
-    </View>
+        ))}
+      </View>
+    </SafeAreaView>
   );
-}
+};
 
-export default withAuthenticator(App)
+export default withAuthenticator(App);
 
 const styles = StyleSheet.create({
-  container: { width: 400, flex: 1, padding: 20, alignSelf: 'center' },
-  todo: {  marginBottom: 15 },
-  input: { backgroundColor: '#ddd', marginBottom: 10, padding: 8, fontSize: 18 },
-  todoName: { fontSize: 20, fontWeight: 'bold' },
-  todoDescription: { marginBottom: 0 },
-  buttonContainer: { alignSelf: 'center', backgroundColor: 'black',  paddingHorizontal: 8 },
-  buttonText: { color: 'white', padding: 16, fontSize: 18 },
+  container: {width: 400, flex: 1, padding: 20, alignSelf: 'center'},
+  todo: {marginBottom: 15},
+  input: {backgroundColor: '#ddd', marginBottom: 10, padding: 8, fontSize: 18},
+  todoName: {fontSize: 20, fontWeight: 'bold'},
+  buttonContainer: {
+    alignSelf: 'center',
+    backgroundColor: 'black',
+    paddingHorizontal: 8,
+  },
+  buttonText: {color: 'white', padding: 16, fontSize: 18},
 });
 ```
 
-Using Amplify UI connected components together makes it easier to manage styling across your entire app.
+Using Amplify UI connected components makes it easier to manage styling across your entire app.
 
-In this example, you used the Amplify React UI library and the `withAuthenticator` component to quickly get up and running with a real-world authentication flow.
+In this example, you used the Amplify React UI library and the `withAuthenticator` Higher-Order Component to quickly get up and running with a real-world authentication flow.
 
 You can also [customize this component](https://ui.docs.amplify.aws/react-native/connected-components/authenticator/customization) to add or remove fields, update styling, or other configurations. You can even [override function calls](https://ui.docs.amplify.aws/react-native/connected-components/authenticator/customization#override-function-calls) if needed.
 
-In addition to the `withAuthenticator`, you can build [custom authentication flows Amplify Libraries for JS](/lib/auth/getting-started). Amplify's `Auth` class has over 30 methods including `signUp`, `signIn`, `forgotPassword`, and `signOut` that allow you full control over all aspects of the user authentication flow. Check out the complete API [here](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html).
+In addition to `withAuthenticator`, you can build [custom authentication flows with the Amplify Library for JS](/lib/auth/getting-started). Amplify's `Auth` class has over 30 methods including `signUp`, `signIn`, `forgotPassword`, and `signOut` that allow you full control over all aspects of the user authentication flow. Check out the complete API [here](https://aws-amplify.github.io/amplify-js/api/classes/authclass.html).
