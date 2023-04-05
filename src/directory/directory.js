@@ -747,7 +747,7 @@ const directory = {
             filters: ['flutter']
           },
           {
-            title: 'Move files (Developer Preview)',
+            title: 'Move files',
             route: '/lib/storage/move',
             filters: ['flutter']
           },
