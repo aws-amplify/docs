@@ -36,12 +36,16 @@ Events have default configuration to flush out to the network every 30 seconds. 
         "pinpointTargeting": {
           "region": "Region"
         },
-        "autoFlushEventsInterval": 10000
+        "autoFlushEventsInterval": 10
       }
     }
   }
 }
 ```
+
+> **Note**
+>
+> Setting `autoFlushEventsInterval` to 0 will **disable** the automatic flush of events and you will be responsible for submitting them.
 
 To manually flush events, call:
 
