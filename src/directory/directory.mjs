@@ -1,8 +1,20 @@
-const directory = {
+import { commands } from '../data/cli-commands.mjs';
+
+/**
+ * @type {Record<string, import('./directory').Directory>}
+ */
+export const directory = {
   contribute: {
     productRoot: {
       title: 'Contribute',
       route: '/contribute'
+    },
+    items: {}
+  },
+  "flutter-references": {
+    productRoot: {
+      title: 'Amplify Libraries for Flutter API References',
+      route: '/flutter-references'
     },
     items: {}
   },
@@ -1659,6 +1671,16 @@ const directory = {
           }
         ]
       },
+      commands: {
+        title: 'Commands',
+        items: commands
+          .sort((a, b) => ((a.name > b.name ? 1 : -1)))
+          .map(({ name }) => ({
+            isCodeTitle: true,
+            title: name,
+            route: `/cli/commands/${name}`
+          }))
+      },
       graphql: {
         title: 'API (GraphQL)',
         items: [
@@ -2651,4 +2673,4 @@ const directory = {
   }
 };
 
-module.exports = directory;
+export default directory;

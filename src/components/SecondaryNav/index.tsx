@@ -9,6 +9,7 @@ import {
   IOS_REFERENCE,
   ANDROID_REFERENCE,
   JS_REFERENCE,
+  FLUTTER_REFERENCE,
   HOSTING_REFERENCE
 } from '../../constants/links';
 import ExternalLink from '../ExternalLink';
@@ -70,12 +71,24 @@ export default function SecondaryNav() {
                           case 'android': {
                             return ANDROID_REFERENCE;
                           }
+                          case 'flutter': {
+                            return FLUTTER_REFERENCE;
+                          }
                           default: {
                             return JS_REFERENCE;
                           }
                         }
                       })(),
-                      external: true
+                      external: (() => {
+                        switch ((filterKeys as { platform: string }).platform) {
+                          case 'flutter': {
+                            return false;
+                          }
+                          default: {
+                            return true;
+                          }
+                        }
+                      })()
                     }
                   ]
                 : [])
