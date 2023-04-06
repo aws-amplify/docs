@@ -59,7 +59,7 @@ Use `getPermissionStatus()` and `requestPermissions()` together to handle permis
 
 ```js
 function handlePermissions() {
-  const status = await Amplify.Notifications.Push.getPermissionStatus();
+  const status = await Notifications.Push.getPermissionStatus();
   if (status === 'GRANTED') {
     // no further action is required, user has already granted permissions
     return;
@@ -71,13 +71,13 @@ function handlePermissions() {
   }
   if (status === 'SHOULD_REQUEST') {
     // go ahead and request permissions from the user
-    await Amplify.Notifications.Push.requestPermissions();
+    await Notifications.Push.requestPermissions();
   }
   if (status === 'SHOULD_EXPLAIN_THEN_REQUEST') {
     // you should display some explanation to your user before requesting permissions
     await myFunctionExplainingPermissionsRequest();
     // then request permissions
-    await Amplify.Notifications.Push.requestPermissions();
+    await Notifications.Push.requestPermissions();
   }
 }
 ```

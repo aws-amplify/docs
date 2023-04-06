@@ -2,14 +2,17 @@ Amplify reads configuration information at runtime from a file called `aws-expor
 
 Existing Amazon Pinpoint resources can be used with the Amplify Libraries by referencing your **Application ID** and **Region** in your `aws-exports` file.
 
-```json
-"Notifications": {
+```js
+const awsmobile = {
+  ...
+  "Notifications": {
     "Push": {
-        "AWSPinpoint": {
-            "appId": "[APP ID]",
-            "region": "[REGION]"
-        }
+      "AWSPinpoint": {
+        "appId": "[APP ID]",
+        "region": "[REGION]"
+      }
     }
+  }
 }
 ```
 
