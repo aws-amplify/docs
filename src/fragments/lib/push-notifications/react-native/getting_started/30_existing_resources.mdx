@@ -1,10 +1,14 @@
 Existing Amazon Pinpoint resources can be used with Amplify Push Notifications by configuring it with **Application ID** and **Region**.
 
 ```js
-Notifications.Push.configure({
-  AWSPinpoint: {
-    appId: '[APP ID]',
-    region: '[REGION]'
+Amplify.configure({
+  Notifications: {
+    Push: {
+      AWSPinpoint: {
+        appId: '<app-id>',
+        region: '<region>'
+      }
+    }
   }
 });
 ```
