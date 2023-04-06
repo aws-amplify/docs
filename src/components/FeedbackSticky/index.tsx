@@ -2,18 +2,17 @@ import { useCallback, useRef, useState } from 'react';
 import {
   VotePrompt,
   VoteButton,
-  VoteIconDown,
-  VoteIconUp,
-  // FeedbackSticky,
+  VoteButtonReplace,
   VoteButtonsContainer,
+  VoteButtonsAnimation,
   FeedbackText,
   Divider,
-  Divider2,
   YesVoteResponse,
   NoVoteResponse,
   InitialLoad,
   SecondaryLoad,
-  Details
+  Details,
+  closeResponse
 } from './styles';
 import { useEffect } from 'react';
 import { trackFeedbackSubmission } from '../../utils/track';
@@ -74,33 +73,35 @@ export default function Feedback() {
       ) : state == FeedbackState.UP ? (
         <YesVoteResponse id="yesVoteResponse">
           <FeedbackText>{yesVoteResponse}</FeedbackText>
-          <VoteButtonsContainer>
-            <VoteIconUp>
-              <Icon name="thumbs-up" variant="success" size="medium"></Icon>
-            </VoteIconUp>
-            <Divider2 />
-            <VoteIconUp>
-              <Icon
-                name="thumbs-down-filled"
-                variant="link"
-                size="medium"
-              ></Icon>
-            </VoteIconUp>
-          </VoteButtonsContainer>
+          <VoteButtonsAnimation>
+            <Icon name="thumbs-up" variant="link" size="medium"></Icon>
+            <Divider />
+            <Icon name="thumbs-down" variant="link" size="medium"></Icon>
+          </VoteButtonsAnimation>
+          <VoteButtonReplace>
+            <Icon
+              name="thumbs-up-filled"
+              variant="success"
+              size="medium"
+            ></Icon>
+          </VoteButtonReplace>
         </YesVoteResponse>
       ) : state == FeedbackState.DOWN ? (
-        <NoVoteResponse>
+        <NoVoteResponse id="no-response">
           <InitialLoad>
             <FeedbackText>{noVoteResponse}</FeedbackText>
-            <VoteButtonsContainer>
-              <VoteIconDown>
-                <Icon name="thumbs-up" variant="error" size="medium"></Icon>
-              </VoteIconDown>
-              <Divider2 />
-              <VoteIconDown>
-                <Icon name="thumbs-down" variant="link" size="medium"></Icon>
-              </VoteIconDown>
-            </VoteButtonsContainer>
+            <VoteButtonsAnimation>
+              <Icon name="thumbs-up" variant="link" size="medium"></Icon>
+              <Divider />
+              <Icon name="thumbs-down" variant="link" size="medium"></Icon>
+            </VoteButtonsAnimation>
+            <VoteButtonReplace>
+              <Icon
+                name="thumbs-down-filled"
+                variant="error"
+                size="medium"
+              ></Icon>
+            </VoteButtonReplace>
           </InitialLoad>
           <SecondaryLoad>
             <Details>

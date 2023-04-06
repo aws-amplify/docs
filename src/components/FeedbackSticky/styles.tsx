@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { keyframes } from '@emotion/react';
+import { keyframes, css } from '@emotion/react';
 import { MQTablet, MQDesktop } from '../media';
 
 const slideIn = keyframes`
@@ -18,18 +18,27 @@ const slideOver = keyframes`
     transform: translateX(0);
   }
   to {
-    transform: translateX(100%);
+    transform: translateX(49px);
   }
 `;
 
 const expand = keyframes`
   0% {
     overflow: hidden;
-    // max-height: initial;
   }
   100% {
     overflow: visible;
     max-height: 250px;
+  }
+`;
+
+const unexpand = keyframes`
+  0% {
+    overflow: visible;
+  }
+  100% {
+    overflow: hidden;
+    max-height: 46px;
   }
 `;
 
@@ -66,7 +75,7 @@ export const VotePrompt = styled.div`
   background: #ffffff;
   left: 0;
   transform: translate(calc(50vw - 50%));
-  animation: ${slideIn} .5s linear;
+  animation: ${slideIn} 0.5s linear;
 
     ${MQDesktop} {
       right: 26%;
@@ -87,14 +96,13 @@ export const YesVoteResponse = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 7px 16px;
-  gap: 8px;
   width: 90%;
   background: #f2fcf3;
   left: 0;
   transform: translate(calc(50vw - 50%));
   max-height: 46px;
   overflow: hidden;
-  animation: ${expand} 0.5s linear;
+  animation: ${expand} 0.3s linear, ${fadeOut} 0.3s ease-in-out 1.5s;
   animation-fill-mode: forwards, forwards;
     ${MQDesktop} {
       right: 26%;
@@ -117,7 +125,7 @@ export const NoVoteResponse = styled.div`
   left: 0;
   transform: translate(calc(50vw - 50%));
   overflow: hidden;
-  animation: ${expand} 0.5s linear;
+  animation: ${expand} 0.3s linear;
   animation-fill-mode: forwards;
     ${MQDesktop} {
       right: 26%;
@@ -154,13 +162,44 @@ export const FeedbackText = styled.p`
   margin-right: 12px;
   font-weight: bold;
   line-height: 22px;
-  animation: ${fadeIn} 0.5s ease-in;
+  animation: ${fadeIn} 0.3s ease-in;
   animation-fill-mode: forwards;
 `;
 
 export const VoteButtonsContainer = styled.div`
   display: flex;
   flex-direction: row;
+  width: 66px;
+`;
+
+export const VoteButtonsAnimation = styled.div`
+  display: flex;
+  flex-direction: row;
+  animation: ${slideOver} 0.3s ease-in-out;
+  animation-fill-mode: forwards;
+  width: 66px;
+  position: absolute;
+  right: 14px;
+  > :nth-of-type(2) {
+    animation: ${fadeOut} 0.2s ease-in-out;
+    animation-fill-mode: forwards;
+  }
+  > :nth-of-type(1) {
+    animation: ${fadeOut} 0.3s ease-in-out;
+    animation-fill-mode: forwards;
+  }
+`;
+
+export const VoteButtonReplace = styled.div`
+  display: flex;
+  flex-direction: row;
+  transform: translateX(49px);
+  animation: ${slideOver} 0.3s ease-in-out, ${fadeIn} 0.3s ease-in-out 0.2s;
+  animation-fill-mode: forwards;
+  width: 66px;
+  position: absolute;
+  right: 14px;
+  opacity: 0;
 `;
 
 export const VoteButton = styled.a`
@@ -172,28 +211,6 @@ export const VoteButton = styled.a`
   }
 `;
 
-export const VoteIconUp = styled.span`
-  padding: 5px !important;
-  border-left: none !important;
-  animation: ${slideOver} 0.5s ease-in-out;
-  animation-fill-mode: forwards;
-  &:nth-of-type(2) {
-    animation: ${fadeOut} 0.5s ease-in-out;
-    animation-fill-mode: forwards;
-  }
-`;
-
-export const VoteIconDown = styled.span`
-  padding: 5px !important;
-  border-left: none !important;
-  // animation: ${slideOver} 0.5s ease-in-out;
-  // animation-fill-mode: forwards;
-  &:nth-of-type(1) {
-    animation: ${fadeOut} 0.5s ease-in-out;
-    animation-fill-mode: forwards;
-  }
-`;
-
 export const Divider = styled.div`
   width: 2px;
   height: 20px;
@@ -202,11 +219,8 @@ export const Divider = styled.div`
   align-self: center;
   margin: 0 12px;
 `;
-export const Divider2 = styled.div`
-  width: 2px;
-  height: 20px;
-  left: 32px;
-  background: none;
-  align-self: center;
-  margin: 0 5px;
+
+export const closeResponse = css`
+  animation: ${fadeOut} 0.3s ease-in-out;
+  animation-fill-mode: forwards;
 `;
