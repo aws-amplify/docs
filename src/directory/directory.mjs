@@ -1726,6 +1726,11 @@ export const directory = {
             filters: []
           },
           {
+            title: 'Directives reference',
+            route: '/cli/graphql/directives-reference',
+            filters: []
+          },
+          {
             title: 'JavaScript, Java, Swift code generation',
             route: '/cli/graphql/client-code-generation',
             filters: []
