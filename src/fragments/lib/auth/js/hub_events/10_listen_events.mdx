@@ -44,6 +44,9 @@ const listener = (data) => {
     case 'forgotPasswordSubmit_failure':
       logger.error('password confirmation failed');
       break;
+    case 'verify':
+      logger.info('TOTP token verification successful');
+      break;
     case 'tokenRefresh':
       logger.info('token refresh succeeded');
       break;
@@ -67,6 +70,12 @@ const listener = (data) => {
       break;
     case 'userDeleted':
       logger.info('user deletion successful');
+      break;
+    case 'updateUserAttributes':
+      logger.info('user attributes update successful');
+      break;
+    case 'updateUserAttributes_failure':
+      logger.info('user attributes update failed');
       break;
     case 'signOut':
       logger.info('user signed out');

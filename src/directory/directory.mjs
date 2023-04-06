@@ -1,8 +1,20 @@
-const directory = {
+import { commands } from '../data/cli-commands.mjs';
+
+/**
+ * @type {Record<string, import('./directory').Directory>}
+ */
+export const directory = {
   contribute: {
     productRoot: {
       title: 'Contribute',
       route: '/contribute'
+    },
+    items: {}
+  },
+  "flutter-references": {
+    productRoot: {
+      title: 'Amplify Libraries for Flutter API References',
+      route: '/flutter-references'
     },
     items: {}
   },
@@ -246,11 +258,6 @@ const directory = {
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
-            title: 'Create or re-use existing backend',
-            route: '/lib/auth/start',
-            filters: ['js', 'react-native']
-          },
-          {
             title: 'Sign up, Sign in & Sign out',
             route: '/lib/auth/emailpassword',
             filters: ['js', 'react-native']
@@ -374,11 +381,6 @@ const directory = {
             title: 'Under the hood',
             route: '/lib/auth/overview',
             filters: ['android', 'ios', 'js', 'react-native']
-          },
-          {
-            title: 'Use existing Amazon Cognito resources',
-            route: '/lib/auth/existing-resources',
-            filters: ['android', 'flutter', 'ios']
           }
         ]
       },
@@ -798,21 +800,6 @@ const directory = {
           }
         ]
       },
-      xr: {
-        title: 'XR',
-        items: [
-          {
-            title: 'Getting started',
-            route: '/lib/xr/getting-started',
-            filters: ['js']
-          },
-          {
-            title: 'Scene API',
-            route: '/lib/xr/sceneapi',
-            filters: ['js']
-          }
-        ]
-      },
       utilities: {
         title: 'Utilities',
         items: [
@@ -1158,11 +1145,6 @@ const directory = {
           {
             title: 'Under the hood',
             route: '/lib-v1/auth/overview',
-            filters: ['android', 'ios']
-          },
-          {
-            title: 'Use existing Amazon Cognito resources',
-            route: '/lib-v1/auth/existing-resources',
             filters: ['android', 'ios']
           }
         ]
@@ -1688,6 +1670,16 @@ const directory = {
             filters: []
           }
         ]
+      },
+      commands: {
+        title: 'Commands',
+        items: commands
+          .sort((a, b) => ((a.name > b.name ? 1 : -1)))
+          .map(({ name }) => ({
+            isCodeTitle: true,
+            title: name,
+            route: `/cli/commands/${name}`
+          }))
       },
       graphql: {
         title: 'API (GraphQL)',
@@ -2686,4 +2678,4 @@ const directory = {
   }
 };
 
-module.exports = directory;
+export default directory;
