@@ -1,19 +1,12 @@
-Amplify reads configuration information at runtime from a file called `aws-exports.js`. If you used the Amplify CLI to create backend resources, this file was created for you. If it does not already exist, create the file and add it to the `src` folder in your React Native project.
-
-Existing Amazon Pinpoint resources can be used with the Amplify Libraries by referencing your **Application ID** and **Region** in your `aws-exports` file.
+Existing Amazon Pinpoint resources can be used with Amplify Push Notifications by configuring it with **Application ID** and **Region**.
 
 ```js
-const awsmobile = {
-  ...
-  "Notifications": {
-    "Push": {
-      "AWSPinpoint": {
-        "appId": "[APP ID]",
-        "region": "[REGION]"
-      }
-    }
+Notifications.Push.configure({
+  AWSPinpoint: {
+    appId: '[APP ID]',
+    region: '[REGION]'
   }
-}
+});
 ```
 
 - **appId**: Amazon Pinpoint application ID
