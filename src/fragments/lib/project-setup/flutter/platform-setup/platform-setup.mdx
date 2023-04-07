@@ -1,49 +1,8 @@
-<BlockSwitcher>
-
-<Block name="Stable (Mobile)">
-
 ## iOS
-From your project root, navigate to the `ios/` directory and modify the `Podfile` using a text editor of your choice and update the target iOS platform to 11.0 or higher.
 
-```bash
-platform :ios, '11.0'
-```
+Amplify requires a minimum deployment target of 13.0 and Xcode 13.2 or higher when targeting iOS.
 
-<Callout>
-
-When preparing your application for deployment, you should also update your iOS Deployment Target to at least 11.0. See the [Flutter docs](https://docs.flutter.dev/deployment/ios) to learn more about building your iOS app for release.
-
-</Callout>
-
-## Android
-From your project root, navigate to the `android/app/` directory and modify `build.gradle` using a text editor of your choice and update the target Android SDK version to 21 or higher:
-
-```bash
-minSdkVersion 21
-```
-
-import flutter1 from '/src/fragments/start/getting-started/flutter/kotlin-version-warning.mdx';
-
-<Fragments fragments={{ flutter: flutter1 }} />
-
-</Block>
-
-<Block name = "Developer Preview (Mobile, Web & Desktop)">
-
-## Web
-
-### Auth category
-
-No specific configuration steps are needed to begin using the Auth category in the browser.
-
-### Analytics and Storage categories
-
-import flutter2 from '/src/fragments/lib/project-setup/flutter/platform-setup/sqlite3_wasm.mdx';
-
-<Fragments fragments={{ flutter: flutter2 }} />
-
-## iOS
-From your project root, navigate to the `ios/` directory and modify the `Podfile` using a text editor of your choice and update the target iOS platform to 13.0 or higher.
+From your project root, navigate to the `ios/` directory and open the `Podfile` in a text editor of your choice. Update the target iOS platform to 13.0 or higher.
 
 ```bash
 platform :ios, '13.0'
@@ -51,24 +10,34 @@ platform :ios, '13.0'
 
 ## Android
 
-From your project root, navigate to the `android/app/` directory and modify `build.gradle` using a text editor of your choice and update the target Android SDK version to 24 or higher:
+Amplify requires a minimum of API level 24 (Android 7.0) when targeting Android.
+
+From your project root, navigate to the `android/app/` directory and open `build.gradle` in the text editor of your choice. Update the target Android SDK version to 24 or higher:
 
 ```bash
 minSdkVersion 24
 ```
 
+## Web
+
+There are no Amplify specific requirements or setup instructions when targeting web. You will need to use a browser supported by Flutter. See the following Flutter docs for more info:
+
+- [Supported deployment platforms](https://docs.flutter.dev/reference/supported-platforms)
+- [FAQ: Which web browsers are supported by Flutter?](https://docs.flutter.dev/development/platform-integration/web/faq#which-web-browsers-are-supported-by-flutter)
+
 ## macOS
-To run the Amplify-Flutter developer preview on macOS, you will need to update the minimum platform version to 10.15, and enable networking, keychain [entitlements](https://developer.apple.com/documentation/bundleresources/entitlements), and signing.
 
-### Update Minimum Version 
+Amplify requires a minimum deployment target of 10.15 and Xcode 13.2 or higher when targeting macOS. Additionally, you will need to enable networking, keychain entitlements, and code signing.
 
-From your project root, navigate to the `macos/` directory and modify the `Podfile` using a text editor of your choice and update the target macOS platform to 10.15 or higher.
+### Update Minimum Version
+
+From your project root, navigate to the `macos/` directory and open the `Podfile` in a text editor of your choice. Update the target macOS platform to 10.15 or higher.
 
 ```bash
 platform :osx, '10.15'
 ```
 
-Open your project in Xcode and select Runner, Target -> Runner and then the "General" tab. Under the "Minimum Deployments" section, update the version to 10.15 or higher.
+Open your project in Xcode and select Runner, Targets -> Runner and then the "General" tab. Under the "Minimum Deployments" section, update the version to 10.15 or higher.
 
 ![XCode Minimum Deployment Version](/images/project-setup/flutter/mac/target-min-deployment-version.png)
 
@@ -76,56 +45,79 @@ Select Runner, Project -> Runner and then the "Info" tab. Update "macOS Deployme
 
 ![XCode Minimum Deployment Version](/images/project-setup/flutter/mac/project-min-deployment-version.png)
 
-### Enable network calls
+### Enable Network Calls
 
-In order to run your application locally, you must enable the [Client Networking [entitlement](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_security_network_client).
-
-In Xcode, enable the App Sandbox capability and then select "Outgoing Connections (Client)" under "Network".
+Open your project in Xcode and select Runner, Targets -> Runner and then the "Signing and Capabilities" tab. Under "App Sandbox" select "Outgoing Connections (Client)".
 
 ![XCode Entitlements Screen](/images/project-setup/flutter/mac/xcode-entitlements.png)
 
-### Enable keychain
+For more info on the Networking entitlement, see [com.apple.security.network.client](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_security_network_client)
 
-Amplify Auth stores auth credentials in Keychain on macOS. The keychain option [kSecUseDataProtectionKeychain](https://developer.apple.com/documentation/security/ksecusedataprotectionkeychain?language=objc) is enabled by default, which makes it so that only your app has access to these credentials. This requires that your app be in at least one Keychain Access Group.
+### Enable Keychain Sharing
 
-To enable keychain sharing, open your project in Xcode and select the "Signing and Capabilities" section, then click the "+ icon".
+<Callout>
+  This capability is required because Amplify uses the Data Protection Keychain
+  on macOS as a platform best practice. See [TN3137: macOS keychain APIs and
+  implementations](https://developer.apple.com/documentation/technotes/tn3137-on-mac-keychains)
+  for more information on how Keychain works on macOS and the Keychain Sharing
+  entitlement.
+</Callout>
+
+Open your project in Xcode and select Runner, Targets -> Runner and then the "Signing and Capabilities" tab.
+
+1. Click the "+ icon".
 
 ![XCode Enable Keychain Sharing](/images/project-setup/flutter/mac/enable-keychain-access.png)
 
-Search for "Keychain Sharing" in the subsequent modal, and add it.
+2. Search for "Keychain Sharing" in the subsequent modal, and add it.
 
 ![XCode Keychain Sharing Search](/images/project-setup/flutter/mac/search-keychain-sharing.png)
 
-Finally, scroll down to "Keychain Sharing" in the "Signing and Capabilities" and click the "+" icon. By default, your bundle ID will be used.
+3. Scroll down to "Keychain Sharing" in the "Signing and Capabilities" and click the "+" icon. By default, your bundle ID will be used.
 
 ![XCode Adding Keychain Sharing Group](/images/project-setup/flutter/mac/adding-keychain-access-group.png)
 
-### Enable signing 
-
-Add a development team in the "Signing and Capabilities" section and enable signing.
+4. Finally, add a development team and enable signing.
 
 ![XCode Signing and Capabilities Screen](/images/project-setup/flutter/mac/enable-signing.png)
 
 ## Windows
-No specific configuration steps are needed to begin using the Auth category on Windows; however, depending on how your Windows configuration and the method you use to run your Flutter app, you may need to change the file path length limitation.
+
+There are no Amplify specific requirements or setup instructions when targeting Windows. You will need to use a Windows version supported by Flutter. See the following Flutter docs for more info:
+
+- [Supported deployment platforms](https://docs.flutter.dev/reference/supported-platforms)
+
+<Callout>
+  Depending on how your Windows configuration and the method you use to run your
+  Flutter app, you may need to change the file path length limitation.
+</Callout>
 
 ## Linux
-Amplify Flutter depends on [libsecret](https://wiki.gnome.org/Projects/Libsecret) when targeting Linux. To run and debug an app that depends on Amplify Flutter, you must install `libsecret-1-dev`.
+
+Amplify Flutter depends on [libsecret](https://wiki.gnome.org/Projects/Libsecret) when targeting Linux.
+
+### Local Development
+
+To run and debug an app that depends on Amplify Flutter, you must install `libsecret-1-dev`.
 
 To install on Ubuntu, run:
 
-/* cSpell:disable */
+<!-- cSpell:disable -->
+
 ```terminal
 sudo apt-get update
 sudo apt-get install -y libsecret-1-dev
 ```
-/* cSpell:enable */
+<!-- cSpell:enable -->
 
-This will also install dependencies of `libsecret-1-dev`, such as `libglib2.0-dev`, which is also required for to run and debug apps that depend on Amplify Flutter.
+This will install `libsecret-1-dev` and the dependencies of `libsecret-1-dev`, such as `libglib2.0-dev`, which is also required for to run and debug apps that depend on Amplify Flutter.
 
-> The command to install might vary on other Linux distributions.
+<Callout>
+  The command to install might vary on other Linux distributions.
+</Callout>
 
 ### Packaging Your App
+
 To include the required dependencies when packaging your app with Snapcraft, include them in your `snapcraft.yaml` file. For more info, see [Flutter's documentation on releasing to the Snap Store](https://docs.flutter.dev/deployment/linux).
 
 ```yaml
@@ -139,7 +131,3 @@ parts:
     stage-packages:
       - libsecret-1-0
 ```
-
-</Block>
-
-</BlockSwitcher>
