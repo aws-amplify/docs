@@ -88,7 +88,7 @@ export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
 }
 ```
 ### Example - Configure DynamoDBModelTableProvisionedThroughput
-Override the default [ProvisionedThroughput](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html#cfn-dynamodb-table-provisionedthroughput) provisioned for each `@model` table
+Override the default [ProvisionedThroughput](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html#cfn-dynamodb-table-provisionedthroughput) provisioned for each `@model` table and its Global Secondary Indexes (GSI).
 
 Only valid if the "DynamoDBBillingMode" is set to "PROVISIONED"
 
