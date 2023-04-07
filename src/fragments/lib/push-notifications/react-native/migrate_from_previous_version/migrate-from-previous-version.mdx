@@ -50,6 +50,34 @@ platform :ios, '13.0'
 ```bash
 npx pod-install
 ```
+
+### Update your Application Delegate
+
+1. Reverse the steps previously taken to [augment your `AppDelegate`](https://github.com/react-native-push-notification/ios#augment-appdelegate)
+
+2. Locate and open your `AppDelegate.m` or `AppDelegate.mm` file in your text editor. You should find it in your React Native project under `/ios/<your-project-name>`
+
+3. At the top of your `AppDelegate`, import Amplify Push Notifications:
+
+```objective-c
+#import "AppDelegate.h"
+#import "AmplifyPushNotification.h"
+
+...
+```
+
+4. In the body of your `AppDelegate`, add the following two methods:
+
+```objective-c
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+  [AmplifyPushNotification didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler {
+  [AmplifyPushNotification didReceiveRemoteNotification:userInfo withCompletionHandler:completionHandler];
+}
+```
+
 </Block>
 <Block name="Android">
 
