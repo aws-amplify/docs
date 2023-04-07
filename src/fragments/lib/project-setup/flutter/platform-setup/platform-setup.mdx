@@ -3,6 +3,20 @@
 Amplify requires a minimum deployment target of 13.0 and Xcode 13.2 or higher when targeting iOS.
 
 From your project root, navigate to the `ios/` directory and open the `Podfile` in a text editor of your choice. At the top of the file, update the target iOS platform to 13.0 or higher.
+## Web
+
+### Auth category
+
+No specific configuration steps are needed to begin using the Auth category in the browser.
+
+### Analytics and Storage categories
+
+import flutter2 from '/src/fragments/lib/project-setup/flutter/platform-setup/sqlite3_wasm.mdx';
+
+<Fragments fragments={{ flutter: flutter2 }} />
+
+## iOS
+From your project root, navigate to the `ios/` directory and modify the `Podfile` using a text editor of your choice and update the target iOS platform to 13.0 or higher.
 
 ```bash
 platform :ios, '13.0'
