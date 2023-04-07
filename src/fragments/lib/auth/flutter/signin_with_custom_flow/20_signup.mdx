@@ -2,9 +2,7 @@ Because authentication flows in Cognito can be switched via your configuration, 
 
 ```dart
 // Create a boolean for checking the sign up status
-bool isSignUpComplete = false;
-
-...
+var isSignUpComplete = false;
 
 Future<void> signUpCustomFlow() async {
   try {

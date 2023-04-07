@@ -24,9 +24,9 @@ Future<void> fetchAuthSessionWithTimeout() async {
     final result = await cognitoPlugin.fetchAuthSession().timeout(
           const Duration(seconds: 5),
         );
-    final identityId = (result).identityIdResult.value;
+    final identityId = result.identityIdResult.value;
     safePrint('identityId: $identityId');
-  } on Exception catch (e) {
+  } on AuthException catch (e) {
     safePrint('Something went wrong while fetching the session: $e');
   }
 }

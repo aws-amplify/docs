@@ -7,7 +7,7 @@ Future<void> forgetCurrentDevice() async {
   try {
     await Amplify.Auth.forgetDevice();
     safePrint('Forget device succeeded');
-  } on Exception catch (e) {
+  } on AuthException catch (e) {
     safePrint('Forget device failed with error: $e');
   }
 }
@@ -24,7 +24,7 @@ Future<void> forgetSpecificDevice() async {
   try {
     await Amplify.Auth.forgetDevice(myDevice);
     safePrint('Forget device succeeded');
-  } on Exception catch (e) {
+  } on AuthException catch (e) {
     safePrint('Forget device failed with error: $e');
   }
 }

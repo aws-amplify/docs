@@ -3,7 +3,7 @@ Future<void> deleteUser() async {
   try {
     await Amplify.Auth.deleteUser();
     safePrint('Delete user succeeded');
-  } on Exception catch (e) {
+  } on AuthException catch (e) {
     safePrint('Delete user failed with error: $e');
   }
 }
