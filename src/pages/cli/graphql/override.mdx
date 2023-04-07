@@ -106,7 +106,7 @@ export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
   */
   
   resources.models[
-    "Report"
+    "Post"
   ].modelDDBTable.globalSecondaryIndexes[0].provisionedThroughput = {
     readCapacityUnits: 5,
     writeCapacityUnits: 5
