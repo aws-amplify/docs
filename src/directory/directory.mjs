@@ -707,6 +707,11 @@ export const directory = {
             title: 'Setting up push notification services',
             route: '/lib/push-notifications/setup-push-service',
             filters: ['android', 'ios', 'react-native']
+          },
+          {
+            title: 'Migrate from previous version',
+            route: '/lib/push-notifications/migrate-from-previous-version',
+            filters: ['react-native']
           }
         ]
       },

@@ -1,5 +1,10 @@
 Amplify currently supports adding images to your notifications, but there are some additional steps required.
 
+<Callout>
+  On Android, Amplify Push Notifications should already be configured to handle
+  rich content for you.
+</Callout>
+
 ## Create a Notification Service Extension
 
 1. Open `<your-app-name>.xcworkspace` located inside the `/ios` folder of your React Native project with Xcode.
@@ -28,9 +33,9 @@ target 'MyNotificationServiceExtension' do # Replace with your service extension
 end
 ```
 
-3. Install the pod by running the following command at the root of your React Native project.
+3. Install the new pods by running the following command at the root of your React Native project.
 
-```
+```bash
 npx pod-install
 ```
 

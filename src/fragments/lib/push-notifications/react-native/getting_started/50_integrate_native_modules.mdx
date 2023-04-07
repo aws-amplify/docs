@@ -1,11 +1,14 @@
 ## Integrate native modules
 
-<BlockSwitcher>
-<Block name="iOS">
-
 Since push notifications require interaction with the native platform, there are some additional steps required to integrate your React Native app with the Amplify Push Notification native module.
 
+<Callout>
+  On Android, there should be no additional integration steps after the
+  prerequisites above have been completed.
+</Callout>
+
 ### Link the module
+
 You should have already installed the native module in an earlier step, now you need to link it. In your React Native app's root directory run the following command.
 
 ```bash
@@ -36,11 +39,3 @@ In the body of your `AppDelegate`, add the following two methods:
   [AmplifyPushNotification didReceiveRemoteNotification:userInfo withCompletionHandler:completionHandler];
 }
 ```
-
-</Block>
-<Block name="Android">
-
-There should be no additional integration steps after the [prerequisites](#prerequisites) have been completed.
-
-</Block>
-</BlockSwitcher>
