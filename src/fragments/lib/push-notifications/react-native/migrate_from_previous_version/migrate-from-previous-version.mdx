@@ -1,4 +1,4 @@
-If you were previously using the now deprecated version of Amplify Push Notification for React Native (@aws-amplify/pushnotification), you will need to migrate to the new version by following the steps outlined here.
+If you were previously using the now deprecated version of Amplify Push Notifications for React Native (@aws-amplify/pushnotification), you will need to migrate to the new version by following the steps outlined here.
 
 ## Update your configuration
 
@@ -35,7 +35,7 @@ npm install @aws-amplify/rtn-push-notification
 
 ### Update your `Podfile`
 
-Amplify Push Notification now requires a minimum target of iOS 13.0.
+Amplify Push Notifications now requires a minimum target of iOS 13.0.
 
 1. Open `Podfile` located inside the `/ios` folder of your React Native project with a text editor.
 
@@ -55,7 +55,7 @@ npx pod-install
 
 ### Update gradle scripts
 
-Amplify Push Notification now requires a minimum target of Android SDK API level 24.
+Amplify Push Notifications now requires a minimum target of Android SDK API level 24.
 
 1. Open `build.gradle` located inside the `/android` folder of your React Native project with a text editor.
 
@@ -124,7 +124,7 @@ import 'react-native-url-polyfill/auto';
 
 ### Remove Analytics (Optional)
 
-**If you do not** use Amplify Analytics in your application but have previously imported it in your code just to implement Amplify Push Notification, you should be able to remove it now. Analytics is no longer required to be configured in your frontend application to use Push Notification.
+**If you do not** use Amplify Analytics in your application but have previously imported it in your code just to implement Amplify Push Notifications, you should be able to remove it now. Analytics is no longer required to be configured in your frontend application to use Amplify Push Notifications.
 
 ### Replace APIs
 
@@ -139,4 +139,4 @@ A brief, but imperfect, mapping of your APIs to their replacements is as follows
 |    `onNotification`     | `onNotificationReceivedInForeground`<br />`onNotificationReceivedInBackground` |
 | `requestIOSPermissions` |                              `requestPermissions`                              |
 
-We _strongly_ recommend you take the time to explore all the ways the new version of Amplify Push Notification are different and all the new features that have been added. This will help you to make the best decision about how to adopt these changes for your unique use cases.
+We _strongly_ recommend you take the time to explore all the ways the new version of Amplify Push Notifications are different and all the new features that have been added. This will help you to make the best decision about how to adopt these changes for your unique use cases.
