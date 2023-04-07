@@ -3,7 +3,7 @@ Future<void> signOutCurrentUser() async {
   try {
     await Amplify.Auth.signOut();
   } on AuthException catch (e) {
-    print(e.message);
+    safePrint(e.message);
   }
 }
 ```
