@@ -800,21 +800,6 @@ export const directory = {
           }
         ]
       },
-      xr: {
-        title: 'XR',
-        items: [
-          {
-            title: 'Getting started',
-            route: '/lib/xr/getting-started',
-            filters: ['js']
-          },
-          {
-            title: 'Scene API',
-            route: '/lib/xr/sceneapi',
-            filters: ['js']
-          }
-        ]
-      },
       utilities: {
         title: 'Utilities',
         items: [
@@ -1738,6 +1723,11 @@ export const directory = {
           {
             title: 'Evolving GraphQL schemas',
             route: '/cli/graphql/schema-evolution',
+            filters: []
+          },
+          {
+            title: 'Directives reference',
+            route: '/cli/graphql/directives-reference',
             filters: []
           },
           {

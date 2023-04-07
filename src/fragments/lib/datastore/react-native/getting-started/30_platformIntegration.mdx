@@ -81,7 +81,7 @@ Then configure the SQLite storage adapter with DataStore in your app:
 
 ```js
 import { DataStore } from 'aws-amplify';
-import ExpoSQLiteAdapter from '@aws-amplify/datastore-storage-adapter/ExpoSQLiteAdapter';
+import { ExpoSQLiteAdapter } from '@aws-amplify/datastore-storage-adapter/ExpoSQLiteAdapter';
 
 DataStore.configure({
   storageAdapter: ExpoSQLiteAdapter
