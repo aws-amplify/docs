@@ -84,7 +84,7 @@ Set the [DynamoDB billing mode](https://docs.aws.amazon.com/AWSCloudFormation/la
 import { AmplifyApiGraphQlResourceStackTemplate } from '@aws-amplify/cli-extensibility-helper';
 
 export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
-  resources.models['Post'].modelDDBTable.billingMode = 'PAY_PER_REQUEST'
+  resources.models['Post'].modelDDBTable.billingMode = 'PAY_PER_REQUEST';
 }
 ```
 ### Example - Configure DynamoDBModelTableProvisionedThroughput
