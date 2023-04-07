@@ -2,17 +2,25 @@
 
 Amplify requires a minimum deployment target of 13.0 and Xcode 13.2 or higher when targeting iOS.
 
-From your project root, navigate to the `ios/` directory and open the `Podfile` in a text editor of your choice. Update the target iOS platform to 13.0 or higher.
+From your project root, navigate to the `ios/` directory and open the `Podfile` in a text editor of your choice. At the top of the file, update the target iOS platform to 13.0 or higher.
 
 ```bash
 platform :ios, '13.0'
 ```
 
+Open your project in Xcode and select Runner, Targets -> Runner and then the "General" tab. Under the "Minimum Deployments" section, update the iOS version to 13.0 or higher.
+
+![XCode Minimum Deployment Version](/images/project-setup/flutter/ios/target-min-deployment-version.png)
+
+Select Runner, Project -> Runner and then the "Info" tab. Update "iOS Deployment Target" to 13.0 or higher.
+
+![XCode Minimum Deployment Version](/images/project-setup/flutter/ios/project-min-deployment-version.png)
+
 ## Android
 
 Amplify requires a minimum of API level 24 (Android 7.0) when targeting Android.
 
-From your project root, navigate to the `android/app/` directory and open `build.gradle` in the text editor of your choice. Update the target Android SDK version to 24 or higher:
+From your project root, navigate to the `android/app/` directory and open `build.gradle` in the text editor of your choice. Update the minimum Android SDK version to 24 or higher:
 
 ```bash
 minSdkVersion 24
@@ -37,7 +45,7 @@ From your project root, navigate to the `macos/` directory and open the `Podfile
 platform :osx, '10.15'
 ```
 
-Open your project in Xcode and select Runner, Targets -> Runner and then the "General" tab. Under the "Minimum Deployments" section, update the version to 10.15 or higher.
+Open your project in Xcode and select Runner, Targets -> Runner and then the "General" tab. Under the "Minimum Deployments" section, update the macOS version to 10.15 or higher.
 
 ![XCode Minimum Deployment Version](/images/project-setup/flutter/mac/target-min-deployment-version.png)
 
@@ -51,16 +59,16 @@ Open your project in Xcode and select Runner, Targets -> Runner and then the "Si
 
 ![XCode Entitlements Screen](/images/project-setup/flutter/mac/xcode-entitlements.png)
 
-For more info on the Networking entitlement, see [com.apple.security.network.client](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_security_network_client)
+For more info on the Networking entitlement, see Apple's documentation on [com.apple.security.network.client](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_security_network_client).
 
 ### Enable Keychain Sharing
 
 <Callout>
-  This capability is required because Amplify uses the Data Protection Keychain
-  on macOS as a platform best practice. See [TN3137: macOS keychain APIs and
-  implementations](https://developer.apple.com/documentation/technotes/tn3137-on-mac-keychains)
-  for more information on how Keychain works on macOS and the Keychain Sharing
-  entitlement.
+
+This capability is required because Amplify uses the Data Protection Keychain on macOS as a platform best practice. 
+See [TN3137: macOS keychain APIs and implementations](https://developer.apple.com/documentation/technotes/tn3137-on-mac-keychains)
+for more information on how Keychain works on macOS and the Keychain Sharing entitlement.
+
 </Callout>
 
 Open your project in Xcode and select Runner, Targets -> Runner and then the "Signing and Capabilities" tab.
@@ -94,7 +102,7 @@ There are no Amplify specific requirements or setup instructions when targeting 
 
 ## Linux
 
-Amplify Flutter depends on [libsecret](https://wiki.gnome.org/Projects/Libsecret) when targeting Linux.
+Amplify Flutter depends on the [libsecret](https://wiki.gnome.org/Projects/Libsecret) library when targeting Linux.
 
 ### Local Development
 
@@ -110,7 +118,7 @@ sudo apt-get install -y libsecret-1-dev
 ```
 <!-- cSpell:enable -->
 
-This will install `libsecret-1-dev` and the dependencies of `libsecret-1-dev`, such as `libglib2.0-dev`, which is also required for to run and debug apps that depend on Amplify Flutter.
+This will install `libsecret-1-dev` and any dependencies of `libsecret-1-dev`, such as `libglib2.0-dev`, which are also required to run and debug apps that depend on Amplify Flutter.
 
 <Callout>
   The command to install might vary on other Linux distributions.
