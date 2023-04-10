@@ -114,6 +114,12 @@ function generatePathMap(
     },
     '/cli/function': {
       page: '/cli/function'
+    },
+    '/flutter-references': {
+      page: '/flutter-references'
+    },
+    '/contribute': {
+      page: '/contribute'
     }
   },
   removeChoosePages = false //this flag if set will generate a pathmap without the choose platform pages
