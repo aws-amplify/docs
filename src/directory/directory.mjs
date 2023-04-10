@@ -651,7 +651,7 @@ export const directory = {
           {
             title: 'Getting started',
             route: '/lib/push-notifications/getting-started',
-            filters: ['android', 'ios', 'react-native']
+            filters: ['android', 'flutter', 'ios', 'react-native']
           },
           {
             title: 'Register device',
@@ -666,32 +666,32 @@ export const directory = {
           {
             title: 'Request permissions',
             route: '/lib/push-notifications/request-permissions',
-            filters: ['react-native']
+            filters: ['flutter', 'react-native']
           },
           {
             title: 'Receive device token',
             route: '/lib/push-notifications/receive-device-token',
-            filters: ['react-native']
+            filters: ['flutter', 'react-native']
           },
           {
             title: 'Interact with notifications',
             route: '/lib/push-notifications/interact-with-notifications',
-            filters: ['react-native']
+            filters: ['flutter', 'react-native']
           },
           {
             title: 'Identify user',
             route: '/lib/push-notifications/identify-user',
-            filters: ['android', 'ios', 'react-native']
+            filters: ['android', 'flutter', 'ios', 'react-native']
           },
           {
             title: 'App badge count',
             route: '/lib/push-notifications/app-badge-count',
-            filters: ['react-native']
+            filters: ['flutter', 'react-native']
           },
           {
             title: 'Enable rich notifications',
             route: '/lib/push-notifications/enable-rich-notifications',
-            filters: ['react-native']
+            filters: ['flutter', 'react-native']
           },
           {
             title: 'Remote media',
@@ -701,12 +701,12 @@ export const directory = {
           {
             title: 'Testing',
             route: '/lib/push-notifications/testing',
-            filters: ['android', 'ios', 'react-native']
+            filters: ['android', 'flutter', 'ios', 'react-native']
           },
           {
             title: 'Set up push notification services',
             route: '/lib/push-notifications/setup-push-service',
-            filters: ['android', 'ios', 'react-native']
+            filters: ['android', 'flutter', 'ios', 'react-native']
           },
           {
             title: 'Migrate from previous version',
