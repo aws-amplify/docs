@@ -96,7 +96,8 @@
     "loader-utils": "2.0.4",
     "minimatch": "3.0.5",
     "json5": "2.2.2",
-    "decode-uri-component": "0.2.1"
+    "decode-uri-component": "0.2.1",
+    "vm2": "3.9.15"
   },
   "jest": {
     "preset": "ts-jest",
