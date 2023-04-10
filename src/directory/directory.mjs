@@ -759,7 +759,7 @@ export const directory = {
             filters: ['js', 'react-native']
           },
           {
-            title: 'Copy files (Developer Preview)',
+            title: 'Copy files',
             route: '/lib/storage/copy',
             filters: ['flutter']
           },
