@@ -15,6 +15,7 @@ Future<void> listAlbum() async {
       options: const StorageListOptions(
         accessLevel: StorageAccessLevel.private,
         pageSize: 50,
+        nextToken: nextToken,
         pluginOptions: S3ListPluginOptions(
           excludeSubPaths: true,
         ),
@@ -27,7 +28,8 @@ Future<void> listAlbum() async {
 
     safePrint('Listed items: ${result.items}');
   } on StorageException catch (e) {
-    safePrint(e.message);
+    safePrint('Error listing files: ${e.message}');
+    rethrow;
   }
 }
 
