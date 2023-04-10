@@ -1,3 +1,9 @@
 ```js
-await Notifications.Push.identifyUser(userId);
+const userInfo = {
+  attributes: {
+    hobbies: ['cooking', 'knitting']
+  }
+};
+
+await Notifications.Push.identifyUser(userId, userInfo);
 ```
