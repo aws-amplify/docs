@@ -95,14 +95,14 @@ Future<String> getDownloadUrl({
       options: const StorageGetUrlOptions(
         accessLevel: accessLevel,
         pluginOptions: S3GetUrlPluginOptions(
-          checkObjectExistence: true,
+          validateObjectExistence: true,
           expiresIn: Duration(days: 1),
         ),
       ),
     ).result;
     return result.url.toString();
   } on StorageException catch (e) {
-    safePrint(e.message);
+    safePrint('Could not get a downloadable URL: ${e.message}');
     rethrow;
   }
 }
