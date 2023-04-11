@@ -189,7 +189,8 @@ An example showcasing python runtime support and different runtime settings base
     },
     "js": {
       "runtime": "~/.nvm/versions/node/v14.17.1/bin/node",
-      "runtime_windows": "node"
+      "runtime_windows": "node",
+      "runtime_options": ["--require", "./payload.js"],
     }
   }
 }
@@ -197,6 +198,7 @@ An example showcasing python runtime support and different runtime settings base
 - The keys in the `extensions` ( js, py ) are values that will be used as `extension` in the [naming convention](#how-to-name-command-hook-scripts) used when naming the hook scripts.
 - `runtime` (required) - symlink (`node`, `python`, `bash`) or path to executable (`~/.nvm/versions/node/v14.17.1/bin/node`).
 - `runtime_windows` (optional) - windows specific symlink or path to executable.
+- `runtime_options` (optional) - Array of cli options to be passed to command hooks specific to runtime.
 
 ### Managing third-party dependencies
 

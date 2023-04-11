@@ -1,4 +1,4 @@
-import directory from '../directory/directory';
+import directory from '../directory/directory.mjs';
 
 function getLocalDirectory(pathname: string, depth: number): object {
   const path = pathname.split('/');

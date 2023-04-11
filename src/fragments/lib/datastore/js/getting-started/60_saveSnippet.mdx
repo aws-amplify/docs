@@ -1,12 +1,12 @@
 ```js
 try {
-  await DataStore.save(
+  const post = await DataStore.save(
     new Post({
-      title: "My First Post"
+      title: 'My First Post'
     })
   );
-  console.log("Post saved successfully!");
+  console.log('Post saved successfully!', post);
 } catch (error) {
-  console.log("Error saving post", error);
+  console.log('Error saving post', error);
 }
 ```

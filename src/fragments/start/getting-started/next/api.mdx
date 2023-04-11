@@ -164,7 +164,7 @@ amplify mock api
 _Note:_ `amplify mock api` requires Java.
 
 ```console
-# If you have not already deployed you API, you will be walked through the following steps for GraphQL code generation
+# If you have not already deployed your API, you will be walked through the following steps for GraphQL code generation
 ? Choose the code generation language target: javascript (or preferred target)
 ? Enter the file name pattern of graphql queries, mutations and subscriptions: src/graphql/**/*.js
 ? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions: Yes
@@ -205,6 +205,10 @@ query ListPosts {
 ```
 
 ## API with Server-Side Rendering (SSR)
+
+import nextCallout from "/src/fragments/lib/ssr/js/next-js-callout.mdx";
+
+<Fragments fragments={{ next: nextCallout }} />
 
 In this section you will create a way to list and create posts from the Next.js application. To do this, you will fetch & render the latest posts from the server as well as create a new post on the client.
 
