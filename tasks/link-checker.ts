@@ -129,7 +129,12 @@ const linkChecker = async () => {
           statusCodes[statusCode].push(href);
         }
         if (statusCode === 404) {
-          brokenLinks.push(link);
+          // this regular expression is meant to filter out any of the platform selector pages.  These are appearing in the result set
+          // because the crawler is seeing disabled platform dropdown links
+          const platformPages = /\/q\/(platform|integration|framework)\/(android|ios)\/$/gm;
+          if (!platformPages.test(link.url)) {
+            brokenLinks.push(link);
+          }
         }
       });
 
