@@ -1,6 +1,6 @@
 export const meta = {
   title: `File storage`,
-  description: `Get started with Amplify Studio`,
+  description: `Get started with Amplify Studio`
 };
 
 Amplify Studio File Storage provides a simple mechanism for managing user content for your app in public, protected or private storage folders. In Studio you can specify authorization rules that limit individual user or group access to create, read, update, or delete operations on your files. The File Storage category comes with built-in support for Amazon S3.
@@ -15,15 +15,17 @@ When you create new file storage for your app, you can edit authorization rules.
 
 1. Sign in to the AWS Management console and open AWS Amplify.
 2. In the navigation pane, choose an application.
-3. On the application information page, choose **Launch Studio**.
+3. On the application information page, choose **[Launch Studio](/console/adminui/start/#log-into-the-amplify-console)**.
 4. On the **Set up** menu, choose **Storage**.
-5. On the **Storage** page, locate the **Authorization settings** on the bottom of the *File storage bucket* card.
+5. On the **Storage** page, locate the **Authorization settings** on the bottom of the _File storage bucket_ card.
 6. Select your desired authorization settings for **Signed-in users**, or **Guest users** _(optional)_.
 
 The authorization modes can always be edited under **Set up**, **Storage**.
 
 <Callout warning>
-To enable local development after setting up guest permissions, you must allow unauthenticated logins by updating your auth settings. Run `amplify update auth` to update your auth settings.
+  To enable local development after setting up guest permissions, you must allow
+  unauthenticated logins by updating your auth settings. Run `amplify update
+  auth` to update your auth settings.
 </Callout>
 
 ## To import file storage
