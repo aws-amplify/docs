@@ -40,7 +40,7 @@ export const LeftFooter = styled.div`
   > div {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     a {
       white-space: nowrap;
       color: var(--color-white);
@@ -76,7 +76,7 @@ export const RightFooter = styled.div`
   padding-bottom: 25px;
   border-bottom: 1px solid #414d5c;
   div {
-    text-align: left;
+    text-align: center;
     margin: 6px 0;
   }
   ${MQLaptop} {
@@ -84,6 +84,9 @@ export const RightFooter = styled.div`
     align-items: flex-start;
     padding-bottom: 0;
     border: none;
+    div {
+      text-align: left;
+    }
   }
   a,
   a:link,

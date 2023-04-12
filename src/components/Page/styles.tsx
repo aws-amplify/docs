@@ -10,6 +10,7 @@ export const ContentStyle = styled.div<ContentProps>(({ menuIsOpen }) => {
   padding: 1.5rem 1rem;
   width: 100%;
   overflow-x: hidden;
+  border-right: 0.0625rem solid var(--border-color);
 
   .searchable-code {
     display: none;

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { keyframes, css } from '@emotion/react';
+import { keyframes } from '@emotion/react';
 import { MQTablet, MQDesktop } from '../media';
 
 const slideIn = keyframes`
@@ -18,7 +18,7 @@ const slideOver = keyframes`
     transform: translateX(0);
   }
   to {
-    transform: translateX(49px);
+    transform: translateX(46px);
   }
 `;
 
@@ -29,16 +29,6 @@ const expand = keyframes`
   100% {
     overflow: visible;
     max-height: 250px;
-  }
-`;
-
-const unexpand = keyframes`
-  0% {
-    overflow: visible;
-  }
-  100% {
-    overflow: hidden;
-    max-height: 46px;
   }
 `;
 
@@ -60,102 +50,95 @@ const fadeOut = keyframes`
   }
 `;
 
-export const VotePrompt = styled.div`
-  position: fixed;
-  bottom: 50px;
-  border: 2px solid #d1d5db;
-  border-radius: 16px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 7px 16px;
-  gap: 8px;
-  width: 90%;
-  background: #ffffff;
-  left: 0;
-  transform: translate(calc(50vw - 50%));
-  animation: ${slideIn} 0.5s linear;
-
-    ${MQDesktop} {
-      right: 26%;
-      width: 280px;
-      left: unset;
-      transform: unset;
-    }
+export const FeedbackContainer = styled.div`
+  &.START,
+  &.UP,
+  &.DOWN {
+    border: 2px solid #d1d5db;
   }
-`;
-
-export const YesVoteResponse = styled.div`
   position: fixed;
-  bottom: 50px;
-  border: 2px solid #d1d5db;
+  min-width: 268px;
+  bottom: 32px;
+  right: 32px;
+  left: 32px;
   border-radius: 16px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 7px 16px;
-  width: 90%;
-  background: #f2fcf3;
-  left: 0;
-  transform: translate(calc(50vw - 50%));
-  max-height: 46px;
-  overflow: hidden;
-  animation: ${expand} 0.3s linear, ${fadeOut} 0.3s ease-in-out 1.5s;
-  animation-fill-mode: forwards, forwards;
-    ${MQDesktop} {
-      right: 26%;
-      width: 280px;
-      left: unset;
-      transform: unset;
-    }
-  }
-`;
-
-export const NoVoteResponse = styled.div`
-  position: fixed;
-  bottom: 50px;
-  border: 2px solid #d1d5db;
-  border-radius: 16px;
-  padding: 12px 16px;
-  width: 90%;
-  max-height: 46px;
-  background: #FFF7F7;
-  left: 0;
-  transform: translate(calc(50vw - 50%));
-  overflow: hidden;
-  animation: ${expand} 0.3s linear;
-  animation-fill-mode: forwards;
-    ${MQDesktop} {
-      right: 26%;
-      width: 280px;
-      left: unset;
-      transform: unset;
-    }
-  }
-`;
-
-export const InitialLoad = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 5px;
-  border-bottom: 2px solid #e9ebed;
-`;
-
-export const SecondaryLoad = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-export const Details = styled.div`
-  display: flex;
-  flex-direction: row;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
+  padding: 12px 16px;
+  transition: bottom 0.3s;
+  animation: ${slideIn} 0.5s linear;
+  filter: drop-shadow(0px 4px 20px rgba(0, 7, 22, 0.12));
+  box-sizing: border-box;
+
+  &.START {
+    background-color: #ffffff;
+    div {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+  &.UP {
+    background-color: #f2fcf3;
+    animation: ${fadeOut} 0.3s ease-in-out 1.5s;
+    animation-fill-mode: forwards;
+    div {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+  &.DOWN {
+    background-color: #fff7f7;
+    max-height: 50px;
+    overflow: hidden;
+    animation: ${expand} 0.3s linear 0.3s;
+    animation-fill-mode: forwards;
+    div > .response {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      line-height: 22px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #e9ebed;
+    }
+    div > .expanding-section {
+      display: flex;
+      flex-direction: column;
+      .cta {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin: 12px 0;
+        p {
+          line-height: 22px;
+        }
+        button {
+          padding: 0px !important;
+          border: 0 !important;
+          span {
+            cursor: pointer !important;
+            padding: 0 !important;
+            height: unset !important;
+          }
+        }
+      }
+    }
+  }
+  .sizing {
+    font-weight: bold;
+    margin-right: 34px;
+    align-items: left;
+    visibility: hidden;
+    height: 0;
+  }
+  ${MQDesktop} {
+    right: calc(((100vw - 90rem) / 2) + 16.875rem + 32px);
+    left: unset;
+  }
 `;
 
 export const FeedbackText = styled.p`
@@ -170,23 +153,34 @@ export const VoteButtonsContainer = styled.div`
   display: flex;
   flex-direction: row;
   width: 66px;
-`;
-
-export const VoteButtonsAnimation = styled.div`
-  display: flex;
-  flex-direction: row;
-  animation: ${slideOver} 0.3s ease-in-out;
-  animation-fill-mode: forwards;
-  width: 66px;
-  position: absolute;
-  right: 14px;
-  > :nth-of-type(2) {
-    animation: ${fadeOut} 0.2s ease-in-out;
-    animation-fill-mode: forwards;
+  justify-content: center;
+  span {
+    padding: 0 !important;
+    height: unset !important;
   }
-  > :nth-of-type(1) {
-    animation: ${fadeOut} 0.3s ease-in-out;
+  &.up {
+    display: flex;
+    flex-direction: row;
+    animation: ${slideOver} 0.3s ease-in-out;
     animation-fill-mode: forwards;
+    width: 66px;
+    position: absolute;
+    right: 16px;
+    > :nth-of-type(2) {
+      animation: ${fadeOut} 0.2s ease-in-out;
+      animation-fill-mode: forwards;
+    }
+  }
+  &.down {
+    display: flex;
+    flex-direction: row;
+    width: 66px;
+    position: absolute;
+    right: 16px;
+    > :nth-of-type(1) {
+      animation: ${fadeOut} 0.2s ease-in-out, ${slideOver} 0.3s ease-in-out;
+      animation-fill-mode: forwards;
+    }
   }
 `;
 
@@ -194,12 +188,15 @@ export const VoteButtonReplace = styled.div`
   display: flex;
   flex-direction: row;
   transform: translateX(49px);
-  animation: ${slideOver} 0.3s ease-in-out, ${fadeIn} 0.3s ease-in-out 0.2s;
+  animation: ${slideOver} 0.3s ease-in-out;
   animation-fill-mode: forwards;
   width: 66px;
   position: absolute;
-  right: 14px;
+  right: 16px;
   opacity: 0;
+  span {
+    padding: 0 !important;
+  }
 `;
 
 export const VoteButton = styled.a`
@@ -208,6 +205,33 @@ export const VoteButton = styled.a`
   &:hover {
     cursor: pointer;
     background: none !important;
+  }
+  span {
+    padding: 0 !important;
+    height: unset !important;
+  }
+`;
+
+export const ButtonStyles = styled.span`
+  display: flex;
+  justify-content: center !important;
+  width: 100%;
+  a {
+    background: none !important;
+    cursor: pointer;
+    color: #414d5c !important;
+    border-color: #414d5c !important;
+    width: 100%;
+    display: flex !important;
+    justify-content: center;
+    span {
+      cursor: pointer;
+    }
+    &:hover {
+      border-color: #000716 !important;
+      color: #000716 !important;
+      background: rgba(0, 7, 22, 0.05) !important;
+    }
   }
 `;
 
@@ -218,9 +242,4 @@ export const Divider = styled.div`
   background: #e9ebed;
   align-self: center;
   margin: 0 12px;
-`;
-
-export const closeResponse = css`
-  animation: ${fadeOut} 0.3s ease-in-out;
-  animation-fill-mode: forwards;
 `;

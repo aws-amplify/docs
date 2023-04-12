@@ -1,18 +1,12 @@
 import { useCallback, useRef, useState } from 'react';
 import {
-  VotePrompt,
+  FeedbackContainer,
   VoteButton,
   VoteButtonReplace,
   VoteButtonsContainer,
-  VoteButtonsAnimation,
   FeedbackText,
   Divider,
-  YesVoteResponse,
-  NoVoteResponse,
-  InitialLoad,
-  SecondaryLoad,
-  Details,
-  closeResponse
+  ButtonStyles
 } from './styles';
 import { useEffect } from 'react';
 import { trackFeedbackSubmission } from '../../utils/track';
@@ -20,8 +14,8 @@ import { Icon, Button } from '@cloudscape-design/components';
 
 enum FeedbackState {
   START = 'START',
-  UP = 'VOTE UP',
-  DOWN = 'VOTE DOWN',
+  UP = 'UP',
+  DOWN = 'DOWN',
   HIDDEN = 'HIDDEN'
 }
 
@@ -37,9 +31,37 @@ export default function Feedback() {
   const feedbackQuestion = 'Did this page help you?';
   const yesVoteResponse = 'Thanks for the thumbs up!';
   const noVoteResponse = "We're sorry we let you down";
-  const noVoteSecondary = 'Can you provide more details?';
+  const noVoteCTA = 'Can you provide more details?';
   const noVoteCTAButton = 'File an issue on GitHub';
   const ctaIcon = 'external';
+  const iconPosition = 'right';
+  const buttonLink = 'https://github.com/aws-amplify/docs/issues/new/choose';
+
+  let prevScrollpos = window.pageYOffset;
+  document.addEventListener('touchmove', hideFeedback);
+  document.addEventListener('scroll', hideFeedback);
+
+  function hideFeedback() {
+    const currentScrollPos = window.pageYOffset;
+    const footer = document.getElementsByTagName('footer')[0];
+    const visibleFooter =
+      document.body.scrollHeight - footer.offsetHeight <=
+      currentScrollPos + window.innerHeight;
+    const scrollingUp = prevScrollpos >= currentScrollPos;
+    const scrollingDown = prevScrollpos < currentScrollPos;
+    const feedbackContainer = document.getElementById('feedback-container');
+
+    if ((scrollingUp && visibleFooter) || scrollingDown) {
+      if (feedbackContainer) feedbackContainer.style.bottom = '-150px';
+    } else if (scrollingUp) {
+      if (feedbackContainer) feedbackContainer.style.bottom = '32px';
+    }
+    prevScrollpos = currentScrollPos;
+  }
+
+  function hide() {
+    setState(FeedbackState.HIDDEN);
+  }
 
   const onYesVote = useCallback(() => {
     setState(FeedbackState.UP);
@@ -52,32 +74,62 @@ export default function Feedback() {
   }, []);
 
   const close = useCallback(() => {
-    setState(FeedbackState.HIDDEN);
+    const feedbackContainer = document.getElementById('feedback-container');
+    if (feedbackContainer) {
+      feedbackContainer.style.bottom = '-150px';
+    }
+    setTimeout(hide, 200);
   }, []);
 
   return (
-    <>
+    <FeedbackContainer id="feedback-container" className={state}>
+      <div className="sizing" aria-hidden="true">
+        {yesVoteResponse}
+      </div>
+      <div className="sizing" aria-hidden="true">
+        {noVoteResponse}
+      </div>
+      <div className="sizing" aria-hidden="true">
+        {feedbackQuestion}
+      </div>
+
       {state == FeedbackState.START ? (
-        <VotePrompt id="votePrompt">
+        <div aria-label={feedbackQuestion} tabIndex={0}>
           <FeedbackText>{feedbackQuestion}</FeedbackText>
           <VoteButtonsContainer>
-            <VoteButton onClick={onYesVote}>
+            <VoteButton
+              href="#"
+              onClick={onYesVote}
+              aria-label="thumbs up"
+              role="button"
+              tabIndex={0}
+            >
               <Icon name="thumbs-up" variant="link" size="medium"></Icon>
             </VoteButton>
             <Divider />
-            <VoteButton onClick={onNoVote}>
+            <VoteButton
+              href="#"
+              onClick={onNoVote}
+              aria-label="thumbs down"
+              role="button"
+              tabIndex={0}
+            >
               <Icon name="thumbs-down" variant="link" size="medium"></Icon>
             </VoteButton>
           </VoteButtonsContainer>
-        </VotePrompt>
+        </div>
       ) : state == FeedbackState.UP ? (
-        <YesVoteResponse id="yesVoteResponse">
+        <div>
           <FeedbackText>{yesVoteResponse}</FeedbackText>
-          <VoteButtonsAnimation>
-            <Icon name="thumbs-up" variant="link" size="medium"></Icon>
+          <VoteButtonsContainer className="up">
+            <Icon
+              name="thumbs-up-filled"
+              variant="success"
+              size="medium"
+            ></Icon>
             <Divider />
             <Icon name="thumbs-down" variant="link" size="medium"></Icon>
-          </VoteButtonsAnimation>
+          </VoteButtonsContainer>
           <VoteButtonReplace>
             <Icon
               name="thumbs-up-filled"
@@ -85,37 +137,48 @@ export default function Feedback() {
               size="medium"
             ></Icon>
           </VoteButtonReplace>
-        </YesVoteResponse>
+        </div>
       ) : state == FeedbackState.DOWN ? (
-        <NoVoteResponse id="no-response">
-          <InitialLoad>
+        <div>
+          <div className="response">
             <FeedbackText>{noVoteResponse}</FeedbackText>
-            <VoteButtonsAnimation>
+            <VoteButtonsContainer className="down">
               <Icon name="thumbs-up" variant="link" size="medium"></Icon>
               <Divider />
-              <Icon name="thumbs-down" variant="link" size="medium"></Icon>
-            </VoteButtonsAnimation>
-            <VoteButtonReplace>
               <Icon
                 name="thumbs-down-filled"
                 variant="error"
                 size="medium"
               ></Icon>
-            </VoteButtonReplace>
-          </InitialLoad>
-          <SecondaryLoad>
-            <Details>
-              <p>{noVoteSecondary}</p>
-              <Button iconName="close" variant="icon" onClick={close}></Button>
-            </Details>
-            <Button iconName={ctaIcon} iconAlign="right">
-              {noVoteCTAButton}
-            </Button>
-          </SecondaryLoad>
-        </NoVoteResponse>
+            </VoteButtonsContainer>
+          </div>
+          <div className="expanding-section">
+            <div className="cta">
+              <p>{noVoteCTA}</p>
+              <Button
+                iconName="close"
+                variant="icon"
+                aria-label="close"
+                tabIndex={0}
+                onClick={close}
+              ></Button>
+            </div>
+            <ButtonStyles>
+              <Button
+                href={buttonLink}
+                iconName={ctaIcon}
+                iconAlign={iconPosition}
+                aria-label={noVoteCTAButton}
+                tabIndex={0}
+              >
+                {noVoteCTAButton}
+              </Button>
+            </ButtonStyles>
+          </div>
+        </div>
       ) : (
         <div></div>
       )}
-    </>
+    </FeedbackContainer>
   );
 }
