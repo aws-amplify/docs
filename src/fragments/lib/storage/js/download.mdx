@@ -13,7 +13,7 @@ await Storage.get(key: string, config: {
 });
 ```
 
-`Storage.get` returns a signed URL `string` to your file, if `download` is false, which is the default. You can use this to create a download link for people to click on. This is our recommended option. Note that this method **does not check if the file actually exists by default**. But you can check for the existence of file by setting `validateObjectExistence` to `true`.
+`Storage.get` returns a signed URL `string` to your file if `download` is false, which is the default. You can use this to create a download link for users to click on. Note that this function **does not check if the file exists by default**. You can enable this check by setting `validateObjectExistence` to `true`.
 
 ```js
 // get the signed URL string
