@@ -1,6 +1,6 @@
 The fastest way to get started is using the `amplify-app` npx script.
 
-<iframe src="https://www.youtube-nocookie.com/embed/wH-UnQy1ltM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe sandbox src="https://www.youtube-nocookie.com/embed/wH-UnQy1ltM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 <br/>
 
 <BlockSwitcher>
@@ -81,7 +81,7 @@ Then configure the SQLite storage adapter with DataStore in your app:
 
 ```js
 import { DataStore } from 'aws-amplify';
-import ExpoSQLiteAdapter from '@aws-amplify/datastore-storage-adapter/ExpoSQLiteAdapter';
+import { ExpoSQLiteAdapter } from '@aws-amplify/datastore-storage-adapter/ExpoSQLiteAdapter';
 
 DataStore.configure({
   storageAdapter: ExpoSQLiteAdapter

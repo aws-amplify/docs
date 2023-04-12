@@ -19,6 +19,7 @@ export default function QuickstartResources() {
       <Flex wrap={'wrap'} justifyContent={'center'} width="100%" gap="2em">
         <View width={{ base: '90%', large: '40%' }}>
           <iframe
+            sandbox
             width="600"
             height="350"
             src="https://www.youtube-nocookie.com/embed/8BUSqSkhqtw"
@@ -30,6 +31,7 @@ export default function QuickstartResources() {
         </View>
         <View width={{ base: '90%', large: '40%' }}>
           <iframe
+            sandbox
             width="600"
             height="350"
             src="https://www.youtube-nocookie.com/embed/WMKVE98hEzE"
