@@ -11,6 +11,13 @@ export const directory = {
     },
     items: {}
   },
+  "flutter-references": {
+    productRoot: {
+      title: 'Amplify Libraries for Flutter API References',
+      route: '/flutter-references'
+    },
+    items: {}
+  },
   lib: {
     productRoot: {
       title: 'Amplify Libraries',
@@ -790,21 +797,6 @@ export const directory = {
             title: 'Use existing AWS resources',
             route: '/lib/storage/existing-resources',
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
-          }
-        ]
-      },
-      xr: {
-        title: 'XR',
-        items: [
-          {
-            title: 'Getting started',
-            route: '/lib/xr/getting-started',
-            filters: ['js']
-          },
-          {
-            title: 'Scene API',
-            route: '/lib/xr/sceneapi',
-            filters: ['js']
           }
         ]
       },
@@ -1731,6 +1723,11 @@ export const directory = {
           {
             title: 'Evolving GraphQL schemas',
             route: '/cli/graphql/schema-evolution',
+            filters: []
+          },
+          {
+            title: 'Directives reference',
+            route: '/cli/graphql/directives-reference',
             filters: []
           },
           {

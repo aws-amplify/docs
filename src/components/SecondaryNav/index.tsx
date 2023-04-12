@@ -9,6 +9,7 @@ import {
   IOS_REFERENCE,
   ANDROID_REFERENCE,
   JS_REFERENCE,
+  FLUTTER_REFERENCE,
   HOSTING_REFERENCE
 } from '../../constants/links';
 import ExternalLink from '../ExternalLink';
@@ -24,99 +25,102 @@ export default function SecondaryNav() {
   const router = useRouter();
   const path = router.asPath;
   const filterKeys = parseLocalStorage('filterKeys', {});
-  const [domLoaded, setDomLoaded] = useState(false);
-
-  useEffect(() => {
-    setDomLoaded(true);
-  }, []);
 
   return (
     <HostStyle>
-      {domLoaded && (
-        <Container>
-          <SecondaryNavStyle id="secondary-nav">
-            <div className="secondary-nav-links">
-              {[
-                {
-                  label: 'Getting Started',
-                  url: '/start'
-                },
-                {
-                  label: 'Libraries',
-                  url: '/lib',
-                  additionalActiveChildRoots: ['/lib', '/sdk']
-                },
-                {
-                  label: 'CLI',
-                  url: '/cli'
-                },
-                {
-                  label: 'Studio',
-                  url: '/console'
-                },
-                {
-                  label: 'Hosting',
-                  url: HOSTING_REFERENCE,
-                  external: true
-                },
-                {
-                  label: 'Guides',
-                  url: '/guides'
-                },
-                ...('platform' in filterKeys &&
-                (filterKeys as { platform: string }).platform
-                  ? [
-                      {
-                        label: 'API Reference',
-                        url: (() => {
-                          switch (
-                            (filterKeys as { platform: string }).platform
-                          ) {
-                            case 'ios': {
-                              return IOS_REFERENCE;
-                            }
-                            case 'android': {
-                              return ANDROID_REFERENCE;
-                            }
-                            default: {
-                              return JS_REFERENCE;
-                            }
+      <Container>
+        <SecondaryNavStyle id="secondary-nav">
+          <div className="secondary-nav-links">
+            {[
+              {
+                label: 'Getting Started',
+                url: '/start'
+              },
+              {
+                label: 'Libraries',
+                url: '/lib',
+                additionalActiveChildRoots: ['/lib', '/sdk']
+              },
+              {
+                label: 'CLI',
+                url: '/cli'
+              },
+              {
+                label: 'Studio',
+                url: '/console'
+              },
+              {
+                label: 'Hosting',
+                url: HOSTING_REFERENCE,
+                external: true
+              },
+              {
+                label: 'Guides',
+                url: '/guides'
+              },
+              ...('platform' in filterKeys &&
+              (filterKeys as { platform: string }).platform
+                ? [
+                    {
+                      label: 'API Reference',
+                      url: (() => {
+                        switch ((filterKeys as { platform: string }).platform) {
+                          case 'ios': {
+                            return IOS_REFERENCE;
                           }
-                        })(),
-                        external: true
-                      }
-                    ]
-                  : [])
-              ].map(({ url, label, external, additionalActiveChildRoots }) => {
-                const matchingRoots =
-                  additionalActiveChildRoots === undefined
-                    ? [url]
-                    : [url, ...additionalActiveChildRoots];
-                const active = matchingRoots.some((root) => {
-                  return path.startsWith(root);
-                });
-                const LinkStyle = active ? LinkActiveStyle : LinkInactiveStyle;
-                if (external) {
-                  return (
-                    <ExternalLink href={url} key={label} graphic="black">
-                      <span>{label}</span>
-                    </ExternalLink>
-                  );
-                } else {
-                  return (
-                    <InternalLink href={url} key={label}>
-                      <LinkStyle href={url}>{label}</LinkStyle>
-                    </InternalLink>
-                  );
-                }
-              })}
-            </div>
-            <SearchBarContainer>
-              <SearchBar />
-            </SearchBarContainer>
-          </SecondaryNavStyle>
-        </Container>
-      )}
+                          case 'android': {
+                            return ANDROID_REFERENCE;
+                          }
+                          case 'flutter': {
+                            return FLUTTER_REFERENCE;
+                          }
+                          default: {
+                            return JS_REFERENCE;
+                          }
+                        }
+                      })(),
+                      external: (() => {
+                        switch ((filterKeys as { platform: string }).platform) {
+                          case 'flutter': {
+                            return false;
+                          }
+                          default: {
+                            return true;
+                          }
+                        }
+                      })()
+                    }
+                  ]
+                : [])
+            ].map(({ url, label, external, additionalActiveChildRoots }) => {
+              const matchingRoots =
+                additionalActiveChildRoots === undefined
+                  ? [url]
+                  : [url, ...additionalActiveChildRoots];
+              const active = matchingRoots.some((root) => {
+                return path.startsWith(root);
+              });
+              const LinkStyle = active ? LinkActiveStyle : LinkInactiveStyle;
+              if (external) {
+                return (
+                  <ExternalLink href={url} key={label} graphic="black">
+                    <span>{label}</span>
+                  </ExternalLink>
+                );
+              } else {
+                return (
+                  <InternalLink href={url} key={label}>
+                    <LinkStyle href={url}>{label}</LinkStyle>
+                  </InternalLink>
+                );
+              }
+            })}
+          </div>
+          <SearchBarContainer>
+            <SearchBar />
+          </SearchBarContainer>
+        </SecondaryNavStyle>
+      </Container>
     </HostStyle>
   );
 }
