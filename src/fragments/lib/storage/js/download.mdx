@@ -144,7 +144,7 @@ await Storage.get('filename.txt', { expires: 60 });
 You can check the existence of file in the storage using `validateObjectExistence` option. If the the file is existed the get call returns a pre-signed URL and if the file does not exist then return a 404 Error.
 
 ```javascript
-// To check existence of file
+// To check for existence of a file
 await Storage.get('filename.txt', { validateObjectExistence: true });
 ```
 
