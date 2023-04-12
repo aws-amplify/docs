@@ -11,6 +11,8 @@ import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 
 // Define your own prefix resolver, which implements the `S3PrefixResolver`.
 class MyPrefixResolver implements S3PrefixResolver {
+  const MyPrefixResolver();
+
   @override
   Future<String> resolvePrefix({
     required StorageAccessLevel accessLevel,
@@ -20,7 +22,7 @@ class MyPrefixResolver implements S3PrefixResolver {
       return 'myPublicPrefix/';
     }
 
-    late String accessLevelPrefix;
+    final String accessLevelPrefix;
 
     if (accessLevel == StorageAccessLevel.protected) {
       accessLevelPrefix = 'myProtectedPrefix/';
@@ -34,8 +36,8 @@ class MyPrefixResolver implements S3PrefixResolver {
   }
 
   Future<String> getCurrentUserIdentityId() async {
-    final authSession =
-        await Amplify.Auth.fetchAuthSession() as CognitoAuthSession;
+    final authPlugin = Amplify.Auth.getPlugin(AmplifyAuthCognito.pluginKey);
+    final authSession = await authPlugin.fetchAuthSession();
     return authSession.identityIdResult.value;
   }
 }
@@ -53,36 +55,39 @@ await Amplify.addPlugin(storagePlugin);
 ```
 
 Add the IAM policy that corresponds with the prefixes defined above to enable read, write and delete operation for all the objects under path *myPublicPrefix/*:
-```xml
-"Statement": [
+```json
+{
+  "Statement": [
     {
-        "Effect": "Allow",
-        "Action": [
-            "s3:GetObject",
-            "s3:PutObject",
-            "s3:DeleteObject"
-        ],
-        "Resource": [
-            "arn:aws:s3:::your-s3-bucket/myPublicPrefix/*",
-        ]
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:DeleteObject"
+      ],
+      "Resource": ["arn:aws:s3:::your-s3-bucket/myPublicPrefix/*"]
     }
-]
+  ]
+}
+
 ```
 If you want to have custom *private* path prefix like *`myPrivatePrefix/`*, you need to add it into your IAM policy:
-```xml
-"Statement": [
+```json
+{
+  "Statement": [
     {
-        "Effect": "Allow",
-        "Action": [
-            "s3:GetObject",
-            "s3:PutObject",
-            "s3:DeleteObject"
-        ],
-        "Resource": [
-            "arn:aws:s3:::your-s3-bucket/myPrivatePrefix/${cognito-identity.amazonaws.com:sub}/*"
-        ]
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:DeleteObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::your-s3-bucket/myPrivatePrefix/${cognito-identity.amazonaws.com:sub}/*"
+      ]
     }
-]
+  ]
+}
 ```
 #### Passthrough PrefixResolver
 
