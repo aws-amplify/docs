@@ -31,19 +31,19 @@ module.exports = async (phase, { defaultConfig }) => {
 
   const withMDX = require('@next/mdx')({
     extension: /\.mdx$/,
-    loader: '@mdx-js/loader',
+    // loader: '@mdx-js/loader',
     jsx: true,
     options: {
       providerImportSource: '@mdx-js/react',
       remarkPlugins: [
-        frontmatterPlugin,
-        importPlugin,
-        headingLinkPlugin,
-        pagePlugin,
-        internalLinkPlugin,
         [remarkCodeHike, { theme }]
-      ],
-      rehypePlugins: [codeBlockPlugin]
+        // frontmatterPlugin,
+        // importPlugin,
+        // headingLinkPlugin,
+        // pagePlugin
+        // internalLinkPlugin
+      ]
+      // rehypePlugins: [codeBlockPlugin]
       // renderer: mdxRenderer
     }
   });

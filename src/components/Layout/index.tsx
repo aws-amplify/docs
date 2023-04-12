@@ -79,17 +79,17 @@ export default function Layout({
           />
         </Head>
       )}
-      <GlobalNav
+      {/* <GlobalNav
         leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
         rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
         socialLinks={SOCIAL_LINKS as NavMenuItem[]}
         currentSite={'Docs'}
       />
-      <SecondaryNav />
+      <SecondaryNav /> */}
       <Container backgroundColor="bg-color-tertiary">
         <LayoutStyle>{children}</LayoutStyle>
       </Container>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

@@ -5,6 +5,16 @@ const directory = {
       route: '/lib'
     },
     items: {
+      fake: {
+        title: 'fake',
+        items: [
+          {
+            title: 'fake',
+            route: '/lib/fake',
+            filters: []
+          }
+        ]
+      },
       'project-setup': {
         title: 'Project Setup',
         items: [
@@ -790,7 +800,11 @@ const directory = {
             route: '/lib/utilities/serviceworker',
             filters: ['js']
           },
-          { title: 'Cache', route: '/lib/utilities/cache', filters: ['js', 'react-native'] },
+          {
+            title: 'Cache',
+            route: '/lib/utilities/cache',
+            filters: ['js', 'react-native']
+          },
           {
             title: 'Hub',
             route: '/lib/utilities/hub',

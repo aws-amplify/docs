@@ -1123,6 +1123,7 @@
     "screencap",
     "screencast",
     "scrollview",
+    "Scrollycoding",
     "SDK's",
     "sdk",
     "SDKs",
@@ -1494,11 +1495,5 @@
     "kotlinx",
     "snapcraft"
   ],
-  "flagWords": [
-    "hte", 
-    "full-stack", 
-    "Full-stack", 
-    "Full-Stack",
-    "sudo",
-  ]
+  "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"]
 }
