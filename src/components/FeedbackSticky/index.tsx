@@ -159,7 +159,6 @@ export default function Feedback() {
                 iconName="close"
                 variant="icon"
                 aria-label="close"
-                tabIndex={0}
                 onClick={close}
               ></Button>
             </div>
@@ -169,7 +168,6 @@ export default function Feedback() {
                 iconName={ctaIcon}
                 iconAlign={iconPosition}
                 aria-label={noVoteCTAButton}
-                tabIndex={0}
               >
                 {noVoteCTAButton}
               </Button>
