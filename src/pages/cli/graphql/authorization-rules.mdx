@@ -99,6 +99,12 @@ By default, the Cognito user pool's user information is populated into the `owne
 
 You can override the `owner` field to your own preferred field, by specifying a custom `ownerField` in the authorization rule.
 
+<Callout>
+
+Do not set `ownerField` to your `@primaryKey` field or `id` field if no primary key is specified. If you want to query by the `ownerField`, use an `@index` on that `ownerField` to create a secondary index.
+
+</Callout>
+
 ```graphql
 type Todo @model @auth(rules: [{ allow: owner, ownerField: "author" }]) {
   content: String                             #^^^^^^^^^^^^^^^^^^^^
@@ -210,7 +216,11 @@ With dynamic group authorization, each record contains an attribute specifying w
 
 By default, `group` authorization leverages Amazon Cognito user pool groups but you can also use OpenID Connect with `group` authorization. See [OpenID Connect as an authorization provider](#using-oidc-authorization-provider).
 
-**Known limitation**: Real-time subscriptions are not supported for dynamic group authorization.
+**Known limitations for real-time subscriptions when using dynamic group authorization**:
+1. If you authorize based on a single group per record, then subscriptions are only supported if the user is part of 5 or fewer user groups
+2. If you authorize via an array of groups (`groups: [String]` example above),
+  - subscriptions are only supported if the user is part of 20 or fewer groups
+  - you can only authorize 20 or fewer user groups per record
 
 ### Custom authorization rule
 
@@ -283,6 +293,23 @@ type Post @model @auth(rules: [
   title: String
   content: String
 }
+```
+```js
+import { createPost } from './graphql/mutations';
+import { listPosts } from './graphql/queries';
+
+// Creating a post is restricted to Cognito User Pools
+const newPostResult = await API.graphql({
+	query: queries.createPost,
+	variables: { input: { title: 'Hello World' } },
+	authMode: 'AMAZON_COGNITO_USER_POOLS',
+});
+
+// Listing posts is available to all users (verified by IAM)
+const listPostsResult = await API.graphql({
+	query: queries.listPosts,
+	authMode: 'AWS_IAM',
+});
 ```
 
 In the example above:
@@ -481,5 +508,11 @@ Authorization rules consists of:
 - **authorization provider** (`provider`): which mechanism is used to apply the authorization rule (API Key, IAM, Amazon Cognito user pool, OIDC)
 - **authorized operations** (`operations`): which operations are allowed for the given strategy and provider. If not specified, `create`, `read`, `update`, and `delete` operations are allowed.
   - **`read` operation**: `read` operation can be replaced with `get`, `list`, `sync`, `listen`, and `search` for a more granular query access
+
+<Callout warning>
+
+If you use DataStore instead of the API category to connect to your AppSync API, then you must allow `listen` and `sync` operations for your data model.
+
+</Callout>
 
 **API Keys** are best used for public APIs (or parts of your schema which you wish to be public) or prototyping, and you must specify the expiration time before deploying. **IAM** authorization uses [Signature Version 4](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html) to make request with policies attached to Roles. OIDC tokens provided by **Amazon Cognito user pool** or **3rd party OpenID Connect** providers can also be used for authorization, and enabling this provides a simple access control requiring users to authenticate to be granted top level access to API actions.

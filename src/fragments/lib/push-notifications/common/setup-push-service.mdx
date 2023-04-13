@@ -1,3 +1,15 @@
-import ios0 from "/src/fragments/lib/push-notifications/ios/setup_push_service/setup-apns.mdx";
+import androidSetupService from '/src/fragments/lib/push-notifications/android/setup_push_service/setup-fcm.mdx';
+import iosSetupService from '/src/fragments/lib/push-notifications/ios/setup_push_service/setup-apns.mdx';
+import reactNativeSetupService from '/src/fragments/lib/push-notifications/react-native/setup_push_service/setup-push-service.mdx';
 
-<Fragments fragments={{ios: ios0}} />
+<Fragments
+  fragments={{
+    android: androidSetupService,
+    ios: iosSetupService,
+    'react-native': reactNativeSetupService
+  }}
+/>
+
+import androidHandlingActions from '/src/fragments/lib/push-notifications/android/setup_push_service/handling-actions.mdx';
+
+<Fragments fragments={{ android: androidHandlingActions }} />
