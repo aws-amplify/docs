@@ -208,6 +208,7 @@ export function metaContent({
               <NextPrevious url={url} filterKey={filterKey} />
             </CodeBlockProvider>
           </div>
+          <FeedbackSticky />
         </ContentStyle>
         <TableOfContents title={title}>{headers}</TableOfContents>
         {!onDesktop && (
@@ -224,7 +225,6 @@ export function metaContent({
                 src="/assets/close.svg"
               />
             </SidebarLayoutToggle>
-            <FeedbackSticky />
           </>
         )}
       </LastUpdatedDatesProvider>

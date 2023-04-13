@@ -143,6 +143,7 @@ export const FeedbackContainer = styled.div`
 
 export const FeedbackText = styled.p`
   margin-right: 12px;
+  font-size: 14px;
   font-weight: bold;
   line-height: 22px;
   animation: ${fadeIn} 0.3s ease-in;
