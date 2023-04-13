@@ -37,9 +37,11 @@ export default function Feedback() {
   const iconPosition = 'right';
   const buttonLink = 'https://github.com/aws-amplify/docs/issues/new/choose';
 
-  let prevScrollpos = window.pageYOffset;
-  document.addEventListener('touchmove', hideFeedback);
-  document.addEventListener('scroll', hideFeedback);
+  let prevScrollpos = typeof window !== 'undefined' ? window.pageYOffset : 0;
+  if (typeof document !== 'undefined') {
+    document.addEventListener('touchmove', hideFeedback);
+    document.addEventListener('scroll', hideFeedback);
+  }
 
   function hideFeedback() {
     const currentScrollPos = window.pageYOffset;
