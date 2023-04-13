@@ -154,6 +154,7 @@ export const VoteButtonsContainer = styled.div`
   display: flex;
   flex-direction: row;
   width: 66px;
+  height: 20px;
   justify-content: center;
   span {
     padding: 0 !important;
@@ -167,7 +168,8 @@ export const VoteButtonsContainer = styled.div`
     width: 66px;
     position: absolute;
     right: 16px;
-    > :nth-of-type(2) {
+    > :nth-of-type(2),
+    div {
       animation: ${fadeOut} 0.2s ease-in-out;
       animation-fill-mode: forwards;
     }
