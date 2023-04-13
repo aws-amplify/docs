@@ -1,7 +1,4 @@
 ```dart
-// Create a boolean for checking the sign up status
-var isSignUpComplete = false;
-
 Future<void> setUpMFASignUp() async {
   try {
     final userAttributes = <AuthUserAttributeKey, String>{
@@ -14,11 +11,9 @@ Future<void> setUpMFASignUp() async {
       password: 'mysupersecurepassword',
       options: SignUpOptions(userAttributes: userAttributes),
     );
-    setState(() {
-      isSignUpComplete = result.isSignUpComplete;
-    });
+    await _handleSignUpResult(result);
   } on AuthException catch (e) {
-    safePrint(e.message);
+    safePrint('Error signing up: ${e.message}');
   }
 }
 ```

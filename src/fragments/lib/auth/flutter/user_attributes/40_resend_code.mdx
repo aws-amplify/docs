@@ -4,10 +4,9 @@ Future<void> resendVerificationCode() async {
     final result = await Amplify.Auth.resendUserAttributeConfirmationCode(
       userAttributeKey: AuthUserAttributeKey.email,
     );
-    final destination = result.codeDeliveryDetails.destination;
-    safePrint('Confirmation code set to $destination');
-  } on AmplifyException catch (e) {
-    safePrint(e.message);
+    _handleCodeDelivery(result.codeDeliveryDetails);
+  } on AuthException catch (e) {
+    safePrint('Error resending code: ${e.message}');
   }
 }
 ```

@@ -18,9 +18,7 @@ Future<void> forgetCurrentDevice() async {
 
 ```dart
 // A device that was fetched via Amplify.Auth.fetchDevices()
-AuthDevice myDevice;
-
-Future<void> forgetSpecificDevice() async {
+Future<void> forgetSpecificDevice(AuthDevice myDevice) async {
   try {
     await Amplify.Auth.forgetDevice(myDevice);
     safePrint('Forget device succeeded');

@@ -6,7 +6,7 @@ Future<void> fetchCurrentUserAttributes() async {
       safePrint('key: ${element.userAttributeKey}; value: ${element.value}');
     }
   } on AuthException catch (e) {
-    safePrint(e.message);
+    safePrint('Error fetching user attributes: ${e.message}');
   }
 }
 ```
