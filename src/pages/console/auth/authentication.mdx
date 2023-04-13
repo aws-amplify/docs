@@ -13,12 +13,10 @@ Note that you must configure and deploy authentication for your application befo
 
 ## To configure how users log in to an app
 
-1. Sign in to the AWS Management console and open AWS Amplify.
-2. In the navigation pane, choose an application.
-3. On the application information page, choose the **Backend environments** tab, then choose **[Launch Studio](/console/adminui/start/#log-into-the-amplify-console)**.
-4. On the **Set up** menu, choose **Authentication**.
-5. In the **Configure log in** section, choose a login mechanism to add from the **Add login mechanism** list. Valid options are _Username_, _Phone number_, _Facebook_, _Google_, _Amazon_, and _Sign in with Apple_. If you choose one of the social sign-in mechanisms, _Facebook_, _Google_, _Amazon_, or _Sign in with Apple_ you will also need to enter your _App ID_, _App Secret_, and redirect URLs.
-6. (Optional) Add multi-factor authentication (MFA). MFA is set to **Off** by default. To turn on MFA, do the following in the **Multi-factor authentication** section:
+1. [Launch Studio](/console/adminui/start/#log-into-the-amplify-console) for an app
+2. On the **Set up** menu, choose **Authentication**.
+3. In the **Configure log in** section, choose a login mechanism to add from the **Add login mechanism** list. Valid options are _Username_, _Phone number_, _Facebook_, _Google_, _Amazon_, and _Sign in with Apple_. If you choose one of the social sign-in mechanisms, _Facebook_, _Google_, _Amazon_, or _Sign in with Apple_ you will also need to enter your _App ID_, _App Secret_, and redirect URLs.
+4. (Optional) Add multi-factor authentication (MFA). MFA is set to **Off** by default. To turn on MFA, do the following in the **Multi-factor authentication** section:
 
 - Choose **Enforced** to require MFA for all users or choose **Optional** to allow individual users to enable MFA.
 - (Optional) Choose **SMS**, and enter your SMS message.
@@ -32,13 +30,11 @@ Login mechanism settings, and sign up settings can't be changed after you deploy
 
 ## To reset authentication configuration settings
 
-1. Sign in to the AWS Management console and open AWS Amplify.
-2. In the navigation pane, choose an application.
-3. On the application information page, choose the **Backend environments** tab, then choose **[Launch Studio](/console/adminui/start/#log-into-the-amplify-console)**.
-4. On the **Set up** menu, choose **Authentication**.
-5. At the end of the **Authentication** page, choose **Reset all authentication settings and users**.
-6. In the **Delete authentication** confirmation window, choose **Delete all authentication rules**.
-7. The deployment progress displays in the upper right corner of the page.
-8. After the delete authentication deployment completes, deploy new authentication rules by following the steps in the preceding procedure [for configuring how users log in to an app](/console/auth/authentication#to-configure-how-users-log-in-to-an-app).
+1. [Launch Studio](/console/adminui/start/#log-into-the-amplify-console) for an app
+2. On the **Set up** menu, choose **Authentication**.
+3. At the end of the **Authentication** page, choose **Reset all authentication settings and users**.
+4. In the **Delete authentication** confirmation window, choose **Delete all authentication rules**.
+5. The deployment progress displays in the upper right corner of the page.
+6. After the delete authentication deployment completes, deploy new authentication rules by following the steps in the preceding procedure [for configuring how users log in to an app](/console/auth/authentication#to-configure-how-users-log-in-to-an-app).
 
 [\\]: * 'What is the consequence of doing the above? What should we warn about?'
