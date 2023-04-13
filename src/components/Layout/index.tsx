@@ -23,11 +23,6 @@ export default function Layout({
   filterKey?: string;
   filterMetadataByOption?: any;
 }) {
-  const [domLoaded, setDomLoaded] = useState(false);
-
-  useEffect(() => {
-    setDomLoaded(true);
-  }, []);
 
   const router = useRouter();
   if (!router.isReady) return <></>;
@@ -52,7 +47,7 @@ export default function Layout({
 
   return (
     <>
-      {meta && domLoaded && (
+      {meta && (
         <Head>
           <title>{`${title}`}</title>
           <meta property="og:title" content={title} key="og:title" />
