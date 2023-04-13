@@ -96,7 +96,7 @@
   "resolutions": {
     "**/trim": "0.0.3",
     "loader-utils": "2.0.4",
-    "minimatch": "3.1.2",
+    "minimatch": "5.0.1",
     "json5": "2.2.2",
     "decode-uri-component": "0.2.1",
     "vm2": "3.9.15"
