@@ -2,21 +2,25 @@ The Push Notifications category allows you to integrate push notifications in yo
 
 ## Prerequisites
 
-import ios0 from "/src/fragments/lib/push-notifications/ios/getting_started/10_pre_req.mdx";
+import androidPreReq from '/src/fragments/lib/push-notifications/android/getting_started/10_pre_req.mdx';
+import iosPreReq from '/src/fragments/lib/push-notifications/ios/getting_started/10_pre_req.mdx';
+import reactNativePreReq from '/src/fragments/lib/push-notifications/react-native/getting_started/10_pre_req.mdx';
 
-<Fragments fragments={{ios: ios0}} />
+<Fragments
+  fragments={{
+    android: androidPreReq,
+    ios: iosPreReq,
+    'react-native': reactNativePreReq
+  }}
+/>
 
-import android1 from "/src/fragments/lib/push-notifications/android/getting_started/10_pre_req.mdx";
+import iosSetEntitlements from '/src/fragments/lib/push-notifications/ios/getting_started/20_set_entitlements.mdx';
 
-<Fragments fragments={{android: android1}} />
+<Fragments fragments={{ ios: iosSetEntitlements }} />
 
-import ios3 from "/src/fragments/lib/push-notifications/ios/getting_started/20_set_entitlements.mdx";
+import iosCreateAppDelegate from '/src/fragments/lib/push-notifications/ios/getting_started/30_create_app_delegate.mdx';
 
-<Fragments fragments={{ios: ios3}} />
-
-import ios6 from "/src/fragments/lib/push-notifications/ios/getting_started/30_create_app_delegate.mdx";
-
-<Fragments fragments={{ios: ios6}} />
+<Fragments fragments={{ ios: iosCreateAppDelegate }} />
 
 ## Setup backend resources
 
@@ -25,44 +29,78 @@ To use Push Notifications with Amplify, you have the option to either have the A
 <BlockSwitcher>
 <Block name="Amplify CLI">
 
-import ios9 from "/src/fragments/lib/push-notifications/ios/getting_started/40_cli_resources.mdx";
+> Prerequisite: [Install and configure the Amplify CLI](/cli/start/install)
 
-<Fragments fragments={{ios: ios9}} />
+<Callout warning>
 
-import android4 from "/src/fragments/lib/push-notifications/android/getting_started/20_cli_resources.mdx";
+Push Notifications requires version **10.8.0+** of the Amplify CLI. You can check your current version with `amplify -version` and upgrade to the latest version with `amplify upgrade`.
 
-<Fragments fragments={{android: android4}} />
+</Callout>
+
+To start provisioning push notification resources in the backend, go to your project directory and execute the command:
+
+```sh
+amplify add notifications
+```
+
+import androidCliResources from '/src/fragments/lib/push-notifications/android/getting_started/20_cli_resources.mdx';
+import iosCliResources from '/src/fragments/lib/push-notifications/ios/getting_started/40_cli_resources.mdx';
+import reactNativeCliResources from '/src/fragments/lib/push-notifications/react-native/getting_started/20_cli_resources.mdx';
+
+<Fragments
+  fragments={{
+    android: androidCliResources,
+    ios: iosCliResources,
+    'react-native': reactNativeCliResources
+  }}
+/>
 
 </Block>
 <Block name="Existing resources">
 
-import ios12 from "/src/fragments/lib/push-notifications/ios/getting_started/50_existing_resources.mdx";
+import androidExistingResources from '/src/fragments/lib/push-notifications/android/getting_started/30_existing_resources.mdx';
+import iosExistingResources from '/src/fragments/lib/push-notifications/ios/getting_started/50_existing_resources.mdx';
+import reactNativeExistingResources from '/src/fragments/lib/push-notifications/react-native/getting_started/30_existing_resources.mdx';
 
-<Fragments fragments={{ios: ios12}} />
-
-import android7 from "/src/fragments/lib/push-notifications/android/getting_started/30_existing_resources.mdx";
-
-<Fragments fragments={{android: android7}} />
+<Fragments
+  fragments={{
+    android: androidExistingResources,
+    ios: iosExistingResources,
+    'react-native': reactNativeExistingResources
+  }}
+/>
 
 </Block>
 </BlockSwitcher>
 
 ## Install Amplify Libraries
 
-import ios15 from "/src/fragments/lib/push-notifications/ios/getting_started/60_install_lib.mdx";
+import androidInstallLib from '/src/fragments/lib/push-notifications/android/getting_started/40_install_lib.mdx';
+import iosInstallLib from '/src/fragments/lib/push-notifications/ios/getting_started/60_install_lib.mdx';
+import reactNativeInstallLib from '/src/fragments/lib/push-notifications/react-native/getting_started/40_install_lib.mdx';
 
-<Fragments fragments={{ios: ios15}} />
+<Fragments
+  fragments={{
+    android: androidInstallLib,
+    ios: iosInstallLib,
+    'react-native': reactNativeInstallLib
+  }}
+/>
 
-import android10 from "/src/fragments/lib/push-notifications/android/getting_started/40_install_lib.mdx";
+import reactNativeIntegrateNativeModule from '/src/fragments/lib/push-notifications/react-native/getting_started/50_integrate_native_modules.mdx';
 
-<Fragments fragments={{android: android10}} />
+<Fragments  fragments={{ 'react-native': reactNativeIntegrateNativeModule }} />
 
 ## Initialize Amplify Push Notifications
 
-import ios18 from "/src/fragments/lib/push-notifications/ios/getting_started/70_init_push_notifications.mdx";
+import androidInitPN from '/src/fragments/lib/push-notifications/android/getting_started/50_init_push_notifications.mdx';
+import iosInitPN from '/src/fragments/lib/push-notifications/ios/getting_started/70_init_push_notifications.mdx';
+import reactNativeInitPN from '/src/fragments/lib/push-notifications/react-native/getting_started/60_init_push_notifications.mdx';
 
-<Fragments fragments={{ios: ios18}} />
-
-import android13 from "/src/fragments/lib/push-notifications/android/getting_started/50_init_push_notifications.mdx";
-
-<Fragments fragments={{android: android13}} />
+<Fragments
+  fragments={{
+    android: androidInitPN,
+    ios: iosInitPN,
+    'react-native': reactNativeInitPN
+  }}
+/>

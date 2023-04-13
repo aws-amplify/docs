@@ -1,0 +1,35 @@
+You should have [completed the CLI and project setup steps.](/lib/project-setup/prereq)
+
+<BlockSwitcher>
+<Block name="iOS">
+
+A React Native application with a minimum target of iOS 13.0, using Xcode 13.4 or later.
+
+import apnsPreReq from '/src/fragments/lib/push-notifications/ios/getting_started/apns-pre-req.mdx';
+
+<Fragments fragments={{ 'react-native': apnsPreReq }} />
+
+### Set Entitlements
+
+Using Amplify Push Notifications with APNs requires the following capabilities:
+
+- Push Notifications
+- Background Processing -> Remote Notifications
+
+To add these capabilities:
+
+import iosSetEntitlements from '/src/fragments/lib/push-notifications/ios/getting_started/ios-set-entitlements.mdx';
+
+<Fragments fragments={{ 'react-native': iosSetEntitlements }} />
+
+</Block>
+<Block name="Android">
+
+A React Native application targeting at least Android SDK API level 24.
+
+import fcmPreReq from '/src/fragments/lib/push-notifications/android/getting_started/fcm-pre-req.mdx';
+
+<Fragments fragments={{ 'react-native': fcmPreReq }} />
+
+</Block>
+</BlockSwitcher>
