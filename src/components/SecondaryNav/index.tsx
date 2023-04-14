@@ -19,12 +19,51 @@ import { Container } from '../Container';
 import { parseLocalStorage } from '../../utils/parseLocalStorage';
 
 import SearchBar from '../SearchBar';
-import React, { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function SecondaryNav() {
   const router = useRouter();
   const path = router.asPath;
-  const filterKeys = parseLocalStorage('filterKeys', {});
+  const [refProps, setRefProps] = useState({
+    label: 'API Reference',
+    url: JS_REFERENCE,
+    external: true
+  });
+  // const filterKeys = parseLocalStorage('filterKeys', {});
+
+  useEffect(() => {
+    const filterKeys = parseLocalStorage('filterKeys', {});
+    const data = {
+      label: 'API Reference',
+      url: (() => {
+        switch ((filterKeys as { platform: string }).platform) {
+          case 'ios': {
+            return IOS_REFERENCE;
+          }
+          case 'android': {
+            return ANDROID_REFERENCE;
+          }
+          case 'flutter': {
+            return FLUTTER_REFERENCE;
+          }
+          default: {
+            return JS_REFERENCE;
+          }
+        }
+      })(),
+      external: (() => {
+        switch ((filterKeys as { platform: string }).platform) {
+          case 'flutter': {
+            return false;
+          }
+          default: {
+            return true;
+          }
+        }
+      })()
+    };
+    setRefProps(data);
+  }, []);
 
   return (
     <HostStyle>
@@ -58,40 +97,11 @@ export default function SecondaryNav() {
                 label: 'Guides',
                 url: '/guides'
               },
-              ...('platform' in filterKeys &&
-              (filterKeys as { platform: string }).platform
-                ? [
-                    {
-                      label: 'API Reference',
-                      url: (() => {
-                        switch ((filterKeys as { platform: string }).platform) {
-                          case 'ios': {
-                            return IOS_REFERENCE;
-                          }
-                          case 'android': {
-                            return ANDROID_REFERENCE;
-                          }
-                          case 'flutter': {
-                            return FLUTTER_REFERENCE;
-                          }
-                          default: {
-                            return JS_REFERENCE;
-                          }
-                        }
-                      })(),
-                      external: (() => {
-                        switch ((filterKeys as { platform: string }).platform) {
-                          case 'flutter': {
-                            return false;
-                          }
-                          default: {
-                            return true;
-                          }
-                        }
-                      })()
-                    }
-                  ]
-                : [])
+              {
+                label: refProps.label,
+                url: refProps.url,
+                external: refProps.external
+              }
             ].map(({ url, label, external, additionalActiveChildRoots }) => {
               const matchingRoots =
                 additionalActiveChildRoots === undefined

@@ -8,7 +8,6 @@ dotenv.config({ path: './.env.custom' });
 
 const mdxRenderer = `
   import { mdx } from "@mdx-js/react";
-
 `;
 
 export default async (phase, { defaultConfig }) => {
