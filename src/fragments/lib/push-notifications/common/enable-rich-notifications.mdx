@@ -7,7 +7,7 @@ Amplify currently supports adding images to your notifications, but there are so
 
 ## Create a Notification Service Extension
 
-1. Open `<your-app-name>.xcworkspace` located inside the `/ios` folder of your React Native project with Xcode.
+1. Open `<your-app-name>.xcworkspace` located inside the `/ios` folder of your application project with Xcode.
 
 2. In the Xcode project, select **File > New > Target...**
 
@@ -23,23 +23,21 @@ Amplify currently supports adding images to your notifications, but there are so
 
 ## Provide the extension with the Amplify service class
 
-1. Open `Podfile` located inside the `/ios` folder of your React Native project with a text editor.
+1. Open `Podfile` located inside the `/ios` folder of your application project with a text editor.
 
 2. Add `AmplifyUtilsNotifications` to the extension you created above.
 
-```ruby
-target 'MyNotificationServiceExtension' do # Replace with your service extension
-  pod "AmplifyUtilsNotifications"
-end
-```
+import flutterAddNotificationsPod from '/src/fragments/lib/push-notifications/flutter/enable_rich_notifications/add-notifications-pod.mdx';
+import reactNativeAddNotificationsPod from '/src/fragments/lib/push-notifications/react-native/enable_rich_notifications/add-notifications-pod.mdx';
 
-3. Install the new pods by running the following command at the root of your React Native project.
+<Fragments
+  fragments={{
+    flutter: flutterAddNotificationsPod,
+    'react-native': reactNativeAddNotificationsPod
+  }}
+/>
 
-```bash
-npx pod-install
-```
-
-4. Open `<your-app-name>.xcworkspace` located inside the `/ios` folder of your React Native project with Xcode.
+4. Open `<your-app-name>.xcworkspace` located inside the `/ios` folder of your application project with Xcode.
 
 5. Find your extension folder in the Project navigator pane and select the **Info** Property List.
 

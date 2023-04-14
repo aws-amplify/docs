@@ -715,6 +715,56 @@ export const directory = {
           }
         ]
       },
+      'push-notifications-flutter': {
+        title: 'Push Notifications (Developer Preview)',
+        items: [
+          {
+            title: 'Getting started',
+            route: '/lib/push-notifications/getting-started',
+            filters: ['flutter']
+          },
+          {
+            title: 'Request permissions',
+            route: '/lib/push-notifications/request-permissions',
+            filters: ['flutter']
+          },
+          {
+            title: 'Receive device token',
+            route: '/lib/push-notifications/receive-device-token',
+            filters: ['flutter']
+          },
+          {
+            title: 'Interact with notifications',
+            route: '/lib/push-notifications/interact-with-notifications',
+            filters: ['flutter']
+          },
+          {
+            title: 'Identify user',
+            route: '/lib/push-notifications/identify-user',
+            filters: ['flutter']
+          },
+          {
+            title: 'App badge count',
+            route: '/lib/push-notifications/app-badge-count',
+            filters: ['flutter']
+          },
+          {
+            title: 'Enable rich notifications',
+            route: '/lib/push-notifications/enable-rich-notifications',
+            filters: ['flutter']
+          },
+          {
+            title: 'Testing',
+            route: '/lib/push-notifications/testing',
+            filters: ['flutter']
+          },
+          {
+            title: 'Set up push notification services',
+            route: '/lib/push-notifications/setup-push-service',
+            filters: ['flutter']
+          }
+        ]
+      },
       storage: {
         title: 'Storage',
         items: [
