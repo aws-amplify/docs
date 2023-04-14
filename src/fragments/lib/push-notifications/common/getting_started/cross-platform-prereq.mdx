@@ -3,11 +3,11 @@ You should have [completed the CLI and project setup steps.](/lib/project-setup/
 <BlockSwitcher>
 <Block name="iOS">
 
-A React Native application with a minimum target of iOS 13.0, using Xcode 13.4 or later.
+An application targeting at least iOS 13.0, using Xcode 13.4 or later.
 
 import apnsPreReq from '/src/fragments/lib/push-notifications/ios/getting_started/apns-pre-req.mdx';
 
-<Fragments fragments={{ 'react-native': apnsPreReq }} />
+<Fragments fragments={{ flutter: apnsPreReq, 'react-native': apnsPreReq }} />
 
 ### Set Entitlements
 
@@ -20,16 +20,16 @@ To add these capabilities:
 
 import iosSetEntitlements from '/src/fragments/lib/push-notifications/ios/getting_started/ios-set-entitlements.mdx';
 
-<Fragments fragments={{ 'react-native': iosSetEntitlements }} />
+<Fragments fragments={{ flutter: iosSetEntitlements, 'react-native': iosSetEntitlements }} />
 
 </Block>
 <Block name="Android">
 
-A React Native application targeting at least Android SDK API level 24.
+An application targeting at least Android SDK API level 24.
 
 import fcmPreReq from '/src/fragments/lib/push-notifications/android/getting_started/fcm-pre-req.mdx';
 
-<Fragments fragments={{ 'react-native': fcmPreReq }} />
+<Fragments fragments={{ flutter: fcmPreReq, 'react-native': fcmPreReq }} />
 
 ### Applying the Google services plugin
 
