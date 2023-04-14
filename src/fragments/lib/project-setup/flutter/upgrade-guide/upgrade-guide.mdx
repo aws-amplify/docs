@@ -1,4 +1,4 @@
-With the release of v1 amplify-flutter now supports Web and Desktop for Auth, API, Analytics, and Storage use cases. Developers can now build cross-platform Flutter apps with Amplify that target iOS, Android, Web, and Desktop (macOS, Windows, Linux) using a single codebase.
+With the release of v1 Amplify Flutter now supports Web and Desktop for Auth, API, Analytics, and Storage use cases. Developers can build cross-platform Flutter apps with Amplify that target iOS, Android, Web, and Desktop (macOS, Windows, Linux) using a single codebase.
 
 We have re-written our libraries in Dart. In some places, we have made breaking changes to improve ergonomics or enable features that had been missing from the v0 implementations.
 
@@ -6,16 +6,16 @@ We have re-written our libraries in Dart. In some places, we have made breaking 
 
 - A Flutter application targeting Flutter SDK >= 3.3.0 with Amplify libraries integrated
 
-Amplify requires a minimum target platform for iOS (13.0), Android (API level 24), and macOS (10.15). Additional setup is required for some target platforms. Please see the [platform setup](/lib/project-setup/platform-setup) guide for more details on platform specific setup.
+Amplify requires a minimum target platform for iOS (13.0), Android (API level 24), and macOS (10.15). Additional setup is required for some target platforms. Please see the [platform setup](/lib/project-setup/platform-setup) guide for more details on platform-specific setup.
 
 ## Auth
 
-- `fetchAuthSession` had several changes. See the example below for how to migrate.
-  - `Amplify.Auth.getPlugin()` has been added to return plugin specific sub types. Casting to `CognitoAuthSession` is no longer needed when using this.
-  - `getAWSCredentials` has been deprecated. AWS credentials will always be included in the response.
+- `fetchAuthSession` has several changes. See the example below for how to migrate.
+  - `Amplify.Auth.getPlugin()` has been added to return plugin-specific subtypes. Casting to `CognitoAuthSession` is no longer needed when using this method.
+  - The `getAWSCredentials` flag was previously needed to retrieve AWS credentials. This flag has been deprecated and is no longer needed. AWS credentials will always be included in the response.
   - `fetchAuthSession` will no longer throw exceptions. Instead, individual getters of type `AuthResult` will throw if the underlying operation fails.
     - _Why?_ The previous behavior did not allow for partial successes in offline scenarios when user pool tokens were still valid, but AWS credentials were expired. See [amplify-flutter#760](https://github.com/aws-amplify/amplify-flutter/issues/760#issuecomment-1453559459) for more details.
-  - `CognitoAuthSession.credentials`, `CognitoAuthSession.userPoolTokens`, `CognitoAuthSession.userSub`, and `CognitoAuthSession.identityId` are deprecated and will be removed in a future release.
+  - `CognitoAuthSession.credentials`, `CognitoAuthSession.userPoolTokens`, `CognitoAuthSession.userSub`, and `CognitoAuthSession.identityId` are deprecated and will be removed in a future release. Use `CognitoAuthSession.credentialsResult`, `CognitoAuthSession.userPoolTokensResult`, `CognitoAuthSession.userSubResult`, and `CognitoAuthSession.identityIdResult` instead.
 
 ```dart
 // v0
@@ -88,7 +88,7 @@ switch (result.nextStep.signUpStep) {
 }
 ```
 
-- Auth hub events are now have a specific sub type, `AuthHubEvent` and contain a `type` that is an enum. See the example below for how to migrate.
+- Auth hub events now have a specific subtype (`AuthHubEvent`) and contain a `type` that is an enum. See the example below for how to migrate.
 
 ```dart
 // v0
@@ -130,7 +130,7 @@ final subscription = Amplify.Hub.listen(HubChannel.Auth, (AuthHubEvent event) {
 });
 ```
 
-- Cognito specific API options such as `CognitoSignInOptions` are deprecated in favor of `pluginOptions`. The classes will be removed in a future release. See below for an example of how to migrate for `Auth.signIn()`.
+- Cognito-specific API options such as `CognitoSignInOptions` are deprecated in favor of `pluginOptions`. The classes will be removed in a future release. See below for an example of how to migrate for `Auth.signIn()`.
 
 ```dart
 // v0
@@ -162,9 +162,9 @@ final result = await Amplify.Auth.signIn(
 - `AnalyticsUserProfile` renamed to `UserProfile`
 - `AnalyticsUserProfileLocation` renamed to `UserProfileLocation`
 - In v0, the `autoFlushEventsInterval` in `amplifyconfiguration.dart` was read as seconds on iOS and milliseconds on Android. v1 fixes this behavior by reading `autoFlushEventsInterval` as seconds across all platforms.
-- in v1 flushing occurs at 30 second intervals. In v0 default auto flush iOS was 60 seconds, Android was 30 seconds.
+- In v1, auto-flushing of events occurs at 30 second intervals. In v0, the default auto flush iOS was 60 seconds and Android was 30 seconds.
 - in v1 session pause and resume are not automatically tracked. In v0 iOS auto tracked session pause and resume events.
-- You can now save to the `UserAttributes` field of a Pinpoint Endpoint by sending a `AWSPinpointUserProfile` to `identifyUser`.
+- You can now save to the `UserAttributes` field of a Pinpoint Endpoint by passing an `AWSPinpointUserProfile` to `identifyUser`.
 - Analytics cached event data is now stored differently. Existing cached analytics events will not be migrated.
 - There are now typed `AnalyticsException`s for specific exception cases. See [the documentation on Pub](https://pub.dev/documentation/amplify_analytics_pinpoint/latest/amplify_analytics_pinpoint/amplify_analytics_pinpoint-library.html) for a full list of exceptions.
 
