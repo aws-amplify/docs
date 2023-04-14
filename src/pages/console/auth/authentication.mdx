@@ -15,14 +15,13 @@ Note that you must configure and deploy authentication for your application befo
 
 1. [Launch Studio](/console/adminui/start/#log-into-the-amplify-console) for an app
 2. On the **Set up** menu, choose **Authentication**.
-3. In the **Configure log in** section, choose a login mechanism to add from the **Add login mechanism** list. Valid options are _Username_, _Phone number_, _Facebook_, _Google_, _Amazon_, and _Sign in with Apple_. If you choose one of the social sign-in mechanisms, _Facebook_, _Google_, _Amazon_, or _Sign in with Apple_ you will also need to enter your _App ID_, _App Secret_, and redirect URLs.
-4. (Optional) Add multi-factor authentication (MFA). MFA is set to **Off** by default. To turn on MFA, do the following in the **Multi-factor authentication** section:
-
-- Choose **Enforced** to require MFA for all users or choose **Optional** to allow individual users to enable MFA.
-- (Optional) Choose **SMS**, and enter your SMS message.
-- (Optional) Choose **Authenticator Application** if you want your app to load with an authentication flow that includes sign up and sign in.
-
-5. In the **Configure sign up** section, expand **Password protection settings** and customize the password policy settings to enforce. u6. Choose **Save and Deploy**. This starts a CloudFormation deployment with the progress displayed in the upper right corner of the page.
+3. In the **Configure log in** section, choose a login mechanism to add from the **Add login mechanism** list. Valid options are *Username*, *Phone number*, *Facebook*, *Google*, *Amazon*, and *Sign in with Apple*. If you choose one of the social sign-in mechanisms, *Facebook*, *Google*, *Amazon*, or *Sign in with Apple* you will also need to enter your *App ID*, *App Secret*, and redirect URLs.
+4. (Optional) Add multi-factor authentication (MFA).  MFA is set to **Off** by default. To turn on MFA, do the following in the **Multi-factor authentication** section:
+  * Choose **Enforced** to require MFA for all users or choose **Optional** to allow individual users to enable MFA. 
+  * (Optional) Choose **SMS**, and enter your SMS message. 
+  * (Optional) Choose **Authenticator Application** if you want your app to load with an authentication flow that includes sign up and sign in.
+5. In the **Configure sign up** section, expand **Password protection settings** and customize the password policy settings to enforce.
+6. Choose **Save and Deploy**. This starts a CloudFormation deployment with the progress displayed in the upper right corner of the page.
 
 Login mechanism settings, and sign up settings can't be changed after you deploy authentication. To change these settings, you must first delete the deployed authentication and then create and deploy new settings. You can, however, add new login mechanisms, add multi-factor authentication, and update the password protection settings.
 
