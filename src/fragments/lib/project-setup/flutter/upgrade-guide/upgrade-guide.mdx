@@ -1,29 +1,21 @@
-With the release of v1 amplify-flutter now supports Web and Desktop for Auth, API, Analytics, and Storage use cases.  Developers can now build cross-platform Flutter apps with Amplify that target iOS, Android, Web, and Desktop (macOS, Windows, Linux) using a single codebase.
+With the release of v1 amplify-flutter now supports Web and Desktop for Auth, API, Analytics, and Storage use cases. Developers can now build cross-platform Flutter apps with Amplify that target iOS, Android, Web, and Desktop (macOS, Windows, Linux) using a single codebase.
 
 We have re-written our libraries in Dart. In some places, we have made breaking changes to improve ergonomics or enable features that had been missing from the v0 implementations.
 
 ## Prerequisites
 
-* A Flutter application targeting Flutter SDK >= 3.0.0 with Amplify libraries integrated
-  
-  The following are also required, depending on which platforms you are targeting:
+- A Flutter application targeting Flutter SDK >= 3.3.0 with Amplify libraries integrated
 
-  * An iOS configuration targeting at least iOS 13.0 and XCode version >=13.2
-  * An Android configuration targeting at least Android API level 24 (Android 7.0) or above
-  * Any browser supported by Flutter for Web (you can check the list of supported browsers [here](https://docs.flutter.dev/development/platform-integration/web/faq#which-web-browsers-are-supported-by-flutter))
-  * Any Windows OS meeting Flutter minimums
-  * macOS version 10.15 or higher
-  * Any Ubuntu Linux distribution meeting Flutter minimums
-  * For a full example please follow the [project setup walkthrough](/lib/project-setup/create-application)
+Amplify requires a minimum target platform for iOS (13.0), Android (API level 24), and macOS (10.15). Additional setup is required for some target platforms. Please see the [platform setup](/lib/project-setup/platform-setup) guide for more details on platform specific setup.
 
 ## Auth
 
 - `fetchAuthSession` had several changes. See the example below for how to migrate.
   - `Amplify.Auth.getPlugin()` has been added to return plugin specific sub types. Casting to `CognitoAuthSession` is no longer needed when using this.
   - `getAWSCredentials` has been deprecated. AWS credentials will always be included in the response.
-  - `fetchAuthSession` will no longer throw exceptions. Instead, indivdual getters of type `AuthResult` will throw if the underlying operation fails.
+  - `fetchAuthSession` will no longer throw exceptions. Instead, individual getters of type `AuthResult` will throw if the underlying operation fails.
     - _Why?_ The previous behavior did not allow for partial successes in offline scenarios when user pool tokens were still valid, but AWS credentials were expired. See [amplify-flutter#760](https://github.com/aws-amplify/amplify-flutter/issues/760#issuecomment-1453559459) for more details.
-  - `CognitoAuthSession.credentials`, `CognitoAuthSession.userPoolTokens`, `CognitoAuthSession.`, and ``CognitoAuthSession.` are deprecated and will be removed in a future release.
+  - `CognitoAuthSession.credentials`, `CognitoAuthSession.userPoolTokens`, `CognitoAuthSession.userSub`, and `CognitoAuthSession.identityId` are deprecated and will be removed in a future release.
 
 ```dart
 // v0
@@ -166,32 +158,32 @@ final result = await Amplify.Auth.signIn(
 
 ## Analytics
 
-- `AnalyticsProperties` renamed to `CustomProperties` 
+- `AnalyticsProperties` renamed to `CustomProperties`
 - `AnalyticsUserProfile` renamed to `UserProfile`
 - `AnalyticsUserProfileLocation` renamed to `UserProfileLocation`
-- In v1 you can now specify autoFlushEventsInterval in seconds in amplifyConfiguration.dart to change how often cached events are flushed. v0 does not support this due to differences in iOS and Android implementations.
-- Previously Analytics was built on top of existing Amplify Android and iOS functionality. Those platforms behaved differently but now behave the same:
-    - in v1 flushing occurs at 30 second intervals. In v0 default auto flush iOS was 60 seconds, Android was 30 seconds.
-    - in v1 session pause and resume are not automatically tracked. In v0 iOS auto tracked session pause and resume events. 
+- In v0, the `autoFlushEventsInterval` in `amplifyconfiguration.dart` was read as seconds on iOS and milliseconds on Android. v1 fixes this behavior by reading `autoFlushEventsInterval` as seconds across all platforms.
+- in v1 flushing occurs at 30 second intervals. In v0 default auto flush iOS was 60 seconds, Android was 30 seconds.
+- in v1 session pause and resume are not automatically tracked. In v0 iOS auto tracked session pause and resume events.
 - You can now save to the `UserAttributes` field of a Pinpoint Endpoint by sending a `AWSPinpointUserProfile` to `identifyUser`.
-- Analytics Endpoint metadata is stored in a different namespace/location.  Existing metadata will automatically be migrated.
 - Analytics cached event data is now stored differently. Existing cached analytics events will not be migrated.
-- There are now typed `AnalyticsException`s for specific exception cases. 
+- There are now typed `AnalyticsException`s for specific exception cases. See [the documentation on Pub](https://pub.dev/documentation/amplify_analytics_pinpoint/latest/amplify_analytics_pinpoint/amplify_analytics_pinpoint-library.html) for a full list of exceptions.
 
 ## API
 
 - REST API methods have breaking changes. See [REST API docs](/lib/restapi/getting-started/q/platform/flutter/) for more details.
 - `RestException` has been replaced with `HttpStatusException`.
 - GraphQL model helpers have a few changes:
-    - Updated codegen models are required. Please upgrade to the latest version of the Amplify CLI and run `amplify codegen models`.
-    - `ModelQueries.get()` and `ModelMutations.deleteById()` have a breaking change where the ID is no longer a `String` but a `ModelIdentifier` that supports custom primary keys. See [GraphQL docs](/lib/graphqlapi/query-data/q/platform/flutter/) for examples.
-    - `ModelSubscriptions` helpers now take a `where` clause so users can get server-side subscription filters without a custom request.
+  - Updated codegen models are required. Please upgrade to the latest version of the Amplify CLI and run `amplify codegen models`.
+  - `ModelQueries.get()` and `ModelMutations.deleteById()` have a breaking change where the ID is no longer a `String` but a `ModelIdentifier` that supports custom primary keys. See [GraphQL docs](/lib/graphqlapi/query-data/q/platform/flutter/) for examples.
+  - `ModelSubscriptions` helpers now take a `where` clause so users can get server-side subscription filters without a custom request.
 - GraphQL subscriptions will attempt to automatically reconnect when the user's device loses and recovers internet access. Updates in connectivity status are available through new hub events on the channel `HubChannel.Api`.
 - Server-side GraphQL errors on iOS no longer throw an exception, but instead return a `GraphQLResponse` with the errors in the `.errors` field (as has always been the case in Android). This applies to all platforms but is only a change for iOS. Note this is only true for errors that come from the AppSync server as part of the server-side GraphQL response. The client will still throw exceptions for cases when a valid response could not be successfully returned.
 - Exceptions have been made more specific although they still extend abstract class `ApiException` so catch clauses that use `ApiException` will still be valid.
 
 ## Storage
+
 - All Storage S3 plugin APIs now return an operation object rather than the result object. The operation object provides more control over the in-flight request, such as cancellation, pause, and resume capabilities (varies by API). The result `Future` can be retrieved via the `.result` property of the operation object. Here is an example for `uploadFile`:
+
 ```dart
 // v0
 final result = await Amplify.Storage.uploadFile(
@@ -207,4 +199,5 @@ final result = await Amplify.Storage.uploadFile(
 ).result;
 print('Uploaded file key: ${result.uploadedItem.key}');
 ```
+
 See [storage docs](/lib/storage/getting-started/q/platform/flutter/) for more detailed examples of other storage methods.
