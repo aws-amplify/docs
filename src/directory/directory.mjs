@@ -60,7 +60,7 @@ export const directory = {
           {
             title: 'Upgrade guide',
             route: '/lib/project-setup/upgrade-guide',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'flutter']
           },
           {
             title: 'Async Programming Model',
