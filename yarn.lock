@@ -196,34 +196,32 @@
     "@algolia/logger-common" "4.13.0"
     "@algolia/requester-common" "4.13.0"
 
-"@aws-amplify/amplify-cli-core@^4.0.2":
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-cli-core/-/amplify-cli-core-4.0.2.tgz#ca46f46e52cf444500e6cae6bb9d50fb83c69164"
-  integrity sha512-LhbF+KlBtCUulft2YxNjfmLZ7iLHzZKOIIfekAa6BzUgJmgvXEiKNzGBt5Qyv58erIeqEJ2tYaPsitySbcDlkg==
+"@aws-amplify/amplify-cli-core@^4.0.3":
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-cli-core/-/amplify-cli-core-4.0.3.tgz#424b0508dab42d5b563527bc159c01b5184ba830"
+  integrity sha512-586DbF1lL341JQnciljpP8tGlM9r76IuFeHykHoWbAbD1IBsGqmpqw8cR3/c/k7MDBQ8Y4fYS0XG9xMKOfqy6w==
   dependencies:
-    amplify-cli-core "4.0.2"
+    amplify-cli-core "4.0.3"
 
-"@aws-amplify/amplify-cli-logger@1.3.0":
-  version "1.3.0"
-  resolved "https://registry.npmjs.org/@aws-amplify/amplify-cli-logger/-/amplify-cli-logger-1.3.0.tgz#7bc68710837a5ecb2f990a38f8103555150f9213"
-  integrity sha512-ijfo6YY4mgn38HD7KId/MgGJla7oCod4n0/gTVPVHfr9zlpUC8B2L/QuydFjpLBR8LrBYO4xfrQa8UhelyPzGA==
+"@aws-amplify/amplify-cli-logger@1.3.2":
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-cli-logger/-/amplify-cli-logger-1.3.2.tgz#802667e38276361b78d138a770f6e9f1a009d3a3"
+  integrity sha512-dQ7Dwh2MNIjhnqx+c48aDjsrsTMU391n23sF5fRyxoC+tmxvaMbz3N3g6XeciwNb1OB5zMBI5zCAjbm94k1S+A==
   dependencies:
     winston "^3.3.3"
     winston-daily-rotate-file "^4.5.0"
 
-"@aws-amplify/amplify-cli-shared-interfaces@1.2.0":
-  version "1.2.0"
-  resolved "https://registry.npmjs.org/@aws-amplify/amplify-cli-shared-interfaces/-/amplify-cli-shared-interfaces-1.2.0.tgz#0a52e3e401a0e802cc3804a23f0dca350aac55ca"
-  integrity sha512-0nBFF+rFdQCM1zJUZ8z6+vfqAACjcuzl1noMFBjMfRW1FFGfsVKqRuxJYOYv57GKA7FRrHQfrh6pa6qUAh/odA==
+"@aws-amplify/amplify-cli-shared-interfaces@1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-cli-shared-interfaces/-/amplify-cli-shared-interfaces-1.2.2.tgz#e717ef421379837519ed6cba42226874574fe505"
+  integrity sha512-iZZAhfPUBRZr5b4S5YnpN98oYQfZSMMxo0J/fpDQ7mh3CFOGdWcg6vIU3M9tqGZWUNYi3P0MkzreOgDE+9yJ6A==
 
-"@aws-amplify/amplify-prompts@2.6.7":
-  version "2.6.7"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-prompts/-/amplify-prompts-2.6.7.tgz#a9a46ef1f33fc73928b0aa2a09789e5ded72ea01"
-  integrity sha512-+OEMqPKA3ho4NQnhEswrVuSnNnG3ebceZD8RZXm+ef+XvtN6/cWGBB8juJKLVRpfpXueCTnhu0Jsza2Ib1GN+g==
+"@aws-amplify/amplify-prompts@2.6.8":
+  version "2.6.8"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-prompts/-/amplify-prompts-2.6.8.tgz#9f5975ffa76d4ea3187b053f39c0d99e96d0d342"
+  integrity sha512-s3xtMgVOWlxyIPPTXF1s1BD/4r7jTEO1vsPEc//HrlB3hPJdZ6cKrDb3cXsbkGUJnrmU6UwEmManwNozrmKzWg==
   dependencies:
-    "@aws-amplify/amplify-cli-shared-interfaces" "1.2.0"
-    chalk "^4.1.1"
-    enquirer "^2.3.6"
+    amplify-prompts "2.6.8"
 
 "@aws-amplify/analytics@6.0.5":
   version "6.0.5"
@@ -5267,13 +5265,13 @@ amazon-cognito-identity-js@6.0.1:
     isomorphic-unfetch "^3.0.0"
     js-cookie "^2.2.1"
 
-amplify-cli-core@4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/amplify-cli-core/-/amplify-cli-core-4.0.2.tgz#ed2872ca393120242b7f449b0058e16504e175e0"
-  integrity sha512-+alRUQvOX0WSRyoeola1m4M+ApMY07jclDuhVdXVicVMFDgAnDGuK2DNkfVc1nTg0rU7+rvlJCi5elk6oLuXBQ==
+amplify-cli-core@4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/amplify-cli-core/-/amplify-cli-core-4.0.3.tgz#c035d251781b9d985229eeaf0bf582d51566c14e"
+  integrity sha512-PiIB24x1EHGedLNooOjYooevRe5YYpFGclgiUfl2re6xWoWng9v1Ucwy4MVEduE8DvGrlYE2aIgrqBG/154PgQ==
   dependencies:
-    "@aws-amplify/amplify-cli-logger" "1.3.0"
-    "@aws-amplify/amplify-prompts" "2.6.7"
+    "@aws-amplify/amplify-cli-logger" "1.3.2"
+    "@aws-amplify/amplify-prompts" "2.6.8"
     "@aws-amplify/graphql-transformer-interfaces" "^2.1.1"
     "@yarnpkg/lockfile" "^1.1.0"
     ajv "^6.12.6"
@@ -5300,6 +5298,15 @@ amplify-cli-core@4.0.2:
     typescript-json-schema "~0.52.0"
     which "^2.0.2"
     yaml "^2.2.1"
+
+amplify-prompts@2.6.8:
+  version "2.6.8"
+  resolved "https://registry.yarnpkg.com/amplify-prompts/-/amplify-prompts-2.6.8.tgz#4eeee956eee7393b4bf932005f872a4681a568a3"
+  integrity sha512-piWttrnUwswHpVb6LPUlrAg3O24jaOJvLxzNBXu4VxkmB5ASKdHBIp2+EnujiGT3QkRDhkdLARw+MFuXfjnolA==
+  dependencies:
+    "@aws-amplify/amplify-cli-shared-interfaces" "1.2.2"
+    chalk "^4.1.1"
+    enquirer "^2.3.6"
 
 ansi-colors@^4.1.1:
   version "4.1.3"
