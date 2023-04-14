@@ -1,0 +1,22 @@
+The app badge count, when set, can be seen on your app's icon on a user's device. Amplify provides you with simple helpers to manipulate this number.
+
+<Callout>
+  App badge count helpers are safe to call even when your app is running on
+  Android but will be ignored.
+</Callout>
+
+## Get the current badge count
+
+Use `getBadgeCount` to get the current app badge count. You might need to do this to calculate the value when setting the badge count.
+
+```js
+const count = await Notifications.Push.getBadgeCount();
+```
+
+## Update the badge count
+
+Use `setBadgeCount` to set the current app badge count. Setting the badge count to `0` (zero) will remove the badge from your app's icon.
+
+```js
+Notifications.Push.setBadgeCount(42);
+```

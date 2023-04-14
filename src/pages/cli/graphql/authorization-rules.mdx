@@ -99,6 +99,12 @@ By default, the Cognito user pool's user information is populated into the `owne
 
 You can override the `owner` field to your own preferred field, by specifying a custom `ownerField` in the authorization rule.
 
+<Callout>
+
+Do not set `ownerField` to your `@primaryKey` field or `id` field if no primary key is specified. If you want to query by the `ownerField`, use an `@index` on that `ownerField` to create a secondary index.
+
+</Callout>
+
 ```graphql
 type Todo @model @auth(rules: [{ allow: owner, ownerField: "author" }]) {
   content: String                             #^^^^^^^^^^^^^^^^^^^^

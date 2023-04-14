@@ -11,6 +11,13 @@ export const directory = {
     },
     items: {}
   },
+  'flutter-references': {
+    productRoot: {
+      title: 'Amplify Libraries for Flutter API References',
+      route: '/flutter-references'
+    },
+    items: {}
+  },
   lib: {
     productRoot: {
       title: 'Amplify Libraries',
@@ -642,11 +649,6 @@ export const directory = {
         title: 'Push Notifications',
         items: [
           {
-            title: 'Overview',
-            route: '/lib/push-notifications/overview',
-            filters: ['react-native']
-          },
-          {
             title: 'Getting started',
             route: '/lib/push-notifications/getting-started',
             filters: ['android', 'ios', 'react-native']
@@ -662,13 +664,33 @@ export const directory = {
             filters: ['ios']
           },
           {
-            title: 'Identify user',
-            route: '/lib/push-notifications/identify-user',
-            filters: ['android', 'ios']
+            title: 'Request permissions',
+            route: '/lib/push-notifications/request-permissions',
+            filters: ['react-native']
           },
           {
-            title: 'Working with API',
-            route: '/lib/push-notifications/working-with-api',
+            title: 'Receive device token',
+            route: '/lib/push-notifications/receive-device-token',
+            filters: ['react-native']
+          },
+          {
+            title: 'Interact with notifications',
+            route: '/lib/push-notifications/interact-with-notifications',
+            filters: ['react-native']
+          },
+          {
+            title: 'Identify user',
+            route: '/lib/push-notifications/identify-user',
+            filters: ['android', 'ios', 'react-native']
+          },
+          {
+            title: 'App badge count',
+            route: '/lib/push-notifications/app-badge-count',
+            filters: ['react-native']
+          },
+          {
+            title: 'Enable rich notifications',
+            route: '/lib/push-notifications/enable-rich-notifications',
             filters: ['react-native']
           },
           {
@@ -682,9 +704,14 @@ export const directory = {
             filters: ['android', 'ios', 'react-native']
           },
           {
-            title: 'Setting up push notification services',
+            title: 'Set up push notification services',
             route: '/lib/push-notifications/setup-push-service',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'react-native']
+          },
+          {
+            title: 'Migrate from previous version',
+            route: '/lib/push-notifications/migrate-from-previous-version',
+            filters: ['react-native']
           }
         ]
       },
@@ -790,21 +817,6 @@ export const directory = {
             title: 'Use existing AWS resources',
             route: '/lib/storage/existing-resources',
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
-          }
-        ]
-      },
-      xr: {
-        title: 'XR',
-        items: [
-          {
-            title: 'Getting started',
-            route: '/lib/xr/getting-started',
-            filters: ['js']
-          },
-          {
-            title: 'Scene API',
-            route: '/lib/xr/sceneapi',
-            filters: ['js']
           }
         ]
       },
@@ -1731,6 +1743,11 @@ export const directory = {
           {
             title: 'Evolving GraphQL schemas',
             route: '/cli/graphql/schema-evolution',
+            filters: []
+          },
+          {
+            title: 'Directives reference',
+            route: '/cli/graphql/directives-reference',
             filters: []
           },
           {
