@@ -1,9 +1,6 @@
 Because authentication flows in Cognito can be switched via your configuration, it is still required that users register with a password.
 
 ```dart
-// Create a boolean for checking the sign up status
-var isSignUpComplete = false;
-
 Future<void> signUpCustomFlow() async {
   try {
     final userAttributes = <AuthUserAttributeKey, String>{
@@ -16,11 +13,9 @@ Future<void> signUpCustomFlow() async {
       password: 'mysupersecurepassword',
       options: SignUpOptions(userAttributes: userAttributes),
     );
-    setState(() {
-      isSignUpComplete = result.isSignUpComplete;
-    });
+    safePrint('Sign up result: $result');
   } on AuthException catch (e) {
-    safePrint(e.message);
+    safePrint('Error signing up: ${e.message}');
   }
 }
 ```
