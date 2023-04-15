@@ -1,7 +1,7 @@
 With the basic setup complete, you can now model the data your application will work with. 
-These models are specified as  [GraphQL](http://graphql.org/) schemas. You can 
-[learn more](/cli/graphql/overview) about GraphQL schemas and data modeling. For now, 
-let's start by creating our budget management data model.
+These models are specified as GraphQL schemas. You can [learn more](/cli/graphql/overview) 
+about GraphQL schemas and data modeling. We can start by creating the budget management 
+data model.
 
 ## Create data model
 
@@ -72,7 +72,6 @@ type BudgetEntry @model @auth(rules: [{ allow: owner }]) {
   id: ID!
   title: String!
   description: String
-  attachmentKey: String
   amount: Float!
 } 
 ```

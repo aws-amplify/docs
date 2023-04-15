@@ -202,7 +202,8 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 ```
 
-Go ahead and run your code now on any device and you should see an app with some titles and a floating action button but not much else.
+Go ahead and run your code now on any mobile, web, or desktop device and you should see an app with some titles
+and a floating action button but not much else.
 
 ```bash
 flutter run
@@ -259,7 +260,8 @@ Here, we're adding the API and Authentication plugins to our app and configuring
 generated `amplifyconfiguration.dart` file.
 
 There's one more step to complete the configuration of Auth and that is to wrap our application
-in the Amplify Authenticator, which will provide a pre-built authentication flow with no setup required.
+in the Amplify Authenticator, which will provide a pre-built authentication flow with less than 
+5 lines of code.
 
 > You can learn more about the Authenticator and how to customize it [here](https://ui.docs.amplify.aws/flutter/connected-components/authenticator).
 
@@ -500,10 +502,10 @@ When returning to the home screen, though, our budget entry is nowhere to be fou
 In the `_HomeScreenState` class, we have a method called `_refreshBudgetEntries`. Let's populate
 that to update the state class's `_budgetEntries` variable every time we call it.
 
-To that, we'll use Amplify's so-called model helpers which provide methods we can call to quickly
-create GraphQL requests from our model types. Here we're using the `ModelQueries.list` helper to
-retrieve all the budget entries and then passing the GraphQL request to the API category which
-will automatically transform the response into a list of `BudgetEntry` types.
+To that, we'll use Amplify's model helpers which provide a quick way to create CRUD requests for 
+your data. Here we're using the `ModelQueries.list` helper to retrieve all the budget entries 
+and then passing the GraphQL request to the API category which will automatically transform 
+the response into a list of `BudgetEntry` types.
 
 ```diff
   Future<void> _refreshBudgetEntries() async {
