@@ -4,9 +4,9 @@ Sweet! You're now ready to launch sign in with web UI.
 Future<void> signInWithWebUI() async {
   try {
     final result = await Amplify.Auth.signInWithWebUI();
-    print('Result: $result');
+    safePrint('Sign in result: $result');
   } on AuthException catch (e) {
-    print(e.message);
+    safePrint('Error signing in: ${e.message}');
   }
 }
 ```
@@ -16,10 +16,12 @@ You can also specify a provider with the `provider` attribute:
 ```dart
 Future<void> signInWithWebUIProvider() async {
   try {
-    final result = await Amplify.Auth.signInWithWebUI(provider:  AuthProvider.google);
-    print('Result: $result');
+    final result = await Amplify.Auth.signInWithWebUI(
+      provider: AuthProvider.google,
+    );
+    safePrint('Result: $result');
   } on AuthException catch (e) {
-    print(e.message);
+    safePrint('Error signing in: ${e.message}');
   }
 }
 ```

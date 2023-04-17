@@ -1,11 +1,16 @@
 ```dart
-StreamSubscription hubSubscription = Amplify.Hub.listen([HubChannel.Auth], (hubEvent) {
+import 'dart:async';
+
+import 'package:amplify_flutter/amplify_flutter.dart';
+
+final hubSubscription =
+    Amplify.Hub.listen(HubChannel.Auth, (AuthHubEvent hubEvent) async {
   if (hubEvent.eventName == 'SIGNED_OUT') {
     try {
       await Amplify.DataStore.clear();
-      print('DataStore is cleared.');
+      safePrint('DataStore is cleared as the user has signed out.');
     } on DataStoreException catch (e) {
-      print('Failed to clear DataStore: $e');
+      safePrint('Failed to clear DataStore: $e');
     }
   }
 });

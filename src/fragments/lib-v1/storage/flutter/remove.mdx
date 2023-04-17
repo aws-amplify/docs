@@ -1,0 +1,14 @@
+## Remove a file
+
+Remove a file uploaded to S3 by using `Amplify.Storage.remove` and specifying the key:
+
+```dart
+Future<void> removeFile(String key) async {
+  try {
+    final result = await Amplify.Storage.remove(key: key);
+    safePrint('Removed file: ${result.key}');
+  } on StorageException catch (e) {
+    safePrint('Error deleting file: $e');
+  }
+}
+```

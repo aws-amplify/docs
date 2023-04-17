@@ -109,6 +109,10 @@ import android1 from "/src/fragments/lib-v1/graphqlapi/android/authz/10_userpool
 
 <Fragments fragments={{android: android1}} />
 
+import flutter2 from "/src/fragments/lib-v1/graphqlapi/flutter/authz/10_userpool.mdx";
+
+<Fragments fragments={{flutter: flutter2}} />
+
 ### IAM
 
 Add the following snippet to your `amplifyconfiguration.json`/`.dart` file:
@@ -169,6 +173,10 @@ import android4 from "/src/fragments/lib-v1/graphqlapi/android/authz/20_oidc.mdx
 
 <Fragments fragments={{android: android4}} />
 
+import flutter5 from "/src/fragments/lib-v1/graphqlapi/flutter/authz/20_oidc.mdx";
+
+<Fragments fragments={{flutter: flutter5}} />
+
 If you are using Cognito's user pool as the authorization type, this will by default retrieve and use the Access Token for your requests. If you would like to override this behavior and use the ID Token instead, you can treat Cognito user pool as your OIDC provider and use `Amplify.Auth` to retrieve the ID Token for your requests.
 
 import ios6 from "/src/fragments/lib-v1/graphqlapi/ios/authz/21_oidc.mdx";
@@ -178,6 +186,10 @@ import ios6 from "/src/fragments/lib-v1/graphqlapi/ios/authz/21_oidc.mdx";
 import android7 from "/src/fragments/lib-v1/graphqlapi/android/authz/21_oidc.mdx";
 
 <Fragments fragments={{android: android7}} />
+
+import flutter8 from "/src/fragments/lib-v1/graphqlapi/flutter/authz/21_oidc.mdx";
+
+<Fragments fragments={{flutter: flutter8}} />
 
 ### AWS Lambda
 
@@ -204,6 +216,10 @@ import ios9 from "/src/fragments/lib-v1/graphqlapi/ios/authz/22_lambda.mdx";
 import android10 from "/src/fragments/lib-v1/graphqlapi/android/authz/22_lambda.mdx";
 
 <Fragments fragments={{android: android10}} />
+
+import flutter11 from "/src/fragments/lib-v1/graphqlapi/flutter/authz/22_lambda.mdx";
+
+<Fragments fragments={{flutter: flutter11}} />
 
 ### NONE
 You can also set authorization mode to `NONE` so that the library will not provide any request interception logic. You can use this when your API does not require any authorization or when you want to manipulate the request yourself, such as adding header values or authorization data.
@@ -232,6 +248,10 @@ import android13 from "/src/fragments/lib-v1/graphqlapi/android/advanced-workflo
 
 <Fragments fragments={{android: android13}} />
 
+import flutter14 from "/src/fragments/lib-v1/graphqlapi/flutter/advanced-workflows/50_interceptor.mdx";
+
+<Fragments fragments={{flutter: flutter14}} />
+
 ## Configure multiple authorization modes
 
 <Callout warning>
@@ -249,6 +269,10 @@ This section talks about the capability of AWS AppSync to configure multiple aut
 You can now configure a single GraphQL API to deliver private and public data. Private data requires authenticated access using authorization mechanisms such as IAM, Cognito User Pools, and OIDC. Public data does not require authenticated access and is delivered through authorization mechanisms such as API Keys. You can also configure a single GraphQL API to deliver private data using more than one authorization type. For example, you can configure your GraphQL API  to authorize some schema fields using OIDC, while other schema fields through Cognito User Pools and/or IAM.
 
 As discussed in the above linked documentation, certain fields may be protected by different authorization types. This can lead the same query, mutation, or subscription to have different responses based on the authorization sent with the request; Therefore, it is recommended to use the different `friendly_name_<AuthMode>` as the `apiName` parameter in the `Amplify.API` call to reference each authorization type.
+
+import flutter18 from "/src/fragments/lib-v1/graphqlapi/flutter/authz/auth_mode.mdx";
+
+<Fragments fragments={{flutter: flutter18}} />
 
 The following snippets highlight the new values in the `amplifyconfiguration.json`/`.dart` and the client code configurations.
 
@@ -301,3 +325,7 @@ import ios15 from "/src/fragments/lib-v1/graphqlapi/ios/authz/30_multi.mdx";
 import android16 from "/src/fragments/lib-v1/graphqlapi/android/authz/30_multi.mdx";
 
 <Fragments fragments={{android: android16}} />
+
+import flutter17 from "/src/fragments/lib-v1/graphqlapi/flutter/authz/30_multi.mdx";
+
+<Fragments fragments={{flutter: flutter17}} />

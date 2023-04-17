@@ -1,0 +1,16 @@
+```dart
+StreamSubscription<SubscriptionEvent<Post>>? stream;
+
+void listenChanges() {
+  stream = Amplify.DataStore.observe(Post.classType).listen(
+    (event) {
+      print('Received event of type ' + event.eventType.toString());
+      print('Received post ' + event.item.toString());
+    },
+  );
+}
+
+void stopListeningChanges() {
+  stream?.cancel();
+}
+```
