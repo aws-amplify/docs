@@ -38,11 +38,6 @@ export const directory = {
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
-            title: 'Null safety',
-            route: '/lib/project-setup/null-safety',
-            filters: ['flutter']
-          },
-          {
             title: 'Platform Setup',
             route: '/lib/project-setup/platform-setup',
             filters: ['flutter']
