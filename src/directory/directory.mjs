@@ -756,12 +756,7 @@ export const directory = {
           {
             title: 'Copy files',
             route: '/lib/storage/copy',
-            filters: ['js', 'react-native']
-          },
-          {
-            title: 'Copy files',
-            route: '/lib/storage/copy',
-            filters: ['flutter']
+            filters: ['js', 'react-native', 'flutter']
           },
           {
             title: 'Move files',
@@ -1039,7 +1034,7 @@ export const directory = {
           },
           {
             title: 'Offline scenarios',
-            route: '/lib/graphqlapi/offline',
+            route: '/lib-v1/graphqlapi/offline',
             filters: ['android', 'ios', 'flutter']
           },
           {
