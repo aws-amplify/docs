@@ -1,135 +1,35 @@
 ## iOS
-From your project root, navigate to the `ios/` directory and modify the `Podfile` using a text editor of your choice and update the target iOS platform to 13.0 or higher.
 
-```bash
-platform :ios, '13.0'
-```
+import ios from '/src/fragments/lib/project-setup/flutter/platform-setup/ios.mdx';
 
-Open your project in Xcode and select Runner, Targets -> Runner and then the "General" tab. Under the "Minimum Deployments" section, update the iOS version to 13.0 or higher.
-
-Select Runner, Project -> Runner and then the "Info" tab. Update "iOS Deployment Target" to 13.0 or higher.
-
-![XCode Minimum Deployment Version](/images/project-setup/flutter/ios/project-min-deployment-version.png)
+<Fragments fragments={{ flutter: ios }} />
 
 ## Android
 
-Amplify requires a minimum of API level 24 (Android 7.0) when targeting Android.
+import android from '/src/fragments/lib/project-setup/flutter/platform-setup/android.mdx';
 
-From your project root, navigate to the `android/app/` directory and open `build.gradle` in the text editor of your choice. Update the minimum Android SDK version to 24 or higher:
-
-```bash
-minSdkVersion 24
-```
+<Fragments fragments={{ flutter: android }} />
 
 ## Web
 
-There are no Amplify specific requirements or setup instructions when targeting web. You will need to use a browser supported by Flutter. See the following Flutter docs for more info:
-- [Supported deployment platforms](https://docs.flutter.dev/reference/supported-platforms)
-- [FAQ: Which web browsers are supported by Flutter?](https://docs.flutter.dev/development/platform-integration/web/faq#which-web-browsers-are-supported-by-flutter)
+import web from '/src/fragments/lib/project-setup/flutter/platform-setup/web.mdx';
+
+<Fragments fragments={{ flutter: web }} />
 
 ## macOS
 
-Amplify requires a minimum deployment target of 10.15 and Xcode 13.2 or higher when targeting macOS. Additionally, you will need to enable networking, keychain entitlements, and code signing.
+import macos from '/src/fragments/lib/project-setup/flutter/platform-setup/macos.mdx';
 
-### Update Minimum Version
-
-From your project root, navigate to the `macos/` directory and open the `Podfile` in a text editor of your choice. Update the target macOS platform to 10.15 or higher.
-
-```bash
-platform :osx, '10.15'
-```
-
-Open your project in Xcode and select Runner, Targets -> Runner and then the "General" tab. Under the "Minimum Deployments" section, update the macOS version to 10.15 or higher.
-
-![XCode Minimum Deployment Version](/images/project-setup/flutter/mac/target-min-deployment-version.png)
-
-Select Runner, Project -> Runner and then the "Info" tab. Update "macOS Deployment Target" to 10.15 or higher.
-
-![XCode Minimum Deployment Version](/images/project-setup/flutter/mac/project-min-deployment-version.png)
-
-### Enable Network Calls
-
-Open your project in Xcode and select Runner, Targets -> Runner and then the "Signing and Capabilities" tab. Under "App Sandbox" select "Outgoing Connections (Client)".
-
-![XCode Entitlements Screen](/images/project-setup/flutter/mac/xcode-entitlements.png)
-
-For more info on the Networking entitlement, see Apple's documentation on [com.apple.security.network.client](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_security_network_client).
-
-### Enable Keychain Sharing
-
-<Callout>
-
-This capability is required because Amplify uses the Data Protection Keychain on macOS as a platform best practice. 
-See [TN3137: macOS keychain APIs and implementations](https://developer.apple.com/documentation/technotes/tn3137-on-mac-keychains)
-for more information on how Keychain works on macOS and the Keychain Sharing entitlement.
-
-</Callout>
-
-Open your project in Xcode and select Runner, Targets -> Runner and then the "Signing and Capabilities" tab.
-
-1. Click the "+ icon".
-
-![XCode Enable Keychain Sharing](/images/project-setup/flutter/mac/enable-keychain-access.png)
-
-2. Search for "Keychain Sharing" in the subsequent modal, and add it.
-
-![XCode Keychain Sharing Search](/images/project-setup/flutter/mac/search-keychain-sharing.png)
-
-3. Scroll down to "Keychain Sharing" in the "Signing and Capabilities" and click the "+" icon. By default, your bundle ID will be used.
-
-![XCode Adding Keychain Sharing Group](/images/project-setup/flutter/mac/adding-keychain-access-group.png)
-
-4. Finally, add a development team and enable signing.
-
-![XCode Signing and Capabilities Screen](/images/project-setup/flutter/mac/enable-signing.png)
+<Fragments fragments={{ flutter: macos }} />
 
 ## Windows
 
-There are no Amplify specific requirements or setup instructions when targeting Windows. You will need to use a Windows version supported by Flutter. See the following Flutter docs for more info:
+import windows from '/src/fragments/lib/project-setup/flutter/platform-setup/windows.mdx';
 
-- [Supported deployment platforms](https://docs.flutter.dev/reference/supported-platforms)
-
-<Callout>
-  Depending on how your Windows configuration and the method you use to run your
-  Flutter app, you may need to change the file path length limitation.
-</Callout>
+<Fragments fragments={{ flutter: windows }} />
 
 ## Linux
 
-Amplify Flutter depends on the [libsecret](https://wiki.gnome.org/Projects/Libsecret) library when targeting Linux.
+import linux from '/src/fragments/lib/project-setup/flutter/platform-setup/linux.mdx';
 
-### Local Development
-
-To run and debug an app that depends on Amplify Flutter, you must install `libsecret-1-dev`.
-
-To install on Ubuntu, run:
-
-<!-- cSpell:disable -->
-
-```terminal
-sudo apt-get update
-sudo apt-get install -y libsecret-1-dev
-```
-<!-- cSpell:enable -->
-
-This will install `libsecret-1-dev` and any dependencies of `libsecret-1-dev`, such as `libglib2.0-dev`, which are also required to run and debug apps that depend on Amplify Flutter.
-
-<Callout>
-  The command to install might vary on other Linux distributions.
-</Callout>
-
-### Packaging Your App
-
-To include the required dependencies when packaging your app with Snapcraft, include them in your `snapcraft.yaml` file. For more info, see [Flutter's documentation on releasing to the Snap Store](https://docs.flutter.dev/deployment/linux).
-
-```yaml
-parts:
-  my-app:
-    plugin: flutter
-    source: .
-    flutter-target: lib/main.dart
-    build-packages:
-      - libsecret-1-dev
-    stage-packages:
-      - libsecret-1-0
-```
+<Fragments fragments={{ flutter: linux }} />
