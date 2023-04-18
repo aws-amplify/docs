@@ -11,7 +11,7 @@ import {
   getChapterDirectory,
   isProductRoot
 } from '../../utils/getLocalDirectory';
-import SidebarLayoutToggle from '../SidebarLayoutToggle';
+import MobileMenuIcons from '../MobileMenuIcons';
 import { useRef, useState } from 'react';
 import { MQTablet } from '../media';
 import {
@@ -211,22 +211,7 @@ export function metaContent({
           <FeedbackSticky />
         </ContentStyle>
         <TableOfContents title={title}>{headers}</TableOfContents>
-        {!onDesktop && (
-          <>
-            <SidebarLayoutToggle menuRef={menuRef}>
-              <img
-                alt="Open menu"
-                className="burger-graphic"
-                src="/assets/burger.svg"
-              />
-              <img
-                alt="Close menu"
-                className="ex-graphic"
-                src="/assets/close.svg"
-              />
-            </SidebarLayoutToggle>
-          </>
-        )}
+        {!onDesktop && <MobileMenuIcons menuRef={menuRef} />}
       </LastUpdatedDatesProvider>
     </>
   );

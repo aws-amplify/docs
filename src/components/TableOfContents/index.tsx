@@ -7,8 +7,10 @@ import {
   H3AnchorStyle,
   HeaderStyle
 } from './styles';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { MQTablet } from '../media';
+import { Button } from '@cloudscape-design/components';
 
 const stickyHeaderHeight = 124;
 function scroll(hash) {
@@ -21,6 +23,12 @@ function scroll(hash) {
 
 export default function TableOfContents({ children, title }) {
   const router = useRouter();
+  const MQTabletJS = MQTablet.substring(6);
+  const onDesktop =
+    typeof window === 'undefined'
+      ? false
+      : window.matchMedia(MQTabletJS).matches;
+
   if (children.length === 0) {
     return <></>;
   }
@@ -114,16 +122,28 @@ export default function TableOfContents({ children, title }) {
     };
   }, []);
 
+  const closeToc = () => {
+    if (typeof document !== 'undefined' && !onDesktop) {
+      document.getElementById('toc')?.style.display = 'none';
+    }
+  };
+
   return (
     <TOCStyle id="toc">
       <TOCInnerStyle>
+        {!onDesktop && (
+          <div className="mobileHeader">
+            <h2>On this Page</h2>
+            <Button variant="icon" iconName="close" onClick={closeToc} />
+          </div>
+        )}
         <HeaderStyle>
           <h4>{title}</h4>
         </HeaderStyle>
         {children.map(([name, id, level], index) => {
           const slugged = `#${id}`;
           const anchor = (
-            <a href={slugged}>
+            <a href={slugged} onClick={closeToc}>
               <div>{name}</div>
             </a>
           );

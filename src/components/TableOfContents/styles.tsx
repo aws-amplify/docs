@@ -1,6 +1,10 @@
 import styled from '@emotion/styled';
 import { MQTablet, MQDesktop } from '../media';
 
+type ToggleProps = {
+  inView?: boolean;
+};
+
 export const TOCInnerStyle = styled.div`
   overflow: auto;
   padding-bottom: 3rem;
@@ -11,11 +15,37 @@ export const TOCStyle = styled.div`
   flex-direction: column;
   padding: 2rem 0;
   font-size: 0.875rem;
-  min-width: 16.875rem;
-  position: sticky;
+  position: fixed;
+  top: calc(var(--docs-dev-center-nav));
+  z-index: 11;
+  min-width: 100%;
+  height: 100%;
+  background: white;
   align-self: flex-start;
-  top: calc(3rem + var(--docs-dev-center-nav));
   max-height: 100vh;
+  padding: 0 2.5rem;
+
+  div.mobileHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 64px;
+    border-bottom: 2px solid #d1d5db;
+    margin-bottom: 35px;
+
+    h2 {
+      font-family: 'Amazon Ember';
+      font-style: normal;
+      font-weight: 800;
+      font-size: 16px;
+      line-height: 20px;
+      display: flex;
+      align-items: center;
+      letter-spacing: -0.0008em;
+      margin: 0;
+    }
+  }
 
   ${MQTablet} {
     &.more-width {
@@ -25,6 +55,14 @@ export const TOCStyle = styled.div`
 
   ${MQDesktop} {
     display: flex;
+  }
+
+  ${MQTablet}, ${MQDesktop} {
+    min-width: 16.875rem;
+    position: sticky;
+    top: calc(3rem + var(--docs-dev-center-nav));
+    padding: 2rem 0;
+    z-index: 0;
   }
 
   a {
@@ -68,8 +106,11 @@ export const H3AnchorStyle = styled.div`
 `;
 
 export const HeaderStyle = styled.div`
-  padding-left: 1.5rem;
   padding-right: 1.5rem;
   padding-bottom: 0.5rem;
   border-left: 0.05rem solid var(--border-color);
+
+  ${MQTablet}, ${MQDesktop} {
+    padding-left: 1.5rem;
+  }
 `;

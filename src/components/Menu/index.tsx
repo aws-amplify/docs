@@ -19,6 +19,7 @@ import RepoActions from './RepoActions';
 import FilterSelect from './FilterSelect';
 import { VersionSwitcher, LibVersionSwitcher } from './VersionSwitcher';
 import { useLastUpdatedDatesContext } from '../LastUpdatedProvider';
+import { Button } from '@cloudscape-design/components';
 
 type MenuProps = {
   filters: string[];
@@ -32,6 +33,11 @@ type MenuProps = {
 function Menu(props: MenuProps, ref) {
   const [isOpen, setIsOpen] = useState(true);
   const { state } = useLastUpdatedDatesContext();
+  const MQTabletJS = MQTablet.substring(6);
+  const onDesktop =
+    typeof window === 'undefined'
+      ? false
+      : window.matchMedia(MQTabletJS).matches;
 
   useEffect(() => {
     const MQTabletJS = MQTablet.substring(6);
@@ -101,6 +107,12 @@ function Menu(props: MenuProps, ref) {
         <div>
           <div>
             <MenuHeaderStyle>
+              {!onDesktop && (
+                <div className="mobileHeader">
+                  <h2>Table of Contents</h2>
+                  <Button variant="icon" iconName="close" onClick={closeMenu} />
+                </div>
+              )}
               <MenuCloseButton closeMenu={closeMenu} />
               {typeof props.filterKey !== 'undefined' && (
                 <FilterSelect

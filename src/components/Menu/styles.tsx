@@ -3,13 +3,50 @@ import { MQMobile, MQTablet, MQLaptop, MQDesktop } from '../media';
 
 export const MenuHeaderStyle = styled.div`
   display: flex;
-  flex-direction: row;
-  margin: 1.75rem 2.75rem 0 2.5rem;
+  flex-direction: column;
+  margin: 0 2.5rem;
+  div.mobileHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 64px;
+    border-bottom: 2px solid #D1D5DB;
+    margin-bottom: 35px;
+
+    h2 {
+      font-family: 'Amazon Ember';
+      font-style: normal;
+      font-weight: 800;
+      font-size: 16px;
+      line-height: 20px;
+      display: flex;
+      align-items: center;
+      letter-spacing: -0.0008em;
+      margin: 0;
+    }
+  }
+
+  ${MQDesktop}, ${MQTablet}, ${MQLaptop} {
+    flex-direction: row;
+    margin: 1.75rem 2.75rem 0 2.5rem;
+  }
 `;
 
 export const MenuStyle = styled.div`
   border-right: 0.0625rem solid var(--border-color);
-  min-width: 20rem;
+  min-width: 100vw;
+  height: 100%;
+  z-index: 11;
+  position: fixed;
+  top: calc(var(--docs-dev-center-nav));
+  background: #ffffff;
+  ${MQDesktop}, ${MQTablet}, ${MQLaptop} {
+    top: calc(3rem + var(--docs-dev-center-nav));
+    position: sticky;
+    min-width: 20rem;
+    z-index: 0;
+  }}
 
   > div {
     position: relative;
