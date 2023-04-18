@@ -16,7 +16,7 @@ Amplify.Auth.getCurrentUser(
 ```kotlin
 Amplify.Auth.getCurrentUser(
     { authUser -> val userId = authUser.userId }, 
-    { Log.e("MyAmplifyApp", "Error getting current user", error) }
+    { Log.e("MyAmplifyApp", "Error getting current user", it) }
 )
 ```
 

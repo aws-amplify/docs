@@ -1,0 +1,11 @@
+```dart
+Future<void> signInWithPhoneVerification(
+  String username,
+  String password,
+) async {
+  await Amplify.Auth.signIn(
+    username: username,
+    password: password,
+  );
+}
+```

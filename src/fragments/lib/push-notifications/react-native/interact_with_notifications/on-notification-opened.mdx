@@ -1,0 +1,11 @@
+```js
+const myNotificationOpenedHandler = (notification) => {
+  // Take further action with the opened push notification message
+};
+
+const listener = Notifications.Push.onNotificationOpened(
+  myNotificationOpenedHandler
+);
+
+listener.remove(); // Remember to remove the listener when it is no longer needed
+```

@@ -80,7 +80,9 @@ function Menu(props: MenuProps, ref) {
 
   if (
     (props.url.startsWith('/lib') || props.url.startsWith('/lib-v1')) &&
-    (props.filterKey == 'ios' || props.filterKey == 'android')
+    (props.filterKey == 'ios' ||
+      props.filterKey == 'android' ||
+      props.filterKey === 'flutter')
   ) {
     showLibVersionSwitcher = true;
   }
@@ -125,7 +127,13 @@ function Menu(props: MenuProps, ref) {
             </MenuHeaderStyle>
             <MenuBodyStyle>
               {showVersionSwitcher && <VersionSwitcher url={props.url} />}
-              {showLibVersionSwitcher && <LibVersionSwitcher url={props.url} />}
+              {showLibVersionSwitcher && (
+                <LibVersionSwitcher
+                  url={props.url}
+                  legacyVersion={props.filterKey === 'flutter' ? 'v0' : 'v1'}
+                  latestVersion={props.filterKey === 'flutter' ? 'v1' : 'v2'}
+                />
+              )}
               <Directory filterKey={props.filterKey} url={props.url} />
               <MenuBreakStyle />
               <RepoActions
