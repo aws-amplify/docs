@@ -1,4 +1,4 @@
-import { createRequire } from 'module';
+import { createRequire } from 'node:module';
 import dotenv from 'dotenv';
 import _withMDX from '@next/mdx';
 import { directory } from './src/directory/directory.mjs';

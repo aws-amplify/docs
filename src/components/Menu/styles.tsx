@@ -39,6 +39,8 @@ export const MenuStyle = styled.div`
   height: 100%;
   z-index: 11;
   position: fixed;
+  left: -100vw;
+  transition: left 0.4s;
   top: calc(var(--docs-dev-center-nav));
   background: #ffffff;
   ${MQDesktop}, ${MQTablet}, ${MQLaptop} {
@@ -46,6 +48,7 @@ export const MenuStyle = styled.div`
     position: sticky;
     min-width: 20rem;
     z-index: 0;
+    left: unset;
   }}
 
   > div {

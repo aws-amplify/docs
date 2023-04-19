@@ -53,7 +53,17 @@ function Menu(props: MenuProps, ref) {
   }));
 
   const closeMenu = () => {
-    setIsOpen(false);
+    if (!onDesktop && typeof document !== 'undefined') {
+      const menu = document.getElementById('menu');
+      const buttons = document.getElementById('menuButtons');
+      if (menu) menu.style.left = '-100vw';
+      if (buttons) buttons.style.right = '1rem';
+      setTimeout(function() {
+        setIsOpen(false);
+      }, 400);
+    } else {
+      setIsOpen(false);
+    }
 
     if (props.setMenuIsOpen) {
       props.setMenuIsOpen(false);
@@ -63,7 +73,7 @@ function Menu(props: MenuProps, ref) {
   const openMenu = () => {
     setIsOpen(true);
 
-    if (props.setMenuIsOpen) {
+    if (props.setMenuIsOpen && onDesktop) {
       props.setMenuIsOpen(true);
     }
   };
@@ -103,7 +113,7 @@ function Menu(props: MenuProps, ref) {
 
   if (isOpen) {
     return (
-      <MenuStyle>
+      <MenuStyle id="menu">
         <div>
           <div>
             <MenuHeaderStyle>

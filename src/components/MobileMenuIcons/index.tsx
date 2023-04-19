@@ -15,17 +15,27 @@ export default function MobileMenuIcons({ menuRef }) {
 
   const showMenu = () => {
     menuRef.current.openMenu();
+    setTimeout(function() {
+      if (typeof document !== 'undefined') {
+        const menu = document.getElementById('menu');
+        const buttons = document.getElementById('menuButtons');
+        if (menu) menu.style.left = '0';
+        if (buttons) buttons.style.right = '-100vw';
+      }
+    }, 1);
   };
 
   const showTOC = () => {
     if (typeof document !== 'undefined') {
       const toc = document.getElementById('toc');
-      if (toc) toc.style.display = 'flex';
+      const buttons = document.getElementById('menuButtons');
+      if (toc) toc.style.left = '0';
+      if (buttons) buttons.style.right = '-100vw';
     }
   };
 
   return (
-    <Toggle>
+    <Toggle id="menuButtons">
       <Button iconName="menu" variant="icon" onClick={showMenu} />
       <Divider />
       <Button

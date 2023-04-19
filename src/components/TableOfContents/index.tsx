@@ -124,7 +124,10 @@ export default function TableOfContents({ children, title }) {
 
   const closeToc = () => {
     if (typeof document !== 'undefined' && !onDesktop) {
-      document.getElementById('toc')?.style.display = 'none';
+      const toc = document.getElementById('toc');
+      if (toc) toc.style.left = '-100vw';
+      const buttons = document.getElementById('menuButtons');
+      if (buttons) buttons.style.right = '1rem';
     }
   };
 

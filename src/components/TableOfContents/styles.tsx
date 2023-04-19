@@ -11,7 +11,7 @@ export const TOCInnerStyle = styled.div`
 `;
 
 export const TOCStyle = styled.div`
-  display: none;
+  display: flex;
   flex-direction: column;
   padding: 2rem 0;
   font-size: 0.875rem;
@@ -24,6 +24,8 @@ export const TOCStyle = styled.div`
   align-self: flex-start;
   max-height: 100vh;
   padding: 0 2.5rem;
+  left: -100vw;
+  transition: left 0.4s;
 
   div.mobileHeader {
     display: flex;
@@ -63,6 +65,7 @@ export const TOCStyle = styled.div`
     top: calc(3rem + var(--docs-dev-center-nav));
     padding: 2rem 0;
     z-index: 0;
+    // left: unset;
   }
 
   a {

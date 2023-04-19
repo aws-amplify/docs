@@ -57,16 +57,16 @@ export const FeedbackContainer = styled.div`
     border: 2px solid #d1d5db;
   }
   position: fixed;
-  min-width: 268px;
+  min-width: 268px !important;
   bottom: 32px;
-  right: 32px;
-  left: 32px;
+  left: 50%;
+  transform: translateX(-50%);
   border-radius: 16px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 12px 16px;
-  transition: bottom 0.3s;
+  transition: bottom 0.4s;
   animation: ${slideIn} 0.5s linear;
   filter: drop-shadow(0px 4px 20px rgba(0, 7, 22, 0.12));
   box-sizing: border-box;
@@ -81,7 +81,7 @@ export const FeedbackContainer = styled.div`
   }
   &.UP {
     background-color: #f2fcf3;
-    animation: ${fadeOut} 0.3s ease-in-out 1.5s;
+    animation: ${fadeOut} 0.4s ease-in-out 1.5s;
     animation-fill-mode: forwards;
     div {
       display: flex;
@@ -93,7 +93,7 @@ export const FeedbackContainer = styled.div`
     background-color: #fff7f7;
     max-height: 50px;
     overflow: hidden;
-    animation: ${expand} 0.3s linear 0.3s;
+    animation: ${expand} 0.4s ease-in-out 0.4s;
     animation-fill-mode: forwards;
     div > .response {
       display: flex;
@@ -115,6 +115,7 @@ export const FeedbackContainer = styled.div`
         margin: 12px 0;
         p {
           line-height: 22px;
+          font-size: 14px;
         }
         button {
           padding: 0px !important;
@@ -130,6 +131,7 @@ export const FeedbackContainer = styled.div`
   }
   .sizing {
     font-weight: bold;
+    font-size: 14px;
     margin-right: 34px;
     align-items: left;
     visibility: hidden;
@@ -138,6 +140,7 @@ export const FeedbackContainer = styled.div`
   ${MQDesktop} {
     right: calc(((100vw - 90rem) / 2) + 16.875rem + 32px);
     left: unset;
+    transform: unset;
   }
 `;
 
@@ -146,7 +149,7 @@ export const FeedbackText = styled.p`
   font-size: 14px;
   font-weight: bold;
   line-height: 22px;
-  animation: ${fadeIn} 0.3s ease-in;
+  animation: ${fadeIn} 0.4s ease-in-out;
   animation-fill-mode: forwards;
 `;
 
@@ -163,7 +166,7 @@ export const VoteButtonsContainer = styled.div`
   &.up {
     display: flex;
     flex-direction: row;
-    animation: ${slideOver} 0.3s ease-in-out;
+    animation: ${slideOver} 0.4s ease-in-out;
     animation-fill-mode: forwards;
     width: 66px;
     position: absolute;
@@ -181,7 +184,7 @@ export const VoteButtonsContainer = styled.div`
     position: absolute;
     right: 16px;
     > :nth-of-type(1) {
-      animation: ${fadeOut} 0.2s ease-in-out, ${slideOver} 0.3s ease-in-out;
+      animation: ${fadeOut} 0.2s ease-in-out, ${slideOver} 0.4s ease-in-out;
       animation-fill-mode: forwards;
     }
   }
@@ -191,7 +194,7 @@ export const VoteButtonReplace = styled.div`
   display: flex;
   flex-direction: row;
   transform: translateX(49px);
-  animation: ${slideOver} 0.3s ease-in-out;
+  animation: ${slideOver} 0.4s ease-in-out;
   animation-fill-mode: forwards;
   width: 66px;
   position: absolute;
