@@ -1,0 +1,38 @@
+This call sends information that you have specified about a user to Amazon Pinpoint. This could be for an unauthenticated (guest) or an authenticated user.
+
+You can get the current user's ID from the Amplify Auth category as shown per the Auth category documentation. Be sure to have it ready before you set it as shown below (Check out the [Authentication Getting Started](/lib-v1/auth/getting-started) guide for detailed explanation).
+
+If you have asked for location access and received permission, you can also provide that in `AnalyticsUserProfileLocation`.
+
+```dart
+Future<void> addAnalyticsWithLocation({
+  required String userId,
+  required String name,
+  required String email,
+  required String phoneNumber,
+  required int age,
+}) async {
+  final location = AnalyticsUserProfileLocation()
+    ..latitude = 47.606209
+    ..longitude = -122.332069
+    ..postalCode = '98122'
+    ..city = 'Seattle'
+    ..region = 'WA'
+    ..country = 'USA';
+
+  final properties = AnalyticsProperties()
+    ..addStringProperty('phoneNumber', phoneNumber)
+    ..addIntProperty('age', age);
+
+  final userProfile = AnalyticsUserProfile()
+    ..name = name
+    ..email = email
+    ..location = location
+    ..properties = properties;
+
+  await Amplify.Analytics.identifyUser(
+    userId: userId,
+    userProfile: userProfile,
+  );
+}
+```

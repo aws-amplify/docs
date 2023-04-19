@@ -10,13 +10,13 @@ Stream<GraphQLResponse<Todo>> subscribe() {
   final Stream<GraphQLResponse<Todo>> operation = Amplify.API
       .subscribe(
         subscriptionRequest,
-        onEstablished: () => print('Subscription established'),
+        onEstablished: () => safePrint('Subscription established'),
       )
       // Listens to only 5 elements
       .take(5)
       .handleError(
-    (error) {
-      print('Error in subscription stream: $error');
+    (Object error) {
+      safePrint('Error in subscription stream: $error');
     },
   );
   return operation;
@@ -37,18 +37,19 @@ void subscribe() {
   final subscriptionRequest = ModelSubscriptions.onCreate(Todo.classType);
   final Stream<GraphQLResponse<Todo>> operation = Amplify.API.subscribe(
     subscriptionRequest,
-    onEstablished: () => print('Subscription established'),
+    onEstablished: () => safePrint('Subscription established'),
   );
   subscription = operation.listen(
     (event) {
-      print('Subscription event data received: ${event.data}');
+      safePrint('Subscription event data received: ${event.data}');
     },
-    onError: (Object e) => print('Error in subscription stream: $e'),
+    onError: (Object e) => safePrint('Error in subscription stream: $e'),
   );
 }
 
 void unsubscribe() {
   subscription?.cancel();
+  subscription = null;
 }
 ```
 
