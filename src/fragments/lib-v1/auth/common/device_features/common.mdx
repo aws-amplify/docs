@@ -42,6 +42,10 @@ import android1 from "/src/fragments/lib-v1/auth/android/device_features/10_reme
 
 <Fragments fragments={{android: android1}} />
 
+import flutter3 from "/src/fragments/lib-v1/auth/flutter/device_features/10_rememberDevice.mdx";
+
+<Fragments fragments={{flutter: flutter3}} />
+
 ### Forget Device
 You can forget your device by using the following API.  Note that forgotten devices are still tracked.  See below for the difference between remembered, forgotten and tracked.
 
@@ -52,6 +56,10 @@ import ios4 from "/src/fragments/lib-v1/auth/ios/device_features/20_forgetDevice
 import android5 from "/src/fragments/lib-v1/auth/android/device_features/20_forgetDevice.mdx";
 
 <Fragments fragments={{android: android5}} />
+
+import flutter7 from "/src/fragments/lib-v1/auth/flutter/device_features/20_forgetDevice.mdx";
+
+<Fragments fragments={{flutter: flutter7}} />
 
 ### Fetch Devices
 You can fetch a list of remembered devices by using the following:
@@ -64,6 +72,10 @@ import android9 from "/src/fragments/lib-v1/auth/android/device_features/30_fetc
 
 <Fragments fragments={{android: android9}} />
 
+import flutter11 from "/src/fragments/lib-v1/auth/flutter/device_features/30_fetchDevice.mdx";
+
+<Fragments fragments={{flutter: flutter11}} />
+
 ## Terminology
 * **Tracked**
   * Every time the user signs in with a new device, the client is given the device key at the end of a successful authentication event.  We use this device key to generate a salt and password verifier which is used to call the ConfirmDevice API.  At this point, the device is considered to be **tracked**.  Once the device is in a tracked state, you can use the Amazon Cognito console to see the time it started to be tracked, last authentication time, and other information about that device.
@@ -73,3 +85,9 @@ import android9 from "/src/fragments/lib-v1/auth/android/device_features/30_fetc
   * A not-remembered device is a tracked device where Cognito has been configured to require users to "Opt-in" to remember a device, but the user has not opt-ed in to having the device remembered.  This use case is used for users signing into their application from a device that they don't own.
 * **Forgotten**
   * In the event that you no longer want to remember or track a device, you can use the `Amplify.Auth.forgetDevice()` API to remove this device from being both remembered and tracked.
+
+import flutter13 from "/src/fragments/lib-v1/auth/flutter/device_features/40_trackDevice.mdx";
+
+## Known Limitations
+When using the federated OAuth flow with Cognito User Pools, the [device tracking and remembering](https://aws.amazon.com/blogs/mobile/tracking-and-remembering-devices-using-amazon-cognito-your-user-pools/) features are currently not available within the library. 
+<Fragments fragments={{flutter: flutter13}} />

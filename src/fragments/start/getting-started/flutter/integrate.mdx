@@ -1,225 +1,199 @@
-In this section you’ll integrate Amplify DataStore with your app, and learn to use the generated data model to create, update, query, and delete Todo items by building an app.
+In this section you'll integrate Amplify API with your app, and use the generated data model to create, update, query, and delete BudgetEntry items in your app.
 
-First, replace the contents of your *main.dart* file with the following UI boilerplate code. Typically, you would break this file up into smaller modules but we've kept it as a single file here just for the tutorial. You might find your IDE complains about numerous unreferenced declarations but, don’t worry, you'll get around to fixing those as you fill out your app with more functionality.
+First, replace the contents of your *main.dart* file with the following UI boilerplate code. Typically, you would break this file up into smaller modules but we've kept it as a single file here just for the tutorial.
 
 ```dart
-// dart async library you will refer to when setting up real time updates
-import 'dart:async';
-
-// flutter and ui libraries
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-// amplify packages you will need to use
-import 'package:amplify_flutter/amplify_flutter.dart';
-import 'package:amplify_datastore/amplify_datastore.dart';
-
-// amplify configuration and models that should have been generated for you
-import 'amplifyconfiguration.dart';
 import 'models/ModelProvider.dart';
-import 'models/Todo.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await _configureAmplify();
   runApp(const MyApp());
 }
 
+Future<void> _configureAmplify() async {
+  // To be filled in
+}
+
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
+
+  // GoRouter configuration
+  static final _router = GoRouter(
+    routes: [
+      GoRoute(
+        path: '/',
+        builder: (context, state) => const HomeScreen(),
+      ),
+    ],
+  );
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Amplified Todo',
-      home: TodosPage(),
+    return MaterialApp.router(
+      routerConfig: _router,
+      debugShowCheckedModeBanner: false,
     );
   }
 }
 
-class TodosPage extends StatefulWidget {
-  const TodosPage({Key? key}) : super(key: key);
+class LoadingScreen extends StatelessWidget {
+  const LoadingScreen({super.key});
 
   @override
-  State<TodosPage> createState() => _TodosPageState();
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+  }
 }
 
-class _TodosPageState extends State<TodosPage> {
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  var _budgetEntries = <BudgetEntry>[];
+
   @override
   void initState() {
-    // to be filled in a later step
     super.initState();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    // to be filled in a later step
+  Future<void> _refreshBudgetEntries() async {
+    // To be filled in
   }
 
-  Future<void> _initializeApp() async {
-    // to be filled in a later step
+  Future<void> _deleteBudgetEntry(BudgetEntry budgetEntry) async {
+    // To be filled in
   }
 
-  Future<void> _configureAmplify() async {
-    // to be filled in a later step
+  Future<void> _navigateToBudgetEntry({BudgetEntry? budgetEntry}) async {
+    // To be filled in
+  }
+
+  double _calculateTotalBudget(List<BudgetEntry?> items) {
+    var totalAmount = 0.0;
+    for (final item in items) {
+      totalAmount += item?.amount ?? 0;
+    }
+    return totalAmount;
+  }
+
+  Widget _buildRow({
+    required String title,
+    required String description,
+    required String amount,
+    TextStyle? style,
+  }) {
+    return Row(
+      children: [
+        Expanded(
+          child: Text(
+            title,
+            textAlign: TextAlign.center,
+            style: style,
+          ),
+        ),
+        Expanded(
+          child: Text(
+            description,
+            textAlign: TextAlign.center,
+            style: style,
+          ),
+        ),
+        Expanded(
+          child: Text(
+            amount,
+            textAlign: TextAlign.center,
+            style: style,
+          ),
+        ),
+      ],
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.add),
+      ),
       appBar: AppBar(
-        title: const Text('My Todo List'),
+        title: const Text('Budget Tracker'),
       ),
-      body: const Center(child: CircularProgressIndicator()),
-      // body: _isLoading
-      //     ? Center(child: CircularProgressIndicator())
-      //     : TodosList(todos: _todos),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const AddTodoForm()),
-          );
-        },
-        tooltip: 'Add Todo',
-        label: Row(
-          children: const [Icon(Icons.add), Text('Add todo')],
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-    );
-  }
-}
-
-class TodosList extends StatelessWidget {
-  const TodosList({
-    required this.todos,
-    Key? key,
-  }) : super(key: key);
-
-  final List<Todo> todos;
-
-  @override
-  Widget build(BuildContext context) {
-    return todos.isNotEmpty
-        ? ListView(
-            padding: const EdgeInsets.all(8),
-            children: todos.map((todo) => TodoItem(todo: todo)).toList())
-        : const Center(
-            child: Text('Tap button below to add a todo!'),
-          );
-  }
-}
-
-class TodoItem extends StatelessWidget {
-  const TodoItem({
-    required this.todo,
-    Key? key,
-  }) : super(key: key);
-
-  final double iconSize = 24.0;
-  final Todo todo;
-
-  void _deleteTodo(BuildContext context) async {
-    // to be filled in a later step
-  }
-
-  Future<void> _toggleIsComplete() async {
-    // to be filled in a later step
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: InkWell(
-        onTap: () {
-          _toggleIsComplete();
-        },
-        onLongPress: () {
-          _deleteTodo(context);
-        },
+      body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    todo.name,
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
+          padding: const EdgeInsets.only(top: 25),
+          child: RefreshIndicator(
+            onRefresh: _refreshBudgetEntries,
+            child: Column(
+              children: [
+                if (_budgetEntries.isEmpty)
+                  const Text('Use the \u002b sign to add new budget entries')
+                else
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // Show total budget from the list of all BudgetEntries
+                      Text(
+                        'Total Budget: \$ ${_calculateTotalBudget(_budgetEntries).toStringAsFixed(2)}',
+                        style: const TextStyle(fontSize: 24),
+                      )
+                    ],
                   ),
-                  Text(todo.description ?? 'No description'),
-                ],
-              ),
+                const SizedBox(height: 30),
+                _buildRow(
+                  title: 'Title',
+                  description: 'Description',
+                  amount: 'Amount',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const Divider(),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: _budgetEntries.length,
+                    itemBuilder: (context, index) {
+                      final budgetEntry = _budgetEntries[index];
+                      return Dismissible(
+                        key: ValueKey(budgetEntry),
+                        background: const ColoredBox(
+                          color: Colors.red,
+                          child: Padding(
+                            padding: EdgeInsets.only(right: 10),
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Icon(Icons.delete, color: Colors.white),
+                            ),
+                          ),
+                        ),
+                        onDismissed: (_) => _deleteBudgetEntry(budgetEntry),
+                        child: ListTile(
+                          onTap: () => _navigateToBudgetEntry(
+                            budgetEntry: budgetEntry,
+                          ),
+                          title: _buildRow(
+                            title: budgetEntry.title,
+                            description: budgetEntry.description ?? '',
+                            amount:
+                                '\$ ${budgetEntry.amount.toStringAsFixed(2)}',
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
-            Icon(
-                todo.isComplete
-                    ? Icons.check_box
-                    : Icons.check_box_outline_blank,
-                size: iconSize),
-          ]),
-        ),
-      ),
-    );
-  }
-}
-
-class AddTodoForm extends StatefulWidget {
-  const AddTodoForm({Key? key}) : super(key: key);
-
-  @override
-  State<AddTodoForm> createState() => _AddTodoFormState();
-}
-
-class _AddTodoFormState extends State<AddTodoForm> {
-  late final TextEditingController _nameController;
-  late final TextEditingController _descriptionController;
-
-  @override
-  void initState() {
-    _nameController = TextEditingController();
-    _descriptionController = TextEditingController();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _nameController.dispose();
-    _descriptionController.dispose();
-  }
-
-  Future<void> _saveTodo() async {
-    // to be filled in a later step
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Add Todo'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              TextFormField(
-                controller: _nameController,
-                decoration:
-                    const InputDecoration(filled: true, labelText: 'Name'),
-              ),
-              TextFormField(
-                controller: _descriptionController,
-                decoration: const InputDecoration(
-                    filled: true, labelText: 'Description'),
-              ),
-              ElevatedButton(
-                onPressed: _saveTodo,
-                child: const Text('Save'),
-              )
-            ],
           ),
         ),
       ),
@@ -228,230 +202,372 @@ class _AddTodoFormState extends State<AddTodoForm> {
 }
 ```
 
-Go ahead and run your code now on an iOS or Android device and you should see an app with a progress indicator and a floating action button but not much else.
+Go ahead and run your code now on any mobile, web, or desktop device and you should see an app with some titles
+and a floating action button but not much else.
 
 ```bash
 flutter run
 ```
 
-Let’s next configure Amplify and give the app a reason to have a loading state at all.
+![Budget Tracker home screen](/images/lib/getting-started/flutter/budget-tracker-home.png)
 
 ## Configure Amplify
 
-To the top of the `_TodosPageState` class, add the following.
+Let's start by configuring Amplify when the application loads. At the top of the file, find the `_configureAmplify`
+method and replace it with the following code.
 
-```dart
-class _TodosPageState extends State<TodosPage> {
+```diff
++ import 'package:amplify_api/amplify_api.dart';
++ import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
++ import 'package:amplify_authenticator/amplify_authenticator.dart';
++ import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-  // loading ui state - initially set to a loading state
-  bool _isLoading = true;
++ import 'amplifyconfiguration.dart';
+import 'models/ModelProvider.dart';
 
-  // list of Todos - initially empty
-  List<Todo> _todos = [];
-```
-
-Update the `initState()` function in the `_TodosPageState` class.
-
-```dart
-@override
-void initState() {
-
-  // kick off app initialization
-  _initializeApp();
-
-  super.initState();
-}
-```
-
-Update the `_initializeApp()` function in the `_TodosPageState` class.
-
-```dart
-Future<void> _initializeApp() async {
-
-  // configure Amplify
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await _configureAmplify();
-
-  // after configuring Amplify, update loading ui state to loaded state
-  setState(() {
-    _isLoading = false;
-  });
+  runApp(const MyApp());
 }
-```
 
-Update the `_configureAmplify()` function in the `_TodosPageState` class.
-
-```dart
 Future<void> _configureAmplify() async {
-  try {
-
-    // amplify plugins
-    final _dataStorePlugin = AmplifyDataStore(modelProvider: ModelProvider.instance);
-
-    // add Amplify plugins
-    await Amplify.addPlugins([_dataStorePlugin]);
-
-    // configure Amplify
-    //
-    // note that Amplify cannot be configured more than once!
-    await Amplify.configure(amplifyconfig);
-  } catch (e) {
-
-    // error handling can be improved for sure!
-    // but this will be sufficient for the purposes of this tutorial
-    safePrint('An error occurred while configuring Amplify: $e');
-  }
+-  // To be filled in
++  try {
++    // Create the API plugin.
++    //
++    // If `ModelProvider.instance` is not available, try running 
++    // `amplify codegen models` from the root of your project.
++    final api = AmplifyAPI(modelProvider: ModelProvider.instance);
++
++    // Create the Auth plugin.
++    final auth = AmplifyAuthCognito();
++
++    // Add the plugins and configure Amplify for your app.
++    await Amplify.addPlugins([api, auth]);
++    await Amplify.configure(amplifyconfig);
++
++    safePrint('Successfully configured');
++  } on Exception catch (e) {
++    safePrint('Error configuring Amplify: $e');
++  }
 }
 ```
 
-Find the `build()` function in the `_TodosPageState` class and update the `Scaffold` > `body` parameter. (For your convenience, we added the updated code as a comment in the boilerplate)
+Here, we're adding the API and Authentication plugins to our app and configuring Amplify with the
+generated `amplifyconfiguration.dart` file.
 
-``` diff
-- body: const Center(child: CircularProgressIndicator()),
-+ body: _isLoading                                  // if in a loading state
-+     ? const Center(child: CircularProgressIndicator())  // display progress indicator
-+     : TodosList(todos: _todos),                   // or the todos list otherwise
+There's one more step to complete the configuration of Auth and that is to wrap our application
+in the Amplify Authenticator, which will provide a pre-built authentication flow with less than 
+5 lines of code.
+
+> You can learn more about the Authenticator and how to customize it [here](https://ui.docs.amplify.aws/flutter/connected-components/authenticator).
+
+In the `MyApp` class, make the following change to add the Authenticator.
+
+```diff
+  @override
+  Widget build(BuildContext context) {
+-    return MaterialApp.router(
+-      routerConfig: _router,
+-      debugShowCheckedModeBanner: false,
+-    );
++    return Authenticator(
++      child: MaterialApp.router(
++        routerConfig: _router,
++        debugShowCheckedModeBanner: false,
++        builder: Authenticator.builder(),
++      ),
++    );
+  }
 ```
 
-If you restart your app now, the progress indicator should disappear after Amplify is configured and an empty todos list should be displayed instead. Let’s add some todos!
+If you try running your app again, you should now see a sign-in screen instead of the home screen.
+The Authenticator guards your application so that only signed-in users can access it.
+
+![Budget Tracker with Authenticator](/images/lib/getting-started/flutter/budget-tracker-authenticator.png)
+
+Try creating a user with the `Sign Up` form before continuing on to the next step!
 
 ## Manipulating data
 
-### Creating a Todo
-The *Add todo* button opens up a form to add todos. But, right now, the form does nothing when the *Save* button is pressed. Let’s fix that by having it save a **Todo** to DataStore.
+### Creating a Budget Entry
 
-Update the `_saveTodo()` function in the `_AddTodoFormState` class.
+Currently, the `+` button doesn't do anything. Let's hook that up to a budget entry screen where we can create
+and update budget items.
 
-```dart
-Future<void> _saveTodo() async {
-  // get the current text field contents
-  final name = _nameController.text;
-  final description = _descriptionController.text;
-  // create a new Todo from the form values
-  // `isComplete` is also required, but should start false in a new Todo
-  final newTodo = Todo(
-    name: name,
-    description: description.isNotEmpty ? description : null,
-    isComplete: false,
-  );
-  try {
-    // to write data to DataStore, you simply pass an instance of a model to
-    // Amplify.DataStore.save()
-    await Amplify.DataStore.save(newTodo);
-    // after creating a new Todo, close the form
-    // Be sure the context at that moment is still valid and mounted
-    if (mounted) {
-      Navigator.of(context).pop();
-    }
-  } catch (e) {
-    safePrint('An error occurred while saving Todo: $e');
-  }
-}
-```
-
-If you try to add todos using the form now, it should successfully close the form when pressing the *Save* button. But your Todo list is still empty even if you restart the app! After initializing your todos as an empty list, you aren't currently updating it again. You will remedy that in the next step.
-
-### Querying for Todos and Observing Updates in Real-Time
-
-Now that you have a way to add Todo items, you need a way to list them out. You also want to observe updates to those items as they are added, updated, or removed.
-
-This can be achieved with `DataStore.observeQuery()`. ObserveQuery will return a Stream of query snapshots. Each snapshot will contain the current list of items, as well as boolean value to indicate if DataStore's sync process has completed.
-
-To the top of the `_TodosPageState` class, add a `StreamSubscription`.
+First, add the following below the `_HomeScreenState` class.
 
 ```dart
-class _TodosPageState extends State<TodosPage> {
-
-  // subscription of Todo QuerySnapshots - to be initialized at runtime
-  late StreamSubscription<QuerySnapshot<Todo>> _subscription;
-```
-
-Update the `_initializeApp()` function in the `_TodosPageState` class.
-
-```dart
-Future<void> _initializeApp() async {
-  // configure Amplify
-  await _configureAmplify();
-
-  // Query and Observe updates to Todo models. DataStore.observeQuery() will
-  // emit an initial QuerySnapshot with a list of Todo models in the local store,
-  // and will emit subsequent snapshots as updates are made
-  //
-  // each time a snapshot is received, the following will happen:
-  // _isLoading is set to false if it is not already false
-  // _todos is set to the value in the latest snapshot
-  _subscription = Amplify.DataStore.observeQuery(Todo.classType)
-      .listen((QuerySnapshot<Todo> snapshot) {
-    setState(() {
-      if (_isLoading) _isLoading = false;
-      _todos = snapshot.items;
-    });
+class ManageBudgetEntryScreen extends StatefulWidget {
+  const ManageBudgetEntryScreen({
+    required this.budgetEntry,
+    super.key,
   });
+
+  final BudgetEntry? budgetEntry;
+
+  @override
+  State<ManageBudgetEntryScreen> createState() =>
+      _ManageBudgetEntryScreenState();
 }
-```
 
-Lastly update the `dispose` function as follows to cancel the subscription when the UI is disposed.
+class _ManageBudgetEntryScreenState extends State<ManageBudgetEntryScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _amountController = TextEditingController();
 
-```dart
-@override
-void dispose() {
-  super.dispose();
-  _subscription.cancel();
-}
-```
+  late final String _titleText;
 
-If you restart your app now, you should see that newly added todos will also start showing up on the list. The items look like they can be check off and marked as completed, but when pressed, they don’t seem to do anything right now. Let’s learn how to update existing data.
+  bool get _isCreate => _budgetEntry == null;
+  BudgetEntry? get _budgetEntry => widget.budgetEntry;
 
-### Updating a Todo
+  @override
+  void initState() {
+    super.initState();
 
-Updating an existing data entry looks a lot like creating a new one. It’s important to note, however, that models in DataStore are *immutable*. So, to update a record you must use a model’s `copyWith` function rather than manipulating its properties directly.
+    final budgetEntry = _budgetEntry;
+    if (budgetEntry != null) {
+      _titleController.text = budgetEntry.title;
+      _descriptionController.text = budgetEntry.description ?? '';
+      _amountController.text = budgetEntry.amount.toStringAsFixed(2);
+      _titleText = 'Update budget entry';
+    } else {
+      _titleText = 'Create budget entry';
+    }
+  }
 
-Update the `_toggleIsComplete()` function in the `TodoItem` class.
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _descriptionController.dispose();
+    _amountController.dispose();
+    super.dispose();
+  }
 
-```dart
-Future<void> _toggleIsComplete() async {
+  Future<void> submitForm() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
 
-  // copy the Todo you wish to update, but with updated properties
-  final updatedTodo = todo.copyWith(isComplete: !todo.isComplete);
-  try {
+    // If the form is valid, submit the data
+    final title = _titleController.text;
+    final description = _descriptionController.text;
+    final amount = double.parse(_amountController.text);
 
-    // to update data in DataStore, you again pass an instance of a model to
-    // Amplify.DataStore.save()
-    await Amplify.DataStore.save(updatedTodo);
-  } catch (e) {
-    safePrint('An error occurred while saving Todo: $e');
+    if (_isCreate) {
+      // Create a new budget entry
+      final newEntry = BudgetEntry(
+        title: title,
+        description: description.isNotEmpty ? description : null,
+        amount: amount,
+      );
+      final request = ModelMutations.create(newEntry);
+      final response = await Amplify.API.mutate(request: request).response;
+      safePrint('Create result: $response');
+    } else {
+      // Update budgetEntry instead
+      final updateBudgetEntry = _budgetEntry!.copyWith(
+        title: title,
+        description: description.isNotEmpty ? description : null,
+        amount: amount,
+      );
+      final request = ModelMutations.update(updateBudgetEntry);
+      final response = await Amplify.API.mutate(request: request).response;
+      safePrint('Update result: $response');
+    }
+
+    // Navigate back to homepage after create/update executes
+    if (mounted) {
+      context.pop();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(_titleText),
+      ),
+      body: Align(
+        alignment: Alignment.topCenter,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 800),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextFormField(
+                      controller: _titleController,
+                      decoration: const InputDecoration(
+                        labelText: 'Title (required)',
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a title';
+                        }
+                        return null;
+                      },
+                    ),
+                    TextFormField(
+                      controller: _descriptionController,
+                      decoration: const InputDecoration(
+                        labelText: 'Description',
+                      ),
+                    ),
+                    TextFormField(
+                      controller: _amountController,
+                      keyboardType: const TextInputType.numberWithOptions(
+                        signed: false,
+                        decimal: true,
+                      ),
+                      decoration: const InputDecoration(
+                        labelText: 'Amount (required)',
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter an amount';
+                        }
+                        final amount = double.tryParse(value);
+                        if (amount == null || amount <= 0) {
+                          return 'Please enter a valid amount';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: submitForm,
+                      child: Text(_titleText),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 ```
 
-That’s it! Restart your app and you should now be able to toggle a todo between completed and not completed states. You’re almost done here but what if you want to delete an item from your todo list? We’ll go over how to do that next.
+Then, add the route to the global `GoRouter`.
 
-### Deleting a Todo
-
-Deleting an existing data entry is even easier than updating one since you don’t need to copy the instance to delete it. It may not be the best user experience to do this but, for this app, you will trigger deletion of a todo item to a long press of the item.
-
-Update the `_deleteTodo()` function in the `TodoItem` class.
-
-```dart
-void _deleteTodo(BuildContext context) async {
-  try {
-    // to delete data from DataStore, you pass the model instance to
-    // Amplify.DataStore.delete()
-    await Amplify.DataStore.delete(todo);
-  } catch (e) {
-    safePrint('An error occurred while deleting Todo: $e');
-  }
-}
+```diff
+  static final _router = GoRouter(
+    routes: [
+      GoRoute(
+        path: '/',
+        builder: (context, state) => const HomeScreen(),
+      ),
++     GoRoute(
++       path: '/manage-budget-entry',
++       name: 'manage',
++       builder: (context, state) => ManageBudgetEntryScreen(
++         budgetEntry: state.extra as BudgetEntry?,
++       ),
++     ),
+    ],
+  );
 ```
 
-Reload your app once more and you should now be able to long press an item to delete it. Now you have a fully featured CRUD application that saves and retrieves data on the local device, which means this app **works without an AWS account or even an internet connection.** Next, you'll connect it to AWS and make sure the data is available in the cloud but first, a note about Flutter Hot Reload and Hot Restart.
+Finally, hook up the `+` button to navigate to this route when it's pressed.
 
-## Using Flutter Hot Reload and Hot Restart
+```diff
+  Future<void> _navigateToBudgetEntry({BudgetEntry? budgetEntry}) async {
+-    // To be filled in
++    await context.pushNamed('manage', extra: budgetEntry);
+  }
+```
 
-Flutter offers [hot reload and hot restart](https://flutter.dev/docs/development/tools/hot-reload) functionality in order to aid the development process.
+Now, if you click the `+` button you should be sent to the new screen.
 
-A key difference between hot reload and hot restart is that hot restart disposes the current state, while hot reload does not.
+![Budget Tracker create screen](/images/lib/getting-started/flutter/budget-tracker-create-screen.png)
 
-Amplify-flutter should automatically re-configure your application and re-wire its plugins upon a hot restart, so there is no additional effort needed on your part.
+Try creating a budget entry at this point! You should be able to enter values in the fields,
+and get errors if a value entered does not match the schema.
 
-During **hot reload**, depending on how and when you are calling `Amplify.configure`, you may wish to check whether or not Amplify has already been configured using `Amplify.isConfigured` because it should not be configured more than once.
+When returning to the home screen, though, our budget entry is nowhere to be found! Let's fix that.
 
+### Loading remote budget entries
+
+In the `_HomeScreenState` class, we have a method called `_refreshBudgetEntries`. Let's populate
+that to update the state class's `_budgetEntries` variable every time we call it.
+
+To that, we'll use Amplify's model helpers which provide a quick way to create CRUD requests for 
+your data. Here we're using the `ModelQueries.list` helper to retrieve all the budget entries 
+and then passing the GraphQL request to the API category which will automatically transform 
+the response into a list of `BudgetEntry` types.
+
+```diff
+  Future<void> _refreshBudgetEntries() async {
+-    // To be filled in
++    try {
++      final request = ModelQueries.list(BudgetEntry.classType);
++      final response = await Amplify.API.query(request: request).response;
++
++      final todos = response.data?.items;
++      if (response.hasErrors) {
++        safePrint('errors: ${response.errors}');
++        return;
++      }
++      setState(() {
++        _budgetEntries = todos!.whereType<BudgetEntry>().toList();
++      });
++    } on ApiException catch (e) {
++      safePrint('Query failed: $e');
++    }
+  }
+```
+
+Now we can modify `initState` so that the entries are refreshed every time the homepage loads.
+
+```diff
+  @override
+  void initState() {
+    super.initState();
++    _refreshBudgetEntries();
+  }
+```
+
+And finally, we also want to refresh the entries anytime we return from the create/update screen
+so that any changes are reflected in the list.
+
+```diff
+  Future<void> _navigateToBudgetEntry({BudgetEntry? budgetEntry}) async {
+    await context.pushNamed('manage', extra: budgetEntry);
++    // Refresh the entries when returning from the
++    // budget entry screen.
++    await _refreshBudgetEntries();
+  }
+```
+
+### Deleting budget entries
+
+If you notice, right now you can swipe right on a budget entry to dismiss it. Let's modify the code
+so that it properly deletes the entry when dismissed.
+
+Modify the `_deleteBudgetEntry` function as follows. Again, we'll use Amplify model helpers to simplify
+the creation of the GraphQL request.
+
+```diff
+  Future<void> _deleteBudgetEntry(BudgetEntry budgetEntry) async {
+-    // To be filled in
++    final request = ModelMutations.delete<BudgetEntry>(budgetEntry);
++    final response = await Amplify.API.mutate(request: request).response;
++    safePrint('Delete response: $response');
++    await _refreshBudgetEntries();
+  }
+```
+
+If you've made it this far, congratulations! You've built a fully working budget management application 🥳
+
+![Completed budget tracker](/images/lib/getting-started/flutter/budget-tracker-complete.png)

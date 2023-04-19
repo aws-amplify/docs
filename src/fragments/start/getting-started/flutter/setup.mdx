@@ -5,25 +5,27 @@
 Create a new project using Flutter CLI:
 
 ```bash
-flutter create amplified_todo --platforms=android,ios
+flutter create budget_tracker
 ```
 
 ### Add Amplify to your application
 
-Amplify for Flutter is distributed via [pub.dev](https://pub.dev/packages/amplify_flutter).
+Amplify Flutter is distributed via [pub.dev](https://pub.dev/packages/amplify_flutter).
 
-1. From your project root directory, find and modify pubspec.yaml and add the Amplify plugins to the project dependencies.
+1. From your project root directory, find and modify your `pubspec.yaml` and add the Amplify plugins to the project dependencies.
 
     ```yaml
     environment:
-      sdk: ">=2.15.0 <3.0.0"
+      sdk: ">=2.18.0 <3.0.0"
 
     dependencies:
+      amplify_api: ^1.0.0
+      amplify_auth_cognito: ^1.0.0
+      amplify_authenticator: ^1.0.0
+      amplify_flutter: ^1.0.0
       flutter:
         sdk: flutter
-
-      amplify_flutter: ^0.6.0
-      amplify_datastore: ^0.6.0
+      go_router: ^6.5.5
     ```
 
 2. Install the dependencies by running the following command. Depending on your development environment, you may perform this step via your IDE (or it may even be performed for you automatically).
@@ -32,30 +34,58 @@ Amplify for Flutter is distributed via [pub.dev](https://pub.dev/packages/amplif
     flutter pub get
     ```
 
-### Update target iOS platform
+### Platform Setup
 
-From your project root, navigate to the `ios/` directory and modify the `Podfile` using a text editor of your choice and update the target iOS platform to 13.0 or higher.
+Depending on the platform you're building for, some extra set up may be required. 
 
-```bash
-platform :ios, '13.0'
-```
+<BlockSwitcher>
 
-<Callout>
+<Block name="iOS">
 
-When preparing your application for deployment, you should also update your iOS Deployment Target to at least 13.0. See the [Flutter docs](https://docs.flutter.dev/deployment/ios) to learn more about building your iOS app for release.
+import ios from '/src/fragments/lib/project-setup/flutter/platform-setup/ios.mdx';
 
-</Callout>
+<Fragments fragments={{ flutter: ios }} />
 
-### Update target Android SDK version
+</Block>
 
-From your project root, navigate to the `android/app/` directory and modify `build.gradle` using a text editor of your choice and update the target Android SDK version to 21 or higher:
+<Block name="Android">
 
-```bash
-minSdkVersion 21
-```
+import android from '/src/fragments/lib/project-setup/flutter/platform-setup/android.mdx';
 
-import flutter1 from '/src/fragments/start/getting-started/flutter/kotlin-version-warning.mdx';
+<Fragments fragments={{ flutter: android }} />
 
-<Fragments fragments={{ flutter: flutter1 }} />
+</Block>
 
-You are ready to start building with Amplify! 🎉
+<Block name="Web">
+
+import web from '/src/fragments/lib/project-setup/flutter/platform-setup/web.mdx';
+
+<Fragments fragments={{ flutter: web }} />
+
+</Block>
+
+<Block name="macOS">
+
+import macos from '/src/fragments/lib/project-setup/flutter/platform-setup/macos.mdx';
+
+<Fragments fragments={{ flutter: macos }} />
+
+</Block>
+
+<Block name="Windows">
+
+import windows from '/src/fragments/lib/project-setup/flutter/platform-setup/windows.mdx';
+
+<Fragments fragments={{ flutter: windows }} />
+
+</Block>
+
+<Block name="Linux">
+
+import linux from '/src/fragments/lib/project-setup/flutter/platform-setup/linux.mdx';
+
+<Fragments fragments={{ flutter: linux }} />
+
+</Block>
+
+</BlockSwitcher>

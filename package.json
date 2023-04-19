@@ -18,9 +18,9 @@
     "@algolia/autocomplete-shared": "^1.5.6",
     "@algolia/autocomplete-theme-classic": "^1.6.1",
     "@algolia/client-search": "^4.13.0",
-    "@aws-amplify/amplify-cli-core": "^4.0.1",
+    "@aws-amplify/amplify-cli-core": "^4.0.3",
     "@aws-amplify/ui-components": "latest",
-    "@aws-amplify/ui-react": "^4.5.1",
+    "@aws-amplify/ui-react": "^4.6.0",
     "@emotion/react": "^11.1.5",
     "@emotion/styled": "^11.3.0",
     "@mdx-js/mdx": "^2.0.0",
@@ -96,7 +96,8 @@
     "loader-utils": "2.0.4",
     "minimatch": "3.0.5",
     "json5": "2.2.2",
-    "decode-uri-component": "0.2.1"
+    "decode-uri-component": "0.2.1",
+    "vm2": "3.9.16"
   },
   "jest": {
     "preset": "ts-jest",

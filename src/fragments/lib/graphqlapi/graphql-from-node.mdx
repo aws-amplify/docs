@@ -119,7 +119,8 @@ For functions written using CommonJS, you will need to install version 2 of `nod
 
 ## Query
 
-Using an API Key for authenticating your requests, you can query the GraphQL API to get a list of all `Todo`s.
+Using an API Key for authenticating your requests, you can query the GraphQL API to get a list of all `Todo`s. To paginate over the list queries, you need to pass in a `limit` and `nextToken` on the `listTodos` query. See more at [GraphQL pagination
+](/guides/api-graphql/graphql-pagination).
 
 <!-- prettier-ignore -->
 ```js
