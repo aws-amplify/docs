@@ -8,6 +8,10 @@ import ios1 from "/src/fragments/lib-v1/auth/ios/signout/10_local_signout.mdx";
 
 <Fragments fragments={{ios: ios1}} />
 
+import flutter2 from "/src/fragments/lib-v1/auth/flutter/signout/10_local_signout.mdx";
+
+<Fragments fragments={{flutter: flutter2}} />
+
 Calling signOut without any options will just delete the local cache and keychain of the user. If you would like to sign out of all devices, invoke the signOut api with advanced options.
 
 [Amazon Cognito now supports token revocation](https://aws.amazon.com/about-aws/whats-new/2021/06/amazon-cognito-now-supports-targeted-sign-out-through-refresh-token-revocation/) and the latest Amplify version will revoke Amazon Cognito tokens if the application is online. This means that the Cognito refresh token cannot be used anymore to generate new Access and Id Tokens.
@@ -25,6 +29,10 @@ import android3 from "/src/fragments/lib-v1/auth/android/signout/20_global_signo
 import ios4 from "/src/fragments/lib-v1/auth/ios/signout/20_global_signout.mdx";
 
 <Fragments fragments={{ios: ios4}} />
+
+import flutter5 from "/src/fragments/lib-v1/auth/flutter/signout/20_global_signout.mdx";
+
+<Fragments fragments={{flutter: flutter5}} />
 
 Calling signout with `globalSignOut = true` will invalidate all the Cognito User Pool tokens of the signed in user. If the user is signed into a device, they won't be authorized to perform a task that requires a valid token when a global signout is called from some other device. They need to sign in again to get valid tokens.
 
