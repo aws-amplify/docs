@@ -14,37 +14,23 @@ amplify add api
 
 Select the explicit values below to enable **API key** (for public read access) and **Cognito User Pools** (for authenticated access).
 
-```
-? Select from one of the below mentioned services: (GraphQL)
+```console
+? Select from one of the below mentioned services: GraphQL
+? Here is the GraphQL API that we will create. Select a setting to edit or continue Continue
+? Choose a schema template: Single object with fields (e.g., “Todo” with ID, name, description)
 
-? Here is the GraphQL API that we will create. Select a setting to edit or continue
-Authorization modes: (API key (default, expiration time: 7 days from now))
+⚠️  WARNING: your GraphQL API currently allows public create, read, update, and delete access to all models via an API Key. To configure PRODUCTION-READY authorization rules, review: https://docs.amplify.aws/cli/graphql/authorization-rules
 
-? Choose the default authorization type for the API: (Amazon Cognito User Pool)
+✅ GraphQL schema compiled successfully.
 
-Using service: Cognito, provided by: awscloudformation
-The current configured provider is Amazon Cognito.
-
-? Do you want to use the default authentication and security configuration? Default configuration: (Default configuration) 
-
-Warning: you will not be able to edit these selections.
-
-? How do you want users to be able to sign in? (Username)
-? Do you want to configure advanced settings? No, I am done. (No, I am done.)
-
-✅ Successfully added auth resource nextamplified locally
+Edit your schema at /Users/<user>/Desktop/<project-path>/next-amplified/amplify/backend/api/nextamplified/schema.graphql or place .graphql files in a directory at /Users/<user>/Desktop/<project-path>/next-amplified/amplify/backend/api/nextamplified/schema
+✔ Do you want to edit the schema now? (Y/n) · yes
+Edit the file in your editor: /Users/<user>/Desktop/<project-path>/next-amplified/amplify/backend/api/nextamplified/schema.graphql
+✅ Successfully added resource nextamplified locally
 
 ✅ Some next steps:
 "amplify push" will build all your local backend resources and provision it in the cloud
 "amplify publish" will build all your local backend and frontend resources (if you have hosting category added) and provision it in the cloud
-
-? Configure additional auth types? (No)
-? Here is the GraphQL API that we will create. Select a setting to edit or continue: (Continue)
-? Choose a schema template: (Single object with fields (e.g., “Todo” with ID, name, description))
-
-# You should see that the GraphQL schema compiled successfully and the location for the file. 
-
-? Do you want to edit the schema now? (Yes)
 
 ```
 
@@ -68,8 +54,6 @@ The GraphQL Transform Library provides custom directives you can use in your sch
 
 A type decorated with the `@model` directive will scaffold out the database table for the type (Post table), the schema for CRUD (create, read, update, delete) and list operations, and the GraphQL resolvers needed to make everything work together.
 
-From the command line, press **enter** to accept the schema and continue to the next steps.
-
 ### Deploying the API
 
 To deploy this backend, run the `push` command:
@@ -79,38 +63,47 @@ amplify push
 ```
 
 ```console
+⠧ Fetching updates to backend environment: dev from the cloud.⠋ Building resource api/ne⠙ Fetching updates to backend environment: dev from the cloud.
+
+✔ Successfully pulled backend environment dev from the cloud.
+⠹ Building resource api/nextamplified
+⚠️  WARNING: your GraphQL API currently allows public create, read, update, and delete access to all models via an API Key. To configure PRODUCTION-READY authorization rules, review: https://docs.amplify.aws/cli/graphql/authorization-rules
+
 
     Current Environment: dev
+    
+┌──────────┬───────────────┬───────────┬───────────────────┐
+│ Category │ Resource name │ Operation │ Provider plugin   │
+├──────────┼───────────────┼───────────┼───────────────────┤
+│ Api      │ nextamplified │ Create    │ awscloudformation │
+└──────────┴───────────────┴───────────┴───────────────────┘
+✔ Are you sure you want to continue? (Y/n) · yes
 
-┌──────────┬───────────────────────┬───────────┬───────────────────┐
-│ Category │ Resource name         │ Operation │ Provider plugin   │
-├──────────┼───────────────────────┼───────────┼───────────────────┤
-│ Auth     │ nextamplifiedXXXXXXX  │ Create    │ awscloudformation │
-├──────────┼───────────────────────┼───────────┼───────────────────┤
-│ Api      │ nextamplified         │ Create    │ awscloudformation │
-└──────────┴───────────────────────┴───────────┴───────────────────┘
-? Are you sure you want to continue? Yes
+Cognito UserPool configuration
+Using service: Cognito, provided by: awscloudformation
+ 
+ The current configured provider is Amazon Cognito. 
+ 
+ Do you want to use the default authentication and security configuration? Default configuration
+ Warning: you will not be able to edit these selections. 
+ How do you want users to be able to sign in? Username
+ Do you want to configure advanced settings? No, I am done.
+✅ Successfully added auth resource nextamplifiedXXXXXXXX locally
 
-# You will be walked through the following questions for GraphQL code generation
+✅ Some next steps:
+"amplify push" will build all your local backend resources and provision it in the cloud
+"amplify publish" will build all your local backend and frontend resources (if you have hosting category added) and provision it in the cloud
 
+⚠️ WARNING: owners may reassign ownership for the following model(s) and role(s): Post: [owner]. If this is not intentional, you may want to apply field-level authorization rules to these fields. To read more: https://docs.amplify.aws/cli/graphql/authorization-rules/#per-user--owner-based-data-access.
+✅ GraphQL schema compiled successfully.
 
-API key configuration
-✔ Enter a description for the API key: · (default)
-✔ After how many days from now the API key should expire (1-365): · 7 (default)
+Edit your schema at /Users/<user>/Desktop/<project-path>/next-amplified/amplify/backend/api/nextamplified/schema.graphql or place .graphql files in a directory at /Users/<user>/Desktop/<project-path>/next-amplified/amplify/backend/api/nextamplified/schema
 
-# You should see that the GraphQL schema compiled successfully.
-
-? Do you want to generate code for your newly created GraphQL API: (Yes)
-? Choose the code generation language target: (javascript)
-? Enter the file name pattern of graphql queries, mutations and subscriptions (src/graphql/**/*.js) (default)
-? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions: (Yes)
-? Enter maximum statement depth [increase from default if your schema is deeply nested]: (2)
-
-# Wait a minute or so for the deployment into the dev environment to complete
-...
-
-✔ Generated GraphQL operations successfully and saved at src/graphql
-✔ All resources are updated in the cloud
+? Do you want to generate code for your newly created GraphQL API Yes
+? Choose the code generation language target javascript
+? Enter the file name pattern of graphql queries, mutations and subscriptions src/graphql/**/*.js
+? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions Yes
+? Enter maximum statement depth [increase from default if your schema is deeply nested] 2
 
 ```
 
