@@ -89,7 +89,9 @@ import { withAuthenticator, useAuthenticator } from '@aws-amplify/ui-react-nativ
 
 The `useAuthenticator` hook can be added to any component that needs it, however using it at the `App` level is risky as it will trigger a re-render down its tree whenever any of its context changes value. 
 
-To prevent undesired re-renders, you can pass a function as an argument to `useAuthenticator` that will take the Authenticator context and return an array of desired context values. The hook will then only re-render if any of the array values change.
+To prevent undesired re-renders, you can pass a function as an argument to `useAuthenticator` that will take the Authenticator context and return an array of desired context values. The hook will then only re-render if any of the array values change. 
+
+The function passed to `useAuthenticator` is a selector. Selectors are functions that take state as an argument and return the minimal amount of data to pass back to the component.
 
 </Callout>
 
