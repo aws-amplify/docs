@@ -2,7 +2,7 @@ The next feature you will be adding is authentication.
 
 ## Authentication with Amplify
 
-Amplify uses [Amazon Cognito](https://aws.amazon.com/cognito/) as the main authentication provider. Amazon Cognito is a robust user directory service that handles user registration, authentication, account recovery & other operations. In this tutorial, you'll learn how to add authentication to your application using Amazon Cognito and username/password login.
+Amplify uses [Amazon Cognito](https://aws.amazon.com/cognito/) as its authentication provider. Amazon Cognito is a robust user directory service that handles user registration, authentication, account recovery & other operations. In this tutorial, you'll learn how to add authentication to your application using Amazon Cognito and username/password login.
 
 ## Create authentication service
 
@@ -45,14 +45,14 @@ The `@aws-amplify/ui-react-native` package includes React Native specific UI com
 <Block name="Expo CLI">
 
 ```bash
-npm install @aws-amplify/ui-react-native react-native-safe-area-context react-native-get-random-values react-native-url-polyfill
+npm install @aws-amplify/ui-react-native react-native-get-random-values react-native-url-polyfill
 ```
 
 </Block>
 <Block name="React Native CLI">
 
 ```bash
-yarn add @aws-amplify/ui-react-native react-native-safe-area-context react-native-get-random-values react-native-url-polyfill
+npm install @aws-amplify/ui-react-native react-native-safe-area-context react-native-get-random-values react-native-url-polyfill
 ```
 
 You will also need to install the pod dependencies for iOS:
@@ -82,15 +82,20 @@ Open **App.tsx** and make the following changes:
 1. Import the `withAuthenticator` Higher-Order Component and `useAuthenticator` hook:
 
 ```javascript
-
 import { withAuthenticator, useAuthenticator } from '@aws-amplify/ui-react-native';
-
 ````
 
-2. The `useAuthenticator` hook can be added to any component that needs it. Create a custom `SignOutButton` component that will be used within the App component, and destructure the `{ user, signOut }` properties returned in the context.
+<Callout>
+
+The `useAuthenticator` hook can be added to any component that needs it, however using it at the `App` level is risky as it will trigger a re-render down its tree whenever any of its context changes value. 
+
+To prevent undesired re-renders, you can pass a function as an argument to `useAuthenticator` that will take the Authenticator context and return an array of desired context values. The hook will then only re-render if any of the array values change.
+
+</Callout>
+
+2. Create a custom `SignOutButton` component that will be used within the App component and only re-render when its `user` context changes. Destructure the `user` and `signOut` properties returned from the hook. 
 
 ```javascript
-
 const SignOutButton = () => {
   const { user, signOut } = useAuthenticator((context) => [context.user]);
   return (
@@ -99,31 +104,24 @@ const SignOutButton = () => {
     </Pressable>
   )
 };
-
 ```
 
-3. Add the `SignOutButton` component to  your `App` component:
+3. Add the `SignOutButton` component to your `App` component inside of the containers you defined in the last section:
 
 ```javascript
-
 // ...
 return (
-  <View style={styles.container}>
-    <SignOutButton />
+  <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
+      <SignOutButton />
 //...
-
 ```
 
 4. Lastly, wrap your `App` export with the `withAuthenticator` Amplify UI component:
 
 ```javascript
-
 export default withAuthenticator(App);
-
 ```
-
-<BlockSwitcher>
-<Block name="Expo CLI">
 
 Run the app to see the new authentication flow protecting the app:
 
@@ -132,6 +130,9 @@ npm start
 ```
 
 Now you should see the app load with an authentication flow allowing users to sign up and sign in. Below you can find a full sample of the code:
+
+<BlockSwitcher>
+<Block name="Expo CLI">
 
 ```javascript
 import React, {useEffect, useState} from 'react';
@@ -166,10 +167,10 @@ const SignOutButton = () => {
   );
 };
 
-const initialState = {name: '', description: ''};
+const initialFormState = {name: '', description: ''};
 
 const App = () => {
-  const [formState, setFormState] = useState(initialState);
+  const [formState, setFormState] = useState(initialFormState);
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
@@ -195,7 +196,7 @@ const App = () => {
       if (!formState.name || !formState.description) return;
       const todo = {...formState};
       setTodos([...todos, todo]);
-      setFormState(initialState);
+      setFormState(initialFormState);
       await API.graphql(graphqlOperation(createTodo, {input: todo}));
     } catch (err) {
       console.log('error creating todo:', err);
@@ -251,14 +252,6 @@ const styles = StyleSheet.create({
 </Block>
 <Block name="React Native CLI">
 
-Run the app to see the new authentication flow protecting the app:
-
-```bash
-yarn start
-```
-
-Now you should see the app load with an authentication flow allowing users to sign up and sign in. Below you can find a full sample of the code:
-
 ```javascript
 import React, {useEffect, useState} from 'react';
 import {
@@ -288,10 +281,10 @@ const SignOutButton = () => {
   );
 };
 
-const initialState = {name: '', description: ''};
+const initialFormState = {name: '', description: ''};
 
 const App = () => {
-  const [formState, setFormState] = useState(initialState);
+  const [formState, setFormState] = useState(initialFormState);
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
@@ -317,7 +310,7 @@ const App = () => {
       if (!formState.name || !formState.description) return;
       const todo = {...formState};
       setTodos([...todos, todo]);
-      setFormState(initialState);
+      setFormState(initialFormState);
       await API.graphql(graphqlOperation(createTodo, {input: todo}));
     } catch (err) {
       console.log('error creating todo:', err);
