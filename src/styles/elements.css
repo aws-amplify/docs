@@ -111,7 +111,7 @@ ol {
   margin-bottom: 1rem;
 }
 
-ol li ul:first-child {
+ol li ul:first-of-type {
   margin-top: 0;
 }
 
