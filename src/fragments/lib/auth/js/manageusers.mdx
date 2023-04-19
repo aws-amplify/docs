@@ -82,7 +82,7 @@ Auth.verifyCurrentUserAttribute(attr)
   });
 
 // To verify attribute with the code
-Auth.verifyCurrentUserAttributeSubmit(attr, 'the_verification_code')
+Auth.verifyCurrentUserAttributeSubmit(attr, '<verification_code>')
   .then(() => {
     console.log('phone_number verified');
   })
@@ -218,7 +218,7 @@ If you change the email address, you will receive a confirmation code to the new
 email address in your app:
 
 ```javascript
-const result = await Auth.verifyCurrentUserAttributeSubmit('email', 'abc123');
+const result = await Auth.verifyCurrentUserAttributeSubmit('email', '<verification_code>');
 ```
 
 ### Delete user attributes
