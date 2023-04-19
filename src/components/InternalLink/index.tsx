@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { parseLocalStorage } from '../../utils/parseLocalStorage';
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
 
 export default function InternalLink({ href, children }) {
-  const [url, setUrl] = useState(href);
+  // const [url, setUrl] = useState(href);
 
   let filterKind = '';
   if (href.startsWith('/cli') || href.startsWith('/console')) {
@@ -31,7 +31,7 @@ export default function InternalLink({ href, children }) {
           href = `${hrefParts[0]}/q/${filterKind}/${filterKey}#${hrefParts[1]}`;
         } else {
           href += `/q/${filterKind}/${filterKey}`;
-          useEffect(() => setUrl(href), []);
+          // useEffect(() => setUrl(href), []);
         }
       }
     }
@@ -41,11 +41,11 @@ export default function InternalLink({ href, children }) {
     const router = useRouter();
     const prevPath = router.asPath.split('#')[0];
     href = prevPath + href;
-    useEffect(() => setUrl(href), []);
+    // useEffect(() => setUrl(href), []);
   }
 
   return (
-    <Link href={url} passHref legacyBehavior>
+    <Link href={href} passHref legacyBehavior>
       {children}
     </Link>
   );

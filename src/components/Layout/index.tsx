@@ -10,7 +10,6 @@ import {
   RIGHT_NAV_LINKS,
   SOCIAL_LINKS
 } from '../../utils/globalnav';
-import React, { useEffect, useState } from 'react';
 
 export default function Layout({
   children,
@@ -23,7 +22,6 @@ export default function Layout({
   filterKey?: string;
   filterMetadataByOption?: any;
 }) {
-
   const router = useRouter();
   if (!router.isReady) return <></>;
 

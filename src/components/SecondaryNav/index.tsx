@@ -19,7 +19,6 @@ import { Container } from '../Container';
 import { parseLocalStorage } from '../../utils/parseLocalStorage';
 
 import SearchBar from '../SearchBar';
-import React, { useEffect, useState } from 'react';
 
 export default function SecondaryNav() {
   const router = useRouter();

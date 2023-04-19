@@ -41,7 +41,7 @@ export const SecondaryNavStyle = styled.div`
     a {
       margin-left: 1.75rem;
 
-      &:first-of-type {
+      &:first-child {
         margin-left: 0;
       }
 
