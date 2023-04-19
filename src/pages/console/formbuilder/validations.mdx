@@ -1,40 +1,42 @@
 export const meta = {
-  title: "Validate form data",
-  description: "Sanitize user input by adding validation rules to your form. By default, Amplify Studio infers a range of validation rules based on the data model. For example, given a data model with an `AWSEmail` field, the generated form input will automatically run an email validation rule."
-}
+  title: 'Validate form data',
+  description:
+    'Sanitize user input by adding validation rules to your form. By default, Amplify Studio infers a range of validation rules based on the data model. For example, given a data model with an `AWSEmail` field, the generated form input will automatically run an email validation rule.'
+};
 
 Sanitize user input by adding validation rules to your form. By default, Amplify Studio infers a range of validation rules based on the data model. For example, given a data model with an `AWSEmail` field, the generated form input will automatically run an email validation rule.
 
 ## Add validation rules
 
-In Studio, you can visually add validation rules to inputs. If a form input has multiple validation rules, then all rules must be met for the input to be valid.
+In [Amplify Studio](/console/adminui/start/#logging-in-and-creating-an-app), you can visually add validation rules to inputs. If a form input has multiple validation rules, then all rules must be met for the input to be valid.
 
 1. Select a form input
 2. Go to **Validation rules** > **Add rule**
 3. Select a **validation type**
 4. Enter values for the validation
-5. *Optional:* Customize the error message presented to the end user. Note: Studio automatically generates an error message based on the validation type and its values.
+5. _Optional:_ Customize the error message presented to the end user. Note: Studio automatically generates an error message based on the validation type and its values.
 6. Click out of the validation rule popover
 
 To test the validation rules, select **View as end user**.
 
 <video autoPlay={true} muted={true} loop={true} width="100%">
-  <source src="/images/console/formbuilder/validations-visual.mp4"/>
+  <source src="/images/console/formbuilder/validations-visual.mp4" />
 </video>
 
-### Available validation rules within Studio
+### Available validation rules within Amplify Studio
 
 By default, the following validation rules are available for you to configure:
 
-|Input type|Configurable validation rule|
-|-|-|
-|`String`| - Start With <br/> - End With <br/> - Contain <br/> - Does not contain <br/> - Be less than N characters long <br/> - Be at least N characters long <br/> |
-|`Int`, `Float`| - Be greater than <br/> - Be less than <br/> - Be equal to <br/>|
-|`AWSDate`, `AWSTime`, `AWSDateTime`|- Be before <br/> - Be after <br/>|
+| Input type | Configurable validation rule |
+| --- | --- |
+| `String` | - Start With <br/> - End With <br/> - Contain <br/> - Does not contain <br/> - Be less than N characters long <br/> - Be at least N characters long <br/> |
+| `Int`, `Float` | - Be greater than <br/> - Be less than <br/> - Be equal to <br/> |
+| `AWSDate`, `AWSTime`, `AWSDateTime` | - Be before <br/> - Be after <br/> |
 
 ### Automatically configured validation rules
 
-For the types below, Amplify Studio automatically applies validation rules on form inputs: 
+For the types below, Amplify Studio automatically applies validation rules on form inputs:
+
 - `AWSIPAddress`: input value must be a valid IPv4 or IPv6 address.
 - `AWSURL`: input value must consist of a schema (`http`, `mailto`) and a path part. Path part can't contain two forward slashes (//).
 - `AWSEmail`: input value must be an email address in the format `<local-part>@<domain-part>`.
@@ -43,29 +45,29 @@ For the types below, Amplify Studio automatically applies validation rules on fo
 
 ## Extend validation rules with code
 
-Every form provides an `onValidate` event handler to provide additional validation rules via code. These validation rules are run after the rules you configured in the Studio console. 
+Every form provides an `onValidate` event handler to provide additional validation rules via code. These validation rules are run after the rules you configured in the Studio console.
 
 Return an object with validation functions for the fields you want to validate. In the example below, `address` must start with a number, otherwise return any existing auto-generated validation responses.
-
 
 ```jsx
 <HomeCreateForm
   onValidate={{
     address: (value, validationResponse) => {
-      const firstWord = value.split("")[0]
-      if (!isNaN(str)) { // check if the first word is a number 
+      const firstWord = value.split('')[0];
+      if (!isNaN(str)) {
+        // check if the first word is a number
         return {
           hasError: true,
-          errorMessage: "Address must start with a number"
-        } 
+          errorMessage: 'Address must start with a number'
+        };
       }
-      return validationResponse
+      return validationResponse;
     }
   }}
 />
 ```
 
-**Note:** the validation function must return a validation response of the following shape: 
+**Note:** the validation function must return a validation response of the following shape:
 
 ```ts
 type ValidationResponse = {
@@ -95,19 +97,22 @@ To add validation rules to the nested objects, pass in validation functions in t
 <ProductForm
   onValidate={{
     price: {
-      currency: (value, validationResponse) => { // Pass validation function to match the nested object
-        const allowedCurrencies = ["$", "€", "￥", "₹"]
+      currency: (value, validationResponse) => {
+        // Pass validation function to match the nested object
+        const allowedCurrencies = ['$', '€', '￥', '₹'];
         if (!allowedCurrencies.includes(value)) {
           return {
             hasError: true,
             errorMessage: 'Currency must be either "$", "€", "￥", or "₹".'
-          }
+          };
         }
-        return validationResponse
+        return validationResponse;
       }
     }
   }}
-  onSubmit={(fields) => {/* handle form data submission */}}
+  onSubmit={(fields) => {
+    /* handle form data submission */
+  }}
 />
 ```
 
@@ -123,18 +128,22 @@ Return a Promise in the `onValidate` prop to run an asynchronous validation rule
     licenseNumber: (value, validationResponse) => {
       // fetch calls an external API,
       // which ultimately returns a Promise<ValidationResponse>
-      return fetch(`http://localhost:3000/api/agent/${value}`)
-        .then(response => {
+      return fetch(`http://localhost:3000/api/agent/${value}`).then(
+        (response) => {
           if (response.status !== 200) {
-            return { // If the request failed, return a validation error
+            return {
+              // If the request failed, return a validation error
               hasError: true,
-              errorMessage: "No agent was not found with that license number."
-            }
+              errorMessage: 'No agent was not found with that license number.'
+            };
           }
-          return validationResponse
-        })
+          return validationResponse;
+        }
+      );
     }
   }}
-  onSubmit={fields => { /* Handle form submission */ }}
+  onSubmit={(fields) => {
+    /* Handle form submission */
+  }}
 />
 ```

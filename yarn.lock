@@ -196,34 +196,34 @@
     "@algolia/logger-common" "4.13.0"
     "@algolia/requester-common" "4.13.0"
 
-"@aws-amplify/amplify-cli-core@^4.0.2":
-  version "4.0.2"
-  resolved "https://registry.npmjs.org/@aws-amplify/amplify-cli-core/-/amplify-cli-core-4.0.2.tgz"
-  integrity sha512-LhbF+KlBtCUulft2YxNjfmLZ7iLHzZKOIIfekAa6BzUgJmgvXEiKNzGBt5Qyv58erIeqEJ2tYaPsitySbcDlkg==
-  dependencies:
-    amplify-cli-core "4.0.2"
 
-"@aws-amplify/amplify-cli-logger@1.3.0":
-  version "1.3.0"
-  resolved "https://registry.npmjs.org/@aws-amplify/amplify-cli-logger/-/amplify-cli-logger-1.3.0.tgz"
-  integrity sha512-ijfo6YY4mgn38HD7KId/MgGJla7oCod4n0/gTVPVHfr9zlpUC8B2L/QuydFjpLBR8LrBYO4xfrQa8UhelyPzGA==
+"@aws-amplify/amplify-cli-core@^4.0.3":
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-cli-core/-/amplify-cli-core-4.0.3.tgz#424b0508dab42d5b563527bc159c01b5184ba830"
+  integrity sha512-586DbF1lL341JQnciljpP8tGlM9r76IuFeHykHoWbAbD1IBsGqmpqw8cR3/c/k7MDBQ8Y4fYS0XG9xMKOfqy6w==
+  dependencies:
+    amplify-cli-core "4.0.3"
+
+"@aws-amplify/amplify-cli-logger@1.3.2":
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-cli-logger/-/amplify-cli-logger-1.3.2.tgz#802667e38276361b78d138a770f6e9f1a009d3a3"
+  integrity sha512-dQ7Dwh2MNIjhnqx+c48aDjsrsTMU391n23sF5fRyxoC+tmxvaMbz3N3g6XeciwNb1OB5zMBI5zCAjbm94k1S+A==
   dependencies:
     winston "^3.3.3"
     winston-daily-rotate-file "^4.5.0"
 
-"@aws-amplify/amplify-cli-shared-interfaces@1.2.0":
-  version "1.2.0"
-  resolved "https://registry.npmjs.org/@aws-amplify/amplify-cli-shared-interfaces/-/amplify-cli-shared-interfaces-1.2.0.tgz"
-  integrity sha512-0nBFF+rFdQCM1zJUZ8z6+vfqAACjcuzl1noMFBjMfRW1FFGfsVKqRuxJYOYv57GKA7FRrHQfrh6pa6qUAh/odA==
 
-"@aws-amplify/amplify-prompts@2.6.7":
-  version "2.6.7"
-  resolved "https://registry.npmjs.org/@aws-amplify/amplify-prompts/-/amplify-prompts-2.6.7.tgz"
-  integrity sha512-+OEMqPKA3ho4NQnhEswrVuSnNnG3ebceZD8RZXm+ef+XvtN6/cWGBB8juJKLVRpfpXueCTnhu0Jsza2Ib1GN+g==
+"@aws-amplify/amplify-cli-shared-interfaces@1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-cli-shared-interfaces/-/amplify-cli-shared-interfaces-1.2.2.tgz#e717ef421379837519ed6cba42226874574fe505"
+  integrity sha512-iZZAhfPUBRZr5b4S5YnpN98oYQfZSMMxo0J/fpDQ7mh3CFOGdWcg6vIU3M9tqGZWUNYi3P0MkzreOgDE+9yJ6A==
+
+"@aws-amplify/amplify-prompts@2.6.8":
+  version "2.6.8"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-prompts/-/amplify-prompts-2.6.8.tgz#9f5975ffa76d4ea3187b053f39c0d99e96d0d342"
+  integrity sha512-s3xtMgVOWlxyIPPTXF1s1BD/4r7jTEO1vsPEc//HrlB3hPJdZ6cKrDb3cXsbkGUJnrmU6UwEmManwNozrmKzWg==
   dependencies:
-    "@aws-amplify/amplify-cli-shared-interfaces" "1.2.0"
-    chalk "^4.1.1"
-    enquirer "^2.3.6"
+    amplify-prompts "2.6.8"
 
 "@aws-amplify/analytics@6.0.5":
   version "6.0.5"
@@ -5330,13 +5330,14 @@ amazon-cognito-identity-js@6.0.1:
     isomorphic-unfetch "^3.0.0"
     js-cookie "^2.2.1"
 
-amplify-cli-core@4.0.2:
-  version "4.0.2"
-  resolved "https://registry.npmjs.org/amplify-cli-core/-/amplify-cli-core-4.0.2.tgz"
-  integrity sha512-+alRUQvOX0WSRyoeola1m4M+ApMY07jclDuhVdXVicVMFDgAnDGuK2DNkfVc1nTg0rU7+rvlJCi5elk6oLuXBQ==
+
+amplify-cli-core@4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/amplify-cli-core/-/amplify-cli-core-4.0.3.tgz#c035d251781b9d985229eeaf0bf582d51566c14e"
+  integrity sha512-PiIB24x1EHGedLNooOjYooevRe5YYpFGclgiUfl2re6xWoWng9v1Ucwy4MVEduE8DvGrlYE2aIgrqBG/154PgQ==
   dependencies:
-    "@aws-amplify/amplify-cli-logger" "1.3.0"
-    "@aws-amplify/amplify-prompts" "2.6.7"
+    "@aws-amplify/amplify-cli-logger" "1.3.2"
+    "@aws-amplify/amplify-prompts" "2.6.8"
     "@aws-amplify/graphql-transformer-interfaces" "^2.1.1"
     "@yarnpkg/lockfile" "^1.1.0"
     ajv "^6.12.6"
@@ -5363,6 +5364,15 @@ amplify-cli-core@4.0.2:
     typescript-json-schema "~0.52.0"
     which "^2.0.2"
     yaml "^2.2.1"
+
+amplify-prompts@2.6.8:
+  version "2.6.8"
+  resolved "https://registry.yarnpkg.com/amplify-prompts/-/amplify-prompts-2.6.8.tgz#4eeee956eee7393b4bf932005f872a4681a568a3"
+  integrity sha512-piWttrnUwswHpVb6LPUlrAg3O24jaOJvLxzNBXu4VxkmB5ASKdHBIp2+EnujiGT3QkRDhkdLARw+MFuXfjnolA==
+  dependencies:
+    "@aws-amplify/amplify-cli-shared-interfaces" "1.2.2"
+    chalk "^4.1.1"
+    enquirer "^2.3.6"
 
 ansi-colors@^4.1.1:
   version "4.1.3"
@@ -14088,42 +14098,10 @@ vfile@^5.0.0:
     unist-util-stringify-position "^3.0.0"
     vfile-message "^3.0.0"
 
-vinyl-fs@2.4.3:
-  version "2.4.3"
-  resolved "https://registry.npmjs.org/vinyl-fs/-/vinyl-fs-2.4.3.tgz"
-  integrity "sha1-PZflYuv91LZpId6nBia4S96dLQc= sha512-XxYoy5HpHrVd76tpnI5Vv/+b/xlEVusOmn4LjQ01s2JyiDMNaUm3Rb7Y3xTkRw+YoRBVoUrCs7EAIFNXyIlI8Q=="
-  dependencies:
-    duplexify "^3.2.0"
-    glob-stream "^5.3.2"
-    graceful-fs "^4.0.0"
-    gulp-sourcemaps "^1.5.2"
-    is-valid-glob "^0.3.0"
-    lazystream "^1.0.0"
-    lodash.isequal "^4.0.0"
-    merge-stream "^1.0.0"
-    mkdirp "^0.5.0"
-    object-assign "^4.0.0"
-    readable-stream "^2.0.4"
-    strip-bom "^2.0.0"
-    strip-bom-stream "^1.0.0"
-    through2 "^2.0.0"
-    through2-filter "^2.0.0"
-    vali-date "^1.0.0"
-    vinyl "^1.0.0"
-
-vinyl@1.X, vinyl@^1.0.0:
-  version "1.2.0"
-  resolved "https://registry.npmjs.org/vinyl/-/vinyl-1.2.0.tgz"
-  integrity "sha1-XIgDbPVl5d8FVYv8kR+GVt8hiIQ= sha512-Ci3wnR2uuSAWFMSglZuB8Z2apBdtOyz8CV7dC6/U1XbltXBC+IuutUkXQISz01P+US2ouBuesSbV6zILZ6BuzQ=="
-  dependencies:
-    clone "^1.0.0"
-    clone-stats "^0.0.1"
-    replace-ext "0.0.1"
-
-vm2@3.9.15, vm2@^3.9.11:
-  version "3.9.15"
-  resolved "https://registry.npmjs.org/vm2/-/vm2-3.9.15.tgz#c544e6a9bc31e4e40d2e5f532342cf799ea56a6e"
-  integrity sha512-XqNqknHGw2avJo13gbIwLNZUumvrSHc9mLqoadFZTpo3KaNEJoe1I0lqTFhRXmXD7WkLyG01aaraXdXT0pa4ag==
+vm2@3.9.16, vm2@^3.9.8:
+  version "3.9.16"
+  resolved "https://registry.yarnpkg.com/vm2/-/vm2-3.9.16.tgz#0fbc2a265f7bf8b837cea6f4a908f88a3f93b8e6"
+  integrity sha512-3T9LscojNTxdOyG+e8gFeyBXkMlOBYDoF6dqZbj+MPVHi9x10UfiTAJIobuchRCp3QvC+inybTbMJIUrLsig0w==
   dependencies:
     acorn "^8.7.0"
     acorn-walk "^8.2.0"

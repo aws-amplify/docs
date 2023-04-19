@@ -1,19 +1,12 @@
 ```dart
-// Use the boolean created before
-bool isSignUpComplete = false;
-
-...
-
 Future<void> confirmMFAUser() async {
   try {
     final result = await Amplify.Auth.confirmSignIn(
       confirmationValue: '123456',
     );
-    setState(() {
-      isSignedIn = result.isSignedIn;
-    });
+    await _handleSignInResult(result);
   } on AuthException catch (e) {
-    safePrint(e.message);
+    safePrint('Error confirming sign in: ${e.message}');
   }
 }
 ```
