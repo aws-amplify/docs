@@ -53,23 +53,23 @@ var player: AVAudioPlayer?
 //...
 
 func textToSpeech(text: String) {
-    let options = PredictionsTextToSpeechRequest.Options(
-        voiceType: .englishFemaleIvy,
-        pluginOptions: nil
-    )
+  let options = PredictionsTextToSpeechRequest.Options(
+    voiceType: .englishFemaleIvy,
+    pluginOptions: nil
+  )
 
-    Amplify.Predictions.convert(textToSpeech: text, options: options) { event in
-        switch event {
-        case let .success(result):
-            print(result.audioData)
-            self.player = try? AVAudioPlayer(data: result.audioData)
-            if let player = self.player {
-                player.play()
-            }
-        case let .failure(error):
-            print(error)
-        }
+  Amplify.Predictions.convert(textToSpeech: text, options: options) { event in
+    switch event {
+    case let .success(result):
+      print(result.audioData)
+      self.player = try? AVAudioPlayer(data: result.audioData)
+      if let player = self.player {
+        player.play()
+      }
+    case let .failure(error):
+      print(error)
     }
+  }
 }
 ```
 
@@ -90,25 +90,25 @@ var textToSpeechSink: AnyCancellable?
 //...
 
 func textToSpeech(text: String) {
-    let options = PredictionsTextToSpeechRequest.Options(
-        voiceType: .englishFemaleIvy,
-        pluginOptions: nil
-    )
+  let options = PredictionsTextToSpeechRequest.Options(
+    voiceType: .englishFemaleIvy,
+    pluginOptions: nil
+  )
 
-    textToSpeechSink = Amplify.Predictions.convert(textToSpeech: text, options: options)
-        .resultPublisher
-        .sink {
-            if case let .failure(error) = $0 {
-                print(error)
-            }
-        }
-        receiveValue: { result in
-            print(result.audioData)
-            self.player = try? AVAudioPlayer(data: result.audioData)
-            if let player = self.player {
-                player.play()
-            }
-        }
+  textToSpeechSink = Amplify.Predictions.convert(textToSpeech: text, options: options)
+    .resultPublisher
+    .sink {
+      if case let .failure(error) = $0 {
+        print(error)
+      }
+    }
+    receiveValue: { result in
+      print(result.audioData)
+      self.player = try? AVAudioPlayer(data: result.audioData)
+      if let player = self.player {
+        player.play()
+      }
+    }
 }
 ```
 
