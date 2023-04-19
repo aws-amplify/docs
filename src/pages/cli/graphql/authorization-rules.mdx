@@ -448,7 +448,18 @@ In this example the record owner will check against a `user_id` claim. Similarly
 
 If you grant a Lambda function in your Amplify project access to the GraphQL API via `amplify update function`, then the Lambda function's IAM execution role is allow-listed to honor the permissions granted on the `Query`, `Mutation`, and `Subscription` types.
 
-Therefore, these functions have special access privileges that are scoped based on their IAM policy instead of any particular `@auth` rule.
+In addition, you need to explicitly add the Lambda function's IAM execution role name to `amplify/backend/api/<your-api-name>/custom-roles.json`. (Create the `custom-roles.json` file if it doesn't exist). 
+
+You can find this role name in your `amplify-meta.json` file under `function/<function-name>/output/LambdaExecutionRoleArn` key or in the lambda AWS console after it gets deployed.
+
+```json
+{
+  "adminRoleNames": ["<YOUR_LAMBDA_IAM_EXECUTION_ROLE_NAME>"]
+}
+```
+
+These functions have special access privileges that are scoped based on their IAM policy instead of any particular `@auth` rule.
+
 </Block>
 
 <Block name="Function deployed without Amplify CLI">
