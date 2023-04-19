@@ -28,9 +28,9 @@ Here is an example of sending text for interpretation such as sentiment analysis
 
 ```java
 Amplify.Predictions.interpret(
-        "I like to eat spaghetti",
-        result -> Log.i("MyAmplifyApp", result.getSentiment().getValue().toString()),
-        error -> Log.e("MyAmplifyApp", "Interpret failed", error)
+  "I like to eat spaghetti",
+  result -> Log.i("MyAmplifyApp", result.getSentiment().getValue().toString()),
+  error -> Log.e("MyAmplifyApp", "Interpret failed", error)
 );
 ```
 
@@ -39,8 +39,8 @@ Amplify.Predictions.interpret(
 
 ```kotlin
 Amplify.Predictions.interpret("I like to eat spaghetti",
-    { Log.i("MyAmplifyApp", "${it.sentiment?.value}") },
-    { Log.e("MyAmplifyApp", "Interpret failed", it) }
+  { Log.i("MyAmplifyApp", "${it.sentiment?.value}") },
+  { Log.e("MyAmplifyApp", "Interpret failed", it) }
 )
 ```
 
@@ -50,10 +50,10 @@ Amplify.Predictions.interpret("I like to eat spaghetti",
 ```kotlin
 val text = "I like to eat spaghetti"
 try {
-    val result = Amplify.Predictions.interpret(text)
-    Log.i("MyAmplifyApp", "${result.sentiment?.value}")
+  val result = Amplify.Predictions.interpret(text)
+  Log.i("MyAmplifyApp", "${result.sentiment?.value}")
 } catch (error: PredictionsException) {
-    Log.e("MyAmplifyApp", "Interpret failed", error)
+  Log.e("MyAmplifyApp", "Interpret failed", error)
 }
 ```
 
@@ -62,10 +62,10 @@ try {
 
 ```java
 RxAmplify.Predictions.interpret("I like to eat spaghetti")
-        .subscribe(
-            result -> Log.i("MyAmplifyApp", result.getSentiment().getValue().toString()),
-            error -> Log.e("MyAmplifyApp", "Interpret failed", error)
-        );
+  .subscribe(
+    result -> Log.i("MyAmplifyApp", result.getSentiment().getValue().toString()),
+    error -> Log.e("MyAmplifyApp", "Interpret failed", error)
+  );
 ```
 
 </Block>
