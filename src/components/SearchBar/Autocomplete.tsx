@@ -100,6 +100,7 @@ export function Autocomplete(props) {
         ];
       },
       render({ children }, root) {
+        // updated for React18 per https://www.algolia.com/doc/ui-libraries/autocomplete/integrations/using-react/#with-react-18
         if (!panelRootRef.current || rootRef.current !== root) {
           rootRef.current = root;
 
