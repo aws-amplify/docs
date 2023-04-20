@@ -1,4 +1,4 @@
-You can list all of the objects uploaded under a given prefix by setting the pageSize. If the page size is set lower than the total file size available,
+You can list all of the objects uploaded under a given prefix by setting the pageSize. If the pageSize is set lower than the total file size available,
 A single `Storage.list` call only returns a subset of all the files. To list all the files with multiple calls, the user can use the nextToken from the previous call response.
 
 This will list all public files:
@@ -20,7 +20,7 @@ Amplify.Storage.list(
         }
         Log.i("MyAmplifyApp", "Next Token: " + result.getNextToken());
     },
-    error -> Log.e("MyAmplifyApp", "List failure", error)
+    error -> Log.e("MyAmplifyApp", "List failure", error);
 );
 ```
 
@@ -54,9 +54,9 @@ val options = StoragePagedListOptions.builder()
 try {
     val result = Amplify.Storage.list("", options)
     result.items.forEach {
-        Log.i("AmplifyApplication", "Item: $it")
+        Log.i("MyAmplifyApp", "Item: $it")
     }
-    Log.i("AmplifyApplication", "next token: ${result.nextToken}")
+    Log.i("MyAmplifyApp", "next token: ${result.nextToken}")
 } catch (error: StorageException) {
     Log.e("MyAmplifyApp", "List failure", error)
 }
@@ -71,15 +71,15 @@ StoragePagedListOptions options = StoragePagedListOptions.builder()
         .build();
 
 RxAmplify.Storage.list("", options)
-.subscribe(
-    result -> {
-        for (StorageItem item : result.getItems()) {
-            Log.i("MyAmplifyApp", "Item: " + item.getKey());
-        }
-        Log.i("MyAmplifyApp", "Next Token: " + result.getNextToken());
-    },
-    error -> Log.e("MyAmplifyApp", "List failure", error)
-);
+        .subscribe(
+            result -> {
+                for (StorageItem item : result.getItems()) {
+                    Log.i("MyAmplifyApp", "Item: " + item.getKey());
+                }
+                Log.i("MyAmplifyApp", "Next Token: " + result.getNextToken());
+            },
+            error -> Log.e("MyAmplifyApp", "List failure", error)
+        );
 ```
 
 </Block>
@@ -146,9 +146,9 @@ val options = StoragePagedListOptions.builder()
 try {
     val result = Amplify.Storage.list("", options)
     result.items.forEach {
-        Log.i("AmplifyApplication", "Item: $it")
+        Log.i("MyAmplifyApp", "Item: $it")
     }
-    Log.i("AmplifyApplication", "next token: ${result.nextToken}")
+    Log.i("MyAmplifyApp", "next token: ${result.nextToken}")
 } catch (error: StorageException) {
     Log.e("MyAmplifyApp", "List failure", error)
 }
@@ -165,15 +165,15 @@ StoragePagedListOptions options = StoragePagedListOptions.builder()
         .build();
 
 RxAmplify.Storage.list("", options)
-.subscribe(
-    result -> {
-        for (StorageItem item : result.getItems()) {
-            Log.i("MyAmplifyApp", "Item: " + item.getKey());
-        }
-        Log.i("MyAmplifyApp", "Next Token: " + result.getNextToken());
-    },
-    error -> Log.e("MyAmplifyApp", "List failure", error)
-);
+        .subscribe(
+            result -> {
+                for (StorageItem item : result.getItems()) {
+                    Log.i("MyAmplifyApp", "Item: " + item.getKey());
+                }
+                Log.i("MyAmplifyApp", "Next Token: " + result.getNextToken());
+            },
+            error -> Log.e("MyAmplifyApp", "List failure", error)
+        );
 ```
 
 </Block>
