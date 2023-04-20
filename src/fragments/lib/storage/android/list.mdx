@@ -20,7 +20,7 @@ Amplify.Storage.list(
         }
         Log.i("MyAmplifyApp", "Next Token: " + result.getNextToken());
     },
-    error -> Log.e("MyAmplifyApp", "List failure", error);
+    error -> Log.e("MyAmplifyApp", "List failure", error)
 );
 ```
 
@@ -37,7 +37,7 @@ Amplify.Storage.list("", options,
         result.items.forEach { item ->
             Log.i("MyAmplifyApp", "Item: ${item.key}")
         }
-        Log.i("MyAmplifyApp", "Next Token: ${result.nextToken}");
+        Log.i("MyAmplifyApp", "Next Token: ${result.nextToken}")
     },
     { Log.e("MyAmplifyApp", "List failure", it) }
 )
@@ -127,7 +127,7 @@ Amplify.Storage.list("", options,
         result.items.forEach { item ->
             Log.i("MyAmplifyApp", "Item: ${item.key}")
         }
-        Log.i("MyAmplifyApp", "Next Token: ${result.nextToken}");
+        Log.i("MyAmplifyApp", "Next Token: ${result.nextToken}")
     },
     { Log.e("MyAmplifyApp", "List failure", it) }
 )
