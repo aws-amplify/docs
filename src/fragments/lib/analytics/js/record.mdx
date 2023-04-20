@@ -34,7 +34,7 @@ Metric values must be a `Number` type such as a float or integer.
 
 ## Record Events Immediately
 
-The Amazon Pinpoint & Kinesis providers send events in batches to optimize network bandwidth. However, events can be sent immediately using the `immediate` flag.
+Amazon Pinpoint provider sends events in batch to optimize network bandwidth, however, events can be sent immediately using the `immediate` flag.
 
 ```javascript
 Analytics.record({
