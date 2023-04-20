@@ -1,0 +1,41 @@
+To initialize Amplify Push Notifications, you will first need to configure Amplify.
+
+Import and load the configuration file in your app. It's recommended you add the Amplify configuration step to your app's root entry point. For example, `index.js`
+
+```js
+// Example index.js
+...
+import { Amplify, Notifications } from 'aws-amplify';
+import awsconfig from './src/aws-exports';
+
+Amplify.configure(awsconfig);
+...
+```
+
+Next, enable Amplify Push Notifications. You should do this in your app's root entry point after configuring Amplify as push notifications can occur even while your app is in a terminated state.
+
+```js
+// Example index.js
+...
+Notifications.Push.enable();
+...
+```
+
+Your resulting entry file should look something like the following:
+
+```js
+import 'react-native-get-random-values';
+import 'react-native-url-polyfill/auto';
+
+import { AppRegistry } from 'react-native';
+import App from './App';
+import { name as appName } from './app.json';
+
+import { Amplify, Notifications } from 'aws-amplify';
+import awsconfig from './src/aws-exports';
+
+Amplify.configure(awsconfig);
+Notifications.Push.enable();
+
+AppRegistry.registerComponent(appName, () => App);
+```

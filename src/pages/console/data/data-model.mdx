@@ -10,7 +10,7 @@ In this example you will build a data model for a bookstore to maintain informat
 <Grid grid-gap="2" columns={1} className="margin-top-lg margin-bottom-lg">
   <Card
     external
-    href="https://sandbox.amplifyapp.com/schema-design/4f1a9f51-5783-4da5-9db1-60ce071e6539/clone"
+    href="https://sandbox.amplifyapp.com/schema-design/8771638b-a00a-4a1d-af23-26913967cc5f/clone"
     containertag="amplify-external-link"
   >
     <CardGraphic alt="Amplify Studio logo" src="/images/console/adminui.svg" />
@@ -43,7 +43,7 @@ By default, all data models built with Studio are provisioned with Amplify DataS
 An **[Amplify GraphQL API](../../cli/graphql/overview/)** is an online-only API that uses a GraphQL and DynamoDB via AWS AppSync. 
 
 To change your app's Conflict Resolution settings, or to change your app from using DataStore to using an Amplify GraphQL API, take the following steps:
-1. Navigate to **Amplify Studio > Data**
+1. Navigate to **[Amplify Studio](/console/adminui/start/#log-into-the-amplify-console) > Data**
 2. Select **GraphQL API settings** at the top of the page
 3. Toggle DataStore off or on, or change your Conflict Resolution strategy
 4. Return to the Data Modeling screen and select **Save and Deploy**
@@ -59,5 +59,27 @@ Applications that use an Amplify GraphQL API have limited feature availability i
 - The Content Manager is not supported, and is [replaced by a GraphiQL interface](content-management/#limitations)
 - [Binding UI Components to data](../uibuilder/databinding/), and [generating Collections](../uibuilder/collections/) is not supported
 - [Binding Forms to data, and auto-generated forms](../formbuilder/overview/) are not supported
+- [Split GraphQL files](/lib/graphqlapi/getting-started/q/platform/js/#updating-your-graphql-schema) are not supported
 
 To get access to these features, turn on DataStore and select a Conflict Resolution strategy.
+
+### Unsupported directives and field-level parameters
+
+If a data model contains unsupported directives or field-level parameters the **Visual editor** under Data modeling and **Data manager** under Content will not be available to use. However, you can continue using other Amplify Studio features and use the Amplify CLI to make modifications to GraphQL schemas.
+
+- [`@default` directive](/cli/graphql/data-modeling/#assign-default-values-for-fields)
+- [`@function` directive](/cli/graphql/custom-business-logic/#lambda-function-resolver)
+- [`@http` directive](/cli/graphql/custom-business-logic/#http-resolver)
+- [`@predictions` directive](/cli/graphql/connect-to-machine-learning-services/)
+- [`@primaryKey` directive](/cli/graphql/data-modeling/#configure-a-primary-key)
+- [`@searchable` directive](/cli/graphql/search-and-result-aggregations/)
+- [`@mapsTo` directive](/cli/graphql/schema-evolution/)
+- [`@auth` `groupClaim` property](cli/graphql/authorization-rules/#user-group-based-data-access)
+- [`@auth` `groupsField` property](/cli/graphql/authorization-rules/#field-level-authorization-rules)
+- [`@auth` custom `groupClaim`](/cli/graphql/authorization-rules/#configure-custom-identity-and-group-claims)
+- [`@auth` custom `identityClaim`](/cli/graphql/authorization-rules/#configure-custom-identity-and-group-claims)
+- [OIDC and Function providers](/cli/graphql/authorization-rules/#using-oidc-authorization-provider)
+- [OwnerField as Array type](authorization-rules/#multi-user-data-access) 
+- [`Query` type](/cli/graphql/custom-business-logic/#create-a-custom-query-or-mutation)
+- [`Mutation` type](/cli/graphql/custom-business-logic/#create-a-custom-query-or-mutation)
+- [`Subscription` type](/cli/graphql/custom-business-logic/#create-a-custom-query-or-mutation)

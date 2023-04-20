@@ -33,6 +33,10 @@ Select the "Cognito User Pool only" option when you've run `amplify import auth`
 
 Run `amplify push` to complete the import procedure.
 
+import attributesCallout from "/src/fragments/common/writable-vs-mutable-attributes.mdx";
+
+<Fragments fragments={{all: attributesCallout}} />
+
 ## Import an existing Identity Pool
 
 Select the "Cognito User Pool and Identity Pool" option when you've run `amplify import auth`. In order to successfully import your Identity Pool, it must have both of the User Pool app clients fulfilling [these requirements](#import-an-existing-cognito-user-pool) associated as an authentication provider.
@@ -40,7 +44,7 @@ Select the "Cognito User Pool and Identity Pool" option when you've run `amplify
 Your Identity Pool needs:
 
 - an Authenticated Role with a trust relationship to your Identity Pool
-- an **optional** Unauthenticated Role if you want to use any guest user access for your Amplify categories. (Example: Guest access for your S3 buckets or REST API endpoints)
+- an Unauthenticated Role with a trust relationship to your Identity Pool
 
 These roles are usually automatically configured when you create a new Identity Pool enabling "Unauthenticated" access and have a Cognito User Pool as an authentication provider.
 

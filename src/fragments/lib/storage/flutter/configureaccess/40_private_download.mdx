@@ -1,19 +1,26 @@
 ```dart
-Future<void> downloadPrivateFile(String cognitoIdentityId) async {
-  ...
-  final downloadOptions = S3DownloadFileOptions(
-    // Add the private access level
-    accessLevel: StorageAccessLevel.private
-    ...
+import 'package:amplify_flutter/amplify_flutter.dart';
+
+Future<void> downloadPrivateFile({
+  required String key,
+  required String downloadPath,
+}) async {
+  final awsFile = AWSFile.fromPath(downloadPath);
+  const options = StorageDownloadFileOptions(
+    accessLevel: StorageAccessLevel.private,
   );
 
   try {
-    await Amplify.Storage.downloadFile(
-      ...
-      // Be sure to use the correct options
-      options: downloadOptions,
-    );
-    ...
-  }...
+    final result = await Amplify.Storage.downloadFile(
+      key: key,
+      localFile: awsFile,
+      options: options,
+    ).result;
+
+    safePrint('Downloaded file is located at: ${result.localFile.path}');
+  } on StorageException catch (e) {
+    safePrint('Something went wrong downloading the file: ${e.message}');
+    rethrow;
+  }
 }
 ```

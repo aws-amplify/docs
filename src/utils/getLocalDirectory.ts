@@ -1,9 +1,9 @@
-import directory from "../directory/directory";
+import directory from '../directory/directory.mjs';
 
 function getLocalDirectory(pathname: string, depth: number): object {
-  const path = pathname.split("/");
+  const path = pathname.split('/');
 
-  let localDirectory = {items: directory};
+  let localDirectory = { items: directory };
   for (let i = 1; i <= depth; ++i) {
     localDirectory = localDirectory.items[path[i]];
   }
@@ -11,18 +11,18 @@ function getLocalDirectory(pathname: string, depth: number): object {
 }
 
 export function isProductRoot(pathname: string): boolean {
-  const path = pathname.split("/");
+  const path = pathname.split('/');
 
   if (directory[path[1]]?.productRoot?.route === pathname) {
     // matches /ui, for example
     return true;
   }
-  if (path[2] === "q") {
+  if (path[2] === 'q') {
     // matches /ui/q/framework/react, for example
     return true;
   }
 
-  if (path[2]?.startsWith(`#`)) {
+  if (path[2]?.startsWith(`#`) || path[2]?.startsWith('?')) {
     // matches /cli/#key-capabilities, for examle
     return true;
   }

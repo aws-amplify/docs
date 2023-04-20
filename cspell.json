@@ -70,6 +70,7 @@
     "AmazonPersonalizeProvider",
     "AmazonS3Client",
     "Amplif",
+    "amplifiedtodo",
     "AMPLIFYCLI",
     "amplify-CLI",
     "amplifymapview",
@@ -314,6 +315,7 @@
     "backend",
     "backends",
     "backgroundColor",
+    "backgrounding",
     "backoff",
     "baidu",
     "Baidu",
@@ -590,6 +592,7 @@
     "Filepath",
     "Filepath",
     "findViewById",
+    "firebaseconsole",
     "Firehose",
     "FLIGHTSTATS",
     "flipside",
@@ -738,6 +741,7 @@
     "javax",
     "jcenter",
     "jdoe",
+    "jetbrains",
     "jobTitle",
     "jpg",
     "js",
@@ -956,6 +960,7 @@
     "parameter.json",
     "parameterization",
     "parameters.json",
+    "parcelable",
     "passwordless",
     "PAY_PER_REQUEST",
     "Permission.Read",
@@ -1020,6 +1025,7 @@
     "PUSHINFOPROVIDER",
     "PushListenerService",
     "pushnotification",
+    "pushnotifications",
     "pushservice",
     "putPostWithPhoto",
     "PutRecord",
@@ -1490,12 +1496,14 @@
     "infowindow",
     "Libre's",
     "Pinia",
-    "kotlinx"
+    "kotlinx",
+    "snapcraft"
   ],
   "flagWords": [
     "hte", 
     "full-stack", 
     "Full-stack", 
-    "Full-Stack"
+    "Full-Stack",
+    "sudo",
   ]
 }

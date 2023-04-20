@@ -2,16 +2,23 @@ import {
   MenuHeaderStyle,
   MenuStyle,
   MenuBreakStyle,
-  MenuBodyStyle
+  MenuBodyStyle,
+  LastUpdatedStyle
 } from './styles';
-import React from 'react';
+import React, {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useState
+} from 'react';
 import MenuOpenButton from './MenuOpenButton';
 import MenuCloseButton from './MenuCloseButton';
 import { MQTablet } from '../media';
 import Directory from './Directory';
 import RepoActions from './RepoActions';
 import FilterSelect from './FilterSelect';
-import { VersionSwitcher, LibVersionSwitcher } from "./VersionSwitcher";
+import { VersionSwitcher, LibVersionSwitcher } from './VersionSwitcher';
+import { useLastUpdatedDatesContext } from '../LastUpdatedProvider';
 
 type MenuProps = {
   filters: string[];
@@ -22,102 +29,133 @@ type MenuProps = {
   setMenuIsOpen?: any;
 };
 
-type MenuState = {
-  isOpen: boolean;
-};
-export default class Menu extends React.Component<MenuProps, MenuState> {
-  constructor(props) {
-    super(props);
-    this.state = { isOpen: true };
-  }
+function Menu(props: MenuProps, ref) {
+  const [isOpen, setIsOpen] = useState(true);
+  const { state } = useLastUpdatedDatesContext();
 
-  componentDidMount() {
-    // We can't do this in the constructor because React will error that the prerendered version is different than live.
-    // Slice off the "@media " string at the start for use in JS instead of CSS
+  useEffect(() => {
     const MQTabletJS = MQTablet.substring(6);
     // If the media query matches, then the user is on desktop and should see the menu by default
-    this.setState({
-      isOpen:
-        typeof window !== 'undefined' && window.matchMedia(MQTabletJS).matches
-    });
+    setIsOpen(
+      typeof window !== 'undefined' && window.matchMedia(MQTabletJS).matches
+    );
+  }, []);
+
+  useImperativeHandle(ref, () => ({
+    closeMenu: () => closeMenu(),
+    openMenu: () => openMenu()
+  }));
+
+  const closeMenu = () => {
+    setIsOpen(false);
+
+    if (props.setMenuIsOpen) {
+      props.setMenuIsOpen(false);
+    }
+  };
+
+  const openMenu = () => {
+    setIsOpen(true);
+
+    if (props.setMenuIsOpen) {
+      props.setMenuIsOpen(true);
+    }
+  };
+
+  let showVersionSwitcher = false;
+  let showLibVersionSwitcher = false;
+  if (
+    (props.url.startsWith('/ui') || props.url.startsWith('/ui-legacy')) &&
+    props.filterKey !== 'react-native' &&
+    props.filterKey !== 'flutter'
+  ) {
+    showVersionSwitcher = true;
   }
 
-  closeMenu = () => {
-    this.setState({
-      isOpen: false
-    });
+  if (
+    (props.url.startsWith('/lib') || props.url.startsWith('/lib-v1')) &&
+    (props.filterKey == 'ios' ||
+      props.filterKey == 'android' ||
+      props.filterKey === 'flutter')
+  ) {
+    showLibVersionSwitcher = true;
+  }
 
-    if (this.props.setMenuIsOpen) {
-      this.props.setMenuIsOpen(false);
+  let lastUpdatedDate;
+
+  if (state.files['parentPageLastUpdatedDate']) {
+    const combinedDates = [state.files['parentPageLastUpdatedDate']];
+
+    if (state.files[props.filterKey]) {
+      combinedDates.push(...state.files[props.filterKey]);
+    } else if (state.files['all'] && state.files['all'].length > 0) {
+      combinedDates.push(...state.files['all']);
     }
-  };
 
-  openMenu = () => {
-    this.setState({
-      isOpen: true
-    });
+    lastUpdatedDate = Math.max(
+      ...combinedDates.map((e) => new Date(e).getTime())
+    );
+  }
 
-    if (this.props.setMenuIsOpen) {
-      this.props.setMenuIsOpen(true);
-    }
-  };
-
-  render() {
-    let showVersionSwitcher = false;
-    let showLibVersionSwitcher = false
-    if (
-      (this.props.url.startsWith('/ui') ||
-        this.props.url.startsWith('/ui-legacy')) &&
-      this.props.filterKey !== 'react-native' &&
-      this.props.filterKey !== 'flutter'
-    ) {
-      showVersionSwitcher = true;
-    } 
-    
-    if ((this.props.url.startsWith("/lib") || 
-    this.props.url.startsWith("/lib-v1")) && 
-    (this.props.filterKey == 'ios' ||
-    this.props.filterKey == 'android')) {
-      showLibVersionSwitcher = true;
-    }
-    if (this.state.isOpen) {
-      return (
-        <MenuStyle>
+  if (isOpen) {
+    return (
+      <MenuStyle>
+        <div>
           <div>
-            <div>
-              <MenuHeaderStyle>
-                <MenuCloseButton closeMenu={this.closeMenu} />
-                {typeof this.props.filterKey !== 'undefined' && (
-                  <FilterSelect
-                    filters={this.props.filters}
-                    filterKey={this.props.filterKey}
-                    filterKind={this.props.filterKind}
-                    url={this.props.url}
-                  />
-                )}
-              </MenuHeaderStyle>
-              <MenuBodyStyle>
-                {showVersionSwitcher && (
-                  <VersionSwitcher url={this.props.url} />
-                )}
-                {showLibVersionSwitcher && (
-                  <LibVersionSwitcher url={this.props.url} />
-                )}
-                <Directory
-                  filterKey={this.props.filterKey}
-                  url={this.props.url}
+            <MenuHeaderStyle>
+              <MenuCloseButton closeMenu={closeMenu} />
+              {typeof props.filterKey !== 'undefined' && (
+                <FilterSelect
+                  filters={props.filters}
+                  filterKey={props.filterKey}
+                  filterKind={props.filterKind}
+                  url={props.url}
                 />
-                <MenuBreakStyle />
-                <RepoActions
-                  url={this.props.url}
-                  directoryPath={this.props.directoryPath}
+              )}
+            </MenuHeaderStyle>
+            <MenuBodyStyle>
+              {showVersionSwitcher && <VersionSwitcher url={props.url} />}
+              {showLibVersionSwitcher && (
+                <LibVersionSwitcher
+                  url={props.url}
+                  legacyVersion={props.filterKey === 'flutter' ? 'v0' : 'v1'}
+                  latestVersion={props.filterKey === 'flutter' ? 'v1' : 'v2'}
                 />
-              </MenuBodyStyle>
-            </div>
+              )}
+              <Directory filterKey={props.filterKey} url={props.url} />
+              <MenuBreakStyle />
+              <RepoActions
+                url={props.url}
+                directoryPath={props.directoryPath}
+              />
+              <LastUpdatedStyle id="page-last-updated">
+                {displayLastUpdatedString(lastUpdatedDate)}
+              </LastUpdatedStyle>
+            </MenuBodyStyle>
           </div>
-        </MenuStyle>
-      );
-    }
-    return <MenuOpenButton openMenu={this.openMenu} />;
+        </div>
+      </MenuStyle>
+    );
   }
+  return <MenuOpenButton openMenu={openMenu} />;
+}
+
+export default forwardRef(Menu);
+
+function toReadableDate(date) {
+  const dateOptions: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric'
+  };
+
+  return new Date(date).toLocaleDateString('en-US', dateOptions);
+}
+
+function displayLastUpdatedString(date) {
+  if (date) {
+    return `Page updated ${toReadableDate(date)}`;
+  }
+
+  return '';
 }

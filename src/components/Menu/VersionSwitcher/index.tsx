@@ -1,6 +1,6 @@
 import Link from "next/link";
 import {ActiveSwitchStyle, SwitchStyle} from "./styles";
-import directory from "../../../directory/directory";
+import directory from "../../../directory/directory.mjs";
 
 const ui = directory["ui"].items;
 const uiLegacy = directory["ui-legacy"].items;
@@ -107,7 +107,15 @@ for (const [dirItems, paths] of libItemsAndPaths) {
 libLegacyPaths.push("/lib-v1");
 libPaths.push("/lib");
 
-export function LibVersionSwitcher({url}) {
+export function LibVersionSwitcher({
+  url,
+  legacyVersion,
+  latestVersion,
+}: {
+  url: string;
+  legacyVersion: string;
+  latestVersion: string;
+}) {
   let rightActive;
   let urlEnd;
   const filter = url.includes("/platform")
@@ -124,7 +132,7 @@ export function LibVersionSwitcher({url}) {
 
   const leftHref = "/lib-v1" + urlEnd;
   const leftOption = {
-    title: "v1",
+    title: legacyVersion,
     href: libLegacyPaths.includes(leftHref)
       ? leftHref
       : "/lib-v1/" + filter,
@@ -132,7 +140,7 @@ export function LibVersionSwitcher({url}) {
 
   const rightHref = "/lib" + urlEnd;
   const rightOption = {
-    title: "v2 (latest)",
+    title: `${latestVersion} (latest)`,
     href: libPaths.includes(rightHref) ? rightHref : "/lib/" + filter,
   };
 

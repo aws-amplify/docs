@@ -5,7 +5,7 @@ amplify init
 
 The base structure for a DataStore app is created by adding a new GraphQL API to your app.
 
-```console
+```bash
 # For new APIs
 amplify add api
 
@@ -13,7 +13,7 @@ amplify add api
 amplify update api
 ```
 
-The CLI will prompt you to configure your API. Select **GraphQL** as the API type and reply to the questions as shown below. Conflict detection is **required** when using the DataStore to sync data with the cloud.
+The CLI will prompt you to configure your API. Select **GraphQL** as the API type and reply to the questions as shown below. Conflict detection is **required** when using DataStore to sync data with the cloud.
 
 ```console
 ? Please select from one of the below mentioned services:
@@ -46,6 +46,6 @@ The CLI will prompt you to configure your API. Select **GraphQL** as the API typ
 
 <Callout warning>
 
-**Troubleshooting:** Cloud sync will fail without the **conflict detection** configuration. To enable it for an existing project, run `amplify update api` and choose **Enable DataStore for entire API**.
+**Troubleshooting:** Cloud sync will fail without the **conflict detection** configuration. To enable it for an existing project, run `amplify update api` and choose **Enable conflict detection (required for DataStore)**.
 
 </Callout>

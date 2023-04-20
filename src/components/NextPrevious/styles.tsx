@@ -27,6 +27,7 @@ export const NextPreviousLinkStyle = styled.a`
 
   h4 {
     margin-bottom: 1rem;
+    margin-top: 0;
   }
 
   span {

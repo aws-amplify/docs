@@ -98,10 +98,10 @@ Hub.listen("pubsub", (data: any) => {
     payload.event === CONNECTION_STATE_CHANGE
   ) {
    
-    if (priorConnectionState === ConnectionState.Connecting && payload.message === ConnectionState.Connected) {
+    if (priorConnectionState === ConnectionState.Connecting && payload.data.connectionState === ConnectionState.Connected) {
       fetchRecentData();
     }
-    priorConnectionState = payload.message;
+    priorConnectionState = payload.data.connectionState;
   }
 });
 

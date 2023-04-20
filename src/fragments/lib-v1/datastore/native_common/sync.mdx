@@ -9,13 +9,13 @@ Once you're happy with your application, you can start syncing with the cloud by
 
 ## Setup cloud sync
 
-Synchronization between offline and online data can be tricky. DataStore goal is to remove that burden from the application code and handle all data consistency and reconciliation between local and remote behind the scenes, while developers focus on their application logic. Up to this point the focus was to setup a local datastore that works offline and has all the capabilities you would expect from a data persistence framework.
+Synchronization between offline and online data can be tricky. DataStore's goal is to remove that burden from the application code and handle all data consistency and reconciliation between local and remote behind the scenes, while developers focus on their application logic. Up to this point the focus was to setup a local data store that works offline and has all the capabilities you would expect from a data persistence framework.
 
-The next step is to make sure the local saved data is synchronized with a cloud backend powered by [AWS AppSync](https://aws.amazon.com/appsync/).
+The next step is to make sure the locally saved data is synchronized with a cloud backend powered by [AWS AppSync](https://aws.amazon.com/appsync/).
 
 <Callout>
 
-**Note:** Syncing data between the cloud and the local device starts automatically whenever you run any DataStore operation after your app is setup.
+**Note:** Syncing data between the cloud and the local device starts automatically whenever you run any DataStore operation after your app is set up.
 
 </Callout>
 
@@ -26,6 +26,10 @@ import ios0 from "/src/fragments/lib-v1/datastore/ios/sync/10-installPlugin.mdx"
 import android1 from "/src/fragments/lib-v1/datastore/android/sync/10-installPlugin.mdx";
 
 <Fragments fragments={{android: android1}} />
+
+import flutter2 from "/src/fragments/lib-v1/datastore/flutter/sync/10-installPlugin.mdx";
+
+<Fragments fragments={{flutter: flutter2}} />
 
 ### Push the backend to the cloud
 
@@ -93,6 +97,10 @@ import android8 from "/src/fragments/lib-v1/datastore/android/sync/40-clear.mdx"
 
 <Fragments fragments={{android: android8}} />
 
+import flutter9 from "/src/fragments/lib-v1/datastore/flutter/sync/40-clear.mdx";
+
+<Fragments fragments={{flutter: flutter9}} />
+
 This is a simple yet effective example. However, in a real scenario you might want to only call `clear()` when a different user is `signedIn` in order to avoid clearing the database for a repeated sign-in of the same user.
 
 import android11 from "/src/fragments/lib-v1/datastore/android/sync/50-selectiveSync.mdx";
@@ -102,3 +110,7 @@ import android11 from "/src/fragments/lib-v1/datastore/android/sync/50-selective
 import ios12 from "/src/fragments/lib-v1/datastore/ios/sync/50-selectiveSync.mdx";
 
 <Fragments fragments={{ios: ios12}} />
+
+import flutter13 from "/src/fragments/lib-v1/datastore/flutter/sync/50-selectiveSync.mdx";
+
+<Fragments fragments={{flutter: flutter13}} />

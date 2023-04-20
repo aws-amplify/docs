@@ -5,9 +5,10 @@ export const meta = {
 
 Amplify Studio offers the ability to bind UI component events (`onClick`, `onChange`, and more) to actions to build interactive components. Use the UI component editor to map UI components' events to actions for navigation, data manipulation, authentication, and more. All data bindings get automatically included in generated code.
 
-1. Select an UI element such as a button
-2. Click `Set onClick action` on **Child properties** panel
-3. Select an action to bind it to the UI element
+1. Launch [Amplify Studio](/console/adminui/start/#logging-in-and-creating-an-app) for an app
+2. Select an UI element such as a button
+3. Click `Set onClick action` on **Child properties** panel
+4. Select an action to bind it to the UI element
 
 ## Bind UI to navigation actions
 
@@ -88,6 +89,13 @@ Make sure to mark the component as a `form` for accessibility.
 3. Set the value to `form`
 
 This will render the component within an HTML `<form />` element.
+
+</Callout>
+
+<Callout warning>
+
+Amplify Forms use DataStore to save and load data. In most cases, you will want to have authentication for your forms. For example, an app might use `API Key` for public content and `Cognito User Pool` for personalized content once the user logs in. 
+However, DataStore will only use the default authentication type and not the additional types unless configured with MULTI_AUTH enabled. To enable multiple authentication types in DataStore & Amplify Forms, please refer to [Configure Multiple Authorization Types](/lib/datastore/setup-auth-rules/#configure-multiple-authorization-types).
 
 </Callout>
 

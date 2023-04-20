@@ -3,7 +3,7 @@ import { fileURLToPath } from 'url';
 import path, { dirname } from 'path';
 import dotenv from 'dotenv';
 import algoliasearch from 'algoliasearch/lite.js';
-import directory from '../src/directory/directory.js';
+import directory from '../src/directory/directory.mjs';
 import parseImports from 'parse-imports';
 import extractMdxMeta from 'extract-mdx-metadata';
 import { remark } from 'remark';

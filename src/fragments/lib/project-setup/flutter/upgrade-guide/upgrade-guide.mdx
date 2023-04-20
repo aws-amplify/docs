@@ -1,0 +1,203 @@
+With the release of v1 Amplify Flutter now supports Web and Desktop for Auth, API, Analytics, and Storage use cases. Developers can build cross-platform Flutter apps with Amplify that target iOS, Android, Web, and Desktop (macOS, Windows, Linux) using a single codebase.
+
+We have re-written our libraries in Dart. In some places, we have made breaking changes to improve ergonomics or enable features that had been missing from the v0 implementations.
+
+## Prerequisites
+
+- A Flutter application targeting Flutter SDK >= 3.3.0 with Amplify libraries integrated
+
+Amplify requires a minimum target platform for iOS (13.0), Android (API level 24), and macOS (10.15). Additional setup is required for some target platforms. Please see the [platform setup](/lib/project-setup/platform-setup) guide for more details on platform-specific setup.
+
+## Auth
+
+- `fetchAuthSession` has several changes. See the example below for how to migrate.
+  - `Amplify.Auth.getPlugin()` has been added to return plugin-specific subtypes. Casting to `CognitoAuthSession` is no longer needed when using this method.
+  - The `getAWSCredentials` flag was previously needed to retrieve AWS credentials. This flag has been deprecated and is no longer needed. AWS credentials will always be included in the response.
+  - `fetchAuthSession` will no longer throw exceptions. Instead, individual getters of type `AuthResult` will throw if the underlying operation fails.
+    - _Why?_ The previous behavior did not allow for partial successes in offline scenarios when user pool tokens were still valid, but AWS credentials were expired. See [amplify-flutter#760](https://github.com/aws-amplify/amplify-flutter/issues/760#issuecomment-1453559459) for more details.
+  - `CognitoAuthSession.credentials`, `CognitoAuthSession.userPoolTokens`, `CognitoAuthSession.userSub`, and `CognitoAuthSession.identityId` are deprecated and will be removed in a future release. Use `CognitoAuthSession.credentialsResult`, `CognitoAuthSession.userPoolTokensResult`, `CognitoAuthSession.userSubResult`, and `CognitoAuthSession.identityIdResult` instead.
+
+```dart
+// v0
+try {
+  final session = await Amplify.Auth.fetchAuthSession(
+    options: CognitoFetchAuthSessionOptions(getAWSCredentials: true),
+  ) as CognitoAuthSession;
+
+  final accessToken = session.userPoolTokens?.accessToken;
+  safePrint('accessToken: $accessToken');
+
+  final identityId = session.identityId;
+  safePrint('identityId: $identityId');
+} on AuthException catch (e) {
+  // fetchAuthSession will fail if any of the underlying operations fail.
+  safePrint('The operation failed: ${e.message}');
+}
+```
+
+```dart
+// v1
+final session = await Amplify.Auth.getPlugin(
+  AmplifyAuthCognito.pluginKey,
+).fetchAuthSession();
+
+// AuthResult.value will throw if the underlying operation failed.
+try {
+  final accessToken = session.userPoolTokensResult.value.accessToken.toJson();
+  safePrint('accessToken: $accessToken');
+} on SignedOutException {
+  // the user is not signed in.
+} on SessionExpiredException {
+  // the users session has expired.
+} on NetworkException {
+  // the access and/or id token is expired but cannot be refreshed because the
+  // user is offline.
+}
+
+// `AuthResult.valueOrNull` will return the identityId if present or null,
+// but will never throw even if the underlying operation failed.
+final identityId = session.identityIdResult.valueOrNull;
+safePrint('identityId: $identityId');
+```
+
+- The next step returned from auth operations are now enums. See the example below for how to migrate for `Auth.signUp()`.
+
+```dart
+// v0
+final result = await Amplify.Auth.signUp(/* ... */);
+switch (result.nextStep?.signUpStep) {
+  case 'CONFIRM_SIGN_UP':
+    // prompt user to confirm sign in using nextStep.codeDeliveryDetails
+    break;
+  case 'DONE':
+    // sign up is complete, user can be taken to an authenticated state.
+    break;
+}
+```
+
+```dart
+// v1
+final result = await Amplify.Auth.signUp(/* ... */);
+switch (result.nextStep.signUpStep) {
+  case AuthSignUpStep.confirmSignUp:
+    // prompt user to confirm sign in using nextStep.codeDeliveryDetails
+    break;
+  case AuthSignUpStep.done:
+    // sign up is complete, user can be taken to an authenticated state.
+    break;
+}
+```
+
+- Auth hub events now have a specific subtype (`AuthHubEvent`) and contain a `type` that is an enum. See the example below for how to migrate.
+
+```dart
+// v0
+final hubSubscription = Amplify.Hub.listen([HubChannel.Auth], (hubEvent) {
+  switch(hubEvent.eventName) {
+    case 'SIGNED_IN':
+      safePrint('User is signed in.');
+      break;
+    case 'SIGNED_OUT':
+      safePrint('User is signed out.');
+      break;
+    case 'SESSION_EXPIRED':
+      safePrint('The session has expired.');
+      break;
+    case 'USER_DELETED':
+      safePrint('The user has been deleted.');
+      break;
+  }
+});
+```
+
+```dart
+// v1
+final subscription = Amplify.Hub.listen(HubChannel.Auth, (AuthHubEvent event) {
+  switch (event.type) {
+    case AuthHubEventType.signedIn:
+      safePrint('User is signed in.');
+      break;
+    case AuthHubEventType.signedOut:
+      safePrint('User is signed out.');
+      break;
+    case AuthHubEventType.sessionExpired:
+      safePrint('The session has expired.');
+      break;
+    case AuthHubEventType.userDeleted:
+      safePrint('The user has been deleted.');
+      break;
+  }
+});
+```
+
+- Cognito-specific API options such as `CognitoSignInOptions` are deprecated in favor of `pluginOptions`. The classes will be removed in a future release. See below for an example of how to migrate for `Auth.signIn()`.
+
+```dart
+// v0
+final result = await Amplify.Auth.signIn(
+  username: username,
+  password: password,
+  options: const CognitoSignInOptions(
+    clientMetadata: {'data': 'value'},
+  ),
+);
+```
+
+```dart
+// v1
+final result = await Amplify.Auth.signIn(
+  username: username,
+  password: password,
+  options: const SignInOptions(
+    pluginOptions: CognitoSignInPluginOptions(
+      clientMetadata: {'data': 'value'},
+    ),
+  ),
+);
+```
+
+## Analytics
+
+- `AnalyticsProperties` renamed to `CustomProperties`
+- `AnalyticsUserProfile` renamed to `UserProfile`
+- `AnalyticsUserProfileLocation` renamed to `UserProfileLocation`
+- In v0, the `autoFlushEventsInterval` in `amplifyconfiguration.dart` was read as seconds on iOS and milliseconds on Android. v1 fixes this behavior by reading `autoFlushEventsInterval` as seconds across all platforms.
+- In v1, auto-flushing of events occurs at 30 second intervals. In v0, the default auto flush iOS was 60 seconds and Android was 30 seconds.
+- Automatic session reporting behavior has been aligned in v1. For all platforms, backgrounding and foregrounding the app will stop and start a new session. Previously on iOS, the session would pause and then resume.
+- You can now save to the `UserAttributes` field of a Pinpoint Endpoint by passing an `AWSPinpointUserProfile` to `identifyUser`.
+- Analytics cached event data is now stored differently. Existing cached analytics events will not be migrated.
+- There are now typed `AnalyticsException`s for specific exception cases. See [the documentation on Pub](https://pub.dev/documentation/amplify_analytics_pinpoint/latest/amplify_analytics_pinpoint/amplify_analytics_pinpoint-library.html) for a full list of exceptions.
+
+## API
+
+- REST API methods have breaking changes. See [REST API docs](/lib/restapi/getting-started/q/platform/flutter/) for more details.
+- `RestException` has been replaced with `HttpStatusException`.
+- GraphQL model helpers have a few changes:
+  - Updated codegen models are required. Please upgrade to the latest version of the Amplify CLI and run `amplify codegen models`.
+  - `ModelQueries.get()` and `ModelMutations.deleteById()` have a breaking change where the ID is no longer a `String` but a `ModelIdentifier` that supports custom primary keys. See [GraphQL docs](/lib/graphqlapi/query-data/q/platform/flutter/) for examples.
+  - `ModelSubscriptions` helpers now take a `where` clause so users can get server-side subscription filters without a custom request.
+- GraphQL subscriptions will attempt to automatically reconnect when the user's device loses and recovers internet access. Updates in connectivity status are available through new hub events on the channel `HubChannel.Api`.
+- Server-side GraphQL errors on iOS no longer throw an exception, but instead return a `GraphQLResponse` with the errors in the `.errors` field (as has always been the case in Android). This applies to all platforms but is only a change for iOS. Note this is only true for errors that come from the AppSync server as part of the server-side GraphQL response. The client will still throw exceptions for cases when a valid response could not be successfully returned.
+- Exceptions have been made more specific although they still extend abstract class `ApiException` so catch clauses that use `ApiException` will still be valid.
+
+## Storage
+
+- All Storage S3 plugin APIs now return an operation object rather than the result object. The operation object provides more control over the in-flight request, such as cancellation, pause, and resume capabilities (varies by API). The result `Future` can be retrieved via the `.result` property of the operation object. Here is an example for `uploadFile`:
+
+```dart
+// v0
+final result = await Amplify.Storage.uploadFile(
+    local: exampleFile,
+    key: 'ExampleKey',
+);
+print('Uploaded file key: ${result.key}')
+
+// v1
+final result = await Amplify.Storage.uploadFile(
+    localFile: exampleFile,
+    key: 'ExampleKey',
+).result;
+print('Uploaded file key: ${result.uploadedItem.key}');
+```
+
+See [storage docs](/lib/storage/getting-started/q/platform/flutter/) for more detailed examples of other storage methods.

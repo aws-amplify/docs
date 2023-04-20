@@ -1,130 +1,35 @@
-<BlockSwitcher>
-
-<Block name="Stable (Mobile)">
-
 ## iOS
-From your project root, navigate to the `ios/` directory and modify the `Podfile` using a text editor of your choice and update the target iOS platform to 11.0 or higher.
 
-```bash
-platform :ios, '11.0'
-```
+import ios from '/src/fragments/lib/project-setup/flutter/platform-setup/ios.mdx';
 
-<Callout>
-
-When preparing your application for deployment, you should also update your iOS Deployment Target to at least 11.0. See the [Flutter docs](https://docs.flutter.dev/deployment/ios) to learn more about building your iOS app for release.
-
-</Callout>
+<Fragments fragments={{ flutter: ios }} />
 
 ## Android
-From your project root, navigate to the `android/app/` directory and modify `build.gradle` using a text editor of your choice and update the target Android SDK version to 21 or higher:
 
-```bash
-minSdkVersion 21
-```
+import android from '/src/fragments/lib/project-setup/flutter/platform-setup/android.mdx';
 
-import flutter1 from '/src/fragments/start/getting-started/flutter/kotlin-version-warning.mdx';
-
-<Fragments fragments={{ flutter: flutter1 }} />
-
-</Block>
-
-<Block name = "Developer Preview (Mobile, Web & Desktop)">
+<Fragments fragments={{ flutter: android }} />
 
 ## Web
 
-### Auth category
+import web from '/src/fragments/lib/project-setup/flutter/platform-setup/web.mdx';
 
-No specific configuration steps are needed to begin using the Auth category in the browser.
-
-### Analytics and Storage categories
-
-import flutter2 from '/src/fragments/lib/project-setup/flutter/platform-setup/sqlite3_wasm.mdx';
-
-<Fragments fragments={{ flutter: flutter2 }} />
-
-## iOS
-From your project root, navigate to the `ios/` directory and modify the `Podfile` using a text editor of your choice and update the target iOS platform to 13.0 or higher.
-
-```bash
-platform :ios, '13.0'
-```
-
-## Android
-
-From your project root, navigate to the `android/app/` directory and modify `build.gradle` using a text editor of your choice and update the target Android SDK version to 24 or higher:
-
-```bash
-minSdkVersion 24
-```
+<Fragments fragments={{ flutter: web }} />
 
 ## macOS
-To run the Amplify-Flutter developer preview on macOS, you will need to update the minimum platform version to 10.15, and enable networking, keychain [entitlements](https://developer.apple.com/documentation/bundleresources/entitlements), and signing.
 
-### Update Minimum Version 
+import macos from '/src/fragments/lib/project-setup/flutter/platform-setup/macos.mdx';
 
-From your project root, navigate to the `macos/` directory and modify the `Podfile` using a text editor of your choice and update the target macOS platform to 10.15 or higher.
-
-```bash
-platform :osx, '10.15'
-```
-
-Open your project in Xcode and select Runner, Target -> Runner and then the "General" tab. Under the "Minimum Deployments" section, update the version to 10.15 or higher.
-
-![XCode Minimum Deployment Version](/images/project-setup/flutter/mac/target-min-deployment-version.png)
-
-Select Runner, Project -> Runner and then the "Info" tab. Update "macOS Deployment Target" to 10.15 or higher.
-
-![XCode Minimum Deployment Version](/images/project-setup/flutter/mac/project-min-deployment-version.png)
-
-### Enable network calls
-
-In order to run your application locally, you must enable the [Client Networking [entitlement](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_security_network_client).
-
-In Xcode, enable the App Sandbox capability and then select "Outgoing Connections (Client)" under "Network".
-
-![XCode Entitlements Screen](/images/project-setup/flutter/mac/xcode-entitlements.png)
-
-### Enable keychain
-
-Amplify Auth stores auth credentials in Keychain on macOS. The keychain option [kSecUseDataProtectionKeychain](https://developer.apple.com/documentation/security/ksecusedataprotectionkeychain?language=objc) is enabled by default, which makes it so that only your app has access to these credentials. This requires that your app be in at least one Keychain Access Group.
-
-To enable keychain sharing, open your project in Xcode and select the "Signing and Capabilities" section, then click the "+ icon".
-
-![XCode Enable Keychain Sharing](/images/project-setup/flutter/mac/enable-keychain-access.png)
-
-Search for "Keychain Sharing" in the subsequent modal, and add it.
-
-![XCode Keychain Sharing Search](/images/project-setup/flutter/mac/search-keychain-sharing.png)
-
-Finally, scroll down to "Keychain Sharing" in the "Signing and Capabilities" and click the "+" icon. By default, your bundle ID will be used.
-
-![XCode Adding Keychain Sharing Group](/images/project-setup/flutter/mac/adding-keychain-access-group.png)
-
-### Enable signing 
-
-Add a development team in the "Signing and Capabilities" section and enable signing.
-
-![XCode Signing and Capabilities Screen](/images/project-setup/flutter/mac/enable-signing.png)
+<Fragments fragments={{ flutter: macos }} />
 
 ## Windows
-No specific configuration steps are needed to begin using the Auth category on Windows; however, depending on how your Windows configuration and the method you use to run your Flutter app, you may need to change the file path length limitation.
+
+import windows from '/src/fragments/lib/project-setup/flutter/platform-setup/windows.mdx';
+
+<Fragments fragments={{ flutter: windows }} />
 
 ## Linux
-To run the Amplify-Flutter developer preview on Linux, you must install two libraries:
 
-* libsecret-1-dev
-* libglib2.0-dev
+import linux from '/src/fragments/lib/project-setup/flutter/platform-setup/linux.mdx';
 
-To install on Ubuntu, run:
-
-```terminal
-sudo apt-get update
-sudo apt-get install -y libsecret-1-dev
-sudo apt-get install -y libglib2.0-dev
-```
-
-The command to install might vary slightly on other Linux distributions.
-
-</Block>
-
-</BlockSwitcher>
+<Fragments fragments={{ flutter: linux }} />

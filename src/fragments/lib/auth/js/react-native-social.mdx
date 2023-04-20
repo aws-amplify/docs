@@ -83,23 +83,23 @@ For React Native applications, you need to define a custom URL scheme for your a
 
  <plist version="1.0">
 
-     <dict>
-     <!-- YOUR OTHER PLIST ENTRIES HERE -->
+  <dict>
+  <!-- YOUR OTHER PLIST ENTRIES HERE -->
 
-     <!-- ADD AN ENTRY TO CFBundleURLTypes for Cognito Auth -->
-     <!-- IF YOU DO NOT HAVE CFBundleURLTypes, YOU CAN COPY THE WHOLE BLOCK BELOW -->
-     <key>CFBundleURLTypes</key>
-     <array>
-         <dict>
-             <key>CFBundleURLSchemes</key>
-             <array>
-                 <string>myapp</string>
-             </array>
-         </dict>
-     </array>
+  <!-- ADD AN ENTRY TO CFBundleURLTypes for Cognito Auth -->
+  <!-- IF YOU DO NOT HAVE CFBundleURLTypes, YOU CAN COPY THE WHOLE BLOCK BELOW -->
+  <key>CFBundleURLTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>myapp</string>
+      </array>
+    </dict>
+  </array>
 
-     <!-- ... -->
-     </dict>
+  <!-- ... -->
+  </dict>
 ```
 
 *React Native - Android - AndroidManifest.xml*
@@ -111,7 +111,7 @@ For React Native applications, you need to define a custom URL scheme for your a
 <application>
   <activity
     android:name=".MainActivity"
-    android:launchMode="singleInstance">
+    android:launchMode="singleTask">
 
     <intent-filter>
       <action android:name="android.intent.action.VIEW" />

@@ -1,0 +1,5 @@
+If the user is signed in through [Amplify.Auth.signIn](/lib/auth/signin), then you can retrieve the current user's ID as shown below:
+
+```swift
+let user = try await Amplify.Auth.getCurrentUser().userId
+```

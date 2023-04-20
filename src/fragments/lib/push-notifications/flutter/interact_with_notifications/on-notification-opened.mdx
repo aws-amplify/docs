@@ -1,0 +1,11 @@
+```dart
+void myNotificationOpenedHandler(PushNotificationMessage notification) {
+  // Take further action with the opened push notification message
+}
+
+final subscription = Amplify.Notifications.Push.onNotificationOpened
+  .listen(myNotificationReceivedHandler);
+
+// Remember to cancel the subscription when it is no longer needed
+subscription.cancel();
+```

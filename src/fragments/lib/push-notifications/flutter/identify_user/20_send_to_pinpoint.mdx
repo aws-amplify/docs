@@ -1,0 +1,12 @@
+```dart
+final userProfile = AWSPinpointUserProfile(
+  userAttributes: {
+    'hobbies': ['cooking', 'knitting']
+  },
+);
+
+await Amplify.Notifications.Push.identifyUser(
+  userId: userId,
+  userProfile: userProfile,
+);
+```

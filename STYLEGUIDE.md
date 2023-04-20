@@ -323,3 +323,29 @@ When editing text content in markdown files use the markdown syntax for links. W
 ### Do
 
 `\[Use mdx link syntax](/some-link)`
+
+## 21. Use 2-space indents for code blocks
+
+When adding code blocks and indenting encapsulated code, use 2 spaces for each indent
+
+### Don't
+
+```js
+Amplify.configure({
+    // 4-space indent
+    Auth: {
+        // ...
+    }
+});
+```
+
+### Do
+
+```js
+Amplify.configure({
+  // 2-space indent
+  Auth: {
+    // ...
+  }
+});
+```
