@@ -125,7 +125,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        // Navigate to the page to create new budget entries
+        onPressed: _navigateToBudgetEntry,
         child: const Icon(Icons.add),
       ),
       appBar: AppBar(
