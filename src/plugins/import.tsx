@@ -45,6 +45,10 @@ module.exports = (async () => {
     {
       importName: 'ExternalLink',
       importPath: '/src/components/ExternalLink'
+    },
+    {
+      importName: 'Hydrate',
+      importPath: '/src/components/Hydrate'
     }
   ];
 
