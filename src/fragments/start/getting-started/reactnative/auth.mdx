@@ -85,21 +85,14 @@ Open **App.tsx** and make the following changes:
 import { withAuthenticator, useAuthenticator } from '@aws-amplify/ui-react-native';
 ````
 
-<Callout>
-
-The `useAuthenticator` hook can be added to any component that needs it, however using it at the `App` level is risky as it will trigger a re-render down its tree whenever any of its context changes value. 
-
-To prevent undesired re-renders, you can pass a function as an argument to `useAuthenticator` that will take the Authenticator context and return an array of desired context values. The hook will then only re-render if any of the array values change. 
-
-The function passed to `useAuthenticator` is a selector. Selectors are functions that take state as an argument and return the minimal amount of data to pass back to the component.
-
-</Callout>
-
 2. Create a custom `SignOutButton` component that will be used within the App component and only re-render when its `user` context changes. Destructure the `user` and `signOut` properties returned from the hook. 
 
 ```javascript
+// retrieves only the current value of 'user' from 'useAuthenticator'
+const userSelector = (context) => [context.user]
+
 const SignOutButton = () => {
-  const { user, signOut } = useAuthenticator((context) => [context.user]);
+  const { user, signOut } = useAuthenticator(userSelector);
   return (
     <Pressable onPress={signOut} style={styles.buttonContainer}>
       <Text style={styles.buttonText}>Hello, {user.username}! Click here to sign out!</Text>
@@ -158,8 +151,11 @@ import { Amplify } from 'aws-amplify';
 import awsExports from './src/aws-exports';
 Amplify.configure(awsExports);
 
+// retrieves only the current value of 'user' from 'useAuthenticator'
+const userSelector = (context) => [context.user]
+
 const SignOutButton = () => {
-  const {user, signOut} = useAuthenticator(context => [context.user]);
+  const { user, signOut } = useAuthenticator(userSelector);
   return (
     <Pressable onPress={signOut} style={styles.buttonContainer}>
       <Text style={styles.buttonText}>
@@ -272,8 +268,11 @@ import {
   useAuthenticator,
 } from '@aws-amplify/ui-react-native';
 
+// retrieves only the current value of 'user' from 'useAuthenticator'
+const userSelector = (context) => [context.user]
+
 const SignOutButton = () => {
-  const {user, signOut} = useAuthenticator(context => [context.user]);
+  const { user, signOut } = useAuthenticator(userSelector);
   return (
     <Pressable onPress={signOut} style={styles.buttonContainer}>
       <Text style={styles.buttonText}>
