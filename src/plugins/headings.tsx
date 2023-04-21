@@ -5,6 +5,7 @@ module.exports = (async () => {
 
   const headingLinkPlugin = () => (tree) => {
     visit(tree, 'heading', (heading) => {
+      const looking = tree;
       const node = { ...heading };
       if (node.depth !== 2 && node.depth !== 3) return;
       const data = node.data || (node.data = {});

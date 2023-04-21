@@ -5,11 +5,6 @@ const withTM = require('next-transpile-modules')([
 const theme = require('shiki/themes/nord.json');
 const { remarkCodeHike } = require('@code-hike/mdx');
 
-const mdxRenderer = `
-  import { mdx } from "@mdx-js/react";
-
-`;
-
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const directory = require('./src/directory/directory.js');
 
@@ -31,20 +26,19 @@ module.exports = async (phase, { defaultConfig }) => {
 
   const withMDX = require('@next/mdx')({
     extension: /\.mdx$/,
-    // loader: '@mdx-js/loader',
+    loader: '@mdx-js/loader',
     jsx: true,
     options: {
       providerImportSource: '@mdx-js/react',
       remarkPlugins: [
-        [remarkCodeHike, { theme }]
+        // [remarkCodeHike, { theme }],
         // frontmatterPlugin,
         // importPlugin,
-        // headingLinkPlugin,
-        // pagePlugin
-        // internalLinkPlugin
+        headingLinkPlugin,
+        pagePlugin,
+        internalLinkPlugin
       ]
       // rehypePlugins: [codeBlockPlugin]
-      // renderer: mdxRenderer
     }
   });
 
@@ -53,6 +47,7 @@ module.exports = async (phase, { defaultConfig }) => {
       env: {
         API_ENV: process.env.API_ENV
       },
+      experimental: { esmExternals: true },
       pageExtensions: ['js', 'jsx', 'mdx', 'tsx', 'ts'],
       typescript: {
         // !! WARN !!

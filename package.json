@@ -68,6 +68,7 @@
     "@types/url-parse": "^1.4.3",
     "@typescript-eslint/eslint-plugin": "^2.7.0",
     "@typescript-eslint/parser": "^2.7.0",
+    "abstract-syntax-tree": "^2.20.6",
     "cspell": "^6.2.3",
     "eslint": "^6.6.0",
     "eslint-config-airbnb": "^18.0.1",
