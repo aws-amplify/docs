@@ -58,31 +58,30 @@ All backend infrastructure-as-code definitions can be added to your project with
 
 ### Logging into Amplify Studio using Amplify CLI does not provide a Token or Prompt
 
-This behavior is observed when running a Amplify CLI headless pull command in the terminal, which opens a new tab in the browser with a Amplify Studio login screen. On logging into the Amplify Studio application we observe the terminal prompt is in a loading state.
+This behavior is observed when running a Amplify CLI `amplify pull --appId <appID> --envName <envName>` command in the terminal, which opens a new tab in the browser with a Amplify Studio login screen. On logging in, if you are not redirected back and observe the CLI being stuck in a loading state.
 
 To resolve this issue,
 
 1. Exit from the Amplify CLI prompt
-1. If present, remove the empty folders created in your present directory (Ex: `amplify` or `amplify-backup`) from the previous pull
-1. Rerun the Amplify CLI headless pull command
+1. If present, remove the leftover artifacts created in your current directory (Ex: `amplify` or `amplify-backup`) from the failed pull attempt
+1. Rerun the Amplify CLI `amplify pull --appId <appID> --envName <envName>` command
 
 ### Authentication tokens
 
-When using Amplify CLI, you may encounter the following error message:
+When using Amplify CLI you may encounter the following error message:
 
-<Callout info>
 
-"Failed to receive expected authentication tokens. Error: [Error: 'jsonString' argument missing or empty]"
+```console
+Failed to receive expected authentication tokens. Error: [Error: 'jsonString' argument missing or empty]
+```
 
-</Callout>
-
-This message occurs when running a Amplify CLI headless pull command in the terminal and allowing access permission to the CLI. 
+This message occurs when running a Amplify CLI `amplify pull --appId <appID> --envName <envName>` command in the terminal and allowing access permission to the CLI. 
 
 To resolve this issue,
 
-1. Delete the `.config.json` file present at the location `<home-dir>/.amplify/admin/`
-1. If present, remove the empty folders created in your present directory (Ex: `amplify` or `amplify-backup`) from the previous pull
-1. Rerun the Amplify CLI headless pull command in the terminal and allow access on the prompt in the browser.
+1. Delete the `config.json` file present at the location `<home-dir>/.amplify/admin/`
+1. If present, remove the leftover artifacts created in your current directory (Ex: `amplify` or `amplify-backup`) from the failed pull attempt
+1. Rerun the Amplify CLI `amplify pull --appId <appID> --envName <envName>` command
 
 <Callout>
 
