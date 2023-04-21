@@ -23,8 +23,8 @@ module.exports = async (phase, { defaultConfig }) => {
   const importPlugin = await require('./src/plugins/import.tsx');
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const frontmatterPlugin = await require('./src/plugins/frontmatter.tsx');
-  const codeHikeAddHydrationPlugin = await require('./src/plugins/code-hike-add-hydration.tsx');
   // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const codeHikeAddHydrationPlugin = await require('./src/plugins/code-hike-add-hydration.tsx');
 
   const withMDX = require('@next/mdx')({
     extension: /\.mdx$/,
