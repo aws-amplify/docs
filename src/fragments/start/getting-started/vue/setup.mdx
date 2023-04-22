@@ -78,6 +78,17 @@ Project information
 
 > Where possible the CLI will infer the proper configuration based on the type of project Amplify is being initialized in. In this case it knew you are using Vue and provided the proper configuration for type of app, framework, source, distribution, build, and start options.
 
+Next, you will need to select the authentication method you want to use to work on your project locally:
+
+```
+? Select the authentication method you want to use: (Use arrow keys)
+> AWS profile
+  AWS access keys
+```
+Select AWS profile and then choose the profile you configured in the [Prerequisites](/start/getting-started/installation/q/integration/vue/#configure-the-amplify-cli).
+
+
+
 When you initialize a new Amplify project, a few things happen:
 
 - It creates a top level directory called `amplify` that stores your backend definition. During the tutorial you'll add capabilities such as authentication, GraphQL API, storage, and set up authorization rules for the API. As you add features, the `amplify` folder will grow with infrastructure-as-code templates that define your backend stack. Infrastructure-as-code is a best practice way to create a replicable backend stack.
