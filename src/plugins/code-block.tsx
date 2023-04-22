@@ -8,6 +8,8 @@ const Html5Entities = require('html-entities');
 const rehypeParse = require('rehype-parse');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const versions = require('../constants/versions.ts');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const errorLanguage = require('./cli-error-language.tsx');
 
 module.exports = (async () => {
   const { visit } = await import('unist-util-visit');
@@ -46,10 +48,13 @@ module.exports = (async () => {
     'dart',
     'text',
     'plain',
-    'sh'
+    'sh',
+    'error',
+    'amplify-cli-output'
   ];
 
   loadLanguages(supportedLanguages);
+  errorLanguage(prism);
 
   const highlight = (code, language) => {
     language = language.replace('language-', '');
