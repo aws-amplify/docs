@@ -13,7 +13,3 @@ code.language-amplify-cli-output .token.warning {
 code.language-amplify-cli-output .token.error {
     color: var(--amplify-colors-red-40)
 }
-
-code.language-amplify-cli-output .token.successSync {
-    color: var(--amplify-colors-green-40)
-}

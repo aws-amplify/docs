@@ -6,9 +6,8 @@ module.exports = function(Prism) {
 
   // amplify cli output messages
   Prism.languages['amplify-cli-output'] = {
-    success: /^✅.*/,
-    warning: /^⚠️.*/,
-    error: /^🛑.*/,
-    successSync: /^✔.*/
+    success: /^✔|✅.*/,
+    warning: /^[\u26A0\uFE0F].*/, // Unicode representation of the warning emoji
+    error: /^🛑.*/
   };
 };
