@@ -71,7 +71,6 @@ For example, if you want to trim all the string data before saving it:
 ```jsx
 <HomeCreateForm
     onSubmit={(fields) => {
-        // Example function to trim all string inputs
         const updatedFields = {}
         Object.keys(fields).forEach(key => {
             if (typeof fields[key] === 'string') {

@@ -12,10 +12,8 @@ When using Figma created components, you can use any exposed component props. Th
 
 ```
 import {AmpligramCollection} from './ui-components'
-...
 
 <AmpligramCollection isPaginated itemsPerPage={3}/>
-...
 
 ```
 
@@ -99,7 +97,7 @@ import { Hub } from 'aws-amplify'
 ...
 Hub.listen("ui", (capsule) => {
   if (capsule.payload.event === "actions:auth:signout:finished") {
-    // Do something after signout
+    // Post signout logic
   }
 });
 ```
@@ -136,10 +134,8 @@ The following code snippets show how you can handle specific scenarios in your a
 
 ```
 import {AmpligramCollection} from './ui-components'
-...
 
 <AmpligramCollection isPaginated itemsPerPage={3}/>
-...
 
 ```
 ### Make a component responsive
