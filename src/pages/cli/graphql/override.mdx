@@ -76,7 +76,7 @@ export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
   resources.models["Todo"].modelDatasource.dynamoDbConfig['deltaSyncConfig']['baseTableTtl'] = '3600'
 }
 ```
-### Example - Configure DynamoDBBillingMode
+### Example - Configure DynamoDB table's billing mode
 
 Set the [DynamoDB billing mode](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html#cfn-dynamodb-table-billingmode) for the DynamoDB table. Either "PROVISIONED" or "PAY_PER_REQUEST".
 
