@@ -105,9 +105,7 @@ export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
   * When billing mode is set to "PROVISIONED", it is necessary to specify `provisionedThroughput` for every Global Secondary Index (GSI) that exists in the table.
   */
   
-  resources.models[
-    "Post"
-  ].modelDDBTable.globalSecondaryIndexes[0].provisionedThroughput = {
+  resources.models["Post"].modelDDBTable.globalSecondaryIndexes[0].provisionedThroughput = {
     readCapacityUnits: 5,
     writeCapacityUnits: 5
   }; 
