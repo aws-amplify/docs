@@ -87,7 +87,7 @@ export function override(resources: AmplifyApiGraphQlResourceStackTemplate) {
   resources.models['Post'].modelDDBTable.billingMode = 'PAY_PER_REQUEST';
 }
 ```
-### Example - Configure DynamoDBModelTableProvisionedThroughput
+### Example - Configure provisioned throughput for DynamoDB table or Global Secondary Index
 Override the default [ProvisionedThroughput](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-dynamodb-table.html#cfn-dynamodb-table-provisionedthroughput) provisioned for each `@model` table and its Global Secondary Indexes (GSI).
 
 Only valid if the "DynamoDBBillingMode" is set to "PROVISIONED"
