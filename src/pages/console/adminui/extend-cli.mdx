@@ -68,7 +68,7 @@ To resolve this issue,
 
 ### Authentication tokens
 
-When using Amplify CLI you may encounter the following error message:
+When using Amplify CLI, you may encounter the following error message:
 
 
 ```console
@@ -79,12 +79,12 @@ This message occurs when running a Amplify CLI `amplify pull --appId <appID> --e
 
 To resolve this issue,
 
-1. Delete the `config.json` file present at the location `<home-dir>/.amplify/admin/`
+1. Delete the `config.json` file present at the location `~/.amplify/admin/`
 1. If present, remove the leftover artifacts created in your current directory (Ex: `amplify` or `amplify-backup`) from the failed pull attempt
 1. Rerun the Amplify CLI `amplify pull --appId <appID> --envName <envName>` command
 
 <Callout>
 
-Note, the content of `<home-dir>/.amplify/config.json` is utilized to store JWTs to vend temporary AWS credentials and should __NOT__ be shared.
+Note, the content of `~/.amplify/admin/config.json` is utilized to store JWTs to vend temporary AWS credentials and should __NOT__ be shared.
 
 </Callout>
