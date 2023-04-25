@@ -38,19 +38,22 @@ Here is an example of translating text. In order to override any choices you mad
 
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
-func translateText(text:String) {
-  Amplify.Predictions.convert(textToTranslate: text,
-                              language: .english,
-                              targetLanguage: .italian) { event in
-    switch event {
-    case let .success(result):
-      print(result.text)
-    case let .failure(error):
-      print(error)
-    }
+func translateText(text: String) async throws -> String {
+  do { 
+    let result = try await Amplify.Predictions.convert(
+        .textToTranslate(text, from: .english, to: .italian)
+    )
+    print("Translated text: \(result.text))
+    return result.text
+  } catch let error as PredictionsError { 
+      print("Error translating text: \(error)")
+      throw error
+  } catch { 
+      print("Unexpected error: \(error)")
+      throw error
   }
 }
 ```
@@ -60,21 +63,19 @@ func translateText(text:String) {
 <Block name="Combine">
 
 ```swift
-func translateText(text:String) -> AnyCancellable {
-  Amplify.Predictions.convert(
-    textToTranslate: text,
-    language: .english,
-    targetLanguage: .italian
-  )
-  .resultPublisher
-  .sink {
-    if case let .failure(error) = $0 {
-      print(error)
+func translateText(text: String) -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Predictions.convert(
+          .textToTranslate(text, from: .english, to: .italian)
+        )
     }
-  }
-  receiveValue: { result in
-    print(result.text)
-  }
+    .sink(receiveCompletion: { completion in
+        if case let .failure(error) = completion {
+            print("Error translating text: \(error)")
+        }
+    }, receiveValue: { value in
+        print("Translated text: \(value.text)")
+    })
 }
 ```
 
