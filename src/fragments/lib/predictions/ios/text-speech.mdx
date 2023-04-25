@@ -39,7 +39,7 @@ Here is an example of converting text to speech. In order to override any choice
 
 <BlockSwitcher>
 
-<Block name="Listener (iOS 11+)">
+<Block name="Async/Await">
 
 ```swift
 import Amplify
@@ -52,24 +52,14 @@ var player: AVAudioPlayer?
 
 //...
 
-func textToSpeech(text: String) {
-  let options = PredictionsTextToSpeechRequest.Options(
-    voiceType: .englishFemaleIvy,
-    pluginOptions: nil
+func textToSpeech(text: String) async throws {
+  let result = try await Amplify.Predictions.convert(
+      .textToSpeech("Hello, world!"),
+      options: .init(voice: .englishFemaleIvy)
   )
-
-  Amplify.Predictions.convert(textToSpeech: text, options: options) { event in
-    switch event {
-    case let .success(result):
-      print(result.audioData)
-      self.player = try? AVAudioPlayer(data: result.audioData)
-      if let player = self.player {
-        player.play()
-      }
-    case let .failure(error):
-      print(error)
-    }
-  }
+  print("TextToSpeech result: \(result)")
+  self.player = try AVAudioPlayer(data: result.audioData)
+  player?.play()
 }
 ```
 
@@ -90,25 +80,21 @@ var textToSpeechSink: AnyCancellable?
 //...
 
 func textToSpeech(text: String) {
-  let options = PredictionsTextToSpeechRequest.Options(
-    voiceType: .englishFemaleIvy,
-    pluginOptions: nil
-  )
-
-  textToSpeechSink = Amplify.Predictions.convert(textToSpeech: text, options: options)
-    .resultPublisher
-    .sink {
-      if case let .failure(error) = $0 {
-        print(error)
+  textToSpeechSink = Amplify.Publisher.create {
+     try await Amplify.Predictions.convert(
+        .textToSpeech("Hello, world!"),
+        options: .init(voice: .englishFemaleIvy)
+    )
+  }
+  .sink(receiveCompletion: { completion in
+      if case let .failure(error) = completion {
+          print("Error converting text to speech: \(error)")
       }
-    }
-    receiveValue: { result in
-      print(result.audioData)
-      self.player = try? AVAudioPlayer(data: result.audioData)
-      if let player = self.player {
-        player.play()
-      }
-    }
+  }, receiveValue: { value in
+      print("TextToSpeech result: \(result)")
+      self.player = try AVAudioPlayer(data: result.audioData)
+      player?.play()
+  })
 }
 ```
 
