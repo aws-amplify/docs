@@ -196,13 +196,12 @@
     "@algolia/logger-common" "4.13.0"
     "@algolia/requester-common" "4.13.0"
 
-
-"@aws-amplify/amplify-cli-core@^4.0.3":
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-cli-core/-/amplify-cli-core-4.0.3.tgz#424b0508dab42d5b563527bc159c01b5184ba830"
-  integrity sha512-586DbF1lL341JQnciljpP8tGlM9r76IuFeHykHoWbAbD1IBsGqmpqw8cR3/c/k7MDBQ8Y4fYS0XG9xMKOfqy6w==
+"@aws-amplify/amplify-cli-core@^4.0.4":
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-cli-core/-/amplify-cli-core-4.0.4.tgz#6c00c3e847a39c2627e6f62375863d655ed5eedc"
+  integrity sha512-LwHV9e1Q+wSddYr9rHl1TXU9DBRePy3C6ewCMqdRAY0ys2qp6loyyZbU+eppHBTubpxE+/nrc42Im2uii//MzQ==
   dependencies:
-    amplify-cli-core "4.0.3"
+    amplify-cli-core "4.0.4"
 
 "@aws-amplify/amplify-cli-logger@1.3.2":
   version "1.3.2"
@@ -5330,11 +5329,10 @@ amazon-cognito-identity-js@6.0.1:
     isomorphic-unfetch "^3.0.0"
     js-cookie "^2.2.1"
 
-
-amplify-cli-core@4.0.3:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/amplify-cli-core/-/amplify-cli-core-4.0.3.tgz#c035d251781b9d985229eeaf0bf582d51566c14e"
-  integrity sha512-PiIB24x1EHGedLNooOjYooevRe5YYpFGclgiUfl2re6xWoWng9v1Ucwy4MVEduE8DvGrlYE2aIgrqBG/154PgQ==
+amplify-cli-core@4.0.4:
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/amplify-cli-core/-/amplify-cli-core-4.0.4.tgz#02fef5a69753814d1c85b04ba1c9eafea7eea010"
+  integrity sha512-gnbBNcbuB9CisbVn1PfXjc38EyhywtqA3UgYPUPBx+u/zgJU48npAi5VHJUxY+d+PPFnQW5UPgnHAZAp5OA8Eg==
   dependencies:
     "@aws-amplify/amplify-cli-logger" "1.3.2"
     "@aws-amplify/amplify-prompts" "2.6.8"
@@ -14098,10 +14096,10 @@ vfile@^5.0.0:
     unist-util-stringify-position "^3.0.0"
     vfile-message "^3.0.0"
 
-vm2@3.9.16, vm2@^3.9.8:
-  version "3.9.16"
-  resolved "https://registry.yarnpkg.com/vm2/-/vm2-3.9.16.tgz#0fbc2a265f7bf8b837cea6f4a908f88a3f93b8e6"
-  integrity sha512-3T9LscojNTxdOyG+e8gFeyBXkMlOBYDoF6dqZbj+MPVHi9x10UfiTAJIobuchRCp3QvC+inybTbMJIUrLsig0w==
+vm2@3.9.17, vm2@^3.9.8:
+  version "3.9.17"
+  resolved "https://registry.yarnpkg.com/vm2/-/vm2-3.9.17.tgz#251b165ff8a0e034942b5181057305e39570aeab"
+  integrity sha512-AqwtCnZ/ERcX+AVj9vUsphY56YANXxRuqMb7GsDtAr0m0PcQX3u0Aj3KWiXM0YAHy7i6JEeHrwOnwXbGYgRpAw==
   dependencies:
     acorn "^8.7.0"
     acorn-walk "^8.2.0"
