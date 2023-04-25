@@ -10,7 +10,6 @@ import {
   RIGHT_NAV_LINKS,
   SOCIAL_LINKS
 } from '../../utils/globalnav';
-import React from 'react';
 
 export default function Layout({
   children,

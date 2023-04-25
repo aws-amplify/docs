@@ -30,7 +30,7 @@ const docsCard: React.FC<CardProps> = ({
 }) => {
   if (!href) return <div className={className}>{children}</div>;
   return (
-    <Link href={href} passHref={true}>
+    <Link href={href} passHref={true} legacyBehavior>
       <Anchor>
         {external && (
           <ExternalLinkGraphic
