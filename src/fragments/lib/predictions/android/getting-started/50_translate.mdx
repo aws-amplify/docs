@@ -33,7 +33,7 @@ import com.amplifyframework.predictions.models.LanguageType
 ```kotlin
 Amplify.Predictions.translateText(
     "I like to eat spaghetti", LanguageType.ENGLISH, LanguageType.SPANISH,
-    { Log.i("MyAmplifyApp", it.translatedText) }
+    { Log.i("MyAmplifyApp", it.translatedText) },
     { Log.e("MyAmplifyApp", "Translation failed", it) }
 )
 ```
