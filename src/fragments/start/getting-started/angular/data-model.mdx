@@ -220,7 +220,7 @@ Next, add a form that will be used for creating restaurants. Add the following t
 </div>
 ```
 
-Next, update your `RestaurantsComponent` class so that it will list all restaurants in the database when the app starts. To do so, implement [OnInit](https://angular.io/api/core/OnInit) add a `ListRestaurants` query in `src/app/restaurants/restaurants.component.ts`. Store the query results in an array.
+Next, update your `RestaurantsComponent` class so that it will list all restaurants in the database when the app starts. To do so, implement [OnInit](https://angular.io/api/core/OnInit) and add a `ListRestaurants` query in `src/app/restaurants/restaurants.component.ts`. Store the query results in an array.
 
 ```typescript
 import { Component, OnInit } from '@angular/core';
@@ -277,7 +277,7 @@ Add the following to your `src/app/restaurants/restaurants.component.html` to di
 </div>
 ```
 
-To subscribe to realtime data, declare a subscription class variable and update `ngOnInit` in `src/app/app.component.ts`. When the app starts, this code will set up a subscription. The subscription will update the `restaurants` array when new events are received (when a new restaurant is created):
+To subscribe to realtime data, declare a subscription class variable and update `ngOnInit` in `src/app/restaurants.component.ts`. When the app starts, this code will set up a subscription. The subscription will update the `restaurants` array when new events are received (when a new restaurant is created):
 
 ```typescript
 /** Subscription type will be inferred from this library */
@@ -303,7 +303,7 @@ async ngOnInit() {
 }
 ```
 
-Finally, unsubscribe from the subscription when the component is destroyed. Import and add `OnDestroy` in `src/app/app.component.ts`:
+Finally, unsubscribe from the subscription when the component is destroyed. Import and add `OnDestroy` in `src/app/restaurants.component.ts`:
 
 ```typescript
 import { Component, OnDestroy, OnInit } from '@angular/core';
@@ -316,6 +316,71 @@ export class AppComponent implements OnInit, OnDestroy {
     }
     this.subscription = null;
   }
+```
+The final `restaurants.component.ts` file should look like the following: 
+
+```typescript
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { APIService, Restaurant } from '../API.service';
+
+/** Subscription type will be inferred from this library */
+import { ZenObservable } from 'zen-observable-ts';
+
+@Component({
+  selector: 'app-restaurants',
+  templateUrl: './restaurants.component.html',
+  styleUrls: ['./restaurants.component.css']
+})
+export class RestaurantsComponent implements OnInit, OnDestroy {
+  public createForm: FormGroup;
+
+  /* declare restaurants variable */
+  public restaurants: Array<Restaurant> = [];
+  /** Declare subscription variable */
+  private subscription: ZenObservable.Subscription | null = null; 
+
+  constructor(private api: APIService, private fb: FormBuilder) {
+    this.createForm = this.fb.group({
+      name: ['', Validators.required],
+      description: ['', Validators.required],
+      city: ['', Validators.required]
+    });
+  }
+
+  async ngOnInit() {
+    this.api.ListRestaurants().then(event => {
+      this.restaurants = event.items as Restaurant[];
+    });
+  
+    /* subscribe to new restaurants being created */
+    this.subscription = this.api.OnCreateRestaurantListener().subscribe(
+      (event: any) => {
+        const newRestaurant = event.value.data.onCreateRestaurant;
+        this.restaurants = [newRestaurant, ...this.restaurants];
+      }
+    );
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+    this.subscription = null;
+  }
+
+  public onCreate(restaurant: Restaurant) {
+    this.api
+      .CreateRestaurant(restaurant)
+      .then((event) => {
+        console.log('item created!');
+        this.createForm.reset();
+      })
+      .catch((e) => {
+        console.log('error creating restaurant...', e);
+      });
+  }
+}
 ```
 
 Next, run the app:
