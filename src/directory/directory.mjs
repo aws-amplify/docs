@@ -571,47 +571,47 @@ export const directory = {
           {
             title: 'Getting started',
             route: '/lib/predictions/getting-started',
-            filters: ['android', 'js', 'react-native']
+            filters: ['android', 'ios', 'js', 'react-native']
           },
           {
             title: 'Text to speech',
             route: '/lib/predictions/text-speech',
-            filters: ['android', 'js', 'react-native']
+            filters: ['android', 'ios', 'js', 'react-native']
           },
           {
             title: 'Transcribe audio to text',
             route: '/lib/predictions/transcribe',
-            filters: ['js', 'react-native']
+            filters: ['js', 'ios', 'react-native']
           },
           {
             title: 'Translate language',
             route: '/lib/predictions/translate',
-            filters: ['android', 'js', 'react-native']
+            filters: ['android', 'ios', 'js', 'react-native']
           },
           {
             title: 'Identify text',
             route: '/lib/predictions/identify-text',
-            filters: ['android', 'js', 'react-native']
+            filters: ['android', 'ios','js', 'react-native']
           },
           {
             title: 'Identify entities from images',
             route: '/lib/predictions/identify-entity',
-            filters: ['android', 'js', 'react-native']
+            filters: ['android', 'ios','js', 'react-native']
           },
           {
             title: 'Label objects in image',
             route: '/lib/predictions/label-image',
-            filters: ['android', 'js', 'react-native']
+            filters: ['android', 'ios','js', 'react-native']
           },
           {
             title: 'Interpret sentiment',
             route: '/lib/predictions/interpret',
-            filters: ['android', 'js', 'react-native']
+            filters: ['android', 'ios','js', 'react-native']
           },
           {
             title: 'Escape hatch',
             route: '/lib/predictions/escapehatch',
-            filters: ['android']
+            filters: ['android', 'ios']
           },
           {
             title: 'Example',
