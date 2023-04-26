@@ -97,7 +97,7 @@ import { Hub } from 'aws-amplify'
 ...
 Hub.listen("ui", (capsule) => {
   if (capsule.payload.event === "actions:auth:signout:finished") {
-    // Post signout logic
+    // Post-signout logic
   }
 });
 ```
