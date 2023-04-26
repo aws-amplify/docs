@@ -2271,27 +2271,27 @@ export const directory = {
           {
             title: 'Generate model files',
             route: '/start/getting-started/generate-model',
-            filters: ['android', 'ios', 'flutter', 'react-native']
+            filters: ['android', 'ios', 'flutter']
           },
           {
             title: 'Integrate your app',
             route: '/start/getting-started/integrate',
-            filters: ['android', 'ios', 'flutter', 'react-native']
+            filters: ['android', 'ios', 'flutter']
           },
           {
             title: 'Connect to the cloud',
             route: '/start/getting-started/add-api',
-            filters: ['android', 'ios', 'react-native']
+            filters: ['android', 'ios', 'flutter']
           },
           {
             title: 'Connect API and database to the app',
             route: '/start/getting-started/data-model',
-            filters: ['js', 'react', 'angular', 'vue', 'next']
+            filters: ['js', 'react', 'angular', 'vue', 'next', 'react-native']
           },
           {
             title: 'Add authentication',
             route: '/start/getting-started/auth',
-            filters: ['react', 'angular', 'vue']
+            filters: ['react', 'angular', 'vue', 'react-native']
           },
           {
             title: 'Deploy and host app',
