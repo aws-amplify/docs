@@ -30,8 +30,8 @@ Predictions.convert({
     // language: "en-US",
   }
 })
-  .then(({ transcription: { fullText } }) => console.log({ fullText }))
-  .catch((err) => console.log({ err }));
+.then(({ transcription: { fullText } }) => console.log({ fullText }))
+.catch((err) => console.log({ err }));
 ```
 
 To view the complete list of all the supported languages and language specific features refer to [the supported languages list](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html). The language data input type has to support streaming for it to work with Amplify Predictions.
