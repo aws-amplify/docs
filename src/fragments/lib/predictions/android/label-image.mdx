@@ -32,16 +32,16 @@ You can identify real world objects such as chairs, desks, etc. which are referr
 
 ```java
 public void detectLabels(Bitmap image) {
-    Amplify.Predictions.identify(
-            LabelType.LABELS,
-            image,
-            result -> {
-                IdentifyLabelsResult identifyResult = (IdentifyLabelsResult) result;
-                Label label = identifyResult.getLabels().get(0);
-                Log.i("MyAmplifyApp", label.getName());
-            },
-            error -> Log.e("MyAmplifyApp", "Label detection failed", error)
-    );
+  Amplify.Predictions.identify(
+    LabelType.LABELS,
+    image,
+    result -> {
+      IdentifyLabelsResult identifyResult = (IdentifyLabelsResult) result;
+      Label label = identifyResult.getLabels().get(0);
+      Log.i("MyAmplifyApp", label.getName());
+    },
+    error -> Log.e("MyAmplifyApp", "Label detection failed", error)
+  );
 }
 ```
 
@@ -50,14 +50,14 @@ public void detectLabels(Bitmap image) {
 
 ```kotlin
 fun detectLabels(image: Bitmap) {
-    Amplify.Predictions.identify(LabelType.LABELS, image,
-        { result ->
-            val identifyResult = result as IdentifyLabelsResult
-            val label = identifyResult.labels.firstOrNull()
-            Log.i("MyAmplifyApp", "${label?.name}")
-        },
-        { Log.e("MyAmplifyApp", "Label detection failed", it) }
-    )
+  Amplify.Predictions.identify(LabelType.LABELS, image,
+    { result ->
+      val identifyResult = result as IdentifyLabelsResult
+      val label = identifyResult.labels.firstOrNull()
+      Log.i("MyAmplifyApp", "${label?.name}")
+    },
+    { Log.e("MyAmplifyApp", "Label detection failed", it) }
+  )
 }
 ```
 
@@ -66,13 +66,13 @@ fun detectLabels(image: Bitmap) {
 
 ```kotlin
 suspend fun detectLabels(image: Bitmap) {
-    try {
-        val result = Amplify.Predictions.identify(LABELS, image)
-        val identifyResult = result as IdentifyLabelsResult
-        Log.i("MyAmplifyApp", "${identifyResult.labels[0].name}")
-    } catch (error: PredictionsException) {
-        Log.e("MyAmplifyApp", "Label detection failed", error)
-    }
+  try {
+    val result = Amplify.Predictions.identify(LABELS, image)
+    val identifyResult = result as IdentifyLabelsResult
+    Log.i("MyAmplifyApp", "${identifyResult.labels[0].name}")
+  } catch (error: PredictionsException) {
+    Log.e("MyAmplifyApp", "Label detection failed", error)
+  }
 }
 ```
 
@@ -81,15 +81,15 @@ suspend fun detectLabels(image: Bitmap) {
 
 ```java
 public void detectLabels(Bitmap image) {
-    RxAmplify.Predictions.identify(LabelType.LABELS, image)
-            .subscribe(
-                  result -> {
-                      IdentifyLabelsResult identifyResult = (IdentifyLabelsResult) result;
-                      Label label = identifyResult.getLabels().get(0);
-                      Log.i("MyAmplifyApp", label.getName());
-                  },
-                  error -> Log.e("MyAmplifyApp", "Label detection failed", error)
-            );
+  RxAmplify.Predictions.identify(LabelType.LABELS, image)
+    .subscribe(
+      result -> {
+        IdentifyLabelsResult identifyResult = (IdentifyLabelsResult) result;
+        Label label = identifyResult.getLabels().get(0);
+        Log.i("MyAmplifyApp", label.getName());
+      },
+      error -> Log.e("MyAmplifyApp", "Label detection failed", error)
+    );
 }
 ```
 
@@ -105,15 +105,15 @@ You can also detect whether identified content inside the image is safe by enabl
 
 ```java
 public void detectLabels(Bitmap image) {
-    Amplify.Predictions.identify(
-            LabelType.MODERATION_LABELS,
-            image,
-            result -> {
-                IdentifyLabelsResult identifyResult = (IdentifyLabelsResult) result;
-                Log.i("MyAmplifyApp", Boolean.toString(identifyResult.isUnsafeContent()));
-            },
-            error -> Log.e("MyAmplifyApp", "Identify failed", error)
-    );
+  Amplify.Predictions.identify(
+    LabelType.MODERATION_LABELS,
+    image,
+    result -> {
+      IdentifyLabelsResult identifyResult = (IdentifyLabelsResult) result;
+      Log.i("MyAmplifyApp", Boolean.toString(identifyResult.isUnsafeContent()));
+    },
+    error -> Log.e("MyAmplifyApp", "Identify failed", error)
+  );
 }
 ```
 
@@ -122,13 +122,13 @@ public void detectLabels(Bitmap image) {
 
 ```kotlin
 fun detectLabels(image: Bitmap) {
-    Amplify.Predictions.identify(LabelType.MODERATION_LABELS, image,
-        { result ->
-            val identifyResult = result as IdentifyLabelsResult
-            Log.i("MyAmplifyApp", "${identifyResult.isUnsafeContent}")
-        },
-        { Log.e("MyAmplifyApp", "Identify failed", it) }
-    )
+  Amplify.Predictions.identify(LabelType.MODERATION_LABELS, image,
+    { result ->
+      val identifyResult = result as IdentifyLabelsResult
+      Log.i("MyAmplifyApp", "${identifyResult.isUnsafeContent}")
+    },
+    { Log.e("MyAmplifyApp", "Identify failed", it) }
+  )
 }
 ```
 
@@ -137,13 +137,13 @@ fun detectLabels(image: Bitmap) {
 
 ```kotlin
 suspend fun detectLabels(image: Bitmap) {
-    try {
-        val result = Amplify.Predictions.identify(MODERATION_LABELS, image)
-        val identifyResult = result as IdentifyLabelsResult
-        Log.i("MyAmplifyApp", identifyResult.isUnsafeContent)
-    } catch (error: PredictionsException) {
-        Log.e("MyAmplifyApp", "Identify failed", error)
-    }
+  try {
+    val result = Amplify.Predictions.identify(MODERATION_LABELS, image)
+    val identifyResult = result as IdentifyLabelsResult
+    Log.i("MyAmplifyApp", identifyResult.isUnsafeContent)
+  } catch (error: PredictionsException) {
+    Log.e("MyAmplifyApp", "Identify failed", error)
+  }
 }
 ```
 
