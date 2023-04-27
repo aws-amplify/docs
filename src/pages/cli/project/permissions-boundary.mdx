@@ -14,7 +14,7 @@ The IAM Policy, to be used as a permissions boundary, must be configured outside
 To initialize a project with a permissions boundary run:
 
 ```
-amplify init --permissions-boundary <IAM Policy ARN>
+amplify init --permissions-boundary <iam-policy-arn>
 ```
 
 ## Set up a permissions boundary in a new environment
@@ -24,7 +24,7 @@ When creating a new Amplify environment using `amplify env add` the permissions 
 To specify a different permissions boundary for the new environment, run:
 
 ```
-amplify env add --permissions-boundary <IAM Policy ARN>
+amplify env add --permissions-boundary <iam-policy-arn>
 ```
 
 To explicitly specify that the new environment should NOT have a permissions boundary, run:
@@ -46,14 +46,14 @@ amplify env update
 In non-interactive shells use
 
 ```
-amplify env update --permissions-boundary <IAM Policy ARN>
+amplify env update --permissions-boundary <iam-policy-arn>
 ```
 
 The IAM permissions boundary will be applied on the next `amplify push`.
 
 ## Set up a permissions boundary in a cross-account Amplify project
 
-Amplify CLI cannot automatically apply the existing boundary to a new environment in a different AWS account if the `--yes` flag is used during `amplify env add`. In this case, a new permissions boundary must be specified using `amplify env add --yes --permissions-boundary <IAM Policy ARN>` or to explicitly remove the permissions boundary from the new environment use `amplify env add --yes --permissions-boundary ''`.
+Amplify CLI cannot automatically apply the existing boundary to a new environment in a different AWS account if the `--yes` flag is used during `amplify env add`. In this case, a new permissions boundary must be specified using `amplify env add --yes --permissions-boundary <iam-policy-arn>` or to explicitly remove the permissions boundary from the new environment use `amplify env add --yes --permissions-boundary ''`.
 
 ## Permissions boundary usage example
 
@@ -75,12 +75,12 @@ For example, assume that your environment named `dev` should not be allowed to c
 
 ### Setup
 
-Create a policy on the [AWS console](https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_managed-policies.html)
+[Create a policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_managed-policies.html) on the AWS console
 
 Add a permissions boundary for a new environment, run:
 
 ```
-amplify env add --permissions-boundary <policy arn>
+amplify env add --permissions-boundary <iam-policy-arn>
 ```
 
 Verify if the permissions boundary has been applied by checking the AWS IAM console for the `authRole` and `unauthRole` created by Amplify CLI.
@@ -99,7 +99,7 @@ amplify add storage
 > users
 ```
 
-To test if the environment enforces the permissions, we can utilize a Lambda function with resource access permissions to the DynamoDB table.
+To test if the environment enforces the permissions boundary, we can utilize a Lambda function with resource access permissions to the DynamoDB table.
 
 To add a Lambda function, run:
 
@@ -120,12 +120,16 @@ amplify add function
 
 In the Lambda function `index.js` file, add:
 
+<BlockSwitcher>
+
+<Block name="AWS SDK V2">
+
 ```js
 const AWS = require('aws-sdk');
 const docClient = new AWS.DynamoDB.DocumentClient();
 
 const params = {
-  TableName: process.env.STORAGE_<USERS>_NAME
+  TableName: process.env.STORAGE_USERS_NAME
 };
 
 exports.handler = async (event, context) => {
@@ -137,6 +141,32 @@ exports.handler = async (event, context) => {
   }
 };
 ```
+</Block>
+
+<Block name="AWS SDK V3">
+
+```js
+import { DynamoDBClient, ScanCommand } from "@aws-sdk/client-dynamodb";
+const docClient = new DynamoDBClient();
+
+const params = {
+  TableName: process.env.STORAGE_USERS_NAME,
+};
+
+export const handler = async (event, context) => {
+  try {
+    const data = new ScanCommand(params);
+    const response = await docClient.send(data);
+    return { body: JSON.stringify(response) };
+  } catch (err) {
+    return { error: err };
+  }
+};
+```
+
+</Block>
+
+</BlockSwitcher>
 
 To push the resources, run:
 
@@ -147,5 +177,5 @@ amplify push
 Once the push completes, run the Lambda function in the AWS console. You should observe the following error message in the execution result.
 
 ```
-User: <assumed role arn> is not authorized to perform: dynamodb:Scan on resource: <dynamodb arn> with an explicit deny in a permissions boundary
+User: <assumed-role-arn> is not authorized to perform: dynamodb:Scan on resource: <dynamodb-arn> with an explicit deny in a permissions boundary
 ```
