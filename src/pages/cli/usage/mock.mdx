@@ -103,6 +103,8 @@ After adding a function to your project with `amplify add function` you can test
 - `--event "<path to event JSON file>"` - Use the specified JSON file as the event to pass to the Lambda handler
 - `--timeout <number of seconds>` - Override the default 10 second function response timeout with a custom timeout value
 
+Additionally, running `amplify mock function` allows selecting and testing multiple functions.
+
 ### Function mocking with GraphQL
 
 A GraphQL Lambda resolver connected to your schema using [@function](/cli/graphql/custom-business-logic#lambda-function-resolver) can be mocked using [`amplify mock api`](#api-mocking-setup).
@@ -209,6 +211,23 @@ const ddb = new aws.DynamoDB.DocumentClient(clientConfig);
 `amplify mock function` does not attempt to fully simulate the Lambda runtime environment. There may be some cases where the behavior of your function when mocking differs from executing in the cloud.
 
 For example, mock runs on your local OS and does not attempt to emulate Amazon Linux which executes your function in the cloud. Testing with `amplify mock function` should be used to get quick feedback on the correctness of your function but should not be used as a substitute for testing in a cloud development environment.
+
+## Mocking multiple resources
+
+For mocking API, Storage or Functions together, we can run the following. 
+
+```bash
+amplify mock
+```
+
+The mock should display the following prompt, depending on the mockable resources added to the project:
+
+```
+? Select the category …  (Use arrow keys or type to filter)
+❯● GraphQL API
+ ○ Function
+ ○ Storage
+```
 
 ## Config files
 
