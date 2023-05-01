@@ -1,5 +1,5 @@
 module.exports = (async () => {
-  const { visit } = await import('unist-util-visit');
+  const { visit, SKIP } = await import('unist-util-visit');
 
   const internalLinkPlugin = () => (tree) => {
     visit(tree, 'link', (link, index, parent) => {
@@ -57,7 +57,7 @@ module.exports = (async () => {
         // parent.children = [internalLink];
         const node = {
           type: 'mdxjsEsm',
-          value: `<InternalLink href="${url}"><a></a></InternalLink>`,
+          value: `Program`,
           data: {
             estree: {
               type: 'Program',
@@ -97,23 +97,8 @@ module.exports = (async () => {
                     },
                     children: [
                       {
-                        type: 'JSXElement',
-                        openingElement: {
-                          type: 'JSXOpeningElement',
-                          attributes: [],
-                          name: {
-                            type: 'JSXIdentifier',
-                            name: 'a'
-                          },
-                          selfClosing: false
-                        },
-                        closingElement: {
-                          type: 'JSXClosingElement',
-                          name: {
-                            type: 'JSXIdentifier',
-                            name: 'a'
-                          }
-                        },
+                        type: 'link',
+                        url: { url },
                         children: [...children]
                       }
                     ]
@@ -124,22 +109,65 @@ module.exports = (async () => {
             }
           }
         };
-        parent.children.splice(
-          index,
-          1,
-          ...[
-            {
-              type: 'jsx',
-              value: `<InternalLink href="${url}"><a>`
+        let node2 = {
+          type: 'ExpressionStatement',
+          expression: {
+            type: 'JSXElement',
+            openingElement: {
+              type: 'JSXOpeningElement',
+              attributes: [
+                {
+                  type: 'JSXAttribute',
+                  name: {
+                    type: 'JSXIdentifier',
+                    name: 'href'
+                  },
+                  value: {
+                    type: 'Literal',
+                    value: url,
+                    raw: url
+                  }
+                }
+              ],
+              name: {
+                type: 'JSXIdentifier',
+                name: 'InternalLink'
+              },
+              selfClosing: false
             },
-            ...children,
-            {
-              type: 'jsx',
-              value: '</a></InternalLink>'
+            closingElement: {
+              type: 'JSXClosingElement',
+              name: {
+                type: 'JSXIdentifier',
+                name: 'InternalLink'
+              }
             }
-          ]
-        );
+          },
+          children: [...children]
+        };
+        // parent.children.splice(
+        //   index,
+        //   1,
+        //   node2
+        // ...[
+        //   {
+        //     type: 'jsx',
+        //     value: `<InternalLink href="${url}"><a>`
+        //   },
+        //   ...children,
+        //   {
+        //     type: 'jsx',
+        //     value: '</a></InternalLink>'
+        //   }
+        // ]
+        // );
+        // link.type = 'mdxJsxFlowElement';
+        link.name = 'InternalLink';
+        // link.data = {
+        //   _mdxExplicitJsx: true
+        // };
       }
+      return SKIP;
     });
   };
 

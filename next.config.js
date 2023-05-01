@@ -30,11 +30,14 @@ module.exports = async (phase, { defaultConfig }) => {
     extension: /\.mdx$/,
     loader: '@mdx-js/loader',
     jsx: true,
+    compiler: {
+      styledComponents: true
+    },
     options: {
       providerImportSource: '@mdx-js/react',
       remarkPlugins: [
         [remarkCodeHike, { theme }],
-        // frontmatterPlugin,
+        frontmatterPlugin,
         importPlugin,
         codeHikeAddHydrationPlugin,
         headingLinkPlugin,

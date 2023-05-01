@@ -12,7 +12,7 @@ import {
   isProductRoot
 } from '../../utils/getLocalDirectory';
 import SidebarLayoutToggle from '../SidebarLayoutToggle';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { MQTablet } from '../media';
 import {
   filterMetadataByOption,
