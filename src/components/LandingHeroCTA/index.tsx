@@ -13,8 +13,27 @@ export default function LandingHeroCTA() {
         <Link href="/start/q/integration/react?sc_icampaign=react-start&sc_ichannel=docs-home">
           <img alt={img.REACT.alt} height={40} width={40} src={img.REACT.src} />
         </Link>
+        <Link href="/start/q/integration/next?sc_icampaign=nextjs-start&sc_ichannel=docs-home">
+          <img alt={img.NEXT.alt} height={40} width={40} src={img.NEXT.src} />
+        </Link>
+        <Link href="/start/q/integration/react-native?sc_icampaign=react-native-start&sc_ichannel=docs-home">
+          <img
+            alt={img.REACTNATIVE.alt}
+            height={40}
+            width={40}
+            src={img.REACTNATIVE.src}
+          />
+        </Link>
         <Link href="/start/q/integration/vue?sc_icampaign=vue-start&sc_ichannel=docs-home">
           <img alt={img.VUE.alt} height={40} width={40} src={img.VUE.src} />
+        </Link>
+        <Link href="/start/q/integration/angular?sc_icampaign=js-start&sc_ichannel=docs-home">
+          <img
+            alt={img.ANGULAR.alt}
+            height={40}
+            width={40}
+            src={img.ANGULAR.src}
+          />
         </Link>
         <Link href="/start/q/integration/js?sc_icampaign=js-start&sc_ichannel=docs-home">
           <img alt={img.JS.alt} height={40} width={40} src={img.JS.src} />
