@@ -299,6 +299,8 @@ Conform to the [JSON standard](https://www.json.org/json-en.html).
 }
 ```
 
+* * *
+
 ## 19. Prefix AWS and Amazon products when they first appear on a page
 
 When an AWS service or product appears on the page for the first time, refer to it with the appropriate prefix, either AWS or Amazon. You can [find a full listing here.](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/)
@@ -323,6 +325,8 @@ When editing text content in markdown files use the markdown syntax for links. W
 ### Do
 
 `\[Use mdx link syntax](/some-link)`
+
+* * *
 
 ## 21. Use 2-space indents for code blocks
 
