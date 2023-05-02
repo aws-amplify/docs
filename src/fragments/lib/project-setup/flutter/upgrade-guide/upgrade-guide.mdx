@@ -161,9 +161,9 @@ final result = await Amplify.Auth.signIn(
 );
 ```
 
-### Hosted UI
+### Social Sign-In (Hosted UI)
 
-Configuration for Hosted UI varies slightly in v1 compared to v0.
+Configuration for social sign-in (Hosted UI) varies slightly in v1 compared to v0.
 
 <BlockSwitcher>
 
@@ -255,7 +255,7 @@ For iOS, v0 required the following changes be made to your `Info.plist`.
      </dict>
 ```
 
-In v1, these changes are no longer required and can be safely removed without any effect on Hosted UI.
+In v1, these changes are no longer required and can be safely removed without any effect on social sign-in (Hosted UI).
 
 ```diff
 -     <key>CFBundleURLTypes</key>
@@ -275,7 +275,7 @@ In v1, these changes are no longer required and can be safely removed without an
 
 Web and Desktop platforms were not supported in v0.
 
-Follow the instructions [here](/lib/auth/social/q/platform/flutter/#platform-setup) to configure Web and Desktop platforms for Hosted UI in v1.
+Follow the instructions [here](/lib/auth/social/q/platform/flutter/#platform-setup) to configure Web and Desktop platforms for social sign-in (Hosted UI) in v1.
 
 </Block>
 
