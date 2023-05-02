@@ -37,8 +37,8 @@ To specify a destination activity for deep links, the app must have set up deep 
 Begin to set up deep linking by creating an intent filter in your `AndroidManifest.xml` file. For example:
 
 ```xml
-<!-- This activity allows your application to receive a deep link
-that navigates directly to the "Deeplink Page" -->
+{/* This activity allows your application to receive a deep link
+that navigates directly to the "Deeplink Page" */}
 <activity
     android:name=".DeepLinkActivity"
     android:label="A deeplink!" >
@@ -46,7 +46,7 @@ that navigates directly to the "Deeplink Page" -->
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
-        <!-- Accepts URIs of type "pinpoint://deeplink" -->
+        {/* Accepts URIs of type "pinpoint://deeplink" */}
         <data android:scheme="pinpoint"
               android:host="deeplink" />
     </intent-filter>

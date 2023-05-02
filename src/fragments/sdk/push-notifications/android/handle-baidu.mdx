@@ -6,15 +6,15 @@ Baidu Cloud Push is the push notification service provided by Baidu, a Chinese c
 
 To send push notifications to mobile devices using Amazon Pinpoint and Baidu, you need the following:
 
-* Baidu account.
+- Baidu account.
 
-* Registration as a Baidu developer.
+- Registration as a Baidu developer.
 
-* Baidu Cloud Push project.
+- Baidu Cloud Push project.
 
-* API key and secret key from a Baidu Cloud Push project.
+- API key and secret key from a Baidu Cloud Push project.
 
-* Baidu user ID and channel ID.
+- Baidu user ID and channel ID.
 
 The following procedure is based on version `5.7.1.65` of the Baidu push service jar.
 
@@ -26,19 +26,19 @@ Extract the zip file and import the `pushservice-x.x.xx.jar` file from the `Baid
 
 The `Baidu-Push-SDK-Android` libs folder should also include the following folders:
 
-* arm64-v8a
+- arm64-v8a
 
-* armeabi
+- armeabi
 
-* armeabi-v7a
+- armeabi-v7a
 
-* mips
+- mips
 
-* mips64
+- mips64
 
-* x86
+- x86
 
-* x86_64
+- x86_64
 
 Add each complete folder to your Android app’s `src/main/jniLibs` folder.
 
@@ -49,7 +49,7 @@ In the Android app’s `AndroidManifest.xml` file, declare the following permiss
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
-<!-- Baidu permissions -->
+{/* Baidu permissions */}
 <uses-permission android:name="android.permission.WAKE_LOCK"/>
 <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
@@ -66,7 +66,7 @@ In the Android app’s `AndroidManifest.xml` file, declare the following permiss
 Under `<application>`, specify the following receivers and intent filters:
 
 ```xml
-<!-- Baidu settings -->
+{/* Baidu settings */}
 <receiver android:name="com.baidu.android.pushservice.PushServiceReceiver"
           android:process=":bdservice_v1">
   <intent-filter>
@@ -105,7 +105,7 @@ Under `<application>`, specify the following receivers and intent filters:
 <service android:name="com.baidu.android.pushservice.CommandService"
          android:exported="true" />
 
-<!-- Amazon Pinpoint Notification Receiver (This receiver is no longer necessary and should be removed as of com.amazonaws:aws-android-sdk-pinpoint:2.48.0) -->
+{/* Amazon Pinpoint Notification Receiver (This receiver is no longer necessary and should be removed as of com.amazonaws:aws-android-sdk-pinpoint:2.48.0) */}
 <receiver android:name="com.amazonaws.mobileconnectors.pinpoint.targeting.notification.PinpointNotificationReceiver">
   <intent-filter>
   <action android:name="com.amazonaws.intent.baidu.NOTIFICATION_OPEN" />
@@ -235,9 +235,9 @@ Run the following command to navigate to the Amazon Pinpoint console.
 amplify console analytics
 ```
 
-* On the left pane, select `Settings` and `Push notifications`. 
-* Click `Edit` and select `Show more push notification services` and click `Baidu Cloud Push`. 
-* Enter the `Baidu API Key` and the `Baidu Secret Key` and click `Save` at the right bottom of the page.
+- On the left pane, select `Settings` and `Push notifications`.
+- Click `Edit` and select `Show more push notification services` and click `Baidu Cloud Push`.
+- Enter the `Baidu API Key` and the `Baidu Secret Key` and click `Save` at the right bottom of the page.
 
 Now `Baidu Cloud Push` is registered as a push notification service.
 
@@ -245,8 +245,8 @@ Install your app on to a `Baidu-enabled` device and capture the generated device
 
 Send a direct message to the device specifying the device token as the address.
 
-* On the Amazon Pinpoint console, go to `Test messaging`. 
-* Select `Push notifications` as the channel. 
-* Enter the endpoint ID or the device token in the `Destinations`. 
-* Select `Baidu` as the push notifications service. 
-* Create a message and click `Send message` at the bottom right corner of the page to send a direct message.
+- On the Amazon Pinpoint console, go to `Test messaging`.
+- Select `Push notifications` as the channel.
+- Enter the endpoint ID or the device token in the `Destinations`.
+- Select `Baidu` as the push notifications service.
+- Create a message and click `Send message` at the bottom right corner of the page to send a direct message.

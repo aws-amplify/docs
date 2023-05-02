@@ -29,7 +29,7 @@ With the new GraphQL Transformer v2, table index configuration, authorization ru
 * `@hasMany` creates a "one-to-many" relationship with the target model. 
 * `@belongsTo` facilitates a bi-directional relationship between two models. For example, use the `@belongsTo` directive on a `@hasMany`-relationship’s target model to create a relationship back to the source model.
 * `@manyToMany` creates a new relationship cardinality for Amplify’s GraphQL Transformer. Traditionally, customers had to create a “join table” between two models and create hasMany relationships from both models into that join table as a work around for this feature. _*With the new transformer*_, customers can specify a `@manyToMany` relationship between the models and Amplify CLI will create the join tables behind the scenes.
-    * Note: if you want to store additional properties on the join table, or if you have an existing join table, you can continue to use two `@hasMany` <=> `@belongsTo` relationships to facilitate a many-to-many relationship.
+    * Note: if you want to store additional properties on the join table, or if you have an existing join table, you can continue to use two `@hasMany` &lt;=&gt; `@belongsTo` relationships to facilitate a many-to-many relationship.
     * Note: To prevent DataStore synchronization errors when using Table Joins, remove the `queries: null` from `@model(queries: null)` in your GraphQL Schema.
     * Note: if you want to store additional properties on the join table, or if you have an existing join table, you can continue to use two `@hasMany` &lt;=&gt; `@belongsTo` relationships to facilitate a many-to-many relationship
 

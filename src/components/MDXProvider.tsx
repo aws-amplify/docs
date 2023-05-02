@@ -33,27 +33,27 @@ const wrapper = ({ children, frontmatter }) => {
 const shortcodes = {
   // AmplifyAuthenticator,
   // AmplifySignOut,
-  // Block,
-  // BlockSwitcher,
+  Block,
+  BlockSwitcher,
   Callout,
-  // Card,
-  // CardDetail,
-  // CardGraphic,
-  // CodeBlock,
+  Card,
+  CardDetail,
+  CardGraphic,
+  CodeBlock,
   ExternalLink,
   Fragments,
-  // FilterContent,
+  FilterContent,
   InternalLink,
   InternalLinkButton,
-  // Hero,
-  // Footer,
-  // Container,
-  // FeatureFlags,
-  // Grid,
-  // MigrationAlert,
-  Page
+  Hero,
+  Footer,
+  Container,
+  FeatureFlags,
+  Grid,
+  MigrationAlert,
+  Page,
   // UiComponentProps,
-  // wrapper
+  wrapper
 };
 
 const MDXProvider = ({ children }) => {

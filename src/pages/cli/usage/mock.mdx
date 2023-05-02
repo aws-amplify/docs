@@ -1,9 +1,7 @@
 export const meta = {
   title: `Mocking and testing`,
-  description: `Learn how to quickly test and debug without pushing all changes in your Amplify project to the cloud. Use local mocking and testing for certain categories including API (AWS AppSync), Storage (Amazon DynamoDB and Amazon S3), and Functions (AWS Lambda).`,
+  description: `Learn how to quickly test and debug without pushing all changes in your Amplify project to the cloud. Use local mocking and testing for certain categories including API (AWS AppSync), Storage (Amazon DynamoDB and Amazon S3), and Functions (AWS Lambda).`
 };
-
-  
 
 It is highly recommended that you complete the Getting Started section of Amplify setup before using local mocking.
 
@@ -11,13 +9,14 @@ It is highly recommended that you complete the Getting Started section of Amplif
   <span slot="text">Get Started</span>
 </InternalLinkButton>
 
-In order to quickly test and debug without pushing all changes in your project to the cloud, Amplify supports *Local Mocking and Testing* for certain categories including API (AWS AppSync), Storage (Amazon DynamoDB and Amazon S3), and Functions (AWS Lambda). This includes using directives from the GraphQL Transformer, editing & debug resolvers, hot reloading, JWT mocking of authorization checks, and even performing S3 operations such as uploading and downloading content.
+In order to quickly test and debug without pushing all changes in your project to the cloud, Amplify supports _Local Mocking and Testing_ for certain categories including API (AWS AppSync), Storage (Amazon DynamoDB and Amazon S3), and Functions (AWS Lambda). This includes using directives from the GraphQL Transformer, editing & debug resolvers, hot reloading, JWT mocking of authorization checks, and even performing S3 operations such as uploading and downloading content.
 
 <Callout>
-Java is required on your development workstation to use Local Mocking in Amplify
+  Java is required on your development workstation to use Local Mocking in
+  Amplify
 </Callout>
 
-> **NOTE:** Currently, on Apple Silicon Macs, Amplify sometimes fails to start mocks when using certain JDK versions built for ARM processors. 
+> **NOTE:** Currently, on Apple Silicon Macs, Amplify sometimes fails to start mocks when using certain JDK versions built for ARM processors.
 >
 > If you encounter [this issue](https://github.com/aws-amplify/amplify-cli/issues/7411), please try using the official openJDK 16.0.1 from the Java website: [JDK Download](https://jdk.java.net/16/)
 
@@ -48,33 +47,31 @@ When defining a schema you can use directives from the GraphQL Transformer in lo
 - [@searchable](/cli/graphql/search-and-result-aggregations/)
 
 ### Mocking the Lambda triggers on `@model` types
-If you have DynamoDB Lambda triggers set up on `@model` types in your GraphQL schema, by following steps [listed here](/cli/usage/lambda-triggers/#as-a-part-of-the-graphql-api-types-with-model-annotation),
-then you can test those Lambda triggers locally via `amplify mock` or `amplify mock api`. 
 
-The connected Lambda triggers are automatically invoked locally if you perform a CRUD operation on the `@model` type using either the local DynamoDB endpoint (`http://localhost:62224`) or 
-the local AppSync console (should be `http://localhost:20002`). The structure of the event that is sent to the lambda trigger can be found [here](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_streams_GetRecords.html).
+If you have DynamoDB Lambda triggers set up on `@model` types in your GraphQL schema, by following steps [listed here](/cli/usage/lambda-triggers/#as-a-part-of-the-graphql-api-types-with-model-annotation), then you can test those Lambda triggers locally via `amplify mock` or `amplify mock api`.
+
+The connected Lambda triggers are automatically invoked locally if you perform a CRUD operation on the `@model` type using either the local DynamoDB endpoint (`http://localhost:62224`) or the local AppSync console (should be `http://localhost:20002`). The structure of the event that is sent to the lambda trigger can be found [here](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_streams_GetRecords.html).
 
 The environment variables that are listed below in [Function mock environment variables](/cli/usage/mock/#function-mock-environment-variables), are available for each invocation of the Lambda trigger.
 
 In addition, you can use a `.env` file within the function directory (ie. `<project root>/amplify/backend/function/<function name>/.env`) to override any environment variables for local mocking.
 
 ### Mocking `@model` types with `@searchable`
-If you use the `@searchable` directive on `@model` types in your GraphQL schema, then you can test the search GraphQL queries that are generated for you locally via `amplify mock` or `amplify mock api`.
-To learn more about the search queries, refer to [this guide](/cli/graphql/search-and-result-aggregations/).
+
+If you use the `@searchable` directive on `@model` types in your GraphQL schema, then you can test the search GraphQL queries that are generated for you locally via `amplify mock` or `amplify mock api`. To learn more about the search queries, refer to [this guide](/cli/graphql/search-and-result-aggregations/).
 
 We create the following artifacts when you mock the API with searchable models:
+
 - [OpenSearch](https://opensearch.org/) version `1.3.0` is downloaded.
-- A Python Lambda trigger is stored locally at `mock-api-resources/searchable/searchable-lambda-trigger`. 
-This Lambda trigger is automatically invoked locally if you perform a CRUD operation on the searchable model types. 
-It updates the data in the corresponding search index used by the local OpenSearch cluster.
+- A Python Lambda trigger is stored locally at `mock-api-resources/searchable/searchable-lambda-trigger`. This Lambda trigger is automatically invoked locally if you perform a CRUD operation on the searchable model types. It updates the data in the corresponding search index used by the local OpenSearch cluster.
 - A data folder to store the OpenSearch indices is created at `mock-api-resources/searchable/searchable-data`.
 
 <Callout>
-This feature is available only for Linux and Mac systems. Windows-based systems will continue to receive empty list output for search GraphQL queries.
+  This feature is available only for Linux and Mac systems. Windows-based
+  systems will continue to receive empty list output for search GraphQL queries.
 </Callout>
 
-> __Note__: IAM authorization rules in Mock get are treated as Auth role if the request is signed with AccessKey `ASIAVJKIAM-AuthRole`. Otherwise the request is treated as made by an unAuth user.
-
+> **Note**: IAM authorization rules in Mock get are treated as Auth role if the request is signed with AccessKey `ASIAVJKIAM-AuthRole`. Otherwise the request is treated as made by an unAuth user.
 
 ## Storage mocking setup
 
@@ -105,8 +102,7 @@ After adding a function to your project with `amplify add function` you can test
 
 ### Function mocking with GraphQL
 
-A GraphQL Lambda resolver connected to your schema using [@function](/cli/graphql/custom-business-logic#lambda-function-resolver) can be mocked using [`amplify mock api`](#api-mocking-setup).
-For example, if you have a function named **quoteOfTheDay** and a schema like:
+A GraphQL Lambda resolver connected to your schema using [@function](/cli/graphql/custom-business-logic#lambda-function-resolver) can be mocked using [`amplify mock api`](#api-mocking-setup). For example, if you have a function named **quoteOfTheDay** and a schema like:
 
 ```graphql
 type Query {
@@ -165,16 +161,18 @@ API_FLIGHTSTATS_AIRPLANETABLE_NAME=AirplaneTable
 
 ```js
 const ddb = new aws.DynamoDB.DocumentClient({
-  endpoint: process.env.DDB_ENDPOINT,
+  endpoint: process.env.DDB_ENDPOINT
 });
-const result = await ddb.put({
-  TableName: process.env.API_FLIGHTSTATS_AIRPLANETABLE_NAME,
-  Item: {
-    id: '1234567890',
-    name: 'F-22',
-    description: 'Cool fighter jet',
-  },
-}).promise();
+const result = await ddb
+  .put({
+    TableName: process.env.API_FLIGHTSTATS_AIRPLANETABLE_NAME,
+    Item: {
+      id: '1234567890',
+      name: 'F-22',
+      description: 'Cool fighter jet'
+    }
+  })
+  .promise();
 ```
 
 3. Run `amplify mock api` to activate the local DynamoDB endpoint
@@ -193,14 +191,16 @@ IS_MOCK=true
 And configure the DynamoDB client with:
 
 ```js
-const clientConfig = process.env.IS_MOCK ? {
-  region: 'us-fake-1',
-  endpoint: 'http://localhost:62224',
-  credentials: new aws.Credentials({
-    accessKeyId: 'fake',
-    secretAccessKey: 'fake',
-  }),
-} : undefined;
+const clientConfig = process.env.IS_MOCK
+  ? {
+      region: 'us-fake-1',
+      endpoint: 'http://localhost:62224',
+      credentials: new aws.Credentials({
+        accessKeyId: 'fake',
+        secretAccessKey: 'fake'
+      })
+    }
+  : undefined;
 const ddb = new aws.DynamoDB.DocumentClient(clientConfig);
 ```
 
@@ -218,20 +218,22 @@ When performing operations against the local mock endpoint, the Amplify CLI will
 
 ```js
 const awsmobile = {
-  "aws_project_region": "us-east-1",
-  "aws_appsync_graphqlEndpoint": "http://localhost:20002/graphql",
-  "aws_appsync_region": "us-east-1",
-  "aws_appsync_authenticationType": "AMAZON_COGNITO_USER_POOLS",
-  "aws_appsync_apiKey": "da2-fakeApiId123456",
-  "aws_appsync_dangerously_connect_to_http_endpoint_for_testing": true,
-  "aws_cognito_identity_pool_id": "us-east-1:270445b2-cc92-4d46-a937-e41e49bdb892",
-  "aws_cognito_region": "us-east-1",
-  "aws_user_pools_id": "us-east-1_excPT39ZN",
-  "aws_user_pools_web_client_id": "4a950rsq08d2gi68ogdt7sjqub",
-  "oauth": {},
-  "aws_user_files_s3_bucket": "local-testing-app-2fbf0a32d1896419b88f004c2755d084c-dev",
-  "aws_user_files_s3_bucket_region": "us-east-1",
-  "aws_user_files_s3_dangerously_connect_to_http_endpoint_for_testing": true
+  aws_project_region: 'us-east-1',
+  aws_appsync_graphqlEndpoint: 'http://localhost:20002/graphql',
+  aws_appsync_region: 'us-east-1',
+  aws_appsync_authenticationType: 'AMAZON_COGNITO_USER_POOLS',
+  aws_appsync_apiKey: 'da2-fakeApiId123456',
+  aws_appsync_dangerously_connect_to_http_endpoint_for_testing: true,
+  aws_cognito_identity_pool_id:
+    'us-east-1:270445b2-cc92-4d46-a937-e41e49bdb892',
+  aws_cognito_region: 'us-east-1',
+  aws_user_pools_id: 'us-east-1_excPT39ZN',
+  aws_user_pools_web_client_id: '4a950rsq08d2gi68ogdt7sjqub',
+  oauth: {},
+  aws_user_files_s3_bucket:
+    'local-testing-app-2fbf0a32d1896419b88f004c2755d084c-dev',
+  aws_user_files_s3_bucket_region: 'us-east-1',
+  aws_user_files_s3_dangerously_connect_to_http_endpoint_for_testing: true
 };
 ```
 
@@ -295,7 +297,7 @@ Alternatively, if you are running a non-production application and do not want t
   android:theme="@style/AppTheme"
   android:usesClearTextTraffic="true" >
 
-  <!--other code-->
+  {/*other code*/}
 </application>
 ```
 

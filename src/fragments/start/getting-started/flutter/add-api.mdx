@@ -9,22 +9,24 @@ https://sandbox.amplifyapp.com/deploy/<UUID>
 ### Log in or create a new AWS account
 
 If you don’t have an AWS account, you will need to create one first:
+
 1. Select **Create an AWS account**
 2. Once you have an account, select **Login to deploy to AWS**
 3. Click on **Deploy app to AWS**
 
 ### Create app backend
-On the creation form:
-<!-- // spell-checker: disable-next-line -->
+
+On the creation form: {/* // spell-checker: disable-next-line */}
+
 1. Give your app a name. We went with **amplifiedtodo**
 2. Select your preferred deployment region
 3. Click **Confirm deployment**
 
-    ![Create app backend](/images/lib/getting-started/flutter/connect-to-cloud-create-app-backend.png)
+   ![Create app backend](/images/lib/getting-started/flutter/connect-to-cloud-create-app-backend.png)
 
 4. The on-screen text will walk you through the deployment process. Once the deployment status reads **Deployment completed** click **Launch Studio**.
 
-    ![Open Amplify Studio](/images/lib/getting-started/flutter/connect-to-cloud-open-amplify-studio.png)
+   ![Open Amplify Studio](/images/lib/getting-started/flutter/connect-to-cloud-open-amplify-studio.png)
 
 ## Add authentication
 
@@ -33,37 +35,38 @@ Since your **Todo** model specifies an `@auth` directive, you do need to first a
 ### Deploy authentication
 
 From Amplify Studio:
+
 1. Select **Authentication** from the sidebar
 
-    ![Authentication](/images/lib/getting-started/flutter/add-api-add-authentication-sidebar.png)
+   ![Authentication](/images/lib/getting-started/flutter/add-api-add-authentication-sidebar.png)
 
 2. Click **Save and deploy** with the default configuration
 
-    ![Save and deploy](/images/lib/getting-started/flutter/add-api-add-authentication-deploy.png)
+   ![Save and deploy](/images/lib/getting-started/flutter/add-api-add-authentication-deploy.png)
 
-2. Click **Confirm deployment** when prompted
+3. Click **Confirm deployment** when prompted
 
 ### Update local project with deployed environment
 
 1. After deployment of authentication, click on **Deployment successful - click for next steps** at the top of Amplify Studio
 
-    ![Deployment successful](/images/lib/getting-started/flutter/add-api-add-authentication-deployment-successful.png)
+   ![Deployment successful](/images/lib/getting-started/flutter/add-api-add-authentication-deployment-successful.png)
 
 2. Copy the command for pulling the updated environment and run it in your local project
 3. Answer on screen prompts to update your local project with the deployed environment
 
-    ```
-    amplify pull --appId <appId> —envName staging
+   ```
+   amplify pull --appId <appId> —envName staging
 
-    ? Choose your default editor:
-        `<your editor of choice>`
-    ? Choose the type of app that you're building
-        `flutter`
-    ? Where do you want to store your configuration file?
-        `./lib/`
-    ? Do you plan on modifying this backend?
-        `Yes`
-    ```
+   ? Choose your default editor:
+       `<your editor of choice>`
+   ? Choose the type of app that you're building
+       `flutter`
+   ? Where do you want to store your configuration file?
+       `./lib/`
+   ? Do you plan on modifying this backend?
+       `Yes`
+   ```
 
 ## Add Api and Auth plugins
 
@@ -130,16 +133,19 @@ From Amplify Studio, select **Content** from the sidebar. If you have added todo
 ### Create data
 
 Synchronization is bi-directional. Try creating a Todo entry from the Content screen in Amplify Studio:
+
 1. Click **Create todo**
 
-    ![Content](/images/lib/getting-started/flutter/add-api-verify-sync-create-todo.png)
+   ![Content](/images/lib/getting-started/flutter/add-api-verify-sync-create-todo.png)
 
 2. Fill in the form
-  - **name**: Sync app to cloud
-  - **description**: This was created remotely!
-  - **isComplete**: false (unchecked)
+
+- **name**: Sync app to cloud
+- **description**: This was created remotely!
+- **isComplete**: false (unchecked)
+
 3. Click **Save Todo** on the form to save the new entry
 
-    ![Content](/images/lib/getting-started/flutter/add-api-verify-sync-save-todo.png)
+   ![Content](/images/lib/getting-started/flutter/add-api-verify-sync-save-todo.png)
 
 You should see your app update with a newly created todo in real-time!

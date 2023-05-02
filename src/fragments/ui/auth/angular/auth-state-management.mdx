@@ -1,10 +1,9 @@
+import all0 from '/src/fragments/ui/angular/configure-module.mdx';
 
+<Fragments fragments={{ all: all0 }} />
 
-import all0 from "/src/fragments/ui/angular/configure-module.mdx";
+Replace the content inside of _app.component.ts_ with the following:
 
-<Fragments fragments={{all: all0}} />
-
-Replace the content inside of *app.component.ts* with the following:
 ```js
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { onAuthUIStateChange, CognitoUserInterface, AuthState } from '@aws-amplify/ui-components';
@@ -35,13 +34,14 @@ export class AppComponent {
 }
 ```
 
-Replace the content inside of *app.component.html* with the following:
+Replace the content inside of _app.component.html_ with the following:
+
 ```html
 <amplify-authenticator *ngIf="authState !== 'signedin'"></amplify-authenticator>
 
 <div *ngIf="authState === 'signedin' && user" class="App">
-    <amplify-sign-out></amplify-sign-out>
-    <div>Hello, {{user.username}}</div>
-    <!-- This is where you application template code goes -->  
+  <amplify-sign-out></amplify-sign-out>
+  <div>Hello, {{user.username}}</div>
+  {/* This is where you application template code goes */}
 </div>
 ```

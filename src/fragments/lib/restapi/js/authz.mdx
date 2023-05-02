@@ -40,7 +40,7 @@ To use custom headers on your HTTP request, you need to add these to Amazon API 
 If you have used Amplify CLI to create your API, you can enable custom headers by following above steps:
 
 1. Visit [Amazon API Gateway console](https://aws.amazon.com/api-gateway/).
-2. On Amazon API Gateway console, click on the path you want to configure (e.g. /{proxy+})
+2. On Amazon API Gateway console, click on the path you want to configure (e.g. `/{proxy+}`)
 3. Then click the _Actions_ dropdown menu and select **Enable CORS**
 4. Add your custom header (e.g. my-custom-header) on the text field Access-Control-Allow-Headers, separated by commas, like: 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,my-custom-header'.
 5. Click on 'Enable CORS and replace existing CORS headers' and confirm.

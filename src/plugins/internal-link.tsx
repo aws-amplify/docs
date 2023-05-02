@@ -16,16 +16,39 @@ module.exports = (async () => {
           url = url.split('"').join('');
         }
 
-        const externalLink = {
-          name: 'ExternalLink',
-          type: 'mdxJsxFlowElement',
-          data: {
-            _mdxExplicitJsx: true
-          },
-          attributes: attr,
-          children: children
+        link.name = 'ExternalLink';
+        link.type = 'mdxJsxFlowElement';
+        link.data = {
+          _mdxExplicitJsx: true
         };
-        parent.children = [externalLink];
+        link.attributes = [
+          {
+            type: 'JSXAttribute',
+            name: {
+              type: 'JSXIdentifier',
+              name: 'href'
+            },
+            value: {
+              type: 'JSXExpressionContainer',
+              expression: {
+                type: 'Literal',
+                value: url,
+                raw: url
+              }
+            }
+          }
+        ];
+
+        // const externalLink = {
+        //   name: 'ExternalLink',
+        //   type: 'mdxJsxFlowElement',
+        //   data: {
+        //     _mdxExplicitJsx: true
+        //   },
+        //   attributes: attr,
+        //   children: children
+        // };
+        // parent.children = [externalLink];
 
         // parent.children.splice(
         //   index,
