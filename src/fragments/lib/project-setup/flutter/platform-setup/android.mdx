@@ -1,4 +1,4 @@
-Amplify requires a minimum of API level 24 (Android 7.0) and Gradle 7 when targeting Android.
+Amplify requires a minimum of API level 24 (Android 7.0), Gradle 7 and Kotlin > 1.7 when targeting Android.
 
 From your project root, navigate to the `android/` directory and open `build.gradle` in the text editor of your choice. Update the Gradle plugin version to 7.4.2 or higher:
 
@@ -10,8 +10,13 @@ From your project root, navigate to the `android/` directory and open `build.gra
     }
 ```
 
-Then, open `android/gradle/wrapper/gradle-wrapper.properties`. Update the Gradle `distributionUrl` to a version between 7.3 and 7.6.1 
-(see the [Flutter docs](https://docs.flutter.dev/release/breaking-changes/android-java-gradle-migration-guide) for more info).
+If your Kotlin Gradle plugin version is below 1.7, update `android/build.gradle`:
+
+```
+ext.kotlin_version = '1.7.10'
+```
+
+Then, open `android/gradle/wrapper/gradle-wrapper.properties`. Update the Gradle `distributionUrl` to a version between 7.3 and 7.6.1 (see the [Flutter docs](https://docs.flutter.dev/release/breaking-changes/android-java-gradle-migration-guide) for more info).
 
 ```diff
 -distributionUrl=https\://services.gradle.org/distributions/gradle-7.0-all.zip
