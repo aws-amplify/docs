@@ -1,6 +1,5 @@
 module.exports = (async () => {
   const { visit } = await import('unist-util-visit');
-  const { parse } = require('abstract-syntax-tree');
 
   const pagePlugin = () => (tree) => {
     visit(tree, 'mdxjsEsm', (node, index) => {

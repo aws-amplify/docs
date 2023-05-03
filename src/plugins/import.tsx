@@ -1,6 +1,5 @@
 module.exports = (async () => {
   const { visit } = await import('unist-util-visit');
-  const { parse, find } = require('abstract-syntax-tree');
 
   const createImport = (importName, importPath) => {
     return {
