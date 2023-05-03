@@ -12,19 +12,69 @@ For example, the ability to list all users in a Cognito User Pool may provide us
 The Amplify CLI can setup a REST endpoint with secure access to a Lambda function running with limited permissions to the User Pool if you wish to have these capabilities in your application, and you can choose to expose the actions to all users with a valid account or restrict to a specific User Pool Group.
 
 ## Enable Admin Queries
+ 
+<BlockSwitcher>
+<Block name="With New Auth resources">
 
 ```bash
 amplify add auth
 ```
 
+Select the option to go through Manual configuration.
+
 ```console
+ Do you want to use the default authentication and security configuration? (Use arrow keys)
+  Default configuration 
+  Default configuration with Social Provider (Federation) 
+❯ Manual configuration 
+  I want to learn more. 
+```
+
+Go through the rest of the configuration steps until you reach the following prompts:
+
+```console
+? Do you want to add User Pool Groups? Yes
+? Provide a name for your user pool group: Admins
+? Do you want to add another User Pool Group No
+✔ Sort the user pool groups in order of preference · Admins
 ? Do you want to add an admin queries API? Yes
-? Do you want to restrict access to a specific Group Yes
+? Do you want to restrict access to the admin queries API to a specific Group? Yes
 ? Select the group to restrict access with: (Use arrow keys)
 ❯ Admins 
-  Editors 
-  Enter a custom group 
+  Enter a custom group
 ```
+
+Continue with the rest of the prompts to finish the configuration.
+
+</Block>
+
+<Block name="With Existing Auth resources">
+
+```bash
+amplify update auth
+```
+
+Select the option to Create or update Admin queries API.
+
+```console
+What do you want to do? Create or update Admin queries API
+? Do you want to restrict access to the admin queries API to a specific Group Yes
+? Select the group to restrict access with: (Use arrow keys)
+❯ Admins
+  Enter a custom group
+```
+
+</Block>
+
+</BlockSwitcher>
+
+<Callout>
+
+If you don't have any User Pool Groups, you will need to select `Enter a custom group`.
+
+</Callout>
+
+When ready, run `amplify push` to deploy the changes.
 
 This will configure an API Gateway endpoint with a Cognito Authorizer that accepts an Access Token, which is used by a Lambda function to perform actions against the User Pool. The function is example code which you can use to remove, add, or alter functionality based on your business case by editing it in the `amplify/backend/function/AdminQueriesXXX/src` directory and running an `amplify push` to deploy your changes. If you choose to restrict actions to a specific Group, custom middleware in the function will prevent any actions unless the user is a member of that Group.
 
