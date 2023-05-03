@@ -37,7 +37,7 @@ module.exports = async (phase, { defaultConfig }) => {
       providerImportSource: '@mdx-js/react',
       remarkPlugins: [
         [remarkCodeHike, { theme }],
-        // frontmatterPlugin,
+        frontmatterPlugin,
         importPlugin,
         codeHikeAddHydrationPlugin,
         headingLinkPlugin,
