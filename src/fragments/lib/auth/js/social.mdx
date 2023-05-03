@@ -227,3 +227,16 @@ function App() {
 
 export default App;
 ```
+### Catching Errors
+
+In order to catch errors when using `Auth.federatedSignIn()` you can use the [Hub](/lib/utilities/hub/q/platform/js/) eventing system provided by Amplify to listen for the `signIn_failure` event.
+
+```js
+import { Hub } from 'aws-amplify'
+
+Hub.listen('auth', (data) => { 
+    if (data.payload.event === 'signIn_failure') {
+        // Do something here
+    }
+})
+```
