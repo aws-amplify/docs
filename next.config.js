@@ -37,7 +37,7 @@ module.exports = async (phase, { defaultConfig }) => {
       providerImportSource: '@mdx-js/react',
       remarkPlugins: [
         [remarkCodeHike, { theme }],
-        frontmatterPlugin,
+        // frontmatterPlugin,
         importPlugin,
         codeHikeAddHydrationPlugin,
         headingLinkPlugin,
@@ -53,7 +53,6 @@ module.exports = async (phase, { defaultConfig }) => {
       env: {
         API_ENV: process.env.API_ENV
       },
-      experimental: { esmExternals: true },
       pageExtensions: ['js', 'jsx', 'mdx', 'tsx', 'ts'],
       typescript: {
         // !! WARN !!
