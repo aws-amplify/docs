@@ -8,8 +8,9 @@ await Storage.get(key: string, config: {
   identityId?: string, // id of another user, if `level: protected`
   download?: boolean, // defaults to false
   expires?: number, // validity of the URL, in seconds. defaults to 900 (15 minutes)
-  contentType?: string // set return content type, eg "text/html"
-  validateObjectExistence?: boolean // defaults to false
+  contentType?: string, // set return content type, eg "text/html"
+  validateObjectExistence?: boolean, // defaults to false
+  cacheControl?: string, // Specifies caching behavior along the request/reply chain
 });
 ```
 
@@ -152,7 +153,7 @@ await Storage.get('filename.txt', { expires: 60 });
 
 Users can run into unexpected issues, so we are giving you advance notice in documentation with links to open issues - please vote for what you need, to help the team prioritize.
 
-- `Storage.get` is cached; if you have recently modified a file you may not get the most recent version right away. [There is an active issue for a new option to enable cache busting.](https://github.com/aws-amplify/amplify-js/issues/6413)
+- `Storage.get` is cached; if you have recently modified a file you may not get the latest version right away. You can pass in `cacheControl: 'no-cache'` to get the latest version.
 - `Storage.get` only returns the latest cached version of the file; there is [not yet an API to view prior versions](https://github.com/aws-amplify/amplify-js/issues/2131).
 - You cannot [only get file metadata](https://github.com/aws-amplify/amplify-js/issues/6157) yet.
 - [Image compression](https://github.com/aws-amplify/amplify-js/issues/6081) or CloudFront CDN caching for your S3 buckets is not yet possible.
