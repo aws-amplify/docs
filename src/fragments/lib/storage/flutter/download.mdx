@@ -80,9 +80,12 @@ Future<void> downloadToMemory(String key) async {
 
 ## Generate a download URL
 
-You can get a downloadable URL for the file in storage by its key.
+You can get a downloadable URL for the file in storage by its key and access level.
 
-You can optionally check file existence for given file key and access level. If the file doesn't exist or cannot be accessed it throws a `StorageException`.
+When creating a downloadable URL, you can choose to check if the file exists by setting `validateObjectExistence` to
+`true` in `S3GetUrlPluginOptions`. If the file is inaccessible or does not exist, a `StorageException` is thrown.
+This allows you to check if an object exists during generating the presigned URL, which you can then use to download
+that object.
 
 ```dart
 Future<String> getDownloadUrl({
