@@ -2281,7 +2281,7 @@ export const directory = {
           {
             title: 'Connect to the cloud',
             route: '/start/getting-started/add-api',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios']
           },
           {
             title: 'Connect API and database to the app',
