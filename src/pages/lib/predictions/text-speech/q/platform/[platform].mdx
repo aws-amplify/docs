@@ -3,18 +3,15 @@ export const meta = {
   description: `Learn more about how to integrate text-to-speech capabilities into your application using Amplify.`
 };
 
-import js0 from '/src/fragments/lib/predictions/js/text-speech.mdx';
+import textSpeechJs from '/src/fragments/lib/predictions/js/text-speech.mdx';
+import textSpeechIOS from '/src/fragments/lib/predictions/ios/text-speech.mdx';
+import textSpeechAndroid from '/src/fragments/lib/predictions/android/text-speech.mdx';
 
-<Fragments fragments={{ js: js0 }} />
-
-import reactnative0 from '/src/fragments/lib/predictions/js/text-speech.mdx';
-
-<Fragments fragments={{ 'react-native': reactnative0 }} />
-
-import ios1 from '/src/fragments/lib/predictions/ios/text-speech.mdx';
-
-<Fragments fragments={{ ios: ios1 }} />
-
-import android2 from '/src/fragments/lib/predictions/android/text-speech.mdx';
-
-<Fragments fragments={{ android: android2 }} />
+<Fragments
+  fragments={{
+    js: textSpeechJs,
+    'react-native': textSpeechJs,
+    ios: textSpeechIOS,
+    android: textSpeechAndroid
+  }}
+/>

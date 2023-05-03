@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import Directory from '../index';
-import directory from '../../../../directory/directory';
+import directory from '../../../../directory/directory.mjs';
 
 describe('Directory', () => {
   const directoryKeys = Object.keys(directory);
@@ -36,7 +36,7 @@ describe('Directory', () => {
 
     expect(() =>
       render(<Directory url={'missingUrl'} filterKey="all" />)
-    ).toThrow(`Cannot read property 'productRoot' of undefined`);
+    ).toThrow("Cannot read properties of undefined (reading 'productRoot')");
 
     consoleErrorFn.mockRestore();
   });

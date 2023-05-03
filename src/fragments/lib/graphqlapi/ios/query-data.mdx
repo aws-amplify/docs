@@ -132,6 +132,14 @@ func listTodos() -> AnyCancellable {
 
 ### List subsequent pages of items
 
+If you are using SwiftUI and have SwiftUI imported in the same code file, you will need to import the class `Amplify.List` to resolve name collision with `SwiftUI.List`:
+
+```swift 
+import SwiftUI
+import Amplify
+import class Amplify.List
+```
+
 For large data sets, you'll need to paginate through the results. After receiving the first page of results, you can check if there is a subsequent page and obtain the next page.
 
 ```swift

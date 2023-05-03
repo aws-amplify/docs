@@ -1,13 +1,20 @@
 ```dart
-Future<void> deletePostWithId(String id) async {
-  final postsWithId = await Amplify.DataStore.query(
-    Post.classType,
-    where: Post.ID.eq(id),
-  );
+import 'package:amplify_flutter/amplify_flutter.dart';
 
-  for (final element in postsWithId) {
-    await Amplify.DataStore.delete(element);
-    print('Deleted a post');
+import 'models/ModelProvider.dart';
+
+Future<void> deletePostWithID123AndItsComments(String id) async {
+  try {
+    final post = (await Amplify.DataStore.query(
+      Post.classType,
+      where: Post.ID.eq(id),
+    ))
+        .first;
+
+    // DataStore also deletes all associated comments with this operation
+    await Amplify.DataStore.delete(post);
+  } on DataStoreException catch (e) {
+    safePrint('Something went wrong deleting models: ${e.message}');
   }
 }
 ```

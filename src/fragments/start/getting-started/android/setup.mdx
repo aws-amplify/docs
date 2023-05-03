@@ -84,12 +84,30 @@ You should now have an empty Android project without Amplify.
 
 3. Under **Gradle Scripts**, open **build.gradle (Module :app)**.
 
-   Update the `dependencies` block in your file with the following lines:
+Add the following lines:
 
-   ```groovy
-  implementation 'com.amplifyframework:aws-api:ANDROID_VERSION'
-  implementation 'com.amplifyframework:aws-datastore:ANDROID_VERSION'
-   ```
+```groovy
+android {
+    compileOptions {
+        // Support for Java 8 features
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    // Amplify API and Datastore dependencies
+    implementation 'com.amplifyframework:aws-api:ANDROID_VERSION'
+    implementation 'com.amplifyframework:aws-datastore:ANDROID_VERSION'
+
+    // Support for Java 8 features
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+}
+```
+
+- Set `coreLibraryDesugaringEnabled`, `sourceCompatibility`, and `targetCompatibility` to allow your application to make use of Java 8 features like Lambda expressions
+- Add Amplify API, Datastore, and Desugaring libraries to the `dependencies` block
 
 4. Run **Gradle Sync**
 
