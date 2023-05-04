@@ -4,14 +4,12 @@ import _withMDX from '@next/mdx';
 import { directory } from './src/directory/directory.mjs';
 const require = createRequire(import.meta.url);
 
+import { remarkCodeHike } from '@code-hike/mdx';
+
 dotenv.config({ path: './.env.custom' });
 
-const mdxRenderer = `
-  import { mdx } from "@mdx-js/react";
-
-`;
-
 export default async (phase, { defaultConfig }) => {
+  const theme = await require('shiki/themes/nord.json');
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const headingLinkPlugin = await require('./src/plugins/headings.tsx');
   // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -27,16 +25,22 @@ export default async (phase, { defaultConfig }) => {
 
   const withMDX = _withMDX({
     extension: /\.mdx$/,
+    loader: '@mdx-js/loader',
+    jsx: true,
+    compiler: {
+      styledComponents: true
+    },
     options: {
+      providerImportSource: '@mdx-js/react',
       remarkPlugins: [
+        [remarkCodeHike, { theme }],
         frontmatterPlugin,
         importPlugin,
         headingLinkPlugin,
         pagePlugin,
         internalLinkPlugin
       ],
-      rehypePlugins: [codeBlockPlugin],
-      renderer: mdxRenderer
+      // rehypePlugins: [codeBlockPlugin]
     }
   });
 
@@ -51,6 +55,9 @@ export default async (phase, { defaultConfig }) => {
       // your project has type errors.
       // !! WARN !!
       ignoreBuildErrors: true
+    },
+    future: {
+      webpack5: true
     },
     exportPathMap,
     trailingSlash: true,
