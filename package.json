@@ -127,7 +127,7 @@
     "dev": "next dev",
     "spellcheck": "cspell \"src/**/*.mdx\"",
     "spellcheck-diff": "git diff --name-only --cached | awk \"/src.*\\.mdx/{print}\" | npx cspell --no-must-find-files --file-list stdin",
-    "build": "yarn task generate-sitemap && next build && next export -o client/www/next-build",
+    "build": "yarn task generate-sitemap && next build --debug && next export -o client/www/next-build",
     "next-build": "next build",
     "next-start": "next start",
     "amplify:submissionsLambda": "cd amplify/backend/function/submissionsLambda/src && yarn install && yarn build && yarn test",
