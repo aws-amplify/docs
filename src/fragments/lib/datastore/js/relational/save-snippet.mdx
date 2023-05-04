@@ -1,7 +1,7 @@
 ```js
 const post = await DataStore.save(
   new Post({
-    title: "My Post with comments",
+    title: 'My Post with comments',
     rating: 10,
     status: PostStatus.ACTIVE
   })
@@ -9,7 +9,7 @@ const post = await DataStore.save(
 
 await DataStore.save(
   new Comment({
-    content: "Loving Amplify DataStore!",
+    content: 'Loving Amplify DataStore!',
     post: post
   })
 );

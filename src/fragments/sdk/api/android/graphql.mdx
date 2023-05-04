@@ -114,7 +114,7 @@ allprojects {
 }
 ```
 
-Next, in the app's build.gradle add in a plugin of `apply plugin: 'com.amazonaws.appsync'` and a dependency of `implementation 'com.amazonaws:aws-android-sdk-appsync:3.3.1'`. For example:
+Next, in the **build.gradle (Module :app)** file, add in a plugin of `apply plugin: 'com.amazonaws.appsync'` and a dependency of `implementation 'com.amazonaws:aws-android-sdk-appsync:3.3.1'`. For example:
 
 ```groovy
 plugins {
@@ -325,7 +325,7 @@ Amplify supports running a local mock server for testing your application with A
 
 ### Client Architecture
 
-The AppSync client supports offline scenarios with a programing model that provides a "write through cache". This allows you to both render data in the UI when offline as well as add/update through an "optimistic response". The below diagram shows how the AppSync client interfaces with the network GraphQL calls, it's offline mutation queue, the Apollo cache, and your application code.
+The AppSync client supports offline scenarios with a programming model that provides a "write through cache". This allows you to both render data in the UI when offline as well as add/update through an "optimistic response". The below diagram shows how the AppSync client interfaces with the network GraphQL calls, it's offline mutation queue, the Apollo cache, and your application code.
 
 ![Image](/images/appsync-architecture.png)
 

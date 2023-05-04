@@ -9,25 +9,56 @@ npx -p @angular/cli ng new amplify-app
 cd amplify-app
 ```
 
-### Angular 6+ Support
+Angular 6+ does not include shims for 'global' or 'process'.
 
-Angular 6+ does not include shims for 'global' or 'process' as provided in previous versions. Add the following to your `src/polyfills.ts` file to recreate them: 
+<BlockSwitcher>
+
+<Block name="Angular 15">
+
+First, create `src/polyfills.ts` and add the following:
 
 ```javascript
 (window as any).global = window;
 (window as any).process = {
   env: { DEBUG: undefined },
 };
-``` 
+```
 
-### Internet Explorer 11 (IE11) Support:
-
-In order for Angular apps to work on IE11, you need to add the following to your `src/polyfills.ts` file as well:
+Then, open your `angular.json` file, and add `src/polyfills.ts` to polyfills array(s) in your `angular.json`. These arrays are located in projects.`<project-name>.architect.<task-name>.options`.
 
 ```javascript
-import 'core-js/es/typed-array';
-import 'core-js/es/object';
+"polyfills": [
+  "zone.js",
+  "src/polyfills.ts"
+],
 ```
+
+And finally, make sure to add `src/polyfills` to files in your `tsconfig.app.json`:
+
+```javascript
+{
+  "files": [
+    "src/main.ts",
+    "src/polyfills.ts"
+  ],
+}
+```
+</Block>
+
+<Block name="Angular 6-14">
+
+Add the following to your `src/polyfills.ts` file to recreate them: 
+
+```javascript
+(window as any).global = window;
+(window as any).process = {
+  env: { DEBUG: undefined },
+};
+```
+
+</Block>
+
+</BlockSwitcher>
 
 ## Create a new Amplify backend
 

@@ -2,6 +2,7 @@ import MDXProvider from '../components/MDXProvider';
 import '@algolia/autocomplete-theme-classic';
 import '@code-hike/mdx/dist/index.css';
 import '../styles/styles.css';
+import '../styles/contribute-styles.css';
 import Head from 'next/head';
 import Hydrate from '../components/Hydrate';
 

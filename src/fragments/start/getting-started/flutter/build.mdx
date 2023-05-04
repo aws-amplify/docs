@@ -1,26 +1,21 @@
 ## What you'll build
 
-The stable release of Amplify Flutter currently supports iOS/Android as target platforms.
+Amplify Flutter supports all Flutter platforms as targets (iOS, Android, Web, Windows, macOS, and Linux).
 
-<Callout warning>
+<Callout>
 
-Web and desktop support for the Amplify Flutter Auth, API, Analytics and Storage categories are now in developer preview!
-
-However, this getting started guide uses the stable release.
-
-See the documentation for [project setup](/lib/project-setup/create-application) and the [Auth category](/lib/auth/getting-started), the API category ([GraphQL](/lib/graphqlapi/getting-started) and [REST](/lib/restapi/getting-started)), the [Analytics category](/lib/analytics/getting-started), and the [Storage category](/lib/storage/getting-started) for more information about web and desktop support.
-
+The DataStore and Notifications categories only support iOS/Android currently.
 
 </Callout>
 
-This tutorial guides you through setting up a backend and integrating that backend with your web app. You will create a fully featured Todo app using Amplify DataStore to store and retrieve items in a cloud database, as well as receive updates over a realtime subscription.
+This tutorial guides you through setting up a backend and integrating that backend with your Flutter app. 
+You will create a fully featured budget management app using the API and Auth categories to store and 
+retrieve items in your cloud backend.
 
-This tutorial also assumes you have at least a working knowledge of [Flutter](https://flutter.dev/) basics.
+This tutorial assumes you have a working knowledge of [Flutter](https://flutter.dev/) basics.
 
 What you will do:
 
-
-
 * Set up a Flutter application configured with Amplify
-* Create a data model and persist data to Amplify DataStore
-* Connect your local data to synchronize to a cloud backend
+* Create a data model and persist data with Amplify API
+* Add a sign-up/sign-in flow with Amplify Auth

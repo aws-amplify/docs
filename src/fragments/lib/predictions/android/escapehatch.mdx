@@ -1,40 +1,40 @@
 If you need functionality in the AWS services used by the Amplify Predictions category that isn't available, we provide an escape hatch so you can get a reference to that service. For example, to get a reference to `RekognitionClient`:
 
-import android0 from "/src/fragments/lib/android-escape-hatch-warning.mdx";
+import escapeHatchWarning from "/src/fragments/lib/android-escape-hatch-warning.mdx";
 
-<Fragments fragments={{android: android0}} />
+<Fragments fragments={{android: escapeHatchWarning}} />
 
-import android1 from "/src/fragments/lib/android-kotlin-java-interop.mdx";
+import kotlinJavaInterop from "/src/fragments/lib/android-kotlin-java-interop.mdx";
 
 <BlockSwitcher>
 
 <Block name="Java">
 
-<Fragments fragments={{android: android1}} />
+<Fragments fragments={{android: kotlinJavaInterop}} />
 
 ```java
 // Obtain reference to the plugin
 AWSPredictionsPlugin predictionsPlugin = (AWSPredictionsPlugin)
-        Amplify.Predictions.getPlugin("awsPredictionsPlugin");
+  Amplify.Predictions.getPlugin("awsPredictionsPlugin");
 AWSPredictionsEscapeHatch escapeHatch = predictionsPlugin.getEscapeHatch();
 
 // Send a new request to the Rekognition endpoint directly using the client
 RekognitionClient client = escapeHatch.getRekognitionClient();
 CreateCollectionRequest request = CreateCollectionRequest.Companion.invoke((requestBuilder) -> {
-    requestBuilder.setCollectionId("<new-collection-id-here>");
-    return Unit.INSTANCE;
+  requestBuilder.setCollectionId("<new-collection-id-here>");
+  return Unit.INSTANCE;
 });
 client.createCollection(request, new Continuation<CreateCollectionResponse>() {
-    @NonNull
-    @Override
-    public CoroutineContext getContext() {
-        return GlobalScope.INSTANCE.getCoroutineContext();
-    }
+  @NonNull
+  @Override
+  public CoroutineContext getContext() {
+    return GlobalScope.INSTANCE.getCoroutineContext();
+  }
 
-    @Override
-    public void resumeWith(@NonNull Object resultOrException) {
-        Log.i("MyAmplifyApp", resultOrException.toString());
-    }
+  @Override
+  public void resumeWith(@NonNull Object resultOrException) {
+    Log.i("MyAmplifyApp", resultOrException.toString());
+  }
 });
 ```
 
@@ -49,7 +49,7 @@ val escapeHatch = (plugin as AWSPredictionsPlugin).escapeHatch
 // Send a new request to the Rekognition endpoint directly using the client
 val client = escapeHatch.rekognitionClient
 val request = CreateCollectionRequest {
-    collectionId = "<new-collection-id-here>"
+  collectionId = "<new-collection-id-here>"
 }
 client.createCollection(request)
 ```
@@ -65,23 +65,23 @@ In addition to the Amazon Polly APIs, the `PollyClient` returned in the escape h
 ```java
 // Obtain reference to the plugin
 AWSPredictionsPlugin predictionsPlugin = (AWSPredictionsPlugin)
-        Amplify.Predictions.getPlugin("awsPredictionsPlugin");
+  Amplify.Predictions.getPlugin("awsPredictionsPlugin");
 AWSPredictionsEscapeHatch escapeHatch = predictionsPlugin.getEscapeHatch();
 
 // Create a presigned URL to convert text to speech using the client
 AmazonPollyPresigningClient client = (AmazonPollyPresigningClient) escapeHatch.getPollyClient();
 SynthesizeSpeechRequest request = SynthesizeSpeechRequest.Companion.invoke((requestBuilder) -> {
-    requestBuilder.setLanguageCode(LanguageCode.EnUs.INSTANCE);
-    requestBuilder.setText("I like to eat spaghetti");
-    return Unit.INSTANCE;
+  requestBuilder.setLanguageCode(LanguageCode.EnUs.INSTANCE);
+  requestBuilder.setText("I like to eat spaghetti");
+  return Unit.INSTANCE;
 });
 
 // The presigned URL needs to be created on a worker thread
 runOnUiThread(new Runnable() {
-    @Override
-    public void run() {
-        URL url = client.getPresignedSynthesizeSpeechUrl(request);
-    }
+  @Override
+  public void run() {
+    URL url = client.getPresignedSynthesizeSpeechUrl(request);
+  }
 });
 ```
 
@@ -96,13 +96,13 @@ val escapeHatch = (plugin as AWSPredictionsPlugin).escapeHatch
 // Create a presigned URL to convert text to speech using the client
 val client = escapeHatch.pollyClient as AmazonPollyPresigningClient
 val request = SynthesizeSpeechRequest {
-    languageCode = LanguageCode.EnUs
-    text = "I like to eat spaghetti"
+  languageCode = LanguageCode.EnUs
+  text = "I like to eat spaghetti"
 }
 
 // The presigned URL needs to be created on a worker thread
 runOnUiThread {
-    val url = client.getPresignedSynthesizeSpeechUrl(request)
+  val url = client.getPresignedSynthesizeSpeechUrl(request)
 }
 ```
 

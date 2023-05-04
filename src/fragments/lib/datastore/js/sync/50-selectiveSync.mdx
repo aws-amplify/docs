@@ -1,11 +1,18 @@
 ## Selectively syncing a subset of your data
 
-By default, DataStore downloads the entire contents of your cloud data source to your local device.
-The max number of records that will be stored is configurable [here](https://docs.amplify.aws/lib/datastore/conflict/q/platform/js#example).
+By default, DataStore fetches all the records that you’re authorized to access from your cloud data source to your local device.
+The maximum number of records that will be stored locally is configurable [here](/lib/datastore/conflict).
 
-You can utilize selective sync to only persist a subset of your data instead.
+You can utilize selective sync to persist a subset of your data instead. 
 
 Selective sync works by applying predicates to the base and delta sync queries, as well as to incoming subscriptions.
+
+<Callout>
+
+Note that selective sync is applied on top of authorization rules you’ve defined on your schema with the `@auth` directive. 
+For more information see the [Setup authorization rules](/lib/datastore/setup-auth-rules/) section.
+
+</Callout>
 
 ```js
 import { DataStore, syncExpression } from 'aws-amplify';
@@ -54,9 +61,9 @@ async function changeSync() {
 };
 ```
 
-Upon calling `DataStore.start()` (or executing a DataStore operation, e.g., `query`, `save`, `delete`, or `observe`), DataStore will reevaluate the `syncExpressions`. 
+Calls to `start`, `query`, `save`, `delete`, `observe`, and `observeQuery` will only start DataStore and reevaluate sync expressions if DataStore is not already started.
 
-In the above case, the predicate will contain the value `1`, so all Posts with `rating > 1` will get synced down.
+In the example above, `changeSync()` invokes `DataStore.start()` after `DataStore.stop()` has completely finished. This causes sync expressions to be reevaluated. Subsequently, when the sync expression is reevaluated, the `rating` variable has been changed to `1`, so all Posts with `rating > 1` will get synced down.
 
 Keep in mind: `DataStore.stop()` will retain the local store's existing content. Run `DataStore.clear()` to clear the locally-stored contents.
 

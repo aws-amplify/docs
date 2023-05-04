@@ -92,6 +92,8 @@ ChallengeName:
 - `SOFTWARE_TOKEN_MFA`: The user needs to input the OTP(one time password). You can submit the code by `Auth.confirmSignIn`.
 - `NEW_PASSWORD_REQUIRED`: This happens when the user account is created through the Cognito console. The user needs to input the new password and required attributes. You can submit those data by `Auth.completeNewPassword`.
 - `MFA_SETUP`: This happens when the MFA method is TOTP(the one time password) which requires the user to go through some steps to generate those passwords. You can start the setup process by `Auth.setupTOTP`.
+- `SELECT_MFA_TYPE`: This happens when both SMS and TOTP methods are enabled but neither is set as preferred. You can set up your front-end application to let users choose what type they want to use
+in the current session and set it using `user.sendMFASelectionAnswer` function.
 
 The following code is only for demonstration purpose:
 
@@ -134,6 +136,21 @@ async function signIn() {
       // The user needs to setup the TOTP before using it
       // More info please check the Enabling MFA part
       Auth.setupTOTP(user);
+    } else if (user.challengeName === 'SELECT_MFA_TYPE') {
+      // You need to get the MFA method (SMS or TOTP) from user
+      // and trigger the following function
+      // user object needs to be CognitoUser type
+      user.sendMFASelectionAnswer(mfaType, {
+        onFailure: (err) => {
+          console.error(err);
+        },
+        mfaRequired: (challengeName, parameters) => {
+          // Auth.confirmSignIn with SMS code
+        },
+        totpRequired: (challengeName, parameters) => {
+          // Auth.confirmSignIn with TOTP code
+        }
+      });
     } else {
       // The user directly signs in
       console.log(user);

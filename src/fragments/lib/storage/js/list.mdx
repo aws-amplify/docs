@@ -6,13 +6,13 @@ List keys under a specified path, as well as `lastModified` timestamp.
 
 ```javascript
 Storage.list('photos/') // for listing ALL files without prefix, pass '' instead
-  .then((result) => console.log(result))
+  .then(({ results }) => console.log(results))
   .catch((err) => console.log(err));
 ```
 
 Note the trailing slash `/` - if you had requested `Storage.list('photos')` it would also match against files like `photos123.jpg` alongside `photos/123.jpg`.
 
-The format of the result looks like this:
+The format of the response looks like this:
 
 ```js
 {

@@ -9,6 +9,7 @@ import {
   IOS_REFERENCE,
   ANDROID_REFERENCE,
   JS_REFERENCE,
+  FLUTTER_REFERENCE,
   HOSTING_REFERENCE
 } from '../../constants/links';
 import ExternalLink from '../ExternalLink';
@@ -35,6 +36,10 @@ export default function SecondaryNav() {
         }
         case 'android': {
           setApiUrl(ANDROID_REFERENCE);
+          break;
+        }
+        case 'flutter': {
+          setApiUrl(FLUTTER_REFERENCE);
           break;
         }
         default: {

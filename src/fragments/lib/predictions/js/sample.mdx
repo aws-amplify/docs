@@ -5,31 +5,24 @@ A sample React application with all of the Predictions features is provided belo
 To use `Predictions.convert()` with Amazon Transcribe you will need to install the following dependency in your app first:
 
 ```bash
-yarn add microphone-stream
+npm install microphone-stream
 ```
 
 The components in the app code below are rendered according to the scenarios above like so:
 
 ```javascript
-  return (
-    <div className="App">
-      <TextTranslation />
-      <br/>
-      <TextToSpeech />
-      <br/>
-      <SpeechToText />
-      <br/>
-      <TextIdentification />
-      <br/>
-      <EntityIdentification />
-      <br/>
-      <PredictionsUpload />
-      <br/>
-      <LabelsIdentification />
-      <br/>
-      <TextInterpretation />
-    </div>
-  );
+return (
+  <div className="App">
+    <TextTranslation />
+    <TextToSpeech />
+    <SpeechToText />
+    <TextIdentification />
+    <EntityIdentification />
+    <PredictionsUpload />
+    <LabelsIdentification />
+    <TextInterpretation />
+  </div>
+);
 ```
 
 React app code
@@ -460,4 +453,4 @@ function App() {
 export default App;
 ```
 
-Now run `yarn start` and press the buttons to demo the app.
+Now run `npm start` and press the buttons to demo the app.

@@ -41,9 +41,10 @@ You need to deploy a data model in order to bind to data. [Clone the Home exampl
 
 With Amplify Studio you can bind elements in your UI component to actual backend data from your database by passing component properties with a Data model type down to the child elements.
 
-1. Add Component property named `foo`. Reference your data model (e.g. `Home`) as the type.
-2. Click on an image child element in your UI component.
-3. Choose **Set prop** for child properties. From the **Prop** dropdown, choose `src`, and for value, link to `home.image_url`.
+1. In [Amplify Studio](/console/adminui/start/#logging-in-and-creating-an-app), navigate to UI builder components and select a component.
+2. Add Component property named `foo`. Reference your data model (e.g. `Home`) as the type.
+3. Click on an image child element in your UI component.
+4. Choose **Set prop** for child properties. From the **Prop** dropdown, choose `src`, and for value, link to `home.image_url`.
 The live preview should update to an image from your database. Continue to repeat the same steps for different child elements such as text fields, inputs etc.
 
 ![GIF showing how to bind a UI element to data](/images/console/ui-databind.gif)
@@ -54,9 +55,11 @@ You can bind text labels to static values. Use one of the following two methods 
 
 ### Pass component property default value to child props
 The following example demonstrates how to set the text label's value to the component's default value.
-1. Add a Component property named `foo` of type `String` with a default value of `Hello world`.
-2. Click on a text child element in your UI component.
-3. Choose **Set prop** for child properties. From the **Prop** dropdown, choose `label` and for value, link to `foo`.
+
+1. In [Amplify Studio](/console/adminui/start/#logging-in-and-creating-an-app), navigate to UI builder components and select a component.
+2. Add a Component property named `foo` of type `String` with a default value of `Hello world`.
+3. Click on a text child element in your UI component.
+4. Choose **Set prop** for child properties. From the **Prop** dropdown, choose `label` and for value, link to `foo`.
 The live preview should update to display "Hello world".
 
 ![Screenshot showing static data binding](/images/console/ui-staticbind.png)

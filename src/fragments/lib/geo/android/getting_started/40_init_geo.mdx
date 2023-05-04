@@ -1,32 +1,5 @@
 To initialize Amplify Geo, use the `Amplify.addPlugin()` method to add the AWS Location Geo plugin. Next, finish configuring Amplify by calling `Amplify.configure()`.
 
-Add the following import statements at the top of your application class that you created during the project setup:
-
-<BlockSwitcher>
-<Block name="Java">
-
-```java
-import android.util.Log;
-import com.amplifyframework.AmplifyException;
-import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
-import com.amplifyframework.core.Amplify;
-import com.amplifyframework.geo.location.AWSLocationGeoPlugin;
-```
-
-</Block>
-<Block name="Kotlin">
-
-```kotlin
-import android.util.Log
-import com.amplifyframework.AmplifyException
-import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
-import com.amplifyframework.core.Amplify
-import com.amplifyframework.geo.location.AWSLocationGeoPlugin
-```
-
-</Block>
-</BlockSwitcher>
-
 Add the following code to your `onCreate()` method in your application class:
 
 <BlockSwitcher>
@@ -81,6 +54,35 @@ class MyAmplifyApp : Application() {
             Log.i("MyAmplifyApp", "Initialized Amplify")
         } catch (error: AmplifyException) {
             Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
+        }
+    }
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
+RxAmplify.addPlugin(new AWSLocationGeoPlugin());
+RxAmplify.configure(getApplicationContext());
+```
+
+Your class will look like this:
+
+```java
+public class MyAmplifyApp extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        try {
+            RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
+            RxAmplify.addPlugin(new AWSLocationGeoPlugin());
+            RxAmplify.configure(getApplicationContext());
+            Log.i("MyAmplifyApp", "Initialized Amplify");
+        } catch (AmplifyException error) {
+            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
         }
     }
 }

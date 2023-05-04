@@ -1,0 +1,10 @@
+```dart
+Future<void> readFromDatabase() async {
+  try {
+    final posts = await Amplify.DataStore.query(Post.classType);
+    print('Posts: $posts');
+  } on DataStoreException catch (e) {
+    print('Query failed: $e');
+  }
+}
+```

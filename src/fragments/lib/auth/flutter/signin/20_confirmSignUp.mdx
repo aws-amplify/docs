@@ -1,23 +1,18 @@
 ```dart
-// Use the boolean created before
-bool isSignUpComplete = false;
-
-...
-
-Future<void> confirmUser() async {
+Future<void> confirmUser({
+  required String username,
+  required String confirmationCode,
+}) async {
   try {
     final result = await Amplify.Auth.confirmSignUp(
-      username: 'myusername',
-      confirmationCode: '123456'
+      username: username,
+      confirmationCode: confirmationCode,
     );
-
-    setState(() {
-      isSignUpComplete = result.isSignUpComplete;
-    });
-
+    // Check if further confirmations are needed or if
+    // the sign up is complete.
+    await _handleSignUpResult(result);
   } on AuthException catch (e) {
-    safePrint(e.message);
+    safePrint('Error confirming user: ${e.message}');
   }
 }
 ```
-

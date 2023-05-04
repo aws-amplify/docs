@@ -10,7 +10,6 @@ import {
   RIGHT_NAV_LINKS,
   SOCIAL_LINKS
 } from '../../utils/globalnav';
-import React from 'react';
 
 export default function Layout({
   children,
@@ -41,6 +40,8 @@ export default function Layout({
     : [meta.description, filterMetadata, 'AWS Amplify Docs']
         .filter((s) => s !== '')
         .join(' - ');
+
+  const current = meta?.title?.includes('Contribut') ? 'Contribute' : 'Docs';
 
   return (
     <>
@@ -83,7 +84,7 @@ export default function Layout({
         leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
         rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
         socialLinks={SOCIAL_LINKS as NavMenuItem[]}
-        currentSite={'Docs'}
+        currentSite={current}
       />
       <SecondaryNav />
       <Container backgroundColor="bg-color-tertiary">

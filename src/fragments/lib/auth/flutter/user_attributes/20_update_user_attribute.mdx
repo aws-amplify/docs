@@ -1,51 +1,79 @@
 To update a single user attribute, call `updateUserAttribute`:
 
 ```dart
-Future<void> updateUserAttribute() async {
+Future<void> updateUserEmail({
+  required String newEmail,
+}) async {
   try {
     final result = await Amplify.Auth.updateUserAttribute(
-      userAttributeKey: CognitoUserAttributeKey.email,
-      value: 'email@email.com',
+      userAttributeKey: AuthUserAttributeKey.email,
+      value: newEmail,
     );
-    if (result.nextStep.updateAttributeStep == 'CONFIRM_ATTRIBUTE_WITH_CODE') {
-      var destination = result.nextStep.codeDeliveryDetails?.destination;
-      print('Confirmation code sent to $destination');
-    } else {
-      print('Update completed');
-    }
-  } on AmplifyException catch (e) {
-    print(e.message);
+    _handleUpdateUserAttributeResult(result);
+  } on AuthException catch (e) {
+    safePrint('Error updating user attribute: ${e.message}');
   }
+}
+```
+
+User attribute updates may require additional verification before they're complete. Check the
+`UpdateUserAttributeResult` returned from `Amplify.Auth.updateUserAttribute` to see which next
+step, if any, is required. When the update is complete, the next step will be `done`.
+
+```dart
+void _handleUpdateUserAttributeResult(
+  UpdateUserAttributeResult result,
+) {
+  switch (result.nextStep.updateAttributeStep) {
+    case AuthUpdateAttributeStep.confirmAttributeWithCode:
+      final codeDeliveryDetails = result.nextStep.codeDeliveryDetails!;
+      _handleCodeDelivery(codeDeliveryDetails);
+      break;
+    case AuthUpdateAttributeStep.done:
+      safePrint('Successfully updated attribute');
+      break;
+  }
+}
+
+void _handleCodeDelivery(AuthCodeDeliveryDetails codeDeliveryDetails) {
+  safePrint(
+    'A confirmation code has been sent to ${codeDeliveryDetails.destination}. '
+    'Please check your ${codeDeliveryDetails.deliveryMedium.name} for the code.',
+  );
 }
 ```
 
 To update multiple user attributes at a time, call `updateUserAttributes`:
 
 ```dart
-Future<void> updateMultipleUserAttributes() async {
+Future<void> updateUserAttributes() async {
   const attributes = [
     AuthUserAttribute(
-      userAttributeKey: CognitoUserAttributeKey.email,
+      userAttributeKey: AuthUserAttributeKey.email,
       value: 'email@email.com',
     ),
     AuthUserAttribute(
-      userAttributeKey: CognitoUserAttributeKey.familyName,
+      userAttributeKey: AuthUserAttributeKey.familyName,
       value: 'MyFamilyName',
     ),
   ];
-
   try {
-    final result = await Amplify.Auth.updateUserAttributes(attributes: attributes);
+    final result = await Amplify.Auth.updateUserAttributes(
+      attributes: attributes,
+    );
     result.forEach((key, value) {
-      if (value.nextStep.updateAttributeStep == 'CONFIRM_ATTRIBUTE_WITH_CODE') {
-        final destination = value.nextStep.codeDeliveryDetails?.destination;
-        print('Confirmation code sent to $destination for $key');
-      } else {
-        print('Update completed for $key');
+      switch (value.nextStep.updateAttributeStep) {
+        case AuthUpdateAttributeStep.confirmAttributeWithCode:
+          final destination = value.nextStep.codeDeliveryDetails?.destination;
+          safePrint('Confirmation code sent to $destination for $key');
+          break;
+        case AuthUpdateAttributeStep.done:
+          safePrint('Update completed for $key');
+          break;
       }
     });
-  } on AmplifyException catch (e) {
-    print(e.message);
+  } on AuthException catch (e) {
+    safePrint('Error updating user attributes: ${e.message}');
   }
 }
 ```
