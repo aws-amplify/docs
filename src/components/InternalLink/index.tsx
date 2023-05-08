@@ -40,7 +40,7 @@ export default function InternalLink({ href, children }) {
   }
 
   return (
-    <Link href={href} passHref>
+    <Link href={href} passHref legacyBehavior>
       {children}
     </Link>
   );

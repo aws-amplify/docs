@@ -31,20 +31,20 @@ Here is an example of converting speech to text. In order to override any choice
 
 ```swift
 func speechToText(speech: URL) {
-    let options = PredictionsSpeechToTextRequest.Options(
-        defaultNetworkPolicy: .auto,
-        language: .usEnglish,
-        pluginOptions: nil
-    )
+  let options = PredictionsSpeechToTextRequest.Options(
+    defaultNetworkPolicy: .auto,
+    language: .usEnglish,
+    pluginOptions: nil
+  )
 
-    Amplify.Predictions.convert(speechToText: speech, options: options) { event in
-        switch event {
-        case let .success(result):
-            print(result.transcription)
-        case let .failure(error):
-            print(error)
-        }
+  Amplify.Predictions.convert(speechToText: speech, options: options) { event in
+    switch event {
+    case let .success(result):
+      print(result.transcription)
+    case let .failure(error):
+      print(error)
     }
+  }
 }
 ```
 
@@ -54,23 +54,23 @@ func speechToText(speech: URL) {
 
 ```swift
 func speechToText(speech: URL) -> AnyCancellable {
-    let options = PredictionsSpeechToTextRequest.Options(
-        defaultNetworkPolicy: .auto,
-        language: .usEnglish,
-        pluginOptions: nil
-    )
+  let options = PredictionsSpeechToTextRequest.Options(
+    defaultNetworkPolicy: .auto,
+    language: .usEnglish,
+    pluginOptions: nil
+  )
 
-    let sink = Amplify.Predictions.convert(speechToText: speech, options: options)
-        .resultPublisher
-        .sink {
-            if case let .failure(error) = $0 {
-                print(error)
-            }
-        }
-        receiveValue: { result in
-            print(result.transcription)
-        }
-    return sink
+  let sink = Amplify.Predictions.convert(speechToText: speech, options: options)
+    .resultPublisher
+    .sink {
+      if case let .failure(error) = $0 {
+        print(error)
+      }
+    }
+    receiveValue: { result in
+      print(result.transcription)
+    }
+  return sink
 }
 ```
 

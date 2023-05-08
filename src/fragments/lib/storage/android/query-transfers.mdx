@@ -42,7 +42,7 @@ Amplify.Storage.getTransfer("TRANSFER_ID",
         operation.cancel()
     },
     {
-      error -> Log.e("MyAmplifyApp","Failed to query transfer", error)
+        Log.e("MyAmplifyApp", "Failed to query transfer", it)
     }
 )
 ```

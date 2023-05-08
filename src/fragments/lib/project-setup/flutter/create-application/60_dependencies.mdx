@@ -1,35 +1,12 @@
-<BlockSwitcher>
+```yaml
+environment:
+  sdk: ">=2.18.0 <4.0.0"
+  flutter: ">=3.3.0"
 
-<Block name="Stable (Mobile)">
+dependencies:
+  flutter:
+    sdk: flutter
 
-   ```yaml
-   environment:
-     sdk: ">=2.15.0 <3.0.0"
-
-   dependencies:
-     flutter:
-       sdk: flutter
-
-     amplify_flutter: ^0.6.0
-     amplify_auth_cognito: ^0.6.0
-   ```
-
-</Block>
-
-<Block name = "Developer Preview (Mobile, Web & Desktop)">
-
-   ```yaml
-   environment:
-     sdk: ">=2.17.0 <3.0.0"
-
-   dependencies:
-     flutter:
-       sdk: flutter
-
-     amplify_flutter: ^1.0.0-next.0
-     amplify_auth_cognito: ^1.0.0-next.0
-   ```
-
-</Block>
-
-</BlockSwitcher>
+  amplify_flutter: ^1.0.0
+  amplify_auth_cognito: ^1.0.0
+```

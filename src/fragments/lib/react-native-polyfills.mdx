@@ -4,7 +4,7 @@
 npm install aws-amplify @react-native-community/netinfo @react-native-async-storage/async-storage react-native-get-random-values react-native-url-polyfill
 ```
 
-The AWS SDK requires React Native applications to polyfill `crypto.getRandomValues` and `URL`. Import it at the top of your application's root entry point (in most React Native apps this will be the top level `index.js`).
+You need to add the crypto.getRandomValues and URL polyfills to your application's entry point file (in most React Native apps this will be the top level index.js).
 
 ```js
 // Example index.js
