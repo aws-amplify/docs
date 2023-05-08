@@ -8,20 +8,14 @@ const CRAWLER_EXCEPTIONS = [
   'https://twitter.com/AWSAmplify'
 ];
 
-type LinkObject = {
-  url: string;
-  parentUrl: string;
-  linkText: string | null;
-};
-
-const getSitemapUrls = async (): Promise<string[]> => {
+const getSitemapUrls = async () => {
   let browser = await puppeteer.launch();
 
   const page = await browser.newPage();
 
   let response = await page.goto(SITEMAP_URL);
 
-  const siteMapUrls: string[] = [];
+  const siteMapUrls = [];
 
   if (response && response.status() && response.status() === 200) {
     const urlTags = await page.evaluateHandle(() => {
@@ -46,14 +40,14 @@ const getSitemapUrls = async (): Promise<string[]> => {
 };
 
 const retrieveLinks = async (
-  siteMapUrls: string[],
-  visitedLinks: { [key: string]: boolean }
-): Promise<LinkObject[]> => {
+  siteMapUrls,
+  visitedLinks
+) => {
   let browser = await puppeteer.launch();
 
   const page = await browser.newPage();
 
-  const urlsToVisit: LinkObject[] = [];
+  const urlsToVisit = [];
 
   for (let i = 0; i < siteMapUrls.length; i++) {
     //   for (let i = 0; i < 100; i++) {
@@ -64,12 +58,12 @@ const retrieveLinks = async (
       visitedLinks[url] = true;
 
       const urlList = await page.evaluate(async (url) => {
-        let urls: LinkObject[] = [];
+        let urls = [];
         let elements = document.getElementsByTagName('a');
         for (let i = 0; i < elements.length; i++) {
           let element = elements[i];
           if (element.href) {
-            const link: LinkObject = {
+            const link = {
               url: element.href,
               parentUrl: url,
               linkText: element.textContent
@@ -96,16 +90,16 @@ const retrieveLinks = async (
 const linkChecker = async () => {
   const visitedLinks = {};
   const statusCodes = {};
-  const brokenLinks: LinkObject[] = [];
+  const brokenLinks = [];
 
   const siteMapUrls = await getSitemapUrls();
 
-  const urlsToVisit: LinkObject[] = await retrieveLinks(
+  const urlsToVisit = await retrieveLinks(
     siteMapUrls,
     visitedLinks
   );
 
-  let allPromises: Promise<void>[] = [];
+  let allPromises = [];
 
   for (let i = 0; i < urlsToVisit.length; i++) {
     const link = urlsToVisit[i];

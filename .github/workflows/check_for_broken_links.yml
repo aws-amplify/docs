@@ -16,4 +16,4 @@ jobs:
       - name: Install Dependencies
         run: yarn
       - name: Run Link Checker
-        run: yarn task link-checker
+        run: node tasks/link-checker.mjs
