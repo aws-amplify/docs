@@ -52,7 +52,7 @@ fun detectText(image: Bitmap) {
     Amplify.Predictions.identify(TextFormatType.PLAIN, image,
         { result ->
             val identifyResult = result as IdentifyTextResult
-            Log.i("MyAmplifyApp", "${identifyResult?.fullText}")
+            Log.i("MyAmplifyApp", identifyResult.fullText)
         },
         { Log.e("MyAmplifyApp", "Identify text failed", it) }
     )
@@ -122,7 +122,7 @@ fun detectText(image: Bitmap) {
     Amplify.Predictions.identify(TextFormatType.FORM, image,
         { result ->
             val identifyResult = result as IdentifyDocumentTextResult
-            Log.i("MyAmplifyApp", "${identifyResult.fullText}")
+            Log.i("MyAmplifyApp", identifyResult.fullText)
         },
         { Log.e("MyAmplifyApp", "Identify failed", it) }
     )

@@ -1,12 +1,15 @@
 export const meta = {
   title: `Getting started`,
-  description: `Use of Push Notifications of Amplify`
+  description: `Use of Amplify Push Notifications`
 };
 
-import reactnative0 from '/src/fragments/lib/push-notifications/js/getting-started.mdx';
+import commonRoute from '/src/fragments/lib/push-notifications/common/getting_started/getting-started.mdx';
 
-<Fragments fragments={{ 'react-native': reactnative0 }} />
-
-import ios1 from "/src/fragments/lib/push-notifications/common/getting-started.mdx";
-
-<Fragments fragments={{ios: ios1}} />
+<Fragments
+  fragments={{
+    android: commonRoute,
+    flutter: commonRoute,
+    ios: commonRoute,
+    'react-native': commonRoute
+  }}
+/>

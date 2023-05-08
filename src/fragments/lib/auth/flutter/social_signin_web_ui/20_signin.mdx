@@ -1,10 +1,12 @@
 ```dart
-Future<void> signInWithSocialWebUI() async {
+Future<void> socialSignIn() async {
   try {
-    final result = await Amplify.Auth.signInWithWebUI(provider: AuthProvider.facebook);
-    print('Result: $result');
-  } on AmplifyException catch (e) {
-    print(e.message);
+    final result = await Amplify.Auth.signInWithWebUI(
+      provider: AuthProvider.google,
+    );
+    safePrint('Sign in result: $result');
+  } on AuthException catch (e) {
+    safePrint('Error signing in: ${e.message}');
   }
 }
 ```

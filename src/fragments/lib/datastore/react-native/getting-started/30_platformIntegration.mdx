@@ -1,6 +1,6 @@
 The fastest way to get started is using the `amplify-app` npx script.
 
-<iframe src="https://www.youtube-nocookie.com/embed/wH-UnQy1ltM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe sandbox src="https://www.youtube-nocookie.com/embed/wH-UnQy1ltM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 <br/>
 
 <BlockSwitcher>
@@ -12,7 +12,7 @@ Start with the [React Native CLI](https://reactnative.dev/docs/getting-started):
 npx react-native@0.68.2 init AmplifyDataStoreRN --version 0.68.2
 cd AmplifyDataStoreRN
 npx amplify-app@latest
-npm install aws-amplify @react-native-community/netinfo @react-native-async-storage/async-storage core-js
+npm install aws-amplify amazon-cognito-identity-js @react-native-community/netinfo @react-native-async-storage/async-storage core-js
 ```
 
 You will also need to install the pod dependencies for iOS:
@@ -31,7 +31,7 @@ To enable SQLite with DataStore for enhanced local database performance, follow 
 npx react-native@0.68.2 init AmplifyDataStoreRN --version 0.68.2
 cd AmplifyDataStoreRN
 npx amplify-app@latest
-npm install aws-amplify @aws-amplify/datastore-storage-adapter react-native-sqlite-storage @react-native-community/netinfo @react-native-async-storage/async-storage core-js
+npm install aws-amplify amazon-cognito-identity-js @aws-amplify/datastore-storage-adapter react-native-sqlite-storage @react-native-community/netinfo @react-native-async-storage/async-storage core-js
 npx pod-install
 ```
 
@@ -61,7 +61,7 @@ Start with the [Expo CLI](https://docs.expo.dev/):
 npx create-expo-app AmplifyDataStoreExpo
 cd AmplifyDataStoreExpo
 npx amplify-app@latest
-expo install aws-amplify @react-native-community/netinfo @react-native-async-storage/async-storage
+expo install aws-amplify amazon-cognito-identity-js @react-native-community/netinfo @react-native-async-storage/async-storage
 ```
 
 **Use SQLite for enhanced performance (optional)**
@@ -74,7 +74,7 @@ To enable SQLite with DataStore for enhanced local database performance, follow 
 npx create-expo-app AmplifyDataStoreExpo
 cd AmplifyDataStoreExpo
 npx amplify-app@latest
-expo install aws-amplify @aws-amplify/datastore-storage-adapter expo-sqlite expo-file-system @react-native-community/netinfo @react-native-async-storage/async-storage
+expo install aws-amplify amazon-cognito-identity-js @aws-amplify/datastore-storage-adapter expo-sqlite expo-file-system @react-native-community/netinfo @react-native-async-storage/async-storage core-js
 ```
 
 Then configure the SQLite storage adapter with DataStore in your app:
@@ -95,4 +95,4 @@ Disable custom primary key in `amplify/cli.json` by setting `graphQLTransformer.
 
 </Callout>
 </Block>
-</BlockSwitcher>
+</BlockSwitcher> 

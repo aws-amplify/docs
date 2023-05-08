@@ -1,3 +1,41 @@
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+// You must hold a reference to your subscription.
+var postsSubscription: AmplifyAsyncThrowingSequence<DataStoreQuerySnapshot<Post>>?
+
+// Subscribe
+func subscribeToPosts() async {
+    let post = Post.keys
+    let postsSubscription = Amplify.DataStore.observeQuery(
+        for: Post.self,
+        where: post.title.beginsWith("post") && post.rating > 10.0,
+        sort: .ascending(post.rating)
+    )
+    // hold onto your subscription
+    self.postsSubscription = postsSubscription
+    do {
+        // observe new snapshots
+        for try await querySnapshot in postsSubscription {
+            print("[Snapshot] item count: \(querySnapshot.items.count), isSynced: \(querySnapshot.isSynced)")
+        }
+    } catch {
+        print("Error: \(error)")
+    }
+}
+
+// When you're finished observing, cancel the subscription
+func unsubscribeFromPosts() {
+    postsSubscription?.cancel()
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
 ```swift
 // In your type declaration, declare a cancellable to hold onto the subscription
 var postsSubscription: AnyCancellable?
@@ -25,3 +63,7 @@ func unsubscribeFromPosts() {
     postsSubscription?.cancel()
 }
 ```
+
+</Block>
+
+</BlockSwitcher>

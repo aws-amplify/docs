@@ -1,18 +1,6 @@
-
-<BlockSwitcher>
-
-<Block name="Stable (Mobile)">
-
-import flutter0 from "/src/fragments/lib/storage/flutter/upload/upload-create-file.mdx";
-
-<Fragments fragments={{flutter: flutter0}} />
-
-</Block>
-
-<Block name = "Developer Preview (Mobile, Web & Desktop)">
-
 ```dart
 import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 
 Future<void> uploadExampleData() async {
   const dataString = 'Example file contents';
@@ -32,7 +20,3 @@ Future<void> uploadExampleData() async {
   }
 }
 ```
-
-</Block>
-
-</BlockSwitcher>

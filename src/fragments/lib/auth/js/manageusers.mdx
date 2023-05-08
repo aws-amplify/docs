@@ -82,7 +82,7 @@ Auth.verifyCurrentUserAttribute(attr)
   });
 
 // To verify attribute with the code
-Auth.verifyCurrentUserAttributeSubmit(attr, 'the_verification_code')
+Auth.verifyCurrentUserAttributeSubmit(attr, '<verification_code>')
   .then(() => {
     console.log('phone_number verified');
   })
@@ -138,7 +138,7 @@ a set of APIs that can help you manage attributes in your user pool.
 
 Amazon Cognito has a set of default standard attributes; you also have the ability to define custom attributes.
 Up to 50 custom attributes can be added to your user pool. 
-You can find a [list of all custom attributes here](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#cognito-user-pools-standard-attributes).
+You can find a [list of all the standard attributes here](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#cognito-user-pools-standard-attributes) and [documentation for custom attributes here](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-custom-attributes).
 You can pass them in the `attributes` object of `Auth.signUp` function parameters:
 
 ```javascript
@@ -185,9 +185,9 @@ verification. You can listen to `updateUserAttributes` event on `auth` channel:
 
 ```javascript
 Hub.listen('auth', ({payload}) => {
-    if (payload.event === 'updateUserAttributes') {
-        const resultObject = payload.data;
-    }
+  if (payload.event === 'updateUserAttributes') {
+    const resultObject = payload.data;
+  }
 });
 ```
 You can learn more about how to listen to Hub events [here](https://docs.amplify.aws/lib/utilities/hub/q/platform/js/).
@@ -196,17 +196,17 @@ Example of the dispatched `resultObject`:
 
 ```javascript
 {
-    'email': {
-        isUpdated: false // indicates that attribute requires verification
-        codeDeliveryDetails: {
-            AttributeName: 'email',
-            DeliveryMedium: 'EMAIL',
-            Destination: 'm***@a...'
-        }
-    },
-    'family_name': {
-        isUpdated: true
+  'email': {
+    isUpdated: false // indicates that attribute requires verification
+    codeDeliveryDetails: {
+      AttributeName: 'email',
+      DeliveryMedium: 'EMAIL',
+      Destination: 'm***@a...'
     }
+  },
+  'family_name': {
+    isUpdated: true
+  }
 }
 ```
 If a user sends several attributes for update and one or more of them is `read_only` or doesn't exist, the Amplify JavaScript library will throw
@@ -218,7 +218,7 @@ If you change the email address, you will receive a confirmation code to the new
 email address in your app:
 
 ```javascript
-const result = await Auth.verifyCurrentUserAttributeSubmit('email', 'abc123');
+const result = await Auth.verifyCurrentUserAttributeSubmit('email', '<verification_code>');
 ```
 
 ### Delete user attributes

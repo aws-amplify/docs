@@ -47,15 +47,15 @@ You can identify entity matches from your Rekognition Collection in your app usi
 
 ```swift
 func detectEntities(_ image: URL) {
-    Amplify.Predictions.identify(type: .detectEntities, image: image) { event in
-        switch event {
-        case let .success(result):
-            let data = result as! IdentifyEntityMatchesResult
-            print(data.entities)
-        case let .failure(error):
-            print(error)
-        }
+  Amplify.Predictions.identify(type: .detectEntities, image: image) { event in
+    switch event {
+    case let .success(result):
+      let data = result as! IdentifyEntityMatchesResult
+      print(data.entities)
+    case let .failure(error):
+      print(error)
     }
+  }
 }
 ```
 
@@ -65,17 +65,17 @@ func detectEntities(_ image: URL) {
 
 ```swift
 func detectEntities(_ image: URL) -> AnyCancellable {
-    Amplify.Predictions.identify(type: .detectEntities, image: image)
-        .resultPublisher
-        .sink {
-            if case let .failure(error) = $0 {
-                print(error)
-            }
-        }
-        receiveValue: { result in
-            let data = result as! IdentifyEntityMatchesResult
-            print(data.entities)
-        }
+  Amplify.Predictions.identify(type: .detectEntities, image: image)
+    .resultPublisher
+    .sink {
+      if case let .failure(error) = $0 {
+        print(error)
+      }
+    }
+    receiveValue: { result in
+      let data = result as! IdentifyEntityMatchesResult
+      print(data.entities)
+    }
 }
 ```
 
@@ -91,15 +91,15 @@ To detect general entities like facial features, landmarks etc, you can use the 
 
 ```swift
 func detectEntities(_ image: URL) {
-    Amplify.Predictions.identify(type: .detectEntities, image: image) { event in
-        switch event {
-        case let .success(result):
-            let data = result as! IdentifyEntitiesResult
-            print(data.entities)
-        case let .failure(error):
-            print(error)
-        }
+  Amplify.Predictions.identify(type: .detectEntities, image: image) { event in
+    switch event {
+    case let .success(result):
+      let data = result as! IdentifyEntitiesResult
+      print(data.entities)
+    case let .failure(error):
+      print(error)
     }
+  }
 }
 ```
 
@@ -109,17 +109,17 @@ func detectEntities(_ image: URL) {
 
 ```swift
 func detectEntities(_ image: URL) -> AnyCancellable {
-    Amplify.Predictions.identify(type: .detectEntities, image: image)
-        .resultPublisher
-        .sink {
-            if case let .failure(error) = $0 {
-                print(error)
-            }
-        }
-        receiveValue: { result in
-            let data = result as! IdentifyEntitiesResult
-            print(data.entities)
-        }
+  Amplify.Predictions.identify(type: .detectEntities, image: image)
+    .resultPublisher
+    .sink {
+      if case let .failure(error) = $0 {
+        print(error)
+      }
+    }
+    receiveValue: { result in
+      let data = result as! IdentifyEntitiesResult
+      print(data.entities)
+    }
 }
 ```
 
@@ -137,18 +137,18 @@ To detect celebrities you can pass in `.detectCelebrity` in the `type:` field. R
 
 ```swift
 func detectCelebs(_ image: URL) {
-    Amplify.Predictions.identify(type: .detectCelebrity, image: image) { event in
-        switch event {
-        case let .success(result):
-            let data = result as! IdentifyCelebritiesResult
-            if let detectedCeleb = data.celebrities.first {
-                print("Celebrity Name: \(detectedCeleb.metadata.name)")
-            }
-            print(result)
-        case let .failure(error):
-            print(error)
-        }
+  Amplify.Predictions.identify(type: .detectCelebrity, image: image) { event in
+    switch event {
+    case let .success(result):
+      let data = result as! IdentifyCelebritiesResult
+      if let detectedCeleb = data.celebrities.first {
+        print("Celebrity Name: \(detectedCeleb.metadata.name)")
+      }
+      print(result)
+    case let .failure(error):
+      print(error)
     }
+  }
 }
 ```
 
@@ -158,20 +158,20 @@ func detectCelebs(_ image: URL) {
 
 ```swift
 func detectCelebs(_ image: URL) -> AnyCancellable {
-    Amplify.Predictions.identify(type: .detectCelebrity, image: image)
-        .resultPublisher
-        .sink {
-            if case let .failure(error) = $0 {
-                print(error)
-            }
-        }
-        receiveValue: { result in
-            let data = result as! IdentifyCelebritiesResult
-            if let detectedCeleb = data.celebrities.first {
-                print("Celebrity Name: \(detectedCeleb.metadata.name)")
-            }
-            print(result)
-        }
+  Amplify.Predictions.identify(type: .detectCelebrity, image: image)
+    .resultPublisher
+    .sink {
+      if case let .failure(error) = $0 {
+        print(error)
+      }
+    }
+    receiveValue: { result in
+      let data = result as! IdentifyCelebritiesResult
+      if let detectedCeleb = data.celebrities.first {
+        print("Celebrity Name: \(detectedCeleb.metadata.name)")
+      }
+      print(result)
+    }
 }
 ```
 

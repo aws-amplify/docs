@@ -476,21 +476,21 @@ You may want to change the contents of a record. Below, we'll query for a record
   <Block name="Java">
 
    ```java
-  Amplify.DataStore.query(Todo.class, Where.name.eq("Finish quarterly taxes"),
-      matches -> {
-          if (matches.hasNext()) {
-              Todo todo = matches.next();
-              Todo updatedTodo = original.copyOfBuilder()
-                  .title("File quarterly taxes")
-                  .build();
-              Amplify.DataStore.save(updatedTodo,
-                  updated -> Log.i("Tutorial", "Updated item: " + updatedTodo.getName(),
-                  failure -> Log.e("Tutorial", "Update failed.", failure)
-              );
-          }
-      },
-      failure -> Log.e("Tutorial", "Query failed.", failure)
-  );
+    Amplify.DataStore.query(Todo.class, Where.matches(Todo.NAME.eq("Finish quarterly taxes")),
+        matches -> {
+            if (matches.hasNext()) {
+                Todo todo = matches.next();
+                Todo updatedTodo = todo.copyOfBuilder()
+                        .name("File quarterly taxes")
+                        .build();
+                Amplify.DataStore.save(updatedTodo,
+                        updated -> Log.i("Tutorial", "Updated item: " + updatedTodo.getName()),
+                        failure -> Log.e("Tutorial", "Update failed.", failure)
+                );
+            }
+        },
+        failure -> Log.e("Tutorial", "Query failed.", failure)
+    );
    ```
 
    </Block>
@@ -498,14 +498,14 @@ You may want to change the contents of a record. Below, we'll query for a record
    <Block name="Kotlin">
 
    ```kotlin
-  Amplify.DataStore.query(Todo::class.java, Where.name.eq("Finish quarterly taxes"),
+  Amplify.DataStore.query(Todo::class.java, Where.matches(Todo.NAME.eq("Finish quarterly taxes")),
       { matches ->
           if (matches.hasNext()) {
               val todo = matches.next()
-              val updatedTodo = original.copyOfBuilder()
-                  .title("File quarterly taxes")
+              val updatedTodo = todo.copyOfBuilder()
+                  .name("File quarterly taxes")
                   .build()
-              Amplify.DataStore.save(edited,
+              Amplify.DataStore.save(updatedTodo,
                   { Log.i("Tutorial", "Updated item: ${updatedTodo.name}") },
                   { Log.e("Tutorial", "Update failed.", it) }
               )
@@ -539,7 +539,7 @@ To round out CRUD operations, we'll query for a record and then delete it from D
        matches -> {
            if (matches.hasNext()) {
                Todo toDeleteTodo = matches.next();
-               Amplify.DataStore.delete(todo,
+               Amplify.DataStore.delete(toDeleteTodo,
                    deleted -> Log.i("Tutorial", "Deleted item: " + toDeleteTodo.getName()),
                    failure -> Log.e("Tutorial", "Delete failed.", failure)
                );
