@@ -107,17 +107,17 @@ Sending in `.form` or `.table` or `.all` will do document analysis as well as te
 <Block name="Async/Await">
 
 ```swift
-func detectDocumentText(_ image: URL) -> Predictions.Identify.DocumentText.Result {
-    do { 
+func detectDocumentText(_ image: URL) async throws -> Predictions.Identify.DocumentText.Result {
+    do {
         let result = try await Amplify.Predictions.identify(
             .textInDocument(textFormatType: .form), in: image
         )
         print("Identified document text: \(result)")
         return result
-    } catch let error as PredictionsError { 
+    } catch let error as PredictionsError {
         print("Error identifying text in document: \(error)")
         throw error
-    } catch { 
+    } catch {
         print("Unexpected error: \(error)")
         throw error
     }

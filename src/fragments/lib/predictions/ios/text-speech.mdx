@@ -52,7 +52,7 @@ var player: AVAudioPlayer?
 
 //...
 
-func textToSpeech(text: String) async throws {
+func textToSpeech() async throws {
   let result = try await Amplify.Predictions.convert(
       .textToSpeech("Hello, world!"),
       options: .init(voice: .englishFemaleIvy)
@@ -79,7 +79,7 @@ var textToSpeechSink: AnyCancellable?
 
 //...
 
-func textToSpeech(text: String) {
+func textToSpeech() {
   textToSpeechSink = Amplify.Publisher.create {
      try await Amplify.Predictions.convert(
         .textToSpeech("Hello, world!"),
@@ -90,10 +90,10 @@ func textToSpeech(text: String) {
       if case let .failure(error) = completion {
           print("Error converting text to speech: \(error)")
       }
-  }, receiveValue: { value in
+  }, receiveValue: { result in
       print("TextToSpeech result: \(result)")
-      self.player = try AVAudioPlayer(data: result.audioData)
-      player?.play()
+      self.player = try? AVAudioPlayer(data: result.audioData)
+      self.player?.play()
   })
 }
 ```

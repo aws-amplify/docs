@@ -42,16 +42,16 @@ Here is an example of translating text. In order to override any choices you mad
 
 ```swift
 func translateText(text: String) async throws -> String {
-  do { 
+  do {
     let result = try await Amplify.Predictions.convert(
-        .textToTranslate(text, from: .english, to: .italian)
+        .translateText(text, from: .english, to: .italian)
     )
-    print("Translated text: \(result.text))
+    print("Translated text: \(result.text)")
     return result.text
-  } catch let error as PredictionsError { 
+  } catch let error as PredictionsError {
       print("Error translating text: \(error)")
       throw error
-  } catch { 
+  } catch {
       print("Unexpected error: \(error)")
       throw error
   }
@@ -66,7 +66,7 @@ func translateText(text: String) async throws -> String {
 func translateText(text: String) -> AnyCancellable {
     Amplify.Publisher.create {
         try await Amplify.Predictions.convert(
-          .textToTranslate(text, from: .english, to: .italian)
+          .translateText(text, from: .english, to: .italian)
         )
     }
     .sink(receiveCompletion: { completion in

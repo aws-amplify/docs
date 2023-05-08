@@ -50,8 +50,8 @@ You can identify real world objects such as chairs, desks, etc. which are referr
 func detectLabels(_ image: URL) async throws -> Predictions.Identify.Labels.Result {
     do {
         let result = try await Amplify.Predictions.identify(.labels(type: .labels), in: image)
-        print("Identified labels: \(labels)")
-        return labels
+        print("Identified labels: \(result.labels)")
+        return result
     }  catch let error as PredictionsError {
         print("Error identifying labels: \(error)")
         throw error
@@ -65,8 +65,8 @@ func detectLabels(_ image: URL) async throws -> Predictions.Identify.Labels.Resu
 func detectAllLabels(_ image: URL) async throws -> Predictions.Identify.Labels.Result {
     do {
         let result = try await Amplify.Predictions.identify(.labels(type: .all), in: image)
-        print("Identified labels: \(labels)")
-        return labels
+        print("Identified labels: \(result.labels)")
+        return result
     }  catch let error as PredictionsError {
         print("Error identifying labels: \(error)")
         throw error

@@ -51,10 +51,10 @@ func detectEntities(_ image: URL) async throws -> [Predictions.Entity] {
         let result = try await Amplify.Predictions.identify(.entities, in: image)
         print("Identified entities: \(result.entities)")
         return result.entities
-    } catch let error as PredictionsError { 
+    } catch let error as PredictionsError {
         print("Error identifying entities: \(error)")
         throw error
-    } catch { 
+    } catch {
         print("Unexpected error: \(error)")
         throw error
     }

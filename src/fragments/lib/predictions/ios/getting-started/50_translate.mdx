@@ -28,7 +28,7 @@ func translateText() async {
 ```swift
 Amplify.Publisher.create {
     try await Amplify.Predictions.convert(
-        .textToTranslate(
+        .translateText(
             "I like to eat spaghetti!",
             from: .english,
             to: .spanish

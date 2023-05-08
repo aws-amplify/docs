@@ -47,16 +47,17 @@ Here is an example of sending text for interpretation such as sentiment analysis
 
 ```swift
 func interpret(text: String) async throws -> Predictions.Interpret.Result {
-  do { 
-      let result = try await Amplify.Predictions.interpret(text: text)
-      print("Interpreted text: \(result)")
-  } catch let error as PredictionsError {
-      print("Error interpreting text: \(error)")
-      throw error
-  } catch {
-      print("Unexpected error: \(error)")
-      throw error
-  }
+    do {
+        let result = try await Amplify.Predictions.interpret(text: text)
+        print("Interpreted text: \(result)")
+        return result
+    } catch let error as PredictionsError {
+        print("Error interpreting text: \(error)")
+        throw error
+    } catch {
+        print("Unexpected error: \(error)")
+        throw error
+    }
 }
 ```
 
@@ -66,16 +67,16 @@ func interpret(text: String) async throws -> Predictions.Interpret.Result {
 
 ```swift
 func interpret(text: String) -> AnyCancellable {
-  Amplify.Publisher.create {
-      try await Amplify.Predictions.interpret(text: text)
-  }
-  .sink(receiveCompletion: { completion in
-      if case let .failure(error) = completion {
-        print("Error interpreting text: \(error)")
-      }
-  }, receiveValue: { value in
-      print("Interpreted text: \(result)")
-  })
+    Amplify.Publisher.create {
+        try await Amplify.Predictions.interpret(text: text)
+    }
+    .sink(receiveCompletion: { completion in
+        if case let .failure(error) = completion {
+            print("Error interpreting text: \(error)")
+        }
+    }, receiveValue: { value in
+        print("Interpreted text: \(value)")
+    })
 }
 ```
 
