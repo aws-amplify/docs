@@ -99,7 +99,6 @@ function MyApp({ Component, pageProps }) {
         </>
       )}
       <script src="/scripts/aws-ux-shortbread-v1-0-14.js"></script>
-      
     </>
   );
 }
