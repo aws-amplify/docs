@@ -30,7 +30,7 @@ const Option = function({href, title, isActive}) {
   const SwitchStyle = isActive ? ActiveSwitchStyle : "a";
   return (
     <div>
-      <Link href={href}>
+      <Link href={href} legacyBehavior>
         <SwitchStyle href={href}>
           <span>{title}</span>
         </SwitchStyle>

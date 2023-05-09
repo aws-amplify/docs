@@ -59,7 +59,6 @@ Applications that use an Amplify GraphQL API have limited feature availability i
 - The Content Manager is not supported, and is [replaced by a GraphiQL interface](content-management/#limitations)
 - [Binding UI Components to data](../uibuilder/databinding/), and [generating Collections](../uibuilder/collections/) is not supported
 - [Binding Forms to data, and auto-generated forms](../formbuilder/overview/) are not supported
-- [Split GraphQL files](/lib/graphqlapi/getting-started/q/platform/js/#updating-your-graphql-schema) are not supported
 
 To get access to these features, turn on DataStore and select a Conflict Resolution strategy.
 
@@ -83,3 +82,19 @@ If a data model contains unsupported directives or field-level parameters the **
 - [`Query` type](/cli/graphql/custom-business-logic/#create-a-custom-query-or-mutation)
 - [`Mutation` type](/cli/graphql/custom-business-logic/#create-a-custom-query-or-mutation)
 - [`Subscription` type](/cli/graphql/custom-business-logic/#create-a-custom-query-or-mutation)
+
+### Split GraphQL files
+
+```console
+Your schema file could not be loaded
+The schema.graphql file in your project could not be loaded. This may be because the file was moved, or because you are using a split schema, which is not supported.
+```
+
+This message occurs as Amplify Studio does not support splitting GraphQL schemas, such as saving as a set of `.graphql` files in the `amplify/backend/api/<api-name>/schema/` directory. E.g. `Query.graphql`, `User.graphql`, and `Post.graphql`. 
+To resolve the issue, you will need to combine the files using the following steps.
+
+1. [Pull your Amplify project](/console/adminui/extend-cli/#to-configure-the-amplify-cli-for-use-without-an-aws-account) to a local directory
+2. In the `amplify/backend/api/` directory, create a file named `schema.graphql`
+3. Copy all the contents of the `amplify/backend/api/<api-name>/schema/` directory files and paste them into the `schema.graphql` file
+4. Remove the `amplify/backend/api/<api-name>/schema/` directory.
+5. Run `amplify push`

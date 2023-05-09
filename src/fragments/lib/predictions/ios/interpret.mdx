@@ -47,14 +47,14 @@ Here is an example of sending text for interpretation such as sentiment analysis
 
 ```swift
 func interpret(text: String) {
-    Amplify.Predictions.interpret(text: text) { event in
-        switch event {
-        case let .success(result):
-            print(result)
-        case let .failure(error):
-            print(error)
-        }
+  Amplify.Predictions.interpret(text: text) { event in
+    switch event {
+    case let .success(result):
+      print(result)
+    case let .failure(error):
+      print(error)
     }
+  }
 }
 ```
 
@@ -64,16 +64,16 @@ func interpret(text: String) {
 
 ```swift
 func interpret(text: String) -> AnyCancellable {
-    Amplify.Predictions.interpret(text: text)
-        .resultPublisher
-        .sink {
-            if case let .failure(error) = $0 {
-                print(error)
-            }
-        }
-        receiveValue: { result in
-            print(result)
-        }
+  Amplify.Predictions.interpret(text: text)
+    .resultPublisher
+    .sink {
+      if case let .failure(error) = $0 {
+        print(error)
+      }
+    }
+    receiveValue: { result in
+      print(result)
+    }
 }
 ```
 

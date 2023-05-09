@@ -22,21 +22,21 @@ Your class will look like this:
 
 ```java
 public class MyAmplifyApp extends Application {
-    @Override
-    public void onCreate() {
-        super.onCreate();
+  @Override
+  public void onCreate() {
+    super.onCreate();
 
-        try {
-            // Add these lines to add the AWSCognitoAuthPlugin and AWSPredictionsPlugin plugins
-            Amplify.addPlugin(new AWSCognitoAuthPlugin());
-            Amplify.addPlugin(new AWSPredictionsPlugin());
-            Amplify.configure(getApplicationContext());
+    try {
+      // Add these lines to add the AWSCognitoAuthPlugin and AWSPredictionsPlugin plugins
+      Amplify.addPlugin(new AWSCognitoAuthPlugin());
+      Amplify.addPlugin(new AWSPredictionsPlugin());
+      Amplify.configure(getApplicationContext());
 
-            Log.i("MyAmplifyApp", "Initialized Amplify");
-        } catch (AmplifyException error) {
-            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
-        }
+      Log.i("MyAmplifyApp", "Initialized Amplify");
+    } catch (AmplifyException error) {
+      Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
     }
+  }
 }
 ```
 
@@ -60,20 +60,20 @@ Your class will look like this:
 
 ```kotlin
 class MyAmplifyApp : Application() {
-    override fun onCreate() {
-        super.onCreate()
+  override fun onCreate() {
+    super.onCreate()
 
-        try {
-            // Add these lines to add the AWSCognitoAuthPlugin and AWSPredictionsPlugin plugins
-            Amplify.addPlugin(AWSCognitoAuthPlugin())
-            Amplify.addPlugin(AWSPredictionsPlugin())
-            Amplify.configure(applicationContext)
+    try {
+      // Add these lines to add the AWSCognitoAuthPlugin and AWSPredictionsPlugin plugins
+      Amplify.addPlugin(AWSCognitoAuthPlugin())
+      Amplify.addPlugin(AWSPredictionsPlugin())
+      Amplify.configure(applicationContext)
 
-            Log.i("MyAmplifyApp", "Initialized Amplify")
-        } catch (error: AmplifyException) {
-            Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
-        }
+      Log.i("MyAmplifyApp", "Initialized Amplify")
+    } catch (error: AmplifyException) {
+      Log.e("MyAmplifyApp", "Could not initialize Amplify", error)
     }
+  }
 }
 ```
 
@@ -97,21 +97,21 @@ Your class will look like this:
 
 ```java
 public class MyAmplifyApp extends Application {
-    @Override
-    public void onCreate() {
-        super.onCreate();
+  @Override
+  public void onCreate() {
+    super.onCreate();
 
-        try {
-            // Add these lines to add the AWSCognitoAuthPlugin and AWSPredictionsPlugin plugins
-            RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
-            RxAmplify.addPlugin(new AWSPredictionsPlugin());
-            RxAmplify.configure(getApplicationContext());
+    try {
+      // Add these lines to add the AWSCognitoAuthPlugin and AWSPredictionsPlugin plugins
+      RxAmplify.addPlugin(new AWSCognitoAuthPlugin());
+      RxAmplify.addPlugin(new AWSPredictionsPlugin());
+      RxAmplify.configure(getApplicationContext());
 
-            Log.i("MyAmplifyApp", "Initialized Amplify");
-        } catch (AmplifyException error) {
-            Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
-        }
+      Log.i("MyAmplifyApp", "Initialized Amplify");
+    } catch (AmplifyException error) {
+      Log.e("MyAmplifyApp", "Could not initialize Amplify", error);
     }
+  }
 }
 ```
 
