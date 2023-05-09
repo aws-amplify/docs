@@ -81,7 +81,7 @@ Amplify JS can be used with Next.js' App Router with a few important changes to 
 - Amplify JS must be explicitly configured in both your client-side and server-side code (with `ssr` enabled)
 - An appropriate request object will need to be prepared for use with `withSSRContext` when performing operations on the server that require authentication
 
-Example of an App Router component that uses Amplify on the server:
+Example of an Next.js App Router component that uses Amplify JS on the server:
 
 ```js
 import { Amplify, withSSRContext } from 'aws-amplify';
@@ -100,7 +100,7 @@ export default async function Page() {
   };
   const SSR = withSSRContext({ req })
 
-  const { data } = await SSR.API.graphql({ query: listTodos });
+  const { data } = await SSR.API.graphql({ query: listPosts });
 
   ...
 }
