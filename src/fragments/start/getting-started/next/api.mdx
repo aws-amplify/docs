@@ -224,9 +224,9 @@ Open **pages/index.js** and replace it with the following code:
 import { Authenticator } from '@aws-amplify/ui-react';
 import { Amplify, API, Auth, withSSRContext } from 'aws-amplify';
 import Head from 'next/head';
-import awsExports from '../src/aws-exports';
-import { createPost } from '../src/graphql/mutations';
-import { listPosts } from '../src/graphql/queries';
+import awsExports from '../../src/aws-exports';
+import { createPost } from '../../src/graphql/mutations';
+import { listPosts } from '../../src/graphql/queries';
 import styles from '../styles/Home.module.css';
 
 Amplify.configure({ ...awsExports, ssr: true });
@@ -364,9 +364,9 @@ To solve this, create a new folder within **/pages** named "**posts**", then a f
 import { Amplify, API, withSSRContext } from 'aws-amplify';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import awsExports from '../../src/aws-exports';
-import { deletePost } from '../../src/graphql/mutations';
-import { getPost, listPosts } from '../../src/graphql/queries';
+import awsExports from '../../../src/aws-exports';
+import { deletePost } from '../../../src/graphql/mutations';
+import { getPost, listPosts } from '../../../src/graphql/queries';
 import styles from '../../styles/Home.module.css';
 
 Amplify.configure({ ...awsExports, ssr: true });
