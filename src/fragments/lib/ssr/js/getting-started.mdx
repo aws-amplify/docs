@@ -76,7 +76,7 @@ Server-side functions that don't have a req object (e.g. Next.js' getStaticProps
 </Callout>
 
 ## Use Amplify with Next.js App Router ("app/" directory)
-Amplify JS can be used with Next.js' App Router (Next.js v13.4+) with a few important changes to how you configure and use the library, namely:
+Amplify JavaScript can be used with the Next.js App Router (Next.js v13.4+) by applying the following changes:
 
 - Amplify JS must be explicitly configured in both your client-side and server-side code (with `ssr` enabled)
 - An appropriate request object will need to be prepared for use with `withSSRContext` when performing operations on the server that require authentication
