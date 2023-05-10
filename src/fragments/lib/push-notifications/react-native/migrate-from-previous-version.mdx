@@ -22,11 +22,20 @@ amplify pull
 npm uninstall @aws-amplify/pushnotification
 ```
 
+<Callout>
+
+Please note that you may need to delete your `yarn.lock` file, `package-lock.json` file as well as the `/node_modules` folder before adding the new native module.
+
+</Callout>
+
 2. Add the new native module to your project.
 
 ```bash
 npm install @aws-amplify/rtn-push-notification
 ```
+
+
+
 
 ## Update build configurations
 
