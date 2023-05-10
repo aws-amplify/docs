@@ -22,6 +22,15 @@ const slideOver = keyframes`
   }
 `;
 
+const slideOut = keyframes`
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(90px);
+  }
+`;
+
 const expand = keyframes`
   0% {
     overflow: hidden;
@@ -29,6 +38,16 @@ const expand = keyframes`
   100% {
     overflow: visible;
     max-height: 250px;
+  }
+`;
+
+const collapse = keyframes`
+  0% {
+    overflow: visible;
+    max-height: 250px;
+  }
+  100% {
+    overflow: hidden;
   }
 `;
 
@@ -67,7 +86,7 @@ export const FeedbackContainer = styled.div`
   justify-content: space-between;
   padding: 12px 16px;
   transition: bottom 0.4s;
-  animation: ${slideIn} 0.5s linear;
+  animation: ${slideIn} 0.4s ease-in-out;
   filter: drop-shadow(0px 4px 20px rgba(0, 7, 22, 0.12));
   box-sizing: border-box;
 
@@ -81,7 +100,7 @@ export const FeedbackContainer = styled.div`
   }
   &.UP {
     background-color: #f2fcf3;
-    animation: ${fadeOut} 0.4s ease-in-out 1.5s;
+    animation: ${slideOut} 0.4s ease-in-out 1.5s;
     animation-fill-mode: forwards;
     div {
       display: flex;
@@ -103,6 +122,10 @@ export const FeedbackContainer = styled.div`
       line-height: 22px;
       padding-bottom: 12px;
       border-bottom: 2px solid #e9ebed;
+    }
+    &.close {
+      animation: ${collapse} 0.4s linear, ${slideOut} 0.4s linear 0.4s;
+      animation-fill-mode: forwards;
     }
     div > .expanding-section {
       display: flex;

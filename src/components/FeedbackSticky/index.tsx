@@ -15,8 +15,7 @@ import { Icon, Button } from '@cloudscape-design/components';
 enum FeedbackState {
   START = 'START',
   UP = 'UP',
-  DOWN = 'DOWN',
-  HIDDEN = 'HIDDEN'
+  DOWN = 'DOWN'
 }
 
 type Feedback = {
@@ -63,10 +62,6 @@ export default function Feedback() {
     prevScrollpos = currentScrollPos;
   }
 
-  function hide() {
-    setState(FeedbackState.HIDDEN);
-  }
-
   const onYesVote = useCallback(() => {
     setState(FeedbackState.UP);
     // trackFeedbackSubmission(true);
@@ -80,9 +75,8 @@ export default function Feedback() {
   const close = useCallback(() => {
     const feedbackContainer = document.getElementById('feedback-container');
     if (feedbackContainer) {
-      feedbackContainer.style.bottom = '-150px';
+      feedbackContainer.classList.add('close');
     }
-    setTimeout(hide, 200);
   }, []);
 
   return (
