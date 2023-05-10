@@ -78,10 +78,39 @@ Server-side functions that don't have a req object (e.g. Next.js' getStaticProps
 ## Use Amplify with Next.js App Router ("app/" directory)
 Amplify JavaScript can be used with the Next.js App Router (Next.js v13.4+) by applying the following changes:
 
-- Explicitly run `Amplify.configure({ ...awsExports, ssr: true })` in **both** the client-side and server-side code.  The `ssr` option must be enabled. 
-- Prepare a request object for `withSSRContext` to perform server-side operations that require authentication.
+### 1. Explicitly run `Amplify.configure({ ...awsExports, ssr: true })` in **both** the client-side and server-side code. The `ssr` option must be enabled. 
+Example Next.js App Router Client Component containing your login flow (e.g. `app/page.tsx`):
+```js
+'use client';
 
-Example of a Next.js App Router Server Component that uses Amplify JavaScript:
+import { Amplify } from 'aws-amplify';
+import awsExports from '@/aws-exports';
+
+Amplify.configure({ ...awsExports, ssr: true });
+
+export default function Home() {
+  return (
+    {/* Render a login form for your users */}
+  )
+}
+```
+
+Example Next.js App Router Server Component (e.g. `app/posts/page.tsx`):
+
+```js
+import { Amplify } from 'aws-amplify';
+import awsExports from '@/aws-exports';
+
+Amplify.configure({ ...awsExports, ssr: true });
+
+export default async function Page() {
+  // ...
+}
+```
+
+### 2. Prepare a request object for `withSSRContext` to perform server-side operations that require authentication.
+
+Example Next.js App Router Server Component that queries data from GraphQL (e.g. `app/posts/page.tsx`):
 
 ```js
 import { Amplify, withSSRContext } from 'aws-amplify';
