@@ -7,6 +7,12 @@ Amplify Studio's Form Builder automatically generates cloud-connected forms as R
 
 Forms are also extensible, allowing full form lifecycle management, and supporting custom validation logic in code, including calling an external API or validating against another database.
 
+<Callout warning>
+
+Form builder now supports **relationship fields** in your data models! Relationship fields will be created as [autocomplete fields](https://ui.docs.amplify.aws/react/components/autocomplete). 
+
+</Callout>
+
 ## Option 1: Use auto-generated forms
 
 The fastest and easiest way to use the Form Builder is to use forms generated from your data model. To auto-generate forms:
@@ -27,6 +33,8 @@ Your forms will be listed on the left-hand navigation bar under the **Forms** he
 For each data model, Amplify Studio will generate two forms: a **Create** form, and an **Update** form. 
 
 Your forms will contain inputs for each field of your data model. Auto-generated forms are dynamic; as your data model changes, the forms' fields will update accordingly.
+
+If your data model has relationships, Studio will use an [autocomplete field](https://ui.docs.amplify.aws/react/components/autocomplete) that is automatically populated with records from the related data model. 
 
 ## Option 2: Build a form from scratch
 
