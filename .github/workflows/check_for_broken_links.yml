@@ -4,7 +4,7 @@ on:
 permissions:
   contents: read
 jobs:
-  Spellcheck:
+  LinkChecker:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
