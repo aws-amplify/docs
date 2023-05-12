@@ -12,11 +12,13 @@ import ExternalLink from '../ExternalLink';
 import * as links from '../../constants/links';
 import * as img from '../../constants/img';
 import Icon from '@cloudscape-design/components/icon';
+import { forwardRef } from 'react';
 
-export default function DocsFooter() {
+// eslint-disable-next-line no-empty-pattern
+const DocsFooter = forwardRef(function DocsFooter({}, ref) {
   return (
     <Container backgroundColor="color-ink-hv">
-      <Footer>
+      <Footer ref={ref}>
         <LeftFooter>
           <div>
             <FooterHeading>
@@ -65,4 +67,6 @@ export default function DocsFooter() {
       </Footer>
     </Container>
   );
-}
+});
+
+export default DocsFooter;

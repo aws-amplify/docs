@@ -90,6 +90,16 @@ export const FeedbackContainer = styled.div`
   filter: drop-shadow(0px 4px 20px rgba(0, 7, 22, 0.12));
   box-sizing: border-box;
 
+  &.slideOut {
+    animation: ${slideOut} 0.4s ease-in-out;
+    animation-fill-mode: forwards;
+  }
+
+  &.slideIn {
+    animation: ${slideIn} 0.4s ease-in-out;
+    animation-fill-mode: forwards;
+  }
+
   &.START {
     background-color: #ffffff;
     div {

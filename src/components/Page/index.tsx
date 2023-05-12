@@ -12,7 +12,7 @@ import {
   isProductRoot
 } from '../../utils/getLocalDirectory';
 import MobileMenuIcons from '../MobileMenuIcons';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { MQTablet } from '../media';
 import {
   filterMetadataByOption,
@@ -37,6 +37,8 @@ export default function Page({
   meta?: any;
   frontmatter?: MdxFrontmatterType;
 }) {
+  const footerRef = useRef(null);
+
   const router = useRouter();
 
   if (!router.isReady) {
@@ -126,6 +128,7 @@ export default function Page({
       meta={meta}
       filterKey={filterKey}
       filterMetadataByOption={filterMetadataByOption}
+      ref={footerRef}
     >
       {meta
         ? metaContent({
@@ -140,7 +143,8 @@ export default function Page({
             directoryPath,
             menuIsOpen,
             setMenuIsOpen,
-            parentPageLastUpdatedDate
+            parentPageLastUpdatedDate,
+            footerRef
           })
         : children}
     </Layout>
@@ -159,7 +163,8 @@ export function metaContent({
   directoryPath,
   menuIsOpen,
   setMenuIsOpen,
-  parentPageLastUpdatedDate
+  parentPageLastUpdatedDate,
+  footerRef
 }: {
   title: string;
   chapterTitle: string;
@@ -173,7 +178,10 @@ export function metaContent({
   menuIsOpen: any;
   setMenuIsOpen: any;
   parentPageLastUpdatedDate: string;
+  footerRef: any;
 }) {
+
+
   const menuRef = useRef(null);
   // Slice off the "@media " string at the start for use in JS instead of CSS
   const MQTabletJS = MQTablet.substring(6);
@@ -182,6 +190,14 @@ export function metaContent({
     typeof window === 'undefined'
       ? false
       : window.matchMedia(MQTabletJS).matches;
+
+  console.log('footerRef', footerRef);
+
+  // useEffect(() => {
+  //   // const element = footerRef;
+  //   console.log('footerRef', footerRef);
+  // }, []);
+
 
   return (
     <>
@@ -208,7 +224,7 @@ export function metaContent({
               <NextPrevious url={url} filterKey={filterKey} />
             </CodeBlockProvider>
           </div>
-          <FeedbackSticky />
+          <FeedbackSticky footer={footerRef} />
         </ContentStyle>
         <TableOfContents title={title}>{headers}</TableOfContents>
         {!onDesktop && <MobileMenuIcons menuRef={menuRef} />}

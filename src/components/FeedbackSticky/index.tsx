@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   FeedbackContainer,
   VoteButton,
@@ -8,7 +8,6 @@ import {
   Divider,
   ButtonStyles
 } from './styles';
-import { useEffect } from 'react';
 import { trackFeedbackSubmission } from '../../utils/track';
 import { Icon, Button } from '@cloudscape-design/components';
 
@@ -25,8 +24,9 @@ type Feedback = {
   comment?: string;
 };
 
-export default function Feedback() {
+export default function Feedback({ footer }) {
   const [state, setState] = useState<FeedbackState>(FeedbackState.START);
+  const containerRef = useRef<HTMLElement>(null);
   const feedbackQuestion = 'Did this page help you?';
   const yesVoteResponse = 'Thanks for the thumbs up!';
   const noVoteResponse = "We're sorry we let you down";
@@ -36,7 +36,6 @@ export default function Feedback() {
   const iconPosition = 'right';
   const buttonLink = 'https://github.com/aws-amplify/docs/issues/new/choose';
 
-  let prevScrollpos = typeof window !== 'undefined' ? window.pageYOffset : 0;
   useEffect(() => {
     if (typeof document !== 'undefined') {
       document.addEventListener('touchmove', hideFeedback);
@@ -44,22 +43,26 @@ export default function Feedback() {
     }
   }, []);
 
-  function hideFeedback() {
-    const currentScrollPos = window.pageYOffset;
-    const footer = document.getElementsByTagName('footer')[0];
-    const visibleFooter =
-      document.body.scrollHeight - footer.offsetHeight <=
-      currentScrollPos + window.innerHeight;
-    const scrollingUp = prevScrollpos >= currentScrollPos;
-    const scrollingDown = prevScrollpos < currentScrollPos;
-    const feedbackContainer = document.getElementById('feedback-container');
+  let prevScrollPos = window.scrollY;
 
-    if ((scrollingUp && visibleFooter) || scrollingDown) {
-      if (feedbackContainer) feedbackContainer.style.bottom = '-150px';
-    } else if (scrollingUp) {
-      if (feedbackContainer) feedbackContainer.style.bottom = '32px';
+  function hideFeedback() {
+    const currentScrollPos = window.scrollY;
+    const visibleFooter =
+      document.body.scrollHeight - footer.current.offsetHeight + 50 <=
+      currentScrollPos + window.innerHeight;
+    const scrollingUp = prevScrollPos >= currentScrollPos;
+    const scrollingDown = prevScrollPos < currentScrollPos;
+    if (
+      ((scrollingUp && visibleFooter) || scrollingDown) &&
+      containerRef.current
+    ) {
+      containerRef.current.classList.remove('slideIn');
+      containerRef.current.classList.add('slideOut');
+    } else if (scrollingUp && containerRef.current) {
+      containerRef.current.classList.remove('slideOut');
+      containerRef.current.classList.add('slideIn');
     }
-    prevScrollpos = currentScrollPos;
+    prevScrollPos = currentScrollPos;
   }
 
   const onYesVote = useCallback(() => {
@@ -73,14 +76,16 @@ export default function Feedback() {
   }, []);
 
   const close = useCallback(() => {
-    const feedbackContainer = document.getElementById('feedback-container');
-    if (feedbackContainer) {
-      feedbackContainer.classList.add('close');
-    }
+    // const feedbackContainer = containerRef.current;
+    if (containerRef.current) containerRef.current.classList.add('close');
   }, []);
 
   return (
-    <FeedbackContainer id="feedback-container" className={state}>
+    <FeedbackContainer
+      id="feedback-container"
+      ref={containerRef}
+      className={state}
+    >
       <div className="sizing" aria-hidden="true">
         {yesVoteResponse}
       </div>
