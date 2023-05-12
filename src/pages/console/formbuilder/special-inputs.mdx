@@ -4,13 +4,39 @@ export const meta = {
     'Special input fields in Amplify Studio form builder allow the user to interact with unique Amplify features'
 };
 
-Amplify Studio's Form Builder has some input fields with special configurations available. 
+## Autocomplete fields with Relationships
+
+If your data model has [relationships](/console/data/relationships/), Form Builder will automatically use an **Autocomplete** field to let your form submitters select records from related data models. These connected autocomplete fields have some special configuration settings. 
+
+### Activate relationship fields in forms
+
+If you have relationships in your data models, but your connected forms are missing related fields, Relationship fields may not be activated. To turn on relationships support...
+1. [Log into your Studio application](/console/adminui/start/#logging-in-and-creating-an-app)
+1. On the left-hand bar, select **UI Library**
+1. In the upper right-hand corner, select **UI Library settings**
+1. Select **Relationship fields** to activate
+
+### Customize record labels
+
+When a form submitter selects an autocomplete field in your form, it will be populated with a list of related records. By default, these records will be labeled with the first field in the data model, a hyphen, and the record's ID. 
+
+![Input settings bar showing the default labeling of a relationship](/images/console/formbuilder/autocomplete1.png)
+
+In this example, the form creates a new author, and lets the user look up the related book. The first field in the `Book` model is `ISBN`, so the label displays as:
+
+![Screenshot of a label with the ISBN and ID of the book, which is challenging for the user to read](/images/console/formbuilder/autocomplete2.png)
+
+To make this more useful for the form submitter, you can customize the label with any fields in the model, and string concatenation. In this example, the book's `name` field, a comma, and the `year` field makes more sense.
+
+![Screenshot of a label with the book name and year, which is easier for the user to read](/images/console/formbuilder/autocomplete3.png)
 
 ## Storage Manager
 
 **Storage Manager** fields allow your forms to accept file uploads, which are stored in an Amazon S3 bucket connected to your Amplify app. After uploading, that file's S3 key is stored in your data model, allowing for systematic retrieval using the [Amplify JS library](/lib/storage/download/q/platform/js/). 
 
-(screenshot or gif of using the Storage Manager input)
+<video autoPlay={true} muted={true} loop={true} width="100%">
+  <source src="/images/console/formbuilder/storagemanager.mp4" />
+</video>
 
 ### Prerequisites
 
@@ -29,32 +55,23 @@ If your Storage Manager field is connected to a field in your data model, the S3
 
 ### Storage Manager with connected forms
 
-A **connected form** is a form built with Amplify Studio that is bound to your data model - when the form is submitted, a record is created or updated in the bound data model. 
+If a Storage Manager field is bound to a data model as part of a [connected form](/console/formbuilder/data-binding/#connected-forms), a record is created or updated in the bound data model when the form is submitted. 
 
 When a Storage Manager input field is added to a connected form, the S3 key of the uploaded file is written to a `String` field in the connected data model. 
 
 *Prerequisites:*
 * You must have a GraphQL API, deployed either [through Studio](/console/data/data-model/) or [through the CLI](/cli/graphql/overview/).
 * You must have at least one field in your data model with a type of `String`
-* You must have a connected form. This can be a [default form](/formbuilder/overview/#option-1-use-auto-generated-forms), or a [custom form that starts with a Data model](/formbuilder/overview/#option-2-build-a-form-from-scratch)
+* You must have a connected form. This can be a [default form](/console/formbuilder/overview/#getting-started), or a [custom connected form](/console/formbuilder/data-binding/#connected-forms)
 
 
 *Add Storage Manager to a connected form...*
 1. [Log into your Studio app](/console/adminui/start/) and select the UI Library
-
-(screenshot)
-
 2. Select a connected form and select **Configure** in the upper right-hand corner
-
-(screenshot)
-
 3. Select the `string` field you would like to convert to a Storage Manager field
-
-(screenshot)
-
 4. In the **Display** section of the **Input settings** sidebar, select the **Type** dropdown and choose `StorageField`
 
-(screenshot)
+![screenshot of a text field being converted to a storage manager field](/images/console/formbuilder/storage1.png)
 
 <Callout info>
 
@@ -62,26 +79,17 @@ Only `String` type fields can be converted to a `StorageField` type. If the **Ty
 
 </Callout>
 
-### Storage Manager with custom forms
+### Storage Manager with unconnected forms
 
-*Add a Storage Manager field to a custom form...*
+*Add a Storage Manager field to an unconnected form...*
 1. [Log into your Studio app](/console/adminui/start/) and select the UI Library
-
-(screenshot)
-
-2. Navigate to a custom form, or [create a new blank form](/formbuilder/overview/#option-2-build-a-form-from-scratch)
-
-(screenshot)
-
+2. Navigate to an unconnected form, or [create a new blank form](/console/formbuilder/overview/#getting-started)
 3. Click the blue plus sign to add a new field to your form 
-
-(screenshot)
-
 4. Select a `StorageField` input element
 
-(screenshot)
+![screenshot of a storage field being added to an unconnected form](/images/console/formbuilder/storage3.png)
 
-With all custom forms, the form submission must be configured manually. Use the `onSubmit` hook and the `fields` object to [handle submission in code](/console/formbuilder/lifecycle/#handle-form-data-submissions---onsubmit). 
+With all unconnected forms, the form submission must be configured manually. Use the `onSubmit` hook and the `fields` object to [handle submission in code](/console/formbuilder/lifecycle/#handle-form-data-submissions---onsubmit). 
 
 ### Configuring Storage Manager
 

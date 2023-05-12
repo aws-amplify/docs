@@ -9,13 +9,13 @@ Forms are fully extensible, allowing lifecycle management, and supporting custom
 
 <Callout warning>
 
-Form builder now supports **relationship fields** in your data models! Relationship fields will be created as [autocomplete fields](https://ui.docs.amplify.aws/react/components/autocomplete). 
+Form builder now supports **relationship fields** in your data models! Relationships will be created as [autocomplete fields](https://ui.docs.amplify.aws/react/components/autocomplete). 
 
 </Callout>
 
 ## Getting started
 
-When you build a form with Form Builder, Amplify Studio generates a reusable React component based on your design. This component code can then be pulled into your project directory, imported, and rendered in your app with only a few lines of code
+When you build a form with Form Builder, Amplify Studio generates a reusable React component based on your design. This component code can then be pulled into your project directory, imported, and rendered in your app with only a few lines of code.
 
 To start with Form Builder in a Studio app...
 1. [Log into your Studio application](/console/adminui/start/#logging-in-and-creating-an-app)
@@ -26,7 +26,7 @@ To start with Form Builder in a Studio app...
 
 <Block name="Default form">
 
-If you have a data model deployed in your Amplify app, Studio will automatically generate default connected forms for you. 
+If you have a data model deployed in your Amplify app, Studio will automatically generate default [connected forms](/console/formbuilder/data-binding/#connected-forms) for you.
 
 To use default forms:
 1. Log into [Amplify Studio](/console/adminui/start/#logging-in-and-creating-an-app) and deploy a [Data model](/console/data/data-model/) 
@@ -46,7 +46,9 @@ Default forms can be identified by the Amplify icon next to the form name
 
 </Callout>
 
-Default forms can be used as-is, or they can be customized. To customize a default form, select the form in the left-hand navigation bar, and click **Configure** in the upper right-hand corner. After you are satisfied with your form, you [can render it in your app](#render-react-form-in-your-app).
+Default forms can be used as-is, or they can be customized. To customize a default form, select the form in the left-hand navigation bar, and click **Configure** in the upper right-hand corner. If you change your mind, you can delete your form, and a new default form will be generated. 
+
+After you are satisfied with your form, you [can render it in your app](#render-react-form-in-your-app).
 
 </Block>
 
@@ -57,6 +59,7 @@ To use connected forms, you first need a data model. Log into [Amplify Studio](/
 To build a new connected form...
 1. Select **UI Library**
 1. In the **Forms** section of the left-hand nav bar, select **New**
+![Red box around the "new" section of Form Builder](/images/console/formbuilder/overview7.png)
 1. Name your Form, and select [Create or Update](#create-and-update-forms)
 1. In the **Data model** dropdown, select which model your form should connect to
 1. Select **Create form**
@@ -69,12 +72,13 @@ Form builder will generate a new form with input fields that match the fields of
 
 <Block name="New JSON form">
 
-Amplify Studio can generate an ad hoc form based on the JSON object you'd like it to output. This is particularly useful if you are interfacing with another API - most API endpoints expect input data in JSON format, so you can quickly generate a form by pasting a sample payload. 
+Amplify Studio can generate an unconnected form based on the JSON object you'd like it to output. This is particularly useful if you are interfacing with another API - most API endpoints expect input data in JSON format, so you can quickly generate a form by pasting a sample payload. 
 
 To generate a form from JSON:
 
 1. In [Amplify Studio Console](/console/adminui/start/#logging-in-and-creating-an-app), navigate to **UI Library**
 1. In the left-hand nav bar, next to the **Forms** header, select **New** 
+![Red box around the "new" section of Form Builder](/images/console/formbuilder/overview7.png)
 1. Give your form a name, and select [Create or Update](#create-and-update-forms)
 1. In the New Form page, select **JSON object**
 1. Paste your JSON into the code editor and click **Create form**
@@ -112,10 +116,11 @@ When you are satisfied with this form, you can convert it to a connected form by
 
 <Block name="New blank form">
 
-Amplify Studio allows you to build ad hoc forms completely from scratch with a visual interface. To generate a basic, brand-new form:
+Amplify Studio allows you to build unconnected forms completely from scratch with a visual interface. To generate a basic, brand-new form:
 
 1. In the [Amplify Studio Console](/console/adminui/start/#logging-in-and-creating-an-app), navigate to **UI Library**
 1. In the left-hand nav bar, next to the **Forms** header, select **New**
+![Red box around the "new" section of Form Builder](/images/console/formbuilder/overview7.png)
 1. Give your form a name, and select [Create or Update](#create-and-update-forms)
 1. Leave **Black form** selected, and click **Create form**
 
@@ -133,7 +138,7 @@ You can continue to customize your form inputs, and when you are satisfied, you 
 
 <Callout info>
 
-Alternatively, to get started without logging into AWS, [you can build ad hoc forms in the Amplify Sandbox](https://sandbox.amplifyapp.com/ui-library). 
+Alternatively, to get started without logging into AWS, [you can build unconnected forms in the Amplify Sandbox](https://sandbox.amplifyapp.com/ui-library). 
 
 </Callout>
 
@@ -205,6 +210,6 @@ export default App;
 
 ## Limitations
 
-Amplify Studio Form Builder only supports GraphQL APIs that use **DataStore** when using connected forms. To activate DataStore, [select a Conflict Resolution strategy and deploy your API](/data/data-model/#datastore-and-graphql). 
+To build and use [connected forms](/formbuilder/data-binding/#connected-forms), your GraphQL API must be using **DataStore**. To activate DataStore, [select a Conflict Resolution strategy and deploy your API](/data/data-model/#datastore-and-graphql). 
 
-If you are not using DataStore, you can still build ad hoc forms in Studio or in the Amplify Sandbox. 
+If you are not using DataStore, you can still build [unconnected forms](/console/formbuilder/data-binding/#unconnected-forms) in Studio or in the Amplify Sandbox. 

@@ -1197,6 +1197,7 @@
     "Storage.put",
     "storagebucketname",
     "storagedemo",
+    "storagemanager",
     "storageOptions",
     "StorageType",
     "streamName",
