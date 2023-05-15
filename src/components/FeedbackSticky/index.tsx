@@ -27,9 +27,9 @@ type Feedback = {
 export default function Feedback({ footer }) {
   const [state, setState] = useState<FeedbackState>(FeedbackState.START);
   const containerRef = useRef<HTMLElement>(null);
-  const feedbackQuestion = 'Did this page help you?';
-  const yesVoteResponse = 'Thanks for the thumbs up!';
-  const noVoteResponse = "We're sorry we let you down";
+  const feedbackQuestion = 'Was this page helpful?';
+  const yesVoteResponse = 'Thanks for your feedback!';
+  const noVoteResponse = 'Thanks for your feedback!';
   const noVoteCTA = 'Can you provide more details?';
   const noVoteCTAButton = 'File an issue on GitHub';
   const ctaIcon = 'external';
