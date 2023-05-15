@@ -180,8 +180,6 @@ export function metaContent({
   parentPageLastUpdatedDate: string;
   footerRef: any;
 }) {
-
-
   const menuRef = useRef(null);
   // Slice off the "@media " string at the start for use in JS instead of CSS
   const MQTabletJS = MQTablet.substring(6);
@@ -190,14 +188,6 @@ export function metaContent({
     typeof window === 'undefined'
       ? false
       : window.matchMedia(MQTabletJS).matches;
-
-  console.log('footerRef', footerRef);
-
-  // useEffect(() => {
-  //   // const element = footerRef;
-  //   console.log('footerRef', footerRef);
-  // }, []);
-
 
   return (
     <>

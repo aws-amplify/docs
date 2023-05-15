@@ -76,7 +76,6 @@ export default function Feedback({ footer }) {
   }, []);
 
   const close = useCallback(() => {
-    // const feedbackContainer = containerRef.current;
     if (containerRef.current) containerRef.current.classList.add('close');
   }, []);
 
