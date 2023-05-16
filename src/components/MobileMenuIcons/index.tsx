@@ -1,9 +1,11 @@
 import { Toggle, Divider } from './styles';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, forwardRef } from 'react';
 import { Button } from '@cloudscape-design/components';
 import { TABLE_OF_CONTENTS_OPEN } from '../../constants/img';
 
-export default function MobileMenuIcons({ menuRef }) {
+function MobileMenuIcons({ menuRef, contentsRef }, ref) {
+  const buttonsRef = useRef(null);
+
   useEffect(() => {
     if (menuRef.current) {
       menuRef.current.openMenu();
@@ -17,8 +19,8 @@ export default function MobileMenuIcons({ menuRef }) {
     menuRef.current.openMenu();
     setTimeout(function() {
       if (typeof document !== 'undefined') {
-        const menu = document.getElementById('menu');
-        const buttons = document.getElementById('menuButtons');
+        const menu = menuRef.current.ref.current;
+        const buttons = buttonsRef.current;
         if (menu) menu.style.left = '0';
         if (buttons) buttons.style.right = '-100vw';
       }
@@ -28,14 +30,14 @@ export default function MobileMenuIcons({ menuRef }) {
   const showTOC = () => {
     if (typeof document !== 'undefined') {
       const toc = document.getElementById('toc');
-      const buttons = document.getElementById('menuButtons');
+      const buttons = buttonsRef.current;
       if (toc) toc.style.left = '0';
       if (buttons) buttons.style.right = '-100vw';
     }
   };
 
   return (
-    <Toggle id="menuButtons">
+    <Toggle ref={buttonsRef}>
       <Button iconName="menu" variant="icon" onClick={showMenu} />
       <Divider />
       <Button
@@ -46,3 +48,5 @@ export default function MobileMenuIcons({ menuRef }) {
     </Toggle>
   );
 }
+
+export default forwardRef(MobileMenuIcons);

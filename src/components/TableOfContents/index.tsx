@@ -7,7 +7,7 @@ import {
   H3AnchorStyle,
   HeaderStyle
 } from './styles';
-import { useEffect, useState } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { MQTablet } from '../media';
 import { Button } from '@cloudscape-design/components';
@@ -21,7 +21,7 @@ function scroll(hash) {
   }
 }
 
-export default function TableOfContents({ children, title }) {
+function TableOfContents({ children, title }, ref) {
   const router = useRouter();
   const MQTabletJS = MQTablet.substring(6);
   const onDesktop =
@@ -132,7 +132,7 @@ export default function TableOfContents({ children, title }) {
   };
 
   return (
-    <TOCStyle id="toc">
+    <TOCStyle id="toc" ref={ref}>
       <TOCInnerStyle>
         {!onDesktop && (
           <div className="mobileHeader">
@@ -158,3 +158,5 @@ export default function TableOfContents({ children, title }) {
     </TOCStyle>
   );
 }
+
+export default forwardRef(TableOfContents);

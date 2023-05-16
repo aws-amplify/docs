@@ -37,9 +37,9 @@ export default function Feedback({ footer }) {
   const buttonLink = 'https://github.com/aws-amplify/docs/issues/new/choose';
 
   useEffect(() => {
-    if (typeof document !== 'undefined') {
-      document.addEventListener('touchmove', hideFeedback);
-      document.addEventListener('scroll', hideFeedback);
+    if (typeof window !== 'undefined') {
+      window.addEventListener('touchmove', hideFeedback);
+      window.addEventListener('scroll', hideFeedback);
     }
   }, []);
 

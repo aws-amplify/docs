@@ -38,7 +38,6 @@ export default function Page({
   frontmatter?: MdxFrontmatterType;
 }) {
   const footerRef = useRef(null);
-
   const router = useRouter();
 
   if (!router.isReady) {
@@ -181,6 +180,9 @@ export function metaContent({
   footerRef: any;
 }) {
   const menuRef = useRef(null);
+  const buttonsRef = useRef(null);
+  const contentsRef = useRef(null);
+
   // Slice off the "@media " string at the start for use in JS instead of CSS
   const MQTabletJS = MQTablet.substring(6);
   // If the media query matches, then the user is on desktop and should not see the mobile toggle
@@ -216,8 +218,16 @@ export function metaContent({
           </div>
           <FeedbackSticky footer={footerRef} />
         </ContentStyle>
-        <TableOfContents title={title}>{headers}</TableOfContents>
-        {!onDesktop && <MobileMenuIcons menuRef={menuRef} />}
+        <TableOfContents title={title} ref={contentsRef}>
+          {headers}
+        </TableOfContents>
+        {!onDesktop && (
+          <MobileMenuIcons
+            ref={buttonsRef}
+            contentsRef={contentsRef}
+            menuRef={menuRef}
+          />
+        )}
       </LastUpdatedDatesProvider>
     </>
   );

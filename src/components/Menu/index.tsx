@@ -9,6 +9,7 @@ import React, {
   forwardRef,
   useEffect,
   useImperativeHandle,
+  useRef,
   useState
 } from 'react';
 import MenuOpenButton from './MenuOpenButton';
@@ -33,11 +34,21 @@ type MenuProps = {
 function Menu(props: MenuProps, ref) {
   const [isOpen, setIsOpen] = useState(true);
   const { state } = useLastUpdatedDatesContext();
-  const MQTabletJS = MQTablet.substring(6);
-  const onDesktop =
-    typeof window === 'undefined'
-      ? false
-      : window.matchMedia(MQTabletJS).matches;
+  const [onDesktop, setOnDesktop] = useState(false);
+  const menuRef = useRef(null);
+
+  console.log(props)
+
+  useEffect(() => {
+    const MQTabletJS = MQTablet.substring(6);
+    // If the media query matches, then the user is on desktop and should see the menu by default
+
+    const onDesktop =
+      typeof window !== 'undefined' && window.matchMedia(MQTabletJS).matches;
+
+    setIsOpen(onDesktop);
+    setOnDesktop(onDesktop);
+  }, []);
 
   useEffect(() => {
     const MQTabletJS = MQTablet.substring(6);
@@ -48,15 +59,15 @@ function Menu(props: MenuProps, ref) {
   }, []);
 
   useImperativeHandle(ref, () => ({
+    ref: menuRef,
     closeMenu: () => closeMenu(),
     openMenu: () => openMenu()
   }));
 
   const closeMenu = () => {
     if (!onDesktop && typeof document !== 'undefined') {
-      const menu = document.getElementById('menu');
-      const buttons = document.getElementById('menuButtons');
-      if (menu) menu.style.left = '-100vw';
+      const buttons = props.buttonsRef.current;
+      if (menuRef.current) menuRef.current.style.left = '-100vw';
       if (buttons) buttons.style.right = '1rem';
       setTimeout(function() {
         setIsOpen(false);
@@ -115,7 +126,7 @@ function Menu(props: MenuProps, ref) {
 
   if (isOpen) {
     return (
-      <MenuStyle id="menu">
+      <MenuStyle ref={menuRef}>
         <div>
           <div>
             <MenuHeaderStyle>
