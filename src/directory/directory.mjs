@@ -2391,6 +2391,14 @@ export const directory = {
             route: '/console/formbuilder/customize'
           },
           {
+            title: 'Data binding',
+            route: '/console/formbuilder/data-binding'
+          },
+          {
+            title: 'Configure special inputs',
+            route: '/console/formbuilder/special-inputs'
+          },
+          {
             title: 'Validate form data',
             route: '/console/formbuilder/validations'
           },
