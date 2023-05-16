@@ -1,15 +1,15 @@
 import styled from '@emotion/styled';
 import { keyframes } from '@emotion/react';
-import { MQTablet, MQDesktop } from '../media';
+import { MQDesktop } from '../media';
 
-const slideIn = keyframes`
+const slideInMobile = keyframes`
   0% {
     opacity: 0;
-    transform: translate(0, 100px);
+    transform: translate(-50%, 90px);
   }
   100% {
     opacity: 1;
-    transform: translate(0, 0);
+    transform: translate(-50%, 0);
   }
 `;
 
@@ -22,7 +22,27 @@ const slideOver = keyframes`
   }
 `;
 
-const slideOut = keyframes`
+const slideOutMobile = keyframes`
+  0% {
+    transform: translate(-50%, 0);
+  }
+  100% {
+    transform: translate(-50%, 90px);
+  }
+`;
+
+const slideInDesktop = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(90px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const slideOutDesktop = keyframes`
   0% {
     transform: translateY(0);
   }
@@ -86,17 +106,17 @@ export const FeedbackContainer = styled.div`
   justify-content: space-between;
   padding: 12px 16px;
   transition: bottom 0.4s;
-  animation: ${slideIn} 0.4s ease-in-out;
+  animation: ${slideInMobile} 0.4s ease-in-out;
   filter: drop-shadow(0px 4px 20px rgba(0, 7, 22, 0.12));
   box-sizing: border-box;
 
   &.slideOut {
-    animation: ${slideOut} 0.4s ease-in-out;
+    animation: ${slideOutMobile} 0.4s ease-in-out;
     animation-fill-mode: forwards;
   }
 
   &.slideIn {
-    animation: ${slideIn} 0.4s ease-in-out;
+    animation: ${slideInMobile} 0.4s ease-in-out;
     animation-fill-mode: forwards;
   }
 
@@ -110,7 +130,7 @@ export const FeedbackContainer = styled.div`
   }
   &.UP {
     background-color: #f2fcf3;
-    animation: ${slideOut} 0.4s ease-in-out 1.5s;
+    animation: ${slideOutMobile} 0.4s ease-in-out 1.5s;
     animation-fill-mode: forwards;
     div {
       display: flex;
@@ -134,7 +154,7 @@ export const FeedbackContainer = styled.div`
       border-bottom: 2px solid #e9ebed;
     }
     &.close {
-      animation: ${collapse} 0.4s linear, ${slideOut} 0.4s linear 0.4s;
+      animation: ${collapse} 0.4s linear, ${slideOutMobile} 0.4s linear 0.4s;
       animation-fill-mode: forwards;
     }
     div > .expanding-section {
@@ -174,6 +194,23 @@ export const FeedbackContainer = styled.div`
     right: calc(((100vw - 90rem) / 2) + 16.875rem + 32px);
     left: unset;
     transform: unset;
+    animation: ${slideInDesktop} 0.4s ease-in-out;
+
+    &.slideOut {
+      animation: ${slideOutDesktop} 0.4s ease-in-out;
+      animation-fill-mode: forwards;
+    }
+    &.slideIn {
+      animation: ${slideInDesktop} 0.4s ease-in-out;
+      animation-fill-mode: forwards;
+    }
+    &.close {
+      animation: ${collapse} 0.4s linear, ${slideOutDesktop} 0.4s linear 0.4s;
+      animation-fill-mode: forwards;
+    }
+    &.UP {
+      animation: ${slideOutDesktop} 0.4s ease-in-out 1.5s;
+    }
   }
 `;
 

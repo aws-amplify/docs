@@ -26,6 +26,7 @@ export const TOCStyle = styled.div`
   padding: 0 2.5rem;
   left: -100vw;
   transition: left 0.4s;
+  overflow: scroll;
 
   div.mobileHeader {
     display: flex;
@@ -66,6 +67,7 @@ export const TOCStyle = styled.div`
     padding: 2rem 0;
     z-index: 0;
     // left: unset;
+    overflow: unset;
   }
 
   a {
