@@ -98,7 +98,7 @@
     "minimatch": "3.1.2",
     "json5": "2.2.2",
     "decode-uri-component": "0.2.1",
-    "vm2": "3.9.17"
+    "vm2": "3.9.18"
   },
   "jest": {
     "preset": "ts-jest",
