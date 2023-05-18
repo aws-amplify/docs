@@ -64,7 +64,8 @@ function Menu(props: MenuProps, ref) {
 
   const closeMenu = () => {
     if (!onDesktop && typeof document !== 'undefined') {
-      const buttons = props.buttonsRef.current;
+      // const buttons = props.buttonsRef.current;
+      const buttons = document.getElementById('mobileButtons');
       if (menuRef.current) menuRef.current.style.left = '-100vw';
       if (buttons) buttons.style.right = '1rem';
       setTimeout(function() {

@@ -39,7 +39,7 @@ function MobileMenuIcons({ menuRef, contentsRef }, ref) {
   };
 
   return (
-    <Toggle ref={ref}>
+    <Toggle id="mobileButtons" ref={ref}>
       <Button iconName="menu" variant="icon" onClick={showMenu} />
       <Divider />
       <Button
