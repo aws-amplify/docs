@@ -37,8 +37,6 @@ function Menu(props: MenuProps, ref) {
   const [onDesktop, setOnDesktop] = useState(false);
   const menuRef = useRef(null);
 
-  console.log(props)
-
   useEffect(() => {
     const MQTabletJS = MQTablet.substring(6);
     // If the media query matches, then the user is on desktop and should see the menu by default

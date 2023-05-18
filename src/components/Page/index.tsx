@@ -12,7 +12,7 @@ import {
   isProductRoot
 } from '../../utils/getLocalDirectory';
 import MobileMenuIcons from '../MobileMenuIcons';
-import { useEffect, useRef, useState } from 'react';
+import { forwardRef, useEffect, useRef, useState } from 'react';
 import { MQTablet } from '../media';
 import {
   filterMetadataByOption,
@@ -38,6 +38,8 @@ export default function Page({
   frontmatter?: MdxFrontmatterType;
 }) {
   const footerRef = useRef(null);
+  // const buttonsRef = useRef(null);
+  // const contentsRef = useRef(null);
   const router = useRouter();
 
   if (!router.isReady) {
@@ -122,6 +124,28 @@ export default function Page({
     parentPageLastUpdatedDate = frontmatter.lastUpdated;
   }
 
+  // const kids = function() {
+  //   if (meta) {
+  //     return metaContent({
+  //       title: meta.title,
+  //       chapterTitle: meta.chapterTitle,
+  //       headers,
+  //       children,
+  //       filters,
+  //       filterKey,
+  //       filterKind,
+  //       url,
+  //       directoryPath,
+  //       menuIsOpen,
+  //       setMenuIsOpen,
+  //       parentPageLastUpdatedDate,
+  //       footerRef
+  //     });
+  //   } else {
+  //     return children;
+  //   }
+  // };
+
   return (
     <Layout
       meta={meta}
@@ -129,6 +153,7 @@ export default function Page({
       filterMetadataByOption={filterMetadataByOption}
       ref={footerRef}
     >
+      {/* {kids()} */}
       {meta
         ? metaContent({
             title: meta.title,
