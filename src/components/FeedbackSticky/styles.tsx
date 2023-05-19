@@ -127,7 +127,6 @@ export const FeedbackContainer = styled.div`
       animation-fill-mode: forwards;
     }
   }
-  }
 
   &.START {
     background-color: #ffffff;
