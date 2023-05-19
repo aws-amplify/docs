@@ -40,7 +40,7 @@ export default function Feedback({ footerRef }) {
 
       // eslint-disable-next-line no-inner-declarations
       function hideFeedback() {
-        // Scroll up/down calculations
+        // Scroll variables and calculations
         const currPos = window.scrollY,
           footerVisible =
             document.body.scrollHeight - footer.offsetHeight + 50 <=
@@ -54,13 +54,13 @@ export default function Feedback({ footerRef }) {
           ((up && footerVisible) || down) &&
           !container.classList.contains('close')
         ) {
-          container.classList.remove('slideIn');
-          container.classList.add('slideOut');
-          container.ariaHidden = 'true';
+          container.classList.remove('slideIn'),
+            container.classList.add('slideOut'),
+            (container.ariaHidden = 'true');
         } else if (container && up && !container.classList.contains('close')) {
-          container.classList.remove('slideOut');
-          container.classList.add('slideIn');
-          container.ariaHidden = 'false';
+          container.classList.remove('slideOut'),
+            container.classList.add('slideIn'),
+            (container.ariaHidden = 'false');
         }
         prevScrollPos = currPos;
       }
@@ -91,9 +91,9 @@ export default function Feedback({ footerRef }) {
 
   const close = useCallback(() => {
     if (containerRef.current) {
-      containerRef.current.classList.add('close');
-      containerRef.current.classList.remove('slideIn');
-      containerRef.current.ariaHidden = 'true';
+      containerRef.current.classList.add('close'),
+        containerRef.current.classList.remove('slideIn'),
+        (containerRef.current.ariaHidden = 'true');
     }
   }, []);
 

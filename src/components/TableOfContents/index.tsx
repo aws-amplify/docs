@@ -127,12 +127,10 @@ function TableOfContents({ children, title, buttonsRef }, ref) {
       const toc = ref.current;
       const buttons = buttonsRef.current;
       if (toc) {
-        toc.classList.add('slideOut');
-        toc.classList.remove('slideIn');
+        toc.classList.add('slideOut'), toc.classList.remove('slideIn');
       }
       if (buttons) {
-        buttons.classList.add('slideIn');
-        buttons.classList.remove('slideOut');
+        buttons.classList.add('slideIn'), buttons.classList.remove('slideOut');
       }
     }
   };

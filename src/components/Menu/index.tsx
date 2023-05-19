@@ -58,12 +58,10 @@ function Menu(props: MenuProps, ref) {
       const buttons = props.buttonsRef.current;
       const menu = menuRef.current;
       if (menu) {
-        menu.classList.add('slideOut');
-        menu.classList.remove('slideIn');
+        menu.classList.add('slideOut'), menu.classList.remove('slideIn');
       }
       if (buttons) {
-        buttons.classList.add('slideIn');
-        buttons.classList.remove('slideOut');
+        buttons.classList.add('slideIn'), buttons.classList.remove('slideOut');
       }
     }
   };
