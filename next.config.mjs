@@ -1,17 +1,10 @@
-import { createRequire } from 'node:module';
+import { createRequire } from 'module';
 import dotenv from 'dotenv';
 import _withMDX from '@next/mdx';
 import { directory } from './src/directory/directory.mjs';
 const require = createRequire(import.meta.url);
 
 dotenv.config({ path: './.env.custom' });
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const withTM = require('next-transpile-modules')([
-  '@algolia/autocomplete-shared',
-  '@cloudscape-design/components',
-  '@cloudscape-design/component-toolkit'
-]); // pass the modules you would like to see transpiled
 
 const mdxRenderer = `
   import { mdx } from "@mdx-js/react";
@@ -47,51 +40,48 @@ export default async (phase, { defaultConfig }) => {
     }
   });
 
-  const nextConfig = withTM(
-    withMDX({
-      env: {
-        PROD_ENV: process.env.PROD_ENV
-      },
-      pageExtensions: ['js', 'jsx', 'mdx', 'tsx', 'ts'],
-      typescript: {
-        // !! WARN !!
-        // Dangerously allow production builds to successfully complete even if
-        // your project has type errors.
-        // !! WARN !!
-        ignoreBuildErrors: true
-      },
-      future: {
-        webpack5: true
-      },
-      exportPathMap,
-      trailingSlash: true,
-      async headers() {
-        return [
-          {
-            // Apply these headers to all routes in your application.
-            source: '/(.*)',
-            headers: [
-              // IMPORTANT:
-              // These are ONLY used for the Dev server and MUST
-              // be kept in sync with customHttp.yml
-              {
-                key: 'Strict-Transport-Security',
-                value: 'max-age=63072000; includeSubDomains'
-              },
-              {
-                key: 'X-Frame-Options',
-                value: 'SAMEORIGIN'
-              },
-              {
-                key: 'X-Content-Type-Options',
-                value: 'nosniff'
-              }
-            ]
-          }
-        ];
-      }
-    })
-  );
+  const nextConfig = withMDX({
+    env: {
+      PROD_ENV: process.env.PROD_ENV
+    },
+    pageExtensions: ['js', 'jsx', 'mdx', 'tsx', 'ts'],
+    typescript: {
+      // !! WARN !!
+      // Dangerously allow production builds to successfully complete even if
+      // your project has type errors.
+      // !! WARN !!
+      ignoreBuildErrors: true
+    },
+    exportPathMap,
+    trailingSlash: true,
+    transpilePackages: ['@algolia/autocomplete-shared', '@cloudscape-design/components', '@cloudscape-design/component-toolkit'],
+    // eslint-disable-next-line @typescript-eslint/require-await
+    async headers() {
+      return [
+        {
+          // Apply these headers to all routes in your application.
+          source: '/(.*)',
+          headers: [
+            // IMPORTANT:
+            // These are ONLY used for the Dev server and MUST
+            // be kept in sync with customHttp.yml
+            {
+              key: 'Strict-Transport-Security',
+              value: 'max-age=63072000; includeSubDomains'
+            },
+            {
+              key: 'X-Frame-Options',
+              value: 'SAMEORIGIN'
+            },
+            {
+              key: 'X-Content-Type-Options',
+              value: 'nosniff'
+            }
+          ]
+        }
+      ];
+    }
+  });
 
   return nextConfig;
 };

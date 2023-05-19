@@ -78,11 +78,11 @@ To use the data manager, you can [adjust your GraphQL API settings.](/console/da
 ### Null required fields
 When using the data manager, you may encounter the following error message:
 
-<Callout info>
+```console
 
-"Field {{fieldName}} cannot be set to null since its a required field."
+Field {{fieldName}} cannot be set to null since it's a required field.
 
-</Callout>
+```
 
 This message occurs when there are records in the selected data model that have null values for required fields. Usually, this occurs because a field was changed to be required after records were created. To resolve this issue, null records need to be updated.
 
@@ -102,6 +102,26 @@ This message occurs when there are records in the selected data model that have 
 A bi-directionally required field is a Relationship field between two data models where both models require a non-null value for the field. Currently, the Data Manager does not support creating or editing records for models with bi-directionally required fields. To manage data in these models, take one of two paths:
 1. Change the field to optional for one or both of the related models, OR
 1. Create and manage records using GraphiQL, which supports simultaneous record management
+
+### Change of type in fields
+When using the data manager, you may encounter the following error message:
+
+```console
+
+Field {{fieldName}} has a type mismatch. Expected {{typeName}}, but got {{typeName}}
+
+```
+
+This message occurs when there are records in the selected data model that have a mismatch in the expected type of a field. Usually, this occurs because a field was updated with a new type after records were created. To resolve this issue, records need to be updated.
+
+*To update records in Studio...*
+1. In the **Content** tab, update all records so that they match the type of this field
+
+*To update records in DynamoDB...*
+1. Visit the [DynamoDB console](https://console.aws.amazon.com/dynamodbv2/home)
+1. Select the **Tables** heading in the left-hand nav bar, and select your app's table
+1. Select the "Explore table items" button in the upper right-hand corner
+1. Update all records so that they match the type of this field
 
 ### Multi-tab limitation
 

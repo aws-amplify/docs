@@ -1,23 +1,9 @@
-To install the libraries required to translating text, **add both `AWSPredictionsPlugin` and `CoreMLPredictionsPlugin` to your `Podfile`**.  Your `Podfile` should look similar to:
+<Block name="Swift Package Manager">
 
-```ruby
-target 'MyAmplifyApp' do
-  use_frameworks!
-  pod 'Amplify'
-  pod 'AmplifyPlugins/AWSCognitoAuthPlugin'
-  pod 'AWSPredictionsPlugin'
-  pod 'CoreMLPredictionsPlugin'
-end
-```
+import ios0 from "/src/fragments/lib/ios-spm.mdx";
 
-To install, download and resolve these pods, **execute the command**:
+<Fragments fragments={{ios: ios0}} />
 
-```ruby
-pod install --repo-update
-```
+3. Lastly, choose **Amplify** and **AWSPredictionsPlugin**. Then click **Add Package**.
 
-Now you can **open your project** by opening the `.xcworkspace` file using the following command:
-
-```ruby
-xed .
-```
+</Block>

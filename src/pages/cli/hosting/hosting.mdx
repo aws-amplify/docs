@@ -8,7 +8,7 @@ Deploy and host your app using either Amplify Console or Amazon CloudFront/S3. T
 ## Workflow
 
 - `amplify add hosting`<br/>
-This adds the hosting resources to the backend. The command will first prompt for environment selection, either DEV or PROD. Upon completion, the CloudFormation template for the resources is placed in the amplify/backend/hosting directory. <br/><br/>
+This adds the hosting resources to the backend. Upon completion, the CloudFormation template for the resources is placed in the amplify/backend/hosting directory. <br/><br/>
 - `amplify configure hosting`<br/>
 This command walks through the steps to configure the different sections of the resources used in hosting, including S3, CloudFront, and publish ignore. See below for more details.<br/><br/>
 - `amplify publish`<br/>
@@ -60,14 +60,7 @@ The Amplify CLI provides you the option to manage the hosting of your static web
 
 ### Stages
 
-If you select Amazon S3 & Amazon Cloudfront for hosting your Amplify project in the `amplify add hosting` flow, there are two stages you can select from as a part of the flow:
-
-- DEV:  S3 static web hosting
-- PROD: S3 and CloudFront
-
-It can take time to provision a CloudFront Distribution across the global CDN footprint, in some cases 15 minutes or more. Therefore the Amplify CLI provides a DEV configuration with an S3 static site only when prototyping your application; and a PROD configuration when you are ready to deploy in production. Note that the DEV stage using S3, your static site would not have HTTPS support and hence **only recommended for prototyping your app**.
-
-Amazon CloudFront service can also be added or removed in your Amplify project later on top of your Amazon S3 bucket by using the `amplify hosting configure` command. Note that if the hosting S3 bucket is newly created in regions other than us-east-1, you might get the `HTTP 307 Temporary Redirect` error in the beginning when you access your published application through CloudFront. This is because CloudFront forwards requests to the default S3 endpoint (s3.amazonaws.com), which is in the us-east-1 region, and it can take up to 24 hours for the new hosting bucket name to propagate globally.
+It can take time to provision a CloudFront Distribution across the global CDN footprint, in some cases 15 minutes or more. Amazon CloudFront service can also be added or removed in your Amplify project later on top of your Amazon S3 bucket by using the `amplify hosting configure` command. Note that if the hosting S3 bucket is newly created in regions other than us-east-1, you might get the `HTTP 307 Temporary Redirect` error in the beginning when you access your published application through CloudFront. This is because CloudFront forwards requests to the default S3 endpoint (s3.amazonaws.com), which is in the us-east-1 region, and it can take up to 24 hours for the new hosting bucket name to propagate globally.
 
 For more  information of the Amazon S3 and Amazon CloudFront, check their docs:
 [S3 static web hosting](https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteHosting.html)

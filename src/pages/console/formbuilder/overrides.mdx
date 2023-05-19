@@ -12,9 +12,6 @@ Use the `overrides` property to select the input component you want to override 
 
 ```jsx
 function ProductFormContainer({ productType }) {
-  // "productType" is dynamically passed into this
-  // container component as a React prop (e.g. "shoe", "phone")
-
   return (
     <div className="App">
       <ProductForm
@@ -29,4 +26,4 @@ function ProductFormContainer({ productType }) {
 }
 ```
 
-**Note:** we do not recommend overriding properties that are already set by the generated form. This could lead to unexpected behavior during runtime. Verify the set properties by navigating to the component in the `src/ui-components/<your-form-component>.jsx` file.
+**Note:** We do not recommend overriding properties that are already set by the generated form. This could lead to unexpected behavior during runtime. Verify the set properties by navigating to the component in the `src/ui-components/<your-form-component>.jsx` file.

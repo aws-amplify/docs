@@ -571,47 +571,47 @@ export const directory = {
           {
             title: 'Getting started',
             route: '/lib/predictions/getting-started',
-            filters: ['android', 'js', 'react-native']
+            filters: ['android', 'ios', 'js', 'react-native']
           },
           {
             title: 'Text to speech',
             route: '/lib/predictions/text-speech',
-            filters: ['android', 'js', 'react-native']
+            filters: ['android', 'ios', 'js', 'react-native']
           },
           {
             title: 'Transcribe audio to text',
             route: '/lib/predictions/transcribe',
-            filters: ['js', 'react-native']
+            filters: ['js', 'ios', 'react-native']
           },
           {
             title: 'Translate language',
             route: '/lib/predictions/translate',
-            filters: ['android', 'js', 'react-native']
+            filters: ['android', 'ios', 'js', 'react-native']
           },
           {
             title: 'Identify text',
             route: '/lib/predictions/identify-text',
-            filters: ['android', 'js', 'react-native']
+            filters: ['android', 'ios','js', 'react-native']
           },
           {
             title: 'Identify entities from images',
             route: '/lib/predictions/identify-entity',
-            filters: ['android', 'js', 'react-native']
+            filters: ['android', 'ios','js', 'react-native']
           },
           {
             title: 'Label objects in image',
             route: '/lib/predictions/label-image',
-            filters: ['android', 'js', 'react-native']
+            filters: ['android', 'ios','js', 'react-native']
           },
           {
             title: 'Interpret sentiment',
             route: '/lib/predictions/interpret',
-            filters: ['android', 'js', 'react-native']
+            filters: ['android', 'ios','js', 'react-native']
           },
           {
             title: 'Escape hatch',
             route: '/lib/predictions/escapehatch',
-            filters: ['android']
+            filters: ['android', 'ios']
           },
           {
             title: 'Example',
@@ -2271,27 +2271,27 @@ export const directory = {
           {
             title: 'Generate model files',
             route: '/start/getting-started/generate-model',
-            filters: ['android', 'ios', 'flutter', 'react-native']
+            filters: ['android', 'ios', 'flutter']
           },
           {
             title: 'Integrate your app',
             route: '/start/getting-started/integrate',
-            filters: ['android', 'ios', 'flutter', 'react-native']
+            filters: ['android', 'ios', 'flutter']
           },
           {
             title: 'Connect to the cloud',
             route: '/start/getting-started/add-api',
-            filters: ['android', 'ios', 'react-native']
+            filters: ['android', 'ios']
           },
           {
             title: 'Connect API and database to the app',
             route: '/start/getting-started/data-model',
-            filters: ['js', 'react', 'angular', 'vue', 'next']
+            filters: ['js', 'react', 'angular', 'vue', 'next', 'react-native']
           },
           {
             title: 'Add authentication',
             route: '/start/getting-started/auth',
-            filters: ['react', 'angular', 'vue']
+            filters: ['react', 'angular', 'vue', 'react-native']
           },
           {
             title: 'Deploy and host app',
@@ -2389,6 +2389,14 @@ export const directory = {
           {
             title: 'Customize form inputs',
             route: '/console/formbuilder/customize'
+          },
+          {
+            title: 'Data binding',
+            route: '/console/formbuilder/data-binding'
+          },
+          {
+            title: 'Configure special inputs',
+            route: '/console/formbuilder/special-inputs'
           },
           {
             title: 'Validate form data',

@@ -10,7 +10,7 @@ import {
   RIGHT_NAV_LINKS,
   SOCIAL_LINKS
 } from '../../utils/globalnav';
-import React, { forwardRef, useRef } from 'react';
+import { forwardRef } from 'react';
 
 const Layout = forwardRef(function Layout(
   {
