@@ -14,7 +14,8 @@ import { Icon, Button } from '@cloudscape-design/components';
 enum FeedbackState {
   START = 'START',
   UP = 'UP',
-  DOWN = 'DOWN'
+  DOWN = 'DOWN',
+  HIDDEN = 'HIDDEN'
 }
 
 type Feedback = {
@@ -24,46 +25,59 @@ type Feedback = {
   comment?: string;
 };
 
-export default function Feedback({ footer }) {
+export default function Feedback({ footerRef }) {
   const [state, setState] = useState<FeedbackState>(FeedbackState.START);
-  const containerRef = useRef<HTMLElement>(null);
-  const feedbackQuestion = 'Was this page helpful?';
-  const yesVoteResponse = 'Thanks for your feedback!';
-  const noVoteResponse = 'Thanks for your feedback!';
-  const noVoteCTA = 'Can you provide more details?';
-  const noVoteCTAButton = 'File an issue on GitHub';
-  const ctaIcon = 'external';
-  const iconPosition = 'right';
-  const buttonLink = 'https://github.com/aws-amplify/docs/issues/new/choose';
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const footer = footerRef.current;
+
     if (typeof window !== 'undefined') {
       window.addEventListener('touchmove', hideFeedback);
       window.addEventListener('scroll', hideFeedback);
+
+      let prevScrollPos = window.scrollY;
+
+      // eslint-disable-next-line no-inner-declarations
+      function hideFeedback() {
+        // Scroll up/down calculations
+        const currPos = window.scrollY,
+          footerVisible =
+            document.body.scrollHeight - footer.offsetHeight + 50 <=
+            currPos + window.innerHeight,
+          up = prevScrollPos >= currPos,
+          down = prevScrollPos < currPos,
+          container = containerRef.current;
+
+        if (
+          container &&
+          ((up && footerVisible) || down) &&
+          !container.classList.contains('close')
+        ) {
+          container.classList.remove('slideIn');
+          container.classList.add('slideOut');
+          container.ariaHidden = 'true';
+        } else if (container && up && !container.classList.contains('close')) {
+          container.classList.remove('slideOut');
+          container.classList.add('slideIn');
+          container.ariaHidden = 'false';
+        }
+        prevScrollPos = currPos;
+      }
     }
   }, []);
 
-  let prevScrollPos = window.scrollY;
-
-  function hideFeedback() {
-    const currentScrollPos = window.scrollY;
-    const visibleFooter =
-      document.body.scrollHeight - footer.current.offsetHeight + 50 <=
-      currentScrollPos + window.innerHeight;
-    const scrollingUp = prevScrollPos >= currentScrollPos;
-    const scrollingDown = prevScrollPos < currentScrollPos;
-    if (
-      ((scrollingUp && visibleFooter) || scrollingDown) &&
-      containerRef.current
-    ) {
-      containerRef.current.classList.remove('slideIn');
-      containerRef.current.classList.add('slideOut');
-    } else if (scrollingUp && containerRef.current) {
-      containerRef.current.classList.remove('slideOut');
-      containerRef.current.classList.add('slideIn');
-    }
-    prevScrollPos = currentScrollPos;
-  }
+  // Feedback Component Customizations
+  const c = {
+    feedbackQuestion: 'Was this page helpful?',
+    yesVoteResponse: 'Thanks for your feedback!',
+    noVoteResponse: 'Thanks for your feedback!',
+    noVoteCTA: 'Can you provide more details?',
+    noVoteCTAButton: 'File an issue on GitHub',
+    ctaIcon: 'external',
+    iconPosition: 'right',
+    buttonLink: 'https://github.com/aws-amplify/docs/issues/new/choose'
+  };
 
   const onYesVote = useCallback(() => {
     setState(FeedbackState.UP);
@@ -76,7 +90,11 @@ export default function Feedback({ footer }) {
   }, []);
 
   const close = useCallback(() => {
-    if (containerRef.current) containerRef.current.classList.add('close');
+    if (containerRef.current) {
+      containerRef.current.classList.add('close');
+      containerRef.current.classList.remove('slideIn');
+      containerRef.current.ariaHidden = 'true';
+    }
   }, []);
 
   return (
@@ -84,20 +102,21 @@ export default function Feedback({ footer }) {
       id="feedback-container"
       ref={containerRef}
       className={state}
+      aria-hidden={state == FeedbackState.UP ? true : false}
     >
       <div className="sizing" aria-hidden="true">
-        {yesVoteResponse}
+        {c.yesVoteResponse}
       </div>
       <div className="sizing" aria-hidden="true">
-        {noVoteResponse}
+        {c.noVoteResponse}
       </div>
       <div className="sizing" aria-hidden="true">
-        {feedbackQuestion}
+        {c.feedbackQuestion}
       </div>
 
       {state == FeedbackState.START ? (
-        <div aria-label={feedbackQuestion} tabIndex={0}>
-          <FeedbackText>{feedbackQuestion}</FeedbackText>
+        <div aria-label={c.feedbackQuestion} tabIndex={0}>
+          <FeedbackText>{c.feedbackQuestion}</FeedbackText>
           <VoteButtonsContainer>
             <VoteButton
               href="#"
@@ -122,7 +141,7 @@ export default function Feedback({ footer }) {
         </div>
       ) : state == FeedbackState.UP ? (
         <div>
-          <FeedbackText>{yesVoteResponse}</FeedbackText>
+          <FeedbackText>{c.yesVoteResponse}</FeedbackText>
           <VoteButtonsContainer className="up">
             <Icon
               name="thumbs-up-filled"
@@ -143,7 +162,7 @@ export default function Feedback({ footer }) {
       ) : state == FeedbackState.DOWN ? (
         <div>
           <div className="response">
-            <FeedbackText>{noVoteResponse}</FeedbackText>
+            <FeedbackText>{c.noVoteResponse}</FeedbackText>
             <VoteButtonsContainer className="down">
               <Icon name="thumbs-up" variant="link" size="medium"></Icon>
               <Divider />
@@ -156,7 +175,7 @@ export default function Feedback({ footer }) {
           </div>
           <div className="expanding-section">
             <div className="cta">
-              <p>{noVoteCTA}</p>
+              <p>{c.noVoteCTA}</p>
               <Button
                 iconName="close"
                 variant="icon"
@@ -166,12 +185,12 @@ export default function Feedback({ footer }) {
             </div>
             <ButtonStyles>
               <Button
-                href={buttonLink}
-                iconName={ctaIcon}
-                iconAlign={iconPosition}
-                aria-label={noVoteCTAButton}
+                href={c.buttonLink}
+                iconName={c.ctaIcon}
+                iconAlign={c.iconPosition}
+                aria-label={c.noVoteCTAButton}
               >
-                {noVoteCTAButton}
+                {c.noVoteCTAButton}
               </Button>
             </ButtonStyles>
           </div>

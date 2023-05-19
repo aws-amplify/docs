@@ -1,5 +1,24 @@
 import styled from '@emotion/styled';
+import { keyframes } from '@emotion/react';
 import { MQTablet } from '../media';
+
+const slideIn = keyframes`
+  from {
+    transform: translateX(calc(100vw - 1rem - 1rem));
+  }
+  to {
+    transform: translateX(0);
+  }
+`;
+
+const slideOut = keyframes`
+  from {
+    transform: translateX(1rem);
+  }
+  to {
+    transform: translateX(calc(100vw + 1rem));
+  }
+`;
 
 export const Toggle = styled.div`
   width: 3rem;
@@ -19,13 +38,24 @@ export const Toggle = styled.div`
   box-shadow: 0px 4px 20px rgba(0, 7, 22, 0.12);
   border-radius: 48px;
   transition: right 0.4s;
+  cursor: auto;
 
-  img {
+  &.slideOut {
+    animation: ${slideOut} 0.4s ease-in-out;
+    animation-fill-mode: forwards;
+  }
+
+  &.slideIn {
+    animation: ${slideIn} 0.4s ease-in-out;
+    animation-fill-mode: forwards;
   }
 
   button {
-    background: none;
     padding: 0 !important;
+
+    span {
+      cursor: unset;
+    }
   }
 
   ${MQTablet} {

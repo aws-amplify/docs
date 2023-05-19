@@ -1,5 +1,24 @@
 import styled from '@emotion/styled';
-import { MQMobile, MQTablet, MQLaptop, MQDesktop } from '../media';
+import { keyframes } from '@emotion/react';
+import { MQTablet, MQLaptop, MQDesktop } from '../media';
+
+const slideIn = keyframes`
+  from {
+    left: -100vw;
+  }
+  to {
+    left: 0;
+  }
+`;
+
+const slideOut = keyframes`
+  from {
+    left: 0;
+  }
+  to {
+    left: -100vw;
+  }
+`;
 
 export const MenuHeaderStyle = styled.div`
   display: flex;
@@ -40,10 +59,20 @@ export const MenuStyle = styled.div`
   z-index: 11;
   position: fixed;
   left: -100vw;
-  transition: left 0.4s;
+  // transition: left 0.4s;
   top: calc(var(--docs-dev-center-nav));
   background: #ffffff;
   overflow: scroll;
+
+  &.slideOut {
+    animation: ${slideOut} 0.4s ease-in-out;
+    animation-fill-mode: forwards;
+  }
+  &.slideIn {
+    animation: ${slideIn} 0.4s ease-in-out;
+    animation-fill-mode: forwards;
+  }
+
   ${MQDesktop}, ${MQTablet}, ${MQLaptop} {
     top: calc(3rem + var(--docs-dev-center-nav));
     position: sticky;

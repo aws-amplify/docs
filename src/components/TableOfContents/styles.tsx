@@ -1,5 +1,24 @@
 import styled from '@emotion/styled';
+import { keyframes } from '@emotion/react';
 import { MQTablet, MQDesktop } from '../media';
+
+const slideIn = keyframes`
+  from {
+    left: -100vw;
+  }
+  to {
+    left: 0;
+  }
+`;
+
+const slideOut = keyframes`
+  from {
+    left: 0;
+  }
+  to {
+    left: -100vw;
+  }
+`;
 
 type ToggleProps = {
   inView?: boolean;
@@ -27,6 +46,15 @@ export const TOCStyle = styled.div`
   left: -100vw;
   transition: left 0.4s;
   overflow: scroll;
+
+  &.slideOut {
+    animation: ${slideOut} 0.4s ease-in-out;
+    animation-fill-mode: forwards;
+  }
+  &.slideIn {
+    animation: ${slideIn} 0.4s ease-in-out;
+    animation-fill-mode: forwards;
+  }
 
   div.mobileHeader {
     display: flex;

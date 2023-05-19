@@ -21,7 +21,7 @@ function scroll(hash) {
   }
 }
 
-function TableOfContents({ children, title }, ref) {
+function TableOfContents({ children, title, buttonsRef }, ref) {
   const router = useRouter();
   const MQTabletJS = MQTablet.substring(6);
   const onDesktop =
@@ -124,10 +124,16 @@ function TableOfContents({ children, title }, ref) {
 
   const closeToc = () => {
     if (typeof document !== 'undefined' && !onDesktop) {
-      const toc = document.getElementById('toc');
-      if (toc) toc.style.left = '-100vw';
-      const buttons = document.getElementById('menuButtons');
-      if (buttons) buttons.style.right = '1rem';
+      const toc = ref.current;
+      const buttons = buttonsRef.current;
+      if (toc) {
+        toc.classList.add('slideOut');
+        toc.classList.remove('slideIn');
+      }
+      if (buttons) {
+        buttons.classList.add('slideIn');
+        buttons.classList.remove('slideOut');
+      }
     }
   };
 

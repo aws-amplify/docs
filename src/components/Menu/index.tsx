@@ -29,31 +29,22 @@ type MenuProps = {
   url: string;
   directoryPath: string;
   setMenuIsOpen?: any;
+  buttonsRef: any;
 };
 
 function Menu(props: MenuProps, ref) {
   const [isOpen, setIsOpen] = useState(true);
   const { state } = useLastUpdatedDatesContext();
+  const menuRef = useRef<HTMLElement>(null);
   const [onDesktop, setOnDesktop] = useState(false);
-  const menuRef = useRef(null);
 
   useEffect(() => {
     const MQTabletJS = MQTablet.substring(6);
     // If the media query matches, then the user is on desktop and should see the menu by default
-
     const onDesktop =
       typeof window !== 'undefined' && window.matchMedia(MQTabletJS).matches;
-
     setIsOpen(onDesktop);
     setOnDesktop(onDesktop);
-  }, []);
-
-  useEffect(() => {
-    const MQTabletJS = MQTablet.substring(6);
-    // If the media query matches, then the user is on desktop and should see the menu by default
-    setIsOpen(
-      typeof window !== 'undefined' && window.matchMedia(MQTabletJS).matches
-    );
   }, []);
 
   useImperativeHandle(ref, () => ({
@@ -62,18 +53,23 @@ function Menu(props: MenuProps, ref) {
     openMenu: () => openMenu()
   }));
 
-  const closeMenu = () => {
-    if (!onDesktop && typeof document !== 'undefined') {
-      // const buttons = props.buttonsRef.current;
-      const buttons = document.getElementById('mobileButtons');
-      if (menuRef.current) menuRef.current.style.left = '-100vw';
-      if (buttons) buttons.style.right = '1rem';
-      setTimeout(function() {
-        setIsOpen(false);
-      }, 400);
-    } else {
-      setIsOpen(false);
+  const hideMenu = () => {
+    if (!onDesktop) {
+      const buttons = props.buttonsRef.current;
+      const menu = menuRef.current;
+      if (menu) {
+        menu.classList.add('slideOut');
+        menu.classList.remove('slideIn');
+      }
+      if (buttons) {
+        buttons.classList.add('slideIn');
+        buttons.classList.remove('slideOut');
+      }
     }
+  };
+
+  const closeMenu = () => {
+    setIsOpen(false);
 
     if (props.setMenuIsOpen) {
       props.setMenuIsOpen(false);
@@ -90,6 +86,7 @@ function Menu(props: MenuProps, ref) {
 
   let showVersionSwitcher = false;
   let showLibVersionSwitcher = false;
+
   if (
     (props.url.startsWith('/ui') || props.url.startsWith('/ui-legacy')) &&
     props.filterKey !== 'react-native' &&
@@ -132,10 +129,10 @@ function Menu(props: MenuProps, ref) {
               {!onDesktop && (
                 <div className="mobileHeader">
                   <h2>Table of Contents</h2>
-                  <Button variant="icon" iconName="close" onClick={closeMenu} />
+                  <Button variant="icon" iconName="close" onClick={hideMenu} />
                 </div>
               )}
-              <MenuCloseButton closeMenu={closeMenu} />
+              {onDesktop && <MenuCloseButton closeMenu={closeMenu} />}
               {typeof props.filterKey !== 'undefined' && (
                 <FilterSelect
                   filters={props.filters}
