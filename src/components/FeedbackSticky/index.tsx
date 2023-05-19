@@ -81,12 +81,12 @@ export default function Feedback({ footerRef }) {
 
   const onYesVote = useCallback(() => {
     setState(FeedbackState.UP);
-    // trackFeedbackSubmission(true);
+    trackFeedbackSubmission(true);
   }, []);
 
   const onNoVote = useCallback(() => {
     setState(FeedbackState.DOWN);
-    // trackFeedbackSubmission(false);
+    trackFeedbackSubmission(false);
   }, []);
 
   const close = useCallback(() => {
@@ -121,7 +121,7 @@ export default function Feedback({ footerRef }) {
             <VoteButton
               href="#"
               onClick={onYesVote}
-              aria-label="thumbs up"
+              aria-label="Yes"
               role="button"
               tabIndex={0}
             >
@@ -131,7 +131,7 @@ export default function Feedback({ footerRef }) {
             <VoteButton
               href="#"
               onClick={onNoVote}
-              aria-label="thumbs down"
+              aria-label="No"
               role="button"
               tabIndex={0}
             >
