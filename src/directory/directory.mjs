@@ -741,7 +741,7 @@ export const directory = {
           {
             title: 'Get file properties',
             route: '/lib/storage/get-properties',
-            filters: ['flutter']
+            filters: ['flutter', 'js']
           },
           {
             title: 'List files',
