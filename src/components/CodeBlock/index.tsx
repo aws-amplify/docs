@@ -7,6 +7,7 @@ import {
 import React from 'react';
 import copy from 'copy-to-clipboard';
 import { trackCopyClicks } from '../../utils/track';
+import { log } from 'console';
 
 const COPY = 'copy';
 const COPIED = 'copied';
@@ -56,8 +57,32 @@ class CodeBlock extends React.Component<CodeBlockProps, CodeBlockState> {
 
   copyToClipboard = () => {
     if (this.element && this.element.textContent) {
-      copy(this.element.textContent);
-      trackCopyClicks(this.element.textContent);
+      if (
+        this.element?.firstElementChild?.classList.contains(
+          'highlight-source-diff'
+        )
+      ) {
+        const textContent = this.element.textContent;
+        let copyLines = textContent.split('\n');
+        let copyText = copyLines
+          .filter((line) => {
+            return !line.startsWith('-');
+          })
+          .map((line) => {
+            if (line.startsWith('+')) {
+              return line.replace('+', ' ');
+            } else {
+              return line;
+            }
+          })
+          .join('\n');
+
+        copy(copyText);
+        trackCopyClicks(copyText);
+      } else {
+        copy(this.element.textContent);
+        trackCopyClicks(this.element.textContent);
+      }
       this.setState({ copyMessage: COPIED });
     } else {
       this.setState({ copyMessage: FAILED });
