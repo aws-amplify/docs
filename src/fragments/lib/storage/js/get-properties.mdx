@@ -33,3 +33,17 @@ const result = await Storage.getProperties(
   }
 );
 ```
+
+### File Access Levels
+
+You can choose to configure [file access `level`](https://docs.amplify.aws/lib/storage/configureaccess/q/platform/js) as follows:
+
+```javascript
+
+const result = await Storage.get('welcome.png',  level?: private | protected | public);  // defaults to `public`
+
+```
+
+- `public`: Accessible by all users of your app. Files are stored under the `public/` path in your S3 bucket.
+- `protected`: Readable by all users, but writable only by the creating user. Files are stored under `protected/{user_identity_id}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.
+- `private`: **Only accessible for the signed in user**. Files are stored under `private/{user_identity_id}/` where the `user_identity_id` corresponds to the unique Amazon Cognito Identity ID for that user.
