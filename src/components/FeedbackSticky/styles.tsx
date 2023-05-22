@@ -113,7 +113,8 @@ export const FeedbackContainer = styled.div`
       animation-fill-mode: forwards;
     }
     &.DOWN {
-      animation: ${collapse} 0.4s ease-in-out, ${slideOutMobile} 0.4s ease-in-out 0.4s;
+      animation: ${collapse} 0.8s ease-in-out,
+        ${slideOutMobile} 0.4s ease-in-out 0.4s;
       animation-fill-mode: forwards;
     }
   }
@@ -123,7 +124,7 @@ export const FeedbackContainer = styled.div`
       animation-fill-mode: forwards;
     }
     &.DOWN {
-      animation: ${slideInMobile} 0.4s ease-in-out, ${expand} 0.4s ease-in-out 0.4s;
+      animation: ${slideInMobile} 0.4s ease-in-out, ${expand} 0.4s ease-out 0.4s;
       animation-fill-mode: forwards;
     }
   }
@@ -150,7 +151,7 @@ export const FeedbackContainer = styled.div`
     background-color: #fff7f7;
     max-height: 50px;
     overflow: hidden;
-    animation: ${expand} 0.4s ease-in-out 0.4s;
+    animation: ${expand} 0.4s ease-out 0.4s;
     animation-fill-mode: forwards;
     div > .response {
       display: flex;
@@ -162,7 +163,8 @@ export const FeedbackContainer = styled.div`
       border-bottom: 2px solid #e9ebed;
     }
     &.close {
-      animation: ${collapse} 0.4s ease-in-out, ${slideOutMobile} 0.4s ease-in-out 0.4s;
+      animation: ${collapse} 0.4s ease-in-out,
+        ${slideOutMobile} 0.4s ease-in-out 1.5s;
       animation-fill-mode: forwards;
     }
     div > .expanding-section {
@@ -223,14 +225,14 @@ export const FeedbackContainer = styled.div`
       }
       &.DOWN {
         animation: ${slideInDesktop} 0.4s ease-in-out,
-          ${expand} 0.4s ease-in-out 0.4s;
+          ${expand} 0.8s ease-out 0.4s;
         animation-fill-mode: forwards;
       }
     }
     &.close {
       &.DOWN {
-        animation: ${collapse} 0.4s ease-in-out,
-          ${slideOutDesktop} 0.4s ease-in-out 0.4s;
+        animation: ${collapse} 0.8s ease-in-out,
+          ${slideOutDesktop} 0.4s ease-in-out 1.5s;
         animation-fill-mode: forwards;
       }
     }

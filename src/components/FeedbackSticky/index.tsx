@@ -26,7 +26,7 @@ type Feedback = {
 };
 
 export default function Feedback({ footerRef }) {
-  const [state, setState] = useState<FeedbackState>(FeedbackState.START);
+  const [state, setState] = useState(FeedbackState.START);
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -42,25 +42,32 @@ export default function Feedback({ footerRef }) {
       function hideFeedback() {
         // Scroll variables and calculations
         const currPos = window.scrollY,
+          footerBuffer = 50,
           footerVisible =
-            document.body.scrollHeight - footer.offsetHeight + 50 <=
+            document.body.scrollHeight - footer.offsetHeight + footerBuffer <=
             currPos + window.innerHeight,
-          up = prevScrollPos >= currPos,
-          down = prevScrollPos < currPos,
+          scrollUp = prevScrollPos >= currPos,
+          scrollDown = prevScrollPos < currPos,
           container = containerRef.current;
 
         if (
           container &&
-          ((up && footerVisible) || down) &&
+          ((scrollUp && footerVisible) ||
+            (scrollDown && currentState != FeedbackState.DOWN) ||
+            (scrollDown && footerVisible)) &&
           !container.classList.contains('close')
         ) {
-          container.classList.remove('slideIn'),
-            container.classList.add('slideOut'),
-            (container.ariaHidden = 'true');
-        } else if (container && up && !container.classList.contains('close')) {
-          container.classList.remove('slideOut'),
-            container.classList.add('slideIn'),
-            (container.ariaHidden = 'false');
+          container.classList.remove('slideIn');
+          container.classList.add('slideOut');
+          container.ariaHidden = 'true';
+        } else if (
+          container &&
+          scrollUp &&
+          !container.classList.contains('close')
+        ) {
+          container.classList.remove('slideOut');
+          container.classList.add('slideIn');
+          container.ariaHidden = 'false';
         }
         prevScrollPos = currPos;
       }
@@ -79,13 +86,17 @@ export default function Feedback({ footerRef }) {
     buttonLink: 'https://github.com/aws-amplify/docs/issues/new/choose'
   };
 
+  let currentState = state;
+
   const onYesVote = useCallback(() => {
-    setState(FeedbackState.UP);
+    currentState = FeedbackState.UP;
+    setState(currentState);
     trackFeedbackSubmission(true);
   }, []);
 
   const onNoVote = useCallback(() => {
-    setState(FeedbackState.DOWN);
+    currentState = FeedbackState.DOWN;
+    setState(currentState);
     trackFeedbackSubmission(false);
   }, []);
 
@@ -114,90 +125,103 @@ export default function Feedback({ footerRef }) {
         {c.feedbackQuestion}
       </div>
 
-      {state == FeedbackState.START ? (
-        <div aria-label={c.feedbackQuestion} tabIndex={0}>
-          <FeedbackText>{c.feedbackQuestion}</FeedbackText>
-          <VoteButtonsContainer>
-            <VoteButton
-              href="#"
-              onClick={onYesVote}
-              aria-label="Yes"
-              role="button"
-              tabIndex={0}
-            >
-              <Icon name="thumbs-up" variant="link" size="medium"></Icon>
-            </VoteButton>
-            <Divider />
-            <VoteButton
-              href="#"
-              onClick={onNoVote}
-              aria-label="No"
-              role="button"
-              tabIndex={0}
-            >
-              <Icon name="thumbs-down" variant="link" size="medium"></Icon>
-            </VoteButton>
-          </VoteButtonsContainer>
-        </div>
-      ) : state == FeedbackState.UP ? (
-        <div>
-          <FeedbackText>{c.yesVoteResponse}</FeedbackText>
-          <VoteButtonsContainer className="up">
-            <Icon
-              name="thumbs-up-filled"
-              variant="success"
-              size="medium"
-            ></Icon>
-            <Divider />
-            <Icon name="thumbs-down" variant="link" size="medium"></Icon>
-          </VoteButtonsContainer>
-          <VoteButtonReplace>
-            <Icon
-              name="thumbs-up-filled"
-              variant="success"
-              size="medium"
-            ></Icon>
-          </VoteButtonReplace>
-        </div>
-      ) : state == FeedbackState.DOWN ? (
-        <div>
-          <div className="response">
-            <FeedbackText>{c.noVoteResponse}</FeedbackText>
-            <VoteButtonsContainer className="down">
-              <Icon name="thumbs-up" variant="link" size="medium"></Icon>
-              <Divider />
-              <Icon
-                name="thumbs-down-filled"
-                variant="error"
-                size="medium"
-              ></Icon>
-            </VoteButtonsContainer>
-          </div>
-          <div className="expanding-section">
-            <div className="cta">
-              <p>{c.noVoteCTA}</p>
-              <Button
-                iconName="close"
-                variant="icon"
-                aria-label="close"
-                onClick={close}
-              ></Button>
-            </div>
-            <ButtonStyles>
-              <Button
-                href={c.buttonLink}
-                iconName={c.ctaIcon}
-                iconAlign={c.iconPosition}
-                aria-label={c.noVoteCTAButton}
-              >
-                {c.noVoteCTAButton}
-              </Button>
-            </ButtonStyles>
-          </div>
-        </div>
-      ) : (
-        <div></div>
-      )}
+      {(() => {
+        switch (state) {
+          case 'START':
+            return (
+              <div aria-label={c.feedbackQuestion} tabIndex={0}>
+                <FeedbackText>{c.feedbackQuestion}</FeedbackText>
+                <VoteButtonsContainer>
+                  <VoteButton
+                    href="#"
+                    onClick={onYesVote}
+                    aria-label="Yes"
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <Icon name="thumbs-up" variant="link" size="medium"></Icon>
+                  </VoteButton>
+                  <Divider />
+                  <VoteButton
+                    href="#"
+                    onClick={onNoVote}
+                    aria-label="No"
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <Icon
+                      name="thumbs-down"
+                      variant="link"
+                      size="medium"
+                    ></Icon>
+                  </VoteButton>
+                </VoteButtonsContainer>
+              </div>
+            );
+          case 'UP':
+            return (
+              <div>
+                <FeedbackText>{c.yesVoteResponse}</FeedbackText>
+                <VoteButtonsContainer className="up">
+                  <Icon
+                    name="thumbs-up-filled"
+                    variant="success"
+                    size="medium"
+                  ></Icon>
+                  <Divider />
+                  <Icon name="thumbs-down" variant="link" size="medium"></Icon>
+                </VoteButtonsContainer>
+                <VoteButtonReplace>
+                  <Icon
+                    name="thumbs-up-filled"
+                    variant="success"
+                    size="medium"
+                  ></Icon>
+                </VoteButtonReplace>
+              </div>
+            );
+          case 'DOWN':
+            return (
+              <div>
+                <div className="response">
+                  <FeedbackText>{c.noVoteResponse}</FeedbackText>
+                  <VoteButtonsContainer className="down">
+                    <Icon name="thumbs-up" variant="link" size="medium"></Icon>
+                    <Divider />
+                    <Icon
+                      name="thumbs-down-filled"
+                      variant="error"
+                      size="medium"
+                    ></Icon>
+                  </VoteButtonsContainer>
+                </div>
+                <div className="expanding-section">
+                  <div className="cta">
+                    <p>{c.noVoteCTA}</p>
+                    <Button
+                      iconName="close"
+                      variant="icon"
+                      aria-label="close"
+                      onClick={close}
+                    ></Button>
+                  </div>
+                  <ButtonStyles>
+                    <Button
+                      href={c.buttonLink}
+                      iconName={c.ctaIcon}
+                      iconAlign={c.iconPosition}
+                      aria-label={c.noVoteCTAButton}
+                    >
+                      {c.noVoteCTAButton}
+                    </Button>
+                  </ButtonStyles>
+                </div>
+              </div>
+            );
+          default:
+            return <div></div>;
+        }
+      })()}
     </FeedbackContainer>
   );
 }

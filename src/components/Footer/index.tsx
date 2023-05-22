@@ -1,17 +1,9 @@
 import Link from 'next/link';
-import {
-  Footer,
-  RightFooter,
-  LeftFooter,
-  Social,
-  Legal,
-  FooterHeading
-} from './styles';
+import { Footer, RightFooter, LeftFooter, Social, Legal } from './styles';
 import { Container } from '../Container';
 import ExternalLink from '../ExternalLink';
 import * as links from '../../constants/links';
 import * as img from '../../constants/img';
-import Icon from '@cloudscape-design/components/icon';
 import { forwardRef } from 'react';
 
 // eslint-disable-next-line no-empty-pattern
@@ -20,24 +12,12 @@ const DocsFooter = forwardRef(function DocsFooter({}, ref) {
     <Container backgroundColor="color-ink-hv">
       <Footer ref={ref}>
         <LeftFooter>
+          <img alt={img.AMPLIFY.alt} src={img.AMPLIFY.lightSrc} />
           <div>
-            <FooterHeading>
-              <img alt={img.AMPLIFY.alt} src={img.AMPLIFY.lightSrc} />
-              <h3>
-                AWS <span>Amplify</span>
-              </h3>
-            </FooterHeading>
-            <p>
-              Amplify open source software, documentation and community are
-              supported by Amazon Web Services.
-            </p>
-            <Legal>
-              {' '}
-              &#169; 2023 Amazon Web Services, Inc. and its affiliates All
-              rights reserved. View the site terms adn Legalrivacy Legalolicy.
-              Flutter and the related logo are trademarks of Google LLC. We are
-              not endorsed by or affiliated with Google LLC.
-            </Legal>
+            <h3>Amplify</h3>
+            <Link href="/start">Getting Started</Link>
+            <ExternalLink href={links.DISCORD}>Community Chat</ExternalLink>
+            <Link href="/contribute">Contribute</Link>
           </div>
         </LeftFooter>
         <RightFooter>
@@ -52,17 +32,33 @@ const DocsFooter = forwardRef(function DocsFooter({}, ref) {
               <img alt={img.GITHUB.alt} src={img.GITHUB.lightSrc} />
             </ExternalLink>
           </Social>
-          <div>
-            <div>We want to hear from you</div>
-            <Link href="https://docs.amplify.aws">Take our docs survey</Link>
-          </div>
-          <div>
-            <div>Need help?</div>
-            <a href="https://docs.amplify.aws">
-              Connect to an Amplify expert{' '}
-              <Icon name="external" variant="link"></Icon>
-            </a>
-          </div>
+          <Legal>
+            <span>
+              <div>
+                <p>
+                  <img alt={img.AWS.alt} src={img.AWS.lightSrc} />
+                  Amplify open source software, documentation and
+                  <br /> community are supported by Amazon Web Services.
+                </p>
+                <p>
+                  © {new Date().getFullYear()}, Amazon Web Services, Inc. and
+                  its affiliates.
+                </p>
+                <p>
+                  All rights reserved. View the{' '}
+                  <ExternalLink href={links.TERMS}>site terms</ExternalLink> and{' '}
+                  <ExternalLink href={links.PRIVACY}>
+                    privacy policy
+                  </ExternalLink>
+                  .
+                </p>
+              </div>
+              <div className="margin-top-md">
+                Flutter and the related logo are trademarks of Google LLC. We
+                are not endorsed by or affiliated with Google LLC.
+              </div>
+            </span>
+          </Legal>
         </RightFooter>
       </Footer>
     </Container>
