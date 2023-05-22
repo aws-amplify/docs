@@ -124,7 +124,7 @@ export const FeedbackContainer = styled.div`
       animation-fill-mode: forwards;
     }
     &.DOWN {
-      animation: ${slideInMobile} 0.4s ease-in-out, ${expand} 0.4s ease-out 0.4s;
+      animation: ${slideInMobile} 0.4s ease-in-out, ${expand} 0.8s ease-out 0.4s;
       animation-fill-mode: forwards;
     }
   }
@@ -151,7 +151,7 @@ export const FeedbackContainer = styled.div`
     background-color: #fff7f7;
     max-height: 50px;
     overflow: hidden;
-    animation: ${expand} 0.4s ease-out 0.4s;
+    animation: ${expand} 0.8s ease-out 0.4s;
     animation-fill-mode: forwards;
     div > .response {
       display: flex;
