@@ -163,7 +163,7 @@ export const FeedbackContainer = styled.div`
       border-bottom: 2px solid #e9ebed;
     }
     &.close {
-      animation: ${collapse} 0.8s ease-in-out,
+      animation: ${collapse} 0.8s ease-out,
         ${slideOutMobile} 0.4s ease-in-out 1.5s;
       animation-fill-mode: forwards;
     }
@@ -231,7 +231,7 @@ export const FeedbackContainer = styled.div`
     }
     &.close {
       &.DOWN {
-        animation: ${collapse} 0.8s ease-in-out,
+        animation: ${collapse} 0.8s ease-out,
           ${slideOutDesktop} 0.4s ease-in-out 1.5s;
         animation-fill-mode: forwards;
       }
