@@ -38,6 +38,7 @@ export const TOCStyle = styled.div`
   top: calc(var(--docs-dev-center-nav));
   z-index: 11;
   min-width: 100%;
+  width: 100%;
   height: 100%;
   background: white;
   align-self: flex-start;
@@ -90,11 +91,11 @@ export const TOCStyle = styled.div`
 
   ${MQTablet}, ${MQDesktop} {
     min-width: 16.875rem;
+    width: unset;
     position: sticky;
     top: calc(3rem + var(--docs-dev-center-nav));
     padding: 2rem 0;
     z-index: 0;
-    // left: unset;
     overflow: unset;
   }
 
