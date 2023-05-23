@@ -7,7 +7,6 @@ import {
 import React from 'react';
 import copy from 'copy-to-clipboard';
 import { trackCopyClicks } from '../../utils/track';
-import { log } from 'console';
 
 const COPY = 'copy';
 const COPIED = 'copied';
