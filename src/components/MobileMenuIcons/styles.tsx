@@ -69,5 +69,5 @@ export const Divider = styled.div`
   left: 32px;
   background: #e9ebed;
   align-self: center;
-  margin: 18px;
+  margin: 10px;
 `;
