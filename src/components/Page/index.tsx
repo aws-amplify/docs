@@ -1,19 +1,13 @@
 import { useRouter } from 'next/router';
 import { traverseHeadings } from '../../utils/traverseHeadings';
 import { gatherAllFilters } from '../../utils/gatherFilters';
-import CodeBlockProvider from '../CodeBlockProvider/index';
 import Layout from '../Layout/index';
-import Menu from '../Menu/index';
-import TableOfContents from '../TableOfContents/index';
-import NextPrevious from '../NextPrevious/index';
-import { ContentStyle, ChapterTitleStyle } from './styles';
+import MetaContent from './metaContent';
 import {
   getChapterDirectory,
   isProductRoot
 } from '../../utils/getLocalDirectory';
-import SidebarLayoutToggle from '../SidebarLayoutToggle';
-import { useRef, useState } from 'react';
-import { MQTablet } from '../media';
+import { useRef } from 'react';
 import {
   filterMetadataByOption,
   SelectedFilters
@@ -21,8 +15,6 @@ import {
 import ChooseFilterPage from '../../pages/ChooseFilterPage';
 import { parseLocalStorage } from '../../utils/parseLocalStorage';
 import { withFilterOverrides } from '../../utils/withFilterOverrides';
-import { FeedbackToggle } from '../Feedback';
-import LastUpdatedDatesProvider from '../LastUpdatedProvider';
 
 export type MdxFrontmatterType = {
   lastUpdated: string;
@@ -37,11 +29,10 @@ export default function Page({
   meta?: any;
   frontmatter?: MdxFrontmatterType;
 }) {
+  const footerRef = useRef(null);
   const router = useRouter();
 
   if (!router.isReady) {
-    const [menuIsOpen, setMenuIsOpen] = useState(false);
-    useRef(null);
     return <></>;
   }
 
@@ -105,7 +96,6 @@ export default function Page({
     );
   }
 
-  const [menuIsOpen, setMenuIsOpen] = useState(false);
   meta.chapterTitle = '';
   if (meta && !isProductRoot(url)) {
     const { title: chapTitle } = getChapterDirectory(url) as {
@@ -126,106 +116,25 @@ export default function Page({
       meta={meta}
       filterKey={filterKey}
       filterMetadataByOption={filterMetadataByOption}
+      ref={footerRef}
     >
-      {meta
-        ? metaContent({
-            title: meta.title,
-            chapterTitle: meta.chapterTitle,
-            headers,
-            children,
-            filters,
-            filterKey,
-            filterKind,
-            url,
-            directoryPath,
-            menuIsOpen,
-            setMenuIsOpen,
-            parentPageLastUpdatedDate
-          })
-        : children}
-    </Layout>
-  );
-}
-
-export function metaContent({
-  title,
-  chapterTitle,
-  headers,
-  children,
-  filters,
-  filterKey,
-  filterKind,
-  url,
-  directoryPath,
-  menuIsOpen,
-  setMenuIsOpen,
-  parentPageLastUpdatedDate
-}: {
-  title: string;
-  chapterTitle: string;
-  headers: any;
-  children: any;
-  filters: any;
-  filterKey: any;
-  filterKind: any;
-  url: any;
-  directoryPath: any;
-  menuIsOpen: any;
-  setMenuIsOpen: any;
-  parentPageLastUpdatedDate: string;
-}) {
-  const menuRef = useRef(null);
-  // Slice off the "@media " string at the start for use in JS instead of CSS
-  const MQTabletJS = MQTablet.substring(6);
-  // If the media query matches, then the user is on desktop and should not see the mobile toggle
-  const onDesktop =
-    typeof window === 'undefined'
-      ? false
-      : window.matchMedia(MQTabletJS).matches;
-
-  return (
-    <>
-      <LastUpdatedDatesProvider
-        parentPageLastUpdatedDate={parentPageLastUpdatedDate}
-      >
-        <Menu
+      {meta ? (
+        <MetaContent
+          title={meta.title}
+          chapterTitle={meta.chapterTitle}
+          headers={headers}
+          children={children}
           filters={filters}
           filterKey={filterKey}
           filterKind={filterKind}
           url={url}
           directoryPath={directoryPath}
-          ref={menuRef}
-          setMenuIsOpen={setMenuIsOpen}
-        ></Menu>
-        <ContentStyle menuIsOpen={menuIsOpen}>
-          <div>
-            <ChapterTitleStyle>{chapterTitle}</ChapterTitleStyle>
-            <div>
-              <h1>{title}</h1>
-            </div>
-            <CodeBlockProvider>
-              {children}
-              <NextPrevious url={url} filterKey={filterKey} />
-            </CodeBlockProvider>
-          </div>
-        </ContentStyle>
-        <TableOfContents title={title}>{headers}</TableOfContents>
-        {!onDesktop && (
-          <SidebarLayoutToggle menuRef={menuRef}>
-            <img
-              alt="Open menu"
-              className="burger-graphic"
-              src="/assets/burger.svg"
-            />
-            <img
-              alt="Close menu"
-              className="ex-graphic"
-              src="/assets/close.svg"
-            />
-          </SidebarLayoutToggle>
-        )}
-        <FeedbackToggle />
-      </LastUpdatedDatesProvider>
-    </>
+          parentPageLastUpdatedDate={parentPageLastUpdatedDate}
+          footerRef={footerRef}
+        />
+      ) : (
+        children
+      )}
+    </Layout>
   );
 }
