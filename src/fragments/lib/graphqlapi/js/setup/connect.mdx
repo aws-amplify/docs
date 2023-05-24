@@ -1,12 +1,8 @@
 # Connect a data stack
-In this guide you will learn how to connect an existing data stack to your application. This job includes understanding the required client configuration and how to connect the data stack. We will also review functions to create, update, delete, and read your data using the Amplify GraphQL client. Finally, we will look at how to subscribe to real-time events to watch for mutations in your data.
-
-> **Before you begin, you will need:**
-> - An AWS AppSync API already set up
-> - An application set up ([instructions to set up an app](https://docs.amplify.aws/lib/project-setup/create-application/q/platform/js/))
+In this guide, you will learn how to connect an existing data stack to your application. This job includes understanding the required client configuration and how to connect the data stack. We will also review functions to create, read, update, and delete your data using the Amplify GraphQL client. Finally, we will look at how to subscribe to real-time events to watch for mutations in your data.
 
 ## Review the required configuration
-In this job you will configure your client to point to the AWS AppSync API endpoint. You will first need to understand how to configure the Amplify API category and update the authentication type to complete this job. An understanding of the differences between authentication types will also be helpful if you did not set up the data stack yourself.
+In this job, you will configure your client to point to the AWS AppSync API endpoint. You will first need to understand how to configure the Amplify API category and update the authentication type to complete this job. An understanding of the differences between authentication types will also be helpful if you did not set up the data stack yourself.
 
 > **Before you begin, you will need:**
 > - An AWS AppSync API already set up
@@ -19,52 +15,52 @@ In this job you will configure your client to point to the AWS AppSync API endpo
 ==This section includes a short review of the auth types and steps to update their details.==
 
 #### Review differences between authentication types 
-==EXPANDER SECTION to provide a deeper dive on authentication types and their differences including API key access, Cognito, IAM, and OIDC. May be an option for a table since a comparison.==
+==EXPANDER SECTION to provide a deeper dive on authentication types and their differences, including API key access, Cognito, IAM, and OIDC. May be an option for a table that compares the authentication types.==
 
 ### Recap
 ==Recap of job completed and a tie-in to real-world use and application of the topic discussed.==
 
 ## Connect your application code to the data backend
-In this job you will connect your application code to the data stack by connecting and configuring the Amplify libraries. We will review how to install and configure Amplify libraries to help you complete this task.
+In this job, you will connect your application code to the data stack by connecting and configuring the Amplify libraries. We will review how to install and configure Amplify libraries to help you complete this task.
 
 > **Before you begin, you will need:**
-> - npm installed ([set up npm]( https://docs.npmjs.com/getting-started))
+> - npm installed ([set up npm](https://docs.npmjs.com/getting-started))
 > - Data stack deployed
 
 ### Install and configure the Amplify libraries
-==Task forward section with steps to install and configure with an explanation on the flow differences between the Amplify API vs their existing API.==
+==Task-forward section with steps to install and configure, with an explanation on the flow differences between the Amplify API and their existing API.==
 
 #### Troubleshooting
-==EXPANDER SECTION to provide tips on how to avoid common errors such as: not changing the default auth rules, CLI set up correctly, and troubleshooting and AWS account with the CLI . Each error should have a header with descriptive title to be included on a primary troubleshooting guide as well.==
+==EXPANDER SECTION to provide tips on how to avoid common errors such as: not changing the default auth rules, CLI set up correctly, and troubleshooting an AWS account with the CLI. Each error should have a header with descriptive title to be included on a primary troubleshooting guide as well.==
 
 ### Recap
 ==Recap of job completed and a tie-in to real-world use and application of the topic discussed.==
 
 ## Create, update, and delete application data
-In this job you will execute mutations to create, update, and delete application data. We will also show you how to cancel these requests. 
+In this job, you will run mutations to create, update, and delete application data. We will also show you how to cancel these requests. 
 
 > **Before you begin, you will need:**
 > - Your application connected to the API
 
-### Execute mutations to create, update, and delete application data
+### Run mutations to create, update, and delete application data
 ==Short intro to review mutations with the Amplify GraphQL client.==
 
 #### Learn more about GraphQL mutations
-==EXPANDER SECTION that covers GraphQL basics, mutations, and why this is helpful – can be a short summary with recommended links.==
+==EXPANDER SECTION that covers GraphQL basics, mutations, and why this is helpful—can be a short summary with recommended links.==
 
-==Steps to execute with the Amplify GraphQL client.==
+==Steps to run with the Amplify GraphQL client.==
 
 #### Troubleshooting
 ==EXPANDER SECTION to provide tips on how to avoid common errors such as: unauthorized errors and cross-platform gotchas. Each error should have a header with descriptive title to be included on a primary troubleshooting guide as well.==
 
 ### Cancel mutation requests
-==Brief explanation on how canceling mutations works, what happens in the back end, and how to execute the command.==
+==Brief explanation on how canceling mutations works, what happens in the backend, and how to run the command.==
 
 ### Recap
 ==Recap of job completed and a tie-in to real-world use and application of the topic discussed.==
 
 ## Read application data
-In this job you will read application data using the Amplify GraphQL client. This will include understanding the differences between listing and getting data, how to filter this data, and how to paginate your data. We will also show you how to cancel these requests when needed.
+In this job, you will read application data using the Amplify GraphQL client. This will include understanding the differences between listing and getting data, how to filter this data, and how to paginate your data. We will also show you how to cancel these requests when needed.
 
 > **Before you begin, you will need:**
 > - Your application connected to the API
@@ -74,9 +70,9 @@ In this job you will read application data using the Amplify GraphQL client. Thi
 ==Short explanation of the difference between listing and getting data.==
 
 #### Learn more about limitations and costs for specific operations
-==EXPANDER SECTION that provides and overview of the cost of specific operations (e.g. list vs get, queries and scans) as well as limitations for specific functions (e.g. sorting, open search), items, and filters.==
+==EXPANDER SECTION that provides an overview of the cost of specific operations (e.g., list vs. get, queries, and scans) as well as limitations for specific functions (e.g., sorting, open search), items, and filters.==
 
-==Steps to list or get data. This is then followed by explanation how to filter data by variable and steps to filter data.==
+==Steps to list or get data. This is then followed by an explanation of how to filter data by variable and steps to filter data.==
 
 #### Troubleshooting
 ==EXPANDER SECTION to provide tips on how to avoid common errors such as: deny by default behavior with auth rules and the need for at least one auth rule. Each error should have a header with descriptive title to be included on a primary troubleshooting guide as well.==
@@ -85,16 +81,16 @@ In this job you will read application data using the Amplify GraphQL client. Thi
 ==Description of how pagination works with the next token followed by the steps to paginate data manually or with UI hook.==
 
 #### Benefits of pagination
-==EXPANDER SECTION that provides more detail on how our pagination options differ and the benefits of our options.==
+==EXPANDER SECTION that provides more detail on how our pagination options differ and the benefits of each.==
 
 ### Cancel read requests
-==Brief explanation on how canceling read queries works, what happens in the back end, and how to execute the command.==
+==Brief explanation on how canceling read queries works, what happens in the backend, and how to run the command.==
 
 ### Recap
 ==Recap of job completed and a tie-in to real-world use and application of the topic discussed.==
 
 ## Subscribe to real-time events
-In this job you will subscribe to real-time events. This includes understanding the benefits of enabling real-time data integrations and how to set up and filter these subscriptions. We will also cover how to unsubscribe from subscriptions when needed.
+In this job, you will subscribe to real-time events. This includes understanding the benefits of enabling real-time data integrations and how to set up and filter these subscriptions. We will also cover how to unsubscribe from subscriptions when needed.
 
 > **Before you begin, you will need:**
 > - Your application connected to the API
@@ -112,16 +108,16 @@ In this job you will subscribe to real-time events. This includes understanding 
 ==EXPANDER SECTION with details on managing and cleaning up subscriptions, matching/defining mutation selection with subscription selections, and extra link to DeltaSync. For React there should also be a section about issues with hooks.==
 
 ### Unsubscribe from a subscription
-==Explanation how to unsubscribe and when to for reducing redundancy with steps for these actions.==
+==Explanation of how to unsubscribe and when to for reducing redundancy with steps for these actions.==
 
 ### Recap
 ==Recap of job completed and a tie-in to real-world use and application of the topic discussed.==
 
 ## Conclusion
-Congratulations! You have finished the **Connect a data stack** guide. In this guide, you installed and configured Amplify libraries; used GraphQL mutations for app data requests; filtered app data in Amplify; and set up, filtered, and cancelled subscriptions for real-time events.
+Congratulations! You have finished the **Connect a data stack** guide. In this guide, you installed and configured Amplify libraries; used GraphQL mutations for app data requests; filtered app data in Amplify; and set up, filtered, and canceled subscriptions for real-time events.
 
 ## Next steps
-==Provide 2-3 relevant next steps. These can be links related to what was covered in the guide and/or links to related Amplify JTBD guides.==
+==Provide 2–3 relevant next steps. These can be links related to what was covered in the guide and/or links to related Amplify JTBD guides.==
 
 -----
 
