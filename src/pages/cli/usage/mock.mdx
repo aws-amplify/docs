@@ -332,6 +332,22 @@ Once the server starts it will print a URL. Open this URL in your browser (it sh
 
 When your API is configured to use Cognito User Pools, the local console provides a way to change `Username`, `Groups`, and `email` of the bundled JWT token. These values are used by GraphQL transformers Auth directive. Edit them by clicking **Auth** and saving your changes, then run operations in the console to test your rules.
 
+### Running GraphQL mock with custom port
+You can use a `mock.json` file within the api directory of your project (ie. `<project root>/amplify/backend/api/<api name>/mock.json`) to customize the running ports for local DynamoDB and local AppSync.
+
+Here is an example of a `mock.json` file:
+
+```json
+{
+  "graphqlPort": 8000,
+  "port": 8001
+}
+```
+
+In this example:
+* The `graphqlPort` field allows you to change the local AppSync port. By default, the endpoint for local AppSync is `http://localhost:20002`
+* The `port` field allows you to change the local DynamoDB port. By default, the endpoint for local DynamoDB is `http://localhost:62224`
+
 ## GraphQL Resolver Debugging
 
 You can edit VTL templates locally to see if they contain errors, including the line numbers causing problems, before pushing to AppSync. With the local API running navigate to `amplify/backend/api/APINAME/resolvers` where `APINAME` is the logical name that you used when running `$amplify add api`. You will see a list of resolver templates that the Transformer generated. Modify any of them and save, and they will be immediately loaded into the locally running API service with a message `Mapping template change detected. Reloading.`. If there is an error you will see something such as the following:
