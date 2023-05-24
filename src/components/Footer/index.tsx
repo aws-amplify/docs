@@ -4,11 +4,13 @@ import { Container } from '../Container';
 import ExternalLink from '../ExternalLink';
 import * as links from '../../constants/links';
 import * as img from '../../constants/img';
+import { forwardRef } from 'react';
 
-export default function DocsFooter() {
+// eslint-disable-next-line no-empty-pattern
+const DocsFooter = forwardRef(function DocsFooter({}, ref) {
   return (
     <Container backgroundColor="color-ink-hv">
-      <Footer>
+      <Footer ref={ref}>
         <LeftFooter>
           <img alt={img.AMPLIFY.alt} src={img.AMPLIFY.lightSrc} />
           <div>
@@ -61,4 +63,6 @@ export default function DocsFooter() {
       </Footer>
     </Container>
   );
-}
+});
+
+export default DocsFooter;
