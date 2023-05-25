@@ -1,7 +1,7 @@
 Get the properties of the file using `getProperties` method.
 
 ```typescript
-await Storage.getProperties(key: string);
+await Storage.getProperties(key: 'srcKey');
 ```
 
 The format of the response looks like this:
@@ -38,10 +38,9 @@ const result = await Storage.getProperties(
 
 You can choose to configure [file access `level`](https://docs.amplify.aws/lib/storage/configureaccess/q/platform/js) as follows:
 
-```javascript
-
-const result = await Storage.get('welcome.png',  level?: private | protected | public);  // defaults to `public`
-
+```typescript
+const level = 'private' || 'protected' || 'public';
+const result = await Storage.getProperties('welcome.png', { level }); // defaults to `public`
 ```
 
 - `public`: Accessible by all users of your app. Files are stored under the `public/` path in your S3 bucket.
