@@ -587,15 +587,15 @@ function App() {
     }
   }
 
-async function getImageForCurrentSong() {
-  // Query the record to get the file key:
-  const _song = await getSong();
-  // Check that the record has an associated image:
-  if (!_song?.coverArtKey) return;
-  // Retrieve the signed URL:
-  const signedURL = await Storage.get(_song?.coverArtKey);
-  setCurrentImageUrl(signedURL);
-}
+  async function getImageForCurrentSong() {
+    // Query the record to get the file key:
+    const _song = await getSong();
+    // Check that the record has an associated image:
+    if (!_song?.coverArtKey) return;
+    // Retrieve the signed URL:
+    const signedURL = await Storage.get(_song?.coverArtKey);
+    setCurrentImageUrl(signedURL);
+  }
 
   // Removes the image from the song, but does not delete from Storage:
   async function removeImageFromSong() {
@@ -834,15 +834,15 @@ function App() {
     }
   }
 
-async function getImageForCurrentSong() {
-  // Query the record to get the file key:
-  const _song = await getSong();
-  // Check that the record has an associated image:
-  if (!_song?.coverArtKey) return;
-  // Retrieve the signed URL:
-  const signedURL = await Storage.get(_song?.coverArtKey);
-  setCurrentImageUrl(signedURL);
-}
+  async function getImageForCurrentSong() {
+    // Query the record to get the file key:
+    const _song = await getSong();
+    // Check that the record has an associated image:
+    if (!_song?.coverArtKey) return;
+    // Retrieve the signed URL:
+    const signedURL = await Storage.get(_song?.coverArtKey);
+    setCurrentImageUrl(signedURL);
+  }
 
   // Removes the image from the song, but does not delete from Storage:
   async function removeImageFromSong() {
