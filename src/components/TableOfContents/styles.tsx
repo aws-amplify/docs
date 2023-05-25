@@ -30,18 +30,14 @@ export const TOCInnerStyle = styled.div`
 `;
 
 export const TOCStyle = styled.div`
-  display: flex;
-  flex-direction: column;
   padding: 2rem 0;
   font-size: 0.875rem;
   position: fixed;
   top: calc(var(--docs-dev-center-nav));
   z-index: 11;
-  min-width: 100%;
-  width: 100%;
+  width: 100vw;
   height: 100%;
   background: white;
-  align-self: flex-start;
   max-height: 100vh;
   padding: 0 2.5rem;
   left: -100vw;
@@ -80,18 +76,13 @@ export const TOCStyle = styled.div`
   }
 
   ${MQTablet} {
-    &.more-width {
-      display: flex;
-    }
+    width: 16.875rem;
   }
-
   ${MQDesktop} {
     display: flex;
-  }
-
-  ${MQTablet}, ${MQDesktop} {
-    min-width: 16.875rem;
-    width: unset;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 16.875rem;
     position: sticky;
     top: calc(3rem + var(--docs-dev-center-nav));
     padding: 2rem 0;
@@ -144,7 +135,7 @@ export const HeaderStyle = styled.div`
   padding-bottom: 0.5rem;
   border-left: 0.05rem solid var(--border-color);
 
-  ${MQTablet}, ${MQDesktop} {
+  ${MQDesktop} {
     padding-left: 1.5rem;
   }
 `;

@@ -14,7 +14,7 @@ import React, {
 } from 'react';
 import MenuOpenButton from './MenuOpenButton';
 import MenuCloseButton from './MenuCloseButton';
-import { MQTablet } from '../media';
+import { MQDesktop } from '../media';
 import Directory from './Directory';
 import RepoActions from './RepoActions';
 import FilterSelect from './FilterSelect';
@@ -39,10 +39,10 @@ function Menu(props: MenuProps, ref) {
   const [onDesktop, setOnDesktop] = useState(false);
 
   useEffect(() => {
-    const MQTabletJS = MQTablet.substring(6);
+    const MQDesktopJS = MQDesktop.substring(6);
     // If the media query matches, then the user is on desktop and should see the menu by default
     const onDesktop =
-      typeof window !== 'undefined' && window.matchMedia(MQTabletJS).matches;
+      typeof window !== 'undefined' && window.matchMedia(MQDesktopJS).matches;
     setIsOpen(onDesktop);
     setOnDesktop(onDesktop);
   }, []);

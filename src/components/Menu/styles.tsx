@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { keyframes } from '@emotion/react';
-import { MQTablet, MQLaptop, MQDesktop } from '../media';
+import { MQTablet, MQDesktop } from '../media';
 
 const slideIn = keyframes`
   from {
@@ -46,7 +46,7 @@ export const MenuHeaderStyle = styled.div`
     }
   }
 
-  ${MQDesktop}, ${MQTablet}, ${MQLaptop} {
+  ${MQDesktop}, ${MQTablet} {
     flex-direction: row;
     margin: 1.75rem 2.75rem 0 2.5rem;
   }
@@ -54,8 +54,7 @@ export const MenuHeaderStyle = styled.div`
 
 export const MenuStyle = styled.div`
   border-right: 0.0625rem solid var(--border-color);
-  min-width: 100vw;
-  width: 100%;
+  width: 100vw;
   height: 100%;
   z-index: 11;
   position: fixed;
@@ -73,14 +72,20 @@ export const MenuStyle = styled.div`
     animation-fill-mode: forwards;
   }
 
-  ${MQDesktop}, ${MQTablet}, ${MQLaptop} {
+  ${MQDesktop} {
     top: calc(3rem + var(--docs-dev-center-nav));
     position: sticky;
-    min-width: 20rem;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 20rem;
     z-index: 0;
     left: unset;
     overflow: unset;
-  }}
+  }
+  ${MQTablet} {
+    width: 20rem;
+  }
+}
 
   > div {
     position: relative;
