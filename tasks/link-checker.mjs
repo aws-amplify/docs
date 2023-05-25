@@ -50,7 +50,6 @@ const retrieveLinks = async (
   const urlsToVisit = [];
 
   for (let i = 0; i < siteMapUrls.length; i++) {
-    //   for (let i = 0; i < 100; i++) {
     let url = siteMapUrls[i];
 
     let response = await page.goto(url);
