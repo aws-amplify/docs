@@ -54,7 +54,7 @@ export const MenuHeaderStyle = styled.div`
 
 export const MenuStyle = styled.div`
   border-right: 0.0625rem solid var(--border-color);
-  width: 100%;
+  width: 100vw;
   height: 100%;
   z-index: 11;
   position: fixed;

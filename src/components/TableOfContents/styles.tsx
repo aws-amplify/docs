@@ -37,7 +37,7 @@ export const TOCStyle = styled.div`
   position: fixed;
   top: calc(var(--docs-dev-center-nav));
   z-index: 11;
-  width: 100%;
+  width: 100vw;
   height: 100%;
   background: white;
   align-self: flex-start;
