@@ -55,11 +55,11 @@ export const MenuHeaderStyle = styled.div`
 export const MenuStyle = styled.div`
   border-right: 0.0625rem solid var(--border-color);
   min-width: 100vw;
+  width: 100%;
   height: 100%;
   z-index: 11;
   position: fixed;
   left: -100vw;
-  // transition: left 0.4s;
   top: calc(var(--docs-dev-center-nav));
   background: #ffffff;
   overflow: scroll;
