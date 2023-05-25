@@ -38,7 +38,6 @@ export const TOCStyle = styled.div`
   width: 100vw;
   height: 100%;
   background: white;
-  align-self: flex-start;
   max-height: 100vh;
   padding: 0 2.5rem;
   left: -100vw;
