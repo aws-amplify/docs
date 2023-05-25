@@ -79,24 +79,22 @@ export const TOCStyle = styled.div`
     }
   }
 
-  ${MQTablet} {
-    &.more-width {
-      display: flex;
-    }
-  }
-
   ${MQDesktop} {
     display: flex;
   }
 
-  ${MQTablet}, ${MQDesktop} {
+  ${MQDesktop} {
     min-width: 16.875rem;
-    width: 16.875rem;
+    max-width: 16.875rem;
     position: sticky;
     top: calc(3rem + var(--docs-dev-center-nav));
     padding: 2rem 0;
     z-index: 0;
     overflow: unset;
+  }
+  ${MQTablet} {
+    min-width: 16.875rem;
+    max-width: 16.875rem;
   }
 
   a {
@@ -144,7 +142,7 @@ export const HeaderStyle = styled.div`
   padding-bottom: 0.5rem;
   border-left: 0.05rem solid var(--border-color);
 
-  ${MQTablet}, ${MQDesktop} {
+  ${MQDesktop} {
     padding-left: 1.5rem;
   }
 `;

@@ -73,15 +73,20 @@ export const MenuStyle = styled.div`
     animation-fill-mode: forwards;
   }
 
-  ${MQDesktop}, ${MQTablet}, ${MQLaptop} {
+  ${MQDesktop} {
     top: calc(3rem + var(--docs-dev-center-nav));
     position: sticky;
     min-width: 20rem;
-    width: 20rem;
+    max-width: 20rem;
     z-index: 0;
     left: unset;
     overflow: unset;
-  }}
+  }
+  ${MQTablet} {
+    max-width: 20rem;
+    min-width: 20rem;
+  }
+}
 
   > div {
     position: relative;
