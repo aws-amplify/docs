@@ -25,7 +25,7 @@ To use files and attachments you need authorization credentials for reading and 
 
 For the complete working example, including required imports and React component state management, see the [Complete Example](#complete-example) below.
 
-## Creating a record with a GraphQL API:
+## Creating a record with a GraphQL API
 
 Running the following mutation will create a record with the GraphQL API. The corresponding file will be associated with this record.
 
@@ -74,7 +74,7 @@ async function createSong() {
 </Block>
 </BlockSwitcher>
 
-## Query the record with the GraphQL API:
+## Query the record with the GraphQL API
 
 The following helper function will be used to retrieve the record from the GraphQL API in the examples below:
 
@@ -121,7 +121,7 @@ async function getSong() {
 </Block>
 </BlockSwitcher>
 
-## Uploading the file to S3:
+## Uploading the file to S3
 
 Create a helper function that will handle uploading the file to S3:
 
@@ -170,7 +170,7 @@ async function uploadImage(e) {
 </Block>
 </BlockSwitcher>
 
-## Adding / updating an associated file:
+## Adding / updating an associated file
 
 To associate a file with a record, update the record with the key returned by the Storage upload. The following example calls the helper function to upload the file using Storage, updates the record with the file's key, then retrieves the signed URL to download the image. If an image is already associated with the record, this will update the record with the new image:
 
@@ -239,7 +239,7 @@ async function addImageToSong(e) {
 </Block>
 </BlockSwitcher>
 
-## Retrieving the associated file from the record:
+## Retrieving the associated file from the record
 
 To retrieve the file associated with a record, first query the record, then use Storage to get the signed URL. The signed URL can then be used to download the file, display an image, etc:
 
@@ -276,11 +276,11 @@ async function getImageForCurrentSong() {
 </Block>
 </BlockSwitcher>
 
-## Deleting and removing associated files:
+## Deleting and removing associated files
 
 Once a file has been associated with a record, the file can be removed from the record, deleted from S3, or both.
 
-### Removing the file from the record:
+### Removing the file from the record
 
 The following example removes the file from the record, but does not delete the file from S3:
 
@@ -341,7 +341,7 @@ async function removeImageFromSong() {
 </Block>
 </BlockSwitcher>
 
-### Removing and deleting the file:
+### Removing and deleting the file
 
 The following example removes the file from the record, then delete the file from S3:
 
@@ -392,7 +392,7 @@ async function deleteImageForCurrentSong() {
 </Block>
 </BlockSwitcher>
 
-### Deleting the record and associated file:
+### Deleting the record and associated file
 
 When deleting a record, we may also want to delete the associated file:
 
@@ -477,12 +477,12 @@ async function deleteCurrentSong() {
 </Block>
 </BlockSwitcher>
 
-## Configuring Authorization:
+## Configuring authorization
 When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito Identity Pool Role. You will have the option of adding CRUD (Create/Update, Read and Delete) based permissions as well, so that Authenticated and Guest users will be granted limited permissions within these levels. For more on configuring Storage authorization levels, see the [Storage documentation](https://docs.amplify.aws/lib/storage/configureaccess/q/platform/js/).
 
 For more on configuring API authorization, see the [API documentation](https://docs.amplify.aws/lib/graphqlapi/authz/q/platform/js/).
 
-## Complete Example:
+## Complete example
 
 <BlockSwitcher>
 <Block name="TypeScript">
