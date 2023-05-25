@@ -37,7 +37,6 @@ export const TOCStyle = styled.div`
   position: fixed;
   top: calc(var(--docs-dev-center-nav));
   z-index: 11;
-  min-width: 100%;
   width: 100%;
   height: 100%;
   background: white;
@@ -79,22 +78,19 @@ export const TOCStyle = styled.div`
     }
   }
 
+  ${MQTablet} {
+    width: 16.875rem;
+  }
   ${MQDesktop} {
     display: flex;
-  }
-
-  ${MQDesktop} {
-    min-width: 16.875rem;
-    max-width: 16.875rem;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 16.875rem;
     position: sticky;
     top: calc(3rem + var(--docs-dev-center-nav));
     padding: 2rem 0;
     z-index: 0;
     overflow: unset;
-  }
-  ${MQTablet} {
-    min-width: 16.875rem;
-    max-width: 16.875rem;
   }
 
   a {
