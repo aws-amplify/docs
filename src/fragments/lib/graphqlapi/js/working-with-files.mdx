@@ -54,18 +54,273 @@ async function createSong() {
 }
 ``` 
 
+## Query the record with the GraphQL API:
+
+The following helper function will be used to retrieve the record from the GraphQL API.
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+async function getSong() {
+  if (!currentSong) return;
+
+  try {
+    const oneSong = await API.graphql<GraphQLQuery<GetSongQuery>>({
+      query: queries.getSong,
+      variables: { id: currentSong.id },
+    });
+
+    return oneSong.data?.getSong;
+  } catch (error) {
+    console.log("Error retrieving song: ", error);
+  }
+}
+``` 
+
+</Block>
+<Block name="JavaScript">
+
+```js
+
+```
+
+</Block>
+</BlockSwitcher>
+
 ## Uploading the file to S3:
 
-## Adding the file to the record:
+Create a helper function that will handle uploading the file to S3. This function will be called when the user selects a file to upload:
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+async function uploadImage(e: React.ChangeEvent<HTMLInputElement>) {
+  if (!e.target.files) return;
+
+  const file = e.target.files[0];
+
+  try {
+    const result = await Storage.put(file.name, file, {
+      contentType: "image/png", // contentType is optional
+    });
+
+    return result?.key;
+  } catch (error) {
+    console.log("Error uploading image: ", error);
+  }
+}
+``` 
+
+</Block>
+<Block name="JavaScript">
+
+```js
+
+```
+
+</Block>
+</BlockSwitcher>
+
+## Adding / updating an associated file:
+
+To associate a file / attachment with a record, update the record with the key returned by the Storage upload. The following example calls the helper function to upload the file using Storage, updates the record with the file's key, then retrieves the signed URL to download the image. If an image is already associated with the record, this will update the record with the new image:
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+async function addImageToSong(e: React.ChangeEvent<HTMLInputElement>) {
+  if (!currentSong) return;
+
+  // Upload the image to S3:
+  const key = await uploadImage(e);
+
+  const songDetails: UpdateSongInput = {
+    id: currentSong.id,
+    fileKey: key,
+  };
+
+  // Add the image to the current song:
+  try {
+    const updatedSong = await API.graphql<GraphQLQuery<UpdateSongMutation>>({
+      query: mutations.updateSong,
+      variables: { input: songDetails },
+    });
+    setCurrentSong(updatedSong?.data?.updateSong);
+
+    // Retrieve the image for the current song:
+    await getImageForCurrentSong();
+  } catch (error) {
+    console.log("Error adding image to song: ", error);
+  }
+}
+``` 
+
+</Block>
+<Block name="JavaScript">
+
+```js
+
+```
+
+</Block>
+</BlockSwitcher>
 
 ## Retrieving the associated file from the record:
 
-## Updating a record with a new file:
+To retrieve the file associated with a record, first query the record, then use Storage to get the signed URL. The signed URL can then be used to download the file, display an image, etc:
 
-## Deleting and removing files and attachments
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+async function getImageForCurrentSong() {
+  // Query the record to get the file key:
+  const _song = await getSong();
+  // Check that the record has an associated image:
+  if (!_song?.fileKey) return;
+  const signedURL = await Storage.get(_song?.fileKey);
+  setCurrentImageUrl(signedURL);
+}
+``` 
+
+</Block>
+<Block name="JavaScript">
+
+```js
+
+```
+
+</Block>
+</BlockSwitcher>
+
+## Deleting and removing associated files:
+
+Once a file has been associated with a record, the file can be removed from the record, deleted from S3, or both.
+
 ### Removing the file from the record:
-### Deleting the file:
-### Deleting the record:
+
+Removes the file from the record, but does not delete the file from S3:
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+async function removeImageFromSong() {
+  if (!currentSong) return;
+
+  const songDetails: UpdateSongInput = {
+    id: currentSong.id,
+    fileKey: null,
+  };
+
+  try {
+    const updatedSong = await API.graphql<GraphQLQuery<UpdateSongMutation>>({
+      query: mutations.updateSong,
+      variables: { input: songDetails },
+    });
+
+    // If successful, the response here will be `null`:
+    setCurrentSong(updatedSong?.data?.updateSong);
+    setCurrentImageUrl(updatedSong?.data?.updateSong?.fileKey);
+  } catch (error) {
+    console.log("Error removing image from song: ", error);
+  }
+}
+``` 
+
+</Block>
+<Block name="JavaScript">
+
+```js
+
+```
+
+</Block>
+</BlockSwitcher>
+
+### Removing then deleting the file:
+
+Remove the file from the record, then delete the file from S3:
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+async function deleteImageForCurrentSong() {
+  if (!currentSong) return;
+
+  const _song = await getSong();
+
+  if (!_song?.fileKey) return;
+
+  await removeImageFromSong();
+
+  try {
+    const deletedImage = await Storage.remove(_song?.fileKey);
+    console.log("Image deleted: ", deletedImage);
+  } catch (error) {
+    console.log("Error deleting image: ", error);
+  }
+}
+``` 
+
+</Block>
+<Block name="JavaScript">
+
+```js
+
+```
+
+</Block>
+</BlockSwitcher>
+
+### Deleting the record and associated file:
+
+When deleting a record, we may also want to delete the associated file:
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+// Deletes current song. If song has an image, deletes image from Storage:
+async function deleteCurrentSong() {
+  if (!currentSong) return;
+
+  const _song = await getSong();
+
+  // Save the file key for deleting the file after the record is deleted:
+  const currentSongImageKey = _song?.fileKey;
+
+  const songDetails: DeleteSongInput = {
+    id: currentSong.id,
+  };
+
+  try {
+    const deletedSong = await API.graphql<GraphQLQuery<DeleteSongMutation>>({
+      query: mutations.deleteSong,
+      variables: { input: songDetails },
+    });
+
+    console.log("Song deleted: ", deletedSong?.data?.deleteSong);
+    setCurrentSong(null);
+
+    if (!currentSongImageKey) return;
+
+    try {
+      const deletedImage = await Storage.remove(currentSongImageKey);
+      console.log("Image deleted: ", deletedImage);
+      clearLocalState();
+    } catch (error) {
+      console.log("Error deleting image: ", error);
+    }
+  } catch (error) {
+    console.log("Error deleting song: ", error);
+  }
+}
+``` 
 
 </Block>
 <Block name="JavaScript">
@@ -392,7 +647,7 @@ function App() {
   );
 }
 
-export default App;s
+export default App;
 ``` 
 
 </Block>
