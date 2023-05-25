@@ -77,7 +77,7 @@ export const MenuStyle = styled.div`
     top: calc(3rem + var(--docs-dev-center-nav));
     position: sticky;
     min-width: 20rem;
-    width: unset;
+    width: 20rem;
     z-index: 0;
     left: unset;
     overflow: unset;

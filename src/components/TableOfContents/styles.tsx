@@ -91,7 +91,7 @@ export const TOCStyle = styled.div`
 
   ${MQTablet}, ${MQDesktop} {
     min-width: 16.875rem;
-    width: unset;
+    width: 16.875rem;
     position: sticky;
     top: calc(3rem + var(--docs-dev-center-nav));
     padding: 2rem 0;
