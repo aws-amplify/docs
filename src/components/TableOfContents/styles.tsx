@@ -30,8 +30,6 @@ export const TOCInnerStyle = styled.div`
 `;
 
 export const TOCStyle = styled.div`
-  display: flex;
-  flex-direction: column;
   padding: 2rem 0;
   font-size: 0.875rem;
   position: fixed;
