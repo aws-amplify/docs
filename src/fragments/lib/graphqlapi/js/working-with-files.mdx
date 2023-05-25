@@ -1,6 +1,4 @@
-## Working with Files and Attachments:
-
-Many times you might want to create logical objects that have more complex data, such as images or videos, as part of their structure. For example, you might create a Person model with a profile picture, or a Post model that has an associated image. With Amplify's GraphQL API and Storage categories, you can reference the file / attachment within the model to associate the record with the file.
+Many times you might want to associate a file, such as an images or video, with a particular record. For example, you might create a `Person` model with a profile picture, or a `Post` model with an associated image. With Amplify's GraphQL API and Storage categories, you can reference the file within the model itself to create an association.
 
 To get started, run the following in an existing Amplify project:
 
@@ -20,18 +18,15 @@ type Song @model {
 }
 ```
 
-For now, we'll stick with public access for both the API and Storage categories. For adding authorization to both, see the end of this tutorial.
+Save the schema and run `amplify push` to deploy the changes.
 
-Save the schema and run `amplify push` to deploy changes.
+To use files and attachments you need authorization credentials for reading and writing to Amazon S3, which `amplify add auth` configures in the default setting along with a Cognito User Pool. For more details on Storage / API authorization, see the [Configuring Authorization](#configuring-authorization) section below.
 
-To use files and attachments you need authorization credentials for reading and writing to Amazon S3, which `amplify add auth` configures in the default setting along with a Cognito user pool.
+For the complete working example, including required imports and React component state management, see the [Complete Example](#complete-example) below.
 
-// corresponding file in an S3 bucket.
-For the complete working example, including required imports and React component state management, see the [Complete Example](#complete-example) at the end of this tutorial.
+## Creating a record with a GraphQL API:
 
-## Creating a Record with GraphQL API:
-
-Running the following mutation will create a record with the GraphQL API. This record will be what we will use to associate the corresponding record:
+Running the following mutation will create a record with the GraphQL API. The corresponding file will be associated with this record.
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -39,7 +34,7 @@ Running the following mutation will create a record with the GraphQL API. This r
 ```ts
 async function createSong() {
   const songDetails: CreateSongInput = {
-    name: `Song ${Date.now()}`,
+    name: `My first song`,
   };
 
   try {
@@ -49,14 +44,24 @@ async function createSong() {
     });
     setCurrentSong(response?.data?.createSong);
   } catch (error) {
-    console.log("Error creating song: ", error);
+    console.error("Error creating song: ", error);
   }
 }
 ``` 
 
+</Block>
+<Block name="JavaScript">
+
+```js
+
+```
+
+</Block>
+</BlockSwitcher>
+
 ## Query the record with the GraphQL API:
 
-The following helper function will be used to retrieve the record from the GraphQL API.
+The following helper function will be used to retrieve the record from the GraphQL API in the examples below:
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -73,7 +78,7 @@ async function getSong() {
 
     return oneSong.data?.getSong;
   } catch (error) {
-    console.log("Error retrieving song: ", error);
+    console.error("Error retrieving song: ", error);
   }
 }
 ``` 
@@ -90,7 +95,7 @@ async function getSong() {
 
 ## Uploading the file to S3:
 
-Create a helper function that will handle uploading the file to S3. This function will be called when the user selects a file to upload:
+Create a helper function that will handle uploading the file to S3:
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -108,7 +113,7 @@ async function uploadImage(e: React.ChangeEvent<HTMLInputElement>) {
 
     return result?.key;
   } catch (error) {
-    console.log("Error uploading image: ", error);
+    console.error("Error uploading image: ", error);
   }
 }
 ``` 
@@ -125,7 +130,7 @@ async function uploadImage(e: React.ChangeEvent<HTMLInputElement>) {
 
 ## Adding / updating an associated file:
 
-To associate a file / attachment with a record, update the record with the key returned by the Storage upload. The following example calls the helper function to upload the file using Storage, updates the record with the file's key, then retrieves the signed URL to download the image. If an image is already associated with the record, this will update the record with the new image:
+To associate a file with a record, update the record with the key returned by the Storage upload. The following example calls the helper function to upload the file using Storage, updates the record with the file's key, then retrieves the signed URL to download the image. If an image is already associated with the record, this will update the record with the new image:
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -139,7 +144,7 @@ async function addImageToSong(e: React.ChangeEvent<HTMLInputElement>) {
 
   const songDetails: UpdateSongInput = {
     id: currentSong.id,
-    fileKey: key,
+    coverArtKey: key,
   };
 
   // Add the image to the current song:
@@ -153,7 +158,7 @@ async function addImageToSong(e: React.ChangeEvent<HTMLInputElement>) {
     // Retrieve the image for the current song:
     await getImageForCurrentSong();
   } catch (error) {
-    console.log("Error adding image to song: ", error);
+    console.error("Error adding image to song: ", error);
   }
 }
 ``` 
@@ -180,8 +185,9 @@ async function getImageForCurrentSong() {
   // Query the record to get the file key:
   const _song = await getSong();
   // Check that the record has an associated image:
-  if (!_song?.fileKey) return;
-  const signedURL = await Storage.get(_song?.fileKey);
+  if (!_song?.coverArtKey) return;
+  // Retrieve the signed URL:
+  const signedURL = await Storage.get(_song?.coverArtKey);
   setCurrentImageUrl(signedURL);
 }
 ``` 
@@ -202,7 +208,7 @@ Once a file has been associated with a record, the file can be removed from the 
 
 ### Removing the file from the record:
 
-Removes the file from the record, but does not delete the file from S3:
+The following example removes the file from the record, but does not delete the file from S3:
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -213,7 +219,7 @@ async function removeImageFromSong() {
 
   const songDetails: UpdateSongInput = {
     id: currentSong.id,
-    fileKey: null,
+    coverArtKey: null,
   };
 
   try {
@@ -224,9 +230,9 @@ async function removeImageFromSong() {
 
     // If successful, the response here will be `null`:
     setCurrentSong(updatedSong?.data?.updateSong);
-    setCurrentImageUrl(updatedSong?.data?.updateSong?.fileKey);
+    setCurrentImageUrl(updatedSong?.data?.updateSong?.coverArtKey);
   } catch (error) {
-    console.log("Error removing image from song: ", error);
+    console.error("Error removing image from song: ", error);
   }
 }
 ``` 
@@ -241,9 +247,9 @@ async function removeImageFromSong() {
 </Block>
 </BlockSwitcher>
 
-### Removing then deleting the file:
+### Removing and deleting the file:
 
-Remove the file from the record, then delete the file from S3:
+The following example removes the file from the record, then delete the file from S3:
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -254,15 +260,15 @@ async function deleteImageForCurrentSong() {
 
   const _song = await getSong();
 
-  if (!_song?.fileKey) return;
+  if (!_song?.coverArtKey) return;
 
   await removeImageFromSong();
 
   try {
-    const deletedImage = await Storage.remove(_song?.fileKey);
-    console.log("Image deleted: ", deletedImage);
+    // Delete the file from S3:
+    const deletedImage = await Storage.remove(_song?.coverArtKey);
   } catch (error) {
-    console.log("Error deleting image: ", error);
+    console.error("Error deleting image: ", error);
   }
 }
 ``` 
@@ -292,7 +298,7 @@ async function deleteCurrentSong() {
   const _song = await getSong();
 
   // Save the file key for deleting the file after the record is deleted:
-  const currentSongImageKey = _song?.fileKey;
+  const currentSongImageKey = _song?.coverArtKey;
 
   const songDetails: DeleteSongInput = {
     id: currentSong.id,
@@ -304,20 +310,18 @@ async function deleteCurrentSong() {
       variables: { input: songDetails },
     });
 
-    console.log("Song deleted: ", deletedSong?.data?.deleteSong);
     setCurrentSong(null);
 
     if (!currentSongImageKey) return;
 
     try {
       const deletedImage = await Storage.remove(currentSongImageKey);
-      console.log("Image deleted: ", deletedImage);
       clearLocalState();
     } catch (error) {
-      console.log("Error deleting image: ", error);
+      console.error("Error deleting image: ", error);
     }
   } catch (error) {
-    console.log("Error deleting song: ", error);
+    console.error("Error deleting song: ", error);
   }
 }
 ``` 
@@ -331,6 +335,11 @@ async function deleteCurrentSong() {
 
 </Block>
 </BlockSwitcher>
+
+## Configuring Authorization:
+When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito Identity Pool Role. You will have the option of adding CRUD (Create/Update, Read and Delete) based permissions as well, so that Authenticated and Guest users will be granted limited permissions within these levels. For more on configuring Storage authorization levels, see the [Storage documentation](https://docs.amplify.aws/lib/storage/configureaccess/q/platform/js/).
+
+For more on configuring API authorization, see the [API documentation](https://docs.amplify.aws/lib/graphqlapi/authz/q/platform/js/).
 
 ## Complete Example:
 
@@ -357,16 +366,14 @@ import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 
 function App() {
-  // For the docs, we're only performing CRUD on one song at a time:
   const [currentSong, setCurrentSong] = useState<any>();
-  // For displaying the image for the current song:
   const [currentImageUrl, setCurrentImageUrl] = useState<
     string | null | undefined
   >("");
 
   async function createSong() {
     const songDetails: CreateSongInput = {
-      name: `Song ${Date.now()}`,
+      name: 'My first song',
     };
 
     try {
@@ -376,30 +383,27 @@ function App() {
       });
       setCurrentSong(response?.data?.createSong);
     } catch (error) {
-      console.log("Error creating song: ", error);
+      console.error("Error creating song: ", error);
     }
   }
 
-  // Helper function, perhaps combine with `addImageToSong`?
   async function uploadImage(e: React.ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) return;
 
     const file = e.target.files[0];
 
     try {
-      // Unique identifier added for testing purposes (i.e. using same image for multiple uploads)
-      // Will remove for docs.
-      const result = await Storage.put(`${file.name}-${Date.now()}`, file, {
+      const result = await Storage.put(file.name, file, {
         contentType: "image/png", // contentType is optional
       });
 
       return result?.key;
     } catch (error) {
-      console.log("Error uploading image: ", error);
+      console.error("Error uploading image: ", error);
     }
   }
 
-  // Upload image, add to song, retrieve presigned URL and retrieve the image.
+  // Upload image, add to song, retrieve signed URL and retrieve the image.
   // Also updates image if one already exists.
   async function addImageToSong(e: any) {
     if (!currentSong) return;
@@ -409,7 +413,7 @@ function App() {
 
     const songDetails: UpdateSongInput = {
       id: currentSong.id,
-      fileKey: key,
+      coverArtKey: key,
     };
 
     // Add the image to the current song:
@@ -423,7 +427,7 @@ function App() {
       // Retrieve the image for the current song:
       await getImageForCurrentSong();
     } catch (error) {
-      console.log("Error adding image to song: ", error);
+      console.error("Error adding image to song: ", error);
     }
   }
 
@@ -438,25 +442,27 @@ function App() {
 
       return oneSong.data?.getSong;
     } catch (error) {
-      console.log("Error retrieving song: ", error);
+      console.error("Error retrieving song: ", error);
     }
   }
 
-  // Retrieves the signed url and sets the current image url:
-  async function getImageForCurrentSong() {
-    const _song = await getSong();
-    if (!_song?.fileKey) return;
-    const signedURL = await Storage.get(_song?.fileKey);
-    setCurrentImageUrl(signedURL);
-  }
+async function getImageForCurrentSong() {
+  // Query the record to get the file key:
+  const _song = await getSong();
+  // Check that the record has an associated image:
+  if (!_song?.coverArtKey) return;
+  // Retrieve the signed URL:
+  const signedURL = await Storage.get(_song?.coverArtKey);
+  setCurrentImageUrl(signedURL);
+}
 
-  // Removes the image from the song, but does NOT delete from storage:
+  // Removes the image from the song, but does not delete from Storage:
   async function removeImageFromSong() {
     if (!currentSong) return;
 
     const songDetails: UpdateSongInput = {
       id: currentSong.id,
-      fileKey: null,
+      coverArtKey: null,
     };
 
     try {
@@ -464,11 +470,12 @@ function App() {
         query: mutations.updateSong,
         variables: { input: songDetails },
       });
-      console.log("Image removed from song: ", updatedSong?.data?.updateSong);
+      
+      // If successful, the response here will be `null`:
       setCurrentSong(updatedSong?.data?.updateSong);
-      setCurrentImageUrl(updatedSong?.data?.updateSong?.fileKey);
+      setCurrentImageUrl(updatedSong?.data?.updateSong?.coverArtKey);
     } catch (error) {
-      console.log("Error removing image from song: ", error);
+      console.error("Error removing image from song: ", error);
     }
   }
 
@@ -478,26 +485,26 @@ function App() {
 
     const _song = await getSong();
 
-    if (!_song?.fileKey) return;
+    if (!_song?.coverArtKey) return;
 
     await removeImageFromSong();
 
     try {
-      const deletedImage = await Storage.remove(_song?.fileKey);
-      console.log("Image deleted: ", deletedImage);
+      // Delete the file from S3:
+      const deletedImage = await Storage.remove(_song?.coverArtKey);
     } catch (error) {
-      console.log("Error deleting image: ", error);
+      console.error("Error deleting image: ", error);
     }
   }
 
-  // Deletes current song. If song has an image, deletes image from storage:
+  // Deletes current song. If song has an image, deletes image from Storage:
   async function deleteCurrentSong() {
     if (!currentSong) return;
 
     const _song = await getSong();
 
-    // Save for deleting image after song is deleted:
-    const currentSongImageKey = _song?.fileKey;
+    // Save the file key for deleting the file after the record is deleted:
+    const currentSongImageKey = _song?.coverArtKey;
 
     const songDetails: DeleteSongInput = {
       id: currentSong.id,
@@ -509,88 +516,24 @@ function App() {
         variables: { input: songDetails },
       });
 
-      console.log("Song deleted: ", deletedSong?.data?.deleteSong);
       setCurrentSong(null);
 
       if (!currentSongImageKey) return;
 
       try {
         const deletedImage = await Storage.remove(currentSongImageKey);
-        console.log("Image deleted: ", deletedImage);
         clearLocalState();
       } catch (error) {
-        console.log("Error deleting image: ", error);
+        console.error("Error deleting image: ", error);
       }
     } catch (error) {
-      console.log("Error deleting song: ", error);
+      console.error("Error deleting song: ", error);
     }
   }
 
   function clearLocalState() {
     setCurrentSong(null);
     setCurrentImageUrl("");
-  }
-
-  // NOTE: For test / sample cleanup purposes only (not for docs example)
-  async function deleteAll() {
-    //region: delete songs:
-    const response = await API.graphql<GraphQLQuery<ListSongsQuery>>({
-      query: queries.listSongs,
-    });
-
-    console.log("Songs to delete", response?.data?.listSongs?.items);
-
-    await response?.data?.listSongs?.items.forEach(async (song) => {
-      if (!song?.id) return;
-
-      const todoDetails: DeleteSongInput = {
-        id: song?.id,
-      };
-
-      const deletedTodo = await API.graphql<GraphQLQuery<DeleteSongMutation>>({
-        query: mutations.deleteSong,
-        variables: { input: todoDetails },
-      });
-
-      console.log("Song deleted: ", deletedTodo);
-    });
-    //endregion
-
-    // Delete all images:
-    await Storage.list("", { pageSize: "ALL" })
-      .then(({ results }) => {
-        results.forEach(async (result) => {
-          if (!result?.key) return;
-          try {
-            const deletedImage = await Storage.remove(result?.key);
-            console.log("Image deleted:", deletedImage);
-          } catch (error) {
-            console.log("Error deleting image: ", error);
-          }
-        });
-      })
-      .catch((err) => console.log(err));
-
-    //region verify all deletes were successful:
-    const secondResponse = await API.graphql<GraphQLQuery<ListSongsQuery>>({
-      query: queries.listSongs,
-    });
-    console.log(
-      "Songs should be empty:",
-      secondResponse?.data?.listSongs?.items
-    );
-
-    const storageResponse = await Storage.list("", { pageSize: "ALL" });
-    console.log("Images should be empty:", storageResponse?.results);
-
-    if (
-      secondResponse?.data?.listSongs?.items?.length === 0 &&
-      storageResponse?.results?.length === 0
-    ) {
-      console.log("All deletes successful!");
-      clearLocalState();
-    }
-    //endregion
   }
 
   return (
@@ -603,7 +546,7 @@ function App() {
             flexDirection: "column",
           }}
         >
-          <h1>Hello {user?.username}</h1>
+          <h1>Hello {user?.username}!</h1>
           <h2>{`Current Song: ${currentSong?.id}`}</h2>
           <button onClick={createSong}>Create Song</button>
           <label>
@@ -634,9 +577,8 @@ function App() {
             Remove image from current song, then delete image
           </button>
           <button onClick={deleteCurrentSong} disabled={!currentSong}>
-            Delete current song)
+            Delete current song
           </button>
-          <button onClick={deleteAll}>Delete All</button>
           <button onClick={signOut}>Sign out</button>
           {currentImageUrl && (
             <img src={currentImageUrl} alt="Image for current song"></img>
@@ -649,30 +591,3 @@ function App() {
 
 export default App;
 ``` 
-
-</Block>
-<Block name="JavaScript">
-
-```js
-
-```
-
-</Block>
-</BlockSwitcher>
-
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-
-``` 
-
-</Block>
-<Block name="JavaScript">
-
-```js
-
-```
-
-</Block>
-</BlockSwitcher>
