@@ -39,7 +39,7 @@ const result = await Storage.getProperties(
 You can choose to configure [file access `level`](https://docs.amplify.aws/lib/storage/configureaccess/q/platform/js) as follows:
 
 ```typescript
-const level = 'private' || 'protected' || 'public';
+const level: 'private' | 'protected' | 'public' = 'public';
 const result = await Storage.getProperties('welcome.png', { level }); // defaults to `public`
 ```
 
