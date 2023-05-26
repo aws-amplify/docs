@@ -1,4 +1,4 @@
-The Storage and GraphQL API categories can be used together to associate a file, such as an image or video, with a particular record. For example, you might create a `Person` model with a profile picture, or a `Post` model with an associated image. With Amplify's GraphQL API and Storage categories, you can reference the file within the model itself to create an association.
+The Storage and GraphQL API categories can be used together to associate a file, such as an image or video, with a particular record. For example, you might create a `User` model with a profile picture, or a `Post` model with an associated image. With Amplify's GraphQL API and Storage categories, you can reference the file within the model itself to create an association.
 
 To get started, run the following in an existing Amplify project:
 
@@ -20,6 +20,24 @@ type Song @model @auth(rules: [{ allow: public}]) {
 ```
 
 Save the schema and run `amplify push` to deploy the changes.
+
+<Callout warning>
+
+warning
+
+</Callout>
+
+<Callout info>
+
+info
+
+</Callout>
+
+<Callout>
+
+regular
+
+</Callout>
 
 To use files and attachments you need authorization credentials for reading and writing to Amazon S3, which `amplify add auth` configures in the default setting along with a Cognito User Pool.
 
