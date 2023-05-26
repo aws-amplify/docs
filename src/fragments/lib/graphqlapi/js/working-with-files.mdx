@@ -12,165 +12,68 @@ amplify add api              #Select Cognito User Pool for authorization type
 When prompted, use the following schema:
 
 ```graphql
-type Song @model {
+type Song @model @auth(rules: [{ allow: public}]) {
   id: ID!
   name: String!
-  covertArtKey: String
+  covertArtKey: String #Set as optional to allow adding file after initial create
 }
 ```
 
 Save the schema and run `amplify push` to deploy the changes.
 
-To use files and attachments you need authorization credentials for reading and writing to Amazon S3, which `amplify add auth` configures in the default setting along with a Cognito User Pool. For more details on Storage / API authorization, see the [Configuring Authorization](#configuring-authorization) section below.
+To use files and attachments you need authorization credentials for reading and writing to Amazon S3, which `amplify add auth` configures in the default setting along with a Cognito User Pool.
 
-For the complete working example, including required imports and React component state management, see the [Complete Example](#complete-example) below.
+The Storage and API categories govern data access based on their own authorization patterns. Adding an `@auth` directive to the API schema does not guard against access in the Storage category. When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito Identity Pool Role. You will then have the option of adding CRUD (Create/Update, Read and Delete) based permissions as well, so that Authenticated and Guest users will be granted limited permissions within these levels. For more on configuring Storage authorization levels, see the [Storage documentation](https://docs.amplify.aws/lib/storage/configureaccess/q/platform/js/).
 
-## Creating a record with a GraphQL API
+For more on configuring API authorization (separate from Storage authorization), see the [API documentation](https://docs.amplify.aws/lib/graphqlapi/authz/q/platform/js/).
 
-Running the following mutation will create a record with the GraphQL API. The corresponding file will be associated with this record.
+<Callout>
+
+For the complete working example, including required imports, obtaining the file from the user, and React component state management, see the [Complete Example](#complete-example) below.
+
+<Callout>
+
+## Create a record with an associated file
+
+First upload the file to Storage, then run the following mutation with the GraphQL API to create a record and associate the file with the record.
+
+<Callout>
+
+Note: In the case of adding a file to an existing record (such as when a user uploads a profile picture to an existing profile), first create the record and exclude the optional file reference, then follow the steps under [Adding / updating an associated file](#adding--updating-an-associated-file) below to add / update the file reference.
+
+</Callout>
 
 <BlockSwitcher>
 <Block name="TypeScript">
 
 ```ts
-async function createSong() {
-  const songDetails: CreateSongInput = {
-    name: `My first song`,
-  };
+const result = await Storage.put(file.name, file, {
+  contentType: "image/png", // contentType is optional
+});
 
-  try {
-    const response = await API.graphql<GraphQLQuery<CreateSongMutation>>({
-      query: mutations.createSong,
-      variables: { input: songDetails },
-    });
-    setCurrentSong(response?.data?.createSong);
-  } catch (error) {
-    console.error("Error creating song: ", error);
-  }
-}
+
+const songDetails: CreateSongInput = {
+  name: `My first song`,
+  coverArtKey: result?.key,
+};
+
+const response = await API.graphql<GraphQLQuery<CreateSongMutation>>({
+  query: mutations.createSong,
+  variables: { input: songDetails },
+});
 ``` 
 
 </Block>
 <Block name="JavaScript">
 
 ```js
-async function createSong() {
-  const songDetails = {
-    name: `My first song`,
-  };
-
-  try {
-    const response = await API.graphql({
-      query: mutations.createSong,
-      variables: { input: songDetails },
-    });
-    setCurrentSong(response?.data?.createSong);
-  } catch (error) {
-    console.error("Error creating song: ", error);
-  }
-}
+// TODO: add after PM feedback
 ```
 
 </Block>
 </BlockSwitcher>
 
-## Query the record with the GraphQL API
-
-The following helper function will be used to retrieve the record from the GraphQL API in the examples below:
-
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-async function getSong() {
-  if (!currentSong) return;
-
-  try {
-    const oneSong = await API.graphql<GraphQLQuery<GetSongQuery>>({
-      query: queries.getSong,
-      variables: { id: currentSong.id },
-    });
-
-    return oneSong.data?.getSong;
-  } catch (error) {
-    console.error("Error retrieving song: ", error);
-  }
-}
-``` 
-
-</Block>
-<Block name="JavaScript">
-
-```js
-async function getSong() {
-  if (!currentSong) return;
-
-  try {
-    const oneSong = await API.graphql({
-      query: queries.getSong,
-      variables: { id: currentSong.id },
-    });
-
-    return oneSong.data?.getSong;
-  } catch (error) {
-    console.error("Error retrieving song: ", error);
-  }
-}
-```
-
-</Block>
-</BlockSwitcher>
-
-## Uploading the file to S3
-
-Create a helper function that will handle uploading the file to S3:
-
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-async function uploadImage(e: React.ChangeEvent<HTMLInputElement>) {
-  if (!e.target.files) return;
-
-  const file = e.target.files[0];
-
-  try {
-    const result = await Storage.put(file.name, file, {
-      contentType: "image/png", // contentType is optional
-    });
-
-    return result?.key;
-  } catch (error) {
-    console.error("Error uploading image: ", error);
-  }
-}
-``` 
-
-</Block>
-<Block name="JavaScript">
-
-```js
-async function uploadImage(e) {
-  if (!e.target.files) return;
-
-  const file = e.target.files[0];
-
-  try {
-    const result = await Storage.put(file.name, file, {
-      contentType: "image/png", // contentType is optional
-    });
-
-    return result?.key;
-  } catch (error) {
-    console.error("Error uploading image: ", error);
-  }
-}
-```
-
-</Block>
-</BlockSwitcher>
-
-## Adding / updating an associated file
+## Add or update a file for an associated record
 
 To associate a file with a record, update the record with the key returned by the Storage upload. The following example calls the helper function to upload the file using Storage, updates the record with the file's key, then retrieves the signed URL to download the image. If an image is already associated with the record, this will update the record with the new image:
 
@@ -178,68 +81,33 @@ To associate a file with a record, update the record with the key returned by th
 <Block name="TypeScript">
 
 ```ts
-async function addImageToSong(e: React.ChangeEvent<HTMLInputElement>) {
-  if (!currentSong) return;
+const result = await Storage.put(file.name, file, {
+  contentType: "image/png", // contentType is optional
+});
 
-  // Upload the image to S3:
-  const key = await uploadImage(e);
+const songDetails: UpdateSongInput = {
+  id: currentSong.id,
+  coverArtKey: key,
+};
 
-  const songDetails: UpdateSongInput = {
-    id: currentSong.id,
-    coverArtKey: key,
-  };
+const updatedSong = await API.graphql<GraphQLQuery<UpdateSongMutation>>({
+  query: mutations.updateSong,
+  variables: { input: songDetails },
+});
 
-  // Add the image to the current song:
-  try {
-    const updatedSong = await API.graphql<GraphQLQuery<UpdateSongMutation>>({
-      query: mutations.updateSong,
-      variables: { input: songDetails },
-    });
-    setCurrentSong(updatedSong?.data?.updateSong);
-
-    // Retrieve the image for the current song:
-    await getImageForCurrentSong();
-  } catch (error) {
-    console.error("Error adding image to song: ", error);
-  }
-}
 ``` 
 
 </Block>
 <Block name="JavaScript">
 
 ```js
-async function addImageToSong(e) {
-  if (!currentSong) return;
-
-  // Upload the image to S3:
-  const key = await uploadImage(e);
-
-  const songDetails = {
-    id: currentSong.id,
-    coverArtKey: key,
-  };
-
-  // Add the image to the current song:
-  try {
-    const updatedSong = await API.graphql({
-      query: mutations.updateSong,
-      variables: { input: songDetails },
-    });
-    setCurrentSong(updatedSong?.data?.updateSong);
-
-    // Retrieve the image for the current song:
-    await getImageForCurrentSong();
-  } catch (error) {
-    console.error("Error adding image to song: ", error);
-  }
-}
+// TODO
 ```
 
 </Block>
 </BlockSwitcher>
 
-## Retrieving the associated file from the record
+## Download the associated file from the record
 
 To retrieve the file associated with a record, first query the record, then use Storage to get the signed URL. The signed URL can then be used to download the file, display an image, etc:
 
@@ -247,40 +115,35 @@ To retrieve the file associated with a record, first query the record, then use 
 <Block name="TypeScript">
 
 ```ts
-async function getImageForCurrentSong() {
-  // Query the record to get the file key:
-  const _song = await getSong();
-  // Check that the record has an associated image:
-  if (!_song?.coverArtKey) return;
-  // Retrieve the signed URL:
-  const signedURL = await Storage.get(_song?.coverArtKey);
-  setCurrentImageUrl(signedURL);
-}
+// Query the record to get the file key:
+const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
+    query: queries.getSong,
+    variables: { id: currentSong.id },
+  });
+const _song = response.data?.getSong;
+
+// Check that the record has an associated image:
+if (!_song?.coverArtKey) return;
+
+// Retrieve the signed URL:
+const signedURL = await Storage.get(_song?.coverArtKey);
 ``` 
 
 </Block>
 <Block name="JavaScript">
 
 ```js
-async function getImageForCurrentSong() {
-  // Query the record to get the file key:
-  const _song = await getSong();
-  // Check that the record has an associated image:
-  if (!_song?.coverArtKey) return;
-  // Retrieve the signed URL:
-  const signedURL = await Storage.get(_song?.coverArtKey);
-  setCurrentImageUrl(signedURL);
-}
+// TODO:
 ```
 
 </Block>
 </BlockSwitcher>
 
-## Deleting and removing associated files
+## Delete and remove files associated with API records.
 
 Once a file has been associated with a record, the file can be removed from the record, deleted from S3, or both.
 
-### Removing the file from the record
+### Removing an associated file from the record
 
 The following example removes the file from the record, but does not delete the file from S3:
 
@@ -341,7 +204,7 @@ async function removeImageFromSong() {
 </Block>
 </BlockSwitcher>
 
-### Removing and deleting the file
+### Remove and delete a records associated file
 
 The following example removes the file from the record, then delete the file from S3:
 
@@ -352,7 +215,12 @@ The following example removes the file from the record, then delete the file fro
 async function deleteImageForCurrentSong() {
   if (!currentSong) return;
 
-  const _song = await getSong();
+  const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
+      query: queries.getSong,
+      variables: { id: currentSong.id },
+    });
+
+  const _song = oneSong.data?.getSong;
 
   if (!_song?.coverArtKey) return;
 
@@ -374,7 +242,12 @@ async function deleteImageForCurrentSong() {
 async function deleteImageForCurrentSong() {
   if (!currentSong) return;
 
-  const _song = await getSong();
+  const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
+      query: queries.getSong,
+      variables: { id: currentSong.id },
+    });
+
+  const _song = oneSong.data?.getSong;
 
   if (!_song?.coverArtKey) return;
 
@@ -392,7 +265,7 @@ async function deleteImageForCurrentSong() {
 </Block>
 </BlockSwitcher>
 
-### Deleting the record and associated file
+### Delete the record and associated file
 
 When deleting a record, we may also want to delete the associated file:
 
@@ -404,7 +277,12 @@ When deleting a record, we may also want to delete the associated file:
 async function deleteCurrentSong() {
   if (!currentSong) return;
 
-  const _song = await getSong();
+  const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
+      query: queries.getSong,
+      variables: { id: currentSong.id },
+    });
+
+  const _song = oneSong.data?.getSong;
 
   // Save the file key for deleting the file after the record is deleted:
   const currentSongImageKey = _song?.coverArtKey;
@@ -443,7 +321,12 @@ async function deleteCurrentSong() {
 async function deleteCurrentSong() {
   if (!currentSong) return;
 
-  const _song = await getSong();
+  const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
+      query: queries.getSong,
+      variables: { id: currentSong.id },
+    });
+
+  const _song = oneSong.data?.getSong;
 
   // Save the file key for deleting the file after the record is deleted:
   const currentSongImageKey = _song?.coverArtKey;
@@ -476,11 +359,6 @@ async function deleteCurrentSong() {
 
 </Block>
 </BlockSwitcher>
-
-## Configuring authorization
-When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito Identity Pool Role. You will have the option of adding CRUD (Create/Update, Read and Delete) based permissions as well, so that Authenticated and Guest users will be granted limited permissions within these levels. For more on configuring Storage authorization levels, see the [Storage documentation](https://docs.amplify.aws/lib/storage/configureaccess/q/platform/js/).
-
-For more on configuring API authorization, see the [API documentation](https://docs.amplify.aws/lib/graphqlapi/authz/q/platform/js/).
 
 ## Complete example
 
