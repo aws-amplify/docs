@@ -14,7 +14,12 @@ To add a geofence management component to your map, you can use the [amplify-geo
 Install the necessary dependencies with the following command:
 
 ```bash
-npm install maplibre-gl maplibre-gl-js-amplify aws-amplify @aws-amplify/ui-react
+npm install maplibre-gl maplibre-gl-js-amplify aws-amplify @aws-amplify/ui-react-geo
+```
+
+To use `withAuthenticator` as in the example below, install the necessary dependency with the following command:
+```bash
+npm install @aws-amplify/ui-react
 ```
 
 > **Note:** Make sure that `maplibre-gl-js-amplify` version `2.0.0` or above and `@aws-amplify/geo` version `1.3.0` or above are installed.
@@ -79,16 +84,17 @@ import "maplibre-gl/dist/maplibre-gl.css";
 
   <Block name="React">
 
-  **Note:** When using the [Amplify React MapView component](https://ui.docs.amplify.aws/react/components/geo) you can use the [`useControl` hook from react-map-gl](https://visgl.github.io/react-map-gl/docs/api-reference/use-control) to render the Geofence control component. The [react-map-gl](https://visgl.github.io/react-map-gl) dependency is already installed through `@aws-amplify/ui-react`, you do not need to install it manually.
+  **Note:** When using the [Amplify React MapView component](https://ui.docs.amplify.aws/react/components/geo) you can use the [`useControl` hook from react-map-gl](https://visgl.github.io/react-map-gl/docs/api-reference/use-control) to render the Geofence control component. The [react-map-gl](https://visgl.github.io/react-map-gl) dependency is already installed through `@aws-amplify/ui-react-geo`, you do not need to install it manually.
 
   ```javascript
   import React from "react";
   import Amplify from "aws-amplify";
-  import { MapView, withAuthenticator } from "@aws-amplify/ui-react";
+  import { withAuthenticator } from "@aws-amplify/ui-react";
+  import { MapView } from "@aws-amplify/ui-react-geo";
   import { useControl } from "react-map-gl";
   import { AmplifyGeofenceControl } from "maplibre-gl-js-amplify";
   import "@aws-amplify/ui-react/styles.css";
-  import "maplibre-gl/dist/maplibre-gl.css";
+  import "@aws-amplify/ui-react-geo/styles.css";
   import "maplibre-gl-js-amplify/dist/public/amplify-ctrl-geofence.css";
   import awsconfig from "../src/aws-exports";
   Amplify.configure(awsconfig);
