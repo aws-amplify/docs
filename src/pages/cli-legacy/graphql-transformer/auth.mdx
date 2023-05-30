@@ -38,7 +38,7 @@ input AuthRule {
 }
 enum AuthStrategy { owner groups private public }
 enum AuthProvider { apiKey iam oidc userPools }
-enum ModelOperation { create update delete read }
+enum ModelOperation { create update delete read get list search listen sync }
 
 # The following objects are deprecated. It is encouraged to use ModelOperations.
 enum ModelQuery { get list }
