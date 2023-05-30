@@ -130,6 +130,8 @@ export function LibVersionSwitcher({
     urlEnd = url.split("/lib")[1];
   }
 
+  // Function to remove query string parameters before checking if href is included in the list of possibilities.
+  // This is so we are only comparing the paths without the query string parameters to avoid false negatives.
   function isHrefIncluded(href: string, paths: string[]) {
     href = href.split("#")[0];
     if (href.endsWith("/")) {
