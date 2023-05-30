@@ -53,7 +53,7 @@ export default async (phase, { defaultConfig }) => {
       ignoreBuildErrors: true
     },
     exportPathMap,
-    trailingSlash: true,
+    trailingSlash: false,
     transpilePackages: [
       '@algolia/autocomplete-shared',
       '@cloudscape-design/components',

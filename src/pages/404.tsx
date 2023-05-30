@@ -1,9 +1,9 @@
-import Layout from "../components/Layout";
-import ExternalLink from "../components/ExternalLink";
-import InternalLinkButton from "../components/InternalLinkButton";
-import styled from "@emotion/styled";
-import {MQDesktop} from "../components/media";
-import {useEffect, useState} from "react";
+import Layout from '../components/Layout';
+import ExternalLink from '../components/ExternalLink';
+import InternalLinkButton from '../components/InternalLinkButton';
+import styled from '@emotion/styled';
+import { MQDesktop } from '../components/media';
+import { useEffect, useState } from 'react';
 
 export const Host = styled.div`
   width: 100%;
@@ -33,7 +33,7 @@ export const Host = styled.div`
 `;
 
 export default function Custom404() {
-  let [href, setHref] = useState("https://docs.amplify.aws");
+  let [href, setHref] = useState('https://docs.amplify.aws');
   useEffect(() => {
     setHref(window.location.href);
   }, []);
@@ -42,18 +42,18 @@ export default function Custom404() {
       <Host>
         <h1>404</h1>
         <p>
-          {`Apologies––we can't seem to find the page for which you're looking. If this is a mistake, please `}
+          {`Apologies––we couldn't find the page you're looking for. If you believe this is an error, please `}
           <ExternalLink
             href={`https://github.com/aws-amplify/docs/issues/new?title=[missing-page]&labels=v2&body=${encodeURI(
               `**Page**: [\`${href}\`](${href})
 
 **Feedback**: <!-- your feedback here -->
-`,
+`
             )}`}
           >
             file an issue
           </ExternalLink>
-          {` and we'll fix it ASAP.`}
+          {` and we will fix it right away.`}
         </p>
         <InternalLinkButton href="/">
           Return to the landing page
