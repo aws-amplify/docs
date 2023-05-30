@@ -203,7 +203,7 @@ export const directory = {
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
-            title: 'Working with Files and Attachments',
+            title: 'Working with files and attachments',
             route: '/lib/graphqlapi/working-with-files',
             filters: ['js']
           }
