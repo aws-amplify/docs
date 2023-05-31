@@ -269,7 +269,7 @@ const updatedSong = await API.graphql<GraphQLQuery<UpdateSongMutation>>({
 });
 
 // Delete the file from S3:
-const deletedImage = await Storage.remove(_song?.coverArtKey);
+await Storage.remove(_song?.coverArtKey);
 ``` 
 
 </Block>
@@ -297,13 +297,13 @@ const updatedSong = await API.graphql({
 });
 
 // Delete the file from S3:
-const deletedImage = await Storage.remove(_song?.coverArtKey);
+await Storage.remove(_song?.coverArtKey);
 ```
 
 </Block>
 </BlockSwitcher>
 
-### Delete both file and record.
+### Delete both file and record
 
 <BlockSwitcher>
 <Block name="TypeScript">
