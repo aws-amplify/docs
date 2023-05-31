@@ -158,7 +158,7 @@ npm install -g @aws-amplify/cli
 npm install aws-amplify @aws-amplify/ui-react
 ```
 
-2. In your application's entrypoint file (e.g. src/index.js for create-react-app or src/main.jsx for Vite), add the following imports and configuration
+2. In your application's entrypoint file (e.g. `src/index.js` for create-react-app or `src/main.jsx` for Vite), add the following imports and configuration
 
 ```jsx
 import '@aws-amplify/ui-react/styles.css';
@@ -171,7 +171,7 @@ import studioTheme from './ui-components/studioTheme';
 
 Amplify.configure(awsconfig);
 ```
-3. In your application's entrypoint file (e.g. src/index.js for create-react-app or src/main.jsx for Vite), wrap the `<App />` with the following:
+3. In your application's entrypoint file (e.g. `src/index.js` for create-react-app or `src/main.jsx` for Vite), wrap the `<App />` with the following:
 
 ```jsx
 <ThemeProvider theme={studioTheme}>
