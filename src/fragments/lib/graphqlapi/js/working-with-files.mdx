@@ -197,8 +197,8 @@ The following example removes the file from the record, then deletes the file fr
 
 ```ts
 const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
-    query: queries.getSong,
-    variables: { id: currentSong.id },
+  query: queries.getSong,
+  variables: { id: currentSong.id },
   });
 
 const _song = response?.data?.getSong;
