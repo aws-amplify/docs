@@ -9,7 +9,14 @@ import {
   ButtonStyles
 } from './styles';
 import { trackFeedbackSubmission } from '../../utils/track';
-import { Icon, Button } from '@cloudscape-design/components';
+import {
+  ThumbsUpIcon,
+  ThumbsDownIcon,
+  ThumbsUpFilledIcon,
+  ThumbsDownFilledIcon,
+  CloseIcon
+} from '../Icons';
+import ExternalLink from '../ExternalLink';
 
 enum FeedbackState {
   START = 'START',
@@ -139,7 +146,7 @@ export default function Feedback({ footerRef }) {
                     role="button"
                     tabIndex={0}
                   >
-                    <Icon name="thumbs-up" variant="link" size="medium"></Icon>
+                    <ThumbsUpIcon />
                   </VoteButton>
                   <Divider />
                   <VoteButton
@@ -149,11 +156,7 @@ export default function Feedback({ footerRef }) {
                     role="button"
                     tabIndex={0}
                   >
-                    <Icon
-                      name="thumbs-down"
-                      variant="link"
-                      size="medium"
-                    ></Icon>
+                    <ThumbsDownIcon />
                   </VoteButton>
                 </VoteButtonsContainer>
               </div>
@@ -163,20 +166,12 @@ export default function Feedback({ footerRef }) {
               <div>
                 <FeedbackText>{c.yesVoteResponse}</FeedbackText>
                 <VoteButtonsContainer className="up">
-                  <Icon
-                    name="thumbs-up-filled"
-                    variant="success"
-                    size="medium"
-                  ></Icon>
+                  <ThumbsUpFilledIcon />
                   <Divider />
-                  <Icon name="thumbs-down" variant="link" size="medium"></Icon>
+                  <ThumbsDownIcon />
                 </VoteButtonsContainer>
                 <VoteButtonReplace>
-                  <Icon
-                    name="thumbs-up-filled"
-                    variant="success"
-                    size="medium"
-                  ></Icon>
+                  <ThumbsUpFilledIcon />
                 </VoteButtonReplace>
               </div>
             );
@@ -186,34 +181,20 @@ export default function Feedback({ footerRef }) {
                 <div className="response">
                   <FeedbackText>{c.noVoteResponse}</FeedbackText>
                   <VoteButtonsContainer className="down">
-                    <Icon name="thumbs-up" variant="link" size="medium"></Icon>
+                    <ThumbsUpIcon />
                     <Divider />
-                    <Icon
-                      name="thumbs-down-filled"
-                      variant="error"
-                      size="medium"
-                    ></Icon>
+                    <ThumbsDownFilledIcon />
                   </VoteButtonsContainer>
                 </div>
                 <div className="expanding-section">
                   <div className="cta">
                     <p>{c.noVoteCTA}</p>
-                    <Button
-                      iconName="close"
-                      variant="icon"
-                      aria-label="close"
-                      onClick={close}
-                    ></Button>
+                    <CloseIcon onClick={close} />
                   </div>
                   <ButtonStyles>
-                    <Button
-                      href={c.buttonLink}
-                      iconName={c.ctaIcon}
-                      iconAlign={c.iconPosition}
-                      aria-label={c.noVoteCTAButton}
-                    >
+                    <ExternalLink href={c.buttonLink} icon={true}>
                       {c.noVoteCTAButton}
-                    </Button>
+                    </ExternalLink>
                   </ButtonStyles>
                 </div>
               </div>
