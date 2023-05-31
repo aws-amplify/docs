@@ -207,7 +207,7 @@ if (!_song?.coverArtKey) return;
 
 const songDetails: UpdateSongInput = {
   id: _song.id,
-  coverArtKey: null,
+  coverArtKey: null, // Set the file association to `null`
 };
 
 // Remove associated file from record
