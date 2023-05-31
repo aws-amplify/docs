@@ -615,32 +615,49 @@ npm i @aws-cdk/aws-appsync@~1.124.0
 Use the following template as a starting point for your custom CDK stack, the resolvers must be templated with environment references
 
 ```ts
-import * as cdk from '@aws-cdk/core';
-import * as AmplifyHelpers from '@aws-amplify/cli-extensibility-helper';
-import * as appsync from '@aws-cdk/aws-appsync';
-import { AmplifyDependentResourcesAttributes } from '../../types/amplify-dependent-resources-ref';
+import * as cdk from "aws-cdk-lib";
+import * as AmplifyHelpers from "@aws-amplify/cli-extensibility-helper";
+import * as appsync from "aws-cdk-lib/aws-appsync";
+import { Construct } from "constructs";
+import { AmplifyDependentResourcesAttributes } from "../../types/amplify-dependent-resources-ref";
 
 export class cdkStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps, amplifyResourceProps?: AmplifyHelpers.AmplifyResourceProps) {
+  constructor(
+    scope: Construct,
+    id: string,
+    props?: cdk.StackProps,
+    amplifyResourceProps?: AmplifyHelpers.AmplifyResourceProps
+  ) {
     super(scope, id, props);
     /* Do not remove - Amplify CLI automatically injects the current deployment environment in this input parameter */
-    new cdk.CfnParameter(this, 'env', {
-      type: 'String',
-      description: 'Current Amplify CLI env name',
+    new cdk.CfnParameter(this, "env", {
+      type: "String",
+      description: "Current Amplify CLI env name",
     });
-    
-    // Access other Amplify Resources 
-    const retVal:AmplifyDependentResourcesAttributes = AmplifyHelpers.addResourceDependency(this, 
-      amplifyResourceProps.category, 
-      amplifyResourceProps.resourceName, 
-      [{
-        category: "api",
-        resourceName: "<YOUR-API-NAME>"
-      }]
-    );
+
+    // Access other Amplify Resources
+    const retVal: AmplifyDependentResourcesAttributes =
+      AmplifyHelpers.addResourceDependency(
+        this,
+        amplifyResourceProps.category,
+        amplifyResourceProps.resourceName,
+        [
+          {
+            category: "api",
+            resourceName: "<YOUR-API-NAME>",
+          },
+        ]
+      );
+
+    const envRef = cdk.Fn.ref('env');
+
+    const apiIdRef = cdk.Fn.ref(retVal.api["<YOUR-API-NAME>"].GraphQLAPIIdOutput);
+
+    const tableName = "<YOUR-MODEL-NAME>" + "-" + apiIdRef + "-" + envRef;
 
     const requestVTL = `
       ## [Start] Initialization default values. **
+      #set( $tableName = $util.dynamodb.tableName("TodoTable") )
       $util.qr($ctx.stash.put("defaultValues", $util.defaultIfNull($ctx.stash.defaultValues, {})))
       #set( $createdAt = $util.time.nowISO8601() )
       #set($todosArray = [])
@@ -652,37 +669,31 @@ export class cdkStack extends cdk.Stack {
         $util.qr($todosArray.add($util.dynamodb.toMapValues($item)))
       #end
       ## [End] Initialization default values. **
-      $util.toJson( {
-        "version": "2018-05-29",
-        "operation": "BatchPutItem",
-        "tables": {
-          "<TYPE-NAME-HERE>-${apiIdRef}-${envRef}": $todosArray
-        }
-      } )
-    `
+      #set( $batchPutRequest = {} )
+      $util.qr($batchPutRequest.put("version", "2018-05-29"))
+      $util.qr($batchPutRequest.put("operation", "BatchPutItem"))
+      $util.qr($batchPutRequest.put("tables", { "${tableName}": $todosArray }))
+      $util.toJson($batchPutRequest)
+    `;
+
     const responseVTL = `
       ## [Start] ResponseTemplate. **
       #if( $ctx.error )
         $util.error($ctx.error.message, $ctx.error.type)
       #else
-        $util.toJson($ctx.result.data.<TYPE-NAME-HERE>-${apiIdRef}-${envRef})
+        $util.toJson($ctx.result.data.${tableName})
       #end
       ## [End] ResponseTemplate. **
     `;
 
-
     const resolver = new appsync.CfnResolver(this, "custom-resolver", {
-      // apiId: retVal.api.new.GraphQLAPIIdOutput,
-      // https://github.com/aws-amplify/amplify-cli/issues/9391#event-5843293887
-      // If you use Amplify you can access the parameter via Ref since it's a CDK parameter passed from the root stack.
-      // Previously the ApiId is the variable Name which is wrong , it should be variable value as below
-      apiId: cdk.Fn.ref(retVal.api.replaceWithAPIName.GraphQLAPIIdOutput),
-      fieldName: "querySomething", 
-      typeName: "Query", // Query | Mutation | Subscription
+      apiId: apiIdRef,
+      fieldName: "batchCreateTodo",
+      typeName: "Mutation", // Query | Mutation | Subscription
       requestMappingTemplate: requestVTL,
       responseMappingTemplate: responseVTL,
-      dataSourceName: "TodoTable" // DataSource name
-    })
+      dataSourceName: "TodoTable", // DataSource name
+    });
   }
 }
 ```
