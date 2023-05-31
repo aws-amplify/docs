@@ -9,6 +9,7 @@ import {
   IOS_REFERENCE,
   ANDROID_REFERENCE,
   JS_REFERENCE,
+  FLUTTER_REFERENCE,
   HOSTING_REFERENCE
 } from '../../constants/links';
 import ExternalLink from '../ExternalLink';
@@ -18,7 +19,6 @@ import { Container } from '../Container';
 import { parseLocalStorage } from '../../utils/parseLocalStorage';
 
 import SearchBar from '../SearchBar';
-import React from 'react';
 
 export default function SecondaryNav() {
   const router = useRouter();
@@ -70,12 +70,24 @@ export default function SecondaryNav() {
                           case 'android': {
                             return ANDROID_REFERENCE;
                           }
+                          case 'flutter': {
+                            return FLUTTER_REFERENCE;
+                          }
                           default: {
                             return JS_REFERENCE;
                           }
                         }
                       })(),
-                      external: true
+                      external: (() => {
+                        switch ((filterKeys as { platform: string }).platform) {
+                          case 'flutter': {
+                            return false;
+                          }
+                          default: {
+                            return true;
+                          }
+                        }
+                      })()
                     }
                   ]
                 : [])

@@ -1,6 +1,6 @@
 In this guide you'll learn how to deploy a [Next.js](https://nextjs.org/) app using Amplify Hosting. Amplify supports the hosting of static apps and apps with dynamic server-side rendered routes (SSR). 
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/eqoZrXulE8A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe sandbox width="560" height="315" src="https://www.youtube-nocookie.com/embed/eqoZrXulE8A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## Prerequisites
 
@@ -33,28 +33,32 @@ $ npm init next-app
 
 <Callout>
 
-Image Optimization using Next.js' default loader is not compatible with `next export`. To manually deploy the `next-app` example, you must edit the `index.js` file to remove this feature following the steps below. 
+Image Optimization using Next.js' default loader is not compatible with `next export`. To manually deploy the `next-app` example, you must disable image optimization.
 
 </Callout>
 
-Navigate to `pages/index.js` and delete the following line near the top of the file:
+In the root of the project, open `next.config.js` and add the following code to the configuration:
 
-````html
-import Image from 'next/image'
+````js
+  images: {
+    unoptimized: true,
+  }
 ````
 
- Next, locate the following `Image` tag:
+The edited `next.config.js` will look similar as the example below
 
-````html
-<Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
+````js
+
+const nextConfig = {
+  reactStrictMode: true,
+  swcMinify: true,
+  images: {
+    unoptimized: true,
+  },
+};
+
+module.exports = nextConfig;
 ````
-
-Edit the tag to use the HTML `img` tag as follows:
-````html
-<img src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-````
-
-
 
 Next, change to the `my-app` directory to update the **package.json** file. When you deploy a Next.js app, Amplify inspects the app's build script in the **package.json** file to detect whether the app is static (SSG) or server-side rendered (SSR). 
 
@@ -68,19 +72,6 @@ To deploy a static app, add the `export` script to the existing `build` script:
 },
 ```
 The build script `next build && next export` indicates that the app supports SSG pages only.`next export` allows you to export your app to static HTML, which can be run standalone without the need of a Node.js server.
-
-At last, change to eslint rule to update **.eslintrc** file. When you build a Next.js project, you will have an error since Next.js restrict an user to use `img` as `@next/next/no-img-element` eslint rule.
-
-To build successfully, append the ignore rule to the existing `.eslintrc` below `extends` block:
-
-```json
-{
-  "extends": ["next", "next/core-web-vitals"],
-  "rules": {
-    "@next/next/no-img-element": "off"
-  }
-}
-```
 
 ### Adding Amplify hosting
 

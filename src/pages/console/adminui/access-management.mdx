@@ -3,7 +3,7 @@ export const meta = {
   description: `Manage team access to a project`,
 };
 
-With Amplify Studio, team members with different job functions can collaborate on different aspects of a project deployed in Amplify. Studio developers can create accounts with scoped access to resources and invite team members to join via email. Team members with *Full access* can create and manage AWS resources, while team members with *Manage only* access can edit application content and users.
+With Amplify Studio, team members with different job functions can collaborate on different aspects of a project deployed in Amplify. Studio developers can create accounts with admin or manage-only access to resources and invite team members to join via email.
 
 Follow these instructions to add and manage team members and their access to a project.
 
@@ -35,7 +35,9 @@ Follow these instructions to add and manage team members and their access to a p
   * Choose **Delete**. In the **Delete users** window, confirm the delete action.
 
 <Callout warning>
-If a team member logs into Amplify Studio, their login token is valid for 60 minutes, unless explicitly logged out. When you change a team member's permission from *full access* to *manage-only* or when you delete a team member's access, the team member can continue accessing Amplify Studio with their previously granted permissions until their token expires.
+
+If a team member logs into Amplify Studio, their login token is valid for 5 hours 30 minutes, unless they explicitly log out. When you change a team member's permission from **Full access** to **Manage only** or when you delete a team member's access, the team member can continue accessing Amplify Studio with their previously granted permissions until their token expires.
+
 </Callout>
 
 ## Understanding how Studio manages user access
@@ -68,7 +70,7 @@ To provide a passwordless login experience from AWS Amplify Console to Amplify S
 - *amplify-login-define-auth-challenge-SHORT_CODE*
 - *amplify-login-verify-auth-challenge-SHORT_CODE*
 
-### Troubleshooting
+## Troubleshooting
 If your Studio application experiences any issues logging in or the resources have been deleted, you can re-create the resources by disabling and then re-enabling Studio for your Amplify Project on the Amplify management console.
 
 1. Sign in to the AWS Management Console and open AWS Amplify.
@@ -80,3 +82,8 @@ If your Studio application experiences any issues logging in or the resources ha
 <Callout warning>
    Disabling and re-enabling Amplify Studio will remove and recreate the Amplify Studio managed User pool resource used to access your project, and you will need to re-invite your users to provide access to your Amplify Project. Disabling and re-enabling Amplify Studio will not modify any resources on your Amplify Project.
 </Callout>
+
+### I am not authorized to perform an action in Amplify
+If you receive an error that you're not authorized to perform an action, your policies must be updated to allow you to perform the action.
+
+If you need help, contact your AWS administrator. Your administrator is the person who provided you with your sign-in credentials. See [AWS managed policies for AWS Amplify](https://docs.aws.amazon.com/amplify/latest/userguide/security-iam-awsmanpol.html) for more details.

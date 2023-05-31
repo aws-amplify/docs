@@ -27,6 +27,10 @@ import android1 from "/src/fragments/lib-v1/datastore/android/sync/10-installPlu
 
 <Fragments fragments={{android: android1}} />
 
+import flutter2 from "/src/fragments/lib-v1/datastore/flutter/sync/10-installPlugin.mdx";
+
+<Fragments fragments={{flutter: flutter2}} />
+
 ### Push the backend to the cloud
 
 By now you should have a backend created with conflict detection enabled, as described in the [Getting started](/lib-v1/datastore/getting-started) guide.
@@ -93,6 +97,10 @@ import android8 from "/src/fragments/lib-v1/datastore/android/sync/40-clear.mdx"
 
 <Fragments fragments={{android: android8}} />
 
+import flutter9 from "/src/fragments/lib-v1/datastore/flutter/sync/40-clear.mdx";
+
+<Fragments fragments={{flutter: flutter9}} />
+
 This is a simple yet effective example. However, in a real scenario you might want to only call `clear()` when a different user is `signedIn` in order to avoid clearing the database for a repeated sign-in of the same user.
 
 import android11 from "/src/fragments/lib-v1/datastore/android/sync/50-selectiveSync.mdx";
@@ -102,3 +110,7 @@ import android11 from "/src/fragments/lib-v1/datastore/android/sync/50-selective
 import ios12 from "/src/fragments/lib-v1/datastore/ios/sync/50-selectiveSync.mdx";
 
 <Fragments fragments={{ios: ios12}} />
+
+import flutter13 from "/src/fragments/lib-v1/datastore/flutter/sync/50-selectiveSync.mdx";
+
+<Fragments fragments={{flutter: flutter13}} />

@@ -1,27 +1,49 @@
  ```dart
-// Create a boolean for checking the sign up status
-bool isSignUpComplete = false;
-
-...
-
-Future<void> signUpUser() async {
+/// Signs a user up with a username, password, and email. The required
+/// attributes may be different depending on your app's configuration.
+Future<void> signUpUser({
+  required String username,
+  required String password,
+  required String email,
+  String? phoneNumber,
+}) async {
   try {
-    final userAttributes = <CognitoUserAttributeKey, String>{
-      CognitoUserAttributeKey.email: 'email@domain.com',
-      CognitoUserAttributeKey.phoneNumber: '+15559101234',
+    final userAttributes = {
+      AuthUserAttributeKey.email: email,
+      if (phoneNumber != null) AuthUserAttributeKey.phoneNumber: phoneNumber,
       // additional attributes as needed
     };
     final result = await Amplify.Auth.signUp(
-      username: 'myusername',
-      password: 'mysupersecurepassword',
-      options: CognitoSignUpOptions(userAttributes: userAttributes),
+      username: username,
+      password: password,
+      options: SignUpOptions(
+        userAttributes: userAttributes,
+      ),
     );
-    setState(() {
-      isSignUpComplete = result.isSignUpComplete;
-    });
+    await _handleSignUpResult(result);
   } on AuthException catch (e) {
-    safePrint(e.message);
+    safePrint('Error signing up user: ${e.message}');
   }
 }
 ```
 
+```dart
+Future<void> _handleSignUpResult(SignUpResult result) async {
+  switch (result.nextStep.signUpStep) {
+    case AuthSignUpStep.confirmSignUp:
+      final codeDeliveryDetails = result.nextStep.codeDeliveryDetails!;
+      _handleCodeDelivery(codeDeliveryDetails);
+      break;
+    case AuthSignUpStep.done:
+      safePrint('Sign up is complete');
+      break;
+  }
+}
+
+void _handleCodeDelivery(AuthCodeDeliveryDetails codeDeliveryDetails) {
+  safePrint(
+    'A confirmation code has been sent to ${codeDeliveryDetails.destination}. '
+    'Please check your ${codeDeliveryDetails.deliveryMedium.name} for the code.',
+  );
+}
+```

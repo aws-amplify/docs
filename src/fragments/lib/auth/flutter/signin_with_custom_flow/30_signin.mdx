@@ -1,9 +1,7 @@
 ```dart
-// Create a boolean for checking the sign in status and keep the status
-bool isSignedIn = false;
+// Create state variables for the sign in status
+var isSignedIn = false;
 String? challengeHint;
-
-...
 
 Future<void> signInCustomFlow(String username) async {
   try {
@@ -11,18 +9,18 @@ Future<void> signInCustomFlow(String username) async {
     setState(() {
       isSignedIn = result.isSignedIn;
       // Get the publicChallengeParameters from your Create Auth Challenge Lambda
-      challengeHint = result.nextStep?.additionalInfo?['hint'];
+      challengeHint = result.nextStep.additionalInfo['hint'];
     });
   } on AuthException catch (e) {
-    safePrint(e.message);
+    safePrint('Error signing in: ${e.message}');
   }
 }
 ```
 
 <Callout>
-  Please note that you will be prevented from successfully calling `signIn` if a
-  user has already signed in and a valid session is active. You must first call
-  `signOut` to remove the original session. When running on the iOS platform,
-  you will be able to call `signIn` if the session has expired, while on Android
-  you must first call `signOut` regardless.
+
+Please note that you will be prevented from successfully calling `signIn` if a
+user has already signed in and a valid session is active. You must first call
+`signOut` to remove the original session.
+
 </Callout>

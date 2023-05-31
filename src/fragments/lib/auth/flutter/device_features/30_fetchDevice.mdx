@@ -3,10 +3,10 @@ Future<void> fetchAllDevices() async {
   try {
     final devices = await Amplify.Auth.fetchDevices();
     for (final device in devices) {
-        print('Device: $device');
+      safePrint('Device: $device');
     }
-  } on Exception catch (e) {
-    print('Fetch devices failed with error: $e');
+  } on AuthException catch (e) {
+    safePrint('Fetch devices failed with error: $e');
   }
 }
 ```

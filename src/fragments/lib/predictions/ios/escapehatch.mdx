@@ -2,47 +2,21 @@ If you need functionality in the AWS services used by the Amplify Predictions ca
 
 ```swift
 guard let predictionsPlugin = try Amplify.Predictions.getPlugin(for: "awsPredictionsPlugin") as? AWSPredictionsPlugin else {
-    print("Unable to cast to AWSPredictionsPlugin")
-    return
+  print("Unable to cast to AWSPredictionsPlugin")
+  return
 }
 
-guard let rekognitionService = predictionsPlugin.getEscapeHatch(key: .rekognition) as? AWSRekognition else {
-    print("Unable to get AWSRekognition")
-    return
-}
-
-let request = AWSRekognitionCreateCollectionRequest()
-if let request = request {
-    rekognitionService.createCollection(request)
-}
+let rekognitionClient = predictionsPlugin.getEscapeHatch(key: .rekognition)
+let request = CreateCollectionInput()
+let output = try await rekognitionClient.createCollection(input: request)
 ```
 
 In addition to `AWSRekognition`, this same pattern can be used to get access to `AWSTranslate`, `AWSPolly`, `AWSTranscribeStreaming`, `AWSComprehend`, and `AWSTextract`.  For example:
 ```swift
-guard let translateService = predictionsPlugin.getEscapeHatch(key: .translate) as? AWSTranslate else {
-    print("Unable to get AWSTranslate")
-    return
-}
-
-guard let pollyService = predictionsPlugin.getEscapeHatch(key: .polly) as? AWSPolly else {
-    print("Unable to get AWSPolly")
-    return
-}
-
-guard let transcribeService = predictionsPlugin.getEscapeHatch(key: .transcribe) as? AWSTranscribeStreaming else {
-    print("Unable to get AWSTranscribeStreaming")
-    return
-}
-
-guard let comprehendService = predictionsPlugin.getEscapeHatch(key: .comprehend) as? AWSComprehend else {
-    print("Unable to get AWSComprehend")
-    return
-}
-
-guard let textractService = predictionsPlugin.getEscapeHatch(key: .textract) as? AWSTextract else {
-    print("Unable to get AWSTextract")
-    return
-}
+let translateClient = predictionsPlugin.getEscapeHatch(key: .translate)
+let pollyClient = predictionsPlugin.getEscapeHatch(key: .polly)
+let comprehendClient = predictionsPlugin.getEscapeHatch(key: .comprehend)
+let textractClient = predictionsPlugin.getEscapeHatch(key: .textract)
 ```
 
 **API Documentation Resources**
