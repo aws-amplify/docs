@@ -3,7 +3,7 @@ export const meta = {
   description: `Manage team access to a project`,
 };
 
-With Amplify Studio, team members with different job functions can collaborate on different aspects of a project deployed in Amplify. Studio developers can create accounts with scoped access to resources and invite team members to join via email. Team members with *Full access* can create and manage AWS resources, while team members with *Manage only* access can edit application content and users.
+With Amplify Studio, team members with different job functions can collaborate on different aspects of a project deployed in Amplify. Studio developers can create accounts with admin or manage-only access to resources and invite team members to join via email.
 
 Follow these instructions to add and manage team members and their access to a project.
 
@@ -35,7 +35,9 @@ Follow these instructions to add and manage team members and their access to a p
   * Choose **Delete**. In the **Delete users** window, confirm the delete action.
 
 <Callout warning>
-If a team member logs into Amplify Studio, their login token is valid for 60 minutes, unless explicitly logged out. When you change a team member's permission from *full access* to *manage-only* or when you delete a team member's access, the team member can continue accessing Amplify Studio with their previously granted permissions until their token expires.
+
+If a team member logs into Amplify Studio, their login token is valid for 5 hours 30 minutes, unless they explicitly log out. When you change a team member's permission from **Full access** to **Manage only** or when you delete a team member's access, the team member can continue accessing Amplify Studio with their previously granted permissions until their token expires.
+
 </Callout>
 
 ## Understanding how Studio manages user access
