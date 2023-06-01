@@ -1,7 +1,5 @@
 import { Toggle, Divider } from './styles';
 import { useEffect, forwardRef } from 'react';
-import { Button } from '@cloudscape-design/components';
-import { TABLE_OF_CONTENTS_OPEN } from '../../constants/img';
 import { MenuIcon, TOCIcon } from '../Icons';
 
 function MobileMenuIcons({ menuRef, contentsRef }, ref) {
