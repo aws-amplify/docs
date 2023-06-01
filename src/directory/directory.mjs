@@ -2719,6 +2719,11 @@ export const directory = {
             title: 'Nuxt.js',
             route: '/guides/hosting/nuxt',
             filters: ['js']
+          },
+          {
+            title: 'Vite',
+            route: '/guides/hosting/vite',
+            filters: ['js']
           }
         ]
       }
