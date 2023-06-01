@@ -3,10 +3,18 @@ The Storage and GraphQL API categories can be used together to associate a file,
 To get started, run the following in an existing Amplify project:
 
 ```bash
-npm i @aws-amplify/ui-react  #For Authenticator component
-amplify add auth             #Select default configuration
-amplify add storage          #Select S3 with read/write access
-amplify add api              #Select Cognito User Pool for authorization type
+# For Authenticator component:
+npm i @aws-amplify/ui-react
+
+# Select default configuration:
+amplify add auth             
+
+# Select "Content", "Auth users only", full CRUD access,
+# and default configuration:
+amplify add storage          
+
+#Select default configuration
+amplify add api              
 ```
 
 When prompted, use the following schema:
