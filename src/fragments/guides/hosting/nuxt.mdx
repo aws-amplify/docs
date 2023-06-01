@@ -59,9 +59,53 @@ In the next screen, choose your repository and branch and click __Next__:
 In the __App build and test settings__ view, click __Edit__ and do the following:
 
 1. Set the __build__ command to: `yarn run generate`
-2. Set the `baseDirectory` location to be `dist`
+2. Set the `baseDirectory` location (see build settings below)
 3. Click __Save__
 4. Click __Next__
+
+For Nuxt 2, set `baseDirectory: dist`:
+```yaml
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - yarn install
+    build:
+      commands:
+        - npm run generate
+  artifacts:
+    # IMPORTANT - Please verify your build output directory
+    baseDirectory: dist
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+
+```
+
+For Nuxt 3, set `baseDirectory: '.output/public'`:
+```yaml
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - yarn install
+    build:
+      commands:
+        - yarn run generate
+  artifacts:
+    # IMPORTANT - Please verify your build output directory
+    baseDirectory: '.output/public'
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+
+```
 
 ![Nuxt Hosting with Amplify Console - Configuring the build settings](/images/hosting/nuxt/5.png)
 
