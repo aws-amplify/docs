@@ -3,6 +3,10 @@ export const meta = {
   description: `Learn more about how DataStore handles Models with finer grain authorization access checks.`,
 };
 
+import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
+
+<Fragments fragments={{ ios: ios_maintenance }} />
+
 In order to configure fine grain authorization controls with DataStore, use the `@auth` directive to specify ownership and permissible operations (create, update, delete, read) on a specific type. More information can be found on the @auth directive in the [GraphQL Transformer documentation](/cli/graphql/authorization-rules).
 
 <Callout>
@@ -10,10 +14,6 @@ In order to configure fine grain authorization controls with DataStore, use the 
 **Note:** This API is under development and is not released.
 
 </Callout>
-
-import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
-
-<Fragments fragments={{ ios: ios_maintenance }} />
 
 import ios0 from "/src/fragments/lib-v1/datastore/ios/auth-model.mdx";
 
