@@ -21,7 +21,7 @@ type Song @model @auth(rules: [{ allow: public}]) {
 
 Save the schema and run `amplify push` to deploy the changes.
 
-To use files and attachments you need authorization credentials for reading and writing to Amazon S3, which `amplify add auth` configures in the default setting along with a Cognito User Pool.
+To use files and attachments your application needs authorization credentials for reading and writing to Amazon S3. This is configured in the `amplify add auth` step.
 
 <Callout>
 
