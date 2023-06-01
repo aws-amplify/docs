@@ -104,7 +104,7 @@ const result = await Storage.put(file.name, file, {
 
 const songDetails: UpdateSongInput = {
   id: currentSong.id,
-  coverArtKey: key,
+  coverArtKey: result?.key,
 };
 
 const updatedSong = await API.graphql<GraphQLQuery<UpdateSongMutation>>({
