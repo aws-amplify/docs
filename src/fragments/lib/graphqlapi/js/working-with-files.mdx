@@ -17,7 +17,7 @@ amplify add storage
 amplify add api              
 ```
 
-When prompted, use the following schema:
+When prompted, use the following schema, which can also be found under `amplify/backend/api/[name of project]/schema.graphql`:
 
 ```graphql
 type Song @model @auth(rules: [{ allow: public}]) {
