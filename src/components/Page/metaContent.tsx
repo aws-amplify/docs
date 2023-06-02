@@ -73,7 +73,7 @@ export default function MetaContent({
               <NextPrevious url={url} filterKey={filterKey} />
             </CodeBlockProvider>
           </div>
-          <FeedbackSticky footerRef={footerRef} />
+          {onDesktop && <FeedbackSticky footerRef={footerRef} />}
         </ContentStyle>
         <TableOfContents
           title={title}

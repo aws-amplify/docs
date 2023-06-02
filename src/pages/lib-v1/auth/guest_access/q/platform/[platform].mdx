@@ -3,9 +3,17 @@ export const meta = {
   description: `Access services without needing to sign in.`,
 };
 
+import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
+
+<Fragments fragments={{ ios: ios_maintenance }} />
+
 import ios0 from "/src/fragments/lib-v1/auth/native_common/guest_access/common.mdx";
 
 <Fragments fragments={{ios: ios0}} />
+
+import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
+
+<Fragments fragments={{ android: android_maintenance }} />
 
 import android1 from "/src/fragments/lib-v1/auth/native_common/guest_access/common.mdx";
 
