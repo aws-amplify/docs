@@ -73,7 +73,7 @@ frontend:
         - yarn install
     build:
       commands:
-        - npm run generate
+        - yarn generate
   artifacts:
     # IMPORTANT - Please verify your build output directory
     baseDirectory: dist
@@ -95,7 +95,7 @@ frontend:
         - yarn install
     build:
       commands:
-        - yarn run generate
+        - yarn generate
   artifacts:
     # IMPORTANT - Please verify your build output directory
     baseDirectory: '.output/public'
