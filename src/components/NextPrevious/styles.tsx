@@ -8,7 +8,7 @@ export const NextPreviousContainerStyle = styled.div`
 `;
 
 export const NextPreviousLinkStyle = styled.a`
-  &:first-of-type {
+  &:first-child {
     margin-right: 1rem;
   }
 
@@ -40,7 +40,7 @@ export const NextPreviousLinkStyle = styled.a`
     width: 0.5rem;
   }
 
-  &:first-of-type {
+  &:first-child {
     img {
       margin-left: 0;
       margin-right: 1rem;

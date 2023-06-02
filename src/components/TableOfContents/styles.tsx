@@ -105,7 +105,7 @@ export const TOCStyle = styled.div`
       background-color: var(--bg-color-hover);
     }
 
-    &:first-of-type {
+    &:first-child {
       margin-top: 0;
     }
 

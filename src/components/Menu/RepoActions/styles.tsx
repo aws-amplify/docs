@@ -7,7 +7,7 @@ export const RepoActionsStyle = styled.div`
   margin-bottom: 1.5rem;
   padding: 0 0.25rem;
 
-  &:first-of-type > a {
+  &:first-child > a {
     margin-right: 2rem;
   }
 
