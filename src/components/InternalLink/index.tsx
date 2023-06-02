@@ -45,7 +45,7 @@ export default function InternalLink({ href, children }) {
   }
 
   return (
-    <Link href={href} passHref legacyBehavior>
+    <Link href={url} passHref legacyBehavior>
       {children}
     </Link>
   );
