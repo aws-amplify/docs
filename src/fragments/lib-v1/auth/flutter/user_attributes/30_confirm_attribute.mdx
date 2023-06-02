@@ -1,0 +1,13 @@
+```dart
+Future<void> verifyAttributeUpdate() async {
+  try {
+    await Amplify.Auth.confirmUserAttribute(
+      userAttributeKey: CognitoUserAttributeKey.email,
+      confirmationCode: '390739',
+    );
+    print('Attribute verified');
+  } on AmplifyException catch (e) {
+    print(e.message);
+  }
+}
+```

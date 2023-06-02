@@ -6,10 +6,11 @@ To record an event, create an `AnalyticsEvent` and call `Amplify.Analytics.recor
 Future<void> trackEventsWithProperties() async {
   final event = AnalyticsEvent('test');
 
-  event.properties.addBoolProperty('boolKey', true);
-  event.properties.addDoubleProperty('doubleKey', 10.0);
-  event.properties.addIntProperty('intKey', 10);
-  event.properties.addStringProperty('stringKey', 'stringValue');
+  event.customProperties
+    ..addBoolProperty('boolKey', true)
+    ..addDoubleProperty('doubleKey', 10)
+    ..addIntProperty('intKey', 10)
+    ..addStringProperty('stringKey', 'stringValue');
 
   await Amplify.Analytics.recordEvent(event: event);
 }

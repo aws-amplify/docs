@@ -6,9 +6,9 @@
 Future<void> forgetCurrentDevice() async {
   try {
     await Amplify.Auth.forgetDevice();
-    print('Forget device succeeded');
-  } on Exception catch (e) {
-    print('Forget device failed with error: $e');
+    safePrint('Forget device succeeded');
+  } on AuthException catch (e) {
+    safePrint('Forget device failed with error: $e');
   }
 }
 ```
@@ -17,13 +17,13 @@ Future<void> forgetCurrentDevice() async {
 <Block name="Specific Device">
 
 ```dart
-Future<void> forgetSpecificDevice() async {
+// A device that was fetched via Amplify.Auth.fetchDevices()
+Future<void> forgetSpecificDevice(AuthDevice myDevice) async {
   try {
-    const device = CognitoDevice(id: 'us-west-2_38284cea-6c7f-4a8c-bcfa-ac8946a0d1eb');
-    await Amplify.Auth.forgetDevice(device);
-    print('Forget device succeeded');
-  } on Exception catch (e) {
-    print('Forget device failed with error: $e');
+    await Amplify.Auth.forgetDevice(myDevice);
+    safePrint('Forget device succeeded');
+  } on AuthException catch (e) {
+    safePrint('Forget device failed with error: $e');
   }
 }
 ```

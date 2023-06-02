@@ -38,7 +38,78 @@ Choose the following options:
     `<choose your provider and follow the prompts to input the proper tokens>`
 ```
 
-** Redirect URIs**
+<Callout>
+
+You can configure you application to use more than one redirect URL. For more information, refer to the [Redirect URLs](#redirect-urls) section.
+
+</Callout>
+
+
+import all1 from "/src/fragments/lib/auth/common/social_signin_web_ui/configure_auth_category.mdx";
+
+<Fragments fragments={{all: all1}} />
+
+## Setup frontend
+
+After configuring the OAuth endpoints (Cognito Hosted UI), you can integrate your App by invoking `Auth.federatedSignIn()` function. Passing `LoginWithAmazon`, `Facebook`, `Google`, or `SignInWithApple` on the `provider` argument (e.g `Auth.federatedSignIn({ provider: 'LoginWithAmazon' })`) will bypass the Hosted UI and federate immediately with the social provider as shown in the below React Native example. If you are looking to add a custom state, you are able to do so by passing a string (e.g. `Auth.federatedSignIn({ customState: 'xyz' })`) value and listening for the custom state via Hub.
+
+```javascript
+import { useEffect, useState } from "react";
+import { Text, View, Linking, Button } from "react-native";
+
+import { Amplify, Auth, Hub } from "aws-amplify";
+import awsconfig from "./aws-exports";
+
+Amplify.configure(awsconfig);
+
+export default function App() {
+  const [user, setUser] = useState(null);
+  const [customState, setCustomState] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = Hub.listen("auth", ({ payload: { event, data } }) => {
+      switch (event) {
+        case "signIn":
+          setUser(data);
+          break;
+        case "signOut":
+          setUser(null);
+          break;
+        case "customOAuthState":
+          setCustomState(data);
+      }
+    });
+
+    Auth.currentAuthenticatedUser()
+      .then(currentUser => setUser(currentUser))
+      .catch(() => console.log("Not signed in"));
+
+    return unsubscribe;
+  }, []);
+
+  return (
+    <View>
+      <Button
+        title="Open Amazon"
+        onPress={() =>
+          Auth.federatedSignIn({
+            provider: "LoginWithAmazon",
+          })
+        }
+      />
+      <Button title="Open Hosted UI" onPress={() => Auth.federatedSignIn()} />
+      <Button title="Sign Out" onPress={() => Auth.signOut()} />
+      <Text>{user && user.getUsername()}</Text>
+    </View>
+  );
+}
+```
+
+### Deploying to Amplify Console
+
+To deploy your app to Amplify Console with continuous deployment of the frontend and backend, please follow [these instructions](https://docs.aws.amazon.com/amplify/latest/userguide/environment-variables.html#creating-a-new-backend-environment-with-authentication-parameters).
+
+### Redirect URLs
 
 For *Sign in Redirect URI(s)* inputs, you can put one URI for local development and one for production. For example, in Expo: `exp://127.0.0.1:19000/--/` in dev and `myapp://` in production. The same is true for *Sign out redirect URI(s)*.
 
@@ -111,7 +182,7 @@ For React Native applications, you need to define a custom URL scheme for your a
 <application>
   <activity
     android:name=".MainActivity"
-    android:launchMode="singleInstance">
+    android:launchMode="singleTask">
 
     <intent-filter>
       <action android:name="android.intent.action.VIEW" />
@@ -123,70 +194,6 @@ For React Native applications, you need to define a custom URL scheme for your a
   </activity>
 </application>
 ```
-
-import all1 from "/src/fragments/lib/auth/common/social_signin_web_ui/configure_auth_category.mdx";
-
-<Fragments fragments={{all: all1}} />
-
-## Setup frontend
-
-After configuring the OAuth endpoints (Cognito Hosted UI), you can integrate your App by invoking `Auth.federatedSignIn()` function. Passing `LoginWithAmazon`, `Facebook`, `Google`, or `SignInWithApple` on the `provider` argument (e.g `Auth.federatedSignIn({ provider: 'LoginWithAmazon' })`) will bypass the Hosted UI and federate immediately with the social provider as shown in the below React Native example. If you are looking to add a custom state, you are able to do so by passing a string (e.g. `Auth.federatedSignIn({ customState: 'xyz' })`) value and listening for the custom state via Hub.
-
-```javascript
-import { useEffect, useState } from "react";
-import { Text, View, Linking, Button } from "react-native";
-
-import { Amplify, Auth, Hub } from "aws-amplify";
-import awsconfig from "./aws-exports";
-
-Amplify.configure(awsconfig);
-
-export default function App() {
-  const [user, setUser] = useState(null);
-  const [customState, setCustomState] = useState(null);
-
-  useEffect(() => {
-    const unsubscribe = Hub.listen("auth", ({ payload: { event, data } }) => {
-      switch (event) {
-        case "signIn":
-          setUser(data);
-          break;
-        case "signOut":
-          setUser(null);
-          break;
-        case "customOAuthState":
-          setCustomState(data);
-      }
-    });
-
-    Auth.currentAuthenticatedUser()
-      .then(currentUser => setUser(currentUser))
-      .catch(() => console.log("Not signed in"));
-
-    return unsubscribe;
-  }, []);
-
-  return (
-    <View>
-      <Button
-        title="Open Amazon"
-        onPress={() =>
-          Auth.federatedSignIn({
-            provider: "LoginWithAmazon",
-          })
-        }
-      />
-      <Button title="Open Hosted UI" onPress={() => Auth.federatedSignIn()} />
-      <Button title="Sign Out" onPress={() => Auth.signOut()} />
-      <Text>{user && user.getUsername()}</Text>
-    </View>
-  );
-}
-```
-
-### Deploying to Amplify Console
-
-To deploy your app to Amplify Console with continuous deployment of the frontend and backend, please follow [these instructions](https://docs.aws.amazon.com/amplify/latest/userguide/environment-variables.html#creating-a-new-backend-environment-with-authentication-parameters).
 
 ### Full Samples
 

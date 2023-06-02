@@ -18,9 +18,11 @@
     "@algolia/autocomplete-shared": "^1.5.6",
     "@algolia/autocomplete-theme-classic": "^1.6.1",
     "@algolia/client-search": "^4.13.0",
-    "@aws-amplify/amplify-cli-core": "^4.0.2",
+    "@aws-amplify/amplify-cli-core": "^4.0.5",
     "@aws-amplify/ui-components": "latest",
-    "@aws-amplify/ui-react": "^4.6.0",
+    "@aws-amplify/ui-react": "^4.6.2",
+    "@cloudscape-design/components": "^3.0.238",
+    "@cloudscape-design/global-styles": "^1.0.8",
     "@emotion/react": "^11.1.5",
     "@emotion/styled": "^11.3.0",
     "@mdx-js/mdx": "^2.0.0",
@@ -36,7 +38,6 @@
     "gray-matter": "4.0.3",
     "html-entities": "^1.2.1",
     "instantsearch.js": "^4.39.1",
-    "module": "^1.2.5",
     "next": "^13.2.4",
     "next-transpile-modules": "^9.0.0",
     "parse-imports": "^1.1.0",
@@ -55,6 +56,7 @@
     "unist-util-visit": "^4.1.0"
   },
   "devDependencies": {
+    "@cloudscape-design/jest-preset": "^2.0.0",
     "@mdx-js/loader": "^1.6.22",
     "@next/mdx": "^10.1.3",
     "@stencil/core": "^1.17.0",
@@ -67,11 +69,11 @@
     "@types/fs-extra": "^9.0.1",
     "@types/jest": "^26.0.19",
     "@types/node": "^12.12.9",
-    "@types/puppeteer": "1.20.2",
     "@types/react": "^17.0.3",
     "@types/url-parse": "^1.4.3",
     "@typescript-eslint/eslint-plugin": "^2.7.0",
     "@typescript-eslint/parser": "^2.7.0",
+    "axios": "^1.3.4",
     "cspell": "^6.2.3",
     "eslint": "^6.6.0",
     "eslint-config-airbnb": "^18.0.1",
@@ -84,7 +86,7 @@
     "jest": "^26.6.3",
     "jest-cli": "^26.6.3",
     "prettier": "^1.19.1",
-    "puppeteer": "1.20.0",
+    "puppeteer": "^20.1.2",
     "rollup-plugin-node-polyfills": "^0.2.1",
     "sass": "^1.54.8",
     "tiny-glob": "0.2.9",
@@ -99,10 +101,10 @@
     "minimatch": "3.1.2",
     "json5": "2.2.2",
     "decode-uri-component": "0.2.1",
-    "vm2": "3.9.15"
+    "vm2": "3.9.18"
   },
   "jest": {
-    "preset": "ts-jest",
+    "preset": "./preset.js",
     "roots": [
       "<rootDir>/src"
     ],

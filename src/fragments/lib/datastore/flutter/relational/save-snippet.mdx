@@ -1,4 +1,8 @@
 ```dart
+import 'package:amplify_flutter/amplify_flutter.dart';
+
+import 'models/ModelProvider.dart';
+
 Future<void> savePostAndComment() async {
   final post = Post(
     title: 'My Post with comments',
@@ -6,13 +10,16 @@ Future<void> savePostAndComment() async {
     status: PostStatus.ACTIVE,
   );
   final comment = Comment(
-    post: post, // Directly pass in the post instance
+    post: post, // associate the comment to the post
     content: 'Loving Amplify DataStore!',
   );
 
-  await Amplify.DataStore.save(post);
-  print('Post saved');
-  await Amplify.DataStore.save(comment);
-  print('Comment saved');
+  try {
+    // Make sure to safe the parent Post first
+    await Amplify.DataStore.save(post);
+    await Amplify.DataStore.save(comment);
+  } on DataStoreException catch (e) {
+    safePrint('Something went wrong querying posts: ${e.message}');
+  }
 }
 ```

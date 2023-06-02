@@ -32,6 +32,12 @@ Amplify allows you to either setup a app content storage (images, audio, video e
 
 Follow the prompts to provide your content storage's resource name.
 
+<Callout>
+
+The storage resource created by Amplify CLI has retention enabled which prevents accidental deletion or loss of data. Hence, running `amplify remove storage` will not delete the storage resource and will need to be manually deleted on the AWS console.
+
+</Callout>
+
 ### S3 Access permissions
 
 Next, configure the access permissions for your Amazon S3 bucket. If you haven't set up the `auth` category already, the Amplify CLI will guide you through a workflow to enable the auth category.

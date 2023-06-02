@@ -1,78 +1,63 @@
-You can list all of the files uploaded under a given path.
-
-<BlockSwitcher>
-
-<Block name="Stable (Mobile)">
-
-This will list all public files (i.e. those with `guest` access level):
-
-```dart
-Future<void> listItems() async {
-  try {
-    final result = await Amplify.Storage.list();
-    final items = result.items;
-    safePrint('Got items: $items');
-  } on StorageException catch (e) {
-    safePrint('Error listing items: $e');
-  }
-}
-```
-
-</Block>
-
-<Block name = "Developer Preview (Mobile, Web & Desktop)">
+You can list all files uploaded under a given path.
 
 This will list all files located under path `album` that:
 * have `private` access level
 * are in the root of `album/` (the result doesn't include files under any sub path)
 
 ```dart
-
-String? nextToken;
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 
 Future<void> listAlbum() async {
   try {
-    final result = await Amplify.Storage.list(
-      path: 'album/',
-      options: const S3ListOptions(
-        accessLevel: StorageAccessLevel.private,
-        pageSize: 50,
-        excludeSubPaths: true,
-      ),
-    ).result;
-
-    if (result.hasNextPage) {
+    String? nextToken;
+    bool hasNextPage;
+    do {
+      final result = await Amplify.Storage.list(
+        path: 'album/',
+        options: StorageListOptions(
+          accessLevel: StorageAccessLevel.private,
+          pageSize: 50,
+          nextToken: nextToken,
+          pluginOptions: const S3ListPluginOptions(
+            excludeSubPaths: true,
+          ),
+        ),
+      ).result;
+      safePrint('Listed items: ${result.items}');
       nextToken = result.nextToken;
-    }
-
-    safePrint('Listed items: ${result.items}');
+      hasNextPage = result.hasNextPage;
+    } while (hasNextPage);
   } on StorageException catch (e) {
-    safePrint(e.message);
+    safePrint('Error listing files: ${e.message}');
+    rethrow;
   }
 }
-
 ```
 
-Pagination is enabled by default. The default `pageSize` is `1000` if it has not been defined in the `S3ListOptions`. You can also list all files under a given path without pagination by using the `listAll` options constructor.
+Pagination is enabled by default. The default `pageSize` is `1000` if it is not set in the `StorageListOptions`.
+
+You can also list all files under a given path without pagination by using the `pluginOptions` and `S3ListPluginOptions.listAll()` constructor.
 
 This will list all public files (i.e. those with `guest` access level):
 
 ```dart
+import 'package:amplify_flutter/amplify_flutter.dart';
+import 'package:amplify_storage_s3/amplify_storage_s3.dart';
+
 Future<void> listAllWithGuestAccessLevel() async {
   try {
     final result = await Amplify.Storage.list(
-      options: const S3ListOptions.listAll(
+      options: const StorageListOptions(
         accessLevel: StorageAccessLevel.guest,
+        pluginOptions: S3ListPluginOptions.listAll(),
       ),
     ).result;
 
     safePrint('Listed items: ${result.items}');
   } on StorageException catch (e) {
-    safePrint(e.message);
+    safePrint('Error listing files: ${e.message}');
+    rethrow;
   }
 }
 ```
-
-</Block>
-
-</BlockSwitcher>

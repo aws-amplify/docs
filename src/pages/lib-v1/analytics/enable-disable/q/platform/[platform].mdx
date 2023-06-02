@@ -3,6 +3,14 @@ export const meta = {
   description: `Learn how to enable/disable analytics using Amplify.`
 };
 
+import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
+
+<Fragments fragments={{ android: android_maintenance }} />
+
+import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
+
+<Fragments fragments={{ ios: ios_maintenance }} />
+
 ## Disable Analytics
 
 Analytics is enabled by default when you configure it in your app. To disable Analytics in your app use the `disable` function:
@@ -15,6 +23,10 @@ import ios0 from '/src/fragments/lib-v1/analytics/ios/enable-disable/disable.mdx
 
 <Fragments fragments={{ ios: ios0 }} />
 
+import flutter0 from '/src/fragments/lib-v1/analytics/flutter/enable-disable/disable.mdx';
+
+<Fragments fragments={{ flutter: flutter0 }} />
+
 ## Enable Analytics
 
 To enable analytics you can use the `enable` function in your app:
@@ -26,3 +38,7 @@ import android1 from '/src/fragments/lib-v1/analytics/android/enable-disable/ena
 import ios1 from '/src/fragments/lib-v1/analytics/ios/enable-disable/enable.mdx';
 
 <Fragments fragments={{ ios: ios1 }} />
+
+import flutter1 from '/src/fragments/lib-v1/analytics/flutter/enable-disable/enable.mdx';
+
+<Fragments fragments={{ flutter: flutter1 }} />

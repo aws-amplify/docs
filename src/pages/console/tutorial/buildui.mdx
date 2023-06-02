@@ -1,14 +1,14 @@
 export const meta = {
   title: `Build UI`,
-  description: `Figma to React code with Amplify Studio`,
+  description: `Figma to React code with Amplify Studio`
 };
 
-With Studio’s new “UI Library”, you can sync components from Figma to React code. Amplify also provides you with a handy Figma file to get started faster. The Amplify Figma file includes both UI primitives and component templates. You can also create your own component in Figma! In this tutorial, you'll create a home listings app using Amplify Studio.
+With Studio’s new **UI Library**, you can sync components from Figma to React code. Amplify also provides you with a handy Figma file to get started faster. The Amplify Figma file includes both UI primitives and component templates. You can also create your own component in Figma! In this tutorial, you'll create a home listings app using Amplify Studio.
 
 ## Create UI components in Figma
 
-1. **Clone the [Amplify UI Figma file](https://www.figma.com/community/file/1047600760128127424)**
-![Screenshot showing how to sync with Figma](/images/studio/sync-with-figma.png)
+1. **Clone the [Amplify UI Figma file](https://www.figma.com/community/file/1047600760128127424)** 
+![Screenshot showing how to sync with Figma](/images/studio/sync-with-figma.png) 
 The Amplify UI Figma file provides a starting point for your app. It includes common UI primitives and pre-built UI components.
 
 2. **Explore the UI primitives and templates**
@@ -27,7 +27,7 @@ Templates are Figma components that leverage the primitives to enhance your UI e
 
 ## Sync components with Figma
 
-Back in Studio, choose the “Sync from Figma” button to review all the components from your Figma file. 
+In [Amplify Studio](/console/adminui/start/#logging-in-and-creating-an-app), choose the “Sync from Figma” button to review all the components from your Figma file.
 
 Paste in the URL of your Figma file to start syncing. If this is your first time syncing from Figma, you need to grant Amplify Studio access to your Figma account.
 
@@ -39,7 +39,7 @@ Either choose **Accept all** or review individual components with the **Reject**
 
 ## Use component in code
 
-Now that your components are synced, navigate to a component and choose **Configure**. To get your React code, choose **Get component code**.
+Now that your components are synced, select a component and choose **Configure**. To get your React code, choose **Get component code**.
 
 Follow the instructions in the modal. If this is your first time setting up the UI components in your app, make sure to complete **Initial project setup** first to install all dependencies.
 
@@ -50,10 +50,11 @@ Next, run `amplify pull` to sync all your components into your local code base. 
 Import the UI component you want from `./ui-components` and then render it in your React app. For example:
 
 ```js
-import { CardB } from './ui-components'
-...
-  return <div>
+import { CardB } from './ui-components';
+
+return (
+  <div>
     <CardB />
   </div>
-...
+);
 ```

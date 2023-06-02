@@ -71,7 +71,7 @@ export const SecondaryNavStyle = styled.div`
 `;
 
 export const HostStyle = styled.div`
-  z-index: 1;
+  z-index: 2;
   display: block;
   position: sticky;
   top: var(--docs-dev-center-nav);
