@@ -47,11 +47,11 @@ For the complete working example, including required imports, obtaining the file
 
 ## Create a record with an associated file
 
-First upload the file to Storage, then run the following mutation with the GraphQL API to create a record and associate the file with the record.
+First create the API record, then upload the file to Storage, and finally add the association between the record and file. Use the following example with the GraphQL API and Storage categories to create a record and associate the file with the record.
 
 <Callout>
 
-Note: In the case of adding a file to an existing record (such as when a user uploads a profile picture to an existing profile), first create the record and exclude the optional file reference, then follow the steps under [Add or update a file for an associated record](#add-or-update-a-file-for-an-associated-record) below.
+The API record's `id` is prepended to the Storage file name to ensure uniqueness. If this is excluded, multiple API records could then be associated with the same file key unintentionally.
 
 </Callout>
 
@@ -59,40 +59,90 @@ Note: In the case of adding a file to an existing record (such as when a user up
 <Block name="TypeScript">
 
 ```ts
-const result = await Storage.put(file.name, file, {
+const createSongDetails: CreateSongInput = {
+  name: `My first song`,
+};
+
+// Create the API record:
+const response = await API.graphql<GraphQLQuery<CreateSongMutation>>({
+  query: mutations.createSong,
+  variables: { input: createSongDetails },
+});
+
+const _song = response?.data?.createSong;
+
+if (!_song) return;
+
+// Upload the Storage file:
+const result = await Storage.put(`${_song.id}-${file.name}`, file, {
   contentType: "image/png", // contentType is optional
 });
 
-
-const songDetails: CreateSongInput = {
-  name: `My first song`,
+const updateSongDetails: UpdateSongInput = {
+  id: _song.id,
   coverArtKey: result?.key,
 };
 
-const response = await API.graphql<GraphQLQuery<CreateSongMutation>>({
-  query: mutations.createSong,
-  variables: { input: songDetails },
+// Add the file association to the record:
+const updateResponse = await API.graphql<
+  GraphQLQuery<UpdateSongMutation>
+>({
+  query: mutations.updateSong,
+  variables: { input: updateSongDetails },
 });
+
+const updatedSong = updateResponse?.data?.updateSong;
+
+// Check that the record has an associated image:
+if (!updatedSong?.coverArtKey) return;
+
+// Retrieve the signed URL:
+const signedURL = await Storage.get(updatedSong?.coverArtKey);
 ``` 
 
 </Block>
 <Block name="JavaScript">
 
 ```js
-const result = await Storage.put(file.name, file, {
+const createSongDetails: CreateSongInput = {
+  name: `My first song`,
+};
+
+// Create the API record:
+const response = await API.graphql({
+  query: mutations.createSong,
+  variables: { input: createSongDetails },
+});
+
+const _song = response?.data?.createSong;
+
+if (!_song) return;
+
+// Upload the Storage file:
+const result = await Storage.put(`${_song.id}-${file.name}`, file, {
   contentType: "image/png", // contentType is optional
 });
 
-
-const songDetails = {
-  name: `My first song`,
+const updateSongDetails = {
+  id: _song.id,
   coverArtKey: result?.key,
 };
 
-const response = await API.graphql({
-  query: mutations.createSong,
-  variables: { input: songDetails },
+// Add the file association to the record:
+const updateResponse = await API.graphql<
+  GraphQLQuery<UpdateSongMutation>
+>({
+  query: mutations.updateSong,
+  variables: { input: updateSongDetails },
 });
+
+const updatedSong = updateResponse?.data?.updateSong;
+
+// Check that the record has an associated image:
+if (!updatedSong?.coverArtKey) return;
+
+// Retrieve the signed URL:
+const signedURL = await Storage.get(updatedSong?.coverArtKey);
 ```
 
 </Block>
@@ -106,24 +156,28 @@ To associate a file with a record, update the record with the key returned by th
 <Block name="TypeScript">
 
 ```ts
-const result = await Storage.put(file.name, file, {
+// Upload the Storage file:
+const result = await Storage.put(`${currentSong.id}-${file.name}`, file, {
   contentType: "image/png", // contentType is optional
 });
 
-const songDetails: UpdateSongInput = {
+const updateSongDetails: UpdateSongInput = {
   id: currentSong.id,
   coverArtKey: result?.key,
 };
 
-const updatedSong = await API.graphql<GraphQLQuery<UpdateSongMutation>>({
+// Add the file association to the record:
+const response = await API.graphql<GraphQLQuery<UpdateSongMutation>>({
   query: mutations.updateSong,
-  variables: { input: songDetails },
+  variables: { input: updateSongDetails },
 });
 
 const updatedSong = response?.data?.updateSong;
 
+// Check that the record has an associated image:
 if (!updatedSong?.coverArtKey) return;
 
+// Retrieve the file's signed URL:
 const signedURL = await Storage.get(updatedSong?.coverArtKey);
 ``` 
 
@@ -131,22 +185,28 @@ const signedURL = await Storage.get(updatedSong?.coverArtKey);
 <Block name="JavaScript">
 
 ```js
-const result = await Storage.put(file.name, file, {
+// Upload the Storage file:
+const result = await Storage.put(`${currentSong.id}-${file.name}`, file, {
   contentType: "image/png", // contentType is optional
 });
 
-const songDetails: UpdateSongInput = {
+const updateSongDetails = {
   id: currentSong.id,
   coverArtKey: result?.key,
 };
 
-const updatedSong = await API.graphql({
+// Add the file association to the record:
+const response = await API.graphql({
   query: mutations.updateSong,
-  variables: { input: songDetails },
+  variables: { input: updateSongDetails },
 });
 
 const updatedSong = response?.data?.updateSong;
 
+// Check that the record has an associated image:
+if (!updatedSong?.coverArtKey) return;
+
+// Retrieve the file's signed URL:
 const signedURL = await Storage.get(updatedSong?.coverArtKey);
 ```
 
@@ -218,6 +278,7 @@ const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
 
 const _song = response?.data?.getSong;
 
+// Check that the record has an associated image:
 if (!_song?.coverArtKey) return;
 
 const songDetails: UpdateSongInput = {
@@ -242,6 +303,7 @@ const response = await API.graphql({
 
 const _song = response?.data?.getSong;
 
+// Check that the record has an associated image:
 if (!_song?.coverArtKey) return;
 
 const songDetails = {
@@ -273,6 +335,7 @@ const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
 
 const _song = response?.data?.getSong;
 
+// Check that the record has an associated image:
 if (!_song?.coverArtKey) return;
 
 const songDetails: UpdateSongInput = {
@@ -301,6 +364,7 @@ const response = await API.graphql({
 
 const _song = response?.data?.getSong;
 
+// Check that the record has an associated image:
 if (!_song?.coverArtKey) return;
 
 const songDetails: UpdateSongInput = {
@@ -334,6 +398,7 @@ const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
 
 const _song = response?.data?.getSong;
 
+// Check that the record has an associated image:
 if (!_song?.coverArtKey) return;
 
 await Storage.remove(_song?.coverArtKey);
@@ -359,6 +424,7 @@ const response = await API.graphql({
 
 const _song = response?.data?.getSong;
 
+// Check that the record has an associated image:
 if (!_song?.coverArtKey) return;
 
 await Storage.remove(_song?.coverArtKey);
@@ -414,25 +480,47 @@ function App() {
     const file = e.target.files[0];
 
     try {
-      const result = await Storage.put(file.name, file, {
-        contentType: "image/png", // contentType is optional
-      });
-
-      const songDetails: CreateSongInput = {
+      const createSongDetails: CreateSongInput = {
         name: `My first song`,
-        coverArtKey: result?.key,
       };
 
+      // Create the API record:
       const response = await API.graphql<GraphQLQuery<CreateSongMutation>>({
         query: mutations.createSong,
-        variables: { input: songDetails },
+        variables: { input: createSongDetails },
       });
 
       const _song = response?.data?.createSong;
-      setCurrentSong(_song);
 
-      if (!_song?.coverArtKey) return;
-      const signedURL = await Storage.get(_song?.coverArtKey);
+      if (!_song) return;
+
+      // Upload the Storage file:
+      const result = await Storage.put(`${_song.id}-${file.name}`, file, {
+        contentType: "image/png", // contentType is optional
+      });
+
+      const updateSongDetails: UpdateSongInput = {
+        id: _song.id,
+        coverArtKey: result?.key,
+      };
+
+      // Add the file association to the record:
+      const updateResponse = await API.graphql<
+        GraphQLQuery<UpdateSongMutation>
+      >({
+        query: mutations.updateSong,
+        variables: { input: updateSongDetails },
+      });
+
+      const updatedSong = updateResponse?.data?.updateSong;
+
+      setCurrentSong(updatedSong);
+
+      // Check that the record has an associated image:
+      if (!updatedSong?.coverArtKey) return;
+
+      // Retrieve the file's signed URL:
+      const signedURL = await Storage.get(updatedSong?.coverArtKey);
       setCurrentImageUrl(signedURL);
     } catch (error) {
       console.error("Error create song / file:", error);
@@ -449,25 +537,30 @@ function App() {
     const file = e.target.files[0];
 
     try {
-      const result = await Storage.put(file.name, file, {
+      // Upload the Storage file:
+      const result = await Storage.put(`${currentSong.id}-${file.name}`, file, {
         contentType: "image/png", // contentType is optional
       });
 
-      const songDetails: UpdateSongInput = {
+      const updateSongDetails: UpdateSongInput = {
         id: currentSong.id,
         coverArtKey: result?.key,
       };
 
+      // Add the file association to the record:
       const response = await API.graphql<GraphQLQuery<UpdateSongMutation>>({
         query: mutations.updateSong,
-        variables: { input: songDetails },
+        variables: { input: updateSongDetails },
       });
 
       const updatedSong = response?.data?.updateSong;
 
+      setCurrentSong(updatedSong);
+
       // Check that the record has an associated image:
       if (!updatedSong?.coverArtKey) return;
 
+      // Retrieve the file's signed URL:
       const signedURL = await Storage.get(updatedSong?.coverArtKey);
       setCurrentImageUrl(signedURL);
     } catch (error) {
@@ -508,6 +601,7 @@ function App() {
 
       const _song = response?.data?.getSong;
 
+      // Check that the record has an associated image:
       if (!_song?.coverArtKey) return;
 
       const songDetails: UpdateSongInput = {
@@ -540,6 +634,7 @@ function App() {
 
       const _song = response?.data?.getSong;
 
+      // Check that the record has an associated image:
       if (!_song?.coverArtKey) return;
 
       const songDetails: UpdateSongInput = {
@@ -576,6 +671,7 @@ function App() {
 
       const _song = response?.data?.getSong;
 
+      // Check that the record has an associated image:
       if (!_song?.coverArtKey) return;
 
       await Storage.remove(_song?.coverArtKey);
@@ -584,6 +680,7 @@ function App() {
         id: _song.id,
       };
 
+      // const deletedSong = await API.graphql<GraphQLQuery<DeleteSongMutation>>({
       await API.graphql<GraphQLQuery<DeleteSongMutation>>({
         query: mutations.deleteSong,
         variables: { input: songDetails },
@@ -646,7 +743,7 @@ function App() {
           <button onClick={deleteCurrentSongAndImage} disabled={!currentSong}>
             Delete current song (and image, if it exists)
           </button>
-          <button onClick={signOut}>Sign out</button>
+\          <button onClick={signOut}>Sign out</button>
           {currentImageUrl && (
             <img src={currentImageUrl} alt="Image for current song"></img>
           )}
@@ -657,6 +754,7 @@ function App() {
 }
 
 export default App;
+
 ``` 
 
 </Block>
@@ -710,6 +808,7 @@ function App() {
       const _song = response?.data?.createSong;
       setCurrentSong(_song);
       
+      // Check that the record has an associated image:
       if (!_song?.coverArtKey) return;
       const signedURL = await Storage.get(_song?.coverArtKey);
       setCurrentImageUrl(signedURL);
@@ -787,6 +886,7 @@ function App() {
 
       const _song = response?.data?.getSong;
 
+      // Check that the record has an associated image:
       if (!_song?.coverArtKey) return;
 
       const songDetails = {
@@ -819,6 +919,7 @@ function App() {
 
       const _song = response?.data?.getSong;
 
+      // Check that the record has an associated image:
       if (!_song?.coverArtKey) return;
 
       const songDetails = {
@@ -855,6 +956,7 @@ function App() {
 
       const _song = response?.data?.getSong;
 
+      // Check that the record has an associated image:
       if (!_song?.coverArtKey) return;
 
       await Storage.remove(_song?.coverArtKey);
