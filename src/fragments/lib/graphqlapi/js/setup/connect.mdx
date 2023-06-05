@@ -182,16 +182,23 @@ In this job, you will connect your application code to the data stack by connect
 
 ### Install and configure the Amplify libraries
 
-[comment]: # (Task-forward section with steps to install and configure, with an explanation on the flow differences between the Amplify API and their existing API. Updated content from https://github.com/aws-amplify/docs/blob/JTBD-Data/src/fragments/lib/graphqlapi/js/getting-started.mdx but still missing the discussion on differences with their own API.) 
+[comment]: # (Task-forward section with steps to install and configure, with an explanation on the flow differences between the Amplify API and their existing API. Updated content from https://github.com/aws-amplify/docs/blob/JTBD-Data/src/fragments/lib/graphqlapi/js/getting-started.mdx but still missing the discussion on differences with their own API. Added fragment into text so can be updated as needed for guide first - https://github.com/aws-amplify/docs/blob/main/src/fragments/lib/graphqlapi/js/react-native-configure.mdx) 
 
 Add the `aws-amplify` package to your app with `yarn` or `npm`. This is the main library for working with Amplify Libraries in your projects. This will include connecting your app with the GraphQL endpoint.
-import js0 from "/src/fragments/lib/graphqlapi/js/js-configure.mdx";
 
-<Fragments fragments={{js: js0}} />
+Add Amplify to your app with `yarn` or `npm`:
 
-import reactnative0 from "/src/fragments/lib/graphqlapi/js/react-native-configure.mdx";
+```bash
+npm install aws-amplify @react-native-async-storage/async-storage @react-native-community/netinfo
+```
 
-<Fragments fragments={{'react-native': reactnative0}} />
+In your app's entry point i.e. **App.js** (Expo) or **index.js** (React Native CLI), import and load the configuration file:
+
+```javascript
+import { Amplify, API, graphqlOperation } from 'aws-amplify';
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
+```
 
 [comment]: # (Noticed additional installation directions in the set up for specific frameworks. Copied since they are not small enough fragments atm - if we keep if we need to consider how this is fragmented: 1- https://github.com/aws-amplify/docs/blob/main/src/fragments/start/getting-started/angular/setup.mdx; 2- https://github.com/aws-amplify/docs/blob/main/src/fragments/start/getting-started/next/setup.mdx; 3- https://github.com/aws-amplify/docs/blob/main/src/fragments/start/getting-started/vue/setup.mdx)
 
