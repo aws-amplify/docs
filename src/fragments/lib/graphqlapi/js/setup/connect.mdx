@@ -1095,32 +1095,314 @@ In this job, you will subscribe to real-time events. This includes understanding
 
 > **Before you begin, you will need:**
 > - Your application connected to the API
-> - Populated data to modidfy
+> - Populated data to modify
 
 ### Set up a real-time subscription
-==Explanation of benefits of enabling real-time data integrations (it was noted in our workshop to potentially add a diagram here).==
+  
+[comment]: # (Explanation of benefits of enabling real-time data integrations - it was noted in our workshop to potentially add a diagram here)
 
 #### Subscription limits
-==EXPANDER SECTION that provides more detail about the limits for subscriptions, filter limits, auth-related limits, and how to mitigate them. This should also include an explanation of real-time subscription fields of authorization.==
+  
+[comment]: # (EXPANDER SECTION that provides more detail about the limits for subscriptions, filter limits, auth-related limits, and how to mitigate them. This should also include an explanation of real-time subscription fields of authorization.)
 
-==Steps to subscribe.==
+[comment]: # (Steps to subscribe. Content from 1- https://github.com/aws-amplify/docs/blob/main/src/fragments/lib/graphqlapi/js/subscribe-data.mdx and 2- https://github.com/aws-amplify/docs/blob/main/src/fragments/lib/pubsub/js/connection-states.mdx Do we want to reuse any of this guide for additional context or example? Maybe in an expander? https://docs.amplify.aws/guides/api-graphql/subscriptions-by-id/q/platform/js/)
 
+Subscriptions is a GraphQL feature allowing the server to send data to its clients when a specific event happens. You can enable real-time data integration in your app with a subscription.
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { Amplify, API, graphqlOperation } from 'aws-amplify';
+import { GraphQLSubscription } from '@aws-amplify/api';
+import * as subscriptions from './graphql/subscriptions';
+import { OnCreateTodoSubscription } from './API';
+
+// Subscribe to creation of Todo
+const sub = API.graphql<GraphQLSubscription<OnCreateTodoSubscription>>(
+  graphqlOperation(subscriptions.onCreateTodo)
+).subscribe({
+  next: ({ provider, value }) => console.log({ provider, value }),
+  error: (error) => console.warn(error)
+});
+
+// Stop receiving data updates from the subscription
+sub.unsubscribe();
+```
+
+</Block>
+
+<Block name="JavaScript">
+
+```js
+import { Amplify, API, graphqlOperation } from 'aws-amplify';
+import * as subscriptions from './graphql/subscriptions';
+
+// Subscribe to creation of Todo
+const sub = API.graphql(
+  graphqlOperation(subscriptions.onCreateTodo)
+).subscribe({
+  next: ({ provider, value }) => console.log({ provider, value }),
+  error: (error) => console.warn(error)
+});
+
+// Stop receiving data updates from the subscription
+sub.unsubscribe();
+```
+
+</Block>
+</BlockSwitcher>
+
+When using **AWS AppSync** subscriptions, be sure that your AppSync configuration is at the root of the configuration object, instead of being under API:
+
+```javascript
+Amplify.configure({
+  Auth: {
+    identityPoolId: 'xxx',
+    region: 'xxx',
+    cookieStorage: {
+      domain: 'xxx',
+      path: 'xxx',
+      secure: true
+    }
+  },
+  aws_appsync_graphqlEndpoint: 'xxxx',
+  aws_appsync_region: 'xxxx',
+  aws_appsync_authenticationType: 'xxxx',
+  aws_appsync_apiKey: 'xxxx'
+});
+```
+
+Subscriptions take an optional `filter` argument to define service-side subscription filters:
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+// ...
+import { GraphQLSubscription } from '@aws-amplify/api';
+import { OnCreateTodoSubscriptionVariables, OnCreateTodoSubscription } from './API';
+
+const variables: OnCreateTodoSubscriptionVariables = {
+  filter: {
+    // Only receive Todo messages where the "type" field is "Personal"
+    type: { eq: "Personal" }
+  }
+}
+
+const sub = API.graphql<GraphQLSubscription<OnCreateTodoSubscription>>(
+  graphqlOperation(subscriptions.onCreateTodo, variables)
+).subscribe({
+  next: ({ provider, value }) => console.log({ provider, value }),
+  error: error => console.warn(error)
+});
+```
+
+</Block>
+
+<Block name="JavaScript">
+
+```js
+// ...
+
+const variables = {
+  filter: {
+    // Only receive Todo messages where the "type" field is "Personal"
+    type: { eq: "Personal" }
+  }
+}
+
+const sub = API.graphql(
+  graphqlOperation(subscriptions.onCreateTodo, variables)
+).subscribe({
+  next: ({ provider, value }) => console.log({ provider, value }),
+  error: error => console.warn(error)
+});
+```
+
+</Block>
+</BlockSwitcher>
+
+If you want to get all subscription events, don’t pass any `filter` parameters.
+
+<Callout>
+
+**Important**: Passing an empty object `{}` as a filter is NOT recommended. Using `{}` as a filter might cause inconsistent behavior based on your data model's authorization rules.
+
+</Callout>
+
+#### Subscription connection status updates
+
+Now that your application is setup and using subscriptions, you may want to know when the subscription is finally established, or reflect to your users when the subscription isn't healthy. You can monitor the connection state for changes via Hub.
+
+```ts
+import { CONNECTION_STATE_CHANGE, ConnectionState } from '@aws-amplify/pubsub';
+import { Hub } from 'aws-amplify';
+
+Hub.listen('api', (data: any) => {
+  const { payload } = data;
+  if (payload.event === CONNECTION_STATE_CHANGE) {
+    const connectionState = payload.data.connectionState as ConnectionState;
+    console.log(connectionState);
+  }
+});
+```
+
+##### Connection states
+
+- **`Connected`** - Connected and working with no issues.
+- **`ConnectedPendingDisconnect`** - The connection has no active subscriptions and is disconnecting.
+- **`ConnectedPendingKeepAlive`** - The connection is open, but has missed expected keep alive messages.
+- **`ConnectedPendingNetwork`** - The connection is open, but the network connection has been disrupted. When the network recovers, the connection will continue serving traffic.
+- **`Connecting`** - Attempting to connect.
+- **`ConnectionDisrupted`** - The connection is disrupted and the network is available.
+- **`ConnectionDisruptedPendingNetwork`** - The connection is disrupted and the network connection is unavailable.
+- **`Disconnected`** - Connection has no active subscriptions and is disconnecting.
 #### Troubleshooting
-==EXPANDER SECTION with details on managing and cleaning up subscriptions, matching/defining mutation selection with subscription selections, and extra link to DeltaSync. For React there should also be a section about issues with hooks.==
+[comment]: # (EXPANDER SECTION with details on managing and cleaning up subscriptions, matching/defining mutation selection with subscription selections, and extra link to DeltaSync - https://docs.amplify.aws/lib/graphqlapi/advanced-workflows/q/platform/js/#delta-sync. For React there should also be a section about issues with hooks. From 1- https://github.com/aws-amplify/docs/blob/main/src/fragments/lib/graphqlapi/js/subscribe-data.mdx and 2- https://github.com/aws-amplify/docs/blob/main/src/fragments/lib/pubsub/js/reconnect-description.mdx)
+##### Connection issues and automated reconnection
+Your application can lose connectivity for any number of reasons such as network outages or when the device is put to sleep. Your subscriptions will automatically reconnect when it becomes possible to do so.
+
+While offline, your application will miss messages and will not automatically catch up when reconnection happens. Depending on your usecase, you may want take action to catch up when your app comes back online.
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+// ...
+import { GraphQLQuery, GraphQLSubscription } from '@aws-amplify/api';
+import {
+  ListTodosQuery
+  OnCreateTodoSubscription,
+  OnUpdateTodoSubscription,
+  OnDeleteTodoSubscription
+} from './API';
+
+const fetchRecentData = () => {
+  // Retrieve some/all data from AppSync
+  const allTodos = await API.graphql<GraphQLQuery<ListTodosQuery>>({ 
+    query: queries.listTodos 
+  });
+}
+
+let priorConnectionState: ConnectionState;
+
+Hub.listen("api", (data: any) => {
+  const { payload } = data;
+  if (
+    payload.event === CONNECTION_STATE_CHANGE
+  ) {
+
+    if (priorConnectionState === ConnectionState.Connecting && payload.data.connectionState === ConnectionState.Connected) {
+      fetchRecentData();
+    }
+    priorConnectionState = payload.data.connectionState;
+  }
+});
+
+const createSub = API.graphql<GraphQLSubscription<OnCreateTodoSubscription>>(
+  graphqlOperation(subscriptions.onCreateTodo)
+).subscribe({
+  next: data => // Process incoming messages
+});
+
+const updateSub = API.graphql<GraphQLSubscription<OnUpdateTodoSubscription>>(
+  graphqlOperation(subscriptions.onUpdateTodo)
+).subscribe({
+  next: data => // Process incoming messages
+});
+
+const deleteSub = API.graphql<GraphQLSubscription<OnDeleteTodoSubscription>>(
+  graphqlOperation(subscriptions.onDeleteTodo)
+).subscribe({
+  next: data => // Process incoming messages
+});
+
+const cleanupSubscriptions = () => {
+  createSub.unsubscribe();
+  updateSub.unsubscribe();
+  deleteSub.unsubscribe();
+}
+```
+
+</Block>
+
+<Block name="JavaScript">
+
+```js
+// ...
+
+const fetchRecentData = () => {
+  // Retrieve some/all data from AppSync
+  const allTodos = await API.graphql({ query: queries.listTodos });
+}
+
+let priorConnectionState: ConnectionState;
+
+Hub.listen("api", (data: any) => {
+  const { payload } = data;
+  if (
+    payload.event === CONNECTION_STATE_CHANGE
+  ) {
+
+    if (priorConnectionState === ConnectionState.Connecting && payload.data.connectionState === ConnectionState.Connected) {
+      fetchRecentData();
+    }
+    priorConnectionState = payload.data.connectionState;
+  }
+});
+
+const createSub = API.graphql(
+  graphqlOperation(subscriptions.onCreateTodo)
+).subscribe({
+  next: data => // Process incoming messages
+});
+
+const updateSub = API.graphql(
+  graphqlOperation(subscriptions.onUpdateTodo)
+).subscribe({
+  next: data => // Process incoming messages
+});
+
+const deleteSub = API.graphql(
+  graphqlOperation(subscriptions.onDeleteTodo)
+).subscribe({
+  next: data => // Process incoming messages
+});
+
+const cleanupSubscriptions = () => {
+  createSub.unsubscribe();
+  updateSub.unsubscribe();
+  deleteSub.unsubscribe();
+}
+```
+
+</Block>
+</BlockSwitcher>
 
 ### Unsubscribe from a subscription
-==Explanation of how to unsubscribe and when to for reducing redundancy with steps for these actions.==
+[comment]: # (Explanation of how to unsubscribe and when to for reducing redundancy with steps for these actions.)
+
+You can unsubscribe from events by using the following:
+
+Subscriptions is a GraphQL feature allowing the server to send data to its clients when a specific event happens. You can enable real-time data integration in your app with a subscription.
+
+```ts
+// Stop receiving data updates from the subscription
+sub.unsubscribe();
+```
+
 
 ### Recap
 You now have set up subscriptions for real-time events and understand how to filter and cancel these subscriptions when needed.
 
-==ADD TO RECAP a tie-in to real-world use and application of the topic discussed OR reiterate the benefit.==
+[comment]: # (ADD TO RECAP a tie-in to real-world use and application of the topic discussed OR reiterate the benefit.)
 
 ## Conclusion
 Congratulations! You have finished the **Connect a data stack** guide. In this guide, you installed and configured Amplify libraries; used GraphQL mutations for app data requests; filtered app data in Amplify; and set up, filtered, and canceled subscriptions for real-time events.
 
 ## Next steps
-==Provide 2–3 relevant next steps. These can be links related to what was covered in the guide and/or links to related Amplify JTBD guides.==
+[comment]: # (Provide 2–3 relevant next steps. These can be links related to what was covered in the guide and/or links to related Amplify JTBD guides.)
+
 
 -----
 ==Below not integrated yet==
