@@ -5,6 +5,11 @@ const MenuWrapper = styled.span`
   stroke: currentColor;
   stroke-width: 2;
   cursor: pointer;
+  padding: 2px 0;
+  height: 22px;
+  svg {
+    vertical-align: top;
+  }
 `;
 
 export const MenuIcon = ({ ariaLabel, onClick }) => (

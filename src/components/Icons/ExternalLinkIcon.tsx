@@ -2,21 +2,23 @@ import { Icon } from '@aws-amplify/ui-react';
 import styled from '@emotion/styled';
 
 const LinkWrapper = styled.span`
-  margin-left: 3px;
+  margin-left: 8px;
   display: flex;
   align-items: center;
+  svg {
+    height: 16px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2px;
+  }
 `;
 
 export const ExternalLinkIcon = () => (
   <LinkWrapper>
     <Icon aria-hidden="true" viewBox={{ width: 16, height: 16 }}>
-      <path
-        d="M9.79505 1.59277L16.3138 1.59278M16.3138 1.59278L16.3138 8.11155M16.3138 1.59278L9.79504 8.11156"
-        strokeWidth="2"
-        strokeLinecap="round"
-        stroke="currentColor"
-      />
-      <path d="M17.0834 12.3333C17.0834 11.9191 16.7476 11.5833 16.3334 11.5833C15.9192 11.5833 15.5834 11.9191 15.5834 12.3333H17.0834ZM5.66675 2.41663C6.08096 2.41663 6.41675 2.08084 6.41675 1.66663C6.41675 1.25241 6.08096 0.916626 5.66675 0.916626V2.41663ZM15.5834 12.3333V13.6666H17.0834V12.3333H15.5834ZM13.6667 15.5833H4.33341V17.0833H13.6667V15.5833ZM4.33341 15.5833C3.27487 15.5833 2.41675 14.7252 2.41675 13.6666H0.916748C0.916748 15.5536 2.44644 17.0833 4.33341 17.0833V15.5833ZM15.5834 13.6666C15.5834 14.7252 14.7253 15.5833 13.6667 15.5833V17.0833C15.5537 17.0833 17.0834 15.5536 17.0834 13.6666H15.5834ZM4.33341 2.41663H5.66675V0.916626H4.33341V2.41663ZM2.41675 4.33329C2.41675 3.27475 3.27487 2.41663 4.33341 2.41663V0.916626C2.44644 0.916626 0.916748 2.44632 0.916748 4.33329H2.41675ZM2.41675 13.6666V4.33329H0.916748V13.6666H2.41675Z" />
+      <path d="M10 2h4v4"></path>
+      <path d="m6 10 8-8"></path>
+      <path d="M14 9.048V14H2V2h5"></path>
     </Icon>
   </LinkWrapper>
 );
