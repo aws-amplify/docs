@@ -182,9 +182,9 @@ In this job, you will connect your application code to the data stack by connect
 
 ### Install and configure the Amplify libraries
 
-[comment]: # (Task-forward section with steps to install and configure, with an explanation on the flow differences between the Amplify API and their existing API.)
+[comment]: # (Task-forward section with steps to install and configure, with an explanation on the flow differences between the Amplify API and their existing API. Updated content from https://github.com/aws-amplify/docs/blob/JTBD-Data/src/fragments/lib/graphqlapi/js/getting-started.mdx but still missing the discussion on differences with their own API.) 
 
-Use Amplify libraries to connect your app with your GraphQL endpoint.
+Add the `aws-amplify` package to your app with `yarn` or `npm`. This is the main library for working with Amplify Libraries in your projects. This will include connecting your app with the GraphQL endpoint.
 import js0 from "/src/fragments/lib/graphqlapi/js/js-configure.mdx";
 
 <Fragments fragments={{js: js0}} />
@@ -192,6 +192,116 @@ import js0 from "/src/fragments/lib/graphqlapi/js/js-configure.mdx";
 import reactnative0 from "/src/fragments/lib/graphqlapi/js/react-native-configure.mdx";
 
 <Fragments fragments={{'react-native': reactnative0}} />
+
+[comment]: # (Noticed additional installation directions in the set up for specific frameworks. Copied since they are not small enough fragments atm - if we keep if we need to consider how this is fragmented: 1- https://github.com/aws-amplify/docs/blob/JTBD-Data/src/fragments/start/getting-started/angular/setup.mdx; 2- https://github.com/aws-amplify/docs/blob/JTBD-Data/src/fragments/start/getting-started/next/setup.mdx; 3- https://github.com/aws-amplify/docs/blob/JTBD-Data/src/fragments/start/getting-started/vue/setup.mdx)
+
+If you are using `Angular`, `NextJS`, or `VueJS`, please review the following additional details for installing the Amplify Libraries:
+
+<BlockSwitcher>
+<Block name="Angular">
+  
+#### Install Amplify Libraries for Angular
+
+Inside the `amplify-app` directory, install the Amplify Angular library and run your app:
+
+```bash
+npm install --save aws-amplify @aws-amplify/ui-angular
+
+npm start
+```
+
+The `@aws-amplify/ui-angular` package is a set of Angular components and an Angular provider which helps integrate your application with the AWS-Amplify library.
+
+<Callout>
+
+Angular CLI output warnings: if you see CommonJS or AMD dependencies optimization bailouts warnings using Angular 9+, you can use this [gist](https://gist.github.com/wlee221/6d98d96740bea6f53327b4db4a432616) to remove them. More details about these [here](https://angular.io/guide/build#configuring-commonjs-dependencies).
+
+</Callout>
+
+##### Strictly typing `aws-exports`
+
+If you have TypeScript [strict mode](https://www.typescriptlang.org/tsconfig/#strict) on and see the error
+
+```
+Could not find a declaration file for module './aws-exports'. 'aws-exports.js' implicitly has an 'any' type.
+```
+
+Create a `aws-exports.d.ts` file on the same level as aws-exports with the following content:
+
+```ts
+declare const awsmobile: Record<string, any>
+export default awsmobile;
+```
+
+##### Importing the Amplify Angular UI Module
+
+Add the **Amplify Authenticator UI Module** to `src/app/app.module.ts`:
+
+```ts
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+
+import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    /* configure App with AmplifyAuthenticatorModule */
+    AmplifyAuthenticatorModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
+
+</Block>
+
+<Block name="NextJS">
+  
+#### Install Amplify Libraries for NextJS
+
+The first step to using Amplify in the client is to install the necessary dependencies:
+
+```bash
+npm install aws-amplify @aws-amplify/ui-react
+```
+
+The `aws-amplify` package is the main library for working with Amplify in your apps. The `@aws-amplify/ui-react` package includes React-specific UI components that you can use to build your app UI. To learn more about Amplify UI visit our [documentation](https://ui.docs.amplify.aws/).
+
+</Block>
+
+<Block name="VueJS">
+  
+#### Install Amplify Libraries for VueJS
+
+The first step to using Amplify in the client is to install the necessary dependencies:
+
+<Block name="NPM">
+
+```
+npm install aws-amplify @aws-amplify/ui-vue
+```
+
+</Block>
+
+<Callout>
+
+If you are using Vue 2, please check out our legacy [documentation](https://github.com/aws-amplify/amplify-ui/tree/legacy/legacy/amplify-ui-vue). For Vite installs check out this [documentation](https://ui.docs.amplify.aws/vue/getting-started/installation#vite). 
+
+</Callout>
+
+The `@aws-amplify/ui-vue` package is a set of components that make it easy to integrate functionality like end-to-end authentication flows.
+
+</Block>
+</BlockSwitcher>
 
 #### Troubleshooting
 
