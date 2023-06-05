@@ -2,25 +2,177 @@
 In this guide, you will learn how to connect an existing data stack to your application. This job includes understanding the required client configuration and how to connect the data stack. We will also review functions to create, read, update, and delete your data using the Amplify GraphQL client. Finally, we will look at how to subscribe to real-time events to watch for mutations in your data.
 
 ## Review the required configuration
+
 In this job, you will configure your client to point to the AWS AppSync API endpoint. You will first need to understand how to configure the Amplify API category and update the authentication type to complete this job. An understanding of the differences between authentication types will also be helpful if you did not set up the data stack yourself.
 
 > **Before you begin, you will need:**
-> - An AWS AppSync API already set up
+> - An AWS AppSync API already set up ([Designing a GraphQL API in AppSync]( https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html)]
 > - An application set up ([instructions to set up an app](https://docs.amplify.aws/lib/project-setup/create-application/q/platform/js/))
 
-### Configure the client to point to the AWS AppSync API endpoint
-==This section includes both a short intro that helps to explain how to configure the Amplify API category and the steps to configure the client.==
+### Configure the client to point to the AWS AppSync API endpoint and update authentication details
 
-### Update authentication details
-==This section includes a short review of the auth types and steps to update their details.==
+[comment]: # (This section includes both a short intro that helps to explain how to configure the Amplify API category and the steps to configure the client. Also includes a short review of the auth types and steps to update their details required in this command. Content copied and updated from https://github.com/aws-amplify/docs/edit/main/src/fragments/lib/graphqlapi/js/existing-resources.mdx )
+
+[question]: # (Do we need any content from these pages for this job? 1- https://docs.amplify.aws/lib/client-configuration/configuring-amplify-categories/q/platform/js/#graphql-api-aws-appsync ; 2- https://docs.amplify.aws/cli/graphql/client-code-generation/#amplify-add-codegen ; 3- https://docs.aws.amazon.com/appsync/latest/devguide/building-a-client-app.html )
+
+You can use existing AWS AppSync resources by referencing the AWS AppSync API endpoint and configuring the parameters in your app. The API URL, ID, and Key can be found in the AWS AppSync console in the Settings section. 
+You will need to know your Authentication type to complete this step. Authentication type options are `API_KEY`, `AWS_IAM`, `AMAZON_COGNITO_USER_POOLS` and `OPENID_CONNECT`.
 
 #### Review differences between authentication types 
-==EXPANDER SECTION to provide a deeper dive on authentication types and their differences, including API key access, Cognito, IAM, and OIDC. May be an option for a table that compares the authentication types.==
+
+[comment]: # (EXPANDER SECTION to provide a deeper dive on authentication types and their differences, including API key access, Cognito, IAM, and OIDC. May be an option for a table that compares the authentication types. Content copied and updated from https://github.com/aws-amplify/docs/blob/main/src/pages/cli/graphql/authorization-rules.mdx However, I would suggest we rewrite this intro sentence to provide more foundational explanation that we can then reuse.)
+
+Below is a short comparison between the different authentication types and their use cases. 
+
+| **Recommended use case** | **Strategy** | **Provider** |
+|---|---|---|
+| Public data access where users or devices are anonymous. Anyone with the AppSync API key is granted access. | [`public`]() | `apiKey` |
+| Recommended for production environment's public data access. Public data access where unauthenticated users or devices are granted permissions using AWS IAM controls. | [`public`]() | `iam` |
+| Per user data access. Access is restricted to the "owner" of a record. Leverages `amplify add auth` Cognito user pool by default. | [`owner`]() | `userPools` / `oidc` |
+| Any signed-in data access. Unlike owner-based access, **any** signed-in user has access. | [`private`]() | `userPools` / `oidc` / `iam` |
+| Per user group data access. A specific or dynamically configured group of users have access | [`group`]() | `userPools` / `oidc` |
+| Define your own custom authorization rule within a Lambda function | [`custom`]() | `function` |
+
+Once you have these details you can configure the client:
+
+[comment]: # (Content copied and updated from https://github.com/aws-amplify/docs/edit/main/src/fragments/lib/graphqlapi/js/existing-resources.mdx )
+
+<BlockSwitcher>
+<Block name="Using API_KEY">
+
+```javascript
+const myAppConfig = {
+  // ...
+  aws_appsync_graphqlEndpoint:
+    'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
+  aws_appsync_region: 'us-east-1',
+  aws_appsync_authenticationType: 'API_KEY',
+  aws_appsync_apiKey: 'da2-xxxxxxxxxxxxxxxxxxxxxxxxxx'
+  // ...
+};
+
+Amplify.configure(myAppConfig);
+```
+
+</Block>
+<Block name="Using AWS_IAM">
+
+```javascript
+const myAppConfig = {
+  // ...
+  aws_appsync_graphqlEndpoint:
+    'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
+  aws_appsync_region: 'us-east-1',
+  aws_appsync_authenticationType: 'AWS_IAM'
+  // ...
+};
+
+Amplify.configure(myAppConfig);
+```
+
+</Block>
+<Block name="Using AMAZON_COGNITO_USER_POOLS">
+
+```javascript
+const myAppConfig = {
+  // ...
+  aws_appsync_graphqlEndpoint:
+    'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
+  aws_appsync_region: 'us-east-1',
+  aws_appsync_authenticationType: 'AMAZON_COGNITO_USER_POOLS' // You have configured Auth with Amazon Cognito User Pool ID and Web Client Id
+  // ...
+};
+
+Amplify.configure(myAppConfig);
+```
+
+</Block>
+<Block name="Using OPENID_CONNECT">
+
+```javascript
+const myAppConfig = {
+  // ...
+  aws_appsync_graphqlEndpoint:
+    'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
+  aws_appsync_region: 'us-east-1',
+  aws_appsync_authenticationType: 'OPENID_CONNECT' // Before calling API.graphql(...) is required to do Auth.federatedSignIn(...) check authentication guide for details.
+  // ...
+};
+
+Amplify.configure(myAppConfig);
+```
+
+</Block>
+</BlockSwitcher>
+
+#### Using with an AppSync custom domain name
+
+[Custom domain names](https://docs.aws.amazon.com/appsync/latest/devguide/custom-domain-name.html) can be used to create a memorable endpoint with a domain name of your choice. These can have any format, but must end with `/graphql` (see https://graphql.org/learn/serving-over-http/#uris-routes). Using custom domain names will impact how you enter your graphqlEndpoint:
+
+```javascript
+const myAppConfig = {
+  // ...
+  aws_appsync_graphqlEndpoint: 'https://api.yourdomain.com/graphql',
+  aws_appsync_region: 'us-east-1',
+  aws_appsync_authenticationType: 'API_KEY' // All auth modes are supported
+  // ...
+};
+
+Amplify.configure(myAppConfig);
+```
+
+[question]: # (Do we want to address non-AppSync on this job or link to it? )
+
+### Using a non-AppSync GraphQL Server
+
+To access a non-AppSync GraphQL API with your app, you need to configure the endpoint URL in your app’s configuration. Add the following line to your setup:
+
+```js
+import { Amplify, API } from 'aws-amplify';
+import awsconfig from './aws-exports';
+
+// Considering you have an existing aws-exports.js configuration file
+Amplify.configure(awsconfig);
+
+// Configure a custom GraphQL endpoint
+Amplify.configure({
+  API: {
+    graphql_endpoint: 'https:/www.example.com/my-graphql-endpoint'
+  }
+});
+```
+
+#### Set Custom Request Headers for non-AppSync GraphQL APIs
+
+When working with a non-AppSync GraphQL endpoint, you may need to set request headers for authorization purposes. This is done by passing a `graphql_headers` function into the configuration:
+
+```js
+Amplify.configure({
+  API: {
+    graphql_headers: async () => ({
+      'My-Custom-Header': 'my value'
+    })
+  }
+});
+```
+
+#### Signing Request with IAM
+
+AWS Amplify provides the ability to sign requests automatically with AWS Identity Access Management (IAM) for GraphQL requests that are processed through AWS API Gateway. Add the `graphql_endpoint_iam_region` parameter to your GraphQL configuration statement to enable signing:
+
+```js
+Amplify.configure({
+  API: {
+    graphql_endpoint: 'https://www.example.com/my-graphql-endpoint',
+    graphql_endpoint_iam_region: 'my_graphql_apigateway_region'
+  }
+});
+```
 
 ### Recap
-At this point your client is now configured to point to your AppSync API enpoint and you updated your authentication details based on the auth types you are using.
+At this point your client is now configured to point to your AppSync API endpoint and you updated your authentication details based on the auth types you are using.
 
-==ADD TO RECAP Tie-in to real-world use and application of the topic discussed OR reiterate the benefit.==
+[comment]: # (ADD TO RECAP Tie-in to real-world use and application of the topic discussed OR reiterate the benefit.)
 
 ## Connect your application code to the data backend
 In this job, you will connect your application code to the data stack by connecting and configuring the Amplify libraries. We will review how to install and configure Amplify libraries to help you complete this task.
