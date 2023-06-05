@@ -176,21 +176,32 @@ At this point your client is now configured to point to your AppSync API endpoin
 
 ## Connect your application code to the data backend
 In this job, you will connect your application code to the data stack by connecting and configuring the Amplify libraries. We will review how to install and configure Amplify libraries to help you complete this task.
-
 > **Before you begin, you will need:**
 > - npm installed ([set up npm](https://docs.npmjs.com/getting-started))
 > - Data stack deployed
 
 ### Install and configure the Amplify libraries
-==Task-forward section with steps to install and configure, with an explanation on the flow differences between the Amplify API and their existing API.==
+
+[comment]: # (Task-forward section with steps to install and configure, with an explanation on the flow differences between the Amplify API and their existing API.)
+
+Use Amplify libraries to connect your app with your GraphQL endpoint.
+import js0 from "/src/fragments/lib/graphqlapi/js/js-configure.mdx";
+
+<Fragments fragments={{js: js0}} />
+
+import reactnative0 from "/src/fragments/lib/graphqlapi/js/react-native-configure.mdx";
+
+<Fragments fragments={{'react-native': reactnative0}} />
 
 #### Troubleshooting
-==EXPANDER SECTION to provide tips on how to avoid common errors such as: not changing the default auth rules, CLI set up correctly, and troubleshooting an AWS account with the CLI. Each error should have a header with descriptive title to be included on a primary troubleshooting guide as well.==
+
+[comment]: # (EXPANDER SECTION to provide tips on how to avoid common errors such as: not changing the default auth rules, CLI set up correctly, and troubleshooting an AWS account with the CLI. Each error should have a header with descriptive title to be included on a primary troubleshooting guide as well.)
 
 ### Recap
 Well done! You now have your Amplify libraries set up and configured. 
 
-==ADD TO RECAP tie-in to real-world use and application of the topic discussed OR reiterate the benefit.==
+[comment]: # (ADD TO RECAP tie-in to real-world use and application of the topic discussed OR reiterate the benefit.)
+
 
 ## Create, update, and delete application data
 In this job, you will run mutations to create, update, and delete application data. We will also show you how to cancel these requests. 
@@ -284,75 +295,6 @@ Congratulations! You have finished the **Connect a data stack** guide. In this g
 -----
 ==Below not integrated yet==
 -----
-
-> Prerequisite: [Install, configure and init an Amplify project](/cli/start/install) with Amplify CLI
-
-In this section, you'll learn how to deploy an AWS AppSync GraphQL API and connect to it from a JavaScript client application.
-
-## Create the GraphQL API
-
-To create a GraphQL API, use the Amplify `add` command:
-
-```bash
-amplify add api
-```
-
-```console
-? Please select from one of the below mentioned services:
-  > GraphQL
-? Here is the GraphQL API that we will create. Select a setting to edit or continue:
-  > Continue
-? Choose a schema template:
-  > Single object with fields (e.g., “Todo” with ID, name, description)
-? Do you want to edit the schema now?
-  > Yes
-```
-
-The CLI should open this GraphQL schema in your text editor.
-
-__amplify/backend/api/myapi/schema.graphql__
-
-```graphql
-type Todo @model {
-  id: ID!
-  name: String!
-  description: String
-}
-```
-
-To deploy the API, you can use the Amplify `push` command:
-
-```bash
-amplify push
-```
-
-```console
-? Are you sure you want to continue? Y
-
-? Do you want to generate code for your newly created GraphQL API? Y
-? Choose the code generation language target: javascript (or your preferred language target)
-? Enter the file name pattern of graphql queries, mutations and subscriptions src/graphql/**/*.js
-? Do you want to generate/update all possible GraphQL operations - queries, mutations and subscriptions? Y
-? Enter maximum statement depth [increase from default if your schema is deeply nested]: 2
-```
-
-Now the API has been deployed and you can start using it.
-
-Because the `Todo` type was decorated with an `@model` directive of the [GraphQL Transform](/cli/graphql/data-modeling) library, the CLI created the additional schema and resolvers for queries, mutations, and subscriptions as well as a DynamoDB table to hold the Todos.
-
-To view the deployed services in your project at any time, go to Amplify Console by running the Amplify `console` command:
-
-```bash
-amplify console
-```
-
-import js0 from "/src/fragments/lib/graphqlapi/js/js-configure.mdx";
-
-<Fragments fragments={{js: js0}} />
-
-import reactnative0 from "/src/fragments/lib/graphqlapi/js/react-native-configure.mdx";
-
-<Fragments fragments={{'react-native': reactnative0}} />
 
 ## Enable queries, mutations, and subscriptions
 
