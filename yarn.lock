@@ -367,9 +367,9 @@
     tslib "^1.8.0"
 
 "@aws-amplify/graphql-transformer-interfaces@^2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-transformer-interfaces/-/graphql-transformer-interfaces-2.2.0.tgz#1c879cb3200ef12db65e8c8093d6baf899fc309e"
-  integrity sha512-76ZFuIuwUheRpNCVktTewTymk20s0GGTg+xiFMSHje3s8OPvjMm4YC6gfJ7xHb5djq3FUmrgu/AX6/9VmKt4ww==
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-transformer-interfaces/-/graphql-transformer-interfaces-2.2.1.tgz#a7f37b4e10d79e2f2407a382217174639bcbab3c"
+  integrity sha512-uiPpLXWdBXbArJtW3xLIthszFaAGLa6Tn0xbpXvuOw8aWPf5nvo2s80Ppp44SPxn++tIS9WXSr9ZikPcCQsc4w==
   dependencies:
     aws-cdk-lib "~2.68.0"
     constructs "^10.0.5"
