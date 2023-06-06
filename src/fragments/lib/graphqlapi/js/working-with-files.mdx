@@ -97,7 +97,7 @@ const updatedSong = updateResponse?.data?.updateSong;
 if (!updatedSong?.coverArtKey) return;
 
 // Retrieve the signed URL:
-const signedURL = await Storage.get(updatedSong?.coverArtKey);
+const signedURL = await Storage.get(updatedSong.coverArtKey);
 ``` 
 
 </Block>
@@ -142,7 +142,7 @@ const updatedSong = updateResponse?.data?.updateSong;
 if (!updatedSong?.coverArtKey) return;
 
 // Retrieve the signed URL:
-const signedURL = await Storage.get(updatedSong?.coverArtKey);
+const signedURL = await Storage.get(updatedSong.coverArtKey);
 ```
 
 </Block>
@@ -178,7 +178,7 @@ const updatedSong = response?.data?.updateSong;
 if (!updatedSong?.coverArtKey) return;
 
 // Retrieve the file's signed URL:
-const signedURL = await Storage.get(updatedSong?.coverArtKey);
+const signedURL = await Storage.get(updatedSong.coverArtKey);
 ``` 
 
 </Block>
@@ -207,7 +207,7 @@ const updatedSong = response?.data?.updateSong;
 if (!updatedSong?.coverArtKey) return;
 
 // Retrieve the file's signed URL:
-const signedURL = await Storage.get(updatedSong?.coverArtKey);
+const signedURL = await Storage.get(updatedSong.coverArtKey);
 ```
 
 </Block>
@@ -232,7 +232,7 @@ const song = response.data?.getSong;
 if (!song?.coverArtKey) return;
 
 // Retrieve the signed URL:
-const signedURL = await Storage.get(song?.coverArtKey);
+const signedURL = await Storage.get(song.coverArtKey);
 ``` 
 
 </Block>
@@ -250,7 +250,7 @@ const song = response.data?.getSong;
 if (!song?.coverArtKey) return;
 
 // Retrieve the signed URL:
-const signedURL = await Storage.get(song?.coverArtKey);
+const signedURL = await Storage.get(song.coverArtKey);
 ```
 
 </Block>
@@ -350,7 +350,7 @@ const updatedSong = await API.graphql<GraphQLQuery<UpdateSongMutation>>({
 });
 
 // Delete the file from S3:
-await Storage.remove(song?.coverArtKey);
+await Storage.remove(song.coverArtKey);
 ``` 
 
 </Block>
@@ -379,7 +379,7 @@ const updatedSong = await API.graphql({
 });
 
 // Delete the file from S3:
-await Storage.remove(song?.coverArtKey);
+await Storage.remove(song.coverArtKey);
 ```
 
 </Block>
@@ -401,7 +401,7 @@ const song = response?.data?.getSong;
 // Ensure that the record has an associated image:
 if (!song?.coverArtKey) return;
 
-await Storage.remove(song?.coverArtKey);
+await Storage.remove(song.coverArtKey);
 
 const songDetails: DeleteSongInput = {
   id: song.id,
@@ -427,7 +427,7 @@ const song = response?.data?.getSong;
 // Ensure that the record has an associated image:
 if (!song?.coverArtKey) return;
 
-await Storage.remove(song?.coverArtKey);
+await Storage.remove(song.coverArtKey);
 
 const songDetails = {
   id: song.id,
@@ -1066,7 +1066,7 @@ function App() {
       if (!updatedSong?.coverArtKey) return;
 
       // Retrieve the file's signed URL:
-      const signedURL = await Storage.get(updatedSong?.coverArtKey);
+      const signedURL = await Storage.get(updatedSong.coverArtKey);
       setCurrentImageUrl(signedURL);
     } catch (error) {
       console.error("Error create song / file:", error);
@@ -1107,7 +1107,7 @@ function App() {
       if (!updatedSong?.coverArtKey) return;
 
       // Retrieve the file's signed URL:
-      const signedURL = await Storage.get(updatedSong?.coverArtKey);
+      const signedURL = await Storage.get(updatedSong.coverArtKey);
       setCurrentImageUrl(signedURL);
     } catch (error) {
       console.error("Error uploading image / adding image to song: ", error);
@@ -1127,7 +1127,7 @@ function App() {
       if (!song?.coverArtKey) return;
 
       // Retrieve the signed URL:
-      const signedURL = await Storage.get(song?.coverArtKey);
+      const signedURL = await Storage.get(song.coverArtKey);
 
       setCurrentImageUrl(signedURL);
     } catch (error) {
@@ -1195,7 +1195,7 @@ function App() {
       });
 
       // Delete the file from S3:
-      await Storage.remove(song?.coverArtKey);
+      await Storage.remove(song.coverArtKey);
 
       // If successful, the response here will be `null`:
       setCurrentSong(updatedSong?.data?.updateSong);
@@ -1220,7 +1220,7 @@ function App() {
       // Ensure that the record has an associated image:
       if (!song?.coverArtKey) return;
 
-      await Storage.remove(song?.coverArtKey);
+      await Storage.remove(song.coverArtKey);
 
       const songDetails: DeleteSongInput = {
         id: song.id,
@@ -1362,7 +1362,7 @@ function App() {
       if (!updatedSong?.coverArtKey) return;
 
       // Retrieve the file's signed URL:
-      const signedURL = await Storage.get(updatedSong?.coverArtKey);
+      const signedURL = await Storage.get(updatedSong.coverArtKey);
       setCurrentImageUrl(signedURL);
     } catch (error) {
       console.error("Error create song / file:", error);
@@ -1403,7 +1403,7 @@ function App() {
       if (!updatedSong?.coverArtKey) return;
 
       // Retrieve the file's signed URL:
-      const signedURL = await Storage.get(updatedSong?.coverArtKey);
+      const signedURL = await Storage.get(updatedSong.coverArtKey);
       setCurrentImageUrl(signedURL);
     } catch (error) {
       console.error("Error uploading image / adding image to song: ", error);
@@ -1423,7 +1423,7 @@ function App() {
       if (!song?.coverArtKey) return;
 
       // Retrieve the signed URL:
-      const signedURL = await Storage.get(song?.coverArtKey);
+      const signedURL = await Storage.get(song.coverArtKey);
 
       setCurrentImageUrl(signedURL);
     } catch (error) {
@@ -1491,7 +1491,7 @@ function App() {
       });
 
       // Delete the file from S3:
-      await Storage.remove(song?.coverArtKey);
+      await Storage.remove(song.coverArtKey);
 
       // If successful, the response here will be `null`:
       setCurrentSong(updatedSong?.data?.updateSong);
@@ -1516,7 +1516,7 @@ function App() {
       // Ensure that the record has an associated image:
       if (!song?.coverArtKey) return;
 
-      await Storage.remove(song?.coverArtKey);
+      await Storage.remove(song.coverArtKey);
 
       const songDetails = {
         id: song.id,
