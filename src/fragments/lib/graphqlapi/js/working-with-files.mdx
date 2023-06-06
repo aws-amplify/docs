@@ -442,12 +442,12 @@ const deletedSong = await API.graphql({
 </Block>
 </BlockSwitcher>
 
-## Working with multiple files:
+## Working with multiple files
 
 You may want to add multiple files to a single record, such as a user profile with multiple images. 
 To do this, you can add a list of file keys to the record. The following example adds a list of file keys to a record:
 
-### Schema
+### GraphQL schema to associate a data model with multiple files
 
 When prompted after running `amplify add api` use the following schema, which can also be found under `amplify/backend/api/[name of project]/schema.graphql`:
 
@@ -989,7 +989,7 @@ await API.graphql({
 </Block>
 </BlockSwitcher>
 
-## Complete Examples:
+## Complete examples
 
 <BlockSwitcher>
 <Block name="Single File (TS)">
