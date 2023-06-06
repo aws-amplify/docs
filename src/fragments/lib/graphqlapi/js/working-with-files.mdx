@@ -69,17 +69,17 @@ const response = await API.graphql<GraphQLQuery<CreateSongMutation>>({
   variables: { input: createSongDetails },
 });
 
-const _song = response?.data?.createSong;
+const song = response?.data?.createSong;
 
-if (!_song) return;
+if (!song) return;
 
 // Upload the Storage file:
-const result = await Storage.put(`${_song.id}-${file.name}`, file, {
+const result = await Storage.put(`${song.id}-${file.name}`, file, {
   contentType: "image/png", // contentType is optional
 });
 
 const updateSongDetails: UpdateSongInput = {
-  id: _song.id,
+  id: song.id,
   coverArtKey: result?.key,
 };
 
@@ -93,7 +93,7 @@ const updateResponse = await API.graphql<
 
 const updatedSong = updateResponse?.data?.updateSong;
 
-// Check that the record has an associated image:
+// Ensure that the record has an associated image:
 if (!updatedSong?.coverArtKey) return;
 
 // Retrieve the signed URL:
@@ -114,17 +114,17 @@ const response = await API.graphql({
   variables: { input: createSongDetails },
 });
 
-const _song = response?.data?.createSong;
+const song = response?.data?.createSong;
 
-if (!_song) return;
+if (!song) return;
 
 // Upload the Storage file:
-const result = await Storage.put(`${_song.id}-${file.name}`, file, {
+const result = await Storage.put(`${song.id}-${file.name}`, file, {
   contentType: "image/png", // contentType is optional
 });
 
 const updateSongDetails = {
-  id: _song.id,
+  id: song.id,
   coverArtKey: result?.key,
 };
 
@@ -138,7 +138,7 @@ const updateResponse = await API.graphql<
 
 const updatedSong = updateResponse?.data?.updateSong;
 
-// Check that the record has an associated image:
+// Ensure that the record has an associated image:
 if (!updatedSong?.coverArtKey) return;
 
 // Retrieve the signed URL:
@@ -174,7 +174,7 @@ const response = await API.graphql<GraphQLQuery<UpdateSongMutation>>({
 
 const updatedSong = response?.data?.updateSong;
 
-// Check that the record has an associated image:
+// Ensure that the record has an associated image:
 if (!updatedSong?.coverArtKey) return;
 
 // Retrieve the file's signed URL:
@@ -203,7 +203,7 @@ const response = await API.graphql({
 
 const updatedSong = response?.data?.updateSong;
 
-// Check that the record has an associated image:
+// Ensure that the record has an associated image:
 if (!updatedSong?.coverArtKey) return;
 
 // Retrieve the file's signed URL:
@@ -226,13 +226,13 @@ const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
     query: queries.getSong,
     variables: { id: currentSong.id },
   });
-const _song = response.data?.getSong;
+const song = response.data?.getSong;
 
-// Check that the record has an associated image:
-if (!_song?.coverArtKey) return;
+// Ensure that the record has an associated image:
+if (!song?.coverArtKey) return;
 
 // Retrieve the signed URL:
-const signedURL = await Storage.get(_song?.coverArtKey);
+const signedURL = await Storage.get(song?.coverArtKey);
 ``` 
 
 </Block>
@@ -244,13 +244,13 @@ const response = await API.graphql({
     query: queries.getSong,
     variables: { id: currentSong.id },
   });
-const _song = response.data?.getSong;
+const song = response.data?.getSong;
 
-// Check that the record has an associated image:
-if (!_song?.coverArtKey) return;
+// Ensure that the record has an associated image:
+if (!song?.coverArtKey) return;
 
 // Retrieve the signed URL:
-const signedURL = await Storage.get(_song?.coverArtKey);
+const signedURL = await Storage.get(song?.coverArtKey);
 ```
 
 </Block>
@@ -276,13 +276,13 @@ const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
     variables: { id: currentSong.id },
   });
 
-const _song = response?.data?.getSong;
+const song = response?.data?.getSong;
 
-// Check that the record has an associated image:
-if (!_song?.coverArtKey) return;
+// Ensure that the record has an associated image:
+if (!song?.coverArtKey) return;
 
 const songDetails: UpdateSongInput = {
-  id: _song.id,
+  id: song.id,
   coverArtKey: null,
 };
 
@@ -301,13 +301,13 @@ const response = await API.graphql({
     variables: { id: currentSong.id },
   });
 
-const _song = response?.data?.getSong;
+const song = response?.data?.getSong;
 
-// Check that the record has an associated image:
-if (!_song?.coverArtKey) return;
+// Ensure that the record has an associated image:
+if (!song?.coverArtKey) return;
 
 const songDetails = {
-  id: _song.id,
+  id: song.id,
   coverArtKey: null,
 };
 
@@ -333,13 +333,13 @@ const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
   variables: { id: currentSong.id },
 });
 
-const _song = response?.data?.getSong;
+const song = response?.data?.getSong;
 
-// Check that the record has an associated image:
-if (!_song?.coverArtKey) return;
+// Ensure that the record has an associated image:
+if (!song?.coverArtKey) return;
 
 const songDetails: UpdateSongInput = {
-  id: _song.id,
+  id: song.id,
   coverArtKey: null, // Set the file association to `null`
 };
 
@@ -350,7 +350,7 @@ const updatedSong = await API.graphql<GraphQLQuery<UpdateSongMutation>>({
 });
 
 // Delete the file from S3:
-await Storage.remove(_song?.coverArtKey);
+await Storage.remove(song?.coverArtKey);
 ``` 
 
 </Block>
@@ -362,13 +362,13 @@ const response = await API.graphql({
   variables: { id: currentSong.id },
 });
 
-const _song = response?.data?.getSong;
+const song = response?.data?.getSong;
 
-// Check that the record has an associated image:
-if (!_song?.coverArtKey) return;
+// Ensure that the record has an associated image:
+if (!song?.coverArtKey) return;
 
 const songDetails: UpdateSongInput = {
-  id: _song.id,
+  id: song.id,
   coverArtKey: null, // Set the file association to `null`
 };
 
@@ -379,7 +379,7 @@ const updatedSong = await API.graphql({
 });
 
 // Delete the file from S3:
-await Storage.remove(_song?.coverArtKey);
+await Storage.remove(song?.coverArtKey);
 ```
 
 </Block>
@@ -396,15 +396,15 @@ const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
     variables: { id: currentSong.id },
   });
 
-const _song = response?.data?.getSong;
+const song = response?.data?.getSong;
 
-// Check that the record has an associated image:
-if (!_song?.coverArtKey) return;
+// Ensure that the record has an associated image:
+if (!song?.coverArtKey) return;
 
-await Storage.remove(_song?.coverArtKey);
+await Storage.remove(song?.coverArtKey);
 
 const songDetails: DeleteSongInput = {
-  id: _song.id,
+  id: song.id,
 };
 
 const deletedSong = await API.graphql<GraphQLQuery<DeleteSongMutation>>({
@@ -422,15 +422,15 @@ const response = await API.graphql({
     variables: { id: currentSong.id },
   });
 
-const _song = response?.data?.getSong;
+const song = response?.data?.getSong;
 
-// Check that the record has an associated image:
-if (!_song?.coverArtKey) return;
+// Ensure that the record has an associated image:
+if (!song?.coverArtKey) return;
 
-await Storage.remove(_song?.coverArtKey);
+await Storage.remove(song?.coverArtKey);
 
 const songDetails = {
-  id: _song.id,
+  id: song.id,
 };
 
 const deletedSong = await API.graphql({
@@ -511,17 +511,17 @@ function App() {
         variables: { input: createSongDetails },
       });
 
-      const _song = response?.data?.createSong;
+      const song = response?.data?.createSong;
 
-      if (!_song) return;
+      if (!song) return;
 
       // Upload the Storage file:
-      const result = await Storage.put(`${_song.id}-${file.name}`, file, {
+      const result = await Storage.put(`${song.id}-${file.name}`, file, {
         contentType: "image/png", // contentType is optional
       });
 
       const updateSongDetails: UpdateSongInput = {
-        id: _song.id,
+        id: song.id,
         coverArtKey: result?.key,
       };
 
@@ -537,7 +537,7 @@ function App() {
 
       setCurrentSong(updatedSong);
 
-      // Check that the record has an associated image:
+      // Ensure that the record has an associated image:
       if (!updatedSong?.coverArtKey) return;
 
       // Retrieve the file's signed URL:
@@ -578,7 +578,7 @@ function App() {
 
       setCurrentSong(updatedSong);
 
-      // Check that the record has an associated image:
+      // Ensure that the record has an associated image:
       if (!updatedSong?.coverArtKey) return;
 
       // Retrieve the file's signed URL:
@@ -596,13 +596,13 @@ function App() {
         query: queries.getSong,
         variables: { id: currentSong.id },
       });
-      const _song = response.data?.getSong;
+      const song = response.data?.getSong;
 
-      // Check that the record has an associated image:
-      if (!_song?.coverArtKey) return;
+      // Ensure that the record has an associated image:
+      if (!song?.coverArtKey) return;
 
       // Retrieve the signed URL:
-      const signedURL = await Storage.get(_song?.coverArtKey);
+      const signedURL = await Storage.get(song?.coverArtKey);
 
       setCurrentImageUrl(signedURL);
     } catch (error) {
@@ -620,13 +620,13 @@ function App() {
         variables: { id: currentSong.id },
       });
 
-      const _song = response?.data?.getSong;
+      const song = response?.data?.getSong;
 
-      // Check that the record has an associated image:
-      if (!_song?.coverArtKey) return;
+      // Ensure that the record has an associated image:
+      if (!song?.coverArtKey) return;
 
       const songDetails: UpdateSongInput = {
-        id: _song.id,
+        id: song.id,
         coverArtKey: null,
       };
 
@@ -653,13 +653,13 @@ function App() {
         variables: { id: currentSong.id },
       });
 
-      const _song = response?.data?.getSong;
+      const song = response?.data?.getSong;
 
-      // Check that the record has an associated image:
-      if (!_song?.coverArtKey) return;
+      // Ensure that the record has an associated image:
+      if (!song?.coverArtKey) return;
 
       const songDetails: UpdateSongInput = {
-        id: _song.id,
+        id: song.id,
         coverArtKey: null, // Set the file association to `null`
       };
 
@@ -670,7 +670,7 @@ function App() {
       });
 
       // Delete the file from S3:
-      await Storage.remove(_song?.coverArtKey);
+      await Storage.remove(song?.coverArtKey);
 
       // If successful, the response here will be `null`:
       setCurrentSong(updatedSong?.data?.updateSong);
@@ -690,15 +690,15 @@ function App() {
         variables: { id: currentSong.id },
       });
 
-      const _song = response?.data?.getSong;
+      const song = response?.data?.getSong;
 
-      // Check that the record has an associated image:
-      if (!_song?.coverArtKey) return;
+      // Ensure that the record has an associated image:
+      if (!song?.coverArtKey) return;
 
-      await Storage.remove(_song?.coverArtKey);
+      await Storage.remove(song?.coverArtKey);
 
       const songDetails: DeleteSongInput = {
-        id: _song.id,
+        id: song.id,
       };
 
       // const deletedSong = await API.graphql<GraphQLQuery<DeleteSongMutation>>({
@@ -826,12 +826,12 @@ function App() {
         variables: { input: songDetails },
       });
 
-      const _song = response?.data?.createSong;
-      setCurrentSong(_song);
+      const song = response?.data?.createSong;
+      setCurrentSong(song);
       
-      // Check that the record has an associated image:
-      if (!_song?.coverArtKey) return;
-      const signedURL = await Storage.get(_song?.coverArtKey);
+      // Ensure that the record has an associated image:
+      if (!song?.coverArtKey) return;
+      const signedURL = await Storage.get(song?.coverArtKey);
       setCurrentImageUrl(signedURL);
     } catch (error) {
       console.error("Error create song / file:", error);
@@ -864,7 +864,7 @@ function App() {
 
       const updatedSong = response?.data?.updateSong;
 
-      // Check that the record has an associated image:
+      // Ensure that the record has an associated image:
       if (!updatedSong?.coverArtKey) return;
 
       const signedURL = await Storage.get(updatedSong?.coverArtKey);
@@ -881,13 +881,13 @@ function App() {
         query: queries.getSong,
         variables: { id: currentSong.id },
       });
-      const _song = response.data?.getSong;
+      const song = response.data?.getSong;
 
-      // Check that the record has an associated image:
-      if (!_song?.coverArtKey) return;
+      // Ensure that the record has an associated image:
+      if (!song?.coverArtKey) return;
 
       // Retrieve the signed URL:
-      const signedURL = await Storage.get(_song?.coverArtKey);
+      const signedURL = await Storage.get(song?.coverArtKey);
 
       setCurrentImageUrl(signedURL);
     } catch (error) {
@@ -905,13 +905,13 @@ function App() {
         variables: { id: currentSong.id },
       });
 
-      const _song = response?.data?.getSong;
+      const song = response?.data?.getSong;
 
-      // Check that the record has an associated image:
-      if (!_song?.coverArtKey) return;
+      // Ensure that the record has an associated image:
+      if (!song?.coverArtKey) return;
 
       const songDetails = {
-        id: _song.id,
+        id: song.id,
         coverArtKey: null,
       };
 
@@ -938,13 +938,13 @@ function App() {
         variables: { id: currentSong.id },
       });
 
-      const _song = response?.data?.getSong;
+      const song = response?.data?.getSong;
 
-      // Check that the record has an associated image:
-      if (!_song?.coverArtKey) return;
+      // Ensure that the record has an associated image:
+      if (!song?.coverArtKey) return;
 
       const songDetails = {
-        id: _song.id,
+        id: song.id,
         coverArtKey: null, // Set the file association to `null`
       };
 
@@ -955,7 +955,7 @@ function App() {
       });
 
       // Delete the file from S3:
-      await Storage.remove(_song?.coverArtKey);
+      await Storage.remove(song?.coverArtKey);
 
       // If successful, the response here will be `null`:
       setCurrentSong(updatedSong?.data?.updateSong);
@@ -975,15 +975,15 @@ function App() {
         variables: { id: currentSong.id },
       });
 
-      const _song = response?.data?.getSong;
+      const song = response?.data?.getSong;
 
-      // Check that the record has an associated image:
-      if (!_song?.coverArtKey) return;
+      // Ensure that the record has an associated image:
+      if (!song?.coverArtKey) return;
 
-      await Storage.remove(_song?.coverArtKey);
+      await Storage.remove(song?.coverArtKey);
 
       const songDetails = {
-        id: _song.id,
+        id: song.id,
       };
 
       await API.graphql({

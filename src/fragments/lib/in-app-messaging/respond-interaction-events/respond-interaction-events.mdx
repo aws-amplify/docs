@@ -62,11 +62,25 @@ listener.remove(); // Remember to remove the listener when it is no longer neede
 
 If you are using the Amplify In-App Messaging UI, interaction events notifications are already wired up for you. However, if you are implementing your own UI, it is highly recommended to notify listeners of interaction events through your UI code so that the library can take further actions prescribed by the installed provider (for example, automatically recording corresponding Analytics events).
 
-<Callout informational>
-  If you are using TypeScript for your development, you can import and use the
-  InAppMessageInteractionEvent enum instead of hard-coding the interaction event
-  strings below.
-</Callout>
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { InAppMessageInteractionEvent } from '@aws-amplify/notifications';
+/**
+ * Interaction events that can be notified correspond to their respective listeners:
+ *   'InAppMessageInteractionEvent.MESSAGE_RECEIVED_EVENT'
+ *   'InAppMessageInteractionEvent.MESSAGE_DISPLAYED_EVENT'
+ *   'InAppMessageInteractionEvent.MESSAGE_DISMISSED_EVENT'
+ *   'InAppMessageInteractionEvent.MESSAGE_ACTION_TAKEN_EVENT'
+ */
+InAppMessaging.notifyMessageInteraction(
+  InAppMessageInteractionEvent.MESSAGE_DISPLAYED_EVENT
+);
+```
+
+</Block>
+<Block name="JavaScript">
 
 ```js
 /**
@@ -78,3 +92,6 @@ If you are using the Amplify In-App Messaging UI, interaction events notificatio
  */
 InAppMessaging.notifyMessageInteraction('MESSAGE_DISPLAYED_EVENT');
 ```
+
+</Block>
+</BlockSwitcher>
