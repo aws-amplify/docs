@@ -150,7 +150,7 @@ const signedURL = await Storage.get(updatedSong?.coverArtKey);
 
 ## Add or update a file for an associated record
 
-To associate a file with a record, update the record with the key returned by the Storage upload. The following example calls the helper function to upload the file using Storage, updates the record with the file's key, then retrieves the signed URL to download the image. If an image is already associated with the record, this will update the record with the new image:
+To associate a file with a record, update the record with the key returned by the Storage upload. The following example uploads the file using Storage, updates the record with the file's key, then retrieves the signed URL to download the image. If an image is already associated with the record, this will update the record with the new image.
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -452,7 +452,7 @@ To do this, you can add a list of file keys to the record. The following example
 When prompted after running `amplify add api` use the following schema, which can also be found under `amplify/backend/api/[name of project]/schema.graphql`:
 
 ```graphql
-type UserProfile @model @auth(rules: [{ allow: public}]) {
+type PhotoAlbum @model @auth(rules: [{ allow: public }]) {
   id: ID!
   name: String!
   imageKeys: [String] #Set as optional to allow adding file(s) after initial create
@@ -461,9 +461,535 @@ type UserProfile @model @auth(rules: [{ allow: public}]) {
 
 CRUD operations when working with multiple files is the same as when working with a single file, with the exception that we are now working with a list of image keys, as opposed to a single image key.
 
-### Create a record with an associated file
+### Create a record with multiple associated files
 
-## Complete example
+First create a record via the GraphQL API, then upload the files to Storage, and finally add the associations between the record and files.
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+// Upload all files to Storage:
+const imageKeys = await Promise.all(
+  Array.from(e.target.files).map(async (file) => {
+    const result = await Storage.put(file.name, file, {
+      contentType: "image/png", // contentType is optional
+    });
+
+    return result?.key;
+  })
+);
+
+const photoAlbumDetails: CreatePhotoAlbumInput = {
+  name: `My first photoAlbum`,
+  imageKeys,
+};
+
+// Create album with associated files:
+const response = await API.graphql<
+  GraphQLQuery<CreatePhotoAlbumMutation>
+>({
+  query: mutations.createPhotoAlbum,
+  variables: { input: photoAlbumDetails },
+});
+
+const photoAlbum = response?.data?.createPhotoAlbum;
+
+if (!photoAlbum?.imageKeys) return;
+
+// Retrieve signed urls for all files:
+const signedUrls = await Promise.all(
+  photoAlbum?.imageKeys.map(async (key) => await Storage.get(key!))
+);
+``` 
+
+</Block>
+<Block name="JavaScript">
+
+```js
+// Upload all files to Storage:
+const imageKeys = await Promise.all(
+  Array.from(e.target.files).map(async (file) => {
+    const result = await Storage.put(file.name, file, {
+      contentType: "image/png", // contentType is optional
+    });
+
+    return result?.key;
+  })
+);
+
+const photoAlbumDetails = {
+  name: `My first photoAlbum`,
+  imageKeys,
+};
+
+// Create album with associated files:
+const response = await API.graphql({
+  query: mutations.createPhotoAlbum,
+  variables: { input: photoAlbumDetails },
+});
+
+const photoAlbum = response?.data?.createPhotoAlbum;
+
+if (!photoAlbum?.imageKeys) return;
+
+// Retrieve signed urls for all files:
+const signedUrls = await Promise.all(
+  photoAlbum?.imageKeys.map(async (key) => await Storage.get(key))
+);
+```
+
+</Block>
+</BlockSwitcher>
+
+### Create a record with a single associated file
+
+When a schema allows for multiple associated images, you can still create a record with a single associated file.
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+const result = await Storage.put(file.name, file, {
+  contentType: "image/png", // contentType is optional
+});
+
+const photoAlbumDetails: CreatePhotoAlbumInput = {
+  name: `My first photoAlbum`,
+  imageKeys: [result?.key],
+};
+
+const response = await API.graphql<
+  GraphQLQuery<CreatePhotoAlbumMutation>
+>({
+  query: mutations.createPhotoAlbum,
+  variables: { input: photoAlbumDetails },
+});
+
+const photoAlbum = response?.data?.createPhotoAlbum;
+
+if (!photoAlbum?.imageKeys?.length) return;
+
+const signedURL = await Storage.get(photoAlbum.imageKeys[0]!);
+``` 
+
+</Block>
+<Block name="JavaScript">
+
+```js
+const result = await Storage.put(file.name, file, {
+  contentType: "image/png", // contentType is optional
+});
+
+const photoAlbumDetails = {
+  name: `My first photoAlbum`,
+  imageKeys: [result?.key],
+};
+
+const response = await API.graphql({
+  query: mutations.createPhotoAlbum,
+  variables: { input: photoAlbumDetails },
+});
+
+const photoAlbum = response?.data?.createPhotoAlbum;
+
+if (!photoAlbum?.imageKeys?.length) return;
+
+const signedURL = await Storage.get(photoAlbum.imageKeys[0]);
+```
+
+</Block>
+</BlockSwitcher>
+
+### Add new files to an associated record
+
+To associate additional files with a record, update the record with the keys returned by the Storage uploads.
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+// Upload all files to Storage:
+const newImageKeys = await Promise.all(
+  Array.from(e.target.files).map(async (file) => {
+    const result = await Storage.put(file.name, file, {
+      contentType: "image/png", // contentType is optional
+    });
+
+    return result?.key;
+  })
+);
+
+// Query existing record to retrieve currently associated files:
+const queriedResponse = await API.graphql<
+  GraphQLQuery<GetPhotoAlbumQuery>
+>({
+  query: queries.getPhotoAlbum,
+  variables: { id: currentPhotoAlbum.id },
+});
+
+const photoAlbum = queriedResponse.data?.getPhotoAlbum;
+
+if (!photoAlbum?.imageKeys) return;
+
+// Merge existing and new file keys:
+const updatedImageKeys = [...newImageKeys, ...photoAlbum.imageKeys];
+
+const photoAlbumDetails: UpdatePhotoAlbumInput = {
+  id: currentPhotoAlbum.id,
+  imageKeys: updatedImageKeys,
+};
+
+// Update record with merged file associations:
+const response = await API.graphql<
+  GraphQLQuery<UpdatePhotoAlbumMutation>
+>({
+  query: mutations.updatePhotoAlbum,
+  variables: { input: photoAlbumDetails },
+});
+
+const updatedPhotoAlbum = response?.data?.updatePhotoAlbum;
+
+// Ensure that the record has an associated image:
+if (!updatedPhotoAlbum?.imageKeys) return;
+
+// Retrieve signed urls for merged image keys:
+const signedUrls = await Promise.all(
+  updatedPhotoAlbum?.imageKeys.map(async (key) => await Storage.get(key!))
+);
+``` 
+
+</Block>
+<Block name="JavaScript">
+
+```js
+// Upload all files to Storage:
+const newImageKeys = await Promise.all(
+  Array.from(e.target.files).map(async (file) => {
+    const result = await Storage.put(file.name, file, {
+      contentType: "image/png", // contentType is optional
+    });
+
+    return result?.key;
+  })
+);
+
+// Query existing record to retrieve currently associated files:
+const queriedResponse = await API.graphql({
+  query: queries.getPhotoAlbum,
+  variables: { id: currentPhotoAlbum.id },
+});
+
+const photoAlbum = queriedResponse.data?.getPhotoAlbum;
+
+if (!photoAlbum?.imageKeys) return;
+
+// Merge existing and new file keys:
+const updatedImageKeys = [...newImageKeys, ...photoAlbum.imageKeys];
+
+const photoAlbumDetails = {
+  id: currentPhotoAlbum.id,
+  imageKeys: updatedImageKeys,
+};
+
+// Update record with merged file associations:
+const response = await API.graphql({
+  query: mutations.updatePhotoAlbum,
+  variables: { input: photoAlbumDetails },
+});
+
+const updatedPhotoAlbum = response?.data?.updatePhotoAlbum;
+
+// Ensure that the record has an associated image:
+if (!updatedPhotoAlbum?.imageKeys) return;
+
+// Retrieve signed urls for merged image keys:
+const signedUrls = await Promise.all(
+  updatedPhotoAlbum?.imageKeys.map(async (key) => await Storage.get(key))
+);
+```
+
+</Block>
+</BlockSwitcher>
+
+### Update file for an associated record
+
+Updating a file for an associated record is the same as updating a file for a single file record, with the exception that you will need to update the list of file keys.
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+// TODO
+``` 
+
+</Block>
+<Block name="JavaScript">
+
+```js
+// TODO
+```
+
+</Block>
+</BlockSwitcher>
+
+### Query a record and retrieve the associated files
+
+To retrieve the files associated with a record, first query the record, then use Storage to retrieve all of the signed URLs.
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+// Query the record to get the file keys:
+const response = await API.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
+  query: queries.getPhotoAlbum,
+  variables: { id: currentPhotoAlbum.id },
+});
+const photoAlbum = response.data?.getPhotoAlbum;
+
+// Ensure that the record has associated images:
+if (!photoAlbum?.imageKeys) return;
+
+// Retrieve the signed URLs for the associated images:
+const signedUrls = await Promise.all(
+  photoAlbum.imageKeys.map(async (imageKey) => {
+    if (!imageKey) return;
+    return await Storage.get(imageKey);
+  })
+);
+``` 
+
+</Block>
+<Block name="JavaScript">
+
+```js
+// Query the record to get the file keys:
+const response = await API.graphql({
+  query: queries.getPhotoAlbum,
+  variables: { id: currentPhotoAlbum.id },
+});
+const photoAlbum = response.data?.getPhotoAlbum;
+
+// Ensure that the record has associated images:
+if (!photoAlbum?.imageKeys) return;
+
+// Retrieve the signed URLs for the associated images:
+const signedUrls = await Promise.all(
+  photoAlbum.imageKeys.map(async (imageKey) => {
+    if (!imageKey) return;
+    return await Storage.get(imageKey);
+  })
+);
+```
+
+</Block>
+</BlockSwitcher>
+
+### Delete and remove files associated with API records
+
+The workflow for deleting and removing files associated with API records is the same as when working with a single file, except that when performing a delete you will need to iterate over the list of files keys and call `Storage.remove()` for each file.
+
+#### Remove the file association, continue to persist both files and record
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+const response = await API.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
+  query: queries.getPhotoAlbum,
+  variables: { id: currentPhotoAlbum.id },
+});
+
+const photoAlbum = response?.data?.getPhotoAlbum;
+
+// Ensure that the record has an associated image:
+if (!photoAlbum?.imageKeys) return;
+
+const photoAlbumDetails: UpdatePhotoAlbumInput = {
+  id: photoAlbum.id,
+  imageKeys: null,
+};
+
+const updatedPhotoAlbum = await API.graphql<
+  GraphQLQuery<UpdatePhotoAlbumMutation>
+>({
+  query: mutations.updatePhotoAlbum,
+  variables: { input: photoAlbumDetails },
+});
+``` 
+
+</Block>
+<Block name="JavaScript">
+
+```js
+const response = await API.graphql({
+  query: queries.getPhotoAlbum,
+  variables: { id: currentPhotoAlbum.id },
+});
+
+const photoAlbum = response?.data?.getPhotoAlbum;
+
+// Ensure that the record has an associated image:
+if (!photoAlbum?.imageKeys) return;
+
+const photoAlbumDetails = {
+  id: photoAlbum.id,
+  imageKeys: null,
+};
+
+const updatedPhotoAlbum = await API.graphql({
+  query: mutations.updatePhotoAlbum,
+  variables: { input: photoAlbumDetails },
+});
+```
+
+</Block>
+</BlockSwitcher>
+
+#### Remove the record association and delete the files
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+const response = await API.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
+  query: queries.getPhotoAlbum,
+  variables: { id: currentPhotoAlbum.id },
+});
+
+const photoAlbum = response?.data?.getPhotoAlbum;
+
+// Ensure that the record has an associated images:
+if (!photoAlbum?.imageKeys) return;
+
+const photoAlbumDetails: UpdatePhotoAlbumInput = {
+  id: photoAlbum.id,
+  imageKeys: null, // Set the file association to `null`
+};
+
+// Remove associated files from record
+const updatedPhotoAlbum = await API.graphql<
+  GraphQLQuery<UpdatePhotoAlbumMutation>
+>({
+  query: mutations.updatePhotoAlbum,
+  variables: { input: photoAlbumDetails },
+});
+
+// Delete the files from S3:
+await Promise.all(
+  photoAlbum?.imageKeys.map(async (imageKey) => {
+    if (!imageKey) return;
+    await Storage.remove(imageKey);
+  })
+);
+``` 
+
+</Block>
+<Block name="JavaScript">
+
+```js
+const response = await API.graphql({
+  query: queries.getPhotoAlbum,
+  variables: { id: currentPhotoAlbum.id },
+});
+
+const photoAlbum = response?.data?.getPhotoAlbum;
+
+// Ensure that the record has an associated images:
+if (!photoAlbum?.imageKeys) return;
+
+const photoAlbumDetails = {
+  id: photoAlbum.id,
+  imageKeys: null, // Set the file association to `null`
+};
+
+// Remove associated files from record
+const updatedPhotoAlbum = await API.graphql({
+  query: mutations.updatePhotoAlbum,
+  variables: { input: photoAlbumDetails },
+});
+
+// Delete the files from S3:
+await Promise.all(
+  photoAlbum?.imageKeys.map(async (imageKey) => {
+    if (!imageKey) return;
+    await Storage.remove(imageKey);
+  })
+);
+```
+
+</Block>
+</BlockSwitcher>
+
+#### Delete record and all associated files
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+const response = await API.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
+  query: queries.getPhotoAlbum,
+  variables: { id: currentPhotoAlbum.id },
+});
+
+const photoAlbum = response?.data?.getPhotoAlbum;
+
+// Ensure that the record has an associated image:
+if (!photoAlbum?.imageKeys) return;
+
+await Promise.all(
+  photoAlbum?.imageKeys.map(async (imageKey) => {
+    if (!imageKey) return;
+    await Storage.remove(imageKey);
+  })
+);
+
+const photoAlbumDetails: DeletePhotoAlbumInput = {
+  id: photoAlbum.id,
+};
+
+await API.graphql<GraphQLQuery<DeletePhotoAlbumMutation>>({
+  query: mutations.deletePhotoAlbum,
+  variables: { input: photoAlbumDetails },
+});
+``` 
+
+</Block>
+<Block name="JavaScript">
+
+```js
+const response = await API.graphql({
+  query: queries.getPhotoAlbum,
+  variables: { id: currentPhotoAlbum.id },
+});
+
+const photoAlbum = response?.data?.getPhotoAlbum;
+
+// Ensure that the record has an associated image:
+if (!photoAlbum?.imageKeys) return;
+
+await Promise.all(
+  photoAlbum?.imageKeys.map(async (imageKey) => {
+    if (!imageKey) return;
+    await Storage.remove(imageKey);
+  })
+);
+
+const photoAlbumDetails = {
+  id: photoAlbum.id,
+};
+
+await API.graphql({
+  query: mutations.deletePhotoAlbum,
+  variables: { input: photoAlbumDetails },
+});
+```
+
+</Block>
+</BlockSwitcher>
+
+## Complete Examples:
 
 <BlockSwitcher>
 <Block name="Single File (TS)">
@@ -482,7 +1008,6 @@ import {
   DeleteSongInput,
   DeleteSongMutation,
   GetSongQuery,
-  ListSongsQuery,
   UpdateSongInput,
   UpdateSongMutation,
 } from "./API";
@@ -701,7 +1226,6 @@ function App() {
         id: song.id,
       };
 
-      // const deletedSong = await API.graphql<GraphQLQuery<DeleteSongMutation>>({
       await API.graphql<GraphQLQuery<DeleteSongMutation>>({
         query: mutations.deleteSong,
         variables: { input: songDetails },
@@ -764,9 +1288,9 @@ function App() {
           <button onClick={deleteCurrentSongAndImage} disabled={!currentSong}>
             Delete current song (and image, if it exists)
           </button>
-\          <button onClick={signOut}>Sign out</button>
+          <button onClick={signOut}>Sign out</button>
           {currentImageUrl && (
-            <img src={currentImageUrl} alt="Image for current song"></img>
+            <img src={currentImageUrl} alt="Storage file"></img>
           )}
         </main>
       )}
@@ -775,7 +1299,6 @@ function App() {
 }
 
 export default App;
-
 ``` 
 
 </Block>
@@ -786,19 +1309,8 @@ import { useState } from "react";
 import { API, Storage } from "aws-amplify";
 import { Authenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
-import { GraphQLQuery } from "@aws-amplify/api";
 import * as queries from "./graphql/queries";
 import * as mutations from "./graphql/mutations";
-import {
-  CreateSongInput,
-  CreateSongMutation,
-  DeleteSongInput,
-  DeleteSongMutation,
-  GetSongQuery,
-  ListSongsQuery,
-  UpdateSongInput,
-  UpdateSongMutation,
-} from "./API";
 
 function App() {
   const [currentSong, setCurrentSong] = useState();
@@ -812,26 +1324,45 @@ function App() {
     const file = e.target.files[0];
 
     try {
-      const result = await Storage.put(file.name, file, {
-        contentType: "image/png", // contentType is optional
-      });
-
-      const songDetails = {
+      const createSongDetails = {
         name: `My first song`,
-        coverArtKey: result?.key,
       };
 
+      // Create the API record:
       const response = await API.graphql({
         query: mutations.createSong,
-        variables: { input: songDetails },
+        variables: { input: createSongDetails },
       });
 
       const song = response?.data?.createSong;
-      setCurrentSong(song);
-      
+
+      if (!song) return;
+
+      // Upload the Storage file:
+      const result = await Storage.put(`${song.id}-${file.name}`, file, {
+        contentType: "image/png", // contentType is optional
+      });
+
+      const updateSongDetails = {
+        id: song.id,
+        coverArtKey: result?.key,
+      };
+
+      // Add the file association to the record:
+      const updateResponse = await API.graphql({
+        query: mutations.updateSong,
+        variables: { input: updateSongDetails },
+      });
+
+      const updatedSong = updateResponse?.data?.updateSong;
+
+      setCurrentSong(updatedSong);
+
       // Ensure that the record has an associated image:
-      if (!song?.coverArtKey) return;
-      const signedURL = await Storage.get(song?.coverArtKey);
+      if (!updatedSong?.coverArtKey) return;
+
+      // Retrieve the file's signed URL:
+      const signedURL = await Storage.get(updatedSong?.coverArtKey);
       setCurrentImageUrl(signedURL);
     } catch (error) {
       console.error("Error create song / file:", error);
@@ -848,25 +1379,30 @@ function App() {
     const file = e.target.files[0];
 
     try {
-      const result = await Storage.put(file.name, file, {
+      // Upload the Storage file:
+      const result = await Storage.put(`${currentSong.id}-${file.name}`, file, {
         contentType: "image/png", // contentType is optional
       });
 
-      const songDetails = {
+      const updateSongDetails = {
         id: currentSong.id,
         coverArtKey: result?.key,
       };
 
+      // Add the file association to the record:
       const response = await API.graphql({
         query: mutations.updateSong,
-        variables: { input: songDetails },
+        variables: { input: updateSongDetails },
       });
 
       const updatedSong = response?.data?.updateSong;
 
+      setCurrentSong(updatedSong);
+
       // Ensure that the record has an associated image:
       if (!updatedSong?.coverArtKey) return;
 
+      // Retrieve the file's signed URL:
       const signedURL = await Storage.get(updatedSong?.coverArtKey);
       setCurrentImageUrl(signedURL);
     } catch (error) {
@@ -1050,8 +1586,490 @@ function App() {
           </button>
           <button onClick={signOut}>Sign out</button>
           {currentImageUrl && (
-            <img src={currentImageUrl} alt="Image for current song"></img>
+            <img src={currentImageUrl} alt="Storage file"></img>
           )}
+        </main>
+      )}
+    </Authenticator>
+  );
+}
+
+export default App;
+```
+
+</Block>
+
+<Block name="Multi-File (TS)">
+
+```ts
+import { useState } from "react";
+import { API, Storage } from "aws-amplify";
+import { Authenticator } from "@aws-amplify/ui-react";
+import "@aws-amplify/ui-react/styles.css";
+import { GraphQLQuery } from "@aws-amplify/api";
+import * as queries from "./graphql/queries";
+import * as mutations from "./graphql/mutations";
+import {
+  CreatePhotoAlbumInput,
+  CreatePhotoAlbumMutation,
+  DeletePhotoAlbumInput,
+  DeletePhotoAlbumMutation,
+  GetPhotoAlbumQuery,
+  ListPhotoAlbumsQuery,
+  UpdatePhotoAlbumInput,
+  UpdatePhotoAlbumMutation,
+} from "./API";
+
+function App() {
+  const [currentPhotoAlbum, setCurrentPhotoAlbum] = useState<any>();
+
+  // Used to display images for current photoAlbum:
+  const [currentImages, setCurrentImages] = useState<
+    (string | null | undefined)[] | null | undefined
+  >([]);
+
+  async function createPhotoAlbumWithFirstImage(
+    e: React.ChangeEvent<HTMLInputElement>
+  ) {
+    if (!e.target.files) return;
+
+    const file = e.target.files[0];
+
+    try {
+      const result = await Storage.put(file.name, file, {
+        contentType: "image/png", // contentType is optional
+      });
+
+      const photoAlbumDetails: CreatePhotoAlbumInput = {
+        name: `My first photoAlbum`,
+        imageKeys: [result?.key],
+      };
+
+      const response = await API.graphql<
+        GraphQLQuery<CreatePhotoAlbumMutation>
+      >({
+        query: mutations.createPhotoAlbum,
+        variables: { input: photoAlbumDetails },
+      });
+
+      const photoAlbum = response?.data?.createPhotoAlbum;
+      setCurrentPhotoAlbum(photoAlbum);
+
+      if (!photoAlbum?.imageKeys?.length) return;
+
+      const signedURL = await Storage.get(photoAlbum.imageKeys[0]!);
+      setCurrentImages([signedURL]);
+    } catch (error) {
+      console.error("Error create photoAlbum / file:", error);
+    }
+  }
+
+  async function createPhotoAlbumWithMultipleImages(
+    e: React.ChangeEvent<HTMLInputElement>
+  ) {
+    if (!e.target.files) return;
+
+    try {
+      // Upload all files to Storage:
+      const imageKeys = await Promise.all(
+        Array.from(e.target.files).map(async (file) => {
+          const result = await Storage.put(file.name, file, {
+            contentType: "image/png", // contentType is optional
+          });
+
+          return result?.key;
+        })
+      );
+
+      const photoAlbumDetails: CreatePhotoAlbumInput = {
+        name: `My first photoAlbum`,
+        imageKeys,
+      };
+
+      // Create album with associated files:
+      const response = await API.graphql<
+        GraphQLQuery<CreatePhotoAlbumMutation>
+      >({
+        query: mutations.createPhotoAlbum,
+        variables: { input: photoAlbumDetails },
+      });
+
+      const photoAlbum = response?.data?.createPhotoAlbum;
+      setCurrentPhotoAlbum(photoAlbum);
+
+      if (!photoAlbum?.imageKeys) return;
+
+      // Retrieve signed urls for all files:
+      const signedUrls = await Promise.all(
+        photoAlbum?.imageKeys.map(async (key) => await Storage.get(key!))
+      );
+
+      if (!signedUrls) return;
+      setCurrentImages(signedUrls);
+    } catch (error) {
+      console.error("Error create photoAlbum / file:", error);
+    }
+  }
+
+  async function addNewImagesToPhotoAlbum(
+    e: React.ChangeEvent<HTMLInputElement>
+  ) {
+    if (!currentPhotoAlbum) return;
+
+    if (!e.target.files) return;
+
+    try {
+      // Upload all files to Storage:
+      const newImageKeys = await Promise.all(
+        Array.from(e.target.files).map(async (file) => {
+          const result = await Storage.put(file.name, file, {
+            contentType: "image/png", // contentType is optional
+          });
+
+          return result?.key;
+        })
+      );
+
+      // Query existing record to retrieve currently associated files:
+      const queriedResponse = await API.graphql<
+        GraphQLQuery<GetPhotoAlbumQuery>
+      >({
+        query: queries.getPhotoAlbum,
+        variables: { id: currentPhotoAlbum.id },
+      });
+
+      const photoAlbum = queriedResponse.data?.getPhotoAlbum;
+
+      if (!photoAlbum?.imageKeys) return;
+
+      // Merge existing and new file keys:
+      const updatedImageKeys = [...newImageKeys, ...photoAlbum.imageKeys];
+
+      const photoAlbumDetails: UpdatePhotoAlbumInput = {
+        id: currentPhotoAlbum.id,
+        imageKeys: updatedImageKeys,
+      };
+
+      // Update record with merged file associations:
+      const response = await API.graphql<
+        GraphQLQuery<UpdatePhotoAlbumMutation>
+      >({
+        query: mutations.updatePhotoAlbum,
+        variables: { input: photoAlbumDetails },
+      });
+
+      const updatedPhotoAlbum = response?.data?.updatePhotoAlbum;
+      setCurrentPhotoAlbum(updatedPhotoAlbum);
+
+      // Ensure that the record has an associated image:
+      if (!updatedPhotoAlbum?.imageKeys) return;
+
+      // Retrieve signed urls for merged image keys:
+      const signedUrls = await Promise.all(
+        updatedPhotoAlbum?.imageKeys.map(async (key) => await Storage.get(key!))
+      );
+
+      if (!signedUrls) return;
+
+      setCurrentImages(signedUrls);
+    } catch (error) {
+      console.error(
+        "Error uploading image / adding image to photoAlbum: ",
+        error
+      );
+    }
+  }
+
+  async function getImagesForPhotoAlbum() {
+    try {
+      // Query the record to get the file keys:
+      const response = await API.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
+        query: queries.getPhotoAlbum,
+        variables: { id: currentPhotoAlbum.id },
+      });
+      const photoAlbum = response.data?.getPhotoAlbum;
+
+      // Ensure that the record has associated images:
+      if (!photoAlbum?.imageKeys) return;
+
+      // Retrieve the signed URLs for the associated images:
+      const signedUrls = await Promise.all(
+        photoAlbum.imageKeys.map(async (imageKey) => {
+          if (!imageKey) return;
+          return await Storage.get(imageKey);
+        })
+      );
+
+      setCurrentImages(signedUrls);
+    } catch (error) {
+      console.error("Error getting photoAlbum / image:", error);
+    }
+  }
+
+  // Remove the file associations, continue to persist both files and record
+  async function removeImagesFromPhotoAlbum() {
+    if (!currentPhotoAlbum) return;
+
+    try {
+      const response = await API.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
+        query: queries.getPhotoAlbum,
+        variables: { id: currentPhotoAlbum.id },
+      });
+
+      const photoAlbum = response?.data?.getPhotoAlbum;
+
+      // Ensure that the record has an associated image:
+      if (!photoAlbum?.imageKeys) return;
+
+      const photoAlbumDetails: UpdatePhotoAlbumInput = {
+        id: photoAlbum.id,
+        imageKeys: null,
+      };
+
+      const updatedPhotoAlbum = await API.graphql<
+        GraphQLQuery<UpdatePhotoAlbumMutation>
+      >({
+        query: mutations.updatePhotoAlbum,
+        variables: { input: photoAlbumDetails },
+      });
+
+      // If successful, the response here will be `null`:
+      setCurrentPhotoAlbum(updatedPhotoAlbum?.data?.updatePhotoAlbum);
+      setCurrentImages(updatedPhotoAlbum?.data?.updatePhotoAlbum?.imageKeys);
+    } catch (error) {
+      console.error("Error removing image from photoAlbum: ", error);
+    }
+  }
+
+  // Remove the record association and delete the file
+  async function deleteImagesForCurrentPhotoAlbum() {
+    if (!currentPhotoAlbum) return;
+
+    try {
+      const response = await API.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
+        query: queries.getPhotoAlbum,
+        variables: { id: currentPhotoAlbum.id },
+      });
+
+      const photoAlbum = response?.data?.getPhotoAlbum;
+
+      // Ensure that the record has an associated images:
+      if (!photoAlbum?.imageKeys) return;
+
+      const photoAlbumDetails: UpdatePhotoAlbumInput = {
+        id: photoAlbum.id,
+        imageKeys: null, // Set the file association to `null`
+      };
+
+      // Remove associated files from record
+      const updatedPhotoAlbum = await API.graphql<
+        GraphQLQuery<UpdatePhotoAlbumMutation>
+      >({
+        query: mutations.updatePhotoAlbum,
+        variables: { input: photoAlbumDetails },
+      });
+
+      // Delete the files from S3:
+      await Promise.all(
+        photoAlbum?.imageKeys.map(async (imageKey) => {
+          if (!imageKey) return;
+          await Storage.remove(imageKey);
+        })
+      );
+
+      // If successful, the response here will be `null`:
+      setCurrentPhotoAlbum(updatedPhotoAlbum?.data?.updatePhotoAlbum);
+      setCurrentImages(updatedPhotoAlbum?.data?.updatePhotoAlbum?.imageKeys);
+    } catch (error) {
+      console.error("Error deleting image: ", error);
+    }
+  }
+
+  // Delete both files and record
+  async function deleteCurrentPhotoAlbumAndImages() {
+    if (!currentPhotoAlbum) return;
+
+    try {
+      const response = await API.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
+        query: queries.getPhotoAlbum,
+        variables: { id: currentPhotoAlbum.id },
+      });
+
+      const photoAlbum = response?.data?.getPhotoAlbum;
+
+      // Ensure that the record has an associated image:
+      if (!photoAlbum?.imageKeys) return;
+
+      await Promise.all(
+        photoAlbum?.imageKeys.map(async (imageKey) => {
+          if (!imageKey) return;
+          await Storage.remove(imageKey);
+        })
+      );
+
+      const photoAlbumDetails: DeletePhotoAlbumInput = {
+        id: photoAlbum.id,
+      };
+
+      await API.graphql<GraphQLQuery<DeletePhotoAlbumMutation>>({
+        query: mutations.deletePhotoAlbum,
+        variables: { input: photoAlbumDetails },
+      });
+
+      clearLocalState();
+    } catch (error) {
+      console.error("Error deleting photoAlbum: ", error);
+    }
+  }
+
+  function clearLocalState() {
+    setCurrentPhotoAlbum(null);
+    setCurrentImages([]);
+  }
+
+  // NOTE: For test / sample cleanup purposes only (not for docs example)
+  async function deleteAll() {
+    //region: delete photoAlbums:
+    const response = await API.graphql<GraphQLQuery<ListPhotoAlbumsQuery>>({
+      query: queries.listPhotoAlbums,
+    });
+
+    console.log(
+      "PhotoAlbums to delete",
+      response?.data?.listPhotoAlbums?.items
+    );
+
+    await response?.data?.listPhotoAlbums?.items.forEach(async (photoAlbum) => {
+      if (!photoAlbum?.id) return;
+
+      const PhotoAlbumDetails: DeletePhotoAlbumInput = {
+        id: photoAlbum?.id,
+      };
+
+      const deletedPhotoAlbum = await API.graphql<
+        GraphQLQuery<DeletePhotoAlbumMutation>
+      >({
+        query: mutations.deletePhotoAlbum,
+        variables: { input: PhotoAlbumDetails },
+      });
+
+      console.log("PhotoAlbum deleted: ", deletedPhotoAlbum);
+    });
+    //endregion
+
+    // Delete all images:
+    await Storage.list("", { pageSize: "ALL" })
+      .then(({ results }) => {
+        console.log("Images to delete:", results);
+        results.forEach(async (result) => {
+          if (!result?.key) return;
+          try {
+            const deletedImage = await Storage.remove(result.key);
+            console.log("Image deleted:", deletedImage);
+          } catch (error) {
+            console.log("Error deleting image: ", error);
+          }
+        });
+      })
+      .catch((err) => console.log(err));
+
+    //region verify all deletes were successful:
+    const secondResponse = await API.graphql<
+      GraphQLQuery<ListPhotoAlbumsQuery>
+    >({
+      query: queries.listPhotoAlbums,
+    });
+    console.log(
+      "PhotoAlbums should be empty:",
+      secondResponse?.data?.listPhotoAlbums?.items
+    );
+
+    const storageResponse = await Storage.list("", { pageSize: "ALL" });
+    console.log("Images should be empty:", storageResponse?.results);
+
+    if (
+      secondResponse?.data?.listPhotoAlbums?.items?.length === 0 &&
+      storageResponse?.results?.length === 0
+    ) {
+      console.log("All deletes successful!");
+      clearLocalState();
+    }
+    //endregion
+  }
+
+  return (
+    <Authenticator>
+      {({ signOut, user }) => (
+        <main
+          style={{
+            alignItems: "center",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <h1>Hello {user?.username}!</h1>
+          <h2>{`Current PhotoAlbum: ${currentPhotoAlbum?.id}`}</h2>
+          <label>
+            Create photoAlbum with one file:
+            <input
+              id="name"
+              type="file"
+              accept="image/*"
+              onChange={createPhotoAlbumWithFirstImage}
+            />
+          </label>
+          <label>
+            Create photoAlbum with multiple files:
+            <input
+              id="name"
+              type="file"
+              accept="image/*"
+              onChange={createPhotoAlbumWithMultipleImages}
+              multiple
+            />
+          </label>
+          <label>
+            Add multiple images to current photoAlbum:
+            <input
+              id="name"
+              type="file"
+              accept="image/*"
+              onChange={addNewImagesToPhotoAlbum}
+              disabled={!currentPhotoAlbum}
+              multiple
+            />
+          </label>
+          <button
+            onClick={getImagesForPhotoAlbum}
+            disabled={!currentPhotoAlbum || !currentImages}
+          >
+            Get Images for Current Photo Album
+          </button>
+          <button
+            onClick={removeImagesFromPhotoAlbum}
+            disabled={!currentPhotoAlbum || !currentImages}
+          >
+            Remove images from current PhotoAlbum (does not delete images)
+          </button>
+          <button
+            onClick={deleteImagesForCurrentPhotoAlbum}
+            disabled={!currentPhotoAlbum || !currentImages}
+          >
+            Remove images from current PhotoAlbum, then delete images
+          </button>
+          <button
+            onClick={deleteCurrentPhotoAlbumAndImages}
+            disabled={!currentPhotoAlbum}
+          >
+            Delete current PhotoAlbum (and images, if they exist)
+          </button>
+          <button onClick={deleteAll}>Delete all</button>
+          <button onClick={signOut}>Sign out</button>
+          {currentImages &&
+            currentImages.map((url, idx) => {
+              if (!url) return undefined;
+              return <img src={url} key={idx} alt="Storage file"></img>;
+            })}
         </main>
       )}
     </Authenticator>
@@ -1065,14 +2083,448 @@ export default App;
 
 <Block name="Multi-File (JS)">
 
-```ts
-```
-
-</Block>
-
-<Block name="Multi-File (JS)">
-
 ```js
+import { useState } from "react";
+import { API, Storage } from "aws-amplify";
+import { Authenticator } from "@aws-amplify/ui-react";
+import "@aws-amplify/ui-react/styles.css";
+import * as queries from "./graphql/queries";
+import * as mutations from "./graphql/mutations";
+
+function App() {
+  const [currentPhotoAlbum, setCurrentPhotoAlbum] = useState();
+
+  // Used to display images for current photoAlbum:
+  const [currentImages, setCurrentImages] = useState([]);
+
+  async function createPhotoAlbumWithFirstImage(e) {
+    if (!e.target.files) return;
+
+    const file = e.target.files[0];
+
+    try {
+      const result = await Storage.put(file.name, file, {
+        contentType: "image/png", // contentType is optional
+      });
+
+      const photoAlbumDetails = {
+        name: `My first photoAlbum`,
+        imageKeys: [result?.key],
+      };
+
+      const response = await API.graphql({
+        query: mutations.createPhotoAlbum,
+        variables: { input: photoAlbumDetails },
+      });
+
+      const photoAlbum = response?.data?.createPhotoAlbum;
+      setCurrentPhotoAlbum(photoAlbum);
+
+      if (!photoAlbum?.imageKeys?.length) return;
+
+      const signedURL = await Storage.get(photoAlbum.imageKeys[0]);
+      setCurrentImages([signedURL]);
+    } catch (error) {
+      console.error("Error create photoAlbum / file:", error);
+    }
+  }
+
+  async function createPhotoAlbumWithMultipleImages(e) {
+    if (!e.target.files) return;
+
+    try {
+      // Upload all files to Storage:
+      const imageKeys = await Promise.all(
+        Array.from(e.target.files).map(async (file) => {
+          const result = await Storage.put(file.name, file, {
+            contentType: "image/png", // contentType is optional
+          });
+
+          return result?.key;
+        })
+      );
+
+      const photoAlbumDetails = {
+        name: `My first photoAlbum`,
+        imageKeys,
+      };
+
+      // Create album with associated files:
+      const response = await API.graphql({
+        query: mutations.createPhotoAlbum,
+        variables: { input: photoAlbumDetails },
+      });
+
+      const photoAlbum = response?.data?.createPhotoAlbum;
+      setCurrentPhotoAlbum(photoAlbum);
+
+      if (!photoAlbum?.imageKeys) return;
+
+      // Retrieve signed urls for all files:
+      // @ts-ignore
+      const signedUrls = await Promise.all(
+        photoAlbum?.imageKeys.map(async (key) => await Storage.get(key))
+      );
+
+      if (!signedUrls) return;
+      setCurrentImages(signedUrls);
+    } catch (error) {
+      console.error("Error create photoAlbum / file:", error);
+    }
+  }
+
+  async function addNewImagesToPhotoAlbum(e) {
+    if (!currentPhotoAlbum) return;
+
+    if (!e.target.files) return;
+
+    try {
+      // Upload all files to Storage:
+      const newImageKeys = await Promise.all(
+        Array.from(e.target.files).map(async (file) => {
+          const result = await Storage.put(file.name, file, {
+            contentType: "image/png", // contentType is optional
+          });
+
+          return result?.key;
+        })
+      );
+
+      // Query existing record to retrieve currently associated files:
+      const queriedResponse = await API.graphql({
+        query: queries.getPhotoAlbum,
+        variables: { id: currentPhotoAlbum.id },
+      });
+
+      const photoAlbum = queriedResponse.data?.getPhotoAlbum;
+
+      if (!photoAlbum?.imageKeys) return;
+
+      // Merge existing and new file keys:
+      const updatedImageKeys = [...newImageKeys, ...photoAlbum.imageKeys];
+
+      const photoAlbumDetails = {
+        id: currentPhotoAlbum.id,
+        imageKeys: updatedImageKeys,
+      };
+
+      // Update record with merged file associations:
+      const response = await API.graphql({
+        query: mutations.updatePhotoAlbum,
+        variables: { input: photoAlbumDetails },
+      });
+
+      const updatedPhotoAlbum = response?.data?.updatePhotoAlbum;
+      setCurrentPhotoAlbum(updatedPhotoAlbum);
+
+      // Ensure that the record has an associated image:
+      if (!updatedPhotoAlbum?.imageKeys) return;
+
+      // Retrieve signed urls for merged image keys:
+      const signedUrls = await Promise.all(
+        updatedPhotoAlbum?.imageKeys.map(async (key) => await Storage.get(key))
+      );
+
+      if (!signedUrls) return;
+
+      setCurrentImages(signedUrls);
+    } catch (error) {
+      console.error(
+        "Error uploading image / adding image to photoAlbum: ",
+        error
+      );
+    }
+  }
+
+  async function getImagesForPhotoAlbum() {
+    try {
+      // Query the record to get the file keys:
+      const response = await API.graphql({
+        query: queries.getPhotoAlbum,
+        variables: { id: currentPhotoAlbum.id },
+      });
+      const photoAlbum = response.data?.getPhotoAlbum;
+
+      // Ensure that the record has associated images:
+      if (!photoAlbum?.imageKeys) return;
+
+      // Retrieve the signed URLs for the associated images:
+      const signedUrls = await Promise.all(
+        photoAlbum.imageKeys.map(async (imageKey) => {
+          if (!imageKey) return;
+          return await Storage.get(imageKey);
+        })
+      );
+
+      setCurrentImages(signedUrls);
+    } catch (error) {
+      console.error("Error getting photoAlbum / image:", error);
+    }
+  }
+
+  // Remove the file associations, continue to persist both files and record
+  async function removeImagesFromPhotoAlbum() {
+    if (!currentPhotoAlbum) return;
+
+    try {
+      const response = await API.graphql({
+        query: queries.getPhotoAlbum,
+        variables: { id: currentPhotoAlbum.id },
+      });
+
+      const photoAlbum = response?.data?.getPhotoAlbum;
+
+      // Ensure that the record has an associated image:
+      if (!photoAlbum?.imageKeys) return;
+
+      const photoAlbumDetails = {
+        id: photoAlbum.id,
+        imageKeys: null,
+      };
+
+      const updatedPhotoAlbum = await API.graphql({
+        query: mutations.updatePhotoAlbum,
+        variables: { input: photoAlbumDetails },
+      });
+
+      // If successful, the response here will be `null`:
+      setCurrentPhotoAlbum(updatedPhotoAlbum?.data?.updatePhotoAlbum);
+      setCurrentImages(updatedPhotoAlbum?.data?.updatePhotoAlbum?.imageKeys);
+    } catch (error) {
+      console.error("Error removing image from photoAlbum: ", error);
+    }
+  }
+
+  // Remove the record association and delete the file
+  async function deleteImagesForCurrentPhotoAlbum() {
+    if (!currentPhotoAlbum) return;
+
+    try {
+      const response = await API.graphql({
+        query: queries.getPhotoAlbum,
+        variables: { id: currentPhotoAlbum.id },
+      });
+
+      const photoAlbum = response?.data?.getPhotoAlbum;
+
+      // Ensure that the record has an associated images:
+      if (!photoAlbum?.imageKeys) return;
+
+      const photoAlbumDetails = {
+        id: photoAlbum.id,
+        imageKeys: null, // Set the file association to `null`
+      };
+
+      // Remove associated files from record
+      const updatedPhotoAlbum = await API.graphql({
+        query: mutations.updatePhotoAlbum,
+        variables: { input: photoAlbumDetails },
+      });
+
+      // Delete the files from S3:
+      await Promise.all(
+        photoAlbum?.imageKeys.map(async (imageKey) => {
+          if (!imageKey) return;
+          await Storage.remove(imageKey);
+        })
+      );
+
+      // If successful, the response here will be `null`:
+      setCurrentPhotoAlbum(updatedPhotoAlbum?.data?.updatePhotoAlbum);
+      setCurrentImages(updatedPhotoAlbum?.data?.updatePhotoAlbum?.imageKeys);
+    } catch (error) {
+      console.error("Error deleting image: ", error);
+    }
+  }
+
+  // Delete both files and record
+  async function deleteCurrentPhotoAlbumAndImages() {
+    if (!currentPhotoAlbum) return;
+
+    try {
+      const response = await API.graphql({
+        query: queries.getPhotoAlbum,
+        variables: { id: currentPhotoAlbum.id },
+      });
+
+      const photoAlbum = response?.data?.getPhotoAlbum;
+
+      // Ensure that the record has an associated image:
+      if (!photoAlbum?.imageKeys) return;
+
+      await Promise.all(
+        photoAlbum?.imageKeys.map(async (imageKey) => {
+          if (!imageKey) return;
+          await Storage.remove(imageKey);
+        })
+      );
+
+      const photoAlbumDetails = {
+        id: photoAlbum.id,
+      };
+
+      await API.graphql({
+        query: mutations.deletePhotoAlbum,
+        variables: { input: photoAlbumDetails },
+      });
+
+      clearLocalState();
+    } catch (error) {
+      console.error("Error deleting photoAlbum: ", error);
+    }
+  }
+
+  function clearLocalState() {
+    setCurrentPhotoAlbum(null);
+    setCurrentImages([]);
+  }
+
+  // NOTE: For test / sample cleanup purposes only (not for docs example)
+  async function deleteAll() {
+    //region: delete photoAlbums:
+    const response = await API.graphql({
+      query: queries.listPhotoAlbums,
+    });
+
+    console.log(
+      "PhotoAlbums to delete",
+      response?.data?.listPhotoAlbums?.items
+    );
+
+    await response?.data?.listPhotoAlbums?.items.forEach(async (photoAlbum) => {
+      if (!photoAlbum?.id) return;
+
+      const PhotoAlbumDetails = {
+        id: photoAlbum?.id,
+      };
+
+      const deletedPhotoAlbum = await API.graphql({
+        query: mutations.deletePhotoAlbum,
+        variables: { input: PhotoAlbumDetails },
+      });
+
+      console.log("PhotoAlbum deleted: ", deletedPhotoAlbum);
+    });
+    //endregion
+
+    // Delete all images:
+    await Storage.list("", { pageSize: "ALL" })
+      .then(({ results }) => {
+        console.log("Images to delete:", results);
+        results.forEach(async (result) => {
+          if (!result?.key) return;
+          try {
+            const deletedImage = await Storage.remove(result.key);
+            console.log("Image deleted:", deletedImage);
+          } catch (error) {
+            console.log("Error deleting image: ", error);
+          }
+        });
+      })
+      .catch((err) => console.log(err));
+
+    //region verify all deletes were successful:
+    const secondResponse = await API.graphql({
+      query: queries.listPhotoAlbums,
+    });
+    console.log(
+      "PhotoAlbums should be empty:",
+      secondResponse?.data?.listPhotoAlbums?.items
+    );
+
+    const storageResponse = await Storage.list("", { pageSize: "ALL" });
+    console.log("Images should be empty:", storageResponse?.results);
+
+    if (
+      secondResponse?.data?.listPhotoAlbums?.items?.length === 0 &&
+      storageResponse?.results?.length === 0
+    ) {
+      console.log("All deletes successful!");
+      clearLocalState();
+    }
+    //endregion
+  }
+
+  return (
+    <Authenticator>
+      {({ signOut, user }) => (
+        <main
+          style={{
+            alignItems: "center",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <h1>Hello {user?.username}!</h1>
+          <h2>{`Current PhotoAlbum: ${currentPhotoAlbum?.id}`}</h2>
+          <label>
+            Create photoAlbum with one file:
+            <input
+              id="name"
+              type="file"
+              accept="image/*"
+              onChange={createPhotoAlbumWithFirstImage}
+            />
+          </label>
+          <label>
+            Create photoAlbum with multiple files:
+            <input
+              id="name"
+              type="file"
+              accept="image/*"
+              onChange={createPhotoAlbumWithMultipleImages}
+              multiple
+            />
+          </label>
+          <label>
+            Add multiple images to current photoAlbum:
+            <input
+              id="name"
+              type="file"
+              accept="image/*"
+              onChange={addNewImagesToPhotoAlbum}
+              disabled={!currentPhotoAlbum}
+              multiple
+            />
+          </label>
+          <button
+            onClick={getImagesForPhotoAlbum}
+            disabled={!currentPhotoAlbum || !currentImages}
+          >
+            Get Images for Current Photo Album
+          </button>
+          <button
+            onClick={removeImagesFromPhotoAlbum}
+            disabled={!currentPhotoAlbum || !currentImages}
+          >
+            Remove images from current PhotoAlbum (does not delete images)
+          </button>
+          <button
+            onClick={deleteImagesForCurrentPhotoAlbum}
+            disabled={!currentPhotoAlbum || !currentImages}
+          >
+            Remove images from current PhotoAlbum, then delete images
+          </button>
+          <button
+            onClick={deleteCurrentPhotoAlbumAndImages}
+            disabled={!currentPhotoAlbum}
+          >
+            Delete current PhotoAlbum (and images, if they exist)
+          </button>
+          <button onClick={deleteAll}>Delete all</button>
+          <button onClick={signOut}>Sign out</button>
+          {currentImages &&
+            currentImages.map((url, idx) => {
+              if (!url) return undefined;
+              return <img src={url} key={idx} alt="Storage file"></img>;
+            })}
+        </main>
+      )}
+    </Authenticator>
+  );
+}
+
+export default App;
 ```
 
 </Block>
