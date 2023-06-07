@@ -33,6 +33,8 @@ Below is a short comparison between the different authentication types and their
 | Per user group data access. A specific or dynamically configured group of users have access | [`group`]() | `userPools` / `oidc` |
 | Define your own custom authorization rule within a Lambda function | [`custom`]() | `function` |
 
+[comment]: # (EXPANDER end)
+
 Once you have these details you can configure the client:
 
 [comment]: # (Content copied and updated from https://github.com/aws-amplify/docs/edit/main/src/fragments/lib/graphqlapi/js/existing-resources.mdx )
@@ -121,7 +123,7 @@ const myAppConfig = {
 Amplify.configure(myAppConfig);
 ```
 
-[question]: # (Do we want to address non-AppSync on this job or link to it? )
+[question]: # (Do we want to address non-AppSync on this job or link to it? Or does this become an Expander section?)
 
 ### Using a non-AppSync GraphQL Server
 
@@ -175,6 +177,7 @@ At this point your client is now configured to point to your AppSync API endpoin
 [comment]: # (ADD TO RECAP Tie-in to real-world use and application of the topic discussed OR reiterate the benefit.)
 
 ## Connect your application code to the data backend
+
 In this job, you will connect your application code to the data stack by connecting and configuring the Amplify libraries. We will review how to install and configure Amplify libraries to help you complete this task.
 > **Before you begin, you will need:**
 > - npm installed ([set up npm](https://docs.npmjs.com/getting-started))
@@ -313,6 +316,8 @@ The `@aws-amplify/ui-vue` package is a set of components that make it easy to in
 #### Troubleshooting
 
 [comment]: # (EXPANDER SECTION to provide tips on how to avoid common errors such as: not changing the default auth rules, CLI set up correctly, and troubleshooting an AWS account with the CLI. Each error should have a header with descriptive title to be included on a primary troubleshooting guide as well.)
+  
+[comment]: # (EXPANDER end)
 
 ### Recap
 Well done! You now have your Amplify libraries set up and configured. 
@@ -334,6 +339,8 @@ In GraphQL, mutations write data to the API and are used to create, update, or d
 #### Learn more about GraphQL mutations
 
 [comment]: # (EXPANDER SECTION that covers GraphQL basics, mutations, and why this is helpful—can be a short summary with recommended links.)
+  
+[comment]: # (EXPANDER end)
 
 Here are some examples of creating, updating, and deleting items using the Amplify GraphQL client.
 
@@ -363,7 +370,6 @@ const newTodo = await API.graphql<GraphQLQuery<CreateTodoMutation>>({
 ```
 
 You should see the item created: `Learn AWS AppSync`.
-
 
 </Block>
 
@@ -441,6 +447,7 @@ const newTodo = await API.graphql(
 </BlockSwitcher>
 
 #### Updating an item
+
 To update the item use the GraphQL update mutation:
 
 <BlockSwitcher>
@@ -511,6 +518,7 @@ Notes:
 - If you pass in *extra* input fields not expected by the AppSync schema, this query will fail. You can see this in the `error` field returned by the query (the query itself does not throw, per GraphQL design).
 
 #### Deleting an item
+
 You can then delete the todo by using the delete mutation:
 
 <BlockSwitcher>
@@ -631,6 +639,8 @@ const todo = await API.graphql({
 </Block>
 </BlockSwitcher>
 
+[comment]: # (EXPANDER end)
+  
 ### Cancel mutation requests
 
 [comment]: # (Brief explanation on how canceling mutations works, what happens in the backend, and how to run the command – taken from https://github.com/aws-amplify/docs/blob/main/src/fragments/lib/graphqlapi/js/cancel-request.mdx)
@@ -676,6 +686,7 @@ At this point you implemented a few mutations to change your data.
 
 
 ## Read application data
+
 In this job, you will read application data using the Amplify GraphQL client. This will include understanding the differences between listing and getting data, how to filter this data, and how to paginate your data. We will also show you how to cancel these requests when needed.
 
 > **Before you begin, you will need:**
@@ -683,6 +694,7 @@ In this job, you will read application data using the Amplify GraphQL client. Th
 > - Populated data to query
 
 ### Read and filter your data
+
 [comment]: # (Short explanation of the difference between listing and getting data.)
   
 Queries are used to read data from the API and includes the list and get operations.
@@ -692,6 +704,8 @@ You can use both `List` and `Get` to query data in GraphQL. A `List` will get yo
 #### Learn more about limitations and costs for specific operations
   
 [comment]: # (EXPANDER SECTION that provides an overview of the cost of specific operations - e.g., list vs. get, queries, and scans; as well as limitations for specific functions - e.g., sorting, open search, items, and filters. Could not find this – part of this? https://aws.amazon.com/appsync/pricing/.)
+  
+[comment]: # (EXPANDER end)
 
 [comment]: # (Steps to list or get data. This is then followed by an explanation of how to filter data by variable and steps to filter data. Taken from 1- https://github.com/aws-amplify/docs/blob/main/src/fragments/lib/graphqlapi/js/query-data.mdx and 2- https://github.com/aws-amplify/docs/blob/main/src/pages/cli/graphql/overview.mdx)
 
@@ -835,6 +849,8 @@ const todos = await API.graphql({
 
 </Block>
 </BlockSwitcher>
+  
+[comment]: # (EXPANDER end)
 
 ### Paginate your data
   
@@ -843,7 +859,10 @@ const todos = await API.graphql({
 As your data grows, you will want to do pagination and filtering at the AppSync level instead of on the client. Fortunately, this is already built in to `API.graphql`, but you need to understand the schema of these queries. [This is explained in the AppSync docs](https://docs.aws.amazon.com/appsync/latest/devguide/using-your-api.html), but here you will translate them to the `API.graphql` equivalent.
 
 #### Benefits of pagination
+
 [comment]: # (EXPANDER SECTION that provides more detail on how our pagination options differ and the benefits of each.)
+  
+[comment]: # (EXPANDER end)
 
 You can find the input schemas in the Docs pane of the GraphQL explorer or inside your autogenerated `/graphql` folder. They look like this:
 
@@ -1039,6 +1058,8 @@ const { items: itemsPage2 } = res.data.listTodos;
 
 A `nextToken` is a very long string that looks like `"eyJ2ZXJzaW9uejE1a2RPanZPQzFCMlFTdGNxdUFBQUJxekNDQWFjR0NTcUdTSWIzRFFFSEJxQ0NBWmd3Z2dHVUFnRUFNSUlCalFZSktvWklodmNOQVFjQk1CNEdDV0NHU0FGbEF3UUJMakFSQkF5eEtWQjUvTlJxS2o5ZHBYc0NBUkNBZ2dGZUZFNW1MbTRkb25BOUg0U0FpOGhSZ1lucmRndmQz"` which represents the cursor to the starting item of the next query made with these filters.
 
+[comment]: # (Do we want to make these FAQs an EXPANDER section?)
+  
 ##### Frequently Asked Questions
 
 - There is no API to get a total page count at this time. Note that scanning all items is a [potentially expensive operation](https://github.com/aws-amplify/amplify-js/issues/2901).
@@ -1091,6 +1112,7 @@ You now have an understanding of how to read your data through get and list quer
 
 
 ## Subscribe to real-time events
+
 In this job, you will subscribe to real-time events. This includes understanding the benefits of enabling real-time data integrations and how to set up and filter these subscriptions. We will also cover how to unsubscribe from subscriptions when needed.
 
 > **Before you begin, you will need:**
@@ -1104,6 +1126,8 @@ In this job, you will subscribe to real-time events. This includes understanding
 #### Subscription limits
   
 [comment]: # (EXPANDER SECTION that provides more detail about the limits for subscriptions, filter limits, auth-related limits, and how to mitigate them. This should also include an explanation of real-time subscription fields of authorization.)
+  
+[comment]: # (EXPANDER end)
 
 [comment]: # (Steps to subscribe. Content from 1- https://github.com/aws-amplify/docs/blob/main/src/fragments/lib/graphqlapi/js/subscribe-data.mdx and 2- https://github.com/aws-amplify/docs/blob/main/src/fragments/lib/pubsub/js/connection-states.mdx Do we want to reuse any of this guide for additional context or example? Maybe in an expander? https://docs.amplify.aws/guides/api-graphql/subscriptions-by-id/q/platform/js/)
 
@@ -1258,8 +1282,11 @@ Hub.listen('api', (data: any) => {
 - **`ConnectionDisrupted`** - The connection is disrupted and the network is available.
 - **`ConnectionDisruptedPendingNetwork`** - The connection is disrupted and the network connection is unavailable.
 - **`Disconnected`** - Connection has no active subscriptions and is disconnecting.
+
 #### Troubleshooting
+
 [comment]: # (EXPANDER SECTION with details on managing and cleaning up subscriptions, matching/defining mutation selection with subscription selections, and extra link to DeltaSync - https://docs.amplify.aws/lib/graphqlapi/advanced-workflows/q/platform/js/#delta-sync. For React there should also be a section about issues with hooks. From 1- https://github.com/aws-amplify/docs/blob/main/src/fragments/lib/graphqlapi/js/subscribe-data.mdx and 2- https://github.com/aws-amplify/docs/blob/main/src/fragments/lib/pubsub/js/reconnect-description.mdx)
+
 ##### Connection issues and automated reconnection
 Your application can lose connectivity for any number of reasons such as network outages or when the device is put to sleep. Your subscriptions will automatically reconnect when it becomes possible to do so.
 
@@ -1378,8 +1405,11 @@ const cleanupSubscriptions = () => {
 
 </Block>
 </BlockSwitcher>
+  
+[comment]: # (EXPANDER end)
 
 ### Unsubscribe from a subscription
+
 [comment]: # (Explanation of how to unsubscribe and when to for reducing redundancy with steps for these actions.)
 
 You can unsubscribe from events by using the following:
@@ -1391,16 +1421,17 @@ Subscriptions is a GraphQL feature allowing the server to send data to its clien
 sub.unsubscribe();
 ```
 
-
 ### Recap
 You now have set up subscriptions for real-time events and understand how to filter and cancel these subscriptions when needed.
 
 [comment]: # (ADD TO RECAP a tie-in to real-world use and application of the topic discussed OR reiterate the benefit.)
 
 ## Conclusion
+
 Congratulations! You have finished the **Connect a data stack** guide. In this guide, you installed and configured Amplify libraries; used GraphQL mutations for app data requests; filtered app data in Amplify; and set up, filtered, and canceled subscriptions for real-time events.
 
 ## Next steps
+
 [comment]: # (Provide 2–3 relevant next steps. These can be links related to what was covered in the guide and/or links to related Amplify JTBD guides.)
 
 
