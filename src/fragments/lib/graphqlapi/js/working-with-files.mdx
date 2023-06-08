@@ -29,15 +29,21 @@ type Song @model @auth(rules: [{ allow: public}]) {
 
 Save the schema and run `amplify push` to deploy the changes.
 
+Next, at the root of your project, set the access level to `private` by configuring the Storage object globally to restrict file access to only the signed in user.
+
+```js
+Storage.configure({ level: 'private' });
+```
+
 To use files and attachments your application needs authorization credentials for reading and writing to Amazon S3. This is configured in the `amplify add auth` step.
 
 <Callout>
 
-The Storage and API categories govern data access based on their own authorization patterns. Adding an `@auth` directive to the API schema does not guard against access in the Storage category. When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito Identity Pool role. You will then have the option of adding CRUD (Create, Update, Read and Delete) based permissions as well, so that Authenticated and Guest users will be granted limited permissions within these levels. For more on configuring Storage authorization levels, see the [Storage documentation](https://docs.amplify.aws/lib/storage/configureaccess/q/platform/js/).
+It's important to note that it's up to the developer to configure appropriate auth roles for each category, as they work independently from one another. The Storage and API categories govern data access based on their own authorization patterns. Adding an `@auth` directive to the API schema does not guard against access in the Storage category. Likewise, adding authorization rules to the Storage category does not guard against access in the API category. When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito Identity Pool role. You will then have the option of adding CRUD (Create, Update, Read and Delete) based permissions as well, so that Authenticated and Guest users will be granted limited permissions within these levels. Even after adding this configuration via the CLI, it's important to note that all Storage access is **public** by default. To guard against public access, the Storage category must either be configured on the Storage object globally, or the access levels must be set in individual function calls. This guide uses the former approach, setting all Storage access to `private`. For more on configuring Storage authorization levels, see the [Storage documentation](https://docs.amplify.aws/lib/storage/configureaccess/q/platform/js/). For more on configuring API authorization (separate from Storage authorization), see the [API documentation](https://docs.amplify.aws/lib/graphqlapi/authz/q/platform/js/).
+
+Flexibility to configure authorization rules for each category independently allows for more granular control over data access in both categories. For scenarios where authorization patterns must be mixed / matched, configure the access level on individual function calls. For instance, you may want to use `protected` on an individual Storage function call to allow all logged in users CRUD access to a file, but `private` on others.
 
 </Callout>
-
-For more on configuring API authorization (separate from Storage authorization), see the [API documentation](https://docs.amplify.aws/lib/graphqlapi/authz/q/platform/js/).
 
 <Callout>
 
@@ -1218,6 +1224,9 @@ function App() {
     string | null | undefined
   >("");
 
+  // Private access level configuration on the Storage object:
+  Storage.configure({ level: 'private' });
+
   async function createSongWithImage(e: React.ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) return;
 
@@ -1515,6 +1524,9 @@ function App() {
 
   // Used to display image for current song:
   const [currentImageUrl, setCurrentImageUrl] = useState("");
+
+  // Private access level configuration on the Storage object:
+  Storage.configure({ level: 'private' });
 
   async function createSongWithImage(e) {
     if (!e.target.files) return;
@@ -1825,6 +1837,9 @@ function App() {
   const [currentImages, setCurrentImages] = useState<
     (string | null | undefined)[] | null | undefined
   >([]);
+
+  // Private access level configuration on the Storage object:
+  Storage.configure({ level: 'private' });
 
   async function createPhotoAlbumWithFirstImage(
     e: React.ChangeEvent<HTMLInputElement>
@@ -2359,6 +2374,9 @@ function App() {
 
   // Used to display images for current photoAlbum:
   const [currentImages, setCurrentImages] = useState([]);
+
+  // Private access level configuration on the Storage object:
+  Storage.configure({ level: 'private' });
 
   async function createPhotoAlbumWithFirstImage(e) {
     if (!e.target.files) return;
