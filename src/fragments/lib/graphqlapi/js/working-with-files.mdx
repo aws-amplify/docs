@@ -961,7 +961,7 @@ const response = await API.graphql({
 });
 const photoAlbum = response.data?.getPhotoAlbum;
 
-// Ensure that the record has associated images:
+// If the record has no associated files, we can return early.
 if (!photoAlbum?.imageKeys) return;
 
 // Retrieve the signed URLs for the associated images:
@@ -2111,7 +2111,7 @@ function App() {
       });
       const photoAlbum = response.data?.getPhotoAlbum;
 
-      // Ensure that the record has associated images:
+      // If the record has no associated files, we can return early.
       if (!photoAlbum?.imageKeys) return;
 
       // Retrieve the signed URLs for the associated images:
@@ -2623,7 +2623,7 @@ function App() {
       });
       const photoAlbum = response.data?.getPhotoAlbum;
 
-      // Ensure that the record has associated images:
+      // If the record has no associated files, we can return early.
       if (!photoAlbum?.imageKeys) return;
 
       // Retrieve the signed URLs for the associated images:
