@@ -34,3 +34,4 @@ jobs:
         with:
           name: ${{ env.ARTIFACT_NAME }}
           path: '${{ env.ARTIFACT_NAME }}.txt'
+          retention-days: 1
