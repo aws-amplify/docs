@@ -1195,7 +1195,7 @@ await Promise.all(
 </Block>
 </BlockSwitcher>
 
-## Working with real-time data
+## Working with real-time data and files
 
 The recommended access patterns in these docs minimize the occurrence of records that point to non-existent and/or orphaned files. This optimizes for read latency by ensuring clients *rarely* attempt to fetch a non-existent file from Storage. However, any app that deletes files can inherently cause records *on-device* to point to non-existent files.
 
