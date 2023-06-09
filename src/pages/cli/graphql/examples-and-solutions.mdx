@@ -653,7 +653,7 @@ export class cdkStack extends cdk.Stack {
 
     const apiIdRef = cdk.Fn.ref(retVal.api["<YOUR-API-NAME>"].GraphQLAPIIdOutput);
 
-    const tableName = "<YOUR-MODEL-NAME>" + "-" + apiIdRef + "-" + envRef;
+    const tableName = `${'<YOUR-MODEL-NAME>'}-${apiIdRef}-${envRef}`;
 
     const requestVTL = `
       ## [Start] Initialization default values. **
