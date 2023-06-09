@@ -18,31 +18,48 @@ amplify add custom
 
 A skeleton CDK stack is generated in the `amplify/backend/custom/<resource-name>` directory. Edit the `cdk-stack.ts` file to define the additional AWS resources. Add additional CDK constructs using the `package.json`. Run `amplify build` to download all NPM dependencies for this custom resource and synthesize the CDK stack.
 
+<Callout>
+
+To migrate from AWS CDK version v1 to v2, refer to the [migration documentation](/cli/migration/aws-cdk-migration/).
+
+</Callout>
+
+
 The following example creates an SNS topic whose notification messages are forwarded via email:
 
 ```ts
-import * as cdk from '@aws-cdk/core';
+import * as cdk from "aws-cdk-lib";
 import * as AmplifyHelpers from '@aws-amplify/cli-extensibility-helper';
-import * as sns from '@aws-cdk/aws-sns';
-import * as subs from '@aws-cdk/aws-sns-subscriptions';
+import { AmplifyDependentResourcesAttributes } from "../../types/amplify-dependent-resources-ref";
+import { Construct } from "constructs";
+import * as sns from "aws-cdk-lib/aws-sns";
+import * as subs from "aws-cdk-lib/aws-sns-subscriptions";
 
 export class cdkStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps, amplifyResourceProps?: AmplifyHelpers.AmplifyResourceProps) {
+  constructor(
+    scope: Construct,
+    id: string,
+    props?: cdk.StackProps,
+    amplifyResourceProps?: AmplifyHelpers.AmplifyResourceProps
+  ) {
     super(scope, id, props);
-
     /* Do not remove - Amplify CLI automatically injects the current deployment environment in this input parameter */
-    new cdk.CfnParameter(this, 'env', {
-      type: 'String',
-      description: 'Current Amplify CLI env name',
+    new cdk.CfnParameter(this, "env", {
+      type: "String",
+      description: "Current Amplify CLI env name",
     });
 
-    const projectName = AmplifyHelpers.getProjectInfo().projectName;
-    
-    const topic = new sns.Topic(this, 'sns-topic', {
-      topicName: `sns-topic-${projectName}-${cdk.Fn.ref('env')}`
+    const amplifyProjectInfo = AmplifyHelpers.getProjectInfo();
+    const snsTopicResourceNamePrefix = `sns-topic-${amplifyProjectInfo.projectName}`;
+    const topic = new sns.Topic(this, "sns-topic", {
+      topicName: `${snsTopicResourceNamePrefix}-${cdk.Fn.ref("env")}`,
     });
 
     topic.addSubscription(new subs.EmailSubscription("<your-email-address>"));
+    new cdk.CfnOutput(this, "snsTopicArn", {
+      value: topic.topicArn,
+      description: "The arn of the SNS topic",
+    });
   }
 }
 ```
