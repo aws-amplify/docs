@@ -25,19 +25,25 @@ When prompted, use the following schema, which can also be found under `amplify/
 type Song @model @auth(rules: [{ allow: public}]) {
   id: ID!
   name: String!
-  coverArtKey: String #Set as optional to allow adding file after initial create
+  coverArtKey: String # Set as optional to allow adding file after initial create
 }
 ```
 
 Save the schema and run `amplify push` to deploy the changes.
 
-Next, at the root of your project, set the access level to `private` by configuring the Storage object globally to restrict file access to only the signed in user.
+Next, at the root of your project, set *all* access to `private` by configuring the Storage object globally. This will restrict file access to only the signed-in user.
 
 ```js
 Storage.configure({ level: 'private' });
 ```
 
-## Configuring Authorization
+<Callout>
+
+For the complete working example, including required imports, obtaining the file from the user, and React component state management, see the [Complete Example](#complete-example) below.
+
+</Callout>
+
+## Configuring authorization
 
 Your application needs authorization credentials for reading and writing to both Storage and the GraphQL API, except in the case where all data and files are intended to be publicly accessible.
 
@@ -48,12 +54,6 @@ When you run `amplify add storage`, the CLI will configure appropriate IAM polic
 The ability to independently configure authorization rules for each category allows for more granular control over data access, and adds greater flexibility. For scenarios where authorization patterns must be mixed and matched, configure the access level on individual Storage function calls. For example, you may want to use `private` CRUD access on an individual Storage function call on files that should only be accessible by the owner (such as personal files), `protected` read access to allow all logged in users to view common files (such as images in a shared photo album), and `public` read access to allow all users to view a file (such as a public profile picture).
 
 For more detail on how to configure Storage authorization levels, see the [Storage documentation](https://docs.amplify.aws/lib/storage/configureaccess/q/platform/js/). For more on configuring GraphQL API authorization, see the [API documentation](https://docs.amplify.aws/lib/graphqlapi/authz/q/platform/js/).
-
-<Callout>
-
-For the complete working example, including required imports, obtaining the file from the user, and React component state management, see the [Complete Example](#complete-example) below.
-
-</Callout>
 
 ## Create a record with an associated file
 
