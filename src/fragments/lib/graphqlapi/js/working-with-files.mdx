@@ -37,29 +37,19 @@ Storage.configure({ level: 'private' });
 
 ## Configuring Authorization
 
-Your application needs authorization credentials for reading and writing to both the GraphQL API and Storage, except in the case where all data and files are publicly accessible.
+Your application needs authorization credentials for reading and writing to both Storage and the GraphQL API, except in the case where all data and files are intended to be publicly accessible.
 
-The Storage and API categories govern data access based on their own authorization patterns, meaning that it's up to the developer to configure appropriate auth roles for each category. Although both categories share the same access credentials set up through the Auth category, they work independently from one another. Adding an `@auth` directive to the API schema does not guard against access in the Storage category. Likewise, adding authorization rules to the Storage category does not guard against access in the API category. 
+The Storage and API categories govern data access based on their own authorization patterns, meaning that it's necessary to configure appropriate auth roles for each individual category. Although both categories share the same access credentials set up through the Auth category, they work independently from one another. For instance, adding an `@auth` directive to the API schema does not guard against file access in the Storage category. Likewise, adding authorization rules to the Storage category does not guard against data access in the API category. 
 
-When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito Identity Pool role. You will then have the option of adding CRUD (Create, Update, Read and Delete) based permissions as well, so that Authenticated and Guest users will be granted limited permissions within these levels. **Even after adding this configuration via the CLI, it's important to note that all Storage access is `public` by default.** To guard against accidental public access, the Storage category must either be configured on the Storage object globally, or the access levels must be set in individual function calls. This guide uses the former approach, setting all Storage access to `private`. 
+When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito Identity Pool role. You will then have the option of adding CRUD (Create, Update, Read and Delete) based permissions as well, so that Authenticated and Guest users will be granted limited permissions within these levels. **Even after adding this configuration via the CLI, it's important to note that all Storage access is `public` by default.** To guard against accidental public access, the Storage access levels must either be configured on the Storage object globally, or set within individual function calls. This guide uses the former approach, setting all Storage access to `private`. 
 
-For more on configuring Storage authorization levels, see the [Storage documentation](https://docs.amplify.aws/lib/storage/configureaccess/q/platform/js/). For more on configuring API authorization (separate from Storage authorization), see the [API documentation](https://docs.amplify.aws/lib/graphqlapi/authz/q/platform/js/).
+The ability to independently configure authorization rules for each category allows for more granular control over data access, and adds greater flexibility. For scenarios where authorization patterns must be mixed and matched, configure the access level on individual Storage function calls. For example, you may want to use `private` CRUD access on an individual Storage function call on files that should only be accessible by the owner (such as personal files), `protected` read access to allow all logged in users to view common files (such as images in a shared photo album), and `public` read access to allow all users to view a file (such as a public profile picture).
 
-Flexibility to configure authorization rules for each category independently allows for more granular control over data access. For scenarios where authorization patterns must be mixed and matched, configure the access level on individual Storage function calls. For instance, you may want to use `private` access on an individual Storage function call on files that should only be accessible by the owner (such as personal files), `protected` to allow all logged in users CRUD access to a file (such as images in a common photo album), and `public` read access to allow all users to view a file (such as a public profile picture).
+For more detail on how to configure Storage authorization levels, see the [Storage documentation](https://docs.amplify.aws/lib/storage/configureaccess/q/platform/js/). For more on configuring GraphQL API authorization, see the [API documentation](https://docs.amplify.aws/lib/graphqlapi/authz/q/platform/js/).
 
 <Callout>
 
 For the complete working example, including required imports, obtaining the file from the user, and React component state management, see the [Complete Example](#complete-example) below.
-
-</Callout>
-
-<Callout>
-
-The following recommended access patterns minimize the occurrence of records that point to non-existent files. This optimizes for read latency by ensuring clients *rarely* attempt to fetch a non-existent file from Storage. However, any app that deletes files can inherently cause records on-device to point to non-existent files.
-
-One example is when we query an API record, associate the Storage file with that record, and then retrieve the file's signed URL. "Device A" queries the GraphQL API for `Record 1`, which is associated with `First_Photo`. Before "Device A" is about to retrieve the signed URL, "Device B" might delete `First_Photo`, and update `Record 1` accordingly. However, "Device A" is still using the old `Record 1`, which is now out-of-date. Even though the shared global state is correctly in sync at every stage, the individual device ("Device A") has an out-of-date record that points to a non-existent file. Similar issues can conceivably occur for updates. Depending on your app, some of these mismatches can be minimized *even more* with [real-time data / GraphQL subscriptions](https://pr-5539.d39agkzf0cwtdz.amplifyapp.com/lib/graphqlapi/subscribe-data/q/platform/js/).
-
-It's important to understand when these mismatches can occur in your app, and to add meaningful error handling around these edges. For the purposes of these docs, this guide does not include exhaustive error handling, real-time subscriptions, or the re-querying of outdated records.
 
 </Callout>
 
@@ -1204,6 +1194,14 @@ await Promise.all(
 
 </Block>
 </BlockSwitcher>
+
+## Working with real-time data
+
+The recommended access patterns in these docs minimize the occurrence of records that point to non-existent and/or orphaned files. This optimizes for read latency by ensuring clients *rarely* attempt to fetch a non-existent file from Storage. However, any app that deletes files can inherently cause records *on-device* to point to non-existent files.
+
+One example is when we query an API record, associate the Storage file with that record, and then retrieve the file's signed URL. "Device A" queries the GraphQL API for `Record 1`, which is associated with `First_Photo`. Before "Device A" is about to retrieve the signed URL, "Device B" might delete `First_Photo`, and update `Record 1` accordingly. However, "Device A" is still using the old `Record 1`, which is now out-of-date. Even though the shared global state is correctly in sync at every stage, the individual device ("Device A") has an out-of-date record that points to a non-existent file. Similar issues can conceivably occur for updates. Depending on your app, some of these mismatches can be minimized *even more* with [real-time data / GraphQL subscriptions](https://pr-5539.d39agkzf0cwtdz.amplifyapp.com/lib/graphqlapi/subscribe-data/q/platform/js/).
+
+It's important to understand when these mismatches can occur in your app, and to add meaningful error handling around these edges. For the purposes of these docs, this guide does not include exhaustive error handling, real-time subscriptions, re-querying of outdated records, or attempts to retry failed operations. However, these are all important considerations for a production-level application.
 
 ## Complete examples
 
