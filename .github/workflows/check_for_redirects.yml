@@ -1,6 +1,8 @@
 name: Redirects Workflow
-on: pull_request
-env:
+on: 
+  pull_request:
+    branches: [main]
+env:d 
   ARTIFACT_NAME: 'redirectsArtifact'
   PATHS_TO_CHECK: 'src/pages,src/fragments'
 jobs:
