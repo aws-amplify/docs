@@ -44,8 +44,15 @@ function TableOfContents({ children, title, buttonsRef }, ref) {
   let previousLink = -1;
   useEffect(() => {
     const idSet = new Set();
+
     const headings = document.querySelectorAll('a > h2, a > h3');
+
+    console.log('headings value: ', headings);
+
     const headings2 = document.getElementById('toc').querySelectorAll('a');
+
+    console.log('headings2 value: ', headings2);
+
     for (let i = 0; i < headings.length; ++i) {
       const id = headings[i].id;
       let counter = 0;
