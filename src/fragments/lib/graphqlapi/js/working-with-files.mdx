@@ -99,7 +99,7 @@ const updateResponse = await API.graphql<
 
 const updatedSong = updateResponse?.data?.updateSong;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!updatedSong?.coverArtKey) return;
 
 // Retrieve the signed URL:
@@ -144,7 +144,7 @@ const updateResponse = await API.graphql<
 
 const updatedSong = updateResponse?.data?.updateSong;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!updatedSong?.coverArtKey) return;
 
 // Retrieve the signed URL:
@@ -180,7 +180,7 @@ const response = await API.graphql<GraphQLQuery<UpdateSongMutation>>({
 
 const updatedSong = response?.data?.updateSong;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!updatedSong?.coverArtKey) return;
 
 // Retrieve the file's signed URL:
@@ -209,7 +209,7 @@ const response = await API.graphql({
 
 const updatedSong = response?.data?.updateSong;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!updatedSong?.coverArtKey) return;
 
 // Retrieve the file's signed URL:
@@ -234,7 +234,7 @@ const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
   });
 const song = response.data?.getSong;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!song?.coverArtKey) return;
 
 // Retrieve the signed URL:
@@ -252,7 +252,7 @@ const response = await API.graphql({
   });
 const song = response.data?.getSong;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!song?.coverArtKey) return;
 
 // Retrieve the signed URL:
@@ -284,7 +284,7 @@ const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
 
 const song = response?.data?.getSong;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!song?.coverArtKey) return;
 
 const songDetails: UpdateSongInput = {
@@ -309,7 +309,7 @@ const response = await API.graphql({
 
 const song = response?.data?.getSong;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!song?.coverArtKey) return;
 
 const songDetails = {
@@ -341,7 +341,7 @@ const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
 
 const song = response?.data?.getSong;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!song?.coverArtKey) return;
 
 const songDetails: UpdateSongInput = {
@@ -370,7 +370,7 @@ const response = await API.graphql({
 
 const song = response?.data?.getSong;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!song?.coverArtKey) return;
 
 const songDetails: UpdateSongInput = {
@@ -404,7 +404,7 @@ const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
 
 const song = response?.data?.getSong;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!song?.coverArtKey) return;
 
 await Storage.remove(song.coverArtKey);
@@ -430,7 +430,7 @@ const response = await API.graphql({
 
 const song = response?.data?.getSong;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!song?.coverArtKey) return;
 
 await Storage.remove(song.coverArtKey);
@@ -521,7 +521,7 @@ const updateResponse = await API.graphql<
 
 const updatedPhotoAlbum = updateResponse?.data?.updatePhotoAlbum;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!updatedPhotoAlbum?.imageKeys?.length) return;
 
 // Retrieve signed urls for all files:
@@ -576,7 +576,7 @@ const updateResponse = await API.graphql({
 
 const updatedPhotoAlbum = updateResponse?.data?.updatePhotoAlbum;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!updatedPhotoAlbum?.imageKeys?.length) return;
 
 // Retrieve signed urls for all files:
@@ -632,7 +632,7 @@ const updateResponse = await API.graphql<
 
 const updatedPhotoAlbum = updateResponse?.data?.updatePhotoAlbum;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!updatedPhotoAlbum?.imageKeys?.length) return;
 
 // Retrieve the file's signed URL:
@@ -675,7 +675,7 @@ const updateResponse = await API.graphql({
 
 const updatedPhotoAlbum = updateResponse?.data?.updatePhotoAlbum;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!updatedPhotoAlbum?.imageKeys?.length) return;
 
 // Retrieve the file's signed URL:
@@ -738,7 +738,7 @@ const response = await API.graphql<
 
 const updatedPhotoAlbum = response?.data?.updatePhotoAlbum;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!updatedPhotoAlbum?.imageKeys) return;
 
 // Retrieve signed urls for merged image keys:
@@ -792,7 +792,7 @@ const response = await API.graphql({
 
 const updatedPhotoAlbum = response?.data?.updatePhotoAlbum;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!updatedPhotoAlbum?.imageKeys) return;
 
 // Retrieve signed urls for merged image keys:
@@ -860,7 +860,7 @@ const response = await API.graphql<
 
 const updatedPhotoAlbum = response?.data?.updatePhotoAlbum;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!updatedPhotoAlbum?.imageKeys) return;
 
 // Retrieve signed urls for merged image keys:
@@ -917,7 +917,7 @@ const response = await API.graphql({
 
 const updatedPhotoAlbum = response?.data?.updatePhotoAlbum;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!updatedPhotoAlbum?.imageKeys) return;
 
 // Retrieve signed urls for merged image keys:
@@ -944,7 +944,7 @@ const response = await API.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
 });
 const photoAlbum = response.data?.getPhotoAlbum;
 
-// Ensure that the record has associated images:
+// If the record has no associated files, we can return early.
 if (!photoAlbum?.imageKeys) return;
 
 // Retrieve the signed URLs for the associated images:
@@ -967,7 +967,7 @@ const response = await API.graphql({
 });
 const photoAlbum = response.data?.getPhotoAlbum;
 
-// Ensure that the record has associated images:
+// If the record has no associated files, we can return early.
 if (!photoAlbum?.imageKeys) return;
 
 // Retrieve the signed URLs for the associated images:
@@ -999,7 +999,7 @@ const response = await API.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
 
 const photoAlbum = response?.data?.getPhotoAlbum;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!photoAlbum?.imageKeys) return;
 
 const photoAlbumDetails: UpdatePhotoAlbumInput = {
@@ -1026,7 +1026,7 @@ const response = await API.graphql({
 
 const photoAlbum = response?.data?.getPhotoAlbum;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!photoAlbum?.imageKeys) return;
 
 const photoAlbumDetails = {
@@ -1146,7 +1146,7 @@ await API.graphql<GraphQLQuery<DeletePhotoAlbumMutation>>({
   variables: { input: photoAlbumDetails },
 });
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!photoAlbum?.imageKeys) return;
 
 await Promise.all(
@@ -1179,7 +1179,7 @@ await API.graphql({
   variables: { input: photoAlbumDetails },
 });
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!photoAlbum?.imageKeys) return;
 
 await Promise.all(
@@ -1269,7 +1269,7 @@ function App() {
 
       setCurrentSong(updatedSong);
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!updatedSong?.coverArtKey) return;
 
       // Retrieve the file's signed URL:
@@ -1310,7 +1310,7 @@ function App() {
 
       setCurrentSong(updatedSong);
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!updatedSong?.coverArtKey) return;
 
       // Retrieve the file's signed URL:
@@ -1330,7 +1330,7 @@ function App() {
       });
       const song = response.data?.getSong;
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!song?.coverArtKey) return;
 
       // Retrieve the signed URL:
@@ -1354,7 +1354,7 @@ function App() {
 
       const song = response?.data?.getSong;
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!song?.coverArtKey) return;
 
       const songDetails: UpdateSongInput = {
@@ -1387,7 +1387,7 @@ function App() {
 
       const song = response?.data?.getSong;
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!song?.coverArtKey) return;
 
       const songDetails: UpdateSongInput = {
@@ -1424,7 +1424,7 @@ function App() {
 
       const song = response?.data?.getSong;
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!song?.coverArtKey) return;
 
       await Storage.remove(song.coverArtKey);
@@ -1568,7 +1568,7 @@ function App() {
 
       setCurrentSong(updatedSong);
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!updatedSong?.coverArtKey) return;
 
       // Retrieve the file's signed URL:
@@ -1609,7 +1609,7 @@ function App() {
 
       setCurrentSong(updatedSong);
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!updatedSong?.coverArtKey) return;
 
       // Retrieve the file's signed URL:
@@ -1629,7 +1629,7 @@ function App() {
       });
       const song = response.data?.getSong;
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!song?.coverArtKey) return;
 
       // Retrieve the signed URL:
@@ -1653,7 +1653,7 @@ function App() {
 
       const song = response?.data?.getSong;
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!song?.coverArtKey) return;
 
       const songDetails = {
@@ -1686,7 +1686,7 @@ function App() {
 
       const song = response?.data?.getSong;
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!song?.coverArtKey) return;
 
       const songDetails = {
@@ -1723,7 +1723,7 @@ function App() {
 
       const song = response?.data?.getSong;
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!song?.coverArtKey) return;
 
       await Storage.remove(song.coverArtKey);
@@ -1887,7 +1887,7 @@ function App() {
 
       setCurrentPhotoAlbum(updatedPhotoAlbum);
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!updatedPhotoAlbum?.imageKeys?.length) return;
 
       // Retrieve the file's signed URL:
@@ -1952,7 +1952,7 @@ function App() {
 
       setCurrentPhotoAlbum(updatedPhotoAlbum);
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!updatedPhotoAlbum?.imageKeys?.length) return;
 
       // Retrieve signed urls for all files:
@@ -2021,7 +2021,7 @@ function App() {
       const updatedPhotoAlbum = response?.data?.updatePhotoAlbum;
       setCurrentPhotoAlbum(updatedPhotoAlbum);
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!updatedPhotoAlbum?.imageKeys) return;
 
       // Retrieve signed urls for merged image keys:
@@ -2098,7 +2098,7 @@ function App() {
       const updatedPhotoAlbum = response?.data?.updatePhotoAlbum;
       setCurrentPhotoAlbum(updatedPhotoAlbum);
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!updatedPhotoAlbum?.imageKeys) return;
 
       // Retrieve signed urls for merged image keys:
@@ -2126,7 +2126,7 @@ function App() {
       });
       const photoAlbum = response.data?.getPhotoAlbum;
 
-      // Ensure that the record has associated images:
+      // If the record has no associated files, we can return early.
       if (!photoAlbum?.imageKeys) return;
 
       // Retrieve the signed URLs for the associated images:
@@ -2155,7 +2155,7 @@ function App() {
 
       const photoAlbum = response?.data?.getPhotoAlbum;
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!photoAlbum?.imageKeys) return;
 
       const photoAlbumDetails: UpdatePhotoAlbumInput = {
@@ -2249,7 +2249,7 @@ function App() {
 
       setCurrentPhotoAlbum(null);
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!photoAlbum?.imageKeys) return;
 
       await Promise.all(
@@ -2418,7 +2418,7 @@ function App() {
 
       setCurrentPhotoAlbum(updatedPhotoAlbum);
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!updatedPhotoAlbum?.imageKeys?.length) return;
 
       // Retrieve the file's signed URL:
@@ -2477,7 +2477,7 @@ function App() {
 
       setCurrentPhotoAlbum(updatedPhotoAlbum);
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!updatedPhotoAlbum?.imageKeys?.length) return;
 
       // Retrieve signed urls for all files:
@@ -2540,7 +2540,7 @@ function App() {
       const updatedPhotoAlbum = response?.data?.updatePhotoAlbum;
       setCurrentPhotoAlbum(updatedPhotoAlbum);
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!updatedPhotoAlbum?.imageKeys) return;
 
       // Retrieve signed urls for merged image keys:
@@ -2613,7 +2613,7 @@ function App() {
       const updatedPhotoAlbum = response?.data?.updatePhotoAlbum;
       setCurrentPhotoAlbum(updatedPhotoAlbum);
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!updatedPhotoAlbum?.imageKeys) return;
 
       // Retrieve signed urls for merged image keys:
@@ -2641,7 +2641,7 @@ function App() {
       });
       const photoAlbum = response.data?.getPhotoAlbum;
 
-      // Ensure that the record has associated images:
+      // If the record has no associated files, we can return early.
       if (!photoAlbum?.imageKeys) return;
 
       // Retrieve the signed URLs for the associated images:
@@ -2670,7 +2670,7 @@ function App() {
 
       const photoAlbum = response?.data?.getPhotoAlbum;
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!photoAlbum?.imageKeys) return;
 
       const photoAlbumDetails = {
@@ -2760,7 +2760,7 @@ function App() {
 
       setCurrentPhotoAlbum(null);
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!photoAlbum?.imageKeys) return;
 
       await Promise.all(
