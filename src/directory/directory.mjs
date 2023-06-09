@@ -178,6 +178,11 @@ export const directory = {
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
+            title: 'Working with files and attachments',
+            route: '/lib/graphqlapi/working-with-files',
+            filters: ['js']
+          },
+          {
             title: 'Cancel API requests',
             route: '/lib/graphqlapi/cancel-request',
             filters: ['js', 'react-native']
@@ -201,11 +206,6 @@ export const directory = {
             title: 'Use existing AWS resources',
             route: '/lib/graphqlapi/existing-resources',
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
-          },
-          {
-            title: 'Working with files and attachments',
-            route: '/lib/graphqlapi/working-with-files',
-            filters: ['js']
           }
         ]
       },

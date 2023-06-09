@@ -13,7 +13,7 @@ amplify add auth
 # and default configuration:
 amplify add storage          
 
-#Select default configuration
+# Select default configuration
 amplify add api              
 ```
 
@@ -23,27 +23,35 @@ When prompted, use the following schema, which can also be found under `amplify/
 type Song @model @auth(rules: [{ allow: public}]) {
   id: ID!
   name: String!
-  coverArtKey: String #Set as optional to allow adding file after initial create
+  coverArtKey: String # Set as optional to allow adding file after initial create
 }
 ```
 
 Save the schema and run `amplify push` to deploy the changes.
 
-To use files and attachments your application needs authorization credentials for reading and writing to Amazon S3. This is configured in the `amplify add auth` step.
+Next, at the root of your project, set *all* access to `private` by configuring the Storage object globally. This will restrict file access to only the signed-in user.
 
-<Callout>
-
-The Storage and API categories govern data access based on their own authorization patterns. Adding an `@auth` directive to the API schema does not guard against access in the Storage category. When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito Identity Pool role. You will then have the option of adding CRUD (Create, Update, Read and Delete) based permissions as well, so that Authenticated and Guest users will be granted limited permissions within these levels. For more on configuring Storage authorization levels, see the [Storage documentation](https://docs.amplify.aws/lib/storage/configureaccess/q/platform/js/).
-
-</Callout>
-
-For more on configuring API authorization (separate from Storage authorization), see the [API documentation](https://docs.amplify.aws/lib/graphqlapi/authz/q/platform/js/).
+```js
+Storage.configure({ level: 'private' });
+```
 
 <Callout>
 
 For the complete working example, including required imports, obtaining the file from the user, and React component state management, see the [Complete Example](#complete-example) below.
 
 </Callout>
+
+## Configuring authorization
+
+Your application needs authorization credentials for reading and writing to both Storage and the GraphQL API, except in the case where all data and files are intended to be publicly accessible.
+
+The Storage and API categories govern data access based on their own authorization patterns, meaning that it's necessary to configure appropriate auth roles for each individual category. Although both categories share the same access credentials set up through the Auth category, they work independently from one another. For instance, adding an `@auth` directive to the API schema does not guard against file access in the Storage category. Likewise, adding authorization rules to the Storage category does not guard against data access in the API category. 
+
+When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito Identity Pool role. You will then have the option of adding CRUD (Create, Update, Read and Delete) based permissions as well, so that Authenticated and Guest users will be granted limited permissions within these levels. **Even after adding this configuration via the CLI, all Storage access is still `public` by default.** To guard against accidental public access, the Storage access levels must either be configured on the Storage object globally, or set within individual function calls. This guide uses the former approach, setting all Storage access to `private` globally. 
+
+The ability to independently configure authorization rules for each category allows for more granular control over data access, and adds greater flexibility. For scenarios where authorization patterns must be mixed and matched, configure the access level on individual Storage function calls. For example, you may want to use `private` CRUD access on an individual Storage function call for files that should only be accessible by the owner (such as personal files), `protected` read access to allow all logged in users to view common files (such as images in a shared photo album), and `public` read access to allow all users to view a file (such as a public profile picture).
+
+For more details on how to configure Storage authorization levels, see the [Storage documentation](https://docs.amplify.aws/lib/storage/configureaccess/q/platform/js/). For more on configuring GraphQL API authorization, see the [API documentation](https://docs.amplify.aws/lib/graphqlapi/authz/q/platform/js/).
 
 ## Create a record with an associated file
 
@@ -93,7 +101,7 @@ const updateResponse = await API.graphql<
 
 const updatedSong = updateResponse?.data?.updateSong;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!updatedSong?.coverArtKey) return;
 
 // Retrieve the signed URL:
@@ -138,7 +146,7 @@ const updateResponse = await API.graphql<
 
 const updatedSong = updateResponse?.data?.updateSong;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!updatedSong?.coverArtKey) return;
 
 // Retrieve the signed URL:
@@ -174,7 +182,7 @@ const response = await API.graphql<GraphQLQuery<UpdateSongMutation>>({
 
 const updatedSong = response?.data?.updateSong;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!updatedSong?.coverArtKey) return;
 
 // Retrieve the file's signed URL:
@@ -203,7 +211,7 @@ const response = await API.graphql({
 
 const updatedSong = response?.data?.updateSong;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!updatedSong?.coverArtKey) return;
 
 // Retrieve the file's signed URL:
@@ -228,7 +236,7 @@ const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
   });
 const song = response.data?.getSong;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!song?.coverArtKey) return;
 
 // Retrieve the signed URL:
@@ -246,7 +254,7 @@ const response = await API.graphql({
   });
 const song = response.data?.getSong;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!song?.coverArtKey) return;
 
 // Retrieve the signed URL:
@@ -278,7 +286,7 @@ const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
 
 const song = response?.data?.getSong;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!song?.coverArtKey) return;
 
 const songDetails: UpdateSongInput = {
@@ -303,7 +311,7 @@ const response = await API.graphql({
 
 const song = response?.data?.getSong;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!song?.coverArtKey) return;
 
 const songDetails = {
@@ -335,7 +343,7 @@ const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
 
 const song = response?.data?.getSong;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!song?.coverArtKey) return;
 
 const songDetails: UpdateSongInput = {
@@ -364,7 +372,7 @@ const response = await API.graphql({
 
 const song = response?.data?.getSong;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!song?.coverArtKey) return;
 
 const songDetails: UpdateSongInput = {
@@ -398,7 +406,7 @@ const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
 
 const song = response?.data?.getSong;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!song?.coverArtKey) return;
 
 await Storage.remove(song.coverArtKey);
@@ -424,7 +432,7 @@ const response = await API.graphql({
 
 const song = response?.data?.getSong;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!song?.coverArtKey) return;
 
 await Storage.remove(song.coverArtKey);
@@ -515,7 +523,7 @@ const updateResponse = await API.graphql<
 
 const updatedPhotoAlbum = updateResponse?.data?.updatePhotoAlbum;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!updatedPhotoAlbum?.imageKeys?.length) return;
 
 // Retrieve signed urls for all files:
@@ -570,7 +578,7 @@ const updateResponse = await API.graphql({
 
 const updatedPhotoAlbum = updateResponse?.data?.updatePhotoAlbum;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!updatedPhotoAlbum?.imageKeys?.length) return;
 
 // Retrieve signed urls for all files:
@@ -626,7 +634,7 @@ const updateResponse = await API.graphql<
 
 const updatedPhotoAlbum = updateResponse?.data?.updatePhotoAlbum;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!updatedPhotoAlbum?.imageKeys?.length) return;
 
 // Retrieve the file's signed URL:
@@ -669,7 +677,7 @@ const updateResponse = await API.graphql({
 
 const updatedPhotoAlbum = updateResponse?.data?.updatePhotoAlbum;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!updatedPhotoAlbum?.imageKeys?.length) return;
 
 // Retrieve the file's signed URL:
@@ -732,7 +740,7 @@ const response = await API.graphql<
 
 const updatedPhotoAlbum = response?.data?.updatePhotoAlbum;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!updatedPhotoAlbum?.imageKeys) return;
 
 // Retrieve signed urls for merged image keys:
@@ -786,7 +794,7 @@ const response = await API.graphql({
 
 const updatedPhotoAlbum = response?.data?.updatePhotoAlbum;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!updatedPhotoAlbum?.imageKeys) return;
 
 // Retrieve signed urls for merged image keys:
@@ -798,7 +806,7 @@ const signedUrls = await Promise.all(
 </Block>
 </BlockSwitcher>
 
-### Update file for an associated record
+### Update the file for an associated record
 
 Updating a file for an associated record is the same as updating a file for a single file record, with the exception that you will need to update the list of file keys.
 
@@ -854,7 +862,7 @@ const response = await API.graphql<
 
 const updatedPhotoAlbum = response?.data?.updatePhotoAlbum;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!updatedPhotoAlbum?.imageKeys) return;
 
 // Retrieve signed urls for merged image keys:
@@ -911,7 +919,7 @@ const response = await API.graphql({
 
 const updatedPhotoAlbum = response?.data?.updatePhotoAlbum;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!updatedPhotoAlbum?.imageKeys) return;
 
 // Retrieve signed urls for merged image keys:
@@ -993,7 +1001,7 @@ const response = await API.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
 
 const photoAlbum = response?.data?.getPhotoAlbum;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!photoAlbum?.imageKeys) return;
 
 const photoAlbumDetails: UpdatePhotoAlbumInput = {
@@ -1020,7 +1028,7 @@ const response = await API.graphql({
 
 const photoAlbum = response?.data?.getPhotoAlbum;
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!photoAlbum?.imageKeys) return;
 
 const photoAlbumDetails = {
@@ -1140,7 +1148,7 @@ await API.graphql<GraphQLQuery<DeletePhotoAlbumMutation>>({
   variables: { input: photoAlbumDetails },
 });
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!photoAlbum?.imageKeys) return;
 
 await Promise.all(
@@ -1173,7 +1181,7 @@ await API.graphql({
   variables: { input: photoAlbumDetails },
 });
 
-// Ensure that the record has an associated image:
+// If the record has no associated file, we can return early.
 if (!photoAlbum?.imageKeys) return;
 
 await Promise.all(
@@ -1186,6 +1194,14 @@ await Promise.all(
 
 </Block>
 </BlockSwitcher>
+
+## Working with real-time data and files
+
+The recommended access patterns in these docs attempt remove deleted files, but favor leaving orphans over leaving records that point to non-existent files. This optimizes for read latency by ensuring clients *rarely* attempt to fetch a non-existent file from Storage. However, any app that deletes files can inherently cause records *on-device* to point to non-existent files.
+
+One example is when we [create an API record, associate the Storage file with that record, and then retrieve the file's signed URL](#create-a-record-with-an-associated-file). "Device A" calls the GraphQL API to create `API_Record_1`, and then associates that record with `First_Photo`. Before "Device A" is about to retrieve the signed URL, "Device B" might query `API_Record_1`, delete `First_Photo`, and update the record accordingly. However, "Device A" is still using the old `API_Record_1`, which is now out-of-date. Even though the shared global state is correctly in sync at every stage, the individual device ("Device A") has an out-of-date record that points to a non-existent file. Similar issues can conceivably occur for updates. Depending on your app, some of these mismatches can be minimized *even more* with [real-time data / GraphQL subscriptions](https://docs.amplify.aws/lib/graphqlapi/subscribe-data/).
+
+It is important to understand when these mismatches can occur and to add meaningful error handling around these cases. This guide does not include exhaustive error handling, real-time subscriptions, re-querying of outdated records, or attempts to retry failed operations. However, these are all important considerations for a production-level application.
 
 ## Complete examples
 
@@ -1217,6 +1233,9 @@ function App() {
   const [currentImageUrl, setCurrentImageUrl] = useState<
     string | null | undefined
   >("");
+
+  // Private access level configuration on the Storage object:
+  Storage.configure({ level: 'private' });
 
   async function createSongWithImage(e: React.ChangeEvent<HTMLInputElement>) {
     if (!e.target.files) return;
@@ -1260,7 +1279,7 @@ function App() {
 
       setCurrentSong(updatedSong);
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!updatedSong?.coverArtKey) return;
 
       // Retrieve the file's signed URL:
@@ -1301,7 +1320,7 @@ function App() {
 
       setCurrentSong(updatedSong);
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!updatedSong?.coverArtKey) return;
 
       // Retrieve the file's signed URL:
@@ -1321,7 +1340,7 @@ function App() {
       });
       const song = response.data?.getSong;
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!song?.coverArtKey) return;
 
       // Retrieve the signed URL:
@@ -1345,7 +1364,7 @@ function App() {
 
       const song = response?.data?.getSong;
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!song?.coverArtKey) return;
 
       const songDetails: UpdateSongInput = {
@@ -1378,7 +1397,7 @@ function App() {
 
       const song = response?.data?.getSong;
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!song?.coverArtKey) return;
 
       const songDetails: UpdateSongInput = {
@@ -1415,7 +1434,7 @@ function App() {
 
       const song = response?.data?.getSong;
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!song?.coverArtKey) return;
 
       await Storage.remove(song.coverArtKey);
@@ -1516,6 +1535,9 @@ function App() {
   // Used to display image for current song:
   const [currentImageUrl, setCurrentImageUrl] = useState("");
 
+  // Private access level configuration on the Storage object:
+  Storage.configure({ level: 'private' });
+
   async function createSongWithImage(e) {
     if (!e.target.files) return;
 
@@ -1556,7 +1578,7 @@ function App() {
 
       setCurrentSong(updatedSong);
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!updatedSong?.coverArtKey) return;
 
       // Retrieve the file's signed URL:
@@ -1597,7 +1619,7 @@ function App() {
 
       setCurrentSong(updatedSong);
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!updatedSong?.coverArtKey) return;
 
       // Retrieve the file's signed URL:
@@ -1617,7 +1639,7 @@ function App() {
       });
       const song = response.data?.getSong;
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!song?.coverArtKey) return;
 
       // Retrieve the signed URL:
@@ -1641,7 +1663,7 @@ function App() {
 
       const song = response?.data?.getSong;
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!song?.coverArtKey) return;
 
       const songDetails = {
@@ -1674,7 +1696,7 @@ function App() {
 
       const song = response?.data?.getSong;
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!song?.coverArtKey) return;
 
       const songDetails = {
@@ -1711,7 +1733,7 @@ function App() {
 
       const song = response?.data?.getSong;
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!song?.coverArtKey) return;
 
       await Storage.remove(song.coverArtKey);
@@ -1826,6 +1848,9 @@ function App() {
     (string | null | undefined)[] | null | undefined
   >([]);
 
+  // Private access level configuration on the Storage object:
+  Storage.configure({ level: 'private' });
+
   async function createPhotoAlbumWithFirstImage(
     e: React.ChangeEvent<HTMLInputElement>
   ) {
@@ -1872,7 +1897,7 @@ function App() {
 
       setCurrentPhotoAlbum(updatedPhotoAlbum);
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!updatedPhotoAlbum?.imageKeys?.length) return;
 
       // Retrieve the file's signed URL:
@@ -1937,7 +1962,7 @@ function App() {
 
       setCurrentPhotoAlbum(updatedPhotoAlbum);
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!updatedPhotoAlbum?.imageKeys?.length) return;
 
       // Retrieve signed urls for all files:
@@ -2006,7 +2031,7 @@ function App() {
       const updatedPhotoAlbum = response?.data?.updatePhotoAlbum;
       setCurrentPhotoAlbum(updatedPhotoAlbum);
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!updatedPhotoAlbum?.imageKeys) return;
 
       // Retrieve signed urls for merged image keys:
@@ -2083,7 +2108,7 @@ function App() {
       const updatedPhotoAlbum = response?.data?.updatePhotoAlbum;
       setCurrentPhotoAlbum(updatedPhotoAlbum);
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!updatedPhotoAlbum?.imageKeys) return;
 
       // Retrieve signed urls for merged image keys:
@@ -2140,7 +2165,7 @@ function App() {
 
       const photoAlbum = response?.data?.getPhotoAlbum;
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!photoAlbum?.imageKeys) return;
 
       const photoAlbumDetails: UpdatePhotoAlbumInput = {
@@ -2234,7 +2259,7 @@ function App() {
 
       setCurrentPhotoAlbum(null);
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!photoAlbum?.imageKeys) return;
 
       await Promise.all(
@@ -2360,6 +2385,9 @@ function App() {
   // Used to display images for current photoAlbum:
   const [currentImages, setCurrentImages] = useState([]);
 
+  // Private access level configuration on the Storage object:
+  Storage.configure({ level: 'private' });
+
   async function createPhotoAlbumWithFirstImage(e) {
     if (!e.target.files) return;
 
@@ -2400,7 +2428,7 @@ function App() {
 
       setCurrentPhotoAlbum(updatedPhotoAlbum);
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!updatedPhotoAlbum?.imageKeys?.length) return;
 
       // Retrieve the file's signed URL:
@@ -2459,7 +2487,7 @@ function App() {
 
       setCurrentPhotoAlbum(updatedPhotoAlbum);
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!updatedPhotoAlbum?.imageKeys?.length) return;
 
       // Retrieve signed urls for all files:
@@ -2522,7 +2550,7 @@ function App() {
       const updatedPhotoAlbum = response?.data?.updatePhotoAlbum;
       setCurrentPhotoAlbum(updatedPhotoAlbum);
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!updatedPhotoAlbum?.imageKeys) return;
 
       // Retrieve signed urls for merged image keys:
@@ -2595,7 +2623,7 @@ function App() {
       const updatedPhotoAlbum = response?.data?.updatePhotoAlbum;
       setCurrentPhotoAlbum(updatedPhotoAlbum);
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!updatedPhotoAlbum?.imageKeys) return;
 
       // Retrieve signed urls for merged image keys:
@@ -2652,7 +2680,7 @@ function App() {
 
       const photoAlbum = response?.data?.getPhotoAlbum;
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!photoAlbum?.imageKeys) return;
 
       const photoAlbumDetails = {
@@ -2742,7 +2770,7 @@ function App() {
 
       setCurrentPhotoAlbum(null);
 
-      // Ensure that the record has an associated image:
+      // If the record has no associated file, we can return early.
       if (!photoAlbum?.imageKeys) return;
 
       await Promise.all(
