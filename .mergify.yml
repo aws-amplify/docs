@@ -22,8 +22,8 @@ pull_request_rules:
   - name: Add deleted-assets label if status checks fail
     conditions:
       - or:
-          - check-failure="Check if assets were deleted on PR opened"
-          - check-failure="Check if assets were deleted on PR sync"
+        - check-failure="Check if assets were deleted on PR opened"
+        - check-failure="Check if assets were deleted on PR sync"
     actions:
       label:
         add:
