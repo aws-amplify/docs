@@ -99,7 +99,7 @@ function ChooseFilterPage({
   return (
     <Layout
       meta={{
-        title,
+        title: `${chapterTitle} - ${title} - Choose a platform`,
         chapterTitle: '',
         description: `Selection page for ${title}`
       }}
