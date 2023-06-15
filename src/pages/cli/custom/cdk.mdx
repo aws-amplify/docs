@@ -28,37 +28,31 @@ To migrate from AWS CDK v1 to v2, refer to the [migration documentation](/cli/mi
 The following example creates an SNS topic whose notification messages are forwarded via email:
 
 ```ts
-import * as cdk from "aws-cdk-lib";
+import * as cdk from 'aws-cdk-lib';
 import * as AmplifyHelpers from '@aws-amplify/cli-extensibility-helper';
-import { AmplifyDependentResourcesAttributes } from "../../types/amplify-dependent-resources-ref";
-import { Construct } from "constructs";
-import * as sns from "aws-cdk-lib/aws-sns";
-import * as subs from "aws-cdk-lib/aws-sns-subscriptions";
+import { Construct } from 'constructs';
+import * as sns from 'aws-cdk-lib/aws-sns';
+import * as subs from 'aws-cdk-lib/aws-sns-subscriptions';
 
 export class cdkStack extends cdk.Stack {
-  constructor(
-    scope: Construct,
-    id: string,
-    props?: cdk.StackProps,
-    amplifyResourceProps?: AmplifyHelpers.AmplifyResourceProps
-  ) {
+  constructor(scope: Construct, id: string, props?: cdk.StackProps, amplifyResourceProps?: AmplifyHelpers.AmplifyResourceProps) {
     super(scope, id, props);
     /* Do not remove - Amplify CLI automatically injects the current deployment environment in this input parameter */
-    new cdk.CfnParameter(this, "env", {
-      type: "String",
-      description: "Current Amplify CLI env name",
+    new cdk.CfnParameter(this, 'env', {
+      type: 'String',
+      description: 'Current Amplify CLI env name',
     });
 
     const amplifyProjectInfo = AmplifyHelpers.getProjectInfo();
-    const snsTopicResourceNamePrefix = `sns-topic-${amplifyProjectInfo.projectName}`;
-    const topic = new sns.Topic(this, "sns-topic", {
-      topicName: `${snsTopicResourceNamePrefix}-${cdk.Fn.ref("env")}`,
+    const snsTopicResourceName = `sns-topic-${amplifyProjectInfo.projectName}-${cdk.Fn.ref('env')}`;
+    const topic = new sns.Topic(this, 'sns-topic', {
+      topicName: snsTopicResourceName,
     });
 
-    topic.addSubscription(new subs.EmailSubscription("<your-email-address>"));
-    new cdk.CfnOutput(this, "snsTopicArn", {
+    topic.addSubscription(new subs.EmailSubscription('<your-email-address>'));
+    new cdk.CfnOutput(this, 'snsTopicArn', {
       value: topic.topicArn,
-      description: "The arn of the SNS topic",
+      description: 'The arn of the SNS topic',
     });
   }
 }
