@@ -7,9 +7,9 @@ import {
   H3AnchorStyle,
   HeaderStyle
 } from './styles';
-import { forwardRef, useEffect, useState } from 'react';
+import { forwardRef, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { MQTablet } from '../media';
+import { MQDesktop } from '../media';
 import { Button } from '@cloudscape-design/components';
 
 const stickyHeaderHeight = 124;
@@ -23,11 +23,11 @@ function scroll(hash) {
 
 function TableOfContents({ children, title, buttonsRef }, ref) {
   const router = useRouter();
-  const MQTabletJS = MQTablet.substring(6);
+  const MQDesktopJS = MQDesktop.substring(6);
   const onDesktop =
     typeof window === 'undefined'
       ? false
-      : window.matchMedia(MQTabletJS).matches;
+      : window.matchMedia(MQDesktopJS).matches;
 
   if (children.length === 0) {
     return <></>;

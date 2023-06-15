@@ -57,10 +57,6 @@ export const Toggle = styled.div`
       cursor: unset;
     }
   }
-
-  ${MQTablet} {
-    display: none;
-  }
 `;
 
 export const Divider = styled.div`

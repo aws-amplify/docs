@@ -3,6 +3,14 @@ export const meta = {
   description: `Learn how to enable/disable analytics using Amplify.`
 };
 
+import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
+
+<Fragments fragments={{ android: android_maintenance }} />
+
+import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
+
+<Fragments fragments={{ ios: ios_maintenance }} />
+
 ## Disable Analytics
 
 Analytics is enabled by default when you configure it in your app. To disable Analytics in your app use the `disable` function:
