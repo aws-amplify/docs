@@ -53,4 +53,4 @@ Run `amplify import auth` or read the [guide on how to import existing Cognito r
 Member must satisfy regular expression pattern: arn:[\w+=/,.@-]+:[\w+=/,.@-]+:([\w+=/,.@-]*)?:[0-9]+:[\w+=/,.@-]+(:[\w+=/,.@-]+)?(:[\w+=/,.@-]+)?
 ```
 
-This error may occur when modifying the [`breakCircularDependency`](/cli/reference/feature-flags/#breakCircularDependency) flag and push a resource that depends on the auth category. To mitigate the issue run `amplify update auth`, walkthrough the auth flow keeping the previous settings and run `amplify push` or directly run `amplify push --force`.
+This error may occur when modifying the [`breakCircularDependency`](/cli/reference/feature-flags/#breakCircularDependency) flag and push a resource that depends on the auth category. To mitigate the issue run `amplify update auth`, walkthrough the auth flow keeping the previous settings and run `amplify push` or `amplify push --force`.
