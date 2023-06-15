@@ -137,13 +137,11 @@ const AccordionWithButton: React.FC<AccordionWithButtonProps> = ({
   const [contentTopCoordinate, setContentTopCoordinate] = useState(0);
 
   const handleToggle = () => {
-    console.log(document.querySelector('.docs-expander'));
-
-    document.querySelector('.docs-expander')?.classList.toggle('open');
+    document.querySelector('#accordion-button')?.classList.toggle('open');
 
     setOpen((open) => !open);
 
-    const accordionContent = document.querySelector('.docs-expander__body');
+    const accordionContent = document.querySelector('#accordion-button-body');
 
     if (accordionContent && accordionContent instanceof HTMLElement) {
       console.log(accordionContent);
@@ -151,12 +149,12 @@ const AccordionWithButton: React.FC<AccordionWithButtonProps> = ({
       console.log('Accordion content height: ', accordionContent.offsetHeight);
 
       console.log(
-        'Accordion Coordiantes: ',
+        'Accordion Top Coordinate: ',
         accordionContent.getBoundingClientRect().top
       );
 
       setContentTopCoordinate(
-        accordionContent.getBoundingClientRect().top - 118
+        accordionContent.getBoundingClientRect().top + 118
       );
 
       if (accordionContent.offsetHeight > screen.height) {
@@ -167,14 +165,17 @@ const AccordionWithButton: React.FC<AccordionWithButtonProps> = ({
 
   const closeAccordion = () => {
     setOpen((open) => !open);
-    document.querySelector('.docs-expander')?.classList.remove('open');
+    document.querySelector('#accordion-button')?.classList.remove('open');
     window.scrollTo(0, contentTopCoordinate);
   };
 
   console.log('screen height: ', screen.height);
 
   return (
-    <Details className={`docs-expander ${withButton ? 'with-button' : ''}`}>
+    <Details
+      id="accordion-button"
+      className={`docs-expander ${withButton ? 'with-button' : ''}`}
+    >
       <Summary className={`docs-expander__summary`}>
         <div className={`docs-expander__eyebrow`}>
           <DeepDive />
@@ -194,7 +195,7 @@ const AccordionWithButton: React.FC<AccordionWithButtonProps> = ({
           </div>
         )}
       </Summary>
-      <div className={`docs-expander__body`}>
+      <div id="accordion-button-body" className={`docs-expander__body`}>
         {children}
         {closeButton ? (
           <button

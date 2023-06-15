@@ -19,6 +19,8 @@ export const Details = styled.details`
   border: 1px solid var(--border-color);
   text-align: left;
 
+  margin-bottom: 1rem; //temporarily for a demo purposes to sepatate both components
+
   &.with-button .docs-expander__summary {
     cursor: default;
     --background-color-hover: var(--amplify-colors-teal-10);
