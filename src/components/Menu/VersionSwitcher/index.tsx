@@ -15,12 +15,6 @@ const Option = function({ href, title, isActive }) {
   );
 };
 
-<<<<<<< HEAD
-const lib = directory['lib'].items;
-const libLegacy = directory['lib-v1'].items;
-const libLegacyPaths = [];
-const libPaths = [];
-=======
 export function VersionSwitcher({url}) {
   let leftActive = true;
   let urlEnd;
@@ -69,7 +63,6 @@ const lib = directory["lib"].items;
 const libLegacy = directory["lib-v1"].items;
 const libLegacyPaths: string[] = [];
 const libPaths: string[] = [];
->>>>>>> 9b37e2ae9fbeab13b782566969ec379d8f42ac6e
 const libItemsAndPaths: [object, string[]][] = [
   [lib, libPaths],
   [libLegacy, libLegacyPaths]
@@ -113,9 +106,6 @@ export function LibVersionSwitcher({
     urlEnd = url.split('/lib')[1];
   }
 
-<<<<<<< HEAD
-  const leftHref = '/lib-v1' + urlEnd;
-=======
   // Function to remove query string parameters before checking if href is included in the list of possibilities.
   // This is so we are only comparing the paths without the query string parameters to avoid false negatives.
   function isHrefIncluded(href: string, paths: string[]) {
@@ -127,7 +117,6 @@ export function LibVersionSwitcher({
   }
 
   const leftHref = "/lib-v1" + urlEnd;
->>>>>>> 9b37e2ae9fbeab13b782566969ec379d8f42ac6e
   const leftOption = {
     title: legacyVersion,
     href: isHrefIncluded(leftHref, libLegacyPaths)
