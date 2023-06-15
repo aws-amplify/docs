@@ -27,11 +27,17 @@ Add form inputs to personalize the form to your use case. To add a form element:
 1. Move your mouse onto the center form canvas.
 2. Hover in between, before, or after a form input until a blue bar with a (+) sign appears.
 3. Click the blue bar with the (+) sign.
-4. Select the form input you want to add. If your form is connected to a data model, you can also select a field of the data model and let Amplify Studio infer the input.
+4. Select the form input you want to add.
 
 <video autoPlay={true} muted={true} loop={true} width="100%">
   <source src="/images/console/formbuilder/customize-add.mp4" />
 </video>
+
+
+Every input element in your form can be customized. Select a field in the form to open the configuration menu, where you can customize parts of the input, like its display label and placeholder. 
+
+Some form inputs have unique configurations, like **Storage Manager**. [Learn more about configuring special fields in the documentation](/console/formbuilder/special-inputs). 
+
 
 ## Reorder form inputs with drag and drop
 
@@ -69,11 +75,11 @@ Spacing values can either be a CSS length value (`px`, `rem`, `em`, `%`) or a re
   <source src="/images/console/formbuilder/customize-spacing.mp4" />
 </video>
 
-## Configure options for Select Field or Radio Group Field
+## Configure options for Select, Radio Group, or Autocomplete Field
 
-[Select Field](https://ui.docs.amplify.aws/react/components/selectfield) and [Radio Group Field](https://ui.docs.amplify.aws/react/components/radiogroupfield) require a set of options for your users to choose from. For example, a "Status" input can only have the options "Not started", "In progress", and "Done".
+[Select Fields](https://ui.docs.amplify.aws/react/components/selectfield), [Radio Group Fields](https://ui.docs.amplify.aws/react/components/radiogroupfield), and [Autocomplete Fields](https://ui.docs.amplify.aws/react/components/autocomplete) require a set of options for your users to choose from. For example, a "Status" input can only have the options "Not started", "In progress", and "Done".
 
-1. Select a **Select Field** or **Radio Group Field** input
+1. Pick a **Select Field**, **Radio Group Field**, or **Autocomplete Field** input
 2. Go to **Data > Options**
 3. Enter available options line-by-line or paste in a JSON array, such as `["Not started", "In progress", "Done"]`
 
@@ -83,7 +89,7 @@ Spacing values can either be a CSS length value (`px`, `rem`, `em`, `%`) or a re
 
 ## Enable list inputs
 
-Form inputs can be made to accept multiple values. The form input gets "wrapped" around by a "list input" component to allow your users to add, update, and remove items. **This functionality is only enabled for inputs not tied to a data model.** If your input is tied to one of your existing models, this feature is controlled directly on the model by toggling the **Is array** property on the corresponding field and deploying your update.
+`TextInput`s can accept multiple values by toggling "Accept multiple values", enabling users to add, update, and remove items. This functionality is only enabled for inputs not linked to a data model. If your input is linked to an existing model, this feature is controlled directly on the model by toggling the "Is array" property on the corresponding field.
 
 1. Select a form input that's not connected to a data model
 2. Go to **Data**

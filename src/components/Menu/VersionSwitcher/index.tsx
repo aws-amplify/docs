@@ -15,10 +15,61 @@ const Option = function({ href, title, isActive }) {
   );
 };
 
+<<<<<<< HEAD
 const lib = directory['lib'].items;
 const libLegacy = directory['lib-v1'].items;
 const libLegacyPaths = [];
 const libPaths = [];
+=======
+export function VersionSwitcher({url}) {
+  let leftActive = true;
+  let urlEnd;
+  const filter = url.includes("/framework")
+    ? "q/framework" + url.split("/framework")[1]
+    : "";
+  if (url.includes("/ui-legacy")) {
+    leftActive = false;
+    urlEnd = url.split("/ui-legacy")[1];
+  } else {
+    urlEnd = url.split("/ui")[1];
+  }
+
+  const leftHref = "/ui" + urlEnd;
+  const leftOption = {
+    title: "Latest",
+    href: uiPaths.includes(leftHref) ? leftHref : "/ui/" + filter,
+  };
+
+  const rightHref = "/ui-legacy" + urlEnd;
+  const rightOption = {
+    title: "Legacy",
+    href: uiLegacyPaths.includes(rightHref)
+      ? rightHref
+      : "/ui-legacy/" + filter,
+  };
+
+  return (
+    <SwitchStyle>
+      <Option
+        href={leftOption.href}
+        title={leftOption.title}
+        isActive={leftActive}
+      />
+      <Option
+        href={rightOption.href}
+        title={rightOption.title}
+        isActive={!leftActive}
+      />
+    </SwitchStyle>
+  );
+}
+
+
+const lib = directory["lib"].items;
+const libLegacy = directory["lib-v1"].items;
+const libLegacyPaths: string[] = [];
+const libPaths: string[] = [];
+>>>>>>> 9b37e2ae9fbeab13b782566969ec379d8f42ac6e
 const libItemsAndPaths: [object, string[]][] = [
   [lib, libPaths],
   [libLegacy, libLegacyPaths]
@@ -62,10 +113,24 @@ export function LibVersionSwitcher({
     urlEnd = url.split('/lib')[1];
   }
 
+<<<<<<< HEAD
   const leftHref = '/lib-v1' + urlEnd;
+=======
+  // Function to remove query string parameters before checking if href is included in the list of possibilities.
+  // This is so we are only comparing the paths without the query string parameters to avoid false negatives.
+  function isHrefIncluded(href: string, paths: string[]) {
+    href = href.split("#")[0];
+    if (href.endsWith("/")) {
+      href = href.substring(0, href.length-1);
+    }
+    return paths.includes(href);
+  }
+
+  const leftHref = "/lib-v1" + urlEnd;
+>>>>>>> 9b37e2ae9fbeab13b782566969ec379d8f42ac6e
   const leftOption = {
     title: legacyVersion,
-    href: libLegacyPaths.includes(leftHref)
+    href: isHrefIncluded(leftHref, libLegacyPaths)
       ? leftHref
       : "/lib-v1/" + filter,
   };
@@ -73,7 +138,7 @@ export function LibVersionSwitcher({
   const rightHref = '/lib' + urlEnd;
   const rightOption = {
     title: `${latestVersion} (latest)`,
-    href: libPaths.includes(rightHref) ? rightHref : "/lib/" + filter,
+    href: isHrefIncluded(rightHref, libPaths) ? rightHref : "/lib/" + filter,
   };
 
   return (
