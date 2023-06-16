@@ -1,9 +1,9 @@
 Get the properties of the file using the `getProperties` method.
 
-```typescript
-Storage.getProperties(key: string)
-  .then(result => console.log(result))
-  .catch(err => console.log(err));
+```js
+Storage.getProperties('key')
+  .then((result) => console.log(result))
+  .catch((err) => console.log(err));
 ```
 
 The format of the response looks like this:
