@@ -3,7 +3,7 @@ Get the properties of the file using the `getProperties` method.
 ```js
 async function getFileProperties() {
   try {
-    const result = await Storage.getProperties('flower.jpeg');
+    const result = await Storage.getProperties('key');
     console.log('File Properties ', result);
   } catch (error) {
     console.log('Error ', error);
