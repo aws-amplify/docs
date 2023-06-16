@@ -32,7 +32,7 @@ After authenticating with Figma, you will see a list of components that you can 
 
 ## Step 3: Configure your project
 
-Before importing and using your components and theme, the project will need an initial setup. 
+Before importing and using your components and theme, the project will need an initial setup. To get started, create a [new React App](/lib/project-setup/create-application/q/platform/js/#create-a-new-react-app) then,
 
 1. Navigate to your application root directory and install the following npm dependencies
 
@@ -44,7 +44,7 @@ npm install -g @aws-amplify/cli
 npm install aws-amplify @aws-amplify/ui-react
 ```
 
-2. In your application's `index.js` file, add the following imports and configuration
+2. In your application's entrypoint file (e.g. `src/index.js` for create-react-app or `src/main.jsx` for Vite), add the following imports and configuration
 
 ```jsx
 import {ThemeProvider} from "@aws-amplify/ui-react";
@@ -54,7 +54,7 @@ import "@aws-amplify/ui-react/styles.css";
 import studioTheme from './ui-components/studioTheme';
 Amplify.configure(awsconfig);
 ```
-3. In your application's `index.js` file, wrap the `<App />` with the following:
+3. In your application's entrypoint file (e.g. `src/index.js` for create-react-app or `src/main.jsx` for Vite), wrap the `<App />` with the following:
 
 ```jsx
 <ThemeProvider theme={studioTheme}>
