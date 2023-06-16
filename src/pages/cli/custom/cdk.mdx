@@ -117,6 +117,8 @@ if (envName === "prod") {
 The CDK stack for custom AWS resources can reference Amplify-generated resources' CloudFormation outputs. To reference another resource, first add the resource as a dependency.
 
 ```ts
+import { AmplifyDependentResourcesAttributes } from "../../types/amplify-dependent-resources-ref";
+
 const dependencies: AmplifyDependentResourcesAttributes = AmplifyHelpers.addResourceDependency(this,
   amplifyResourceProps.category,
   amplifyResourceProps.resourceName,
