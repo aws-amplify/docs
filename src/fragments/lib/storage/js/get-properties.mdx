@@ -1,7 +1,9 @@
 Get the properties of the file using the `getProperties` method.
 
 ```typescript
-await Storage.getProperties(key: string);
+Storage.getProperties(key: string)
+  .then(result => console.log(result))
+  .catch(err => console.log(err));
 ```
 
 The format of the response looks like this:
@@ -15,23 +17,6 @@ The format of the response looks like this:
     metadata: { owner : 'aws'}
 }
 
-```
-
-To utilize Encryption, the following options can be passed in to `Storage.getProperties`:
-
-```typescript
-const SSECustomerAlgorithm = 'string';
-const SSECustomerKey = new Buffer('...') || 'string';
-const SSECustomerKeyMD5 = 'string';
-
-const result = await Storage.getProperties(
-  { key: 'srcKey' },
-  {
-    SSECustomerAlgorithm,
-    SSECustomerKey,
-    SSECustomerKeyMD5
-  }
-);
 ```
 
 ### File Access Levels
