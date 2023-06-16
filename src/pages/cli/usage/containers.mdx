@@ -69,6 +69,12 @@ Finally run `amplify push` to deploy the backend:
 amplify push
 ```
 
+<Callout warning>
+
+Deploying a container-based API requires additional permissions that are not available in [`AdministratorAccess-Amplify`](https://docs.aws.amazon.com/amplify/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-AdministratorAccess-Amplify). If you are using the `AdministratorAccess-Amplify` policy, you will need to update your IAM user/role to include the necessary permissions, or use an elevated managed policy such as [`AdministratorAccess`](https://console.aws.amazon.com/iam/home#policies/arn:aws:iam::aws:policy/AdministratorAccess).
+
+</Callout>
+
 Once this completes your container will be built via an automated pipeline and deployed to Fargate Tasks on an ECS Cluster fronted by an Amazon API Gateway HTTP API using a direct Cloud Map integration to your VPC. If you selected *Yes* to protect your API with Authentication, an Amazon Cognito User Pool will be created with an Authorizer integration for that API.
 
 ## Deploy a single container
