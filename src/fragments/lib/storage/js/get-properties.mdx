@@ -1,4 +1,4 @@
-Get the properties of the file using `getProperties` method.
+Get the properties of the file using the `getProperties` method.
 
 ```typescript
 await Storage.getProperties(key: string);
@@ -32,4 +32,13 @@ const result = await Storage.getProperties(
     SSECustomerKeyMD5
   }
 );
+```
+
+### File Access Levels
+
+You can choose to configure [file access `level`](https://docs.amplify.aws/lib/storage/configureaccess/q/platform/js) as follows:
+
+```typescript
+const level: 'private' | 'protected' | 'public' = 'public';
+const result = await Storage.getProperties('welcome.png', { level }); // defaults to `public`
 ```
