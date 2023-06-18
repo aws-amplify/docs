@@ -183,6 +183,11 @@ export const directory = {
             filters: ['js']
           },
           {
+            title: 'Optimistic UI',
+            route: '/lib/graphqlapi/optimistic-ui',
+            filters: ['js']
+          },
+          {
             title: 'Cancel API requests',
             route: '/lib/graphqlapi/cancel-request',
             filters: ['js', 'react-native']

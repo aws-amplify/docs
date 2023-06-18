@@ -1230,6 +1230,7 @@
     "tabs.page.html",
     "tabs.router.module",
     "taglabel",
+    "tanstack",
     "task.result",
     "taskIdentifier",
     "template.json",
@@ -1508,11 +1509,5 @@
     "kotlinx",
     "snapcraft"
   ],
-  "flagWords": [
-    "hte", 
-    "full-stack", 
-    "Full-stack", 
-    "Full-Stack",
-    "sudo",
-  ]
+  "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"]
 }
