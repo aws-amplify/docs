@@ -1077,6 +1077,7 @@
     "RecyclerView",
     "redirect_to",
     "referrerpolicy",
+    "refetches",
     "Registrarse",
     "Regístrate",
     "Rehydrated",
@@ -1507,7 +1508,8 @@
     "Libre's",
     "Pinia",
     "kotlinx",
-    "snapcraft"
+    "snapcraft",
+    "snapshotted"
   ],
   "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"]
 }
