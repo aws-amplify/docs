@@ -4,7 +4,13 @@ module.exports = {
    *
    * @param {Object} obj.artifactName - Name of artifiact file to check
    */
-  addRedirectsNeededLabel: async ({ github, context, fs, artifactName }) => {
+  addRedirectsNeededLabel: async ({
+    github,
+    context,
+    fs,
+    core,
+    artifactName
+  }) => {
     const {
       payload: {
         repository: {
@@ -40,6 +46,8 @@ module.exports = {
           labels: ['redirects-needed']
         });
       }
+    } else {
+      core.setFailed(`Unable to parse ${artifactName}.txt`);
     }
   }
 };
