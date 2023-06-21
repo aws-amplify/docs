@@ -1,6 +1,6 @@
 export const meta = {
   title: `Extend with the Amplify CLI`,
-  description: `Install the CLI without npm and use the CLI without an AWS account`
+  description: `Install the Amplify CLI and use the CLI without an AWS account`
 };
 
 Amplify Studio allows you to use all the Amplify CLI's features without the need to configure it with AWS Identity and Access Management (IAM). Changes made in Amplify Studio can be made available in the CLI by running the `amplify pull` command. Similarly, CLI changes to the data model or auth will be visible in Amplify Studio. For all other categories, Studio provides links to the relevant service consoles in AWS.
@@ -85,6 +85,6 @@ To resolve this issue,
 
 <Callout>
 
-Note, the content of `~/.amplify/admin/config.json` is utilized to store JWTs to vend temporary AWS credentials and should __NOT__ be shared.
+Note, the content of `~/.amplify/admin/config.json` is utilized to store JWTs to vend temporary AWS credentials and should **NOT be shared.
 
 </Callout>
