@@ -19,7 +19,7 @@ import Directory from './Directory';
 import FilterSelect from './FilterSelect';
 import { VersionSwitcher, LibVersionSwitcher } from './VersionSwitcher';
 import { useLastUpdatedDatesContext } from '../LastUpdatedProvider';
-import { Button } from '@cloudscape-design/components';
+import { CloseIcon } from '../Icons';
 
 type MenuProps = {
   filters: string[];
@@ -126,7 +126,7 @@ function Menu(props: MenuProps, ref) {
               {!onDesktop && (
                 <div className="mobileHeader">
                   <h2>Table of Contents</h2>
-                  <Button variant="icon" iconName="close" onClick={hideMenu} />
+                  <CloseIcon onClick={hideMenu} />
                 </div>
               )}
               {onDesktop && <MenuCloseButton closeMenu={closeMenu} />}

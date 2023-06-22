@@ -5,11 +5,17 @@ import directory from '../../../directory/directory.mjs';
 
 jest.mock('../RepoActions', () => () => <div>Repo Actions</div>);
 Object.defineProperty(window, 'matchMedia', {
-  value: () => {
-    return {
-      matches: true
-    };
-  }
+  writable: true,
+  value: jest.fn().mockImplementation((query) => ({
+    matches: true,
+    media: query,
+    onchange: null,
+    addListener: jest.fn(), // Deprecated
+    removeListener: jest.fn(), // Deprecated
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    dispatchEvent: jest.fn()
+  }))
 });
 
 const directoryKeys = Object.keys(directory);

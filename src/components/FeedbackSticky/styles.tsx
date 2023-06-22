@@ -90,9 +90,9 @@ export const FeedbackContainer = styled.div`
   &.UP,
   &.DOWN {
     border: 2px solid #d1d5db;
+    min-width: 268px;
   }
   position: fixed;
-  min-width: 268px !important;
   bottom: 32px;
   left: 50%;
   transform: translateX(-50%);
@@ -185,12 +185,12 @@ export const FeedbackContainer = styled.div`
           font-size: 14px;
         }
         button {
-          padding: 0px !important;
-          border: 0 !important;
+          padding: 0px;
+          border: 0;
           span {
-            cursor: pointer !important;
-            padding: 0 !important;
-            height: unset !important;
+            cursor: pointer;
+            padding: 0;
+            height: unset;
           }
         }
       }
@@ -263,8 +263,8 @@ export const VoteButtonsContainer = styled.div`
   height: 20px;
   justify-content: center;
   span {
-    padding: 0 !important;
-    height: unset !important;
+    padding: 0;
+    height: unset;
   }
   &.up {
     display: flex;
@@ -304,42 +304,50 @@ export const VoteButtonReplace = styled.div`
   right: 16px;
   opacity: 0;
   span {
-    padding: 0 !important;
+    padding: 0;
   }
 `;
 
 export const VoteButton = styled.a`
-  padding: 0px !important;
-  border-left: none !important;
+  padding: 0px;
+  border-left: none;
   &:hover {
     cursor: pointer;
-    background: none !important;
+    background: none;
   }
   span {
-    padding: 0 !important;
-    height: unset !important;
+    padding: 0;
+    height: unset;
   }
 `;
 
 export const ButtonStyles = styled.span`
   display: flex;
-  justify-content: center !important;
+  justify-content: center;
   width: 100%;
   a {
-    background: none !important;
+    background: none;
     cursor: pointer;
-    color: #414d5c !important;
-    border-color: #414d5c !important;
+    color: #414d5c;
+    border-color: #414d5c;
     width: 100%;
-    display: flex !important;
+    display: flex;
     justify-content: center;
+    position: relative;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 800;
+    border-radius: 20px;
+    border: 2px solid;
+    padding: 4px 20px;
     span {
       cursor: pointer;
     }
     &:hover {
-      border-color: #000716 !important;
-      color: #000716 !important;
-      background: rgba(0, 7, 22, 0.05) !important;
+      border-color: #000716;
+      color: #000716;
+      background: rgba(0, 7, 22, 0.05);
+      text-decoration: none;
     }
   }
 `;
