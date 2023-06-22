@@ -146,7 +146,7 @@ Alternatively, to get started without logging into AWS, [you can build unconnect
 
 ### Initial Project Setup
 
-To use a form in your application, you first need to configure your project to use Amplify Studio generated components. 
+To use a form in your application, you first need to configure your project to use Amplify Studio generated components. To get started, create a [new React App](/lib/project-setup/create-application/q/platform/js/#create-a-new-react-app) then,
 
 1. Navigate to your application's root directory and install the following npm dependencies
 
@@ -158,7 +158,7 @@ npm install -g @aws-amplify/cli
 npm install aws-amplify @aws-amplify/ui-react
 ```
 
-2. In your application's `index.js` file, add the following imports and configuration
+2. In your application's entrypoint file (e.g. `src/index.js` for create-react-app or `src/main.jsx` for Vite), add the following imports and configuration
 
 ```jsx
 import '@aws-amplify/ui-react/styles.css';
@@ -171,7 +171,7 @@ import studioTheme from './ui-components/studioTheme';
 
 Amplify.configure(awsconfig);
 ```
-3. In your application's `index.js` file, wrap the `<App />` with the following:
+3. In your application's entrypoint file (e.g. `src/index.js` for create-react-app or `src/main.jsx` for Vite), wrap the `<App />` component with the following:
 
 ```jsx
 <ThemeProvider theme={studioTheme}>
