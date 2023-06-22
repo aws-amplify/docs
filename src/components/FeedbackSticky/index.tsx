@@ -65,6 +65,7 @@ export default function Feedback({ footerRef }) {
           scrollUp &&
           !container.classList.contains('close')
         ) {
+          container.classList.remove('initial');
           container.classList.remove('slideOut');
           container.classList.add('slideIn');
           container.ariaHidden = 'false';
@@ -112,7 +113,7 @@ export default function Feedback({ footerRef }) {
     <FeedbackContainer
       id="feedback-container"
       ref={containerRef}
-      className={state}
+      className={state + ' initial'}
       aria-hidden={state == FeedbackState.UP ? true : false}
     >
       <div className="sizing" aria-hidden="true">

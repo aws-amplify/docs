@@ -129,6 +129,10 @@ export const FeedbackContainer = styled.div`
     }
   }
 
+  &.initial {
+    visibility: hidden;
+  }
+
   &.START {
     background-color: #ffffff;
     div {
