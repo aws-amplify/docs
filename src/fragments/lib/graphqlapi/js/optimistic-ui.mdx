@@ -61,6 +61,14 @@ For more on Amplify GraphQL API operations, see the [API documentation](https://
 
 <Callout>
 
+**TODO: TanStack optimistic UI "gotchas". Determine placement of this callout.**
+
+- Specifically around query keys and list vs single item behavior (i.e. implementing optimistic UI for a single item mutation will not behave as expected when the query is for a list of items)
+
+</Callout>
+
+<Callout>
+
 For the complete working example, including required imports, and React component state management, see the [Complete Example](#complete-example) below.
 
 </Callout>
@@ -138,6 +146,7 @@ import { Loader } from "@aws-amplify/ui-react";
 // https://tanstack.com/query/v5/docs/react/guides/background-fetching-indicators#displaying-global-background-fetching-loading-state
 import { useIsFetching } from "@tanstack/react-query";
 
+// For rendering 
 function GlobalLoadingIndicator() {
   const isFetching = useIsFetching();
 
