@@ -367,9 +367,9 @@
     tslib "^1.8.0"
 
 "@aws-amplify/graphql-transformer-interfaces@^2.2.1":
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-transformer-interfaces/-/graphql-transformer-interfaces-2.2.1.tgz#a7f37b4e10d79e2f2407a382217174639bcbab3c"
-  integrity sha512-uiPpLXWdBXbArJtW3xLIthszFaAGLa6Tn0xbpXvuOw8aWPf5nvo2s80Ppp44SPxn++tIS9WXSr9ZikPcCQsc4w==
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-transformer-interfaces/-/graphql-transformer-interfaces-2.2.2.tgz#8fc951fd12fa93d9be624573fd81b13529b1f914"
+  integrity sha512-IPX8SpFlF/R3SwBMCONRWHcK7cQCzpQmxX0RX46mQ+vFn17RCBS/iItM4LBEvV5kF7DUGGlHhI98dmJcF6eKIg==
   dependencies:
     aws-cdk-lib "~2.68.0"
     constructs "^10.0.5"
@@ -458,23 +458,23 @@
     qrcode "^1.4.4"
     uuid "^8.2.0"
 
-"@aws-amplify/ui-react-core@2.1.23":
-  version "2.1.23"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/ui-react-core/-/ui-react-core-2.1.23.tgz#e27f8e7ec3a86dba7828e8b69cc036a5b6b2a435"
-  integrity sha512-qKoPcLpKpniwlji0mTiTXdwOdFSTD/LO//T5iLsE+uyu/BzsEFpbznl/XdRsCbHrtLDrMlygf25OczTLPNQtQg==
+"@aws-amplify/ui-react-core@2.1.24":
+  version "2.1.24"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/ui-react-core/-/ui-react-core-2.1.24.tgz#027660a1b42765189d0926f5575e2d86ea909aae"
+  integrity sha512-e1RQZjCDd22fp/CqG+7rqgZZi+XXcegYOgvZ8xqOrCI2jFcVBnlPr+oGjxf7E3PhLGlKsjAKgEZ/l9DzU/WUSw==
   dependencies:
-    "@aws-amplify/ui" "5.6.4"
+    "@aws-amplify/ui" "5.6.5"
     "@xstate/react" "3.0.1"
     lodash "4.17.21"
     xstate "^4.33.6"
 
-"@aws-amplify/ui-react@^5.0.1":
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/ui-react/-/ui-react-5.0.1.tgz#61a311e0d6db0bb203f300825ce0066282250839"
-  integrity sha512-+dH5tWvP/CDxWJR+YXrDifymEgVDVdfXLS8qIBKG/qlWhEPUCApVFAJPXbb2dDsX/gwztBXZmdCJB9RMQbCv+w==
+"@aws-amplify/ui-react@^5.0.2":
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/ui-react/-/ui-react-5.0.2.tgz#b9cf8fc66ba27f990aa9d6f9ab74dea6eef28b26"
+  integrity sha512-y5KTchgIW4WJUV8YH9hyzfEKSHJw3KVZYvynphSFjhjDQta/pbTLis8NnXW5pj3J76lD9Q5rg1ft1Wi4WySgMQ==
   dependencies:
-    "@aws-amplify/ui" "5.6.4"
-    "@aws-amplify/ui-react-core" "2.1.23"
+    "@aws-amplify/ui" "5.6.5"
+    "@aws-amplify/ui-react-core" "2.1.24"
     "@radix-ui/react-accordion" "1.0.0"
     "@radix-ui/react-direction" "1.0.0"
     "@radix-ui/react-dropdown-menu" "1.0.0"
@@ -488,10 +488,10 @@
     react-generate-context "1.0.1"
     tslib "2.4.1"
 
-"@aws-amplify/ui@5.6.4":
-  version "5.6.4"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/ui/-/ui-5.6.4.tgz#ff7723d57668e435ce374e09169573355dbada99"
-  integrity sha512-6xXHWMMZ9OGNcRq/FoW8KrHC5dsX841O/fOeFDi5a7aHLPTqGdc9PNLFjzrlaqAQT6Sj9QMfCPAJcLT6UcUG3g==
+"@aws-amplify/ui@5.6.5":
+  version "5.6.5"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/ui/-/ui-5.6.5.tgz#470f0f1f882da25d978c7e576c67fb0a6c928efd"
+  integrity sha512-qenSRH4YRIB8QyPtPTKdpAsxfvL9nff9276lkF61DtpbBbJtw7cdmsAgTFMO1dCezS5Q1PiZdy/LSNRSI3wf1Q==
   dependencies:
     csstype "^3.1.1"
     lodash "4.17.21"
