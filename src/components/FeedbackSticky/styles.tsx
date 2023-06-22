@@ -100,7 +100,7 @@ export const FeedbackContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 12px 16px;
+  padding: 8px 12px;
   transition: bottom 0.4s;
   animation: ${slideInMobile} 0.4s ease-in-out;
   animation-fill-mode: forwards;
@@ -129,16 +129,16 @@ export const FeedbackContainer = styled.div`
     }
   }
 
-  &.initial {
-    visibility: hidden;
-  }
-
   &.START {
-    background-color: #ffffff;
+    background-color: var(--color-white);
     div {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
+    }
+
+    &.initial {
+      visibility: hidden;
     }
   }
   &.UP {
@@ -197,8 +197,9 @@ export const FeedbackContainer = styled.div`
     }
   }
   .sizing {
-    font-weight: bold;
-    font-size: 14px;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 16px;
     margin-right: 34px;
     align-items: left;
     visibility: hidden;
@@ -234,6 +235,9 @@ export const FeedbackContainer = styled.div`
       }
     }
     &.close {
+      animation: ${slideOutDesktop} 0.4s ease-in-out;
+      animation-fill-mode: forwards;
+
       &.DOWN {
         animation: ${collapse} 0.6s ease-in-out,
           ${slideOutDesktop} 0.4s ease-in-out 1.5s;
@@ -259,12 +263,21 @@ export const FeedbackText = styled.p`
 export const VoteButtonsContainer = styled.div`
   display: flex;
   flex-direction: row;
-  width: 66px;
-  height: 20px;
+  height: 16px;
   justify-content: center;
-  span {
-    padding: 0;
-    height: unset;
+  align-self: center;
+  a {
+    color: var(--secondary-color);
+    height: inherit;
+
+    span {
+      padding: 0;
+      height: inherit;
+
+      svg {
+        height: inherit;
+      }
+    }
   }
   &.up {
     display: flex;

@@ -159,6 +159,8 @@ export default function Feedback({ footerRef }) {
                   >
                     <ThumbsDownIcon />
                   </VoteButton>
+                  <Divider />
+                  <CloseIcon onClick={close} />
                 </VoteButtonsContainer>
               </div>
             );

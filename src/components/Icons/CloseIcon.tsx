@@ -6,7 +6,6 @@ const CloseWrapper = styled.span`
   align-items: center;
   svg {
     cursor: pointer;
-    color: #414d5c;
     &:hover {
       color: #000716;
     }
