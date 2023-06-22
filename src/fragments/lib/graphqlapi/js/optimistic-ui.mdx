@@ -22,7 +22,7 @@ type RealEstateProperty @model @auth(rules: [{ allow: public }]) {
 
 Save the schema and run `amplify push` to deploy the changes.
 
-Next, (at the root of your project?), add the required TanStack Query imports, and create a client:
+Next, in your application code, where you plan to render the real estate properties, add the required TanStack Query imports, and create a client:
 
 ```ts
 import {
