@@ -1,3 +1,9 @@
+<Callout warning>
+
+**Note:** This functionality is not available in **tvOS**.
+
+</Callout>
+
 You can record that a user opened a push notification with Amazon Pinpoint by calling `Amplify.Notifications.Push.recordNotificationOpened(_)` from the `userNotificationCenter(_:didReceive:)` delegate method of your UNUserNotificationCenter Delegate.
 
 First, set the UNUserNotificationCenter delegate to your Application Delegate by adding or updating the following method.
@@ -23,6 +29,15 @@ func application(
 func applicationDidFinishLaunching(_ notification: Notification) {
     UNUserNotificationCenter.current().delegate = self
     // ...
+}
+```
+
+</Block>
+<Block name="watchOS">
+
+```swift
+func applicationDidFinishLaunching() {
+    UNUserNotificationCenter.current().delegate = self
 }
 ```
 
