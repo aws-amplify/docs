@@ -151,15 +151,11 @@ import { Loader } from "@aws-amplify/ui-react";
 // https://tanstack.com/query/v5/docs/react/guides/background-fetching-indicators#displaying-global-background-fetching-loading-state
 import { useIsFetching } from "@tanstack/react-query";
 
-// For rendering 
 function GlobalLoadingIndicator() {
   const isFetching = useIsFetching();
 
   return isFetching ? <Loader size="large" /> : null;
 }
-
-// For generating random address
-const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 function App() {
   const [currentRealEstatePropertyId, setCurrentRealEstatePropertyId] =
@@ -189,6 +185,7 @@ function App() {
       const allRealEstateProperties =
         response?.data?.listRealEstateProperties?.items;
 
+      // TODO
       if (!allRealEstateProperties) return null;
 
       return allRealEstateProperties;
@@ -512,9 +509,7 @@ function App() {
           onClick={() => {
             createMutation.mutate({
               name: `New Home ${Date.now()}`,
-              address: `${
-                alphabet[Math.floor(Math.random() * alphabet.length)]
-              } St`,
+              address: `${Math.floor(1000 + Math.random() * 9000)} Main St`,
             });
           }}
         >
