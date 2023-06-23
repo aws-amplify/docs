@@ -4,7 +4,7 @@ In this guide, you will learn how to set up Amplify Authentication. This job inc
 
 ## Set up and connect to backend resources
 
-In this job you will set up and connect to your backend resources. This job includes understanding how resources are managed and created to help you choose a management path. We will review the  features and functionality available with Amplify as well as how Cognito is used with Amplify. We will also look at how your security strategy and password formats may influence some of your choices for this job. 
+In this job you will set up and connect to your backend resources. This job includes understanding how resources are managed and created to help you choose a management path. We will review the features and functionality available with Amplify as well as how Cognito is used with Amplify. We will also look at how your security strategy and password formats may influence some of your choices for this job. 
 
 > **Before you begin, you will need:**
 > - [Amplify CLI installed](https://docs.amplify.aws/cli/start/install/)
@@ -14,11 +14,11 @@ In this job you will set up and connect to your backend resources. This job incl
 
 [comment]: # (Links for node, npm, and git above from https://github.com/aws-amplify/docs/blob/main/src/fragments/start/getting-started/common/prereq.mdx; but we will need to update these fragments to use them as broader in scope than what we need here.)
 
-[note]: # (In our workshop we called out that they may experience problems setting up the CLI but I did not put that section here b/c it read like it should be part of the CLI instructions. If this troubleshooting is specific to Auth let’s look at adding in an Expander here.)
+[note]: # (In our workshop we called out that users may experience problems setting up the CLI but I did not put that section here b/c it read like it should be part of the CLI instructions. If this troubleshooting is specific to Auth let’s look at adding in an Expander here.)
 
 ### Choose your management path
 
-[comment]: # (This section includes an updated overview that helps the user to decide which management method to use. This includes an explanation of how resources are managed and created; the benefits of using Amplify CLI and Studio to get Amplify features and functionality; how Cognito is used today; security strategy choices; and password formats. . This content should help them understand required decisions for the job before they get started on the actions. Current content from - https://github.com/aws-amplify/docs/blob/main/src/fragments/lib/auth/js/getting-started.mdx Additional INSPIRATION from https://docs.amplify.aws/lib/auth/overview/q/platform/js/ and https://docs.amplify.aws/cli/auth/overview/)
+[comment]: # (This section includes an updated overview that helps the user to decide which management method to use. This includes an explanation of how resources are managed and created; the benefits of using Amplify CLI and Studio to get Amplify features and functionality; how Cognito is used today; security strategy choices; and password formats. This content should help them understand required decisions for the job before they get started on the actions. Current content from - https://github.com/aws-amplify/docs/blob/main/src/fragments/lib/auth/js/getting-started.mdx Additional INSPIRATION from https://docs.amplify.aws/lib/auth/overview/q/platform/js/ and https://docs.amplify.aws/cli/auth/overview/)
 
 You can create and manage your Authentication resources with Amplify by using the Amplify CLI, Amplify Studio, or Amplify Libraries. The most common way is via the Amplify CLI, which allows you to create new Amazon Cognito resources or import existing ones. However, you can also use the Amplify Studio console to configure authentication or use the `Amplify.configure()` method to set up authentication with existing resources via the Amplify Libraries. 
 
@@ -30,18 +30,20 @@ Amplify Libraries can be used to integrate your existing Authentication resource
 
 [comment]: # (EXPANDER section that provides a foundational look at security strategies and how Amplify aligns to those choices. We had put this as a need-to-know initially so once written we may consider if this should be taken out of the expander. Content from https://github.com/aws-amplify/docs/blob/main/src/fragments/lib/auth/js/overview.mdx and INSPIRATION from  https://docs.amplify.aws/lib/auth/getting-started/q/platform/js/ , https://docs.amplify.aws/lib/auth/overview/q/platform/js/ , https://docs.amplify.aws/lib/auth/mfa/q/platform/js/ )
 
-Amplify Authentication helps you secure your application while providing an easy sign-in experience for your users. This experience will be influenced by your security strategy. This security strategy will include both the authentication method as well as security credentials and enabling additional verification when needed.
+Amplify Authentication helps you secure your application while providing an easy sign-in experience for your users. This experience will be influenced by your security strategy. This security strategy will include both the authentication method, security credentials, and enabling additional verification when needed.
 
-> - *Authentication* is a process to validate **who you are** (abbreviated as *AuthN*). The system which does this validation is referred to as an **Identity Provider** or **IdP**. This can be your own self-hosted IdP or a cloud service. Oftentimes, this IdP is a social provider such as Facebook, Google, or Amazon.
-> - *Authorization* is the process of validating **what you can access** (abbreviated as *AuthZ*). This is sometimes done by looking at tokens with custom logic, predefined rules, or signed requests with policies.
+ - *Authentication* is a process to validate **who you are** (abbreviated as *AuthN*). The system which does this validation is referred to as an **Identity Provider** or **IdP**. This can be your own self-hosted IdP or a cloud service. Oftentimes, this IdP is a social provider such as Facebook, Google, or Amazon.
+ - *Authorization* is the process of validating **what you can access** (abbreviated as *AuthZ*). This is sometimes done by looking at tokens with custom logic, predefined rules, or signed requests with policies.
 
 Common authentication methods and associated risks include: 1) username/password which is simple to set up but prone to compromise, 2) social provider federation which shares data with third parties, and 3) multi-factor authentication which adds a layer of security at sign-in but also adds friction for your users.
+
+You can improve security credentials and verification for these authentication methods by adding: 1) password policies that ensure stronger passwords created by your users, 2) require additional contact information from users before they can reset passwords, 3) limit sign-in attempts to prevent brute-force logins, and 4) enable temporary passwords for MFA flows to improve user verification.
 
 In the Amplify ecosystem, the most common Authentication method is either using Amazon Cognito User Pools independently or with a social provider to validate the identity of the user (known as *Federation*). 
 
 [Amazon Cognito User Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools.html) is a full-featured user directory service to handle user registration, authentication, and account recovery. [Amazon Cognito Federated Identities or Identity Pools](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-identity.html) on the other hand, is a way to authorize your users to use AWS services.
 
-Amplify interfaces with User Pools to store your user information, including federation with other OpenID providers like Facebook & Google, and it leverages Federated Identities to manage user access to AWS Resources, for example allowing a user to upload a file (to an S3 bucket). The Amplify CLI automates the access control policies for these AWS resources as well as provides [fine grained access controls via GraphQL](https://docs.amplify.aws/cli/graphql/authorization-rules) for protecting data in your APIs.
+Amplify interfaces with User Pools to store your user information, including federation with other OpenID providers like Facebook and Google, and it leverages Federated Identities to manage user access to AWS resources, for example allowing a user to upload a file (to an S3 bucket). The Amplify CLI automates the access control policies for these AWS resources as well as provides [fine grained access controls via GraphQL](https://docs.amplify.aws/cli/graphql/authorization-rules) for protecting data in your APIs.
 
 Authorization is often done in one of two ways:
 
@@ -49,8 +51,6 @@ Authorization is often done in one of two ways:
 1. Clients sign the requests and the backend validates the signature, allowing or denying actions depending on predefined policy. The predefined rules are known as [IAM](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html) policies and automatically configured by the Amplify CLI.
 
 The first mode is a common authorization method for REST or GraphQL APIs, while the second mode is necessary for interfacing with AWS services such as S3, Pinpoint, and others.
-
-You can improve security credentials and verification for these authentication methods by adding: 1) password policies that ensure stronger passwords created by your users, 2) require additional contact information from users before they can reset passwords, 3) limit sign-in attempts to prevent brute-force logins, and 4) enable temporary passwords for MFA flows to improve user verification.
 
 Amplify allows you to start simple and build incremental security and customization over time as your needs evolve. These are just some of the decisions and best practices that you can incorporate into your authentication strategy with Amplify. 
 
@@ -62,7 +62,7 @@ Amplify uses [Amazon Cognito](https://aws.amazon.com/cognito/) as the main authe
 
 [comment]: # (EXPANDER section that details decisions with Cognito that cannot change in the long-term such as: user attributes cannot be renamed or deleted; login methods - username/email/phone/alias - cannot be added or changed; standard attributes which are required cannot be changed; enabling MFA after it was disabled is not possible. INSPIRATION from https://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html I also used a few additional pages: https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html and https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-mfa.html)
 
-Amazon Cognito can be customized based on your security strategy for authentication. However, there are some initial configuration options that cannot be changed after the domain is launched and the user pool put into use by your application:
+Amazon Cognito can be customized based on your security strategy for authentication. However, there are some initial configuration options that cannot be changed after the domain is launched and the user pool is put into use by your application:
 
 - User attributes that are used to identify your individual users (e.g. username, email, etc.) cannot be renamed or deleted.
 - Login methods (including username, email, phone, etc.) cannot be added or changed after the initial configuration. This includes both defining which attributes are used to log-in and which attributes are required. Required attributes must have a value for all users once set.
@@ -80,6 +80,8 @@ See the [Amazon Cognito documentation]( https://docs.aws.amazon.com/cognito/late
 
 [comment]: # (Content consolidated so we can review as a whole and update as needed as a whole. Sources include: https://github.com/aws-amplify/docs/blob/main/src/fragments/lib/auth/js/getting_started/10_setUpBackendResources.mdx - note that in the section below it mentions installing CLI and libraries ahead of time. I took out the separate CTA to install Amplify libraries on the getting started page as this is also called out in the switchers directly – do we want to adjust how this is called out in the switchers? Currently a link.)
 
+[question]: # (Can we add more information about what is included in the different default configurations? This example asks them to use default but what does that include? Thinking of options of - default configuration, default with social provider, manual configuration. Where can I find this information to add into an expander?)
+
 Once you have chosen your management method you can configure your auth category by installing the library and configuring the category. Choose your method to complete the set up and configuration:
 
 #### Understanding password formats
@@ -88,9 +90,9 @@ Once you have chosen your management method you can configure your auth category
 
 When you are setting up your password formats for authentication you will want to consider the following best practices:
 
-- Password strength: You can set minimum length, character types, and prevent common words or sequences to help users make stronger passwords. This can include an expiration period to help your users update their password regularly (e.g. every 90 days). There are also options to limit repeated passwords by making sure it is no one of the previous X passwords. Finally, if you have MFA enabled, you can use temporary passwords to add more verification.
+- Password strength: You can set minimum length, character types, and prevent common words or sequences to help users make stronger passwords. This can include an expiration period to help your users update their password regularly (e.g. every 90 days). There are also options to limit repeated passwords by making sure it is not one of the previous X passwords. Finally, if you have MFA enabled, you can use temporary passwords to add more verification.
 - Forgotten passwords: You have the option to require additional verified contact information (e.g. email, phone) or use a validation code in the reset flow. You can also track password resets in your logs (e.g AWS CloudTrail) to check for suspicious activity.
-- Lockout settings: Set the number of incorrect sign-in attempts you allow within a specific time frame (min/hours) for you users. You can also check for unverified devices and require additional validation when your user’s device changes. 
+- Lockout settings: You can set the number of incorrect sign-in attempts you allow within a specific time frame (min/hours) for you users. You can also check for unverified devices and require additional validation when your user’s device changes. 
 
 [comment]: # (End of expander section.)
 
