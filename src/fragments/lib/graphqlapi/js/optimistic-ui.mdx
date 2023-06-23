@@ -54,6 +54,8 @@ const queryClient = useQueryClient()
 
 <Callout>
 
+** DOCS LINKS **
+
 For more details on TanStack Query, including requirements, supported browsers, and advanced usage, see the [TanStack Query documentation](https://tanstack.com/query/latest/docs/react/overview). 
 For more on Amplify GraphQL API operations, see the [API documentation](https://docs.amplify.aws/lib/graphqlapi/getting-started/q/platform/js/).
 
@@ -64,10 +66,13 @@ For more on Amplify GraphQL API operations, see the [API documentation](https://
 **TODO: TanStack optimistic UI "gotchas". Determine placement of this callout.**
 
 - Specifically around query keys and list vs single item behavior (i.e. implementing optimistic UI for a single item mutation will not behave as expected when the query is for a list of items)
+- One of the things that was at first unclear to me was that the optimistic UI behavior changes based on what query key is used. So for instance, if I set my query key as “todos” when I retrieve a list of items, I can only use that query key for optimistically rendering a new item. If I were to use that key for updating an item, I'd see duplicate entries (a query key without an ID is used for optimistically rendering a create operation). Since updates usually happen in a “detail view” anyway, I've added a detail view to the sample where I query the single item, create a key for that item based on it's ID, and then I can perform updates using that query key to optimistically render the update, but not run into the issue of seeing duplicate entries. I'll link my sample app in a minute if you'd like to use the imported TanStack debugger for observing changes in the cache.
 
 </Callout>
 
 <Callout>
+
+**COMPLETE EXAMPLE CALLOUT**
 
 For the complete working example, including required imports, and React component state management, see the [Complete Example](#complete-example) below.
 
