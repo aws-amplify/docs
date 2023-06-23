@@ -337,6 +337,14 @@ There are a few options to implement Auth depending on how much customization yo
 - **Amplify Libraries** provide the low-level building blocks for implementing authentication and give you full control over the UI and logic. However, the Amplify Libraries require more work to implement a full end-to-end solution and you must manage resourcing and provisioning yourself.
 - **Hosted UI** is a simple drop-in UI for basic sign-in UI components. However, it has limited functionality (only sign-up and sign-in) and you will still need to manage backend integration and additional authentication workflows. For example, you will still need to integrate Amazon Cognito separately with the Amplify CLI as well as set up workflows for password reset, MFA, federation, and more. 
 
+[comment]: # (Adding table view as an option. If we do a table instead of the bullets above we will need to revise the INSPIRATION Pros and Cons. Adding for easier consideration and editing.)
+
+| Option | Description | Pros | Cons |
+|:-:|:-:|:-:|:-:|
+| Amplify Authenticator | Open source drop-in UI component for authentication | Alows you to quickly add a production-ready authentication flows to web and mobile applications. It automatically integrates with your existing Amplify configuration and allows you to easily add the entire authentication flow to your application. You simply add the component to your app and pass it your Amazon Cognito authentication configuration. You can then customize themes to adjust colors and styling as needed. | Dependent on Amplify CLI for provisioning resources. |  
+| Amplify Libraries | Low-level building blocks for implementing authentication | Gives you full control over the UI and logic. | UI needs to be built and requires more work to implement a full end-to-end solution - you must manage resourcing and provisioning yourself. |
+| Amplify Hosted UI | Pre-built sign-up and sign-in UI components | Simple drop-in UI with basic customization via properties. | Has limited functionality (only sign-up and sign-in) and you will still need to manage backend integration and additional authentication workflows. For example, you will still need to integrate Amazon Cognito separately with the Amplify CLI as well as set up workflows for password reset, MFA, federation, and more. |
+
 We recommend using the authenticator to quickly set up your UI component and then use the Amplify Libraries to customize the user experience and logic.
 
 ### Recap
