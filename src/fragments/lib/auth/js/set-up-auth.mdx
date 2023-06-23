@@ -7,7 +7,6 @@ In this guide, you will learn how to set up Amplify Authentication. This job inc
 In this job you will set up and connect to your backend resources. This job includes understanding how resources are managed and created to help you choose a management path. We will review the features and functionality available with Amplify as well as how Cognito is used with Amplify. We will also look at how your security strategy and password formats may influence some of your choices for this job. 
 
 > **Before you begin, you will need:**
-> - [Amplify CLI installed](https://docs.amplify.aws/cli/start/install/)
 > - [Node.js](https://nodejs.org/) v14.x or later
 > - [npm](https://www.npmjs.com/) v6.14.4 or later
 > - [git](https://git-scm.com/) v2.14.1 or later
@@ -78,15 +77,25 @@ See the [Amazon Cognito documentation]( https://docs.aws.amazon.com/cognito/late
 
 ### Set up and configure your auth category
 
-[comment]: # (Content consolidated so we can review as a whole and update as needed as a whole. Sources include: https://github.com/aws-amplify/docs/blob/main/src/fragments/lib/auth/js/getting_started/10_setUpBackendResources.mdx - note that in the section below it mentions installing CLI and libraries ahead of time. I took out the separate CTA to install Amplify libraries on the getting started page as this is also called out in the switchers directly – do we want to adjust how this is called out in the switchers? Currently a link.)
+[comment]: # (Content consolidated so we can review as a whole and update as needed as a whole. Sources include: https://github.com/aws-amplify/docs/blob/main/src/fragments/lib/auth/js/getting_started/10_setUpBackendResources.mdx and https://github.com/aws-amplify/docs/blob/JTBD-Auth/src/fragments/lib/auth/js/getting-started-steps-basic-auth.mdx)
 
 [question]: # (Can we add more information about what is included in the different default configurations? This example asks them to use default but what does that include? Thinking of options of - default configuration, default with social provider, manual configuration. Where can I find this information to add into an expander?)
 
-Once you have chosen your management method you can configure your auth category by installing the library and configuring the category. Choose your method to complete the set up and configuration:
+Once you have chosen your management method you can configure your auth category by installing the library and configuring the Auth category. 
+
+#### Install Amplify Libraries
+
+Install the necessary dependencies by running the following command:
+
+```sh
+npm install aws-amplify
+```
+
+Choose your method to complete the set up and configuration:
 
 #### Understanding password formats
 
-[comment]: # (EXPANDER section that provides more information on password formats – length, characters, etc. INSPIRATION from https://docs.amplify.aws/lib/auth/manageusers/q/platform/js/ It looks like from the switchers that only Studio requires these decisions this early do we want to move this information to that switcher or do we need to update this for both “create” options?)
+[comment]: # (EXPANDER section that provides more information on password formats – length, characters, etc. INSPIRATION from https://docs.amplify.aws/lib/auth/manageusers/q/platform/js/ It looks like from the switchers that only Studio requires these decisions this early do we want to move this information to that switcher specifically or do we need to update this for both “create” options?)
 
 When you are setting up your password formats for authentication you will want to consider the following best practices:
 
