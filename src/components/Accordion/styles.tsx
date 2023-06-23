@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
-import { Plus, DeepDive } from './icons';
+import { Expand, DeepDive } from './icons';
+import { useState } from 'react';
 
 type AccordionProps = {
   title?: string;
   eyebrow?: string;
-  withButton?: Boolean;
 };
 
 export const Details = styled.details`
@@ -19,20 +19,13 @@ export const Details = styled.details`
   border: 1px solid var(--border-color);
   text-align: left;
 
-  margin-bottom: 1rem; //temporarily for a demo purposes to sepatate both components
-
-  &.with-button .docs-expander__summary {
-    cursor: default;
-    --background-color-hover: var(--amplify-colors-teal-10);
-  }
-
   &[open] .docs-expander__summary {
     border-end-end-radius: 0;
     border-end-start-radius: 0;
   }
 
   &[open] .docs-expander__title__indicator svg {
-    transform: rotate(45deg);
+    transform: rotate(-180deg);
   }
 
   .docs-expander__body {
@@ -42,6 +35,16 @@ export const Details = styled.details`
     border-top: 1px solid var(--border-color);
     border-end-end-radius: var(--border-radius);
     border-end-start-radius: var(--border-radius);
+  }
+
+  .docs-expander__body__button {
+    outline: none;
+    width: 100%;
+    background-color: transparent;
+  }
+
+  .docs-expander__body__button:hover {
+    cursor: pointer;
   }
 `;
 
@@ -108,32 +111,55 @@ export const Summary = styled.summary`
   }
 `;
 
-const Accordion: React.FC<AccordionProps> = ({
-  title,
-  eyebrow,
-  children,
-  withButton = false
-}) => {
+const Accordion: React.FC<AccordionProps> = ({ title, eyebrow, children }) => {
+  const [closeButton, setCloseButton] = useState(false);
+  const [contentTopCoordinate, setContentTopCoordinate] = useState(0);
+
+  const handleToggle = () => {
+    const accordion = document.querySelector('.docs-expander');
+    const accordionContent = document.querySelector('.docs-expander__body');
+
+    if (
+      accordionContent &&
+      accordionContent instanceof HTMLElement &&
+      accordion
+    ) {
+      setContentTopCoordinate(accordion.getBoundingClientRect().top);
+
+      if (accordionContent.offsetHeight > screen.height) {
+        setCloseButton(() => true);
+      }
+    }
+  };
+
+  const closeAccordion = () => {
+    document.querySelector('.docs-expander')?.removeAttribute('open');
+    window.scrollTo(0, contentTopCoordinate);
+  };
+
   return (
-    <Details className={`docs-expander ${withButton ? 'with-button' : ''}`}>
-      <Summary className={`docs-expander__summary`}>
-        <div className={`docs-expander__eyebrow`}>
+    <Details className="docs-expander">
+      <Summary className="docs-expander__summary" onClick={handleToggle}>
+        <div className="docs-expander__eyebrow">
           <DeepDive />
           {eyebrow}
         </div>
-
-        <div className={`docs-expander__title`}>{title}</div>
-
-        {/* For prototyping purposes only! */}
-        {withButton ? (
-          <button className="docs-expander__button">Show details</button>
-        ) : (
-          <div className={`docs-expander__title__indicator`}>
-            <Plus />
-          </div>
-        )}
+        <div className="docs-expander__title">{title}</div>
+        <div className="docs-expander__title__indicator">
+          <Expand />
+        </div>
       </Summary>
-      <div className={`docs-expander__body`}>{children}</div>
+      <div className="docs-expander__body">
+        {children}
+        {closeButton ? (
+          <button
+            className="docs-expander__body__button"
+            onClick={closeAccordion}
+          >
+            Close
+          </button>
+        ) : null}
+      </div>
     </Details>
   );
 };

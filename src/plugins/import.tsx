@@ -85,10 +85,6 @@ module.exports = (async () => {
           type: 'import',
           value: `import Accordion from "/src/components/Accordion";`
         });
-        tree.children.splice(index + 1, 0, {
-          type: 'import',
-          value: `import AccordionWithButton from "/src/components/AccordionWithButton";`
-        });
         addedImports = true;
       }
     });

@@ -1,12 +1,65 @@
-<Accordion title='Review differences between authentication types' eyebrow='Learn more'>
-  Below is a short comparison between the different authentication types and their use cases. 
+<Accordion title='GraphQL update mutation' eyebrow='Learn more'>
+To update the item use the GraphQL update mutation:
 
-| **Recommended use case** | **Strategy** | **Provider** |
-|---|---|---|
-| Public data access where users or devices are anonymous. Anyone with the AppSync API key is granted access. | [`public`]() | `apiKey` |
-| Recommended for production environment's public data access. Public data access where unauthenticated users or devices are granted permissions using AWS IAM controls. | [`public`]() | `iam` |
-| Per user data access. Access is restricted to the "owner" of a record. Leverages `amplify add auth` Cognito user pool by default. | [`owner`]() | `userPools` / `oidc` |
-| Any signed-in data access. Unlike owner-based access, **any** signed-in user has access. | [`private`]() | `userPools` / `oidc` / `iam` |
-| Per user group data access. A specific or dynamically configured group of users have access | [`group`]() | `userPools` / `oidc` |
-| Define your own custom authorization rule within a Lambda function | [`custom`]() | `function` |
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { API } from "aws-amplify";
+import * as mutations from './graphql/mutations';
+import { GraphQLQuery } from '@aws-amplify/api';
+import { UpdateTodoInput, UpdateTodoMutation } from './API';
+
+const todoDetails: UpdateTodoInput = {
+  id: 'some_id',
+  description: 'Updated description'
+};
+
+const updatedTodo = await API.graphql<GraphQLQuery<UpdateTodoMutation>>({ 
+  query: mutations.updateTodo, 
+  variables: { input: todoDetails }
+});
+```
+
+</Block>
+
+<Block name="JavaScript">
+
+```js
+import { API } from "aws-amplify";
+import * as mutations from './graphql/mutations';
+
+const todoDetails = {
+  id: 'some_id',
+//  _version: 'current_version', // add the "_version" field if your AppSync API has conflict detection (required for DataStore) enabled
+  description: 'Updated description'
+};
+
+const updatedTodo = await API.graphql({ 
+  query: mutations.updateTodo, 
+  variables: { input: todoDetails }
+});
+```
+
+</Block>
+
+<Block name="CLI">
+
+```js
+import { API } from 'aws-amplify'
+import { createTodo, updateTodo, deleteTodo } from './graphql/mutations'
+
+const result = await API.graphql(graphqlOperation(updateTodo, {
+  input: {
+    id: "<...>",
+    name: "My first updated todo!"
+  }
+}))
+console.log(result)
+```
+
+The result should contain the updated value: `My first updated todo!`.
+
+</Block>
+</BlockSwitcher>
 </Accordion>
