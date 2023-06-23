@@ -16,6 +16,7 @@ import QuickstartResources from '../../components/contribute/QuickstartResources
 
 import { Octokit } from '@octokit/rest';
 import { Endpoints } from '@octokit/types';
+import AmplifyBadges from '../../components/contribute/AmplifyBadges';
 
 // type listRepoIssuesResponse = Endpoints['GET /repos/{owner}/{repo}/issues']['response'];
 
@@ -166,7 +167,7 @@ export default function ContributorPage() {
                 />
               </Card>
             </Flex> */}
-
+            <AmplifyBadges />
             <QuickstartResources />
             {/* <Contributors /> */}
           </Flex>
