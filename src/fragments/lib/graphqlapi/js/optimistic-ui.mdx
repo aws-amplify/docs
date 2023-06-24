@@ -129,8 +129,8 @@ To help visualize the inner workings of React Query, visit the [TanStack Query D
 
 ```ts
 import React, { useState } from "react";
-import "./App.css";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useIsFetching } from "@tanstack/react-query";
 import { API } from "aws-amplify";
 import * as queries from "./graphql/queries";
 import * as mutations from "./graphql/mutations";
@@ -146,15 +146,18 @@ import {
   UpdateRealEstatePropertyInput,
   UpdateRealEstatePropertyMutation,
 } from "./API";
-import { Loader } from "@aws-amplify/ui-react";
 
-// https://tanstack.com/query/v5/docs/react/guides/background-fetching-indicators#displaying-global-background-fetching-loading-state
-import { useIsFetching } from "@tanstack/react-query";
-
+/**
+ * https://www.tanstack.com/query/v4/docs/react/guides/background-fetching-indicators#displaying-global-background-fetching-loading-state
+ * For the purposes of this demo, we show a global loading indicator when *any*
+ * queries are fetching (including in the background) in order to help visualize
+ * what TanStack is doing in the background. This example also displays
+ * indicators for individual query and mutation loading states.
+ */
 function GlobalLoadingIndicator() {
   const isFetching = useIsFetching();
 
-  return isFetching ? <Loader size="large" /> : null;
+  return isFetching ? <div style={styles.globalLoadingIndicator}></div> : null;
 }
 
 function App() {
@@ -164,7 +167,7 @@ function App() {
   // Access the client
   const queryClient = useQueryClient();
 
-  // TanStack Query for listing all realEstateProperties
+  // TanStack Query for listing all real estate properties:
   const {
     data: realEstateProperties,
     isLoading,
@@ -185,7 +188,7 @@ function App() {
       const allRealEstateProperties =
         response?.data?.listRealEstateProperties?.items;
 
-      // TODO
+      // TODO: figure out return type
       if (!allRealEstateProperties) return null;
 
       return allRealEstateProperties;
@@ -196,50 +199,49 @@ function App() {
   const createMutation = useMutation({
     mutationFn: async (
       realEstatePropertyDetails: CreateRealEstatePropertyInput
-    ) => {
-      const newRealEstateProperty = await API.graphql<
+    ): Promise<RealEstateProperty | undefined | null> => {
+      const response = await API.graphql<
         GraphQLQuery<CreateRealEstatePropertyMutation>
       >({
         query: mutations.createRealEstateProperty,
         variables: { input: realEstatePropertyDetails },
       });
 
-      console.log(newRealEstateProperty);
+      const newRealEstateProperty = response?.data?.createRealEstateProperty;
       return newRealEstateProperty;
     },
     // When mutate is called:
-    onMutate: async (newRealEstateProperty) => {
+    onMutate: async (newRealEstateProperty: CreateRealEstatePropertyInput) => {
       // Cancel any outgoing refetches
       // (so they don't overwrite our optimistic update)
       await queryClient.cancelQueries({ queryKey: ["realEstateProperties"] });
 
       // Snapshot the previous value
-      const previousRealEstateProperties = queryClient.getQueryData([
+      const previousRealEstateProperties = queryClient.getQueryData<any>([
         "realEstateProperties",
       ]);
 
       // Optimistically update to the new value
-      // TODO: fix type
-      // @ts-ignore
-      queryClient.setQueryData(["realEstateProperties"], (old) => [
-        // TODO: fix type
-        // @ts-ignore
-        ...old,
-        newRealEstateProperty,
-      ]);
+      if (previousRealEstateProperties) {
+        queryClient.setQueryData<any>(["realEstateProperties"], (old: any) => [
+          ...old,
+          newRealEstateProperty,
+        ]);
+      }
 
       // Return a context object with the snapshotted value
       return { previousRealEstateProperties };
     },
     // If the mutation fails,
-    // use the context returned from onMutate to roll back
+    // use the context returned from onMutate to rollback
     onError: (err, newRealEstateProperty, context) => {
-      queryClient.setQueryData(
-        ["realEstateProperties"],
-        // TODO: fix type
-        // @ts-ignore
-        context.previousRealEstateProperties
-      );
+      console.error("Error saving record:", err, newRealEstateProperty);
+      if (context?.previousRealEstateProperties) {
+        queryClient.setQueryData<RealEstateProperty>(
+          ["realEstateProperties"],
+          context.previousRealEstateProperties
+        );
+      }
     },
     // Always refetch after error or success:
     onSettled: () => {
@@ -247,6 +249,10 @@ function App() {
     },
   });
 
+  /**
+   * Note: this example does not return to the list view on delete in order
+   * to demonstrate the optimistic update.
+   */
   function RealEstatePropertyDetailView() {
     const {
       data: realEstateProperty,
@@ -264,7 +270,6 @@ function App() {
           variables: { id: currentRealEstatePropertyId },
         });
 
-        console.log("RealEstatePropertyDetailView queryFn response", response);
         return response.data?.getRealEstateProperty;
       },
     });
@@ -281,12 +286,12 @@ function App() {
           variables: { input: realEstatePropertyDetails },
         });
 
-        console.log(updatedRealEstateProperty);
         return updatedRealEstateProperty;
       },
       // When mutate is called:
-      onMutate: async (newRealEstateProperty) => {
-        console.log("on mutate", newRealEstateProperty);
+      onMutate: async (
+        newRealEstateProperty: UpdateRealEstatePropertyInput
+      ) => {
         // Cancel any outgoing refetches
         // (so they don't overwrite our optimistic update)
         await queryClient.cancelQueries({
@@ -294,35 +299,39 @@ function App() {
         });
 
         // Snapshot the previous value
-        const previousRealEstateProperty = queryClient.getQueryData([
-          "realEstateProperties",
-          newRealEstateProperty.id,
-        ]);
+        const previousRealEstateProperty =
+          queryClient.getQueryData<RealEstateProperty>([
+            "realEstateProperties",
+            newRealEstateProperty.id,
+          ]);
 
         // Optimistically update to the new value
-        queryClient.setQueryData(
-          ["realEstateProperties", newRealEstateProperty.id],
-          newRealEstateProperty
-        );
+        if (previousRealEstateProperty) {
+          queryClient.setQueryData(
+            ["realEstateProperties", newRealEstateProperty.id],
+            // TODO: add docs for this.
+            // Not covered in the TanStack docs, but the new property only
+            // includes updated values the first two times it returns. The final
+            // return includes all fields.
+            { ...previousRealEstateProperty, ...newRealEstateProperty }
+          );
+        }
 
         // Return a context with the previous and new realEstateProperty
         return { previousRealEstateProperty, newRealEstateProperty };
       },
       // If the mutation fails, use the context we returned above
       onError: (err, newRealEstateProperty, context) => {
-        console.log("on error", newRealEstateProperty);
-        queryClient.setQueryData(
-          // TODO: fix type
-          // @ts-ignore
-          ["realEstateProperties", context.newRealEstateProperty.id],
-          // TODO: fix type
-          // @ts-ignore
-          context.previousRealEstateProperty
-        );
+        console.error("Error updating record:", err, newRealEstateProperty);
+        if (context?.previousRealEstateProperty) {
+          queryClient.setQueryData<RealEstateProperty>(
+            ["realEstateProperties", context.newRealEstateProperty.id],
+            context.previousRealEstateProperty
+          );
+        }
       },
       // Always refetch after error or success:
       onSettled: (newRealEstateProperty) => {
-        console.log("on settled", newRealEstateProperty);
         queryClient.invalidateQueries({
           // TODO: fix type
           // @ts-ignore
@@ -331,7 +340,7 @@ function App() {
       },
     });
 
-    // TODO: TanStack delete mutation with optimistic updates
+    // TanStack delete mutation with optimistic updates
     const deleteMutation = useMutation({
       mutationFn: async (
         realEstatePropertyDetails: DeleteRealEstatePropertyInput
@@ -343,11 +352,12 @@ function App() {
           variables: { input: realEstatePropertyDetails },
         });
 
-        console.log(deletedRealEstateProperty);
         return deletedRealEstateProperty;
       },
       // When mutate is called:
-      onMutate: async (newRealEstateProperty) => {
+      onMutate: async (
+        newRealEstateProperty: DeleteRealEstatePropertyInput
+      ) => {
         // Cancel any outgoing refetches
         // (so they don't overwrite our optimistic update)
         await queryClient.cancelQueries({
@@ -355,30 +365,32 @@ function App() {
         });
 
         // Snapshot the previous value
-        const previousRealEstateProperty = queryClient.getQueryData([
-          "realEstateProperties",
-          newRealEstateProperty.id,
-        ]);
+        const previousRealEstateProperty =
+          queryClient.getQueryData<RealEstateProperty>([
+            "realEstateProperties",
+            newRealEstateProperty.id,
+          ]);
 
         // Optimistically update to the new value
-        queryClient.setQueryData(
-          ["realEstateProperties", newRealEstateProperty.id],
-          newRealEstateProperty
-        );
+        if (previousRealEstateProperty) {
+          queryClient.setQueryData<DeleteRealEstatePropertyInput>(
+            ["realEstateProperties", newRealEstateProperty.id],
+            newRealEstateProperty
+          );
+        }
 
         // Return a context with the previous and new realEstateProperty
         return { previousRealEstateProperty, newRealEstateProperty };
       },
       // If the mutation fails, use the context we returned above
       onError: (err, newRealEstateProperty, context) => {
-        queryClient.setQueryData(
-          // TODO: fix type
-          // @ts-ignore
-          ["realEstateProperties", context.newRealEstateProperty.id],
-          // TODO: fix type
-          // @ts-ignore
-          context.previousRealEstateProperty
-        );
+        console.error("Error deleting record:", err, newRealEstateProperty);
+        if (context?.previousRealEstateProperty) {
+          queryClient.setQueryData<RealEstateProperty>(
+            ["realEstateProperties", context.newRealEstateProperty.id],
+            context.previousRealEstateProperty
+          );
+        }
       },
       // Always refetch after error or success:
       onSettled: (newRealEstateProperty) => {
@@ -391,20 +403,23 @@ function App() {
     });
 
     return (
-      <div style={{ border: "1px solid black" }}>
-        <div>Real Estate Property Detail View</div>
+      <div style={styles.detailViewContainer}>
+        <h2>Real Estate Property Detail View</h2>
         {isErrorQuery && <div>{"Problem loading Real Estate Property"}</div>}
-        {isLoading && <div>{"Loading Real Estate Property..."}</div>}
-        {isSuccess && realEstateProperty && (
+        {isLoading && (
+          <div style={styles.loadingIndicator}>
+            {"Loading Real Estate Property..."}
+          </div>
+        )}
+        {isSuccess && (
           <div>
-            <h2>{realEstateProperty.name}</h2>
-            <h3>{realEstateProperty.address}</h3>
+            <p>{`Name: ${realEstateProperty?.name}`}</p>
+            <p>{`Address: ${realEstateProperty?.address}`}</p>
           </div>
         )}
         {realEstateProperty && (
           <div>
             <button
-              key={`update-${realEstateProperty.id}`}
               onClick={() =>
                 updateMutation.mutate({
                   id: realEstateProperty.id,
@@ -412,10 +427,19 @@ function App() {
                 })
               }
             >
-              Update
+              Update Name
             </button>
             <button
-              key={`delete-${realEstateProperty.id}`}
+              onClick={() =>
+                updateMutation.mutate({
+                  id: realEstateProperty.id,
+                  address: `${Math.floor(1000 + Math.random() * 9000)} Main St`,
+                })
+              }
+            >
+              Update Address
+            </button>
+            <button
               onClick={() =>
                 deleteMutation.mutate({
                   id: realEstateProperty.id,
@@ -426,6 +450,9 @@ function App() {
             </button>
           </div>
         )}
+        <button onClick={() => setCurrentRealEstatePropertyId(null)}>
+          Back
+        </button>
       </div>
     );
   }
@@ -482,49 +509,101 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <header className="App-header">
-        {isErrorQuery && <div>{"Problem loading Real Estate Properties"}</div>}
-        {isLoading && <div>{"Loading Real Estate Properties..."}</div>}
-        <ul>
-          {/* TODO: make this work with isSuccess */}
-          {isSuccess &&
-            realEstateProperties?.map((realEstateProperty) => {
-              if (!realEstateProperty) return null;
-              return (
-                <li key={realEstateProperty.id}>
-                  {realEstateProperty.name}
-                  <button
-                    onClick={() =>
-                      setCurrentRealEstatePropertyId(realEstateProperty.id)
-                    }
+    <div>
+      {!currentRealEstatePropertyId && (
+        <div style={styles.appContainer}>
+          <h1>Real Estate Properties:</h1>
+          <button
+            onClick={() => {
+              createMutation.mutate({
+                name: `New Home ${Date.now()}`,
+                address: `${Math.floor(1000 + Math.random() * 9000)} Main St`,
+              });
+            }}
+          >
+            Add RealEstateProperty
+          </button>
+          <button onClick={deleteAll}>Delete All</button>
+          <ul style={styles.propertiesList}>
+            {isLoading && (
+              <div style={styles.loadingIndicator}>
+                {"Loading Real Estate Properties..."}
+              </div>
+            )}
+            {isErrorQuery && (
+              <div>{"Problem loading Real Estate Properties"}</div>
+            )}
+            {isSuccess &&
+              realEstateProperties?.map((realEstateProperty, idx) => {
+                if (!realEstateProperty) return null;
+                return (
+                  <li
+                    style={styles.listItem}
+                    key={`${idx}-${realEstateProperty.id}`}
                   >
-                    Detail View
-                  </button>
-                </li>
-              );
-            })}
-        </ul>
-        <button
-          onClick={() => {
-            createMutation.mutate({
-              name: `New Home ${Date.now()}`,
-              address: `${Math.floor(1000 + Math.random() * 9000)} Main St`,
-            });
-          }}
-        >
-          Add RealEstateProperty
-        </button>
-        <button onClick={deleteAll}>Delete All</button>
-        {/* @ts-ignore */}
-        {currentRealEstatePropertyId && <RealEstatePropertyDetailView />}
-        <GlobalLoadingIndicator />
-      </header>
+                    <p>{realEstateProperty.name}</p>
+                    <button
+                      style={styles.detailViewButton}
+                      onClick={() =>
+                        setCurrentRealEstatePropertyId(realEstateProperty.id)
+                      }
+                    >
+                      Detail View
+                    </button>
+                  </li>
+                );
+              })}
+          </ul>
+        </div>
+      )}
+      {currentRealEstatePropertyId && <RealEstatePropertyDetailView />}
+      <GlobalLoadingIndicator />
     </div>
   );
 }
 
 export default App;
+
+const styles: any = {
+  appContainer: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  detailViewButton: { marginLeft: "1rem" },
+  detailViewContainer: { border: "1px solid black", padding: "3rem" },
+  globalLoadingIndicator: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    border: "4px solid blue",
+    pointerEvents: "none",
+  },
+  listItem: {
+    display: "flex",
+    justifyContent: "space-between",
+    border: "1px dotted grey",
+    padding: ".5rem",
+    margin: ".1rem",
+  },
+  loadingIndicator: {
+    border: "1px solid black",
+    padding: "1rem",
+    margin: "1rem",
+  },
+  propertiesList: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "start",
+    width: "50%",
+    border: "1px solid black",
+    padding: "1rem",
+    listStyleType: "none",
+  },
+};
 ``` 
 
 </Block>
