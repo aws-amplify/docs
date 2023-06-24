@@ -22,16 +22,17 @@ type RealEstateProperty @model @auth(rules: [{ allow: public }]) {
 
 Save the schema and run `amplify push` to deploy the changes. For the purposes of this guide, we'll build a Real Estate Property listing application.
 
-Next, in your application code, where you plan to render the real estate properties, add the required TanStack Query imports, and create a client:
+Next, at the root of your project, add the required TanStack Query imports, and create a client:
+
+<Callout>
+
+ReactQueryDevTools is not required, but is a useful resource for debugging / understand how TanStack works under the hood. For more info on the TanStack Query Devtools, visit [the docs](https://tanstack.com/query/latest/docs/react/devtools)
+
+</Callout>
 
 ```ts
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query'
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 // Create a client
 const queryClient = new QueryClient()
@@ -128,6 +129,37 @@ To help visualize the inner workings of React Query, visit the [TanStack Query D
 <Block name="TypeScript">
 
 ```ts
+// index.tsx:
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import { Amplify } from "aws-amplify";
+import awsExports from "./aws-exports";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import "@aws-amplify/ui-react/styles.css";
+
+Amplify.configure(awsExports);
+
+// Create a client
+const queryClient = new QueryClient();
+
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
+);
+
+// Provide the client to your App
+root.render(
+  <React.StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <App />
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  </React.StrictMode>
+);
+
+// App.tsx:
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useIsFetching } from "@tanstack/react-query";
