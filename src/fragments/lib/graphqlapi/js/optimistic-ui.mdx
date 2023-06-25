@@ -1,4 +1,11 @@
-The GraphQL API category can be used with [TanStack Query](https://tanstack.com/query/latest/docs/react/overview) to implement optimistic UI, allowing CRUD operations to be rendered immediately on the UI before the request roundtrip has completed.
+The GraphQL API category can be used with [TanStack Query](https://tanstack.com/query/latest/docs/react/overview) to implement optimistic UI, allowing CRUD operations to be rendered immediately on the UI before the request roundtrip has completed. Using the GraphQL API with TanStack additionally makes it easy to render loading and error states, and allows you to rollback changes on the UI when API calls are unsuccessful.
+
+<Callout>
+
+For more details on TanStack Query, including requirements, supported browsers, and advanced usage, see the [TanStack Query documentation](https://tanstack.com/query/latest/docs/react/overview). 
+For more on Amplify GraphQL API operations, see the [API documentation](https://docs.amplify.aws/lib/graphqlapi/getting-started/q/platform/js/).
+
+</Callout>
 
 To get started, run the following command in an existing Amplify project:
 
@@ -26,7 +33,7 @@ Next, at the root of your project, add the required TanStack Query imports, and 
 
 <Callout>
 
-ReactQueryDevTools is not required, but is a useful resource for debugging / understand how TanStack works under the hood. For more info on the TanStack Query Devtools, visit [the docs](https://tanstack.com/query/latest/docs/react/devtools)
+TanStack Query Devtools are not required, but are a useful resource for debugging and understanding how TanStack works under the hood. For more information on the TanStack Query Devtools, visit [the docs](https://tanstack.com/query/latest/docs/react/devtools)
 
 </Callout>
 
@@ -43,24 +50,9 @@ Next, provide the client to your app:
 ```ts
 <QueryClientProvider client={queryClient}>
   <App />
+  <ReactQueryDevtools initialIsOpen={false} />
 </QueryClientProvider>
 ```
-
-Next, within your app, access the TanStack client:
-
-```ts 
-// Access the client
-const queryClient = useQueryClient()
-```
-
-<Callout>
-
-** DOCS LINKS **
-
-For more details on TanStack Query, including requirements, supported browsers, and advanced usage, see the [TanStack Query documentation](https://tanstack.com/query/latest/docs/react/overview). 
-For more on Amplify GraphQL API operations, see the [API documentation](https://docs.amplify.aws/lib/graphqlapi/getting-started/q/platform/js/).
-
-</Callout>
 
 <Callout>
 
@@ -88,6 +80,46 @@ To create a query, use the `useQuery` hook, passing in the GraphQL API query (an
 const query = useQuery({ queryKey: ['todos'], queryFn: getTodos })
 ```
 
+## Optimistically rendering a list of items
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+// TODO
+``` 
+
+</Block>
+<Block name="JavaScript">
+
+```js
+// TODO
+```
+
+</Block>
+
+</BlockSwitcher>
+
+## Optimistically rendering a single item
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+// TODO
+``` 
+
+</Block>
+<Block name="JavaScript">
+
+```js
+// TODO
+```
+
+</Block>
+
+</BlockSwitcher>
+
 ## Create a mutation with GraphQL API and TanStack Query
 
 <Callout>
@@ -98,30 +130,65 @@ See the [Documentation](https://tanstack.com/query/latest/docs/react/guides/opti
 
 To create a mutation, use the `useMutation` hook, passing in the GraphQL mutation (and variables). The following example creates a mutation to create a new record via the API.
 
+<BlockSwitcher>
+<Block name="TypeScript">
+
 ```ts
-// Mutations
-const mutation = useMutation({
-  mutationFn: postTodo,
-  onSuccess: () => {
-    // Invalidate and refetch
-    queryClient.invalidateQueries({ queryKey: ['todos'] })
-  },
-})
+// TODO
+``` 
+
+</Block>
+<Block name="JavaScript">
+
+```js
+// TODO
 ```
+
+</Block>
+
+</BlockSwitcher>
 
 ## Update
 
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+// TODO
+``` 
+
+</Block>
+<Block name="JavaScript">
+
+```js
+// TODO
+```
+
+</Block>
+
+</BlockSwitcher>
+
 ## Delete
 
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+// TODO
+``` 
+
+</Block>
+<Block name="JavaScript">
+
+```js
+// TODO
+```
+
+</Block>
+
+</BlockSwitcher>
+
 ## Loading states, etc
-
-TODO:
-
-## Debugging optimistic UI
-
-**NOTE: this could also be a callout**
-
-To help visualize the inner workings of React Query, visit the [TanStack Query DevTools docs](https://tanstack.com/query/latest/docs/react/devtools) for more information.
 
 ## Complete examples
 
