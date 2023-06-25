@@ -1,8 +1,11 @@
 The GraphQL API category can be used with [TanStack Query](https://tanstack.com/query/latest/docs/react/overview) to implement optimistic UI, allowing CRUD operations to be rendered immediately on the UI before the request roundtrip has completed. Using the GraphQL API with TanStack additionally makes it easy to render loading and error states, and allows you to rollback changes on the UI when API calls are unsuccessful.
 
+In the following examples we'll create a list view that optimistically renders newly created items, and a detail view that optimistically renders updates and deletes.
+
 <Callout>
 
-For more details on TanStack Query, including requirements, supported browsers, and advanced usage, see the [TanStack Query documentation](https://tanstack.com/query/latest/docs/react/overview). 
+For more details on TanStack Query, including requirements, supported browsers, how query keys work, and advanced usage, see the [TanStack Query documentation](https://tanstack.com/query/latest/docs/react/overview). 
+For more information on how optimistic updates with TanStack Query work, see the [TanStack Optimistic UI Documentation](https://tanstack.com/query/latest/docs/react/guides/optimistic-updates).
 For more on Amplify GraphQL API operations, see the [API documentation](https://docs.amplify.aws/lib/graphqlapi/getting-started/q/platform/js/).
 
 </Callout>
@@ -71,22 +74,40 @@ For the complete working example, including required imports, and React componen
 
 </Callout>
 
-## Create a query with GraphQL API and TanStack Query
+## Optimistically rendering a list of records
 
-To create a query, use the `useQuery` hook, passing in the GraphQL API query (and variables). The following example creates a query to retrieve all records from the API.
-
-```ts
-// Queries
-const query = useQuery({ queryKey: ['todos'], queryFn: getTodos })
-```
-
-## Optimistically rendering a list of items
+To optimistically render a list of items returned from the GraphQL API, use the TanStack `useQuery` hook, passing in the GraphQL API query as the `queryFn` parameter. The following example creates a query to retrieve all records from the API. We'll use `realEstateProperties` as the query key, which will be the same key we use to optimistically render a newly created item.
 
 <BlockSwitcher>
 <Block name="TypeScript">
 
 ```ts
-// TODO
+const {
+  data: realEstateProperties,
+  isLoading,
+  isSuccess,
+  isError: isErrorQuery,
+} = useQuery({
+  queryKey: ["realEstateProperties"],
+  // TODO: improve return type
+  queryFn: async (): Promise<
+    (RealEstateProperty | null | undefined)[] | null | undefined
+  > => {
+    const response = await API.graphql<
+      GraphQLQuery<ListRealEstatePropertiesQuery>
+    >({
+      query: queries.listRealEstateProperties,
+    });
+
+    const allRealEstateProperties =
+      response?.data?.listRealEstateProperties?.items;
+
+    // TODO: figure out return type
+    if (!allRealEstateProperties) return null;
+
+    return allRealEstateProperties;
+  },
+});
 ``` 
 
 </Block>
@@ -100,13 +121,67 @@ const query = useQuery({ queryKey: ['todos'], queryFn: getTodos })
 
 </BlockSwitcher>
 
-## Optimistically rendering a single item
+## Optimistically rendering a newly created record
+
+To optimistically render a newly created record returned from the GraphQL API, use the TanStack `useMutation` hook, passing in the GraphQL API mutation as the `mutationFn` parameter. We'll use the same query key used by the `useQuery` hook (`realEstateProperties`) as the query key to optimistically render a newly created item.
+We'll use the `onMutate` function to update the cache directly, as well as the `onError` function to rollback changes when a request fails.
 
 <BlockSwitcher>
 <Block name="TypeScript">
 
 ```ts
-// TODO
+const createMutation = useMutation({
+mutationFn: async (
+  realEstatePropertyDetails: CreateRealEstatePropertyInput
+): Promise<RealEstateProperty | undefined | null> => {
+  const response = await API.graphql<
+    GraphQLQuery<CreateRealEstatePropertyMutation>
+  >({
+    query: mutations.createRealEstateProperty,
+    variables: { input: realEstatePropertyDetails },
+  });
+
+  const newRealEstateProperty = response?.data?.createRealEstateProperty;
+  return newRealEstateProperty;
+},
+// When mutate is called:
+onMutate: async (newRealEstateProperty: CreateRealEstatePropertyInput) => {
+  // Cancel any outgoing refetches
+  // (so they don't overwrite our optimistic update)
+  await queryClient.cancelQueries({ queryKey: ["realEstateProperties"] });
+
+  // Snapshot the previous value
+  const previousRealEstateProperties = queryClient.getQueryData<any>([
+    "realEstateProperties",
+  ]);
+
+  // Optimistically update to the new value
+  if (previousRealEstateProperties) {
+    queryClient.setQueryData<any>(["realEstateProperties"], (old: any) => [
+      ...old,
+      newRealEstateProperty,
+    ]);
+  }
+
+  // Return a context object with the snapshotted value
+  return { previousRealEstateProperties };
+},
+// If the mutation fails,
+// use the context returned from onMutate to rollback
+onError: (err, newRealEstateProperty, context) => {
+  console.error("Error saving record:", err, newRealEstateProperty);
+  if (context?.previousRealEstateProperties) {
+    queryClient.setQueryData<RealEstateProperty>(
+      ["realEstateProperties"],
+      context.previousRealEstateProperties
+    );
+  }
+},
+// Always refetch after error or success:
+onSettled: () => {
+  queryClient.invalidateQueries({ queryKey: ["realEstateProperties"] });
+},
+});
 ``` 
 
 </Block>
@@ -120,21 +195,33 @@ const query = useQuery({ queryKey: ['todos'], queryFn: getTodos })
 
 </BlockSwitcher>
 
-## Create a mutation with GraphQL API and TanStack Query
+## Querying a single item with TanStack Query
 
-<Callout>
-
-See the [Documentation](https://tanstack.com/query/latest/docs/react/guides/optimistic-updates) for more information on optimistic updates.
-
-</Callout>
-
-To create a mutation, use the `useMutation` hook, passing in the GraphQL mutation (and variables). The following example creates a mutation to create a new record via the API.
+To optimistically render updates on a single item, we'll first retrieve the item from the API. We'll use the `useQuery` hook, passing in the GraphQL API query as the `queryFn` parameter. For the query key, we'll use a combination of `realEstateProperties` and the record's unique identifier.
 
 <BlockSwitcher>
 <Block name="TypeScript">
 
 ```ts
-// TODO
+const {
+  data: realEstateProperty,
+  isLoading,
+  isSuccess,
+  isError: isErrorQuery,
+} = useQuery({
+  queryKey: ["realEstateProperties", currentRealEstatePropertyId],
+  // TODO: improve return type
+  queryFn: async (): Promise<RealEstateProperty | null | undefined> => {
+    const response = await API.graphql<
+      GraphQLQuery<GetRealEstatePropertyQuery>
+    >({
+      query: queries.getRealEstateProperty,
+      variables: { id: currentRealEstatePropertyId },
+    });
+
+    return response.data?.getRealEstateProperty;
+  },
+});
 ``` 
 
 </Block>
@@ -148,13 +235,79 @@ To create a mutation, use the `useMutation` hook, passing in the GraphQL mutatio
 
 </BlockSwitcher>
 
-## Update
+## Optimistically render updates for a record
+
+To optimistically render GraphQL API updates for a single record, use the TanStack `useMutation` hook, passing in the GraphQL API update mutation as the `mutationFn` parameter. We'll use the same query key combination used by the single record `useQuery` hook (`realEstateProperties` and the record's `id`) as the query key to optimistically render the updates.
+We'll use the `onMutate` function to update the cache directly, as well as the `onError` function to rollback changes when a request fails.
 
 <BlockSwitcher>
 <Block name="TypeScript">
 
 ```ts
-// TODO
+const updateMutation = useMutation({
+mutationFn: async (
+  realEstatePropertyDetails: UpdateRealEstatePropertyInput
+) => {
+  const updatedRealEstateProperty = await API.graphql<
+    GraphQLQuery<UpdateRealEstatePropertyMutation>
+  >({
+    query: mutations.updateRealEstateProperty,
+    variables: { input: realEstatePropertyDetails },
+  });
+
+  return updatedRealEstateProperty;
+},
+// When mutate is called:
+onMutate: async (
+  newRealEstateProperty: UpdateRealEstatePropertyInput
+) => {
+  // Cancel any outgoing refetches
+  // (so they don't overwrite our optimistic update)
+  await queryClient.cancelQueries({
+    queryKey: ["realEstateProperties", newRealEstateProperty.id],
+  });
+
+  // Snapshot the previous value
+  const previousRealEstateProperty =
+    queryClient.getQueryData<RealEstateProperty>([
+      "realEstateProperties",
+      newRealEstateProperty.id,
+    ]);
+
+  // Optimistically update to the new value
+  if (previousRealEstateProperty) {
+    queryClient.setQueryData(
+      ["realEstateProperties", newRealEstateProperty.id],
+      // TODO: add docs for this.
+      // Not covered in the TanStack docs, but the new property only
+      // includes updated values the first two times it returns. The final
+      // return includes all fields.
+      { ...previousRealEstateProperty, ...newRealEstateProperty }
+    );
+  }
+
+  // Return a context with the previous and new realEstateProperty
+  return { previousRealEstateProperty, newRealEstateProperty };
+},
+// If the mutation fails, use the context we returned above
+onError: (err, newRealEstateProperty, context) => {
+  console.error("Error updating record:", err, newRealEstateProperty);
+  if (context?.previousRealEstateProperty) {
+    queryClient.setQueryData<RealEstateProperty>(
+      ["realEstateProperties", context.newRealEstateProperty.id],
+      context.previousRealEstateProperty
+    );
+  }
+},
+// Always refetch after error or success:
+onSettled: (newRealEstateProperty) => {
+  queryClient.invalidateQueries({
+    // TODO: fix type
+    // @ts-ignore
+    queryKey: ["realEstateProperties", newRealEstateProperty.id],
+  });
+},
+});
 ``` 
 
 </Block>
@@ -168,13 +321,75 @@ To create a mutation, use the `useMutation` hook, passing in the GraphQL mutatio
 
 </BlockSwitcher>
 
-## Delete
+## Optimistically render deleting a record
+
+To optimistically render a GraphQL API delete of a single record, use the TanStack `useMutation` hook, passing in the GraphQL API delete mutation as the `mutationFn` parameter. We'll use the same query key combination used by the single record `useQuery` hook (`realEstateProperties` and the record's `id`) as the query key to optimistically render the updates.
+We'll use the `onMutate` function to update the cache directly, as well as the `onError` function to rollback changes when a delete fails.
 
 <BlockSwitcher>
 <Block name="TypeScript">
 
 ```ts
-// TODO
+const deleteMutation = useMutation({
+mutationFn: async (
+  realEstatePropertyDetails: DeleteRealEstatePropertyInput
+) => {
+  const deletedRealEstateProperty = await API.graphql<
+    GraphQLQuery<DeleteRealEstatePropertyMutation>
+  >({
+    query: mutations.deleteRealEstateProperty,
+    variables: { input: realEstatePropertyDetails },
+  });
+
+  return deletedRealEstateProperty;
+},
+// When mutate is called:
+onMutate: async (
+  newRealEstateProperty: DeleteRealEstatePropertyInput
+) => {
+  // Cancel any outgoing refetches
+  // (so they don't overwrite our optimistic update)
+  await queryClient.cancelQueries({
+    queryKey: ["realEstateProperties", newRealEstateProperty.id],
+  });
+
+  // Snapshot the previous value
+  const previousRealEstateProperty =
+    queryClient.getQueryData<RealEstateProperty>([
+      "realEstateProperties",
+      newRealEstateProperty.id,
+    ]);
+
+  // Optimistically update to the new value
+  if (previousRealEstateProperty) {
+    queryClient.setQueryData<DeleteRealEstatePropertyInput>(
+      ["realEstateProperties", newRealEstateProperty.id],
+      newRealEstateProperty
+    );
+  }
+
+  // Return a context with the previous and new realEstateProperty
+  return { previousRealEstateProperty, newRealEstateProperty };
+},
+// If the mutation fails, use the context we returned above
+onError: (err, newRealEstateProperty, context) => {
+  console.error("Error deleting record:", err, newRealEstateProperty);
+  if (context?.previousRealEstateProperty) {
+    queryClient.setQueryData<RealEstateProperty>(
+      ["realEstateProperties", context.newRealEstateProperty.id],
+      context.previousRealEstateProperty
+    );
+  }
+},
+// Always refetch after error or success:
+onSettled: (newRealEstateProperty) => {
+  queryClient.invalidateQueries({
+    // TODO: fix type
+    // @ts-ignore
+    queryKey: ["realEstateProperties", newRealEstateProperty.id],
+  });
+},
+});
 ``` 
 
 </Block>
