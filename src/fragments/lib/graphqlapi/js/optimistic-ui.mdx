@@ -114,7 +114,7 @@ const {
 <Block name="JavaScript">
 
 ```js
-// TODO
+// TODO - add JS example after approval of TS code snippet
 ```
 
 </Block>
@@ -188,7 +188,7 @@ onSettled: () => {
 <Block name="JavaScript">
 
 ```js
-// TODO
+// TODO - add JS example after approval of TS code snippet
 ```
 
 </Block>
@@ -228,7 +228,7 @@ const {
 <Block name="JavaScript">
 
 ```js
-// TODO
+// TODO - add JS example after approval of TS code snippet
 ```
 
 </Block>
@@ -314,7 +314,7 @@ onSettled: (newRealEstateProperty) => {
 <Block name="JavaScript">
 
 ```js
-// TODO
+// TODO - add JS example after approval of TS code snippet
 ```
 
 </Block>
@@ -396,21 +396,67 @@ onSettled: (newRealEstateProperty) => {
 <Block name="JavaScript">
 
 ```js
-// TODO
+// TODO - add JS example after approval of TS code snippet
 ```
 
 </Block>
 
 </BlockSwitcher>
 
-## Loading states, etc
+## Optimistic UI loading and error states
+
+Both `useQuery` and `useMutation` return `isLoading` and `isError` states that indicate the current state of the query or mutation. You can use these states to render loading and error indicators.
+
+For more in depth on the usage of these hooks, see the [TanStack documentation](https://tanstack.com/query/latest/docs/react/guides/mutations).
+
+Below is an example of using these states to render a loading indicator while a mutation is in progress, and an error message if the mutation fails. For more examples, see the [Complete Example](#complete-example) below.
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+<>
+  {updateMutation.isError &&
+  updateMutation.error instanceof Error ? (
+    <div>An error occurred: {updateMutation.error.message}</div>
+  ) : null}
+
+  {updateMutation.isSuccess ? (
+    <div>Real Estate Property updated!</div>
+  ) : null}
+
+  <button
+    onClick={() =>
+      updateMutation.mutate({
+        id: realEstateProperty.id,
+        address: `${Math.floor(
+          1000 + Math.random() * 9000
+        )} Main St`,
+      })
+    }
+  >
+    Update Address
+  </button>
+</>
+``` 
+
+</Block>
+<Block name="JavaScript">
+
+```js
+// TODO - add JS example after approval of TS code snippet
+```
+
+</Block>
+
+</BlockSwitcher>
 
 ## Complete examples
 
 <BlockSwitcher>
 <Block name="TypeScript">
 
-```ts
+```tsx
 // index.tsx:
 import React from "react";
 import ReactDOM from "react-dom/client";
@@ -923,8 +969,8 @@ const styles: any = {
 </Block>
 <Block name="JavaScript">
 
-```js
-// TODO
+```jsx
+// TODO - add JS example after approval of TS code snippet
 ```
 
 </Block>
