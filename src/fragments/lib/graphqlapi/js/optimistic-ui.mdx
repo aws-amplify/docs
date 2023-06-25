@@ -237,6 +237,12 @@ const {
 To optimistically render GraphQL API updates for a single record, use the TanStack `useMutation` hook, passing in the GraphQL API update mutation as the `mutationFn` parameter. We'll use the same query key combination used by the single record `useQuery` hook (`realEstateProperties` and the record's `id`) as the query key to optimistically render the updates.
 We'll use the `onMutate` function to update the cache directly, as well as the `onError` function to rollback changes when a request fails.
 
+<Callout>
+
+When directly interacting with the cache via the `onMutate` function, it should be noted that the `newRealEstateProperty` parameter only includes the fields that are being updated, until the final return from the GraphQL API returns all fields for the record. When calling `setQueryData`, include the previous values for all fields in addition to the newly updated fields to avoid only rendering optimstical values for updated fields on the UI.
+
+</Callout>
+
 <BlockSwitcher>
 <Block name="TypeScript">
 
@@ -275,10 +281,11 @@ onMutate: async (
   if (previousRealEstateProperty) {
     queryClient.setQueryData(
       ["realEstateProperties", newRealEstateProperty.id],
-      // TODO: add docs for this.
-      // Not covered in the TanStack docs, but the new property only
-      // includes updated values the first two times it returns. The final
-      // return includes all fields.
+      /**
+       * `newRealEstateProperty` will at first only include updated values for
+       * the record. To avoid only rendering optimstical values for updated
+       * fields on the UI, include the previous values for all fields:
+       */
       { ...previousRealEstateProperty, ...newRealEstateProperty }
     );
   }
@@ -675,10 +682,11 @@ function App() {
         if (previousRealEstateProperty) {
           queryClient.setQueryData(
             ["realEstateProperties", newRealEstateProperty.id],
-            // TODO: add docs for this.
-            // Not covered in the TanStack docs, but the new property only
-            // includes updated values the first two times it returns. The final
-            // return includes all fields.
+            /**
+             * `newRealEstateProperty` will at first only include updated values for
+             * the record. To avoid only rendering optimstical values for updated
+             * fields on the UI, include the previous values for all fields:
+             */
             { ...previousRealEstateProperty, ...newRealEstateProperty }
           );
         }
