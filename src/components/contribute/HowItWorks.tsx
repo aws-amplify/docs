@@ -8,7 +8,12 @@ import {
   View,
   Link
 } from '@aws-amplify/ui-react';
-import { MdOutlineBadge, MdLabelOutline, MdCelebration, MdPageview } from 'react-icons/md';
+import {
+  MdOutlineBadge,
+  MdLabelOutline,
+  MdCelebration,
+  MdPageview
+} from 'react-icons/md';
 import {
   FiExternalLink,
   FiGithub,
@@ -179,9 +184,14 @@ export default function HowItWorks() {
               <MdCelebration />
             </Flex>
             <Text>
-              Collect an <Link href="https://aws.amazon.com/blogs/mobile/new-introducing-the-amplify-badge-program/" isExternal>
-              Amplify badge <FiExternalLink />
-              </Link> for your contribution.  
+              Collect an{' '}
+              <Link
+                href="https://aws.amazon.com/blogs/mobile/new-introducing-the-amplify-badge-program/"
+                isExternal
+              >
+                Amplify badge <FiExternalLink />
+              </Link>{' '}
+              for your contribution.
             </Text>
           </Flex>
         </Card>
