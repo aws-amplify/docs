@@ -163,6 +163,7 @@ export default function HowItWorks() {
             </Text>
           </Flex>
         </Card>
+        <Divider size="small" />
         <Card>
           <Flex direction="row" alignItems="center">
             <Flex
@@ -184,6 +185,7 @@ export default function HowItWorks() {
             </Text>
           </Flex>
         </Card>
+        <Divider size="small" />
       </View>
     </Flex>
   );
