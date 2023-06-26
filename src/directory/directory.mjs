@@ -211,6 +211,11 @@ export const directory = {
             title: 'Use existing AWS resources',
             route: '/lib/graphqlapi/existing-resources',
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
+          },
+          {
+            title: 'Upgrade guide from Apollo SDK (V2)',
+            route: '/lib/graphqlapi/upgrade-guide',
+            filters: ['js']
           }
         ]
       },
