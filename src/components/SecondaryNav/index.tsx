@@ -29,7 +29,6 @@ export default function SecondaryNav() {
     url: JS_REFERENCE,
     external: true
   });
-  // const filterKeys = parseLocalStorage('filterKeys', {});
 
   useEffect(() => {
     const filterKeys = parseLocalStorage('filterKeys', {});

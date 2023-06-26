@@ -86,12 +86,6 @@ export default class FilterSelect extends React.Component<
     });
   };
 
-  spliceUrl = (url) => {
-    if (url.includes('?')) return url.slice(0, url.indexOf('?'));
-    if (url.includes('#')) return url.slice(0, url.indexOf('#'));
-    return url;
-  };
-
   renderFilter = (name) => {
     if (name === this.props.filterKey) return;
 
