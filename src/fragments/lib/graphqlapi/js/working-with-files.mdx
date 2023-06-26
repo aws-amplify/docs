@@ -1058,7 +1058,7 @@ const response = await API.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
 
 const photoAlbum = response?.data?.getPhotoAlbum;
 
-// Ensure that the record has an associated images:
+// If the record has no associated files, we can return early.
 if (!photoAlbum?.imageKeys) return;
 
 const photoAlbumDetails: UpdatePhotoAlbumInput = {
@@ -1096,7 +1096,7 @@ const response = await API.graphql({
 
 const photoAlbum = response?.data?.getPhotoAlbum;
 
-// Ensure that the record has an associated images:
+// If the record has no associated files, we can return early.
 if (!photoAlbum?.imageKeys) return;
 
 const photoAlbumDetails = {
@@ -1195,9 +1195,9 @@ await Promise.all(
 </Block>
 </BlockSwitcher>
 
-## Working with real-time data and files
+## Data consistency when working with records and files
 
-The recommended access patterns in these docs attempt remove deleted files, but favor leaving orphans over leaving records that point to non-existent files. This optimizes for read latency by ensuring clients *rarely* attempt to fetch a non-existent file from Storage. However, any app that deletes files can inherently cause records *on-device* to point to non-existent files.
+The recommended access patterns in these docs attempt to remove deleted files, but favor leaving orphans over leaving records that point to non-existent files. This optimizes for read latency by ensuring clients *rarely* attempt to fetch a non-existent file from Storage. However, any app that deletes files can inherently cause records *on-device* to point to non-existent files.
 
 One example is when we [create an API record, associate the Storage file with that record, and then retrieve the file's signed URL](#create-a-record-with-an-associated-file). "Device A" calls the GraphQL API to create `API_Record_1`, and then associates that record with `First_Photo`. Before "Device A" is about to retrieve the signed URL, "Device B" might query `API_Record_1`, delete `First_Photo`, and update the record accordingly. However, "Device A" is still using the old `API_Record_1`, which is now out-of-date. Even though the shared global state is correctly in sync at every stage, the individual device ("Device A") has an out-of-date record that points to a non-existent file. Similar issues can conceivably occur for updates. Depending on your app, some of these mismatches can be minimized *even more* with [real-time data / GraphQL subscriptions](https://docs.amplify.aws/lib/graphqlapi/subscribe-data/).
 
@@ -2200,7 +2200,7 @@ function App() {
 
       const photoAlbum = response?.data?.getPhotoAlbum;
 
-      // Ensure that the record has an associated images:
+      // If the record has no associated files, we can return early.
       if (!photoAlbum?.imageKeys) return;
 
       const photoAlbumDetails: UpdatePhotoAlbumInput = {
@@ -2713,7 +2713,7 @@ function App() {
 
       const photoAlbum = response?.data?.getPhotoAlbum;
 
-      // Ensure that the record has an associated images:
+      // If the record has no associated files, we can return early.
       if (!photoAlbum?.imageKeys) return;
 
       const photoAlbumDetails = {
