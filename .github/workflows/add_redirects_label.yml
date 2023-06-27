@@ -5,6 +5,7 @@ on:
     types: [completed]
 env:
   ARTIFACT_NAME: redirectsArtifact
+  LABEL_TO_ADD: redirects-needed
 jobs:
   addRedirectsNeededLabel:
     name: Add redirects-needed label
@@ -33,7 +34,8 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { addRedirectsNeededLabel } = require('./.github/workflows/scripts/check_for_redirects.js');
+            const { addLabelForDeletedFiles } = require('./.github/workflows/scripts/add_label_for_deleted_files.js');
             const fs = require('fs');
             const artifactName = process.env.ARTIFACT_NAME;
-            addRedirectsNeededLabel({github, context, fs, core, artifactName});
+            const label = process.env.LABEL_TO_ADD;
+            addLabelForDeletedFiles({github, context, fs, core, artifactName, label});
