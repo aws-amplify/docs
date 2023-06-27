@@ -20,7 +20,7 @@
     "@algolia/client-search": "^4.13.0",
     "@aws-amplify/amplify-cli-core": "^4.0.4",
     "@aws-amplify/ui-components": "latest",
-    "@code-hike/mdx": "^0.8.1",
+    "@code-hike/mdx": "^0.9.0",
     "@mdx-js/mdx": "^2.3.0",
     "@mdx-js/react": "^2.3.0",
     "@aws-amplify/ui-react": "^4.6.0",

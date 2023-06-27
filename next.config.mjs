@@ -9,7 +9,6 @@ import { remarkCodeHike } from '@code-hike/mdx';
 dotenv.config({ path: './.env.custom' });
 
 export default async (phase, { defaultConfig }) => {
-  const theme = await require('shiki/themes/nord.json');
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const headingLinkPlugin = await require('./src/plugins/headings.tsx');
   // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -33,13 +32,13 @@ export default async (phase, { defaultConfig }) => {
     options: {
       providerImportSource: '@mdx-js/react',
       remarkPlugins: [
-        [remarkCodeHike, { theme }],
+        [remarkCodeHike, { theme: 'nord' }],
         frontmatterPlugin,
         importPlugin,
         headingLinkPlugin,
         pagePlugin,
         internalLinkPlugin
-      ],
+      ]
       // rehypePlugins: [codeBlockPlugin]
     }
   });
