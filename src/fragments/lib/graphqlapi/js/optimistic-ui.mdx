@@ -34,13 +34,6 @@ Save the schema and run `amplify push` to deploy the changes. For the purposes o
 
 Next, at the root of your project, add the required TanStack Query imports, and create a client:
 
-<Callout>
-
-TanStack Query Devtools are not required, but are a useful resource for debugging and understanding how TanStack works under the hood. By default, React Query Devtools are only included in bundles when `process.env.NODE_ENV === 'development'`, meaning that no additional configuration is required to exclude them from a production build. 
-For more information on the TanStack Query Devtools, visit the [TanStack Query Devtools docs](https://tanstack.com/query/latest/docs/react/devtools)
-
-</Callout>
-
 ```ts
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -57,6 +50,13 @@ Next, provide the client to your app:
   <ReactQueryDevtools initialIsOpen={false} />
 </QueryClientProvider>
 ```
+
+<Callout>
+
+TanStack Query Devtools are not required, but are a useful resource for debugging and understanding how TanStack works under the hood. By default, React Query Devtools are only included in bundles when `process.env.NODE_ENV === 'development'`, meaning that no additional configuration is required to exclude them from a production build. 
+For more information on the TanStack Query Devtools, visit the [TanStack Query Devtools docs](https://tanstack.com/query/latest/docs/react/devtools)
+
+</Callout>
 
 <Callout>
 
@@ -240,7 +240,7 @@ We'll use the `onMutate` function to update the cache directly, as well as the `
 
 <Callout>
 
-When directly interacting with the cache via the `onMutate` function, it should be noted that the `newRealEstateProperty` parameter only includes the fields that are being updated, until the final return from the GraphQL API returns all fields for the record. When calling `setQueryData`, include the previous values for all fields in addition to the newly updated fields to avoid only rendering optimstical values for updated fields on the UI.
+When directly interacting with the cache via the `onMutate` function, it should be noted that the `newRealEstateProperty` parameter only includes the fields that are being updated, until the final return from the GraphQL API returns all fields for the record. When calling `setQueryData`, include the previous values for all fields in addition to the newly updated fields to avoid only rendering optimistic values for updated fields on the UI.
 
 </Callout>
 
@@ -284,7 +284,7 @@ onMutate: async (
       ["realEstateProperties", newRealEstateProperty.id],
       /**
        * `newRealEstateProperty` will at first only include updated values for
-       * the record. To avoid only rendering optimstical values for updated
+       * the record. To avoid only rendering optimistic values for updated
        * fields on the UI, include the previous values for all fields:
        */
       { ...previousRealEstateProperty, ...newRealEstateProperty }
@@ -465,12 +465,12 @@ The following example demonstrates how to use the state returned by TanStack to 
 
 </BlockSwitcher>
 
-## Complete examples
+## Complete example
 
 <BlockSwitcher>
 <Block name="TypeScript">
 
-```tsx
+```ts
 // index.tsx:
 import React from "react";
 import ReactDOM from "react-dom/client";
@@ -685,7 +685,7 @@ function App() {
             ["realEstateProperties", newRealEstateProperty.id],
             /**
              * `newRealEstateProperty` will at first only include updated values for
-             * the record. To avoid only rendering optimstical values for updated
+             * the record. To avoid only rendering optimistic values for updated
              * fields on the UI, include the previous values for all fields:
              */
             { ...previousRealEstateProperty, ...newRealEstateProperty }
@@ -869,57 +869,6 @@ function App() {
     );
   }
 
-  // NOTE: For test / sample cleanup purposes only (not for docs example)
-  async function deleteAll() {
-    //region: delete realEstateProperties:
-    const response = await API.graphql<
-      GraphQLQuery<ListRealEstatePropertiesQuery>
-    >({
-      query: queries.listRealEstateProperties,
-    });
-
-    console.log(
-      "RealEstateProperties to delete",
-      response?.data?.listRealEstateProperties?.items
-    );
-
-    await response?.data?.listRealEstateProperties?.items.forEach(
-      async (realEstateProperty) => {
-        if (!realEstateProperty?.id) return;
-
-        const realEstatePropertyDetails: DeleteRealEstatePropertyInput = {
-          id: realEstateProperty?.id,
-        };
-
-        const deletedRealEstateProperty = await API.graphql<
-          GraphQLQuery<DeleteRealEstatePropertyMutation>
-        >({
-          query: mutations.deleteRealEstateProperty,
-          variables: { input: realEstatePropertyDetails },
-        });
-
-        console.log("RealEstateProperty deleted: ", deletedRealEstateProperty);
-      }
-    );
-    //endregion
-
-    //region verify all deletes were successful:
-    const secondResponse = await API.graphql<
-      GraphQLQuery<ListRealEstatePropertiesQuery>
-    >({
-      query: queries.listRealEstateProperties,
-    });
-    console.log(
-      "RealEstateProperties should be empty:",
-      secondResponse?.data?.listRealEstateProperties?.items
-    );
-
-    if (secondResponse?.data?.listRealEstateProperties?.items?.length === 0) {
-      console.log("All deletes successful!");
-    }
-    //endregion
-  }
-
   return (
     <div>
       {!currentRealEstatePropertyId && (
@@ -954,7 +903,6 @@ function App() {
               </>
             )}
           </div>
-          <button onClick={deleteAll}>Delete All</button>
           <ul style={styles.propertiesList}>
             {isLoading && (
               <div style={styles.loadingIndicator}>
