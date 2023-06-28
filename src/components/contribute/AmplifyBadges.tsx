@@ -11,7 +11,7 @@ export default function AmplifyBadges() {
     width={{ base: '90%', large: '60%' }}
   >
     <View>
-      <Heading level={2}>The Amplify Badge</Heading>
+      <Heading level={2}>The Amplify Badge Program</Heading>
 
     </View>
     <Text fontSize="large" color="font.secondary">
