@@ -38,7 +38,7 @@ input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }
 
 The global authorization rule (in this case `{ allow: public }` - allows anyone to create, read, update, and delete) is applied to every data model in the GraphQL schema.
 
-**Note:** Amplify will always use the most specific authorization rule that's present. For example, a field-level authorization rule will be used in favor of a model-level authorization rule; similarily, a model-level authorization rule will be used in favor of a global authorization rule. 
+**Note:** Amplify will always use the most specific authorization rule that's present. For example, a field-level authorization rule will be used in favor of a model-level authorization rule; similarly, a model-level authorization rule will be used in favor of a global authorization rule. 
 
 <Callout warning>
 
