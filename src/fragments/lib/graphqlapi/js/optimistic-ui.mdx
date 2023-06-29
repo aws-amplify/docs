@@ -1522,7 +1522,7 @@ function App() {
               ) : (
                 <>
                   {updateMutation.isError &&
-                  updateMutation.error instanceof Error ? (
+                  updateMutation.error ? (
                     <div>An error occurred: {updateMutation.error.message}</div>
                   ) : null}
 
