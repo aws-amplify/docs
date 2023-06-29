@@ -213,7 +213,7 @@ export const directory = {
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
-            title: 'Upgrade guide from Apollo SDK (V2)',
+            title: 'Upgrade guide from AppSync SDK (V2)',
             route: '/lib/graphqlapi/upgrade-guide',
             filters: ['js']
           }
