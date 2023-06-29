@@ -18,31 +18,42 @@ amplify add custom
 
 A skeleton CDK stack is generated in the `amplify/backend/custom/<resource-name>` directory. Edit the `cdk-stack.ts` file to define the additional AWS resources. Add additional CDK constructs using the `package.json`. Run `amplify build` to download all NPM dependencies for this custom resource and synthesize the CDK stack.
 
+<Callout>
+
+To migrate from AWS CDK v1 to v2, refer to the [migration documentation](/cli/migration/aws-cdk-migration/).
+
+</Callout>
+
+
 The following example creates an SNS topic whose notification messages are forwarded via email:
 
 ```ts
-import * as cdk from '@aws-cdk/core';
+import * as cdk from 'aws-cdk-lib';
 import * as AmplifyHelpers from '@aws-amplify/cli-extensibility-helper';
-import * as sns from '@aws-cdk/aws-sns';
-import * as subs from '@aws-cdk/aws-sns-subscriptions';
+import { Construct } from 'constructs';
+import * as sns from 'aws-cdk-lib/aws-sns';
+import * as subs from 'aws-cdk-lib/aws-sns-subscriptions';
 
 export class cdkStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps, amplifyResourceProps?: AmplifyHelpers.AmplifyResourceProps) {
+  constructor(scope: Construct, id: string, props?: cdk.StackProps, amplifyResourceProps?: AmplifyHelpers.AmplifyResourceProps) {
     super(scope, id, props);
-
     /* Do not remove - Amplify CLI automatically injects the current deployment environment in this input parameter */
     new cdk.CfnParameter(this, 'env', {
       type: 'String',
       description: 'Current Amplify CLI env name',
     });
 
-    const projectName = AmplifyHelpers.getProjectInfo().projectName;
-    
+    const amplifyProjectInfo = AmplifyHelpers.getProjectInfo();
+    const snsTopicResourceName = `sns-topic-${amplifyProjectInfo.projectName}-${cdk.Fn.ref('env')}`;
     const topic = new sns.Topic(this, 'sns-topic', {
-      topicName: `sns-topic-${projectName}-${cdk.Fn.ref('env')}`
+      topicName: snsTopicResourceName,
     });
 
-    topic.addSubscription(new subs.EmailSubscription("<your-email-address>"));
+    topic.addSubscription(new subs.EmailSubscription('<your-email-address>'));
+    new cdk.CfnOutput(this, 'snsTopicArn', {
+      value: topic.topicArn,
+      description: 'The arn of the SNS topic',
+    });
   }
 }
 ```
@@ -106,6 +117,8 @@ if (envName === "prod") {
 The CDK stack for custom AWS resources can reference Amplify-generated resources' CloudFormation outputs. To reference another resource, first add the resource as a dependency.
 
 ```ts
+import { AmplifyDependentResourcesAttributes } from "../../types/amplify-dependent-resources-ref";
+
 const dependencies: AmplifyDependentResourcesAttributes = AmplifyHelpers.addResourceDependency(this,
   amplifyResourceProps.category,
   amplifyResourceProps.resourceName,

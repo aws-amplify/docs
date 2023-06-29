@@ -8,7 +8,12 @@ import {
   View,
   Link
 } from '@aws-amplify/ui-react';
-import { MdOutlineBadge, MdLabelOutline, MdCelebration } from 'react-icons/md';
+import {
+  MdOutlineBadge,
+  MdLabelOutline,
+  MdCelebration,
+  MdPageview
+} from 'react-icons/md';
 import {
   FiExternalLink,
   FiGithub,
@@ -116,7 +121,7 @@ export default function HowItWorks() {
               alignItems="center"
             >
               {' '}
-              <FiCheck />
+              <MdPageview />
             </Flex>
             <Text>The Amplify team will review the submitted PRs.</Text>
           </Flex>
@@ -134,7 +139,7 @@ export default function HowItWorks() {
               alignItems="center"
             >
               {' '}
-              <MdCelebration />
+              <FiCheck />
             </Flex>
             <Text>Pull requests must be approved by the Amplify Team.</Text>
           </Flex>
@@ -163,6 +168,34 @@ export default function HowItWorks() {
             </Text>
           </Flex>
         </Card>
+        <Divider size="small" />
+        <Card>
+          <Flex direction="row" alignItems="center">
+            <Flex
+              backgroundColor="brand.rind"
+              color="brand.squidInk"
+              width="32px"
+              height="32px"
+              borderRadius="50%"
+              justifyContent="center"
+              alignItems="center"
+            >
+              {' '}
+              <MdCelebration />
+            </Flex>
+            <Text>
+              Collect an{' '}
+              <Link
+                href="https://aws.amazon.com/blogs/mobile/new-introducing-the-amplify-badge-program/"
+                isExternal
+              >
+                Amplify badge <FiExternalLink />
+              </Link>{' '}
+              for your contribution.
+            </Text>
+          </Flex>
+        </Card>
+        <Divider size="small" />
       </View>
     </Flex>
   );
