@@ -1506,7 +1506,8 @@
     "Libre's",
     "Pinia",
     "kotlinx",
-    "snapcraft"
+    "snapcraft",
+    "visionos"
   ],
   "flagWords": [
     "hte", 
