@@ -7,6 +7,7 @@ import MobileMenuIcons from '../MobileMenuIcons';
 import { useRef, useState } from 'react';
 import { MQDesktop } from '../media';
 import FeedbackSticky from '../FeedbackSticky';
+import FeedbackPill from '../FeedbackPill';
 import LastUpdatedDatesProvider from '../LastUpdatedProvider';
 
 export default function MetaContent({
@@ -70,10 +71,13 @@ export default function MetaContent({
             </div>
             <CodeBlockProvider>
               {children}
+              <FeedbackPill />
               <NextPrevious url={url} filterKey={filterKey} />
             </CodeBlockProvider>
           </div>
-          {onDesktop && <FeedbackSticky footerRef={footerRef} />}
+          {onDesktop && (
+            <FeedbackSticky footerRef={footerRef} contentsRef={contentsRef} />
+          )}
         </ContentStyle>
         <TableOfContents
           title={title}

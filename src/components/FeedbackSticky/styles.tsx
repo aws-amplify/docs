@@ -101,9 +101,6 @@ export const FeedbackContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   padding: 8px 12px;
-  transition: bottom 0.4s;
-  animation: ${slideInMobile} 0.4s ease-in-out;
-  animation-fill-mode: forwards;
   filter: drop-shadow(0px 4px 20px rgba(0, 7, 22, 0.12));
   box-sizing: border-box;
 
@@ -206,7 +203,12 @@ export const FeedbackContainer = styled.div`
     height: 0;
   }
   ${MQDesktop} {
-    right: calc(((100vw - 90rem) / 2) + 16.875rem + 32px);
+    &.visibleToc {
+      right: calc(((100vw - 90rem) / 2) + 16.875rem + 32px);
+    }
+    &.noToc {
+      right: calc(((100vw - 90rem) / 2) + 32px);
+    }
     left: unset;
     transform: unset;
     animation: ${slideInDesktop} 0.4s ease-in-out;

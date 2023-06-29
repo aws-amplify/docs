@@ -32,12 +32,14 @@ type Feedback = {
   comment?: string;
 };
 
-export default function Feedback({ footerRef }) {
+export default function Feedback({ footerRef, contentsRef }) {
   const [state, setState] = useState(FeedbackState.START);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [componentX, setComponentX] = useState('');
 
   useEffect(() => {
     const footer = footerRef.current;
+    setComponentX(contentsRef.current != null ? 'visibleToc' : 'noToc');
 
     if (typeof window !== 'undefined') {
       window.addEventListener('touchmove', hideFeedback);
@@ -80,7 +82,7 @@ export default function Feedback({ footerRef }) {
         prevScrollPos = currPos;
       }
     }
-  }, []);
+  }, [componentX]);
 
   // Feedback Component Customizations
   const c = {
@@ -120,7 +122,7 @@ export default function Feedback({ footerRef }) {
     <FeedbackContainer
       id="feedback-container"
       ref={containerRef}
-      className={state + ' initial'}
+      className={state + ' initial ' + componentX}
       aria-hidden={state == FeedbackState.UP ? true : false}
     >
       <div className="sizing" aria-hidden="true">
