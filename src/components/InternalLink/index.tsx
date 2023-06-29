@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 
 export default function InternalLink({ href, children }) {
   const [url, setUrl] = useState(href);
+  const router = useRouter();
 
   useEffect(() => {
     let filterKind = '';
@@ -38,7 +39,6 @@ export default function InternalLink({ href, children }) {
     }
 
     if (href[0] === '#') {
-      const router = useRouter();
       const prevPath = router.asPath.split('#')[0];
       href = prevPath + href;
     }

@@ -30,7 +30,11 @@ export default function SecondaryNav() {
     external: true
   });
 
+  const [hasMounted, setHasMounted] = useState(false);
+
   useEffect(() => {
+    setHasMounted(true);
+
     const filterKeys = parseLocalStorage('filterKeys', {});
     const data = {
       label: 'API Reference',
@@ -63,6 +67,10 @@ export default function SecondaryNav() {
     };
     setRefProps(data);
   }, []);
+
+  if (!hasMounted) {
+    return null;
+  }
 
   return (
     <HostStyle>

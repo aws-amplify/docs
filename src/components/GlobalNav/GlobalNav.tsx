@@ -1,7 +1,7 @@
 // Maybe put this somewhere else
 // At the moment Docs doesn't use Amplify UI anywhere else
 import '@aws-amplify/ui-react/styles.css';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { View, Flex } from '@aws-amplify/ui-react';
 import { useState } from 'react';
@@ -38,6 +38,11 @@ export function GlobalNav({
   rightLinks,
   socialLinks
 }: NavProps) {
+  const [hasMounted, setHasMounted] = useState(false);
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
   const themeableSites: any = {
     'UI Library': true
   };
@@ -47,6 +52,10 @@ export function GlobalNav({
   const themeClass = themeableSites[currentSite] ? '' : 'use-ui-theme';
 
   const [isCollapsed, setIsCollapsed] = useState(true);
+
+  if (!hasMounted) {
+    return null;
+  }
 
   return (
     <View

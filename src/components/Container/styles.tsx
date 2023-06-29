@@ -27,16 +27,3 @@ export const InnerContainer = styled.div<ContainerProps>((props) => {
 `;
 });
 
-export const Container = ({
-  children,
-  backgroundColor,
-}: {
-  children: any;
-  backgroundColor?: string;
-}) => (
-  <OuterContainer backgroundColor={backgroundColor || null}>
-    <InnerContainer backgroundColor={backgroundColor || null}>
-      {children}
-    </InnerContainer>
-  </OuterContainer>
-);
