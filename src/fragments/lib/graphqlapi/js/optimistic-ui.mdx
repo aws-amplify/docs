@@ -10,7 +10,7 @@ For more on the Amplify GraphQL API, see the [API documentation](https://docs.am
 
 </Callout>
 
-To get started, run the following command in an existing Amplify project:
+To get started, run the following command in an existing Amplify project with a React frontend:
 
 ```bash
 # Install TanStack Query
@@ -20,7 +20,7 @@ npm i @tanstack/react-query
 amplify add api              
 ```
 
-When prompted, use the following schema, which can also be found under `amplify/backend/api/[name of project]/schema.graphql`:
+When prompted, use the following schema:
 
 ```graphql
 type RealEstateProperty @model @auth(rules: [{ allow: public }]) {
@@ -29,7 +29,7 @@ type RealEstateProperty @model @auth(rules: [{ allow: public }]) {
   address: String
 }
 ```
-
+The schema file can also be found under `amplify/backend/api/[name of project]/schema.graphql`.
 Save the schema and run `amplify push` to deploy the changes. For the purposes of this guide, we'll build a Real Estate Property listing application.
 
 Next, at the root of your project, add the required TanStack Query imports, and create a client:
@@ -42,7 +42,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 const queryClient = new QueryClient()
 ```
 
-Next, provide the client to your app:
+Next, wrap your app in the client provider:
 
 ```ts
 <QueryClientProvider client={queryClient}>
@@ -66,7 +66,7 @@ For the complete working example, including required imports and React component
 
 ## How to use TanStack Query query keys with the GraphQL API
 
-TanStack Query manages query caching based on query keys. Query keys have to be an array at the top level, and can be as simple as an array with a single string, or as complex as an array of many strings and nested objects. The query key must be serializable, and unique to the query's data. 
+TanStack Query manages query caching based on the query keys you specify. A query key must be an array. The array can contain a single string or multiple strings and nested objects. The query key must be serializable, and unique to the query's data. 
 
 When using TanStack to render optimistic UI with the GraphQL API, it is important to note that different query keys must be used depending on the API operation. When retrieving a list of items, a single string is used (e.g. `queryKey: ["realEstateProperties"]`). This query key is also used to optimistically render a newly created item. When updating or deleting an item, the query key must also include the unique identifier for the record being deleted or updated (e.g. `queryKey: ["realEstateProperties", newRealEstateProperty.id]`).
 
