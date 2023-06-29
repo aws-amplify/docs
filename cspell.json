@@ -1509,7 +1509,9 @@
     "Pinia",
     "kotlinx",
     "snapcraft",
-    "snapshotted"
+    "snapshotted",
+    "visionos"
+    
   ],
   "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"]
 }
