@@ -35,15 +35,14 @@ export default function InternalLink({ href, children }) {
           }
         }
       }
-      setUrl(href);
     }
 
     if (href[0] === '#') {
       const router = useRouter();
       const prevPath = router.asPath.split('#')[0];
       href = prevPath + href;
-      setUrl(href);
     }
+    setUrl(href);
   }, []);
 
   return (
