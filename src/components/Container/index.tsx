@@ -3,8 +3,6 @@ import { InnerContainer, OuterContainer } from './styles';
 
 export { Container, InnerContainer, OuterContainer };
 
-// export default Container;
-
 export default function Container({
   children,
   backgroundColor
