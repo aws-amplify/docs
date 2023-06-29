@@ -16,6 +16,7 @@ import QuickstartResources from '../../components/contribute/QuickstartResources
 
 import { Octokit } from '@octokit/rest';
 import { Endpoints } from '@octokit/types';
+import AmplifyBadges from '../../components/contribute/AmplifyBadges';
 
 // type listRepoIssuesResponse = Endpoints['GET /repos/{owner}/{repo}/issues']['response'];
 
@@ -75,7 +76,7 @@ export default function ContributorPage() {
         >
           <Flex
             direction="column"
-            gap="8rem"
+            gap="4rem"
             maxWidth="1280px"
             justifyContent="center"
             margin="0 auto"
@@ -115,58 +116,8 @@ export default function ContributorPage() {
 
             <HowItWorks />
 
-            {/* <Flex
-              direction="column"
-              maxWidth="1024px"
-              width={{ base: '90%', large: '60%' }}
-              margin="0 auto"
-              gap="2em"
-            >
-              <View>
-                <Heading level={2}>Start contributing!</Heading>
-              </View>
-              <Text fontSize={'large'} color="font.secondary">
-                Thank you for your interest in contributing! Whether it's a bug
-                report, new feature, correction, or additional documentation, we
-                greatly value feedback and contributions from our community.
-                Check out the issues and discussions in the Amplify projects
-                below to get started!
-              </Text>
-            </Flex>
-
-            <Flex
-              direction="row"
-              justifyContent="center"
-              alignItems="top"
-              gap="5em"
-              wrap={'wrap'}
-            >
-              <Card
-                padding={'3rem'}
-                variation="elevated"
-                width={{ base: '90%', large: '40%' }}
-              >
-                <Issues
-                  title={'Amplify JS'}
-                  issues={JsIssues}
-                  repo={'amplify-js'}
-                  description="A declarative JavaScript library for application development using cloud services."
-                />
-              </Card>
-              <Card
-                padding={'3rem'}
-                variation="elevated"
-                width={{ base: '90%', large: '40%' }}
-              >
-                <Issues
-                  title={'Amplify CLI'}
-                  issues={CLIissues}
-                  repo={'amplify-cli'}
-                  description="The AWS Amplify CLI is a toolchain for simplifying serverless web and mobile development."
-                />
-              </Card>
-            </Flex> */}
-
+           
+            <AmplifyBadges />
             <QuickstartResources />
             {/* <Contributors /> */}
           </Flex>

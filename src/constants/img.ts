@@ -135,3 +135,18 @@ export const TABLE_OF_CONTENTS_OPEN = {
   alt: 'Table of contents menu',
   src: '/assets/contents.svg'
 };
+
+export const BADGE_FOUNDATIONAL = {
+  alt: 'AMPLIFY Foundational Badge  ',
+  src: '/assets/badge-foundational.png'
+};
+
+export const BADGE_ITERMEDIATE = {
+  alt: 'AMPLIFY Intermediate Badge  ',
+  src: '/assets/badge-intermediate.png'
+};
+
+export const BADGE_ADVANCED = {
+  alt: 'AMPLIFY Advanced Badge  ',
+  src: '/assets/badge-advanced.png'
+};

@@ -36,7 +36,7 @@ const Layout = forwardRef(function Layout(
   const title = !meta
     ? ''
     : [meta.chapterTitle, meta.title, filterMetadata, 'AWS Amplify Docs']
-        .filter((s) => s !== '')
+        .filter((s) => s !== '' && s !== null && s !== undefined)
         .join(' - ');
 
   const description = !meta
