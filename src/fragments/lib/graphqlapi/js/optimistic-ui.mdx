@@ -97,7 +97,6 @@ const {
     const allRealEstateProperties =
       response?.data?.listRealEstateProperties?.items;
 
-    // TODO: figure out return type
     if (!allRealEstateProperties) return null;
 
     return allRealEstateProperties;
@@ -384,8 +383,6 @@ const updateMutation = useMutation({
   // Always refetch after error or success:
   onSettled: (newRealEstateProperty) => {
     queryClient.invalidateQueries({
-      // TODO: fix type
-      // @ts-ignore
       queryKey: ["realEstateProperties", newRealEstateProperty.id],
     });
   },
@@ -521,8 +518,6 @@ const deleteMutation = useMutation({
   // Always refetch after error or success:
   onSettled: (newRealEstateProperty) => {
     queryClient.invalidateQueries({
-      // TODO: fix type
-      // @ts-ignore
       queryKey: ["realEstateProperties", newRealEstateProperty.id],
     });
   },
@@ -626,7 +621,7 @@ The following example demonstrates how to use the state returned by TanStack to 
       updateMutation.mutate({
         id: realEstateProperty.id,
         address: `${Math.floor(
-          10c
+          1000 + Math.random() * 9000
         )} Main St`,
       })
     }
@@ -762,7 +757,6 @@ function App() {
       const allRealEstateProperties =
         response?.data?.listRealEstateProperties?.items;
 
-      // TODO: figure out return type
       if (!allRealEstateProperties) return null;
 
       return allRealEstateProperties;
@@ -907,8 +901,6 @@ function App() {
       // Always refetch after error or success:
       onSettled: (newRealEstateProperty) => {
         queryClient.invalidateQueries({
-          // TODO: fix type
-          // @ts-ignore
           queryKey: ["realEstateProperties", newRealEstateProperty.id],
         });
       },
@@ -969,8 +961,6 @@ function App() {
       // Always refetch after error or success:
       onSettled: (newRealEstateProperty) => {
         queryClient.invalidateQueries({
-          // TODO: fix type
-          // @ts-ignore
           queryKey: ["realEstateProperties", newRealEstateProperty.id],
         });
       },
