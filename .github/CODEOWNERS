@@ -1,4 +1,5 @@
 #Docs Engineering
+/*.* @aws-amplify/documentation-team # Assign root level files and dot-prefix folders
 /src/components @aws-amplify/documentation-team 
 /src/constants @aws-amplify/documentation-team 
 /src/directory @aws-amplify/documentation-team 
@@ -14,8 +15,6 @@
 /src/public @aws-amplify/documentation-team 
 /src/styles @aws-amplify/documentation-team 
 /src/utils @aws-amplify/documentation-team
-
-/STYLEGUIDE.md @rachelnabors
  
 #JS
 /src/**/**/analytics @aws-amplify/amplify-js @abdallahshaban557
