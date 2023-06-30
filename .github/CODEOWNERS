@@ -112,8 +112,8 @@
 /src/pages/console @aws-amplify/amplify-studio-uibuilder @wrpeck
 
 #Hosting
-/src/fragments/**/hosting @aws-amplify/amplify-hosting @michrome
-/src/pages/**/hosting @aws-amplify/amplify-hosting @michrome
+/src/fragments/**/hosting @aws-amplify/amplify-hosting @swaminator
+/src/pages/**/hosting @aws-amplify/amplify-hosting @swaminator
 
 #UI
 /src/**/ui @aws-amplify/amplify-ui @dbanksdesign
