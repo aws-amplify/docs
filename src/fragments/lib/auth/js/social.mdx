@@ -84,14 +84,22 @@ function App() {
       }
     });
 
-    Auth.currentAuthenticatedUser()
-      .then((currentUser: AmplifyUser) => setUser(currentUser))
-      .catch(() => console.log("Not signed in"));
+    getUser();
 
     return unsubscribe;
   }, []);
 
-	return (
+  const getUser = async (): Promise<void> => {
+    try {
+      const currentUser: AmplifyUser = await Auth.currentAuthenticatedUser();
+      setUser(currentUser);
+    } catch(error) {
+      console.error(error);
+      console.log("Not signed in");
+    }
+  };
+  
+  return (
     <div className="App">
       <button onClick={() => Auth.federatedSignIn()}>Open Hosted UI</button>
       <button onClick={() => Auth.federatedSignIn({provider: CognitoHostedUIIdentityProvider.Facebook })}>Open Facebook</button>
@@ -260,7 +268,7 @@ function App() {
       switch (event) {
         case 'signIn':
         case 'cognitoHostedUI':
-          getUser().then(userData => setUser(userData));
+          getUser();
           break;
         case 'signOut':
           setUser(null);
@@ -272,14 +280,18 @@ function App() {
       }
     });
 
-    getUser().then(userData => setUser(userData));
+    getUser();
   }, []);
 
-  function getUser(): Promise<AmplifyUser> {
-    return Auth.currentAuthenticatedUser()
-      .then(userData => userData)
-      .catch(() => console.log('Not signed in'));
-  }
+  const getUser = async (): Promise<void> => {
+    try {
+      const userData: AmplifyUser = await Auth.currentAuthenticatedUser();
+      setUser(userData)
+    } catch(error) {
+      console.error(error);
+      console.log("Not signed in");
+    }
+  };
 
   return (
     <div>

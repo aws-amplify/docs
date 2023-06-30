@@ -85,13 +85,21 @@ export default function App() {
       }
     });
 
-    Auth.currentAuthenticatedUser()
-      .then((currentUser: AmplifyUser) => setUser(currentUser))
-      .catch(() => console.log("Not signed in"));
+    getUser();
 
     return unsubscribe;
   }, []);
 
+  const getUser = async (): Promise<void> => {
+    try {
+      const currentUser: AmplifyUser = await Auth.currentAuthenticatedUser();
+      setUser(currentUser);
+    } catch(error) {
+      console.error(error);
+      console.log("Not signed in");
+    }
+  };
+  
   return (
     <View>
       <Button
@@ -330,7 +338,7 @@ function App() {
       switch (event) {
         case 'signIn':
         case 'cognitoHostedUI':
-          getUser().then(userData => setUser(userData));
+          getUser();
           break;
         case 'signOut':
           setUser(null);
@@ -342,14 +350,18 @@ function App() {
       }
     });
 
-    getUser().then(userData => setUser(userData));
+    getUser()
   }, []);
 
-  function getUser(): Promise<AmplifyUser> {
-    return Auth.currentAuthenticatedUser()
-      .then(userData => userData)
-      .catch(() => console.log('Not signed in'));
-  }
+  const getUser = async (): Promise<void> => {
+    try {
+      const userData: AmplifyUser = await Auth.currentAuthenticatedUser();
+      setUser(userData)
+    } catch(error) {
+      console.error(error);
+      console.log("Not signed in");
+    }
+  };
 
   return (
     <View>
@@ -547,12 +559,20 @@ export default function App() {
       }
     });
 
-    Auth.currentAuthenticatedUser()
-      .then((currentUser: AmplifyUser) => setUser(currentUser))
-      .catch(() => console.log("Not signed in"));
+    getUser();
 
     return unsubscribe;
   }, []);
+
+  const getUser = async (): Promise<void> => {
+    try {
+      const currentUser: AmplifyUser = await Auth.currentAuthenticatedUser();
+      setUser(currentUser);
+    } catch(error) {
+      console.error(error);
+      console.log("Not signed in");
+    }
+  };
 
   return (
     <View style={styles.container}>
