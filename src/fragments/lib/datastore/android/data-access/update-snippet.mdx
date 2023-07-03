@@ -2,8 +2,15 @@
 <Block name="Java">
 
 ```java
+QueryOptions queryOptions = null;
 try {
-    Amplify.DataStore.query(Post.class, Where.identifier(Post.class, "123"),
+    queryOptions = Where.identifier(Post.class, "123");
+} catch (AmplifyException e) {
+    Log.e("MyAmplifyApp", "Failed to construct QueryOptions with provided values for Where.identifier", e);
+}
+
+if (queryOptions != null) {
+    Amplify.DataStore.query(Post.class, queryOptions,
         matches -> {
             if (matches.hasNext()) {
                 Post original = matches.next();
@@ -18,8 +25,6 @@ try {
         },
         failure -> Log.e("MyAmplifyApp", "Query failed.", failure)
     );
-} catch (AmplifyException e) {
-    Log.e("MyAmplifyApp", "Query failed", e);
 }
 ```
 
@@ -60,8 +65,15 @@ Amplify.DataStore.query(Post::class, Where.identifier(Post::class.java, "123"))
 <Block name="RxJava">
 
 ```java
+QueryOptions queryOptions = null;
 try {
-    RxAmplify.DataStore.query(Post.class, Where.identifier(Post.class, "123"))
+    queryOptions = Where.identifier(Post.class, "123");
+} catch (AmplifyException e) {
+    Log.e("MyAmplifyApp", "Failed to construct QueryOptions with provided values for Where.identifier", e);
+}
+
+if (queryOptions != null) {
+    RxAmplify.DataStore.query(Post.class, queryOptions)
         .map(matchingPost -> matchingPost.copyOfBuilder()
             .title("New Title")
             .build()
@@ -71,8 +83,6 @@ try {
             () -> Log.i("MyAmplifyApp", "Query and update succeeded."),
             failure -> Log.e("MyAmplifyApp", "Update failed.", failure)
         );
-} catch (AmplifyException e) {
-    Log.e("MyAmplifyApp", "Query failed", e);
 }
 ```
 
