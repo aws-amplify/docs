@@ -4,7 +4,7 @@ Below, you query for an instance with an `id` of `"123"`, and then delete it, if
 <Block name="Java">
 
 ```java
-try{
+try {
     Amplify.DataStore.query(Post.class, Where.identifier(Post.class, "123"),
         matches -> {
             if (matches.hasNext()) {
@@ -17,7 +17,7 @@ try{
         },
         failure -> Log.e("MyAmplifyApp", "Query failed.", failure)
     );
-}catch (AmplifyException e) {
+} catch (AmplifyException e) {
     Log.e("MyAmplifyApp", "Query failed", e);
 }
 ```
@@ -55,14 +55,14 @@ Amplify.DataStore.query(Post::class, Where.identifier(Post::class.java, "123"))
 <Block name="RxJava">
 
 ```java
-try{
+try {
     RxAmplify.DataStore.query(Post.class, Where.identifier(Post.class, "123"))
         .flatMapCompletable(RxAmplify.DataStore::delete)
         .subscribe(
             () -> Log.i("MyAmplifyApp", "Deleted a post."),
             failure -> Log.e("MyAmplifyApp", "Delete failed.", failure)
         );
-}catch (AmplifyException e) {
+} catch (AmplifyException e) {
     Log.e("MyAmplifyApp", "Query failed", e);
 }
 ```

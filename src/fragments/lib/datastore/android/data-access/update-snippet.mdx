@@ -2,7 +2,7 @@
 <Block name="Java">
 
 ```java
-try{
+try {
     Amplify.DataStore.query(Post.class, Where.identifier(Post.class, "123"),
         matches -> {
             if (matches.hasNext()) {
@@ -18,7 +18,7 @@ try{
         },
         failure -> Log.e("MyAmplifyApp", "Query failed.", failure)
     );
-}catch (AmplifyException e) {
+} catch (AmplifyException e) {
     Log.e("MyAmplifyApp", "Query failed", e);
 }
 ```
@@ -60,7 +60,7 @@ Amplify.DataStore.query(Post::class, Where.identifier(Post::class.java, "123"))
 <Block name="RxJava">
 
 ```java
-try{
+try {
     RxAmplify.DataStore.query(Post.class, Where.identifier(Post.class, "123"))
         .map(matchingPost -> matchingPost.copyOfBuilder()
             .title("New Title")
@@ -71,7 +71,7 @@ try{
             () -> Log.i("MyAmplifyApp", "Query and update succeeded."),
             failure -> Log.e("MyAmplifyApp", "Update failed.", failure)
         );
-}catch (AmplifyException e) {
+} catch (AmplifyException e) {
     Log.e("MyAmplifyApp", "Query failed", e);
 }
 ```
