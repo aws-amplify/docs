@@ -8,7 +8,7 @@ frontend:
     build:
       commands:
         - echo "PROD_ENV=$PROD_ENV" >> .env.custom
-        - NODE_ENV=production yarn build
+        - NODE_ENV=$NODE_ENV yarn build
         - if [ "${AWS_BRANCH}" = "main" ]; then node tasks/build-algolia-search.mjs; fi
   artifacts:
     # IMPORTANT - Please verify your build output directory
