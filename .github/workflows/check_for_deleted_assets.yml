@@ -6,10 +6,9 @@ env:
   ARTIFACT_NAME: 'deletedAssetsArtifact'
   PATHS_TO_CHECK: 'public'
 jobs:
-  onPrOpen:
-    name: Check if assets were deleted on PR opened
+  checkIfAssetsWereDeleted:
+    name: Check if assets were deleted
     runs-on: ubuntu-latest
-    if: github.event.action == 'opened'
     steps:
       - name: Checkout repository to get the workflow scripts
         uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3 https://github.com/actions/checkout/commit/c85c95e3d7251135ab7dc9ce3241c5835cc595a9

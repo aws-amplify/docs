@@ -38,4 +38,4 @@ jobs:
             const fs = require('fs');
             const artifactName = process.env.ARTIFACT_NAME;
             const label = process.env.LABEL_TO_ADD;
-            addLabelForDeletedFiles({github, context, fs, core, artifactName});
+            addLabelForDeletedFiles({github, context, fs, core, artifactName, label});
