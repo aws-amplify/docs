@@ -1,14 +1,14 @@
-name: Add redirects-needed label
+name: Add deleted-assets label
 on:
   workflow_run:
-    workflows: ['Redirects Workflow']
+    workflows: ['Deleted Assets Workflow']
     types: [completed]
 env:
-  ARTIFACT_NAME: redirectsArtifact
-  LABEL_TO_ADD: redirects-needed
+  ARTIFACT_NAME: deletedAssetsArtifact
+  LABEL_TO_ADD: deleted-assets
 jobs:
   addRedirectsNeededLabel:
-    name: Add redirects-needed label
+    name: Add deleted-assets label
     runs-on: ubuntu-latest
     if: github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success'
     permissions:
