@@ -71,7 +71,6 @@ export default function MetaContent({
             </div>
             <CodeBlockProvider>
               {children}
-              <FeedbackPill />
               <NextPrevious url={url} filterKey={filterKey} />
             </CodeBlockProvider>
           </div>
