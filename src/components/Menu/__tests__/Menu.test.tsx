@@ -31,6 +31,7 @@ describe('Menu', () => {
           filterKind={''}
           url={url}
           directoryPath={directoryKey}
+          buttonsRef
         />
       );
 
