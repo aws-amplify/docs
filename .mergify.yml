@@ -12,19 +12,3 @@ pull_request_rules:
           - What is the target address of the redirect? (Where are you trying to redirect to?)
 
           - Type of redirect? 301 - permanent redirect or 302 - temporary redirect? (More info on Amplify Hosting redirects here: https://docs.aws.amazon.com/amplify/latest/userguide/redirects.html)
-  - name: Remove verified-assets label if deleted-assets label is added
-    conditions:
-      - label="deleted-assets"
-    actions:
-      label:
-        remove:
-          - 'verified-assets'
-  - name: Add deleted-assets label if status checks fail
-    conditions:
-      - or:
-        - check-failure="Check if assets were deleted on PR opened"
-        - check-failure="Check if assets were deleted on PR sync"
-    actions:
-      label:
-        add:
-          - 'deleted-assets'
