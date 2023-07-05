@@ -3,7 +3,8 @@
 Displaying push notifications from APNs requires requesting permission from the user to receive notifications and registering with the APNs service. 
 
 **AWSPinpointPushNotificationsPlugin** takes care of registering with APNs during configuration. If you want the plugin to also request user permission during configuration, you can pass an array of `UNAuthorizationOptions` when adding the plugin. For example, to request permission for badges, alerts, and sounds, you could add the plugin with the following:
-```
+
+```swift
 try Amplify.add(
     plugin: AWSPinpointPushNotificationsPlugin(options: [.badge, .alert, .sound])
 )
@@ -17,9 +18,6 @@ The following is only required when you do not pass `UNAuthorizationOptions` whe
 
 </Callout>
 
-<BlockSwitcher>
-<Block name="iOS">
-
 ```swift
 // Request user permission for notifications.
 let options: UNAuthorizationOptions = [.badge, .alert, .sound]
@@ -27,17 +25,3 @@ let notificationsAllowed = try await UNUserNotificationCenter.current().requestA
     options: options
 )
 ```
-
-</Block>
-<Block name="macOS">
-
-```swift
-// Request user permission for notifications.
-let options: UNAuthorizationOptions = [.badge, .alert, .sound]
-let notificationsAllowed = try await UNUserNotificationCenter.current().requestAuthorization(
-    options: options
-)
-```
-
-</Block>
-</BlockSwitcher>

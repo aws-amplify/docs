@@ -1,6 +1,6 @@
 export const meta = {
   title: `Overview`,
-  description: `The Amplify CLI supports configuring many different Authentication and Authorization workflows, including simple and advanced configurations of the login options, triggering Lambda functions during different lifecycle events, and administrative actions which you can optionally expose to your applications.`,
+  description: `The Amplify CLI supports configuring many different Authentication and Authorization workflows, including simple and advanced configurations of the login options, triggering Lambda functions during different lifecycle events, and administrative actions which you can optionally expose to your applications.`
 };
 
 The Amplify CLI supports configuring many different Authentication and Authorization workflows, including simple and advanced configurations of the login options, triggering Lambda functions during different lifecycle events, and administrative actions which you can optionally expose to your applications.
@@ -14,16 +14,16 @@ amplify add auth  ## "amplify update auth" if already configured
 ```
 
 ```console
-Do you want to use the default authentication and security configuration? 
-❯ Default configuration 
-  Default configuration with Social Provider (Federation) 
-  Manual configuration 
+Do you want to use the default authentication and security configuration?
+❯ Default configuration
+  Default configuration with Social Provider (Federation)
+  Manual configuration
   I want to learn more.
 ```
 
 ## Configuring auth with social providers
 
-Once your User Pool is functioning, you can enable more configurations such as federation with Facebook, Google, or Login with Amazon. You can also configure more advanced settings by selecting *Manual Configuration*.
+Once your User Pool is functioning, you can enable more configurations such as federation with Facebook, Google, or Login with Amazon. You can also configure more advanced settings by selecting _Manual Configuration_.
 
 ```bash
 amplify add auth  ## "amplify update auth" if already configured
@@ -46,3 +46,11 @@ You can find [more documentation on adding each social provider in the Libraries
 Instead of letting Amplify CLI create a new set of auth resources, you can also import your existing Cognito resources. These resources can be used to auto-generate the Amplify library configuration files, used as an auth dependency for other categories and provided access permissions from within Lambda functions.
 
 Run `amplify import auth` or read the [guide on how to import existing Cognito resources](/cli/auth/import).
+
+## Troubleshooting
+
+```
+Member must satisfy regular expression pattern: arn:[\w+=/,.@-]+:[\w+=/,.@-]+:([\w+=/,.@-]*)?:[0-9]+:[\w+=/,.@-]+(:[\w+=/,.@-]+)?(:[\w+=/,.@-]+)?
+```
+
+This error may occur when modifying the [`breakCircularDependency`](/cli/reference/feature-flags/#breakCircularDependency) flag and push a resource that depends on the auth category. To mitigate the issue run `amplify update auth`, walkthrough the auth flow keeping the previous settings and run `amplify push` or `amplify push --force`.

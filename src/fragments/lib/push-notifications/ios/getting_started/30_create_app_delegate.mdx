@@ -2,10 +2,10 @@
 
 APNs requires an application delegate to handle push notifications functionality via delegate methods. If your app does not already have an application delegate, you will need to create one:
 
-1. Create a class that subclasses `NSObject` and implements the `UIApplicationDelegate` (iOS) or `NSApplicationDelegate` (macOS) protocol.
+1. Create a class that subclasses `NSObject` and implements the `UIApplicationDelegate` (iOS/tvOS), `WKApplicationDelegate` (watchOS), or `NSApplicationDelegate` (macOS) protocol.
 
 <BlockSwitcher>
-<Block name="iOS">
+<Block name="iOS/tvOS">
 
 ```swift
 class AppDelegate: NSObject, UIApplicationDelegate {
@@ -23,12 +23,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 ```
 
 </Block>
+<Block name="watchOS">
+
+```swift
+class AppDelegate: NSObject, WKApplicationDelegate {
+
+}
+```
+
+</Block>
 </BlockSwitcher>
 
 2. Add a property to your main app struct that identifies your application delegate.
 
 <BlockSwitcher>
-<Block name="iOS">
+<Block name="iOS/tvOS">
 
 ```swift
 @main
@@ -45,6 +54,17 @@ struct <YOUR_APP_NAME>App: App {
 @main
 struct <YOUR_APP_NAME>App: App {
     @NSApplicationDelegateAdaptor private var appDelegate: AppDelegate
+    // ...
+}
+```
+
+</Block>
+<Block name="watchOS">
+
+```swift
+@main
+struct <YOUR_APP_NAME>App: App {
+    @WKApplicationDelegateAdaptor private var appDelegate: AppDelegate
     // ...
 }
 ```
