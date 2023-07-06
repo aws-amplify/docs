@@ -183,6 +183,15 @@ In this job, you will connect your application code to the data stack by connect
 > - npm installed ([set up npm](https://docs.npmjs.com/getting-started))
 > - Data stack deployed
 
+### Amplify Codegen to generate the Queries,Mutations and Subscriptions 
+
+The `amplify add codegen` allows you to add AppSync API created using the AWS console. If you have your API is in a different region then that of your current region, the command asks you to choose the region. If you are adding codegen outside of an initialized amplify project, provide your introspection schema named `schema.json` in the same directory that you make the add codegen call from. Note: If you use the --apiId flag to add an externally created AppSync API, such as one created in the AWS console, you will not be able to manage this API from the Amplify CLI with commands such as amplify api update when performing schema updates. You cannot add an external AppSync API when outside of an initialized project.
+
+```bash
+amplify add codegen --apiId <apiId>
+```
+Executing this command will generate the queries, mutations, and subscriptions within the src/graphql folder.
+
 ### Install and configure the Amplify libraries
 
 [comment]: # (Task-forward section with steps to install and configure, with an explanation on the flow differences between the Amplify API and their existing API. Updated content from https://github.com/aws-amplify/docs/blob/JTBD-Data/src/fragments/lib/graphqlapi/js/getting-started.mdx but still missing the discussion on differences with their own API. Added fragment into text so can be updated as needed for guide first - https://github.com/aws-amplify/docs/blob/main/src/fragments/lib/graphqlapi/js/react-native-configure.mdx) 
@@ -192,7 +201,7 @@ Add the `aws-amplify` package to your app with `yarn` or `npm`. This is the main
 Add Amplify to your app with `yarn` or `npm`:
 
 ```bash
-npm install aws-amplify @react-native-async-storage/async-storage @react-native-community/netinfo
+npm install aws-amplify @aws-amplify/ui-react
 ```
 
 In your app's entry point i.e. **App.js** (Expo) or **index.js** (React Native CLI), import and load the configuration file:
@@ -394,22 +403,6 @@ You should see the item created: `Learn AWS AppSync`.
 
 </Block>
 
-<Block name="CLI">
-
-```js
-import { API } from 'aws-amplify'
-import { createTodo, updateTodo, deleteTodo } from './graphql/mutations'
-
-const result = await API.graphql(graphqlOperation(createTodo, {
-  input: {
-    name: 'My first todo!'
-  }
-}))
-```
-
-You should see the item created: `My first todo!`.
-
-</Block>
 </BlockSwitcher>
 
 You do not have to pass in `createdAt` and `updatedAt` fields, AppSync manages this for you.
@@ -492,24 +485,6 @@ const updatedTodo = await API.graphql({
 
 </Block>
 
-<Block name="CLI">
-
-```js
-import { API } from 'aws-amplify'
-import { createTodo, updateTodo, deleteTodo } from './graphql/mutations'
-
-const result = await API.graphql(graphqlOperation(updateTodo, {
-  input: {
-    id: "<...>",
-    name: "My first updated todo!"
-  }
-}))
-console.log(result)
-```
-
-The result should contain the updated value: `My first updated todo!`.
-
-</Block>
 </BlockSwitcher>
 
 Notes:
@@ -560,22 +535,6 @@ const deletedTodo = await API.graphql({
 
 </Block>
 
-<Block name="CLI">
-
-```js
-import { API } from 'aws-amplify'
-import { createTodo, updateTodo, deleteTodo } from './graphql/mutations'
-
-const result = await API.graphql(graphqlOperation(deleteTodo, {
-  input: {
-    id: "<...>",
-  }
-}))
-console.log(result)
-```
-The result output should indicate to you that the record was successfully deleted!
-
-</Block>
 </BlockSwitcher>
 
 Only an `id` is needed.
@@ -753,7 +712,7 @@ import * as queries from './graphql/queries';
 const allTodos = await API.graphql({ query: queries.listTodos });
 console.log(allTodos); // result: { "data": { "listTodos": { "items": [/* ..... */] } } }
 
-Fetch a single record by its identifier
+//Fetch a single record by its identifier
 const oneTodo = await API.graphql({
   query: queries.getTodo,
   variables: { id: 'some id' }
@@ -762,18 +721,7 @@ const oneTodo = await API.graphql({
 
 </Block>
 
-<Block name="CLI">
 
-```js
-import { API } from 'aws-amplify'
-import { createTodo, updateTodo, deleteTodo } from './graphql/mutations'
-import { listTodos } from './graphql/queries'
-
-const result = await API.graphql(graphqlOperation(listTodos))
-console.log(result)
-```
-
-</Block>
 </BlockSwitcher>
 
 You can optionally import the `graphqlOperation` helper function to help you construct this argument object:
@@ -857,8 +805,6 @@ const todos = await API.graphql({
 [comment]: # (Description of how pagination works with the next token followed by the steps to paginate data manually or with UI hook. Content from - https://github.com/aws-amplify/docs/blob/main/src/fragments/lib/graphqlapi/js/query-data.mdx)
   
 As your data grows, you will want to do pagination and filtering at the AppSync level instead of on the client. Fortunately, this is already built in to `API.graphql`, but you need to understand the schema of these queries. [This is explained in the AppSync docs](https://docs.aws.amazon.com/appsync/latest/devguide/using-your-api.html), but here you will translate them to the `API.graphql` equivalent.
-
-#### Benefits of pagination
 
 [comment]: # (EXPANDER SECTION that provides more detail on how our pagination options differ and the benefits of each.)
   
@@ -1140,7 +1086,7 @@ Subscriptions is a GraphQL feature allowing the server to send data to its clien
 import { Amplify, API, graphqlOperation } from 'aws-amplify';
 import { GraphQLSubscription } from '@aws-amplify/api';
 import * as subscriptions from './graphql/subscriptions';
-import { OnCreateTodoSubscription } from './API';
+import { OnCreateTodoSubscription,OnUpdateTodoSubscription,OnDeleteTodoSubscription } from './API';
 
 // Subscribe to creation of Todo
 const sub = API.graphql<GraphQLSubscription<OnCreateTodoSubscription>>(
@@ -1150,6 +1096,21 @@ const sub = API.graphql<GraphQLSubscription<OnCreateTodoSubscription>>(
   error: (error) => console.warn(error)
 });
 
+// Subscribe to updation of Todo
+const updateSub = API.graphql<GraphQLSubscription<OnUpdateTodoSubscription>>(
+  graphqlOperation(subscriptions.onUpdateTodo)
+).subscribe({
+  next: ({ provider, value }) => console.log({ provider, value }),
+  error: (error) => console.warn(error)
+});
+
+// Subscribe to deletion of Todo
+const deleteSub = API.graphql<GraphQLSubscription<OnDeleteTodoSubscription>>(
+  graphqlOperation(subscriptions.onDeleteTodo)
+).subscribe({
+  next: ({ provider, value }) => console.log({ provider, value }),
+  error: (error) => console.warn(error)
+});
 // Stop receiving data updates from the subscription
 sub.unsubscribe();
 ```
@@ -1165,6 +1126,22 @@ import * as subscriptions from './graphql/subscriptions';
 // Subscribe to creation of Todo
 const sub = API.graphql(
   graphqlOperation(subscriptions.onCreateTodo)
+).subscribe({
+  next: ({ provider, value }) => console.log({ provider, value }),
+  error: (error) => console.warn(error)
+});
+
+// Subscribe to updation of Todo
+const updateSub = API.graphql(
+   graphqlOperation(subscriptions.onUpdateTodo)
+  ).subscribe({
+    next: ({ provider, value }) => console.log({ provider, value }),
+    error: (error) => console.warn(error)
+  });
+
+// Subscribe to deletion of Todo
+const deleteSub = API.graphql(
+  graphqlOperation(subscriptions.onDeleteTodo)
 ).subscribe({
   next: ({ provider, value }) => console.log({ provider, value }),
   error: (error) => console.warn(error)
@@ -1405,9 +1382,8 @@ const cleanupSubscriptions = () => {
 
 </Block>
 </BlockSwitcher>
-  
-[comment]: # (EXPANDER end)
 
+[comment]: # (EXPANDER end)
 ### Unsubscribe from a subscription
 
 [comment]: # (Explanation of how to unsubscribe and when to for reducing redundancy with steps for these actions.)
