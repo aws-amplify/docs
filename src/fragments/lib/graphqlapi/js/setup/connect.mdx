@@ -1096,7 +1096,7 @@ const sub = API.graphql<GraphQLSubscription<OnCreateTodoSubscription>>(
   error: (error) => console.warn(error)
 });
 
-// Subscribe to updation of Todo
+// Subscribe to update of Todo
 const updateSub = API.graphql<GraphQLSubscription<OnUpdateTodoSubscription>>(
   graphqlOperation(subscriptions.onUpdateTodo)
 ).subscribe({
@@ -1131,7 +1131,7 @@ const sub = API.graphql(
   error: (error) => console.warn(error)
 });
 
-// Subscribe to updation of Todo
+// Subscribe to update of Todo
 const updateSub = API.graphql(
    graphqlOperation(subscriptions.onUpdateTodo)
   ).subscribe({
@@ -1408,7 +1408,7 @@ Congratulations! You have finished the **Connect a data stack** guide. In this g
 
 ## Next steps
 
-[comment]: # (Provide 2–3 relevant next steps. These can be links related to what was covered in the guide and/or links to related Amplify JTBD guides.)
+[comment]: # (Provide 2–3 relevant next steps. These can be links related to what was covered in the guide and/or links to related Amplify Job to be done guides.)
 
 
 -----
