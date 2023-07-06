@@ -466,10 +466,10 @@
     lodash "4.17.21"
     xstate "^4.33.6"
 
-"@aws-amplify/ui-react@^5.0.3":
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/ui-react/-/ui-react-5.0.3.tgz#ff7b90307d62db61a76f3a41ea17fa1ddeb127da"
-  integrity sha512-/YZA3suItiJ5uuMrjgCHA3gRihlhBJ8pXtAC4VDAC1SifF/bXXype+rCMrkrhNOBJ9fcJ1wo35nLiIB1ID0zZw==
+"@aws-amplify/ui-react@^5.0.4":
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/ui-react/-/ui-react-5.0.4.tgz#c699dded9a2241c69e6da340f4e55d980ec47259"
+  integrity sha512-/XGAtytQ5gaCm6oxsnQYhkohLLGj3RX9932uobSK5jGCgsqsSyQTyCL4OgVAAYjU54hSK27oYTWltiFr5gIgzQ==
   dependencies:
     "@aws-amplify/ui" "5.6.6"
     "@aws-amplify/ui-react-core" "2.1.25"
