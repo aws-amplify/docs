@@ -20,7 +20,7 @@
     "@algolia/client-search": "^4.13.0",
     "@aws-amplify/amplify-cli-core": "^4.1.0",
     "@aws-amplify/ui-components": "latest",
-    "@aws-amplify/ui-react": "^5.0.1",
+    "@aws-amplify/ui-react": "^5.0.4",
     "@cloudscape-design/components": "^3.0.238",
     "@cloudscape-design/global-styles": "^1.0.8",
     "@emotion/react": "^11.1.5",

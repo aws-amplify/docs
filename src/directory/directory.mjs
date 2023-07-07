@@ -183,6 +183,11 @@ export const directory = {
             filters: ['js']
           },
           {
+            title: 'Optimistic UI',
+            route: '/lib/graphqlapi/optimistic-ui',
+            filters: ['js']
+          },
+          {
             title: 'Cancel API requests',
             route: '/lib/graphqlapi/cancel-request',
             filters: ['js', 'react-native']
@@ -206,6 +211,11 @@ export const directory = {
             title: 'Use existing AWS resources',
             route: '/lib/graphqlapi/existing-resources',
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
+          },
+          {
+            title: 'Upgrade guide from AppSync SDK (V2)',
+            route: '/lib/graphqlapi/upgrade-guide',
+            filters: ['js']
           }
         ]
       },
@@ -746,7 +756,7 @@ export const directory = {
           {
             title: 'Get file properties',
             route: '/lib/storage/get-properties',
-            filters: ['flutter']
+            filters: ['flutter', 'js']
           },
           {
             title: 'List files',
