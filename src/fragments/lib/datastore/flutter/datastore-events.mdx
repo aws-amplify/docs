@@ -20,7 +20,7 @@ class _MyAppState extends State<MyApp> {
   ...
 
   void observeEvents() {
-    stream = Amplify.Hub.listen([HubChannel.DataStore], (hubEvent) {
+    stream = Amplify.Hub.listen(HubChannel.DataStore, (hubEvent) {
       if (hubEvent.eventName == 'networkStatus') {
         setState(() {
           final status = hubEvent.payload as NetworkStatusEvent?;
