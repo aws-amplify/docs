@@ -102,10 +102,8 @@ Sometimes you need to reconfigure your PubSub provider when working with multipl
 import { Amplify, PubSub } from 'aws-amplify';
 import { AWSIoTProvider } from '@aws-amplify/pubsub';
 
-const pubsub = new PubSub({});
-
 // Apply plugin with configuration
-pubsub.addPluggable(
+PubSub.addPluggable(
   new AWSIoTProvider({
     aws_pubsub_region: '<ORIGINAL-IOT-REGION>',
     aws_pubsub_endpoint:
@@ -114,10 +112,10 @@ pubsub.addPluggable(
 );
 
 // Remove plugin using the provider name
-pubsub.removePluggable('AWSIoTProvider');
+PubSub.removePluggable('AWSIoTProvider');
 
 // Apply plugin with new configuration
-pubsub.addPluggable(
+PubSub.addPluggable(
   new AWSIoTProvider({
     aws_pubsub_region: '<NEW-IOT-REGION>',
     aws_pubsub_endpoint:
