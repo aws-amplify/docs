@@ -19,18 +19,18 @@ jobs:
         id: checkLinks
         run: node tasks/link-checker.mjs
       - name: Configure AWS Credentials
-          uses: aws-actions/configure-aws-credentials@v2
+          uses: aws-actions/configure-aws-credentials@5fd3084fc36e372ff1fff382a39b10d03659f355 # v2.2.0
           with:
             role-to-assume: arn:aws:iam::464149486631:role/github_action_read_slack_webhook_url
             aws-region: us-west-2
       - name: Read secrets from AWS Secrets Manager into environment variables
-        uses: aws-actions/aws-secretsmanager-get-secrets@v1
+        uses: aws-actions/aws-secretsmanager-get-secrets@022e8919774ecb75e8e375656d7b1898936ab878 # v1.0.4
         with:
           secret-ids: |
             SLACK_WEBHOOK_URL
       - name: Send custom JSON data to Slack workflow
         id: slack
-        uses: slackapi/slack-github-action@v1.24.0
+        uses: slackapi/slack-github-action@f07b4a2d031f34c3b178cc488f68dd4ea0595c1d # v1.24.0
         with:
           payload: |
             {
