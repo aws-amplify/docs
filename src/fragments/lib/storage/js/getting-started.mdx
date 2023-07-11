@@ -66,15 +66,18 @@ Amplify.configure({
     userPoolId: 'XX-XXXX-X_abcd1234', //OPTIONAL - Amazon Cognito User Pool ID
     userPoolWebClientId: 'XX-XXXX-X_abcd1234', //OPTIONAL - Amazon Cognito Web Client ID
   },
-  Storage: {
+ Storage: {
     AWSS3: {
       bucket: '', //REQUIRED -  Amazon S3 bucket name
       region: 'XX-XXXX-X', //OPTIONAL -  Amazon service region
+      isObjectLockEnabled: true //OPTIONAl - Object Lock parameter
     }
   }
 });
 
 ```
+You can configure  [**S3 Object Lock**](https://aws.amazon.com/blogs/storage/protecting-data-with-amazon-s3-object-lock/) parameter of the bucket using `isObjectLockEnabled` configuration field. The default value of `isObjectLockEnabled` is set to `false`. If you want to perform the `put` operation when the Object Lock is enabled on the bucket in the console it is required to set `isObjectLockEnabled` to true.
+
 
 ### Using Amazon S3
 If you set up your Cognito resources manually, the roles will need to be given permission to access the S3 bucket.
