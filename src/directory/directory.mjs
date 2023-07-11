@@ -9,7 +9,12 @@ export const directory = {
       title: 'Contribute',
       route: '/contribute'
     },
-    items: {}
+    items: {
+      'getting-started': {
+        title: 'Getting Started',
+        route: '/contribute/getting-started'
+      }
+    }
   },
   'flutter-references': {
     productRoot: {
