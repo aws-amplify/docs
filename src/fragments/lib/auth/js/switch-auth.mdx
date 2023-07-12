@@ -53,7 +53,6 @@ To initiate a custom authentication flow in your app, call `signIn` without a pa
 <Block name="TypeScript">
 
 ```ts
-import { CognitoUser } from '@aws-amplify/auth';
 import { Auth } from 'aws-amplify';
 
 Auth.configure({
@@ -70,11 +69,11 @@ type SignInParameters = {
 export async function signIn({ username, password }: SignInParameters) {
   const challengeResponse = 'the answer for the challenge';
   try {
-    const user: CognitoUser = await Auth.signIn(username, password);
+    const user = await Auth.signIn(username, password);
     if (user?.challengeName === 'CUSTOM_CHALLENGE') {
       try {
         // to send the answer of the custom challenge
-        const challengeAnswerResponse: CognitoUser = await Auth.sendCustomChallengeAnswer(
+        const challengeAnswerResponse = await Auth.sendCustomChallengeAnswer(
           user,
           challengeResponse
         );
