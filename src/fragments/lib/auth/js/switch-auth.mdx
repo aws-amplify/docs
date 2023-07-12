@@ -74,13 +74,47 @@ Auth.signIn(username, password)
   .catch(err => console.log(err));
 ```
 
+<Callout>
+
+When using Custom Auth Flows, you can setup a PasswordFull or Passwordless Sign In. This decision will determine how your Custom Auth Lambda functions are defined.
+
+</Callout>
+
 ### CAPTCHA-based authentication
 
-Here is the sample for creating a CAPTCHA challenge with a Lambda Trigger.
 
-The `Create Auth Challenge Lambda Trigger` creates a CAPTCHA as a challenge to the user. The URL for the CAPTCHA image and  the expected answer is added to the private challenge parameters:
+Here is the sample for creating a CAPTCHA challenge with via a custom auth flow.
+
+#### Create Auth Challenge Lambda Trigger
+
+The `Create Auth Challenge Lambda Trigger` creates a CAPTCHA as a challenge to the user. The URL for the CAPTCHA image and the expected answer is added to the private challenge parameters:
+
+<BlockSwitcher>
+
+<Block name="PasswordFull Sign In">
+
+PasswordFull Sign In will need to account for the SRP_A and Password verifier challenges when checking for the session length.
 
 ```javascript
+export const handler = async (event) => {
+  if (!event.request.session || event.request.session.length === 2) {
+    event.response.publicChallengeParameters = {
+      captchaUrl: "url/123.jpg",
+    };
+    event.response.privateChallengeParameters = {
+      answer: "5",
+    };
+    event.response.challengeMetadata = "CAPTCHA_CHALLENGE";
+  }
+  return event;
+};
+```
+
+</Block>
+
+<Block name="PasswordLess Sign In">
+
+```js
 export const handler = async (event) => {
   if (!event.request.session || event.request.session.length === 0) {
     event.response.publicChallengeParameters = {
@@ -95,7 +129,54 @@ export const handler = async (event) => {
 };
 ```
 
+</Block>
+
+</BlockSwitcher>
+
+#### Define Auth Challenge Lambda Trigger
+
 This `Define Auth Challenge Lambda Trigger` defines a custom challenge:
+
+<BlockSwitcher>
+
+<Block name="PasswordFull Sign In">
+
+PasswordFull Sign In will need to account for the SRP_A and Password verifier challenges.
+
+```javascript
+exports.handler = async event => {
+
+  if (event.request.session.length === 1 && event.request.session[0].challengeName === 'SRP_A') {
+    event.response.issueTokens = false;
+    event.response.failAuthentication = false;
+    event.response.challengeName = 'PASSWORD_VERIFIER';
+  } else if (
+    event.request.session.length === 2 &&
+    event.request.session[1].challengeName === 'PASSWORD_VERIFIER' &&
+    event.request.session[1].challengeResult === true
+  ) {
+    event.response.issueTokens = false;
+    event.response.failAuthentication = false;
+    event.response.challengeName = 'CUSTOM_CHALLENGE';
+  } else if (
+    event.request.session.length === 3 &&
+    event.request.session[2].challengeName === 'CUSTOM_CHALLENGE' &&
+    event.request.session[2].challengeResult === true
+  ) {
+    event.response.issueTokens = true;
+    event.response.failAuthentication = false;
+  } else {
+    event.response.issueTokens = false;
+    event.response.failAuthentication = true;
+  }
+
+  return event;
+};
+```
+
+</Block>
+
+<Block name="PasswordLess Sign In">
 
 ```javascript
 export const handler = async (event) => {
@@ -118,6 +199,12 @@ export const handler = async (event) => {
 };
 ```
 
+</Block>
+
+</BlockSwitcher>
+
+#### Verify Auth Challenge Response Lambda Trigger
+
 The `Verify Auth Challenge Response Lambda Trigger` is used to verify a challenge answer:
 
 ```javascript
@@ -130,4 +217,4 @@ export const handler = async (event, context) => {
 
   return event;
 };
-```
+
