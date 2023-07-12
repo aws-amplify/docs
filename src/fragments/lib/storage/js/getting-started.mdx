@@ -76,7 +76,7 @@ Amplify.configure({
 });
 
 ```
-You can configure  [**S3 Object Lock**](https://aws.amazon.com/blogs/storage/protecting-data-with-amazon-s3-object-lock/) parameter of the bucket using `isObjectLockEnabled` configuration field. The default value of `isObjectLockEnabled` is set to `false`. If you want to perform the `put` operation when the Object Lock is enabled on the bucket in the console it is required to set `isObjectLockEnabled` to true.
+You can configure the [**S3 Object Lock**](https://aws.amazon.com/blogs/storage/protecting-data-with-amazon-s3-object-lock/) parameter of the bucket using the `isObjectLockEnabled` configuration field. By default, `isObjectLockEnabled` is set to `false`. If you want to perform a `put` operation against a bucket with Object Lock enabled through the console you must first set `isObjectLockEnabled` to true.
 
 
 ### Using Amazon S3
