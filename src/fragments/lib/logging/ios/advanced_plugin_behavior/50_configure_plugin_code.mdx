@@ -1,0 +1,21 @@
+## Configure plugin without configuration file
+An alternative to configuring the `AWSCloudWAtchLoggingPlugin` with the `amplifyconfiguration_logging.json` is to specify the settings as a parameter when constructing the `AWSCloudWatchLoggingPlugin` instance.
+
+Add import statement
+
+```swift
+import AWSCloudWatchLoggingPlugin
+```
+
+Configure the logging plugin 
+
+```swift
+do {
+    let loggingConfiguration = AWSCloudWatchLoggingPluginConfiguration(logGroupName: "log-group-name", region: "us-east-1")
+    let loggingPlugin = AWSCloudWatchLoggingPlugin(loggingPluginConfiguration: loggingConfiguration)
+    try Amplify.add(plugin: loggingPlugin)
+    try Amplify.configure()
+} catch {
+    assert(false, "Error initializing Amplify: \(error)")
+}
+```

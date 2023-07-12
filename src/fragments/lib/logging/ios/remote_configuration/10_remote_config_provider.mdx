@@ -1,0 +1,38 @@
+## Configure remote configuration without configuration file
+An alternative to configuring the `AWSCloudWAtchLoggingPlugin` is to specify the remote config provider as a parameter when constructing the `AWSCloudWatchLoggingPlugin` instance.
+
+```swift
+do {
+    let endpointUrl: URL = URL(string: "your-api-endpoint")!
+    let remoteConfigProvider = DefaultRemoteLoggingConstraintsProvider(endpoint: endpointUrl, region: "us-east-1")
+    let loggingPlugin = AWSCloudWatchLoggingPlugin(remoteLoggingConstraintsProvider: remoteConfigProvider)
+    try Amplify.add(plugin: loggingPlugin)
+    try Amplify.configure()
+} catch {
+    assert(false, "Error initializing Amplify: \(error)")
+}
+```
+
+## Customizing AWS Credentials Provider
+By default, the `DefaultRemoteLoggingConstraintsProvider` uses Amplify Auth category as the AWS credentials provider for authorization access to the backend resources.
+You can provide your own custom AWS credentials provider by overriding the default parameter.
+
+```swift 
+public class YourCustomAwsCredentialsProvider: CredentialsProvider {
+    ...
+}
+```
+
+
+```swift
+do {
+    let endpointUrl: URL = URL(string: "your-api-endpoint")!
+    let customAwsCredentialsProvider: YourCustomAwsCredentialsProvider()
+    let remoteConfigProvider = DefaultRemoteLoggingConstraintsProvider(endpoint: endpointUrl, region: "us-east-1", credentialProvider: customAwsCredentialsProvider)
+    let loggingPlugin = AWSCloudWatchLoggingPlugin(remoteLoggingConstraintsProvider: remoteConfigProvider)
+    try Amplify.add(plugin: loggingPlugin)
+    try Amplify.configure()
+} catch {
+    assert(false, "Error initializing Amplify: \(error)")
+}
+```

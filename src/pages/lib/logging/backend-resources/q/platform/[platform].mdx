@@ -1,0 +1,15 @@
+export const meta = {
+  title: `Provision Backend Resources`,
+  description: `Setup back end resources to configure logger log levels remotely`
+};
+
+import commonRoute from '/src/fragments/lib/logging/common/backend_resources/backend_resources.mdx';
+
+<Fragments
+  fragments={{
+    android: commonRoute,
+    flutter: commonRoute,
+    ios: commonRoute,
+    'react-native': commonRoute
+  }}
+/>

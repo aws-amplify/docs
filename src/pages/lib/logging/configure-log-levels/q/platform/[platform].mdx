@@ -1,0 +1,15 @@
+export const meta = {
+  title: `Configure Log Levels`,
+  description: `Configure log levels by category and users`
+};
+
+import commonRoute from '/src/fragments/lib/logging/common/configure_log_levels/configure_log_levels.mdx';
+
+<Fragments
+  fragments={{
+    android: commonRoute,
+    flutter: commonRoute,
+    ios: commonRoute,
+    'react-native': commonRoute
+  }}
+/>

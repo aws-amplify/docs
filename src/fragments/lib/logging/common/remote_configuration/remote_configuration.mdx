@@ -1,0 +1,46 @@
+The AWSCloudWatchLoggingPlugin log levels can be configured remotely.  You will need to provision and maintain your own backend resources that provides the logging constraints.
+
+[Steps for provisioning the backend resources](/lib/logging/backend-resources)
+
+## Configure Plugin with remote configuration
+
+Update the `amplifyconfiguration_logging` file with the remote endpoint and refresh interval to fetch the remote configuration.
+
+```json
+{
+    "awsCloudWatchLoggingPlugin": {
+      "enable": true,
+      "logGroupName": "<log-group-name>",
+      "region": "us-east-1",
+      "localStoreMaxSizeInMB": 1,
+      "flushIntervalInSeconds": 60,
+      "loggingConstraints": {
+          "defaultLogLevel": "ERROR"
+      },
+      "defaultRemoteConfiguration": {
+          "endpoint": "<your-api-endpoint>",
+          "refreshIntervalInSeconds": 1200
+      }
+    }
+}
+```
+
+import iosRemoteConfigProvider from '/src/fragments/lib/logging/ios/remote_configuration/10_remote_config_provider.mdx';
+import androidRemoteConfigProvider from '/src/fragments/lib/logging/android/remote_configuration/10_remote_config_provider.mdx';
+
+<Fragments
+  fragments={{
+    ios: iosRemoteConfigProvider,
+    android: androidRemoteConfigProvider
+  }}
+/>
+
+import iosCustomRemoteConfigProvider from '/src/fragments/lib/logging/ios/remote_configuration/20_custom_remote_config_provider.mdx';
+import androidCustomRemoteConfigProvider from '/src/fragments/lib/logging/android/remote_configuration/20_custom_remote_config_provider.mdx';
+
+<Fragments
+  fragments={{
+    ios: iosCustomRemoteConfigProvider,
+    android: androidCustomRemoteConfigProvider
+  }}
+/>

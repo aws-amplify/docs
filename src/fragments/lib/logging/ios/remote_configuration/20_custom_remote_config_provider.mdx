@@ -1,0 +1,21 @@
+## Custom remote Logging Constraints Provider
+You can implement your own custom logging constraints provider by conforming to the protocol `RemoteLoggingConstraintsProvider`
+
+For example:
+```swift 
+public class YourCustomRemoteLoggingConstraintsProvider: RemoteLoggingConstraintsProvider {
+    ...
+}
+```
+
+```swift
+do {
+    let endpointUrl: URL = URL(string: "your-api-endpoint")!
+    let customRemoteLoggingConstraintsProvider = YourCustomRemoteLoggingConstraintsProvider()
+    let loggingPlugin = AWSCloudWatchLoggingPlugin(remoteLoggingConstraintsProvider: customRemoteLoggingConstraintsProvider)
+    try Amplify.add(plugin: loggingPlugin)
+    try Amplify.configure()
+} catch {
+    assert(false, "Error initializing Amplify: \(error)")
+}
+```

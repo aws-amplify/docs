@@ -820,6 +820,41 @@ export const directory = {
           }
         ]
       },
+      logging: {
+        title: 'Logging',
+        items: [
+          {
+            title: 'Getting started',
+            route: '/lib/logging/getting-started',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'Sending Logs',
+            route: '/lib/logging/sending-logs',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'Configure Log Levels',
+            route: '/lib/logging/configure-log-levels',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'Advanced Plugin Behaviors',
+            route: '/lib/logging/advanced-plugin-behavior',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'Remote Logging',
+            route: '/lib/logging/remote-configuration',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'Provision Backend Resources',
+            route: '/lib/logging/backend-resources',
+            filters: ['ios', 'android']
+          },
+        ]
+      },
       utilities: {
         title: 'Utilities',
         items: [
