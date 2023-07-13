@@ -95,11 +95,11 @@ const SignInWithFacebook = () => {
         email: response.email
       };
       
-      federatedSignIn('facebook', { token: accessToken, expires_at }, user);
+      getCognitoCredentials('facebook', { token: accessToken, expires_at }, user);
     });
   }
 
-  const federatedSignIn = async (providerName, federateOptions, user) => {
+  const getCognitoCredentials = async (providerName, federateOptions, user) => {
     try {
       const credentials = await Auth.federatedSignIn(providerName, federateOptions, user);
       console.log(credentials);
