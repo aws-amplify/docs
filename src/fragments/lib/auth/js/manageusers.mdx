@@ -9,11 +9,10 @@ This section covers the client-side development experience for password and user
 
 ```ts
 import { Auth } from 'aws-amplify';
-import type { CognitoUser } from "@aws-amplify/auth";
 
 async function changePassword (oldPassword: string, newPassword: string) {
   try {
-    const user: CognitoUser = await Auth.currentAuthenticatedUser();
+    const user = await Auth.currentAuthenticatedUser();
     const data = await Auth.changePassword(user, oldPassword, newPassword);
     console.log(data);
   } catch(err) {
@@ -57,9 +56,9 @@ async function forgotPassword(username: string) {
 };
 
 // Collect confirmation code and new password
-async function forgotPasswordSubmit(username: string, code: string, new_password: string) {
+async function forgotPasswordSubmit(username: string, code: string, newPassword: string) {
   try {
-    const data = await Auth.forgotPasswordSubmit(username, code, new_password);
+    const data = await Auth.forgotPasswordSubmit(username, code, newPassword);
     console.log(data);
   } catch(err) {
     console.log(err);
@@ -83,9 +82,9 @@ async function forgotPassword(username) {
 } 
 
 // Collect confirmation code and new password
-async function forgotPasswordSubmit(username, code, new_password) {
+async function forgotPasswordSubmit(username, code, newPassword) {
   try {
-    const data = await Auth.forgotPasswordSubmit(username, code, new_password);
+    const data = await Auth.forgotPasswordSubmit(username, code, newPassword);
     console.log(data);
   } catch(err) {
     console.log(err);
@@ -104,32 +103,26 @@ The user is asked to provide the new password and required attributes during the
 
 ```ts
 import { Auth } from 'aws-amplify';
-import type { CognitoUser } from '@aws-amplify/auth';
-
-type AmplifyCognitoUser = CognitoUser & {
-  challengeParam: {
-    requiredAttributes: string[];
-  }
-};
 
 async function completeNewPassword(username: string, password: string) {
   try {
-    const user: AmplifyCognitoUser = await Auth.signIn(username, password);
+    const user = await Auth.signIn(username, password);
 
     if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
       const { requiredAttributes } = user.challengeParam; // the array of required attributes, e.g ['email', 'phone_number']
-      const loggedInUser = await Auth.completeNewPassword(
-        user, // the Cognito User Object
-        newPassword, // the new password
-        // OPTIONAL, the required attributes
-        {
-          email: 'xxxx@example.com',
-          phone_number: '1234567890'
-        }
-      )
-
-      console.log(loggedInUser);
     }
+
+    const loggedInUser = await Auth.completeNewPassword(
+      user, // the Cognito User Object
+      newPassword, // the new password
+      // OPTIONAL, the required attributes
+      {
+        email: 'xxxx@example.com',
+        phone_number: '1234567890'
+      }
+    )
+
+    console.log(loggedInUser);
   } catch(err) {
     console.log(err);
   }
@@ -232,11 +225,10 @@ You can call `Auth.currentAuthenticatedUser()` to get the current authenticated 
 
 ```ts
 import { Auth } from 'aws-amplify';
-import type { CognitoUser } from '@aws-amplify/auth';
 
 async function currentAuthenticatedUser() {
   try {
-    const user: CognitoUser = await Auth.currentAuthenticatedUser({
+    const user = await Auth.currentAuthenticatedUser({
       bypassCache: false // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
     });
     console.log(user);
@@ -270,22 +262,9 @@ This method can be used to check if a user is logged in when the page is loaded.
 
 You can also access the user's attributes like their email address, phone number, sub, or any other attributes that are associated with them from the user object returned by `Auth.currentAuthenticatedUser`.
 
-<BlockSwitcher>
-<Block name="TypeScript">
-
 ```ts
-import type { AmplifyUser } from '@aws-amplify/ui';
-
-const { attributes }: AmplifyUser = await Auth.currentAuthenticatedUser();
-```
-</Block>
-<Block name="JavaScript">
-
-```js
 const { attributes } = await Auth.currentAuthenticatedUser();
 ```
-</Block>
-</BlockSwitcher>
 
 ## Retrieve current session
 
@@ -335,53 +314,15 @@ Auth.signUp({
 
 ### Retrieve user attributes
 
-<BlockSwitcher>
-<Block name="TypeScript">
-
 ```ts
-import type { AmplifyUser } from '@aws-amplify/ui';
-
-const user: AmplifyUser = await Auth.currentAuthenticatedUser();
-
-const { attributes } = user;
-```
-</Block>
-<Block name="JavaScript">
-
-```javascript
 const user = await Auth.currentAuthenticatedUser();
 
 const { attributes } = user;
 ```
-</Block>
-</BlockSwitcher>
 
 ### Update user attributes
 
-<BlockSwitcher>
-<Block name="TypeScript">
-
 ```ts
-import { Auth } from 'aws-amplify';
-import { CognitoUser } from '@aws-amplify/auth';
-
-async function updateUserAttributes () {
-  try {
-    const user: CognitoUser = await Auth.currentAuthenticatedUser();
-    const result = await Auth.updateUserAttributes(user, {
-      email: 'me@anotherdomain.com',
-      family_name: 'Lastname'
-    });
-    console.log(result); // SUCCESS
-  } catch(err) {
-    console.log(err);
-  }
-};
-```
-</Block>
-<Block name="JavaScript">
-
-```javascript
 import { Auth } from 'aws-amplify';
 
 async function updateUserAttributes () {
@@ -397,8 +338,6 @@ async function updateUserAttributes () {
   }
 };
 ```
-</Block>
-</BlockSwitcher>
 
 <Callout>
 Note: If you change an attribute that requires confirmation (i.e. email or phone number), you will receive a confirmation code to that attribute.
@@ -470,27 +409,7 @@ const result = await Auth.verifyCurrentUserAttributeSubmit('email', '<verificati
 
 If you need to delete one or more user attributes, you can call `Auth.deleteUserAttributes` function from the Amplify JavaScript library:
 
-<BlockSwitcher>
-<Block name="TypeScript">
-
 ```ts
-import { Auth } from 'aws-amplify';
-import type { CognitoUser } from '@aws-amplify/auth';
-
-async function deleteUserAttributes() {
-  try {
-    const user: CognitoUser = await Auth.currentAuthenticatedUser();
-    const result = await Auth.deleteUserAttributes(user, ['family_name']);
-    console.log(result); // SUCCESS
-  } catch(err) {
-    console.log(err);
-  }
-};
-```
-</Block>
-<Block name="JavaScript">
-
-```javascript
 import { Auth } from 'aws-amplify';
 
 async function deleteUserAttributes() {
@@ -503,8 +422,6 @@ async function deleteUserAttributes() {
   }
 };
 ```
-</Block>
-</BlockSwitcher>
 
 ## Updating and verifying a Cognito user email address
 
@@ -520,12 +437,11 @@ The React application below implements this flow of updating the email address f
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import { Auth } from 'aws-amplify';
-import type { AmplifyUser } from '@aws-amplify/ui';
 import { useState } from 'react';
 
 async function updateUserEmail() {
   try {
-    const user: AmplifyUser = await Auth.currentAuthenticatedUser();
+    const user = await Auth.currentAuthenticatedUser();
     await Auth.updateUserAttributes(user, {
       email: 'updatedEmail@mydomain.com'
     });
