@@ -32,13 +32,16 @@ type Feedback = {
   comment?: string;
 };
 
-export default function Feedback({ footerRef, contentsRef }) {
+export default function Feedback({ footerRef, contentsRef, feedbackPillRef }) {
   const [state, setState] = useState(FeedbackState.START);
   const containerRef = useRef<HTMLDivElement>(null);
   const [componentX, setComponentX] = useState('');
 
+  // console.log(feedbackPillRef.current.offsetTop);
+
   useEffect(() => {
     const footer = footerRef.current;
+    const feedbackPill = feedbackPillRef.current;
     setComponentX(contentsRef.current != null ? 'visibleToc' : 'noToc');
 
     if (typeof window !== 'undefined') {
@@ -57,11 +60,14 @@ export default function Feedback({ footerRef, contentsRef }) {
             currPos + window.innerHeight,
           scrollUp = prevScrollPos >= currPos,
           scrollDown = prevScrollPos < currPos,
-          container = containerRef.current;
+          container = containerRef.current,
+          feedbackPillVisible =
+            feedbackPill.offsetTop - currPos < window.innerHeight;
 
         if (
           container &&
           ((scrollUp && footerVisible) ||
+            (scrollUp && feedbackPillVisible) ||
             (scrollDown && currentState != FeedbackState.DOWN) ||
             (scrollDown && footerVisible)) &&
           !container.classList.contains('close')

@@ -36,6 +36,7 @@ export default function MetaContent({
   footerRef: any;
 }) {
   const menuRef = useRef(null);
+  const feedbackPillRef = useRef(null);
   const buttonsRef = useRef(null);
   const contentsRef = useRef(null);
   const [menuIsOpen, setMenuIsOpen] = useState(false);
@@ -71,11 +72,16 @@ export default function MetaContent({
             </div>
             <CodeBlockProvider>
               {children}
+              <FeedbackPill ref={feedbackPillRef} />
               <NextPrevious url={url} filterKey={filterKey} />
             </CodeBlockProvider>
           </div>
           {onDesktop && (
-            <FeedbackSticky footerRef={footerRef} contentsRef={contentsRef} />
+            <FeedbackSticky
+              footerRef={footerRef}
+              contentsRef={contentsRef}
+              feedbackPillRef={feedbackPillRef}
+            />
           )}
         </ContentStyle>
         <TableOfContents
