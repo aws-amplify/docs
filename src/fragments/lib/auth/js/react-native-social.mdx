@@ -92,7 +92,7 @@ export default function App() {
 
   const getUser = async (): Promise<void> => {
     try {
-      const currentUser: AmplifyUser = await Auth.currentAuthenticatedUser();
+      const currentUser = await Auth.currentAuthenticatedUser();
       setUser(currentUser);
     } catch(error) {
       console.error(error);
@@ -355,7 +355,7 @@ function App() {
 
   const getUser = async (): Promise<void> => {
     try {
-      const userData: AmplifyUser = await Auth.currentAuthenticatedUser();
+      const userData = await Auth.currentAuthenticatedUser();
       setUser(userData)
     } catch(error) {
       console.error(error);
@@ -566,7 +566,7 @@ export default function App() {
 
   const getUser = async (): Promise<void> => {
     try {
-      const currentUser: AmplifyUser = await Auth.currentAuthenticatedUser();
+      const currentUser = await Auth.currentAuthenticatedUser();
       setUser(currentUser);
     } catch(error) {
       console.error(error);
