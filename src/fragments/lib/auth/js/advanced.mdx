@@ -8,7 +8,7 @@ You can alternatively use `Auth.federatedSignIn()` to get AWS credentials direct
 
 In general, if you are using Cognito User Pools to manage user Sign-Up and Sign-In, you should only call `Auth.federatedSignIn()` when using OAuth flows or the Hosted UI.
 
-```ts
+```js
 import { Auth } from 'aws-amplify';
 
 // To derive necessary data from the provider
@@ -20,7 +20,7 @@ const {
   identity_id // Optional, the identity id specified by the provider
 } = getFromProvider(); // arbitrary function
 
-async function federatedSignIn() {
+async function getCognitoCredentials() {
   try {
     const cred = await Auth.federatedSignIn(
       domainOrProviderName,
