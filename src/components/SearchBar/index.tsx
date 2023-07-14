@@ -19,7 +19,7 @@ function App() {
   const router = useRouter();
 
   return (
-    <Search>
+    <Search aria-label="Search the Amplify docs site">
       <Autocomplete
         placeholder="Search Docs"
         openOnFocus={false}

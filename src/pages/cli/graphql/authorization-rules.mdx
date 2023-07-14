@@ -30,13 +30,15 @@ In the example above, everyone (`public`) can read every Todo but owner (authent
 
 ### Global authorization rule (only for getting started)
 
-To help you get started, there's a global authorization rule defined when you create a new GraphQL schema. For production environments, remove the global authorization rule and apply rules on each model instead.
+To help you get started, there's a global authorization rule defined when you create a new GraphQL schema. For production environments, remove the global authorization rule and apply rules on each model instead. 
 
 ```graphql
 input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }
 ```
 
 The global authorization rule (in this case `{ allow: public }` - allows anyone to create, read, update, and delete) is applied to every data model in the GraphQL schema.
+
+**Note:** Amplify will always use the most specific authorization rule that's present. For example, a field-level authorization rule will be used in favor of a model-level authorization rule; similarly, a model-level authorization rule will be used in favor of a global authorization rule. 
 
 <Callout warning>
 
