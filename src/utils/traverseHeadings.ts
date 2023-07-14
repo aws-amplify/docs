@@ -13,7 +13,6 @@ export function traverseHeadings(tree, filterKey: string): string[] {
   for (const node of tree) {
     if (typeof node !== 'object') continue;
     if (!('props' in node)) continue;
-    console.log(node)
 
     if ('fragments' in node.props) {
       // Recurse on the fragment corresponding to this page's filterKey
@@ -53,12 +52,13 @@ export function traverseHeadings(tree, filterKey: string): string[] {
         const mdxType = node.props.mdxType;
         if (mdxType === 'h2' || mdxType === 'h3') {
           headings.push([node.props.children, node.props.id, mdxType]);
-        } else if (mdxType === 'Accordion') {
+        }
+        if (mdxType === 'Accordion') {
           const id = node.props.title.replace(/\s+/g, '-').toLowerCase();
           const type = node.props.headingLevel
             ? 'h' + node.props.headingLevel
             : 'div';
-          headings.push([node.props.title, id, type]);
+          headings.unshift([node.props.title, id, type]);
         }
       }
     } else if (node.props.mdxType === 'UiComponentProps') {

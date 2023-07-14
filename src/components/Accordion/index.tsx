@@ -1,6 +1,6 @@
 import { Details, Summary } from './styles';
 import { Expand, DeepDive } from './icons';
-import { useRef, useState, createElement } from 'react';
+import { useRef, useState, createElement, useEffect } from 'react';
 
 type AccordionProps = {
   title?: string;
@@ -19,6 +19,24 @@ const Accordion: React.FC<AccordionProps> = ({
   const docsExpander = useRef<HTMLElement>(null);
   const docsExpanderBody = useRef<HTMLElement>(null);
 
+  useEffect(() => {
+    const accordion = docsExpander.current;
+    const accordionContent = docsExpanderBody.current;
+    if (
+      accordionContent &&
+      accordionContent instanceof HTMLElement &&
+      accordion
+    ) {
+      setContentTopCoordinate(
+        accordion.offsetTop - accordion.offsetHeight - 48 // height of global Nav
+      );
+
+      if (accordionContent.offsetHeight > window.innerHeight) {
+        setCloseButton(() => true);
+      }
+    }
+  }, []);
+
   const headingId = title?.replace(/\s+/g, '-').toLowerCase();
   headingLevel = headingLevel ? 'h' + headingLevel : 'div';
   const expanderTitle = createElement(
@@ -36,33 +54,16 @@ const Accordion: React.FC<AccordionProps> = ({
     expanderTitle
   );
 
-  const handleToggle = () => {
-    const accordion = docsExpander.current;
-    const accordionContent = docsExpanderBody.current;
-
-    if (
-      accordionContent &&
-      accordionContent instanceof HTMLElement &&
-      accordion
-    ) {
-      setContentTopCoordinate(
-        accordion.offsetTop - accordion.offsetHeight - 48 // height of global Nav
-      );
-
-      if (accordionContent.offsetHeight > window.innerHeight) {
-        setCloseButton(() => true);
-      }
-    }
-  };
-
   const closeAccordion = () => {
     docsExpander.current?.removeAttribute('open');
     window.scrollTo(0, contentTopCoordinate);
   };
 
+  console.log(children)
+
   return (
     <Details className="docs-expander" ref={docsExpander}>
-      <Summary className="docs-expander__summary" onClick={handleToggle}>
+      <Summary className="docs-expander__summary">
         <div className="docs-expander__eyebrow">
           <DeepDive />
           {eyebrow}
