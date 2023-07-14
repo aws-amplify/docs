@@ -373,7 +373,7 @@ Step 2. Login with `Auth0`, then use the id token returned to get AWS credential
 const { idToken, domain, name, email, phoneNumber } = getFromAuth0(); // get the user credentials and info from auth0
 const { exp } = decodeJWTToken(idToken); // Please decode the id token in order to get the expiration time
 
-async function federatedSignIn () {
+async function getCognitoCredentials () {
   try {
     const cred = await Auth.federatedSignIn(
       domain, // The Auth0 Domain,
