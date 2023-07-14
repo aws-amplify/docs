@@ -137,7 +137,7 @@ import { Auth } from 'aws-amplify';
 async function completeNewPassword(username, password) {
   try {
     const user = await Auth.signIn(username, password);
-
+const newPassword = 'newPassword'
     if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
       const { requiredAttributes } = user.challengeParam; // the array of required attributes, e.g ['email', 'phone_number']
       const loggedInUser = await Auth.completeNewPassword(
@@ -346,21 +346,6 @@ Note: If you change an attribute that requires confirmation (i.e. email or phone
 `Auth.updateUserAttributes()` function dispatches hub event to help identify attributes that require
 verification. You can listen to `updateUserAttributes` event on `auth` channel:
 
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-import { Hub } from 'aws-amplify';
-import { HubCapsule } from '@aws-amplify/core';
-
-Hub.listen('auth', ({payload}: HubCapsule) => {
-  if (payload.event === 'updateUserAttributes') {
-    const resultObject = payload.data;
-  }
-});
-```
-</Block>
-<Block name="JavaScript">
 
 ```javascript
 import { Hub } from 'aws-amplify';
