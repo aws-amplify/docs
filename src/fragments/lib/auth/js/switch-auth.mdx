@@ -76,7 +76,7 @@ Auth.signIn(username, password)
 
 <Callout>
 
-When using Custom Auth Flows, you can setup a PasswordFull or Passwordless Sign In. This decision will determine how your Custom Auth Lambda functions are defined.
+When using Custom Auth Flows, you can setup a Password or Passwordless Sign In. This decision will determine how your Custom Auth Lambda functions are defined.
 
 </Callout>
 
@@ -91,9 +91,9 @@ The `Create Auth Challenge Lambda Trigger` creates a CAPTCHA as a challenge to t
 
 <BlockSwitcher>
 
-<Block name="PasswordFull Sign In">
+<Block name="Password Sign In">
 
-PasswordFull Sign In will need to account for the SRP_A and Password verifier challenges when checking for the session length.
+Password Sign In will need to account for the SRP_A and Password verifier challenges when checking for the session length.
 
 ```javascript
 export const handler = async (event) => {
@@ -139,9 +139,9 @@ This `Define Auth Challenge Lambda Trigger` defines a custom challenge:
 
 <BlockSwitcher>
 
-<Block name="PasswordFull Sign In">
+<Block name="Password Sign In">
 
-PasswordFull Sign In will need to account for the SRP_A and Password verifier challenges.
+Password Sign In will need to account for the SRP_A and Password verifier challenges.
 
 ```javascript
 exports.handler = async event => {
