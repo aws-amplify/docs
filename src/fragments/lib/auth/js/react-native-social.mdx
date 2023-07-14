@@ -60,14 +60,13 @@ After configuring the OAuth endpoints (Cognito Hosted UI), you can integrate you
 import { useEffect, useState } from "react";
 import { Text, View, Linking, Button } from "react-native";
 import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth";
-import type { AmplifyUser } from "@aws-amplify/ui";
 import { Amplify, Auth, Hub } from "aws-amplify";
 import awsconfig from "./aws-exports";
 
 Amplify.configure(awsconfig);
 
 export default function App() {
-  const [user, setUser] = useState<AmplifyUser | null>(null);
+  const [user, setUser] = useState(null);
   const [customState, setCustomState] = useState<string | null>(null);
 
   useEffect(() => {
@@ -303,7 +302,6 @@ import InAppBrowser from 'react-native-inappbrowser-reborn';
 
 import { Amplify, Auth, Hub } from 'aws-amplify';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
-import type { AmplifyUser } from '@aws-amplify/ui';
 import awsconfig from './aws-exports';
 
 async function urlOpener(url: string, redirectUrl: string): Promise<void> {
@@ -329,7 +327,7 @@ Amplify.configure({
 });
 
 function App() {
-  const [user, setUser] = useState<AmplifyUser | null>(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     Hub.listen('auth', ({ payload: { event, data } }) => {
@@ -497,7 +495,6 @@ import * as WebBrowser from "expo-web-browser";
 
 import { Amplify, Hub, Auth } from "aws-amplify";
 import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth";
-import type { AmplifyUser } from "@aws-amplify/ui";
 import awsconfig from "./src/aws-exports";
 
 const isLocalHost = Boolean(__DEV__);
@@ -536,7 +533,7 @@ const updatedConfig = {
 Amplify.configure(updatedConfig);
 
 export default function App() {
-  const [user, setUser] = useState<AmplifyUser | null>(null);
+  const [user, setUser] = useState(null);
   const [customState, setCustomState] = useState<string | null>(null);
 
   useEffect(() => {

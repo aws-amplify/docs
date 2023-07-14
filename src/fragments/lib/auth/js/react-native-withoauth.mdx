@@ -36,7 +36,6 @@ import { Amplify, Auth, Hub } from 'aws-amplify';
 import { withOAuth } from "aws-amplify-react-native";
 
 import type { GestureResponderEvent } from 'react-native';
-import type { AmplifyUser } from "@aws-amplify/ui";
 
 import awsconfig from './aws-exports';
 
@@ -46,7 +45,7 @@ type OnPressEventHandler = (e: GestureResponderEvent) => void;
 
 type AuthProps = {
   loading?: boolean;
-  oAuthUser?: AmplifyUser;
+  oAuthUser?: any;
   oAuthError?: any;
   hostedUISignIn?: OnPressEventHandler;
   facebookSignIn?: OnPressEventHandler;

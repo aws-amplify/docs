@@ -59,14 +59,13 @@ After configuring the OAuth endpoints (Cognito Hosted UI), you can integrate you
 ```ts
 import React, { useEffect, useState } from 'react';
 import { Amplify, Auth, Hub } from 'aws-amplify';
-import type { AmplifyUser } from '@aws-amplify/ui';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
 import awsConfig from './aws-exports';
 
 Amplify.configure(awsConfig);
 
 function App() {
-  const [user, setUser] = useState<AmplifyUser | null>(null);
+  const [user, setUser] = useState(null);
   const [customState, setCustomState] = useState<string | null>(null);
 
   useEffect(() => {
@@ -223,7 +222,6 @@ Amplify.configure(updatedAwsConfig);
 ```ts
 import { useEffect, useState } from 'react';
 import { Amplify, Auth, Hub } from 'aws-amplify';
-import type { AmplifyUser } from "@aws-amplify/ui";
 import awsConfig from './aws-exports';
 
 const isLocalhost = Boolean(
@@ -259,7 +257,7 @@ const updatedAwsConfig = {
 Amplify.configure(updatedAwsConfig);
 
 function App() {
-  const [user, setUser] = useState<AmplifyUser | null>(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     Hub.listen('auth', ({ payload: { event, data }}) => {
