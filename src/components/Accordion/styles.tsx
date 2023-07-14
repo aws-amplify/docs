@@ -1,11 +1,4 @@
 import styled from '@emotion/styled';
-import { Expand, DeepDive } from './icons';
-import { useState } from 'react';
-
-type AccordionProps = {
-  title?: string;
-  eyebrow?: string;
-};
 
 export const Details = styled.details`
   --border-color: var(--amplify-colors-teal-40);
@@ -81,6 +74,7 @@ export const Summary = styled.summary`
   .docs-expander__title {
     font-weight: bold;
     font-size: 1rem;
+    margin: 0;
   }
 
   .docs-expander__button {
@@ -110,58 +104,3 @@ export const Summary = styled.summary`
     transition: transform 0.25s ease-in-out;
   }
 `;
-
-const Accordion: React.FC<AccordionProps> = ({ title, eyebrow, children }) => {
-  const [closeButton, setCloseButton] = useState(false);
-  const [contentTopCoordinate, setContentTopCoordinate] = useState(0);
-
-  const handleToggle = () => {
-    const accordion = document.querySelector('.docs-expander');
-    const accordionContent = document.querySelector('.docs-expander__body');
-
-    if (
-      accordionContent &&
-      accordionContent instanceof HTMLElement &&
-      accordion
-    ) {
-      setContentTopCoordinate(accordion.getBoundingClientRect().top);
-
-      if (accordionContent.offsetHeight > screen.height) {
-        setCloseButton(() => true);
-      }
-    }
-  };
-
-  const closeAccordion = () => {
-    document.querySelector('.docs-expander')?.removeAttribute('open');
-    window.scrollTo(0, contentTopCoordinate);
-  };
-
-  return (
-    <Details className="docs-expander">
-      <Summary className="docs-expander__summary" onClick={handleToggle}>
-        <div className="docs-expander__eyebrow">
-          <DeepDive />
-          {eyebrow}
-        </div>
-        <div className="docs-expander__title">{title}</div>
-        <div className="docs-expander__title__indicator">
-          <Expand />
-        </div>
-      </Summary>
-      <div className="docs-expander__body">
-        {children}
-        {closeButton ? (
-          <button
-            className="docs-expander__body__button"
-            onClick={closeAccordion}
-          >
-            Close
-          </button>
-        ) : null}
-      </div>
-    </Details>
-  );
-};
-
-export default Accordion;
