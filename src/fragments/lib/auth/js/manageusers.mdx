@@ -111,7 +111,7 @@ async function completeNewPassword(username: string, password: string) {
     if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
       const { requiredAttributes } = user.challengeParam; // the array of required attributes, e.g ['email', 'phone_number']
     }
-
+const newPassword = 'newPassword'
     const loggedInUser = await Auth.completeNewPassword(
       user, // the Cognito User Object
       newPassword, // the new password
