@@ -59,7 +59,6 @@ After configuring the OAuth endpoints (Cognito Hosted UI), you can integrate you
 ```ts
 import React, { useEffect, useState } from 'react';
 import { Amplify, Auth, Hub } from 'aws-amplify';
-import type { HubCapsule } from '@aws-amplify/core';
 import type { AmplifyUser } from '@aws-amplify/ui';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
 import awsConfig from './aws-exports';
@@ -71,7 +70,7 @@ function App() {
   const [customState, setCustomState] = useState<string | null>(null);
 
   useEffect(() => {
-    const unsubscribe = Hub.listen("auth", ({ payload: { event, data } }: HubCapsule) => {
+    const unsubscribe = Hub.listen("auth", ({ payload: { event, data }}) => {
       switch (event) {
         case "signIn":
           setUser(data);
@@ -224,7 +223,6 @@ Amplify.configure(updatedAwsConfig);
 ```ts
 import { useEffect, useState } from 'react';
 import { Amplify, Auth, Hub } from 'aws-amplify';
-import type { HubCapsule } from '@aws-amplify/core';
 import type { AmplifyUser } from "@aws-amplify/ui";
 import awsConfig from './aws-exports';
 
@@ -264,7 +262,7 @@ function App() {
   const [user, setUser] = useState<AmplifyUser | null>(null);
 
   useEffect(() => {
-    Hub.listen('auth', ({ payload: { event, data } }: HubCapsule) => {
+    Hub.listen('auth', ({ payload: { event, data }}) => {
       switch (event) {
         case 'signIn':
         case 'cognitoHostedUI':
@@ -402,9 +400,8 @@ In order to catch errors when using `Auth.federatedSignIn()` you can use the [Hu
 
 ```ts
 import { Hub } from 'aws-amplify'
-import type { HubCapsule } from '@aws-amplify/core';
 
-Hub.listen('auth', (data: HubCapsule) => { 
+Hub.listen('auth', (data) => { 
     if (data.payload.event === 'signIn_failure') {
         // Do something here
     }

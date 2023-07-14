@@ -304,7 +304,6 @@ import InAppBrowser from 'react-native-inappbrowser-reborn';
 import { Amplify, Auth, Hub } from 'aws-amplify';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
 import type { AmplifyUser } from '@aws-amplify/ui';
-import type { HubCapsule } from '@aws-amplify/core';
 import awsconfig from './aws-exports';
 
 async function urlOpener(url: string, redirectUrl: string): Promise<void> {
@@ -333,7 +332,7 @@ function App() {
   const [user, setUser] = useState<AmplifyUser | null>(null);
 
   useEffect(() => {
-    Hub.listen('auth', ({ payload: { event, data } }: HubCapsule) => {
+    Hub.listen('auth', ({ payload: { event, data } }) => {
       switch (event) {
         case 'signIn':
         case 'cognitoHostedUI':
@@ -499,7 +498,6 @@ import * as WebBrowser from "expo-web-browser";
 import { Amplify, Hub, Auth } from "aws-amplify";
 import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth";
 import type { AmplifyUser } from "@aws-amplify/ui";
-import type { HubCapsule } from "@aws-amplify/core";
 import awsconfig from "./src/aws-exports";
 
 const isLocalHost = Boolean(__DEV__);
@@ -542,7 +540,7 @@ export default function App() {
   const [customState, setCustomState] = useState<string | null>(null);
 
   useEffect(() => {
-    const unsubscribe = Hub.listen("auth", ({ payload: { event, data } }: HubCapsule) => {
+    const unsubscribe = Hub.listen("auth", ({ payload: { event, data }}) => {
       console.log("event", event);
       console.log("data", data);
       switch (event) {
