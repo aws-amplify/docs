@@ -1,4 +1,18 @@
 ```swift
-let logger = Amplify.Logging.logger(forCategory: "Storage", forNamespace: "<your-code-namespace")
+let logger = Amplify.Logging.logger(forCategory: "Storage", forNamespace: "<your-code-namespace>")
 logger.error("an error message")
 ```
+
+The following are existing Amplify category names:
+* `Analytics`
+* `API`
+* `Authentication`
+* `DataStore`
+* `Geo`
+* `Hub`
+* `Logging`
+* `Predictions`
+* `PushNotifications`
+* `Storage`
+
+`<your-code-namespace` can be specific your own code and use case.

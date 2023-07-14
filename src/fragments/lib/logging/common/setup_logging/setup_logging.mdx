@@ -1,0 +1,102 @@
+The Amplify Logger allows you to send existing log messages in the Amplify library to a AWS CloudWath log group that you provision and maintain.  You can also use the Amplify Logger to log your custom log messages and have it sent to the same Amazon CloudWatch log group.  Having the capability to access logs from your mobile application remotely via Amazon CloudWatch can help troubleshoot and debug your customer issues.
+
+## Prerequisites
+
+import iosPreReq from '/src/fragments/lib/logging/ios/setup_logging/10_pre_req.mdx';
+import androidPreReq from '/src/fragments/lib/logging/android/setup_logging/10_pre_req.mdx';
+
+<Fragments
+  fragments={{
+    ios: iosPreReq,
+    android: androidPreReq
+  }}
+/>
+
+## Provision AWS backend resources
+You will need to create a log group in Amazon CloudWatch to send logs to.  You can create and provision a log group by going through the AWS Console and creating your log group manually or using Amplify CLI and AWS CDK to provision and deploy the AWS resources.
+
+Below is a sample CDK construct to create the Amazon CloudWatch log group as well as creating and assigning the permission policies to Amplify roles.
+
+The `<log-group-name>` and region configured in the CDK construct will be used later to initialize the Amplify Logger plugin.
+
+```ts
+import * as cdk from "aws-cdk-lib"
+import { Construct } from "constructs"
+import * as logs from "aws-cdk-lib/aws-logs"
+import * as path from "path"
+import * as iam from "aws-cdk-lib/aws-iam"
+
+export class RemoteLoggingConstraintsConstruct extends Construct {
+  constructor(scope: Construct, id: string, props: RemoteLoggingConstraintProps) {
+    super(scope, id)
+
+    const region = cdk.Stack.of(this).region
+    const account = cdk.Stack.of(this).account
+    const logGroupName = <log-group-name>
+    
+    new logs.LogGroup(this, 'Log Group', {
+      logGroupName: logGroupName,
+      retention: logs.RetentionDays.INFINITE
+    })
+    
+    const authRole = iam.Role.fromRoleName(this, "Auth-Role", <amplify-authenticate-role-name>)
+    const unAuthRole = iam.Role.fromRoleName(this, "UnAuth-Role", <amplify-unauthenticated-role-name>)
+    const logResource = `arn:aws:logs:${region}:${account}:log-group:${logGroupName}:log-stream:*`
+    const logIAMPolicy = new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      resources: [logResource],
+      actions: ["logs:PutLogEvents", "logs:DescribeLogStreams", "logs:CreateLogStream"]
+    })
+
+    authRole.addToPrincipalPolicy(logIAMPolicy)
+    unAuthRole.addToPrincipalPolicy(logIAMPolicy)
+  }
+}
+```
+<Callout>
+You can use Amplify CLI generate a CDK template and [add custom resources](https://docs.amplify.aws/cli/custom/cdk/).  
+</Callout>
+
+Ensure that both your amplify authenticated and unauthenticated role have the following IAM permission policies
+
+```json
+{
+  "Action": [
+    "logs:CreateLogStream",
+    "logs:DescribeLogStreams",
+    "logs:PutLogEvents"
+  ],
+  "Resource": "arn:aws:logs:<region>:<account>:log-group:<log-group-name>:log-stream:*",
+  "Effect": "Allow"
+}
+```
+
+## Initialize Amplify Logging
+
+import iosInitWithConfig from '/src/fragments/lib/logging/ios/setup_logging/20_initialize_with_config.mdx';
+import androidInitWithConfig from '/src/fragments/lib/logging/android/setup_logging/20_initialize_with_config.mdx';
+
+import iosInitWithoutConfig from '/src/fragments/lib/logging/ios/setup_logging/30_initialize_without_config.mdx';
+import androidInitWithoutConfig from '/src/fragments/lib/logging/android/setup_logging/30_initialize_without_config.mdx';
+
+
+<BlockSwitcher>
+  <Block name="With Configuration File">
+    <Fragments
+      fragments={{
+        ios: iosInitWithConfig,
+        android: androidInitWithConfig
+      }}
+    />
+  </Block>
+
+  <Block name="Without Configuration File">
+    <Fragments
+      fragments={{
+        ios: iosInitWithoutConfig,
+        android: androidInitWithoutConfig
+      }}
+    />
+  </Block>
+
+</BlockSwitcher>

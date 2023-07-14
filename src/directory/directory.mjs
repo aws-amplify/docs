@@ -824,8 +824,8 @@ export const directory = {
         title: 'Logging',
         items: [
           {
-            title: 'Getting started',
-            route: '/lib/logging/getting-started',
+            title: 'Setup Logging',
+            route: '/lib/logging/setup-logging',
             filters: ['ios', 'android']
           },
           {
@@ -834,25 +834,30 @@ export const directory = {
             filters: ['ios', 'android']
           },
           {
-            title: 'Configure Log Levels',
-            route: '/lib/logging/configure-log-levels',
+            title: 'Change Log Levels',
+            route: '/lib/logging/change-log-levels',
             filters: ['ios', 'android']
           },
           {
-            title: 'Advanced Plugin Behaviors',
-            route: '/lib/logging/advanced-plugin-behavior',
+            title: 'Flush Logs',
+            route: '/lib/logging/flushlogs',
             filters: ['ios', 'android']
           },
           {
-            title: 'Remote Logging',
+            title: 'Enable/Disable Logging',
+            route: '/lib/logging/enable-disable',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'Remotely Change Log Levels',
             route: '/lib/logging/remote-configuration',
             filters: ['ios', 'android']
           },
           {
-            title: 'Provision Backend Resources',
-            route: '/lib/logging/backend-resources',
+            title: 'Escape Hatch',
+            route: '/lib/logging/escapehatch',
             filters: ['ios', 'android']
-          },
+          }
         ]
       },
       utilities: {
