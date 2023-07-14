@@ -71,7 +71,7 @@ export default function App() {
   const [customState, setCustomState] = useState<string | null>(null);
 
   useEffect(() => {
-    const unsubscribe = Hub.listen("auth", ({ payload: { event, data } }: HubCapsule) => {
+    const unsubscribe = Hub.listen("auth", ({ payload: { event, data }}) => {
       switch (event) {
         case "signIn":
           setUser(data);
