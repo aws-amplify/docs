@@ -83,6 +83,17 @@ const retrieveLinks = async (siteMapUrls, visitedLinks) => {
   return urlsToVisit;
 };
 
+const formatString = (inputs) => {
+  let retString = '';
+  inputs.forEach((item) => {
+    Object.keys(item).forEach((k) => {
+      retString += `${k} - ${item[k]} \\n`;
+    });
+    retString += '\\n \\n';
+  });
+  return retString;
+};
+
 const linkChecker = async () => {
   const visitedLinks = {};
   const statusCodes = {};
@@ -130,7 +141,10 @@ const linkChecker = async () => {
 
   await Promise.all(allPromises);
 
-  return JSON.stringify(brokenLinks);
+  console.log(statusCodes);
+  console.log(brokenLinks);
+
+  return formatString(brokenLinks);
 };
 
 module.exports = {
