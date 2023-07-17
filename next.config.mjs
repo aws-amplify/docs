@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import _withMDX from '@next/mdx';
 import { directory } from './src/directory/directory.mjs';
 const require = createRequire(import.meta.url);
+import remarkGfm from 'remark-gfm';
 
 import { remarkCodeHike } from '@code-hike/mdx';
 
@@ -32,12 +33,19 @@ export default async (phase, { defaultConfig }) => {
     options: {
       providerImportSource: '@mdx-js/react',
       remarkPlugins: [
-        [remarkCodeHike, { theme: 'nord' }],
+        [
+          remarkCodeHike,
+          {
+            theme: 'nord'
+            // showCopyButton: true
+          }
+        ],
         frontmatterPlugin,
         importPlugin,
         headingLinkPlugin,
         pagePlugin,
-        internalLinkPlugin
+        internalLinkPlugin,
+        remarkGfm
       ]
       // rehypePlugins: [codeBlockPlugin]
     }

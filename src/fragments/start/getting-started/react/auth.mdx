@@ -45,47 +45,63 @@ The `@aws-amplify/ui-react` package includes React specific UI components you'll
 npm install @aws-amplify/ui-react
 ```
 
-<Scrollycoding>
-
 ### Add the Amplify UI Authenticator component
 
 Open **src/App.js** and make the following changes:
 
-1. Import the `withAuthenticator` component:
+<CH.Scrollycoding lineNumbers={true} showCopyButton={true}>
 
-```javascript
+#### Step 1
+
+Import the `withAuthenticator` component:
+
+```js app.js mark=1:2
 import { withAuthenticator, Button, Heading } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-```
 
-2. Pass `{signOut, user}` to the `App` component:
-
-```javascript
-/* src/App.js */
 function App({ signOut, user }) {
-  // ...
+  return (
+    <div style={styles.container}>
+      <Heading level={1}>Hello {user.username}</Heading>
+      <Button onClick={signOut}>Sign out</Button>
+      <h2>Amplify Todos</h2>
+  )
 }
-```
 
-3. Add this heading and button block to the top of your `App` component:
-
-```javascript
-// ...
-return (
-  <div style={styles.container}>
-    <Heading level={1}>Hello {user.username}</Heading>
-    <Button onClick={signOut}>Sign out</Button>
-    <h2>Amplify Todos</h2>
-//...
-```
-
-</Scrollycoding>
-
-4. Lastly, wrap your `App` export with the `withAuthenticator` Amplify UI component:
-
-```javascript
 export default withAuthenticator(App);
 ```
+
+---
+
+#### Step 2
+
+Pass `{signOut, user}` to the `App` component:
+
+```js app.js mark=4:4
+
+```
+
+---
+
+#### Step 3
+
+Add this heading and button block to the top of your `App` component:
+
+```js app.js mark=5:10
+
+```
+
+---
+
+#### Step 4
+
+Lastly, wrap your `App` export with the `withAuthenticator` Amplify UI component:
+
+```js app.js mark=13:13
+
+```
+
+</CH.Scrollycoding>
 
 Run the app to see the new authentication flow protecting the app:
 

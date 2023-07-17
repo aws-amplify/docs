@@ -1,0 +1,31 @@
+body {
+  --ch-scrollycoding-sticker-width: 35vw;
+}
+
+.ch-scrollycoding-sticker {
+  top: 24vh;
+}
+
+.ch-code-browser-content {
+  padding: 3rem 1rem 1rem 1rem;
+}
+
+.ch-scrollycoding-step-content {
+  min-height: auto;
+  border: 0;
+  border-radius: 0;
+  border-left: 4px solid transparent;
+}
+
+.ch-scrollycoding-step-content[data-selected] {
+  border-color: #f90;
+}
+
+.ch-scrollycoding-step-content:hover {
+  cursor: pointer;
+  background-color: #f1f1eb;
+}
+
+.ch-expand-dialog {
+  margin: auto;
+}
