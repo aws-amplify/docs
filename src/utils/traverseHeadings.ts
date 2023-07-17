@@ -5,6 +5,7 @@ import {
 import featureFlagsJson from '../components/FeatureFlags/feature-flags.json';
 
 export function traverseHeadings(tree, filterKey: string): string[] {
+  // console.log(tree);
   if (!Array.isArray(tree)) {
     tree = [tree];
   }
@@ -51,6 +52,7 @@ export function traverseHeadings(tree, filterKey: string): string[] {
       if ('mdxType' in node.props) {
         const mdxType = node.props.mdxType;
         if (mdxType === 'h2' || mdxType === 'h3') {
+          // console.log(node.props)
           headings.push([node.props.children, node.props.id, mdxType]);
         }
         if (mdxType === 'Accordion') {

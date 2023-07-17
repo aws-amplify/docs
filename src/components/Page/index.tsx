@@ -29,6 +29,8 @@ export default function Page({
   meta?: any;
   frontmatter?: MdxFrontmatterType;
 }) {
+
+  console.log(children);
   const footerRef = useRef(null);
   const router = useRouter();
 

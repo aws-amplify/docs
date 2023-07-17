@@ -1,6 +1,7 @@
 import { Details, Summary } from './styles';
 import { Expand, DeepDive } from './icons';
-import { useRef, useState, createElement, useEffect } from 'react';
+import { useRef, useState, createElement, useEffect, cloneElement } from 'react';
+import { propsAreEmptyByTag } from '../UiComponentProps';
 
 type AccordionProps = {
   title?: string;
@@ -59,7 +60,27 @@ const Accordion: React.FC<AccordionProps> = ({
     window.scrollTo(0, contentTopCoordinate);
   };
 
-  console.log(children)
+  const childrenNew = [];
+
+  if (children) {
+    for (const child of children) {
+      if (
+        child.props &&
+        child.props.mdxType &&
+        child.props.mdxType === 'InternalLink'
+      ) {
+        const newChild = cloneElement(child, {
+          ...child.props,
+          withinAccordion: true
+        });
+        childrenNew.push(newChild);
+      } else {
+        childrenNew.push(child);
+      }
+    }
+    children = childrenNew;
+  };
+
 
   return (
     <Details className="docs-expander" ref={docsExpander}>
@@ -75,15 +96,15 @@ const Accordion: React.FC<AccordionProps> = ({
       </Summary>
       <div className="docs-expander__body" ref={docsExpanderBody}>
         {children}
-        {closeButton ? (
-          <button
-            className="docs-expander__body__button"
-            onClick={closeAccordion}
-          >
-            Close
-          </button>
-        ) : null}
       </div>
+      {closeButton ? (
+        <button
+          className="docs-expander__body__button"
+          onClick={closeAccordion}
+        >
+          <Expand />
+        </button>
+      ) : null}
     </Details>
   );
 };

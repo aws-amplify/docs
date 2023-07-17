@@ -33,7 +33,12 @@ export const Details = styled.details`
   .docs-expander__body__button {
     outline: none;
     width: 100%;
-    background-color: transparent;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--amplify-colors-teal-10);
+    transform: rotate(-180deg);
+    padding-inline: var(--padding-inline);
+    padding-block: var(--padding-block);
+    text-align: left;
   }
 
   .docs-expander__body__button:hover {
