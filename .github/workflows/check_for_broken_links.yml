@@ -16,8 +16,13 @@ jobs:
       - name: Install Dependencies
         run: yarn
       - name: Run Link Checker
-        id: checkLinks
-        run: node tasks/link-checker.mjs
+          id: checkLinks
+          uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410
+          with:
+            result-encoding: string
+            script: |
+              const { checkLinks } = require('./tasks/link-checker.js');
+              return await checkLinks();
       - name: Configure AWS Credentials
           uses: aws-actions/configure-aws-credentials@5fd3084fc36e372ff1fff382a39b10d03659f355 # v2.2.0
           with:
@@ -28,13 +33,14 @@ jobs:
         with:
           secret-ids: |
             SLACK_WEBHOOK_URL
+          parse-json-secrets: true
       - name: Send custom JSON data to Slack workflow
         id: slack
-        uses: slackapi/slack-github-action@f07b4a2d031f34c3b178cc488f68dd4ea0595c1d # v1.24.0
+        uses: slackapi/slack-github-action@e28cf165c92ffef168d23c5c9000cffc8a25e117 # v1.24.0
         with:
           payload: |
             {
-              "message": ${{ steps.checkLinks.outputs.results }}
+              "message": "${{ steps.checkLinks.outputs.result }}"
             }
         env:
-          SLACK_WEBHOOK_URL: ${{ env.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL: ${{ env.SLACK_WEBHOOK_URL_SLACK_WEBHOOK_URL }}
