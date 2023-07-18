@@ -849,6 +849,11 @@ export const directory = {
             filters: ['ios']
           },
           {
+            title: 'Configure User Allow List',
+            route: '/lib/logging/configure-user',
+            filters: ['ios']
+          },
+          {
             title: 'Remotely Change Log Levels',
             route: '/lib/logging/remote-configuration',
             filters: ['ios']

@@ -1,0 +1,34 @@
+Each Amplify authenticated user can be configure with their own unique logging configuration.  The Amplify user's AWS Cognito User Pool Sub is used as the user identifier. 
+
+## Getting the Cognito User Pool Sub
+You can use the Amplify Auth category to get the Cognito User Pool Sub.
+
+import iosCurrentUser from '/src/fragments/lib/logging/ios/configure_user/auth_current_user.mdx';
+import androidCurrentUser from '/src/fragments/lib/logging/android/configure_user/auth_current_user.mdx';
+
+<Fragments
+    fragments={{
+        ios: iosCurrentUser,
+        android: androidCurrentUser
+    }}/>
+
+## Configuring Allow List
+
+Below is an example of setting different a default log level and category level for an authenticated user with AWS Cognito User Pool sub `xyz-123`.
+
+import iosUserLogLevel from '/src/fragments/lib/logging/ios/configure_user/configure_user.mdx';
+import androidUserLogLevel from '/src/fragments/lib/logging/android/configure_user/configure_user.mdx';
+import commonUserLogLevel from '/src/fragments/lib/logging/common/configure_user/user_log_level.mdx';
+
+<BlockSwitcher>
+    <Block name="With Configuration File">
+        <Fragments fragments={{all: commonUserLogLevel}}/>
+    </Block>
+    <Block name="With Code">
+        <Fragments
+            fragments={{
+                ios: iosUserLogLevel,
+                android: androidUserLogLevel
+            }}/>
+    </Block>
+</BlockSwitcher>

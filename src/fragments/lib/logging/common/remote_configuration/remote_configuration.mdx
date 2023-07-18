@@ -1,31 +1,36 @@
-The AWSCloudWatchLoggingPlugin log levels can be configured remotely.  When configured, the Amplify Logger will fetch the remote log levels, defined in a `remoteloggingconstraints.json` file and deployed to an S3 bucket, via an API Gateway endpoint that is integrated with a lambda.  The log levels defined in the remote logging constraints file will overwrite the local log levels and will persist across app sessions.
+You can remotely configure the Amplify Logger, enabling you to make changes to your logging levels or user allow list in your deployed applications.
 
-You will need to provision and maintain your own backend resources.  The following provides a CDK construct example to provision the required AWS resources.
-
-<Callout warning>
-When you are provisioning your backend resources, you are responsible for following best security practices and securing your backend resources.
+<Callout>
+The logging configurations you set remotely will overwrite the local log level and persist for future app sessions.
 </Callout>
 
-## CDK construct
+## Set up remote configuration backend resources
+
+<Callout>
+
+You can use Amplify CLI generate a CDK template and [add custom resources](https://docs.amplify.aws/cli/custom/cdk/).  
+
+</Callout>
+
 Below is an example CDK construct that provisions the Amazon CloudWatch, AWS API Gateway, AWS Lambda, and AWS S3 bucket.  The CDK construct also deploys the `remoteloggingconstraints.json` file to the AWS S3 bucket. 
 
 ### Permissions
-The CDK construct sample created IAM permission policies and assigned it to the Amplify authenticated and un-authenticate role.  
-1. The API Gateway endpoint can only be invoked by user with Amplify authenticated/unauthenticated roles.  
-2. Logs can only be sent by mobile application users with Amplify authenticated/unauthenticated roles.
-3. The lambda invocation is only allowed from the provision AWS API Gateway resource.
+The CDK construct creates IAM policies and assigned them to the Amplify authenticated and unauthenticated roles. 
+1. The API Gateway endpoint can only be invoked by user with the Amplify authenticated or unauthenticated roles. 
+2. The AWSCloudWatch logs can only be created and sent by users with the Amplify authenticated or unauthenticated roles.
+3. The lambda invocation is only allowed from the provisioned AWS API Gateway resource.
 4. The S3 bucket containing the `remoteloggingconstraints.json` can only be read by the Lambda execution role.
 
 ### Replace the placeholder values with your own values:
-* `<CloudWatch-log-group-name>` is the log group that logs will be sent to.
+* `<CloudWatch-log-group-name>` is the log group that logs will be sent to.  Note that this CDK construct sample includes logic to create the CloudWatch log group that you may have are created in previous steps to [setup backend resources](/lib/logging/setup-logging/#provision-backend-resources).
 * `<S3-bucket-name>` is the S3 bucket that will hold the logging constraints json file that gets fetched remotely.
 * `<Amplify-authenticated-role-name>` and `<Amplify-unauthenticated-role-name>` are Amplify roles created as part of Amplify Auth configuration via Amplify CLI.  
 
 ### Resource dependencies
-* `lambdaConfig` provides the location and lambda for reading from S3.  An example is provided in the next sections.
-* `configFileName` and `loggingConfigLocation` provides the location and file name of the log level configuration file that is deployed to S3.  An example is provide in the next sections. 
+* `lambdaConfig` provides the location and lambda for reading from S3.  An example is provided in the [lambda handler](#sample-lambda-handler) section.
+* `configFileName` and `loggingConfigLocation` provides the location and file name of the log level configuration file that is deployed to S3.  An example is provided in the [Creating remote configuration file](#creating-remote-configuration-file) section. 
 
-```js
+```ts
 import * as cdk from "aws-cdk-lib"
 import { Construct } from "constructs"
 import * as apigateway from "aws-cdk-lib/aws-apigateway"
@@ -112,13 +117,18 @@ export class RemoteLoggingConstraintsConstruct extends Construct {
     authRole.addToPrincipalPolicy(apiInvokePolicy)
     unAuthRole.addToPrincipalPolicy(apiInvokePolicy)
 
+    new cdk.CfnOutput(this, 'LoggingConstraintsURL', {
+      value: `https://${api.restApiId}.execute-api.${region}.amazonaws.com/prod/loggingconstraints`,
+    });
+    new cdk.CfnOutput(this, 'CloudWatchLogGroupName', { value: logGroupName });
+    new cdk.CfnOutput(this, 'CloudWatchRegion', { value: region });
   }
 }
 ```
 
-## Sample Lambda handler
+### Sample Lambda handler
 Below is a sample lambda that reads and returns the `remoteloggingconstraints.json` from AWS S3.
-Note that caching and ETag is used.  To reduce data usage, if the logging levels has not changed since the last fetch, there is no need to return the log levels.
+Note that the configuration is cached by version via the usages of ETag in this example.  This lets lambda be more efficient and save bandwidth, as it does not need to resend a full configuration file if the content was not changed. 
 
 ```js
 const { S3Client, GetObjectCommand } = require("@aws-sdk/client-s3")
@@ -174,7 +184,7 @@ const setCachedConfig = async (s3Resp) => {
 }
 ```
 
-## Sample `remoteloggingconstraints.json`
+## Creating remote configuration file
 Below is a sample remote config file that overwrites the local file in the mobile application.  This file will be deployed to S3.  Once deployed, you can change your application log levels by editing this file in S3.
 
 ```json
@@ -196,8 +206,8 @@ Below is a sample remote config file that overwrites the local file in the mobil
 }
 ```
 
-## Enable Remote Log Levels
-To enable Amplify Logger to fetch remote log levels, you will need to provide the api endpoint that has the log levels and the fresh interval that you want the Amplify Logger to refresh.
+## Enable remote configuration in your app
+To enable Amplify Logger to fetch remote log levels, you will need to provide the API endpoint that has the log levels and the refresh interval that you want the Amplify Logger to refresh.
 
 import iosRemoteConfigProvider from '/src/fragments/lib/logging/ios/remote_configuration/10_remote_config_provider.mdx';
 import androidRemoteConfigProvider from '/src/fragments/lib/logging/android/remote_configuration/10_remote_config_provider.mdx';
