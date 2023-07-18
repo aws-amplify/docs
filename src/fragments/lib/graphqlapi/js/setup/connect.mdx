@@ -1,13 +1,14 @@
 # Connect a data stack
 In this guide, you will learn how to connect an existing data stack to your application. This job includes understanding the required client configuration and how to connect the data stack. We will also review functions to create, read, update, and delete your data using the Amplify GraphQL client. Finally, we will look at how to subscribe to real-time events to watch for mutations in your data.
+[comment]: # (HEATHER, let's discuss how best to define "job" when we reference it the first time.)
 
 ## Review the required configuration
 
-In this job, you will configure your client to point to the AWS AppSync API endpoint. You will first need to understand how to configure the Amplify API category and update the authentication type to complete this job. An understanding of the differences between authentication types will also be helpful if you did not set up the data stack yourself.
+In this job, you will configure your client to point to the AWS AppSync API endpoint. You will first need to understand how to configure the Amplify API category and update the authentication type to complete this job. If you did not set up the data stack yourself, knowing the differences between authentication types can be helpful.
 
 > **Before you begin, you will need:**
-> - An AWS AppSync API already set up ([Designing a GraphQL API in AppSync]( https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html)]
-> - An application set up ([instructions to set up an app](https://docs.amplify.aws/lib/project-setup/create-application/q/platform/js/))
+> - An AWS AppSync API already set up. For guidance on how to build a GraphQL API, see [Designing a GraphQL API in AWS AppSync](https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html)
+> - An application set up. For instructions on setting up an app, see [Project Setup: Create your application](https://docs.amplify.aws/lib/project-setup/create-application/q/platform/js/)
 
 ### Configure the client to point to the AWS AppSync API endpoint and update authentication details
 
@@ -15,33 +16,32 @@ In this job, you will configure your client to point to the AWS AppSync API endp
 
 [question]: # (Do we need any content from these pages for this job? 1- https://docs.amplify.aws/lib/client-configuration/configuring-amplify-categories/q/platform/js/#graphql-api-aws-appsync ; 2- https://docs.amplify.aws/cli/graphql/client-code-generation/#amplify-add-codegen ; 3- https://docs.aws.amazon.com/appsync/latest/devguide/building-a-client-app.html )
 
-You can use existing AWS AppSync resources by referencing the AWS AppSync API endpoint and configuring the parameters in your app. The API URL, ID, and Key can be found in the AWS AppSync console in the Settings section. 
-You will need to know your Authentication type to complete this step. Authentication type options are `API_KEY`, `AWS_IAM`, `AMAZON_COGNITO_USER_POOLS` and `OPENID_CONNECT`.
+You can use existing AWS AppSync resources by referencing the AWS AppSync API endpoint and configuring the parameters in your app. The API URL, ID, and Key can be found in the AWS AppSync console in the Settings section. You will need to know your Authentication type to complete this step. The options for Authentication type are `API_KEY`, `AWS_IAM`, `AMAZON_COGNITO_USER_POOLS`, and `OPENID_CONNECT`.
 
 #### Review differences between authentication types 
 
 [comment]: # (EXPANDER SECTION to provide a deeper dive on authentication types and their differences, including API key access, Cognito, IAM, and OIDC. May be an option for a table that compares the authentication types. Content copied and updated from https://github.com/aws-amplify/docs/blob/main/src/pages/cli/graphql/authorization-rules.mdx However, I would suggest we rewrite this intro sentence to provide more foundational explanation that we can then reuse.)
 
-Below is a short comparison between the different authentication types and their use cases. 
+The following table compares the different authentication types and their use cases. 
 
 | **Recommended use case** | **Strategy** | **Provider** |
 |---|---|---|
 | Public data access where users or devices are anonymous. Anyone with the AppSync API key is granted access. | [`public`]() | `apiKey` |
-| Recommended for production environment's public data access. Public data access where unauthenticated users or devices are granted permissions using AWS IAM controls. | [`public`]() | `iam` |
-| Per user data access. Access is restricted to the "owner" of a record. Leverages `amplify add auth` Cognito user pool by default. | [`owner`]() | `userPools` / `oidc` |
+| Recommended for public data access in a production environment, or where unauthenticated users or devices are granted permissions using AWS IAM controls. | [`public`]() | `iam` |
+| Per-user data access. Access is restricted to the "owner" of a record. Leverages `amplify add auth` Cognito user pool by default. | [`owner`]() | `userPools` / `oidc` |
 | Any signed-in data access. Unlike owner-based access, **any** signed-in user has access. | [`private`]() | `userPools` / `oidc` / `iam` |
-| Per user group data access. A specific or dynamically configured group of users have access | [`group`]() | `userPools` / `oidc` |
-| Define your own custom authorization rule within a Lambda function | [`custom`]() | `function` |
+| Per-user group data access. A specific or dynamically configured group of users have access. | [`group`]() | `userPools` / `oidc` |
+| Define your own custom authorization rule within a Lambda function. | [`custom`]() | `function` |
 
 [comment]: # (EXPANDER end)
 
-Once you have these details you can configure the client:
+Once you have these details, you can configure the client using the following options:
 
 [comment]: # (Content copied and updated from https://github.com/aws-amplify/docs/edit/main/src/fragments/lib/graphqlapi/js/existing-resources.mdx )
 
 <BlockSwitcher>
-<Block name="Using API_KEY">
-
+<Block name="API_KEY">
+[question]: # (RENE, We sometimes use ```javascript and other times use ```js at the beginning of code blocks. Do we need to be consistent? Same question applies to the TypeScript blocks.)
 ```javascript
 const myAppConfig = {
   // ...
@@ -57,7 +57,7 @@ Amplify.configure(myAppConfig);
 ```
 
 </Block>
-<Block name="Using AWS_IAM">
+<Block name="AWS_IAM">
 
 ```javascript
 const myAppConfig = {
@@ -73,7 +73,7 @@ Amplify.configure(myAppConfig);
 ```
 
 </Block>
-<Block name="Using AMAZON_COGNITO_USER_POOLS">
+<Block name="AMAZON_COGNITO_USER_POOLS">
 
 ```javascript
 const myAppConfig = {
@@ -87,9 +87,10 @@ const myAppConfig = {
 
 Amplify.configure(myAppConfig);
 ```
+[question]: # (RENE, Minor detail: In line 84 above, should "ID" be all caps in both instances?)
 
 </Block>
-<Block name="Using OPENID_CONNECT">
+<Block name="OPENID_CONNECT">
 
 ```javascript
 const myAppConfig = {
@@ -103,14 +104,14 @@ const myAppConfig = {
 
 Amplify.configure(myAppConfig);
 ```
-
+[comment]: # (RENE, I realize this is likely outside the scope of this review, but the message in line 101 above within the code block (Before calling API,graphql...) isn't particularly clear. Is this something we can update to make clearer for the user?)
 </Block>
 </BlockSwitcher>
 
 #### Using with an AppSync custom domain name
 
-[Custom domain names](https://docs.aws.amazon.com/appsync/latest/devguide/custom-domain-name.html) can be used to create a memorable endpoint with a domain name of your choice. These can have any format, but must end with `/graphql` (see https://graphql.org/learn/serving-over-http/#uris-routes). Using custom domain names will impact how you enter your graphqlEndpoint:
-
+[Custom domain names](https://docs.aws.amazon.com/appsync/latest/devguide/custom-domain-name.html) can be used to create a memorable endpoint with a domain name of your choice. These can have any format, but must end with `/graphql` (see [URIs, Routes](https://graphql.org/learn/serving-over-http/#uris-routes) on the GraphQL website). Using custom domain names will impact how you enter your graphqlEndpoint:
+[question]: # (RENE, In the previous line, can we be more specific about how use of the custom domain name affects how you enter your graphqlEndpoint? How is this demonstrated in the following code?)
 ```javascript
 const myAppConfig = {
   // ...
@@ -125,10 +126,10 @@ Amplify.configure(myAppConfig);
 
 [question]: # (Do we want to address non-AppSync on this job or link to it? Or does this become an Expander section?)
 
-### Using a non-AppSync GraphQL Server
+### Using a non-AppSync GraphQL server
 
 To access a non-AppSync GraphQL API with your app, you need to configure the endpoint URL in your app’s configuration. Add the following line to your setup:
-
+[question]: # (RENE, which line specifically is the user adding?)
 ```js
 import { Amplify, API } from 'aws-amplify';
 import awsconfig from './aws-exports';
@@ -144,7 +145,7 @@ Amplify.configure({
 });
 ```
 
-#### Set Custom Request Headers for non-AppSync GraphQL APIs
+#### Set custom request headers for non-AppSync GraphQL APIs
 
 When working with a non-AppSync GraphQL endpoint, you may need to set request headers for authorization purposes. This is done by passing a `graphql_headers` function into the configuration:
 
@@ -158,9 +159,9 @@ Amplify.configure({
 });
 ```
 
-#### Signing Request with IAM
+#### Signing request with IAM
 
-AWS Amplify provides the ability to sign requests automatically with AWS Identity Access Management (IAM) for GraphQL requests that are processed through AWS API Gateway. Add the `graphql_endpoint_iam_region` parameter to your GraphQL configuration statement to enable signing:
+With AWS Amplify, you can sign requests automatically with AWS Identity Access Management (IAM) for GraphQL requests that are processed through Amazon API Gateway. Add the `graphql_endpoint_iam_region` parameter to your GraphQL configuration statement to enable signing:
 
 ```js
 Amplify.configure({
@@ -172,27 +173,27 @@ Amplify.configure({
 ```
 
 ### Recap
-At this point your client is now configured to point to your AppSync API endpoint and you updated your authentication details based on the auth types you are using.
+At this point, your client is now configured to point to your AppSync API endpoint and you updated your authentication details based on the auth types you are using.
 
 [comment]: # (ADD TO RECAP Tie-in to real-world use and application of the topic discussed OR reiterate the benefit.)
 
 ## Connect your application code to the data backend
 
-In this job, you will connect your application code to the data stack by connecting and configuring the Amplify libraries. We will review how to install and configure Amplify libraries to help you complete this task.
+In this job, you will connect your application code to the data stack by connecting and configuring the Amplify Libraries. We will review how to install and configure Amplify Libraries to help you complete this task.
 > **Before you begin, you will need:**
-> - npm installed ([set up npm](https://docs.npmjs.com/getting-started))
-> - Data stack deployed
+> - npm installed. For guidance on setting up npm the first time, see "([Getting started](https://docs.npmjs.com/getting-started) on the npm Docs site.)
+> - A data stack deployed
 
-### Amplify Codegen to generate the Queries,Mutations and Subscriptions 
+### Amplify codegen to generate queries, mutations, and subscriptions 
 
-The `amplify add codegen` allows you to add AppSync API created using the AWS console. If you have your API is in a different region then that of your current region, the command asks you to choose the region. If you are adding codegen outside of an initialized amplify project, provide your introspection schema named `schema.json` in the same directory that you make the add codegen call from. Note: If you use the --apiId flag to add an externally created AppSync API, such as one created in the AWS console, you will not be able to manage this API from the Amplify CLI with commands such as amplify api update when performing schema updates. You cannot add an external AppSync API when outside of an initialized project.
+Using the `amplify add codegen` command, you can add an AppSync API that is created using the AWS console. If your API is in a different Region than your current Region, the command asks you to choose the Region. If you are adding codegen outside of an initialized Amplify project, provide your introspection schema named `schema.json` in the same directory that you make the add codegen call from. **Note:** If you use the --apiId flag to add an externally created AppSync API, such as one created in the AWS console, you will not be able to manage this API from the Amplify CLI with commands such as `amplify api update` when performing schema updates. You cannot add an external AppSync API when outside of an initialized project.
 
 ```bash
 amplify add codegen --apiId <apiId>
 ```
 Executing this command will generate the queries, mutations, and subscriptions within the src/graphql folder.
 
-### Install and configure the Amplify libraries
+### Install and configure the Amplify Libraries
 
 [comment]: # (Task-forward section with steps to install and configure, with an explanation on the flow differences between the Amplify API and their existing API. Updated content from https://github.com/aws-amplify/docs/blob/JTBD-Data/src/fragments/lib/graphqlapi/js/getting-started.mdx but still missing the discussion on differences with their own API. Added fragment into text so can be updated as needed for guide first - https://github.com/aws-amplify/docs/blob/main/src/fragments/lib/graphqlapi/js/react-native-configure.mdx) 
 
@@ -204,7 +205,7 @@ Add Amplify to your app with `yarn` or `npm`:
 npm install aws-amplify @aws-amplify/ui-react
 ```
 
-In your app's entry point i.e. **App.js** (Expo) or **index.js** (React Native CLI), import and load the configuration file:
+In your app's entry point, specifically **App.js** (Expo) or **index.js** (React Native CLI), import and load the configuration file:
 
 ```javascript
 import { Amplify, API, graphqlOperation } from 'aws-amplify';
@@ -212,16 +213,16 @@ import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
 ```
 
-[comment]: # (Noticed additional installation directions in the set up for specific frameworks. Copied since they are not small enough fragments atm - if we keep if we need to consider how this is fragmented: 1- https://github.com/aws-amplify/docs/blob/main/src/fragments/start/getting-started/angular/setup.mdx; 2- https://github.com/aws-amplify/docs/blob/main/src/fragments/start/getting-started/next/setup.mdx; 3- https://github.com/aws-amplify/docs/blob/main/src/fragments/start/getting-started/vue/setup.mdx)
+[comment]: # (Noticed additional installation directions in the set up for specific frameworks. Copied since they are not small enough fragments atm - if we keep it we need to consider how this is fragmented: 1- https://github.com/aws-amplify/docs/blob/main/src/fragments/start/getting-started/angular/setup.mdx; 2- https://github.com/aws-amplify/docs/blob/main/src/fragments/start/getting-started/next/setup.mdx; 3- https://github.com/aws-amplify/docs/blob/main/src/fragments/start/getting-started/vue/setup.mdx)
 
 If you are using `Angular`, `NextJS`, or `VueJS`, please review the following additional details for installing the Amplify Libraries:
 
 <BlockSwitcher>
 <Block name="Angular">
   
-#### Install Amplify Libraries for Angular
+##### Install Amplify Libraries for Angular
 
-Inside the `amplify-app` directory, install the Amplify Angular library and run your app:
+Inside the `amplify-app` directory, install the Amplify Angular Library and run your app:
 
 ```bash
 npm install --save aws-amplify @aws-amplify/ui-angular
@@ -229,11 +230,11 @@ npm install --save aws-amplify @aws-amplify/ui-angular
 npm start
 ```
 
-The `@aws-amplify/ui-angular` package is a set of Angular components and an Angular provider which helps integrate your application with the AWS-Amplify library.
+The `@aws-amplify/ui-angular` package is a set of Angular components and an Angular provider that helps integrate your application with the AWS Amplify Library.
 
 <Callout>
 
-Angular CLI output warnings: if you see CommonJS or AMD dependencies optimization bailouts warnings using Angular 9+, you can use this [gist](https://gist.github.com/wlee221/6d98d96740bea6f53327b4db4a432616) to remove them. More details about these [here](https://angular.io/guide/build#configuring-commonjs-dependencies).
+**Angular CLI output warnings:** If you encounter optimization bailouts warnings using Angular 9+ due to CommonJS or AMD dependencies, you can use this [gist](https://gist.github.com/wlee221/6d98d96740bea6f53327b4db4a432616) to remove them. See the [Angular website](https://angular.io/guide/build#configuring-commonjs-dependencies) for more details.
 
 </Callout>
 
@@ -293,7 +294,8 @@ The first step to using Amplify in the client is to install the necessary depend
 npm install aws-amplify @aws-amplify/ui-react
 ```
 
-The `aws-amplify` package is the main library for working with Amplify in your apps. The `@aws-amplify/ui-react` package includes React-specific UI components that you can use to build your app UI. To learn more about Amplify UI visit our [documentation](https://ui.docs.amplify.aws/).
+The `aws-amplify` package is the main library for working with Amplify in your apps. The `@aws-amplify/ui-react` package includes React-specific UI components that you can use to build your app UI. To learn more about Amplify UI, visit our [documentation](https://ui.docs.amplify.aws/).
+[question]: #(RENE, Is there a more specific link to the UI docs that would be helpful to the user here? Is there a specific part of the docs they should be looking at for more info?)
 
 </Block>
 
@@ -313,23 +315,24 @@ npm install aws-amplify @aws-amplify/ui-vue
 
 <Callout>
 
-If you are using Vue 2, please check out our legacy [documentation](https://github.com/aws-amplify/amplify-ui/tree/legacy/legacy/amplify-ui-vue). For Vite installs check out this [documentation](https://ui.docs.amplify.aws/vue/getting-started/installation#vite). 
+If you are using Vue 2, please check out our legacy [documentation](https://github.com/aws-amplify/amplify-ui/tree/legacy/legacy/amplify-ui-vue). For Vite installs, check out this [documentation](https://ui.docs.amplify.aws/vue/getting-started/installation#vite). 
 
 </Callout>
 
-The `@aws-amplify/ui-vue` package is a set of components that make it easy to integrate functionality like end-to-end authentication flows.
+The `@aws-amplify/ui-vue` package is a set of components that make it easy to integrate functionality, such as end-to-end authentication flows.
 
 </Block>
 </BlockSwitcher>
 
 #### Troubleshooting
+[question]: # (RENE, Any content for the troubleshooting section?)
 
 [comment]: # (EXPANDER SECTION to provide tips on how to avoid common errors such as: not changing the default auth rules, CLI set up correctly, and troubleshooting an AWS account with the CLI. Each error should have a header with descriptive title to be included on a primary troubleshooting guide as well.)
   
 [comment]: # (EXPANDER end)
 
 ### Recap
-Well done! You now have your Amplify libraries set up and configured. 
+Well done! You now have your Amplify Libraries set up and configured. 
 
 [comment]: # (ADD TO RECAP tie-in to real-world use and application of the topic discussed OR reiterate the benefit.)
 
@@ -350,8 +353,9 @@ In GraphQL, mutations write data to the API and are used to create, update, or d
 [comment]: # (EXPANDER SECTION that covers GraphQL basics, mutations, and why this is helpful—can be a short summary with recommended links.)
   
 [comment]: # (EXPANDER end)
+[comment]: # (RENE, what text are we planning to use within the "Learn more about GraphQL mutations" expander? We're missing a high-level overview of the basics and the benefits of mutations.)
 
-Here are some examples of creating, updating, and deleting items using the Amplify GraphQL client.
+Here are some examples of how you can create, update, and delete items using the Amplify GraphQL client.
 
 [comment]: # (Steps to run with the Amplify GraphQL client taken from: 1- https://github.com/aws-amplify/docs/blob/main/src/fragments/lib/graphqlapi/js/mutate-data.mdx and 2- https://github.com/aws-amplify/docs/blob/main/src/pages/cli/graphql/overview.mdx.)
 
@@ -405,7 +409,7 @@ You should see the item created: `Learn AWS AppSync`.
 
 </BlockSwitcher>
 
-You do not have to pass in `createdAt` and `updatedAt` fields, AppSync manages this for you.
+You do not have to pass in `createdAt` and `updatedAt` fields. AppSync manages this for you.
 
 You can optionally import the `graphqlOperation` helper function to help you construct the argument object:
 
@@ -441,7 +445,7 @@ const newTodo = await API.graphql(
 
 #### Updating an item
 
-To update the item use the GraphQL update mutation:
+To update the item, use the GraphQL update mutation:
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -489,8 +493,8 @@ const updatedTodo = await API.graphql({
 
 Notes:
 
-- You do not have to pass in `createdAt` and `updatedAt` fields, AppSync manages this for you.
-- If you pass in *extra* input fields not expected by the AppSync schema, this query will fail. You can see this in the `error` field returned by the query (the query itself does not throw, per GraphQL design).
+- You do not have to pass in `createdAt` and `updatedAt` fields. AppSync manages this for you.
+- If you pass in *extra* input fields not expected by the AppSync schema, this query will fail. You can see this in the `error` field returned by the query. In GraphQL, errors are not thrown like exceptions in other languages. Instead, any errors are captured and returned as part of the query result in the `error` field.
 
 #### Deleting an item
 
@@ -546,10 +550,11 @@ Join table records must be deleted prior to deleting the associated records. For
 #### Troubleshooting
 
 [comment]: # (EXPANDER SECTION to provide tips on how to avoid common errors such as: unauthorized errors and cross-platform gotchas. Each error should have a header with descriptive title to be included on a primary troubleshooting guide as well. Added Auth info from https://github.com/aws-amplify/docs/blob/main/src/fragments/lib/graphqlapi/js/mutate-data.mdx - not sure if this one should be for troubleshooting or general info added outside the expander.)
+[question]: #(RENE, is the following section part of Troubleshooting? The following section seems to be more focused on offroading than troubleshooting.) 
 
 ##### Custom authorization mode
 
-By default, each AppSync API will be set with a default authorization mode when you configure your app. If you would like to override the default authorization mode, you can do so by passing in an `authMode` property. The following examples show how you can mutate data with custom authorization mode:
+Each AppSync API uses a default authorization mode when you configure your app. To override this default, pass an `authMode` property. The following examples show how you can mutate data with custom authorization mode:
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -604,7 +609,8 @@ const todo = await API.graphql({
 
 [comment]: # (Brief explanation on how canceling mutations works, what happens in the backend, and how to run the command – taken from https://github.com/aws-amplify/docs/blob/main/src/fragments/lib/graphqlapi/js/cancel-request.mdx)
 
-You may cancel any query or mutation request made through API category by keeping a reference to the promise returned.
+You may cancel any query or mutation request made through the API category of Amplify by keeping a reference to the promise returned.
+[question]: (RENE, will the previous sentence be clear to all readers? Can we spell this out in more detail?)
 
 ```javascript
 const promise = API.graphql(graphqlOperation(...));
@@ -626,7 +632,7 @@ try {
 API.cancel(promise, "my message for cancellation");
 ```
 
-You need to ensure that the promise returned from `API.graphql()` has not been modified. Typically async functions wrap the promise being returned into another promise. For example, the following will not work
+You need to ensure that the promise returned from `API.graphql()` has not been modified. Typically, async functions wrap the promise being returned into another promise. For example, the following will not work:
 
 ```javascript
 async function makeAPICall() {
@@ -639,14 +645,21 @@ API.cancel(promise, "my error message");
 ```
 
 ### Recap
-At this point you implemented a few mutations to change your data. 
+You have implemented a few mutations to change your data. 
 
 [comment]: # (ADD TO RECAP a tie-in to real-world use and application of the topic discussed OR reiterate the benefit.)
-
+[comment]: # (RENE, more detail needed here? We're not really addressing the tie-in or real-world use case or the benefit of what we've done in this module.)
 
 ## Read application data
 
 In this job, you will read application data using the Amplify GraphQL client. This will include understanding the differences between listing and getting data, how to filter this data, and how to paginate your data. We will also show you how to cancel these requests when needed.
+
+[comment]: # (RENE, suggest we revise this to something like: In this job, you will learn to read application data using Amplify's GraphQL client. Specifically, you will learn:
+
+> - The difference between listing data and getting a single item
+> - How to filter query results to get just the data you need
+> - How to paginate results so you don't retrieve too much data
+> - How to cancel requests when no longer needed)
 
 > **Before you begin, you will need:**
 > - Your application connected to the API
@@ -656,19 +669,20 @@ In this job, you will read application data using the Amplify GraphQL client. Th
 
 [comment]: # (Short explanation of the difference between listing and getting data.)
   
-Queries are used to read data from the API and includes the list and get operations.
+Queries are used to read data from the API and include the list and get operations.
   
-You can use both `List` and `Get` to query data in GraphQL. A `List` will get you a record of several items, such as Todo items and does not require an ID. This is best suited for getting an overview or summary or items or can help when filtering by a specific criteria across a list of items. When you want to query a single entry by ID then you would use `Get` to retrieve a specific Todo item.
+You can use both `List` and `Get` to query data in GraphQL. A `List` will get you a record of several items, such as Todo items, and does not require an ID. This is best suited for getting an overview or summary of items or can help when filtering by specific criteria across a list of items. When you want to query a single entry by ID, you would use `Get` to retrieve a specific Todo item.
   
 #### Learn more about limitations and costs for specific operations
   
 [comment]: # (EXPANDER SECTION that provides an overview of the cost of specific operations - e.g., list vs. get, queries, and scans; as well as limitations for specific functions - e.g., sorting, open search, items, and filters. Could not find this – part of this? https://aws.amazon.com/appsync/pricing/.)
   
 [comment]: # (EXPANDER end)
+[comment]: # (RENE, any content for the limitations and costs section?)
 
 [comment]: # (Steps to list or get data. This is then followed by an explanation of how to filter data by variable and steps to filter data. Taken from 1- https://github.com/aws-amplify/docs/blob/main/src/fragments/lib/graphqlapi/js/query-data.mdx and 2- https://github.com/aws-amplify/docs/blob/main/src/pages/cli/graphql/overview.mdx)
 
-The Amplify CLI codegen automatically generates all possible GraphQL statements (mutations, queries, and subscriptions) and for JavaScript applications saves it in `src/graphql` folder
+The Amplify CLI's codegen automatically creates code for all possible GraphQL operations—mutations, queries, and subscriptions. For JavaScript applications, this generated code is saved in the src/graphql folder.
 
 ```javascript
 import * as queries from './graphql/queries';
@@ -676,7 +690,7 @@ import * as mutations from './graphql/mutations';
 import * as subscriptions from './graphql/subscriptions';
 ```
 
-Running a GraphQL query is simple. Import the generated query and execute it with `API.graphql`:
+To run a GraphQL query, import the generated query and run it with `API.graphql`:
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -759,10 +773,11 @@ const oneTodo = await API.graphql(
 #### Troubleshooting
   
 [comment]: # (EXPANDER SECTION to provide tips on how to avoid common errors such as: deny by default behavior with auth rules and the need for at least one auth rule. Each error should have a header with descriptive title to be included on a primary troubleshooting guide as well. Do we want to add anything from this guide either here or earlier as a working example? - https://github.com/aws-amplify/docs/blob/main/src/pages/guides/api-graphql/query-with-sorting/q/platform/%5Bplatform%5D.mdx)
+[question]: # (RENE, any content for this troubleshooting section?)
 
 ##### Custom authorization mode
 
-By default, each AppSync API will be set with a default authorization mode when you configure your app. If you would like to override the default authorization mode, you can do so by passing in an `authMode` property. For example, this is useful when you have public reads via API Key auth and authenticated reads via IAM auth. The following shows you how you can query data with custom authorization mode:
+Each AppSync API uses a default authorization mode when you configure your app. To override this default, pass an `authMode` property. For example, this is useful when you have public reads through API Key auth and authenticated reads through IAM auth. The following examples show how you can query data with custom authorization mode:
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -804,11 +819,12 @@ const todos = await API.graphql({
   
 [comment]: # (Description of how pagination works with the next token followed by the steps to paginate data manually or with UI hook. Content from - https://github.com/aws-amplify/docs/blob/main/src/fragments/lib/graphqlapi/js/query-data.mdx)
   
-As your data grows, you will want to do pagination and filtering at the AppSync level instead of on the client. Fortunately, this is already built in to `API.graphql`, but you need to understand the schema of these queries. [This is explained in the AppSync docs](https://docs.aws.amazon.com/appsync/latest/devguide/using-your-api.html), but here you will translate them to the `API.graphql` equivalent.
+As your data grows, you will want to do pagination and filtering at the AppSync level instead of on the client. Fortunately, this is already built in to `API.graphql`, but you need to understand the schema of these queries. This is explained in the [AppSync docs](https://docs.aws.amazon.com/appsync/latest/devguide/using-your-api.html), but here you will translate them to the `API.graphql` equivalent.
 
 [comment]: # (EXPANDER SECTION that provides more detail on how our pagination options differ and the benefits of each.)
   
 [comment]: # (EXPANDER end)
+[question]: # (RENE, any content for this expander section?)
 
 You can find the input schemas in the Docs pane of the GraphQL explorer or inside your autogenerated `/graphql` folder. They look like this:
 
@@ -828,9 +844,9 @@ input ModelTodoFilterInput {
 }
 ```
 
-#### Filtering Queries
+#### Filtering queries
 
-Those input types in your schema indicate what kinds of filtering you can perform on them. For example, an integer field like `ModelIntInput` has this schema:
+The input types in your schema indicate what kinds of filtering you can perform on them. For example, an integer field like `ModelIntInput` has this schema:
 
 ```graphql
 input ModelIntInput {
@@ -846,7 +862,7 @@ input ModelIntInput {
 }
 ```
 
-These vary based on the type of the field, but are linked to corresponding [DynamoDB queries](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Condition.html).
+These vary based on the type of the field, but are linked to corresponding [Amazon DynamoDB queries](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Condition.html).
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -888,9 +904,10 @@ await API.graphql({
 </Block>
 </BlockSwitcher>
 
-##### Compound Filters
+##### Compound filters
 
-You can combine filters with `and`, `or`, and `not` boolean logic. Observe, in the autogenerated schema above, that `ModelTodoFilterInput` is recursive in respect to those fields. So if, for example, you wanted to filter for `priority` values of 1 OR 2, you would do this:
+You can combine filters with `and`, `or`, and `not` Boolean logic. Observe, in the autogenerated schema above, that `ModelTodoFilterInput` is recursive in respect to those fields. So if, for example, you wanted to filter for `priority` values of 1 OR 2, you would do this:
+[comment]: # (HEATHER, this paragraph references an earlier section. We'll need to discuss how we want to handle this in terms of the modularization approach.)
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -934,15 +951,15 @@ await API.graphql({
 </Block>
 </BlockSwitcher>
 
-Note that querying for `priority` of 1 AND 2 would return no results, because this is boolean logic instead of natural language.
+Note that querying for `priority` of 1 and 2 would return no results, because this is Boolean logic instead of natural language.
 
-#### Paginating Queries
+#### Paginating queries
 
 [comment]: # (This section was supplemented from - https://github.com/aws-amplify/docs/blob/main/src/fragments/lib/graphqlapi/js/query-data.mdx )
 
 [question]: # (How much do we want to use from this guide which is 2 years old? https://github.com/aws-amplify/docs/blob/main/src/pages/guides/api-graphql/graphql-pagination/q/platform/%5Bplatform%5D.mdx – this content was not added to this page yet.)
 
-Pagination in AppSync is done by making a request with a `limit`, and getting back a `nextToken` in order to get a cursor for the next page in your query:
+To paginate results in AppSync, make a query request specifying a `limit` value. This limits how many results are returned. The response will include a `nextToken` you can use to request the next page of data.
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -1002,22 +1019,24 @@ const { items: itemsPage2 } = res.data.listTodos;
 </Block>
 </BlockSwitcher>
 
-A `nextToken` is a very long string that looks like `"eyJ2ZXJzaW9uejE1a2RPanZPQzFCMlFTdGNxdUFBQUJxekNDQWFjR0NTcUdTSWIzRFFFSEJxQ0NBWmd3Z2dHVUFnRUFNSUlCalFZSktvWklodmNOQVFjQk1CNEdDV0NHU0FGbEF3UUJMakFSQkF5eEtWQjUvTlJxS2o5ZHBYc0NBUkNBZ2dGZUZFNW1MbTRkb25BOUg0U0FpOGhSZ1lucmRndmQz"` which represents the cursor to the starting item of the next query made with these filters.
+A `nextToken` is a very long string that looks like `"eyJ2ZXJzaW9uejE1a2RPanZPQzFCMlFTdGNxdUFBQUJxekNDQWFjR0NTcUdTSWIzRFFFSEJxQ0NBWmd3Z2dHVUFnRUFNSUlCalFZSktvWklodmNOQVFjQk1CNEdDV0NHU0FGbEF3UUJMakFSQkF5eEtWQjUvTlJxS2o5ZHBYc0NBUkNBZ2dGZUZFNW1MbTRkb25BOUg0U0FpOGhSZ1lucmRndmQz"`, which represents the cursor to the starting item of the next query made with these filters.
+[question]: # (RENE, can we omit the example of the long string and rewrite this as: A `nextToken` is a very long string that represents the cursor to the starting item of the next query made with these filters.)
 
 [comment]: # (Do we want to make these FAQs an EXPANDER section?)
   
-##### Frequently Asked Questions
+##### Frequently asked questions
 
 - There is no API to get a total page count at this time. Note that scanning all items is a [potentially expensive operation](https://github.com/aws-amplify/amplify-js/issues/2901).
 - Sorting is [available in DataStore](https://docs.amplify.aws/lib/datastore/data-access/q/platform/js#predicates) but not in AppSync.
 - AppSync schemas do not follow the edges/nodes of the [Relay spec](https://relay.dev/docs/guides/graphql-server-specification) but are spiritually similar.
 - You [cannot query by `page` number](https://github.com/aws-amplify/amplify-cli/issues/5086), you have to query by `nextToken`.
+[comment]: # (RENE, as presented, these don't read as FAQs. This section needs to be reworked.)
 
 ### Cancel read requests
   
 [comment]: # (Brief explanation on how canceling read queries works, what happens in the backend, and how to run the command. We’ll want this section to work with the one above as this will be a fragment that will be reused – original from https://github.com/aws-amplify/docs/blob/main/src/fragments/lib/graphqlapi/js/cancel-request.mdx)
   
-You may cancel any query or mutation request made through API category by keeping a reference to the promise returned.
+You may cancel any query or mutation request made through the API category by keeping a reference to the promise returned.
 
 ```javascript
 const promise = API.graphql(graphqlOperation(...));
@@ -1039,7 +1058,7 @@ try {
 API.cancel(promise, "my message for cancellation");
 ```
 
-You need to ensure that the promise returned from `API.graphql()` has not been modified. Typically async functions wrap the promise being returned into another promise. For example, the following will not work
+You need to ensure that the promise returned from `API.graphql()` has not been modified. Typically, async functions wrap the promise being returned into another promise. For example, the following will not work:
 
 ```javascript
 async function makeAPICall() {
@@ -1068,16 +1087,18 @@ In this job, you will subscribe to real-time events. This includes understanding
 ### Set up a real-time subscription
   
 [comment]: # (Explanation of benefits of enabling real-time data integrations - it was noted in our workshop to potentially add a diagram here)
+[comment]: # (RENE, content missing here.)
 
 #### Subscription limits
   
 [comment]: # (EXPANDER SECTION that provides more detail about the limits for subscriptions, filter limits, auth-related limits, and how to mitigate them. This should also include an explanation of real-time subscription fields of authorization.)
   
 [comment]: # (EXPANDER end)
+[comment]: # (RENE, Expander content missing here.)
 
 [comment]: # (Steps to subscribe. Content from 1- https://github.com/aws-amplify/docs/blob/main/src/fragments/lib/graphqlapi/js/subscribe-data.mdx and 2- https://github.com/aws-amplify/docs/blob/main/src/fragments/lib/pubsub/js/connection-states.mdx Do we want to reuse any of this guide for additional context or example? Maybe in an expander? https://docs.amplify.aws/guides/api-graphql/subscriptions-by-id/q/platform/js/)
 
-Subscriptions is a GraphQL feature allowing the server to send data to its clients when a specific event happens. You can enable real-time data integration in your app with a subscription.
+Subscriptions is a GraphQL feature that allows the server to send data to its clients when a specific event happens. You can enable real-time data integration in your app with a subscription.
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -1228,13 +1249,14 @@ If you want to get all subscription events, don’t pass any `filter` parameters
 
 <Callout>
 
-**Important**: Passing an empty object `{}` as a filter is NOT recommended. Using `{}` as a filter might cause inconsistent behavior based on your data model's authorization rules.
+**Important**: Passing an empty object `{}` as a filter is **not** recommended. Using `{}` as a filter might cause inconsistent behavior based on your data model's authorization rules.
 
 </Callout>
 
 #### Subscription connection status updates
 
-Now that your application is setup and using subscriptions, you may want to know when the subscription is finally established, or reflect to your users when the subscription isn't healthy. You can monitor the connection state for changes via Hub.
+Now that your application is set up and using subscriptions, you may want to know when the subscription is finally established, or reflect to your users when the subscription isn't healthy. You can monitor the connection state for changes through the Hub local eventing system.
+[question]: # (RENE, changes OK in the previous line?)
 
 ```ts
 import { CONNECTION_STATE_CHANGE, ConnectionState } from '@aws-amplify/pubsub';
@@ -1253,7 +1275,7 @@ Hub.listen('api', (data: any) => {
 
 - **`Connected`** - Connected and working with no issues.
 - **`ConnectedPendingDisconnect`** - The connection has no active subscriptions and is disconnecting.
-- **`ConnectedPendingKeepAlive`** - The connection is open, but has missed expected keep alive messages.
+- **`ConnectedPendingKeepAlive`** - The connection is open, but has missed expected keep-alive messages.
 - **`ConnectedPendingNetwork`** - The connection is open, but the network connection has been disrupted. When the network recovers, the connection will continue serving traffic.
 - **`Connecting`** - Attempting to connect.
 - **`ConnectionDisrupted`** - The connection is disrupted and the network is available.
@@ -1265,9 +1287,9 @@ Hub.listen('api', (data: any) => {
 [comment]: # (EXPANDER SECTION with details on managing and cleaning up subscriptions, matching/defining mutation selection with subscription selections, and extra link to DeltaSync - https://docs.amplify.aws/lib/graphqlapi/advanced-workflows/q/platform/js/#delta-sync. For React there should also be a section about issues with hooks. From 1- https://github.com/aws-amplify/docs/blob/main/src/fragments/lib/graphqlapi/js/subscribe-data.mdx and 2- https://github.com/aws-amplify/docs/blob/main/src/fragments/lib/pubsub/js/reconnect-description.mdx)
 
 ##### Connection issues and automated reconnection
-Your application can lose connectivity for any number of reasons such as network outages or when the device is put to sleep. Your subscriptions will automatically reconnect when it becomes possible to do so.
+Connections between your application and backend subscriptions can be interrupted for various reasons, including network outages or the device entering sleep mode. Your subscriptions will automatically reconnect when it becomes possible to do so.
 
-While offline, your application will miss messages and will not automatically catch up when reconnection happens. Depending on your usecase, you may want take action to catch up when your app comes back online.
+While offline, your application will miss messages and will not automatically catch up when reconnection happens. Depending on your use case, you may want to take action for your app to catch up when it comes back online.
 <BlockSwitcher>
 <Block name="TypeScript">
 
@@ -1388,9 +1410,8 @@ const cleanupSubscriptions = () => {
 
 [comment]: # (Explanation of how to unsubscribe and when to for reducing redundancy with steps for these actions.)
 
-You can unsubscribe from events by using the following:
-
-Subscriptions is a GraphQL feature allowing the server to send data to its clients when a specific event happens. You can enable real-time data integration in your app with a subscription.
+You can unsubscribe from events by using subscriptions, a GraphQL feature that allows the server to send data to its clients when a specific event happens. You can enable real-time data integration in your app with a subscription.
+[question]: (RENE, changes OK in line 1413?)
 
 ```ts
 // Stop receiving data updates from the subscription
@@ -1404,233 +1425,9 @@ You now have set up subscriptions for real-time events and understand how to fil
 
 ## Conclusion
 
-Congratulations! You have finished the **Connect a data stack** guide. In this guide, you installed and configured Amplify libraries; used GraphQL mutations for app data requests; filtered app data in Amplify; and set up, filtered, and canceled subscriptions for real-time events.
+Congratulations! You have finished the **Connect a data stack** guide. In this guide, you installed and configured Amplify Libraries; used GraphQL mutations for app data requests; filtered app data in Amplify; and set up, filtered, and canceled subscriptions for real-time events.
 
 ## Next steps
 
 [comment]: # (Provide 2–3 relevant next steps. These can be links related to what was covered in the guide and/or links to related Amplify Job to be done guides.)
-
-
------
-==Below not integrated yet==
------
-
-## Enable queries, mutations, and subscriptions
-
-Now that the GraphQL API has deployed, it’s time to learn how to interact with it from a JavaScript client application. With GraphQL, you typically have the following types of operations:
-
-- __Mutations__ - write data to the API (create, update, delete operations)
-
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-import { API, graphqlOperation } from 'aws-amplify';
-import { createTodo, updateTodo, deleteTodo } from './graphql/mutations';
-import { GraphQLQuery } from '@aws-amplify/api';
-import { CreateTodoInput, CreateTodoMutation, UpdateTodoMutation, DeleteTodoMutation } from './API';
-
-const todo: CreateTodoInput = { name: "My first todo", description: "Hello world!" };
-
-/* create a todo */
-await API.graphql<GraphQLQuery<CreateTodoMutation>>(graphqlOperation(createTodo, {input: todo}));
-
-/* update a todo */
-await API.graphql<GraphQLQuery<UpdateTodoMutation>>(graphqlOperation(updateTodo, { input: { id: todoId, name: "Updated todo info" }}));
-
-/* delete a todo */
-await API.graphql<GraphQLQuery<DeleteTodoMutation>>(graphqlOperation(deleteTodo, { input: { id: todoId }}));
-```
-
-</Block>
-<Block name="JavaScript">
-
-```js
-import { API, graphqlOperation } from 'aws-amplify';
-import { createTodo, updateTodo, deleteTodo } from './graphql/mutations';
-
-const todo = { name: "My first todo", description: "Hello world!" };
-
-/* create a todo */
-await API.graphql(graphqlOperation(createTodo, {input: todo}));
-
-/* update a todo */
-await API.graphql(graphqlOperation(updateTodo, { input: { id: todoId, name: "Updated todo info" }}));
-
-/* delete a todo */
-await API.graphql(graphqlOperation(deleteTodo, { input: { id: todoId }}));
-```
-
-</Block>
-</BlockSwitcher>
-
-- __Queries__ - read data from the API (list, get operations)
-
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-import { API, graphqlOperation } from 'aws-amplify';
-import { GraphQLQuery } from '@aws-amplify/api';
-import { listTodos } from './graphql/queries';
-import { ListTodosQuery } from './API';
-
-const todos = await API.graphql<GraphQLQuery<ListTodosQuery>>(graphqlOperation(listTodos));
-```
-
-</Block>
-
-
-<Block name="JavaScript">
-
-```js
-import { API, graphqlOperation } from 'aws-amplify';
-import { listTodos } from './graphql/queries';
-
-const todos = await API.graphql(graphqlOperation(listTodos));
-```
-
-</Block>
-</BlockSwitcher>
-
-- __Subscriptions__ - subscribe to changes in data for real-time functionality (onCreate, onUpdate, onDelete)
-
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-import { API, graphqlOperation } from 'aws-amplify';
-import { GraphQLSubscription } from '@aws-amplify/api';
-import { onCreateTodo } from './graphql/subscriptions';
-import { OnCreateTodoSubscription } from './API';
-
-// Subscribe to creation of Todo
-const sub = API.graphql<GraphQLSubscription<OnCreateTodoSubscription>>(
-    graphqlOperation(onCreateTodo)
-).subscribe({
-    next: (payload) => {
-      const createdTodo = payload.value.data?.onCreateTodo;
-      console.log(createdTodo);
-    }
-});
-
-// Stop receiving data updates from the subscription
-sub.unsubscribe();
-```
-
-</Block>
-
-<Block name="JavaScript">
-
-```js
-import { API, graphqlOperation } from 'aws-amplify';
-import { onCreateTodo } from './graphql/subscriptions';
-
-// Subscribe to creation of Todo
-const sub = API.graphql(
-    graphqlOperation(onCreateTodo)
-).subscribe({
-    next: (payload) => {
-      const createdTodo = payload.value.data?.onCreateTodo;
-      console.log(createdTodo);
-    }
-});
-
-// Stop receiving data updates from the subscription
-sub.unsubscribe();
-```
-
-</Block>
-</BlockSwitcher>
-
-### Updating Your GraphQL Schema
-
-When you create a GraphQL backend with the CLI, the schema definition for your backend data structure is saved in one of two places:
-
-1. By default, schemas are saved in *amplify/backend/api/YOUR-API-NAME/schema.graphql*. If the `schema.graphql` file exists, it will take precedence over option 2.
-2. Optionally, schemas may be saved as a set of `.graphql` files stored in the *amplify/backend/api/YOUR-API-NAME/schema/* directory. E.g. you might have files `Query.graphql`, `User.graphql`, and `Post.graphql`.
-
-Once your API is deployed, updating the schema is easy with the CLI. You can edit the schema file(s) and run *amplify push* command to update your GraphQL backend.
-
-For example, a sample GraphQL schema will look like this:
-
-```graphql
-type Todo @model {
-  id: ID!
-  name: String!
-  description: String
-}
-```
-
-Add a *priority* field to your Todo type:
-
-```graphql
-type Todo @model {
-  id: ID!
-  name: String!
-  description: String
-  priority: String
-}
-```
-
-Save your schema file and update your GraphQL backend:
-
-```bash
-amplify push
-```
-
-When you run the *push* command, you will notice that your schema change is automatically detected, and your backend will be updated respectively.
-
-```console
-| Category | Resource name   | Operation | Provider plugin   |
-| -------- | --------------- | --------- | ----------------- |
-| Api      | myapi           | Update    | awscloudformation |
-```
-
-When the update is complete, you can see the changes to your backend by running the following command and select GraphQL option.
-
-```bash
-amplify api console
-? Please select from one of the below mentioned services: (Use arrow keys)
-❯ GraphQL
-  REST
-```
-
-### Using GraphQL Transformers
-
-As you can notice in the sample schema file above, the schema has a `@model` directive. The `@model` directive leverages a set of libraries that can help simplify the process of bootstrapping highly scalable, serverless GraphQL APIs on AWS. The `@model` directive tells the GraphQL Transform that you would like to store Todo objects in an Amazon DynamoDB table and configure CRUD operations for it. When you create or update your backend with *push* command, the CLI will automatically create and configure a new DynamoDB table that works with your AppSync API. The `@model` directive is just one of multiple transformers that can be used by annotating your *schema.graphql*.
-
-The following directives are available to be used when defining your schema:  
-
-| Directive | Description |
-| --- | --- |
-| [@model](/cli/graphql/data-modeling) on Object | Store objects in DynamoDB and configure CRUD resolvers. |
-| [@auth](/cli/graphql/authorization-rules) on Object | Define authorization strategies for your API. |
-| [@hasOne, @hasMany, @belongsTo, @manyToMany](/cli/graphql/data-modeling) on Field | Specify relationships between @model object types. |
-| [@searchable](/cli/graphql/search-and-result-aggregations) on Object | Stream data of an @model object type to the Amazon OpenSearch Service. |
-| [@primaryKey and @index](/cli/graphql/data-modeling) on Object | Index your data with keys. |
-| [@function](/cli/graphql/custom-business-logic#lambda-function-resolver) on Field | Connect Lambda resolvers to your API. |
-| [@predictions](/cli/graphql/connect-to-machine-learning-services/) on Field | Connect machine learning services. |
-| [@http](/cli/graphql/custom-business-logic#http-resolver) on Field | Configure HTTP resolvers within your API. |
-
-You may also write your own transformers to implement reproducible patterns that you find useful.
-
-### Mocking and Local Testing
-
-Amplify supports running a local mock server for testing your application with AWS AppSync, including debugging of resolvers, before pushing to the cloud. Please see the [CLI Toolchain documentation](/cli/usage/mock) for more details.
-
-### Generate client types from a GraphQL schema
-
-When working with GraphQL data it is useful to import types from your schema for type safety. You can do this with the Amplify CLI's automated code generation feature. The CLI automatically downloads GraphQL Introspection Schemas from the defined GraphQL endpoint and generates TypeScript or Flow classes for you. Every time you push your GraphQL API, the CLI will provide you the option to generate types and statements.
-
-If you want to generate your GraphQL statements and types, run:
-
-```bash
-amplify codegen
-```
-
-A TypeScript or Flow type definition file will be generated in your target folder.  
-
-### API configuration in the amplify folder
-
-The Amplify CLI will create an `amplify/backend/api` folder that will hold the existing GraphQL schema, resolvers, and additional configuration around the API. To learn more about how the CLI manages this configuration, check out the documentation [here](/cli/graphql/overview). To learn how to configure custom GraphQL resolvers, check out the documentation [here](/cli/graphql/custom-business-logic#override-amplify-generated-resolvers).
+[comment]: # (RENE, next steps are missing.)
