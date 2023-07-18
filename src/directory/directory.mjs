@@ -385,7 +385,7 @@ export const directory = {
           {
             title: 'Advanced workflows',
             route: '/lib/auth/advanced',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'flutter']
           },
           {
             title: 'Under the hood',
