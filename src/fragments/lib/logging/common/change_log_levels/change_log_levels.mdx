@@ -10,7 +10,7 @@ import commonDefaultLogLevel from '/src/fragments/lib/logging/common/change_log_
     <Block name="With Configuration File">
         <Fragments fragments={{all: commonDefaultLogLevel}}/>
     </Block>
-    <Block name="Without Configuration File">
+    <Block name="With Code">
          <Fragments
             fragments={{
                 ios: iosDefaultLogLevel,
@@ -32,33 +32,11 @@ import commonLocalStorageSize from '/src/fragments/lib/logging/common/change_log
     <Block name="With Configuration File">
         <Fragments fragments={{all: commonLocalStorageSize}}/>
     </Block>
-    <Block name="Without Configuration File">
+    <Block name="With Code">
         <Fragments
             fragments={{
                 ios: iosLocalStorageSize,
                 android: androidLocalStorageSize
-            }}/>
-    </Block>
-</BlockSwitcher>
-
-## Change automatic log flush interval
-To change the time interval when logs are automatically flushed and sent to CloudWatch.
-
-Below is an example of setting the time interval to 120 seconds:
-
-import iosflushInterval from '/src/fragments/lib/logging/ios/change_log_levels/30_flush_interval.mdx';
-import androidflushInterval from '/src/fragments/lib/logging/android/change_log_levels/30_flush_interval.mdx';
-import commonflushInterval from '/src/fragments/lib/logging/common/change_log_levels/30_flush_interval.mdx';
-
-<BlockSwitcher>
-    <Block name="With Configuration File">
-        <Fragments fragments={{all: commonLocalStorageSize}}/>
-    </Block>
-    <Block name="Without Configuration File">
-        <Fragments
-            fragments={{
-                ios: iosflushInterval,
-                android: androidflushInterval
             }}/>
     </Block>
 </BlockSwitcher>
@@ -68,15 +46,15 @@ Each Amplify category can be configure with its own log level.
 
 Below is an example of setting different log levels for Storage and Auth categories:
 
-import iosCategoryLogLevel from '/src/fragments/lib/logging/ios/change_log_levels/40_category_log_level.mdx';
-import androidCategoryLogLevel from '/src/fragments/lib/logging/android/change_log_levels/40_category_log_level.mdx';
-import commonCategoryLogLevel from '/src/fragments/lib/logging/common/change_log_levels/40_category_log_level.mdx';
+import iosCategoryLogLevel from '/src/fragments/lib/logging/ios/change_log_levels/30_category_log_level.mdx';
+import androidCategoryLogLevel from '/src/fragments/lib/logging/android/change_log_levels/30_category_log_level.mdx';
+import commonCategoryLogLevel from '/src/fragments/lib/logging/common/change_log_levels/30_category_log_level.mdx';
 
 <BlockSwitcher>
     <Block name="With Configuration File">
         <Fragments fragments={{all: commonCategoryLogLevel}}/>
     </Block>      
-    <Block name="Without Configuration File">
+    <Block name="With Code">
         <Fragments
             fragments={{
                 ios: iosCategoryLogLevel,
@@ -92,8 +70,8 @@ Each Amplify authenticated user can be configure with their own unique logging c
 ### Getting the Cognito User Pool Sub
 You can use the Amplify Auth category to get the Cognito User Pool Sub.
 
-import iosCurrentUser from '/src/fragments/lib/logging/ios/change_log_levels/60_auth_current_user.mdx';
-import androidCurrentUser from '/src/fragments/lib/logging/android/change_log_levels/60_auth_current_user.mdx';
+import iosCurrentUser from '/src/fragments/lib/logging/ios/change_log_levels/50_auth_current_user.mdx';
+import androidCurrentUser from '/src/fragments/lib/logging/android/change_log_levels/50_auth_current_user.mdx';
 
 <Fragments
     fragments={{
@@ -103,15 +81,15 @@ import androidCurrentUser from '/src/fragments/lib/logging/android/change_log_le
 
 Below is an example of setting different a default log level and category level for an authenticated user with AWS Cognito User Pool sub `xyz-123`.
 
-import iosUserLogLevel from '/src/fragments/lib/logging/ios/change_log_levels/50_user_log_level.mdx';
-import androidUserLogLevel from '/src/fragments/lib/logging/android/change_log_levels/50_user_log_level.mdx';
-import commonUserLogLevel from '/src/fragments/lib/logging/common/change_log_levels/50_user_log_level.mdx';
+import iosUserLogLevel from '/src/fragments/lib/logging/ios/change_log_levels/40_user_log_level.mdx';
+import androidUserLogLevel from '/src/fragments/lib/logging/android/change_log_levels/40_user_log_level.mdx';
+import commonUserLogLevel from '/src/fragments/lib/logging/common/change_log_levels/40_user_log_level.mdx';
 
 <BlockSwitcher>
     <Block name="With Configuration File">
         <Fragments fragments={{all: commonUserLogLevel}}/>
     </Block>
-    <Block name="Without Configuration File">
+    <Block name="With Code">
         <Fragments
             fragments={{
                 ios: iosUserLogLevel,

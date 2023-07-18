@@ -8,7 +8,8 @@ import AWSCognitoAuthPlugin
 import AWSCloudWatchLoggingPlugin
 ```
 
-Add the following code to its initializer. If there is none, you can create a default `init`:
+Add the following code to its initializer. If there is none, you can create a default `init`.  The `<log-group-name>` and `<region>` are values you specified in the CDK construct as part of provisioning your backend resources.  These values can also be found at the end of the output logs when deploying the sample CDK construct. 
+The example below configures the logging plugin to automatically send all logs at log level `ERROR` at 60 seconds interval and store logs locally up to 1MB.
 
 ```swift
 init() {
@@ -22,6 +23,4 @@ init() {
     }
 }
 ```
-
-The `<log-group-name>` and `region` is the value you specified in the CDK construct as part of provisioning your AWS backend resources.  The example below configures the logging plugin to automatically send all logs at log level `ERROR` at 60 seconds interval and store logs locally up to 1MB.
 

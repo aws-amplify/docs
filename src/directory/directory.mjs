@@ -824,39 +824,44 @@ export const directory = {
         title: 'Logging',
         items: [
           {
-            title: 'Setup Logging',
+            title: 'Set up Logging',
             route: '/lib/logging/setup-logging',
-            filters: ['ios', 'android']
+            filters: ['ios']
           },
           {
             title: 'Sending Logs',
             route: '/lib/logging/sending-logs',
-            filters: ['ios', 'android']
+            filters: ['ios']
           },
           {
             title: 'Change Log Levels',
             route: '/lib/logging/change-log-levels',
-            filters: ['ios', 'android']
+            filters: ['ios']
           },
           {
             title: 'Flush Logs',
             route: '/lib/logging/flushlogs',
-            filters: ['ios', 'android']
+            filters: ['ios']
           },
           {
             title: 'Enable/Disable Logging',
             route: '/lib/logging/enable-disable',
-            filters: ['ios', 'android']
+            filters: ['ios']
           },
           {
             title: 'Remotely Change Log Levels',
             route: '/lib/logging/remote-configuration',
-            filters: ['ios', 'android']
+            filters: ['ios']
+          },
+          {
+            title: 'Logging Events',
+            route: '/lib/logging/hub-events',
+            filters: ['ios']
           },
           {
             title: 'Escape Hatch',
             route: '/lib/logging/escapehatch',
-            filters: ['ios', 'android']
+            filters: ['ios']
           }
         ]
       },
