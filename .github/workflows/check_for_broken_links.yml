@@ -16,18 +16,18 @@ jobs:
       - name: Install Dependencies
         run: yarn
       - name: Run Link Checker
-          id: checkLinks
-          uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410
-          with:
-            result-encoding: string
-            script: |
-              const { checkLinks } = require('./tasks/link-checker.js');
-              return await checkLinks();
+        id: checkLinks
+        uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410
+        with:
+          result-encoding: string
+          script: |
+            const { checkLinks } = require('./tasks/link-checker.js');
+            return await checkLinks();
       - name: Configure AWS Credentials
-          uses: aws-actions/configure-aws-credentials@5fd3084fc36e372ff1fff382a39b10d03659f355 # v2.2.0
-          with:
-            role-to-assume: arn:aws:iam::464149486631:role/github_action_read_slack_webhook_url
-            aws-region: us-west-2
+        uses: aws-actions/configure-aws-credentials@5fd3084fc36e372ff1fff382a39b10d03659f355 # v2.2.0
+        with:
+          role-to-assume: arn:aws:iam::464149486631:role/github_action_read_slack_webhook_url
+          aws-region: us-west-2
       - name: Read secrets from AWS Secrets Manager into environment variables
         uses: aws-actions/aws-secretsmanager-get-secrets@022e8919774ecb75e8e375656d7b1898936ab878 # v1.0.4
         with:
