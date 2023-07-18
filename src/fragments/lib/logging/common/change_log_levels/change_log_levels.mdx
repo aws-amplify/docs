@@ -1,4 +1,5 @@
 ## Change Default Log Level
+In this section, you will learn about how to configure the logging level in your application when using the Amplify logger. This is helpful to help you determine the logging level that works best for your use cases, and which levels of errors or warnings you want to capture in Amazon Cloudwatch.
 
 Below is an example of setting the default log level to `WARN`:
 
@@ -15,28 +16,6 @@ import commonDefaultLogLevel from '/src/fragments/lib/logging/common/change_log_
             fragments={{
                 ios: iosDefaultLogLevel,
                 android: androidDefaultLogLevel
-            }}/>
-    </Block>
-</BlockSwitcher>
-
-## Change local storage maximum size
-To change the maximum amount of local logs are stored before sending logs to CloudWatch.
-
-Below is an example of setting the local storage size to 2 MB:
-
-import iosLocalStorageSize from '/src/fragments/lib/logging/ios/change_log_levels/20_local_storage_size.mdx';
-import androidLocalStorageSize from '/src/fragments/lib/logging/android/change_log_levels/20_local_storage_size.mdx';
-import commonLocalStorageSize from '/src/fragments/lib/logging/common/change_log_levels/20_local_storage_size.mdx';
-
-<BlockSwitcher>
-    <Block name="With Configuration File">
-        <Fragments fragments={{all: commonLocalStorageSize}}/>
-    </Block>
-    <Block name="With Code">
-        <Fragments
-            fragments={{
-                ios: iosLocalStorageSize,
-                android: androidLocalStorageSize
             }}/>
     </Block>
 </BlockSwitcher>
@@ -61,5 +40,27 @@ import commonCategoryLogLevel from '/src/fragments/lib/logging/common/change_log
                 android: androidCategoryLogLevel
             }}
         />  
+    </Block>
+</BlockSwitcher>
+
+## Change local storage maximum size
+In this section, you will learn about how to configure the maximum amount of local logs are stored before sending logs to CloudWatch.  This can be helpful to determine how much logs are stored locally depending on your network availability and offline use cases.
+
+Below is an example of setting the local storage size to 2 MB:
+
+import iosLocalStorageSize from '/src/fragments/lib/logging/ios/change_log_levels/20_local_storage_size.mdx';
+import androidLocalStorageSize from '/src/fragments/lib/logging/android/change_log_levels/20_local_storage_size.mdx';
+import commonLocalStorageSize from '/src/fragments/lib/logging/common/change_log_levels/20_local_storage_size.mdx';
+
+<BlockSwitcher>
+    <Block name="With Configuration File">
+        <Fragments fragments={{all: commonLocalStorageSize}}/>
+    </Block>
+    <Block name="With Code">
+        <Fragments
+            fragments={{
+                ios: iosLocalStorageSize,
+                android: androidLocalStorageSize
+            }}/>
     </Block>
 </BlockSwitcher>
