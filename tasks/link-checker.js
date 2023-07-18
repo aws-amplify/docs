@@ -1,5 +1,5 @@
-import puppeteer from 'puppeteer';
-import axios from 'axios';
+const puppeteer = require('puppeteer');
+const axios = require('axios');
 
 const SITEMAP_URL = 'https://docs.amplify.aws/sitemap.xml';
 const CRAWLER_EXCEPTIONS = [
@@ -39,10 +39,7 @@ const getSitemapUrls = async () => {
   return siteMapUrls;
 };
 
-const retrieveLinks = async (
-  siteMapUrls,
-  visitedLinks
-) => {
+const retrieveLinks = async (siteMapUrls, visitedLinks) => {
   let browser = await puppeteer.launch();
 
   const page = await browser.newPage();
@@ -86,6 +83,17 @@ const retrieveLinks = async (
   return urlsToVisit;
 };
 
+const formatString = (inputs) => {
+  let retString = '';
+  inputs.forEach((item) => {
+    Object.keys(item).forEach((k) => {
+      retString += `${k} - ${item[k]} \\n`;
+    });
+    retString += '\\n \\n';
+  });
+  return retString;
+};
+
 const linkChecker = async () => {
   const visitedLinks = {};
   const statusCodes = {};
@@ -93,10 +101,7 @@ const linkChecker = async () => {
 
   const siteMapUrls = await getSitemapUrls();
 
-  const urlsToVisit = await retrieveLinks(
-    siteMapUrls,
-    visitedLinks
-  );
+  const urlsToVisit = await retrieveLinks(siteMapUrls, visitedLinks);
 
   let allPromises = [];
 
@@ -138,6 +143,12 @@ const linkChecker = async () => {
 
   console.log(statusCodes);
   console.log(brokenLinks);
+
+  return formatString(brokenLinks);
 };
 
-linkChecker();
+module.exports = {
+  checkLinks: async () => {
+    return await linkChecker();
+  }
+};
