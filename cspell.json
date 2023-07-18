@@ -1510,8 +1510,11 @@
     "kotlinx",
     "snapcraft",
     "snapshotted",
-    "visionos"
-    
+    "visionos",
+    "loggingconstraints",
+    "remoteconfig",
+    "remoteloggingconstraints",
+    "remotelogging"
   ],
   "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"]
 }

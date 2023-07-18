@@ -1,0 +1,31 @@
+import ios0 from '/src/fragments/lib/logging/ios/flush_logs/flush_logs.mdx';
+import android0 from '/src/fragments/lib/logging/android/flush_logs/flush_logs.mdx';
+
+<Fragments
+  fragments={{
+    ios: ios0,
+    android: android0
+  }}
+/>
+
+## Change automatic log flush interval
+To change the time interval when logs are automatically flushed and sent to CloudWatch.
+
+Below is an example of setting the time interval to 120 seconds:
+
+import ios1 from '/src/fragments/lib/logging/ios/flush_logs/flush_interval.mdx';
+import android1 from '/src/fragments/lib/logging/android/flush_logs/flush_interval.mdx';
+import common1 from '/src/fragments/lib/logging/common/flush_logs/flush_interval.mdx';
+
+<BlockSwitcher>
+    <Block name="With Configuration File">
+        <Fragments fragments={{all: common1}}/>
+    </Block>
+    <Block name="With Code">
+        <Fragments
+            fragments={{
+                ios: ios1,
+                android: android1
+            }}/>
+    </Block>
+</BlockSwitcher>

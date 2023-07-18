@@ -10,16 +10,16 @@ When you are provisioning your backend resources, you are responsible for follow
 Below is an example CDK construct that provisions the Amazon CloudWatch, AWS API Gateway, AWS Lambda, and AWS S3 bucket.  The CDK construct also deploys the `remoteloggingconstraints.json` file to the AWS S3 bucket. 
 
 ### Permissions
-The CDK construct sample created IAM permission policies and assigned it to the Amplify authenticated and unauthenticate role.  
+The CDK construct sample created IAM permission policies and assigned it to the Amplify authenticated and un-authenticate role.  
 1. The API Gateway endpoint can only be invoked by user with Amplify authenticated/unauthenticated roles.  
 2. Logs can only be sent by mobile application users with Amplify authenticated/unauthenticated roles.
 3. The lambda invocation is only allowed from the provision AWS API Gateway resource.
-4. The S3 bucket containing the `remotelogginconstraints.json` can only be read by the Lambda execution role.
+4. The S3 bucket containing the `remoteloggingconstraints.json` can only be read by the Lambda execution role.
 
 ### Replace the placeholder values with your own values:
 * `<CloudWatch-log-group-name>` is the log group that logs will be sent to.
 * `<S3-bucket-name>` is the S3 bucket that will hold the logging constraints json file that gets fetched remotely.
-* `<Amplify-authenticated-role-name>` and `<Amplify-unauthenticated-role-name>` are Amplify roles created as part of Amplify Auth configurtion via Amplify CLI.  
+* `<Amplify-authenticated-role-name>` and `<Amplify-unauthenticated-role-name>` are Amplify roles created as part of Amplify Auth configuration via Amplify CLI.  
 
 ### Resource dependencies
 * `lambdaConfig` provides the location and lambda for reading from S3.  An example is provided in the next sections.

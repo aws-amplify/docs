@@ -840,7 +840,7 @@ export const directory = {
           },
           {
             title: 'Flush Logs',
-            route: '/lib/logging/flushlogs',
+            route: '/lib/logging/flush-logs',
             filters: ['ios']
           },
           {
