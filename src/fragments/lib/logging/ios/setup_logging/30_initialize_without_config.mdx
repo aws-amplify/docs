@@ -14,7 +14,7 @@ The example below configures the logging plugin to automatically send all logs a
 ```swift
 init() {
     do {
-        let loggingConfiguration = AWSCloudWatchLoggingPluginConfiguration(logGroupName: "<log-group-name>", region: "<region>")
+        let loggingConfiguration = AWSCloudWatchLoggingPluginConfiguration(logGroupName: "<log-group-name>", region: "<region>", localStoreMaxSizeInMB: 1, flushIntervalInSeconds: 60)
         let loggingPlugin = AWSCloudWatchLoggingPlugin(loggingPluginConfiguration: loggingConfiguration)
         try Amplify.add(plugin: loggingPlugin)
         try Amplify.configure()

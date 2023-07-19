@@ -829,7 +829,7 @@ export const directory = {
             filters: ['ios']
           },
           {
-            title: 'Sending Logs',
+            title: 'Send Logs',
             route: '/lib/logging/sending-logs',
             filters: ['ios']
           },
@@ -859,7 +859,12 @@ export const directory = {
             filters: ['ios']
           },
           {
-            title: 'Logging Events',
+            title: 'Change Local Storage',
+            route: '/lib/logging/change-local-storage',
+            filters: ['ios']
+          },
+          {
+            title: 'Listen to Log Events',
             route: '/lib/logging/hub-events',
             filters: ['ios']
           },

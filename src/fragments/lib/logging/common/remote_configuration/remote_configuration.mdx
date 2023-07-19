@@ -8,23 +8,23 @@ The logging configurations you set remotely will overwrite the local log level a
 
 <Callout>
 
-You can use Amplify CLI generate a CDK template and [add custom resources](https://docs.amplify.aws/cli/custom/cdk/).  
+You can use the Amplify CLI to [add custom CDK resources](https://docs.amplify.aws/cli/custom/cdk/).  
 
 </Callout>
 
 Below is an example CDK construct that provisions the Amazon CloudWatch, AWS API Gateway, AWS Lambda, and AWS S3 bucket.  The CDK construct also deploys the `remoteloggingconstraints.json` file to the AWS S3 bucket. 
 
 ### Permissions
-The CDK construct creates IAM policies and assigned them to the Amplify authenticated and unauthenticated roles. 
+The CDK construct creates IAM policies and assigns them to the Amplify authenticated and unauthenticated roles. 
 1. The API Gateway endpoint can only be invoked by user with the Amplify authenticated or unauthenticated roles. 
 2. The AWSCloudWatch logs can only be created and sent by users with the Amplify authenticated or unauthenticated roles.
 3. The lambda invocation is only allowed from the provisioned AWS API Gateway resource.
 4. The S3 bucket containing the `remoteloggingconstraints.json` can only be read by the Lambda execution role.
 
 ### Replace the placeholder values with your own values:
-* `<CloudWatch-log-group-name>` is the log group that logs will be sent to.  Note that this CDK construct sample includes logic to create the CloudWatch log group that you may have are created in previous steps to [setup backend resources](/lib/logging/setup-logging/#provision-backend-resources).
-* `<S3-bucket-name>` is the S3 bucket that will hold the logging constraints json file that gets fetched remotely.
-* `<Amplify-authenticated-role-name>` and `<Amplify-unauthenticated-role-name>` are Amplify roles created as part of Amplify Auth configuration via Amplify CLI.  
+* `<log-group-name>` is the log group that logs will be sent to.  Note that this CDK construct sample includes logic to create the CloudWatch log group that you may have already created in previous steps.
+* `<s3-bucket-name>` is the S3 bucket that will hold the logging constraints json file that gets fetched remotely.
+* `<amplify-authenticated-role-name>` and `<amplify-unauthenticated-role-name>` are Amplify roles created as part of Amplify Auth configuration via Amplify CLI.  
 
 ### Resource dependencies
 * `lambdaConfig` provides the location and lambda for reading from S3.  An example is provided in the [lambda handler](#sample-lambda-handler) section.
@@ -45,15 +45,12 @@ export class RemoteLoggingConstraintsConstruct extends Construct {
   constructor(scope: Construct, id: string, props: RemoteLoggingConstraintProps) {
     super(scope, id)
 
+    // ** provision CloudWatch Log Group to send logs **
     const region = cdk.Stack.of(this).region
     const account = cdk.Stack.of(this).account
-    const loggingConfigLocation = 'resources/config/remoteloggingconstraints.json'
-    const lambdaConfig = 'resources/lambda/remoteconfig.js'
-    const configFileName = 'remoteloggingconstraints.json'
-    const logGroupName = <CloudWatch-log-group-name>
-    const authRoleName = <Amplify-authenticated-role-name> 
-    const unAuthRoleName = <Amplify-unauthenticated-role-name>
-    const bucketName = <S3-bucket-name>
+    const logGroupName = <log-group-name>
+    const authRoleName = <amplify-authenticated-role-name> 
+    const unAuthRoleName = <amplify-unauthenticated-role-name>
 
     new logs.LogGroup(this, 'Log Group', {
       logGroupName: logGroupName,
@@ -72,6 +69,11 @@ export class RemoteLoggingConstraintsConstruct extends Construct {
     authRole.addToPrincipalPolicy(logIAMPolicy)
     unAuthRole.addToPrincipalPolicy(logIAMPolicy)
 
+    // ** provision resource to support remote configuration (API Gateway, S3 bucket, and Lambda) **
+    const <loggingConfigLocation> = 'resources/config/remoteloggingconstraints.json'
+    const <lambdaConfig> = 'resources/lambda/remoteconfig.js'
+    const <configFileName> = 'remoteloggingconstraints.json'
+
     const remoteConfigBucket = new s3.Bucket(this, 'AmplifyRemoteLogging-Bucket', {
         publicReadAccess: false,
         versioned: true,
@@ -80,18 +82,18 @@ export class RemoteLoggingConstraintsConstruct extends Construct {
 
     new BucketDeployment(this, `AmplifyRemoteLogging-BucketDeployment`, {
         sources: [
-            Source.asset(path.dirname(path.join(loggingConfigLocation))),
+            Source.asset(path.dirname(path.join(<loggingConfigLocation>))),
         ],
         destinationBucket: remoteConfigBucket
     });
 
     const handler = new lambda.Function(this, "AmplifyRemoteLogging-Handler", {
       runtime: lambda.Runtime.NODEJS_18_X,
-      code: lambda.Code.fromAsset(path.dirname(path.join(lambdaConfig))),
+      code: lambda.Code.fromAsset(path.dirname(path.join(<lambdaConfig>))),
       handler: "remotelogging.main",
       environment: {
-        BUCKET: remoteConfigBucket.bucketName,
-        KEY: configFileName
+        BUCKET: <s3-bucket-name>,
+        KEY: <configFileName>
       }
     })
 
@@ -117,7 +119,7 @@ export class RemoteLoggingConstraintsConstruct extends Construct {
     authRole.addToPrincipalPolicy(apiInvokePolicy)
     unAuthRole.addToPrincipalPolicy(apiInvokePolicy)
 
-    new cdk.CfnOutput(this, 'LoggingConstraintsURL', {
+    new cdk.CfnOutput(this, 'APIEndpoint', {
       value: `https://${api.restApiId}.execute-api.${region}.amazonaws.com/prod/loggingconstraints`,
     });
     new cdk.CfnOutput(this, 'CloudWatchLogGroupName', { value: logGroupName });
@@ -125,6 +127,7 @@ export class RemoteLoggingConstraintsConstruct extends Construct {
   }
 }
 ```
+The API endpoint, CloudWatch log group, and region will be printed out in the terminal.  You can use this information to setup the Amplify library.
 
 ### Sample Lambda handler
 Below is a sample lambda that reads and returns the `remoteloggingconstraints.json` from AWS S3.
