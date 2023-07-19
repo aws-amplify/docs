@@ -1,5 +1,8 @@
 name: LinkChecker
-on: workflow_dispatch
+on:
+  schedule:
+    - cron: '0 17 * * 1-5'
+  workflow_dispatch:
 permissions:
   contents: read
   id-token: write
