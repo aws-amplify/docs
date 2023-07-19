@@ -7,6 +7,9 @@ const CRAWLER_EXCEPTIONS = [
   'https://aaaaaaaaaaaaaaaaaaaaaaaaaa.appsync-api.us-east-1.amazonaws.com/graphql',
   'https://twitter.com/AWSAmplify'
 ];
+const GITHUB_CREATE_ISSUE_LINK =
+  'https://github.com/aws-amplify/docs/issues/new';
+const GITHUB_EDIT_LINK = 'https://github.com/aws-amplify/docs/edit/';
 
 const getSitemapUrls = async () => {
   let browser = await puppeteer.launch();
@@ -108,10 +111,11 @@ const linkChecker = async () => {
   for (let i = 0; i < urlsToVisit.length; i++) {
     const link = urlsToVisit[i];
     let href = link.url;
-    if (href.startsWith('https://github.com/aws-amplify/docs/issues/new')) {
+    if (href.startsWith(GITHUB_CREATE_ISSUE_LINK)) {
       // remove query parameters from github new issue links
       href = href.split('?')[0];
     }
+    if (href.startsWith(GITHUB_EDIT_LINK)) continue;
     if (visitedLinks[href]) continue;
     visitedLinks[href] = true;
 
