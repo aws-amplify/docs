@@ -108,6 +108,10 @@ const linkChecker = async () => {
   for (let i = 0; i < urlsToVisit.length; i++) {
     const link = urlsToVisit[i];
     let href = link.url;
+    if (href.startsWith('https://github.com/aws-amplify/docs/issues/new')) {
+      // remove query parameters from github new issue links
+      href = href.split('?')[0];
+    }
     if (visitedLinks[href]) continue;
     visitedLinks[href] = true;
 
