@@ -1,8 +1,15 @@
-If the next step is `resetPassword`, Amplify Auth requires that the user confirm information such as email or phone number before proceeding.
-Use the `resendSignUpCode` API to send a new sign up code to the registered email or phone number, followed by `confirmSignUp` to complete the
-sign up.
+If the next step is `resetPassword`, Amplify Auth requires that the user confirm their email or phone number before proceeding.
+Use the `resendSignUpCode` API to send a new sign up code to the registered email or phone number, followed by `confirmSignUp` 
+to complete the sign up.
 
 See the [confirm sign up](/lib/auth/signin/q/platform/flutter/#register-a-user) docs for more information.
+
+<Callout>
+
+The result includes an `AuthCodeDeliveryDetails` member. It includes additional information about the code delivery, such as the partial phone number of 
+the SMS recipient, which can be used to prompt the user on where to look for the code.
+
+</Callout>
 
 ```dart
 Future<void> _handleSignInResult(SignInResult result) async {
