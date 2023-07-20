@@ -1,0 +1,33 @@
+
+When called successfully, the `signIn` API will return a `SignInResult`. Inspect the `nextStep.signInStep` property in the result to see if additional signin steps are required.
+The `signInStep` property is of enum type `AuthSignInStep`. Depending on its value, your code should take one of the following actions:
+
+```dart
+Future<SignInResult> signInWithCognito(
+  String username,
+  String password,
+) async {
+  final result = await Amplify.Auth.signIn(
+    username: username, 
+    password: password,
+  );
+  return _handleSignInResult(result);
+}
+
+Future<void> _handleSignInResult(SignInResult result) async {
+  switch (result.nextStep.signInStep) {
+    case AuthSignInStep.confirmSignInWithSmsMfaCode:
+      // Handle SMS MFA case
+    case AuthSignInStep.confirmSignInWithNewPassword:
+      // Handle new password case
+    case AuthSignInStep.confirmSignInWithCustomChallenge:
+      // Handle custom challenge case
+    case AuthSignInStep.resetPassword:
+      // Handle reset password case
+    case AuthSignInStep.confirmSignUp:
+      // Handle confirm sign up case
+    case AuthSignInStep.done:
+      safePrint('Sign in is complete');
+  }
+}
+```
