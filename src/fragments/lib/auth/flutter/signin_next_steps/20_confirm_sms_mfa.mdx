@@ -1,5 +1,12 @@
-If the next step is `confirmSignInWithSmsMfaCode`, Amplify Auth has sent the user a random code over SMS, and is waiting to find out if the user successfully received it. 
-The result includes an `AuthCodeDeliveryDetails` member. It includes additional information about the code delivery such as the partial phone number of the SMS recipient.
+If the next step is `confirmSignInWithSmsMfaCode`, Amplify Auth has sent the user a random code over SMS and is waiting for the user to verify that code. 
+To handle this step, your app's UI must prompt the user to enter the code. After the user enters the code, pass the value to the `confirmSignIn` API.
+
+<Callout>
+
+The result includes an `AuthCodeDeliveryDetails` member. It includes additional information about the code delivery, such as the partial phone number of 
+the SMS recipient, which can be used to prompt the user on where to look for the code.
+
+</Callout>
 
 ```dart
 Future<void> _handleSignInResult(SignInResult result) async {
@@ -18,8 +25,6 @@ void _handleCodeDelivery(AuthCodeDeliveryDetails codeDeliveryDetails) {
   );
 }
 ```
-
-To handle this step, your app's UI must prompt the user to enter the code. After the user enters the code, pass the value to the `confirmSignIn` API.
 
 ```dart
 Future<void> confirmMfaUser(String mfaCode) async {
