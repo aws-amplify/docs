@@ -1,16 +1,5 @@
 When using the Amplify Logger, all logged messages are saved locally on the user's device first and then flushed at a set interval that you can [customize](#change-automatic-log-flush-interval). You can also choose to flush events manually if needed by following the steps outlined in this section.
 
-## Manually flush logs
-import ios0 from '/src/fragments/lib/logging/ios/flush_logs/flush_logs.mdx';
-import android0 from '/src/fragments/lib/logging/android/flush_logs/flush_logs.mdx';
-
-<Fragments
-  fragments={{
-    ios: ios0,
-    android: android0
-  }}
-/>
-
 ## Change automatic log flush interval
 You can customize the time interval for when logs are automatically flushed and sent to CloudWatch.
 
@@ -32,3 +21,16 @@ import common1 from '/src/fragments/lib/logging/common/flush_logs/flush_interval
             }}/>
     </Block>
 </BlockSwitcher>
+
+## Manually flush logs
+You can choose at anytime to flush the log messages that are saved locally on the user's device, to then send them immediately to Amazon CloudWatch.
+
+import ios0 from '/src/fragments/lib/logging/ios/flush_logs/flush_logs.mdx';
+import android0 from '/src/fragments/lib/logging/android/flush_logs/flush_logs.mdx';
+
+<Fragments
+  fragments={{
+    ios: ios0,
+    android: android0
+  }}
+/>

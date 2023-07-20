@@ -12,7 +12,7 @@ You can use the Amplify CLI to [add custom CDK resources](https://docs.amplify.a
 
 </Callout>
 
-Below is an example CDK construct that provisions the Amazon CloudWatch, AWS API Gateway, AWS Lambda, and AWS S3 bucket.  The CDK construct also deploys the `remoteloggingconstraints.json` file to the AWS S3 bucket. 
+Below is an example CDK construct that provisions the Amazon CloudWatch, AWS API Gateway, AWS Lambda, and AWS S3 bucket. The CDK construct also deploys the remote configuration file to the AWS S3 bucket which you can then update to change the configuration level or user allow list.
 
 ### Permissions
 The CDK construct creates IAM policies and assigns them to the Amplify authenticated and unauthenticated roles. 
