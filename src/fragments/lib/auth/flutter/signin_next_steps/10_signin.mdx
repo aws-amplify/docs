@@ -1,6 +1,8 @@
 
-When called successfully, the `signIn` API will return a `SignInResult`. Inspect the `nextStep.signInStep` property in the result to see if additional signin steps are required.
-The `signInStep` property is of enum type `AuthSignInStep`. Depending on its value, your code should take one of the following actions:
+The `Amplify.Auth.signIn` API returns a `SignInResult` object. To see if additional signin steps are required, Inspect the `nextStep.signInStep` property of the result.
+When `result.isSignedIn` is `true` or when the `signInStep` is `done`, the sign in flow is complete.
+
+The `signInStep` property is an enum of type `AuthSignInStep`. Depending on its value, your code should take one of the actions mentioned on this page.
 
 ```dart
 Future<SignInResult> signInWithCognito(
