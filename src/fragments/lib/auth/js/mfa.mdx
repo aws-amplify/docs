@@ -186,7 +186,7 @@ export async function getPreferredMFAType() {
 ```js
 import { Auth } from 'aws-amplify';
 
-async function getPreferredMFAType(user) {
+async function getPreferredMFAType() {
 try {
   // Will retrieve the current mfa type from cache
   // bypassCache is optional, by default is false.
@@ -235,9 +235,9 @@ type SignInParameters = {
 };
 
 type UserInput = {
-  inputUsername: string;
-  inputEmail: string;
-  inputPhoneNumber: string;
+  username: string;
+  email: string;
+  phone_number: string;
 };
 
 export async function signIn({ username, password, mfaType }: SignInParameters) {
@@ -258,15 +258,15 @@ export async function signIn({ username, password, mfaType }: SignInParameters) 
       // You need to get the new password and required attributes from the UI inputs
       // and then trigger the following function with a button click
       // For example, the email and phone_number are required attributes
-      const { inputUsername, inputEmail, inputPhoneNumber }: UserInput =
+      const { username, email, phone_number }: UserInput =
         await getInfoFromUserInput();
       const loggedUser = await Auth.completeNewPassword(
         user, // the Cognito User Object
         newPassword, // the new password
         // OPTIONAL, the required attributes
         {
-          inputEmail,
-          inputPhoneNumber,
+          email,
+          phone_number,
         }
       );
     } else if (user?.challengeName === 'MFA_SETUP') {
@@ -293,7 +293,7 @@ export async function signIn({ username, password, mfaType }: SignInParameters) 
       // The user directly signs in
       console.log(user);
     }
-  } catch (err: any) {
+  } catch (err) {
     if (err?.code === 'UserNotConfirmedException') {
       // The error happens if the user didn't finish the confirmation step when signing up
       // In this case you need to resend the code and confirm the user
@@ -419,7 +419,7 @@ import { Auth } from 'aws-amplify';
 type CustomValidationParameters = {
   username: string;
   password: string;
-  validationData: string;
+  validationData: {[ key: string ]: any; };
 };
 
 export async function customValidation({
