@@ -184,12 +184,16 @@ import { Auth } from 'aws-amplify';
 
 const user = await Auth.currentAuthenticatedUser();
 async function getPreferredMFAType(user) {
+try {
   // Will retrieve the current mfa type from cache
   // bypassCache is optional, by default is false.
   // If set to true, it will get the MFA type from server side instead of from local cache.
   const data = await Auth.getPreferredMFA(user, { bypassCache: false });
   console.log('Current preferred MFA type is: ' + data);
+  } catch (err) {
+    console.log(err)
 }
+
 ```
 </Block>
 </BlockSwitcher>
