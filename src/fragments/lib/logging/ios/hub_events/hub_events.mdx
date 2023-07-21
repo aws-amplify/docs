@@ -9,16 +9,15 @@ import Amplify
 ```swift
 // Assumes `unsubscribeToken` is declared as an instance variable in your view
 unsubscribeToken = Amplify.Hub.listen(to: .logging) { payload in
-	switch payload.eventName {
-	case HubPayload.EventName.Logging.writeLogFailure:
-		print("Error writing to local log")
-	case HubPayload.EventName.Logging.flushLogFailure:
-		print("Error sending log events to CloudWatch")
-	default:
-		break
-	}
+    switch payload.eventName {
+    case HubPayload.EventName.Logging.writeLogFailure:
+        print("Error writing to local log")
+    case HubPayload.EventName.Logging.flushLogFailure:
+        print("Error sending log events to CloudWatch")
+    default:
+        break
+    }
 }
-
 ```
 
 </Block>
@@ -32,17 +31,17 @@ import Amplify
 ```swift
 // Assumes `sink` is declared as an instance variable in your code
 sink = Amplify.Hub
-	.publisher(for: .logging)
-	.sink { payload in
-		switch payload.eventName {
-		case HubPayload.EventName.Logging.writeLogFailure:
-			print("Error writing to local log")
-		case HubPayload.EventName.Logging.flushLogFailure:
-			print("Error sending log events to CloudWatch")
-		default:
-			break
-		}
-	}
+    .publisher(for: .logging)
+    .sink { payload in
+        switch payload.eventName {
+        case HubPayload.EventName.Logging.writeLogFailure:
+            print("Error writing to local log")
+        case HubPayload.EventName.Logging.flushLogFailure:
+            print("Error sending log events to CloudWatch")
+        default:
+            break
+        }
+    }
 ```
 
 </Block>
