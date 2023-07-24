@@ -37,6 +37,14 @@ import attributesCallout from "/src/fragments/common/writable-vs-mutable-attribu
 
 <Fragments fragments={{all: attributesCallout}} />
 
+<Callout>
+
+Ensure that the hosted UI for an app client has a sign-out URL defined as omitting this may cause the Amplify CLI to not generate the OAuth `scopes`, `redirectSignIn`, `redirectSignOut` and `responseType` in the `aws-exports.js` file. 
+
+If the Cognito user pool has native and web client defined ensure the clients have matching OAuth properties.  
+
+</Callout>
+
 ## Import an existing Identity Pool
 
 Select the "Cognito User Pool and Identity Pool" option when you've run `amplify import auth`. In order to successfully import your Identity Pool, it must have both of the User Pool app clients fulfilling [these requirements](#import-an-existing-cognito-user-pool) associated as an authentication provider.
