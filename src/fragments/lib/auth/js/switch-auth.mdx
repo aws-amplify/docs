@@ -83,7 +83,7 @@ When using Custom Auth Flows, you can setup a Password or Passwordless Sign In. 
 ### CAPTCHA-based authentication
 
 
-Here is the sample for creating a CAPTCHA challenge with via a custom auth flow.
+Here is the sample for creating a CAPTCHA challenge with a custom auth flow.
 
 #### Create Auth Challenge Lambda Trigger
 
@@ -141,7 +141,7 @@ This `Define Auth Challenge Lambda Trigger` defines a custom challenge:
 
 <Block name="Password Sign In">
 
-Password Sign In will need to account for the SRP_A and Password verifier challenges.
+Password Sign In will need to account for the `SRP_A` and `PASSWORD_VERIFIER` challenges.
 
 ```javascript
 exports.handler = async event => {
