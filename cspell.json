@@ -1514,7 +1514,8 @@
     "loggingconstraints",
     "remoteconfig",
     "remoteloggingconstraints",
-    "remotelogging"
+    "remotelogging",
+    "userids"
   ],
   "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"]
 }

@@ -17,7 +17,7 @@ Below is an example CDK construct that provisions the Amazon CloudWatch, AWS API
 ### Permissions
 The CDK construct creates IAM policies and assigns them to the Amplify authenticated and unauthenticated roles. 
 1. The API Gateway endpoint can only be invoked by user with the Amplify authenticated or unauthenticated roles. 
-2. The AWSCloudWatch logs can only be created and sent by users with the Amplify authenticated or unauthenticated roles.
+2. The AWSCloudWatch logs can only be created and sent by users with the Amplify authenticated or unauthenticated roles.  The permission policy cannot be modified to be more restrictive and scoped to specific users.
 3. The lambda invocation is only allowed from the provisioned AWS API Gateway resource.
 4. The S3 bucket containing the `remoteloggingconstraints.json` can only be read by the Lambda execution role.
 

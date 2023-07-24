@@ -859,6 +859,11 @@ export const directory = {
             filters: ['ios']
           },
           {
+            title: 'Access Logs',
+            route: '/lib/logging/access-logs',
+            filters: ['ios']
+          },
+          {
             title: 'Change Local Storage',
             route: '/lib/logging/change-local-storage',
             filters: ['ios']

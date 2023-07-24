@@ -1,0 +1,4 @@
+Log messages are sent to the Amazon CloudWatch log group that you created and specified during plugin setup.  Each user log messages can be found in user-specific log stream in the log group.  Log stream names are generated based on the user's device identifier and user identifier
+For an authenticated user, the log stream name is `<device-identifier>.<user-identifier>`.  For an unauthenticated user, the log stream name is `<device-identifier>.guest`.
+
+You can use the Amplify Auth category to [retrieve the user identifier](/lib/logging/configure-user/#retrieve-userids-with-amplify-auth) for a specific user if needed. You can also retrieve the user identifier by visiting the Amazon Cognito console.
