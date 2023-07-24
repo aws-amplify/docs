@@ -7,7 +7,7 @@ await Storage.get(key: string, config: {
   level?: private | protected | public, // defaults to `public`
   identityId?: string, // id of another user, if `level: protected`
   download?: boolean, // defaults to false
-  expires?: number, // validity of the URL, in seconds. defaults to 900 (15 minutes)
+  expires?: number, // validity of the URL, in seconds. defaults to 900 (15 minutes) and maxes at 3600 (1 hour)
   contentType?: string, // set return content type, eg "text/html"
   validateObjectExistence?: boolean, // defaults to false
   cacheControl?: string, // Specifies caching behavior along the request/reply chain
@@ -15,6 +15,8 @@ await Storage.get(key: string, config: {
 ```
 
 `Storage.get` returns a signed URL `string` to your file if `download` is false, which is the default. You can use this to create a download link for users to click on. Note that this function **does not check if the file exists by default**. You can enable this check by setting `validateObjectExistence` to `true`.
+
+> Note: Currently, the expiration time of the presigned url is dependent on the session and will max out at 1 hour.
 
 ```js
 // get the signed URL string
@@ -28,7 +30,7 @@ const signedURL = await Storage.get(key); // get key from Storage.list
 
 ### Check for existence of a file
 
-You can check for the existence of a file in the storage category's `get` API using the `validateObjectExistence` option. When this flag is enabled a `get` call will return a pre-signed URL if the file exists and raise a `404` error if it does not.
+You can check for the existence of a file in the storage category's `get` API using the `validateObjectExistence` option. When this flag is enabled a `get` call will return a pre-signed URL if the file exists and raise a `404` error if it does not. This allows you to check if an object exists during generating the presigned URL, which you can then use to download that object.
 
 ```javascript
 // To check for existence of a file

@@ -7,9 +7,10 @@ import {
   H3AnchorStyle,
   HeaderStyle
 } from './styles';
-import { useEffect } from 'react';
+import { forwardRef, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import Feedback from '../Feedback';
+import { MQDesktop } from '../media';
+import { Button } from '@cloudscape-design/components';
 
 const stickyHeaderHeight = 124;
 function scroll(hash) {
@@ -20,8 +21,14 @@ function scroll(hash) {
   }
 }
 
-export default function TableOfContents({ children, title }) {
+function TableOfContents({ children, title, buttonsRef }, ref) {
   const router = useRouter();
+  const MQDesktopJS = MQDesktop.substring(6);
+  const onDesktop =
+    typeof window === 'undefined'
+      ? false
+      : window.matchMedia(MQDesktopJS).matches;
+
   if (children.length === 0) {
     return <></>;
   }
@@ -37,8 +44,18 @@ export default function TableOfContents({ children, title }) {
   let previousLink = -1;
   useEffect(() => {
     const idSet = new Set();
-    const headings = document.querySelectorAll('a > h2, a > h3');
-    const headings2 = document.getElementById('toc').querySelectorAll('a');
+    const pageHeadings = document.querySelectorAll('a > h2, a > h3');
+    const headings = [];
+    pageHeadings.forEach((heading) => {
+      if (
+        !heading.parentNode?.parentNode?.classList.contains(
+          'docs-expander__body'
+        )
+      ) {
+        headings.push(heading);
+      }
+    });
+    const headings2 = document.getElementById('toc')?.querySelectorAll('a');
     for (let i = 0; i < headings.length; ++i) {
       const id = headings[i].id;
       let counter = 0;
@@ -59,6 +76,9 @@ export default function TableOfContents({ children, title }) {
         return false;
       };
       headings2[i].onclick = () => {
+        if (headings[i].classList.contains('docs-expander__title')) {
+          uniqueId = headings[i].parentNode.parentNode.id;
+        }
         setTimeout(scroll.bind(undefined, uniqueId), 50);
         return false;
       };
@@ -115,16 +135,35 @@ export default function TableOfContents({ children, title }) {
     };
   }, []);
 
+  const closeToc = () => {
+    if (typeof document !== 'undefined' && !onDesktop) {
+      const toc = ref.current;
+      const buttons = buttonsRef.current;
+      if (toc) {
+        toc.classList.add('slideOut'), toc.classList.remove('slideIn');
+      }
+      if (buttons) {
+        buttons.classList.add('slideIn'), buttons.classList.remove('slideOut');
+      }
+    }
+  };
+
   return (
-    <TOCStyle id="toc">
+    <TOCStyle id="toc" ref={ref}>
       <TOCInnerStyle>
+        {!onDesktop && (
+          <div className="mobileHeader">
+            <h2>On this Page</h2>
+            <Button variant="icon" iconName="close" onClick={closeToc} />
+          </div>
+        )}
         <HeaderStyle>
           <h4>{title}</h4>
         </HeaderStyle>
         {children.map(([name, id, level], index) => {
           const slugged = `#${id}`;
           const anchor = (
-            <a href={slugged}>
+            <a href={slugged} onClick={closeToc}>
               <div>{name}</div>
             </a>
           );
@@ -132,8 +171,9 @@ export default function TableOfContents({ children, title }) {
             return <H2AnchorStyle key={index}>{anchor}</H2AnchorStyle>;
           else return <H3AnchorStyle key={index}>{anchor}</H3AnchorStyle>;
         })}
-        <Feedback />
       </TOCInnerStyle>
     </TOCStyle>
   );
 }
+
+export default forwardRef(TableOfContents);

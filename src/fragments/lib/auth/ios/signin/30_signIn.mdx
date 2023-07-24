@@ -27,7 +27,7 @@ func signIn(username: String, password: String) async {
 ```swift
 func signIn(username: String, password: String) -> AnyCancellable {
     Amplify.Publisher.create {
-        try await try await Amplify.Auth.signIn(
+        try await Amplify.Auth.signIn(
             username: username, 
             password: password
             )
