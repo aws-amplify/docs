@@ -15,7 +15,7 @@ export default function AmplifyBadges() {
 
     </View>
     <Text fontSize="large" color="font.secondary">
-      The Amplify Badge Program aims to celebrate the efforts of our contributors by offering them exclusive, eye-catching badges that they can showcase on their online profiles, such as LinkedIn, GitHub, or personal websites.
+      The Amplify Badge Program celebrates your contributions by offering you exclusive, eye-catching badges to display on your online profiles, such as LinkedIn, GitHub, or your own website.
       </Text>
 
 

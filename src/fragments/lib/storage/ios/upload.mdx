@@ -58,7 +58,7 @@ let resultSink = uploadTask
 ## Upload file
 
 When you have a file that you want to upload, you can specify the url to the file in the `local` parameter.
-
+If a file with the same `key` already exists in S3, the existing S3 file will be overwritten.
 <BlockSwitcher>
 
 <Block name="Async/Await">
