@@ -200,19 +200,20 @@
     "@jridgewell/gen-mapping" "^0.3.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
-"@aws-amplify/amplify-cli-core@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-cli-core/-/amplify-cli-core-4.1.0.tgz#d851ce760271a767c72d93862ab24493f1effc4d"
-  integrity sha512-m9EiXMkgVMGDjAd71784NbYx4dWmu1SeFmkanx40X+nx1Bg8koYIUEAuUuTQkFFYpyBy/wwooJudatNTv1V25g==
+"@aws-amplify/amplify-cli-core@^4.2.0":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-cli-core/-/amplify-cli-core-4.2.0.tgz#0058e7aa80968fda3c72108decdd9674755f04c7"
+  integrity sha512-c0DT1D/o9Lw7axKzFc4tfR68/aAiw7Me+bnoAc15t7G4Sk/1ypg1YKRLOpZctsTfE0n2rYuNJRyEarPyV0nOXg==
   dependencies:
     "@aws-amplify/amplify-cli-logger" "1.3.3"
+    "@aws-amplify/amplify-function-plugin-interface" "1.11.0"
     "@aws-amplify/amplify-prompts" "2.8.0"
-    "@aws-amplify/graphql-transformer-interfaces" "^2.2.1"
+    "@aws-amplify/graphql-transformer-interfaces" "^2.2.2"
     "@yarnpkg/lockfile" "^1.1.0"
     ajv "^6.12.6"
     aws-cdk-lib "~2.68.0"
     chalk "^4.1.1"
-    ci-info "^2.0.0"
+    ci-info "^3.8.0"
     cli-table3 "^0.6.0"
     cloudform-types "^4.2.0"
     colors "1.4.0"
@@ -246,6 +247,11 @@
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-cli-shared-interfaces/-/amplify-cli-shared-interfaces-1.2.3.tgz#01afc1508e11faadeb5d45298e8b5c486dc272b0"
   integrity sha512-c/c82OMAFZvgjkfeMFE/h1ycqC7218IfeVNLN7rVGMS98hRs810zRXvFc1w8uI+zwUiDV8+bzAuzODqt5aC9iA==
+
+"@aws-amplify/amplify-function-plugin-interface@1.11.0":
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-function-plugin-interface/-/amplify-function-plugin-interface-1.11.0.tgz#f09bbfdd16677c35e8455a9cb7b0cb658f58a7bc"
+  integrity sha512-X0Ywl6zBd54XOiWDGakaoCKogTtU7wR+s+8egmQuBMYJK/kW+apvyPGI7wdXGommwXYs1Hs1vr61V+h/+Rbfig==
 
 "@aws-amplify/amplify-prompts@2.8.0":
   version "2.8.0"
@@ -366,7 +372,7 @@
     camelcase-keys "6.2.2"
     tslib "^1.8.0"
 
-"@aws-amplify/graphql-transformer-interfaces@^2.2.1":
+"@aws-amplify/graphql-transformer-interfaces@^2.2.2":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-transformer-interfaces/-/graphql-transformer-interfaces-2.3.0.tgz#fee01fbbcb0572201e1e3553503db9f706fc01dd"
   integrity sha512-GC3zsT3RGK7XPdt/sLDOS69lY0vcob7ozoAuBtLotA9CrmuxHuSAWwYr3diqyt5Jn0z6c64DGjbiLD3XD00kyg==
@@ -6143,7 +6149,7 @@ ci-info@^2.0.0:
   resolved "https://registry.yarnpkg.com/ci-info/-/ci-info-2.0.0.tgz#67a9e964be31a51e15e5010d58e6f12834002f46"
   integrity sha512-5tK7EtrZ0N+OLFMthtqOj4fI2Jeb88C4CAZPu25LDVUgXJ0A3Js4PMGqrn0JU1W0Mh1/Z8wZzYPxqUrXeBboCQ==
 
-ci-info@^3.2.0:
+ci-info@^3.2.0, ci-info@^3.8.0:
   version "3.8.0"
   resolved "https://registry.yarnpkg.com/ci-info/-/ci-info-3.8.0.tgz#81408265a5380c929f0bc665d62256628ce9ef91"
   integrity sha512-eXTggHWSooYhq49F2opQhuHWgzucfF2YgODK4e1566GQs5BIfP30B0oenwBJHfWxAs2fyPB1s7Mg949zLf61Yw==
@@ -10736,14 +10742,7 @@ no-case@^3.0.4:
     lower-case "^2.0.2"
     tslib "^2.0.3"
 
-node-fetch@^2.6.1, node-fetch@^2.6.7, node-fetch@^2.6.9:
-  version "2.6.11"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.11.tgz#cde7fc71deef3131ef80a738919f999e6edfff25"
-  integrity sha512-4I6pdBY1EthSqDmJkiNk3JIT8cswwR9nfeW/cPdUagJYEQG7R95WRH74wpz7ma8Gh/9dI9FP+OU+0E4FvtA55w==
-  dependencies:
-    whatwg-url "^5.0.0"
-
-node-fetch@^2.6.12:
+node-fetch@^2.6.1, node-fetch@^2.6.12, node-fetch@^2.6.7, node-fetch@^2.6.9:
   version "2.6.12"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.12.tgz#02eb8e22074018e3d5a83016649d04df0e348fba"
   integrity sha512-C/fGU2E8ToujUivIO0H+tpQ6HWo4eEmchoPIoXtxCrVghxdKq+QOHqEZW7tuP3KlV3bC8FRMO5nMCC7Zm1VP6g==
