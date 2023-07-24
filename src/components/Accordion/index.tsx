@@ -1,7 +1,6 @@
+import { useRef, useState, createElement, useEffect, forwardRef } from 'react';
 import { Details, Summary } from './styles';
 import { Expand, DeepDive } from './icons';
-import { useRef, useState, createElement, useEffect, cloneElement } from 'react';
-import { propsAreEmptyByTag } from '../UiComponentProps';
 
 type AccordionProps = {
   title?: string;
@@ -16,27 +15,25 @@ const Accordion: React.FC<AccordionProps> = ({
   children
 }) => {
   const [closeButton, setCloseButton] = useState(false);
-  const [contentTopCoordinate, setContentTopCoordinate] = useState(0);
+  const [initialHeight, setInitialHeight] = useState(0);
+  const [expandedHeight, setExpandedHeight] = useState(0);
   const docsExpander = useRef<HTMLElement>(null);
-  const docsExpanderBody = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    const accordion = docsExpander.current;
-    const accordionContent = docsExpanderBody.current;
-    if (
-      accordionContent &&
-      accordionContent instanceof HTMLElement &&
-      accordion
-    ) {
-      setContentTopCoordinate(
-        accordion.offsetTop - accordion.offsetHeight - 48 // height of global Nav
-      );
+    const expander = docsExpander.current;
 
-      if (accordionContent.offsetHeight > window.innerHeight) {
-        setCloseButton(() => true);
-      }
+    setExpandedHeight(
+      expander?.children['docs-expander__summary']?.offsetHeight +
+        expander?.children['docs-expander__body']?.offsetHeight
+    );
+    setInitialHeight(
+      expander?.children['docs-expander__summary']?.offsetHeight
+    );
+
+    if (expandedHeight > window.innerHeight) {
+      setCloseButton(true);
     }
-  }, []);
+  }, [expandedHeight, initialHeight, closeButton]);
 
   const headingId = title?.replace(/\s+/g, '-').toLowerCase();
   headingLevel = headingLevel ? 'h' + headingLevel : 'div';
@@ -55,36 +52,65 @@ const Accordion: React.FC<AccordionProps> = ({
     expanderTitle
   );
 
-  const closeAccordion = () => {
-    docsExpander.current?.removeAttribute('open');
-    window.scrollTo(0, contentTopCoordinate);
-  };
+  const collapse = [
+    {
+      maxHeight: expandedHeight + 'px',
+      overflow: 'visible'
+    },
+    { maxHeight: initialHeight + 'px', overflow: 'hidden' }
+  ];
 
-  const childrenNew = [];
-
-  if (children) {
-    for (const child of children) {
-      if (
-        child.props &&
-        child.props.mdxType &&
-        child.props.mdxType === 'InternalLink'
-      ) {
-        const newChild = cloneElement(child, {
-          ...child.props,
-          withinAccordion: true
-        });
-        childrenNew.push(newChild);
-      } else {
-        childrenNew.push(child);
-      }
+  const expand = [
+    { maxHeight: initialHeight + 'px', overflow: 'hidden' },
+    {
+      maxHeight: expandedHeight + 'px',
+      overflow: 'visible'
     }
-    children = childrenNew;
+  ];
+
+  const animationTiming = {
+    duration: 700,
+    iterations: 1
   };
 
+  const scrollToLoc =
+    (docsExpander?.current?.offsetTop - docsExpander?.current?.offsetHeight - 48);
+
+  const closeAccordion = () => {
+    docsExpander.current?.animate(collapse, animationTiming);
+    window.scrollTo({
+      left: 0,
+      top: scrollToLoc,
+      behavior: 'smooth'
+    });
+    setTimeout(function() {
+      docsExpander.current?.removeAttribute('open');
+    }, 500);
+  };
+
+  const toggleAccordion = (e) => {
+    e.preventDefault();
+    const expander = docsExpander.current;
+    // Close accordion
+    if (expander?.hasAttribute('open')) {
+      expander?.animate(collapse, animationTiming);
+      setTimeout(function() {
+        expander.removeAttribute('open');
+      }, 500);
+    } else {
+      // Open accordion
+      expander?.animate(expand, animationTiming);
+      expander?.setAttribute('open', '');
+    }
+  };
 
   return (
     <Details className="docs-expander" ref={docsExpander}>
-      <Summary className="docs-expander__summary">
+      <Summary
+        id="docs-expander__summary"
+        className="docs-expander__summary"
+        onClick={toggleAccordion}
+      >
         <div className="docs-expander__eyebrow">
           <DeepDive />
           {eyebrow}
@@ -94,11 +120,12 @@ const Accordion: React.FC<AccordionProps> = ({
           <Expand />
         </div>
       </Summary>
-      <div className="docs-expander__body" ref={docsExpanderBody}>
+      <div id="docs-expander__body" className="docs-expander__body">
         {children}
       </div>
       {closeButton ? (
         <button
+          id="docs-expander__body__button"
           className="docs-expander__body__button"
           onClick={closeAccordion}
         >

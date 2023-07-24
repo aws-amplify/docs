@@ -1,4 +1,27 @@
 import styled from '@emotion/styled';
+import { keyframes } from '@emotion/react';
+
+const expand = keyframes`
+  from {
+    max-height: 0;
+    overflow: hidden;
+  }
+  to {
+    max-height: auto;
+    overflow: visible;
+  }
+`;
+
+const collapse = keyframes`
+  from {
+    overflow: visible;
+    max-height: 1000px;
+  }
+  to {
+    overflow: hidden;
+    max-height: 0;
+  }
+`;
 
 export const Details = styled.details`
   --border-color: var(--amplify-colors-teal-40);
@@ -15,6 +38,16 @@ export const Details = styled.details`
   &[open] .docs-expander__summary {
     border-end-end-radius: 0;
     border-end-start-radius: 0;
+  }
+
+  &[open] summary ~ *,
+  &[open] .docs-expander__body {
+
+  }
+
+  &.collapse summary ~ *,
+  &.collapse .docs-expander__body {
+
   }
 
   &[open] .docs-expander__title__indicator svg {
