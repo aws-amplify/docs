@@ -1,0 +1,10 @@
+```swift
+func verifyTOTPSetup(totpCodeFromAuthenticatorApp: String) async {
+    do {
+        try await Amplify.Auth.verifyTOTPSetup(
+            code: totpCodeFromAuthenticatorApp)
+    } catch {
+        print("TOTP Setup Verification failed \(error)")
+    }
+}
+```
