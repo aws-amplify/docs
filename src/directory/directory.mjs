@@ -854,13 +854,13 @@ export const directory = {
             filters: ['ios', 'android']
           },
           {
-            title: 'Remotely Change Log Levels',
-            route: '/lib/logging/remote-configuration',
+            title: 'View Logs',
+            route: '/lib/logging/access-logs',
             filters: ['ios', 'android']
           },
           {
-            title: 'Access Logs',
-            route: '/lib/logging/access-logs',
+            title: 'Remotely Change Log Levels',
+            route: '/lib/logging/remote-configuration',
             filters: ['ios', 'android']
           },
           {
