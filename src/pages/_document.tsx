@@ -55,7 +55,7 @@ const getCspContent = (context) => {
   );
 
   // Dev environment
-  if (process.env.NODE_ENV !== 'production') {
+  if (process.env.BUILD_ENV !== 'production') {
     return `upgrade-insecure-requests;
       default-src 'none';
       prefetch-src 'self';
