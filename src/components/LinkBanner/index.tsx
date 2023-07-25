@@ -8,25 +8,25 @@ export default function LinkBanner() {
     <Container backgroundColor="color-ink-md">
       <ExternalLinkWrapper>
         <ExternalLink href={links.GITHUB} graphic="black">
-          <Logo alt={img.GITHUB.alt} src={img.GITHUB.darkSrc} />
+          <Logo alt="" src={img.GITHUB.darkSrc} />
           Amplify GitHub
         </ExternalLink>
       </ExternalLinkWrapper>
       <ExternalLinkWrapper>
         <ExternalLink href={links.DISCORD} graphic="black">
-          <Logo alt={img.DISCORD.alt} src={img.DISCORD.blueSrc} />
+          <Logo alt="" src={img.DISCORD.blueSrc} />
           Amplify on Discord
         </ExternalLink>
       </ExternalLinkWrapper>
       <ExternalLinkWrapper>
         <ExternalLink href={links.MARKETING} graphic="black">
-          <Logo alt={img.AWS.alt} src={img.AWS.darkSrc} />
+          <Logo alt="" src={img.AWS.darkSrc} />
           Amplify Resources
         </ExternalLink>
       </ExternalLinkWrapper>
       <ExternalLinkWrapper>
         <ExternalLink href={links.LEARN} graphic="black">
-          <Logo alt={img.AMPLIFY.alt} src={img.AMPLIFY.darkSrc} />
+          <Logo alt="" src={img.AMPLIFY.darkSrc} />
           Amplify Learn
         </ExternalLink>
       </ExternalLinkWrapper>
