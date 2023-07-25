@@ -1515,6 +1515,7 @@
     "remoteconfig",
     "remoteloggingconstraints",
     "remotelogging",
+    "cloudwatchlogs",
     "userids"
   ],
   "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"]
