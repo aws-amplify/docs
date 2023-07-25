@@ -1,5 +1,12 @@
 After a user has finished signup, they can proceed to sign in. Amplify Auth signin flows can be multi step processes. The required steps are determined by the configuration you provided when you ran `amplify add auth`. Depending on the configuration, you may need to call various APIs to finish authenticating a user's signin attempt. To identify the next step in a signin flow, inspect the `nextStep` parameter in the signin result.
 
+<Callout warning>
+<b>New enumeration values</b>
+
+When Amplify adds a new enumeration value (e.g., a new enum class entry or sealed class subtype in Kotlin, or a new enum value in Swift), it will publish a new minor version of the Amplify Library. Plugins that switch over enumeration values should include default handlers (an else branch in Kotlin or a default statement in Swift) to ensure that they are not impacted by new enumeration values. 
+
+</Callout>
+
 import ios0 from "/src/fragments/lib/auth/ios/signin_next_steps/10_signin.mdx";
 
 <Fragments fragments={{ios: ios0}} />
@@ -25,6 +32,24 @@ import android1 from "/src/fragments/lib/auth/android/signin_next_steps/20_confi
 import flutter1 from "/src/fragments/lib/auth/flutter/signin_next_steps/20_confirm_sms_mfa.mdx";
 
 <Fragments fragments={{flutter: flutter1}} />
+
+### Confirm signin with TOTP MFA
+
+import iosConfirmSignInTotpMFA from "/src/fragments/lib/auth/ios/signin_next_steps/80_confirm_totp_mfa.mdx";
+
+<Fragments fragments={{ios: iosConfirmSignInTotpMFA}} />
+
+### Continue signin with MFA Selection
+
+import iosContinueSignInWithMFASelection from "src/fragments/lib/auth/ios/signin_next_steps/90_continue_mfa_selection.mdx";
+
+<Fragments fragments={{ios: iosContinueSignInWithMFASelection}} />
+
+### Continue signin with MFA Setup
+
+import iosContinueSignInWithMFASetup from "src/fragments/lib/auth/ios/signin_next_steps/100_continue_mfa_setup.mdx";
+
+<Fragments fragments={{ios: iosContinueSignInWithMFASetup}} />
 
 ### Confirm signin with custom challenge
 

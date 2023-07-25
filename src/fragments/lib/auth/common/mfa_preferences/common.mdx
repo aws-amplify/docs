@@ -1,0 +1,37 @@
+<Callout>
+Fetching and Updating MFA preferences is only available through the escape hatch APIs under the AWS Cognito Auth plugin. 
+</Callout>
+
+## Fetch the current user's MFA preferences
+
+Invoke the following api to get the MFA preferences for the user.
+
+import iosFetchMFAPreference from "/src/fragments/lib/auth/ios/mfa_preference/10_fetch_mfa_preference.mdx";
+
+<Fragments fragments={{ios: iosFetchMFAPreference}} />
+
+## Update the current user's MFA preferences
+
+Invoke the following api to update the MFA preferences for the user.
+
+<Callout>
+
+Only one MFA method can be marked as preferred at a time. If the user has multiple MFA methods enabled, and tries to mark more than one MFA method as preferred, the API will throw an error.
+
+</Callout>
+
+import iosUpdateMFAPreferences from "/src/fragments/lib/auth/ios/mfa_preference/20_update_mfa_preference.mdx";
+
+<Fragments fragments={{ios: iosUpdateMFAPreferences}} />
+
+**Note:** If multiple MFA methods are enabled for the user, the `signIn` API will return `continueSignInWithMFASelection` as the next step in the auth flow. During this scenario, the user should be prompted to select the MFA method they want to use to sign in.
+
+<Callout>
+
+<b>AWS Cognito Limitation</b>
+
+The `fetchMFAPreference` API will only return enabled and preferred MFA methods, if the preferences were set using the `updateMFAPreference` API. If the preferences were not set using the `updateMFAPreference` API, the MFA preferences will return `nil` for enabled and preferred MFA methods. 
+
+Therefore it is recommended to use the `updateMFAPreference` API to set the MFA preferences for the user, if the user decides to set up any MFA methods. An example use case would be that when a user successfully sets up TOTP using the `setupTOTP` and `verifyTOTPSetup` API, `updateMFAPreference` should be invoked to set the MFA preferences for the user i.e. marking TOTP as enabled.
+
+</Callout>

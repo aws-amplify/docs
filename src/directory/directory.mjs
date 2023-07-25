@@ -325,7 +325,12 @@ export const directory = {
           {
             title: 'SMS flows',
             route: '/lib/auth/sms_flows',
-            filters: ['flutter']
+            filters: ['flutter', 'ios']
+          },
+          {
+            title: 'TOTP flows',
+            route: '/lib/auth/totp_flows',
+            filters: ['ios']
           },
           {
             title: 'Sign in next steps',
@@ -346,6 +351,11 @@ export const directory = {
             title: 'User attributes',
             route: '/lib/auth/user-attributes',
             filters: ['android', 'flutter', 'ios']
+          },
+          {
+            title: 'MFA Preferences',
+            route: '/lib/auth/mfa_preferences',
+            filters: ['ios']
           },
           {
             title: 'Remember a device',
