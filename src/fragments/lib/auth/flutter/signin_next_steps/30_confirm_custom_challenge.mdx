@@ -35,7 +35,7 @@ Future<void> confirmCustomChallenge(String answer) async {
 
 <b>Special Handling on confirmSignIn</b>
 
-During a confirmSignIn call if `failAuthentication=true` is returned by the Lambda, the session of the request gets invalidated by Cognito.
-In this case, a `NotAuthorizedException` is thrown and you are required to restart the sign-in flow by calling `Amplify.Auth.signIn`.
+If `failAuthentication=true` is returned by the Lambda, Cognito will invalidate the session of the request.
+This is represented by a `NotAuthorizedException` and requires restarting the sign-in flow by calling `Amplify.Auth.signIn` again.
 
 </Callout>
