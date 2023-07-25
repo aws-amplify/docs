@@ -330,7 +330,7 @@ export const directory = {
           {
             title: 'Sign in next steps',
             route: '/lib/auth/signin_next_steps',
-            filters: ['ios', 'android']
+            filters: ['ios', 'android', 'flutter']
           },
           {
             title: 'Guest access',
