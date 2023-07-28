@@ -186,7 +186,7 @@ Amplify Studio allows you create auth resources, set up authorization rules, imp
 <Block name="Existing Resources">
 
 Existing Authentication resources from AWS (e.g. Amazon Cognito UserPools or Identity Pools) can be used with the Amplify Libraries by calling the `Amplify.configure()` method.
-
+ 
 If you do not have Amplify Libraries, install the necessary dependencies by running the following command:
 
 ```sh
@@ -239,7 +239,7 @@ npm install aws-amplify
 ```
 
 In your app's entry point (i.e. **App.js**, **index.js**, **_app.js**, or **main.js**), import and load the configuration file:
-
+ 
 <Callout>
 
 **Note:** If you used the "Existing Resource" tab above, you can skip this step.
@@ -259,7 +259,7 @@ This will bootstrap your app to use Amplify with the deployed backend resources.
 ## Determine your Auth integration path
 
 Before you implement Auth on your front-end application, you will want to evaluate the options of using the Authenticator UI component, Amplify Libraries methods, or Cognito Hosted UI for your use case. We recommend using Authenticator as the easiest to implement. You can also use Authenticator together with Amplify Libraries methods to extend capabilities when needed. Additionally, the Hosted UI is also best used with the Amplify Libraries because they provide a method to redirect to the Hosted UI.
-
+ 
 ### Compare implementation options
 
 There are a few options to implement Auth depending on how much customization you will need:
@@ -267,11 +267,11 @@ There are a few options to implement Auth depending on how much customization yo
 |  | Amplify Authenticator | Amplify Libraries | Amplify Hosted UI |
 |:--|:--|:--|:--|
 | Description | Open source drop-in UI component for authentication | Low-level building blocks for implementing authentication | Pre-built sign-up and sign-in UI components hosted by Cognito outside of your application | 
-| Benefits | Automatically integrates with your existing Amplify configuration and allows you to easily add the entire authentication flow to your application. You simply add the component to your app and pass it your Amazon Cognito authentication configuration. You can then customize themes to adjust colors and styling as needed. | Gives you full control over the UI and logic implementation. | Cognito Hosted page with basic customization via properties. |
+| Benefits | Automatically integrates with your existing Amplify configuration and allows you to easily add the entire authentication flow to your application. You simply add the component to your app and pass it your Amazon Cognito authentication configuration. You can then customize themes to adjust colors and styling as needed. | Gives you full control over the UI and logic implementation. | Cognito Hosted page with basic customization via properties. | 
 | Constraints | Dependent on Amplify CLI for provisioning resources. | Building the UI and managing the authentication state is custom built. | You need to implement logic within your app using the Amplify Libraries. For example calling the endpoint where a user can enter their credentials or checking if the current user is authenticated. |
 
 <br/>
-
+ 
 **Recap:** We recommend using the Authenticator UI component for quick and easy set up and then use the Amplify Libraries to customize the user experience and logic as needed. Once you decide which option will work for your use case you can continue implementing authentication on your front-end application.
 
 ## Enable sign-up, sing-in, sing-out, and verify account
@@ -294,7 +294,7 @@ For many apps, user sign-up and sign-in with a username/password is all that is 
 <Accordion title='Review the sign-up, sign-in, and sign-out workflow' headingLevel='3' eyebrow='Learn more'>
 
 Below is a high-level overview of the workflows for sign-up, sign-in, and sign-out with Amplify authentication:
-
+ 
 **Sign-up:** The username/password set up will ask your user for a username (or email) and a password. This should also include any custom attributes you include in your sign-up from such as address, birthdate, phone, etc. When your end-user submits this information, it is then passed through the `Auth.signUp()` method to your Amazon Cognito User Pool, where a user is created. By default, the user will receive a confirmation message via email or SMS, depending on what you configured, but you have the option to configure auto confirmation. They must then enter the confirmation code to complete the sign-up process. Once the user is verified, their user profile is officially confirmed and is active in the Cognito User Pool. The profile contains the username, password, email, and any other custom attributes collected during sign-up. This user profile can then be used to sign-in and access your application.
 
 **Sign-in:** The user enters the username/password they created on sign-up and submits the form in your application to sign-in. The application will then call the `Auth.signIn()` method to sign-in the user by passing the username/password to verify and establish a session with Amazon Cognito which will then generate the needed tokens to grant access. Amazon Cognito issues temporary short-lived tokens on sign-in (default of 1 hour) but you can update these settings to keep your users signed in for longer (up to 24 hours).
@@ -310,11 +310,11 @@ Before you enable sign-up, sign-in, and sign-out there are a few decisions you w
 #### Which Amazon Cognito attributes will you pass for sign-up?
 
 User attributes (e.g. username, email, etc.) are used to identify your users. These are set up when you configure your Cognito User Pool and cannot be renamed or deleted after they are configured. You will need to know which attributes were configured as required at set up (e.g. email) and make sure your user is prompted to enter this information. You can find this information in the Amazon Cognito console under the *Sign-up experience* tab. You can also add [additional User Pool attributes]( https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html) that are collected from the sign-up form. This includes attributes like address, birthdate, phone, etc. These attributes are not required by default. You can make these additional attributes required but it cannot be changed back to not required once configured.
-
+ 
 #### How will you verify users at sign-up?
 
 Once the initial sign-up is done, the user will need to verify and confirm their contact information before their account is activated. This is done by sending a verification code via email or phone number that can be collected on initial sign-up. Email verification asks the user to click a link or enter a code sent to their email address provided during sign-up. Phone verification is done by asking the user to enter the code sent to them in a SMS text message. You can also enable auto-confirmation to skip this step and automatically confirm the user after sign-up. This is accomplished using the PostSignUp Lambda trigger.
-
+ 
 #### Do you need local or global sign-out?
 
 The default when passing the `Auth.signOut()` method is a local sign out. This will sign-out the user from a specific application or device and revokes the tokens used for authentication in that session. If you need a global sign-out that revokes all associated tokens, credentials, and sessions across all applications and devices, then you update the method to `Auth.signOut({ global: true })`.
@@ -475,7 +475,7 @@ The `amplify-authenticator` should wrap sections of your app that you want to pr
 </BlockSwitcher>
 
 Once you add the Authenticator component to your app, you can test the sign-up, sign-in, and sign-out functionality. You can also customize the Authenticator UI component to adjust colors and styling as needed.
-
+ 
 #### Option 2: Call Authentication APIs manually with Amplify Libraries
 
 You can add the library functionality to enable sign-up, sign-in, and sign-out directly with the Amplify Libraries. You can connect this to an existing UI or create your own.
@@ -574,7 +574,7 @@ async function signOut() {
 ```
 
 You can sign out users from all devices by adding global sign-out. It also invalidates all refresh tokens issued to an user. The user's current access and Id tokens remain valid until they expire (access and Id tokens expire one hour after they are issued).
-
+ 
 ```js
 import { Auth } from 'aws-amplify';
 
@@ -601,7 +601,7 @@ The [Cognito Hosted UI]( https://docs.aws.amazon.com/cognito/latest/developergui
 After you test the sign-up, sign-in, and sign-out functionality, you can take a look at the created user in the Amazon Cognito console. To do so, you can use `amplify console auth` to open the console directly from the CLI, or take a look at the existing User Pools in the console. Note the users status should be "CONFIRMED" if you successfully verified the user; however, it can be in "unconfirmed" if the user is not yet verified. You can also check to make sure any other required attributes are updating correctly.
 
 **Recap:** You now have enabled sign-up, sign-in, and sign-out for your authentication and verified its functionality with a test user.
-
+ 
 ## Conclusion
 
 Congratulations! You finished the **Set up Amplify Auth** guide. In this guide, you set up and connected to backend resources, compared and determined your Auth integration path, and enabled sign-up, sign-in, and sign-out while verifying they function as expected.
@@ -609,3 +609,4 @@ Congratulations! You finished the **Set up Amplify Auth** guide. In this guide, 
 ## Next steps
 
 TBD - Potentially a link to Social Sign In and MFA setup.
+ 
