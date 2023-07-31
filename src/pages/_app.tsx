@@ -2,6 +2,18 @@ import '@algolia/autocomplete-theme-classic';
 import '../styles/styles.css';
 import '../styles/contribute-styles.css';
 import Head from 'next/head';
+import { MDXProvider } from '@mdx-js/react'
+import Image from 'next/image'
+
+const ResponsiveImage = (props) => (
+  <Image
+    {...props}
+  />
+)
+
+const components = {
+  img: ResponsiveImage
+}
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -85,7 +97,9 @@ function MyApp({ Component, pageProps }) {
         <link rel="icon" type="image/x-icon" href="/assets/icon/favicon.ico" />
       </Head>
 
-      <Component {...pageProps} />
+      <MDXProvider components={components}>
+        <Component {...pageProps} />
+      </MDXProvider>
 
       {process.env.BUILD_ENV !== 'production' ? (
         <>
