@@ -154,9 +154,12 @@ the identity of the user for accessing other services like AWS AppSync or S3.
 
 ## Authorize API requests with Lambda Authorizer
 
-In a similar way like Cognito Authorizer, Amplify CLI also does not support Lambda authorizers out-of-box. To implement this functionality, you must override your REST API and add a Lambda authorizer yourself by adding the following code into the `override(...)` function. The following steps are walk-through to create Token-Based Lambda Authorizer.
+While Amplify CLI also does not support Lambda authorizers natively out-of-box, you can implement this functionality by overriding your REST API resources. The following steps are walk-through to create token-based Lambda authorizer.
 
-First, assuming the Lambda Authorizer function you would like to use as an authorizer is configured with your Amplify Project, create a parameter that resolves to Lambda Function ARN:
+Firstly, you need to have an  Lambda Authorizer function with required [authorization logic](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html#api-gateway-lambda-authorizer-lambda-function-create) in your amplify project to use it as an authorizer. Refer to the steps to [set up a function](https://docs.amplify.aws/cli/function/) using `amplify add function`
+
+After running `amplify override api`, add the following code to `override(...)` function.
+Initially, create a parameter that resolves to Lambda Function ARN
 
 ```ts
 // Replace the following with your Function resource name
@@ -183,7 +186,7 @@ you added an function resource to your Amplify project.
 
 </Callout>
 
-Now, define the Lambda authorizer using the OpenAPI extension, [`x-amazon-apigateway-authorizer`](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-swagger-extensions-authorizer.html). This change will be applied by modifying the security definition of your REST API:
+Next, define the Lambda authorizer using the OpenAPI extension, [`x-amazon-apigateway-authorizer`](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-swagger-extensions-authorizer.html). This change will be applied by modifying the security definition of your REST API:
 
 ```ts
  // Create the authorizer using the functionArnParameter parameter defined above
@@ -273,11 +276,9 @@ for (const path in resources.restApi.body.paths) {
     );
   }
 ```
-
-
-You can also configure Request Based Lambda Authorizer referring the OpenAPI extension, [`x-amazon-apigateway-authorizer`](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-swagger-extensions-authorizer.html).
-Additionally you can add more advanced logic to only use the Lambda authorizer
+<Callout>
+Note that you can add more advanced logic to only use the Lambda authorizer
 with some paths or methods.
+</Callout>
 
-
-When performing requests to your REST API, make sure to add the Authorization header with an token required by Lambda Authorizer Function.
+When performing requests to your REST API, make sure to add the Authorization header with an token required by Lambda Authorizer Function. 
