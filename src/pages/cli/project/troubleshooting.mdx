@@ -209,6 +209,25 @@ If `amplify push` fails while deploying any of the scenarios below, refer to the
 1.	[Backfill OpenSearch index from DynamoDB table](/cli/graphql/troubleshooting/#deploying-multiple-index-changes-at-once)
 1.	[Index with Multi-Sort Key Fields](/cli/graphql/troubleshooting/#index-with-multiple-sort-key-fields)
 
+## Troubleshooting "amplify pull" failures
+
+### Pull failures with large number of UI components
+<Callout information>
+
+**Errors:**
+
+"⠋ Generating UI components...🛑 Codegen job never succeeded before timeout"
+"✖ Failed to sync UI components"
+</Callout>
+
+Starting with v12.2.0, Amplify CLI has introduced a configurable timeout for generating UI components during `amplify pull`. By default this timeout is set to 2 minutes, however you can increase the timeout using the `UI_BUILDER_CODEGENJOB_TIMEOUT` environment variable.
+
+For example, if you'd like to increase the timeout to 5 minutes (i.e. 300000ms)
+```bash
+export UI_BUILDER_CODEGENJOB_TIMEOUT=300000 
+amplify pull
+```
+
 ## Deployment Best Practices
 This section describes the various best practices which help developers avoid deployment errors and scaling problems in their Amplify projects.
 
