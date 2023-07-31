@@ -7,6 +7,7 @@ import Image from 'next/image'
 
 const ResponsiveImage = (props) => (
   <Image
+    style={{  height: 'auto' }}
     {...props}
   />
 )
