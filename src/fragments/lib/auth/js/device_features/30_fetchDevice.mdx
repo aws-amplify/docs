@@ -2,12 +2,11 @@
 <Block name="TypeScript">
 
 ```ts
-import { IAuthDevice } from '@aws-amplify/auth/lib-esm/types';
 import { Auth } from 'aws-amplify';
 
 export async function fetchDevices() {
   try {
-    const result: IAuthDevice[] = await Auth.fetchDevices();
+    const result = await Auth.fetchDevices();
     console.log(result);
   } catch (err) {
     console.log('Error fetching devices', err);

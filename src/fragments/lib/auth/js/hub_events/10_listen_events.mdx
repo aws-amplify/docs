@@ -2,13 +2,11 @@
 <Block name="TypeScript">
 
 ```ts
-import { HubCallback, HubCapsule } from '@aws-amplify/core';
-import { LegacyCallback } from '@aws-amplify/core/lib-esm/Hub';
 import { Hub, Logger } from 'aws-amplify';
 
 const logger = new Logger('My-Logger');
 
-const listener: HubCallback | LegacyCallback = (data: HubCapsule) => {
+const listener = (data) => {
   switch (data?.payload?.event) {
     case 'configured':
       logger.info('the Auth module is configured');
