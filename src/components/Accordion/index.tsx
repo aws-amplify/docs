@@ -1,4 +1,4 @@
-import { useRef, useState, createElement, useEffect, forwardRef } from 'react';
+import { useRef, useState, createElement, useEffect } from 'react';
 import { Details, Summary } from './styles';
 import { Expand, DeepDive } from './icons';
 
@@ -14,7 +14,7 @@ const Accordion: React.FC<AccordionProps> = ({
   eyebrow,
   children
 }) => {
-  const [closeButton, setCloseButton] = useState(false);
+  const [closeButton, setCloseButton] = useState(true);
   const [initialHeight, setInitialHeight] = useState(0);
   const [expandedHeight, setExpandedHeight] = useState(0);
   const docsExpander = useRef<HTMLElement>(null);
@@ -30,9 +30,9 @@ const Accordion: React.FC<AccordionProps> = ({
       expander?.children['docs-expander__summary']?.offsetHeight
     );
 
-    if (expandedHeight > window.innerHeight) {
-      setCloseButton(true);
-    }
+    // if (expandedHeight > window.innerHeight) {
+    // setCloseButton(true);
+    // }
   }, [expandedHeight, initialHeight, closeButton]);
 
   const headingId = title?.replace(/\s+/g, '-').toLowerCase();
@@ -54,27 +54,25 @@ const Accordion: React.FC<AccordionProps> = ({
 
   const collapse = [
     {
-      maxHeight: expandedHeight + 'px',
-      overflow: 'visible'
+      maxHeight: expandedHeight + 'px'
     },
-    { maxHeight: initialHeight + 'px', overflow: 'hidden' }
+    { maxHeight: initialHeight + 'px' }
   ];
 
   const expand = [
-    { maxHeight: initialHeight + 'px', overflow: 'hidden' },
+    { maxHeight: initialHeight + 'px' },
     {
-      maxHeight: expandedHeight + 'px',
-      overflow: 'visible'
+      maxHeight: expandedHeight + 'px'
     }
   ];
 
   const animationTiming = {
-    duration: 700,
+    duration: 500,
     iterations: 1
   };
 
   const scrollToLoc =
-    (docsExpander?.current?.offsetTop - docsExpander?.current?.offsetHeight - 48);
+    docsExpander?.current?.offsetTop - docsExpander?.current?.offsetHeight - 48;
 
   const closeAccordion = () => {
     docsExpander.current?.animate(collapse, animationTiming);
@@ -99,8 +97,8 @@ const Accordion: React.FC<AccordionProps> = ({
       }, 500);
     } else {
       // Open accordion
-      expander?.animate(expand, animationTiming);
       expander?.setAttribute('open', '');
+      expander?.animate(expand, animationTiming);
     }
   };
 

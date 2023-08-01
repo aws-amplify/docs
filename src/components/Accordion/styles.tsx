@@ -1,27 +1,4 @@
 import styled from '@emotion/styled';
-import { keyframes } from '@emotion/react';
-
-const expand = keyframes`
-  from {
-    max-height: 0;
-    overflow: hidden;
-  }
-  to {
-    max-height: auto;
-    overflow: visible;
-  }
-`;
-
-const collapse = keyframes`
-  from {
-    overflow: visible;
-    max-height: 1000px;
-  }
-  to {
-    overflow: hidden;
-    max-height: 0;
-  }
-`;
 
 export const Details = styled.details`
   --border-color: var(--amplify-colors-teal-40);
@@ -34,20 +11,11 @@ export const Details = styled.details`
   border-radius: var(--border-radius);
   border: 1px solid var(--border-color);
   text-align: left;
+  overflow: hidden;
 
   &[open] .docs-expander__summary {
     border-end-end-radius: 0;
     border-end-start-radius: 0;
-  }
-
-  &[open] summary ~ *,
-  &[open] .docs-expander__body {
-
-  }
-
-  &.collapse summary ~ *,
-  &.collapse .docs-expander__body {
-
   }
 
   &[open] .docs-expander__title__indicator svg {
@@ -76,6 +44,10 @@ export const Details = styled.details`
 
   .docs-expander__body__button:hover {
     cursor: pointer;
+  }
+
+  button.tab-active {
+    border-bottom: 0.25rem solid var(--amplify-colors-teal-20);
   }
 `;
 
@@ -113,6 +85,7 @@ export const Summary = styled.summary`
     font-weight: bold;
     font-size: 1rem;
     margin: 0;
+    color: #000;
   }
 
   .docs-expander__button {

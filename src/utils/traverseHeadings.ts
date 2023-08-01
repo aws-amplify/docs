@@ -15,7 +15,6 @@ export function traverseHeadings(tree, filterKey: string): string[] {
     if (!('props' in node)) continue;
 
     if ('fragments' in node.props) {
-      // console.log(node.props.fragments);
       // Recurse on the fragment corresponding to this page's filterKey
       if (filterKey in node.props.fragments) {
         const fragmentFunction = node.props.fragments[filterKey];
@@ -25,10 +24,8 @@ export function traverseHeadings(tree, filterKey: string): string[] {
         // "all" includes every filterKey, so recurse
         const fragmentFunction = node.props.fragments.all;
         const fragment = fragmentFunction([]); // expand function into full tree
-        // console.log(fragment)
-        // console.log('before', headings);
+
         headings = headings.concat(traverseHeadings(fragment, filterKey));
-        // console.log('after', headings);
       }
     } else if ('children' in node.props) {
       // Recurse on the children, _unless_ this is a FilterContent with a
@@ -63,7 +60,9 @@ export function traverseHeadings(tree, filterKey: string): string[] {
           const type = node.props.headingLevel
             ? 'h' + node.props.headingLevel
             : 'div';
-          headings.unshift([node.props.title, id, type]);
+          if (type === 'h2' || type === 'h3') {
+            headings.push([node.props.title, id, type]);
+          }
         }
 
         // Do not include headings from within an Accordion in headings array
