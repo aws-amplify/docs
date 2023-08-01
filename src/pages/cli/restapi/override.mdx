@@ -156,7 +156,7 @@ the identity of the user for accessing other services like AWS AppSync or S3.
 
 While Amplify CLI also does not support Lambda authorizers natively out-of-box, you can implement this functionality by overriding your REST API resources. The following steps are walk-through to create token-based Lambda authorizer.
 
-Firstly, you need to have an  Lambda Authorizer function with required [authorization logic](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html#api-gateway-lambda-authorizer-lambda-function-create) in your amplify project to use it as an authorizer. Refer to the steps to [set up a function](https://docs.amplify.aws/cli/function/) using `amplify add function`
+Firstly, you need to have a Lambda authorizer function with required [authorization logic](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html#api-gateway-lambda-authorizer-lambda-function-create) in your amplify project to use it as an authorizer. Refer to the steps to [set up a function](https://docs.amplify.aws/cli/function/) using `amplify add function`
 
 After running `amplify override api`, add the following code to `override(...)` function.
 Initially, create a parameter that resolves to Lambda Function ARN
