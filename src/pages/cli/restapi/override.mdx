@@ -154,7 +154,7 @@ the identity of the user for accessing other services like AWS AppSync or S3.
 
 ## Authorize API requests with Lambda authorizer
 
-While Amplify CLI also does not support Lambda authorizers natively out-of-box, you can implement this functionality by overriding your REST API resources. The following steps are walk-through to create token-based Lambda authorizer.
+While Amplify CLI also does not support Lambda authorizers natively out-of-box, you can implement this functionality by overriding your REST API resources. The following steps will walk you through how to create token-based Lambda authorizer.
 
 Firstly, you need to have a Lambda authorizer function with required [authorization logic](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html#api-gateway-lambda-authorizer-lambda-function-create) in your amplify project to use it as an authorizer. Refer to the steps to [set up a function](https://docs.amplify.aws/cli/function/) using `amplify add function`
 
@@ -167,7 +167,8 @@ const functionResourcename = "<your-function-resource-name>";
 const functionArnParameter = "FunctionArn";
 
 //  Adding parameter to your Cloud Formation Template for Authorizer function arn
-  resources.addCfnParameter({
+resources.addCfnParameter(
+  {
     type: "String",
     description: "The ARN of an existing Lambda Function to authorize requests",
     default: "NONE",
@@ -189,23 +190,23 @@ you added an function resource to your Amplify project.
 Next, define the Lambda authorizer using the OpenAPI extension, [`x-amazon-apigateway-authorizer`](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-swagger-extensions-authorizer.html). This change will be applied by modifying the security definition of your REST API:
 
 ```ts
- // Create the authorizer using the functionArnParameter parameter defined above
- resources.restApi.addPropertyOverride("Body.securityDefinitions", {
-    Lambda: {
-      type: "apiKey",
-      name: "Authorization",
-      in: "header",
-      "x-amazon-apigateway-authtype": "oauth2",
-      "x-amazon-apigateway-authorizer": {
-        type: "token",
-        authorizerUri: 
-        {
-          'Fn::Join': ['', ["arn:aws:apigateway:",{ Ref: 'AWS::Region' },":lambda:path/2015-03-31/functions/",{ Ref: functionArnParameter },"/invocations"]],
-        },
-        authorizerResultTtlInSeconds: 0
+// Create the authorizer using the functionArnParameter parameter defined above
+resources.restApi.addPropertyOverride("Body.securityDefinitions", {
+  Lambda: {
+    type: "apiKey",
+    name: "Authorization",
+    in: "header",
+    "x-amazon-apigateway-authtype": "oauth2",
+    "x-amazon-apigateway-authorizer": {
+      type: "token",
+      authorizerUri: 
+      {
+        'Fn::Join': ['', ["arn:aws:apigateway:",{ Ref: 'AWS::Region' },":lambda:path/2015-03-31/functions/",{ Ref: functionArnParameter },"/invocations"]],
+      },
+      authorizerResultTtlInSeconds: 0
       },
     },
-  });
+});
 ```
 
 As API Gateway needs permission to invoke the Authorizer lambda function, add resource based policy to the function using following code:
@@ -238,16 +239,16 @@ resources.addCfnResource(
                     "/*/*"
                   ]
                 ]
-              }
             }
-    },"LambdaAuthorizerResourceBasedPolicy");
+        }
+    },
+    "LambdaAuthorizerResourceBasedPolicy"
+);
 
 ```
 <Callout warning>
 
-Make sure to replace `<your-api-resource-name>` with the name of your Rest API resource.
-This is the name of the folder in `amplify/backend/api` that was created when
-you added an Rest API resource to your Amplify project.
+Make sure to replace `<your-api-resource-name>` with the name of your Rest API resource. This is the name of the folder in `amplify/backend/api` that was created when you added an Rest API resource to your Amplify project.
 
 </Callout>
 
@@ -255,30 +256,29 @@ Finally, update the security methods for all of the paths in your REST API to us
 
 ```ts
 for (const path in resources.restApi.body.paths) {
-    // Add the Authorization header as a parameter to requests
-    resources.restApi.addPropertyOverride(
-      `Body.paths.${path}.x-amazon-apigateway-any-method.parameters`,
-      [
-        ...resources.restApi.body.paths[path]["x-amazon-apigateway-any-method"]
-          .parameters,
-        {
-          name: "Authorization",
-          in: "header",
-          required: false,
-          type: "string",
-        },
-      ]
-    );
-    // Use your new Lambda authorizer for security
-    resources.restApi.addPropertyOverride(
-      `Body.paths.${path}.x-amazon-apigateway-any-method.security`,
-      [ { Lambda: [], }, ]
-    );
-  }
+  // Add the Authorization header as a parameter to requests
+  resources.restApi.addPropertyOverride(
+    `Body.paths.${path}.x-amazon-apigateway-any-method.parameters`,
+    [
+      ...resources.restApi.body.paths[path]["x-amazon-apigateway-any-method"]
+        .parameters,
+      {
+        name: "Authorization",
+        in: "header",
+        required: false,
+        type: "string",
+      },
+    ]
+  );
+  // Use your new Lambda authorizer for security
+  resources.restApi.addPropertyOverride(
+    `Body.paths.${path}.x-amazon-apigateway-any-method.security`,
+    [ { Lambda: [], }, ]
+  );
+}
 ```
 <Callout>
-Note that you can add more advanced logic to only use the Lambda authorizer
-with some paths or methods.
+Note that you can add more advanced logic to only use the Lambda authorizer with some paths or methods.
 </Callout>
 
 When performing requests to your REST API, make sure to add the Authorization header with an token required by Lambda authorizer function. 
