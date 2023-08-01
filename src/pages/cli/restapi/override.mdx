@@ -211,7 +211,7 @@ Next, define the Lambda authorizer using the OpenAPI extension, [`x-amazon-apiga
 As API Gateway needs permission to invoke the Authorizer lambda function, add resource based policy to the function using following code:
 
 ```ts
-// Adding Resource Based policy to Lambda Authorizer function
+// Adding Resource Based policy to Lambda authorizer function
 resources.addCfnResource(
     {
       type: "AWS::Lambda::Permission",
