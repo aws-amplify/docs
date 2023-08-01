@@ -85,7 +85,7 @@ For example, you can filter using the wildcard expression to search for posts us
 
 ```graphql
 query SearchPosts {
-  searchPost(filter: { title: { wildcard: "S*OpenSearch!" }}) {
+  searchPosts(filter: { title: { wildcard: "S*OpenSearch!" }}) {
     items {
       id
       title
@@ -100,7 +100,7 @@ Moreover you can use the `filter` parameter to pass a nested `and`/`or`/`not` co
 
 ```graphql
 query SearchPosts {
-  searchPost(filter: {
+  searchPosts(filter: {
     title: { wildcard: "S*" }
     or: [
       { createdAt: { eq: "08/20/2018" } },
