@@ -1,11 +1,14 @@
-You can list all of the objects uploaded:
+You can list all of the objects uploaded under a given prefix by setting the `pageSize`. If the `pageSize` is set lower than the total file size available, A single `Storage.list` call only returns a subset of all the files. To list all the files with multiple calls, the user can use the `nextToken` from the previous call response.
+
+This will list all public files:
 
 <BlockSwitcher>
 
 <Block name="Async/Await">
 
 ```swift
-let listResult = try await Amplify.Storage.list()
+let options = StorageListRequest.Options(pageSize: 1000)
+let listResult = try await Amplify.Storage.list(options: options)
 listResult.items.forEach { item in
     print("Key: \(item.key)")
 }
@@ -17,7 +20,86 @@ listResult.items.forEach { item in
 
 ```swift
 let sink = Amplify.Publisher.create {
-    try await Amplify.Storage.list()
+    let options = StorageListRequest.Options(pageSize: 1000)
+    try await Amplify.Storage.list(options: options)
+}.sink {
+    if case let .failure(error) = $0 {
+        print("Failed: \(error)")
+    }
+}
+receiveValue: { listResult in
+    print("Completed")
+    listResult.items.forEach { item in
+        print("Key: \(item.key)")
+    }
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+You can also list private or protected files by passing options. For example, to list all protected files owned by a user identified by the ID `otherUserID`:
+
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+let options = StorageListRequest.Options(accessLevel: .protected, targetIdentityId: "otherUserID", pageSize: 1000)
+let listResult = try await Amplify.Storage.list(options: options)
+listResult.items.forEach { item in
+    print("Key: \(item.key)")
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+let sink = Amplify.Publisher.create {
+    let options = StorageListRequest.Options(accessLevel: .protected, targetIdentityId: "otherUserID", pageSize: 1000)
+    try await Amplify.Storage.list(options: options)
+}.sink {
+    if case let .failure(error) = $0 {
+        print("Failed: \(error)")
+    }
+}
+receiveValue: { listResult in
+    print("Completed")
+    listResult.items.forEach { item in
+        print("Key: \(item.key)")
+    }
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+If you like limit the response to keys that begin with the specified path provide the path options:
+
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+let options = StorageListRequest.Options(path: "path")
+let listResult = try await Amplify.Storage.list(options: options)
+listResult.items.forEach { item in
+    print("Key: \(item.key)")
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+let sink = Amplify.Publisher.create {
+    let options = StorageListRequest.Options(path: "path")
+    try await Amplify.Storage.list(options: options)
 }.sink {
     if case let .failure(error) = $0 {
         print("Failed: \(error)")

@@ -12,8 +12,7 @@ export default function QuickstartResources() {
       <View width={{ base: '90%', large: '60%' }}>
         <Heading level={2}>Quickstart videos</Heading>
         <Text fontSize="large">
-          Get your local environment set up quickly by following along with the
-          below videos.
+          Follow along with these videos to learn how to set up your local environment to get started making open source contributions to the Amplify project.
         </Text>
       </View>
       <Flex wrap={'wrap'} justifyContent={'center'} width="100%" gap="2em">

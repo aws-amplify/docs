@@ -7,7 +7,7 @@ await Storage.get(key: string, config: {
   level?: private | protected | public, // defaults to `public`
   identityId?: string, // id of another user, if `level: protected`
   download?: boolean, // defaults to false
-  expires?: number, // validity of the URL, in seconds. defaults to 900 (15 minutes)
+  expires?: number, // validity of the URL, in seconds. defaults to 900 (15 minutes) and maxes at 3600 (1 hour)
   contentType?: string, // set return content type, eg "text/html"
   validateObjectExistence?: boolean, // defaults to false
   cacheControl?: string, // Specifies caching behavior along the request/reply chain
@@ -15,6 +15,8 @@ await Storage.get(key: string, config: {
 ```
 
 `Storage.get` returns a signed URL `string` to your file if `download` is false, which is the default. You can use this to create a download link for users to click on. Note that this function **does not check if the file exists by default**. You can enable this check by setting `validateObjectExistence` to `true`.
+
+> Note: Currently, the expiration time of the presigned url is dependent on the session and will max out at 1 hour.
 
 ```js
 // get the signed URL string
@@ -155,7 +157,6 @@ Users can run into unexpected issues, so we are giving you advance notice in doc
 
 - `Storage.get` is cached; if you have recently modified a file you may not get the latest version right away. You can pass in `cacheControl: 'no-cache'` to get the latest version.
 - `Storage.get` only returns the latest cached version of the file; there is [not yet an API to view prior versions](https://github.com/aws-amplify/amplify-js/issues/2131).
-- You cannot [only get file metadata](https://github.com/aws-amplify/amplify-js/issues/6157) yet.
 - [Image compression](https://github.com/aws-amplify/amplify-js/issues/6081) or CloudFront CDN caching for your S3 buckets is not yet possible.
 - There is no API for [Cognito Group-based access to files](https://github.com/aws-amplify/amplify-js/issues/3388).
 - There is currently [no API for getting the identityId of other users](https://github.com/aws-amplify/amplify-js/issues/5177); you have to retrieve this from elsewhere before calling `Storage.get`.
