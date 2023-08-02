@@ -7,6 +7,7 @@ Before you begin, you will need:
 - [npm](https://www.npmjs.com/) v6.14.4 or later
 - [git](https://git-scm.com/) v2.14.1 or later
 - A front-end app
+- If you are using Amplify resources you need to [install and configure](/lib/project-setup/prereq/q/platform/js/) the Amplify CLI and have an existing Amplify project or create a new one with `amplify init`
 
 ## Set up and connect backend resources
 
@@ -57,10 +58,10 @@ See the [Amazon Cognito documentation]( https://docs.aws.amazon.com/cognito/late
 
 ### Set up and configure your Auth category
 
-Once you have chosen your management method you can configure your Auth category and install the library to use with your application.
+In this section you will learn more on how to set up your backend resources and install the Amplify libraries to use with your application.
 
 During this workflow you can set up your password formats. If you have not worked with passwords formats recently we recommend taking a closer look at the best practices before you continue.
- 
+
 <Accordion title='Review password best practices' headingLevel='4' eyebrow='Learn more'>
 
 When you are setting up your password formats for authentication you will want to consider the following best practices:
@@ -77,8 +78,6 @@ You can set up your backend resources with the Amplify CLI, Amplify Studio, or u
 
 <BlockSwitcher>
 <Block name="Amplify CLI (Create)">
-
-> Prerequisites: [Install and configure](/lib/project-setup/prereq/q/platform/js/) the Amplify CLI and have an existing Amplify project or create a new one with `amplify init`
 
 To start provisioning auth resources in the backend, go to your project directory and **execute the command**:
 
@@ -122,11 +121,27 @@ The authentication service will be deployed after a few minutes, then you can st
 amplify console
 ```
 
+#### Install the Amplify Libraries
+
+Once your backend resources are configured and deployed, you can now install the Amplify Libraries to use with your application by running the following command:
+
+```bash
+npm install aws-amplify
+```
+
+In your app's entry point (i.e. **App.js**, **index.js**, **_app.js**, or **main.js**), import and load the configuration file:
+
+```javascript
+import { Amplify, Auth } from 'aws-amplify';
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
+```
+
+This will bootstrap your app to use Amplify with the deployed backend resources.
+
 </Block>
 
 <Block name="Amplify CLI (Import)">
-
-> Prerequisites: [Install and configure](/lib/project-setup/prereq/q/platform/js/) the Amplify CLI and have an existing Amplify project or create a new one with `amplify init`
 
 To import existing Amazon Cognito resources into your Amplify project, **execute the command**:
 
@@ -156,11 +171,27 @@ Now, the authentication service has been deployed and you can start using it. To
 amplify console
 ```
 
+#### Install the Amplify Libraries
+
+Once your backend resources are configured and deployed, you can now install the Amplify Libraries to use with your application by running the following command:
+
+```bash
+npm install aws-amplify
+```
+
+In your app's entry point (i.e. **App.js**, **index.js**, **_app.js**, or **main.js**), import and load the configuration file:
+
+```javascript
+import { Amplify, Auth } from 'aws-amplify';
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
+```
+
+This will bootstrap your app to use Amplify with the deployed backend resources.
+
 </Block>
 
-<Block name="Amplify Studio"> 
-
-> Prerequisites: [Install and configure](/lib/project-setup/prereq/q/platform/js/) the Amplify CLI and have an existing Amplify project or create a new one with `amplify init`
+<Block name="Amplify Studio">
 
 Amplify Studio allows you create auth resources, set up authorization rules, implement Multi-factor authentication (MFA), and more via an intuitive UI. To set up Authentication through the Amplify Studio, take the following steps: 
 
@@ -179,6 +210,24 @@ Amplify Studio allows you create auth resources, set up authorization rules, imp
 8. After creating and configuring your auth resources, you'll need to pull them down from Amplify Studio. To do so, simply click on "Local setup instructions" in the upper right hand corner of the Studio console and execute the CLI command it provides at the root directory of your app. 
 
 > Learn more on how you can [import](https://docs.amplify.aws/console/auth/import/) existing Amazon Cognito resources and [manage users and groups](https://docs.amplify.aws/console/auth/user-management/) through the Amplify Studio UI.
+
+#### Install the Amplify Libraries
+
+Once your backend resources are configured and deployed, you can now install the Amplify Libraries to use with your application by running the following command:
+
+```bash
+npm install aws-amplify
+```
+
+In your app's entry point (i.e. **App.js**, **index.js**, **_app.js**, or **main.js**), import and load the configuration file:
+
+```javascript
+import { Amplify, Auth } from 'aws-amplify';
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
+```
+
+This will bootstrap your app to use Amplify with the deployed backend resources.
 
 </Block>
 
@@ -229,30 +278,6 @@ If your existing UserPool client has a required attribute that is NOT set to mut
 </Block>
 </BlockSwitcher>
 
-#### Install the Amplify Libraries
-
-Once your backend resources are configured and deployed, you can now install the Amplify Libraries to use with your application by running the following command:
-
-```bash
-npm install aws-amplify
-```
-
-In your app's entry point (i.e. **App.js**, **index.js**, **_app.js**, or **main.js**), import and load the configuration file:
- 
-<Callout>
-
-**Note:** If you used the "Existing Resource" tab above, you can skip this step.
-
-</Callout>
-
-```javascript
-import { Amplify, Auth } from 'aws-amplify';
-import awsconfig from './aws-exports';
-Amplify.configure(awsconfig);
-```
-
-This will bootstrap your app to use Amplify with the deployed backend resources.
- 
 **Recap:** You now have set up and configured your backend resources for Amplify authentication and are ready to start working on your front-end application.
 
 ## Determine your Auth integration path
