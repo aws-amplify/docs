@@ -53,6 +53,71 @@ import all1 from "/src/fragments/lib/auth/common/social_signin_web_ui/configure_
 
 After configuring the OAuth endpoints (Cognito Hosted UI), you can integrate your App by invoking `Auth.federatedSignIn()` function. Passing `LoginWithAmazon`, `Facebook`, `Google`, or `SignInWithApple` on the `provider` argument (e.g `Auth.federatedSignIn({ provider: 'LoginWithAmazon' })`) will bypass the Hosted UI and federate immediately with the social provider as shown in the below React Native example. If you are looking to add a custom state, you are able to do so by passing a string (e.g. `Auth.federatedSignIn({ customState: 'xyz' })`) value and listening for the custom state via Hub.
 
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { useEffect, useState } from "react";
+import { Text, View, Linking, Button } from "react-native";
+import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth";
+import { Amplify, Auth, Hub } from "aws-amplify";
+import awsconfig from "./aws-exports";
+
+Amplify.configure(awsconfig);
+
+export default function App() {
+  const [user, setUser] = useState(null);
+  const [customState, setCustomState] = useState<string | null>(null);
+
+  useEffect(() => {
+    const unsubscribe = Hub.listen("auth", ({ payload: { event, data }}) => {
+      switch (event) {
+        case "signIn":
+          setUser(data);
+          break;
+        case "signOut":
+          setUser(null);
+          break;
+        case "customOAuthState":
+          setCustomState(data);
+      }
+    });
+
+    getUser();
+
+    return unsubscribe;
+  }, []);
+
+  const getUser = async (): Promise<void> => {
+    try {
+      const currentUser = await Auth.currentAuthenticatedUser();
+      setUser(currentUser);
+    } catch(error) {
+      console.error(error);
+      console.log("Not signed in");
+    }
+  };
+  
+  return (
+    <View>
+      <Button
+        title="Open Amazon"
+        onPress={() =>
+          Auth.federatedSignIn({
+            provider: CognitoHostedUIIdentityProvider.Amazon,
+          })
+        }
+      />
+      <Button title="Open Hosted UI" onPress={() => Auth.federatedSignIn()} />
+      <Button title="Sign Out" onPress={() => Auth.signOut()} />
+      <Text>{user?.getUsername()}</Text>
+    </View>
+  );
+}
+```
+</Block>
+<Block name="JavaScript">
+
 ```javascript
 import { useEffect, useState } from "react";
 import { Text, View, Linking, Button } from "react-native";
@@ -104,6 +169,8 @@ export default function App() {
   );
 }
 ```
+</Block>
+</BlockSwitcher>
 
 ### Deploying to Amplify Console
 
@@ -225,6 +292,99 @@ By default, Amplify will open the Cognito Hosted UI in Safari/Chrome, but you ca
 
 **Sample**
 
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { useEffect, useState } from 'react';
+import { Button, Linking, Text, View } from 'react-native';
+import InAppBrowser from 'react-native-inappbrowser-reborn';
+
+import { Amplify, Auth, Hub } from 'aws-amplify';
+import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
+import awsconfig from './aws-exports';
+
+async function urlOpener(url: string, redirectUrl: string): Promise<void> {
+  await InAppBrowser.isAvailable();
+  const authSessionResult = await InAppBrowser.openAuth(url, redirectUrl, {
+    showTitle: false,
+    enableUrlBarHiding: true,
+    enableDefaultShare: false,
+    ephemeralWebSession: false,
+  });
+
+  if (authSessionResult.type === 'success') {
+    Linking.openURL(authSessionResult.url);
+  }
+}
+
+Amplify.configure({
+  ...awsconfig,
+  oauth: {
+    ...awsconfig.oauth,
+    urlOpener,
+  },
+});
+
+function App() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    Hub.listen('auth', ({ payload: { event, data } }) => {
+      switch (event) {
+        case 'signIn':
+        case 'cognitoHostedUI':
+          getUser();
+          break;
+        case 'signOut':
+          setUser(null);
+          break;
+        case 'signIn_failure':
+        case 'cognitoHostedUI_failure':
+          console.log('Sign in failure', data);
+          break;
+      }
+    });
+
+    getUser()
+  }, []);
+
+  const getUser = async (): Promise<void> => {
+    try {
+      const userData = await Auth.currentAuthenticatedUser();
+      setUser(userData)
+    } catch(error) {
+      console.error(error);
+      console.log("Not signed in");
+    }
+  };
+
+  return (
+    <View>
+      <Text>User: {user ? JSON.stringify(user.attributes) : 'None'}</Text>
+      {user ? (
+        <Button title="Sign Out" onPress={() => Auth.signOut()} />
+      ) : (
+        <>
+          {/* Go to the Cognito Hosted UI */}
+          <Button title="Cognito" onPress={() => Auth.federatedSignIn()} />
+
+          {/* Go directly to a configured identity provider */}
+          <Button title="Facebook" onPress={() => Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Facebook })} />
+          <Button title="Google" onPress={() => Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google })}  />
+          <Button title="Amazon" onPress={() => Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Amazon })} />
+        </>
+      )}
+    </View>
+  );
+}
+
+export default App;
+```
+</Block>
+
+<Block name="JavaScript">
+
 ```js
 import { useEffect, useState } from 'react';
 import { Button, Linking, Text, View } from 'react-native';
@@ -307,6 +467,8 @@ function App() {
 
 export default App;
 ```
+</Block>
+</BlockSwitcher>
 
 import all2 from "/src/fragments/lib/auth/js/react-native-withoauth.mdx";
 
@@ -321,6 +483,145 @@ import all2 from "/src/fragments/lib/auth/js/react-native-withoauth.mdx";
 By default, Amplify will open the Cognito Hosted UI in Safari/Chrome, but you can override that behavior by providing a custom `urlOpener`. The sample below uses Expo's [WebBrowser.openAuthSessionAsync](https://docs.expo.io/versions/v37.0.0/sdk/webbrowser/).
 
 **Sample**
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { useEffect, useState } from "react";
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View, Linking, Button } from "react-native";
+import * as WebBrowser from "expo-web-browser";
+
+import { Amplify, Hub, Auth } from "aws-amplify";
+import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth";
+import awsconfig from "./src/aws-exports";
+
+const isLocalHost = Boolean(__DEV__);
+
+const [localRedirectSignIn, productionRedirectSignIn] =
+  awsconfig.oauth.redirectSignIn.split(",");
+
+const [localRedirectSignOut, productionRedirectSignOut] =
+  awsconfig.oauth.redirectSignOut.split(",");
+
+async function urlOpener(url: string, redirectUrl: string): Promise<void> {
+  const authSessionResult = await WebBrowser.openAuthSessionAsync(
+    url,
+    redirectUrl
+  );
+
+  if (authSessionResult.type === "success" && Platform.OS === "ios") {
+    WebBrowser.dismissBrowser();
+    return Linking.openURL(authSessionResult.url);
+  }
+}
+
+const updatedConfig = {
+  ...awsconfig,
+  oauth: {
+    ...awsconfig.oauth,
+    redirectSignIn: isLocalHost
+      ? localRedirectSignIn
+      : productionRedirectSignIn,
+    redirectSignOut: isLocalHost
+      ? localRedirectSignOut
+      : productionRedirectSignOut,
+    urlOpener,
+  },
+};
+Amplify.configure(updatedConfig);
+
+export default function App() {
+  const [user, setUser] = useState(null);
+  const [customState, setCustomState] = useState<string | null>(null);
+
+  useEffect(() => {
+    const unsubscribe = Hub.listen("auth", ({ payload: { event, data }}) => {
+      console.log("event", event);
+      console.log("data", data);
+      switch (event) {
+        case "signIn":
+          setUser(data);
+          break;
+        case "signOut":
+          setUser(null);
+          break;
+        case "customOAuthState":
+          setCustomState(data);
+          break;
+      }
+    });
+
+    getUser();
+
+    return unsubscribe;
+  }, []);
+
+  const getUser = async (): Promise<void> => {
+    try {
+      const currentUser = await Auth.currentAuthenticatedUser();
+      setUser(currentUser);
+    } catch(error) {
+      console.error(error);
+      console.log("Not signed in");
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <Button title="Open Hosted UI" onPress={() => Auth.federatedSignIn()} />
+      <Button
+        title="Open Facebook"
+        onPress={() =>
+          Auth.federatedSignIn({
+            provider: CognitoHostedUIIdentityProvider.Facebook,
+          })
+        }
+      />
+      <Button
+        title="Open Google"
+        onPress={() =>
+          Auth.federatedSignIn({
+            provider: CognitoHostedUIIdentityProvider.Google,
+          })
+        }
+      />
+      <Button
+        title="Open Amazon"
+        onPress={() =>
+          Auth.federatedSignIn({
+            provider: CognitoHostedUIIdentityProvider.Amazon,
+          })
+        }
+      />
+      <Button
+        title="Open Apple"
+        onPress={() =>
+          Auth.federatedSignIn({
+            provider: CognitoHostedUIIdentityProvider.Apple,
+          })
+        }
+      />
+      <Button title="Sign Out" onPress={() => Auth.signOut()} />
+      <Text>{user && user.getUsername()}</Text>
+      <StatusBar style="auto" />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
+```
+</Block>
+
+<Block name="JavaScript">
 
 ```js
 import { useEffect, useState } from "react";
@@ -447,6 +748,8 @@ const styles = StyleSheet.create({
 });
 
 ```
+</Block>
+</BlockSwitcher>
 
 import all3 from "/src/fragments/lib/auth/js/react-native-withoauth.mdx";
 

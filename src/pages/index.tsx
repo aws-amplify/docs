@@ -103,7 +103,7 @@ const Page = () => {
             }}
           >
             <Card href="/lib/q/platform/js">
-              <CardGraphic alt="Libraries icon" src="/assets/lib.png" />
+              <CardGraphic alt="" src="/assets/lib.png" />
               <CardDetail>
                 <h4>Amplify Libraries</h4>
                 <p>
@@ -113,10 +113,7 @@ const Page = () => {
               </CardDetail>
             </Card>
             <Card href="/console">
-              <CardGraphic
-                alt="Amplify Studio icon"
-                src="/assets/console.png"
-              />
+              <CardGraphic alt="" src="/assets/console.png" />
               <CardDetail>
                 <h4>Amplify Studio</h4>
                 <p>
@@ -126,14 +123,14 @@ const Page = () => {
               </CardDetail>
             </Card>
             <Card href="/cli">
-              <CardGraphic alt="CLI icon" src="/assets/cli.png" />
+              <CardGraphic alt="" src="/assets/cli.png" />
               <CardDetail>
                 <h4>Amplify CLI</h4>
                 <p>Configure an app backend with a guided CLI workflow.</p>
               </CardDetail>
             </Card>
             <Card href="https://docs.aws.amazon.com/amplify/latest/userguide/getting-started.html">
-              <CardGraphic alt="Console icon" src="/assets/console.png" />
+              <CardGraphic alt="" src="/assets/console.png" />
               <CardDetail>
                 <h4>Amplify Hosting</h4>
                 <p>Fully managed web hosting with fullstack CI/CD.</p>
