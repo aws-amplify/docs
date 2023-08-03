@@ -31,30 +31,19 @@ const convertToRouteHerf = (
   filter: FilterSelectProps,
   targetFilterKey: string
 ) => {
-  const url = filter.url.startsWith('/') ? `file://${filter.url}` : filter.url;
+  let url = filter.url.startsWith('/') ? `file://${filter.url}` : filter.url;
+  if (url.includes('?')) url = url.slice(0, url.indexOf('?'));
+  if (url.includes('#')) url = url.slice(0, url.indexOf('#'));
+
   let path = new URL(url).pathname;
 
-  const firstPathSegment = getFirstPathSegment(path);
-  if (firstPathSegment)
-    path = path.replace(`/${firstPathSegment}`, '/[firstPathSegment]');
-
-  let queryIndex = path.lastIndexOf('/q/');
+  const queryIndex = path.lastIndexOf('/q/');
   if (queryIndex >= 0) {
     path =
       path.substring(0, queryIndex) +
-      path
-        .substring(queryIndex)
-        .replace(`/${filter.filterKey}`, `/[${filter.filterKind}]`);
+      `/q/${filter.filterKind}/${targetFilterKey}`;
   }
-  return {
-    pathname: path,
-    query: {
-      [filter.filterKind]: targetFilterKey,
-      firstPathSegment: multiLibVersionPlatforms.includes(targetFilterKey)
-        ? firstPathSegment
-        : firstPathSegment?.split('-')[0]
-    }
-  };
+  return path;
 };
 
 export default class FilterSelect extends React.Component<
@@ -106,10 +95,10 @@ export default class FilterSelect extends React.Component<
     }
 
     return (
-      <Link href={href} key={name}>
+      <Link href={href} key={name} legacyBehavior>
         <a onClick={this.toggleVis}>
           <img
-            alt={filterMetadataByOption[name]?.label + ' icon'}
+            alt=""
             src={filterMetadataByOption[name]?.graphicURI}
             height="28px"
             width="28px"
@@ -160,9 +149,7 @@ export default class FilterSelect extends React.Component<
           <div className={!supported ? 'unsupported' : ''}>
             <a onClick={this.toggleVis}>
               <img
-                alt={
-                  filterMetadataByOption[this.props.filterKey]?.label + ' icon'
-                }
+                alt=""
                 src={filterMetadataByOption[this.props.filterKey]?.graphicURI}
                 height="28px"
                 width="28px"

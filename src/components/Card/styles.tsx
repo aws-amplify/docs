@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "@emotion/styled";
-import Link from "next/link";
+import InternalLink from "../InternalLink";
 
 import {MQFablet, MQDesktop} from "../media";
 
@@ -30,7 +30,7 @@ const docsCard: React.FC<CardProps> = ({
 }) => {
   if (!href) return <div className={className}>{children}</div>;
   return (
-    <Link href={href} passHref={true}>
+    <InternalLink href={href} passHref={true} legacyBehavior>
       <Anchor>
         {external && (
           <ExternalLinkGraphic
@@ -40,7 +40,7 @@ const docsCard: React.FC<CardProps> = ({
         )}
         <div className={className}>{children}</div>
       </Anchor>
-    </Link>
+    </InternalLink>
   );
 };
 

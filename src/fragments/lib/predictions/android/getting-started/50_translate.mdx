@@ -11,11 +11,11 @@ import com.amplifyframework.predictions.models.LanguageType;
 
 ```java
 Amplify.Predictions.translateText(
-    "I like to eat spaghetti",
-    LanguageType.ENGLISH,
-    LanguageType.SPANISH,
-    result -> Log.i("MyAmplifyApp", result.getTranslatedText()),
-    error -> Log.e("MyAmplifyApp", "Translation failed", error)
+  "I like to eat spaghetti",
+  LanguageType.ENGLISH,
+  LanguageType.SPANISH,
+  result -> Log.i("MyAmplifyApp", result.getTranslatedText()),
+  error -> Log.e("MyAmplifyApp", "Translation failed", error)
 );
 ```
 
@@ -32,9 +32,9 @@ import com.amplifyframework.predictions.models.LanguageType
 
 ```kotlin
 Amplify.Predictions.translateText(
-    "I like to eat spaghetti", LanguageType.ENGLISH, LanguageType.SPANISH,
-    { Log.i("MyAmplifyApp", it.translatedText) },
-    { Log.e("MyAmplifyApp", "Translation failed", it) }
+  "I like to eat spaghetti", LanguageType.ENGLISH, LanguageType.SPANISH,
+  { Log.i("MyAmplifyApp", it.translatedText) },
+  { Log.e("MyAmplifyApp", "Translation failed", it) }
 )
 ```
 
@@ -52,10 +52,10 @@ import com.amplifyframework.predictions.models.LanguageType
 ```kotlin
 val text = "I like to eat spaghetti"
 try {
-    val result = Amplify.Predictions.translateText(text, ENGLISH, SPANISH)
-    Log.i("MyAmplifyApp", result.translatedText) 
+  val result = Amplify.Predictions.translateText(text, ENGLISH, SPANISH)
+  Log.i("MyAmplifyApp", result.translatedText) 
 } catch (error: PredictionsException) {
-    Log.e("MyAmplifyApp", "Translation failed", error) 
+  Log.e("MyAmplifyApp", "Translation failed", error) 
 }
 ```
 
@@ -72,13 +72,13 @@ import com.amplifyframework.rx.RxAmplify;
 
 ```java
 RxAmplify.Predictions.translateText(
-        "I like to eat spaghetti",
-        LanguageType.ENGLISH,
-        LanguageType.SPANISH)
-        .subscribe(
-            result -> Log.i("MyAmplifyApp", result.getTranslatedText()),
-            error -> Log.e("MyAmplifyApp", "Translation failed", error)
-        );
+  "I like to eat spaghetti",
+  LanguageType.ENGLISH,
+  LanguageType.SPANISH)
+  .subscribe(
+    result -> Log.i("MyAmplifyApp", result.getTranslatedText()),
+    error -> Log.e("MyAmplifyApp", "Translation failed", error)
+  );
 ```
 
 </Block>

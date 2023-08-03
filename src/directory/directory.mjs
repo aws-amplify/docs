@@ -178,6 +178,16 @@ export const directory = {
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
+            title: 'Working with files and attachments',
+            route: '/lib/graphqlapi/working-with-files',
+            filters: ['js']
+          },
+          {
+            title: 'Optimistic UI',
+            route: '/lib/graphqlapi/optimistic-ui',
+            filters: ['js']
+          },
+          {
             title: 'Cancel API requests',
             route: '/lib/graphqlapi/cancel-request',
             filters: ['js', 'react-native']
@@ -201,6 +211,11 @@ export const directory = {
             title: 'Use existing AWS resources',
             route: '/lib/graphqlapi/existing-resources',
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
+          },
+          {
+            title: 'Upgrade guide from AppSync SDK (V2)',
+            route: '/lib/graphqlapi/upgrade-guide',
+            filters: ['js']
           }
         ]
       },
@@ -315,7 +330,7 @@ export const directory = {
           {
             title: 'Sign in next steps',
             route: '/lib/auth/signin_next_steps',
-            filters: ['ios', 'android']
+            filters: ['ios', 'android', 'flutter']
           },
           {
             title: 'Guest access',
@@ -370,7 +385,7 @@ export const directory = {
           {
             title: 'Advanced workflows',
             route: '/lib/auth/advanced',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'flutter']
           },
           {
             title: 'Under the hood',
@@ -571,47 +586,47 @@ export const directory = {
           {
             title: 'Getting started',
             route: '/lib/predictions/getting-started',
-            filters: ['android', 'js', 'react-native']
+            filters: ['android', 'ios', 'js', 'react-native']
           },
           {
             title: 'Text to speech',
             route: '/lib/predictions/text-speech',
-            filters: ['android', 'js', 'react-native']
+            filters: ['android', 'ios', 'js', 'react-native']
           },
           {
             title: 'Transcribe audio to text',
             route: '/lib/predictions/transcribe',
-            filters: ['js', 'react-native']
+            filters: ['js', 'ios', 'react-native']
           },
           {
             title: 'Translate language',
             route: '/lib/predictions/translate',
-            filters: ['android', 'js', 'react-native']
+            filters: ['android', 'ios', 'js', 'react-native']
           },
           {
             title: 'Identify text',
             route: '/lib/predictions/identify-text',
-            filters: ['android', 'js', 'react-native']
+            filters: ['android', 'ios', 'js', 'react-native']
           },
           {
             title: 'Identify entities from images',
             route: '/lib/predictions/identify-entity',
-            filters: ['android', 'js', 'react-native']
+            filters: ['android', 'ios', 'js', 'react-native']
           },
           {
             title: 'Label objects in image',
             route: '/lib/predictions/label-image',
-            filters: ['android', 'js', 'react-native']
+            filters: ['android', 'ios', 'js', 'react-native']
           },
           {
             title: 'Interpret sentiment',
             route: '/lib/predictions/interpret',
-            filters: ['android', 'js', 'react-native']
+            filters: ['android', 'ios', 'js', 'react-native']
           },
           {
             title: 'Escape hatch',
             route: '/lib/predictions/escapehatch',
-            filters: ['android']
+            filters: ['android', 'ios']
           },
           {
             title: 'Example',
@@ -741,7 +756,7 @@ export const directory = {
           {
             title: 'Get file properties',
             route: '/lib/storage/get-properties',
-            filters: ['flutter']
+            filters: ['flutter', 'js']
           },
           {
             title: 'List files',
@@ -802,6 +817,66 @@ export const directory = {
             title: 'Use existing AWS resources',
             route: '/lib/storage/existing-resources',
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+          }
+        ]
+      },
+      logging: {
+        title: 'Logging',
+        items: [
+          {
+            title: 'Set up Logging',
+            route: '/lib/logging/setup-logging',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'Send Logs',
+            route: '/lib/logging/sending-logs',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'Change Log Levels',
+            route: '/lib/logging/change-log-levels',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'Flush Logs',
+            route: '/lib/logging/flush-logs',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'Enable/Disable Logging',
+            route: '/lib/logging/enable-disable',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'Configure User Allow List',
+            route: '/lib/logging/configure-user',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'View Logs',
+            route: '/lib/logging/access-logs',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'Remotely Change Log Levels',
+            route: '/lib/logging/remote-configuration',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'Change Local Storage',
+            route: '/lib/logging/change-local-storage',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'Listen to Log Events',
+            route: '/lib/logging/hub-events',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'Escape Hatch',
+            route: '/lib/logging/escapehatch',
+            filters: ['ios', 'android']
           }
         ]
       },
@@ -1703,7 +1778,11 @@ export const directory = {
       start: {
         title: 'Get started',
         items: [
-          { title: 'Installation', route: '/cli/start/install', filters: [] },
+          {
+            title: 'Installation',
+            route: '/cli/start/install',
+            filters: []
+          },
           {
             title: 'Typical workflows',
             route: '/cli/start/workflows',
@@ -1795,7 +1874,11 @@ export const directory = {
       restapi: {
         title: 'API (REST)',
         items: [
-          { title: 'Overview', route: '/cli/restapi/restapi', filters: [] },
+          {
+            title: 'Overview',
+            route: '/cli/restapi/restapi',
+            filters: []
+          },
           { title: 'Test', route: '/cli/restapi/testing', filters: [] },
           {
             title: 'Override Amplify-generated API Gateway resources',
@@ -1807,9 +1890,21 @@ export const directory = {
       auth: {
         title: 'Authentication',
         items: [
-          { title: 'Overview', route: '/cli/auth/overview', filters: [] },
-          { title: 'User groups', route: '/cli/auth/groups', filters: [] },
-          { title: 'Admin actions', route: '/cli/auth/admin', filters: [] },
+          {
+            title: 'Overview',
+            route: '/cli/auth/overview',
+            filters: []
+          },
+          {
+            title: 'User groups',
+            route: '/cli/auth/groups',
+            filters: []
+          },
+          {
+            title: 'Admin actions',
+            route: '/cli/auth/admin',
+            filters: []
+          },
           {
             title: 'Use an existing Cognito User Pool and Identity Pool',
             route: '/cli/auth/import',
@@ -1825,7 +1920,11 @@ export const directory = {
       storage: {
         title: 'Storage',
         items: [
-          { title: 'Overview', route: '/cli/storage/overview', filters: [] },
+          {
+            title: 'Overview',
+            route: '/cli/storage/overview',
+            filters: []
+          },
           {
             title: 'Use an existing S3 bucket or DynamoDB table',
             route: '/cli/storage/import',
@@ -1892,7 +1991,11 @@ export const directory = {
       hosting: {
         title: 'Hosting',
         items: [
-          { title: 'Overview', route: '/cli/hosting/hosting', filters: [] }
+          {
+            title: 'Overview',
+            route: '/cli/hosting/hosting',
+            filters: []
+          }
         ]
       },
       custom: {
@@ -1948,7 +2051,11 @@ export const directory = {
       teams: {
         title: 'Team environments',
         items: [
-          { title: 'Overview', route: '/cli/teams/overview', filters: [] },
+          {
+            title: 'Overview',
+            route: '/cli/teams/overview',
+            filters: []
+          },
           {
             title: 'Share single environment',
             route: '/cli/teams/shared',
@@ -1969,7 +2076,11 @@ export const directory = {
             route: '/cli/teams/cicd',
             filters: []
           },
-          { title: 'Commands', route: '/cli/teams/commands', filters: [] }
+          {
+            title: 'Commands',
+            route: '/cli/teams/commands',
+            filters: []
+          }
         ]
       },
       usage: {
@@ -2004,7 +2115,11 @@ export const directory = {
       plugins: {
         title: 'Plugins',
         items: [
-          { title: 'Overview', route: '/cli/plugins/plugins', filters: [] },
+          {
+            title: 'Overview',
+            route: '/cli/plugins/plugins',
+            filters: []
+          },
           {
             title: 'Architecture',
             route: '/cli/plugins/architecture',
@@ -2271,27 +2386,27 @@ export const directory = {
           {
             title: 'Generate model files',
             route: '/start/getting-started/generate-model',
-            filters: ['android', 'ios', 'flutter', 'react-native']
+            filters: ['android', 'ios', 'flutter']
           },
           {
             title: 'Integrate your app',
             route: '/start/getting-started/integrate',
-            filters: ['android', 'ios', 'flutter', 'react-native']
+            filters: ['android', 'ios', 'flutter']
           },
           {
             title: 'Connect to the cloud',
             route: '/start/getting-started/add-api',
-            filters: ['android', 'ios', 'react-native']
+            filters: ['android', 'ios']
           },
           {
             title: 'Connect API and database to the app',
             route: '/start/getting-started/data-model',
-            filters: ['js', 'react', 'angular', 'vue', 'next']
+            filters: ['js', 'react', 'angular', 'vue', 'next', 'react-native']
           },
           {
             title: 'Add authentication',
             route: '/start/getting-started/auth',
-            filters: ['react', 'angular', 'vue']
+            filters: ['react', 'angular', 'vue', 'react-native']
           },
           {
             title: 'Deploy and host app',
@@ -2389,6 +2504,14 @@ export const directory = {
           {
             title: 'Customize form inputs',
             route: '/console/formbuilder/customize'
+          },
+          {
+            title: 'Data binding',
+            route: '/console/formbuilder/data-binding'
+          },
+          {
+            title: 'Configure special inputs',
+            route: '/console/formbuilder/special-inputs'
           },
           {
             title: 'Validate form data',
@@ -2710,6 +2833,11 @@ export const directory = {
           {
             title: 'Nuxt.js',
             route: '/guides/hosting/nuxt',
+            filters: ['js']
+          },
+          {
+            title: 'Vite',
+            route: '/guides/hosting/vite',
             filters: ['js']
           }
         ]

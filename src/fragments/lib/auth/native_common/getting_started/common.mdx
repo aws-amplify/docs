@@ -1,5 +1,13 @@
 The Amplify Auth category provides an interface for authenticating a user. Behind the scenes, it provides the necessary authorization to the other Amplify categories. It comes with default, built-in support for [Amazon Cognito](https://aws.amazon.com/cognito) User Pool and Identity Pool. The Amplify CLI helps you create and configure the auth category with an authentication provider.
 
+import ios1 from "/src/fragments/lib/auth/ios/getting_started/05_authenticator_callout.mdx";
+
+<Fragments fragments={{ios: ios1}} />
+
+import androidAuthenticator from "/src/fragments/lib/auth/android/getting_started/05_authenticatorCallout.mdx";
+
+<Fragments fragments={{android: androidAuthenticator}} />
+
 ## Goal
 
 To setup and configure your application with Amplify Auth and go through a simple api to check the current auth session.
@@ -89,6 +97,14 @@ import flutter13 from "/src/fragments/lib/auth/flutter/getting_started/50_fetchS
 
 
 The `isSignedIn` property of the `authSession` will be false since you haven't signed in to the category yet.
+
+import ios13 from "/src/fragments/lib/auth/ios/getting_started/45_authenticator.mdx";
+
+<Fragments fragments={{ios: ios13}} />
+
+import android14 from "/src/fragments/lib/auth/android/getting_started/45_authenticator.mdx";
+
+<Fragments fragments={{android: android14}} />
 
 ## Next Steps
 Congratulations! You've successfully setup AWS Cognito Auth plugin.  Check out the following links to see other Amplify Auth use cases:

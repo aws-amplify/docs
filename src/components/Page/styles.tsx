@@ -10,6 +10,7 @@ export const ContentStyle = styled.div<ContentProps>(({ menuIsOpen }) => {
   padding: 1.5rem 1rem;
   width: 100%;
   overflow-x: hidden;
+  border-right: 0.0625rem solid var(--border-color);
 
   .searchable-code {
     display: none;
@@ -18,9 +19,11 @@ export const ContentStyle = styled.div<ContentProps>(({ menuIsOpen }) => {
   > div {
     ${menuIsOpen ? 'min-width: 100vw;' : 'min-width: initial;'}
     ${MQFablet} {
-      min-width: initial;
-      padding: 1.5rem 2rem 1.5rem 4rem;
-    }
+      :not(#feedback-container) {
+        min-width: initial;
+        padding: 1.5rem 2rem 1.5rem 4rem;
+      }
+      }
   }
 
   a {
@@ -52,6 +55,10 @@ export const ContentStyle = styled.div<ContentProps>(({ menuIsOpen }) => {
 
   p {
     margin-bottom: 1rem;
+  }
+
+  #feedback-container p {
+    margin-bottom: 0;
   }
 
   ul {

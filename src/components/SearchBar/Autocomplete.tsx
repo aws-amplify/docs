@@ -4,7 +4,7 @@ import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-pl
 import algoliasearch from 'algoliasearch';
 
 import React, { createElement, Fragment, useEffect, useRef } from 'react';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import { pipe } from 'ramda';
 
@@ -67,6 +67,8 @@ const groupByCategory = function(router) {
 
 export function Autocomplete(props) {
   const containerRef = useRef(null);
+  const panelRootRef = useRef(null);
+  const rootRef = useRef(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -76,7 +78,7 @@ export function Autocomplete(props) {
 
     const search = autocomplete({
       container: containerRef.current,
-      renderer: { createElement, Fragment },
+      renderer: { createElement, Fragment, render: () => [] },
       plugins: [recentSearchesPlugin, querySuggestionsPlugin],
       getSources({ query }) {
         if (!query) {
@@ -98,8 +100,15 @@ export function Autocomplete(props) {
         ];
       },
       render({ children }, root) {
-        render(children, root);
-      },
+        // updated for React18 per https://www.algolia.com/doc/ui-libraries/autocomplete/integrations/using-react/#with-react-18
+        if (!panelRootRef.current || rootRef.current !== root) {
+          rootRef.current = root;
+
+          panelRootRef.current?.unmount();
+          panelRootRef.current = createRoot(root);
+        }
+
+        panelRootRef.current.render(children);      },
       ...props
     });
 
