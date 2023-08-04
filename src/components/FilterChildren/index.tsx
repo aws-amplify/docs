@@ -12,6 +12,9 @@ export default function FilterChildren({ children }) {
     filterKey = router.query.framework as string;
   }
 
+  console.log(children);
+  console.log(router.query);
+  console.log(filterKey);
   const filteredChildren = children.filter(
     (el) => el.key === filterKey || el.key === 'all'
   );
