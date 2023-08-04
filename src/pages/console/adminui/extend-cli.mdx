@@ -96,15 +96,18 @@ Note, the content of `~/.amplify/admin/config.json` is utilized to store JWTs to
 
 </Callout>
 
+### Overrides
+
 ```console
 A flag to disable overrides has been detected, please deploy from a different environment. at buildOverrideDir
 ```
 
-This message occurs if the Amplify project has an `override.ts` file present in the resources.
+This message occurs if the Amplify project has an `override.ts` file present in your resources. Amplify Studio does not support deploying projects containing this file. 
 
-To resolve this error.
+To resolve this error, remove the `override.ts` file and run `amplify push`. Alternatively, you can use Amplify CLI to build and push your resources. But you will not be able to deploy with Amplify Studio.
 
-Remove the `override.ts` file and run `amplify push` or continue utilizing Amplify CLI to build and push your resources.
- 
-While you may not be able to run a deploy on Amplify Studio, resources such a UI Builder and Manage should not be effected by this.
+<Callout>
 
+Resources such a UI Library, Data manager, User management and File browser will not be effected by this behavior.
+
+</Callout>
