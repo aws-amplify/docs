@@ -101,7 +101,7 @@
     "minimatch": "3.1.2",
     "json5": "2.2.2",
     "decode-uri-component": "0.2.1",
-    "fast-xml-parser": "4.2.4",
+    "fast-xml-parser": "4.2.5",
     "proxy-agent": "^6.3.0",
     "semver": "7.5.2",
     "tough-cookie": "4.1.3",
