@@ -334,7 +334,7 @@ User attributes (e.g. username, email, etc.) are used to identify your users. Th
 
 #### How will you verify users at sign-up?
 
-Once the initial sign-up is done, the user will need to verify and confirm their contact information before their account is activated. This is done by sending a verification code via email or phone number that can be collected on initial sign-up. Email verification asks the user to click a link or enter a code sent to their email address provided during sign-up. Phone verification is done by asking the user to enter the code sent to them in a SMS text message. You can also enable auto-confirmation to skip this step and automatically confirm the user after sign-up. This is accomplished using the PostSignUp Lambda trigger.
+Once the initial sign-up is done, the user will need to verify and confirm their contact information before their account is activated. This is done by sending a verification code via email or phone number that can be collected on initial sign-up. Email verification asks the user to click a link or enter a code sent to their email address provided during sign-up. Phone verification is done by asking the user to enter the code sent to them in a SMS text message. You can also enable auto-confirmation to skip this step and automatically confirm the user after sign-up. This is accomplished using the `PreSignUp` Lambda trigger which is explained in the [Amazon Cognito documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-sign-up.html).
  
 #### Do you need local or global sign-out?
 
@@ -502,7 +502,7 @@ Once you add the Authenticator component to your app, you can test the sign-up, 
 You can add the library functionality to enable sign-up, sign-in, and sign-out directly with the Amplify Libraries. You can connect this to an existing UI or create your own.
 
 <BlockSwitcher>
-<Block name="Amplify Library Sign-up">
+<Block name="Amplify Library - Sign-up">
 
 Create a new user in the Amazon Cognito User Pool by passing the new user's email address, password, and other attributes to `Auth.signUp()`.
 
@@ -530,7 +530,8 @@ async function signUp() {
 }
 ```
 
-##### Confirm sign up
+</Block>
+<Block name="Confirm Sign-up">
 
 By default, each user that signs up remains in the unconfirmed status until they verify with a confirmation code that was sent to their email or phone number. You can confirm the sign-up after retrieving a confirmation code from the user as shown here.
 
@@ -561,7 +562,7 @@ async function confirmSignUp() {
 ```
 
 </Block>
-<Block name="Amplify Library Sign-in">
+<Block name="Sign-in">
 
 You pass the username and password to the `signIn` method of the Auth class to enable username and password sign-in.
 
@@ -578,7 +579,7 @@ async function signIn() {
 ```
 
 </Block>
-<Block name="Amplify Library Sign-out">
+<Block name="Sign-out">
 
 To set up local sign-out you use the `signOut` method of the Auth class.
 
@@ -629,5 +630,7 @@ Congratulations! You finished the **Set up Amplify Auth** guide. In this guide, 
 
 ## Next steps
 
-TBD - Potentially a link to Social Sign In and MFA setup.
+Now that you completed setting up Amplify Auth with username/password you may also want to add some additional features. We recommend:
+  - [Social sign-in (OAuth)](https://docs.amplify.aws/lib/auth/social/q/platform/js/)
+  - [Multi-factor authentication](https://docs.amplify.aws/lib/auth/mfa/q/platform/js/)
  
