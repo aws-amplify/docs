@@ -12,7 +12,7 @@ const DocsFooter = forwardRef(function DocsFooter({}, ref) {
     <Container backgroundColor="color-ink-hv">
       <Footer ref={ref}>
         <LeftFooter>
-          <img alt={img.AMPLIFY.alt} src={img.AMPLIFY.lightSrc} />
+          <img alt="" src={img.AMPLIFY.lightSrc} />
           <div>
             <h3>Amplify</h3>
             <Link href="/start">Getting Started</Link>
@@ -36,7 +36,7 @@ const DocsFooter = forwardRef(function DocsFooter({}, ref) {
             <span>
               <div>
                 <p>
-                  <img alt={img.AWS.alt} src={img.AWS.lightSrc} />
+                  <img alt="" src={img.AWS.lightSrc} />
                   Amplify open source software, documentation and
                   <br /> community are supported by Amazon Web Services.
                 </p>

@@ -1,13 +1,17 @@
 export const meta = {
   title: `Concepts`,
-  description: `Learn more about the foundational storage concepts for cloud-based application and how they work with Amplify.`,
+  description: `Learn more about the foundational storage concepts for cloud-based application and how they work with Amplify.`
 };
 
-AWS Amplify storage module provides a simple mechanism for managing user content for your app in public, protected or private storage buckets. The storage category comes with built-in support for [Amazon S3 (Simple Storage Service)](https://docs.aws.amazon.com/AmazonS3/latest/dev/Welcome.html). 
+import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
+
+<Fragments fragments={{ flutter: flutter_maintenance }} />
+
+AWS Amplify storage module provides a simple mechanism for managing user content for your app in public, protected or private storage buckets. The storage category comes with built-in support for [Amazon S3 (Simple Storage Service)](https://docs.aws.amazon.com/AmazonS3/latest/dev/Welcome.html).
 
 ![Image](/images/s3_overview.jpg)
 
-## S3 Core Concepts 
+## S3 Core Concepts
 
 Amazon S3 stores data as objects within container buckets. An object consists of a file and optionally any metadata that describes that file. To store an object in Amazon S3, you upload the file you want to store to a bucket. When you upload a file, you can set permissions on the object and any metadata.
 
