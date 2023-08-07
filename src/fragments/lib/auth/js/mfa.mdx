@@ -205,7 +205,7 @@ try {
 
 <Callout warning>
 
-To avoid unexpected responses from Cognito, it is recommended to call the `Auth.setPreferredMFA()` API before retrieving MFA settings with `Auth.getPreferredMFA()`. If the MFA settings returned from Cognito do not align with the expected user’s preferences, trying to [setting the user MFA preferences](/lib/auth/mfa/q/platform/react-native/#setup-mfa-type) first.
+To avoid unexpected responses from Cognito, it is recommended to call `Auth.setPreferredMFA()` to ensure a user has set their MFA method *before* retrieving MFA settings with `Auth.getPreferredMFA()`.
 
 </Callout>
 
