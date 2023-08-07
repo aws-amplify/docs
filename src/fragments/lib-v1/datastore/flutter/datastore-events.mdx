@@ -11,19 +11,19 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  StreamSubscription<HubEvent>? stream;
+  late StreamSubscription<DataStoreHubEvent>? hubSubscription;
 
-  // Initialize a boolean indicating if the network is up
+  // Initialize a boolean indicating if the network  is up
   bool networkIsUp = false;
 
   // Initialize the libraries
   ...
 
   void observeEvents() {
-    stream = Amplify.Hub.listen([HubChannel.DataStore], (hubEvent) {
+    hubSubscription = Amplify.Hub.listen(HubChannel.DataStore, (hubEvent) {
       if (hubEvent.eventName == 'networkStatus') {
+        final status = hubEvent.payload as NetworkStatusEvent?;
         setState(() {
-          final status = hubEvent.payload as NetworkStatusEvent?;
           networkIsUp = status?.active ?? false;
         });
       }
@@ -35,7 +35,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void dispose() {
-    stream?.cancel();
+    hubSubscription?.cancel();
     super.dispose();
   }
 }

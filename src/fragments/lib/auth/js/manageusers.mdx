@@ -4,45 +4,143 @@ This section covers the client-side development experience for password and user
 
 ### Change password
 
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { Auth } from 'aws-amplify';
+
+async function changePassword (oldPassword: string, newPassword: string) {
+  try {
+    const user = await Auth.currentAuthenticatedUser();
+    const data = await Auth.changePassword(user, oldPassword, newPassword);
+    console.log(data);
+  } catch(err) {
+    console.log(err);
+  }
+};
+```
+</Block>
+<Block name="JavaScript">
+
 ```javascript
 import { Auth } from 'aws-amplify';
 
-Auth.currentAuthenticatedUser()
-  .then((user) => {
-    return Auth.changePassword(user, 'oldPassword', 'newPassword');
-  })
-  .then((data) => console.log(data))
-  .catch((err) => console.log(err));
+async function changePassword (oldPassword, newPassword) {
+  try {
+    const user = await Auth.currentAuthenticatedUser();
+    const data = await Auth.changePassword(user, oldPassword, newPassword);
+    console.log(data);
+  } catch(err) {
+    console.log(err);
+  }
+};
 ```
+</Block>
+</BlockSwitcher>
 
 ### Forgot password
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+// Send confirmation code to user's email
+async function forgotPassword(username: string) {
+  try {
+    const data = await Auth.forgotPassword(username);
+    console.log(data);
+  } catch(err) {
+    console.log(err);
+  }
+};
+
+// Collect confirmation code and new password
+async function forgotPasswordSubmit(username: string, code: string, newPassword: string) {
+  try {
+    const data = await Auth.forgotPasswordSubmit(username, code, newPassword);
+    console.log(data);
+  } catch(err) {
+    console.log(err);
+  }
+};
+```
+</Block>
+<Block name="JavaScript">
 
 ```javascript
 import { Auth } from 'aws-amplify';
 
 // Send confirmation code to user's email
-Auth.forgotPassword(username)
-  .then((data) => console.log(data))
-  .catch((err) => console.log(err));
+async function forgotPassword(username) {
+  try {
+    const data = await Auth.forgotPassword(username);
+    console.log(data);
+  } catch(err) {
+    console.log(err);
+  }
+} 
 
-// Collect confirmation code and new password, then
-Auth.forgotPasswordSubmit(username, code, new_password)
-  .then((data) => console.log(data))
-  .catch((err) => console.log(err));
+// Collect confirmation code and new password
+async function forgotPasswordSubmit(username, code, newPassword) {
+  try {
+    const data = await Auth.forgotPasswordSubmit(username, code, newPassword);
+    console.log(data);
+  } catch(err) {
+    console.log(err);
+  }
+}
 ```
+</Block>
+</BlockSwitcher>
 
 ### Complete new password
 
 The user is asked to provide the new password and required attributes during the first sign-in attempt if a valid user directory is created in Amazon Cognito. During this scenario, the following method can be called to process the new password entered by the user.
 
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { Auth } from 'aws-amplify';
+
+async function completeNewPassword(username: string, password: string) {
+  try {
+    const user = await Auth.signIn(username, password);
+
+    if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
+      const { requiredAttributes } = user.challengeParam; // the array of required attributes, e.g ['email', 'phone_number']
+    }
+const newPassword = 'newPassword'
+    const loggedInUser = await Auth.completeNewPassword(
+      user, // the Cognito User Object
+      newPassword, // the new password
+      // OPTIONAL, the required attributes
+      {
+        email: 'xxxx@example.com',
+        phone_number: '1234567890'
+      }
+    )
+
+    console.log(loggedInUser);
+  } catch(err) {
+    console.log(err);
+  }
+};
+```
+</Block>
+<Block name="JavaScript">
+
 ```js
 import { Auth } from 'aws-amplify';
 
-Auth.signIn(username, password)
-  .then((user) => {
+async function completeNewPassword(username, password) {
+  try {
+    const user = await Auth.signIn(username, password);
+const newPassword = 'newPassword'
     if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
       const { requiredAttributes } = user.challengeParam; // the array of required attributes, e.g ['email', 'phone_number']
-      Auth.completeNewPassword(
+      const loggedInUser = await Auth.completeNewPassword(
         user, // the Cognito User Object
         newPassword, // the new password
         // OPTIONAL, the required attributes
@@ -51,59 +149,112 @@ Auth.signIn(username, password)
           phone_number: '1234567890'
         }
       )
-        .then((user) => {
-          // at this time the user is logged in if no MFA required
-          console.log(user);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    } else {
-      // other situations
+
+      console.log(loggedInUser);
     }
-  })
-  .catch((e) => {
-    console.log(e);
-  });
+  } catch(err) {
+    console.log(err);
+  }
+};
 ```
+</Block>
+</BlockSwitcher>
 
 ## Account recovery verification
 
 Either the phone number or the email address is required for account recovery. You can let the user verify those attributes by:
 
-```javascript
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
 // To initiate the process of verifying the attribute like 'phone_number' or 'email'
-Auth.verifyCurrentUserAttribute(attr)
-  .then(() => {
+async function verifyCurrentUserAttribute(attr: string) {
+  try {
+    await Auth.verifyCurrentUserAttribute(attr);
     console.log('a verification code is sent');
-  })
-  .catch((e) => {
-    console.log('failed with error', e);
-  });
+  } catch(err) {
+    console.log('failed with error', err);
+  }
+};
 
 // To verify attribute with the code
-Auth.verifyCurrentUserAttributeSubmit(attr, '<verification_code>')
-  .then(() => {
+async function verifyCurrentUserAttributeSubmit(attr: string, verificationCode: string) {
+  try {
+    await Auth.verifyCurrentUserAttributeSubmit(attr, verificationCode);
     console.log('phone_number verified');
-  })
-  .catch((e) => {
-    console.log('failed with error', e);
-  });
+  } catch(err) {
+    console.log('failed with error', err);
+  }
+};
 ```
+</Block>
+<Block name="JavaScript">
+
+```javascript
+// To initiate the process of verifying the attribute like 'phone_number' or 'email'
+async function verifyCurrentUserAttribute(attr) {
+  try {
+    await Auth.verifyCurrentUserAttribute(attr);
+    console.log('a verification code is sent');
+  } catch(err) {
+    console.log('failed with error', err);
+  }
+};
+
+// To verify attribute with the code
+async function verifyCurrentUserAttributeSubmit(attr, verificationCode) {
+  try {
+    await Auth.verifyCurrentUserAttribute(attr, verificationCode);
+    console.log('phone_number verified');
+  } catch(err) {
+    console.log('failed with error', err);
+  }
+};
+```
+</Block>
+</BlockSwitcher>
+
 
 ## Retrieve current authenticated user
 
 You can call `Auth.currentAuthenticatedUser()` to get the current authenticated user object.
 
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { Auth } from 'aws-amplify';
+
+async function currentAuthenticatedUser() {
+  try {
+    const user = await Auth.currentAuthenticatedUser({
+      bypassCache: false // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
+    });
+    console.log(user);
+  } catch(err) {
+    console.log(err);
+  }
+};
+```
+</Block>
+<Block name="JavaScript">
+
 ```javascript
 import { Auth } from 'aws-amplify';
 
-Auth.currentAuthenticatedUser({
-  bypassCache: false // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
-})
-  .then((user) => console.log(user))
-  .catch((err) => console.log(err));
+async function currentAuthenticatedUser() {
+  try {
+    const user = Auth.currentAuthenticatedUser({
+      bypassCache: false // Optional, By default is false. If set to true, this call will send a request to Cognito to get the latest user data
+    });
+  } catch(err) {
+    console.log(err);
+  }
+};
 ```
+</Block>
+</BlockSwitcher>
 
 This method can be used to check if a user is logged in when the page is loaded. It will throw an error if there is no user logged in. This method should be called after the Auth module is configured or the user is logged in. To ensure that you can listen on the auth events `configured` or `signIn`. [Learn how to listen on auth events.](/lib/utilities/hub#authentication-events)
 
@@ -111,7 +262,7 @@ This method can be used to check if a user is logged in when the page is loaded.
 
 You can also access the user's attributes like their email address, phone number, sub, or any other attributes that are associated with them from the user object returned by `Auth.currentAuthenticatedUser`.
 
-```js
+```ts
 const { attributes } = await Auth.currentAuthenticatedUser();
 ```
 
@@ -124,9 +275,14 @@ This method will automatically refresh the `accessToken` and `idToken` if tokens
 ```javascript
 import { Auth } from 'aws-amplify';
 
-Auth.currentSession()
-  .then((data) => console.log(data))
-  .catch((err) => console.log(err));
+async function currentSession() {
+  try {
+    const data = await Auth.currentSession();
+    console.log(data);
+  } catch(err) {
+    console.log(err);
+  }
+};
 ```
 
 ## Managing user attributes
@@ -156,10 +312,9 @@ Auth.signUp({
 });
 ```
 
-
 ### Retrieve user attributes
 
-```javascript
+```ts
 const user = await Auth.currentAuthenticatedUser();
 
 const { attributes } = user;
@@ -167,15 +322,23 @@ const { attributes } = user;
 
 ### Update user attributes
 
-```javascript
-const user = await Auth.currentAuthenticatedUser();
+```ts
+import { Auth } from 'aws-amplify';
 
-const result = await Auth.updateUserAttributes(user, {
-  email: 'me@anotherdomain.com',
-  family_name: 'Lastname'
-});
-console.log(result); // SUCCESS
+async function updateUserAttributes () {
+  try {
+    const user = await Auth.currentAuthenticatedUser();
+    const result = await Auth.updateUserAttributes(user, {
+      email: 'me@anotherdomain.com',
+      family_name: 'Lastname'
+    });
+    console.log(result); // SUCCESS
+  } catch(err) {
+    console.log(err);
+  }
+};
 ```
+
 <Callout>
 Note: If you change an attribute that requires confirmation (i.e. email or phone number), you will receive a confirmation code to that attribute.
 </Callout> 
@@ -183,13 +346,17 @@ Note: If you change an attribute that requires confirmation (i.e. email or phone
 `Auth.updateUserAttributes()` function dispatches hub event to help identify attributes that require
 verification. You can listen to `updateUserAttributes` event on `auth` channel:
 
+
 ```javascript
+import { Hub } from 'aws-amplify';
+
 Hub.listen('auth', ({payload}) => {
   if (payload.event === 'updateUserAttributes') {
     const resultObject = payload.data;
   }
 });
 ```
+
 You can learn more about how to listen to Hub events [here](https://docs.amplify.aws/lib/utilities/hub/q/platform/js/).
 
 Example of the dispatched `resultObject`:
@@ -225,20 +392,109 @@ const result = await Auth.verifyCurrentUserAttributeSubmit('email', '<verificati
 
 If you need to delete one or more user attributes, you can call `Auth.deleteUserAttributes` function from the Amplify JavaScript library:
 
-```javascript
-const user = await Auth.currentAuthenticatedUser();
+```ts
+import { Auth } from 'aws-amplify';
 
-const result = await Auth.deleteUserAttributes(user, ['family_name']);
-console.log(result); // SUCCESS
+async function deleteUserAttributes() {
+  try {
+    const user = await Auth.currentAuthenticatedUser();
+    const result = await Auth.deleteUserAttributes(user, ['family_name']);
+    console.log(result); // SUCCESS
+  } catch(err) {
+    console.log(err);
+  }
+};
 ```
-
-
 
 ## Updating and verifying a Cognito user email address
 
 Updating an email address using `Auth.updateUserAttributes` will require a verification of the new email address. The user will be emailed a verification code to the updated email address and your application will need to receive the verification code and send it to `Auth.verifyCurrentUserAttributeSubmit` before the email address will be updated in Cognito.
 
 The React application below implements this flow of updating the email address for the current user when the "Update Email" button is clicked, then provides a form to capture the verification code sent to the user.
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+// App.js
+import { Authenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
+import { Auth } from 'aws-amplify';
+import { useState } from 'react';
+
+async function updateUserEmail() {
+  try {
+    const user = await Auth.currentAuthenticatedUser();
+    await Auth.updateUserAttributes(user, {
+      email: 'updatedEmail@mydomain.com'
+    });
+
+    console.log('a verification code is sent');
+  } catch(err) {
+    console.log('failed with error', err);
+  }
+}
+
+async function verifyEmailValidationCode(code: string) {
+  try {
+    await Auth.verifyCurrentUserAttributeSubmit('email', code);
+    console.log('email verified');
+  } catch(err) {
+    console.log('failed with error', err);
+  }
+}
+
+function ValidationCodeForm() {
+  const [validationCode, setValidationCode] = useState<string | null>(null);
+  return (
+    <div>
+      <label>
+        Verification Code (sent to the new email):
+        <input
+          onChange={(e) => {
+            setValidationCode(e.target.value);
+          }}
+          type="text"
+          name="vc"
+        />
+      </label>
+      <button onClick={() => validationCode && verifyEmailValidationCode(validationCode)}>
+        Send Code
+      </button>
+    </div>
+  );
+}
+
+export default function App() {
+  const [showValidationCodeUI, setShowValidationCodeUI] = useState(false);
+
+  return (
+    <Authenticator>
+      {({ signOut, user }) => (
+        <div className="App">
+          <div>
+            <pre>{JSON.stringify(user?.attributes, null, 2)}</pre>
+          </div>
+          {showValidationCodeUI === false && (
+            <button
+              onClick={async () => { 
+                await updateUserEmail();
+                setShowValidationCodeUI(true);
+              }}
+            >
+              Update Email
+            </button>
+          )}
+          {showValidationCodeUI === true && <ValidationCodeForm />}
+          <button onClick={signOut}>Sign out</button>
+        </div>
+      )}
+    </Authenticator>
+  );
+}
+```
+</Block>
+<Block name="JavaScript">
 
 ```javascript
 // App.js
@@ -248,27 +504,25 @@ import { Auth } from 'aws-amplify';
 import { useState } from 'react';
 
 async function updateUserEmail() {
-  const user = await Auth.currentAuthenticatedUser();
-
-  await Auth.updateUserAttributes(user, {
-    email: 'updatedEmail@mydomain.com'
-  })
-    .then(() => {
-      console.log('a verification code is sent');
-    })
-    .catch((e) => {
-      console.log('failed with error', e);
+  try {
+    const user = await Auth.currentAuthenticatedUser();
+    await Auth.updateUserAttributes(user, {
+      email: 'updatedEmail@mydomain.com'
     });
+
+    console.log('a verification code is sent');
+  } catch(err) {
+    console.log('failed with error', err);
+  }
 }
 
 async function verifyEmailValidationCode(code) {
-  await Auth.verifyCurrentUserAttributeSubmit('email', code)
-    .then(() => {
-      console.log('email verified');
-    })
-    .catch((e) => {
-      console.log('failed with error', e);
-    });
+  try {
+    await Auth.verifyCurrentUserAttributeSubmit('email', code);
+    console.log('email verified');
+  } catch(err) {
+    console.log('failed with error', err);
+  }
 }
 
 function ValidationCodeForm() {
@@ -304,7 +558,10 @@ export default function App() {
           </div>
           {showValidationCodeUI === false && (
             <button
-              onClick={() => updateUserEmail() && setShowValidationCodeUI(true)}
+              onClick={async () => {
+                await updateUserEmail();
+                setShowValidationCodeUI(true);
+              }}
             >
               Update Email
             </button>
@@ -317,6 +574,8 @@ export default function App() {
   );
 }
 ```
+</Block>
+</BlockSwitcher>
 
 ## Managing security tokens
 

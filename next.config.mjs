@@ -42,7 +42,7 @@ export default async (phase, { defaultConfig }) => {
 
   const nextConfig = withMDX({
     env: {
-      PROD_ENV: process.env.PROD_ENV
+      BUILD_ENV: process.env.BUILD_ENV
     },
     pageExtensions: ['js', 'jsx', 'mdx', 'tsx', 'ts'],
     typescript: {
