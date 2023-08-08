@@ -41,15 +41,15 @@ A `signIn` call will return `continueSignInWithTOTPSetup` as a next step when th
 - TOTP is marked as an enabled MFA method in Cognito user pool
 - User does not have any other MFA method set up.
 
-`continueSignInWithTOTPSetup` step signifies that the user must set up TOTP before they can sign in. The step returns an associated value of type `TOTPSetupDetails` that contains the `sharedSecret` that will be used to either to generate a QR code or can be manually entered into an Authenticator app. Once the authenticator app is set up, the user can generate a TOTP code and provide it to the library to complete the sign in process.
+`continueSignInWithTOTPSetup` step signifies that the user must set up TOTP before they can sign in. The step returns an associated value of type `TOTPSetupDetails` which would be used for generating TOTP. `TOTPSetupDetails` provides a helper method called `getSetupURI` that can be used to generate a URI, which can be used by native password managers for TOTP association. For example. if the URI is used on Apple platforms, it will trigger the platform's native password manager to associate TOTP with the account. For more advanced use cases, `TOTPSetupDetails` also contains the `sharedSecret` that will be used to either generate a QR code or can be manually entered into an Authenticator app. 
+ 
+Once the authenticator app is set up, the user can generate a TOTP code and provide it to the library to complete the sign in process.
 
 import iosSignIn from "/src/fragments/lib/auth/ios/totp/sign_in.mdx";
 
 <Fragments fragments={{ios: iosSignIn}} />
 
 The TOTP code can be obtained from the user via a text field or any other means. Once the user provides the TOTP code, call `confirmSignIn` with the TOTP code as the `challengeResponse` parameter.
-
-`TOTPSetupDetails` also provides a helper method called `getSetupURI` that can be used to generate a URI, which can be used by native password managers for TOTP association. If the URI is used on Apple devices, it will trigger the platform's native password manager to associate the TOTP code with the account.
 
 import iosConfirmSignIn from "/src/fragments/lib/auth/ios/totp/confirm_sign_in.mdx";
 
