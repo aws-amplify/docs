@@ -69,7 +69,7 @@ public/robots.txt
 amplify/backend/function/submissionsLambda/src/*.js
 amplify/backend/function/submissionsLambda/src/controllers
 public/**/**/nextImageExportOptimizer/
-public/images/next-image-export-optimizer-hashes.json
+public/next-image-export-optimizer-hashes.json
 
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend

@@ -44,7 +44,7 @@ export default async (phase, { defaultConfig }) => {
   const nextConfig = withMDX({
     env: {
       BUILD_ENV: process.env.BUILD_ENV,
-      nextImageExportOptimizer_imageFolderPath: 'public/images',
+      nextImageExportOptimizer_imageFolderPath: 'public',
       nextImageExportOptimizer_exportFolderPath: 'out',
       nextImageExportOptimizer_quality: 75,
       nextImageExportOptimizer_storePicturesInWEBP: true,
