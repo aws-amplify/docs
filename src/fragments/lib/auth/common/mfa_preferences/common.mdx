@@ -1,12 +1,12 @@
 You can use Time-based One-Time Password (TOTP) for multi-factor authentication (MFA) in your web or mobile applications. Amplify's Auth category includes support for handling TOTP setup and codes, offering an integrated solution for enhanced security for your users. Authenticator apps generate the temporary, one-time passwords. These apps, such as Google Authenticator, Microsoft Authenticator, have the TOTP algorithm built-in and work by using a shared secret key and the current time to generate a short-lived password.
 
 <Callout>
-Fetching and Updating MFA preferences is only available through the escape hatch APIs under the AWS Cognito Auth plugin. 
+The APIs for fetching and updating MFA preferences are only available on the AWS Cognito Auth plugin and not on the Auth category. 
 </Callout>
 
 ## Fetch the current user's MFA preferences
 
-Invoke the following api to get the MFA preferences for the user.
+Invoke the following API to get the MFA preference for the current user.
 
 import iosFetchMFAPreference from "/src/fragments/lib/auth/ios/mfa_preference/10_fetch_mfa_preference.mdx";
 
@@ -14,11 +14,11 @@ import iosFetchMFAPreference from "/src/fragments/lib/auth/ios/mfa_preference/10
 
 ## Update the current user's MFA preferences
 
-Invoke the following api to update the MFA preferences for the user.
+Invoke the following API to update the MFA preference for the current user.
 
-<Callout>
+<Callout warning>
 
-Only one MFA method can be marked as preferred at a time. If the user has multiple MFA methods enabled, and tries to mark more than one MFA method as preferred, the API will throw an error.
+Only one MFA method can be marked as preferred at a time. If the user has multiple MFA methods enabled and tries to mark more than one MFA method as preferred, the API will throw an error.
 
 </Callout>
 
@@ -26,7 +26,9 @@ import iosUpdateMFAPreferences from "/src/fragments/lib/auth/ios/mfa_preference/
 
 <Fragments fragments={{ios: iosUpdateMFAPreferences}} />
 
-**Note:** If multiple MFA methods are enabled for the user, the `signIn` API will return `continueSignInWithMFASelection` as the next step in the auth flow. During this scenario, the user should be prompted to select the MFA method they want to use to sign in.
+If multiple MFA methods are enabled for the user, the `signIn` API will return `continueSignInWithMFASelection` as the next step in the auth flow. During this scenario, the user should be prompted to select the MFA method they want to use to sign in.
+
+Refer to the [Continue signin with MFA Selection](/lib/auth/signin_next_steps#continue-signin-with-mfa-selection) section for more details.
 
 <Callout>
 

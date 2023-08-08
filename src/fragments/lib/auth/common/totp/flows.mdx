@@ -5,7 +5,7 @@
 
 When using Amplify CLI to set up backend resources, the following options are only available when starting a new project (via `amplify add auth`). You will not have access to these settings after creation (via `amplify update`).
 
-- Required MFA
+- Required MFA (i.e. Setting MFA to "ON")
 
 </Callout>
 
@@ -79,3 +79,14 @@ Once the authenticator app is set up, the user can get a TOTP code that is gener
 import iosVerifyTOTPSetup from "/src/fragments/lib/auth/ios/totp/verify_totp_setup.mdx";
 
 <Fragments fragments={{ios: iosVerifyTOTPSetup}} />
+
+## Recovering from a lost TOTP device
+
+If a user loses access to their TOTP device, they would need to contact an administrator to help get access to their account. Based on the Cognito User Pool configuration, the administrator can use the [AdminSetUserMFAPreference](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminSetUserMFAPreference.html) to either change the MFA preference to a different MFA method or to disable MFA for the user.
+
+<Callout warning>
+
+In a scenario where MFA is marked as **Required** in Cognito User Pool and another MFA method is not set up, the administrator would need to first initiate an [AdminUpdateUserAttributes](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminUpdateUserAttributes.html) call and update the user’s phone number attribute. Once this is complete, the administrator can continue changing the MFA preference to SMS as suggested above.
+
+
+</Callout>
