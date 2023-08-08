@@ -36,17 +36,29 @@ export default async (phase, { defaultConfig }) => {
         pagePlugin,
         internalLinkPlugin
       ],
-      rehypePlugins: [
-        codeBlockPlugin,
-        [rehypeImgSize, { dir: 'public' }]
-      ],
+      rehypePlugins: [codeBlockPlugin, [rehypeImgSize, { dir: 'public' }]],
       renderer: mdxRenderer
     }
   });
 
   const nextConfig = withMDX({
     env: {
-      BUILD_ENV: process.env.BUILD_ENV
+      BUILD_ENV: process.env.BUILD_ENV,
+      nextImageExportOptimizer_imageFolderPath: 'public/images',
+      nextImageExportOptimizer_exportFolderPath: 'out',
+      nextImageExportOptimizer_quality: 75,
+      nextImageExportOptimizer_storePicturesInWEBP: true,
+      nextImageExportOptimizer_exportFolderName: 'nextImageExportOptimizer',
+
+      // If you do not want to use blurry placeholder images, then you can set
+      // nextImageExportOptimizer_generateAndUseBlurImages to false and pass
+      // `placeholder="empty"` to all <ExportedImage> components.
+      nextImageExportOptimizer_generateAndUseBlurImages: true
+    },
+    images: {
+      loader: 'custom',
+      imageSizes: [],
+      deviceSizes: [450, 1920]
     },
     pageExtensions: ['js', 'jsx', 'mdx', 'tsx', 'ts'],
     typescript: {
@@ -61,7 +73,8 @@ export default async (phase, { defaultConfig }) => {
     transpilePackages: [
       '@algolia/autocomplete-shared',
       '@cloudscape-design/components',
-      '@cloudscape-design/component-toolkit'
+      '@cloudscape-design/component-toolkit',
+      'next-image-export-optimizer'
     ],
     // eslint-disable-next-line @typescript-eslint/require-await
     async headers() {

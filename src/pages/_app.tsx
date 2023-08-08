@@ -2,19 +2,16 @@ import '@algolia/autocomplete-theme-classic';
 import '../styles/styles.css';
 import '../styles/contribute-styles.css';
 import Head from 'next/head';
-import { MDXProvider } from '@mdx-js/react'
-import Image from 'next/image'
+import { MDXProvider } from '@mdx-js/react';
+import ExportedImage from 'next-image-export-optimizer';
 
 const ResponsiveImage = (props) => (
-  <Image
-    style={{  height: 'auto' }}
-    {...props}
-  />
-)
+  <ExportedImage style={{ height: 'auto' }} {...props} />
+);
 
 const components = {
   img: ResponsiveImage
-}
+};
 
 function MyApp({ Component, pageProps }) {
   return (
