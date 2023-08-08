@@ -1,7 +1,7 @@
-import {Grid} from "theme-ui";
+import { Grid } from 'theme-ui';
 
-import {Container} from "../Container";
-import {Card, CardDetail, CardGraphic} from "../Card";
+import { Container } from '../Container';
+import { Card, CardDetail, CardGraphic } from '../Card';
 
 export default function FeaturesGrid() {
   return (
@@ -12,11 +12,11 @@ export default function FeaturesGrid() {
           gap={4}
           columns={[1, null, null, 3]}
           sx={{
-            marginTop: "2rem",
+            marginTop: '2rem'
           }}
         >
           <Card href="/lib/auth/getting-started" className="border-radius">
-            <CardGraphic alt="Auth icon" src="/assets/features/auth.svg" />
+            <CardGraphic alt="" src="/assets/features/auth.svg" />
             <CardDetail>
               <h4>Authentication</h4>
               <p>
@@ -26,10 +26,7 @@ export default function FeaturesGrid() {
             </CardDetail>
           </Card>
           <Card href="/lib/storage/getting-started" className="border-radius">
-            <CardGraphic
-              alt="Storage icon"
-              src="/assets/features/storage.svg"
-            />
+            <CardGraphic alt="" src="/assets/features/storage.svg" />
             <CardDetail>
               <h4>Storage</h4>
               <p>
@@ -42,7 +39,7 @@ export default function FeaturesGrid() {
             href="/lib/graphqlapi/getting-started"
             className="border-radius"
           >
-            <CardGraphic alt="API icon" src="/assets/features/api.svg" />
+            <CardGraphic alt="" src="/assets/features/api.svg" />
             <CardDetail>
               <h4>GraphQL API</h4>
               <p>
@@ -52,10 +49,7 @@ export default function FeaturesGrid() {
             </CardDetail>
           </Card>
           <Card href="/lib/datastore/getting-started" className="border-radius">
-            <CardGraphic
-              alt="DataStore icon"
-              src="/assets/features/datastore.svg"
-            />
+            <CardGraphic alt="" src="/assets/features/datastore.svg" />
             <CardDetail>
               <h4>DataStore</h4>
               <p>
@@ -64,20 +58,18 @@ export default function FeaturesGrid() {
               </p>
             </CardDetail>
           </Card>
-          <Card
-            href="/lib/geo/getting-started"
-            className="border-radius"
-          >
-            <CardGraphic src="/assets/features/geo.svg" />
+          <Card href="/lib/geo/getting-started" className="border-radius">
+            <CardGraphic alt="" src="/assets/features/geo.svg" />
             <CardDetail>
               <h4>Geo</h4>
               <p>
-                Modern, interactive maps with location markers and location search.
+                Modern, interactive maps with location markers and location
+                search.
               </p>
             </CardDetail>
           </Card>
           <Card href="/lib/restapi/getting-started" className="border-radius">
-            <CardGraphic alt="API icon" src="/assets/features/api.svg" />
+            <CardGraphic alt="" src="/assets/features/api.svg" />
             <CardDetail>
               <h4>REST API</h4>
               <p>
@@ -87,10 +79,7 @@ export default function FeaturesGrid() {
             </CardDetail>
           </Card>
           <Card href="/lib/analytics/getting-started" className="border-radius">
-            <CardGraphic
-              alt="Analytics icon"
-              src="/assets/features/analytics.svg"
-            />
+            <CardGraphic alt="" src="/assets/features/analytics.svg" />
             <CardDetail>
               <h4>Analytics</h4>
               <p>
@@ -103,10 +92,7 @@ export default function FeaturesGrid() {
             href="/lib/push-notifications/getting-started"
             className="border-radius"
           >
-            <CardGraphic
-              alt="Push Notifications icon"
-              src="/assets/features/push-notifications.svg"
-            />
+            <CardGraphic alt="" src="/assets/features/push-notifications.svg" />
             <CardDetail>
               <h4>Push Notifications</h4>
               <p>
@@ -116,7 +102,7 @@ export default function FeaturesGrid() {
             </CardDetail>
           </Card>
           <Card href="/lib/pubsub/getting-started" className="border-radius">
-            <CardGraphic alt="PubSub icon" src="/assets/features/pubsub.svg" />
+            <CardGraphic alt="" src="/assets/features/pubsub.svg" />
             <CardDetail>
               <h4>PubSub</h4>
               <p>
@@ -129,10 +115,7 @@ export default function FeaturesGrid() {
             href="/lib/interactions/getting-started"
             className="border-radius"
           >
-            <CardGraphic
-              alt="Interactions icon"
-              src="/assets/features/interactions.svg"
-            />
+            <CardGraphic alt="" src="/assets/features/interactions.svg" />
             <CardDetail>
               <h4>Interactions</h4>
               <p>
@@ -145,10 +128,7 @@ export default function FeaturesGrid() {
             href="/lib/predictions/getting-started"
             className="border-radius"
           >
-            <CardGraphic
-              alt="Predictions icon"
-              src="/assets/features/predictions.svg"
-            />
+            <CardGraphic alt="" src="/assets/features/predictions.svg" />
             <CardDetail>
               <h4>AI / ML Predictions</h4>
               <p>

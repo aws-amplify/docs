@@ -407,6 +407,7 @@
     "CocoaPods",
     "CodeCommit",
     "codegen",
+    "CODEGENJOB",
     "COGNITO_USERPOOL_ID",
     "Cognito's",
     "cognito",
@@ -1510,8 +1511,13 @@
     "kotlinx",
     "snapcraft",
     "snapshotted",
-    "visionos"
-    
+    "visionos",
+    "loggingconstraints",
+    "remoteconfig",
+    "remoteloggingconstraints",
+    "remotelogging",
+    "cloudwatchlogs",
+    "userids"
   ],
   "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"]
 }

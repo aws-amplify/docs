@@ -94,6 +94,14 @@ RxAmplify.Auth.confirmSignIn(
         );
 ```
 </Block>
-
-
 </BlockSwitcher>
+
+<Callout warning>
+
+<b>Special Handling on ConfirmSignIn</b>
+
+During a confirmSignIn call if `failAuthentication=true` is returned by the lambda the session of the request gets invalidated by cognito, a NotAuthorizedException is returned and a new signIn call is expected via Amplify.Auth.signIn
+```java
+NotAuthorizedException{message=Failed since user is not authorized., cause=NotAuthorizedException(message=Invalid session for the user.), recoverySuggestion=Check whether the given values are correct and the user is authorized to perform the operation.}
+```
+</Callout>
