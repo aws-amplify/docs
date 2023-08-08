@@ -20,24 +20,26 @@ const {
   identity_id // Optional, the identity id specified by the provider
 } = getFromProvider(); // arbitrary function
 
-Auth.federatedSignIn(
-  domain,
-  {
-    token,
-    identity_id, // Optional
-    expires_at: expiresIn * 1000 + new Date().getTime() // the expiration timestamp
-  },
-  user
-).then(cred => {
-  // If success, you will get the AWS credentials
-  console.log(cred);
-  return Auth.currentAuthenticatedUser();
-}).then(user => {
-  // If success, the user object you passed in Auth.federatedSignIn
-  console.log(user);
-}).catch(e => {
-  console.log(e)
-});
+async function getCognitoCredentials() {
+  try {
+    const cred = await Auth.federatedSignIn(
+      domainOrProviderName,
+      {
+        token,
+        identity_id, // Optional
+        expires_at: expiresIn * 1000 + new Date().getTime() // the expiration timestamp
+      },
+      user
+    );
+    console.log(cred);
+
+    const authenticatedUser = await Auth.currentAuthenticatedUser();
+
+    console.log(authenticatedUser);
+  } catch(err) {
+    console.log(err);
+  }
+};
 ```
 
 <Callout>
@@ -93,12 +95,18 @@ const SignInWithFacebook = () => {
         email: response.email
       };
       
-      Auth.federatedSignIn('facebook', { token: accessToken, expires_at }, user)
-        .then(credentials => {
-          console.log(credentials);
-        });
+      getCognitoCredentials('facebook', { token: accessToken, expires_at }, user);
     });
   }
+
+  const getCognitoCredentials = async (providerName, federateOptions, user) => {
+    try {
+      const credentials = await Auth.federatedSignIn(providerName, federateOptions, user);
+      console.log(credentials);
+    } catch(err) {
+      console.log(err);
+    }
+  };
 
   const createScript = () => {
     // load the sdk
@@ -133,6 +141,7 @@ const SignInWithFacebook = () => {
   );
 }
 ```
+
 ### Facebook Sign-in (React Native - Expo)
 
 ```javascript
@@ -147,12 +156,12 @@ const App = () => {
       });
     if (type === 'success') {
       // sign in with federated identity
-      Auth.federatedSignIn('facebook', { token, expires_at: expires}, { name: 'USER_NAME' })
-        .then(credentials => {
-          console.log('get aws credentials', credentials);
-        }).catch(e => {
-          console.log(e);
-        });
+      try {
+        const credentials = await Auth.federatedSignIn('facebook', { token, expires_at: expires}, { name: 'USER_NAME' })
+        console.log('get aws credentials', credentials);
+      } catch(err) {
+        console.log(err);
+      }
     }
   }
 
@@ -169,8 +178,10 @@ const App = () => {
 
 ### Google sign-in (React)
 
+<BlockSwitcher>
+<Block name="TypeScript">
 
-```jsx
+```ts
 import React, { useEffect } from 'react';
 import jwt from 'jwt-decode';
 import { Auth } from 'aws-amplify';
@@ -228,6 +239,69 @@ const SignInWithGoogle = () => {
   );
 }
 ```
+</Block>
+<Block name="JavaScript">
+
+```jsx
+import React, { useEffect } from 'react';
+import jwt from 'jwt-decode';
+import { Auth } from 'aws-amplify';
+
+const SignInWithGoogle = () => {
+  useEffect(() => {
+  // Check for an existing Google client initialization
+    if (!window.google && !window.google?.accounts) createScript();
+  }, []);
+
+  // Load the Google client
+  const createScript = () => {
+    const script = document.createElement('script');
+    script.src = 'https://accounts.google.com/gsi/client';
+    script.async = true;
+    script.defer = true;
+    script.onload = initGsi;
+    document.body.appendChild(script);
+  }
+
+  // Initialize Google client and render Google button
+  const initGsi = () => {
+    if (window.google && window.google?.accounts) {
+      window.google.accounts.id.initialize({
+        client_id: process.env.GOOGLE_CLIENT_ID,
+        callback: (response: any) => {
+          getAWSCredentials(response.credential)
+        },
+      });
+      window.google.accounts.id.renderButton(
+        document.getElementById("googleSignInButton"),
+        { theme: "outline", size: "large" }
+      );
+    }
+  }
+
+  // Exchange Google token for temporary AWS credentials
+  const getAWSCredentials = async (credential) => {
+    const token = jwt(credential);
+    const user = {
+      email: token.email,
+      name: token.name
+    };      
+    await Auth.federatedSignIn(
+      'google',
+      { token: credential, expires_at: token.exp },
+      user
+    );
+  }
+
+  return (
+    <div>
+      <button id="googleSignInButton"/>
+    </div>
+  );
+}
+```
+</Block>
+</BlockSwitcher>
 
 ### Retrieve JWT Tokens
 
@@ -267,18 +341,17 @@ Note: Automatic token refresh for Google and Facebook is not supported in React 
 ```javascript
 import { Auth } from 'aws-amplify';
 
-function refreshToken() {
+async function refreshToken() {
   // refresh the token here and get the new token info
   // ......
 
-  return new Promise(res, rej => {
-    const data = {
-      token, // the token from the provider
-      expires_at, // the timestamp for the expiration
-      identity_id, // optional, the identityId for the credentials
-    }
-    res(data);
-  });
+  const data = {
+    token, // the token from the provider
+    expires_at, // the timestamp for the expiration
+    identity_id, // optional, the identityId for the credentials
+  }
+
+  return data;
 }
 
 Auth.configure({
@@ -300,50 +373,57 @@ Step 2. Login with `Auth0`, then use the id token returned to get AWS credential
 const { idToken, domain, name, email, phoneNumber } = getFromAuth0(); // get the user credentials and info from auth0
 const { exp } = decodeJWTToken(idToken); // Please decode the id token in order to get the expiration time
 
-Auth.federatedSignIn(
-  domain, // The Auth0 Domain,
-  {
-    token: idToken, // The id token from Auth0
-    // expires_at means the timestamp when the token provided expires,
-    // here you can derive it from the expiresIn parameter provided,
-    // then convert its unit from second to millisecond, and add the current timestamp
-    expires_at: exp * 1000 // the expiration timestamp
-  },
-  { 
-    // the user object, you can put whatever property you get from the Auth0
-    // for example:
-    name, // the user name
-    email, // Optional, the email address
-    phoneNumber, // Optional, the phone number
-  } 
-).then(cred => {
-  console.log(cred);
-});
+async function getCognitoCredentials () {
+  try {
+    const cred = await Auth.federatedSignIn(
+      domain, // The Auth0 Domain,
+      {
+        token: idToken, // The id token from Auth0
+        // expires_at means the timestamp when the token provided expires,
+        // here you can derive it from the expiresIn parameter provided,
+        // then convert its unit from second to millisecond, and add the current timestamp
+        expires_at: exp * 1000 // the expiration timestamp
+      },
+      { 
+        // the user object, you can put whatever property you get from the Auth0
+        // for example:
+        name, // the user name
+        email, // Optional, the email address
+        phoneNumber, // Optional, the phone number
+      } 
+    );
+
+    console.log(cred);
+  } catch(err) {
+    console.log(err);
+  }
+}
 ```
 
 Step 3. Get the current user and current Credentials:
 
 ```js
-Auth.currentAuthenticatedUser().then(user => console.log(user));
-Auth.currentCredentials().then(creds => console.log(creds));
-// Auth.currentSession() does not currently support federated identities. Please store the auth0 session info manually(for example, store tokens into the local storage).
+const user = await Auth.currentAuthenticatedUser();
+console.log(user);
+const creds = await Auth.currentCredentials();
+console.log(creds);
+// await Auth.currentSession() does not currently support federated identities. Please store the auth0 session info manually(for example, store tokens into the local storage).
 ```
 
 Step 4. You can pass a refresh handler to the Auth module to refresh the id token from `Auth0`:
 
 ```js
-function refreshToken() {
+async function refreshToken() {
   // refresh the token here and get the new token info
   // ......
 
-  return new Promise(res, rej => {
-    const data = {
-      token, // the token from the provider
-      expires_at, // the timestamp when the token expires (in milliseconds)
-      identity_id, // optional, the identityId for the credentials
-    }
-    res(data);
-  });
+  const data = {
+    token, // the token from the provider
+    expires_at, // the timestamp when the token expires (in milliseconds)
+    identity_id, // optional, the identityId for the credentials
+  };
+
+  return data;
 }
 
 Auth.configure({
@@ -361,13 +441,21 @@ The CLI allows you to configure [Lambda Triggers](https://docs.aws.amazon.com/co
 
 If you have a Pre Sign-up or Pre Authentication Lambda trigger enabled, you can pass `validationData` as one the properties for `signUp` or `signIn`. This metadata can be used to implement additional validations around authentication, such as restricting the types of user accounts that can be registered.
 
-```js
-Auth.signIn({
-  username, // Required, the username
-  password, // Optional, the password
-  validationData, // Optional, an object of key-value pairs which can contain any key and will be passed to your Lambda trigger as-is.
-}).then(user => console.log(user))
-  .catch(err => console.log(err));
+```ts
+import { Auth } from 'aws-amplify';
+
+async function signIn() {
+  try {
+    const user = await Auth.signIn({
+      username, // Required, the username
+      password, // Optional, the password
+      validationData, // Optional, an object of key-value pairs which can contain any key and will be passed to your Lambda trigger as-is.
+    });
+    console.log(user);
+  } catch(err) {
+    console.log(err);
+  }
+}
 ```
 
 ### Auto Sign-in Lambda triggers
@@ -418,18 +506,24 @@ Please note that some of triggers which accept a `validationData` attribute will
 You can use AWS *Service Interface Objects* to work AWS Services in authenticated State. You can call methods on any AWS Service interface object by passing your credentials from `Auth` object to the service call constructor:
 
 ```javascript
+import { Auth } from 'aws-amplify';
 import Route53 from 'aws-sdk/clients/route53';
 
-Auth.currentCredentials()
-  .then(credentials => {
+async function changeResourceRecordSets() {
+  try {
+    const credentials = await Auth.currentCredentials();
+  
     const route53 = new Route53({
       apiVersion: '2013-04-01',
       credentials: Auth.essentialCredentials(credentials)
     });
-
+  
     // more code working with route53 object
-    // route53.changeResourceRecordSets();
-  })
+    //route53.changeResourceRecordSets();
+  } catch(err) {
+    console.log(err);
+  }
+};
 ```
 
 Full API Documentation for Service Interface Objects is available [here](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/_index.html).

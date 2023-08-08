@@ -1,0 +1,40 @@
+If the next step is `confirmSignInWithSmsMfaCode`, Amplify Auth has sent the user a random code over SMS and is waiting for the user to verify that code. 
+To handle this step, your app's UI must prompt the user to enter the code. After the user enters the code, pass the value to the `confirmSignIn` API.
+
+<Callout>
+
+The result includes an `AuthCodeDeliveryDetails` member. It includes additional information about the code delivery, such as the partial phone number of 
+the SMS recipient, which can be used to prompt the user on where to look for the code.
+
+</Callout>
+
+```dart
+Future<void> _handleSignInResult(SignInResult result) async {
+  switch (result.nextStep.signInStep) {
+    case AuthSignInStep.confirmSignInWithSmsMfaCode:
+      final codeDeliveryDetails = result.nextStep.codeDeliveryDetails!;
+      _handleCodeDelivery(codeDeliveryDetails);
+    // ...
+  }
+}
+
+void _handleCodeDelivery(AuthCodeDeliveryDetails codeDeliveryDetails) {
+  safePrint(
+    'A confirmation code has been sent to ${codeDeliveryDetails.destination}. '
+    'Please check your ${codeDeliveryDetails.deliveryMedium.name} for the code.',
+  );
+}
+```
+
+```dart
+Future<void> confirmMfaUser(String mfaCode) async {
+  try {
+    final result = await Amplify.Auth.confirmSignIn(
+      confirmationValue: mfaCode,
+    );
+    return _handleSignInResult(result);
+  } on AuthException catch (e) {
+    safePrint('Error confirming MFA code: ${e.message}');
+  }
+}
+```
