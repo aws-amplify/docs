@@ -328,7 +328,7 @@ export const directory = {
             filters: ['flutter', 'ios']
           },
           {
-            title: 'TOTP flows',
+            title: 'TOTP two-factor authentication',
             route: '/lib/auth/totp_flows',
             filters: ['ios']
           },

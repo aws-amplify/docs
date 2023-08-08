@@ -1,8 +1,6 @@
 If the next step is `continueSignInWithTOTPSetup`, then the user must provide a TOTP code to complete the sign in process. The step returns an associated value of type `TOTPSetupDetails` that contains the `sharedSecret` that will be used to either to generate a QR code or can be manually entered into an Authenticator app. Once the authenticator app is set up, the user can generate a TOTP code and provide it to the library to complete the sign in process.
 The TOTP code can be obtained from the user via a text field or any other means. Once the user provides the TOTP code, call `confirmSignIn` with the TOTP code as the `challengeResponse` parameter.
 
-Note: This process of setting up MFA is only valid for TOTP.
-
 `TOTPSetupDetails` also provides a helper method called `getSetupURI` that can be used to generate a URI, which can be used by native password managers for TOTP association. If the URI is used on Apple devices, it will trigger the platform's native password manager to associate the TOTP code with the account.
 
 ```swift 
