@@ -57,12 +57,14 @@ export default function RepoActions({ directoryPath, url }) {
     <RepoActionsStyle>
       <ExternalLink href={feedbackLink}>
         <img src="/assets/flag.svg" alt="" />
-        Feedback
+        <span aria-label="Leave feedback for this page on GitHub">
+          Feedback
+        </span>
       </ExternalLink>
       {shouldShowEditLink && (
         <ExternalLink href={editLink}>
-          <img src="/assets/github.svg" alt="Edit" />
-          Edit
+          <img src="/assets/github.svg" alt="" />
+          <span aria-label="Edit this page on GitHub">Edit</span>
         </ExternalLink>
       )}
     </RepoActionsStyle>
