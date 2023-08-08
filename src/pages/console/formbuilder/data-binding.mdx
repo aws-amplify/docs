@@ -5,7 +5,9 @@ export const meta = {
 };
 
 ## Connected forms
-Connected Forms are bound to a model in your data schema. Whenever a connected form is submitted, a record is created or updated in the bound data model automatically, with some or all of the form's input fields mapping to fields in the data model. Connected forms work automatically - no `onSubmit` handling is required.
+Connected Forms are bound to a model in your app's [data schema](/console/data/data-model/). Whenever a connected form is submitted, a record is created or updated in the bound data model automatically, with some or all of the form's input fields mapping to fields in the data model. 
+
+Connected forms automatically work with any Amplify GraphQL API , [with or without DataStore](/console/data/data-model/#datastore-and-graphql), and no `onSubmit` handling is required.
 
 ## Unconnected forms
 Unconnected Forms are standalone React components that can be used in any React or Nextjs project, even without an AWS account. Upon submission, the input values for the form are [accessible via the `onSubmit` hook for handling](/console/formbuilder/lifecycle/#handle-form-data-submissions---onsubmit). 
