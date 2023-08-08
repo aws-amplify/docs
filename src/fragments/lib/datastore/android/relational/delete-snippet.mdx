@@ -2,25 +2,34 @@
 <Block name="Java">
 
 ```java
-Amplify.DataStore.query(Post.class, Where.id("123"),
-    match -> {
-        if (match.hasNext()) {
-            Post post = match.next();
-            Amplify.DataStore.delete(post,
-                deleted -> Log.i("MyAmplifyApp", "Post deleted."),
-                failure -> Log.e("MyAmplifyApp", "Delete failed.", failure)
-            );
-        }
-    },
-    failure -> Log.e("MyAmplifyApp", "Query failed.", failure)
-);
+QueryOptions queryOptions = null;
+try {
+    queryOptions = Where.identifier(Post.class, "123");
+} catch (AmplifyException e) {
+    Log.e("MyAmplifyApp", "Failed to construct QueryOptions with provided values for Where.identifier", e);
+}
+
+if (queryOptions != null) {
+    Amplify.DataStore.query(Post.class, queryOptions,
+        match -> {
+            if (match.hasNext()) {
+                Post post = match.next();
+                Amplify.DataStore.delete(post,
+                    deleted -> Log.i("MyAmplifyApp", "Post deleted."),
+                    failure -> Log.e("MyAmplifyApp", "Delete failed.", failure)
+                );
+            }
+        },
+        failure -> Log.e("MyAmplifyApp", "Query failed.", failure)
+    );
+}
 ```
 
 </Block>
 <Block name="Kotlin - Callbacks">
 
 ```kotlin
-Amplify.DataStore.query(Post::class.java, Where.id("123"),
+Amplify.DataStore.query(Post::class.java, Where.identifier(Post::class.java, "123"),
     {
         if (it.hasNext()) {
             val post = it.next()
@@ -38,7 +47,7 @@ Amplify.DataStore.query(Post::class.java, Where.id("123"),
 <Block name="Kotlin - Coroutines">
 
 ```kotlin
-Amplify.DataStore.query(Post::class, Where.id("123"))
+Amplify.DataStore.query(Post::class, Where.identifier(Post::class.java, "123"))
     .catch { Log.e("MyAmplifyApp", "Query failed", it) }
     .onEach { Amplify.DataStore.delete(it) }
     .catch { Log.e("MyAmplifyApp", "Delete failed", it) }
@@ -49,12 +58,21 @@ Amplify.DataStore.query(Post::class, Where.id("123"))
 <Block name="RxJava">
 
 ```java
-RxAmplify.DataStore.query(Post.class, Where.id("123"))
-    .flatMapCompletable(RxAmplify.DataStore::delete)
-    .subscribe(
-        () -> Log.i("MyAmplifyApp", "Post deleted."),
-        failure -> Log.e("MyAmplifyApp", "Delete failed.", failure)
-    );
+QueryOptions queryOptions = null;
+try {
+    queryOptions = Where.identifier(Post.class, "123");
+} catch (AmplifyException e) {
+    Log.e("MyAmplifyApp", "Failed to construct QueryOptions with provided values for Where.identifier", e);
+}
+
+if (queryOptions != null) {
+    RxAmplify.DataStore.query(Post.class, queryOptions)
+        .flatMapCompletable(RxAmplify.DataStore::delete)
+        .subscribe(
+            () -> Log.i("MyAmplifyApp", "Post deleted."),
+            failure -> Log.e("MyAmplifyApp", "Delete failed.", failure)
+        );
+}
 ```
 
 </Block>

@@ -42,7 +42,7 @@ export default async (phase, { defaultConfig }) => {
 
   const nextConfig = withMDX({
     env: {
-      PROD_ENV: process.env.PROD_ENV
+      BUILD_ENV: process.env.BUILD_ENV
     },
     pageExtensions: ['js', 'jsx', 'mdx', 'tsx', 'ts'],
     typescript: {
@@ -54,7 +54,11 @@ export default async (phase, { defaultConfig }) => {
     },
     exportPathMap,
     trailingSlash: true,
-    transpilePackages: ['@algolia/autocomplete-shared'],
+    transpilePackages: [
+      '@algolia/autocomplete-shared',
+      '@cloudscape-design/components',
+      '@cloudscape-design/component-toolkit'
+    ],
     // eslint-disable-next-line @typescript-eslint/require-await
     async headers() {
       return [

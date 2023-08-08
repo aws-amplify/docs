@@ -8,7 +8,12 @@ import {
   View,
   Link
 } from '@aws-amplify/ui-react';
-import { MdOutlineBadge, MdLabelOutline, MdCelebration } from 'react-icons/md';
+import {
+  MdOutlineBadge,
+  MdLabelOutline,
+  MdCelebration,
+  MdPageview
+} from 'react-icons/md';
 import {
   FiExternalLink,
   FiGithub,
@@ -37,8 +42,7 @@ export default function HowItWorks() {
         <Heading level={2}>How it works</Heading>
       </View>
       <Text fontSize="large" color="font.secondary">
-        The steps below outline how to participate. Right now, only accepted PRs
-        will be considered.
+        The Amplify Contributor Program is open to everyone in the Amplify community! In the following steps, we describe what to expect when contributing:
       </Text>
 
       <View>
@@ -54,31 +58,10 @@ export default function HowItWorks() {
               alignItems="center"
             >
               {' '}
-              <FiGithub />
-            </Flex>
-            <Text>
-              Amplify Contributor Program is open to everyone in our Amplify
-              community!
-            </Text>
-          </Flex>
-        </Card>
-        <Divider size="small" />
-        <Card>
-          <Flex direction="row" alignItems="center">
-            <Flex
-              backgroundColor="brand.rind"
-              color="brand.squidInk"
-              width="32px"
-              height="32px"
-              borderRadius="50%"
-              justifyContent="center"
-              alignItems="center"
-            >
-              {' '}
               <MdLabelOutline />
             </Flex>
             <Text>
-              The Amplify team will label issues using{' '}
+              The Amplify team labels issues using{' '}
               <Badge variation="info">good first issue</Badge> for contributors.
             </Text>
           </Flex>
@@ -99,8 +82,26 @@ export default function HowItWorks() {
               <FiGitPullRequest />
             </Flex>
             <Text>
-              The pull request must contain commits you made yourself.
+              You open a pull request that contains commits you made yourself.
             </Text>
+          </Flex>
+        </Card>
+        <Divider size="small" />
+        <Card>
+          <Flex direction="row" alignItems="center">
+            <Flex
+              backgroundColor="brand.rind"
+              color="brand.squidInk"
+              width="32px"
+              height="32px"
+              borderRadius="50%"
+              justifyContent="center"
+              alignItems="center"
+            >
+              {' '}
+              <MdPageview />
+            </Flex>
+            <Text>The Amplify team reviews your pull request.</Text>
           </Flex>
         </Card>
         <Divider size="small" />
@@ -118,25 +119,7 @@ export default function HowItWorks() {
               {' '}
               <FiCheck />
             </Flex>
-            <Text>The Amplify team will review the submitted PRs.</Text>
-          </Flex>
-        </Card>
-        <Divider size="small" />
-        <Card>
-          <Flex direction="row" alignItems="center">
-            <Flex
-              backgroundColor="brand.rind"
-              color="brand.squidInk"
-              width="32px"
-              height="32px"
-              borderRadius="50%"
-              justifyContent="center"
-              alignItems="center"
-            >
-              {' '}
-              <MdCelebration />
-            </Flex>
-            <Text>Pull requests must be approved by the Amplify Team.</Text>
+            <Text>If everything looks good, the Amplify team approves the pull request. (At this time, only accepted pull requests count toward earning badges.)</Text>
           </Flex>
         </Card>
         <Divider size="small" />
@@ -155,7 +138,7 @@ export default function HowItWorks() {
               <MdOutlineBadge />
             </Flex>
             <Text>
-              Receive a contributor role in the{' '}
+              If this is your first approved pull request, the Amplify team designates you as a Contributor in the{' '}
               <Link href="https://discord.com/invite/amplify" isExternal>
                 Amplify Community Discord server <FiExternalLink />
               </Link>
@@ -163,6 +146,34 @@ export default function HowItWorks() {
             </Text>
           </Flex>
         </Card>
+        <Divider size="small" />
+        <Card>
+          <Flex direction="row" alignItems="center">
+            <Flex
+              backgroundColor="brand.rind"
+              color="brand.squidInk"
+              width="32px"
+              height="32px"
+              borderRadius="50%"
+              justifyContent="center"
+              alignItems="center"
+            >
+              {' '}
+              <MdCelebration />
+            </Flex>
+            <Text>
+              You collect an{' '}
+              <Link
+                href="https://aws.amazon.com/blogs/mobile/new-introducing-the-amplify-badge-program/"
+                isExternal
+              >
+                Amplify badge <FiExternalLink />
+              </Link>{' '}
+              for your first contribution or make progress toward the Intermediate and Advanced badges!
+            </Text>
+          </Flex>
+        </Card>
+        <Divider size="small" />
       </View>
     </Flex>
   );

@@ -1,4 +1,4 @@
-import { commandsInfo } from 'amplify-cli-core/lib/help/commands-info.js';
+import { commandsInfo } from '@aws-amplify/amplify-cli-core/lib/help/commands-info.js';
 
 /**
  * Get and transform command data
