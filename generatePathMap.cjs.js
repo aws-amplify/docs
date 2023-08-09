@@ -79,21 +79,6 @@ function generatePathMap(
     '/ui/q/framework/next': {
       page: '/ui/q/framework/[framework]'
     },
-    '/ui-legacy/q/framework/react': {
-      page: '/ui-legacy/q/framework/[framework]'
-    },
-    '/ui-legacy/q/framework/react-native': {
-      page: '/ui-legacy/q/framework/[framework]'
-    },
-    '/ui-legacy/q/framework/angular': {
-      page: '/ui-legacy/q/framework/[framework]'
-    },
-    '/ui-legacy/q/framework/vue': {
-      page: '/ui-legacy/q/framework/[framework]'
-    },
-    '/ui-legacy/q/framework/next': {
-      page: '/ui-legacy/q/framework/[framework]'
-    },
     '/sdk/q/platform/js': {
       page: '/sdk/q/platform/[platform]'
     },
