@@ -158,18 +158,22 @@ func createProperty(name: String, address: String? = nil) {
   
   Task {
       do {
-          // Create the property record
-          let result = try await Amplify.API.mutate(request: .create(property))
-          guard case .failure(let graphQLResponse) = result else {
-              return
-          }
-          print("Failed with error: ", graphQLResponse)
-          // Remove the newly created property
-          properties.removeLast()
+            // Create the property record
+            let result = try await Amplify.API.mutate(request: .create(property))
+            guard case .failure(let graphQLResponse) = result else {
+                return
+            }
+            print("Failed with error: ", graphQLResponse)
+            // Remove the newly created property
+            if let index = properties.firstIndex(where: { $0?.id == property.id }) {
+                properties.remove(at: index)
+            }
       } catch {
-          print("Failed with error: ", error)
-          // Remove the newly created property
-          properties.removeLast()
+            print("Failed with error: ", error)
+            // Remove the newly created property
+            if let index = properties.firstIndex(where: { $0?.id == property.id }) {
+                properties.remove(at: index)
+            }
       }
   }
 }
@@ -310,11 +314,15 @@ actor RealEstatePropertyList {
                 }
                 print("Failed with error: ", graphQLResponse)
                 // Remove the newly created property
-                properties.removeLast()
+                if let index = properties.firstIndex(where: { $0?.id == property.id }) {
+                    properties.remove(at: index)
+                }
             } catch {
                 print("Failed with error: ", error)
                 // Remove the newly created property
-                properties.removeLast()
+                if let index = properties.firstIndex(where: { $0?.id == property.id }) {
+                    properties.remove(at: index)
+                }
             }
         }
     }
