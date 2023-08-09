@@ -138,11 +138,21 @@ import js17 from "/src/fragments/lib/datastore/js/data-access/query-single-item-
 
 Predicates are filters that can be used to match items in the DataStore. When applied to a query(), they constrain the returned results. When applied to a save(), they act as a pre-requisite for updating the data. You can match against fields in your schema by using the following predicates:
 
-**Strings:** `eq | ne | le | lt | ge | gt | contains | notContains | beginsWith | between`
+import jsPredicates from "/src/fragments/lib/datastore/js/data-access/query-predicate-types.mdx";
 
-**Numbers:** `eq | ne | le | lt | ge | gt | between`
+<Fragments fragments={{js: jsPredicates}} />
 
-**Lists:** `contains | notContains`
+import iOSPredicates from "/src/fragments/lib/datastore/ios/data-access/query-predicate-types.mdx";
+
+<Fragments fragments={{ios: iOSPredicates}} />
+
+import androidPredicates from "/src/fragments/lib/datastore/android/data-access/query-predicate-types.mdx";
+
+<Fragments fragments={{android: androidPredicates}} />
+
+import flutterPredicates from "/src/fragments/lib/datastore/flutter/data-access/query-predicate-types.mdx";
+
+<Fragments fragments={{flutter: flutterPredicates}} />
 
 For example if you wanted a list of all `Post` Models that have a `rating` greater than 4:
 

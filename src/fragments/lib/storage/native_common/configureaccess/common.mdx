@@ -1,7 +1,7 @@
  When adding the Storage category, you configure the level of access users have to your S3 bucket. You can configure separate rules for authenticated vs. guest users. When using the Storage category to upload files, you can also specify an access level for each individual file: guest, protected, or private.
 
 - **Guest** Accessible by all users of your application
-- **Protected** Readable by all users, but only writable by the creating user
+- **Protected** Readable by all users (you need to specify the identityID of the user who uploaded the file). Writable only by the creating user
 - **Private** Readable and writable only by the creating user
 
 Guest access does **not** mean that your files are totally public. A "guest" is a user of your application who has not yet signed in. To enable access at this level, you will still be required to configured [Authentication](/lib/auth/getting-started) in your app. The user must be able to assume an unauthenticated role from your Cognito Identity Pool.
