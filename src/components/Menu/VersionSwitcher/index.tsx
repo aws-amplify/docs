@@ -1,6 +1,6 @@
-import Link from "next/link";
-import {ActiveSwitchStyle, SwitchStyle} from "./styles";
-import directory from "../../../directory/directory.mjs";
+import Link from 'next/link';
+import { ActiveSwitchStyle, SwitchStyle } from './styles';
+import directory from '../../../directory/directory.mjs';
 
 const Option = function({ href, title, isActive }) {
   const SwitchStyle = isActive ? ActiveSwitchStyle : 'a';
@@ -15,52 +15,8 @@ const Option = function({ href, title, isActive }) {
   );
 };
 
-export function VersionSwitcher({url}) {
-  let leftActive = true;
-  let urlEnd;
-  const filter = url.includes("/framework")
-    ? "q/framework" + url.split("/framework")[1]
-    : "";
-  if (url.includes("/ui-legacy")) {
-    leftActive = false;
-    urlEnd = url.split("/ui-legacy")[1];
-  } else {
-    urlEnd = url.split("/ui")[1];
-  }
-
-  const leftHref = "/ui" + urlEnd;
-  const leftOption = {
-    title: "Latest",
-    href: uiPaths.includes(leftHref) ? leftHref : "/ui/" + filter,
-  };
-
-  const rightHref = "/ui-legacy" + urlEnd;
-  const rightOption = {
-    title: "Legacy",
-    href: uiLegacyPaths.includes(rightHref)
-      ? rightHref
-      : "/ui-legacy/" + filter,
-  };
-
-  return (
-    <SwitchStyle>
-      <Option
-        href={leftOption.href}
-        title={leftOption.title}
-        isActive={leftActive}
-      />
-      <Option
-        href={rightOption.href}
-        title={rightOption.title}
-        isActive={!leftActive}
-      />
-    </SwitchStyle>
-  );
-}
-
-
-const lib = directory["lib"].items;
-const libLegacy = directory["lib-v1"].items;
+const lib = directory['lib'].items;
+const libLegacy = directory['lib-v1'].items;
 const libLegacyPaths: string[] = [];
 const libPaths: string[] = [];
 const libItemsAndPaths: [object, string[]][] = [
@@ -86,7 +42,7 @@ libPaths.push('/lib');
 export function LibVersionSwitcher({
   url,
   legacyVersion,
-  latestVersion,
+  latestVersion
 }: {
   url: string;
   legacyVersion: string;
@@ -109,25 +65,25 @@ export function LibVersionSwitcher({
   // Function to remove query string parameters before checking if href is included in the list of possibilities.
   // This is so we are only comparing the paths without the query string parameters to avoid false negatives.
   function isHrefIncluded(href: string, paths: string[]) {
-    href = href.split("#")[0];
-    if (href.endsWith("/")) {
-      href = href.substring(0, href.length-1);
+    href = href.split('#')[0];
+    if (href.endsWith('/')) {
+      href = href.substring(0, href.length - 1);
     }
     return paths.includes(href);
   }
 
-  const leftHref = "/lib-v1" + urlEnd;
+  const leftHref = '/lib-v1' + urlEnd;
   const leftOption = {
     title: legacyVersion,
     href: isHrefIncluded(leftHref, libLegacyPaths)
       ? leftHref
-      : "/lib-v1/" + filter,
+      : '/lib-v1/' + filter
   };
 
   const rightHref = '/lib' + urlEnd;
   const rightOption = {
     title: `${latestVersion} (latest)`,
-    href: isHrefIncluded(rightHref, libPaths) ? rightHref : "/lib/" + filter,
+    href: isHrefIncluded(rightHref, libPaths) ? rightHref : '/lib/' + filter
   };
 
   return (

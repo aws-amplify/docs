@@ -4,8 +4,6 @@ import {RepoActionsStyle} from "./styles";
 const getLabelForPath = (path) => {
   if (path.startsWith("/cli")) {
     return "CLI";
-  } else if (path.startsWith("/ui") || path.startsWith("/ui-legacy")) {
-    return "UI";
   } else if (path.startsWith("/lib") && path.includes("platform/js")) {
     return "JavaScript";
   } else if (path.startsWith("/lib") && path.includes("platform/android")) {
