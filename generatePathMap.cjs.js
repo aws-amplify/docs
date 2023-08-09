@@ -61,24 +61,6 @@ function generatePathMap(
     '/lib-v1/q/platform/ios': {
       page: '/lib-v1/q/platform/[platform]'
     },
-    '/ui/q/framework/react': {
-      page: '/ui/q/framework/[framework]'
-    },
-    '/ui/q/framework/react-native': {
-      page: '/ui/q/framework/[framework]'
-    },
-    '/ui/q/framework/angular': {
-      page: '/ui/q/framework/[framework]'
-    },
-    '/ui/q/framework/vue': {
-      page: '/ui/q/framework/[framework]'
-    },
-    '/ui/q/framework/flutter': {
-      page: '/ui/q/framework/[framework]'
-    },
-    '/ui/q/framework/next': {
-      page: '/ui/q/framework/[framework]'
-    },
     '/sdk/q/platform/js': {
       page: '/sdk/q/platform/[platform]'
     },
