@@ -4,7 +4,7 @@ Note: If you create or update an SMS MFA configuration for your Cognito user poo
 For information about Amazon SNS pricing, see [Worldwide SMS Pricing](https://aws.amazon.com/sns/sms-pricing/).
 </Callout>
 
-MFA (Multi-factor authentication increases security for your app by adding an authentication method and not relying solely on the username (or alias) and password. AWS Amplify uses Amazon Cognito to provide MFA. Please see [Amazon Cognito Developer Guide](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-mfa.html) for more information about setting up MFA in Amazon Cognito.
+MFA (Multi-factor authentication) increases security for your app by adding an authentication method and not relying solely on the username (or alias) and password. AWS Amplify uses Amazon Cognito to provide MFA. Please see [Amazon Cognito Developer Guide](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-mfa.html) for more information about setting up MFA in Amazon Cognito.
 
 Once you enable MFA on Amazon Cognito, you can configure your app to work with MFA.
 
@@ -14,81 +14,200 @@ With TOTP (Time-based One-time Password), your app user is challenged to complet
 
 You can setup TOTP for a user in your app:
 
-```javascript
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { CognitoUserSession } from 'amazon-cognito-identity-js';
 import { Auth } from 'aws-amplify';
 
-// To setup TOTP, first you need to get a `authorization code` from Amazon Cognito
-// `user` is the current Authenticated user
-Auth.setupTOTP(user).then((code) => {
+type SetupTOTPAuthParameters = {
+  user: string;
+  challengeAnswer: string;
+  mfaType?: 'SMS_MFA' | 'SOFTWARE_TOKEN_MFA';
+};
+
+export async function setupTOTPAuth({ user, challengeAnswer, mfaType }: SetupTOTPAuthParameters) {
+  // To setup TOTP, first you need to get a `authorization code` from Amazon Cognito
+  // `user` is the current Authenticated user
+  const secretCode = await Auth.setupTOTP(user);
+  // You can directly display the `code` to the user or convert it to a QR code to be scanned.
+  // E.g., use following code sample to render a QR code with `qrcode.react` component:
+  //      import QRCodeCanvas from 'qrcode.react';
+
+//  const str = "otpauth://totp/AWSCognito:"+ username + "?secret=" + secretCode + "&issuer=" + issuer;
+
+  //      <QRCodeCanvas value={str}/>
+
+  // ...
+
+  // Then you will have your TOTP account in your TOTP-generating app (like Google Authenticator)
+  // Use the generated one-time password to verify the setup
+  try {
+    const cognitoUserSession: CognitoUserSession = await Auth.verifyTotpToken(
+      user,
+      challengeAnswer
+    );
+    // don't forget to set TOTP as the preferred MFA method
+    await Auth.setPreferredMFA(user, 'TOTP');
+  } catch (error) {
+    // Token is not verified
+  }
+
+  // ...
+
+  // Finally, when sign-in with MFA is enabled, use the confirmSignIn method
+  // to pass the TOTP code and MFA type.
+ const OTPCode = '123456'; // Code retrieved from authenticator app.
+ await Auth.confirmSignIn(user, OTPCode, mfaType); // Optional, MFA Type e.g. SMS_MFA || SOFTWARE_TOKEN_MFA
+}
+```
+</Block>
+<Block name="JavaScript">
+
+```js
+import { Auth } from 'aws-amplify';
+
+async function setupTOTPAuth(user, challengeAnswer, mfaType) {
+  // To setup TOTP, first you need to get a `authorization code` from Amazon Cognito
+  // `user` is the current Authenticated user
+  const OTPCode = '123456'; // Code retrieved from authenticator app.
   // You can directly display the `code` to the user or convert it to a QR code to be scanned.
   // E.g., use following code sample to render a QR code with `qrcode.react` component:
   //      import QRCodeCanvas from 'qrcode.react';
   //      const str = "otpauth://totp/AWSCognito:"+ username + "?secret=" + code + "&issuer=" + issuer;
   //      <QRCodeCanvas value={str}/>
-});
 
-// ...
+  // ...
 
-// Then you will have your TOTP account in your TOTP-generating app (like Google Authenticator)
-// Use the generated one-time password to verify the setup
-Auth.verifyTotpToken(user, challengeAnswer)
-  .then(() => {
+  // Then you will have your TOTP account in your TOTP-generating app (like Google Authenticator)
+  // Use the generated one-time password to verify the setup
+  try {
+    const cognitoUserSession = await Auth.verifyTotpToken(user, challengeAnswer);
     // don't forget to set TOTP as the preferred MFA method
-    Auth.setPreferredMFA(user, 'TOTP');
-    // ...
-  })
-  .catch((e) => {
+    await Auth.setPreferredMFA(user, 'TOTP');
+  } catch (error) {
     // Token is not verified
-  });
+  }
 
-// ...
+  // ...
 
-// Finally, when sign-in with MFA is enabled, use the confirmSignIn method 
-// to pass the TOTP code and MFA type. 
-Auth.confirmSignIn(user, code, mfaType) // Optional, MFA Type e.g. SMS_MFA || SOFTWARE_TOKEN_MFA
-
-
+  // Finally, when sign-in with MFA is enabled, use the confirmSignIn method
+  // to pass the TOTP code and MFA type.
+  await Auth.confirmSignIn(user, code, mfaType); // Optional, MFA Type e.g. SMS_MFA || SOFTWARE_TOKEN_MFA
+}
 ```
+</Block>
+</BlockSwitcher>
 
 ## Setup MFA type
 
 Multiple MFA types supported by Amazon Cognito. You can set the preferred method in your code:
 
-```javascript
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
 import { Auth } from 'aws-amplify';
 
-// You can select preferred mfa type, for example:
-// Select TOTP as preferred
-Auth.setPreferredMFA(user, 'TOTP')
-  .then((data) => {
+
+export async function setupMFAType() {
+  // You can select preferred mfa type, for example:
+  // Select TOTP as preferred
+  try {
+    const user = await Auth.currentAuthenticatedUser();
+    const data = await Auth.setPreferredMFA(user, 'TOTP');
     console.log(data);
-    // ...
-  })
-  .catch((e) => {});
+  } catch (error) {
+    console.log('error setting up MFA type', error);
+  }
+
+  // Select SMS as preferred
+  await Auth.setPreferredMFA(user, 'SMS');
+
+  // Select no-mfa
+  await Auth.setPreferredMFA(user, 'NOMFA');
+}
+```
+</Block>
+<Block name="JavaScript">
+
+```js
+import { Auth } from 'aws-amplify';
+
+const user = await Auth.currentAuthenticatedUser();
+async function setupMFAType(user) {
+  // You can select preferred mfa type, for example:
+  // Select TOTP as preferred
+  try {
+    const data = await Auth.setPreferredMFA(user, 'TOTP');
+    console.log(data);
+  } catch (error) {
+    console.log('error setting up MFA type', error);
+  }
 
 // Select SMS as preferred
-Auth.setPreferredMFA(user, 'SMS');
+  await Auth.setPreferredMFA(user, 'SMS');
 
-// Select no-mfa
-Auth.setPreferredMFA(user, 'NOMFA');
+  // Select no-mfa
+  await Auth.setPreferredMFA(user, 'NOMFA');
+}
 ```
+</Block>
+</BlockSwitcher>
 
 ## Retrieve current preferred MFA type
 
 You can get current preferred MFA type in your code:
 
-```javascript
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
 import { Auth } from 'aws-amplify';
 
-// Will retrieve the current mfa type from cache
-Auth.getPreferredMFA(user, {
-  // Optional, by default is false.
+
+export async function getPreferredMFAType() {
+  try {
+  // Will retrieve the current mfa type from cache
+  // bypassCache is optional, by default is false.
   // If set to true, it will get the MFA type from server side instead of from local cache.
-  bypassCache: false
-}).then((data) => {
+  const user = await Auth.currentAuthenticatedUser();
+  const data = await Auth.getPreferredMFA(user, { bypassCache: false });
   console.log('Current preferred MFA type is: ' + data);
-});
+    } catch (err) { 
+    console.log(err)
+  }
+}
 ```
+</Block>
+<Block name="JavaScript">
+
+```js
+import { Auth } from 'aws-amplify';
+
+async function getPreferredMFAType() {
+try {
+  // Will retrieve the current mfa type from cache
+  // bypassCache is optional, by default is false.
+  // If set to true, it will get the MFA type from server side instead of from local cache.
+  const user = await Auth.currentAuthenticatedUser();
+  const data = await Auth.getPreferredMFA(user, { bypassCache: false });
+  console.log('Current preferred MFA type is: ' + data);
+  } catch (err) {
+    console.log(err)
+ }
+}
+
+```
+</Block>
+</BlockSwitcher>
+
+<Callout warning>
+
+To avoid unexpected responses from Cognito, it is recommended to call `Auth.setPreferredMFA()` to ensure a user has set their MFA method *before* retrieving MFA settings with `Auth.getPreferredMFA()`.
+
+</Callout>
 
 ## Advanced use cases
 
@@ -109,46 +228,143 @@ in the current session and set it using `user.sendMFASelectionAnswer` function.
 
 The following code is only for demonstration purpose:
 
-```javascript
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
 import { Auth } from 'aws-amplify';
 
-async function signIn() {
+type SignInParameters = {
+  username: string;
+  password: string;
+  mfaType?: 'SMS_MFA' | 'SOFTWARE_TOKEN_MFA';
+};
+
+type UserInput = {
+  username: string;
+  email: string;
+  phone_number: string;
+};
+
+export async function signIn({ username, password, mfaType }: SignInParameters) {
   try {
     const user = await Auth.signIn(username, password);
-    if (
-      user.challengeName === 'SMS_MFA' ||
-      user.challengeName === 'SOFTWARE_TOKEN_MFA'
-    ) {
+    if (user?.challengeName === 'SMS_MFA' || user?.challengeName === 'SOFTWARE_TOKEN_MFA') {
       // You need to get the code from the UI inputs
       // and then trigger the following function with a button click
-      const code = getCodeFromUserInput();
+      const code: string = await getCodeFromUserInput();
       // If MFA is enabled, sign-in should be confirmed with the confirmation code
       const loggedUser = await Auth.confirmSignIn(
         user, // Return object from Auth.signIn()
         code, // Confirmation code
         mfaType // MFA Type e.g. SMS_MFA, SOFTWARE_TOKEN_MFA
       );
-    } else if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
+    } else if (user?.challengeName === 'NEW_PASSWORD_REQUIRED') {
       const { requiredAttributes } = user.challengeParam; // the array of required attributes, e.g ['email', 'phone_number']
       // You need to get the new password and required attributes from the UI inputs
       // and then trigger the following function with a button click
       // For example, the email and phone_number are required attributes
-      const { username, email, phone_number } = getInfoFromUserInput();
+      const { username, email, phone_number }: UserInput =
+        await getInfoFromUserInput();
       const loggedUser = await Auth.completeNewPassword(
         user, // the Cognito User Object
         newPassword, // the new password
         // OPTIONAL, the required attributes
         {
           email,
-          phone_number
+          phone_number,
         }
       );
-    } else if (user.challengeName === 'MFA_SETUP') {
+    } else if (user?.challengeName === 'MFA_SETUP') {
       // This happens when the MFA method is TOTP
       // The user needs to setup the TOTP before using it
       // More info please check the Enabling MFA part
-      Auth.setupTOTP(user);
-    } else if (user.challengeName === 'SELECT_MFA_TYPE') {
+      await Auth.setupTOTP(user);
+    } else if (user?.challengeName === 'SELECT_MFA_TYPE') {
+      // You need to get the MFA method (SMS or TOTP) from user
+      // and trigger the following function
+      // user object needs to be CognitoUser type
+      user.sendMFASelectionAnswer(mfaType, {
+        onFailure: (err: Error) => {
+          console.error(err);
+        },
+        mfaRequired: (challengeName, parameters) => {
+          // Auth.confirmSignIn with SMS code
+        },
+        totpRequired: (challengeName, parameters) => {
+          // Auth.confirmSignIn with TOTP code
+        },
+      });
+    } else {
+      // The user directly signs in
+      console.log(user);
+    }
+  } catch (err) {
+    if (err?.code === 'UserNotConfirmedException') {
+      // The error happens if the user didn't finish the confirmation step when signing up
+      // In this case you need to resend the code and confirm the user
+      // About how to resend the code and confirm the user, please check the signUp part
+    } else if (err?.code === 'PasswordResetRequiredException') {
+      // The error happens when the password is reset in the Cognito console
+      // In this case you need to call forgotPassword to reset the password
+      // Please check the Forgot Password part.
+    } else if (err?.code === 'NotAuthorizedException') {
+      // The error happens when the incorrect password is provided
+    } else if (err?.code === 'UserNotFoundException') {
+      // The error happens when the supplied username/email does not exist in the Cognito user pool
+    } else {
+      console.log(err);
+    }
+  }
+}
+
+async function getCodeFromUserInput(): Promise<string> {
+  // fetch code using a user form input
+}
+async function getInfoFromUserInput(): Promise<UserInput> {
+  // fetch user inputs like username, email and phoneNumber
+}
+```
+</Block>
+<Block name="JavaScript">
+
+```js
+import { Auth } from 'aws-amplify';
+
+async function signIn() {
+  try {
+    const user = await Auth.signIn(username, password);
+    if (user?.challengeName === 'SMS_MFA' || user?.challengeName === 'SOFTWARE_TOKEN_MFA') {
+      // You need to get the code from the UI inputs
+      // and then trigger the following function with a button click
+      const code = await getCodeFromUserInput();
+      // If MFA is enabled, sign-in should be confirmed with the confirmation code
+      const loggedUser = await Auth.confirmSignIn(
+        user, // Return object from Auth.signIn()
+        code, // Confirmation code
+        mfaType // MFA Type e.g. SMS_MFA, SOFTWARE_TOKEN_MFA
+      );
+    } else if (user?.challengeName === 'NEW_PASSWORD_REQUIRED') {
+      const { requiredAttributes } = user.challengeParam; // the array of required attributes, e.g ['email', 'phone_number']
+      // You need to get the new password and required attributes from the UI inputs
+      // and then trigger the following function with a button click
+      // For example, the email and phone_number are required attributes
+      const { username, email, phone_number } = await getInfoFromUserInput();
+      const loggedUser = await Auth.completeNewPassword(
+        user, // the Cognito User Object
+        newPassword, // the new password
+        // OPTIONAL, the required attributes
+        {
+          email, // from user input
+          phone_number, // from user input
+        }
+      );
+    } else if (user?.challengeName === 'MFA_SETUP') {
+      // This happens when the MFA method is TOTP
+      // The user needs to setup the TOTP before using it
+      // More info please check the Enabling MFA part
+      await Auth.setupTOTP(user);
+    } else if (user?.challengeName === 'SELECT_MFA_TYPE') {
       // You need to get the MFA method (SMS or TOTP) from user
       // and trigger the following function
       // user object needs to be CognitoUser type
@@ -161,48 +377,95 @@ async function signIn() {
         },
         totpRequired: (challengeName, parameters) => {
           // Auth.confirmSignIn with TOTP code
-        }
+        },
       });
     } else {
       // The user directly signs in
       console.log(user);
     }
   } catch (err) {
-    if (err.code === 'UserNotConfirmedException') {
+    if (err?.code === 'UserNotConfirmedException') {
       // The error happens if the user didn't finish the confirmation step when signing up
       // In this case you need to resend the code and confirm the user
       // About how to resend the code and confirm the user, please check the signUp part
-    } else if (err.code === 'PasswordResetRequiredException') {
+    } else if (err?.code === 'PasswordResetRequiredException') {
       // The error happens when the password is reset in the Cognito console
       // In this case you need to call forgotPassword to reset the password
       // Please check the Forgot Password part.
-    } else if (err.code === 'NotAuthorizedException') {
+    } else if (err?.code === 'NotAuthorizedException') {
       // The error happens when the incorrect password is provided
-    } else if (err.code === 'UserNotFoundException') {
+    } else if (err?.code === 'UserNotFoundException') {
       // The error happens when the supplied username/email does not exist in the Cognito user pool
     } else {
       console.log(err);
     }
   }
 }
+
+async function getCodeFromUserInput() {
+  // fetch code using a user form input
+}
+async function getInfoFromUserInput() {
+  // fetch user inputs like username, email and phoneNumber
+}
 ```
+</Block>
+</BlockSwitcher>
 
 ### Sign-in with custom validation data for Lambda Trigger
 
 You can also pass an object which has the username, password and validationData which is sent to a PreAuthentication Lambda trigger
 
-```js
-try {
-  const user = await Auth.signIn({
-    username, // Required, the username
-    password, // Optional, the password
-    validationData // Optional, an arbitrary key-value pair map which can contain any key and will be passed to your PreAuthentication Lambda trigger as-is. It can be used to implement additional validations around authentication
-  });
-  console.log('user is signed in!', user);
-} catch (error) {
-  console.log('error signing in:', error);
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { Auth } from 'aws-amplify';
+
+type CustomValidationParameters = {
+  username: string;
+  password: string;
+  validationData: {[ key: string ]: any; };
+};
+
+export async function customValidation({
+  username,
+  password,
+  validationData,
+}: CustomValidationParameters) {
+  try {
+    const user = await Auth.signIn({
+      username, // Required, the username
+      password, // Optional, the password
+      validationData, // Optional, an arbitrary key-value pair map which can contain any key and will be passed to your PreAuthentication Lambda trigger as-is. It can be used to implement additional validations around authentication
+    });
+    console.log('user is signed in!', user);
+  } catch (error) {
+    console.log('error signing in:', error);
+  }
 }
 ```
+</Block>
+<Block name="JavaScript">
+
+```js
+import { Auth } from 'aws-amplify';
+
+async function customValidation({ username, password, validationData }) {
+  try {
+    const user = await Auth.signIn({
+      username, // Required, the username
+      password, // Optional, the password
+      validationData, // Optional, an arbitrary key-value pair map which can contain any key and will be passed to your PreAuthentication Lambda trigger as-is. It can be used to implement additional validations around authentication
+    });
+    console.log('user is signed in!', user);
+  } catch (error) {
+    console.log('error signing in:', error);
+  }
+}
+```
+</Block>
+</BlockSwitcher>
 
 ### Forcing Email Uniqueness in Cognito User Pools
 

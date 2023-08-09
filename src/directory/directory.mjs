@@ -183,6 +183,11 @@ export const directory = {
             filters: ['js']
           },
           {
+            title: 'Optimistic UI',
+            route: '/lib/graphqlapi/optimistic-ui',
+            filters: ['js']
+          },
+          {
             title: 'Cancel API requests',
             route: '/lib/graphqlapi/cancel-request',
             filters: ['js', 'react-native']
@@ -206,6 +211,11 @@ export const directory = {
             title: 'Use existing AWS resources',
             route: '/lib/graphqlapi/existing-resources',
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
+          },
+          {
+            title: 'Upgrade guide from AppSync SDK (V2)',
+            route: '/lib/graphqlapi/upgrade-guide',
+            filters: ['js']
           }
         ]
       },
@@ -320,7 +330,7 @@ export const directory = {
           {
             title: 'Sign in next steps',
             route: '/lib/auth/signin_next_steps',
-            filters: ['ios', 'android']
+            filters: ['ios', 'android', 'flutter']
           },
           {
             title: 'Guest access',
@@ -375,7 +385,7 @@ export const directory = {
           {
             title: 'Advanced workflows',
             route: '/lib/auth/advanced',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'flutter']
           },
           {
             title: 'Under the hood',
@@ -807,6 +817,66 @@ export const directory = {
             title: 'Use existing AWS resources',
             route: '/lib/storage/existing-resources',
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+          }
+        ]
+      },
+      logging: {
+        title: 'Logging',
+        items: [
+          {
+            title: 'Set up Logging',
+            route: '/lib/logging/setup-logging',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'Send Logs',
+            route: '/lib/logging/sending-logs',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'Change Log Levels',
+            route: '/lib/logging/change-log-levels',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'Flush Logs',
+            route: '/lib/logging/flush-logs',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'Enable/Disable Logging',
+            route: '/lib/logging/enable-disable',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'Configure User Allow List',
+            route: '/lib/logging/configure-user',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'View Logs',
+            route: '/lib/logging/access-logs',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'Remotely Change Log Levels',
+            route: '/lib/logging/remote-configuration',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'Change Local Storage',
+            route: '/lib/logging/change-local-storage',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'Listen to Log Events',
+            route: '/lib/logging/hub-events',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'Escape Hatch',
+            route: '/lib/logging/escapehatch',
+            filters: ['ios', 'android']
           }
         ]
       },
@@ -1549,6 +1619,11 @@ export const directory = {
             title: 'Getting started',
             route: '/sdk/pubsub/getting-started',
             filters: ['android', 'ios']
+          },
+          {
+            title: 'Using with Amplify',
+            route: '/sdk/pubsub/aws-iot-and-amplify',
+            filters: ['ios']
           },
           {
             title: 'Working with the API',

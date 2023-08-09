@@ -2,55 +2,38 @@ name: Deleted Assets Workflow
 on:
   pull_request:
     branches: [main]
-    types: [opened, synchronize, labeled]
 env:
-  DIFF_DIRECTORIES: 'public'
+  ARTIFACT_NAME: 'deletedAssetsArtifact'
+  PATHS_TO_CHECK: 'public'
 jobs:
-  onPrOpen:
-    name: Check if assets were deleted on PR opened
+  checkIfAssetsWereDeleted:
+    name: Check if assets were deleted
     runs-on: ubuntu-latest
-    if: github.event.action == 'opened'
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          # Minimal depth 2 so we can checkout the commit before possible merge commit.
-          fetch-depth: 2
+      - name: Checkout repository to get the workflow scripts
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3 https://github.com/actions/checkout/commit/c85c95e3d7251135ab7dc9ce3241c5835cc595a9
       - name: Get count of deleted files
-        env:
-          GITHUB_PULL_REQUEST_HEAD_SHA: ${{ github.pull_request.head.sha }}
-        run: |
-          git fetch origin main
-          echo "DELETED_FILES_ON_OPENED=$(git diff --name-status --diff-filter=D origin/main -- ${{ env.DIFF_DIRECTORIES }} ${{ env.GITHUB_PULL_REQUEST_HEAD_SHA }} -- ${{ env.DIFF_DIRECTORIES }} | wc -l)" >> $GITHUB_ENV
-          echo "Deleted file count: ${{ env.DELETED_FILES_ON_OPENED }}"
-      - name: Fail status check if there are deleted files
-        if: ${{ env.DELETED_FILES_ON_OPENED > 0 }}
-        run: exit 1
-  onPrSync:
-    name: Check if assets were deleted on PR sync
-    runs-on: ubuntu-latest
-    if: github.event.action == 'synchronize'
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 # v6.4.1 https://github.com/actions/github-script/commit/d7906e4ad0b1822421a7e6a35d5ca353c962f410
+        id: set-deleted-files-count
         with:
-          # Minimal depth 2 so we can checkout the commit before possible merge commit.
-          fetch-depth: 2
-      - name: Get count of deleted files from last sync
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          result-encoding: string
+          script: |
+            const { PATHS_TO_CHECK } = process.env;
+            const paths = PATHS_TO_CHECK.split(',');
+
+            const { getDeletedFilesFromPR } = require('./.github/workflows/scripts/utilities.js');
+            return getDeletedFilesFromPR({github, context, paths});
+      - name: Create artifact containing the PR number and deleted file count
         env:
-          GITHUB_EVENT_BEFORE: ${{ github.event.before }}
-          GITHUB_EVENT_AFTER: ${{ github.event.after }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
-          git fetch origin ${{ github.event.before }} --depth=1
-          echo "DELETED_FILES_ON_SYNC=$(git diff --name-status --diff-filter=D ${{ env.GITHUB_EVENT_BEFORE}} -- ${{ env.DIFF_DIRECTORIES }} ${{ env.GITHUB_EVENT_AFTER }} -- ${{ env.DIFF_DIRECTORIES }} | wc -l)" >> $GITHUB_ENV
-          echo "Deleted file count: ${{ env.DELETED_FILES_ON_SYNC }}"
-      - name: Fail status check if there are deleted files
-        if: ${{ env.DELETED_FILES_ON_SYNC > 0 }}
-        run: exit 1
-  failStatusCheck:
-    name: Fail status check if assets have not been verified
-    runs-on: ubuntu-latest
-    if: contains(github.event.pull_request.labels.*.name, 'deleted-assets')
-    steps:
-      - name: Exit with error
-        run: exit 1
+          artifactName="${{ env.ARTIFACT_NAME }}.txt"
+          echo ${{ env.PR_NUMBER }} >> $artifactName
+          echo ${{ steps.set-deleted-files-count.outputs.result }} >> $artifactName
+      - name: Upload the deleted assets file to artifacts
+        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2 https://github.com/actions/upload-artifact/commit/0b7f8abb1508181956e8e162db84b466c27e18ce
+        with:
+          name: ${{ env.ARTIFACT_NAME }}
+          path: '${{ env.ARTIFACT_NAME }}.txt'
+          retention-days: 1

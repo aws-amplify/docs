@@ -1,18 +1,49 @@
 name: LinkChecker
-on: workflow_dispatch
+on:
+  schedule:
+    - cron: '0 17 * * 1-5'
+  workflow_dispatch:
 permissions:
   contents: read
+  id-token: write
 jobs:
   LinkChecker:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
       - name: Setup Node.js 16.x
-        uses: actions/setup-node@main
+        uses: actions/setup-node@e33196f7422957bea03ed53f6fbb155025ffc7b8 # v3.7.0
         with:
           node-version: 16.x
       - name: Install Dependencies
         run: yarn
       - name: Run Link Checker
-        run: node tasks/link-checker.mjs
+        id: checkLinks
+        uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410
+        with:
+          result-encoding: string
+          script: |
+            const { checkLinks } = require('./tasks/link-checker.js');
+            return await checkLinks();
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@5fd3084fc36e372ff1fff382a39b10d03659f355 # v2.2.0
+        with:
+          role-to-assume: arn:aws:iam::464149486631:role/github_action_read_slack_webhook_url
+          aws-region: us-west-2
+      - name: Read secrets from AWS Secrets Manager into environment variables
+        uses: aws-actions/aws-secretsmanager-get-secrets@022e8919774ecb75e8e375656d7b1898936ab878 # v1.0.4
+        with:
+          secret-ids: |
+            SLACK_WEBHOOK_URL
+          parse-json-secrets: true
+      - name: Send custom JSON data to Slack workflow
+        id: slack
+        uses: slackapi/slack-github-action@e28cf165c92ffef168d23c5c9000cffc8a25e117 # v1.24.0
+        with:
+          payload: |
+            {
+              "message": "${{ steps.checkLinks.outputs.result }}"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ env.SLACK_WEBHOOK_URL_SLACK_WEBHOOK_URL }}

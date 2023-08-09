@@ -2,28 +2,37 @@
 <Block name="Java">
 
 ```java
-Amplify.DataStore.query(Post.class, Where.id("123"),
-    matches -> {
-        if (matches.hasNext()) {
-            Post original = matches.next();
-            Post edited = original.copyOfBuilder()
-                .title("New Title")
-                .build();
-            Amplify.DataStore.save(edited,
-                updated -> Log.i("MyAmplifyApp", "Updated a post."),
-                failure -> Log.e("MyAmplifyApp", "Update failed.", failure)
-            );
-        }
-    },
-    failure -> Log.e("MyAmplifyApp", "Query failed.", failure)
-);
+QueryOptions queryOptions = null;
+try {
+    queryOptions = Where.identifier(Post.class, "123");
+} catch (AmplifyException e) {
+    Log.e("MyAmplifyApp", "Failed to construct QueryOptions with provided values for Where.identifier", e);
+}
+
+if (queryOptions != null) {
+    Amplify.DataStore.query(Post.class, queryOptions,
+        matches -> {
+            if (matches.hasNext()) {
+                Post original = matches.next();
+                Post edited = original.copyOfBuilder()
+                    .title("New Title")
+                    .build();
+                Amplify.DataStore.save(edited,
+                    updated -> Log.i("MyAmplifyApp", "Updated a post."),
+                    failure -> Log.e("MyAmplifyApp", "Update failed.", failure)
+                );
+            }
+        },
+        failure -> Log.e("MyAmplifyApp", "Query failed.", failure)
+    );
+}
 ```
 
 </Block>
 <Block name="Kotlin - Callbacks">
 
 ```kotlin
-Amplify.DataStore.query(Post::class.java, Where.id("123"),
+Amplify.DataStore.query(Post::class.java, Where.identifier(Post::class.java, "123"),
     { matches ->
         if (matches.hasNext()) {
             val original = matches.next()
@@ -44,7 +53,7 @@ Amplify.DataStore.query(Post::class.java, Where.id("123"),
 <Block name="Kotlin - Coroutines">
 
 ```kotlin
-Amplify.DataStore.query(Post::class, Where.id("123"))
+Amplify.DataStore.query(Post::class, Where.identifier(Post::class.java, "123"))
     .catch { Log.e("MyAmplifyApp", "Query failed", it) }
     .map { it.copyOfBuilder().title("New Title").build() }
     .onEach { Amplify.DataStore.save(it) }
@@ -56,16 +65,25 @@ Amplify.DataStore.query(Post::class, Where.id("123"))
 <Block name="RxJava">
 
 ```java
-RxAmplify.DataStore.query(Post.class, Where.id("123"))
-    .map(matchingPost -> matchingPost.copyOfBuilder()
-        .title("New Title")
-        .build()
-    )
-    .flatMapCompletable(RxAmplify.DataStore::save)
-    .subscribe(
-        () -> Log.i("MyAmplifyApp", "Query and update succeeded."),
-        failure -> Log.e("MyAmplifyApp", "Update failed.", failure)
-    );
+QueryOptions queryOptions = null;
+try {
+    queryOptions = Where.identifier(Post.class, "123");
+} catch (AmplifyException e) {
+    Log.e("MyAmplifyApp", "Failed to construct QueryOptions with provided values for Where.identifier", e);
+}
+
+if (queryOptions != null) {
+    RxAmplify.DataStore.query(Post.class, queryOptions)
+        .map(matchingPost -> matchingPost.copyOfBuilder()
+            .title("New Title")
+            .build()
+        )
+        .flatMapCompletable(RxAmplify.DataStore::save)
+        .subscribe(
+            () -> Log.i("MyAmplifyApp", "Query and update succeeded."),
+            failure -> Log.e("MyAmplifyApp", "Update failed.", failure)
+        );
+}
 ```
 
 </Block>

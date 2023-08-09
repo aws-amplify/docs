@@ -105,6 +105,9 @@ function generatePathMap(
     },
     '/contribute': {
       page: '/contribute'
+    },
+    '/contribute/getting-started': {
+      page: '/contribute/getting-started'
     }
   },
   removeChoosePages = false //this flag if set will generate a pathmap without the choose platform pages

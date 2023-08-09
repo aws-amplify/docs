@@ -407,6 +407,7 @@
     "CocoaPods",
     "CodeCommit",
     "codegen",
+    "CODEGENJOB",
     "COGNITO_USERPOOL_ID",
     "Cognito's",
     "cognito",
@@ -1077,6 +1078,7 @@
     "RecyclerView",
     "redirect_to",
     "referrerpolicy",
+    "refetches",
     "Registrarse",
     "Regístrate",
     "Rehydrated",
@@ -1230,6 +1232,7 @@
     "tabs.page.html",
     "tabs.router.module",
     "taglabel",
+    "tanstack",
     "task.result",
     "taskIdentifier",
     "template.json",
@@ -1506,13 +1509,15 @@
     "Libre's",
     "Pinia",
     "kotlinx",
-    "snapcraft"
+    "snapcraft",
+    "snapshotted",
+    "visionos",
+    "loggingconstraints",
+    "remoteconfig",
+    "remoteloggingconstraints",
+    "remotelogging",
+    "cloudwatchlogs",
+    "userids"
   ],
-  "flagWords": [
-    "hte", 
-    "full-stack", 
-    "Full-stack", 
-    "Full-Stack",
-    "sudo",
-  ]
+  "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"]
 }
