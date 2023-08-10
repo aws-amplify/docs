@@ -10,6 +10,7 @@ const mdxRenderer = `
   import { mdx } from "@mdx-js/react";
 
 `;
+const shouldAnalyzeBundles = process.env.ANALYZE === 'true';
 
 export default async (phase, { defaultConfig }) => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -40,7 +41,7 @@ export default async (phase, { defaultConfig }) => {
     }
   });
 
-  const nextConfig = withMDX({
+  let nextConfig = withMDX({
     env: {
       BUILD_ENV: process.env.BUILD_ENV
     },
@@ -86,6 +87,11 @@ export default async (phase, { defaultConfig }) => {
       ];
     }
   });
+
+  const withNextBundleAnalyzer = require('next-bundle-analyzer')({
+    format: ['html', 'json']
+  });
+  nextConfig = withNextBundleAnalyzer(nextConfig);
 
   return nextConfig;
 };
