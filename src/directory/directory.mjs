@@ -273,6 +273,11 @@ export const directory = {
             filters: ['js']
           },
           {
+            title: 'Enable sign-up, sign-in, and sign-out',
+            route: '/lib/auth/enable_signup_signin_signout',
+            filters: ['js']
+          },
+          {
             title: 'Sign up, Sign in & Sign out',
             route: '/lib/auth/emailpassword',
             filters: ['js', 'react-native']
