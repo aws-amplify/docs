@@ -6,6 +6,8 @@ export function traverseHeadings(tree, filterKey: string): string[] {
     tree = [tree];
   }
 
+  const a = 'test';
+
   let headings = [];
   for (const node of tree) {
     if (typeof node !== "object") continue;
