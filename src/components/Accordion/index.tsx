@@ -22,18 +22,31 @@ const Accordion: React.FC<AccordionProps> = ({
   useEffect(() => {
     const expander = docsExpander.current;
 
-    setExpandedHeight(
-      expander?.children['docs-expander__summary']?.offsetHeight +
-        expander?.children['docs-expander__body']?.offsetHeight
-    );
-    setInitialHeight(
-      expander?.children['docs-expander__summary']?.offsetHeight
-    );
+    const initHeight =
+      expander?.children['docs-expander__summary']?.offsetHeight;
+    const expHeight = getHiddenHeight(expander);
 
+    setInitialHeight(initHeight);
+    setExpandedHeight(expHeight);
+
+    // Current decision is to leave the footer close on all expanders
     // if (expandedHeight > window.innerHeight) {
-    // setCloseButton(true);
+    //   setCloseButton(true);
     // }
-  }, [expandedHeight, initialHeight, closeButton]);
+  }, [initialHeight, expandedHeight, closeButton]);
+
+  function getHiddenHeight(el) {
+    if (!el?.cloneNode) {
+      return null;
+    }
+
+    const clone = el.cloneNode(true);
+    clone.setAttribute('open', '');
+    el.after(clone);
+    const height = clone.offsetHeight;
+    clone.remove();
+    return height;
+  }
 
   const headingId = title?.replace(/\s+/g, '-').toLowerCase();
   headingLevel = headingLevel ? 'h' + headingLevel : 'div';
@@ -67,34 +80,37 @@ const Accordion: React.FC<AccordionProps> = ({
   ];
 
   const animationTiming = {
-    duration: 500,
+    duration: 700,
     iterations: 1
   };
 
-  const scrollToLoc =
-    docsExpander?.current?.offsetTop - docsExpander?.current?.offsetHeight - 48;
-
   const closeAccordion = () => {
-    docsExpander.current?.animate(collapse, animationTiming);
-    window.scrollTo({
-      left: 0,
-      top: scrollToLoc,
-      behavior: 'smooth'
-    });
-    setTimeout(function() {
-      docsExpander.current?.removeAttribute('open');
-    }, 500);
+    const expander = docsExpander.current;
+    if (expander) {
+      const scrollToLoc = expander.offsetTop - 48 - 70 - 10; // account for nav heights and 10px buffer
+
+      expander.animate(collapse, animationTiming);
+      window.scrollTo({
+        left: 0,
+        top: scrollToLoc,
+        behavior: 'smooth'
+      });
+      setTimeout(function() {
+        expander.removeAttribute('open');
+      }, 700);
+    }
   };
 
   const toggleAccordion = (e) => {
     e.preventDefault();
+
     const expander = docsExpander.current;
     // Close accordion
     if (expander?.hasAttribute('open')) {
       expander?.animate(collapse, animationTiming);
       setTimeout(function() {
         expander.removeAttribute('open');
-      }, 500);
+      }, 700);
     } else {
       // Open accordion
       expander?.setAttribute('open', '');
