@@ -4,13 +4,15 @@ import { Container } from '../Container';
 import ExternalLink from '../ExternalLink';
 import * as links from '../../constants/links';
 import * as img from '../../constants/img';
+import { forwardRef } from 'react';
 
-export default function DocsFooter() {
+// eslint-disable-next-line no-empty-pattern
+const DocsFooter = forwardRef(function DocsFooter({}, ref) {
   return (
     <Container backgroundColor="color-ink-hv">
-      <Footer>
+      <Footer ref={ref}>
         <LeftFooter>
-          <img alt={img.AMPLIFY.alt} src={img.AMPLIFY.lightSrc} />
+          <img alt="" src={img.AMPLIFY.lightSrc} />
           <div>
             <h3>Amplify</h3>
             <Link href="/start">Getting Started</Link>
@@ -34,7 +36,7 @@ export default function DocsFooter() {
             <span>
               <div>
                 <p>
-                  <img alt={img.AWS.alt} src={img.AWS.lightSrc} />
+                  <img alt="" src={img.AWS.lightSrc} />
                   Amplify open source software, documentation and
                   <br /> community are supported by Amazon Web Services.
                 </p>
@@ -61,4 +63,6 @@ export default function DocsFooter() {
       </Footer>
     </Container>
   );
-}
+});
+
+export default DocsFooter;
