@@ -118,7 +118,7 @@ export default class FilterSelect extends React.Component<
     }
 
     return (
-      <span className="filter-row">
+      <div className="filter-row">
         <img
           alt=""
           src={filterMetadataByOption[name]?.graphicURI}
@@ -126,7 +126,7 @@ export default class FilterSelect extends React.Component<
           width="28px"
         />
         <span>{filterMetadataByOption[name]?.label}</span>
-      </span>
+      </div>
     );
   };
 
