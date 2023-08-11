@@ -585,7 +585,7 @@ const todo = await API.graphql({
 
 ### Cancel mutation requests
 
-You may cancel any query or mutation request made through the API category of Amplify by keeping a reference to the promise returned.
+You can cancel any GraphQL API request calling `.cancel` on the GraphQL request promise that's returned by `API.graphql(...)`.
 
 ```javascript
 const promise = API.graphql(graphqlOperation(...));
@@ -931,7 +931,7 @@ Note that querying for `priority` of 1 and 2 would return no results, because th
 
 #### Paginating queries
 
-To paginate results in AWS AppSync, make a query request specifying a `limit` value. This limits how many results are returned. The response will include a `nextToken` you can use to request the next page of data. A `nextToken` is a very long string that represents the cursor to the starting item of the next query made with these filters.
+To paginate results in AWS AppSync, make a query request specifying the `nextToken` field in the selection set and by passing in a `limit` input variable. The `limit` input variable limits how many results are returned. The response will include a `nextToken` you can use to request the next page of data. A `nextToken` is a very long string that represents the cursor to the starting item of the next query made with these filters.
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -1195,7 +1195,7 @@ API.cancel(promise, "my error message");
 
 ## Subscribe to real-time events
 
-You can subscribe to real-time events to help manage your data. In the section below we outline the benefits of enabling real-time data integrations and how to set up and filter these subscriptions. We will also cover how to unsubscribe from subscriptions when needed. Before you begin you will need your application connected to the API and populated data to modify.
+In the section below we outline the benefits of enabling real-time data integrations and how to set up and filter these subscriptions. We will also cover how to unsubscribe from subscriptions when needed. Before you begin you will need your application connected to the API and populated data to modify.
 
 ### Set up a real-time subscription
 
