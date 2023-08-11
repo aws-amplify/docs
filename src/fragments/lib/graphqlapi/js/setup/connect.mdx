@@ -78,7 +78,7 @@ const myAppConfig = {
   aws_appsync_graphqlEndpoint:
     'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
   aws_appsync_region: 'us-east-1',
-  aws_appsync_authenticationType: 'AMAZON_COGNITO_USER_POOLS' // You have configured Auth with Amazon Cognito User Pool ID and Web Client Id
+  aws_appsync_authenticationType: 'AMAZON_COGNITO_USER_POOLS' // You have configured Auth with Amazon Cognito User Pool ID and Web Client ID
   // ...
 };
 
@@ -87,6 +87,13 @@ Amplify.configure(myAppConfig);
 
 </Block>
 <Block name="OPENID_CONNECT">
+
+To call an API that's authenticated with OpenID Connect, you need to complete 2 steps:
+
+1. Ensure that the client configuration includes the `OPENID_CONNECT` authentication type
+2. Call `Auth.federatedSignIn(...)` to sign in to an authenticated session
+
+If sign in was successful, `call API.graphql(...)` to make your API requests.
 
 ```javascript
 const myAppConfig = {
@@ -111,7 +118,7 @@ Amplify.configure(myAppConfig);
 ```javascript
 const myAppConfig = {
   // ...
-  aws_appsync_graphqlEndpoint: 'https://api.yourdomain.com/graphql',
+  aws_appsync_graphqlEndpoint: 'https://api.yourdomain.com/graphql', // <- Provide your custom domain here
   aws_appsync_region: 'us-east-1',
   aws_appsync_authenticationType: 'API_KEY' // All auth modes are supported
   // ...
@@ -170,11 +177,13 @@ Amplify.configure({
 
 <br/>
 
-**Recap:** At this point, your client is now configured to point to your AWS AppSync API endpoint and you updated your authentication details based on the auth types you are using.
+**Recap:** At this point, your client is now configured to point to your AWS AppSync API endpoint and you updated your authentication details based on the auth types you are using. Now you're ready to call your GraphQL API.
 
 ## Connect your application code to the data backend
 
 You will connect your application code to the data stack by connecting and configuring the Amplify Libraries. We will review how to install and configure Amplify Libraries to help you complete this task. Before starting these steps you should [review the required configuration](#Review-the-required-configuration).
+
+[TODO]: # (Follow up on the following codegen section for better placement. May be shifted to a different section.)
 
 ### Use Amplify codegen to generate queries, mutations, and subscriptions 
 
@@ -517,6 +526,7 @@ __Note:__ Join table records must be deleted prior to deleting the associated re
 
 </Callout>
 
+[TODO]: # (Follow up on troubleshooting Q. We had a note to provide troubleshooting for unauthorized errors and cross-platform gotchas - do we still want to add an expander with this troubleshooting guidance?)
 
 <Accordion title='Custom authorization mode to mutate data' headingLevel='4' eyebrow='Learn more'>
 
@@ -571,6 +581,8 @@ const todo = await API.graphql({
 
 </Accordion>
 
+[TODO]: # (We should review where else this fragment is used and see if we want to change this and put it in the docs. It would mean we can make the paragraph more consistent and just replace code for other frameworks. This sample comes from https://github.com/aws-amplify/docs/blob/main/src/fragments/lib/graphqlapi/js/cancel-request.mdx)
+
 ### Cancel mutation requests
 
 You may cancel any query or mutation request made through the API category of Amplify by keeping a reference to the promise returned.
@@ -607,7 +619,7 @@ const promise = makeAPICall();
 API.cancel(promise, "my error message");
 ```
 
-**Recap:** You have implemented a few mutations to change your data. 
+**Recap:** You are now able to create, update, and delete your app data via the GraphQL API. 
 
 ## Read application data
 
@@ -624,6 +636,8 @@ You can use both `List` and `Get` to query data in GraphQL. A `List` will get yo
 __Note:__ The cost structure of your underlying data source can impact the cost to run some queries. For example, the `List` operation uses "scan operations" which uses more read request units than the `Get` operation. You will want to review the associated costs for these operations for your data source. In our example case here we are using Amazon DynamoDB and you can [learn more about how DynamoDB pricing is calculated](https://aws.amazon.com/dynamodb/pricing/) on their site.
 
 </Callout>
+
+[TODO]: # (Follow up on the following codegen section for better placement. May be shifted to a different section.)
 
 The Amplify CLI's codegen automatically creates code for all possible GraphQL operations—mutations, queries, and subscriptions. For JavaScript applications, this generated code is saved in the src/graphql folder. 
 
@@ -1139,6 +1153,8 @@ __Limitations:__
 
 </Callout>
 
+[TODO]: # (We should review where else this fragment is used and see if we want to change this and put it in the docs. It would mean we can make the paragraph more consistent and just replace code for other frameworks. This sample comes from https://github.com/aws-amplify/docs/blob/main/src/fragments/lib/graphqlapi/js/cancel-request.mdx)
+
 ### Cancel read requests
 
 You may cancel any query or mutation request made through the API category by keeping a reference to the promise returned.
@@ -1495,6 +1511,8 @@ const cleanupSubscriptions = () => {
 </Accordion>
 
 <br/>
+
+[TODO]: # (Reminder that in last review noted opportunity to reduce this into a short blurb and move the main content to "custom business logic")
 
 <Accordion title='Create a custom GraphQL subscription by ID' headingLevel='4' eyebrow='Walkthrough'>
 
