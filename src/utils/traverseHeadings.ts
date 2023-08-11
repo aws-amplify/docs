@@ -8,7 +8,6 @@ export function traverseHeadings(tree, filterKey: string): string[] {
   if (!Array.isArray(tree)) {
     tree = [tree];
   }
-
   let headings = [];
   for (const node of tree) {
     if (typeof node !== 'object') continue;
@@ -28,6 +27,7 @@ export function traverseHeadings(tree, filterKey: string): string[] {
         headings = headings.concat(traverseHeadings(fragment, filterKey));
       }
     } else if ('children' in node.props) {
+      console.log(node)
       // Recurse on the children, _unless_ this is a FilterContent with a
       // filter that doesn't match the current filterKey
       if (node.props.mdxType === 'FilterContent') {
@@ -66,21 +66,21 @@ export function traverseHeadings(tree, filterKey: string): string[] {
         }
 
         // Do not include headings from within an Accordion in headings array
-        if (mdxType === 'wrapper') {
-          if (node.props.children?.props?.mdxType == 'Accordion') {
-            const children = node.props.children.props.children;
-            children.forEach((element) => {
-              const heading = element.props?.children?.props?.children?.props;
-              if (heading?.mdxType == 'h2' || heading?.mdxType == 'h3') {
-                headings.forEach((h) => {
-                  if (h[1] === heading.id) {
-                    headings.splice(headings.indexOf(h));
-                  }
-                });
-              }
-            });
-          }
-        }
+        // if (mdxType === 'wrapper') {
+        //   if (node.props.children?.props?.mdxType == 'Accordion') {
+        //     const children = node.props.children.props.children;
+        //     children.forEach((element) => {
+        //       const heading = element.props?.children?.props?.children?.props;
+        //       if (heading?.mdxType == 'h2' || heading?.mdxType == 'h3') {
+        //         headings.forEach((h) => {
+        //           if (h[1] === heading.id) {
+        //             headings.splice(headings.indexOf(h));
+        //           }
+        //         });
+        //       }
+        //     });
+        //   }
+        // }
       }
     } else if (node.props.mdxType === 'UiComponentProps') {
       // UiComponentProps is special -- just grab the generated headers from the propType

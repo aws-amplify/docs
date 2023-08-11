@@ -35,6 +35,8 @@ const Accordion: React.FC<AccordionProps> = ({
     // }
   }, [initialHeight, expandedHeight, closeButton]);
 
+  // console.log(children)
+
   function getHiddenHeight(el) {
     if (!el?.cloneNode) {
       return null;

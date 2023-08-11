@@ -38,6 +38,8 @@ function TableOfContents({ children, title, buttonsRef }, ref) {
       scroll(hash);
     }
   };
+
+  // console.log(children)
   let headers = [];
   let headerQueries = [];
   let activeLink = 0;
