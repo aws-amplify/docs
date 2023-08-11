@@ -153,6 +153,11 @@ export const directory = {
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
+            title: 'Connect a data stack',
+            route: '/lib/graphqlapi/connect',
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
+          },
+          {
             title: 'Concepts',
             route: '/lib/graphqlapi/concepts',
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
