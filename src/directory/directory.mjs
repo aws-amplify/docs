@@ -153,6 +153,11 @@ export const directory = {
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
+            title: 'Connect a data stack',
+            route: '/lib/graphqlapi/connect',
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
+          },
+          {
             title: 'Concepts',
             route: '/lib/graphqlapi/concepts',
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
@@ -266,6 +271,11 @@ export const directory = {
             title: 'Getting started',
             route: '/lib/auth/getting-started',
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
+          },
+          {
+            title: 'Set up Amplify Auth',
+            route: '/lib/auth/set_up_auth',
+            filters: ['js']
           },
           {
             title: 'Sign up, Sign in & Sign out',
