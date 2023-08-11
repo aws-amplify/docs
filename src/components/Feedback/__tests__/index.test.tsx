@@ -1,4 +1,4 @@
-import Feedback from '../index';
+import FeedbackSticky from '../index';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as trackModule from '../../../utils/track';
@@ -20,24 +20,26 @@ jest.mock('../../../utils/track', () => ({
 
 describe('Feedback', () => {
   it('should render component with thumbs up and thumbs down button', () => {
-    const component = <Feedback />;
+    const footerMock = `<Footer ref={ref}></Footer>`;
+    const component = <FeedbackSticky footerRef={footerMock} />;
 
     render(component);
 
-    const thumbsUp = screen.getByText('Yes');
-    const thumbsDown = screen.getByText('No');
+    const thumbsUp = screen.getByLabelText('Yes');
+    const thumbsDown = screen.getByLabelText('No');
 
     expect(thumbsUp).toBeInTheDocument();
     expect(thumbsDown).toBeInTheDocument();
   });
 
   it('should hide buttons after user clicks No button', async () => {
-    const component = <Feedback />;
+    const footerMock = `<Footer ref={ref}></Footer>`;
+    const component = <FeedbackSticky footerRef={footerMock} />;
 
     render(component);
 
-    const thumbsUp = screen.getByText('Yes');
-    const thumbsDown = screen.getByText('No');
+    const thumbsUp = screen.getByLabelText('Yes');
+    const thumbsDown = screen.getByLabelText('No');
 
     expect(thumbsUp).toBeInTheDocument();
     expect(thumbsDown).toBeInTheDocument();
@@ -52,12 +54,12 @@ describe('Feedback', () => {
 
   it('should call trackFeedbackSubmission request when either button is clicked', async () => {
     jest.spyOn(trackModule, 'trackFeedbackSubmission');
-
-    const component = <Feedback />;
+    const footerMock = `<Footer ref={ref}></Footer>`;
+    const component = <FeedbackSticky footerRef={footerMock} />;
 
     render(component);
 
-    const thumbsDown = screen.getByText('No');
+    const thumbsDown = screen.getByLabelText('No');
 
     userEvent.click(thumbsDown);
 

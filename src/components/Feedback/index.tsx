@@ -1,18 +1,27 @@
-import { useCallback, useRef, useState } from 'react';
+import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import {
   FeedbackContainer,
   VoteButton,
+  VoteButtonReplace,
   VoteButtonsContainer,
-  Toggle,
-  FeedbackMobileContainer,
-  ThankYouContainer
+  FeedbackText,
+  Divider,
+  ButtonStyles
 } from './styles';
-import { useEffect } from 'react';
 import { trackFeedbackSubmission } from '../../utils/track';
+import {
+  ThumbsUpIcon,
+  ThumbsDownIcon,
+  ThumbsUpFilledIcon,
+  ThumbsDownFilledIcon,
+  CloseIcon
+} from '../Icons';
+import ExternalLink from '../ExternalLink';
 
 enum FeedbackState {
   START = 'START',
-  END = 'END',
+  UP = 'UP',
+  DOWN = 'DOWN',
   HIDDEN = 'HIDDEN'
 }
 
@@ -23,99 +32,157 @@ type Feedback = {
   comment?: string;
 };
 
-export default function Feedback() {
-  const [state, setState] = useState<FeedbackState>(FeedbackState.START);
-  const feedbackQuestion = 'Was this page helpful?';
-  const feedbackAppreciation = 'Thank you for your feedback!';
+const Feedback = forwardRef(function Feedback({}, ref) {
+  const [state, setState] = useState(FeedbackState.START);
 
-  const onYesVote = useCallback(() => {
-    setState(FeedbackState.END);
+  // Feedback Component Customizations
+  const c = {
+    feedbackQuestion: 'Was this page helpful?',
+    yesVoteResponse: 'Thanks for your feedback!',
+    noVoteResponse: 'Thanks for your feedback!',
+    noVoteCTA: 'Can you provide more details?',
+    noVoteCTAButton: 'File an issue on GitHub',
+    ctaIcon: 'external',
+    iconPosition: 'right',
+    buttonLink: 'https://github.com/aws-amplify/docs/issues/new/choose'
+  };
 
-    trackFeedbackSubmission(true);
+  let currentState = state;
+
+  const onYesVote = useCallback((e) => {
+    // trackFeedbackSubmission(true);
+    const yesButton = e.currentTarget;
+    const noButton = yesButton.nextSibling;
+    const feedbackComponent = yesButton.parentElement.parentElement;
+    const feedbackText = feedbackComponent.getElementsByTagName('p')[0];
+    const feedbackTextWidth = feedbackText.offsetWidth;
+
+    const transitionUpButton = [
+      {
+        maxWidth: yesButton.offsetWidth + 'px',
+        overflow: 'visible'
+      },
+      {
+        maxWidth: '40px',
+        overflow: 'hidden',
+        color: 'green',
+        border: '1px solid green',
+        transform: `translateX(-${feedbackTextWidth}px)`,
+        marginLeft: '0px'
+      }
+    ];
+
+    const transitionDownButton = [
+      {
+        maxWidth: noButton.offsetWidth + 'px',
+        overflow: 'visible'
+      },
+      {
+        maxWidth: 0,
+        overflow: 'hidden',
+        margin: 0,
+        padding: 0,
+        border: 'none'
+      }
+    ];
+
+    const transitionFeedbackText = [
+      { transform: 'translateX(-40px)', opacity: 0 }
+    ];
+
+    const animationTiming = {
+      duration: 300,
+      iterations: 1,
+      fill: 'forwards'
+    };
+
+    yesButton.animate(transitionUpButton, animationTiming);
+    noButton.animate(transitionDownButton, animationTiming);
+    feedbackText.animate(transitionFeedbackText, animationTiming);
+
+    setTimeout(function() {
+      currentState = FeedbackState.UP;
+      setState(currentState);
+    }, 300);
   }, []);
 
   const onNoVote = useCallback(() => {
-    setState(FeedbackState.END);
-
-    trackFeedbackSubmission(false);
+    currentState = FeedbackState.DOWN;
+    setState(currentState);
+    // trackFeedbackSubmission(false);
   }, []);
 
   return (
     <FeedbackContainer
-      style={state === FeedbackState.HIDDEN ? { display: 'none' } : {}}
+      id="feedback-container"
+      ref={ref}
+      aria-hidden={state == FeedbackState.UP ? true : false}
     >
-      {state == FeedbackState.START ? (
-        <>
-          <p>{feedbackQuestion}</p>
-          <VoteButtonsContainer>
-            <VoteButton onClick={onYesVote}>
-              <img src="/assets/thumbs-up.svg" alt="Thumbs up" />
-              Yes
-            </VoteButton>
-            <VoteButton onClick={onNoVote}>
-              <img src="/assets/thumbs-down.svg" alt="Thumbs down" />
-              No
-            </VoteButton>
-          </VoteButtonsContainer>
-        </>
-      ) : (
-        <ThankYouContainer>
-          <p>{feedbackAppreciation}</p>
-        </ThankYouContainer>
-      )}
+      {(() => {
+        switch (state) {
+          case 'START':
+            return (
+              <div aria-label={c.feedbackQuestion} tabIndex={0}>
+                <FeedbackText>{c.feedbackQuestion}</FeedbackText>
+                <VoteButtonsContainer>
+                  <VoteButton
+                    onClick={onYesVote}
+                    aria-label="Yes"
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <ThumbsUpIcon />
+                    <FeedbackText>Yes</FeedbackText>
+                  </VoteButton>
+                  <VoteButton
+                    onClick={onNoVote}
+                    aria-label="No"
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <ThumbsDownIcon />
+                    <FeedbackText>No</FeedbackText>
+                  </VoteButton>
+                </VoteButtonsContainer>
+              </div>
+            );
+          case 'UP':
+            return (
+              <div className="up">
+                <div>
+                  <ThumbsUpFilledIcon />
+                </div>
+                <p>{c.yesVoteResponse}</p>
+              </div>
+            );
+          case 'DOWN':
+            return (
+              <div>
+                <div className="response">
+                  <p>{c.noVoteResponse}</p>
+                  <div className="down">
+                    <ThumbsUpIcon />
+                    <ThumbsDownFilledIcon />
+                  </div>
+                </div>
+                <div className="expanding-section">
+                  <div className="cta">
+                    <p>{c.noVoteCTA}</p>
+                  </div>
+                  <button>
+                    <ExternalLink href={c.buttonLink} icon={true}>
+                      {c.noVoteCTAButton}
+                    </ExternalLink>
+                  </button>
+                </div>
+              </div>
+            );
+          default:
+            return <div></div>;
+        }
+      })()}
     </FeedbackContainer>
   );
-}
+});
 
-export function FeedbackToggle() {
-  const [inView, setInView] = useState(false);
-  const feedbackContainer = useRef(null);
-
-  function toggleView() {
-    if (inView) {
-      setInView(false);
-    } else {
-      setInView(true);
-    }
-  }
-
-  function handleClickOutside(e) {
-    if (
-      feedbackContainer.current &&
-      feedbackContainer.current.contains(e.target)
-    ) {
-      // inside click
-      return;
-    }
-    // outside click
-    setInView(false);
-  }
-
-  useEffect(() => {
-    if (inView) {
-      document.addEventListener('mousedown', handleClickOutside);
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [inView]);
-
-  return (
-    <div ref={feedbackContainer}>
-      <FeedbackMobileContainer style={inView ? {} : { display: 'none' }}>
-        <Feedback></Feedback>
-      </FeedbackMobileContainer>
-      <Toggle
-        onClick={() => {
-          toggleView();
-        }}
-      >
-        <img src="/assets/thumbs-up.svg" alt="Thumbs up" />
-        <img src="/assets/thumbs-down.svg" alt="Thumbs down" />
-      </Toggle>
-    </div>
-  );
-}
+export default Feedback;

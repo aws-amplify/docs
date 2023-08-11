@@ -7,7 +7,7 @@ import MobileMenuIcons from '../MobileMenuIcons';
 import { useRef, useState } from 'react';
 import { MQDesktop } from '../media';
 import FeedbackSticky from '../FeedbackSticky';
-import FeedbackPill from '../FeedbackPill';
+import Feedback from '../Feedback';
 import LastUpdatedDatesProvider from '../LastUpdatedProvider';
 
 export default function MetaContent({
@@ -36,7 +36,7 @@ export default function MetaContent({
   footerRef: any;
 }) {
   const menuRef = useRef(null);
-  const feedbackPillRef = useRef(null);
+  const feedbackRef = useRef(null);
   const buttonsRef = useRef(null);
   const contentsRef = useRef(null);
   const [menuIsOpen, setMenuIsOpen] = useState(false);
@@ -72,7 +72,7 @@ export default function MetaContent({
             </div>
             <CodeBlockProvider>
               {children}
-              <FeedbackPill ref={feedbackPillRef} />
+              <Feedback ref={feedbackRef} />
               <NextPrevious url={url} filterKey={filterKey} />
             </CodeBlockProvider>
           </div>
@@ -80,7 +80,7 @@ export default function MetaContent({
             <FeedbackSticky
               footerRef={footerRef}
               contentsRef={contentsRef}
-              feedbackPillRef={feedbackPillRef}
+              feedbackRef={feedbackRef}
             />
           )}
         </ContentStyle>
