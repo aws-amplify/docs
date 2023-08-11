@@ -1631,6 +1631,11 @@ export const directory = {
             filters: ['android', 'ios']
           },
           {
+            title: 'Using with Amplify',
+            route: '/sdk/pubsub/aws-iot-and-amplify',
+            filters: ['ios']
+          },
+          {
             title: 'Working with the API',
             route: '/sdk/pubsub/working-api',
             filters: ['android', 'ios']
