@@ -325,17 +325,17 @@ export const directory = {
           {
             title: 'SMS flows',
             route: '/lib/auth/sms_flows',
-            filters: ['flutter', 'ios']
-          },
-          {
-            title: 'TOTP two-factor authentication',
-            route: '/lib/auth/totp_flows',
-            filters: ['ios']
+            filters: ['flutter']
           },
           {
             title: 'Sign in next steps',
             route: '/lib/auth/signin_next_steps',
             filters: ['ios', 'android', 'flutter']
+          },
+          {
+            title: 'Multi-factor authentication',
+            route: '/lib/auth/mfa',
+            filters: ['ios']
           },
           {
             title: 'Guest access',
@@ -351,11 +351,6 @@ export const directory = {
             title: 'User attributes',
             route: '/lib/auth/user-attributes',
             filters: ['android', 'flutter', 'ios']
-          },
-          {
-            title: 'MFA Preferences',
-            route: '/lib/auth/mfa_preferences',
-            filters: ['ios']
           },
           {
             title: 'Remember a device',
