@@ -81,6 +81,10 @@ module.exports = (async () => {
           type: 'import',
           value: `import MigrationAlert from "/src/components/MigrationAlert";`
         });
+        tree.children.splice(index + 1, 0, {
+          type: 'import',
+          value: `import { YoutubeEmbed } from "/src/components/YoutubeEmbed";`
+        });
         addedImports = true;
       }
     });
