@@ -32,31 +32,31 @@ Navigate to the [IAM User creation page](https://console.aws.amazon.com/iamv2/ho
 
 Enter a User name and select **Next**. You can name the user anything but we'll call it "amplify-dev".
 
-![image](/images/cli/user-creation/user-name.png)
+![First step of creating an IAM user. Specifying user details.](/images/cli/user-creation/user-name.png)
 
 Select **Attach policies directly** and select **AdministratorAccess-Amplify** as the Permissions policy. Select **Next**.
 
-![image](/images/cli/user-creation/user-permissions.png)
+![Second step of creating an IAM user. Setting permissions.](/images/cli/user-creation/user-permissions.png)
 
 On the Review page, check that everything looks good and select **Create user**.
 
-![image](/images/cli/user-creation/user-review.png)
+![Third and final step of creating an IAM user. Reviewing and creating.](/images/cli/user-creation/user-review.png)
 
 This will redirect to the users list page. Select the user you just created.
 
-![image](/images/cli/user-creation/user-list.png)
+![New user being shown in the Users table.](/images/cli/user-creation/user-list.png)
 
 On the user details page, navigate to the **Security credentials** tab, scroll down to **Access keys** and select **Create access keys**.
 
-![image](/images/cli/user-creation/create-access-keys.png)
+![Security credentials tab of the newly created user.](/images/cli/user-creation/create-access-keys.png)
 
 On the next page, select **Command Line Interface**, acknowledge the warning, and select **Next**.
 
-![image](/images/cli/user-creation/ack-page.png)
+![Command Line Interface option selected on the options list.](/images/cli/user-creation/ack-page.png)
 
 On the next page select **Create access key**. You’ll then see a page with the access keys for the user. Use the copy icon to copy these values to your clipboard, then return to the Amplify CLI.
 
-![image](/images/cli/user-creation/access-keys-done.png)
+![Retrieve access keys page with access key and secret access key copy buttons circled.](/images/cli/user-creation/access-keys-done.png)
 
 Enter the values you just copied into the corresponding CLI prompts.
 
@@ -108,7 +108,7 @@ Complete the user creation using the AWS console
 
 Create a user with `AdministratorAccess-Amplify` to your account to provision AWS resources for you like AppSync, Cognito etc.
 
-![image](/images/user-creation.gif)
+![Going through the steps to create a new user with AdministratorAccess-Amplify to your account.](/images/user-creation.gif)
 
 Once the user is created, Amplify CLI will ask you to provide the `accessKeyId` and the `secretAccessKey` to connect Amplify CLI with your newly created IAM user.
 
