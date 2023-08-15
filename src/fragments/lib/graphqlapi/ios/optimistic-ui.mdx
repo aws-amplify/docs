@@ -8,14 +8,26 @@ For more on the Amplify GraphQL API, see the [API documentation](https://docs.am
 
 </Callout>
 
-To get started, run the following command in an existing Amplify project with a iOS frontend:
+To get started, go to your project directory and run the command:
 
 ```bash
-# Select default configuration
-amplify add api              
+amplify add api
 ```
 
-When prompted, use the following schema:
+Choose the following when prompted: 
+
+```bash
+? Select from one of the below mentioned services: `GraphQL`
+? Here is the GraphQL API that we will create. Select a setting to edit or continue Authorization modes: `API key (default, expiration time: 7 days from now)`
+? Choose the default authorization type for the API `API key`
+✔ Enter a description for the API key: · 
+✔ After how many days from now the API key should expire (1-365): · `365`
+? Configure additional auth types? `No`
+? Here is the GraphQL API that we will create. Select a setting to edit or continue `Continue`
+? Choose a schema template: `Blank Schema`
+```
+
+The schema file can also be found under `amplify/backend/api/[name of project]/schema.graphql`. Replace it with the following contents:
 
 ```graphql
 type RealEstateProperty @model @auth(rules: [{ allow: public }]) {
@@ -24,21 +36,17 @@ type RealEstateProperty @model @auth(rules: [{ allow: public }]) {
   address: String
 }
 ```
-The schema file can also be found under `amplify/backend/api/[name of project]/schema.graphql`.
+
 Save the schema and run `amplify push` to deploy the changes. For the purposes of this guide, we'll build a Real Estate Property listing application.
 
-Run `amplify codegen models`
+Once the backend has been provisioned, run `amplify codegen models` to generate the Swift model types for the app.
 
-Next, at the root of your project 
+Next, add the Amplify(`https://github.com/aws-amplify/amplify-swift.git`) package to your Xcode project and select the following modules to import when prompted:
 
-```swift
-
-import Amplify
-
-// Create a client
-Amplify.add(AWSAPIPlugin(AmplifyModels()))
-Amplify.API.configure()
-```
+- AWSAPIPlugin 
+- AWSCognitoAuthPlugin
+- AWSS3StoragePlugin
+- Amplify
 
 <Callout>
 
@@ -46,23 +54,15 @@ For the complete working example see the [Complete Example](#complete-example) b
 
 </Callout>
 
-## How to use a Swift Actor to control access to list items
+## How to use a Swift Actor to perform optimistic UI updates
 
-A Swift actor helps serialize access to its underlying properties. In this example, we provide updates to the list through a Combine publisher for the view to render, while its methods maintain the state of the list before it is finalized.
+A Swift actor serializes access to its underlying properties. In this example, the actor will hold a list of items that will be published to the UI through a Combine publisher whenever the list is accessed. On a high level, the methods on the actor will perform the following:
 
-- create then rollback if needed
-- update then rollback if needed
-- delete then rollback if needed
+- create a new model, add it to the list, remove the newly added item from the list if the API request is unsuccessful
+- update the existing model in the list, revert the update on the list if the API request is unsuccessful
+- delete the existing model from the list, add the item back into the list if the API request is unsuccessful
 
 By providing these methods through an actor object, the underlying list will be accessed serially so that the entire operation can be rolled back if needed.
-
-
-<Callout>
-
-For more information on Swift actors. 
-
-</Callout>
-
 
 To create an actor object that allows optimistic UI updates, create a new file and add the following code. 
 
@@ -101,7 +101,7 @@ actor RealEstatePropertyList {
 </Block>
 </BlockSwitcher>
 
-Calling the listProperties method will perform a query with GraphQL API and store the results in the `properties` property. When this property is set, the list is send back to the subscribers through the passthrough subject. On your UI, create a view model and subscribe to updates:
+Calling the `listProperties()` method will perform a query with GraphQL API and store the results in the `properties` property. When this property is set, the list is sent back to the subscribers. In your UI, create a view model and subscribe to updates:
 
 <BlockSwitcher>
 <Block name="Swift">
@@ -145,19 +145,19 @@ struct RealEstatePropertyContainerView: View {
 
 ## Optimistically rendering a newly created record
 
-To optimistically render a newly created record returned from the GraphQL API, add a method to the actor RealEstatePropertyList:
+To optimistically render a newly created record returned from the GraphQL API, add a method to the `actor RealEstatePropertyList`:
 
 <BlockSwitcher>
 <Block name="Swift">
 
 ```swift
 func createProperty(name: String, address: String? = nil) {
-  let property = RealEstateProperty(name: name, address: address)
-  // Optimistically send the newly created property, for the UI to render.
-  properties.append(property)
-  
-  Task {
-      do {
+    let property = RealEstateProperty(name: name, address: address)
+    // Optimistically send the newly created property, for the UI to render.
+    properties.append(property)
+
+    Task {
+        do {
             // Create the property record
             let result = try await Amplify.API.mutate(request: .create(property))
             guard case .failure(let graphQLResponse) = result else {
@@ -168,14 +168,14 @@ func createProperty(name: String, address: String? = nil) {
             if let index = properties.firstIndex(where: { $0?.id == property.id }) {
                 properties.remove(at: index)
             }
-      } catch {
+        } catch {
             print("Failed with error: ", error)
             // Remove the newly created property
             if let index = properties.firstIndex(where: { $0?.id == property.id }) {
                 properties.remove(at: index)
             }
-      }
-  }
+        }
+    }
 }
 ``` 
 
@@ -184,7 +184,7 @@ func createProperty(name: String, address: String? = nil) {
 
 ## Optimistically rendering a record update
 
-To optimistically render updates on a single item
+To optimistically render updates on a single item, use the code snippet like below:
 
 <BlockSwitcher>
 <Block name="Swift">
@@ -221,7 +221,7 @@ func updateProperty(_ property: RealEstateProperty) async {
 
 ## Optimistically render deleting a record
 
-To optimistically render a GraphQL API delete
+To optimistically render a GraphQL API delete, use the code snippet like below:
 
 <BlockSwitcher>
 <Block name="Swift">
@@ -268,8 +268,42 @@ func deleteProperty(_ property: RealEstateProperty) async {
 <Block name="Main">
 
 ```swift
-extension RealEstateProperty: Identifiable {
+import SwiftUI
+import Amplify
+import AWSAPIPlugin
+
+@main
+struct OptimisticUIApp: App {
     
+    init() {
+        do {
+            Amplify.Logging.logLevel = .verbose
+            try Amplify.add(plugin: AWSAPIPlugin(modelRegistration: AmplifyModels()))
+            try Amplify.configure()
+            print("Amplify configured with API, Storage, and Auth plugins!")
+        } catch {
+            print("Failed to initialize Amplify with \(error)")
+        }
+    }
+    
+    var body: some Scene {
+        WindowGroup {
+            RealEstatePropertyContainerView()
+        }
+    }
+}
+
+// Extend the model to Identifiable to make it compatible with SwiftUI's `ForEach`.
+extension RealEstateProperty: Identifiable { }
+
+struct TappedButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .padding(10)
+            .background(configuration.isPressed ? Color.teal.opacity(0.8) : Color.teal)
+            .foregroundColor(.white)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+    }
 }
 ```
 
@@ -326,6 +360,7 @@ actor RealEstatePropertyList {
             }
         }
     }
+
     func updateProperty(_ property: RealEstateProperty) async {
         guard let index = properties.firstIndex(where: { $0?.id == property.id }) else {
             print("No property to update")
@@ -433,44 +468,41 @@ struct RealEstatePropertyContainerView: View {
     @State private var propertyName: String = ""
     
     var body: some View {
-        NavigationView {
-            VStack {
-                ScrollView {
-                    LazyVStack(alignment: .leading) {
-                        ForEach($vm.properties) { $property in
-                            HStack {
-                                TextField("Update property name", text: $property.name)
-                                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                                    .multilineTextAlignment(.center)
-                                Button("Update") {
-                                    vm.updatePropertyButtonTapped(property)
-                                }
-                                Button {
-                                    vm.deletePropertyButtonTapped(property)
-                                } label: {
-                                    Image(systemName: "xmark")
-                                                .foregroundColor(.red)
-                                }
-
-                            }.padding(.horizontal)
-                        }
+        VStack {
+            ScrollView {
+                LazyVStack(alignment: .leading) {
+                    ForEach($vm.properties) { $property in
+                        HStack {
+                            TextField("Update property name", text: $property.name)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .multilineTextAlignment(.center)
+                            Button("Update") {
+                                vm.updatePropertyButtonTapped(property)
+                            }
+                            Button {
+                                vm.deletePropertyButtonTapped(property)
+                            } label: {
+                                Image(systemName: "xmark")
+                                    .foregroundColor(.red)
+                            }
+                            
+                        }.padding(.horizontal)
                     }
-                }.refreshable {
-                    vm.loadList()
                 }
-                TextField("New property name", text: $propertyName)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .multilineTextAlignment(.center)
-                
-                Button("Save") {
-                    vm.createPropertyButtonTapped(name: propertyName)
-                    self.propertyName = ""
-                }
-                .buttonStyle(TappedButtonStyle())
-            }.task {
+            }.refreshable {
                 vm.loadList()
             }
-            .navigationBarItems(trailing: SignOutButton())
+            TextField("New property name", text: $propertyName)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .multilineTextAlignment(.center)
+            
+            Button("Save") {
+                vm.createPropertyButtonTapped(name: propertyName)
+                self.propertyName = ""
+            }
+            .buttonStyle(TappedButtonStyle())
+        }.task {
+            vm.loadList()
         }
     }
 }

@@ -1,17 +1,27 @@
 The Storage and GraphQL API categories can be used together to associate a file, such as an image or video, with a particular record. For example, you might create a `User` model with a profile picture, or a `Post` model with an associated image. With Amplify's GraphQL API and Storage categories, you can reference the file within the model itself to create an association.
 
-To get started, run the following commands in an existing Amplify project:
+<Callout>
+
+For more on the Amplify GraphQL API, see the [API documentation](https://docs.amplify.aws/lib/graphqlapi/getting-started/q/platform/ios/). For Storage, see [Storage documentation](). For Auth, see [Auth documentation]()
+
+</Callout>
+
+To get started, go to your project directory and run the command:
 
 ```bash
-# Select default configuration:
-amplify add auth             
+amplify add api
+```
 
-# Select "Content", "Auth users only", full CRUD access,
-# and default configuration:
-amplify add storage          
+Choose the following when prompted: 
 
-# Select default configuration
-amplify add api              
+```bash
+? Select from one of the below mentioned services: `GraphQL`
+? Choose the default authorization type for the API `Amazon Cognito User Pool` 
+ Do you want to use the default authentication and security configuration? `Default configuration`
+ How do you want users to be able to sign in? `Username`
+ Do you want to configure advanced settings? `No, I am done.`
+? Here is the GraphQL API that we will create. Select a setting to edit or continue `Continue`
+? Choose a schema template: `Blank Schema`
 ```
 
 When prompted, use the following schema, which can also be found under `amplify/backend/api/[name of project]/schema.graphql`:
@@ -24,11 +34,24 @@ type Song @model @auth(rules: [{ allow: public}]) {
 }
 ```
 
-Save the schema and run `amplify push` to deploy the changes.
+Add Storage with the command:
+```bash
+amplify add storage
+```
 
-Generate the Swift models for the app with `amplify codegen models`.
+Choose the following when prompted:
+```bash
+? Select from one of the below mentioned services: `Content (Images, audio, video, etc.)`
+✔ Who should have access: `Auth users only`
+✔ What kind of access do you want for Authenticated users? `create/update, read, delete`
+✔ Do you want to add a Lambda Trigger for your S3 Bucket? (y/N) · `no`
+```
 
-Next, add the following dependencies from Amplify (`https://github.com/aws-amplify/amplify-swift.git`):
+Run `amplify push` to deploy the changes.
+
+Once the backend has been provisioned, run `amplify codegen models` to generate the Swift model types for the app.
+
+Next, add the Amplify(`https://github.com/aws-amplify/amplify-swift.git`) package to your Xcode project and select the following modules to import when prompted:
 - AWSAPIPlugin 
 - AWSCognitoAuthPlugin
 - AWSS3StoragePlugin
@@ -60,7 +83,7 @@ First create a record via the GraphQL API, then upload the file to Storage, and 
 
 <Callout>
 
-The API record's `id` is used as the file key for Storage to ensure uniqueness so that multiple API records will not be associated with the same file key unintentionally.
+Make sure that the file key used for Storage is unique. In this case, the API record's `id` is used as the file key for Storage to ensure uniqueness so that multiple API records will not be associated with the same file key unintentionally. However, this may not be true if the API record's `id` is customized to be a combination of two or more fields, or a different primary key field is used.
 
 </Callout>
 
@@ -84,8 +107,8 @@ guard case .success(var createdSong) = result else {
 
 // Upload the art cover image
 _ = try await Amplify.Storage.uploadData(key: createdSong.id,
-                                          data: imageData,
-                                          options: .init(accessLevel: .private)).value
+                                         data: imageData,
+                                         options: .init(accessLevel: .private)).value
 
 // Update the song record with the image key
 createdSong.coverArtKey = createdSong.id
@@ -101,7 +124,7 @@ guard case .success(let updatedSong) = updateResult else {
 
 ## Add or update a file for an associated record
 
-To associate a new or different file with the record, update the existing record with the file key. The following example uploads the file using Storage, updates the record with the file's key. If an image is already associated with the record, this will update the record with the new image.
+To associate a new or different file with the record, update the existing record with the file key. The following example uploads the file using Storage and updates the record with the file's key. If an image is already associated with the record, this will update the record with the new image.
 
 <BlockSwitcher>
 <Block name="Swift">
@@ -109,8 +132,8 @@ To associate a new or different file with the record, update the existing record
 ```swift
 // Upload the new art image
 _ = try await Amplify.Storage.uploadData(key: currentSong.id,
-                                          data: imageData,
-                                          options: .init(accessLevel: .private)).value
+                                         data: imageData,
+                                         options: .init(accessLevel: .private)).value
 
 // Update the song record
 currentSong.coverArtKey = currentSong.id
@@ -150,7 +173,7 @@ guard let coverArtKey = song.coverArtKey else {
 
 // Download the art cover
 let imageData = try await Amplify.Storage.downloadData(key: coverArtKey,
-                                                        options: .init(accessLevel: .private)).value
+                                                       options: .init(accessLevel: .private)).value
 let image = UIImage(data: imageData)
 ``` 
 
@@ -161,12 +184,12 @@ let image = UIImage(data: imageData)
 There are three common deletion workflows when working with Storage files and the GraphQL API:
 
 1. Remove the file association, continue to persist both file and record.
-2. Remove the record association and delete the file.
+2. Remove the file association and delete the file.
 2. Delete both file and record.
 
 ### Remove the file association, continue to persist both file and record
 
-The following example removes the file association from the record, but does not delete the file from S3, nor the record from the database.
+The following example removes the file association from the record, but does not delete the file from S3 or the record from the DynamoDB instance.
 
 <BlockSwitcher>
 <Block name="Swift">
@@ -199,7 +222,7 @@ guard case .success(let updatedSong) = updateResult else {
 </Block>
 </BlockSwitcher>
 
-### Remove the record association and delete the file
+### Remove the file association and delete the file
 
 The following example removes the file from the record, then deletes the file from S3:
 
@@ -224,7 +247,7 @@ guard let coverArtKey = song.coverArtKey else {
 
 // Set the association to nil and update it
 song.coverArtKey = nil
-let updateResult = try await Amplify.API.mutate(request: .update(currentSong))
+let updateResult = try await Amplify.API.mutate(request: .update(song))
 guard case .success(let updatedSong) = updateResult else {
     print("Failed with error: ", result)
     return
@@ -232,13 +255,15 @@ guard case .success(let updatedSong) = updateResult else {
 
 // Remove the image
 try await Amplify.Storage.remove(key: coverArtKey,
-                                  options: .init(accessLevel: .private))
+                                 options: .init(accessLevel: .private))
 ``` 
 
 </Block>
 </BlockSwitcher>
 
 ### Delete both file and record
+
+The following example deletes the record from DynamoDB and then deletes the file from S3:
 
 <BlockSwitcher>
 <Block name="Swift">
@@ -255,22 +280,11 @@ guard let song = queriedSong else {
     return
 }
 
-guard let coverArtKey = song.coverArtKey else {
-    print("There is no cover art key to remove image association")
-
-    // Delete the song record
-    let result = try await Amplify.API.mutate(request: .delete(currentSong))
-    guard case .success = result else {
-        print("Failed with error: ", result)
-        return
-    }
-    
-    return
+if let coverArt = song.coverArtKey {
+    // Remove the image
+    try await Amplify.Storage.remove(key: coverArt,
+                                     options: .init(accessLevel: .private))
 }
-
-// Remove the image
-try await Amplify.Storage.remove(key: coverArtKey,
-                                  options: .init(accessLevel: .private))
 
 // Delete the song record
 let deleteResult = try await Amplify.API.mutate(request: .delete(song))
@@ -325,8 +339,8 @@ let imageKeys = await withTaskGroup(of: String?.self) { group in
             let key = "\(album.id)-\(UUID().uuidString)"
             do {
                 _ = try await Amplify.Storage.uploadData(key: key,
-                                                          data: imageData,
-                                                          options: .init(accessLevel: .private)).value
+                                                         data: imageData,
+                                                         options: .init(accessLevel: .private)).value
                 return key
             } catch {
                 print("Failed with error:", error)
@@ -373,8 +387,8 @@ guard case .success(var createdAlbum) = result else {
 // Upload the photo album image
 let key = "\(album.id)-\(UUID().uuidString)"
 _ = try await Amplify.Storage.uploadData(key: key,
-                                          data: imageData,
-                                          options: .init(accessLevel: .private)).value
+                                         data: imageData,
+                                         options: .init(accessLevel: .private)).value
 
 // Update the album with the image key
 createdAlbum.imageKeys = [key]
@@ -554,7 +568,7 @@ guard case .success(let updatedAlbum) = updateResult else {
 </Block>
 </BlockSwitcher>
 
-#### Remove the record association and delete the files
+#### Remove the file association and delete the files
 
 <BlockSwitcher>
 <Block name="Swift">
@@ -607,7 +621,7 @@ await withTaskGroup(of: Void.self) { group in
 </Block>
 </BlockSwitcher>
 
-#### Delete record and all associated files
+#### Delete the record and all associated files
 
 <BlockSwitcher>
 <Block name="Swift">
@@ -643,7 +657,7 @@ await withTaskGroup(of: Void.self) { group in
         group.addTask {
             do {
                 try await Amplify.Storage.remove(key: key,
-                                                  options: .init(accessLevel: .private))
+                                                 options: .init(accessLevel: .private))
             } catch {
                 print("Failed with error:", error)
             }
@@ -669,7 +683,7 @@ guard case .success = deleteResult else {
 
 ## Data consistency when working with records and files
 
-The recommended access patterns in these docs attempt to remove deleted files, but favor leaving orphans over leaving records that point to non-existent files. This optimizes for read latency by ensuring clients *rarely* attempt to fetch a non-existent file from Storage. However, any app that deletes files can inherently cause records *on-device* to point to non-existent files.
+The access patterns in this guide attempt to remove deleted files, but favor leaving orphans over leaving records that point to non-existent files. This optimizes for read latency by ensuring clients *rarely* attempt to fetch a non-existent file from Storage. However, any app that deletes files can inherently cause records *on-device* to point to non-existent files.
 
 One example is when we [create an API record, associate the Storage file with that record](#create-a-record-with-an-associated-file). "Device A" calls the GraphQL API to create `API_Record_1`, and then associates that record with `First_Photo`. Later, when "Device A" is about to retrieve the file, "Device B" might query `API_Record_1`, delete `First_Photo`, and update the record accordingly. However, "Device A" is still using the old `API_Record_1`, which is now out-of-date. Even though the shared global state is correctly in sync at every stage, the individual device ("Device A") has an out-of-date record that points to a non-existent file. Similar issues can conceivably occur for updates. Depending on your app, some of these mismatches can be minimized *even more* with [real-time data / GraphQL subscriptions](https://docs.amplify.aws/lib/graphqlapi/subscribe-data/).
 
@@ -681,13 +695,6 @@ It is important to understand when these mismatches can occur and to add meaning
 <Block name="Main App">
 
 ```swift
-//
-//  workingWithFilesApp.swift
-//  workingWithFiles
-//
-//  Created by Law, Michael on 7/27/23.
-//
-
 import SwiftUI
 import Amplify
 import AWSAPIPlugin
@@ -697,7 +704,7 @@ import Authenticator
 import PhotosUI
 
 @main
-struct workingWithFilesApp: App {
+struct WorkingWithFilesApp: App {
     
     init() {
         do {
@@ -1045,7 +1052,7 @@ class SongViewModel: ObservableObject {
         
         // Set the association to nil and update it
         song.coverArtKey = nil
-        let updateResult = try await Amplify.API.mutate(request: .update(currentSong))
+        let updateResult = try await Amplify.API.mutate(request: .update(song))
         guard case .success(let updatedSong) = updateResult else {
             print("Failed with error: ", result)
             return
@@ -1083,23 +1090,11 @@ class SongViewModel: ObservableObject {
             return
         }
         
-        guard let coverArtKey = song.coverArtKey else {
-            print("There is no cover art key to remove image association")
-            // Delete the song record
-            let result = try await Amplify.API.mutate(request: .delete(currentSong))
-            guard case .success = result else {
-                print("Failed with error: ", result)
-                return
-            }
-            await setCurrentSong(nil)
-            await setCurrentImage(nil)
-            
-            return
+        if let coverArt = song.coverArtKey {
+            // Remove the image
+            try await Amplify.Storage.remove(key: coverArt,
+                                             options: .init(accessLevel: .private))
         }
-        
-        // Remove the image
-        try await Amplify.Storage.remove(key: coverArtKey,
-                                         options: .init(accessLevel: .private))
         
         // Delete the song record
         let deleteResult = try await Amplify.API.mutate(request: .delete(song))
@@ -1107,7 +1102,6 @@ class SongViewModel: ObservableObject {
             print("Failed with error: ", deleteResult)
             return
         }
-        
         await setCurrentSong(nil)
         await setCurrentImage(nil)
     }
@@ -1121,6 +1115,7 @@ class SongViewModel: ObservableObject {
     func setCurrentImage(_ image: UIImage?) {
         self.currentImage = image
     }
+
     @MainActor
     func setIsLoading(_ isLoading: Bool) {
         self.isLoading = isLoading
@@ -1215,6 +1210,7 @@ struct SongView: View {
             .disabled(vm.isLoading)
         }
     }
+
     @ViewBuilder
     func AdditionalOperations() -> some View {
         if vm.currentSong != nil {
@@ -1254,8 +1250,6 @@ struct SongView: View {
         }
     }
 }
-
-
 
 struct SongView_Previews: PreviewProvider {
     static var previews: some View {
@@ -1431,7 +1425,6 @@ class PhotoAlbumViewModel: ObservableObject {
         }
         
         await setCurrentAlbum(updatedAlbum)
-        
     }
     
     func replaceLastImage(_ photo: UIImage) async throws {
@@ -1633,7 +1626,6 @@ class PhotoAlbumViewModel: ObservableObject {
                 }
             }
             
-            
             for await _ in group {
             }
         }
@@ -1697,10 +1689,8 @@ class PhotoAlbumViewModel: ObservableObject {
                 }
             }
             
-            
             for await _ in group {
             }
-            
         }
         
         // Delete the album record

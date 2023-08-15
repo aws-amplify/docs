@@ -32,7 +32,7 @@ appSyncClient?.perform(mutation: CreateTodoMutation(input: mutationInput)) { (re
 
 ```swift
 let mutationInput = CreateTodoInput(name: "Use AWSAPIPlugin",
-                            description: "Realtime and Offline")
+                                    description: "Realtime and Offline")
 let request = GraphQLRequest(document: CreateTodoMutation.operationString,
                              variables: CreateTodoMutation(input: mutationInput).variables?.jsonObject,
                              responseType: CreateTodoMutation.Data.self)
