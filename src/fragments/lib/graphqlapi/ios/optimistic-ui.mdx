@@ -464,23 +464,23 @@ class RealEstatePropertyContainerViewModel: ObservableObject {
 }
 
 struct RealEstatePropertyContainerView: View {
-    @StateObject var vm = RealEstatePropertyContainerViewModel()
+    @StateObject var viewModel = RealEstatePropertyContainerViewModel()
     @State private var propertyName: String = ""
     
     var body: some View {
         VStack {
             ScrollView {
                 LazyVStack(alignment: .leading) {
-                    ForEach($vm.properties) { $property in
+                    ForEach($viewModel.properties) { $property in
                         HStack {
                             TextField("Update property name", text: $property.name)
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
                                 .multilineTextAlignment(.center)
                             Button("Update") {
-                                vm.updatePropertyButtonTapped(property)
+                                viewModel.updatePropertyButtonTapped(property)
                             }
                             Button {
-                                vm.deletePropertyButtonTapped(property)
+                                viewModel.deletePropertyButtonTapped(property)
                             } label: {
                                 Image(systemName: "xmark")
                                     .foregroundColor(.red)
@@ -490,19 +490,19 @@ struct RealEstatePropertyContainerView: View {
                     }
                 }
             }.refreshable {
-                vm.loadList()
+                viewModel.loadList()
             }
             TextField("New property name", text: $propertyName)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .multilineTextAlignment(.center)
             
             Button("Save") {
-                vm.createPropertyButtonTapped(name: propertyName)
+                viewModel.createPropertyButtonTapped(name: propertyName)
                 self.propertyName = ""
             }
             .buttonStyle(TappedButtonStyle())
         }.task {
-            vm.loadList()
+            viewModel.loadList()
         }
     }
 }

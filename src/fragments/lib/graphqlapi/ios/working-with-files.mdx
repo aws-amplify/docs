@@ -458,8 +458,8 @@ Updating a file for an associated record is the same as updating a file for a si
 // Upload the new photo album image
 let key = "\(currentAlbum.id)-\(UUID().uuidString)"
 _ = try await Amplify.Storage.uploadData(key: key,
-                                          data: imageData,
-                                          options: .init(accessLevel: .private)).value
+                                         data: imageData,
+                                         options: .init(accessLevel: .private)).value
 
 // Update the album with the image keys
 var album = currentAlbum
@@ -511,7 +511,7 @@ let images = await withTaskGroup(of: UIImage?.self) { group in
         group.addTask {
             do {
                 let imageData = try await Amplify.Storage.downloadData(key: key,
-                                                                        options: .init(accessLevel: .private)).value
+                                                                       options: .init(accessLevel: .private)).value
                 return UIImage(data: imageData)
             } catch {
                 print("Failed with error:", error)
@@ -1127,7 +1127,7 @@ struct SongView: View {
     @State private var isImagePickerPresented = false
     @State private var songName: String = ""
     
-    @StateObject var vm = SongViewModel()
+    @StateObject var viewModel = SongViewModel()
     
     var body: some View {
         NavigationView {
@@ -1143,7 +1143,7 @@ struct SongView: View {
                 }
                 .padding()
                 .sheet(isPresented: $isImagePickerPresented) {
-                    ImagePicker(selectedImage: $vm.currentImage)
+                    ImagePicker(selectedImage: $viewModel.currentImage)
                 }
                 VStack {
                     IsLoadingView()
@@ -1155,7 +1155,7 @@ struct SongView: View {
     
     @ViewBuilder
     func SongInformation() -> some View {
-        if let song = vm.currentSong {
+        if let song = viewModel.currentSong {
             Text("Song Id: \(song.id)").font(.caption)
             if song.name != "" {
                 Text("Song Name: \(song.name)").font(.caption)
@@ -1165,7 +1165,7 @@ struct SongView: View {
     
     @ViewBuilder
     func DisplayImage() -> some View {
-        if let image = vm.currentImage {
+        if let image = viewModel.currentImage {
             Image(uiImage: image)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
@@ -1177,72 +1177,72 @@ struct SongView: View {
     }
     
     func OpenImagePickerButton() -> some View {
-        Button("Select \(vm.currentImage != nil ? "a new ": "" )song album cover") {
+        Button("Select \(viewModel.currentImage != nil ? "a new ": "" )song album cover") {
             isImagePickerPresented.toggle()
         }.buttonStyle(TappedButtonStyle())
     }
     
     @ViewBuilder
     func SongNameTextField() -> some View {
-        TextField("\(vm.currentSong != nil ? "Update": "Enter") song name", text: $songName)
+        TextField("\(viewModel.currentSong != nil ? "Update": "Enter") song name", text: $songName)
             .textFieldStyle(RoundedBorderTextFieldStyle())
             .multilineTextAlignment(.center)
     }
     
     @ViewBuilder
     func CreateOrUpdateSongButton() -> some View {
-        if vm.currentSong == nil, let image = vm.currentImage {
+        if viewModel.currentSong == nil, let image = viewModel.currentImage {
             Button("Save") {
                 Task {
-                    try? await vm.createSong(name: songName,
+                    try? await viewModel.createSong(name: songName,
                                              artCover: image)
                 }
             }
             .buttonStyle(TappedButtonStyle())
-            .disabled(vm.isLoading)
-        } else if vm.currentSong != nil, let image = vm.currentImage {
+            .disabled(viewModel.isLoading)
+        } else if viewModel.currentSong != nil, let image = viewModel.currentImage {
             Button("Update") {
                 Task {
-                    try? await vm.updateArtCover(artCover: image)
+                    try? await viewModel.updateArtCover(artCover: image)
                 }
             }
             .buttonStyle(TappedButtonStyle())
-            .disabled(vm.isLoading)
+            .disabled(viewModel.isLoading)
         }
     }
 
     @ViewBuilder
     func AdditionalOperations() -> some View {
-        if vm.currentSong != nil {
+        if viewModel.currentSong != nil {
             VStack {
                 Button("Refresh") {
                     Task {
-                        try? await vm.refreshSongAndArtCover()
+                        try? await viewModel.refreshSongAndArtCover()
                     }
                 }.buttonStyle(TappedButtonStyle())
                 Button("Remove association from song") {
                     Task {
-                        try? await vm.removeImageAssociationFromSong()
+                        try? await viewModel.removeImageAssociationFromSong()
                     }
                 }.buttonStyle(TappedButtonStyle())
                 Button("Remove association and delete image") {
                     Task {
-                        try? await vm.removeImageAssociationAndDeleteImage()
+                        try? await viewModel.removeImageAssociationAndDeleteImage()
                     }
                 }.buttonStyle(TappedButtonStyle())
                 Button("Delete song and art cover") {
                     Task {
-                        try? await vm.deleteSongAndArtCover()
+                        try? await viewModel.deleteSongAndArtCover()
                     }
                     songName = ""
                 }.buttonStyle(TappedButtonStyle())
-            }.disabled(vm.isLoading)
+            }.disabled(viewModel.isLoading)
         }
     }
     
     @ViewBuilder
     func IsLoadingView() -> some View {
-        if vm.isLoading {
+        if viewModel.isLoading {
             ZStack {
                 DimmedBackgroundView()
                 ProgressView()
@@ -1725,7 +1725,7 @@ struct PhotoAlbumView: View {
     @State private var albumName: String = ""
     @State private var isLastImagePickerPresented = false
     @State private var lastImage: UIImage? = nil
-    @StateObject var vm = PhotoAlbumViewModel()
+    @StateObject var viewModel = PhotoAlbumViewModel()
     
     var body: some View {
         NavigationView {
@@ -1740,7 +1740,7 @@ struct PhotoAlbumView: View {
                 }
                 .padding()
                 .sheet(isPresented: $isImagePickerPresented) {
-                    MultiImagePicker(selectedImages: $vm.currentImages)
+                    MultiImagePicker(selectedImages: $viewModel.currentImages)
                 }
                 .sheet(isPresented: $isLastImagePickerPresented) {
                     ImagePicker(selectedImage: $lastImage)
@@ -1755,7 +1755,7 @@ struct PhotoAlbumView: View {
     
     @ViewBuilder
     func AlbumInformation() -> some View {
-        if let album = vm.currentAlbum {
+        if let album = viewModel.currentAlbum {
             Text("Album Id: \(album.id)").font(.caption)
             if album.name != "" {
                 Text("Album Name: \(album.name)").font(.caption)
@@ -1768,7 +1768,7 @@ struct PhotoAlbumView: View {
         // Display selected images
         ScrollView(.horizontal) {
             HStack {
-                ForEach($vm.currentImages, id: \.self) { image in
+                ForEach($viewModel.currentImages, id: \.self) { image in
                     Image(uiImage: image.wrappedValue)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -1776,7 +1776,7 @@ struct PhotoAlbumView: View {
                 }
             }
         }
-        if $vm.currentImages.isEmpty {
+        if $viewModel.currentImages.isEmpty {
             Text("No Images Selected")
                 .foregroundColor(.gray)
         }
@@ -1784,35 +1784,35 @@ struct PhotoAlbumView: View {
     
     func OpenImagePickerButton() -> some View {
         // Button to open the image picker
-        Button("Select \(!vm.currentImages.isEmpty ? "new " : "")photo album images") {
+        Button("Select \(!viewModel.currentImages.isEmpty ? "new " : "")photo album images") {
             isImagePickerPresented.toggle()
         }.buttonStyle(TappedButtonStyle())
     }
     
     @ViewBuilder
     func PhotoAlbumNameTextField() -> some View {
-        TextField("\(vm.currentAlbum != nil ? "Update": "Enter") album name", text: $albumName)
+        TextField("\(viewModel.currentAlbum != nil ? "Update": "Enter") album name", text: $albumName)
             .textFieldStyle(RoundedBorderTextFieldStyle())
             .multilineTextAlignment(.center)
     }
     
     @ViewBuilder
     func CreateOrUpdateAlbumButton() -> some View {
-        if vm.currentAlbum == nil, !vm.currentImages.isEmpty {
+        if viewModel.currentAlbum == nil, !viewModel.currentImages.isEmpty {
             Button("Save") {
                 Task {
-                    try? await vm.createPhotoAlbum(name: albumName,
-                                                   photos: vm.currentImages)
+                    try? await viewModel.createPhotoAlbum(name: albumName,
+                                                   photos: viewModel.currentImages)
                 }
             }
             .buttonStyle(TappedButtonStyle())
-            .disabled(vm.isLoading)
-        } else if vm.currentAlbum != nil {
+            .disabled(viewModel.isLoading)
+        } else if viewModel.currentAlbum != nil {
             Button("Select \(lastImage != nil ? "another ": "")photo to replace last photo in the album") {
                 isLastImagePickerPresented.toggle()
             }
             .buttonStyle(TappedButtonStyle())
-            .disabled(vm.isLoading)
+            .disabled(viewModel.isLoading)
             
             if let lastImage = lastImage {
                 Image(uiImage: lastImage)
@@ -1820,60 +1820,60 @@ struct PhotoAlbumView: View {
                     .aspectRatio(contentMode: .fit)
                 Button("Replace last image in album with above") {
                     Task {
-                        try? await vm.replaceLastImage(lastImage)
+                        try? await viewModel.replaceLastImage(lastImage)
                         self.lastImage = nil
-                        try? await vm.refreshAlbumAndPhotos()
+                        try? await viewModel.refreshAlbumAndPhotos()
                     }
                 }
                 .buttonStyle(TappedButtonStyle())
-                .disabled(vm.isLoading)
+                .disabled(viewModel.isLoading)
                 Button("Append above image to album") {
                     Task {
-                        try? await vm.addAdditionalPhotos(lastImage)
+                        try? await viewModel.addAdditionalPhotos(lastImage)
                         self.lastImage = nil
-                        try? await vm.refreshAlbumAndPhotos()
+                        try? await viewModel.refreshAlbumAndPhotos()
                     }
                 }
                 .buttonStyle(TappedButtonStyle())
-                .disabled(vm.isLoading)
+                .disabled(viewModel.isLoading)
             }
         }
     }
     
     @ViewBuilder
     func AdditionalOperations() -> some View {
-        if vm.currentAlbum != nil {
+        if viewModel.currentAlbum != nil {
             VStack {
                 Button("Refresh") {
                     Task {
-                        try? await vm.refreshAlbumAndPhotos()
+                        try? await viewModel.refreshAlbumAndPhotos()
                     }
                 }.buttonStyle(TappedButtonStyle())
                 Button("Remove associations from album") {
                     Task {
-                        try? await vm.removeStorageAssociationsFromAlbum()
-                        try? await vm.refreshAlbumAndPhotos()
+                        try? await viewModel.removeStorageAssociationsFromAlbum()
+                        try? await viewModel.refreshAlbumAndPhotos()
                     }
                 }.buttonStyle(TappedButtonStyle())
                 Button("Remove association and delete photos") {
                     Task {
-                        try? await vm.removeStorageAssociationsAndDeletePhotos()
-                        try? await vm.refreshAlbumAndPhotos()
+                        try? await viewModel.removeStorageAssociationsAndDeletePhotos()
+                        try? await viewModel.refreshAlbumAndPhotos()
                     }
                 }.buttonStyle(TappedButtonStyle())
                 Button("Delete album and images") {
                     Task {
-                        try? await vm.deleteAlbumAndPhotos()
+                        try? await viewModel.deleteAlbumAndPhotos()
                     }
                     albumName = ""
                 }.buttonStyle(TappedButtonStyle())
-            }.disabled(vm.isLoading)
+            }.disabled(viewModel.isLoading)
         }
     }
         
     @ViewBuilder
     func IsLoadingView() -> some View {
-        if vm.isLoading {
+        if viewModel.isLoading {
             ZStack {
                 DimmedBackgroundView()
                 ProgressView()
