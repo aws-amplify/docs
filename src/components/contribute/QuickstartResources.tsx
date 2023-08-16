@@ -1,4 +1,5 @@
 import { Heading, View, Text, Flex } from '@aws-amplify/ui-react';
+import { YoutubeEmbed } from '../YoutubeEmbed';
 
 export default function QuickstartResources() {
   return (
@@ -19,28 +20,18 @@ export default function QuickstartResources() {
       </View>
       <Flex wrap={'wrap'} justifyContent={'center'} width="100%" gap="2em">
         <View width={{ base: '90%', large: '40%' }}>
-          <iframe
-            sandbox="allow-scripts allow-same-origin"
+          <YoutubeEmbed
+            src="https://www.youtube-nocookie.com/embed/8BUSqSkhqtw"
             width="600"
             height="350"
-            src="https://www.youtube-nocookie.com/embed/8BUSqSkhqtw"
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
+          />
         </View>
         <View width={{ base: '90%', large: '40%' }}>
-          <iframe
-            sandbox="allow-scripts allow-same-origin"
+          <YoutubeEmbed
+            src="https://www.youtube-nocookie.com/embed/WMKVE98hEzE"
             width="600"
             height="350"
-            src="https://www.youtube-nocookie.com/embed/WMKVE98hEzE"
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
+          />
         </View>
       </Flex>
     </Flex>
