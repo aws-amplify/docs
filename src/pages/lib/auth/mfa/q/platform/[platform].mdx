@@ -11,6 +11,9 @@ import reactnative0 from "/src/fragments/lib/auth/js/mfa.mdx";
 
 <Fragments fragments={{'react-native': reactnative0}} />
 
-import ios0 from "/src/fragments/lib/auth/common/mfa/flows.mdx";
+import commonMFA from "/src/fragments/lib/auth/common/mfa/flows.mdx";
 
-<Fragments fragments={{ios: ios0}} />
+<Fragments fragments={{
+  ios: commonMFA,
+  android: commonMFA
+}} />

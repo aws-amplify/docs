@@ -1,0 +1,20 @@
+<BlockSwitcher>
+
+<Block name="Kotlin">
+
+```kotlin
+val cognitoAuthPlugin = Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
+cognitoAuthPlugin.updateMFAPreference(
+    MFAPreference.Disabled, // SMS Preference
+    MFAPreference.Preferred, // TOTP Preference
+    {
+        Log.d("Result", "Preference updated successfully")
+    },
+    {
+        Log.e("Result", "error: $it")
+    }
+)
+```
+</Block>
+
+</BlockSwitcher>

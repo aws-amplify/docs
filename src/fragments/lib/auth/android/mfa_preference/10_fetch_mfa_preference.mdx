@@ -1,0 +1,14 @@
+<BlockSwitcher>
+
+<Block name="Kotlin">
+
+```kotlin
+val cognitoAuthPlugin = Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
+cognitoAuthPlugin?.fetchMFAPreference({
+    Log.d("Result", "enabled MFA: ${it.enabled}, preferred MFA: ${it.preferred}")
+}, {
+    Log.e("Result", "error: $it")
+})
+```
+</Block>
+</BlockSwitcher>

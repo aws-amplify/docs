@@ -335,7 +335,7 @@ export const directory = {
           {
             title: 'Multi-factor authentication',
             route: '/lib/auth/mfa',
-            filters: ['ios']
+            filters: ['ios', 'android']
           },
           {
             title: 'Guest access',
