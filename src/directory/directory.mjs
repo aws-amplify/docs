@@ -323,19 +323,19 @@ export const directory = {
             filters: ['android', 'flutter', 'ios']
           },
           {
+            title: 'Multi-factor authentication',
+            route: '/lib/auth/mfa',
+            filters: ['ios']
+          },
+          {
             title: 'SMS flows',
             route: '/lib/auth/sms_flows',
-            filters: ['flutter']
+            filters: ['flutter', 'ios']
           },
           {
             title: 'Sign in next steps',
             route: '/lib/auth/signin_next_steps',
             filters: ['ios', 'android', 'flutter']
-          },
-          {
-            title: 'Multi-factor authentication',
-            route: '/lib/auth/mfa',
-            filters: ['ios']
           },
           {
             title: 'Guest access',
