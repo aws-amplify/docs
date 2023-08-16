@@ -12,13 +12,15 @@ export default function QuickstartResources() {
       <View width={{ base: '90%', large: '60%' }}>
         <Heading level={2}>Quickstart videos</Heading>
         <Text fontSize="large">
-          Follow along with these videos to learn how to set up your local environment to get started making open source contributions to the Amplify project.
+          Follow along with these videos to learn how to set up your local
+          environment to get started making open source contributions to the
+          Amplify project.
         </Text>
       </View>
       <Flex wrap={'wrap'} justifyContent={'center'} width="100%" gap="2em">
         <View width={{ base: '90%', large: '40%' }}>
           <iframe
-            sandbox
+            sandbox="allow-scripts allow-same-origin"
             width="600"
             height="350"
             src="https://www.youtube-nocookie.com/embed/8BUSqSkhqtw"
@@ -30,7 +32,7 @@ export default function QuickstartResources() {
         </View>
         <View width={{ base: '90%', large: '40%' }}>
           <iframe
-            sandbox
+            sandbox="allow-scripts allow-same-origin"
             width="600"
             height="350"
             src="https://www.youtube-nocookie.com/embed/WMKVE98hEzE"
