@@ -39,7 +39,6 @@ function TableOfContents({ children, title, buttonsRef }, ref) {
     }
   };
 
-  // console.log(children)
   let headers = [];
   let headerQueries = [];
   let activeLink = 0;

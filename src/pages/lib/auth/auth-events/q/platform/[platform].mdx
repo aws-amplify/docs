@@ -74,6 +74,8 @@ Amplify uses [Amazon Cognito](https://aws.amazon.com/cognito/) as the main authe
 
 <Accordion title='Review Amazon Cognito configuration decisions' headingLevel='4' eyebrow='Learn more'>
 
+## Title2
+
 Amazon Cognito can be customized based on your security strategy for authentication. However, there are some initial configuration options that cannot be changed after the backend resources are configured:
 
 - User attributes that are used to identify your individual users (e.g. username, email, etc.) cannot be renamed or deleted.
@@ -331,8 +333,13 @@ Below is a high-level overview of the workflows for sign-up, sign-in, and sign-o
 
 **Sign-out:** Amplify uses the `Auth.signOut()` method to sign-out the user by ending the current session and revoking the tokens with Amazon Cognito. This clears the user session in the browser and the application will then navigate the user to the sign-in screen.
 
+## Title BlockSwitcher
+
 <BlockSwitcher>
+
 <Block name="React">
+
+### Title Block
 
 First, install the `@aws-amplify/ui-react` library.
 

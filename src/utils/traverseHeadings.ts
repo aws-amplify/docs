@@ -4,6 +4,35 @@ import {
 } from '../components/UiComponentProps';
 import featureFlagsJson from '../components/FeatureFlags/feature-flags.json';
 
+function checkAccordionforHeadings(child, headings) {
+  if (
+    child?.props &&
+    !(child.props.mdxType === 'h2' || child.props.mdxType === 'h3')
+  ) {
+    checkAccordionforHeadings(child.props.children, headings);
+  } else if (
+    child?.props &&
+    (child.props.mdxType === 'h2' || child.props.mdxType === 'h3')
+  ) {
+    headings.forEach((h) => {
+      if (
+        h.includes(child.props.children) &&
+        h.includes(child.props.id) &&
+        h.includes(child.props.mdxType)
+      ) {
+        headings.splice(headings.indexOf(h), 1);
+      }
+    });
+  } else {
+    // check within children that don't have props i.e. witin blockswitcher
+    if (typeof child !== 'string') {
+      child?.forEach((c) => {
+        checkAccordionforHeadings(c.props?.children, headings);
+      });
+    }
+  }
+}
+
 export function traverseHeadings(tree, filterKey: string): string[] {
   if (!Array.isArray(tree)) {
     tree = [tree];
@@ -27,7 +56,6 @@ export function traverseHeadings(tree, filterKey: string): string[] {
         headings = headings.concat(traverseHeadings(fragment, filterKey));
       }
     } else if ('children' in node.props) {
-      console.log(node)
       // Recurse on the children, _unless_ this is a FilterContent with a
       // filter that doesn't match the current filterKey
       if (node.props.mdxType === 'FilterContent') {
@@ -55,7 +83,17 @@ export function traverseHeadings(tree, filterKey: string): string[] {
         if (mdxType === 'h2' || mdxType === 'h3') {
           headings.push([node.props.children, node.props.id, mdxType]);
         }
+
         if (mdxType === 'Accordion') {
+          const children = node.props.children;
+
+          // list all headings within accordions
+          if (children) {
+            children.forEach((child) => {
+              checkAccordionforHeadings(child, headings);
+            });
+          }
+
           const id = node.props.title.replace(/\s+/g, '-').toLowerCase();
           const type = node.props.headingLevel
             ? 'h' + node.props.headingLevel
@@ -64,23 +102,6 @@ export function traverseHeadings(tree, filterKey: string): string[] {
             headings.push([node.props.title, id, type]);
           }
         }
-
-        // Do not include headings from within an Accordion in headings array
-        // if (mdxType === 'wrapper') {
-        //   if (node.props.children?.props?.mdxType == 'Accordion') {
-        //     const children = node.props.children.props.children;
-        //     children.forEach((element) => {
-        //       const heading = element.props?.children?.props?.children?.props;
-        //       if (heading?.mdxType == 'h2' || heading?.mdxType == 'h3') {
-        //         headings.forEach((h) => {
-        //           if (h[1] === heading.id) {
-        //             headings.splice(headings.indexOf(h));
-        //           }
-        //         });
-        //       }
-        //     });
-        //   }
-        // }
       }
     } else if (node.props.mdxType === 'UiComponentProps') {
       // UiComponentProps is special -- just grab the generated headers from the propType
