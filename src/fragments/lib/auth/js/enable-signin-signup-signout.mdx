@@ -1,8 +1,12 @@
-In this guide you will set up sign-up, sign-in, and sign-out and then test this functionality. This includes a review of sign-up methods provided by Amplify, the specific user attributes used by Amazon Cognito, how to confirm users after initial sign-up, and the differences between local and global sign-out.
+> *This guide provides essential information to help you select and complete the activities you need for your Amplify project. We organized each section around a distinct job or decision point to help you understand your available options, steps to complete, and recommended best practices.*
 
-Before you begin, you should have finished [*Set up and connected backend resources with a configured Auth category*](/lib/auth/set_up_auth#set-up-and-connect-backend-resources).
+In this guide you will set up sign-up, sign-in, and sign-out using the Amplify Libraries and then test this functionality. This includes a review of sign-up methods provided by Amplify, the specific user attributes used by Amazon Cognito, how to confirm users after initial sign-up, and the differences between local and global sign-out.
 
-For many apps, user sign-up and sign-in with a username/password is all that is required. Once authenticated, the app can talk to an API to access and mutate data. We will use the username/password authentication flow to get started. Both [third party social provider federation]( https://docs.amplify.aws/lib/auth/social/q/platform/js/) and [Multi-factor authentication]( https://docs.amplify.aws/lib/auth/mfa/q/platform/js/) can be added after this initial set up.
+Before you begin, you should have finished [*'Set up and connect backend resources'*](/lib/auth/set_up_auth#set-up-and-connect-backend-resources) with a configured Auth category.
+
+## Decide before you build
+
+Before you enable sign-up, sign-in, and sign-out there are a few decisions you will need to know to complete the process.
 
 <Accordion title='Review the sign-up, sign-in, and sign-out workflow' headingLevel='3' eyebrow='Learn more'>
 
@@ -16,11 +20,7 @@ Below is a high-level overview of the workflows for sign-up, sign-in, and sign-o
 
 </Accordion>
 
-### Decide before you build
-
-Before you enable sign-up, sign-in, and sign-out there are a few decisions you will need to know to complete the process. 
-
-#### Which Amazon Cognito attributes will you pass for sign-up?
+### Which Amazon Cognito attributes will you pass for sign-up?
 
 User attributes (e.g. username, email, etc.) are used to identify your users. These are set up when you configure your Cognito User Pool and cannot be renamed or deleted after they are added. You can find the available attributes in the Amazon Cognito console under the *Sign-up experience* tab. You can also add [User Pool attributes]( https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html) that can be collected during sign-up. This includes attributes like address, birthdate, phone, etc. These attributes are not required by default.
 
@@ -30,29 +30,69 @@ User attributes are not required by default. You can make user attributes requir
 
 </Callout>
 
-#### How will you verify users at sign-up?
+### How will you verify users at sign-up?
 
 Once the initial sign-up is done, the user will need to verify and confirm their contact information before their account is activated. This is done by sending a verification code via email or phone number that can be collected on initial sign-up. Email verification asks the user to click a link or enter a code sent to their email address provided during sign-up. Phone verification is done by asking the user to enter the code sent to them in a SMS text message. You can also enable auto-confirmation to skip this step and automatically confirm the user after sign-up. This is accomplished using the `PreSignUp` Lambda trigger which is explained in the [Amazon Cognito documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-sign-up.html).
  
-#### Do you need local or global sign-out?
+### Do you need local or global sign-out?
 
 The default when passing the `Auth.signOut()` method is a local sign out. This will sign-out the user from a specific application or device and revokes the tokens used for authentication in that session. If you need a global sign-out that revokes all associated tokens, credentials, and sessions across all applications and devices, then you update the method to `Auth.signOut({ global: true })`.
+
+Once you have these decisions in mind you are ready to enable sign-up, sign-in, and sign-out.
 
 ## Add the sign-up, sign-in, and sign-out capabilities
 
 You can add the functionality to enable sign-up, sign-in, and sign-out with the Amplify Libraries. You can connect this to an existing UI or create your own.
 
+For many apps, user sign-up and sign-in with a username/password is all that is required. Once authenticated, the app can talk to an API to access and mutate data. We will use the username/password authentication flow to get started. Both [third party social provider federation]( https://docs.amplify.aws/lib/auth/social/q/platform/js/) and [Multi-factor authentication]( https://docs.amplify.aws/lib/auth/mfa/q/platform/js/) can be added after this initial set up.
 
 ### Sign-up
 
 You can create a new user in your backend by passing a username, password, and other attributes to `Auth.signUp()`.
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { Auth } from 'aws-amplify';
+
+type SignUpParameters = {
+  username: string;
+  password: string;
+  email: string;
+  phoneNumber: string;
+};
+
+export async function signUp({ username, password, email, phoneNumber }: SignUpParameters) {
+  try {
+    const { user } = await Auth.signUp({
+      username,
+      password,
+      attributes: {
+        email, // optional
+        phoneNumber, // optional - E.164 number convention
+        // other custom attributes
+      },
+      autoSignIn: {
+        // optional - enables auto sign in after user is confirmed
+        enabled: true,
+      },
+    });
+    console.log(user);
+  } catch (error) {
+    console.log('error signing up:', error);
+  }
+}
+```
+</Block>
+<Block name="JavaScript">
 
 ```javascript
 import { Auth } from 'aws-amplify';
 
 async function signUp() {
   try {
-    const user = await Auth.signUp({
+    const { user } = await Auth.signUp({
       username,
       password,
       attributes: {
@@ -60,7 +100,7 @@ async function signUp() {
         phone_number,   // optional - E.164 number convention
         // other custom attributes 
       },
-      autoSignIn: { // optional - enables auto sign in after user is confirmed, defaults to false
+      autoSignIn: { // optional - enables auto sign in after user is confirmed
         enabled: true,
       }
     });
@@ -70,10 +110,34 @@ async function signUp() {
   }
 }
 ```
+</Block>
+</BlockSwitcher>
 
 ### Confirm sign up
 
 By default, each user that signs up remains in the unconfirmed status until they verify with a confirmation code that was sent to their email or phone number. You can confirm the sign-up after retrieving a confirmation code from the user as shown here.
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { Auth } from 'aws-amplify';
+
+type ConfirmSignUpParameters = {
+  username: string;
+  code: string;
+};
+
+export async function confirmSignUp({ username, code }: ConfirmSignUpParameters) {
+  try {
+    await Auth.confirmSignUp(username, code);
+  } catch (error) {
+    console.log('error confirming sign up', error);
+  }
+}
+```
+</Block>
+<Block name="JavaScript">
 
 ```js
 import { Auth } from 'aws-amplify';
@@ -86,8 +150,34 @@ async function confirmSignUp() {
   }
 }
 ```
+</Block>
+</BlockSwitcher>
 
 As part of the options parameter, you can specify the `forceAliasCreation` boolean. This is set to `true` by default. If set to `false` and the email or phone number used for sign-up confirmation already exists as an alias for a different user, the API will throw an `AliasExistsException` error. If set to `true`, the API call will migrate the alias from the previous user to a newly created user.
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { Auth } from 'aws-amplify';
+
+type ConfirmSignUpParameters = {
+  username: string;
+  code: string;
+};
+
+export async function confirmSignUp({ username, code }: ConfirmSignUpParameters) {
+  try {
+    await Auth.confirmSignUp(username, code, {
+      forceAliasCreation: false,
+    });
+  } catch (error) {
+    console.log('error confirming sign up', error);
+  }
+}
+```
+</Block>
+<Block name="JavaScript">
 
 ```js
 import { Auth } from 'aws-amplify';
@@ -100,12 +190,36 @@ async function confirmSignUp() {
   }
 }
 ```
+</Block>
+</BlockSwitcher>
 
 ### Sign in
 
 You pass the username and password to the `signIn` method of the Auth class to enable username and password sign-in.
 
-```javascript
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { Auth } from 'aws-amplify';
+
+type SignInParameters = {
+  username: string;
+  password: string;
+};
+
+export async function signIn({ username, password }: SignInParameters) {
+  try {
+    const user = await Auth.signIn(username, password);
+  } catch (error) {
+    console.log('error signing in', error);
+  }
+}
+```
+</Block>
+<Block name="JavaScript">
+
+```js
 import { Auth } from 'aws-amplify';
 
 async function signIn() {
@@ -116,12 +230,31 @@ async function signIn() {
   }
 }
 ```
+</Block>
+</BlockSwitcher>
 
 ### Sign out
 
 To set up local sign-out you use the `signOut` method of the Auth class.
 
-```javascript
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { Auth } from 'aws-amplify';
+
+export async function signOut() {
+  try {
+    await Auth.signOut();
+  } catch (error) {
+    console.log('error signing out: ', error);
+  }
+}
+```
+</Block>
+<Block name="JavaScript">
+
+```js
 import { Auth } from 'aws-amplify';
 
 async function signOut() {
@@ -132,8 +265,27 @@ async function signOut() {
   }
 }
 ```
+</Block>
+</BlockSwitcher>
 
 You can sign out users from all devices by adding global sign-out. It also invalidates all refresh tokens issued to an user. The user's current access and Id tokens remain valid on other devices until the refresh token expires (access and Id tokens expire one hour after they are issued).
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { Auth } from 'aws-amplify';
+
+export async function signOut() {
+  try {
+    await Auth.signOut({ global: true });
+  } catch (error) {
+    console.log('error signing out: ', error);
+  }
+}
+```
+</Block>
+<Block name="JavaScript">
 
 ```js
 import { Auth } from 'aws-amplify';
@@ -145,19 +297,21 @@ async function signOut() {
     console.log('error signing out: ', error);
   }
 }
-``` 
+```
+</Block>
+</BlockSwitcher>
 
 Once you implement the Amplify Library methods within your application, you can test the sign-up, sign-in, and sign-out functionality.
 
-## View the created user in the AWS Console
+### View the created user in the AWS Console
 
-After you test the sign-up, sign-in, and sign-out functionality, you can take a look at the created user in the Amazon Cognito console. To do so, you can use `amplify console auth` to open the console directly from the CLI, or take a look at the existing User Pools in the console. Note the users status should be "CONFIRMED" if you successfully verified the user; however, it can be in "unconfirmed" if the user is not yet verified. You can also check to make sure any other required attributes are updating correctly.
+After you test the sign-up, sign-in, and sign-out functionality, you can take a look at the created user in the Amazon Cognito console. To do so, you can use `amplify console auth` to open the console directly from the CLI, or take a look at the existing User Pools in the console. Note the users status should be `CONFIRMED` if you successfully verified the user; however, it can be in `unconfirmed` if the user is not yet verified. You can also check to make sure any other required attributes are updating correctly.
 
-**Recap:** You now have enabled sign-up, sign-in, and sign-out for your authentication and verified its functionality with a test user.
+You now have enabled sign-up, sign-in, and sign-out for your authentication and verified its functionality with a test user.
 
 ## Conclusion
 
-Congratulations! You finished the **Set up Amplify Auth** guide. In this guide, you set up and connected to backend resources, compared and determined your Auth integration path, and enabled sign-up, sign-in, and sign-out while verifying they function as expected.
+Congratulations! You finished the **Enable sign-up, sign-in, sign-out** guide. In this guide, you enabled sign-up, sign-in, and sign-out with the Amplify Libraries. You also verified they function as expected.
 
 ## Next steps
 

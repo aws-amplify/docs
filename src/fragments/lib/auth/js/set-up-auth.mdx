@@ -1,25 +1,23 @@
 > *This guide provides essential information to help you select and complete the activities you need for your Amplify project. We organized each section around a distinct job or decision point to help you understand your available options, steps to complete, and recommended best practices.*
 
-In this guide, you will learn how to set up Amplify **Auth**. This includes setting up and connecting your backend resources, determining your integration path, and enabling sign-up, sign-in, and sign-out. We will also provide more context on how resources are managed and created with Amplify to help you make decisions, and understand any long-term impact of those decisions.
-
-## Prerequisites
+In this guide, you will learn how to set up Amplify **Auth**. This includes setting up and connecting your backend resources, determining your integration path, and enabling sign-up, sign-in, and sign-out with Authenticator UI component. We will also provide more context on how resources are managed and created with Amplify to help you make decisions, and understand any long-term impact of those decisions.
 
 Before you begin, you will need:
 - [Node.js](https://nodejs.org/) v14.x or later
 - [npm](https://www.npmjs.com/) v6.14.4 or later
 - [git](https://git-scm.com/) v2.14.1 or later
-- A front-end app
-- If you are want Amplify to set up and manage your backend resources you need to [install and configure](/lib/project-setup/prereq/q/platform/js/) the Amplify CLI. Make sure to also created a new amplify project using `amplify init` in your terminal, or pull in an existing amplify project to your frontend app using `amplify pull`.
+- A frontend app
+- If you are want Amplify to set up and manage your backend resources you need to [install and configure](/lib/project-setup/prereq/q/platform/js/) the Amplify CLI. Make sure to also create a new amplify project using `amplify init` in your terminal, or pull in an existing amplify project to your frontend app by using `amplify pull`.
 
 ## Set up and connect backend resources
 
-We will also guide you on the paths to integrating Amplify Auth and how to set up and integrate your backend resources, and how to connect to these resources in your frontend app to build authentication features.
+We will review the paths to integrate Amplify Auth before you set up and integrate your backend resources and connect these resources in your frontend app to build authentication features.
 
 ### Decide how to create and manage your backend resources
 
 You can create and manage your Authentication resources with Amplify by using the Amplify CLI, Amplify Studio, or manage them yourself with tools such as CDK and CloudFormation. The path we recommend is via the Amplify CLI, which allows you to create new authentication resources or import existing ones. However, you can also use the Amplify Studio console to configure or use existing resources and directly connect them to your application using the Amplify Libraries. These tools will help you with creating and managing your resources.
 
-With Amplify Auth, you can use a username and password as an authentication method, use a social provider Sign In with Google or Sign in With Apple, or create a fully custom authentication flow.
+With Amplify Auth, you can use a username and password as an authentication method, use a social provider "Sign In with Google" or "Sign in With Apple," or create a fully custom authentication flow.
 
 <Accordion title='Understanding Auth high-level concepts' headingLevel='4' eyebrow='Learn more'>
 
@@ -59,9 +57,7 @@ See the [Amazon Cognito documentation]( https://docs.aws.amazon.com/cognito/late
 
 ### Set up and configure your Auth category
 
-In this section you will learn more on how to set up your backend resources and install the Amplify libraries to use with your application.
-
-During this workflow you can set up your password formats. If you have not worked with passwords formats recently we recommend taking a closer look at the best practices before you continue.
+In this section you will learn how to set up your backend resources and install the Amplify libraries to use with your application.
 
 #### Set up your Auth backend resources
 
@@ -269,11 +265,11 @@ If your existing UserPool client has a required attribute that is NOT set to mut
 </Block>
 </BlockSwitcher>
 
-**Recap:** You now have set up and configured your backend resources for Amplify authentication and are ready to start working on your front-end application.
+You now have set up and configured your backend resources for Amplify authentication and are ready to start working on your frontend application.
 
 ## Determine your Auth integration path
 
-Before you implement Auth on your front-end application, you will want to evaluate the options of using the Authenticator connected UI component or using the Amplify Library APIs directly. We recommend using the Authenticator since it creates a sign in and registration experience for your with few lines of code.
+Before you implement Auth on your frontend application, you will want to evaluate the options of using the Authenticator connected UI component or using the Amplify Library APIs directly. We recommend using the Authenticator since it creates a sign in and registration experience for your app with a few lines of code.
 
 ### Compare implementation options
 
@@ -287,37 +283,61 @@ There are a few options to implement Auth depending on how much customization yo
 
 <br/>
 
-**Recap:** We recommend using the Authenticator UI component for quick and easy set up and then use the Amplify Libraries to customize the user experience and logic as needed. Once you decide which option will work for your use case you can continue implementing authentication on your front-end application.
+We recommend using the Authenticator UI component for quick and easy set up and then use the Amplify Libraries to customize the user experience and logic as needed. Once you decide which option will work for your use case you can continue implementing authentication on your frontend application.
 
-## Building an Authentication experience using the Authenticator
+## Build an Authentication experience using the Authenticator
 
 Creating the login flow can be quite difficult and time consuming to get right. However, Amplify has the Authenticator UI component which you can use that will provide the entire authentication flow for your app, using your backend configuration.
 
-Amplify has pre-built UI components for React, Vue, Angular, React Native, Swift, Android, and Flutter.
+Amplify has pre-built UI components for React, Vue, Angular, React Native, Swift, Android, and Flutter. In this guide we are focusing on those for web applications.
 
 <BlockSwitcher>
 <Block name="React">
 
-First, install the `@aws-amplify/ui-react` library.
-
-> Note: You will also need to install `aws-amplify` as well if you have not already.
+First, install the `@aws-amplify/ui-react` library as well as `aws-amplify` if you have not already:
 
 ```sh
-npm install @aws-amplify/ui-react aws-amplify
+npm install aws-amplify @aws-amplify/ui-react
 ```
 
-Next, open __src/App.js__ and add the `Authenticator` component.
+Next, open __src/App.js__ and add the `withAuthenticator` component.
 
-**Authenticator**
+**withAuthenticator**
 
-The `Authenticator` should wrap sections of your app that you want to protect. You will also notice the `user` and `signOut` are provided to the wrapped component.
+The `withAuthenticator` is a higher-order component (HoC) that wraps `Authenticator`. You'll also notice the `user` and `signOut` are provided to the wrapped component.
 
 **Usage**
 
-```jsx
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { Amplify } from 'aws-amplify';
+import type { WithAuthenticatorProps } from '@aws-amplify/ui-react';
+import { withAuthenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
+
+import awsconfig from '../aws-exports';
+Amplify.configure(awsconfig);
+
+export function App({ signOut, user }: WithAuthenticatorProps) {
+  return (
+    <>
+      <h1>Hello {user?.username}</h1>
+      <button onClick={signOut}>Sign out</button>
+    </>
+  );
+}
+
+export default withAuthenticator(App);
+```
+</Block>
+<Block name="JavaScript">
+
+```js
 import { Amplify } from 'aws-amplify';
 
-import { Authenticator } from '@aws-amplify/ui-react';
+import { withAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 
 import awsExports from './aws-exports';
@@ -325,35 +345,32 @@ Amplify.configure(awsExports);
 
 function App({ signOut, user }) {
   return (
-    <Authenticator>
-      {({signOut, user}) => (
-        <div>
-          <h1>Hello, {user.username}</h1>
-          <button onClick={signOut}>Sign out</button>
-        </div>
-      )}
-    </Authenticator>
+    <>
+      <h1>Hello {user.username}</h1>
+      <button onClick={signOut}>Sign out</button>
+    </>
   );
 }
 
-export default App;
+export default withAuthenticator(App);
 ```
+</Block>
+</BlockSwitcher>
+
 </Block>
 <Block name="Vue 3">
 
-First, install the `@aws-amplify/ui-vue` library.
-
-> Note: You will also need to install `aws-amplify` as well if you have not already.
+First, install the `@aws-amplify/ui-vue` library as well as `aws-amplify` if you have not already:
 
 ```bash
-npm install @aws-amplify/ui-vue aws-amplify
+npm install aws-amplify @aws-amplify/ui-vue
 ```
 
 Next, open __src/App.js__ and add the `Authenticator` component.
 
 **Authenticator**
 
-The `Authenticator` should wrap sections of your app that you want to protect. You will also notice the `user` and `signOut` are provided to the wrapped component.
+The `Authenticator` component offers a simple way to add authentication flows into your app. This component encapsulates an authentication workflow in the framework of your choice and is backed by the cloud resources set up in your Auth cloud resources. You’ll also notice that `user` and `signOut` are passed to the inner template.
 
 ```html
 <script setup>
@@ -369,7 +386,7 @@ The `Authenticator` should wrap sections of your app that you want to protect. Y
 <template>
   <authenticator>
     <template v-slot="{ user, signOut }">
-      <h1>Hello, {{ user.username }}</h1>
+      <h1>Hello {{ user.username }}!</h1>
       <button @click="signOut">Sign Out</button>
     </template>
   </authenticator>
@@ -377,22 +394,63 @@ The `Authenticator` should wrap sections of your app that you want to protect. Y
 ```
 
 </Block>
-<Block name="Angular">
+<Block name="Vue 2">
 
-First, install the `@aws-amplify/ui-angular` library.
-
-> Note: You will also need to install `aws-amplify` as well if you have not already.
+First, install the `@aws-amplify/ui-components` library as well as `aws-amplify` if you have not already:
 
 ```bash
-npm install @aws-amplify/ui-angular aws-amplify
+npm install aws-amplify @aws-amplify/ui-components
+```
+
+Now open __src/main.js__ and add the following below your last import:
+
+```js
+import '@aws-amplify/ui-components';
+import {
+  applyPolyfills,
+  defineCustomElements,
+} from '@aws-amplify/ui-components/loader';
+import Vue from 'vue';
+
+Vue.config.ignoredElements = [/amplify-\w*/];
+
+
+applyPolyfills().then(() => {
+  defineCustomElements(window);
+});
+```
+
+Next, open __src/App.js__ and add the `amplify-authenticator` component.
+
+**amplify-authenticator**
+
+The `amplify-authenticator` component offers a simple way to add authentication flows into your app. This component encapsulates an authentication workflow in the framework of your choice and is backed by the cloud resources set up in your Auth cloud resources. You’ll also notice the `amplify-sign-out` component. This is an optional component if you’d like to render a sign out button.
+
+```html
+<template>
+  <amplify-authenticator>
+    <div>
+      My App
+      <amplify-sign-out></amplify-sign-out>
+    </div>
+  </amplify-authenticator>
+</template>
+```
+
+</Block>
+<Block name="Angular">
+
+First, install the `@aws-amplify/ui-angular` library as well as `aws-amplify` if you have not already:
+
+```bash
+npm install aws-amplify @aws-amplify/ui-angular
 ```
 
 Now open __app.module.ts__ and add the Amplify imports and configuration:
 
 ```js
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { Amplify } from 'aws-amplify';
+import { BrowserModule } from '@angular/platform-browser';;
 import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
 
 import { AppComponent } from './app.component';
@@ -413,13 +471,13 @@ Next, import the default theme inside __styles.css__:
 
 ```css
 @import '~@aws-amplify/ui-angular/theme.css';
-```
+````
 
 Next, open __app.component.html__ and add the `amplify-authenticator` component.
 
 **amplify-authenticator**
 
-The `amplify-authenticator` should wrap sections of your app that you want to protect. You will also notice the `user` and `signOut` are provided to the wrapped component.
+The `amplify-authenticator` component offers a simple way to add authentication flows into your app. This component encapsulates an authentication workflow in the framework of your choice and is backed by the cloud resources set up in your Auth cloud resources. You’ll also notice that `user` and `signOut` are provided to the inner template.
 
 ```html
 <amplify-authenticator>
@@ -428,7 +486,7 @@ The `amplify-authenticator` should wrap sections of your app that you want to pr
     let-user="user"
     let-signOut="signOut"
   >
-    <h1>Hello, {{ user.username }}!</h1>
+    <h1>Welcome {{ user.username }}!</h1>
     <button (click)="signOut()">Sign Out</button>
   </ng-template>
 </amplify-authenticator>
@@ -443,7 +501,7 @@ Once you add the Authenticator component to your app, you can test the sign-up, 
 
 After creating a new user, you can validate the created user in the Amazon Cognito console. To do so, you can use `amplify console auth` to open the AWS console directly. Note the users status should be `CONFIRMED` if you successfully verified the user; however, it can be in `unconfirmed` if the user is not yet verified. You can also check to make sure your user attributes are updating correctly.
 
-**Recap:** You now have enabled sign-up, sign-in, and sign-out for your authentication and verified its functionality with a test user.
+You now have enabled sign-up, sign-in, and sign-out for your authentication and verified its functionality with a test user.
 
 ## Conclusion
 
@@ -454,4 +512,3 @@ Congratulations! You finished the **Set up Amplify Auth** guide. In this guide, 
 Now that you completed setting up Amplify Auth with username/password you may also want to add some additional features. We recommend you learn more about:
   - [Social sign-in (OAuth)](https://docs.amplify.aws/lib/auth/social/q/platform/js/)
   - [Multi-factor authentication](https://docs.amplify.aws/lib/auth/mfa/q/platform/js/)
- 
