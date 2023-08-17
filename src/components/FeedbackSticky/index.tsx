@@ -39,10 +39,8 @@ export default function Feedback({ footerRef, contentsRef, feedbackRef }) {
 
   useEffect(() => {
     const footer = footerRef.current;
-    const feedback = feedbackRef.current;
+    const feedback = feedbackRef?.current;
     setComponentX(contentsRef.current != null ? 'visibleToc' : 'noToc');
-
-    // console.log(feedback.children.item(0).id == 'start-state')
 
     if (typeof window !== 'undefined') {
       window.addEventListener('touchmove', hideFeedback);
@@ -109,7 +107,7 @@ export default function Feedback({ footerRef, contentsRef, feedbackRef }) {
     trackFeedbackSubmission(true);
     currentState = FeedbackState.UP;
     setState(currentState);
-    feedbackRef.current.classList.add('hide');
+    feedbackRef?.current?.classList.add('hide');
   }, []);
 
   const onNoVote = useCallback((e) => {
@@ -117,7 +115,7 @@ export default function Feedback({ footerRef, contentsRef, feedbackRef }) {
     trackFeedbackSubmission(false);
     currentState = FeedbackState.DOWN;
     setState(currentState);
-    feedbackRef.current.classList.add('hide');
+    feedbackRef?.current?.classList.add('hide');
   }, []);
 
   const close = useCallback(() => {

@@ -1,4 +1,4 @@
-import FeedbackSticky from '../index';
+import Feedback from '../index';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as trackModule from '../../../utils/track';
@@ -20,8 +20,7 @@ jest.mock('../../../utils/track', () => ({
 
 describe('Feedback', () => {
   it('should render component with thumbs up and thumbs down button', () => {
-    const footerMock = `<Footer ref={ref}></Footer>`;
-    const component = <FeedbackSticky footerRef={footerMock} />;
+    const component = <Feedback />;
 
     render(component);
 
@@ -33,8 +32,7 @@ describe('Feedback', () => {
   });
 
   it('should hide buttons after user clicks No button', async () => {
-    const footerMock = `<Footer ref={ref}></Footer>`;
-    const component = <FeedbackSticky footerRef={footerMock} />;
+    const component = <Feedback />;
 
     render(component);
 
@@ -54,8 +52,7 @@ describe('Feedback', () => {
 
   it('should call trackFeedbackSubmission request when either button is clicked', async () => {
     jest.spyOn(trackModule, 'trackFeedbackSubmission');
-    const footerMock = `<Footer ref={ref}></Footer>`;
-    const component = <FeedbackSticky footerRef={footerMock} />;
+    const component = <Feedback />;
 
     render(component);
 

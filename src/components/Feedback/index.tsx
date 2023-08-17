@@ -108,23 +108,16 @@ const Feedback = forwardRef(function Feedback({}, ref) {
 
   const onNoVote = useCallback((e) => {
     trackFeedbackSubmission(false);
-    const feedbackComponent = e.currentTarget.parentElement.parentElement;
-    const fadeOut = [{ opacity: 0 }];
-    const fadeIn = [{ opacity: 1 }];
+    const feedbackContent = e.currentTarget.parentNode.parentNode;
 
-    const animationTiming = {
-      duration: 200,
-      iterations: 1,
-      fill: 'forwards'
-    };
-
-    feedbackComponent.animate(fadeOut, animationTiming);
+    feedbackContent.classList.add('fadeOut');
 
     setTimeout(function() {
       currentState = FeedbackState.DOWN;
-      feedbackComponent.animate(fadeIn, animationTiming);
+      feedbackContent.classList.remove('fadeOut');
+      feedbackContent.classList.add('fadeIn');
       setState(currentState);
-    }, 200);
+    }, 300);
   }, []);
 
   return (
@@ -190,7 +183,7 @@ const Feedback = forwardRef(function Feedback({}, ref) {
                   </FeedbackTextAfter>
                 </VoteButtonsContainer>
                 <FeedbackTextAfter className="cta">
-                  <p>{c.noVoteCTA}</p>
+                  {c.noVoteCTA}
                 </FeedbackTextAfter>
                 <ButtonStyles>
                   <ExternalLink href={c.buttonLink} icon={true}>
