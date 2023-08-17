@@ -330,7 +330,7 @@ export const directory = {
           {
             title: 'Sign in next steps',
             route: '/lib/auth/signin_next_steps',
-            filters: ['ios', 'android']
+            filters: ['ios', 'android', 'flutter']
           },
           {
             title: 'Guest access',
@@ -817,6 +817,66 @@ export const directory = {
             title: 'Use existing AWS resources',
             route: '/lib/storage/existing-resources',
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+          }
+        ]
+      },
+      logging: {
+        title: 'Logging',
+        items: [
+          {
+            title: 'Set up Logging',
+            route: '/lib/logging/setup-logging',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'Send Logs',
+            route: '/lib/logging/sending-logs',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'Change Log Levels',
+            route: '/lib/logging/change-log-levels',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'Flush Logs',
+            route: '/lib/logging/flush-logs',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'Enable/Disable Logging',
+            route: '/lib/logging/enable-disable',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'Configure User Allow List',
+            route: '/lib/logging/configure-user',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'View Logs',
+            route: '/lib/logging/access-logs',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'Remotely Change Log Levels',
+            route: '/lib/logging/remote-configuration',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'Change Local Storage',
+            route: '/lib/logging/change-local-storage',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'Listen to Log Events',
+            route: '/lib/logging/hub-events',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'Escape Hatch',
+            route: '/lib/logging/escapehatch',
+            filters: ['ios', 'android']
           }
         ]
       },
@@ -1561,6 +1621,11 @@ export const directory = {
             filters: ['android', 'ios']
           },
           {
+            title: 'Using with Amplify',
+            route: '/sdk/pubsub/aws-iot-and-amplify',
+            filters: ['ios']
+          },
+          {
             title: 'Working with the API',
             route: '/sdk/pubsub/working-api',
             filters: ['android', 'ios']
@@ -1618,96 +1683,6 @@ export const directory = {
         ]
       }
     }
-  },
-  ui: {
-    productRoot: {
-      title: 'Amplify UI Components',
-      route: '/ui'
-    },
-    items: {
-      api: {
-        title: 'API',
-        items: [
-          {
-            title: 'Connect',
-            route: '/ui/api/connect',
-            filters: ['react-native']
-          }
-        ]
-      },
-      auth: {
-        title: 'Authentication',
-        items: [
-          {
-            title: 'Authenticator',
-            route: '/ui/auth/authenticator',
-            filters: ['react-native', 'flutter']
-          }
-        ]
-      },
-      interactions: {
-        title: 'Interactions',
-        items: [
-          {
-            title: 'Chatbot',
-            route: '/ui/interactions/chatbot',
-            filters: ['react-native']
-          }
-        ]
-      },
-      storage: {
-        title: 'Storage',
-        items: [
-          {
-            title: 'S3 Album',
-            route: '/ui/storage/s3-album',
-            filters: ['react-native']
-          },
-          {
-            title: 'S3 Image',
-            route: '/ui/storage/s3-image',
-            filters: ['react-native']
-          },
-          {
-            title: 'Tracking Events',
-            route: '/ui/storage/tracking-events',
-            filters: ['react-native']
-          },
-          {
-            title: 'Customization',
-            route: '/ui/storage/customization',
-            filters: ['react-native']
-          }
-        ]
-      },
-      customization: {
-        title: 'Customization',
-        items: [
-          {
-            title: 'Theming',
-            route: '/ui/customization/theming',
-            filters: ['react-native']
-          },
-          {
-            title: 'Customizing CSS',
-            route: '/ui/customization/customizing-css',
-            filters: ['react-native']
-          },
-          {
-            title: 'Translations',
-            route: '/ui/customization/translations',
-            filters: ['react-native']
-          }
-        ]
-      }
-    }
-  },
-  'ui-legacy': {
-    productRoot: {
-      title: 'Amplify UI (Legacy)',
-      route: '/ui-legacy'
-    },
-    items: {}
   },
   cli: {
     productRoot: {

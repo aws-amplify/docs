@@ -18,7 +18,7 @@ function Prev(item: DirectoryItem) {
   return (
     <InternalLink href={item.route}>
       <NextPreviousLinkStyle>
-        <img src="/assets/arrow-left.svg" alt="Previous Page" />
+        <img src="/assets/arrow-left.svg" alt="" />
         <NextPreviousTextStyle isPrevious={true}>
           <span>previous</span>
           <h4>{item.title}</h4>
@@ -36,7 +36,7 @@ function Next(item: DirectoryItem) {
           <span>next</span>
           <h4>{item.title}</h4>
         </NextPreviousTextStyle>
-        <img src="/assets/arrow-right.svg" alt="Next Page" />
+        <img src="/assets/arrow-right.svg" alt="" />
       </NextPreviousLinkStyle>
     </InternalLink>
   );

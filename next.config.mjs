@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import _withMDX from '@next/mdx';
 import { directory } from './src/directory/directory.mjs';
 const require = createRequire(import.meta.url);
+import rehypeImgSize from 'rehype-img-size';
 
 dotenv.config({ path: './.env.custom' });
 
@@ -35,14 +36,29 @@ export default async (phase, { defaultConfig }) => {
         pagePlugin,
         internalLinkPlugin
       ],
-      rehypePlugins: [codeBlockPlugin],
+      rehypePlugins: [codeBlockPlugin, [rehypeImgSize, { dir: 'public' }]],
       renderer: mdxRenderer
     }
   });
 
   const nextConfig = withMDX({
     env: {
-      BUILD_ENV: process.env.BUILD_ENV
+      BUILD_ENV: process.env.BUILD_ENV,
+      nextImageExportOptimizer_imageFolderPath: 'public',
+      nextImageExportOptimizer_exportFolderPath: 'out',
+      nextImageExportOptimizer_quality: 75,
+      nextImageExportOptimizer_storePicturesInWEBP: true,
+      nextImageExportOptimizer_exportFolderName: 'nextImageExportOptimizer',
+
+      // If you do not want to use blurry placeholder images, then you can set
+      // nextImageExportOptimizer_generateAndUseBlurImages to false and pass
+      // `placeholder="empty"` to all <ExportedImage> components.
+      nextImageExportOptimizer_generateAndUseBlurImages: true
+    },
+    images: {
+      loader: 'custom',
+      imageSizes: [],
+      deviceSizes: [450, 1920]
     },
     pageExtensions: ['js', 'jsx', 'mdx', 'tsx', 'ts'],
     typescript: {

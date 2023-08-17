@@ -54,6 +54,13 @@ All backends created in Amplify Studio and Amplify CLI are deployed using AWS Cl
 
 All backend infrastructure-as-code definitions can be added to your project with the Amplify Command Line Interface (CLI).
 
+## Limitations
+
+Amplify Studio does not support building certain Amplify CLI added resources such as:
+
+1. [Lambda functions](/cli/function/)
+2. [Resource overrides](/cli/commands/override/)
+
 ## Troubleshooting
 
 ### Logging into Amplify Studio using Amplify CLI does not provide a Token or Prompt
@@ -63,8 +70,8 @@ This behavior is observed when running a Amplify CLI `amplify pull --appId <appI
 To resolve this issue,
 
 1. Exit from the Amplify CLI prompt
-1. If present, remove the leftover artifacts created in your current directory (e.g. `amplify` or `amplify-backup`) from the failed pull attempt
-1. Rerun the Amplify CLI `amplify pull --appId <appID> --envName <envName>` command
+2. If present, remove the leftover artifacts created in your current directory (e.g. `amplify` or `amplify-backup`) from the failed pull attempt
+3. Rerun the Amplify CLI `amplify pull --appId <appID> --envName <envName>` command
 
 ### Authentication tokens
 
@@ -80,11 +87,27 @@ This message occurs when running a Amplify CLI `amplify pull --appId <appID> --e
 To resolve this issue,
 
 1. Delete the `config.json` file present at the location `~/.amplify/admin/`
-1. If present, remove the leftover artifacts created in your current directory (e.g. `amplify` or `amplify-backup`) from the failed pull attempt
-1. Rerun the Amplify CLI `amplify pull --appId <appID> --envName <envName>` command
+2. If present, remove the leftover artifacts created in your current directory (e.g. `amplify` or `amplify-backup`) from the failed pull attempt
+3. Rerun the Amplify CLI `amplify pull --appId <appID> --envName <envName>` command
 
 <Callout>
 
 Note, the content of `~/.amplify/admin/config.json` is utilized to store JWTs to vend temporary AWS credentials and should **NOT be shared.
+
+</Callout>
+
+### Overrides
+
+```console
+A flag to disable overrides has been detected, please deploy from a different environment. at buildOverrideDir
+```
+
+This message occurs if the Amplify project has an `override.ts` file present in your resources. Amplify Studio does not support deploying projects containing this file. 
+
+To resolve this error, remove the `override.ts` file and run `amplify push`. Alternatively, you can use Amplify CLI to build and push your resources. But you will not be able to deploy with Amplify Studio.
+
+<Callout>
+
+Resources such a UI Library, Data manager, User management and File browser will not be effected by this behavior.
 
 </Callout>
