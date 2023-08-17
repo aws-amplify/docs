@@ -21,6 +21,15 @@ const fadeIn = keyframes`
   }
 `;
 
+const fadeOut = keyframes`
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+`;
+
 export const FeedbackContainer = styled.div`
   margin: 32px 0;
   div {
@@ -31,13 +40,18 @@ export const FeedbackContainer = styled.div`
     &.down {
       flex-direction: column;
       align-items: flex-start;
-      animation: ${fadeIn} 0.2s ease-in-out 0.3s;
+      animation: ${fadeIn} 0.2s ease-in-out;
       animation-fill-mode: forwards;
     }
   }
 
   &.hide {
     display: none;
+  }
+
+  #start-state.fadeOut {
+    animation: ${fadeOut} 0.2s ease-in-out;
+    animation-fill-mode: forwards;
   }
 `;
 
