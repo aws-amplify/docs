@@ -1631,6 +1631,11 @@ export const directory = {
             filters: ['android', 'ios']
           },
           {
+            title: 'Using with Amplify',
+            route: '/sdk/pubsub/aws-iot-and-amplify',
+            filters: ['ios']
+          },
+          {
             title: 'Working with the API',
             route: '/sdk/pubsub/working-api',
             filters: ['android', 'ios']
@@ -1688,96 +1693,6 @@ export const directory = {
         ]
       }
     }
-  },
-  ui: {
-    productRoot: {
-      title: 'Amplify UI Components',
-      route: '/ui'
-    },
-    items: {
-      api: {
-        title: 'API',
-        items: [
-          {
-            title: 'Connect',
-            route: '/ui/api/connect',
-            filters: ['react-native']
-          }
-        ]
-      },
-      auth: {
-        title: 'Authentication',
-        items: [
-          {
-            title: 'Authenticator',
-            route: '/ui/auth/authenticator',
-            filters: ['react-native', 'flutter']
-          }
-        ]
-      },
-      interactions: {
-        title: 'Interactions',
-        items: [
-          {
-            title: 'Chatbot',
-            route: '/ui/interactions/chatbot',
-            filters: ['react-native']
-          }
-        ]
-      },
-      storage: {
-        title: 'Storage',
-        items: [
-          {
-            title: 'S3 Album',
-            route: '/ui/storage/s3-album',
-            filters: ['react-native']
-          },
-          {
-            title: 'S3 Image',
-            route: '/ui/storage/s3-image',
-            filters: ['react-native']
-          },
-          {
-            title: 'Tracking Events',
-            route: '/ui/storage/tracking-events',
-            filters: ['react-native']
-          },
-          {
-            title: 'Customization',
-            route: '/ui/storage/customization',
-            filters: ['react-native']
-          }
-        ]
-      },
-      customization: {
-        title: 'Customization',
-        items: [
-          {
-            title: 'Theming',
-            route: '/ui/customization/theming',
-            filters: ['react-native']
-          },
-          {
-            title: 'Customizing CSS',
-            route: '/ui/customization/customizing-css',
-            filters: ['react-native']
-          },
-          {
-            title: 'Translations',
-            route: '/ui/customization/translations',
-            filters: ['react-native']
-          }
-        ]
-      }
-    }
-  },
-  'ui-legacy': {
-    productRoot: {
-      title: 'Amplify UI (Legacy)',
-      route: '/ui-legacy'
-    },
-    items: {}
   },
   cli: {
     productRoot: {
