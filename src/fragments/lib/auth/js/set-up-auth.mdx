@@ -1,23 +1,25 @@
-> *This guide provides essential information to help you select and complete the activities you need for your Amplify project. We organized each section around a distinct job or decision point to help you understand your available options, steps to complete, and recommended best practices. For users who want to learn more, we included extra details and explanations in expandable sections within the guide.*
+> *This guide provides essential information to help you select and complete the activities you need for your Amplify project. We organized each section around a distinct job or decision point to help you understand your available options, steps to complete, and recommended best practices.*
 
 In this guide, you will learn how to set up Amplify **Auth**. This includes setting up and connecting your backend resources, determining your integration path, and enabling sign-up, sign-in, and sign-out. We will also provide more context on how resources are managed and created with Amplify to help you make decisions, and understand any long-term impact of those decisions.
+
+## Prerequisites
 
 Before you begin, you will need:
 - [Node.js](https://nodejs.org/) v14.x or later
 - [npm](https://www.npmjs.com/) v6.14.4 or later
 - [git](https://git-scm.com/) v2.14.1 or later
 - A front-end app
-- If you are using Amplify resources you need to [install and configure](/lib/project-setup/prereq/q/platform/js/) the Amplify CLI and have an existing Amplify project or create a new one with `amplify init`
+- If you are want Amplify to set up and manage your backend resources you need to [install and configure](/lib/project-setup/prereq/q/platform/js/) the Amplify CLI. Make sure to also created a new amplify project using `amplify init` in your terminal, or pull in an existing amplify project to your frontend app using `amplify pull`.
 
 ## Set up and connect backend resources
 
-Setting up and connecting your backend resources includes understanding how these resources are managed and created. We will also guide you on the paths to integrating Amplify Auth, using different password formats, and the use of additional authentication security methods, such as Multi-factor authentication.
+We will also guide you on the paths to integrating Amplify Auth and how to set up and integrate your backend resources, and how to connect to these resources in your frontend app to build authentication features.
 
 ### Decide how to create and manage your backend resources
 
-You can create and manage your Authentication resources with Amplify by using the Amplify CLI, Amplify Studio, or create them outside of Amplify with tools such as CDK and CloudFormation. The path we recommend is via the Amplify CLI, which allows you to create new Amazon Cognito resources or import existing ones. However, you can also use the Amplify Studio console to configure authentication or use existing resources and directly connect them to your application using the Amplify Libraries. These tools will help you with resource provisioning, IAM policies and roles for resources, deployments, local testing, continuous integration and deployment (CI/CD), and environment management.
+You can create and manage your Authentication resources with Amplify by using the Amplify CLI, Amplify Studio, or manage them yourself with tools such as CDK and CloudFormation. The path we recommend is via the Amplify CLI, which allows you to create new authentication resources or import existing ones. However, you can also use the Amplify Studio console to configure or use existing resources and directly connect them to your application using the Amplify Libraries. These tools will help you with creating and managing your resources.
 
-With Amplify Auth, you can use a username and password as an authentication method, create a fully custom authentication flow, or use a social provider to validate the identity of the user (known as Federation).
+With Amplify Auth, you can use a username and password as an authentication method, use a social provider Sign In with Google or Sign in With Apple, or create a fully custom authentication flow.
 
 <Accordion title='Understanding Auth high-level concepts' headingLevel='4' eyebrow='Learn more'>
 
@@ -29,20 +31,19 @@ Amplify helps you secure your application while providing an easy sign-in experi
 Common authentication methods and associated risks include: 
 - Username/password which is simple to set up but prone to compromise.
 - Social provider federation which enables easier access for your users but shares data with third parties. 
-- Multi-factor authentication which adds a layer of security at sign-in but may also add friction for your users.
 
 You can improve security credentials and verification for these authentication methods by: 
 - Adding password policies that ensure stronger passwords are created by your users.
 - Require additional contact information from users before they can reset passwords.
-- Enable One-Time-Passwords for MFA flows to improve user verification.
+- Add multi-factor authentication which adds a layer of security at sign-in but may also add friction for your users.
 
 </Accordion>
 
 <br/>
 
-Amplify uses [Amazon Cognito](https://aws.amazon.com/cognito/) as the main authentication provider. Amazon Cognito is a robust user directory service that handles user registration, authentication, account recovery, and other operations. You will be able to work with Amazon Cognito with each of the management methods. If you have not worked with Amazon Cognito before we recommend taking a closer look at Amazon Cognito configuration decisions before you continue.
+Amplify uses [Amazon Cognito](https://aws.amazon.com/cognito/) as the main authentication provider. Amazon Cognito is a robust user directory service that handles user registration, authentication, account recovery, and other operations. If you have not worked with Amazon Cognito before we recommend taking a closer look at Amazon Cognito configuration options before you continue, since some of them are irreversible after your resources are created.
 
-<Accordion title='Review Amazon Cognito configuration decisions' headingLevel='4' eyebrow='Learn more'>
+<Accordion title='Review Amazon Cognito configuration options' headingLevel='4' eyebrow='Learn more'>
 
 Amazon Cognito can be customized based on your security strategy for authentication. However, there are some initial configuration options that cannot be changed after the backend resources are configured:
 
@@ -62,16 +63,6 @@ In this section you will learn more on how to set up your backend resources and 
 
 During this workflow you can set up your password formats. If you have not worked with passwords formats recently we recommend taking a closer look at the best practices before you continue.
 
-<Accordion title='Review password best practices' headingLevel='4' eyebrow='Learn more'>
-
-When you are setting up your password formats for authentication you will want to consider the following best practices:
-
-- Password strength: You can set minimum length and specify character types to fortify user passwords.
-- Two Factor Authentication: You can enable MFA, or implement One-Time-Passwords to add an extra layer of verification.
-- Forgotten passwords: You have the option to require additional verified contact information (e.g. email, phone) or use a validation code in the reset flow.
-
-</Accordion>
-
 #### Set up your Auth backend resources
 
 You can set up your backend resources with the Amplify CLI, Amplify Studio, or use existing resources.
@@ -79,7 +70,7 @@ You can set up your backend resources with the Amplify CLI, Amplify Studio, or u
 <BlockSwitcher>
 <Block name="Amplify CLI (Create)">
 
-To start provisioning auth resources in the backend, go to your project directory and **execute the command**:
+To start provisioning auth resources in your backend, go to your project directory and **execute the following command in your terminal**:
 
 ```bash
 amplify add auth
@@ -143,7 +134,7 @@ This will bootstrap your app to use Amplify with the deployed backend resources.
 
 <Block name="Amplify CLI (Import)">
 
-To import existing Amazon Cognito resources into your Amplify project, **execute the command**:
+To import existing Amazon Cognito resources into your Amplify project, **execute the following command in your terminal**:
 
 ```bash
 amplify import auth
@@ -282,76 +273,27 @@ If your existing UserPool client has a required attribute that is NOT set to mut
 
 ## Determine your Auth integration path
 
-Before you implement Auth on your front-end application, you will want to evaluate the options of using the Authenticator connected UI component, using the Amplify Library APIs, or Cognito Hosted UI for your use case. We recommend using the Authenticator since it creates a sign in and registration experience for your with few lines of code. You can also use Authenticator together with Amplify Libraries methods to extend capabilities when needed.
+Before you implement Auth on your front-end application, you will want to evaluate the options of using the Authenticator connected UI component or using the Amplify Library APIs directly. We recommend using the Authenticator since it creates a sign in and registration experience for your with few lines of code.
 
 ### Compare implementation options
 
 There are a few options to implement Auth depending on how much customization you will need:
 
-|  | Amplify Authenticator | Amplify Libraries | Amplify Hosted UI |
-|:--|:--|:--|:--|
-| Description | Open source drop-in UI component for authentication | Low-level building blocks for implementing authentication | Pre-built sign-up and sign-in UI components hosted by Cognito outside of your application |
-| Benefits | Automatically integrates with your existing Amplify configuration and allows you to easily add the entire authentication flow to your application. You simply add the component to your app and pass it your Amazon Cognito authentication configuration. You can then customize themes to adjust colors and styling as needed. | Gives you full control over the UI and logic implementation. | Cognito Hosted page with basic customization via properties. |
-| Constraints | Dependent on Amplify CLI for provisioning resources. | Building the UI and managing the authentication state is custom built. | Limited ability to manage the look and feel of the Hosted UI page from Cognito. |
+|  | Amplify Authenticator | Amplify Libraries |
+|:--|:--|:--|
+| **Description** | Open source drop-in UI component for authentication | Low-level building blocks for implementing authentication |
+| **Benefits** | Automatically integrates with your existing Amplify configuration and allows you to easily add the entire authentication flow to your application. You can then customize themes to adjust colors and styling as needed. | Gives you full control over the UI and logic implementation. |
+| **Constraints** | Dependent on Amplify CLI for provisioning resources. | Requires the building of screens and frontend logic to enable the sign in and registration experiences. |
 
 <br/>
 
 **Recap:** We recommend using the Authenticator UI component for quick and easy set up and then use the Amplify Libraries to customize the user experience and logic as needed. Once you decide which option will work for your use case you can continue implementing authentication on your front-end application.
 
-## Enable sign-up, sing-in, sing-out, and verify account
+## Building an Authentication experience using the Authenticator
 
-In this section you will set up sign-up, sign-in, and sign-out and then test this functionality. This includes a review of sign-up methods provided by Amplify, the specific user attributes used by Amazon Cognito, how to confirm users after initial sign-up, and the differences between local and global sign-out. This review will help inform your decisions as you add these authentication capabilities using your preferred implementation path - Authenticator, Amplify Libraries, or Hosted UI.
+Creating the login flow can be quite difficult and time consuming to get right. However, Amplify has the Authenticator UI component which you can use that will provide the entire authentication flow for your app, using your backend configuration.
 
-Before you begin, you should have finished [*Set up and connected backend resources with a configured Auth category*](#set-up-and-connect-backend-resources).
-
-Amplify provides two sign-up and sign-in methods to use with your application. 
-- The **username/password** method allows your users to sign-up and sign-in to your application using a username (or email) and password of their choosing. It is enabled by default with Cognito User pools. You can customize the sign-up and sign-in templates, specify attribute fields to include, enable verification, etc.
-- The **social sign-in** method allows your users to sign-in to your application using OAuth connections to Amazon, Apple, Facebook, Google, and more. This set up will include configuration of the provider name, client ID, and other details.
-
-Additionally, you can enable the Multi-factor authentication (MFA) method which adds an extra layer of security for sign-in. This can be set up with SMS text message or Time-based One-Time Password (TOTP) authentication. Once set up, Amazon Cognito will verify the MFA code entered by your users before authentication succeeds.
-
-For many apps, user sign-up and sign-in with a username/password is all that is required. Once authenticated, the app can talk to an API to access and mutate data. We will use the username/password authentication flow to get started. Both [third party social provider federation]( https://docs.amplify.aws/lib/auth/social/q/platform/js/) and [Multi-factor authentication]( https://docs.amplify.aws/lib/auth/mfa/q/platform/js/) can be added after this initial set up.
-
-<Accordion title='Review the sign-up, sign-in, and sign-out workflow' headingLevel='3' eyebrow='Learn more'>
-
-Below is a high-level overview of the workflows for sign-up, sign-in, and sign-out with Amplify authentication:
-
-**Sign-up:** The username/password set up will ask your user for a username (or email) and a password. This should also include any attributes you include in your sign-up from such as address, birthdate, phone, etc. When your end-user submits this information, it is then passed through the `Auth.signUp()` method to your Amazon Cognito User Pool, where a user is created. By default, the user will receive a confirmation message via email or SMS, depending on what you configured, but you have the option to configure auto confirmation. They must then enter the confirmation code to complete the sign-up process. Once the user is verified, their user profile is officially confirmed and is active in the Cognito User Pool. The profile contains the username, password, and any other custom attributes collected during sign-up. This user profile can then be used to sign-in and access your application.
-
-**Sign-in:** The user enters the username/password they created on sign-up and submits the form in your application to sign-in. The application will then call the `Auth.signIn()` method to sign-in the user by passing the username/password to verify and establish a session with Amazon Cognito which will then generate the needed tokens to grant access. Amazon Cognito issues temporary short-lived tokens on sign-in (default of 1 hour) but you can update these settings to keep your users signed in for longer (up to 24 hours).
-
-**Sign-out:** Amplify uses the `Auth.signOut()` method to sign-out the user by ending the current session and revoking the tokens with Amazon Cognito. This clears the user session in the browser and the application will then navigate the user to the sign-in screen.
-
-</Accordion>
-
-### Decide before you build
-
-Before you enable sign-up, sign-in, and sign-out there are a few decisions you will need to know to complete the process. 
-
-#### Which Amazon Cognito attributes will you pass for sign-up?
-
-User attributes (e.g. username, email, etc.) are used to identify your users. These are set up when you configure your Cognito User Pool and cannot be renamed or deleted after they are configured. You will need to know which attributes were configured as required at set up (e.g. email) and make sure your user is prompted to enter this information. You can find this information in the Amazon Cognito console under the *Sign-up experience* tab. You can also add [additional User Pool attributes]( https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html) that are collected from the sign-up form. This includes attributes like address, birthdate, phone, etc. These attributes are not required by default. You can make these additional attributes required but it cannot be changed back to not required once configured.
-
-#### How will you verify users at sign-up?
-
-Once the initial sign-up is done, the user will need to verify and confirm their contact information before their account is activated. This is done by sending a verification code via email or phone number that can be collected on initial sign-up. Email verification asks the user to click a link or enter a code sent to their email address provided during sign-up. Phone verification is done by asking the user to enter the code sent to them in a SMS text message. You can also enable auto-confirmation to skip this step and automatically confirm the user after sign-up. This is accomplished using the `PreSignUp` Lambda trigger which is explained in the [Amazon Cognito documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-sign-up.html).
- 
-#### Do you need local or global sign-out?
-
-The default when passing the `Auth.signOut()` method is a local sign out. This will sign-out the user from a specific application or device and revokes the tokens used for authentication in that session. If you need a global sign-out that revokes all associated tokens, credentials, and sessions across all applications and devices, then you update the method to `Auth.signOut({ global: true })`.
-
-### Add the sign-up, sign-in, and sign-out capabilities
-
-There are three ways to add authentication capabilities to your application: Authenticator UI component, Amplify Libraries, or Hosted UI. Select from the options below to complete the steps to set up a simple username/password authentication for your application.
-- [Option 1: Use pre-built UI components with Authenticator (recommended)](#option-1-use-pre-built-ui-components-with-authenticator)
-- [Option 2: Call Authentication APIs manually with Amplify Libraries](#option-2-call-authentication-apis-manually-with-amplify-libraries)
-- [Option 3: Use pre-built Hosted UI with Amazon Cognito](#option-3-use-pre-built-hosted-ui-with-amazon-cognito)
-
-#### Option 1: Use pre-built UI components with Authenticator
-
-Creating the login flow can be quite difficult and time consuming to get right. However, Amplify has authentication UI components you can use that will provide the entire authentication flow for you, using your configuration specified in your __aws-exports.js__ file.
-
-Amplify has pre-built UI components for React, Vue, and Angular (React Native is currently in developer preview).
+Amplify has pre-built UI components for React, Vue, Angular, React Native, Swift, Android, and Flutter.
 
 <BlockSwitcher>
 <Block name="React">
@@ -471,7 +413,7 @@ Next, import the default theme inside __styles.css__:
 
 ```css
 @import '~@aws-amplify/ui-angular/theme.css';
-````
+```
 
 Next, open __app.component.html__ and add the `amplify-authenticator` component.
 
@@ -497,140 +439,19 @@ The `amplify-authenticator` should wrap sections of your app that you want to pr
 
 Once you add the Authenticator component to your app, you can test the sign-up, sign-in, and sign-out functionality. You can also [customize the Authenticator UI component](https://ui.docs.amplify.aws/react/connected-components/authenticator/customization) to adjust colors and styling as needed.
 
-#### Option 2: Call Authentication APIs manually with Amplify Libraries
-
-You can add the library functionality to enable sign-up, sign-in, and sign-out directly with the Amplify Libraries. You can connect this to an existing UI or create your own.
-
-<BlockSwitcher>
-<Block name="Amplify Library - Sign-up">
-
-Create a new user in the Amazon Cognito User Pool by passing the new user's email address, password, and other attributes to `Auth.signUp()`.
-
-```javascript
-import { Auth } from 'aws-amplify';
-
-async function signUp() {
-  try {
-    const user = await Auth.signUp({
-      username,
-      password,
-      attributes: {
-        email,          // optional
-        phone_number,   // optional - E.164 number convention
-        // other custom attributes 
-      },
-      autoSignIn: { // optional - enables auto sign in after user is confirmed, defaults to false
-        enabled: true,
-      }
-    });
-    console.log(user);
-  } catch (error) {
-    console.log('error signing up:', error);
-  }
-}
-```
-
-</Block>
-<Block name="Confirm Sign-up">
-
-By default, each user that signs up remains in the unconfirmed status until they verify with a confirmation code that was sent to their email or phone number. You can confirm the sign-up after retrieving a confirmation code from the user as shown here.
-
-```js
-import { Auth } from 'aws-amplify';
-
-async function confirmSignUp() {
-  try {
-    await Auth.confirmSignUp(username, code);
-  } catch (error) {
-    console.log('error confirming sign up', error);
-  }
-}
-```
-
-As part of the options parameter, you can specify the `forceAliasCreation` boolean. This is set to `true` by default. If set to `false` and the email or phone number used for sign-up confirmation already exists as an alias for a different user, the API will throw an `AliasExistsException` error. If set to `true`, the API call will migrate the alias from the previous user to a newly created user.
-
-```js
-import { Auth } from 'aws-amplify';
-
-async function confirmSignUp() {
-  try {
-    await Auth.confirmSignUp(username, code, { forceAliasCreation: false });
-  } catch (error) {
-    console.log('error confirming sign up', error);
-  }
-}
-```
-
-</Block>
-<Block name="Sign-in">
-
-You pass the username and password to the `signIn` method of the Auth class to enable username and password sign-in.
-
-```javascript
-import { Auth } from 'aws-amplify';
-
-async function signIn() {
-  try {
-    const user = await Auth.signIn(username, password);
-  } catch (error) {
-    console.log('error signing in', error);
-  }
-}
-```
-
-</Block>
-<Block name="Sign-out">
-
-To set up local sign-out you use the `signOut` method of the Auth class.
-
-```javascript
-import { Auth } from 'aws-amplify';
-
-async function signOut() {
-  try {
-    await Auth.signOut();
-  } catch (error) {
-    console.log('error signing out: ', error);
-  }
-}
-```
-
-You can sign out users from all devices by adding global sign-out. It also invalidates all refresh tokens issued to an user. The user's current access and Id tokens remain valid on other devices until the refresh token expires (access and Id tokens expire one hour after they are issued).
-
-```js
-import { Auth } from 'aws-amplify';
-
-async function signOut() {
-  try {
-    await Auth.signOut({ global: true });
-  } catch (error) {
-    console.log('error signing out: ', error);
-  }
-}
-``` 
-
-</Block>
-</BlockSwitcher>
-
-Once you implement the Amplify Library methods within your application, you can test the sign-up, sign-in, and sign-out functionality.
-
-#### Option 3: Use pre-built Hosted UI with Amazon Cognito
-
-The [Cognito Hosted UI]( https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-app-integration.html#cognito-user-pools-create-an-app-integration) can be set up directly in the console under your Cognito User Pool settings. The default pre-built UI provides you with sign-up and sign-in URLs that can be generated for you automatically by calling `Auth.federatedSignIn()`. You will link your application to these URLs to enable your users to sign-up or sign-in directly with Cognito. Once they are authenticated they will be redirected back to your application with an authorization code in the URL, which will be used by Amplify in exchange for tokens. There is not a built-in sign-out experience for this UI but you can use `Auth.signOut()` as well. You can learn more about [configuring the Hosted UI]( https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-app-idp-settings.html) in the Amazon Cognito documentation.
-
 ### View the created user in the AWS Console
 
-After you test the sign-up, sign-in, and sign-out functionality, you can take a look at the created user in the Amazon Cognito console. To do so, you can use `amplify console auth` to open the console directly from the CLI, or take a look at the existing User Pools in the console. Note the users status should be "CONFIRMED" if you successfully verified the user; however, it can be in "unconfirmed" if the user is not yet verified. You can also check to make sure any other required attributes are updating correctly.
+After creating a new user, you can validate the created user in the Amazon Cognito console. To do so, you can use `amplify console auth` to open the AWS console directly. Note the users status should be `CONFIRMED` if you successfully verified the user; however, it can be in `unconfirmed` if the user is not yet verified. You can also check to make sure your user attributes are updating correctly.
 
 **Recap:** You now have enabled sign-up, sign-in, and sign-out for your authentication and verified its functionality with a test user.
 
 ## Conclusion
 
-Congratulations! You finished the **Set up Amplify Auth** guide. In this guide, you set up and connected to backend resources, compared and determined your Auth integration path, and enabled sign-up, sign-in, and sign-out while verifying they function as expected.
+Congratulations! You finished the **Set up Amplify Auth** guide. In this guide, you set up and connected to backend resources, compared and determined your Auth integration path, and enabled sign-up, sign-in, and sign-out.
 
 ## Next steps
 
-Now that you completed setting up Amplify Auth with username/password you may also want to add some additional features. We recommend:
+Now that you completed setting up Amplify Auth with username/password you may also want to add some additional features. We recommend you learn more about:
   - [Social sign-in (OAuth)](https://docs.amplify.aws/lib/auth/social/q/platform/js/)
   - [Multi-factor authentication](https://docs.amplify.aws/lib/auth/mfa/q/platform/js/)
  
