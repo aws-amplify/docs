@@ -59,7 +59,7 @@ const getCspContent = (context) => {
     return `upgrade-insecure-requests;
       default-src 'none';
       prefetch-src 'self';
-      style-src 'self' 'unsafe-inline';
+      style-src 'self' 'unsafe-inline' *.shortbread.aws.dev;
       font-src 'self' data:;
       frame-src 'self' https://www.youtube-nocookie.com ${ANALYTICS_CSP.all.frame.join(
         ' '
@@ -75,8 +75,7 @@ const getCspContent = (context) => {
       media-src 'self';
       script-src 'unsafe-eval' 'self' ${cspInlineScriptHash} ${ANALYTICS_CSP.alpha.script.join(
       ' '
-    )};
-    `;
+    )};`;
   }
 
   // Prod environment
@@ -84,7 +83,7 @@ const getCspContent = (context) => {
   return `upgrade-insecure-requests;
     default-src 'none';
     prefetch-src 'self';
-    style-src 'self' 'unsafe-inline';
+    style-src 'self' 'unsafe-inline' *.shortbread.aws.dev;
     font-src 'self';
     frame-src 'self' https://www.youtube-nocookie.com ${ANALYTICS_CSP.all.frame.join(
       ' '
@@ -98,9 +97,9 @@ const getCspContent = (context) => {
       ' '
     )} ${ANALYTICS_CSP.prod.img.join(' ')};
     media-src 'self';
-    script-src 'self' ${cspInlineScriptHash} ${ANALYTICS_CSP.prod.script.join(
+    script-src 'self' *.shortbread.aws.dev ${cspInlineScriptHash} ${ANALYTICS_CSP.prod.script.join(
     ' '
-  )} ;
+  )};
   `;
 };
 
@@ -127,6 +126,11 @@ export default class MyDocument extends Document {
             type="font/woff2"
             crossOrigin="anonymous"
           />
+          <script src="https://prod.assets.shortbread.aws.dev/shortbread.js"></script>
+          <link
+            href="https://prod.assets.shortbread.aws.dev/shortbread.css"
+            rel="stylesheet"
+          ></link>
         </Head>
         <body>
           <Main />
