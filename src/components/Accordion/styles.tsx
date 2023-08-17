@@ -40,6 +40,11 @@ export const Details = styled.details`
     padding-inline: var(--padding-inline);
     padding-block: var(--padding-block);
     text-align: left;
+
+    .amplify-icon {
+      display: flex;
+      align-items: center;
+    }
   }
 
   .docs-expander__body__button:hover {
@@ -79,6 +84,12 @@ export const Summary = styled.summary`
     flex-direction: row;
     align-items: center;
     gap: 0.25rem;
+
+    .amplify-icon {
+      svg {
+        height: unset !important;
+      }
+    }
   }
 
   .docs-expander__title {
@@ -86,6 +97,7 @@ export const Summary = styled.summary`
     font-size: 1rem;
     margin: 0;
     color: #000;
+    scroll-padding-top: 100px !important;
   }
 
   .docs-expander__button {
@@ -108,8 +120,6 @@ export const Summary = styled.summary`
   .docs-expander__title__indicator svg {
     position: absolute;
     right: var(--padding-inline);
-    width: 1rem;
-    height: 1rem;
     top: 50%;
     margin-top: -0.5rem;
     transition: transform 0.25s ease-in-out;

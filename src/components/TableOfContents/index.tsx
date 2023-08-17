@@ -56,6 +56,7 @@ function TableOfContents({ children, title, buttonsRef }, ref) {
         headings.push(heading);
       }
     });
+    // console.log(document.getElementById('toc')?.querySelectorAll('a'))
     const headings2 = document.getElementById('toc')?.querySelectorAll('a');
     for (let i = 0; i < headings.length; ++i) {
       const id = headings[i].id;
@@ -78,7 +79,7 @@ function TableOfContents({ children, title, buttonsRef }, ref) {
       };
       headings2[i].onclick = () => {
         if (headings[i].classList.contains('docs-expander__title')) {
-          uniqueId = headings[i].parentNode.parentNode.id;
+          uniqueId = headings[i].parentNode.parentNode.parentNode.id;
         }
         setTimeout(scroll.bind(undefined, uniqueId), 50);
         return false;

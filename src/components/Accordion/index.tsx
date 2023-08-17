@@ -33,12 +33,6 @@ const Accordion: React.FC<AccordionProps> = ({
     // if (expandedHeight > window.innerHeight) {
     //   setCloseButton(true);
     // }
-
-    // children.forEach((child) => {
-    //   if (child.props.mdxType == 'InternalLink' || child.props.mdxType == 'a') {
-    //     checkForHeadings(child);
-    //   }
-    // });
   }, [initialHeight, expandedHeight, closeButton]);
 
   function getHiddenHeight(el) {
@@ -53,28 +47,6 @@ const Accordion: React.FC<AccordionProps> = ({
     clone.remove();
     return height;
   }
-
-  // function checkForHeadings(child) {
-  //   if (child.props && !child.props.mdxType.includes('h')) {
-  //     // console.log(child.props.children)
-  //     checkForHeadings(child.props.children);
-  //     // console.log('keep going', child.props.children);
-  //   } else {
-  //     console.log(children)
-  //     const title = child.props.children as string;
-  //     const notated = createElement(
-  //       child.props.mdxType,
-  //       { ...child.props, inAccordion: true },
-  //       ...child.props.children
-  //     );
-  //     // console.log('notated', notated);
-  //     child = notated;
-
-  //     // console.log('child', child)
-  //   }
-  // }
-
-  // console.log(children)
 
   const headingId = title?.replace(/\s+/g, '-').toLowerCase();
   headingLevel = headingLevel ? 'h' + headingLevel : 'div';
@@ -147,7 +119,7 @@ const Accordion: React.FC<AccordionProps> = ({
   };
 
   return (
-    <Details className="docs-expander" ref={docsExpander}>
+    <Details id={headingId + '-acc'} className="docs-expander" ref={docsExpander}>
       <Summary
         id="docs-expander__summary"
         className="docs-expander__summary"

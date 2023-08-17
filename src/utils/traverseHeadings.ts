@@ -87,7 +87,7 @@ export function traverseHeadings(tree, filterKey: string): string[] {
         if (mdxType === 'Accordion') {
           const children = node.props.children;
 
-          // list all headings within accordions
+          // remove all headings within accordions from headings array
           if (children) {
             children.forEach((child) => {
               checkAccordionforHeadings(child, headings);
