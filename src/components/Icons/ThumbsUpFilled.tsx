@@ -20,8 +20,6 @@ export const ThumbsUpFilledIcon = () => (
   <FilledWrapper>
     <Icon
       ariaLabel="Thumbs up"
-      width="20px"
-      height="20px"
       viewBox={{
         minX: 0,
         minY: 0,

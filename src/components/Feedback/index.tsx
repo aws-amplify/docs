@@ -1,11 +1,11 @@
-import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
+import { forwardRef, useCallback, useState } from 'react';
 import {
   FeedbackContainer,
   VoteButton,
-  VoteButtonReplace,
+  VoteButtonAfter,
   VoteButtonsContainer,
   FeedbackText,
-  Divider,
+  FeedbackTextAfter,
   ButtonStyles
 } from './styles';
 import { trackFeedbackSubmission } from '../../utils/track';
@@ -13,8 +13,7 @@ import {
   ThumbsUpIcon,
   ThumbsDownIcon,
   ThumbsUpFilledIcon,
-  ThumbsDownFilledIcon,
-  CloseIcon
+  ThumbsDownFilledIcon
 } from '../Icons';
 import ExternalLink from '../ExternalLink';
 
@@ -32,6 +31,7 @@ type Feedback = {
   comment?: string;
 };
 
+// eslint-disable-next-line no-empty-pattern
 const Feedback = forwardRef(function Feedback({}, ref) {
   const [state, setState] = useState(FeedbackState.START);
 
@@ -50,7 +50,7 @@ const Feedback = forwardRef(function Feedback({}, ref) {
   let currentState = state;
 
   const onYesVote = useCallback((e) => {
-    // trackFeedbackSubmission(true);
+    trackFeedbackSubmission(true);
     const yesButton = e.currentTarget;
     const noButton = yesButton.nextSibling;
     const feedbackComponent = yesButton.parentElement.parentElement;
@@ -106,10 +106,25 @@ const Feedback = forwardRef(function Feedback({}, ref) {
     }, 300);
   }, []);
 
-  const onNoVote = useCallback(() => {
-    currentState = FeedbackState.DOWN;
-    setState(currentState);
-    // trackFeedbackSubmission(false);
+  const onNoVote = useCallback((e) => {
+    trackFeedbackSubmission(false);
+    const feedbackComponent = e.currentTarget.parentElement.parentElement;
+    const fadeOut = [{ opacity: 0 }];
+    const fadeIn = [{ opacity: 1 }];
+
+    const animationTiming = {
+      duration: 200,
+      iterations: 1,
+      fill: 'forwards'
+    };
+
+    feedbackComponent.animate(fadeOut, animationTiming);
+
+    setTimeout(function() {
+      currentState = FeedbackState.DOWN;
+      feedbackComponent.animate(fadeIn, animationTiming);
+      setState(currentState);
+    }, 200);
   }, []);
 
   return (
@@ -122,7 +137,11 @@ const Feedback = forwardRef(function Feedback({}, ref) {
         switch (state) {
           case 'START':
             return (
-              <div aria-label={c.feedbackQuestion} tabIndex={0}>
+              <div
+                id="start-state"
+                aria-label={c.feedbackQuestion}
+                tabIndex={0}
+              >
                 <FeedbackText>{c.feedbackQuestion}</FeedbackText>
                 <VoteButtonsContainer>
                   <VoteButton
@@ -149,32 +168,35 @@ const Feedback = forwardRef(function Feedback({}, ref) {
           case 'UP':
             return (
               <div className="up">
-                <div>
-                  <ThumbsUpFilledIcon />
-                </div>
-                <p>{c.yesVoteResponse}</p>
+                <VoteButtonsContainer className="up-response">
+                  <VoteButtonAfter className="up-response">
+                    <ThumbsUpFilledIcon />
+                  </VoteButtonAfter>
+                  <FeedbackTextAfter className="up-response">
+                    {c.yesVoteResponse}
+                  </FeedbackTextAfter>
+                </VoteButtonsContainer>
               </div>
             );
           case 'DOWN':
             return (
-              <div>
-                <div className="response">
-                  <p>{c.noVoteResponse}</p>
-                  <div className="down">
-                    <ThumbsUpIcon />
+              <div className="down">
+                <VoteButtonsContainer className="down-response">
+                  <VoteButtonAfter className="down-response">
                     <ThumbsDownFilledIcon />
-                  </div>
-                </div>
-                <div className="expanding-section">
-                  <div className="cta">
-                    <p>{c.noVoteCTA}</p>
-                  </div>
-                  <button>
-                    <ExternalLink href={c.buttonLink} icon={true}>
-                      {c.noVoteCTAButton}
-                    </ExternalLink>
-                  </button>
-                </div>
+                  </VoteButtonAfter>
+                  <FeedbackTextAfter className="down-response">
+                    {c.noVoteResponse}
+                  </FeedbackTextAfter>
+                </VoteButtonsContainer>
+                <FeedbackTextAfter className="cta">
+                  <p>{c.noVoteCTA}</p>
+                </FeedbackTextAfter>
+                <ButtonStyles>
+                  <ExternalLink href={c.buttonLink} icon={true}>
+                    {c.noVoteCTAButton}
+                  </ExternalLink>
+                </ButtonStyles>
               </div>
             );
           default:

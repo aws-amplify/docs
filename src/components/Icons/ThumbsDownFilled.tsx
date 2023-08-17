@@ -5,8 +5,6 @@ export const ThumbsDownFilledIcon = () => (
   <FilledWrapper>
     <Icon
       ariaLabel="Thumbs down"
-      width="20px"
-      height="20px"
       viewBox={{
         minX: 0,
         minY: 0,

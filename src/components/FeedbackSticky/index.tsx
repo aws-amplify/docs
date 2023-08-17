@@ -42,6 +42,8 @@ export default function Feedback({ footerRef, contentsRef, feedbackRef }) {
     const feedback = feedbackRef.current;
     setComponentX(contentsRef.current != null ? 'visibleToc' : 'noToc');
 
+    // console.log(feedback.children.item(0).id == 'start-state')
+
     if (typeof window !== 'undefined') {
       window.addEventListener('touchmove', hideFeedback);
       window.addEventListener('scroll', hideFeedback);
@@ -75,7 +77,8 @@ export default function Feedback({ footerRef, contentsRef, feedbackRef }) {
         } else if (
           container &&
           scrollUp &&
-          !container.classList.contains('close')
+          !container.classList.contains('close') &&
+          feedback.children.item(0).id == 'start-state'
         ) {
           container.classList.remove('initial');
           container.classList.remove('slideOut');
@@ -101,16 +104,20 @@ export default function Feedback({ footerRef, contentsRef, feedbackRef }) {
 
   let currentState = state;
 
-  const onYesVote = useCallback(() => {
+  const onYesVote = useCallback((e) => {
+    e.preventDefault();
+    trackFeedbackSubmission(true);
     currentState = FeedbackState.UP;
     setState(currentState);
-    trackFeedbackSubmission(true);
+    feedbackRef.current.classList.add('hide');
   }, []);
 
-  const onNoVote = useCallback(() => {
+  const onNoVote = useCallback((e) => {
+    e.preventDefault();
+    trackFeedbackSubmission(false);
     currentState = FeedbackState.DOWN;
     setState(currentState);
-    trackFeedbackSubmission(false);
+    feedbackRef.current.classList.add('hide');
   }, []);
 
   const close = useCallback(() => {
