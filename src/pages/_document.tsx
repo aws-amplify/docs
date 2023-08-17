@@ -73,7 +73,7 @@ const getCspContent = (context) => {
         ' '
       )} ${ANALYTICS_CSP.alpha.img.join(' ')}; 
       media-src 'self';
-      script-src 'unsafe-eval' 'self' ${cspInlineScriptHash} ${ANALYTICS_CSP.alpha.script.join(
+      script-src 'unsafe-eval' 'self' *.shortbread.aws.dev ${cspInlineScriptHash} ${ANALYTICS_CSP.alpha.script.join(
       ' '
     )};`;
   }
