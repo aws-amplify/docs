@@ -51,14 +51,29 @@ export function traverseHeadings(tree, filterKey: string): string[] {
         }
       }
     } else if (node.props.mdxType === "FeatureFlags") {
-      // FeatureFlags is special -- just grab the headers from the feature-flags JSON file
-      for (const key in featureFlagsJson) {
-        headings.push([key, key, "h2"]);
-        const features = featureFlagsJson[key].features;
-        for (const feature in features) {
-          headings.push([feature, feature, "h3"]);
+      const featureFlags = node.props.originalType();
+
+      const featureFlagHeadings = (featureFlagNodes, allHeadings) => {
+        if(typeof featureFlagNodes !== "object") return;
+        if (!Array.isArray(featureFlagNodes)) {
+          featureFlagNodes = [featureFlagNodes];
+        }
+        for (const node of featureFlagNodes) {
+          if (typeof node !== "object") continue;
+          if(Array.isArray(node)){ //h3 headers
+            for (const heading of node){
+              const name = heading.props.name;
+              allHeadings.push([name, name, 'h3']);
+            }
+          }else if(node.type === 'h2'){
+            allHeadings.push([node.props.children, node.props.id, node.type]);
+          }else if(node.props.children){
+            featureFlagHeadings(node.props.children, allHeadings)
+          }
         }
       }
+
+      featureFlagHeadings(featureFlags, headings);
     }
   }
   return headings;
