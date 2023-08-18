@@ -36,11 +36,13 @@ export default function Feedback({ footerRef, contentsRef, feedbackRef }) {
   const [state, setState] = useState(FeedbackState.START);
   const containerRef = useRef<HTMLDivElement>(null);
   const [componentX, setComponentX] = useState('');
+  const [componentWidth, setComponentWidth] = useState('');
 
   useEffect(() => {
     const footer = footerRef.current;
     const feedback = feedbackRef?.current;
     setComponentX(contentsRef.current != null ? 'visibleToc' : 'noToc');
+    setComponentWidth(containerRef.current?.offsetWidth + 'px');
 
     if (typeof window !== 'undefined') {
       window.addEventListener('touchmove', hideFeedback);
@@ -86,7 +88,7 @@ export default function Feedback({ footerRef, contentsRef, feedbackRef }) {
         prevScrollPos = currPos;
       }
     }
-  }, [componentX]);
+  }, [componentX, componentWidth]);
 
   // Feedback Component Customizations
   const c = {
@@ -131,6 +133,7 @@ export default function Feedback({ footerRef, contentsRef, feedbackRef }) {
       id="feedback-container"
       ref={containerRef}
       className={state + ' initial ' + componentX}
+      width={componentWidth}
       aria-hidden={state == FeedbackState.UP ? true : false}
     >
       <div className="sizing" aria-hidden="true">

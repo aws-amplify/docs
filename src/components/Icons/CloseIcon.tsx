@@ -11,7 +11,7 @@ const CloseWrapper = styled.span`
     }
     path {
       stroke: currentColor;
-      stroke-width: 2px;
+      stroke-width: 1.5px;
     }
   }
 `;
@@ -19,8 +19,8 @@ const CloseWrapper = styled.span`
 export const CloseIcon = ({ onClick }) => (
   <CloseWrapper>
     <Icon
-      width="16px"
-      height="16px"
+      width="12px"
+      height="12px"
       pathData="m2 2 12 12M14 2 2 14"
       ariaLabel="close"
       onClick={onClick}

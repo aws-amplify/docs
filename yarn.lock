@@ -2292,7 +2292,7 @@
   dependencies:
     "@babel/types" "^7.22.5"
 
-"@babel/helper-module-transforms@^7.12.1", "@babel/helper-module-transforms@^7.15.0", "@babel/helper-module-transforms@^7.22.5", "@babel/helper-module-transforms@^7.22.9":
+"@babel/helper-module-transforms@^7.12.1", "@babel/helper-module-transforms@^7.15.0", "@babel/helper-module-transforms@^7.22.9":
   version "7.22.9"
   resolved "https://registry.yarnpkg.com/@babel/helper-module-transforms/-/helper-module-transforms-7.22.9.tgz#92dfcb1fbbb2bc62529024f72d942a8c97142129"
   integrity sha512-t+WA2Xn5K+rTeGtC8jCsdAH52bjggG5TKRuRrAGNM/mjIbO4GxvlLMFOEz9wXY5I2XQ60PMFsAG2WIcG82dQMQ==
@@ -2470,15 +2470,6 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.14.5"
 
-"@babel/plugin-transform-modules-commonjs@^7.9.0":
-  version "7.22.5"
-  resolved "https://registry.yarnpkg.com/@babel/plugin-transform-modules-commonjs/-/plugin-transform-modules-commonjs-7.22.5.tgz#7d9875908d19b8c0536085af7b053fd5bd651bfa"
-  integrity sha512-B4pzOXj+ONRmuaQTg05b3y/4DuFz3WcCNAXPLb2Q0GT0TrGKGxNKV4jwsXts+StaM0LQczZbOpj8o1DLPDJIiA==
-  dependencies:
-    "@babel/helper-module-transforms" "^7.22.5"
-    "@babel/helper-plugin-utils" "^7.22.5"
-    "@babel/helper-simple-access" "^7.22.5"
-
 "@babel/plugin-transform-parameters@^7.12.1":
   version "7.22.5"
   resolved "https://registry.yarnpkg.com/@babel/plugin-transform-parameters/-/plugin-transform-parameters-7.22.5.tgz#c3542dd3c39b42c8069936e48717a8d179d63a18"
@@ -2595,13 +2586,6 @@
   version "1.0.12"
   resolved "https://registry.yarnpkg.com/@cloudscape-design/global-styles/-/global-styles-1.0.12.tgz#964eea16d60ce0f97f64efa0633f3e4d812b406a"
   integrity sha512-MIe4QBH8pztGrfKpmky38d8OKGxtPbZGeFu/1RPlub12lnI7Dwf+U2E2DVw0vS7tUFAxUscBHZY000XpWHK0fg==
-
-"@cloudscape-design/jest-preset@^2.0.0":
-  version "2.0.17"
-  resolved "https://registry.yarnpkg.com/@cloudscape-design/jest-preset/-/jest-preset-2.0.17.tgz#63821f6940e7418a6e7e72c60e439d343354b5bd"
-  integrity sha512-+2kEmzK69QbxylHqaTj/tYnxoK+JFcWJawRkzdu5zT3ldkG6u8kh9ULvwZ7Bs0rO2F9Ba3gm32K5+rAaheHAMQ==
-  dependencies:
-    "@babel/plugin-transform-modules-commonjs" "^7.9.0"
 
 "@cloudscape-design/test-utils-core@^1.0.0":
   version "1.0.15"

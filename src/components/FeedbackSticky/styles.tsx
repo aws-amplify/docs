@@ -34,13 +34,13 @@ const slideInDesktop = keyframes`
     bottom: -50px;
   }
   to {
-    bottom: 32px;
+    bottom: 16px;
   }
 `;
 
 const slideOutDesktop = keyframes`
   from {
-    bottom: 32px;
+    bottom: 16px;
   }
   to {
     bottom: -50px;
@@ -89,14 +89,15 @@ export const FeedbackContainer = styled.div`
   &.START,
   &.UP,
   &.DOWN {
-    border: 2px solid #d1d5db;
-    min-width: 268px;
+    border: 1.5px solid var(--grey-400, #9ba7b6);
+    // min-width: 268px;
+    width: ${(props) => props.width};
   }
   position: fixed;
-  bottom: 32px;
+  bottom: 16px;
   left: 50%;
   transform: translateX(-50%);
-  border-radius: 16px;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -140,7 +141,7 @@ export const FeedbackContainer = styled.div`
   }
   &.UP {
     background-color: #f2fcf3;
-    animation: ${slideOutMobile} 0.4s ease-in-out 1.5s;
+    // animation: ${slideOutMobile} 0.4s ease-in-out 1.5s;
     animation-fill-mode: forwards;
     div {
       display: flex;
@@ -159,9 +160,8 @@ export const FeedbackContainer = styled.div`
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
-      line-height: 22px;
-      padding-bottom: 12px;
-      border-bottom: 2px solid #e9ebed;
+      line-height: 16px;
+      gap: 12px;
     }
     &.close {
       animation: ${collapse} 0.6s ease-in-out,
@@ -171,6 +171,8 @@ export const FeedbackContainer = styled.div`
     div > .expanding-section {
       display: flex;
       flex-direction: column;
+      margin-top: 4px;
+      border-top: 1.5px solid #d1d5db;
       .cta {
         display: flex;
         flex-direction: row;
@@ -178,8 +180,8 @@ export const FeedbackContainer = styled.div`
         align-items: center;
         margin: 12px 0;
         p {
-          line-height: 22px;
-          font-size: 14px;
+          line-height: 16px;
+          font-size: 12px;
         }
         button {
           padding: 0px;
@@ -204,10 +206,10 @@ export const FeedbackContainer = styled.div`
   }
   ${MQDesktop} {
     &.visibleToc {
-      right: calc(((100vw - 90rem) / 2) + 16.875rem + 32px);
+      right: calc(((100vw - 90rem) / 2) + 16.875rem + 16px);
     }
     &.noToc {
-      right: calc(((100vw - 90rem) / 2) + 32px);
+      right: calc(((100vw - 90rem) / 2) + 16px);
     }
     left: unset;
     transform: unset;
@@ -247,17 +249,16 @@ export const FeedbackContainer = styled.div`
       }
     }
     &.UP {
-      animation: ${slideOutDesktop} 0.4s ease-in-out 1.5s;
+      // animation: ${slideOutDesktop} 0.4s ease-in-out 1.5s;
       animation-fill-mode: forwards;
     }
   }
 `;
 
 export const FeedbackText = styled.p`
-  margin-right: 12px;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: bold;
-  line-height: 22px;
+  line-height: 16px;
   animation: ${fadeIn} 0.4s ease-in-out;
   animation-fill-mode: forwards;
 `;
@@ -265,6 +266,7 @@ export const FeedbackText = styled.p`
 export const VoteButtonsContainer = styled.div`
   display: flex;
   flex-direction: row;
+  gap: 8px;
   height: 16px;
   justify-content: center;
   align-self: center;
@@ -298,11 +300,15 @@ export const VoteButtonsContainer = styled.div`
   &.down {
     display: flex;
     flex-direction: row;
-    width: 66px;
-    position: absolute;
+    // width: 66px;
+    // position: absolute;
     right: 16px;
     > :nth-of-type(1) {
       animation: ${fadeOut} 0.2s ease-in-out, ${slideOver} 0.4s ease-in-out;
+      animation-fill-mode: forwards;
+    }
+    > :nth-of-type(0) {
+      animation: ${slideOver} 0.4s ease-in-out;
       animation-fill-mode: forwards;
     }
   }
@@ -350,10 +356,10 @@ export const ButtonStyles = styled.span`
     justify-content: center;
     position: relative;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 800;
-    border-radius: 20px;
-    border: 2px solid;
+    border-radius: 4px;
+    border: 1.5px solid;
     padding: 4px 20px;
     span {
       cursor: pointer;
@@ -368,10 +374,9 @@ export const ButtonStyles = styled.span`
 `;
 
 export const Divider = styled.div`
-  width: 2px;
+  width: 1.5px;
   height: 20px;
   left: 32px;
   background: #e9ebed;
   align-self: center;
-  margin: 0 12px;
 `;

@@ -6,7 +6,7 @@ export const FilledWrapper = styled.span`
     vertical-align: top;
     path {
       stroke: currentColor;
-      stroke-width: 2px;
+      stroke-width: 1.5px;
       stroke-linejoin: round;
       fill: none;
       &.filled {
