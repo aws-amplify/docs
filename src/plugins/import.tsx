@@ -83,7 +83,7 @@ module.exports = (async () => {
         });
         tree.children.splice(index + 1, 0, {
           type: 'import',
-          value: `import Accordion from "/src/components/Accordion";`
+          value: `import { YoutubeEmbed } from "/src/components/YoutubeEmbed";`
         });
         addedImports = true;
       }
