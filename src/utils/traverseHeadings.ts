@@ -4,35 +4,6 @@ import {
 } from '../components/UiComponentProps';
 import featureFlagsJson from '../components/FeatureFlags/feature-flags.json';
 
-function checkAccordionforHeadings(child, headings) {
-  if (
-    child?.props &&
-    !(child.props.mdxType === 'h2' || child.props.mdxType === 'h3')
-  ) {
-    checkAccordionforHeadings(child.props.children, headings);
-  } else if (
-    child?.props &&
-    (child.props.mdxType === 'h2' || child.props.mdxType === 'h3')
-  ) {
-    headings.forEach((h) => {
-      if (
-        h.includes(child.props.children) &&
-        h.includes(child.props.id) &&
-        h.includes(child.props.mdxType)
-      ) {
-        headings.splice(headings.indexOf(h), 1);
-      }
-    });
-  } else {
-    // check within children that don't have props i.e. witin blockswitcher
-    if (typeof child !== 'string') {
-      child?.forEach((c) => {
-        checkAccordionforHeadings(c.props?.children, headings);
-      });
-    }
-  }
-}
-
 export function traverseHeadings(tree, filterKey: string): string[] {
   if (!Array.isArray(tree)) {
     tree = [tree];
