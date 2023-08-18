@@ -18,7 +18,7 @@ export function YoutubeEmbed({
     <iframe
       width={width}
       height={height}
-      sandbox="allow-scripts allow-same-origin"
+      sandbox="allow-scripts allow-same-origin allow-popups"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
       allowFullScreen
       src={`https://www.youtube-nocookie.com/embed/${embedId}`}
