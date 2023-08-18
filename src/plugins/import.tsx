@@ -15,6 +15,10 @@ module.exports = (async () => {
         });
         tree.children.splice(index + 1, 0, {
           type: 'import',
+          value: `import InlineFilter from "/src/components/InlineFilter";`
+        });
+        tree.children.splice(index + 1, 0, {
+          type: 'import',
           value: `import FilterContent from "/src/components/FilterContent";`
         });
         tree.children.splice(index + 1, 0, {
