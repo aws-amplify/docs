@@ -20,18 +20,10 @@ export default function QuickstartResources() {
       </View>
       <Flex wrap={'wrap'} justifyContent={'center'} width="100%" gap="2em">
         <View width={{ base: '90%', large: '40%' }}>
-          <YoutubeEmbed
-            src="https://www.youtube-nocookie.com/embed/8BUSqSkhqtw"
-            width="600"
-            height="350"
-          />
+          <YoutubeEmbed embedId="8BUSqSkhqtw" width="600" height="350" />
         </View>
         <View width={{ base: '90%', large: '40%' }}>
-          <YoutubeEmbed
-            src="https://www.youtube-nocookie.com/embed/WMKVE98hEzE"
-            width="600"
-            height="350"
-          />
+          <YoutubeEmbed embedId="WMKVE98hEzE" width="600" height="350" />
         </View>
       </Flex>
     </Flex>
