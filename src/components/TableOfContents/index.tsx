@@ -65,10 +65,10 @@ function TableOfContents({ children, title, buttonsRef }, ref) {
         setTimeout(scroll.bind(undefined, uniqueId), 50);
         return false;
       };
-      // headings2[i].onclick = () => {
-      //   setTimeout(scroll.bind(undefined, uniqueId), 50);
-      //   return false;
-      // };
+      headings2[i].onclick = () => {
+        setTimeout(scroll.bind(undefined, uniqueId), 50);
+        return false;
+      };
     }
     headers = Array.from(headings).map((heading) => heading.id);
     headerQueries = headers.map((header) => {
