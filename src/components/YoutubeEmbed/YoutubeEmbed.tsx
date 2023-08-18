@@ -1,5 +1,5 @@
 type YoutubeEmbedProps = {
-  /** Embed Id for the Youtube video */
+  /** Embed Id for the Youtube video. Can include specific start time */
   embedId: string;
 
   /** Width of the Youtube embed */
