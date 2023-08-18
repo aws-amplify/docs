@@ -1,5 +1,3 @@
-import featureFlagsJson from "../components/FeatureFlags/feature-flags.json";
-
 export function traverseHeadings(tree, filterKey: string): string[] {
   if (!Array.isArray(tree)) {
     tree = [tree];
