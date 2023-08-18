@@ -1,6 +1,12 @@
 > *This guide provides essential information to help you select and complete the activities you need for your Amplify project. We organized each section around a distinct job or decision point to help you understand your available options, steps to complete, and recommended best practices.*
 
-In this guide you will set up sign-up, sign-in, and sign-out using the Amplify Libraries and then test this functionality. This includes a review of sign-up methods provided by Amplify, the specific user attributes used by Amazon Cognito, how to confirm users after initial sign-up, and the differences between local and global sign-out.
+In this guide you will set up sign-up, sign-in, and sign-out using the Amplify Libraries and then test this functionality. This includes a review of sign-up methods provided by Amplify, the specific user attributes used by Amazon Cognito, how to confirm users after initial sign-up, and the differences between local and global sign-out. Once set up you can connect it to your frontend UI. 
+
+<Callout>
+
+This guide is for those who want to set up Amplify Auth with the Amplify Libraries. If you want to create a sign in and registration experience for your app with a few lines of code we recommend using the [Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator) which provides a customizable UI and complete authentication flows.
+
+</Callout>
 
 Before you begin, you should have finished [*'Set up and connect backend resources'*](/lib/auth/set_up_auth#set-up-and-connect-backend-resources) with a configured Auth category.
 
@@ -192,6 +198,45 @@ async function confirmSignUp() {
 ```
 </Block>
 </BlockSwitcher>
+
+### Auto sign in after sign up
+
+If you enabled `autoSignIn`, the `sign up` function will dispatch `autoSignIn` hub event after successful confirmation.
+If authentication was successful, the event will contain `CognitoUser` in data object. If auto sign in failed, it will dispatch `autoSignIn_failure` event.
+
+```js
+import { Hub } from 'aws-amplify';
+
+function listenToAutoSignInEvent() {
+  Hub.listen('auth', ({ payload }) => {
+    const { event } = payload;
+    if (event === 'autoSignIn') {
+      const user = payload.data;
+      // assign user
+    } else if (event === 'autoSignIn_failure') {
+      // redirect to sign in page
+    }
+  })
+}
+
+```
+
+### Custom Attributes
+
+To create a custom attribute during your sign-up process, add it to the attributes field of the `signUp` method prepended with `custom:`.
+
+```js
+Auth.signUp({
+  username,
+  password,
+  attributes: {
+    email,
+    'custom:favorite_flavor': 'Cookie Dough'  // custom attribute, not standard
+  }
+})
+```
+
+Amazon Cognito does not dynamically create custom attributes on sign up. In order to use a custom attribute, the attribute must be first [created in the user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html). To open the User Pool to create custom attributes using the Amplify ClI, run `amplify console auth`. If you are not using the Amplify CLI, you can view the user pool by visiting the AWS console and opening the Amazon Cognito dashboard.
 
 ### Sign in
 
