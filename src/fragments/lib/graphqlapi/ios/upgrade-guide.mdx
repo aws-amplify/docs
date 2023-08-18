@@ -8,7 +8,7 @@ AWS AppSync SDK for iOS will be in Maintenance for 12 months i.e until September
 
 AWS Amplify provides APIs for querying, mutating, and subscribing to data in AppSync with less configuration overhead. Here's an example of running a query in the AWS AppSync SDK for iOS (Maintenance mode) vs. AWS Amplify API category:
 
-**Before: AWS AppSync SDK for iOS (Maintenance mode):**
+**AWS AppSync SDK for iOS (Maintenance mode):**
 ```swift
 let mutationInput = CreateTodoInput(name: "Use AppSync", description:"Realtime and Offline")
 
@@ -23,10 +23,25 @@ appSyncClient?.perform(mutation: CreateTodoMutation(input: mutationInput)) { (re
 }
 ```
 
-**After: AWS Amplify:**
-1. Remove AppSync SDK from your packages 
+**Amplify Library for Swift:**
+1. Update Amplify CLI to the latest version
+```
+amplify upgrade
+```
 
-2. Add **AWSAPIPlugin** from Amplify.
+2. The version should be at least 12.3.0
+
+```
+amplify --v # at least 12.3.0
+```
+
+3. Run `amplify codegen types` to generate the latest **API.swift**
+
+4. In your app, remove the AppSync SDK dependency from your packages
+
+5. Add **AWSAPIPlugin** from Amplify
+
+6. Update your code to use **Amplify.API** by creating a GraphQL request using the types from **API.swift**
 
 ```swift
 let mutationInput = CreateTodoInput(name: "Use AWSAPIPlugin",
