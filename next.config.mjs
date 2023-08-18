@@ -70,7 +70,7 @@ export default async (phase, { defaultConfig }) => {
     },
     exportPathMap,
     trailingSlash: true,
-    transpilePackages: ['@algolia/autocomplete-shared'],
+    transpilePackages: ['@algolia/autocomplete-shared', 'next-image-export-optimizer'],
     // eslint-disable-next-line @typescript-eslint/require-await
     async headers() {
       return [
