@@ -1519,5 +1519,12 @@
     "cloudwatchlogs",
     "userids"
   ],
-  "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"]
+  "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
+  "patterns": [
+    {
+      "name": "youtube-embed-ids",
+      "pattern": "/embedId=\".*\" /"
+    }
+  ],
+  "ignoreRegExpList": ["youtube-embed-ids"]
 }
