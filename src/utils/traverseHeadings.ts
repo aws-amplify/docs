@@ -1,4 +1,3 @@
-import {headerNames, propsAreEmptyByTag} from "../components/UiComponentProps";
 import featureFlagsJson from "../components/FeatureFlags/feature-flags.json";
 
 export function traverseHeadings(tree, filterKey: string): string[] {
@@ -53,14 +52,6 @@ export function traverseHeadings(tree, filterKey: string): string[] {
           headings.push([node.props.children, node.props.id, mdxType]);
         }
       }
-    } else if (node.props.mdxType === "UiComponentProps") {
-      // UiComponentProps is special -- just grab the generated headers from the propType
-      const {propType, tag} = node.props;
-      if (propsAreEmptyByTag({propType, componentTag: tag})) continue;
-      if (!("useTableHeaders" in node.props) || !node.props.useTableHeaders)
-        continue;
-      const sectionId = `props-${propType}-${tag}`;
-      headings.push([headerNames[propType], sectionId, "h2"]);
     } else if (node.props.mdxType === "FeatureFlags") {
       // FeatureFlags is special -- just grab the headers from the feature-flags JSON file
       for (const key in featureFlagsJson) {
