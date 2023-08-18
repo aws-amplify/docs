@@ -63,10 +63,6 @@ module.exports = (async () => {
         });
         tree.children.splice(index + 1, 0, {
           type: 'import',
-          value: `import FeatureFlags from "/src/components/FeatureFlags";`
-        });
-        tree.children.splice(index + 1, 0, {
-          type: 'import',
           value: `import {AmplifyAuthenticator, AmplifySignOut} from "@aws-amplify/ui-react";`
         });
         tree.children.splice(index + 1, 0, {
