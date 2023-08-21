@@ -33,10 +33,10 @@ export const FRAMEWORK_FILTER_OPTIONS = [
   "flutter"
 ];
 
-const INTEGRATION_FILTER_OPTIONS = [
+const INTEGRATION_FILTER_OPTIONS = [...new Set([
   ...PLATFORM_FILTER_OPTIONS,
   ...FRAMEWORK_FILTER_OPTIONS,
-];
+])];
 
 export const filterOptionsByName = {
   platform: PLATFORM_FILTER_OPTIONS,

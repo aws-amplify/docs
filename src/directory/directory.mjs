@@ -180,12 +180,12 @@ export const directory = {
           {
             title: 'Working with files and attachments',
             route: '/lib/graphqlapi/working-with-files',
-            filters: ['js']
+            filters: ['js', 'ios']
           },
           {
             title: 'Optimistic UI',
             route: '/lib/graphqlapi/optimistic-ui',
-            filters: ['js']
+            filters: ['js', 'ios']
           },
           {
             title: 'Cancel API requests',
@@ -213,9 +213,9 @@ export const directory = {
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
-            title: 'Upgrade guide from AppSync SDK (V2)',
+            title: 'Upgrade guide from AppSync SDK',
             route: '/lib/graphqlapi/upgrade-guide',
-            filters: ['js']
+            filters: ['js', 'ios']
           }
         ]
       },
