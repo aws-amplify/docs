@@ -171,7 +171,7 @@ export const trackExpanderOpen = (expanderId) => {
     event: {
       type: 'click',
       name: 'ExpanderOpen',
-      id: expanderId
+      expanderId
     }
   };
 
