@@ -3,22 +3,32 @@ export const meta = {
   description: `Learn more about how to create and update data using GraphQL APIs in Amplify`
 };
 
+<InlineFilter filters={["js", "react-native"]}>
+
+Test
+
+</InlineFilter>
+
+<InlineFilter filter="ios">
+
 import ios0 from '/src/fragments/lib/graphqlapi/ios/mutate-data.mdx';
 
 <Fragments fragments={{ ios: ios0 }} />
+
+</InlineFilter>
+
+<InlineFilter filter={"android"}>
 
 import android1 from '/src/fragments/lib/graphqlapi/android/mutate-data.mdx';
 
 <Fragments fragments={{ android: android1 }} />
 
-import js2 from '/src/fragments/lib/graphqlapi/js/mutate-data.mdx';
+</InlineFilter>
 
-<Fragments fragments={{ js: js2 }} />
-
-import reactnative0 from '/src/fragments/lib/graphqlapi/js/mutate-data.mdx';
-
-<Fragments fragments={{ 'react-native': reactnative0 }} />
+<InlineFilter filter={"flutter"}>
 
 import flutter3 from '/src/fragments/lib/graphqlapi/flutter/mutate-data.mdx';
 
 <Fragments fragments={{ flutter: flutter3 }} />
+
+</InlineFilter>
