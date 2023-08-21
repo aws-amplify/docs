@@ -6,7 +6,6 @@ import { ContentStyle, ChapterTitleStyle } from './styles';
 import MobileMenuIcons from '../MobileMenuIcons';
 import { useRef, useState } from 'react';
 import { MQDesktop } from '../media';
-import FeedbackSticky from '../FeedbackSticky';
 import Feedback from '../Feedback';
 import LastUpdatedDatesProvider from '../LastUpdatedProvider';
 
@@ -76,13 +75,6 @@ export default function MetaContent({
               <NextPrevious url={url} filterKey={filterKey} />
             </CodeBlockProvider>
           </div>
-          {onDesktop && (
-            <FeedbackSticky
-              footerRef={footerRef}
-              contentsRef={contentsRef}
-              feedbackRef={feedbackRef}
-            />
-          )}
         </ContentStyle>
         <TableOfContents
           title={title}
