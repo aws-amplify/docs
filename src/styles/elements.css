@@ -206,6 +206,7 @@ tr {
 
 img {
   max-width: 100%;
+  height: auto;
 }
 
 tt {
@@ -248,11 +249,11 @@ span > code {
   border-radius: 0.25rem;
 }
 
-h1 > code, 
-h2 > code, 
-h3 > code, 
-h4 > code, 
-h5 > code, 
+h1 > code,
+h2 > code,
+h3 > code,
+h4 > code,
+h5 > code,
 h6 > code {
   font-size: 0.8125em;
   vertical-align: text-bottom;
