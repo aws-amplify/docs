@@ -1,8 +1,334 @@
 export const meta = {
-  title: `Connect a data stack`,
-  description: `Learn more about connect to an existing data stack.`
+  title: `Connect your app code to the API`,
+  description: `Learn how to connect your app code to the API.`
 };
 
-import js0 from '/src/fragments/lib/graphqlapi/js/setup/connect.mdx';
+> *This guide provides essential information to help you select and complete the activities you need for your Amplify project. We organized each section around a distinct job or decision point to help you understand your available options, steps to complete, and recommended best practices.*
 
-<Fragments fragments={{ js: js0 }} />
+In this guide, you will connect your client to point to the AWS AppSync API endpoint and connect your application code to the data stack by connecting and configuring the Amplify Libraries. We will review how to install and configure Amplify Libraries to help you complete this task.
+
+Before you begin, you will need:
+- An AWS AppSync API already set up. For guidance on how to build a GraphQL API, see [Designing a GraphQL API in AWS AppSync](https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html)
+- An application set up. For instructions on setting up an app, see [Project Setup: Create your application](https://docs.amplify.aws/lib/project-setup/create-application/q/platform/js/)
+- [npm installed](https://docs.npmjs.com/getting-started)
+- A data stack deployed and configured
+
+## Review the required configuration
+
+You will need to configure your client to point to the AWS AppSync API endpoint. This includes understanding how to configure the Amplify API category and update the authentication type. Additionally, knowing the differences between authentication types can be helpful if you did not set up the data stack yourself.
+
+### Configure the client to point to the AWS AppSync API endpoint
+
+You can use existing AWS AppSync resources by referencing the AWS AppSync API endpoint and configuring the parameters in your app. The API URL, ID, and Key can be found in the AWS AppSync console in the Settings section. You will need to know your Authentication type to complete this step. The options for Authentication type are `API_KEY`, `AWS_IAM`, `AMAZON_COGNITO_USER_POOLS`, and `OPENID_CONNECT`.
+
+<Accordion title='Review differences between authentication types' headingLevel='4' eyebrow='Learn more'>
+
+The following table compares the different authentication types and their use cases. 
+
+| **Recommended use case** | **Strategy** | **Provider** |
+|---|---|---|
+| Public data access where users or devices are anonymous. Anyone with the AWS AppSync API key is granted access. | [`public`]() | `apiKey` |
+| Recommended for public data access in a production environment, or where unauthenticated users or devices are granted permissions using AWS IAM controls. | [`public`]() | `iam` |
+| Per-user data access. Access is restricted to the "owner" of a record. Leverages `amplify add auth` Cognito user pool by default. | [`owner`]() | `userPools` / `oidc` |
+| Any signed-in data access. Unlike owner-based access, **any** signed-in user has access. | [`private`]() | `userPools` / `oidc` / `iam` |
+| Per-user group data access. A specific or dynamically configured group of users have access. | [`group`]() | `userPools` / `oidc` |
+| Define your own custom authorization rule within a Lambda function. | [`custom`]() | `function` |
+
+</Accordion>
+
+<br/>
+
+Choose your authentication type from the tabs below and configure the client by updating the following details:
+
+<BlockSwitcher>
+<Block name="API_KEY">
+
+```javascript
+const myAppConfig = {
+  // ...
+  aws_appsync_graphqlEndpoint:
+    'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
+  aws_appsync_region: 'us-east-1',
+  aws_appsync_authenticationType: 'API_KEY',
+  aws_appsync_apiKey: 'da2-xxxxxxxxxxxxxxxxxxxxxxxxxx'
+  // ...
+};
+
+Amplify.configure(myAppConfig);
+```
+
+</Block>
+<Block name="AWS_IAM">
+
+```javascript
+const myAppConfig = {
+  // ...
+  aws_appsync_graphqlEndpoint:
+    'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
+  aws_appsync_region: 'us-east-1',
+  aws_appsync_authenticationType: 'AWS_IAM'
+  // ...
+};
+
+Amplify.configure(myAppConfig);
+```
+
+</Block>
+<Block name="AMAZON_COGNITO_USER_POOLS">
+
+```javascript
+const myAppConfig = {
+  // ...
+  aws_appsync_graphqlEndpoint:
+    'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
+  aws_appsync_region: 'us-east-1',
+  aws_appsync_authenticationType: 'AMAZON_COGNITO_USER_POOLS' // You have configured Auth with Amazon Cognito User Pool ID and Web Client ID
+  // ...
+};
+
+Amplify.configure(myAppConfig);
+```
+
+</Block>
+<Block name="OPENID_CONNECT">
+
+To call an API that's authenticated with OpenID Connect, you need to complete 2 steps:
+
+1. Ensure that the client configuration includes the `OPENID_CONNECT` authentication type
+2. Call `Auth.federatedSignIn(...)` to sign in to an authenticated session
+
+If sign in was successful, `call API.graphql(...)` to make your API requests.
+
+```javascript
+const myAppConfig = {
+  // ...
+  aws_appsync_graphqlEndpoint:
+    'https://xxxxxx.appsync-api.us-east-1.amazonaws.com/graphql',
+  aws_appsync_region: 'us-east-1',
+  aws_appsync_authenticationType: 'OPENID_CONNECT' // Before calling API.graphql(...) is required to do Auth.federatedSignIn(...) check authentication guide for details.
+  // ...
+};
+
+Amplify.configure(myAppConfig);
+```
+
+</Block>
+</BlockSwitcher>
+
+#### Using with an AWS AppSync custom domain name
+
+[Custom domain names](https://docs.aws.amazon.com/appsync/latest/devguide/custom-domain-name.html) can be used to create a memorable endpoint with a domain name of your choice. These can have any format, but must end with `/graphql` (see [URIs, Routes](https://graphql.org/learn/serving-over-http/#uris-routes) on the GraphQL website). Using custom domain names will impact how you enter your `graphqlEndpoint`:
+
+```javascript
+const myAppConfig = {
+  // ...
+  aws_appsync_graphqlEndpoint: 'https://api.yourdomain.com/graphql', // <- Provide your custom domain here
+  aws_appsync_region: 'us-east-1',
+  aws_appsync_authenticationType: 'API_KEY' // All auth modes are supported
+  // ...
+};
+
+Amplify.configure(myAppConfig);
+```
+
+<Accordion title='Using a non-AppSync GraphQL server' headingLevel='3' eyebrow='Learn more'>
+
+You also have the option to use a non-AppSync GraphQL server. You will need to configure the endpoint URL in your app’s configuration to access a non-AppSync GraphQL API with your app. Add the following steps to your setup:
+
+```js
+import { Amplify, API } from 'aws-amplify';
+import awsconfig from './aws-exports';
+
+// Considering you have an existing aws-exports.js configuration file
+Amplify.configure(awsconfig);
+
+// Configure a custom GraphQL endpoint
+Amplify.configure({
+  API: {
+    graphql_endpoint: 'https:/www.example.com/my-graphql-endpoint'
+  }
+});
+```
+
+#### Set custom request headers for non-AppSync GraphQL APIs
+
+When working with a non-AppSync GraphQL endpoint, you may need to set request headers for authorization purposes. This is done by passing a `graphql_headers` function into the configuration:
+
+```js
+Amplify.configure({
+  API: {
+    graphql_headers: async () => ({
+      'My-Custom-Header': 'my value'
+    })
+  }
+});
+```
+
+#### Signing request with IAM
+
+You can sign requests automatically with AWS Identity Access Management (IAM) for GraphQL requests that are processed through Amazon API Gateway. Add the `graphql_endpoint_iam_region` parameter to your GraphQL configuration statement to enable signing:
+
+```js
+Amplify.configure({
+  API: {
+    graphql_endpoint: 'https://www.example.com/my-graphql-endpoint',
+    graphql_endpoint_iam_region: 'my_graphql_apigateway_region'
+  }
+});
+```
+
+</Accordion>
+
+<br/>
+
+At this point, your client is now configured to point to your AWS AppSync API endpoint and you updated your authentication details based on the auth types you are using. Now you're ready to call your GraphQL API.
+
+[TODO]: # (Follow up on the following codegen section for better placement. May be shifted to a different section.)
+
+## Use Amplify codegen to generate queries, mutations, and subscriptions 
+
+Using the `amplify add codegen` command, you can add an AWS AppSync API that is created using the AWS console. If your API is in a different Region than your current Region, the command asks you to choose the Region. If you are adding codegen outside of an initialized Amplify project, provide your introspection schema named `schema.json` in the same directory that you make the add codegen call from. 
+
+<Callout>
+
+__Note:__ If you use the --apiId flag to add an externally created AWS AppSync API, such as one created in the AWS console, you will not be able to manage this API from the Amplify CLI with commands such as `amplify api update` when performing schema updates. You cannot add an external AWS AppSync API when outside of an initialized project.
+
+</Callout>
+
+```bash
+amplify add codegen --apiId <apiId>
+```
+Executing this command will generate the queries, mutations, and subscriptions within the src/graphql folder.
+
+## Install and configure the Amplify Libraries
+
+Add the `aws-amplify` package to your app with `yarn` or `npm`. This is the main library for working with Amplify Libraries in your projects. This will include connecting your app with the GraphQL endpoint.
+
+Add Amplify to your app with `yarn` or `npm`:
+
+```bash
+npm install aws-amplify @aws-amplify/ui-react
+```
+
+In your app's entry point, specifically **App.js** (Expo) or **index.js** (React Native CLI), import and load the configuration file:
+
+```javascript
+import { Amplify, API, graphqlOperation } from 'aws-amplify';
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
+```
+
+If you are using `Angular`, `NextJS`, or `VueJS`, please review the following additional details for installing the Amplify Libraries:
+
+<BlockSwitcher>
+<Block name="Angular">
+
+Inside the `amplify-app` directory, install the Amplify Angular Library and run your app:
+
+```bash
+npm install --save aws-amplify @aws-amplify/ui-angular
+
+npm start
+```
+
+The `@aws-amplify/ui-angular` package is a set of Angular components and an Angular provider that helps integrate your application with the AWS Amplify Library.
+
+<Callout>
+
+**Angular CLI output warnings:** If you encounter optimization bailouts warnings using Angular 9+ due to CommonJS or AMD dependencies, you can use this [gist](https://gist.github.com/wlee221/6d98d96740bea6f53327b4db4a432616) to remove them. See the [Angular website](https://angular.io/guide/build#configuring-commonjs-dependencies) for more details.
+
+</Callout>
+
+#### Strictly typing `aws-exports`
+
+If you have TypeScript [strict mode](https://www.typescriptlang.org/tsconfig/#strict) on and see the error
+
+```
+Could not find a declaration file for module './aws-exports'. 'aws-exports.js' implicitly has an 'any' type.
+```
+
+Create a `aws-exports.d.ts` file on the same level as `aws-exports` with the following content:
+
+```ts
+declare const awsmobile: Record<string, any>
+export default awsmobile;
+```
+
+#### Importing the Amplify Angular UI Module
+
+Add the **Amplify Authenticator UI Module** to `src/app/app.module.ts`:
+
+```ts
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+
+import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    /* configure App with AmplifyAuthenticatorModule */
+    AmplifyAuthenticatorModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
+
+</Block>
+
+<Block name="NextJS">
+
+The first step to using Amplify in the client is to install the necessary dependencies:
+
+```bash
+npm install aws-amplify @aws-amplify/ui-react
+```
+
+The `aws-amplify` package is the main library for working with Amplify in your apps. The `@aws-amplify/ui-react` package includes React-specific UI components that you can use to build your app UI. To learn more about Amplify UI visit our [documentation](https://ui.docs.amplify.aws/).
+
+</Block>
+
+<Block name="VueJS">
+
+The first step to using Amplify in the client is to install the necessary dependencies:
+
+<Block name="NPM">
+
+```
+npm install aws-amplify @aws-amplify/ui-vue
+```
+
+</Block>
+
+<Callout>
+
+If you are using Vue 2, please check out our legacy [documentation](https://github.com/aws-amplify/amplify-ui/tree/legacy/legacy/amplify-ui-vue). For Vite installs check out this [documentation](https://ui.docs.amplify.aws/vue/getting-started/installation#vite). 
+
+</Callout>
+
+The `@aws-amplify/ui-vue` package is a set of components that make it easy to integrate functionality like end-to-end authentication flows. 
+
+</Block>
+</BlockSwitcher>
+
+Well done! You now have your Amplify Libraries set up and configured.
+
+## Conclusion
+
+Congratulations! You have finished the **Connect your app code to the API** guide. In this guide, you reviewed the required configuration and installed and configured Amplify Libraries.
+
+## Next steps
+
+Our recommended next steps include using the API to mutate and query data. You can also review how to subscribe to real-time events to look for mutations in your data. Some resources that will help with this work include:
+- [Create, update, and delete application data](https://docs.amplify.aws/lib/graphqlapi/mutate-data/q/platform/js/)
+- [Read application data](https://docs.amplify.aws/lib/graphqlapi/query-data/q/platform/js/)
+- [Subscribe to real-time events](https://docs.amplify.aws/lib/graphqlapi/subscribe-data/q/platform/js/)
