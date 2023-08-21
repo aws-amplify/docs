@@ -1,8 +1,14 @@
-The Auth category supports Multi-factor Authentication (MFA) for user sign-in flows. MFA is an extra layer of security used to make sure that people trying to gain access to an online account are who they say they are. It requires users to provide additional information to verify their identity. The category supports the following MFA methods:
-* SMS
-* TOTP (Time-based One-time Password)
+The Auth category supports Multi-factor Authentication (MFA) for user sign-in flows. MFA is an extra layer of security 
+used to make sure that users trying to gain access to an account are who they say they are. It requires users to provide 
+additional information to verify their identity. The category supports the following MFA methods:
+
+* [SMS](#multi-factor-authentication-with-sms)
+* [TOTP](#multi-factor-authentication-with-totp) (Time-based One-time Password)
 
 ## Set Up Backend Resources
+
+Below are the steps you can use to set up MFA using SMS or TOTP with the Amplify CLI. The Amplify libraries are designed to work with 
+MFA even if you have set up your Amazon Cognito resources separately.
 
 <Callout warning>
 
@@ -58,9 +64,10 @@ Therefore it is recommended to use the `updateMFAPreference` API to set the MFA 
 
 </Callout>
 
-### Adding phone number during Sign Up
+### Enabling SMS for MFA during Sign Up
 
-Sign up users normally with the chosen `Username` type and password. `"phone_number"` will be required in the `userAttributes` if SMS MFA is ON, or manually enabled for the user. Note that if the username attribute is the `phone_number`, then adding a separate attribute for phone number is not required during sign up.
+You will need to pass `phone_number` as a user attribute to enable SMS MFA for your users during sign up. If the primary login mechanism for your Cognito resource is 
+`phone_number` (without enabling `username`), then you do not need to pass it as an attribute.
 
 import flutter6 from "/src/fragments/lib/auth/flutter/sms/sign_up.mdx";
 
@@ -70,7 +77,8 @@ import iosSignUp from "/src/fragments/lib/auth/ios/sms/sign_up.mdx";
 
 <Fragments fragments={{ios: iosSignUp}} />
 
-Verification of user accounts is done via the `confirmSignUp` method with the OTP sent to their phone or email.
+By default, you have to verify a user account after they sign up using the `confirmSignUp` API, which will send a one-time password to the user's phone number or email, 
+depending on your Amazon Cognito configuration.
 
 import flutter7 from "/src/fragments/lib/auth/flutter/sms/confirm_sign_up.mdx";
 
@@ -82,7 +90,8 @@ import iosConfirmSignUp from "/src/fragments/lib/auth/ios/sms/confirm_sign_up.md
 
 ### Handling SMS MFA challenge during Sign In
 
-Sign in users normally with the chosen `Username` type and password.
+After a user signs in, if they have MFA enabled for their account, a challenge will be returned that you would need to call the `confirmSignIn` API where the user provides 
+their confirmation code sent to their phone number.
 
 import flutter8 from "/src/fragments/lib/auth/flutter/sms/sign_in.mdx";
 
@@ -104,7 +113,10 @@ import iosConfirmSignInTOTP from "/src/fragments/lib/auth/ios/sms/confirm_sign_i
 
 ## Multi-factor authentication with TOTP
 
-You can use Time-based One-Time Password (TOTP) for multi-factor authentication (MFA) in your web or mobile applications. Amplify's Auth category includes support for handling TOTP setup and codes, offering an integrated solution for enhanced security for your users. Authenticator apps generate the temporary, one-time passwords. These apps, such as Google Authenticator, Microsoft Authenticator, have the TOTP algorithm built-in and work by using a shared secret key and the current time to generate a short-lived password.
+You can use Time-based One-Time Password (TOTP) for multi-factor authentication (MFA) in your web or mobile applications. The Amplify Auth category includes 
+support for TOTP setup and verification using authenticator apps, offering an integrated solution and enhanced security for your users. These apps, 
+such as Google Authenticator, Microsoft Authenticator, have the TOTP algorithm built-in and work by using a shared secret key and the current time to 
+generate short-lived, six digit passwords.
 
 <Callout>
 
@@ -116,17 +128,21 @@ Therefore it is recommended to use the `updateMFAPreference` API to set the MFA 
 
 </Callout>
 
-### Handling TOTP Setup during sign in
+### Setting up TOTP for a user
 
-A `signIn` call will return `continueSignInWithTOTPSetup` as a next step when the following set of conditions are met:
+After you initiate a user sign in with the `signIn` API where a user is required to set up TOTP as an MFA method, the API call will return `continueSignInWithTOTPSetup` 
+as a challenge and next step to handle in your app. You will get that challenge if the following conditions are met:
 
 - MFA is marked as **Required** in Cognito User Pool.
 - TOTP is enabled in the Cognito User Pool
-- User does not have any other MFA method set up.
+- User does not have TOTP MFA set up already.
 
-The `continueSignInWithTOTPSetup` step signifies that the user must set up TOTP before they can sign in. The step returns an associated value of type `TOTPSetupDetails` which must be used to configure an Authenticator app like Microsoft Authenticator or Google Authenticator. `TOTPSetupDetails` provides a helper method called `getSetupURI` which generates a URI that can be used, for example, in a button to open the user's installed Authenticator app. For more advanced use cases, `TOTPSetupDetails` also contains a `sharedSecret` which can be used to either generate a QR code or be manually entered into an Authenticator app. 
+The `continueSignInWithTOTPSetup` step signifies that the user must set up TOTP before they can sign in. The step returns an associated value of type `TOTPSetupDetails` 
+which must be used to configure an authenticator app like Microsoft Authenticator or Google Authenticator. `TOTPSetupDetails` provides a helper method called `getSetupURI` 
+which generates a URI that can be used, for example, in a button to open the user's installed authenticator app. For more advanced use cases, `TOTPSetupDetails` also contains 
+a `sharedSecret` which can be used to either generate a QR code or be manually entered into an authenticator app. 
  
-Once the Authenticator app is set up, the user can generate a TOTP code and provide it to the library to complete the sign in process.
+Once the authenticator app is set up, the user can generate a TOTP code and provide it to the library to complete the sign in process.
 
 import iosSignIn from "/src/fragments/lib/auth/ios/totp/sign_in.mdx";
 
@@ -185,7 +201,7 @@ The APIs for fetching and updating MFA preferences are only available through AW
 
 ### Fetch the current user's MFA preferences
 
-Invoke the following API to get the MFA preference for the current user.
+Invoke the following API to get the current MFA preference and enabled MFA types, if any, for the current user.
 
 import iosFetchMFAPreference from "/src/fragments/lib/auth/ios/mfa_preference/10_fetch_mfa_preference.mdx";
 
