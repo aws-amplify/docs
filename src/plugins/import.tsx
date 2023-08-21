@@ -85,6 +85,10 @@ module.exports = (async () => {
           type: 'import',
           value: `import { YoutubeEmbed } from "/src/components/YoutubeEmbed";`
         });
+        tree.children.splice(index + 1, 0, {
+          type: 'import',
+          value: `import Accordion from "/src/components/Accordion";`
+        });
         addedImports = true;
       }
     });
