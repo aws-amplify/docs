@@ -110,7 +110,6 @@ function MyApp({ Component, pageProps }) {
           <script src="https://d2c.aws.amazon.com/client/loader/v1/d2c-load.js"></script>
         </>
       )}
-      <script src="/scripts/aws-ux-shortbread-v1-0-14.js"></script>
     </>
   );
 }
