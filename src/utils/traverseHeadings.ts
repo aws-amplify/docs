@@ -23,6 +23,16 @@ export function traverseHeadings(tree, filterKey: string): string[] {
         const fragment = fragmentFunction([]); // expand function into full tree
         headings = headings.concat(traverseHeadings(fragment, filterKey));
       }
+    } else if ("filter" in node.props || "filters" in node.props) {
+      // Recurse on the inline filters if the filter keys match
+      if (node.props.filter === filterKey || node.props.filters?.includes(filterKey)) {
+        const inlineFilterContent = node.props.children;
+        headings = headings.concat(traverseHeadings(inlineFilterContent, filterKey));
+      } else if (node.props.filter === "all" || node.props.filters?.includes("all")) {
+        // "all" includes every filterKey, so recurse
+        const inlineFilterContent = node.props.children;
+        headings = headings.concat(traverseHeadings(inlineFilterContent, filterKey));
+      }
     } else if ("children" in node.props) {
       // Recurse on the children, _unless_ this is a FilterContent with a
       // filter that doesn't match the current filterKey
