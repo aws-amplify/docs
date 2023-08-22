@@ -9,7 +9,6 @@ import js0 from '/src/fragments/lib/graphqlapi/js/upgrade-guide.mdx';
 
 import ios0 from '/src/fragments/lib/graphqlapi/ios/upgrade-guide.mdx';
 
-<<<<<<< HEAD
 ## Option 1: Upgrade to AWS Amplify (Recommended)
 AWS Amplify provides APIs for querying, mutating, and subscribing to data in AppSync with less configuration overhead. Here's an example of running a query in the AWS AppSync SDK for JavaScript (Maintenance mode) vs. AWS Amplify API category:
 
@@ -43,11 +42,7 @@ const result = await client.mutate({
 ```js
 import { createtodo } from './graphql/queries'
 import awsconfig from './aws-exports'
-<<<<<<< HEAD
 import { Amplify, API } from "aws-appsync";
-=======
-import { Amplify, API } from "aws-amplify";
->>>>>>> dfea5a0c1d4ef80b1546a5726711aecf98ba2303
 
 Amplify.configure(awsconfig)
 
@@ -141,4 +136,3 @@ client.mutate({
 ```
 =======
 <Fragments fragments={{ ios: ios0 }} />
->>>>>>> bf780306ac5cb42214889cc169c3ed3f90f9cbef
