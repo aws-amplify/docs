@@ -105,7 +105,9 @@ To leverage this functionality in your app you would call the appropriate route 
 ```js
 import React from 'react'
 import { Amplify, Auth, API } from 'aws-amplify';
-import { withAuthenticator } from 'aws-amplify-react';
+import { withAuthenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
+
 import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
 
@@ -155,7 +157,7 @@ function App() {
   );
 }
 
-export default withAuthenticator(App, true);
+export default withAuthenticator(App);
 ```
 
 </Block>

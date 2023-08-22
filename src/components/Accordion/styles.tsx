@@ -1,27 +1,4 @@
 import styled from '@emotion/styled';
-import { keyframes } from '@emotion/react';
-
-const expand = keyframes`
-  from {
-    max-height: 0;
-    overflow: hidden;
-  }
-  to {
-    max-height: auto;
-    overflow: visible;
-  }
-`;
-
-const collapse = keyframes`
-  from {
-    overflow: visible;
-    max-height: 1000px;
-  }
-  to {
-    overflow: hidden;
-    max-height: 0;
-  }
-`;
 
 export const Details = styled.details`
   --border-color: var(--amplify-colors-teal-40);
@@ -34,20 +11,11 @@ export const Details = styled.details`
   border-radius: var(--border-radius);
   border: 1px solid var(--border-color);
   text-align: left;
+  overflow: hidden;
 
   &[open] .docs-expander__summary {
     border-end-end-radius: 0;
     border-end-start-radius: 0;
-  }
-
-  &[open] summary ~ *,
-  &[open] .docs-expander__body {
-
-  }
-
-  &.collapse summary ~ *,
-  &.collapse .docs-expander__body {
-
   }
 
   &[open] .docs-expander__title__indicator svg {
@@ -72,10 +40,19 @@ export const Details = styled.details`
     padding-inline: var(--padding-inline);
     padding-block: var(--padding-block);
     text-align: left;
+
+    .amplify-icon {
+      display: flex;
+      align-items: center;
+    }
   }
 
   .docs-expander__body__button:hover {
     cursor: pointer;
+  }
+
+  button.tab-active {
+    border-bottom: 0.25rem solid var(--amplify-colors-teal-20);
   }
 `;
 
@@ -107,12 +84,20 @@ export const Summary = styled.summary`
     flex-direction: row;
     align-items: center;
     gap: 0.25rem;
+
+    .amplify-icon {
+      svg {
+        height: unset !important;
+      }
+    }
   }
 
   .docs-expander__title {
     font-weight: bold;
     font-size: 1rem;
     margin: 0;
+    color: #000;
+    scroll-padding-top: 100px !important;
   }
 
   .docs-expander__button {
@@ -135,8 +120,6 @@ export const Summary = styled.summary`
   .docs-expander__title__indicator svg {
     position: absolute;
     right: var(--padding-inline);
-    width: 1rem;
-    height: 1rem;
     top: 50%;
     margin-top: -0.5rem;
     transition: transform 0.25s ease-in-out;

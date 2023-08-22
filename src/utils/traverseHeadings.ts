@@ -8,14 +8,12 @@ export function traverseHeadings(tree, filterKey: string): string[] {
   if (!Array.isArray(tree)) {
     tree = [tree];
   }
-
   let headings = [];
   for (const node of tree) {
     if (typeof node !== 'object') continue;
     if (!('props' in node)) continue;
 
     if ('fragments' in node.props) {
-      // console.log(node.props.fragments);
       // Recurse on the fragment corresponding to this page's filterKey
       if (filterKey in node.props.fragments) {
         const fragmentFunction = node.props.fragments[filterKey];
@@ -25,8 +23,6 @@ export function traverseHeadings(tree, filterKey: string): string[] {
         // "all" includes every filterKey, so recurse
         const fragmentFunction = node.props.fragments.all;
         const fragment = fragmentFunction([]); // expand function into full tree
-        // console.log(fragment)
-        // console.log('before', headings);
         headings = headings.concat(traverseHeadings(fragment, filterKey));
         // console.log('after', headings);
       }
@@ -45,43 +41,30 @@ export function traverseHeadings(tree, filterKey: string): string[] {
             traverseHeadings(node.props.children, filterKey)
           );
         }
-      } else {
-        headings = headings.concat(
-          traverseHeadings(node.props.children, filterKey)
-        );
-      }
-
-      // Is this a heading?  If so, "children" is actually the heading text
-      if ('mdxType' in node.props) {
+      } else if ('mdxType' in node.props) {
         const mdxType = node.props.mdxType;
 
         if (mdxType === 'h2' || mdxType === 'h3') {
           headings.push([node.props.children, node.props.id, mdxType]);
-        }
-        if (mdxType === 'Accordion') {
+        } else if (mdxType === 'Accordion') {
+          const children = node.props.children;
+
           const id = node.props.title.replace(/\s+/g, '-').toLowerCase();
           const type = node.props.headingLevel
             ? 'h' + node.props.headingLevel
             : 'div';
-          headings.unshift([node.props.title, id, type]);
-        }
-
-        // Do not include headings from within an Accordion in headings array
-        if (mdxType === 'wrapper') {
-          if (node.props.children?.props?.mdxType == 'Accordion') {
-            const children = node.props.children.props.children;
-            children.forEach((element) => {
-              const heading = element.props?.children?.props?.children?.props;
-              if (heading?.mdxType == 'h2' || heading?.mdxType == 'h3') {
-                headings.forEach((h) => {
-                  if (h[1] === heading.id) {
-                    headings.splice(headings.indexOf(h));
-                  }
-                });
-              }
-            });
+          if (type === 'h2' || type === 'h3') {
+            headings.push([node.props.title, id, type]);
           }
+        } else {
+          headings = headings.concat(
+            traverseHeadings(node.props.children, filterKey)
+          );
         }
+      } else {
+        headings = headings.concat(
+          traverseHeadings(node.props.children, filterKey)
+        );
       }
     } else if (node.props.mdxType === 'UiComponentProps') {
       // UiComponentProps is special -- just grab the generated headers from the propType

@@ -10,17 +10,17 @@ platform :osx, '10.15'
 
 Open your project in Xcode and select Runner, Targets -> Runner and then the "General" tab. Under the "Minimum Deployments" section, update the macOS version to 10.15 or higher.
 
-![XCode Minimum Deployment Version](/images/project-setup/flutter/mac/target-min-deployment-version.png)
+![Setting the macOS version to 10.15 or higher in the Minimum Deployments tab of the Runner general section.](/images/project-setup/flutter/mac/target-min-deployment-version.png)
 
 Select Runner, Project -> Runner and then the "Info" tab. Update "macOS Deployment Target" to 10.15 or higher.
 
-![XCode Minimum Deployment Version](/images/project-setup/flutter/mac/project-min-deployment-version.png)
+![Setting the macOS version to 10.15 or higher in the MacOS Deployment Target tab of the Runner info section.](/images/project-setup/flutter/mac/project-min-deployment-version.png)
 
 ### Enable Network Calls
 
 Open your project in Xcode and select Runner, Targets -> Runner and then the "Signing and Capabilities" tab. Under "App Sandbox" select "Outgoing Connections (Client)".
 
-![XCode Entitlements Screen](/images/project-setup/flutter/mac/xcode-entitlements.png)
+![Selecting outgoing connections in the app sandbox section of the runner signing and capabilities tab.](/images/project-setup/flutter/mac/xcode-entitlements.png)
 
 For more info on the Networking entitlement, see Apple's documentation on [com.apple.security.network.client](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_security_network_client).
 
@@ -38,16 +38,16 @@ Open your project in Xcode and select Runner, Targets -> Runner and then the "Si
 
 1. Click the "+ icon".
 
-![XCode Enable Keychain Sharing](/images/project-setup/flutter/mac/enable-keychain-access.png)
+![Plus icon circled in the signing and capabilities section of the runner tab.](/images/project-setup/flutter/mac/enable-keychain-access.png)
 
 2. Search for "Keychain Sharing" in the subsequent modal, and add it.
 
-![XCode Keychain Sharing Search](/images/project-setup/flutter/mac/search-keychain-sharing.png)
+![Keychain Sharing search result after searching keychain.](/images/project-setup/flutter/mac/search-keychain-sharing.png)
 
 3. Scroll down to "Keychain Sharing" in the "Signing and Capabilities" and click the "+" icon. By default, your bundle ID will be used.
 
-![XCode Adding Keychain Sharing Group](/images/project-setup/flutter/mac/adding-keychain-access-group.png)
+![Plus icon highlighted in the keychain sharing section of the signing and capabilities section of runner.](/images/project-setup/flutter/mac/adding-keychain-access-group.png)
 
 4. Finally, add a development team and enable signing.
 
-![XCode Signing and Capabilities Screen](/images/project-setup/flutter/mac/enable-signing.png)
+![Team selector and Enable Development Signing button highlighted in the signing and capabilities section of the runner tab.](/images/project-setup/flutter/mac/enable-signing.png)

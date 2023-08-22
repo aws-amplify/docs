@@ -13,7 +13,7 @@ Starting with GraphQL schema (with or without an AWS account) a code generation 
 
 Once Models have been generated, you can operate on these instances with the DataStore API to save, query, update, delete, or observe changes. At runtime models are passed into a *Storage Engine* that has a *Storage Adapter*. The Storage Engine manages a "Model Repository" of Models which were defined by the developer's GraphQL schema as well as "System Models" which are used for both metadata (such as settings) and queueing updates over the network when syncing to the cloud. Amplify ships with default Storage Adapter implementations, such as SQLite and IndexedDB, however the pattern allows for more in the future for community contributions and is not specific to one technology (e.g. SQL vs NoSQL).
 
-![Image](/images/storage.png)
+![Graphic showing the flow between the developer and the storage engine.](/images/storage.png)
 
 When developer application code interacts with the DataStore API, it is the responsibility of the Storage Engine to store the specific Model for a GraphQL type in the Model Repository as well as serialize & deserialize as appropriate for persistence in the specific Storage Adapter representation. This includes conversion from a GraphQL specific type the appropriate structure in that database engine (e.g. `Int` to `Int64`).
 
@@ -25,7 +25,7 @@ If a developer chooses to sync with the cloud, the Amplify CLI will use the Grap
 
 If the DataStore starts up and sees API information to sync with an AppSync endpoint, it will start an instance of its *Sync Engine*. This component interfaces with the Storage Engine to get updates from the Model Repository. These components use an *Observer* pattern where the Sync Engine publishes events whenever updates happen in it (such as data being added, updated, or deleted) and both the DataStore API and Sync Engine subscribe to this publication stream. This is how the developer knows when updates have happened from the cloud by interacting with the DataStore API, and conversely how the Sync Engine knows when to communicate with the cloud when applications have made updates to data.
 
-![Image](/images/sync.png)
+![Graphic showing the flow between the storage engine and the sync engine for syncing data to the cloud.](/images/sync.png)
 
 As notifications come into the Sync Engine from the Storage Engine it converts information from the Model Repository into GraphQL statements at runtime. This includes subscribing to all create/update/delete operations for each type, as well as running queries or mutations. 
 
