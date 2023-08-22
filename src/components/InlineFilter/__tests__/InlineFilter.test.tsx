@@ -17,64 +17,11 @@ describe('InlineFilter', () => {
   const inlineContent = "Inline Content"
 
   it('should render the InlineFilter component', async () => {
-    render(<InlineFilter filter="all">{<span>{inlineContent}</span>}</InlineFilter>);
+    render(<InlineFilter filters={["all"]}>{<span>{inlineContent}</span>}</InlineFilter>);
 
     const inlineFilterNode = await screen.findByText(inlineContent);
     expect(inlineFilterNode).toBeInTheDocument();
   });
-
-  it(`should display the inline content if the filter matches the query param`, async () => {
-    routerMock.useRouter = () => {
-      return {
-        query: {
-          platform: "js"
-        }
-      };
-    };
-
-    render(<InlineFilter filter={"js"}><span>{inlineContent}</span></InlineFilter>);
-
-    const inlineFilterNode = await screen.findByText(inlineContent);
-    expect(inlineFilterNode).toBeInTheDocument();
-  });
-
-  it(`shouldn't display the inline content if the filter doesn't match the query param`, async () => {
-    routerMock.useRouter = () => {
-      return {
-        query: {
-          platform: "js"
-        }
-      };
-    };
-
-    render(<InlineFilter filter={"android"}><span>{inlineContent}</span></InlineFilter>);
-
-    await expect(screen.findByText(inlineContent)).rejects.toThrow();
-  })
-
-  it(`should fail to render if setting both filter and filters properties`, async () => {
-    routerMock.useRouter = () => {
-      return {
-        query: {
-          platform: "js"
-        }
-      };
-    };
-
-    expect(() => render(<InlineFilter filter={"js"} filters={["js"]}><span>{inlineContent}</span></InlineFilter>)).toThrow()
-  })
-
-  it(`should fail to render if both filter and filters aren't set`, async () => {
-    routerMock.useRouter = () => {
-      return {
-        query: {
-          platform: "js"
-        }
-      };
-    };
-
-    expect(() => render(<InlineFilter><span>{inlineContent}</span></InlineFilter>)).toThrow()
-  })
 
   it(`should render the inline content when using multiple filters`, async () => {
     routerMock.useRouter = () => {
