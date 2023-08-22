@@ -61,6 +61,7 @@ describe('InlineFilter', () => {
       };
     };
 
-    expect(() => render(<InlineFilter filters={[]}><span>{inlineContent}</span></InlineFilter>)).toThrow()
+    const { container } = render(<InlineFilter filters={[]}><span>{inlineContent}</span></InlineFilter>)
+    expect(container).toBeEmptyDOMElement()
   })
 });
