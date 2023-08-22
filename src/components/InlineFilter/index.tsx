@@ -2,7 +2,7 @@ import type React from 'react';
 import FilterChildren from '../FilterChildren';
 
 type InlineFilterProps = {
-  children: JSX.Element
+  children: React.ReactNode
   filters: string[]
 }
 
