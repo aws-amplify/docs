@@ -79,9 +79,13 @@ Select "Refresh" to execute a browser refresh of the current page.
 
 ## Bind UI to create, update, or delete a data record
 
-You can bind UI elements to data actions. Data actions include the ability to create, update, and delete records from your database. 
-
 <Callout warning>
+
+**Amplify Studio now provides a new experience to build React forms**. We recommend reviewing [Form Builder (React)](/console/formbuilder/overview) before using the data action bindings documented below.
+
+</Callout>
+
+You can bind UI elements to data actions, so your Figma-generated UI components function as forms. Data actions include the ability to create, update, and delete records from your database. 
 
 Make sure to mark the component as a `form` for accessibility.
 1. Select the top element from the element tree
@@ -90,22 +94,15 @@ Make sure to mark the component as a `form` for accessibility.
 
 This will render the component within an HTML `<form />` element.
 
-</Callout>
+### Using DataStore
 
-<Callout warning>
+Forms created using Studio event handling can work with any Amplify GraphQL API, with or without DataStore. 
 
-Amplify Forms use DataStore to save and load data. In most cases, you will want to have authentication for your forms. For example, an app might use `API Key` for public content and `Cognito User Pool` for personalized content once the user logs in. 
-However, DataStore will only use the default authentication type and not the additional types unless configured with MULTI_AUTH enabled. To enable multiple authentication types in DataStore & Amplify Forms, please refer to [Configure Multiple Authorization Types](/lib/datastore/setup-auth-rules/#configure-multiple-authorization-types).
+If you are using DataStore, however, DataStore will only use the default authentication type and not the additional types unless configured with MULTI_AUTH enabled. In most cases, you will want to have authentication for your forms. For example, an app might use `API Key` for public content and `Cognito User Pool` for personalized content once the user logs in. 
 
-</Callout>
+To enable multiple authentication types in DataStore & Amplify Forms, please refer to [Configure Multiple Authorization Types](/lib/datastore/setup-auth-rules/#configure-multiple-authorization-types).
 
 ### Create a record in database
-
-<Callout warning>
-
-**Note:** Amplify Studio now provides a new experience to build React forms. We recommend you to review [Form Builder (React)](/console/formbuilder/overview) first before using the data action bindings documented below.
-
-</Callout>
 
 You can create a new record based on the values provided by input fields. For example, you have a form to create a new "Home" for a rental listing site. The form contains inputs for the address, price, and an image URL.
 
@@ -130,6 +127,7 @@ You can create a new record based on the values provided by input fields. For ex
 </tr>
 </tbody>
 </table>
+
 
 Render the component with the "Create" data action. **Pro tip:** Amplify Studio's collection components synchronizes data in real-time. If a new record is available in the database, it will automatically sync to the app.
 
