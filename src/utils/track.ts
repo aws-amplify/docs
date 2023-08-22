@@ -4,20 +4,18 @@ let AWSCShortbread;
 let s;
 let AWSMA;
 
-if (typeof window !== "undefined") {
+if (typeof window !== "undefined" && typeof window.AWSCShortbread !== "undefined") {
   AWSCShortbread = window.AWSCShortbread;
   AWSMA = window.AWSMA;
   s = window.s;
-}
 
-if (!configured) {
-  if (typeof window !== "undefined") {
+  if (!configured) {
     AWSCShortbread({
       domain: ".amplify.aws",
     }).checkForCookieConsent();
     if (typeof s != "undefined") s.trackExternalLinks = false;
+    configured = true;
   }
-  configured = true;
 }
 
 export enum AnalyticsEventType {
