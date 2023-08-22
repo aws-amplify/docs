@@ -38,7 +38,7 @@ describe('InlineFilter', () => {
     expect(inlineFilterNode).toBeInTheDocument();
   });
 
-  it(`shouldn't render the inilne content when using an invalid value with multiple filters`, async () => {
+  it(`shouldn't render the inline content when using an invalid value with multiple filters`, async () => {
     routerMock.useRouter = () => {
       return {
         query: {
