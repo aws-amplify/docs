@@ -1,9 +1,3 @@
-import {
-  headerNames,
-  propsAreEmptyByTag
-} from '../components/UiComponentProps';
-import featureFlagsJson from '../components/FeatureFlags/feature-flags.json';
-
 export function traverseHeadings(tree, filterKey: string): string[] {
   if (!Array.isArray(tree)) {
     tree = [tree];
@@ -66,23 +60,31 @@ export function traverseHeadings(tree, filterKey: string): string[] {
           traverseHeadings(node.props.children, filterKey)
         );
       }
-    } else if (node.props.mdxType === 'UiComponentProps') {
-      // UiComponentProps is special -- just grab the generated headers from the propType
-      const { propType, tag } = node.props;
-      if (propsAreEmptyByTag({ propType, componentTag: tag })) continue;
-      if (!('useTableHeaders' in node.props) || !node.props.useTableHeaders)
-        continue;
-      const sectionId = `props-${propType}-${tag}`;
-      headings.push([headerNames[propType], sectionId, 'h2']);
     } else if (node.props.mdxType === 'FeatureFlags') {
-      // FeatureFlags is special -- just grab the headers from the feature-flags JSON file
-      for (const key in featureFlagsJson) {
-        headings.push([key, key, 'h2']);
-        const features = featureFlagsJson[key].features;
-        for (const feature in features) {
-          headings.push([feature, feature, 'h3']);
+      const featureFlags = node.props.originalType();
+
+      const featureFlagHeadings = (featureFlagNodes, allHeadings) => {
+        if (typeof featureFlagNodes !== 'object') return;
+        if (!Array.isArray(featureFlagNodes)) {
+          featureFlagNodes = [featureFlagNodes];
         }
-      }
+        for (const node of featureFlagNodes) {
+          if (typeof node !== 'object') continue;
+          if (Array.isArray(node)) {
+            //h3 headers
+            for (const heading of node) {
+              const name = heading.props.name;
+              allHeadings.push([name, name, 'h3']);
+            }
+          } else if (node.type === 'h2') {
+            allHeadings.push([node.props.children, node.props.id, node.type]);
+          } else if (node.props.children) {
+            featureFlagHeadings(node.props.children, allHeadings);
+          }
+        }
+      };
+
+      featureFlagHeadings(featureFlags, headings);
     }
   }
   return headings;
