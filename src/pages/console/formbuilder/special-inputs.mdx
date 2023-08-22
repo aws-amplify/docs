@@ -30,6 +30,18 @@ To make this more useful for the form submitter, you can customize the label wit
 
 ![Screenshot of a label with the book name and year, which is easier for the user to read](/images/console/formbuilder/autocomplete3.png)
 
+### Using forms with relationships in code
+
+When you are satisfied with your form configuration and style, [your forms can be generated in your local project](/console/formbuilder/overview/#render-react-form-in-your-app). 
+
+**If your GraphQL API is not using DataSore, forms with relationships require a query codegen depth of 4**, and will not work as expected otherwise. To update your query depth:
+1. Open your terminal and navigate to the root directory of your Amplify project
+1. Run `amplify configure codegen`
+1. When prompted for Query Depth, change to 4. All other options can be set as you prefer
+1. After confirming all settings, run `amplify codegen` to update query generation in your project
+
+
+
 ## Storage Manager
 
 [**Storage Manager**](https://ui.docs.amplify.aws/react/connected-components/storage/storagemanager) fields allow your forms to accept file uploads, which are stored in an Amazon S3 bucket connected to your Amplify app. After uploading, that file's S3 key is stored in your data model, allowing for systematic retrieval using the [Amplify JS library](/lib/storage/download/q/platform/js/). 
