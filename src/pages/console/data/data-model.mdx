@@ -5,6 +5,12 @@ export const meta = {
 
 ## Data modeling example
 
+<Callout warning>
+
+**Studio now supports all Studio GraphQL APIs, with or without DataStore. [Learn more below](#datastore-and-graphql)**
+
+</Callout>
+
 In this example you will build a data model for a bookstore to maintain information about books, authors, and publishers with relationships and authorization rules. The schema template below is a starting point for the bookstore backend.
 
 <Grid grid-gap="2" columns={1} className="margin-top-lg margin-bottom-lg">
@@ -29,18 +35,16 @@ Skip ahead to [relationships](/console/data/relationships) or read below on how 
 
 ## Data modeling in Amplify Studio
 
-The Studio data model designer provides a visual way to define your app's data model, relationships, and authorization rules. Studio generates a `schema.graphql` GraphQL Transform for the data model you create. To learn more about how the GraphQl transform works, see [GraphQL Transform Overview](/cli/graphql-transformer/overview).
+The Studio data model designer provides a visual way to define your app's data model, relationships, and authorization rules. Studio generates a `schema.graphql` GraphQL Transform for the data model you create, and adds this to your Amplify project. To learn more about how the GraphQl transform works, see [GraphQL Transform Overview](/cli/graphql-transformer/overview).
 
 ![datamodel](/images/console/datamodel.gif)
 
 The experience for modeling data is the same in the sandbox and in Studio. With an AWS account, you will have real-time data synchronization capabilities and you will also be able to set authorization rules on your models. For more information, see [Authorization](/console/authz/authorization). All data models are provisioned in your account as AWS AppSync GraphQL APIs and Amazon DynamoDB tables. As with every feature of Studio, it can be further extended with the CLI.
 
 ### DataStore and GraphQL
-By default, all data models built with Studio are provisioned with Amplify DataStore. However, Studio applications work with both DataStore and an Amplify GraphQL API. 
+When you save and deploy your data model, Amplify Studio generates a GraphQL API for you using AWS AppSync. By default, all data models built with Studio are provisioned as GraphQL APIs without DataStore - however, **Studio supports all Amplify GraphQL APIs, with and without DataStore**. 
 
 **[DataStore](/lib/datastore/getting-started)** is an on-device storage engine that automatically synchronizes data between your mobile and web apps and your database, enabling offline use. DataStore requires a **Conflict Resolution** method to function. 
-
-An **[Amplify GraphQL API](../../cli/graphql/overview/)** is an online-only API that uses a GraphQL and DynamoDB via AWS AppSync. 
 
 To change your app's Conflict Resolution settings, or to change your app from using DataStore to using an Amplify GraphQL API, take the following steps:
 1. Navigate to **[Amplify Studio](/console/adminui/start/#log-into-the-amplify-console) > Data**
@@ -50,15 +54,15 @@ To change your app's Conflict Resolution settings, or to change your app from us
 
 <Callout warning>
 
-**IMPORTANT NOTE**: Changing between DataStore and an Amplify GraphQL API is a significant change to your data structure, and can take up to 30 minutes to complete. Frequently changing between data structures is not recommended.
+**IMPORTANT NOTE**: Changing your Conflict Resolution setting results is a **destructive data change**, and may result in inaccessible data. It's highly recommended that this setting only be changed on GraphQL APIs with **no data**. 
 
 </Callout>
 
 ### Limitations
-Applications that use an Amplify GraphQL API have limited feature availability in Studio. 
-- The Content Manager is not supported, and is [replaced by a GraphiQL interface](content-management/#limitations)
-- [Binding UI Components to data](../uibuilder/databinding/), and [generating Collections](../uibuilder/collections/) is not supported
-- [Binding Forms to data, and auto-generated forms](../formbuilder/overview/) are not supported
+Applications with Conflict Resolution disabled have some minor limitations:
+- Sorting by column in [Data Manager](./content-management) is not supported
+- [Figma-to-Code Collections](../uibuilder/collections/) do not support Pagination, and have limited support for Search
+- [Forms with relationships](../formbuilder/special-inputs/) have some limitations when searching Autocomplete fields
 
 To get access to these features, turn on DataStore and select a Conflict Resolution strategy.
 
