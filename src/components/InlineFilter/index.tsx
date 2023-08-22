@@ -7,7 +7,7 @@ type InlineFilterProps = {
 }
 
 export default function InlineFilter({ filters, children }: InlineFilterProps) {
-  if (!filters || filters.length < 1) {
+  if (!filters || !Array.isArray(filters) || filters.length < 1) {
     return <></>
   }
 
