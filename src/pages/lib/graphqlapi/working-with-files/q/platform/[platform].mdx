@@ -3,10 +3,4788 @@ export const meta = {
   description: `Learn more about associating Amplify Storage files with Amplify GraphQL API records.`
 };
 
-import js0 from '/src/fragments/lib/graphqlapi/js/working-with-files.mdx';
+<InlineFilter filters={["js", "react-native"]}>
 
-<Fragments fragments={{ js: js0 }} />
+The Storage and GraphQL API categories can be used together to associate a file, such as an image or video, with a particular record. For example, you might create a `User` model with a profile picture, or a `Post` model with an associated image. With Amplify's GraphQL API and Storage categories, you can reference the file within the model itself to create an association.
 
-import ios0 from '/src/fragments/lib/graphqlapi/ios/working-with-files.mdx';
+To get started, run the following commands in an existing Amplify project:
 
-<Fragments fragments={{ ios: ios0 }} />
+```bash
+# For Authenticator component:
+npm i @aws-amplify/ui-react
+
+# Select default configuration:
+amplify add auth             
+
+# Select "Content", "Auth users only", full CRUD access,
+# and default configuration:
+amplify add storage          
+
+# Select default configuration
+amplify add api              
+```
+
+When prompted, use the following schema, which can also be found under `amplify/backend/api/[name of project]/schema.graphql`:
+
+```graphql
+type Song @model @auth(rules: [{ allow: public}]) {
+  id: ID!
+  name: String!
+  coverArtKey: String # Set as optional to allow adding file after initial create
+}
+```
+
+Save the schema and run `amplify push` to deploy the changes.
+
+Next, at the root of your project, set *all* access to `private` by configuring the Storage object globally. This will restrict file access to only the signed-in user.
+
+```js
+Storage.configure({ level: 'private' });
+```
+
+<Callout>
+
+For the complete working example, including required imports, obtaining the file from the user, and React component state management, see the [Complete Example](#complete-example) below.
+
+</Callout>
+
+## Configuring authorization
+
+Your application needs authorization credentials for reading and writing to both Storage and the GraphQL API, except in the case where all data and files are intended to be publicly accessible.
+
+The Storage and API categories govern data access based on their own authorization patterns, meaning that it's necessary to configure appropriate auth roles for each individual category. Although both categories share the same access credentials set up through the Auth category, they work independently from one another. For instance, adding an `@auth` directive to the API schema does not guard against file access in the Storage category. Likewise, adding authorization rules to the Storage category does not guard against data access in the API category. 
+
+When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito Identity Pool role. You will then have the option of adding CRUD (Create, Update, Read and Delete) based permissions as well, so that Authenticated and Guest users will be granted limited permissions within these levels. **Even after adding this configuration via the CLI, all Storage access is still `public` by default.** To guard against accidental public access, the Storage access levels must either be configured on the Storage object globally, or set within individual function calls. This guide uses the former approach, setting all Storage access to `private` globally. 
+
+The ability to independently configure authorization rules for each category allows for more granular control over data access, and adds greater flexibility. For scenarios where authorization patterns must be mixed and matched, configure the access level on individual Storage function calls. For example, you may want to use `private` CRUD access on an individual Storage function call for files that should only be accessible by the owner (such as personal files), `protected` read access to allow all logged in users to view common files (such as images in a shared photo album), and `public` read access to allow all users to view a file (such as a public profile picture).
+
+For more details on how to configure Storage authorization levels, see the [Storage documentation](https://docs.amplify.aws/lib/storage/configureaccess/q/platform/js/). For more on configuring GraphQL API authorization, see the [API documentation](https://docs.amplify.aws/lib/graphqlapi/authz/q/platform/js/).
+
+## Create a record with an associated file
+
+First create a record via the GraphQL API, then upload the file to Storage, and finally add the association between the record and file. Use the following example with the GraphQL API and Storage categories to create a record and associate the file with the record.
+
+<Callout>
+
+The API record's `id` is prepended to the Storage file name to ensure uniqueness. If this is excluded, multiple API records could then be associated with the same file key unintentionally.
+
+</Callout>
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+const createSongDetails: CreateSongInput = {
+  name: `My first song`,
+};
+
+// Create the API record:
+const response = await API.graphql<GraphQLQuery<CreateSongMutation>>({
+  query: mutations.createSong,
+  variables: { input: createSongDetails },
+});
+
+const song = response?.data?.createSong;
+
+if (!song) return;
+
+// Upload the Storage file:
+const result = await Storage.put(`${song.id}-${file.name}`, file, {
+  contentType: "image/png", // contentType is optional
+});
+
+const updateSongDetails: UpdateSongInput = {
+  id: song.id,
+  coverArtKey: result?.key,
+};
+
+// Add the file association to the record:
+const updateResponse = await API.graphql<
+  GraphQLQuery<UpdateSongMutation>
+>({
+  query: mutations.updateSong,
+  variables: { input: updateSongDetails },
+});
+
+const updatedSong = updateResponse?.data?.updateSong;
+
+// If the record has no associated file, we can return early.
+if (!updatedSong?.coverArtKey) return;
+
+// Retrieve the signed URL:
+const signedURL = await Storage.get(updatedSong.coverArtKey);
+``` 
+
+</Block>
+<Block name="JavaScript">
+
+```js
+const createSongDetails: CreateSongInput = {
+  name: `My first song`,
+};
+
+// Create the API record:
+const response = await API.graphql({
+  query: mutations.createSong,
+  variables: { input: createSongDetails },
+});
+
+const song = response?.data?.createSong;
+
+if (!song) return;
+
+// Upload the Storage file:
+const result = await Storage.put(`${song.id}-${file.name}`, file, {
+  contentType: "image/png", // contentType is optional
+});
+
+const updateSongDetails = {
+  id: song.id,
+  coverArtKey: result?.key,
+};
+
+// Add the file association to the record:
+const updateResponse = await API.graphql<
+  GraphQLQuery<UpdateSongMutation>
+>({
+  query: mutations.updateSong,
+  variables: { input: updateSongDetails },
+});
+
+const updatedSong = updateResponse?.data?.updateSong;
+
+// If the record has no associated file, we can return early.
+if (!updatedSong?.coverArtKey) return;
+
+// Retrieve the signed URL:
+const signedURL = await Storage.get(updatedSong.coverArtKey);
+```
+
+</Block>
+</BlockSwitcher>
+
+## Add or update a file for an associated record
+
+To associate a file with a record, update the record with the key returned by the Storage upload. The following example uploads the file using Storage, updates the record with the file's key, then retrieves the signed URL to download the image. If an image is already associated with the record, this will update the record with the new image.
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+// Upload the Storage file:
+const result = await Storage.put(`${currentSong.id}-${file.name}`, file, {
+  contentType: "image/png", // contentType is optional
+});
+
+const updateSongDetails: UpdateSongInput = {
+  id: currentSong.id,
+  coverArtKey: result?.key,
+};
+
+// Add the file association to the record:
+const response = await API.graphql<GraphQLQuery<UpdateSongMutation>>({
+  query: mutations.updateSong,
+  variables: { input: updateSongDetails },
+});
+
+const updatedSong = response?.data?.updateSong;
+
+// If the record has no associated file, we can return early.
+if (!updatedSong?.coverArtKey) return;
+
+// Retrieve the file's signed URL:
+const signedURL = await Storage.get(updatedSong.coverArtKey);
+``` 
+
+</Block>
+<Block name="JavaScript">
+
+```js
+// Upload the Storage file:
+const result = await Storage.put(`${currentSong.id}-${file.name}`, file, {
+  contentType: "image/png", // contentType is optional
+});
+
+const updateSongDetails = {
+  id: currentSong.id,
+  coverArtKey: result?.key,
+};
+
+// Add the file association to the record:
+const response = await API.graphql({
+  query: mutations.updateSong,
+  variables: { input: updateSongDetails },
+});
+
+const updatedSong = response?.data?.updateSong;
+
+// If the record has no associated file, we can return early.
+if (!updatedSong?.coverArtKey) return;
+
+// Retrieve the file's signed URL:
+const signedURL = await Storage.get(updatedSong.coverArtKey);
+```
+
+</Block>
+</BlockSwitcher>
+
+## Query a record and retrieve the associated file
+
+To retrieve the file associated with a record, first query the record, then use Storage to get the signed URL. The signed URL can then be used to download the file, display an image, etc:
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+// Query the record to get the file key:
+const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
+    query: queries.getSong,
+    variables: { id: currentSong.id },
+  });
+const song = response.data?.getSong;
+
+// If the record has no associated file, we can return early.
+if (!song?.coverArtKey) return;
+
+// Retrieve the signed URL:
+const signedURL = await Storage.get(song.coverArtKey);
+``` 
+
+</Block>
+<Block name="JavaScript">
+
+```js
+// Query the record to get the file key:
+const response = await API.graphql({
+    query: queries.getSong,
+    variables: { id: currentSong.id },
+  });
+const song = response.data?.getSong;
+
+// If the record has no associated file, we can return early.
+if (!song?.coverArtKey) return;
+
+// Retrieve the signed URL:
+const signedURL = await Storage.get(song.coverArtKey);
+```
+
+</Block>
+</BlockSwitcher>
+
+## Delete and remove files associated with API records
+There are three common deletion workflows when working with Storage files and the GraphQL API:
+
+1. Remove the file association, continue to persist both file and record.
+2. Remove the record association and delete the file.
+2. Delete both file and record.
+
+### Remove the file association, continue to persist both file and record
+
+The following example removes the file association from the record, but does not delete the file from S3, nor the record from the database.
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
+    query: queries.getSong,
+    variables: { id: currentSong.id },
+  });
+
+const song = response?.data?.getSong;
+
+// If the record has no associated file, we can return early.
+if (!song?.coverArtKey) return;
+
+const songDetails: UpdateSongInput = {
+  id: song.id,
+  coverArtKey: null,
+};
+
+const updatedSong = await API.graphql<GraphQLQuery<UpdateSongMutation>>({
+  query: mutations.updateSong,
+  variables: { input: songDetails },
+});
+``` 
+
+</Block>
+<Block name="JavaScript">
+
+```js
+const response = await API.graphql({
+    query: queries.getSong,
+    variables: { id: currentSong.id },
+  });
+
+const song = response?.data?.getSong;
+
+// If the record has no associated file, we can return early.
+if (!song?.coverArtKey) return;
+
+const songDetails = {
+  id: song.id,
+  coverArtKey: null,
+};
+
+const updatedSong = await API.graphql({
+  query: mutations.updateSong,
+  variables: { input: songDetails },
+});
+```
+
+</Block>
+</BlockSwitcher>
+
+### Remove the record association and delete the file
+
+The following example removes the file from the record, then deletes the file from S3:
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
+  query: queries.getSong,
+  variables: { id: currentSong.id },
+});
+
+const song = response?.data?.getSong;
+
+// If the record has no associated file, we can return early.
+if (!song?.coverArtKey) return;
+
+const songDetails: UpdateSongInput = {
+  id: song.id,
+  coverArtKey: null, // Set the file association to `null`
+};
+
+// Remove associated file from record
+const updatedSong = await API.graphql<GraphQLQuery<UpdateSongMutation>>({
+  query: mutations.updateSong,
+  variables: { input: songDetails },
+});
+
+// Delete the file from S3:
+await Storage.remove(song.coverArtKey);
+``` 
+
+</Block>
+<Block name="JavaScript">
+
+```js
+const response = await API.graphql({
+  query: queries.getSong,
+  variables: { id: currentSong.id },
+});
+
+const song = response?.data?.getSong;
+
+// If the record has no associated file, we can return early.
+if (!song?.coverArtKey) return;
+
+const songDetails: UpdateSongInput = {
+  id: song.id,
+  coverArtKey: null, // Set the file association to `null`
+};
+
+// Remove associated file from record
+const updatedSong = await API.graphql({
+  query: mutations.updateSong,
+  variables: { input: songDetails },
+});
+
+// Delete the file from S3:
+await Storage.remove(song.coverArtKey);
+```
+
+</Block>
+</BlockSwitcher>
+
+### Delete both file and record
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
+    query: queries.getSong,
+    variables: { id: currentSong.id },
+  });
+
+const song = response?.data?.getSong;
+
+// If the record has no associated file, we can return early.
+if (!song?.coverArtKey) return;
+
+await Storage.remove(song.coverArtKey);
+
+const songDetails: DeleteSongInput = {
+  id: song.id,
+};
+
+const deletedSong = await API.graphql<GraphQLQuery<DeleteSongMutation>>({
+  query: mutations.deleteSong,
+  variables: { input: songDetails },
+});
+``` 
+
+</Block>
+<Block name="JavaScript">
+
+```js
+const response = await API.graphql({
+    query: queries.getSong,
+    variables: { id: currentSong.id },
+  });
+
+const song = response?.data?.getSong;
+
+// If the record has no associated file, we can return early.
+if (!song?.coverArtKey) return;
+
+await Storage.remove(song.coverArtKey);
+
+const songDetails = {
+  id: song.id,
+};
+
+const deletedSong = await API.graphql({
+  query: mutations.deleteSong,
+  variables: { input: songDetails },
+});
+```
+
+</Block>
+</BlockSwitcher>
+
+## Working with multiple files
+
+You may want to add multiple files to a single record, such as a user profile with multiple images. 
+To do this, you can add a list of file keys to the record. The following example adds a list of file keys to a record:
+
+### GraphQL schema to associate a data model with multiple files
+
+When prompted after running `amplify add api` use the following schema, which can also be found under `amplify/backend/api/[name of project]/schema.graphql`:
+
+```graphql
+type PhotoAlbum @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  name: String!
+  imageKeys: [String] #Set as optional to allow adding file(s) after initial create
+}
+```
+
+CRUD operations when working with multiple files is the same as when working with a single file, with the exception that we are now working with a list of image keys, as opposed to a single image key.
+
+### Create a record with multiple associated files
+
+First create a record via the GraphQL API, then upload the files to Storage, and finally add the associations between the record and files.
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+const photoAlbumDetails: CreatePhotoAlbumInput = {
+  name: `My first photoAlbum`,
+};
+
+// Create the API record:
+const response = await API.graphql<
+  GraphQLQuery<CreatePhotoAlbumMutation>
+>({
+  query: mutations.createPhotoAlbum,
+  variables: { input: photoAlbumDetails },
+});
+
+const photoAlbum = response?.data?.createPhotoAlbum;
+
+if (!photoAlbum) return;
+
+// Upload all files to Storage:
+const imageKeys = await Promise.all(
+  Array.from(e.target.files).map(async (file) => {
+    const result = await Storage.put(
+      `${photoAlbum.id}-${file.name}`,
+      file,
+      {
+        contentType: "image/png", // contentType is optional
+      }
+    );
+
+    return result?.key;
+  })
+);
+
+const updatePhotoAlbumDetails: UpdatePhotoAlbumInput = {
+  id: photoAlbum.id,
+  imageKeys: imageKeys,
+};
+
+// Add the file association to the record:
+const updateResponse = await API.graphql<
+  GraphQLQuery<UpdatePhotoAlbumMutation>
+>({
+  query: mutations.updatePhotoAlbum,
+  variables: { input: updatePhotoAlbumDetails },
+});
+
+const updatedPhotoAlbum = updateResponse?.data?.updatePhotoAlbum;
+
+// If the record has no associated file, we can return early.
+if (!updatedPhotoAlbum?.imageKeys?.length) return;
+
+// Retrieve signed urls for all files:
+const signedUrls = await Promise.all(
+  updatedPhotoAlbum.imageKeys.map(async (key) => await Storage.get(key!))
+);
+``` 
+
+</Block>
+<Block name="JavaScript">
+
+```js
+const photoAlbumDetails = {
+  name: `My first photoAlbum`,
+};
+
+// Create the API record:
+const response = await API.graphql({
+  query: mutations.createPhotoAlbum,
+  variables: { input: photoAlbumDetails },
+});
+
+const photoAlbum = response?.data?.createPhotoAlbum;
+
+if (!photoAlbum) return;
+
+// Upload all files to Storage:
+const imageKeys = await Promise.all(
+  Array.from(e.target.files).map(async (file) => {
+    const result = await Storage.put(
+      `${photoAlbum.id}-${file.name}`,
+      file,
+      {
+        contentType: "image/png", // contentType is optional
+      }
+    );
+
+    return result?.key;
+  })
+);
+
+const updatePhotoAlbumDetails = {
+  id: photoAlbum.id,
+  imageKeys: imageKeys,
+};
+
+// Add the file association to the record:
+const updateResponse = await API.graphql({
+  query: mutations.updatePhotoAlbum,
+  variables: { input: updatePhotoAlbumDetails },
+});
+
+const updatedPhotoAlbum = updateResponse?.data?.updatePhotoAlbum;
+
+// If the record has no associated file, we can return early.
+if (!updatedPhotoAlbum?.imageKeys?.length) return;
+
+// Retrieve signed urls for all files:
+const signedUrls = await Promise.all(
+  updatedPhotoAlbum.imageKeys.map(async (key) => await Storage.get(key))
+);
+```
+
+</Block>
+</BlockSwitcher>
+
+### Create a record with a single associated file
+
+When a schema allows for multiple associated images, you can still create a record with a single associated file.
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+const photoAlbumDetails: CreatePhotoAlbumInput = {
+  name: `My first photoAlbum`,
+};
+
+// Create the API record:
+const response = await API.graphql<
+  GraphQLQuery<CreatePhotoAlbumMutation>
+>({
+  query: mutations.createPhotoAlbum,
+  variables: { input: photoAlbumDetails },
+});
+
+const photoAlbum = response?.data?.createPhotoAlbum;
+
+if (!photoAlbum) return;
+
+// Upload the Storage file:
+const result = await Storage.put(`${photoAlbum.id}-${file.name}`, file, {
+  contentType: "image/png", // contentType is optional
+});
+
+const updatePhotoAlbumDetails: UpdatePhotoAlbumInput = {
+  id: photoAlbum.id,
+  imageKeys: [result?.key],
+};
+
+// Add the file association to the record:
+const updateResponse = await API.graphql<
+  GraphQLQuery<UpdatePhotoAlbumMutation>
+>({
+  query: mutations.updatePhotoAlbum,
+  variables: { input: updatePhotoAlbumDetails },
+});
+
+const updatedPhotoAlbum = updateResponse?.data?.updatePhotoAlbum;
+
+// If the record has no associated file, we can return early.
+if (!updatedPhotoAlbum?.imageKeys?.length) return;
+
+// Retrieve the file's signed URL:
+const signedURL = await Storage.get(updatedPhotoAlbum.imageKeys[0]!);
+``` 
+
+</Block>
+<Block name="JavaScript">
+
+```js
+const photoAlbumDetails = {
+  name: `My first photoAlbum`,
+};
+
+// Create the API record:
+const response = await API.graphql({
+  query: mutations.createPhotoAlbum,
+  variables: { input: photoAlbumDetails },
+});
+
+const photoAlbum = response?.data?.createPhotoAlbum;
+
+if (!photoAlbum) return;
+
+// Upload the Storage file:
+const result = await Storage.put(`${photoAlbum.id}-${file.name}`, file, {
+  contentType: "image/png", // contentType is optional
+});
+
+const updatePhotoAlbumDetails = {
+  id: photoAlbum.id,
+  imageKeys: [result?.key],
+};
+
+// Add the file association to the record:
+const updateResponse = await API.graphql({
+  query: mutations.updatePhotoAlbum,
+  variables: { input: updatePhotoAlbumDetails },
+});
+
+const updatedPhotoAlbum = updateResponse?.data?.updatePhotoAlbum;
+
+// If the record has no associated file, we can return early.
+if (!updatedPhotoAlbum?.imageKeys?.length) return;
+
+// Retrieve the file's signed URL:
+const signedURL = await Storage.get(updatedPhotoAlbum.imageKeys[0]);
+```
+
+</Block>
+</BlockSwitcher>
+
+### Add new files to an associated record
+
+To associate additional files with a record, update the record with the keys returned by the Storage uploads.
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+// Upload all files to Storage:
+const newImageKeys = await Promise.all(
+  Array.from(e.target.files).map(async (file) => {
+    const result = await Storage.put(
+      `${currentPhotoAlbum.id}-${file.name}`,
+      file,
+      {
+        contentType: "image/png", // contentType is optional
+      }
+    );
+
+    return result?.key;
+  })
+);
+
+// Query existing record to retrieve currently associated files:
+const queriedResponse = await API.graphql<
+  GraphQLQuery<GetPhotoAlbumQuery>
+>({
+  query: queries.getPhotoAlbum,
+  variables: { id: currentPhotoAlbum.id },
+});
+
+const photoAlbum = queriedResponse.data?.getPhotoAlbum;
+
+if (!photoAlbum?.imageKeys) return;
+
+// Merge existing and new file keys:
+const updatedImageKeys = [...newImageKeys, ...photoAlbum.imageKeys];
+
+const photoAlbumDetails: UpdatePhotoAlbumInput = {
+  id: currentPhotoAlbum.id,
+  imageKeys: updatedImageKeys,
+};
+
+// Update record with merged file associations:
+const response = await API.graphql<
+  GraphQLQuery<UpdatePhotoAlbumMutation>
+>({
+  query: mutations.updatePhotoAlbum,
+  variables: { input: photoAlbumDetails },
+});
+
+const updatedPhotoAlbum = response?.data?.updatePhotoAlbum;
+
+// If the record has no associated file, we can return early.
+if (!updatedPhotoAlbum?.imageKeys) return;
+
+// Retrieve signed urls for merged image keys:
+const signedUrls = await Promise.all(
+  updatedPhotoAlbum?.imageKeys.map(async (key) => await Storage.get(key!))
+);
+``` 
+
+</Block>
+<Block name="JavaScript">
+
+```js
+// Upload all files to Storage:
+const newImageKeys = await Promise.all(
+  Array.from(e.target.files).map(async (file) => {
+    const result = await Storage.put(
+      `${currentPhotoAlbum.id}-${file.name}`,
+      file,
+      {
+        contentType: "image/png", // contentType is optional
+      }
+    );
+
+    return result?.key;
+  })
+);
+
+// Query existing record to retrieve currently associated files:
+const queriedResponse = await API.graphql({
+  query: queries.getPhotoAlbum,
+  variables: { id: currentPhotoAlbum.id },
+});
+
+const photoAlbum = queriedResponse.data?.getPhotoAlbum;
+
+if (!photoAlbum?.imageKeys) return;
+
+// Merge existing and new file keys:
+const updatedImageKeys = [...newImageKeys, ...photoAlbum.imageKeys];
+
+const photoAlbumDetails = {
+  id: currentPhotoAlbum.id,
+  imageKeys: updatedImageKeys,
+};
+
+// Update record with merged file associations:
+const response = await API.graphql({
+  query: mutations.updatePhotoAlbum,
+  variables: { input: photoAlbumDetails },
+});
+
+const updatedPhotoAlbum = response?.data?.updatePhotoAlbum;
+
+// If the record has no associated file, we can return early.
+if (!updatedPhotoAlbum?.imageKeys) return;
+
+// Retrieve signed urls for merged image keys:
+const signedUrls = await Promise.all(
+  updatedPhotoAlbum?.imageKeys.map(async (key) => await Storage.get(key))
+);
+```
+
+</Block>
+</BlockSwitcher>
+
+### Update the file for an associated record
+
+Updating a file for an associated record is the same as updating a file for a single file record, with the exception that you will need to update the list of file keys.
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+// Upload new file to Storage:
+const result = await Storage.put(
+  `${currentPhotoAlbum.id}-${file.name}`,
+  file,
+  {
+    contentType: "image/png", // contentType is optional
+  }
+);
+
+const newFileKey = result?.key;
+
+// Query existing record to retrieve currently associated files:
+const queriedResponse = await API.graphql<
+  GraphQLQuery<GetPhotoAlbumQuery>
+>({
+  query: queries.getPhotoAlbum,
+  variables: { id: currentPhotoAlbum.id },
+});
+
+const photoAlbum = queriedResponse.data?.getPhotoAlbum;
+
+if (!photoAlbum?.imageKeys?.length) return;
+
+// Retrieve last image key:
+const [lastImageKey] = photoAlbum.imageKeys.slice(-1);
+
+// Remove last file association by key
+const updatedImageKeys = [
+  ...photoAlbum.imageKeys.filter((key) => key !== lastImageKey),
+  newFileKey,
+];
+
+const photoAlbumDetails: UpdatePhotoAlbumInput = {
+  id: currentPhotoAlbum.id,
+  // @ts-ignore
+  imageKeys: updatedImageKeys,
+};
+
+// Update record with updated file associations:
+const response = await API.graphql<
+  GraphQLQuery<UpdatePhotoAlbumMutation>
+>({
+  query: mutations.updatePhotoAlbum,
+  variables: { input: photoAlbumDetails },
+});
+
+const updatedPhotoAlbum = response?.data?.updatePhotoAlbum;
+
+// If the record has no associated file, we can return early.
+if (!updatedPhotoAlbum?.imageKeys) return;
+
+// Retrieve signed urls for merged image keys:
+const signedUrls = await Promise.all(
+  updatedPhotoAlbum?.imageKeys.map(async (key) => await Storage.get(key!))
+);
+``` 
+
+</Block>
+<Block name="JavaScript">
+
+```js
+// Upload new file to Storage:
+const result = await Storage.put(
+  `${currentPhotoAlbum.id}-${file.name}`,
+  file,
+  {
+    contentType: "image/png", // contentType is optional
+  }
+);
+
+const newFileKey = result?.key;
+
+// Query existing record to retrieve currently associated files:
+const queriedResponse = await API.graphql({
+  query: queries.getPhotoAlbum,
+  variables: { id: currentPhotoAlbum.id },
+});
+
+const photoAlbum = queriedResponse.data?.getPhotoAlbum;
+
+if (!photoAlbum?.imageKeys?.length) return;
+
+// Retrieve last image key:
+const [lastImageKey] = photoAlbum.imageKeys.slice(-1);
+
+// Remove last file association by key
+const updatedImageKeys = [
+  ...photoAlbum.imageKeys.filter((key) => key !== lastImageKey),
+  newFileKey,
+];
+
+const photoAlbumDetails = {
+  id: currentPhotoAlbum.id,
+  // @ts-ignore
+  imageKeys: updatedImageKeys,
+};
+
+// Update record with updated file associations:
+const response = await API.graphql({
+  query: mutations.updatePhotoAlbum,
+  variables: { input: photoAlbumDetails },
+});
+
+const updatedPhotoAlbum = response?.data?.updatePhotoAlbum;
+
+// If the record has no associated file, we can return early.
+if (!updatedPhotoAlbum?.imageKeys) return;
+
+// Retrieve signed urls for merged image keys:
+const signedUrls = await Promise.all(
+  updatedPhotoAlbum?.imageKeys.map(async (key) => await Storage.get(key))
+);
+```
+
+</Block>
+</BlockSwitcher>
+
+### Query a record and retrieve the associated files
+
+To retrieve the files associated with a record, first query the record, then use Storage to retrieve all of the signed URLs.
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+// Query the record to get the file keys:
+const response = await API.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
+  query: queries.getPhotoAlbum,
+  variables: { id: currentPhotoAlbum.id },
+});
+const photoAlbum = response.data?.getPhotoAlbum;
+
+// If the record has no associated files, we can return early.
+if (!photoAlbum?.imageKeys) return;
+
+// Retrieve the signed URLs for the associated images:
+const signedUrls = await Promise.all(
+  photoAlbum.imageKeys.map(async (imageKey) => {
+    if (!imageKey) return;
+    return await Storage.get(imageKey);
+  })
+);
+``` 
+
+</Block>
+<Block name="JavaScript">
+
+```js
+// Query the record to get the file keys:
+const response = await API.graphql({
+  query: queries.getPhotoAlbum,
+  variables: { id: currentPhotoAlbum.id },
+});
+const photoAlbum = response.data?.getPhotoAlbum;
+
+// If the record has no associated files, we can return early.
+if (!photoAlbum?.imageKeys) return;
+
+// Retrieve the signed URLs for the associated images:
+const signedUrls = await Promise.all(
+  photoAlbum.imageKeys.map(async (imageKey) => {
+    if (!imageKey) return;
+    return await Storage.get(imageKey);
+  })
+);
+```
+
+</Block>
+</BlockSwitcher>
+
+### Delete and remove files associated with API records
+
+The workflow for deleting and removing files associated with API records is the same as when working with a single file, except that when performing a delete you will need to iterate over the list of files keys and call `Storage.remove()` for each file.
+
+#### Remove the file association, continue to persist both files and record
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+const response = await API.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
+  query: queries.getPhotoAlbum,
+  variables: { id: currentPhotoAlbum.id },
+});
+
+const photoAlbum = response?.data?.getPhotoAlbum;
+
+// If the record has no associated file, we can return early.
+if (!photoAlbum?.imageKeys) return;
+
+const photoAlbumDetails: UpdatePhotoAlbumInput = {
+  id: photoAlbum.id,
+  imageKeys: null,
+};
+
+const updatedPhotoAlbum = await API.graphql<
+  GraphQLQuery<UpdatePhotoAlbumMutation>
+>({
+  query: mutations.updatePhotoAlbum,
+  variables: { input: photoAlbumDetails },
+});
+``` 
+
+</Block>
+<Block name="JavaScript">
+
+```js
+const response = await API.graphql({
+  query: queries.getPhotoAlbum,
+  variables: { id: currentPhotoAlbum.id },
+});
+
+const photoAlbum = response?.data?.getPhotoAlbum;
+
+// If the record has no associated file, we can return early.
+if (!photoAlbum?.imageKeys) return;
+
+const photoAlbumDetails = {
+  id: photoAlbum.id,
+  imageKeys: null,
+};
+
+const updatedPhotoAlbum = await API.graphql({
+  query: mutations.updatePhotoAlbum,
+  variables: { input: photoAlbumDetails },
+});
+```
+
+</Block>
+</BlockSwitcher>
+
+#### Remove the record association and delete the files
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+const response = await API.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
+  query: queries.getPhotoAlbum,
+  variables: { id: currentPhotoAlbum.id },
+});
+
+const photoAlbum = response?.data?.getPhotoAlbum;
+
+// If the record has no associated files, we can return early.
+if (!photoAlbum?.imageKeys) return;
+
+const photoAlbumDetails: UpdatePhotoAlbumInput = {
+  id: photoAlbum.id,
+  imageKeys: null, // Set the file association to `null`
+};
+
+// Remove associated files from record
+const updateResponse = await API.graphql<
+  GraphQLQuery<UpdatePhotoAlbumMutation>
+>({
+  query: mutations.updatePhotoAlbum,
+  variables: { input: photoAlbumDetails },
+});
+
+const updatedPhotoAlbum = updateResponse?.data?.updatePhotoAlbum;
+
+// Delete the files from S3:
+await Promise.all(
+  photoAlbum?.imageKeys.map(async (imageKey) => {
+    if (!imageKey) return;
+    await Storage.remove(imageKey);
+  })
+);
+``` 
+
+</Block>
+<Block name="JavaScript">
+
+```js
+const response = await API.graphql({
+  query: queries.getPhotoAlbum,
+  variables: { id: currentPhotoAlbum.id },
+});
+
+const photoAlbum = response?.data?.getPhotoAlbum;
+
+// If the record has no associated files, we can return early.
+if (!photoAlbum?.imageKeys) return;
+
+const photoAlbumDetails = {
+  id: photoAlbum.id,
+  imageKeys: null, // Set the file association to `null`
+};
+
+// Remove associated files from record
+const updateResponse = await API.graphql({
+  query: mutations.updatePhotoAlbum,
+  variables: { input: photoAlbumDetails },
+});
+
+const updatedPhotoAlbum = updateResponse?.data?.updatePhotoAlbum;
+
+// Delete the files from S3:
+await Promise.all(
+  photoAlbum?.imageKeys.map(async (imageKey) => {
+    if (!imageKey) return;
+    await Storage.remove(imageKey);
+  })
+);
+```
+
+</Block>
+</BlockSwitcher>
+
+#### Delete record and all associated files
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+const response = await API.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
+  query: queries.getPhotoAlbum,
+  variables: { id: currentPhotoAlbum.id },
+});
+
+const photoAlbum = response?.data?.getPhotoAlbum;
+
+if (!photoAlbum) return;
+
+const photoAlbumDetails: DeletePhotoAlbumInput = {
+  id: photoAlbum.id,
+};
+
+await API.graphql<GraphQLQuery<DeletePhotoAlbumMutation>>({
+  query: mutations.deletePhotoAlbum,
+  variables: { input: photoAlbumDetails },
+});
+
+// If the record has no associated file, we can return early.
+if (!photoAlbum?.imageKeys) return;
+
+await Promise.all(
+  photoAlbum?.imageKeys.map(async (imageKey) => {
+    if (!imageKey) return;
+    await Storage.remove(imageKey);
+  })
+);
+``` 
+
+</Block>
+<Block name="JavaScript">
+
+```js
+const response = await API.graphql({
+  query: queries.getPhotoAlbum,
+  variables: { id: currentPhotoAlbum.id },
+});
+
+const photoAlbum = response?.data?.getPhotoAlbum;
+
+if (!photoAlbum) return;
+
+const photoAlbumDetails = {
+  id: photoAlbum.id,
+};
+
+await API.graphql({
+  query: mutations.deletePhotoAlbum,
+  variables: { input: photoAlbumDetails },
+});
+
+// If the record has no associated file, we can return early.
+if (!photoAlbum?.imageKeys) return;
+
+await Promise.all(
+  photoAlbum?.imageKeys.map(async (imageKey) => {
+    if (!imageKey) return;
+    await Storage.remove(imageKey);
+  })
+);
+```
+
+</Block>
+</BlockSwitcher>
+
+## Data consistency when working with records and files
+
+The recommended access patterns in these docs attempt to remove deleted files, but favor leaving orphans over leaving records that point to non-existent files. This optimizes for read latency by ensuring clients *rarely* attempt to fetch a non-existent file from Storage. However, any app that deletes files can inherently cause records *on-device* to point to non-existent files.
+
+One example is when we [create an API record, associate the Storage file with that record, and then retrieve the file's signed URL](#create-a-record-with-an-associated-file). "Device A" calls the GraphQL API to create `API_Record_1`, and then associates that record with `First_Photo`. Before "Device A" is about to retrieve the signed URL, "Device B" might query `API_Record_1`, delete `First_Photo`, and update the record accordingly. However, "Device A" is still using the old `API_Record_1`, which is now out-of-date. Even though the shared global state is correctly in sync at every stage, the individual device ("Device A") has an out-of-date record that points to a non-existent file. Similar issues can conceivably occur for updates. Depending on your app, some of these mismatches can be minimized *even more* with [real-time data / GraphQL subscriptions](https://docs.amplify.aws/lib/graphqlapi/subscribe-data/).
+
+It is important to understand when these mismatches can occur and to add meaningful error handling around these cases. This guide does not include exhaustive error handling, real-time subscriptions, re-querying of outdated records, or attempts to retry failed operations. However, these are all important considerations for a production-level application.
+
+## Complete examples
+
+<BlockSwitcher>
+<Block name="Single File (TS)">
+
+```ts
+import { useState } from "react";
+import { API, Storage } from "aws-amplify";
+import { Authenticator } from "@aws-amplify/ui-react";
+import "@aws-amplify/ui-react/styles.css";
+import { GraphQLQuery } from "@aws-amplify/api";
+import * as queries from "./graphql/queries";
+import * as mutations from "./graphql/mutations";
+import {
+  CreateSongInput,
+  CreateSongMutation,
+  DeleteSongInput,
+  DeleteSongMutation,
+  GetSongQuery,
+  UpdateSongInput,
+  UpdateSongMutation,
+} from "./API";
+
+function App() {
+  const [currentSong, setCurrentSong] = useState<any>();
+
+  // Used to display image for current song:
+  const [currentImageUrl, setCurrentImageUrl] = useState<
+    string | null | undefined
+  >("");
+
+  // Private access level configuration on the Storage object:
+  Storage.configure({ level: 'private' });
+
+  async function createSongWithImage(e: React.ChangeEvent<HTMLInputElement>) {
+    if (!e.target.files) return;
+
+    const file = e.target.files[0];
+
+    try {
+      const createSongDetails: CreateSongInput = {
+        name: `My first song`,
+      };
+
+      // Create the API record:
+      const response = await API.graphql<GraphQLQuery<CreateSongMutation>>({
+        query: mutations.createSong,
+        variables: { input: createSongDetails },
+      });
+
+      const song = response?.data?.createSong;
+
+      if (!song) return;
+
+      // Upload the Storage file:
+      const result = await Storage.put(`${song.id}-${file.name}`, file, {
+        contentType: "image/png", // contentType is optional
+      });
+
+      const updateSongDetails: UpdateSongInput = {
+        id: song.id,
+        coverArtKey: result?.key,
+      };
+
+      // Add the file association to the record:
+      const updateResponse = await API.graphql<
+        GraphQLQuery<UpdateSongMutation>
+      >({
+        query: mutations.updateSong,
+        variables: { input: updateSongDetails },
+      });
+
+      const updatedSong = updateResponse?.data?.updateSong;
+
+      setCurrentSong(updatedSong);
+
+      // If the record has no associated file, we can return early.
+      if (!updatedSong?.coverArtKey) return;
+
+      // Retrieve the file's signed URL:
+      const signedURL = await Storage.get(updatedSong.coverArtKey);
+      setCurrentImageUrl(signedURL);
+    } catch (error) {
+      console.error("Error create song / file:", error);
+    }
+  }
+
+  // Upload image, add to song, retrieve signed URL and retrieve the image.
+  // Also updates image if one already exists.
+  async function addNewImageToSong(e: React.ChangeEvent<HTMLInputElement>) {
+    if (!currentSong) return;
+
+    if (!e.target.files) return;
+
+    const file = e.target.files[0];
+
+    try {
+      // Upload the Storage file:
+      const result = await Storage.put(`${currentSong.id}-${file.name}`, file, {
+        contentType: "image/png", // contentType is optional
+      });
+
+      const updateSongDetails: UpdateSongInput = {
+        id: currentSong.id,
+        coverArtKey: result?.key,
+      };
+
+      // Add the file association to the record:
+      const response = await API.graphql<GraphQLQuery<UpdateSongMutation>>({
+        query: mutations.updateSong,
+        variables: { input: updateSongDetails },
+      });
+
+      const updatedSong = response?.data?.updateSong;
+
+      setCurrentSong(updatedSong);
+
+      // If the record has no associated file, we can return early.
+      if (!updatedSong?.coverArtKey) return;
+
+      // Retrieve the file's signed URL:
+      const signedURL = await Storage.get(updatedSong.coverArtKey);
+      setCurrentImageUrl(signedURL);
+    } catch (error) {
+      console.error("Error uploading image / adding image to song: ", error);
+    }
+  }
+
+  async function getImageForCurrentSong() {
+    try {
+      // Query the record to get the file key:
+      const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
+        query: queries.getSong,
+        variables: { id: currentSong.id },
+      });
+      const song = response.data?.getSong;
+
+      // If the record has no associated file, we can return early.
+      if (!song?.coverArtKey) return;
+
+      // Retrieve the signed URL:
+      const signedURL = await Storage.get(song.coverArtKey);
+
+      setCurrentImageUrl(signedURL);
+    } catch (error) {
+      console.error("Error getting song / image:", error);
+    }
+  }
+
+  // Remove the file association, continue to persist both file and record
+  async function removeImageFromSong() {
+    if (!currentSong) return;
+
+    try {
+      const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
+        query: queries.getSong,
+        variables: { id: currentSong.id },
+      });
+
+      const song = response?.data?.getSong;
+
+      // If the record has no associated file, we can return early.
+      if (!song?.coverArtKey) return;
+
+      const songDetails: UpdateSongInput = {
+        id: song.id,
+        coverArtKey: null,
+      };
+
+      const updatedSong = await API.graphql<GraphQLQuery<UpdateSongMutation>>({
+        query: mutations.updateSong,
+        variables: { input: songDetails },
+      });
+
+      // If successful, the response here will be `null`:
+      setCurrentSong(updatedSong?.data?.updateSong);
+      setCurrentImageUrl(updatedSong?.data?.updateSong?.coverArtKey);
+    } catch (error) {
+      console.error("Error removing image from song: ", error);
+    }
+  }
+
+  // Remove the record association and delete the file
+  async function deleteImageForCurrentSong() {
+    if (!currentSong) return;
+
+    try {
+      const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
+        query: queries.getSong,
+        variables: { id: currentSong.id },
+      });
+
+      const song = response?.data?.getSong;
+
+      // If the record has no associated file, we can return early.
+      if (!song?.coverArtKey) return;
+
+      const songDetails: UpdateSongInput = {
+        id: song.id,
+        coverArtKey: null, // Set the file association to `null`
+      };
+
+      // Remove associated file from record
+      const updatedSong = await API.graphql<GraphQLQuery<UpdateSongMutation>>({
+        query: mutations.updateSong,
+        variables: { input: songDetails },
+      });
+
+      // Delete the file from S3:
+      await Storage.remove(song.coverArtKey);
+
+      // If successful, the response here will be `null`:
+      setCurrentSong(updatedSong?.data?.updateSong);
+      setCurrentImageUrl(updatedSong?.data?.updateSong?.coverArtKey);
+    } catch (error) {
+      console.error("Error deleting image: ", error);
+    }
+  }
+
+  // Delete both file and record
+  async function deleteCurrentSongAndImage() {
+    if (!currentSong) return;
+
+    try {
+      const response = await API.graphql<GraphQLQuery<GetSongQuery>>({
+        query: queries.getSong,
+        variables: { id: currentSong.id },
+      });
+
+      const song = response?.data?.getSong;
+
+      // If the record has no associated file, we can return early.
+      if (!song?.coverArtKey) return;
+
+      await Storage.remove(song.coverArtKey);
+
+      const songDetails: DeleteSongInput = {
+        id: song.id,
+      };
+
+      await API.graphql<GraphQLQuery<DeleteSongMutation>>({
+        query: mutations.deleteSong,
+        variables: { input: songDetails },
+      });
+
+      clearLocalState();
+    } catch (error) {
+      console.error("Error deleting song: ", error);
+    }
+  }
+
+  function clearLocalState() {
+    setCurrentSong(null);
+    setCurrentImageUrl("");
+  }
+
+  return (
+    <Authenticator>
+      {({ signOut, user }) => (
+        <main
+          style={{
+            alignItems: "center",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <h1>Hello {user?.username}!</h1>
+          <h2>{`Current Song: ${currentSong?.id}`}</h2>
+          <label>
+            Create song with file:
+            <input id="name" type="file" onChange={createSongWithImage} />
+          </label>
+          <label>
+            Add / update song image:
+            <input
+              id="name"
+              type="file"
+              onChange={addNewImageToSong}
+              disabled={!currentSong}
+            />
+          </label>
+          <button
+            onClick={getImageForCurrentSong}
+            disabled={!currentSong || !currentImageUrl}
+          >
+            Get image for current song
+          </button>
+          <button
+            onClick={removeImageFromSong}
+            disabled={!currentSong || !currentImageUrl}
+          >
+            Remove image from current song (does not delete image)
+          </button>
+          <button
+            onClick={deleteImageForCurrentSong}
+            disabled={!currentSong || !currentImageUrl}
+          >
+            Remove image from current song, then delete image
+          </button>
+          <button onClick={deleteCurrentSongAndImage} disabled={!currentSong}>
+            Delete current song (and image, if it exists)
+          </button>
+          <button onClick={signOut}>Sign out</button>
+          {currentImageUrl && (
+            <img src={currentImageUrl} alt="Storage file"></img>
+          )}
+        </main>
+      )}
+    </Authenticator>
+  );
+}
+
+export default App;
+``` 
+
+</Block>
+<Block name="Single File (JS)">
+
+```js
+import { useState } from "react";
+import { API, Storage } from "aws-amplify";
+import { Authenticator } from "@aws-amplify/ui-react";
+import "@aws-amplify/ui-react/styles.css";
+import * as queries from "./graphql/queries";
+import * as mutations from "./graphql/mutations";
+
+function App() {
+  const [currentSong, setCurrentSong] = useState();
+
+  // Used to display image for current song:
+  const [currentImageUrl, setCurrentImageUrl] = useState("");
+
+  // Private access level configuration on the Storage object:
+  Storage.configure({ level: 'private' });
+
+  async function createSongWithImage(e) {
+    if (!e.target.files) return;
+
+    const file = e.target.files[0];
+
+    try {
+      const createSongDetails = {
+        name: `My first song`,
+      };
+
+      // Create the API record:
+      const response = await API.graphql({
+        query: mutations.createSong,
+        variables: { input: createSongDetails },
+      });
+
+      const song = response?.data?.createSong;
+
+      if (!song) return;
+
+      // Upload the Storage file:
+      const result = await Storage.put(`${song.id}-${file.name}`, file, {
+        contentType: "image/png", // contentType is optional
+      });
+
+      const updateSongDetails = {
+        id: song.id,
+        coverArtKey: result?.key,
+      };
+
+      // Add the file association to the record:
+      const updateResponse = await API.graphql({
+        query: mutations.updateSong,
+        variables: { input: updateSongDetails },
+      });
+
+      const updatedSong = updateResponse?.data?.updateSong;
+
+      setCurrentSong(updatedSong);
+
+      // If the record has no associated file, we can return early.
+      if (!updatedSong?.coverArtKey) return;
+
+      // Retrieve the file's signed URL:
+      const signedURL = await Storage.get(updatedSong.coverArtKey);
+      setCurrentImageUrl(signedURL);
+    } catch (error) {
+      console.error("Error create song / file:", error);
+    }
+  }
+
+  // Upload image, add to song, retrieve signed URL and retrieve the image.
+  // Also updates image if one already exists.
+  async function addNewImageToSong(e) {
+    if (!currentSong) return;
+
+    if (!e.target.files) return;
+
+    const file = e.target.files[0];
+
+    try {
+      // Upload the Storage file:
+      const result = await Storage.put(`${currentSong.id}-${file.name}`, file, {
+        contentType: "image/png", // contentType is optional
+      });
+
+      const updateSongDetails = {
+        id: currentSong.id,
+        coverArtKey: result?.key,
+      };
+
+      // Add the file association to the record:
+      const response = await API.graphql({
+        query: mutations.updateSong,
+        variables: { input: updateSongDetails },
+      });
+
+      const updatedSong = response?.data?.updateSong;
+
+      setCurrentSong(updatedSong);
+
+      // If the record has no associated file, we can return early.
+      if (!updatedSong?.coverArtKey) return;
+
+      // Retrieve the file's signed URL:
+      const signedURL = await Storage.get(updatedSong.coverArtKey);
+      setCurrentImageUrl(signedURL);
+    } catch (error) {
+      console.error("Error uploading image / adding image to song: ", error);
+    }
+  }
+
+  async function getImageForCurrentSong() {
+    try {
+      // Query the record to get the file key:
+      const response = await API.graphql({
+        query: queries.getSong,
+        variables: { id: currentSong.id },
+      });
+      const song = response.data?.getSong;
+
+      // If the record has no associated file, we can return early.
+      if (!song?.coverArtKey) return;
+
+      // Retrieve the signed URL:
+      const signedURL = await Storage.get(song.coverArtKey);
+
+      setCurrentImageUrl(signedURL);
+    } catch (error) {
+      console.error("Error getting song / image:", error);
+    }
+  }
+
+  // Remove the file association, continue to persist both file and record
+  async function removeImageFromSong() {
+    if (!currentSong) return;
+
+    try {
+      const response = await API.graphql({
+        query: queries.getSong,
+        variables: { id: currentSong.id },
+      });
+
+      const song = response?.data?.getSong;
+
+      // If the record has no associated file, we can return early.
+      if (!song?.coverArtKey) return;
+
+      const songDetails = {
+        id: song.id,
+        coverArtKey: null,
+      };
+
+      const updatedSong = await API.graphql({
+        query: mutations.updateSong,
+        variables: { input: songDetails },
+      });
+
+      // If successful, the response here will be `null`:
+      setCurrentSong(updatedSong?.data?.updateSong);
+      setCurrentImageUrl(updatedSong?.data?.updateSong?.coverArtKey);
+    } catch (error) {
+      console.error("Error removing image from song: ", error);
+    }
+  }
+
+  // Remove the record association and delete the file
+  async function deleteImageForCurrentSong() {
+    if (!currentSong) return;
+
+    try {
+      const response = await API.graphql({
+        query: queries.getSong,
+        variables: { id: currentSong.id },
+      });
+
+      const song = response?.data?.getSong;
+
+      // If the record has no associated file, we can return early.
+      if (!song?.coverArtKey) return;
+
+      const songDetails = {
+        id: song.id,
+        coverArtKey: null, // Set the file association to `null`
+      };
+
+      // Remove associated file from record
+      const updatedSong = await API.graphql({
+        query: mutations.updateSong,
+        variables: { input: songDetails },
+      });
+
+      // Delete the file from S3:
+      await Storage.remove(song.coverArtKey);
+
+      // If successful, the response here will be `null`:
+      setCurrentSong(updatedSong?.data?.updateSong);
+      setCurrentImageUrl(updatedSong?.data?.updateSong?.coverArtKey);
+    } catch (error) {
+      console.error("Error deleting image: ", error);
+    }
+  }
+
+  // Delete both file and record
+  async function deleteCurrentSongAndImage() {
+    if (!currentSong) return;
+
+    try {
+      const response = await API.graphql({
+        query: queries.getSong,
+        variables: { id: currentSong.id },
+      });
+
+      const song = response?.data?.getSong;
+
+      // If the record has no associated file, we can return early.
+      if (!song?.coverArtKey) return;
+
+      await Storage.remove(song.coverArtKey);
+
+      const songDetails = {
+        id: song.id,
+      };
+
+      await API.graphql({
+        query: mutations.deleteSong,
+        variables: { input: songDetails },
+      });
+
+      clearLocalState();
+    } catch (error) {
+      console.error("Error deleting song: ", error);
+    }
+  }
+
+  function clearLocalState() {
+    setCurrentSong(null);
+    setCurrentImageUrl("");
+  }
+
+  return (
+    <Authenticator>
+      {({ signOut, user }) => (
+        <main
+          style={{
+            alignItems: "center",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <h1>Hello {user?.username}!</h1>
+          <h2>{`Current Song: ${currentSong?.id}`}</h2>
+          <label>
+            Create song with file:
+            <input id="name" type="file" onChange={createSongWithImage} />
+          </label>
+          <label>
+            Add / update song image:
+            <input
+              id="name"
+              type="file"
+              onChange={addNewImageToSong}
+              disabled={!currentSong}
+            />
+          </label>
+          <button
+            onClick={getImageForCurrentSong}
+            disabled={!currentSong || !currentImageUrl}
+          >
+            Get image for current song
+          </button>
+          <button
+            onClick={removeImageFromSong}
+            disabled={!currentSong || !currentImageUrl}
+          >
+            Remove image from current song (does not delete image)
+          </button>
+          <button
+            onClick={deleteImageForCurrentSong}
+            disabled={!currentSong || !currentImageUrl}
+          >
+            Remove image from current song, then delete image
+          </button>
+          <button onClick={deleteCurrentSongAndImage} disabled={!currentSong}>
+            Delete current song (and image, if it exists)
+          </button>
+          <button onClick={signOut}>Sign out</button>
+          {currentImageUrl && (
+            <img src={currentImageUrl} alt="Storage file"></img>
+          )}
+        </main>
+      )}
+    </Authenticator>
+  );
+}
+
+export default App;
+```
+
+</Block>
+
+<Block name="Multi-File (TS)">
+
+```ts
+import { useState } from "react";
+import { API, Storage } from "aws-amplify";
+import { Authenticator } from "@aws-amplify/ui-react";
+import "@aws-amplify/ui-react/styles.css";
+import { GraphQLQuery } from "@aws-amplify/api";
+import * as queries from "./graphql/queries";
+import * as mutations from "./graphql/mutations";
+import {
+  CreatePhotoAlbumInput,
+  CreatePhotoAlbumMutation,
+  DeletePhotoAlbumInput,
+  DeletePhotoAlbumMutation,
+  GetPhotoAlbumQuery,
+  ListPhotoAlbumsQuery,
+  UpdatePhotoAlbumInput,
+  UpdatePhotoAlbumMutation,
+} from "./API";
+
+function App() {
+  const [currentPhotoAlbum, setCurrentPhotoAlbum] = useState<any>();
+
+  // Used to display images for current photoAlbum:
+  const [currentImages, setCurrentImages] = useState<
+    (string | null | undefined)[] | null | undefined
+  >([]);
+
+  // Private access level configuration on the Storage object:
+  Storage.configure({ level: 'private' });
+
+  async function createPhotoAlbumWithFirstImage(
+    e: React.ChangeEvent<HTMLInputElement>
+  ) {
+    if (!e.target.files) return;
+
+    const file = e.target.files[0];
+
+    try {
+      const photoAlbumDetails: CreatePhotoAlbumInput = {
+        name: `My first photoAlbum`,
+      };
+
+      // Create the API record:
+      const response = await API.graphql<
+        GraphQLQuery<CreatePhotoAlbumMutation>
+      >({
+        query: mutations.createPhotoAlbum,
+        variables: { input: photoAlbumDetails },
+      });
+
+      const photoAlbum = response?.data?.createPhotoAlbum;
+
+      if (!photoAlbum) return;
+
+      // Upload the Storage file:
+      const result = await Storage.put(`${photoAlbum.id}-${file.name}`, file, {
+        contentType: "image/png", // contentType is optional
+      });
+
+      const updatePhotoAlbumDetails: UpdatePhotoAlbumInput = {
+        id: photoAlbum.id,
+        imageKeys: [result?.key],
+      };
+
+      // Add the file association to the record:
+      const updateResponse = await API.graphql<
+        GraphQLQuery<UpdatePhotoAlbumMutation>
+      >({
+        query: mutations.updatePhotoAlbum,
+        variables: { input: updatePhotoAlbumDetails },
+      });
+
+      const updatedPhotoAlbum = updateResponse?.data?.updatePhotoAlbum;
+
+      setCurrentPhotoAlbum(updatedPhotoAlbum);
+
+      // If the record has no associated file, we can return early.
+      if (!updatedPhotoAlbum?.imageKeys?.length) return;
+
+      // Retrieve the file's signed URL:
+      const signedURL = await Storage.get(updatedPhotoAlbum.imageKeys[0]!);
+      setCurrentImages([signedURL]);
+    } catch (error) {
+      console.error("Error create photoAlbum / file:", error);
+    }
+  }
+
+  async function createPhotoAlbumWithMultipleImages(
+    e: React.ChangeEvent<HTMLInputElement>
+  ) {
+    if (!e.target.files) return;
+
+    try {
+      const photoAlbumDetails: CreatePhotoAlbumInput = {
+        name: `My first photoAlbum`,
+      };
+
+      // Create the API record:
+      const response = await API.graphql<
+        GraphQLQuery<CreatePhotoAlbumMutation>
+      >({
+        query: mutations.createPhotoAlbum,
+        variables: { input: photoAlbumDetails },
+      });
+
+      const photoAlbum = response?.data?.createPhotoAlbum;
+
+      if (!photoAlbum) return;
+
+      // Upload all files to Storage:
+      const imageKeys = await Promise.all(
+        Array.from(e.target.files).map(async (file) => {
+          const result = await Storage.put(
+            `${photoAlbum.id}-${file.name}`,
+            file,
+            {
+              contentType: "image/png", // contentType is optional
+            }
+          );
+
+          return result?.key;
+        })
+      );
+
+      const updatePhotoAlbumDetails: UpdatePhotoAlbumInput = {
+        id: photoAlbum.id,
+        imageKeys: imageKeys,
+      };
+
+      // Add the file association to the record:
+      const updateResponse = await API.graphql<
+        GraphQLQuery<UpdatePhotoAlbumMutation>
+      >({
+        query: mutations.updatePhotoAlbum,
+        variables: { input: updatePhotoAlbumDetails },
+      });
+
+      const updatedPhotoAlbum = updateResponse?.data?.updatePhotoAlbum;
+
+      setCurrentPhotoAlbum(updatedPhotoAlbum);
+
+      // If the record has no associated file, we can return early.
+      if (!updatedPhotoAlbum?.imageKeys?.length) return;
+
+      // Retrieve signed urls for all files:
+      const signedUrls = await Promise.all(
+        updatedPhotoAlbum.imageKeys.map(async (key) => await Storage.get(key!))
+      );
+
+      if (!signedUrls) return;
+      setCurrentImages(signedUrls);
+    } catch (error) {
+      console.error("Error create photoAlbum / file:", error);
+    }
+  }
+
+  async function addNewImagesToPhotoAlbum(
+    e: React.ChangeEvent<HTMLInputElement>
+  ) {
+    if (!currentPhotoAlbum) return;
+
+    if (!e.target.files) return;
+
+    try {
+      // Upload all files to Storage:
+      const newImageKeys = await Promise.all(
+        Array.from(e.target.files).map(async (file) => {
+          const result = await Storage.put(
+            `${currentPhotoAlbum.id}-${file.name}`,
+            file,
+            {
+              contentType: "image/png", // contentType is optional
+            }
+          );
+
+          return result?.key;
+        })
+      );
+
+      // Query existing record to retrieve currently associated files:
+      const queriedResponse = await API.graphql<
+        GraphQLQuery<GetPhotoAlbumQuery>
+      >({
+        query: queries.getPhotoAlbum,
+        variables: { id: currentPhotoAlbum.id },
+      });
+
+      const photoAlbum = queriedResponse.data?.getPhotoAlbum;
+
+      if (!photoAlbum?.imageKeys) return;
+
+      // Merge existing and new file keys:
+      const updatedImageKeys = [...newImageKeys, ...photoAlbum.imageKeys];
+
+      const photoAlbumDetails: UpdatePhotoAlbumInput = {
+        id: currentPhotoAlbum.id,
+        imageKeys: updatedImageKeys,
+      };
+
+      // Update record with merged file associations:
+      const response = await API.graphql<
+        GraphQLQuery<UpdatePhotoAlbumMutation>
+      >({
+        query: mutations.updatePhotoAlbum,
+        variables: { input: photoAlbumDetails },
+      });
+
+      const updatedPhotoAlbum = response?.data?.updatePhotoAlbum;
+      setCurrentPhotoAlbum(updatedPhotoAlbum);
+
+      // If the record has no associated file, we can return early.
+      if (!updatedPhotoAlbum?.imageKeys) return;
+
+      // Retrieve signed urls for merged image keys:
+      const signedUrls = await Promise.all(
+        updatedPhotoAlbum?.imageKeys.map(async (key) => await Storage.get(key!))
+      );
+
+      if (!signedUrls) return;
+
+      setCurrentImages(signedUrls);
+    } catch (error) {
+      console.error(
+        "Error uploading image / adding image to photoAlbum: ",
+        error
+      );
+    }
+  }
+
+  // Replace last image associated with current photoAlbum:
+  async function updateLastImage(e: React.ChangeEvent<HTMLInputElement>) {
+    if (!currentPhotoAlbum) return;
+
+    if (!e.target.files) return;
+
+    const file = e.target.files[0];
+
+    try {
+      // Upload new file to Storage:
+      const result = await Storage.put(
+        `${currentPhotoAlbum.id}-${file.name}`,
+        file,
+        {
+          contentType: "image/png", // contentType is optional
+        }
+      );
+
+      const newFileKey = result?.key;
+
+      // Query existing record to retrieve currently associated files:
+      const queriedResponse = await API.graphql<
+        GraphQLQuery<GetPhotoAlbumQuery>
+      >({
+        query: queries.getPhotoAlbum,
+        variables: { id: currentPhotoAlbum.id },
+      });
+
+      const photoAlbum = queriedResponse.data?.getPhotoAlbum;
+
+      if (!photoAlbum?.imageKeys?.length) return;
+
+      // Retrieve last image key:
+      const [lastImageKey] = photoAlbum.imageKeys.slice(-1);
+
+      // Remove last file association by key
+      const updatedImageKeys = [
+        ...photoAlbum.imageKeys.filter((key) => key !== lastImageKey),
+        newFileKey,
+      ];
+
+      const photoAlbumDetails: UpdatePhotoAlbumInput = {
+        id: currentPhotoAlbum.id,
+        // @ts-ignore
+        imageKeys: updatedImageKeys,
+      };
+
+      // Update record with updated file associations:
+      const response = await API.graphql<
+        GraphQLQuery<UpdatePhotoAlbumMutation>
+      >({
+        query: mutations.updatePhotoAlbum,
+        variables: { input: photoAlbumDetails },
+      });
+
+      const updatedPhotoAlbum = response?.data?.updatePhotoAlbum;
+      setCurrentPhotoAlbum(updatedPhotoAlbum);
+
+      // If the record has no associated file, we can return early.
+      if (!updatedPhotoAlbum?.imageKeys) return;
+
+      // Retrieve signed urls for merged image keys:
+      const signedUrls = await Promise.all(
+        updatedPhotoAlbum?.imageKeys.map(async (key) => await Storage.get(key!))
+      );
+
+      if (!signedUrls) return;
+
+      setCurrentImages(signedUrls);
+    } catch (error) {
+      console.error(
+        "Error uploading image / adding image to photoAlbum: ",
+        error
+      );
+    }
+  }
+
+  async function getImagesForPhotoAlbum() {
+    try {
+      // Query the record to get the file keys:
+      const response = await API.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
+        query: queries.getPhotoAlbum,
+        variables: { id: currentPhotoAlbum.id },
+      });
+      const photoAlbum = response.data?.getPhotoAlbum;
+
+      // If the record has no associated files, we can return early.
+      if (!photoAlbum?.imageKeys) return;
+
+      // Retrieve the signed URLs for the associated images:
+      const signedUrls = await Promise.all(
+        photoAlbum.imageKeys.map(async (imageKey) => {
+          if (!imageKey) return;
+          return await Storage.get(imageKey);
+        })
+      );
+
+      setCurrentImages(signedUrls);
+    } catch (error) {
+      console.error("Error getting photoAlbum / image:", error);
+    }
+  }
+
+  // Remove the file associations, continue to persist both files and record
+  async function removeImagesFromPhotoAlbum() {
+    if (!currentPhotoAlbum) return;
+
+    try {
+      const response = await API.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
+        query: queries.getPhotoAlbum,
+        variables: { id: currentPhotoAlbum.id },
+      });
+
+      const photoAlbum = response?.data?.getPhotoAlbum;
+
+      // If the record has no associated file, we can return early.
+      if (!photoAlbum?.imageKeys) return;
+
+      const photoAlbumDetails: UpdatePhotoAlbumInput = {
+        id: photoAlbum.id,
+        imageKeys: null,
+      };
+
+      const updatedPhotoAlbum = await API.graphql<
+        GraphQLQuery<UpdatePhotoAlbumMutation>
+      >({
+        query: mutations.updatePhotoAlbum,
+        variables: { input: photoAlbumDetails },
+      });
+
+      // If successful, the response here will be `null`:
+      setCurrentPhotoAlbum(updatedPhotoAlbum?.data?.updatePhotoAlbum);
+      setCurrentImages(updatedPhotoAlbum?.data?.updatePhotoAlbum?.imageKeys);
+    } catch (error) {
+      console.error("Error removing image from photoAlbum: ", error);
+    }
+  }
+
+  // Remove the record association and delete the file
+  async function deleteImagesForCurrentPhotoAlbum() {
+    if (!currentPhotoAlbum) return;
+
+    try {
+      const response = await API.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
+        query: queries.getPhotoAlbum,
+        variables: { id: currentPhotoAlbum.id },
+      });
+
+      const photoAlbum = response?.data?.getPhotoAlbum;
+
+      // If the record has no associated files, we can return early.
+      if (!photoAlbum?.imageKeys) return;
+
+      const photoAlbumDetails: UpdatePhotoAlbumInput = {
+        id: photoAlbum.id,
+        imageKeys: null, // Set the file association to `null`
+      };
+
+      // Remove associated files from record
+      const updateResponse = await API.graphql<
+        GraphQLQuery<UpdatePhotoAlbumMutation>
+      >({
+        query: mutations.updatePhotoAlbum,
+        variables: { input: photoAlbumDetails },
+      });
+
+      const updatedPhotoAlbum = updateResponse?.data?.updatePhotoAlbum;
+
+      // Delete the files from S3:
+      await Promise.all(
+        photoAlbum?.imageKeys.map(async (imageKey) => {
+          if (!imageKey) return;
+          await Storage.remove(imageKey);
+        })
+      );
+
+      // If successful, the response here will be `null`:
+      setCurrentPhotoAlbum(updatedPhotoAlbum);
+      setCurrentImages(null);
+    } catch (error) {
+      console.error("Error deleting image: ", error);
+    }
+  }
+
+  // Delete both files and record
+  async function deleteCurrentPhotoAlbumAndImages() {
+    if (!currentPhotoAlbum) return;
+
+    try {
+      const response = await API.graphql<GraphQLQuery<GetPhotoAlbumQuery>>({
+        query: queries.getPhotoAlbum,
+        variables: { id: currentPhotoAlbum.id },
+      });
+
+      const photoAlbum = response?.data?.getPhotoAlbum;
+
+      if (!photoAlbum) return;
+
+      const photoAlbumDetails: DeletePhotoAlbumInput = {
+        id: photoAlbum.id,
+      };
+
+      await API.graphql<GraphQLQuery<DeletePhotoAlbumMutation>>({
+        query: mutations.deletePhotoAlbum,
+        variables: { input: photoAlbumDetails },
+      });
+
+      setCurrentPhotoAlbum(null);
+
+      // If the record has no associated file, we can return early.
+      if (!photoAlbum?.imageKeys) return;
+
+      await Promise.all(
+        photoAlbum?.imageKeys.map(async (imageKey) => {
+          if (!imageKey) return;
+          await Storage.remove(imageKey);
+        })
+      );
+
+      clearLocalState();
+    } catch (error) {
+      console.error("Error deleting photoAlbum: ", error);
+    }
+  }
+
+  function clearLocalState() {
+    setCurrentPhotoAlbum(null);
+    setCurrentImages([]);
+  }
+
+  return (
+    <Authenticator>
+      {({ signOut, user }) => (
+        <main
+          style={{
+            alignItems: "center",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <h1>Hello {user?.username}!</h1>
+          <h2>{`Current PhotoAlbum: ${currentPhotoAlbum?.id}`}</h2>
+          <label>
+            Create photoAlbum with one file:
+            <input
+              type="file"
+              accept="image/*"
+              onChange={createPhotoAlbumWithFirstImage}
+            />
+          </label>
+          <label>
+            Create photoAlbum with multiple files:
+            <input
+              type="file"
+              accept="image/*"
+              onChange={createPhotoAlbumWithMultipleImages}
+              multiple
+            />
+          </label>
+          <label>
+            Add multiple images to current photoAlbum:
+            <input
+              type="file"
+              accept="image/*"
+              onChange={addNewImagesToPhotoAlbum}
+              disabled={!currentPhotoAlbum}
+              multiple
+            />
+          </label>
+          <label>
+            Replace last image:
+            <input
+              type="file"
+              accept="image/*"
+              onChange={updateLastImage}
+              disabled={!currentPhotoAlbum || !currentImages}
+            />
+          </label>
+          <button
+            onClick={getImagesForPhotoAlbum}
+            disabled={!currentPhotoAlbum || !currentImages}
+          >
+            Get Images for Current Photo Album
+          </button>
+          <button
+            onClick={removeImagesFromPhotoAlbum}
+            disabled={!currentPhotoAlbum || !currentImages}
+          >
+            Remove images from current PhotoAlbum (does not delete images)
+          </button>
+          <button
+            onClick={deleteImagesForCurrentPhotoAlbum}
+            disabled={!currentPhotoAlbum || !currentImages}
+          >
+            Remove images from current PhotoAlbum, then delete images
+          </button>
+          <button
+            onClick={deleteCurrentPhotoAlbumAndImages}
+            disabled={!currentPhotoAlbum}
+          >
+            Delete current PhotoAlbum (and images, if they exist)
+          </button>
+          <button onClick={signOut}>Sign out</button>
+          {currentImages &&
+            currentImages.map((url, idx) => {
+              if (!url) return undefined;
+              return <img src={url} key={idx} alt="Storage file"></img>;
+            })}
+        </main>
+      )}
+    </Authenticator>
+  );
+}
+
+export default App;
+```
+
+</Block>
+
+<Block name="Multi-File (JS)">
+
+```js
+import { useState } from "react";
+import { API, Storage } from "aws-amplify";
+import { Authenticator } from "@aws-amplify/ui-react";
+import "@aws-amplify/ui-react/styles.css";
+import * as queries from "./graphql/queries";
+import * as mutations from "./graphql/mutations";
+
+function App() {
+  const [currentPhotoAlbum, setCurrentPhotoAlbum] = useState();
+
+  // Used to display images for current photoAlbum:
+  const [currentImages, setCurrentImages] = useState([]);
+
+  // Private access level configuration on the Storage object:
+  Storage.configure({ level: 'private' });
+
+  async function createPhotoAlbumWithFirstImage(e) {
+    if (!e.target.files) return;
+
+    const file = e.target.files[0];
+
+    try {
+      const photoAlbumDetails = {
+        name: `My first photoAlbum`,
+      };
+
+      // Create the API record:
+      const response = await API.graphql({
+        query: mutations.createPhotoAlbum,
+        variables: { input: photoAlbumDetails },
+      });
+
+      const photoAlbum = response?.data?.createPhotoAlbum;
+
+      if (!photoAlbum) return;
+
+      // Upload the Storage file:
+      const result = await Storage.put(`${photoAlbum.id}-${file.name}`, file, {
+        contentType: "image/png", // contentType is optional
+      });
+
+      const updatePhotoAlbumDetails = {
+        id: photoAlbum.id,
+        imageKeys: [result?.key],
+      };
+
+      // Add the file association to the record:
+      const updateResponse = await API.graphql({
+        query: mutations.updatePhotoAlbum,
+        variables: { input: updatePhotoAlbumDetails },
+      });
+
+      const updatedPhotoAlbum = updateResponse?.data?.updatePhotoAlbum;
+
+      setCurrentPhotoAlbum(updatedPhotoAlbum);
+
+      // If the record has no associated file, we can return early.
+      if (!updatedPhotoAlbum?.imageKeys?.length) return;
+
+      // Retrieve the file's signed URL:
+      const signedURL = await Storage.get(updatedPhotoAlbum.imageKeys[0]);
+      setCurrentImages([signedURL]);
+    } catch (error) {
+      console.error("Error create photoAlbum / file:", error);
+    }
+  }
+
+  async function createPhotoAlbumWithMultipleImages(e) {
+    if (!e.target.files) return;
+
+    try {
+      const photoAlbumDetails = {
+        name: `My first photoAlbum`,
+      };
+
+      // Create the API record:
+      const response = await API.graphql({
+        query: mutations.createPhotoAlbum,
+        variables: { input: photoAlbumDetails },
+      });
+
+      const photoAlbum = response?.data?.createPhotoAlbum;
+
+      if (!photoAlbum) return;
+
+      // Upload all files to Storage:
+      const imageKeys = await Promise.all(
+        Array.from(e.target.files).map(async (file) => {
+          const result = await Storage.put(
+            `${photoAlbum.id}-${file.name}`,
+            file,
+            {
+              contentType: "image/png", // contentType is optional
+            }
+          );
+
+          return result?.key;
+        })
+      );
+
+      const updatePhotoAlbumDetails = {
+        id: photoAlbum.id,
+        imageKeys: imageKeys,
+      };
+
+      // Add the file association to the record:
+      const updateResponse = await API.graphql({
+        query: mutations.updatePhotoAlbum,
+        variables: { input: updatePhotoAlbumDetails },
+      });
+
+      const updatedPhotoAlbum = updateResponse?.data?.updatePhotoAlbum;
+
+      setCurrentPhotoAlbum(updatedPhotoAlbum);
+
+      // If the record has no associated file, we can return early.
+      if (!updatedPhotoAlbum?.imageKeys?.length) return;
+
+      // Retrieve signed urls for all files:
+      const signedUrls = await Promise.all(
+        updatedPhotoAlbum.imageKeys.map(async (key) => await Storage.get(key))
+      );
+
+      if (!signedUrls) return;
+      setCurrentImages(signedUrls);
+    } catch (error) {
+      console.error("Error create photoAlbum / file:", error);
+    }
+  }
+
+  async function addNewImagesToPhotoAlbum(e) {
+    if (!currentPhotoAlbum) return;
+
+    if (!e.target.files) return;
+
+    try {
+      // Upload all files to Storage:
+      const newImageKeys = await Promise.all(
+        Array.from(e.target.files).map(async (file) => {
+          const result = await Storage.put(
+            `${currentPhotoAlbum.id}-${file.name}`,
+            file,
+            {
+              contentType: "image/png", // contentType is optional
+            }
+          );
+
+          return result?.key;
+        })
+      );
+
+      // Query existing record to retrieve currently associated files:
+      const queriedResponse = await API.graphql({
+        query: queries.getPhotoAlbum,
+        variables: { id: currentPhotoAlbum.id },
+      });
+
+      const photoAlbum = queriedResponse.data?.getPhotoAlbum;
+
+      if (!photoAlbum?.imageKeys) return;
+
+      // Merge existing and new file keys:
+      const updatedImageKeys = [...newImageKeys, ...photoAlbum.imageKeys];
+
+      const photoAlbumDetails = {
+        id: currentPhotoAlbum.id,
+        imageKeys: updatedImageKeys,
+      };
+
+      // Update record with merged file associations:
+      const response = await API.graphql({
+        query: mutations.updatePhotoAlbum,
+        variables: { input: photoAlbumDetails },
+      });
+
+      const updatedPhotoAlbum = response?.data?.updatePhotoAlbum;
+      setCurrentPhotoAlbum(updatedPhotoAlbum);
+
+      // If the record has no associated file, we can return early.
+      if (!updatedPhotoAlbum?.imageKeys) return;
+
+      // Retrieve signed urls for merged image keys:
+      const signedUrls = await Promise.all(
+        updatedPhotoAlbum?.imageKeys.map(async (key) => await Storage.get(key))
+      );
+
+      if (!signedUrls) return;
+
+      setCurrentImages(signedUrls);
+    } catch (error) {
+      console.error(
+        "Error uploading image / adding image to photoAlbum: ",
+        error
+      );
+    }
+  }
+
+  // Replace last image associated with current photoAlbum:
+  async function updateLastImage(e) {
+    if (!currentPhotoAlbum) return;
+
+    if (!e.target.files) return;
+
+    const file = e.target.files[0];
+
+    try {
+      // Upload new file to Storage:
+      const result = await Storage.put(
+        `${currentPhotoAlbum.id}-${file.name}`,
+        file,
+        {
+          contentType: "image/png", // contentType is optional
+        }
+      );
+
+      const newFileKey = result?.key;
+
+      // Query existing record to retrieve currently associated files:
+      const queriedResponse = await API.graphql({
+        query: queries.getPhotoAlbum,
+        variables: { id: currentPhotoAlbum.id },
+      });
+
+      const photoAlbum = queriedResponse.data?.getPhotoAlbum;
+
+      if (!photoAlbum?.imageKeys?.length) return;
+
+      // Retrieve last image key:
+      const [lastImageKey] = photoAlbum.imageKeys.slice(-1);
+
+      // Remove last file association by key
+      const updatedImageKeys = [
+        ...photoAlbum.imageKeys.filter((key) => key !== lastImageKey),
+        newFileKey,
+      ];
+
+      const photoAlbumDetails = {
+        id: currentPhotoAlbum.id,
+        // @ts-ignore
+        imageKeys: updatedImageKeys,
+      };
+
+      // Update record with updated file associations:
+      const response = await API.graphql({
+        query: mutations.updatePhotoAlbum,
+        variables: { input: photoAlbumDetails },
+      });
+
+      const updatedPhotoAlbum = response?.data?.updatePhotoAlbum;
+      setCurrentPhotoAlbum(updatedPhotoAlbum);
+
+      // If the record has no associated file, we can return early.
+      if (!updatedPhotoAlbum?.imageKeys) return;
+
+      // Retrieve signed urls for merged image keys:
+      const signedUrls = await Promise.all(
+        updatedPhotoAlbum?.imageKeys.map(async (key) => await Storage.get(key))
+      );
+
+      if (!signedUrls) return;
+
+      setCurrentImages(signedUrls);
+    } catch (error) {
+      console.error(
+        "Error uploading image / adding image to photoAlbum: ",
+        error
+      );
+    }
+  }
+
+  async function getImagesForPhotoAlbum() {
+    try {
+      // Query the record to get the file keys:
+      const response = await API.graphql({
+        query: queries.getPhotoAlbum,
+        variables: { id: currentPhotoAlbum.id },
+      });
+      const photoAlbum = response.data?.getPhotoAlbum;
+
+      // If the record has no associated files, we can return early.
+      if (!photoAlbum?.imageKeys) return;
+
+      // Retrieve the signed URLs for the associated images:
+      const signedUrls = await Promise.all(
+        photoAlbum.imageKeys.map(async (imageKey) => {
+          if (!imageKey) return;
+          return await Storage.get(imageKey);
+        })
+      );
+
+      setCurrentImages(signedUrls);
+    } catch (error) {
+      console.error("Error getting photoAlbum / image:", error);
+    }
+  }
+
+  // Remove the file associations, continue to persist both files and record
+  async function removeImagesFromPhotoAlbum() {
+    if (!currentPhotoAlbum) return;
+
+    try {
+      const response = await API.graphql({
+        query: queries.getPhotoAlbum,
+        variables: { id: currentPhotoAlbum.id },
+      });
+
+      const photoAlbum = response?.data?.getPhotoAlbum;
+
+      // If the record has no associated file, we can return early.
+      if (!photoAlbum?.imageKeys) return;
+
+      const photoAlbumDetails = {
+        id: photoAlbum.id,
+        imageKeys: null,
+      };
+
+      const updatedPhotoAlbum = await API.graphql({
+        query: mutations.updatePhotoAlbum,
+        variables: { input: photoAlbumDetails },
+      });
+
+      // If successful, the response here will be `null`:
+      setCurrentPhotoAlbum(updatedPhotoAlbum?.data?.updatePhotoAlbum);
+      setCurrentImages(updatedPhotoAlbum?.data?.updatePhotoAlbum?.imageKeys);
+    } catch (error) {
+      console.error("Error removing image from photoAlbum: ", error);
+    }
+  }
+
+  // Remove the record association and delete the file
+  async function deleteImagesForCurrentPhotoAlbum() {
+    if (!currentPhotoAlbum) return;
+
+    try {
+      const response = await API.graphql({
+        query: queries.getPhotoAlbum,
+        variables: { id: currentPhotoAlbum.id },
+      });
+
+      const photoAlbum = response?.data?.getPhotoAlbum;
+
+      // If the record has no associated files, we can return early.
+      if (!photoAlbum?.imageKeys) return;
+
+      const photoAlbumDetails = {
+        id: photoAlbum.id,
+        imageKeys: null, // Set the file association to `null`
+      };
+
+      // Remove associated files from record
+      const updateResponse = await API.graphql({
+        query: mutations.updatePhotoAlbum,
+        variables: { input: photoAlbumDetails },
+      });
+
+      const updatedPhotoAlbum = updateResponse?.data?.updatePhotoAlbum;
+
+      // Delete the files from S3:
+      await Promise.all(
+        photoAlbum?.imageKeys.map(async (imageKey) => {
+          if (!imageKey) return;
+          await Storage.remove(imageKey);
+        })
+      );
+
+      // If successful, the response here will be `null`:
+      setCurrentPhotoAlbum(updatedPhotoAlbum);
+      setCurrentImages(null);
+    } catch (error) {
+      console.error("Error deleting image: ", error);
+    }
+  }
+
+  // Delete both files and record
+  async function deleteCurrentPhotoAlbumAndImages() {
+    if (!currentPhotoAlbum) return;
+
+    try {
+      const response = await API.graphql({
+        query: queries.getPhotoAlbum,
+        variables: { id: currentPhotoAlbum.id },
+      });
+
+      const photoAlbum = response?.data?.getPhotoAlbum;
+
+      if (!photoAlbum) return;
+
+      const photoAlbumDetails = {
+        id: photoAlbum.id,
+      };
+
+      await API.graphql({
+        query: mutations.deletePhotoAlbum,
+        variables: { input: photoAlbumDetails },
+      });
+
+      setCurrentPhotoAlbum(null);
+
+      // If the record has no associated file, we can return early.
+      if (!photoAlbum?.imageKeys) return;
+
+      await Promise.all(
+        photoAlbum?.imageKeys.map(async (imageKey) => {
+          if (!imageKey) return;
+          await Storage.remove(imageKey);
+        })
+      );
+
+      clearLocalState();
+    } catch (error) {
+      console.error("Error deleting photoAlbum: ", error);
+    }
+  }
+
+  function clearLocalState() {
+    setCurrentPhotoAlbum(null);
+    setCurrentImages([]);
+  }
+
+  return (
+    <Authenticator>
+      {({ signOut, user }) => (
+        <main
+          style={{
+            alignItems: "center",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <h1>Hello {user?.username}!</h1>
+          <h2>{`Current PhotoAlbum: ${currentPhotoAlbum?.id}`}</h2>
+          <label>
+            Create photoAlbum with one file:
+            <input
+              type="file"
+              accept="image/*"
+              onChange={createPhotoAlbumWithFirstImage}
+            />
+          </label>
+          <label>
+            Create photoAlbum with multiple files:
+            <input
+              type="file"
+              accept="image/*"
+              onChange={createPhotoAlbumWithMultipleImages}
+              multiple
+            />
+          </label>
+          <label>
+            Add multiple images to current photoAlbum:
+            <input
+              type="file"
+              accept="image/*"
+              onChange={addNewImagesToPhotoAlbum}
+              disabled={!currentPhotoAlbum}
+              multiple
+            />
+          </label>
+          <label>
+            Replace last image:
+            <input
+              type="file"
+              accept="image/*"
+              onChange={updateLastImage}
+              disabled={!currentPhotoAlbum || !currentImages}
+            />
+          </label>
+          <button
+            onClick={getImagesForPhotoAlbum}
+            disabled={!currentPhotoAlbum || !currentImages}
+          >
+            Get Images for Current Photo Album
+          </button>
+          <button
+            onClick={removeImagesFromPhotoAlbum}
+            disabled={!currentPhotoAlbum || !currentImages}
+          >
+            Remove images from current PhotoAlbum (does not delete images)
+          </button>
+          <button
+            onClick={deleteImagesForCurrentPhotoAlbum}
+            disabled={!currentPhotoAlbum || !currentImages}
+          >
+            Remove images from current PhotoAlbum, then delete images
+          </button>
+          <button
+            onClick={deleteCurrentPhotoAlbumAndImages}
+            disabled={!currentPhotoAlbum}
+          >
+            Delete current PhotoAlbum (and images, if they exist)
+          </button>
+          <button onClick={signOut}>Sign out</button>
+          {currentImages &&
+            currentImages.map((url, idx) => {
+              if (!url) return undefined;
+              return <img src={url} key={idx} alt="Storage file"></img>;
+            })}
+        </main>
+      )}
+    </Authenticator>
+  );
+}
+
+export default App;
+```
+
+</Block>
+
+</BlockSwitcher>
+
+</InlineFilter>
+
+<InlineFilter filters={["ios"]}>
+
+The Storage and GraphQL API categories can be used together to associate a file, such as an image or video, with a particular record. For example, you might create a `User` model with a profile picture, or a `Post` model with an associated image. With Amplify's GraphQL API and Storage categories, you can reference the file within the model itself to create an association.
+
+<Callout>
+
+For more on the Amplify GraphQL API, see the [API documentation](https://docs.amplify.aws/lib/graphqlapi/getting-started/q/platform/ios/). For Storage, see [Storage documentation](). For Auth, see [Auth documentation]()
+
+</Callout>
+
+To get started, go to your project directory and run the command:
+
+```bash
+amplify add api
+```
+
+Choose the following when prompted: 
+
+```bash
+? Select from one of the below mentioned services: `GraphQL`
+? Choose the default authorization type for the API `Amazon Cognito User Pool` 
+ Do you want to use the default authentication and security configuration? `Default configuration`
+ How do you want users to be able to sign in? `Username`
+ Do you want to configure advanced settings? `No, I am done.`
+? Here is the GraphQL API that we will create. Select a setting to edit or continue `Continue`
+? Choose a schema template: `Blank Schema`
+```
+
+When prompted, use the following schema, which can also be found under `amplify/backend/api/[name of project]/schema.graphql`:
+
+```graphql
+type Song @model @auth(rules: [{ allow: public}]) {
+  id: ID!
+  name: String!
+  coverArtKey: String # Set as optional to allow adding file after initial create
+}
+```
+
+Add Storage with the command:
+```bash
+amplify add storage
+```
+
+Choose the following when prompted:
+```bash
+? Select from one of the below mentioned services: `Content (Images, audio, video, etc.)`
+✔ Who should have access: `Auth users only`
+✔ What kind of access do you want for Authenticated users? `create/update, read, delete`
+✔ Do you want to add a Lambda Trigger for your S3 Bucket? (y/N) · `no`
+```
+
+Run `amplify push` to deploy the changes.
+
+Once the backend has been provisioned, run `amplify codegen models` to generate the Swift model types for the app.
+
+Next, add the Amplify(`https://github.com/aws-amplify/amplify-swift.git`) package to your Xcode project and select the following modules to import when prompted:
+- AWSAPIPlugin 
+- AWSCognitoAuthPlugin
+- AWSS3StoragePlugin
+- Amplify
+
+Add the Authenticator from Amplify UI Authenticator for SwiftUI (`https://github.com/aws-amplify/amplify-ui-swift-authenticator.git`)
+
+<Callout>
+
+For the complete working example, including required imports, obtaining the file from the user, and SwiftUI components, see the [Complete Example](#complete-example) below.
+
+</Callout>
+
+## Configuring authorization
+
+Your application needs authorization credentials for reading and writing to both Storage and the GraphQL API, except in the case where all data and files are intended to be publicly accessible.
+
+The Storage and API categories govern data access based on their own authorization patterns, meaning that it's necessary to configure appropriate auth roles for each individual category. Although both categories share the same access credentials set up through the Auth category, they work independently from one another. For instance, adding an `@auth` directive to the API schema does not guard against file access in the Storage category. Likewise, adding authorization rules to the Storage category does not guard against data access in the API category. 
+
+When you run `amplify add storage`, the CLI will configure appropriate IAM policies on the bucket using a Cognito Identity Pool role. You will then have the option of adding CRUD (Create, Update, Read and Delete) based permissions as well, so that Authenticated and Guest users will be granted limited permissions within these levels. **Even after adding this configuration via the CLI, all Storage access is still `public` by default.** To guard against accidental public access, the Storage access levels must either be configured globally in the configuration, or set within individual method calls. This guide uses the latter approach, setting Storage access to `private` per method call. 
+
+The ability to independently configure authorization rules for each category allows for more granular control over data access, and adds greater flexibility. For scenarios where authorization patterns must be mixed and matched, configure the access level on individual Storage method calls. For example, you may want to use `private` CRUD access on an individual Storage method call for files that should only be accessible by the owner (such as personal files), `protected` read access to allow all logged in users to view common files (such as images in a shared photo album), and `public` read access to allow all users to view a file (such as a public profile picture).
+
+For more details on how to configure Storage authorization levels, see the [Storage documentation](https://docs.amplify.aws/lib/storage/configureaccess/q/platform/ios/). For more on configuring GraphQL API authorization, see the [API documentation](https://docs.amplify.aws/lib/graphqlapi/authz/q/platform/ios/).
+
+## Create a record with an associated file
+
+First create a record via the GraphQL API, then upload the file to Storage, and finally add the association between the record and file. Use the following example with the GraphQL API and Storage categories to create a record and associate the file with the record.
+
+<Callout>
+
+Make sure that the file key used for Storage is unique. In this case, the API record's `id` is used as the file key for Storage to ensure uniqueness so that multiple API records will not be associated with the same file key unintentionally. However, this may not be true if the API record's `id` is customized to be a combination of two or more fields, or a different primary key field is used.
+
+</Callout>
+
+<BlockSwitcher>
+<Block name="Swift">
+
+```swift
+let song = Song(name: name)
+
+guard let imageData = artCover.pngData() else {
+    print("Could not get data from UIImage.")
+    return
+}
+
+// Create the song record
+let result = try await Amplify.API.mutate(request: .create(song))
+guard case .success(var createdSong) = result else {
+    print("Failed with error: ", result)
+    return
+}
+
+// Upload the art cover image
+_ = try await Amplify.Storage.uploadData(key: createdSong.id,
+                                         data: imageData,
+                                         options: .init(accessLevel: .private)).value
+
+// Update the song record with the image key
+createdSong.coverArtKey = createdSong.id
+let updateResult = try await Amplify.API.mutate(request: .update(createdSong))
+guard case .success(let updatedSong) = updateResult else {
+    print("Failed with error: ", updateResult)
+    return
+}
+``` 
+
+</Block>
+</BlockSwitcher>
+
+## Add or update a file for an associated record
+
+To associate a new or different file with the record, update the existing record with the file key. The following example uploads the file using Storage and updates the record with the file's key. If an image is already associated with the record, this will update the record with the new image.
+
+<BlockSwitcher>
+<Block name="Swift">
+
+```swift
+// Upload the new art image
+_ = try await Amplify.Storage.uploadData(key: currentSong.id,
+                                         data: imageData,
+                                         options: .init(accessLevel: .private)).value
+
+// Update the song record
+currentSong.coverArtKey = currentSong.id
+let result = try await Amplify.API.mutate(request: .update(currentSong))
+guard case .success(let updatedSong) = result else {
+    print("Failed with error: ", result)
+    return
+}
+``` 
+
+</Block>
+</BlockSwitcher>
+
+## Query a record and retrieve the associated file
+
+To retrieve the file associated with a record, first query the record, then use Storage to download the data to display an image:
+
+<BlockSwitcher>
+<Block name="Swift">
+
+```swift
+// Get the song record
+let result = try await Amplify.API.query(request: .get(Song.self, byIdentifier: currentSong.id))
+guard case .success(let queriedSong) = result else {
+    print("Failed with error: ", result)
+    return
+}
+guard let song = queriedSong else {
+    print("Song may have been deleted, no song with id: ", currentSong.id)
+    return
+}
+
+guard let coverArtKey = song.coverArtKey else {
+    print("Song does not contain cover art")
+    return
+}
+
+// Download the art cover
+let imageData = try await Amplify.Storage.downloadData(key: coverArtKey,
+                                                       options: .init(accessLevel: .private)).value
+let image = UIImage(data: imageData)
+``` 
+
+</Block>
+</BlockSwitcher>
+
+## Delete and remove files associated with API records
+There are three common deletion workflows when working with Storage files and the GraphQL API:
+
+1. Remove the file association, continue to persist both file and record.
+2. Remove the file association and delete the file.
+2. Delete both file and record.
+
+### Remove the file association, continue to persist both file and record
+
+The following example removes the file association from the record, but does not delete the file from S3 or the record from the DynamoDB instance.
+
+<BlockSwitcher>
+<Block name="Swift">
+
+```swift
+// Get the song record
+let result = try await Amplify.API.mutate(request: .get(Song.self, byIdentifier: currentSong.id))
+guard case .success(let queriedSong) = result else {
+    print("Failed with error: ", result)
+    return
+}
+guard var song = queriedSong else {
+    print("Song may have been deleted, no song by id: ", currentSong.id)
+    return
+}
+guard song.coverArtKey != nil else {
+    print("There is no cover art key to remove image association")
+    return
+}
+
+// Set the association to nil and update it
+song.coverArtKey = nil
+let updateResult = try await Amplify.API.mutate(request: .update(song))
+guard case .success(let updatedSong) = updateResult else {
+    print("Failed with error: ", result)
+    return
+}
+``` 
+
+</Block>
+</BlockSwitcher>
+
+### Remove the file association and delete the file
+
+The following example removes the file from the record, then deletes the file from S3:
+
+<BlockSwitcher>
+<Block name="Swift">
+
+```swift
+// Get the song record
+let result = try await Amplify.API.query(request: .get(Song.self, byIdentifier: currentSong.id))
+guard case .success(let queriedSong) = result else {
+    print("Failed with error: ", result)
+    return
+}
+guard var song = queriedSong else {
+    print("Song may have been deleted, no song by id: ", currentSong.id)
+    return
+}
+guard let coverArtKey = song.coverArtKey else {
+    print("There is no cover art key to remove image association")
+    return
+}
+
+// Set the association to nil and update it
+song.coverArtKey = nil
+let updateResult = try await Amplify.API.mutate(request: .update(song))
+guard case .success(let updatedSong) = updateResult else {
+    print("Failed with error: ", result)
+    return
+}
+
+// Remove the image
+try await Amplify.Storage.remove(key: coverArtKey,
+                                 options: .init(accessLevel: .private))
+``` 
+
+</Block>
+</BlockSwitcher>
+
+### Delete both file and record
+
+The following example deletes the record from DynamoDB and then deletes the file from S3:
+
+<BlockSwitcher>
+<Block name="Swift">
+
+```swift
+// Get the song record
+let result = try await Amplify.API.mutate(request: .get(Song.self, byIdentifier: currentSong.id))
+guard case .success(let queriedSong) = result else {
+    print("Failed with error: ", result)
+    return
+}
+guard let song = queriedSong else {
+    print("Song may have been deleted, no song by id: ", currentSong.id)
+    return
+}
+
+if let coverArt = song.coverArtKey {
+    // Remove the image
+    try await Amplify.Storage.remove(key: coverArt,
+                                     options: .init(accessLevel: .private))
+}
+
+// Delete the song record
+let deleteResult = try await Amplify.API.mutate(request: .delete(song))
+guard case .success = deleteResult else {
+    print("Failed with error: ", deleteResult)
+    return
+}
+``` 
+
+</Block>
+</BlockSwitcher>
+
+## Working with multiple files
+
+You may want to add multiple files to a single record, such as a user profile with multiple images. 
+To do this, you can add a list of file keys to the record. The following example adds a list of file keys to a record:
+
+### GraphQL schema to associate a data model with multiple files
+
+When prompted after running `amplify add api` use the following schema, which can also be found under `amplify/backend/api/[name of project]/schema.graphql`:
+
+```graphql
+type PhotoAlbum @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  name: String!
+  imageKeys: [String] #Set as optional to allow adding file(s) after initial create
+}
+```
+
+CRUD operations when working with multiple files is the same as when working with a single file, with the exception that we are now working with a list of image keys, as opposed to a single image key.
+
+### Create a record with multiple associated files
+
+First create a record via the GraphQL API, then upload the files to Storage, and finally add the associations between the record and files.
+
+<BlockSwitcher>
+<Block name="Swift">
+
+```swift
+// Create the photo album record
+let album = PhotoAlbum(name: name)
+let result = try await Amplify.API.mutate(request: .create(album))
+guard case .success(var createdAlbum) = result else {
+    print("Failed with error: ", result)
+    return
+}
+
+// Upload the photo album images
+let imageKeys = await withTaskGroup(of: String?.self) { group in
+    for imageData in imagesData {
+        group.addTask {
+            let key = "\(album.id)-\(UUID().uuidString)"
+            do {
+                _ = try await Amplify.Storage.uploadData(key: key,
+                                                         data: imageData,
+                                                         options: .init(accessLevel: .private)).value
+                return key
+            } catch {
+                print("Failed with error:", error)
+                return nil
+            }
+        }
+    }
+    
+    var imageKeys: [String?] = []
+    for await imageKey in group {
+        imageKeys.append(imageKey)
+    }
+    return imageKeys.compactMap { $0 }
+}
+
+// Update the album with the image keys
+createdAlbum.imageKeys = imageKeys
+let updateResult = try await Amplify.API.mutate(request: .update(createdAlbum))
+guard case .success(let updatedAlbum) = updateResult else {
+    print("Failed with error: ", updateResult)
+    return
+}
+``` 
+
+</Block>
+</BlockSwitcher>
+
+### Create a record with a single associated file
+
+When a schema allows for multiple associated images, you can still create a record with a single associated file.
+
+<BlockSwitcher>
+<Block name="Swift">
+
+```swift
+// Create the photo album record
+let album = PhotoAlbum(name: name)
+let result = try await Amplify.API.mutate(request: .create(album))
+guard case .success(var createdAlbum) = result else {
+    print("Failed with error: ", result)
+    return
+}
+
+// Upload the photo album image
+let key = "\(album.id)-\(UUID().uuidString)"
+_ = try await Amplify.Storage.uploadData(key: key,
+                                         data: imageData,
+                                         options: .init(accessLevel: .private)).value
+
+// Update the album with the image key
+createdAlbum.imageKeys = [key]
+let updateResult = try await Amplify.API.mutate(request: .update(createdAlbum))
+guard case .success(let updatedAlbum) = updateResult else {
+    print("Failed with error: ", updateResult)
+    return
+}
+``` 
+
+</Block>
+</BlockSwitcher>
+
+### Add new files to an associated record
+
+To associate additional files with a record, update the record with the keys returned by the Storage uploads.
+
+<BlockSwitcher>
+<Block name="Swift">
+
+```swift
+// Upload the new photo album image
+let key = "\(currentAlbum.id)-\(UUID().uuidString)"
+_ = try await Amplify.Storage.uploadData(key: key,
+                                          data: imageData,
+                                          options: .init(accessLevel: .private)).value
+
+// Get the latest album
+let result = try await Amplify.API.query(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id))
+guard case .success(let queriedAlbum) = result else {
+    print("Failed with error: ", result)
+    return
+}
+guard var album = queriedAlbum else {
+    print("Album may have been deleted, no album with id: ", currentAlbum.id)
+    return
+}
+
+guard var imageKeys = album.imageKeys else {
+    print("Album does not contain images")
+    return
+}
+
+// Add new to the existing keys
+imageKeys.append(key)
+
+// Update the album with the image keys
+album.imageKeys = imageKeys
+let updateResult = try await Amplify.API.mutate(request: .update(album))
+guard case .success(let updatedAlbum) = updateResult else {
+    print("Failed with error: ", updateResult)
+    return
+}
+``` 
+
+</Block>
+</BlockSwitcher>
+
+### Update the file for an associated record
+
+Updating a file for an associated record is the same as updating a file for a single file record, with the exception that you will need to update the list of file keys. The following replaces the last image in the album with a new image.
+
+<BlockSwitcher>
+<Block name="Swift">
+
+```swift
+// Upload the new photo album image
+let key = "\(currentAlbum.id)-\(UUID().uuidString)"
+_ = try await Amplify.Storage.uploadData(key: key,
+                                         data: imageData,
+                                         options: .init(accessLevel: .private)).value
+
+// Update the album with the image keys
+var album = currentAlbum
+if var imageKeys = album.imageKeys {
+    imageKeys.removeLast()
+    imageKeys.append(key)
+    album.imageKeys = imageKeys
+} else {
+    album.imageKeys = [key]
+}
+let updateResult = try await Amplify.API.mutate(request: .update(album))
+guard case .success(let updatedAlbum) = updateResult else {
+    print("Failed with error: ", updateResult)
+    return
+}
+``` 
+
+</Block>
+</BlockSwitcher>
+
+### Query a record and retrieve the associated files
+
+To retrieve the files associated with a record, first query the record, then use Storage to retrieve all the images.
+
+<BlockSwitcher>
+<Block name="Swift">
+
+```swift
+// Get the song record
+let result = try await Amplify.API.query(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id))
+guard case .success(let queriedAlbum) = result else {
+    print("Failed with error: ", result)
+    return
+}
+guard let album = queriedAlbum else {
+    print("Album may have been deleted, no album with id: ", currentAlbum.id)
+    return
+}
+
+guard let imageKeysOptional = album.imageKeys else {
+    print("Album does not contain images")
+    return
+}
+let imageKeys = imageKeysOptional.compactMap { $0 }
+
+// Download the photos
+let images = await withTaskGroup(of: UIImage?.self) { group in
+    for key in imageKeys {
+        group.addTask {
+            do {
+                let imageData = try await Amplify.Storage.downloadData(key: key,
+                                                                       options: .init(accessLevel: .private)).value
+                return UIImage(data: imageData)
+            } catch {
+                print("Failed with error:", error)
+                return nil
+            }
+        }
+    }
+    
+    var images: [UIImage?] = []
+    for await image in group {
+        images.append(image)
+    }
+    return images.compactMap { $0 }
+}
+``` 
+
+</Block>
+</BlockSwitcher>
+
+### Delete and remove files associated with API records
+
+The workflow for deleting and removing files associated with API records is the same as when working with a single file, except that when performing a delete you will need to iterate over the list of files keys and call `Storage.remove()` for each file.
+
+#### Remove the file association, keep the persisted file and record
+
+<BlockSwitcher>
+<Block name="Swift">
+
+```swift
+// Get the album record
+let result = try await Amplify.API.mutate(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id))
+guard case .success(let queriedAlbum) = result else {
+    print("Failed with error: ", result)
+    return
+}
+guard var album = queriedAlbum else {
+    print("Song may have been deleted, no song by id: ", currentAlbum.id)
+    return
+}
+guard let imageKeys = album.imageKeys, !imageKeys.isEmpty else {
+    print("There are no images to remove association")
+    return
+}
+
+// Set the association to nil and update it
+album.imageKeys = nil
+let updateResult = try await Amplify.API.mutate(request: .update(album))
+guard case .success(let updatedAlbum) = updateResult else {
+    print("Failed with error: ", result)
+    return
+}
+``` 
+
+</Block>
+</BlockSwitcher>
+
+#### Remove the file association and delete the files
+
+<BlockSwitcher>
+<Block name="Swift">
+
+```swift
+// Get the album record
+let result = try await Amplify.API.query(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id))
+guard case .success(let queriedAlbum) = result else {
+    print("Failed with error: ", result)
+    return
+}
+guard let album = queriedAlbum else {
+    print("Album may have been deleted, no album with id: ", currentAlbum.id)
+    return
+}
+
+guard let imageKeysOptional = album.imageKeys else {
+    print("Album does not contain images")
+    return
+}
+let imageKeys = imageKeysOptional.compactMap { $0 }
+
+// Set the associations to nil and update it
+album.imageKeys = nil
+let updateResult = try await Amplify.API.mutate(request: .update(album))
+guard case .success(let updatedAlbum) = updateResult else {
+    print("Failed with error: ", result)
+    return
+}
+
+// Remove the photos
+await withTaskGroup(of: Void.self) { group in
+    for key in imageKeys {
+        group.addTask {
+            do {
+                try await Amplify.Storage.remove(key: key,
+                                                  options: .init(accessLevel: .private))
+            } catch {
+                print("Failed with error:", error)
+            }
+        }
+    }
+    
+    
+    for await _ in group {
+    }
+}
+``` 
+
+</Block>
+</BlockSwitcher>
+
+#### Delete the record and all associated files
+
+<BlockSwitcher>
+<Block name="Swift">
+
+```swift
+// Get the album record
+let result = try await Amplify.API.query(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id))
+guard case .success(let queriedAlbum) = result else {
+    print("Failed with error: ", result)
+    return
+}
+guard let album = queriedAlbum else {
+    print("Album may have been deleted, no album with id: ", currentAlbum.id)
+    return
+}
+
+guard let imageKeysOptional = album.imageKeys else {
+    print("Album does not contain images")
+  
+    // Delete the album record
+    let deleteResult = try await Amplify.API.mutate(request: .delete(album))
+    guard case .success = deleteResult else {
+        print("Failed with error: ", deleteResult)
+        return
+    }
+    return
+}
+let imageKeys = imageKeysOptional.compactMap { $0 }
+
+// Remove the photos
+await withTaskGroup(of: Void.self) { group in
+    for key in imageKeys {
+        group.addTask {
+            do {
+                try await Amplify.Storage.remove(key: key,
+                                                 options: .init(accessLevel: .private))
+            } catch {
+                print("Failed with error:", error)
+            }
+        }
+    }
+    
+    
+    for await _ in group {
+    }
+    
+}
+
+// Delete the album record
+let deleteResult = try await Amplify.API.mutate(request: .delete(album))
+guard case .success = deleteResult else {
+    print("Failed with error: ", deleteResult)
+    return
+}
+``` 
+
+</Block>
+</BlockSwitcher>
+
+## Data consistency when working with records and files
+
+The access patterns in this guide attempt to remove deleted files, but favor leaving orphans over leaving records that point to non-existent files. This optimizes for read latency by ensuring clients *rarely* attempt to fetch a non-existent file from Storage. However, any app that deletes files can inherently cause records *on-device* to point to non-existent files.
+
+One example is when we [create an API record, associate the Storage file with that record](#create-a-record-with-an-associated-file). "Device A" calls the GraphQL API to create `API_Record_1`, and then associates that record with `First_Photo`. Later, when "Device A" is about to retrieve the file, "Device B" might query `API_Record_1`, delete `First_Photo`, and update the record accordingly. However, "Device A" is still using the old `API_Record_1`, which is now out-of-date. Even though the shared global state is correctly in sync at every stage, the individual device ("Device A") has an out-of-date record that points to a non-existent file. Similar issues can conceivably occur for updates. Depending on your app, some of these mismatches can be minimized *even more* with [real-time data / GraphQL subscriptions](https://docs.amplify.aws/lib/graphqlapi/subscribe-data/).
+
+It is important to understand when these mismatches can occur and to add meaningful error handling around these cases. This guide does not include exhaustive error handling, real-time subscriptions, re-querying of outdated records, or attempts to retry failed operations. However, these are all important considerations for a production-level application.
+
+## Complete examples
+
+<BlockSwitcher>
+<Block name="Main App">
+
+```swift
+import SwiftUI
+import Amplify
+import AWSAPIPlugin
+import AWSCognitoAuthPlugin
+import AWSS3StoragePlugin
+import Authenticator
+import PhotosUI
+
+@main
+struct WorkingWithFilesApp: App {
+    
+    init() {
+        do {
+            Amplify.Logging.logLevel = .verbose
+            try Amplify.add(plugin: AWSCognitoAuthPlugin())
+            try Amplify.add(plugin: AWSS3StoragePlugin())
+            try Amplify.add(plugin: AWSAPIPlugin(modelRegistration: AmplifyModels()))
+            try Amplify.configure()
+            print("Amplify configured with API, Storage, and Auth plugins!")
+        } catch {
+            print("Failed to initialize Amplify with \(error)")
+        }
+    }
+    
+    var body: some Scene {
+        WindowGroup {
+            Authenticator { state in
+                TabView {
+                    SongView()
+                        .tabItem {
+                            Label("Song", systemImage: "music.note")
+                        }
+                    
+                    PhotoAlbumView()
+                        .tabItem {
+                            Label("PhotoAlbum", systemImage: "photo")
+                        }
+                }
+                
+            }
+        }
+    }
+}
+
+struct SignOutButton: View {
+    var body: some View {
+        Button("Sign out") {
+            Task {
+                await Amplify.Auth.signOut()
+            }
+        }.foregroundColor(.black)
+    }
+}
+
+struct TappedButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .padding(10)
+            .background(configuration.isPressed ? Color.teal.opacity(0.8) : Color.teal)
+            .foregroundColor(.white)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+    }
+}
+
+extension Color {
+    static let teal = Color(red: 45/255, green: 111/255, blue: 138/255)
+}
+
+struct DimmedBackgroundView: View {
+    var body: some View {
+        Color.gray.opacity(0.5)
+            .ignoresSafeArea()
+    }
+}
+
+struct ImagePicker: UIViewControllerRepresentable {
+    @Binding var selectedImage: UIImage?
+    @Environment(\.presentationMode) var presentationMode
+
+    class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+        let parent: ImagePicker
+
+        init(_ parent: ImagePicker) {
+            self.parent = parent
+        }
+
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+            if let uiImage = info[.originalImage] as? UIImage {
+                parent.selectedImage = uiImage
+            }
+            parent.presentationMode.wrappedValue.dismiss()
+        }
+
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            parent.presentationMode.wrappedValue.dismiss()
+        }
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+
+    func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePicker>) -> UIImagePickerController {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = context.coordinator
+        return imagePicker
+    }
+
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: UIViewControllerRepresentableContext<ImagePicker>) {
+    }
+}
+
+struct MultiImagePicker: UIViewControllerRepresentable {
+    @Binding var selectedImages: [UIImage]
+
+    func makeUIViewController(context: Context) -> PHPickerViewController {
+        var configuration = PHPickerConfiguration()
+        configuration.filter = .images
+        configuration.selectionLimit = 0
+
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = context.coordinator
+        return picker
+    }
+
+    func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {
+        // No need for updates in this case
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(parent: self)
+    }
+
+    class Coordinator: PHPickerViewControllerDelegate {
+        private let parent: MultiImagePicker
+
+        init(parent: MultiImagePicker) {
+            self.parent = parent
+        }
+
+        func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+            picker.dismiss(animated: true, completion: nil)
+            DispatchQueue.main.async {
+                self.parent.selectedImages = []
+            }
+            for result in results {
+                if result.itemProvider.canLoadObject(ofClass: UIImage.self) {
+                    result.itemProvider.loadObject(ofClass: UIImage.self) { (image, error) in
+                        if let image = image as? UIImage {
+                            DispatchQueue.main.async {
+                                self.parent.selectedImages.append(image)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+``` 
+
+</Block>
+<Block name="Song">
+
+```swift
+import SwiftUI
+import Amplify
+
+class SongViewModel: ObservableObject {
+    
+    @Published var currentSong: Song? = nil
+    @Published var currentImage: UIImage? = nil
+    @Published var isLoading: Bool = false
+    
+    // Create a song with an associated image
+    func createSong(name: String, artCover: UIImage) async throws {
+        await setIsLoading(true)
+        defer {
+            Task {
+                await setIsLoading(false)
+            }
+        }
+        let song = Song(name: name)
+        
+        guard let imageData = artCover.pngData() else {
+            print("Could not get data from image.")
+            return
+        }
+        
+        // Create the song record
+        let result = try await Amplify.API.mutate(request: .create(song))
+        guard case .success(var createdSong) = result else {
+            print("Failed with error: ", result)
+            return
+        }
+        
+        // Upload the art cover image
+        _ = try await Amplify.Storage.uploadData(key: createdSong.id,
+                                                 data: imageData,
+                                                 options: .init(accessLevel: .private)).value
+        
+        // Update the song record with the image key
+        createdSong.coverArtKey = createdSong.id
+        let updateResult = try await Amplify.API.mutate(request: .update(createdSong))
+        guard case .success(let updatedSong) = updateResult else {
+            print("Failed with error: ", updateResult)
+            return
+        }
+        
+        await setCurrentSong(updatedSong)
+    }
+    
+    // Add or update an image for an associated record
+    func updateArtCover(artCover: UIImage) async throws {
+        await setIsLoading(true)
+        defer {
+            Task {
+                await setIsLoading(false)
+            }
+        }
+        
+        guard var currentSong = currentSong else {
+            print("There is no song to associated the image with. Create a Song first.")
+            return
+        }
+        guard let imageData = artCover.pngData() else {
+            print("Could not get data from UIImage.")
+            return
+        }
+        
+        // Upload the new art image
+        _ = try await Amplify.Storage.uploadData(key: currentSong.id,
+                                                 data: imageData,
+                                                 options: .init(accessLevel: .private)).value
+        
+        // Update the song record
+        currentSong.coverArtKey = currentSong.id
+        let result = try await Amplify.API.mutate(request: .update(currentSong))
+        guard case .success(let updatedSong) = result else {
+            print("Failed with error: ", result)
+            return
+        }
+        
+        await setCurrentSong(updatedSong)
+    }
+    
+    func refreshSongAndArtCover() async throws {
+        await setIsLoading(true)
+        defer {
+            Task {
+                await setIsLoading(false)
+            }
+        }
+        guard let currentSong = currentSong else {
+            print("There is no song to refresh the record and image. Create a song first.")
+            return
+        }
+        await setCurrentSong(nil)
+        await setCurrentImage(nil)
+        
+        // Get the song record
+        let result = try await Amplify.API.query(request: .get(Song.self, byIdentifier: currentSong.id))
+        guard case .success(let queriedSong) = result else {
+            print("Failed with error: ", result)
+            return
+        }
+        guard let song = queriedSong else {
+            print("Song may have been deleted, no song with id: ", currentSong.id)
+            await setCurrentSong(nil)
+            return
+        }
+        
+        guard let coverArtKey = song.coverArtKey else {
+            print("Song does not contain cover art")
+            await setCurrentSong(song)
+            await setCurrentImage(nil)
+            return
+        }
+        
+        // Download the art cover
+        let imageData = try await Amplify.Storage.downloadData(key: coverArtKey,
+                                                               options: .init(accessLevel: .private)).value
+        let image = UIImage(data: imageData)
+        await setCurrentSong(song)
+        await setCurrentImage(image)
+    }
+    
+    func removeImageAssociationFromSong() async throws {
+        await setIsLoading(true)
+        defer {
+            Task {
+                await setIsLoading(false)
+            }
+        }
+        guard let currentSong = currentSong else {
+            print("There is no song to remove art cover from it. Create a song first.")
+            return
+        }
+        
+        // Get the song record
+        let result = try await Amplify.API.mutate(request: .get(Song.self, byIdentifier: currentSong.id))
+        guard case .success(let queriedSong) = result else {
+            print("Failed with error: ", result)
+            return
+        }
+        guard var song = queriedSong else {
+            print("Song may have been deleted, no song by id: ", currentSong.id)
+            await setCurrentSong(nil)
+            return
+        }
+        guard song.coverArtKey != nil else {
+            print("There is no cover art key to remove image association")
+            return
+        }
+        
+        // Set the association to nil and update it
+        song.coverArtKey = nil
+        let updateResult = try await Amplify.API.mutate(request: .update(song))
+        guard case .success(let updatedSong) = updateResult else {
+            print("Failed with error: ", result)
+            return
+        }
+        
+        await setCurrentSong(updatedSong)
+    }
+    
+    func removeImageAssociationAndDeleteImage() async throws {
+        await setIsLoading(true)
+        defer {
+            Task {
+                await setIsLoading(false)
+            }
+        }
+        guard let currentSong = currentSong else {
+            print("There is no song to remove art cover from it. Create a song first.")
+            return
+        }
+        
+        // Get the song record
+        let result = try await Amplify.API.query(request: .get(Song.self, byIdentifier: currentSong.id))
+        guard case .success(let queriedSong) = result else {
+            print("Failed with error: ", result)
+            return
+        }
+        guard var song = queriedSong else {
+            print("Song may have been deleted, no song by id: ", currentSong.id)
+            await setCurrentSong(nil)
+            return
+        }
+        guard let coverArtKey = song.coverArtKey else {
+            print("There is no cover art key to remove image association")
+            return
+        }
+        
+        // Set the association to nil and update it
+        song.coverArtKey = nil
+        let updateResult = try await Amplify.API.mutate(request: .update(song))
+        guard case .success(let updatedSong) = updateResult else {
+            print("Failed with error: ", result)
+            return
+        }
+        
+        // Remove the image
+        try await Amplify.Storage.remove(key: coverArtKey,
+                                         options: .init(accessLevel: .private))
+        
+        await setCurrentSong(updatedSong)
+        await setCurrentImage(nil)
+    }
+    
+    func deleteSongAndArtCover() async throws {
+        await setIsLoading(true)
+        defer {
+            Task {
+                await setIsLoading(false)
+            }
+        }
+        guard let currentSong = currentSong else {
+            print("There is no song to delete. Create a song first.")
+            return
+        }
+        
+        // Get the song record
+        let result = try await Amplify.API.mutate(request: .get(Song.self, byIdentifier: currentSong.id))
+        guard case .success(let queriedSong) = result else {
+            print("Failed with error: ", result)
+            return
+        }
+        guard let song = queriedSong else {
+            print("Song may have been deleted, no song by id: ", currentSong.id)
+            await setCurrentSong(nil)
+            return
+        }
+        
+        if let coverArt = song.coverArtKey {
+            // Remove the image
+            try await Amplify.Storage.remove(key: coverArt,
+                                             options: .init(accessLevel: .private))
+        }
+        
+        // Delete the song record
+        let deleteResult = try await Amplify.API.mutate(request: .delete(song))
+        guard case .success = deleteResult else {
+            print("Failed with error: ", deleteResult)
+            return
+        }
+        await setCurrentSong(nil)
+        await setCurrentImage(nil)
+    }
+    
+    @MainActor
+    func setCurrentSong(_ song: Song?) {
+        self.currentSong = song
+    }
+    
+    @MainActor
+    func setCurrentImage(_ image: UIImage?) {
+        self.currentImage = image
+    }
+
+    @MainActor
+    func setIsLoading(_ isLoading: Bool) {
+        self.isLoading = isLoading
+    }
+}
+
+struct SongView: View {
+    
+    @State private var isImagePickerPresented = false
+    @State private var songName: String = ""
+    
+    @StateObject var viewModel = SongViewModel()
+    
+    var body: some View {
+        NavigationView {
+            ZStack {
+                VStack {
+                    SongInformation()
+                    DisplayImage()
+                    OpenImagePickerButton()
+                    SongNameTextField()
+                    CreateOrUpdateSongButton()
+                    AdditionalOperations()
+                    Spacer()
+                }
+                .padding()
+                .sheet(isPresented: $isImagePickerPresented) {
+                    ImagePicker(selectedImage: $viewModel.currentImage)
+                }
+                VStack {
+                    IsLoadingView()
+                }
+            }
+            .navigationBarItems(trailing: SignOutButton())
+        }
+    }
+    
+    @ViewBuilder
+    func SongInformation() -> some View {
+        if let song = viewModel.currentSong {
+            Text("Song Id: \(song.id)").font(.caption)
+            if song.name != "" {
+                Text("Song Name: \(song.name)").font(.caption)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func DisplayImage() -> some View {
+        if let image = viewModel.currentImage {
+            Image(uiImage: image)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+        } else {
+            Text("No Image Selected")
+                .foregroundColor(.gray)
+        }
+        
+    }
+    
+    func OpenImagePickerButton() -> some View {
+        Button("Select \(viewModel.currentImage != nil ? "a new ": "" )song album cover") {
+            isImagePickerPresented.toggle()
+        }.buttonStyle(TappedButtonStyle())
+    }
+    
+    @ViewBuilder
+    func SongNameTextField() -> some View {
+        TextField("\(viewModel.currentSong != nil ? "Update": "Enter") song name", text: $songName)
+            .textFieldStyle(RoundedBorderTextFieldStyle())
+            .multilineTextAlignment(.center)
+    }
+    
+    @ViewBuilder
+    func CreateOrUpdateSongButton() -> some View {
+        if viewModel.currentSong == nil, let image = viewModel.currentImage {
+            Button("Save") {
+                Task {
+                    try? await viewModel.createSong(name: songName,
+                                             artCover: image)
+                }
+            }
+            .buttonStyle(TappedButtonStyle())
+            .disabled(viewModel.isLoading)
+        } else if viewModel.currentSong != nil, let image = viewModel.currentImage {
+            Button("Update") {
+                Task {
+                    try? await viewModel.updateArtCover(artCover: image)
+                }
+            }
+            .buttonStyle(TappedButtonStyle())
+            .disabled(viewModel.isLoading)
+        }
+    }
+
+    @ViewBuilder
+    func AdditionalOperations() -> some View {
+        if viewModel.currentSong != nil {
+            VStack {
+                Button("Refresh") {
+                    Task {
+                        try? await viewModel.refreshSongAndArtCover()
+                    }
+                }.buttonStyle(TappedButtonStyle())
+                Button("Remove association from song") {
+                    Task {
+                        try? await viewModel.removeImageAssociationFromSong()
+                    }
+                }.buttonStyle(TappedButtonStyle())
+                Button("Remove association and delete image") {
+                    Task {
+                        try? await viewModel.removeImageAssociationAndDeleteImage()
+                    }
+                }.buttonStyle(TappedButtonStyle())
+                Button("Delete song and art cover") {
+                    Task {
+                        try? await viewModel.deleteSongAndArtCover()
+                    }
+                    songName = ""
+                }.buttonStyle(TappedButtonStyle())
+            }.disabled(viewModel.isLoading)
+        }
+    }
+    
+    @ViewBuilder
+    func IsLoadingView() -> some View {
+        if viewModel.isLoading {
+            ZStack {
+                DimmedBackgroundView()
+                ProgressView()
+            }
+        }
+    }
+}
+
+struct SongView_Previews: PreviewProvider {
+    static var previews: some View {
+        SongView()
+    }
+}
+```
+
+</Block>
+
+<Block name="PhotoAlbum">
+
+```swift
+import SwiftUI
+import Amplify
+import Photos
+
+class PhotoAlbumViewModel: ObservableObject {
+    @Published var currentImages: [UIImage] = []
+    @Published var currentAlbum: PhotoAlbum? = nil
+    @Published var isLoading: Bool = false
+    
+    // Create a record with multiple associated files
+    func createPhotoAlbum(name: String, photos: [UIImage]) async throws {
+        await setIsLoading(true)
+        defer {
+            Task {
+                await setIsLoading(false)
+            }
+        }
+        
+        let imagesData = photos.compactMap { $0.pngData() }
+        guard !imagesData.isEmpty else {
+            print("Could not get data from [UIImage]")
+            return
+        }
+        
+        // Create the photo album record
+        let album = PhotoAlbum(name: name)
+        let result = try await Amplify.API.mutate(request: .create(album))
+        guard case .success(var createdAlbum) = result else {
+            print("Failed with error: ", result)
+            return
+        }
+        
+        // Upload the photo album images
+        let imageKeys = await withTaskGroup(of: String?.self) { group in
+            for imageData in imagesData {
+                group.addTask {
+                    let key = "\(album.id)-\(UUID().uuidString)"
+                    do {
+                        _ = try await Amplify.Storage.uploadData(key: key,
+                                                                 data: imageData,
+                                                                 options: .init(accessLevel: .private)).value
+                        return key
+                    } catch {
+                        print("Failed with error:", error)
+                        return nil
+                    }
+                }
+            }
+            
+            var imageKeys: [String?] = []
+            for await imageKey in group {
+                imageKeys.append(imageKey)
+            }
+            return imageKeys.compactMap { $0 }
+        }
+        
+        // Update the album with the image keys
+        createdAlbum.imageKeys = imageKeys
+        let updateResult = try await Amplify.API.mutate(request: .update(createdAlbum))
+        guard case .success(let updatedAlbum) = updateResult else {
+            print("Failed with error: ", updateResult)
+            return
+        }
+        
+        await setCurrentAlbum(updatedAlbum)
+    }
+    
+    // Create a record with a single associated file
+    func createPhotoAlbum(name: String, photo: UIImage) async throws {
+        await setIsLoading(true)
+        defer {
+            Task {
+                await setIsLoading(false)
+            }
+        }
+        
+        guard let imageData = photo.pngData() else {
+            print("Could not get data from UIImage")
+            return
+        }
+        
+        // Create the photo album record
+        let album = PhotoAlbum(name: name)
+        let result = try await Amplify.API.mutate(request: .create(album))
+        guard case .success(var createdAlbum) = result else {
+            print("Failed with error: ", result)
+            return
+        }
+        
+        // Upload the photo album image
+        let key = "\(album.id)-\(UUID().uuidString)"
+        _ = try await Amplify.Storage.uploadData(key: key,
+                                                 data: imageData,
+                                                 options: .init(accessLevel: .private)).value
+        
+        // Update the album with the image key
+        createdAlbum.imageKeys = [key]
+        let updateResult = try await Amplify.API.mutate(request: .update(createdAlbum))
+        guard case .success(let updatedAlbum) = updateResult else {
+            print("Failed with error: ", updateResult)
+            return
+        }
+        
+        await setCurrentAlbum(updatedAlbum)
+    }
+    
+    // Add new file to an associated record
+    func addAdditionalPhotos(_ photo: UIImage) async throws {
+        await setIsLoading(true)
+        defer {
+            Task {
+                await setIsLoading(false)
+            }
+        }
+        
+        guard let currentAlbum = currentAlbum else {
+            print("There is no album to associated the images with. Create an Album first.")
+            return
+        }
+        
+        guard let imageData = photo.pngData() else {
+            print("Could not get data from UIImage.")
+            return
+        }
+        
+        // Upload the new photo album image
+        let key = "\(currentAlbum.id)-\(UUID().uuidString)"
+        _ = try await Amplify.Storage.uploadData(key: key,
+                                                 data: imageData,
+                                                 options: .init(accessLevel: .private)).value
+        
+        // Get the latest album
+        let result = try await Amplify.API.query(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id))
+        guard case .success(let queriedAlbum) = result else {
+            print("Failed with error: ", result)
+            return
+        }
+        guard var album = queriedAlbum else {
+            print("Album may have been deleted, no album with id: ", currentAlbum.id)
+            await setCurrentAlbum(nil)
+            return
+        }
+        
+        guard var imageKeys = album.imageKeys else {
+            print("Album does not contain images")
+            await setCurrentAlbum(album)
+            await setCurrentImages([])
+            return
+        }
+        
+        // Add new to the existing keys
+        imageKeys.append(key)
+        
+        // Update the album with the image keys
+        album.imageKeys = imageKeys
+        let updateResult = try await Amplify.API.mutate(request: .update(album))
+        guard case .success(let updatedAlbum) = updateResult else {
+            print("Failed with error: ", updateResult)
+            return
+        }
+        
+        await setCurrentAlbum(updatedAlbum)
+    }
+    
+    func replaceLastImage(_ photo: UIImage) async throws {
+        await setIsLoading(true)
+        defer {
+            Task {
+                await setIsLoading(false)
+            }
+        }
+        
+        guard let currentAlbum = currentAlbum else {
+            print("There is no album to associated the images with. Create an Album first.")
+            return
+        }
+        
+        guard let imageData = photo.pngData() else {
+            print("Could not get data from UIImage")
+            return
+        }
+        
+        
+        // Upload the new photo album image
+        let key = "\(currentAlbum.id)-\(UUID().uuidString)"
+        _ = try await Amplify.Storage.uploadData(key: key,
+                                                 data: imageData,
+                                                 options: .init(accessLevel: .private)).value
+        
+        // Update the album with the image keys
+        var album = currentAlbum
+        if var imageKeys = album.imageKeys {
+            imageKeys.removeLast()
+            imageKeys.append(key)
+            album.imageKeys = imageKeys
+        } else {
+            album.imageKeys = [key]
+        }
+        let updateResult = try await Amplify.API.mutate(request: .update(album))
+        guard case .success(let updatedAlbum) = updateResult else {
+            print("Failed with error: ", updateResult)
+            return
+        }
+        
+        await setCurrentAlbum(updatedAlbum)
+    }
+    
+    // Query a record and retrieve the associated files
+    func refreshAlbumAndPhotos() async throws {
+        await setIsLoading(true)
+        defer {
+            Task {
+                await setIsLoading(false)
+            }
+        }
+        guard let currentAlbum = currentAlbum else {
+            print("There is no album to associated the images with. Create an Album first.")
+            return
+        }
+        await setCurrentAlbum(nil)
+        await setCurrentImages([])
+        
+        // Get the song record
+        let result = try await Amplify.API.query(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id))
+        guard case .success(let queriedAlbum) = result else {
+            print("Failed with error: ", result)
+            return
+        }
+        guard let album = queriedAlbum else {
+            print("Album may have been deleted, no album with id: ", currentAlbum.id)
+            await setCurrentAlbum(nil)
+            return
+        }
+        
+        guard let imageKeysOptional = album.imageKeys else {
+            print("Album does not contain images")
+            await setCurrentAlbum(album)
+            await setCurrentImages([])
+            return
+        }
+        let imageKeys = imageKeysOptional.compactMap { $0 }
+        
+        // Download the photos
+        let images = await withTaskGroup(of: UIImage?.self) { group in
+            for key in imageKeys {
+                group.addTask {
+                    do {
+                        let imageData = try await Amplify.Storage.downloadData(key: key,
+                                                                               options: .init(accessLevel: .private)).value
+                        return UIImage(data: imageData)
+                    } catch {
+                        print("Failed with error:", error)
+                        return nil
+                    }
+                }
+            }
+            
+            var images: [UIImage?] = []
+            for await image in group {
+                images.append(image)
+            }
+            return images.compactMap { $0 }
+        }
+        
+        await setCurrentAlbum(album)
+        await setCurrentImages(images)
+    }
+    
+    // Remove the file association
+    func removeStorageAssociationsFromAlbum() async throws {
+        await setIsLoading(true)
+        defer {
+            Task {
+                await setIsLoading(false)
+            }
+        }
+        guard let currentAlbum = currentAlbum else {
+            print("There is no album to associated the images with. Create an Album first.")
+            return
+        }
+        
+        // Get the album record
+        let result = try await Amplify.API.mutate(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id))
+        guard case .success(let queriedAlbum) = result else {
+            print("Failed with error: ", result)
+            return
+        }
+        guard var album = queriedAlbum else {
+            print("Song may have been deleted, no song by id: ", currentAlbum.id)
+            await setCurrentAlbum(nil)
+            return
+        }
+        guard let imageKeys = album.imageKeys, !imageKeys.isEmpty else {
+            print("There are no images to remove association")
+            return
+        }
+        
+        // Set the association to nil and update it
+        album.imageKeys = nil
+        let updateResult = try await Amplify.API.mutate(request: .update(album))
+        guard case .success(let updatedAlbum) = updateResult else {
+            print("Failed with error: ", result)
+            return
+        }
+        
+        await setCurrentAlbum(updatedAlbum)
+    }
+    
+    // Remove the record association and delete the files
+    func removeStorageAssociationsAndDeletePhotos() async throws {
+        await setIsLoading(true)
+        defer {
+            Task {
+                await setIsLoading(false)
+            }
+        }
+        
+        guard let currentAlbum = currentAlbum else {
+            print("There is no album to associated the images with. Create an Album first.")
+            return
+        }
+        
+        // Get the album record
+        let result = try await Amplify.API.query(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id))
+        guard case .success(let queriedAlbum) = result else {
+            print("Failed with error: ", result)
+            return
+        }
+        guard var album = queriedAlbum else {
+            print("Album may have been deleted, no album with id: ", currentAlbum.id)
+            await setCurrentAlbum(nil)
+            return
+        }
+        
+        guard let imageKeysOptional = album.imageKeys else {
+            print("Album does not contain images")
+            await setCurrentAlbum(album)
+            await setCurrentImages([])
+            return
+        }
+        let imageKeys = imageKeysOptional.compactMap { $0 }
+        
+        // Set the associations to nil and update it
+        album.imageKeys = nil
+        let updateResult = try await Amplify.API.mutate(request: .update(album))
+        guard case .success(let updatedAlbum) = updateResult else {
+            print("Failed with error: ", result)
+            return
+        }
+        
+        // Remove the photos
+        await withTaskGroup(of: Void.self) { group in
+            for key in imageKeys {
+                group.addTask {
+                    do {
+                        try await Amplify.Storage.remove(key: key,
+                                                         options: .init(accessLevel: .private))
+                    } catch {
+                        print("Failed with error:", error)
+                    }
+                }
+            }
+            
+            for await _ in group {
+            }
+        }
+        
+        await setCurrentAlbum(updatedAlbum)
+        await setCurrentImages([])
+    }
+    
+    // Delete record and all associated files
+    func deleteAlbumAndPhotos() async throws {
+        await setIsLoading(true)
+        defer {
+            Task {
+                await setIsLoading(false)
+            }
+        }
+        
+        guard let currentAlbum = currentAlbum else {
+            print("There is no album to associated the images with. Create an Album first.")
+            return
+        }
+        
+        // Get the album record
+        let result = try await Amplify.API.query(request: .get(PhotoAlbum.self, byIdentifier: currentAlbum.id))
+        guard case .success(let queriedAlbum) = result else {
+            print("Failed with error: ", result)
+            return
+        }
+        guard let album = queriedAlbum else {
+            print("Album may have been deleted, no album with id: ", currentAlbum.id)
+            await setCurrentAlbum(nil)
+            return
+        }
+        
+        guard let imageKeysOptional = album.imageKeys else {
+            print("Album does not contain images")
+            
+            // Delete the album record
+            let deleteResult = try await Amplify.API.mutate(request: .delete(album))
+            guard case .success = deleteResult else {
+                print("Failed with error: ", deleteResult)
+                return
+            }
+            
+            await setCurrentAlbum(nil)
+            await setCurrentImages([])
+            return
+        }
+        let imageKeys = imageKeysOptional.compactMap { $0 }
+        
+        // Remove the photos
+        await withTaskGroup(of: Void.self) { group in
+            for key in imageKeys {
+                group.addTask {
+                    do {
+                        try await Amplify.Storage.remove(key: key,
+                                                         options: .init(accessLevel: .private))
+                    } catch {
+                        print("Failed with error:", error)
+                    }
+                }
+            }
+            
+            for await _ in group {
+            }
+        }
+        
+        // Delete the album record
+        let deleteResult = try await Amplify.API.mutate(request: .delete(album))
+        guard case .success = deleteResult else {
+            print("Failed with error: ", deleteResult)
+            return
+        }
+        
+        await setCurrentAlbum(nil)
+        await setCurrentImages([])
+    }
+    
+    @MainActor
+    func setCurrentAlbum(_ album: PhotoAlbum?) {
+        self.currentAlbum = album
+    }
+    
+    @MainActor
+    func setCurrentImages(_ images: [UIImage]) {
+        self.currentImages = images
+    }
+    
+    @MainActor
+    func setIsLoading(_ isLoading: Bool) {
+        self.isLoading = isLoading
+    }
+}
+
+struct PhotoAlbumView: View {
+    @State private var isImagePickerPresented: Bool = false
+    @State private var albumName: String = ""
+    @State private var isLastImagePickerPresented = false
+    @State private var lastImage: UIImage? = nil
+    @StateObject var viewModel = PhotoAlbumViewModel()
+    
+    var body: some View {
+        NavigationView {
+            ZStack {
+                VStack {
+                    AlbumInformation()
+                    DisplayImages()
+                    OpenImagePickerButton()
+                    PhotoAlbumNameTextField()
+                    CreateOrUpdateAlbumButton()
+                    AdditionalOperations()
+                }
+                .padding()
+                .sheet(isPresented: $isImagePickerPresented) {
+                    MultiImagePicker(selectedImages: $viewModel.currentImages)
+                }
+                .sheet(isPresented: $isLastImagePickerPresented) {
+                    ImagePicker(selectedImage: $lastImage)
+                }
+                VStack {
+                    IsLoadingView()
+                }
+            }
+            .navigationBarItems(trailing: SignOutButton())
+        }
+    }
+    
+    @ViewBuilder
+    func AlbumInformation() -> some View {
+        if let album = viewModel.currentAlbum {
+            Text("Album Id: \(album.id)").font(.caption)
+            if album.name != "" {
+                Text("Album Name: \(album.name)").font(.caption)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func DisplayImages() -> some View {
+        // Display selected images
+        ScrollView(.horizontal) {
+            HStack {
+                ForEach($viewModel.currentImages, id: \.self) { image in
+                    Image(uiImage: image.wrappedValue)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 100, height: 100)
+                }
+            }
+        }
+        if $viewModel.currentImages.isEmpty {
+            Text("No Images Selected")
+                .foregroundColor(.gray)
+        }
+    }
+    
+    func OpenImagePickerButton() -> some View {
+        // Button to open the image picker
+        Button("Select \(!viewModel.currentImages.isEmpty ? "new " : "")photo album images") {
+            isImagePickerPresented.toggle()
+        }.buttonStyle(TappedButtonStyle())
+    }
+    
+    @ViewBuilder
+    func PhotoAlbumNameTextField() -> some View {
+        TextField("\(viewModel.currentAlbum != nil ? "Update": "Enter") album name", text: $albumName)
+            .textFieldStyle(RoundedBorderTextFieldStyle())
+            .multilineTextAlignment(.center)
+    }
+    
+    @ViewBuilder
+    func CreateOrUpdateAlbumButton() -> some View {
+        if viewModel.currentAlbum == nil, !viewModel.currentImages.isEmpty {
+            Button("Save") {
+                Task {
+                    try? await viewModel.createPhotoAlbum(name: albumName,
+                                                   photos: viewModel.currentImages)
+                }
+            }
+            .buttonStyle(TappedButtonStyle())
+            .disabled(viewModel.isLoading)
+        } else if viewModel.currentAlbum != nil {
+            Button("Select \(lastImage != nil ? "another ": "")photo to replace last photo in the album") {
+                isLastImagePickerPresented.toggle()
+            }
+            .buttonStyle(TappedButtonStyle())
+            .disabled(viewModel.isLoading)
+            
+            if let lastImage = lastImage {
+                Image(uiImage: lastImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                Button("Replace last image in album with above") {
+                    Task {
+                        try? await viewModel.replaceLastImage(lastImage)
+                        self.lastImage = nil
+                        try? await viewModel.refreshAlbumAndPhotos()
+                    }
+                }
+                .buttonStyle(TappedButtonStyle())
+                .disabled(viewModel.isLoading)
+                Button("Append above image to album") {
+                    Task {
+                        try? await viewModel.addAdditionalPhotos(lastImage)
+                        self.lastImage = nil
+                        try? await viewModel.refreshAlbumAndPhotos()
+                    }
+                }
+                .buttonStyle(TappedButtonStyle())
+                .disabled(viewModel.isLoading)
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func AdditionalOperations() -> some View {
+        if viewModel.currentAlbum != nil {
+            VStack {
+                Button("Refresh") {
+                    Task {
+                        try? await viewModel.refreshAlbumAndPhotos()
+                    }
+                }.buttonStyle(TappedButtonStyle())
+                Button("Remove associations from album") {
+                    Task {
+                        try? await viewModel.removeStorageAssociationsFromAlbum()
+                        try? await viewModel.refreshAlbumAndPhotos()
+                    }
+                }.buttonStyle(TappedButtonStyle())
+                Button("Remove association and delete photos") {
+                    Task {
+                        try? await viewModel.removeStorageAssociationsAndDeletePhotos()
+                        try? await viewModel.refreshAlbumAndPhotos()
+                    }
+                }.buttonStyle(TappedButtonStyle())
+                Button("Delete album and images") {
+                    Task {
+                        try? await viewModel.deleteAlbumAndPhotos()
+                    }
+                    albumName = ""
+                }.buttonStyle(TappedButtonStyle())
+            }.disabled(viewModel.isLoading)
+        }
+    }
+        
+    @ViewBuilder
+    func IsLoadingView() -> some View {
+        if viewModel.isLoading {
+            ZStack {
+                DimmedBackgroundView()
+                ProgressView()
+            }
+        }
+    }
+}
+
+struct PhotoAlbumView_Previews: PreviewProvider {
+    static var previews: some View {
+        PhotoAlbumView()
+    }
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>

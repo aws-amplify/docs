@@ -3,22 +3,959 @@ export const meta = {
   description: `Learn more about how to fetch data using Amplify's GraphQL API category`
 };
 
-import ios0 from '/src/fragments/lib/graphqlapi/ios/query-data.mdx';
+<InlineFilter filters={["ios"]}>
 
-<Fragments fragments={{ ios: ios0 }} />
+## Query by Id
 
-import android1 from '/src/fragments/lib/graphqlapi/android/query-data.mdx';
+Now that you were able to make a mutation, take the `Id` that was printed out and use it in your query to retrieve data.
 
-<Fragments fragments={{ android: android1 }} />
+<BlockSwitcher>
 
-import js2 from '/src/fragments/lib/graphqlapi/js/query-data.mdx';
+<Block name="Async/Await">
 
-<Fragments fragments={{ js: js2 }} />
+```swift
+func getTodo() async {
+    do {
+        let result = try await Amplify.API.query(
+           request: .get(Todo.self, byId: "9FCF5DD5-1D65-4A82-BE76-42CB438607A0")
+        )
 
-import reactnative0 from '/src/fragments/lib/graphqlapi/js/query-data.mdx';
+        switch result {
+        case .success(let todo):
+            guard let todo = todo else {
+                print("Could not find todo")
+                return
+            }
+            print("Successfully retrieved todo: \(todo)")
+        case .failure(let error):
+            print("Got failed result with \(error.errorDescription)")
+        }
+    } catch let error as APIError {
+        print("Failed to query todo: ", error)
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
 
-<Fragments fragments={{ 'react-native': reactnative0 }} />
+</Block>
 
-import flutter3 from '/src/fragments/lib/graphqlapi/flutter/query-data.mdx';
+<Block name="Combine">
 
-<Fragments fragments={{ flutter: flutter3 }} />
+```swift
+func getTodo() -> AnyCancellable {
+    let sink = Amplify.Publisher.create {
+        try await Amplify.API.query(
+            request: .get(Todo.self, byId: "9FCF5DD5-1D65-4A82-BE76-42CB438607A0")
+        )
+    }
+    .sink {
+        if case let .failure(error) = $0 {
+            print("Got failed event with error \(error)")
+        }
+    }
+    receiveValue: { result in
+        switch result {
+        case .success(let todo):
+            guard let todo = todo else {
+                print("Could not find todo")
+                return
+            }
+            print("Successfully retrieved todo: \(todo)")
+        case .failure(let error):
+            print("Got failed result with \(error.errorDescription)")
+        }
+    }
+    return sink
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+## List Query
+
+You can get the list of items using `.list` with optional parameters `limit` and `where` to specify the page size and condition. By default, the page size is 1000.
+
+
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+func listTodos() async {
+    let todo = Todo.keys
+    let predicate = todo.name == "my first todo" && todo.description == "todo description"
+    let request = GraphQLRequest<Todo>.list(Todo.self, where: predicate, limit: 1000)
+    do {
+        let result = try await Amplify.API.query(request: request)
+        switch result {
+        case .success(let todos):
+            print("Successfully retrieved list of todos: \(todos)")
+        case .failure(let error):
+            print("Got failed result with \(error.errorDescription)")
+        }
+    } catch let error as APIError {
+        print("Failed to query list of todos: ", error)
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+func listTodos() -> AnyCancellable {
+    let todo = Todo.keys
+    let predicate = todo.name == "my first todo" && todo.description == "todo description"
+    let request = GraphQLRequest<Todo>.list(Todo.self, where: predicate, limit: 1000)
+    let sink = Amplify.Publisher.create {
+        try await Amplify.API.query(request: request)
+    }
+    .sink {
+        if case let .failure(error) = $0 {
+            print("Got failed event with error \(error)")
+        }
+    }
+    receiveValue: { result in
+    switch result {
+        case .success(let todos):
+            print("Successfully retrieved list of todos: \(todos)")
+        case .failure(let error):
+            print("Got failed result with \(error.errorDescription)")
+        }
+    }
+    return sink
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+### List subsequent pages of items
+
+If you are using SwiftUI and have SwiftUI imported in the same code file, you will need to import the class `Amplify.List` to resolve name collision with `SwiftUI.List`:
+
+```swift 
+import SwiftUI
+import Amplify
+import class Amplify.List
+```
+
+For large data sets, you'll need to paginate through the results. After receiving the first page of results, you can check if there is a subsequent page and obtain the next page.
+
+```swift
+var todos: [Todo] = []
+var currentPage: List<Todo>?
+
+func listFirstPage() async {
+    let todo = Todo.keys
+    let predicate = todo.name == "my first todo" && todo.description == "todo description"
+    let request = GraphQLRequest<Todo>.list(Todo.self, where: predicate, limit: 1000)
+    do {
+        let result = try await Amplify.API.query(request: request)
+        switch result {
+        case .success(let todos):
+            print("Successfully retrieved list of todos: \(todos)")
+            self.currentPage = todos
+            self.todos.append(contentsOf: todos)
+        case .failure(let error):
+            print("Got failed result with \(error.errorDescription)")
+        }
+    } catch let error as APIError {
+        print("Failed to query list of todos: ", error)
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+
+func listNextPage() async {
+    if let current = self.currentPage, current.hasNextPage() {
+        do {
+            let todos = try await current.getNextPage()
+            self.todos.append(contentsOf: todos)
+            self.currentPage = todos
+        } catch {
+            print("Failed to get next page \(error)")
+        }
+    }
+}
+```
+
+## List all pages
+
+If you want to get all pages, retrieve the subsequent page when you have successfully retrieved the first or next page.
+
+1. Update the above method `listFirstPage()` to `listAllPages()`
+2. Call `listNextPageRecursively()` in the success block of the query in `listAllPages()`
+2. Update the `listNextPage()` to `listNextPageRecursively()`
+3. Call `listNextPageRecursively()` in the success block of the query in `listNextPageRecursively()`
+
+The completed changes should look like this:
+
+```swift
+var todos: [Todo] = []
+var currentPage: List<Todo>?
+
+func listAllPages() async { // 1. Updated from `listFirstPage()`
+    let todo = Todo.keys
+    let predicate = todo.name == "my first todo" && todo.description == "todo description"
+    let request = GraphQLRequest<Todo>.list(Todo.self, where: predicate, limit: 1000)
+    do {
+        let result = try await Amplify.API.query(request: request)
+        switch result {
+        case .success(let todos):
+            print("Successfully retrieved list of todos: \(todos)")
+            self.currentPage = todos
+            self.todos.append(contentsOf: todos)
+            await self.listNextPageRecursively() // 2. Added
+        case .failure(let error):
+            print("Got failed result with \(error.errorDescription)")
+        }
+    } catch let error as APIError {
+        print("Failed to query list of todos: ", error)
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+
+func listNextPageRecursively() async { // 3. Updated from `listNextPage()`
+    if let current = currentPage, current.hasNextPage() {
+        do {
+            let todos = try await current.getNextPage()
+            self.todos.append(contentsOf: todos)
+            self.currentPage = todos
+            await self.listNextPageRecursively() // 4. Added
+        } catch {
+            print("Failed to get next page \(error)")
+        }
+    }
+}
+```
+
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+## Query item
+
+Now that you were able to make a mutation, take the `Id` that was printed out and use it in your query to retrieve data.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+private void getTodo(String id) {
+    Amplify.API.query(
+        ModelQuery.get(Todo.class, id),
+        response -> Log.i("MyAmplifyApp", ((Todo) response.getData()).getName()),
+        error -> Log.e("MyAmplifyApp", error.toString(), error)
+    );
+}
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+private fun getTodo(id: String) {
+    Amplify.API.query(ModelQuery.get(Todo::class.java, id),
+        { Log.i("MyAmplifyApp", "Query results = ${(it.data as Todo).name}") },
+        { Log.e("MyAmplifyApp", "Query failed", it) }
+    );
+}
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+suspend fun getTodo(id: String) {
+   try {
+       val response = Amplify.API.query(ModelQuery.get(Todo::class.java, id))
+       Log.i("MyAmplifyApp", response.data.name)
+   } catch (error: ApiException) {
+       Log.e("MyAmplifyApp", "Query failed", error)
+   }
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+private void getTodo(String id) {
+  RxAmplify.API.query(ModelQuery.get(Todo.class, id))
+          .subscribe(
+              response -> Log.i("MyAmplifyApp", ((Todo) response.getData()).getName()),
+              error -> Log.e("MyAmplifyApp", error.toString(), error)
+          );
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+## List items
+
+You can get the list of items that match a condition that you specify in `Amplify.API.query`:
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.API.query(
+    ModelQuery.list(Todo.class, Todo.NAME.contains("first")),
+    response -> {
+        for (Todo todo : response.getData()) {
+            Log.i("MyAmplifyApp", todo.getName());
+        }
+    },
+    error -> Log.e("MyAmplifyApp", "Query failure", error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.API.query(
+    ModelQuery.list(Todo::class.java, Todo.NAME.contains("first")),
+    { response ->
+        response.data.forEach { todo ->
+            Log.i("MyAmplifyApp", todo.name)
+        }
+    },
+    { Log.e("MyAmplifyApp", "Query failure", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    Amplify.API
+        .query(ModelQuery.list(Todo::class.java, Todo.NAME.contains("first")))
+        .response.data
+        .items.forEach { todo -> Log.i("MyAmplifyApp", todo.name) }
+} catch (error: ApiException) {
+    Log.e("MyAmplifyApp", "Query failure", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java 
+RxAmplify.API.query(ModelQuery.list(Todo.class, Todo.NAME.contains("first")))
+    .subscribe(
+        response -> {
+            for (Todo todo : response.getData()) {
+                Log.i("MyAmplifyApp", todo.getName());
+            }
+        },
+        error -> Log.e("MyAmplifyApp", "Query failure", error)
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+> **Note**: This approach will only return up to the first 1,000 items.  To change this limit or make requests for additional results beyond this limit, use *pagination* as discussed below.
+
+## List subsequent pages of items
+
+A list query only returns the first 1,000 items by default, so for large data sets, you'll need to paginate through the results.  After receiving a page of results, you can obtain a `GraphQLRequest` for requesting the next page, if there are more results available.  The page size is configurable as well, as in the example below.
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+public void queryFirstPage() {
+    query(ModelQuery.list(Todo.class, ModelPagination.limit(1_000)));
+}
+
+private static void query(GraphQLRequest<PaginatedResult<Todo>> request) {
+    Amplify.API.query(
+        request,
+        response -> {
+            if (response.hasData()) {
+                for (Todo todo : response.getData()) {
+                    Log.d("MyAmplifyApp", todo.getName());
+                }
+                if (response.getData().hasNextResult()) {
+                    query(response.getData().getRequestForNextResult());
+                }
+            }
+        },
+        failure -> Log.e("MyAmplifyApp", "Query failed.", failure)
+    );
+}
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+fun queryFirstPage() {
+    query(ModelQuery.list(Todo::class.java, ModelPagination.limit(1_000)))
+}
+
+fun query(request: GraphQLRequest<PaginatedResult<Todo>>) {
+    Amplify.API.query(request,
+        { response ->
+            if (response.hasData()) {
+                response.data.items.forEach { todo ->
+                    Log.d("MyAmplifyApp", todo.name)
+                }
+                if (response.data.hasNextResult()) {
+                    query(response.data.requestForNextResult)
+                }
+            }
+        },
+        { Log.e("MyAmplifyApp", "Query failed", it) }
+    )
+}
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+suspend fun queryFirstPage() {
+    query(ModelQuery.list(Todo::class.java,
+        ModelPagination.firstPage().withLimit(1_000)))
+}
+
+suspend fun query(request: GraphQLRequest<PaginatedResult<Todo>>) {
+    try {
+        val response = Amplify.API.query(request)
+        response.data.items.forEach { todo ->
+            Log.d("MyAmplifyApp", todo.name)
+        }
+        if (response.data.hasNextResult()) {
+            query(response.data.requestForNextResult)
+        }
+    } catch (error: ApiException) {
+        Log.e("MyAmplifyApp", "Query failed.", error)
+    }
+}
+```
+
+</Block>
+
+<Block name="RxJava">
+
+```java
+BehaviorSubject<GraphQLRequest<PaginatedResult<Todo>>> subject =
+        BehaviorSubject.createDefault(ModelQuery.list(Todo.class, ModelPagination.limit(1_000)));
+subject.concatMap(request -> RxAmplify.API.query(request).toObservable())
+    .doOnNext(response -> {
+        if (response.hasErrors()) {
+            subject.onError(new Exception(String.format("Query failed: %s", response.getErrors())));
+        } else if (!response.hasData()) {
+            subject.onError(new Exception("Empty response from AppSync."));
+        } else if(response.getData().hasNextResult()) {
+            subject.onNext(response.getData().getRequestForNextResult());
+        } else {
+            subject.onComplete();
+        }
+    })
+    .concatMapIterable(GraphQLResponse::getData)
+    .subscribe(
+        todo -> Log.d(TAG, "Todo: " + todo),
+        error -> Log.e(TAG, "Error: " + error)
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+
+</InlineFilter>
+
+<InlineFilter filters={["js", "react-native"]}>
+
+## Using Amplify GraphQL Client
+
+The API category provides a GraphQL client for working with queries, mutations, and subscriptions.
+
+### Query Declarations
+
+The Amplify CLI codegen automatically generates all possible GraphQL statements (queries, mutations and subscriptions) and for JavaScript applications saves it in `src/graphql` folder
+
+```javascript
+import * as queries from './graphql/queries';
+import * as mutations from './graphql/mutations';
+import * as subscriptions from './graphql/subscriptions';
+```
+
+### Simple Query
+
+Running a GraphQL query is simple. Import the generated query and execute it with `API.graphql`:
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { API } from 'aws-amplify';
+import * as queries from './graphql/queries';
+import { GraphQLQuery } from '@aws-amplify/api';
+import { ListTodosQuery, GetTodoQuery } from './API';
+
+// Simple query
+const allTodos = await API.graphql<GraphQLQuery<ListTodosQuery>>(
+  { query: queries.listTodos }
+);
+console.log(allTodos); // result: { "data": { "listTodos": { "items": [/* ..... */] } } }
+
+// Fetch a single record by its identifier
+const oneTodo = await API.graphql<GraphQLQuery<GetTodoQuery>>({
+  query: queries.getTodo,
+  variables: { id: 'some id' }
+});
+```
+
+</Block>
+
+<Block name="JavaScript">
+
+```js
+import { API } from 'aws-amplify';
+import * as queries from './graphql/queries';
+
+// Simple query
+const allTodos = await API.graphql({ query: queries.listTodos });
+console.log(allTodos); // result: { "data": { "listTodos": { "items": [/* ..... */] } } }
+
+Fetch a single record by its identifier
+const oneTodo = await API.graphql({
+  query: queries.getTodo,
+  variables: { id: 'some id' }
+});
+```
+
+</Block>
+</BlockSwitcher>
+
+You can optionally import the `graphqlOperation` helper function to help you construct this argument object:
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { API, graphqlOperation } from 'aws-amplify';
+import { GraphQLQuery } from '@aws-amplify/api';
+import { GetTodoQuery } from './API';
+// ...
+
+const oneTodo = await API.graphql<GraphQLQuery<GetTodoQuery>>(
+  graphqlOperation(queries.getTodo, { id: 'some id' })
+);
+```
+
+</Block>
+
+<Block name="JavaScript">
+
+```js
+import { API, graphqlOperation } from 'aws-amplify';
+// ...
+
+const oneTodo = await API.graphql(
+  graphqlOperation(queries.getTodo, { id: 'some id' })
+);
+```
+
+</Block>
+</BlockSwitcher>
+
+### Custom authorization mode
+
+By default, each AppSync API will be set with a default authorization mode when you configure your app. If you would like to override the default authorization mode, you can do so by passing in an `authMode` property. For example, this is useful when you have public reads via API Key auth and authenticated reads via IAM auth.
+
+#### Query with custom authorization mode
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { API } from 'aws-amplify';
+import { GraphQLQuery, GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
+import * as queries from './graphql/queries';
+import { GetTodoQuery } from './API';
+
+const todos = await API.graphql<GraphQLQuery<GetTodoQuery>>({
+  query: queries.listTodos,
+  authMode: GRAPHQL_AUTH_MODE.AWS_IAM
+});
+```
+
+</Block>
+
+<Block name="JavaScript">
+
+```js
+import { API } from 'aws-amplify';
+import { GRAPHQL_AUTH_MODE } from '@aws-amplify/api';
+import * as queries from './graphql/queries';
+
+
+const todos = await API.graphql({
+  query: queries.listTodos,
+  authMode: GRAPHQL_AUTH_MODE.AWS_IAM
+});
+```
+
+</Block>
+</BlockSwitcher>
+
+## Filtered and Paginated Queries
+
+As your data grows, you will want to do pagination and filtering at the AppSync level instead of on the client. Fortunately, this is already built in to `API.graphql`, but you need to understand the schema of these queries. [This is explained in the AppSync docs](https://docs.aws.amazon.com/appsync/latest/devguide/using-your-api.html), but here you will translate them to the `API.graphql` equivalent.
+
+You can find the input schemas in the Docs pane of the GraphQL explorer or inside your autogenerated `/graphql` folder. They look like this:
+
+```graphql
+listTodos(
+  filter: ModelTodoFilterInput
+  limit: Int
+  nextToken: String): ModelTodoConnection
+
+input ModelTodoFilterInput {
+	id: ModelIDInput
+	priority: ModelIntInput
+	# ... all your other Todo fields here
+	and: [ModelTodoFilterInput]
+	or: [ModelTodoFilterInput]
+	not: ModelTodoFilterInput
+}
+```
+
+### Filtering Queries
+
+Those input types in your schema indicate what kinds of filtering you can perform on them. For example, an integer field like `ModelIntInput` has this schema:
+
+```graphql
+input ModelIntInput {
+  ne: Int # "not equal to"
+  eq: Int # "equal to"
+  le: Int # "less than or equal to"
+  lt: Int # "less than"
+  ge: Int # "greater than or equal to"
+  gt: Int # "greater than"
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+```
+
+These vary based on the type of the field, but are linked to corresponding [DynamoDB queries](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_Condition.html).
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { ListTodosQueryVariables, ListTodosQuery } from './API';
+
+const variables: ListTodosQueryVariables = {
+  filter: {
+    priority: {
+      eq: 1
+    }
+  }
+};
+
+await API.graphql<GraphQLQuery<ListTodosQuery>>({ 
+  query: listTodos, variables: variables 
+});
+```
+
+</Block>
+
+<Block name="JavaScript">
+
+```js
+const variables = {
+  filter: {
+    priority: {
+      eq: 1
+    }
+  }
+};
+
+await API.graphql({ 
+  query: listTodos, variables: variables 
+});;
+```
+
+</Block>
+</BlockSwitcher>
+
+### Compound Filters
+
+You can combine filters with `and`, `or`, and `not` boolean logic. Observe, in the autogenerated schema above, that `ModelTodoFilterInput` is recursive in respect to those fields. So if, for example, you wanted to filter for `priority` values of 1 OR 2, you would do this:
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { ListTodosQueryVariables, ListTodosQuery } from './API';
+
+const variables: ListTodosQueryVariables = {
+  filter: {
+    or: [
+      { priority: { eq:1 } },
+      { priority: { eq:2 } }
+    ]
+  }
+};
+
+await API.graphql<GraphQLQuery<ListTodosQuery>>({ 
+  query: listTodos, variables: variables 
+});
+```
+
+</Block>
+
+<Block name="JavaScript">
+
+```js
+const variables = {
+  filter: {
+    or: [
+      { priority: { eq:1 } },
+      { priority: { eq:2 } }
+    ]
+  }
+};
+
+await API.graphql({ 
+  query: listTodos, variables: variables 
+});;
+```
+
+</Block>
+</BlockSwitcher>
+
+Note that querying for `priority` of 1 AND 2 would return no results, because this is boolean logic instead of natural language.
+
+### Paginating Queries
+
+Pagination in AppSync is done by making a request with a `limit`, and getting back a `nextToken` in order to get a cursor for the next page in your query:
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { ListTodosQueryVariables, ListTodosQuery } from './API';
+
+// Fetch first 20 records
+const variables: ListTodosQueryVariables = {
+  limit: 20, 
+  // add filter as needed
+};
+
+const res = await API.graphql<GraphQLQuery<ListTodosQuery>({ 
+  query: listTodos, variables: variables
+});
+
+const { items: itemsPage1, nextToken } = res.data?.listTodos;
+
+// Fetch the next 20 records
+variables.nextToken = nextToken;
+
+const res = await API.graphql<GraphQLQuery<ListTodosQuery>({ 
+  query: listTodos, variables: variables 
+});
+
+const { items: itemsPage2 } = res.data?.listTodos;
+```
+
+</Block>
+
+<Block name="JavaScript">
+
+```js
+// Fetch first 20 records
+const variables = {
+  limit: 20, 
+  // add filter as needed
+};
+
+const res = await API.graphql({ 
+  query: listTodos, variables: variables
+});
+
+const { items: itemsPage1, nextToken } = res.data.listTodos;
+
+// Fetch the next 20 records
+variables.nextToken = nextToken;
+
+const res = await API.graphql({ 
+  query: listTodos, variables: variables
+});
+
+const { items: itemsPage2 } = res.data.listTodos;
+```
+
+</Block>
+</BlockSwitcher>
+
+A `nextToken` is a very long string that looks like `"eyJ2ZXJzaW9uejE1a2RPanZPQzFCMlFTdGNxdUFBQUJxekNDQWFjR0NTcUdTSWIzRFFFSEJxQ0NBWmd3Z2dHVUFnRUFNSUlCalFZSktvWklodmNOQVFjQk1CNEdDV0NHU0FGbEF3UUJMakFSQkF5eEtWQjUvTlJxS2o5ZHBYc0NBUkNBZ2dGZUZFNW1MbTRkb25BOUg0U0FpOGhSZ1lucmRndmQz"` which represents the cursor to the starting item of the next query made with these filters.
+
+### Frequently Asked Questions
+
+- There is no API to get a total page count at this time. Note that scanning all items is a [potentially expensive operation](https://github.com/aws-amplify/amplify-js/issues/2901).
+- Sorting is [available in DataStore](https://docs.amplify.aws/lib/datastore/data-access/q/platform/js#predicates) but not in AppSync.
+- AppSync schemas do not follow the edges/nodes of the [Relay spec](https://relay.dev/docs/guides/graphql-server-specification) but are spiritually similar.
+- You [cannot query by `page` number](https://github.com/aws-amplify/amplify-cli/issues/5086), you have to query by `nextToken`.
+
+
+</InlineFilter>
+
+
+<InlineFilter filters={["flutter"]}>
+
+## Query item
+
+Now that you were able to make a mutation, take the `id` from the created `Todo` instance and use it to retrieve data.
+
+```dart
+Future<Todo?> queryItem(Todo queriedTodo) async {
+  try {
+    final request = ModelQueries.get(
+      Todo.classType,
+      queriedTodo.modelIdentifier,
+    );
+    final response = await Amplify.API.query(request: request).response;
+    final todo = response.data;
+    if (todo == null) {
+      safePrint('errors: ${response.errors}');
+    }
+    return todo;
+  } on ApiException catch (e) {
+    safePrint('Query failed: $e');
+    return null;
+  }
+}
+```
+
+## List items
+
+You can get the list of items in `Amplify.API.query`:
+
+```dart
+Future<List<Todo?>> queryListItems() async {
+  try {
+    final request = ModelQueries.list(Todo.classType);
+    final response = await Amplify.API.query(request: request).response;
+
+    final todos = response.data?.items;
+    if (todos == null) {
+      safePrint('errors: ${response.errors}');
+      return const [];
+    }
+    return todos;
+  } on ApiException catch (e) {
+    safePrint('Query failed: $e');
+    return const [];
+  }
+}
+```
+
+### List subsequent pages of items
+
+For large data sets, you'll need to paginate through the results. After receiving the first page of results, you can check if there is a subsequent page and obtain the next page.
+
+```dart
+const limit = 100;
+
+Future<List<Todo?>> queryPaginatedListItems() async {
+  final firstRequest = ModelQueries.list<Todo>(Todo.classType, limit: limit);
+  final firstResult = await Amplify.API.query(request: firstRequest).response;
+  final firstPageData = firstResult.data;
+
+  // Indicates there are > 100 todos and you can get the request for the next set.
+  if (firstPageData?.hasNextResult ?? false) {
+    final secondRequest = firstPageData!.requestForNextResult;
+    final secondResult =
+        await Amplify.API.query(request: secondRequest!).response;
+    return secondResult.data?.items ?? <Todo?>[];
+  } else {
+    return firstPageData?.items ?? <Todo?>[];
+  }
+}
+```
+
+## Query Predicates
+
+Models also support the use of query predicates for comparison. These are accessible from the Model's attributes, for example `Blog["attribute"]["operator"]`. 
+
+Supported operators: 
+- `eq` - equal
+- `ne` - not equal 
+- `gt` - greater than 
+- `ge` - greater than or equal 
+- `lt` - less than 
+- `le` - less than or equal
+- `beginsWith` - Matches models where the given field begins with the provided value.
+- `between` - Matches models where the given field is between the provided start and end values.
+- `contains` - Matches models where the given field contains the provided value.
+
+### Basic Equality Operator
+
+Query for equality on a model's attribute.
+
+```dart
+const blogTitle = 'Test Blog 1';
+final queryPredicate = Blog.NAME.eq(blogTitle);
+
+final request = ModelQueries.list<Blog>(
+  Blog.classType,
+  where: queryPredicate,
+);
+final response = await Amplify.API.query(request: request).response;
+final blogFromResponse = response.data?.items.first;
+```
+
+### Fetch by Parent ID
+
+Get all Posts by parent ID
+
+```dart
+final blogId = blog.id;
+
+final request = ModelQueries.list(
+  Post.classType,
+  where: Post.BLOG.eq(blogId),
+);
+final response = await Amplify.API.query(request: request).response;
+final data = response.data?.items ?? <Post?>[];
+```
+
+### Less than
+
+Return Posts with a rating less than 5.
+
+```dart
+const rating = 5;
+
+final request = ModelQueries.list(
+  Post.classType,
+  where: Post.RATING.lt(rating),
+);
+final response = await Amplify.API.query(request: request).response;
+
+final data = response.data?.items ?? <Post?>[];
+```
+
+
+</InlineFilter>
