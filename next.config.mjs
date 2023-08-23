@@ -4,6 +4,8 @@ import _withMDX from '@next/mdx';
 import { directory } from './src/directory/directory.mjs';
 const require = createRequire(import.meta.url);
 import rehypeImgSize from 'rehype-img-size';
+import rehypeMermaid from 'rehype-mermaidjs';
+
 
 dotenv.config({ path: './.env.custom' });
 
@@ -34,9 +36,9 @@ export default async (phase, { defaultConfig }) => {
         importPlugin,
         headingLinkPlugin,
         pagePlugin,
-        internalLinkPlugin
+        internalLinkPlugin,
       ],
-      rehypePlugins: [codeBlockPlugin, [rehypeImgSize, { dir: 'public' }]],
+      rehypePlugins: [[rehypeMermaid, { strategy: 'inline-svg' }], codeBlockPlugin, [rehypeImgSize, { dir: 'public' }]],
       renderer: mdxRenderer
     }
   });
