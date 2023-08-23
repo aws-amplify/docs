@@ -155,7 +155,7 @@ export const directory = {
           {
             title: 'Connect a data stack',
             route: '/lib/graphqlapi/connect',
-            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
+            filters: ['js']
           },
           {
             title: 'Concepts',
@@ -168,17 +168,17 @@ export const directory = {
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
-            title: 'Create, update, delete data',
+            title: 'Create, update, and delete application data',
             route: '/lib/graphqlapi/mutate-data',
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
-            title: 'Fetch data',
+            title: 'Read application data',
             route: '/lib/graphqlapi/query-data',
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
-            title: 'Subscribe to data',
+            title: 'Subscribe to real-time events',
             route: '/lib/graphqlapi/subscribe-data',
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },

@@ -3,7 +3,9 @@ export const meta = {
   description: `Learn more about how to create and update data using GraphQL APIs in Amplify`
 };
 
-> *This guide provides essential information to help you select and complete the activities you need for your Amplify project. We organized each section around a distinct job or decision point to help you understand your available options, steps to complete, and recommended best practices.*
+import guide from "/src/fragments/common/guide-header.mdx";
+
+<Fragments fragments={{all: guide}} />
 
 In this guide, you will learn how to use functions to create, read, update, and delete your data using the Amplify GraphQL client.
 
@@ -421,8 +423,6 @@ const deletedTodo = await API.graphql({
 __Note:__ Join table records must be deleted prior to deleting the associated records. For example, for a many-to-many relationship between Posts and Tags, delete the PostTags join record prior to deleting a Post or Tag.
 
 </Callout>
-
-[TODO]: # (Follow up on troubleshooting Q. We had a note to provide troubleshooting for unauthorized errors and cross-platform gotchas - do we still want to add an expander with this troubleshooting guidance?)
 
 <Accordion title='Custom authorization mode to mutate data' headingLevel='4' eyebrow='Learn more'>
 

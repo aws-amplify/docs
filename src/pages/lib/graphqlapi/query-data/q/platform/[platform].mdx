@@ -5,7 +5,9 @@ export const meta = {
 
 <InlineFilter filters={["js", "react-native"]}>
 
-> *This guide provides essential information to help you select and complete the activities you need for your Amplify project. We organized each section around a distinct job or decision point to help you understand your available options, steps to complete, and recommended best practices.*
+import guide from "/src/fragments/common/guide-header.mdx";
+
+<Fragments fragments={{all: guide}} />
 
 You can read application data using the Amplify GraphQL client. In this guide we will review the difference between listing data and getting data, how to filter query results to get just the data you need, and how to paginate results to make you're data more manageable. We will also show you how to cancel these requests when needed.
 
@@ -540,8 +542,6 @@ __Limitations:__
 - You [cannot query by `page` number](https://github.com/aws-amplify/amplify-cli/issues/5086), you have to query by `nextToken`.
 
 </Callout>
-
-[TODO]: # (We should review where else this fragment is used and see if we want to change this and put it in the docs. It would mean we can make the paragraph more consistent and just replace code for other frameworks. This sample comes from https://github.com/aws-amplify/docs/blob/main/src/fragments/lib/graphqlapi/js/cancel-request.mdx)
 
 ## Cancel read requests
 
