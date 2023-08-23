@@ -38,6 +38,7 @@ jobs:
             SLACK_WEBHOOK_URL
           parse-json-secrets: true
       - name: Send custom JSON data to Slack workflow
+        if: steps.checkLinks.outputs.result
         id: slack
         uses: slackapi/slack-github-action@e28cf165c92ffef168d23c5c9000cffc8a25e117 # v1.24.0
         with:
