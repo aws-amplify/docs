@@ -200,7 +200,7 @@ export const directory = {
           {
             title: 'GraphQL from NodeJS',
             route: '/lib/graphqlapi/graphql-from-nodejs',
-            filters: ['js', 'react-native', 'react-native']
+            filters: ['js', 'react-native']
           },
           {
             title: 'Advanced Workflows',
@@ -215,7 +215,7 @@ export const directory = {
           {
             title: 'Upgrade guide from AppSync SDK',
             route: '/lib/graphqlapi/upgrade-guide',
-            filters: ['js', 'ios']
+            filters: ['js', 'react-native', 'ios']
           }
         ]
       },
