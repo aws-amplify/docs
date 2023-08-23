@@ -40,7 +40,7 @@ import all2 from "/src/fragments/lib/auth/common/mfa/add_mfa.mdx";
 
 </Block>
 
-<Block name="Existing Auth">
+<Block name="Existing Project">
 
 Run `amplify update auth` and follow the prompts as guided below.
 
@@ -104,9 +104,54 @@ import iosConfirmSignInTOTP from "/src/fragments/lib/auth/ios/sms/confirm_sign_i
 After a user has been signed in, call `updateMFAPreference` to record the MFA type as enabled for the user
 and optionally set it as preferred so that subsequent logins default to using this MFA type.
 
-import iosUpdateMFAPreferences from "/src/fragments/lib/auth/ios/mfa_preference/20_update_mfa_preference.mdx";
+<InlineFilter filters={['ios']}>
 
-<Fragments fragments={{ios: iosUpdateMFAPreferences}} />
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+func updateMFAPreferences() async throws {
+    let authCognitoPlugin = try Amplify.Auth.getPlugin(
+        for: "awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
+
+    let smsMfaPreference: MFAPreference = .enabled // or .preferred
+
+    try await authCognitoPlugin?.updateMFAPreference(
+        sms: smsMfaPreference)
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+func updateMFAPreferences() -> AnyCancellable {
+    Amplify.Publisher.create {
+        let authCognitoPlugin = try Amplify.Auth.getPlugin(
+            for: "awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
+
+        let smsMfaPreference: MFAPreference = .enabled // or .preferred
+
+        try await authCognitoPlugin?.updateMFAPreference(
+            sms: smsMfaPreference)
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("Confirm sign in failed \(authError)")
+        }
+    }
+    receiveValue: {
+        print("Update MFA preference succeeded")
+    }
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+</InlineFilter>
 
 ## Multi-factor authentication with TOTP
 
@@ -144,7 +189,54 @@ import iosConfirmSignIn from "/src/fragments/lib/auth/ios/totp/confirm_sign_in.m
 After a user has been signed in, call `updateMFAPreference` to record the MFA type as enabled for the user
 and optionally set it as preferred so that subsequent logins default to using this MFA type.
 
-<Fragments fragments={{ios: iosUpdateMFAPreferences}} />
+<InlineFilter filters={['ios']}>
+
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+func updateMFAPreferences() async throws {
+    let authCognitoPlugin = try Amplify.Auth.getPlugin(
+        for: "awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
+
+    let totpMfaPreference: MFAPreference = .enabled // or .preferred
+
+    try await authCognitoPlugin?.updateMFAPreference(
+        totp: totpMfaPreference)
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+func updateMFAPreferences() -> AnyCancellable {
+    Amplify.Publisher.create {
+        let authCognitoPlugin = try Amplify.Auth.getPlugin(
+            for: "awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
+
+        let totpMfaPreference: MFAPreference = .enabled // or .preferred
+
+        try await authCognitoPlugin?.updateMFAPreference(
+            totp: totpMfaPreference)
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("Confirm sign in failed \(authError)")
+        }
+    }
+    receiveValue: {
+        print("Update MFA preference succeeded")
+    }
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+</InlineFilter>
 
 ### Enabling TOTP after a user is signed in
 
@@ -159,15 +251,11 @@ Invoke the `setUpTOTP` API to generate a `TOTPSetupDetails` object which should 
 
 that contains the `sharedSecret` which will be used to either to generate a QR code or can be manually entered into an Authenticator app.
 
-**`setUpTOTP` API**
-
 import iosSetUpTOTP from "/src/fragments/lib/auth/ios/totp/set_up_totp.mdx";
 
 <Fragments fragments={{ios: iosSetUpTOTP}} />
 
 Once the Authenticator app is set up, the user must generate a TOTP code and provide it to the library. Pass the code to `verifyTOTPSetup` to complete the TOTP setup process.
-
-**`verifyTOTPSetup` API**
 
 import iosVerifyTOTPSetup from "/src/fragments/lib/auth/ios/totp/verify_totp_setup.mdx";
 
@@ -176,7 +264,54 @@ import iosVerifyTOTPSetup from "/src/fragments/lib/auth/ios/totp/verify_totp_set
 After TOTP setup is complete, call `updateMFAPreference` to record the MFA type as enabled for the user
 and optionally set it as preferred so that subsequent logins default to using this MFA type.
 
-<Fragments fragments={{ios: iosUpdateMFAPreferences}} />
+<InlineFilter filters={['ios']}>
+
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+func updateMFAPreferences() async throws {
+    let authCognitoPlugin = try Amplify.Auth.getPlugin(
+        for: "awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
+
+    let totpMfaPreference: MFAPreference = .enabled // or .preferred
+
+    try await authCognitoPlugin?.updateMFAPreference(
+        totp: totpMfaPreference)
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+func updateMFAPreferences() -> AnyCancellable {
+    Amplify.Publisher.create {
+        let authCognitoPlugin = try Amplify.Auth.getPlugin(
+            for: "awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
+
+        let totpMfaPreference: MFAPreference = .enabled // or .preferred
+
+        try await authCognitoPlugin?.updateMFAPreference(
+            totp: totpMfaPreference)
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("Confirm sign in failed \(authError)")
+        }
+    }
+    receiveValue: {
+        print("Update MFA preference succeeded")
+    }
+}
+```
+
+</Block>
+
+</BlockSwitcher>
+
+</InlineFilter>
 
 ### Recovering from a lost TOTP device
 
@@ -207,6 +342,8 @@ Invoke the following API to update the MFA preference for the current user.
 Only one MFA method can be marked as preferred at a time. If the user has multiple MFA methods enabled and tries to mark more than one MFA method as preferred, the API will throw an error.
 
 </Callout>
+
+import iosUpdateMFAPreferences from "/src/fragments/lib/auth/ios/mfa_preference/20_update_mfa_preference.mdx";
 
 <Fragments fragments={{ios: iosUpdateMFAPreferences}} />
 
