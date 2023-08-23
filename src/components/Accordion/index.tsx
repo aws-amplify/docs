@@ -1,6 +1,7 @@
 import { useRef, useState, createElement, useEffect } from 'react';
 import { Details, Summary } from './styles';
 import { Expand, DeepDive } from './icons';
+import { trackExpanderOpen } from '../../utils/track';
 
 type AccordionProps = {
   title?: string;
@@ -112,13 +113,18 @@ const Accordion: React.FC<AccordionProps> = ({
       }, 700);
     } else {
       // Open accordion
+      trackExpanderOpen(expander?.id.replace('-acc', ''));
       expander?.setAttribute('open', '');
       expander?.animate(expand, animationTiming);
     }
   };
 
   return (
-    <Details id={headingId + '-acc'} className="docs-expander" ref={docsExpander}>
+    <Details
+      id={headingId + '-acc'}
+      className="docs-expander"
+      ref={docsExpander}
+    >
       <Summary
         id="docs-expander__summary"
         className="docs-expander__summary"

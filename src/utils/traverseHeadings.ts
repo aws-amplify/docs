@@ -20,7 +20,17 @@ export function traverseHeadings(tree, filterKey: string): string[] {
         headings = headings.concat(traverseHeadings(fragment, filterKey));
         // console.log('after', headings);
       }
-    } else if ('children' in node.props) {
+    } else if ("filters" in node.props) {
+      // Recurse on the inline filters if the filter keys match
+      if (node.props.filters.includes(filterKey)) {
+        const inlineFilterContent = node.props.children;
+        headings = headings.concat(traverseHeadings(inlineFilterContent, filterKey));
+      } else if (node.props.filters?.includes("all")) {
+        // "all" includes every filterKey, so recurse
+        const inlineFilterContent = node.props.children;
+        headings = headings.concat(traverseHeadings(inlineFilterContent, filterKey));
+      }
+    } else if ("children" in node.props) {
       // Recurse on the children, _unless_ this is a FilterContent with a
       // filter that doesn't match the current filterKey
       if (node.props.mdxType === 'FilterContent') {
