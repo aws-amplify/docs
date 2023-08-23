@@ -18,6 +18,12 @@ For APIs without DataStore, there are some minor Collection feature limitations:
 - Collections have limited [Search](#set-search-and-pagination)
 - Collections have limited [Pagination](#set-search-and-pagination)
 
+Additionally, if your data has any relationships, APIs without DataStore require a query depth of 4 or greater. To update your codegen query depth:
+1. Navigate to the root directory of your project in your terminal
+1. Run `amplify configure codegen`
+1. When prompted, set query depth to 4 or greater. All other options can be set to your preference
+1. Run `amplify codegen` to generate queries with your new depth
+
 ### Tutorial
 
 1. Launch [Amplify Studio](/console/adminui/start/#logging-in-and-creating-an-app) for an app
