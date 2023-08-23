@@ -18,7 +18,7 @@ import { MQDesktop } from '../media';
 import Directory from './Directory';
 import RepoActions from './RepoActions';
 import FilterSelect from './FilterSelect';
-import { VersionSwitcher, LibVersionSwitcher } from './VersionSwitcher';
+import { LibVersionSwitcher } from './VersionSwitcher';
 import { useLastUpdatedDatesContext } from '../LastUpdatedProvider';
 import { Button } from '@cloudscape-design/components';
 
@@ -82,16 +82,7 @@ function Menu(props: MenuProps, ref) {
     }
   };
 
-  let showVersionSwitcher = false;
   let showLibVersionSwitcher = false;
-
-  if (
-    (props.url.startsWith('/ui') || props.url.startsWith('/ui-legacy')) &&
-    props.filterKey !== 'react-native' &&
-    props.filterKey !== 'flutter'
-  ) {
-    showVersionSwitcher = true;
-  }
 
   if (
     (props.url.startsWith('/lib') || props.url.startsWith('/lib-v1')) &&
@@ -141,7 +132,6 @@ function Menu(props: MenuProps, ref) {
               )}
             </MenuHeaderStyle>
             <MenuBodyStyle>
-              {showVersionSwitcher && <VersionSwitcher url={props.url} />}
               {showLibVersionSwitcher && (
                 <LibVersionSwitcher
                   url={props.url}
