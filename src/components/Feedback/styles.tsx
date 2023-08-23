@@ -1,97 +1,186 @@
 import styled from '@emotion/styled';
-import { MQTablet, MQDesktop } from '../media';
+import { keyframes } from '@emotion/react';
+
+const slideOver = keyframes`
+  from {
+    transform: translateX(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+`;
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const fadeOut = keyframes`
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+`;
 
 export const FeedbackContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  bottom: 8px;
-  width: auto;
-  margin: 20px 8px 20px 8px;
-  padding: 10px 0px 10px 0px;
+  margin: 32px 0;
+  div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 
-  border: 0.05rem solid var(--border-color);
-  border-radius: 4px;
-  background-color: white;
+    &.down {
+      flex-direction: column;
+      align-items: flex-start;
+      animation: ${fadeIn} 0.2s ease-in-out;
+      animation-fill-mode: forwards;
+    }
+  }
 
-  ${MQDesktop} {
-    border: none;
-    border-top: 0.05rem solid var(--border-color);
-  }  
+  &.hide {
+    display: none;
+  }
+
+  #start-state.fadeOut {
+    animation: ${fadeOut} 0.2s ease-in-out;
+    animation-fill-mode: forwards;
+  }
+`;
+
+export const FeedbackText = styled.p`
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 22px;
 `;
 
 export const VoteButtonsContainer = styled.div`
   display: flex;
-  justify-content: space-between;
-  width: 150px;
-  padding-top: 5px;
+  flex-direction: row;
+  justify-content: center;
+  align-self: center;
+  a {
+    color: var(--secondary-color);
+
+    span {
+      padding: 0;
+    }
+  }
+
+  &.down-response {
+    align-self: flex-start;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e2e5e9;
+  }
 `;
 
-export const VoteButton = styled.button`
+export const VoteButton = styled.a`
   display: flex;
+  flex-direction: row;
+  border: 1px solid #232f3e;
+  border-radius: 6px;
+  padding: 5px 12px;
+  justify-content: space-between;
   align-items: center;
-  justify-content: space-around;
-  width: 60px;
-  padding-right: 5px;
-  border-radius: 4px;
-
+  margin-left: 12px;
   &:hover {
     cursor: pointer;
-    opacity: 0.6;
+    background: rgba(0, 7, 22, 0.05);
+    text-decoration: none;
+  }
+  span {
+    padding: 0;
+    height: 16px;
+    margin-right: 12px;
   }
 `;
 
-export const Toggle = styled.div`
-  background-color: var(--color-orange-hv);
-  width: 3.5rem;
-  height: 3.5rem;
-  position: fixed;
-  right: 1rem;
-  bottom: 5rem;
+export const VoteButtonAfter = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: space-around;
+  flex-direction: row;
+  border-radius: 6px;
+  padding: 5px 12px;
+  justify-content: space-between;
+  margin-right: 12px;
+  max-width: 40px;
+  height: 34px;
 
-  border-radius: 50%;
+  &.up-response {
+    border: 1px solid #037f0c;
+    background: #f2faf3;
 
-  cursor: pointer;
-
-  img {
-    filter: brightness(0) invert(1);
-    height: 1.7rem;
-    width: auto;
+    span {
+      padding: 0;
+      height: 16px;
+      margin-right: 12px;
+      animation: ${fadeIn} 0.2s ease-in-out;
+      animation-fill-mode: forwards;
+    }
   }
 
-  ${MQDesktop} {
-    display: none;
-  }
+  &.down-response {
+    border: 1px solid #d91515;
+    background: #fff4f4;
 
-  ${MQTablet} {
-    right: 1rem;
-    bottom: 0.5rem;
+    span {
+      height: 16px;
+    }
   }
 `;
 
-export const ThankYouContainer = styled.div`
+export const FeedbackTextAfter = styled.p`
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 22px;
+
+  &.up-response {
+    color: #037f0c;
+    animation: ${slideOver} 0.1s ease-in-out;
+    animation-fill-mode: forwards;
+  }
+
+  &.down-response {
+    color: #d91515;
+  }
+
+  &.cta {
+    margin-top: 12px;
+  }
+`;
+
+export const ButtonStyles = styled.span`
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  width: 100%;
-  padding: 0px 10px 5px 10px;
-  text-align: center;
-  height: 60px;
-`;
-
-export const FeedbackMobileContainer = styled.div`
-  width: 300px;
-  position: fixed;
-  right: 1rem;
-  bottom: 9rem;
-  z-index: 1;
-
-  ${MQTablet} {
-    right: 1rem;
-    bottom: 5rem;
+  margin-top: 12px;
+  a {
+    background: none;
+    cursor: pointer;
+    color: #414d5c;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 800;
+    border-radius: 10px;
+    border: 2px solid #9ba7b6;
+    padding: 4px 20px;
+    span {
+      cursor: pointer;
+    }
+    &:hover {
+      border-color: #000716;
+      color: #000716;
+      background: rgba(0, 7, 22, 0.05);
+      text-decoration: none;
+    }
   }
 `;
