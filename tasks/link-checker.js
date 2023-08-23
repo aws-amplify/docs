@@ -12,7 +12,7 @@ const GITHUB_CREATE_ISSUE_LINK =
 const GITHUB_EDIT_LINK = 'https://github.com/aws-amplify/docs/edit/';
 
 const getSitemapUrls = async () => {
-  let browser = await puppeteer.launch();
+  let browser = await puppeteer.launch({ headless: 'new' });
 
   const page = await browser.newPage();
 
@@ -43,7 +43,7 @@ const getSitemapUrls = async () => {
 };
 
 const retrieveLinks = async (siteMapUrls, visitedLinks) => {
-  let browser = await puppeteer.launch();
+  let browser = await puppeteer.launch({ headless: 'new' });
 
   const page = await browser.newPage();
 
@@ -52,7 +52,8 @@ const retrieveLinks = async (siteMapUrls, visitedLinks) => {
   for (let i = 0; i < siteMapUrls.length; i++) {
     let url = siteMapUrls[i];
 
-    let response = await page.goto(url);
+    let response = await page.goto(url, { waitUntil: 'domcontentloaded' });
+    await page.waitForNetworkIdle();
     if (response && response.status() && response.status() === 200) {
       visitedLinks[url] = true;
 
