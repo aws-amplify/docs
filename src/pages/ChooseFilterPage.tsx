@@ -37,8 +37,12 @@ function ChooseFilterPage({
   const [menuIsOpen, setMenuIsOpen] = useState(false);
   const footerRef = useRef(null);
 
+  const [isMounted, setIsMounted] = useState(false);
+
   useEffect(() => {
     setHref(window.location.href);
+
+    setIsMounted(true);
   }, []);
 
   url = url.split('/q/')[0];
@@ -96,7 +100,7 @@ function ChooseFilterPage({
       </section>
     </Container>
   );
-  return (
+  return isMounted ? (
     <Layout
       meta={{
         title:
@@ -122,7 +126,7 @@ function ChooseFilterPage({
         footerRef={footerRef}
       />
     </Layout>
-  );
+  ) : null;
 }
 
 ChooseFilterPage.getInitialProps = (initialProps) => {

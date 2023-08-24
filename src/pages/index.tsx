@@ -1,6 +1,6 @@
 import { Grid } from 'theme-ui';
 import Head from 'next/head';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import Hero from '../components/Hero';
 import LandingHeroCTA from '../components/LandingHeroCTA';
@@ -28,8 +28,12 @@ const meta = {
 };
 
 const Page = () => {
+  const [isMounted, setIsMounted] = useState(false);
+
   useEffect(() => {
     trackPageVisit();
+
+    setIsMounted(true);
   }, []);
 
   return (
@@ -78,7 +82,7 @@ const Page = () => {
         socialLinks={SOCIAL_LINKS as NavMenuItem[]}
         currentSite={'Docs'}
       />
-      <SecondaryNav />
+      {isMounted ? <SecondaryNav /> : <></>}
       <Hero>
         <h1 className="font-weight-300">Amplify Documentation</h1>
         <p>

@@ -7,7 +7,7 @@ import {
   getChapterDirectory,
   isProductRoot
 } from '../../utils/getLocalDirectory';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   filterMetadataByOption,
   SelectedFilters
@@ -31,6 +31,14 @@ export default function Page({
 }) {
   const footerRef = useRef(null);
   const router = useRouter();
+  const [filterKeysLoaded, setFilterKeysLoaded] = useState({});
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setFilterKeysLoaded(parseLocalStorage('filterKeys', {} as SelectedFilters));
+
+    setIsMounted(true);
+  }, []);
 
   if (!router.isReady) {
     return <></>;
@@ -48,10 +56,6 @@ export default function Page({
 
   let filterKey = '',
     filterKind = '';
-  const filterKeysLoaded = parseLocalStorage(
-    'filterKeys',
-    {} as SelectedFilters
-  );
   const filterKeyUpdates = {} as SelectedFilters;
   if ('platform' in router.query) {
     filterKey = router.query.platform as string;
@@ -111,7 +115,7 @@ export default function Page({
     parentPageLastUpdatedDate = frontmatter.lastUpdated;
   }
 
-  return (
+  return isMounted ? (
     <Layout
       meta={meta}
       filterKey={filterKey}
@@ -136,5 +140,7 @@ export default function Page({
         children
       )}
     </Layout>
+  ) : (
+    <></>
   );
 }
