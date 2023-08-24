@@ -1,0 +1,5 @@
+If the next step is `continueSignInWithMFASelection`, the user must select the MFA method to use. Amplify for Swift currently only supports SMS and TOTP as MFA methods. After the user selects an MFA method, your implementation must pass the selected MFA method to Amplify Auth using `confirmSignIn` API.
+
+Valid MFA Type values that are currently supported by Amplify for Swift are:
+ * `MFAType.sms.challengeResponse`
+ * `MFAType.totp.challengeResponse`

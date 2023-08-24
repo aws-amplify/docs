@@ -96,7 +96,7 @@ export default class FilterSelect extends React.Component<
 
     return (
       <Link href={href} key={name} legacyBehavior>
-        <a onClick={this.toggleVis}>
+        <a onClick={this.toggleVis} className="filter-row">
           <img
             alt=""
             src={filterMetadataByOption[name]?.graphicURI}
@@ -106,6 +106,27 @@ export default class FilterSelect extends React.Component<
           <span>{filterMetadataByOption[name]?.label}</span>
         </a>
       </Link>
+    );
+  };
+
+  renderUnsupportedFilter = (name) => {
+    if (name === this.props.filterKey) return;
+
+    let href: object | string = convertToRouteHerf(this.props, name);
+    if (!this.props.url.includes('/q/')) {
+      href = this.props.url + `/q/${this.props.filterKind}/${name}`;
+    }
+
+    return (
+      <div className="filter-row">
+        <img
+          alt=""
+          src={filterMetadataByOption[name]?.graphicURI}
+          height="28px"
+          width="28px"
+        />
+        <span>{filterMetadataByOption[name]?.label}</span>
+      </div>
     );
   };
 
@@ -135,7 +156,7 @@ export default class FilterSelect extends React.Component<
       const aOrAn = 'aeiou'.includes(this.props.filterKind[0]) ? 'an' : 'a';
       CurrentlySelected = (
         <CurrentlySelectedStyle>
-          <a onClick={this.toggleVis}>
+          <a onClick={this.toggleVis} className="filter-row">
             <span>
               Choose {aOrAn} {this.props.filterKind}:
             </span>
@@ -147,7 +168,7 @@ export default class FilterSelect extends React.Component<
       CurrentlySelected = (
         <CurrentlySelectedStyle>
           <div className={!supported ? 'unsupported' : ''}>
-            <a onClick={this.toggleVis}>
+            <a onClick={this.toggleVis} className="filter-row">
               <img
                 alt=""
                 src={filterMetadataByOption[this.props.filterKey]?.graphicURI}
@@ -167,7 +188,7 @@ export default class FilterSelect extends React.Component<
         <DropdownStyle shouldDisplay={this.state.isOpen}>
           <div>{this.props.filters.map(this.renderFilter)}</div>
           <div className="unsupported">
-            {unsupportedFilters.map(this.renderFilter)}
+            {unsupportedFilters.map(this.renderUnsupportedFilter)}
           </div>
         </DropdownStyle>
       </FilterSelectStyle>
