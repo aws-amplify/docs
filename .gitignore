@@ -30,7 +30,6 @@ nbproject
 .project
 .settings
 .vs
-.vscode
 composer.lock
 *.swp
 *.swo

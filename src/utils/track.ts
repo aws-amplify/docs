@@ -4,27 +4,25 @@ let AWSCShortbread;
 let s;
 let AWSMA;
 
-if (typeof window !== "undefined") {
+if (typeof window !== "undefined" && typeof window.AWSCShortbread !== "undefined") {
   AWSCShortbread = window.AWSCShortbread;
   AWSMA = window.AWSMA;
   s = window.s;
-}
 
-if (!configured) {
-  if (typeof window !== "undefined") {
+  if (!configured) {
     AWSCShortbread({
-      domain: ".amplify.aws",
+      domain: '.amplify.aws'
     }).checkForCookieConsent();
     if (typeof s != "undefined") s.trackExternalLinks = false;
+    configured = true;
   }
-  configured = true;
 }
 
 export enum AnalyticsEventType {
-  PAGE_VISIT = "PAGE_VISIT",
-  INTERNAL_LINK_CLICK = "INTERNAL_LINK_CLICK",
-  EXTERNAL_LINK_CLICK = "EXTERNAL_LINK_CLICK",
-  PAGE_DATA_FETCH_EXCEPTION = "PAGE_DATA_FETCH_EXCEPTION",
+  PAGE_VISIT = 'PAGE_VISIT',
+  INTERNAL_LINK_CLICK = 'INTERNAL_LINK_CLICK',
+  EXTERNAL_LINK_CLICK = 'EXTERNAL_LINK_CLICK',
+  PAGE_DATA_FETCH_EXCEPTION = 'PAGE_DATA_FETCH_EXCEPTION'
 }
 
 interface AnalyticsEventPageVisit {
@@ -68,8 +66,8 @@ type AnalyticsEvent =
 
 export const trackPageVisit = (): void => {
   if (
-    typeof window !== "undefined" &&
-    typeof s != "undefined" &&
+    typeof window !== 'undefined' &&
+    typeof s != 'undefined' &&
     !firstPageOfVisit
   ) {
     s.pageURL = window.location.href;
@@ -79,23 +77,23 @@ export const trackPageVisit = (): void => {
 };
 
 export const trackPageFetchException = (): void => {
-  if (typeof window !== "undefined" && typeof s != "undefined") {
+  if (typeof window !== 'undefined' && typeof s != 'undefined') {
     s.linkTrackVars =
-      "prop39,prop41,prop50,prop61,prop62,eVar39,eVar41,eVar50,eVar61,eVar62,eVar69";
-    s.tl(true, "o", "page fetch exception");
+      'prop39,prop41,prop50,prop61,prop62,eVar39,eVar41,eVar50,eVar61,eVar62,eVar69';
+    s.tl(true, 'o', 'page fetch exception');
   }
 };
 
 export const trackExternalLink = (hrefTo: string): void => {
-  if (typeof window !== "undefined" && typeof s != "undefined") {
+  if (typeof window !== 'undefined' && typeof s != 'undefined') {
     s.linkTrackVars =
-      "prop39,prop41,prop50,prop61,prop62,eVar39,eVar41,eVar50,eVar61,eVar62,eVar69";
-    s.tl(true, "e", hrefTo);
+      'prop39,prop41,prop50,prop61,prop62,eVar39,eVar41,eVar50,eVar61,eVar62,eVar69';
+    s.tl(true, 'e', hrefTo);
   }
 };
 
 export const setSearchQuery = (query: string): void => {
-  if (typeof window !== "undefined" && typeof s != "undefined") {
+  if (typeof window !== 'undefined' && typeof s != 'undefined') {
     s.eVar26 = query;
   }
 };
@@ -105,12 +103,12 @@ const triggerNoSearchResults = (query: string): void => {
   const resultCountBackup: number = parseInt(s.eVar27, 10);
 
   s.eVar26 = query;
-  s.eVar27 = "0"; // If it's the number 0, the variable won't be sent
+  s.eVar27 = '0'; // If it's the number 0, the variable won't be sent
   s.linkTrackVars =
-    "prop39,prop41,prop50,prop61,prop62,eVar26,eVar27,eVar39,eVar41,eVar50,eVar61,eVar62,eVar69,events";
-  s.linkTrackEvents = "event2";
-  s.events = "event2";
-  s.tl(true, "o", "internal search");
+    'prop39,prop41,prop50,prop61,prop62,eVar26,eVar27,eVar39,eVar41,eVar50,eVar61,eVar62,eVar69,events';
+  s.linkTrackEvents = 'event2';
+  s.events = 'event2';
+  s.tl(true, 'o', 'internal search');
 
   s.eVar26 = queryBackup;
   s.eVar27 = resultCountBackup.toString();
@@ -118,9 +116,9 @@ const triggerNoSearchResults = (query: string): void => {
 
 let noResultsTimeout: NodeJS.Timeout;
 export const setSearchResultCount = (resultCount: number): void => {
-  if (typeof window !== "undefined" && typeof s != "undefined") {
+  if (typeof window !== 'undefined' && typeof s != 'undefined') {
     s.eVar27 = resultCount.toString();
-    s.events = resultCount === 0 ? "event1" : "event2";
+    s.events = resultCount === 0 ? 'event1' : 'event2';
 
     if (resultCount === 0) {
       if (noResultsTimeout) {
@@ -128,7 +126,7 @@ export const setSearchResultCount = (resultCount: number): void => {
       }
       noResultsTimeout = setTimeout(
         triggerNoSearchResults.bind(null, s.eVar26),
-        1000,
+        1000
       );
     }
   }
@@ -139,14 +137,14 @@ export const trackSearchQuery = (
   _event,
   suggestion,
   _datasetNumber,
-  _context,
+  _context
 ): void => {
-  if (typeof window !== "undefined" && typeof s != "undefined") {
+  if (typeof window !== 'undefined' && typeof s != 'undefined') {
     s.linkTrackVars =
-      "prop39,prop41,prop50,prop61,prop62,eVar26,eVar27,eVar39,eVar41,eVar50,eVar61,eVar62,eVar69,events";
-    s.linkTrackEvents = "event1";
-    s.events = "event1";
-    s.tl(true, "o", "internal search");
+      'prop39,prop41,prop50,prop61,prop62,eVar26,eVar27,eVar39,eVar41,eVar50,eVar61,eVar62,eVar69,events';
+    s.linkTrackEvents = 'event1';
+    s.events = 'event1';
+    s.tl(true, 'o', 'internal search');
   }
   window.location.assign(suggestion.url);
 };
@@ -157,12 +155,30 @@ export const trackFeedbackSubmission = (feedback: boolean) => {
       type: 'click',
       name: feedback ? 'YesVote' : 'NoVote'
     }
-  }
+  };
 
   AWSMA.ready(() => {
-    document.dispatchEvent(new CustomEvent(AWSMA.TRIGGER_EVENT, {detail: opt}));
+    document.dispatchEvent(
+      new CustomEvent(AWSMA.TRIGGER_EVENT, { detail: opt })
+    );
   });
-}
+};
+
+export const trackExpanderOpen = (expanderId) => {
+  const opt = {
+    event: {
+      type: 'click',
+      name: 'ExpanderOpen',
+      expanderId
+    }
+  };
+
+  AWSMA.ready(() => {
+    document.dispatchEvent(
+      new CustomEvent(AWSMA.TRIGGER_EVENT, { detail: opt })
+    );
+  });
+};
 
 export const trackCopyClicks = (data) => {
   const opt = {
@@ -171,9 +187,11 @@ export const trackCopyClicks = (data) => {
       name: 'CopyCode'
     },
     data: data
-  }
+  };
 
   AWSMA.ready(() => {
-    document.dispatchEvent(new CustomEvent(AWSMA.TRIGGER_EVENT, {detail: opt}));
+    document.dispatchEvent(
+      new CustomEvent(AWSMA.TRIGGER_EVENT, { detail: opt })
+    );
   });
-}
+};

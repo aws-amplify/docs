@@ -1,7 +1,6 @@
 import { Toggle, Divider } from './styles';
 import { useEffect, forwardRef } from 'react';
-import { Button } from '@cloudscape-design/components';
-import { TABLE_OF_CONTENTS_OPEN } from '../../constants/img';
+import { MenuIcon, TOCIcon } from '../Icons';
 
 function MobileMenuIcons({ menuRef, contentsRef }, ref) {
   useEffect(() => {
@@ -39,19 +38,9 @@ function MobileMenuIcons({ menuRef, contentsRef }, ref) {
 
   return (
     <Toggle ref={ref}>
-      <Button
-        iconName="menu"
-        variant="icon"
-        onClick={showMenu}
-        ariaLabel="Open Menu"
-      />
+      <MenuIcon ariaLabel="Open Menu" onClick={showMenu} />
       <Divider />
-      <Button
-        iconUrl={TABLE_OF_CONTENTS_OPEN.src}
-        variant="icon"
-        onClick={showTOC}
-        ariaLabel="Open Table of Contents"
-      />
+      <TOCIcon ariaLabel="Open Table of Contents" onClick={showTOC} />
     </Toggle>
   );
 }

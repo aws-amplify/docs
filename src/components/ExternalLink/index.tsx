@@ -1,18 +1,21 @@
 import React from 'react';
 import { ExternalLinkGraphic } from './styles';
 import { trackExternalLink } from '../../utils/track';
+import { ExternalLinkIcon } from '../Icons';
 
 type ExternalLinkProps = {
   graphic?: string;
   href: string;
   anchorTitle?: string;
+  icon?: boolean;
 };
 
 const ExternalLink: React.FC<ExternalLinkProps> = ({
   children,
   graphic,
   href,
-  anchorTitle
+  anchorTitle,
+  icon
 }) => {
   return (
     <a
@@ -33,6 +36,7 @@ const ExternalLink: React.FC<ExternalLinkProps> = ({
           height="8"
         />
       )}
+      {icon && <ExternalLinkIcon />}
     </a>
   );
 };
