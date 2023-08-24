@@ -59,7 +59,7 @@ This fragment would exist in: `pages/src/fragments/lib/datastore/js/conflict.mdx
 
 ### Accordion 
 
-`Accordion` helps you keep your pages focused on the need-to-know information upfront, while also providing readers an option to dive deeper when they choose. These accordions can provide peripheral content such as additional context for beginners, advanced deep dives for those who want to off-road, and troubleshooting guidance for errors users may encounter. This component is a single-use accordion and does not have multiple sections or levels.
+`Accordion` This single-use accordion hides peripheral content until the reader selects to expand the section. This helps you keep your pages focused on the need-to-know information upfront, while also providing readers an option to dive deeper when they choose. These accordions can provide peripheral content such as additional context for beginners, advanced deep dives for those who want to off-road, and troubleshooting guidance for errors users may encounter.
 
 Here is an example of its usage:
 
