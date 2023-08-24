@@ -65,41 +65,16 @@ This fragment would exist in: `pages/src/fragments/lib/datastore/js/conflict.mdx
 
 - Title – Make your heading text descriptive to help readers know what the accordion contains before they click. For example, instead of ‘Troubleshooting’, say ‘Troubleshooting deny-by-default behavior’.
 - HeadingLevel – Keep the heading level consistent with your page hierarchy. This will help authors and reviewers quickly identify placement with other content on the page. Note: At this time, these headings will not show in the right menu even if they are H2 or H3.
-- Eyebrow – The eyebrow text on this accordion is customizable and should be updated to reflect the purpose of the accordion. We are currently recommending the following use cases: 
- - Learn more – used to add additional context that is not needed to complete the task described but is useful for users to review if they need a refresher, are new to the concept, or want to off-road/dive deeper.
- - Troubleshooting – used when adding details to troubleshoot specific errors within context.
- - Walkthrough – used when adding a step-by-step example for those who need more direct guidance.
+- Eyebrow – The eyebrow text on this accordion is customizable and should be updated to reflect the purpose of the accordion. We recommend using *Learn more*, *Troubleshooting*, and *Walkthrough*.
 
 Here is an example of its usage:
 
-<Accordion title='Troubleshooting deny-by-default behavior' headingLevel='4' eyebrow='Troubleshooting'>
+<Accordion title='Review examples for the accordion eyebrow text' headingLevel='4' eyebrow='Learn more'>
 
-You can run into unauthorized errors if you do not have at least one auth rule defined. 
-
-Use the `@auth` directive to configure authorization rules for public, sign-in user, per user, and per user group data access. **Authorization rules operate on the deny-by-default principle**. Meaning that if an authorization rule is not specifically configured, it is denied.
-
-```graphql
-type Todo @model @auth(rules: [{ allow: owner }]) {
-  content: String
-}
-```
-
-In the example above, each signed-in user, or also known as "owner", of a Todo can create, read, update, and delete their own Todos.
-
-Amplify also allows you to restrict the allowed operations, combine multiple authorization rules, and apply fine-grained field-level authorization.
-
-``` graphql
-type Todo @model @auth(rules: [
-  { allow: public, operations: [read]},
-  { allow: owner }
-]) {
-  content: String
-}
-```
-
-In the example above, everyone (`public`) can read every Todo but owner (authenticated users) can create, read, update, and delete their own Todos.
-
-To learn more, see the [Authorization Rules for the API](https://docs.amplify.aws/cli/graphql/authorization-rules/).
+We are currently recommending the following use cases: 
+ - Learn more – used to add additional context that is not needed to complete the task described but is useful for users to review if they need a refresher, are new to the concept, or want to off-road/dive deeper.
+ - Troubleshooting – used when adding details to troubleshoot specific errors within context.
+ - Walkthrough – used when adding a step-by-step example for those who need more direct guidance.
 
 </Accordion>
 
