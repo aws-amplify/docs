@@ -1,5 +1,5 @@
 module.exports = {
-  ANDROID_VERSION: "2.11.3",
+  ANDROID_VERSION: "2.12.0",
   ANDROID_DEVPREVIEW: "1.36.5-dev-preview.0",
   ANDROID_V1_VERSION: "1.38.8",
   ANDROID_V1_GEO_VERSION: "1.0.1",
