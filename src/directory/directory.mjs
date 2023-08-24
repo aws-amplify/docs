@@ -180,12 +180,12 @@ export const directory = {
           {
             title: 'Working with files and attachments',
             route: '/lib/graphqlapi/working-with-files',
-            filters: ['js']
+            filters: ['js', 'ios', 'android']
           },
           {
             title: 'Optimistic UI',
             route: '/lib/graphqlapi/optimistic-ui',
-            filters: ['js']
+            filters: ['js', 'ios', 'android']
           },
           {
             title: 'Cancel API requests',
@@ -213,9 +213,9 @@ export const directory = {
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
-            title: 'Upgrade guide from AppSync SDK (V2)',
+            title: 'Upgrade guide from AppSync SDK',
             route: '/lib/graphqlapi/upgrade-guide',
-            filters: ['js']
+            filters: ['js', 'ios', 'android']
           }
         ]
       },
@@ -323,19 +323,19 @@ export const directory = {
             filters: ['android', 'flutter', 'ios']
           },
           {
+            title: 'Multi-factor authentication',
+            route: '/lib/auth/mfa',
+            filters: ['ios']
+          },
+          {
             title: 'SMS flows',
             route: '/lib/auth/sms_flows',
-            filters: ['flutter']
+            filters: ['flutter', 'ios', 'android']
           },
           {
             title: 'Sign in next steps',
             route: '/lib/auth/signin_next_steps',
             filters: ['ios', 'android', 'flutter']
-          },
-          {
-            title: 'Multi-factor authentication',
-            route: '/lib/auth/mfa',
-            filters: ['ios']
           },
           {
             title: 'Guest access',
@@ -1688,96 +1688,6 @@ export const directory = {
         ]
       }
     }
-  },
-  ui: {
-    productRoot: {
-      title: 'Amplify UI Components',
-      route: '/ui'
-    },
-    items: {
-      api: {
-        title: 'API',
-        items: [
-          {
-            title: 'Connect',
-            route: '/ui/api/connect',
-            filters: ['react-native']
-          }
-        ]
-      },
-      auth: {
-        title: 'Authentication',
-        items: [
-          {
-            title: 'Authenticator',
-            route: '/ui/auth/authenticator',
-            filters: ['react-native', 'flutter']
-          }
-        ]
-      },
-      interactions: {
-        title: 'Interactions',
-        items: [
-          {
-            title: 'Chatbot',
-            route: '/ui/interactions/chatbot',
-            filters: ['react-native']
-          }
-        ]
-      },
-      storage: {
-        title: 'Storage',
-        items: [
-          {
-            title: 'S3 Album',
-            route: '/ui/storage/s3-album',
-            filters: ['react-native']
-          },
-          {
-            title: 'S3 Image',
-            route: '/ui/storage/s3-image',
-            filters: ['react-native']
-          },
-          {
-            title: 'Tracking Events',
-            route: '/ui/storage/tracking-events',
-            filters: ['react-native']
-          },
-          {
-            title: 'Customization',
-            route: '/ui/storage/customization',
-            filters: ['react-native']
-          }
-        ]
-      },
-      customization: {
-        title: 'Customization',
-        items: [
-          {
-            title: 'Theming',
-            route: '/ui/customization/theming',
-            filters: ['react-native']
-          },
-          {
-            title: 'Customizing CSS',
-            route: '/ui/customization/customizing-css',
-            filters: ['react-native']
-          },
-          {
-            title: 'Translations',
-            route: '/ui/customization/translations',
-            filters: ['react-native']
-          }
-        ]
-      }
-    }
-  },
-  'ui-legacy': {
-    productRoot: {
-      title: 'Amplify UI (Legacy)',
-      route: '/ui-legacy'
-    },
-    items: {}
   },
   cli: {
     productRoot: {
