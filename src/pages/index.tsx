@@ -28,12 +28,8 @@ const meta = {
 };
 
 const Page = () => {
-  const [isMounted, setIsMounted] = useState(false);
-
   useEffect(() => {
     trackPageVisit();
-
-    setIsMounted(true);
   }, []);
 
   return (
@@ -82,7 +78,7 @@ const Page = () => {
         socialLinks={SOCIAL_LINKS as NavMenuItem[]}
         currentSite={'Docs'}
       />
-      {isMounted ? <SecondaryNav /> : <></>}
+      <SecondaryNav />
       <Hero>
         <h1 className="font-weight-300">Amplify Documentation</h1>
         <p>

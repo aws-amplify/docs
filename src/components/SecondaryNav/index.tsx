@@ -19,13 +19,21 @@ import { Container } from '../Container';
 import { parseLocalStorage } from '../../utils/parseLocalStorage';
 
 import SearchBar from '../SearchBar';
+import { useEffect, useState } from 'react';
 
 export default function SecondaryNav() {
   const router = useRouter();
   const path = router.asPath;
-  const filterKeys = parseLocalStorage('filterKeys', {});
+  const [filterKeys, setFilterKeys] = useState({});
+  const [isMounted, setIsMounted] = useState(false);
 
-  return (
+  useEffect(() => {
+    setFilterKeys(parseLocalStorage('filterKeys', {}));
+
+    setIsMounted(true);
+  }, []);
+
+  return isMounted ? (
     <HostStyle>
       <Container>
         <SecondaryNavStyle id="secondary-nav">
@@ -121,5 +129,7 @@ export default function SecondaryNav() {
         </SecondaryNavStyle>
       </Container>
     </HostStyle>
+  ) : (
+    <></>
   );
 }
