@@ -109,7 +109,7 @@ const newTodo = await API.graphql(
 
 </InlineFilter>
 
-<InlineFilter filter="ios">
+<InlineFilter filters={["ios"]}>
 
 You can run a GraphQL mutation with `Amplify.API.mutate` to create an item.
 
@@ -186,7 +186,7 @@ func createTodo() -> AnyCancellable {
 
 </InlineFilter>
 
-<InlineFilter filter="android">
+<InlineFilter filters={["android"]}>
 
 Now that the client is set up, you can run a GraphQL mutation with `Amplify.API.mutate` to create your data.
 
@@ -253,7 +253,7 @@ RxAmplify.API.mutate(ModelMutation.create(todo))
 
 </InlineFilter>
 
-<InlineFilter filter="flutter">
+<InlineFilter filters={["flutter"]}>
 
 You can run a GraphQL mutation with `Amplify.API.mutate` to create your data.
 
@@ -339,7 +339,7 @@ __Notes:__
 
 </InlineFilter>
 
-<InlineFilter filter="ios">
+<InlineFilter filters={["ios"]}>
 
 To update data, replace the request with `.update`.
 
@@ -349,13 +349,13 @@ try await Amplify.API.mutate(request: .create(todo))
 
 </InlineFilter>
 
-<InlineFilter filter="android">
+<InlineFilter filters={["android"]}>
 
 To update data, use `ModelMutation.update(todo)` instead.
 
 </InlineFilter>
 
-<InlineFilter filter="flutter">
+<InlineFilter filters={["flutter"]}>
 
 To update the `Todo` with a new name:
 
@@ -479,7 +479,7 @@ const todo = await API.graphql({
 
 </InlineFilter>
 
-<InlineFilter filter="ios">
+<InlineFilter filters={["ios"]}>
 
 To delete data, replace the request with `.delete`.
 
@@ -489,13 +489,13 @@ try await Amplify.API.mutate(request: .delete(todo))
 
 </InlineFilter>
 
-<InlineFilter filter="android">
+<InlineFilter filters={["android"]}>
 
 To delete data, use `ModelMutation.delete(todo)`.
 
 </InlineFilter>
 
-<InlineFilter filter="flutter">
+<InlineFilter filters={["flutter"]}>
 
 To delete the `Todo`:
 
@@ -577,21 +577,21 @@ Our recommended next steps include using the API to query data and subscribe to 
 
 </InlineFilter>
 
-<InlineFilter filter="ios">
+<InlineFilter filters={["ios"]}>
 
 - [Read application data](https://docs.amplify.aws/lib/graphqlapi/query-data/q/platform/ios/)
 - [Subscribe to real-time events](https://docs.amplify.aws/lib/graphqlapi/subscribe-data/q/platform/ios/)
 
 </InlineFilter>
 
-<InlineFilter filter="android">
+<InlineFilter filters={["android"]}>
 
 - [Read application data](https://docs.amplify.aws/lib/graphqlapi/query-data/q/platform/android/)
 - [Subscribe to real-time events](https://docs.amplify.aws/lib/graphqlapi/subscribe-data/q/platform/android/)
 
 </InlineFilter>
 
-<InlineFilter filter="flutter">
+<InlineFilter filters={["flutter"]}>
 
 - [Read application data](https://docs.amplify.aws/lib/graphqlapi/query-data/q/platform/flutter/)
 - [Subscribe to real-time events](https://docs.amplify.aws/lib/graphqlapi/subscribe-data/q/platform/flutter/)
