@@ -325,7 +325,7 @@ export const directory = {
           {
             title: 'Multi-factor authentication',
             route: '/lib/auth/mfa',
-            filters: ['ios']
+            filters: ['ios', 'flutter']
           },
           {
             title: 'SMS flows',

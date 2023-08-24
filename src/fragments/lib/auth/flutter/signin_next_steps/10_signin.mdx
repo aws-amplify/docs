@@ -27,6 +27,12 @@ Future<SignInResult> signInWithCognito(
 
 Future<void> _handleSignInResult(SignInResult result) async {
   switch (result.nextStep.signInStep) {
+    case AuthSignInStep.continueSignInWithMfaSelection:
+      // Handle select from MFA methods case
+    case AuthSignInStep.continueSignInWithTotpSetup:
+      // Handle TOTP setup case
+    case AuthSignInStep.confirmSignInWithTotpMfaCode:
+      // Handle TOTP MFA case
     case AuthSignInStep.confirmSignInWithSmsMfaCode:
       // Handle SMS MFA case
     case AuthSignInStep.confirmSignInWithNewPassword:
