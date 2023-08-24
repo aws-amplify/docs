@@ -19,7 +19,7 @@ import gqlv2callout from "/src/fragments/cli/gqlv2callout.mdx";
 1. In the cloned schema, define the one to one data relationship between `ISBN` and `Book`, as each book has a single ISBN number and each ISBN number is associated with a single book. On the ISBN type, choose **Add a relationship**. 
 1. In the **Add relationship** window, in the **Select related model** menu, choose `Book`. For the relationship type, choose **One ISBN to one Book**. For **Relationship name**, enter `Book`. Choose **Save**. The relationship should look like the following.
 
-![GSA](/images/console/3_createOnetooneRelationship.png)
+![Adding a one to one relationship between data models](/images/console/3_createOnetooneRelationship.png)
 
 When you return to the **Data modeling** page, the `ISBN` model will be updated with the relationship information. Now repeat the same steps for the `Book` model - define a 1:1 relationship from Book to ISBN.
 
@@ -33,7 +33,7 @@ Now let's create a data model for publishers. Each book in the bookstore has onl
 1. For the `Publisher` model, choose **Add a relationship**.
 1. In the **Add relationship** window, in the **Select related model** menu, choose `Book`. For the relationship type, choose **One Publisher to many Book**. For **Relationship name**, enter `books`. Choose **Save**. The relationship should look like the following.
 
-![GSA](/images/console/5_onetomanyCardinality.png)
+![Adding a one to many relationship between data models](/images/console/5_onetomanyCardinality.png)
 
 ## Model data for a many to many relationship
 
@@ -43,7 +43,7 @@ Let's add a final data model for authors to our example. A book can have a singl
 4. For the `Author` model, choose **Add a relationship**.
 5. In the **Add relationship** window, choose `Book` from the **Select related model** menu. For the relationship type, choose **Many Author to many Book**. For **Relationship name**, enter a meaningful name, such as `Book`. Choose **Save**. The relationship should look like the following.
 
-![GSA](/images/console/6_manytomanyCardinality.png)
+![Adding a many to many relationship between data models](/images/console/6_manytomanyCardinality.png)
 
 <Callout warning>
 Studio does not support custom naming. Changing the auto-generated name will break Studio.
