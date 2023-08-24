@@ -69,14 +69,16 @@ This fragment would exist in: `pages/src/fragments/lib/datastore/js/conflict.mdx
 
 Here is an example of its usage:
 
+````md
 <Accordion title='Review examples for the accordion eyebrow text' headingLevel='4' eyebrow='Learn more'>
 
-We are currently recommending the following use cases: 
+We recommend the following uses for the eyebrow text: 
  - Learn more – used to add additional context that is not needed to complete the task described but is useful for users to review if they need a refresher, are new to the concept, or want to off-road/dive deeper.
  - Troubleshooting – used when adding details to troubleshoot specific errors within context.
  - Walkthrough – used when adding a step-by-step example for those who need more direct guidance.
 
 </Accordion>
+````
 
 ### Tab-switchable Blocks
 
