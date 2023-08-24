@@ -59,17 +59,17 @@ This fragment would exist in: `pages/src/fragments/lib/datastore/js/conflict.mdx
 
 ### Accordion 
 
-`Accordion` helps you keep your pages focused on the need-to-know information upfront, while also providing readers an option to dive deeper when they choose. These accordions can provide peripheral content such as additional context for beginners, advanced deep dives for those who want to off-road, and troubleshooting guidance for errors users may encounter. This component is a single-use accordion and does not have multiple sections.
+`Accordion` helps you keep your pages focused on the need-to-know information upfront, while also providing readers an option to dive deeper when they choose. These accordions can provide peripheral content such as additional context for beginners, advanced deep dives for those who want to off-road, and troubleshooting guidance for errors users may encounter. This component is a single-use accordion and does not have multiple sections or levels.
 
 Here is an example of its usage:
 
 ````md
 <Accordion title='Review recommended accordion usage' headingLevel='4' eyebrow='Learn more'>
 
-- Title – Make your heading text descriptive to help readers know what the accordion contains before they click. For example, instead of ‘Review’, say ‘Review recommended accordion usage’.
-- Heading Level – Keep the heading level consistent with your page hierarchy. This will help authors and reviewers quickly identify placement with other content on the page. Note: At this time, these headings will not show in the right menu even if they are H2 or H3.
-- Eyebrow – The eyebrow text on this accordion is customizable and should be updated to reflect the purpose of the accordion. We recommend using *Learn more*, *Troubleshooting*, and *Walkthrough*:
-    - Learn more – used to add additional context that is not needed upfront but is useful for users to review if they need a refresher, are new to the concept, or want to off-road and dive deeper.
+- Title – Make your title descriptive to help readers know what the accordion contains before they click.
+- Heading Level – Keep the heading level consistent with your page hierarchy.
+- Eyebrow – Update this text to reflect the purpose of the accordion. We recommend:
+    - Learn more – used to add additional context that is not needed upfront but is useful for users to review when they choose.
     - Troubleshooting – used when adding details to troubleshoot specific errors within context.
     - Walkthrough – used when adding a step-by-step example for those who need more direct guidance.
 
