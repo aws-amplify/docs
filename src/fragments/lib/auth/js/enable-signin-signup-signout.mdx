@@ -8,7 +8,7 @@ This guide is for those who want to set up Amplify Auth with the Amplify Librari
 
 </Callout>
 
-Before you begin, you should have finished [*'Set up and connect backend resources'*](/lib/auth/set_up_auth#set-up-and-connect-backend-resources) with a configured Auth category.
+Before you begin, you should have finished the [*'Set up and connect backend resources'*](/lib/auth/set_up_auth#set-up-and-connect-backend-resources) guide.
 
 ## Decide before you build
 
@@ -39,10 +39,6 @@ User attributes are not required by default. You can make user attributes requir
 ### How will you verify users at sign-up?
 
 Once the initial sign-up is done, the user will need to verify and confirm their contact information before their account is activated. This is done by sending a verification code via email or phone number that can be collected on initial sign-up. Email verification asks the user to click a link or enter a code sent to their email address provided during sign-up. Phone verification is done by asking the user to enter the code sent to them in a SMS text message. You can also enable auto-confirmation to skip this step and automatically confirm the user after sign-up. This is accomplished using the `PreSignUp` Lambda trigger which is explained in the [Amazon Cognito documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-sign-up.html).
- 
-### Do you need local or global sign-out?
-
-The default when passing the `Auth.signOut()` method is a local sign out. This will sign-out the user from a specific application or device and revokes the tokens used for authentication in that session. If you need a global sign-out that revokes all associated tokens, credentials, and sessions across all applications and devices, then you update the method to `Auth.signOut({ global: true })`.
 
 Once you have these decisions in mind you are ready to enable sign-up, sign-in, and sign-out.
 
