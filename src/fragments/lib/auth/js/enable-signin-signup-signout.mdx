@@ -155,45 +155,6 @@ async function confirmSignUp() {
 </Block>
 </BlockSwitcher>
 
-As part of the options parameter, you can specify the `forceAliasCreation` boolean. This is set to `true` by default. If set to `false` and the email or phone number used for sign-up confirmation already exists as an alias for a different user, the API will throw an `AliasExistsException` error. If set to `true`, the API call will migrate the alias from the previous user to a newly created user.
-
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-import { Auth } from 'aws-amplify';
-
-type ConfirmSignUpParameters = {
-  username: string;
-  code: string;
-};
-
-export async function confirmSignUp({ username, code }: ConfirmSignUpParameters) {
-  try {
-    await Auth.confirmSignUp(username, code, {
-      forceAliasCreation: false,
-    });
-  } catch (error) {
-    console.log('error confirming sign up', error);
-  }
-}
-```
-</Block>
-<Block name="JavaScript">
-
-```js
-import { Auth } from 'aws-amplify';
-
-async function confirmSignUp() {
-  try {
-    await Auth.confirmSignUp(username, code, { forceAliasCreation: false });
-  } catch (error) {
-    console.log('error confirming sign up', error);
-  }
-}
-```
-</Block>
-</BlockSwitcher>
 
 ### Auto sign in after sign up
 
