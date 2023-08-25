@@ -10,7 +10,7 @@ import {
 import { forwardRef, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { MQDesktop } from '../media';
-import { Button } from '@cloudscape-design/components';
+import { CloseIcon } from '../Icons';
 
 const stickyHeaderHeight = 124;
 function scroll(hash) {
@@ -38,6 +38,7 @@ function TableOfContents({ children, title, buttonsRef }, ref) {
       scroll(hash);
     }
   };
+
   let headers = [];
   let headerQueries = [];
   let activeLink = 0;
@@ -55,6 +56,7 @@ function TableOfContents({ children, title, buttonsRef }, ref) {
         headings.push(heading);
       }
     });
+    // console.log(document.getElementById('toc')?.querySelectorAll('a'))
     const headings2 = document.getElementById('toc')?.querySelectorAll('a');
     for (let i = 0; i < headings.length; ++i) {
       const id = headings[i].id;
@@ -77,7 +79,7 @@ function TableOfContents({ children, title, buttonsRef }, ref) {
       };
       headings2[i].onclick = () => {
         if (headings[i].classList.contains('docs-expander__title')) {
-          uniqueId = headings[i].parentNode.parentNode.id;
+          uniqueId = headings[i].parentNode.parentNode.parentNode.id;
         }
         setTimeout(scroll.bind(undefined, uniqueId), 50);
         return false;
@@ -154,7 +156,7 @@ function TableOfContents({ children, title, buttonsRef }, ref) {
         {!onDesktop && (
           <div className="mobileHeader">
             <h2>On this Page</h2>
-            <Button variant="icon" iconName="close" onClick={closeToc} />
+            <CloseIcon onClick={closeToc} />
           </div>
         )}
         <HeaderStyle>

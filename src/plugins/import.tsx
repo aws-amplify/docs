@@ -15,6 +15,10 @@ module.exports = (async () => {
         });
         tree.children.splice(index + 1, 0, {
           type: 'import',
+          value: `import InlineFilter from "/src/components/InlineFilter";`
+        });
+        tree.children.splice(index + 1, 0, {
+          type: 'import',
           value: `import FilterContent from "/src/components/FilterContent";`
         });
         tree.children.splice(index + 1, 0, {
@@ -63,10 +67,6 @@ module.exports = (async () => {
         });
         tree.children.splice(index + 1, 0, {
           type: 'import',
-          value: `import FeatureFlags from "/src/components/FeatureFlags";`
-        });
-        tree.children.splice(index + 1, 0, {
-          type: 'import',
           value: `import {AmplifyAuthenticator, AmplifySignOut} from "@aws-amplify/ui-react";`
         });
         tree.children.splice(index + 1, 0, {
@@ -75,11 +75,15 @@ module.exports = (async () => {
         });
         tree.children.splice(index + 1, 0, {
           type: 'import',
-          value: `import UiComponentProps from "/src/components/UiComponentProps";`
+          value: `import MigrationAlert from "/src/components/MigrationAlert";`
         });
         tree.children.splice(index + 1, 0, {
           type: 'import',
-          value: `import MigrationAlert from "/src/components/MigrationAlert";`
+          value: `import Accordion from "/src/components/Accordion";`
+        });
+        tree.children.splice(index + 1, 0, {
+          type: 'import',
+          value: `import { YoutubeEmbed } from "/src/components/YoutubeEmbed";`
         });
         tree.children.splice(index + 1, 0, {
           type: 'import',

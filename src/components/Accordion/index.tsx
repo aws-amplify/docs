@@ -1,6 +1,7 @@
-import { useRef, useState, createElement, useEffect, forwardRef } from 'react';
+import { useRef, useState, createElement, useEffect } from 'react';
 import { Details, Summary } from './styles';
 import { Expand, DeepDive } from './icons';
+import { trackExpanderOpen } from '../../utils/track';
 
 type AccordionProps = {
   title?: string;
@@ -14,7 +15,7 @@ const Accordion: React.FC<AccordionProps> = ({
   eyebrow,
   children
 }) => {
-  const [closeButton, setCloseButton] = useState(false);
+  const [closeButton, setCloseButton] = useState(true);
   const [initialHeight, setInitialHeight] = useState(0);
   const [expandedHeight, setExpandedHeight] = useState(0);
   const docsExpander = useRef<HTMLElement>(null);
@@ -22,18 +23,31 @@ const Accordion: React.FC<AccordionProps> = ({
   useEffect(() => {
     const expander = docsExpander.current;
 
-    setExpandedHeight(
-      expander?.children['docs-expander__summary']?.offsetHeight +
-        expander?.children['docs-expander__body']?.offsetHeight
-    );
-    setInitialHeight(
-      expander?.children['docs-expander__summary']?.offsetHeight
-    );
+    const initHeight =
+      expander?.children['docs-expander__summary']?.offsetHeight;
+    const expHeight = getHiddenHeight(expander);
 
-    if (expandedHeight > window.innerHeight) {
-      setCloseButton(true);
+    setInitialHeight(initHeight);
+    setExpandedHeight(expHeight);
+
+    // Current decision is to leave the footer close on all expanders
+    // if (expandedHeight > window.innerHeight) {
+    //   setCloseButton(true);
+    // }
+  }, [initialHeight, expandedHeight, closeButton]);
+
+  function getHiddenHeight(el) {
+    if (!el?.cloneNode) {
+      return null;
     }
-  }, [expandedHeight, initialHeight, closeButton]);
+
+    const clone = el.cloneNode(true);
+    clone.setAttribute('open', '');
+    el.after(clone);
+    const height = clone.offsetHeight;
+    clone.remove();
+    return height;
+  }
 
   const headingId = title?.replace(/\s+/g, '-').toLowerCase();
   headingLevel = headingLevel ? 'h' + headingLevel : 'div';
@@ -54,17 +68,15 @@ const Accordion: React.FC<AccordionProps> = ({
 
   const collapse = [
     {
-      maxHeight: expandedHeight + 'px',
-      overflow: 'visible'
+      maxHeight: expandedHeight + 'px'
     },
-    { maxHeight: initialHeight + 'px', overflow: 'hidden' }
+    { maxHeight: initialHeight + 'px' }
   ];
 
   const expand = [
-    { maxHeight: initialHeight + 'px', overflow: 'hidden' },
+    { maxHeight: initialHeight + 'px' },
     {
-      maxHeight: expandedHeight + 'px',
-      overflow: 'visible'
+      maxHeight: expandedHeight + 'px'
     }
   ];
 
@@ -73,19 +85,21 @@ const Accordion: React.FC<AccordionProps> = ({
     iterations: 1
   };
 
-  const scrollToLoc =
-    (docsExpander?.current?.offsetTop - docsExpander?.current?.offsetHeight - 48);
-
   const closeAccordion = () => {
-    docsExpander.current?.animate(collapse, animationTiming);
-    window.scrollTo({
-      left: 0,
-      top: scrollToLoc,
-      behavior: 'smooth'
-    });
-    setTimeout(function() {
-      docsExpander.current?.removeAttribute('open');
-    }, 500);
+    const expander = docsExpander.current;
+    if (expander) {
+      const scrollToLoc = expander.offsetTop - 48 - 70 - 10; // account for nav heights and 10px buffer
+
+      expander.animate(collapse, animationTiming);
+      window.scrollTo({
+        left: 0,
+        top: scrollToLoc,
+        behavior: 'smooth'
+      });
+      setTimeout(function() {
+        expander.removeAttribute('open');
+      }, 700);
+    }
   };
 
   const toggleAccordion = (e) => {
@@ -96,16 +110,21 @@ const Accordion: React.FC<AccordionProps> = ({
       expander?.animate(collapse, animationTiming);
       setTimeout(function() {
         expander.removeAttribute('open');
-      }, 500);
+      }, 700);
     } else {
       // Open accordion
-      expander?.animate(expand, animationTiming);
+      trackExpanderOpen(expander?.id.replace('-acc', ''));
       expander?.setAttribute('open', '');
+      expander?.animate(expand, animationTiming);
     }
   };
 
   return (
-    <Details className="docs-expander" ref={docsExpander}>
+    <Details
+      id={headingId + '-acc'}
+      className="docs-expander"
+      ref={docsExpander}
+    >
       <Summary
         id="docs-expander__summary"
         className="docs-expander__summary"
