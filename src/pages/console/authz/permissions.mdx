@@ -16,14 +16,14 @@ You are going to define set up role-based authorization rules for each of the mo
 2. In the **Model** pane on the right, expand the **Owners** window. 
 3. Choose **Create**, **Read**, **Update** and **Delete** to specify that *Owners* have create, read, update, and delete access. The settings look as follows.
 
-![Owner authorization rules on a GraphQL data model](/images/console/10_ownersaccess.png)
+![](/images/console/10_ownersaccess.png)
 
 ## To set a private authorization rule
 1. Using the *Books* data model that you created in the [Create a data model example](/console/data/data-model#Create-a-data-model-example), set the authorization mode to **Cognito user pool**. 
 2. In the **Model** pane on the right, expand the **Any signed-in users** window. 
 3. Choose **Create**, **Read**, and **Update** to specify that any signed-in authenticated user has create, read, and update, access. The settings look as follows.
 
-![Private authorization rules on a GraphQL data model](/images/console/11_privatesaccess.png)
+![](/images/console/11_privatesaccess.png)
 
 
 ## To set a group authorization rule
@@ -31,11 +31,11 @@ You are going to define set up role-based authorization rules for each of the mo
 2. Create an *Editors* group using the instructions to [create a group](/console/auth/user-management#To-create-a-group). Alternately, you can create a new group from the **Add a new rule for...** menu.
 3. In the **Model** pane on the right, select *Editors* from the **Add a new rule for...** menu. 
 
-![Process of adding group authorization rules by selecting "Add a new rule" in the menu on a GraphQL data model](/images/console/8_menudetaileditors.png)
+![Screenshot of step 3 as mentioned above](/images/console/8_menudetaileditors.png)
 
 4. Choose **Create**, **Read**, **Update** and **Delete** to specify that signed in users in the *Editors* group have create, read, update, and delete access. The settings look as follows.
 
-![Group authorization rules on a GraphQL data model](/images/console/9_editorgroupaccess.png)
+![](/images/console/9_editorgroupaccess.png)
 
 ## To set a public authorization rule
 
@@ -44,4 +44,4 @@ If you want your data model to be publicly accessible, switch to API_KEY or IAM 
 1. Using the *Books* data model that you created in the [Create a data model example](/console/data/data-model#Create-a-data-model-example), set the authorization mode to **API Key**. 
 2. In the **Model** pane on the right, expand the **Anyone** window. Choose **Read** to specify that any signed in user has read access to the data in the *Book* model. The settings look as follows.
 
-![Public authorization rules on a GraphQL data model](/images/console/7_publicauthreadonly.png)
+![](/images/console/7_publicauthreadonly.png)
