@@ -17,7 +17,7 @@ We will review the paths to integrate Amplify Auth before you set up and integra
 
 You can create and manage your Authentication resources with Amplify by using the Amplify CLI, Amplify Studio, or manage them yourself with tools such as CDK and CloudFormation. The path we recommend is via the Amplify CLI, which allows you to create new authentication resources or import existing ones. However, you can also use the Amplify Studio console to configure or use existing resources and directly connect them to your application using the Amplify Libraries. These tools will help you with creating and managing your resources.
 
-With Amplify Auth, you can use a username and password as an authentication method, use a social provider "Sign In with Google" or "Sign in With Apple," or create a fully custom authentication flow.
+With Amplify Auth, you can use a username and password as an authentication method, use a social provider such as "Sign In with Google" or "Sign in With Apple," or create a fully custom authentication flow.
 
 <Accordion title='Understanding Auth high-level concepts' headingLevel='4' eyebrow='Learn more'>
 
@@ -55,7 +55,7 @@ See the [Amazon Cognito documentation]( https://docs.aws.amazon.com/cognito/late
 
 </Accordion>
 
-### Set up and configure your Auth category
+### Set up and configure Amplify Auth
 
 In this section you will learn how to set up your backend resources and install the Amplify libraries to use with your application.
 
@@ -265,11 +265,11 @@ If your existing UserPool client has a required attribute that is NOT set to mut
 </Block>
 </BlockSwitcher>
 
-You now have set up and configured your backend resources for Amplify authentication and are ready to start working on your frontend application.
+You now have set up and configured your backend resources for Amplify Auth, and connected your frontend app to your backend. You are now ready to work on your frontend application.
 
 ## Determine your Auth integration path
 
-Before you implement Auth on your frontend application, you will want to evaluate the options of using the Authenticator connected UI component or using the Amplify Library APIs directly. We recommend using the Authenticator since it creates a sign in and registration experience for your app with a few lines of code.
+Before you implement Auth on your frontend application, you will want to evaluate the options of using the Authenticator connected UI component or using the Amplify Library APIs directly. We recommend using the Authenticator since it creates a customizable sign in and registration experience for your app with a few lines of code.
 
 ### Compare implementation options
 
@@ -283,7 +283,7 @@ There are a few options to implement Auth depending on how much customization yo
 
 <br/>
 
-We recommend using the Authenticator UI component for quick and easy set up and then use the Amplify Libraries to customize the user experience and logic as needed. Once you decide which option will work for your use case you can continue implementing authentication on your frontend application. If you prefer to work directly with the APIs, you can review the [*Enable Sign-up, Sign-in, and Sign-out*](https://docs.amplify.aws/lib/auth/emailpassword/q/platform/js/) guide to learn more about building with the Amplify Libraries.
+We recommend using the Authenticator UI component for quick and easy set up and then use the Amplify Libraries to customize the user experience and logic as needed. Once you decide which option will work for your use case you can continue implementing authentication on your frontend application. If you prefer to work directly with the APIs, you can review the [*Enable Sign-up, Sign-in, and Sign-out*](https://docs.amplify.aws/lib/auth/emailpassword/q/platform/js/) guide.
 
 ## Build an Authentication experience using the Authenticator
 
