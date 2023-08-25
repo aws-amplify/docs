@@ -12,6 +12,16 @@ localStorageMock.mockReturnValue({
   framework: 'js'
 });
 
+jest.mock('next/router', () => ({
+  useRouter() {
+    return {
+      route: '/',
+      pathname: '',
+      query: '',
+      asPath: ''
+    };
+  }
+}));
 describe('InternalLink', () => {
   it('should render the InternalLink component', async () => {
     render(<InternalLink href="/lib/auth">Internal Link</InternalLink>);
