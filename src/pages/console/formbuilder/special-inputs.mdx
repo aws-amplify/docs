@@ -6,9 +6,9 @@ export const meta = {
 
 ## Autocomplete fields with relationships
 
-If your data model has [relationships](/console/data/relationships/), Form Builder will automatically use an **Autocomplete** field to let your form submitters select records from related data models. These connected autocomplete fields have some special configuration settings. 
+If you have a [Connected Form](/console/formbuilder/data-binding/#connected-forms) bound to a data model with [relationships](/console/data/relationships/), Form Builder uses a special field to handle submission. The **Autocomplete** field will allow your form submitters to select one or more records from a related data model. These connected autocomplete fields have some special configuration settings. 
 
-Studio Form Builder supports relationships in **all Amplify GraphQL APIs, with and without DataStore**.
+Form builder now supports data binding to **GraphQL APIs without Conflict Resolution**. [Learn more about GraphQL and Conflict Resolution here](/console/data/data-model/#datastore-and-graphql). 
 
 ### Activate relationship fields in forms
 
@@ -36,7 +36,7 @@ To make this more useful for the form submitter, you can customize the label wit
 
 When you are satisfied with your form configuration and style, [your forms can be generated in your local project](/console/formbuilder/overview/#render-react-form-in-your-app). 
 
-**If your GraphQL API is not using DataSore, forms with relationships require a query codegen depth of 4**, and will not work as expected otherwise. To update your query depth:
+**If your GraphQL API is not using DataStore, forms with relationships require a query codegen depth of 4**, and will not work as expected otherwise. To update your query depth:
 1. Open your terminal and navigate to the root directory of your Amplify project
 1. Run `amplify configure codegen`
 1. When prompted for Query Depth, change to 4. All other options can be set as you prefer
