@@ -28,7 +28,20 @@ Below is a high-level overview of the workflows for sign-up, sign-in, and sign-o
 
 ### Which Amazon Cognito attributes will you pass for sign-up?
 
-User attributes (e.g. username, email, etc.) are used to identify your users. These are set up when you configure your Cognito User Pool and cannot be renamed or deleted after they are added. You can find the available attributes in the Amazon Cognito console under the *Sign-up experience* tab. You can also add [User Pool attributes]( https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html) that can be collected during sign-up. This includes attributes like address, birthdate, phone, etc. These attributes are not required by default.
+User attributes (e.g. username, email, etc.) are used to identify your users. These are set up when you configure your Cognito User Pool and cannot be renamed or deleted after they are added. You can use the Amplify CLI to add user attributes, visit the Amazon Cognito console. To add user attributes with the CLI, you can run the command `amplify add auth` for a new project, or use `amplify update auth` if you already have existing resources set up. Then, you would select `manual configuration` when prompted by the Amplify CLI.
+
+
+
+```sh
+amplify update auth
+What do you want to do? Walkthrough all the auth configurations
+
+Specify read attributes: Birthdate, Email, Given Name
+Specify write attributes: Locale, Given Name
+```
+
+
+You can find the available attributes in the Amazon Cognito console under the *Sign-up experience* tab. You can also add [User Pool attributes]( https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html) that can be collected during sign-up. This includes attributes like address, birthdate, phone, etc. These attributes are not required by default.
 
 <Callout>
 
