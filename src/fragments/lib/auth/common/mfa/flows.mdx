@@ -56,7 +56,7 @@ import all5 from "/src/fragments/lib/auth/common/mfa/update_mfa.mdx";
 
 ### Enabling SMS for MFA during Sign Up
 
-You will need to pass `phone_number` as a user attribute to enable SMS MFA for your users during sign up. If the primary login mechanism for your Cognito resource is 
+You will need to pass `phone_number` as a user attribute to enable SMS MFA for your users during sign up. However, if the primary login mechanism for your Cognito resource is 
 `phone_number` (without enabling `username`), then you do not need to pass it as an attribute.
 
 import flutter6 from "/src/fragments/lib/auth/flutter/sms/sign_up.mdx";
@@ -153,6 +153,20 @@ func updateMFAPreferences() -> AnyCancellable {
 
 </InlineFilter>
 
+<InlineFilter filters={['flutter']}>
+
+```dart
+Future<void> updateMfaPreferences() async {
+  final cognitoPlugin = Amplify.Auth.getPlugin(AmplifyAuthCognito.pluginKey);
+
+  await cognitoPlugin.updateMfaPreference(
+    sms: MfaPreference.enabled, // or .preferred
+  );
+}
+```
+
+</InlineFilter>
+
 ## Multi-factor authentication with TOTP
 
 You can use Time-based One-Time Password (TOTP) for multi-factor authentication (MFA) in your web or mobile applications. The Amplify Auth category includes 
@@ -180,16 +194,62 @@ import iosSignIn from "/src/fragments/lib/auth/ios/totp/sign_in.mdx";
 
 <Fragments fragments={{ios: iosSignIn}} />
 
+<InlineFilter filters={['flutter']}>
+
+```dart
+Future<void> signInUser(String username, String password) async {
+  try {
+    final result = await Amplify.Auth.signIn(
+      username: username,
+      password: password,
+    );
+    return _handleSignInResult(result);
+  } on AuthException catch (e) {
+    safePrint('Error signing in: ${e.message}');
+  }
+}
+
+Future<void> _handleSignInResult(SignInResult result) async {
+  switch (result.nextStep.signInStep) {
+    // ···
+    case AuthSignInStep.continueSignInWithTotpSetup:
+      final totpSetupDetails = result.nextStep.totpSetupDetails!;
+      final setupUri = totpSetupDetails.getSetupUri(appName: 'MyApp');
+      safePrint('Open URI to complete setup: $setupUri');
+    // ···
+  }
+}
+```
+
+</InlineFilter>
+
 The TOTP code can be obtained from the user via a text field or any other means. Once the user provides the TOTP code, call `confirmSignIn` with the TOTP code as the `challengeResponse` parameter.
 
 import iosConfirmSignIn from "/src/fragments/lib/auth/ios/totp/confirm_sign_in.mdx";
 
 <Fragments fragments={{ios: iosConfirmSignIn}} />
 
-After a user has been signed in, call `updateMFAPreference` to record the MFA type as enabled for the user
-and optionally set it as preferred so that subsequent logins default to using this MFA type.
+<InlineFilter filters={['flutter']}>
+
+```dart
+Future<void> confirmTotpUser(String totpCode) async {
+  try {
+    final result = await Amplify.Auth.confirmSignIn(
+      confirmationValue: totpCode,
+    );
+    return _handleSignInResult(result);
+  } on AuthException catch (e) {
+    safePrint('Error confirming TOTP code: ${e.message}');
+  }
+}
+```
+
+</InlineFilter>
 
 <InlineFilter filters={['ios']}>
+
+After a user has been signed in, call `updateMFAPreference` to record the MFA type as enabled for the user
+and optionally set it as preferred so that subsequent logins default to using this MFA type.
 
 <BlockSwitcher>
 
@@ -255,16 +315,46 @@ import iosSetUpTOTP from "/src/fragments/lib/auth/ios/totp/set_up_totp.mdx";
 
 <Fragments fragments={{ios: iosSetUpTOTP}} />
 
+<InlineFilter filters={['flutter']}>
+
+```dart
+Future<void> setUpTotp() async {
+  try {
+    final totpSetupDetails = await Amplify.Auth.setUpTotp();
+    final setupUri = totpSetupDetails.getSetupUri(appName: 'MyApp');
+    safePrint('Open URI to complete setup: $setupUri');
+  } on AuthException catch (e) {
+    safePrint('An error occurred setting up TOTP: $e');
+  }
+}
+```
+
+</InlineFilter>
+
 Once the Authenticator app is set up, the user must generate a TOTP code and provide it to the library. Pass the code to `verifyTOTPSetup` to complete the TOTP setup process.
 
 import iosVerifyTOTPSetup from "/src/fragments/lib/auth/ios/totp/verify_totp_setup.mdx";
 
 <Fragments fragments={{ios: iosVerifyTOTPSetup}} />
 
-After TOTP setup is complete, call `updateMFAPreference` to record the MFA type as enabled for the user
-and optionally set it as preferred so that subsequent logins default to using this MFA type.
+<InlineFilter filters={['flutter']}>
+
+```dart
+Future<void> verifyTotpSetup(String totpCode) async {
+  try {
+    await Amplify.Auth.verifyTotpSetup(totpCode);
+  } on AuthException catch (e) {
+    safePrint('An error occurred verifying TOTP: $e');
+  }
+}
+```
+
+</InlineFilter>
 
 <InlineFilter filters={['ios']}>
+
+After TOTP setup is complete, call `updateMFAPreference` to record the MFA type as enabled for the user
+and optionally set it as preferred so that subsequent logins default to using this MFA type.
 
 <BlockSwitcher>
 
@@ -333,6 +423,20 @@ import iosFetchMFAPreference from "/src/fragments/lib/auth/ios/mfa_preference/10
 
 <Fragments fragments={{ios: iosFetchMFAPreference}} />
 
+<InlineFilter filters={['flutter']}>
+
+```dart
+Future<void> getCurrentMfaPreference() async {
+  final cognitoPlugin = Amplify.Auth.getPlugin(AmplifyAuthCognito.pluginKey);
+
+  final currentPreference = await cognitoPlugin.fetchMfaPreference();
+  safePrint('Enabled MFA types for user: ${currentPreference.enabled}');
+  safePrint('Preferred MFA type for user: ${currentPreference.preferred}');
+}
+```
+
+</InlineFilter>
+
 ### Update the current user's MFA preferences
 
 Invoke the following API to update the MFA preference for the current user.
@@ -347,9 +451,60 @@ import iosUpdateMFAPreferences from "/src/fragments/lib/auth/ios/mfa_preference/
 
 <Fragments fragments={{ios: iosUpdateMFAPreferences}} />
 
+<InlineFilter filters={['flutter']}>
+
+```dart
+Future<void> updateMfaPreferences() async {
+  final cognitoPlugin = Amplify.Auth.getPlugin(AmplifyAuthCognito.pluginKey);
+
+  await cognitoPlugin.updateMfaPreference(
+    sms: MfaPreference.enabled,
+    totp: MfaPreference.preferred,
+  );
+}
+```
+
+</InlineFilter>
+
 If multiple MFA methods are enabled for the user, the `signIn` API will return `continueSignInWithMFASelection` as the next step in the auth flow. During this scenario, 
 the user should be prompted to select the MFA method they want to use to sign in and their preference should be passed to `confirmSignIn`.
 
 import iosContinueSignInWithMFASelection from "/src/fragments/lib/auth/ios/signin_next_steps/91_continue_mfa_selection_code.mdx";
 
 <Fragments fragments={{ios: iosContinueSignInWithMFASelection}} />
+
+<InlineFilter filters={['flutter']}>
+
+The MFA types which are currently supported by Amplify Auth are:
+ * `MfaType.sms`
+ * `MfaType.totp`
+
+```dart
+Future<void> _handleSignInResult(SignInResult result) async {
+  switch (result.nextStep.signInStep) {
+    // ···
+    case AuthSignInStep.continueSignInWithMfaSelection:
+      final allowedMfaTypes = result.nextStep.allowedMfaTypes!;
+      final selection = await _promptUserPreference(allowedMfaTypes);
+      return _handleMfaSelection(selection);
+    // ···
+  }
+}
+
+Future<MfaType> _promptUserPreference(Set<MfaType> allowedTypes) async {
+  // ···
+}
+
+Future<void> _handleMfaSelection(MfaType selection) async {
+  try {
+    final result = await Amplify.Auth.confirmSignIn(
+      confirmationValue: selection.confirmationValue,
+    );
+    return _handleSignInResult(result);
+  } on AuthException catch (e) {
+    safePrint('Error resending code: ${e.message}');
+  }
+}
+```
+
+</InlineFilter>
