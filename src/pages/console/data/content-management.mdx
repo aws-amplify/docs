@@ -68,12 +68,12 @@ Alternatively, you can save save *All About Dogs* before linking to an Author, a
 
 ## Limitations
 
-### Conflict Resolution
-Amplify Studio's data manager requires your app to have Conflict Resolution enabled. 
+### Conflict Resolution and DataStore
+Studio's Data Manager supports Amplify GraphQL APIs with and without DataStore. However, GraphQL APIs without DataStore have several minor limitations:
+- Data cannot be sorted by column
+- The search bar is disabled
 
-For applications that are using a GraphQL API with Conflict Resolution disabled, app data can be managed using **GraphiQL**, a visual interface for building and executing queries and mutations in GraphQL. [Learn more about GraphQL in their documentation.](https://graphql.org/learn/)
-
-To use the data manager, you can [adjust your GraphQL API settings.](/console/data/data-model/#datastore-and-graphql)
+To use these features, you can add DataStore to your app by [adjusting your Conflict Resolution settings.](/console/data/data-model/#datastore-and-graphql)
 
 ### Null required fields
 When using the data manager, you may encounter the following error message:
@@ -125,7 +125,9 @@ This message occurs when there are records in the selected data model that have 
 
 ### Multi-tab limitation
 
-Studio's Data Manager requires use of indexedDB in order to function. Because of this, Data Manager may not load as expected if opened in multiple tabs or windows in your browser. For expected performance of Data Manager, ensure it is only open in one tab at a time.
+If your GraphQL API is using DataStore, Studio's Data Manager requires use of indexedDB (a local database in your web browser) in order to function. Because of this, Data Manager may not load as expected if opened in multiple tabs or windows in your browser. 
+
+This limitation does not apply to GraphQL APIs with [Conflict Resolution disabled](/console/data/data-model/#datastore-and-graphql).
 
 ### IAM required as auth provider
 
