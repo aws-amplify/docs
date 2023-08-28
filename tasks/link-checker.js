@@ -55,6 +55,7 @@ const retrieveLinks = async (siteMapUrls, visitedLinks) => {
     let response = await page.goto(url, { waitUntil: 'domcontentloaded' });
     await page.waitForNetworkIdle();
     if (response && response.status() && response.status() === 200) {
+      console.log(`successfully visited ${url} to retrieve links`);
       visitedLinks[url] = true;
 
       const urlList = await page.evaluate(async (url) => {
