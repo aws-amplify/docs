@@ -46,10 +46,10 @@ When you save and deploy your data model, Amplify Studio generates a GraphQL API
 
 **[DataStore](/lib/datastore/getting-started)** is an on-device storage engine that automatically synchronizes data between your mobile and web apps and your database, enabling offline use. DataStore requires a **Conflict Resolution** method to function. 
 
-To change your app's Conflict Resolution settings, or to change your app from using DataStore to using an Amplify GraphQL API, take the following steps:
+To enable/disable Conflict Resolution, or to change your Conflict Resolution settings, take the following steps:
 1. Navigate to **[Amplify Studio](/console/adminui/start/#log-into-the-amplify-console) > Data**
 2. Select **GraphQL API settings** at the top of the page
-3. Toggle DataStore off or on, or change your Conflict Resolution strategy
+3. Toggle Conflict Resolution off or on, or change your Conflict Resolution strategy
 4. Return to the Data Modeling screen and select **Save and Deploy**
 
 <Callout warning>
@@ -68,7 +68,7 @@ To get access to these features, turn on DataStore and select a Conflict Resolut
 
 ### Unsupported directives and field-level parameters
 
-If a data model contains unsupported directives or field-level parameters, the **Visual editor** under Data modeling and **Data manager** under Content will not be available to use. However, you can continue using other Amplify Studio features and use the Amplify CLI to make modifications to GraphQL schemas.
+If a data model contains unsupported directives or field-level parameters, the **Visual editor** under Data modeling will not be available to use, and **Data manager** may have limited functionality. However, you can continue using other Amplify Studio features and use the Amplify CLI to make modifications to GraphQL schemas.
 
 Unsupported directives in Studio include:
 - [`@default` directive](/cli/graphql/data-modeling/#assign-default-values-for-fields)
