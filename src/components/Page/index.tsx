@@ -33,7 +33,7 @@ export default function Page({
   const router = useRouter();
 
   if (!router.isReady) {
-    return <></>;
+    return <>{children}</>;
   }
 
   let url = router.asPath;
