@@ -31,10 +31,10 @@ Amplify.Auth.signIn("username", "password",
         if (result.nextStep.signInStep == AuthSignInStep.CONTINUE_SIGN_IN_WITH_TOTP_SETUP) {
             Log.d("SignIn", "Received next step as continue sign in by setting up TOTP")
             Log.d("SignIn", "Shared Secret is" + result.nextStep.totpSetupDetails?.sharedSecret)
-            // appName parameter will help distinguish the account in the Authenticator app
+            // issuer parameter will help distinguish the account in the Authenticator app
             val setupURI = result.nextStep.totpSetupDetails?.getSetupURI("<Your_App_Name>>")
 
-            Log.d("SignIn", "TOTP Setup URI: \(setupURI)");
+            Log.d("SignIn", "TOTP Setup URI: $setupURI");
 
             // Prompt the user to enter the TOTP code generated in their authenticator app
             // Then invoke `confirmSignIn` api with the code

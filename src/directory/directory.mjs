@@ -278,11 +278,6 @@ export const directory = {
             filters: ['js', 'react-native']
           },
           {
-            title: 'Multi-factor authentication',
-            route: '/lib/auth/mfa',
-            filters: ['js', 'react-native']
-          },
-          {
             title: 'Password & user management',
             route: '/lib/auth/manageusers',
             filters: ['js', 'react-native']
@@ -325,7 +320,7 @@ export const directory = {
           {
             title: 'Multi-factor authentication',
             route: '/lib/auth/mfa',
-            filters: ['ios']
+            filters: ['ios','js', 'react-native','android']
           },
           {
             title: 'SMS flows',
