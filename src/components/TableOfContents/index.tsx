@@ -7,7 +7,7 @@ import {
   H3AnchorStyle,
   HeaderStyle
 } from './styles';
-import { forwardRef, useEffect } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { MQDesktop } from '../media';
 import { CloseIcon } from '../Icons';
@@ -24,20 +24,28 @@ function scroll(hash) {
 function TableOfContents({ children, title, buttonsRef }, ref) {
   const router = useRouter();
   const MQDesktopJS = MQDesktop.substring(6);
-  const onDesktop =
-    typeof window === 'undefined'
-      ? false
-      : window.matchMedia(MQDesktopJS).matches;
+  const [onDesktop, setOnDesktop] = useState(false);
 
   if (children.length === 0) {
     return <></>;
   }
-  window.onload = (_) => {
-    if (window.location.href.includes('#')) {
-      const hash = window.location.href.split('#')[1];
-      scroll(hash);
-    }
-  };
+
+  useEffect(() => {
+    setOnDesktop(
+      typeof window === 'undefined'
+        ? false
+        : window.matchMedia(MQDesktopJS).matches
+    );
+  }, []);
+
+  useEffect(() => {
+    window.onload = (_) => {
+      if (window.location.href.includes('#')) {
+        const hash = window.location.href.split('#')[1];
+        scroll(hash);
+      }
+    };
+  }, []);
 
   let headers = [];
   let headerQueries = [];

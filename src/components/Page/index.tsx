@@ -40,10 +40,6 @@ export default function Page({
     setIsMounted(true);
   }, []);
 
-  if (!router.isReady) {
-    return <></>;
-  }
-
   let url = router.asPath;
   // remove trailing slash.  this is important on pages like /cli/index.mdx
   // or /console/index.mdx where router.asPath has a trailing slash and
@@ -86,7 +82,9 @@ export default function Page({
     ...overrides
   };
 
-  localStorage.setItem('filterKeys', JSON.stringify(filterKeys));
+  useEffect(() => {
+    localStorage.setItem('filterKeys', JSON.stringify(filterKeys));
+  }, []);
   if (filters.length !== 0 && !filters.includes(filterKey) && meta) {
     return (
       <ChooseFilterPage
@@ -115,32 +113,32 @@ export default function Page({
     parentPageLastUpdatedDate = frontmatter.lastUpdated;
   }
 
-  return isMounted ? (
-    <Layout
-      meta={meta}
-      filterKey={filterKey}
-      filterMetadataByOption={filterMetadataByOption}
-      ref={footerRef}
-    >
-      {meta ? (
-        <MetaContent
-          title={meta.title}
-          chapterTitle={meta.chapterTitle}
-          headers={headers}
-          children={children}
-          filters={filters}
-          filterKey={filterKey}
-          filterKind={filterKind}
-          url={url}
-          directoryPath={directoryPath}
-          parentPageLastUpdatedDate={parentPageLastUpdatedDate}
-          footerRef={footerRef}
-        />
-      ) : (
-        children
-      )}
-    </Layout>
-  ) : (
-    <></>
+  return (
+    <>
+      <Layout
+        meta={meta}
+        filterKey={filterKey}
+        filterMetadataByOption={filterMetadataByOption}
+        ref={footerRef}
+      >
+        {meta ? (
+          <MetaContent
+            title={meta.title}
+            chapterTitle={meta.chapterTitle}
+            headers={headers}
+            children={children}
+            filters={filters}
+            filterKey={filterKey}
+            filterKind={filterKind}
+            url={url}
+            directoryPath={directoryPath}
+            parentPageLastUpdatedDate={parentPageLastUpdatedDate}
+            footerRef={footerRef}
+          />
+        ) : (
+          children
+        )}
+      </Layout>
+    </>
   );
 }
