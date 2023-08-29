@@ -1,0 +1,13 @@
+```swift
+func confirmSignIn() async {
+    do {
+        let signInResult = try await Amplify.Auth.confirmSignIn(
+            challengeResponse: "<confirmation code received via SMS>")
+        print("Confirm sign in succeeded. Next step: \(signInResult.nextStep)")
+    } catch let error as AuthError {
+        print("Confirm sign in failed \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```
