@@ -7,13 +7,13 @@ void handlePermissions() async {
       break;
     case PushNotificationPermissionStatus.denied:
       // further attempts to request permissions will no longer do anything
-      myFunctionToGracefullyDegradeMyApp();
+      continueWithoutPushNotifications();
     case PushNotificationPermissionStatus.shouldRequest:
       // go ahead and request permissions from the user
       await Amplify.Notifications.Push.requestPermissions();
     case PushNotificationPermissionStatus.shouldExplainThenRequest:
       // you should display some explanation to your user before requesting permissions
-      await myFunctionExplainingPermissionsRequest();
+      await explainUpcomingPermissionRequest();
       // then request permissions
       await Amplify.Notifications.Push.requestPermissions();
   }
