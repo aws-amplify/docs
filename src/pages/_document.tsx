@@ -13,7 +13,8 @@ const ANALYTICS_CSP = {
       'https://amazonwebservices.d2.sc.omtrdc.net',
       'https://aws.demdex.net',
       'https://dpm.demdex.net',
-      'https://cm.everesttech.net'
+      'https://cm.everesttech.net',
+      '*.shortbread.aws.dev'
     ],
     img: [
       'https://amazonwebservices.d2.sc.omtrdc.net',
@@ -21,7 +22,9 @@ const ANALYTICS_CSP = {
       'https://dpm.demdex.net',
       'https://cm.everesttech.net'
     ],
-    frame: ['https://aws.demdex.net', 'https://dpm.demdex.net']
+    frame: ['https://aws.demdex.net', 'https://dpm.demdex.net'],
+    script: ['*.shortbread.aws.dev'],
+    style: ['*.shortbread.aws.dev']
   },
   prod: {
     connect: [
@@ -55,16 +58,16 @@ const getCspContent = (context) => {
   );
 
   // Dev environment
-  if (process.env.NODE_ENV !== 'production') {
+  if (process.env.BUILD_ENV !== 'production') {
     return `upgrade-insecure-requests;
       default-src 'none';
       prefetch-src 'self';
-      style-src 'self' 'unsafe-inline';
+      style-src 'self' 'unsafe-inline' ${ANALYTICS_CSP.all.style.join(' ')};
       font-src 'self' data:;
       frame-src 'self' https://www.youtube-nocookie.com ${ANALYTICS_CSP.all.frame.join(
         ' '
       )};
-      connect-src 'self' *.shortbread.aws.dev ${ANALYTICS_CSP.all.connect.join(
+      connect-src 'self' ${ANALYTICS_CSP.all.connect.join(
         ' '
       )} ${ANALYTICS_CSP.alpha.connect.join(
       ' '
@@ -75,8 +78,7 @@ const getCspContent = (context) => {
       media-src 'self';
       script-src 'unsafe-eval' 'self' ${cspInlineScriptHash} ${ANALYTICS_CSP.alpha.script.join(
       ' '
-    )};
-    `;
+    )} ${ANALYTICS_CSP.all.script.join(' ')};`;
   }
 
   // Prod environment
@@ -84,12 +86,12 @@ const getCspContent = (context) => {
   return `upgrade-insecure-requests;
     default-src 'none';
     prefetch-src 'self';
-    style-src 'self' 'unsafe-inline';
+    style-src 'self' 'unsafe-inline' ${ANALYTICS_CSP.all.style.join(' ')};
     font-src 'self';
     frame-src 'self' https://www.youtube-nocookie.com ${ANALYTICS_CSP.all.frame.join(
       ' '
     )};
-    connect-src 'self' *.shortbread.aws.dev ${ANALYTICS_CSP.all.connect.join(
+    connect-src 'self' ${ANALYTICS_CSP.all.connect.join(
       ' '
     )} ${ANALYTICS_CSP.prod.connect.join(
     ' '
@@ -100,7 +102,7 @@ const getCspContent = (context) => {
     media-src 'self';
     script-src 'self' ${cspInlineScriptHash} ${ANALYTICS_CSP.prod.script.join(
     ' '
-  )} ;
+  )} ${ANALYTICS_CSP.all.script.join(' ')};
   `;
 };
 
@@ -127,6 +129,11 @@ export default class MyDocument extends Document {
             type="font/woff2"
             crossOrigin="anonymous"
           />
+          <script src="https://prod.assets.shortbread.aws.dev/shortbread.js"></script>
+          <link
+            href="https://prod.assets.shortbread.aws.dev/shortbread.css"
+            rel="stylesheet"
+          ></link>
         </Head>
         <body>
           <Main />

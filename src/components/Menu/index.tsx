@@ -9,16 +9,17 @@ import React, {
   forwardRef,
   useEffect,
   useImperativeHandle,
+  useRef,
   useState
 } from 'react';
 import MenuOpenButton from './MenuOpenButton';
 import MenuCloseButton from './MenuCloseButton';
-import { MQTablet } from '../media';
+import { MQDesktop } from '../media';
 import Directory from './Directory';
-import RepoActions from './RepoActions';
 import FilterSelect from './FilterSelect';
-import { VersionSwitcher, LibVersionSwitcher } from './VersionSwitcher';
+import { LibVersionSwitcher } from './VersionSwitcher';
 import { useLastUpdatedDatesContext } from '../LastUpdatedProvider';
+import { CloseIcon } from '../Icons';
 
 type MenuProps = {
   filters: string[];
@@ -27,24 +28,42 @@ type MenuProps = {
   url: string;
   directoryPath: string;
   setMenuIsOpen?: any;
+  buttonsRef: any;
 };
 
 function Menu(props: MenuProps, ref) {
   const [isOpen, setIsOpen] = useState(true);
   const { state } = useLastUpdatedDatesContext();
+  const menuRef = useRef<HTMLElement>(null);
+  const [onDesktop, setOnDesktop] = useState(false);
 
   useEffect(() => {
-    const MQTabletJS = MQTablet.substring(6);
+    const MQDesktopJS = MQDesktop.substring(6);
     // If the media query matches, then the user is on desktop and should see the menu by default
-    setIsOpen(
-      typeof window !== 'undefined' && window.matchMedia(MQTabletJS).matches
-    );
+    const onDesktop =
+      typeof window !== 'undefined' && window.matchMedia(MQDesktopJS).matches;
+    setIsOpen(onDesktop);
+    setOnDesktop(onDesktop);
   }, []);
 
   useImperativeHandle(ref, () => ({
+    ref: menuRef,
     closeMenu: () => closeMenu(),
     openMenu: () => openMenu()
   }));
+
+  const hideMenu = () => {
+    if (!onDesktop) {
+      const buttons = props.buttonsRef.current;
+      const menu = menuRef.current;
+      if (menu) {
+        menu.classList.add('slideOut'), menu.classList.remove('slideIn');
+      }
+      if (buttons) {
+        buttons.classList.add('slideIn'), buttons.classList.remove('slideOut');
+      }
+    }
+  };
 
   const closeMenu = () => {
     setIsOpen(false);
@@ -57,20 +76,12 @@ function Menu(props: MenuProps, ref) {
   const openMenu = () => {
     setIsOpen(true);
 
-    if (props.setMenuIsOpen) {
+    if (props.setMenuIsOpen && onDesktop) {
       props.setMenuIsOpen(true);
     }
   };
 
-  let showVersionSwitcher = false;
   let showLibVersionSwitcher = false;
-  if (
-    (props.url.startsWith('/ui') || props.url.startsWith('/ui-legacy')) &&
-    props.filterKey !== 'react-native' &&
-    props.filterKey !== 'flutter'
-  ) {
-    showVersionSwitcher = true;
-  }
 
   if (
     (props.url.startsWith('/lib') || props.url.startsWith('/lib-v1')) &&
@@ -99,11 +110,17 @@ function Menu(props: MenuProps, ref) {
 
   if (isOpen) {
     return (
-      <MenuStyle>
+      <MenuStyle ref={menuRef}>
         <div>
           <div>
             <MenuHeaderStyle>
-              <MenuCloseButton closeMenu={closeMenu} />
+              {!onDesktop && (
+                <div className="mobileHeader">
+                  <h2>Table of Contents</h2>
+                  <CloseIcon onClick={hideMenu} />
+                </div>
+              )}
+              {onDesktop && <MenuCloseButton closeMenu={closeMenu} />}
               {typeof props.filterKey !== 'undefined' && (
                 <FilterSelect
                   filters={props.filters}
@@ -114,7 +131,6 @@ function Menu(props: MenuProps, ref) {
               )}
             </MenuHeaderStyle>
             <MenuBodyStyle>
-              {showVersionSwitcher && <VersionSwitcher url={props.url} />}
               {showLibVersionSwitcher && (
                 <LibVersionSwitcher
                   url={props.url}
@@ -124,10 +140,6 @@ function Menu(props: MenuProps, ref) {
               )}
               <Directory filterKey={props.filterKey} url={props.url} />
               <MenuBreakStyle />
-              <RepoActions
-                url={props.url}
-                directoryPath={props.directoryPath}
-              />
               <LastUpdatedStyle id="page-last-updated">
                 {displayLastUpdatedString(lastUpdatedDate)}
               </LastUpdatedStyle>

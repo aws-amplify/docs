@@ -72,6 +72,7 @@ class DirectoryGroup extends React.Component<
     if (this.itemsToDisplay.length === 0) {
       return <></>;
     }
+
     return (
       <div>
         <DirectoryGroupHeaderStyle onClick={this.toggleOpen}>
@@ -82,7 +83,7 @@ class DirectoryGroup extends React.Component<
           <DirectoryLinksStyle>
             {this.itemsToDisplay.map((item) => (
               <DirectoryGroupItemStyle
-                isActive={this.currentRoute.startsWith(item.route)}
+                isActive={this.currentRoute === item.route}
                 key={item.title}
               >
                 <InternalLink href={`${item.route}`}>

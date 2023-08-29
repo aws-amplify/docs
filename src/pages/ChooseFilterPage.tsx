@@ -1,19 +1,19 @@
-import Layout from "../components/Layout";
-import styled from "@emotion/styled";
-import {Grid} from "@theme-ui/components";
-import {useEffect, useState} from "react";
-import {metaContent} from "../components/Page";
-import {Container} from "../components/Container";
-import {Card, CardDetail, CardGraphic} from "../components/Card";
+import Layout from '../components/Layout';
+import styled from '@emotion/styled';
+import { Grid } from '@theme-ui/components';
+import { useEffect, useRef, useState } from 'react';
+import MetaContent from '../components/Page/metaContent';
+import { Container } from '../components/Container';
+import { Card, CardDetail, CardGraphic } from '../components/Card';
 import {
   filterOptionsByName,
-  filterMetadataByOption,
-} from "../utils/filter-data";
+  filterMetadataByOption
+} from '../utils/filter-data';
 import {
   getChapterDirectory,
   getProductDirectory,
-  isProductRoot,
-} from "../utils/getLocalDirectory";
+  isProductRoot
+} from '../utils/getLocalDirectory';
 
 const H3 = styled.h3`
   margin-top: 0.375rem;
@@ -28,32 +28,33 @@ function ChooseFilterPage({
   address,
   filterKind,
   filters = [],
-  currentFilter = "all",
-  message = "",
+  currentFilter = 'all',
+  message = ''
 }) {
   // "url" cannot be a CFP prop for legacy reasons
   let url = address;
-  const [_, setHref] = useState("https://docs.amplify.aws");
+  const [_, setHref] = useState('https://docs.amplify.aws');
   const [menuIsOpen, setMenuIsOpen] = useState(false);
+  const footerRef = useRef(null);
 
   useEffect(() => {
     setHref(window.location.href);
   }, []);
 
-  url = url.split("/q/")[0];
+  url = url.split('/q/')[0];
 
-  let title = "",
-    chapterTitle = "";
+  let title = '',
+    chapterTitle = '';
   if (isProductRoot(url)) {
     title = (getProductDirectory(url) as {
-      productRoot: {title: string};
+      productRoot: { title: string };
     }).productRoot.title;
   } else {
     const chapterDirectory = getChapterDirectory(url);
-    if (typeof chapterDirectory !== "undefined") {
-      const {title: cTitle, items} = chapterDirectory as {
+    if (typeof chapterDirectory !== 'undefined') {
+      const { title: cTitle, items } = chapterDirectory as {
         title: string;
-        items: {route: string; title: string}[];
+        items: { route: string; title: string }[];
       };
       chapterTitle = cTitle;
       for (const item of items) {
@@ -73,7 +74,7 @@ function ChooseFilterPage({
           columns={[1, null, null, 4]}
           gap={3}
           sx={{
-            marginTop: "1rem",
+            marginTop: '1rem'
           }}
         >
           {filters.map((filter) => (
@@ -83,7 +84,7 @@ function ChooseFilterPage({
               key={filter}
             >
               <CardGraphic
-                alt={filterMetadataByOption[filter].label + " icon"}
+                alt={filterMetadataByOption[filter].label + ' icon'}
                 src={filterMetadataByOption[filter].graphicURI}
               />
               <CardDetail>
@@ -95,28 +96,31 @@ function ChooseFilterPage({
       </section>
     </Container>
   );
-  const meta = {
-    title,
-    chapterTitle,
-    headers: [],
-    children,
-    filters: filters,
-    filterKey: currentFilter,
-    filterKind,
-    directoryPath,
-    url,
-    menuIsOpen,
-    setMenuIsOpen,
-  };
   return (
     <Layout
       meta={{
-        title,
-        chapterTitle: "",
-        description: `Selection page for ${title}`,
+        title:
+          chapterTitle === ''
+            ? `${title} - Choose a platform`
+            : `${chapterTitle} - ${title} - Choose a platform`,
+        chapterTitle: '',
+        description: `Selection page for ${title}`
       }}
+      ref={footerRef}
     >
-      {metaContent(meta)}
+      <MetaContent
+        title={title}
+        chapterTitle={chapterTitle}
+        headers={[]}
+        children={children}
+        filters={filters}
+        filterKey={currentFilter}
+        filterKind={filterKind}
+        url={url}
+        directoryPath={directoryPath}
+        parentPageLastUpdatedDate=""
+        footerRef={footerRef}
+      />
     </Layout>
   );
 }
