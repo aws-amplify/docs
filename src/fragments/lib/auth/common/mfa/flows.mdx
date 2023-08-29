@@ -128,7 +128,7 @@ and optionally set it as preferred so that subsequent logins default to using th
 if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") instanceof AWSCognitoAuthPlugin) {
             AWSCognitoAuthPlugin plugin = (AWSCognitoAuthPlugin) Amplify.Auth.getPlugin("awsCognitoAuthPlugin");
             plugin.updateMFAPreference(
-                    MFAPreference.Enabled.INSTANCE,
+                    MFAPreference.ENABLED,
                     null,
                     () -> Log.i("AuthQuickstart", "MFA preference updated successfully"),
                     e -> Log.e("AuthQuickstart", "Failed to update MFA preference.", e)
@@ -143,37 +143,12 @@ if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") instanceof AWSCognitoAuthPlug
 if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") is AWSCognitoAuthPlugin) {
     val plugin = Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as AWSCognitoAuthPlugin
     plugin.updateMFAPreference(
-        MFAPreference.Enabled,
+        MFAPreference.ENABLED,
         null,
-        {
-            Log.i(
-                "AuthQuickstart",
-                "MFA preference updated successfully"
-            )
-        }
-    ) { e: AuthException? ->
-        Log.e(
-            "AuthQuickstart",
-            "Failed to update MFA preference",
-            e
-        )
-    }
+        { Log.i( "AuthQuickstart", "MFA preference updated successfully") },
+        { e: AuthException? -> Log.e( "AuthQuickstart", "Failed to update MFA preference", e) }
+    )
 }
-```
-
-</Block>
-<Block name="RxJava">
-
-```java
-if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") instanceof AWSCognitoAuthPlugin) {
-            AWSCognitoAuthPlugin plugin = (AWSCognitoAuthPlugin) Amplify.Auth.getPlugin("awsCognitoAuthPlugin");
-            plugin.updateMFAPreference(
-                    MFAPreference.Enabled.INSTANCE,
-                    null,
-                    () -> Log.i("AuthQuickstart", "MFA preference updated successfully"),
-                    e -> Log.e("AuthQuickstart", "Failed to update MFA preference.", e)
-            );
-  }
 ```
 
 </Block>
@@ -283,7 +258,7 @@ if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") instanceof AWSCognitoAuthPlug
             AWSCognitoAuthPlugin plugin = (AWSCognitoAuthPlugin) Amplify.Auth.getPlugin("awsCognitoAuthPlugin");
             plugin.updateMFAPreference(
                     null,
-                    MFAPreference.Enabled.INSTANCE,
+                    MFAPreference.ENABLED,
                     () -> Log.i("AuthQuickstart", "MFA preference updated successfully"),
                     e -> Log.e("AuthQuickstart", "Failed to update MFA preference.", e)
             );
@@ -298,36 +273,11 @@ if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") is AWSCognitoAuthPlugin) {
     val plugin = Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as AWSCognitoAuthPlugin
     plugin.updateMFAPreference(
         null,
-        MFAPreference.Enabled,
-        {
-            Log.i(
-                "AuthQuickstart",
-                "MFA preference updated successfully"
-            )
-        }
-    ) { e: AuthException? ->
-        Log.e(
-            "AuthQuickstart",
-            "Failed to update MFA preference",
-            e
-        )
-    }
+        MFAPreference.ENABLED,
+        { Log.i("AuthQuickstart", "MFA preference updated successfully") },
+        { e: AuthException? -> Log.e("AuthQuickstart", "Failed to update MFA preference", e) }
+    )
 }
-```
-
-</Block>
-<Block name="RxJava">
-
-```java
-if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") instanceof AWSCognitoAuthPlugin) {
-            AWSCognitoAuthPlugin plugin = (AWSCognitoAuthPlugin) Amplify.Auth.getPlugin("awsCognitoAuthPlugin");
-            plugin.updateMFAPreference(
-                    null,
-                    MFAPreference.Enabled.INSTANCE,
-                    () -> Log.i("AuthQuickstart", "MFA preference updated successfully"),
-                    e -> Log.e("AuthQuickstart", "Failed to update MFA preference.", e)
-            );
-  }
 ```
 
 </Block>
@@ -427,7 +377,7 @@ if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") instanceof AWSCognitoAuthPlug
             AWSCognitoAuthPlugin plugin = (AWSCognitoAuthPlugin) Amplify.Auth.getPlugin("awsCognitoAuthPlugin");
             plugin.updateMFAPreference(
                     null,
-                    MFAPreference.Enabled.INSTANCE,
+                    MFAPreference.ENABLED,
                     () -> Log.i("AuthQuickstart", "MFA preference updated successfully"),
                     e -> Log.e("AuthQuickstart", "Failed to update MFA preference.", e)
             );
@@ -442,35 +392,10 @@ if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") is AWSCognitoAuthPlugin) {
     val plugin = Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as AWSCognitoAuthPlugin
     plugin.updateMFAPreference(
         null,
-        MFAPreference.Enabled,
-        {
-            Log.i(
-                "AuthQuickstart",
-                "MFA preference updated successfully"
-            )
-        }
-    ) { e: AuthException? ->
-        Log.e(
-            "AuthQuickstart",
-            "Failed to update MFA preference",
-            e
-        )
-    }
-}
-```
-
-</Block>
-<Block name="RxJava">
-
-```java
-if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") instanceof AWSCognitoAuthPlugin) {
-    AWSCognitoAuthPlugin plugin = (AWSCognitoAuthPlugin) Amplify.Auth.getPlugin("awsCognitoAuthPlugin");
-    plugin.updateMFAPreference(
-            null,
-            MFAPreference.Enabled.INSTANCE,
-            () -> Log.i("AuthQuickstart", "MFA preference updated successfully"),
-            e -> Log.e("AuthQuickstart", "Failed to update MFA preference.", e)
-    );
+        MFAPreference.ENABLED,
+        { Log.i("AuthQuickstart", "MFA preference updated successfully" ) },
+        { e: AuthException? -> Log.e("AuthQuickstart", "Failed to update MFA preference", e) }
+    )
 }
 ```
 
