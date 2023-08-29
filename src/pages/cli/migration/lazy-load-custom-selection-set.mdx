@@ -119,6 +119,12 @@ if case .success(let queriedPost) = response {
 ```
 The queried post allows you to lazy load the comments by calling `fetch()` and it will make a network request. 
 
+<Callout>
+
+For `@hasMany` includes, this will pull up to the first 1k results and will not include pagination support. In the above example, `comments.hasNextPage()` will always false, but may not accurately reflect what's actually in your backend database.
+
+</Callout>
+
 </Block>
 </BlockSwitcher>
 
