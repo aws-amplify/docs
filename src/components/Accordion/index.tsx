@@ -104,6 +104,7 @@ const Accordion: React.FC<AccordionProps> = ({
 
   const toggleAccordion = (e) => {
     e.preventDefault();
+
     const expander = docsExpander.current;
     // Close accordion
     if (expander?.hasAttribute('open')) {
