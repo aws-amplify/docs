@@ -28,9 +28,7 @@ Below is a high-level overview of the workflows for sign-up, sign-in, and sign-o
 
 ### Which Amazon Cognito attributes will you pass for sign-up?
 
-User attributes (e.g. username, email, etc.) are used to identify your users. These are set up when you configure your Cognito User Pool and cannot be renamed or deleted after they are added. You can use the Amplify CLI to add user attributes and visit the Amazon Cognito console. To add user attributes with the CLI, you can run the command `amplify add auth` for a new project, or use `amplify update auth` if you already have existing resources set up. Then, you can select `manual configuration` when prompted by the Amplify CLI.
-
-
+User attributes (e.g. username, email, etc.) are used to identify your users. These are set up when you configure your Cognito User Pool and cannot be renamed or deleted after they are added. You can use the Amplify CLI to add user attributes or visit the Amazon Cognito console. To add user attributes with the CLI, you can run the command `amplify add auth` for a new project, or use `amplify update auth` if you already have existing resources set up. Then, you can select `manual configuration` when prompted by the Amplify CLI.
 
 ```sh
 amplify update auth
@@ -190,23 +188,6 @@ function listenToAutoSignInEvent() {
 }
 
 ```
-
-### Custom Attributes
-
-To create a custom attribute during your sign-up process, add it to the attributes field of the `signUp` method prepended with `custom:`.
-
-```js
-Auth.signUp({
-  username,
-  password,
-  attributes: {
-    email,
-    'custom:favorite_flavor': 'Cookie Dough'  // custom attribute, not standard
-  }
-})
-```
-
-Amazon Cognito does not dynamically create custom attributes on sign up. In order to use a custom attribute, the attribute must be first [created in the user pool](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html). To open the User Pool to create custom attributes using the Amplify CLI, run `amplify console auth`. If you are not using the Amplify CLI, you can view the user pool by visiting the AWS console and opening the Amazon Cognito dashboard.
 
 ### Sign in
 
