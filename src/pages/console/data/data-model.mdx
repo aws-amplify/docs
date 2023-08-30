@@ -44,19 +44,21 @@ The experience for modeling data is the same in the sandbox and in Studio. With 
 ### DataStore and GraphQL
 When you save and deploy your data model, Amplify Studio generates a GraphQL API for you using AWS AppSync. By default, all data models built with Studio are provisioned as GraphQL APIs without DataStore - however, **Studio supports all Amplify GraphQL APIs, with and without DataStore**. 
 
-**[DataStore](/lib/datastore/getting-started)** is an on-device storage engine that automatically synchronizes data between your mobile and web apps and your database, enabling offline use. DataStore requires a **Conflict Resolution** method to function. 
-
-To enable/disable Conflict Resolution, or to change your Conflict Resolution settings, take the following steps:
-1. Navigate to **[Amplify Studio](/console/adminui/start/#log-into-the-amplify-console) > Data**
-2. Select **GraphQL API settings** at the top of the page
-3. Toggle Conflict Resolution off or on, or change your Conflict Resolution strategy
-4. Return to the Data Modeling screen and select **Save and Deploy**
+**[DataStore](/lib/datastore/getting-started)** is an on-device storage engine that automatically synchronizes data between your mobile and web apps and your database, enabling offline use. DataStore is automatically added to your API when you add a **Conflict Resolution** method. 
 
 <Callout warning>
 
 **IMPORTANT NOTE**: Changing your Conflict Resolution setting results is a **destructive data change**, and may result in inaccessible data. It's highly recommended that this setting only be changed on GraphQL APIs with **no data**. 
 
 </Callout>
+
+To enable/disable Conflict Resolution, or to change your Conflict Resolution settings, take the following steps:
+1. Navigate to **[Amplify Studio](/console/adminui/start/#log-into-the-amplify-console) > Data**
+2. Select **GraphQL API settings** at the top of the page
+![screenshot of the Data tab, highlighting the GraphQL API settings link](/images/console/conflict-resolution1.png)
+3. Toggle Conflict Resolution off or on, or change your Conflict Resolution strategy
+![screenshot of the GraphQL API settings, highlighting the Conflict Resolution switch, and dropdown with options](/images/console/conflict-resolution2.png)
+4. Return to the Data Modeling screen and select **Save and Deploy**
 
 ### Limitations
 Applications with Conflict Resolution disabled have some minor limitations:
