@@ -141,7 +141,7 @@ if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") instanceof AWSCognitoAuthPlug
 
 ```kotlin
 if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") is AWSCognitoAuthPlugin) {
-    val plugin = Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
+    val plugin = Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as AWSCognitoAuthPlugin
     plugin.updateMFAPreference(
         MFAPreference.ENABLED,
         null,
@@ -284,8 +284,8 @@ The TOTP code can be obtained from the user via a text field or any other means.
 import iosConfirmSignIn from "/src/fragments/lib/auth/ios/totp/confirm_sign_in.mdx";
 
 <Fragments fragments={{ios: iosConfirmSignIn}} />
-import androidConfirmSignIn from "/src/fragments/lib/auth/android/totp/confirm_sign_in.mdx";
 
+import androidConfirmSignIn from "/src/fragments/lib/auth/android/totp/confirm_sign_in.mdx";
 <Fragments fragments={{android: androidConfirmSignIn}} />
 
 <InlineFilter filters={['flutter']}>
@@ -331,7 +331,7 @@ if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") instanceof AWSCognitoAuthPlug
 
 ```kotlin
 if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") is AWSCognitoAuthPlugin) {
-    val plugin = Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
+    val plugin = Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as AWSCognitoAuthPlugin
     plugin.updateMFAPreference(
         null,
         MFAPreference.ENABLED,
@@ -476,7 +476,7 @@ if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") instanceof AWSCognitoAuthPlug
 
 ```kotlin
 if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") is AWSCognitoAuthPlugin) {
-    val plugin = Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
+    val plugin = Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as AWSCognitoAuthPlugin
     plugin.updateMFAPreference(
         null,
         MFAPreference.ENABLED,

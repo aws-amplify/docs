@@ -1,5 +1,6 @@
 <BlockSwitcher>
 <Block name="Java">
+
 ```java
 if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") instanceof AWSCognitoAuthPlugin) {
     AWSCognitoAuthPlugin plugin = (AWSCognitoAuthPlugin) Amplify.Auth.getPlugin("awsCognitoAuthPlugin");
@@ -11,8 +12,10 @@ if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") instanceof AWSCognitoAuthPlug
     );
 }
 ```
+
 </Block>
 <Block name="Kotlin - Callbacks">
+
 ```kotlin
 val cognitoAuthPlugin = Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
 cognitoAuthPlugin?.updateMFAPreference(
@@ -22,6 +25,7 @@ cognitoAuthPlugin?.updateMFAPreference(
     { Log.e("AuthQuickStart", "Failed to update MFA preference.", it) }
 )
 ```
+
 </Block>
 
 </BlockSwitcher>
