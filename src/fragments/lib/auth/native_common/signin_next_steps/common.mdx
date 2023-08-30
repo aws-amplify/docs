@@ -3,7 +3,7 @@ After a user has finished signup, they can proceed to sign in. Amplify Auth sign
 <Callout warning>
 <b>New enumeration values</b>
 
-When Amplify adds a new enumeration value (e.g., a new enum class entry or sealed class subtype in Kotlin, or a new enum value in Swift/Dart/Kotlin), it will publish a new minor version of the Amplify Library. Plugins that switch over enumeration values should include default handlers (an else branch in Kotlin or a default statement in Swift/Dart/Kotlin) to ensure that they are not impacted by new enumeration values. 
+When Amplify adds a new enumeration value (e.g., a new enum class entry or sealed class subtype in Kotlin, or a new enum value in Swift/Dart/Kotlin), it will publish a new minor version of the Amplify Library. Plugins that switch over enumeration values should include default handlers (an else branch in Kotlin or a default statement in Swift/Dart/Kotlin) to ensure that they are not impacted by new enumeration values.
 
 </Callout>
 
@@ -35,25 +35,125 @@ import flutter1 from "/src/fragments/lib/auth/flutter/signin_next_steps/20_confi
 
 ### Confirm signin with TOTP MFA
 
+If the next step is `confirmSignInWithTOTPCode`, you should prompt the user to enter the TOTP code from their associated authenticator app during set up. The code is a six-digit number that changes every 30 seconds. The user must enter the code before the 30-second window expires.
+
+After the user enters the code, your implementation must pass the value to Amplify Auth `confirmSignIn` API.
+
 import iosConfirmSignInTotpMFA from "/src/fragments/lib/auth/ios/signin_next_steps/80_confirm_totp_mfa.mdx";
 
 <Fragments fragments={{ios: iosConfirmSignInTotpMFA}} />
 
+<InlineFilter filters={['flutter']}>
+
+```dart
+Future<void> _handleSignInResult(SignInResult result) async {
+  switch (result.nextStep.signInStep) {
+    // ···
+    case AuthSignInStep.confirmSignInWithTotpMfaCode:
+      safePrint('Enter a one-time code from your registered authenticator app');
+    // ···
+  }
+}
+
+// Then, pass the TOTP code to `confirmSignIn`
+
+Future<void> confirmTotpUser(String totpCode) async {
+  try {
+    final result = await Amplify.Auth.confirmSignIn(
+      confirmationValue: totpCode,
+    );
+    return _handleSignInResult(result);
+  } on AuthException catch (e) {
+    safePrint('Error confirming TOTP code: ${e.message}');
+  }
+}
+```
+
+</InlineFilter>
+
 ### Continue signin with MFA Selection
 
-import iosContinueSignInWithMFASelectionIntro from "src/fragments/lib/auth/ios/signin_next_steps/90_continue_mfa_selection_intro.mdx";
-
-<Fragments fragments={{ios: iosContinueSignInWithMFASelectionIntro}} />
+If the next step is `continueSignInWithMFASelection`, the user must select the MFA method to use. Amplify Auth currently only supports SMS and TOTP as MFA methods. After the user selects an MFA method, your implementation must pass the selected MFA method to Amplify Auth using `confirmSignIn` API.
 
 import iosContinueSignInWithMFASelectionCode from "src/fragments/lib/auth/ios/signin_next_steps/91_continue_mfa_selection_code.mdx";
 
 <Fragments fragments={{ios: iosContinueSignInWithMFASelectionCode}} />
 
+<InlineFilter filters={['flutter']}>
+
+The MFA types which are currently supported by Amplify Auth are:
+ * `MfaType.sms`
+ * `MfaType.totp`
+
+```dart
+Future<void> _handleSignInResult(SignInResult result) async {
+  switch (result.nextStep.signInStep) {
+    // ···
+    case AuthSignInStep.continueSignInWithMfaSelection:
+      final allowedMfaTypes = result.nextStep.allowedMfaTypes!;
+      final selection = await _promptUserPreference(allowedMfaTypes);
+      return _handleMfaSelection(selection);
+    // ···
+  }
+}
+
+Future<MfaType> _promptUserPreference(Set<MfaType> allowedTypes) async {
+  // ···
+}
+
+Future<void> _handleMfaSelection(MfaType selection) async {
+  try {
+    final result = await Amplify.Auth.confirmSignIn(
+      confirmationValue: selection.confirmationValue,
+    );
+    return _handleSignInResult(result);
+  } on AuthException catch (e) {
+    safePrint('Error resending code: ${e.message}');
+  }
+}
+```
+
+</InlineFilter>
+
 ### Continue signin with TOTP Setup
+
+If the next step is `continueSignInWithTOTPSetup`, then the user must provide a TOTP code to complete the sign in process. The step returns an associated value of type `TOTPSetupDetails` which would be used for generating TOTP. `TOTPSetupDetails` provides a helper method called `getSetupURI` that can be used to generate a URI, which can be used by native password managers for TOTP association. For example. if the URI is used on Apple platforms, it will trigger the platform's native password manager to associate TOTP with the account. For more advanced use cases, `TOTPSetupDetails` also contains the `sharedSecret` that will be used to either generate a QR code or can be manually entered into an authenticator app.
+
+Once the authenticator app is set up, the user can generate a TOTP code and provide it to the library to complete the sign in process.
 
 import iosContinueSignInWithMFASetup from "src/fragments/lib/auth/ios/signin_next_steps/100_continue_mfa_setup.mdx";
 
 <Fragments fragments={{ios: iosContinueSignInWithMFASetup}} />
+
+<InlineFilter filters={['flutter']}>
+
+```dart
+Future<void> _handleSignInResult(SignInResult result) async {
+  switch (result.nextStep.signInStep) {
+    // ···
+    case AuthSignInStep.continueSignInWithTotpSetup:
+      final totpSetupDetails = result.nextStep.totpSetupDetails!;
+      final setupUri = totpSetupDetails.getSetupUri(appName: 'MyApp');
+      safePrint('Open URI to complete setup: $setupUri');
+    // ···
+  }
+}
+
+// Then, pass the TOTP code to `confirmSignIn`
+
+Future<void> confirmTotpUser(String totpCode) async {
+  try {
+    final result = await Amplify.Auth.confirmSignIn(
+      confirmationValue: totpCode,
+    );
+    return _handleSignInResult(result);
+  } on AuthException catch (e) {
+    safePrint('Error confirming TOTP code: ${e.message}');
+  }
+}
+```
+
+</InlineFilter>
 
 ### Confirm signin with custom challenge
 

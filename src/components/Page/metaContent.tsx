@@ -6,7 +6,7 @@ import { ContentStyle, ChapterTitleStyle } from './styles';
 import MobileMenuIcons from '../MobileMenuIcons';
 import { useRef, useState } from 'react';
 import { MQDesktop } from '../media';
-import FeedbackSticky from '../FeedbackSticky';
+import Feedback from '../Feedback';
 import LastUpdatedDatesProvider from '../LastUpdatedProvider';
 
 export default function MetaContent({
@@ -35,6 +35,7 @@ export default function MetaContent({
   footerRef: any;
 }) {
   const menuRef = useRef(null);
+  const feedbackRef = useRef(null);
   const buttonsRef = useRef(null);
   const contentsRef = useRef(null);
   const [menuIsOpen, setMenuIsOpen] = useState(false);
@@ -70,10 +71,10 @@ export default function MetaContent({
             </div>
             <CodeBlockProvider>
               {children}
+              <Feedback ref={feedbackRef} />
               <NextPrevious url={url} filterKey={filterKey} />
             </CodeBlockProvider>
           </div>
-          {onDesktop && <FeedbackSticky footerRef={footerRef} />}
         </ContentStyle>
         <TableOfContents
           title={title}

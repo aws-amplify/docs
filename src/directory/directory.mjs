@@ -180,12 +180,12 @@ export const directory = {
           {
             title: 'Working with files and attachments',
             route: '/lib/graphqlapi/working-with-files',
-            filters: ['js', 'ios', 'android']
+            filters: ['js', 'ios']
           },
           {
             title: 'Optimistic UI',
             route: '/lib/graphqlapi/optimistic-ui',
-            filters: ['js', 'ios', 'android']
+            filters: ['js', 'ios']
           },
           {
             title: 'Cancel API requests',
@@ -215,7 +215,7 @@ export const directory = {
           {
             title: 'Upgrade guide from AppSync SDK',
             route: '/lib/graphqlapi/upgrade-guide',
-            filters: ['js', 'ios', 'android']
+            filters: ['js', 'ios']
           }
         ]
       },
@@ -278,6 +278,11 @@ export const directory = {
             filters: ['js', 'react-native']
           },
           {
+            title: 'Multi-factor authentication',
+            route: '/lib/auth/mfa',
+            filters: ['js', 'react-native']
+          },
+          {
             title: 'Password & user management',
             route: '/lib/auth/manageusers',
             filters: ['js', 'react-native']
@@ -320,7 +325,7 @@ export const directory = {
           {
             title: 'Multi-factor authentication',
             route: '/lib/auth/mfa',
-            filters: ['ios','js', 'react-native','android']
+            filters: ['ios', 'flutter', 'android']
           },
           {
             title: 'SMS flows',

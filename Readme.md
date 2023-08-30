@@ -57,6 +57,25 @@ import js from "/src/fragments/lib/datastore/js/conflict.mdx";
 
 This fragment would exist in: `pages/src/fragments/lib/datastore/js/conflict.mdx`
 
+### Accordion 
+
+`Accordion` This single-use accordion hides peripheral content until the reader selects to expand the section. This helps you keep your pages focused on the need-to-know information upfront, while also providing readers an option to dive deeper when they choose. These accordions can provide peripheral content such as additional context for beginners, advanced deep dives for those who want to off-road, and troubleshooting guidance for errors users may encounter.
+
+Here is an example of its usage:
+
+````md
+<Accordion title='Review recommended accordion usage' headingLevel='4' eyebrow='Learn more'>
+
+- Title – Make your title descriptive to help readers know what the accordion contains before they click.
+- Heading Level – Keep the heading level consistent with your page hierarchy.
+- Eyebrow – Update this text to reflect the purpose of the accordion. We recommend:
+    - Learn more – used to add additional context that is not needed upfront but is useful for users to review when they choose.
+    - Troubleshooting – used when adding details to troubleshoot specific errors within context.
+    - Walkthrough – used when adding a step-by-step example for those who need more direct guidance.
+
+</Accordion>
+````
+
 ### Tab-switchable Blocks
 
 `BlockSwitcher` allows you to organize blocks of content into tabs. This is useful for presenting a reader different instructions based upon framework (e.g., Vue.js vs. React) or language (e.g., Java vs. Kotlin). Here's an example of its usage:
