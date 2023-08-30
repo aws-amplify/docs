@@ -17,8 +17,8 @@ export function traverseHeadings(tree, filterKey: string): string[] {
         // "all" includes every filterKey, so recurse
         const fragmentFunction = node.props.fragments.all;
         const fragment = fragmentFunction([]); // expand function into full tree
+
         headings = headings.concat(traverseHeadings(fragment, filterKey));
-        // console.log('after', headings);
       }
     } else if ("filters" in node.props) {
       // Recurse on the inline filters if the filter keys match
