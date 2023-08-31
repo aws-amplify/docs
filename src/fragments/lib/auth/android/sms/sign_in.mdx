@@ -1,0 +1,83 @@
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.signIn(
+    "username",
+    "password",
+    result -> {
+        if (result.getNextStep().getSignInStep() == AuthSignInStep.CONFIRM_SIGN_IN_WITH_SMS_MFA_CODE &&
+            result.getNextStep().getCodeDeliveryDetails() != null) {
+            String destination = result.getNextStep().getCodeDeliveryDetails().getDestination();
+            Log.d("SignIn", "SMS code sent to "+ destination);
+            Log.d("SignIn", "Additional Info" + result.getNextStep().getAdditionalInfo());
+
+            // Prompt the user to enter the SMSMFA code they received
+            // Then invoke `confirmSignIn` api with the code
+        }
+    },
+    error -> Log.e("AuthQuickstart", error.toString())
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.signIn("username", "password",
+    { result ->
+        if (result.nextStep.signInStep == AuthSignInStep.CONFIRM_SIGN_IN_WITH_SMS_MFA_CODE) {
+        val destination = result.nextStep.codeDeliveryDetails?.destination
+        Log.d("SignIn", "SMS code sent to $destination")
+        Log.d("SignIn", "Additional Info $result.nextStep.additionalInfo")
+
+        // Prompt the user to enter the SMSMFA code they received
+        // Then invoke `confirmSignIn` api with the code
+        }
+    },
+    { Log.e("AuthQuickstart", "Failed to sign in", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val result = Amplify.Auth.signIn("username", "password")
+    if (result.nextStep.signInStep == AuthSignInStep.CONTINUE_SIGN_IN_WITH_TOTP_SETUP) {
+        val destination = result.nextStep.codeDeliveryDetails?.destination
+        Log.d("SignIn", "SMS code sent to $destination")
+        Log.d("SignIn", "Additional Info $result.nextStep.additionalInfo")
+
+        // Prompt the user to enter the SMSMFA code they received
+        // Then invoke `confirmSignIn` api with the code
+    }
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Sign in failed", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.signIn("username", "password")
+    .subscribe(
+        result -> {
+            if (result.getNextStep().getSignInStep() == AuthSignInStep.CONTINUE_SIGN_IN_WITH_TOTP_SETUP &&
+                result.getNextStep().getCodeDeliveryDetails() != null) {
+                String destination = result.getNextStep().getCodeDeliveryDetails().getDestination();
+                Log.d("SignIn", "SMS code sent to " + destination);
+                Log.d("SignIn", "Additional Info " + result.getNextStep().getAdditionalInfo());
+
+                // Prompt the user to enter the SMSMFA code they received
+                // Then invoke `confirmSignIn` api with the code
+            }
+        },
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+```
+
+</Block>
+</BlockSwitcher>

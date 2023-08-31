@@ -142,6 +142,11 @@ import iosSignUp from "/src/fragments/lib/auth/ios/sms/sign_up.mdx";
 
 <Fragments fragments={{ios: iosSignUp}} />
 
+import androidSignUp from "/src/fragments/lib/auth/android/sms/sign_up.mdx";
+
+<Fragments fragments={{android: androidSignUp}} />
+
+
 Verification of user accounts is done via the `confirmSignUp` method with the OTP sent to their phone or email.
 
 import flutter7 from "/src/fragments/lib/auth/flutter/sms/confirm_sign_up.mdx";
@@ -151,6 +156,10 @@ import flutter7 from "/src/fragments/lib/auth/flutter/sms/confirm_sign_up.mdx";
 import iosConfirmSignUp from "/src/fragments/lib/auth/ios/sms/confirm_sign_up.mdx";
 
 <Fragments fragments={{ios: iosConfirmSignUp}} />
+
+import androidConfirmSignUp from "/src/fragments/lib/auth/android/sms/confirm_sign_up.mdx";
+
+<Fragments fragments={{android: androidConfirmSignUp}} />
 
 ## Sign In
 
@@ -164,6 +173,10 @@ import iosSignIn from "/src/fragments/lib/auth/ios/sms/sign_in.mdx";
 
 <Fragments fragments={{ios: iosSignIn}} />
 
+import androidSignIn from "/src/fragments/lib/auth/android/sms/sign_in.mdx";
+
+<Fragments fragments={{android: androidSignIn}} />
+
 If MFA is **ON** or enabled for the user, you must call `confirmSignIn` with the OTP sent to their phone.
 
 import flutter9 from "/src/fragments/lib/auth/flutter/sms/confirm_sign_in.mdx";
@@ -173,3 +186,7 @@ import flutter9 from "/src/fragments/lib/auth/flutter/sms/confirm_sign_in.mdx";
 import iosConfirmSignIn from "/src/fragments/lib/auth/ios/sms/confirm_sign_in.mdx";
 
 <Fragments fragments={{ios: iosConfirmSignIn}} />
+
+import androidConfirmSignIn from "/src/fragments/lib/auth/android/sms/confirm_sign_in.mdx";
+
+<Fragments fragments={{android: androidConfirmSignIn}} />
