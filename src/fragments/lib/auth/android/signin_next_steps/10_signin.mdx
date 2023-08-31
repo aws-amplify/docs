@@ -145,6 +145,23 @@ try {
     )
     val nextStep = result.nextStep
     when (nextStep.signInStep) {
+        AuthSignInStep.CONFIRM_SIGN_IN_WITH_TOTP_CODE -> {
+            Log.i("AuthQuickstart", "Received next step as confirm sign in with TOTP code")
+            // Prompt the user to enter the TOTP code generated in their authenticator app
+            // Then invoke `confirmSignIn` api with the code
+        }
+        AuthSignInStep.CONTINUE_SIGN_IN_WITH_TOTP_SETUP -> {
+            Log.i("AuthQuickstart", "Received next step as continue sign in by setting up TOTP")
+            Log.i("AuthQuickstart", "Shared secret that will be used to set up TOTP in the authenticator app ${nextStep.totpSetupDetails.sharedSecret}")
+            // Prompt the user to enter the TOTP code generated in their authenticator app
+            // Then invoke `confirmSignIn` api with the code
+        }
+        AuthSignInStep.CONTINUE_SIGN_IN_WITH_MFA_SELECTION -> {
+            Log.i("AuthQuickstart", "Received next step as continue sign in by selecting MFA type")
+            Log.i("AuthQuickstart", "Allowed MFA types ${nextStep.allowedMFATypes}")
+            // Prompt the user to select the MFA type they want to use
+            // Then invoke `confirmSignIn` api with the MFA type
+        }
         AuthSignInStep.CONFIRM_SIGN_IN_WITH_SMS_MFA_CODE -> {
             Log.i("AuthQuickstart", "SMS code sent to ${nextStep.codeDeliveryDetails?.destination}")
             Log.i("AuthQuickstart", "Additional Info ${nextStep.additionalInfo}")
