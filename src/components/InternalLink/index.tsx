@@ -1,11 +1,13 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { parseLocalStorage } from '../../utils/parseLocalStorage';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { PageContext } from '../Page';
 
 export default function InternalLink({ href, children }) {
   const [url, setUrl] = useState(href);
   const router = useRouter();
+  const filterKeys = useContext(PageContext);
 
   useEffect(() => {
     let filterKind = '';
@@ -22,10 +24,13 @@ export default function InternalLink({ href, children }) {
     } else if (href.startsWith('/start')) {
       filterKind = 'integration';
     }
+    if (href === '/lib') {
+      console.log('lib found');
+    }
 
     if (filterKind != '') {
       if (!href.includes(`/q/${filterKind}/`)) {
-        const filterKeys = parseLocalStorage('filterKeys', {});
+        // const filterKeys = parseLocalStorage('filterKeys', {});
         if (filterKind in filterKeys) {
           const filterKey = filterKeys[filterKind];
           if (href.includes('#')) {

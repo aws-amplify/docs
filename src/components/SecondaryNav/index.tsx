@@ -17,17 +17,19 @@ import InternalLink from '../InternalLink';
 import { useRouter } from 'next/router';
 import { Container } from '../Container';
 import { parseLocalStorage } from '../../utils/parseLocalStorage';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { PageContext } from '../Page';
 
 import SearchBar from '../SearchBar';
 
 export default function SecondaryNav() {
+  const filterKeys = useContext(PageContext);
   const router = useRouter();
   const path = router.asPath;
-  const [filterKeys, setFilterKeys] = useState([]);
-  useEffect(() => {
-    setFilterKeys(parseLocalStorage('filterKeys', {}));
-  }, []);
+  // const [filterKeys, setFilterKeys] = useState([]);
+  // useEffect(() => {
+  //   setFilterKeys(parseLocalStorage('filterKeys', {}));
+  // }, []);
 
   return (
     <HostStyle>

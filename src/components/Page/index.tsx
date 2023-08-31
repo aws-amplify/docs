@@ -7,7 +7,7 @@ import {
   getChapterDirectory,
   isProductRoot
 } from '../../utils/getLocalDirectory';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, createContext } from 'react';
 import {
   filterMetadataByOption,
   SelectedFilters
@@ -19,6 +19,8 @@ import { withFilterOverrides } from '../../utils/withFilterOverrides';
 export type MdxFrontmatterType = {
   lastUpdated: string;
 };
+
+export const PageContext = createContext({});
 
 export default function Page({
   children,
@@ -123,7 +125,7 @@ export default function Page({
   }
 
   return (
-    <>
+    <PageContext.Provider value={filterKeys}>
       <Layout
         meta={meta}
         filterKey={filterKey}
@@ -148,6 +150,6 @@ export default function Page({
           children
         )}
       </Layout>
-    </>
+    </PageContext.Provider>
   );
 }
