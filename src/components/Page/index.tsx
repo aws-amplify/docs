@@ -32,12 +32,11 @@ export default function Page({
   const footerRef = useRef(null);
   const router = useRouter();
   const [filterKeysLoaded, setFilterKeysLoaded] = useState({});
-  const [isMounted, setIsMounted] = useState(false);
+
+  console.log('in page');
 
   useEffect(() => {
     setFilterKeysLoaded(parseLocalStorage('filterKeys', {} as SelectedFilters));
-
-    setIsMounted(true);
   }, []);
 
   let url = router.asPath;
@@ -82,10 +81,20 @@ export default function Page({
     ...overrides
   };
 
+  console.log(filterKeys);
+
   useEffect(() => {
-    localStorage.setItem('filterKeys', JSON.stringify(filterKeys));
-  }, []);
-  if (filters.length !== 0 && !filters.includes(filterKey) && meta) {
+    if (Object.keys(filterKeys).length !== 0) {
+      console.log(`setting filterKeys ${JSON.stringify(filterKeys)}`);
+      localStorage.setItem('filterKeys', JSON.stringify(filterKeys));
+    }
+  }, [filterKeys]);
+  if (
+    filterKey &&
+    filters.length !== 0 &&
+    !filters.includes(filterKey) &&
+    meta
+  ) {
     return (
       <ChooseFilterPage
         directoryPath="/ChooseFilterPage"
@@ -93,7 +102,7 @@ export default function Page({
         filterKind={filterKind}
         filters={filters}
         currentFilter={filterKey}
-        message={`${filterMetadataByOption[filterKey].label} is not supported on this page.  Please select one of the following:`}
+        message={`${filterMetadataByOption[filterKey]?.label} is not supported on this page.  Please select one of the following:`}
       />
     );
   }

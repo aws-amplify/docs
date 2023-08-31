@@ -26,10 +26,6 @@ function TableOfContents({ children, title, buttonsRef }, ref) {
   const MQDesktopJS = MQDesktop.substring(6);
   const [onDesktop, setOnDesktop] = useState(false);
 
-  if (children.length === 0) {
-    return <></>;
-  }
-
   useEffect(() => {
     setOnDesktop(
       typeof window === 'undefined'
@@ -158,7 +154,7 @@ function TableOfContents({ children, title, buttonsRef }, ref) {
     }
   };
 
-  return (
+  return children.length ? (
     <TOCStyle id="toc" ref={ref}>
       <TOCInnerStyle>
         {!onDesktop && (
@@ -183,6 +179,8 @@ function TableOfContents({ children, title, buttonsRef }, ref) {
         })}
       </TOCInnerStyle>
     </TOCStyle>
+  ) : (
+    <></>
   );
 }
 
