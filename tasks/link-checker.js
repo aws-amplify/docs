@@ -45,7 +45,7 @@ const getSitemapUrls = async () => {
 const retrieveLinks = async (siteMapUrls, visitedLinks) => {
   let browser = await puppeteer.launch({ headless: 'new' });
 
-  const page = await browser.newPage();
+  let page = await browser.newPage();
 
   const urlsToVisit = [];
 
@@ -84,6 +84,9 @@ const retrieveLinks = async (siteMapUrls, visitedLinks) => {
       }
     } catch (e) {
       console.log(`failed to load ${url}: ${e}`);
+      browser.close();
+      browser = await puppeteer.launch({ headless: 'new' });
+      page = await browser.newPage();
     }
   }
 
