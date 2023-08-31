@@ -18,7 +18,7 @@ if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") instanceof AWSCognitoAuthPlug
 
 ```kotlin
 if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") is AWSCognitoAuthPlugin) {
-    val plugin = Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as AWSCognitoAuthPlugin
+    val plugin = Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
     plugin.updateMFAPreference(
         MFAPreference.ENABLED,
         null,
