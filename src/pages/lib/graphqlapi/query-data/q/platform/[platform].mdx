@@ -84,38 +84,6 @@ const oneTodo = await API.graphql({
 
 </BlockSwitcher>
 
-You can optionally import the `graphqlOperation` helper function to help you construct this argument object:
-
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-import { API, graphqlOperation } from 'aws-amplify';
-import { GraphQLQuery } from '@aws-amplify/api';
-import { GetTodoQuery } from './API';
-// ...
-
-const oneTodo = await API.graphql<GraphQLQuery<GetTodoQuery>>(
-  graphqlOperation(queries.getTodo, { id: 'some id' })
-);
-```
-
-</Block>
-
-<Block name="JavaScript">
-
-```js
-import { API, graphqlOperation } from 'aws-amplify';
-// ...
-
-const oneTodo = await API.graphql(
-  graphqlOperation(queries.getTodo, { id: 'some id' })
-);
-```
-
-</Block>
-</BlockSwitcher>
-
 <Accordion title='Troubleshooting deny-by-default behavior' headingLevel='4' eyebrow='Troubleshooting'>
 
 You can run into unauthorized errors if you do not have at least one auth rule defined. 
@@ -548,7 +516,7 @@ __Limitations:__
 You may cancel any query or mutation request made through the API category by keeping a reference to the promise returned.
 
 ```javascript
-const promise = API.graphql(graphqlOperation(...));
+const promise = API.graphql({ query: "..." });
 
 try {
   await promise;
@@ -571,7 +539,7 @@ You need to ensure that the promise returned from `API.graphql()` has not been m
 
 ```javascript
 async function makeAPICall() {
-  return API.graphql(graphqlOperation(...));
+  return API.graphql({ query: "..." });
 }
 const promise = makeAPICall();
 
