@@ -30,7 +30,6 @@ export default function SecondaryNav() {
   // useEffect(() => {
   //   setFilterKeys(parseLocalStorage('filterKeys', {}));
   // }, []);
-
   return (
     <HostStyle>
       <Container>

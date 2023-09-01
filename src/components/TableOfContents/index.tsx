@@ -26,28 +26,24 @@ function TableOfContents({ children, title, buttonsRef }, ref) {
   const MQDesktopJS = MQDesktop.substring(6);
   const [onDesktop, setOnDesktop] = useState(false);
 
+  let headers = [];
+  let headerQueries = [];
+  let activeLink = 0;
+  let previousLink = -1;
   useEffect(() => {
     setOnDesktop(
       typeof window === 'undefined'
         ? false
         : window.matchMedia(MQDesktopJS).matches
     );
-  }, []);
 
-  useEffect(() => {
     window.onload = (_) => {
       if (window.location.href.includes('#')) {
         const hash = window.location.href.split('#')[1];
         scroll(hash);
       }
     };
-  }, []);
 
-  let headers = [];
-  let headerQueries = [];
-  let activeLink = 0;
-  let previousLink = -1;
-  useEffect(() => {
     const idSet = new Set();
     const pageHeadings = document.querySelectorAll('a > h2, a > h3');
     const headings = [];
@@ -60,7 +56,6 @@ function TableOfContents({ children, title, buttonsRef }, ref) {
         headings.push(heading);
       }
     });
-    // console.log(document.getElementById('toc')?.querySelectorAll('a'))
     const headings2 = document.getElementById('toc')?.querySelectorAll('a');
     for (let i = 0; i < headings.length; ++i) {
       const id = headings[i].id;

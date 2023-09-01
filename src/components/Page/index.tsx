@@ -35,8 +35,6 @@ export default function Page({
   const router = useRouter();
   const [filterKeysLoaded, setFilterKeysLoaded] = useState({});
 
-  console.log('in page');
-
   useEffect(() => {
     setFilterKeysLoaded(parseLocalStorage('filterKeys', {} as SelectedFilters));
   }, []);
@@ -83,11 +81,8 @@ export default function Page({
     ...overrides
   };
 
-  console.log(filterKeys);
-
   useEffect(() => {
     if (Object.keys(filterKeys).length !== 0) {
-      console.log(`setting filterKeys ${JSON.stringify(filterKeys)}`);
       localStorage.setItem('filterKeys', JSON.stringify(filterKeys));
     }
   }, [filterKeys]);
