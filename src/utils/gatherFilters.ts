@@ -33,10 +33,7 @@ const treeHasAgnosticContent = function(tree): boolean {
 };
 
 const addFilters = function(filters, newFilters) {
-  if(!newFilters || typeof newFilters[Symbol.iterator] !== 'function'){
-    console.log(newFilters);
-    return;
-  }
+  if(!newFilters || typeof newFilters[Symbol.iterator] !== 'function') return;
   for (const filter of newFilters) {
     if (!filters.includes(filter)) filters.push(filter);
   }
