@@ -75,38 +75,6 @@ __Note:__ You do not have to pass in the `createdAt` field. Amplify manages this
 
 </Callout>
 
-You can also import the `graphqlOperation` helper function to help you construct the argument object:
-
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-// ...
-import { API, graphqlOperation } from 'aws-amplify';
-
-// equivalent to above example
-const newTodo = await API.graphql<GraphQLQuery<CreateTodoMutation>>(
-  graphqlOperation(mutations.createTodo, { input: todoDetails })
-);
-```
-
-</Block>
-
-<Block name="JavaScript">
-
-```js
-// ...
-import { API, graphqlOperation } from 'aws-amplify';
-
-// equivalent to above example
-const newTodo = await API.graphql(
-  graphqlOperation(mutations.createTodo, { input: todoDetails })
-);
-```
-
-</Block>
-</BlockSwitcher>
-
 </InlineFilter>
 
 <InlineFilter filters={["ios"]}>
@@ -529,7 +497,7 @@ Future<void> deleteTodoById(Todo todoToDelete) async {
 You can cancel any GraphQL API request calling `.cancel` on the GraphQL request promise that's returned by `API.graphql(...)`.
 
 ```javascript
-const promise = API.graphql(graphqlOperation(...));
+const promise = API.graphql({ query: "..." });
 
 try {
   await promise;
@@ -552,7 +520,7 @@ You need to ensure that the promise returned from `API.graphql()` has not been m
 
 ```javascript
 async function makeAPICall() {
-  return API.graphql(graphqlOperation(...));
+  return API.graphql({ query: "..." });
 }
 const promise = makeAPICall();
 
