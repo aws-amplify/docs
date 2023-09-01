@@ -1,0 +1,98 @@
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.signIn(
+    "username",
+    "password",
+    result -> {
+        if (result.getNextStep().getSignInStep() == AuthSignInStep.CONTINUE_SIGN_IN_WITH_TOTP_SETUP &&
+            result.getNextStep().getTotpSetupDetails() != null) {
+            Log.d("SignIn", "Received next step as continue sign in by setting up TOTP");
+            Log.d("SignIn", "Shared Secret is" + result.getNextStep().getTotpSetupDetails().getSharedSecret());
+            // appName parameter will help distinguish the account in the Authenticator app
+            Uri setupURI = result.getNextStep().getTotpSetupDetails().getSetupURI("<Your_App_Name>");
+
+            Log.d("SignIn", "TOTP Setup URI: " + setupURI);
+
+            // Prompt the user to enter the TOTP code generated in their authenticator app
+            // Then invoke `confirmSignIn` api with the code
+        }
+    },
+    error -> Log.e("SignIn", error.toString())
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.signIn(
+    "username", 
+    "password",
+    { result ->
+        if (result.nextStep.signInStep == AuthSignInStep.CONTINUE_SIGN_IN_WITH_TOTP_SETUP) {
+            Log.d("SignIn", "Received next step as continue sign in by setting up TOTP")
+            Log.d("SignIn", "Shared Secret is" + result.nextStep.totpSetupDetails?.sharedSecret)
+            // appName parameter will help distinguish the account in the Authenticator app
+            val setupURI = result.nextStep.totpSetupDetails?.getSetupURI("<Your_App_Name>>")
+
+            Log.d("SignIn", "TOTP Setup URI: $setupURI")
+
+            // Prompt the user to enter the TOTP code generated in their authenticator app
+            // Then invoke `confirmSignIn` api with the code
+        }
+    },
+    { Log.e("AuthQuickstart", "Failed to sign in", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val result = Amplify.Auth.signIn("username", "password")
+    if (result.nextStep.signInStep == AuthSignInStep.CONTINUE_SIGN_IN_WITH_TOTP_SETUP) {
+        Log.d("SignIn", "Received next step as continue sign in by setting up TOTP")
+        Log.d("SignIn", "Shared Secret is" + result.nextStep.totpSetupDetails?.sharedSecret)
+        // appName parameter will help distinguish the account in the Authenticator app
+        val setupURI = result.nextStep.totpSetupDetails?.getSetupURI("<Your_App_Name>>")
+
+        Log.d("SignIn", "TOTP Setup URI: $setupURI");
+
+        // Prompt the user to enter the TOTP code generated in their authenticator app
+        // Then invoke `confirmSignIn` api with the code
+    }
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Sign in failed", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.signIn("username", "password")
+    .subscribe(
+        result -> {
+            if (result.getNextStep().getSignInStep() == AuthSignInStep.CONTINUE_SIGN_IN_WITH_TOTP_SETUP &&
+                    result.getNextStep().getTotpSetupDetails() != null
+            ) {
+                Log.d("SignIn", "Received next step as continue sign in by setting up TOTP");
+                Log.d("SignIn", "Shared Secret is" + result.getNextStep().getTotpSetupDetails().getSharedSecret());
+                // appName parameter will help distinguish the account in the Authenticator app
+                Uri setupURI = result.getNextStep().getTotpSetupDetails().getSetupURI("<Your_App_Name>");
+
+                Log.d("SignIn", "TOTP Setup URI: " + setupURI);
+
+                // Prompt the user to enter the TOTP code generated in their authenticator app
+                // Then invoke `confirmSignIn` api with the code
+            }
+        },
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+```
+
+</Block>
+</BlockSwitcher>

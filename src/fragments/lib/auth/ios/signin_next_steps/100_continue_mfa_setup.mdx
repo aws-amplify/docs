@@ -1,0 +1,66 @@
+```swift 
+// Confirm sign in with TOTP setup
+case .continueSignInWithTOTPSetup(let setUpDetails):
+    
+    /// appName parameter will help distinguish the account in the Authenticator app
+    let setupURI = try setUpDetails.getSetupURI(appName: "<Your_App_Name>>") 
+    
+    print("TOTP Setup URI: \(setupURI)")
+```
+
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+func confirmSignInWithTOTPSetup(totpCodeFromAuthenticatorApp: String) async {
+    do {
+        let signInResult = try await Amplify.Auth.confirmSignIn(
+            challengeResponse: totpCodeFromAuthenticatorApp)
+
+         if signInResult.isSignedIn {
+            print("Confirm sign in succeeded. The user is signed in.")
+        } else {
+            print("Confirm sign in succeeded.")
+            print("Next step: \(signInResult.nextStep)")
+            // Switch on the next step to take appropriate actions. 
+            // If `signInResult.isSignedIn` is true, the next step 
+            // is 'done', and the user is now signed in.
+        }
+    } catch {
+        print("Confirm sign in failed \(error)")
+    }
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+func confirmSignInWithTOTPSetup(totpCodeFromAuthenticatorApp: String) -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.confirmSignIn(
+            challengeResponse: totpCodeFromAuthenticatorApp)
+        }.sink {
+            if case let .failure(authError) = $0 {
+                print("Confirm sign in failed \(authError)")
+            }
+        }
+        receiveValue: { signInResult in
+            if signInResult.isSignedIn {
+                print("Confirm sign in succeeded. The user is signed in.")
+            } else {
+                print("Confirm sign in succeeded.")
+                print("Next step: \(signInResult.nextStep)")
+                // Switch on the next step to take appropriate actions. 
+                // If `signInResult.isSignedIn` is true, the next step 
+                // is 'done', and the user is now signed in.
+            }
+        }
+}
+```
+
+</Block>
+
+</BlockSwitcher>
