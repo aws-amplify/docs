@@ -23,14 +23,14 @@ Subscriptions is a GraphQL feature that allows the server to send data to its cl
 <Block name="TypeScript">
 
 ```ts
-import { Amplify, API, graphqlOperation } from 'aws-amplify';
+import { Amplify, API } from 'aws-amplify';
 import { GraphQLSubscription } from '@aws-amplify/api';
 import * as subscriptions from './graphql/subscriptions';
 import { OnCreateTodoSubscription,OnUpdateTodoSubscription,OnDeleteTodoSubscription } from './API';
 
 // Subscribe to creation of Todo
 const sub = API.graphql<GraphQLSubscription<OnCreateTodoSubscription>>(
-  graphqlOperation(subscriptions.onCreateTodo)
+  { query: subscriptions.onCreateTodo }
 ).subscribe({
   next: ({ provider, value }) => console.log({ provider, value }),
   error: (error) => console.warn(error)
@@ -38,7 +38,7 @@ const sub = API.graphql<GraphQLSubscription<OnCreateTodoSubscription>>(
 
 // Subscribe to update of Todo
 const updateSub = API.graphql<GraphQLSubscription<OnUpdateTodoSubscription>>(
-  graphqlOperation(subscriptions.onUpdateTodo)
+  { query: subscriptions.onUpdateTodo }
 ).subscribe({
   next: ({ provider, value }) => console.log({ provider, value }),
   error: (error) => console.warn(error)
@@ -46,7 +46,7 @@ const updateSub = API.graphql<GraphQLSubscription<OnUpdateTodoSubscription>>(
 
 // Subscribe to deletion of Todo
 const deleteSub = API.graphql<GraphQLSubscription<OnDeleteTodoSubscription>>(
-  graphqlOperation(subscriptions.onDeleteTodo)
+  { query: subscriptions.onDeleteTodo }
 ).subscribe({
   next: ({ provider, value }) => console.log({ provider, value }),
   error: (error) => console.warn(error)
@@ -60,12 +60,12 @@ sub.unsubscribe();
 <Block name="JavaScript">
 
 ```js
-import { Amplify, API, graphqlOperation } from 'aws-amplify';
+import { Amplify, API } from 'aws-amplify';
 import * as subscriptions from './graphql/subscriptions';
 
 // Subscribe to creation of Todo
 const sub = API.graphql(
-  graphqlOperation(subscriptions.onCreateTodo)
+  { query: subscriptions.onCreateTodo }
 ).subscribe({
   next: ({ provider, value }) => console.log({ provider, value }),
   error: (error) => console.warn(error)
@@ -73,7 +73,7 @@ const sub = API.graphql(
 
 // Subscribe to update of Todo
 const updateSub = API.graphql(
-   graphqlOperation(subscriptions.onUpdateTodo)
+   { query: subscriptions.onUpdateTodo }
   ).subscribe({
     next: ({ provider, value }) => console.log({ provider, value }),
     error: (error) => console.warn(error)
@@ -81,7 +81,7 @@ const updateSub = API.graphql(
 
 // Subscribe to deletion of Todo
 const deleteSub = API.graphql(
-  graphqlOperation(subscriptions.onDeleteTodo)
+  { query: subscriptions.onDeleteTodo }
 ).subscribe({
   next: ({ provider, value }) => console.log({ provider, value }),
   error: (error) => console.warn(error)
@@ -132,7 +132,7 @@ const variables: OnCreateTodoSubscriptionVariables = {
 }
 
 const sub = API.graphql<GraphQLSubscription<OnCreateTodoSubscription>>(
-  graphqlOperation(subscriptions.onCreateTodo, variables)
+  { query: subscriptions.onCreateTodo, variables }
 ).subscribe({
   next: ({ provider, value }) => console.log({ provider, value }),
   error: error => console.warn(error)
@@ -154,7 +154,7 @@ const variables = {
 }
 
 const sub = API.graphql(
-  graphqlOperation(subscriptions.onCreateTodo, variables)
+  { query: subscriptions.onCreateTodo, variables }
 ).subscribe({
   next: ({ provider, value }) => console.log({ provider, value }),
   error: error => console.warn(error)
@@ -247,19 +247,19 @@ Hub.listen("api", (data: any) => {
 });
 
 const createSub = API.graphql<GraphQLSubscription<OnCreateTodoSubscription>>(
-  graphqlOperation(subscriptions.onCreateTodo)
+  { query: subscriptions.onCreateTodo }
 ).subscribe({
   next: data => // Process incoming messages
 });
 
 const updateSub = API.graphql<GraphQLSubscription<OnUpdateTodoSubscription>>(
-  graphqlOperation(subscriptions.onUpdateTodo)
+  { query: subscriptions.onUpdateTodo }
 ).subscribe({
   next: data => // Process incoming messages
 });
 
 const deleteSub = API.graphql<GraphQLSubscription<OnDeleteTodoSubscription>>(
-  graphqlOperation(subscriptions.onDeleteTodo)
+  { query: subscriptions.onDeleteTodo }
 ).subscribe({
   next: data => // Process incoming messages
 });
@@ -299,19 +299,19 @@ Hub.listen("api", (data: any) => {
 });
 
 const createSub = API.graphql(
-  graphqlOperation(subscriptions.onCreateTodo)
+  { query: subscriptions.onCreateTodo }
 ).subscribe({
   next: data => // Process incoming messages
 });
 
 const updateSub = API.graphql(
-  graphqlOperation(subscriptions.onUpdateTodo)
+  { query: subscriptions.onUpdateTodo }
 ).subscribe({
   next: data => // Process incoming messages
 });
 
 const deleteSub = API.graphql(
-  graphqlOperation(subscriptions.onDeleteTodo)
+  { query: subscriptions.onDeleteTodo }
 ).subscribe({
   next: data => // Process incoming messages
 });
