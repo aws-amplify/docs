@@ -7,13 +7,12 @@ import guide from "/src/fragments/common/guide-header.mdx";
 
 <Fragments fragments={{all: guide}} />
 
-In this guide, you will connect your application code to the data stack by connecting and configuring the Amplify Libraries. We will review how to install and configure Amplify Libraries to help you complete this task.
+In this guide, you will connect your application code to the backend API using the Amplify Libraries. We will review how to install and configure Amplify Libraries.
 
 Before you begin, you will need:
 - An AWS AppSync API already set up. For guidance on how to build a GraphQL API, see [Designing a GraphQL API in AWS AppSync](https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html)
-- An application set up. For instructions on setting up an app, see [Project Setup: Create your application](https://docs.amplify.aws/lib/project-setup/create-application/q/platform/js/)
+- A frontend application set up. For instructions on setting up an app, see [Project Setup: Create your application](https://docs.amplify.aws/lib/project-setup/create-application/q/platform/js/)
 - [npm installed](https://docs.npmjs.com/getting-started)
-- A data stack deployed and configured
 
 [TODO]: # (Follow up on the following codegen section for better placement. May be shifted to a different section.)
 
@@ -34,7 +33,7 @@ Executing this command will generate the queries, mutations, and subscriptions w
 
 ## Install and configure the Amplify Libraries
 
-Add the `aws-amplify` package to your app with `yarn` or `npm`. This is the main library for working with Amplify Libraries in your projects. This will include connecting your app with the GraphQL endpoint.
+Install the `aws-amplify` NPM package to your app. This is the main library for working with Amplify Libraries in your projects. This will include connecting your app with the GraphQL endpoint.
 
 Add Amplify to your app with `yarn` or `npm`:
 
@@ -42,10 +41,10 @@ Add Amplify to your app with `yarn` or `npm`:
 npm install aws-amplify @aws-amplify/ui-react
 ```
 
-In your app's entry point, specifically **App.js** (Expo) or **index.js** (React Native CLI), import and load the configuration file:
+In your app's entry point, typically **index.js**, import and load the configuration file:
 
 ```javascript
-import { Amplify, API, graphqlOperation } from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
 import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
 ```
@@ -55,7 +54,7 @@ If you are using `Angular`, `NextJS`, or `VueJS`, please review the following ad
 <BlockSwitcher>
 <Block name="Angular">
 
-Inside the `amplify-app` directory, install the Amplify Angular Library and run your app:
+Inside the app directory, install the Amplify Angular Library and run your app:
 
 ```bash
 npm install --save aws-amplify @aws-amplify/ui-angular

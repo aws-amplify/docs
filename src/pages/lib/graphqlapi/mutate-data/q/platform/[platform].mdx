@@ -7,14 +7,14 @@ import guide from "/src/fragments/common/guide-header.mdx";
 
 <Fragments fragments={{all: guide}} />
 
-In this guide, you will learn how to use functions to create, read, update, and delete your data using the Amplify GraphQL client.
+In this guide, you will learn how to create, read, update, and delete your data using Amplify Libraries' GraphQL client.
 
 Before you begin, you will need:
 - An application connected to the API
 
 ## Run mutations to create, update, and delete application data
   
-In GraphQL, mutations write data to the API and are used to create, update, or delete data. This is different than queries that allow you to read the data but not change it. What follows are some examples of how you can create, update, and delete items using the Amplify GraphQL client.
+In GraphQL, mutations are APIs that are used to create, update, or delete data. This is different than queries that are reserved to reading the data but not change it. What follows are some examples of how you can create, update, and delete items using the Amplify GraphQL client.
 
 ### Create an item
 
@@ -71,7 +71,7 @@ You should see the item created: `Learn AWS AppSync`.
 
 <Callout>
 
-__Note:__ You do not have to pass in the `createdAt` field. AWS AppSync manages this for you.
+__Note:__ You do not have to pass in the `createdAt` field. Amplify manages this field for you.
 
 </Callout>
 
@@ -332,7 +332,7 @@ const updatedTodo = await API.graphql({
 
 __Notes:__
 
-- You do not have to pass in the `updatedAt` field. AWS AppSync manages this for you.
+- You do not have to pass in the `updatedAt` field. AWS Amplify manages this field for you.
 - If you pass in *extra* input fields not expected by the AWS AppSync schema, this query will fail. You can see this in the `error` field returned by the query. In GraphQL, errors are not thrown like exceptions in other languages. Instead, any errors are captured and returned as part of the query result in the `error` field.
 
 </Callout>
