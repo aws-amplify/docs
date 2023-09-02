@@ -84,7 +84,7 @@ amplify add codegen
 ```
 
 The `amplify add codegen` allows you to add AppSync API created using the AWS console. If you have your API is in a different region then that of your current region, the command asks you to choose the region. If you are adding codegen outside of an initialized amplify project, provide your introspection schema named `schema.json` in the same directory that you make the add codegen call from.
-__Note__: If you use the --apiId flag to add an externally created AppSync API, such as one created in the AWS console, you will not be able to manage this API from the Amplify CLI with commands such as amplify api update when performing schema updates. You cannot add an external AppSync API when outside of an initialized project.
+__Note__: If you use the --apiId flag to add an externally created AppSync API, such as one created in the AWS console, you will not be able to manage this API from the Amplify CLI with commands such as amplify api update when performing schema updates. You cannot add an external AppSync API when outside of an initialized project. To run this command, first initialize an Amplify project for your respository, and then run the `amplify add codegen --apiId YourAppSyncAPIID`. This will import the AppSync API into the Amplify resource stack locally, allowing you to generate the GraphQL queries, mutations, and subscriptions locally as well.
 
 ### amplify configure codegen
 
