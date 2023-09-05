@@ -17,7 +17,7 @@ Before you begin, you will need:
 
 ## Set up a real-time subscription
 
-Subscriptions is a GraphQL feature that allows the server to send data to its clients when a specific event happens. You can enable real-time data integration in your app with a subscription.
+Subscriptions is a GraphQL feature that allows the server to send data to its clients when a specific event happens. For example, you can subscribe to an event when a new record is created, updated, or deleted via the API. You can enable real-time data integration in your app with a subscription.
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -29,7 +29,7 @@ import * as subscriptions from './graphql/subscriptions';
 import { OnCreateTodoSubscription,OnUpdateTodoSubscription,OnDeleteTodoSubscription } from './API';
 
 // Subscribe to creation of Todo
-const sub = API.graphql<GraphQLSubscription<OnCreateTodoSubscription>>(
+const createSub = API.graphql<GraphQLSubscription<OnCreateTodoSubscription>>(
   { query: subscriptions.onCreateTodo }
 ).subscribe({
   next: ({ provider, value }) => console.log({ provider, value }),
@@ -52,7 +52,9 @@ const deleteSub = API.graphql<GraphQLSubscription<OnDeleteTodoSubscription>>(
   error: (error) => console.warn(error)
 });
 // Stop receiving data updates from the subscription
-sub.unsubscribe();
+createSub.unsubscribe();
+updateSub.unsubscribe();
+deleteSub.unsubscribe();
 ```
 
 </Block>
@@ -64,7 +66,7 @@ import { Amplify, API } from 'aws-amplify';
 import * as subscriptions from './graphql/subscriptions';
 
 // Subscribe to creation of Todo
-const sub = API.graphql(
+const createSub = API.graphql(
   { query: subscriptions.onCreateTodo }
 ).subscribe({
   next: ({ provider, value }) => console.log({ provider, value }),
@@ -88,7 +90,9 @@ const deleteSub = API.graphql(
 });
 
 // Stop receiving data updates from the subscription
-sub.unsubscribe();
+createSub.unsubscribe();
+updateSub.unsubscribe();
+deleteSub.unsubscribe();
 ```
 
 </Block>
@@ -113,6 +117,8 @@ Amplify.configure({
   aws_appsync_apiKey: 'xxxx'
 });
 ```
+
+## Filter real-time subscriptions server-side
 
 Subscriptions take an optional `filter` argument to define service-side subscription filters:
 
@@ -171,7 +177,7 @@ If you want to get all subscription events, don’t pass any `filter` parameters
 __Limitations:__
 - Passing an empty object `{}` as a filter is **not** recommended. Using `{}` as a filter might cause inconsistent behavior based on your data model's authorization rules.
 - If you are using dynamic group authorization and you authorize based on a single group per record, then subscriptions are only supported if the user is part of 5 or fewer user groups.
-- Additionally, if you authorize via an array of groups (groups: [String]),
+- Additionally, if you authorize via an array of groups (`groups: [String]`),
   - subscriptions are only supported if the user is part of 20 or fewer groups
   - you can only authorize 20 or fewer user groups per record
 
