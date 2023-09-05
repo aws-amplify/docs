@@ -1,0 +1,46 @@
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.confirmSignIn(
+    "OTP code from Authenticator App",
+    result -> Log.i("AuthQuickstart", result.toString()),
+    error -> Log.e("AuthQuickstart", error.toString())
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.confirmSignIn("OTP code from Authenticator App",
+    { Log.i("AuthQuickstart", "Confirmed signin: $it") },
+    { Log.e("AuthQuickstart", "Failed to confirm signin", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val result = Amplify.Auth.confirmSignIn("OTP code from Authenticator App")
+    Log.i("AuthQuickstart", "Confirmed signin: $result")
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Failed to confirm signin", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.confirmSignIn("OTP code from Authenticator App")
+    .subscribe(
+        result -> Log.i("AuthQuickstart", result.toString()),
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+```
+
+</Block>
+</BlockSwitcher>

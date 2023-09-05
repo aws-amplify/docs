@@ -1,0 +1,91 @@
+If the next step is `CONFIRM_SIGN_IN_WITH_TOTP_CODE`, Amplify Auth is waiting for the user to enter their TOTP code. To handle this step, your app's UI must prompt the user to enter the code. After the user enters the code, your implementation must pass the value to Amplify Auth `confirmSignIn` API.
+
+Note: the signIn result also includes an `AuthCodeDeliveryDetails` member. It includes additional information about the code delivery.
+
+<BlockSwitcher>
+
+<Block name="Java">
+
+```java
+Amplify.Auth.confirmSignIn(
+    "TOTP confirmation code",
+    result -> {
+        if (result.isSignedIn()) {
+            Log.i("AuthQuickstart", "Confirm signIn succeeded");
+        } else {
+            Log.i("AuthQuickstart", "Confirm sign in not complete. There might be additional steps: " + result.getNextStep());
+            // Switch on the next step to take appropriate actions.
+            // If `signInResult.isSignedIn` is true, the next step
+            // is 'done', and the user is now signed in.
+        }
+    },
+    error -> Log.e("AuthQuickstart", "Confirm sign in failed: " + error)
+);
+```
+</Block>
+
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.confirmSignIn(
+    "TOTP confirmation code",
+    { result ->
+        if (result.isSignedIn) {
+            Log.i("AuthQuickstart", "Confirm signIn succeeded")
+        } else {
+            Log.i(
+                "AuthQuickstart",
+                "Confirm sign in not complete. There might be additional steps: ${result.nextStep}"
+            )
+            // Switch on the next step to take appropriate actions.
+            // If `signInResult.isSignedIn` is true, the next step
+            // is 'done', and the user is now signed in.
+        }
+    },
+    { error -> Log.e("AuthQuickstart", "Confirm sign in failed: $error") }
+)
+```
+</Block>
+
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val result = Amplify.Auth.confirmSignIn(
+        "confirmation code"
+    )
+    if (result.isSignedIn) {
+        Log.i("AuthQuickstart", "Confirm signIn succeeded")
+    } else {
+        Log.i("AuthQuickstart", "Confirm sign in not complete. There might be additional steps: ${result.nextStep}")
+        // Switch on the next step to take appropriate actions.
+        // If `signInResult.isSignedIn` is true, the next step
+        // is 'done', and the user is now signed in.
+    }
+} catch (error: Exception) {
+    Log.e("AuthQuickstart", "Unexpected error: $error")
+}
+```
+</Block>
+
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.confirmSignIn(
+                "TOTP confirmation code").subscribe(
+                result -> {
+                    if (result.isSignedIn()) {
+                        Log.i("AuthQuickstart", "Confirm signIn succeeded");
+                    } else {
+                        Log.i("AuthQuickstart", "Confirm sign in not complete. There might be additional steps: " + result.getNextStep());
+                        // Switch on the next step to take appropriate actions.
+                        // If `signInResult.isSignedIn` is true, the next step
+                        // is 'done', and the user is now signed in.
+                    }
+                },
+                error -> Log.e("AuthQuickstart", "Confirm sign in failed: " + error)
+        );
+```
+</Block>
+
+</BlockSwitcher>

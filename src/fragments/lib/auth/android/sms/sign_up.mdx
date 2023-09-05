@@ -1,0 +1,63 @@
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+AuthSignUpOptions options = AuthSignUpOptions.builder()
+    .userAttribute(AuthUserAttributeKey.email(), "my@email.com")
+    .userAttribute(AuthUserAttributeKey.phoneNumber(), "+18885551234")
+    .build();
+Amplify.Auth.signUp("username", "Password123", options,
+    result -> Log.i("AuthQuickStart", "Result: " + result.toString()),
+    error -> Log.e("AuthQuickStart", "Sign up failed", error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+val options = AuthSignUpOptions.builder()
+    .userAttribute(AuthUserAttributeKey.email(), "my@email.com")
+    .userAttribute(AuthUserAttributeKey.phoneNumber(), "+18885551234")
+    .build()
+Amplify.Auth.signUp("username", "Password123", options,
+    { Log.i("AuthQuickStart", "Sign up succeeded: $it") },
+    { Log.e ("AuthQuickStart", "Sign up failed", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+val options = AuthSignUpOptions.builder()
+    .userAttribute(AuthUserAttributeKey.email(), "my@email.com")
+    .userAttribute(AuthUserAttributeKey.phoneNumber(), "+18885551234")
+    .build()
+try {
+    val result = Amplify.Auth.signUp("username", "Password123", options)
+    Log.i("AuthQuickStart", "Result: $result")
+} catch (error: AuthException) {
+    Log.e("AuthQuickStart", "Sign up failed", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+ ```java
+RxAmplify.Auth.signUp(
+    "username",
+    "Password123",
+    AuthSignUpOptions.builder()
+    .userAttribute(AuthUserAttributeKey.email(), "my@email.com")
+    .userAttribute(AuthUserAttributeKey.phoneNumber(), "+18885551234")
+    .build())
+    .subscribe(
+        result -> Log.i("AuthQuickStart", "Result: " + result.toString()),
+        error -> Log.e("AuthQuickStart", "Sign up failed", error)
+    );
+```
+
+</Block>
+</BlockSwitcher>

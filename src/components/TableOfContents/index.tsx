@@ -10,7 +10,7 @@ import {
 import { forwardRef, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { MQDesktop } from '../media';
-import { Button } from '@cloudscape-design/components';
+import { CloseIcon } from '../Icons';
 
 const stickyHeaderHeight = 124;
 function scroll(hash) {
@@ -156,7 +156,7 @@ function TableOfContents({ children, title, buttonsRef }, ref) {
         {!onDesktop && (
           <div className="mobileHeader">
             <h2>On this Page</h2>
-            <Button variant="icon" iconName="close" onClick={closeToc} />
+            <CloseIcon onClick={closeToc} />
           </div>
         )}
         <HeaderStyle>

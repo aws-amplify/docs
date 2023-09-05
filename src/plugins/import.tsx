@@ -55,6 +55,10 @@ module.exports = (async () => {
         });
         tree.children.splice(index + 1, 0, {
           type: 'import',
+          value: `import ExternalLinkButton from "/src/components/ExternalLinkButton";`
+        });
+        tree.children.splice(index + 1, 0, {
+          type: 'import',
           value: `import Hero from "/src/components/Hero";`
         });
         tree.children.splice(index + 1, 0, {

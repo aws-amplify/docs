@@ -333,9 +333,14 @@ export const directory = {
             filters: ['android', 'flutter', 'ios']
           },
           {
+            title: 'Multi-factor authentication',
+            route: '/lib/auth/mfa',
+            filters: ['ios', 'flutter', 'android']
+          },
+          {
             title: 'SMS flows',
             route: '/lib/auth/sms_flows',
-            filters: ['flutter']
+            filters: ['flutter', 'ios', 'android']
           },
           {
             title: 'Sign in next steps',
