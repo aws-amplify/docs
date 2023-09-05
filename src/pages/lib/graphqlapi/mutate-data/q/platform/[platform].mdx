@@ -301,7 +301,7 @@ const updatedTodo = await API.graphql({
 __Notes:__
 
 - You do not have to pass in the `updatedAt` field. AWS Amplify manages this field for you.
-- If you pass in *extra* input fields not expected by the AWS AppSync schema, this query will fail. You can see this in the `error` field returned by the query. In GraphQL, errors are not thrown like exceptions in other languages. Instead, any errors are captured and returned as part of the query result in the `error` field.
+- If you pass in *extra* input fields not expected by the API, this query will fail. You can see this in the `error` field returned by the query. In GraphQL, errors are not thrown like exceptions in other languages. Instead, any errors are captured and returned as part of the query result in the `error` field.
 
 </Callout>
 
