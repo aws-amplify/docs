@@ -2,3 +2,243 @@ export const meta = {
   title: `Connect your app code to the API`,
   description: `Learn how to connect your app code to the API.`
 };
+
+import guide from "/src/fragments/common/guide-header.mdx";
+
+<Fragments fragments={{all: guide}} />
+
+In this guide, you will connect your application code to the backend API using the Amplify Libraries. We will review how to install and configure Amplify Libraries.
+
+Before you begin, you will need:
+- An GraphQL API already set up either via Amplify or via the underlying AWS AppSync service. Review [TK]() on how to build your API and database with Amplify. For guidance on how to build a GraphQL API via AWS AppSync, see [Designing a GraphQL API in AWS AppSync](https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html).
+- A frontend application set up. For instructions on setting up an app, see [Project Setup: Create your application](https://docs.amplify.aws/lib/project-setup/create-application/q/platform/js/)
+- [npm installed](https://docs.npmjs.com/getting-started)
+
+## Install and configure the Amplify Libraries
+
+Install the `aws-amplify` NPM package to your app. This is the main library for working with Amplify Libraries in your projects. This will include connecting your app with the GraphQL endpoint. 
+
+If you are using `Next.js`, `Vue`, or `Angular`, please review the following details for installing the Amplify Libraries:
+
+<BlockSwitcher>
+<Block name="Next.js">
+
+The first step to using Amplify in the client is to install the necessary dependencies:
+
+```bash
+npm install aws-amplify @aws-amplify/ui-react
+```
+
+The `aws-amplify` package is the main library for working with Amplify in your apps. The `@aws-amplify/ui-react` package includes React-specific UI components that you can use to build your app UI. To learn more about Amplify UI visit our [documentation](https://ui.docs.amplify.aws/).
+
+Then, in your app's entry point, typically **index.js**, import and load the configuration file:
+
+```javascript
+import { Amplify } from 'aws-amplify';
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
+```
+
+</Block>
+
+<Block name="Vue">
+
+The first step to using Amplify in the client is to install the necessary dependencies:
+
+<Block name="NPM">
+
+```
+npm install aws-amplify @aws-amplify/ui-vue
+```
+
+</Block>
+
+<Callout>
+
+If you are using Vue 2, please check out our legacy [documentation](https://github.com/aws-amplify/amplify-ui/tree/legacy/legacy/amplify-ui-vue). For Vite installs check out this [documentation](https://ui.docs.amplify.aws/vue/getting-started/installation#vite). 
+
+</Callout>
+
+The `@aws-amplify/ui-vue` package is a set of components that make it easy to integrate functionality like end-to-end authentication flows. 
+
+In your app's entry point, typically **index.js**, import and load the configuration file:
+
+```javascript
+import { Amplify } from 'aws-amplify';
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
+```
+
+</Block>
+<Block name="Angular">
+
+Inside the app directory, install the Amplify Angular Library and run your app:
+
+```bash
+npm install --save aws-amplify @aws-amplify/ui-angular
+
+npm start
+```
+
+The `@aws-amplify/ui-angular` package is a set of Angular components and an Angular provider that helps integrate your application with the AWS Amplify Library.
+
+<Callout>
+
+**Angular CLI output warnings:** If you encounter optimization bailouts warnings using Angular 9+ due to CommonJS or AMD dependencies, you can use this [gist](https://gist.github.com/wlee221/6d98d96740bea6f53327b4db4a432616) to remove them. See the [Angular website](https://angular.io/guide/build#configuring-commonjs-dependencies) for more details.
+
+</Callout>
+
+#### Strictly typing `aws-exports`
+
+If you have TypeScript [strict mode](https://www.typescriptlang.org/tsconfig/#strict) on and see the error
+
+```
+Could not find a declaration file for module './aws-exports'. 'aws-exports.js' implicitly has an 'any' type.
+```
+
+Create a `aws-exports.d.ts` file on the same level as `aws-exports` with the following content:
+
+```ts
+declare const awsmobile: Record<string, any>
+export default awsmobile;
+```
+
+#### Importing the Amplify Angular UI Module
+
+Add the **Amplify Authenticator UI Module** to `src/app/app.module.ts`:
+
+```ts
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+
+import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    /* configure App with AmplifyAuthenticatorModule */
+    AmplifyAuthenticatorModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+```
+
+</Block>
+</BlockSwitcher>
+
+Well done! You now have your Amplify Libraries set up and configured.
+
+## Use Amplify codegen to generate queries, mutations, and subscriptions 
+
+Using the `amplify add codegen` command, you can add an AWS AppSync API that is created using the AWS console. If your API is in a different Region than your current Region, the command asks you to choose the Region. If you are adding codegen outside of an initialized Amplify project, provide your introspection schema named `schema.json` in the same directory that you make the add codegen call from. 
+
+<Callout>
+
+__Note:__ If you use the --apiId flag to add an externally created AWS AppSync API, such as one created in the AWS console, you will not be able to manage this API from the Amplify CLI with commands such as `amplify api update` when performing schema updates. You cannot add an external AWS AppSync API when outside of an initialized project.
+
+</Callout>
+
+```bash
+amplify add codegen --apiId <apiId>
+```
+Executing this command will generate the queries, mutations, and subscriptions within the src/graphql folder.
+
+## Enable queries, mutations, and subscriptions
+
+With GraphQL, you typically have the following types of operations to interact with the API from a JavaScript client:
+
+- __Mutations__ - write data to the API (create, update, delete operations)
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { API, graphqlOperation } from 'aws-amplify';
+import { createTodo, updateTodo, deleteTodo } from './graphql/mutations';
+import { GraphQLQuery } from '@aws-amplify/api';
+import { CreateTodoInput, CreateTodoMutation, UpdateTodoMutation, DeleteTodoMutation } from './API';
+
+const todo: CreateTodoInput = { name: "My first todo", description: "Hello world!" };
+
+/* create a todo */
+await API.graphql<GraphQLQuery<CreateTodoMutation>>(graphqlOperation(createTodo, {input: todo}));
+
+/* update a todo */
+await API.graphql<GraphQLQuery<UpdateTodoMutation>>(graphqlOperation(updateTodo, { input: { id: todoId, name: "Updated todo info" }}));
+
+/* delete a todo */
+await API.graphql<GraphQLQuery<DeleteTodoMutation>>(graphqlOperation(deleteTodo, { input: { id: todoId }}));
+```
+
+</Block>
+<Block name="JavaScript">
+
+```js
+import { API, graphqlOperation } from 'aws-amplify';
+import { createTodo, updateTodo, deleteTodo } from './graphql/mutations';
+
+const todo = { name: "My first todo", description: "Hello world!" };
+
+/* create a todo */
+await API.graphql(graphqlOperation(createTodo, {input: todo}));
+
+/* update a todo */
+await API.graphql(graphqlOperation(updateTodo, { input: { id: todoId, name: "Updated todo info" }}));
+
+/* delete a todo */
+await API.graphql(graphqlOperation(deleteTodo, { input: { id: todoId }}));
+```
+
+</Block>
+</BlockSwitcher>
+
+- __Queries__ - read data from the API (list, get operations)
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { API, graphqlOperation } from 'aws-amplify';
+import { GraphQLQuery } from '@aws-amplify/api';
+import { listTodos } from './graphql/queries';
+import { ListTodosQuery } from './API';
+
+const todos = await API.graphql<GraphQLQuery<ListTodosQuery>>(graphqlOperation(listTodos));
+```
+
+</Block>
+
+
+<Block name="JavaScript">
+
+```js
+import { API, graphqlOperation } from 'aws-amplify';
+import { listTodos } from './graphql/queries';
+
+const todos = await API.graphql(graphqlOperation(listTodos));
+```
+
+</Block>
+</BlockSwitcher>
+
+To learn more about these commands in more detail, see the guides to [*Create, update, and delete application data*](https://docs.amplify.aws/lib/graphqlapi/mutate-data/q/platform/js/) and [*Read application data*](https://docs.amplify.aws/lib/graphqlapi/query-data/q/platform/js/).
+
+## Conclusion
+
+Congratulations! You have finished the **Connect your app code to the API** guide. In this guide, you reviewed the required configuration and installed and configured Amplify Libraries. You also reviewed some quick ways to write and read this data.
+
+## Next steps
+
+Our recommended next steps include using the API to mutate and query data. You can also review how to subscribe to real-time events to look for mutations in your data. Some resources that will help with this work include:
+- [Create, update, and delete application data](https://docs.amplify.aws/lib/graphqlapi/mutate-data/q/platform/js/)
+- [Read application data](https://docs.amplify.aws/lib/graphqlapi/query-data/q/platform/js/)
+- [Subscribe to real-time events](https://docs.amplify.aws/lib/graphqlapi/subscribe-data/q/platform/js/)
