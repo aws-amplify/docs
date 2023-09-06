@@ -325,12 +325,12 @@ export const directory = {
           {
             title: 'Multi-factor authentication',
             route: '/lib/auth/mfa',
-            filters: ['ios', 'flutter']
+            filters: ['ios', 'flutter', 'android']
           },
           {
             title: 'SMS flows',
             route: '/lib/auth/sms_flows',
-            filters: ['flutter', 'ios']
+            filters: ['flutter', 'ios', 'android']
           },
           {
             title: 'Sign in next steps',

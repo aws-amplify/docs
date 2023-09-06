@@ -73,3 +73,24 @@ postData();
 ```
 
 > Note that the header name, in the above example 'Authorization', is dependent on what you choose during your API Gateway configuration.
+
+## Token-based Lambda authorization
+
+You need to provide an authorization token to authenticate against API Gateway when using token-based Lambda authorizer
+
+```javascript
+async function postData() {
+  const apiName = 'MyApiName';
+  const path = '/path';
+  const myInit = {
+    headers: {
+      Authorization: 'Authorization_token'
+    }
+  };
+
+  return await API.post(apiName, path, myInit);
+}
+
+postData();
+```
+> Note that the header name, in the above example `Authorization`, is dependent on what you choose during your API Gateway configuration.

@@ -3,7 +3,7 @@ After a user has finished signup, they can proceed to sign in. Amplify Auth sign
 <Callout warning>
 <b>New enumeration values</b>
 
-When Amplify adds a new enumeration value (e.g., a new enum class entry or sealed class subtype in Kotlin, or a new enum value in Swift/Dart/Kotlin), it will publish a new minor version of the Amplify Library. Plugins that switch over enumeration values should include default handlers (an else branch in Kotlin or a default statement in Swift/Dart/Kotlin) to ensure that they are not impacted by new enumeration values. 
+When Amplify adds a new enumeration value (e.g., a new enum class entry or sealed class subtype in Kotlin, or a new enum value in Swift/Dart/Kotlin), it will publish a new minor version of the Amplify Library. Plugins that switch over enumeration values should include default handlers (an else branch in Kotlin or a default statement in Swift/Dart/Kotlin) to ensure that they are not impacted by new enumeration values.
 
 </Callout>
 
@@ -117,8 +117,8 @@ Future<void> _handleMfaSelection(MfaType selection) async {
 
 ### Continue signin with TOTP Setup
 
-If the next step is `continueSignInWithTOTPSetup`, then the user must provide a TOTP code to complete the sign in process. The step returns an associated value of type `TOTPSetupDetails` which would be used for generating TOTP. `TOTPSetupDetails` provides a helper method called `getSetupURI` that can be used to generate a URI, which can be used by native password managers for TOTP association. For example. if the URI is used on Apple platforms, it will trigger the platform's native password manager to associate TOTP with the account. For more advanced use cases, `TOTPSetupDetails` also contains the `sharedSecret` that will be used to either generate a QR code or can be manually entered into an authenticator app. 
- 
+If the next step is `continueSignInWithTOTPSetup`, then the user must provide a TOTP code to complete the sign in process. The step returns an associated value of type `TOTPSetupDetails` which would be used for generating TOTP. `TOTPSetupDetails` provides a helper method called `getSetupURI` that can be used to generate a URI, which can be used by native password managers for TOTP association. For example. if the URI is used on Apple platforms, it will trigger the platform's native password manager to associate TOTP with the account. For more advanced use cases, `TOTPSetupDetails` also contains the `sharedSecret` that will be used to either generate a QR code or can be manually entered into an authenticator app.
+
 Once the authenticator app is set up, the user can generate a TOTP code and provide it to the library to complete the sign in process.
 
 import iosContinueSignInWithMFASetup from "src/fragments/lib/auth/ios/signin_next_steps/100_continue_mfa_setup.mdx";
