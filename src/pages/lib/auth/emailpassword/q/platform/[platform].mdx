@@ -3,7 +3,7 @@ export const meta = {
   description: `Learn how to use Amplify's sign up, sign in and sign out APIs.`,
 };
 
-<InlineFilter filters={["js"]}>
+<InlineFilter filters={["js" , "react-native"]}>
 
 import guide from "/src/fragments/common/guide-header.mdx";
 
@@ -17,7 +17,17 @@ This guide is for those who want to set up Amplify Auth with the Amplify Librari
 
 </Callout>
 
-Before you begin, you should have finished the [*'Set up and connect backend resources'*](/lib/auth/set_up_auth#set-up-and-connect-backend-resources) guide.
+<InlineFilter filters={["js"]}>
+
+Before you begin, you should have finished the [*'Set up and connect backend resources'*](/lib/auth/getting-started/q/platform/js/) guide.
+
+</InlineFilter>
+
+<InlineFilter filters={["react-native"]}>
+
+Before you begin, you should have finished the [*'Set up and connect backend resources'*](/lib/auth/getting-started/q/platform/react-native/#set-up-backend-resources) guide.
+
+</InlineFilter>
 
 ## Decide before you build
 
@@ -27,7 +37,7 @@ Before you enable sign-up, sign-in, and sign-out there are a few decisions you w
 
 Below is a high-level overview of the workflows for sign-up, sign-in, and sign-out with Amplify authentication:
 
-**Sign-up:** The username/password set up will ask your user for a username (or email) and a password. This should also include any attributes you include in your sign-up from such as address, birthdate, phone, etc. When your end-user submits this information, it is then passed through the `Auth.signUp()` method to your Amazon Cognito User Pool, where a user is created. By default, the user will receive a confirmation message via email or SMS, depending on what you configured, but you also have the option to auto-confirm your users after they sign up. Users must then enter the confirmation code to complete the sign-up process. Once the user is verified, their user profile is officially confirmed and is active in the Cognito User Pool. The profile contains the username, password, and any other attributes collected during sign-up. This user profile can then be used to sign-in and access your application.
+**Sign-up:** The username/password set up will ask your user for a username (or email) and a password. This should also include any attributes you include in your sign-up form such as address, birthdate, phone, etc. When your end-user submits this information, it is then passed through the `Auth.signUp()` method to your Amazon Cognito User Pool, where a user is created. By default, the user will receive a confirmation message via email or SMS, depending on what you configured, but you also have the option to auto-confirm your users after they sign up. Users must then enter the confirmation code to complete the sign-up process. Once the user is verified, their user profile is officially confirmed and is active in the Cognito User Pool. The profile contains the username, password, and any other attributes collected during sign-up. This user profile can then be used to sign-in and access your application.
 
 **Sign-in:** The user enters the username/password they created on sign-up and submits the form in your application to sign-in. The application will then call the `Auth.signIn()` method to sign-in the user by passing the username/password to verify and establish a session with Amazon Cognito which will then generate the needed tokens to grant access. Amazon Cognito issues temporary short-lived tokens on sign-in (default of 1 hour) but you can update these settings to keep your users signed in for longer (up to 24 hours).
 
@@ -68,7 +78,19 @@ Once you have these decisions in mind you are ready to enable sign-up, sign-in, 
 
 You can add the functionality to enable sign-up, sign-in, and sign-out with the Amplify Libraries. You can connect this to an existing UI or create your own.
 
-For many apps, user sign-up and sign-in with a username/password is all that is required. Once authenticated, the app can talk to an API to access and mutate data. We will use the username/password authentication flow to get started. Both [third party social provider federation]( https://docs.amplify.aws/lib/auth/social/q/platform/js/) and [Multi-factor authentication]( https://docs.amplify.aws/lib/auth/mfa/q/platform/js/) can be added after this initial set up.
+For many apps, user sign-up and sign-in with a username/password is all that is required. Once authenticated, the app can talk to an API to access and mutate data. 
+
+<InlineFilter filters={["js"]}>
+
+We will use the username/password authentication flow to get started. Both [third party social provider federation](/lib/auth/social/q/platform/js/) and [Multi-factor authentication](/lib/auth/mfa/q/platform/js/) can be added after this initial set up.
+
+</InlineFilter>
+
+<InlineFilter filters={["react-native"]}>
+
+We will use the username/password authentication flow to get started. Both [third party social provider federation](/lib/auth/social/q/platform/react-native/) and [Multi-factor authentication](/lib/auth/mfa/q/platform/react-native/) can be added after this initial set up.
+
+</InlineFilter>
 
 ### Sign-up
 
@@ -137,7 +159,7 @@ async function signUp() {
 </Block>
 </BlockSwitcher>
 
-### Confirm sign up
+### Confirm sign-up
 
 By default, each user that signs up remains in the unconfirmed status until they verify with a confirmation code that was sent to their email or phone number. You can confirm the sign-up after retrieving a confirmation code from the user as shown here.
 
@@ -178,10 +200,10 @@ async function confirmSignUp() {
 </BlockSwitcher>
 
 
-### Auto sign in after sign up
+### Auto sign-in after sign-up
 
-If you enabled `autoSignIn`, the `sign up` function will dispatch `autoSignIn` hub event after successful confirmation.
-If authentication was successful, the event will contain `CognitoUser` in data object. If auto sign in failed, it will dispatch `autoSignIn_failure` event.
+If you enabled `autoSignIn`, the `sign up` function will dispatch the `autoSignIn` hub event after successful confirmation.
+If authentication was successful, the event will contain `CognitoUser` in the data object. If auto sign-in failed, it will dispatch the `autoSignIn_failure` event.
 
 ```js
 import { Hub } from 'aws-amplify';
@@ -200,7 +222,7 @@ function listenToAutoSignInEvent() {
 
 ```
 
-### Sign in
+### Sign-in
 
 You pass the username and password to the `signIn` method of the Auth class to enable username and password sign-in.
 
@@ -240,7 +262,7 @@ async function signIn() {
 </Block>
 </BlockSwitcher>
 
-### Sign out
+### Sign-out
 
 To set up local sign-out you use the `signOut` method of the Auth class.
 
@@ -322,12 +344,20 @@ Congratulations! You finished the **Enable sign-up, sign-in, sign-out** guide an
 
 ## Next steps
 
+<InlineFilter filters={["js"]}>
+
 Now that you completed setting up Amplify Auth with username/password you may also want to add some additional features. We recommend:
-  - [Social sign-in (OAuth)](https://docs.amplify.aws/lib/auth/social/q/platform/js/)
-  - [Multi-factor authentication](https://docs.amplify.aws/lib/auth/mfa/q/platform/js/)
+  - [Social sign-in (OAuth)](/lib/auth/social/q/platform/js/)
+  - [Multi-factor authentication](/lib/auth/mfa/q/platform/js/)
 
 </InlineFilter>
 
-import reactnative0 from "/src/fragments/lib/auth/js/emailpassword.mdx";
+<InlineFilter filters={["react-native"]}>
 
-<Fragments fragments={{'react-native': reactnative0}} />
+  Now that you completed setting up Amplify Auth with username/password you may also want to add some additional features. We recommend:
+  - [Social sign-in (OAuth)](/lib/auth/social/q/platform/react-native/)
+  - [Multi-factor authentication](/lib/auth/mfa/q/platform/react-native/)
+
+</InlineFilter>
+
+</InlineFilter>
