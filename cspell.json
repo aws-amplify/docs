@@ -967,6 +967,7 @@
     "parameterization",
     "parameters.json",
     "parcelable",
+    "passin",
     "passwordless",
     "pausable",
     "PAY_PER_REQUEST",
@@ -1517,7 +1518,16 @@
     "remoteloggingconstraints",
     "remotelogging",
     "cloudwatchlogs",
-    "userids"
+    "userids",
+    "xmark",
+    "refreshable"
   ],
-  "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"]
+  "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
+  "patterns": [
+    {
+      "name": "youtube-embed-ids",
+      "pattern": "/embedId=\".*\" /"
+    }
+  ],
+  "ignoreRegExpList": ["youtube-embed-ids"]
 }

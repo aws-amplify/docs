@@ -10,7 +10,7 @@ import {
 import { forwardRef, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { MQDesktop } from '../media';
-import { Button } from '@cloudscape-design/components';
+import { CloseIcon } from '../Icons';
 
 const stickyHeaderHeight = 124;
 function scroll(hash) {
@@ -38,14 +38,26 @@ function TableOfContents({ children, title, buttonsRef }, ref) {
       scroll(hash);
     }
   };
+
   let headers = [];
   let headerQueries = [];
   let activeLink = 0;
   let previousLink = -1;
   useEffect(() => {
     const idSet = new Set();
-    const headings = document.querySelectorAll('a > h2, a > h3');
-    const headings2 = document.getElementById('toc').querySelectorAll('a');
+    const pageHeadings = document.querySelectorAll('a > h2, a > h3');
+    const headings = [];
+    pageHeadings.forEach((heading) => {
+      if (
+        !heading.parentNode?.parentNode?.classList.contains(
+          'docs-expander__body'
+        )
+      ) {
+        headings.push(heading);
+      }
+    });
+    // console.log(document.getElementById('toc')?.querySelectorAll('a'))
+    const headings2 = document.getElementById('toc')?.querySelectorAll('a');
     for (let i = 0; i < headings.length; ++i) {
       const id = headings[i].id;
       let counter = 0;
@@ -66,6 +78,9 @@ function TableOfContents({ children, title, buttonsRef }, ref) {
         return false;
       };
       headings2[i].onclick = () => {
+        if (headings[i].classList.contains('docs-expander__title')) {
+          uniqueId = headings[i].parentNode.parentNode.parentNode.id;
+        }
         setTimeout(scroll.bind(undefined, uniqueId), 50);
         return false;
       };
@@ -141,7 +156,7 @@ function TableOfContents({ children, title, buttonsRef }, ref) {
         {!onDesktop && (
           <div className="mobileHeader">
             <h2>On this Page</h2>
-            <Button variant="icon" iconName="close" onClick={closeToc} />
+            <CloseIcon onClick={closeToc} />
           </div>
         )}
         <HeaderStyle>

@@ -16,11 +16,10 @@ import MenuOpenButton from './MenuOpenButton';
 import MenuCloseButton from './MenuCloseButton';
 import { MQDesktop } from '../media';
 import Directory from './Directory';
-import RepoActions from './RepoActions';
 import FilterSelect from './FilterSelect';
-import { VersionSwitcher, LibVersionSwitcher } from './VersionSwitcher';
+import { LibVersionSwitcher } from './VersionSwitcher';
 import { useLastUpdatedDatesContext } from '../LastUpdatedProvider';
-import { Button } from '@cloudscape-design/components';
+import { CloseIcon } from '../Icons';
 
 type MenuProps = {
   filters: string[];
@@ -82,16 +81,7 @@ function Menu(props: MenuProps, ref) {
     }
   };
 
-  let showVersionSwitcher = false;
   let showLibVersionSwitcher = false;
-
-  if (
-    (props.url.startsWith('/ui') || props.url.startsWith('/ui-legacy')) &&
-    props.filterKey !== 'react-native' &&
-    props.filterKey !== 'flutter'
-  ) {
-    showVersionSwitcher = true;
-  }
 
   if (
     (props.url.startsWith('/lib') || props.url.startsWith('/lib-v1')) &&
@@ -127,7 +117,7 @@ function Menu(props: MenuProps, ref) {
               {!onDesktop && (
                 <div className="mobileHeader">
                   <h2>Table of Contents</h2>
-                  <Button variant="icon" iconName="close" onClick={hideMenu} />
+                  <CloseIcon onClick={hideMenu} />
                 </div>
               )}
               {onDesktop && <MenuCloseButton closeMenu={closeMenu} />}
@@ -141,7 +131,6 @@ function Menu(props: MenuProps, ref) {
               )}
             </MenuHeaderStyle>
             <MenuBodyStyle>
-              {showVersionSwitcher && <VersionSwitcher url={props.url} />}
               {showLibVersionSwitcher && (
                 <LibVersionSwitcher
                   url={props.url}
@@ -151,10 +140,6 @@ function Menu(props: MenuProps, ref) {
               )}
               <Directory filterKey={props.filterKey} url={props.url} />
               <MenuBreakStyle />
-              <RepoActions
-                url={props.url}
-                directoryPath={props.directoryPath}
-              />
               <LastUpdatedStyle id="page-last-updated">
                 {displayLastUpdatedString(lastUpdatedDate)}
               </LastUpdatedStyle>

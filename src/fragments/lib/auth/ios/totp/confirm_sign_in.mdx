@@ -1,0 +1,20 @@
+```swift
+func confirmSignInWithTOTPSetup(totpCodeFromAuthenticatorApp: String) async {
+    do {
+        let signInResult = try await Amplify.Auth.confirmSignIn(
+            challengeResponse: totpCodeFromAuthenticatorApp)
+
+         if signInResult.isSignedIn {
+            print("Confirm sign in succeeded. The user is signed in.")
+        } else {
+            print("Confirm sign in succeeded.")
+            print("Next step: \(signInResult.nextStep)")
+            // Switch on the next step to take appropriate actions. 
+            // If `signInResult.isSignedIn` is true, the next step 
+            // is 'done', and the user is now signed in.
+        }
+    } catch {
+        print("Confirm sign in failed \(error)")
+    }
+}
+```

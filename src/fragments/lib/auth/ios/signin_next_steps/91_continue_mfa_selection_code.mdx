@@ -1,0 +1,45 @@
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+func confirmSignInWithTOTPAsMFASelection() async {
+    do {
+        let signInResult = try await Amplify.Auth.confirmSignIn(
+            challengeResponse: MFAType.totp.challengeResponse)
+
+        if case .confirmSignInWithTOTPCode = signInResult.nextStep {
+            print("Received next step as confirm sign in with TOTP")
+        }
+
+    } catch {
+        print("Confirm sign in failed \(error)")
+    }
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+func confirmSignInWithTOTPAsMFASelection() -> AnyCancellable {
+    Amplify.Publisher.create {
+        try await Amplify.Auth.confirmSignIn(
+            challengeResponse: MFAType.totp.challengeResponse)
+        }.sink {
+            if case let .failure(authError) = $0 {
+                print("Confirm sign in failed \(authError)")
+            }
+        }
+        receiveValue: { signInResult in
+        if case .confirmSignInWithTOTPCode = signInResult.nextStep {
+            print("Received next step as confirm sign in with TOTP")
+        }
+    }
+}
+```
+
+</Block>
+
+</BlockSwitcher>

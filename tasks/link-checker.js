@@ -12,7 +12,7 @@ const GITHUB_CREATE_ISSUE_LINK =
 const GITHUB_EDIT_LINK = 'https://github.com/aws-amplify/docs/edit/';
 
 const getSitemapUrls = async () => {
-  let browser = await puppeteer.launch();
+  let browser = await puppeteer.launch({ headless: 'new' });
 
   const page = await browser.newPage();
 
@@ -43,41 +43,50 @@ const getSitemapUrls = async () => {
 };
 
 const retrieveLinks = async (siteMapUrls, visitedLinks) => {
-  let browser = await puppeteer.launch();
+  let browser = await puppeteer.launch({ headless: 'new' });
 
-  const page = await browser.newPage();
+  let page = await browser.newPage();
 
   const urlsToVisit = [];
 
   for (let i = 0; i < siteMapUrls.length; i++) {
     let url = siteMapUrls[i];
 
-    let response = await page.goto(url);
-    if (response && response.status() && response.status() === 200) {
-      visitedLinks[url] = true;
+    try {
+      let response = await page.goto(url, { waitUntil: 'domcontentloaded' });
+      await page.waitForNetworkIdle();
+      if (response && response.status() && response.status() === 200) {
+        console.log(`successfully visited ${url} to retrieve links`);
+        visitedLinks[url] = true;
 
-      const urlList = await page.evaluate(async (url) => {
-        let urls = [];
-        let elements = document.getElementsByTagName('a');
-        for (let i = 0; i < elements.length; i++) {
-          let element = elements[i];
-          if (element.href) {
-            const link = {
-              url: element.href,
-              parentUrl: url,
-              linkText: element.textContent
-            };
-            urls.push(link);
+        const urlList = await page.evaluate(async (url) => {
+          let urls = [];
+          let elements = document.getElementsByTagName('a');
+          for (let i = 0; i < elements.length; i++) {
+            let element = elements[i];
+            if (element.href) {
+              const link = {
+                url: element.href,
+                parentUrl: url,
+                linkText: element.textContent
+              };
+              urls.push(link);
+            }
           }
-        }
-        return urls;
-      }, url);
+          return urls;
+        }, url);
 
-      urlList.forEach((link) => {
-        if (!CRAWLER_EXCEPTIONS.includes(link.url)) {
-          urlsToVisit.push(link);
-        }
-      });
+        urlList.forEach((link) => {
+          if (!CRAWLER_EXCEPTIONS.includes(link.url)) {
+            urlsToVisit.push(link);
+          }
+        });
+      }
+    } catch (e) {
+      console.log(`failed to load ${url}: ${e}`);
+      browser.close();
+      browser = await puppeteer.launch({ headless: 'new' });
+      page = await browser.newPage();
     }
   }
 
@@ -137,7 +146,7 @@ const linkChecker = async () => {
         if (statusCode === 404) {
           // this regular expression is meant to filter out any of the platform selector pages.  These are appearing in the result set
           // because the crawler is seeing disabled platform dropdown links
-          const platformPages = /\/q\/(platform|integration|framework)\/(android|ios|flutter|js|react-native)\/$/gm;
+          const platformPages = /\/q\/(platform|integration|framework)\/(android|ios|flutter|js|react-native)/gm;
           if (!platformPages.test(link.url)) {
             brokenLinks.push(link);
           }

@@ -4,8 +4,6 @@ import { RepoActionsStyle } from './styles';
 const getLabelForPath = (path) => {
   if (path.startsWith('/cli')) {
     return 'CLI';
-  } else if (path.startsWith('/ui') || path.startsWith('/ui-legacy')) {
-    return 'UI';
   } else if (path.startsWith('/lib') && path.includes('platform/js')) {
     return 'JavaScript';
   } else if (path.startsWith('/lib') && path.includes('platform/android')) {
@@ -56,14 +54,14 @@ export default function RepoActions({ directoryPath, url }) {
   return (
     <RepoActionsStyle>
       <ExternalLink href={feedbackLink}>
-        <img src="/assets/flag.svg" alt="" />
+        <img src="/assets/flag.svg" alt="" width="24" height="24" />
         <span aria-label="Leave feedback for this page on GitHub">
           Feedback
         </span>
       </ExternalLink>
       {shouldShowEditLink && (
         <ExternalLink href={editLink}>
-          <img src="/assets/github.svg" alt="" />
+          <img src="/assets/github.svg" alt="" width="24" height="24" />
           <span aria-label="Edit this page on GitHub">Edit</span>
         </ExternalLink>
       )}

@@ -12,13 +12,13 @@ You need to now inform your auth provider of this URL:
 3. On the left navigation bar, choose *Products*. Add *Facebook Login* if it isn't already added.
 
 4. If already added, choose *Settings* under the *Configure* dropdown.
-![Image](/images/cognitoHostedUI/facebook5.png)
+![The Settings option is circled from the configure dropdown.](/images/cognitoHostedUI/facebook5.png)
 
 5. Under *Valid OAuth Redirect URIs* type your user pool domain with the `/oauth2/idpresponse` endpoint.
 
     `https://<your-user-pool-domain>/oauth2/idpresponse`
 
-![Image](/images/cognitoHostedUI/facebook6.png)
+![Userpool domain is pasted into the text field with /oauth2/ endpoint.](/images/cognitoHostedUI/facebook6.png)
 
 6. Save changes.
 
@@ -33,7 +33,7 @@ You need to now inform your auth provider of this URL:
 5. Type your user pool domain into Authorized Javascript origins.
 6. Type your user pool domain with the `/oauth2/idpresponse` endpoint into *Authorized Redirect URIs*.
 
-    ![Image](/images/cognitoHostedUI/google8.png)
+    ![The URLs 1 form fields for authorized Javascript origins and authorized redirect URLs are circled.](/images/cognitoHostedUI/google8.png)
 
     Note: If you saw an error message `Invalid Redirect: domain must be added to the authorized domains list before submitting.` when adding the endpoint, please go to the *authorized domains list* and add the domain.
 7. Click *Save*.
@@ -43,9 +43,9 @@ You need to now inform your auth provider of this URL:
 
 1. [Sign in](https://developer.amazon.com/loginwithamazon/console/site/lwa/overview.html) with your Amazon credentials.
 2. Hover over the gear and choose Web Settings associated with the security profile you created in the previous step, and then choose Edit.
-![Image](/images/cognitoHostedUI/amazon4.png)
+![The web settings option is selected in the dropdown menu from the gear icon.](/images/cognitoHostedUI/amazon4.png)
 3. Type your user pool domain into Allowed Origins and type your user pool domain with the /oauth2/idpresponse endpoint into Allowed Return URLs.
-![Image](/images/cognitoHostedUI/amazon5.png)
+![Userpool domain is typed into the allowed origins field with /oauth2/ as the endpoint in the Allowed Return URLs field.](/images/cognitoHostedUI/amazon5.png)
 5. Choose Save.
 
 </Block>
@@ -59,19 +59,19 @@ You need to now inform your auth provider of this URL:
 6. Under **Primary App ID** select the app id that was created before.
 7. Type your user pool domain into **Domains and Subdomains**.
 8. Type your user pool domain with the `/oauth2/idpresponse` endpoint into **Return URLs**.
-![Image](/images/cognitoHostedUI/apple3.png)
+![The return URLs text field is selected.](/images/cognitoHostedUI/apple3.png)
 9. Click **Next**, review the information, then select **Done**.
 10. On *Edit your Services ID Configuration* click **Continue**, review the information, then select **Save**.
 11. On the main Certificates, Identifiers & Profiles, select **Keys**.
 12. On the Keys page, select the **+** icon.
 13. Provide a name for the key under **Key Name**.
 14. Enable **Sign in with Apple** and select **Configure**
-![Image](/images/cognitoHostedUI/apple4.png)
+![The sign in with apple option is enabled and the key name text field is filled out.](/images/cognitoHostedUI/apple4.png)
 15. Under **Primary App ID** select the app id that was created before.
 16. Click on **Save**
 17. On **Register a New Key** click **Continue**, review the information, then select **Register**.
 18. On the page you are redirected to take note of the Key ID and download the .p8 file containing the private key.
-![Image](/images/cognitoHostedUI/apple5.png)
+![The download key page is shown with the option to download the .p8 file with the private key.](/images/cognitoHostedUI/apple5.png)
 
 </Block>
 </BlockSwitcher>

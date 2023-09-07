@@ -15,6 +15,14 @@ func recordEvents() {
 }
 ```
 
+<Callout>
+
+The AWS Pinpoint event count updates in minutes after recording your event.
+
+However, it can take upwards of 30 minutes for the event to display in the Filter section, and for its custom attributes to appear in Pinpoint. 
+
+</Callout>
+
 ## Flush Events
 
 Events have default configuration to flush out to the network every 60 seconds. If you would like to change this, update `amplifyconfiguration.json` with the value you would like for `autoFlushEventsInterval` like so:
