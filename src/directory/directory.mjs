@@ -1168,11 +1168,6 @@ export const directory = {
             filters: ['js', 'react-native']
           },
           {
-            title: 'Multi-factor authentication',
-            route: '/lib-v1/auth/mfa',
-            filters: ['js', 'react-native']
-          },
-          {
             title: 'Sign in',
             route: '/lib-v1/auth/signin',
             filters: ['android', 'ios', 'flutter']
@@ -1191,6 +1186,11 @@ export const directory = {
             title: 'Social sign-in (OAuth)',
             route: '/lib-v1/auth/social',
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+          },
+          {
+            title: 'Multi-factor authentication',
+            route: '/lib-v1/auth/mfa',
+            filters: ['js', 'react-native']
           },
           {
             title: 'Password & user management',
@@ -1235,7 +1235,7 @@ export const directory = {
           {
             title: 'Remember a device',
             route: '/lib-v1/auth/device_features',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Password management',
@@ -1260,7 +1260,7 @@ export const directory = {
           {
             title: 'Delete user',
             route: '/lib-v1/auth/delete_user',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Escape hatch',
@@ -1270,7 +1270,7 @@ export const directory = {
           {
             title: 'Under the hood',
             route: '/lib-v1/auth/overview',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js', 'react-native']
           }
         ]
       },
