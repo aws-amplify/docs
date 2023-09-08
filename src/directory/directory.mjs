@@ -1168,6 +1168,11 @@ export const directory = {
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
+            title: 'Enable sign-up, sign-in, and sign-out',
+            route: '/lib-v1/auth/emailpassword',
+            filters: ['js', 'react-native']
+          },
+          {
             title: 'Sign in',
             route: '/lib-v1/auth/signin',
             filters: ['android', 'ios', 'flutter']
