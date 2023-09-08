@@ -20,10 +20,31 @@ import flutter2 from '/src/fragments/lib/flutter.mdx';
 
 <Fragments fragments={{ flutter: flutter2 }} />
 
-import js3 from '/src/fragments/lib/js.mdx';
 
-<Fragments fragments={{ js: js3 }} />
+<InlineFilter filters={['js', 'react-native']}>
 
-import reactnative4 from '/src/fragments/lib/reactnative.mdx';
+## Amplify JavaScript
 
-<Fragments fragments={{ 'react-native': reactnative4 }} />
+TODO: Add a callout that this is a developer preview version, and link to RFC
+
+The Amplify JavaScript libraries are supported for different web and mobile frameworks including React, React Native, Angular, Solid, and Vue.
+
+What's next? Here are some things you can add to your app:
+
+<InlineFilter filters={['js']}>
+
+- [Authentication](/lib/auth/getting-started)
+- [User File Storage](/lib/storage/getting-started)
+- [Analytics](/lib/analytics/getting-started)
+
+</InlineFilter>
+
+<InlineFilter filters={['react-native']}>
+
+- [Authentication](/lib/auth/getting-started)
+- [User File Storage](/lib/storage/getting-started)
+- [Analytics](/lib/analytics/getting-started)
+
+</InlineFilter>
+
+</InlineFilter>
