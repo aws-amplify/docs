@@ -75,6 +75,14 @@ Studio's Data Manager supports Amplify GraphQL APIs with and without DataStore. 
 
 To use these features, you can add DataStore to your app by [adjusting your Conflict Resolution settings.](/console/data/data-model/#datastore-and-graphql)
 
+If your GraphQL API is using Conflict Resolution and DataStore
+
+### Multi-tab limitation
+
+If your GraphQL API is using DataStore, Studio's Data Manager requires use of IndexedDB (a local database in your web browser) in order to function. Because of this, Data Manager may not load as expected if opened in multiple tabs or windows in your browser. 
+
+This limitation does not apply to GraphQL APIs with [Conflict Resolution disabled](/console/data/data-model/#datastore-and-graphql).
+
 ### Null required fields
 When using the data manager, you may encounter the following error message:
 
@@ -122,12 +130,6 @@ This message occurs when there are records in the selected data model that have 
 1. Select the **Tables** heading in the left-hand nav bar, and select your app's table
 1. Select the "Explore table items" button in the upper right-hand corner
 1. Update all records so that they match the type of this field
-
-### Multi-tab limitation
-
-If your GraphQL API is using DataStore, Studio's Data Manager requires use of indexedDB (a local database in your web browser) in order to function. Because of this, Data Manager may not load as expected if opened in multiple tabs or windows in your browser. 
-
-This limitation does not apply to GraphQL APIs with [Conflict Resolution disabled](/console/data/data-model/#datastore-and-graphql).
 
 ### IAM required as auth provider
 
