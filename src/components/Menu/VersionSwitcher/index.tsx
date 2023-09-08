@@ -81,10 +81,20 @@ export function LibVersionSwitcher({
   };
 
   const rightHref = '/lib' + urlEnd;
-  const rightOption = {
-    title: `${latestVersion} (latest)`,
-    href: isHrefIncluded(rightHref, libPaths) ? rightHref : '/lib/' + filter
-  };
+
+  let rightOption;
+
+  if (filter === 'q/platform/react-native' || filter === 'q/platform/js') {
+    rightOption = {
+      title: `${latestVersion} (preview)`,
+      href: isHrefIncluded(rightHref, libPaths) ? rightHref : '/lib/' + filter
+    };
+  } else {
+    rightOption = {
+      title: `${latestVersion} (latest)`,
+      href: isHrefIncluded(rightHref, libPaths) ? rightHref : '/lib/' + filter
+    };
+  }
 
   return (
     <SwitchStyle>
