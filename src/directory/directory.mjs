@@ -100,7 +100,7 @@ export const directory = {
           {
             title: 'Multi-factor authentication',
             route: '/lib/auth/mfa',
-            filters: ['js', 'react-native']
+            filters: ['js', 'react-native', 'android', 'flutter', 'ios']
           },
           {
             title: 'Password & user management',
@@ -141,11 +141,6 @@ export const directory = {
             title: 'Social sign-in (OAuth)',
             route: '/lib/auth/social',
             filters: ['android', 'flutter', 'ios']
-          },
-          {
-            title: 'Multi-factor authentication',
-            route: '/lib/auth/mfa',
-            filters: ['ios', 'flutter', 'android']
           },
           {
             title: 'SMS flows',
@@ -1173,6 +1168,11 @@ export const directory = {
             filters: ['js', 'react-native']
           },
           {
+            title: 'Multi-factor authentication',
+            route: '/lib-v1/auth/mfa',
+            filters: ['js', 'react-native']
+          },
+          {
             title: 'Sign in',
             route: '/lib-v1/auth/signin',
             filters: ['android', 'ios', 'flutter']
@@ -1190,7 +1190,7 @@ export const directory = {
           {
             title: 'Social sign-in (OAuth)',
             route: '/lib-v1/auth/social',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Sign in next steps',
