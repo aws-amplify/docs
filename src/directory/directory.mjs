@@ -1163,9 +1163,9 @@ export const directory = {
         title: 'Authentication',
         items: [
           {
-            title: 'Getting started',
+            title: 'Set up Amplify Auth',
             route: '/lib-v1/auth/getting-started',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Sign in',
