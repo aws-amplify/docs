@@ -113,6 +113,7 @@ function Menu(props: MenuProps, ref) {
   function getVersions(filterKey) {
     switch (filterKey) {
       case 'js':
+        return { legacyVersion: 'v5', latestVersion: 'v6' };
       case 'react-native':
         return { legacyVersion: 'v5', latestVersion: 'v6' };
       case 'flutter':
