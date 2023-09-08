@@ -1193,6 +1193,21 @@ export const directory = {
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
+            title: 'Password & user management',
+            route: '/lib-v1/auth/manageusers',
+            filters: ['js', 'react-native']
+          },
+          {
+            title: 'Switching authentication flows',
+            route: '/lib-v1/auth/switch-auth',
+            filters: ['js', 'react-native']
+          },
+          {
+            title: 'Advanced workflows',
+            route: '/lib-v1/auth/advanced',
+            filters: ['js', 'react-native']
+          },
+          {
             title: 'Sign in next steps',
             route: '/lib-v1/auth/signin_next_steps',
             filters: ['ios']
@@ -1210,7 +1225,7 @@ export const directory = {
           {
             title: 'Auth events',
             route: '/lib-v1/auth/auth-events',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'User attributes',
