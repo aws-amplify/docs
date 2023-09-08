@@ -46,17 +46,21 @@ When you save and deploy your data model, Amplify Studio generates a GraphQL API
 
 **[DataStore](/lib/datastore/getting-started)** is a wrapper for your GraphQL API that uses local, on-device storage to handle offline use. DataStore automatically synchronizes data between your mobile or web app and your database, and uses a **Conflict Resolution strategy** to handle data conflicts. DataStore is automatically added to your API when you select a Conflict Resolution method. 
 
-Using DataStore and direct GraphQL require different query syntax and structure. Make sure to use the appropriate syntax for your API. 
+### Impact of changing Conflict Resolution
 
-### Destructive data changes
+You can change the settings for your GraphQL API at any time via Studio or the CLI. However, turning Conflict Resolution off or on is a **significant** app change. 
 
-You can change the settings for your GraphQL API at any time via Studio or the CLI. However, turning Conflict Resolution off is a **destructive** data change. 
+**Updating Syntax**
+
+To interface with your data while Conflict Resolution is enabled, you will likely be using [DataStore syntax](/lib/datastore/data-access/q/platform/js/). However, if Conflict Resolution is disabled, any data interactions must be updated to use [GraphQL syntax](/lib/graphqlapi/mutate-data/q/platform/js/) instead. 
+
+**Inaccessible data**
 
 When a GraphQL API is created with Conflict Resolution enabled, [several hidden fields](/lib/datastore/how-it-works/q/platform/js/#conflict-resolution) are automatically added to each of your data models - these fields are required for querying and mutating data, and if any records have these values set to `null`, those records will be inaccessible.
 
-If Conflict Resolution is disabled, these fields are **permanently and irreversibly** removed from your data model. This will have no immediate impact on your app, so long as you are using [GraphQL syntax](/lib/graphqlapi/mutate-data/q/platform/js/) to interact with your data. However, if Conflict Resolution is later re-enabled, any existing data in the API will be inaccessible until the required fields are set for all existing records. 
+If Conflict Resolution is disabled, these fields will no longer be populated when records are created or modified. This will have no immediate impact on your app, so long as you are using [GraphQL syntax](/lib/graphqlapi/mutate-data/q/platform/js/) to interact with your data. However, if Conflict Resolution is later re-enabled, **any existing data in the API will be inaccessible until the required fields are set for all existing records**. 
 
-**To avoid this situation, it's recommended to only enable/disable Conflict Resolution on APIs with no pre-existing data**
+To avoid this situation, it's recommended to only enable/disable Conflict Resolution on APIs with no pre-existing data. 
 
 ### Changing GraphQL API settings
 
