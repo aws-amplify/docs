@@ -87,7 +87,9 @@ function Menu(props: MenuProps, ref) {
     (props.url.startsWith('/lib') || props.url.startsWith('/lib-v1')) &&
     (props.filterKey == 'ios' ||
       props.filterKey == 'android' ||
-      props.filterKey === 'flutter')
+      props.filterKey === 'flutter' ||
+      props.filterKey === 'js' ||
+      props.filterKey === 'react-native')
   ) {
     showLibVersionSwitcher = true;
   }
@@ -107,6 +109,20 @@ function Menu(props: MenuProps, ref) {
       ...combinedDates.map((e) => new Date(e).getTime())
     );
   }
+
+  function getVersions(filterKey) {
+    switch (filterKey) {
+      case 'js':
+      case 'react-native':
+        return { legacyVersion: 'v5', latestVersion: 'v6' };
+      case 'flutter':
+        return { legacyVersion: 'v0', latestVersion: 'v1' };
+      default:
+        return { legacyVersion: 'v1', latestVersion: 'v2' };
+    }
+  }
+
+  const { legacyVersion, latestVersion } = getVersions(props.filterKey);
 
   if (isOpen) {
     return (
@@ -134,8 +150,8 @@ function Menu(props: MenuProps, ref) {
               {showLibVersionSwitcher && (
                 <LibVersionSwitcher
                   url={props.url}
-                  legacyVersion={props.filterKey === 'flutter' ? 'v0' : 'v1'}
-                  latestVersion={props.filterKey === 'flutter' ? 'v1' : 'v2'}
+                  legacyVersion={legacyVersion}
+                  latestVersion={latestVersion}
                 />
               )}
               <Directory filterKey={props.filterKey} url={props.url} />
