@@ -31,15 +31,5 @@ import fcmPreReq from '/src/fragments/lib/push-notifications/android/getting_sta
 
 <Fragments fragments={{ flutter: fcmPreReq, 'react-native': fcmPreReq }} />
 
-### Applying the Google services plugin
-
-The Firebase documentation directs you to add the Google services plugin to your app `build.gradle` using the [Gradle plugins DSL](https://docs.gradle.org/current/userguide/plugins.html#sec:plugins_block). However, we recommend you continue to use the [Legacy Plugin Application](https://docs.gradle.org/current/userguide/plugins.html#sec:old_plugin_application) instead:
-
-```groovy
-apply plugin: 'com.google.gms.google-services'
-```
-
-If you prefer using the plugins DSL, you should add the `plugins` block to the very top of the file or you may experience issues when building your app for Android.
-
 </Block>
 </BlockSwitcher>
