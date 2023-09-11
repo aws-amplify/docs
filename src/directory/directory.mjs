@@ -1445,17 +1445,17 @@ export const directory = {
           {
             title: 'Getting started',
             route: '/lib-v1/storage/getting-started',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Concepts',
             route: '/lib-v1/storage/overview',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Upload files',
             route: '/lib-v1/storage/upload',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Download files',
@@ -1465,22 +1465,22 @@ export const directory = {
           {
             title: 'List files',
             route: '/lib-v1/storage/list',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Remove files',
             route: '/lib-v1/storage/remove',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'File access levels',
             route: '/lib-v1/storage/configureaccess',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Lambda triggers',
             route: '/lib-v1/storage/triggers',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Escape hatch',
@@ -1490,7 +1490,7 @@ export const directory = {
           {
             title: 'Use existing AWS resources',
             route: '/lib-v1/storage/existing-resources',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           }
         ]
       },
