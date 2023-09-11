@@ -278,7 +278,7 @@ export const directory = {
             filters: ['js', 'react-native']
           },
           {
-            title: 'Multi-factor authentication',
+            title: 'Manage MFA settings',
             route: '/lib/auth/mfa',
             filters: ['js', 'react-native']
           },
