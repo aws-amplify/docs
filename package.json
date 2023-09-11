@@ -128,14 +128,18 @@
     ],
     "setupFilesAfterEnv": [
       "<rootDir>/jest.setup.js"
-    ]
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less|scss)$": "<rootDir>/src/__mocks__/styleMock.js"
+    },
+    "transformIgnorePatterns": []
   },
   "scripts": {
     "clean": "rm -rf node_modules yarn.lock",
     "refresh": "yarn clean && yarn",
     "test": "jest",
     "dev": "next dev",
-    "spellcheck": "cspell \"src/**/*.mdx\" --no-progress" ,
+    "spellcheck": "cspell \"src/**/*.mdx\" --no-progress",
     "spellcheck-diff": "git diff --name-only --cached | awk \"/src.*\\.mdx/{print}\" | npx cspell --no-must-find-files --file-list stdin",
     "build": "node tasks/generate-sitemap.mjs && next build && next export -o client/www/next-build && next-image-export-optimizer --exportFolderPath client/www/next-build",
     "next-build": "next build",

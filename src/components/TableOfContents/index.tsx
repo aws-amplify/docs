@@ -11,6 +11,7 @@ import { forwardRef, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { MQDesktop } from '../media';
 import { CloseIcon } from '../Icons';
+import { truncate } from 'fs';
 
 const stickyHeaderHeight = 124;
 function scroll(hash) {
@@ -24,7 +25,7 @@ function scroll(hash) {
 function TableOfContents({ children, title, buttonsRef }, ref) {
   const router = useRouter();
   const MQDesktopJS = MQDesktop.substring(6);
-  const [onDesktop, setOnDesktop] = useState(false);
+  const [onDesktop, setOnDesktop] = useState(true);
 
   let headers = [];
   let headerQueries = [];

@@ -39,7 +39,7 @@ export default function MetaContent({
   const buttonsRef = useRef(null);
   const contentsRef = useRef(null);
   const [menuIsOpen, setMenuIsOpen] = useState(false);
-  const [onDesktop, setOnDesktop] = useState(false);
+  const [onDesktop, setOnDesktop] = useState(true);
 
   // Slice off the "@media " string at the start for use in JS instead of CSS
   const MQDesktopJS = MQDesktop.substring(6);
