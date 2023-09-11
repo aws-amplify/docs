@@ -133,6 +133,7 @@ export const H3AnchorStyle = styled.div`
 export const HeaderStyle = styled.div`
   padding-right: 1.5rem;
   padding-bottom: 0.5rem;
+  padding-left: 1.5rem;
   border-left: 0.05rem solid var(--border-color);
 
   ${MQDesktop} {
