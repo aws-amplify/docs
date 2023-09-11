@@ -45,6 +45,10 @@ function ChooseFilterPage({
     setIsMounted(true);
   }, []);
 
+  if (!url) {
+    return <></>;
+  }
+
   url = url.split('/q/')[0];
 
   let title = '',
