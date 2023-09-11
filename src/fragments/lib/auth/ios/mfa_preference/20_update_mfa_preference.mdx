@@ -1,0 +1,48 @@
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+func updateMFAPreferences() async throws {
+    let authCognitoPlugin = try Amplify.Auth.getPlugin(
+        for: "awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
+
+    let smsMfaPreference: MFAPreference = .preferred
+    let totpMfaPreference: MFAPreference = .enabled
+
+    try await authCognitoPlugin?.updateMFAPreference(
+        sms: smsMfaPreference,
+        totp: totpMfaPreference)
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+func updateMFAPreferences() -> AnyCancellable {
+    Amplify.Publisher.create {
+        let authCognitoPlugin = try Amplify.Auth.getPlugin(
+            for: "awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
+
+        let smsMfaPreference: MFAPreference = .preferred
+        let totpMfaPreference: MFAPreference = .enabled
+
+        try await authCognitoPlugin?.updateMFAPreference(
+            sms: smsMfaPreference,
+            totp: totpMfaPreference)
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("Confirm sign in failed \(authError)")
+        }
+    }
+    receiveValue: {
+        print("Update MFA preference succeeded")
+    }
+}
+```
+
+</Block>
+
+</BlockSwitcher>

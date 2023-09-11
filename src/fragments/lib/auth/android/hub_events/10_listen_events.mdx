@@ -3,32 +3,32 @@
 
 ```java
 Amplify.Hub.subscribe(HubChannel.AUTH,
-      hubEvent -> {
-          if (hubEvent.getName().equals(InitializationStatus.SUCCEEDED.toString())) {
-              Log.i("AuthQuickstart", "Auth successfully initialized");
-          } else if (hubEvent.getName().equals(InitializationStatus.FAILED.toString())){
-              Log.i("AuthQuickstart", "Auth failed to succeed");
-          } else {
-              switch (AuthChannelEventName.valueOf(hubEvent.getName())) {
-                  case SIGNED_IN:
-                      Log.i("AuthQuickstart", "Auth just became signed in.");
-                      break;
-                  case SIGNED_OUT:
-                      Log.i("AuthQuickstart", "Auth just became signed out.");
-                      break;
-                  case SESSION_EXPIRED:
-                      Log.i("AuthQuickstart", "Auth session just expired.");
-                      break;
-                  case USER_DELETED:
-                      Log.i("AuthQuickstart", "User has been deleted.");
-                      break;
-                  default:
-                      Log.w("AuthQuickstart", "Unhandled Auth Event: " + AuthChannelEventName.valueOf(hubEvent.getName()));
-                      break;
-              }
-          }
-      }
+    hubEvent -> {
+        if (hubEvent.getName().equals(InitializationStatus.SUCCEEDED.name())) {
+            Log.i("AuthQuickstart", "Auth successfully initialized");
+        } else if (hubEvent.getName().equals(InitializationStatus.FAILED.name())){
+            Log.i("AuthQuickstart", "Auth failed to succeed");
+        } else {
+            String eventName = hubEvent.getName();
+            if (eventName.equals(SIGNED_IN.name())) {
+                Log.i("AuthQuickstart", "Auth just became signed in.");
+            }
+            else if (eventName.equals(SIGNED_OUT.name())) {
+                Log.i("AuthQuickstart", "Auth just became signed out.");
+            }
+            else if (eventName.equals(SESSION_EXPIRED.name())) {
+                Log.i("AuthQuickstart", "Auth session just expired.");
+            }
+            else if (eventName.equals(USER_DELETED.name())) {
+                Log.i("AuthQuickstart", "User has been deleted.");
+            }
+            else {
+                Log.w("AuthQuickstart", "Unhandled Auth Event: " + eventName);
+            }
+        }
+    }
 );
+
 ```
 
 </Block>
@@ -37,18 +37,18 @@ Amplify.Hub.subscribe(HubChannel.AUTH,
 ```kotlin
 Amplify.Hub.subscribe(HubChannel.AUTH) { event ->
     when (event.name) {
-        InitializationStatus.SUCCEEDED.toString() ->
+        InitializationStatus.SUCCEEDED.name ->
             Log.i("AuthQuickstart", "Auth successfully initialized")
-        InitializationStatus.FAILED.toString() ->
+        InitializationStatus.FAILED.name ->
             Log.i("AuthQuickstart", "Auth failed to succeed")
-        else -> when (AuthChannelEventName.valueOf(event.name)) {
-            AuthChannelEventName.SIGNED_IN ->
+        else -> when (event.name) {
+            AuthChannelEventName.SIGNED_IN.name ->
                 Log.i("AuthQuickstart", "Auth just became signed in")
-            AuthChannelEventName.SIGNED_OUT ->
+            AuthChannelEventName.SIGNED_OUT.name ->
                 Log.i("AuthQuickstart", "Auth just became signed out")
-            AuthChannelEventName.SESSION_EXPIRED ->
+            AuthChannelEventName.SESSION_EXPIRED.name ->
                 Log.i("AuthQuickstart", "Auth session just expired")
-            AuthChannelEventName.USER_DELETED ->
+            AuthChannelEventName.USER_DELETED.name ->
                 Log.i("AuthQuickstart", "User has been deleted")
             else ->
                 Log.w("AuthQuickstart", "Unhandled Auth Event: ${event.name}")
@@ -63,19 +63,21 @@ Amplify.Hub.subscribe(HubChannel.AUTH) { event ->
 ```kotlin
 Amplify.Hub.subscribe(HubChannel.AUTH).collect {
     when (it.name) {
-        InitializationStatus.SUCCEEDED.toString() ->
+        InitializationStatus.SUCCEEDED.name ->
             Log.i("AuthQuickstart", "Auth successfully initialized")
-        InitializationStatus.FAILED.toString() ->
+        InitializationStatus.FAILED.name ->
             Log.i("AuthQuickstart", "Auth failed to succeed")
-        else -> when (AuthChannelEventName.valueOf(it.name)) {
-            AuthChannelEventName.SIGNED_IN ->
+        else -> when (it.name) {
+            AuthChannelEventName.SIGNED_IN.name ->
                 Log.i("AuthQuickstart", "Auth just became signed in.")
-            AuthChannelEventName.SIGNED_OUT ->
+            AuthChannelEventName.SIGNED_OUT.name ->
                 Log.i("AuthQuickstart", "Auth just became signed out.")
-            AuthChannelEventName.SESSION_EXPIRED ->
+            AuthChannelEventName.SESSION_EXPIRED.name ->
                 Log.i("AuthQuickstart", "Auth session just expired.")
-            AuthChannelEventName.USER_DELETED ->
+            AuthChannelEventName.USER_DELETED.name ->
                 Log.i("AuthQuickstart", "User has been deleted.")
+            else ->
+                Log.w("AuthQuickstart", "Unhandled Auth Event: ${it.name}")
         }
     }
 }
@@ -88,29 +90,28 @@ Amplify.Hub.subscribe(HubChannel.AUTH).collect {
 RxAmplify.Hub.on(HubChannel.AUTH)
     .map(HubEvent::getName)
     .subscribe(name -> {
-        if (name.equals(InitializationStatus.SUCCEEDED.toString())) {
+        if (name.equals(InitializationStatus.SUCCEEDED.name())) {
             Log.i("AuthQuickstart", "Auth successfully initialized");
             return;
-        } else if (name.equals(InitializationStatus.FAILED.toString())) {
+        } else if (name.equals(InitializationStatus.FAILED.name())) {
             Log.i("AuthQuickstart", "Auth failed to succeed");
             return;
-        }
-        switch (AuthChannelEventName.valueOf(name)) {
-            case SIGNED_IN:
+        } else {
+            if (name.equals(SIGNED_IN.name())) {
                 Log.i("AuthQuickstart", "Auth just became signed in.");
-                break;
-            case SIGNED_OUT:
+            }
+            else if (name.equals(SIGNED_OUT.name())) {
                 Log.i("AuthQuickstart", "Auth just became signed out.");
-                break;
-            case SESSION_EXPIRED:
+            }
+            else if (name.equals(SESSION_EXPIRED.name())) {
                 Log.i("AuthQuickstart", "Auth session just expired.");
-                break;
-            case USER_DELETED:
+            }
+            else if (name.equals(USER_DELETED.name())) {
                 Log.i("AuthQuickstart", "User has been deleted.");
-                break;
-            default:
-                Log.w("AuthQuickstart", "Unhandled Auth Event: " + AuthChannelEventName.valueOf(name));
-                break;
+            }
+            else {
+                Log.w("AuthQuickstart", "Unhandled Auth Event: " + hubEvent.getName());
+            }
         }
     });
 ```

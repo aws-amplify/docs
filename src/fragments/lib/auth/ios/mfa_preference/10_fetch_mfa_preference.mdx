@@ -1,0 +1,41 @@
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+func getMFAPreferences() async throws {
+    let authCognitoPlugin = try Amplify.Auth.getPlugin(
+        for: "awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
+
+    let result = try await authCognitoPlugin?.fetchMFAPreference()
+
+    print("Enabled MFA types: \(result?.enabled)")
+    print("Preferred MFA type: \(result?.preferred)")
+}
+```
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+func getMFAPreferences() -> AnyCancellable {
+    Amplify.Publisher.create {
+        let authCognitoPlugin = try Amplify.Auth.getPlugin(
+            for: "awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
+        return try await authCognitoPlugin?.fetchMFAPreference()
+    }.sink {
+        if case let .failure(authError) = $0 {
+            print("Confirm sign in failed \(authError)")
+        }
+    }
+    receiveValue: { (result: UserMFAPreference?) in
+        print("Enabled MFA types: \(result?.enabled)")
+        print("Preferred MFA type: \(result?.preferred)")
+    }
+}
+```
+
+</Block>
+
+</BlockSwitcher>

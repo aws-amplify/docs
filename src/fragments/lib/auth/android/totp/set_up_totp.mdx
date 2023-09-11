@@ -1,0 +1,67 @@
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.setUpTOTP(
+    result -> {
+        Log.d("AuthQuickstart","Shared secret that will be used to set up TOTP in the authenticator app" + result.getSharedSecret());
+        // appName parameter will help distinguish the account in the Authenticator app
+        Uri setupURI = result.getSetupURI("<Your_App_Name>>");
+        // Prompt the user to enter the TOTP code generated in their authenticator app
+        // Then invoke `verifyTOTP` api with the code
+    },
+    error -> Log.e("AuthQuickstart", error.toString())
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.setUpTOTP(
+    { result ->
+        Log.d("AuthQuickstart","Shared secret that will be used to set up TOTP in the authenticator app ${result.sharedSecret}")
+        // appName parameter will help distinguish the account in the Authenticator app
+        val setupURI = result.getSetupURI("<Your_App_Name>>")
+        // Prompt the user to enter the TOTP code generated in their authenticator app
+        // Then invoke `verifyTOTP` api with the code
+    },
+    { Log.e("AuthQuickstart", "Failed to confirm signin", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val result = Amplify.Auth.setUpTOTP()
+    Log.d("AuthQuickstart","Shared secret that will be used to set up TOTP in the authenticator app ${result.sharedSecret}")
+    // appName parameter will help distinguish the account in the Authenticator app
+    val setupURI = result.getSetupURI("<Your_App_Name>>")
+    // Prompt the user to enter the TOTP code generated in their authenticator app
+    // Then invoke `verifyTOTP` api with the code
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Failed to confirm signin", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.setUpTOTP()
+    .subscribe(
+        result -> {
+            Log.d("AuthQuickstart","Shared secret that will be used to set up TOTP in the authenticator app" + result.getSharedSecret());
+            // appName parameter will help distinguish the account in the Authenticator app
+            Uri setupURI = result.getSetupURI("<Your_App_Name>");
+            // Prompt the user to enter the TOTP code generated in their authenticator app
+            // Then invoke `verifyTOTP` api with the code
+        },
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+```
+
+</Block>
+</BlockSwitcher>

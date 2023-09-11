@@ -26,7 +26,7 @@ export default function SecondaryNav() {
   const router = useRouter();
   const path = router.asPath;
   return (
-    <HostStyle>
+    <HostStyle as="nav">
       <Container>
         <SecondaryNavStyle id="secondary-nav">
           <div className="secondary-nav-links">
