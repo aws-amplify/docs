@@ -27,3 +27,45 @@ import js3 from '/src/fragments/lib/js.mdx';
 import reactnative4 from '/src/fragments/lib/reactnative.mdx';
 
 <Fragments fragments={{ 'react-native': reactnative4 }} />
+
+export const getStaticPaths = () => {
+  return {
+    paths: [
+      {
+        params: {
+          platform: 'ios'
+        }
+      },
+      {
+        params: {
+          platform: 'android'
+        }
+      },
+      {
+        params: {
+          platform: 'flutter'
+        }
+      },
+      {
+        params: {
+          platform: 'js'
+        }
+      },
+      {
+        params: {
+          platform: 'react-native'
+        }
+      }
+    ],
+    fallback: false
+  };
+};
+
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: 'platform'
+    }
+  };
+};
