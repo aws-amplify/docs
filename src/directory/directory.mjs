@@ -724,7 +724,7 @@ export const directory = {
         title: 'Storage',
         items: [
           {
-            title: 'Getting started',
+            title: 'Set up Amplify Storage',
             route: '/lib/storage/getting-started',
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
@@ -1485,7 +1485,7 @@ export const directory = {
           {
             title: 'Escape hatch',
             route: '/lib-v1/storage/escapehatch',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js', 'react-native']
           },
           {
             title: 'Use existing AWS resources',
