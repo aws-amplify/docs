@@ -25,11 +25,15 @@ export const PageContext = createContext({});
 export default function Page({
   children,
   meta,
-  frontmatter
+  frontmatter,
+  platform = '',
+  filterKind = ''
 }: {
   children: any;
   meta?: any;
   frontmatter?: MdxFrontmatterType;
+  platform?: string;
+  filterKind?: string;
 }) {
   const footerRef = useRef(null);
   const router = useRouter();
@@ -49,9 +53,11 @@ export default function Page({
 
   const directoryPath = router.pathname;
 
-  let filterKey = '',
-    filterKind = '';
+  let filterKey = platform;
   const filterKeyUpdates = {} as SelectedFilters;
+  if (filterKey && filterKind) {
+    filterKeyUpdates[filterKind] = filterKey;
+  }
   if ('platform' in router.query) {
     filterKey = router.query.platform as string;
     filterKeyUpdates.platform = filterKey;

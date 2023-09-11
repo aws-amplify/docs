@@ -22,3 +22,32 @@ import react_native2 from '/src/fragments/start/getting-started/reactnative/setu
 import js0 from '/src/fragments/lib/project-setup/js/getting-started.mdx';
 
 <Fragments fragments={{ js: js0 }} />
+
+export const getStaticPaths = () => {
+  return {
+    paths: [
+      {
+        params: {
+          platform: 'js'
+        }
+      },
+      {
+        params: {
+          platform: 'android'
+        }
+      }
+    ],
+    fallback: false
+  };
+};
+
+export const getStaticProps = (context) => {
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: 'platform'
+    }
+  };
+};
+
+;
