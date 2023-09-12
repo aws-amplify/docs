@@ -49,11 +49,11 @@ To copy file across different access levels, you'll need to explicitly provide t
 ```typescript
 console.log(await list({ path : 'copied/', options: { accessLevel: 'private' }})); // []
 
-// Copies 'existing/srcKey' to 'copied/destKey' from 'public' to 'private'
+// Copies 'existing/srcKey' to 'copied/destKey' from 'guest' to 'private'
 const copied = await Storage.copy({
 	source: {
 				key: 'srcKey',
-				accessLevel: 'public'
+				accessLevel: 'guest'
 			},
 	destination: { 
 				key: 'destKey', 
@@ -71,7 +71,7 @@ console.log(copied); // { key: 'copied/destKey' }
 You can also copy a protected file from another user by providing their identity id
 
 ```typescript
-console.log(await list({ path : 'copied/', options: { accessLevel: 'private' }}); // []
+console.log(await list({ path : 'copied/', options: { accessLevel: 'private' }})); // []
 
 // Copies 'existing/srcKey' to 'copied/destKey' from 'protected' of another identity ID to 'private' of the current
 // authenticated user
@@ -91,7 +91,7 @@ const copied = await Storage.copy(
 )
 
 // There should now be a new file with key "copied/destKey"
-console.log(await list({ path : 'copied/', options: { accessLevel: 'private' }}); // [..., key: 'copied/destKey']
+console.log(await list({ path : 'copied/', options: { accessLevel: 'private' }})); // [..., key: 'copied/destKey']
 console.log(copied); // { key: 'copied/destKey' }
 ```
 
