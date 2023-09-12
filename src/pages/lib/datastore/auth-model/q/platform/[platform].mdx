@@ -1,6 +1,25 @@
 export const meta = {
   title: `Models with authorization`,
   description: `Learn more about how DataStore handles Models with finer grain authorization access checks.`,
+  filterKey: "platform",
+  supportedPlatforms: PLATFORM_FILTER_OPTIONS
+};
+      
+import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
+
+import { PLATFORM_FILTER_OPTIONS } from "@/utils/filter-data.ts";
+
+export const getStaticPaths = () => {
+    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+    return {
+        props: {
+            platform: context.params.platform,
+            filterKind: meta.filterKey
+        }
+    };
 };
 
 In order to configure fine grain authorization controls with DataStore, use the `@auth` directive to specify ownership and permissible operations (create, update, delete, read) on a specific type. More information can be found on the @auth directive in the [GraphQL Transformer documentation](/cli/graphql/authorization-rules).

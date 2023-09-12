@@ -1,6 +1,25 @@
 export const meta = {
   title: `Upgrade Guide`,
   description: `Guide to upgrade Amplify version from the last major version`,
+  filterKey: "platform",
+  supportedPlatforms: PLATFORM_FILTER_OPTIONS
+};
+      
+import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
+
+import { PLATFORM_FILTER_OPTIONS } from "@/utils/filter-data.ts";
+
+export const getStaticPaths = () => {
+    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+    return {
+        props: {
+            platform: context.params.platform,
+            filterKind: meta.filterKey
+        }
+    };
 };
 
 import ios0 from "/src/fragments/lib/project-setup/ios/upgrade-guide/upgrade-guide.mdx";

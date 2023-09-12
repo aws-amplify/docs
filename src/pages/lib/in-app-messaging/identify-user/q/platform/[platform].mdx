@@ -1,6 +1,25 @@
 export const meta = {
   title: `Identify a user`,
-  description: `Learn how to segment and target your In-App Messaging campaigns to specific user subsets.`
+  description: `Learn how to segment and target your In-App Messaging campaigns to specific user subsets.`,
+  filterKey: "platform",
+  supportedPlatforms: PLATFORM_FILTER_OPTIONS
+};
+      
+import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
+
+import { PLATFORM_FILTER_OPTIONS } from "@/utils/filter-data.ts";
+
+export const getStaticPaths = () => {
+    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+    return {
+        props: {
+            platform: context.params.platform,
+            filterKind: meta.filterKey
+        }
+    };
 };
 
 import reactnative0 from '/src/fragments/lib/in-app-messaging/identify-user/identify-user.mdx';

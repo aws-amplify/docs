@@ -7,7 +7,7 @@ module.exports = (async () => {
         tree.children.splice(index + 1, 0, {
           type: 'export',
           default: true,
-          value: `export default ({ frontmatter, children, platform, filterKind }) => <Page frontmatter={frontmatter} meta={meta} platform={platform} filterKind={filterKind}>{children}</Page>`
+          value: `export default ({ frontmatter, children, platform, filterKind, integration }) => <Page frontmatter={frontmatter} meta={meta} platform={platform||integration} filterKind={filterKind}>{children}</Page>`
         });
       }
     });
