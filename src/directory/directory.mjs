@@ -1460,7 +1460,7 @@ export const directory = {
           {
             title: 'Copy files',
             route: '/lib-v1/storage/copy',
-            filters: ['js', 'flutter']
+            filters: ['js', 'react-native', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Remove file',
