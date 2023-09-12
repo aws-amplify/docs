@@ -4,10 +4,10 @@ Delete stored data from the storage bucket.
 
 ## Public level remove
 
-```javascript
+```typescript
 import { remove } from 'aws-amplify/storage'
 
-	async function removeItem() {
+	async function removeFile() {
 		try {
 			await remove({ key: filename });
 		} catch (error) {
@@ -19,9 +19,9 @@ import { remove } from 'aws-amplify/storage'
 
 ## Protected level remove
 
-```javascript
+```typescript
 
-	async function removeItem() {
+	async function removeFile() {
 		try {
 			await remove({ key: filename, options: { accessLevel: 'protected' } });
 		} catch (error) {
@@ -35,7 +35,7 @@ import { remove } from 'aws-amplify/storage'
 
 ```javascript
 
-	async function removeItem() {
+	async function removeFile() {
 		try {
 			await remove({ key: filename, options: { accessLevel: 'private' } });
 		} catch (error) {
