@@ -1,25 +1,30 @@
 export const meta = {
-  title: `Manage MFA settings`,
+  title: `Manage Multi-factor authentication settings`,
   description: `Learn how to enable multi-factor authentication with Amplify.`,
 };
 
-[comment]: # (source content from /src/fragments/lib/auth/js/mfa.mdx ; /src/fragments/lib/auth/js/emailpassword.mdx ; /src/fragments/lib/auth/common/device_features/common.mdx ; /src/fragments/lib/auth/js/device_features/10_rememberDevice.mdx ; /src/fragments/lib/auth/js/device_features/20_forgetDevice.mdx ; /src/fragments/lib/auth/js/device_features/30_fetchDevice.mdx)
+[comment]: # (source content from /src/fragments/lib/auth/js/mfa.mdx ; /src/fragments/lib/auth/js/emailpassword.mdx ; /src/fragments/lib/auth/common/device_features/common.mdx ; /src/fragments/lib/auth/js/device_features/10_rememberDevice.mdx ; /src/fragments/lib/auth/js/device_features/20_forgetDevice.mdx ; /src/fragments/lib/auth/js/device_features/30_fetchDevice.mdx ; /lib/auth/mfa/q/platform/flutter/)
 
 <InlineFilter filters={["js"]}>
 
-MFA (Multi-factor authentication) increases security for your app by adding an authentication method and not relying solely on the username (or alias) and password. In this guide we will review how you can set up MFA using Time-based-One-Time Passwords (TOTP) and Short Message Service (SMS). This includes understanding when to use TOTP or SMS as a second layer with your MFA and the tradeoffs between these models to help you choose the right model for your application. We’ll also review how to set up MFA to forget devices and additional advanced use cases.
+The Auth category supports Multi-factor Authentication (MFA) for user sign-in flows. MFA is an extra layer of security used to make sure that users trying to gain access to an account are who they say they are. It requires users to provide additional information to verify their identity. The category supports the MFA methods with Time-based-One-Time Passwords (TOTP) and Short Message Service (SMS). In this guide we will review how you can set up MFA using TOTP and SMS and the tradeoffs between these methods to help you choose the right set up for your application. We’ll also review how to set up MFA to forget devices and additional advanced use cases.
 
 Before you begin you will need:
-- An Amplify project with the Auth category configured
 - The Amplify libraries installed and configured
 - Access to your AWS account phone number if using SMS (for testing)
 
-## Enable and Disable MFA
+## Enable Multi-factor authentication with the Amplify CLI
 
-AWS Amplify uses Amazon Cognito to provide MFA. You will first enable MFA for your Cognito User Pool and then set up MFA for your app. Please see the [*Amazon Cognito Developer Guide*](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-mfa.html) for more information to set up MFA in Amazon Cognito. You use the same Cognito console to enable or disable MFA.
+Below are the steps you can use to set up MFA using SMS or TOTP with the Amplify CLI. The Amplify libraries are designed to work with MFA even if you have set up your Amazon Cognito resources separately.
+
+<Callout>
+
+You can also use the Amazon Cognito console to enable MFA. You will first enable MFA for your Cognito User Pool and then set up MFA for your app. Please see the [*Amazon Cognito Developer Guide*](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-mfa.html) for more information to set up MFA in Amazon Cognito. You can use the same Cognito console to enable or disable MFA.
+
+</Callout>
 
 When enabling MFA you will have two key decisions to make:
-- **MFA enforcement:** As part of this setup you will determine how MFA is enforced. If you "Require MFA", all your users will need to complete MFA to sign in. If you you choose "Optional MFA", your users will have the choice on if they use MFA or not. 
+- **MFA enforcement:** As part of this setup you will determine how MFA is enforced. If you require MFA by setting to "ON", all your users will need to complete MFA to sign in. If you keep it "Optional", your users will have the choice on if they use MFA or not. 
 - **MFA methods:** You will also specify which MFA method you are using - TOTP (Time-based One-time Password) or SMS (Short Message Service). We recommend that you use TOTP-based MFA as it is more secure and you can reserve SMS for account recovery.
 
 <Accordion title='Compare TOTP and SMS MFA methods' headingLevel='3' eyebrow='Learn more'>
@@ -34,126 +39,179 @@ When enabling MFA you will have two key decisions to make:
 
 <br/>
 
-After you enable MFA you will also need to include MFA setup when users sign up. This will change depending on if you choose TOTP, SMS, or both.
+<Callout warning>
 
-### Set up TOTP
-
-You can add Time-based One-time Password (TOTP) to your app which will ask users to complete authentication using a time-based one-time password (TOTP) after their username and password are verified. These TOTPs are generated using software token authentication apps like "Google Authenticator". When TOTP MFA is set up your user will be presented with a private key or QR code that they must enter into the TOTP-generating app. This app will then begin generating codes for the user to use for subsequent sign-in sessions.
-
-You can set up TOTP for a user in your app with the `setupTOTPAuth` method. As part of this workflow you can also specify how users see the code retrieved from the authenticator app (e.g. numeric code or QR code), confirm the initial setup with the authenticator app, set TOTP as the preferred MFA method, and pass the TOTP code with the MFA type using the `confirmSignIn` method:
-
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-import { CognitoUserSession } from 'amazon-cognito-identity-js';
-import { Auth } from 'aws-amplify';
-
-type SetupTOTPAuthParameters = {
-  user: string;
-  challengeAnswer: string;
-  mfaType?: 'SMS_MFA' | 'SOFTWARE_TOKEN_MFA';
-};
-
-export async function setupTOTPAuth({ user, challengeAnswer, mfaType }: SetupTOTPAuthParameters) {
-  // To set up TOTP, first you need to get a `authorization code` from Amazon Cognito.
-  // `user` is the current Authenticated user:
-  const secretCode = await Auth.setupTOTP(user);
-
-  // You can directly display the `code` to the user or convert it to a QR code to be scanned.
-  // For example, use following code sample to render a QR code with `qrcode.react` component:
-  //      import QRCodeCanvas from 'qrcode.react';
-  //      const str = "otpauth://totp/AWSCognito:"+ username + "?secret=" + secretCode + "&issuer=" + issuer;
-  //      <QRCodeCanvas value={str}/>
-
-  // ...
-
-  // Then you will have your TOTP account in your TOTP-generating app (like Google Authenticator)
-  // use the generated one-time password to verify the setup.
-  try {
-    const cognitoUserSession: CognitoUserSession = await Auth.verifyTotpToken(
-      user,
-      challengeAnswer
-    );
-  // Don't forget to set TOTP as the preferred MFA method.
-    await Auth.setPreferredMFA(user, 'TOTP');
-  } catch (error) {
-    // Token is not verified
-  }
-
-  // ...
-
-  // Finally, when sign-in with MFA is enabled, use the `confirmSignIn` method
-  // to pass the TOTP code and MFA type.
- const OTPCode = '123456'; // Code retrieved from authenticator app.
- await Auth.confirmSignIn(user, OTPCode, mfaType); // Optional, MFA Type e.g. SMS_MFA || SOFTWARE_TOKEN_MFA
-}
-```
-</Block>
-<Block name="JavaScript">
-
-```js
-import { Auth } from 'aws-amplify';
-
-async function setupTOTPAuth(user, challengeAnswer, mfaType) {
-  // To set up TOTP, first you need to get a `authorization code` from Amazon Cognito.
-  // `user` is the current Authenticated user:
-  const OTPCode = '123456'; // Code retrieved from authenticator app.
-
-  // You can directly display the `code` to the user or convert it to a QR code to be scanned.
-  // For example, use following code sample to render a QR code with `qrcode.react` component:
-  //      import QRCodeCanvas from 'qrcode.react';
-  //      const str = "otpauth://totp/AWSCognito:"+ username + "?secret=" + code + "&issuer=" + issuer;
-  //      <QRCodeCanvas value={str}/>
-
-  // ...
-
-  // Then you will have your TOTP account in your TOTP-generating app (like Google Authenticator)
-  // use the generated one-time password to verify the setup.
-  try {
-    const cognitoUserSession = await Auth.verifyTotpToken(user, challengeAnswer);
-  // Don't forget to set TOTP as the preferred MFA method.
-    await Auth.setPreferredMFA(user, 'TOTP');
-  } catch (error) {
-    // Token is not verified
-  }
-
-  // ...
-
-  // Finally, when sign-in with MFA is enabled, use the `confirmSignIn` method
-  // to pass the TOTP code and MFA type.
-  await Auth.confirmSignIn(user, code, mfaType); // Optional, MFA Type e.g. SMS_MFA || SOFTWARE_TOKEN_MFA
-}
-```
-</Block>
-</BlockSwitcher>
-
-<Accordion title='Additional considerations for TOTP MFA' headingLevel='4' eyebrow='Learn more'>
-
-There are few limitations for TOTP MFA to keep in mind:
-1. Amazon Cognito does not support hardware-based MFA. Use a software token MFA through an authenticator app that generates TOTP codes.
-2. When TOTP is required your user must register with an authenticator app or subsequent sign-in attempts will fail.
-3. Your users can use TOTP for MFA even if you disable TOTP for the user pool later.
-
-To learn more details review the [*Amazon Cognito TOTP software token MFA*](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-mfa-totp.html) documentation.
-
-</Accordion>
-
-### Set up SMS
-
-You can also use Short Message Service (SMS) as a second layer of authentication with MFA. When SMS is enabled, your users will get an authentication code via a text message to complete sign-in after they sign in with their username and password. 
-
-After you enable MFA with Amazon Cognito, you will also need to configure an IAM role to use with Amazon Simple Notification Service (Amazon SNS) to manage SMS messages. You will then add this role under the "Messaging" tab for your user pool in the Amazon Cognito console. For additional information see the [*Amazon Cognito SMS text message MFA*](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-mfa-sms-text-message.html) documentation.
-
-<Callout>
-
-**Note:** If you create or update an SMS MFA configuration for your Cognito user pool, the Cognito service will send a test SMS message to an internal number in order to verify your configuration. You will be charged for these test messages by Amazon SNS. 
-
-For information about Amazon SNS pricing, see [Worldwide SMS Pricing](https://aws.amazon.com/sns/sms-pricing/).
+When using Amplify CLI to set up backend resources, the following options are only available when starting a new project (via `amplify add auth`). You will not have access to these settings after creation (via `amplify update`).
 
 </Callout>
 
-You will then want to update your app UI to prompt your users to enter their phone number to receive SMS codes. Then, when a user signs in, Amazon Cognito responds with a challenge that requires the user to provide an SMS verification code. This is where you can trigger `Auth.confirmSignIn()` and pass in the code provided by the user. Amplify will then verify with Cognito that the SMS code is valid and complete the sign-in process by returning access, ID, and refresh tokens that are all handled by Amplify internally. Once the user completes the SMS text message flow their phone number is marked as verified in your user pool.
+<BlockSwitcher>
+<Block name="New Project">
+
+Run `amplify add auth` to create a new Cognito Auth resource, and follow the prompts below depending on how you want to integrate MFA into your flow.
+
+Turning MFA "ON" will make it required for all users, while "Optional" will make it available to enable on a per-user basis.
+
+#### SMS MFA
+
+<Callout>
+
+**Note:** If you create or update an SMS MFA configuration for your Cognito user pool, the Cognito service will send a test SMS message to an internal number in order to verify your configuration. You will be charged for these test messages by Amazon SNS.
+
+Refer to [SMS sandbox](/lib/auth/sms_flows#sandbox-mode).  For information about Amazon SNS pricing, see [Worldwide SMS Pricing](https://aws.amazon.com/sns/sms-pricing/).
+
+</Callout>
+
+```bash
+$ amplify add auth
+ 
+? Do you want to use the default authentication and security configuration?
+# Manual configuration
+
+... Answer as appropriate
+
+? Multifactor authentication (MFA) user login options:
+# ON (Required for all logins, can not be enabled later)
+? For user login, select the MFA types:
+# SMS Text Message
+? Please specify an SMS authentication message:
+# Your authentication code is {####}
+
+... Answer as appropriate
+
+Some next steps:
+"amplify push" will build all your local backend resources and provision it in the cloud
+"amplify publish" will build all your local backend and frontend resources (if you have hosting category added) and provision it in the cloud
+```
+
+#### TOTP MFA
+```bash
+$ amplify add auth
+ 
+? Do you want to use the default authentication and security configuration?
+# Manual configuration
+
+... Answer as appropriate
+
+? Multifactor authentication (MFA) user login options:
+# ON (Required for all logins, can not be enabled later)
+? For user login, select the MFA types:
+# Time-Based One-Time Password (TOTP)
+
+... Answer as appropriate
+
+Some next steps:
+"amplify push" will build all your local backend resources and provision it in the cloud
+"amplify publish" will build all your local backend and frontend resources (if you have hosting category added) and provision it in the cloud
+```
+</Block>
+<Block name="Existing Project">
+
+Run `amplify update auth` and follow the prompts as guided below.
+
+The following steps show how to enable MFA as "Optional" for users. In this mode, MFA must be enabled on a user-by-user basis, either through an Admin SDK 
+(e.g. via a Lambda trigger as part of the sign-up process), or manually in the Cognito console.
+
+If you'd like to make MFA required for users, you must first delete your auth resource by running `amplify remove auth`, then follow the **New Project** flow on this page.
+
+#### SMS MFA
+
+<Callout>
+
+**Note:** If you create or update an SMS MFA configuration for your Cognito user pool, the Cognito service will send a test SMS message to an internal number in order to verify your configuration. You will be charged for these test messages by Amazon SNS.
+
+Refer to [SMS sandbox](/lib/auth/sms_flows#sandbox-mode). For information about Amazon SNS pricing, see [Worldwide SMS Pricing](https://aws.amazon.com/sns/sms-pricing/).
+
+</Callout>
+
+```bash
+$ amplify update auth
+
+? What do you want to do?
+# Walkthrough all the auth configurations
+
+... Answer as appropriate
+
+? Multifactor authentication (MFA) user login options:
+# OPTIONAL (Individual users can use MFA)
+? For user login, select the MFA types:
+# SMS Text Message
+? Please specify an SMS authentication message:
+# Your authentication code is {####}
+
+... Answer as appropriate
+
+Some next steps:
+"amplify push" will build all your local backend resources and provision it in the cloud
+"amplify publish" will build all your local backend and frontend resources (if you have hosting category added) and provision it in the cloud
+```
+
+
+#### TOTP MFA
+```bash
+$ amplify update auth
+
+? What do you want to do?
+# Walkthrough all the auth configurations
+
+... Answer as appropriate
+
+? Multifactor authentication (MFA) user login options:
+# OPTIONAL (Individual users can use MFA)
+? For user login, select the MFA types:
+# Time-Based One-Time Password (TOTP)
+
+... Answer as appropriate
+
+Some next steps:
+"amplify push" will build all your local backend resources and provision it in the cloud
+"amplify publish" will build all your local backend and frontend resources (if you have hosting category added) and provision it in the cloud
+```
+
+</Block>
+</BlockSwitcher>
+
+After you enable MFA you will also need to include MFA setup when users sign up. This will change depending on if you enable SMS, TOTP or both.
+
+### Set up Multi-factor authentication with SMS
+
+You can use Short Message Service (SMS) as a second layer of authentication with MFA. When SMS is enabled, your users will get an authentication code via a text message to complete sign-in after they sign in with their username and password.
+
+If you do not have one already, you will need to configure an IAM role to use with Amazon Simple Notification Service (Amazon SNS) to manage SMS messages. You will then add this role under the "Messaging" tab for your user pool in the Amazon Cognito console. For additional information see the [*Amazon Cognito SMS text message MFA*](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-mfa-sms-text-message.html) documentation.
+
+#### Enable SMS MFA during sign-up
+
+You will need to pass `phone_number` as a user attribute to enable SMS MFA for your users during sign-up. However, if the primary sign-in mechanism for your Cognito resource is `phone_number` (without enabling `username`), then you do not need to pass it as an attribute.
+
+```javascript
+Auth.signUp({
+    username,
+    password,
+    attributes: {
+        phone_number: '+15558675309'  // Replace with a valid phone number
+    }
+});
+```
+
+By default, you have to verify a user account after they sign up using the `confirmSignUp` API, which will send a one-time password to the user's phone number or email, depending on your Amazon Cognito configuration.
+
+```javascript
+import { Auth } from 'aws-amplify';
+
+async function confirmSignUp() {
+  try {
+    await Auth.confirmSignUp(username, code);
+  } catch (error) {
+    console.log('error confirming sign up', error);
+  }
+}
+```
+
+#### Manage SMS MFA during sign-in
+
+After a user signs in, if they have MFA enabled for their account, a challenge will be returned that needs to call the `confirmSignIn` API where the user provides their confirmation code sent to their phone number. Amplify will then verify with Cognito that the SMS code is valid and complete the sign-in process by returning access, ID, and refresh tokens that are all handled by Amplify internally. Once the user completes the SMS text message flow their phone number is marked as verified in your user pool.
+
+In the example below you will see that because MFA is "ON" or enabled as an option for the user, you must call `confirmSignIn` with the OTP sent to their phone. After a user has been signed in, you can call `updateMFAPreference` to record the MFA type as enabled for the user and optionally set it as preferred so that subsequent logins default to using this MFA type.
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -166,7 +224,7 @@ type ConfirmSignInWithMFAParameters = {
   password: string;
 };
 
-type MFAType = 'SMS_MFA' | 'SOFTWARE_TOKEN_MFA';
+type MFAType = 'SMS_MFA';
 
 export async function signInWithMFA({ username, password }: ConfirmSignInWithMFAParameters) {
   try {
@@ -235,16 +293,140 @@ async function signInWithMFA() {
 </Block>
 </BlockSwitcher>
 
-### Set up MFA preferred type
+### Set up Multi-factor authentication with TOTP
 
-Both TOTP MFA and SMS MFA methods are supported by Amazon Cognito. If you provide the option for your users to choose their second authentication factor or opt out, then you will want to also save that preference for future sessions with the `setupMFAType` method:
+You can use Time-based One-Time Password (TOTP) for multi-factor authentication (MFA) in your web or mobile applications. The Amplify Auth category includes support for TOTP setup and verification using authenticator apps, offering an integrated solution and enhanced security for your users. These apps, such as Google Authenticator or Microsoft Authenticator, have the TOTP algorithm built-in and work by using a shared secret key and the current time to generate short-lived, six digit passwords.
+
+#### Enable TOTP for your users
+
+After you initiate a user sign-in with the `signIn` API where your user is required to set up TOTP as an MFA method, the API call will return `setupTOTPAuth` as a challenge and next step to handle in your app. You will get that challenge if the following conditions are met:
+
+- MFA is marked as "Required" in Cognito User Pool.
+- TOTP is enabled in the Cognito User Pool
+- User does not have TOTP MFA set up already.
+
+You can set up TOTP for a user in your app with the `setupTOTPAuth` API. As part of this workflow you can also specify how users see the code retrieved from the authenticator app (e.g. numeric code or QR code), confirm the initial setup with the authenticator app, set TOTP as the preferred MFA method, and pass the TOTP code with the MFA type using the `confirmSignIn` API:
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { CognitoUserSession } from 'amazon-cognito-identity-js';
+import { Auth } from 'aws-amplify';
+
+type SetupTOTPAuthParameters = {
+  user: string;
+  challengeAnswer: string;
+  mfaType?: 'SMS_MFA' | 'SOFTWARE_TOKEN_MFA';
+};
+
+export async function setupTOTPAuth({ user, challengeAnswer, mfaType }: SetupTOTPAuthParameters) {
+  // To set up TOTP, first you need to get a `authorization code` from Amazon Cognito.
+  // `user` is the current Authenticated user:
+  const secretCode = await Auth.setupTOTP(user);
+
+  // You can directly display the `code` to the user or convert it to a QR code to be scanned.
+  // For example, use following code sample to render a QR code with `qrcode.react` component:
+  //      import QRCodeCanvas from 'qrcode.react';
+  //      const str = "otpauth://totp/AWSCognito:"+ username + "?secret=" + secretCode + "&issuer=" + issuer;
+  //      <QRCodeCanvas value={str}/>
+
+  // ...
+
+  // Then you will have your TOTP account in your TOTP-generating app (like Google Authenticator)
+  // use the generated one-time password to verify the setup.
+  try {
+    const cognitoUserSession: CognitoUserSession = await Auth.verifyTotpToken(
+      user,
+      challengeAnswer
+    );
+  // Don't forget to set TOTP as the preferred MFA method.
+    await Auth.setPreferredMFA(user, 'TOTP');
+  } catch (error) {
+    // Token is not verified
+  }
+
+  // ...
+
+  // Finally, when sign-in with MFA is enabled, use the `confirmSignIn` API
+  // to pass the TOTP code and MFA type.
+ const OTPCode = '123456'; // Code retrieved from authenticator app.
+ await Auth.confirmSignIn(user, OTPCode, mfaType); // Optional, MFA Type e.g. SMS_MFA || SOFTWARE_TOKEN_MFA
+}
+```
+</Block>
+<Block name="JavaScript">
+
+```js
+import { Auth } from 'aws-amplify';
+
+async function setupTOTPAuth(user, challengeAnswer, mfaType) {
+  // To set up TOTP, first you need to get a `authorization code` from Amazon Cognito.
+  // `user` is the current Authenticated user:
+  const OTPCode = '123456'; // Code retrieved from authenticator app.
+
+  // You can directly display the `code` to the user or convert it to a QR code to be scanned.
+  // For example, use following code sample to render a QR code with `qrcode.react` component:
+  //      import QRCodeCanvas from 'qrcode.react';
+  //      const str = "otpauth://totp/AWSCognito:"+ username + "?secret=" + code + "&issuer=" + issuer;
+  //      <QRCodeCanvas value={str}/>
+
+  // ...
+
+  // Then you will have your TOTP account in your TOTP-generating app (like Google Authenticator)
+  // use the generated one-time password to verify the setup.
+  try {
+    const cognitoUserSession = await Auth.verifyTotpToken(user, challengeAnswer);
+  // Don't forget to set TOTP as the preferred MFA method.
+    await Auth.setPreferredMFA(user, 'TOTP');
+  } catch (error) {
+    // Token is not verified
+  }
+
+  // ...
+
+  // Finally, when sign-in with MFA is enabled, use the `confirmSignIn` API
+  // to pass the TOTP code and MFA type.
+  await Auth.confirmSignIn(user, code, mfaType); // Optional, MFA Type e.g. SMS_MFA || SOFTWARE_TOKEN_MFA
+}
+```
+</Block>
+</BlockSwitcher>
+
+Once the authenticator app is set up, the user can generate a TOTP code and provide it to the library to complete the sign in process.
+
+<Accordion title='Enable TOTP after a user is signed in' headingLevel='4' eyebrow='Learn more'>
+
+TOTP MFA can be set up after a user has signed in. This can be done when the following conditions are met:
+
+- MFA is marked as "Optional" or "Required" in the Cognito User Pool
+- TOTP is marked as an enabled MFA method in Cognito user pool
+
+TOTP can be set up by calling the `setupTOTPAuth` and `verifyTotpToken` APIs in the `Auth` category.
+
+Invoke the `setupTOTPAuth` API to generate a `SetupTOTPAuthParameters` object which should be used to configure an Authenticator app like Microsoft Authenticator or Google Authenticator. For more advanced use cases, `SetupTOTPAuthParameters` also contains a `secretCode` which can be used to either generate a QR code or be manually entered into an Authenticator app. Once the Authenticator app is set up, the user must generate a TOTP code and provide it to the library. Pass the code to `verifyTotpToken` to complete the TOTP setup process.
+
+</Accordion>
+
+#### Recover from a lost TOTP device
+
+<Callout warning>
+
+If a user loses access to their TOTP device, they will need to contact an administrator to get help accessing to their account. Based on the Cognito User Pool configuration, the administrator can use the [AdminSetUserMFAPreference](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminSetUserMFAPreference.html) to either change the MFA preference to a different MFA method or to disable MFA for the user.
+
+</Callout>
+
+In a scenario where MFA is marked as "Required" in Cognito User Pool and another MFA method is not set up, the administrator would need to first initiate an [AdminUpdateUserAttributes](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminUpdateUserAttributes.html) call and update the user’s phone number attribute. Once this is complete, the administrator can continue changing the MFA preference to SMS as suggested above.
+
+### Set up a user's preferred MFA method
+
+Since both SMS MFA and TOTP MFA methods are supported by Amazon Cognito, you can provide the option for your users to choose their second authentication factor or opt out. When both are available you will need to also save their preference for future sessions with the `setupMFAType` API:
 
 <BlockSwitcher>
 <Block name="TypeScript">
 
 ```ts
 import { Auth } from 'aws-amplify';
-
 
 export async function setupMFAType() {
   // You can select preferred mfa type, for example:
@@ -301,7 +483,6 @@ Once the preferred MFA method is set for your user you will then want to use the
 ```ts
 import { Auth } from 'aws-amplify';
 
-
 export async function getPreferredMFAType() {
   try {
   // Will retrieve the current mfa type from cache
@@ -342,211 +523,9 @@ try {
 
 <Callout warning>
 
-To avoid unexpected responses from Cognito, it is recommended to call `Auth.setPreferredMFA()` to ensure a user has set their MFA method *before* retrieving MFA settings with `Auth.getPreferredMFA()`.
+Only one MFA method can be marked as preferred at a time. If the user has multiple MFA methods enabled and tries to mark more than one MFA method as preferred, the API will throw an error. To avoid unexpected responses from Cognito, it is recommended to call `Auth.setPreferredMFA()` to ensure a user has set their MFA method *before* retrieving MFA settings with `Auth.getPreferredMFA()`.
 
 </Callout>
-
-<Accordion title='Sign-in with custom auth challenges' headingLevel='3' eyebrow='Learn more'>
-
-When signing in with user name and password, your user will either sign in directly or be asked to pass challenges to be authenticated. The `user` object returned from `Auth.signIn` will contain `challengeName` and `challengeParam` if the user needs to pass those challenges. You can call corresponding functions based on these two parameters.
-
-Challenge Name:
-
-- `SMS_MFA`: The user needs to input the code received from SMS message. You can submit the code by `Auth.confirmSignIn`.
-- `SOFTWARE_TOKEN_MFA`: The user needs to input the OTP(one time password). You can submit the code by `Auth.confirmSignIn`.
-- `NEW_PASSWORD_REQUIRED`: This happens when the user account is created through the Cognito console. The user needs to input the new password and required attributes. You can submit those data by `Auth.completeNewPassword`.
-- `MFA_SETUP`: This happens when the MFA method is TOTP (time-based one time password) which requires the user to go through additional steps to generate passwords with an Authenticator app. You can start the setup process using `setupTOTPAuth`.
-- `SELECT_MFA_TYPE`: This happens when both SMS and TOTP methods are enabled but neither is set as preferred. You can set up your frontend application to let users choose what type they want to use in the current session and set it using the `user.sendMFASelectionAnswer` function.
-
-The following code is only to demonstrate these options:
-
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-import { Auth } from 'aws-amplify';
-
-type SignInParameters = {
-  username: string;
-  password: string;
-  mfaType?: 'SMS_MFA' | 'SOFTWARE_TOKEN_MFA';
-};
-
-type UserInput = {
-  username: string;
-  email: string;
-  phone_number: string;
-};
-
-export async function signIn({ username, password, mfaType }: SignInParameters) {
-  try {
-    const user = await Auth.signIn(username, password);
-    if (user?.challengeName === 'SMS_MFA' || user?.challengeName === 'SOFTWARE_TOKEN_MFA') {
-      // You need to get the code from the UI inputs
-      // and then trigger the following function with a button click
-      const code: string = await getCodeFromUserInput();
-      // If MFA is enabled, sign-in should be confirmed with the confirmation code
-      const loggedUser = await Auth.confirmSignIn(
-        user, // Return object from Auth.signIn()
-        code, // Confirmation code
-        mfaType // MFA Type e.g. SMS_MFA, SOFTWARE_TOKEN_MFA
-      );
-    } else if (user?.challengeName === 'NEW_PASSWORD_REQUIRED') {
-      const { requiredAttributes } = user.challengeParam; // the array of required attributes, e.g ['email', 'phone_number']
-      // You need to get the new password and required attributes from the UI inputs
-      // and then trigger the following function with a button click
-      // For example, the email and phone_number are required attributes
-      const { username, email, phone_number }: UserInput =
-        await getInfoFromUserInput();
-      const loggedUser = await Auth.completeNewPassword(
-        user, // the Cognito User Object
-        newPassword, // the new password
-        // OPTIONAL, the required attributes
-        {
-          email,
-          phone_number,
-        }
-      );
-    } else if (user?.challengeName === 'MFA_SETUP') {
-      // This happens when the MFA method is TOTP
-      // The user needs to setup the TOTP before using it
-      // More info please check the Enabling MFA part
-      await Auth.setupTOTP(user);
-    } else if (user?.challengeName === 'SELECT_MFA_TYPE') {
-      // You need to get the MFA method (SMS or TOTP) from user
-      // and trigger the following function
-      // user object needs to be CognitoUser type
-      user.sendMFASelectionAnswer(mfaType, {
-        onFailure: (err: Error) => {
-          console.error(err);
-        },
-        mfaRequired: (challengeName, parameters) => {
-          // Auth.confirmSignIn with SMS code
-        },
-        totpRequired: (challengeName, parameters) => {
-          // Auth.confirmSignIn with TOTP code
-        },
-      });
-    } else {
-      // The user directly signs in
-      console.log(user);
-    }
-  } catch (err) {
-    if (err?.code === 'UserNotConfirmedException') {
-      // The error happens if the user didn't finish the confirmation step when signing up
-      // In this case you need to resend the code and confirm the user
-      // About how to resend the code and confirm the user, please check the signUp part
-    } else if (err?.code === 'PasswordResetRequiredException') {
-      // The error happens when the password is reset in the Cognito console
-      // In this case you need to call forgotPassword to reset the password
-      // Please check the Forgot Password part.
-    } else if (err?.code === 'NotAuthorizedException') {
-      // The error happens when the incorrect password is provided
-    } else if (err?.code === 'UserNotFoundException') {
-      // The error happens when the supplied username/email does not exist in the Cognito user pool
-    } else {
-      console.log(err);
-    }
-  }
-}
-
-async function getCodeFromUserInput(): Promise<string> {
-  // fetch code using a user form input
-}
-async function getInfoFromUserInput(): Promise<UserInput> {
-  // fetch user inputs like username, email and phoneNumber
-}
-```
-</Block>
-<Block name="JavaScript">
-
-```js
-import { Auth } from 'aws-amplify';
-
-async function signIn() {
-  try {
-    const user = await Auth.signIn(username, password);
-    if (user?.challengeName === 'SMS_MFA' || user?.challengeName === 'SOFTWARE_TOKEN_MFA') {
-      // You need to get the code from the UI inputs
-      // and then trigger the following function with a button click
-      const code = await getCodeFromUserInput();
-      // If MFA is enabled, sign-in should be confirmed with the confirmation code
-      const loggedUser = await Auth.confirmSignIn(
-        user, // Return object from Auth.signIn()
-        code, // Confirmation code
-        mfaType // MFA Type e.g. SMS_MFA, SOFTWARE_TOKEN_MFA
-      );
-    } else if (user?.challengeName === 'NEW_PASSWORD_REQUIRED') {
-      const { requiredAttributes } = user.challengeParam; // the array of required attributes, e.g ['email', 'phone_number']
-      // You need to get the new password and required attributes from the UI inputs
-      // and then trigger the following function with a button click
-      // For example, the email and phone_number are required attributes
-      const { username, email, phone_number } = await getInfoFromUserInput();
-      const loggedUser = await Auth.completeNewPassword(
-        user, // the Cognito User Object
-        newPassword, // the new password
-        // OPTIONAL, the required attributes
-        {
-          email, // from user input
-          phone_number, // from user input
-        }
-      );
-    } else if (user?.challengeName === 'MFA_SETUP') {
-      // This happens when the MFA method is TOTP
-      // The user needs to setup the TOTP before using it
-      // More info please check the Enabling MFA part
-      await Auth.setupTOTP(user);
-    } else if (user?.challengeName === 'SELECT_MFA_TYPE') {
-      // You need to get the MFA method (SMS or TOTP) from user
-      // and trigger the following function
-      // user object needs to be CognitoUser type
-      user.sendMFASelectionAnswer(mfaType, {
-        onFailure: (err) => {
-          console.error(err);
-        },
-        mfaRequired: (challengeName, parameters) => {
-          // Auth.confirmSignIn with SMS code
-        },
-        totpRequired: (challengeName, parameters) => {
-          // Auth.confirmSignIn with TOTP code
-        },
-      });
-    } else {
-      // The user directly signs in
-      console.log(user);
-    }
-  } catch (err) {
-    if (err?.code === 'UserNotConfirmedException') {
-      // The error happens if the user didn't finish the confirmation step when signing up
-      // In this case you need to resend the code and confirm the user
-      // About how to resend the code and confirm the user, please check the signUp part
-    } else if (err?.code === 'PasswordResetRequiredException') {
-      // The error happens when the password is reset in the Cognito console
-      // In this case you need to call forgotPassword to reset the password
-      // Please check the Forgot Password part.
-    } else if (err?.code === 'NotAuthorizedException') {
-      // The error happens when the incorrect password is provided
-    } else if (err?.code === 'UserNotFoundException') {
-      // The error happens when the supplied username/email does not exist in the Cognito user pool
-    } else {
-      console.log(err);
-    }
-  }
-}
-
-async function getCodeFromUserInput() {
-  // fetch code using a user form input
-}
-async function getInfoFromUserInput() {
-  // fetch user inputs like username, email and phoneNumber
-}
-```
-</Block>
-</BlockSwitcher>
-
-</Accordion>
-
-<br/>
 
 You can now enable multi-factor authentication and specify your second authentication method with TOTP or SMS. Your users can set their preferred method and you can retrieve this for them when they sign in. You can now look to add features like remembering a device to reduce friction in the sign-in workflow.
 
@@ -560,7 +539,7 @@ Remembering a device is useful in conjunction with MFA because it allows the sec
 
 </Callout>
 
-### Configure the Amplify Auth Category
+### Configure device tracking
 
 You can enable the remembered device functionality in the Cognito User Pool console. To begin, go to your project directory and issue the command:
 
@@ -635,7 +614,7 @@ async function rememberDevice() {
 </Block>
 </BlockSwitcher>
 
-### Forget devices
+#### Forget devices
 
 You can also forget devices but note that forgotten devices are still tracked.
 
@@ -670,7 +649,7 @@ async function forgetDevice() {
 </Block>
 </BlockSwitcher>
 
-### Fetch devices
+#### Fetch devices
 
 You can fetch a list of remembered devices by using the following:
 
