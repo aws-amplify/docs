@@ -1,9 +1,13 @@
-You can get file properties and metadata without downloading the file using `Storage.getProperties` API
+You can get file properties and metadata without downloading the file using `getProperties` API from `aws-amplify/storage`
 
 ```js
+import { getProperties } from 'aws-amplify/storage';
+
 async function getFileProperties() {
   try {
-    const result = await Storage.getProperties('key');
+    const result = await getProperties({
+			key: 'key',
+		});
     console.log('File Properties ', result);
   } catch (error) {
     console.log('Error ', error);
@@ -15,6 +19,7 @@ The format of the response will look similar to the below example
 
 ```js
  {
+    key : "key",
     contentType: "image/jpeg",
     contentLength: 6873,
     eTag: "\"56b32cf4779ff6ca3ba3f2d455fa56a7\"",

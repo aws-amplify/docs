@@ -12,7 +12,8 @@ If you are not using the Amplify CLI, an existing Amazon S3 bucket can be used b
   When you are not using Amplify CLI, adding existing Amazon S3 bucket to your application may require configuring bucket access permissions. e.g. Enabling read/write access to the cognito user pool that you are using with the Amplify Auth category.
 </Callout>
 
-```js
+```typescript
+
 Amplify.configure({
   aws_user_files_s3_bucket_region: 'us-east-1', // (required) - Amazon S3 bucket region
   aws_user_files_s3_bucket: 'testappa321fb103f1f2ae6a4d25d8cd2161728123152-dev' // (required) - Amazon S3 bucket URI
