@@ -1448,6 +1448,11 @@ export const directory = {
             filters: ['flutter', 'js']
           },
           {
+            title: 'Get file properties',
+            route: '/lib/storage/get-properties',
+            filters: ['flutter', 'js', 'react-native']
+          },
+          {
             title: 'List files',
             route: '/lib-v1/storage/list',
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
