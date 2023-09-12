@@ -12,7 +12,7 @@ import {
   filterMetadataByOption,
   SelectedFilters
 } from '../../utils/filter-data';
-import ChooseFilterPage from '../../pages/ChooseFilterPage';
+import ChooseFilterPage from '../ChooseFilterPage';
 import { parseLocalStorage } from '../../utils/parseLocalStorage';
 import { withFilterOverrides } from '../../utils/withFilterOverrides';
 
@@ -92,6 +92,7 @@ export default function Page({
       localStorage.setItem('filterKeys', JSON.stringify(filterKeys));
     }
   }, [filterKeys]);
+
   if (
     filterKey &&
     filters.length !== 0 &&
