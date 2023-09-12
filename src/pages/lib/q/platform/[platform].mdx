@@ -3,11 +3,8 @@ export const meta = {
   description:
     'The Amplify open-source client libraries provide use-case centric, opinionated, declarative, and easy-to-use interfaces across different categories of cloud powered operations enabling mobile and web developers to easily interact with their backends. ',
   disableTOC: 'true',
-  filterKey: 'platform',
-  supportedPlatforms: ['ios', 'android', 'flutter', 'js', 'react-native']
+  filterKey: 'platform'
 };
-
-import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
 
 The Amplify open-source client libraries provide use-case centric, and easy-to-use interfaces across different categories of AWS cloud powered operations enabling mobile and web developers to easily interact with their backends. The Amplify libraries can be used with both new backends created using the Amplify CLI or existing backend resources.
 
@@ -30,16 +27,3 @@ import js3 from '/src/fragments/lib/js.mdx';
 import reactnative4 from '/src/fragments/lib/reactnative.mdx';
 
 <Fragments fragments={{ 'react-native': reactnative4 }} />
-
-export const getStaticPaths = () => {
-  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
-};
-
-export const getStaticProps = (context) => {
-  return {
-    props: {
-      platform: context.params.platform,
-      filterKind: meta.filterKey
-    }
-  };
-};
