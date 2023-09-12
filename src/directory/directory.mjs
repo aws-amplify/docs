@@ -1473,6 +1473,11 @@ export const directory = {
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
+            title: 'Copy files',
+            route: '/lib-v1/storage/copy',
+            filters: ['js', 'react-native', 'flutter', 'js', 'react-native']
+          },
+          {
             title: 'Remove file',
             route: '/lib-v1/storage/remove',
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
