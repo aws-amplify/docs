@@ -211,7 +211,7 @@ async function confirmSignUp() {
 
 After a user signs in, if they have MFA enabled for their account, a challenge will be returned that needs to call the `confirmSignIn` API where the user provides their confirmation code sent to their phone number. Amplify will then verify with Cognito that the SMS code is valid and complete the sign-in process by returning access, ID, and refresh tokens that are all handled by Amplify internally. Once the user completes the SMS text message flow their phone number is marked as verified in your user pool.
 
-In the example below you will see that because MFA is "ON" or enabled as an option for the user, you must call `confirmSignIn` with the OTP sent to their phone. After a user has been signed in, you can call `updateMFAPreference` to record the MFA type as enabled for the user and optionally set it as preferred so that subsequent logins default to using this MFA type.
+In the example below you will see that because MFA is "ON" or enabled as an option for the user, you must call `confirmSignIn` with the OTP sent to their phone. After a user has been signed in, you can call `setPreferredMFA` to record the MFA type as enabled for the user and set it as preferred so that subsequent logins default to using this MFA type.
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -299,13 +299,13 @@ You can use Time-based One-Time Password (TOTP) for multi-factor authentication 
 
 #### Enable TOTP for your users
 
-After you initiate a user sign-in with the `signIn` API where your user is required to set up TOTP as an MFA method, the API call will return `setupTOTPAuth` as a challenge and next step to handle in your app. You will get that challenge if the following conditions are met:
+After you initiate a user sign-in with the `signIn` API where your user is required to set up TOTP as an MFA method, the API call will return `setupTOTP` as a challenge and next step to handle in your app. You will get that challenge if the following conditions are met:
 
 - MFA is marked as "Required" in Cognito User Pool.
 - TOTP is enabled in the Cognito User Pool
 - User does not have TOTP MFA set up already.
 
-You can set up TOTP for a user in your app with the `setupTOTPAuth` API. As part of this workflow you can also specify how users see the code retrieved from the authenticator app (e.g. numeric code or QR code), confirm the initial setup with the authenticator app, set TOTP as the preferred MFA method, and pass the TOTP code with the MFA type using the `confirmSignIn` API:
+You can set up TOTP for a user in your app with the `setupTOTP` API. As part of this workflow you can also specify how users see the code retrieved from the authenticator app (e.g. numeric code or QR code), confirm the initial setup with the authenticator app, set TOTP as the preferred MFA method, and pass the TOTP code with the MFA type using the `confirmSignIn` API:
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -402,9 +402,9 @@ TOTP MFA can be set up after a user has signed in. This can be done when the fol
 - MFA is marked as "Optional" or "Required" in the Cognito User Pool
 - TOTP is marked as an enabled MFA method in Cognito user pool
 
-TOTP can be set up by calling the `setupTOTPAuth` and `verifyTotpToken` APIs in the `Auth` category.
+TOTP can be set up by calling the `setupTOTP` and `verifyTotpToken` APIs in the `Auth` category.
 
-Invoke the `setupTOTPAuth` API to generate a `SetupTOTPAuthParameters` object which should be used to configure an Authenticator app like Microsoft Authenticator or Google Authenticator. For more advanced use cases, `SetupTOTPAuthParameters` also contains a `secretCode` which can be used to either generate a QR code or be manually entered into an Authenticator app. Once the Authenticator app is set up, the user must generate a TOTP code and provide it to the library. Pass the code to `verifyTotpToken` to complete the TOTP setup process.
+Invoke the `setupTOTP` API to generate a `SetupTOTPAuthParameters` object which should be used to configure an Authenticator app like Microsoft Authenticator or Google Authenticator. For more advanced use cases, `SetupTOTPAuthParameters` also contains a `secretCode` which can be used to either generate a QR code or be manually entered into an Authenticator app. Once the Authenticator app is set up, the user must generate a TOTP code and provide it to the library. Pass the code to `verifyTotpToken` to complete the TOTP setup process.
 
 </Accordion>
 
