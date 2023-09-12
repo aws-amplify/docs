@@ -1464,7 +1464,7 @@ export const directory = {
           },
           {
             title: 'Get file properties',
-            route: '/lib/storage/get-properties',
+            route: '/lib-v1/storage/get-properties',
             filters: ['flutter', 'js', 'react-native']
           },
           {
