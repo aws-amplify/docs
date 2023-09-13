@@ -1494,6 +1494,16 @@ export const directory = {
           }
         ]
       },
+      ssr: {
+        title: 'Server-Side Rendering',
+        items: [
+          {
+            title: 'Getting Started with Server-Side Rendering (SSR)',
+            route: '/lib-v1/ssr',
+            filters: ['js']
+          }
+        ]
+      },
       troubleshooting: {
         title: 'Troubleshooting',
         items: [
@@ -1504,7 +1514,7 @@ export const directory = {
           },
           {
             title: 'TypeScript strict mode',
-            route: '/lib-v1/troubleshooting/strict-mode',
+            route: '/lib/troubleshooting/strict-mode',
             filters: ['js', 'react-native']
           }
         ]
