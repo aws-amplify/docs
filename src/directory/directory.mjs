@@ -729,7 +729,7 @@ export const directory = {
         title: 'Storage',
         items: [
           {
-            title: 'Getting started',
+            title: 'Set up Amplify Storage',
             route: '/lib/storage/getting-started',
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
@@ -756,7 +756,7 @@ export const directory = {
           {
             title: 'Get file properties',
             route: '/lib/storage/get-properties',
-            filters: ['flutter', 'js']
+            filters: ['flutter', 'js', 'react-native']
           },
           {
             title: 'List files',
@@ -1425,17 +1425,17 @@ export const directory = {
           {
             title: 'Getting started',
             route: '/lib-v1/storage/getting-started',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Concepts',
             route: '/lib-v1/storage/overview',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Upload files',
             route: '/lib-v1/storage/upload',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Download files',
@@ -1443,34 +1443,44 @@ export const directory = {
             filters: ['android', 'ios', 'flutter']
           },
           {
-            title: 'List files',
-            route: '/lib-v1/storage/list',
-            filters: ['android', 'ios', 'flutter']
+            title: 'Get file properties',
+            route: '/lib-v1/storage/get-properties',
+            filters: ['flutter', 'js', 'react-native']
           },
           {
-            title: 'Remove files',
+            title: 'List files',
+            route: '/lib-v1/storage/list',
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+          },
+          {
+            title: 'Copy files',
+            route: '/lib-v1/storage/copy',
+            filters: ['js', 'react-native', 'flutter', 'js', 'react-native']
+          },
+          {
+            title: 'Remove file',
             route: '/lib-v1/storage/remove',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'File access levels',
             route: '/lib-v1/storage/configureaccess',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Lambda triggers',
             route: '/lib-v1/storage/triggers',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
           {
             title: 'Escape hatch',
             route: '/lib-v1/storage/escapehatch',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js', 'react-native']
           },
           {
             title: 'Use existing AWS resources',
             route: '/lib-v1/storage/existing-resources',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           }
         ]
       },

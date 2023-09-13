@@ -1,0 +1,45 @@
+Delete stored data from the storage bucket.
+
+<!-- TODO Rewrite is it important to have separate between the difference storage protection levels? -->
+
+## Public level remove
+
+```typescript
+import { remove } from 'aws-amplify/storage'
+
+	async function removeFile() {
+		try {
+			await remove({ key: filename });
+		} catch (error) {
+			console.log('Error ', error);
+		}
+	};
+
+```
+
+## Protected level remove
+
+```typescript
+
+	async function removeFile() {
+		try {
+			await remove({ key: filename, options: { accessLevel: 'protected' } });
+		} catch (error) {
+			console.log('Error ', error);
+		}
+	}; 
+
+```
+
+## Private level remove
+
+```javascript
+
+	async function removeFile() {
+		try {
+			await remove({ key: filename, options: { accessLevel: 'private' } });
+		} catch (error) {
+			console.log('Error ', error);
+		}
+	};
+```
