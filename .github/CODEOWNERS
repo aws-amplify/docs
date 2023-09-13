@@ -43,9 +43,6 @@
 /src/**/cli-legacy/graphql-transformer @renebrandel @aws-amplify/documentation-team 
 /src/fragments/sdk/api/**/graphql.mdx @renebrandel @aws-amplify/documentation-team 
 
-#Hosting
-/src/**/**/hosting @michrome
-
 #In-App Messaging
 /src/**/**/in-app-messaging @abdallahshaban557 @aws-amplify/documentation-team 
 
