@@ -1,6 +1,6 @@
 * @aws-amplify/documentation-team 
-/src/fragments/ @abdallahshaban557
-/src/pages/ @abdallahshaban557
+/src/fragments/ @abdallahshaban557 @aws-amplify/documentation-team 
+/src/pages/ @abdallahshaban557 @aws-amplify/documentation-team 
 
 #CLI
 /src/**/cli/ @josefaidt
@@ -9,83 +9,83 @@
 /src/pages/console/ @wrpeck
  
 #Analytics
-/src/**/**/analytics @abdallahshaban557
+/src/**/**/analytics @abdallahshaban557 @aws-amplify/documentation-team 
 
 #Auth
-/src/**/**/auth @abdallahshaban557
-/src/**/**/authz @abdallahshaban557
-/src/**/**/authentication @abdallahshaban557
+/src/**/**/auth @abdallahshaban557 @aws-amplify/documentation-team 
+/src/**/**/authz @abdallahshaban557 @aws-amplify/documentation-team 
+/src/**/**/authentication @abdallahshaban557 @aws-amplify/documentation-team 
 
 #Client Configuration
 /src/**/**/client-configuration @abdallahshaban557 @hdworld11
 /src/**/**/configuration @abdallahshaban557 @hdworld11
 
 #Common
-/src/fragments/common @abdallahshaban557
-/src/fragments/lib/common @abdallahshaban557
+/src/fragments/common @abdallahshaban557 @aws-amplify/documentation-team 
+/src/fragments/lib/common @abdallahshaban557 @aws-amplify/documentation-team 
 
 #Data
-/src/**/**/datastore @renebrandel
-/src/**/**/data @renebrandel
+/src/**/**/datastore @renebrandel @aws-amplify/documentation-team 
+/src/**/**/data @renebrandel @aws-amplify/documentation-team 
 
 #Debugging
-/src/fragments/**/debugging @abdallahshaban557
+/src/fragments/**/debugging @abdallahshaban557 @aws-amplify/documentation-team 
 
 #Geo
-/src/**/**/geo @abdallahshaban557
+/src/**/**/geo @abdallahshaban557 @aws-amplify/documentation-team 
 
 #Getting Started
-/src/**/start @abdallahshaban557
+/src/**/start @abdallahshaban557 @aws-amplify/documentation-team 
 
 #GraphQL API
-/src/**/**/api-graphql @renebrandel
-/src/**/**/graphqlapi @renebrandel 
-/src/**/cli-legacy/graphql-transformer @renebrandel
-/src/fragments/sdk/api/**/graphql.mdx @renebrandel
+/src/**/**/api-graphql @renebrandel @aws-amplify/documentation-team 
+/src/**/**/graphqlapi @renebrandel @aws-amplify/documentation-team 
+/src/**/cli-legacy/graphql-transformer @renebrandel @aws-amplify/documentation-team 
+/src/fragments/sdk/api/**/graphql.mdx @renebrandel @aws-amplify/documentation-team 
 
 #Hosting
 /src/**/**/hosting @michrome
 
 #In-App Messaging
-/src/**/**/in-app-messaging @abdallahshaban557
+/src/**/**/in-app-messaging @abdallahshaban557 @aws-amplify/documentation-team 
 
 #Info
-/src/fragments/**/info @abdallahshaban557
+/src/fragments/**/info @abdallahshaban557 @aws-amplify/documentation-team 
 
 #Interactions
-/src/**/**/interactions @abdallahshaban557
+/src/**/**/interactions @abdallahshaban557 @aws-amplify/documentation-team 
 
 #Logging
-/src/fragments/lib/logging @abdallahshaban557
+/src/fragments/lib/logging @abdallahshaban557 @aws-amplify/documentation-team 
 
 #Predictions
-/src/**/**/predictions @abdallahshaban557
+/src/**/**/predictions @abdallahshaban557 @aws-amplify/documentation-team 
 
 #Project Setup
 /src/**/**/project-setup @abdallahshaban557 @hdworld11
 
 #PubSub
-/src/**/**/pubsub @abdallahshaban557
+/src/**/**/pubsub @abdallahshaban557 @aws-amplify/documentation-team 
 
 #Push Notifications
-/src/**/**/push-notifications @abdallahshaban557
+/src/**/**/push-notifications @abdallahshaban557 @aws-amplify/documentation-team 
 
 #Rest API
-/src/**/**/api-rest @renebrandel
-/src/**/**/restapi @renebrandel
-/src/fragments/sdk/api/**/rest.mdx @renebrandel
+/src/**/**/api-rest @renebrandel @aws-amplify/documentation-team 
+/src/**/**/restapi @renebrandel @aws-amplify/documentation-team 
+/src/fragments/sdk/api/**/rest.mdx @renebrandel @aws-amplify/documentation-team 
 
 #SSR
-/src/fragments/lib/ssr @abdallahshaban557 @renebrandel
+/src/fragments/lib/ssr @abdallahshaban557 @renebrandel @aws-amplify/documentation-team 
 
 #Storage
 /src/**/**/storage @hdworld11
 
 #Troubleshooting
-/src/fragments/lib/troubleshooting @abdallahshaban557 @renebrandel
+/src/fragments/lib/troubleshooting @abdallahshaban557 @renebrandel @aws-amplify/documentation-team 
 
 #Utilities
-/src/**/**/utilities @abdallahshaban557
+/src/**/**/utilities @abdallahshaban557 @aws-amplify/documentation-team 
 
 #Docs Engineering
 /src/components @aws-amplify/documentation-team 
