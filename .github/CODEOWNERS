@@ -1,1 +1,102 @@
 * @aws-amplify/documentation-team 
+/src/fragments/ @abdallahshaban557
+/src/pages/ @abdallahshaban557
+
+#CLI
+/src/**/cli/ @josefaidt
+
+#Studio
+/src/pages/console/ @wrpeck
+ 
+#Analytics
+/src/**/**/analytics @abdallahshaban557
+
+#Auth
+/src/**/**/auth @abdallahshaban557
+/src/**/**/authz @abdallahshaban557
+/src/**/**/authentication @abdallahshaban557
+
+#Client Configuration
+/src/**/**/client-configuration @abdallahshaban557 @hdworld11
+/src/**/**/configuration @abdallahshaban557 @hdworld11
+
+#Common
+/src/fragments/common @abdallahshaban557
+/src/fragments/lib/common @abdallahshaban557
+
+#Data
+/src/**/**/datastore @renebrandel
+/src/**/**/data @renebrandel
+
+#Debugging
+/src/fragments/**/debugging @abdallahshaban557
+
+#Geo
+/src/**/**/geo @abdallahshaban557
+
+#Getting Started
+/src/**/start @abdallahshaban557
+
+#GraphQL API
+/src/**/**/api-graphql @renebrandel
+/src/**/**/graphqlapi @renebrandel 
+/src/**/cli-legacy/graphql-transformer @renebrandel
+/src/fragments/sdk/api/**/graphql.mdx @renebrandel
+
+#Hosting
+/src/**/**/hosting @michrome
+
+#In-App Messaging
+/src/**/**/in-app-messaging @abdallahshaban557
+
+#Info
+/src/fragments/**/info @abdallahshaban557
+
+#Interactions
+/src/**/**/interactions @abdallahshaban557
+
+#Logging
+/src/fragments/lib/logging @abdallahshaban557
+
+#Predictions
+/src/**/**/predictions @abdallahshaban557
+
+#Project Setup
+/src/**/**/project-setup @abdallahshaban557 @hdworld11
+
+#PubSub
+/src/**/**/pubsub @abdallahshaban557
+
+#Push Notifications
+/src/**/**/push-notifications @abdallahshaban557
+
+#Rest API
+/src/**/**/api-rest @renebrandel
+/src/**/**/restapi @renebrandel
+/src/fragments/sdk/api/**/rest.mdx @renebrandel
+
+#SSR
+/src/fragments/lib/ssr @abdallahshaban557 @renebrandel
+
+#Storage
+/src/**/**/storage @hdworld11
+
+#Troubleshooting
+/src/fragments/lib/troubleshooting @abdallahshaban557 @renebrandel
+
+#Utilities
+/src/**/**/utilities @abdallahshaban557
+
+#Docs Engineering
+/src/components @aws-amplify/documentation-team 
+/src/constants @aws-amplify/documentation-team 
+/src/directory @aws-amplify/documentation-team 
+/src/pages/_app.tsx @aws-amplify/documentation-team 
+/src/pages/_document.tsx @aws-amplify/documentation-team 
+/src/pages/404.tsx @aws-amplify/documentation-team 
+/src/pages/ChooseFilterPage.tsx @aws-amplify/documentation-team 
+/src/pages/index.tsx @aws-amplify/documentation-team
+/src/plugins @aws-amplify/documentation-team 
+/src/public @aws-amplify/documentation-team 
+/src/styles @aws-amplify/documentation-team 
+/src/utils @aws-amplify/documentation-team
