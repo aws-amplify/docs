@@ -1,12 +1,14 @@
-This API sends information about the current user to Amazon Pinpoint.
+This call sends information about the current user (which could be unauthenticated or authenticated) to Amazon Pinpoint.
 
-Additional information such as the user's name, email, location, and device can be included by specifying the `UserProfile`. Custom attributes can also be included by setting `UserProfile.attributes`.
+You can provide `name`, `email` and `plan`, as well as location information with `AnalyticsUserProfile.Location`. You can also send additional custom attributes using  `AnalyticsProperties`.
 
-If the user was signed in through [signIn](/lib-v1/auth/emailpassword/q/platform/js/) you can retrieve the current user's ID as shown below:
+If the user is signed in through [Amplify.Auth.signIn](/lib/auth/signin), then you can retrieve the current user's ID as shown below:
 
 ```js
 import { identifyUser } from "aws-amplify/analytics";
 import { getCurrentUser } from "aws-amplify/auth";
+
+const user = await getCurrentUser(); 
 
 const location = {
     latitude: 47.606209,
@@ -17,29 +19,25 @@ const location = {
     country: "USA"
 };
 
-const attributes = {
+let properties = {
+    "phoneNumber": "+11234567890",
+    "age": 25
+}
+
+let userProfile = {
     name: "username",
     email: "name@example.com",
     plan: "plan",
-    phoneNumber: "+11234567890",
-    age: 25
+    location: location,
+    properties: properties
 }
 
-const userProfile = {
-    location,
-    attributes
-}
-
-async function sendUserData() {
-    const user = await getCurrentUser(); 
-
-    identifyUser({
-        userId: user.userId,
-        userProfile
-    });
-}
+identifyUser({
+    userId: user.userId,
+    userProfile: userProfile
+});
 ```
 
 import js0 from "/src/fragments/lib/analytics/native_common/identify-use-cases.mdx";
 
-<Fragments fragments={{ js: js0, "react-native": js0 }} />
+<Fragments fragments={{ js: js0, react_native: js0 }} />
