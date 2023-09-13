@@ -1480,7 +1480,7 @@ export const directory = {
           {
             title: 'Escape hatch',
             route: '/lib-v1/storage/escapehatch',
-            filters: ['android', 'ios', 'js', 'react-native']
+            filters: ['android', 'ios']
           },
           {
             title: 'Use existing AWS resources',
