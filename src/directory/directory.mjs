@@ -1440,7 +1440,7 @@ export const directory = {
           {
             title: 'Download files',
             route: '/lib-v1/storage/download',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', `js`, `react-native`]
           },
           {
             title: 'Get file properties',
