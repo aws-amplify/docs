@@ -113,17 +113,17 @@ function Menu(props: MenuProps, ref) {
   function getVersions(filterKey) {
     switch (filterKey) {
       case 'js':
-        return { legacyVersion: 'v5', latestVersion: 'v6' };
+        return { alternativeVersion: 'v6', primaryVersion: 'v5' };
       case 'react-native':
-        return { legacyVersion: 'v5', latestVersion: 'v6' };
+        return { alternativeVersion: 'v6', primaryVersion: 'v5' };
       case 'flutter':
-        return { legacyVersion: 'v0', latestVersion: 'v1' };
+        return { alternativeVersion: 'v0', primaryVersion: 'v1' };
       default:
-        return { legacyVersion: 'v1', latestVersion: 'v2' };
+        return { alternativeVersion: 'v1', primaryVersion: 'v2' };
     }
   }
 
-  const { legacyVersion, latestVersion } = getVersions(props.filterKey);
+  const { alternativeVersion, primaryVersion } = getVersions(props.filterKey);
 
   if (isOpen) {
     return (
@@ -151,8 +151,8 @@ function Menu(props: MenuProps, ref) {
               {showLibVersionSwitcher && (
                 <LibVersionSwitcher
                   url={props.url}
-                  legacyVersion={legacyVersion}
-                  latestVersion={latestVersion}
+                  alternativeVersion={alternativeVersion}
+                  primaryVersion={primaryVersion}
                 />
               )}
               <Directory filterKey={props.filterKey} url={props.url} />
