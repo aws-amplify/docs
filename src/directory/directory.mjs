@@ -1050,12 +1050,12 @@ export const directory = {
           {
             title: 'Automatically track sessions',
             route: '/lib-v1/analytics/autotrack',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter']
           },
           {
             title: 'Enable/Disable Analytics',
             route: '/lib-v1/analytics/enable-disable',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter']
           },
           {
             title: 'Escape hatch',
@@ -1065,7 +1065,7 @@ export const directory = {
           {
             title: 'Use existing AWS resources',
             route: '/lib-v1/analytics/existing-resources',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter']
           }
         ]
       },
