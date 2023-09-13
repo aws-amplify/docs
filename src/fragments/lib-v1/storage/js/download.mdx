@@ -1,4 +1,6 @@
-## GetUrl
+There are three ways of getting data that was previously uploaded:
+
+## Generate a download URL
 
 Get a presigned URL of a stored file and expiration of URL. You can specify [access `level`](https://docs.amplify.aws/lib-v1/storage/configureaccess/q/platform/js) of file
 
@@ -55,35 +57,55 @@ await Storage.getUrl('filename.txt', { expires: 60 });
 ```
 
 
-### File download option
+## downloadData
 
+Download a file to in-memory buffer.
 
-### Monitor progress of download
+```typescript
+  // Download a file from s3 bucket
+  const { body, eTag } = await downloadData({ key, data: file, options: {
+  onProgress, // Optional progress callback.
+  } }).result;
+ ```
+### Get the text value of downloaded File
+we can get  the value of file in any of the three 'blob' | 'json' | 'text' formats. Replaces the respective method to get respective value.
+
+```typescript
+	try {
+			const downloadResult: { body: Pick<Body, 'blob' | 'json' | 'text'> } 
+			= await downloadData({ key: filename }).result;
+			if (downloadResult?.body?.text)
+				downloadResult?.body
+					?.text()
+					.then((result) => console.log(result));
+		} catch (error) {
+			console.log('Error : ', error)
+		}
+```
 
 To track the progress of your download, you can use `progressCallback`:
 
 ```typescript
-Storage.get('filename.txt', {
-  download: true,
-  progressCallback(progress) {
+// Download a file from s3 bucket
+  const { body, eTag } = await downloadData({ key, data: file, options: {
+  onProgress: (progress) {
     console.log(`Downloaded: ${progress.loaded}/${progress.total}`);
   }
-});
+  } }).result;
 ```
+Cancel a task 
 
 ```typescript
-// To get current user's objects
-const result = await Storage.get('filename.txt', { level: 'protected' });
-
-// To get other users' objects
-const result = await Storage.get('filename.txt', {
-  level: 'protected',
-  identityId: 'xxxxxxx' // the identityId of that user
-});
-```
-
-
-
+ const downloadTask = downloadData({ key, data: file });
+ downloadTask.cancel();
+  try {
+  	await downloadTask.result;
+  } catch (error) {
+  	if(isCancelError(error)) {
+     // Handle error thrown by task cancellation.
+  	}
+  }
+ ```
 
 ### Frequently Asked Questions
 
