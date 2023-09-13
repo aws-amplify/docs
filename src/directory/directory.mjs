@@ -1488,13 +1488,23 @@ export const directory = {
         title: 'Server-Side Rendering',
         items: [
           {
+            title: 'Getting Started with Server-Side Rendering (SSR)',
+            route: '/lib-v1/ssr',
+            filters: ['js']
+          }
+        ]
+      },
+      troubleshooting: {
+        title: 'Troubleshooting',
+        items: [
+          {
             title: 'Upgrading Amplify packages',
             route: '/lib-v1/troubleshooting/upgrading',
             filters: ['flutter', 'js', 'react-native']
           },
           {
             title: 'TypeScript strict mode',
-            route: '/lib-v1/troubleshooting/strict-mode',
+            route: '/lib/troubleshooting/strict-mode',
             filters: ['js', 'react-native']
           }
         ]
