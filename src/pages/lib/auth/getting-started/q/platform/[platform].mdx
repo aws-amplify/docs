@@ -3,7 +3,7 @@ export const meta = {
   description: `Amplify uses Amazon Cognito as the main authentication provider. Learn how to handle user registration, authentication, account recovery and other operations.`,
 };
 
-<InlineFilter filters={["js", "react-native"]}>
+<InlineFilter filters={["js"]}>
 
 import guide from "/src/fragments/common/guide-header.mdx";
 
@@ -309,8 +309,6 @@ Creating the sign-in flow can be quite difficult and time consuming to get right
 
 Amplify has pre-built UI components for React, Vue, Angular, React Native, Swift, Android, and Flutter. In this guide we are focusing on those for web applications.
 
-<InlineFilter filters={['js']}>
-
 <BlockSwitcher>
 <Block name="React">
 
@@ -491,7 +489,7 @@ Next, import the default theme inside __styles.css__:
 
 ```css
 @import '~@aws-amplify/ui-angular/theme.css';
-```
+````
 
 Next, open __app.component.html__ and add the `amplify-authenticator` component.
 
@@ -515,14 +513,6 @@ The `amplify-authenticator` component offers a simple way to add authentication 
 </Block>
 </BlockSwitcher>
 
-</InlineFilter>
-
-<InlineFilter filters={['react-native']}>
-
-V6_TODO: Add steps for installing the Authenticator for React Native
-
-</InlineFilter>
-
 Once you add the Authenticator component to your app, you can test the sign-up, sign-in, and sign-out functionality. You can also [customize the Authenticator UI component](https://ui.docs.amplify.aws/react/connected-components/authenticator/customization) to adjust colors and styling as needed.
 
 ### View the created user in the AWS Console
@@ -543,6 +533,9 @@ Now that you completed setting up Amplify Auth with username/password you may al
 
 </InlineFilter>
 
+import reactnative0 from "/src/fragments/lib/auth/js/getting-started.mdx";
+
+<Fragments fragments={{'react-native': reactnative0}} />
 
 import ios1 from "/src/fragments/lib/auth/native_common/getting_started/common.mdx";
 
