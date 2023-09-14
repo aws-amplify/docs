@@ -15,8 +15,12 @@ If you are not using the Amplify CLI, an existing Amazon S3 bucket can be used b
 ```typescript
 
 Amplify.configure({
-  aws_user_files_s3_bucket_region: 'us-east-1', // (required) - Amazon S3 bucket region
-  aws_user_files_s3_bucket: 'testappa321fb103f1f2ae6a4d25d8cd2161728123152-dev' // (required) - Amazon S3 bucket URI
+    Storage: {
+        S3: {
+            region: 'us-east-1', // (required) - Amazon S3 bucket region
+            bucket: 'testappa321fb103f1f2ae6a4d25d8cd2161728123152-dev' // (required) - Amazon S3 bucket URI
+        }
+    }
 });
 ```
 
