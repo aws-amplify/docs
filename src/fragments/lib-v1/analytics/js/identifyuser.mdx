@@ -1,4 +1,6 @@
-This call sends information about the current user (which could be unauthenticated or authenticated) to Amazon Pinpoint.
+This API sends information about the current user to Amazon Pinpoint.
+
+Additional information such as the user's name, email, location, and device can be included by specifying the `UserProfile`. Custom attributes can also be included by setting `UserProfile.attributes`.
 
 You can provide `name`, `email` and `plan`, as well as location information with `AnalyticsUserProfile.Location`. You can also send additional custom attributes using  `AnalyticsProperties`.
 
