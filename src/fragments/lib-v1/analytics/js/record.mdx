@@ -1,0 +1,48 @@
+## Recording Custom Events
+
+To record custom events call the `record` method:
+
+```javascript
+import { record } from 'aws-amplify/analytics';
+
+record({ name: 'albumVisit' });
+```
+
+## Record a Custom Event with Attributes
+
+The `record` method lets you add additional attributes to an event. For example, to record _artist_ information with an _albumVisit_ event:
+
+```javascript
+import { record } from 'aws-amplify/analytics';
+
+record({
+  name: 'albumVisit',
+  // Attribute values must be strings
+  attributes: { genre: '', artist: '' }
+});
+```
+
+## Record Engagement Metrics
+
+Data can also be added to an event:
+
+```javascript
+import { record } from 'aws-amplify/analytics';
+
+record({
+  name: 'albumVisit',
+  attributes: {},
+  metrics: { minutesListened: 30 }
+});
+```
+
+Metric values must be a `Number` type such as a float or integer.
+
+
+<Callout>
+
+The AWS Pinpoint event count updates in minutes after recording your event.
+
+However, it can take upwards of 30 minutes for the event to display in the Filter section, and for its custom attributes to appear in Pinpoint. 
+
+</Callout>

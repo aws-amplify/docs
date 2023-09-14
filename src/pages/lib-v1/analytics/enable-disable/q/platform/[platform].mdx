@@ -15,13 +15,16 @@ import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
 
 <Fragments fragments={{ ios: ios_maintenance }} />
 
-import js0 from '/src/fragments/lib/analytics/js/enable-disable/disable.mdx';
+<InlineFilter filters={['js', 'react-native']}>
 
-<Fragments fragments={{ js: js0 }} />
+V6_TODO: Update code
 
-import reactnative0 from '/src/fragments/lib/analytics/js/enable-disable/disable.mdx';
+```javascript
+// to disable Analytics
+Analytics.disable();
+```
 
-<Fragments fragments={{ 'react-native': reactnative0 }} />
+</InlineFilter>
 
 ## Disable Analytics
 
@@ -55,10 +58,13 @@ import flutter1 from '/src/fragments/lib-v1/analytics/flutter/enable-disable/ena
 
 <Fragments fragments={{ flutter: flutter1 }} />
 
-import js1 from '/src/fragments/lib/analytics/js/enable-disable/enable.mdx';
+<InlineFilter filters={['js', 'react-native']}>
 
-<Fragments fragments={{ js: js1 }} />
+V6_TODO: Update code
 
-import reactnative1 from '/src/fragments/lib/analytics/js/enable-disable/enable.mdx';
+```javascript
+// to enable Analytics
+Analytics.enable();
+```
 
-<Fragments fragments={{ 'react-native': reactnative1 }} />
+</InlineFilter>

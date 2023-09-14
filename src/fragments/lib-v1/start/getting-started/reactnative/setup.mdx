@@ -1,0 +1,138 @@
+## Create a new project
+
+To get started, initialize a new React Native project.
+
+<BlockSwitcher>
+<Block name="Expo CLI">
+
+Create a new app with the following command:    
+
+```bash
+npx create-expo-app amplified_todo
+
+cd amplified_todo
+```
+
+Install the necessary dependencies by running the following command:
+
+```sh
+npm install aws-amplify amazon-cognito-identity-js @react-native-community/netinfo @react-native-async-storage/async-storage
+```
+
+Start the app with the following command:
+
+```bash
+npm start
+```
+
+```console
+› Scan the QR code above with Expo Go (Android) or the Camera app (iOS)
+
+› Press a │ open Android
+› Press w │ open web
+
+› Press j │ open debugger
+› Press r │ reload app
+› Press m │ toggle menu
+
+› Press ? │ show all commands
+
+Logs for your project will appear below. Press Ctrl+C to exit.
+```
+
+</Block>
+<Block name="React Native CLI">
+
+After you [setup development environment](https://reactnative.dev/docs/environment-setup), create a new app with the following command:    
+
+```bash
+npx react-native init amplified_todo
+
+cd amplified_todo
+```
+
+Install the necessary dependencies by running the following command:
+
+```sh
+npm install aws-amplify amazon-cognito-identity-js @react-native-community/netinfo @react-native-async-storage/async-storage
+```
+
+You will also need to install the pod dependencies for iOS:
+
+```sh
+npx pod-install
+```
+
+Start the app with the following command:
+
+```bash
+npm start
+```
+
+```console
+r - reload the app
+d - open developer menu
+i - run on iOS
+a - run on Android
+```
+
+</Block>
+</BlockSwitcher>
+
+## Initialize a new backend
+
+With the app running, it's time to set up Amplify and create the backend services to support the app.
+
+Open a new terminal. From the **amplified_todo** directory, run:
+
+```bash
+amplify init
+```
+
+When you initialize Amplify you'll be prompted for some information about the app, with the option to accept recommended values:
+
+```console
+? Enter a name for the project (amplified_todo) 
+The following configuration will be applied:
+
+Project information
+| Name: amplified_todo
+| Environment: dev
+| Default editor: Visual Studio Code
+| App type: javascript
+| Javascript framework: react-native
+| Source Directory Path: /
+| Distribution Directory Path: /
+| Build Command: npm run-script build
+| Start Command: npm run-script start
+
+? Initialize the project with the above configuration? Yes
+Using default provider  awscloudformation
+? Select the authentication method you want to use: AWS profile
+? Please choose the profile you want to use default
+```
+
+> Amplify CLI will infer the proper configuration based on the type of project Amplify is being initialized in where possible. Adjust if needed.
+
+When you initialize a new Amplify project, a few things happen:
+
+- It creates a top level directory called **amplify** that stores your backend definition. During the tutorial you'll add capabilities such as a GraphQL API and authentication. As you add features, the **amplify** folder will grow with infrastructure-as-code templates that define your backend stack. Infrastructure-as-code is a best practice way to create a replicable backend stack.
+- It creates a file called **aws-exports.js** in the **root** directory that holds all the configuration for the services you create with Amplify. This is how the Amplify client is able to get the necessary information about your backend services.
+- It modifies the **.gitignore** file, adding some generated files to the ignore list
+- A cloud project is created for you in the AWS Amplify Console that can be accessed by running `amplify console`. The Console provides a list of backend environments, deep links to provisioned resources per Amplify category, status of recent deployments, and instructions on how to promote, clone, pull, and delete backend resources
+
+## Set up frontend
+
+Next, configure Amplify so it can interact with backend services.
+
+Open **index.js** (React Native CLI) or **App.js** (Expo CLI) and add the following code below the last import:
+
+```javascript
+import { Amplify } from 'aws-amplify';
+import awsExports from './src/aws-exports';
+Amplify.configure(awsExports);
+```
+
+And that's all it takes to configure Amplify. As you add or remove categories and make updates to your backend configuration using the Amplify CLI, the configuration in **aws-exports.js** will update automatically.
+
+Now that your app is set up and Amplify is initialized, you can add an API in the next step.
