@@ -6,38 +6,37 @@ The `uploadData` method uploads files into Amazon S3.
 import { uploadData } from 'aws-amplify/storage';
 
 try {
-const response = await uploadData({
-				key: filename,
-				data: file,
-				options: {
-                        accessLevel: 'private' | 'protected' | 'guest' , // defaults to `guest` 
-                        targetIdentityId?: string, // id of another user, if `level: protected`
-				        onProgress, // Optional progress callback.
-				},
-			});
-  console.log('Key from Response: ', response?.result?.key);
-} catch(error){
-  console.log('Error : ', error)
+	const response = await uploadData({
+		key: filename,
+		data: file,
+		options: {
+			accessLevel: 'private' | 'protected' | 'guest', // defaults to `guest`
+			targetIdentityId: string, // id of another user, if `level: protected`
+			onProgress, // Optional progress callback.
+		},
+	});
+	console.log('Key from Response: ', response?.result?.key);
+} catch (error) {
+	console.log('Error : ', error);
 }
 ```
 
 ### Public level
 
 ```typescript
-
 import { uploadData } from 'aws-amplify/storage';
 
 try {
-const response = await uploadData({
-				key: filename,
-				data: file,
-				options: {
-                     accessLevel: 'guest'
-				},
-			});
-  console.log('Key from Response: ', response?.result?.key);
-} catch(error){
-  console.log('Error : ', error)
+	const response = await uploadData({
+		key: filename,
+		data: file,
+		options: {
+			accessLevel: 'guest',
+		},
+	});
+	console.log('Key from Response: ', response?.result?.key);
+} catch (error) {
+	console.log('Error : ', error);
 }
 ```
 
@@ -47,16 +46,16 @@ const response = await uploadData({
 import { uploadData } from 'aws-amplify/storage';
 
 try {
-const response = await uploadData({
-				key: filename,
-				data: file,
-				options: {
-                      accessLevel: 'protected' 
-				},
-			});
-  console.log('Key from Response: ', response?.result?.key);
-} catch(error){
-  console.log('Error : ', error)
+	const response = await uploadData({
+		key: filename,
+		data: file,
+		options: {
+			accessLevel: 'protected',
+		},
+	});
+	console.log('Key from Response: ', response?.result?.key);
+} catch (error) {
+	console.log('Error : ', error);
 }
 ```
 
@@ -82,19 +81,19 @@ const response = await uploadData({
 ### Private level
 
 ```typescript
-
 import { uploadData } from 'aws-amplify/storage';
 
 try {
-const response = await uploadData({
-				key: filename,
-				data: file,
-				options: {
-                    accessLevel: 'private' 
-			}});
-  console.log('Key from Response: ', response?.result?.key);
-} catch(error){
-  console.log('Error : ', error)
+	const response = await uploadData({
+		key: filename,
+		data: file,
+		options: {
+			accessLevel: 'private',
+		},
+	});
+	console.log('Key from Response: ', response?.result?.key);
+} catch (error) {
+	console.log('Error : ', error);
 }
 ```
 
@@ -106,18 +105,19 @@ To track the progress of your upload, you can use the `onProgress` in options:
 import { uploadData } from 'aws-amplify/storage';
 
 const response = uploadData({
-				key: filename,
-				data: file,
-				options: {
-					onProgress: ({ transferredBytes, totalBytes }) => {
-						if (totalBytes) {
-							console.log(
-								`Upload progress ${(transferredBytes / totalBytes) * 100} %`
-							);
-						}
-					},
-				},
-			});
+	key: filename,
+	data: file,
+	options: {
+		onProgress: ({ transferredBytes, totalBytes }) => {
+			if (totalBytes) {
+				console.log(
+					`Upload progress ${(transferredBytes / totalBytes) * 100} %`
+				);
+			}
+		},
+	},
+});
+console.log('Key from Response: ', response?.result?.key);
 ```
 
 ## Pause and resume upload
@@ -146,11 +146,11 @@ const uploadTask = uploadData({ key, data: file });
 //...
 uploadTask.cancel();
 try {
-  await uploadTask.result;
+	await uploadTask.result;
 } catch (error) {
-    if(isCancelError(error)) {
-    // Handle error thrown by task cancellation
-       }
+	if (isCancelError(error)) {
+		// Handle error thrown by task cancellation
+	}
 }
 
 ```

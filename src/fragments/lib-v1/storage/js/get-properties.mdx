@@ -4,17 +4,17 @@ You can get file properties and metadata without downloading the file using `get
 import { getProperties } from 'aws-amplify/storage';
 
 try {
-  const result = await getProperties({
+	const result = await getProperties({
 		key: 'key',
-    options: { accessLevel?: 'private' | 'protected' | 'guest' , // defaults to `guest` 
-    targetIdentityId?: string, // id of another user, if `level: protected`
-    }
+		options: {
+			accessLevel: 'private' | 'protected' | 'guest', // defaults to `guest`
+			targetIdentityId: string, // id of another user, if `level: protected`
+		},
 	});
-    console.log('File Properties ', result);
+	console.log('File Properties ', result);
 } catch (error) {
-  console.log('Error ', error);
+	console.log('Error ', error);
 }
-
 ```
 
 The format of the response will look similar to the below example

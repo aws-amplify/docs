@@ -5,41 +5,36 @@ Delete stored data from the storage bucket.
 ## Public level remove
 
 ```typescript
-import { remove } from 'aws-amplify/storage'
+import { remove } from 'aws-amplify/storage';
 
-async function removeFile() {
-	try {
-		await remove({ key: filename });
-	} catch (error) {
-		console.log('Error ', error);
-	}
-};
+try {
+	await remove({ key: filename });
+} catch (error) {
+	console.log('Error ', error);
+}
+
 ```
 
 ## Protected level remove
 
 ```typescript
-import { remove } from 'aws-amplify/storage'
+import { remove } from 'aws-amplify/storage';
 
-async function removeFile() {
-	try {
-		await remove({ key: filename, options: { accessLevel: 'protected' } });
-	} catch (error) {
-		console.log('Error ', error);
-	}
-}; 
+try {
+	await remove({ key: filename, options: { accessLevel: 'protected' } });
+} catch (error) {
+	console.log('Error ', error);
+}
 ```
 
 ## Private level remove
 
-```javascript
-import { remove } from 'aws-amplify/storage'
+```typescript
+import { remove } from 'aws-amplify/storage';
 
-async function removeFile() {
-	try {
-		await remove({ key: filename, options: { accessLevel: 'private' } });
-	} catch (error) {
-		console.log('Error ', error);
-	}
-};
+try {
+	await remove({ key: filename, options: { accessLevel: 'private' } });
+} catch (error) {
+	console.log('Error ', error);
+}
 ```

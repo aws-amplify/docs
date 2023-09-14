@@ -51,19 +51,21 @@ To copy file across different access levels, you'll need to explicitly provide t
 ```typescript
 import { copy, list } from 'aws-amplify/storage';
 
-console.log(await list({ path : 'copied/', options: { accessLevel: 'private' }})); // []
+console.log(
+	await list({ path: 'copied/', options: { accessLevel: 'private' } })
+); // []
 
 // Copies 'existing/srcKey' to 'copied/destKey' from 'guest' to 'private'
 const copied = await copy({
 	source: {
-				key: 'srcKey',
-				accessLevel: 'guest'
-			},
-	destination: { 
-				key: 'destKey', 
-				accessLevel: 'private' 
-			},
-	});
+		key: 'srcKey',
+		accessLevel: 'guest',
+	},
+	destination: {
+		key: 'destKey',
+		accessLevel: 'private',
+	},
+});
 
 // There should now be a new file with key "copied/destKey" in the 'private' level
 console.log(await list({ path : 'copied/', options: { accessLevel: 'private' }})); // [ { ..., key: 'copied/destKey' } ]
@@ -77,24 +79,24 @@ You can also copy a protected file from another user by providing their identity
 ```typescript
 import { copy, list } from 'aws-amplify/storage';
 
-console.log(await list({ path : 'copied/', options: { accessLevel: 'private' }})); // []
+console.log(
+	await list({ path: 'copied/', options: { accessLevel: 'private' } })
+); // []
 
 // Copies 'existing/srcKey' to 'copied/destKey' from 'protected' of another identity ID to 'private' of the current
 // authenticated user
 
-const copied = await copy(
-	{
-		source: {
-				key: 'srcKey',
-				accessLevel: 'protected',
-				targetIdentityId: 'identityId'
-			},
-	destination: { 
-				key: 'destKey', 
-				accessLevel: 'private' 
-			},
-	}
-)
+const copied = await copy({
+	source: {
+		key: 'srcKey',
+		accessLevel: 'protected',
+		targetIdentityId: 'identityId',
+	},
+	destination: {
+		key: 'destKey',
+		accessLevel: 'private',
+	},
+});
 
 // There should now be a new file with key "copied/destKey"
 console.log(await list({ path : 'copied/', options: { accessLevel: 'private' }})); // [..., key: 'copied/destKey']

@@ -46,21 +46,22 @@ import { getUrl } from 'aws-amplify/storage';
 
 // To check for existence of a file
 await getUrl({
-    key: filename,
-    options: {
-      validateObjectExistence: true,  // defaults to false
-    },
+	key: filename,
+	options: {
+		validateObjectExistence: true, // defaults to false
+	},
 });
+
 ```
 
 ### getUrl expiry
 
 You can use `expiresIn` option to limit the availability of your URLs. This configuration returns the pre-signed URL that expires in 60 seconds:
 
-```javascript
+```typescript
 import { getUrl } from 'aws-amplify/storage';
 
-await getUrl('filename.txt', { expiresIn: 60 });
+await getUrl({ key: 'filename.txt', options: { expiresIn: 60 } });
 ```
 
 
@@ -69,12 +70,18 @@ await getUrl('filename.txt', { expiresIn: 60 });
 Download a file to in-memory buffer.
 
 ```typescript
-  // Download a file from s3 bucket
-  const { body, eTag } = await downloadData({ key, data: file, options: {
-  accessLevel: 'private' | 'protected' | 'guest' , // defaults to `guest` 
-  targetIdentityId?: string, // id of another user, if `level: protected`
-  onProgress, // Optional progress callback.
-  } }).result;
+import { downloadData } from 'aws-amplify/storage';
+
+// Download a file from s3 bucket
+const { body, eTag } = await downloadData({
+	key,
+	data: file,
+	options: {
+		accessLevel: 'private' | 'protected' | 'guest', // defaults to `guest`
+		targetIdentityId: string, // id of another user, if `level: protected`
+		onProgress, // Optional progress callback.
+	},
+}).result;
  ```
 ### Get the text value of downloaded File
 we can get  the value of file in any of the three 'blob' | 'json' | 'text' formats. Replaces the respective method to get respective value.
@@ -122,8 +129,8 @@ downloadTask.cancel();
 try {
 	await downloadTask.result;
 } catch (error) {
-	if(isCancelError(error)) {
-   // Handle error thrown by task cancellation.
+	if (isCancelError(error)) {
+		// Handle error thrown by task cancellation.
 	}
 }
 ```
