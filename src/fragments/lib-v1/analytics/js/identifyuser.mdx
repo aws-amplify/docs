@@ -2,7 +2,7 @@ This call sends information about the current user (which could be unauthenticat
 
 You can provide `name`, `email` and `plan`, as well as location information with `AnalyticsUserProfile.Location`. You can also send additional custom attributes using  `AnalyticsProperties`.
 
-If the user is signed in through [Amplify.Auth.signIn](/lib/auth/signin), then you can retrieve the current user's ID as shown below:
+If the user was signed in through [signIn](/lib/auth/signin) you can retrieve the current user's ID as shown below:
 
 ```js
 import { identifyUser } from "aws-amplify/analytics";
