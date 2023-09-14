@@ -37,7 +37,7 @@ module.exports = (async () => {
           ...[
             {
               type: 'jsx',
-              value: `<InternalLink href="${url}"><a>`
+              value: `<InternalLink href="${url}" platform={platform||integration}><a>`
             },
             ...children,
             {

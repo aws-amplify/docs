@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useContext } from 'react';
 import { PageContext } from '../Page';
 
-export default function InternalLink({ href, children }) {
+export default function InternalLink({ href, platform, children }) {
   const router = useRouter();
   const filterKeys = useContext(PageContext);
 
@@ -22,16 +22,25 @@ export default function InternalLink({ href, children }) {
     filterKind = 'integration';
   }
 
+  function createHref(href, filterKind, filterKey) {
+    if (href.includes('#')) {
+      const hrefParts = href.split('#');
+      href = `${hrefParts[0]}/q/${filterKind}/${filterKey}#${hrefParts[1]}`;
+    } else {
+      href += `/q/${filterKind}/${filterKey}`;
+    }
+    return href;
+  }
+
   if (filterKind != '') {
     if (!href.includes(`/q/${filterKind}/`)) {
       if (filterKind in filterKeys) {
         const filterKey = filterKeys[filterKind];
-        if (href.includes('#')) {
-          const hrefParts = href.split('#');
-          href = `${hrefParts[0]}/q/${filterKind}/${filterKey}#${hrefParts[1]}`;
-        } else {
-          href += `/q/${filterKind}/${filterKey}`;
-        }
+        href = createHref(href, filterKind, filterKey);
+      } else {
+        // The selection isn't in the page context either use the value passed through or default to 'js'
+        const filterKey = platform || 'js';
+        href = createHref(href, filterKind, filterKey);
       }
     }
   }
