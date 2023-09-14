@@ -1,4 +1,4 @@
-## upload
+## uploadData
 
 The `uploadData` method uploads files into Amazon S3.
 
@@ -10,9 +10,9 @@ const response = await uploadData({
 				key: filename,
 				data: file,
 				options: {
-          accessLevel: 'private' | 'protected' | 'guest' , // defaults to `guest` 
-          targetIdentityId?: string, // id of another user, if `level: protected`
-					onProgress, // Optional progress callback.
+                accessLevel: 'private' | 'protected' | 'guest' , // defaults to `guest` 
+                targetIdentityId?: string, // id of another user, if `level: protected`
+				onProgress, // Optional progress callback.
 				},
 			});
   console.log('Key from Response: ', response?.result?.key);
@@ -26,12 +26,13 @@ const response = await uploadData({
 ```typescript
 
 import { uploadData } from 'aws-amplify/storage';
+
 try {
 const response = await uploadData({
 				key: filename,
 				data: file,
 				options: {
-          accessLevel: 'guest'
+                     accessLevel: 'guest'
 				},
 			});
   console.log('Key from Response: ', response?.result?.key);
@@ -44,12 +45,13 @@ const response = await uploadData({
 
 ```typescript
 import { uploadData } from 'aws-amplify/storage';
+
 try {
 const response = await uploadData({
 				key: filename,
 				data: file,
 				options: {
-          accessLevel: 'protected' 
+                      accessLevel: 'protected' 
 				},
 			});
   console.log('Key from Response: ', response?.result?.key);
@@ -68,26 +70,27 @@ const response = await uploadData({
 				key: filename,
 				data: file,
 				options: {
-          accessLevel: 'protected' 
-          targetIdentityId: 'XXXXXXX', // other user identityId
+                accessLevel: 'protected' 
+                targetIdentityId: 'XXXXXXX', // other user identityId
 			}});
   console.log('Key from Response: ', response?.result?.key);
 } catch(error){
   console.log('Error : ', error)
 }
 
-
+```
 ### Private level
 
 ```typescript
 
 import { uploadData } from 'aws-amplify/storage';
+
 try {
 const response = await uploadData({
 				key: filename,
 				data: file,
 				options: {
-          accessLevel: 'private' 
+                accessLevel: 'private' 
 			}});
   console.log('Key from Response: ', response?.result?.key);
 } catch(error){
