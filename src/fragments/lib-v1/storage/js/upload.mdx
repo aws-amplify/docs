@@ -122,6 +122,8 @@ const response = uploadData({
 We have callback functions that support resume, pause and cancel of `uploadData'. 
 
 ```typescript 
+import { uploadData } from 'aws-amplify/storage';
+
 // Pause and resume a task
 const uploadTask = uploadData({ key, data: file });
 //...
@@ -135,6 +137,7 @@ await uploadTask.result;
 ## Cancel upload
 
 ```typescript
+import { uploadData } from 'aws-amplify/storage';
 
 const uploadTask = uploadData({ key, data: file });
 //...
@@ -146,6 +149,20 @@ try {
     // Handle error thrown by task cancellation
        }
 }
+
+```
+
+Other options available are:
+
+```typescript
+import { uploadData } from 'aws-amplify/storage'; 
+
+uploadData({ key, data: file, options:  {
+  contentType: "text/html", // (String) The default content-type header value of the file when downloading it.
+  contentEncoding: "compress" // (String) The default content-encoding header value of the file when downloading it.
+  contentDisposition: "attachment", // (String) Specifies presentational information for the object
+  metadata: {key: "value"}, // (map<String>) A map of metadata to store with the object in S3.
+}});
 
 ```
 
@@ -164,3 +181,5 @@ Uploads that were initiated over one hour ago will be cancelled automatically. T
 Currently, the `onProgress` event is dependent and based on the number of parts that are sent to S3. Currently, the library uploads at about 5 MB per part. If you upload a file smaller than this, the event will not be fired.
 
 </Callout>
+
+
