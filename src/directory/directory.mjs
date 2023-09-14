@@ -268,6 +268,11 @@ export const directory = {
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
+            title: 'Manage user session and credentials',
+            route: '/lib/auth/manage-session',
+            filters: ['js']
+          },
+          {
             title: 'Enable sign-up, sign-in, and sign-out',
             route: '/lib/auth/emailpassword',
             filters: ['js', 'react-native']
