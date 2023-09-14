@@ -10,9 +10,9 @@ const response = await uploadData({
 				key: filename,
 				data: file,
 				options: {
-                accessLevel: 'private' | 'protected' | 'guest' , // defaults to `guest` 
-                targetIdentityId?: string, // id of another user, if `level: protected`
-				onProgress, // Optional progress callback.
+                        accessLevel: 'private' | 'protected' | 'guest' , // defaults to `guest` 
+                        targetIdentityId?: string, // id of another user, if `level: protected`
+				        onProgress, // Optional progress callback.
 				},
 			});
   console.log('Key from Response: ', response?.result?.key);
@@ -70,8 +70,8 @@ const response = await uploadData({
 				key: filename,
 				data: file,
 				options: {
-                accessLevel: 'protected' 
-                targetIdentityId: 'XXXXXXX', // other user identityId
+                      accessLevel: 'protected' 
+                      targetIdentityId: 'XXXXXXX', // other user identityId
 			}});
   console.log('Key from Response: ', response?.result?.key);
 } catch(error){
@@ -90,7 +90,7 @@ const response = await uploadData({
 				key: filename,
 				data: file,
 				options: {
-                accessLevel: 'private' 
+                    accessLevel: 'private' 
 			}});
   console.log('Key from Response: ', response?.result?.key);
 } catch(error){
