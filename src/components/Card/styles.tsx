@@ -20,6 +20,7 @@ const ExternalLinkGraphic = styled.img`
 
 const Anchor = styled.a`
   position: relative;
+  target: _blank;
 `;
 
 const docsCard: React.FC<CardProps> = ({
