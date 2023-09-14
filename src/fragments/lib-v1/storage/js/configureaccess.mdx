@@ -27,18 +27,27 @@ await getUrl({ key: 'welcome.png' }); // Get welcome.png in public space
 
 ### Customize Object Key Path 
 
-You can customize your key path by defining prefixes:
+You can customize your key path by defining a prefix resolver:
 
 ```typescript
-Storage.configure({
-    customPrefix: {
-        guest: 'myPublicPrefix/',
-        protected: 'myProtectedPrefix/',
-        private: 'myPrivatePrefix/'
-    },
-    // ...
-})
-```
+Amplify.configure(
+    {},
+    {
+        Storage: {
+            S3: {
+                prefixResolver: async ({ accessLevel, targetIdentityId }) => {
+                    if (accessLevel === 'guest') {
+                        return 'myPublicPrefix/';
+                    } else if (accessLevel === 'protected') {
+                        return `myProtectedPrefix/${targetIdentityId}`;
+                    } else {
+                        return `myPrivatePrefix/${targetIdentityId}`;
+                    }
+                },
+            },
+        },
+    }
+);
 
 For example, if you want to enable read, write and delete operation for all the objects under path *myPublicPrefix/*,  declare it in your IAM policy:
 
