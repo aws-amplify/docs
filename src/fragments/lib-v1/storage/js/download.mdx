@@ -128,6 +128,40 @@ try {
 }
 ```
 
+<Callout>
+To get the metadata in result for all read apis we have to configure user defined metadata in CORS
+
+Update your bucket's CORS Policy to look like:
+
+```json
+[
+  {
+    "AllowedHeaders": [
+      "*"
+    ],
+    "AllowedMethods": [
+      "GET",
+      "HEAD",
+      "PUT",
+      "POST",
+      "DELETE"
+    ],
+    "AllowedOrigins": [
+      "*"
+    ],
+    "ExposeHeaders": [
+      "x-amz-server-side-encryption",
+      "x-amz-request-id",
+      "x-amz-id-2",
+      "ETag",
+      "x-amz-meta-test-key" // user defined metaData
+     ],
+  }
+]
+```
+</Callout>
+
+
 ### Frequently Asked Questions
 
 Users can run into unexpected issues, so we are giving you advance notice in documentation with links to open issues - please vote for what you need, to help the team prioritize.

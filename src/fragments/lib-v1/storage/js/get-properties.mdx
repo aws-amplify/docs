@@ -1,23 +1,25 @@
 You can get file properties and metadata without downloading the file using `getProperties` API from `aws-amplify/storage`
 
-```js
+```ts
 import { getProperties } from 'aws-amplify/storage';
 
-async function getFileProperties() {
-  try {
-    const result = await getProperties({
-			key: 'key',
-		});
+try {
+  const result = await getProperties({
+		key: 'key',
+    options: { accessLevel?: 'private' | 'protected' | 'guest' , // defaults to `guest` 
+    targetIdentityId?: string, // id of another user, if `level: protected`
+    }
+	});
     console.log('File Properties ', result);
-  } catch (error) {
-    console.log('Error ', error);
-  }
+} catch (error) {
+  console.log('Error ', error);
 }
+
 ```
 
 The format of the response will look similar to the below example
 
-```js
+```ts
  {
     key : "key",
     contentType: "image/jpeg",
@@ -28,3 +30,36 @@ The format of the response will look similar to the below example
 }
 
 ```
+
+<Callout>
+To get the metadata in result for all read apis we have to configure user defined metadata in CORS
+
+Update your bucket's CORS Policy to look like:
+
+```json
+[
+  {
+    "AllowedHeaders": [
+      "*"
+    ],
+    "AllowedMethods": [
+      "GET",
+      "HEAD",
+      "PUT",
+      "POST",
+      "DELETE"
+    ],
+    "AllowedOrigins": [
+      "*"
+    ],
+    "ExposeHeaders": [
+      "x-amz-server-side-encryption",
+      "x-amz-request-id",
+      "x-amz-id-2",
+      "ETag",
+      "x-amz-meta-test-key" // user defined metaData
+     ],
+  }
+]
+```
+</Callout>
