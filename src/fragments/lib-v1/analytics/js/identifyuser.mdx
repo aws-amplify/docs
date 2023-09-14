@@ -32,10 +32,14 @@ let userProfile = {
     properties: properties
 }
 
-identifyUser({
-    userId: user.userId,
-    userProfile: userProfile
-});
+async function sendUserData() {
+    const user = await getCurrentUser(); 
+
+    identifyUser({
+        userId: user.userId,
+        userProfile: userProfile
+    });
+}
 ```
 
 import js0 from "/src/fragments/lib/analytics/native_common/identify-use-cases.mdx";
