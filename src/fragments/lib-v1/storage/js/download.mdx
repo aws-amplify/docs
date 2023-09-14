@@ -68,13 +68,13 @@ await getUrl('filename.txt', { expiresIn: 60 });
 Download a file to in-memory buffer.
 
 ```typescript
-import { downloadData } from 'aws-amplify/storage';
-
-// Download a file from s3 bucket
-const { body, eTag } = await downloadData({ key, data: file, options: {
-onProgress, // Optional progress callback.
-} }).result;
-```
+  // Download a file from s3 bucket
+  const { body, eTag } = await downloadData({ key, data: file, options: {
+  accessLevel: 'private' | 'protected' | 'guest' , // defaults to `guest` 
+  targetIdentityId?: string, // id of another user, if `level: protected`
+  onProgress, // Optional progress callback.
+  } }).result;
+ ```
 ### Get the text value of downloaded File
 we can get  the value of file in any of the three 'blob' | 'json' | 'text' formats. Replaces the respective method to get respective value.
 
