@@ -2,8 +2,6 @@
 
 The `uploadData` method uploads files into Amazon S3.
 
-It returns a `{key: S3 Object key}` object on success:
-
 ```typescript
 import { uploadData } from 'aws-amplify/storage';
 
@@ -33,9 +31,7 @@ const response = await uploadData({
 				key: filename,
 				data: file,
 				options: {
-          accessLevel: 'private' | 'protected' | 'guest' , // defaults to `guest` 
-          targetIdentityId?: string, // id of another user, if `level: protected`
-					onProgress, // Optional progress callback.
+          accessLevel: 'guest'
 				},
 			});
   console.log('Key from Response: ', response?.result?.key);
@@ -63,6 +59,7 @@ const response = await uploadData({
 ```
 
 ### Protected level of another user
+
 ```typescript
 import { uploadData } from 'aws-amplify/storage';
 
@@ -91,7 +88,6 @@ const response = await uploadData({
 				data: file,
 				options: {
           accessLevel: 'private' 
-          targetIdentityId: 'XXXXXXX', // other user identityId
 			}});
   console.log('Key from Response: ', response?.result?.key);
 } catch(error){
@@ -121,3 +117,50 @@ const response = uploadData({
 			});
 ```
 
+## Pause and resume upload
+
+We have callback functions that support resume, pause and cancel of `uploadData'. 
+
+```typescript 
+// Pause and resume a task
+const uploadTask = uploadData({ key, data: file });
+//...
+uploadTask.pause();
+//...
+uploadTask.resume();
+//...
+await uploadTask.result;
+```
+
+## Cancel upload
+
+```typescript
+
+const uploadTask = uploadData({ key, data: file });
+//...
+uploadTask.cancel();
+try {
+  await uploadTask.result;
+} catch (error) {
+    if(isCancelError(error)) {
+    // Handle error thrown by task cancellation
+       }
+}
+
+```
+
+<!-- TODO Rewrite why do we not have multi-part upload documented for JS? -->
+
+When a page refresh occurs during the upload, re-initializing the upload with the same file will continue from previous progress point.
+
+<Callout>
+
+Uploads that were initiated over one hour ago will be cancelled automatically. There are instances (e.g device went offline, user logs out) where the incomplete file remains in your S3 account. It is recommended to [setup a s3 lifecycle rule](https://aws.amazon.com/blogs/aws-cloud-financial-management/discovering-and-deleting-incomplete-multipart-uploads-to-lower-amazon-s3-costs/) to automatically cleanup incomplete upload requests.
+
+</Callout>
+
+<Callout>
+
+Currently, the `onProgress` event is dependent and based on the number of parts that are sent to S3. Currently, the library uploads at about 5 MB per part. If you upload a file smaller than this, the event will not be fired.
+
+</Callout>

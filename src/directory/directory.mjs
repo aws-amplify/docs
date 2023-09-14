@@ -1423,7 +1423,7 @@ export const directory = {
         title: 'Storage',
         items: [
           {
-            title: 'Getting started',
+            title: 'Set up Amplify Storage',
             route: '/lib-v1/storage/getting-started',
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
