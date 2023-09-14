@@ -12,10 +12,11 @@ const getUrlResult: {
 	expiresAt: Date;
 } = await getUrl({
     key: filename,
-    options: { accessLevel: 'private' | 'protected' | 'guest' , // defaults to `guest` 
+    options: { accessLevel?: 'private' | 'protected' | 'guest' , // defaults to `guest` 
     targetIdentityId?: string, // id of another user, if `level: protected`
-    validateObjectExistence: false,  // defaults to false
-    expiresIn: 20 // validity of the URL, in seconds. defaults to 900 (15 minutes) and maxes at 3600 (1 hour)
+    validateObjectExistence?: false,  // defaults to false
+    expiresIn?: 20 // validity of the URL, in seconds. defaults to 900 (15 minutes) and maxes at 3600 (1 hour)
+    useAccelerateEndpoint?: boolean; // Whether to use accelerate endpoint.
     },
 });
 ```

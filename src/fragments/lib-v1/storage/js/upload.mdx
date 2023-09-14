@@ -158,10 +158,11 @@ Other options available are:
 import { uploadData } from 'aws-amplify/storage'; 
 
 uploadData({ key, data: file, options:  {
-  contentType: "text/html", // (String) The default content-type header value of the file when downloading it.
-  contentEncoding: "compress" // (String) The default content-encoding header value of the file when downloading it.
-  contentDisposition: "attachment", // (String) Specifies presentational information for the object
-  metadata: {key: "value"}, // (map<String>) A map of metadata to store with the object in S3.
+  contentType?: "text/html", // (String) The default content-type header value of the file when downloading it.
+  contentEncoding?: "compress" // (String) The default content-encoding header value of the file when downloading it.
+  contentDisposition?: "attachment", // (String) Specifies presentational information for the object
+  metadata?: {key: "value"}, // (map<String>) A map of metadata to store with the object in S3.
+  useAccelerateEndpoint?: boolean; // Whether to use accelerate endpoint.
 }});
 
 ```
