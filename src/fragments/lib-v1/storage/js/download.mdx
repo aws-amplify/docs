@@ -53,7 +53,7 @@ await getUrl({
 You can use `expiresIn` option to limit the availability of your URLs. This configuration returns the pre-signed URL that expires in 60 seconds:
 
 ```javascript
-await Storage.getUrl('filename.txt', { expires: 60 });
+await getUrl('filename.txt', { expiresIn: 60 });
 ```
 
 
