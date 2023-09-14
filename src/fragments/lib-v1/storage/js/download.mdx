@@ -89,7 +89,7 @@ To track the progress of your download, you can use `progressCallback`:
 // Download a file from s3 bucket
   const { body, eTag } = await downloadData({ key, data: file, options: {
   onProgress: (progress) {
-    console.log(`Downloaded: ${progress.loaded}/${progress.total}`);
+    console.log(`Downloaded: ${progress.transferredBytes}/${progress.totalBytes}`);
   }
   } }).result;
 ```
