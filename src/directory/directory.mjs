@@ -990,7 +990,7 @@ export const directory = {
           {
             title: 'Create your application',
             route: '/lib-v1/project-setup/create-application',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'Using Combine with Amplify',

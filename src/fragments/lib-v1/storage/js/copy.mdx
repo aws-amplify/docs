@@ -32,6 +32,8 @@ const copyFile = async () => {
 You can copy a file from the specified key to another key within the same [File Access Level](/lib/storage/configureaccess) (Defaults to 'guest').
 
 ```typescript
+import { copy, list } from 'aws-amplify/storage';
+
 console.log(await list({ path : 'copied/' })); // []
 
 // Copies 'existing/srcKey' to 'copied/destKey' within the 'guest' access level
@@ -47,10 +49,12 @@ console.log(copied); // { key: 'copied/destKey' }
 To copy file across different access levels, you'll need to explicitly provide the source and destination access levels:
 
 ```typescript
+import { copy, list } from 'aws-amplify/storage';
+
 console.log(await list({ path : 'copied/', options: { accessLevel: 'private' }})); // []
 
 // Copies 'existing/srcKey' to 'copied/destKey' from 'guest' to 'private'
-const copied = await Storage.copy({
+const copied = await copy({
 	source: {
 				key: 'srcKey',
 				accessLevel: 'guest'
@@ -71,12 +75,14 @@ console.log(copied); // { key: 'copied/destKey' }
 You can also copy a protected file from another user by providing their identity id
 
 ```typescript
+import { copy, list } from 'aws-amplify/storage';
+
 console.log(await list({ path : 'copied/', options: { accessLevel: 'private' }})); // []
 
 // Copies 'existing/srcKey' to 'copied/destKey' from 'protected' of another identity ID to 'private' of the current
 // authenticated user
 
-const copied = await Storage.copy(
+const copied = await copy(
 	{
 		source: {
 				key: 'srcKey',

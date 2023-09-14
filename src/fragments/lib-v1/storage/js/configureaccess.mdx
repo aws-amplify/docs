@@ -15,11 +15,15 @@ The access level can be configured on the Storage object globally. Alternatively
 Access level configuration on the Storage object:
 
 ```typescript
+import { getUrl } from 'aws-amplify/storage'
+
 await getUrl({ key : 'welcome.png', options: { level: 'guest' }}); // Gets welcome.png in public space
 ```
 
 The default access level is `guest`:
 ```typescript
+import { getUrl } from 'aws-amplify/storage'
+
 await getUrl({ key: 'welcome.png' }); // Get welcome.png in public space
 ```
 
