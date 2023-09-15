@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useContext } from 'react';
 import { PageContext } from '../Page';
 
-export default function InternalLink({ href, platform, children }) {
+export default function InternalLink({ href, children }) {
   const router = useRouter();
   const filterKeys = useContext(PageContext);
 
