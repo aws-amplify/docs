@@ -62,8 +62,8 @@ class CodeBlock extends React.Component<CodeBlockProps, CodeBlockState> {
         )
       ) {
         const textContent = this.element.textContent;
-        let copyLines = textContent.split('\n');
-        let copyText = copyLines
+        const copyLines = textContent.split('\n');
+        const copyText = copyLines
           .filter((line) => {
             return !line.startsWith('-');
           })

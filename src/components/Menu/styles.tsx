@@ -30,7 +30,7 @@ export const MenuHeaderStyle = styled.div`
     justify-content: space-between;
     align-items: center;
     height: 64px;
-    border-bottom: 2px solid #D1D5DB;
+    border-bottom: 2px solid #d1d5db;
     margin-bottom: 35px;
 
     h2 {

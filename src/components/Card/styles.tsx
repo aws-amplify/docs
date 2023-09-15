@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "@emotion/styled";
-import InternalLink from "../InternalLink";
+import React from 'react';
+import styled from '@emotion/styled';
+import InternalLink from '../InternalLink';
 
-import {MQFablet, MQDesktop} from "../media";
+import { MQFablet, MQDesktop } from '../media';
 
 type CardProps = {
   className?: string;
@@ -26,7 +26,7 @@ const docsCard: React.FC<CardProps> = ({
   children,
   className,
   href,
-  external,
+  external
 }) => {
   if (!href) return <div className={className}>{children}</div>;
   return (

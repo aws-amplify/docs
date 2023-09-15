@@ -1,8 +1,8 @@
-import {Toggle} from "./styles";
-import {useState, useEffect} from "react";
-import ensureMenuScrolledIntoView from "../../utils/ensure-menu-scrolled-into-view";
+import { Toggle } from './styles';
+import { useState, useEffect } from 'react';
+import ensureMenuScrolledIntoView from '../../utils/ensure-menu-scrolled-into-view';
 
-export default function SidebarLayoutToggle({menuRef, children}) {
+export default function SidebarLayoutToggle({ menuRef, children }) {
   const [inView, setInView] = useState(false);
 
   useEffect(() => {
@@ -23,6 +23,7 @@ export default function SidebarLayoutToggle({menuRef, children}) {
   };
   return (
     <Toggle
+      // eslint-disable-next-line react/jsx-no-bind
       onClick={() => {
         toggleView();
         ensureMenuScrolledIntoView();

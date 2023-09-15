@@ -1,6 +1,6 @@
-import styled from "@emotion/styled";
-import {MQLaptop} from "../media";
-import {InnerContainer, OuterContainer} from "../Container";
+import styled from '@emotion/styled';
+import { MQLaptop } from '../media';
+import { InnerContainer, OuterContainer } from '../Container';
 
 const Inner = styled(InnerContainer)`
   padding: 2rem 0;
@@ -41,7 +41,7 @@ const Inner = styled(InnerContainer)`
   }
 `;
 
-export const Container = ({children, backgroundColor}) => (
+export const Container = ({ children, backgroundColor }) => (
   <OuterContainer backgroundColor={backgroundColor}>
     <Inner>{children}</Inner>
   </OuterContainer>

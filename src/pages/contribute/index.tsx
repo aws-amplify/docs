@@ -116,7 +116,6 @@ export default function ContributorPage() {
 
             <HowItWorks />
 
-           
             <AmplifyBadges />
             <QuickstartResources />
             {/* <Contributors /> */}

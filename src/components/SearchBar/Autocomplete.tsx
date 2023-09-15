@@ -108,7 +108,8 @@ export function Autocomplete(props) {
           panelRootRef.current = createRoot(root);
         }
 
-        panelRootRef.current.render(children);      },
+        panelRootRef.current.render(children);
+      },
       ...props
     });
 
