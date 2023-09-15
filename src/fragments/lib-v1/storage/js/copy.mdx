@@ -99,7 +99,7 @@ const copied = await copy({
 });
 
 // There should now be a new file with key "copied/destKey"
-console.log(await list({ path : 'copied/', options: { accessLevel: 'private' }})); // [..., key: 'copied/destKey']
+console.log(await list({ prefix : 'copied/', options: { accessLevel: 'private' }})); // [..., key: 'copied/destKey']
 console.log(copied); // { key: 'copied/destKey' }
 ```
 
