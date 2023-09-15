@@ -94,7 +94,7 @@ import { list } from 'aws-amplify/storage';
 
 try {
   const response = list({ prefix: 'photos/', options:  {
-    level: 'protected',
+    accessLevel: 'protected',
   }});
   console.log('Listed Items:', response.items);
 } catch(error) {
@@ -109,7 +109,7 @@ import { list } from 'aws-amplify/storage';
 
 try {
   const response = list({ prefix: 'photos/', options:  {
-    level: 'protected',
+    accessLevel: 'protected',
     targetIdentityId: 'xxxxxxx' // the identityId of that user
   }});
   console.log('Listed Items:', response.items);
@@ -125,7 +125,7 @@ import { list } from 'aws-amplify/storage';
 
 try {
   const response = list({ prefix: 'photos/', options:  {
-    level: 'private',
+    accessLevel: 'private',
   }})
   console.log('Listed Items:', response.items);
 } catch(error) {
