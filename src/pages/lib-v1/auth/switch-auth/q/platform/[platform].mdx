@@ -3,6 +3,10 @@ export const meta = {
   description: `Learn more about how to switch between different auth flows in Amplify.`
 };
 
+import federation from '/src/fragments/lib-v1/v6/callout/auth-federation.mdx';
+
+<Fragments fragments={{ js: federation }} />
+
 For client side authentication there are three different flows:
 
 1. `USER_SRP_AUTH`: The `USER_SRP_AUTH` flow uses the [SRP protocol (Secure Remote Password)](https://en.wikipedia.org/wiki/Secure_Remote_Password_protocol) where the password never leaves the client and is unknown to the server. This is the recommended flow and is used by default.
