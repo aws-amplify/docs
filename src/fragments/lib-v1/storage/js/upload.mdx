@@ -40,7 +40,7 @@ try {
 }
 ```
 
-### Protected level of same user
+### Protected level 
 
 ```typescript
 import { uploadData } from 'aws-amplify/storage';
@@ -59,24 +59,6 @@ try {
 }
 ```
 
-### Protected level of another user
-
-```typescript
-import { uploadData } from 'aws-amplify/storage';
-
-try {
-	const result = await uploadData({
-		key: filename,
-		data: file,
-		options: {
-			accessLevel: 'protected',
-      targetIdentityId: 'XXXXXXX', //
-		},
-	}).result;
-	console.log('Key from Response: ', result.key);
-} catch (error) {
-	console.log('Error : ', error);
-}
 
 ```
 ### Private level
