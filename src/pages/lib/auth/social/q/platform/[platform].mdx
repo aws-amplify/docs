@@ -1,11 +1,694 @@
 export const meta = {
-  title: `Social sign-in (OAuth)`,
+  title: `Add social provider sign-in`,
   description: `Learn how to setup social sign-in providers like Facebook, Google, Amazon, or Sign in with Apple.`,
 };
 
-import js0 from "/src/fragments/lib/auth/js/social.mdx";
+<InlineFilter filters={["js"]}>
 
-<Fragments fragments={{js: js0}} />
+[comment]: # (source content from src/fragments/lib/auth/js/social.mdx ; src/fragments/lib/auth/common/setup_auth_provider.mdx ; src/fragments/lib/auth/common/configure_auth_category.mdx ; /src/fragments/cli/lambda_triggers_callout.mdx)
+
+You can enable your users to sign-in and authenticate with your application using their existing accounts with social providers like Apple, Amazon, Facebook, and Google. Once you configure your backend resources, you can use Authenticator or the Amplify Libraries to sign in users for that provider. This process will securely exchange credentials and gather user information. This information can then be used to create a new user in your app or link the social account to an existing user. Incorporating social provider sign-in provides your users with a streamlined registration, more sign-in options, and an integrated experience across their existing accounts and your application. 
+
+In this guide we will review how you can add sign-in with social providers after you set up and configure your developer account with the provider. After this is set up you can use Authenticator or the Amplify Libraries to configure your Auth category and integrate with your app.
+
+Before you begin you will need:
+- An Amplify project
+- The Amplify libraries installed and configured
+
+## Set up your social auth provider
+
+Before you configure social sign-in with Amplify Auth you will need to set up your developer account with each provider you are using.
+
+<Accordion title='Review how OAuth authentication works' headingLevel='4' eyebrow='Learn more'>
+
+[OAuth 2.0](https://en.wikipedia.org/wiki/OAuth) is the common Authorization framework used by web and mobile applications for accessing user information ("scopes") in a limited manner. Common analogies you will hear in OAuth is that of boarding a plane or staying in a hotel - showing your identification is the authentication piece (signing into an app) and using the boarding pass/hotel key is what you are authorized to access.
+
+OAuth support in Amplify uses Cognito User Pools and supports federation with social providers, which will automatically create a corresponding user in the User Pool after a login. [OIDC](https://en.wikipedia.org/wiki/OpenID_Connect) tokens are available in the app after the application has completed this process.
+
+</Accordion>
+
+<br/>
+
+<BlockSwitcher>
+<Block name="Facebook Login">
+
+1. Create a [developer account with Facebook](https://developers.facebook.com/docs/facebook-login).
+
+2. [Sign in](https://developers.facebook.com/) with your Facebook credentials.
+
+3. Choose *My Apps* from the top navigation bar, and on the page that loads choose *Create App*.
+![Create App button in the My Apps page of the Facebook developer account.](/images/cognitoHostedUI/facebook1.png)
+
+4. For your use case, choose *Set up Facebook Login*.
+![Set up Facebook Login option selected from list.](/images/cognitoHostedUI/facebook2.png)
+
+5. For platform, choose *Website* and select *No, I'm not building a game*.
+
+6. Give your Facebook app a name and choose *Create app*.
+![Form fields for the Facebook create app form.](/images/cognitoHostedUI/facebook3.png)
+
+7. On the left navigation bar, choose *Settings* and then *Basic*.
+![App ID and App Secret in the basic settings tab of the dashboard.](/images/cognitoHostedUI/facebook4.png)
+
+8. Note the *App ID* and the *App Secret*. You will use them in the next section during the CLI flow.
+
+</Block>
+<Block name="Google Sign-In">
+
+1. Go to [Google developer console](https://console.developers.google.com).
+
+2. Click *Select a project*.
+![Select a project button on the nav bar is circled.](/images/cognitoHostedUI/google1.png)
+
+3. Click *NEW PROJECT*.
+![The new project button is circled on the select a project popup.](/images/cognitoHostedUI/google2.png)
+
+4. Type in project name and click *CREATE*.
+![The create button is circled in the new project page.](/images/cognitoHostedUI/google3.png)
+
+5. Once the project is created, from the left *Navigation menu*, select *APIs & Services*, then select *Credentials*.
+![The top left menu icon is selected, then the APIs and services option, then the credentials option.](/images/cognitoHostedUI/google4.png)
+
+6. Click *CONFIGURE CONSENT SCREEN*.
+![The configure consent screen button is circled in the oauth consent screen section.](/images/cognitoHostedUI/google5.png)
+
+7. Click *CREATE*.
+![The create button is circled in the OAuth consent screen section.](/images/cognitoHostedUI/google6.png)
+
+8. Type in *App Information* and *Developer contact information* which are required field and click *SAVE AND CONTINUE* three times (OAuth consent screen -> Scopes -> Test Users) to finish setting up consent screen.
+
+9. Back under the *Credentials* tab, Create your OAuth2.0 credentials by choosing *OAuth client ID* from the *Create credentials* drop-down list.
+![The Create credentials button is circled, then the oauth client ID button is circled in the credentials section.](/images/cognitoHostedUI/google7.png).
+
+10. Choose *Web application* as *Application type* and name your OAuth Client.
+
+11. Click *Create*.
+
+12. Take note of *Your client ID* and *Your Client Secret*. You will need them for the next section in the CLI flow.
+
+13. Choose *OK*.
+
+</Block>
+<Block name="Login with Amazon">
+
+1. Create a [developer account with Amazon](https://developer.amazon.com/login-with-amazon).
+
+2. [Sign in](https://developer.amazon.com/loginwithamazon/console/site/lwa/overview.html) with your Amazon credentials.
+
+3. You need to create an Amazon security profile to receive the Amazon client ID and client secret. Choose *Create a Security Profile*.
+![The login with Amazon console with a create a new security profile button displayed.](/images/cognitoHostedUI/amazon1.png)
+
+4. Type in a *Security Profile Name*, a *Security Profile Description*, and a *Consent Privacy Notice URL*.
+![Security profile management page with steps to fill out a form for the new security profile.](/images/cognitoHostedUI/amazon2.png)
+
+5. Choose *Save*.
+
+6. Choose *Show Client ID and Client Secret* to show the client ID and secret. You will need them for the next section in the CLI flow.
+![Choosing client ID and client secret.](/images/cognitoHostedUI/amazon3.png)
+
+</Block>
+
+<Block name="Sign in with Apple">
+
+1. [Sign In](https://developer.apple.com/account/) with your Apple developer credentials.
+
+2. On the main developer portal page, select *Certificates, IDs, & Profiles*.
+
+3. On the left navigation bar, select *Identifier*.
+
+4. On the Identifiers page, select the *+* icon.
+
+5. On the *Register a New Identifier* page, select *App IDs*.
+
+6. On the *Register an App ID* page, under *App ID Prefix*, take note of the *Team ID* value.
+
+7. Provide a description in the *Description* text box and provide the `bundleID` of the iOS app.
+![Register an App ID in the certificates, identifiers and profiles section.](/images/cognitoHostedUI/apple1.png)
+
+8. Under *Capabilities*, select *Sign in with Apple*.
+
+9. Select *Continue*, review the configuration, and then select *Register*.
+
+10. On the *Identifiers* page, on the right, select *App IDs*, and then select *Services ID*.
+
+11. Select the *+* icon and, on the *Register a New Identifier* page, select *Services IDs*.
+
+12. Provide a description in the *Description* text box and provide an identifier for the service ID.
+![Register a services ID in the certificates, identifiers and profiles section.](/images/cognitoHostedUI/apple2.png)
+
+13. Select *Continue* and register the service ID.
+
+</Block>
+</BlockSwitcher>
+
+Your developer accounts with the social providers are now set up and you can return to your Auth project for next steps.
+
+## Configure the Auth category
+
+Once you have the social providers configured you can update your Auth configuration through the Amplify CLI or use the out-of-box set up through [Authenticator](https://ui.docs.amplify.aws/react/connected-components/authenticator/configuration#social-providers). The steps below outline using the CLI.
+
+<Callout warning>
+
+ When configuring social sign-in through the Amplify CLI, it's important to exercise caution when designating attributes as "required". Each social identity provider has different information they send back to Cognito. User Pool attributes that are initially set up as "required" cannot be changed later. You may have to migrate the users or create a new User Pool if you need to change requirements.
+
+</Callout>
+
+To begin with the CLI, run the following in your project’s root folder:
+
+```bash
+amplify add auth     ## "amplify update auth" if already configured
+```
+
+Choose the following options (the last steps are specific to Facebook in this example but these steps are similar for other providers):
+
+```console
+? Do you want to use the default authentication and security configuration? 
+    `Default configuration with Social Provider (Federation)`
+? How do you want users to be able to sign in? 
+    `Username`
+? Do you want to configure advanced settings? 
+    `No, I am done.`
+? What domain name prefix you want us to create for you? 
+    `(default)`
+? Enter your redirect signin URI: 
+    `http://localhost:3000/`
+? Do you want to add another redirect signin URI 
+    `No`
+? Enter your redirect signout URI: 
+    `http://localhost:3000/`
+? Do you want to add another redirect signout URI 
+    `No`
+? Select the social providers you want to configure for your user pool: 
+    `<choose your provider and follow the prompts to input the proper tokens>`
+```
+
+<Callout>
+
+**Note:** You can configure your application to use more than one redirect URL. For more information, refer to the [Redirect URLs](#redirect-urls) section below.
+
+</Callout>
+
+Next, run `amplify push` to publish your changes. Once finished, it will display an auto generated URL for your web UI. You can retrieve your user pool domain URL at anytime by running `amplify status` using the CLI.
+
+You need to now inform your auth provider of this URL:
+
+<BlockSwitcher>
+<Block name="Facebook Login">
+
+1. [Sign In](https://developers.facebook.com/) to your Facebook developer account with your Facebook credentials.
+
+2. Choose *My Apps* from the top navigation bar, and on the *Apps* page, choose your app you created before.
+
+3. On the left navigation bar, choose *Products*. Add *Facebook Login* if it isn't already added.
+
+4. If already added, choose *Settings* under the *Configure* dropdown.
+![The Settings option is circled from the configure dropdown.](/images/cognitoHostedUI/facebook5.png)
+
+5. Under *Valid OAuth Redirect URIs* type your user pool domain with the `/oauth2/idpresponse` endpoint.
+
+    `https://<your-user-pool-domain>/oauth2/idpresponse`
+
+![Userpool domain is pasted into the text field with /oauth2/ endpoint.](/images/cognitoHostedUI/facebook6.png)
+
+6. Save your changes.
+
+</Block>
+<Block name="Google Sign-In">
+
+1. Go to the [Google developer console](https://console.developers.google.com).
+
+2. On the left navigation bar, look for *APIs and Services* under *Pinned* or under *More Products* if not pinned.
+
+3. Within the *APIs and Services* sub menu, choose *Credentials*.
+
+4. Select the client you created in the first step and click the *Edit* button.
+
+5. Type your user pool domain into the *Authorized Javascript origins* form.
+
+6. Type your user pool domain with the `/oauth2/idpresponse` endpoint into *Authorized Redirect URIs*.
+
+    ![The URLs 1 form fields for authorized Javascript origins and authorized redirect URLs are circled.](/images/cognitoHostedUI/google8.png)
+
+    Note: If you saw an error message `Invalid Redirect: domain must be added to the authorized domains list before submitting.` when adding the endpoint, please go to the *Authorized Domains List* and add the domain.
+
+7. Click *Save*.
+
+</Block>
+<Block name="Login with Amazon">
+
+1. [Sign in](https://developer.amazon.com/loginwithamazon/console/site/lwa/overview.html) with your Amazon credentials.
+
+2. Hover over the gear and choose *Web Settings* associated with the security profile you created in the previous step, and then choose *Edit*.
+![The web settings option is selected in the dropdown menu from the gear icon.](/images/cognitoHostedUI/amazon4.png)
+
+3. Type your user pool domain into *Allowed Origins* and type your user pool domain with the `/oauth2/idpresponse` endpoint into *Allowed Return URLs*.
+![Userpool domain is typed into the allowed origins field with /oauth2/ as the endpoint in the Allowed Return URLs field.](/images/cognitoHostedUI/amazon5.png)
+
+4. Choose *Save*.
+
+</Block>
+<Block name="Sign in with Apple">
+
+1. [Sign In](https://developer.apple.com/account/) with your Apple developer credentials.
+
+2. On the main developer portal page, select *Certificates, IDs, & Profiles*.
+
+3. On the left navigation bar, select *Identifiers* and then select *Service IDs* from the drop down list on the right.
+
+4. Select the service ID created when you set up your auth provider as outlined in the section above.
+
+5. Enable *Sign In with Apple* and select *Configure*.
+
+6. Under *Primary App ID* select the app ID that was created before.
+
+7. Type your user pool domain into *Domains and Subdomains*.
+
+8. Type your user pool domain with the `/oauth2/idpresponse` endpoint into *Return URLs*.
+![The return URLs text field is selected.](/images/cognitoHostedUI/apple3.png)
+
+9. Click *Next*, review the information, then select *Done*.
+
+10. On *Edit your Services ID Configuration* click *Continue*, review the information, then select *Save*.
+
+11. On the main *Certificates, Identifiers & Profiles*, select *Keys*.
+
+12. On the *Keys* page, select the *+* icon.
+
+13. Provide a name for the key under *Key Name*.
+
+14. Enable *Sign in with Apple* and select *Configure*.
+![The sign in with apple option is enabled and the key name text field is filled out.](/images/cognitoHostedUI/apple4.png)
+
+15. Under *Primary App ID* select the app ID that was created before.
+
+16. Click on *Save*.
+
+17. On *Register a New Key* click *Continue*, review the information, then select *Register*.
+
+18. You will be redirected to a new page. Take note of the *Key ID* and download the .p8 file containing the private key.
+![The download key page is shown with the option to download the .p8 file with the private key.](/images/cognitoHostedUI/apple5.png)
+
+</Block>
+</BlockSwitcher>
+
+<Callout warning>
+
+Federated sign-in does not invoke any [Custom authentication challenge Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html), [Migrate user Lambda trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-migrate-user.html), [Custom message Lambda trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-custom-message.html), or [Custom sender Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-custom-sender-triggers.html) in your user pool. For information on the supported Lambda triggers refer to the [AWS documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html#lambda-triggers-for-federated-users) 
+
+</Callout>
+
+You have configured your Auth category and can now set up the frontend for your application.
+
+
+
+
+
+TODO
+
+## Setup frontend
+
+After configuring the OAuth endpoints (Cognito Hosted UI), you can integrate your App by invoking `Auth.federatedSignIn()` function. Passing `LoginWithAmazon`, `Facebook`, `Google`, or `SignInWithApple` on the `provider` argument (e.g `Auth.federatedSignIn({ provider: 'LoginWithAmazon' })`) will bypass the Hosted UI and federate immediately with the social provider as shown in the below React example. If you are looking to add a custom state, you are able to do so by passing a string (e.g. `Auth.federatedSignIn({ customState: 'xyz' })`) value and listening for the custom state via Hub.
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import React, { useEffect, useState } from 'react';
+import { Amplify, Auth, Hub } from 'aws-amplify';
+import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
+import awsConfig from './aws-exports';
+
+Amplify.configure(awsConfig);
+
+function App() {
+  const [user, setUser] = useState(null);
+  const [customState, setCustomState] = useState<string | null>(null);
+
+  useEffect(() => {
+    const unsubscribe = Hub.listen("auth", ({ payload: { event, data }}) => {
+      switch (event) {
+        case "signIn":
+          setUser(data);
+          break;
+        case "signOut":
+          setUser(null);
+          break;
+        case "customOAuthState":
+          setCustomState(data);
+      }
+    });
+
+    getUser();
+
+    return unsubscribe;
+  }, []);
+
+  const getUser = async (): Promise<void> => {
+    try {
+      const currentUser = await Auth.currentAuthenticatedUser();
+      setUser(currentUser);
+    } catch(error) {
+      console.error(error);
+      console.log("Not signed in");
+    }
+  };
+  
+  return (
+    <div className="App">
+      <button onClick={() => Auth.federatedSignIn()}>Open Hosted UI</button>
+      <button onClick={() => Auth.federatedSignIn({provider: CognitoHostedUIIdentityProvider.Facebook })}>Open Facebook</button>
+      <button onClick={() => Auth.federatedSignIn({provider: CognitoHostedUIIdentityProvider.Google })}>Open Google</button>
+      <button onClick={() => Auth.federatedSignIn({provider: CognitoHostedUIIdentityProvider.Amazon })}>Open Amazon</button>
+      <button onClick={() => Auth.federatedSignIn({provider: CognitoHostedUIIdentityProvider.Apple })}>Open Apple</button>
+      <button onClick={() => Auth.signOut()}>Sign Out</button>
+      <div>{user?.getUsername()}</div>
+    </div>
+  );
+}
+```
+</Block>
+<Block name="JavaScript">
+
+```javascript
+import React, { useEffect, useState } from 'react';
+import { Amplify, Auth, Hub } from 'aws-amplify';
+import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
+import awsConfig from './aws-exports';
+
+Amplify.configure(awsConfig);
+
+function App() {
+  const [user, setUser] = useState(null);
+  const [customState, setCustomState] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = Hub.listen("auth", ({ payload: { event, data } }) => {
+      switch (event) {
+        case "signIn":
+          setUser(data);
+          break;
+        case "signOut":
+          setUser(null);
+          break;
+        case "customOAuthState":
+          setCustomState(data);
+      }
+    });
+
+    Auth.currentAuthenticatedUser()
+      .then(currentUser => setUser(currentUser))
+      .catch(() => console.log("Not signed in"));
+
+    return unsubscribe;
+  }, []);
+
+	return (
+    <div className="App">
+      <button onClick={() => Auth.federatedSignIn()}>Open Hosted UI</button>
+      <button onClick={() => Auth.federatedSignIn({provider: CognitoHostedUIIdentityProvider.Facebook })}>Open Facebook</button>
+      <button onClick={() => Auth.federatedSignIn({provider: CognitoHostedUIIdentityProvider.Google })}>Open Google</button>
+      <button onClick={() => Auth.federatedSignIn({provider: CognitoHostedUIIdentityProvider.Amazon })}>Open Amazon</button>
+      <button onClick={() => Auth.federatedSignIn({provider: CognitoHostedUIIdentityProvider.Apple })}>Open Apple</button>
+      <button onClick={() => Auth.signOut()}>Sign Out</button>
+      <div>{user && user.getUsername()}</div>
+    </div>
+  );
+}
+```
+</Block>
+</BlockSwitcher>
+
+<Callout>
+
+You can also use the [Authenticator UI component](https://ui.docs.amplify.aws/react/components/authenticator) to add social sign in flow to your application. Visit [Social Provider](https://ui.docs.amplify.aws/react/components/authenticator/configuration#social-providers) section to learn more.
+
+</Callout>
+
+### Deploying to Amplify Console
+
+To deploy your app to Amplify Console with continuous deployment of the frontend and backend, please follow [these instructions](https://docs.aws.amazon.com/amplify/latest/userguide/environment-variables.html#creating-a-new-backend-environment-with-authentication-parameters).
+
+### Redirect URLs
+
+For *Sign in Redirect URI(s)* inputs, you can put one URI for local development and one for production. Example: `http://localhost:3000/` in dev and `https://www.example.com/` in production. The same is true for *Sign out redirect URI(s)*.
+
+**Note:** if you have multiple redirect URI inputs, you'll need to handle both of them where you configure your Amplify project. For example:
+
+```javascript
+import awsConfig from './aws-exports';
+
+const isLocalhost = Boolean(
+  window.location.hostname === "localhost" ||
+    // [::1] is the IPv6 localhost address.
+    window.location.hostname === "[::1]" ||
+    // 127.0.0.1/8 is considered localhost for IPv4.
+    window.location.hostname.match(
+      /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
+    )
+);
+
+// Assuming you have two redirect URIs, and the first is for localhost and second is for production
+const [
+  localRedirectSignIn,
+  productionRedirectSignIn,
+] = awsConfig.oauth.redirectSignIn.split(",");
+
+const [
+  localRedirectSignOut,
+  productionRedirectSignOut,
+] = awsConfig.oauth.redirectSignOut.split(",");
+
+const updatedAwsConfig = {
+  ...awsConfig,
+  oauth: {
+    ...awsConfig.oauth,
+    redirectSignIn: isLocalhost ? localRedirectSignIn : productionRedirectSignIn,
+    redirectSignOut: isLocalhost ? localRedirectSignOut : productionRedirectSignOut,
+  }
+}
+
+Amplify.configure(updatedAwsConfig);
+```
+
+### Full Sample
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { useEffect, useState } from 'react';
+import { Amplify, Auth, Hub } from 'aws-amplify';
+import awsConfig from './aws-exports';
+
+const isLocalhost = Boolean(
+  window.location.hostname === 'localhost' ||
+    // [::1] is the IPv6 localhost address.
+    window.location.hostname === '[::1]' ||
+    // 127.0.0.1/8 is considered localhost for IPv4.
+    window.location.hostname.match(
+      /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
+    )
+);
+
+// Assuming you have two redirect URIs, and the first is for localhost and second is for production
+const [
+  localRedirectSignIn,
+  productionRedirectSignIn,
+] = awsConfig.oauth.redirectSignIn.split(',');
+
+const [
+  localRedirectSignOut,
+  productionRedirectSignOut,
+] = awsConfig.oauth.redirectSignOut.split(',');
+
+const updatedAwsConfig = {
+  ...awsConfig,
+  oauth: {
+    ...awsConfig.oauth,
+    redirectSignIn: isLocalhost ? localRedirectSignIn : productionRedirectSignIn,
+    redirectSignOut: isLocalhost ? localRedirectSignOut : productionRedirectSignOut,
+  }
+}
+
+Amplify.configure(updatedAwsConfig);
+
+function App() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    Hub.listen('auth', ({ payload: { event, data }}) => {
+      switch (event) {
+        case 'signIn':
+        case 'cognitoHostedUI':
+          getUser();
+          break;
+        case 'signOut':
+          setUser(null);
+          break;
+        case 'signIn_failure':
+        case 'cognitoHostedUI_failure':
+          console.log('Sign in failure', data);
+          break;
+      }
+    });
+
+    getUser();
+  }, []);
+
+  const getUser = async (): Promise<void> => {
+    try {
+      const userData = await Auth.currentAuthenticatedUser();
+      setUser(userData)
+    } catch(error) {
+      console.error(error);
+      console.log("Not signed in");
+    }
+  };
+
+  return (
+    <div>
+      <p>User: {user ? JSON.stringify(user.attributes) : 'None'}</p>
+      {user ? (
+        <button onClick={() => Auth.signOut()}>Sign Out</button>
+      ) : (
+        <button onClick={() => Auth.federatedSignIn()}>Federated Sign In</button>
+      )}
+    </div>
+  );
+}
+
+export default App;
+```
+</Block>
+<Block name="JavaScript">
+
+```js
+import { useEffect, useState } from 'react';
+import { Amplify, Auth, Hub } from 'aws-amplify';
+import awsConfig from './aws-exports';
+
+const isLocalhost = Boolean(
+  window.location.hostname === 'localhost' ||
+    // [::1] is the IPv6 localhost address.
+    window.location.hostname === '[::1]' ||
+    // 127.0.0.1/8 is considered localhost for IPv4.
+    window.location.hostname.match(
+      /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
+    )
+);
+
+// Assuming you have two redirect URIs, and the first is for localhost and second is for production
+const [
+  localRedirectSignIn,
+  productionRedirectSignIn,
+] = awsConfig.oauth.redirectSignIn.split(',');
+
+const [
+  localRedirectSignOut,
+  productionRedirectSignOut,
+] = awsConfig.oauth.redirectSignOut.split(',');
+
+const updatedAwsConfig = {
+  ...awsConfig,
+  oauth: {
+    ...awsConfig.oauth,
+    redirectSignIn: isLocalhost ? localRedirectSignIn : productionRedirectSignIn,
+    redirectSignOut: isLocalhost ? localRedirectSignOut : productionRedirectSignOut,
+  }
+}
+
+Amplify.configure(updatedAwsConfig);
+
+function App() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    Hub.listen('auth', ({ payload: { event, data } }) => {
+      switch (event) {
+        case 'signIn':
+        case 'cognitoHostedUI':
+          getUser().then(userData => setUser(userData));
+          break;
+        case 'signOut':
+          setUser(null);
+          break;
+        case 'signIn_failure':
+        case 'cognitoHostedUI_failure':
+          console.log('Sign in failure', data);
+          break;
+      }
+    });
+
+    getUser().then(userData => setUser(userData));
+  }, []);
+
+  function getUser() {
+    return Auth.currentAuthenticatedUser()
+      .then(userData => userData)
+      .catch(() => console.log('Not signed in'));
+  }
+
+  return (
+    <div>
+      <p>User: {user ? JSON.stringify(user.attributes) : 'None'}</p>
+      {user ? (
+        <button onClick={() => Auth.signOut()}>Sign Out</button>
+      ) : (
+        <button onClick={() => Auth.federatedSignIn()}>Federated Sign In</button>
+      )}
+    </div>
+  );
+}
+
+export default App;
+```
+</Block>
+</BlockSwitcher>
+
+### Catching Errors
+
+In order to catch errors when using `Auth.federatedSignIn()` you can use the [Hub](/lib/utilities/hub/q/platform/js/) eventing system provided by Amplify to listen for the `signIn_failure` event.
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { Hub } from 'aws-amplify'
+
+Hub.listen('auth', (data) => { 
+    if (data.payload.event === 'signIn_failure') {
+        // Do something here
+    }
+})
+```
+</Block>
+
+<Block name="JavaScript">
+
+```js
+import { Hub } from 'aws-amplify'
+
+Hub.listen('auth', (data) => { 
+    if (data.payload.event === 'signIn_failure') {
+        // Do something here
+    }
+})
+```
+</Block>
+</BlockSwitcher>
+
+## Conclusion
+
+Congratulations! You finished the **Add social provider sign-in** guide. In this guide, you learned how to set up your auth provider, configure the Amplify Auth category, and set up the frontend. Your users can now sign in to your app using their social provider accounts.
+
+## Next steps
+
+Now that you updated how your credentials are managed you may also want to further refine the sing-in and sign-out workflows as well as update how you listen for these Auth events. We recommend you learn more about:
+
+- [Enable sign-up, sign-in, and sign-out](/lib/auth/emailpassword/q/platform/js/)
+- [Auth events](/lib/auth/auth-events/q/platform/js/)
+
+</InlineFilter>
 
 import reactnative0 from "/src/fragments/lib/auth/js/react-native-social.mdx";
 
