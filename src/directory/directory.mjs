@@ -1235,7 +1235,7 @@ export const directory = {
           {
             title: 'Remember a device',
             route: '/lib-v1/auth/device_features',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter', 'react-native']
           },
           {
             title: 'Password management',
@@ -1260,7 +1260,7 @@ export const directory = {
           {
             title: 'Delete user',
             route: '/lib-v1/auth/delete_user',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter', 'react-native']
           },
           {
             title: 'Escape hatch',
