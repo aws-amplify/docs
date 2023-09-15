@@ -1,3 +1,7 @@
+import js5 from '/src/fragments/lib-v1/v6/callout/analytics-providers.mdx';
+
+<Fragments fragments={{ js: js5 }} />
+
 The Analytics category enables you to collect analytics data for your App. The Analytics category comes with built-in support for [Amazon Pinpoint](https://aws.amazon.com/pinpoint) and [Amazon Kinesis](https://aws.amazon.com/kinesis) (Kinesis support is currently only available in the Amplify JavaScript library). The Analytics category uses [Amazon Cognito Identity pools](https://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html) to identify users in your App. Cognito allows you to receive data from authenticated, and unauthenticated users in your App.
 
 ## Goal
@@ -107,7 +111,7 @@ import flutter11 from '/src/fragments/lib-v1/analytics/flutter/getting-started/3
 
 <Fragments fragments={{ flutter: flutter11 }} />
 
-import js4 from '/src/fragments/lib/analytics/native_common/getting-started/30_initAnalytics.mdx';
+import js4 from '/src/fragments/lib-v1/analytics/js/getting-started/30_initAnalytics.mdx';
 
 <Fragments fragments={{ js: js4 }} />
 
@@ -136,5 +140,5 @@ Next Steps:
 Congratulations! Now that you have Analytics' backend provisioned and Analytics library installed.  Check out the following links to see Amplify Analytics use cases:
 
 * [Record Events](/lib-v1/analytics/record)
-* [Track Sessions](/lib-v1/analytics/autotrack)
 * [Identify User](/lib-v1/analytics/identifyuser)
+* <InlineFilter filters={["react-native", "android", "ios", "flutter"]}>[Track Sessions](/lib-v1/analytics/autotrack)</InlineFilter><InlineFilter filters={["js"]}>Track Sessions - Coming soon!</InlineFilter>
