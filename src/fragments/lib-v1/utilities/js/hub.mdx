@@ -2,7 +2,7 @@ Amplify has a local eventing system called Hub. It is a lightweight implementati
 
 ## Installation
 ```javascript
-import { Hub } from 'aws-amplify';
+import { Hub } from 'aws-amplify/utils';
 ```
 
 ## Working with the API
@@ -20,7 +20,7 @@ A channel is a logical group name that you use to organize messages and listen o
 `listen(channel: string, callback: HubCallback): StopListenerCallback` is used to listen for messages that have been dispatched. You must provide either a named `channel` or a regular expression, along with a callback. In the case of a regular expression only dispatches which contain a `message` in their payload will be matched against your pattern. You can add multiple listeners to your application for different channels or patterns to listen for, or trap generic events and perform your own filtering.
 
 ```javascript
-import { Hub } from 'aws-amplify';
+import { Hub } from 'aws-amplify/utils';
 
 class MyClass {
     constructor() {
@@ -71,7 +71,7 @@ export type HubPayload = {
 };
 ```
 
-The `event` field is recommended to be a small string without spaces such as `signIn` or `hang_up` as it's useful for checking payload groupings. The `data` field is a freeform structure which many times is used for larger JSON objects or custom data types. Finally while `message` is optional, we encourage you to use it as it is required when using a `RegExp` filtering with `Hub.listen()`.
+The `event` field is recommended to be a small string without spaces such as `signIn` or `hang_up` as it's useful for checking payload groupings. The `data` field is a freeform structure which many times is used for larger JSON objects or custom data types. Finally while `message` is optional.
 
 ### Stop Listening
 
@@ -81,10 +81,10 @@ To stop listening to a certain event, you need to wrap the listener function to 
 ```javascript
 
 /* start listening for messages */
-const hubListenerCancelToken = Hub.listen(/.*/, (data) => {
+const hubListenerCancel = Hub.listen("auth", (data) => {
   console.log('Listening for all messages: ', data.payload.data);
 });
 
 /* later */
-hubListenerCancelToken(); // stop listening for messages
+hubListenerCancel(); // stop listening for messages
 ```
