@@ -114,7 +114,7 @@ try {
       onProgress: ({ transferredBytes, totalBytes }) => {
         if (totalBytes) {
           console.log(
-            `Upload progress ${(transferredBytes / totalBytes) * 100} %`
+            `Upload progress ${(Math.round(transferredBytes / totalBytes)) * 100} %`
           );
         }
       },
