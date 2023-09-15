@@ -14,14 +14,14 @@ The access level can be configured on the Storage object globally. Alternatively
 
 Access level configuration on the Storage object:
 
-```typescript
+```javascript
 import { getUrl } from 'aws-amplify/storage'
 
 await getUrl({ key : 'welcome.png', options: { level: 'guest' }}); // Gets welcome.png in public space
 ```
 
 The default access level is `guest`:
-```typescript
+```javascript
 import { getUrl } from 'aws-amplify/storage'
 
 await getUrl({ key: 'welcome.png' }); // Get welcome.png in public space
@@ -33,7 +33,7 @@ await getUrl({ key: 'welcome.png' }); // Get welcome.png in public space
 
 You can customize your key path by defining a prefix resolver:
 
-```typescript
+```javascript
 Amplify.configure(
     {},
     {

@@ -2,7 +2,7 @@
 
 The `uploadData` method uploads files into Amazon S3.
 
-```typescript
+```javascript
 import { uploadData } from 'aws-amplify/storage';
 
 try {
@@ -23,7 +23,7 @@ try {
 
 ### Public level
 
-```typescript
+```javascript
 import { uploadData } from 'aws-amplify/storage';
 
 try {
@@ -42,7 +42,7 @@ try {
 
 ### Protected level 
 
-```typescript
+```javascript
 import { uploadData } from 'aws-amplify/storage';
 
 try {
@@ -63,7 +63,7 @@ try {
 ```
 ### Private level
 
-```typescript
+```javascript
 import { uploadData } from 'aws-amplify/storage';
 
 try {
@@ -85,7 +85,7 @@ try {
 
 To track the progress of your upload, you can use the `onProgress` in options:
 
-```typescript
+```javascript
 import { uploadData } from 'aws-amplify/storage';
 
 try {
@@ -112,7 +112,7 @@ try {
 
 We have callback functions that support resume, pause and cancel of `uploadData'. 
 
-```typescript 
+```javascript
 import { uploadData } from 'aws-amplify/storage';
 
 // Pause and resume a task
@@ -127,7 +127,7 @@ await uploadTask.result;
 
 ## Cancel upload
 
-```typescript
+```javascript
 import { uploadData } from 'aws-amplify/storage';
 
 const uploadTask = uploadData({ key, data: file });
@@ -145,7 +145,7 @@ try {
 
 Other options available are:
 
-```typescript
+```javascript
 import { uploadData } from 'aws-amplify/storage'; 
 
 uploadData({ key, data: file, options:  {
