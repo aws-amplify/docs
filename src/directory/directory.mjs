@@ -985,7 +985,7 @@ export const directory = {
           {
             title: 'Prerequisites',
             route: '/lib-v1/project-setup/prereq',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'Create your application',
@@ -1425,52 +1425,52 @@ export const directory = {
           {
             title: 'Getting started',
             route: '/lib-v1/storage/getting-started',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'Concepts',
             route: '/lib-v1/storage/overview',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'Upload files',
             route: '/lib-v1/storage/upload',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'Download files',
             route: '/lib-v1/storage/download',
-            filters: ['android', 'ios', 'flutter', `js`, `react-native`]
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'Get file properties',
             route: '/lib-v1/storage/get-properties',
-            filters: ['flutter', 'js', 'react-native']
+            filters: ['flutter', 'js']
           },
           {
             title: 'List files',
             route: '/lib-v1/storage/list',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'Copy files',
             route: '/lib-v1/storage/copy',
-            filters: ['js', 'react-native', 'flutter', 'js', 'react-native']
+            filters: ['js', 'flutter']
           },
           {
             title: 'Remove file',
             route: '/lib-v1/storage/remove',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'File access levels',
             route: '/lib-v1/storage/configureaccess',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'Lambda triggers',
             route: '/lib-v1/storage/triggers',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'Escape hatch',
@@ -1480,7 +1480,7 @@ export const directory = {
           {
             title: 'Use existing AWS resources',
             route: '/lib-v1/storage/existing-resources',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter', 'js']
           }
         ]
       },
@@ -1494,28 +1494,28 @@ export const directory = {
           }
         ]
       },
-      troubleshooting: {
-        title: 'Troubleshooting',
-        items: [
-          {
-            title: 'Upgrading Amplify packages',
-            route: '/lib-v1/troubleshooting/upgrading',
-            filters: ['flutter', 'js', 'react-native']
-          },
-          {
-            title: 'TypeScript strict mode',
-            route: '/lib/troubleshooting/strict-mode',
-            filters: ['js', 'react-native']
-          }
-        ]
-      },
       utilities: {
         title: 'Utilities',
         items: [
           {
             title: 'Hub',
             route: '/lib-v1/utilities/hub',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js']
+          }
+        ]
+      },
+      troubleshooting: {
+        title: 'Troubleshooting',
+        items: [
+          {
+            title: 'Upgrading Amplify packages',
+            route: '/lib-v1/troubleshooting/upgrading',
+            filters: ['flutter', 'js']
+          },
+          {
+            title: 'TypeScript strict mode',
+            route: '/lib-v1/troubleshooting/strict-mode',
+            filters: ['js']
           }
         ]
       },
