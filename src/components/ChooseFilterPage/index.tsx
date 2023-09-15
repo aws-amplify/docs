@@ -95,7 +95,6 @@ function ChooseFilterPage({
       </section>
     </Container>
   );
-  console.log(url);
   return (
     <Layout
       meta={{
