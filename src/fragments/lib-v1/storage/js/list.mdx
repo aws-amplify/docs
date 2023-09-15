@@ -7,11 +7,14 @@
 import { list } from 'aws-amplify/storage';
 
 try {
-	const result = await list({ prefix : "photos/", options : {
-			  listAll: true
-		}});
-} catch(error){
-  console.log(error);
+	const result = await list({
+		prefix: 'photos/',
+		options: {
+			listAll: true,
+		},
+	});
+} catch (error) {
+	console.log(error);
 }
 ```
 
@@ -85,12 +88,18 @@ This places each item's data inside a special `__data` key.
 
 To list current user's objects:
 
-```javascript
+
+```typescript
 import { list } from 'aws-amplify/storage';
 
-list('photos/', { level: 'protected' })
-  .then(({ results }) => console.log(results))
-  .catch((err) => console.log(err));
+try {
+  const response = list({ prefix: 'photos/', options:  {
+    level: 'protected',
+  }});
+  console.log('Listed Items:', response.items);
+} catch(error) {
+  console.log('Error ': error);
+}
 ```
 
 To get other users' objects:
@@ -132,11 +141,14 @@ To get a list of all files in your S3 bucket under a specific prefix, you can se
 import { list } from 'aws-amplify/storage';
 
 try {
-  const response = await list({ path: "", options : {
-        listAll: true
-      }})
-} catch(error){
-    console.log('Error ', error)
+	const response = await list({
+		path: '',
+		options: {
+			listAll: true,
+		},
+	});
+} catch (error) {
+	console.log('Error ', error);
 }
 ```
 
@@ -151,17 +163,19 @@ const PAGE_SIZE = 20;
 let nextToken = undefined;
 //...
 const loadNextPage = async () => {
-  let response = await list({ options:  {
-    pageSize: PAGE_SIZE,
-    nextToken: nextToken
-  }});
-  if (response.nextToken) {
-    nextToken = response.nextToken;
-  } else {
-    nextToken = undefined;
-  }
-  // render list items from response.items
-}
+	let response = await list({
+		options: {
+			pageSize: PAGE_SIZE,
+			nextToken: nextToken,
+		},
+	});
+	if (response.nextToken) {
+		nextToken = response.nextToken;
+	} else {
+		nextToken = undefined;
+	}
+	// render list items from response.items
+};
 ```
 
 <Callout>Note: The range of pageSize can be from 0 - 1000 or 'ALL'.</Callout>

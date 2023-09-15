@@ -12,10 +12,11 @@ const getUrlResult: {
 	expiresAt: Date;
 } = await getUrl({
     key: filename,
-    options: { accessLevel: 'private' | 'protected' | 'guest' , // defaults to `guest` 
+    options: { accessLevel?: 'private' | 'protected' | 'guest' , // defaults to `guest` 
     targetIdentityId?: string, // id of another user, if `level: protected`
-    validateObjectExistence: false,  // defaults to false
-    expiresIn: 20 // validity of the URL, in seconds. defaults to 900 (15 minutes) and maxes at 3600 (1 hour)
+    validateObjectExistence?: false,  // defaults to false
+    expiresIn?: 20 // validity of the URL, in seconds. defaults to 900 (15 minutes) and maxes at 3600 (1 hour)
+    useAccelerateEndpoint?: boolean; // Whether to use accelerate endpoint.
     },
 });
 ```
@@ -45,21 +46,22 @@ import { getUrl } from 'aws-amplify/storage';
 
 // To check for existence of a file
 await getUrl({
-    key: filename,
-    options: {
-      validateObjectExistence: true,  // defaults to false
-    },
+	key: filename,
+	options: {
+		validateObjectExistence: true, // defaults to false
+	},
 });
+
 ```
 
 ### getUrl expiry
 
 You can use `expiresIn` option to limit the availability of your URLs. This configuration returns the pre-signed URL that expires in 60 seconds:
 
-```javascript
+```typescript
 import { getUrl } from 'aws-amplify/storage';
 
-await getUrl('filename.txt', { expiresIn: 60 });
+await getUrl({ key: 'filename.txt', options: { expiresIn: 60 } });
 ```
 
 
@@ -71,10 +73,17 @@ Download a file to in-memory buffer.
 import { downloadData } from 'aws-amplify/storage';
 
 // Download a file from s3 bucket
-const { body, eTag } = await downloadData({ key, data: file, options: {
-onProgress, // Optional progress callback.
-} }).result;
-```
+const { body, eTag } = await downloadData({
+	key,
+	data: file,
+	options: {
+		accessLevel: 'private' | 'protected' | 'guest', // defaults to `guest`
+		targetIdentityId: string, // id of another user, if `level: protected`
+		onProgress, // Optional progress callback.
+	},
+}).result;
+ ```
+ 
 ### Get the text value of downloaded File
 we can get  the value of file in any of the three 'blob' | 'json' | 'text' formats. Replaces the respective method to get respective value.
 
@@ -121,11 +130,45 @@ downloadTask.cancel();
 try {
 	await downloadTask.result;
 } catch (error) {
-	if(isCancelError(error)) {
-   // Handle error thrown by task cancellation.
+	if (isCancelError(error)) {
+		// Handle error thrown by task cancellation.
 	}
 }
 ```
+
+<Callout>
+To get the metadata in result for all read apis we have to configure user defined metadata in CORS
+
+Update your bucket's CORS Policy to look like:
+
+```json
+[
+  {
+    "AllowedHeaders": [
+      "*"
+    ],
+    "AllowedMethods": [
+      "GET",
+      "HEAD",
+      "PUT",
+      "POST",
+      "DELETE"
+    ],
+    "AllowedOrigins": [
+      "*"
+    ],
+    "ExposeHeaders": [
+      "x-amz-server-side-encryption",
+      "x-amz-request-id",
+      "x-amz-id-2",
+      "ETag",
+      "x-amz-meta-test-key" // user defined metaData
+     ],
+  }
+]
+```
+</Callout>
+
 
 ### Frequently Asked Questions
 
