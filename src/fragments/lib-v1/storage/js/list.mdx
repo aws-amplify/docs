@@ -93,7 +93,7 @@ To list current user's objects:
 import { list } from 'aws-amplify/storage';
 
 try {
-  const response = list({ prefix: 'photos/', options:  {
+  const response = await list({ prefix: 'photos/', options:  {
     accessLevel: 'protected',
   }});
   console.log('Listed Items:', response.items);
