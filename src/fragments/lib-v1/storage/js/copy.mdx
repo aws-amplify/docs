@@ -52,7 +52,7 @@ To copy file across different access levels, you'll need to explicitly provide t
 import { copy, list } from 'aws-amplify/storage';
 
 console.log(
-	await list({ path: 'copied/', options: { accessLevel: 'private' } })
+	await list({ prefix: 'copied/', options: { accessLevel: 'private' } })
 ); // []
 
 // Copies 'existing/srcKey' to 'copied/destKey' from 'guest' to 'private'
