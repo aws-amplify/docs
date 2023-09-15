@@ -77,8 +77,8 @@ const { body, eTag } = await downloadData({
 	key,
 	data: file,
 	options: {
-		accessLevel: 'private' | 'protected' | 'guest', // defaults to `guest`
-		targetIdentityId: string, // id of another user, if `level: protected`
+		accessLevel: 'guest', // can be 'private' | 'protected' | 'guest'
+		targetIdentityId: 'xxxxxxx', // id of another user, if `level: protected`
 		onProgress, // Optional progress callback.
 	},
 }).result;

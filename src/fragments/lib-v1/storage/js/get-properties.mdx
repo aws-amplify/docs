@@ -7,8 +7,8 @@ try {
 	const result = await getProperties({
 		key: 'key',
 		options: {
-			accessLevel: 'private' | 'protected' | 'guest', // defaults to `guest`
-			targetIdentityId: string, // id of another user, if `level: protected`
+			accessLevel: 'guest', // defaults to `guest` but can be 'private' | 'protected' | 'guest'
+			targetIdentityId: 'xxxxxxx', // id of another user, if `accessLevel: protected`
 		},
 	});
 	console.log('File Properties ', result);
