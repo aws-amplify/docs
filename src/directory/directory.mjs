@@ -273,7 +273,7 @@ export const directory = {
             filters: ['js', 'react-native']
           },
           {
-            title: 'Social sign-in (OAuth)',
+            title: 'Add social provider sign-in',
             route: '/lib/auth/social',
             filters: ['js', 'react-native']
           },
