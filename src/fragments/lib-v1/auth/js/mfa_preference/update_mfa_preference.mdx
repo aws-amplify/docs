@@ -1,0 +1,9 @@
+```ts
+async function handleUpdateMFAPreference() {
+	try {
+		await updateMFAPreference({ sms: 'ENABLED', totp: 'PREFERRED' });
+	} catch (error) {
+		console.log(error);
+	}
+}
+```

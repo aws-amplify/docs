@@ -1,0 +1,32 @@
+<BlockSwitcher>
+<Block name="Typescript">
+
+```ts
+import { confirmSignIn } from 'aws-amplify/auth';
+
+async function handleConfirmSignIn(otpCode: string) {
+  try {
+    await confirmSignIn({ challengeResponse: otpCode });
+  } catch (error) {
+    console.log(error);
+  }
+}
+```
+
+</Block>
+
+<Block name="JavaScript">
+
+```js
+import { confirmSignIn } from 'aws-amplify/auth';
+
+async function handleConfirmSignIn(otpCode) {
+  try {
+    await confirmSignIn({ challengeResponse: otpCode });
+  } catch (error) {
+    console.log(error);
+  }
+}
+```
+</Block>
+</BlockSwitcher>

@@ -1,0 +1,68 @@
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+function handleSignInOutput(output: SignInOutput) {
+	const { nextStep } = output;
+	switch (nextStep.signInStep) {
+		// ...
+		case 'CONTINUE_SIGN_IN_WITH_MFA_SELECTION':
+			const allowedMFATypes = nextStep.allowedMFATypes;
+			const mfaType = promptUseForMFAType(allowedMFATypes);
+		// ...
+	}
+}
+
+function promptUseForMFAType(
+	allowedMFATypes?: ('SMS' | 'TOTP')[]
+): 'SMS' | 'TOTP' {
+	// Prompt user to select MFA type
+}
+
+async function handleMFASelection(mfaType: 'SMS' | 'TOTP') {
+	try {
+		const output = await confirmSignIn({
+			challengeResponse: mfaType,
+		});
+        handleSignInOutput(output);
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+```
+</Block>
+
+<Block name="JavaScript">
+
+```js
+function handleSignInOutput(output) {
+	const { nextStep } = output;
+	switch (nextStep.signInStep) {
+		// ...
+		case 'CONTINUE_SIGN_IN_WITH_MFA_SELECTION':
+			const allowedMFATypes = nextStep.allowedMFATypes;
+			const mfaType = promptUseForMFAType(allowedMFATypes);
+		// ...
+	}
+}
+
+function promptUseForMFAType(allowedMFATypes) {
+	// Prompt user to select MFA type
+}
+
+async function handleMFASelection(mfaType) {
+	try {
+		const output = await confirmSignIn({
+			challengeResponse: mfaType,
+		});
+        handleSignInOutput(output);
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+```
+
+</Block>
+</BlockSwitcher>

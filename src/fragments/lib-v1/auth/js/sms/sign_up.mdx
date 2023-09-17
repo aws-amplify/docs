@@ -1,0 +1,53 @@
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+
+import { signUp } from 'aws-amplify/auth';
+
+async function handleSignUp(username: string, password: string) {
+  try {
+    await signUp({
+      username,
+      password,
+      options: {
+        userAttributes: {
+          phone_number: "+18880008888",
+          email: "email@email.com",
+        },
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+```
+</Block>
+
+<Block name="JavaScript">
+
+```javascript
+
+import { signUp } from 'aws-amplify/auth';
+
+async function handleSignUp(username, password) {
+  try {
+    await signUp({
+      username,
+      password,
+      options: {
+        userAttributes: {
+          phone_number: "+18880008888",
+          email: "email@email.com",
+        },
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+```
+</Block>
+</BlockSwitcher>

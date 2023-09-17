@@ -1,0 +1,11 @@
+```ts
+import { updateMFAPreference } from 'aws-amplify/auth'
+
+async function updateMFAPreferences() {
+  try {
+    await updateMFAPreference({ totp: 'PREFERRED' });
+  } catch (error) {
+    console.log(error);
+  }
+}
+```
