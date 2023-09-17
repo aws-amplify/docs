@@ -3,15 +3,18 @@
 
 ## Public level list
 
-```typescript 
+```javascript
 import { list } from 'aws-amplify/storage';
 
 try {
-	const result = await list({ prefix : "photos/", options : {
-			  listAll: true
-		}});
-} catch(error){
-  console.log(error);
+	const result = await list({
+		prefix: 'photos/',
+		options: {
+			listAll: true,
+		},
+	});
+} catch (error) {
+	console.log(error);
 }
 ```
 
@@ -19,7 +22,7 @@ Note the trailing slash `/` - if you had requested `list({ prefix :  'photos' })
 
 The format of the response will look similar to the below example
 
-```ts
+```js
 {
   items: [
     {
@@ -36,7 +39,7 @@ The format of the response will look similar to the below example
 
 Manually created folders will show up as files with a `size` of 0, but you can also match keys against a regex like `file.key.match(/\.[0-9a-z]+$/i)` to distinguish files vs folders. Since "folders" are a virtual concept in S3, any file may declare any depth of folder just by having a `/` in its name. If you need to list all the folders, you'll have to parse them accordingly to get an authoritative list of files and folders:
 
-```ts
+```js
 function processStorageList(response) {
   let files = [];
   let folders = new Set();
@@ -59,7 +62,7 @@ function processStorageList(response) {
 
 If you need the files and folders in terms of a nested object instead (for example, to build an explorer UI), you could parse it recursively:
 
-```ts
+```js
 function processStorageList(response) {
   const filesystem = {};
   // https://stackoverflow.com/questions/44759750/how-can-i-create-a-nested-object-representation-of-a-folder-structure
@@ -85,22 +88,28 @@ This places each item's data inside a special `__data` key.
 
 To list current user's objects:
 
+
 ```javascript
 import { list } from 'aws-amplify/storage';
 
-list('photos/', { level: 'protected' })
-  .then(({ results }) => console.log(results))
-  .catch((err) => console.log(err));
+try {
+  const response = await list({ prefix: 'photos/', options:  {
+    accessLevel: 'protected',
+  }});
+  console.log('Listed Items:', response.items);
+} catch(error) {
+  console.log('Error ': error);
+}
 ```
 
 To get other users' objects:
 
-```typescript
+```javascript
 import { list } from 'aws-amplify/storage';
 
 try {
   const response = list({ prefix: 'photos/', options:  {
-    level: 'protected',
+    accessLevel: 'protected',
     targetIdentityId: 'xxxxxxx' // the identityId of that user
   }});
   console.log('Listed Items:', response.items);
@@ -111,12 +120,12 @@ try {
 
 ## Private level list
 
-```typescript
+```javascript
 import { list } from 'aws-amplify/storage';
 
 try {
   const response = list({ prefix: 'photos/', options:  {
-    level: 'private',
+    accessLevel: 'private',
   }})
   console.log('Listed Items:', response.items);
 } catch(error) {
@@ -128,15 +137,19 @@ try {
 
 To get a list of all files in your S3 bucket under a specific prefix, you can set `listAll` to `true`.
 
-```typescript
+```javascript
 import { list } from 'aws-amplify/storage';
 
 try {
-  const response = await list({ path: "", options : {
-        listAll: true
-      }})
-} catch(error){
-    console.log('Error ', error)
+	const response = await list({
+		path: '',
+		options: {
+			listAll: true,
+		},
+	});
+	// render list items from response.items
+} catch (error) {
+	console.log('Error ', error);
 }
 ```
 
@@ -144,24 +157,26 @@ try {
 
 If the pageSize is set lower than the total file size, a single `list` call only returns a subset of all the files. To list all the files with multiple calls, users can use the `nextToken` flag:
 
-```typescript
+```javascript
 import { list } from 'aws-amplify/storage';
 
 const PAGE_SIZE = 20;
 let nextToken = undefined;
 //...
 const loadNextPage = async () => {
-  let response = await list({ options:  {
-    pageSize: PAGE_SIZE,
-    nextToken: nextToken
-  }});
-  if (response.nextToken) {
-    nextToken = response.nextToken;
-  } else {
-    nextToken = undefined;
-  }
-  // render list items from response.items
-}
+	let response = await list({
+		options: {
+			pageSize: PAGE_SIZE,
+			nextToken: nextToken,
+		},
+	});
+	if (response.nextToken) {
+		nextToken = response.nextToken;
+	} else {
+		nextToken = undefined;
+	}
+	// render list items from response.items
+};
 ```
 
 <Callout>Note: The range of pageSize can be from 0 - 1000 or 'ALL'.</Callout>

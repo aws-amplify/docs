@@ -985,7 +985,7 @@ export const directory = {
           {
             title: 'Prerequisites',
             route: '/lib-v1/project-setup/prereq',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'Create your application',
@@ -1035,17 +1035,17 @@ export const directory = {
           {
             title: 'Getting started',
             route: '/lib-v1/analytics/getting-started',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'Record events',
             route: '/lib-v1/analytics/record',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'Identify user',
             route: '/lib-v1/analytics/identifyuser',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'Automatically track sessions',
@@ -1160,12 +1160,12 @@ export const directory = {
           {
             title: 'Set up Amplify Auth',
             route: '/lib-v1/auth/getting-started',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'Enable sign-up, sign-in, and sign-out',
             route: '/lib-v1/auth/emailpassword',
-            filters: ['js', 'react-native']
+            filters: ['js']
           },
           {
             title: 'Sign in',
@@ -1185,27 +1185,27 @@ export const directory = {
           {
             title: 'Social sign-in (OAuth)',
             route: '/lib-v1/auth/social',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'Multi-factor authentication',
             route: '/lib-v1/auth/mfa',
-            filters: ['js', 'react-native']
+            filters: ['js']
           },
           {
             title: 'Password & user management',
             route: '/lib-v1/auth/manageusers',
-            filters: ['js', 'react-native']
+            filters: ['js']
           },
           {
             title: 'Switching authentication flows',
             route: '/lib-v1/auth/switch-auth',
-            filters: ['js', 'react-native']
+            filters: ['js']
           },
           {
             title: 'Advanced workflows',
             route: '/lib-v1/auth/advanced',
-            filters: ['js', 'react-native']
+            filters: ['js']
           },
           {
             title: 'Sign in next steps',
@@ -1225,7 +1225,7 @@ export const directory = {
           {
             title: 'Auth events',
             route: '/lib-v1/auth/auth-events',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'User attributes',
@@ -1235,7 +1235,7 @@ export const directory = {
           {
             title: 'Remember a device',
             route: '/lib-v1/auth/device_features',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter']
           },
           {
             title: 'Password management',
@@ -1260,7 +1260,7 @@ export const directory = {
           {
             title: 'Delete user',
             route: '/lib-v1/auth/delete_user',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter']
           },
           {
             title: 'Escape hatch',
@@ -1270,7 +1270,7 @@ export const directory = {
           {
             title: 'Under the hood',
             route: '/lib-v1/auth/overview',
-            filters: ['android', 'ios', 'js', 'react-native']
+            filters: ['android', 'ios', 'js']
           }
         ]
       },
@@ -1425,52 +1425,52 @@ export const directory = {
           {
             title: 'Getting started',
             route: '/lib-v1/storage/getting-started',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'Concepts',
             route: '/lib-v1/storage/overview',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'Upload files',
             route: '/lib-v1/storage/upload',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'Download files',
             route: '/lib-v1/storage/download',
-            filters: ['android', 'ios', 'flutter', `js`, `react-native`]
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'Get file properties',
             route: '/lib-v1/storage/get-properties',
-            filters: ['flutter', 'js', 'react-native']
+            filters: ['flutter', 'js']
           },
           {
             title: 'List files',
             route: '/lib-v1/storage/list',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'Copy files',
             route: '/lib-v1/storage/copy',
-            filters: ['js', 'react-native', 'flutter', 'js', 'react-native']
+            filters: ['js', 'flutter']
           },
           {
             title: 'Remove file',
             route: '/lib-v1/storage/remove',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'File access levels',
             route: '/lib-v1/storage/configureaccess',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'Lambda triggers',
             route: '/lib-v1/storage/triggers',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'Escape hatch',
@@ -1480,7 +1480,7 @@ export const directory = {
           {
             title: 'Use existing AWS resources',
             route: '/lib-v1/storage/existing-resources',
-            filters: ['android', 'ios', 'flutter', 'js', 'react-native']
+            filters: ['android', 'ios', 'flutter', 'js']
           }
         ]
       },
@@ -1494,28 +1494,28 @@ export const directory = {
           }
         ]
       },
-      troubleshooting: {
-        title: 'Troubleshooting',
-        items: [
-          {
-            title: 'Upgrading Amplify packages',
-            route: '/lib-v1/troubleshooting/upgrading',
-            filters: ['flutter', 'js', 'react-native']
-          },
-          {
-            title: 'TypeScript strict mode',
-            route: '/lib/troubleshooting/strict-mode',
-            filters: ['js', 'react-native']
-          }
-        ]
-      },
       utilities: {
         title: 'Utilities',
         items: [
           {
             title: 'Hub',
             route: '/lib-v1/utilities/hub',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js']
+          }
+        ]
+      },
+      troubleshooting: {
+        title: 'Troubleshooting',
+        items: [
+          {
+            title: 'Upgrading Amplify packages',
+            route: '/lib-v1/troubleshooting/upgrading',
+            filters: ['flutter', 'js']
+          },
+          {
+            title: 'TypeScript strict mode',
+            route: '/lib-v1/troubleshooting/strict-mode',
+            filters: ['js']
           }
         ]
       },

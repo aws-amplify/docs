@@ -88,8 +88,7 @@ function Menu(props: MenuProps, ref) {
     (props.filterKey == 'ios' ||
       props.filterKey == 'android' ||
       props.filterKey === 'flutter' ||
-      props.filterKey === 'js' ||
-      props.filterKey === 'react-native')
+      props.filterKey === 'js')
   ) {
     showLibVersionSwitcher = true;
   }
