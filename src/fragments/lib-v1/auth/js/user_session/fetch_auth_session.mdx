@@ -1,0 +1,11 @@
+```ts
+async function handleFetchAuthSession() {
+	try {
+		const session = await fetchAuthSession();
+		console.log(`The user tokens: ${session.tokens}`);
+		console.log(`The user credentials: ${session.credentials}`);
+	} catch (error) {
+		console.log(error);
+	}
+}
+```

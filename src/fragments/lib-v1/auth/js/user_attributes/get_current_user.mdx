@@ -1,0 +1,12 @@
+```ts
+import { getCurrentUser } from 'aws-amplify/auth';
+
+async function handleGetCurrentUser() {
+	try {
+		const user = await getCurrentUser();
+		console.log(user);
+	} catch (error) {
+		console.log(error);
+	}
+}
+```
