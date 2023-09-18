@@ -5,29 +5,33 @@ export const meta = {
 
 <InlineFilter filters={["js"]}>
 
-[comment]: # (source content from src/fragments/lib/auth/js/social.mdx ; src/fragments/lib/auth/common/setup_auth_provider.mdx ; src/fragments/lib/auth/common/configure_auth_category.mdx ; /src/fragments/cli/lambda_triggers_callout.mdx)
+[comment]: # (source content from src/fragments/lib/auth/js/social.mdx ; src/fragments/lib/auth/common/setup_auth_provider.mdx ; src/fragments/lib/auth/common/configure_auth_category.mdx ; /src/fragments/cli/lambda_triggers_callout.mdx ; /src/fragments/lib/auth/js/overview.mdx)
 
-You can enable your users to sign-in and authenticate with your application using their existing accounts with social providers like Apple, Amazon, Facebook, and Google. Once you configure your backend resources, you can use Authenticator or the Amplify Libraries to sign in users for that provider. This process will securely exchange credentials and gather user information. This information can then be used to create a new user in your app or link the social account to an existing user. Incorporating social provider sign-in provides your users with a streamlined registration, more sign-in options, and an integrated experience across their existing accounts and your application. 
+You can enable your users to sign-in and authenticate with your app using their existing accounts with social providers like Apple, Amazon, Facebook, and Google. Once you configure your backend resources, you can use Authenticator or the Amplify Libraries to sign in users for that provider. This process will securely exchange credentials and gather user information. This information can then be used to create a new user in your app or link the social account to an existing user. Incorporating social provider sign-in provides your users with a streamlined registration, more sign-in options, and an integrated experience across their existing accounts and your app.
 
-In this guide we will review how you can add sign-in with social providers after you set up and configure your developer account with the provider. After this is set up you can use Authenticator or the Amplify Libraries to configure your Auth category and integrate with your app.
+In this guide we will review how you can add sign-in with social providers by first setting up your developer account with the provider. After this is set up you can then use Authenticator or the Amplify CLI and Libraries to configure your Auth category and integrate social sign-in with your app. This guide will focus on the use of the Amplify CLI and Libraries for this integration.
 
 Before you begin you will need:
 - An Amplify project
 - The Amplify libraries installed and configured
 
-## Set up your social auth provider
+<Accordion title='Review how OAuth authentication works' headingLevel='3' eyebrow='Learn more'>
 
-Before you configure social sign-in with Amplify Auth you will need to set up your developer account with each provider you are using.
-
-<Accordion title='Review how OAuth authentication works' headingLevel='4' eyebrow='Learn more'>
+Incorporating social provider sign-in provides your users more sign-in options with providers such as Facebook, Google, or Amazon. The preferred way to do this is via an OAuth redirect which lets users sign in using their social media account and a corresponding user is created in User Pools. 
 
 [OAuth 2.0](https://en.wikipedia.org/wiki/OAuth) is the common Authorization framework used by web and mobile applications for accessing user information ("scopes") in a limited manner. Common analogies you will hear in OAuth is that of boarding a plane or staying in a hotel - showing your identification is the authentication piece (signing into an app) and using the boarding pass/hotel key is what you are authorized to access.
 
-OAuth support in Amplify uses Cognito User Pools and supports federation with social providers, which will automatically create a corresponding user in the User Pool after a login. [OIDC](https://en.wikipedia.org/wiki/OpenID_Connect) tokens are available in the app after the application has completed this process.
+OAuth support in Amplify uses Cognito User Pools and supports federation with social providers, which will automatically create a corresponding user in the User Pool after a login. [OIDC](https://en.wikipedia.org/wiki/OpenID_Connect) tokens are available in the app after the application has completed this process.  With this design you do not need to include an SDK for the social provider in your app. After you set up your developer account with these social providers you can configure the `Auth` category by running `amplify add auth` and selecting the social provider option and then use `Auth.federatedSignIn()` in your app to either show a pre-built "Hosted UI" or pass in a provider name (e.g. `Auth.federatedSignIn({provider: 'Facebook'})`) to interface directly and build your own UI.
+	
+![Image](/images/SocialAuthZ.png)
+	
+You can also get credentials directly from Identity Pools by passing tokens from a social provider directly to `Auth.federatedSignIn()`. However you will have to use that provider's SDK directly in your app and manage token refresh and auth flows manually.
 
 </Accordion>
 
-<br/>
+## Set up your social auth provider
+
+Before you configure social sign-in with Amplify Auth you will need to set up your developer account with each provider you are using.
 
 <BlockSwitcher>
 <Block name="Facebook Login">
@@ -190,7 +194,7 @@ Choose the following options (the last steps are specific to Facebook in this ex
 
 Next, run `amplify push` to publish your changes. Once finished, it will display an auto generated URL for your web UI. You can retrieve your user pool domain URL at anytime by running `amplify status` using the CLI.
 
-You need to now inform your auth provider of this URL:
+You need to now inform your social provider of this URL:
 
 <BlockSwitcher>
 <Block name="Facebook Login">
@@ -297,17 +301,19 @@ Federated sign-in does not invoke any [Custom authentication challenge Lambda tr
 
 </Callout>
 
-You have configured your Auth category and can now set up the frontend for your application.
+You have configured your Auth category and updated your URL with the social providers. You can now set up the frontend for your app.
 
+## Set up your frontend
 
+After configuring the OAuth endpoints (Cognito Hosted UI), you can integrate your app by invoking the `Auth.federatedSignIn()` function. Passing `LoginWithAmazon`, `Facebook`, `Google`, or `SignInWithApple` on the `provider` argument (e.g `Auth.federatedSignIn({ provider: 'LoginWithAmazon' })`) will bypass the Hosted UI and federate immediately with the social provider as shown in the below React example.
 
+<Callout>
 
+You can also use the [Authenticator UI component](https://ui.docs.amplify.aws/react/components/authenticator) to add social sign in flow to your application. Visit [Social Provider](https://ui.docs.amplify.aws/react/components/authenticator/configuration#social-providers) section to learn more.
 
-TODO
+</Callout>
 
-## Setup frontend
-
-After configuring the OAuth endpoints (Cognito Hosted UI), you can integrate your App by invoking `Auth.federatedSignIn()` function. Passing `LoginWithAmazon`, `Facebook`, `Google`, or `SignInWithApple` on the `provider` argument (e.g `Auth.federatedSignIn({ provider: 'LoginWithAmazon' })`) will bypass the Hosted UI and federate immediately with the social provider as shown in the below React example. If you are looking to add a custom state, you are able to do so by passing a string (e.g. `Auth.federatedSignIn({ customState: 'xyz' })`) value and listening for the custom state via Hub.
+If you are looking to add a custom state, you are able to do so by passing a string (e.g. `Auth.federatedSignIn({ customState: 'xyz' })`) value and listening for the custom state via [Hub](/lib/utilities/hub/q/platform/js/). You can also use Hub eventing system to catch errors when using `Auth.federatedSignIn()` by listening for the `signIn_failure` event.
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -365,6 +371,13 @@ function App() {
     </div>
   );
 }
+
+  //You can catch errors by listening to the signIn-failure event
+  Hub.listen('auth', (data) => { 
+    if (data.payload.event === 'signIn_failure') {
+        // Do something here
+    }
+})
 ```
 </Block>
 <Block name="JavaScript">
@@ -414,21 +427,24 @@ function App() {
     </div>
   );
 }
+
+  //You can catch errors by listening to the signIn-failure event
+  Hub.listen('auth', (data) => { 
+    if (data.payload.event === 'signIn_failure') {
+        // Do something here
+    }
+})
 ```
 </Block>
 </BlockSwitcher>
 
-<Callout>
+### Deploy backend environment with auth parameters for social sign-in
 
-You can also use the [Authenticator UI component](https://ui.docs.amplify.aws/react/components/authenticator) to add social sign in flow to your application. Visit [Social Provider](https://ui.docs.amplify.aws/react/components/authenticator/configuration#social-providers) section to learn more.
+When you update your authentication configuration, Amplify creates a new backend environment for your app. You then need to deploy your app to this new backend environment in order for your app to use the updated configuration. If you do not deploy your updated app to the new backend environment, it will continue using the previous authentication configuration and social sign-in will not work.
 
-</Callout>
+You can deploy your app to the Amplify Console with continuous deployment of the frontend and backend, please follow [these instructions](https://docs.aws.amazon.com/amplify/latest/userguide/environment-variables.html#creating-a-new-backend-environment-with-authentication-parameters).
 
-### Deploying to Amplify Console
-
-To deploy your app to Amplify Console with continuous deployment of the frontend and backend, please follow [these instructions](https://docs.aws.amazon.com/amplify/latest/userguide/environment-variables.html#creating-a-new-backend-environment-with-authentication-parameters).
-
-### Redirect URLs
+<Accordion title='Use multiple redirect URIs' headingLevel='3' eyebrow='Learn more'>
 
 For *Sign in Redirect URI(s)* inputs, you can put one URI for local development and one for production. Example: `http://localhost:3000/` in dev and `https://www.example.com/` in production. The same is true for *Sign out redirect URI(s)*.
 
@@ -470,7 +486,7 @@ const updatedAwsConfig = {
 Amplify.configure(updatedAwsConfig);
 ```
 
-### Full Sample
+#### Full Example using multiple redirect URIs
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -645,48 +661,19 @@ export default App;
 </Block>
 </BlockSwitcher>
 
-### Catching Errors
-
-In order to catch errors when using `Auth.federatedSignIn()` you can use the [Hub](/lib/utilities/hub/q/platform/js/) eventing system provided by Amplify to listen for the `signIn_failure` event.
-
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-import { Hub } from 'aws-amplify'
-
-Hub.listen('auth', (data) => { 
-    if (data.payload.event === 'signIn_failure') {
-        // Do something here
-    }
-})
-```
-</Block>
-
-<Block name="JavaScript">
-
-```js
-import { Hub } from 'aws-amplify'
-
-Hub.listen('auth', (data) => { 
-    if (data.payload.event === 'signIn_failure') {
-        // Do something here
-    }
-})
-```
-</Block>
-</BlockSwitcher>
+</Accordion>
 
 ## Conclusion
 
-Congratulations! You finished the **Add social provider sign-in** guide. In this guide, you learned how to set up your auth provider, configure the Amplify Auth category, and set up the frontend. Your users can now sign in to your app using their social provider accounts.
+Congratulations! You finished the **Add social provider sign-in** guide. In this guide, you learned how to set up your social auth provider, configure the Amplify Auth category for social sign-in, and set up the frontend. Your users can now sign into your app using their social provider accounts.
 
 ## Next steps
 
-Now that you updated how your credentials are managed you may also want to further refine the sing-in and sign-out workflows as well as update how you listen for these Auth events. We recommend you learn more about:
+Now that you social provider sign-in you may also want to learn more additional ways to customize these workflows. We recommend you learn more about:
 
-- [Enable sign-up, sign-in, and sign-out](/lib/auth/emailpassword/q/platform/js/)
-- [Auth events](/lib/auth/auth-events/q/platform/js/)
+- [Password and user management](/lib/auth/manageusers/q/platform/js/)
+- [Identity Pool Federation](/lib/auth/advanced/q/platform/js/#identity-pool-federation)
+- [Working with Hub](lib/utilities/hub/q/platform/js/)
 
 </InlineFilter>
 
