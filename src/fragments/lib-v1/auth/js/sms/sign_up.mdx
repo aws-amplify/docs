@@ -7,64 +7,9 @@ import { signUp } from 'aws-amplify/auth';
 
 async function handleSignUp(
   username: string,
-  password: string,
-  phone_number: string,
-  email: string
-) {
-  try {
-	await signUp({
-	  username,
-	  password,
-	  options: {
-	    userAttributes: {
-		  phone_number,
-		  email,
-			},
-		  },
-		});
-	} catch (error) {
-      console.log(error);
-  }
-}
-```
-</Block>
-
-<Block name="JavaScript">
-
-```javascript
-
-import { signUp } from 'aws-amplify/auth';
-
-async function handleSignUp(
-  username,
-  password,
-  phone_number,
-  email
-) {
-  try {
-	await signUp({
-	  username,
-	  password,
-	  options: {
-	    userAttributes: {
-		  phone_number,
-		  email,
-			},
-		  },
-		});
-	} catch (error) {
-      console.log(error);
-  }
-}
-```
-</Block>
-</BlockSwitcher>
-
-async function handleSignUpa(
-  username: string,
-  password: string,
-  phone_number: string,
-  email: string
+	password: string,
+	phone_number: string,
+	email: string
 ) {
 	try {
 		await signUp({
@@ -81,3 +26,36 @@ async function handleSignUpa(
 		console.log(error);
 	}
 }
+```
+</Block>
+
+<Block name="JavaScript">
+
+```javascript
+
+import { signUp } from 'aws-amplify/auth';
+
+async function handleSignUp(
+  username: string,
+	password: string,
+	phone_number: string,
+	email: string
+) {
+	try {
+		await signUp({
+			username,
+			password,
+			options: {
+				userAttributes: {
+					phone_number,
+					email,
+				},
+			},
+		});
+	} catch (error) {
+		console.log(error);
+	}
+}
+```
+</Block>
+</BlockSwitcher>
