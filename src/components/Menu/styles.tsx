@@ -81,7 +81,8 @@ export const MenuStyle = styled.div`
     z-index: 0;
     left: unset;
     overflow: scroll;
-    height: 100vh;
+    height: auto;
+    max-height: 100vh;
   }
   ${MQTablet} {
     width: 20rem;
