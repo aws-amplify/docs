@@ -9,7 +9,7 @@ This section covers the client-side development experience for password and user
 
 ### Reset Password
 
-In order to reset your password, use the resetPassword api - this will send a code to the user attribute configured to receive such a reset code (e.g. email or SMS):
+In order to reset your password, use the resetPassword API - this will send a code to the user attribute configured to receive such a reset code (e.g. email or SMS):
 
 import jsResetPassword from "/src/fragments/lib-v1/auth/js/password_management/reset_password.mdx"
 
@@ -37,7 +37,7 @@ import jsGetCurrentUser from "/src/fragments/lib-v1/auth/js/user_attributes/get_
 
 <Fragments fragments={{js: jsGetCurrentUser}}/>
 
-This method can be used to check if a user is logged in when the page is loaded. It will throw an `AuthError` if there is no user logged in. This method should be called after the Auth module is configured and the user is logged in.
+This method can be used to check if a user is logged in when the page is loaded. It will throw an `AuthError` if there is no user logged in.
 
 ## Retrieve current session
 
@@ -58,7 +58,7 @@ a set of APIs that can help you manage attributes while the user is authenticate
 
 Amazon Cognito has a set of default standard attributes. You can find a list of all the standard attributes [here](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#cognito-user-pools-standard-attributes)
 
-In addition, Cognito allows to set up to 50 custom attributes in the user pool. Documentation on custom attributes can be found [here](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-custom-attributes).
+In addition, Cognito allows to setup up to 50 custom attributes in the user pool. Documentation on custom attributes can be found [here](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-custom-attributes).
 
 You can pass them in the `userAttributes` key of the `signUp` API:
 
@@ -91,203 +91,19 @@ import jsFetchUserAttributes from "/src/fragments/lib-v1/auth/js/user_attributes
 
 Invoke the `updateUserAttributes` API to create or update existing user attributes.
 
-```ts
-import { Auth } from 'aws-amplify';
+import jsUpdateUserAttributes from "/src/fragments/lib-v1/auth/js/user_attributes/update_user_attributes.mdx"
 
-async function updateUserAttributes () {
-  try {
-    const user = await Auth.currentAuthenticatedUser();
-    const result = await Auth.updateUserAttributes(user, {
-      email: 'me@anotherdomain.com',
-      family_name: 'Lastname'
-    });
-    console.log(result); // SUCCESS
-  } catch(err) {
-    console.log(err);
-  }
-};
-```
+<Fragments fragments={{js: jsUpdateUserAttributes}}/>
 
 <Callout>
-Note: If you change an attribute that requires confirmation (i.e. email or phone number), you will receive a confirmation code to that attribute.
+Note: If you change an attribute that requires confirmation (i.e. email or phone_number), you will receive a confirmation code either to your email or cellphone. This code will be used 
+by the confirmUserAttribute API to confirm that attribute.
 </Callout> 
 
-### Confirm attribute
+### Verify user attribute
 
-If you change the email address, you will receive a confirmation code to the new email address. Below is an example of how to confirm the new 
-email address in your app:
+Some attributes require confirmation for the attribute update to complete. If the attribute need to be confirmed, the result of the above API will be `CONFIRM_ATTRIBUTE_WITH_CODE`. A confirmation code will be sent to the delivery medium mentioned in the delivery details. When the user gets the confirmation code, you can present a UI to the user to enter the code and invoke the confirm attribute api with their input:
 
-```javascript
-const result = await Auth.verifyCurrentUserAttributeSubmit('email', '<verification_code>');
-```
+import jsConfirmUserAttribute from "/src/fragments/lib-v1/auth/js/user_attributes/confirm_user_attribute.mdx"
 
-## Updating and verifying a user email address
-
-Updating an email address using `Auth.updateUserAttributes` will require a verification of the new email address. The user will be emailed a verification code to the updated email address and your application will need to receive the verification code and send it to `Auth.verifyCurrentUserAttributeSubmit` before the email address will be updated in Cognito.
-
-The React application below implements this flow of updating the email address for the current user when the "Update Email" button is clicked, then provides a form to capture the verification code sent to the user.
-
-<BlockSwitcher>
-<Block name="TypeScript">
-
-```ts
-// App.js
-import { Authenticator } from '@aws-amplify/ui-react';
-import '@aws-amplify/ui-react/styles.css'; 
-import { Auth } from 'aws-amplify';
-import { useState } from 'react';
-
-async function updateUserEmail() {
-  try {
-    const user = await Auth.currentAuthenticatedUser();
-    await Auth.updateUserAttributes(user, {
-      email: 'updatedEmail@mydomain.com'
-    });
-
-    console.log('a verification code is sent');
-  } catch(err) {
-    console.log('failed with error', err);
-  }
-}
-
-async function verifyEmailValidationCode(code: string) {
-  try {
-    await Auth.verifyCurrentUserAttributeSubmit('email', code);
-    console.log('email verified');
-  } catch(err) {
-    console.log('failed with error', err);
-  }
-}
-
-function ValidationCodeForm() {
-  const [validationCode, setValidationCode] = useState<string | null>(null);
-  return (
-    <div>
-      <label>
-        Verification Code (sent to the new email):
-        <input
-          onChange={(e) => {
-            setValidationCode(e.target.value);
-          }}
-          type="text"
-          name="vc"
-        />
-      </label>
-      <button onClick={() => validationCode && verifyEmailValidationCode(validationCode)}>
-        Send Code
-      </button>
-    </div>
-  );
-}
-
-export default function App() {
-  const [showValidationCodeUI, setShowValidationCodeUI] = useState(false);
-
-  return (
-    <Authenticator>
-      {({ signOut, user }) => (
-        <div className="App">
-          <div>
-            <pre>{JSON.stringify(user?.attributes, null, 2)}</pre>
-          </div>
-          {showValidationCodeUI === false && (
-            <button
-              onClick={async () => { 
-                await updateUserEmail();
-                setShowValidationCodeUI(true);
-              }}
-            >
-              Update Email
-            </button>
-          )}
-          {showValidationCodeUI === true && <ValidationCodeForm />}
-          <button onClick={signOut}>Sign out</button>
-        </div>
-      )}
-    </Authenticator>
-  );
-}
-```
-</Block>
-<Block name="JavaScript">
-
-```javascript
-// App.js
-import { Authenticator } from '@aws-amplify/ui-react';
-import '@aws-amplify/ui-react/styles.css';
-import { Auth } from 'aws-amplify';
-import { useState } from 'react';
-
-async function updateUserEmail() {
-  try {
-    const user = await Auth.currentAuthenticatedUser();
-    await Auth.updateUserAttributes(user, {
-      email: 'updatedEmail@mydomain.com'
-    });
-
-    console.log('a verification code is sent');
-  } catch(err) {
-    console.log('failed with error', err);
-  }
-}
-
-async function verifyEmailValidationCode(code) {
-  try {
-    await Auth.verifyCurrentUserAttributeSubmit('email', code);
-    console.log('email verified');
-  } catch(err) {
-    console.log('failed with error', err);
-  }
-}
-
-function ValidationCodeForm() {
-  const [validationCode, setValidationCode] = useState(null);
-  return (
-    <div>
-      <label>
-        Verification Code (sent to the new email):
-        <input
-          onChange={(e) => {
-            setValidationCode(e.target.value);
-          }}
-          type="text"
-          name="vc"
-        />
-      </label>
-      <button onClick={() => verifyEmailValidationCode(validationCode)}>
-        Send Code
-      </button>
-    </div>
-  );
-}
-
-export default function App() {
-  const [showValidationCodeUI, setShowValidationCodeUI] = useState(false);
-
-  return (
-    <Authenticator>
-      {({ signOut, user }) => (
-        <div className="App">
-          <div>
-            <pre>{JSON.stringify(user.attributes, null, 2)}</pre>
-          </div>
-          {showValidationCodeUI === false && (
-            <button
-              onClick={async () => {
-                await updateUserEmail();
-                setShowValidationCodeUI(true);
-              }}
-            >
-              Update Email
-            </button>
-          )}
-          {showValidationCodeUI === true && <ValidationCodeForm />}
-          <button onClick={signOut}>Sign out</button>
-        </div>
-      )}
-    </Authenticator>
-  );
-}
-```
-</Block>
-</BlockSwitcher>
+<Fragments fragments={{js: jsConfirmUserAttribute}}/>

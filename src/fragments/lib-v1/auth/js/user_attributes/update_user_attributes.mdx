@@ -2,33 +2,88 @@
 <Block name="TypeScript">
 
 ```ts
-import { confirmResetPassword } from 'aws-amplify/auth';
+import { updateUserAttributes, UpdateUserAttributesOutput } from 'aws-amplify/auth';
 
-async function handleConfirmResetPassword(
-	username: string,
-	confirmationCode: string,
-	newPassword: string
+async function handleUpdateEmailAndNameAttributes(
+	updatedEmail: string,
+	updatedName: string
 ) {
 	try {
-		await confirmResetPassword({ username, confirmationCode, newPassword });
+		const attributes = await updateUserAttributes({
+			userAttributes: {
+				email: updatedEmail,
+				name: updatedName,
+			},
+		});
+		handleUpdateUserAttributesOutput(attributes);
 	} catch (error) {
 		console.log(error);
 	}
 }
 
+function handleUpdateUserAttributesOutput(
+	attributes: UpdateUserAttributesOutput
+) {
+	Object.entries(attributes).forEach(([attribute, output]) => {
+		const { nextStep } = output;
+		switch (nextStep.updateAttributeStep) {
+			case 'CONFIRM_ATTRIBUTE_WITH_CODE':
+				const codeDeliveryDetails = nextStep.codeDeliveryDetails;
+				console.log(
+					`Confirmation code was sent to ${codeDeliveryDetails?.deliveryMedium}.`
+				);
+				const confirmationCode = '112233' // code retrieved from phone or email.
+				handleConfirmUserAttribute(attribute, confirmationCode);
+				break;
+			case 'DONE':
+				console.log(`${attribute} attribute was successfully updated.`);
+				break;
+		}
+	});
+}
 ```
 </Block>
 <Block name="JavaScript">
 
 ```javascript
-import { confirmResetPassword } from 'aws-amplify/auth';
+import { updateUserAttributes } from 'aws-amplify/auth';
 
-async function handleConfirmResetPassword(username, confirmationCode, newPassword){
+async function handleUpdateEmailAndNameAttributes(
+	updatedEmail,
+	updatedName
+) {
 	try {
-		await confirmResetPassword({ username, confirmationCode, newPassword });
+		const attributes = await updateUserAttributes({
+			userAttributes: {
+				email: updatedEmail,
+				name: updatedName,
+			},
+		});
+		handleUpdateUserAttributesOutput(attributes);
 	} catch (error) {
 		console.log(error);
 	}
+}
+
+function handleUpdateUserAttributesOutput(
+	attributes
+) {
+	Object.entries(attributes).forEach(([attribute, output]) => {
+		const { nextStep } = output;
+		switch (nextStep.updateAttributeStep) {
+			case 'CONFIRM_ATTRIBUTE_WITH_CODE':
+				const codeDeliveryDetails = nextStep.codeDeliveryDetails;
+				console.log(
+					`Confirmation code was sent to ${codeDeliveryDetails?.deliveryMedium}.`
+				);
+				const confirmationCode = '112233' // code retrieved from phone or email.
+				handleConfirmUserAttribute(attribute, confirmationCode);
+				break;
+			case 'DONE':
+				console.log(`${attribute} attribute was successfully updated.`);
+				break;
+		}
+	});
 }
 ```
 </Block>
