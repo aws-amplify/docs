@@ -141,9 +141,10 @@ amplify console
 In your app's entry point (i.e. **App.js**, **index.js**, **_app.js**, or **main.js**), import and load the configuration file:
 
 ```javascript
-import { Amplify, parseAmplifyConfig } from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
 import awsconfig from './aws-exports';
-Amplify.configure(parseAmplifyConfig(awsconfig));
+
+Amplify.configure(awsconfig);
 ```
 
 </Block>
@@ -186,9 +187,10 @@ amplify console
 In your app's entry point (i.e. **App.js**, **index.js**, **_app.js**, or **main.js**), import and load the configuration file:
 
 ```javascript
-import { Amplify, parseAmplifyConfig } from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
 import awsconfig from './aws-exports';
-Amplify.configure(parseAmplifyConfig(awsconfig));
+
+Amplify.configure(awsconfig);
 ```
 
 </Block>
