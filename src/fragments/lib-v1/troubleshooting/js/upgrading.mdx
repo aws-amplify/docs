@@ -64,13 +64,8 @@ npm ls -all 2>$null |
 
 If you want to update all Amplify packages to the v6 developer preview versions from npm, run the following command. It will also make sure that only one version of every Amplify package is installed.
 
-<BlockSwitcher>
-
-<Block name="Mac and Linux">
-
 ```sh
 # Using YARN
-
 yarn add aws-amplify@next
 ```
 
@@ -78,24 +73,6 @@ yarn add aws-amplify@next
 # Using NPM
 npm install aws-amplify@next
 ```
-
-</Block>
-
-<Block name="Windows (PowerShell)">
-
-```powershell
-# Using YARN
-yarn add aws-amplify@next
-```
-
-```powershell
-# Using NPM
-npm install aws-amplify@next
-```
-
-</Block>
-
-</BlockSwitcher>
 
 The v6 Developer Preview doesn't support all categories yet. If your application uses any of the
 unsupported categories, you will need to remove this usage to test out the developer preview changes with your
