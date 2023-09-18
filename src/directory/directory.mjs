@@ -1488,8 +1488,8 @@ export const directory = {
         title: 'Server-Side Rendering',
         items: [
           {
-            title: 'Getting Started with Server-Side Rendering (SSR)',
-            route: '/lib-v1/ssr',
+            title: 'Use Amplify with Next.js',
+            route: '/lib-v1/ssr/nextjs',
             filters: ['js']
           }
         ]
