@@ -1,5 +1,9 @@
 ## Prerequisites
 
+import versionRangeCallout from '/src/fragments/lib-v1/ssr/nextjs/version-range-callout.mdx';
+
+<Fragments fragments={{ js: versionRangeCallout }} />
+
 If you have not done so already, please follow the [create application](/lib-v1/project-setup/create-application/q/platform/js/)
 guide to create your Next.js project, and Amplify backend.
 
@@ -55,7 +59,7 @@ import config from '@/aws-exports';
 import { Amplify } from 'aws-amplify';
 
 Amplify.configure(config, {
-    ssr: true, // required when using Amplify with Next.js
+  ssr: true, // required when using Amplify with Next.js
 });
 
 export default function RootLayoutThatConfiguresAmplifyOnTheClient({
@@ -211,11 +215,11 @@ export const revalidate = 60 * 60; // in seconds
 export default async function StaticallyRenderedPage() {
   try {
     const splashUrl = await runWithAmplifyServerContext({
-        nextServerContext: null,
-        operation: (contextSpec) =>
-        getUrl(contextSpec, {
-            key: 'splash.png',
-        }),
+      nextServerContext: null,
+      operation: (contextSpec) =>
+      getUrl(contextSpec, {
+        key: 'splash.png',
+      }),
     });
     
     return (
@@ -305,31 +309,30 @@ export async function getStaticProps() {
 ### Amplify API Next.js Server Support
 
 All APIs that support use on the server are exported from the
-`aws-amplify/<category>/server` sub paths.
+`aws-amplify/<category>/server` sub paths. You **must** use these APIs for any
+server side use cases.
 
-<Callout>
+<Callout warning>
 
-**Note:** With the v6 developer preview, only a subset of APIs are usable on the
+**NOTE:** With the v6 developer preview, only a subset of APIs are usable on the
 server side of a Next.js project. More categories and APIs support to follow.
 
 </Callout>
 
-| Category | APIs                  | Server (Node.js) Amplify Hosting/Vercel | Vercel Edge Runtime |
-| -------- | --------------------- | --------------------------------------- | ------------------- |
-| Auth     | `fetchAuthSession`    | ✅                                       | ✅                   |
-| Auth     | `fetchUserAttributes` | ✅                                       | ✅                   |
-| Auth     | `getCurrentUser`      | ✅                                       | ✅                   |
-| Storage  | `getUrl`              | ✅                                       |                     |
-| Storage  | `getProperties`       | ✅                                       |                     |
-| Storage  | `list`                | ✅                                       |                     |
-| Storage  | `remove`              | ✅                                       |                     |
-| Storage  | `copy`                | ✅                                       |                     |
+| Category | APIs                  | Server (Node.js) Amplify Hosting/Vercel | Vercel Edge Runtime (middleware) |
+| -------- | --------------------- | --------------------------------------- | -------------------------------- |
+| Auth     | `fetchAuthSession`    | ✅                                       | ✅                                |
+| Auth     | `fetchUserAttributes` | ✅                                       | ✅                                |
+| Auth     | `getCurrentUser`      | ✅                                       | ✅                                |
+| Storage  | `getUrl`              | ✅                                       |                                  |
+| Storage  | `getProperties`       | ✅                                       |                                  |
+| Storage  | `list`                | ✅                                       |                                  |
+| Storage  | `remove`              | ✅                                       |                                  |
+| Storage  | `copy`                | ✅                                       |                                  |
 
 ## Migrate from Amplify JS v5
 
 The Amplify JS v5 `withSSRContext` utility is no longer available with Amplify
 JS v6. You will need to use the `runWithAmplifyServerContext` function exported
 from `@aws-amplify/adapter-nextjs` to make Amplify API calls on the server side
-of your Next.js app. 
-
-Usage examples see [here](/lib-v1/ssr/nextjs/q/platform/js/#use-amplify-category-apis-as-data-source-on-the-server-side).
+of your Next.js app. Usage examples see [here](/lib-v1/ssr/nextjs/q/platform/js/#using-amplify-category-apis-as-a-data-source-on-the-server-side).
