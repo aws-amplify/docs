@@ -1,11 +1,11 @@
 ```ts
-import { updateMFAPreference } from 'aws-amplify/auth'
+import { updateMFAPreference } from 'aws-amplify/auth';
 
 async function handleUpdateMFAPreference() {
-	try {
-		await updateMFAPreference({ totp: 'PREFERRED' });
-	} catch (error) {
-		console.log(error);
-	}
+  try {
+    await updateMFAPreference({ totp: 'PREFERRED' });
+  } catch (error) {
+    console.log(error);
+  }
 }
 ```

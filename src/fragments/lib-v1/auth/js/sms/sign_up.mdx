@@ -6,27 +6,26 @@
 import { signUp } from 'aws-amplify/auth';
 
 async function handleSignUp(
-	username: string,
-	password: string,
-	phone_number: string,
-	email: string
+  username: string,
+  password: string,
+  phone_number: string,
+  email: string
 ) {
-	try {
-		await signUp({
-			username,
-			password,
-			options: {
-				userAttributes: {
-					phone_number,
-					email,
-				},
+  try {
+	await signUp({
+	  username,
+	  password,
+	  options: {
+	    userAttributes: {
+		  phone_number,
+		  email,
 			},
+		  },
 		});
 	} catch (error) {
-		console.log(error);
-	}
+      console.log(error);
+  }
 }
-
 ```
 </Block>
 
@@ -37,10 +36,35 @@ async function handleSignUp(
 import { signUp } from 'aws-amplify/auth';
 
 async function handleSignUp(
-	username,
-	password,
-	phone_number,
-	email
+  username,
+  password,
+  phone_number,
+  email
+) {
+  try {
+	await signUp({
+	  username,
+	  password,
+	  options: {
+	    userAttributes: {
+		  phone_number,
+		  email,
+			},
+		  },
+		});
+	} catch (error) {
+      console.log(error);
+  }
+}
+```
+</Block>
+</BlockSwitcher>
+
+async function handleSignUpa(
+  username: string,
+  password: string,
+  phone_number: string,
+  email: string
 ) {
 	try {
 		await signUp({
@@ -57,7 +81,3 @@ async function handleSignUp(
 		console.log(error);
 	}
 }
-
-```
-</Block>
-</BlockSwitcher>
