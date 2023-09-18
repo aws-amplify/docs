@@ -79,7 +79,7 @@ const writeRobots = () => {
     robotsContent = `User-agent: *\nDisallow: /\n`;
   }
   if (process.env.BUILD_ENV === 'production') {
-    robotsContent += `Sitemap: ${domain}/sitemap.xml`;
+    robotsContent += `Sitemap: ${domain}/sitemap.xml\n`;
   }
 
   const robotsPath = './public/robots.txt';
