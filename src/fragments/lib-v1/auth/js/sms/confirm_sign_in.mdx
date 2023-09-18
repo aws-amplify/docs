@@ -4,7 +4,7 @@
 ```ts
 import { confirmSignIn } from 'aws-amplify/auth';
 
-async function handleConfirmSignIn(otpCode: string) {
+async function handleSignInConfirmation(otpCode: string) {
   try {
     await confirmSignIn({ challengeResponse: otpCode });
   } catch (error) {
@@ -20,7 +20,7 @@ async function handleConfirmSignIn(otpCode: string) {
 ```js
 import { confirmSignIn } from 'aws-amplify/auth';
 
-async function handleConfirmSignIn(otpCode) {
+async function handleSignInConfirmation(otpCode) {
   try {
     await confirmSignIn({ challengeResponse: otpCode });
   } catch (error) {

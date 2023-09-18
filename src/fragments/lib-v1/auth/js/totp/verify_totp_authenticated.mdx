@@ -2,10 +2,9 @@
 <Block name="Typescript">
 
 ```ts
+import { verifyTOTPSetup } from 'aws-amplify/auth';
 
-import {verifyTOTPSetup} from 'aws-amplify/auth';
-
-async function handleVerifyTOTPSetup(totpCode: string) {
+async function handleTOTPVerification(totpCode: string) {
 	try {
 		await verifyTOTPSetup({ code: totpCode });
 	} catch (error) {
@@ -20,10 +19,9 @@ async function handleVerifyTOTPSetup(totpCode: string) {
 <Block name="JavaScript">
 
 ```js
+import { verifyTOTPSetup } from 'aws-amplify/auth';
 
-import {verifyTOTPSetup} from 'aws-amplify/auth';
-
-async function handleVerifyTOTPSetup(totpCode) {
+async function handleTOTPVerification(totpCode) {
 	try {
 		await verifyTOTPSetup({ code: totpCode });
 	} catch (error) {

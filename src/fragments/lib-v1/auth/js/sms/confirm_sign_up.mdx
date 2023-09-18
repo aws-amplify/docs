@@ -5,7 +5,7 @@
 
 import { confirmSignUp } from 'aws-amplify/auth';
 
-async function handleConfirmSignUp(username: string, confirmationCode: string) {
+async function handleSignUpConfirmation(username: string, confirmationCode: string) {
   try {
     await confirmSignUp({ username, confirmationCode });
   } catch (error) {
@@ -21,7 +21,7 @@ async function handleConfirmSignUp(username: string, confirmationCode: string) {
 
 import { confirmSignUp } from 'aws-amplify/auth';
 
-async function handleConfirmSignUp(username, confirmationCode) {
+async function handleSignUpConfirmation(username, confirmationCode) {
   try {
     await confirmSignUp({ username, confirmationCode });
   } catch (error) {

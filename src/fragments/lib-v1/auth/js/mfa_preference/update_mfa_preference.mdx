@@ -1,4 +1,6 @@
 ```ts
+import { updateMFAPreference } from 'aws-amplify/auth';
+
 async function handleUpdateMFAPreference() {
 	try {
 		await updateMFAPreference({ sms: 'ENABLED', totp: 'PREFERRED' });

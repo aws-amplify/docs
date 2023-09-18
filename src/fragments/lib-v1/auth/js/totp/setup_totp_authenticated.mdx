@@ -1,8 +1,7 @@
 ```typescript
+import { setUpTOTP } from 'aws-amplify/auth';
 
-import {setUpTOTP} from 'aws-amplify/auth';
-
-async function handleSetUpTOTP() {
+async function handleTOTPSetup() {
 	try {
 		const totpSetupDetails = await setUpTOTP();
 		const appName = 'my_app_name';

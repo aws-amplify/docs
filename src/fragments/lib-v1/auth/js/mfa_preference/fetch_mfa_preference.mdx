@@ -1,4 +1,6 @@
 ```ts
+import { fetchMFAPreference } from 'aws-amplify/auth';
+
 async function handleFetchMFAPreference() {
 	try {
 		const output = await fetchMFAPreference();

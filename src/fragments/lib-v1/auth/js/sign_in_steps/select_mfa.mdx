@@ -2,18 +2,20 @@
 <Block name="TypeScript">
 
 ```ts
+import { confirmSignIn } from 'aws-amplify/auth';
+
 function handleSignInOutput(output: SignInOutput) {
 	const { nextStep } = output;
 	switch (nextStep.signInStep) {
 		// ...
 		case 'CONTINUE_SIGN_IN_WITH_MFA_SELECTION':
 			const allowedMFATypes = nextStep.allowedMFATypes;
-			const mfaType = promptUseForMFAType(allowedMFATypes);
+			const mfaType = promptUserForMFAType(allowedMFATypes);
 		// ...
 	}
 }
 
-function promptUseForMFAType(
+function promptUserForMFAType(
 	allowedMFATypes?: ('SMS' | 'TOTP')[]
 ): 'SMS' | 'TOTP' {
 	// Prompt user to select MFA type
