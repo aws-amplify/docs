@@ -49,61 +49,10 @@ In short, the Lambda function will validate the user credentials against your ex
 
 Amazon Cognito User Pools supports customizing the authentication flow to enable custom challenge types, in addition to a password in order to verify the identity of users. These challenge types may include CAPTCHAs or dynamic challenge questions. The `CUSTOM_WITH_SRP` flow requires a password when calling `signIn`. Both of these flows map to the `CUSTOM_AUTH` flow in Cognito.
 
-To define your challenges for custom authentication flow, you need to implement three Lambda triggers for Amazon Cognito.
+To define your challenges for custom authentication flow, you need to implement three Lambda triggers for Amazon Cognito. Please see the [Lambda Triggers](/lib-v1/auth/advanced/q/platform/js/#lambda-triggers) section for more information.
 
 <Callout>
 
 For more information about working with Lambda Triggers for custom authentication challenges, please visit [Amazon Cognito Developer Documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html).
-
-</Callout>
-
-## Lambda Triggers
-
-The CLI allows you to configure [Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) for your AWS Cognito User Pool.  These enable you to add custom functionality to your registration and authentication flows. [Read more](/cli/function/function)
-
-### Pre Authentication and Pre Sign-up Lambda triggers
-
-If you have a Pre Authentication Lambda trigger enabled, you can pass `clientMetadata` as an option for `signIn`. This metadata can be used to implement additional validations around authentication.
-
-```ts
-import { signIn } from 'aws-amplify/auth';
-
-async function handleSignIn(username, password) {
-  try {
-    await signIn({
-      username,
-      password,
-      options: {
-        serviceOptions: {
-          clientMetadata: {} // Optional, an object of key-value pairs which can contain any key and will be passed to your Lambda trigger as-is.
-        }
-      }
-    });
-  } catch(err) {
-    console.log(err);
-  }
-}
-```
-
-### Passing metadata to other Lambda triggers
-
-Many Cognito Lambda Triggers also accept unsanitized key/value pairs in the form of a `clientMetadata` attribute.  This attribute can be specified for various Auth APIs which result in Cognito Lambda Trigger execution.
-
-These APIs include:
-
-- `signIn`
-- `signUp`
-- `confirmSignIn`
-- `confirmSignUp`
-- `resetPassword`
-- `confirmResetPassword`
-- `resendSignUpCode`
-- `updateUserAttributes`
-
-Please note that some of triggers which accept a `validationData` attribute will use `clientMetadata` as the value for `validationData`.  Exercise caution with using `clientMetadata` when you are relying on `validationData`.
-
-<Callout warning>
-
-Note: To work with Service Interface Objects, your Amazon Cognito users' [IAM role](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html) must have the appropriate permissions to call the requested services.
 
 </Callout>
