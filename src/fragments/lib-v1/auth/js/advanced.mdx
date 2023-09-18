@@ -57,7 +57,7 @@ import Route53 from 'aws-sdk/clients/route53';
 
 async function changeResourceRecordSets() {
   try {
-    const credentials = (await fetchAuthSession()).credentials;
+    const { credentials } = await fetchAuthSession();
   
     const route53 = new Route53({
       apiVersion: '2013-04-01',
