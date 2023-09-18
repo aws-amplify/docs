@@ -1511,11 +1511,6 @@ export const directory = {
             title: 'Upgrading Amplify packages',
             route: '/lib-v1/troubleshooting/upgrading',
             filters: ['flutter', 'js']
-          },
-          {
-            title: 'TypeScript strict mode',
-            route: '/lib-v1/troubleshooting/strict-mode',
-            filters: ['js']
           }
         ]
       },
