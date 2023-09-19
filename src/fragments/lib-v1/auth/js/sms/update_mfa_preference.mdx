@@ -1,0 +1,11 @@
+```ts
+import { updateMFAPreference } from 'aws-amplify/auth';
+
+async function handleUpdateMFAPreference() {
+  try {
+    await updateMFAPreference({ sms: 'PREFERRED' });
+  } catch (error) {
+    console.log(error);
+  }
+}
+```

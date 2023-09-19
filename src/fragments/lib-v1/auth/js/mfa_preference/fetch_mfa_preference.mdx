@@ -1,0 +1,13 @@
+```ts
+import { fetchMFAPreference } from 'aws-amplify/auth';
+
+async function handleFetchMFAPreference() {
+  try {
+    const output = await fetchMFAPreference();
+    console.log(`Enabled MFA types for the user: ${output.enabled}`);
+    console.log(`Preferred MFA type for the user: ${output.preferred}`);
+  } catch (error) {
+    console.log(error);
+  }
+}
+```
