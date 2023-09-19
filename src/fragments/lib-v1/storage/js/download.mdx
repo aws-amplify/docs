@@ -13,6 +13,7 @@ const getUrlResult = await getUrl({
     targetIdentityId?: 'XXXXXXX', // id of another user, if `level: protected`
     validateObjectExistence?: false,  // defaults to false
     expiresIn?: 20 // validity of the URL, in seconds. defaults to 900 (15 minutes) and maxes at 3600 (1 hour)
+    useAccelerateEndpoint?: true; // Whether to use accelerate endpoint.
     },
 });
 ```
