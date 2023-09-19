@@ -28,7 +28,7 @@ const docsCard: React.FC<CardProps> = ({
   href,
   external
 }) => {
-  const target = external ? '_blank' : 'self';
+  const target = external ? '_blank' : undefined;
   if (!href) return <div className={className}>{children}</div>;
   return (
     <InternalLink href={href} passHref={true} legacyBehavior>
