@@ -1,25 +1,6 @@
 export const meta = {
   title: `GraphQL Server in Lambda`,
   description: `How to run an Apollo GraphQL server in a Lambda function`,
-  filterKey: "platform",
-  supportedPlatforms: PLATFORM_FILTER_OPTIONS
-};
-      
-import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
-
-import { PLATFORM_FILTER_OPTIONS } from "@/utils/filter-data.ts";
-
-export const getStaticPaths = () => {
-    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
-};
-
-export const getStaticProps = (context) => {
-    return {
-        props: {
-            platform: context.params.platform,
-            filterKind: meta.filterKey
-        }
-    };
 };
 
 In this guide you will learn how to run a GraphQL server in a Lambda function. In this example you will be using [Apollo Server](https://www.apollographql.com/docs/) and [Apollo Server Lambda](https://github.com/apollographql/apollo-server/tree/master/packages/apollo-server-lambda), but you can use any server implementation you would like.

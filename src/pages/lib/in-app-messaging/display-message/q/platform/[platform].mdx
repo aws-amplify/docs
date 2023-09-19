@@ -1,25 +1,6 @@
 export const meta = {
   title: `Display message`,
-  description: `Learn how in-app messages are displayed when an In-App Messaging or analytics event is sent and matches the criteria set forth by your active In-App Messaging campaigns.`,
-  filterKey: "platform",
-  supportedPlatforms: PLATFORM_FILTER_OPTIONS
-};
-      
-import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
-
-import { PLATFORM_FILTER_OPTIONS } from "@/utils/filter-data.ts";
-
-export const getStaticPaths = () => {
-    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
-};
-
-export const getStaticProps = (context) => {
-    return {
-        props: {
-            platform: context.params.platform,
-            filterKind: meta.filterKey
-        }
-    };
+  description: `Learn how in-app messages are displayed when an In-App Messaging or analytics event is sent and matches the criteria set forth by your active In-App Messaging campaigns.`
 };
 
 import reactnative0 from '/src/fragments/lib/in-app-messaging/display-message/display-message.mdx';

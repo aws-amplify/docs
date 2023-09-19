@@ -6,17 +6,6 @@ import {
   filterMetadataByOption
 } from '../../../../utils/filter-data';
 
-jest.mock('next/router', () => ({
-  useRouter() {
-    return {
-      route: '/',
-      pathname: '',
-      query: '',
-      asPath: ''
-    };
-  }
-}));
-
 describe('FilterSelect', () => {
   describe('General Behavior', () => {
     const filterKind = 'platform';

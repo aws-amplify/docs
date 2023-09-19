@@ -1,25 +1,6 @@
 export const meta = {
   title: `Send logs`,
-  description: `Use of Amplify Logger to write and send logs`,
-  filterKey: "platform",
-  supportedPlatforms: PLATFORM_FILTER_OPTIONS
-};
-      
-import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
-
-import { PLATFORM_FILTER_OPTIONS } from "@/utils/filter-data.ts";
-
-export const getStaticPaths = () => {
-    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
-};
-
-export const getStaticProps = (context) => {
-    return {
-        props: {
-            platform: context.params.platform,
-            filterKind: meta.filterKey
-        }
-    };
+  description: `Use of Amplify Logger to write and send logs`
 };
 
 import commonRoute from '/src/fragments/lib/logging/common/sending_logs/sending_logs.mdx';

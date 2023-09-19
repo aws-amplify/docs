@@ -1,25 +1,6 @@
 export const meta = {
   title: `Getting started`,
-  description: `The Amplify Storage category provides a simple mechanism for managing user content for your app in public, protected, or private storage buckets. The Amplify AWS S3 Storage plugin leverages Amazon S3.`,
-  filterKey: "platform",
-  supportedPlatforms: PLATFORM_FILTER_OPTIONS
-};
-      
-import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
-
-import { PLATFORM_FILTER_OPTIONS } from "@/utils/filter-data.ts";
-
-export const getStaticPaths = () => {
-    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
-};
-
-export const getStaticProps = (context) => {
-    return {
-        props: {
-            platform: context.params.platform,
-            filterKind: meta.filterKey
-        }
-    };
+  description: `The Amplify Storage category provides a simple mechanism for managing user content for your app in public, protected, or private storage buckets. The Amplify AWS S3 Storage plugin leverages Amazon S3.`
 };
 
 import js0 from '/src/fragments/lib/storage/js/getting-started.mdx';

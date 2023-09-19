@@ -11,11 +11,7 @@
     "noEmit": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true,
-    "paths": {
-      "@/utils/*": ["src/utils/*"],
-      "@/components/*": ["src/components/*"]
-    }
+    "incremental": true
   },
   "extends": "./tsconfig.base.json",
   "include": [
