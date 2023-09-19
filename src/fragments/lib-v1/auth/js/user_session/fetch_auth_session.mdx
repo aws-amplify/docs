@@ -1,0 +1,12 @@
+```typescript
+import { fetchAuthSession } from 'aws-amplify/auth';
+
+async function loadSessionTokens() {
+  try {
+    const session = await fetchAuthSession();
+    // Tokens & credentials available via session.tokens and session.credentials
+  } catch (error) {
+    console.log(error);
+  }
+}
+```

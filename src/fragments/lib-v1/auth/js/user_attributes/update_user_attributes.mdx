@@ -1,0 +1,83 @@
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```typescript
+import { updateUserAttributes, UpdateUserAttributesOutput } from 'aws-amplify/auth';
+
+async function handleUpdateEmailAndNameAttributes(
+  updatedEmail: string,
+  updatedName: string
+) {
+  try {
+    const attributes = await updateUserAttributes({
+      userAttributes: {
+        email: updatedEmail,
+        name: updatedName,
+      },
+    });
+    handleUpdateUserAttributesNextSteps(attributes);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function handleUpdateUserAttributesNextSteps(
+  attributes: UpdateUserAttributesOutput
+) {
+  Object.entries(attributes).forEach(([attribute, output]) => {
+    const { nextStep } = output;
+    switch (nextStep.updateAttributeStep) {
+      case 'CONFIRM_ATTRIBUTE_WITH_CODE':
+        const codeDeliveryDetails = nextStep.codeDeliveryDetails;
+        console.log(
+          `Confirmation code was sent to ${codeDeliveryDetails?.deliveryMedium}.`
+        );
+        // Collect the confirmation code from the user and pass to confirmUserAttribute.
+        break;
+      case 'DONE':
+        console.log(`${attribute} attribute was successfully updated.`);
+        break;
+    }
+  });
+}
+```
+</Block>
+<Block name="JavaScript">
+
+```javascript
+import { updateUserAttributes } from 'aws-amplify/auth';
+
+async function handleUpdateEmailAndNameAttributes(updatedEmail, updatedName) {
+  try {
+    const attributes = await updateUserAttributes({
+      userAttributes: {
+        email: updatedEmail,
+        name: updatedName,
+      },
+    });
+    handleUpdateUserAttributesNextSteps(attributes);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function handleUpdateUserAttributesNextSteps(attributes) {
+  Object.entries(attributes).forEach(([attribute, output]) => {
+    const { nextStep } = output;
+    switch (nextStep.updateAttributeStep) {
+      case 'CONFIRM_ATTRIBUTE_WITH_CODE':
+        const codeDeliveryDetails = nextStep.codeDeliveryDetails;
+        console.log(
+          `Confirmation code was sent to ${codeDeliveryDetails?.deliveryMedium}.`
+        );
+        // Collect the confirmation code from the user and pass to confirmUserAttribute.
+        break;
+      case 'DONE':
+        console.log(`${attribute} attribute was successfully updated.`);
+        break;
+    }
+  });
+}
+```
+</Block>
+</BlockSwitcher>
