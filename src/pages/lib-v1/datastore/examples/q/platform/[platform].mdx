@@ -1,4 +1,23 @@
 export const meta = {
   title: `Examples`,
   description: `Full examples and resources using Amplify DataStore.`,
+  filterKey: "platform",
+  supportedPlatforms: PLATFORM_FILTER_OPTIONS
+};
+      
+import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
+
+import { PLATFORM_FILTER_OPTIONS } from "@/utils/filter-data.ts";
+
+export const getStaticPaths = () => {
+    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+    return {
+        props: {
+            platform: context.params.platform,
+            filterKind: meta.filterKey
+        }
+    };
 };

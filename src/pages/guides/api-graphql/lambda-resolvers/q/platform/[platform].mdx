@@ -1,6 +1,25 @@
 export const meta = {
   title: `How to use Lambda GraphQL Resolvers`,
   description: `How to use Lambda GraphQL resolvers to interact with other services`,
+  filterKey: "platform",
+  supportedPlatforms: PLATFORM_FILTER_OPTIONS
+};
+      
+import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
+
+import { PLATFORM_FILTER_OPTIONS } from "@/utils/filter-data.ts";
+
+export const getStaticPaths = () => {
+    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+    return {
+        props: {
+            platform: context.params.platform,
+            filterKind: meta.filterKey
+        }
+    };
 };
 
 The [GraphQL Transform Library](/cli/graphql/custom-business-logic#lambda-function-resolver) provides a `@function` directive that enables the configuration of AWS Lambda function resolvers within your GraphQL API. In this guide you will learn how to use Lambda functions as GraphQL resolvers to interact with other services and APIs using the `@function` directive.

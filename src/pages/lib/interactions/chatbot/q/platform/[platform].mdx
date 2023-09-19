@@ -1,6 +1,25 @@
 export const meta = {
   title: `Interact with bots`,
-  description: `Learn more about how to integrate chat bot interactions into your application using Amplify.`
+  description: `Learn more about how to integrate chat bot interactions into your application using Amplify.`,
+  filterKey: "platform",
+  supportedPlatforms: PLATFORM_FILTER_OPTIONS
+};
+      
+import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
+
+import { PLATFORM_FILTER_OPTIONS } from "@/utils/filter-data.ts";
+
+export const getStaticPaths = () => {
+    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+    return {
+        props: {
+            platform: context.params.platform,
+            filterKind: meta.filterKey
+        }
+    };
 };
 
 import js0 from '/src/fragments/lib/interactions/js/chatbot.mdx';

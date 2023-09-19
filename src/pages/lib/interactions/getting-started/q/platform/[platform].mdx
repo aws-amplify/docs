@@ -1,6 +1,25 @@
 export const meta = {
   title: `Getting started`,
-  description: `AWS Amplify Interactions category enables AI-powered chatbots in your web or mobile apps. You can use Interactions to configure your backend chatbot provider and to integrate a chatbot UI into your app with just a single line of code.`
+  description: `AWS Amplify Interactions category enables AI-powered chatbots in your web or mobile apps. You can use Interactions to configure your backend chatbot provider and to integrate a chatbot UI into your app with just a single line of code.`,
+  filterKey: "platform",
+  supportedPlatforms: PLATFORM_FILTER_OPTIONS
+};
+      
+import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
+
+import { PLATFORM_FILTER_OPTIONS } from "@/utils/filter-data.ts";
+
+export const getStaticPaths = () => {
+    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+    return {
+        props: {
+            platform: context.params.platform,
+            filterKind: meta.filterKey
+        }
+    };
 };
 
 import gettingStartedJs from '/src/fragments/lib/interactions/js/getting-started.mdx';

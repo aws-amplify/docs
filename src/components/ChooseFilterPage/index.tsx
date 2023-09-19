@@ -1,19 +1,19 @@
-import Layout from '../components/Layout';
+import Layout from '../Layout';
 import styled from '@emotion/styled';
 import { Grid } from '@theme-ui/components';
 import { useEffect, useRef, useState } from 'react';
-import MetaContent from '../components/Page/metaContent';
-import { Container } from '../components/Container';
-import { Card, CardDetail, CardGraphic } from '../components/Card';
+import MetaContent from '../Page/metaContent';
+import { Container } from '../Container';
+import { Card, CardDetail, CardGraphic } from '../Card';
 import {
   filterOptionsByName,
   filterMetadataByOption
-} from '../utils/filter-data';
+} from '../../utils/filter-data';
 import {
   getChapterDirectory,
   getProductDirectory,
   isProductRoot
-} from '../utils/getLocalDirectory';
+} from '../../utils/getLocalDirectory';
 
 const H3 = styled.h3`
   margin-top: 0.375rem;
@@ -34,7 +34,6 @@ function ChooseFilterPage({
   // "url" cannot be a CFP prop for legacy reasons
   let url = address;
   const [_, setHref] = useState('https://docs.amplify.aws');
-  const [menuIsOpen, setMenuIsOpen] = useState(false);
   const footerRef = useRef(null);
 
   useEffect(() => {
@@ -125,7 +124,4 @@ function ChooseFilterPage({
   );
 }
 
-ChooseFilterPage.getInitialProps = (initialProps) => {
-  return initialProps.query;
-};
 export default ChooseFilterPage;

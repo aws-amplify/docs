@@ -1,6 +1,25 @@
 export const meta = {
   title: `Custom auth flow`,
   description: `Learn how to customize the authentication flow with Amazon Cognito User Pools to enable custom challenge types, in addition to a password in order to verify the identity of users. `,
+  filterKey: "platform",
+  supportedPlatforms: PLATFORM_FILTER_OPTIONS
+};
+      
+import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
+
+import { PLATFORM_FILTER_OPTIONS } from "@/utils/filter-data.ts";
+
+export const getStaticPaths = () => {
+    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+    return {
+        props: {
+            platform: context.params.platform,
+            filterKind: meta.filterKey
+        }
+    };
 };
 
 import all0 from "/src/fragments/sdk/library-callout.mdx";

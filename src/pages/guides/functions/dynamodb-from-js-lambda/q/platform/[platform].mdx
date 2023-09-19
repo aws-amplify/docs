@@ -1,6 +1,25 @@
 export const meta = {
   title: `Calling DynamoDB from Lambda in Node.js`,
   description: `How to interact with a DynamoDB database from a Lambda function in Node.js`,
+  filterKey: "platform",
+  supportedPlatforms: PLATFORM_FILTER_OPTIONS
+};
+      
+import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
+
+import { PLATFORM_FILTER_OPTIONS } from "@/utils/filter-data.ts";
+
+export const getStaticPaths = () => {
+    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+    return {
+        props: {
+            platform: context.params.platform,
+            filterKind: meta.filterKey
+        }
+    };
 };
 
 The easiest way to interact with DynamoDB from Lambda in a Node.js environment is to use the [DynamoDB document client](https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/DynamoDB/DocumentClient.html). In this guide you will learn how to interact with a DynamoDB database from a Lambda function using the Node.js runtime.

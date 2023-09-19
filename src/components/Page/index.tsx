@@ -7,12 +7,12 @@ import {
   getChapterDirectory,
   isProductRoot
 } from '../../utils/getLocalDirectory';
-import { useRef } from 'react';
+import { useEffect, useRef, useState, createContext } from 'react';
 import {
   filterMetadataByOption,
   SelectedFilters
 } from '../../utils/filter-data';
-import ChooseFilterPage from '../../pages/ChooseFilterPage';
+import ChooseFilterPage from '../ChooseFilterPage';
 import { parseLocalStorage } from '../../utils/parseLocalStorage';
 import { withFilterOverrides } from '../../utils/withFilterOverrides';
 
@@ -20,21 +20,28 @@ export type MdxFrontmatterType = {
   lastUpdated: string;
 };
 
+export const PageContext = createContext({});
+
 export default function Page({
   children,
   meta,
-  frontmatter
+  frontmatter,
+  platform = '',
+  filterKind = ''
 }: {
   children: any;
   meta?: any;
   frontmatter?: MdxFrontmatterType;
+  platform?: string;
+  filterKind?: string;
 }) {
   const footerRef = useRef(null);
   const router = useRouter();
+  const [filterKeysLoaded, setFilterKeysLoaded] = useState({});
 
-  if (!router.isReady) {
-    return <></>;
-  }
+  useEffect(() => {
+    setFilterKeysLoaded(parseLocalStorage('filterKeys', {} as SelectedFilters));
+  }, []);
 
   let url = router.asPath;
   // remove trailing slash.  this is important on pages like /cli/index.mdx
@@ -46,13 +53,11 @@ export default function Page({
 
   const directoryPath = router.pathname;
 
-  let filterKey = '',
-    filterKind = '';
-  const filterKeysLoaded = parseLocalStorage(
-    'filterKeys',
-    {} as SelectedFilters
-  );
+  let filterKey = platform;
   const filterKeyUpdates = {} as SelectedFilters;
+  if (filterKey && filterKind) {
+    filterKeyUpdates[filterKind] = filterKey;
+  }
   if ('platform' in router.query) {
     filterKey = router.query.platform as string;
     filterKeyUpdates.platform = filterKey;
@@ -82,8 +87,18 @@ export default function Page({
     ...overrides
   };
 
-  localStorage.setItem('filterKeys', JSON.stringify(filterKeys));
-  if (filters.length !== 0 && !filters.includes(filterKey) && meta) {
+  useEffect(() => {
+    if (Object.keys(filterKeys).length !== 0) {
+      localStorage.setItem('filterKeys', JSON.stringify(filterKeys));
+    }
+  }, [filterKeys]);
+
+  if (
+    filterKey &&
+    filters.length !== 0 &&
+    !filters.includes(filterKey) &&
+    meta
+  ) {
     return (
       <ChooseFilterPage
         directoryPath="/ChooseFilterPage"
@@ -91,7 +106,7 @@ export default function Page({
         filterKind={filterKind}
         filters={filters}
         currentFilter={filterKey}
-        message={`${filterMetadataByOption[filterKey].label} is not supported on this page.  Please select one of the following:`}
+        message={`${filterMetadataByOption[filterKey]?.label} is not supported on this page.  Please select one of the following:`}
       />
     );
   }
@@ -112,29 +127,31 @@ export default function Page({
   }
 
   return (
-    <Layout
-      meta={meta}
-      filterKey={filterKey}
-      filterMetadataByOption={filterMetadataByOption}
-      ref={footerRef}
-    >
-      {meta ? (
-        <MetaContent
-          title={meta.title}
-          chapterTitle={meta.chapterTitle}
-          headers={headers}
-          children={children}
-          filters={filters}
-          filterKey={filterKey}
-          filterKind={filterKind}
-          url={url}
-          directoryPath={directoryPath}
-          parentPageLastUpdatedDate={parentPageLastUpdatedDate}
-          footerRef={footerRef}
-        />
-      ) : (
-        children
-      )}
-    </Layout>
+    <PageContext.Provider value={filterKeys}>
+      <Layout
+        meta={meta}
+        filterKey={filterKey}
+        filterMetadataByOption={filterMetadataByOption}
+        ref={footerRef}
+      >
+        {meta ? (
+          <MetaContent
+            title={meta.title}
+            chapterTitle={meta.chapterTitle}
+            headers={headers}
+            children={children}
+            filters={filters}
+            filterKey={filterKey}
+            filterKind={filterKind}
+            url={url}
+            directoryPath={directoryPath}
+            parentPageLastUpdatedDate={parentPageLastUpdatedDate}
+            footerRef={footerRef}
+          />
+        ) : (
+          children
+        )}
+      </Layout>
+    </PageContext.Provider>
   );
 }

@@ -1,6 +1,25 @@
 export const meta = {
   title: `Enable Disable Logging`,
-  description: `Enable or disable logging`
+  description: `Enable or disable logging`,
+  filterKey: "platform",
+  supportedPlatforms: PLATFORM_FILTER_OPTIONS
+};
+      
+import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
+
+import { PLATFORM_FILTER_OPTIONS } from "@/utils/filter-data.ts";
+
+export const getStaticPaths = () => {
+    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+    return {
+        props: {
+            platform: context.params.platform,
+            filterKind: meta.filterKey
+        }
+    };
 };
 
 import commonRoute from '/src/fragments/lib/logging/common/enable_disable/enable_disable.mdx';

@@ -1,6 +1,25 @@
 export const meta = {
   title: `Advanced workflows`,
-  description: `Learn more about advanced workflows in the Amplify DataStore category, including custom primary keys.`
+  description: `Learn more about advanced workflows in the Amplify DataStore category, including custom primary keys.`,
+  filterKey: "platform",
+  supportedPlatforms: PLATFORM_FILTER_OPTIONS
+};
+      
+import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
+
+import { PLATFORM_FILTER_OPTIONS } from "@/utils/filter-data.ts";
+
+export const getStaticPaths = () => {
+    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+    return {
+        props: {
+            platform: context.params.platform,
+            filterKind: meta.filterKey
+        }
+    };
 };
 
 import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
