@@ -1,25 +1,6 @@
 export const meta = {
   title: `Sync messages`,
-  description: `Learn how to sync in-app messages to your user's local device. Synced messages will be displayed when a matching event is triggered.`,
-  filterKey: "platform",
-  supportedPlatforms: PLATFORM_FILTER_OPTIONS
-};
-      
-import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
-
-import { PLATFORM_FILTER_OPTIONS } from "@/utils/filter-data.ts";
-
-export const getStaticPaths = () => {
-    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
-};
-
-export const getStaticProps = (context) => {
-    return {
-        props: {
-            platform: context.params.platform,
-            filterKind: meta.filterKey
-        }
-    };
+  description: `Learn how to sync in-app messages to your user's local device. Synced messages will be displayed when a matching event is triggered.`
 };
 
 import reactnative0 from '/src/fragments/lib/in-app-messaging/sync-messages/sync-messages.mdx';

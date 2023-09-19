@@ -1,25 +1,6 @@
 export const meta = {
   title: `Create or re-use existing backend`,
   description: `Learn more about how to create an auth resource or re-use an existing auth backend for Amplify.`,
-  filterKey: "platform",
-  supportedPlatforms: PLATFORM_FILTER_OPTIONS
-};
-      
-import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
-
-import { PLATFORM_FILTER_OPTIONS } from "@/utils/filter-data.ts";
-
-export const getStaticPaths = () => {
-    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
-};
-
-export const getStaticProps = (context) => {
-    return {
-        props: {
-            platform: context.params.platform,
-            filterKind: meta.filterKey
-        }
-    };
 };
 
 import js0 from "/src/fragments/lib/auth/js/start.mdx";

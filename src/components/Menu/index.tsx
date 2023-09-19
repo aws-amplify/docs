@@ -36,7 +36,7 @@ function Menu(props: MenuProps, ref) {
   const [isOpen, setIsOpen] = useState(true);
   const { state } = useLastUpdatedDatesContext();
   const menuRef = useRef<HTMLElement>(null);
-  const [onDesktop, setOnDesktop] = useState(true);
+  const [onDesktop, setOnDesktop] = useState(false);
 
   useEffect(() => {
     const MQDesktopJS = MQDesktop.substring(6);

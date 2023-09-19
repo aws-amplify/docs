@@ -3,25 +3,7 @@ export const meta = {
   description:
     'The Amplify open-source client libraries provide use-case centric, opinionated, declarative, and easy-to-use interfaces across different categories of cloud powered operations enabling mobile and web developers to easily interact with their backends. ',
   disableTOC: 'true',
-  filterKey: "platform",
-  supportedPlatforms: PLATFORM_FILTER_OPTIONS
-};
-      
-import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
-
-import { PLATFORM_FILTER_OPTIONS } from "@/utils/filter-data.ts";
-
-export const getStaticPaths = () => {
-    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
-};
-
-export const getStaticProps = (context) => {
-    return {
-        props: {
-            platform: context.params.platform,
-            filterKind: meta.filterKey
-        }
-    };
+  filterKey: 'platform'
 };
 
 The Amplify open-source client libraries provide use-case centric, and easy-to-use interfaces across different categories of AWS cloud powered operations enabling mobile and web developers to easily interact with their backends. The Amplify libraries can be used with both new backends created using the Amplify CLI or existing backend resources.

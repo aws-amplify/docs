@@ -2,25 +2,7 @@ export const meta = {
   title: 'Getting started',
   description: 'Getting Started with Amplify',
   disableTOC: 'true',
-  filterKey: "integration",
-  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
-};
-      
-import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
-
-import { INTEGRATION_FILTER_OPTIONS } from "@/utils/filter-data.ts";
-
-export const getStaticPaths = () => {
-    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
-};
-
-export const getStaticProps = (context) => {
-    return {
-        props: {
-            integration: context.params.integration,
-            filterKind: meta.filterKey
-        }
-    };
+  filterKey: 'integration'
 };
 
 AWS Amplify is a complete solution that lets frontend web and mobile developers easily build, connect, and host fullstack applications on AWS, with the flexibility to leverage the breadth of AWS services as your use cases evolve. Amplify provides the following products to build fullstack iOS, Android, Flutter, Web, and React Native apps. These products are all designed to work independently:

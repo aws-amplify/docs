@@ -7,10 +7,8 @@ export default function Fragments({ fragments }) {
   let frontmatter: MdxFrontmatterType;
 
   const { state, dispatch } = useLastUpdatedDatesContext();
-  let filterKey = '';
 
   for (const key in fragments) {
-    if (!filterKey) filterKey = key;
     const fragment = fragments[key]([]);
     frontmatter = fragment.props.frontmatter;
 
@@ -31,5 +29,5 @@ export default function Fragments({ fragments }) {
     children.push(<div key={key}>{fragment}</div>);
   }
 
-  return <FilterChildren filterKey={filterKey}>{children}</FilterChildren>;
+  return <FilterChildren>{children}</FilterChildren>;
 }

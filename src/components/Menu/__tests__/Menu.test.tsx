@@ -20,17 +20,6 @@ Object.defineProperty(window, 'matchMedia', {
 
 const directoryKeys = Object.keys(directory);
 
-jest.mock('next/router', () => ({
-  useRouter() {
-    return {
-      route: '/',
-      pathname: '',
-      query: '',
-      asPath: ''
-    };
-  }
-}));
-
 describe('Menu', () => {
   directoryKeys.forEach((directoryKey) => {
     it(`should render the Menu component with the ${directoryKey} key`, async () => {

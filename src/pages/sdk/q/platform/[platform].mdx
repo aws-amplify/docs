@@ -1,26 +1,8 @@
 export const meta = {
   title: "AWS Mobile SDK",
   description: "The AWS Mobile SDK for Android enables you to build mobile apps by providing simplified APIs for AWS services such as Amazon Cognito, Amazon S3, AWS AppSync and more.",
-  disableTOC: "true",
   filterKey: "platform",
-  supportedPlatforms: PLATFORM_FILTER_OPTIONS
-};
-      
-import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
-
-import { PLATFORM_FILTER_OPTIONS } from "@/utils/filter-data.ts";
-
-export const getStaticPaths = () => {
-    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
-};
-
-export const getStaticProps = (context) => {
-    return {
-        props: {
-            platform: context.params.platform,
-            filterKind: meta.filterKey
-        }
-    };
+  disableTOC: "true",
 };
 
 import ios0 from "/src/fragments/lib/ios-sdk.mdx";

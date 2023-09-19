@@ -1,25 +1,6 @@
 export const meta = {
   title: `Getting started`,
-  description: `Learn more about how to get started with Amplify's API category`,
-  filterKey: "platform",
-  supportedPlatforms: PLATFORM_FILTER_OPTIONS
-};
-      
-import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
-
-import { PLATFORM_FILTER_OPTIONS } from "@/utils/filter-data.ts";
-
-export const getStaticPaths = () => {
-    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
-};
-
-export const getStaticProps = (context) => {
-    return {
-        props: {
-            platform: context.params.platform,
-            filterKind: meta.filterKey
-        }
-    };
+  description: `Learn more about how to get started with Amplify's API category`
 };
 
 import ios0 from '/src/fragments/lib/graphqlapi/native_common/getting-started/common.mdx';

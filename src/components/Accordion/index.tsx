@@ -20,11 +20,6 @@ const Accordion: React.FC<AccordionProps> = ({
   const [expandedHeight, setExpandedHeight] = useState(0);
   const docsExpander = useRef<HTMLElement>(null);
 
-  let pathName = '';
-  if (typeof window !== 'undefined') {
-    pathName = window.location.pathname;
-  }
-
   useEffect(() => {
     const expander = docsExpander.current;
 
@@ -67,7 +62,7 @@ const Accordion: React.FC<AccordionProps> = ({
 
   const anchor = createElement(
     'a',
-    { href: pathName + '#' + headingId },
+    { href: window.location.pathname + '#' + headingId },
     expanderTitle
   );
 
