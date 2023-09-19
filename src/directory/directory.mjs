@@ -1468,6 +1468,11 @@ export const directory = {
             filters: ['android', 'ios', 'flutter', 'js']
           },
           {
+            title: 'Use Transfer Acceleration',
+            route: '/lib-v1/storage/transfer-acceleration',
+            filters: ['android', 'js', 'react-native', 'flutter']
+          },
+          {
             title: 'Lambda triggers',
             route: '/lib-v1/storage/triggers',
             filters: ['android', 'ios', 'flutter', 'js']

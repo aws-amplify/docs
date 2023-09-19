@@ -11,7 +11,6 @@ try {
 		data: file,
 		options: {
 			accessLevel: 'guest', // defaults to `guest` but can be 'private' | 'protected' | 'guest'
-			targetIdentityId: 'XXXXXXX', // id of another user, if `accessLevel: protected`
 			onProgress, // Optional progress callback.
 		},
 	}).result;
@@ -22,6 +21,7 @@ try {
 ```
 
 ### Public level
+The `accessLevel` defaults to 'guest'
 
 ```javascript
 import { uploadData } from 'aws-amplify/storage';
@@ -30,9 +30,6 @@ try {
 	const result = await uploadData({
 		key: filename,
 		data: file,
-		options: {
-			accessLevel: 'guest',
-		},
 	}).result;
 	console.log('Key from Response: ', result.key);
 } catch (error) {
@@ -60,7 +57,6 @@ try {
 ```
 
 
-```
 ### Private level
 
 ```javascript
@@ -71,8 +67,7 @@ try {
 		key: filename,
 		data: file,
 		options: {
-			accessLevel: 'private',
-      targetIdentityId: 'XXXXXXX', //
+			accessLevel: 'private'
 		},
 	}).result;
 	console.log('Key from Response: ', result.key);
