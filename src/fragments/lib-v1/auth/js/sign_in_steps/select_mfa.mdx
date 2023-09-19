@@ -2,68 +2,79 @@
 <Block name="TypeScript">
 
 ```ts
-import { confirmSignIn } from 'aws-amplify/auth';
+import { confirmSignIn, SignInOutput } from 'aws-amplify/auth';
 
-function handleSignInOutput(output: SignInOutput) {
-	const { nextStep } = output;
-	switch (nextStep.signInStep) {
-		// ...
-		case 'CONTINUE_SIGN_IN_WITH_MFA_SELECTION':
-			const allowedMFATypes = nextStep.allowedMFATypes;
-			const mfaType = promptUserForMFAType(allowedMFATypes);
-		// ...
-	}
+function handleSignInNextSteps(output: SignInOutput) {
+  const { nextStep } = output;
+  switch (nextStep.signInStep) {
+    // ...
+    case 'CONTINUE_SIGN_IN_WITH_MFA_SELECTION':
+      const allowedMFATypes = nextStep.allowedMFATypes;
+      const mfaType = promptUserForMFAType(allowedMFATypes);
+    case 'CONFIRM_SIGN_IN_WITH_SMS_CODE':
+      // display user to enter otp code;
+      break;
+    case 'CONFIRM_SIGN_IN_WITH_TOTP_CODE':
+      // display user to enter otp code;
+      break;
+    // ...
+  }
 }
 
 function promptUserForMFAType(
-	allowedMFATypes?: ('SMS' | 'TOTP')[]
+  allowedMFATypes?: ('SMS' | 'TOTP')[]
 ): 'SMS' | 'TOTP' {
-	// Prompt user to select MFA type
+  // Prompt user to select MFA type
 }
 
 async function handleMFASelection(mfaType: 'SMS' | 'TOTP') {
-	try {
-		const output = await confirmSignIn({
-			challengeResponse: mfaType,
-		});
-        handleSignInOutput(output);
-	} catch (error) {
-		console.log(error);
-	}
+  try {
+    const output = await confirmSignIn({
+      challengeResponse: mfaType,
+    });
+    handleSignInNextSteps(output);
+  } catch (error) {
+    console.log(error);
+  }
 }
-
 ```
 </Block>
 
 <Block name="JavaScript">
 
 ```js
-function handleSignInOutput(output) {
-	const { nextStep } = output;
-	switch (nextStep.signInStep) {
-		// ...
-		case 'CONTINUE_SIGN_IN_WITH_MFA_SELECTION':
-			const allowedMFATypes = nextStep.allowedMFATypes;
-			const mfaType = promptUseForMFAType(allowedMFATypes);
-		// ...
-	}
+function handleSignInNextSteps(output) {
+  const { nextStep } = output;
+  switch (nextStep.signInStep) {
+    // ...
+    case 'CONTINUE_SIGN_IN_WITH_MFA_SELECTION':
+      const allowedMFATypes = nextStep.allowedMFATypes;
+      const mfaType = promptUserForMFAType(allowedMFATypes);
+    case 'CONFIRM_SIGN_IN_WITH_SMS_CODE':
+      // display user to enter otp code;
+      break;
+    case 'CONFIRM_SIGN_IN_WITH_TOTP_CODE':
+      // display user to enter otp code;
+      break;
+    // ...
+  }
 }
 
-function promptUseForMFAType(allowedMFATypes) {
-	// Prompt user to select MFA type
+function promptUserForMFAType(allowedMFATypes)
+{
+  // Prompt user to select MFA type
 }
 
 async function handleMFASelection(mfaType) {
-	try {
-		const output = await confirmSignIn({
-			challengeResponse: mfaType,
-		});
-        handleSignInOutput(output);
-	} catch (error) {
-		console.log(error);
-	}
+  try {
+    const output = await confirmSignIn({
+      challengeResponse: mfaType,
+    });
+    handleSignInNextSteps(output);
+  } catch (error) {
+    console.log(error);
+  }
 }
-
 ```
 
 </Block>

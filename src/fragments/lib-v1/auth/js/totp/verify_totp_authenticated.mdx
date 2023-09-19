@@ -5,13 +5,12 @@
 import { verifyTOTPSetup } from 'aws-amplify/auth';
 
 async function handleTOTPVerification(totpCode: string) {
-	try {
-		await verifyTOTPSetup({ code: totpCode });
-	} catch (error) {
-		console.log(error);
-	}
+  try {
+    await verifyTOTPSetup({ code: totpCode });
+  } catch (error) {
+    console.log(error);
+  }
 }
-
 ```
 
 </Block>
@@ -22,13 +21,12 @@ async function handleTOTPVerification(totpCode: string) {
 import { verifyTOTPSetup } from 'aws-amplify/auth';
 
 async function handleTOTPVerification(totpCode) {
-	try {
-		await verifyTOTPSetup({ code: totpCode });
-	} catch (error) {
-		console.log(error);
-	}
+  try {
+    await verifyTOTPSetup({ code: totpCode });
+  } catch (error) {
+    console.log(error);
+  }
 }
-
 ```
 
 </Block>

@@ -6,32 +6,31 @@
 import { signIn , SignInOutput } from 'aws-amplify/auth';
 
 async function handleSignIn(username: string, password: string) {
-	try {
-		const output = await signIn({
-			username,
-			password,
-		});
+  try {
+    const output = await signIn({
+      username,
+      password,
+    });
 
-		handleSignInOutput(output);
-	} catch (error) {
-		console.log(error);
-	}
+    handleSignInNextSteps(output);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-function handleSignInOutput(output: SignInOutput) {
-	const { nextStep } = output;
-	switch (nextStep.signInStep) {
-		// ...
-		case 'CONTINUE_SIGN_IN_WITH_TOTP_SETUP':
-			const totpSetupDetails = nextStep.totpSetupDetails;
-			const appName = 'my_app_name';
-			const setupUri = totpSetupDetails.getSetupUri(appName);
-			// Open setupUri with an authenticator APP to retrieve an OTP code
-			break;
-		// ...
-	}
+function handleSignInNextSteps(output: SignInOutput) {
+  const { nextStep } = output;
+  switch (nextStep.signInStep) {
+    // ...
+    case 'CONTINUE_SIGN_IN_WITH_TOTP_SETUP':
+      const totpSetupDetails = nextStep.totpSetupDetails;
+      const appName = 'my_app_name';
+      const setupUri = totpSetupDetails.getSetupUri(appName);
+      // Open setupUri with an authenticator APP to retrieve an OTP code
+      break;
+    // ...
+  }
 }
-
 ```
 
 </Block>
@@ -39,36 +38,34 @@ function handleSignInOutput(output: SignInOutput) {
 <Block name="JavaScript">
 
 ```js
-
 import { signIn } from 'aws-amplify/auth';
 
 async function handleSignIn(username, password) {
-	try {
-		const output = await signIn({
-			username,
-			password,
-		});
+  try {
+    const output = await signIn({
+      username,
+      password,
+    });
 
-		handleSignInOutput(output);
-	} catch (error) {
-		console.log(error);
-	}
+    handleSignInNextSteps(output);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-function handleSignInOutput(output) {
-	const { nextStep } = output;
-	switch (nextStep.signInStep) {
-		// ...
-		case 'CONTINUE_SIGN_IN_WITH_TOTP_SETUP':
-			const totpSetupDetails = nextStep.totpSetupDetails;
-			const appName = 'my_app_name';
-			const setupUri = totpSetupDetails.getSetupUri(appName);
-			// Open setupUri with an authenticator APP to retrieve an OTP code
-			break;
-		// ...
-	}
+function handleSignInNextSteps(output) {
+  const { nextStep } = output;
+  switch (nextStep.signInStep) {
+    // ...
+    case 'CONTINUE_SIGN_IN_WITH_TOTP_SETUP':
+      const totpSetupDetails = nextStep.totpSetupDetails;
+      const appName = 'my_app_name';
+      const setupUri = totpSetupDetails.getSetupUri(appName);
+      // Open setupUri with an authenticator APP to retrieve an OTP code
+      break;
+    // ...
+  }
 }
-
 ```
 
 </Block>
