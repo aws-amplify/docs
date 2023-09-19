@@ -1,18 +1,18 @@
 <BlockSwitcher>
 <Block name="TypeScript">
 
-```ts
+```typescript
 import { confirmUserAttribute } from 'aws-amplify/auth';
 
 async function handleConfirmUserAttribute(
-	userAttributeKey: string,
-	confirmationCode: string
+  userAttributeKey: string,
+  confirmationCode: string
 ) {
-	try {
-		await confirmUserAttribute({ userAttributeKey, confirmationCode });
-	} catch (error) {
-		console.log(error);
-	}
+  try {
+    await confirmUserAttribute({ userAttributeKey, confirmationCode });
+  } catch (error) {
+    console.log(error);
+  }
 }
 ```
 </Block>
@@ -22,14 +22,14 @@ async function handleConfirmUserAttribute(
 import { confirmUserAttribute } from 'aws-amplify/auth';
 
 async function handleConfirmUserAttribute(
-	userAttributeKey,
-	confirmationCode
+  userAttributeKey,
+  confirmationCode
 ) {
-	try {
-		await confirmUserAttribute({ userAttributeKey, confirmationCode });
-	} catch (error) {
-		console.log(error);
-	}
+  try {
+    await confirmUserAttribute({ userAttributeKey, confirmationCode });
+  } catch (error) {
+    console.log(error);
+  }
 }
 ```
 </Block>

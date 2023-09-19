@@ -9,101 +9,101 @@ This section covers the client-side development experience for password and user
 
 ### Reset Password
 
-In order to reset your password, use the resetPassword API - this will send a code to the user attribute configured to receive such a reset code (e.g. email or SMS):
+To reset a user's password, use the `resetPassword` API which will send a reset code to the destination (e.g. email or SMS) based on the user's settings.
 
-import jsResetPassword from "/src/fragments/lib-v1/auth/js/password_management/reset_password.mdx"
+import jsResetPassword from '/src/fragments/lib-v1/auth/js/password_management/reset_password.mdx';
 
-<Fragments fragments={{js: jsResetPassword}}/>
+<Fragments fragments={{ js: jsResetPassword }} />
 
-To complete the password reset process, invoke the `confirmResetPassword` API with the code you were sent and the new password you want to update.
+To complete the password reset process, invoke the `confirmResetPassword` API with the code your user received and the new password they want to set.
 
-import jsCompleteResetPassword from "/src/fragments/lib-v1/auth/js/password_management/confirm_reset_password.mdx"
+import jsCompleteResetPassword from '/src/fragments/lib-v1/auth/js/password_management/confirm_reset_password.mdx';
 
-<Fragments fragments={{js: jsCompleteResetPassword}}/>
+<Fragments fragments={{ js: jsCompleteResetPassword }} />
 
 ### Update password
 
-A signed in user can update their password using the `updatePassword` API.
+You can update a signed in user's password using the `updatePassword` API.
 
-import jsUpdatePassword from "/src/fragments/lib-v1/auth/js/password_management/update_password.mdx"
+import jsUpdatePassword from '/src/fragments/lib-v1/auth/js/password_management/update_password.mdx';
 
-<Fragments fragments={{js: jsUpdatePassword}}/>
+<Fragments fragments={{ js: jsUpdatePassword }} />
 
 ## Retrieve current authenticated user
 
-You can call `getCurrentUser` to get the current authenticated user object.
+You can call `getCurrentUser` to get information about the currently authenticated user.
 
-import jsGetCurrentUser from "/src/fragments/lib-v1/auth/js/user_attributes/get_current_user.mdx"
+import jsGetCurrentUser from '/src/fragments/lib-v1/auth/js/user_attributes/get_current_user.mdx';
 
-<Fragments fragments={{js: jsGetCurrentUser}}/>
+<Fragments fragments={{ js: jsGetCurrentUser }} />
 
-This method can be used to check if a user is logged in when the page is loaded. It will throw an `AuthError` if there is no user logged in.
+This API can be used to check if a user is logged in when the page is loaded. It will throw an `AuthError` if no user is logged in.
 
 ## Retrieve current session
 
-`fetchAuthSession` returns the current user's session with `tokens` and AWS `credentials`.
+The `fetchAuthSession` API returns the current user's session with `tokens` and AWS `credentials`.
 
-If tokens are expired, this method will automatically refresh the tokens. You can also use this method to force refresh the session by passing a `forceRefresh` flag in the request of the API.
+If the tokens are expired, this API will automatically refresh the tokens. You can force the tokens to be refreshed regardless of their status by passing the `forceRefresh` option.
 
-import jsFetchAuthSession from "/src/fragments/lib-v1/auth/js/user_session/fetch_auth_session.mdx"
+import jsFetchAuthSession from '/src/fragments/lib-v1/auth/js/user_session/fetch_auth_session.mdx';
 
-<Fragments fragments={{js: jsFetchAuthSession}}/>
+<Fragments fragments={{ js: jsFetchAuthSession }} />
 
 ## Managing user attributes
 
-Attributes such as `name`, `email`, `phone_number` help you identify individual users. The Amplify JavaScript library contains 
-a set of APIs that can help you manage attributes while the user is authenticated.
+Attributes such as `name`, `email`, `phone_number` help you identify individual users. The Amplify JavaScript library contains a set of APIs that can help you manage attributes for authenticated users.
 
 ### Pass user attributes during sign up
 
 Amazon Cognito has a set of default standard attributes. You can find a list of all the standard attributes [here](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#cognito-user-pools-standard-attributes)
 
-In addition, Cognito allows to setup up to 50 custom attributes in the user pool. Documentation on custom attributes can be found [here](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-custom-attributes).
+In addition, Cognito allows you to set up up to 50 custom attributes in the user pool. Documentation on custom attributes can be found [here](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-custom-attributes).
 
-You can pass them in the `userAttributes` key of the `signUp` API:
+Custom attributes can be passed in with the `userAttributes` option of the `signUp` API:
 
 ```javascript
 signUp({
-	username: 'jdoe',
-	password: 'mysecurerandompassword#123',
-	options: {
-		userAttributes: {
-			email: 'me@domain.com',
-			phone_number: '+12128601234',
-			given_name: 'Jane',
-			family_name: 'Doe',
-			nickname: 'Jane',
-			'custom:attribute_name': 'attribute_value',
-		},
-	},
+  username: 'jdoe',
+  password: 'mysecurerandompassword#123',
+  options: {
+    userAttributes: {
+      email: 'me@domain.com',
+      phone_number: '+12128601234',
+      given_name: 'Jane',
+      family_name: 'Doe',
+      nickname: 'Jane',
+      'custom:attribute_name': 'attribute_value'
+    }
+  }
 });
 ```
 
 ### Retrieve user attributes
 
-The user can get the last updated user attributes.
+You can retrieve a user's latest attributes using the `fetchUserAttributes` API.
 
-import jsFetchUserAttributes from "/src/fragments/lib-v1/auth/js/user_attributes/fetch_user_attributes.mdx"
+import jsFetchUserAttributes from '/src/fragments/lib-v1/auth/js/user_attributes/fetch_user_attributes.mdx';
 
-<Fragments fragments={{js: jsFetchUserAttributes}}/>
+<Fragments fragments={{ js: jsFetchUserAttributes }} />
 
 ### Update user attributes
 
 Invoke the `updateUserAttributes` API to create or update existing user attributes.
 
-import jsUpdateUserAttributes from "/src/fragments/lib-v1/auth/js/user_attributes/update_user_attributes.mdx"
+import jsUpdateUserAttributes from '/src/fragments/lib-v1/auth/js/user_attributes/update_user_attributes.mdx';
 
-<Fragments fragments={{js: jsUpdateUserAttributes}}/>
-
+<Fragments fragments={{ js: jsUpdateUserAttributes }} />
 <Callout>
-Note: If you change an attribute that requires confirmation (i.e. email or phone_number), you will receive a confirmation code either to your email or cellphone. This code will be used 
-by the confirmUserAttribute API to confirm that attribute.
-</Callout> 
+  Note: If you change an attribute that requires confirmation (i.e. email or
+  phone_number), the user will receive a confirmation code either to their email
+  or cellphone. This code can be used with the confirmUserAttribute API to
+  confirm the change.
+</Callout>
 
 ### Verify user attribute
 
-Some attributes require confirmation for the attribute update to complete. If the attribute need to be confirmed, the result of the above API will be `CONFIRM_ATTRIBUTE_WITH_CODE`. A confirmation code will be sent to the delivery medium mentioned in the delivery details. When the user gets the confirmation code, you can present a UI to the user to enter the code and invoke the confirm attribute api with their input:
+Some attributes require confirmation for the attribute update to complete. If the attribute needs to be confirmed, the result of the above API will be `CONFIRM_ATTRIBUTE_WITH_CODE`. A confirmation code will be sent to the delivery medium mentioned in the delivery details. When the user gets the confirmation code, you can present a UI to the user to enter the code and invoke the `confirmUserAttribute` API with their input:
 
-import jsConfirmUserAttribute from "/src/fragments/lib-v1/auth/js/user_attributes/confirm_user_attribute.mdx"
+import jsConfirmUserAttribute from '/src/fragments/lib-v1/auth/js/user_attributes/confirm_user_attribute.mdx';
 
-<Fragments fragments={{js: jsConfirmUserAttribute}}/>
+<Fragments fragments={{ js: jsConfirmUserAttribute }} />

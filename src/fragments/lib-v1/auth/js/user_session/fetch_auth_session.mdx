@@ -1,11 +1,12 @@
-```ts
-async function handleFetchAuthSession() {
-	try {
-		const session = await fetchAuthSession();
-		console.log(`The user tokens: ${session.tokens}`);
-		console.log(`The user credentials: ${session.credentials}`);
-	} catch (error) {
-		console.log(error);
-	}
+```typescript
+import { fetchAuthSession } from 'aws-amplify/auth';
+
+async function loadSessionTokens() {
+  try {
+    const session = await fetchAuthSession();
+    // Tokens & credentials available via session.tokens and session.credentials
+  } catch (error) {
+    console.log(error);
+  }
 }
 ```

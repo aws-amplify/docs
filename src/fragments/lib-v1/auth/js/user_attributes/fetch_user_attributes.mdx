@@ -1,10 +1,12 @@
-```js
+```javascript
+import { fetchUserAttributes } from 'aws-amplify/auth';
+
 async function handleFetchUserAttributes() {
-	try {
-		const userAttributes = await fetchUserAttributes();
-		console.log(userAttributes);
-	} catch (error) {
-		console.log(error);
-	}
+  try {
+    const userAttributes = await fetchUserAttributes();
+    console.log(userAttributes);
+  } catch (error) {
+    console.log(error);
+  }
 }
 ```
