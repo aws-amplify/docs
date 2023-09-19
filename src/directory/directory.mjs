@@ -1470,7 +1470,7 @@ export const directory = {
           {
             title: 'Use Transfer Acceleration',
             route: '/lib-v1/storage/transfer-acceleration',
-            filters: ['android', 'js', 'react-native', 'flutter']
+            filters: ['js']
           },
           {
             title: 'Lambda triggers',
