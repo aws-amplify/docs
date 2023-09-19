@@ -239,12 +239,14 @@ async function signIn({ username, password }) {
 
 The `signIn` API response will include a `nextStep` property, which can be used to determine if further action is required. It may return the following next steps:
 
-- `CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED` - The user's password must be reset before the sign in can be completed.
+- `CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED` - The user was created with a temporary password and must set a new one. Complete the process with `confirmSignIn`.
 - `CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE` - The sign-in must be confirmed with a custom challenge response.
 - `CONFIRM_SIGN_IN_WITH_TOTP_CODE` - The sign-in must be confirmed with a TOTP code from the user.
 - `CONTINUE_SIGN_IN_WITH_TOTP_SETUP` - The TOTP setup process must be continued.
 - `CONFIRM_SIGN_IN_WITH_SMS_CODE` - The sign-in must be confirmed with a SMS code from the user.
 - `CONTINUE_SIGN_IN_WITH_MFA_SELECTION` - The user must select their mode of MFA verification before signing in.
+- `RESET_PASSWORD` - The user must reset their password via `resetPassword`. 
+- `CONFIRM_SIGN_UP` - The user hasn't completed the sign-up flow fully and must be confirmed via `confirmSignUp`.
 - `DONE` - The sign in process has been completed.
 
 For more information on handling the TOTP & MFA steps that may be returned, please see [*'Multi-factor authentication'*](/lib-v1/auth/mfa/q/platform/js/).
