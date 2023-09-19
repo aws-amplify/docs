@@ -1488,8 +1488,8 @@ export const directory = {
         title: 'Server-Side Rendering',
         items: [
           {
-            title: 'Getting Started with Server-Side Rendering (SSR)',
-            route: '/lib-v1/ssr',
+            title: 'Use Amplify with Next.js',
+            route: '/lib-v1/ssr/nextjs',
             filters: ['js']
           }
         ]
@@ -1511,11 +1511,6 @@ export const directory = {
             title: 'Upgrading Amplify packages',
             route: '/lib-v1/troubleshooting/upgrading',
             filters: ['flutter', 'js']
-          },
-          {
-            title: 'TypeScript strict mode',
-            route: '/lib-v1/troubleshooting/strict-mode',
-            filters: ['js']
           }
         ]
       },
