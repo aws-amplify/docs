@@ -1,0 +1,36 @@
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```typescript
+import { confirmUserAttribute } from 'aws-amplify/auth';
+
+async function handleConfirmUserAttribute(
+  userAttributeKey: string,
+  confirmationCode: string
+) {
+  try {
+    await confirmUserAttribute({ userAttributeKey, confirmationCode });
+  } catch (error) {
+    console.log(error);
+  }
+}
+```
+</Block>
+<Block name="JavaScript">
+
+```javascript
+import { confirmUserAttribute } from 'aws-amplify/auth';
+
+async function handleConfirmUserAttribute(
+  userAttributeKey,
+  confirmationCode
+) {
+  try {
+    await confirmUserAttribute({ userAttributeKey, confirmationCode });
+  } catch (error) {
+    console.log(error);
+  }
+}
+```
+</Block>
+</BlockSwitcher>
