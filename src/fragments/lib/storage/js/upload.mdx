@@ -149,7 +149,7 @@ Currently, the `progressCallback` event is dependent and based on the number of 
 
 ## Browser uploads
 
-Upload an image in the browser:
+Upload a file in the browser:
 
 ```javascript
 
@@ -166,7 +166,6 @@ const uploadDataInBrowser = async () => {
 <h2>Upload File</h2>
 					<input
 						type="file"
-						accept="*"
-						onChange={(event: any) => uploadDataInBrowser(event)}
+						onChange={() => uploadDataInBrowser(event)}
 					/>
 ```
