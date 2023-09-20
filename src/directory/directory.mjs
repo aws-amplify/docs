@@ -283,7 +283,7 @@ export const directory = {
             filters: ['js', 'react-native']
           },
           {
-            title: 'Password & user management',
+            title: 'Manage user profiles',
             route: '/lib/auth/manageusers',
             filters: ['js', 'react-native']
           },
