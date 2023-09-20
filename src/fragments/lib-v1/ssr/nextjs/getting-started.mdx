@@ -55,7 +55,7 @@ need to set `ssr` to `true` when calling `Amplify.configure`.
 ```typescript
 'use client';
 
-import config from '@/aws-exports';
+import config from '@/amplifyconfiguration.json';
 import { Amplify } from 'aws-amplify';
 
 Amplify.configure(config, {
@@ -268,7 +268,7 @@ export async function GET() {
 When you call `fetch('/apis/get-current-user')` it return a payload that contains
 the `user` data for the currently signed-in user.
 
-### With Next.js Pages Route
+### With Next.js Pages Router
 
 #### In `getServerSideProps`
 
