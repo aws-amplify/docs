@@ -90,7 +90,7 @@ After configuring the OAuth endpoints (Cognito Hosted UI), you can integrate you
 
 <InlineFilter filters={['js']}>
 
-After configuring the OAuth endpoints (Cognito Hosted UI), you can integrate your App by invoking the `signInWithRedirect` API. Passing `Amazon`, `Facebook`, `Google`, or `Apple` on the `provider` argument (e.g `signInWithRedirect({ provider: 'Amazon' })`) will bypass the Hosted UI and federate immediately with the social provider as shown in the below React example.
+After configuring the OAuth endpoints (Cognito Hosted UI), you can integrate your App by invoking the `signInWithRedirect` API. Passing `Amazon`, `Facebook`, `Google`, or `Apple` on the `provider` argument (e.g `signInWithRedirect({ provider: 'Amazon' })`) will bypass the Hosted UI and federate immediately with the social provider as shown in the below React example. If you are looking to add a custom state, you are able to do so by passing a string (e.g. `signInWithRedirect({ customState: 'xyz' })`) value and listening for the custom state via Hub.
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -106,6 +106,7 @@ Amplify.configure(awsConfig);
 
 function App() {
   const [user, setUser] = useState(null);
+  const [customState, setCustomState] = useState<string | null>(null);
 
   useEffect(() => {
     const unsubscribe = Hub.listen("auth", ({ payload: { event, data }}) => {
@@ -113,6 +114,8 @@ function App() {
         case "signInWithRedirect":
           getUser();
           break;
+        case "customOAuthState":
+          setCustomState(data);
       }
     });
 
@@ -158,6 +161,7 @@ Amplify.configure(awsConfig);
 
 function App() {
   const [user, setUser] = useState(null);
+  const [customState, setCustomState] = useState(null);
 
   useEffect(() => {
     const unsubscribe = Hub.listen("auth", ({ payload: { event, data }}) => {
@@ -165,6 +169,8 @@ function App() {
         case "signInWithRedirect":
           getUser();
           break;
+        case "customOAuthState":
+          setCustomState(data);
       }
     });
 
@@ -295,6 +301,7 @@ Amplify.configure(awsconfig);
 
 export default function App() {
   const [user, setUser] = useState(null);
+  const [customState, setCustomState] = useState<string | null>(null);
 
   useEffect(() => {
     const unsubscribe = Hub.listen("auth", ({ payload: { event, data }}) => {
@@ -305,6 +312,8 @@ export default function App() {
         case "signOut":
           setUser(null);
           break;
+        case "customOAuthState":
+          setCustomState(data);
       }
     });
 
@@ -354,6 +363,7 @@ Amplify.configure(awsconfig);
 
 export default function App() {
   const [user, setUser] = useState(null);
+  const [customState, setCustomState] = useState(null);
 
   useEffect(() => {
     const unsubscribe = Hub.listen("auth", ({ payload: { event, data } }) => {
@@ -364,6 +374,8 @@ export default function App() {
         case "signOut":
           setUser(null);
           break;
+        case "customOAuthState":
+          setCustomState(data);
       }
     });
 
