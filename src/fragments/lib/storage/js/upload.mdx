@@ -146,3 +146,27 @@ const upload = Storage.put(file.name, file, {
 Currently, the `progressCallback` event is dependent and based on the number of parts that are sent to S3. Currently, the library uploads at about 5 MB per part. If you upload a file smaller than this, the event will not be fired.
 
 </Callout>
+
+## Browser uploads
+
+Upload an image in the browser:
+
+```javascript
+
+const uploadDataInBrowser = async () => {
+		if (event?.target?.files) {
+			const file = event.target.files[0];
+			uploadData({
+				key: filename,
+				data: file,
+			});
+		}
+	};
+
+<h2>Upload File</h2>
+					<input
+						type="file"
+						accept="*"
+						onChange={(event: any) => uploadDataInBrowser(event)}
+					/>
+```
