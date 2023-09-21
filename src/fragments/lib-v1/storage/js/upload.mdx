@@ -168,17 +168,21 @@ Uploads that were initiated over one hour ago will be cancelled automatically. T
 Upload a file in the browser:
 
 ```javascript
-import { uploadData } from 'aws-amplify/storage'; 
+import { uploadData } from 'aws-amplify/storage';
 
 const uploadDataInBrowser = async () => {
-		if (event?.target?.files) {
-			const file = event.target.files[0];
-			uploadData({
-				key: filename,
-				data: file,
-			});
-		}
-	};
+  if (event?.target?.files) {
+    const file = event.target.files[0];
+    uploadData({
+      key: filename,
+      data: file
+    });
+  }
+};
+
+```
+
+```html
 
 <h2>Upload File</h2>
 <input
