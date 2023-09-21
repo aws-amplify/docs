@@ -96,15 +96,18 @@ Note, the content of `~/.amplify/admin/config.json` is utilized to store JWTs to
 
 </Callout>
 
-### Overrides
+### Overrides and Custom Resources
 
 ```console
 A flag to disable overrides has been detected, please deploy from a different environment. at buildOverrideDir
 ```
+```console
+A flag to disable custom resources has been detected, please deploy from a different environment. at buildResource
+```
 
-This message occurs if the Amplify project has an `override.ts` file present in your resources. Amplify Studio does not support deploying projects containing this file. 
+The above errors are encountered if an Amplify project has an `override.ts` file or [custom resources](https://docs.amplify.aws/cli/custom/cdk/) deployed in the project. Amplify Studio does not support deploying projects containing override and custom resources.
 
-To resolve this error, remove the `override.ts` file and run `amplify push`. Alternatively, you can use Amplify CLI to build and push your resources. But you will not be able to deploy with Amplify Studio.
+To resolve this error, remove the `override.ts` file or custom resources and run `amplify push`. Alternatively, you can use Amplify CLI to build and push your resources. But you will not be able to deploy with Amplify Studio.
 
 <Callout>
 
