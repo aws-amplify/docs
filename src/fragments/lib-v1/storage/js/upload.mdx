@@ -105,7 +105,7 @@ try {
 
 ## Pause and resume upload
 
-We have callback functions that support resume, pause and cancel of `uploadData'. 
+We have callback functions that support resuming, pausing, and cancelling `uploadData` requests. 
 
 ```javascript
 import { uploadData } from 'aws-amplify/storage';
@@ -162,5 +162,33 @@ When a page refresh occurs during the upload, re-initializing the upload with th
 Uploads that were initiated over one hour ago will be cancelled automatically. There are instances (e.g device went offline, user logs out) where the incomplete file remains in your S3 account. It is recommended to [setup a s3 lifecycle rule](https://aws.amazon.com/blogs/aws-cloud-financial-management/discovering-and-deleting-incomplete-multipart-uploads-to-lower-amazon-s3-costs/) to automatically cleanup incomplete upload requests.
 
 </Callout>
+
+## Browser uploads
+
+Upload a file in the browser:
+
+```javascript
+import { uploadData } from 'aws-amplify/storage';
+
+const uploadDataInBrowser = async () => {
+  if (event?.target?.files) {
+    const file = event.target.files[0];
+    uploadData({
+      key: filename,
+      data: file
+    });
+  }
+};
+
+```
+
+```html
+
+<h2>Upload File</h2>
+<input
+	type="file"
+	onChange={() => uploadDataInBrowser(event)}
+/>
+```
 
 
