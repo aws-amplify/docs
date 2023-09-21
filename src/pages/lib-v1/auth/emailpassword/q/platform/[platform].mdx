@@ -168,7 +168,7 @@ type ConfirmSignUpParameters = {
 
 async function handleSignUpConfirmation({ username, confirmationCode }: ConfirmSignUpParameters) {
   try {
-    const { isSignUpComplete, nextStep, userId } = await confirmSignUp({
+    const { isSignUpComplete, nextStep } = await confirmSignUp({
       username,
       confirmationCode
     });
@@ -185,7 +185,7 @@ import { confirmSignUp } from 'aws-amplify/auth';
 
 async function handleSignUpConfirmation({ username, confirmationCode }) {
   try {
-    const { isSignUpComplete, nextStep, userId } = await confirmSignUp({
+    const { isSignUpComplete, nextStep } = await confirmSignUp({
       username,
       confirmationCode
     });
