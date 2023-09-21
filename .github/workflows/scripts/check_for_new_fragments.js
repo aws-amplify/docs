@@ -31,7 +31,7 @@ module.exports = {
     } = context;
 
     const useInlineFiltersComment =
-      'Amplify Docs is moving away from the use of Fragments. Please instead use InlineFilter. See our [README](https://github.com/aws-amplify/docs/blob/main/Readme.md) for more information.';
+      'Amplify Docs is moving away from the use of Fragments. Please instead use InlineFilter. See our [README](https://github.com/aws-amplify/docs/blob/main/Readme.md#inline-filters) for more information.';
     github.rest.issues.createComment({
       owner,
       repo,
