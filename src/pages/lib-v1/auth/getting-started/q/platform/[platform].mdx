@@ -124,6 +124,12 @@ The CLI prompts will help you to customize your auth flow for your app. With the
 - Customize attributes for your users, e.g. name, email
 - Enable 3rd party social providers, e.g. Facebook, Twitter, Google and Amazon
 
+<Callout warning>
+
+  If you need to support Multi-Factor Authentication (i.e. TOTP & SMS codes) in your application make sure to enable it during this step to avoid having to revisit this process.
+
+</Callout>
+
 If you wish to federate with social providers [you will need to configure them first](/lib/auth/social#social-providers-and-federation).
 
 After configuring your Authentication options, update your backend and deploy the service by running the `push` command:
