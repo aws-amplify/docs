@@ -358,9 +358,9 @@ export const directory = {
             filters: ['android', 'ios', 'js', 'flutter', 'react-native']
           },
           {
-            title: 'Password management',
+            title: 'Set up password change and recovery',
             route: '/lib/auth/password_management',
-            filters: ['android', 'flutter', 'ios']
+            filters: ['js', 'react-native', 'android', 'flutter', 'ios']
           },
           {
             title: 'Sign out',
