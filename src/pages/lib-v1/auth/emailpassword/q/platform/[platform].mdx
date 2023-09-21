@@ -101,7 +101,7 @@ type SignUpParameters = {
 
 async function handleSignUp({ username, password, email, phone_number }: SignUpParameters) {
   try {
-    const { userId, nextStep } = await signUp({
+    const { isSignUpComplete, userId, nextStep } = await signUp({
       username,
       password,
       options: {
@@ -126,7 +126,7 @@ import { signUp } from 'aws-amplify/auth';
 
 async function handleSignUp({ username, password, email, phone_number }) {
   try {
-    const { userId, nextStep } = await signUp({
+    const { isSignUpComplete, userId, nextStep } = await signUp({
       username,
       password,
       options: {
@@ -168,7 +168,7 @@ type ConfirmSignUpParameters = {
 
 async function handleSignUpConfirmation({ username, confirmationCode }: ConfirmSignUpParameters) {
   try {
-    await confirmSignUp({
+    const { isSignUpComplete, nextStep } = await confirmSignUp({
       username,
       confirmationCode
     });
@@ -185,7 +185,7 @@ import { confirmSignUp } from 'aws-amplify/auth';
 
 async function handleSignUpConfirmation({ username, confirmationCode }) {
   try {
-    await confirmSignUp({
+    const { isSignUpComplete, nextStep } = await confirmSignUp({
       username,
       confirmationCode
     });
@@ -214,7 +214,7 @@ type SignInParameters = {
 
 async function handleSignIn({ username, password }: SignInParameters) {
   try {
-    await signIn({ username, password });
+    const { isSignedIn, nextStep } = await signIn({ username, password });
   } catch (error) {
     console.log('error signing in', error);
   }
@@ -228,7 +228,7 @@ import { signIn } from 'aws-amplify/auth';
 
 async function signIn({ username, password }) {
   try {
-    const user = signIn({ username, password });
+    const { isSignedIn, nextStep } = await signIn({ username, password });
   } catch (error) {
     console.log('error signing in', error);
   }
