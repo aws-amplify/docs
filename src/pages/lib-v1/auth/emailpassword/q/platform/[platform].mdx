@@ -3,21 +3,11 @@ export const meta = {
   description: `Learn how to use Amplify's sign up, sign in and sign out APIs.`,
 };
 
-<InlineFilter filters={["js" , "react-native"]}>
+<InlineFilter filters={["js"]}>
 
 In this guide you will set up sign-up, sign-in, and sign-out using the Amplify Libraries and then test this functionality. This includes a review of sign-up methods provided by Amplify, the specific user attributes used by Amazon Cognito, how to confirm users after initial sign-up, and the differences between local and global sign-out. Once set up you can connect it to your frontend UI. 
 
-<InlineFilter filters={["js"]}>
-
 Before you begin, you should have finished the [*'Set up and connect backend resources'*](/lib-v1/auth/getting-started/q/platform/js/) guide.
-
-</InlineFilter>
-
-<InlineFilter filters={["react-native"]}>
-
-Before you begin, you should have finished the [*'Set up and connect backend resources'*](/lib/auth/getting-started/q/platform/react-native/#set-up-backend-resources) guide.
-
-</InlineFilter>
 
 ## Decide before you build
 
@@ -70,17 +60,7 @@ You can add the functionality to enable sign-up, sign-in, and sign-out with the 
 
 For many apps, user sign-up and sign-in with a username/password is all that is required. Once authenticated, the app can talk to an API to access and mutate data. 
 
-<InlineFilter filters={["js"]}>
-
 We will use the username/password authentication flow to get started. Both [third party social provider federation](/lib-v1/auth/social/q/platform/js/) and [Multi-factor authentication](/lib-v1/auth/mfa/q/platform/js/) can be added after this initial set up.
-
-</InlineFilter>
-
-<InlineFilter filters={["react-native"]}>
-
-We will use the username/password authentication flow to get started. Both [third party social provider federation](/lib/auth/social/q/platform/react-native/) and [Multi-factor authentication](/lib/auth/mfa/q/platform/react-native/) can be added after this initial set up.
-
-</InlineFilter>
 
 ### Sign-up
 
@@ -333,20 +313,8 @@ Congratulations! You finished the **Enable sign-up, sign-in, sign-out** guide an
 
 ## Next steps
 
-<InlineFilter filters={["js"]}>
-
 Now that you completed setting up Amplify Auth with username/password you may also want to add some additional features. We recommend:
   - [Social sign-in (OAuth)](/lib-v1/auth/social/q/platform/js/)
   - [Multi-factor authentication](/lib-v1/auth/mfa/q/platform/js/)
-
-</InlineFilter>
-
-<InlineFilter filters={["react-native"]}>
-
-  Now that you completed setting up Amplify Auth with username/password you may also want to add some additional features. We recommend:
-  - [Social sign-in (OAuth)](/lib/auth/social/q/platform/react-native/)
-  - [Multi-factor authentication](/lib/auth/mfa/q/platform/react-native/)
-
-</InlineFilter>
 
 </InlineFilter>
