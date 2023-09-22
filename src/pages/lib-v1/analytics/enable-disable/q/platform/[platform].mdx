@@ -3,6 +3,8 @@ export const meta = {
   description: `Learn how to enable/disable analytics using Amplify.`
 };
 
+<InlineFilter filters={["android", "flutter", "ios"]}>
+
 import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
 
 <Fragments fragments={{ android: android_maintenance }} />
@@ -46,3 +48,5 @@ import ios1 from '/src/fragments/lib-v1/analytics/ios/enable-disable/enable.mdx'
 import flutter1 from '/src/fragments/lib-v1/analytics/flutter/enable-disable/enable.mdx';
 
 <Fragments fragments={{ flutter: flutter1 }} />
+
+</InlineFilter>
