@@ -105,7 +105,7 @@ A flag to disable overrides has been detected, please deploy from a different en
 A flag to disable custom resources has been detected, please deploy from a different environment. at buildResource
 ```
 
-The errors mentioned above occur during deployment if your Amplify project contains an `override.ts` file or [custom resources](https://docs.amplify.aws/cli/custom/cdk/) deployed. Amplify Studio does not support deploying projects with override files or custom resources.
+The errors mentioned above occur during deployment if your Amplify project contains an `override.ts` file or [custom resources](https://docs.amplify.aws/cli/custom/cdk/) are deployed. Amplify Studio does not support deploying projects with override files or custom resources.
 
 To resolve this error, remove the `override.ts` file or any custom resources and run `amplify push`. Alternatively, you can use Amplify CLI to build and push your resources; however, deploying with Amplify Studio will not be possible.
 
