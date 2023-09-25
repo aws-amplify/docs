@@ -61,6 +61,9 @@ function generatePathMap(
     '/lib-v1/q/platform/ios': {
       page: '/lib-v1/q/platform/[platform]'
     },
+    '/lib-v1/q/platform/flutter': {
+      page: '/lib-v1/q/platform/[platform]'
+    },
     '/sdk/q/platform/js': {
       page: '/sdk/q/platform/[platform]'
     },
