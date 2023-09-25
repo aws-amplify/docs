@@ -40,12 +40,12 @@ import { copy, list } from 'aws-amplify/storage';
 
 // Copies 'existing/srcKey' to 'copied/destKey' within the 'guest' access level
 const copied = await copy({
-  source: { key : 'existing/srcKey' },
-  destination: { key : 'copied/destKey' }
+  source: { key: 'existing/srcKey' },
+  destination: { key: 'copied/destKey' }
 });
 
 // There should now be a new file with key "copied/destKey"
-console.log((await list({ prefix : 'copied/' })).items); // [ { ..., key: 'copied/destKey' } ]
+console.log((await list({ prefix: 'copied/' })).items); // [ { ..., key: 'copied/destKey' } ]
 console.log(copied); // { key: 'copied/destKey' }
 ```
 
@@ -68,7 +68,7 @@ const copied = await copy({
 });
 
 // There should now be a new file with key "copied/destKey" in the 'private' level
-console.log((await list({ prefix : 'copied/', options: { accessLevel: 'private' }})).items); // [ { ..., key: 'copied/destKey' } ]
+console.log((await list({ prefix: 'copied/', options: { accessLevel: 'private' }})).items); // [ { ..., key: 'copied/destKey' } ]
 console.log(copied); // { key: 'copied/destKey' }
 ```
 
@@ -95,7 +95,7 @@ const copied = await copy({
 });
 
 // There should now be a new file with key "copied/destKey"
-console.log((await list({ prefix : 'copied/', options: { accessLevel: 'private' }})).items); // [..., key: 'copied/destKey']
+console.log((await list({ prefix: 'copied/', options: { accessLevel: 'private' }})).items); // [..., key: 'copied/destKey']
 console.log(copied); // { key: 'copied/destKey' }
 ```
 
