@@ -34,8 +34,10 @@ await getUrl({ key: 'welcome.png' }); // Get welcome.png in public space
 You can customize your key path by defining a prefix resolver:
 
 ```javascript
+import awsConfig from './aws-exports';
+
 Amplify.configure(
-    {},
+    awsConfig,
     {
         Storage: {
             S3: {
@@ -57,7 +59,7 @@ Amplify.configure(
 
 For example, if you want to enable read, write and delete operation for all the objects under path *myPublicPrefix/*,  declare it in your IAM policy:
 
-```xml
+```json
 "Statement": [
     {
         "Effect": "Allow",
