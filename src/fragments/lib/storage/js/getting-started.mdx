@@ -222,7 +222,7 @@ The following steps will set up your CORS Policy:
 ![Click on the **Permissions** tab for your bucket](/images/storage/CORS2.png)
 3. Click the edit button in the **Cross-origin resource sharing (CORS)** section.
 ![Click the edit button in the **Cross-origin resource sharing (CORS)** section](/images/storage/CORS3.png)
-4. Make the Changes and click on Save Changes after adding required metadata to be exposed in `ExposeHeaders` with `x-amz-meta-XXXX` format.
+4. Make the Changes and click on Save Changes. You can add required metadata to be exposed in `ExposeHeaders` with `x-amz-meta-XXXX` format.
 ![Click on Save Changes:](/images/storage/CORS4.png)
 
 ```json
@@ -246,7 +246,7 @@ The following steps will set up your CORS Policy:
       "x-amz-request-id",
       "x-amz-id-2",
       "ETag",
-      "x-amz-meta-foo" // user defined metadata
+      "x-amz-meta-foo" 
     ],
     "MaxAgeSeconds": 3000
   }
