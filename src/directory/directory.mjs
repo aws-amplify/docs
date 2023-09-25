@@ -1445,7 +1445,7 @@ export const directory = {
           {
             title: 'Get file properties',
             route: '/lib-v1/storage/get-properties',
-            filters: ['flutter', 'js']
+            filters: ['js']
           },
           {
             title: 'List files',
@@ -1455,10 +1455,10 @@ export const directory = {
           {
             title: 'Copy files',
             route: '/lib-v1/storage/copy',
-            filters: ['js', 'flutter']
+            filters: ['js']
           },
           {
-            title: 'Remove file',
+            title: 'Remove files',
             route: '/lib-v1/storage/remove',
             filters: ['android', 'ios', 'flutter', 'js']
           },
