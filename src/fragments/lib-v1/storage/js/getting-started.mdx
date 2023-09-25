@@ -68,6 +68,11 @@ Amplify.configure({
     S3: {
       bucket: 'XXX', //REQUIRED -  Amazon S3 bucket name
       region: 'XX-XXXX-X', //OPTIONAL -  Amazon service region
+    }
+  }
+}, {
+  Storage: {
+    S3: {
       isObjectLockEnabled: true //OPTIONAl - Object Lock parameter
     }
   }

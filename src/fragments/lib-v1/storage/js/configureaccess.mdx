@@ -37,22 +37,22 @@ You can customize your key path by defining a prefix resolver:
 import awsConfig from './aws-exports';
 
 Amplify.configure(
-    awsConfig,
-    {
-        Storage: {
-            S3: {
-                prefixResolver: async ({ accessLevel, targetIdentityId }) => {
-                    if (accessLevel === 'guest') {
-                        return 'myPublicPrefix/';
-                    } else if (accessLevel === 'protected') {
-                        return `myProtectedPrefix/${targetIdentityId}`;
-                    } else {
-                        return `myPrivatePrefix/${targetIdentityId}`;
-                    }
-                },
-            },
+  awsConfig,
+  {
+    Storage: {
+      S3: {
+        prefixResolver: async ({ accessLevel, targetIdentityId }) => {
+          if (accessLevel === 'guest') {
+            return 'myPublicPrefix/';
+          } else if (accessLevel === 'protected') {
+            return `myProtectedPrefix/${targetIdentityId}`;
+          } else {
+            return `myPrivatePrefix/${targetIdentityId}`;
+          }
         },
-    }
+      },
+    },
+  }
 );
 
 ```
@@ -61,34 +61,34 @@ For example, if you want to enable read, write and delete operation for all the 
 
 ```json
 "Statement": [
-    {
-        "Effect": "Allow",
-        "Action": [
-            "s3:GetObject",
-            "s3:PutObject",
-            "s3:DeleteObject"
-        ],
-        "Resource": [
-            "arn:aws:s3:::your-s3-bucket/myPublicPrefix/*",
-        ]
-    }
+  {
+    "Effect": "Allow",
+    "Action": [
+      "s3:GetObject",
+      "s3:PutObject",
+      "s3:DeleteObject"
+    ],
+    "Resource": [
+      "arn:aws:s3:::your-s3-bucket/myPublicPrefix/*",
+    ]
+  }
 ]
 ```
 
 If you want to have custom *private* path prefix like *myPrivatePrefix/*, you need to add it into your IAM policy:
 ```xml
 "Statement": [
-    {
-        "Effect": "Allow",
-        "Action": [
-            "s3:GetObject",
-            "s3:PutObject",
-            "s3:DeleteObject"
-        ],
-        "Resource": [
-            "arn:aws:s3:::your-s3-bucket/myPrivatePrefix/${cognito-identity.amazonaws.com:sub}/*"
-        ]
-    }
+  {
+    "Effect": "Allow",
+    "Action": [
+      "s3:GetObject",
+      "s3:PutObject",
+      "s3:DeleteObject"
+    ],
+    "Resource": [
+      "arn:aws:s3:::your-s3-bucket/myPrivatePrefix/${cognito-identity.amazonaws.com:sub}/*"
+    ]
+  }
 ]
 ```
 This ensures only the authenticated users has the access to the objects under the path.

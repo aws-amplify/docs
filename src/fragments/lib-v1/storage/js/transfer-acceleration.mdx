@@ -24,9 +24,9 @@ In the generated `override.ts` file use the following CDK snippet to enable tran
 import { AmplifyS3ResourceTemplate } from '@aws-amplify/cli-extensibility-helper';
 
 export function override(resources: AmplifyS3ResourceTemplate) {
-    resources.s3Bucket.accelerateConfiguration = {
-        accelerationStatus: 'Enabled'
-    }
+  resources.s3Bucket.accelerateConfiguration = {
+    accelerationStatus: 'Enabled'
+  }
 }
 ```
 
@@ -42,10 +42,10 @@ We switch to the accelerated S3 endpoint by using the `useAccelerateEndpoint` pa
 For example the `getUrl` method
 ```javascript
 const getUrlResult = await getUrl({
-    key: filename,
-    options: {
-      useAccelerateEndpoint: true; // Whether to use accelerate endpoint.
-    },
+  key: filename,
+  options: {
+    useAccelerateEndpoint: true; // Whether to use accelerate endpoint.
+  },
 });
 ```
 

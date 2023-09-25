@@ -9,9 +9,9 @@ Files can only be deleted for the current user. Deletion capabilities do not ext
 import { remove } from 'aws-amplify/storage';
 
 try {
-	await remove({ key: filename });
+  await remove({ key: filename });
 } catch (error) {
-	console.log('Error ', error);
+  console.log('Error ', error);
 }
 
 ```
@@ -22,9 +22,9 @@ try {
 import { remove } from 'aws-amplify/storage';
 
 try {
-	await remove({ key: filename, options: { accessLevel: 'protected' } });
+  await remove({ key: filename, options: { accessLevel: 'protected' } });
 } catch (error) {
-	console.log('Error ', error);
+  console.log('Error ', error);
 }
 ```
 
@@ -34,8 +34,8 @@ try {
 import { remove } from 'aws-amplify/storage';
 
 try {
-	await remove({ key: filename, options: { accessLevel: 'private' } });
+  await remove({ key: filename, options: { accessLevel: 'private' } });
 } catch (error) {
-	console.log('Error ', error);
+  console.log('Error ', error);
 }
 ```
