@@ -1,12 +1,16 @@
 export const meta = {
   title: `Collections`,
-  description: `Figma to React code with Amplify Studio`,
+  description: `Figma to React code with Amplify Studio`
 };
 
-Amplify Studio also allows you to build lists and grids based on individual UI components. Let's create a "NewHomes" grid that showcases the latest homes added to the app.
+Amplify Studio also allows you to build lists and grids based on individual UI components. Let's create a `NewHomes` grid that showcases the latest homes added to the app.
 
 ## Create a collection
-To get started, choose the **Create collection** button in the top right corner in the UI component editor.
+
+1. Launch [Amplify Studio](/console/adminui/start/#logging-in-and-creating-an-app) for an app
+2. From the **Design** menu, choose **UI Library**
+3. Choose a **Component** under the **Components** section.
+4. Select **Create collection** button in the top right corner in the UI component editor
 
 Specify a name for the new collection component, or use the default name provided by Studio. For this example, you'll name the collection `NewHomes`.
 
@@ -14,9 +18,9 @@ Specify a name for the new collection component, or use the default name provide
 
 On the left side of the component editor, you can modify all the style settings for your collection. In our case, you'll choose a grid and apply column and margin settings to add spacing between the items.
 
-1. Select **Grid** as the *Type*
-2. Change *Columns* to **3**
-3. Add *Padding* to **10px** on all sides
+1. Select **Grid** as the _Type_
+2. Change _Columns_ to **3**
+3. Add _Padding_ to **10px** on all sides
 
 Your collection should look similar to the following:
 
@@ -36,7 +40,7 @@ Once configured, choose **Create data set** to display your collection sorted by
 
 Similar to individual components, choose **Get component code** to get your React code for the collection.
 
-Run `amplify pull` to sync all your components, including the `NewHomes` collection, into your local `./ui-components` folder.
+Run `amplify pull` to sync all your components, including the `NewHomes` collection, into your local `src/ui-components` folder.
 
 Import the `NewHomes` collection from `./ui-components` and then render it in your React app. For example:
 

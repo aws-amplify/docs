@@ -47,12 +47,11 @@ Note that if you already have an S3 bucket in your project from running `amplify
 For application users, when they upload images with `Storage.put()` they will specify a prefix which the Lambda functions perform indexing like so:
 
 ```javascript
-Storage.put('test.jpg', file, 
-  {
-    level: 'protected',
-    customPrefix: {
-      protected: 'protected/predictions/index-faces/',
-    }
+Storage.put('test.jpg', file, {
+  level: 'protected',
+  customPrefix: {
+    protected: 'protected/predictions/index-faces/',
+  },
 });
 ```
 
@@ -129,11 +128,11 @@ Predictions.identify({
       top // top coordinate as a ratio of overall image height
     } = boundingBox;
     landmarks.forEach(landmark => {
-        const {
-            type, // string "eyeLeft", "eyeRight", "mouthLeft", "mouthRight", "nose"
-            x, // ratio of overall image width
-            y // ratio of overall image height
-        } = landmark;
+      const {
+        type, // string "eyeLeft", "eyeRight", "mouthLeft", "mouthRight", "nose"
+        x, // ratio of overall image width
+        y // ratio of overall image height
+      } = landmark;
     })
   })
 })
@@ -154,8 +153,8 @@ Predictions.identify({
 .then(({ entities }) => {
   entities.forEach(({ boundingBox, landmarks, metadata }) => {
     const { 
-        name,
-        urls 
+      name,
+      urls 
     } = metadata; // celebrity info
     
     // ...
@@ -186,10 +185,10 @@ Predictions.identify({
     console.log({ externalImageId }); // this is the object key on S3 from the original image!
     
     Storage.get("", {
-        customPrefix: {
-        public: externalImageId
-        },
-        level: "public",
+      customPrefix: {
+      public: externalImageId
+      },
+      level: "public",
     }).then(src => console.log({ src }));
   })
 })

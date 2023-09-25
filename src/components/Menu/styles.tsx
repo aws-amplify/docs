@@ -1,15 +1,93 @@
 import styled from '@emotion/styled';
-import { MQMobile, MQTablet, MQLaptop, MQDesktop } from '../media';
+import { keyframes } from '@emotion/react';
+import { MQTablet, MQDesktop } from '../media';
+
+const slideIn = keyframes`
+  from {
+    left: -100vw;
+  }
+  to {
+    left: 0;
+  }
+`;
+
+const slideOut = keyframes`
+  from {
+    left: 0;
+  }
+  to {
+    left: -100vw;
+  }
+`;
 
 export const MenuHeaderStyle = styled.div`
   display: flex;
-  flex-direction: row;
-  margin: 1.75rem 2.75rem 0 2.5rem;
+  flex-direction: column;
+  margin: 0 2.5rem;
+  div.mobileHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 64px;
+    border-bottom: 2px solid #d1d5db;
+    margin-bottom: 35px;
+
+    h2 {
+      font-family: 'Amazon Ember';
+      font-style: normal;
+      font-weight: 800;
+      font-size: 16px;
+      line-height: 20px;
+      display: flex;
+      align-items: center;
+      letter-spacing: -0.0008em;
+      margin: 0;
+    }
+  }
+
+  ${MQDesktop}, ${MQTablet} {
+    flex-direction: row;
+    margin: 1.75rem 2.75rem 0 2.5rem;
+  }
 `;
 
 export const MenuStyle = styled.div`
   border-right: 0.0625rem solid var(--border-color);
-  min-width: 20rem;
+  width: 100vw;
+  height: 100%;
+  z-index: 11;
+  position: fixed;
+  left: -100vw;
+  top: calc(var(--docs-dev-center-nav));
+  background: #ffffff;
+  overflow: scroll;
+
+  &.slideOut {
+    animation: ${slideOut} 0.4s ease-in-out;
+    animation-fill-mode: forwards;
+  }
+  &.slideIn {
+    animation: ${slideIn} 0.4s ease-in-out;
+    animation-fill-mode: forwards;
+  }
+
+  ${MQDesktop} {
+    top: calc(3rem + var(--docs-dev-center-nav));
+    position: sticky;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 20rem;
+    z-index: 0;
+    left: unset;
+    overflow: scroll;
+    height: auto;
+    max-height: 100vh;
+  }
+  ${MQTablet} {
+    width: 20rem;
+  }
+}
 
   > div {
     position: relative;

@@ -10,6 +10,10 @@ import android3 from "/src/fragments/lib-v1/datastore/android/data-access/save-s
 
 <Fragments fragments={{android: android3}} />
 
+import flutter4 from "/src/fragments/lib-v1/datastore/flutter/data-access/save-snippet.mdx";
+
+<Fragments fragments={{flutter: flutter4}} />
+
 The `save` method creates a new record, or in the event that one already exists in the local store, it updates the record.
 
 import ios6 from "/src/fragments/lib-v1/datastore/ios/data-access/update-snippet.mdx";
@@ -19,6 +23,10 @@ import ios6 from "/src/fragments/lib-v1/datastore/ios/data-access/update-snippet
 import android7 from "/src/fragments/lib-v1/datastore/android/data-access/update-snippet.mdx";
 
 <Fragments fragments={{android: android7}} />
+
+import flutter8 from "/src/fragments/lib-v1/datastore/flutter/data-access/update-snippet.mdx";
+
+<Fragments fragments={{flutter: flutter8}} />
 
 <Callout warning>
 
@@ -36,6 +44,10 @@ import android_observe_update from "/src/fragments/lib-v1/datastore/android/data
 
 <Fragments fragments={{android: android_observe_update}} />
 
+import flutter_observe_update from "/src/fragments/lib-v1/datastore/flutter/data-access/observe-update-snippet.mdx";
+
+<Fragments fragments={{flutter: flutter_observe_update}} />
+
 ## Delete
 
 To delete an item, simply pass in an instance.
@@ -47,6 +59,10 @@ import ios10 from "/src/fragments/lib-v1/datastore/ios/data-access/delete-snippe
 import android11 from "/src/fragments/lib-v1/datastore/android/data-access/delete-snippet.mdx";
 
 <Fragments fragments={{android: android11}} />
+
+import flutter12 from "/src/fragments/lib-v1/datastore/flutter/data-access/delete-snippet.mdx";
+
+<Fragments fragments={{flutter: flutter12}} />
 
 ## Query Data
 
@@ -62,15 +78,25 @@ import android15 from "/src/fragments/lib-v1/datastore/android/data-access/query
 
 <Fragments fragments={{android: android15}} />
 
+import flutter16 from "/src/fragments/lib-v1/datastore/flutter/data-access/query-basic-snippet.mdx";
+
+<Fragments fragments={{flutter: flutter16}} />
+
 ### Predicates
 
 Predicates are filters that can be used to match items in the DataStore. When applied to a query(), they constrain the returned results. When applied to a save(), they act as a pre-requisite for updating the data. You can match against fields in your schema by using the following predicates:
 
-**Strings:** `eq | ne | le | lt | ge | gt | contains | notContains | beginsWith | between`
+import iOSPredicates from "/src/fragments/lib-v1/datastore/ios/data-access/query-predicate-types.mdx";
 
-**Numbers:** `eq | ne | le | lt | ge | gt | between`
+<Fragments fragments={{ios: iOSPredicates}} />
 
-**Lists:** `contains | notContains`
+import androidPredicates from "/src/fragments/lib-v1/datastore/android/data-access/query-predicate-types.mdx";
+
+<Fragments fragments={{android: androidPredicates}} />
+
+import flutterPredicates from "/src/fragments/lib-v1/datastore/flutter/data-access/query-predicate-types.mdx";
+
+<Fragments fragments={{flutter: flutterPredicates}} />
 
 For example if you wanted a list of all `Post` Models that have a `rating` greater than 4:
 
@@ -82,6 +108,10 @@ import android20 from "/src/fragments/lib-v1/datastore/android/data-access/query
 
 <Fragments fragments={{android: android20}} />
 
+import flutter21 from "/src/fragments/lib-v1/datastore/flutter/data-access/query-predicate-snippet.mdx";
+
+<Fragments fragments={{flutter: flutter21}} />
+
 Multiple conditions can also be used, like the ones defined in [GraphQL Transform condition statements](/cli/graphql/data-modeling). For example, fetch all posts that have a rating greater than `4` and are `ACTIVE`:
 
 import ios23 from "/src/fragments/lib-v1/datastore/ios/data-access/query-predicate-multiple-snippet.mdx";
@@ -91,6 +121,10 @@ import ios23 from "/src/fragments/lib-v1/datastore/ios/data-access/query-predica
 import android24 from "/src/fragments/lib-v1/datastore/android/data-access/query-predicate-multiple-snippet.mdx";
 
 <Fragments fragments={{android: android24}} />
+
+import flutter25 from "/src/fragments/lib-v1/datastore/flutter/data-access/query-predicate-multiple-snippet.mdx";
+
+<Fragments fragments={{flutter: flutter25}} />
 
 Alternatively, the `or` logical operator can also be used:
 
@@ -102,6 +136,10 @@ import android28 from "/src/fragments/lib-v1/datastore/android/data-access/query
 
 <Fragments fragments={{android: android28}} />
 
+import flutter29 from "/src/fragments/lib-v1/datastore/flutter/data-access/query-predicate-or-snippet.mdx";
+
+<Fragments fragments={{flutter: flutter29}} />
+
 import ios31 from "/src/fragments/lib-v1/datastore/native_common/sort.mdx";
 
 <Fragments fragments={{ios: ios31}} />
@@ -109,6 +147,10 @@ import ios31 from "/src/fragments/lib-v1/datastore/native_common/sort.mdx";
 import android32 from "/src/fragments/lib-v1/datastore/native_common/sort.mdx";
 
 <Fragments fragments={{android: android32}} />
+
+import flutter33 from "/src/fragments/lib-v1/datastore/native_common/sort.mdx";
+
+<Fragments fragments={{flutter: flutter33}} />
 
 ### Pagination
 
@@ -121,6 +163,10 @@ import ios35 from "/src/fragments/lib-v1/datastore/ios/data-access/query-paginat
 import android36 from "/src/fragments/lib-v1/datastore/android/data-access/query-pagination-snippet.mdx";
 
 <Fragments fragments={{android: android36}} />
+
+import flutter37 from "/src/fragments/lib-v1/datastore/flutter/data-access/query-pagination-snippet.mdx";
+
+<Fragments fragments={{flutter: flutter37}} />
 
 ### Query, then observe changes
 

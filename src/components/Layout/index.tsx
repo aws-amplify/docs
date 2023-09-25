@@ -10,19 +10,22 @@ import {
   RIGHT_NAV_LINKS,
   SOCIAL_LINKS
 } from '../../utils/globalnav';
-import React from 'react';
+import { forwardRef } from 'react';
 
-export default function Layout({
-  children,
-  meta,
-  filterKey,
-  filterMetadataByOption
-}: {
-  children: any;
-  meta?: any;
-  filterKey?: string;
-  filterMetadataByOption?: any;
-}) {
+const Layout = forwardRef(function Layout(
+  {
+    children,
+    meta,
+    filterKey,
+    filterMetadataByOption
+  }: {
+    children: any;
+    meta?: any;
+    filterKey?: string;
+    filterMetadataByOption?: any;
+  },
+  footerRef
+) {
   const router = useRouter();
   if (!router.isReady) return <></>;
 
@@ -33,7 +36,7 @@ export default function Layout({
   const title = !meta
     ? ''
     : [meta.chapterTitle, meta.title, filterMetadata, 'AWS Amplify Docs']
-        .filter((s) => s !== '')
+        .filter((s) => s !== '' && s !== null && s !== undefined)
         .join(' - ');
 
   const description = !meta
@@ -41,6 +44,8 @@ export default function Layout({
     : [meta.description, filterMetadata, 'AWS Amplify Docs']
         .filter((s) => s !== '')
         .join(' - ');
+
+  const current = meta?.title?.includes('Contribut') ? 'Contribute' : 'Docs';
 
   return (
     <>
@@ -83,13 +88,15 @@ export default function Layout({
         leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
         rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
         socialLinks={SOCIAL_LINKS as NavMenuItem[]}
-        currentSite={'Docs'}
+        currentSite={current}
       />
       <SecondaryNav />
       <Container backgroundColor="bg-color-tertiary">
         <LayoutStyle>{children}</LayoutStyle>
       </Container>
-      <Footer />
+      <Footer ref={footerRef} />
     </>
   );
-}
+});
+
+export default Layout;

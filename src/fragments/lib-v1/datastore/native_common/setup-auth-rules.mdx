@@ -10,6 +10,10 @@ Here's a high-level overview of the authorization scenarios we support in the Am
 * [**Owner based Authorization with OIDC provider**](#owner-based-authorization-with-oidc-provider): Use a 3rd party OIDC Provider to achieve *Owner based authorization*.
 * [**Static Group Authorization with OIDC provider**](#static-group-authorization-with-oidc-provider): Use a 3rd party OIDC Provider to achieve *Static group authorization* using a custom `groupClaim`.
 
+import datastoreAuthRulesCallout from '/src/fragments/lib/datastore/native_common/callout/datastore-auth-rules-cli.mdx';
+
+<Fragments fragments={{ all: datastoreAuthRulesCallout }} />
+
 import datastoreClearCallout from '/src/fragments/lib-v1/datastore/native_common/callout/datastore-clear-with-auth.mdx';
 
 <Fragments fragments={{ all: datastoreClearCallout }} />
@@ -131,6 +135,10 @@ import ios1 from "/src/fragments/lib-v1/datastore/ios/setup-auth-rules/owner_bas
 
 <Fragments fragments={{ios: ios1}} />
 
+import flutterOidc from '/src/fragments/lib-v1/datastore/flutter/setup-auth-rules/owner_based_auth_oidc.mdx';
+
+<Fragments fragments={{ flutter: flutterOidc }} />
+
 
 ### Static Group Authorization with OIDC provider
 The following are commonly used patterns for using `groupClaims` to achieve group based authorization using a 3rd party OIDC provider. For more information on how to tune these examples, please see the [CLI documentation on static group authorization](/cli/graphql/authorization-rules#custom-claims).
@@ -168,6 +176,10 @@ import ios2 from "/src/fragments/lib-v1/datastore/ios/setup-auth-rules/10_multia
 import android3 from "/src/fragments/lib-v1/datastore/android/setup-auth-rules/10_multiauth-snippet.mdx";
 
 <Fragments fragments={{android: android3}} />
+
+import flutterMultiAuth from '/src/fragments/lib-v1/datastore/flutter/setup-auth-rules/10_multiauth-snippet.mdx';
+
+<Fragments fragments={{ flutter: flutterMultiAuth }} />
 
 This configuration enables DataStore to synchronize data using the model's `@auth` rule provider for each model.
 

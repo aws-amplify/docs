@@ -1,0 +1,29 @@
+```dart
+// Create a boolean for checking the sign up status
+bool isSignUpComplete = false;
+
+...
+
+Future<void> setUpMFASignUp() async {
+  try {
+    final userAttributes = <CognitoUserAttributeKey, String>{
+      CognitoUserAttributeKey.email: 'email@domain.com',
+      // Note: phone_number requires country code
+      CognitoUserAttributeKey.phoneNumber: '+15559101234',
+    };
+    final result = await Amplify.Auth.signUp(
+        username: 'myusername',
+        password: 'mysupersecurepassword',
+        options: CognitoSignUpOptions(
+            userAttributes: userAttributes
+        )
+    );
+    setState(() {
+      isSignUpComplete = result.isSignUpComplete;
+    });
+  } on AuthException catch (e) {
+    safePrint(e.message);
+  }
+}
+```
+

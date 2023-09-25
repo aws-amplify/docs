@@ -1,11 +1,11 @@
-import React, {useEffect} from "react";
-import {useCodeBlockContext} from "../CodeBlockProvider";
+import React, { useEffect } from 'react';
+import { useCodeBlockContext } from '../CodeBlockProvider';
 import {
   HostStyle,
   SwitcherContentStyle,
   TabContainerStyle,
-  TabStyle,
-} from "./styles";
+  TabStyle
+} from './styles';
 
 type ContextType = {
   tabOrder: string[];
@@ -22,17 +22,21 @@ type SwitcherButtonProps = {
 const SwitcherButton: React.FC<SwitcherButtonProps> = ({
   name,
   isActive,
-  ctx,
+  ctx
 }) => (
   // eslint-disable-next-line react/jsx-no-bind
-  <TabStyle active={isActive} onClick={() => ctx.setActiveTab(name)}>
+  <TabStyle
+    active={isActive}
+    className={isActive ? 'tab-active' : null}
+    onClick={() => ctx.setActiveTab(name)}
+  >
     {name}
   </TabStyle>
 );
 
 const getActiveIndex = function(
   children: React.ReactElement[],
-  tabOrder: string[],
+  tabOrder: string[]
 ) {
   // The index we want to be active is the first one in priority order (`ctx.tabOrder`)
   // that is also one of the options (i.e., in `children`).
@@ -47,7 +51,7 @@ const getActiveIndex = function(
   }
 };
 
-export default function BlockSwitcher({children}) {
+export default function BlockSwitcher({ children }) {
   // a single child is not passed as an array
   if (!Array.isArray(children)) {
     children = [children];
@@ -81,7 +85,7 @@ export default function BlockSwitcher({children}) {
       <SwitcherContentStyle>
         {children?.map(
           (node, index) =>
-            index === activeIndex && <div key={index}>{node}</div>,
+            index === activeIndex && <div key={index}>{node}</div>
         )}
       </SwitcherContentStyle>
     </HostStyle>

@@ -12,6 +12,26 @@ func signIn(username: String, password: String) async {
 
             // Prompt the user to enter the SMSMFA code they received
             // Then invoke `confirmSignIn` api with the code
+
+        case .confirmSignInWithTOTPCode:
+            print("Received next step as confirm sign in with TOTP code")
+
+            // Prompt the user to enter the TOTP code generated in their authenticator app
+            // Then invoke `confirmSignIn` api with the code
+        
+        case .continueSignInWithTOTPSetup(let setUpDetails):
+            print("Received next step as continue sign in by setting up TOTP")
+            print("Shared secret that will be used to set up TOTP in the authenticator app \(setUpDetails.sharedSecret)")
+            
+            // Prompt the user to enter the TOTP code generated in their authenticator app
+            // Then invoke `confirmSignIn` api with the code
+
+        case .continueSignInWithMFASelection(let allowedMFATypes):
+            print("Received next step as continue sign in by selecting MFA type")
+            print("Allowed MFA types \(allowedMFATypes)")
+            
+            // Prompt the user to select the MFA type they want to use
+            // Then invoke `confirmSignIn` api with the MFA type
         
         case .confirmSignInWithCustomChallenge(let info):
             print("Custom challenge, additional info \(String(describing: info))")

@@ -12,19 +12,69 @@ For example, the ability to list all users in a Cognito User Pool may provide us
 The Amplify CLI can setup a REST endpoint with secure access to a Lambda function running with limited permissions to the User Pool if you wish to have these capabilities in your application, and you can choose to expose the actions to all users with a valid account or restrict to a specific User Pool Group.
 
 ## Enable Admin Queries
+ 
+<BlockSwitcher>
+<Block name="With a New Auth Resource">
 
 ```bash
 amplify add auth
 ```
 
+Select the option to go through Manual configuration.
+
 ```console
+ Do you want to use the default authentication and security configuration? (Use arrow keys)
+  Default configuration 
+  Default configuration with Social Provider (Federation) 
+❯ Manual configuration 
+  I want to learn more. 
+```
+
+Go through the rest of the configuration steps until you reach the following prompts:
+
+```console
+? Do you want to add User Pool Groups? Yes
+? Provide a name for your user pool group: Admins
+? Do you want to add another User Pool Group No
+✔ Sort the user pool groups in order of preference · Admins
 ? Do you want to add an admin queries API? Yes
-? Do you want to restrict access to a specific Group Yes
+? Do you want to restrict access to the admin queries API to a specific Group? Yes
 ? Select the group to restrict access with: (Use arrow keys)
 ❯ Admins 
-  Editors 
-  Enter a custom group 
+  Enter a custom group
 ```
+
+Continue with the rest of the prompts to finish the configuration.
+
+</Block>
+
+<Block name="With an Existing Auth Resource">
+
+```bash
+amplify update auth
+```
+
+Select the option to Create or update Admin queries API.
+
+```console
+What do you want to do? Create or update Admin queries API
+? Do you want to restrict access to the admin queries API to a specific Group Yes
+? Select the group to restrict access with: (Use arrow keys)
+❯ Admins
+  Enter a custom group
+```
+
+</Block>
+
+</BlockSwitcher>
+
+<Callout>
+
+If you don't have any User Pool Groups, you will need to select `Enter a custom group`.
+
+</Callout>
+
+When ready, run `amplify push` to deploy the changes.
 
 This will configure an API Gateway endpoint with a Cognito Authorizer that accepts an Access Token, which is used by a Lambda function to perform actions against the User Pool. The function is example code which you can use to remove, add, or alter functionality based on your business case by editing it in the `amplify/backend/function/AdminQueriesXXX/src` directory and running an `amplify push` to deploy your changes. If you choose to restrict actions to a specific Group, custom middleware in the function will prevent any actions unless the user is a member of that Group.
 
@@ -55,7 +105,9 @@ To leverage this functionality in your app you would call the appropriate route 
 ```js
 import React from 'react'
 import { Amplify, Auth, API } from 'aws-amplify';
-import { withAuthenticator } from 'aws-amplify-react';
+import { withAuthenticator } from '@aws-amplify/ui-react';
+import '@aws-amplify/ui-react/styles.css';
+
 import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
 
@@ -105,7 +157,7 @@ function App() {
   );
 }
 
-export default withAuthenticator(App, true);
+export default withAuthenticator(App);
 ```
 
 </Block>
@@ -264,3 +316,51 @@ class MyCustomInterceptor: URLRequestInterceptor {
 ```
 </Block>
 </BlockSwitcher>
+
+## Adding Admin Actions
+
+To add additional admin actions that are not included by default but are enabled by Amazon Cognito, you will need to update the Lambda function code that is generated for you. The change will include adding a route handler for the action and creating a route for it. You will then associate the route handler to the route within the [Express](https://expressjs.com/) app.
+
+Below is an example of how to add an admin action that will allow you to [update a user's attributes](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminUpdateUserAttributes.html).
+```js
+async function updateUserAttributes(username, attributes) {
+  
+  const params = {
+    Username: username,
+    UserAttributes: attributes,
+    UserPoolId: 'STRING_VALUE',
+  };
+
+  console.log(`Attempting to update ${username} attributes`);
+
+  try {
+    await cognitoIdentityServiceProvider.adminUpdateUserAttributes(params).promise();
+    console.log(`Success updating ${username} attributes`);
+    return {
+      message: `Success updating ${username} attributes`,
+    };
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+```
+Once the route handler is defined, you will then add a route with the correct HTTP method to the Express app and associate the route handler to the route. Be sure to make the route unique.
+
+Below is an example of how you can add a `POST` route named `/updateUserAttributes` and associate the above route handler to it.
+```js
+app.post('/updateUserAttributes', async (req, res, next) => {
+  if (!req.body.username || !req.body.attributes) {
+    const err = new Error('username and attributes are required');
+    err.statusCode = 400;
+    return next(err);
+  }
+
+  try {
+    const response = await updateUserAttributes(req.body.username, req.body.attributes);
+    res.status(200).json(response);
+  } catch (err) {
+    next(err);
+  }
+});
+```

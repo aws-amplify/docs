@@ -1,0 +1,29 @@
+```swift
+func signIn(username: String, password: String) async {
+    do {
+        let signInResult = try await Amplify.Auth.signIn(
+            username: username,
+            password: password
+        )
+
+        if case .continueSignInWithTOTPSetup(let setUpDetails) = signInResult.nextStep {
+
+            print("Received next step as continue sign in by setting up TOTP")
+            print("Shared secret that will be used to set up TOTP in the authenticator app \(setUpDetails.sharedSecret)")
+
+            // appName parameter will help distinguish the account in the Authenticator app
+            let setupURI = try setUpDetails.getSetupURI(appName: "<Your_App_Name>>")
+
+            print("TOTP Setup URI: \(setupURI)")
+
+            // Prompt the user to enter the TOTP code generated in their authenticator app
+            // Then invoke `confirmSignIn` api with the code
+
+        }
+    } catch let error as AuthError {
+        print("Sign in failed \(error)")
+    } catch {
+        print("Unexpected error: \(error)")
+    }
+}
+```

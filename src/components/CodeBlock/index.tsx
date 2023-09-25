@@ -2,15 +2,16 @@ import {
   CodeBlockStyle,
   CodeHighlightStyle,
   CopyButtonStyle,
-  LineCountStyle,
-} from "./styles";
-import React from "react";
-import copy from "copy-to-clipboard";
+  LineCountStyle
+} from './styles';
+import React from 'react';
+import copy from 'copy-to-clipboard';
+import { trackCopyClicks } from '../../utils/track';
 
-const COPY = "copy";
-const COPIED = "copied";
-const FAILED = "failed to copy";
-const CONSOLE = "console";
+const COPY = 'copy';
+const COPIED = 'copied';
+const FAILED = 'failed to copy';
+const CONSOLE = 'console';
 
 type CopyMessageType = typeof COPY | typeof COPIED | typeof FAILED;
 
@@ -29,7 +30,7 @@ class CodeBlock extends React.Component<CodeBlockProps, CodeBlockState> {
 
   constructor(props) {
     super(props);
-    this.state = {copyMessage: COPY};
+    this.state = { copyMessage: COPY };
   }
 
   lineNumbers = () => {
@@ -55,13 +56,38 @@ class CodeBlock extends React.Component<CodeBlockProps, CodeBlockState> {
 
   copyToClipboard = () => {
     if (this.element && this.element.textContent) {
-      copy(this.element.textContent);
-      this.setState({copyMessage: COPIED});
+      if (
+        this.element?.firstElementChild?.classList.contains(
+          'highlight-source-diff'
+        )
+      ) {
+        const textContent = this.element.textContent;
+        let copyLines = textContent.split('\n');
+        let copyText = copyLines
+          .filter((line) => {
+            return !line.startsWith('-');
+          })
+          .map((line) => {
+            if (line.startsWith('+')) {
+              return line.replace('+', ' ');
+            } else {
+              return line;
+            }
+          })
+          .join('\n');
+
+        copy(copyText);
+        trackCopyClicks(copyText);
+      } else {
+        copy(this.element.textContent);
+        trackCopyClicks(this.element.textContent);
+      }
+      this.setState({ copyMessage: COPIED });
     } else {
-      this.setState({copyMessage: FAILED});
+      this.setState({ copyMessage: FAILED });
     }
     setTimeout(() => {
-      this.setState({copyMessage: COPY});
+      this.setState({ copyMessage: COPY });
     }, 1500);
   };
 
@@ -78,7 +104,7 @@ class CodeBlock extends React.Component<CodeBlockProps, CodeBlockState> {
   render() {
     if (this.props.children === undefined) return <div></div>;
     const oneLine =
-      this.props.lineCount === "1" || this.props.language === CONSOLE;
+      this.props.lineCount === '1' || this.props.language === CONSOLE;
 
     return (
       <CodeBlockStyle oneLine={oneLine}>

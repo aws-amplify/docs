@@ -1,0 +1,29 @@
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+if (Amplify.Auth.getPlugin("awsCognitoAuthPlugin") instanceof AWSCognitoAuthPlugin) {
+    AWSCognitoAuthPlugin plugin = (AWSCognitoAuthPlugin) Amplify.Auth.getPlugin("awsCognitoAuthPlugin");
+    plugin.fetchMFAPreference(
+        preference -> Log.i(
+            "AuthQuickStart",
+            "Fetched MFA preference, enabled: " + preference.getEnabled() + ", preferred: " + preference.getPreferred()
+        ),
+        e -> Log.e("AuthQuickStart", "Failed to fetch MFA preference.", e)
+    );
+}
+```
+
+</Block>
+<Block name="Kotlin">
+
+```kotlin
+val cognitoAuthPlugin = Amplify.Auth.getPlugin("awsCognitoAuthPlugin") as? AWSCognitoAuthPlugin
+cognitoAuthPlugin?.fetchMFAPreference(
+    { Log.d("AuthQuickStart", "Fetched MFA preference, enabled: ${it.enabled}, preferred: ${it.preferred}") },
+    { Log.e("AuthQuickStart", "Failed to fetch MFA preference.", it) }
+)
+```
+
+</Block>
+</BlockSwitcher>

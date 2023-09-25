@@ -322,21 +322,23 @@ query getCustomerWithOrdersByDate($customerID: ID!) {
 
 The `@index` `byCustomerByStatusByDate` enables you to run a query that would work for this access pattern.
 
-In this example, a composite sort key (combination of two or more keys) with the `status` and `date` is used. What this means is that the unique identifier of a record in the database is created by concatenating these two fields (status and date) together, and then the GraphQL resolver can use predicates like `Between` or `Contains` to efficiently search the unique identifier for matches rather than scanning all records in the database and then filtering them out.
+In this example, a composite sort key (combination of two or more keys) with the `status` and `date` is used. What this means is that the unique identifier of a record in the database is created by concatenating these two fields (status and date) together, and then the GraphQL resolver can use predicates like `between` or `contains` to efficiently search the unique identifier for matches rather than scanning all records in the database and then filtering them out.
 
 ```graphql
-query getCustomerWithOrdersByStatusDate($customerID: ID!) {
-  getCustomer(id: $customerID) {
-    ordersByStatusDate (statusDate: {
-      between: [
-        { status: "pending" date:  "2018-01-22" },
-        { status: "pending", date: "2020-10-11"}
-      ]}) {
+query listCustomersWithOrdersByStatusDate {
+  listCustomers {
+    items {
+      ordersByStatusDate(statusDate: {
+        between: [
+          { status: "pending", date: "2018-01-22" },
+          { status: "pending", date: "2020-10-11" }
+        ]}) {
         items {
-            id
-            amount
-            date
+          id
+          amount
+          date
         }
+      }
     }
   }
 }

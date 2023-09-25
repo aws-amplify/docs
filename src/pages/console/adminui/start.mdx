@@ -7,60 +7,94 @@ AWS Amplify Studio is a visual development environment for building fullstack we
 
 Amplify Studio is available in the following regions: [Amplify Studio service endpoints](https://docs.aws.amazon.com/general/latest/gr/amplify.html#amplifyadmin_region).
 
-You can get started with or without an AWS account. Without an AWS account, you can begin modeling data for your backend and testing it locally. If you choose to create an AWS account and deploy your backend in the AWS Amplify console, an expanded set of features becomes available for configuring your backend environment.
+<Callout warning>
 
-## Get started without an AWS account
+Amplify provisions AWS resources directly in your account. Changes to resources can lead to unexpected behavior, so we recommend using a dedicated AWS account for building with Amplify. 
 
-If you are new to AWS, you don't need an AWS account to get started. You can still model and test your data before deploying to the cloud. After building your data model, you must connect an AWS account to deploy your backend environment to Amplify using Amplify Studio. The sandbox interface lets you perform the following tasks:
- * Set up your data model. For instructions on creating models and setting relationships, see [Data modeling in Amplify Studio](/console/data/data-model#Data-modeling-in-the-Admin-UI).
- * Test your new data model locally.
- * Deploy your backend to the cloud. This requires an AWS account.
+</Callout>
 
-<Card
-  external
-  href="https://sandbox.amplifyapp.com/"
-  containertag="amplify-external-link"
->
-  <CardGraphic alt="Amplify Studio logo" src="/images/console/adminui.svg" />
-  <CardDetail>
-    <h4>Launch Sandbox</h4>
-    <p>Get started without an AWS account</p>
-  </CardDetail>
-</Card>
+## Quick Start Guide
 
-## Get started with your AWS account
+<BlockSwitcher>
 
-If you already have an AWS account and you want to skip the sandbox experience, deploy Amplify Studio to start using all Amplify features, including DataStore, user authentication and authorization, and file storage. After you deploy a backend in Amplify, you can launch Amplify Studio from your Amplify project. Your entire team can use Studio to add new features, update app data, and manage users and groups.
 
-<Card
-    external
-    href="https://console.aws.amazon.com/amplify/home?#/deploy-backend"
-    containertag="amplify-external-link"
-  >
-    <CardGraphic alt="Amplify logo" src="/assets/logo-dark.svg" />
-    <CardDetail>
-      <h4>Log in to AWS console</h4>
-      <p>Get started in the AWS Amplify console</p>
-    </CardDetail>
-  </Card>
+<Block name="Create an AWS account">
 
-### To get started with a new Amplify project
-1. Sign in to the AWS Management Console and open AWS Amplify. Choose **Create app backend**.
-2. Enter a name for your app and choose **Confirm deployment**. This deploys a default **staging** backend environment.
-3. On the application information page, choose the **Backend environments** tab.
-4. Choose **Launch Studio**. This automatically logs you in to Amplify Studio.
+To use all of Amplify Studio's functionality, you will need an AWS account. You can take advantage of the [AWS free tier]("https://aws.amazon.com/free") to get started with no cost.
 
-If you already have an existing backend environment, you can enable Amplify Studio from the console.
+<ExternalLinkButton href="https://portal.aws.amazon.com/gp/aws/developer/registration/index.html?refid=78b916d7-7c94-4cab-98d9-0ce5e648dd5f">
+  <span slot="text">Create an AWS Account</span>
+</ExternalLinkButton>
 
-### To get started from an existing Amplify project
+</Block>
 
-1. Sign in to the AWS Management Console and open AWS Amplify. Or, enter `amplify console` from the Amplify Command Line Interface (CLI).
-2. In the navigation pane, choose **Amplify Studio settings**.
-3. Turn on **Enable Amplify Studio**.
-4. In the **Backend environments** section, choose **Launch Studio**.  This automatically logs you in to Amplify Studio where you can use all the Studio capabilities.
+<Block name="Build a fullstack app">
+
+If you already have an AWS account, you can begin using all of Amplify Studio's features. [Log into the AWS console]("https://console.aws.amazon.com/console/home"), and click the button below to create a new project in Amplify Studio
+
+<ExternalLinkButton href="https://console.aws.amazon.com/amplify/home?#/deploy-backend">
+  <span slot="text">Create New Project</span>
+</ExternalLinkButton>
+
+Next, follow these steps to deploy and launch Amplify Studio:
+1. Enter a name for your app and choose **Confirm deployment**. 
+1. After your app deployment is complete, select the **Backend environments** tab.
+1. Select **Launch Studio**. This automatically launches Amplify Studio in a new tab.
+
+</Block>
+
+</BlockSwitcher>
+
+## Logging In and Creating an App
+
+### Log into the Amplify Console
+The Amplify Console is where you build, manage, and host your Amplify applications. To log in, take the following steps:
+1. [Log into the AWS console]("https://console.aws.amazon.com/console/home")
+1. Search for **AWS Amplify** in the console
+1. Select **AWS Amplify** to open the Amplify Console
+
+Alternatively, [click here to go straight to the Amplify Console]("https://console.aws.amazon.com/amplify/home")
+
+### Create a new Studio app
+To create a new Studio app, first log into the [Amplify Console]("https://console.aws.amazon.com/amplify/home"). Once you've logged in, you can create a new app using the following steps:
+
+*If you have no apps in this region...*
+1. Scroll to the bottom of the page
+1. In the Amplify Studio section, select ["Get started"]("https://console.aws.amazon.com/amplify/home?#/deploy-backend")
+1. Name your app, and select **Confirm Deployment**
+
+*If you already have apps in this region...*
+1. Select **New app** in the upper right-hand corner
+1. Select **Build an app** from the dropdown menu
+1. Name your app, and select **Confirm Deployment**
+
+### Launch Studio
+To launch Amplify Studio for your app, take the following steps:
+1. Log into the [AWS Amplify Console](https://console.aws.amazon.com/amplify/home)
+1. Select your app from the list of apps
+1. Select the **Backend environments** tab
+1. Select **Launch Studio**
+
+<Callout info>
+
+**Is your app missing from the list?** Make sure the correct region is selected in the upper right-hand corner
+
+</Callout>
+
+### Add Studio to an existing project
+If you have [created a new Amplify project through the CLI](/cli/start/workflows/#initialize-new-project), Studio will need to be activated before it can be launched. Use the following steps:
+1. Navigate to the [AWS Amplify Console]("https://console.aws.amazon.com/amplify/home")
+1. Select your app from the list of apps
+1. Select the **Backend environments** tab
+1. Select **Set up Amplify Studio**
+1. Toggle **Enable Amplify Studio** from Off to On
+1. After Studio has been successfully provisioned, navigate back your app's information page
+1. Select **Launch Studio** to open Studio in a new browser tab
+
 
 ## Next steps
 
 You are ready to start creating and managing your application's backend in Amplify Studio. Recommended next steps:
   * [Build a data model](/console/data/data-model)
   * [Create UI components in Figma](/console/uibuilder/figmatocode/)
+  * [Invite your team members to collaborate](access-management/)

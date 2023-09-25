@@ -31,7 +31,7 @@ Follow the [link](https://console.aws.amazon.com/sns/v3/home#/mobile/text-messag
 
 If you see the following banner at the top of your SNS homepage, you'll need to perform some additional steps before adding a phone number. If not, you can skip to **Verify a Phone Number**.
 
-![Origination Entity warning](/images/sns_origination_entity.png)
+![A warning stating that a valid origination ID must be registered to send SMS messages to US destinations.](/images/sns_origination_entity.png)
 
 Clicking **Manage origination entities** will bring you to Pinpoint, where you can register an [originating entity](https://docs.aws.amazon.com/sns/latest/dg/channels-sms-originating-identities.html). Depending on which country you'll be sending SMS messages from, you may choose to register either a **Sender ID** or an **Origination number**.
 
@@ -84,7 +84,7 @@ import all1 from "/src/fragments/lib/auth/common/sms/add_verification.mdx";
 
 <Fragments fragments={{all: all1}} />
 
-### MFA
+### SMS MFA
 
 import all2 from "/src/fragments/lib/auth/common/sms/add_mfa.mdx";
 
@@ -108,7 +108,7 @@ import all4 from "/src/fragments/lib/auth/common/sms/update_verification.mdx";
 
 <Fragments fragments={{all: all4}} />
 
-### MFA
+### SMS MFA
 
 import all5 from "/src/fragments/lib/auth/common/sms/update_mfa.mdx";
 
@@ -138,11 +138,28 @@ import flutter6 from "/src/fragments/lib/auth/flutter/sms/sign_up.mdx";
 
 <Fragments fragments={{flutter: flutter6}} />
 
+import iosSignUp from "/src/fragments/lib/auth/ios/sms/sign_up.mdx";
+
+<Fragments fragments={{ios: iosSignUp}} />
+
+import androidSignUp from "/src/fragments/lib/auth/android/sms/sign_up.mdx";
+
+<Fragments fragments={{android: androidSignUp}} />
+
+
 Verification of user accounts is done via the `confirmSignUp` method with the OTP sent to their phone or email.
 
 import flutter7 from "/src/fragments/lib/auth/flutter/sms/confirm_sign_up.mdx";
 
 <Fragments fragments={{flutter: flutter7}} />
+
+import iosConfirmSignUp from "/src/fragments/lib/auth/ios/sms/confirm_sign_up.mdx";
+
+<Fragments fragments={{ios: iosConfirmSignUp}} />
+
+import androidConfirmSignUp from "/src/fragments/lib/auth/android/sms/confirm_sign_up.mdx";
+
+<Fragments fragments={{android: androidConfirmSignUp}} />
 
 ## Sign In
 
@@ -152,8 +169,24 @@ import flutter8 from "/src/fragments/lib/auth/flutter/sms/sign_in.mdx";
 
 <Fragments fragments={{flutter: flutter8}} />
 
+import iosSignIn from "/src/fragments/lib/auth/ios/sms/sign_in.mdx";
+
+<Fragments fragments={{ios: iosSignIn}} />
+
+import androidSignIn from "/src/fragments/lib/auth/android/sms/sign_in.mdx";
+
+<Fragments fragments={{android: androidSignIn}} />
+
 If MFA is **ON** or enabled for the user, you must call `confirmSignIn` with the OTP sent to their phone.
 
 import flutter9 from "/src/fragments/lib/auth/flutter/sms/confirm_sign_in.mdx";
 
 <Fragments fragments={{flutter: flutter9}} />
+
+import iosConfirmSignIn from "/src/fragments/lib/auth/ios/sms/confirm_sign_in.mdx";
+
+<Fragments fragments={{ios: iosConfirmSignIn}} />
+
+import androidConfirmSignIn from "/src/fragments/lib/auth/android/sms/confirm_sign_in.mdx";
+
+<Fragments fragments={{android: androidConfirmSignIn}} />

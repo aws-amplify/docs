@@ -18,7 +18,7 @@ type Post @model {
 # New model
 type Comment @model {
   id: ID!
-  postID: ID! @index(name: "byPost", sortKeyFields: ["content"])
+  postID: ID! @index(name: "byPost")
   post: Post! @belongsTo(fields: ["postID"])
   content: String!
 }
@@ -26,6 +26,6 @@ type Comment @model {
 
 After that, regenerate the models with the following console command:
 
-```console
+```bash
 amplify codegen models
 ```

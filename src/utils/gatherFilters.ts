@@ -1,4 +1,4 @@
-import {filterOptionsByName} from "./filter-data";
+import { filterOptionsByName } from './filter-data';
 
 export function gatherAllFilters(tree, filterKind): string[] {
   const filters = gatherFilters(tree);
@@ -10,7 +10,7 @@ export function gatherAllFilters(tree, filterKind): string[] {
   }
   // if we have no filters in a category that supports filters, that also
   // indicates that all filters should be supported
-  if (filters.length === 0 && filterKind !== "") {
+  if (filters.length === 0 && filterKind !== '') {
     addFilters(filters, filterOptionsByName[filterKind]);
   }
   return filters;
@@ -24,10 +24,15 @@ const treeHasAgnosticContent = function(tree): boolean {
   }
 
   for (const node of tree) {
-    if (typeof node !== "object") continue;
-    if (!("props" in node)) continue;
-    if (!("mdxType" in node.props)) continue;
-    if (node.props.mdxType !== "Fragments") return true;
+    if (typeof node !== 'object') continue;
+    if (!('props' in node)) continue;
+    if (!('mdxType' in node.props)) continue;
+    if (
+      node.props.mdxType !== 'Fragments' &&
+      node.props.mdxType !== 'InlineFilter'
+    ) {
+      return true;
+    }
   }
   return false;
 };
@@ -45,21 +50,30 @@ function gatherFilters(tree): string[] {
 
   const filters = [];
   for (const node of tree) {
-    if (typeof node !== "object") continue;
-    if (!("props" in node)) continue;
+    if (typeof node !== 'object') continue;
+    if (!('props' in node)) continue;
 
-    if ("fragments" in node.props) {
+    if ('fragments' in node.props) {
       // Recurse on the fragment corresponding to this page's filterKey
       for (const filter in node.props.fragments) {
         const fragmentFunction = node.props.fragments[filter];
-        if (!filters.includes(filter) && filter !== "all") {
+        if (!filters.includes(filter) && filter !== 'all') {
           filters.push(filter);
         }
         const fragment = fragmentFunction([]); // expand function into full tree
         const newFilters = gatherFilters(fragment);
         addFilters(filters, newFilters);
       }
-    } else if ("children" in node.props) {
+    } else if ('filters' in node.props) {
+      for (const filter in node.props.filters) {
+        const inlineFilter = node.props.filters[filter];
+        if (!filters.includes(inlineFilter)) {
+          filters.push(inlineFilter);
+        }
+        const newFilters = gatherFilters(inlineFilter);
+        addFilters(filters, newFilters);
+      }
+    } else if ('children' in node.props) {
       // Recurse on the children
       const newFilters = gatherFilters(node.props.children);
       addFilters(filters, newFilters);

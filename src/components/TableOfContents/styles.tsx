@@ -1,5 +1,28 @@
 import styled from '@emotion/styled';
+import { keyframes } from '@emotion/react';
 import { MQTablet, MQDesktop } from '../media';
+
+const slideIn = keyframes`
+  from {
+    left: -100vw;
+  }
+  to {
+    left: 0;
+  }
+`;
+
+const slideOut = keyframes`
+  from {
+    left: 0;
+  }
+  to {
+    left: -100vw;
+  }
+`;
+
+type ToggleProps = {
+  inView?: boolean;
+};
 
 export const TOCInnerStyle = styled.div`
   overflow: auto;
@@ -7,24 +30,64 @@ export const TOCInnerStyle = styled.div`
 `;
 
 export const TOCStyle = styled.div`
-  display: none;
-  flex-direction: column;
   padding: 2rem 0;
   font-size: 0.875rem;
-  min-width: 16.875rem;
-  position: sticky;
-  align-self: flex-start;
-  top: calc(3rem + var(--docs-dev-center-nav));
+  position: fixed;
+  top: calc(var(--docs-dev-center-nav));
+  z-index: 11;
+  width: 100vw;
+  height: 100%;
+  background: white;
   max-height: 100vh;
+  padding: 0 2.5rem;
+  left: -100vw;
+  transition: left 0.4s;
+  overflow: scroll;
 
-  ${MQTablet} {
-    &.more-width {
+  &.slideOut {
+    animation: ${slideOut} 0.4s ease-in-out;
+    animation-fill-mode: forwards;
+  }
+  &.slideIn {
+    animation: ${slideIn} 0.4s ease-in-out;
+    animation-fill-mode: forwards;
+  }
+
+  div.mobileHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 64px;
+    border-bottom: 2px solid #d1d5db;
+    margin-bottom: 35px;
+
+    h2 {
+      font-family: 'Amazon Ember';
+      font-style: normal;
+      font-weight: 800;
+      font-size: 16px;
+      line-height: 20px;
       display: flex;
+      align-items: center;
+      letter-spacing: -0.0008em;
+      margin: 0;
     }
   }
 
+  ${MQTablet} {
+    width: 16.875rem;
+  }
   ${MQDesktop} {
     display: flex;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 16.875rem;
+    position: sticky;
+    top: calc(3rem + var(--docs-dev-center-nav));
+    padding: 2rem 0;
+    z-index: 0;
+    overflow: unset;
   }
 
   a {
@@ -68,8 +131,8 @@ export const H3AnchorStyle = styled.div`
 `;
 
 export const HeaderStyle = styled.div`
-  padding-left: 1.5rem;
   padding-right: 1.5rem;
   padding-bottom: 0.5rem;
+  padding-left: 1.5rem;
   border-left: 0.05rem solid var(--border-color);
 `;

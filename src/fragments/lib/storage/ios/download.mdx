@@ -121,6 +121,22 @@ let url = try await Amplify.Storage.getURL(key: "ExampleKey")
 print("Completed: \(url)")
 ```
 
+When creating a downloadable URL, you can choose to check if the file exists by setting `validateObjectExistence` to
+`true` in `AWSStorageGetURLOptions`. If the file is inaccessible or does not exist, a `StorageError` is thrown.
+This allows you to check if an object exists during generating the presigned URL, which you can then use to download
+that object.
+
+```swift
+let url = try await Amplify.Storage.getURL(
+    key: "ExampleKey",
+    options: .init(
+        pluginOptions: AWSStorageGetURLOptions(
+            validateObjectExistence: true
+        )
+    )
+)
+```
+
 ## Cancel, Pause, Resume
 
 Calls to `downloadData` or `downloadFile` return a reference to the task that is actually performing the download.

@@ -1,15 +1,21 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import Menu from '../index';
-import directory from '../../../directory/directory';
+import directory from '../../../directory/directory.mjs';
 
 jest.mock('../RepoActions', () => () => <div>Repo Actions</div>);
 Object.defineProperty(window, 'matchMedia', {
-  value: () => {
-    return {
-      matches: true
-    };
-  }
+  writable: true,
+  value: jest.fn().mockImplementation((query) => ({
+    matches: true,
+    media: query,
+    onchange: null,
+    addListener: jest.fn(), // Deprecated
+    removeListener: jest.fn(), // Deprecated
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    dispatchEvent: jest.fn()
+  }))
 });
 
 const directoryKeys = Object.keys(directory);
@@ -25,6 +31,7 @@ describe('Menu', () => {
           filterKind={''}
           url={url}
           directoryPath={directoryKey}
+          buttonsRef
         />
       );
 

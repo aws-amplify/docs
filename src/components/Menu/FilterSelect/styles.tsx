@@ -1,4 +1,4 @@
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
 
 export const FilterSelectStyle = styled.div`
   position: relative;
@@ -11,7 +11,7 @@ export const FilterSelectStyle = styled.div`
     width: 100%;
   }
 
-  div > a {
+  div > .filter-row {
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -30,12 +30,14 @@ export const FilterSelectStyle = styled.div`
     }
   }
 
-  .unsupported > a {
+  .unsupported > .filter-row {
     background-color: var(--bg-color-hover);
     opacity: 0.5;
 
-    &:hover {
+    &:hover,
+    > span:hover {
       background-color: var(--bg-color-secondary);
+      cursor: not-allowed;
     }
   }
 `;
@@ -62,10 +64,10 @@ export const DropdownStyle = styled.div<DropdownProps>`
   box-shadow: rgba(0, 0, 0, 0.09) 0.3125rem 0.3125rem 0 -0.0625rem;
   width: 100%;
   z-index: 1;
-  div > a {
+  div > .filter-row {
     border: 0.0625rem solid var(--color-grey-md);
     border-top: 0;
   }
 
-  visibility: ${(props) => (props.shouldDisplay ? "visible" : "hidden")};
+  visibility: ${(props) => (props.shouldDisplay ? 'visible' : 'hidden')};
 `;

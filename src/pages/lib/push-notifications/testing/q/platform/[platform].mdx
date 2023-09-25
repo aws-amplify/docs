@@ -1,8 +1,15 @@
 export const meta = {
   title: `Testing`,
-  description: `Overview of testing your Push Notifications`
+  description: `Overview of testing your push notifications`
 };
 
-import reactnative0 from '/src/fragments/lib/push-notifications/js/testing.mdx';
+import commonRoute from '/src/fragments/lib/push-notifications/common/testing.mdx';
 
-<Fragments fragments={{ 'react-native': reactnative0 }} />
+<Fragments
+  fragments={{
+    android: commonRoute,
+    flutter: commonRoute,
+    ios: commonRoute,
+    'react-native': commonRoute
+  }}
+/>

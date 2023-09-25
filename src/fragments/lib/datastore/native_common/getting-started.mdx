@@ -64,7 +64,7 @@ import android9 from "/src/fragments/lib/datastore/native_common/setup-env-cli.m
 
 <Fragments fragments={{android: android9}} />
 
-import flutter10 from "/src/fragments/lib/datastore/native_common/setup-env.mdx";
+import flutter10 from "/src/fragments/lib/datastore/native_common/setup-env-cli.mdx";
 
 <Fragments fragments={{flutter: flutter10}} />
 
@@ -99,29 +99,12 @@ enum PostStatus {
 
 Now you will to convert the platform-agnostic `schema.graphql` into platform-specific data structures. DataStore relies on code generation to guarantee schemas are correctly converted to platform code.
 
-Like the initial setup, models can be generated either using the IDE integration or Amplify CLI directly.
+import codegenPlatformIntegration from "/src/fragments/lib/datastore/native_common/codegen-platform-integration.mdx";
 
-### Code generation: Platform integration
-
-import js11 from "/src/fragments/lib/datastore/js/getting-started/40_codegen.mdx";
-
-<Fragments fragments={{js: js11}} />
-
-import reactnative2 from "/src/fragments/lib/datastore/js/getting-started/40_codegen.mdx";
-
-<Fragments fragments={{'react-native': reactnative2}} />
-
-import ios12 from "/src/fragments/lib/datastore/ios/getting-started/40_codegen.mdx";
-
-<Fragments fragments={{ios: ios12}} />
-
-import android13 from "/src/fragments/lib/datastore/android/getting-started/40_codegen.mdx";
-
-<Fragments fragments={{android: android13}} />
-
-import flutter14 from "/src/fragments/lib/datastore/flutter/getting-started/40_codegen.mdx";
-
-<Fragments fragments={{flutter: flutter14}} />
+<Fragments fragments={{js: codegenPlatformIntegration}} />
+<Fragments fragments={{'react-native': codegenPlatformIntegration}} />
+<Fragments fragments={{ios: codegenPlatformIntegration}} />
+<Fragments fragments={{android: codegenPlatformIntegration}} />
 
 ### Code generation: Amplify CLI
 
@@ -163,7 +146,7 @@ import android21 from "/src/fragments/lib/datastore/android/getting-started/60_i
 
 <Fragments fragments={{android: android21}} />
 
-import flutter22 from "/src/fragments/lib/datastore/flutter/getting-started/60_initDataStore.mdx";
+import flutter22 from "/src/fragments/lib/datastore/flutter/getting-started/50_initDataStore.mdx";
 
 <Fragments fragments={{flutter: flutter22}} />
 
@@ -193,7 +176,7 @@ import android25 from "/src/fragments/lib/datastore/android/getting-started/70_s
 
 <Fragments fragments={{android: android25}} />
 
-import flutter26 from "/src/fragments/lib/datastore/flutter/getting-started/80_saveSnippet.mdx";
+import flutter26 from "/src/fragments/lib/datastore/flutter/getting-started/60_saveSnippet.mdx";
 
 <Fragments fragments={{flutter: flutter26}} />
 

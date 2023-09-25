@@ -1,0 +1,47 @@
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.verifyTOTPSetup(
+    totpCodeFromAuthenticatorApp,
+    () ->Log.d("AuthQuickstart","TOTP Verification Succeeded"),
+    error -> Log.e("AuthQuickstart", error.toString())
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.verifyTOTPSetup(
+    totpCodeFromAuthenticatorApp,
+    { Log.d("AuthQuickstart", "TOTP Verification Succeeded") },
+    { Log.e("AuthQuickstart", "Failed to verifyTOTPSetup", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    Amplify.Auth.verifyTOTPSetup(totpCodeFromAuthenticatorApp)
+    Log.d("AuthQuickstart", "TOTP Verification Succeeded")
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Failed to verify", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.verifyTOTPSetup(totpCodeFromAuthenticatorApp)
+    .subscribe(
+        result -> Log.d("AuthQuickstart","TOTP Verification Succeeded"),
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+```
+
+</Block>
+</BlockSwitcher>

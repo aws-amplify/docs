@@ -49,3 +49,18 @@ python3 ddb_to_es.py \
 ## Index with multiple sort key fields
 
 When you add an `@index` directive with 2 or more sort key fields, you will need to backfill the new composite sort key for existing data. With `@index(sortKeyFields: ["status", "date"])`, you will need to backfill the `status#date` field with composite key values made up of each object's `status` and `date` fields joined by a `#`. You do not need to backfill data for `@index` directives with zero to one sort key field(s).
+
+## Maximum Global Secondary Index limit for DynamoDB table exceeded
+
+If you have increased the [soft limit of GSI per table](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ServiceQuotas.html) in DynamoDB beyond 20, then iterative deployments will fail with the following warning. 
+
+```console
+DynamoDB <Table Name> can have max of 20 GSIs.
+To disable this check, use the --disable-gsi-limit-check option.
+```
+
+In order to disable this behavior, update your deploy scripts or ci commands to include the `--disable-gsi-limit-check` option to circumvent this validation during pushes.
+
+```bash
+amplify push --disable-gsi-limit-check
+```

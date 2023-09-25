@@ -70,7 +70,7 @@ Upon deployment, the Amplify-generated CloudFormation templates provision an App
 
 #### Scenario 1: "amplify push" fails after manually updating DynamoDB tables and GSIs from the console.
 Assume you have an application with a GraphQL schema deployed to the cloud.
-Amplify creates DynamoDB tables for all [@model]((/cli/graphql/data-modeling/)) types and GSIs for all [@index]((/cli/graphql/data-modeling/)) fields in the GraphQL schema.
+Amplify creates DynamoDB tables for all [@model](/cli/graphql/data-modeling/) types and GSIs for all [@index](/cli/graphql/data-modeling/) fields in the GraphQL schema.
 "Drift" is introduced if you delete any of the GSIs using the DynamoDB console, instead of using the Amplify CLI.
 With drift, future changes to the GraphQL schema may fail to deploy.
 As an example, if you change the names of some `@model` types and `@index` fields in your GraphQL schema and perform the `amplify push --allow-destructive-graphql-schema-updates` command, Amplify will first remove all DynamoDB tables corresponding to the original model names.
@@ -151,8 +151,8 @@ To debug any issues related to secrets not being correctly copied across environ
 "Cannot exceed quota for PoliciesPerRole"
 </Callout>
 
-AWS maintains [service quotas](/general/latest/gr/aws-service-information.html) for various AWS services. If your application contains many resources, such as large GraphQL schemas with many resolvers or many REST APIs, you may hit a service limit.
-To identify if exceeding an [AWS Service level quotas](/general/latest/gr/aws-service-information.html) caused a deployment failure, check the AWS console for the CloudFormation deployment/failure logs.
+AWS maintains [service quotas](https://docs.aws.amazon.com/general/latest/gr/aws-service-information.html) for various AWS services. If your application contains many resources, such as large GraphQL schemas with many resolvers or many REST APIs, you may hit a service limit.
+To identify if exceeding an [AWS Service level quotas](https://docs.aws.amazon.com/general/latest/gr/aws-service-information.html) caused a deployment failure, check the AWS console for the CloudFormation deployment/failure logs.
 
 **Suggested Resolution:**
 1. If your application's resource requirements are impaired by AWS service quotas, you can use the [AWS Service Quotas console](https://console.aws.amazon.com/servicequotas) to view and request increases for most AWS quotas.
@@ -209,6 +209,25 @@ If `amplify push` fails while deploying any of the scenarios below, refer to the
 1.	[Backfill OpenSearch index from DynamoDB table](/cli/graphql/troubleshooting/#deploying-multiple-index-changes-at-once)
 1.	[Index with Multi-Sort Key Fields](/cli/graphql/troubleshooting/#index-with-multiple-sort-key-fields)
 
+## Troubleshooting "amplify pull" failures
+
+### Pull failures with large number of UI components
+<Callout information>
+
+**Errors:**
+
+"⠋ Generating UI components...🛑 Codegen job never succeeded before timeout"
+"✖ Failed to sync UI components"
+</Callout>
+
+Starting with v12.2.0, Amplify CLI has introduced a configurable timeout for generating UI components during `amplify pull`. By default this timeout is set to 2 minutes, however you can increase the timeout using the `UI_BUILDER_CODEGENJOB_TIMEOUT` environment variable.
+
+For example, if you'd like to increase the timeout to 5 minutes (i.e. 300000ms)
+```bash
+export UI_BUILDER_CODEGENJOB_TIMEOUT=300000 
+amplify pull
+```
+
 ## Deployment Best Practices
 This section describes the various best practices which help developers avoid deployment errors and scaling problems in their Amplify projects.
 
@@ -234,6 +253,12 @@ Amplify currently doesn't support automatic data migration. If the data in the o
 ### Migration from GraphQL transformer V1 to V2
 If you have previously deployed an application using GraphQL transformer V1 and have decided to migrate to GraphQL transformer V2, go through the [GraphQL transformer migration documentation](/cli/migration/transformer-migration/#changes-that-amplify-cli-will-auto-migrate-for-you) to understand the impact of the migration on the schema directives and limitations prior to updating.
 You can confirm the version of the GraphQL transformer using the `amplify status` command. You can also inspect the `transformerversion` feature flag in `${project-root}/amplify/cli.json`, to confirm.
+
+### Version 11 migration from AWS CDK V1 to V2
+If the Amplify project has been deployed with an Amplify CLI version prior to 11.0.0 that utilizes overrides or custom resources, go through the [AWS CDK migration documentation](/cli/migration/aws-cdk-migration/).
+If the problem persists, [create an issue](https://github.com/aws-amplify/amplify-cli/issues/new?assignees=&labels=pending-triage&template=1.bug_report.yaml)
+
+[Learn more about migrating to CDK v2](https://docs.aws.amazon.com/cdk/v2/guide/migrating-v2.html)
 
 ### Local testing
 Test schema changes and business logic as much as you can prior to deployment. The `amplify mock` command allows validation of your cloud dependencies locally. Follow the mock testing examples in [Advanced workflows documentation](/cli/usage/mock/) to dive deeper.

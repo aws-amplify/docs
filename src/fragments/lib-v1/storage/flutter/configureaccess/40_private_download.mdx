@@ -1,0 +1,19 @@
+```dart
+Future<void> downloadPrivateFile(String cognitoIdentityId) async {
+  ...
+  final downloadOptions = S3DownloadFileOptions(
+    // Add the private access level
+    accessLevel: StorageAccessLevel.private
+    ...
+  );
+
+  try {
+    await Amplify.Storage.downloadFile(
+      ...
+      // Be sure to use the correct options
+      options: downloadOptions,
+    );
+    ...
+  }...
+}
+```
