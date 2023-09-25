@@ -10,7 +10,7 @@ import guide from "/src/fragments/common/guide-header.mdx";
 In this guide, you will connect your application code to the backend API using the Amplify Libraries. We will review how to install and configure Amplify Libraries.
 
 Before you begin, you will need:
-- An GraphQL API already set up either via the [Amplify CLI](TK), [AWS CDK using the Amplify GraphQL API construct](TK), or directly via the underlying [AWS AppSync service](https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html).
+- An GraphQL API already set up either via the [Amplify CLI](/lib/graphqlapi/getting-started/), or directly via the underlying [AWS AppSync service](https://docs.aws.amazon.com/appsync/latest/devguide/designing-a-graphql-api.html).
 - A frontend application set up. For instructions on setting up an app, see [Project Setup: Create your application](https://docs.amplify.aws/lib/project-setup/create-application/q/platform/js/)
 - [npm installed](https://docs.npmjs.com/getting-started)
 
@@ -125,8 +125,6 @@ Amplify.configure({
 ```
 </Block>
 <Block name="OpenID Connect (OIDC)">
-
-[TK add context on]  // Before calling API.graphql(...) is required to do Auth.federatedSignIn(...) check authentication guide for details.
 
 ```ts
 import { Amplify } from 'aws-amplify'
