@@ -98,26 +98,6 @@ deleteSub.unsubscribe();
 </Block>
 </BlockSwitcher>
 
-When using **AWS AppSync** subscriptions, be sure that your AWS AppSync configuration is at the root of the configuration object, instead of being under the API:
-
-```javascript
-Amplify.configure({
-  Auth: {
-    identityPoolId: 'xxx',
-    region: 'xxx',
-    cookieStorage: {
-      domain: 'xxx',
-      path: 'xxx',
-      secure: true
-    }
-  },
-  aws_appsync_graphqlEndpoint: 'xxxx',
-  aws_appsync_region: 'xxxx',
-  aws_appsync_authenticationType: 'xxxx',
-  aws_appsync_apiKey: 'xxxx'
-});
-```
-
 ## Filter real-time subscriptions server-side
 
 Subscriptions take an optional `filter` argument to define service-side subscription filters:
@@ -170,7 +150,7 @@ const sub = API.graphql(
 </Block>
 </BlockSwitcher>
 
-If you want to get all subscription events, don’t pass any `filter` parameters.
+If you want to get all subscription events, don't pass any `filter` parameters.
 
 <Callout>
 
@@ -200,7 +180,7 @@ Hub.listen('api', (data: any) => {
 });
 ```
 
-#### Connection states
+#### Subscription connection states
 
 - **`Connected`** - Connected and working with no issues.
 - **`ConnectedPendingDisconnect`** - The connection has no active subscriptions and is disconnecting.
@@ -338,21 +318,17 @@ const cleanupSubscriptions = () => {
 
 <Accordion title='Create a custom GraphQL subscription by ID' headingLevel='4' eyebrow='Walkthrough'>
 
-This brief walkthrough provides additional step-by-step guidance for creating a custom GraphQL subscription that will only be connected and triggered by a mutation containing a specific ID as an argument.
-
-When using the Amplify GraphQL transform library, there will often be times when you need to expand the GraphQL schema and operations created by the `@model` directive. A common use case is when fine grained control is needed for GraphQL subscriptions.
-
-Take for example the following GraphQL schema:
+This brief walkthrough provides additional step-by-step guidance for creating a custom GraphQL subscription that will only be connected and triggered by a mutation containing a specific ID as an argument. Take for example the following GraphQL schema:
 
 ```graphql
-type Post @model @auth(rules: [{ allow: public, provider: apiKey }]){
+type Post @model @auth(rules: [{ allow: public }]){
   id: ID!
   title: String!
   content: String
   comments: [Comment] @hasMany
 }
 
-type Comment @model @auth(rules: [{ allow: public, provider: apiKey }]){
+type Comment @model @auth(rules: [{ allow: public }]){
   id: ID!
   content: String
 }
@@ -374,19 +350,19 @@ onDeleteComment
 
 One operation that is not covered is if you wanted to only subscribe to comments for a specific post.
 
-Because the schema has a one to many relationship enabled between posts and comments, you can use the auto-generated field `postCommentsId` that defines the relationship between the post and the comment to set this up in a new Subscription definition.
+Because the schema has a one-to-many relationship enabled between posts and comments, you can use the auto-generated field `postCommentsId` that defines the relationship between the post and the comment to set this up in a new Subscription definition.
 
 To implement this, you could update the schema with the following:
 
 ```graphql
-type Post @model @auth(rules: [{ allow: public, provider: apiKey }]){
+type Post @model @auth(rules: [{ allow: public }]){
   id: ID!
   title: String!
   content: String
   comments: [Comment] @hasMany
 }
 
-type Comment @model @auth(rules: [{ allow: public, provider: apiKey }]){
+type Comment @model @auth(rules: [{ allow: public }]){
   id: ID!
   content: String
   postCommentsId: ID!
