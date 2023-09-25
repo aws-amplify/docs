@@ -247,7 +247,7 @@ To use the generated GraphQL code, import them into your codebase and pass them 
 <Block name="TypeScript">
 
 ```ts
-import { API, graphqlOperation } from 'aws-amplify';
+import { API } from 'aws-amplify';
 import { createTodo, updateTodo, deleteTodo } from './graphql/mutations';
 import { GraphQLQuery } from '@aws-amplify/api';
 import { CreateTodoInput, CreateTodoMutation, UpdateTodoMutation, DeleteTodoMutation } from './API';
@@ -255,32 +255,72 @@ import { CreateTodoInput, CreateTodoMutation, UpdateTodoMutation, DeleteTodoMuta
 const todo: CreateTodoInput = { name: "My first todo", description: "Hello world!" };
 
 /* create a todo */
-await API.graphql<GraphQLQuery<CreateTodoMutation>>(graphqlOperation(createTodo, {input: todo}));
+await API.graphql<GraphQLQuery<CreateTodoMutation>>({
+  query: createTodo,
+  variables: {
+    input: todo
+  }
+});
 
 /* update a todo */
-await API.graphql<GraphQLQuery<UpdateTodoMutation>>(graphqlOperation(updateTodo, { input: { id: todoId, name: "Updated todo info" }}));
+await API.graphql<GraphQLQuery<UpdateTodoMutation>>({
+  query: updateTodo,
+  variables: {
+    input: {
+      id: "ENTER_TODO_ID_HERE",
+      name: "Updated todo info"
+    }
+  }
+});
 
 /* delete a todo */
-await API.graphql<GraphQLQuery<DeleteTodoMutation>>(graphqlOperation(deleteTodo, { input: { id: todoId }}));
+await API.graphql<GraphQLQuery<DeleteTodoMutation>>({
+  query: deleteTodo,
+  variables: {
+    input: {
+      id: "ENTER_TODO_ID_HERE"
+    }
+  }
+});
 ```
 
 </Block>
 <Block name="JavaScript">
 
 ```js
-import { API, graphqlOperation } from 'aws-amplify';
+import { API } from 'aws-amplify';
 import { createTodo, updateTodo, deleteTodo } from './graphql/mutations';
 
 const todo = { name: "My first todo", description: "Hello world!" };
 
 /* create a todo */
-await API.graphql(graphqlOperation(createTodo, {input: todo}));
+await API.graphql({
+  query: createTodo,
+  variables: {
+    input: todo
+  }
+});
 
 /* update a todo */
-await API.graphql(graphqlOperation(updateTodo, { input: { id: todoId, name: "Updated todo info" }}));
+await API.graphql({
+  query: updateTodo,
+  variables: {
+    input: {
+      id: "ENTER_TODO_ID_HERE",
+      name: "Updated todo info"
+    }
+  }
+});
 
 /* delete a todo */
-await API.graphql(graphqlOperation(deleteTodo, { input: { id: todoId }}));
+await API.graphql({
+  query: deleteTodo,
+  variables: {
+    input: {
+      id: "ENTER_TODO_ID_HERE"
+    }
+  }
+});
 ```
 
 </Block>
@@ -292,12 +332,12 @@ await API.graphql(graphqlOperation(deleteTodo, { input: { id: todoId }}));
 <Block name="TypeScript">
 
 ```ts
-import { API, graphqlOperation } from 'aws-amplify';
+import { API } from 'aws-amplify';
 import { GraphQLQuery } from '@aws-amplify/api';
 import { listTodos } from './graphql/queries';
 import { ListTodosQuery } from './API';
 
-const todos = await API.graphql<GraphQLQuery<ListTodosQuery>>(graphqlOperation(listTodos));
+const todos = await API.graphql<GraphQLQuery<ListTodosQuery>>({ query: listTodos });
 ```
 
 </Block>
@@ -306,10 +346,10 @@ const todos = await API.graphql<GraphQLQuery<ListTodosQuery>>(graphqlOperation(l
 <Block name="JavaScript">
 
 ```js
-import { API, graphqlOperation } from 'aws-amplify';
+import { API } from 'aws-amplify';
 import { listTodos } from './graphql/queries';
 
-const todos = await API.graphql(graphqlOperation(listTodos));
+const todos = await API.graphql({ query: listTodos });
 ```
 
 </Block>
