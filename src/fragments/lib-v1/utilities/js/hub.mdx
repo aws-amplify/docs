@@ -23,17 +23,17 @@ A channel is a logical group name that you use to organize messages and listen o
 import { Hub } from 'aws-amplify/utils';
 
 class MyClass {
-    constructor() {
-        Hub.listen('auth', (data) => {
-            const { payload } = data;
-            this.onAuthEvent(payload);           
-            console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event);
-        })
-    }
+  constructor() {
+    Hub.listen('auth', (data) => {
+      const { payload } = data;
+      this.onAuthEvent(payload);           
+      console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event);
+    })
+  }
 
-    onAuthEvent(payload) {
-        // ... your implementation
-    }
+  onAuthEvent(payload) {
+    // ... your implementation
+  }
 }
 ```
 
@@ -42,32 +42,33 @@ class MyClass {
 Sending events to different channels is done with the `dispatch` function:
 ```javascript
 Hub.dispatch(
-    'DogsChannel', 
-    { 
-        event: 'buttonClick', 
-        data: {color:'blue'}, 
-        message:'' 
+  'DogsChannel', 
+  { 
+    event: 'buttonClick', 
+    data: {color:'blue'}, 
+    message:'' 
 });
 
 setTimeout(() => {
   Hub.dispatch(
-      'CatsChannel', 
-      { 
-            event: 'drinkMilk', 
-            data: { 
-                breed: 'Persian',
-                age: 5
-            },
-            message: `The cat ${cat.name} has finished her milk`
-        });
+    'CatsChannel', 
+    { 
+      event: 'drinkMilk', 
+      data: { 
+        breed: 'Persian',
+        age: 5
+      },
+      message: `The cat ${cat.name} has finished her milk`
+    }
+  );
 }, 5000)
 ```
 `Hub.dispatch(channel: string, payload: HubPayload)` can be used to dispatch a `HubPayload` to a `channel`. The `channel` is a logical grouping for your organization while the `HubPayload` is a type defined as:
 ```javascript
 export type HubPayload = {
-    event: string,
-    data?: any,
-    message?: string
+  event: string,
+  data?: any,
+  message?: string
 };
 ```
 
