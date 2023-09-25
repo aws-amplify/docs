@@ -6,17 +6,17 @@ The `uploadData` method uploads files into Amazon S3.
 import { uploadData } from 'aws-amplify/storage';
 
 try {
-	const result = await uploadData({
-		key: filename,
-		data: file,
-		options: {
-			accessLevel: 'guest', // defaults to `guest` but can be 'private' | 'protected' | 'guest'
-			onProgress, // Optional progress callback.
-		},
-	}).result;
-	console.log('Key from Response: ', result.key);
+  const result = await uploadData({
+    key: filename,
+    data: file,
+    options: {
+      accessLevel: 'guest', // defaults to `guest` but can be 'private' | 'protected' | 'guest'
+      onProgress, // Optional progress callback.
+    },
+  }).result;
+  console.log('Key from Response: ', result.key);
 } catch (error) {
-	console.log('Error : ', error);
+  console.log('Error : ', error);
 }
 ```
 
@@ -27,13 +27,13 @@ The `accessLevel` defaults to 'guest'
 import { uploadData } from 'aws-amplify/storage';
 
 try {
-	const result = await uploadData({
-		key: filename,
-		data: file,
-	}).result;
-	console.log('Key from Response: ', result.key);
+  const result = await uploadData({
+    key: filename,
+    data: file,
+  }).result;
+  console.log('Key from Response: ', result.key);
 } catch (error) {
-	console.log('Error : ', error);
+  console.log('Error : ', error);
 }
 ```
 
@@ -43,16 +43,16 @@ try {
 import { uploadData } from 'aws-amplify/storage';
 
 try {
-	const result = await uploadData({
-		key: filename,
-		data: file,
-		options: {
-			accessLevel: 'protected',
-		},
-	}).result;
-	console.log('Key from Response: ', result.key);
+  const result = await uploadData({
+    key: filename,
+    data: file,
+    options: {
+      accessLevel: 'protected',
+    },
+  }).result;
+  console.log('Key from Response: ', result.key);
 } catch (error) {
-	console.log('Error : ', error);
+  console.log('Error : ', error);
 }
 ```
 
@@ -63,16 +63,16 @@ try {
 import { uploadData } from 'aws-amplify/storage';
 
 try {
-	const result = await uploadData({
-		key: filename,
-		data: file,
-		options: {
-			accessLevel: 'private'
-		},
-	}).result;
-	console.log('Key from Response: ', result.key);
+  const result = await uploadData({
+    key: filename,
+    data: file,
+    options: {
+      accessLevel: 'private'
+    },
+  }).result;
+  console.log('Key from Response: ', result.key);
 } catch (error) {
-	console.log('Error : ', error);
+  console.log('Error : ', error);
 }
 ```
 
@@ -84,7 +84,7 @@ To track the progress of your upload, you can use the `onProgress` in options:
 import { uploadData } from 'aws-amplify/storage';
 
 try {
-	const result = uploadData({
+  const result = uploadData({
     key: filename,
     data: file,
     options: {
@@ -99,7 +99,7 @@ try {
   }).result;
   console.log('Key from Response: ', result.key);
 } catch (error) {
-	console.log('Error : ', error);
+  console.log('Error : ', error);
 }
 ```
 
@@ -129,11 +129,11 @@ const uploadTask = uploadData({ key, data: file });
 //...
 uploadTask.cancel();
 try {
-	await uploadTask.result;
+  await uploadTask.result;
 } catch (error) {
-	if (isCancelError(error)) {
-		// Handle error thrown by task cancellation
-	}
+  if (isCancelError(error)) {
+    // Handle error thrown by task cancellation
+  }
 }
 
 ```
@@ -143,13 +143,17 @@ Other options available are:
 ```javascript
 import { uploadData } from 'aws-amplify/storage'; 
 
-uploadData({ key, data: file, options:  {
-  contentType?: "text/html", // (String) The default content-type header value of the file when downloading it.
-  contentEncoding?: "compress" // (String) The default content-encoding header value of the file when downloading it.
-  contentDisposition?: "attachment", // (String) Specifies presentational information for the object
-  metadata?: {key: "value"}, // (map<String>) A map of metadata to store with the object in S3.
-  useAccelerateEndpoint?: boolean; // Whether to use accelerate endpoint.
-}});
+uploadData({ 
+  key, 
+  data: file, 
+  options:  {
+    contentType?: "text/html", // (String) The default content-type header value of the file when downloading it.
+    contentEncoding?: "compress" // (String) The default content-encoding header value of the file when downloading it.
+    contentDisposition?: "attachment", // (String) Specifies presentational information for the object
+    metadata?: {key: "value"}, // (map<String>) A map of metadata to store with the object in S3.
+    useAccelerateEndpoint?: boolean; // Whether to use accelerate endpoint.
+  }
+});
 
 ```
 
@@ -186,8 +190,8 @@ const uploadDataInBrowser = async () => {
 
 <h2>Upload File</h2>
 <input
-	type="file"
-	onChange={() => uploadDataInBrowser(event)}
+  type="file"
+  onChange={() => uploadDataInBrowser(event)}
 />
 ```
 

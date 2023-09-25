@@ -8,13 +8,14 @@ Get a presigned URL of a stored file and expiration of URL. You can specify [acc
 import { getUrl } from 'aws-amplify/storage';
 
 const getUrlResult = await getUrl({
-    key: filename,
-    options: { accessLevel?: 'guest' , // can be 'private' | 'protected' | 'guest' but defaults to `guest` 
-    targetIdentityId?: 'XXXXXXX', // id of another user, if `level: protected`
+  key: filename,
+  options: { 
+    accessLevel?: 'guest' , // can be 'private', 'protected', or 'guest' but defaults to `guest`
+    targetIdentityId?: 'XXXXXXX', // id of another user, if `accessLevel` is `guest`
     validateObjectExistence?: false,  // defaults to false
     expiresIn?: 20 // validity of the URL, in seconds. defaults to 900 (15 minutes) and maxes at 3600 (1 hour)
     useAccelerateEndpoint?: true; // Whether to use accelerate endpoint.
-    },
+  },
 });
 ```
 
@@ -43,10 +44,10 @@ import { getUrl } from 'aws-amplify/storage';
 
 // To check for existence of a file
 await getUrl({
-	key: filename,
-	options: {
-		validateObjectExistence: true, // defaults to false
-	},
+  key: filename,
+  options: {
+    validateObjectExistence: true, // defaults to false
+  },
 });
 
 ```
@@ -71,35 +72,35 @@ import { downloadData } from 'aws-amplify/storage';
 
 // Download a file from s3 bucket
 const { body, eTag } = await downloadData({
-	key,
-	data: file,
-	options: {
-		accessLevel: 'guest', // can be 'private' | 'protected' | 'guest'
-		targetIdentityId: 'xxxxxxx', // id of another user, if `level: protected`
-		onProgress, // Optional progress callback.
-	},
+  key,
+  data: file,
+  options: {
+    accessLevel: 'guest', // can be 'private' | 'protected' | 'guest'
+    targetIdentityId: 'xxxxxxx', // id of another user, if `level: protected`
+    onProgress, // Optional progress callback.
+  },
 }).result;
  ```
  
 ### Get the text value of downloaded File
-we can get  the value of file in any of the three 'blob' | 'json' | 'text' formats. Replaces the respective method to get respective value.
+we can get  the value of file in any of the three formats: 'blob', 'json', or 'text'. Replaces the respective method to get respective value.
 
 ```javascript
 import { downloadData } from 'aws-amplify/storage';
 
 try {
-	const downloadResult: { body: Pick<Body, 'blob' | 'json' | 'text'> } 
-	= await downloadData({ key: filename }).result;
-	if (downloadResult?.body?.text)
-		downloadResult?.body
-			?.text()
-			.then((result) => console.log(result));
+  const downloadResult: { body: Pick<Body, 'blob' | 'json' | 'text'> } 
+  = await downloadData({ key: filename }).result;
+  if (downloadResult?.body?.text)
+    downloadResult?.body
+      ?.text()
+      .then((result) => console.log(result));
 } catch (error) {
-	console.log('Error : ', error)
+  console.log('Error : ', error)
 }
 ```
 
-To track the progress of your download, you can use `progressCallback`:
+To track the progress of your download, you can use `onProgress`:
 
 ```javascript
 import { downloadData } from 'aws-amplify/storage';
@@ -125,45 +126,18 @@ import { downloadData } from 'aws-amplify/storage';
 const downloadTask = downloadData({ key, data: file });
 downloadTask.cancel();
 try {
-	await downloadTask.result;
+  await downloadTask.result;
 } catch (error) {
-	if (isCancelError(error)) {
-		// Handle error thrown by task cancellation.
-	}
+  if (isCancelError(error)) {
+    // Handle error thrown by task cancellation.
+  }
 }
 ```
 
 <Callout>
-To get the metadata in result for all read apis we have to configure user defined metadata in CORS
+To get the metadata in result for all APIs you have to configure user defined metadata in CORS.
 
-Update your bucket's CORS Policy to look like:
-
-```json
-[
-  {
-    "AllowedHeaders": [
-      "*"
-    ],
-    "AllowedMethods": [
-      "GET",
-      "HEAD",
-      "PUT",
-      "POST",
-      "DELETE"
-    ],
-    "AllowedOrigins": [
-      "*"
-    ],
-    "ExposeHeaders": [
-      "x-amz-server-side-encryption",
-      "x-amz-request-id",
-      "x-amz-id-2",
-      "ETag",
-      "x-amz-meta-test-key" // user defined metaData
-     ],
-  }
-]
-```
+Learn more about how to setup an appropriate [CORS Policy](https://docs.amplify.aws/lib-v1/storage/getting-started/q/platform/js/#amazon-s3-bucket-cors-policy-setup).
 </Callout>
 
 

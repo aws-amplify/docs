@@ -13,21 +13,21 @@ To copy a file, you need to provide a source key in `source` and a destination k
 import { copy } from 'aws-amplify/storage';
 
 const copyFile = async () => {
-	try {
-		const response = copy({
-			source: { 
-				key: 'srcKey',
-				accessLevel: 'private' // optional 'guest', 'private', or 'protected'. Defaults to 'guest'.
-				targetIdentityId: 'targetIdentityId' // optional, set it to other user's identity ID if copy from other user
-			},
-			destination: { 
-				key: 'destKey',
-				accessLevel: 'private' // optional 'guest', 'private', or 'protected'. Defaults to 'guest'.
-			},
-		});
-	} catch (error) {
-		console.error('Error', err);
-	}
+  try {
+    const response = await copy({
+      source: { 
+        key: 'srcKey',
+        accessLevel: 'private' // optional 'guest', 'private', or 'protected'. Defaults to 'guest'.
+        targetIdentityId: 'targetIdentityId' // optional, set it to other user's identity ID if copy from other user
+      },
+      destination: { 
+        key: 'destKey',
+        accessLevel: 'private' // optional 'guest', 'private', or 'protected'. Defaults to 'guest'.
+      },
+    });
+  } catch (error) {
+    console.error('Error', err);
+  }
 };
 ```
 
@@ -38,13 +38,14 @@ You can copy a file from the specified key to another key within the same [File 
 ```javascript
 import { copy, list } from 'aws-amplify/storage';
 
-console.log(await list({ prefix : 'copied/' })); // []
-
 // Copies 'existing/srcKey' to 'copied/destKey' within the 'guest' access level
-const copied = await copy({ { source: { key : 'existing/srcKey' } }, { destination: { key : 'copied/destKey' } } });
+const copied = await copy({
+  source: { key : 'existing/srcKey' },
+  destination: { key : 'copied/destKey' }
+});
 
 // There should now be a new file with key "copied/destKey"
-console.log(list({ prefix : 'copied/' })); // [ { ..., key: 'copied/destKey' } ]
+console.log((await list({ prefix : 'copied/' })).items); // [ { ..., key: 'copied/destKey' } ]
 console.log(copied); // { key: 'copied/destKey' }
 ```
 
@@ -55,23 +56,19 @@ To copy a file from or to an access level other than default 'guest', you'll nee
 ```javascript
 import { copy, list } from 'aws-amplify/storage';
 
-console.log(
-	await list({ prefix: 'copied/', options: { accessLevel: 'private' } })
-); // []
-
 // Copies 'existing/srcKey' to 'copied/destKey' from 'guest' to 'private'
 const copied = await copy({
-	source: {
-		key: 'existing/srcKey',
-	},
-	destination: {
-		key: 'copied/destKey',
-		accessLevel: 'private',
-	},
+  source: {
+    key: 'existing/srcKey',
+  },
+  destination: {
+    key: 'copied/destKey',
+    accessLevel: 'private',
+  },
 });
 
 // There should now be a new file with key "copied/destKey" in the 'private' level
-console.log(await list({ prefix : 'copied/', options: { accessLevel: 'private' }})); // [ { ..., key: 'copied/destKey' } ]
+console.log((await list({ prefix : 'copied/', options: { accessLevel: 'private' }})).items); // [ { ..., key: 'copied/destKey' } ]
 console.log(copied); // { key: 'copied/destKey' }
 ```
 
@@ -82,34 +79,30 @@ You can also copy a protected file from another user by providing their identity
 ```javascript
 import { copy, list } from 'aws-amplify/storage';
 
-console.log(
-	await list({ prefix: 'copied/', options: { accessLevel: 'private' } })
-); // []
-
 // Copies 'existing/srcKey' to 'copied/destKey' from 'protected' of another identity ID to 'private' of the current
 // authenticated user
 
 const copied = await copy({
-	source: {
-		key: 'existing/srcKey',
-		accessLevel: 'protected',
-		targetIdentityId: 'identityId',
-	},
-	destination: {
-		key: 'copied/destKey',
-		accessLevel: 'private',
-	},
+  source: {
+    key: 'existing/srcKey',
+    accessLevel: 'protected',
+    targetIdentityId: 'identityId',
+  },
+  destination: {
+    key: 'copied/destKey',
+    accessLevel: 'private',
+  },
 });
 
 // There should now be a new file with key "copied/destKey"
-console.log(await list({ prefix : 'copied/', options: { accessLevel: 'private' }})); // [..., key: 'copied/destKey']
+console.log((await list({ prefix : 'copied/', options: { accessLevel: 'private' }})).items); // [..., key: 'copied/destKey']
 console.log(copied); // { key: 'copied/destKey' }
 ```
 
 The format of the response will look similar to the below example 
 
 ```javascript 
-{ key:  'copied/destKey' }
+{ key: 'copied/destKey' }
 ```
 
 <Callout>
