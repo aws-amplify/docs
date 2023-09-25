@@ -53,8 +53,6 @@ import all1 from "/src/fragments/lib/auth/common/social_signin_web_ui/configure_
 
 After configuring the OAuth endpoints (Cognito Hosted UI), you can integrate your App by invoking `Auth.federatedSignIn()` function. Passing `LoginWithAmazon`, `Facebook`, `Google`, or `SignInWithApple` on the `provider` argument (e.g `Auth.federatedSignIn({ provider: 'LoginWithAmazon' })`) will bypass the Hosted UI and federate immediately with the social provider as shown in the below React Native example. If you are looking to add a custom state, you are able to do so by passing a string (e.g. `Auth.federatedSignIn({ customState: 'xyz' })`) value and listening for the custom state via Hub.
 
-<<<<<<< HEAD
-=======
 <BlockSwitcher>
 <Block name="TypeScript">
 
@@ -120,7 +118,6 @@ export default function App() {
 </Block>
 <Block name="JavaScript">
 
->>>>>>> dfea5a0c1d4ef80b1546a5726711aecf98ba2303
 ```javascript
 import { useEffect, useState } from "react";
 import { Text, View, Linking, Button } from "react-native";
@@ -172,11 +169,8 @@ export default function App() {
   );
 }
 ```
-<<<<<<< HEAD
-=======
 </Block>
 </BlockSwitcher>
->>>>>>> dfea5a0c1d4ef80b1546a5726711aecf98ba2303
 
 ### Deploying to Amplify Console
 
