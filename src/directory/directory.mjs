@@ -110,7 +110,7 @@ export const directory = {
           {
             title: 'Identify user',
             route: '/lib/analytics/identifyuser',
-            filters: ['android', 'flutter', 'ios', 'react-native', 'js']
+            filters: ['android', 'flutter', 'ios', 'react-native']
           },
           {
             title: 'Streaming analytics data',

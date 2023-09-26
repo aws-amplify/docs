@@ -1,8 +1,8 @@
-import React from "react";
-import styled from "@emotion/styled";
-import InternalLink from "../InternalLink";
+import React from 'react';
+import styled from '@emotion/styled';
+import InternalLink from '../InternalLink';
 
-import {MQFablet, MQDesktop} from "../media";
+import { MQFablet, MQDesktop } from '../media';
 
 type CardProps = {
   className?: string;
@@ -26,12 +26,13 @@ const docsCard: React.FC<CardProps> = ({
   children,
   className,
   href,
-  external,
+  external
 }) => {
+  const target = external ? '_blank' : undefined;
   if (!href) return <div className={className}>{children}</div>;
   return (
     <InternalLink href={href} passHref={true} legacyBehavior>
-      <Anchor>
+      <Anchor target={target}>
         {external && (
           <ExternalLinkGraphic
             src="/assets/external-link-black.svg"
