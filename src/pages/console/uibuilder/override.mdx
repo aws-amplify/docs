@@ -66,11 +66,18 @@ If you want to override a prop for a specific element within a collection item, 
 ```
 
 ### Nesting collections
-Component slots within collections allow you to render additional nested collections. For example, use nested collections to generate a collection of posts, each with its own collection of comments.  
 
-In this example, you have two collections: `AmpligramCollection` and `CommentViewCollection`.  These are bound to the `Post` and `Comment` data models, which have a [one-to-many relationship](/console/data/relationships/).  
+<Callout info>
 
-By nesting the `CommentViewCollection` within the `comment` component slot in the `AmpligramCollection`, and using the `overrideItems` prop, you can render each Post with its related Comments.
+**Note**: Studio supports nested collections with any GraphQL API created with Amplify, [with and without DataStore](/console/data/data-model/#datastore-and-graphql). However, these different data types have different syntax. 
+
+</Callout>
+
+Component slots within collections allow you to conditionally render additional nested collections. For example, use nested collections to generate a collection of posts, each with its own collection of related comments.  
+
+In this example, you have two collections: `AmpligramCollection`, which has a slot named `comments`, and `CommentViewCollection`.  These are bound to the `Post` and `Comment` data models, which have a [one-to-many relationship](/console/data/relationships/) - therefore, each record in the `Post` data model has a field named `Comments`, whose value is an array of `Comment` records. 
+
+First, nest the `CommentViewCollection` within the `comment` component slot in the `AmpligramCollection` by using the `overrideItems` functionality. This will render every item in the `CommentViewCollection` in each `Ampligram` slot. 
 
 ```jsx
 import { 
@@ -81,7 +88,46 @@ import {
 function App() {
   return (
     <AmpligramCollection overrideItems={({ item, index }) => ({
-      comments: <CommentViewCollection items={item.Comments} />
+      comments: <CommentViewCollection /> //Add the child collection to the "comments" slot
+    })} />
+  );
+}
+export default App;
+```
+
+Next, filter the `CommentViewCollection` to only include `Comment` records related to each `Ampligram`. To filter the `CommentViewCollection`, set the `items` prop equal to the array of `Comment` records. **This syntax varies based on whether you are using DataStore**. 
+
+**DataStore**
+
+```jsx
+import { 
+  AmpligramCollection, 
+  CommentViewCollection 
+} from './ui-components'
+
+function App() {
+  return (
+    <AmpligramCollection overrideItems={({ item, index }) => ({
+      /*Set the items in this collection to be only related items*/
+      comments: <CommentViewCollection items={item.Comments} /> 
+    })} />
+  );
+}
+export default App;
+```
+
+**GraphQL without DataStore**
+```jsx
+import { 
+  AmpligramCollection, 
+  CommentViewCollection 
+} from './ui-components'
+
+function App() {
+  return (
+    <AmpligramCollection overrideItems={({ item, index }) => ({
+      /*Set the items in this collection to be only related items*/
+      comments: <CommentViewCollection items={item.Comments.items} />
     })} />
   );
 }
@@ -89,7 +135,7 @@ export default App;
 ```
 
 ### Add business logic during or after action execution
-Use the Amplify Hub to listen to actions that are executed via [UI event handlers](/console/uibuilder/eventhandling) and then add your custom business logic.
+If your components are bound to a [GraphQL API using DataStore](/console/data/data-model/#datastore-and-graphql), you can use the Amplify Hub to listen to actions that are executed via [UI event handlers](/console/uibuilder/eventhandling) and then add your custom business logic.
 
 ```jsx
 import { Hub } from 'aws-amplify'
