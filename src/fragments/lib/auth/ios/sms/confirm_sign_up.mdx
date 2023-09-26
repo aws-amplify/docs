@@ -1,0 +1,14 @@
+```swift
+func confirmSignUpPhoneVerification(
+    username: String,
+    otpCode: String
+) async throws {
+
+    let result = try await Amplify.Auth.confirmSignUp(
+        for: username,
+        confirmationCode: otpCode
+    )
+
+    print("Sign up complete: \(result.isSignUpComplete)")
+}
+```

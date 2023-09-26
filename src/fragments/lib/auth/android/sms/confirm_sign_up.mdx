@@ -1,0 +1,65 @@
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.Auth.confirmSignUp(
+    "username",
+    "the code you received",
+    result -> Log.i("AuthQuickstart", result.isSignUpComplete() ? "Confirm signUp succeeded" : "Confirm sign up not complete"),
+    error -> Log.e("AuthQuickstart", error.toString())
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.Auth.confirmSignUp(
+    "username", "the code you received",
+    { result ->
+        if (result.isSignUpComplete) {
+            Log.i("AuthQuickstart", "Confirm signUp succeeded")
+        } else {
+            Log.i("AuthQuickstart","Confirm sign up not complete")
+        }
+    },
+    { Log.e("AuthQuickstart", "Failed to confirm sign up", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    val code = "code you received"
+    val result = Amplify.Auth.confirmSignUp("username", code)
+    if (result.isSignUpComplete) {
+        Log.i("AuthQuickstart", "Signup confirmed")
+    } else {
+        Log.i("AuthQuickstart", "Signup confirmation not yet complete")
+    }
+} catch (error: AuthException) {
+    Log.e("AuthQuickstart", "Failed to confirm signup", error)
+}
+```
+
+</Block>
+<Block name="RxJava">
+
+```java
+RxAmplify.Auth.confirmSignUp("username", "the code you received")
+    .subscribe(
+        result -> Log.i("AuthQuickstart", result.isSignUpComplete() ? "Confirm signUp succeeded" : "Confirm sign up not complete"),
+        error -> Log.e("AuthQuickstart", error.toString())
+    );
+```
+
+</Block>
+</BlockSwitcher>
+
+You will know the sign up flow is complete if you see the following in your console window:
+
+```console
+Confirm signUp succeeded
+```

@@ -316,6 +316,7 @@ export default function ContributeGettingStartedPage() {
                 <Link
                   color="brand.smile"
                   href="https://github.com/aws-amplify/amplify-js/blob/main/CONTRIBUTING.md#contributing-guidelines"
+                  isExternal
                 >
                   Amplify JS Contributing Guidelines
                   <FiExternalLink />
@@ -330,6 +331,7 @@ export default function ContributeGettingStartedPage() {
                 <Link
                   color="brand.smile"
                   href="https://docs.amplify.aws/lib/q/platform/js/"
+                  isExternal
                 >
                   Amplify Documentation
                   <FiExternalLink />
@@ -343,6 +345,7 @@ export default function ContributeGettingStartedPage() {
                 <Link
                   color="brand.smile"
                   href="https://discord.com/invite/amplify"
+                  isExternal
                 >
                   Amplify Community Discord server
                   <FiExternalLink />
@@ -354,7 +357,11 @@ export default function ContributeGettingStartedPage() {
               </Text>
 
               <Heading level={4}>
-                <Link color="brand.smile" href="https://discord.gg/kfWYHw73eA">
+                <Link
+                  color="brand.smile"
+                  href="https://discord.gg/kfWYHw73eA"
+                  isExternal
+                >
                   The <Code>contribute-to-javascript</Code> Discord channel
                   <FiExternalLink />
                 </Link>
@@ -367,6 +374,7 @@ export default function ContributeGettingStartedPage() {
                 <Link
                   color="brand.smile"
                   href="https://discord.com/invite/amplify"
+                  isExternal
                 >
                   Amplify Discord Office Hours
                   <FiExternalLink />

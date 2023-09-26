@@ -1,7 +1,7 @@
-import {Host, Container} from "./styles";
-import InternLink from "../InternalLink";
+import { Host, Container } from '../../styles/link-button-styles';
+import InternLink from '../InternalLink';
 
-export default function InternalLinkButton({href, children}) {
+export default function InternalLinkButton({ href, children }) {
   return (
     <Host>
       <InternLink href={href}>
