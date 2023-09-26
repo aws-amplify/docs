@@ -1,49 +1,49 @@
 export const meta = {
   title: `Enable sign-up, sign-in, and sign-out`,
-  description: `Learn how to use Amplify's sign up, sign in and sign out APIs.`,
+  description: `Learn how to use Amplify's sign-up, sign-in, and sign-out APIs.`,
 };
 
 <InlineFilter filters={["js" , "react-native"]}>
 
-In this guide you will set up sign-up, sign-in, and sign-out using the Amplify Libraries and then test this functionality. This includes a review of sign-up methods provided by Amplify, the specific user attributes used by Amazon Cognito, how to confirm users after initial sign-up, and the differences between local and global sign-out. Once set up you can connect it to your frontend UI. 
+In this guide, you will set up sign-up, sign-in, and sign-out using the Amplify Libraries and then test this functionality. This includes a review of sign-up methods provided by Amplify, the specific user attributes used by Amazon Cognito, how to confirm users after initial sign-up, and the differences between local and global sign-out. Once set up, you can connect this functionality to your frontend UI. 
 
 <Callout>
 
-This guide is for those who want to set up Amplify Auth with the Amplify Libraries. If you want to create a sign in and registration experience for your app with a few lines of code we recommend using the [Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator) which provides a customizable UI and complete authentication flows.
+This guide is for those who want to set up Amplify Auth with the Amplify Libraries. If you want to create a sign-in and registration experience for your app with a few lines of code, we recommend using the [Authenticator component](https://ui.docs.amplify.aws/react/connected-components/authenticator), which provides a customizable UI and complete authentication flows.
 
 </Callout>
 
 <InlineFilter filters={["js"]}>
 
-Before you begin, you should have finished the [*'Set up and connect backend resources'*](/lib/auth/getting-started/q/platform/js/) guide.
+Before you begin, you should have finished the [*Set up and connect backend resources*](/lib/auth/getting-started/q/platform/js/#set-up-and-connect-backend-resources) section of the *Set up Amplify Auth* guide.
 
 </InlineFilter>
 
 <InlineFilter filters={["react-native"]}>
 
-Before you begin, you should have finished the [*'Set up and connect backend resources'*](/lib/auth/getting-started/q/platform/react-native/#set-up-backend-resources) guide.
+Before you begin, you should have finished the [*Set up backend resources*](/lib/auth/getting-started/q/platform/react-native/#set-up-backend-resources) section of the *Set up Amplify Auth* guide.
 
 </InlineFilter>
 
 ## Decide before you build
 
-Before you enable sign-up, sign-in, and sign-out there are a few decisions you will need to know to complete the process.
+Before you enable sign-up, sign-in, and sign-out, you will need to make a few decisions to complete the process.
 
 <Accordion title='Review the sign-up, sign-in, and sign-out workflow' headingLevel='4' eyebrow='Learn more'>
 
 Below is a high-level overview of the workflows for sign-up, sign-in, and sign-out with Amplify authentication:
 
-**Sign-up:** The username/password set up will ask your user for a username (or email) and a password. This should also include any attributes you include in your sign-up form such as address, birthdate, phone, etc. When your end-user submits this information, it is then passed through the `Auth.signUp()` method to your Amazon Cognito User Pool, where a user is created. By default, the user will receive a confirmation message via email or SMS, depending on what you configured, but you also have the option to auto-confirm your users after they sign up. Users must then enter the confirmation code to complete the sign-up process. Once the user is verified, their user profile is officially confirmed and is active in the Cognito User Pool. The profile contains the username, password, and any other attributes collected during sign-up. This user profile can then be used to sign-in and access your application.
+**Sign-up:** The username and password setup will ask your user for a username (or email) and a password. This should also include any attributes you include in your sign-up form, such as address, birthdate, and phone. When your end user submits this information, it is then passed through the `Auth.signUp()` method to your Amazon Cognito User Pool, where a user is created. By default, the user will receive a confirmation message by email or SMS, depending on what you configured, but you also have the option to auto-confirm your users after they sign up. Users must then enter the confirmation code to complete the sign-up process. Once the user is verified, their user profile is officially confirmed and is active in the Cognito User Pool. The profile contains the username, password, and any other attributes collected during sign-up. This user profile can then be used to sign in and access your application.
 
-**Sign-in:** The user enters the username/password they created on sign-up and submits the form in your application to sign-in. The application will then call the `Auth.signIn()` method to sign-in the user by passing the username/password to verify and establish a session with Amazon Cognito which will then generate the needed tokens to grant access. Amazon Cognito issues temporary short-lived tokens on sign-in (default of 1 hour) but you can update these settings to keep your users signed in for longer (up to 24 hours).
+**Sign-in:** The user enters the username and password they created on sign-up and submits the form in your application to sign in. The application will then call the `Auth.signIn()` method to sign in the user by passing the username and password to verify and establish a session with Amazon Cognito, which will then generate the needed tokens to grant access. Amazon Cognito issues temporary short-lived tokens on sign-in (default of 1 hour), but you can update these settings to keep your users signed in for longer (up to 24 hours).
 
-**Sign-out:** Amplify uses the `Auth.signOut()` method to sign-out the user by ending the current session and revoking the tokens with Amazon Cognito. This clears the user session in the browser and the application will then navigate the user to the sign-in screen.
+**Sign-out:** Amplify uses the `Auth.signOut()` method to sign out the user by ending the current session and revoking the tokens with Amazon Cognito. This clears the user session in the browser and the application will then navigate the user to the sign-in screen.
 
 </Accordion>
 
 ### Which Amazon Cognito attributes will you pass for sign-up?
 
-User attributes (e.g. username, email, etc.) are used to identify your users. These are set up when you configure your Cognito User Pool and cannot be renamed or deleted after they are added. You can use the Amplify CLI to add user attributes or visit the Amazon Cognito console. To add user attributes with the CLI, you can run the command `amplify add auth` for a new project, or use `amplify update auth` if you already have existing resources set up. Then, you can select `manual configuration` when prompted by the Amplify CLI.
+User attributes (such as username and email) are used to identify your users. These are set up when you configure your Cognito User Pool and cannot be renamed or deleted after they are added. You can use the Amplify CLI to add user attributes or visit the Amazon Cognito console. To add user attributes with the CLI, you can run the command `amplify add auth` for a new project, or use `amplify update auth` if you already have existing resources set up. Then, you can select `manual configuration` when prompted by the Amplify CLI.
 
 ```sh
 ? amplify update auth
@@ -66,25 +66,25 @@ User attributes are not required by default. You can make user attributes requir
 
 ### How will you verify users at sign-up?
 
-Once the initial sign-up is done, the user will need to verify and confirm their contact information before their account is activated. This is done by sending a verification code via email or phone number that can be collected on initial sign-up. Email verification asks the user to click a link or enter a code sent to their email address provided during sign-up. Phone verification is done by asking the user to enter the code sent to them in a SMS text message. You can also enable auto-confirmation to skip this step and automatically confirm the user after sign-up. This is accomplished using the `PreSignUp` Lambda trigger which is explained in the [Amazon Cognito documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-sign-up.html).
+Once the initial sign-up is done, the user will need to verify and confirm their contact information before their account is activated. This is done by sending a verification code by email or phone number that can be collected on initial sign-up. Email verification asks the user to click a link or enter a code sent to their email address provided during sign-up. Phone verification is done by asking the user to enter the code sent to them in an SMS text message. You can also enable auto-confirmation to skip this step and automatically confirm the user after sign-up. This is accomplished using the pre sign-up Lambda trigger, which is explained in the [Amazon Cognito documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-pre-sign-up.html).
 
-Once you have these decisions in mind you are ready to enable sign-up, sign-in, and sign-out.
+Once you have these decisions in mind, you are ready to enable sign-up, sign-in, and sign-out.
 
 ## Add the sign-up, sign-in, and sign-out capabilities
 
 You can add the functionality to enable sign-up, sign-in, and sign-out with the Amplify Libraries. You can connect this to an existing UI or create your own.
 
-For many apps, user sign-up and sign-in with a username/password is all that is required. Once authenticated, the app can talk to an API to access and mutate data. 
+For many apps, user sign-up and sign-in with a username and password is all that is required. Once authenticated, the app can talk to an API to access and mutate data. 
 
 <InlineFilter filters={["js"]}>
 
-We will use the username/password authentication flow to get started. Both [third party social provider federation](/lib/auth/social/q/platform/js/) and [Multi-factor authentication](/lib/auth/mfa/q/platform/js/) can be added after this initial set up.
+We will use the username and password authentication flow to get started. Both [third-party social provider federation](/lib/auth/social/q/platform/js/) and [Multi-factor authentication](/lib/auth/mfa/q/platform/js/) can be added after this initial setup.
 
 </InlineFilter>
 
 <InlineFilter filters={["react-native"]}>
 
-We will use the username/password authentication flow to get started. Both [third party social provider federation](/lib/auth/social/q/platform/react-native/) and [Multi-factor authentication](/lib/auth/mfa/q/platform/react-native/) can be added after this initial set up.
+We will use the username and password authentication flow to get started. Both [third-party social provider federation](/lib/auth/social/q/platform/react-native/) and [Multi-factor authentication](/lib/auth/mfa/q/platform/react-native/) can be added after this initial set up.
 
 </InlineFilter>
 
@@ -260,7 +260,7 @@ async function signIn() {
 
 ### Sign-out
 
-To set up local sign-out you use the `signOut` method of the Auth class.
+To set up local sign-out, you use the `signOut` method of the Auth class.
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -293,7 +293,7 @@ async function signOut() {
 </Block>
 </BlockSwitcher>
 
-You can sign out users from all devices by adding global sign-out. It also invalidates all refresh tokens issued to an user. The user's current access and Id tokens remain valid on other devices until the refresh token expires (access and Id tokens expire one hour after they are issued).
+You can sign out users from all devices by adding global sign-out. It also invalidates all refresh tokens issued to an user. The user's current access and ID tokens remain valid on other devices until the refresh token expires (access and ID tokens expire one hour after they are issued).
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -342,7 +342,7 @@ Congratulations! You finished the **Enable sign-up, sign-in, sign-out** guide an
 
 <InlineFilter filters={["js"]}>
 
-Now that you completed setting up Amplify Auth with username/password you may also want to add some additional features. We recommend:
+Now that you completed setting up Amplify Auth with username and password, you may also want to add some additional features. We recommend:
   - [Social sign-in (OAuth)](/lib/auth/social/q/platform/js/)
   - [Multi-factor authentication](/lib/auth/mfa/q/platform/js/)
 
@@ -350,7 +350,7 @@ Now that you completed setting up Amplify Auth with username/password you may al
 
 <InlineFilter filters={["react-native"]}>
 
-  Now that you completed setting up Amplify Auth with username/password you may also want to add some additional features. We recommend:
+  Now that you completed setting up Amplify Auth with username and password, you may also want to add some additional features. We recommend:
   - [Social sign-in (OAuth)](/lib/auth/social/q/platform/react-native/)
   - [Multi-factor authentication](/lib/auth/mfa/q/platform/react-native/)
 
