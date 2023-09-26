@@ -13,31 +13,163 @@ This section covers the client-side development experience for password and user
 
 To reset a user's password, use the `resetPassword` API which will send a reset code to the destination (e.g. email or SMS) based on the user's settings.
 
-import jsResetPassword from '/src/fragments/lib-v1/auth/js/password_management/reset_password.mdx';
+<BlockSwitcher>
+<Block name="TypeScript">
 
-<Fragments fragments={{ js: jsResetPassword }} />
+```typescript
+import { resetPassword, ResetPasswordOutput } from 'aws-amplify/auth';
+
+async function handleResetPassword(username: string) {
+  try {
+    const output = await resetPassword({ username });
+    handleResetPasswordNextSteps(output);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function handleResetPasswordNextSteps(output: ResetPasswordOutput) {
+  const { nextStep } = output;
+  switch (nextStep.resetPasswordStep) {
+    case 'CONFIRM_RESET_PASSWORD_WITH_CODE':
+      const codeDeliveryDetails = nextStep.codeDeliveryDetails;
+      console.log(
+        `Confirmation code was sent to ${codeDeliveryDetails.deliveryMedium}`
+      );
+      // Collect the confirmation code from the user and pass to confirmResetPassword.
+      break;
+    case 'DONE':
+      console.log('Successfully reset password.');
+      break;
+  }
+}
+```
+</Block>
+<Block name="JavaScript">
+
+```javascript
+import { resetPassword } from 'aws-amplify/auth';
+
+async function handleResetPassword(username) {
+  try {
+    const output = await resetPassword({ username });
+    handleResetPasswordNextSteps(output);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function handleResetPasswordNextSteps(output) {
+  const { nextStep } = output;
+  switch (nextStep.resetPasswordStep) {
+    case 'CONFIRM_RESET_PASSWORD_WITH_CODE':
+      const codeDeliveryDetails = nextStep.codeDeliveryDetails;
+      console.log(
+        `Confirmation code was sent to ${codeDeliveryDetails.deliveryMedium}`
+      );
+      // Collect the confirmation code from the user and pass to confirmResetPassword.
+      break;
+    case 'DONE':
+      console.log('Successfully reset password.');
+      break;
+  }
+}
+```
+</Block>
+</BlockSwitcher>
 
 To complete the password reset process, invoke the `confirmResetPassword` API with the code your user received and the new password they want to set.
 
-import jsCompleteResetPassword from '/src/fragments/lib-v1/auth/js/password_management/confirm_reset_password.mdx';
+<BlockSwitcher>
+<Block name="TypeScript">
 
-<Fragments fragments={{ js: jsCompleteResetPassword }} />
+```typescript
+import { confirmResetPassword } from 'aws-amplify/auth';
+
+async function handleConfirmResetPassword(
+  username: string,
+  confirmationCode: string,
+  newPassword: string
+) {
+  try {
+    await confirmResetPassword({ username, confirmationCode, newPassword });
+  } catch (error) {
+    console.log(error);
+  }
+}
+```
+</Block>
+<Block name="JavaScript">
+
+```javascript
+import { confirmResetPassword } from 'aws-amplify/auth';
+
+async function handleConfirmResetPassword(
+  username,
+  confirmationCode,
+  newPassword
+) {
+  try {
+    await confirmResetPassword({ username, confirmationCode, newPassword });
+  } catch (error) {
+    console.log(error);
+  }
+}
+```
+</Block>
+</BlockSwitcher>
 
 ### Update password
 
 You can update a signed in user's password using the `updatePassword` API.
 
-import jsUpdatePassword from '/src/fragments/lib-v1/auth/js/password_management/update_password.mdx';
+<BlockSwitcher>
+<Block name="TypeScript">
 
-<Fragments fragments={{ js: jsUpdatePassword }} />
+```typescript
+import { updatePassword } from 'aws-amplify/auth';
+
+async function handleUpdatePassword(oldPassword: string, newPassword: string) {
+  try {
+    await updatePassword({ oldPassword, newPassword });
+  } catch (err) {
+    console.log(err);
+  }
+}
+```
+</Block>
+<Block name="JavaScript">
+
+```javascript
+import { updatePassword } from 'aws-amplify/auth';
+
+async function handleUpdatePassword(oldPassword, newPassword) {
+  try {
+    await updatePassword({ oldPassword, newPassword });
+  } catch (err) {
+    console.log(err);
+  }
+}
+```
+</Block>
+</BlockSwitcher>
 
 ## Retrieve current authenticated user
 
 You can call `getCurrentUser` to get information about the currently authenticated user.
 
-import jsGetCurrentUser from '/src/fragments/lib-v1/auth/js/user_attributes/get_current_user.mdx';
+```javascript
+import { getCurrentUser } from 'aws-amplify/auth';
 
-<Fragments fragments={{ js: jsGetCurrentUser }} />
+async function handleGetCurrentUser() {
+  try {
+    const user = await getCurrentUser();
+    console.log(user);
+  } catch (error) {
+    console.log(error);
+  }
+}
+```
 
 This API can be used to check if a user is logged in when the page is loaded. It will throw an `AuthError` if no user is logged in.
 
@@ -47,9 +179,18 @@ The `fetchAuthSession` API returns the current user's session with `tokens` and 
 
 If the tokens are expired, this API will automatically refresh the tokens. You can force the tokens to be refreshed regardless of their status by passing the `forceRefresh` option.
 
-import jsFetchAuthSession from '/src/fragments/lib-v1/auth/js/user_session/fetch_auth_session.mdx';
+```typescript
+import { fetchAuthSession } from 'aws-amplify/auth';
 
-<Fragments fragments={{ js: jsFetchAuthSession }} />
+async function loadSessionTokens() {
+  try {
+    const session = await fetchAuthSession();
+    // Tokens & credentials available via session.tokens and session.credentials
+  } catch (error) {
+    console.log(error);
+  }
+}
+```
 
 ## Managing user attributes
 
@@ -84,17 +225,107 @@ signUp({
 
 You can retrieve a user's latest attributes using the `fetchUserAttributes` API.
 
-import jsFetchUserAttributes from '/src/fragments/lib-v1/auth/js/user_attributes/fetch_user_attributes.mdx';
+```javascript
+import { fetchUserAttributes } from 'aws-amplify/auth';
 
-<Fragments fragments={{ js: jsFetchUserAttributes }} />
+async function handleFetchUserAttributes() {
+  try {
+    const userAttributes = await fetchUserAttributes();
+    console.log(userAttributes);
+  } catch (error) {
+    console.log(error);
+  }
+}
+```
 
 ### Update user attributes
 
 Invoke the `updateUserAttributes` API to create or update existing user attributes.
 
-import jsUpdateUserAttributes from '/src/fragments/lib-v1/auth/js/user_attributes/update_user_attributes.mdx';
+<BlockSwitcher>
+<Block name="TypeScript">
 
-<Fragments fragments={{ js: jsUpdateUserAttributes }} />
+```typescript
+import { updateUserAttributes, UpdateUserAttributesOutput } from 'aws-amplify/auth';
+
+async function handleUpdateEmailAndNameAttributes(
+  updatedEmail: string,
+  updatedName: string
+) {
+  try {
+    const attributes = await updateUserAttributes({
+      userAttributes: {
+        email: updatedEmail,
+        name: updatedName,
+      },
+    });
+    handleUpdateUserAttributesNextSteps(attributes);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function handleUpdateUserAttributesNextSteps(
+  attributes: UpdateUserAttributesOutput
+) {
+  Object.entries(attributes).forEach(([attribute, output]) => {
+    const { nextStep } = output;
+    switch (nextStep.updateAttributeStep) {
+      case 'CONFIRM_ATTRIBUTE_WITH_CODE':
+        const codeDeliveryDetails = nextStep.codeDeliveryDetails;
+        console.log(
+          `Confirmation code was sent to ${codeDeliveryDetails?.deliveryMedium}.`
+        );
+        // Collect the confirmation code from the user and pass to confirmUserAttribute.
+        break;
+      case 'DONE':
+        console.log(`${attribute} attribute was successfully updated.`);
+        break;
+    }
+  });
+}
+```
+</Block>
+<Block name="JavaScript">
+
+```javascript
+import { updateUserAttributes } from 'aws-amplify/auth';
+
+async function handleUpdateEmailAndNameAttributes(updatedEmail, updatedName) {
+  try {
+    const attributes = await updateUserAttributes({
+      userAttributes: {
+        email: updatedEmail,
+        name: updatedName,
+      },
+    });
+    handleUpdateUserAttributesNextSteps(attributes);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function handleUpdateUserAttributesNextSteps(attributes) {
+  Object.entries(attributes).forEach(([attribute, output]) => {
+    const { nextStep } = output;
+    switch (nextStep.updateAttributeStep) {
+      case 'CONFIRM_ATTRIBUTE_WITH_CODE':
+        const codeDeliveryDetails = nextStep.codeDeliveryDetails;
+        console.log(
+          `Confirmation code was sent to ${codeDeliveryDetails?.deliveryMedium}.`
+        );
+        // Collect the confirmation code from the user and pass to confirmUserAttribute.
+        break;
+      case 'DONE':
+        console.log(`${attribute} attribute was successfully updated.`);
+        break;
+    }
+  });
+}
+```
+</Block>
+</BlockSwitcher>
+
 <Callout>
   Note: If you change an attribute that requires confirmation (i.e. email or
   phone_number), the user will receive a confirmation code either to their email
@@ -106,8 +337,41 @@ import jsUpdateUserAttributes from '/src/fragments/lib-v1/auth/js/user_attribute
 
 Some attributes require confirmation for the attribute update to complete. If the attribute needs to be confirmed, the result of the above API will be `CONFIRM_ATTRIBUTE_WITH_CODE`. A confirmation code will be sent to the delivery medium mentioned in the delivery details. When the user gets the confirmation code, you can present a UI to the user to enter the code and invoke the `confirmUserAttribute` API with their input:
 
-import jsConfirmUserAttribute from '/src/fragments/lib-v1/auth/js/user_attributes/confirm_user_attribute.mdx';
+<BlockSwitcher>
+<Block name="TypeScript">
 
-<Fragments fragments={{ js: jsConfirmUserAttribute }} />
+```typescript
+import { confirmUserAttribute } from 'aws-amplify/auth';
+
+async function handleConfirmUserAttribute(
+  userAttributeKey: string,
+  confirmationCode: string
+) {
+  try {
+    await confirmUserAttribute({ userAttributeKey, confirmationCode });
+  } catch (error) {
+    console.log(error);
+  }
+}
+```
+</Block>
+<Block name="JavaScript">
+
+```javascript
+import { confirmUserAttribute } from 'aws-amplify/auth';
+
+async function handleConfirmUserAttribute(
+  userAttributeKey,
+  confirmationCode
+) {
+  try {
+    await confirmUserAttribute({ userAttributeKey, confirmationCode });
+  } catch (error) {
+    console.log(error);
+  }
+}
+```
+</Block>
+</BlockSwitcher>
 
 </InlineFilter>
