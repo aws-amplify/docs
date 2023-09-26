@@ -3,14 +3,39 @@ export const meta = {
   description: `Learn more about how to create and update data using GraphQL APIs in Amplify`
 };
 
-import guide from "/src/fragments/common/guide-header.mdx";
-
-<Fragments fragments={{all: guide}} />
-
 In this guide, you will learn how to create, update, and delete your data using Amplify Libraries' GraphQL client.
 
 Before you begin, you will need:
-- An [application connected to the API](https://docs.amplify.aws/lib/graphqlapi/connect/q/platform/js/)
+
+<InlineFilter filters={["js"]}>
+
+- An [application connected to the API](/lib/graphqlapi/connect/q/platform/js/)
+
+</InlineFilter>
+
+<InlineFilter filters={["react-native"]}>
+
+- An [application connected to the API](/lib/graphqlapi/getting-started/q/platform/react-native/)
+
+</InlineFilter>
+
+<InlineFilter filters={["android"]}>
+
+- An [application connected to the API](/lib/graphqlapi/getting-started/q/platform/android/)
+
+</InlineFilter>
+
+<InlineFilter filters={["ios"]}>
+
+- An [application connected to the API](/lib/graphqlapi/getting-started/q/platform/ios/)
+
+</InlineFilter>
+
+<InlineFilter filters={["flutter"]}>
+
+- An [application connected to the API](/lib/graphqlapi/getting-started/q/platform/flutter/)
+
+</InlineFilter>
 
 ## Run mutations to create, update, and delete application data
   
@@ -516,7 +541,7 @@ try {
 API.cancel(promise, "my message for cancellation");
 ```
 
-You need to ensure that the promise returned from `API.graphql()` has not been modified. Typically, async functions wrap the promise being returned into another promise. For example, the following will not work:
+You need to ensure that the promise returned from `API.graphql()` has not been modified. Typically, async functions wrap the promise being returned into another promise. For example, the following will **not** work:
 
 ```javascript
 async function makeAPICall() {
@@ -538,30 +563,37 @@ Congratulations! You have finished the **Create, update, and delete application 
 
 Our recommended next steps include using the API to query data and subscribe to real-time events to look for mutations in your data. Some resources that will help with this work include:
 
-<InlineFilter filters={["js", "react-native"]}>
+<InlineFilter filters={["js"]}>
 
-- [Read application data](https://docs.amplify.aws/lib/graphqlapi/query-data/q/platform/js/)
-- [Subscribe to real-time events](https://docs.amplify.aws/lib/graphqlapi/subscribe-data/q/platform/js/)
+- [Read application data](/lib/graphqlapi/query-data/q/platform/js/)
+- [Subscribe to real-time events](/lib/graphqlapi/subscribe-data/q/platform/js/)
+
+</InlineFilter>
+
+<InlineFilter filters={["react-native"]}>
+
+- [Read application data](/lib/graphqlapi/query-data/q/platform/react-native/)
+- [Subscribe to real-time events](/lib/graphqlapi/subscribe-data/q/platform/react-native/)
 
 </InlineFilter>
 
 <InlineFilter filters={["ios"]}>
 
-- [Read application data](https://docs.amplify.aws/lib/graphqlapi/query-data/q/platform/ios/)
-- [Subscribe to real-time events](https://docs.amplify.aws/lib/graphqlapi/subscribe-data/q/platform/ios/)
+- [Read application data](/lib/graphqlapi/query-data/q/platform/ios/)
+- [Subscribe to real-time events](/lib/graphqlapi/subscribe-data/q/platform/ios/)
 
 </InlineFilter>
 
 <InlineFilter filters={["android"]}>
 
-- [Read application data](https://docs.amplify.aws/lib/graphqlapi/query-data/q/platform/android/)
-- [Subscribe to real-time events](https://docs.amplify.aws/lib/graphqlapi/subscribe-data/q/platform/android/)
+- [Read application data](/lib/graphqlapi/query-data/q/platform/android/)
+- [Subscribe to real-time events](/lib/graphqlapi/subscribe-data/q/platform/android/)
 
 </InlineFilter>
 
 <InlineFilter filters={["flutter"]}>
 
-- [Read application data](https://docs.amplify.aws/lib/graphqlapi/query-data/q/platform/flutter/)
-- [Subscribe to real-time events](https://docs.amplify.aws/lib/graphqlapi/subscribe-data/q/platform/flutter/)
+- [Read application data](/lib/graphqlapi/query-data/q/platform/flutter/)
+- [Subscribe to real-time events](/lib/graphqlapi/subscribe-data/q/platform/flutter/)
 
 </InlineFilter>
