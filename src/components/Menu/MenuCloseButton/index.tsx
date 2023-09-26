@@ -1,6 +1,6 @@
-import {MenuCloseButtonStyle} from "./styles";
-import React from "react";
-import {DESKTOP_CLOSE} from "../../../constants/img";
+import { MenuCloseButtonStyle } from './styles';
+import React from 'react';
+import { DESKTOP_CLOSE } from '../../../constants/img';
 
 type CloseButtonProps = {
   closeMenu: () => void;
@@ -14,15 +14,15 @@ export default class MenuCloseButton extends React.Component<
 > {
   constructor(props) {
     super(props);
-    this.state = {isHovered: false};
+    this.state = { isHovered: false };
   }
 
   hover = () => {
-    this.setState({isHovered: true});
+    this.setState({ isHovered: true });
   };
 
   unhover = () => {
-    this.setState({isHovered: false});
+    this.setState({ isHovered: false });
   };
 
   onClick = () => {

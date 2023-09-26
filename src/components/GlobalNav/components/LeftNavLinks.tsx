@@ -12,7 +12,7 @@ interface LeftNavLinksProps {
 export function LeftNavLinks({
   isCollapsed,
   leftLinks,
-  currentSite,
+  currentSite
 }: LeftNavLinksProps) {
   return (
     <Flex

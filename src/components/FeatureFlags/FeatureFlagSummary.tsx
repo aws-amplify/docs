@@ -1,9 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-import getElementTop from "../../utils/get-element-top";
-import FeatureFlagValues from "./FeatureFlagValues";
-import InternalLink from "../InternalLink";
+import getElementTop from '../../utils/get-element-top';
+import FeatureFlagValues from './FeatureFlagValues';
+import InternalLink from '../InternalLink';
 
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
 
 export const TableContainer = styled.div`
   overflow-x: auto;
@@ -38,8 +38,8 @@ export type Section = {
 
 export type FeatureFlag = {
   description: string;
-  type: "Feature" | "Release" | "Experimental";
-  valueType: "Boolean" | "Number" | "String";
+  type: 'Feature' | 'Release' | 'Experimental';
+  valueType: 'Boolean' | 'Number' | 'String';
   versionAdded: string;
   versionDeprecated?: string;
   deprecationDate?: string;
@@ -55,11 +55,12 @@ export type Value = {
   defaultExistingProject: boolean;
 };
 
-export default function FeatureFlagSummary({name, feature}) {
+export default function FeatureFlagSummary({ name, feature }) {
   return (
     <div>
-      <InternalLink href={"#" + name}>
+      <InternalLink href={'#' + name}>
         <a
+          // eslint-disable-next-line react/jsx-no-bind
           onClick={() => {
             setTimeout(scroll.bind(undefined, name), 50);
             return false;
@@ -105,6 +106,6 @@ function scroll(hash) {
   const header = document.querySelector(`[id="${hash}"]`);
   const top = getElementTop(header, stickyHeaderHeight);
   if (top !== window.scrollY) {
-    window.scrollTo({top});
+    window.scrollTo({ top });
   }
 }

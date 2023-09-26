@@ -1,5 +1,5 @@
-import styled from "@emotion/styled";
-import {MQTablet} from "../../media";
+import styled from '@emotion/styled';
+import { MQTablet } from '../../media';
 
 export const MenuCloseButtonStyle = styled.button`
   width: 2rem;

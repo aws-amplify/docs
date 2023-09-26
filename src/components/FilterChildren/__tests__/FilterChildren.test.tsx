@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/require-await */
+
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import FilterChildren from '../index';
 
-let routerMock = {
+const routerMock = {
   __esModule: true
 };
 
@@ -40,8 +42,8 @@ describe('FilterChildren', () => {
     render(<FilterChildren>{allChildren}</FilterChildren>);
 
     const platformNode = await screen.findByText('Platform Child');
-    const integrationNode = await screen.queryByText('Integration Child');
-    const frameworkNode = await screen.queryByText('Framework Child');
+    const integrationNode = screen.queryByText('Integration Child');
+    const frameworkNode = screen.queryByText('Framework Child');
     expect(platformNode).toBeInTheDocument();
     expect(integrationNode).not.toBeInTheDocument();
     expect(frameworkNode).not.toBeInTheDocument();
@@ -58,9 +60,9 @@ describe('FilterChildren', () => {
 
     render(<FilterChildren>{allChildren}</FilterChildren>);
 
-    const platformNode = await screen.queryByText('Platform Child');
-    const integrationNode = await screen.queryByText('Integration Child');
-    const frameworkNode = await screen.queryByText('Framework Child');
+    const platformNode = screen.queryByText('Platform Child');
+    const integrationNode = screen.queryByText('Integration Child');
+    const frameworkNode = screen.queryByText('Framework Child');
     expect(platformNode).not.toBeInTheDocument();
     expect(integrationNode).toBeInTheDocument();
     expect(frameworkNode).not.toBeInTheDocument();
@@ -77,9 +79,9 @@ describe('FilterChildren', () => {
 
     render(<FilterChildren>{allChildren}</FilterChildren>);
 
-    const platformNode = await screen.queryByText('Platform Child');
-    const integrationNode = await screen.queryByText('Integration Child');
-    const frameworkNode = await screen.queryByText('Framework Child');
+    const platformNode = screen.queryByText('Platform Child');
+    const integrationNode = screen.queryByText('Integration Child');
+    const frameworkNode = screen.queryByText('Framework Child');
     expect(platformNode).not.toBeInTheDocument();
     expect(integrationNode).not.toBeInTheDocument();
     expect(frameworkNode).toBeInTheDocument();

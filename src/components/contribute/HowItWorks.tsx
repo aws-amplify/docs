@@ -42,7 +42,9 @@ export default function HowItWorks() {
         <Heading level={2}>How it works</Heading>
       </View>
       <Text fontSize="large" color="font.secondary">
-        The Amplify Contributor Program is open to everyone in the Amplify community! In the following steps, we describe what to expect when contributing:
+        The Amplify Contributor Program is open to everyone in the Amplify
+        community! In the following steps, we describe what to expect when
+        contributing:
       </Text>
 
       <View>
@@ -119,7 +121,11 @@ export default function HowItWorks() {
               {' '}
               <FiCheck />
             </Flex>
-            <Text>If everything looks good, the Amplify team approves the pull request. (At this time, only accepted pull requests count toward earning badges.)</Text>
+            <Text>
+              If everything looks good, the Amplify team approves the pull
+              request. (At this time, only accepted pull requests count toward
+              earning badges.)
+            </Text>
           </Flex>
         </Card>
         <Divider size="small" />
@@ -138,7 +144,8 @@ export default function HowItWorks() {
               <MdOutlineBadge />
             </Flex>
             <Text>
-              If this is your first approved pull request, the Amplify team designates you as a Contributor in the{' '}
+              If this is your first approved pull request, the Amplify team
+              designates you as a Contributor in the{' '}
               <Link href="https://discord.com/invite/amplify" isExternal>
                 Amplify Community Discord server <FiExternalLink />
               </Link>
@@ -169,7 +176,8 @@ export default function HowItWorks() {
               >
                 Amplify badge <FiExternalLink />
               </Link>{' '}
-              for your first contribution or make progress toward the Intermediate and Advanced badges!
+              for your first contribution or make progress toward the
+              Intermediate and Advanced badges!
             </Text>
           </Flex>
         </Card>

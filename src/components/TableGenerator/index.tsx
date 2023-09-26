@@ -1,9 +1,9 @@
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
 
 import {
   WebComponentProps,
-  TableGenerator,
-} from "../../utils/ui-component-props.types";
+  TableGenerator
+} from '../../utils/ui-component-props.types';
 
 const Table = styled.table`
   text-align: left;
@@ -120,5 +120,5 @@ const slotsTableGenerator = (docs) => {
 export const tableGeneratorMap: Record<WebComponentProps, TableGenerator> = {
   attr: attrTableGenerator,
   css: cssTableGenerator,
-  slots: slotsTableGenerator,
+  slots: slotsTableGenerator
 };
