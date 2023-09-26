@@ -7,15 +7,17 @@ export const meta = {
 
 <InlineFilter filters={["js"]}>
 
-The Auth category supports Multi-factor Authentication (MFA) for user sign-in flows. MFA is an extra layer of security used to make sure that users trying to gain access to an account are who they say they are. It requires users to provide additional information to verify their identity. The category supports the MFA methods with Time-based-One-Time Passwords (TOTP) and Short Message Service (SMS). In this guide we will review how you can set up MFA using TOTP and SMS and the tradeoffs between these methods to help you choose the right set up for your application. We’ll also review how to set up MFA to forget devices and additional advanced use cases.
+The Auth category supports Multi-factor Authentication (MFA) for user sign-in flows. MFA is an extra layer of security used to make sure that users trying to gain access to an account are who they say they are. It requires users to provide additional information to verify their identity. Amplify Auth supports the MFA methods with Time-based-One-Time Passwords (TOTP) as well as text messages (SMS). In this guide we will review how you can set up MFA using TOTP and SMS and the tradeoffs between these methods to help you choose the right set up for your application. 
+
+Need to revisit this line: **We’ll also review how to set up MFA to forget devices and additional advanced use cases.**
 
 Before you begin you will need:
 - The Amplify libraries installed and configured
-- Access to your AWS account phone number if using SMS (for testing)
+- A phone number provisioned with [SNS/Pinpoint](https://docs.aws.amazon.com/sns/latest/dg/channels-sms-originating-identities.html) if using SMS
 
 ## Enable Multi-factor authentication with the Amplify CLI
 
-Below are the steps you can use to set up MFA using SMS or TOTP with the Amplify CLI. The Amplify libraries are designed to work with MFA even if you have set up your Amazon Cognito resources separately.
+Below are the steps you can use to set up MFA using SMS or TOTP with the Amplify CLI. However, the Amplify libraries are designed to work with MFA even if you have set up your Amazon Cognito resources separately.
 
 <Callout>
 
@@ -24,8 +26,8 @@ You can also use the Amazon Cognito console to enable MFA. You will first enable
 </Callout>
 
 When enabling MFA you will have two key decisions to make:
-- **MFA enforcement:** As part of this setup you will determine how MFA is enforced. If you require MFA by setting to "ON", all your users will need to complete MFA to sign in. If you keep it "Optional", your users will have the choice on if they use MFA or not. 
-- **MFA methods:** You will also specify which MFA method you are using - TOTP (Time-based One-time Password) or SMS (Short Message Service). We recommend that you use TOTP-based MFA as it is more secure and you can reserve SMS for account recovery.
+- **MFA enforcement:** As part of this setup you will determine how MFA is enforced. If you require MFA by setting to "ON", all your users will need to complete MFA to sign in. If you keep it "Optional", your users will have the choice whether to enable MFA or not for their account. 
+- **MFA methods:** You will also specify which MFA method you are using - TOTP (Time-based One-time Password), SMS (text message), or both. We recommend that you use TOTP-based MFA as it is more secure and you can reserve SMS for account recovery.
 
 <Accordion title='Compare TOTP and SMS MFA methods' headingLevel='3' eyebrow='Learn more'>
 
@@ -41,7 +43,7 @@ When enabling MFA you will have two key decisions to make:
 
 <Callout warning>
 
-When using Amplify CLI to set up backend resources, the following options are only available when starting a new project (via `amplify add auth`). You will not have access to these settings after creation (via `amplify update`).
+**Note:** Once your User Pool has been created when using Amplify CLI to set up backend resources (via `amplify add auth`) and you did not enable MFA, you will only be able to select the 'OPTIONAL' configuration for MFA when updating (via `amplify update auth`).  Similarly, once MFA has been enabled for a User pool you cannot disable it (via `amplify update auth`).
 
 </Callout>
 
@@ -62,22 +64,22 @@ Refer to [SMS sandbox](/lib/auth/sms_flows#sandbox-mode).  For information about
 
 </Callout>
 
-```bash
+```
 $ amplify add auth
  
 ? Do you want to use the default authentication and security configuration?
-# Manual configuration
+  Manual configuration
 
-... Answer as appropriate
+# Answer as appropriate
 
 ? Multifactor authentication (MFA) user login options:
-# ON (Required for all logins, can not be enabled later)
+  ON (Required for all logins, can not be enabled later)
 ? For user login, select the MFA types:
-# SMS Text Message
+  SMS Text Message
 ? Please specify an SMS authentication message:
-# Your authentication code is {####}
+  Your authentication code is {####}
 
-... Answer as appropriate
+# Answer as appropriate
 
 Some next steps:
 "amplify push" will build all your local backend resources and provision it in the cloud
@@ -85,25 +87,27 @@ Some next steps:
 ```
 
 #### TOTP MFA
-```bash
+
+```
 $ amplify add auth
  
 ? Do you want to use the default authentication and security configuration?
-# Manual configuration
+  Manual configuration
 
-... Answer as appropriate
+# Answer as appropriate
 
 ? Multifactor authentication (MFA) user login options:
-# ON (Required for all logins, can not be enabled later)
+  ON (Required for all logins, can not be enabled later)
 ? For user login, select the MFA types:
-# Time-Based One-Time Password (TOTP)
+  Time-Based One-Time Password (TOTP)
 
-... Answer as appropriate
+# Answer as appropriate
 
 Some next steps:
 "amplify push" will build all your local backend resources and provision it in the cloud
 "amplify publish" will build all your local backend and frontend resources (if you have hosting category added) and provision it in the cloud
 ```
+
 </Block>
 <Block name="Existing Project">
 
@@ -124,22 +128,22 @@ Refer to [SMS sandbox](/lib/auth/sms_flows#sandbox-mode). For information about 
 
 </Callout>
 
-```bash
+```
 $ amplify update auth
 
 ? What do you want to do?
-# Walkthrough all the auth configurations
+  Walkthrough all the auth configurations
 
-... Answer as appropriate
+# Answer as appropriate
 
 ? Multifactor authentication (MFA) user login options:
-# OPTIONAL (Individual users can use MFA)
+  OPTIONAL (Individual users can use MFA)
 ? For user login, select the MFA types:
-# SMS Text Message
+  SMS Text Message
 ? Please specify an SMS authentication message:
-# Your authentication code is {####}
+  Your authentication code is {####}
 
-... Answer as appropriate
+# Answer as appropriate
 
 Some next steps:
 "amplify push" will build all your local backend resources and provision it in the cloud
@@ -148,20 +152,20 @@ Some next steps:
 
 
 #### TOTP MFA
-```bash
+```
 $ amplify update auth
 
 ? What do you want to do?
-# Walkthrough all the auth configurations
+  Walkthrough all the auth configurations
 
-... Answer as appropriate
+# Answer as appropriate
 
 ? Multifactor authentication (MFA) user login options:
-# OPTIONAL (Individual users can use MFA)
+  OPTIONAL (Individual users can use MFA)
 ? For user login, select the MFA types:
-# Time-Based One-Time Password (TOTP)
+  Time-Based One-Time Password (TOTP)
 
-... Answer as appropriate
+# Answer as appropriate
 
 Some next steps:
 "amplify push" will build all your local backend resources and provision it in the cloud
@@ -175,7 +179,7 @@ After you enable MFA you will also need to include MFA setup when users sign up.
 
 ### Set up Multi-factor authentication with SMS
 
-You can use Short Message Service (SMS) as a second layer of authentication with MFA. When SMS is enabled, your users will get an authentication code via a text message to complete sign-in after they sign in with their username and password.
+Once you have setup SMS as your second layer of authentication with MFA as shown above, your users will get an authentication code via a text message to complete sign-in after they sign in with their username and password.
 
 If you do not have one already, you will need to configure an IAM role to use with Amazon Simple Notification Service (Amazon SNS) to manage SMS messages. You will then add this role under the "Messaging" tab for your user pool in the Amazon Cognito console. For additional information see the [*Amazon Cognito SMS text message MFA*](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-mfa-sms-text-message.html) documentation.
 
@@ -183,20 +187,57 @@ If you do not have one already, you will need to configure an IAM role to use wi
 
 You will need to pass `phone_number` as a user attribute to enable SMS MFA for your users during sign-up. However, if the primary sign-in mechanism for your Cognito resource is `phone_number` (without enabling `username`), then you do not need to pass it as an attribute.
 
-```javascript
-Auth.signUp({
-    username,
-    password,
-    attributes: {
-        phone_number: '+15558675309'  // Replace with a valid phone number
-    }
-});
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```typescript
+import { Auth } from 'aws-amplify';
+
+async function signIn(){
+  try {
+    const user = await Auth.signUp({
+      username,
+      password,
+      attributes: {
+          phone_number: '+15558675309'  // Replace with a valid phone number
+      }
+    });
+  } catch (err) {
+    console.log(error)
+  }
+};
 ```
+</Block>
+<Block name="JavaScript">
+
+```js
+import { Auth } from 'aws-amplify';
+
+async function signIn(){
+  try {
+    const user = await Auth.signUp({
+      username,
+      password,
+      attributes: {
+          phone_number: '+15558675309'  // Replace with a valid phone number
+      }
+    });
+  } catch (err) {
+    console.log(error)
+  }
+};
+```
+</Block>
+</BlockSwitcher>
+
 
 By default, you have to verify a user account after they sign up using the `confirmSignUp` API, which will send a one-time password to the user's phone number or email, depending on your Amazon Cognito configuration.
 
-```javascript
-import { Auth } from 'aws-amplify';
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```typescript
+import { Auth } from 'aws-amplify'
 
 async function confirmSignUp() {
   try {
@@ -206,6 +247,24 @@ async function confirmSignUp() {
   }
 }
 ```
+
+</Block>
+<Block name="JavaScript">
+
+```javascript
+import { Auth } from 'aws-amplify'
+
+async function confirmSignUp() {
+  try {
+    await Auth.confirmSignUp(username, code);
+  } catch (error) {
+    console.log('error confirming sign up', error);
+  }
+}
+```
+
+</Block>
+</BlockSwitcher>
 
 #### Manage SMS MFA during sign-in
 
@@ -226,7 +285,7 @@ type ConfirmSignInWithMFAParameters = {
 
 type MFAType = 'SMS_MFA';
 
-export async function signInWithMFA({ username, password }: ConfirmSignInWithMFAParameters) {
+async function signInWithMFA({ username, password }: ConfirmSignInWithMFAParameters) {
   try {
     const user = await Auth.signIn(username, password);
     if (user.challengeName === 'SMS_MFA' || user.challengeName === 'SOFTWARE_TOKEN_MFA') {
@@ -257,6 +316,7 @@ async function getMFATypeFromUserInput(): Promise<MFAType> {
   // fetch MFA type from user form input
 }
 ```
+
 </Block>
 <Block name="JavaScript">
 
@@ -320,7 +380,7 @@ type SetupTOTPAuthParameters = {
   mfaType?: 'SMS_MFA' | 'SOFTWARE_TOKEN_MFA';
 };
 
-export async function setupTOTPAuth({ user, challengeAnswer, mfaType }: SetupTOTPAuthParameters) {
+async function setupTOTPAuth({ user, challengeAnswer, mfaType }: SetupTOTPAuthParameters) {
   // To set up TOTP, first you need to get a `authorization code` from Amazon Cognito.
   // `user` is the current Authenticated user:
   const secretCode = await Auth.setupTOTP(user);
@@ -428,23 +488,26 @@ Since both SMS MFA and TOTP MFA methods are supported by Amazon Cognito, you can
 ```ts
 import { Auth } from 'aws-amplify';
 
-export async function setupMFAType() {
-  // You can select preferred mfa type, for example:
-  // Select TOTP as preferred.
+type PreferredMFAType = 'TOTP' | 'SMS' | 'NOMFA'
+ 
+async function setupMFAType(preferredMFA: PreferredMFAType) {
   try {
     const user = await Auth.currentAuthenticatedUser();
-    const data = await Auth.setPreferredMFA(user, 'TOTP');
+    const data = await Auth.setPreferredMFA(user, preferredMFA);
     console.log(data);
   } catch (error) {
     console.log('error setting up MFA type', error);
   }
-
-  // Select SMS as preferred.
-  await Auth.setPreferredMFA(user, 'SMS');
-
-  // Select no-mfa.
-  await Auth.setPreferredMFA(user, 'NOMFA');
 }
+
+// Select TOTP as preferred.
+setupMFAType('TOTP')
+
+// Select SMS as preferred.
+setupMFAType('SMS');
+
+// Select no-mfa.
+setupMFAType('NOMFA');
 ```
 </Block>
 <Block name="JavaScript">
@@ -452,23 +515,24 @@ export async function setupMFAType() {
 ```js
 import { Auth } from 'aws-amplify';
 
-const user = await Auth.currentAuthenticatedUser();
-async function setupMFAType(user) {
-  // You can select preferred mfa type, for example:
-  // Select TOTP as preferred.
+async function setupMFAType(preferredMFAß) {
   try {
-    const data = await Auth.setPreferredMFA(user, 'TOTP');
+    const user = await Auth.currentAuthenticatedUser();
+    const data = await Auth.setPreferredMFA(user, preferredMFA);
     console.log(data);
   } catch (error) {
     console.log('error setting up MFA type', error);
   }
+}
+
+// Select TOTP as preferred.
+setupMFAType('TOTP')
 
 // Select SMS as preferred.
-  await Auth.setPreferredMFA(user, 'SMS');
+setupMFAType('SMS');
 
-  // Select no-mfa.
-  await Auth.setPreferredMFA(user, 'NOMFA');
-}
+// Select no-mfa.
+setupMFAType('NOMFA');
 ```
 </Block>
 </BlockSwitcher>
@@ -483,7 +547,7 @@ Once the preferred MFA method is set for your user you will then want to use the
 ```ts
 import { Auth } from 'aws-amplify';
 
-export async function getPreferredMFAType() {
+async function getPreferredMFAType() {
   try {
   // Will retrieve the current mfa type from cache
   // `bypassCache` is optional, by default is false.
@@ -587,7 +651,7 @@ You can remember devices using the following:
 ```ts
 import { Auth } from 'aws-amplify';
 
-export async function rememberDevice() {
+async function rememberDevice() {
   try {
     const result = await Auth.rememberDevice();
     console.log(result);
@@ -624,7 +688,7 @@ You can also forget devices but note that forgotten devices are still tracked.
 ```ts
 import { Auth } from 'aws-amplify';
 
-export async function forgetDevice() {
+async function forgetDevice() {
   try {
     await Auth.forgetDevice();
   } catch (error) {
@@ -659,7 +723,7 @@ You can fetch a list of remembered devices by using the following:
 ```ts
 import { Auth } from 'aws-amplify';
 
-export async function fetchDevices() {
+async function fetchDevices() {
   try {
     const result = await Auth.fetchDevices();
     console.log(result);
