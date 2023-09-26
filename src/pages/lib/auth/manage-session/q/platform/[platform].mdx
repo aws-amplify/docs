@@ -45,10 +45,11 @@ import { Auth } from 'aws-amplify';
 
 async function currentAuthenticatedUser() {
   try {
-    const user = Auth.currentAuthenticatedUser({
+    const user = await Auth.currentAuthenticatedUser({
       bypassCache: false // Optional, By default is false. If set to true, this call
       // will send a request to Cognito to get the latest user data.
     });
+    console.log(user);
   } catch(err) {
     console.log(err);
   }
@@ -57,7 +58,7 @@ async function currentAuthenticatedUser() {
 </Block>
 </BlockSwitcher>
 
-This method can be used to check if a user is signed in when the page is loaded. It will throw an error if there is no user signed in. This method should be called after the `Auth` module is configured or the user is signed in. To ensure that you can listen on the auth events `configured` or `signIn`. [Learn how to listen on auth events.](/lib/utilities/hub#authentication-events)
+This method can be used to check if a user is signed as it will throw an error if there is no current user signed in. Be sure to call this method after the `Auth` module is configured. 
 
 ## Retrieve my user’s session
 
@@ -69,7 +70,7 @@ This secure information in the `CognitoUserSession` object includes:
 - `idToken` - A JWT that contains user identity information like username and email. It is used to authenticate the user.
 - `accessToken` - A JWT used to access protected AWS resources and APIs. It contains the authorized scope.
 - `refreshToken` - This a longer-lived token used to refresh expired access tokens by generating new ID and access tokens.
-- `expiresIn` - Identifies token expiration time in seconds.
+- `clockDrift` - Identifies the Clock Drift.
 
 Amazon Cognito tokens work by generating temporary access and ID tokens with an expiration time at user sign-in. The tokens are validated against the user pool to authorize access until they expire.
 
@@ -89,12 +90,14 @@ Amazon Cognito tokens work by generating temporary access and ID tokens with an 
 ```ts
 import { Auth } from 'aws-amplify';
 
-Auth.currentSession()
-  .then((session) => {
-    const { accessToken, idToken, refreshToken } = session;
-    // Use the tokens to call AWS services
-  })
-  .catch((err) => console.log(err));
+async function currentSession() {
+  try {
+    const { accessToken, idToken, refreshToken } = await Auth.currentSession();
+  } catch(err) {
+    console.log(err);
+  }
+};
+
 ```
 
 </Block>
@@ -105,8 +108,7 @@ import { Auth } from 'aws-amplify';
 
 async function currentSession() {
   try {
-    const data = await Auth.currentSession();
-    console.log(data);
+    const { accessToken, idToken, refreshToken } = await Auth.currentSession();
   } catch(err) {
     console.log(err);
   }
@@ -122,76 +124,72 @@ Token keys are automatically rotated for you for added security but you can upda
 
 ### Update your token-saving mechanism
 
-You can update the storage mechanism to choose where and how tokens are persisted in your application. The default `BrowserLocalStorage` is suitable for most use cases, but you may want to use a different option for security or user experience reasons.
+
+You can update the storage mechanism to choose where and how tokens are persisted in your application. The default `localStorage` is suitable for most use cases, but you may want to use a different option for security or user experience reasons.
 
 #### Browser Local Storage
 
-In Amplify the `BrowserLocalStorage` is the default storage mechanism. It saves the tokens in the browser's `localStorage`. This local storage will persist across browser sessions and tabs. You can update to this storage by calling:
+In Amplify the `localStorage` is the default storage mechanism. It saves the tokens in the browser's `localStorage`. This local storage will persist across browser sessions and tabs. You can implicitly set to this storage by calling:
 
 ```javascript
 Auth.configure({
-  storage: Auth.storage.BrowserLocalStorage 
+  storage: localStorage
 });
 ```
 
 #### Browser Session Storage
 
-`BrowserSessionStorage` saves the tokens in the browser's `sessionStorage` and these tokens will clear when a tab is closed. The benefit to this storage mechanism is that the session only lasts as long as the browser is open and you can sign out users when they close the tab. You can update to this storage by calling:
+`sessionStorage` saves the tokens in the browser's `sessionStorage` and these tokens will clear when a tab is closed. The benefit to this storage mechanism is that the session only lasts as long as the browser is open and you can sign out users when they close the tab. You can update to this storage by calling:
 
 ```javascript
 Auth.configure({
-  storage: Auth.storage.BrowserSessionStorage
+  storage: sessionStorage
 }); 
-```
-
-#### Memory 
-
-`Memory` stores the tokens in memory only. These tokens will be lost when the page is refreshed. You can update to this storage by calling:
-
-```javascript
-Auth.configure({
-  storage: Auth.storage.Memory  
-});
 ```
 
 #### Custom Storage
 
-You can implement your own custom storage mechanism by creating a class that implements the storage interface. Then update to use your custom storage by calling:
+You can implement your own custom storage mechanism by creating a class that implements the storage interface. Here is an example of using custom storage that uses memory storage:
 
 ```javascript
+export class MyCustomStorage {
+
+    storageObject = {};
+  
+    setItem(key, value) {
+        this.storageObject[key] = value
+    }
+    getItem(key) {
+        return this.storageObject[key]
+    }
+    removeItem(key) {
+        delete this.storageObject[key]
+    }
+  
+    clear() {
+        storageObject = {};
+        return storageObject;
+    }
+}
+
 Auth.configure({
-  storage: MyCustomStorage  
+  storage: new MyCustomStorage()
 });
 ```
 
 When you get the current user session, the tokens will be saved in your custom location.
 
-### Update token refresh duration and expiration
-
-You can set expiration and refresh rates for a user session tokens with Amplify Auth using the `setSignInUserSessionData` method. Shorter sessions will provide better security as it limits the window for subsequent API calls after a user signs out. Setting these values also allows you to customize the user experience for your app by controlling how often a user has to re-authenticate. 
-
-For example, to set a session expiration of 1 hour (3600 seconds) and a refresh interval of 30 minutes (1800 seconds), you would:
-
-```javascript
-Auth.setSignInUserSessionData({
-  expiresIn: 3600, // Session expiration in seconds
-  refreshInterval: 1800 // Session refresh interval in seconds 
-});
-```
-
-This will set the expiration and refresh behavior for the current authenticated user's session. The `expiresIn` value determines how long the session will last before the user has to sign in again. The `refreshInterval` value determines how often the session will be automatically refreshed with new access and ID tokens. By default, the session is refreshed 15 minutes before expiration.
-
 <Callout>
 
-**Note:** You can also update token expiration times in the Amazon Cognito User Pool settings. Set the token expiration time in the Cognito User Pools console under "App integration" > "App client" settings.
+**Note:** You can also update token expiration times depending on how you configured your Amazon Cognito User Pool. If you used the Amplify CLI, you can run `amplify update auth` to do so. If not, you can also go through the Amazon Cognito User Pool console under "App integration" > "App client" settings or update the appropriate parameters via the AWS CLI or CDK.
 
 </Callout>
 
 ### Revoke tokens
 
-You can enable token revocation in Amazon Cognito. This will revoke refresh and access tokens when a user signs out, preventing them from being used to generate new tokens. Token revocation is enabled by default in new Cognito User Pools, but must be enabled for existing pools.
+Token revocation is enabled by default in new Cognito User Pool Clients, however you you are using an existing client, you may need to enable it. This allows for all access tokens that were previously issued by that refresh token to become invalid. However, other refresh tokens issued to the user are not affected.
 
-Additionally, if you set up global sign-out with `Auth.signOut({ global: true })` to globally sign out your users, this will revoke all refresh and access tokens, invalidating them immediately.
+To revoke tokens you can set up global sign-out with `Auth.signOut({ global: true })` to globally sign out your user, which will invalidate them immediately. Additionally, you can also invoke the [`RevokeToken`](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_RevokeToken.html) API or [Revoke endpoint](https://docs.aws.amazon.com/cognito/latest/developerguide/revocation-endpoint.html) directly.
 
 You can now change the user experience for your app by updating how and where your tokens are saved and managed.
 
