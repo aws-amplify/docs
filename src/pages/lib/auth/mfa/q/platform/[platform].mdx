@@ -285,7 +285,7 @@ type ConfirmSignInWithMFAParameters = {
 
 type MFAType = 'SMS_MFA';
 
-export async function signInWithMFA({ username, password }: ConfirmSignInWithMFAParameters) {
+async function signInWithMFA({ username, password }: ConfirmSignInWithMFAParameters) {
   try {
     const user = await Auth.signIn(username, password);
     if (user.challengeName === 'SMS_MFA' || user.challengeName === 'SOFTWARE_TOKEN_MFA') {
@@ -380,7 +380,7 @@ type SetupTOTPAuthParameters = {
   mfaType?: 'SMS_MFA' | 'SOFTWARE_TOKEN_MFA';
 };
 
-export async function setupTOTPAuth({ user, challengeAnswer, mfaType }: SetupTOTPAuthParameters) {
+async function setupTOTPAuth({ user, challengeAnswer, mfaType }: SetupTOTPAuthParameters) {
   // To set up TOTP, first you need to get a `authorization code` from Amazon Cognito.
   // `user` is the current Authenticated user:
   const secretCode = await Auth.setupTOTP(user);
@@ -488,23 +488,26 @@ Since both SMS MFA and TOTP MFA methods are supported by Amazon Cognito, you can
 ```ts
 import { Auth } from 'aws-amplify';
 
-async function setupMFAType() {
-  // You can select preferred mfa type, for example:
-  // Select TOTP as preferred.
+type PreferredMFAType = 'TOTP' | 'SMS' | 'NOMFA'
+ 
+async function setupMFAType(preferredMFA: PreferredMFAType) {
   try {
     const user = await Auth.currentAuthenticatedUser();
-    const data = await Auth.setPreferredMFA(user, 'TOTP');
+    const data = await Auth.setPreferredMFA(user, preferredMFA);
     console.log(data);
   } catch (error) {
     console.log('error setting up MFA type', error);
   }
-
-  // Select SMS as preferred.
-  await Auth.setPreferredMFA(user, 'SMS');
-
-  // Select no-mfa.
-  await Auth.setPreferredMFA(user, 'NOMFA');
 }
+
+// Select TOTP as preferred.
+setupMFAType('TOTP')
+
+// Select SMS as preferred.
+setupMFAType('SMS');
+
+// Select no-mfa.
+setupMFAType('NOMFA');
 ```
 </Block>
 <Block name="JavaScript">
@@ -512,23 +515,24 @@ async function setupMFAType() {
 ```js
 import { Auth } from 'aws-amplify';
 
-async function setupMFAType(user) {
-  // You can select preferred mfa type, for example:
-  // Select TOTP as preferred.
+async function setupMFAType(preferredMFAß) {
   try {
     const user = await Auth.currentAuthenticatedUser();
-    const data = await Auth.setPreferredMFA(user, 'TOTP');
+    const data = await Auth.setPreferredMFA(user, preferredMFA);
     console.log(data);
   } catch (error) {
     console.log('error setting up MFA type', error);
   }
+}
+
+// Select TOTP as preferred.
+setupMFAType('TOTP')
 
 // Select SMS as preferred.
-  await Auth.setPreferredMFA(user, 'SMS');
+setupMFAType('SMS');
 
-  // Select no-mfa.
-  await Auth.setPreferredMFA(user, 'NOMFA');
-}
+// Select no-mfa.
+setupMFAType('NOMFA');
 ```
 </Block>
 </BlockSwitcher>
@@ -543,7 +547,7 @@ Once the preferred MFA method is set for your user you will then want to use the
 ```ts
 import { Auth } from 'aws-amplify';
 
-export async function getPreferredMFAType() {
+async function getPreferredMFAType() {
   try {
   // Will retrieve the current mfa type from cache
   // `bypassCache` is optional, by default is false.
@@ -647,7 +651,7 @@ You can remember devices using the following:
 ```ts
 import { Auth } from 'aws-amplify';
 
-export async function rememberDevice() {
+async function rememberDevice() {
   try {
     const result = await Auth.rememberDevice();
     console.log(result);
@@ -684,7 +688,7 @@ You can also forget devices but note that forgotten devices are still tracked.
 ```ts
 import { Auth } from 'aws-amplify';
 
-export async function forgetDevice() {
+async function forgetDevice() {
   try {
     await Auth.forgetDevice();
   } catch (error) {
@@ -719,7 +723,7 @@ You can fetch a list of remembered devices by using the following:
 ```ts
 import { Auth } from 'aws-amplify';
 
-export async function fetchDevices() {
+async function fetchDevices() {
   try {
     const result = await Auth.fetchDevices();
     console.log(result);
