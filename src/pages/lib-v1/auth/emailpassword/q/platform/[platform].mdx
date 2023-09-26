@@ -17,9 +17,9 @@ Before you enable sign-up, sign-in, and sign-out there are a few decisions you w
 
 Below is a high-level overview of the workflows for sign-up, sign-in, and sign-out with Amplify authentication:
 
-**Sign-up:** The username/password set up will ask your user for a username (or email) and a password. This should also include any attributes you include in your sign-up form such as address, birthdate, phone, etc. When your end-user submits this information, it is then passed through the `signUp()` API to your Amazon Cognito User Pool, where a user is created. By default, the user will receive a confirmation message via email or SMS, depending on what you configured, but you also have the option to auto-confirm your users after they sign up. Users must then enter the confirmation code to complete the sign-up process. Once the user is verified, their user profile is officially confirmed and is active in the Cognito User Pool. The profile contains the username, password, and any other attributes collected during sign-up. This user profile can then be used to sign-in and access your application.
+**Sign-up:** The username/password set up will ask your user for a username (or email) and a password. This should also include any attributes you include in your sign-up form such as address, birthdate, phone, etc. When your end-user submits this information, it is then passed through the `signUp()` API to your Cognito user pool, where a user is created. By default, the user will receive a confirmation message via email or SMS, depending on what you configured, but you also have the option to auto-confirm your users after they sign up. Users must then enter the confirmation code to complete the sign-up process. Once the user is verified, their user profile is officially confirmed and is active in the user pool. The profile contains the username, password, and any other attributes collected during sign-up. This user profile can then be used to sign-in and access your application.
 
-**Sign-in:** The user enters the username/password they created on sign-up and submits the form in your application to sign-in. The application will then call the `signIn()` API to sign-in the user by passing the username/password to verify and establish a session with Amazon Cognito which will then generate the needed tokens to grant access. Amazon Cognito issues temporary short-lived tokens on sign-in (default of 1 hour) but you can update these settings to keep your users signed in for longer (up to 24 hours).
+**Sign-in:** The user enters the username/password they created on sign-up and submits the form in your application to sign-in. The application will then call the `signIn()` API to sign-in the user by passing the username/password to verify and establish a session with Amazon Cognito which will then generate the needed tokens to grant access. Cognito issues temporary short-lived tokens on sign-in (default of 1 hour) but you can update these settings to keep your users signed in for longer (up to 24 hours).
 
 **Sign-out:** Amplify uses the `signOut()` API to sign-out the user by ending the current session and revoking the tokens with Amazon Cognito. This clears the user session in the browser and the application will then navigate the user to the sign-in screen.
 
@@ -27,7 +27,7 @@ Below is a high-level overview of the workflows for sign-up, sign-in, and sign-o
 
 ### Which Amazon Cognito attributes will you pass for sign-up?
 
-User attributes (e.g. username, email, etc.) are used to identify your users. These are set up when you configure your Cognito User Pool and cannot be renamed or deleted after they are added. You can use the Amplify CLI to add user attributes or visit the Amazon Cognito console. To add user attributes with the CLI, you can run the command `amplify add auth` for a new project, or use `amplify update auth` if you already have existing resources set up. Then, you can select `manual configuration` when prompted by the Amplify CLI.
+User attributes (e.g. username, email, etc.) are used to identify your users. These are set up when you configure your user pool and cannot be renamed or deleted after they are added. You can use the Amplify CLI to add user attributes or visit the Amazon Cognito console. To add user attributes with the CLI, you can run the command `amplify add auth` for a new project, or use `amplify update auth` if you already have existing resources set up. Then, you can select `manual configuration` when prompted by the Amplify CLI.
 
 ```sh
 ? amplify update auth
@@ -303,7 +303,7 @@ Once you implement the Amplify Library methods within your application, you can 
 
 ### View the created user in the AWS Console
 
-After you test the sign-up, sign-in, and sign-out functionality, you can take a look at the created user in the Amazon Cognito console. To do so, you can use `amplify console auth` to open the console directly from the CLI, or take a look at the existing User Pools in the console. Note the users status should be `CONFIRMED` if you successfully verified the user; however, it can be in `UNCONFIRMED` if the user is not yet verified. You can also check to make sure any other required attributes are updating correctly.
+After you test the sign-up, sign-in, and sign-out functionality, you can take a look at the created user in the Amazon Cognito console. To do so, you can use `amplify console auth` to open the console directly from the CLI, or take a look at the existing user pools in the console. Note the users status should be `CONFIRMED` if you successfully verified the user; however, it can be in `UNCONFIRMED` if the user is not yet verified. You can also check to make sure any other required attributes are updating correctly.
 
 You now have enabled sign-up, sign-in, and sign-out for your authentication and verified its functionality with a test user.
 

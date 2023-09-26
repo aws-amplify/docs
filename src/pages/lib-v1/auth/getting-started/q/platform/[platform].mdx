@@ -171,7 +171,7 @@ amplify import auth
    Cognito User Pool only
 ```
 
-Once you've selected an option, you'll be able to search for and import an existing Cognito User Pool and Identity Pool (or User Pool only) within your AWS account.  The `amplify import auth` command will also do the following:
+Once you've selected an option, you'll be able to search for and import an existing Cognito user pool and identity pool (or user pool only) within your AWS account.  The `amplify import auth` command will also do the following:
 - Automatically populate your Amplify Library configuration files (aws-exports.js, amplifyconfiguration.json) with your chosen Amazon Cognito resource information
 - Provide your designated existing Cognito resource as the authentication & authorization mechanism for all auth-dependent categories (API, Storage and more)
 - Enable Lambda functions to access the chosen Cognito resource if you permit it
@@ -203,7 +203,7 @@ Amplify.configure(awsconfig);
 
 <Block name="Existing Resources">
 
-Existing Authentication resources from AWS (e.g. Amazon Cognito UserPools or Identity Pools) can be used with the Amplify Libraries by calling the `Amplify.configure()` method. 
+Existing Authentication resources from AWS (e.g. Amazon Cognito user pools or identity pools) can be used with the Amplify Libraries by calling the `Amplify.configure()` method. 
 
 In your app's entry point (i.e. **App.js**, **index.js**, **_app.js**, or **main.js**), import and load the configuration file:
 
@@ -243,16 +243,13 @@ Amplify.configure({
     }
   },
 });
-
-// Get the current Amplify configuration
-const currentConfig = Amplify.getConfig();
 ```
 <Callout warning={true}>
-If your existing UserPool client has a required attribute that is NOT set to mutable, you may face login issues when using Social sign-in. To resolve this, you will need to <ExternalLink href="https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-client-apps.html">create a new UserPool client</ExternalLink> and mark the required attribute as mutable.
+If your existing user pool client has a required attribute that is NOT set to mutable, you may face login issues when using Social sign-in. To resolve this, you will need to <ExternalLink href="https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-client-apps.html">create a new user pool client</ExternalLink> and mark the required attribute as mutable.
 </Callout>
 
 #### OAuth configuration parameters:
-These settings can be found in the Cognito User Pools console under **App Integration** section
+These settings can be found in the user pool console under **App Integration** section
 - `domain`: This can be found in the **Domain name** sub section
 - `scope`: Remember to have the scope allowed on the Cognito App client, this can be found on **App client settings** sub section
 - `redirectSignIn`: URL must be present on **Callback URL(s)** , check on **App client settings** sub section

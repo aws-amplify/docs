@@ -104,8 +104,8 @@ generate short-lived, six digit passwords.
 After you initiate a user sign in with the `signIn` API where a user is required to set up TOTP as an MFA method, the API call will return `CONTINUE_SIGN_IN_WITH_TOTP_SETUP`
 as a challenge and next step to handle in your app. You will get that challenge if the following conditions are met:
 
-- MFA is marked as **Required** in Cognito User Pool.
-- TOTP is enabled in the Cognito User Pool
+- MFA is marked as **Required** in your user pool.
+- TOTP is enabled in your user pool.
 - User does not have TOTP MFA set up already.
 
 The `CONTINUE_SIGN_IN_WITH_TOTP_SETUP` step signifies that the user must set up TOTP before they can sign in. The step returns an associated value of type `TOTPSetupDetails`
@@ -136,8 +136,8 @@ import jsUpdateMFAPreferenceTOTP from "/src/fragments/lib-v1/auth/js/totp/update
 
 TOTP MFA can be set up after a user has signed in. This can be done when the following conditions are met:
 
-- MFA is marked as **Optional** or **Required** in the Cognito User Pool
-- TOTP is marked as an enabled MFA method in Cognito user pool
+- MFA is marked as **Optional** or **Required** in your user pool.
+- TOTP is marked as an enabled MFA method in your user pool.
 
 TOTP can be set up by calling the `setUpTOTP` and `verifyTOTPSetup` APIs in the `Auth` category.
 
@@ -164,11 +164,11 @@ and optionally set it as preferred so that subsequent logins default to using th
 
 <Callout warning>
 
-If a user loses access to their TOTP device, they would need to contact an administrator to help get access to their account. Based on the Cognito User Pool configuration, the administrator can use the [AdminSetUserMFAPreference](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminSetUserMFAPreference.html) to either change the MFA preference to a different MFA method or to disable MFA for the user.
+If a user loses access to their TOTP device, they would need to contact an administrator to help get access to their account. Based on the Cognito user pool configuration, the administrator can use the [AdminSetUserMFAPreference](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminSetUserMFAPreference.html) to either change the MFA preference to a different MFA method or to disable MFA for the user.
 
 </Callout>
 
-In a scenario where MFA is marked as **Required** in Cognito User Pool and another MFA method is not set up, the administrator would need to first initiate an [AdminUpdateUserAttributes](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminUpdateUserAttributes.html) call and update the user’s phone number attribute. Once this is complete, the administrator can continue changing the MFA preference to SMS as suggested above.
+In a scenario where MFA is marked as **Required** in your user pool and another MFA method is not set up, the administrator would need to first initiate an [AdminUpdateUserAttributes](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminUpdateUserAttributes.html) call and update the user’s phone number attribute. Once this is complete, the administrator can continue changing the MFA preference to SMS as suggested above.
 
 ## Setting a user's preferred MFA option
 
