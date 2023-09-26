@@ -70,7 +70,7 @@ This secure information in the `CognitoUserSession` object includes:
 - `idToken` - A JWT that contains user identity information like username and email. It is used to authenticate the user.
 - `accessToken` - A JWT used to access protected AWS resources and APIs. It contains the authorized scope.
 - `refreshToken` - This a longer-lived token used to refresh expired access tokens by generating new ID and access tokens.
-- `clockDrift` - Identifies the difference between the clock on the local machine and what is maintained by Cognito. This value is in microseconds ****.
+- `clockDrift` - Identifies the Clock Drift.
 
 Amazon Cognito tokens work by generating temporary access and ID tokens with an expiration time at user sign-in. The tokens are validated against the user pool to authorize access until they expire.
 
@@ -147,25 +147,33 @@ Auth.configure({
 }); 
 ```
 
-? ---
-#### Memory 
-
-`Memory` stores the tokens in memory only. These tokens will be lost when the page is refreshed. You can update to this storage by calling:
-
-```javascript
-Auth.configure({
-  storage: Auth.storage.Memory  
-});
-```
-? ----
-
 #### Custom Storage
 
-You can implement your own custom storage mechanism by creating a class that implements the storage interface. Then update to use your custom storage by calling:
+You can implement your own custom storage mechanism by creating a class that implements the storage interface. Here is an example of using custom storage that uses memory storage:
 
 ```javascript
+export class MyCustomStorage {
+
+    storageObject = {};
+  
+    setItem(key, value) {
+        this.storageObject[key] = value
+    }
+    getItem(key) {
+        return this.storageObject[key]
+    }
+    removeItem(key) {
+        delete this.storageObject[key]
+    }
+  
+    clear() {
+        storageObject = {};
+        return storageObject;
+    }
+}
+
 Auth.configure({
-  storage: MyCustomStorage  
+  storage: new MyCustomStorage()
 });
 ```
 
