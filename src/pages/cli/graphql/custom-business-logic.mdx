@@ -504,10 +504,11 @@ Finally, add your custom resolvers into the `cdk-stack.ts` file. You can either 
 
 #### Unit Resolver
 ```ts
-import * as cdk from '@aws-cdk/core';
+import * as cdk from 'aws-cdk-lib';
 import * as AmplifyHelpers from '@aws-amplify/cli-extensibility-helper';
-import * as appsync from '@aws-cdk/aws-appsync';
+import * as appsync from 'aws-cdk-lib/aws-appsync';
 import { AmplifyDependentResourcesAttributes } from '../../types/amplify-dependent-resources-ref';
+import { Construct } from 'constructs';
 
 const requestVTL =`
 <YOUR CUSTOM VTL REQUEST MAPPING TEMPLATE HERE>
@@ -517,7 +518,7 @@ const responseVTL =`
 `
 
 export class cdkStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps, amplifyResourceProps?: AmplifyHelpers.AmplifyResourceProps) {
+  constructor(scope: Construct, id: string, props?: cdk.StackProps, amplifyResourceProps?: AmplifyHelpers.AmplifyResourceProps) {
     super(scope, id, props);
     /* Do not remove - Amplify CLI automatically injects the current deployment environment in this input parameter */
     new cdk.CfnParameter(this, 'env', {
@@ -553,10 +554,11 @@ export class cdkStack extends cdk.Stack {
 #### Pipeline Resolver
 
 ```ts 
-import * as cdk from '@aws-cdk/core';
+import * as cdk from 'aws-cdk-lib';
 import * as AmplifyHelpers from '@aws-amplify/cli-extensibility-helper';
-import * as appsync from '@aws-cdk/aws-appsync';
+import * as appsync from 'aws-cdk-lib/aws-appsync';
 import { AmplifyDependentResourcesAttributes } from '../../types/amplify-dependent-resources-ref';
+import { Construct } from 'constructs';
 
 const beforeMappingVTL =`
 <YOUR CUSTOM VTL REQUEST MAPPING TEMPLATE HERE>
@@ -577,7 +579,7 @@ const function2responseVTL=`
 <YOUR CUSTOM VTL FUNCTION 2 RESPONSE MAPPING TEMPLATE HERE>
 `
 export class cdkStack extends cdk.Stack {
-  constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps, amplifyResourceProps?: AmplifyHelpers.AmplifyResourceProps) {
+  constructor(scope: Construct, id: string, props?: cdk.StackProps, amplifyResourceProps?: AmplifyHelpers.AmplifyResourceProps) {
     super(scope, id, props);
     /* Do not remove - Amplify CLI automatically injects the current deployment environment in this input parameter */
     new cdk.CfnParameter(this, 'env', {

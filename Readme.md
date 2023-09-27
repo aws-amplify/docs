@@ -57,6 +57,18 @@ import js from "/src/fragments/lib/datastore/js/conflict.mdx";
 
 This fragment would exist in: `pages/src/fragments/lib/datastore/js/conflict.mdx`
 
+### Inline Filters 
+
+We are incorporating the use of `<InlineFilters>` to add platform-specific content within the context of one page rather than in fragments. These filters allow you to still specify content by platform and they reference platforms using the same naming convention as our fragments. You can enclose your platform-specific content by updating the opening tag:
+
+````md
+<InlineFilter filters={["js", "react-native", "android", "ios", "flutter"]}>
+
+</InlineFilter>
+````
+ 
+If you are updating content on a page, please note any inline filter tags which may be indicating a specific platform as you make your edits.
+
 ### Accordion 
 
 `Accordion` This single-use accordion hides peripheral content until the reader selects to expand the section. This helps you keep your pages focused on the need-to-know information upfront, while also providing readers an option to dive deeper when they choose. These accordions can provide peripheral content such as additional context for beginners, advanced deep dives for those who want to off-road, and troubleshooting guidance for errors users may encounter.

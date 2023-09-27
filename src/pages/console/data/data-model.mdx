@@ -5,6 +5,12 @@ export const meta = {
 
 ## Data modeling example
 
+<Callout info>
+
+**Studio now supports all Studio GraphQL APIs, with or without DataStore. [Learn more below](#datastore-and-graphql)**
+
+</Callout>
+
 In this example you will build a data model for a bookstore to maintain information about books, authors, and publishers with relationships and authorization rules. The schema template below is a starting point for the bookstore backend.
 
 <Grid grid-gap="2" columns={1} className="margin-top-lg margin-bottom-lg">
@@ -29,43 +35,58 @@ Skip ahead to [relationships](/console/data/relationships) or read below on how 
 
 ## Data modeling in Amplify Studio
 
-The Studio data model designer provides a visual way to define your app's data model, relationships, and authorization rules. Studio generates a `schema.graphql` GraphQL Transform for the data model you create. To learn more about how the GraphQl transform works, see [GraphQL Transform Overview](/cli/graphql-transformer/overview).
+The Studio data model designer provides a visual way to define your app's data model, relationships, and authorization rules. Studio generates a `schema.graphql` GraphQL Transform for the data model you create, and adds this to your Amplify project. To learn more about how the GraphQl transform works, see [GraphQL Transform Overview](/cli/graphql-transformer/overview).
 
 ![Screen recording of the process for adding a data model in data modelling page](/images/console/datamodel.gif)
 
 The experience for modeling data is the same in the sandbox and in Studio. With an AWS account, you will have real-time data synchronization capabilities and you will also be able to set authorization rules on your models. For more information, see [Authorization](/console/authz/authorization). All data models are provisioned in your account as AWS AppSync GraphQL APIs and Amazon DynamoDB tables. As with every feature of Studio, it can be further extended with the CLI.
 
-### DataStore and GraphQL
-By default, all data models built with Studio are provisioned with Amplify DataStore. However, Studio applications work with both DataStore and an Amplify GraphQL API. 
+## DataStore and GraphQL
+When you save and deploy your data model, Amplify Studio generates a GraphQL API for you using AWS AppSync. By default, all data models built with Studio are provisioned as GraphQL APIs without DataStore - however, **Studio supports all Amplify GraphQL APIs, with and without DataStore**. 
 
-**[DataStore](/lib/datastore/getting-started)** is an on-device storage engine that automatically synchronizes data between your mobile and web apps and your database, enabling offline use. DataStore requires a **Conflict Resolution** method to function. 
+**[DataStore](/lib/datastore/getting-started)** is a wrapper for your GraphQL API that uses local, on-device storage to handle offline use. DataStore automatically synchronizes data between your mobile or web app and your database, and uses a **Conflict Resolution strategy** to handle data conflicts. DataStore is automatically added to your API when you select a Conflict Resolution method. 
 
-An **[Amplify GraphQL API](../../cli/graphql/overview/)** is an online-only API that uses a GraphQL and DynamoDB via AWS AppSync. 
+### Impact of changing Conflict Resolution
 
-To change your app's Conflict Resolution settings, or to change your app from using DataStore to using an Amplify GraphQL API, take the following steps:
+You can change the settings for your GraphQL API at any time via Studio or the CLI. However, turning Conflict Resolution off or on is a **significant** app change. 
+
+**Updating Syntax**
+
+To interface with your data while Conflict Resolution is enabled, you will likely be using [DataStore syntax](/lib/datastore/data-access/q/platform/js/). However, if Conflict Resolution is disabled, any data interactions must be updated to use [GraphQL syntax](/lib/graphqlapi/mutate-data/q/platform/js/) instead. 
+
+**Inaccessible data**
+
+When a GraphQL API is created with Conflict Resolution enabled, [several hidden fields](/lib/datastore/how-it-works/q/platform/js/#conflict-resolution) are automatically added to each of your data models - these fields are required for querying and mutating data, and if any records have these values set to `null`, those records will be inaccessible.
+
+If Conflict Resolution is disabled, these fields will no longer be populated when records are created or modified. This will have no immediate impact on your app, so long as you are using [GraphQL syntax](/lib/graphqlapi/mutate-data/q/platform/js/) to interact with your data. However, if Conflict Resolution is later re-enabled, **any existing data in the API will be inaccessible until the required fields are set for all existing records**. 
+
+To avoid this situation, it's recommended to only enable/disable Conflict Resolution on APIs with no pre-existing data. 
+
+### Changing GraphQL API settings
+
+To use Studio to enable/disable Conflict Resolution, or to change your Conflict Resolution settings, take the following steps:
 1. Navigate to **[Amplify Studio](/console/adminui/start/#log-into-the-amplify-console) > Data**
 2. Select **GraphQL API settings** at the top of the page
-3. Toggle DataStore off or on, or change your Conflict Resolution strategy
+![screenshot of the Data tab, highlighting the GraphQL API settings link](/images/console/conflict-resolution1.png)
+3. Toggle Conflict Resolution off or on, or change your Conflict Resolution strategy
+![screenshot of the GraphQL API settings, highlighting the Conflict Resolution switch, and dropdown with options](/images/console/conflict-resolution2.png)
 4. Return to the Data Modeling screen and select **Save and Deploy**
 
-<Callout warning>
+To configure your API using the Amplify CLI, run `amplify configure api` in your terminal and follow the prompts. 
 
-**IMPORTANT NOTE**: Changing between DataStore and an Amplify GraphQL API is a significant change to your data structure, and can take up to 30 minutes to complete. Frequently changing between data structures is not recommended.
-
-</Callout>
-
-### Limitations
-Applications that use an Amplify GraphQL API have limited feature availability in Studio. 
-- The Content Manager is not supported, and is [replaced by a GraphiQL interface](content-management/#limitations)
-- [Binding UI Components to data](../uibuilder/databinding/), and [generating Collections](../uibuilder/collections/) is not supported
-- [Binding Forms to data, and auto-generated forms](../formbuilder/overview/) are not supported
+## Limitations
+Applications with Conflict Resolution disabled have some minor limitations:
+- Sorting by column in [Data Manager](./content-management) is not supported
+- [Figma-to-Code Collections](../uibuilder/collections/) do not support Pagination, and have limited support for Search
+- [Forms with relationships](../formbuilder/special-inputs/) have some limitations when searching Autocomplete fields
 
 To get access to these features, turn on DataStore and select a Conflict Resolution strategy.
 
 ### Unsupported directives and field-level parameters
 
-If a data model contains unsupported directives or field-level parameters the **Visual editor** under Data modeling and **Data manager** under Content will not be available to use. However, you can continue using other Amplify Studio features and use the Amplify CLI to make modifications to GraphQL schemas.
+If a data model contains unsupported directives or field-level parameters, the **Visual editor** under Data modeling will not be available to use, and **Data manager** may have limited functionality. However, you can continue using other Amplify Studio features and use the Amplify CLI to make modifications to GraphQL schemas.
 
+Unsupported directives in Studio include:
 - [`@default` directive](/cli/graphql/data-modeling/#assign-default-values-for-fields)
 <<<<<<< HEAD
 - [`@index` directive](cli/graphql/data-modeling/#configure-a-secondary-index)

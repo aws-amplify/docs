@@ -110,7 +110,7 @@ export const directory = {
           {
             title: 'Identify user',
             route: '/lib/analytics/identifyuser',
-            filters: ['android', 'flutter', 'ios', 'react-native', 'js']
+            filters: ['android', 'flutter', 'ios', 'react-native']
           },
           {
             title: 'Streaming analytics data',
@@ -268,17 +268,12 @@ export const directory = {
         title: 'Authentication',
         items: [
           {
-            title: 'Getting started',
+            title: 'Set up Amplify Auth',
             route: '/lib/auth/getting-started',
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
-            title: 'Set up Amplify Auth',
-            route: '/lib/auth/set_up_auth',
-            filters: ['js']
-          },
-          {
-            title: 'Sign up, Sign in & Sign out',
+            title: 'Enable sign-up, sign-in, and sign-out',
             route: '/lib/auth/emailpassword',
             filters: ['js', 'react-native']
           },
