@@ -343,6 +343,11 @@ export const directory = {
             filters: ['android', 'flutter', 'ios']
           },
           {
+            title: 'Use with Server-Side Rendering (SSR)',
+            route: '/lib/auth/ssr',
+            filters: ['js']
+          },
+          {
             title: 'Auth events',
             route: '/lib/auth/auth-events',
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
