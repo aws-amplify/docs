@@ -200,15 +200,15 @@
     "@jridgewell/gen-mapping" "^0.3.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
-"@aws-amplify/amplify-cli-core@^4.2.6":
-  version "4.2.6"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-cli-core/-/amplify-cli-core-4.2.6.tgz#e8fd1c0df0f80865c52926d3d01858eb0eeaed86"
-  integrity sha512-oHwRlYzCshzyNUA4D4N/IWxr/GCaU2sRX3ssnneH1jNTqw6f1Z6/NcdER95ZIImfx7EsBbNasn7nAxqHg7oa8g==
+"@aws-amplify/amplify-cli-core@^4.2.7":
+  version "4.2.7"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-cli-core/-/amplify-cli-core-4.2.7.tgz#78de4c338a4268ab5e81efd4047a4ff06a751058"
+  integrity sha512-hyUwbftQSvmty33wedESBlAUpdZepFCB4KVZjlUVk0ZYgWWh+rZoudAxiQwxPjhDWuYJC6HDqt5sGd0Ej+EOqQ==
   dependencies:
-    "@aws-amplify/amplify-cli-logger" "1.3.5"
+    "@aws-amplify/amplify-cli-logger" "1.3.6"
     "@aws-amplify/amplify-function-plugin-interface" "1.11.0"
-    "@aws-amplify/amplify-prompts" "2.8.3"
-    "@aws-amplify/graphql-transformer-interfaces" "^2.3.0"
+    "@aws-amplify/amplify-prompts" "2.8.4"
+    "@aws-amplify/graphql-transformer-interfaces" "^3.1.2"
     "@aws-sdk/util-arn-parser" "^3.310.0"
     "@yarnpkg/lockfile" "^1.1.0"
     ajv "^6.12.6"
@@ -236,10 +236,10 @@
     which "^2.0.2"
     yaml "^2.2.2"
 
-"@aws-amplify/amplify-cli-logger@1.3.5":
-  version "1.3.5"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-cli-logger/-/amplify-cli-logger-1.3.5.tgz#2bb0c2642c18136a2f69c0892dcb99492abbeb77"
-  integrity sha512-ZsQCn53CMOpkiqJwOpk6BwsrtEg1Sp/wbtR5NC+FryY+Zjy23I5xRoyvERr6lS7CPei3QFk3gut3pA73DRAC1Q==
+"@aws-amplify/amplify-cli-logger@1.3.6":
+  version "1.3.6"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-cli-logger/-/amplify-cli-logger-1.3.6.tgz#341a64921e3165e104ce6f0d717067b440402498"
+  integrity sha512-wjiSZbu/5sK7In08Q5se6LkUPR8waGn6V6mc2p5r7tBK9f3UxAaY5UjYPD5ulO6l3dOsLcWGWnClLTdImUmiZQ==
   dependencies:
     winston "^3.3.3"
     winston-daily-rotate-file "^4.5.0"
@@ -254,10 +254,10 @@
   resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-function-plugin-interface/-/amplify-function-plugin-interface-1.11.0.tgz#f09bbfdd16677c35e8455a9cb7b0cb658f58a7bc"
   integrity sha512-X0Ywl6zBd54XOiWDGakaoCKogTtU7wR+s+8egmQuBMYJK/kW+apvyPGI7wdXGommwXYs1Hs1vr61V+h/+Rbfig==
 
-"@aws-amplify/amplify-prompts@2.8.3":
-  version "2.8.3"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-prompts/-/amplify-prompts-2.8.3.tgz#2c0bc4180fad538977ffef419c3f22067bce479b"
-  integrity sha512-sKLZwCEHrbwtu0+r3/KXt7kELWnKy+zMkVnAqfE/AhgzgNMmBoix6lpPLu2KFELXQnUzFQ+EhNXh6WOXceh3iQ==
+"@aws-amplify/amplify-prompts@2.8.4":
+  version "2.8.4"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/amplify-prompts/-/amplify-prompts-2.8.4.tgz#cb2880312284d28b2fa1a3266942d73169cd3432"
+  integrity sha512-hR6oUzosH8DIb1aZXmPxdvMBsNRORsR8dy6/Wl8D4pGyPDxJPFZ2BqIS4DECX/gjDTiZx9ivso7ABCkF5w7pUg==
   dependencies:
     "@aws-amplify/amplify-cli-shared-interfaces" "1.2.3"
     chalk "^4.1.1"
@@ -374,10 +374,10 @@
     camelcase-keys "6.2.2"
     tslib "^1.8.0"
 
-"@aws-amplify/graphql-transformer-interfaces@^2.3.0":
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-transformer-interfaces/-/graphql-transformer-interfaces-2.3.0.tgz#fee01fbbcb0572201e1e3553503db9f706fc01dd"
-  integrity sha512-GC3zsT3RGK7XPdt/sLDOS69lY0vcob7ozoAuBtLotA9CrmuxHuSAWwYr3diqyt5Jn0z6c64DGjbiLD3XD00kyg==
+"@aws-amplify/graphql-transformer-interfaces@^3.1.2":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-transformer-interfaces/-/graphql-transformer-interfaces-3.2.0.tgz#29179690bbe5e9c2fd564d588ba00b12f62d5834"
+  integrity sha512-BDhRoGa8YjxglsYjqlJ/rog182lKzBO4FAq/3hRDA0Hij0Be2npCOPVP1HZ9OsAkRCdSrNE1IokwRQP8o512eg==
   dependencies:
     graphql "^15.5.0"
 
