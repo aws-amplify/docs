@@ -135,6 +135,7 @@
     "refresh": "yarn clean && yarn",
     "test": "jest",
     "dev": "next dev",
+    "linkcheck": "node tasks/check-links.mjs Internal",
     "spellcheck": "cspell \"src/**/*.mdx\" --no-progress",
     "spellcheck-diff": "git diff --name-only --cached | awk \"/src.*\\.mdx/{print}\" | npx cspell --no-must-find-files --file-list stdin",
     "build": "node tasks/generate-sitemap.mjs && next build && next export -o client/www/next-build && next-image-export-optimizer --exportFolderPath client/www/next-build",

@@ -1,5 +1,5 @@
-const puppeteer = require('puppeteer');
-const axios = require('axios');
+import puppeteer from 'puppeteer';
+import axios from 'axios';
 
 const SITEMAP_URL = 'https://docs.amplify.aws/sitemap.xml';
 const DOMAIN = 'https://docs.amplify.aws';
@@ -17,7 +17,7 @@ const getSitemapUrls = async (localDomain) => {
 
   const page = await browser.newPage();
 
-  let siteMap = localDomain ? SITEMAP_URL : `${localDomain}/sitemap.xml`;
+  let siteMap = localDomain ? `${localDomain}/sitemap.xml` : SITEMAP_URL;
   let response = await page.goto(siteMap);
 
   const siteMapUrls = [];
@@ -35,6 +35,9 @@ const getSitemapUrls = async (localDomain) => {
         urlTags,
         i
       );
+      if (localDomain) {
+        url = url.replace(DOMAIN, localDomain);
+      }
       siteMapUrls.push(url);
     }
   }
@@ -56,7 +59,7 @@ const retrieveLinks = async (siteMapUrls, visitedLinks) => {
 
     try {
       let response = await page.goto(url, { waitUntil: 'domcontentloaded' });
-      await page.waitForNetworkIdle();
+      await new Promise((r) => setTimeout(r, 100));
       if (response && response.status() && response.status() === 200) {
         console.log(`successfully visited ${url} to retrieve links`);
         visitedLinks[url] = true;
@@ -108,12 +111,12 @@ const formatString = (inputs) => {
   return retString;
 };
 
-const linkChecker = async () => {
+const linkChecker = async (base) => {
   const visitedLinks = {};
   const statusCodes = {};
   const brokenLinks = [];
 
-  const siteMapUrls = await getSitemapUrls();
+  const siteMapUrls = await getSitemapUrls(base);
 
   const urlsToVisit = await retrieveLinks(siteMapUrls, visitedLinks);
 
@@ -166,8 +169,10 @@ const linkChecker = async () => {
   return formatString(brokenLinks);
 };
 
-module.exports = {
-  checkLinks: async () => {
-    return await linkChecker();
-  }
-};
+let param = process.argv[2];
+let base;
+if (param && param === 'Internal') {
+  base = 'http://localhost:3000';
+}
+
+let results = await linkChecker(base);
