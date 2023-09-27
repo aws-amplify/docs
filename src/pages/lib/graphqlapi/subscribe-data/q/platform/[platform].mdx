@@ -5,15 +5,23 @@ export const meta = {
 
 <InlineFilter filters={["js", "react-native"]}>
 
-import guide from "/src/fragments/common/guide-header.mdx";
-
-<Fragments fragments={{all: guide}} />
-
 In this guide, we outline the benefits of enabling real-time data integrations and how to set up and filter these subscriptions. We will also cover how to unsubscribe from subscriptions when needed.
 
 Before you begin, you will need:
-- An application connected to the API
+
+<InlineFilter filters={["js"]}>
+
+- An [application connected to the API](/lib/graphqlapi/connect/q/platform/js/)
 - Data already created to modify
+
+</InlineFilter>
+
+<InlineFilter filters={["react-native"]}>
+
+- An [application connected to the API](/lib/graphqlapi/getting-started/q/platform/react-native/)
+- Data already created to view
+
+</InlineFilter>
 
 ## Set up a real-time subscription
 
@@ -413,9 +421,9 @@ Congratulations! You have finished the **Subscribe to real-time events** guide. 
 
 Our recommended next steps include continuing to build out and customize your information architecture for your data. Some resources that will help with this work include:
 
-- [Authorization Rules](https://docs.amplify.aws/cli/graphql/authorization-rules/)
-- [Data Modeling](https://docs.amplify.aws/cli/graphql/data-modeling/)
-- [Custom Business Logic](https://docs.amplify.aws/cli/graphql/custom-business-logic/)
+- [Authorization Rules](/cli/graphql/authorization-rules/)
+- [Data Modeling](/cli/graphql/data-modeling/)
+- [Custom Business Logic](/cli/graphql/custom-business-logic/)
 
 </InlineFilter>
 
