@@ -5,15 +5,23 @@ export const meta = {
 
 <InlineFilter filters={["js", "react-native"]}>
 
-import guide from "/src/fragments/common/guide-header.mdx";
-
-<Fragments fragments={{all: guide}} />
-
 You can read application data using the Amplify GraphQL client. In this guide we will review the difference between reading data and getting data, how to filter query results to get just the data you need, and how to paginate results to make your data more manageable. We will also show you how to cancel these requests when needed.
 
 Before you begin, you will need:
-- An application connected to the API
+
+<InlineFilter filters={["js"]}>
+
+- An [application connected to the API](/lib/graphqlapi/connect/q/platform/js/)
 - Data already created to view
+
+</InlineFilter>
+
+<InlineFilter filters={["react-native"]}>
+
+- An [application connected to the API](/lib/graphqlapi/getting-started/q/platform/react-native/)
+- Data already created to view
+
+</InlineFilter>
 
 ## List and get your data
   
@@ -22,7 +30,8 @@ Queries are used to read data via the API and include the `list` and `get` opera
 Amplify CLI auto-generates both `list` and `get` queries in your GraphQL API for any `@model` type. A `list` will get you several items, such as Todo items, and does not require you to pass an identifier for a specific record. This is best suited for getting an overview or summary of items or you can enhance the `list` operation with filters by specific criteria across a list of items. When you want to query a single entry by an identifier, you would use `get` to retrieve a specific Todo item.
 
 <Callout>
-__Note:__ The cost structure of your underlying data source can impact the cost to run some queries. For example, the `list` operation uses DynamoDB "scan operations" which can use more read request units than the `get` operation. You will want to review the associated costs for these operations for your data source. In our example case here we are using Amazon DynamoDB and you can [learn more about how DynamoDB pricing is calculated](https://aws.amazon.com/dynamodb/pricing/) on their site.
+
+**Note:** The cost structure of your underlying data source can impact the cost to run some queries. For example, the `list` operation uses DynamoDB "scan operations" which can use more read request units than the `get` operation. You will want to review the associated costs for these operations for your data source. In our example case here we are using Amazon DynamoDB and you can [learn more about how DynamoDB pricing is calculated](https://aws.amazon.com/dynamodb/pricing/) on their site.
 
 </Callout>
 
@@ -563,10 +572,23 @@ Congratulations! You have finished the **Read application data** guide. In this 
 
 Our recommended next steps include subscribing to real-time events to look for mutations in your data and continuing to build out and customize your information architecture for your data. Some resources that will help with this work include:
 
-- [Subscribe to real-time events](https://docs.amplify.aws/lib/graphqlapi/subscribe-data/q/platform/js/)
-- [Authorization Rules](https://docs.amplify.aws/cli/graphql/authorization-rules/)
-- [Data Modeling](https://docs.amplify.aws/cli/graphql/data-modeling/)
-- [Custom Business Logic](https://docs.amplify.aws/cli/graphql/custom-business-logic/)
+<InlineFilter filters={["js"]}>
+
+- [Subscribe to real-time events](/lib/graphqlapi/subscribe-data/q/platform/js/)
+- [Authorization Rules](/cli/graphql/authorization-rules/)
+- [Data Modeling](/cli/graphql/data-modeling/)
+- [Custom Business Logic](/cli/graphql/custom-business-logic/)
+
+</InlineFilter>
+
+<InlineFilter filters={["react-native"]}>
+
+- [Subscribe to real-time events](/lib/graphqlapi/subscribe-data/q/platform/react-native/)
+- [Authorization Rules](/cli/graphql/authorization-rules/)
+- [Data Modeling](/cli/graphql/data-modeling/)
+- [Custom Business Logic](/cli/graphql/custom-business-logic/)
+
+</InlineFilter>
 
 </InlineFilter>
 
