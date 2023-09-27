@@ -78,6 +78,9 @@ const writeRobots = () => {
   if (typeof process.env.ALLOW_ROBOTS === 'undefined') {
     robotsContent = `User-agent: *\nDisallow: /\n`;
   }
+  if (process.env.BUILD_ENV === 'production') {
+    robotsContent += `Sitemap: ${domain}/sitemap.xml\n`;
+  }
 
   const robotsPath = './public/robots.txt';
   fs.writeFileSync(robotsPath, robotsContent);
