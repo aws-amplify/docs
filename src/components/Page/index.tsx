@@ -88,6 +88,7 @@ export default function Page({
 
   localStorage.setItem('filterKeys', JSON.stringify(filterKeys));
   if (filters.length !== 0 && !filters.includes(filterKey) && meta) {
+    console.log('choose a filter');
     return (
       <ChooseFilterPage
         directoryPath="/ChooseFilterPage"

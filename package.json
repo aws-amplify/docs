@@ -25,6 +25,7 @@
     "@emotion/react": "^11.1.5",
     "@emotion/styled": "^11.3.0",
     "@mdx-js/mdx": "^2.0.0",
+    "@next/bundle-analyzer": "^13.5.3",
     "@octokit/rest": "^19.0.7",
     "algoliasearch": "^4.12.1",
     "array-flatten": "^3.0.0",
