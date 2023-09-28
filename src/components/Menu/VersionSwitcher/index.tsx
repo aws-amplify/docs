@@ -48,10 +48,20 @@ export function LibVersionSwitcher({
   alternativeVersion: string;
   primaryVersion: string;
 }) {
+  console.log(url, alternativeVersion, primaryVersion);
   let primaryActive;
   let urlEnd;
+
+  function hrefWithoutParams(href) {
+    href = href.split('#')[0];
+    if (href.endsWith('/')) {
+      href = href.substring(0, href.length - 1);
+    }
+    return href;
+  }
+
   const filter = url.includes('/platform')
-    ? 'q/platform' + url.split('/platform')[1]
+    ? 'q/platform' + hrefWithoutParams(url).split('/platform')[1]
     : '';
 
   const alternativeLib = '/lib-v1';
@@ -68,10 +78,7 @@ export function LibVersionSwitcher({
   // Function to remove query string parameters before checking if href is included in the list of possibilities.
   // This is so we are only comparing the paths without the query string parameters to avoid false negatives.
   function isHrefIncluded(href: string, paths: string[]) {
-    href = href.split('#')[0];
-    if (href.endsWith('/')) {
-      href = href.substring(0, href.length - 1);
-    }
+    href = hrefWithoutParams(href);
     return paths.includes(href);
   }
 
