@@ -1769,7 +1769,7 @@ export const directory = {
         title: 'API (GraphQL)',
         items: [
           {
-            title: 'Overview',
+            title: 'Set up Amplify GraphQL API',
             route: '/cli/graphql/overview',
             filters: []
           },
