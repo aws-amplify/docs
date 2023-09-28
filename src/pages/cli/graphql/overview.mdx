@@ -1,13 +1,21 @@
 export const meta = {
-  title: `Overview`,
+  title: `Set up Amplify GraphQL API`,
   description: `Add a GraphQL API + database to your Amplify app using the Amplify CLI`,
 };
 
-<MigrationAlert url={"/cli-legacy/graphql-transformer/overview"}/>
+Amplify's GraphQL API category allows you to build a secure, real-time GraphQL API backed by a database in minutes. Define your data model in a GraphQL schema and Amplify will deploy a GraphQL API powered by AWS AppSync, connect to a database powered by Amazon DynamoDB on your behalf. You can secure your API with authorization rules and scale to custom use cases with AWS Lambda.
 
-Amplify CLI's GraphQL API category makes it easy for you to create a new GraphQL API backed by a database. Just define a GraphQL schema and Amplify CLI will automatically transform the schema into a fully functioning GraphQL API powered by AWS AppSync, Amazon DynamoDB, and more. 
+## Creating your first API and database table
 
-## Creating your first table
+Amplify's GraphQL API category can be deployed either using the [Amplify CLI](/cli/) or using [AWS Cloud Development Kit (CDK)](https://aws.amazon.com/cdk/). The Amplify Command Line Interface (CLI) is a unified toolchain to create, integrate, and manage the AWS cloud services for your frontend app. The AWS CDK is an open-source Infrastructure-as-Code framework used to model and provision your AWS cloud application resources with familiar programming languages.
+
+<BlockSwitcher>
+
+<Block name="Amplify CLI">
+
+Pre-requisites:
+- The [Amplify CLI is installed and configured](/cli/start/install/)
+- Have an Amplify [project already initialized](http://localhost:3000/cli/start/workflows/#initialize-new-project)
 
 First, set up your GraphQL API by running:
 ```bash
@@ -42,7 +50,69 @@ type Todo @model {
 }
 ```
 
-Every GraphQL `type` with the `@model` directive is automatically backed by a new DynamoDB database table.
+```bash
+amplify push
+```
+
+</Block>
+<Block name="AWS CDK">
+
+<Callout>
+
+The Amplify GraphQL API CDK construct is currently only available for TypeScript but we're launching support soon for additional languages. Follow [@AWSAmplify on X/Twitter](https://x.com/awsamplify) to be amongst the first to be notified.
+
+</Callout>
+
+Pre-requisites:
+- The [AWS CDK CLI is installed](https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html#getting_started_install)
+- Have an [AWS CDK application initialized](https://docs.aws.amazon.com/cdk/v2/guide/hello_world.html)
+
+In your CDK app's project root directory, install the GraphQL API construct dependencies:
+
+```bash
+npm install @aws-amplify/TK
+```
+
+Next, go to your stack and import the Amplify GraphQL CDK construct and create your new Amplify GraphQL API:
+
+```ts
+import { AmplifyGraphqlApi } from '@aws-amplify/TK'
+
+export class BackendStack extends cdk.Stack {
+  constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
+    super(scope, id, props);
+
+    const amplifyApi = new AmplifyGraphqlApi(this, 'AmplifyCdkGraphQlApi', {
+      schema: AmplifyGraphqlSchema.fromString(schema), // TK replace with file asset.
+      authorizationConfig: {
+        defaultAuthMode: 'API_KEY',
+        apiKeyConfig: {
+          expires: cdk.Duration.days(30) 
+        }
+      },
+    })
+  }
+}
+```
+
+Then create your GraphQL schema where you describe your data model. Create a new file called `schema.graphql` in your stack's folder:
+
+```graphql
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/auth
+input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
+
+type Todo @model {
+  id: ID!
+  name: String!
+  description: String
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+Every GraphQL `type` with the `@model` directive is automatically backed by a new DynamoDB database table and generates create, read, update, and delete GraphQL queries and mutations for you.
 
 <Callout warning>
 
@@ -51,11 +121,28 @@ Every GraphQL `type` with the `@model` directive is automatically backed by a ne
 
 Now let's deploy your changes to the cloud:
 
+<BlockSwitcher>
+
+<Block name="Amplify CLI">
+
+Run the following command in your Terminal:
 ```bash
-amplify push
+amplify push -y
 ```
 
-That's it! Your API and database tables are set up. 
+</Block>
+
+<Block name="AWS CDK">
+
+Run the following command in your Terminal:
+```bash
+cdk deploy
+```
+
+</Block>
+</BlockSwitcher>
+
+That's it! Your API and database tables are set up.
 
 ## Setup your app code
 
