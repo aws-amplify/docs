@@ -106,7 +106,10 @@ export default async (phase, { defaultConfig }) => {
   });
 
   if (shouldAnalyzeBundles) {
-    const withNextBundleAnalyzer = nextBundleAnalyzer({ format: 'json' });
+    const withNextBundleAnalyzer = nextBundleAnalyzer({
+      format: 'json',
+      repirtDir: '.bundleSize'
+    });
     nextConfig = withNextBundleAnalyzer(nextConfig);
   }
 
