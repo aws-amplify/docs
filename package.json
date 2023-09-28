@@ -8,9 +8,6 @@
   },
   "license": "Apache-2.0",
   "private": true,
-  "workspaces": [
-    "capi"
-  ],
   "dependencies": {
     "@algolia/autocomplete-js": "^1.5.3",
     "@algolia/autocomplete-plugin-query-suggestions": "^1.5.6",
