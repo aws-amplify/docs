@@ -48,7 +48,6 @@ export function LibVersionSwitcher({
   alternativeVersion: string;
   primaryVersion: string;
 }) {
-  console.log(url, alternativeVersion, primaryVersion);
   let primaryActive;
   let urlEnd;
 
