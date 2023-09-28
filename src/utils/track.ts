@@ -4,7 +4,10 @@ let AWSCShortbread;
 let s;
 let AWSMA;
 
-if (typeof window !== "undefined" && typeof window.AWSCShortbread !== "undefined") {
+if (
+  typeof window !== 'undefined' &&
+  typeof window.AWSCShortbread !== 'undefined'
+) {
   AWSCShortbread = window.AWSCShortbread;
   AWSMA = window.AWSMA;
   s = window.s;
@@ -13,7 +16,7 @@ if (typeof window !== "undefined" && typeof window.AWSCShortbread !== "undefined
     AWSCShortbread({
       domain: '.amplify.aws'
     }).checkForCookieConsent();
-    if (typeof s != "undefined") s.trackExternalLinks = false;
+    if (typeof s != 'undefined') s.trackExternalLinks = false;
     configured = true;
   }
 }
@@ -70,6 +73,7 @@ export const trackPageVisit = (): void => {
     typeof s != 'undefined' &&
     !firstPageOfVisit
   ) {
+    s.pageName = window.location.href;
     s.pageURL = window.location.href;
     s.t();
   }

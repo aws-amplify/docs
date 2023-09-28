@@ -7,7 +7,7 @@ import {
   getChapterDirectory,
   isProductRoot
 } from '../../utils/getLocalDirectory';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import {
   filterMetadataByOption,
   SelectedFilters
@@ -15,6 +15,7 @@ import {
 import ChooseFilterPage from '../../pages/ChooseFilterPage';
 import { parseLocalStorage } from '../../utils/parseLocalStorage';
 import { withFilterOverrides } from '../../utils/withFilterOverrides';
+import { trackPageVisit } from '../../utils/track';
 
 export type MdxFrontmatterType = {
   lastUpdated: string;
@@ -29,6 +30,9 @@ export default function Page({
   meta?: any;
   frontmatter?: MdxFrontmatterType;
 }) {
+  useEffect(() => {
+    trackPageVisit();
+  }, []);
   const footerRef = useRef(null);
   const router = useRouter();
 
