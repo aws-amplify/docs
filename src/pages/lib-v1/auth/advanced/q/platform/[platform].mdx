@@ -1,4 +1,92 @@
 export const meta = {
   title: `Advanced workflows`,
-  description: `Learn more about advanced workflows in the Amplify auth category. This includes subscribing to events, identity pool federation, auth-related Lambda triggers and working with AWS service objects.`,
+  description: `Learn more about advanced workflows in the Amplify auth category. This includes subscribing to events, identity pool federation, auth-related Lambda triggers and working with AWS service objects.`
 };
+
+<InlineFilter filters={['js']}>
+
+import federation from '/src/fragments/lib-v1/v6/callout/auth-federation.mdx';
+
+<Fragments fragments={{ js: federation }} />
+
+## Subscribing to Events
+
+You can take specific actions when users sign-in or sign-out by subscribing authentication events in your app. Please see our [Hub Module Developer Guide](/lib-v1/utilities/hub) for more information.
+
+## Lambda Triggers
+
+The CLI allows you to configure [Lambda Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html) for your Cognito user pool. These enable you to add custom functionality to your registration and authentication flows. [Read more](/cli/function/function)
+
+### Pre Authentication and Pre Sign-up Lambda triggers
+
+If you have a Pre Authentication Lambda trigger enabled, you can pass `clientMetadata` as an option for `signIn`. This metadata can be used to implement additional validations around authentication.
+
+```ts
+import { signIn } from 'aws-amplify/auth';
+
+async function handleSignIn(username, password) {
+  try {
+    await signIn({
+      username,
+      password,
+      options: {
+        serviceOptions: {
+          clientMetadata: {} // Optional, an object of key-value pairs which can contain any key and will be passed to your Lambda trigger as-is.
+        }
+      }
+    });
+  } catch(err) {
+    console.log(err);
+  }
+}
+```
+
+### Passing metadata to other Lambda triggers
+
+Many Cognito Lambda Triggers also accept unsanitized key/value pairs in the form of a `clientMetadata` attribute.  This attribute can be specified for various Auth APIs which result in Cognito Lambda Trigger execution.
+
+These APIs include:
+
+- `signIn`
+- `signUp`
+- `confirmSignIn`
+- `confirmSignUp`
+- `resetPassword`
+- `confirmResetPassword`
+- `resendSignUpCode`
+- `updateUserAttributes`
+
+Please note that some of triggers which accept a `validationData` attribute will use `clientMetadata` as the value for `validationData`.  Exercise caution with using `clientMetadata` when you are relying on `validationData`.
+
+## Working with AWS service objects
+
+You can use AWS *Service Interface Objects* to work AWS Services in authenticated State. You can call methods on any AWS Service interface object by passing your credentials from Amplify to the service call constructor:
+
+```javascript
+import { fetchAuthSession } from 'aws-amplify/auth';
+import Route53 from 'aws-sdk/clients/route53';
+
+async function changeResourceRecordSets() {
+  try {
+    const { credentials } = await fetchAuthSession();
+  
+    const route53 = new Route53({
+      apiVersion: '2013-04-01',
+      credentials
+    });
+  
+    // more code working with route53 object
+    //route53.changeResourceRecordSets();
+  } catch(err) {
+    console.log(err);
+  }
+};
+```
+
+<Callout warning>
+
+Note: To work with Service Interface Objects, your Amazon Cognito users' [IAM role](https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html) must have the appropriate permissions to call the requested services.
+
+</Callout>
+
+</InlineFilter>
