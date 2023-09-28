@@ -25,6 +25,6 @@ jobs:
           NODE_OPTIONS: --max_old_space_size=4096
       - name: Run Server
         run: |
-          npx serve client/www/next-build &
+          ndoe ./node_modules/.bin/serve client/www/next-build &
           sleep 5 &&
-          yarn run linkcheck
+          yarn -s run linkcheck
