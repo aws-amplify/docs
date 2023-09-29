@@ -36,6 +36,7 @@ const getSitemapUrls = async (localDomain) => {
         i
       );
       if (localDomain) {
+        // Currently the sitemap is always generated with the prod docs domain so we need to replace this with localhost
         url = url.replace(DOMAIN, localDomain);
       }
       siteMapUrls.push(url);
@@ -47,7 +48,7 @@ const getSitemapUrls = async (localDomain) => {
   return siteMapUrls;
 };
 
-const retrieveLinks = async (siteMapUrls, visitedLinks) => {
+const retrieveLinks = async (siteMapUrls, visitedLinks, localDomain) => {
   let browser = await puppeteer.launch({ headless: 'new' });
 
   let page = await browser.newPage();
@@ -59,7 +60,7 @@ const retrieveLinks = async (siteMapUrls, visitedLinks) => {
 
     try {
       let response = await page.goto(url, { waitUntil: 'domcontentloaded' });
-      await page.waitForNetworkIdle();
+      await new Promise((r) => setTimeout(r, 100)); // localhost hangs on wait for idle so use a short timeout instead
       if (response && response.status() && response.status() === 200) {
         console.log(`successfully visited ${url} to retrieve links`);
         visitedLinks[url] = true;
@@ -82,7 +83,10 @@ const retrieveLinks = async (siteMapUrls, visitedLinks) => {
         }, url);
 
         urlList.forEach((link) => {
-          if (!CRAWLER_EXCEPTIONS.includes(link.url)) {
+          if (
+            !CRAWLER_EXCEPTIONS.includes(link.url) &&
+            (!localDomain || link.url.startsWith(localDomain))
+          ) {
             urlsToVisit.push(link);
           }
         });
@@ -118,7 +122,11 @@ const linkChecker = async (localDomain) => {
 
   const siteMapUrls = await getSitemapUrls(localDomain);
 
-  const urlsToVisit = await retrieveLinks(siteMapUrls, visitedLinks);
+  const urlsToVisit = await retrieveLinks(
+    siteMapUrls,
+    visitedLinks,
+    localDomain
+  );
 
   let allPromises = [];
 
@@ -170,7 +178,7 @@ const linkChecker = async (localDomain) => {
 };
 
 module.exports = {
-  checkDocsLinks: async () => {
+  checkProdLinks: async () => {
     return await linkChecker();
   },
   checkDevLinks: async () => {

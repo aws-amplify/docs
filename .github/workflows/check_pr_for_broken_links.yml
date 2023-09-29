@@ -1,5 +1,8 @@
 name: CheckPRLinks
 on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
   workflow_dispatch:
 permissions:
   contents: read
@@ -33,6 +36,6 @@ jobs:
           script: |
             const { checkDevLinks } = require('./tasks/link-checker.js');
             return await checkDevLinks();
-      - name: Fail if new fragments have been added
+      - name: Fail if broken links have been found
         if: ${{ steps.checkLinks.outputs.result }}
         run: exit 1
