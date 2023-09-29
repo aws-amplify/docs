@@ -8,6 +8,7 @@ import { useRef, useState, useEffect } from 'react';
 import { MQDesktop } from '../media';
 import Feedback from '../Feedback';
 import LastUpdatedDatesProvider from '../LastUpdatedProvider';
+import { Breadcrumbs } from '@aws-amplify/ui-react';
 
 export default function MetaContent({
   title,
@@ -52,6 +53,13 @@ export default function MetaContent({
     );
   }, []);
 
+  const crumbs = url.split('/').map((path) => {
+    return {
+      href: '/',
+      label: path
+    };
+  });
+
   return (
     <>
       <LastUpdatedDatesProvider
@@ -70,6 +78,7 @@ export default function MetaContent({
         <ContentStyle menuIsOpen={menuIsOpen}>
           <div>
             <ChapterTitleStyle>{chapterTitle}</ChapterTitleStyle>
+            <Breadcrumbs items={crumbs} />
             <div>
               <h1>{title}</h1>
             </div>
