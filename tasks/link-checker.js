@@ -17,7 +17,7 @@ const getSitemapUrls = async (localDomain) => {
 
   const page = await browser.newPage();
 
-  let siteMap = localDomain ? SITEMAP_URL : `${localDomain}/sitemap.xml`;
+  let siteMap = localDomain ? `${localDomain}/sitemap.xml` : SITEMAP_URL;
   let response = await page.goto(siteMap);
 
   const siteMapUrls = [];
@@ -35,6 +35,9 @@ const getSitemapUrls = async (localDomain) => {
         urlTags,
         i
       );
+      if (localDomain) {
+        url = url.replace(DOMAIN, localDomain);
+      }
       siteMapUrls.push(url);
     }
   }
@@ -108,12 +111,12 @@ const formatString = (inputs) => {
   return retString;
 };
 
-const linkChecker = async () => {
+const linkChecker = async (localDomain) => {
   const visitedLinks = {};
   const statusCodes = {};
   const brokenLinks = [];
 
-  const siteMapUrls = await getSitemapUrls();
+  const siteMapUrls = await getSitemapUrls(localDomain);
 
   const urlsToVisit = await retrieveLinks(siteMapUrls, visitedLinks);
 
@@ -167,7 +170,10 @@ const linkChecker = async () => {
 };
 
 module.exports = {
-  checkLinks: async () => {
+  checkDocsLinks: async () => {
     return await linkChecker();
+  },
+  checkDevLinks: async () => {
+    return await linkChecker('http://localhost:3000');
   }
 };

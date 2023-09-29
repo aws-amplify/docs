@@ -1,7 +1,5 @@
 name: CheckPRLinks
 on:
-  schedule:
-    - cron: '0 17 * * 1-5'
   workflow_dispatch:
 permissions:
   contents: read
@@ -25,6 +23,16 @@ jobs:
           NODE_OPTIONS: --max_old_space_size=4096
       - name: Run Server
         run: |
-          ndoe ./node_modules/.bin/serve client/www/next-build &
-          sleep 5 &&
-          yarn -s run linkcheck
+          node ./node_modules/.bin/serve client/www/next-build --no-request-logging &
+          sleep 5
+      - name: Run Link Checker
+        id: checkLinks
+        uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410
+        with:
+          result-encoding: string
+          script: |
+            const { checkDevLinks } = require('./tasks/link-checker.js');
+            return await checkDevLinks();
+      - name: Fail if new fragments have been added
+        if: ${{ steps.checkLinks.outputs.result }}
+        run: exit 1
