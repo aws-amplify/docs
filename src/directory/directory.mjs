@@ -1815,7 +1815,8 @@ export const directory = {
             filters: []
           },
           {
-            title: 'JavaScript, Java, Swift code generation',
+            title:
+              'JavaScript, Android, Swift, and Flutter client code generation',
             route: '/cli/graphql/client-code-generation',
             filters: []
           },
