@@ -90,7 +90,8 @@ Designate an IAM role for unauthenticated identities by setting the `iamConfig` 
           expires: cdk.Duration.days(30)
         },
         iamConfig: {
-          unauthenticatedUserRole: TK // this seems too complicated than it needs to be https://stackoverflow.com/questions/55784746/how-to-create-cognito-identitypool-with-cognito-userpool-as-one-of-the-authentic
+          identityPoolId: ... // <-- pass in your identity pool ID here
+          unauthenticatedUserRole: ... // <-- pass in your unauthenticatedUserRole here
         }
       },
     })
@@ -183,8 +184,36 @@ type Todo @model @auth(rules: [{ allow: private }]) {
 
 In the example above, anyone with a valid JWT token from Cognito user pool are allowed to access all Todos.
 
-(TK)
-You can also override the authorization provider. In the example below, `iam` is specified as the provider which allows you to use an "Authenticated Role" from the Cognito identity pool for public access instead of an API Key. When you run `amplify add auth`, the  Amplify CLI generates scoped down IAM policies for the "Authenticated role" in Cognito identity pool automatically.
+You can also override the authorization provider. In the example below, `iam` is specified as the provider which allows you to use an "Authenticated Role" from the Cognito identity pool for public access instead of an API Key.
+
+<BlockSwitcher>
+<Block name="Amplify CLI">
+
+When you run `amplify add auth`, the  Amplify CLI generates scoped down IAM policies for the "Authenticated role" in Cognito identity pool automatically.
+
+</Block>
+<Block name="AWS CDK">
+
+Designate an IAM role for authenticated identities by setting the `iamConfig` property:
+
+```ts
+    const amplifyApi = new AmplifyGraphqlApi(this, "MyNewApi", {
+      definition: AmplifyGraphqlDefinition.fromFiles(path.join(__dirname, "schema.graphql")),
+      authorizationModes: {
+        defaultAuthorizationMode: 'API_KEY',
+        apiKeyConfig: {
+          expires: cdk.Duration.days(30)
+        },
+        iamConfig: {
+          identityPoolId: ... // <-- pass in your identity pool ID here
+          authenticatedUserRole: ... // <-- pass in your authenticatedUserRole here
+        }
+      },
+    })
+```
+
+</Block>
+</BlockSwitcher>
 
 ```graphql
 type Todo @model @auth(rules: [{ allow: private, provider: iam }]) {
@@ -299,7 +328,7 @@ const amplifyApi = new AmplifyGraphqlApi(this, "MyNewApi", {
     defaultAuthorizationMode: "AWS_LAMBDA",
     lambdaConfig: {
       function: new lambda.Function(this, "MyAuthLambda", {
-        code: lambda.Code.fromAsset(path.join(__dirname, "handlers/auth")), // TK verify
+        code: lambda.Code.fromAsset(path.join(__dirname, "handlers/auth")),
         handler: "index.handler",
         runtime: lambda.Runtime.NODEJS_18_X,
       }),
