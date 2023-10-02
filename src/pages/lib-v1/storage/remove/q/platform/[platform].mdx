@@ -26,3 +26,47 @@ import android2 from '/src/fragments/lib-v1/storage/android/remove.mdx';
 import flutter3 from '/src/fragments/lib-v1/storage/flutter/remove.mdx';
 
 <Fragments fragments={{ flutter: flutter3 }} />
+
+<InlineFilter filters={['js']}>
+
+Delete stored data from the storage bucket. To remove a file, you need to provide the key. `accessLevel` can be 'guest', 'private', or 'protected', defaulting to 'guest'.
+Files can only be deleted for the current user. Deletion capabilities do not extend to files associated with other users.
+
+## Guest level remove
+
+```javascript
+import { remove } from 'aws-amplify/storage';
+
+try {
+  await remove({ key: filename });
+} catch (error) {
+  console.log('Error ', error);
+}
+
+```
+
+## Protected level remove
+
+```javascript
+import { remove } from 'aws-amplify/storage';
+
+try {
+  await remove({ key: filename, options: { accessLevel: 'protected' } });
+} catch (error) {
+  console.log('Error ', error);
+}
+```
+
+## Private level remove
+
+```javascript
+import { remove } from 'aws-amplify/storage';
+
+try {
+  await remove({ key: filename, options: { accessLevel: 'private' } });
+} catch (error) {
+  console.log('Error ', error);
+}
+```
+
+</InlineFilter>

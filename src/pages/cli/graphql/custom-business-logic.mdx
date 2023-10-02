@@ -32,11 +32,11 @@ type Query {
     - Note: Dynamic authorization rules are not supported on a custom query or mutation.
 
 ## Lambda function resolver
-The `@function` directive allows you to quickly & easily configure a AWS Lambda resolvers with your GraphQL API. You can use any AWS Lambda functions that was created with the Amplify CLI, AWS Lambda console, or any other tool.
+The `@function` directive allows you to quickly & easily configure a AWS Lambda resolvers with your GraphQL API. You can use any AWS Lambda functions that was created with the Amplify CLI, AWS CDK or reference an existing AWS Lambda function created with any other means.
 
 <BlockSwitcher>
 
-<Block name="Function deployed using Amplify CLI">
+<Block name="Amplify CLI">
 
 For example, use `amplify add function` to add a Lambda function called "echofunction" with the following handler:
 
@@ -58,7 +58,63 @@ The Amplify CLI provides support for maintaining multiple environments. When you
 
 </Block>
 
-<Block name="Function deployed without Amplify CLI">
+<Block name="AWS CDK">
+
+First, create your Lambda function in CDK with your logic and set the `functionName` parameter.
+
+```ts
+const echoLambda = new lambda.Function(this, 'EchoLambda', {
+  functionName: 'EchoLambda', // MAKE SURE THIS MATCHES THE @function's "name" PARAMETER
+  code: lambda.Code.fromAsset(path.join(__dirname, 'handlers/echo')),
+  handler: 'index.handler',
+  runtime: lambda.Runtime.NODEJS_18_X
+})
+
+const amplifyApi = new AmplifyGraphqlApi(this, 'AmplifyCdkGraphQlApi', {
+  definition: AmplifyGraphqlDefinition.fromFiles(path.join(__dirname, 'schema.graphql')),
+  authorizationModes: {
+    defaultAuthorizationMode: 'API_KEY',
+    apiKeyConfig: {
+      expires: cdk.Duration.days(30) 
+    }
+  },
+})
+```
+
+To connect an AWS Lambda resolver to the GraphQL API, add the `@function` directive to a field in your GraphQL schema.
+
+```graphql
+type Query {
+  echo(msg: String): String @function(name: "echofunction")
+}
+```
+
+Optionally, if you don't want to hard-code the function name into the GraphQL schema, you can also set an arbitrary name in the GraphQL schema and then map a function within CDK to the function name.
+
+```ts
+const coolLambdaFunction = new lambda.Function(this, 'MyCoolLambdaFunction', {
+  code: lambda.Code.fromAsset(path.join(__dirname, 'handlers/echo')),
+  handler: 'index.handler',
+  runtime: lambda.Runtime.NODEJS_18_X
+})
+
+const amplifyApi = new AmplifyGraphqlApi(this, 'AmplifyCdkGraphQlApi', {
+  definition: AmplifyGraphqlDefinition.fromFiles(path.join(__dirname, 'schema.graphql')),
+  authorizationModes: {
+    defaultAuthorizationMode: 'API_KEY',
+    apiKeyConfig: {
+      expires: cdk.Duration.days(30) 
+    }
+  },
+  functionNameMap: {
+    'echofunction': coolLambdaFunction // Remap the function name to any function you define or reference within CDK.
+  }
+})
+```
+
+</Block>
+
+<Block name="Reference existing Lambda function">
 
 If you deployed your Lambda function without Amplify CLI then you must provide the full Lambda function name in the `name` parameter. If you deployed the same function with the name echofunction then you would have:
 
@@ -67,7 +123,6 @@ type Query {
   echo(msg: String): String @function(name: "echofunction")
 }
 ```
-
 
 </Block>
 
