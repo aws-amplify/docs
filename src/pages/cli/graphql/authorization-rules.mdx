@@ -90,8 +90,8 @@ Designate an IAM role for unauthenticated identities by setting the `iamConfig` 
           expires: cdk.Duration.days(30)
         },
         iamConfig: {
-          identityPoolId: ... // <-- pass in your identity pool ID here
-          unauthenticatedUserRole: ... // <-- pass in your unauthenticatedUserRole here
+          identityPoolId: ..., // <-- pass in your identity pool ID here
+          unauthenticatedUserRole: ..., // <-- pass in your unauthenticatedUserRole here
           authenticatedUserRole: ... // <-- pass in your authenticatedUserRole here
         }
       },
@@ -206,8 +206,8 @@ Designate an IAM role for authenticated identities by setting the `iamConfig` pr
           expires: cdk.Duration.days(30)
         },
         iamConfig: {
-          identityPoolId: ... // <-- pass in your identity pool ID here
-          authenticatedUserRole: ... // <-- pass in your authenticatedUserRole here
+          identityPoolId: ..., // <-- pass in your identity pool ID here
+          authenticatedUserRole: ..., // <-- pass in your authenticatedUserRole here
           unauthenticatedUserRole: ... // <-- pass in your unauthenticatedUserRole here
         }
       },
