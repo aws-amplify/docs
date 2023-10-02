@@ -6,3 +6,92 @@ export const meta = {
 import flutter1 from '/src/fragments/lib-v1/troubleshooting/flutter/upgrading.mdx';
 
 <Fragments fragments={{ flutter: flutter1 }} />
+
+<InlineFilter filters={['js']}>
+
+When upgrading Amplify packages, it is important to make sure that there are no duplicate versions of Amplify packages in the `node_modules` folder tree as a result of the upgrade. Having multiple versions of packages can yield unexpected behavior as modules imported in your code might point to versions not configured by Amplify when calling `Amplify.configure`.
+
+A likely scenario that could point to duplicate versions of packages is getting console messages like:
+- `Amplify has not been configured correctly`
+- `Please make sure the Auth module is configured with a valid Cognito User Pool ID`
+- `User pool is not configured`
+
+To prevent this situation, you can [Check for duplicate versions](#check-for-duplicate-versions), and if duplicate versions exists, then [Upgrade Amplify packages](#upgrade-amplify-packages).
+## Check for duplicate versions
+
+The following commands will show you Amplify packages that appear multiple times in your `node_modules` folder. If the output is empty, it means that you don't have duplicate versions of Amplify packages.
+
+<BlockSwitcher>
+
+<Block name="Mac and Linux">
+
+```sh
+# Using YARN
+yarn list --pattern amplify | \
+  grep -o -e '@\?aws-amplify[^ ]*' | \
+  sort | uniq | \
+  sed -E 's/^(@?[^@]+).*$/\1/g' | \
+  uniq -d | sort
+```
+
+```sh
+# Using NPM
+npm ls -all 2>/dev/null | \
+  grep -o -e '@\?aws-amplify[^ ]*' | \
+  sort | uniq | \
+  sed -E 's/^(@?[^@]+).*$/\1/g' | \
+  uniq -d | sort
+```
+
+</Block>
+
+<Block name="Windows (PowerShell)">
+
+```powershell
+# Using YARN
+yarn list --pattern amplify |
+  Select-String -Pattern  '(@?aws\-amplify[^@]*).*(?<!deduped)$' | 
+  %{$_.Matches.Groups[1].value} | Group-Object | 
+  Where-Object { $_.Count -gt 1 } | Select-Object -ExpandProperty Name |
+  Sort-Object
+```
+
+```powershell
+# Using NPM
+npm ls -all 2>$null |
+  Select-String -Pattern  '(@?aws\-amplify[^@]*).*(?<!deduped)$' | 
+  %{$_.Matches.Groups[1].value} | Group-Object | 
+  Where-Object { $_.Count -gt 1 } | Select-Object -ExpandProperty Name |
+  Sort-Object
+```
+
+</Block>
+
+</BlockSwitcher>
+
+---
+
+## Upgrading Amplify packages to the v6 Developer Preview
+
+If you want to update all Amplify packages to the v6 developer preview versions from npm, run the following command. It will also make sure that only one version of every Amplify package is installed.
+
+```sh
+# Using YARN
+yarn add aws-amplify@next
+```
+
+```sh
+# Using NPM
+npm install aws-amplify@next
+```
+
+The v6 Developer Preview doesn't support all categories yet. If your application uses any of the
+unsupported categories, you will need to remove this usage to test out the developer preview changes with your
+existing application.
+
+The categories that are currently supported include:
+- Authentication
+- Analytics
+- Storage
+
+</InlineFilter>
