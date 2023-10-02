@@ -79,6 +79,141 @@ export const directory = {
           }
         ]
       },
+      auth: {
+        title: 'Authentication',
+        items: [
+          {
+            title: 'Set up Amplify Auth',
+            route: '/lib/auth/getting-started',
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
+          },
+          {
+            title: 'Enable sign-up, sign-in, and sign-out',
+            route: '/lib/auth/emailpassword',
+            filters: ['js', 'react-native']
+          },
+          {
+            title: 'Social sign-in (OAuth)',
+            route: '/lib/auth/social',
+            filters: ['js', 'react-native']
+          },
+          {
+            title: 'Multi-factor authentication',
+            route: '/lib/auth/mfa',
+            filters: ['js', 'react-native', 'android', 'flutter', 'ios']
+          },
+          {
+            title: 'Password & user management',
+            route: '/lib/auth/manageusers',
+            filters: ['js', 'react-native']
+          },
+          {
+            title: 'Switching authentication flows',
+            route: '/lib/auth/switch-auth',
+            filters: ['js', 'react-native']
+          },
+          {
+            title: 'Advanced workflows',
+            route: '/lib/auth/advanced',
+            filters: ['js', 'react-native']
+          },
+          {
+            title: 'Sign in',
+            route: '/lib/auth/signin',
+            filters: ['android', 'flutter', 'ios']
+          },
+          {
+            title: 'Switching authentication flows',
+            route: '/lib/auth/switch-auth',
+            filters: ['ios', 'android']
+          },
+          {
+            title: 'Sign in with custom flow',
+            route: '/lib/auth/signin_with_custom_flow',
+            filters: ['ios', 'android', 'flutter']
+          },
+          {
+            title: 'Sign in with web UI',
+            route: '/lib/auth/signin_web_ui',
+            filters: ['android', 'flutter', 'ios']
+          },
+          {
+            title: 'Social sign-in (OAuth)',
+            route: '/lib/auth/social',
+            filters: ['android', 'flutter', 'ios']
+          },
+          {
+            title: 'SMS flows',
+            route: '/lib/auth/sms_flows',
+            filters: ['flutter', 'ios', 'android']
+          },
+          {
+            title: 'Sign in next steps',
+            route: '/lib/auth/signin_next_steps',
+            filters: ['ios', 'android', 'flutter']
+          },
+          {
+            title: 'Guest access',
+            route: '/lib/auth/guest_access',
+            filters: ['android', 'flutter', 'ios']
+          },
+          {
+            title: 'Auth events',
+            route: '/lib/auth/auth-events',
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
+          },
+          {
+            title: 'User attributes',
+            route: '/lib/auth/user-attributes',
+            filters: ['android', 'flutter', 'ios']
+          },
+          {
+            title: 'Remember a device',
+            route: '/lib/auth/device_features',
+            filters: ['android', 'ios', 'js', 'flutter', 'react-native']
+          },
+          {
+            title: 'Password management',
+            route: '/lib/auth/password_management',
+            filters: ['android', 'flutter', 'ios']
+          },
+          {
+            title: 'Sign out',
+            route: '/lib/auth/signOut',
+            filters: ['android', 'flutter', 'ios']
+          },
+          {
+            title: 'Accessing credentials',
+            route: '/lib/auth/access_credentials',
+            filters: ['android', 'flutter', 'ios']
+          },
+          {
+            title: 'Managing credentials',
+            route: '/lib/auth/managing_credentials',
+            filters: ['flutter']
+          },
+          {
+            title: 'Delete user',
+            route: '/lib/auth/delete_user',
+            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
+          },
+          {
+            title: 'Escape hatch',
+            route: '/lib/auth/escapehatch',
+            filters: ['android', 'ios']
+          },
+          {
+            title: 'Advanced workflows',
+            route: '/lib/auth/advanced',
+            filters: ['android', 'ios', 'flutter']
+          },
+          {
+            title: 'Under the hood',
+            route: '/lib/auth/overview',
+            filters: ['android', 'ios', 'js', 'react-native']
+          }
+        ]
+      },
       analytics: {
         title: 'Analytics',
         items: [
@@ -256,146 +391,6 @@ export const directory = {
             title: 'Use existing AWS resources',
             route: '/lib/restapi/existing-resources',
             filters: ['android', 'ios', 'flutter']
-          }
-        ]
-      },
-      auth: {
-        title: 'Authentication',
-        items: [
-          {
-            title: 'Set up Amplify Auth',
-            route: '/lib/auth/getting-started',
-            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
-          },
-          {
-            title: 'Enable sign-up, sign-in, and sign-out',
-            route: '/lib/auth/emailpassword',
-            filters: ['js', 'react-native']
-          },
-          {
-            title: 'Social sign-in (OAuth)',
-            route: '/lib/auth/social',
-            filters: ['js', 'react-native']
-          },
-          {
-            title: 'Multi-factor authentication',
-            route: '/lib/auth/mfa',
-            filters: ['js', 'react-native']
-          },
-          {
-            title: 'Password & user management',
-            route: '/lib/auth/manageusers',
-            filters: ['js', 'react-native']
-          },
-          {
-            title: 'Switching authentication flows',
-            route: '/lib/auth/switch-auth',
-            filters: ['js', 'react-native']
-          },
-          {
-            title: 'Advanced workflows',
-            route: '/lib/auth/advanced',
-            filters: ['js', 'react-native']
-          },
-          {
-            title: 'Sign in',
-            route: '/lib/auth/signin',
-            filters: ['android', 'flutter', 'ios']
-          },
-          {
-            title: 'Switching authentication flows',
-            route: '/lib/auth/switch-auth',
-            filters: ['ios', 'android']
-          },
-          {
-            title: 'Sign in with custom flow',
-            route: '/lib/auth/signin_with_custom_flow',
-            filters: ['ios', 'android', 'flutter']
-          },
-          {
-            title: 'Sign in with web UI',
-            route: '/lib/auth/signin_web_ui',
-            filters: ['android', 'flutter', 'ios']
-          },
-          {
-            title: 'Social sign-in (OAuth)',
-            route: '/lib/auth/social',
-            filters: ['android', 'flutter', 'ios']
-          },
-          {
-            title: 'Multi-factor authentication',
-            route: '/lib/auth/mfa',
-            filters: ['ios', 'flutter', 'android']
-          },
-          {
-            title: 'SMS flows',
-            route: '/lib/auth/sms_flows',
-            filters: ['flutter', 'ios', 'android']
-          },
-          {
-            title: 'Sign in next steps',
-            route: '/lib/auth/signin_next_steps',
-            filters: ['ios', 'android', 'flutter']
-          },
-          {
-            title: 'Guest access',
-            route: '/lib/auth/guest_access',
-            filters: ['android', 'flutter', 'ios']
-          },
-          {
-            title: 'Auth events',
-            route: '/lib/auth/auth-events',
-            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
-          },
-          {
-            title: 'User attributes',
-            route: '/lib/auth/user-attributes',
-            filters: ['android', 'flutter', 'ios']
-          },
-          {
-            title: 'Remember a device',
-            route: '/lib/auth/device_features',
-            filters: ['android', 'ios', 'js', 'flutter', 'react-native']
-          },
-          {
-            title: 'Password management',
-            route: '/lib/auth/password_management',
-            filters: ['android', 'flutter', 'ios']
-          },
-          {
-            title: 'Sign out',
-            route: '/lib/auth/signOut',
-            filters: ['android', 'flutter', 'ios']
-          },
-          {
-            title: 'Accessing credentials',
-            route: '/lib/auth/access_credentials',
-            filters: ['android', 'flutter', 'ios']
-          },
-          {
-            title: 'Managing credentials',
-            route: '/lib/auth/managing_credentials',
-            filters: ['flutter']
-          },
-          {
-            title: 'Delete user',
-            route: '/lib/auth/delete_user',
-            filters: ['android', 'flutter', 'ios', 'js', 'react-native']
-          },
-          {
-            title: 'Escape hatch',
-            route: '/lib/auth/escapehatch',
-            filters: ['android', 'ios']
-          },
-          {
-            title: 'Advanced workflows',
-            route: '/lib/auth/advanced',
-            filters: ['android', 'ios', 'flutter']
-          },
-          {
-            title: 'Under the hood',
-            route: '/lib/auth/overview',
-            filters: ['android', 'ios', 'js', 'react-native']
           }
         ]
       },
@@ -734,7 +729,7 @@ export const directory = {
         title: 'Storage',
         items: [
           {
-            title: 'Getting started',
+            title: 'Set up Amplify Storage',
             route: '/lib/storage/getting-started',
             filters: ['android', 'ios', 'flutter', 'js', 'react-native']
           },
@@ -761,7 +756,7 @@ export const directory = {
           {
             title: 'Get file properties',
             route: '/lib/storage/get-properties',
-            filters: ['flutter', 'js']
+            filters: ['flutter', 'js', 'react-native']
           },
           {
             title: 'List files',
@@ -990,12 +985,12 @@ export const directory = {
           {
             title: 'Prerequisites',
             route: '/lib-v1/project-setup/prereq',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'Create your application',
             route: '/lib-v1/project-setup/create-application',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'Using Combine with Amplify',
@@ -1040,12 +1035,17 @@ export const directory = {
           {
             title: 'Getting started',
             route: '/lib-v1/analytics/getting-started',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'Record events',
             route: '/lib-v1/analytics/record',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js']
+          },
+          {
+            title: 'Identify user',
+            route: '/lib-v1/analytics/identifyuser',
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'Automatically track sessions',
@@ -1055,11 +1055,6 @@ export const directory = {
           {
             title: 'Enable/Disable Analytics',
             route: '/lib-v1/analytics/enable-disable',
-            filters: ['android', 'ios', 'flutter']
-          },
-          {
-            title: 'Identify user',
-            route: '/lib-v1/analytics/identifyuser',
             filters: ['android', 'ios', 'flutter']
           },
           {
@@ -1163,9 +1158,14 @@ export const directory = {
         title: 'Authentication',
         items: [
           {
-            title: 'Getting started',
+            title: 'Set up Amplify Auth',
             route: '/lib-v1/auth/getting-started',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js']
+          },
+          {
+            title: 'Enable sign-up, sign-in, and sign-out',
+            route: '/lib-v1/auth/emailpassword',
+            filters: ['js']
           },
           {
             title: 'Sign in',
@@ -1185,7 +1185,27 @@ export const directory = {
           {
             title: 'Social sign-in (OAuth)',
             route: '/lib-v1/auth/social',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js']
+          },
+          {
+            title: 'Multi-factor authentication',
+            route: '/lib-v1/auth/mfa',
+            filters: ['js']
+          },
+          {
+            title: 'Password & user management',
+            route: '/lib-v1/auth/manageusers',
+            filters: ['js']
+          },
+          {
+            title: 'Switching authentication flows',
+            route: '/lib-v1/auth/switch-auth',
+            filters: ['js']
+          },
+          {
+            title: 'Advanced workflows',
+            route: '/lib-v1/auth/advanced',
+            filters: ['js']
           },
           {
             title: 'Sign in next steps',
@@ -1205,7 +1225,7 @@ export const directory = {
           {
             title: 'Auth events',
             route: '/lib-v1/auth/auth-events',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'User attributes',
@@ -1250,7 +1270,7 @@ export const directory = {
           {
             title: 'Under the hood',
             route: '/lib-v1/auth/overview',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js']
           }
         ]
       },
@@ -1405,42 +1425,57 @@ export const directory = {
           {
             title: 'Getting started',
             route: '/lib-v1/storage/getting-started',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'Concepts',
             route: '/lib-v1/storage/overview',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'Upload files',
             route: '/lib-v1/storage/upload',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'Download files',
             route: '/lib-v1/storage/download',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js']
+          },
+          {
+            title: 'Get file properties',
+            route: '/lib-v1/storage/get-properties',
+            filters: ['js']
           },
           {
             title: 'List files',
             route: '/lib-v1/storage/list',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js']
+          },
+          {
+            title: 'Copy files',
+            route: '/lib-v1/storage/copy',
+            filters: ['js']
           },
           {
             title: 'Remove files',
             route: '/lib-v1/storage/remove',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'File access levels',
             route: '/lib-v1/storage/configureaccess',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js']
+          },
+          {
+            title: 'Use Transfer Acceleration',
+            route: '/lib-v1/storage/transfer-acceleration',
+            filters: ['js']
           },
           {
             title: 'Lambda triggers',
             route: '/lib-v1/storage/triggers',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js']
           },
           {
             title: 'Escape hatch',
@@ -1450,17 +1485,17 @@ export const directory = {
           {
             title: 'Use existing AWS resources',
             route: '/lib-v1/storage/existing-resources',
-            filters: ['android', 'ios', 'flutter']
+            filters: ['android', 'ios', 'flutter', 'js']
           }
         ]
       },
-      troubleshooting: {
-        title: 'Troubleshooting',
+      ssr: {
+        title: 'Server-Side Rendering',
         items: [
           {
-            title: 'Upgrading Amplify packages',
-            route: '/lib-v1/troubleshooting/upgrading',
-            filters: ['flutter']
+            title: 'Use Amplify with Next.js',
+            route: '/lib-v1/ssr/nextjs',
+            filters: ['js']
           }
         ]
       },
@@ -1470,7 +1505,17 @@ export const directory = {
           {
             title: 'Hub',
             route: '/lib-v1/utilities/hub',
-            filters: ['android', 'ios']
+            filters: ['android', 'ios', 'js']
+          }
+        ]
+      },
+      troubleshooting: {
+        title: 'Troubleshooting',
+        items: [
+          {
+            title: 'Upgrading Amplify packages',
+            route: '/lib-v1/troubleshooting/upgrading',
+            filters: ['flutter', 'js']
           }
         ]
       },
