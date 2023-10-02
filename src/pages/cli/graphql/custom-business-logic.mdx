@@ -93,7 +93,6 @@ Optionally, if you don't want to hard-code the function name into the GraphQL sc
 
 ```ts
 const coolLambdaFunction = new lambda.Function(this, 'MyCoolLambdaFunction', {
-  functionName: 'MyCoolLambdaFunction', // MAKE SURE THIS MATCHES THE @function's "name" PARAMETER
   code: lambda.Code.fromAsset(path.join(__dirname, 'handlers/echo')),
   handler: 'index.handler',
   runtime: lambda.Runtime.NODEJS_18_X
