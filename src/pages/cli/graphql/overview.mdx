@@ -60,7 +60,7 @@ npm install @aws-amplify/graphql-api-construct
 Next, go to your stack and import the Amplify GraphQL CDK construct and create your new Amplify GraphQL API:
 
 ```ts
-import { AmplifyGraphqlApi } from '@aws-amplify/graphql-api-construct'
+import { AmplifyGraphqlApi, AmplifyGraphqlDefinition } from '@aws-amplify/graphql-api-construct'
 
 export class BackendStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
