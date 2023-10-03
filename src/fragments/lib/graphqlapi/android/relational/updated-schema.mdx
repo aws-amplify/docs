@@ -1,0 +1,26 @@
+For the examples below with API (GraphQL) let's add a Post and Comment model to the [schema](/lib/graphqlapi/getting-started#configure-api):
+
+```graphql
+enum PostStatus {
+  ACTIVE
+  INACTIVE
+}
+
+type Post @model {
+  id: ID!
+  title: String!
+  rating: Int!
+  status: PostStatus!
+  # New field with @hasMany
+  comments: [Comment] @hasMany(indexName: "byPost", fields: ["id"])
+}
+
+type Comment @model {
+  id: ID!
+  postID: ID! @index(name: "byPost")
+  post: Post! @belongsTo(fields: ["postID"])
+  content: String!
+}
+```
+
+Generate the models for the updated schema using the [Amplify CLI](/lib/graphqlapi/getting-started#generate-todo-model-class).

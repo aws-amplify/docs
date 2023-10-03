@@ -313,6 +313,11 @@ export const directory = {
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
           {
+            title: 'Relational models',
+            route: '/lib/graphqlapi/relational',
+            filters: ['android', 'ios']
+          },
+          {
             title: 'Working with files and attachments',
             route: '/lib/graphqlapi/working-with-files',
             filters: ['js', 'ios']

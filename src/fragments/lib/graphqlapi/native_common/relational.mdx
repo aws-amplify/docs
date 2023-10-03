@@ -1,0 +1,84 @@
+API (GraphQL) has the capability to handle relationships between Models, such as _has one_, _has many_, _belongs to_. In GraphQL this is done with the `@hasOne`, `@hasMany` and `@index` directives as defined in the [GraphQL Transformer documentation](/cli/graphql/data-modeling).
+
+## Updated schema
+
+import ios1 from "/src/fragments/lib/graphqlapi/ios/relational/updated-schema.mdx";
+
+<Fragments fragments={{ ios: ios1 }} />
+
+import android2 from '/src/fragments/lib/graphqlapi/android/relational/updated-schema.mdx';
+
+<Fragments fragments={{ android: android2 }} />
+
+## Creating relations
+
+In order to create connected models, you will create an instance of the model you wish to connect and pass it to `Amplify.API.mutate`:
+
+import ios5 from "/src/fragments/lib/graphqlapi/ios/relational/save-snippet.mdx";
+
+<Fragments fragments={{ ios: ios5 }} />
+
+import android6 from '/src/fragments/lib/graphqlapi/android/relational/save-snippet.mdx';
+
+<Fragments fragments={{ android: android6 }} />
+
+## Querying relations
+
+import ios9 from "/src/fragments/lib/graphqlapi/ios/relational/query-snippet.mdx";
+
+<Fragments fragments={{ ios: ios9 }} />
+
+import android10 from '/src/fragments/lib/graphqlapi/android/relational/query-snippet.mdx';
+
+<Fragments fragments={{ android: android10 }} />
+
+## Deleting relations
+
+When you delete a parent object in a one-to-many relationship, the children will not be removed. Delete the children before deleting the parent to ensure there are no orphaned data. For example, the following operation would remove the comments that belong to the Post with id *123*, then the post.
+
+import ios13 from "/src/fragments/lib/graphqlapi/ios/relational/delete-snippet.mdx";
+
+<Fragments fragments={{ ios: ios13 }} />
+
+import android14 from '/src/fragments/lib/graphqlapi/android/relational/delete-snippet.mdx';
+
+<Fragments fragments={{ android: android14 }} />
+
+## Many-to-many relationships
+
+For many-to-many relationships, you can use the `@manyToMany` directive and specify a `relationName`. Under the hood, Amplify creates a join table and a one-to-many relationship from both models.
+
+<Callout warning>
+
+Join table records must be deleted prior to deleting the associated records. For example, for a many-to-many relationship between Posts and Tags, delete the PostTags join record prior to deleting a Post or Tag.
+
+</Callout>
+
+```graphql
+enum PostStatus {
+  ACTIVE
+  INACTIVE
+}
+
+type Post @model {
+  id: ID!
+  title: String!
+  rating: Int
+  status: PostStatus
+  editors: [User] @manyToMany(relationName: "PostEditor")
+}
+
+type User @model {
+  id: ID!
+  username: String!
+  posts: [Post] @manyToMany(relationName: "PostEditor")
+}
+```
+
+import ios17 from '/src/fragments/lib/graphqlapi/ios/relational/save-many-snippet.mdx';
+
+<Fragments fragments={{ ios: ios17 }} />
+
+import android18 from '/src/fragments/lib/graphqlapi/android/relational/save-many-snippet.mdx';
+
+<Fragments fragments={{ android: android18 }} />
