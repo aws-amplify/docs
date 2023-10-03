@@ -207,7 +207,7 @@ amplify push
 
 The following schema updates require replacement of the underlying DynamoDB table:
 1. Removing or renaming a model
-2. Modifying the [primary key](/cli/graphql-transformer/key) of a model
+2. Modifying the [primary key](/cli-legacy/graphql-transformer/key) of a model
 3. Modifying a Local Secondary Index of a model (only applies to projects with [secondaryKeyAsGSI](/cli/reference/feature-flags/#secondaryKeyAsGSI) turned off)
 
 When trying to push a schema change with one or more of these updates you will see an error message explaining that you will lose ALL DATA in any table that requires replacement. To confirm you want to continue with the deployment, run:
