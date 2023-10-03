@@ -1,13 +1,13 @@
 export const meta = {
   title: `Connect to machine learning services`,
-  description: `Add AI/ML capabilities such as text recognition, image labeling, text-to-speech, and translation to your GraphQL API.`,
+  description: `Add AI/ML capabilities such as text recognition, image labeling, text-to-speech, and translation to your GraphQL API.`
 };
 
-<MigrationAlert url={"/cli-legacy/graphql-transformer/predictions"}/>
+<MigrationAlert url={'/cli-legacy/graphql-transformer/predictions'} />
 
 Amplify allows you to identify text on an image, identify labels on an image, translate text, and synthesize speech from text with the `@predictions` directive.
 
-> Note: The `@predictions` directive requires a S3 storage bucket configured via `amplify add storage`. 
+> Note: The `@predictions` directive requires a S3 storage bucket configured via `amplify add storage` or set the `predictionsBucket` property when using CDK.
 
 ## Identify text on an image
 
@@ -19,15 +19,11 @@ type Query {
 }
 ```
 
-In your GraphQL query, can pass in a S3 `key` for the image. At the moment, this directive works only with objects located within the `public/` folder of your S3 bucket. The `public/` prefix is automatically added to the `key` input. For instance, in the example below, `public/myimage.jpg` will be used as the input. 
+In your GraphQL query, can pass in a S3 `key` for the image. At the moment, this directive works only with objects located within the `public/` folder of your S3 bucket. The `public/` prefix is automatically added to the `key` input. For instance, in the example below, `public/myimage.jpg` will be used as the input.
 
 ```graphql
 query RecognizeTextFromImage($input: RecognizeTextFromImageInput!) {
-  recognizeTextFromImage(input: {
-    identifyText: {
-      key: "myimage.jpg"
-    }
-  })
+  recognizeTextFromImage(input: { identifyText: { key: "myimage.jpg" } })
 }
 ```
 
@@ -41,23 +37,19 @@ type Query {
 }
 ```
 
-In your GraphQL query, you can pass in a S3 `key` for the image. At the moment, this directive works only with objects located within `public/` folder in your S3 bucket. The `public/` prefix is automatically added to the `key` input. For instance, in the example below, `public/myimage.jpg` will be used as the input. 
+In your GraphQL query, you can pass in a S3 `key` for the image. At the moment, this directive works only with objects located within `public/` folder in your S3 bucket. The `public/` prefix is automatically added to the `key` input. For instance, in the example below, `public/myimage.jpg` will be used as the input.
 
 The query below will return a list of identified labels. Review [Detecting Labels](https://docs.aws.amazon.com/rekognition/latest/dg/labels.html) in the Amazon Rekognition documentation for the full list of supported labels.
 
 ```graphql
 query RecognizeLabelsFromImage($input: RecognizeLabelsFromImageInput!) {
-  recognizeLabelsFromImage(input: {
-    identifyLabels: {
-      key: "myimage.jpg"
-    }
-  })
+  recognizeLabelsFromImage(input: { identifyLabels: { key: "myimage.jpg" } })
 }
 ```
 
 ## Translate text
 
-To configure text translation use the `identifyLabels` action in the `@predictions` directive. 
+To configure text translation use the `identifyLabels` action in the `@predictions` directive.
 
 ```graphql
 type Query {
@@ -69,19 +61,21 @@ The query below will return the translated string. Populate the `sourceLanguage`
 
 ```graphql
 query TranslateText($input: TranslateTextInput!) {
-  translate(input: {
-    translateText: {
-      sourceLanguage: "en"
-      targetLanguage: "de"
-      text: "Translate me"
+  translate(
+    input: {
+      translateText: {
+        sourceLanguage: "en"
+        targetLanguage: "de"
+        text: "Translate me"
+      }
     }
-  })
+  )
 }
 ```
 
 ## Synthesize speech from text
 
-To configure Text-to-Speech synthesis use the `convertTextToSpeech` action in the `@predictions` directive. 
+To configure Text-to-Speech synthesis use the `convertTextToSpeech` action in the `@predictions` directive.
 
 ```graphql
 type Query {
@@ -93,18 +87,21 @@ The query below will return a presigned URL with the synthesized speech. Populat
 
 ```graphql
 query ConvertTextToSpeech($input: ConvertTextToSpeechInput!) {
-  textToSpeech(input: {
-    convertTextToSpeech: {
-      voiceID: "Nicole"
-      text: "Hello from AWS Amplify!"
+  textToSpeech(
+    input: {
+      convertTextToSpeech: {
+        voiceID: "Nicole"
+        text: "Hello from AWS Amplify!"
+      }
     }
-  })
+  )
 }
 ```
 
 ## Combining Predictions actions
 
 You can also combine multiple Predictions actions together into a sequence. The following action sequences are supported:
+
 - `identifyText -> translateText -> convertTextToSpeech`
 - `identifyLabels -> translateText -> convertTextToSpeech`
 - `translateText -> convertTextToSpeech`
@@ -113,11 +110,8 @@ In the example below, `speakTranslatedImageText` identifies text from an image, 
 
 ```graphql
 type Query {
-  speakTranslatedImageText: String @predictions(actions: [
-    identifyText
-    translateText
-    convertTextToSpeech
-  ])
+  speakTranslatedImageText: String
+    @predictions(actions: [identifyText, translateText, convertTextToSpeech])
 }
 ```
 
@@ -125,18 +119,13 @@ An example of that query will look like:
 
 ```graphql
 query SpeakTranslatedImageText($input: SpeakTranslatedImageTextInput!) {
-  speakTranslatedImageText(input: {
-    identifyText: {
-      key: "myimage.jpg"
+  speakTranslatedImageText(
+    input: {
+      identifyText: { key: "myimage.jpg" }
+      translateText: { sourceLanguage: "en", targetLanguage: "es" }
+      convertTextToSpeech: { voiceID: "Conchita" }
     }
-    translateText: {
-      sourceLanguage: "en"
-      targetLanguage: "es"
-    }
-    convertTextToSpeech: {
-      voiceID: "Conchita"
-    }
-  })
+  )
 }
 ```
 
@@ -144,7 +133,7 @@ A code example of this using the JS Library is shown below:
 
 ```js
 import React, { useState } from 'react';
-import { Amplify, Storage, API, graphqlOperation } from 'aws-amplify';
+import { Amplify, Storage, API } from 'aws-amplify';
 import awsconfig from './aws-exports';
 import { speakTranslatedImageText } from './graphql/queries';
 
@@ -152,17 +141,17 @@ import { speakTranslatedImageText } from './graphql/queries';
 Amplify.configure(awsconfig);
 
 function SpeakTranslatedImage() {
-  const [src, setSrc] = useState("");
-  const [img, setImg] = useState("");
+  const [src, setSrc] = useState('');
+  const [img, setImg] = useState('');
 
   function putS3Image(event) {
     const file = event.target.files[0];
     Storage.put(file.name, file)
-    .then(async (result) => {
-      setSrc(await speakTranslatedImageTextOP(result.key))
-      setImg(await Storage.get(result.key));
-    })
-    .catch(err => console.log(err));
+      .then(async (result) => {
+        setSrc(await speakTranslatedImageTextOP(result.key));
+        setImg(await Storage.get(result.key));
+      })
+      .catch((err) => console.log(err));
   }
 
   return (
@@ -170,20 +159,21 @@ function SpeakTranslatedImage() {
       <div>
         <h3>Upload Image</h3>
         <input
-          type = "file" accept='image/jpeg'
-          onChange = {(event) => {
-            putS3Image(event)
+          type="file"
+          accept="image/jpeg"
+          onChange={(event) => {
+            putS3Image(event);
           }}
-          />
+        />
         <br />
-        { img && <img src = {img}></img>}
-        { src &&
-          <div> 
+        {img && <img src={img}></img>}
+        {src && (
+          <div>
             <audio id="audioPlayback" controls>
-              <source id="audioSource" type="audio/mp3" src = {src}/>
+              <source id="audioSource" type="audio/mp3" src={src} />
             </audio>
           </div>
-        }
+        )}
       </div>
     </div>
   );
@@ -192,14 +182,16 @@ function SpeakTranslatedImage() {
 async function speakTranslatedImageTextOP(key) {
   const inputObj = {
     translateText: {
-      sourceLanguage: "en",
-      targetLanguage: "es"
+      sourceLanguage: 'en',
+      targetLanguage: 'es'
     },
     identifyText: { key },
-    convertTextToSpeech: { voiceID: "Conchita" }
+    convertTextToSpeech: { voiceID: 'Conchita' }
   };
-  const response = await API.graphql(
-    graphqlOperation(speakTranslatedImageText, { input: inputObj }));
+  const response = await API.graphql({
+    query: speakTranslatedImageText,
+    variables: { input: inputObj }
+  });
   return response.data.speakTranslatedImageText;
 }
 function App() {
@@ -227,8 +219,7 @@ enum PredictionsActions {
 }
 ```
 
-`@predictions` creates resources to communicate with Amazon Rekognition, Translate, and Polly.
-For each action the following is created:
+`@predictions` creates resources to communicate with Amazon Rekognition, Translate, and Polly. For each action the following is created:
 
 - IAM Policy for each service (e.g. Amazon Rekognition `detectText` Policy)
 - An AppSync VTL function
