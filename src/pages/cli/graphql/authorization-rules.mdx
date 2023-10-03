@@ -82,21 +82,27 @@ When you run `amplify add auth`, the  Amplify CLI generates scoped down IAM poli
 Designate an IAM role for unauthenticated identities by setting the `iamConfig` property:
 
 ```ts
-    const amplifyApi = new AmplifyGraphqlApi(this, "MyNewApi", {
-      definition: AmplifyGraphqlDefinition.fromFiles(path.join(__dirname, "schema.graphql")),
-      authorizationModes: {
-        defaultAuthorizationMode: 'API_KEY',
-        apiKeyConfig: {
-          expires: cdk.Duration.days(30)
-        },
-        iamConfig: {
-          identityPoolId: ..., // <-- pass in your identity pool ID here
-          unauthenticatedUserRole: ..., // <-- pass in your unauthenticatedUserRole here
-          authenticatedUserRole: ... // <-- pass in your authenticatedUserRole here
-        }
-      },
-    })
+const amplifyApi = new AmplifyGraphqlApi(this, "MyNewApi", {
+  definition: AmplifyGraphqlDefinition.fromFiles(path.join(__dirname, "schema.graphql")),
+  authorizationModes: {
+    defaultAuthorizationMode: 'API_KEY',
+    apiKeyConfig: {
+      expires: cdk.Duration.days(30)
+    },
+    iamConfig: {
+      identityPoolId: "<region>:<id string>", // <-- pass in your identity pool ID
+      unauthenticatedUserRole: ..., // <-- pass in your unauthenticatedUserRole here
+      authenticatedUserRole: ... // <-- pass in your authenticatedUserRole here
+    }
+  },
+})
 ```
+
+<Callout warning>
+
+**Note:** You must pass the identity pool ID as a string in the format above. Using a reference through a CDK token is currently not supported.
+
+</Callout>
 
 </Block>
 </BlockSwitcher>
@@ -198,21 +204,27 @@ When you run `amplify add auth`, the  Amplify CLI generates scoped down IAM poli
 Designate an IAM role for authenticated identities by setting the `iamConfig` property:
 
 ```ts
-    const amplifyApi = new AmplifyGraphqlApi(this, "MyNewApi", {
-      definition: AmplifyGraphqlDefinition.fromFiles(path.join(__dirname, "schema.graphql")),
-      authorizationModes: {
-        defaultAuthorizationMode: 'API_KEY',
-        apiKeyConfig: {
-          expires: cdk.Duration.days(30)
-        },
-        iamConfig: {
-          identityPoolId: ..., // <-- pass in your identity pool ID here
-          authenticatedUserRole: ..., // <-- pass in your authenticatedUserRole here
-          unauthenticatedUserRole: ... // <-- pass in your unauthenticatedUserRole here
-        }
-      },
-    })
+const amplifyApi = new AmplifyGraphqlApi(this, "MyNewApi", {
+  definition: AmplifyGraphqlDefinition.fromFiles(path.join(__dirname, "schema.graphql")),
+  authorizationModes: {
+    defaultAuthorizationMode: 'API_KEY',
+    apiKeyConfig: {
+      expires: cdk.Duration.days(30)
+    },
+    iamConfig: {
+      identityPoolId: "<region>:<id string>", // <-- pass in your identity pool ID
+      unauthenticatedUserRole: ..., // <-- pass in your unauthenticatedUserRole here
+      authenticatedUserRole: ... // <-- pass in your authenticatedUserRole here
+    }
+  },
+})
 ```
+
+<Callout warning>
+
+**Note:** You must pass the identity pool ID as a string in the format above. Using a reference through a CDK token is currently not supported.
+
+</Callout>
 
 </Block>
 </BlockSwitcher>
