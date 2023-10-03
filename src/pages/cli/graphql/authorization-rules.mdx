@@ -52,12 +52,12 @@ Use the guide below to select the correct authorization strategy for your use ca
 
 | **Recommended use case** | **Strategy** | **Provider** |
 |---|---|---|
-| Public data access where users or devices are anonymous. Anyone with the AppSync API key is granted access. | [`public`]() | `apiKey` |
-| Recommended for production environment's public data access. Public data access where unauthenticated users or devices are granted permissions using AWS IAM controls. | [`public`]() | `iam` |
-| Per user data access. Access is restricted to the "owner" of a record. Leverages `amplify add auth` Cognito user pool by default. | [`owner`]() | `userPools` / `oidc` |
-| Any signed-in data access. Unlike owner-based access, **any** signed-in user has access. | [`private`]() | `userPools` / `oidc` / `iam` |
-| Per user group data access. A specific or dynamically configured group of users have access | [`group`]() | `userPools` / `oidc` |
-| Define your own custom authorization rule within a Lambda function | [`custom`]() | `function` |
+| Public data access where users or devices are anonymous. Anyone with the AppSync API key is granted access. | [`public`](#public-data-access) | `apiKey` |
+| Recommended for production environment's public data access. Public data access where unauthenticated users or devices are granted permissions using AWS IAM controls. | [`public`](#public-data-access) | `iam` |
+| Per user data access. Access is restricted to the "owner" of a record. Leverages `amplify add auth` Cognito user pool by default. | [`owner`](#per-user--owner-based-data-access) | `userPools` / `oidc` |
+| Any signed-in data access. Unlike owner-based access, **any** signed-in user has access. | [`private`](#signed-in-user-data-access) | `userPools` / `oidc` / `iam` |
+| Per user group data access. A specific or dynamically configured group of users have access | [`groups`](#user-group-based-data-access) | `userPools` / `oidc` |
+| Define your own custom authorization rule within a Lambda function | [`custom`](#custom-authorization-rule) | `function` |
 
 ### Public data access
 
