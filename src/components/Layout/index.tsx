@@ -10,7 +10,8 @@ import {
   RIGHT_NAV_LINKS,
   SOCIAL_LINKS
 } from '../../utils/globalnav';
-import { forwardRef } from 'react';
+import { forwardRef, useEffect } from 'react';
+import { trackPageVisit } from '../../utils/track';
 
 const Layout = forwardRef(function Layout(
   {
@@ -26,6 +27,10 @@ const Layout = forwardRef(function Layout(
   },
   footerRef
 ) {
+  useEffect(() => {
+    trackPageVisit();
+  }, []);
+
   const router = useRouter();
   if (!router.isReady) return <></>;
 
