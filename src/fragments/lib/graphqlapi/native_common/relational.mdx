@@ -1,3 +1,11 @@
+import ios0 from "/src/fragments/lib/graphqlapi/ios/relational/callout.mdx";
+
+<Fragments fragments={{ ios: ios0 }} />
+
+import android0 from '/src/fragments/lib/graphqlapi/android/relational/callout.mdx';
+
+<Fragments fragments={{ android: android0 }} />
+
 API (GraphQL) has the capability to handle relationships between Models, such as _has one_, _has many_, _belongs to_. In GraphQL this is done with the `@hasOne`, `@hasMany` and `@index` directives as defined in the [GraphQL Transformer documentation](/cli/graphql/data-modeling).
 
 ## Updated schema
@@ -55,16 +63,10 @@ Join table records must be deleted prior to deleting the associated records. For
 </Callout>
 
 ```graphql
-enum PostStatus {
-  ACTIVE
-  INACTIVE
-}
-
 type Post @model {
   id: ID!
   title: String!
   rating: Int
-  status: PostStatus
   editors: [User] @manyToMany(relationName: "PostEditor")
 }
 
