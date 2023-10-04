@@ -189,7 +189,7 @@ import { Auth } from 'aws-amplify';
 const SignInWithGoogle = () => {
   useEffect(() => {
   // Check for an existing Google client initialization
-    if (!window.google && !window.google?.accounts) createScript();
+    if (!window.google?.accounts) createScript();
   }, []);
 
   // Load the Google client
@@ -204,7 +204,7 @@ const SignInWithGoogle = () => {
 
   // Initialize Google client and render Google button
   const initGsi = () => {
-    if (window.google && window.google?.accounts) {
+    if (window.google?.accounts) {
       window.google.accounts.id.initialize({
         client_id: process.env.GOOGLE_CLIENT_ID,
         callback: (response: any) => {
@@ -250,7 +250,7 @@ import { Auth } from 'aws-amplify';
 const SignInWithGoogle = () => {
   useEffect(() => {
   // Check for an existing Google client initialization
-    if (!window.google && !window.google?.accounts) createScript();
+    if (!window.google?.accounts) createScript();
   }, []);
 
   // Load the Google client
@@ -265,7 +265,7 @@ const SignInWithGoogle = () => {
 
   // Initialize Google client and render Google button
   const initGsi = () => {
-    if (window.google && window.google?.accounts) {
+    if (window.google?.accounts) {
       window.google.accounts.id.initialize({
         client_id: process.env.GOOGLE_CLIENT_ID,
         callback: (response: any) => {
