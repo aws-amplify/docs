@@ -16,12 +16,12 @@ const Option = function({ href, title, isActive }) {
 };
 
 const lib = directory['lib'].items;
-const libLegacy = directory['lib-v1'].items;
-const libLegacyPaths: string[] = [];
+const libAlt = directory['lib-v1'].items;
+const libAlternativePaths: string[] = [];
 const libPaths: string[] = [];
 const libItemsAndPaths: [object, string[]][] = [
   [lib, libPaths],
-  [libLegacy, libLegacyPaths]
+  [libAlt, libAlternativePaths]
 ];
 for (const [dirItems, paths] of libItemsAndPaths) {
   for (const [_, value] of Object.entries(dirItems)) {
@@ -36,55 +36,72 @@ for (const [dirItems, paths] of libItemsAndPaths) {
     });
   }
 }
-libLegacyPaths.push('/lib-v1');
+libAlternativePaths.push('/lib-v1');
 libPaths.push('/lib');
 
 export function LibVersionSwitcher({
   url,
-  legacyVersion,
-  latestVersion
+  alternativeVersion,
+  primaryVersion
 }: {
   url: string;
-  legacyVersion: string;
-  latestVersion: string;
+  alternativeVersion: string;
+  primaryVersion: string;
 }) {
-  let rightActive;
+  let primaryActive;
   let urlEnd;
+
+  function hrefWithoutParams(href) {
+    href = href.split('#')[0];
+    if (href.endsWith('/')) {
+      href = href.substring(0, href.length - 1);
+    }
+    return href;
+  }
+
   const filter = url.includes('/platform')
-    ? 'q/platform' + url.split('/platform')[1]
+    ? 'q/platform' + hrefWithoutParams(url).split('/platform')[1]
     : '';
 
-  if (url.includes('/lib-v1')) {
-    rightActive = false;
-    urlEnd = url.split('/lib-v1')[1];
+  const alternativeLib = '/lib-v1';
+  const primaryLib = '/lib';
+
+  if (url.includes(alternativeLib)) {
+    primaryActive = false;
+    urlEnd = url.split(alternativeLib)[1];
   } else {
-    rightActive = true;
-    urlEnd = url.split('/lib')[1];
+    primaryActive = true;
+    urlEnd = url.split(primaryLib)[1];
   }
 
   // Function to remove query string parameters before checking if href is included in the list of possibilities.
   // This is so we are only comparing the paths without the query string parameters to avoid false negatives.
   function isHrefIncluded(href: string, paths: string[]) {
-    href = href.split('#')[0];
-    if (href.endsWith('/')) {
-      href = href.substring(0, href.length - 1);
-    }
+    href = hrefWithoutParams(href);
     return paths.includes(href);
   }
 
-  const leftHref = '/lib-v1' + urlEnd;
-  const leftOption = {
-    title: legacyVersion,
-    href: isHrefIncluded(leftHref, libLegacyPaths)
-      ? leftHref
+  const alternativeHref = alternativeLib + urlEnd;
+  const alternativeOption = {
+    title: !isJsFilter(filter)
+      ? alternativeVersion
+      : `${alternativeVersion} (preview)`,
+    href: isHrefIncluded(alternativeHref, libAlternativePaths)
+      ? alternativeHref
       : '/lib-v1/' + filter
   };
 
-  const rightHref = '/lib' + urlEnd;
-  const rightOption = {
-    title: `${latestVersion} (latest)`,
-    href: isHrefIncluded(rightHref, libPaths) ? rightHref : '/lib/' + filter
+  const primaryHref = primaryLib + urlEnd;
+
+  const primaryOptionDescription = isJsFilter(filter) ? 'preview' : 'latest';
+  const primaryOption = {
+    title: isJsFilter(filter) ? primaryVersion : `${primaryVersion} (latest)`,
+    href: isHrefIncluded(primaryHref, libPaths) ? primaryHref : '/lib/' + filter
   };
+
+  const leftOption = isJsFilter(filter) ? primaryOption : alternativeOption;
+  const rightOption = isJsFilter(filter) ? alternativeOption : primaryOption;
+  const rightActive = isJsFilter(filter) ? !primaryActive : primaryActive;
 
   return (
     <SwitchStyle>
@@ -100,4 +117,8 @@ export function LibVersionSwitcher({
       />
     </SwitchStyle>
   );
+}
+
+function isJsFilter(filter: string) {
+  return filter === 'q/platform/react-native' || filter === 'q/platform/js';
 }
