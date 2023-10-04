@@ -5,6 +5,9 @@ Models with one-to-many connections are lazy-loaded when accessing the connected
 <Block name="Async/Await">
 
 ```swift
+Amplify.API.query(.get)
+
+
 do {
     guard let queriedPost = try await Amplify.DataStore.query(Post.self, byId: "123"),
             let comments = queriedPost.comments else {

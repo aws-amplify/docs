@@ -3,6 +3,10 @@
 <Block name="Async/Await">
 
 ```swift
+
+Amplify.API.mutate(.delete)
+
+
 do {
     guard let postWithComments = try await Amplify.DataStore.query(Post.self, byId: "123") else {
         print("No post found")
@@ -22,6 +26,7 @@ do {
 <Block name="Combine">
 
 ```swift
+
 let sink = Amplify.Publisher.create {
     guard let postWithComments = try await Amplify.DataStore.query(Post.self, byId: "123") else {
         return
