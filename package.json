@@ -8,9 +8,6 @@
   },
   "license": "Apache-2.0",
   "private": true,
-  "workspaces": [
-    "capi"
-  ],
   "dependencies": {
     "@algolia/autocomplete-js": "^1.5.3",
     "@algolia/autocomplete-plugin-query-suggestions": "^1.5.6",
@@ -18,10 +15,8 @@
     "@algolia/autocomplete-shared": "^1.5.6",
     "@algolia/autocomplete-theme-classic": "^1.6.1",
     "@algolia/client-search": "^4.13.0",
-    "@aws-amplify/amplify-cli-core": "^4.2.6",
-    "@aws-amplify/ui-react": "^5.3.0",
-    "@cloudscape-design/components": "^3.0.238",
-    "@cloudscape-design/global-styles": "^1.0.8",
+    "@aws-amplify/amplify-cli-core": "^4.2.7",
+    "@aws-amplify/ui-react": "^5.3.1",
     "@emotion/react": "^11.1.5",
     "@emotion/styled": "^11.3.0",
     "@mdx-js/mdx": "^2.0.0",
@@ -137,10 +132,10 @@
     "dev": "next dev",
     "spellcheck": "cspell \"src/**/*.mdx\" --no-progress",
     "spellcheck-diff": "git diff --name-only --cached | awk \"/src.*\\.mdx/{print}\" | npx cspell --no-must-find-files --file-list stdin",
-    "build": "node tasks/generate-sitemap.mjs && next build && next export -o client/www/next-build && next-image-export-optimizer --exportFolderPath client/www/next-build",
+    "build": "node tasks/generate-sitemap.mjs && next build && next export -o client/www/next-build",
+    "build:release": "yarn build && next-image-export-optimizer --exportFolderPath client/www/next-build",
     "next-build": "next build",
     "next-start": "next start",
-    "amplify:submissionsLambda": "cd amplify/backend/function/submissionsLambda/src && yarn install && yarn build && yarn test",
     "prepare": "husky install"
   }
 }
