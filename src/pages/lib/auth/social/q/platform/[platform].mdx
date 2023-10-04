@@ -21,17 +21,23 @@ Incorporating social provider sign-in provides your users more sign-in options w
 
 [OAuth 2.0](https://en.wikipedia.org/wiki/OAuth) is the common Authorization framework used by web and mobile applications for accessing user information ("scopes") in a limited manner. Common analogies you will hear in OAuth is that of boarding a plane or staying in a hotel - showing your identification is the authentication piece (signing into an app) and using the boarding pass/hotel key is what you are authorized to access.
 
-OAuth support in Amplify uses Cognito User Pools and supports federation with social providers, which will automatically create a corresponding user in the User Pool after a login. [OIDC](https://en.wikipedia.org/wiki/OpenID_Connect) tokens are available in the app after the application has completed this process.  With this design you do not need to include an SDK for the social provider in your app. After you set up your developer account with these social providers you can configure the `Auth` category by running `amplify add auth` and selecting the social provider option and then use `Auth.federatedSignIn()` in your app to either show a pre-built "Hosted UI" or pass in a provider name (e.g. `Auth.federatedSignIn({provider: 'Facebook'})`) to interface directly and build your own UI.
+OAuth support in Amplify uses Cognito User Pools and supports federation with social providers, which will automatically create a corresponding user in the User Pool after a login. With this design you do not need to include an SDK for the social provider in your app. After you set up your developer account with these social providers you can configure the `Auth` category by running `amplify add auth` and selecting the social provider option and then use `Auth.federatedSignIn()` in your app to either show a pre-built "Hosted UI" or pass in a provider name (e.g. `Auth.federatedSignIn({provider: 'Facebook'})`) to interface directly and build your own UI.
 	
 ![Image](/images/SocialAuthZ.png)
 	
-You can also get credentials directly from Identity Pools by passing tokens from a social provider directly to `Auth.federatedSignIn()`. However you will have to use that provider's SDK directly in your app and manage token refresh and auth flows manually.
+Alternatively, you can also get credentials directly from Identity Pools by passing tokens from a social provider directly with `Auth.federatedSignIn()`. However you will have to use that provider's SDK in your app as well as manage the tokens from the provider and their refresh cycles manually.
 
 </Accordion>
 
 ## Set up your social auth provider
 
 Before you configure social sign-in with Amplify Auth you will need to set up your developer account with each provider you are using.
+
+<Callout>
+
+**Note:** Amazon Cognito provides first class support for Facebook Login, Google Sign-In, Login with Amazon, and Sign in with Apple for seamless setup. However you can configure other Identity Providers that support SAML or OpenID Connect (OIDC).
+
+</Callout>
 
 <BlockSwitcher>
 <Block name="Facebook Login">
@@ -145,21 +151,11 @@ Before you configure social sign-in with Amplify Auth you will need to set up yo
 </Block>
 </BlockSwitcher>
 
-Your developer accounts with the social providers are now set up and you can return to your Auth project for next steps.
+Your developer accounts with the social providers are now set up and you can return to your Amplify project for next steps.
 
 ## Configure the Auth category
 
 Once you have the social providers configured you can update your Auth configuration through the Amplify CLI.
-
-<InlineFilter filters={["js"]}>
-
-<Callout>
-
-**Note:** You can also use the out-of-box set up through [Authenticator](https://ui.docs.amplify.aws/react/connected-components/authenticator/configuration#social-providers).
-
-</Callout>
-
-</InlineFilter>
 
 <Callout warning>
 
@@ -175,7 +171,7 @@ amplify add auth     ## "amplify update auth" if already configured
 
 <InlineFilter filters={["js"]}>
 
-Choose the following options (the last steps are specific to Facebook in this example but these steps are similar for other providers):
+Choose the following options:
 
 ```console
 ? Do you want to use the default authentication and security configuration? 
@@ -338,7 +334,7 @@ You need to now inform your social provider of this URL:
 
 <Callout warning>
 
-Federated sign-in does not invoke any [Custom authentication challenge Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html), [Migrate user Lambda trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-migrate-user.html), [Custom message Lambda trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-custom-message.html), or [Custom sender Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-custom-sender-triggers.html) in your user pool. For information on the supported Lambda triggers refer to the [AWS documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html#lambda-triggers-for-federated-users) 
+**Note:** Federated sign-in does not invoke any [Custom authentication challenge Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html), [Migrate user Lambda trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-migrate-user.html), [Custom message Lambda trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-custom-message.html), or [Custom sender Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-custom-sender-triggers.html) in your user pool. For information on the supported Lambda triggers refer to the [AWS documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html#lambda-triggers-for-federated-users) 
 
 </Callout>
 
@@ -346,13 +342,13 @@ You have configured your Auth category and updated your URL with the social prov
 
 ## Set up your frontend
 
-After configuring the OAuth endpoints (Cognito Hosted UI), you can integrate your app by invoking the `Auth.federatedSignIn()` function. Passing `LoginWithAmazon`, `Facebook`, `Google`, or `SignInWithApple` on the `provider` argument (e.g `Auth.federatedSignIn({ provider: 'LoginWithAmazon' })`) will bypass the Hosted UI and federate immediately with the social provider as shown in the below example.
+After configuring the OAuth endpoints (with Cognito Hosted UI), you can integrate your app by invoking the `Auth.federatedSignIn()` function which will redirect the user to the Cognito Hosted UI and provide options to sign in via user name password as well as any of the Social providers you have configured. Also, note that passing `LoginWithAmazon`, `Facebook`, `Google`, or `SignInWithApple` on the `provider` argument (e.g `Auth.federatedSignIn({ provider: 'LoginWithAmazon' })`) will bypass the Hosted UI and federate immediately with the social provider as shown in the below example.
 
 <InlineFilter filters={["js"]}>
 
 <Callout>
 
-You can also use the [Authenticator UI component](https://ui.docs.amplify.aws/react/components/authenticator) to add social sign in flow to your application. Visit [Social Provider](https://ui.docs.amplify.aws/react/components/authenticator/configuration#social-providers) section to learn more.
+**Note:** You can also use the [Authenticator UI component](https://ui.docs.amplify.aws/react/components/authenticator) to add social sign in flow to your application. Visit [Social Provider](https://ui.docs.amplify.aws/react/components/authenticator/configuration#social-providers) section to learn more.
 
 </Callout>
 
@@ -1549,7 +1545,7 @@ export default withOAuth(App);
 
 ### Deploy backend environment with auth parameters for social sign-in
 
-When you update your authentication configuration, Amplify creates a new backend environment for your app. You then need to deploy your app to this new backend environment in order for your app to use the updated configuration. If you do not deploy your updated app to the new backend environment, it will continue using the previous authentication configuration and social sign-in will not work.
+When you create or update your authentication configuration, Amplify will setup the configuration locally, but it does not automatically deploy the changes to your backend environment. You will need to run `amplify push` to deploy the changes to your backed environment.
 
 You can deploy your app to the Amplify Console with continuous deployment of the frontend and backend, please follow [these instructions](https://docs.aws.amazon.com/amplify/latest/userguide/environment-variables.html#creating-a-new-backend-environment-with-authentication-parameters).
 
