@@ -53,20 +53,61 @@ You also have the ability to define custom attributes and up to 50 custom attrib
 
 You can create the user attributes on sign-up or after sign-up. To do this as part of sign-up you can pass them in the `attributes` object of `Auth.signUp` function parameters:
 
-```javascript
-Auth.signUp({
-  username: 'jdoe',
-  password: 'mysecurerandompassword#123',
-  attributes: {
-    email: 'me@domain.com',
-    phone_number: '+12128601234', // E.164 number convention
-    given_name: 'Jane',
-    family_name: 'Doe',
-    nickname: 'Jane',
-    'custom:attribute_name': 'attribute_value'
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { Auth } from 'aws-amplify'
+
+async function handleSignUp() {
+  try {
+    await Auth.signUp({
+      username: 'jdoe',
+      password: 'mysecurerandompassword#123',
+      attributes: {
+        email: 'me@domain.com',
+        phone_number: '+12128601234', // E.164 number convention
+        given_name: 'Jane',
+        family_name: 'Doe',
+        nickname: 'Jane',
+        'custom:attribute_name': 'attribute_value'
+      }
+    });
+  } catch (e) {
+    console.log(e)
   }
-});
+}
 ```
+
+</Block>
+<Block name="JavaScript">
+
+```js
+import { Auth } from 'aws-amplify'
+
+async function handleSignUp() {
+  try {
+    await Auth.signUp({
+      username: 'jdoe',
+      password: 'mysecurerandompassword#123',
+      attributes: {
+        email: 'me@domain.com',
+        phone_number: '+12128601234', // E.164 number convention
+        given_name: 'Jane',
+        family_name: 'Doe',
+        nickname: 'Jane',
+        'custom:attribute_name': 'attribute_value'
+      }
+    });
+  } catch (e) {
+    console.log(e)
+  }
+}
+```
+
+</Block>
+
+</BlockSwitcher>
 
 ### Retrieve user attributes
 
@@ -78,6 +119,16 @@ const user = await Auth.currentAuthenticatedUser();
 const { attributes } = user;
 ```
 
+Note that if you need to retrieve the latest user attributes after they have been changed, you will need to bypass the local cache like so:
+
+```ts
+const user = await Auth.currentAuthenticatedUser({
+  bypassCache: true
+});
+```
+The `bypassCache` parameter defaults to false, and the alternative to retrieve the latest user attributes is to have the user sign out and sign back in.
+
+
 ## Enable users to update, verify, and delete specific attributes
 
 You can enable customers to update, verify, and delete specific user attributes as their information changes over time. These attributes are enabled as writeable when you update the `Specify write attributes` in your `Auth` configuration.
@@ -85,6 +136,9 @@ You can enable customers to update, verify, and delete specific user attributes 
 ### Update user attributes
 
 You can enable users to make updates after sign-up by using the `updateUserAttributes` method of the `Auth` class:
+
+<BlockSwitcher>
+<Block name="TypeScript">
 
 ```ts
 import { Auth } from 'aws-amplify';
@@ -102,6 +156,29 @@ async function updateUserAttributes () {
   }
 };
 ```
+
+</Block>
+<Block name="JavaScript">
+
+```js
+import { Auth } from 'aws-amplify';
+
+async function updateUserAttributes () {
+  try {
+    const user = await Auth.currentAuthenticatedUser();
+    const result = await Auth.updateUserAttributes(user, {
+      email: 'me@anotherdomain.com',
+      family_name: 'Lastname'
+    });
+    console.log(result); // SUCCESS
+  } catch(err) {
+    console.log(err);
+  }
+};
+```
+
+</Block>
+</BlockSwitcher>
 
 ### Verify user attributes
 
@@ -151,7 +228,10 @@ Updating an email address using `Auth.updateUserAttributes` will require a verif
 You can confirm the new email address in your app using the following:
 
 ```javascript
-const result = await Auth.verifyCurrentUserAttributeSubmit('email', '<verification_code>');
+const result = await Auth.verifyCurrentUserAttributeSubmit(
+  'email', // The attribute name
+  '<verification_code>'
+);
 ```
 
 <Accordion title='Full example for email update and confirmation' headingLevel='4' eyebrow='Example'>
