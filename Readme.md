@@ -47,13 +47,18 @@ IMPORTANT: Every page has to have a `title` and `description` meta field.
 
 The markdown body is parsed as [MDX](https://mdxjs.com/) and can include any valid HTML or JSX.
 
-To inline fragments, and have them conditionally render based off selected platform, we add the condition to the `Fragments` tag:
+### Fragments
+To incorporate new platform-specific content within a page, please use [Inline Filters](https://github.com/aws-amplify/docs/blob/main/Readme.md#inline-filters).
+
+When editing content that hasn't been migrated, you may see the following pattern:
 
 ```jsx
 import js from "/src/fragments/lib/datastore/js/conflict.mdx";
 
 <Fragments fragments={{js: js}} />;
 ```
+
+This pattern incorporates fragment files into a page and conditionally renders content based off selected platform added as a condition to the `Fragments` tag.
 
 This fragment would exist in: `pages/src/fragments/lib/datastore/js/conflict.mdx`
 

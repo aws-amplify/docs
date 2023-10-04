@@ -1,3 +1,7 @@
+import js5 from '/src/fragments/lib-v1/v6/callout/analytics-providers.mdx';
+
+<Fragments fragments={{ js: js5 }} />
+
 The Analytics category enables you to collect analytics data for your App. The Analytics category comes with built-in support for [Amazon Pinpoint](https://aws.amazon.com/pinpoint) and [Amazon Kinesis](https://aws.amazon.com/kinesis) (Kinesis support is currently only available in the Amplify JavaScript library). The Analytics category uses [Amazon Cognito Identity pools](https://docs.aws.amazon.com/cognito/latest/developerguide/identity-pools.html) to identify users in your App. Cognito allows you to receive data from authenticated, and unauthenticated users in your App.
 
 ## Goal
@@ -17,6 +21,10 @@ import android1 from "/src/fragments/lib-v1/analytics/android/getting-started/10
 import flutter2 from '/src/fragments/lib-v1/analytics/flutter/getting-started/10_preReq.mdx';
 
 <Fragments fragments={{ flutter: flutter2 }} />
+
+import js1 from '/src/fragments/lib/analytics/js/getting-started/10_preReq.mdx';
+
+<Fragments fragments={{ js: js1 }} />
 
 ## Set up Analytics backend
 
@@ -55,6 +63,10 @@ import flutter5 from '/src/fragments/lib-v1/analytics/flutter/getting-started/12
 
 <Fragments fragments={{ flutter: flutter5 }} />
 
+import js2 from '/src/fragments/lib/analytics/js/getting-started/12_amplifyConfig.mdx';
+
+<Fragments fragments={{ js: js2 }} />
+
 ## Install Amplify Libraries
 
 import ios6 from "/src/fragments/lib-v1/analytics/ios/getting-started/20_installLib.mdx";
@@ -69,6 +81,10 @@ import flutter8 from '/src/fragments/lib-v1/analytics/flutter/getting-started/20
 
 <Fragments fragments={{ flutter: flutter8 }} />
 
+import js3 from '/src/fragments/lib-v1/analytics/js/getting-started/20_installLib.mdx';
+
+<Fragments fragments={{ js: js3 }} />
+
 ## Initialize Amplify Analytics
 
 import ios9 from "/src/fragments/lib-v1/analytics/ios/getting-started/30_initAnalytics.mdx";
@@ -82,6 +98,10 @@ import android10 from "/src/fragments/lib-v1/analytics/android/getting-started/3
 import flutter11 from '/src/fragments/lib-v1/analytics/flutter/getting-started/30_initAnalytics.mdx';
 
 <Fragments fragments={{ flutter: flutter11 }} />
+
+import js4 from '/src/fragments/lib-v1/analytics/js/getting-started/30_initAnalytics.mdx';
+
+<Fragments fragments={{ js: js4 }} />
 
 import ios12 from "/src/fragments/lib-v1/analytics/ios/getting-started/40_record.mdx";
 
@@ -103,7 +123,17 @@ Next Steps:
 
 Congratulations! Now that you have Analytics' backend provisioned and Analytics library installed.  Check out the following links to see Amplify Analytics use cases:
 
+<InlineFilter filters={["android", "ios", "flutter"]}>
+
 * [Record Events](/lib-v1/analytics/record)
-* [Track Sessions](/lib-v1/analytics/autotrack)
 * [Identify User](/lib-v1/analytics/identifyuser)
-* [Escape Hatch](/lib-v1/analytics/escapehatch)
+* [Track Sessions](/lib-v1/analytics/autotrack)
+
+</InlineFilter>
+<InlineFilter filters={["js"]}>
+
+* [Record Events](/lib-v1/analytics/record)
+* [Identify User](/lib-v1/analytics/identifyuser)
+* Track Sessions - Coming soon!
+
+</InlineFilter>
