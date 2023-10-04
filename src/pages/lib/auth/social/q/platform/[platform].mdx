@@ -151,7 +151,7 @@ Before you configure social sign-in with Amplify Auth you will need to set up yo
 </Block>
 </BlockSwitcher>
 
-Your developer accounts with the social providers are now set up and you can return to your Auth project for next steps.
+Your developer accounts with the social providers are now set up and you can return to your Amplify project for next steps.
 
 ## Configure the Auth category
 
@@ -171,7 +171,7 @@ amplify add auth     ## "amplify update auth" if already configured
 
 <InlineFilter filters={["js"]}>
 
-Choose the following options (the last steps are specific to Facebook in this example but these steps are similar for other providers):
+Choose the following options:
 
 ```console
 ? Do you want to use the default authentication and security configuration? 
@@ -334,7 +334,7 @@ You need to now inform your social provider of this URL:
 
 <Callout warning>
 
-Federated sign-in does not invoke any [Custom authentication challenge Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html), [Migrate user Lambda trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-migrate-user.html), [Custom message Lambda trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-custom-message.html), or [Custom sender Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-custom-sender-triggers.html) in your user pool. For information on the supported Lambda triggers refer to the [AWS documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html#lambda-triggers-for-federated-users) 
+**Note:** Federated sign-in does not invoke any [Custom authentication challenge Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html), [Migrate user Lambda trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-migrate-user.html), [Custom message Lambda trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-custom-message.html), or [Custom sender Lambda triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-custom-sender-triggers.html) in your user pool. For information on the supported Lambda triggers refer to the [AWS documentation](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html#lambda-triggers-for-federated-users) 
 
 </Callout>
 
@@ -342,7 +342,7 @@ You have configured your Auth category and updated your URL with the social prov
 
 ## Set up your frontend
 
-After configuring the OAuth endpoints (Cognito Hosted UI), you can integrate your app by invoking the `Auth.federatedSignIn()` function. Passing `LoginWithAmazon`, `Facebook`, `Google`, or `SignInWithApple` on the `provider` argument (e.g `Auth.federatedSignIn({ provider: 'LoginWithAmazon' })`) will bypass the Hosted UI and federate immediately with the social provider as shown in the below example.
+After configuring the OAuth endpoints (with Cognito Hosted UI), you can integrate your app by invoking the `Auth.federatedSignIn()` function which will redirect the user to the Cognito Hosted UI and provide options to sign in via user name password as well as any of the Social providers you have configured. Also, note that passing `LoginWithAmazon`, `Facebook`, `Google`, or `SignInWithApple` on the `provider` argument (e.g `Auth.federatedSignIn({ provider: 'LoginWithAmazon' })`) will bypass the Hosted UI and federate immediately with the social provider as shown in the below example.
 
 <InlineFilter filters={["js"]}>
 
@@ -1545,9 +1545,7 @@ export default withOAuth(App);
 
 ### Deploy backend environment with auth parameters for social sign-in
 
-? - When you update your authentication configuration, Amplify creates a new backend environment for your app. You then need to deploy your app to this new backend environment in order for your app to use the updated configuration. If you do not deploy your updated app to the new backend environment, it will continue using the previous authentication configuration and social sign-in will not work.
-
-= - When you create or update your authentication configuration, it does not automatically deploy the changes to your backend environment. You will need to run `amplify push` to deploy the changes to your backed environment.
+When you create or update your authentication configuration, Amplify will setup the configuration locally, but it does not automatically deploy the changes to your backend environment. You will need to run `amplify push` to deploy the changes to your backed environment.
 
 You can deploy your app to the Amplify Console with continuous deployment of the frontend and backend, please follow [these instructions](https://docs.aws.amazon.com/amplify/latest/userguide/environment-variables.html#creating-a-new-backend-environment-with-authentication-parameters).
 
