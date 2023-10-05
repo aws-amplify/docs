@@ -1,10 +1,12 @@
 import Head from 'next/head';
-import SecondaryNav from '../SecondaryNav/index';
-import Footer from '../Footer/index';
+import Footer from '@/components/Footer/index';
 import { LayoutStyle } from './styles';
 import { Container } from '../Container';
 import { useRouter } from 'next/router';
-import { GlobalNav, NavMenuItem } from '../GlobalNav/GlobalNav';
+import { GlobalNav, NavMenuItem } from '@/components/GlobalNav/GlobalNav';
+import TestNav from '@/components/TestNav';
+import { Flex, View } from '@aws-amplify/ui-react';
+
 import {
   LEFT_NAV_LINKS,
   RIGHT_NAV_LINKS,
@@ -43,6 +45,8 @@ const Layout = forwardRef(function Layout(
     : [meta.chapterTitle, meta.title, filterMetadata, 'AWS Amplify Docs']
         .filter((s) => s !== '' && s !== null && s !== undefined)
         .join(' - ');
+
+  console.log('meta: ', meta);
 
   const description = !meta
     ? ''
@@ -95,9 +99,14 @@ const Layout = forwardRef(function Layout(
         socialLinks={SOCIAL_LINKS as NavMenuItem[]}
         currentSite={current}
       />
-      <SecondaryNav />
+
       <Container backgroundColor="bg-color-tertiary">
-        <LayoutStyle>{children}</LayoutStyle>
+        <LayoutStyle>
+          <Flex>
+            <TestNav />
+            <View>{children}</View>
+          </Flex>
+        </LayoutStyle>
       </Container>
       <Footer ref={footerRef} />
     </>

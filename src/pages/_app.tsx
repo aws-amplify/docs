@@ -4,6 +4,7 @@ import '../styles/contribute-styles.css';
 import Head from 'next/head';
 import { MDXProvider } from '@mdx-js/react';
 import ExportedImage from 'next-image-export-optimizer';
+import Layout from '@/components/Layout';
 
 const ResponsiveImage = (props) => (
   <ExportedImage style={{ height: 'auto' }} {...props} />
@@ -14,6 +15,7 @@ const components = {
 };
 
 function MyApp({ Component, pageProps }) {
+  const getLayout = Component.getLayout || ((page) => <Layout>{page}</Layout>);
   return (
     <>
       <Head>
@@ -96,7 +98,7 @@ function MyApp({ Component, pageProps }) {
       </Head>
 
       <MDXProvider components={components}>
-        <Component {...pageProps} />
+        {getLayout(<Component {...pageProps} />)}
       </MDXProvider>
 
       {process.env.BUILD_ENV !== 'production' ? (
