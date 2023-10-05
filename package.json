@@ -139,10 +139,11 @@
     "dev": "next dev",
     "spellcheck": "cspell \"src/**/*.mdx\" --no-progress",
     "spellcheck-diff": "git diff --name-only --cached | awk \"/src.*\\.mdx/{print}\" | npx cspell --no-must-find-files --file-list stdin",
-    "build": "ANALYZE=true node tasks/generate-sitemap.mjs && next build && next export -o client/www/next-build && next-image-export-optimizer --exportFolderPath client/www/next-build",
+    "build": "node tasks/generate-sitemap.mjs && next build && next export -o client/www/next-build && next-image-export-optimizer --exportFolderPath client/www/next-build",
     "next-build": "next build",
     "next-start": "next start",
     "amplify:submissionsLambda": "cd amplify/backend/function/submissionsLambda/src && yarn install && yarn build && yarn test",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "analyze": "ANALYZE=true next build"
   }
 }

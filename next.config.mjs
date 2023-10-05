@@ -13,6 +13,7 @@ const mdxRenderer = `
 `;
 
 const shouldAnalyzeBundles = process.env.ANALYZE === 'true';
+console.log(shouldAnalyzeBundles);
 
 export default async (phase, { defaultConfig }) => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -104,11 +105,13 @@ export default async (phase, { defaultConfig }) => {
     }
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const withNextBundleAnalyzer = require('next-bundle-analyzer')({
-    format: ['html', 'json']
-  });
-  nextConfig = withNextBundleAnalyzer(nextConfig);
+  if (shouldAnalyzeBundles) {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const withNextBundleAnalyzer = require('next-bundle-analyzer')({
+      format: ['json']
+    });
+    nextConfig = withNextBundleAnalyzer(nextConfig);
+  }
 
   // // eslint-disable-next-line @typescript-eslint/no-var-requires
   // const withBundleAnalyzer = require('next-bundle-analyzer')({
