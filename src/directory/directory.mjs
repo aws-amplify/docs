@@ -158,7 +158,7 @@ export const directory = {
             filters: ['android', 'flutter', 'ios']
           },
           {
-            title: 'Auth events',
+            title: 'Listen to auth events',
             route: '/lib/auth/auth-events',
             filters: ['android', 'flutter', 'ios', 'js', 'react-native']
           },
