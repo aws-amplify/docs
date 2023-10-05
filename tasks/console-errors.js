@@ -57,7 +57,7 @@ const consoleErrors = async (domain) => {
 };
 
 module.exports = {
-  consoleErrors: async (domain) => {
+  consoleErrors: async (domain = 'http://localhost:3000') => {
     return await consoleErrors(domain);
   }
 };
