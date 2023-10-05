@@ -84,3 +84,27 @@ import ios17 from '/src/fragments/lib/graphqlapi/ios/relational/save-many-snippe
 import android18 from '/src/fragments/lib/graphqlapi/android/relational/save-many-snippet.mdx';
 
 <Fragments fragments={{ android: android18 }} />
+
+## Customizing Query depth
+
+You can perform a query, through one network request, by specifying which connected model to include. 
+
+Query for the Comment and the Post that it belongs to:
+
+import ios19 from '/src/fragments/lib/graphqlapi/ios/relational/customizing-query-depth-comment-post.mdx';
+
+<Fragments fragments={{ ios: ios19 }} />
+
+import android20 from '/src/fragments/lib/graphqlapi/android/relational/customizing-query-depth-comment-post.mdx';
+
+<Fragments fragments={{ android: android20 }} />
+
+Query for the Post and all of its comments for the post. 
+
+import ios21 from '/src/fragments/lib/graphqlapi/ios/relational/customizing-query-depth-post-comments.mdx';
+
+<Fragments fragments={{ ios: ios21 }} />
+
+import android22 from '/src/fragments/lib/graphqlapi/android/relational/customizing-query-depth-post-comments.mdx';
+
+<Fragments fragments={{ android: android22 }} />

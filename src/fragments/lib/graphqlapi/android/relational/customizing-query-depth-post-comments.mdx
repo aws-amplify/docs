@@ -1,0 +1,38 @@
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+Amplify.API.query(request: .get(Post.self, byIdentifier: "123", includes: { post in [post.comments]}))
+```
+
+The network request for post includes the comments, eager loading the comments in a single network call.
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.API.query(request: .get(Post.self, byIdentifier: "123", includes: { post in [post.comments]}))
+```
+
+The network request for post includes the comments, eager loading the comments in a single network call.
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+Amplify.API.query(request: .get(Post.self, byIdentifier: "123", includes: { post in [post.comments]}))
+```
+
+The network request for post includes the comments, eager loading the comments in a single network call.
+
+</Block>
+<Block name="RxJava">
+
+```java
+Amplify.API.query(request: .get(Post.self, byIdentifier: "123", includes: { post in [post.comments]}))
+```
+
+The network request for post includes the comments, eager loading the comments in a single network call.
+
+</Block>
+</BlockSwitcher>

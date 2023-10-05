@@ -1,0 +1,23 @@
+<BlockSwitcher>
+
+<Block name="Async/Await">
+
+```swift
+Amplify.API.query(request: .get(Post.self, byIdentifier: "123", includes: { post in [post.comments]}))
+```
+
+The network request for post includes the comments, eager loading the comments in a single network call.
+
+</Block>
+
+<Block name="Combine">
+
+```swift
+Amplify.API.query(request: .get(Post.self, byIdentifier: "123", includes: { post in [post.comments]}))
+```
+
+The network request for post includes the comments, eager loading the comments in a single network call.
+
+</Block>
+
+</BlockSwitcher>
