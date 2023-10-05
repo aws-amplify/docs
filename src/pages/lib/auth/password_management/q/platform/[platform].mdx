@@ -16,7 +16,7 @@ Before you begin, you will need:
 
 ## Allow my users to replace a forgotten password
 
-Your users may want to retrieve access to their account and replace a forgotten password. They can either perform self service andd reset the password after verifying ownership of the account, or request an Admin to reset the password for their account.
+Your users may want to retrieve access to their account and replace a forgotten password. They can either perform self service and reset the password after verifying ownership of the account, or request an Admin to reset the password for their account.
 
 ### Change to a new password via Self Service
 
@@ -26,6 +26,8 @@ You can enable this by using the `forgotPassword` method. This will send a confi
 <Block name="TypeScript">
 
 ```ts
+import { Auth } from 'aws-amplify';
+
 // Send confirmation code to user's email
 async function forgotPassword(username: string) {
   try {
@@ -77,7 +79,13 @@ async function forgotPasswordSubmit(username, code, newPassword) {
 
 ### Change to a new password after Admin reset
 
-In the case where the users account password needs to be reset by an Admin, your users will use a temporary password to sign-in and will then need to update their password during sign-in. Your user will be prompted to make this change with the challenge for a `NEW_PASSWORD_REQUIRED`. During this scenario, the `completeNewPassword` method can be called to process the new password entered by your user. This will set the new password for the user and update any required attributes. The user will then be signed in.
+In the case where the users account password needs to be reset by an Admin, a confirmation code will be sent to your user's email or phone number (depending on which attributes are verified in your Cognito user pool) as soon as the reset is triggered. They can then enter that confirmation code with a new password using the `forgotPasswordSubmit` method. This will allow the user to reset their password and sign in with the new password.
+
+<Callout>
+
+**Note:** An Admin can reset a users password by going into the Cognito Userpool, selecting the user, and choosing Reset password under Actions dropdown. This can also be done programmatically using the Cognito API Action `AdminResetUserPassword`. Learn more about [resetting a users password as an Admin](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminResetUserPassword.html).
+
+</Callout>
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -85,25 +93,10 @@ In the case where the users account password needs to be reset by an Admin, your
 ```ts
 import { Auth } from 'aws-amplify';
 
-async function completeNewPassword(username: string, password: string) {
+async function forgotPasswordSubmit(username: string, code: string, newPassword: string) {
   try {
-    const user = await Auth.signIn(username, password);
-
-    if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
-      const { requiredAttributes } = user.challengeParam; // the array of required attributes, e.g ['email', 'phone_number']
-    }
-const newPassword = 'newPassword'
-    const loggedInUser = await Auth.completeNewPassword(
-      user, // the Cognito User Object
-      newPassword, // the new password
-      // OPTIONAL, the required attributes
-      {
-        email: 'xxxx@example.com',
-        phone_number: '1234567890'
-      }
-    )
-
-    console.log(loggedInUser);
+    const data = await Auth.forgotPasswordSubmit(username, code, newPassword);
+    console.log(data);
   } catch(err) {
     console.log(err);
   }
@@ -115,28 +108,14 @@ const newPassword = 'newPassword'
 ```js
 import { Auth } from 'aws-amplify';
 
-async function completeNewPassword(username, password) {
+async function forgotPasswordSubmit(username, code, newPassword) {
   try {
-    const user = await Auth.signIn(username, password);
-const newPassword = 'newPassword'
-    if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
-      const { requiredAttributes } = user.challengeParam; // the array of required attributes, e.g ['email', 'phone_number']
-      const loggedInUser = await Auth.completeNewPassword(
-        user, // the Cognito User Object
-        newPassword, // the new password
-        // OPTIONAL, the required attributes
-        {
-          email: 'xxxx@example.com',
-          phone_number: '1234567890'
-        }
-      )
-
-      console.log(loggedInUser);
-    }
+    const data = await Auth.forgotPasswordSubmit(username, code, newPassword);
+    console.log(data);
   } catch(err) {
     console.log(err);
   }
-};
+}
 ```
 </Block>
 </BlockSwitcher>
