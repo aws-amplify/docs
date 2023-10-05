@@ -142,7 +142,9 @@ const linkChecker = async (localDomain) => {
     visitedLinks[href] = true;
 
     let request = axios
-      .get(href)
+      .get(href, {
+        timeout: 5000
+      })
       .then((response) => {
         let statusCode = response.status;
         if (statusCode && statusCode !== 200) {
