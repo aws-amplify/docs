@@ -8,6 +8,7 @@ import { useRef, useState } from 'react';
 import { MQDesktop } from '../media';
 import Feedback from '../Feedback';
 import LastUpdatedDatesProvider from '../LastUpdatedProvider';
+import { LinkCardCollection } from '../LinkCardCollection';
 
 export default function MetaContent({
   title,
@@ -63,8 +64,10 @@ export default function MetaContent({
           setMenuIsOpen={setMenuIsOpen}
           buttonsRef={buttonsRef}
         ></Menu>
+
         <ContentStyle menuIsOpen={menuIsOpen}>
           <div>
+            <LinkCardCollection />
             <ChapterTitleStyle>{chapterTitle}</ChapterTitleStyle>
             <div>
               <h1>{title}</h1>
@@ -76,13 +79,14 @@ export default function MetaContent({
             </CodeBlockProvider>
           </div>
         </ContentStyle>
-        <TableOfContents
+        {/* Need to comment this to test without right navbar for new design */}
+        {/* <TableOfContents
           title={title}
           ref={contentsRef}
           buttonsRef={buttonsRef}
         >
           {headers}
-        </TableOfContents>
+        </TableOfContents> */}
         {!onDesktop && url != '/start' && (
           <MobileMenuIcons
             ref={buttonsRef}
