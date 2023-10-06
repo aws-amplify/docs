@@ -1,17 +1,286 @@
 export const meta = {
-  title: `Auth events`,
+  title: `Listen to auth events`,
   description: `Listen to various auth events`,
 };
+
+<InlineFilter filters={["js"]}>
+
+[comment]: # (source content from /src/fragments/lib/auth/js/hub_events/10_listen_events.mdx ; /src/fragments/guides/authentication/js/listening-for-auth-events.mdx ; /src/fragments/lib/utilities/js/hub.mdx)
+
+Tapping into auth events allows you to react to user flows in real time and trigger custom business logic. For example, you may want to capture data, synchronize your app's state, invoke serverless functions, and personalize the user's experience. You can listen and respond to events across the Auth lifecycle from sing-in to sign-out. In this guide we will review some common use cases and describe how you can listen and respond to auth events.
+
+Before you begin, you will need:
+
+- An Amplify project with the Auth category configured
+- The Amplify libraries installed and configured
+
+## Expose hub events triggered in response to auth actions
+
+You can use Amplify Auth to subscribe listeners to [Amplify Hub](/lib/utilities/hub/q/platform/js/) using a publish-subscribe pattern to exchange events between different parts of your application. Amplify Hub is used to share data between modules and components in your app. The Amplify Auth category publishes in the `auth` channel when `signIn`, `signUp`, and `signOut` events happen independent from your app code.
+
+<Callout warning>
+
+Channels are logical group names that help you organize dispatching and listening. However, there are protected channels that cannot be used and `auth` is one of these channels. Sending unexpected payloads to protected channels can have undesirable side effects such as impacting authentication flows. See the [Amplify Hub](/lib/utilities/hub/q/platform/js/) guide for more protected channels.
+
+</Callout>
+
+Your app can then subscribe and listen to specific event types from the `auth` channel and is notified asynchronously when an event occurs. This pattern also allows for a one-to-many relationship where one auth event can be shared with many different subscribed listeners. This allows your app to react based on the event rather than proactively poll for information.
+
+You can set up your listener to extract data from the payload and execute a callback based on the event notifications. For example, you might update UI elements of your app to reflect your user's authenticated state after sign-in or sign-out, listen for `signUp` events to capture user registrations, or enroll users into email flows after sign-up.
+
+Here is an example where Amplify Hub is called, the listener extracts and logs details about the auth event in the data extracted, and ends with the start of a callback that will define what happens next.
+
+```javascript
+import { Hub } from 'aws-amplify';
+
+class MyClass {
+    constructor() {
+        Hub.listen('auth', (data) => {
+            const { payload } = data;
+            this.onAuthEvent(payload);           
+            console.log('A new auth event has happened: ', data.payload.data.username + ' has ' + data.payload.event);
+        })
+    }
+
+    onAuthEvent(payload) {
+        // ... your implementation
+    }
+}
+```
+
+### Listen to and log auth events
+
+One of the most common workflows will be to log events. You can use [Amplify Logger](/lib/utilities/logger/q/platform/js/) to track different messages like `ERROR`, `INFO`, and `DEBUG`. In this example you can see Amplify Hub and Amplify Logger used to listen for and log auth events.
+
+<BlockSwitcher>
+<Block name="TypeScript">
+
+```ts
+import { Hub, Logger } from 'aws-amplify';
+
+const logger = new Logger('My-Logger');
+
+const listener = (data) => {
+  switch (data?.payload?.event) {
+    case 'configured':
+      logger.info('the Auth module is configured');
+      break;
+    case 'signIn':
+      logger.info('user signed in');
+      break;
+    case 'signIn_failure':
+      logger.error('user sign in failed');
+      break;
+    case 'signUp':
+      logger.info('user signed up');
+      break;
+    case 'signUp_failure':
+      logger.error('user sign up failed');
+      break;
+    case 'confirmSignUp':
+      logger.info('user confirmation successful');
+      break;
+    case 'completeNewPassword_failure':
+      logger.error('user did not complete new password flow');
+      break;
+    case 'autoSignIn':
+      logger.info('auto sign in successful');
+      break;
+    case 'autoSignIn_failure':
+      logger.error('auto sign in failed');
+      break;
+    case 'forgotPassword':
+      logger.info('password recovery initiated');
+      break;
+    case 'forgotPassword_failure':
+      logger.error('password recovery failed');
+      break;
+    case 'forgotPasswordSubmit':
+      logger.info('password confirmation successful');
+      break;
+    case 'forgotPasswordSubmit_failure':
+      logger.error('password confirmation failed');
+      break;
+    case 'verify':
+      logger.info('TOTP token verification successful');
+      break;
+    case 'tokenRefresh':
+      logger.info('token refresh succeeded');
+      break;
+    case 'tokenRefresh_failure':
+      logger.error('token refresh failed');
+      break;
+    case 'cognitoHostedUI':
+      logger.info('Cognito Hosted UI sign in successful');
+      break;
+    case 'cognitoHostedUI_failure':
+      logger.error('Cognito Hosted UI sign in failed');
+      break;
+    case 'customOAuthState':
+      logger.info('custom state returned from CognitoHosted UI');
+      break;
+    case 'customState_failure':
+      logger.error('custom state failure');
+      break;
+    case 'parsingCallbackUrl':
+      logger.info('Cognito Hosted UI OAuth url parsing initiated');
+      break;
+    case 'userDeleted':
+      logger.info('user deletion successful');
+      break;
+    case 'updateUserAttributes':
+      logger.info('user attributes update successful');
+      break;
+    case 'updateUserAttributes_failure':
+      logger.info('user attributes update failed');
+      break;
+    case 'signOut':
+      logger.info('user signed out');
+      break;
+    default:
+      logger.info('unknown event type');
+      break;
+  }
+};
+
+Hub.listen('auth', listener);
+```
+</Block>
+<Block name="JavaScript">
+
+```js
+import { Hub, Logger } from 'aws-amplify';
+
+const logger = new Logger('My-Logger');
+
+const listener = (data) => {
+  switch (data?.payload?.event) {
+    case 'configured':
+      logger.info('the Auth module is configured');
+      break;
+    case 'signIn':
+      logger.info('user signed in');
+      break;
+    case 'signIn_failure':
+      logger.error('user sign in failed');
+      break;
+    case 'signUp':
+      logger.info('user signed up');
+      break;
+    case 'signUp_failure':
+      logger.error('user sign up failed');
+      break;
+    case 'confirmSignUp':
+      logger.info('user confirmation successful');
+      break;
+    case 'completeNewPassword_failure':
+      logger.error('user did not complete new password flow');
+      break;
+    case 'autoSignIn':
+      logger.info('auto sign in successful');
+      break;
+    case 'autoSignIn_failure':
+      logger.error('auto sign in failed');
+      break;
+    case 'forgotPassword':
+      logger.info('password recovery initiated');
+      break;
+    case 'forgotPassword_failure':
+      logger.error('password recovery failed');
+      break;
+    case 'forgotPasswordSubmit':
+      logger.info('password confirmation successful');
+      break;
+    case 'forgotPasswordSubmit_failure':
+      logger.error('password confirmation failed');
+      break;
+    case 'verify':
+      logger.info('TOTP token verification successful');
+      break;
+    case 'tokenRefresh':
+      logger.info('token refresh succeeded');
+      break;
+    case 'tokenRefresh_failure':
+      logger.error('token refresh failed');
+      break;
+    case 'cognitoHostedUI':
+      logger.info('Cognito Hosted UI sign in successful');
+      break;
+    case 'cognitoHostedUI_failure':
+      logger.error('Cognito Hosted UI sign in failed');
+      break;
+    case 'customOAuthState':
+      logger.info('custom state returned from CognitoHosted UI');
+      break;
+    case 'customState_failure':
+      logger.error('custom state failure');
+      break;
+    case 'parsingCallbackUrl':
+      logger.info('Cognito Hosted UI OAuth url parsing initiated');
+      break;
+    case 'userDeleted':
+      logger.info('user deletion successful');
+      break;
+    case 'updateUserAttributes':
+      logger.info('user attributes update successful');
+      break;
+    case 'updateUserAttributes_failure':
+      logger.info('user attributes update failed');
+      break;
+    case 'signOut':
+      logger.info('user signed out');
+      break;
+    default:
+      logger.info('unknown event type');
+      break;
+  }
+};
+
+Hub.listen('auth', listener);
+```
+</Block>
+</BlockSwitcher>
+
+### Stop listening to events
+
+You can also stop listening for messages by calling the result of the `.listen` function. This may be useful if you no longer need to receive messages in your application flow. This can also help you avoid any memory leaks on low powered devices when you are sending large amounts of data through Amplify Hub on multiple channels.
+
+To stop listening to a certain event, you need to wrap the listener function to a variable and call it once you no longer need it:
+
+```javascript
+
+/* start listening for messages */
+const hubListenerCancelToken = Hub.listen(/.*/, (data) => {
+  console.log('Listening for all messages: ', data.payload.data);
+});
+
+/* later */
+hubListenerCancelToken(); // stop listening for messages
+```
+
+You now have a few use cases and examples for listening to and responding to auth events.
+
+## Conclusion
+
+Congratulations! You finished the **Listen to auth events** guide. In this guide, you learned how to listen for auth events across workflows.
+
+## Next steps
+
+Now that you can listen to auth events you may also want to add some additional features. We recommend you learn more about:
+
+- [Manage user profile](/lib/auth/manageusers/q/platform/js/)
+- [Set up password change and recovery](/lib/auth/password_management/q/platform/js/)
+- [Use with Server-Side Rendering (SSR)](/lib/auth/ssr/q/platform/js/)
+
+</InlineFilter>
+
+<InlineFilter filters={["react-native","ios","android","flutter"]}>
 
 AWS Cognito Auth Plugin sends important events through Amplify Hub.
 
 import reactnative0 from "/src/fragments/lib/auth/js/hub_events/10_listen_events.mdx";
 
 <Fragments fragments={{'react-native': reactnative0}} />
-
-import js0 from "/src/fragments/lib/auth/js/hub_events/10_listen_events.mdx";
-
-<Fragments fragments={{js: js0}} />
 
 import ios1 from "/src/fragments/lib/auth/ios/hub_events/10_listen_events.mdx";
 
@@ -24,3 +293,5 @@ import android2 from "/src/fragments/lib/auth/android/hub_events/10_listen_event
 import flutter3 from "/src/fragments/lib/auth/flutter/hub_events/10_listen_events.mdx";
 
 <Fragments fragments={{flutter: flutter3}} />
+
+</InlineFilter>
