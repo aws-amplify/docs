@@ -3,7 +3,7 @@ const puppeteer = require('puppeteer');
 const caughtErrorTypes = [
   {
     type: 'Hydration Error',
-    errorText: 'Hydration failed'
+    errorText: 'Minified React error #418'
   }
 ];
 
@@ -22,19 +22,16 @@ const checkPage = async (url) => {
 
   const page = await browser.newPage();
 
-  page.on('console', (message) => {
-    const type = message.type();
-    if (type && type.toLowerCase() === 'error') {
-      caughtErrorTypes.forEach((errorType) => {
-        if (message.text().includes(errorType.errorText)) {
-          errorsFound.push({
-            page: url,
-            errorType: errorType.type,
-            message: message.text()
-          });
-        }
-      });
-    }
+  page.on('pageerror', (message) => {
+    caughtErrorTypes.forEach((errorType) => {
+      if (message.message.includes(errorType.errorText)) {
+        errorsFound.push({
+          page: url,
+          errorType: errorType.type,
+          message: message.message
+        });
+      }
+    });
   });
 
   await page.goto(url, { waitUntil: 'domcontentloaded' });
