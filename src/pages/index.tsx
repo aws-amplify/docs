@@ -4,7 +4,7 @@ import { Flex, View } from '@aws-amplify/ui-react';
 import Head from 'next/head';
 
 import { Container } from '@/components/Container';
-import TestNav from '@/components/TestNav';
+import { TestNav } from '@/components/TestNav';
 import Footer from '@/components/Footer';
 
 import { trackPageVisit } from '@/utils/track';
@@ -81,7 +81,7 @@ Page.getLayout = function getLayout(page) {
         leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
         rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
         socialLinks={SOCIAL_LINKS as NavMenuItem[]}
-        currentSite={'Docs'}
+        currentSite=""
       />
       This is a home page specific layout.
       <Flex>

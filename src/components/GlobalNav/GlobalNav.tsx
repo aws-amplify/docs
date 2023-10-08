@@ -1,6 +1,6 @@
 // Maybe put this somewhere else
 // At the moment Docs doesn't use Amplify UI anywhere else
-import '@aws-amplify/ui-react/styles.css';
+
 import React from 'react';
 
 import { View, Flex } from '@aws-amplify/ui-react';
