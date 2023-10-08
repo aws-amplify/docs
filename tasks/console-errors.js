@@ -50,6 +50,7 @@ const consoleErrors = async (domain) => {
       errorMessage += `${error.errorType} found on ${error.page}\n`;
     });
   }
+  console.log(errorMessage);
   return errorMessage;
 };
 
