@@ -4,6 +4,7 @@ import { trackExternalLink } from '../../utils/track';
 import { ExternalLinkIcon } from '../Icons';
 
 type ExternalLinkProps = {
+  children: React.ReactNode;
   graphic?: string;
   href: string;
   anchorTitle?: string;

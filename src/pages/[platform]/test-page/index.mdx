@@ -1,0 +1,65 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+import { FRAMEWORK_DISPLAY_NAMES } from '@/data/frameworks';
+
+export const meta = {
+  title: `Get Started`,
+  description: `This is a description for the overview page.`,
+  platforms: ['android', 'javascript']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+# Get Started { FRAMEWORK_DISPLAY_NAMES[props.platform] }
+
+## Heading level 2
+
+### Heading level 3
+
+#### Heading level 4
+
+##### Heading level 5
+
+###### Heading level 6
+
+[Test internal link](/javascript)
+
+[Test external link](https://aws.amazon.com)
+
+<InlineFilter filters={['javascript']}>
+  This text only shows up on /get-started/javascript
+</InlineFilter>
+
+<InlineFilter filters={['android']}>
+  This text only shows up on /get-started/android
+</InlineFilter>
+
+<Callout>Test callout</Callout>
+
+<Accordion
+  title="Understanding Auth high-level concepts"
+  headingLevel="4"
+  eyebrow="Learn more"
+>
+  Here is some accordion content
+</Accordion>
+
+<YoutubeEmbed embedId="fWbM5DLh25U" />
+
+<MigrationAlert url={'/cli-legacy/graphql-transformer/function'} />
+
+<Card className="vertical" href="/">
+  <CardDetail>
+    <h4>Test</h4>
+  </CardDetail>
+</Card>

@@ -16,7 +16,8 @@
     "paths": {
       "@/components/*": ["src/components/*"],
       "@/data/*": ["src/data/*"],
-      "@/utils/*": ["src/utils/*"]
+      "@/utils/*": ["src/utils/*"],
+      "@/plugins/*": ["src/plugins/*"]
     }
   },
   "extends": "./tsconfig.base.json",
