@@ -1,5 +1,5 @@
 module.exports = {
-  checkBaseBundleSize: () => {
+  checkBundleSize: () => {
     const fs = require('fs');
     const jsonString = fs.readFileSync('.github/analyze/bundles.json');
     const data = JSON.parse(jsonString);
@@ -10,10 +10,10 @@ module.exports = {
       '/start',
       '/cli'
     ];
-    const baseBundleSizes = [];
+    const bundleSizes = [];
     data.pages.filter((page) => {
       if (pagesToCheck.includes(page.label)) {
-        baseBundleSizes.push({
+        bundleSizes.push({
           page: page.label,
           gzipSize: page.gzipSize,
           parsedSize: page.parsedSize,
@@ -24,35 +24,7 @@ module.exports = {
         });
       }
     });
-    return baseBundleSizes;
-  },
-
-  checkHeadBundleSize: () => {
-    const fs = require('fs');
-    const jsonString = fs.readFileSync('.github/analyze/bundles.json');
-    const data = JSON.parse(jsonString);
-    const pagesToCheck = [
-      '/',
-      '/cli/start/install',
-      '/lib/auth/getting-started/q/platform/[platform]',
-      '/start',
-      '/cli'
-    ];
-    const headBundleSizes = [];
-    data.pages.filter((page) => {
-      if (pagesToCheck.includes(page.label)) {
-        headBundleSizes.push({
-          page: page.label,
-          gzipSize: page.gzipSize,
-          parsedSize: page.parsedSize,
-          statSize: page.statSize,
-          totalGzipSize: page.totalGzipSize,
-          totalParsedSize: page.totalParsedSize,
-          totalStatSize: page.totalStatSize
-        });
-      }
-    });
-    return headBundleSizes;
+    return bundleSizes;
   },
 
   compareBundles: (baseBundles, headBundles) => {
