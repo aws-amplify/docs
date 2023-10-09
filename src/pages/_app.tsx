@@ -7,9 +7,7 @@ import { MDXProvider } from '@mdx-js/react';
 import { Layout } from '@/components/Layout';
 
 function MyApp({ Component, pageProps }) {
-  // console.log(pageProps);
   const { meta, platform } = pageProps;
-  console.log('meta: ', meta);
   const getLayout =
     Component.getLayout ||
     ((page) => (

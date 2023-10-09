@@ -1,10 +1,10 @@
-import { FRAMEWORKS } from '@/data/frameworks';
+import { PLATFORMS } from '@/data/platforms';
 
 export const getCustomStaticPath = (platforms: string[] | string) => {
   const platformsArr = Array.isArray(platforms)
     ? platforms
     : platforms.includes('all')
-    ? FRAMEWORKS
+    ? PLATFORMS
     : platforms.split('|');
 
   return {

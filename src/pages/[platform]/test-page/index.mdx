@@ -24,6 +24,34 @@ export function getStaticProps(context) {
 
 { meta.description }
 
+<InlineFilter filters={['android']}>
+  This is Android specific content using InlineFilter.
+</InlineFilter>
+
+<InlineFilter filters={['js']}>
+  JS! This is JS specific content. It's using InlineFilter.
+</InlineFilter>
+
+<Accordion
+  title="Understanding Auth high-level concepts"
+  headingLevel="4"
+  eyebrow="Learn more"
+>
+  Here is some accordion content.
+</Accordion>
+
+<Callout>This is a Callout component.</Callout>
+
+<Card href="/javascript">Test Card</Card>
+
+<YoutubeEmbed embedId="wH-UnQy1ltM" />
+
+import all5 from '/src/fragments/lib/auth/common/mfa/update_mfa.mdx';
+
+Testing fragments below:
+
+<Fragments fragments={{ all: all5 }} />
+
 ## Heading level 2
 
 ### Heading level 3
@@ -33,6 +61,10 @@ export function getStaticProps(context) {
 ##### Heading level 5
 
 ###### Heading level 6
+
+[Internal link test](/javascript)
+
+[External link test](https://aws.amazon.com)
 
 test `code`
 

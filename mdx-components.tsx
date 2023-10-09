@@ -10,6 +10,7 @@ import BlockSwitcher from './src/components/BlockSwitcher';
 import Callout from './src/components/Callout';
 import { Card, CardDetail, CardGraphic } from './src/components/Card';
 import ExternalLinkButton from './src/components/ExternalLinkButton';
+import Fragments from './src/components/Fragments';
 import InternalLinkButton from './src/components/InternalLinkButton';
 import { MDXCode, MDXHeading, MDXLink } from './src/components/MDXComponents';
 import MigrationAlert from './src/components/MigrationAlert';
@@ -54,6 +55,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     CardDetail,
     CardGraphic,
     ExternalLinkButton,
+    Fragments,
     InlineFilter,
     InternalLinkButton,
     MigrationAlert,
