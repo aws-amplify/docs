@@ -28,12 +28,15 @@ module.exports = {
   },
 
   compareBundles: (baseBundles, headBundles) => {
-    for (let i = 0; i < baseBundles.length; i++) {
-      if (baseBundles[i] !== headBundles[i]) {
-        if (baseBundles[i].parsedSize * 1.05 < headBundles[i].parsedSize) {
-          return false;
+    baseBundles.forEach((page) => {
+      headBundles.forEach((prPage) => {
+        if (
+          page.page == prPage.page &&
+          page.parsedSize * 1.05 < prPage.parsedSize
+        ) {
+          return true;
         }
-      }
-    }
+      });
+    });
   }
 };
