@@ -47,7 +47,7 @@ input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }
 input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }
 ```
 
-In your CDK construct, you'll need to enable this "sandbox mode" explicitly:
+In your CDK construct, you'll need to enable this "sandbox mode" via an input parameter, rather than as part of the Graphql schema definition:
 
 ```ts
 new AmplifyGraphqlApi(this, "MyNewApi", {
