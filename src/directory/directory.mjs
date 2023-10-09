@@ -1274,7 +1274,7 @@ export const directory = {
           },
           {
             title: 'Use existing Amazon Cognito resources',
-            route: '/lib/auth/existing-resources',
+            route: '/lib-v1/auth/existing-resources',
             filters: ['ios', 'flutter']
           },
           {
