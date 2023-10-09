@@ -11,8 +11,9 @@ import Callout from './src/components/Callout';
 import { Card, CardDetail, CardGraphic } from './src/components/Card';
 import ExternalLinkButton from './src/components/ExternalLinkButton';
 import InternalLinkButton from './src/components/InternalLinkButton';
-import { MDXLink, MDXHeading } from './src/components/MDXComponents';
+import { MDXCode, MDXHeading, MDXLink } from './src/components/MDXComponents';
 import MigrationAlert from './src/components/MigrationAlert';
+import preToCodeBlock from './src/utils/pre-to-code-block';
 
 const ResponsiveImage = (props) => (
   <ExportedImage style={{ height: 'auto' }} {...props} />
@@ -35,6 +36,13 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     h4: MDXHeading4,
     h5: MDXHeading5,
     h6: MDXHeading6,
+    pre: (preProps) => {
+      const props = preToCodeBlock(preProps);
+      if (props) {
+        return <MDXCode {...props} />;
+      }
+      return <pre {...preProps} />;
+    },
     img: ResponsiveImage,
 
     // Make common custom components available to content authors

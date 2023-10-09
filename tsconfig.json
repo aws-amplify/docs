@@ -15,9 +15,10 @@
     "baseUrl": ".",
     "paths": {
       "@/components/*": ["src/components/*"],
+      "@/constants/*": ["src/constants/*"],
       "@/data/*": ["src/data/*"],
-      "@/utils/*": ["src/utils/*"],
-      "@/plugins/*": ["src/plugins/*"]
+      "@/plugins/*": ["src/plugins/*"],
+      "@/utils/*": ["src/utils/*"]
     }
   },
   "extends": "./tsconfig.base.json",
