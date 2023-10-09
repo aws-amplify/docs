@@ -32,9 +32,35 @@ In the example above, everyone (`public`) can read every Todo but owner (authent
 
 To help you get started, there's a global authorization rule defined when you create a new GraphQL schema. For production environments, remove the global authorization rule and apply rules on each model instead. 
 
+<BlockSwitcher>
+
+<Block name="Amplify CLI">
+
 ```graphql
 input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }
 ```
+
+</Block>
+<Block name="AWS CDK">
+
+```graphql
+input AMPLIFY { globalAuthRule: AuthRule = { allow: public } }
+```
+
+In your CDK construct, you'll need to enable this "sandbox mode" via an input parameter, rather than as part of the Graphql schema definition:
+
+```ts
+new AmplifyGraphqlApi(this, "MyNewApi", {
+  ...,
+  translationBehavior: {
+    sandboxModeEnabled: true
+  }
+});
+```
+
+</Block>
+
+</BlockSwitcher>
 
 The global authorization rule (in this case `{ allow: public }` - allows anyone to create, read, update, and delete) is applied to every data model in the GraphQL schema.
 
