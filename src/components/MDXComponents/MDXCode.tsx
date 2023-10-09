@@ -58,7 +58,7 @@ export const MDXCode = (props) => {
           <View
             position="relative"
             padding="medium"
-            border="1px solid var(--amplify-colors-neutral-20"
+            border="1px solid var(--amplify-colors-neutral-20)"
           >
             <View
               as="pre"
