@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import { GlobalNav, NavMenuItem } from '@/components/GlobalNav/GlobalNav';
 import { TestNav } from '@/components/TestNav';
 import { Flex, View } from '@aws-amplify/ui-react';
-import { FRAMEWORK_DISPLAY_NAMES } from '@/data/frameworks';
+import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
 
 import {
   LEFT_NAV_LINKS,
@@ -41,7 +41,7 @@ export const Layout = forwardRef(function Layout(
 
   const title = [
     pageTitle,
-    platform ? FRAMEWORK_DISPLAY_NAMES[platform] : null,
+    platform ? PLATFORM_DISPLAY_NAMES[platform] : null,
     'AWS Amplify Docs'
   ]
     .filter((s) => s !== '' && s !== null)

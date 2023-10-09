@@ -1,5 +1,5 @@
 import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
-import { FRAMEWORK_DISPLAY_NAMES } from '@/data/frameworks';
+import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
 
 export const meta = {
   title: `Overview`,
@@ -22,7 +22,7 @@ export function getStaticProps(context) {
 
 const PlatformOverview = ({ platform }) => {
   console.log(platform);
-  return <h1>// Amplify docs for {FRAMEWORK_DISPLAY_NAMES[platform]}</h1>;
+  return <h1>// Amplify docs for {PLATFORM_DISPLAY_NAMES[platform]}</h1>;
 };
 
 export default PlatformOverview;
