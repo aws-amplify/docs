@@ -41,7 +41,8 @@ const ANALYTICS_CSP = {
       'https://aa0.awsstatic.com/',
       'https://alpha.d2c.marketing.aws.dev/',
       'https://aws-mktg-csds-alpha.integ.amazon.com/',
-      'https://d2c-alpha.dse.marketing.aws.a2z.com'
+      'https://d2c-alpha.dse.marketing.aws.a2z.com',
+      'https://vs-alpha.aws.amazon.com'
     ],
     img: ['https://aa0.awsstatic.com/', 'https://alpha.d2c.marketing.aws.dev/'],
     script: [
