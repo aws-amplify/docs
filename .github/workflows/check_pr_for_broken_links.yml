@@ -3,10 +3,6 @@ on:
   pull_request:
     branches: [main]
     types: [opened, synchronize]
-  workflow_dispatch:
-permissions:
-  contents: read
-  id-token: write
 jobs:
   CheckPRLinks:
     runs-on: ubuntu-latest
