@@ -10,11 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout main branch
-        uses: actions/checkout@v3
+        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0 https://github.com/actions/checkout/commit/f43a0e5ff2bd294095638e18286ca9a3d1956744
         with:
-          ref: bundle-size-checker-main
+          ref: main
       - name: Setup Node.js 16.x
-        uses: actions/setup-node@main
+        uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # v3.8.1 https://github.com/actions/setup-node/commit/5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d
         with:
           node-version: 16.x
       - name: Install dependencies
@@ -26,7 +26,7 @@ jobs:
           NODE_OPTIONS: --max_old_space_size=4096
         run: ANALYZE=true yarn next-build
       - name: Check base bundle size of select pages
-        uses: actions/github-script@v6.4.0
+        uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 # v6.4.1 https://github.com/actions/github-script/commit/d7906e4ad0b1822421a7e6a35d5ca353c962f410
         id: base-bundle-sizes
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -34,11 +34,11 @@ jobs:
             const { checkBaseBundleSize } = require('./.github/workflows/scripts/check_bundle_size.js');
             return checkBaseBundleSize();
       - name: Checkout PR branch
-        uses: actions/checkout@v3
+        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0 https://github.com/actions/checkout/commit/f43a0e5ff2bd294095638e18286ca9a3d1956744
         with:
           ref: ${{ github.head_ref }}
       - name: Setup Node.js 16.x
-        uses: actions/setup-node@main
+        uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # v.3.8.1 https://github.com/actions/setup-node/commit/5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d
         with:
           node-version: 16.x
       - name: Install dependencies
@@ -50,7 +50,7 @@ jobs:
           NODE_OPTIONS: --max_old_space_size=4096
         run: ANALYZE=true yarn next-build
       - name: Check head bundle size of select pages
-        uses: actions/github-script@v6.4.0
+        uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 # v6.4.1 https://github.com/actions/github-script/commit/d7906e4ad0b1822421a7e6a35d5ca353c962f410
         id: head-bundle-sizes
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -58,7 +58,7 @@ jobs:
             const { checkHeadBundleSize } = require('./.github/workflows/scripts/check_bundle_size.js');
             return checkHeadBundleSize();
       - name: Compare bundle page bundle sizes
-        uses: actions/github-script@v6.4.0
+        uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 # v6.4.1 https://github.com/actions/github-script/commit/d7906e4ad0b1822421a7e6a35d5ca353c962f410
         id: compare-bundles
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
