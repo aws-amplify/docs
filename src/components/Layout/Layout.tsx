@@ -7,24 +7,27 @@ import { TestNav } from '@/components/TestNav';
 import { Flex, View, Button } from '@aws-amplify/ui-react';
 import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
 import SearchBar from '@/components/SearchBar';
-import { IconMenu } from '@/components/Icons';
+import { IconMenu, IconDoubleChevron } from '@/components/Icons';
 
 import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
 import { forwardRef, useEffect } from 'react';
 import { trackPageVisit } from '../../utils/track';
-import { IconDoubleChevron } from '../Icons/IconDoubleChevron';
 
 export const Layout = forwardRef(function Layout(
   {
     children,
     pageTitle,
     pageDescription,
-    platform
+    platform,
+    url,
+    pageType = 'inner'
   }: {
     children: any;
     pageTitle?: string;
     pageDescription?: string;
     platform?: string;
+    url?: string;
+    pageType?: 'home' | 'inner';
   },
   footerRef
 ) {
@@ -36,7 +39,7 @@ export const Layout = forwardRef(function Layout(
 
   const router = useRouter();
   const basePath = 'docs.amplify.aws';
-  const url = basePath + router.asPath;
+  const metaUrl = url ? url : basePath + router.asPath;
   if (!router.isReady) return <></>;
 
   const title = [
@@ -60,7 +63,7 @@ export const Layout = forwardRef(function Layout(
           content={description}
           key="og:description"
         />
-        <meta property="og:url" content={url} key="og:url" />
+        <meta property="og:url" content={metaUrl} key="og:url" />
         <meta
           property="og:image"
           content="https://docs.amplify.aws/assets/ogp.jpg"
@@ -80,13 +83,13 @@ export const Layout = forwardRef(function Layout(
           key="twitter:image"
         />
       </Head>
-      <View className="layout-wrapper">
+      <View className={`layout-wrapper layout-wrapper--${pageType}`}>
         <GlobalNav
           leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
           rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
           currentSite=""
         />
-        <View className="layout-search">
+        <View className={`layout-search layout-search--${pageType}`}>
           <Flex className="search-menu-bar">
             <Button
               onClick={() => toggleMenuOpen(true)}

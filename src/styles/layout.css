@@ -9,6 +9,10 @@
 
 .layout-wrapper {
   --sidebar-width: 340px;
+  background-color: var(--amplify-colors-background-primary);
+}
+.layout-wrapper--home {
+  background-image: radial-gradient(hsla(176, 68%, 41%, 0.21), #fff);
 }
 
 .layout-search {
@@ -17,6 +21,9 @@
   z-index: 1;
   top: var(--docs-dev-center-nav);
   background: var(--amplify-colors-background-primary);
+}
+.layout-search--home {
+  background: transparent;
 }
 
 .layout-main {
