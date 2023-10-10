@@ -171,7 +171,28 @@ Pronouns are difficult to translate into some languages. They also tend to be ge
 “You can set up Amplify UI with two lines of code.”
 * * *
 
-## 12. Shorter is better
+## 12. Use contractions, but carefully
+
+Contractions help to convey a more casual tone, but need to be used carefully. Use common contractions. Avoid future tense (I'll), archaic ('twas), colloquial (ain't), or compound (couldn't've) contractions.
+
+### Don't
+
+With "will": I'll, you'll, he'll, she'll, it'll, we'll, they'll
+
+With "not": ain't, mayn't, mightn't, oughtn't, shan't
+
+With "it": 'twas, 'twere, 'tis
+
+With nouns: Amazon'll, book's
+
+### Do
+
+With "be": I'm, you're, he's, she's, it's, we're, they're
+
+With "not": isn't, aren't, doesn't, don't, can't, couldn't, shouldn't, won't
+* * *
+
+## 13. Shorter is better
 
 Short sentences are easier to translate, for both machines and humans! Break clauses into multiple sentences.
 
@@ -184,7 +205,7 @@ Short sentences are easier to translate, for both machines and humans! Break cla
 “You can enable triggers for the Storage Category with Amazon S3 & Amazon DynamoDB as Providers. Amplify supports associating Lambda triggers with S3 and DynamoDB events.”
 * * *
 
-## 13. Lead with location; end with action
+## 14. Lead with location; end with action
 
 When instructing a learner on how to do something, start with the location of the action they’re going to perform so they can navigate to that place, then end with the action they can then use.
 
@@ -197,7 +218,7 @@ When instructing a learner on how to do something, start with the location of th
 “In the **Endpoint Type** drop-down, select **Edge optimized.”**
 * * *
 
-## 14. Use monospace fonts for code, commands, copy-ables; use bold for menus, URLs (clickable), and other UI copy
+## 15. Use monospace fonts for code, commands, copy-ables; use bold for menus, URLs (clickable), and other UI copy
 
 Code tags and monospace fonts are used to represent code that goes into files or CLI. UI copy, file names, URLs you can click on use **bold.** Remember: monospace is for anything that lives in or is copied to a file or a command line. Everything else is bold.
 
@@ -218,7 +239,7 @@ Code tags and monospace fonts are used to represent code that goes into files or
 “Enter the Amplify Library for Swift GitHub repo URL (`https://github.com/aws-amplify/amplify-swift`) into the search bar and hit **Enter**.”
 * * *
 
-## 15. Use carets to help users navigate menus; use “select” instead of “click”
+## 16. Use carets to help users navigate menus; use “select” instead of “click”
 
 * For instructions for navigating a menu, use carets to indicate the hierarchy of the menu items. This is concise and easy to follow.
 * Tell people to “select” things instead of “click on them”. Not everyone uses a mouse—many people tab or touch items.
@@ -237,7 +258,7 @@ Code tags and monospace fonts are used to represent code that goes into files or
 “Select **upload image**.”
 * * *
 
-## 16. Bracket `<replacement text>` in codeblocks
+## 17. Bracket `<replacement text>` in codeblocks
 
 In code blocks, refer to placeholder text with angle brackets, lowercase, with dashes. 
 
@@ -255,7 +276,7 @@ In code blocks, refer to placeholder text with angle brackets, lowercase, with d
 **`amplify/backend/api/<api-name>/schema.graphql`**
 * * *
 
-## 17. Refer to Amplify files in the /amplify directory
+## 18. Refer to Amplify files in the /amplify directory
 
 When referring to files in the **amplify** directory, always preface with **amplify/**
 
@@ -269,7 +290,7 @@ When referring to files in the **amplify** directory, always preface with **ampl
 
 * * *
 
-## 18. Write compliant JSON: no single quotes, no comments
+## 19. Write compliant JSON: no single quotes, no comments
 
 Conform to the [JSON standard](https://www.json.org/json-en.html). 
 
@@ -301,7 +322,7 @@ Conform to the [JSON standard](https://www.json.org/json-en.html).
 
 * * *
 
-## 19. Prefix AWS and Amazon products when they first appear on a page
+## 20. Prefix AWS and Amazon products when they first appear on a page
 
 When an AWS service or product appears on the page for the first time, refer to it with the appropriate prefix, either AWS or Amazon. You can [find a full listing here.](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/)
 
@@ -314,7 +335,7 @@ When an AWS service or product appears on the page for the first time, refer to 
 “AWS Amplify Hosting uses Amazon Simple Storage Service (S3) for file storage. Amplify Hosting also provides caching to ensure files are delivered quickly to users.”
 * * *
 
-## 20. Write links using markdown syntax
+## 21. Write links using markdown syntax
 
 When editing text content in markdown files use the markdown syntax for links. We use some special linting processes that leverage markdown.
 
@@ -328,7 +349,7 @@ When editing text content in markdown files use the markdown syntax for links. W
 
 * * *
 
-## 21. Use 2-space indents for code blocks
+## 22. Use 2-space indents for code blocks
 
 When adding code blocks and indenting encapsulated code, use 2 spaces for each indent
 
