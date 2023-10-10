@@ -79,6 +79,9 @@ function generatePathMap(
     '/sdk/q/platform/flutter': {
       page: '/sdk/q/platform/[platform]'
     },
+    '/sdk/q/platform/react-native': {
+      page: '/sdk/q/platform/[platform]'
+    },
     '/console': {
       page: '/console'
     },
