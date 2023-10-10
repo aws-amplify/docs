@@ -12,6 +12,7 @@ import SearchBar from '@/components/SearchBar';
 import { IconMenu, IconDoubleChevron } from '@/components/Icons';
 import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
 import { trackPageVisit } from '../../utils/track';
+import { Menu } from '../Menu-new';
 
 export const Layout = forwardRef(function Layout(
   {
@@ -134,7 +135,7 @@ export const Layout = forwardRef(function Layout(
                 [ Platform switcher goes here]
               </div>
               <div className="layout-sidebar-menu">
-                <TestNav />
+                <Menu />
               </div>
             </View>
           </View>
