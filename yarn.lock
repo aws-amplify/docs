@@ -375,9 +375,9 @@
     tslib "^1.8.0"
 
 "@aws-amplify/graphql-transformer-interfaces@^3.1.2":
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-transformer-interfaces/-/graphql-transformer-interfaces-3.2.0.tgz#29179690bbe5e9c2fd564d588ba00b12f62d5834"
-  integrity sha512-BDhRoGa8YjxglsYjqlJ/rog182lKzBO4FAq/3hRDA0Hij0Be2npCOPVP1HZ9OsAkRCdSrNE1IokwRQP8o512eg==
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-transformer-interfaces/-/graphql-transformer-interfaces-3.2.1.tgz#6a375c368cf926789b9b2bf0d021b8c03feedcc7"
+  integrity sha512-TZS546r0H8S5HRbBDWcZI87ijYcD3fMMvKsZEv9r417YhfjXepweLADZap293OMu6H+LyU23XS3aVEjA99AWng==
   dependencies:
     graphql "^15.5.0"
 
