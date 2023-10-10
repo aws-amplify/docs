@@ -6,13 +6,13 @@ jobs:
   checkBundleSizeChange:
     permissions:
       pull-requests: read
-    name: Check if PR increases bundle size more than 5%
+    name: Check whether PR increases bundle size more than 5%
     runs-on: ubuntu-latest
     steps:
       - name: Checkout main branch
         uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0 https://github.com/actions/checkout/commit/f43a0e5ff2bd294095638e18286ca9a3d1956744
         with:
-          ref: bundle-size-checker-main
+          ref: main
       - name: Setup Node.js 16.x
         uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # v3.8.1 https://github.com/actions/setup-node/commit/5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d
         with:
