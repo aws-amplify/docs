@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { keyframes } from '@emotion/react';
+import styles from './Menu.module.scss';
 
 const slideOver = keyframes`
   from {

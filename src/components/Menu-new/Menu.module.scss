@@ -1,0 +1,32 @@
+.menu {
+  ul,
+  li {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .category-container {
+    .heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+
+      &:hover {
+        cursor: pointer;
+        color: rgb(112, 112, 112);
+      }
+
+      .chevron-open {
+        // rotate around the center
+        transform-box: fill-box;
+        transform-origin: center;
+        transform: rotate(90deg);
+      }
+    }
+    .category {
+      font-weight: 700;
+    }
+  }
+}
