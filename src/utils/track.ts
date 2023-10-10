@@ -172,8 +172,7 @@ export const trackExpanderOpen = (expanderId) => {
   const opt = {
     event: {
       type: 'click',
-      name: 'ExpanderOpen',
-      expanderId
+      name: `ExpanderOpen.${expanderId}`
     }
   };
 
