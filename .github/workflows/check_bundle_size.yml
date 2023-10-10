@@ -12,7 +12,7 @@ jobs:
       - name: Checkout main branch
         uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0 https://github.com/actions/checkout/commit/f43a0e5ff2bd294095638e18286ca9a3d1956744
         with:
-          ref: main
+          ref: bundle-size-checker-main
       - name: Setup Node.js 16.x
         uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # v3.8.1 https://github.com/actions/setup-node/commit/5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d
         with:
@@ -64,9 +64,9 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const { compareBundles } = require('./.github/workflows/scripts/check_bundle_size.js');
-            const baseBundles = ${{steps.base-bundle-sizes.outputs.result}}
-            const headBundles = ${{steps.head-bundle-sizes.outputs.result}}
+            const baseBundles = ${{ steps.base-bundle-sizes.outputs.result }}
+            const headBundles = ${{ steps.head-bundle-sizes.outputs.result }}
             return await compareBundles(baseBundles, headBundles)
       - name: Fail if bundle size growth exceeds 5% on any of the selected pages
-        if: ${{ steps.compare-bundles.outputs.result }}
+        if: ${{ steps.compare-bundles.outputs.result > 0 }}
         run: exit 1
