@@ -1,20 +1,18 @@
+import { useState } from 'react';
 import Head from 'next/head';
-import Footer from '@/components/Footer/index';
-import { LayoutStyle } from './styles';
-import { Container } from '../Container';
+import { Footer } from '@/components/Footer/';
 import { useRouter } from 'next/router';
 import { GlobalNav, NavMenuItem } from '@/components/GlobalNav/GlobalNav';
 import { TestNav } from '@/components/TestNav';
-import { Flex, View } from '@aws-amplify/ui-react';
+import { Flex, View, Button } from '@aws-amplify/ui-react';
 import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
+import SearchBar from '@/components/SearchBar';
+import { IconMenu } from '@/components/Icons';
 
-import {
-  LEFT_NAV_LINKS,
-  RIGHT_NAV_LINKS,
-  SOCIAL_LINKS
-} from '../../utils/globalnav';
+import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
 import { forwardRef, useEffect } from 'react';
 import { trackPageVisit } from '../../utils/track';
+import { IconDoubleChevron } from '../Icons/IconDoubleChevron';
 
 export const Layout = forwardRef(function Layout(
   {
@@ -33,6 +31,8 @@ export const Layout = forwardRef(function Layout(
   useEffect(() => {
     trackPageVisit();
   }, []);
+
+  const [menuOpen, toggleMenuOpen] = useState(false);
 
   const router = useRouter();
   const basePath = 'docs.amplify.aws';
@@ -80,25 +80,53 @@ export const Layout = forwardRef(function Layout(
           key="twitter:image"
         />
       </Head>
-
-      <GlobalNav
-        leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
-        rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
-        socialLinks={SOCIAL_LINKS as NavMenuItem[]}
-        currentSite=""
-      />
-
-      <Container backgroundColor="bg-color-tertiary">
-        <LayoutStyle>
-          <Flex width="100%">
-            <TestNav />
-            <View flex="1 0 auto" padding="xxl" minHeight="100vh">
-              <Flex direction="column">{children}</Flex>
+      <View className="layout-wrapper">
+        <GlobalNav
+          leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
+          rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
+          currentSite=""
+        />
+        <View className="layout-search">
+          <Flex className="search-menu-bar">
+            <Button
+              onClick={() => toggleMenuOpen(true)}
+              size="small"
+              className="search-menu-toggle mobile-toggle"
+            >
+              <IconMenu aria-hidden="true" />
+              Menu
+            </Button>
+            <View className="search-menu-bar__search">
+              <SearchBar />
             </View>
           </Flex>
-        </LayoutStyle>
-      </Container>
-      <Footer ref={footerRef} />
+        </View>
+        <View
+          className={`layout-sidebar${
+            menuOpen ? ' layout-sidebar--expanded' : ''
+          }`}
+        >
+          <View className="layout-sidebar__inner">
+            <Button
+              size="small"
+              colorTheme="overlay"
+              className="mobile-toggle"
+              onClick={() => toggleMenuOpen(false)}
+            >
+              <IconDoubleChevron aria-hidden="true" />
+              Menu
+            </Button>
+            <TestNav />
+          </View>
+        </View>
+
+        <View className="layout-main">
+          <Flex as="main" className="main">
+            {children}
+          </Flex>
+          <Footer />
+        </View>
+      </View>
     </>
   );
 });

@@ -1,11 +1,11 @@
 @import './variables.css';
-@import './normalize.css';
 @import './font-faces.css';
-@import './elements.css';
-@import './color-effect-utils.css';
-@import './spacing-utils.css';
+@import './base.css';
 @import './algolia.css';
 @import './prism-language-error.css';
+
+@import './layout.css';
+@import './footer.css';
 
 /* Temp */
 [id*='lastupdated-'] {

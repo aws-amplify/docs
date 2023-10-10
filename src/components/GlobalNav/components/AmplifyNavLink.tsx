@@ -13,7 +13,7 @@ export function AmplifyNavLink({ currentSite, isCollapsed, setIsCollapsed }) {
         direction="row"
       >
         <AmplifyLogo />
-        <Text className={styles['dev-center-logo']}>
+        <Text as="span" className={styles['dev-center-logo']}>
           <span style={{ fontWeight: '400' }}>Amplify</span>{' '}
           <span style={{ fontWeight: '300' }}>Dev Center</span>
           <span className={styles['mobile-only']}>
@@ -33,7 +33,7 @@ export function AmplifyNavLink({ currentSite, isCollapsed, setIsCollapsed }) {
         style={{ textDecoration: 'none', cursor: 'pointer' }}
       >
         <AmplifyLogo />
-        <Text className={styles['dev-center-logo']}>
+        <Text as="span" className={styles['dev-center-logo']}>
           <span style={{ fontWeight: '400' }}>Amplify</span>{' '}
           <span style={{ fontWeight: '300' }}>Dev Center</span>
           <span className={styles['mobile-only']}>

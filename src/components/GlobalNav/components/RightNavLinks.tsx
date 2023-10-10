@@ -6,7 +6,7 @@ import { NavMenuItem } from '../GlobalNav';
 
 interface RightNavLinksProps {
   rightLinks: NavMenuItem[];
-  socialLinks: NavMenuItem[];
+  socialLinks?: NavMenuItem[];
   isCollapsed: boolean;
   currentSite: string;
 }
@@ -15,7 +15,7 @@ export function RightNavLinks({
   rightLinks,
   isCollapsed,
   currentSite,
-  socialLinks,
+  socialLinks
 }: RightNavLinksProps) {
   return (
     <Flex
@@ -29,7 +29,9 @@ export function RightNavLinks({
           <NavMenuLink navMenuItem={link} currentMenuItem={currentSite} />
         </View>
       ))}
-      <SocialNavLinks socialLinks={socialLinks} currentSite={currentSite} />
+      {socialLinks ? (
+        <SocialNavLinks socialLinks={socialLinks} currentSite={currentSite} />
+      ) : null}
     </Flex>
   );
 }

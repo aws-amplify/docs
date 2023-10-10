@@ -5,7 +5,7 @@ import Head from 'next/head';
 
 import { Container } from '@/components/Container';
 import { TestNav } from '@/components/TestNav';
-import Footer from '@/components/Footer';
+import { Footer } from '@/components/Footer';
 
 import { trackPageVisit } from '@/utils/track';
 import { NavMenuItem, GlobalNav } from '../components/GlobalNav';

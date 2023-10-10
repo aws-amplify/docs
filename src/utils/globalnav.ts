@@ -1,14 +1,14 @@
 export const RIGHT_NAV_LINKS = [
   {
     type: 'EXTERNAL',
-    label: 'Pricing',
-    url: 'https://aws.amazon.com/amplify/pricing',
+    label: 'About AWS Amplify',
+    url: 'https://aws.amazon.com/amplify/',
     order: 6
   },
   {
     type: 'EXTERNAL',
-    label: 'About AWS Amplify',
-    url: 'https://aws.amazon.com/amplify/',
+    label: 'Pricing',
+    url: 'https://aws.amazon.com/amplify/pricing',
     order: 7
   }
 ];

@@ -1,3 +1,9 @@
+export { IconAWS } from './IconAWS';
+export { IconDiscord } from './IconDiscord';
+export { IconGithub } from './IconGithub';
+export { IconTwitter } from './IconTwitter';
+export { IconMenu } from './IconMenu';
+
 export * from './ThumbsUp';
 export * from './ThumbsDown';
 export * from './ThumbsUpFilled';

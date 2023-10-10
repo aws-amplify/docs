@@ -28,7 +28,7 @@ export interface NavMenuItem {
 export interface NavProps {
   leftLinks: NavMenuItem[];
   rightLinks: NavMenuItem[];
-  socialLinks: NavMenuItem[];
+  socialLinks?: NavMenuItem[];
   currentSite: string;
 }
 
