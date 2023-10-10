@@ -87,6 +87,7 @@
     "puppeteer": "^20.8.2",
     "rollup-plugin-node-polyfills": "^0.2.1",
     "sass": "^1.54.8",
+    "serve": "^14.2.1",
     "tiny-glob": "0.2.9",
     "ts-jest": "^26.0.3",
     "ts-node": "^8.5.0",
