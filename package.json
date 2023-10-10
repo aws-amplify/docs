@@ -25,7 +25,6 @@
     "array-flatten": "^3.0.0",
     "aws-amplify": "^5.0.5",
     "copy-to-clipboard": "^3.2.1",
-    "cross-env": "^7.0.3",
     "dotenv": "^16.0.0",
     "emotion": "^10.0.23",
     "eslint-config-next": "^13.2.4",
@@ -139,7 +138,6 @@
     "build:release": "yarn build && next-image-export-optimizer --exportFolderPath client/www/next-build",
     "next-build": "next build",
     "next-start": "next start",
-    "amplify:submissionsLambda": "cd amplify/backend/function/submissionsLambda/src && yarn install && yarn build && yarn test",
     "prepare": "husky install",
     "analyze": "ANALYZE=true yarn next-build"
   }
