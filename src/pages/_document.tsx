@@ -41,7 +41,8 @@ const ANALYTICS_CSP = {
       'https://aa0.awsstatic.com/',
       'https://alpha.d2c.marketing.aws.dev/',
       'https://aws-mktg-csds-alpha.integ.amazon.com/',
-      'https://d2c-alpha.dse.marketing.aws.a2z.com'
+      'https://d2c-alpha.dse.marketing.aws.a2z.com',
+      'https://vs-alpha.aws.amazon.com'
     ],
     img: ['https://aa0.awsstatic.com/', 'https://alpha.d2c.marketing.aws.dev/'],
     script: [
@@ -61,7 +62,6 @@ const getCspContent = (context) => {
   if (process.env.BUILD_ENV !== 'production') {
     return `upgrade-insecure-requests;
       default-src 'none';
-      prefetch-src 'self';
       style-src 'self' 'unsafe-inline' ${ANALYTICS_CSP.all.style.join(' ')};
       font-src 'self' data:;
       frame-src 'self' https://www.youtube-nocookie.com ${ANALYTICS_CSP.all.frame.join(
@@ -85,7 +85,6 @@ const getCspContent = (context) => {
   // Have to keep track of CSP inside customHttp.yml as well
   return `upgrade-insecure-requests;
     default-src 'none';
-    prefetch-src 'self';
     style-src 'self' 'unsafe-inline' ${ANALYTICS_CSP.all.style.join(' ')};
     font-src 'self';
     frame-src 'self' https://www.youtube-nocookie.com ${ANALYTICS_CSP.all.frame.join(
