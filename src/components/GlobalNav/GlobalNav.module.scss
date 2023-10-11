@@ -83,15 +83,6 @@
 .nav-expander {
   align-self: center;
   padding: var(--amplify-space-medium);
-  // &:hover,
-  // :active {
-  //   border: none;
-  //   box-shadow: none;
-  // }
-
-  // &:focus {
-  //   box-shadow: 0 0 0 2px var(--amplify-colors-neutral-90);
-  // }
 }
 
 .mobile-current-link {
@@ -123,15 +114,10 @@
 
   &:hover {
     color: var(--nav-menu-item-hover-color);
-
-    // .custom-path-stroke {
-    //   stroke: var(--amplify-colors-neutral-10);
-    // }
   }
 
   &:focus {
     border: 2px solid var(--amplify-colors-neutral-90);
-    // box-shadow: 0 0 0 2px var(--amplify-colors-neutral-80);
   }
 
   .custom-path-stroke {
