@@ -109,18 +109,34 @@ export const Layout = forwardRef(function Layout(
             menuOpen ? ' layout-sidebar--expanded' : ''
           }`}
         >
+          <View
+            className="layout-sidebar__backdrop"
+            onClick={() => toggleMenuOpen(false)}
+          ></View>
           <View className="layout-sidebar__inner">
-            <Button
-              size="small"
-              colorTheme="overlay"
-              className="mobile-toggle"
-              onClick={() => toggleMenuOpen(false)}
-            >
-              <IconDoubleChevron aria-hidden="true" />
-              Menu
-            </Button>
-            <TestNav />
+            <div className="layout-sidebar-platform">
+              <Button
+                size="small"
+                colorTheme="overlay"
+                className="mobile-toggle"
+                onClick={() => toggleMenuOpen(false)}
+              >
+                <IconDoubleChevron aria-hidden="true" />
+                Menu
+              </Button>
+              [ Platform switcher goes here]
+            </div>
+            <div className="layout-sidebar-menu">
+              <TestNav />
+            </div>
           </View>
+          {/* <button
+            className="mobile-toggle-close"
+            onClick={() => toggleMenuOpen(false)}
+          >
+            <IconDoubleChevron aria-hidden="true" />
+            Close menu
+          </button> */}
         </View>
 
         <View className="layout-main">

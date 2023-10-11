@@ -5,11 +5,22 @@
 
 :root {
   ---aa-selected-color-rgb: rgb(221, 221, 221);
+  --aa-search-input-height: 42px;
+}
+
+.aa-SubmitButton,
+.aa-DetachedSearchButtonIcon {
+  background-size: 16px;
 }
 
 .aa-Autocomplete {
   border-color: #174d8c;
-  font-family: Menlo, Monaco, Consolas, Courier New, monospace;
+  font-family:
+    Menlo,
+    Monaco,
+    Consolas,
+    Courier New,
+    monospace;
 }
 
 .aa-Form:focus-within,
@@ -27,7 +38,12 @@
 
 .aa-Panel {
   z-index: 100;
-  font-family: Menlo, Monaco, Consolas, Courier New, monospace;
+  font-family:
+    Menlo,
+    Monaco,
+    Consolas,
+    Courier New,
+    monospace;
 }
 
 .aa-SourceHeaderTitle {
@@ -75,7 +91,9 @@
 .searchbox__input {
   display: inline-block;
   box-sizing: border-box;
-  transition: box-shadow 0.4s ease, background 0.4s ease;
+  transition:
+    box-shadow 0.4s ease,
+    background 0.4s ease;
   border: 0;
   border-radius: 16px;
   box-shadow: inset 0 0 0 1px #ccc;
@@ -244,7 +262,9 @@
   z-index: 999;
   max-width: 600px;
   min-width: 500px;
-  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.2), 0 2px 3px 0 rgba(0, 0, 0, 0.1);
+  box-shadow:
+    0 1px 0 0 rgba(0, 0, 0, 0.2),
+    0 2px 3px 0 rgba(0, 0, 0, 0.1);
 }
 .algolia-autocomplete .ds-dropdown-menu:before {
   display: block;
@@ -406,7 +426,12 @@
   color: #222;
   background-color: #ebebeb;
   border-radius: 3px;
-  font-family: Menlo, Monaco, Consolas, Courier New, monospace;
+  font-family:
+    Menlo,
+    Monaco,
+    Consolas,
+    Courier New,
+    monospace;
 }
 .algolia-autocomplete
   .algolia-docsearch-suggestion

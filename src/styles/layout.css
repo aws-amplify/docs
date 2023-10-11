@@ -5,6 +5,7 @@
 .search-menu-toggle {
   display: inline-flex;
   gap: var(--amplify-space-xxxs);
+  align-self: center;
 }
 
 .layout-wrapper {
@@ -31,7 +32,7 @@
 }
 
 .layout-sidebar {
-  width: var(--sidebar-width);
+  width: 100%;
   position: fixed;
   top: var(--docs-dev-center-nav);
   bottom: 0;
@@ -45,31 +46,83 @@
 }
 
 .layout-sidebar__inner {
-  width: 100%;
+  width: var(--sidebar-width);
   height: 100%;
   background: var(--amplify-colors-background-primary);
   border-right: 1px solid var(--amplify-colors-neutral-20);
-  padding: var(--amplify-space-large);
   transform: translate(-100%, 0);
   overflow-y: auto;
-  animation: menuAnimation 0.2s ease-out forwards;
-  animation-direction: reverse;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  overflow: hidden;
 }
 
 .layout-sidebar--expanded .layout-sidebar__inner {
-  animation-direction: normal;
+  animation: menu 0.2s ease-out forwards;
+  animation-delay: 0.1s;
+}
+
+.layout-sidebar__backdrop {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  opacity: 0;
+}
+.layout-sidebar--expanded .layout-sidebar__backdrop {
+  animation: menuFade 0.2s ease-out forwards;
+}
+
+.layout-sidebar-platform {
+  padding: var(--amplify-space-large);
+}
+.layout-sidebar-menu {
+  padding: var(--amplify-space-large);
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .main {
   flex-direction: column;
 }
 
-@keyframes menuAnimation {
+/* .mobile-toggle-close {
+  background: var(--amplify-colors-background-primary);
+  color: var(--amplify-colors-font-primary);
+  border: 2px solid transparent;
+  padding: var(--amplify-space-small) var(--amplify-space-medium);
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  position: absolute;
+  top: 0;
+  left: var(--sidebar-width);
+  gap: var(--amplify-space-xxxs);
+  align-items: center;
+  display: none;
+  opacity: 0;
+  cursor: pointer;
+} */
+
+.layout-sidebar--expanded .mobile-toggle-close {
+  display: inline-flex;
+  animation: menuFade 0.2s ease-out forwards;
+  animation-delay: 0.2s;
+}
+
+@keyframes menu {
   0% {
     transform: translate(-100%, 0);
   }
   100% {
     transform: translate(0, 0);
+  }
+}
+
+@keyframes menuFade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
 

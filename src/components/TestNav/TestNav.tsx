@@ -3,7 +3,6 @@ import { View } from '@aws-amplify/ui-react';
 export const TestNav = () => {
   return (
     <View>
-      [ Platform switcher goes here]
       <p>
         <a href="/">Home</a>
       </p>
