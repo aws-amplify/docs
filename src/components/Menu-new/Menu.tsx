@@ -10,7 +10,9 @@ export function Menu(): ReactElement {
   return (
     <nav className={styles['menu']}>
       <View marginBottom="16px">
-        <Text fontWeight="700">How Amplify works</Text>
+        <Text fontSize="16px" fontWeight="700">
+          How Amplify works
+        </Text>
       </View>
       <ul>
         {platformOverviewPage.children &&
