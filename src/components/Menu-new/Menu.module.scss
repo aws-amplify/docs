@@ -20,7 +20,7 @@
 
       &:hover {
         cursor: pointer;
-        color: rgb(112, 112, 112);
+        color: var(--amplify-colors-brand-primary-60);
       }
 
       .chevron-open {
@@ -41,7 +41,7 @@
     }
 
     .current {
-      color: #21afa6;
+      color: var(--amplify-colors-brand-primary-60);
     }
   }
 }
