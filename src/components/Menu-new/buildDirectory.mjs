@@ -94,7 +94,7 @@ export const directory = {
           title: `Get started`,
           description: `A getting started page`,
           platforms: ['android', 'javascript'],
-          route: 'pages/[platform/get-started/index.mdx',
+          route: 'pages/[platform]/get-started/index.mdx',
           children: [
             {
               title: `Project setup`,
