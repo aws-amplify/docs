@@ -39,7 +39,7 @@ function generateListItem(pageNode, level): ReactElement {
     return <></>;
   }
 
-  const pathname = `/${router.query.platform}/${pathHelper(pageNode.route)}`;
+  const pathname = `/${router.query.platform}/${pathHelper(pageNode.route)}/`;
   console.log(pathname);
   console.log('router', router);
   const current = router.asPath === pathname;
@@ -102,7 +102,7 @@ const pathHelper = (path: string) => {
 
   const pathNoPrefix = path.slice(prefix.length).split('.')[0];
 
-  const lastIndex = pathNoPrefix.lastIndexOf('index');
+  const lastIndex = pathNoPrefix.lastIndexOf('/index');
 
   if (lastIndex > -1) {
     return pathNoPrefix.substring(0, lastIndex);
