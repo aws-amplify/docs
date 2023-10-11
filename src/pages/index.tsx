@@ -133,7 +133,10 @@ const Page = () => {
                 <p>Configure an app backend with a guided CLI workflow.</p>
               </CardDetail>
             </Card>
-            <Card href="https://docs.aws.amazon.com/amplify/latest/userguide/getting-started.html">
+            <Card
+              href="https://docs.aws.amazon.com/amplify/latest/userguide/getting-started.html"
+              external
+            >
               <CardGraphic alt="" src="/assets/console.png" />
               <CardDetail>
                 <h4>Amplify Hosting</h4>
