@@ -167,7 +167,8 @@ export const directory = {
             {
               title: `API (Rest)`,
               description: `API (Rest)`,
-              platforms: ['android', 'javascript']
+              platforms: ['android', 'javascript'],
+              route: 'pages/[platform]/build-a-backend/api-rest/index.mdx'
             }
           ]
         }
