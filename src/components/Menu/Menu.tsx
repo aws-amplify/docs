@@ -1,9 +1,10 @@
-import { ReactElement, useCallback, useState } from 'react';
+import { ReactElement, useCallback, useEffect, useState } from 'react';
 import { Icon, View, Text } from '@aws-amplify/ui-react';
 import Link from 'next/link';
 import { directory } from './buildDirectory.mjs';
 import styles from './Menu.module.scss';
 import { useRouter } from 'next/router';
+import classNames from 'classnames';
 
 export function Menu(): ReactElement {
   const rootPage = directory;
@@ -19,7 +20,7 @@ export function Menu(): ReactElement {
       <ul>
         {platformOverviewPage.children &&
           platformOverviewPage.children.map((child) => {
-            return generateListItem(child, 1);
+            return generateListItem(child, null, 1);
           })}
       </ul>
     </nav>
@@ -28,43 +29,51 @@ export function Menu(): ReactElement {
 
 const CATEGORY_LEVEL = 1;
 
-function generateListItem(pageNode, level): ReactElement {
+function generateListItem(pageNode, parentSetOpen, level): ReactElement {
   const router = useRouter();
   const [open, setOpen] = useState(false);
+  // const [current, setCurrent] = useState(false);
   const toggleDrawer = useCallback(() => {
     setOpen((prevOpen) => !prevOpen);
+  }, []);
+
+  const pathname = `/${router.query.platform}/${pathHelper(pageNode.route)}/`;
+
+  const current = router.asPath === pathname;
+
+  const currentStyle = current ? styles['current'] : '';
+  const categoryStyle =
+    level === CATEGORY_LEVEL ? styles['category'] : styles['subcategory'];
+
+  useEffect(() => {
+    if (current) {
+      if (pageNode.children && pageNode.children.length > 0) {
+        setOpen(true);
+      }
+
+      console.log('open parent');
+      if (parentSetOpen) {
+        /** Don't think this scales well with deeply nested menus, what are some better ways to do this? */
+        parentSetOpen(true);
+      }
+    }
   }, []);
 
   if (!pageNode) {
     return <></>;
   }
 
-  const pathname = `/${router.query.platform}/${pathHelper(pageNode.route)}/`;
-  console.log(pathname);
-  console.log('router', router);
-  const current = router.asPath === pathname;
-  console.log(current);
-
   return (
-    <li
-      tabIndex={0}
-      key={pageNode.route}
-      className={styles['category-container']}
-    >
+    <li key={pageNode.route} className={styles['category-container']}>
       <Link
         href={{
           pathname: `/[platform]/${pathHelper(pageNode.route)}`,
-          query: { platform: 'javascript' }
+          query: { platform: router.query.platform }
         }}
         passHref
-        legacyBehavior
       >
-        <a
-          className={`${styles['heading']} ${
-            level === CATEGORY_LEVEL
-              ? styles['category']
-              : styles['subcategory']
-          } ${current ? styles['current'] : ''}`}
+        <div
+          className={`${styles['heading']} ${categoryStyle} ${currentStyle}`}
           onClick={level > CATEGORY_LEVEL ? toggleDrawer : undefined}
         >
           {pageNode.title}
@@ -86,11 +95,13 @@ function generateListItem(pageNode, level): ReactElement {
               ]}
             />
           )}
-        </a>
+        </div>
       </Link>
       {pageNode.children && (
         <ul style={!open && level > CATEGORY_LEVEL ? { display: 'none' } : {}}>
-          {pageNode.children.map((child) => generateListItem(child, level + 1))}
+          {pageNode.children.map((child) =>
+            generateListItem(child, setOpen, level + 1)
+          )}
         </ul>
       )}
     </li>

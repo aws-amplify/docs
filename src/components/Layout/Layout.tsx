@@ -3,7 +3,6 @@ import Head from 'next/head';
 import { Footer } from '@/components/Footer/';
 import { useRouter } from 'next/router';
 import { GlobalNav, NavMenuItem } from '@/components/GlobalNav/GlobalNav';
-import { TestNav } from '@/components/TestNav';
 import { Flex, View, Button } from '@aws-amplify/ui-react';
 import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
 import SearchBar from '@/components/SearchBar';
@@ -12,7 +11,7 @@ import { IconMenu, IconDoubleChevron } from '@/components/Icons';
 import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
 import { forwardRef, useEffect } from 'react';
 import { trackPageVisit } from '../../utils/track';
-import { Menu } from '../Menu-new';
+import { Menu } from '../Menu';
 
 export const Layout = forwardRef(function Layout(
   {
