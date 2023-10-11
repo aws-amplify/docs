@@ -1,24 +1,19 @@
-import { Grid } from 'theme-ui';
+import React, { useEffect } from 'react';
+import { Flex, View } from '@aws-amplify/ui-react';
+
 import Head from 'next/head';
-import { useEffect } from 'react';
 
-import Hero from '../components/Hero';
-import LandingHeroCTA from '../components/LandingHeroCTA';
-import { Container } from '../components/Container';
-import { Card, CardDetail, CardGraphic } from '../components/Card';
-import FeaturesGrid from '../components/FeaturesGrid';
-import LinkBanner from '../components/LinkBanner';
-import Footer from '../components/Footer';
-import SecondaryNav from '../components/SecondaryNav';
+import { Container } from '@/components/Container';
+import { TestNav } from '@/components/TestNav';
+import Footer from '@/components/Footer';
 
-import { trackPageVisit } from '../utils/track';
+import { trackPageVisit } from '@/utils/track';
 import { NavMenuItem, GlobalNav } from '../components/GlobalNav';
 import {
   LEFT_NAV_LINKS,
   RIGHT_NAV_LINKS,
   SOCIAL_LINKS
 } from '../utils/globalnav';
-import React from 'react';
 
 const meta = {
   title: 'Amplify Docs',
@@ -32,6 +27,16 @@ const Page = () => {
     trackPageVisit();
   }, []);
 
+  return (
+    <Container backgroundColor="color-off-white">
+      <div style={{ minHeight: '600px' }}>Home page</div>
+    </Container>
+  );
+};
+
+export default Page;
+
+Page.getLayout = function getLayout(page) {
   return (
     <>
       <Head>
@@ -76,78 +81,14 @@ const Page = () => {
         leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
         rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
         socialLinks={SOCIAL_LINKS as NavMenuItem[]}
-        currentSite={'Docs'}
+        currentSite=""
       />
-      <SecondaryNav />
-      <Hero>
-        <h1 className="font-weight-300">Amplify Documentation</h1>
-        <p>
-          Learn how to use Amplify to develop and deploy cloud-powered mobile
-          and web apps
-        </p>
-        <LandingHeroCTA />
-      </Hero>
-
-      <Container backgroundColor="color-off-white">
-        <div className="padding-top-lg padding-bottom-lg padding-horizontal-md">
-          <h4 className="text-align-center">
-            Discover the end-to-end AWS solution for mobile and front-end web
-            developers
-          </h4>
-
-          <Grid
-            columns={[1, null, null, 4]}
-            gap={4}
-            sx={{
-              marginTop: '2rem'
-            }}
-          >
-            <Card href="/lib/q/platform/js">
-              <CardGraphic alt="" src="/assets/lib.png" />
-              <CardDetail>
-                <h4>Amplify Libraries</h4>
-                <p>
-                  Connect app to new or existing AWS services (Cognito, S3, and
-                  more).
-                </p>
-              </CardDetail>
-            </Card>
-            <Card href="/console">
-              <CardGraphic alt="" src="/assets/console.png" />
-              <CardDetail>
-                <h4>Amplify Studio</h4>
-                <p>
-                  Visual development environment to accelerate fullstack
-                  development.
-                </p>
-              </CardDetail>
-            </Card>
-            <Card href="/cli">
-              <CardGraphic alt="" src="/assets/cli.png" />
-              <CardDetail>
-                <h4>Amplify CLI</h4>
-                <p>Configure an app backend with a guided CLI workflow.</p>
-              </CardDetail>
-            </Card>
-            <Card
-              href="https://docs.aws.amazon.com/amplify/latest/userguide/getting-started.html"
-              external
-            >
-              <CardGraphic alt="" src="/assets/console.png" />
-              <CardDetail>
-                <h4>Amplify Hosting</h4>
-                <p>Fully managed web hosting with fullstack CI/CD.</p>
-              </CardDetail>
-            </Card>
-          </Grid>
-        </div>
-      </Container>
-
-      <FeaturesGrid />
-      <LinkBanner />
+      This is a home page specific layout.
+      <Flex>
+        <TestNav />
+        <View>{page}</View>
+      </Flex>
       <Footer />
     </>
   );
 };
-
-export default Page;

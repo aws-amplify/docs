@@ -1,0 +1,25 @@
+import { getCustomStaticPath } from '@/utils/getCustomStaticPath';
+
+export const meta = {
+  title: `Next Steps`,
+  description: `Next Steps`,
+  platforms: ['android', 'javascript']
+};
+
+export const getStaticPaths = async () => {
+  return getCustomStaticPath(meta.platforms);
+};
+
+export function getStaticProps(context) {
+  return {
+    props: {
+      platform: context.params.platform,
+      meta
+    }
+  };
+}
+
+# Next Steps
+
+This page is just here for testing purposes.
+
