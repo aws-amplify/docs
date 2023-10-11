@@ -32,7 +32,7 @@ export default function FeaturesGrid() {
                 GraphQL API{' '}
                 <sup
                   style={{
-                    background: 'green',
+                    background: 'var(--color-orange-hv)',
                     padding: '4px 6px',
                     color: 'white',
                     borderRadius: 16
