@@ -19,6 +19,7 @@ import {
   SOCIAL_LINKS
 } from '../utils/globalnav';
 import React from 'react';
+import WhatsNewBanner from '../components/WhatsNewBanner';
 
 const meta = {
   title: 'Amplify Docs',
@@ -83,6 +84,10 @@ const Page = () => {
         currentSite={'Docs'}
       />
       {isMounted ? <SecondaryNav /> : <></>}
+      <WhatsNewBanner
+        href="https://aws.amazon.com/blogs/mobile/announcing-aws-amplifys-graphql-api-cdk-construct-deploy-real-time-graphql-api-and-data-stack-on-aws/"
+        content="Amplify GraphQL API now available as CDK construct"
+      />
       <Hero>
         <h1 className="font-weight-300">Amplify Documentation</h1>
         <p>
