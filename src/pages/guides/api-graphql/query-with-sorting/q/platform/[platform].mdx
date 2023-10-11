@@ -2,12 +2,12 @@ export const meta = {
   title: `GraphQL query with sorting by date`,
   description: `How to implement sorting in a GraphQL query`,
   filterKey: "platform",
-  supportedPlatforms: PLATFORM_FILTER_OPTIONS
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
       
 import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
 
-import { PLATFORM_FILTER_OPTIONS } from "@/utils/filter-data.ts";
+import { INTEGRATION_FILTER_OPTIONS } from "@/utils/filter-data.ts";
 
 export const getStaticPaths = () => {
     return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);

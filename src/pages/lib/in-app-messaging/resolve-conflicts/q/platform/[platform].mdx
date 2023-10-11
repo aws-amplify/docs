@@ -1,25 +1,25 @@
 export const meta = {
   title: `Resolving conflicts`,
   description: `Learn how to resolve conflicts when an event is sent and meets the criteria set forth by multiple in-app messages.`,
-  filterKey: "platform",
-  supportedPlatforms: PLATFORM_FILTER_OPTIONS
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
-      
-import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
 
-import { PLATFORM_FILTER_OPTIONS } from "@/utils/filter-data.ts";
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
 
 export const getStaticPaths = () => {
-    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
 };
 
 export const getStaticProps = (context) => {
-    return {
-        props: {
-            platform: context.params.platform,
-            filterKind: meta.filterKey
-        }
-    };
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
 };
 
 import reactnative0 from '/src/fragments/lib/in-app-messaging/resolve-conflicts/resolve-conflicts.mdx';
@@ -28,4 +28,4 @@ import reactnative0 from '/src/fragments/lib/in-app-messaging/resolve-conflicts/
 
 import js0 from '/src/fragments/lib/in-app-messaging/resolve-conflicts/resolve-conflicts.mdx';
 
-<Fragments fragments={{ js : js0 }} />
+<Fragments fragments={{ js: js0 }} />

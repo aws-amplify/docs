@@ -1,25 +1,25 @@
 export const meta = {
   title: `Advanced Workflows`,
   description: `Learn more about advanced workflows in Amplify's API category`,
-  filterKey: "platform",
-  supportedPlatforms: PLATFORM_FILTER_OPTIONS
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
-      
-import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
 
-import { PLATFORM_FILTER_OPTIONS } from "@/utils/filter-data.ts";
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
 
 export const getStaticPaths = () => {
-    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
 };
 
 export const getStaticProps = (context) => {
-    return {
-        props: {
-            platform: context.params.platform,
-            filterKind: meta.filterKey
-        }
-    };
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
 };
 
 import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';

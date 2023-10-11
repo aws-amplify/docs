@@ -1,43 +1,43 @@
 export const meta = {
   title: `Remember a device`,
   description: `You can use the device related features of Amazon Cognito UserPools by enabling the Devices features. Go to your Cognito UserPool, click on Devices in Left Navigation Menu and chose one of User Opt In or Always.`,
-  filterKey: "platform",
-  supportedPlatforms: PLATFORM_FILTER_OPTIONS
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
-      
-import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
 
-import { PLATFORM_FILTER_OPTIONS } from "@/utils/filter-data.ts";
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
 
 export const getStaticPaths = () => {
-    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
 };
 
 export const getStaticProps = (context) => {
-    return {
-        props: {
-            platform: context.params.platform,
-            filterKind: meta.filterKey
-        }
-    };
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
 };
 
-import js0 from "/src/fragments/lib/auth/common/device_features/common.mdx";
+import js0 from '/src/fragments/lib/auth/common/device_features/common.mdx';
 
-<Fragments fragments={{js: js0}} />
+<Fragments fragments={{ js: js0 }} />
 
-import reactnative0 from "/src/fragments/lib/auth/common/device_features/common.mdx";
+import reactnative0 from '/src/fragments/lib/auth/common/device_features/common.mdx';
 
-<Fragments fragments={{'react-native': reactnative0}} />
+<Fragments fragments={{ 'react-native': reactnative0 }} />
 
-import ios1 from "/src/fragments/lib/auth/common/device_features/common.mdx";
+import ios1 from '/src/fragments/lib/auth/common/device_features/common.mdx';
 
-<Fragments fragments={{ios: ios1}} />
+<Fragments fragments={{ ios: ios1 }} />
 
-import android2 from "/src/fragments/lib/auth/common/device_features/common.mdx";
+import android2 from '/src/fragments/lib/auth/common/device_features/common.mdx';
 
-<Fragments fragments={{android: android2}} />
+<Fragments fragments={{ android: android2 }} />
 
-import flutter3 from "/src/fragments/lib/auth/common/device_features/common.mdx";
+import flutter3 from '/src/fragments/lib/auth/common/device_features/common.mdx';
 
-<Fragments fragments={{flutter: flutter3}} />
+<Fragments fragments={{ flutter: flutter3 }} />

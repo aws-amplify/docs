@@ -2,12 +2,12 @@ export const meta = {
   title: `Password & user management`,
   description: `Learn more about how to handle common password and user management scenarios. E.g. password reset, account recovery etc.`,
   filterKey: "platform",
-  supportedPlatforms: PLATFORM_FILTER_OPTIONS
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
       
 import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
 
-import { PLATFORM_FILTER_OPTIONS } from "@/utils/filter-data.ts";
+import { INTEGRATION_FILTER_OPTIONS } from "@/utils/filter-data.ts";
 
 export const getStaticPaths = () => {
     return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);

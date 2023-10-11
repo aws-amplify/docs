@@ -1,35 +1,35 @@
 export const meta = {
   title: `GraphQL - Realtime and Offline`,
   description: `AWS AppSync helps you build data-driven apps with real-time and offline capabilities. The AppSync Android SDK enables you to integrate your app with the AWS AppSync service and is based off of the Apollo project found here.  `,
-  filterKey: "platform",
-  supportedPlatforms: PLATFORM_FILTER_OPTIONS
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
-      
-import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
 
-import { PLATFORM_FILTER_OPTIONS } from "@/utils/filter-data.ts";
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
 
 export const getStaticPaths = () => {
-    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
 };
 
 export const getStaticProps = (context) => {
-    return {
-        props: {
-            platform: context.params.platform,
-            filterKind: meta.filterKey
-        }
-    };
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
 };
 
-import all0 from "/src/fragments/sdk/library-callout.mdx";
+import all0 from '/src/fragments/sdk/library-callout.mdx';
 
-<Fragments fragments={{all: all0}} />
+<Fragments fragments={{ all: all0 }} />
 
-import ios1 from "/src/fragments/sdk/api/ios/graphql.mdx";
+import ios1 from '/src/fragments/sdk/api/ios/graphql.mdx';
 
-<Fragments fragments={{ios: ios1}} />
+<Fragments fragments={{ ios: ios1 }} />
 
-import android2 from "/src/fragments/sdk/api/android/graphql.mdx";
+import android2 from '/src/fragments/sdk/api/android/graphql.mdx';
 
-<Fragments fragments={{android: android2}} />
+<Fragments fragments={{ android: android2 }} />

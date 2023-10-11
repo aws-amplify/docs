@@ -1,35 +1,35 @@
 export const meta = {
   title: `REST API`,
   description: `The API category will perform SDK code generation which, when used with the AWSMobileClient can be used for creating signed requests for Amazon API Gateway when the service Authorization is set to AWS_IAM or when using a Cognito User Pools Authorizer.`,
-  filterKey: "platform",
-  supportedPlatforms: PLATFORM_FILTER_OPTIONS
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
-      
-import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
 
-import { PLATFORM_FILTER_OPTIONS } from "@/utils/filter-data.ts";
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
 
 export const getStaticPaths = () => {
-    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
 };
 
 export const getStaticProps = (context) => {
-    return {
-        props: {
-            platform: context.params.platform,
-            filterKind: meta.filterKey
-        }
-    };
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
 };
 
-import all0 from "/src/fragments/sdk/library-callout.mdx";
+import all0 from '/src/fragments/sdk/library-callout.mdx';
 
-<Fragments fragments={{all: all0}} />
+<Fragments fragments={{ all: all0 }} />
 
-import ios1 from "/src/fragments/sdk/api/ios/rest.mdx";
+import ios1 from '/src/fragments/sdk/api/ios/rest.mdx';
 
-<Fragments fragments={{ios: ios1}} />
+<Fragments fragments={{ ios: ios1 }} />
 
-import android2 from "/src/fragments/sdk/api/android/rest.mdx";
+import android2 from '/src/fragments/sdk/api/android/rest.mdx';
 
-<Fragments fragments={{android: android2}} />
+<Fragments fragments={{ android: android2 }} />

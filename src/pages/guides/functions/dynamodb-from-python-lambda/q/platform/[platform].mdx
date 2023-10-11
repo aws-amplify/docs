@@ -1,25 +1,25 @@
 export const meta = {
   title: `Calling DynamoDB from a Lambda function in Python`,
   description: `How to interact with a DynamoDB database from a Lambda function in Python`,
-  filterKey: "platform",
-  supportedPlatforms: PLATFORM_FILTER_OPTIONS
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
-      
-import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
 
-import { PLATFORM_FILTER_OPTIONS } from "@/utils/filter-data.ts";
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
 
 export const getStaticPaths = () => {
-    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
 };
 
 export const getStaticProps = (context) => {
-    return {
-        props: {
-            platform: context.params.platform,
-            filterKind: meta.filterKey
-        }
-    };
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
 };
 
 The easiest way to interact with DynamoDB from Lambda in a Python environment is to use the [boto3 DynamoDB client](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/dynamodb.html). In this guide you will learn how to interact with a DynamoDB database from a Lambda function using the Python runtime.
@@ -33,6 +33,7 @@ $ cd amplify/backend/function/your-function-name
 $ pipenv shell
 $ pipenv install boto3
 ```
+
 ### Creating an item in DynamoDB from Lambda
 
 To create an item in DynamoDB you can use the `put` method:
@@ -66,7 +67,7 @@ def handler(event, context):
         'Access-Control-Allow-Origin': '*'
       },
   }
-  
+
   return response
 ```
 
@@ -98,7 +99,7 @@ def handler(event, context):
         'Access-Control-Allow-Origin': '*'
       },
   }
-  
+
   return response
 ```
 
@@ -125,7 +126,7 @@ def handler(event, context):
         'Access-Control-Allow-Origin': '*'
       },
   }
-  
+
   return response
 ```
 
@@ -162,6 +163,6 @@ def handler(event, context):
         'Access-Control-Allow-Origin': '*'
       },
   }
-  
+
   return response
 ```

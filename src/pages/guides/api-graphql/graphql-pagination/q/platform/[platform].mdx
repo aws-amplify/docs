@@ -1,36 +1,36 @@
 export const meta = {
   title: `GraphQL pagination`,
   description: `How to implement pagination with GraphQL `,
-  filterKey: "platform",
-  supportedPlatforms: PLATFORM_FILTER_OPTIONS
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
-      
-import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
 
-import { PLATFORM_FILTER_OPTIONS } from "@/utils/filter-data.ts";
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
 
 export const getStaticPaths = () => {
-    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
 };
 
 export const getStaticProps = (context) => {
-    return {
-        props: {
-            platform: context.params.platform,
-            filterKind: meta.filterKey
-        }
-    };
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
 };
 
 In this guide you will learn how to implement pagination in your GraphQL API.
 
-When working with a large record set, you may want to only fetch the first __N__ number of items. For example, let's start with a basic GraphQL schema for a Todo app:
+When working with a large record set, you may want to only fetch the first **N** number of items. For example, let's start with a basic GraphQL schema for a Todo app:
 
 ```graphql
 type Todo @model {
   id: ID!
   title: String!
-  description: String 
+  description: String
 }
 ```
 
@@ -39,7 +39,11 @@ When the API is created with an `@model` directive, the following queries will a
 ```graphql
 type Query {
   getTodo(id: ID!): Todo
-  listTodos(filter: ModelTodoFilterInput, limit: Int, nextToken: String): ModelTodoConnection
+  listTodos(
+    filter: ModelTodoFilterInput
+    limit: Int
+    nextToken: String
+  ): ModelTodoConnection
 }
 ```
 
@@ -86,7 +90,7 @@ query listTodos {
 }
 ```
 
- Now, to query the next 2 items from the API, you can pass this `nextToken` as the argument:
+Now, to query the next 2 items from the API, you can pass this `nextToken` as the argument:
 
 ```graphql
 query listTodos {
@@ -103,6 +107,6 @@ query listTodos {
 
 When there are no other items left to be returned, the `nextToken` in the response will be set to null.
 
-import js0 from "/src/fragments/guides/api-graphql/js/graphql-pagination.mdx";
+import js0 from '/src/fragments/guides/api-graphql/js/graphql-pagination.mdx';
 
-<Fragments fragments={{js: js0}} /> 
+<Fragments fragments={{ js: js0 }} />

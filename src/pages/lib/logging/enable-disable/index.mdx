@@ -1,13 +1,12 @@
-
 import ChooseFilterPage from '@/components/ChooseFilterPage';
 
-import { PLATFORM_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
 
 <ChooseFilterPage
-    directoryPath="/ChooseFilterPage"
-    address="/lib/logging/enable-disable"
-    filterKind="platform"
-    filters={['ios','android']}
-    currentFilter="all"
-    message={'Choose a platform:'}
+  directoryPath="/ChooseFilterPage"
+  address="/lib/logging/enable-disable"
+  filterKind="platform"
+  filters={['ios', 'android']}
+  currentFilter="all"
+  message={'Choose a platform:'}
 />

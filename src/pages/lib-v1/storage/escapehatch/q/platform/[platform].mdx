@@ -1,39 +1,39 @@
 export const meta = {
   title: `Escape hatch`,
   description: `For specialized use cases where Amplify does not provide the functionality, you can use the escape hatch to access an AWSS3 low-level client instance. The returned AWSS3 instance is already configured with your access credentials.`,
-  filterKey: "platform",
-  supportedPlatforms: PLATFORM_FILTER_OPTIONS
+  filterKey: 'platform',
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
 };
-      
-import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
 
-import { PLATFORM_FILTER_OPTIONS } from "@/utils/filter-data.ts";
+import { generateStaticPaths } from '@/utils/generateStaticPaths.tsx';
+
+import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
 
 export const getStaticPaths = () => {
-    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+  return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
 };
 
 export const getStaticProps = (context) => {
-    return {
-        props: {
-            platform: context.params.platform,
-            filterKind: meta.filterKey
-        }
-    };
+  return {
+    props: {
+      platform: context.params.platform,
+      filterKind: meta.filterKey
+    }
+  };
 };
 
 import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
 
 <Fragments fragments={{ ios: ios_maintenance }} />
 
-import ios0 from "/src/fragments/lib-v1/storage/ios/escapehatch.mdx";
+import ios0 from '/src/fragments/lib-v1/storage/ios/escapehatch.mdx';
 
-<Fragments fragments={{ios: ios0}} />
+<Fragments fragments={{ ios: ios0 }} />
 
 import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
 
 <Fragments fragments={{ android: android_maintenance }} />
 
-import android1 from "/src/fragments/lib-v1/storage/android/escapehatch.mdx";
+import android1 from '/src/fragments/lib-v1/storage/android/escapehatch.mdx';
 
-<Fragments fragments={{android: android1}} />
+<Fragments fragments={{ android: android1 }} />
