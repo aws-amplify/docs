@@ -7,6 +7,11 @@
   }
 
   .category-container {
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
     .heading {
       display: flex;
       justify-content: space-between;
@@ -33,6 +38,10 @@
 
     .subcategory {
       font-size: 14px;
+    }
+
+    .current {
+      color: #21afa6;
     }
   }
 }
