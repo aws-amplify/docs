@@ -2,6 +2,17 @@ import * as React from 'react';
 import { render, screen } from '@testing-library/react';
 import FeaturesGrid from '../index';
 
+jest.mock('next/router', () => ({
+  useRouter() {
+    return {
+      route: '/',
+      pathname: '',
+      query: '',
+      asPath: ''
+    };
+  }
+}));
+
 describe('FeaturesGrid', () => {
   const featureSections = [
     'Authentication',

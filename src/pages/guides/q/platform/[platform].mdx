@@ -2,7 +2,25 @@ export const meta = {
   title: `Guides`,
   description: `The Amplify Command Line Interface (CLI) is a unified toolchain to create, integrate, and manage the AWS cloud services for your app. The CLI is category-based with best practices built in. `,
   disableTOC: `true`,
-  filterKey: `platform`,
+  filterKey: "platform",
+  supportedPlatforms: PLATFORM_FILTER_OPTIONS
+};
+      
+import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
+
+import { PLATFORM_FILTER_OPTIONS } from "@/utils/filter-data.ts";
+
+export const getStaticPaths = () => {
+    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+    return {
+        props: {
+            platform: context.params.platform,
+            filterKind: meta.filterKey
+        }
+    };
 };
 
 Amplify guides are meant to give you a more in-depth understanding of how to use the Amplify CLI, libraries, and hosting to build out common functionality, end-to-end solutions, and frequently asked for workflows.

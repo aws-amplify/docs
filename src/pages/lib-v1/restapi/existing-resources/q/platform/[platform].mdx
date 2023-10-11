@@ -1,6 +1,25 @@
 export const meta = {
   title: `Use existing AWS resources`,
-  description: `Configure the Amplify Libraries to use existing Amazon API Gateway resources by referencing them in your configuration.`
+  description: `Configure the Amplify Libraries to use existing Amazon API Gateway resources by referencing them in your configuration.`,
+  filterKey: "platform",
+  supportedPlatforms: PLATFORM_FILTER_OPTIONS
+};
+      
+import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
+
+import { PLATFORM_FILTER_OPTIONS } from "@/utils/filter-data.ts";
+
+export const getStaticPaths = () => {
+    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+    return {
+        props: {
+            platform: context.params.platform,
+            filterKind: meta.filterKey
+        }
+    };
 };
 
 import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';

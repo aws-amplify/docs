@@ -2,6 +2,25 @@ export const meta = {
   title: "Typical workflows",
   description:
     "How to initialize a new Amplify project and other typical Amplify CLI workflows & commands.",
+  filterKey: "integration",
+  supportedPlatforms: INTEGRATION_FILTER_OPTIONS
+};
+      
+import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
+
+import { INTEGRATION_FILTER_OPTIONS } from "@/utils/filter-data.ts";
+
+export const getStaticPaths = () => {
+    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+    return {
+        props: {
+            integration: context.params.integration,
+            filterKind: meta.filterKey
+        }
+    };
 };
 
 ## Initialize new project

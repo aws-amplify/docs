@@ -1,6 +1,25 @@
 export const meta = {
   title: `Listening to Logging Events`,
-  description: `Listening to Hub Events for Logging`
+  description: `Listening to Hub Events for Logging`,
+  filterKey: "platform",
+  supportedPlatforms: PLATFORM_FILTER_OPTIONS
+};
+      
+import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
+
+import { PLATFORM_FILTER_OPTIONS } from "@/utils/filter-data.ts";
+
+export const getStaticPaths = () => {
+    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+    return {
+        props: {
+            platform: context.params.platform,
+            filterKind: meta.filterKey
+        }
+    };
 };
 
 import commonRoute from '/src/fragments/lib/logging/common/hub_events/hub_events.mdx';

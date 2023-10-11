@@ -1,6 +1,25 @@
 export const meta = {
   title: `Overview`,
-  description: `The Predictions category enables you to integrate machine learning in your application without any prior machine learning experience. The Predictions category comes with built-in support for both online and offline use cases.`
+  description: `The Predictions category enables you to integrate machine learning in your application without any prior machine learning experience. The Predictions category comes with built-in support for both online and offline use cases.`,
+  filterKey: "platform",
+  supportedPlatforms: PLATFORM_FILTER_OPTIONS
+};
+      
+import { generateStaticPaths } from "@/utils/generateStaticPaths.tsx";
+
+import { PLATFORM_FILTER_OPTIONS } from "@/utils/filter-data.ts";
+
+export const getStaticPaths = () => {
+    return generateStaticPaths(meta.filterKey, meta.supportedPlatforms);
+};
+
+export const getStaticProps = (context) => {
+    return {
+        props: {
+            platform: context.params.platform,
+            filterKind: meta.filterKey
+        }
+    };
 };
 
 import js0 from '/src/fragments/lib/predictions/js/intro.mdx';
