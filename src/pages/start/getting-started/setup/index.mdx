@@ -1,0 +1,13 @@
+
+import ChooseFilterPage from '@/components/ChooseFilterPage';
+
+import { PLATFORM_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+<ChooseFilterPage
+    directoryPath="/ChooseFilterPage"
+    address="/start/getting-started/setup"
+    filterKind="integration"
+    filters={['js','react','react-native','angular','vue','next','android','ios','flutter']}
+    currentFilter="all"
+    message={'Choose an integration:'}
+/>

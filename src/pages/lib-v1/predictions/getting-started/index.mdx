@@ -1,0 +1,13 @@
+
+import ChooseFilterPage from '@/components/ChooseFilterPage';
+
+import { PLATFORM_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+<ChooseFilterPage
+    directoryPath="/ChooseFilterPage"
+    address="/lib-v1/predictions/getting-started"
+    filterKind="platform"
+    filters={['android','ios']}
+    currentFilter="all"
+    message={'Choose a platform:'}
+/>

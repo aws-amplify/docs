@@ -1,0 +1,13 @@
+
+import ChooseFilterPage from '@/components/ChooseFilterPage';
+
+import { PLATFORM_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+<ChooseFilterPage
+    directoryPath="/ChooseFilterPage"
+    address="/lib/pubsub/getting-started"
+    filterKind="platform"
+    filters={['js','react-native']}
+    currentFilter="all"
+    message={'Choose a platform:'}
+/>

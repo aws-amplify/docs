@@ -1,0 +1,13 @@
+
+import ChooseFilterPage from '@/components/ChooseFilterPage';
+
+import { PLATFORM_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+<ChooseFilterPage
+    directoryPath="/ChooseFilterPage"
+    address="/lib/auth/getting-started"
+    filterKind="platform"
+    filters={['android','flutter','ios','js','react-native']}
+    currentFilter="all"
+    message={'Choose a platform:'}
+/>

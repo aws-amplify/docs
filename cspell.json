@@ -1520,7 +1520,8 @@
     "cloudwatchlogs",
     "userids",
     "xmark",
-    "refreshable"
+    "refreshable",
+    "querytransfers"
   ],
   "flagWords": ["hte", "full-stack", "Full-stack", "Full-Stack", "sudo"],
   "patterns": [

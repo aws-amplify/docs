@@ -1,0 +1,13 @@
+
+import ChooseFilterPage from '@/components/ChooseFilterPage';
+
+import { PLATFORM_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+<ChooseFilterPage
+    directoryPath="/ChooseFilterPage"
+    address="/lib/graphqlapi/working-with-files"
+    filterKind="platform"
+    filters={['js','ios']}
+    currentFilter="all"
+    message={'Choose a platform:'}
+/>

@@ -1,0 +1,13 @@
+
+import ChooseFilterPage from '@/components/ChooseFilterPage';
+
+import { PLATFORM_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+
+<ChooseFilterPage
+    directoryPath="/ChooseFilterPage"
+    address="/lib-v1/graphqlapi/concepts"
+    filterKind="platform"
+    filters={['android','ios','flutter']}
+    currentFilter="all"
+    message={'Choose a platform:'}
+/>
