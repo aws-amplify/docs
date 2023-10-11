@@ -10,7 +10,7 @@ export function Menu(): ReactElement {
   return (
     <nav className={styles['menu']}>
       <View marginBottom="16px">
-        <Text>How Amplify works</Text>
+        <Text fontWeight="700">How Amplify works</Text>
       </View>
       <ul>
         {platformOverviewPage.children &&
@@ -42,7 +42,7 @@ function generateListItem(pageNode, level): ReactElement {
     >
       <a
         className={`${styles['heading']} ${
-          level === CATEGORY_LEVEL ? styles['category'] : ''
+          level === CATEGORY_LEVEL ? styles['category'] : styles['subcategory']
         }`}
         onClick={level > CATEGORY_LEVEL ? toggleDrawer : undefined}
       >
