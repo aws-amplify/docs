@@ -87,7 +87,7 @@ export const Layout = forwardRef(function Layout(
         <GlobalNav
           leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
           rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
-          currentSite=""
+          currentSite="Docs"
         />
         <View className={`layout-search layout-search--${pageType}`}>
           <Flex className="search-menu-bar">

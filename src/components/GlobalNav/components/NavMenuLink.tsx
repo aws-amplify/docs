@@ -26,7 +26,14 @@ export function NavMenuLink({
 
   if (navMenuItem.type === 'DEFAULT') {
     return (
-      <Link className={`${styles['nav-menu-item']}`} href={navMenuItem.url}>
+      <Link
+        className={`${styles['nav-menu-item']} ${
+          navMenuItem.label === currentMenuItem
+            ? styles['current-nav-menu-item']
+            : ''
+        }`}
+        href={navMenuItem.url}
+      >
         {label}
       </Link>
     );

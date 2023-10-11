@@ -24,7 +24,7 @@ export function AmplifyNavLink({ currentSite, isCollapsed, setIsCollapsed }) {
       </Flex>
 
       <Flex
-        className={styles['mobile-only']}
+        className={`${styles['mobile-only']} ${styles['mobile-current-link']}`}
         gap="xs"
         alignItems="center"
         direction="row"
@@ -46,8 +46,8 @@ export function AmplifyNavLink({ currentSite, isCollapsed, setIsCollapsed }) {
       <Button
         aria-expanded={!isCollapsed}
         aria-controls="mobile-nav-links"
-        border="none"
-        backgroundColor="transparent"
+        variation="link"
+        size="large"
         className={`${styles['mobile-only']} ${styles['nav-expander']}`}
         onClick={() => {
           setIsCollapsed(!isCollapsed);
