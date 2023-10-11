@@ -25,8 +25,14 @@
         transform: rotate(90deg);
       }
     }
+
     .category {
       font-weight: 700;
+      font-size: 16px;
+    }
+
+    .subcategory {
+      font-size: 14px;
     }
   }
 }
