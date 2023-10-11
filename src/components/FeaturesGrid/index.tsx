@@ -25,6 +25,28 @@ export default function FeaturesGrid() {
               </p>
             </CardDetail>
           </Card>
+          <Card href="/cli/graphql/overview/" className="border-radius">
+            <CardGraphic alt="" src="/assets/features/api.svg" />
+            <CardDetail>
+              <h4>
+                GraphQL API{' '}
+                <sup
+                  style={{
+                    background: 'green',
+                    padding: '4px 6px',
+                    color: 'white',
+                    borderRadius: 16
+                  }}
+                >
+                  Supports AWS CDK
+                </sup>
+              </h4>
+              <p>
+                Easy and secure solution to access your backend data with
+                support for real-time updates using GraphQL
+              </p>
+            </CardDetail>
+          </Card>
           <Card href="/lib/storage/getting-started" className="border-radius">
             <CardGraphic alt="" src="/assets/features/storage.svg" />
             <CardDetail>
@@ -32,19 +54,6 @@ export default function FeaturesGrid() {
               <p>
                 A simple mechanism for managing user content in public,
                 protected or private storage
-              </p>
-            </CardDetail>
-          </Card>
-          <Card
-            href="/lib/graphqlapi/getting-started"
-            className="border-radius"
-          >
-            <CardGraphic alt="" src="/assets/features/api.svg" />
-            <CardDetail>
-              <h4>GraphQL API</h4>
-              <p>
-                Easy and secure solution to access your backend data with
-                support for real-time updates using GraphQL
               </p>
             </CardDetail>
           </Card>
