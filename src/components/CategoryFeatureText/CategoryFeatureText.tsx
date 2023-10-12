@@ -10,7 +10,11 @@ interface CategoryFeatureTextProps {
 const CategoryFeatureText: React.FC<CategoryFeatureTextProps> = ({
   children
 }) => {
-  return <View marginTop="-0.75rem">{children}</View>;
+  return (
+    <View marginTop="-0.75rem" as="li">
+      {children}
+    </View>
+  );
 };
 
 export default CategoryFeatureText;

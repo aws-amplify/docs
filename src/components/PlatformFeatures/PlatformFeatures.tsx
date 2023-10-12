@@ -19,7 +19,10 @@ const PlatformFeatures: React.FC<PlatformFeaturesProps> = ({
       gap="small"
     >
       <View columnSpan={2}>
-        <Heading level={2}>{`Features for ${platform}`}</Heading>
+        <Heading
+          level={2}
+          fontWeight={'bold'}
+        >{`Features for ${platform}`}</Heading>
       </View>
       {children}
     </Grid>

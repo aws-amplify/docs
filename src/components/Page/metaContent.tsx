@@ -10,6 +10,10 @@ import Feedback from '../Feedback';
 import LastUpdatedDatesProvider from '../LastUpdatedProvider';
 import LinkCardCollection from '../LinkCardCollection';
 import LinkCard from '../LinkCard';
+import PlatformFeatures from '../PlatformFeatures';
+import CategoryFeature from '../CategoryFeature';
+import CategoryFeatureLink from '../CategoryFeatureLink';
+import CategoryFeatureText from '../CategoryFeatureText';
 
 export default function MetaContent({
   title,
@@ -84,6 +88,148 @@ export default function MetaContent({
                 {'CardData.name'}
               </LinkCard>
             </LinkCardCollection>
+            <PlatformFeatures platform="Javascript">
+              <CategoryFeature category="Auth">
+                <CategoryFeatureLink
+                  isExternal={true}
+                  href="https://docs.amplify.aws/"
+                >
+                  {'Enable Signup sign-in, and sign-out'}
+                </CategoryFeatureLink>
+                <CategoryFeatureText>
+                  {
+                    'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
+                  }
+                </CategoryFeatureText>
+                <CategoryFeatureLink
+                  isExternal={true}
+                  href="https://docs.amplify.aws/"
+                >
+                  {'MFA'}
+                </CategoryFeatureLink>
+                <CategoryFeatureText>
+                  {
+                    'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
+                  }
+                </CategoryFeatureText>
+                <CategoryFeatureLink
+                  isExternal={true}
+                  href="https://docs.amplify.aws/"
+                >
+                  {'Other'}
+                </CategoryFeatureLink>
+                <CategoryFeatureText>
+                  {
+                    'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
+                  }
+                </CategoryFeatureText>
+              </CategoryFeature>
+              <CategoryFeature category="Data">
+                <CategoryFeatureLink
+                  isExternal={true}
+                  href="https://docs.amplify.aws/"
+                >
+                  {'Set up your data stack'}
+                </CategoryFeatureLink>
+                <CategoryFeatureText>
+                  {
+                    'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
+                  }
+                </CategoryFeatureText>
+                <CategoryFeatureLink
+                  isExternal={true}
+                  href="https://docs.amplify.aws/"
+                >
+                  {'MFA'}
+                </CategoryFeatureLink>
+                <CategoryFeatureText>
+                  {
+                    'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
+                  }
+                </CategoryFeatureText>
+                <CategoryFeatureLink
+                  isExternal={true}
+                  href="https://docs.amplify.aws/"
+                >
+                  {'Set up custom queries and mutations'}
+                </CategoryFeatureLink>
+                <CategoryFeatureText>
+                  {
+                    'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
+                  }
+                </CategoryFeatureText>
+              </CategoryFeature>
+              <CategoryFeature category="Storage">
+                <CategoryFeatureLink
+                  isExternal={true}
+                  href="https://docs.amplify.aws/"
+                >
+                  {'Sub JTBD name'}
+                </CategoryFeatureLink>
+                <CategoryFeatureText>
+                  {
+                    'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
+                  }
+                </CategoryFeatureText>
+                <CategoryFeatureLink
+                  isExternal={true}
+                  href="https://docs.amplify.aws/"
+                >
+                  {'Sub JTBD name'}
+                </CategoryFeatureLink>
+                <CategoryFeatureText>
+                  {
+                    'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
+                  }
+                </CategoryFeatureText>
+                <CategoryFeatureLink
+                  isExternal={true}
+                  href="https://docs.amplify.aws/"
+                >
+                  {'Sub JTBD name'}
+                </CategoryFeatureLink>
+                <CategoryFeatureText>
+                  {
+                    'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
+                  }
+                </CategoryFeatureText>
+              </CategoryFeature>
+              <CategoryFeature category="Functions">
+                <CategoryFeatureLink
+                  isExternal
+                  href="https://docs.amplify.aws/"
+                >
+                  {'Sub JTBD name'}
+                </CategoryFeatureLink>
+                <CategoryFeatureText>
+                  {
+                    'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
+                  }
+                </CategoryFeatureText>
+                <CategoryFeatureLink
+                  isExternal
+                  href="https://docs.amplify.aws/"
+                >
+                  {'Sub JTBD name'}
+                </CategoryFeatureLink>
+                <CategoryFeatureText>
+                  {
+                    'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
+                  }
+                </CategoryFeatureText>
+                <CategoryFeatureLink
+                  isExternal
+                  href="https://docs.amplify.aws/"
+                >
+                  {'Sub JTBD name'}
+                </CategoryFeatureLink>
+                <CategoryFeatureText>
+                  {
+                    'Lorem Ipsum is simply dummy text of the printing and typesetting industry.'
+                  }
+                </CategoryFeatureText>
+              </CategoryFeature>
+            </PlatformFeatures>
             <ChapterTitleStyle>{chapterTitle}</ChapterTitleStyle>
             <div>
               <h1>{title}</h1>
@@ -95,6 +241,7 @@ export default function MetaContent({
             </CodeBlockProvider>
           </div>
         </ContentStyle>
+
         {/* Need to comment this to test without right navbar for new design */}
         {/* <TableOfContents
           title={title}
