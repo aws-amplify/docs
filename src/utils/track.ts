@@ -199,6 +199,7 @@ export const trackCopyClicks = (data) => {
   });
 };
 
+// Track the click on the "Whats new" banner component
 export const trackWhatsNewBanner = () => {
   const opt = {
     event: {
