@@ -44,7 +44,7 @@ You'll then add Amplify and initialize a new project.
 Run the following command and following the instructions to create a Next.js app.
 
 ```shellscript
-npx create-next-app@">=13.4.0 <14.0.0" next-amplified
+npx create-next-app@latest next-amplified
 ```
 
 Then run the following command to enter the root of your Next.js app.
@@ -73,8 +73,6 @@ npx -p @angular/cli ng new amplify-app
 
 cd amplify-app
 ```
-
-Angular 6+ does not include shims for 'global' or 'process'.
 
 <BlockSwitcher>
 
@@ -110,7 +108,7 @@ And finally, make sure to add `src/polyfills` to files in your `tsconfig.app.jso
 ```
 </Block>
 
-<Block name="Angular 6-14">
+<Block name="Angular 10-14">
 
 Add the following to your `src/polyfills.ts` file to recreate them: 
 
@@ -129,7 +127,7 @@ Add the following to your `src/polyfills.ts` file to recreate them:
 
 <Block name="ReactJS">
 
-To get started, first create a new React app, and then install and use the Amplify CLI to start adding backend capabilities to your app.
+To get started, first create a new React app using Vite, and then install and use the Amplify CLI to start adding backend capabilities to your app.
 
 From your projects directory, run the following commands and follow the prompts:
 
@@ -139,6 +137,13 @@ npm create vite@latest
 This creates a new React app in a new directory. Navigate to your new directory and run the app by using the following command:
 
 ```bash
+cd <your project directory>
+```
+
+Then, install your dependencies and run the development server by running the following command:
+
+```bash
+npm install
 npm run dev
 ```
 
