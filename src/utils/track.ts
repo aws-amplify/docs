@@ -198,3 +198,18 @@ export const trackCopyClicks = (data) => {
     );
   });
 };
+
+export const trackWhatsNewBanner = () => {
+  const opt = {
+    event: {
+      type: 'click',
+      name: 'WhatsNewBanner'
+    }
+  };
+
+  AWSMA.ready(() => {
+    document.dispatchEvent(
+      new CustomEvent(AWSMA.TRIGGER_EVENT, { detail: opt })
+    );
+  });
+};
