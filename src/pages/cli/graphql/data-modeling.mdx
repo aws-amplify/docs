@@ -434,11 +434,13 @@ const postComments = postWithComments.comments.items; // access comments from po
 
 ### Belongs To relationship
 
-Make a "has one" or "has many" relationship bi-directional with the `@belongsTo` directive.
+Make a "has one" or "has many" relationship bi-directional with the `@belongsTo` directive. 
 
 <BlockSwitcher>
 
 <Block name='Bi-directional "has one" relationship'>
+
+For 1:1 relationships, the @belongsTo directive solely facilitates the ability for you to query from both sides of the relationship. When updating a bi-directional hasOne relationship, you must update both sides of the relationship with corresponding IDs.
 
 ```graphql
 type Project @model {
