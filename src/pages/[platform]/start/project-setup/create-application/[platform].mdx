@@ -1,24 +1,65 @@
 export const meta = {
   title: `Create your application`,
-  description: `Project setup for Amplify prior to adding category-specific example.`
+  description: `Project setup for Amplify prior to adding category specific example.`
 };
 
-import ios0 from '/src/fragments/lib/project-setup/native_common/create-application/common.mdx';
+import ios_maintenance from '/src/fragments/lib-v1/ios-maintenance.mdx';
+
+<Fragments fragments={{ ios: ios_maintenance }} />
+
+import flutter_maintenance from '/src/fragments/lib-v1/flutter-maintenance.mdx';
+
+<Fragments fragments={{ flutter: flutter_maintenance }} />
+
+import ios0 from '/src/fragments/lib-v1/project-setup/native_common/create-application/common.mdx';
 
 <Fragments fragments={{ ios: ios0 }} />
 
-import android1 from '/src/fragments/lib/project-setup/native_common/create-application/common.mdx';
+import android_maintenance from '/src/fragments/lib-v1/android-maintenance.mdx';
+
+<Fragments fragments={{ android: android_maintenance }} />
+
+import android1 from '/src/fragments/lib-v1/project-setup/native_common/create-application/common.mdx';
 
 <Fragments fragments={{ android: android1 }} />
 
-import flutter2 from '/src/fragments/lib/project-setup/native_common/create-application/common.mdx';
+import flutter2 from '/src/fragments/lib-v1/project-setup/native_common/create-application/common.mdx';
 
 <Fragments fragments={{ flutter: flutter2 }} />
 
-import react_native2 from '/src/fragments/start/getting-started/reactnative/setup.mdx';
+<InlineFilter filters={['js']}>
 
-<Fragments fragments={{ 'react-native': react_native2 }} />
+import js0 from '/src/fragments/lib-v1/start/getting-started/angular/setup.mdx';
+import js2 from '/src/fragments/lib-v1/start/getting-started/react/setup.mdx';
+import js3 from '/src/fragments/lib-v1/start/getting-started/vue/setup.mdx';
+import js5 from '/src/fragments/lib-v1/start/getting-started/next/setup.mdx';
 
-import js0 from '/src/fragments/lib/project-setup/js/getting-started.mdx';
+<BlockSwitcher>
+
+<Block name="Next.js">
+
+<Fragments fragments={{ js: js5 }} />
+
+</Block>
+
+<Block name="Angular">
 
 <Fragments fragments={{ js: js0 }} />
+
+</Block>
+
+<Block name="ReactJS">
+
+<Fragments fragments={{ js: js2 }} />
+
+</Block>
+
+<Block name="VueJS">
+
+<Fragments fragments={{ js: js3 }} />
+
+</Block>
+
+</BlockSwitcher>
+
+</InlineFilter>
