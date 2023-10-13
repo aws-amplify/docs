@@ -3,8 +3,6 @@ export const meta = {
   description: `Learn more about how to enable customers to personalize their profile and verify their contact information with attributes.`,
 };
 
-[comment]: # (IMPORTANT - Password content will need to be updated and should be pushed at same time - recommend added to password_management page. source content from /src/fragments/lib/auth/js/manageusers.mdx ; /src/fragments/guides/authentication/js/managing-user-attributes.mdx)
-
 <InlineFilter filters={["js", "react-native"]}>
 
 User profile management helps you keep your applications secure while also personalizing your app experiences. In this guide we will review how you can enable your users to personalize their profile and verify their contact information. This includes outlining how you can set up user attributes, verify them, and allow your users to delete them when necessary.
@@ -51,7 +49,7 @@ You also have the ability to define custom attributes and up to 50 custom attrib
 
 ### Pass user attributes during sign-up
 
-You can create the user attributes on sign-up or after sign-up. To do this as part of sign-up you can pass them in the `attributes` object of `Auth.signUp` function parameters:
+You can create user attributes during or after sign-up. To do this as part of sign-up you can pass them in the `attributes` object of `Auth.signUp` function parameters:
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -119,19 +117,18 @@ const user = await Auth.currentAuthenticatedUser();
 const { attributes } = user;
 ```
 
-Note that if you need to retrieve the latest user attributes after they have been changed, you will need to bypass the local cache like so:
+Note that if you need to retrieve the latest user attributes after they are changed, you will need to bypass the local cache like so:
 
 ```ts
 const user = await Auth.currentAuthenticatedUser({
   bypassCache: true
 });
 ```
-The `bypassCache` parameter defaults to false, and the alternative to retrieve the latest user attributes is to have the user sign out and sign back in.
-
+The `bypassCache` parameter defaults to false. Alternatively, your users can sign out and sign back in to retrieve and view their latest attributes.
 
 ## Enable users to update, verify, and delete specific attributes
 
-You can enable customers to update, verify, and delete specific user attributes as their information changes over time. These attributes are enabled as writeable when you update the `Specify write attributes` in your `Auth` configuration.
+You can enable your users to update, verify, and delete specific user attributes as their information changes over time. These attributes are enabled as writeable when you update the `Specify write attributes` in your `Auth` configuration.
 
 ### Update user attributes
 
@@ -182,7 +179,7 @@ async function updateUserAttributes () {
 
 ### Verify user attributes
 
-If your user changes an attribute that requires confirmation (i.e. email or phone number), you will receive a confirmation code for that attribute. 
+If your user changes an attribute that requires confirmation (for example, email or phone number), you will receive a confirmation code for that attribute. 
 
 The `Auth.updateUserAttributes()` function dispatches a hub event to help identify attributes that require verification. You can listen to `updateUserAttributes` event on `auth` channel:
 
@@ -195,10 +192,19 @@ Hub.listen('auth', ({payload}) => {
   }
 });
 ```
+<InlineFilter filters={["js"]}>
 
-You can learn more about how to listen to Hub events [here](https://docs.amplify.aws/lib/utilities/hub/q/platform/js/).
+You can learn more about how to listen to Hub events [here](/lib/utilities/hub/q/platform/js/).
 
-For example below you can see the dispatched `resultObject` that shows that the `email` attribute was not updated because it requires verification but the `family_name` attribute was updated:
+</InlineFilter>
+
+<InlineFilter filters={["react-native"]}>
+
+You can learn more about how to listen to Hub events [here](/lib/utilities/hub/q/platform/react-native/).
+
+</InlineFilter>
+
+For example, below you can see the dispatched `resultObject` that shows that the `email` attribute was not updated because it requires verification but the `family_name` attribute was updated:
 
 ```javascript
 {
@@ -423,6 +429,8 @@ async function deleteUserAttributes() {
 };
 ```
 
+Your users can now update, verify, and delete specific user attributes as their information changes over time.
+
 ## Conclusion
 
 Congratulations! You finished the **Manage user profiles** guide and your users can now review and customize their profile information.
@@ -430,7 +438,19 @@ Congratulations! You finished the **Manage user profiles** guide and your users 
 ## Next steps
 
 Now that you completed setting up user profile management, you may also want to add some additional features. We recommend:
-  - [Set up password change and recovery](/lib/auth/password_management/q/platform/js/)
-  - [Custom Attributes](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-custom-attributes)
+
+<InlineFilter filters={["js"]}>
+
+- [Set up password change and recovery](/lib/auth/password_management/q/platform/js/)
+- [Custom Attributes](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-custom-attributes)
+
+</InlineFilter>
+
+<InlineFilter filters={["react-native"]}>
+
+- [Set up password change and recovery](/lib/auth/password_management/q/platform/react-native/)
+- [Custom Attributes](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-custom-attributes)
+
+</InlineFilter>
 
 </InlineFilter>
