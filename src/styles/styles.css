@@ -11,3 +11,4 @@
 [id*='lastupdated-'] {
   display: none;
 }
+@import './link-card-styles.css';
