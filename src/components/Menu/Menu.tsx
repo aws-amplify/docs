@@ -3,9 +3,13 @@ import { View, Text } from '@aws-amplify/ui-react';
 import { MenuItem } from './MenuItem';
 import { PageNode, directory } from './buildDirectory.mjs';
 import styles from './Menu.module.scss';
-import classNames from 'classnames';
+import { Platform } from '@/data/platforms';
 
-export function Menu(): ReactElement {
+type MenuProps = {
+  currentPlatform: Platform;
+};
+
+export function Menu({ currentPlatform }: MenuProps): ReactElement {
   const rootPage = directory;
   const platformOverviewPage = rootPage.children[0];
 
@@ -24,6 +28,7 @@ export function Menu(): ReactElement {
                 pageNode={child as PageNode}
                 parentSetOpen={null}
                 level={1}
+                currentPlatform={currentPlatform}
               />
             );
           })}

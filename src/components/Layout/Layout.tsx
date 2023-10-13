@@ -2,13 +2,15 @@ import { useState, forwardRef, useEffect } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Flex, View, Button, ThemeProvider } from '@aws-amplify/ui-react';
-
 import { defaultTheme } from '@/themes/defaultTheme';
 import { Footer } from '@/components/Footer/';
 import { GlobalNav, NavMenuItem } from '@/components/GlobalNav/GlobalNav';
-import { TestNav } from '@/components/TestNav';
-import { Flex, View, Button } from '@aws-amplify/ui-react';
-import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
+import {
+  DEFAULT_PLATFORM,
+  PLATFORMS,
+  PLATFORM_DISPLAY_NAMES,
+  Platform
+} from '@/data/platforms';
 import SearchBar from '@/components/SearchBar';
 import { IconMenu, IconDoubleChevron } from '@/components/Icons';
 import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
@@ -27,7 +29,7 @@ export const Layout = forwardRef(function Layout(
     children: any;
     pageTitle?: string;
     pageDescription?: string;
-    platform?: string;
+    platform?: Platform;
     url?: string;
     pageType?: 'home' | 'inner';
   },
@@ -43,6 +45,19 @@ export const Layout = forwardRef(function Layout(
   const basePath = 'docs.amplify.aws';
   const metaUrl = url ? url : basePath + router.asPath;
   if (!router.isReady) return <></>;
+
+  // [platform] will always be the very first subpath right?
+  // when using `router.asPath` it returns a string that starts with a '/'
+  // To get the "platform" the client was trying to visit, we have to get the string at index 1
+  // Doing this because when visiting a 404 page, there is no `router.query.platform`, so we have
+  // to check where the user was trying to visit from
+  const asPathPlatform = router.asPath.split('/')[1] as Platform;
+
+  const currentPlatform = platform
+    ? platform
+    : PLATFORMS.includes(asPathPlatform)
+    ? asPathPlatform
+    : DEFAULT_PLATFORM;
 
   const title = [
     pageTitle,
@@ -136,7 +151,7 @@ export const Layout = forwardRef(function Layout(
                 [ Platform switcher goes here]
               </div>
               <div className="layout-sidebar-menu">
-                <Menu />
+                <Menu currentPlatform={currentPlatform} />
               </div>
             </View>
           </View>
