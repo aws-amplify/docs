@@ -7,6 +7,7 @@ import { Flex, View, Button } from '@aws-amplify/ui-react';
 import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
 import SearchBar from '@/components/SearchBar';
 import { IconMenu, IconDoubleChevron } from '@/components/Icons';
+import { PlatformNavigator } from '@/components/PlatformNavigator';
 
 import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
 import { forwardRef, useEffect } from 'react';
@@ -124,7 +125,7 @@ export const Layout = forwardRef(function Layout(
                 <IconDoubleChevron aria-hidden="true" />
                 Menu
               </Button>
-              [ Platform switcher goes here]
+              <PlatformNavigator currentPlatform={"Javascript"}/>
             </div>
             <div className="layout-sidebar-menu">
               <Menu />

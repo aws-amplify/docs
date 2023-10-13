@@ -1,0 +1,6 @@
+.menu-chevron--open {
+    // rotate around the center
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: rotate(90deg);
+}

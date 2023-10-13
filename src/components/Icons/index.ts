@@ -4,6 +4,7 @@ export { IconDoubleChevron } from './IconDoubleChevron';
 export { IconGithub } from './IconGithub';
 export { IconTwitter } from './IconTwitter';
 export { IconMenu } from './IconMenu';
+export { MenuChevron } from './MenuChevron';
 
 export * from './ThumbsUp';
 export * from './ThumbsDown';
