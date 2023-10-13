@@ -1,0 +1,16 @@
+.home-intro {
+  flex-direction: column;
+  max-width: 460px;
+  gap: var(--amplify-space-xl);
+  &__heading {
+    font-family: var(--font-code);
+  }
+  &__text {
+    font-size: var(--amplify-font-sizes-large);
+  }
+}
+
+.home-content {
+  flex-direction: column;
+  gap: var(--amplify-space-xxxl);
+}

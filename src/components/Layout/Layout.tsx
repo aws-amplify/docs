@@ -1,16 +1,16 @@
-import { useState } from 'react';
+import { useState, forwardRef, useEffect } from 'react';
 import Head from 'next/head';
-import { Footer } from '@/components/Footer/';
 import { useRouter } from 'next/router';
+import { Flex, View, Button, ThemeProvider } from '@aws-amplify/ui-react';
+
+import { defaultTheme } from '@/themes/defaultTheme';
+import { Footer } from '@/components/Footer/';
 import { GlobalNav, NavMenuItem } from '@/components/GlobalNav/GlobalNav';
 import { TestNav } from '@/components/TestNav';
-import { Flex, View, Button } from '@aws-amplify/ui-react';
 import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
 import SearchBar from '@/components/SearchBar';
 import { IconMenu, IconDoubleChevron } from '@/components/Icons';
-
 import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
-import { forwardRef, useEffect } from 'react';
 import { trackPageVisit } from '../../utils/track';
 
 export const Layout = forwardRef(function Layout(
@@ -83,69 +83,70 @@ export const Layout = forwardRef(function Layout(
           key="twitter:image"
         />
       </Head>
-      <View className={`layout-wrapper layout-wrapper--${pageType}`}>
-        <GlobalNav
-          leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
-          rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
-          currentSite="Docs"
-        />
-        <View className={`layout-search layout-search--${pageType}`}>
-          <Flex className="search-menu-bar">
-            <Button
-              onClick={() => toggleMenuOpen(true)}
-              size="small"
-              className="search-menu-toggle mobile-toggle"
-            >
-              <IconMenu aria-hidden="true" />
-              Menu
-            </Button>
-            <View className="search-menu-bar__search">
-              <SearchBar />
-            </View>
-          </Flex>
-        </View>
-        <View
-          className={`layout-sidebar${
-            menuOpen ? ' layout-sidebar--expanded' : ''
-          }`}
-        >
-          <View
-            className="layout-sidebar__backdrop"
-            onClick={() => toggleMenuOpen(false)}
-          ></View>
-          <View className="layout-sidebar__inner">
-            <div className="layout-sidebar-platform">
+      <ThemeProvider theme={defaultTheme}>
+        <View className={`layout-wrapper layout-wrapper--${pageType}`}>
+          <GlobalNav
+            leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
+            rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
+            currentSite="Docs"
+          />
+          <View className={`layout-search layout-search--${pageType}`}>
+            <Flex className="search-menu-bar">
               <Button
+                onClick={() => toggleMenuOpen(true)}
                 size="small"
-                colorTheme="overlay"
-                className="mobile-toggle"
-                onClick={() => toggleMenuOpen(false)}
+                className="search-menu-toggle mobile-toggle"
               >
-                <IconDoubleChevron aria-hidden="true" />
+                <IconMenu aria-hidden="true" />
                 Menu
               </Button>
-              [ Platform switcher goes here]
-            </div>
-            <div className="layout-sidebar-menu">
-              <TestNav />
-            </div>
+              <View className="search-menu-bar__search">
+                <SearchBar />
+              </View>
+            </Flex>
           </View>
-          {/* <button
-            className="mobile-toggle-close"
-            onClick={() => toggleMenuOpen(false)}
+          <View
+            className={`layout-sidebar${
+              menuOpen ? ' layout-sidebar--expanded' : ''
+            }`}
           >
-            <IconDoubleChevron aria-hidden="true" />
-            Close menu
-          </button> */}
-        </View>
+            <View
+              className={`layout-sidebar__backdrop${
+                menuOpen ? ' layout-sidebar__backdrop--expanded' : ''
+              }`}
+              onClick={() => toggleMenuOpen(false)}
+            ></View>
+            <View
+              className={`layout-sidebar__inner${
+                menuOpen ? ' layout-sidebar__inner--expanded' : ''
+              }`}
+            >
+              <div className="layout-sidebar-platform">
+                <Button
+                  size="small"
+                  colorTheme="overlay"
+                  className="mobile-toggle"
+                  onClick={() => toggleMenuOpen(false)}
+                >
+                  <IconDoubleChevron aria-hidden="true" />
+                  Menu
+                </Button>
+                [ Platform switcher goes here]
+              </div>
+              <div className="layout-sidebar-menu">
+                <TestNav />
+              </div>
+            </View>
+          </View>
 
-        <View className="layout-main">
-          <Flex as="main" className="main">
-            {children}
-          </Flex>
-          <Footer />
+          <View className="layout-main">
+            <Flex as="main" className="main">
+              {children}
+            </Flex>
+            <Footer />
+          </View>
         </View>
-      </View>
+      </ThemeProvider>
     </>
   );
 });
