@@ -5,8 +5,6 @@ export const meta = {
 
 <InlineFilter filters={["js", "react-native"]}>
 
-[comment]: # (IMPORTANT - Password content moved from manageusers - should be pushed at same time. Also we noted to move "resend sign-up confirmation code" to this page from /src/fragments/lib/auth/js/emailpassword.mdx but reading it in context it may fit better after this section - lib/auth/emailpassword/q/platform/js/#confirm-sign-up. Source content below from /src/fragments/lib/auth/js/manageusers.mdx ; lib/auth/emailpassword/q/platform/js/)
-
 Amplify Auth provides a secure way for your users to change their password or recover a forgotten password. This securely reduces friction for your users and improves their experience accessing your application.
 
 Before you begin, you will need:
@@ -16,11 +14,11 @@ Before you begin, you will need:
 
 ## Allow my users to replace a forgotten password
 
-Your users may want to retrieve access to their account and replace a forgotten password. They can either perform self service and reset the password after verifying ownership of the account, or request an Admin to reset the password for their account.
+Your users may want to retrieve access to their account and replace a forgotten password. They can either perform self-service and reset the password after verifying ownership of the account, or request an Admin to reset the password for their account.
 
-### Change to a new password via Self Service
+### Change to a new password via self-service
 
-You can enable this by using the `forgotPassword` method. This will send a confirmation code to your user's email or phone number (depending on which attributes are verified in your Cognito user pool) and they can then enter that confirmation code with a new password using the `forgotPasswordSubmit` method. This will allow the user to reset their password and sign in with the new password.
+You can enable self-service by using the `forgotPassword` method. This will send a confirmation code to your user's email or phone number (depending on which attributes are verified in your Cognito user pool) and they can then enter that confirmation code with a new password using the `forgotPasswordSubmit` method. This will allow the user to reset their password and sign in with the new password.
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -79,11 +77,11 @@ async function forgotPasswordSubmit(username, code, newPassword) {
 
 ### Change to a new password after Admin reset
 
-In the case where the users account password needs to be reset by an Admin, a confirmation code will be sent to your user's email or phone number (depending on which attributes are verified in your Cognito user pool) as soon as the reset is triggered. They can then enter that confirmation code with a new password using the `forgotPasswordSubmit` method. This will allow the user to reset their password and sign in with the new password.
+In the case where the user's account password needs to be reset by an Admin, a confirmation code will be sent to your user's email or phone number (depending on which attributes are verified in your Cognito user pool) as soon as the reset is triggered. They can then enter that confirmation code with a new password using the `forgotPasswordSubmit` method. This will allow the user to reset their password and sign in with the new password.
 
 <Callout>
 
-**Note:** An Admin can reset a users password by going into the Cognito Userpool, selecting the user, and choosing Reset password under Actions dropdown. This can also be done programmatically using the Cognito API Action `AdminResetUserPassword`. Learn more about [resetting a users password as an Admin](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminResetUserPassword.html).
+**Note:** An Admin can reset a user's password by going into the Cognito Userpool, selecting the user, and choosing "Reset password" under the *Actions* dropdown. This can also be done programmatically using the Cognito API Action `AdminResetUserPassword`. Learn more about [resetting a users password as an Admin](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminResetUserPassword.html).
 
 </Callout>
 
@@ -122,13 +120,13 @@ async function forgotPasswordSubmit(username, code, newPassword) {
 
 Your users can now recover their account and reset to a new password.
 
-## Allow my customers to change their password
+## Allow my users to change their password
 
 In other instances you may want your users to be able to change their password over time. You can set this up using the Amplify Libraries.
 
-### Change a password while signed in to their account
+### Change a password while signed into their account
 
-You can enable customers to change passwords using the `changePassword` method. This will prompt the user to enter their current password `oldPassword` and a new password `newPassword`. If successful, the password will be updated.
+You can enable your users to change passwords using the `changePassword` method. This will prompt the user to enter their current password `oldPassword` and a new password `newPassword`. If successful, the password will be updated.
 
 <BlockSwitcher>
 <Block name="TypeScript">
