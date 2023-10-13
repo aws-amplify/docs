@@ -428,6 +428,11 @@ export const directory = {
             filters: ['js', 'react-native']
           },
           {
+          title: 'Set up password change and recovery',
+          route: '/lib/auth/password_management',
+          filters: ['js', 'react-native']
+          },
+          {
             title: 'Switching authentication flows',
             route: '/lib/auth/switch-auth',
             filters: ['js', 'react-native']
@@ -498,7 +503,7 @@ export const directory = {
             filters: ['android', 'ios', 'js', 'flutter', 'react-native']
           },
           {
-            title: 'Password management',
+            title: 'Set up password change and recovery',
             route: '/lib/auth/password_management',
             filters: ['android', 'flutter', 'ios']
           },
