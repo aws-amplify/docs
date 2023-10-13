@@ -10,7 +10,7 @@ const ResponsiveImage = (props) => (
 );
 
 const components = {
-  img: ResponsiveImage,
+  img: ResponsiveImage
 };
 
 function MyApp({ Component, pageProps }) {
