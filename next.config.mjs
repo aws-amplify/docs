@@ -6,7 +6,6 @@ const require = createRequire(import.meta.url);
 import rehypeImgSize from 'rehype-img-size';
 import rehypeMermaid from 'rehype-mermaidjs';
 
-
 dotenv.config({ path: './.env.custom' });
 
 const mdxRenderer = `
@@ -36,9 +35,29 @@ export default async (phase, { defaultConfig }) => {
         importPlugin,
         headingLinkPlugin,
         pagePlugin,
-        internalLinkPlugin,
+        internalLinkPlugin
       ],
-      rehypePlugins: [[rehypeMermaid, { strategy: 'inline-svg' }], codeBlockPlugin, [rehypeImgSize, { dir: 'public' }]],
+      rehypePlugins: [
+        [
+          rehypeMermaid,
+          {
+            strategy: 'inline-svg',
+            mermaidConfig: {
+              theme: 'base',
+              themeVariables: {
+                primaryColor: '#ffc46d',
+                primaryTextColor: '#152939',
+                secondaryColor: '#e5e5df',
+                tertiaryColor: '#f1f1eb'
+              },
+              themeCSS:
+                '.label foreignObject { font-size: 90%; overflow: visible; }'
+            }
+          }
+        ],
+        codeBlockPlugin,
+        [rehypeImgSize, { dir: 'public' }]
+      ],
       renderer: mdxRenderer
     }
   });
