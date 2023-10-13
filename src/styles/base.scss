@@ -35,7 +35,7 @@ ol[role='list'] {
 /* Set core body defaults */
 body {
   min-height: 100vh;
-  line-height: 1.5;
+  line-height: var(--amplify-line-heights-medium);
   color: var(--amplify-colors-font-primary);
 }
 
@@ -47,7 +47,7 @@ h4,
 button,
 input,
 label {
-  line-height: 1.1;
+  line-height: var(--amplify-line-heights-small);
 }
 
 /* Balance text wrapping on headings */
@@ -83,11 +83,6 @@ select {
 textarea:not([rows]) {
   min-height: 10em;
 }
-
-/* Anything that has been anchored to should have extra scroll margin */
-/* :target {
-  scroll-margin-block: 5ex;
-} */
 
 .plain-list {
   margin: 0;
