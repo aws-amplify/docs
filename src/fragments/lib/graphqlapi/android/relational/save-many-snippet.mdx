@@ -3,33 +3,34 @@
 
 ```java
 Post post = Post.builder()
-    .title("My First Post")
+    .title("My Post")
+    .rating(10)
     .build();
 
-User editor = User.builder()
-    .username("Nadia")
+User user = User.builder()
+    .username("User")
     .build();
 
 PostEditor postEditor = PostEditor.builder()
     .post(post)
-    .user(editor)
+    .user(user)
     .build();
 
-Amplify.DataStore.save(post,
-    savedPost -> {
-        Log.i("MyAmplifyApp", "Post saved.");
-        Amplify.DataStore.save(editor,
-            savedEditor -> {
-                Log.i("MyAmplifyApp", "Editor saved.");
-                Amplify.DataStore.save(postEditor,
-                    saved -> Log.i("MyAmplifyApp", "PostEditor saved."),
-                    failure -> Log.e("MyAmplifyApp", "PostEditor not saved.", failure)
-                );
-            },
-            failure -> Log.e("MyAmplifyApp", "Editor not saved.", failure)
+Amplify.API.mutate(ModelMutation.create(post),
+    createdPost -> {
+        Log.i("MyAmplifyApp", "Post created.");
+        Amplify.API.mutate(ModelMutation.create(user),
+                createdUser -> {
+                    Log.i("MyAmplifyApp", "User created.");
+                    Amplify.API.mutate(ModelMutation.create(postEditor),
+                            createdPostEditor -> Log.i("MyAmplifyApp", "PostEditor created."),
+                            failure -> Log.e("MyAmplifyApp", "PostEditor not created.", failure)
+                    );
+                },
+                failure -> Log.e("MyAmplifyApp", "User not created.", failure)
         );
     },
-    failure -> Log.e("MyAmplifyApp", "Post not saved.", failure)
+    failure -> Log.e("MyAmplifyApp", "Post not created.", failure)
 );
 ```
 
@@ -38,33 +39,35 @@ Amplify.DataStore.save(post,
 
 ```kotlin
 val post = Post.builder()
-    .title("My First Post")
+    .title("My Post")
+    .rating(10)
     .build()
 
-val editor = User.builder()
-    .username("Nadia")
+val user = User.builder()
+    .username("User")
     .build()
 
 val postEditor = PostEditor.builder()
     .post(post)
-    .user(editor)
+    .user(user)
     .build()
 
-Amplify.DataStore.save(post,
+Amplify.API.mutate(ModelMutation.create(post),
     {
-        Log.i("MyAmplifyApp", "Post saved")
-        Amplify.DataStore.save(editor,
+        Log.i("MyAmplifyApp", "Post created")
+        Amplify.API.mutate(ModelMutation.create(user),
             {
-                Log.i("MyAmplifyApp", "Editor saved")
-                Amplify.DataStore.save(postEditor,
-                    { Log.i("MyAmplifyApp", "PostEditor saved") },
-                    { Log.e("MyAmplifyApp", "PostEditor not saved", it) }
+                Log.i("MyAmplifyApp", "User created")
+                Amplify.API.mutate(
+                    ModelMutation.create(postEditor),
+                    { Log.i("MyAmplifyApp", "PostEditor created") },
+                    { Log.e("MyAmplifyApp", " PostEditor not created", it) }
                 )
             },
-            { Log.e("MyAmplifyApp", "Editor not saved", it) }
+            { Log.e("MyAmplifyApp", " User not created", it) }
         )
     },
-    { Log.e("MyAmplifyApp", "Post not saved", it) }
+    { Log.e("MyAmplifyApp", "Post not created", it) }
 )
 ```
 
@@ -73,59 +76,31 @@ Amplify.DataStore.save(post,
 
 ```kotlin
 val post = Post.builder()
-    .title("My First Post")
+    .title("My Post")
+    .rating(10)
     .build()
 
-val editor = User.builder()
-    .username("Nadia")
+val user = User.builder()
+    .username("User")
     .build()
 
 val postEditor = PostEditor.builder()
     .post(post)
-    .user(editor)
+    .user(user)
     .build()
 
 try {
-    Amplify.DataStore.save(post)
-    Log.i("MyAmplifyApp", "Post saved.")
+    Amplify.API.mutate(ModelMutation.create(post))
+    Log.i("MyAmplifyApp", "Post created.")
 
-    Amplify.DataStore.save(editor)
-    Log.i("MyAmplifyApp", "Editor saved.")
+    Amplify.API.mutate(ModelMutation.create(user))
+    Log.i("MyAmplifyApp", "User created.")
 
-    Amplify.DataStore.save(postEditor)
-    Log.i("MyAmplifyApp", "PostEditor saved.")
-
-} catch (error: DataStoreException) {
-    Log.e("MyAmplifyApp", "Save failed", error)
+    Amplify.API.mutate(ModelMutation.create(postEditor))
+    Log.i("MyAmplifyApp", "PostEditor created.")
+} catch (error: ApiException) {
+    Log.e("MyAmplifyApp", "Create failed", error)
 }
-```
-
-</Block>
-<Block name="RxJava">
-
-```java
-Post post = Post.builder()
-    .title("My First Post")
-    .build();
-
-User editor = User.builder()
-    .username("Nadia")
-    .build();
-
-PostEditor postEditor = PostEditor.builder()
-    .post(post)
-    .user(editor)
-    .build();
-
-Completable.mergeArray(
-    RxAmplify.DataStore.save(post),
-    RxAmplify.DataStore.save(editor)
-).andThen(
-    RxAmplify.DataStore.save(postEditor)
-).subscribe(
-    () -> Log.i("MyAmplifyApp", "Post, Editor, and PostEditor saved."),
-    failure -> Log.e("MyAmplifyApp", "Item not saved.", failure)
-);
 ```
 
 </Block>
@@ -133,6 +108,6 @@ Completable.mergeArray(
 
 <Callout>
 
-This example illustrates the complexity of working with multiple sequential save operations. To remove the nested callbacks, consider using Amplify's support for [RxJava](/lib/project-setup/rxjava) or [Coroutines](/lib/project-setup/coroutines).
+This example illustrates the complexity of working with multiple sequential create operations. To remove the nested callbacks, consider using Amplify's support for [Coroutines](/lib/project-setup/coroutines).
 
 </Callout>

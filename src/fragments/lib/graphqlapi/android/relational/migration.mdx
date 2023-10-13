@@ -1,0 +1,3 @@
+## Migration
+
+If you already have relational models in your project, you must re-run `amplify codegen models` after updating the feature flag. After the models have been updated, breaking changes will need to be addressed because relationship fields will now be wrapped in `ModelList`/`ModelReference` types. Follow the rest of the guide on this page information on how to use the new lazy supported models.

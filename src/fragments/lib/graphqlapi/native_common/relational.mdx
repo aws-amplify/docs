@@ -8,15 +8,29 @@ import android0 from '/src/fragments/lib/graphqlapi/android/relational/callout.m
 
 API (GraphQL) has the capability to handle relationships between Models, such as _has one_, _has many_, _belongs to_. In GraphQL this is done with the `@hasOne`, `@hasMany` and `@index` directives as defined in the [GraphQL Transformer documentation](/cli/graphql/data-modeling).
 
+By default, API (GraphQL) requests generate a selection set with a depth of 0. Connected relationship models are not returned in the initial request, but can be lazily loaded as needed (additional API request). We provide mechanisms to customize the selection set, which allows connected relationships to be eagerly loaded on the initial request.
+
+import android1 from '/src/fragments/lib/graphqlapi/android/relational/prerequisites.mdx';
+
+<Fragments fragments={{ android: android1 }} />
+
+import android2 from '/src/fragments/lib/graphqlapi/android/relational/migration.mdx';
+
+<Fragments fragments={{ android: android2 }} />
+
 ## Updated schema
 
 import ios1 from "/src/fragments/lib/graphqlapi/ios/relational/updated-schema.mdx";
 
 <Fragments fragments={{ ios: ios1 }} />
 
-import android2 from '/src/fragments/lib/graphqlapi/android/relational/updated-schema.mdx';
+import android3 from '/src/fragments/lib/graphqlapi/android/relational/updated-schema.mdx';
 
-<Fragments fragments={{ android: android2 }} />
+<Fragments fragments={{ android: android3 }} />
+
+import android4 from '/src/fragments/lib/graphqlapi/android/relational/codegen-reference-types.mdx';
+
+<Fragments fragments={{ android: android4 }} />
 
 ## Creating relations
 
@@ -42,15 +56,7 @@ import android10 from '/src/fragments/lib/graphqlapi/android/relational/query-sn
 
 ## Deleting relations
 
-When you delete a parent object in a one-to-many relationship, the children will not be removed. Delete the children before deleting the parent to ensure there are no orphaned data. For example, the following operation would remove the comments that belong to the Post with id *123*, then the post.
-
-import ios13 from "/src/fragments/lib/graphqlapi/ios/relational/delete-snippet.mdx";
-
-<Fragments fragments={{ ios: ios13 }} />
-
-import android14 from '/src/fragments/lib/graphqlapi/android/relational/delete-snippet.mdx';
-
-<Fragments fragments={{ android: android14 }} />
+When you delete a parent object in a one-to-many relationship, the children will not be removed. Delete the children before deleting the parent to ensure there are no orphaned data.
 
 ## Many-to-many relationships
 
@@ -85,9 +91,9 @@ import android18 from '/src/fragments/lib/graphqlapi/android/relational/save-man
 
 <Fragments fragments={{ android: android18 }} />
 
-## Customizing Query depth
+## Customizing query depth (Custom Selection Sets)
 
-You can perform a query, through one network request, by specifying which connected model to include. 
+You can perform a nested query, through one network request, by specifying which connected model(s) to include. This is achieved by adding using the optional `includes` parameter for a GraphQL request.
 
 Query for the Comment and the Post that it belongs to:
 
@@ -99,7 +105,7 @@ import android20 from '/src/fragments/lib/graphqlapi/android/relational/customiz
 
 <Fragments fragments={{ android: android20 }} />
 
-Query for the Post and all of its comments for the post. 
+Query for the Post and the first page of comments for the post: 
 
 import ios21 from '/src/fragments/lib/graphqlapi/ios/relational/customizing-query-depth-post-comments.mdx';
 
@@ -108,3 +114,7 @@ import ios21 from '/src/fragments/lib/graphqlapi/ios/relational/customizing-quer
 import android22 from '/src/fragments/lib/graphqlapi/android/relational/customizing-query-depth-post-comments.mdx';
 
 <Fragments fragments={{ android: android22 }} />
+
+import android23 from '/src/fragments/lib/graphqlapi/android/relational/complex-query-depth.mdx';
+
+<Fragments fragments={{ android: android23 }} />

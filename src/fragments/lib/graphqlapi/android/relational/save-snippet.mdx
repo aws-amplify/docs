@@ -5,23 +5,22 @@
 Post post = Post.builder()
     .title("My Post with comments")
     .rating(10)
-    .status(PostStatus.ACTIVE)
     .build();
 
 Comment comment = Comment.builder()
     .post(post) // Directly pass in the post instance
-    .content("Loving Amplify DataStore!")
+    .content("Loving Amplify API!")
     .build();
 
-Amplify.DataStore.save(post,
+Amplify.API.mutate(ModelMutation.create(post),
     savedPost -> {
-        Log.i("MyAmplifyApp", "Post saved.");
-        Amplify.DataStore.save(comment,
-            savedComment -> Log.i("MyAmplifyApp", "Comment saved."),
-            failure -> Log.e("MyAmplifyApp", "Comment not saved.", failure)
+        Log.i("MyAmplifyApp", "Post created.");
+        Amplify.API.mutate(ModelMutation.create(comment),
+                savedComment -> Log.i("MyAmplifyApp", "Comment created."),
+                failure -> Log.e("MyAmplifyApp", "Comment not created.", failure)
         );
     },
-    failure -> Log.e("MyAmplifyApp", "Post not saved.", failure)
+    failure -> Log.e("MyAmplifyApp", "Post not created.", failure)
 );
 ```
 
@@ -32,23 +31,22 @@ Amplify.DataStore.save(post,
 val post = Post.builder()
     .title("My Post with comments")
     .rating(10)
-    .status(PostStatus.ACTIVE)
     .build()
 
 val comment = Comment.builder()
     .post(post) // Directly pass in the post instance
-    .content("Loving Amplify DataStore!")
+    .content("Loving Amplify API!")
     .build()
 
-Amplify.DataStore.save(post,
+Amplify.API.mutate(ModelMutation.create(post),
     {
-        Log.i("MyAmplifyApp", "Post saved")
-        Amplify.DataStore.save(comment,
-            { Log.i("MyAmplifyApp", "Comment saved") },
-            { Log.e("MyAmplifyApp", "Comment not saved", it) }
+        Log.i("MyAmplifyApp", "Post created")
+        Amplify.API.mutate(ModelMutation.create(comment),
+            { Log.i("MyAmplifyApp", "Comment created") },
+            { Log.e("MyAmplifyApp", "Comment not created", it) }
         )
     },
-    { Log.e("MyAmplifyApp", "Post not saved", it) }
+    { Log.e("MyAmplifyApp", "Post not created", it) }
 )
 ```
 
@@ -59,47 +57,22 @@ Amplify.DataStore.save(post,
 val post = Post.builder()
     .title("My Post with comments")
     .rating(10)
-    .status(PostStatus.ACTIVE)
     .build()
 
 val comment = Comment.builder()
     .post(post) // Directly pass in the post instance
-    .content("Loving Amplify DataStore!")
+    .content("Loving Amplify API!")
     .build()
 
 try {
-    Amplify.DataStore.save(post)
-    Log.i("MyAmplifyApp", "Post saved.")
+    Amplify.API.mutate(ModelMutation.create(post))
+    Log.i("MyAmplifyApp", "Post created.")
 
-    Amplify.DataStore.save(comment)
-    Log.i("MyAmplifyApp", "Comment saved.")
-
-} catch (error: DataStoreException) {
-    Log.e("MyAmplifyApp", "Save failed", error)
+    Amplify.API.mutate(ModelMutation.create(comment))
+    Log.i("MyAmplifyApp", "Comment created.")
+} catch (error: ApiException) {
+    Log.e("MyAmplifyApp", "Create failed", error)
 }
-```
-
-</Block>
-<Block name="RxJava">
-
-```java
-Post post = Post.builder()
-    .title("My Post with comments")
-    .rating(10)
-    .status(PostStatus.ACTIVE)
-    .build();
-
-Comment comment = Comment.builder()
-    .post(post) // Directly pass in the post instance
-    .content("Loving Amplify DataStore!")
-    .build();
-
-RxAmplify.DataStore.save(post))
-    .andThen(RxAmplify.DataStore.save(comment))
-    .subscribe(
-        () -> Log.i("MyAmplifyApp", "Saved Post and Comment."),
-        failure -> Log.e("MyAmplifyApp", "Failed to save at least one item.", failure)
-    );
 ```
 
 </Block>

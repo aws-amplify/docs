@@ -2,14 +2,27 @@
 <Block name="Java">
 
 ```java
-Amplify.DataStore.query(Comment.class, Post.STATUS.eq(PostStatus.ACTIVE),
-    matches -> {
-        while (matches.hasNext()) {
-            Comment comment = matches.next();
-            Log.i("MyAmplifyApp", "Content: " + comment.getContent());
+Amplify.API.query(
+    ModelQuery.get(Post.class, new Post.PostIdentifier("123")),
+    response -> {
+        Post post = response.getData();
+        ModelList<Comment> commentsModelList = post.getComments();
+
+        if (commentsModelList instanceof LoadedModelList) {
+            List<Comment> comments =
+                ((LoadedModelList<Comment>) commentsModelList).getItems();
+            Log.i("MyAmplifyApp", "Loaded " + comments.size() + " comments.");
+        } else if (commentsModelList instanceof LazyModelList) {
+            ((LazyModelList<Comment>) commentsModelList).fetchPage(
+                page -> {
+                    List<Comment> comments = page.getItems();
+                    Log.i("MyAmplifyApp", "Loaded " + comments.size() + " comments.");
+                },
+                failure -> Log.e("MyAmplifyApp, ", "Failed to fetch comments", failure)
+            );
         }
     },
-    failure -> Log.e("MyAmplifyApp", "Query failed.", failure)
+    failure -> Log.e("MyAmplifyApp", "Failed to query post.", failure)
 );
 ```
 
@@ -17,14 +30,27 @@ Amplify.DataStore.query(Comment.class, Post.STATUS.eq(PostStatus.ACTIVE),
 <Block name="Kotlin - Callbacks">
 
 ```kotlin
-Amplify.DataStore.query(Comment::class.java, Post.STATUS.eq(PostStatus.ACTIVE),
-    { matches ->
-        while (matches.hasNext()) {
-            val comment = matches.next()
-            Log.i("MyAmplifyApp", "Content: ${comment.content}")
+Amplify.API.query(
+    ModelQuery[Post::class.java, Post.PostIdentifier("123")],
+    { response ->
+        val post = response.data
+        when (val commentsModelList = post.comments) {
+            is LoadedModelList -> {
+                val comments = commentsModelList.items
+                Log.i("MyAmplifyApp", "Loaded ${comments.size} comments")
+            }
+            is LazyModelList -> {
+                commentsModelList.fetchPage(
+                    { page ->
+                        val comments = page.items
+                        Log.i("MyAmplifyApp", "Fetched ${comments.size} comments")
+                    },
+                    { Log.e("MyAmplifyApp, ", "Failed to fetch comments", it) }
+                )
+            }
         }
     },
-    { Log.e("MyAmplifyApp", "Query failed", it) }
+    { Log.e("MyAmplifyApp, ", "Failed to fetch post", it) }
 )
 ```
 
@@ -32,21 +58,22 @@ Amplify.DataStore.query(Comment::class.java, Post.STATUS.eq(PostStatus.ACTIVE),
 <Block name="Kotlin - Coroutines">
 
 ```kotlin
-Amplify.DataStore
-    .query(Comment::class, Where.matches(Post.STATUS.eq(PostStatus.ACTIVE)))
-    .catch { Log.e("MyAmplifyApp", "Query failed", it) }
-    .collect { Log.i("MyAmplifyApp", "Content: ${it.content}") }
-```
-
-</Block>
-<Block name="RxJava">
-
-```java
-RxAmplify.DataStore.query(Comment.class, Post.STATUS.eq(PostStatus.ACTIVE))
-    .subscribe(
-        comment -> Log.i("MyAmplifyApp", "Content: " + comment.getContent()),
-        failure -> Log.e("MyAmplifyApp", "Query failed.", failure)
-    );
+try {
+    val response =
+        Amplify.API.query(ModelQuery[Post::class.java, Post.PostIdentifier("123")])
+    val post = response.data
+    val comments = when (val commentsModelList = post.comments) {
+        is LoadedModelList -> {
+            commentsModelList.items
+        }
+        is LazyModelList -> {
+            commentsModelList.fetchPage().items
+        }
+    }
+    Log.i("MyAmplifyApp", "Fetched ${comments.size} comments")
+} catch (error: ApiException) {
+    Log.e("MyAmplifyApp", "Failed to fetch post and its comments", error)
+}
 ```
 
 </Block>

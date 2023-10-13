@@ -2,37 +2,69 @@
 <Block name="Java">
 
 ```java
-Amplify.API.query(request: .get(Post.self, byIdentifier: "123", includes: { post in [post.comments]}))
+Amplify.API.query(
+    ModelQuery.<Post, PostPath>get(
+        Post.class,
+        new Post.PostIdentifier("p1"),
+        (postPath -> includes(postPath.getComments()))
+    ),
+    response -> {
+        Post post = response.getData();
+        ModelList<Comment> commentsModelList = post.getComments();
+        if (commentsModelList instanceof LoadedModelList) {
+            List<Comment> comments = ((LoadedModelList<Comment>) commentsModelList).getItems();
+            Log.i("MyAmplifyApp", "Comments: " + comments);
+        }
+    },
+    failure -> Log.e("MyAmplifyApp", "Failed to fetch post", failure)
+);
 ```
 
-The network request for post includes the comments, eager loading the comments in a single network call.
+The network request for post includes the comments, eagerly loading the first page of comments in a single network call.
 
 </Block>
 <Block name="Kotlin - Callbacks">
 
 ```kotlin
-Amplify.API.query(request: .get(Post.self, byIdentifier: "123", includes: { post in [post.comments]}))
+Amplify.API.query(
+    ModelQuery.get<Post, PostPath>(
+        Post::class.java,
+        Post.PostIdentifier("p1")
+    ) { postPath ->
+        includes(postPath.comments)
+    },
+    { response ->
+        val post = response.data
+        val comments = (post.comments as? LoadedModelList)?.items
+        Log.i("MyAmplifyApp", "Comments: $comments")
+    },
+    { Log.e("MyAmplifyApp", "Failed to fetch post", it) }
+)
 ```
 
-The network request for post includes the comments, eager loading the comments in a single network call.
+The network request for post includes the comments, eagerly loading the first page of comments in a single network call.
 
 </Block>
 <Block name="Kotlin - Coroutines">
 
 ```kotlin
-Amplify.API.query(request: .get(Post.self, byIdentifier: "123", includes: { post in [post.comments]}))
+try {
+    val post = Amplify.API.query(
+        ModelQuery.get<Post, PostPath>(
+            Post::class.java,
+            Post.PostIdentifier("p1")
+        ) { postPath ->
+            includes(postPath.comments)
+        }
+    ).data
+    val comments = (post.comments as? LoadedModelList)?.items
+    Log.i("MyAmplifyApp", "Comments: $comments")
+} catch (error: ApiException) {
+    Log.e("MyAmplifyApp", "Failed to fetch post", error)
+}
 ```
 
-The network request for post includes the comments, eager loading the comments in a single network call.
-
-</Block>
-<Block name="RxJava">
-
-```java
-Amplify.API.query(request: .get(Post.self, byIdentifier: "123", includes: { post in [post.comments]}))
-```
-
-The network request for post includes the comments, eager loading the comments in a single network call.
+The network request for post includes the comments, eagerly loading the first page of comments in a single network call.
 
 </Block>
 </BlockSwitcher>
