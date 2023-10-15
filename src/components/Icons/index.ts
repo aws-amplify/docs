@@ -1,9 +1,17 @@
+export { IconAndroid } from './IconAndroid';
+export { IconAngular } from './IconAngular';
 export { IconAWS } from './IconAWS';
 export { IconDiscord } from './IconDiscord';
 export { IconDoubleChevron } from './IconDoubleChevron';
+export { IconFlutter } from './IconFlutter';
 export { IconGithub } from './IconGithub';
-export { IconTwitter } from './IconTwitter';
+export { IconJS } from './IconJS';
 export { IconMenu } from './IconMenu';
+export { IconNext } from './IconNext';
+export { IconReact } from './IconReact';
+export { IconSwift } from './IconSwift';
+export { IconTwitter } from './IconTwitter';
+export { IconVue } from './IconVue';
 
 export * from './ThumbsUp';
 export * from './ThumbsDown';
