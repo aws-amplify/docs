@@ -1,0 +1,15 @@
+@import './variables.scss';
+@import './font-faces.scss';
+@import './base.scss';
+@import './algolia.scss';
+@import './prism-language-error.scss';
+
+@import './footer.scss';
+@import './home.scss';
+@import './layout.scss';
+@import './search.scss';
+
+/* Temp */
+[id*='lastupdated-'] {
+  display: none;
+}

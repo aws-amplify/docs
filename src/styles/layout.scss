@@ -1,0 +1,133 @@
+.layout-wrapper {
+  min-height: 100vh;
+  --layout-sidebar-width: 340px;
+  --layout-search-height: 4.8rem;
+  background-color: var(--amplify-colors-background-primary);
+  &--home {
+    background-image: radial-gradient(hsla(176, 68%, 41%, 0.21), #fff);
+  }
+}
+
+.layout-search {
+  padding: var(--amplify-space-medium);
+  position: sticky;
+  z-index: 1;
+  top: var(--docs-dev-center-nav);
+  background: var(--amplify-colors-background-primary);
+  &--home {
+    background: transparent;
+  }
+}
+
+.layout-main {
+  padding: var(--amplify-space-medium);
+}
+
+.layout-sidebar {
+  width: 100%;
+  position: fixed;
+  top: var(--docs-dev-center-nav);
+  bottom: 0;
+  inset-inline-start: 0;
+  z-index: 1;
+  overflow: hidden;
+  display: none;
+  &--expanded {
+    display: block;
+  }
+}
+
+.layout-sidebar__inner {
+  width: var(--layout-sidebar-width);
+  height: 100%;
+  background: var(--amplify-colors-background-primary);
+  border-right: 1px solid var(--amplify-colors-neutral-20);
+  transform: translate(-100%, 0);
+  overflow-y: auto;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  overflow: hidden;
+  &--expanded {
+    animation: menu 0.2s ease-out forwards;
+    animation-delay: 0.1s;
+  }
+}
+
+.layout-sidebar__backdrop {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  &--expanded {
+    animation: menuFade 0.2s ease-out forwards;
+  }
+}
+
+.layout-sidebar-platform {
+  padding: var(--amplify-space-large);
+  border-bottom: 1px solid var(--amplify-colors-neutral-20);
+}
+.layout-sidebar-menu {
+  padding: var(--amplify-space-large);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.main {
+  flex-direction: column;
+}
+
+@keyframes menu {
+  0% {
+    transform: translate(-100%, 0);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes menuFade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@media (min-width: 800px) {
+  .main {
+    margin-bottom: auto;
+  }
+  .layout-search {
+    height: var(--layout-search-height);
+  }
+  .mobile-toggle {
+    display: none;
+  }
+  .layout-sidebar {
+    position: fixed;
+    width: var(--layout-sidebar-width);
+  }
+  .layout-sidebar,
+  .layout-sidebar--expanded {
+    display: block;
+  }
+
+  .layout-sidebar__inner,
+  .layout-sidebar__inner--expanded {
+    transform: translate(0, 0);
+    animation: none;
+  }
+  .layout-main {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    min-height: calc(
+      100vh - var(--docs-dev-center-nav) - var(--layout-search-height)
+    );
+    padding-inline: calc(var(--layout-sidebar-width) + var(--amplify-space-xxl))
+      var(--amplify-space-xxl);
+  }
+}

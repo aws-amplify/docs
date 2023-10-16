@@ -1,19 +1,8 @@
 import React, { useEffect } from 'react';
-import { Flex, View } from '@aws-amplify/ui-react';
-
-import Head from 'next/head';
-
-import { Container } from '@/components/Container';
-import { TestNav } from '@/components/TestNav';
-import Footer from '@/components/Footer';
+import { Heading, Text, Flex, View, Button } from '@aws-amplify/ui-react';
+import { Layout } from '@/components/Layout';
 
 import { trackPageVisit } from '@/utils/track';
-import { NavMenuItem, GlobalNav } from '../components/GlobalNav';
-import {
-  LEFT_NAV_LINKS,
-  RIGHT_NAV_LINKS,
-  SOCIAL_LINKS
-} from '../utils/globalnav';
 
 const meta = {
   title: 'Amplify Docs',
@@ -22,73 +11,59 @@ const meta = {
   url: 'https://docs.amplify.aws/'
 };
 
-const Page = () => {
+export default function Page() {
   useEffect(() => {
     trackPageVisit();
   }, []);
 
   return (
-    <Container backgroundColor="color-off-white">
-      <div style={{ minHeight: '600px' }}>Home page</div>
-    </Container>
+    <Flex className="home-content">
+      <Flex className="home-intro">
+        <Heading level={1} className="home-intro__heading">
+          Amplify Docs
+        </Heading>
+        <Text className="home-intro__text">
+          AWS Amplify streamlines full-stack app development. With its
+          libraries, CLI, and services, you can easily connect your frontend to
+          the cloud for authentication, storage, APIs, and more.
+        </Text>
+        <Flex>
+          <Button variation="primary" size="large">
+            How Amplify Works
+          </Button>
+          <Button>Get Started</Button>
+        </Flex>
+      </Flex>
+      <Flex direction="column">
+        <Heading level={2}>
+          Build fullstack apps with your framework of choice
+        </Heading>
+        <Text>
+          AWS Amplify provides libraries for popular web and mobile frameworks,
+          like JavaScript, Flutter, Swift, and React. Our guides, APIs, and
+          other resources will help you build, connect, and host fullstack apps
+          on AWS. Get started by selecting your preferred framework.
+        </Text>
+      </Flex>
+      <Flex direction="column" alignItems="flex-start">
+        <Heading level={2}>Features for JavaScript</Heading>
+        <Button as="a" href="/">
+          View all features
+        </Button>
+      </Flex>
+    </Flex>
   );
-};
-
-export default Page;
+}
 
 Page.getLayout = function getLayout(page) {
   return (
-    <>
-      <Head>
-        <title>{meta.title}</title>
-        <meta name="description" content={meta.description} />
-        <meta property="og:title" content={meta.title} key="og:title" />
-        <meta name="description" content={meta.description} />
-        <meta
-          property="og:description"
-          content={meta.description}
-          key="og:description"
-        />
-        <meta property="og:url" content={meta.url} key="og:url" />
-        <meta
-          property="og:image"
-          content="https://docs.amplify.aws/assets/ogp.jpg"
-          key="og:image"
-        />
-        <meta
-          property="description"
-          content={meta.description}
-          key="description"
-        />
-        <meta property="twitter:card" content="summary" key="twitter:card" />
-        <meta
-          property="twitter:title"
-          content={meta.title}
-          key="twitter:title"
-        />
-        <meta
-          property="twitter:description"
-          content={meta.description}
-          key="twitter:description"
-        />
-        <meta
-          property="twitter:image"
-          content="https://docs.amplify.aws/assets/ogp.jpg"
-          key="twitter:image"
-        />
-      </Head>
-      <GlobalNav
-        leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
-        rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
-        socialLinks={SOCIAL_LINKS as NavMenuItem[]}
-        currentSite=""
-      />
-      This is a home page specific layout.
-      <Flex>
-        <TestNav />
-        <View>{page}</View>
-      </Flex>
-      <Footer />
-    </>
+    <Layout
+      pageTitle={meta.title}
+      pageDescription={meta.description}
+      url={meta.url}
+      pageType="home"
+    >
+      {page}
+    </Layout>
   );
 };

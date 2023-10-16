@@ -1,6 +1,5 @@
 import Layout from '../components/Layout';
 import styled from '@emotion/styled';
-import { Grid } from '@theme-ui/components';
 import { useEffect, useRef, useState } from 'react';
 import MetaContent from '../components/Page/metaContent';
 import { Container } from '../components/Container';
@@ -46,9 +45,11 @@ function ChooseFilterPage({
   let title = '',
     chapterTitle = '';
   if (isProductRoot(url)) {
-    title = (getProductDirectory(url) as {
-      productRoot: { title: string };
-    }).productRoot.title;
+    title = (
+      getProductDirectory(url) as {
+        productRoot: { title: string };
+      }
+    ).productRoot.title;
   } else {
     const chapterDirectory = getChapterDirectory(url);
     if (typeof chapterDirectory !== 'undefined') {
@@ -70,29 +71,21 @@ function ChooseFilterPage({
       <section>
         {message && <H3>{message}</H3>}
 
-        <Grid
-          columns={[1, null, null, 4]}
-          gap={3}
-          sx={{
-            marginTop: '1rem'
-          }}
-        >
-          {filters.map((filter) => (
-            <Card
-              className="vertical"
-              href={`${url}/q/${filterKind}/${filter}`}
-              key={filter}
-            >
-              <CardGraphic
-                alt={filterMetadataByOption[filter].label + ' icon'}
-                src={filterMetadataByOption[filter].graphicURI}
-              />
-              <CardDetail>
-                <h4>{filterMetadataByOption[filter].label}</h4>
-              </CardDetail>
-            </Card>
-          ))}
-        </Grid>
+        {filters.map((filter) => (
+          <Card
+            className="vertical"
+            href={`${url}/q/${filterKind}/${filter}`}
+            key={filter}
+          >
+            <CardGraphic
+              alt={filterMetadataByOption[filter].label + ' icon'}
+              src={filterMetadataByOption[filter].graphicURI}
+            />
+            <CardDetail>
+              <h4>{filterMetadataByOption[filter].label}</h4>
+            </CardDetail>
+          </Card>
+        ))}
       </section>
     </Container>
   );

@@ -1,6 +1,3 @@
-// Maybe put this somewhere else
-// At the moment Docs doesn't use Amplify UI anywhere else
-
 import React from 'react';
 
 import { View, Flex } from '@aws-amplify/ui-react';
@@ -28,7 +25,7 @@ export interface NavMenuItem {
 export interface NavProps {
   leftLinks: NavMenuItem[];
   rightLinks: NavMenuItem[];
-  socialLinks: NavMenuItem[];
+  socialLinks?: NavMenuItem[];
   currentSite: string;
 }
 

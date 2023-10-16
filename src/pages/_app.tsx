@@ -1,19 +1,19 @@
 import '@algolia/autocomplete-theme-classic';
 import '@aws-amplify/ui-react/styles.css';
-import '../styles/styles.css';
-import '../styles/contribute-styles.css';
+import '../styles/styles.scss';
 import Head from 'next/head';
 import { MDXProvider } from '@mdx-js/react';
 import { Layout } from '@/components/Layout';
 
 function MyApp({ Component, pageProps }) {
-  const { meta, platform } = pageProps;
+  const { meta, platform, url } = pageProps;
   const getLayout =
     Component.getLayout ||
     ((page) => (
       <Layout
         pageTitle={meta?.title ? meta.title : ''}
         pageDescription={meta?.description ? meta.description : ''}
+        url={url}
         platform={platform ? platform : ''}
       >
         {page}

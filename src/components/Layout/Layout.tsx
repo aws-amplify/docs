@@ -1,19 +1,16 @@
+import { useState, forwardRef, useEffect } from 'react';
 import Head from 'next/head';
-import Footer from '@/components/Footer/index';
-import { LayoutStyle } from './styles';
-import { Container } from '../Container';
 import { useRouter } from 'next/router';
+import { Flex, View, Button, ThemeProvider } from '@aws-amplify/ui-react';
+
+import { defaultTheme } from '@/themes/defaultTheme';
+import { Footer } from '@/components/Footer/';
 import { GlobalNav, NavMenuItem } from '@/components/GlobalNav/GlobalNav';
 import { TestNav } from '@/components/TestNav';
-import { Flex, View } from '@aws-amplify/ui-react';
 import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
-
-import {
-  LEFT_NAV_LINKS,
-  RIGHT_NAV_LINKS,
-  SOCIAL_LINKS
-} from '../../utils/globalnav';
-import { forwardRef, useEffect } from 'react';
+import SearchBar from '@/components/SearchBar';
+import { IconMenu, IconDoubleChevron } from '@/components/Icons';
+import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
 import { trackPageVisit } from '../../utils/track';
 
 export const Layout = forwardRef(function Layout(
@@ -21,12 +18,16 @@ export const Layout = forwardRef(function Layout(
     children,
     pageTitle,
     pageDescription,
-    platform
+    platform,
+    url,
+    pageType = 'inner'
   }: {
     children: any;
     pageTitle?: string;
     pageDescription?: string;
     platform?: string;
+    url?: string;
+    pageType?: 'home' | 'inner';
   },
   footerRef
 ) {
@@ -34,9 +35,11 @@ export const Layout = forwardRef(function Layout(
     trackPageVisit();
   }, []);
 
+  const [menuOpen, toggleMenuOpen] = useState(false);
+
   const router = useRouter();
   const basePath = 'docs.amplify.aws';
-  const url = basePath + router.asPath;
+  const metaUrl = url ? url : basePath + router.asPath;
   if (!router.isReady) return <></>;
 
   const title = [
@@ -60,7 +63,7 @@ export const Layout = forwardRef(function Layout(
           content={description}
           key="og:description"
         />
-        <meta property="og:url" content={url} key="og:url" />
+        <meta property="og:url" content={metaUrl} key="og:url" />
         <meta
           property="og:image"
           content="https://docs.amplify.aws/assets/ogp.jpg"
@@ -80,25 +83,70 @@ export const Layout = forwardRef(function Layout(
           key="twitter:image"
         />
       </Head>
-
-      <GlobalNav
-        leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
-        rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
-        socialLinks={SOCIAL_LINKS as NavMenuItem[]}
-        currentSite=""
-      />
-
-      <Container backgroundColor="bg-color-tertiary">
-        <LayoutStyle>
-          <Flex width="100%">
-            <TestNav />
-            <View flex="1 0 auto" padding="xxl" minHeight="100vh">
-              <Flex direction="column">{children}</Flex>
+      <ThemeProvider theme={defaultTheme}>
+        <View className={`layout-wrapper layout-wrapper--${pageType}`}>
+          <GlobalNav
+            leftLinks={LEFT_NAV_LINKS as NavMenuItem[]}
+            rightLinks={RIGHT_NAV_LINKS as NavMenuItem[]}
+            currentSite="Docs"
+          />
+          <View className={`layout-search layout-search--${pageType}`}>
+            <Flex className="search-menu-bar">
+              <Button
+                onClick={() => toggleMenuOpen(true)}
+                size="small"
+                className="search-menu-toggle mobile-toggle"
+              >
+                <IconMenu aria-hidden="true" />
+                Menu
+              </Button>
+              <View className="search-menu-bar__search">
+                <SearchBar />
+              </View>
+            </Flex>
+          </View>
+          <View
+            className={`layout-sidebar${
+              menuOpen ? ' layout-sidebar--expanded' : ''
+            }`}
+          >
+            <View
+              className={`layout-sidebar__backdrop${
+                menuOpen ? ' layout-sidebar__backdrop--expanded' : ''
+              }`}
+              onClick={() => toggleMenuOpen(false)}
+            ></View>
+            <View
+              className={`layout-sidebar__inner${
+                menuOpen ? ' layout-sidebar__inner--expanded' : ''
+              }`}
+            >
+              <div className="layout-sidebar-platform">
+                <Button
+                  size="small"
+                  colorTheme="overlay"
+                  className="mobile-toggle"
+                  onClick={() => toggleMenuOpen(false)}
+                >
+                  <IconDoubleChevron aria-hidden="true" />
+                  Menu
+                </Button>
+                [ Platform switcher goes here]
+              </div>
+              <div className="layout-sidebar-menu">
+                <TestNav />
+              </div>
             </View>
-          </Flex>
-        </LayoutStyle>
-      </Container>
-      <Footer ref={footerRef} />
+          </View>
+
+          <View className="layout-main">
+            <Flex as="main" className="main">
+              {children}
+            </Flex>
+            <Footer />
+          </View>
+        </View>
+      </ThemeProvider>
     </>
   );
 });
