@@ -54,19 +54,11 @@ amplify codegen models
 
 In order to create connected models, you will create an instance of the model you wish to connect and pass it to `Amplify.API.mutate`:
 
-import ios5 from "/src/fragments/lib/graphqlapi/ios/relational/save-snippet.mdx";
-
-<Fragments fragments={{ ios: ios5 }} />
-
 import android6 from '/src/fragments/lib/graphqlapi/android/relational/save-snippet.mdx';
 
 <Fragments fragments={{ android: android6 }} />
 
 ## Querying relationships
-
-import ios9 from "/src/fragments/lib/graphqlapi/ios/relational/query-snippet.mdx";
-
-<Fragments fragments={{ ios: ios9 }} />
 
 import android10 from '/src/fragments/lib/graphqlapi/android/relational/query-snippet.mdx';
 
@@ -105,10 +97,6 @@ type User @model {
 }
 ```
 
-import ios17 from '/src/fragments/lib/graphqlapi/ios/relational/save-many-snippet.mdx';
-
-<Fragments fragments={{ ios: ios17 }} />
-
 import android18 from '/src/fragments/lib/graphqlapi/android/relational/save-many-snippet.mdx';
 
 <Fragments fragments={{ android: android18 }} />
@@ -119,19 +107,11 @@ You can perform a nested query through one network request, by specifying which 
 
 Query for the `Comment` and the `Post` that it belongs to:
 
-import ios19 from '/src/fragments/lib/graphqlapi/ios/relational/customizing-query-depth-comment-post.mdx';
-
-<Fragments fragments={{ ios: ios19 }} />
-
 import android20 from '/src/fragments/lib/graphqlapi/android/relational/customizing-query-depth-comment-post.mdx';
 
 <Fragments fragments={{ android: android20 }} />
 
 Query for the `Post` and the first page of comments for the post: 
-
-import ios21 from '/src/fragments/lib/graphqlapi/ios/relational/customizing-query-depth-post-comments.mdx';
-
-<Fragments fragments={{ ios: ios21 }} />
 
 import android22 from '/src/fragments/lib/graphqlapi/android/relational/customizing-query-depth-post-comments.mdx';
 
