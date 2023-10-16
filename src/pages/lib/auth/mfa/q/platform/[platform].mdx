@@ -1,9 +1,9 @@
 export const meta = {
-  title: `Manage MFA and device settings`,
+  title: `Manage MFA settings`,
   description: `Learn how to enable multi-factor authentication with Amplify.`,
 };
 
-<InlineFilter filters={["js"]}>
+<InlineFilter filters={["js", "react-native"]}>
 
 The Auth category supports Multi-factor Authentication (MFA) for user sign-in flows. MFA is an extra layer of security used to make sure that users trying to gain access to an account are who they say they are. It requires users to provide additional information to verify their identity. Amplify Auth supports the MFA methods with Time-based-One-Time Passwords (TOTP) as well as text messages (SMS). In this guide we will review how you can set up MFA using TOTP and SMS and the tradeoffs between these methods to help you choose the right set up for your application. We’ll also review how to set up MFA to remember a device and reduce sign-in friction for your users.
 
@@ -757,14 +757,22 @@ Congratulations! You finished the **Manage MFA settings** guide. In this guide, 
 ## Next steps
 
 Now that you completed setting up multi-factor authentication you may also want to add additional customization. We recommend you learn more about:
+
+<InlineFilter filters={["js"]}>
+
 * [Switching authentication flows](/lib/auth/switch-auth/q/platform/js/)
 * [Advanced workflows](/lib/auth/advanced/q/platform/js/)
 
 </InlineFilter>
 
-import reactnative0 from "/src/fragments/lib/auth/js/mfa.mdx";
+<InlineFilter filters={["react-native"]}>
 
-<Fragments fragments={{'react-native': reactnative0}} />
+* [Switching authentication flows](/lib/auth/switch-auth/q/platform/react-native/)
+* [Advanced workflows](/lib/auth/advanced/q/platform/react-native/)
+
+</InlineFilter>
+
+</InlineFilter>
 
 import flows from "/src/fragments/lib/auth/common/mfa/flows.mdx";
 

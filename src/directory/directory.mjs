@@ -495,7 +495,7 @@ export const directory = {
           {
             title: 'Remember a device',
             route: '/lib/auth/device_features',
-            filters: ['android', 'ios', 'flutter', 'react-native']
+            filters: ['android', 'ios', 'flutter']
           },
           {
             title: 'Password management',
