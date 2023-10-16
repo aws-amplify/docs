@@ -16,6 +16,8 @@ export { IconSwift } from './IconSwift';
 export { IconStar } from './IconStar';
 export { IconTwitter } from './IconTwitter';
 export { IconVue } from './IconVue';
+export { IconChevron } from './IconChevron';
+export { IconExternalLink } from './IconExternalLink';
 
 export * from './ThumbsUp';
 export * from './ThumbsDown';
