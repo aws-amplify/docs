@@ -1,0 +1,35 @@
+.spaceship {
+  width: 700px;
+  position: absolute;
+  top: 0;
+  right: -260px;
+  opacity: 0;
+  &__spaceship,
+  &__star,
+  &__planet,
+  &__cloud {
+    opacity: 0;
+    transition: opacity 1s ease-out;
+  }
+  &__star {
+    transition-delay: 0.3s;
+  }
+  &__planet {
+    transition-delay: 0.4s;
+  }
+  &__spaceship {
+    transition-delay: 0.7s;
+  }
+}
+
+@media (min-width: 1280px) {
+  .spaceship {
+    opacity: 1;
+    &__spaceship,
+    &__star,
+    &__planet,
+    &__cloud {
+      opacity: 1;
+    }
+  }
+}

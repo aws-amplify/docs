@@ -1,16 +1,27 @@
 .home-intro {
+  container-type: inline-size;
   flex-direction: column;
-  max-width: 460px;
   gap: var(--amplify-space-xl);
+  position: relative;
   &__heading {
     font-family: var(--font-code);
   }
   &__text {
+    max-width: 460px;
     font-size: var(--amplify-font-sizes-large);
+  }
+  &__cta {
+    flex-direction: column;
   }
 }
 
 .home-content {
   flex-direction: column;
   gap: var(--amplify-space-xxxl);
+}
+
+@container (min-width: 530px) {
+  .home-intro__cta {
+    flex-direction: row;
+  }
 }

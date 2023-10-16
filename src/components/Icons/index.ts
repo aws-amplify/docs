@@ -1,6 +1,7 @@
 export { IconAndroid } from './IconAndroid';
 export { IconAngular } from './IconAngular';
 export { IconAWS } from './IconAWS';
+export { IconChevron } from './IconChevron';
 export { IconDiscord } from './IconDiscord';
 export { IconDoubleChevron } from './IconDoubleChevron';
 export { IconFlutter } from './IconFlutter';

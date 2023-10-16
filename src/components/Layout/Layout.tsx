@@ -6,12 +6,13 @@ import { Flex, View, Button, ThemeProvider } from '@aws-amplify/ui-react';
 import { defaultTheme } from '@/themes/defaultTheme';
 import { Footer } from '@/components/Footer/';
 import { GlobalNav, NavMenuItem } from '@/components/GlobalNav/GlobalNav';
+import { SpaceShip } from '@/components/SpaceShip';
 import { TestNav } from '@/components/TestNav';
 import { PLATFORM_DISPLAY_NAMES } from '@/data/platforms';
 import SearchBar from '@/components/SearchBar';
 import { IconMenu, IconDoubleChevron } from '@/components/Icons';
 import { LEFT_NAV_LINKS, RIGHT_NAV_LINKS } from '@/utils/globalnav';
-import { trackPageVisit } from '../../utils/track';
+import { trackPageVisit } from '@/utils/track';
 
 export const Layout = forwardRef(function Layout(
   {
@@ -140,6 +141,7 @@ export const Layout = forwardRef(function Layout(
           </View>
 
           <View className="layout-main">
+            {pageType === 'home' ? <SpaceShip /> : null}
             <Flex as="main" className="main">
               {children}
             </Flex>

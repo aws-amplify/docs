@@ -84,8 +84,17 @@ textarea:not([rows]) {
   min-height: 10em;
 }
 
+.max-inline-content {
+  max-width: 80ch;
+}
+
+.icon-button {
+  gap: var(--amplify-space-xxxs);
+}
+
 .plain-list {
   margin: 0;
+  padding: 0;
   list-style: none;
 }
 .plain-list ul {
