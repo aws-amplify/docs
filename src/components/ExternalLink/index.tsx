@@ -1,11 +1,13 @@
-import React from "react";
-import {ExternalLinkGraphic} from "./styles";
-import {trackExternalLink} from "../../utils/track";
+import React from 'react';
+import { ExternalLinkGraphic } from './styles';
+import { trackExternalLink } from '../../utils/track';
+import { ExternalLinkIcon } from '../Icons';
 
 type ExternalLinkProps = {
   graphic?: string;
   href: string;
   anchorTitle?: string;
+  icon?: boolean;
 };
 
 const ExternalLink: React.FC<ExternalLinkProps> = ({
@@ -13,6 +15,7 @@ const ExternalLink: React.FC<ExternalLinkProps> = ({
   graphic,
   href,
   anchorTitle,
+  icon
 }) => {
   return (
     <a
@@ -29,8 +32,11 @@ const ExternalLink: React.FC<ExternalLinkProps> = ({
         <ExternalLinkGraphic
           alt="External link"
           src={`/assets/external-link-${graphic}.svg`}
+          width="8"
+          height="8"
         />
       )}
+      {icon && <ExternalLinkIcon />}
     </a>
   );
 };

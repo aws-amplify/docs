@@ -36,7 +36,7 @@ const DocsFooter = forwardRef(function DocsFooter({}, ref) {
             <span>
               <div>
                 <p>
-                  <img alt="" src={img.AWS.lightSrc} />
+                  <img alt="" src={img.AWS.lightSrc} width="13" height="8" />
                   Amplify open source software, documentation and
                   <br /> community are supported by Amazon Web Services.
                 </p>

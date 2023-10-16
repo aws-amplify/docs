@@ -13,6 +13,8 @@ const mdxRenderer = `
 
 `;
 
+const shouldAnalyzeBundles = process.env.ANALYZE === 'true';
+
 export default async (phase, { defaultConfig }) => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const headingLinkPlugin = await require('./src/plugins/headings.tsx');
@@ -62,7 +64,7 @@ export default async (phase, { defaultConfig }) => {
     }
   });
 
-  const nextConfig = withMDX({
+  let nextConfig = withMDX({
     env: {
       BUILD_ENV: process.env.BUILD_ENV,
       nextImageExportOptimizer_imageFolderPath: 'public',
@@ -93,8 +95,6 @@ export default async (phase, { defaultConfig }) => {
     trailingSlash: true,
     transpilePackages: [
       '@algolia/autocomplete-shared',
-      '@cloudscape-design/components',
-      '@cloudscape-design/component-toolkit',
       'next-image-export-optimizer'
     ],
     // eslint-disable-next-line @typescript-eslint/require-await
@@ -124,6 +124,20 @@ export default async (phase, { defaultConfig }) => {
       ];
     }
   });
+
+  if (shouldAnalyzeBundles) {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const withNextBundleAnalyzer = require('next-bundle-analyzer')({
+      format: ['json'],
+      reportDir: '../.github/analyze',
+      json: {
+        filter: {
+          pages: true
+        }
+      }
+    });
+    nextConfig = withNextBundleAnalyzer(nextConfig);
+  }
 
   return nextConfig;
 };

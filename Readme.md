@@ -47,7 +47,10 @@ IMPORTANT: Every page has to have a `title` and `description` meta field.
 
 The markdown body is parsed as [MDX](https://mdxjs.com/) and can include any valid HTML or JSX.
 
-To inline fragments, and have them conditionally render based off selected platform, we add the condition to the `Fragments` tag:
+### Fragments
+To incorporate new platform-specific content within a page, please use [Inline Filters](https://github.com/aws-amplify/docs/blob/main/Readme.md#inline-filters).
+
+When editing content that hasn't been migrated, you may see the following pattern:
 
 ```jsx
 import js from "/src/fragments/lib/datastore/js/conflict.mdx";
@@ -55,7 +58,40 @@ import js from "/src/fragments/lib/datastore/js/conflict.mdx";
 <Fragments fragments={{js: js}} />;
 ```
 
+This pattern incorporates fragment files into a page and conditionally renders content based off selected platform added as a condition to the `Fragments` tag.
+
 This fragment would exist in: `pages/src/fragments/lib/datastore/js/conflict.mdx`
+
+### Inline Filters 
+
+We are incorporating the use of `<InlineFilters>` to add platform-specific content within the context of one page rather than in fragments. These filters allow you to still specify content by platform and they reference platforms using the same naming convention as our fragments. You can enclose your platform-specific content by updating the opening tag:
+
+````md
+<InlineFilter filters={["js", "react-native", "android", "ios", "flutter"]}>
+
+</InlineFilter>
+````
+ 
+If you are updating content on a page, please note any inline filter tags which may be indicating a specific platform as you make your edits.
+
+### Accordion 
+
+`Accordion` This single-use accordion hides peripheral content until the reader selects to expand the section. This helps you keep your pages focused on the need-to-know information upfront, while also providing readers an option to dive deeper when they choose. These accordions can provide peripheral content such as additional context for beginners, advanced deep dives for those who want to off-road, and troubleshooting guidance for errors users may encounter.
+
+Here is an example of its usage:
+
+````md
+<Accordion title='Review recommended accordion usage' headingLevel='4' eyebrow='Learn more'>
+
+- Title – Make your title descriptive to help readers know what the accordion contains before they click.
+- Heading Level – Keep the heading level consistent with your page hierarchy.
+- Eyebrow – Update this text to reflect the purpose of the accordion. We recommend:
+    - Learn more – used to add additional context that is not needed upfront but is useful for users to review when they choose.
+    - Troubleshooting – used when adding details to troubleshoot specific errors within context.
+    - Walkthrough – used when adding a step-by-step example for those who need more direct guidance.
+
+</Accordion>
+````
 
 ### Tab-switchable Blocks
 

@@ -26,3 +26,63 @@ import android2 from '/src/fragments/lib-v1/analytics/android/record.mdx';
 import flutter3 from '/src/fragments/lib-v1/analytics/flutter/record.mdx';
 
 <Fragments fragments={{ flutter: flutter3 }} />
+
+<InlineFilter filters={['js']}>
+
+## Recording Custom Events
+
+To record custom events call the `record` API:
+
+```javascript
+import { record } from 'aws-amplify/analytics';
+
+record({ 
+  event: {
+    name: 'albumVisit'
+  }
+});
+```
+
+## Record a Custom Event with Attributes
+
+The `record` API lets you add additional attributes to an event. For example, to record _artist_ information with an _albumVisit_ event:
+
+```javascript
+import { record } from 'aws-amplify/analytics';
+
+record({
+  event: {
+    name: 'albumVisit',
+    attributes: { genre: '', artist: '' }
+  }
+});
+```
+
+Recorded events will be buffered and periodically sent to Pinpoint.
+
+## Record Engagement Metrics
+
+Metrics can also be added to an event:
+
+```javascript
+import { record } from 'aws-amplify/analytics';
+
+record({
+  event: {
+    name: 'albumVisit',
+    metrics: { minutesListened: 30 }
+  }
+});
+```
+
+Metric values must be a `Number` type such as a float or integer.
+
+<Callout>
+
+The AWS Pinpoint event count updates in minutes after recording your event.
+
+However, it can take upwards of 30 minutes for the event to display in the Filter section, and for its custom attributes to appear in Pinpoint. 
+
+</Callout>
+
+</InlineFilter>

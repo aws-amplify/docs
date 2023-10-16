@@ -24,8 +24,8 @@ describe('Feedback', () => {
 
     render(component);
 
-    const thumbsUp = screen.getByText('Yes');
-    const thumbsDown = screen.getByText('No');
+    const thumbsUp = screen.getByLabelText('Yes');
+    const thumbsDown = screen.getByLabelText('No');
 
     expect(thumbsUp).toBeInTheDocument();
     expect(thumbsDown).toBeInTheDocument();
@@ -36,8 +36,8 @@ describe('Feedback', () => {
 
     render(component);
 
-    const thumbsUp = screen.getByText('Yes');
-    const thumbsDown = screen.getByText('No');
+    const thumbsUp = screen.getByLabelText('Yes');
+    const thumbsDown = screen.getByLabelText('No');
 
     expect(thumbsUp).toBeInTheDocument();
     expect(thumbsDown).toBeInTheDocument();
@@ -52,12 +52,11 @@ describe('Feedback', () => {
 
   it('should call trackFeedbackSubmission request when either button is clicked', async () => {
     jest.spyOn(trackModule, 'trackFeedbackSubmission');
-
     const component = <Feedback />;
 
     render(component);
 
-    const thumbsDown = screen.getByText('No');
+    const thumbsDown = screen.getByLabelText('No');
 
     userEvent.click(thumbsDown);
 
