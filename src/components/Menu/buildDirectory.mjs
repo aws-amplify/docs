@@ -16,6 +16,7 @@
  * @property {string[]} platforms - The platforms that the pages apply to
  * @property {string} route - The page's file path
  * @property {PageNode[]} children - The children pages - optional
+ * @property {boolean} isExternal - Denotes whether or not the node is an external link
  */
 
 // async function visitPage(directoryPath) {
@@ -169,6 +170,20 @@ export const directory = {
               description: `API (Rest)`,
               platforms: ['android', 'javascript'],
               route: 'pages/[platform]/build-a-backend/api-rest/index.mdx'
+            }
+          ]
+        },
+        {
+          title: 'Build a UI',
+          description: 'Build a UI',
+          platforms: ['android', 'javascript'],
+          route: 'pages/[platform]/build-a-ui/index.mdx',
+          children: [
+            {
+              title: 'UI Library Docs',
+              platforms: ['android', 'javascript'],
+              route: 'https://ui.docs.amplify.aws/',
+              isExternal: true
             }
           ]
         }

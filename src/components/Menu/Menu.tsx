@@ -2,7 +2,6 @@ import { ReactElement } from 'react';
 import { View, Text } from '@aws-amplify/ui-react';
 import { MenuItem } from './MenuItem';
 import { PageNode, directory } from './buildDirectory.mjs';
-import styles from './Menu.module.scss';
 import { Platform } from '@/data/platforms';
 
 type MenuProps = {
@@ -14,9 +13,9 @@ export function Menu({ currentPlatform }: MenuProps): ReactElement {
   const platformOverviewPage = rootPage.children[0];
 
   return (
-    <nav className={styles['menu']}>
-      <View marginBottom="16px">
-        <Text fontSize="16px" fontWeight="700">
+    <nav className="menu">
+      <View marginBottom="16px" className="menu__item">
+        <Text className="menu__item__inner menu__item--category">
           How Amplify works
         </Text>
       </View>
