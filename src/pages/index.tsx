@@ -10,6 +10,8 @@ import FeaturesGrid from '../components/FeaturesGrid';
 import LinkBanner from '../components/LinkBanner';
 import Footer from '../components/Footer';
 import SecondaryNav from '../components/SecondaryNav';
+import { PageContext } from '@/components/Page';
+import { parseLocalStorage } from '@/utils/parseLocalStorage';
 
 import { trackPageVisit } from '../utils/track';
 import { NavMenuItem, GlobalNav } from '../components/GlobalNav';
@@ -30,6 +32,11 @@ const meta = {
 
 const Page = () => {
   const [isMounted, setIsMounted] = useState(false);
+  const [filterKeys, setFilterKeys] = useState({});
+
+  useEffect(() => {
+    setFilterKeys(parseLocalStorage('filterKeys', {}));
+  }, []);
 
   useEffect(() => {
     trackPageVisit();
@@ -38,7 +45,7 @@ const Page = () => {
   }, []);
 
   return (
-    <>
+    <PageContext.Provider value={filterKeys}>
       <Head>
         <title>{meta.title}</title>
         <meta name="description" content={meta.description} />
@@ -155,7 +162,7 @@ const Page = () => {
       <FeaturesGrid />
       <LinkBanner />
       <Footer />
-    </>
+    </PageContext.Provider>
   );
 };
 
