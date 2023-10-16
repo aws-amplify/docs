@@ -1,7 +1,6 @@
 import '@algolia/autocomplete-theme-classic';
 import '@aws-amplify/ui-react/styles.css';
 import '../styles/styles.scss';
-import '../styles/contribute-styles.css';
 import Head from 'next/head';
 import { MDXProvider } from '@mdx-js/react';
 import { Layout } from '@/components/Layout';

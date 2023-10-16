@@ -1,13 +1,15 @@
-@import './variables.css';
-@import './font-faces.css';
-@import './base.css';
-@import './algolia.css';
-@import './prism-language-error.css';
+@import './variables.scss';
+@import './font-faces.scss';
+@import './base.scss';
+@import './algolia.scss';
+@import './prism-language-error.scss';
 @import './platform-navigator.scss';
 @import './icons.scss';
 
-@import './layout.css';
-@import './footer.css';
+@import './footer.scss';
+@import './home.scss';
+@import './layout.scss';
+@import './search.scss';
 
 /* Temp */
 [id*='lastupdated-'] {
