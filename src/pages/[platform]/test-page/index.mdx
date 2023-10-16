@@ -68,6 +68,13 @@ Testing fragments below:
 
 test `code`
 
+```javascript
+(window as any).global = window;
+(window as any).process = {
+  env: { DEBUG: undefined },
+};
+```
+
 ```bash
 npm install -g @aws-amplify/cli
 ```
