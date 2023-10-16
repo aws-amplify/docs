@@ -94,14 +94,7 @@ This will give you access to the currently authenticated user with the request o
 
 <Callout>
 
-! **Note:** Server-side functions that don't have a `req` object (e.g. Next.js' `getStaticProps` and `getStaticPaths`) should still use `withSSRContext()`. Please note that it is **not** possible to perform authenticated requests with Amplify when using functions that do not have a `req`.
-
-</Callout>
-
-
-<Callout>
-
-**Note:** When using `getServerSideProps` each request (`req`) on the server creates a copy of Amplify that scopes the credentials and the user session to *just one* request. 
+**Note:** Server-side functions that don't have a request (`req`) object (e.g. Next.js' `getStaticProps` and `getStaticPaths`) should still use `withSSRContext()`. However, please note that it is **not** possible to check for an authenticated user when using these functions. Amplify relies on cookies that are sent from the browser to check for a current user session when used on the server. Additionally each request on the server creates a copy of Amplify that scopes the credentials and the user session to *just one* request.
 
 </Callout>
 
@@ -143,12 +136,11 @@ export default async function Page() {
 }
 ```
 
-Next, prepare a request object for `withSSRContext` to perform server-side operations that require authentication.  Here is an example of a Next.js App Router Server Component that queries data from GraphQL (e.g. `app/posts/page.tsx`):
+Next, prepare a request object for `withSSRContext` to perform server-side operations that require authentication.  Here is an example of a Next.js App Router Server Component that checks for the current authenticated user:
 
 ```js
 import { Amplify, withSSRContext } from 'aws-amplify';
 import { headers } from 'next/headers';
-import { listPosts } from '@/graphql/queries'; 
 import awsExports from '@/aws-exports';
 
 Amplify.configure({ ...awsExports, ssr: true });
@@ -160,17 +152,31 @@ export default async function Page() {
       cookie: headers().get('cookie'),
     },
   };
+
+  // Pass the request object with the cookies to `withSSRContext`
   const SSR = withSSRContext({ req })
 
-  const { data } = await SSR.API.graphql({ query: listPosts });
+  // Access the Auth class via SSR to get the current user
+  const currentUser = await SSR.Auth.currentAuthenticatedUser();
 
   // ...
 }
 
 ```
 
-
 You can now use the Next.js App Router with authentication for SSR.
+
+## Known Limitations
+
+[comment]: # (A number of these will be resolved in V6)
+
+There are some known limitations when using Amplify with SSR that will be addressed in future versions of Amplify. Please understand and be aware of these known limitations:
+- [Amplify Causing Errors With Next.js middleware](https://github.com/aws-amplify/amplify-js/issues/9145)
+- [Auth.currentAuthenticatedUser does not work in NextJs API routes](https://github.com/aws-amplify/amplify-js/issues/10818)
+- [Enabling Device Tracking from Cognito User Pool sets `token_use` on SSR auth call to `access` instead of `id`](https://github.com/aws-amplify/amplify-js/issues/10819)
+- [Next.js and AWS Amplify - `custom_header` defined in Amplify.configure() doesn't work with SSR Calls](https://github.com/aws-amplify/amplify-js/issues/10290)
+- [UniversalStorage overwrites third party localStorage values with cookie values](https://github.com/aws-amplify/amplify-js/issues/8608)
+
 
 ## Conclusion
 
