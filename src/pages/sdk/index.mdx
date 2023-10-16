@@ -1,12 +1,12 @@
 import ChooseFilterPage from '@/components/ChooseFilterPage';
 
-import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+import { PLATFORM_FILTER_OPTIONS } from '@/utils/filter-data.ts';
 
 <ChooseFilterPage
   directoryPath="/ChooseFilterPage"
   address="/sdk"
   filterKind="platform"
-  filters={INTEGRATION_FILTER_OPTIONS}
+  filters={PLATFORM_FILTER_OPTIONS}
   currentFilter="all"
   message={`Please select one of the following:`}
 />

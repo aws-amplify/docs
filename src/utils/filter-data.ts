@@ -24,6 +24,8 @@ type FilterMetadataByOption<T extends readonly string[]> = Record<
  */
 export const PLATFORM_FILTER_OPTIONS = ["android", "js", "ios", "flutter", "react-native"];
 
+export const GUIDE_FILTER_OPTIONS = ["android", "js", "ios", "flutter"];
+
 export const FRAMEWORK_FILTER_OPTIONS = [
   "react",
   "react-native",

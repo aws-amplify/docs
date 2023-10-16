@@ -1,12 +1,12 @@
 import ChooseFilterPage from '@/components/ChooseFilterPage';
 
-import { INTEGRATION_FILTER_OPTIONS } from '@/utils/filter-data.ts';
+import { GUIDE_FILTER_OPTIONS } from '@/utils/filter-data.ts';
 
 <ChooseFilterPage
   directoryPath="/ChooseFilterPage"
   address="/guides"
   filterKind="platform"
-  filters={INTEGRATION_FILTER_OPTIONS}
+  filters={GUIDE_FILTER_OPTIONS}
   currentFilter="all"
-  message={`Please select one of the following:`}
+  message={`Choose a platform:`}
 />
