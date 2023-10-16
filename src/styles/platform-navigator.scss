@@ -23,9 +23,11 @@
         &__item {
             border-bottom: 1px solid;
             background-color: lightgrey;
-            padding: 0.5em;
             &:hover {
                 background-color:grey;
+            }
+            & span {
+                padding: 0.5em;
             }
         }
     }

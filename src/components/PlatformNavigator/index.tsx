@@ -7,7 +7,7 @@ const platformList = [
   { title: 'Android', link: '/android', imgName: 'ANDROID' },
   { title: 'Angular', link: '/angular', imgName: 'ANGULAR' },
   { title: 'Flutter', link: '/flutter', imgName: 'FLUTTER' },
-  { title: 'Javascript', link: '/javascript', imgName: 'JS' },
+  { title: 'JavaScript', link: '/javascript', imgName: 'JS' },
   { title: 'Next.js', link: '/next', imgName: 'NEXT' },
   { title: 'React', link: '/react', imgName: 'REACT' },
   { title: 'React Native', link: '/react-native', imgName: 'REACTNATIVE' },
@@ -36,7 +36,8 @@ export function PlatformNavigator({ currentPlatform }) {
       >
         <Flex as="span" alignItems="center">
           <Image
-            alt={img[platformItem.imgName].alt}
+            alt=""
+            aria-hidden="true"
             height={30}
             width={30}
             src={img[platformItem.imgName].src}
@@ -56,26 +57,27 @@ export function PlatformNavigator({ currentPlatform }) {
           const title = platform.title;
           const current = title === currentPlatform;
           return (
-            <Link
-              href={platform.link}
-              key={platform.title}
-              aria-current={current}
-              className={`platform-navigator__dropdown__link ${
-                current ? 'platform-navigator__dropdown__link--current' : ''
-              }`}
-            >
-              <li className={`platform-navigator__dropdown__item`}>
+            <li className={`platform-navigator__dropdown__item`}>
+              <Link
+                href={platform.link}
+                key={platform.title}
+                aria-current={current}
+                className={`platform-navigator__dropdown__link ${
+                  current ? 'platform-navigator__dropdown__link--current' : ''
+                }`}
+              >
                 <Flex as="span" alignItems="center">
                   <Image
-                    alt={img[platform.imgName].alt}
+                    alt=""
+                    aria-hidden="true"
                     height={20}
                     width={20}
                     src={img[platform.imgName].src}
                   />
                   {platform.title}
                 </Flex>
-              </li>
-            </Link>
+              </Link>
+            </li>
           );
         })}
       </ul>

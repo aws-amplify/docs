@@ -149,7 +149,7 @@ export const Layout = forwardRef(function Layout(
                   <IconDoubleChevron aria-hidden="true" />
                   Menu
                 </Button>
-                <PlatformNavigator currentPlatform={"Javascript"}/>
+                <PlatformNavigator currentPlatform={PLATFORM_DISPLAY_NAMES[currentPlatform]}/>
               </div>
               <div className="layout-sidebar-menu">
                 <Menu currentPlatform={currentPlatform} />
