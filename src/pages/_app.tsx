@@ -1,19 +1,24 @@
+import '@aws-amplify/ui-react/styles.css';
 import '@algolia/autocomplete-theme-classic';
 import '../styles/styles.css';
 import '../styles/contribute-styles.css';
 import Head from 'next/head';
 import { MDXProvider } from '@mdx-js/react';
-import ExportedImage from 'next-image-export-optimizer';
-
-const ResponsiveImage = (props) => (
-  <ExportedImage style={{ height: 'auto' }} {...props} />
-);
-
-const components = {
-  img: ResponsiveImage
-};
+import { Layout } from '@/components/Layout';
 
 function MyApp({ Component, pageProps }) {
+  const { meta, platform } = pageProps;
+  const getLayout =
+    Component.getLayout ||
+    ((page) => (
+      <Layout
+        pageTitle={meta?.title ? meta.title : ''}
+        pageDescription={meta?.description ? meta.description : ''}
+        platform={platform ? platform : ''}
+      >
+        {page}
+      </Layout>
+    ));
   return (
     <>
       <Head>
@@ -95,9 +100,7 @@ function MyApp({ Component, pageProps }) {
         <link rel="icon" type="image/x-icon" href="/assets/icon/favicon.ico" />
       </Head>
 
-      <MDXProvider components={components}>
-        <Component {...pageProps} />
-      </MDXProvider>
+      <MDXProvider>{getLayout(<Component {...pageProps} />)}</MDXProvider>
 
       {process.env.BUILD_ENV !== 'production' ? (
         <>

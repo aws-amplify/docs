@@ -1,43 +1,18 @@
 import { createRequire } from 'module';
 import dotenv from 'dotenv';
-import _withMDX from '@next/mdx';
-import { directory } from './src/directory/directory.mjs';
+import createMDX from '@next/mdx';
+
 const require = createRequire(import.meta.url);
 import rehypeImgSize from 'rehype-img-size';
-
 dotenv.config({ path: './.env.custom' });
 
-const mdxRenderer = `
-  import { mdx } from "@mdx-js/react";
-
-`;
-
-export default async (phase, { defaultConfig }) => {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const headingLinkPlugin = await require('./src/plugins/headings.tsx');
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const pagePlugin = await require('./src/plugins/page.tsx');
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const internalLinkPlugin = await require('./src/plugins/internal-link.tsx');
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const codeBlockPlugin = await require('./src/plugins/code-block.tsx');
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const importPlugin = await require('./src/plugins/import.tsx');
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const frontmatterPlugin = await require('./src/plugins/frontmatter.tsx');
-
-  const withMDX = _withMDX({
+export default async () => {
+  const withMDX = createMDX({
     extension: /\.mdx$/,
     options: {
-      remarkPlugins: [
-        frontmatterPlugin,
-        importPlugin,
-        headingLinkPlugin,
-        pagePlugin,
-        internalLinkPlugin
-      ],
-      rehypePlugins: [codeBlockPlugin, [rehypeImgSize, { dir: 'public' }]],
-      renderer: mdxRenderer
+      // TODO: Fix this frontmatter plugin
+      // remarkPlugins: [frontmatterPlugin],
+      rehypePlugins: [[rehypeImgSize, { dir: 'public' }]]
     }
   });
 
@@ -68,9 +43,11 @@ export default async (phase, { defaultConfig }) => {
       // !! WARN !!
       ignoreBuildErrors: true
     },
-    exportPathMap,
     trailingSlash: true,
-    transpilePackages: ['@algolia/autocomplete-shared', 'next-image-export-optimizer'],
+    transpilePackages: [
+      '@algolia/autocomplete-shared',
+      'next-image-export-optimizer'
+    ],
     // eslint-disable-next-line @typescript-eslint/require-await
     async headers() {
       return [
@@ -98,12 +75,5 @@ export default async (phase, { defaultConfig }) => {
       ];
     }
   });
-
   return nextConfig;
 };
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const generatePathMap = require('./generatePathMap.cjs');
-function exportPathMap(defaultPathMap, props) {
-  return generatePathMap(directory);
-}
