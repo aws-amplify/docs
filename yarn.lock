@@ -3341,6 +3341,10 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
+"@mdx-js/loader@^2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@mdx-js/loader/-/loader-2.3.0.tgz#56a6b07eb0027b6407e953a97c52bd8619601161"
+  integrity sha512-IqsscXh7Q3Rzb+f5DXYk0HU71PK+WuFsEhf+mSV3fOhpLcEpgsHvTQ2h0T6TlZ5gHOaBeFjkXwB52by7ypMyNg==
 <<<<<<< HEAD
 "@mdx-js/loader@^1.6.22":
   version "1.6.22"
@@ -5816,7 +5820,7 @@ cloudform-types@^4.2.0:
   resolved "https://registry.yarnpkg.com/cloudform-types/-/cloudform-types-4.2.0.tgz#698c98a1468bd8fe9c1c275b2e65720f572ca401"
   integrity sha512-i7fmpsOtrMzF4z3Ltpqn9Khi6pgSxNCMqqsXLXWbaZsczky7vA9mkq/Z2bdMUu5x4Eaj5wvvKc95ENZ0dtN/Uw==
 
-clsx@^1.1.0, clsx@^1.2.1:
+clsx@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/clsx/-/clsx-1.2.1.tgz#0ddc4a20a549b59c93a4116bb26f5294ca17dc12"
   integrity sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==
