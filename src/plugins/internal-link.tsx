@@ -6,7 +6,7 @@ module.exports = (async () => {
       let { url } = link;
       const { children } = link;
 
-      if (url.includes(':') && !url.includes('docs.amplify.aws')) {
+      if (url.includes(':') && !url.includes('//docs.amplify.aws')) {
         // external link
 
         // fix for URLs ending with "

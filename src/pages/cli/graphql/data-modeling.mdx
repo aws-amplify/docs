@@ -17,7 +17,7 @@ type Todo @model {
 }
 ```
 
-The Amplify CLI generates the Todo database table upon `amplify push` and generates a GraphQL API to perform create, read, update, delete, and list operations for the Todo model.
+Upon `amplify push` or `cdk deploy`, Amplify deploys the Todo database table and a corresponding GraphQL API to perform create, read, update, delete, and list operations.
 
 In addition, `@model` also adds the helper fields `createdAt` and `updatedAt` to your type. The values for those fields are read-only by clients unless explicitly overwritten. See [Customize creation and update timestamps](#customize-creation-and-update-timestamps) to learn more.
 
@@ -37,14 +37,14 @@ query QueryAllTodos {
 }
 ```
 ```js
-import { Amplify, API, graphqlOperation } from 'aws-amplify';
+import { Amplify, API } from 'aws-amplify';
 import awsconfig from './aws-exports';
 import { listTodos } from './graphql/queries';
 
 Amplify.configure(awsconfig);
 
 try {
-	const result = await API.graphql(graphqlOperation(listTodos));
+	const result = await API.graphql({ query: listTodos });
 	const todos = result.data.listTodos;
 } catch (res) {
 	const { errors } = res;
@@ -434,11 +434,13 @@ const postComments = postWithComments.comments.items; // access comments from po
 
 ### Belongs To relationship
 
-Make a "has one" or "has many" relationship bi-directional with the `@belongsTo` directive.
+Make a "has one" or "has many" relationship bi-directional with the `@belongsTo` directive. 
 
 <BlockSwitcher>
 
 <Block name='Bi-directional "has one" relationship'>
+
+For 1:1 relationships, the @belongsTo directive solely facilitates the ability for you to query from both sides of the relationship. When updating a bi-directional hasOne relationship, you must update both sides of the relationship with corresponding IDs.
 
 ```graphql
 type Project @model {

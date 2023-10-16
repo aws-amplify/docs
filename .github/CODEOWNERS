@@ -1,1 +1,99 @@
 * @aws-amplify/documentation-team 
+/src/fragments/ @abdallahshaban557 @aws-amplify/documentation-team 
+/src/pages/ @abdallahshaban557 @aws-amplify/documentation-team 
+
+#CLI
+/src/**/cli/ @josefaidt @aws-amplify/documentation-team 
+
+#Studio
+/src/pages/console/ @wrpeck @aws-amplify/documentation-team 
+ 
+#Analytics
+/src/**/**/analytics @abdallahshaban557 @aws-amplify/documentation-team 
+
+#Auth
+/src/**/**/auth @abdallahshaban557 @aws-amplify/documentation-team 
+/src/**/**/authz @abdallahshaban557 @aws-amplify/documentation-team 
+/src/**/**/authentication @abdallahshaban557 @aws-amplify/documentation-team 
+
+#Client Configuration
+/src/**/**/client-configuration @abdallahshaban557 @hdworld11 @aws-amplify/documentation-team 
+/src/**/**/configuration @abdallahshaban557 @hdworld11 @aws-amplify/documentation-team 
+
+#Common
+/src/fragments/common @abdallahshaban557 @aws-amplify/documentation-team 
+/src/fragments/lib/common @abdallahshaban557 @aws-amplify/documentation-team 
+
+#Data
+/src/**/**/datastore @renebrandel @aws-amplify/documentation-team 
+/src/**/**/data @renebrandel @aws-amplify/documentation-team 
+
+#Debugging
+/src/fragments/**/debugging @abdallahshaban557 @aws-amplify/documentation-team 
+
+#Geo
+/src/**/**/geo @abdallahshaban557 @aws-amplify/documentation-team 
+
+#Getting Started
+/src/**/start @abdallahshaban557 @aws-amplify/documentation-team 
+
+#GraphQL API
+/src/**/**/api-graphql @renebrandel @aws-amplify/documentation-team 
+/src/**/**/graphqlapi @renebrandel @aws-amplify/documentation-team 
+/src/**/cli-legacy/graphql-transformer @renebrandel @aws-amplify/documentation-team 
+/src/fragments/sdk/api/**/graphql.mdx @renebrandel @aws-amplify/documentation-team 
+
+#In-App Messaging
+/src/**/**/in-app-messaging @abdallahshaban557 @aws-amplify/documentation-team 
+
+#Info
+/src/fragments/**/info @abdallahshaban557 @aws-amplify/documentation-team 
+
+#Interactions
+/src/**/**/interactions @abdallahshaban557 @aws-amplify/documentation-team 
+
+#Logging
+/src/fragments/lib/logging @abdallahshaban557 @aws-amplify/documentation-team 
+
+#Predictions
+/src/**/**/predictions @abdallahshaban557 @aws-amplify/documentation-team 
+
+#Project Setup
+/src/**/**/project-setup @abdallahshaban557 @hdworld11 @aws-amplify/documentation-team 
+
+#PubSub
+/src/**/**/pubsub @abdallahshaban557 @aws-amplify/documentation-team 
+
+#Push Notifications
+/src/**/**/push-notifications @abdallahshaban557 @aws-amplify/documentation-team 
+
+#Rest API
+/src/**/**/api-rest @renebrandel @aws-amplify/documentation-team 
+/src/**/**/restapi @renebrandel @aws-amplify/documentation-team 
+/src/fragments/sdk/api/**/rest.mdx @renebrandel @aws-amplify/documentation-team 
+
+#SSR
+/src/fragments/lib/ssr @abdallahshaban557 @renebrandel @aws-amplify/documentation-team 
+
+#Storage
+/src/**/**/storage @hdworld11 @aws-amplify/documentation-team 
+
+#Troubleshooting
+/src/fragments/lib/troubleshooting @abdallahshaban557 @renebrandel @aws-amplify/documentation-team 
+
+#Utilities
+/src/**/**/utilities @abdallahshaban557 @aws-amplify/documentation-team 
+
+#Docs Engineering
+/src/components @aws-amplify/documentation-team
+/src/constants @aws-amplify/documentation-team 
+/src/directory @aws-amplify/documentation-team 
+/src/pages/_app.tsx @aws-amplify/documentation-team 
+/src/pages/_document.tsx @aws-amplify/documentation-team 
+/src/pages/404.tsx @aws-amplify/documentation-team 
+/src/pages/ChooseFilterPage.tsx @aws-amplify/documentation-team 
+/src/pages/index.tsx @aws-amplify/documentation-team
+/src/plugins @aws-amplify/documentation-team 
+/src/public @aws-amplify/documentation-team 
+/src/styles @aws-amplify/documentation-team 
+/src/utils @aws-amplify/documentation-team
