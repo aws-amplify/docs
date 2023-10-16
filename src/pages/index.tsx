@@ -1,6 +1,16 @@
 import React, { useEffect } from 'react';
 import { Heading, Text, Flex, View, Button } from '@aws-amplify/ui-react';
 import { Layout } from '@/components/Layout';
+import {
+  IconAndroid,
+  IconAngular,
+  IconFlutter,
+  IconJS,
+  IconNext,
+  IconReact,
+  IconSwift,
+  IconVue
+} from '@/components/Icons';
 
 import { trackPageVisit } from '@/utils/track';
 
@@ -27,6 +37,16 @@ export default function Page() {
           libraries, CLI, and services, you can easily connect your frontend to
           the cloud for authentication, storage, APIs, and more.
         </Text>
+        <Flex fontSize="3rem">
+          <IconAndroid />
+          <IconAngular />
+          <IconFlutter />
+          <IconJS />
+          <IconNext />
+          <IconReact />
+          <IconSwift />
+          <IconVue />
+        </Flex>
         <Flex>
           <Button variation="primary" size="large">
             How Amplify Works
