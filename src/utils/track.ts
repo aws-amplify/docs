@@ -172,8 +172,7 @@ export const trackExpanderOpen = (expanderId) => {
   const opt = {
     event: {
       type: 'click',
-      name: 'ExpanderOpen',
-      expanderId
+      name: `ExpanderOpen.${expanderId}`
     }
   };
 
@@ -191,6 +190,22 @@ export const trackCopyClicks = (data) => {
       name: 'CopyCode'
     },
     data: data
+  };
+
+  AWSMA.ready(() => {
+    document.dispatchEvent(
+      new CustomEvent(AWSMA.TRIGGER_EVENT, { detail: opt })
+    );
+  });
+};
+
+// Track the click on the "Whats new" banner component
+export const trackWhatsNewBanner = () => {
+  const opt = {
+    event: {
+      type: 'click',
+      name: 'WhatsNewBanner'
+    }
   };
 
   AWSMA.ready(() => {
