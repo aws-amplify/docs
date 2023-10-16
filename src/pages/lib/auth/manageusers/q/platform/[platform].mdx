@@ -13,11 +13,11 @@ Before you begin, you will need:
 
 ## Set up user attributes
 
-Attributes such as name, email address, phone number help you identify individual users. Defining the user attributes you include for your user profiles makes user data easy to manage at scale. This information will help you personalize user journeys, tailor content, provide intuitive account control, and more. You can capture information upfront during sign-up or in a customizable profile. In this section we take a closer look at working with user attributes and how to set them up and manage them.
+Attributes such as name, email address, phone number help you identify individual users. Defining the user attributes you include for your user profiles makes user data easy to manage at scale. This information will help you personalize user journeys, tailor content, provide intuitive account control, and more. You can capture information upfront during sign-up or enable customers to update their profile after sign up. In this section we take a closer look at working with user attributes and how to set them up and manage them.
 
 ### Enable standard attributes
 
-Amazon Cognito has a set of default standard attributes. To configure and enable standard user attributes in your app, you can run the Amplify `update auth` command and choose `Walkthrough all the auth configurations`. When prompted for `Specify read attributes` and `Specify write attributes`, choose the attributes you'd like to enable in your app. 
+Amazon Cognito has a set of default standard attributes. To configure and enable standard user attributes using the Amplify CLI in your app, you can run the Amplify `amplify add auth` command and choose `Walkthrough all the auth configurations`. If you have previously created your auth resources, you can instead run the `amplify update auth` command in your terminal. When prompted for `Specify read attributes` and `Specify write attributes`, choose the attributes you'd like to enable in your app. 
 
 <Accordion title='Review standard attributes options' headingLevel='4' eyebrow='Learn more'>
 
@@ -43,8 +43,6 @@ There are many user attributes available to use by default in Cognito. Their def
 
 You can find a [list of all the standard attributes here](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#cognito-user-pools-standard-attributes).
 
-You also have the ability to define custom attributes and up to 50 custom attributes can be added to your user pool. You can review the documentation on [defining custom attributes](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-attributes.html#user-pool-settings-custom-attributes) to learn more.
-
 </Accordion>
 
 ### Pass user attributes during sign-up
@@ -68,7 +66,6 @@ async function handleSignUp() {
         given_name: 'Jane',
         family_name: 'Doe',
         nickname: 'Jane',
-        'custom:attribute_name': 'attribute_value'
       }
     });
   } catch (e) {
@@ -94,7 +91,6 @@ async function handleSignUp() {
         given_name: 'Jane',
         family_name: 'Doe',
         nickname: 'Jane',
-        'custom:attribute_name': 'attribute_value'
       }
     });
   } catch (e) {
@@ -109,7 +105,7 @@ async function handleSignUp() {
 
 ### Retrieve user attributes
 
-You can then retrieve user attributes for your users to read in their profile. This helps you personalize their frontend experience as well as control what they will see. Visible attributes will be limited to those you enabled during the `Specify read attributes` configured with the `auth` category. Then you can use the `currentAuthenticatedUser` method of the `Auth` class to read user attributes:
+You can then retrieve user attributes for your users to read in their profile. This helps you personalize their frontend experience as well as control what they will see. Visible attributes will be limited to those you enabled during the `Specify read attributes` configured with the Auth category. Then you can use the `currentAuthenticatedUser` method to retrieve user attributes.
 
 ```ts
 const user = await Auth.currentAuthenticatedUser();
@@ -132,7 +128,7 @@ You can enable your users to update, verify, and delete specific user attributes
 
 ### Update user attributes
 
-You can enable users to make updates after sign-up by using the `updateUserAttributes` method of the `Auth` class:
+You can enable users to make updates after sign-up by using the `updateUserAttributes` method:
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -413,7 +409,7 @@ export default function App() {
 
 ### Delete user attributes
 
-Finally, if your users need to delete one or more user attributes, you can call `Auth.deleteUserAttributes` method of the `Auth` class to enable this action:
+Finally, if your users need to delete one or more user attributes, you can call the `Auth.deleteUserAttributes` method:
 
 ```ts
 import { Auth } from 'aws-amplify';
