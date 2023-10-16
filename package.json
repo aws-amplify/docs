@@ -37,6 +37,7 @@
     "next-image-export-optimizer": "^1.8.3",
     "next-transpile-modules": "^9.0.0",
     "parse-imports": "^1.1.0",
+    "playwright": "^1.39.0",
     "prismjs": "^1.21.0",
     "ramda": "^0.28.0",
     "react": "^18.2.0",
