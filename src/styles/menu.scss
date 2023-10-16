@@ -1,0 +1,51 @@
+.menu {
+  --current-color: hsla(36, 100%, 50%, 1);
+  --hover-color: hsla(0, 0%, 94%, 1);
+
+  ul,
+  li {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  &__item {
+    &__inner {
+      width: 100%;
+      padding: var(--amplify-space-xs) var(--amplify-space-large);
+    }
+
+    &--current {
+      color: var(--current-color);
+    }
+
+    &--category {
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    &--subcategory {
+      font-size: 14px;
+    }
+
+    &--page {
+      font-size: 12px;
+    }
+
+    &:hover {
+      background-color: var(--hover-color);
+    }
+
+    &--open {
+      // rotate the chevron icon around the center
+      transform-box: fill-box;
+      transform-origin: center;
+      transform: rotate(90deg);
+    }
+  }
+}
