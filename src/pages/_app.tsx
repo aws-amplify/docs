@@ -1,6 +1,5 @@
 import '@aws-amplify/ui-react/styles.css';
 import '@algolia/autocomplete-theme-classic';
-import '@aws-amplify/ui-react/styles.css';
 import '../styles/styles.css';
 import '../styles/contribute-styles.css';
 import Head from 'next/head';
