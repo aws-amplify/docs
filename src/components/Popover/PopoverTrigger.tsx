@@ -9,7 +9,6 @@ export interface PopoverTriggerProps {
 export const PopoverTrigger = ({ children }: PopoverTriggerProps) => {
   const { expanded, setExpanded, triggerRef, contentRef, id } = usePopover();
   const { onClick } = children.props;
-  console.log('id: ', id);
 
   const togglePopover = React.useCallback(() => {
     if (!expanded) {
