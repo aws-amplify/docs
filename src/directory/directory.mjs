@@ -315,7 +315,7 @@ export const directory = {
           {
             title: 'Relational models',
             route: '/lib/graphqlapi/relational',
-            filters: ['android', 'ios']
+            filters: ['android']
           },
           {
             title: 'Working with files and attachments',
