@@ -5,8 +5,6 @@ export const meta = {
 
 <InlineFilter filters={["js", "react-native"]}>
 
-[comment]: # (IMPORTANT - currently the recommended links include the new location for password management for JS and RN - either we publish after that is live or change the links below - there may be more relevant recommendations. Source content below from /src/fragments/lib/auth/js/delete_user.mdx)
-
 Empowering users to delete their account can improve trust and transparency. You can programmatically enable self-service account deletion with Amplify Auth. Users can delete their own account through your app interface by confirming intent before final removal. In this guide we will review how you can enable this for your users.
 
 Before you begin, you will need:
@@ -18,7 +16,7 @@ Before you begin, you will need:
 
 You can quickly set up account deletion for your users with the Amplify Libraries. Invoking the `deleteUser` API to delete a user from the Auth category will also sign out your user. 
 
-You should also be aware of which data this deletion includes and does not include. Depending on your application, data associated with your user may be stored in other resources such as Amazon  DynamoDB or AWS S3. It is recommended that you carefully evaluate this data and implement code to remove or otherwise sanitize it, if necessary, prior to giving users the ability to delete their own user record.
+You should also be aware of which data this deletion includes and does not include. Depending on your application, data associated with your user may be stored in other resources such as Amazon DynamoDB or Amazon S3. It is recommended that you carefully evaluate this data and implement code to remove or otherwise sanitize it, if necessary, prior to giving users the ability to delete their own user record.
 
 If your application uses a Cognito User Pool, which is the default configuration, this action will only delete the user from the Cognito User Pool. It will have no effect if you are federating with a Cognito Identity Pool alone.
 
