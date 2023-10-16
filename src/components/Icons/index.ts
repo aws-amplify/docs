@@ -5,6 +5,8 @@ export { IconGithub } from './IconGithub';
 export { IconTwitter } from './IconTwitter';
 export { IconMenu } from './IconMenu';
 export { MenuChevron } from './MenuChevron';
+export { IconChevron } from './IconChevron';
+export { IconExternalLink } from './IconExternalLink';
 
 export * from './ThumbsUp';
 export * from './ThumbsDown';

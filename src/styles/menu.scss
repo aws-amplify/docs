@@ -1,0 +1,48 @@
+.menu {
+  ul,
+  li {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  &__item {
+    &__inner {
+      width: 100%;
+      padding: var(--amplify-space-xs) var(--amplify-space-large);
+    }
+
+    &--current {
+      color: var(--amplify-colors-teal-80);
+    }
+
+    &--category {
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    &--subcategory {
+      font-size: 14px;
+    }
+
+    &--page {
+      font-size: 12px;
+    }
+
+    &--open {
+      // rotate the chevron icon around the center
+      transform-box: fill-box;
+      transform-origin: center;
+      transform: rotate(90deg);
+    }
+
+    &:hover {
+      background-color: var(--amplify-colors-overlay-5);
+    }
+  }
+}
