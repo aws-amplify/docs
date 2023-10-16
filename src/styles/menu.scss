@@ -1,7 +1,4 @@
 .menu {
-  --current-color: hsla(36, 100%, 50%, 1);
-  --hover-color: hsla(0, 0%, 94%, 1);
-
   ul,
   li {
     list-style-type: none;
@@ -21,7 +18,7 @@
     }
 
     &--current {
-      color: var(--current-color);
+      color: var(--amplify-colors-teal-80);
     }
 
     &--category {
@@ -37,15 +34,15 @@
       font-size: 12px;
     }
 
-    &:hover {
-      background-color: var(--hover-color);
-    }
-
     &--open {
       // rotate the chevron icon around the center
       transform-box: fill-box;
       transform-origin: center;
       transform: rotate(90deg);
+    }
+
+    &:hover {
+      background-color: var(--amplify-colors-overlay-5);
     }
   }
 }
