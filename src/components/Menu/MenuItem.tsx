@@ -101,8 +101,6 @@ export function MenuItem({
             onClick={level > Levels.Category ? toggleDrawer : undefined}
           >
             <Flex
-              justifyContent="space-between"
-              alignItems="center"
               className={`menu__item__inner ${categoryStyle} ${currentStyle}`}
             >
               {pageNode.title}
@@ -127,8 +125,6 @@ export function MenuItem({
             onClick={level > Levels.Category ? toggleDrawer : undefined}
           >
             <Flex
-              justifyContent="space-between"
-              alignItems="center"
               className={`menu__item__inner ${categoryStyle} ${currentStyle}`}
             >
               {pageNode.title}
