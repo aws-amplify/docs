@@ -5,11 +5,6 @@ export const defaultTheme: Theme = {
   tokens: {
     colors: {
       neutral: {
-        // 10: { value: 'hsl(213, 28%, 19%)' },
-        // 20: { value: '' },
-        // 40: { value: '' },
-        // 80: { value: '' },
-        // 90: { value: '' },
         100: { value: 'hsl(213, 28%, 19%)' } // Amazon Squid Ink
       },
       teal: {
