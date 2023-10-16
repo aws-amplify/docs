@@ -278,7 +278,7 @@ export const directory = {
             filters: ['js', 'react-native']
           },
           {
-            title: 'Manage Multi-factor authentication settings',
+            title: 'Manage MFA and device settings',
             route: '/lib/auth/mfa',
             filters: ['js', 'react-native']
           },
@@ -355,7 +355,7 @@ export const directory = {
           {
             title: 'Remember a device',
             route: '/lib/auth/device_features',
-            filters: ['android', 'ios', 'js', 'flutter', 'react-native']
+            filters: ['android', 'ios', 'flutter', 'react-native']
           },
           {
             title: 'Password management',
