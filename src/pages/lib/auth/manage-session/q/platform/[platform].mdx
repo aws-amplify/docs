@@ -5,9 +5,7 @@ export const meta = {
 
 <InlineFilter filters={["js"]}>
 
-[comment]: # (source content from lib/auth/manageusers/q/platform/js/#retrieve-current-session ; src/fragments/lib/auth/js/manageusers.mdx)
-
-Amplify Auth provides access to current user sessions and tokens to help you retrieve your customer's information to determine if they are logged in with a valid session and control their access to your app. You can manage tokens and expiration times and revoke sessions. In this guide we will review how to retrieve your user’s session and understand what token management options are available.
+Amplify Auth provides access to current user sessions and tokens to help you retrieve your user's information to determine if they are signed in with a valid session and control their access to your app. You can manage tokens and expiration times and revoke sessions. In this guide we will review how to retrieve your user’s session and understand what token management options are available.
 
 Before you begin you will need:
 - Sign-up set up
@@ -17,7 +15,7 @@ Before you begin you will need:
 
 You can use the `Auth.currentAuthenticatedUser()` API which returns the full `CognitoUser` object. This object contains information about the currently authenticated user including the session and user attributes.
 
-To call `Auth.currentAuthenticatedUser()` to get the current authenticated user object:
+You can call `Auth.currentAuthenticatedUser()` and get the current authenticated user object:
 
 <BlockSwitcher>
 <Block name="TypeScript">
@@ -28,7 +26,7 @@ import { Auth } from 'aws-amplify';
 async function currentAuthenticatedUser() {
   try {
     const user = await Auth.currentAuthenticatedUser({
-      bypassCache: false // Optional, By default is false. If set to true, this call 
+      bypassCache: false // Optional and is false by default. If set to true, this call 
       // will send a request to Cognito to get the latest user data.
     });
     console.log(user);
@@ -46,7 +44,7 @@ import { Auth } from 'aws-amplify';
 async function currentAuthenticatedUser() {
   try {
     const user = await Auth.currentAuthenticatedUser({
-      bypassCache: false // Optional, By default is false. If set to true, this call
+      bypassCache: false // Optional and is false by default. If set to true, this call
       // will send a request to Cognito to get the latest user data.
     });
     console.log(user);
@@ -58,11 +56,11 @@ async function currentAuthenticatedUser() {
 </Block>
 </BlockSwitcher>
 
-This method can be used to check if a user is signed as it will throw an error if there is no current user signed in. Be sure to call this method after the `Auth` module is configured. 
+This method can be used to check if a user is signed in as it will throw an error if there is no current user signed in. Be sure to call this method after the `Auth` module is configured. 
 
 ## Retrieve my user’s session
 
-If you only need the session details you can use `Auth.currentSession()` which returns a `CognitoUserSession` object which contains the JWT (JSON Web Token). Credentials are exchanged for temporary access tokens when your users sign in. You can access these tokens to get user information to validate user access or perform actions unique to that user. 
+If you only need the session details, you can use `Auth.currentSession()` which returns a `CognitoUserSession` object which contains the JWT (JSON Web Token). Credentials are exchanged for temporary access tokens when your users sign in. You can access these tokens to get user information to validate user access or perform actions unique to that user. 
 
 <Accordion title='Review what the session object contains and how tokens work' headingLevel='4' eyebrow='Learn more'>
 
@@ -120,10 +118,9 @@ async function currentSession() {
 
 ## Understand token management options
 
-Token keys are automatically rotated for you for added security but you can update how they are stored, customize the refresh rate and expiration times, and revoke tokens on sign out.
+Token keys are automatically rotated for you for added security but you can update how they are stored, customize the refresh rate and expiration times, and revoke tokens on sign-out.
 
 ### Update your token-saving mechanism
-
 
 You can update the storage mechanism to choose where and how tokens are persisted in your application. The default `localStorage` is suitable for most use cases, but you may want to use a different option for security or user experience reasons.
 
@@ -181,13 +178,13 @@ When you get the current user session, the tokens will be saved in your custom l
 
 <Callout>
 
-**Note:** You can also update token expiration times depending on how you configured your Amazon Cognito User Pool. If you used the Amplify CLI, you can run `amplify update auth` to do so. If not, you can also go through the Amazon Cognito User Pool console under "App integration" > "App client" settings or update the appropriate parameters via the AWS CLI or CDK.
+**Note:** You can also update token expiration times depending on how you configured your Amazon Cognito User Pool. If you used the Amplify CLI, you can run `amplify update auth` to do so. If not, you can also go through the Amazon Cognito User Pool console under *App integration* > *App client* settings or update the appropriate parameters via the AWS CLI or CDK.
 
 </Callout>
 
 ### Revoke tokens
 
-Token revocation is enabled by default in new Cognito User Pool Clients, however you you are using an existing client, you may need to enable it. This allows for all access tokens that were previously issued by that refresh token to become invalid. However, other refresh tokens issued to the user are not affected.
+Token revocation is enabled by default in new Cognito User Pool Clients, however, if you are using an existing client, you may need to enable it. This allows for all access tokens that were previously issued by that refresh token to become invalid. However, other refresh tokens issued to the user are not affected.
 
 To revoke tokens you can set up global sign-out with `Auth.signOut({ global: true })` to globally sign out your user, which will invalidate them immediately. Additionally, you can also invoke the [`RevokeToken`](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_RevokeToken.html) API or [Revoke endpoint](https://docs.aws.amazon.com/cognito/latest/developerguide/revocation-endpoint.html) directly.
 
