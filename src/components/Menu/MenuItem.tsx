@@ -52,28 +52,6 @@ export function MenuItem({
     setOpen((prevOpen) => !prevOpen);
   }, []);
 
-  const pathname = `/${currentPlatform}/${pathHelper(pageNode.route)}/`;
-  const current = router.asPath === pathname;
-
-  const currentStyle = current ? 'menu__item--current' : '';
-  // const categoryStyle =
-  //   level === Levels.Category
-  //     ? 'menu__item--category'
-  //     : 'menu__item--subcategory';
-
-  let categoryStyle = '';
-  switch (level) {
-    case Levels.Category:
-      categoryStyle = 'menu__item--category';
-      break;
-    case Levels.Subcategory:
-      categoryStyle = 'menu__item--subcategory';
-      break;
-    default:
-      categoryStyle = 'menu__item--page';
-      break;
-  }
-
   useEffect(() => {
     if (current) {
       if (pageNode.children && pageNode.children.length > 0) {
@@ -87,6 +65,24 @@ export function MenuItem({
       }
     }
   }, []);
+
+  const pathname = `/${currentPlatform}/${pathHelper(pageNode.route)}/`;
+  const current = router.asPath === pathname;
+
+  const currentStyle = current ? 'menu__item--current' : '';
+
+  let categoryStyle = '';
+  switch (level) {
+    case Levels.Category:
+      categoryStyle = 'menu__item--category';
+      break;
+    case Levels.Subcategory:
+      categoryStyle = 'menu__item--subcategory';
+      break;
+    default:
+      categoryStyle = 'menu__item--page';
+      break;
+  }
 
   if (!pageNode) {
     return <></>;
