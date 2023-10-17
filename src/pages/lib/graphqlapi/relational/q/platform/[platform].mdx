@@ -140,6 +140,8 @@ try {
 
 ## Querying relationships
 
+This example demonstrates an initial load of a Post with a subsequent fetch to load a page of comments for the post.
+
 <InlineFilter filters={["android"]}>
 
 <BlockSwitcher>
@@ -223,8 +225,6 @@ try {
 </Block>
 </BlockSwitcher>
 
-## Model relationship types
-
 In order to handle the loaded/lazy states of relationships, the code generated models wrap relationships in `ModelReference` and `ModelList` types.
 
 ```java
@@ -239,7 +239,7 @@ public final class Comment implements Model {
 }
 ```
 
-ModelReference and ModelList types are either Lazy (Default) or Loaded. 
+ModelReference and ModelList types are either Lazy (Default) or Loaded. See [Customizing Query Depth](#customizing-query-depth-with-custom-selection-sets) to learn how to eagerly load connected relationships.
 
 * ModelReference<M\>
     - LazyModelReference<M\>
@@ -423,6 +423,65 @@ suspend fun getCommentsForPost(post: Post) {
 ## Deleting relationships
 
 When you delete a parent object in a one-to-many relationship, the children will not be removed. Delete the children before deleting the parent to prevent orphaned data.
+
+<InlineFilter filters={["android"]}>
+
+<BlockSwitcher>
+<Block name="Java">
+
+```java
+// Delete any comments associated with parent post.
+Amplify.API.mutate(
+    ModelMutation.delete(comment),
+    commentResponse ->
+        // Once all comments for a post are deleted, the post can be deleted.
+        Amplify.API.mutate(
+            ModelMutation.delete(post),
+            postResponse -> Log.i("MyAmplifyApp", "Deleted comment and post"),
+            (error) -> Log.e("MyAmplifyApp", "Failed to delete post", error)
+        ),
+    error -> Log.e("MyAmplifyApp", "Failed to delete comment", error)
+);
+```
+
+</Block>
+<Block name="Kotlin - Callbacks">
+
+```kotlin
+Amplify.API.mutate(
+    // Delete any comments associated with parent post.
+    ModelMutation.delete(comment),
+    {
+        // Once all comments for a post are deleted, the post can be deleted.
+        Amplify.API.mutate(
+            ModelMutation.delete(post),
+            { Log.i("MyAmplifyApp", "Deleted comment and post") },
+            { Log.e("MyAmplifyApp", "Failed to delete post", it) }
+        )
+    },
+    { Log.e("MyAmplifyApp", "Failed to delete comment", it) }
+)
+```
+
+</Block>
+<Block name="Kotlin - Coroutines">
+
+```kotlin
+try {
+    // Delete any comments associated with parent post.
+    Amplify.API.mutate(ModelMutation.delete(comment))
+    // Once all comments for a post are deleted, the post can be deleted.
+    Amplify.API.mutate(ModelMutation.delete(post))
+    Log.i("MyAmplifyApp", "Deleted comment and post")
+} catch (error: ApiException) {
+    Log.e("MyAmplifyApp", "Failed to delete comment and post", error)
+}
+```
+
+</Block>
+</BlockSwitcher>
+
+</InlineFilter>
 
 ## Many-to-many relationships
 
