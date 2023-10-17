@@ -7,7 +7,8 @@ export const NextPreviousContainerStyle = styled.div`
   padding: 1rem 0;
 `;
 
-export const NextPreviousLinkStyle = styled.a`
+export const NextPreviousLinkStyle = styled.a<NextPreviousProps>(
+  ({ isPrevious }) => `
   &:first-child {
     margin-right: 1rem;
   }
@@ -22,7 +23,7 @@ export const NextPreviousLinkStyle = styled.a`
   h4,
   span {
     color: var(--font-color);
-    text-align: right;
+    text-align: ${isPrevious ? 'left' : 'right'};
   }
 
   h4 {
@@ -36,27 +37,17 @@ export const NextPreviousLinkStyle = styled.a`
   }
 
   img {
-    margin-left: 1rem;
+    margin-left: ${isPrevious ? '0' : '1rem'};
+    margin-right: ${isPrevious ? '1rem' : '0'};
     width: 0.5rem;
   }
+`
+);
 
-  &:first-of-type {
-    img {
-      margin-left: 0;
-      margin-right: 1rem;
-    }
-
-    h4,
-    span {
-      text-align: left;
-    }
-  }
-`;
-
-type NextPreviousTextProps = {
+type NextPreviousProps = {
   isPrevious: boolean;
 };
-export const NextPreviousTextStyle = styled.div<NextPreviousTextProps>(
+export const NextPreviousTextStyle = styled.div<NextPreviousProps>(
   ({ isPrevious }) => `
   display: flex;
   flex-direction: column;

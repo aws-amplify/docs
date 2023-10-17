@@ -17,8 +17,8 @@ type Directory = {
 function Prev(item: DirectoryItem) {
   return (
     <InternalLink href={item.route}>
-      <NextPreviousLinkStyle>
-        <img src="/assets/arrow-left.svg" alt=""  width="8" height="56"/>
+      <NextPreviousLinkStyle isPrevious={true}>
+        <img src="/assets/arrow-left.svg" alt=""  width="8" height="56" className="previousArrow"/>
         <NextPreviousTextStyle isPrevious={true}>
           <span>previous</span>
           <h4>{item.title}</h4>
@@ -31,12 +31,12 @@ function Prev(item: DirectoryItem) {
 function Next(item: DirectoryItem) {
   return (
     <InternalLink href={item.route}>
-      <NextPreviousLinkStyle>
+      <NextPreviousLinkStyle isPrevious={false}>
         <NextPreviousTextStyle isPrevious={false}>
           <span>next</span>
           <h4>{item.title}</h4>
         </NextPreviousTextStyle>
-        <img src="/assets/arrow-right.svg" alt="" width="8" height="56"/>
+        <img src="/assets/arrow-right.svg" alt="" width="8" height="56" className="nextArrow"/>
       </NextPreviousLinkStyle>
     </InternalLink>
   );
